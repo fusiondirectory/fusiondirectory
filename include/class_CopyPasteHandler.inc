@@ -30,7 +30,6 @@
  */
 class CopyPasteHandler
 {
-  var $config;
   var $current;
 
   /*!
@@ -48,16 +47,13 @@ class CopyPasteHandler
   var $clean_objects      = array();
   var $require_update     = FALSE;
 
-
-
   /*!
    * \brief Create CP handler
    *
    * \param string $config
    */
-  function __construct(&$config)
+  function __construct()
   {
-    $this->config   = &$config;
     $this->current  = NULL;
     $this->queue    = array();
   }
@@ -86,6 +82,7 @@ class CopyPasteHandler
    */
   function add_to_queue()
   {
+    global $config;
     $dn     = func_get_arg(0);
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "add_to_queue");
     $action = func_get_arg(1);
@@ -121,7 +118,7 @@ class CopyPasteHandler
         return FALSE;
       }
 
-      if (!isset($this->config->data['TABS'][$tab_object])) {
+      if (!isset($config->data['TABS'][$tab_object])) {
         trigger_error(sprintf("Specified tab object '%s' does not exists.", $tab_object));
         return FALSE;
       }
@@ -164,7 +161,8 @@ class CopyPasteHandler
    */
   function load_entry_from_queue($entry, $base)
   {
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $entry['dn'], "load_entry_from_queue");
+    global $config;
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $entry['dn'], 'load_entry_from_ldap');
     if (!isset($entry['tab_class']) && !isset($entry['type'])) {
       return array();
     }
@@ -179,7 +177,7 @@ class CopyPasteHandler
       $tab_a  = $entry['tab_acl_category'];
 
       // Deprecated
-      $entry['object'] = new $tab_c($this->config, $this->config->data['TABS'][$tab_o], $entry['dn'], $tab_a);
+      $entry['object'] = new $tab_c(NULL, $config->data['TABS'][$tab_o], $entry['dn'], $tab_a);
     }
 
     $entry['object']->set_acl_base($base);

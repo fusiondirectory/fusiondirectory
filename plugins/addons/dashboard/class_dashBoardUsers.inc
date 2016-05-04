@@ -53,9 +53,9 @@ class dashboardUsers extends simplePlugin
     );
   }
 
-  function __construct(&$config, $dn = NULL, $object = NULL)
+  function __construct($unused, $dn = NULL, $object = NULL)
   {
-    parent::__construct($config, $dn, $object);
+    parent::__construct($unused, $dn, $object);
 
     $this->users_stats  = $this->computeUsersStats();
     $this->groups_stats = $this->computeGroupsStats();
@@ -64,9 +64,10 @@ class dashboardUsers extends simplePlugin
 
   function computeUsersStats ()
   {
+    global $config;
     /* User statistics */
-    $ldap = $this->config->get_ldap_link();
-    $ldap->cd($this->config->current['BASE']);
+    $ldap = $config->get_ldap_link();
+    $ldap->cd($config->current['BASE']);
     $ldap->search('(objectClass=inetOrgPerson)', array('userPassword'));
     $nb_accounts = $ldap->count();
     $nb_locked_accounts = 0;
@@ -98,9 +99,10 @@ class dashboardUsers extends simplePlugin
 
   function computeGroupsStats ()
   {
+    global $config;
     /* Group statistics */
-    $ldap = $this->config->get_ldap_link();
-    $ldap->cd($this->config->current['BASE']);
+    $ldap = $config->get_ldap_link();
+    $ldap->cd($config->current['BASE']);
     $ldap->search('(objectClass=posixGroup)', array('cn'));
     $nb = $ldap->count();
     $ldap->search('(&(objectClass=posixGroup)(objectClass=fdGroupMail))', array('cn'));
@@ -120,6 +122,7 @@ class dashboardUsers extends simplePlugin
 
   function expired_accounts_info ()
   {
+    global $config;
     /*
      * Begin of code for selecting expired account
      */
@@ -128,12 +131,12 @@ class dashboardUsers extends simplePlugin
     $today        = floor(time() / 86400); // 24 * 60 * 60
 
     /* Fetch global value from fusiondirectory.conf */
-    $next_expired_days = $this->config->get_cfg_value('dashboardExpiredAccountsDays', 15);
+    $next_expired_days = $config->get_cfg_value('dashboardExpiredAccountsDays', 15);
     $next_expired_date = ($today + $next_expired_days);
 
     /* search all account with all date, mail, telephone */
-    $ldap = $this->config->get_ldap_link();
-    $ldap->cd($this->config->current['BASE']);
+    $ldap = $config->get_ldap_link();
+    $ldap->cd($config->current['BASE']);
     $ldap->search(
       '(shadowExpire=*)',
       array('uid','shadowExpire','mail','telephoneNumber','cn','manager')

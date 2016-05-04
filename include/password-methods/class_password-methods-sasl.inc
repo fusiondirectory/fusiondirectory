@@ -35,12 +35,11 @@ class passwordMethodsasl extends passwordMethod {
   /*!
    * \brief passwordMethodsasl Constructor
    *
-   * \param string $config
-   *
    * \param string $dn The DN
    */
-  function __construct($config, $dn = "")
+  function __construct($dn = "")
   {
+    global $config;
     $this->realm  = trim($config->get_cfg_value('saslRealm', ''));
     $this->exop   = trim($config->get_cfg_value('saslExop', ''));
 

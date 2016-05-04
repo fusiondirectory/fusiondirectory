@@ -41,8 +41,8 @@ class ogrouptabs extends simpleTabs_noSpecial
 
     $tabs = array();
     if (strlen($objects)) {
-      if (isset($this->config->data['TABS']['OGROUP-DYNAMICTABS'])) {
-        $dtabs  = $this->config->data['TABS']['OGROUP-DYNAMICTABS'];
+      if (isset($config->data['TABS']['OGROUP-DYNAMICTABS'])) {
+        $dtabs  = $config->data['TABS']['OGROUP-DYNAMICTABS'];
       } else {
         $dtabs  = array();
       }
@@ -53,20 +53,20 @@ class ogrouptabs extends simpleTabs_noSpecial
         }
         $otype = ogroup::$objectTypes[$objects[$i]];
         $otabs = array();
-        if (isset($this->config->data['TABS'][strtoupper($otype).'TABS'])) {
+        if (isset($config->data['TABS'][strtoupper($otype).'TABS'])) {
           $otabs = array_uintersect(
             $dtabs,
-            $this->config->data['TABS'][strtoupper($otype).'TABS'],
+            $config->data['TABS'][strtoupper($otype).'TABS'],
             function ($a, $b)
             {
               return strcmp($a['CLASS'], $b['CLASS']);
             }
           );
         }
-        if (isset($this->config->data['TABS']['OGROUP-'.strtoupper($otype).'TABS'])) {
+        if (isset($config->data['TABS']['OGROUP-'.strtoupper($otype).'TABS'])) {
           $otabs = array_merge(
             $otabs,
-            $this->config->data['TABS']['OGROUP-'.strtoupper($otype).'TABS']
+            $config->data['TABS']['OGROUP-'.strtoupper($otype).'TABS']
           );
         }
         if ($tabs === FALSE) {
@@ -83,7 +83,7 @@ class ogrouptabs extends simpleTabs_noSpecial
         }
       }
     }
-    $tabs = array_merge($this->config->data['TABS']['OGROUPTABS'], (array)$tabs);
+    $tabs = array_merge($config->data['TABS']['OGROUPTABS'], (array)$tabs);
     $tabs = array_map(
       function ($a)
       {
@@ -114,7 +114,7 @@ class ogrouptabs extends simpleTabs_noSpecial
       $this->by_object["$class"] = $this->removed_tabs["$class"];
       unset($this->removed_tabs["$class"]);
     } else {
-      $this->by_object["$class"]          = new $class($this->config, $this->dn, $this->getBaseObject());
+      $this->by_object["$class"]          = new $class(NULL, $this->dn, $this->getBaseObject());
       $this->by_object["$class"]->parent  = &$this;
       $this->by_object["$class"]->set_acl_category($this->acl_category);
     }

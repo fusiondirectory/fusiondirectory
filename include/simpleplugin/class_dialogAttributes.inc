@@ -30,7 +30,7 @@ class GenericDialog
   function __construct($simplePlugin, &$attribute)
   {
     $this->attribute  = $attribute;
-    $this->dialog     = new $this->dialogClass($simplePlugin->config, get_userinfo());
+    $this->dialog     = new $this->dialogClass(NULL, get_userinfo());
   }
 
   function execute ()
@@ -348,13 +348,14 @@ class GenericDialogAttribute extends DialogAttribute
 
   protected function fillDisplayValue ($i)
   {
-    $ldap = $this->plugin->config->get_ldap_link();
+    global $config;
+    $ldap = $config->get_ldap_link();
 
     $value = $this->value[$i];
     if ($this->store_attr == 'dn') {
       $ldap->cat($value, $this->ldapAttributesToGet());
     } else {
-      $ldap->cd($this->plugin->config->current['BASE']);
+      $ldap->cd($config->current['BASE']);
       $ldap->search('('.$this->store_attr.'='.ldap_escape_f($value).')', $this->ldapAttributesToGet());
     }
     $this->fillDisplayValueFrom($i, $ldap->fetch());
@@ -671,10 +672,11 @@ class UserAttribute extends DialogButtonAttribute
 
   protected function loadAttrValue ($attrs)
   {
+    global $config;
     parent::loadAttrValue($attrs);
     $dn = $this->getValue();
     if ($dn != '') {
-      $ldap = $this->plugin->config->get_ldap_link();
+      $ldap = $config->get_ldap_link();
       $ldap->cat($dn);
       if ($attrs = $ldap->fetch()) {
         $this->handleDialogResult($dn, $attrs);
@@ -701,7 +703,7 @@ class GenericSimplePluginDialog extends GenericDialog
   function __construct($simplePlugin, &$attribute, $value = array())
   {
     $this->attribute  = $attribute;
-    $this->dialog     = new $this->dialogClass($simplePlugin->config, 'new');
+    $this->dialog     = new $this->dialogClass(NULL, 'new');
 
     $base = $simplePlugin->dn;
     if ($base == 'new') {

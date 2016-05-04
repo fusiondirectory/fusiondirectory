@@ -46,9 +46,9 @@ class SnapshotCreateDialog extends simplePlugin
     );
   }
 
-  function __construct (&$config, $dn, $parent, $aclCategory)
+  function __construct ($unused, $dn, $parent, $aclCategory)
   {
-    parent::__construct($config);
+    parent::__construct();
     $this->attributesAccess['description']->setInLdap(FALSE);
     $this->object_dn    = $dn;
     $this->parent       = $parent;
@@ -191,9 +191,9 @@ class SnapshotRestoreDialog extends simplePlugin
     );
   }
 
-  function __construct (&$config, $dn, $parent, $global, $aclCategory)
+  function __construct ($unused, $dn, $parent, $global, $aclCategory)
   {
-    parent::__construct($config);
+    parent::__construct();
     $this->object_dn    = $dn;
     $this->parent       = $parent;
     $this->global       = $global;

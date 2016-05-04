@@ -34,9 +34,6 @@
  * \date    11.04.2007
  */
 class log {
-
-  var $config;
-
   /*!
    * \brief logging constructor
    *
@@ -63,7 +60,6 @@ class log {
     if (!session::global_is_set('config')) {
       $entry['user'] = "unkown";
     } else {
-      $this->config   = session::global_get('config');
       $ui             = get_userinfo();
       $entry['user']  = @$ui->dn;
     }
@@ -83,12 +79,12 @@ class log {
     $entry['changes']     = $changes;
     $entry['result']      = $result;
 
-    if (!isset($this->config) && empty($entry['user'])) {
+    global $config;
+    if (!isset($config) && empty($entry['user'])) {
       $entry['user']  = "unknown";
     }
 
     /* Check if all given values are valid */
-    global $config;
     $msgs = @log::check($entry);
     if (count($msgs)) {
       foreach ($msgs as $msg) {

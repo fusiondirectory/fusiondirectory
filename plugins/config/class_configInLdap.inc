@@ -465,8 +465,9 @@ class configInLdap extends simplePlugin
     );
   }
 
-  function __construct(&$config, $dn = NULL, $object = NULL)
+  function __construct($unused, $dn = NULL, $object = NULL)
   {
+    global $config;
     $attributesInfo = self::getAttributesInfo();
     /* Languages */
     $languages = get_languages(TRUE);
@@ -480,7 +481,7 @@ class configInLdap extends simplePlugin
     $methods = $methods['name'];
     $attributesInfo['password']['attrs'][0]->setChoices($methods);
 
-    parent::__construct($config, $dn, $object, $attributesInfo);
+    parent::__construct($unused, $dn, $object, $attributesInfo);
 
     $this->fusionConfigMd5 = md5_file(CACHE_DIR."/".CLASS_CACHE);
 

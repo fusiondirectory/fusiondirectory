@@ -31,7 +31,6 @@
 class management
 {
   // Public
-  public $config = NULL;
   public $ui     = NULL;
 
   // The plugin description
@@ -100,20 +99,20 @@ class management
   // Some management classes are used in tab groups and needs this set to FALSE.
   var $is_template    = FALSE;
 
-  function  __construct(&$config, $ui, $plugname, $headpage)
+  function  __construct($unused, $ui, $plugname, $headpage)
   {
+    global $config;
     $this->plugname = $plugname;
     $this->headpage = $headpage;
     $this->ui       = $ui;
-    $this->config   = $config;
 
     // Add copy&paste and snapshot handler.
     if (!$this->skipCpHandler) {
-      $this->cpHandler = new CopyPasteHandler($this->config);
+      $this->cpHandler = new CopyPasteHandler();
       $this->headpage->setCopyPasteHandler($this->cpHandler);
     }
-    if (!$this->skipSnapHandler && ($this->config->get_cfg_value("enableSnapshots") == "TRUE")) {
-      $this->snapHandler = new SnapshotHandler($this->config);
+    if (!$this->skipSnapHandler && ($config->get_cfg_value("enableSnapshots") == "TRUE")) {
+      $this->snapHandler = new SnapshotHandler();
       $this->headpage->setSnapshotHandler($this->snapHandler);
     }
 
@@ -133,7 +132,7 @@ class management
     $this->registerAction("cut",    "copyPasteHandler");
     $this->registerAction("paste",  "copyPasteHandler");
 
-    if ($this->config->get_cfg_value('enableSnapshots') == 'TRUE') {
+    if ($config->get_cfg_value('enableSnapshots') == 'TRUE') {
       $this->registerAction('snapshot', 'createSnapshotDialog');
       $this->registerAction('restore',  'restoreSnapshotDialog');
     }
@@ -403,7 +402,7 @@ class management
         // Delete the object
         $this->dn = $dn;
         $this->openTabObject(
-          new $tabClass($this->config, $this->config->data['TABS'][$tabType], $this->dn, $aclCategory),
+          new $tabClass(NULL, $config->data['TABS'][$tabType], $this->dn, $aclCategory),
           $this->dn
         );
         $this->tabObject->delete ();
@@ -484,7 +483,7 @@ class management
       }
       $aclCategory = $this->aclCategory;
       if ($this->ui->allow_snapshot_create($this->dn, $aclCategory)) {
-        $this->dialogObject = new SnapshotCreateDialog($this->config, $this->dn, $this, $aclCategory);
+        $this->dialogObject = new SnapshotCreateDialog(NULL, $this->dn, $this, $aclCategory);
         $this->dialogObject->set_acl_base($this->dn);
       } else {
         msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to create a snapshot for %s.'), $this->dn),
@@ -567,7 +566,7 @@ class management
     if ($this->ui->allow_snapshot_restore($this->dn, $aclCategory)) {
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Snaptshot restoring initiated!');
       $this->snapHandler->setSnapshotBases($bases);
-      $this->dialogObject = new SnapshotRestoreDialog($this->config, $this->dn, $this, !count($target), $aclCategory);
+      $this->dialogObject = new SnapshotRestoreDialog(NULL, $this->dn, $this, !count($target), $aclCategory);
       $this->dialogObject->set_acl_base($this->dn);
     } else {
       msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $this->dn),
@@ -635,6 +634,7 @@ class management
    */
   function newEntry($action = "", $target = array(), $all = array(), $altTabClass = "", $altTabType = "", $altAclCategory = "")
   {
+    global $config;
     /* To handle mutliple object types overload this method.
      * ...
      *   registerAction('newUser', 'newEntry');
@@ -671,9 +671,9 @@ class management
     if (empty($tabClass) || empty($tabType)) {
       // No tab type defined
     } else {
-      if (isset($this->config->data['TABS'][$tabType])) {
+      if (isset($config->data['TABS'][$tabType])) {
         $this->openTabObject(
-          new $tabClass($this->config,$this->config->data['TABS'][$tabType], $this->dn, $aclCategory),
+          new $tabClass(NULL, $config->data['TABS'][$tabType], $this->dn, $aclCategory),
           $this->headpage->getBase()
         );
         @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "Create new entry initiated!");
@@ -701,6 +701,7 @@ class management
    */
   function editEntry($action = "", $target = array(), $all = array(), $altTabClass = "", $altTabType = "", $altAclCategory = "")
   {
+    global $config;
     /* To handle mutliple object types overload this method.
      * ...
      *   registerAction('editUser', 'editEntry');
@@ -754,7 +755,7 @@ class management
       } else {
         $tab = $tabClass;
         $this->openTabObject(
-          new $tab($this->config, $this->config->data['TABS'][$tabType], $this->dn, $aclCategory),
+          new $tab(NULL, $config->data['TABS'][$tabType], $this->dn, $aclCategory),
           $this->dn
         );
         @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "Edit entry initiated!");

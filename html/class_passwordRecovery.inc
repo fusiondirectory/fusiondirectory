@@ -25,7 +25,6 @@ require_once("functions.inc");
 require_once("variables.inc");
 
 class passwordRecovery {
-  var $config;
   var $uid;
   var $message = array();
   var $email_address;
@@ -72,15 +71,13 @@ class passwordRecovery {
       exit;
     }
 
-    $this->config = $config;
-
     $this->setupSmarty();
 
     $smarty = get_smarty();
 
     /* Generate server list */
     $servers = array();
-    foreach ($this->config->data['LOCATIONS'] as $key => $ignored) {
+    foreach ($config->data['LOCATIONS'] as $key => $ignored) {
       $servers[$key] = $key;
     }
 
@@ -91,7 +88,7 @@ class passwordRecovery {
     } elseif (isset($_GET['directory']) && isset($servers[$_GET['directory']])) {
       $this->directory = validate($_GET['directory']);
     } else {
-      $this->directory = $this->config->data['MAIN']['DEFAULT'];
+      $this->directory = $config->data['MAIN']['DEFAULT'];
 
       if (!isset($servers[$this->directory])) {
         $this->directory = key($servers);
@@ -105,9 +102,8 @@ class passwordRecovery {
     }
 
     /* Set config to selected one */
-    $this->config->set_current($this->directory);
-    session::global_set('config', $this->config);
-    $config = $this->config;
+    $config->set_current($this->directory);
+    session::global_set('config', $config);
 
     $this->activated = $this->readLdapConfig();
     if (!$this->activated) { /* Password recovery has been disabled */
@@ -231,28 +227,30 @@ class passwordRecovery {
    */
   function readLdapConfig()
   {
-    $this->salt           = $this->config->get_cfg_value('passwordRecoverySalt');
-    $this->delay_allowed  = $this->config->get_cfg_value('passwordRecoveryValidity');
+    global $config;
+    $this->salt           = $config->get_cfg_value('passwordRecoverySalt');
+    $this->delay_allowed  = $config->get_cfg_value('passwordRecoveryValidity');
 
-    $this->mail_subject   = $this->config->get_cfg_value('passwordRecoveryMailSubject');
-    $this->mail_body      = $this->config->get_cfg_value('passwordRecoveryMailBody');
-    $this->mail2_subject  = $this->config->get_cfg_value('passwordRecoveryMail2Subject');
-    $this->mail2_body     = $this->config->get_cfg_value('passwordRecoveryMail2Body');
+    $this->mail_subject   = $config->get_cfg_value('passwordRecoveryMailSubject');
+    $this->mail_body      = $config->get_cfg_value('passwordRecoveryMailBody');
+    $this->mail2_subject  = $config->get_cfg_value('passwordRecoveryMail2Subject');
+    $this->mail2_body     = $config->get_cfg_value('passwordRecoveryMail2Body');
 
-    $this->from_mail      = $this->config->get_cfg_value('passwordRecoveryEmail');
+    $this->from_mail      = $config->get_cfg_value('passwordRecoveryEmail');
 
-    $this->usealternates  = $this->config->get_cfg_value('passwordRecoveryUseAlternate');
+    $this->usealternates  = $config->get_cfg_value('passwordRecoveryUseAlternate');
 
-    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->config->get_cfg_value('passwordRecoveryActivated'), "passwordRecoveryActivated");
-    return ($this->config->get_cfg_value('passwordRecoveryActivated') == "TRUE");
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $config->get_cfg_value('passwordRecoveryActivated'), "passwordRecoveryActivated");
+    return ($config->get_cfg_value('passwordRecoveryActivated') == "TRUE");
   }
 
   function setupSmarty()
   {
+    global $config;
     $smarty = get_smarty();
 
     /* Set template compile directory */
-    $smarty->compile_dir = $this->config->get_cfg_value("templateCompileDirectory", SPOOL_DIR);
+    $smarty->compile_dir = $config->get_cfg_value("templateCompileDirectory", SPOOL_DIR);
 
     /* Check for compile directory */
     if (!(is_dir($smarty->compile_dir) && is_writable($smarty->compile_dir))) {
@@ -289,18 +287,19 @@ class passwordRecovery {
 
   function storeToken($temp_password)
   {
+    global $config;
     /* Store it in ldap with the salt */
     $salt_temp_password = $this->salt.$temp_password.$this->salt;
     $sha1_temp_password = "{SHA}".base64_encode(pack("H*", sha1($salt_temp_password)));
 
-    $ldap = $this->config->get_ldap_link();
+    $ldap = $config->get_ldap_link();
 
     // Check if token branch is here
-    $token = get_ou('tokenRDN').get_ou('fusiondirectoryRDN').$this->config->current['BASE'];
+    $token = get_ou('tokenRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'];
     $ldap->cat($token, array('dn'));
     if (!$ldap->count()) {
       /* It's not, let's create it */
-      $ldap->cd ($this->config->current['BASE']);
+      $ldap->cd ($config->current['BASE']);
       $ldap->create_missing_trees($token);
       if (!$ldap->success()) {
         return msgPool::ldaperror($ldap->get_error(),
@@ -336,13 +335,14 @@ class passwordRecovery {
 
   function checkToken($token)
   {
+    global $config;
     $salt_token = $this->salt.$token.$this->salt;
     $sha1_token = "{SHA}".base64_encode(pack("H*", sha1($salt_token)));
 
     /* Retrieve hash from the ldap */
-    $ldap = $this->config->get_ldap_link();
+    $ldap = $config->get_ldap_link();
 
-    $token  = get_ou('tokenRDN').get_ou('fusiondirectoryRDN').$this->config->current['BASE'];
+    $token  = get_ou('tokenRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'];
     $dn     = "ou=".$this->uid.",$token";
     $ldap->cat($dn);
     $attrs = $ldap->fetch();
@@ -357,6 +357,7 @@ class passwordRecovery {
 
   function checkForSSL()
   {
+    global $config;
     $smarty = get_smarty();
 
     /* Check for SSL connection */
@@ -370,10 +371,10 @@ class passwordRecovery {
       }
 
       /* If SSL is forced, just forward to the SSL enabled site */
-      if ($this->config->get_cfg_value("forcessl") == 'TRUE') {
+      if ($config->get_cfg_value("forcessl") == 'TRUE') {
         header("Location: $ssl");
         exit;
-      } elseif ($this->config->get_cfg_value("warnssl") == 'TRUE') {
+      } elseif ($config->get_cfg_value("warnssl") == 'TRUE') {
         /* Display SSL mode warning? */
         $smarty->assign("ssl", "<b>"._("Warning").":</b> ".
                         _("Session will not be encrypted.").
@@ -412,18 +413,19 @@ class passwordRecovery {
 
   function getUserDn()
   {
+    global $config;
     /* Retrieve dn from the ldap */
-    $ldap = $this->config->get_ldap_link();
+    $ldap = $config->get_ldap_link();
 
     $objectClasses = array('gosaMailAccount');
-    if (class_available('personalInfo') && ($this->config->get_cfg_value('privateEmailPasswordRecovery', 'FALSE') == 'TRUE')) {
+    if (class_available('personalInfo') && ($config->get_cfg_value('privateEmailPasswordRecovery', 'FALSE') == 'TRUE')) {
       $objectClasses[] = 'fdPersonalInfo';
     }
-    if (class_available('supannAccount') && ($this->config->get_cfg_value('supannPasswordRecovery', 'TRUE') == 'TRUE')) {
+    if (class_available('supannAccount') && ($config->get_cfg_value('supannPasswordRecovery', 'TRUE') == 'TRUE')) {
       $objectClasses[] = 'supannPerson';
     }
     $filter = '(&(|(objectClass='.join(')(objectClass=', $objectClasses).'))(uid='.$this->uid.'))';
-    $ldap->cd($this->config->current['BASE']);
+    $ldap->cd($config->current['BASE']);
     $ldap->search($filter, array('dn'));
 
     if ($ldap->count() < 1) {
@@ -442,6 +444,7 @@ class passwordRecovery {
   /* find the uid of for the given email address */
   function step2()
   {
+    global $config;
     if ($_POST['email_address'] == "") {
       $this->message[] = msgPool::required(_("Email address"));
       return;
@@ -454,14 +457,14 @@ class passwordRecovery {
     } else {
       $filter = "(&(objectClass=gosaMailAccount)(mail=".$this->email_address."))";
     }
-    if (class_available('personalInfo') && ($this->config->get_cfg_value('privateEmailPasswordRecovery', 'FALSE') == 'TRUE')) {
+    if (class_available('personalInfo') && ($config->get_cfg_value('privateEmailPasswordRecovery', 'FALSE') == 'TRUE')) {
       $filter = '(|'.$filter.'(&(objectClass=fdPersonalInfo)(fdPrivateMail='.$this->email_address.')))';
     }
-    if (class_available('supannAccount') && ($this->config->get_cfg_value('supannPasswordRecovery', 'TRUE') == 'TRUE')) {
+    if (class_available('supannAccount') && ($config->get_cfg_value('supannPasswordRecovery', 'TRUE') == 'TRUE')) {
       $filter = '(|'.$filter.'(&(objectClass=supannPerson)(supannMailPerso='.$this->email_address.')))';
     }
     $uids = get_list( $filter, "",
-                      $this->config->current['BASE'], array("uid"),
+                      $config->current['BASE'], array("uid"),
                       GL_SUBSEARCH | GL_NO_ACL_CHECK);
 
     /* Only one uid should be found */

@@ -229,9 +229,10 @@ class ogroup extends simplePlugin
     );
   }
 
-  function __construct (&$config, $dn = NULL, $object = NULL)
+  function __construct ($unused, $dn = NULL, $object = NULL)
   {
-    parent::__construct($config, $dn, $object);
+    global $config;
+    parent::__construct($unused, $dn, $object);
 
     $this->attributesAccess['trustMode']->setInLdap(FALSE);
     $this->attributesAccess['trustMode']->setManagedAttributes(
@@ -251,7 +252,7 @@ class ogroup extends simplePlugin
     /* Detect all workstations, which are already assigned to an object group
         - Those objects will be hidden in the add object dialog.
         - Check() will complain if such a system is assigned to this object group.*/
-    $base = $this->config->current['BASE'];
+    $base = $config->current['BASE'];
     $res  = get_list("(|(objectClass=gotoWorkstation)(objectClass=gotoTerminal))", "none",
                       $base, array("dn"), GL_NO_ACL_CHECK | GL_SUBSEARCH);
     $ws_dns = array();
