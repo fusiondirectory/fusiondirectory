@@ -130,7 +130,7 @@ class listing {
    */
   function setCopyPasteHandler($handler)
   {
-    $this->copyPasteHandler = &$handler;
+    $this->copyPasteHandler = $handler;
   }
 
   /*!
@@ -152,7 +152,7 @@ class listing {
    */
   function setSnapshotHandler($handler)
   {
-    $this->snapshotHandler = &$handler;
+    $this->snapshotHandler = $handler;
   }
 
   /*!
@@ -164,8 +164,8 @@ class listing {
    */
   function setFilter($filter)
   {
-    $this->filter     = &$filter;
-    $filter->headpage = &$this;
+    $this->filter     = $filter;
+    $filter->headpage = $this;
     if ($this->departmentBrowser) {
       $this->departments = $this->getDepartments();
     }
@@ -1278,16 +1278,15 @@ class listing {
     }
 
     // Load shortcut
-    $actions  = &$this->xmlData['actionmenu']['action'];
     $result   = '<input type="hidden" name="act" id="actionmenu" value="">'.
                 '<div style="display:none"><input type="submit" name="exec_act" id="exec_act" value=""/></div>'.
                 '<ul class="level1" id="root"><li><a href="#">'._('Actions').
                 '&nbsp;<img class="center optional" src="images/down-arrow.png" alt="down arrow"/></a>';
 
     // Build ul/li list
-    $result .= $this->recurseActions($actions);
+    $result .= $this->recurseActions($this->xmlData['actionmenu']['action']);
 
-    return "<div id='pulldown'>".$result."</li></ul></div>";
+    return '<div id="pulldown">'.$result.'</li></ul></div>';
   }
 
   function renderActionMenuActionLink($separator, $action, $name, $icon)
