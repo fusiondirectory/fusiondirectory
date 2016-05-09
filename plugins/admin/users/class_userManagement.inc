@@ -225,7 +225,7 @@ class userManagement extends simpleManagement
         if (class_available($plug['CLASS'])) {
           $name = $plug['CLASS'];
 
-          $usertabs[$name] = new $name($config, $dn);
+          $usertabs[$name] = new $name($dn);
         }
       }
     }

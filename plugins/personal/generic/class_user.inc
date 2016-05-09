@@ -267,7 +267,6 @@ class PostalAddressAttribute extends TextAreaAttribute
 class user extends simplePlugin
 {
   var $objectclasses  = array('inetOrgPerson','organizationalPerson','person');
-  var $mainTab        = TRUE;
 
   private $was_locked;
 
@@ -446,9 +445,9 @@ class user extends simplePlugin
     );
   }
 
-  function __construct ($unused, $dn = NULL, $object = NULL)
+  function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE)
   {
-    parent::__construct($unused, $dn, $object);
+    parent::__construct($dn, $object, $parent, $mainTab);
 
     $this->attributesAccess['uid']->setUnique('whole');
     $this->attributesAccess['uid']->setDisabled($this->initially_was_account && !$this->is_template);

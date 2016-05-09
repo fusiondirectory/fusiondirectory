@@ -184,18 +184,7 @@ class CopyPasteHandler
       return array();
     }
 
-    if (isset($entry['type'])) {
-      $entry['object'] = objects::open($entry['dn'], $entry['type']);
-    } else {
-      trigger_error('Call to deprecated tabs constructor');
-      // old way
-      $tab_c  = $entry['tab_class'];
-      $tab_o  = $entry['tab_object'];
-      $tab_a  = $entry['tab_acl_category'];
-
-      // Deprecated
-      $entry['object'] = new $tab_c(NULL, $config->data['TABS'][$tab_o], $entry['dn'], $tab_a);
-    }
+    $entry['object'] = objects::open($entry['dn'], $entry['type']);
 
     $entry['object']->set_acl_base($base);
     if ($entry['parent'] !== NULL) {

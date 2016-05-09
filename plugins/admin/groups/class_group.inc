@@ -22,7 +22,6 @@
 
 class group extends simplePlugin
 {
-  var $mainTab          = TRUE;
   var $objectclasses    = array('posixGroup');
 
   static function plInfo()
@@ -107,9 +106,9 @@ class group extends simplePlugin
     );
   }
 
-  function __construct ($unused, $dn = NULL, $object = NULL)
+  function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE)
   {
-    parent::__construct($unused, $dn, $object);
+    parent::__construct($dn, $object, $parent, $mainTab);
 
     $this->attributesAccess['trustMode']->setInLdap(FALSE);
     $this->attributesAccess['trustMode']->setManagedAttributes(

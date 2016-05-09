@@ -107,16 +107,15 @@ class ogrouptabs extends simpleTabs_noSpecial
 
   function addTab ($class)
   {
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $class, "Adding tab ");
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $class, 'Adding tab ');
     $plInfos = pluglist::pluginInfos($class);
-    $this->by_name["$class"]            = $plInfos['plShortName'];
-    if (isset($this->removed_tabs["$class"])) {
-      $this->by_object["$class"] = $this->removed_tabs["$class"];
-      unset($this->removed_tabs["$class"]);
+    $this->by_name[$class]            = $plInfos['plShortName'];
+    if (isset($this->removed_tabs[$class])) {
+      $this->by_object[$class] = $this->removed_tabs[$class];
+      unset($this->removed_tabs[$class]);
     } else {
-      $this->by_object["$class"]          = new $class(NULL, $this->dn, $this->getBaseObject());
-      $this->by_object["$class"]->parent  = &$this;
-      $this->by_object["$class"]->set_acl_category($this->acl_category);
+      $this->by_object[$class] = new $class($this->dn, $this->getBaseObject(), $this, FALSE);
+      $this->by_object[$class]->set_acl_category($this->acl_category);
     }
   }
 

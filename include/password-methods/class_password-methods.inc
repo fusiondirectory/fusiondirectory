@@ -173,7 +173,7 @@ class passwordMethod
       lock_ssh_account($mode, $attrs, $modify);
 
       // (Un)lock the account by modifying the password hash.
-      $pwdClass = new user(NULL, $dn);
+      $pwdClass = new user($dn);
       $pwdClass->callHook('PRE'.$mode, array(), $ret);
 
       if ($mode == 'LOCK') {

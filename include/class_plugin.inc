@@ -35,7 +35,7 @@ class plugin
    *
    * \sa tab
    */
-  var $parent = NULL;
+  public $parent = NULL;
 
   /*!
     \brief Mark plugin as account
@@ -113,10 +113,10 @@ class plugin
    *
    * \sa plugin()
    */
-  function __construct ($unused, $dn = NULL, $object = NULL)
+  function __construct ($dn = NULL, $object = NULL)
   {
     global $config;
-    /* Configuration is fine, allways */
+
     $this->dn     = $dn;
 
     // Ensure that we've a valid acl_category set.

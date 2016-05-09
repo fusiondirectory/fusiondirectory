@@ -26,7 +26,6 @@ class department extends simplePlugin
   /* Do not append the structural object classes here, they are added dynamically in the constructor */
   var $objectclasses  = array("top", "gosaDepartment");
   var $structuralOC   = array("organizationalUnit");
-  var $mainTab        = TRUE;
 
   static function plInfo()
   {
@@ -120,7 +119,7 @@ class department extends simplePlugin
     return $attributesInfo;
   }
 
-  function __construct ($unused, $dn = NULL, $object = NULL)
+  function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE)
   {
     global $config;
     /* Add the default structural object class if this is a new entry */
@@ -143,7 +142,7 @@ class department extends simplePlugin
     }
     $this->objectclasses = array_unique($this->objectclasses);
 
-    parent::__construct($unused, $dn, $object);
+    parent::__construct($dn, $object, $parent, $mainTab);
 
     $categoriesList = $config->get_cfg_value('DepartmentCategories', array());
 
