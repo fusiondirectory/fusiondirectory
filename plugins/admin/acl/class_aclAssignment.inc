@@ -128,7 +128,7 @@ class ACLsAssignmentDialog extends GenericDialog
   protected $post_finish = 'add_acl_finish';
   protected $dialogClass = 'aclAssignmentDialogWindow';
 
-  function __construct($simplePlugin, &$attribute, $acl = NULL)
+  function __construct($simplePlugin, $attribute, $acl = NULL)
   {
     $isContainer = FALSE;
     if (isset($simplePlugin->attrs['objectClass'])) {

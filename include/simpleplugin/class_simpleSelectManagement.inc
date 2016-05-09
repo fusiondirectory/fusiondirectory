@@ -29,13 +29,13 @@ class simpleSelectManagement extends simpleManagement
 
   protected $departmentRootVisible  = FALSE;
 
-  function __construct($unused, $ui)
+  function __construct($ui)
   {
     if ($this->listXMLPath === NULL) {
       $this->listXMLPath = get_template_path('simple-select-list.xml', TRUE, dirname(__FILE__));
     }
 
-    parent::__construct($unused, $ui);
+    parent::__construct(NULL, $ui);
   }
 
   /* Build the action menu, fill the object definition, etc, based on objectTypes info */

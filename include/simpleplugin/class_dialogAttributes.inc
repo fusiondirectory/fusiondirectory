@@ -27,10 +27,10 @@ class GenericDialog
   protected $post_cancel = 'add_cancel';
   protected $post_finish = 'add_finish';
 
-  function __construct($simplePlugin, &$attribute)
+  function __construct($simplePlugin, $attribute)
   {
     $this->attribute  = $attribute;
-    $this->dialog     = new $this->dialogClass(NULL, get_userinfo());
+    $this->dialog     = new $this->dialogClass(get_userinfo());
   }
 
   function execute ()
@@ -700,10 +700,10 @@ class GenericSimplePluginDialog extends GenericDialog
 {
   protected $initialDialogValue = NULL;
 
-  function __construct($simplePlugin, &$attribute, $value = array())
+  function __construct($simplePlugin, $attribute, $value = array())
   {
     $this->attribute  = $attribute;
-    $this->dialog     = new $this->dialogClass(NULL, 'new');
+    $this->dialog     = new $this->dialogClass('new');
 
     $base = $simplePlugin->dn;
     if ($base == 'new') {
