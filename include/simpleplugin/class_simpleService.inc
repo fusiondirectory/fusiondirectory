@@ -36,14 +36,14 @@ class simpleService extends simplePlugin {
   /*! \brief constructor
    *
    *  \param string $dn The dn of this instance
-   *  \param Object $object An object to copy values from
+   *  \param Object $parent The serverService instance
    *  \param array $attributesInfo An attributesInfo array, if NULL, getAttributesInfo will be used.
    *
    */
-  function __construct ($dn = NULL, $object = NULL, $parent = NULL, $attributesInfo = NULL)
+  function __construct ($dn = NULL, $parent = NULL, $attributesInfo = NULL)
   {
-    /* $object is the instance of serverService in this case, we set it as parent */
-    parent::__construct($dn, $object, $object, FALSE, $attributesInfo);
+    /* $parent is the instance of serverService in this case, we set it as parent */
+    parent::__construct($dn, $parent, $parent, FALSE, $attributesInfo);
     $plInfos = pluglist::pluginInfos(get_class($this));
     $this->DisplayName  = $plInfos['plShortName'];
   }

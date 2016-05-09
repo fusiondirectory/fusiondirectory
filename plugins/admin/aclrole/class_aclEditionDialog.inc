@@ -28,7 +28,7 @@ class ACLEditionDialog extends GenericDialog
   protected $aclContents      = array();
   protected $savedAclContents = array();
 
-  function __construct($simplePlugin, &$attribute, $acl = NULL)
+  function __construct($simplePlugin, $attribute, $acl = NULL)
   {
     $this->attribute        = $attribute;
     $this->initialAclValue  = $acl;
