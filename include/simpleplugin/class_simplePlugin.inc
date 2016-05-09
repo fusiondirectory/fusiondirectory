@@ -78,9 +78,13 @@ class simplePlugin extends plugin
    *  \param array $attributesInfo An attributesInfo array, if NULL, getAttributesInfo will be used.
    *
    */
-  function __construct ($unused = NULL, $dn = NULL, $object = NULL, $attributesInfo = NULL)
+  function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE, $attributesInfo = NULL)
   {
     global $config;
+
+    $this->parent   = $parent;
+    $this->mainTab  = $mainTab;
+
     if ($attributesInfo === NULL) {
       $attributesInfo = $this->getAttributesInfo();
     }
@@ -115,7 +119,7 @@ class simplePlugin extends plugin
     }
 
     // We call plugin constructor
-    parent::__construct($unused, $dn, $object);
+    parent::__construct($dn, $object);
 
     $this->setTemplate($this->is_template);
 
@@ -476,7 +480,7 @@ class simplePlugin extends plugin
     $class = get_class($this);
     $attrsWrapper = new stdClass();
     $attrsWrapper->attrs = $this->group_attrs;
-    $group = new $class(NULL, $this->group_attrs['dn'], $attrsWrapper);
+    $group = new $class($this->group_attrs['dn'], $attrsWrapper, $this->parent, $this->mainTab);
     $smarty = get_smarty();
 
     $group->renderAttributes(TRUE);
@@ -747,7 +751,7 @@ class simplePlugin extends plugin
    *
    *  \param string $entry_dn the dn of the object to show/edit
    *
-   *  \param string $tabs the tab class to use (or TRUE to use tabs, FALSE to show directly the plugin class)
+   *  \param string $tabs TRUE to use tabs, FALSE to show directly the plugin class
    *
    *  \param boolean $edit_mode wether or not this plugin can be edited
    *
@@ -757,14 +761,11 @@ class simplePlugin extends plugin
   static function mainInc ($classname, $entry_dn, $tabs = FALSE, $edit_mode = TRUE, $objectType = FALSE)
   {
     global $remove_lock, $cleanup, $display, $config, $plug, $ui;
-    if ($tabs === TRUE) {
-      $tabs = 'tabs'; // Default tab class
-    }
 
     $plInfo     = pluglist::pluginInfos($classname);
     $plIcon     = (isset($plInfo['plIcon'])?$plInfo['plIcon']:'plugin.png');
     $plHeadline = $plInfo['plTitle'];
-    if (($tabs !== FALSE) && ($objectType === FALSE)) {
+    if ($objectType === FALSE) {
       $key = key($plInfo['plObjectType']);
       if (is_numeric($key)) {
         $key = $plInfo['plObjectType'][$key];
@@ -777,6 +778,12 @@ class simplePlugin extends plugin
       $plCategory = $plCategory[$key];
     } else {
       $plCategory = $key;
+    }
+
+    $mainTab = FALSE;
+    if (!$tabs) {
+      $infos    = objects::infos($objectType);
+      $mainTab  = (reset($config->data['TABS'][$infos['tabGroup']])['CLASS'] == $classname);
     }
 
     $lock_msg = "";
@@ -803,7 +810,7 @@ class simplePlugin extends plugin
       /* Create account object on demand */
       if (!session::is_set($classname) || (isset($_GET['reset']) && $_GET['reset'] == 1)) {
         if ($tabs) {
-          $account = new $tabs($objectType, $entry_dn);
+          $account = objects::open($entry_dn, $objectType);
           if ($edit_mode) {
             foreach ($account->by_object as &$obj) {
               $obj->setNeedEditMode(TRUE);
@@ -811,7 +818,7 @@ class simplePlugin extends plugin
             unset($obj);
           }
         } else {
-          $account = new $classname(NULL, $entry_dn);
+          $account = new $classname($entry_dn, NULL, NULL, $mainTab);
           $account->set_acl_category($plCategory);
           if ($edit_mode) {
             $account->setNeedEditMode(TRUE);

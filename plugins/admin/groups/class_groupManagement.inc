@@ -79,7 +79,7 @@ class groupManagement extends simpleManagement
           if (class_available($plug['CLASS'])) {
             $name = $plug['CLASS'];
 
-            $grouptabs[$name] = new $name(NULL, $dn);
+            $grouptabs[$name] = new $name($dn);
           }
         }
       }

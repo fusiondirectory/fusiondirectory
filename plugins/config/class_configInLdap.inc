@@ -49,7 +49,6 @@ class DebugLevelAttribute extends SetAttribute
 class configInLdap extends simplePlugin
 {
   var $objectclasses  = array("fusionDirectoryConf");
-  var $mainTab        = TRUE;
 
   static function plInfo()
   {
@@ -465,7 +464,7 @@ class configInLdap extends simplePlugin
     );
   }
 
-  function __construct($unused, $dn = NULL, $object = NULL)
+  function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE, $attributesInfo = NULL)
   {
     global $config;
     $attributesInfo = self::getAttributesInfo();
@@ -481,7 +480,7 @@ class configInLdap extends simplePlugin
     $methods = $methods['name'];
     $attributesInfo['password']['attrs'][0]->setChoices($methods);
 
-    parent::__construct($unused, $dn, $object, $attributesInfo);
+    parent::__construct($dn, $object, $parent, $mainTab, $attributesInfo);
 
     $this->fusionConfigMd5 = md5_file(CACHE_DIR."/".CLASS_CACHE);
 

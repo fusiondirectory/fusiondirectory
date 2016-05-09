@@ -40,12 +40,12 @@ class simpleService extends simplePlugin {
    *  \param array $attributesInfo An attributesInfo array, if NULL, getAttributesInfo will be used.
    *
    */
-  function __construct($unused, $dn, $object = NULL, $attributesInfo = NULL)
+  function __construct ($dn = NULL, $object = NULL, $parent = NULL, $attributesInfo = NULL)
   {
-    parent::__construct($unused, $dn, $object, $attributesInfo);
+    /* $object is the instance of serverService in this case, we set it as parent */
+    parent::__construct($dn, $object, $object, FALSE, $attributesInfo);
     $plInfos = pluglist::pluginInfos(get_class($this));
     $this->DisplayName  = $plInfos['plShortName'];
-    $this->parent       = $object; /* $object is the instance of serverService in this case */
   }
 
   /*! \brief This function display the service and return the html code

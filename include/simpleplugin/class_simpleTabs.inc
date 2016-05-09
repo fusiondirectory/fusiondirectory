@@ -70,6 +70,7 @@ class simpleTabs
       }
       $this->objectType = $type;
     } else {
+      trigger_error('deprecated call to old tabclass constructor');
       /* Deprecated, used by old management classes */
       //$config_object  = func_get_arg(0); // ignored
       $data           = func_get_arg(1);
@@ -100,15 +101,14 @@ class simpleTabs
       $this->by_name[$tab['CLASS']] = $tab['NAME'];
 
       if ($baseobject === NULL) {
-        $baseobject = new $tab['CLASS'](NULL, $this->dn, $attrs_object);
+        $baseobject = new $tab['CLASS']($this->dn, $attrs_object, $this, TRUE);
         $this->by_object[$tab['CLASS']] = $baseobject;
         $this->baseclass                = $tab['CLASS'];
       } else {
-        $this->by_object[$tab['CLASS']] = new $tab['CLASS'](NULL, $this->dn, $baseobject);
+        $this->by_object[$tab['CLASS']] = new $tab['CLASS']($this->dn, $baseobject, $this, FALSE);
       }
 
       $this->read_only |= $this->by_object[$tab['CLASS']]->read_only;
-      $this->by_object[$tab['CLASS']]->parent = &$this;
       $this->by_object[$tab['CLASS']]->set_acl_category($this->acl_category);
     }
     unset($tab);
@@ -145,12 +145,11 @@ class simpleTabs
         continue;
       }
       if ($baseobject === NULL) {
-        $baseobject = new $class(NULL, $this->dn);
+        $baseobject = new $class($this->dn, NULL, $this, TRUE);
         $this->by_object[$name] = $baseobject;
       } else {
-        $this->by_object[$name] = new $class(NULL, $this->dn, $baseobject);
+        $this->by_object[$name] = new $class($this->dn, $baseobject, $this, FALSE);
       }
-      $this->by_object[$name]->parent = &$this;
       $this->by_object[$name]->set_acl_category($this->acl_category);
     }
   }
@@ -459,8 +458,7 @@ class simpleTabs
       }
 
       $this->by_name[$tab['CLASS']] = $tab['NAME'];
-      $this->by_object[$tab['CLASS']] = new $tab['CLASS'](NULL, $this->dn, $baseobject);
-      $this->by_object[$tab['CLASS']]->parent = &$this;
+      $this->by_object[$tab['CLASS']] = new $tab['CLASS']($this->dn, $baseobject, $this, FALSE);
       $this->by_object[$tab['CLASS']]->set_acl_category($this->acl_category);
     }
   }

@@ -745,7 +745,7 @@ class simpleManagement extends management
       }
       $aclCategory = $config->data['OBJECTS'][$this->getType($this->dn)]['aclCategory'];
       if ($this->ui->allow_snapshot_create($this->dn, $aclCategory)) {
-        $this->dialogObject = new SnapshotCreateDialog(NULL, $this->dn, $this, $aclCategory);
+        $this->dialogObject = new SnapshotCreateDialog($this->dn, $this, $aclCategory);
         $this->dialogObject->set_acl_base($this->dn);
       } else {
         msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to create a snapshot for %s.'), $this->dn),
@@ -796,7 +796,7 @@ class simpleManagement extends management
     if ($this->ui->allow_snapshot_restore($this->dn, $aclCategory)) {
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Snaptshot restoring initiated!');
       $this->snapHandler->setSnapshotBases($bases);
-      $this->dialogObject = new SnapshotRestoreDialog(NULL, $this->dn, $this, !count($target), $aclCategory);
+      $this->dialogObject = new SnapshotRestoreDialog($this->dn, $this, !count($target), $aclCategory);
       $this->dialogObject->set_acl_base($this->dn);
     } else {
       msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $this->dn),

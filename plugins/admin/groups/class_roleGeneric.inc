@@ -47,8 +47,6 @@ class RoleMembersAttribute extends UsersAttribute
 
 class roleGeneric extends simplePlugin
 {
-  var $mainTab = TRUE;
-
   var $objectclasses = array('organizationalRole');
 
   static function plInfo()
@@ -108,15 +106,6 @@ class roleGeneric extends simplePlugin
         )
       )
     );
-  }
-
-  /*!
-   * \brief Constructor
-   */
-  function __construct($unused, $dn = NULL, $object = NULL)
-  {
-    parent::__construct($unused, $dn, $object);
-    $this->attributesAccess['cn']->setUnique(TRUE);
   }
 }
 ?>
