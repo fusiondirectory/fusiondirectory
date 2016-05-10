@@ -30,7 +30,7 @@ class GenericDialog
   function __construct($simplePlugin, $attribute)
   {
     $this->attribute  = $attribute;
-    $this->dialog     = new $this->dialogClass(get_userinfo());
+    $this->dialog     = new $this->dialogClass();
   }
 
   function execute ()

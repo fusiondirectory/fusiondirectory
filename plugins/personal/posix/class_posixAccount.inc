@@ -286,8 +286,6 @@ class posixAccount extends simplePlugin
     }
     $this->attributesAccess['loginShell']->setChoices($loginShellList);
 
-    $this->ui = get_userinfo();
-
     $secondaryGroups = array();
     $secondaryGroups[''] = "- "._("automatic")." -";
     $ldap = $config->get_ldap_link();

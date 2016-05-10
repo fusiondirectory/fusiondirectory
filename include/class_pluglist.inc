@@ -34,7 +34,6 @@
 class pluglist {
   var $menu             = "";
   var $iconmenu         = "";
-  var $ui               = NULL;
   var $current          = "";
 
   /*!
@@ -56,16 +55,10 @@ class pluglist {
 
   /*!
    * \brief List the plugins
-   *
-   * \param string $config Plugin configuration
-   *
-   * \param $ui UI
    */
-  function __construct($unused, &$ui)
+  function __construct()
   {
     global $class_mapping, $config;
-
-    $this->ui     = &$ui;
 
     /* Fill info part of pluglist */
     $classes = get_declared_classes();
@@ -203,6 +196,7 @@ class pluglist {
    */
   function check_access($aclname)
   {
+    global $ui;
     if (isset($this->silly_cache[$aclname])) {
       return $this->silly_cache[$aclname];
     }
@@ -225,12 +219,12 @@ class pluglist {
       if (preg_match("/:self$/", $acl_to_check)) {
         $acl_to_check = preg_replace("/:self$/", "", $acl_to_check);
         if (strpos($acl_to_check, '/')) {
-          if ($this->ui->get_permissions($this->ui->dn, $acl_to_check, "") != "") {
+          if ($ui->get_permissions($ui->dn, $acl_to_check, "") != "") {
             $this->silly_cache[$aclname] = TRUE;
             return TRUE;
           }
         } else {
-          if ($this->ui->get_category_permissions($this->ui->dn, $acl_to_check, "") != "") {
+          if ($ui->get_category_permissions($ui->dn, $acl_to_check, "") != "") {
             $this->silly_cache[$aclname] = TRUE;
             return TRUE;
           }
@@ -238,7 +232,7 @@ class pluglist {
       } else {
 
         /* No self acls. Check if we have any acls for the given ACL type */
-        $deps = $this->ui->get_module_departments($acl_to_check, TRUE);
+        $deps = $ui->get_module_departments($acl_to_check, TRUE);
         if (count($deps)) {
           $this->silly_cache[$aclname] = TRUE;
           return TRUE;

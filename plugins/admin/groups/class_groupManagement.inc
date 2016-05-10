@@ -40,12 +40,12 @@ class groupManagement extends simpleManagement
     );
   }
 
-  function __construct($unused, $ui)
+  function __construct()
   {
     $this->filterXMLPath  = get_template_path('group-filter.xml', TRUE, dirname(__FILE__));
     $this->listXMLPath    = get_template_path('group-list.xml', TRUE, dirname(__FILE__));
 
-    parent::__construct($unused, $ui);
+    parent::__construct();
     $this->headpage->registerElementFilter('filterProperties', 'groupManagement::filterProperties');
   }
 
