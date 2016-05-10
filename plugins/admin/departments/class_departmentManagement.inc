@@ -43,11 +43,11 @@ class departmentManagement extends simpleManagement
     );
   }
 
-  function __construct($unused, $ui)
+  function __construct()
   {
     $this->objectTypes  = self::getDepartmentTypes();
     $this->listXMLPath  = get_template_path('dep-list.xml', TRUE, dirname(__FILE__));
-    parent::__construct($unused, $ui);
+    parent::__construct();
     $this->headpage->registerElementFilter("depLabel", "departmentManagement::filterDepLabel");
     $this->registerAction("open", "openEntry");
   }

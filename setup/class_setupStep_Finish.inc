@@ -72,7 +72,7 @@ class Step_Finish extends setupStep
 
     /* We need the pluglist object */
     load_all_classes();
-    $plist = new pluglist($config, $ui);
+    $plist = new pluglist();
 
     /* Now we can save LDAP config */
     $config->loadPlist($plist);

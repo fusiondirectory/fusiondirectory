@@ -140,10 +140,9 @@ class simpleManagement extends management
 
   protected $skipTemplates = TRUE;
 
-  function __construct($unused, $ui)
+  function __construct()
   {
     global $config;
-    $this->ui     = $ui;
 
     if ($this->filterXMLPath === NULL) {
       $this->filterXMLPath = get_template_path('simple-filter.xml', TRUE, dirname(__FILE__));
@@ -188,7 +187,7 @@ class simpleManagement extends management
     $headpage = new $this->headpageClass($this->parseXML($this->listXMLPath));
     $headpage->setFilter($filter);
 
-    parent::__construct(NULL, $ui, 'unused', $headpage);
+    parent::__construct('unused', $headpage);
 
     $this->configureHeadpage();
     $this->configureFilter();
@@ -469,6 +468,7 @@ class simpleManagement extends management
 
   function applyTemplateToEntry($action, $target = array())
   {
+    global $ui;
     if ($this->skipTemplates) {
       return;
     }
@@ -484,7 +484,7 @@ class simpleManagement extends management
     }
 
     // Add locks
-    add_lock ($this->dns, $this->ui->dn);
+    add_lock ($this->dns, $ui->dn);
 
     $this->dn           = array_shift($this->dns);
     $this->dialogObject = new templateDialog($this, $type, NULL, $this->dn);
@@ -569,6 +569,7 @@ class simpleManagement extends management
    */
   function editEntry($action = "", $target = array(), $all = array(), $altTabClass = "", $altTabType = "", $altAclCategory = "")
   {
+    global $ui;
     // Do not create a new tabObject while there is already one opened,
     //  the user may have just pressed F5 to reload the page.
     if (is_object($this->tabObject)) {
@@ -593,7 +594,7 @@ class simpleManagement extends management
       if ($user != "") {
         return gen_locked_message($user, $this->dn, TRUE);
       }
-      add_lock ($this->dn, $this->ui->dn);
+      add_lock ($this->dn, $ui->dn);
 
       // Open object
       $this->openTabObject(objects::open($this->dn, $type), $this->dn);
@@ -625,6 +626,7 @@ class simpleManagement extends management
    */
   protected function removeEntryRequested($action = "", $target = array(), $all = array())
   {
+    global $ui;
     $disallowed = array();
     $this->dns  = array();
 
@@ -638,7 +640,7 @@ class simpleManagement extends management
       }
       try {
         $info = objects::infos($type);
-        $acl  = $this->ui->get_permissions($dn, $info['aclCategory'].'/'.$info['mainTab']);
+        $acl  = $ui->get_permissions($dn, $info['aclCategory'].'/'.$info['mainTab']);
         if (preg_match('/d/', $acl)) {
           $this->dns[] = $dn;
         } else {
@@ -679,7 +681,7 @@ class simpleManagement extends management
           'type'  => $info['name']
         );
       }
-      add_lock ($this->dns, $this->ui->dn);
+      add_lock ($this->dns, $ui->dn);
 
       // Display confirmation dialog.
       $smarty = get_smarty();
@@ -692,6 +694,7 @@ class simpleManagement extends management
   function removeEntryConfirmed($action = '', $target = array(), $all = array(),
                                 $altTabClass = '', $altTabType = '', $altAclCategory = '')
   {
+    global $ui;
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, "Entry removal confirmed!");
 
     foreach ($this->dns as $dn) {
@@ -704,7 +707,7 @@ class simpleManagement extends management
       }
       $infos = objects::infos($type);
       // Check permissions, are we allowed to remove this object?
-      $acl = $this->ui->get_permissions($dn, $infos['aclCategory']."/".$infos['mainTab']);
+      $acl = $ui->get_permissions($dn, $infos['aclCategory']."/".$infos['mainTab']);
       if (preg_match("/d/", $acl)) {
         // Delete the object
         $this->dn = $dn;
@@ -735,7 +738,7 @@ class simpleManagement extends management
    */
   function createSnapshotDialog($action = '', $target = array(), $all = array())
   {
-    global $config;
+    global $config, $ui;
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, 'Snaptshot creation initiated!');
 
     if (count($target) == 1) {
@@ -744,7 +747,7 @@ class simpleManagement extends management
         return;
       }
       $aclCategory = $config->data['OBJECTS'][$this->getType($this->dn)]['aclCategory'];
-      if ($this->ui->allow_snapshot_create($this->dn, $aclCategory)) {
+      if ($ui->allow_snapshot_create($this->dn, $aclCategory)) {
         $this->dialogObject = new SnapshotCreateDialog($this->dn, $this, $aclCategory);
         $this->dialogObject->set_acl_base($this->dn);
       } else {
@@ -766,7 +769,7 @@ class simpleManagement extends management
    */
   function restoreSnapshotDialog($action = '', $target = array(), $all = array())
   {
-    global $config;
+    global $config, $ui;
     // Set current restore base for snapshot handling.
     if (is_object($this->snapHandler)) {
       $bases = array();
@@ -793,7 +796,7 @@ class simpleManagement extends management
       $aclCategory = $config->data['OBJECTS'][$this->getType($this->dn)]['aclCategory'];
     }
 
-    if ($this->ui->allow_snapshot_restore($this->dn, $aclCategory)) {
+    if ($ui->allow_snapshot_restore($this->dn, $aclCategory)) {
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Snaptshot restoring initiated!');
       $this->snapHandler->setSnapshotBases($bases);
       $this->dialogObject = new SnapshotRestoreDialog($this->dn, $this, !count($target), $aclCategory);
@@ -813,6 +816,7 @@ class simpleManagement extends management
   function copyPasteHandler($action = "", $target = array(), $all = array(),
       $altTabClass = "", $altTabType = "", $altAclCategory = "", $altAclPlugin = "")
   {
+    global $ui;
     // Return without any actions while copy&paste handler is disabled.
     if (!is_object($this->cpHandler)) {
       return FALSE;
@@ -831,11 +835,11 @@ class simpleManagement extends management
         }
         $infos  = objects::infos($type);
 
-        if ($action == "copy" && $this->ui->is_copyable($dn, $infos['aclCategory'], $infos['mainTab'])) {
+        if ($action == "copy" && $ui->is_copyable($dn, $infos['aclCategory'], $infos['mainTab'])) {
           $this->cpHandler->add_to_queue($dn, "copy", $type);
           @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "Entry copied!");
         }
-        if ($action == "cut" && $this->ui->is_cutable($dn, $infos['aclCategory'], $infos['mainTab'])) {
+        if ($action == "cut" && $ui->is_cutable($dn, $infos['aclCategory'], $infos['mainTab'])) {
           $this->cpHandler->add_to_queue($dn, "cut", $type);
           @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "Entry cutted!");
         }
@@ -896,7 +900,7 @@ class simpleManagement extends management
     } else {
       if (!session::is_set($classname) || (isset($_GET['reset']) && $_GET['reset'] == 1)) {
         /* Create the object if missing or reset requested */
-        $managementObject = new $classname(NULL, $ui);
+        $managementObject = new $classname();
       } else {
         /* Retrieve the object from session */
         $managementObject = session::get($classname);

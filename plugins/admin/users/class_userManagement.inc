@@ -51,12 +51,12 @@ class userManagement extends simpleManagement
     );
   }
 
-  function __construct($unused, $ui)
+  function __construct()
   {
     $this->filterXMLPath  = get_template_path('user-filter.xml',  TRUE, dirname(__FILE__));
     $this->listXMLPath    = get_template_path('user-list.xml',    TRUE, dirname(__FILE__));
 
-    parent::__construct($unused, $ui);
+    parent::__construct();
   }
 
   function configureHeadpage ()
@@ -126,12 +126,12 @@ class userManagement extends simpleManagement
    */
   function lockEntry($action, $entry, $all, $type = 'toggle')
   {
-    global $config;
+    global $config, $ui;
     // Filter out entries we are not allowed to modify
     $disallowed = array();
     $dns        = array();
     foreach ($entry as $dn) {
-      if (!preg_match('/w/', $this->ui->get_permissions($dn, 'user/password'))) {
+      if (!preg_match('/w/', $ui->get_permissions($dn, 'user/password'))) {
         $disallowed[] = $dn;
       } else {
         $allowed[] = $dn;

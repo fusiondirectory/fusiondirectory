@@ -40,7 +40,7 @@ if ( $cleanup ){
 
   /* Create usermanagement object on demand */
   if (!session::is_set('userManagement')){
-    $userManagement = new userManagement (NULL, $ui);
+    $userManagement = new userManagement ();
     session::set('userManagement',$userManagement);
   }
   $userManagement = session::get('userManagement');

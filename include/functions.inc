@@ -185,7 +185,7 @@ function load_plist ($ldap_available = TRUE)
     /* Initially load all classes */
     load_all_classes();
 
-    $plist = new pluglist($config, $ui);
+    $plist = new pluglist();
     session::global_set('plist', $plist);
     $config->loadPlist($plist);
     if ($ldap_available) {
