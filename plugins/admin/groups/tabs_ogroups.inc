@@ -33,6 +33,7 @@ class ogrouptabs extends simpleTabs_noSpecial
 
   function loadtabs($gosaGroupObjects)
   {
+    global $config;
     if ($this->groupObjects == $gosaGroupObjects) {
       return;
     }
@@ -163,7 +164,6 @@ class ogrouptabs extends simpleTabs_noSpecial
 
       /* Don't touch base object */
       if ($name != 'ogroup') {
-        $obj->parent    = &$this;
         $obj->uid       = $baseobject->cn;
         $obj->cn        = $baseobject->cn;
         $obj->sn        = $baseobject->cn;
@@ -172,9 +172,6 @@ class ogrouptabs extends simpleTabs_noSpecial
         $this->by_object[$name] = $obj;
       }
     }
-
-    /* Update parent in base object */
-    $this->by_object['ogroup']->parent = &$this;
   }
 }
 ?>
