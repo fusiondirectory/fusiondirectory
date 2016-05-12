@@ -385,16 +385,10 @@ class plugin
 
 
   /*!
-<<<<<<< HEAD
    * \brief Save HTML posted data to object
    */
   function save_object()
   {
-    /* Update entry CSN if it is empty. */
-    if (empty($this->entryCSN) && $this->CSN_check_active) {
-      $this->entryCSN = getEntryCSN($this->dn);
-    }
-
     /* Save values to object */
     foreach ($this->attributes as $val) {
       if ($this->acl_is_writeable($val) && isset ($_POST["$val"])) {
@@ -424,8 +418,6 @@ class plugin
 
 
   /*!
-=======
->>>>>>> de6fccf... Fixes #946 Cleaned up CSN handling
    * \brief Save data to LDAP, depending on is_account we save or delete
    */
   function save()
