@@ -922,20 +922,16 @@ class simplePlugin extends plugin
           ($tabs || (!$account->dialog && $account->is_account)) &&
           empty($lock_msg)) {
         $display .= '<p class="plugbottom">';
+        $info = $entry_dn.'&nbsp;';
 
         /* Are we in edit mode? */
         if (session::is_set('edit')) {
           $display .= '<input type="submit" name="edit_finish" style="width:80px" value="'.msgPool::okButton().'"/>'."\n";
-          $display .= "&nbsp;";
+          $display .= '&nbsp;';
           $display .= '<input type="submit" name="edit_cancel" value="'.msgPool::cancelButton().'"/>'."\n";
-          $info = '<img class="center" alt="locked" src="geticon.php?context=status&amp;icon=object-locked&amp;size=16"/> '.
-                  $entry_dn."&nbsp;";
         } else {
-          $info = '<img class="center" alt="unlocked" src="geticon.php?context=status&amp;icon=object-unlocked&amp;size=16"/> '.
-                  $entry_dn.'&nbsp;';
-
           /* Only display edit button if there is at least one attribute editable */
-          if (preg_match("/r/", $ui->get_permissions($entry_dn, "$plCategory/$classname"))) {
+          if (preg_match('/r/', $ui->get_permissions($entry_dn, "$plCategory/$classname"))) {
             $info .= '<div style="display:inline-block" class="optional"><img class="center" alt="information" '.
                       'src="geticon.php?context=status&amp;icon=dialog-information&amp;size=16"> '.
                       msgPool::clickEditToChange().'</div>';

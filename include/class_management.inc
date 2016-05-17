@@ -251,9 +251,7 @@ class management
       $plIcon = get_template_path($plIcon);
     }
     if (get_object_info() != '') {
-      $display = print_header($plIcon, _($plTitle),
-          '<img alt="" class="center" src="geticon.php?context=status&amp;icon=object-locked&amp;size=16"/>'.
-          LDAP::fix(get_object_info()));
+      $display = print_header($plIcon, _($plTitle), LDAP::fix(get_object_info()));
     } else {
       $display = print_header($plIcon, _($plTitle));
     }
