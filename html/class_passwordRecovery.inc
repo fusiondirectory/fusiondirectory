@@ -463,22 +463,30 @@ class passwordRecovery {
     if (class_available('supannAccount') && ($config->get_cfg_value('supannPasswordRecovery', 'TRUE') == 'TRUE')) {
       $filter = '(|'.$filter.'(&(objectClass=supannPerson)(supannMailPerso='.$this->email_address.')))';
     }
-    $uids = get_list( $filter, "",
-                      $config->current['BASE'], array("uid"),
-                      GL_SUBSEARCH | GL_NO_ACL_CHECK);
+    $ldap = $config->get_ldap_link();
+    $ldap->cd($config->current['BASE']);
+    $ldap->search($filter, array('dn', 'userPassword', 'uid'));
 
     /* Only one uid should be found */
-    if (count($uids) < 1) {
-      $this->message[] = sprintf(_("There is no account using email %s"), $this->email_address);
+    if ($ldap->count() < 1) {
+      $this->message[] = sprintf(_('There is no account using email "%s"'), $this->email_address);
       return;
-    } elseif (count($uids) > 1) {
-      $this->message[] = sprintf(_("There are several accounts using email %s"), $this->email_address);
+    } elseif ($ldap->count() > 1) {
+      $this->message[] = sprintf(_('There are several accounts using email "%s"'), $this->email_address);
+      return;
+    }
+
+    $attrs = $ldap->fetch();
+
+    $method = passwordMethod::get_method($attrs['userPassword'][0], $attrs['dn']);
+    if (is_object($method) && $method->is_locked($attrs['dn'])) {
+      $this->message[] = sprintf(_('The user using email "%s" is locked. Please contact your administrator.'), $this->email_address);
       return;
     }
 
     $smarty = get_smarty();
 
-    $this->uid = $uids[0]['uid'][0];
+    $this->uid = $attrs['uid'][0];
     $smarty->assign('uid', $this->uid);
     $smarty->assign('email_address', $this->email_address);
     $this->step = 2;
