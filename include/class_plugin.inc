@@ -338,11 +338,12 @@ class plugin
    */
   function remove_from_parent()
   {
+    global $config;
     $this->attrs = array();
 
     if (!$this->mainTab) {
       /* include global link_info */
-      $ldap = $this->config->get_ldap_link();
+      $ldap = $config->get_ldap_link();
 
       /* Get current objectClasses in order to add the required ones */
       $ldap->cat($this->dn);
