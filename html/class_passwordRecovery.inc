@@ -24,32 +24,10 @@ require_once("../include/php_setup.inc");
 require_once("functions.inc");
 require_once("variables.inc");
 
-class passwordRecovery {
-  var $uid;
-  var $message = array();
-  var $email_address;
+/* base class for passwordRecovery and such classes handling requests on their own */
+class standAlonePage {
   var $directory;
-
-  var $step = 1;
-
-  /* Some Configuration variable */
-
-  /* Salt needed to mask the uniq id in the ldap */
-  var $salt;
-  /* Delay allowed for the user to change his password (minutes) */
-  var $delay_allowed;
-
-  /* Sender */
-  var $from_mail;
-
-  var $mail_body;
-  var $mail_subject;
-
-  var $mail2_body;
-  var $mail2_subject;
-
   var $activated;
-  var $usealternates;
 
   /* Constructor */
   function __construct()
@@ -119,6 +97,154 @@ class passwordRecovery {
     load_plist();
 
     $ssl = $this->checkForSSL();
+  }
+
+  function loadConfig()
+  {
+    global $_SERVER, $BASE_DIR;
+
+    /* Check if CONFIG_FILE is accessible */
+    if (!is_readable(CONFIG_DIR."/".CONFIG_FILE)) {
+      msg_dialog::display(_("Fatal error"),
+                          sprintf(_("FusionDirectory configuration %s/%s is not readable. Aborted."),
+                                  CONFIG_DIR, CONFIG_FILE), FATAL_ERROR_DIALOG);
+      exit();
+    }
+
+    /* Parse configuration file */
+    $config = new config(CONFIG_DIR."/".CONFIG_FILE, $BASE_DIR);
+    session::global_set('DEBUGLEVEL', $config->get_cfg_value("debuglevel"));
+    @DEBUG(DEBUG_CONFIG, __LINE__, __FUNCTION__, __FILE__, $config->data, "config");
+    return $config;
+  }
+
+  function setupSmarty()
+  {
+    global $config;
+    $smarty = get_smarty();
+
+    /* Set template compile directory */
+    $smarty->compile_dir = $config->get_cfg_value("templateCompileDirectory", SPOOL_DIR);
+
+    /* Check for compile directory */
+    if (!(is_dir($smarty->compile_dir) && is_writable($smarty->compile_dir))) {
+      msg_dialog::display(_("Configuration error"),
+                          sprintf(_("Directory '%s' specified as compile directory is not accessible!"),
+                                  $smarty->compile_dir),
+                          FATAL_ERROR_DIALOG);
+      exit();
+    }
+
+    /* Check for old files in compile directory */
+    clean_smarty_compile_dir($smarty->compile_dir);
+
+    $smarty->assign('password_img', 'geticon.php?context=status&icon=dialog-password&size=48');
+    $smarty->assign('date', gmdate("D, d M Y H:i:s"));
+    $smarty->assign('params', "");
+    $smarty->assign('message', "");
+    $smarty->assign('changed', FALSE);
+  }
+
+  function checkForSSL()
+  {
+    global $config;
+    $smarty = get_smarty();
+
+    /* Check for SSL connection */
+    $ssl = "";
+    $smarty->assign("ssl", "");
+    if (!isset($_SERVER['HTTPS']) || !stristr($_SERVER['HTTPS'], "on")) {
+      if (empty($_SERVER['REQUEST_URI'])) {
+        $ssl = "https://".$_SERVER['HTTP_HOST'].$_SERVER['PATH_INFO'];
+      } else {
+        $ssl = "https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+      }
+
+      /* If SSL is forced, just forward to the SSL enabled site */
+      if ($config->get_cfg_value("forcessl") == 'TRUE') {
+        header("Location: $ssl");
+        exit;
+      } elseif ($config->get_cfg_value("warnssl") == 'TRUE') {
+        /* Display SSL mode warning? */
+        $smarty->assign("ssl", "<b>"._("Warning").":</b> ".
+                        _("Session will not be encrypted.").
+                        " <a style=\"color:red;\" href=\"".htmlentities($ssl).
+                        "\"><b>"._("Enter SSL session")."</b></a>!");
+      }
+    }
+
+    return $ssl;
+  }
+
+  function getPageURL()
+  {
+    $pageURL = "http";
+    if (isset($_SERVER['HTTPS']) && ($_SERVER["HTTPS"] == "on")) {
+      $pageURL .= "s";
+    }
+    $pageURL .= "://".$_SERVER["SERVER_NAME"];
+    if ($_SERVER["SERVER_PORT"] != "80") {
+      $pageURL .= ":".$_SERVER["SERVER_PORT"];
+    }
+    $pageURL .= $_SERVER["PHP_SELF"];
+
+    return $pageURL;
+  }
+
+  function encodeParams($keys)
+  {
+    $params = "";
+    foreach ($keys as $key) {
+      $params .= "&amp;$key=".urlencode($this->$key);
+    }
+    $params = preg_replace('/^&amp;/', '?', $params);
+    return $params;
+  }
+
+  static function generateRandomHash()
+  {
+    /* Generate a very long random value */
+    $len        = 56;
+    $base       = 'ABCDEFGHKLMNOPQRSTWXYZabcdefghjkmnpqrstwxyz123456789';
+    $max        = strlen($base) - 1;
+    $randomhash = '';
+    mt_srand((double) microtime() * 1000000);
+    while (strlen($randomhash) < $len + 1) {
+      $randomhash .= $base{mt_rand(0, $max)};
+    }
+    return $randomhash;
+  }
+}
+
+class passwordRecovery extends standAlonePage {
+  var $uid;
+  var $message = array();
+  var $email_address;
+
+  var $step = 1;
+
+  /* Some Configuration variable */
+
+  /* Salt needed to mask the uniq id in the ldap */
+  var $salt;
+  /* Delay allowed for the user to change his password (minutes) */
+  var $delay_allowed;
+
+  /* Sender */
+  var $from_mail;
+
+  var $mail_body;
+  var $mail_subject;
+
+  var $mail2_body;
+  var $mail2_subject;
+
+  var $usealternates;
+
+  /* Constructor */
+  function __construct()
+  {
+    parent::__construct();
 
     if (isset($_GET['email_address']) && $_GET['email_address'] != "") {
       $this->email_address = validate($_GET['email_address']);
@@ -203,25 +329,6 @@ class passwordRecovery {
     exit();
   }
 
-  function loadConfig()
-  {
-    global $_SERVER, $BASE_DIR;
-
-    /* Check if CONFIG_FILE is accessible */
-    if (!is_readable(CONFIG_DIR."/".CONFIG_FILE)) {
-      msg_dialog::display(_("Fatal error"),
-                          sprintf(_("FusionDirectory configuration %s/%s is not readable. Aborted."),
-                                  CONFIG_DIR, CONFIG_FILE), FATAL_ERROR_DIALOG);
-      exit();
-    }
-
-    /* Parse configuration file */
-    $config = new config(CONFIG_DIR."/".CONFIG_FILE, $BASE_DIR);
-    session::global_set('DEBUGLEVEL', $config->get_cfg_value("debuglevel"));
-    @DEBUG(DEBUG_CONFIG, __LINE__, __FUNCTION__, __FILE__, $config->data, "config");
-    return $config;
-  }
-
   /* Check that password recovery is activated, read config in ldap
    * Returns a boolean saying if password recovery is activated
    */
@@ -242,47 +349,6 @@ class passwordRecovery {
 
     @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $config->get_cfg_value('passwordRecoveryActivated'), "passwordRecoveryActivated");
     return ($config->get_cfg_value('passwordRecoveryActivated') == "TRUE");
-  }
-
-  function setupSmarty()
-  {
-    global $config;
-    $smarty = get_smarty();
-
-    /* Set template compile directory */
-    $smarty->compile_dir = $config->get_cfg_value("templateCompileDirectory", SPOOL_DIR);
-
-    /* Check for compile directory */
-    if (!(is_dir($smarty->compile_dir) && is_writable($smarty->compile_dir))) {
-      msg_dialog::display(_("Configuration error"),
-                          sprintf(_("Directory '%s' specified as compile directory is not accessible!"),
-                                  $smarty->compile_dir),
-                          FATAL_ERROR_DIALOG);
-      exit();
-    }
-
-    /* Check for old files in compile directory */
-    clean_smarty_compile_dir($smarty->compile_dir);
-
-    $smarty->assign('password_img', 'geticon.php?context=status&icon=dialog-password&size=48');
-    $smarty->assign('date', gmdate("D, d M Y H:i:s"));
-    $smarty->assign('params', "");
-    $smarty->assign('message', "");
-    $smarty->assign('changed', FALSE);
-  }
-
-  static function generateRandomHash()
-  {
-    /* Generate a very long random value */
-    $len        = 56;
-    $base       = 'ABCDEFGHKLMNOPQRSTWXYZabcdefghjkmnpqrstwxyz123456789';
-    $max        = strlen($base) - 1;
-    $randomhash = '';
-    mt_srand((double) microtime() * 1000000);
-    while (strlen($randomhash) < $len + 1) {
-      $randomhash .= $base{mt_rand(0, $max)};
-    }
-    return $randomhash;
   }
 
   function storeToken($temp_password)
@@ -353,62 +419,6 @@ class passwordRecovery {
     /* Return TRUE if the token match and is still valid */
     return ($last_time_recovery >= time()) &&
            ($ldap_token == $sha1_token);
-  }
-
-  function checkForSSL()
-  {
-    global $config;
-    $smarty = get_smarty();
-
-    /* Check for SSL connection */
-    $ssl = "";
-    $smarty->assign("ssl", "");
-    if (!isset($_SERVER['HTTPS']) || !stristr($_SERVER['HTTPS'], "on")) {
-      if (empty($_SERVER['REQUEST_URI'])) {
-        $ssl = "https://".$_SERVER['HTTP_HOST'].$_SERVER['PATH_INFO'];
-      } else {
-        $ssl = "https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-      }
-
-      /* If SSL is forced, just forward to the SSL enabled site */
-      if ($config->get_cfg_value("forcessl") == 'TRUE') {
-        header("Location: $ssl");
-        exit;
-      } elseif ($config->get_cfg_value("warnssl") == 'TRUE') {
-        /* Display SSL mode warning? */
-        $smarty->assign("ssl", "<b>"._("Warning").":</b> ".
-                        _("Session will not be encrypted.").
-                        " <a style=\"color:red;\" href=\"".htmlentities($ssl).
-                        "\"><b>"._("Enter SSL session")."</b></a>!");
-      }
-    }
-
-    return $ssl;
-  }
-
-  function getPageURL()
-  {
-    $pageURL = "http";
-    if (isset($_SERVER['HTTPS']) && ($_SERVER["HTTPS"] == "on")) {
-      $pageURL .= "s";
-    }
-    $pageURL .= "://".$_SERVER["SERVER_NAME"];
-    if ($_SERVER["SERVER_PORT"] != "80") {
-      $pageURL .= ":".$_SERVER["SERVER_PORT"];
-    }
-    $pageURL .= $_SERVER["PHP_SELF"];
-
-    return $pageURL;
-  }
-
-  function encodeParams($keys)
-  {
-    $params = "";
-    foreach ($keys as $key) {
-      $params .= "&amp;$key=".urlencode($this->$key);
-    }
-    $params = preg_replace('/^&amp;/', '?', $params);
-    return $params;
   }
 
   function getUserDn()
