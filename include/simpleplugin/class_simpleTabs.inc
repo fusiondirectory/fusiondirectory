@@ -205,10 +205,9 @@ class simpleTabs
     $display = '<div class="tab_content">'."\n";
 
     $display .= $this->by_object[$this->current]->execute();
-    $modal_dialog = $this->by_object[$this->current]->is_modal_dialog();
 
     /* Build tab line */
-    $tabs   = $this->gen_tabs($modal_dialog);
+    $tabs   = $this->gen_tabs($this->dialogOpened());
 
     /* Footer for tabbed dialog */
     $display = $tabs.$display.'</div>';
@@ -491,6 +490,19 @@ class simpleTabs
       $obj->setTemplate(TRUE);
     }
     unset($obj);
+  }
+
+  public function setNeedEditMode ($bool)
+  {
+    foreach ($this->by_object as &$obj) {
+      $obj->setNeedEditMode($bool);
+    }
+    unset($obj);
+  }
+
+  public function dialogOpened ()
+  {
+    return $this->by_object[$this->current]->is_modal_dialog();
   }
 
   function objectInfos()

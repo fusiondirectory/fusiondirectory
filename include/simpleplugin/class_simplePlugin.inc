@@ -361,7 +361,7 @@ class simplePlugin extends plugin
       $plInfo = pluglist::pluginInfos(get_class($this));
       if ($this->parent !== NULL) {
         if ($this->is_account) {
-          $disabled = FALSE;
+          $disabled = $this->acl_skip_write();
           $depends = array();
           if (isset($plInfo['plDepending'])) {
             foreach ($plInfo['plDepending'] as $plugin) {
@@ -380,7 +380,7 @@ class simplePlugin extends plugin
             get_class($this).'_modify_state'
           );
         } else {
-          $disabled = FALSE;
+          $disabled = $this->acl_skip_write();
           $depends = array();
           if (isset($plInfo['plDepends'])) {
             foreach ($plInfo['plDepends'] as $plugin) {
@@ -809,12 +809,6 @@ class simplePlugin extends plugin
       $plCategory = $key;
     }
 
-    $mainTab = FALSE;
-    if (!$tabs) {
-      $infos    = objects::infos($objectType);
-      $mainTab  = (reset($config->data['TABS'][$infos['tabGroup']])['CLASS'] == $classname);
-    }
-
     $lock_msg = "";
     if ($edit_mode) {
       /* Remove locks created by this plugin */
@@ -836,35 +830,27 @@ class simplePlugin extends plugin
         session::un_set('edit');
       }
 
-      /* Create account object on demand */
+      /* Create tab object on demand */
       if (!session::is_set($classname) || (isset($_GET['reset']) && $_GET['reset'] == 1)) {
-        if ($tabs) {
-          $account = objects::open($entry_dn, $objectType);
-          if ($edit_mode) {
-            foreach ($account->by_object as &$obj) {
-              $obj->setNeedEditMode(TRUE);
-            }
-            unset($obj);
-          }
-        } else {
-          $account = new $classname($entry_dn, NULL, NULL, $mainTab);
-          $account->set_acl_category($plCategory);
-          if ($edit_mode) {
-            $account->setNeedEditMode(TRUE);
-          }
+        $tabObject = objects::open($entry_dn, $objectType);
+        if ($edit_mode) {
+          $tabObject->setNeedEditMode(TRUE);
+        }
+        if (!$tabs) {
+          $tabObject->current = $classname;
         }
         if (($entry_dn != '') && ($entry_dn != 'new')) {
-          $account->set_acl_base($entry_dn);
+          $tabObject->set_acl_base($entry_dn);
         } else {
-          $account->set_acl_base($config->current['BASE']);
+          $tabObject->set_acl_base($config->current['BASE']);
         }
-        session::set($classname, $account);
+        session::set($classname, $tabObject);
       }
-      $account = session::get($classname);
+      $tabObject = session::get($classname);
 
       /* save changes back to object */
       if (!$edit_mode || session::is_set('edit')) {
-        $account->save_object();
+        $tabObject->save_object();
       }
 
       if ($edit_mode) {
@@ -886,11 +872,11 @@ class simplePlugin extends plugin
         $info = "";
         if (isset($_POST['edit_finish'])) {
           /* Perform checks */
-          $message = $account->check();
+          $message = $tabObject->check();
 
           /* No errors, save object */
           if (count($message) == 0) {
-            $account->save();
+            $tabObject->save();
             del_lock($entry_dn);
             session::un_set('edit');
 
@@ -909,20 +895,22 @@ class simplePlugin extends plugin
       if ($edit_mode && $lock_msg) {
         $display = $lock_msg;
       } else {
-        $display .= $account->execute();
+        if ($tabs) {
+          $display .= $tabObject->execute();
+        } else {
+          $display .= $tabObject->by_object[$classname]->execute();
+        }
       }
 
       /* Store changes  in session */
       if (!$edit_mode || session::is_set('edit')) {
-        session::set($classname, $account);
+        session::set($classname, $tabObject);
       }
 
       /* Show page footer depending on the mode */
-      if ($edit_mode &&
-          ($tabs || (!$account->dialog && $account->is_account)) &&
-          empty($lock_msg)) {
+      $info = $entry_dn.'&nbsp;';
+      if ($edit_mode && (!$tabObject->dialogOpened()) && empty($lock_msg)) {
         $display .= '<p class="plugbottom">';
-        $info = $entry_dn.'&nbsp;';
 
         /* Are we in edit mode? */
         if (session::is_set('edit')) {
