@@ -551,24 +551,32 @@ class Attribute
    *
    *  \param array& attributes the attributes array
    */
-  function serializeAttribute(&$attributes)
+  function serializeAttribute(&$attributes, $form = TRUE)
   {
-    if ($this->visible) {
+    if (!$form || $this->visible) {
       $class = get_class($this);
       while ($class != 'Attribute') {
         $type[] = $class;
         $class  = get_parent_class($class);
       }
       $type[] = 'Attribute'; // To avoid empty array
-      $attributes[$this->getLdapName()] = array(
+      $infos = array(
         'id'          => $this->getHtmlId(),
         'label'       => $this->getLabel(),
         'required'    => $this->isRequired(),
         'disabled'    => $this->disabled,
         'description' => $this->getDescription(),
         'value'       => $this->getValue(),
+        'default'     => $this->defaultValue,
         'type'        => $type,
       );
+      if (!$form) {
+        $infos['inldap']   = $this->isInLdap();
+        $infos['visible']  = $this->visible;
+        $infos['htmlids']  = $this->htmlIds();
+        unset($infos['id']);
+      }
+      $attributes[$this->getLdapName()] = $infos;
     }
   }
 
@@ -1192,10 +1200,10 @@ class SelectAttribute extends Attribute
     return $this->choices;
   }
 
-  function serializeAttribute(&$attributes)
+  function serializeAttribute(&$attributes, $form = TRUE)
   {
-    if ($this->visible) {
-      parent::serializeAttribute($attributes);
+    if (!$form || $this->visible) {
+      parent::serializeAttribute($attributes, $form);
 
       if ($this->outputs !== NULL) {
         $outputs = array_values($this->outputs);
@@ -2510,14 +2518,25 @@ class CompositeAttribute extends Attribute
     }
   }
 
-  function serializeAttribute(&$attributes)
+  function serializeAttribute(&$attributes, $form = TRUE)
   {
-    if ($this->visible) {
+    if ($form) {
+      if ($this->visible) {
+        foreach ($this->attributes as &$attribute) {
+          $attribute->setDisabled($this->disabled);
+          $attribute->serializeAttribute($attributes, $form);
+        }
+        unset($attribute);
+      }
+    } else {
+      parent::serializeAttribute($attributes, $form);
+      $subattributes = array();
       foreach ($this->attributes as &$attribute) {
         $attribute->setDisabled($this->disabled);
-        $attribute->serializeAttribute($attributes);
+        $attribute->serializeAttribute($subattributes, $form);
       }
       unset($attribute);
+      $attributes[$this->getLdapName()]['attributes'] = $subattributes;
     }
   }
 
