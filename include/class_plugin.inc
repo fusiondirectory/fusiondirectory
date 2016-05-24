@@ -159,6 +159,9 @@ class plugin
         $ldap = $config->get_ldap_link();
         $ldap->cat($this->dn);
         $this->attrs = $ldap->fetch();
+        if (empty($this->attrs)) {
+          throw new Exception('Could not open dn');
+        }
       }
 
       /* Set the template flag according to the existence of objectClass fdTemplate */

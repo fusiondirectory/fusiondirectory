@@ -1003,13 +1003,19 @@ class simplePlugin extends plugin
     return $this->attributesAccess[$field]->foreignKeyCheck($value, $source);
   }
 
-  function deserializeValues($values) {
-    /* Walk through attributes */
-    foreach ($this->attributesAccess as $ldapName => &$attr) {
-      /* Load values */
-      $attr->deserializeValue($values);
+  function deserializeValues($values, $checkAcl = TRUE) {
+    foreach ($values as $name => $value) {
+      if (isset($this->attributesAccess[$name])) {
+        if (!$checkAcl || $this->acl_is_writeable($this->attributesAccess[$name]->getAcl())) {
+          $this->attributesAccess[$name]->setValue($value);
+        } else {
+          return sprintf(_('You don\'t have sufficient rights to edit field "%s"'), $name);
+        }
+      } else {
+        return sprintf(_('Unknown field "%s"'), $name);
+      }
     }
-    unset($attr);
+    return TRUE;
   }
 
   /* Returns TRUE if this attribute should be asked in the creation by template dialog */
