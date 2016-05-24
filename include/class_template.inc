@@ -101,7 +101,7 @@ class template
       }
       $attributes[$class] = array('name' => $this->tabObject->by_name[$class], 'attrs' => array());
       foreach ($this->attributes[$class] as $attr) {
-        $plugin->attributesAccess[$attr]->serializeAttribute($attributes[$class]['attrs']);
+        $plugin->attributesAccess[$attr]->serializeAttribute($attributes[$class]['attrs'], FALSE);
       }
     }
 
@@ -111,8 +111,12 @@ class template
   function deserialize($values)
   {
     foreach ($values as $class => $class_values) {
-      $this->tabObject->by_object[$class]->deserializeValues($class_values);
+      $result = $this->tabObject->by_object[$class]->deserializeValues($class_values, FALSE);
+      if ($result !== TRUE) {
+        return $result;
+      }
     }
+    return TRUE;
   }
 
   function save_object()
