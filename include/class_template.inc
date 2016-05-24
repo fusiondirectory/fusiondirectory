@@ -111,7 +111,7 @@ class template
   function deserialize($values)
   {
     foreach ($values as $class => $class_values) {
-      $result = $this->tabObject->by_object[$class]->deserializeValues($class_values, FALSE);
+      $result = $this->tabObject->by_object[$class]->deserializeValues($class_values);
       if ($result !== TRUE) {
         return $result;
       }
