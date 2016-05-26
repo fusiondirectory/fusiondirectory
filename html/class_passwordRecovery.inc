@@ -246,6 +246,8 @@ class passwordRecovery extends standAlonePage {
   {
     parent::__construct();
 
+    $smarty = get_smarty();
+
     if (isset($_GET['email_address']) && $_GET['email_address'] != "") {
       $this->email_address = validate($_GET['email_address']);
       $smarty->assign('email_address', $this->email_address);
