@@ -1,0 +1,180 @@
+/*********
+ * Setup
+ *********/
+html.ltr body.setup div#header_left .plugtop {
+margin-left:80px;
+}
+html.rtl body.setup div#header_left .plugtop {
+margin-right:80px;
+}
+body.setup .plugin_window {
+border-radius:5px;
+}
+
+div.setup_menu {
+background-color:#F8F8F8;
+padding:4px 5px;
+border-bottom:1px solid #B0B0B0;
+}
+
+/* default.*/
+div.default {
+padding:2px 10px;
+vertical-align:middle;
+}
+
+#menucell.setup_navigation {
+width:200px;
+}
+
+/* The box used for each setup step */
+#menucell.setup_navigation li.menuitem {
+text-decoration:none;
+padding-top:8px;
+padding-bottom:8px;
+margin-top:5px;
+margin-bottom:5px;
+}
+#menucell.setup_navigation li.menuitem > a {
+margin:0;
+}
+
+/* An enabled setup step will use this style in navigation*/
+#menucell.setup_navigation li.menuitem.menucurrent a.navigation_title {
+cursor:default;
+}
+
+/* Disabled setup steps */
+#menucell.setup_navigation li.menuitem.disabled a.navigation_title {
+cursor:default;
+color:#AAA;
+}
+
+/* Disabled setup steps */
+#menucell.setup_navigation li.menuitem a.navigation_title {
+font-size:1.2em;
+font-weight:bold;
+text-decoration:none;
+cursor:pointer;
+padding-top:3px;
+padding-bottom:3px;
+}
+
+/* The style for the info of an active setup */
+#menucell.setup_navigation li.menuitem a.navigation_info {
+font-size:1em;
+color:#000;
+margin:0;
+cursor:default;
+}
+html.ltr #menucell.setup_navigation li.menuitem a.navigation_info {
+padding:4px 4px 3px 15px;
+}
+html.rtl #menucell.setup_navigation li.menuitem a.navigation_info {
+padding:4px 15px 3px 4px;
+}
+
+.setup_language select#lang_selected {
+width:100%;
+}
+
+/*
+  Setup step 2 styles
+*/
+/* used to hide display info div */
+div.solution_visible {
+display:block;
+width:100%;
+text-align:left;
+}
+html.rtl div.solution_visible {
+text-align:right;
+}
+
+/* Container for name and status */
+div.step2_entry_container {
+padding:3px;
+width:99%;
+cursor:default;
+}
+
+/* Container for name and status, when status is failed */
+div.step2_entry_container_info {
+padding:3px;
+border:1px solid #AAA;
+width:99%;
+cursor:default;
+}
+
+/* Text shown for each entry */
+div.step2_entry_name {
+float:left;
+padding-bottom:4px;
+vertical-align:middle;
+}
+html.rtl div.step2_entry_name {
+float:right;
+}
+
+/* Status container */
+div.step2_entry_status {
+float:none;
+text-align:right;
+padding-bottom:4px;
+vertical-align:middle;
+}
+html.rtl div.step2_entry_status {
+text-align:left;
+}
+
+/* Status failed */
+div.step2_failed {
+color:red;
+padding-bottom:4px;
+}
+
+/* Status failed but not necessary for setup */
+div.step2_warning {
+color:orange;
+padding-bottom:4px;
+}
+
+/* Status successful */
+div.step2_successful {
+color:green;
+}
+
+/* Text used in info div. */
+div.step2_failed_text {
+background-repeat:no-repeat;
+}
+html.ltr div.step2_failed_text {
+padding-left:25px;
+}
+html.rtl div.step2_failed_text {
+padding-right:25px;
+}
+
+/* Text used in info div. On warnings */
+div.step2_warning_text {
+background-repeat:no-repeat;
+}
+html.ltr div.step2_warning_text {
+padding-left:25px;
+}
+html.rtl div.step2_warning_text {
+padding-right:25px;
+}
+
+/* On small screens */
+@media (max-width: 640px) {
+  body.setup a.plugtop img {
+  height:32px;
+  }
+  html.ltr body.setup div#header_left .plugtop {
+  margin-left:0px;
+  }
+  html.rtl body.setup div#header_left .plugtop {
+  margin-right:0px;
+  }
+}
