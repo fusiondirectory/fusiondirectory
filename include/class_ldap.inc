@@ -1126,53 +1126,59 @@ class LDAP
     /* Joining lines */
     $line   = NULL;
     $entry  = array();
-    $entryStart = 0;
+    $entryStart = -1;
     foreach ($fileLines as $lineNumber => $fileLine) {
       if (preg_match('/^ /', $fileLine)) {
         if ($line === NULL) {
           throw new Exception(sprintf(_('Error line %s, first line of an entry cannot start with a space'), $lineNumber));
         }
         /* Append to current line */
-        $line .= trim($fileLine);
+        $line .= substr($fileLine, 1);
       } elseif (preg_match('/^#/', $fileLine)) {
         /* Ignore comment */
+        // TODO handle folded comment
       } elseif (preg_match('/^version:/', $fileLine) && empty($entry)) {
         /* Ignore version number */
       } else {
-        /* Line has ended */
-        list ($key, $value) = explode(':', $line, 2);
-        $value = trim($value);
-        if (preg_match('/^:/', $value)) {
-          $value = base64_decode(trim(substr($value, 1)));
-        }
-        if (preg_match('/^</', $value)) {
-          throw new Exception(sprintf(_('Error line %s, references to an external file are not supported'), $lineNumber));
-        }
-        if (empty($value)) {
-          throw new Exception(sprintf(_('Error line %s, attribute "%s" has no value'), $lineNumber, $key));
-        }
-        if ($key == 'dn') {
-          if (!empty($entry)) {
-            throw new Exception(sprintf(_('Error line %s, an entry bloc can only have one dn'), $lineNumber));
+        if ($line !== NULL) {
+          /* Line has ended */
+          list ($key, $value) = explode(':', $line, 2);
+          $value = trim($value);
+          if (preg_match('/^:/', $value)) {
+            $value = base64_decode(trim(substr($value, 1)));
           }
-          $entry['dn'] = $value;
-          $entryStart = $lineNumber;
-        } elseif (empty($entry)) {
-          throw new Exception(sprintf(_('Error line %s, an entry bloc should start with the dn'), $lineNumber));
-        } else {
-          if (!isset($entry[$key])) {
-            $entry[$key] = array();
+          if (preg_match('/^</', $value)) {
+            throw new Exception(sprintf(_('Error line %s, references to an external file are not supported'), $lineNumber));
           }
-          $entry[$key][] = $value;
+          if (empty($value)) {
+            throw new Exception(sprintf(_('Error line %s, attribute "%s" has no value'), $lineNumber, $key));
+          }
+          if ($key == 'dn') {
+            if (!empty($entry)) {
+              throw new Exception(sprintf(_('Error line %s, an entry bloc can only have one dn'), $lineNumber));
+            }
+            $entry['dn']  = $value;
+            $entryStart   = $lineNumber;
+          } elseif (empty($entry)) {
+            throw new Exception(sprintf(_('Error line %s, an entry bloc should start with the dn'), $lineNumber));
+          } else {
+            if (!isset($entry[$key])) {
+              $entry[$key] = array();
+            }
+            $entry[$key][] = $value;
+          }
         }
         /* Start new line */
         $line = trim($fileLine);
         if ($line == '') {
-          /* Entry is finished */
-          $entries[$entryStart] = $entry;
+          if (!empty($entry)) {
+            /* Entry is finished */
+            $entries[$entryStart] = $entry;
+          }
           /* Start a new entry */
-          $entry  = array();
-          $line   = NULL;
+          $entry      = array();
+          $entryStart = -1;
+          $line       = NULL;
         }
       }
     }
