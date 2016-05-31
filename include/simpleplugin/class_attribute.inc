@@ -561,7 +561,7 @@ class Attribute
       }
       $type[] = 'Attribute'; // To avoid empty array
       $infos = array(
-        'id'          => $this->getHtmlId(),
+        'htmlid'      => $this->getHtmlId(),
         'label'       => $this->getLabel(),
         'required'    => $this->isRequired(),
         'disabled'    => $this->disabled,
@@ -574,7 +574,6 @@ class Attribute
         $infos['inldap']   = $this->isInLdap();
         $infos['visible']  = $this->visible;
         $infos['htmlids']  = $this->htmlIds();
-        unset($infos['id']);
       }
       $attributes[$this->getLdapName()] = $infos;
     }
