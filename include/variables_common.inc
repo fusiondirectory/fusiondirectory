@@ -70,4 +70,9 @@ define ("FD_VERSION", "1.1-dev"); /*! Define FusionDirectory version */
  */
 define ("CONFIGRDN", "cn=config,ou=fusiondirectory,"); /*! Define FusionDirectory config object */
 
+/*!
+ * \brief Minimum PHP version
+ */
+define ("PHP_MIN_VERSION", "5.4.0");
+
 ?>
