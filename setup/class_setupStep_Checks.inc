@@ -127,20 +127,12 @@ class Step_Checks extends setupStep
     $M = TRUE;
     $basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
-    $N = msgPool::checkingFor(_("imagick"));
-    $D = _("FusionDirectory requires this extension to handle images.");
-    $S = msgPool::installPhpModule("php5-imagick");
-
-    $IMGVER = phpversion('imagick');
-
-    if ($IMGVER > 1.0) {
-      $R = method_exists('imagick', 'getImageBlob');
-    } else {
-      $R = is_callable("imagick_blob2image");
-    }
-
+    $N = msgPool::checkingFor(_('imagick'));
+    $D = _('FusionDirectory requires this extension to handle images.');
+    $S = msgPool::installPhpModule('imagick');
+    $R = method_exists('imagick', 'getImageBlob');
     $M = TRUE;
-    $basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $basic_checks[] = array('NAME' => $N , 'DESC' => $D , 'RESULT' => $R , 'SOLUTION' => $S , 'MUST' => $M );
 
     $N = msgPool::checkingFor(_("compression module"));
     $D = _("FusionDirectory requires this extension to handle snapshots.");
