@@ -1811,9 +1811,11 @@ class ImageAttribute extends FileAttribute
         $this->value = $value;
       }
     } else {
-      msg_dialog::display(_("Error"),
-                _("Cannot save user picture, FusionDirectory requires the package 'php5-imagick' to be installed!"),
-                ERROR_DIALOG);
+      msg_dialog::display(
+        _('Error'),
+        _('Cannot save user picture, FusionDirectory requires the PHP module "imagick" to be installed!'),
+        ERROR_DIALOG
+      );
     }
   }
 
