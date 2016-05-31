@@ -78,7 +78,7 @@ class roleGeneric extends simplePlugin
   static function getAttributesInfo ()
   {
     return array(
-      'section1' => array(
+      'main' => array(
         'name'  => _('Informations'),
         'attrs' => array(
           new BaseSelectorAttribute (get_ou('roleRDN')),
@@ -98,9 +98,14 @@ class roleGeneric extends simplePlugin
           new StringAttribute (
             _('Fax number'), _('Fax number'),
             'facsimileTelephoneNumber'
-          ),
+          )
+        )
+      ),
+      'members' => array(
+        'name'  => _('Role members'),
+        'attrs' => array(
           new RoleMembersAttribute (
-            _('Users'), _('Add users for the role'),
+            '', _('Add users for the role'),
             'roleOccupant', FALSE
           )
         )
