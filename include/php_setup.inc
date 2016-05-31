@@ -274,8 +274,8 @@ function dummy_error_handler()
 }
 
 /* Bail out for incompatible/old PHP versions */
-if (!version_compare(phpversion(), "5.2.0", ">=")) {
-  echo "PHP version needs to be 5.2.0 or above to run FusionDirectory. Aborted.";
+if (!version_compare(phpversion(), PHP_MIN_VERSION, ">=")) {
+  echo "PHP version needs to be ".PHP_MIN_VERSION." or above to run FusionDirectory. Aborted.";
   exit();
 }
 
