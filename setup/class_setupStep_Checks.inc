@@ -87,13 +87,13 @@ class Step_Checks extends setupStep
     $M = TRUE;
     $basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
-    /* Check for php5-curl support */
-    $N = msgPool::checkingFor("curl");
-    $D = _("FusionDirectory requires this module to communicate with different types of servers and protocols.");
-    $S = msgPool::installPhpModule("php5-curl");
-    $R = is_callable("curl_init");
+    /* Check for curl support */
+    $N = msgPool::checkingFor('curl');
+    $D = _('FusionDirectory requires this module to communicate with different types of servers and protocols.');
+    $S = msgPool::installPhpModule('curl');
+    $R = is_callable('curl_init');
     $M = TRUE;
-    $basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $basic_checks[] = array('NAME' => $N , 'DESC' => $D , 'RESULT' => $R , 'SOLUTION' => $S , 'MUST' => $M );
 
     /* Check for iconv */
     $N = msgPool::checkingFor("iconv");
@@ -130,7 +130,7 @@ class Step_Checks extends setupStep
     $N = msgPool::checkingFor(_('imagick'));
     $D = _('FusionDirectory requires this extension to handle images.');
     $S = msgPool::installPhpModule('imagick');
-    $R = method_exists('imagick', 'getImageBlob');
+    $R = class_exists('Imagick', FALSE);
     $M = TRUE;
     $basic_checks[] = array('NAME' => $N , 'DESC' => $D , 'RESULT' => $R , 'SOLUTION' => $S , 'MUST' => $M );
 
