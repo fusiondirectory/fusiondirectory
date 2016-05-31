@@ -71,8 +71,11 @@ class ObjectsAttribute extends GenericDialogAttribute
 
   function renderOnlyFormInput()
   {
+    if (($this->size < 15) && ($this->size < count($this->value))) {
+      $this->size = min(15, count($this->value));
+    }
     $id       = $this->getHtmlId();
-    $display  = '<select multiple="multiple"  name="row'.$id.'[]" id="row'.$id.'"'.
+    $display  = '<select multiple="multiple"  name="row'.$id.'[]" id="row'.$id.'" size="'.$this->size.'"'.
                 ($this->disabled? ' disabled="disabled"':'').
                 ' >'."\n";
     foreach ($this->getDisplayValues() as $key => $value) {
