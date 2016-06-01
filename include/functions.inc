@@ -124,6 +124,11 @@ function __fusiondirectory_autoload($class_name)
     exit;
   }
 
+  /* Do not try to autoload smarty classes */
+  if (strpos($class_name, 'Smarty_') === 0) {
+    return;
+  }
+
   if (isset($class_mapping["$class_name"])) {
     require_once($BASE_DIR.'/'.$class_mapping["$class_name"]);
   } else {
