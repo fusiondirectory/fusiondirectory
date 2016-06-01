@@ -481,7 +481,12 @@ class configInLdap extends simplePlugin
     $methods = $methods['name'];
     $attributesInfo['password']['attrs'][0]->setChoices($methods);
 
-    parent::__construct($dn, $object, $parent, $mainTab, $attributesInfo);
+    try {
+      parent::__construct($dn, $object, $parent, $mainTab, $attributesInfo);
+    } catch (NonExistingLdapNodeException $e) {
+      parent::__construct('new', $object, $parent, $mainTab, $attributesInfo);
+      $this->dn = $dn;
+    }
 
     $this->fusionConfigMd5 = md5_file(CACHE_DIR."/".CLASS_CACHE);
 

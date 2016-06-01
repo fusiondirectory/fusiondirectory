@@ -19,6 +19,8 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+class NonExistingLdapNodeException extends Exception {};
+
 /*!
  * \file class_plugin.inc
  * Source code for the class plugin
@@ -163,7 +165,7 @@ class plugin
         $ldap->cat($this->dn);
         $this->attrs = $ldap->fetch();
         if (empty($this->attrs)) {
-          throw new Exception('Could not open dn');
+          throw new NonExistingLdapNodeException('Could not open dn '.$this->dn);
         }
       }
 
