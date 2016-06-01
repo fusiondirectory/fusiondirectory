@@ -294,7 +294,7 @@ function get_browser_language()
     }
   }
 
-  /* Check for global language settings in fusiondirectory.conf */
+  /* Check for global language settings in configuration */
   if (isset ($config) && $config->get_cfg_value('language') != '') {
     $lang = $config->get_cfg_value('language');
     if (!preg_match('/utf/i', $lang)) {

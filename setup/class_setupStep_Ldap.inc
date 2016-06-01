@@ -30,7 +30,7 @@ class Step_Ldap extends setupStep
   {
     return array(
       'connection' => array(
-        'name'      => _('LDAP connexion'),
+        'name'      => _('LDAP connection'),
         'attrs'     => array(
           new StringAttribute(
             _('Location name'), _('Name of this connexion to show in the LDAP server list'),
