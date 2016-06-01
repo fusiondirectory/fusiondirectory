@@ -292,7 +292,7 @@ class aclAssignment extends simplePlugin
 
   function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE)
   {
-    parent::__construct ($dn, $object, $parent, $mainTab);
+    parent::__construct ($dn, $object, $parent, FALSE);
     $this->attributesInfo['main']['name'] = sprintf(_('Assignments on object or subtree %s'), $this->dn);
   }
 
