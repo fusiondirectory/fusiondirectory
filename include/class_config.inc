@@ -56,11 +56,9 @@ class config  {
    * - $data['SERVERS'] contains server informations.
    */
   var $data = array(
-    'TABS'      => array(),
     'LOCATIONS' => array(),
     'SERVERS'   => array(),
     'MAIN'      => array(),
-    'MENU'      => array()
   );
   var $basedir        = "";
 
@@ -145,10 +143,9 @@ class config  {
   function parse_data ($xmldata)
   {
     $this->data = array(
-      "TABS"      => array(),
-      "LOCATIONS" => array(),
-      "MAIN"      => array(),
-      "MENU"      => array()
+      'LOCATIONS' => array(),
+      'SERVERS'   => array(),
+      'MAIN'      => array(),
     );
 
     $this->parser = xml_parser_create();
@@ -202,19 +199,6 @@ class config  {
 
     /* Look through attributes */
     switch ($this->tags[$this->level - 1]) {
-
-      /* Handle tab section */
-      case 'TAB':
-        $name = $this->tags[$this->level - 2];
-
-        /* Create new array? */
-        if (!isset($this->data['TABS'][$name])) {
-          $this->data['TABS'][$name] = array();
-        }
-
-        /* Add elements */
-        $this->data['TABS'][$name][] = $attrs;
-        break;
 
       /* Handle location */
       case 'LOCATION':
@@ -925,6 +909,8 @@ class config  {
     $this->data['OBJECTS']    = array();
     $this->data['SECTIONS']   = array();
     $this->data['CATEGORIES'] = array();
+    $this->data['MENU']       = array();
+    $this->data['TABS']       = array();
     foreach ($plist->info as $class => &$plInfo) {
       if (isset($plInfo['plObjectType'])) {
         $entry = array('CLASS' => $class,'NAME' => $plInfo['plShortName']);
