@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-110\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2016-05-17 15:29+0200\n"
-"PO-Revision-Date: 2016-05-17 13:26+0000\n"
+"POT-Creation-Date: 2016-06-01 19:22+0200\n"
+"PO-Revision-Date: 2016-06-01 17:19+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Russian Petrine orthography (http://www.transifex.com/fusiondirectory/FusionDirectory-110/language/ru@petr1708/)\n"
 "MIME-Version: 1.0\n"
@@ -50,7 +50,7 @@ msgstr ""
 
 #: plugins/admin/groups/class_roleGeneric.inc:86
 #: plugins/admin/groups/class_group.inc:60
-#: plugins/admin/groups/class_ogroup.inc:190
+#: plugins/admin/groups/class_ogroup.inc:193
 #: plugins/admin/groups/group-list.xml:33
 #: plugins/admin/departments/class_department.inc:176
 #: plugins/admin/aclrole/class_aclRole.inc:100
@@ -64,13 +64,13 @@ msgstr ""
 
 #: plugins/admin/groups/class_roleGeneric.inc:86
 #: plugins/admin/groups/class_group.inc:60
-#: plugins/admin/groups/class_ogroup.inc:190
+#: plugins/admin/groups/class_ogroup.inc:193
 msgid "Name of this group"
 msgstr ""
 
 #: plugins/admin/groups/class_roleGeneric.inc:91
 #: plugins/admin/groups/class_group.inc:65
-#: plugins/admin/groups/class_ogroup.inc:195
+#: plugins/admin/groups/class_ogroup.inc:198
 #: plugins/admin/groups/group-list.xml:41
 #: plugins/admin/departments/class_department.inc:72
 #: plugins/admin/departments/dep-list.xml:29
@@ -93,20 +93,17 @@ msgstr ""
 msgid "Fax number"
 msgstr ""
 
-#: plugins/admin/groups/class_roleGeneric.inc:103
-#: plugins/admin/users/class_userManagement.inc:42
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:27
-#: setup/class_setupStep_Migrate.inc:871
-msgid "Users"
+#: plugins/admin/groups/class_roleGeneric.inc:105
+msgid "Role members"
 msgstr ""
 
-#: plugins/admin/groups/class_roleGeneric.inc:103
+#: plugins/admin/groups/class_roleGeneric.inc:108
 msgid "Add users for the role"
 msgstr ""
 
 #: plugins/admin/groups/class_group.inc:33
-#: plugins/admin/groups/class_ogroup.inc:157
-#: plugins/admin/groups/class_ogroup.inc:158
+#: plugins/admin/groups/class_ogroup.inc:160
+#: plugins/admin/groups/class_ogroup.inc:161
 msgid "Group"
 msgstr ""
 
@@ -123,7 +120,7 @@ msgid "POSIX user group"
 msgstr ""
 
 #: plugins/admin/groups/class_group.inc:56
-#: plugins/admin/groups/class_ogroup.inc:186
+#: plugins/admin/groups/class_ogroup.inc:189
 #: plugins/admin/groups/group-list.xml:49
 #: plugins/admin/departments/class_department.inc:63
 #: plugins/admin/users/user-list.xml:57
@@ -133,7 +130,7 @@ msgid "Properties"
 msgstr ""
 
 #: plugins/admin/groups/class_group.inc:65
-#: plugins/admin/groups/class_ogroup.inc:195
+#: plugins/admin/groups/class_ogroup.inc:198
 msgid "Short description of this group"
 msgstr ""
 
@@ -161,53 +158,53 @@ msgid "Group members"
 msgstr ""
 
 #: plugins/admin/groups/class_group.inc:90
-#: plugins/admin/groups/class_ogroup.inc:212
+#: plugins/admin/groups/class_ogroup.inc:215
 #: plugins/personal/posix/class_posixAccount.inc:188
 msgid "System trust"
 msgstr ""
 
 #: plugins/admin/groups/class_group.inc:94
-#: plugins/admin/groups/class_ogroup.inc:216
+#: plugins/admin/groups/class_ogroup.inc:219
 #: plugins/personal/posix/class_posixAccount.inc:192
 msgid "Trust mode"
 msgstr ""
 
 #: plugins/admin/groups/class_group.inc:94
-#: plugins/admin/groups/class_ogroup.inc:216
+#: plugins/admin/groups/class_ogroup.inc:219
 #: plugins/personal/posix/class_posixAccount.inc:192
 msgid "Type of authorization for those hosts"
 msgstr ""
 
 #: plugins/admin/groups/class_group.inc:98
-#: plugins/admin/groups/class_ogroup.inc:220
+#: plugins/admin/groups/class_ogroup.inc:223
 #: plugins/personal/posix/class_posixAccount.inc:196
 #: plugins/personal/posix/class_posixAccount.inc:218
 msgid "disabled"
 msgstr ""
 
 #: plugins/admin/groups/class_group.inc:98
-#: plugins/admin/groups/class_ogroup.inc:220
+#: plugins/admin/groups/class_ogroup.inc:223
 #: plugins/personal/posix/class_posixAccount.inc:196
 #: plugins/personal/posix/class_posixAccount.inc:218
 msgid "full access"
 msgstr ""
 
 #: plugins/admin/groups/class_group.inc:98
-#: plugins/admin/groups/class_ogroup.inc:220
+#: plugins/admin/groups/class_ogroup.inc:223
 #: plugins/personal/posix/class_posixAccount.inc:196
 msgid "allow access to these hosts"
 msgstr ""
 
 #: plugins/admin/groups/class_group.inc:101
-#: plugins/admin/groups/class_ogroup.inc:223
+#: plugins/admin/groups/class_ogroup.inc:226
 msgid "Only allow this group to connect to this list of hosts"
 msgstr ""
 
 #: plugins/admin/groups/class_group.inc:181
-#: plugins/personal/posix/class_posixAccount.inc:467 include/functions.inc:794
-#: include/functions.inc:2549 include/class_xml.inc:55
-#: include/simpleplugin/class_simpleTabs.inc:320 html/index.php:56
-#: html/index.php:62 html/index.php:522 html/class_passwordRecovery.inc:379
+#: plugins/personal/posix/class_posixAccount.inc:467 include/functions.inc:799
+#: include/functions.inc:2554 include/class_xml.inc:55
+#: include/simpleplugin/class_simpleTabs.inc:319 html/index.php:56
+#: html/index.php:62 html/index.php:522 html/class_passwordRecovery.inc:169
 #: setup/class_setupStep_Migrate.inc:572
 #: setup/class_setupStep_Migrate.inc:1083
 #: setup/class_setupStep_Migrate.inc:1202
@@ -234,23 +231,23 @@ msgstr ""
 msgid "Non existing dn: %s"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:152
+#: plugins/admin/groups/class_ogroup.inc:155
 msgid "Object group"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:153
+#: plugins/admin/groups/class_ogroup.inc:156
 msgid "Object group information"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:202
+#: plugins/admin/groups/class_ogroup.inc:205
 msgid "Member objects"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:205
+#: plugins/admin/groups/class_ogroup.inc:208
 msgid "Objects member of this group"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:317
+#: plugins/admin/groups/class_ogroup.inc:320
 msgid ""
 "Putting both workstations and terminals in the same group is not allowed"
 msgstr ""
@@ -281,8 +278,8 @@ msgstr ""
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:192
 #: include/simpleplugin/class_dialogAttributes.inc:635
 #: include/simpleplugin/class_dialogAttributes.inc:636
-#: include/simpleplugin/class_attribute.inc:2686
-#: include/simpleplugin/class_attribute.inc:2687
+#: include/simpleplugin/class_attribute.inc:2706
+#: include/simpleplugin/class_attribute.inc:2707
 #: include/simpleplugin/simple-list.xml:67
 #: include/simpleplugin/simple-list.xml:112
 msgid "Edit"
@@ -615,6 +612,12 @@ msgstr ""
 msgid "Remove user"
 msgstr ""
 
+#: plugins/admin/users/class_userManagement.inc:42
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:27
+#: setup/class_setupStep_Migrate.inc:871
+msgid "Users"
+msgstr ""
+
 #: plugins/admin/users/class_userManagement.inc:43
 msgid "Manage users"
 msgstr ""
@@ -624,9 +627,9 @@ msgid "Manage user accounts and their properties"
 msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:141
-#: include/class_management.inc:337 include/class_management.inc:486
-#: include/class_management.inc:506 include/class_management.inc:524
-#: include/class_management.inc:573 include/class_CopyPasteHandler.inc:235
+#: include/class_management.inc:334 include/class_management.inc:483
+#: include/class_management.inc:503 include/class_management.inc:521
+#: include/class_management.inc:570 include/class_CopyPasteHandler.inc:235
 #: include/simpleplugin/class_simpleManagement.inc:654
 #: include/simpleplugin/class_simpleManagement.inc:754
 #: include/simpleplugin/class_simpleManagement.inc:805
@@ -676,8 +679,8 @@ msgid "Edit category ACL"
 msgstr ""
 
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:194
-#: include/class_msgPool.inc:517 include/simpleplugin/class_attribute.inc:2696
-#: include/simpleplugin/class_attribute.inc:2697
+#: include/class_msgPool.inc:517 include/simpleplugin/class_attribute.inc:2716
+#: include/simpleplugin/class_attribute.inc:2717
 #, php-format
 msgid "Delete"
 msgstr ""
@@ -2137,13 +2140,13 @@ msgstr ""
 msgid "Down"
 msgstr ""
 
-#: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2658
-#: include/simpleplugin/class_attribute.inc:2659
+#: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2678
+#: include/simpleplugin/class_attribute.inc:2679
 msgid "Sort up"
 msgstr ""
 
-#: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2671
-#: include/simpleplugin/class_attribute.inc:2672
+#: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2691
+#: include/simpleplugin/class_attribute.inc:2692
 msgid "Sort down"
 msgstr ""
 
@@ -2151,25 +2154,25 @@ msgstr ""
 msgid "Select all"
 msgstr ""
 
-#: include/class_listing.inc:537 include/class_management.inc:682
-#: include/class_config.inc:373 include/class_msgPool.inc:215
+#: include/class_listing.inc:537 include/class_management.inc:679
+#: include/class_config.inc:357 include/class_msgPool.inc:215
 #: include/class_msgPool.inc:235 include/class_msgPool.inc:265
 #: include/class_msgPool.inc:682 include/class_msgPool.inc:713
-#: include/class_msgPool.inc:740 include/functions.inc:3107
-#: include/functions.inc:3128 include/functions.inc:3168
-#: include/functions.inc:3180 include/functions.inc:3184
-#: include/functions.inc:3191 include/functions.inc:3200
-#: include/functions.inc:3262 include/class_msg_dialog.inc:128
-#: include/class_xml.inc:58 include/class_plugin.inc:1498
+#: include/class_msgPool.inc:740 include/functions.inc:3112
+#: include/functions.inc:3133 include/functions.inc:3173
+#: include/functions.inc:3185 include/functions.inc:3189
+#: include/functions.inc:3196 include/functions.inc:3205
+#: include/functions.inc:3267 include/class_msg_dialog.inc:128
+#: include/class_xml.inc:58 include/class_plugin.inc:1503
 #: include/class_CopyPasteHandler.inc:265
-#: include/simpleplugin/class_attribute.inc:1541
-#: include/simpleplugin/class_attribute.inc:1544
-#: include/simpleplugin/class_attribute.inc:1547
-#: include/simpleplugin/class_attribute.inc:1786
-#: include/simpleplugin/class_attribute.inc:1889
-#: include/simpleplugin/class_attribute.inc:1891
+#: include/simpleplugin/class_attribute.inc:1548
+#: include/simpleplugin/class_attribute.inc:1551
+#: include/simpleplugin/class_attribute.inc:1554
+#: include/simpleplugin/class_attribute.inc:1794
+#: include/simpleplugin/class_attribute.inc:1898
+#: include/simpleplugin/class_attribute.inc:1900
 #: include/simpleplugin/class_simpleTabs.inc:89
-#: include/simpleplugin/class_simpleTabs.inc:400
+#: include/simpleplugin/class_simpleTabs.inc:399
 #: include/password-methods/class_password-methods-sasl.inc:59
 #: include/password-methods/class_password-methods-sasl.inc:85
 #: include/password-methods/class_password-methods.inc:428
@@ -2262,98 +2265,98 @@ msgstr ""
 msgid "The filter is incomplete!"
 msgstr ""
 
-#: include/class_management.inc:409
+#: include/class_management.inc:406
 #: include/simpleplugin/class_simpleManagement.inc:720
 msgid "Permission error"
 msgstr ""
 
-#: include/class_management.inc:486
+#: include/class_management.inc:483
 #: include/simpleplugin/class_simpleManagement.inc:754
 #, php-format
 msgid "You are not allowed to create a snapshot for %s."
 msgstr ""
 
-#: include/class_management.inc:506 include/class_management.inc:524
-#: include/class_management.inc:573
+#: include/class_management.inc:503 include/class_management.inc:521
+#: include/class_management.inc:570
 #: include/simpleplugin/class_simpleManagement.inc:805
 #, php-format
 msgid "You are not allowed to restore a snapshot for %s."
 msgstr ""
 
-#: include/class_management.inc:682
+#: include/class_management.inc:679
 #, php-format
 msgid ""
 "No tab declaration for '%s' found in your configuration file. Cannot create "
 "plugin instance!"
 msgstr ""
 
-#: include/class_config.inc:159
+#: include/class_config.inc:156
 #, php-format
 msgid "XML error in fusiondirectory.conf: %s at line %d"
 msgstr ""
 
-#: include/class_config.inc:162 include/class_config.inc:300
-#: include/class_config.inc:900 include/class_config.inc:913
-#: include/functions.inc:663 include/class_timezone.inc:51
+#: include/class_config.inc:159 include/class_config.inc:284
+#: include/class_config.inc:884 include/class_config.inc:897
+#: include/functions.inc:668 include/class_timezone.inc:51
 #: include/password-methods/class_password-methods-sha.inc:69
 #: include/password-methods/class_password-methods-ssha.inc:73
 #: include/password-methods/class_password-methods-ssha.inc:89
-#: html/index.php:149 html/main.php:205 html/class_passwordRecovery.inc:257
+#: html/index.php:149 html/main.php:205 html/class_passwordRecovery.inc:131
 msgid "Configuration error"
 msgstr ""
 
-#: include/class_config.inc:296
+#: include/class_config.inc:280
 #, php-format
 msgid ""
 "It seems you are trying to decode something which is not encoded : %s<br/>\n"
 "Please check you are not using a fusiondirectory.secrets file while your passwords are not encrypted."
 msgstr ""
 
-#: include/class_config.inc:338 include/class_ldap.inc:895
-#: include/class_ldap.inc:1349 include/functions.inc:526
-#: include/functions.inc:678 include/functions.inc:725
-#: include/functions.inc:786 include/functions.inc:841
-#: include/functions.inc:2986 include/functions.inc:3160
+#: include/class_config.inc:322 include/class_ldap.inc:895
+#: include/class_ldap.inc:1281 include/functions.inc:531
+#: include/functions.inc:683 include/functions.inc:730
+#: include/functions.inc:791 include/functions.inc:846
+#: include/functions.inc:2991 include/functions.inc:3165
 #: include/simpleplugin/class_simplePlugin.inc:558
-#: include/simpleplugin/class_attribute.inc:2921
+#: include/simpleplugin/class_attribute.inc:2941
 #: include/password-methods/class_password-methods.inc:194
 #: include/class_SnapshotHandler.inc:48 include/class_SnapshotHandler.inc:247
 #: include/class_SnapshotHandler.inc:280 include/class_SnapshotHandler.inc:296
 #: include/class_SnapshotHandler.inc:429 include/class_SnapshotHandler.inc:432
-#: html/index.php:369 html/class_passwordRecovery.inc:508
+#: html/index.php:369 html/class_passwordRecovery.inc:520
 #: setup/class_setupStep_Migrate.inc:451
 #: setup/class_setupStep_Migrate.inc:1130
 msgid "LDAP error"
 msgstr ""
 
-#: include/class_config.inc:338
+#: include/class_config.inc:322
 msgid "Cannot bind to LDAP. Please contact the system administrator."
 msgstr ""
 
-#: include/class_config.inc:373
+#: include/class_config.inc:357
 #, php-format
 msgid "Location \"%s\" could not be found in the configuration file"
 msgstr ""
 
-#: include/class_config.inc:901
+#: include/class_config.inc:885
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required variable '%s' is not"
 " set."
 msgstr ""
 
-#: include/class_config.inc:914
+#: include/class_config.inc:898
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required compression module "
 "is missing. Please install '%s'."
 msgstr ""
 
-#: include/class_config.inc:1019
+#: include/class_config.inc:1005
 msgid "All categories"
 msgstr ""
 
-#: include/class_config.inc:1146
+#: include/class_config.inc:1132
 msgid "My account"
 msgstr ""
 
@@ -2367,10 +2370,10 @@ msgid "LDAP performance is poor: last query took about %.2fs!"
 msgstr ""
 
 #: include/class_ldap.inc:846 include/class_ldap.inc:882
-#: include/functions.inc:568 include/functions.inc:653
-#: include/functions.inc:773 include/functions.inc:1192
-#: include/functions.inc:2275 include/functions.inc:2317
-#: include/functions.inc:2346 include/class_session.inc:50
+#: include/functions.inc:573 include/functions.inc:658
+#: include/functions.inc:778 include/functions.inc:1197
+#: include/functions.inc:2280 include/functions.inc:2322
+#: include/functions.inc:2351 include/class_session.inc:50
 #: include/class_session.inc:88 include/class_session.inc:127
 #: include/class_log.inc:92 include/class_acl.inc:118
 msgid "Internal error"
@@ -2401,14 +2404,32 @@ msgstr ""
 msgid "proc_open failed to execute ldapsearch"
 msgstr ""
 
-#: include/class_ldap.inc:1198
+#: include/class_ldap.inc:1133
 #, php-format
-msgid ""
-"This is not a valid DN: '%s'. A block for import should begin with 'dn: ...'"
-" in line %s"
+msgid "Error line %s, first line of an entry cannot start with a space"
 msgstr ""
 
-#: include/class_ldap.inc:1209
+#: include/class_ldap.inc:1151
+#, php-format
+msgid "Error line %s, references to an external file are not supported"
+msgstr ""
+
+#: include/class_ldap.inc:1154
+#, php-format
+msgid "Error line %s, attribute \"%s\" has no value"
+msgstr ""
+
+#: include/class_ldap.inc:1158
+#, php-format
+msgid "Error line %s, an entry bloc can only have one dn"
+msgstr ""
+
+#: include/class_ldap.inc:1163
+#, php-format
+msgid "Error line %s, an entry bloc should start with the dn"
+msgstr ""
+
+#: include/class_ldap.inc:1194
 #, php-format
 msgid ""
 "Error while importing dn: '%s', please check your LDIF from line %s on!"
@@ -2990,256 +3011,256 @@ msgstr ""
 msgid "Fatal error: no class locations defined - please run '%s' to fix this"
 msgstr ""
 
-#: include/functions.inc:137
+#: include/functions.inc:142
 #, php-format
 msgid ""
 "Fatal error: cannot instantiate class '%s' - try running '%s' to fix this"
 msgstr ""
 
-#: include/functions.inc:496 include/functions.inc:3297
+#: include/functions.inc:501 include/functions.inc:3302
 #: include/class_xml.inc:61 include/simpleplugin/class_simplePlugin.inc:270
 #: include/simpleplugin/class_simplePlugin.inc:275
 #: include/simpleplugin/class_simplePlugin.inc:287
-#: html/class_passwordRecovery.inc:212
+#: html/class_passwordRecovery.inc:108
 msgid "Fatal error"
 msgstr ""
 
-#: include/functions.inc:497
+#: include/functions.inc:502
 #, php-format
 msgid "FATAL: Error when connecting the LDAP. Server said '%s'."
 msgstr ""
 
-#: include/functions.inc:568
+#: include/functions.inc:573
 msgid ""
 "Login (uid) is not unique inside the LDAP tree. Please contact your "
 "administrator."
 msgstr ""
 
-#: include/functions.inc:601
+#: include/functions.inc:606
 msgid "Authentication error"
 msgstr ""
 
-#: include/functions.inc:602
+#: include/functions.inc:607
 msgid ""
 "It seems your user password has expired. Please use <a "
 "href=\"recovery.php\">password recovery</a> to change it."
 msgstr ""
 
-#: include/functions.inc:653 include/functions.inc:773
+#: include/functions.inc:658 include/functions.inc:778
 msgid "Error while adding a lock. Contact the developers!"
 msgstr ""
 
-#: include/functions.inc:663
+#: include/functions.inc:668
 #, php-format
 msgid ""
 "Cannot create locking information in LDAP tree. Please contact your "
 "administrator!"
 msgstr ""
 
-#: include/functions.inc:663
+#: include/functions.inc:668
 #, php-format
 msgid "LDAP server returned: %s"
 msgstr ""
 
-#: include/functions.inc:794
+#: include/functions.inc:799
 msgid ""
 "Found multiple locks for object to be locked. This should not happen - "
 "cleaning up multiple references."
 msgstr ""
 
-#: include/functions.inc:1112
+#: include/functions.inc:1117
 #, php-format
 msgid "The size limit of %d entries is exceed!"
 msgstr ""
 
-#: include/functions.inc:1114
+#: include/functions.inc:1119
 #, php-format
 msgid ""
 "Set the new size limit to %s and show me this message if the limit still "
 "exceeds"
 msgstr ""
 
-#: include/functions.inc:1131
+#: include/functions.inc:1136
 msgid "Configure"
 msgstr ""
 
-#: include/functions.inc:1136
+#: include/functions.inc:1141
 msgid "incomplete"
 msgstr ""
 
-#: include/functions.inc:1541
+#: include/functions.inc:1546
 msgid "Continue anyway"
 msgstr ""
 
-#: include/functions.inc:1543
+#: include/functions.inc:1548
 msgid "Edit anyway"
 msgstr ""
 
-#: include/functions.inc:1545
+#: include/functions.inc:1550
 #, php-format
 msgid "You're going to edit the LDAP entry/entries %s"
 msgstr ""
 
-#: include/functions.inc:1799
+#: include/functions.inc:1804
 msgid "Entries per page"
 msgstr ""
 
-#: include/functions.inc:1830 include/class_filter.inc:353
+#: include/functions.inc:1835 include/class_filter.inc:353
 msgid "Apply filter"
-msgstr ""
-
-#: include/functions.inc:2098
-#, php-format
-msgid "%sB"
-msgstr ""
-
-#: include/functions.inc:2099
-#, php-format
-msgid "%sKiB"
-msgstr ""
-
-#: include/functions.inc:2100
-#, php-format
-msgid "%sMiB"
-msgstr ""
-
-#: include/functions.inc:2101
-#, php-format
-msgid "%sGiB"
-msgstr ""
-
-#: include/functions.inc:2102
-#, php-format
-msgid "%sTiB"
 msgstr ""
 
 #: include/functions.inc:2103
 #, php-format
-msgid "%sPiB"
+msgid "%sB"
 msgstr ""
 
 #: include/functions.inc:2104
 #, php-format
-msgid "%sEiB"
+msgid "%sKiB"
 msgstr ""
 
 #: include/functions.inc:2105
 #, php-format
-msgid "%sZiB"
+msgid "%sMiB"
 msgstr ""
 
 #: include/functions.inc:2106
 #, php-format
+msgid "%sGiB"
+msgstr ""
+
+#: include/functions.inc:2107
+#, php-format
+msgid "%sTiB"
+msgstr ""
+
+#: include/functions.inc:2108
+#, php-format
+msgid "%sPiB"
+msgstr ""
+
+#: include/functions.inc:2109
+#, php-format
+msgid "%sEiB"
+msgstr ""
+
+#: include/functions.inc:2110
+#, php-format
+msgid "%sZiB"
+msgstr ""
+
+#: include/functions.inc:2111
+#, php-format
 msgid "%sYiB"
 msgstr ""
 
-#: include/functions.inc:2138 include/class_filter.inc:315
+#: include/functions.inc:2143 include/class_filter.inc:315
 msgid "*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 msgstr ""
 
-#: include/functions.inc:2275
+#: include/functions.inc:2280
 #, php-format
 msgid ""
 "File '%s' could not be deleted. Try fusiondirectory-setup --check-"
 "directories to fix permissions."
 msgstr ""
 
-#: include/functions.inc:2317
+#: include/functions.inc:2322
 msgid "Cannot write to revision file!"
 msgstr ""
 
-#: include/functions.inc:2346
+#: include/functions.inc:2351
 msgid "Cannot read to revision file!"
 msgstr ""
 
-#: include/functions.inc:2549
+#: include/functions.inc:2554
 msgid "'nextIdHook' is not available. Using default base!"
 msgstr ""
 
-#: include/functions.inc:2567
+#: include/functions.inc:2572
 msgid "LDAP warning"
 msgstr ""
 
-#: include/functions.inc:2567
+#: include/functions.inc:2572
 msgid "Cannot get schema information from server. No schema check possible!"
 msgstr ""
 
-#: include/functions.inc:2585
+#: include/functions.inc:2590
 msgid ""
 "Used to lock currently edited entries to avoid multiple changes at the same "
 "time."
 msgstr ""
 
-#: include/functions.inc:2597
+#: include/functions.inc:2602
 #, php-format
 msgid "Missing required object class '%s'!"
 msgstr ""
 
-#: include/functions.inc:2600
+#: include/functions.inc:2605
 #, php-format
 msgid "Missing optional object class '%s'!"
 msgstr ""
 
-#: include/functions.inc:2604
+#: include/functions.inc:2609
 #, php-format
 msgid "Class(es) available"
 msgstr ""
 
-#: include/functions.inc:2624
+#: include/functions.inc:2629
 msgid ""
 "You have installed the mixed groups plugin, but your schema configuration "
 "does not support this."
 msgstr ""
 
-#: include/functions.inc:2625
+#: include/functions.inc:2630
 msgid ""
 "In order to use mixed groups the objectClass \"posixGroup\" must be "
 "AUXILIARY"
 msgstr ""
 
-#: include/functions.inc:2628
+#: include/functions.inc:2633
 msgid ""
 "Your schema is configured to support mixed groups, but this plugin is not "
 "present."
 msgstr ""
 
-#: include/functions.inc:2629
+#: include/functions.inc:2634
 msgid "The objectClass \"posixGroup\" must be STRUCTURAL"
 msgstr ""
 
-#: include/functions.inc:3107 include/functions.inc:3128
-#: include/functions.inc:3168 include/functions.inc:3180
-#: include/functions.inc:3184 include/functions.inc:3191
-#: include/functions.inc:3200
+#: include/functions.inc:3112 include/functions.inc:3133
+#: include/functions.inc:3173 include/functions.inc:3185
+#: include/functions.inc:3189 include/functions.inc:3196
+#: include/functions.inc:3205
 msgid "Cannot allocate a free ID:"
 msgstr ""
 
-#: include/functions.inc:3107
+#: include/functions.inc:3112
 msgid "unknown idAllocation method!"
 msgstr ""
 
-#: include/functions.inc:3128
+#: include/functions.inc:3133
 #, php-format
 msgid "%sPoolMin >= %sPoolMax!"
 msgstr ""
 
-#: include/functions.inc:3168
+#: include/functions.inc:3173
 msgid "sambaUnixIdPool is not unique!"
 msgstr ""
 
-#: include/functions.inc:3180 include/functions.inc:3184
+#: include/functions.inc:3185 include/functions.inc:3189
 msgid "no ID available!"
 msgstr ""
 
-#: include/functions.inc:3200
+#: include/functions.inc:3205
 msgid "maximum tries exceeded!"
 msgstr ""
 
-#: include/functions.inc:3262
+#: include/functions.inc:3267
 msgid "Cannot allocate a free ID!"
 msgstr ""
 
-#: include/functions.inc:3298
+#: include/functions.inc:3303
 #, php-format
 msgid "Cannot locate file '%s' - please run '%s' to fix this"
 msgstr ""
@@ -3267,59 +3288,59 @@ msgstr ""
 msgid "Specified objectType is empty or invalid!"
 msgstr ""
 
-#: include/php_setup.inc:36
-msgid "PHP error"
-msgstr ""
-
-#: include/php_setup.inc:43
-msgid "class"
-msgstr ""
-
-#: include/php_setup.inc:49
-msgid "function"
-msgstr ""
-
-#: include/php_setup.inc:54
-msgid "static"
-msgstr ""
-
-#: include/php_setup.inc:58
-msgid "method"
-msgstr ""
-
-#: include/php_setup.inc:101 ihtml/themes/default/msg_dialog.tpl.c:11
-msgid "Trace"
-msgstr ""
-
-#: include/php_setup.inc:102
+#: include/php_setup.inc:45 include/php_setup.inc:132
 msgid "File"
 msgstr ""
 
-#: include/php_setup.inc:102
+#: include/php_setup.inc:47 include/php_setup.inc:132
 msgid "Line"
 msgstr ""
 
-#: include/php_setup.inc:102
+#: include/php_setup.inc:53
+msgid "PHP error"
+msgstr ""
+
+#: include/php_setup.inc:62
+msgid "class"
+msgstr ""
+
+#: include/php_setup.inc:70
+msgid "function"
+msgstr ""
+
+#: include/php_setup.inc:76
+msgid "static"
+msgstr ""
+
+#: include/php_setup.inc:80
+msgid "method"
+msgstr ""
+
+#: include/php_setup.inc:131 ihtml/themes/default/msg_dialog.tpl.c:11
+msgid "Trace"
+msgstr ""
+
+#: include/php_setup.inc:132
 msgid "Type"
 msgstr ""
 
-#: include/php_setup.inc:103
+#: include/php_setup.inc:133
 msgid "Arguments"
 msgstr ""
 
-#: include/php_setup.inc:201
+#: include/php_setup.inc:231
 msgid "Generating this page caused the PHP interpreter to raise some errors!"
 msgstr ""
 
-#: include/php_setup.inc:206
+#: include/php_setup.inc:236
 msgid "Send bug report to the FusionDirectory Team"
 msgstr ""
 
-#: include/php_setup.inc:207
+#: include/php_setup.inc:237
 msgid "Send bugreport"
 msgstr ""
 
-#: include/php_setup.inc:212
+#: include/php_setup.inc:242
 msgid "Toggle information"
 msgstr ""
 
@@ -3395,13 +3416,13 @@ msgstr ""
 msgid "XML error"
 msgstr ""
 
-#: include/class_plugin.inc:538
+#: include/class_plugin.inc:543
 msgid ""
 "The object has changed since opened in FusionDirectory. All changes that may"
 " be done by others will get lost if you save this entry!"
 msgstr ""
 
-#: include/class_plugin.inc:1301
+#: include/class_plugin.inc:1306
 #, php-format
 msgid "Tab \"%s\""
 msgstr ""
@@ -3457,6 +3478,16 @@ msgstr ""
 msgid "The entry %s is not existing"
 msgstr ""
 
+#: include/simpleplugin/class_simplePlugin.inc:983
+#, php-format
+msgid "You don't have sufficient rights to edit field \"%s\""
+msgstr ""
+
+#: include/simpleplugin/class_simplePlugin.inc:986
+#, php-format
+msgid "Unknown field \"%s\""
+msgstr ""
+
 #: include/simpleplugin/simple-select-list.xml:11
 msgid "Please select the desired entries"
 msgstr ""
@@ -3492,8 +3523,8 @@ msgid "Group of user"
 msgstr ""
 
 #: include/simpleplugin/class_dialogAttributes.inc:624
-#: include/simpleplugin/class_attribute.inc:1091
-#: include/simpleplugin/class_attribute.inc:1125
+#: include/simpleplugin/class_attribute.inc:1098
+#: include/simpleplugin/class_attribute.inc:1132
 msgid "None"
 msgstr ""
 
@@ -3538,100 +3569,100 @@ msgid "days"
 msgstr ""
 
 #: include/simpleplugin/class_attribute.inc:544
-#: include/simpleplugin/class_attribute.inc:2177
+#: include/simpleplugin/class_attribute.inc:2186
 #, php-format
 msgid "%s (required)"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1151
+#: include/simpleplugin/class_attribute.inc:1158
 #, php-format
 msgid "The value \"%s\" for field \"%s\" is not in the list of possible choices"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1278
+#: include/simpleplugin/class_attribute.inc:1285
 #, php-format
 msgid "An integer between %d and %d"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1280
+#: include/simpleplugin/class_attribute.inc:1287
 #, php-format
 msgid "An integer larger than %d"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1282
+#: include/simpleplugin/class_attribute.inc:1289
 #, php-format
 msgid "An integer smaller than %d"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1384
+#: include/simpleplugin/class_attribute.inc:1391
 #, php-format
 msgid "A float between %f and %f"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1386
+#: include/simpleplugin/class_attribute.inc:1393
 #, php-format
 msgid "A float larger than %f"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1388
+#: include/simpleplugin/class_attribute.inc:1395
 #, php-format
 msgid "A float smaller than %f"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1501
+#: include/simpleplugin/class_attribute.inc:1508
 msgid "Error, incorrect date: "
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1541
-#: include/simpleplugin/class_attribute.inc:1544
-#: include/simpleplugin/class_attribute.inc:1547
+#: include/simpleplugin/class_attribute.inc:1548
+#: include/simpleplugin/class_attribute.inc:1551
+#: include/simpleplugin/class_attribute.inc:1554
 #, php-format
 msgid "Cannot read uploaded file: %s"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1541
+#: include/simpleplugin/class_attribute.inc:1548
 msgid "file is empty"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1544
+#: include/simpleplugin/class_attribute.inc:1551
 msgid "file not found"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1547
+#: include/simpleplugin/class_attribute.inc:1554
 msgid "file not readable"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1580
+#: include/simpleplugin/class_attribute.inc:1587
 #, php-format
 msgid "%s (%d bytes)"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1627
-#: include/simpleplugin/class_attribute.inc:1805
+#: include/simpleplugin/class_attribute.inc:1634
+#: include/simpleplugin/class_attribute.inc:1814
 msgid "Upload"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1632
-#: include/simpleplugin/class_attribute.inc:1633
+#: include/simpleplugin/class_attribute.inc:1639
+#: include/simpleplugin/class_attribute.inc:1640
 msgid "Download"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1787
+#: include/simpleplugin/class_attribute.inc:1795
 msgid ""
-"Cannot save user picture, FusionDirectory requires the package "
-"'php5-imagick' to be installed!"
+"Cannot save user picture, FusionDirectory requires the PHP module "
+"\"imagick\" to be installed!"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1838
+#: include/simpleplugin/class_attribute.inc:1847
 #: setup/class_setupStep_Ldap.inc:50 ihtml/themes/default/simple-list.tpl.c:2
 msgid "Base"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1841
+#: include/simpleplugin/class_attribute.inc:1850
 msgid "Object base"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:2780
+#: include/simpleplugin/class_attribute.inc:2800
 #, php-format
 msgid "Invalid value for %s"
 msgstr ""
@@ -3647,12 +3678,12 @@ msgid ""
 "configuration file."
 msgstr ""
 
-#: include/simpleplugin/class_simpleTabs.inc:320
+#: include/simpleplugin/class_simpleTabs.inc:319
 #, php-format
 msgid "Delete process has been canceled by plugin '%s': %s"
 msgstr ""
 
-#: include/simpleplugin/class_simpleTabs.inc:400
+#: include/simpleplugin/class_simpleTabs.inc:399
 #, php-format
 msgid "Move from \"%s\" to \"%s\" failed"
 msgstr ""
@@ -3829,62 +3860,62 @@ msgid ""
 "inform your administrator!"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:213
+#: html/class_passwordRecovery.inc:109
 #, php-format
 msgid "FusionDirectory configuration %s/%s is not readable. Aborted."
 msgstr ""
 
-#: html/class_passwordRecovery.inc:258 html/setup.php:59
+#: html/class_passwordRecovery.inc:132 html/setup.php:59
 #, php-format
 msgid "Directory '%s' specified as compile directory is not accessible!"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:380
+#: html/class_passwordRecovery.inc:170
 msgid "Session will not be encrypted."
 msgstr ""
 
-#: html/class_passwordRecovery.inc:382
+#: html/class_passwordRecovery.inc:172
 msgid "Enter SSL session"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:432
+#: html/class_passwordRecovery.inc:444
 #, php-format
 msgid "Did not find an account with login \"%s\""
 msgstr ""
 
-#: html/class_passwordRecovery.inc:435
+#: html/class_passwordRecovery.inc:447
 #, php-format
 msgid "Found multiple accounts with login \"%s\""
 msgstr ""
 
-#: html/class_passwordRecovery.inc:449 ihtml/themes/default/recovery.tpl.c:68
+#: html/class_passwordRecovery.inc:461 ihtml/themes/default/recovery.tpl.c:68
 msgid "Email address"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:472
+#: html/class_passwordRecovery.inc:484
 #, php-format
 msgid "There is no account using email \"%s\""
 msgstr ""
 
-#: html/class_passwordRecovery.inc:475
+#: html/class_passwordRecovery.inc:487
 #, php-format
 msgid "There are several accounts using email \"%s\""
 msgstr ""
 
-#: html/class_passwordRecovery.inc:483
+#: html/class_passwordRecovery.inc:495
 #, php-format
 msgid "The user using email \"%s\" is locked. Please contact your administrator."
 msgstr ""
 
-#: html/class_passwordRecovery.inc:531
+#: html/class_passwordRecovery.inc:543
 msgid "Contact your administrator, there was a problem with mail server"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:542
+#: html/class_passwordRecovery.inc:554
 msgid "This token is invalid"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:602
+#: html/class_passwordRecovery.inc:614
 msgid "There was a problem with mail server, confirmation email not sent"
 msgstr ""
 
@@ -3893,7 +3924,7 @@ msgid "Smarty"
 msgstr ""
 
 #: setup/class_setupStep_Ldap.inc:33
-msgid "LDAP connexion"
+msgid "LDAP connection"
 msgstr ""
 
 #: setup/class_setupStep_Ldap.inc:36
@@ -4384,102 +4415,102 @@ msgstr ""
 msgid "FusionDirectory requires this extension to handle images."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:145
+#: setup/class_setupStep_Checks.inc:137
 msgid "compression module"
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:146
+#: setup/class_setupStep_Checks.inc:138
 msgid "FusionDirectory requires this extension to handle snapshots."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:156
+#: setup/class_setupStep_Checks.inc:148
 msgid ""
 "register_globals is a PHP mechanism to register all global variables to be "
 "accessible from scripts without changing the scope. This may be a security "
 "risk."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:157
+#: setup/class_setupStep_Checks.inc:149
 msgid "Search for 'register_globals' in your php.ini and switch it to 'Off'."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:164
+#: setup/class_setupStep_Checks.inc:156
 msgid "PHP uses this value for the garbage collector to delete old sessions."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:165
+#: setup/class_setupStep_Checks.inc:157
 msgid ""
 "Setting this value to one day will prevent loosing session and cookies "
 "before they really timeout."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:166
+#: setup/class_setupStep_Checks.inc:158
 msgid ""
 "Search for 'session.gc_maxlifetime' in your php.ini and set it to 86400 or "
 "higher."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:173 setup/class_setupStep_Checks.inc:189
-#: setup/class_setupStep_Checks.inc:205 setup/class_setupStep_Checks.inc:213
+#: setup/class_setupStep_Checks.inc:165 setup/class_setupStep_Checks.inc:181
+#: setup/class_setupStep_Checks.inc:197 setup/class_setupStep_Checks.inc:205
 msgid "Off"
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:174
+#: setup/class_setupStep_Checks.inc:166
 msgid ""
 "In Order to use FusionDirectory without any trouble, the session.auto_start "
 "option in your php.ini should be set to 'Off'."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:175
+#: setup/class_setupStep_Checks.inc:167
 msgid "Search for 'session.auto_start' in your php.ini and set it to 'Off'."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:182
+#: setup/class_setupStep_Checks.inc:174
 msgid ""
 "FusionDirectory needs at least 128MB of memory. Setting it below this limit "
 "may cause errors that are not reproducable! Increase it for larger setups."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:183
+#: setup/class_setupStep_Checks.inc:175
 msgid ""
 "Search for 'memory_limit' in your php.ini and set it to '128M' or higher."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:190
+#: setup/class_setupStep_Checks.inc:182
 msgid ""
 "This option influences the PHP output handling. Turn this Option off, to "
 "increase performance."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:191
+#: setup/class_setupStep_Checks.inc:183
 msgid "Search for 'implicit_flush' in your php.ini and set it to 'Off'."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:198
+#: setup/class_setupStep_Checks.inc:190
 msgid "The Execution time should be at least 30 seconds."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:199
+#: setup/class_setupStep_Checks.inc:191
 msgid ""
 "Search for 'max_execution_time' in your php.ini and set it to '30' or "
 "higher."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:206
+#: setup/class_setupStep_Checks.inc:198
 msgid ""
 "Increase the server security by setting expose_php to 'off'. PHP won't send "
 "any information about the server you are running in this case."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:207
+#: setup/class_setupStep_Checks.inc:199
 msgid "Search for 'expose_php' in your php.ini and set if to 'Off'."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:214
+#: setup/class_setupStep_Checks.inc:206
 msgid "Increase your server performance by setting magic_quotes_gpc to 'off'."
 msgstr ""
 
-#: setup/class_setupStep_Checks.inc:215
+#: setup/class_setupStep_Checks.inc:207
 msgid ""
 "Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to "
 "'Off'."
