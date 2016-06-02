@@ -23,7 +23,7 @@
 require_once ("../include/php_setup.inc");
 require_once ("functions.inc");
 require_once ("variables.inc");
-require_once ("class_log.inc");
+require_once ("class_logging.inc");
 header("Content-type: text/html; charset=UTF-8");
 
 /* Display the login page and exit() */
