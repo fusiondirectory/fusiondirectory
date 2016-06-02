@@ -39,7 +39,7 @@ class logging {
   /*!
    * \brief logging method
    *
-   * \param $action         One of these values (modify|create|remove|snapshot|copy)
+   * \param $action         One of these values (modify|create|remove|snapshot|copy|view|security|debug)
    *
    * \param $objecttype     represents the current edited objecttype, like user/user
    *
@@ -63,7 +63,7 @@ class logging {
       'action'      => $action,
       'objecttype'  => $objecttype,
       'object'      => $object,
-      'changes'     => implode(',', $changes_array),
+      'changes'     => $changes_array,
       'result'      => $result
     );
     if (isset($ui->dn) && !empty($ui->dn)) {
@@ -82,6 +82,9 @@ class logging {
     } else {
       if (is_object($config) && preg_match('/true/i', $config->get_cfg_value('logging', ''))) {
         static::log_into_syslog($entry);
+        if (in_array($action, $config->get_cfg_value('auditActions', array()))) {
+          static::log_into_ldap($entry);
+        }
       }
     }
   }
@@ -111,15 +114,39 @@ class logging {
    *
    * \param Array $entry Entry to be loged
    */
-  static function protected log_into_syslog($entry)
+  static protected function log_into_syslog($entry)
   {
     $str = '';
     if (empty($entry['object']) && empty($entry['changes'])) {
       $str = '('.$entry['action'].') '.$entry['objecttype'].': '.$entry['result'];
     } else {
-      $str = '('.$entry['action'].') '.$entry['object'].' of type '.$entry['objecttype'].' '.$entry['changes'].': '.$entry['result'];
+      $str = '('.$entry['action'].') '.$entry['object'].' of type '.$entry['objecttype'].' '.implode(',', $entry['changes']).': '.$entry['result'];
     }
     fusiondirectory_log($str);
+  }
+
+  /*
+   * \brief This function is used to into the ldap for audit plugin
+   *
+   * \param Array $entry Entry to be loged
+   */
+  static protected function log_into_ldap($entry)
+  {
+    $tabObject = objects::create('auditAction');
+    $baseObject = $tabObject->getBaseObject();
+    $baseObject->fdAuditDateTime    = $entry['timestamp'];
+    $baseObject->fdAuditAction      = $entry['action'];
+    $baseObject->fdAuditAuthorDN    = $entry['user'];
+    $baseObject->fdAuditObjectType  = $entry['objecttype'];
+    $baseObject->fdAuditObject      = $entry['object'];
+    $baseObject->fdAuditAttributes  = $entry['changes'];
+    $baseObject->fdAuditResult      = $entry['result'];
+    $message = $tabObject->check();
+    if (count($message) == 0) {
+      $tabObject->save();
+    } else {
+      msg_dialog::displayChecks($message);
+    }
   }
 }
 ?>
