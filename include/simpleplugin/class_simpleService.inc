@@ -54,7 +54,7 @@ class simpleService extends simplePlugin {
   {
     if ($this->is_account && !$this->view_logged) {
       $this->view_logged = TRUE;
-      new log("view", "server/".get_class($this), $this->dn);
+      logging::log('view', 'server/'.get_class($this), $this->dn);
     }
 
     $str = parent::execute();

@@ -33,9 +33,11 @@
  * \version 2.6
  * \date    11.04.2007
  */
-class log {
+class logging {
+  static $validActions = array('modify','create','remove','copy','snapshot','view','security','debug');
+
   /*!
-   * \brief logging constructor
+   * \brief logging method
    *
    * \param $action         One of these values (modify|create|remove|snapshot|copy)
    *
@@ -46,54 +48,40 @@ class log {
    * \param $changes_array  An array containing names of all touched attributes
    *
    * \param $result         A status message, containing errors or success messages
-   *
-   * \sa log()
    */
-  function __construct($action, $objecttype, $object, $changes_array = array(), $result = "")
+  static function log ($action, $objecttype, $object, $changes_array = array(), $result = '')
   {
+    global $config, $ui;
     if (!is_array($changes_array)) {
-      trigger_error("log(string,string,string,array(),bool). Forth parameter must be an array.");
+      trigger_error('log(string,string,string,array(),bool). Forth parameter must be an array.');
       $changes_array = array();
     }
 
-    $entry = array();
-    if (!session::global_is_set('config')) {
-      $entry['user'] = "unkown";
-    } else {
-      $ui             = get_userinfo();
-      $entry['user']  = @$ui->dn;
-    }
-
-    /* Create string out of changes */
-    $changes  = "";
-    foreach ($changes_array as $str) {
-      $changes .= $str.",";
-    }
-    $changes = preg_replace("/,$/", "", $changes);
-
     /* Create data object */
-    $entry['timestamp']   = time();
-    $entry['action']      = $action;
-    $entry['objecttype']  = $objecttype;
-    $entry['object']      = $object;
-    $entry['changes']     = $changes;
-    $entry['result']      = $result;
-
-    global $config;
-    if (!isset($config) && empty($entry['user'])) {
-      $entry['user']  = "unknown";
+    $entry = array(
+      'timestamp'   => time(),
+      'action'      => $action,
+      'objecttype'  => $objecttype,
+      'object'      => $object,
+      'changes'     => implode(',', $changes_array),
+      'result'      => $result
+    );
+    if (isset($ui->dn) && !empty($ui->dn)) {
+      $entry['user']  = $ui->dn;
+    } else {
+      $entry['user'] = 'unknown';
     }
 
     /* Check if all given values are valid */
-    $msgs = @log::check($entry);
+    $msgs = static::check($entry);
     if (count($msgs)) {
       foreach ($msgs as $msg) {
-        trigger_error("Logging failed, reason was: ".$msg);
-        msg_dialog::display(_("Internal error"), sprintf(_("Logging failed: %s"), $msg), ERROR_DIALOG);
+        trigger_error('Logging failed, reason was: '.$msg);
+        msg_dialog::display(_('Internal error'), sprintf(_('Logging failed: %s'), $msg), ERROR_DIALOG);
       }
     } else {
-      if (is_object($config) && preg_match("/true/i", $config->get_cfg_value("logging", ""))) {
-        $this->log_into_syslog($entry);
+      if (is_object($config) && preg_match('/true/i', $config->get_cfg_value('logging', ''))) {
+        static::log_into_syslog($entry);
       }
     }
   }
@@ -103,34 +91,33 @@ class log {
    *
    * \param Array $entry to be checked
    */
-  function check($entry = array())
+  static protected function check($entry = array())
   {
     $msgs = array();
 
-    if (!isset($entry['action']) || !in_array($entry['action'], array("modify","create","remove","copy","snapshot","view","security","debug"))) {
-      $msgs[] = sprintf(_("Invalid option '%s' specified!"), $entry['action']);
+    if (!isset($entry['action']) || !in_array($entry['action'], static::$validActions)) {
+      $msgs[] = sprintf(_('Invalid option "%s" specified!'), $entry['action']);
     }
 
     if (!isset($entry['objecttype']) || empty($entry['objecttype'])) {
-      $msgs[] = _("Specified objectType is empty or invalid!");
+      $msgs[] = _('Specified objectType is empty or invalid!');
     }
 
     return $msgs;
   }
-
 
   /*
    * \brief This function is used to into the systems syslog
    *
    * \param Array $entry Entry to be loged
    */
-  function log_into_syslog($entry)
+  static function protected log_into_syslog($entry)
   {
-    $str = "";
+    $str = '';
     if (empty($entry['object']) && empty($entry['changes'])) {
-      $str = "(".$entry['action'].") ".$entry['objecttype'].": ".$entry['result'];
+      $str = '('.$entry['action'].') '.$entry['objecttype'].': '.$entry['result'];
     } else {
-      $str = "(".$entry['action'].") ".$entry['object']." of type ".$entry['objecttype']." ".$entry['changes'].": ".$entry['result'];
+      $str = '('.$entry['action'].') '.$entry['object'].' of type '.$entry['objecttype'].' '.$entry['changes'].': '.$entry['result'];
     }
     fusiondirectory_log($str);
   }

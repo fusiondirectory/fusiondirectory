@@ -293,9 +293,9 @@ class Index {
     $ui = ldap_login_user(self::$username, self::$password);
     if ($ui === NULL || !$ui) {
       if (isset($_SERVER['REMOTE_ADDR'])) {
-        new log('security', 'login', '', array(), 'Authentication failed for user "'.self::$username.'" [from '.$_SERVER['REMOTE_ADDR'].']');
+        logging::log('security', 'login', '', array(), 'Authentication failed for user "'.self::$username.'" [from '.$_SERVER['REMOTE_ADDR'].']');
       } else {
-        new log('security', 'login', '', array(), 'Authentication failed for user "'.self::$username.'"');
+        logging::log('security', 'login', '', array(), 'Authentication failed for user "'.self::$username.'"');
       }
       $message = _('Please check the username/password combination.');
       $smarty->assign ('nextfield', 'password');
@@ -329,7 +329,7 @@ class Index {
       $expired = $ui->expired_status();
 
       if ($expired == POSIX_ACCOUNT_EXPIRED) {
-        new log('security', 'login', '', array(), 'Account for user "'.self::$username.'" has expired');
+        logging::log('security', 'login', '', array(), 'Account for user "'.self::$username.'" has expired');
         $message = _('Account locked. Please contact your system administrator!');
         $smarty->assign ('nextfield', 'password');
         return FALSE;
@@ -343,7 +343,7 @@ class Index {
   {
     global $config;
     /* Not account expired or password forced change go to main page */
-    new log('security', 'login', '', array(), 'User "'.self::$username.'" logged in successfully.');
+    logging::log('security', 'login', '', array(), 'User "'.self::$username.'" logged in successfully.');
     session::global_set('connected', 1);
     $config->checkLdapConfig(); // check that newly installed plugins have their configuration in the LDAP
     session::global_set('DEBUGLEVEL', $config->get_cfg_value('DEBUGLEVEL'));

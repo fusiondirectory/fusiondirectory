@@ -717,8 +717,8 @@ class simpleManagement extends management
         // Remove the lock for the current object.
         del_lock($this->dn);
       } else {
-        msg_dialog::display(_("Permission error"), msgPool::permDelete(), ERROR_DIALOG);
-        new log("security", "simpleManagement/".get_class($this), $dn, array(), "Tried to trick deletion.");
+        msg_dialog::display(_('Permission error'), msgPool::permDelete(), ERROR_DIALOG);
+        logging::log('security', 'simpleManagement/'.get_class($this), $dn, array(), 'Tried to trick deletion.');
       }
     }
 

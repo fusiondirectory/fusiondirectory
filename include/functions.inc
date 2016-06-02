@@ -926,7 +926,7 @@ function get_sub_list($filter, $category, $sub_deps, $base = '', $attributes = a
     /* Log this fall back, it may be an unpredicted behaviour.
      */
     if (!count($sub_bases) && !count($departments)) {
-      new log('debug', 'all', __FILE__, $attributes,
+      logging::log('debug', 'all', __FILE__, $attributes,
           sprintf("get_sub_list(): Falling back to get_list(), due to empty sub_bases parameter.".
             " This may slow down FusionDirectory. Search was: '%s'", $filter));
     }
@@ -2990,7 +2990,7 @@ function update_accessTo($from, $to)
     if (!$ldap->success()) {
       msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $dn, LDAP_MOD, "update_accessTo($from,$to)"), LDAP_ERROR);
     }
-    new log("modify", "update_accessTo($from,$to)", $dn, array_keys($new_attrs), $ldap->get_error());
+    logging::log('modify', "update_accessTo($from,$to)", $dn, array_keys($new_attrs), $ldap->get_error());
   }
 }
 
