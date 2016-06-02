@@ -21,8 +21,8 @@
 */
 
 /*!
- * \file class_log.inc
- * Source code for the class log
+ * \file class_logging.inc
+ * Source code for the class logging
  */
 
 /*!
