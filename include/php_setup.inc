@@ -187,11 +187,11 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
   }
 
   /* Error messages are hidden in FusionDirectory, so we only send them to the logging class and abort here */
-  if (isset($config->data) && $config->get_cfg_value("displayerrors") != "TRUE") {
+  if (isset($config->data) && $config->get_cfg_value('displayerrors') != 'TRUE') {
 
     /* Write to syslog */
-    if (class_exists("log") && !preg_match("/No such object/", $errstr)) {
-      new log("view", "error", "", array(), "PHP error: $errstr ($errfile, line $errline)");
+    if (class_exists('log') && !preg_match('/No such object/', $errstr)) {
+      logging::log('view', 'error', '', array(), "PHP error: $errstr ($errfile, line $errline)");
     }
 
     set_error_handler('gosaRaiseError', E_WARNING | E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT);
@@ -199,8 +199,8 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
   }
 
   /* Send all errors to logging class, except "Ldap : No such object" messages*/
-  if (class_exists("log") && !preg_match("/No such object/", $errstr)) {
-    new log("debug", "all", $errfile, array(), "Type:".$errno.", Message:".$errstr.", File:".$errfile.", Line: ".$errline);
+  if (class_exists('log') && !preg_match('/No such object/', $errstr)) {
+    logging::log('debug', 'all', $errfile, array(), 'Type:'.$errno.', Message:'.$errstr.', File:'.$errfile.', Line: '.$errline);
   }
 
   /* Create header as needed */

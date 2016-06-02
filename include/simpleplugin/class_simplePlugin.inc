@@ -592,10 +592,10 @@ class simplePlugin extends plugin
 
   protected function post_remove ()
   {
-    new log("remove", "plugin/".get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
+    logging::log('remove', 'plugin/'.get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
 
     /* Optionally execute a command after we're done */
-    $this->handle_post_events("remove");
+    $this->handle_post_events('remove');
   }
 
   /*! \brief This function handle $_POST informations
@@ -714,10 +714,10 @@ class simplePlugin extends plugin
     /* Propagate and log the event */
     if ($this->initially_was_account) {
       $this->handle_post_events('modify');
-      new log('modify', 'plugin/'.get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
+      logging::log('modify', 'plugin/'.get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
     } else {
       $this->handle_post_events('add');
-      new log('create', 'plugin/'.get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
+      logging::log('create', 'plugin/'.get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
     }
   }
 

@@ -907,7 +907,7 @@ class plugin
     $ldap->cd($config->current['BASE']);
     $ldap->create_missing_trees(preg_replace("/^[^,]+,/", '', $dst_dn));
     if (!$ldap->rename_dn($src_dn, $dst_dn)) {
-      new log('debug', 'Ldap Protocol v3 implementation error, ldap_rename failed.',
+      logging::log('debug', 'Ldap Protocol v3 implementation error, ldap_rename failed.',
               "FROM: $src_dn  -- TO: $dst_dn", array(), $ldap->get_error());
       @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, "Rename failed FROM: $src_dn  -- TO:  $dst_dn",
           'Ldap Protocol v3 implementation error. Error:'.$ldap->get_error());
@@ -1491,7 +1491,7 @@ class plugin
     if ($ui->dn == $old_dn) {
       $ui->dn = $new_dn;
       session::global_set('ui', $ui);
-      new log("view", "acl/".get_class($this), $this->dn, array(), "Updated current object dn from '".$old_dn."' to '".$new_dn."'");
+      logging::log('view', 'acl/'.get_class($this), $this->dn, array(), 'Updated current object dn from "'.$old_dn.'" to "'.$new_dn.'"');
     }
   }
 
