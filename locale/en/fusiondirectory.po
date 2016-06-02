@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2016-06-01 19:22+0200\n"
+"POT-Creation-Date: 2016-06-02 19:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FusionDirectory project <contact@fusiondirectory.org>\n"
 "Language-Team: English\n"
@@ -2376,7 +2376,7 @@ msgstr ""
 #: include/functions.inc:2280 include/functions.inc:2322
 #: include/functions.inc:2351 include/class_session.inc:50
 #: include/class_session.inc:88 include/class_session.inc:127
-#: include/class_log.inc:92 include/class_acl.inc:118
+#: include/class_acl.inc:118 include/class_logging.inc:80
 msgid "Internal error"
 msgstr ""
 
@@ -3271,20 +3271,6 @@ msgstr ""
 msgid "All objects in this category"
 msgstr ""
 
-#: include/class_log.inc:92
-#, php-format
-msgid "Logging failed: %s"
-msgstr ""
-
-#: include/class_log.inc:111
-#, php-format
-msgid "Invalid option '%s' specified!"
-msgstr ""
-
-#: include/class_log.inc:115
-msgid "Specified objectType is empty or invalid!"
-msgstr ""
-
 #: include/php_setup.inc:45 include/php_setup.inc:132
 msgid "File"
 msgstr ""
@@ -3730,6 +3716,20 @@ msgstr ""
 
 #: include/class_SnapshotHandler.inc:422
 msgid "There was a problem uncompressing snapshot data"
+msgstr ""
+
+#: include/class_logging.inc:80
+#, php-format
+msgid "Logging failed: %s"
+msgstr ""
+
+#: include/class_logging.inc:102
+#, php-format
+msgid "Invalid option \"%s\" specified!"
+msgstr ""
+
+#: include/class_logging.inc:106
+msgid "Specified objectType is empty or invalid!"
 msgstr ""
 
 #: html/index.php:56

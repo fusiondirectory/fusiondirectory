@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-110\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2016-06-01 19:22+0200\n"
-"PO-Revision-Date: 2016-06-01 18:13+0000\n"
-"Last-Translator: Benoit Mortier <benoit.mortier@opensides.be>\n"
+"POT-Creation-Date: 2016-06-02 19:36+0200\n"
+"PO-Revision-Date: 2016-06-02 17:33+0000\n"
+"Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: French (http://www.transifex.com/fusiondirectory/FusionDirectory-110/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2378,7 +2378,7 @@ msgstr "La performance de votre annuaire est faible : la dernière requête a 
 #: include/functions.inc:2280 include/functions.inc:2322
 #: include/functions.inc:2351 include/class_session.inc:50
 #: include/class_session.inc:88 include/class_session.inc:127
-#: include/class_log.inc:92 include/class_acl.inc:118
+#: include/class_acl.inc:118 include/class_logging.inc:80
 msgid "Internal error"
 msgstr "Erreur interne"
 
@@ -3277,20 +3277,6 @@ msgstr "Le canal demandé n'existe pas ! Veuillez contacter votre administrate
 msgid "All objects in this category"
 msgstr "Tous les objets dans cette catégorie"
 
-#: include/class_log.inc:92
-#, php-format
-msgid "Logging failed: %s"
-msgstr "Échec de la journalisation : %s"
-
-#: include/class_log.inc:111
-#, php-format
-msgid "Invalid option '%s' specified!"
-msgstr "Option %s invalide !"
-
-#: include/class_log.inc:115
-msgid "Specified objectType is empty or invalid!"
-msgstr "Le type d'objet spécifié est vide ou invalide !"
-
 #: include/php_setup.inc:45 include/php_setup.inc:132
 msgid "File"
 msgstr "Fichier"
@@ -3735,6 +3721,20 @@ msgstr "Vous devez remplir saslRealm ou saslExop dans l’écran de configuratio
 #: include/class_SnapshotHandler.inc:422
 msgid "There was a problem uncompressing snapshot data"
 msgstr "Il y a eu un problème lors de la décompression de l’instantané"
+
+#: include/class_logging.inc:80
+#, php-format
+msgid "Logging failed: %s"
+msgstr "Échec de la journalisation : %s"
+
+#: include/class_logging.inc:102
+#, php-format
+msgid "Invalid option \"%s\" specified!"
+msgstr ""
+
+#: include/class_logging.inc:106
+msgid "Specified objectType is empty or invalid!"
+msgstr "Le type d'objet spécifié est vide ou invalide !"
 
 #: html/index.php:56
 msgid "Session is not encrypted!"

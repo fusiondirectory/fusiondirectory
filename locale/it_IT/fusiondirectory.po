@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-110\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2016-06-01 19:22+0200\n"
-"PO-Revision-Date: 2016-06-01 17:19+0000\n"
+"POT-Creation-Date: 2016-06-02 19:36+0200\n"
+"PO-Revision-Date: 2016-06-02 17:33+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/fusiondirectory/FusionDirectory-110/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -2378,7 +2378,7 @@ msgstr "Il rendimento del tuo annuario LDAP è scarso: l'ultima richiesta è dur
 #: include/functions.inc:2280 include/functions.inc:2322
 #: include/functions.inc:2351 include/class_session.inc:50
 #: include/class_session.inc:88 include/class_session.inc:127
-#: include/class_log.inc:92 include/class_acl.inc:118
+#: include/class_acl.inc:118 include/class_logging.inc:80
 msgid "Internal error"
 msgstr "Errore interno"
 
@@ -3277,20 +3277,6 @@ msgstr "Il canale richiesto non esiste! Contatta l'amministratore del sistema."
 msgid "All objects in this category"
 msgstr "Tutti gli oggetti in questa categoria"
 
-#: include/class_log.inc:92
-#, php-format
-msgid "Logging failed: %s"
-msgstr "Registrazione nel giornale di sistema non riuscita : %s"
-
-#: include/class_log.inc:111
-#, php-format
-msgid "Invalid option '%s' specified!"
-msgstr "Opzione '%s' non valida !"
-
-#: include/class_log.inc:115
-msgid "Specified objectType is empty or invalid!"
-msgstr "Il tipo d'oggetto specificato è vuoto oppure non è valido !"
-
 #: include/php_setup.inc:45 include/php_setup.inc:132
 msgid "File"
 msgstr "File"
@@ -3735,6 +3721,20 @@ msgstr "é necessario compilare saslRealm o saslExop nello schermo di configuraz
 #: include/class_SnapshotHandler.inc:422
 msgid "There was a problem uncompressing snapshot data"
 msgstr "C'é stato un problema nella decompressione dei dati di snapshot"
+
+#: include/class_logging.inc:80
+#, php-format
+msgid "Logging failed: %s"
+msgstr "Registrazione nel giornale di sistema non riuscita : %s"
+
+#: include/class_logging.inc:102
+#, php-format
+msgid "Invalid option \"%s\" specified!"
+msgstr ""
+
+#: include/class_logging.inc:106
+msgid "Specified objectType is empty or invalid!"
+msgstr "Il tipo d'oggetto specificato è vuoto oppure non è valido !"
 
 #: html/index.php:56
 msgid "Session is not encrypted!"

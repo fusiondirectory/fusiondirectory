@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-110\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2016-06-01 19:22+0200\n"
-"PO-Revision-Date: 2016-06-01 17:19+0000\n"
+"POT-Creation-Date: 2016-06-02 19:36+0200\n"
+"PO-Revision-Date: 2016-06-02 17:33+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Spanish (Colombia) (http://www.transifex.com/fusiondirectory/FusionDirectory-110/language/es_CO/)\n"
 "MIME-Version: 1.0\n"
@@ -2376,7 +2376,7 @@ msgstr "LDAP tiene un desempeño lento: su última consulta tomó %.2fs!"
 #: include/functions.inc:2280 include/functions.inc:2322
 #: include/functions.inc:2351 include/class_session.inc:50
 #: include/class_session.inc:88 include/class_session.inc:127
-#: include/class_log.inc:92 include/class_acl.inc:118
+#: include/class_acl.inc:118 include/class_logging.inc:80
 msgid "Internal error"
 msgstr "Error Interno"
 
@@ -3275,20 +3275,6 @@ msgstr "El canal requerido no existe. Por favor contacte a su administrador."
 msgid "All objects in this category"
 msgstr "Todos los objetos en esta categoría"
 
-#: include/class_log.inc:92
-#, php-format
-msgid "Logging failed: %s"
-msgstr ""
-
-#: include/class_log.inc:111
-#, php-format
-msgid "Invalid option '%s' specified!"
-msgstr "¡La opción %s especificada es inválida!"
-
-#: include/class_log.inc:115
-msgid "Specified objectType is empty or invalid!"
-msgstr "¡El objectType especificado está vacío o es inválido!"
-
 #: include/php_setup.inc:45 include/php_setup.inc:132
 msgid "File"
 msgstr "Archivo"
@@ -3733,6 +3719,20 @@ msgstr "Usted debe completar saslRealm o saslExop en la pantalla de configuraci�
 #: include/class_SnapshotHandler.inc:422
 msgid "There was a problem uncompressing snapshot data"
 msgstr "Hubo un problema descomprimiendo la información del snapshot."
+
+#: include/class_logging.inc:80
+#, php-format
+msgid "Logging failed: %s"
+msgstr ""
+
+#: include/class_logging.inc:102
+#, php-format
+msgid "Invalid option \"%s\" specified!"
+msgstr ""
+
+#: include/class_logging.inc:106
+msgid "Specified objectType is empty or invalid!"
+msgstr "¡El objectType especificado está vacío o es inválido!"
 
 #: html/index.php:56
 msgid "Session is not encrypted!"

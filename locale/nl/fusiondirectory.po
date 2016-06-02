@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-110\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2016-06-01 19:22+0200\n"
-"PO-Revision-Date: 2016-06-01 17:19+0000\n"
+"POT-Creation-Date: 2016-06-02 19:36+0200\n"
+"PO-Revision-Date: 2016-06-02 17:33+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Dutch (http://www.transifex.com/fusiondirectory/FusionDirectory-110/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -2375,7 +2375,7 @@ msgstr "LDAP performantie is slecht: laatste query duurde ongeveer %.2fs!"
 #: include/functions.inc:2280 include/functions.inc:2322
 #: include/functions.inc:2351 include/class_session.inc:50
 #: include/class_session.inc:88 include/class_session.inc:127
-#: include/class_log.inc:92 include/class_acl.inc:118
+#: include/class_acl.inc:118 include/class_logging.inc:80
 msgid "Internal error"
 msgstr "Interne fout"
 
@@ -3274,20 +3274,6 @@ msgstr "Gevraagde kanaal bestaat niet! Gelieve je Systeembeheerder te contactere
 msgid "All objects in this category"
 msgstr "Alle objecten in deze categorie"
 
-#: include/class_log.inc:92
-#, php-format
-msgid "Logging failed: %s"
-msgstr "Logging faalde: %s"
-
-#: include/class_log.inc:111
-#, php-format
-msgid "Invalid option '%s' specified!"
-msgstr "Ongeldige optie '%s' gespecifieerd!"
-
-#: include/class_log.inc:115
-msgid "Specified objectType is empty or invalid!"
-msgstr "Gespecifieerd objectType is leeg of ongeldig!"
-
 #: include/php_setup.inc:45 include/php_setup.inc:132
 msgid "File"
 msgstr "Bestand"
@@ -3732,6 +3718,20 @@ msgstr ""
 #: include/class_SnapshotHandler.inc:422
 msgid "There was a problem uncompressing snapshot data"
 msgstr ""
+
+#: include/class_logging.inc:80
+#, php-format
+msgid "Logging failed: %s"
+msgstr "Logging faalde: %s"
+
+#: include/class_logging.inc:102
+#, php-format
+msgid "Invalid option \"%s\" specified!"
+msgstr ""
+
+#: include/class_logging.inc:106
+msgid "Specified objectType is empty or invalid!"
+msgstr "Gespecifieerd objectType is leeg of ongeldig!"
 
 #: html/index.php:56
 msgid "Session is not encrypted!"
