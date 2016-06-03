@@ -132,18 +132,20 @@ class logging {
    */
   static protected function log_into_ldap($entry)
   {
+    global $config;
     if ($entry['objecttype'] == 'plugin/auditEvent') {
       return; // Avoid infinite loop
     }
     $tabObject = objects::create('auditEvent');
     $baseObject = $tabObject->getBaseObject();
-    $baseObject->fdAuditDateTime    = $entry['timestamp'];
+    $baseObject->fdAuditDateTime    = new DateTime('@'.$entry['timestamp']);
     $baseObject->fdAuditAction      = $entry['action'];
     $baseObject->fdAuditAuthorDN    = $entry['user'];
     $baseObject->fdAuditObjectType  = $entry['objecttype'];
     $baseObject->fdAuditObject      = $entry['object'];
     $baseObject->fdAuditAttributes  = $entry['changes'];
     $baseObject->fdAuditResult      = $entry['result'];
+    $baseObject->base               = $config->current['BASE'];
     $message = $tabObject->check();
     if (count($message) == 0) {
       $tabObject->save();
