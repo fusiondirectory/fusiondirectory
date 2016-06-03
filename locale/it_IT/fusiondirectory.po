@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-110\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2016-06-02 19:36+0200\n"
-"PO-Revision-Date: 2016-06-02 17:33+0000\n"
+"POT-Creation-Date: 2016-06-03 13:06+0200\n"
+"PO-Revision-Date: 2016-06-03 11:03+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/fusiondirectory/FusionDirectory-110/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -281,8 +281,8 @@ msgstr "Crea"
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:192
 #: include/simpleplugin/class_dialogAttributes.inc:635
 #: include/simpleplugin/class_dialogAttributes.inc:636
-#: include/simpleplugin/class_attribute.inc:2706
-#: include/simpleplugin/class_attribute.inc:2707
+#: include/simpleplugin/class_attribute.inc:2729
+#: include/simpleplugin/class_attribute.inc:2730
 #: include/simpleplugin/simple-list.xml:67
 #: include/simpleplugin/simple-list.xml:112
 msgid "Edit"
@@ -682,8 +682,8 @@ msgid "Edit category ACL"
 msgstr "Modifica la categoria di ACL"
 
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:194
-#: include/class_msgPool.inc:517 include/simpleplugin/class_attribute.inc:2716
-#: include/simpleplugin/class_attribute.inc:2717
+#: include/class_msgPool.inc:517 include/simpleplugin/class_attribute.inc:2739
+#: include/simpleplugin/class_attribute.inc:2740
 #, php-format
 msgid "Delete"
 msgstr "Elimina"
@@ -1129,45 +1129,45 @@ msgstr "Impossibile trovare %s nell'annuario LDAP"
 msgid "You are not allowed to change your own password"
 msgstr "Non le é permesso cambiare la propria password"
 
-#: plugins/personal/generic/class_user.inc:619
+#: plugins/personal/generic/class_user.inc:620
 #, php-format
 msgid "You must wait %d seconds before changing your password again"
 msgstr "Devi attendere %d secondi prima di cambiare di nuovo la password"
 
-#: plugins/personal/generic/class_user.inc:633
+#: plugins/personal/generic/class_user.inc:634
 msgid "Password is in history of old passwords"
 msgstr "La password si trova nella cronologia delle vecchie password"
 
-#: plugins/personal/generic/class_user.inc:638
-#: plugins/personal/generic/class_user.inc:642
+#: plugins/personal/generic/class_user.inc:639
+#: plugins/personal/generic/class_user.inc:643
 msgid "Password is not being changed from existing value"
 msgstr "La password non è stata cambiata dal valore esistente"
 
-#: plugins/personal/generic/class_user.inc:649
+#: plugins/personal/generic/class_user.inc:650
 msgid "You need to specify your current password in order to proceed."
 msgstr "Devi specificare la tua 'Password attuale' per procedere."
 
-#: plugins/personal/generic/class_user.inc:651
+#: plugins/personal/generic/class_user.inc:652
 msgid ""
 "The passwords you've entered as \"New password\" and \"Repeated new "
 "password\" do not match."
 msgstr "Le password che hai inserito come \" Nuova password \" e \"Ripeti nuova password\" non corrispondono."
 
-#: plugins/personal/generic/class_user.inc:653
+#: plugins/personal/generic/class_user.inc:654
 #: ihtml/themes/default/recovery.tpl.c:26
 #: ihtml/themes/default/recovery.tpl.c:29
 msgid "New password"
 msgstr "Imposta la nuova password"
 
-#: plugins/personal/generic/class_user.inc:655
+#: plugins/personal/generic/class_user.inc:656
 msgid "The password used as new and current are too similar."
 msgstr "La password che hai definito come 'Nuova password' è troppo simile a quella attuale."
 
-#: plugins/personal/generic/class_user.inc:657
+#: plugins/personal/generic/class_user.inc:658
 msgid "The password used as new is to short."
 msgstr "La 'Nuova password' immessa è troppo corta."
 
-#: plugins/personal/generic/class_user.inc:659
+#: plugins/personal/generic/class_user.inc:660
 msgid "The password contains possibly problematic Unicode characters!"
 msgstr "La password contiene caratteri Unicode eventualmente problematici!"
 
@@ -2143,13 +2143,13 @@ msgstr "Sopra"
 msgid "Down"
 msgstr "Sotto"
 
-#: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2678
-#: include/simpleplugin/class_attribute.inc:2679
+#: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2701
+#: include/simpleplugin/class_attribute.inc:2702
 msgid "Sort up"
 msgstr "Ordina in modo crescente"
 
-#: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2691
-#: include/simpleplugin/class_attribute.inc:2692
+#: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2714
+#: include/simpleplugin/class_attribute.inc:2715
 msgid "Sort down"
 msgstr "Ordina in modo decrescente"
 
@@ -2166,14 +2166,14 @@ msgstr "Seleziona tutto"
 #: include/functions.inc:3185 include/functions.inc:3189
 #: include/functions.inc:3196 include/functions.inc:3205
 #: include/functions.inc:3267 include/class_msg_dialog.inc:128
-#: include/class_xml.inc:58 include/class_plugin.inc:1503
-#: include/class_CopyPasteHandler.inc:265
-#: include/simpleplugin/class_attribute.inc:1548
-#: include/simpleplugin/class_attribute.inc:1551
-#: include/simpleplugin/class_attribute.inc:1554
-#: include/simpleplugin/class_attribute.inc:1794
-#: include/simpleplugin/class_attribute.inc:1898
-#: include/simpleplugin/class_attribute.inc:1900
+#: include/class_xml.inc:58 include/class_plugin.inc:790
+#: include/class_plugin.inc:1513 include/class_CopyPasteHandler.inc:265
+#: include/simpleplugin/class_attribute.inc:1571
+#: include/simpleplugin/class_attribute.inc:1574
+#: include/simpleplugin/class_attribute.inc:1577
+#: include/simpleplugin/class_attribute.inc:1817
+#: include/simpleplugin/class_attribute.inc:1921
+#: include/simpleplugin/class_attribute.inc:1923
 #: include/simpleplugin/class_simpleTabs.inc:89
 #: include/simpleplugin/class_simpleTabs.inc:399
 #: include/password-methods/class_password-methods-sasl.inc:59
@@ -2321,7 +2321,7 @@ msgstr "Sembra che si stia tentando di decodificare qualcosa che non è codifica
 #: include/functions.inc:791 include/functions.inc:846
 #: include/functions.inc:2991 include/functions.inc:3165
 #: include/simpleplugin/class_simplePlugin.inc:558
-#: include/simpleplugin/class_attribute.inc:2941
+#: include/simpleplugin/class_attribute.inc:2964
 #: include/password-methods/class_password-methods.inc:194
 #: include/class_SnapshotHandler.inc:48 include/class_SnapshotHandler.inc:247
 #: include/class_SnapshotHandler.inc:280 include/class_SnapshotHandler.inc:296
@@ -3411,7 +3411,14 @@ msgid ""
 " be done by others will get lost if you save this entry!"
 msgstr "L'oggetto é cambiato dopo l'apertura in FusionDurectory. Tutte le modifiche che possono essere state fatte da altri andranno perse se si salva questa voce !"
 
-#: include/class_plugin.inc:1306
+#: include/class_plugin.inc:792
+#, php-format
+msgid ""
+"Recursive dependency in the template fields: \"%1$s\" cannot depend on "
+"\"%2$s\" as \"%2$s\" already depends on \"%1$s\""
+msgstr ""
+
+#: include/class_plugin.inc:1316
 #, php-format
 msgid "Tab \"%s\""
 msgstr "Tab \"%s\""
@@ -3558,7 +3565,7 @@ msgid "days"
 msgstr "giorni"
 
 #: include/simpleplugin/class_attribute.inc:544
-#: include/simpleplugin/class_attribute.inc:2186
+#: include/simpleplugin/class_attribute.inc:2209
 #, php-format
 msgid "%s (required)"
 msgstr "%s (necessario)"
@@ -3602,56 +3609,56 @@ msgstr "Un numero con la virgola più piccolo di %f"
 msgid "Error, incorrect date: "
 msgstr "Errore, la dta non è corretta: "
 
-#: include/simpleplugin/class_attribute.inc:1548
-#: include/simpleplugin/class_attribute.inc:1551
-#: include/simpleplugin/class_attribute.inc:1554
+#: include/simpleplugin/class_attribute.inc:1571
+#: include/simpleplugin/class_attribute.inc:1574
+#: include/simpleplugin/class_attribute.inc:1577
 #, php-format
 msgid "Cannot read uploaded file: %s"
 msgstr "Impossibile leggere il file importato : %s"
 
-#: include/simpleplugin/class_attribute.inc:1548
+#: include/simpleplugin/class_attribute.inc:1571
 msgid "file is empty"
 msgstr "il file è vuoto"
 
-#: include/simpleplugin/class_attribute.inc:1551
+#: include/simpleplugin/class_attribute.inc:1574
 msgid "file not found"
 msgstr "Il file non è stato trovato"
 
-#: include/simpleplugin/class_attribute.inc:1554
+#: include/simpleplugin/class_attribute.inc:1577
 msgid "file not readable"
 msgstr "Il file non puó essere letto"
 
-#: include/simpleplugin/class_attribute.inc:1587
+#: include/simpleplugin/class_attribute.inc:1610
 #, php-format
 msgid "%s (%d bytes)"
 msgstr "%s (%d bytes)"
 
-#: include/simpleplugin/class_attribute.inc:1634
-#: include/simpleplugin/class_attribute.inc:1814
+#: include/simpleplugin/class_attribute.inc:1657
+#: include/simpleplugin/class_attribute.inc:1837
 msgid "Upload"
 msgstr "Caricare"
 
-#: include/simpleplugin/class_attribute.inc:1639
-#: include/simpleplugin/class_attribute.inc:1640
+#: include/simpleplugin/class_attribute.inc:1662
+#: include/simpleplugin/class_attribute.inc:1663
 msgid "Download"
 msgstr "Scarica"
 
-#: include/simpleplugin/class_attribute.inc:1795
+#: include/simpleplugin/class_attribute.inc:1818
 msgid ""
 "Cannot save user picture, FusionDirectory requires the PHP module "
 "\"imagick\" to be installed!"
 msgstr "Impossibile salvare la foto dell'utente, Fusiondirectory necessita che il modulo PHP \"imagick\" sia installato "
 
-#: include/simpleplugin/class_attribute.inc:1847
+#: include/simpleplugin/class_attribute.inc:1870
 #: setup/class_setupStep_Ldap.inc:50 ihtml/themes/default/simple-list.tpl.c:2
 msgid "Base"
 msgstr "Base"
 
-#: include/simpleplugin/class_attribute.inc:1850
+#: include/simpleplugin/class_attribute.inc:1873
 msgid "Object base"
 msgstr "Base dell'oggetto"
 
-#: include/simpleplugin/class_attribute.inc:2800
+#: include/simpleplugin/class_attribute.inc:2823
 #, php-format
 msgid "Invalid value for %s"
 msgstr "Valore non valido per %s"
