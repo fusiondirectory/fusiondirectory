@@ -635,7 +635,7 @@ class plugin
 
     $array =
       array_map(
-        function ($a) use (&$cache, $depends, $forbidden)
+        function ($a) use (&$cache, $depends, $forbidden, $key)
         {
           if (in_array($a, $forbidden)) {
             msg_dialog::display(
