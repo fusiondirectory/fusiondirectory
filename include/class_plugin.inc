@@ -773,20 +773,30 @@ class plugin
     return $result;
   }
 
-  static function tpl_depends_of (&$cache, $depends, $key, $forbidden = NULL)
+  static function tpl_depends_of (&$cache, $depends, $key, $forbidden = array())
   {
     if (isset($cache[$key])) {
       return $cache[$key];
     }
-    if ($forbidden === NULL) {
-      $forbidden = $key;
-    } elseif ($forbidden == $key) {
-      die('Error : recursive dependency');
-    }
-    $array        =
+
+    $forbidden[] = $key;
+
+    $array =
       array_map(
         function ($a) use (&$cache, $depends, $forbidden)
         {
+          if (in_array($a, $forbidden)) {
+            msg_dialog::display(
+              _('Error'),
+              sprintf(
+                _('Recursive dependency in the template fields: "%1$s" cannot depend on "%2$s" as "%2$s" already depends on "%1$s"'),
+                $key,
+                $a
+              ),
+              ERROR_DIALOG
+            );
+            return array();
+          }
           $deps = plugin::tpl_depends_of ($cache, $depends, $a, $forbidden);
           if (($askmeKey = array_search('askme', $deps)) !== FALSE) {
             /* Do not flat special askme dependency */
