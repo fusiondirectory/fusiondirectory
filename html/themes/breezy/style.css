@@ -1,19 +1,19 @@
 body {
 margin:0;
-background-color:#FFF;
-color:#00008F;
+background-color:#eff0f1;
+color:#31363b;
 font-family:arial,helvetica,sans-serif;
 font-size:12px;
 }
 
 h1 {
 font-size:14px;
-color:#00378a;
+color:#31363b;
 }
 
 h2,h3,h4,h5,h6 {
 font-size:13px;
-color:#00378a;
+color:#31363b;
 }
 
 td,p,b,th {
@@ -26,12 +26,12 @@ border:none;
 
 a:link {
 text-decoration:none;
-color:#00008F;
+color:#2980b9;
 }
 
 a:visited {
 text-decoration:none;
-color:#00008f;
+color:#2980b9;
 }
 
 td.listfooter {
@@ -52,7 +52,7 @@ padding:0;
 }
 
 div.scrollbody {
-background-color:#FFF;
+background-color:#fcfcfc;
 overflow:auto;
 text-align:left;
 }
@@ -69,7 +69,7 @@ height:22px;
 }
 
 td.list1nohighlight {
-background:#FFF;
+background:#fcfcfc;
 border-right:1px solid silver;
 padding:3px;
 height:22px;
@@ -136,8 +136,9 @@ vertical-align:middle;
 cursor:pointer;
 display:inline-block;
 padding:2px;
+border:1px solid #eff0f1;
 border-radius:8px;
-transition:box-shadow .5s ease, background .5s ease;
+/*transition:box-shadow .5s ease, background .5s ease;*/
 }
 html.ltr a.maintitlebar,html.ltr div.maintitlebar {
 padding-right:5px;
@@ -148,9 +149,10 @@ padding-left:5px;
 
 a.maintitlebar:hover {
 text-decoration:none;
-background-color:#d7e6b4;
+background-color:#f3f4f4;
 cursor:pointer;
-box-shadow:0px 0px 2px black;
+border:1px solid #c0c2c3;
+/*box-shadow:0px 0px 2px black;*/
 }
 
 td.phonelist:hover {
@@ -234,7 +236,7 @@ border-spacing:5px;
 padding:0;
 margin-top:0;
 vertical-align:top;
-box-shadow:0px 0px 2px black;
+/*box-shadow:0px 0px 2px black;*/
 }
 html.ltr table.framework {
 margin-left:0;
@@ -244,7 +246,7 @@ margin-right:0;
 }
 
 table.framework td#maincell {
-background-color:white;
+background-color:#eff0f1;
 width:auto;
 vertical-align:top;
 padding-bottom:35px;
@@ -288,7 +290,7 @@ border:1px solid #b0b0b0;
 border-top-width:0;
 vertical-align:middle;
 width:auto;
-background:white;
+background:#fcfcfc;
 padding:5px;
 }
 .filter div.contentboxb {
@@ -329,7 +331,7 @@ vertical-align:middle;
 a.alphaselect:hover {
 text-decoration:none;
 background-color:#a0a0a0;
-color:#FFF;
+color:#fcfcfc;
 }
 
 table.check {
@@ -399,7 +401,7 @@ text-decoration:none;
 }
 
 .item :hover {
-color:#FFF;
+color:#fcfcfc;
 background-color:#4b6983;
 text-decoration:none;
 }
@@ -407,7 +409,7 @@ text-decoration:none;
 .separator {
 background-color:red;
 border-top:1px solid #c6c6bf;
-border-bottom:1px solid #FFF;
+border-bottom:1px solid #fcfcfc;
 margin:2px 5px;
 /* top right bottom left */
 height:0;
@@ -417,7 +419,7 @@ line-height:0;
 
 div.autocomplete {
 position:absolute;
-background-color:#FFF;
+background-color:#fcfcfc;
 border:1px solid #AAA;
 margin:0;
 padding:0;
@@ -456,7 +458,7 @@ background-color:#F0F0F0;
 }
 
 #pulldown {
-background:#FFF;
+background:#fcfcfc;
 height:23px;
 border-top:1px #D0D0D0 solid;
 border-bottom:1px gray solid;
@@ -528,11 +530,11 @@ border-top:1px #D0D0D0 solid;
 border-left:1px #D0D0D0 solid;
 border-bottom:1px gray solid;
 border-right:1px gray solid;
-background:#FFF;
+background:#fcfcfc;
 }
 
 #pulldown ul ul li {
-border-bottom:1px solid #fff;
+border-bottom:1px solid #fcfcfc;
 float:none;
 margin:0;
 padding:0;
@@ -596,7 +598,7 @@ color:#205791;
 border-color:#92cae4;
 }
 .info h1,.info h2,.info h3,.info h4,.info h5,.info h6 {
-color:#00378a;
+color:#31363b;
 }
 
 /* Header */
@@ -610,14 +612,15 @@ float:right;
 
 
 .plugtop {
-border:none;
-border-radius:10px;
-box-shadow:0px 0px 4px black inset;
+color:#31363b;
+border:1px solid #c0c2c3;
+/*border-radius:10px;*/
+/*box-shadow:0px 0px 4px black inset;*/
 padding:10px;
 margin:0;
 text-align:center;
 vertical-align:middle;
-background-color:#dbe6c6;
+background-color:#f3f4f4;
 font-family:arial,helvetica,sans-serif;
 font-size:18px;
 }
@@ -669,8 +672,8 @@ text-align:left;
 
 /* Header col */
 div.setup_header {
-background-color:#bbcc99;
-padding:4px 5px 2px;
+background-color:#eff0f1;
+padding:4px 5px 4px;
 color:#000;
 }
 
@@ -721,7 +724,7 @@ color:#000;
   float:none;
   }
   div#header_right a {
-  background:#bbcc99;
+  background:#eff0f1;
   }
   .optional {
   display:none !important;

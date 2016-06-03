@@ -42,7 +42,7 @@ white-space:nowrap;
 }
 
 table.listingTable > tbody > tr:nth-child(odd) {
-  background-color:#FFF;
+  background-color:#fcfcfc;
 }
 
 table.listingTable > tbody > tr:nth-child(even) {
@@ -131,13 +131,13 @@ border-left:none;
 }
 
 tr.sortableListItem {
-background-color:#FFF;
+background-color:#fcfcfc;
 cursor:move;
 color:#000;
 }
 
 tr.sortableListItemFill {
-background-color:#FFF;
+background-color:#fcfcfc;
 cursor:default;
 }
 
@@ -220,15 +220,15 @@ padding:2px;
 }
 
 ul.treeList li.last {
-background:#fff url(../../images/lists/lastnode.png) no-repeat;
+background:#fcfcfc url(../../images/lists/lastnode.png) no-repeat;
 }
 
 ul.treeList li:last-child {
-background:#fff url(../../images/lists/lastnode.png) no-repeat;
+background:#fcfcfc url(../../images/lists/lastnode.png) no-repeat;
 }
 
 div.treeList {
-background-color:#FFF;
+background-color:#fcfcfc;
 border:1px solid #AAA;
 padding:5px;
 position:absolute;
