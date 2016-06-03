@@ -190,7 +190,7 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
   if (isset($config->data) && $config->get_cfg_value('displayerrors') != 'TRUE') {
 
     /* Write to syslog */
-    if (class_exists('log') && !preg_match('/No such object/', $errstr)) {
+    if (class_exists('logging') && !preg_match('/No such object/', $errstr)) {
       logging::log('view', 'error', '', array(), "PHP error: $errstr ($errfile, line $errline)");
     }
 
@@ -199,7 +199,7 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
   }
 
   /* Send all errors to logging class, except "Ldap : No such object" messages*/
-  if (class_exists('log') && !preg_match('/No such object/', $errstr)) {
+  if (class_exists('logging') && !preg_match('/No such object/', $errstr)) {
     logging::log('debug', 'all', $errfile, array(), 'Type:'.$errno.', Message:'.$errstr.', File:'.$errfile.', Line: '.$errline);
   }
 
