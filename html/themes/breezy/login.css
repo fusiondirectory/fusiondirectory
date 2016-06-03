@@ -12,7 +12,7 @@ min-height:100%;
 
 div#window_container {
 text-align:center;
-box-shadow:0 0 2px black;
+/*box-shadow:0 0 2px black;*/
 width:100%;
 bottom:0;
 top:52px;
@@ -22,19 +22,19 @@ position:absolute;
 div#window_div {
 min-width:50%;
 margin-top:100px;
-border:1px solid #AAAAAA;
-background-color:white;
+border:1px solid #c0c2c3;
+background-color:#f3f4f4;
 display:inline-block;
-border-radius:10px;
-box-shadow:0 0 3px black inset;
+/*border-radius:10px;*/
+/*box-shadow:0 0 3px black inset;*/
 }
 
 div#window_titlebar {
 text-align:center;
-border-bottom:1px solid #AAAAAA;
+border-bottom:1px solid #c0c2c3;
 padding:8px;
-background-color:#DBE6C6;
-border-radius:10px 10px 0 0;
+background-color:#eff0f1;
+/*border-radius:10px 10px 0 0;*/
 }
 
 div#window_titlebar > p {

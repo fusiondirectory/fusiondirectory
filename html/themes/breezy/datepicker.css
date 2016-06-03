@@ -5,14 +5,14 @@ position:absolute;
 text-align:center;
 border:1px #AAA solid;
 font-family:arial;
-background:#FFF;
+background:#fcfcfc;
 font-size:10px;
 padding:0;
 }
 
 div.datepicker-calendar table {
 font-size:10px;
-border:1px solid #FFF;
+border:1px solid #fcfcfc;
 margin:0;
 padding:0;
 text-align:center;
@@ -59,7 +59,7 @@ height:16px;
 }
 
 div.datepicker-calendar table tbody tr {
-border:1px solid #FFF;
+border:1px solid #fcfcfc;
 margin:0;
 padding:0;
 }
@@ -129,7 +129,7 @@ line-height:16px;
 
 div.datepicker-calendar table tbody tr td.nclick:hover,div.datepicker-calendar table tbody tr td.nclick_outbound:hover {
 border:1px #EAEAEA solid;
-background:#FFF;
+background:#fcfcfc;
 }
 
 div.datepicker-calendar table tbody tr td.nclick_outbound:hover {
