@@ -131,9 +131,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.656854"
-     inkscape:cx="7.6190523"
-     inkscape:cy="10.16746"
+     inkscape:zoom="15.999999"
+     inkscape:cx="24.203816"
+     inkscape:cy="15.10496"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -243,15 +243,15 @@
        y="503.78983"
        ry="20" />
     <path
+       style="opacity:0.2;fill:url(#linearGradient4297);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 36 15 L 35 32 L 12 33 L 22.966797 43.966797 C 22.967448 43.96683 22.968099 43.966764 22.96875 43.966797 C 23.310575 43.984012 23.65375 43.992188 24 43.992188 C 35.08 43.992188 44 35.072188 44 23.992188 C 44 23.651171 43.991312 23.311337 43.974609 22.974609 L 36 15 z "
+       transform="translate(384.57143,499.798)"
+       id="path4289" />
+    <path
        inkscape:connector-curvature="0"
        style="text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;white-space:normal;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:url(#linearGradient4287);fill-opacity:1.0;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
        d="m 396.57143,514.798 0,18 24,0 0,-18 -24,0 z m 2.12109,1.5 19.75782,0 -9.87891,9.87891 -9.87891,-9.87891 z m -0.62109,1.5 6,6 -6,6 0,-12 z m 21,0 0,12 -6,-6 6,-6 z m -13.93946,7.06055 3.43946,3.43945 3.43946,-3.43945 6.43945,6.43945 -19.75782,0 6.43946,-6.43945 z"
        id="rect4144"
        class="ColorScheme-Text" />
-    <path
-       style="opacity:0.2;fill:url(#linearGradient4297);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 36 15 L 35 32 L 12 33 L 22.966797 43.966797 C 22.967448 43.96683 22.968099 43.966764 22.96875 43.966797 C 23.310575 43.984012 23.65375 43.992188 24 43.992188 C 35.08 43.992188 44 35.072188 44 23.992188 C 44 23.651171 43.991312 23.311337 43.974609 22.974609 L 36 15 z "
-       transform="translate(384.57143,499.798)"
-       id="path4289" />
   </g>
 </svg>
