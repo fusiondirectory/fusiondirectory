@@ -1260,9 +1260,11 @@ class plugin
 
       $ui = get_userinfo();
 
-      $addAttrs['callerDN'] = $ui->dn;
-      $addAttrs['dn']       = $this->dn;
-      $addAttrs['location'] = $config->current['NAME'];
+      $addAttrs['callerDN']   = $ui->dn;
+      $addAttrs['callerCN']   = $ui->cn;
+      $addAttrs['callerUID']  = $ui->uid;
+      $addAttrs['dn']         = $this->dn;
+      $addAttrs['location']   = $config->current['NAME'];
 
       if (isset($this->parent->by_object)) {
         foreach ($this->parent->by_object as $object) {
