@@ -129,10 +129,10 @@
 </div>
 </div>
 
-  <!-- Place cursor in username field -->
+  <!-- Place cursor in email field -->
   <script type="text/javascript">
     <!-- // First input field on page
-    focus_field('error_accept','uid','directory', 'username', 'current_password');
+    focus_field('error_accept','uid','directory','username','current_password','email_address');
     next_msg_dialog();
     -->
   </script>
