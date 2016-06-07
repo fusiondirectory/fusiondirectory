@@ -243,6 +243,7 @@ class listing {
         }
       }
     }
+    $this->categories = array_unique($this->categories);
 
     // Parse layout per column
     $this->colprops = $this->parseLayout($this->xmlData['table']['layout']);
