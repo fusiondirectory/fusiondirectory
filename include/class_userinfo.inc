@@ -36,6 +36,8 @@ class userinfo
   var $ip;
   var $cn;
   var $uid;
+  var $sn           = '';
+  var $givenName    = '';
   var $gidNumber    = -1;
   var $language     = "";
   var $subtreeACL   = array();
@@ -66,6 +68,12 @@ class userinfo
     }
     if (isset($attrs['gidNumber'][0])) {
       $this->gidNumber = $attrs['gidNumber'][0];
+    }
+    if (isset($attrs['sn'][0])) {
+      $this->sn = $attrs['sn'][0];
+    }
+    if (isset($attrs['givenName'][0])) {
+      $this->givenName = $attrs['givenName'][0];
     }
 
     /* Assign user language */

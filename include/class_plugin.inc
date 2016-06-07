@@ -1461,9 +1461,12 @@ class plugin
 
       $ui = get_userinfo();
 
-      $addAttrs['callerDN']   = $ui->dn;
-      $addAttrs['callerCN']   = $ui->cn;
-      $addAttrs['callerUID']  = $ui->uid;
+      $addAttrs['callerDN']         = $ui->dn;
+      $addAttrs['callerCN']         = $ui->cn;
+      $addAttrs['callerUID']        = $ui->uid;
+      $addAttrs['callerSN']         = $ui->sn;
+      $addAttrs['callerGIVENNAME']  = $ui->givenName;
+
       $addAttrs['dn']         = $this->dn;
       $addAttrs['location']   = $config->current['NAME'];
 
