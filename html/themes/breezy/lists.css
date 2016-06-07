@@ -1,0 +1,326 @@
+
+/********************************
+ *           L i s t s          *
+ ********************************/
+table.listingTable {
+border-top:1px solid #AAA;
+border-bottom:1px solid #AAA;
+border-left:1px solid #AAA;
+border-spacing:0;
+}
+
+table.listingTable thead tr {
+position:relative;
+height:auto;
+margin:3px;
+padding:1px;
+white-space:nowrap;
+}
+
+table.listingTable > thead > tr > th {
+background:#F0F0F0;
+font-weight:bold;
+border-right:1px solid #AAA;
+border-bottom:1px solid #AAA;
+padding:3px;
+height:22px;
+}
+html.rtl table.listingTable > thead > tr > th {
+border-left:1px solid #AAA;
+border-right:none;
+}
+
+table.listingTable > tbody {
+height:100%;
+overflow-x:hidden;
+overflow-y:auto;
+}
+
+table.listingTable > tbody > tr {
+height:auto;
+white-space:nowrap;
+}
+
+table.listingTable > tbody > tr:nth-child(odd) {
+  background-color:#fcfcfc;
+}
+
+table.listingTable > tbody > tr:nth-child(even) {
+  background-color:#F5F5F5;
+}
+
+table.listingTable > tbody > tr.entry-locked:nth-child(odd) {
+  background-color:#FFC;
+}
+
+table.listingTable > tbody > tr.entry-locked:nth-child(even) {
+  background-color:#F5F5CC;
+}
+
+html.ltr table.listingTable > tbody > tr td:last-child {
+padding-right:5px;
+}
+html.rtl table.listingTable > tbody > tr td:last-child {
+padding-left:5px;
+}
+
+table.listingTable > tbody > tr:hover {
+  background-color:#DDD;
+}
+
+table.listingTable > tbody > tr.entry-locked:hover {
+  background-color:#DDA;
+}
+
+table.listingTable > tbody > tr td {
+color:#000;
+margin:3px;
+padding:2px;
+border-right:1px solid #AAA;
+word-wrap:break-word;
+white-space:normal;
+max-width:500px;
+background:transparent;
+height:22px;
+}
+html.rtl table.listingTable > tbody > tr td {
+border-left:1px solid #AAA;
+border-right:none;
+}
+
+
+/* List border */
+
+div.nlistFooter {
+background-color:#E5E5E5;
+border-left:1px solid silver;
+border-right:1px solid silver;
+border-bottom:1px solid silver;
+padding:0;
+width:auto;
+}
+
+/* Sortable Lists (only used in user main tab) */
+div.sortableListContainer {
+border:1px solid #AAA;
+overflow:auto;
+margin-bottom:2px;
+}
+
+.sortableListContainer th {
+background-color:#D8D8D8;
+padding:3px;
+text-align:left;
+border-left:1px solid #AAA;
+}
+html.rtl .sortableListContainer th {
+text-align:right;
+border-right:1px solid #AAA;
+border-left:none;
+}
+
+.sortableListContainer td {
+padding:3px;
+text-align:left;
+border-left:1px solid #AAA;
+}
+html.rtl .sortableListContainer td {
+text-align:right;
+border-right:1px solid #AAA;
+border-left:none;
+}
+
+tr.sortableListItem {
+background-color:#fcfcfc;
+cursor:move;
+color:#000;
+}
+
+tr.sortableListItemFill {
+background-color:#fcfcfc;
+cursor:default;
+}
+
+tr.sortableListItemOdd {
+background-color:#F5F5F5;
+cursor:move;
+color:#000;
+}
+
+tr.sortableListItem:hover,tr.sortableListItemOdd:hover {
+background-color:#EEE;
+}
+
+tr.sortableListItemDisabled {
+cursor:default;
+color:#CCC;
+}
+
+table.sortableListTable {
+border:0;
+}
+
+tr.sortableListItemMarked {
+background-color:#FFD;
+}
+
+/* Tree List (used in baseSelector) */
+ul.treeList,ul.treeList ul {
+list-style-type:none;
+background:url(../../images/lists/vline.png) repeat-y;
+margin:0;
+padding:0;
+}
+
+html.ltr ul.treeList ul {
+margin-left:10px;
+}
+html.rtl ul.treeList ul {
+margin-right:10px;
+}
+
+ul.treeList a:hover {
+background-color:#DDD;
+}
+
+a.treeList {
+padding:2px;
+cursor:pointer;
+}
+
+a.treeListSelected {
+font-weight:bold;
+color:#1010AF;
+background-color:#DDD;
+padding:2px;
+cursor:pointer;
+}
+
+a.treeList:hover,a.treeListSelected:hover {
+background-color:#DDD;
+padding:2px;
+}
+
+ul.treeList a {
+padding:2px;
+cursor:pointer;
+}
+
+ul.treeList li {
+margin:0;
+padding:0 12px;
+line-height:20px;
+background:url(../../images/lists/node.png) no-repeat;
+}
+
+li.treeListSelected a {
+font-weight:bold;
+color:#1010AF;
+padding:2px;
+}
+
+ul.treeList li.last {
+background:#fcfcfc url(../../images/lists/lastnode.png) no-repeat;
+}
+
+ul.treeList li:last-child {
+background:#fcfcfc url(../../images/lists/lastnode.png) no-repeat;
+}
+
+div.treeList {
+background-color:#fcfcfc;
+border:1px solid #AAA;
+padding:5px;
+position:absolute;
+z-index:500;
+overflow-y:auto;
+float:left;
+}
+html.rtl div.treeList {
+float:right;
+}
+
+/* Max height for IE */
+* html div.treeList {
+height: expression( this.scrollHeight > 500 ? "500px" : "auto" );
+}
+
+table.listing_container {
+width:100%;
+height:100%;
+vertical-align:top;
+text-align:left;
+border:none;
+border-spacing:2px;
+}
+html.rtl table.listing_container {
+text-align:right;
+}
+
+table.listing_container > tbody > tr > td.list {
+height:100%;
+vertical-align:top;
+}
+
+table.listing_container > tbody >  tr > td.filter {
+max-width:300px;
+vertical-align:top;
+}
+
+table.listing_container > tbody >  tr > td.filter .contentboxb {
+min-width:230px;
+}
+
+/* On small screens */
+@media (max-width: 640px) {
+  table.listingTable {
+  table-layout:auto;
+  }
+  table.listingTable > tbody > tr > td, table.listingTable > thead > tr > th {
+  width:auto !important;
+  min-width:0 !important;
+  }
+  html.ltr table.listingTable > tbody > tr td:last-child {
+  padding-right:1px;
+  }
+  html.rtl table.listingTable > tbody > tr td:last-child {
+  padding-left:1px;
+  }
+  table.listing_container {
+  border:none;
+  border-spacing:0px;
+  border-collapse:collapse;
+  }
+  table.listing_container > tbody > tr > td.list, table.listing_container > tbody >  tr > td.filter {
+  width:100%;
+  min-width:0;
+  max-width:none;
+  height:auto;
+  display:block;
+  padding:0;
+  }
+  table.listing_container > tbody > tr > td.list > div, table.listing_container > tbody >  tr > td.filter > div {
+  border:none;
+  }
+  table.listing_container > tbody > tr > td.list:after, table.listing_container > tbody >  tr > td.filter:after {
+  content:" ";
+  display:block;
+  }
+  table.listing_container > tbody >  tr > td.filter input[type=submit] {
+  border:1px solid #DDD;
+  width:100% !important;
+  padding:10px;
+  display:inline-block;
+  font-weight:bold;
+  }
+  html.ltr table.listing_container > tbody >  tr > td.filter input[type=submit]:active {
+  position:relative;
+  top:1px;
+  left:1px;
+  }
+  html.rtl table.listing_container > tbody >  tr > td.filter input[type=submit]:active {
+  position:relative;
+  top:1px;
+  right:1px;
+  }
+}

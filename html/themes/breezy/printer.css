@@ -1,0 +1,24 @@
+/* Disable header and menu block, for printers. */
+td#menucell {
+display:none;
+}
+
+div.plugtop {
+display:none;
+}
+
+p.plugbottom {
+display:none;
+}
+
+.framework {
+width:100%;
+}
+
+div.setup_header {
+display:none;
+}
+
+div.setup_menu {
+display:none;
+}
