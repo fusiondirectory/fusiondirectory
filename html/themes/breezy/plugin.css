@@ -7,12 +7,12 @@ margin-top:0px;
 margin-left:0;
 margin-right:0;
 width:auto;
-border:1px solid #AAA;
+border:1px solid #c0c2c3;
 padding:0;
 }
 
 div.pluginfo {
-border-bottom:1px solid #AAA;
+border-bottom:1px solid #c0c2c3;
 width:100%;
 padding-top:2px;
 padding-bottom:2px;
@@ -29,7 +29,7 @@ text-align:left;
 
 .plugbottom {
 border-style:solid;
-border-color:#a0a0a0;
+border-color:#c0c2c3;
 width:100%;
 border-top-width:1px;
 border-bottom-width:0;
@@ -73,7 +73,7 @@ float:left;
 clear:left;
 width:49%;
 vertical-align:top;
-border:1px solid #B0B0B0;
+border:1px solid #c0c2c3;
 padding:0;
 margin-top:0.5%;
 margin-left:0.5%;
@@ -124,8 +124,8 @@ float:right;
 
 fieldset.plugin_section legend span, .plugin_section > span.legend {
 font-weight:bold;
-background-color:#eff0f1;
-border:1px solid #B0B0B0;
+background-color:#e5e5e7;
+border:1px solid #c0c2c3;
 width:100%;
 padding-top:5px;
 padding-bottom:5px;
@@ -242,7 +242,7 @@ background-color:#DFEFFF;
   right:5px;
   }
   .plugbottom input[type=submit], .plugbottom input[type=button] {
-  border:1px solid #DDD;
+  border:1px solid #c0c2c3;
   width:30% !important;
   padding:10px;
   display:inline-block;
