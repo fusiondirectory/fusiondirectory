@@ -184,3 +184,7 @@ documentation and additional help.
 * Martin Hamant <mh@ow2.org>
   Coded the LockUser fonction for the webservice
   
+* Jonathan Swaelens <jonathan@opensides.be>
+  QA on FusionDirectory
+  RPM packaging maintener and ArchLinux Packager
+  
