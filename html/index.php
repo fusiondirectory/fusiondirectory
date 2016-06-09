@@ -159,6 +159,7 @@ if (!is_readable(CONFIG_DIR.'/'.CONFIG_FILE)) {
 
 /* Parse configuration file */
 $config = new config(CONFIG_DIR.'/'.CONFIG_FILE, $BASE_DIR);
+session::global_set('config', $config);
 session::global_set('DEBUGLEVEL', $config->get_cfg_value('DEBUGLEVEL'));
 @DEBUG (DEBUG_CONFIG, __LINE__, __FUNCTION__, __FILE__, $config->data, 'config');
 
@@ -316,9 +317,6 @@ class Index {
 
     /* User might have its own language, re-run initLanguage */
     initLanguage();
-
-    /* Save config to session. */
-    session::global_set('config', $config);
 
     /* We need a fully loaded plist and config to test account expiration */
     session::global_un_set('plist');
