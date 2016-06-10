@@ -1,4 +1,4 @@
-body {
+.body {
 margin:0;
 background-color:#eff0f1;
 color:#31363b;
@@ -587,7 +587,7 @@ color:#412701;
 .success {
 background:##f3f4f4;
 color:#264409;
-border-color:#c6d880;
+border-color:#f3f4f4;
 }
 .success h1,.success h2,.success h3,.success h4,.success h5,.success h6 {
 color:#378a00;
