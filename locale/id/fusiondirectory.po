@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-110\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2016-06-03 13:06+0200\n"
+"POT-Creation-Date: 2016-06-10 13:25+0200\n"
 "PO-Revision-Date: 2016-06-03 11:03+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Indonesian (http://www.transifex.com/fusiondirectory/FusionDirectory-110/language/id/)\n"
@@ -204,7 +204,7 @@ msgstr ""
 #: plugins/personal/posix/class_posixAccount.inc:467 include/functions.inc:799
 #: include/functions.inc:2554 include/class_xml.inc:55
 #: include/simpleplugin/class_simpleTabs.inc:319 html/index.php:56
-#: html/index.php:62 html/index.php:522 html/class_passwordRecovery.inc:169
+#: html/index.php:62 html/index.php:520 html/class_passwordRecovery.inc:169
 #: setup/class_setupStep_Migrate.inc:572
 #: setup/class_setupStep_Migrate.inc:1083
 #: setup/class_setupStep_Migrate.inc:1202
@@ -258,7 +258,7 @@ msgstr ""
 
 #: plugins/admin/groups/group-list.xml:54
 #: plugins/admin/departments/dep-list.xml:37
-#: plugins/admin/users/user-list.xml:62 include/class_listing.inc:1283
+#: plugins/admin/users/user-list.xml:62 include/class_listing.inc:1284
 #: include/simpleplugin/simple-list.xml:48
 msgid "Actions"
 msgstr ""
@@ -629,7 +629,7 @@ msgstr ""
 #: plugins/admin/users/class_userManagement.inc:141
 #: include/class_management.inc:334 include/class_management.inc:483
 #: include/class_management.inc:503 include/class_management.inc:521
-#: include/class_management.inc:570 include/class_CopyPasteHandler.inc:235
+#: include/class_management.inc:570 include/class_CopyPasteHandler.inc:246
 #: include/simpleplugin/class_simpleManagement.inc:654
 #: include/simpleplugin/class_simpleManagement.inc:754
 #: include/simpleplugin/class_simpleManagement.inc:805
@@ -2131,30 +2131,30 @@ msgstr ""
 msgid "Configuration for plugins"
 msgstr ""
 
-#: include/class_listing.inc:306 include/class_listing.inc:1154
-#: include/class_listing.inc:1156
+#: include/class_listing.inc:307 include/class_listing.inc:1155
+#: include/class_listing.inc:1157
 msgid "Up"
 msgstr ""
 
-#: include/class_listing.inc:306
+#: include/class_listing.inc:307
 msgid "Down"
 msgstr ""
 
-#: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2701
+#: include/class_listing.inc:307 include/simpleplugin/class_attribute.inc:2701
 #: include/simpleplugin/class_attribute.inc:2702
 msgid "Sort up"
 msgstr ""
 
-#: include/class_listing.inc:306 include/simpleplugin/class_attribute.inc:2714
+#: include/class_listing.inc:307 include/simpleplugin/class_attribute.inc:2714
 #: include/simpleplugin/class_attribute.inc:2715
 msgid "Sort down"
 msgstr ""
 
-#: include/class_listing.inc:367 setup/setup_migrate_gosaAccounts.tpl.c:23
+#: include/class_listing.inc:368 setup/setup_migrate_gosaAccounts.tpl.c:23
 msgid "Select all"
 msgstr ""
 
-#: include/class_listing.inc:537 include/class_management.inc:679
+#: include/class_listing.inc:538 include/class_management.inc:679
 #: include/class_config.inc:357 include/class_msgPool.inc:215
 #: include/class_msgPool.inc:235 include/class_msgPool.inc:265
 #: include/class_msgPool.inc:682 include/class_msgPool.inc:713
@@ -2164,7 +2164,7 @@ msgstr ""
 #: include/functions.inc:3196 include/functions.inc:3205
 #: include/functions.inc:3267 include/class_msg_dialog.inc:128
 #: include/class_xml.inc:58 include/class_plugin.inc:790
-#: include/class_plugin.inc:1513 include/class_CopyPasteHandler.inc:265
+#: include/class_plugin.inc:1518 include/class_CopyPasteHandler.inc:276
 #: include/simpleplugin/class_attribute.inc:1571
 #: include/simpleplugin/class_attribute.inc:1574
 #: include/simpleplugin/class_attribute.inc:1577
@@ -2177,83 +2177,83 @@ msgstr ""
 #: include/password-methods/class_password-methods-sasl.inc:85
 #: include/password-methods/class_password-methods.inc:428
 #: include/password-methods/class_password-methods.inc:438
-#: include/class_SnapshotHandler.inc:422 html/index.php:473 html/index.php:483
+#: include/class_SnapshotHandler.inc:422 html/index.php:471 html/index.php:481
 #: setup/class_setupStep_Migrate.inc:935
 #: ihtml/themes/default/msg_dialog.tpl.c:2 setup/setup_checks.tpl.c:5
 msgid "Error"
 msgstr ""
 
-#: include/class_listing.inc:578
+#: include/class_listing.inc:579
 msgid "created by"
 msgstr ""
 
-#: include/class_listing.inc:1146
+#: include/class_listing.inc:1147
 msgid "Go to root department"
 msgstr ""
 
-#: include/class_listing.inc:1146 include/class_listing.inc:1148
+#: include/class_listing.inc:1147 include/class_listing.inc:1149
 #: include/class_baseSelector.inc:210
 msgid "Root"
 msgstr ""
 
-#: include/class_listing.inc:1154
+#: include/class_listing.inc:1155
 msgid "Go up one department"
 msgstr ""
 
-#: include/class_listing.inc:1162
+#: include/class_listing.inc:1163
 msgid "Go to user's department"
 msgstr ""
 
-#: include/class_listing.inc:1162 include/class_listing.inc:1164
+#: include/class_listing.inc:1163 include/class_listing.inc:1165
 msgid "Home"
 msgstr ""
 
-#: include/class_listing.inc:1169
+#: include/class_listing.inc:1170
 msgid "Reload list"
 msgstr ""
 
-#: include/class_listing.inc:1169 include/class_baseSelector.inc:262
+#: include/class_listing.inc:1170 include/class_baseSelector.inc:262
 msgid "Submit"
 msgstr ""
 
-#: include/class_listing.inc:1589 include/class_listing.inc:1643
+#: include/class_listing.inc:1590 include/class_listing.inc:1644
 msgid "Copy"
 msgstr ""
 
-#: include/class_listing.inc:1595 include/class_listing.inc:1631
+#: include/class_listing.inc:1596 include/class_listing.inc:1632
 msgid "Cut"
 msgstr ""
 
-#: include/class_listing.inc:1603 include/class_listing.inc:1605
-#: include/class_CopyPasteHandler.inc:357
+#: include/class_listing.inc:1604 include/class_listing.inc:1606
+#: include/class_CopyPasteHandler.inc:368
 msgid "Paste"
 msgstr ""
 
-#: include/class_listing.inc:1631
+#: include/class_listing.inc:1632
 msgid "Cut this entry"
 msgstr ""
 
-#: include/class_listing.inc:1643
+#: include/class_listing.inc:1644
 msgid "Copy this entry"
 msgstr ""
 
-#: include/class_listing.inc:1676 include/class_listing.inc:1678
+#: include/class_listing.inc:1677 include/class_listing.inc:1679
 msgid "Restore snapshots"
 msgstr ""
 
-#: include/class_listing.inc:1692
+#: include/class_listing.inc:1693
 msgid "Export list"
 msgstr ""
 
-#: include/class_listing.inc:1727 include/class_listing.inc:1728
+#: include/class_listing.inc:1728 include/class_listing.inc:1729
 msgid "Restore snapshot"
 msgstr ""
 
-#: include/class_listing.inc:1737
+#: include/class_listing.inc:1738
 msgid "Create snapshot"
 msgstr ""
 
-#: include/class_listing.inc:1738
+#: include/class_listing.inc:1739
 msgid "Create a new snapshot from this object"
 msgstr ""
 
@@ -2323,7 +2323,7 @@ msgstr ""
 #: include/class_SnapshotHandler.inc:48 include/class_SnapshotHandler.inc:247
 #: include/class_SnapshotHandler.inc:280 include/class_SnapshotHandler.inc:296
 #: include/class_SnapshotHandler.inc:429 include/class_SnapshotHandler.inc:432
-#: html/index.php:369 html/class_passwordRecovery.inc:520
+#: html/index.php:367 html/class_passwordRecovery.inc:520
 #: setup/class_setupStep_Migrate.inc:451
 #: setup/class_setupStep_Migrate.inc:1130
 msgid "LDAP error"
@@ -3420,12 +3420,12 @@ msgstr ""
 msgid "Tab \"%s\""
 msgstr ""
 
-#: include/class_CopyPasteHandler.inc:292
+#: include/class_CopyPasteHandler.inc:303
 #: ihtml/themes/default/copyPasteDialog.tpl.c:20
 msgid "Cancel all"
 msgstr ""
 
-#: include/class_CopyPasteHandler.inc:359
+#: include/class_CopyPasteHandler.inc:370
 msgid "Cannot paste"
 msgstr ""
 
@@ -3757,63 +3757,63 @@ msgid ""
 "fusiondirectory-setup --check-config to fix this."
 msgstr ""
 
-#: html/index.php:171
+#: html/index.php:172
 msgid "Smarty error"
 msgstr ""
 
-#: html/index.php:173
+#: html/index.php:174
 #, php-format
 msgid "Directory \"%s\" specified as compile directory is not accessible!"
 msgstr ""
 
-#: html/index.php:208
+#: html/index.php:209
 msgid "Your FusionDirectory session has expired!"
 msgstr ""
 
-#: html/index.php:211
+#: html/index.php:212
 msgid "Your IP has changed!"
 msgstr ""
 
-#: html/index.php:214
+#: html/index.php:215
 #, php-format
 msgid "Invalid plugin parameter \"%s\"!"
 msgstr ""
 
-#: html/index.php:217
+#: html/index.php:218
 msgid "No session found!"
 msgstr ""
 
-#: html/index.php:252
+#: html/index.php:253
 msgid "LDAP schema check reported errors:"
 msgstr ""
 
-#: html/index.php:278
+#: html/index.php:279
 msgid "Please specify a valid username!"
 msgstr ""
 
-#: html/index.php:281
+#: html/index.php:282
 msgid "Please specify your password!"
 msgstr ""
 
-#: html/index.php:300
+#: html/index.php:301
 msgid "Please check the username/password combination."
 msgstr ""
 
-#: html/index.php:333
+#: html/index.php:331
 msgid "Account locked. Please contact your system administrator!"
 msgstr ""
 
-#: html/index.php:475
+#: html/index.php:473
 #, php-format
 msgid "CAS user \"%s\" could not be found in the LDAP"
 msgstr ""
 
-#: html/index.php:485
+#: html/index.php:483
 #, php-format
 msgid "CAS user \"%s\" match several users in the LDAP"
 msgstr ""
 
-#: html/index.php:522
+#: html/index.php:520
 msgid ""
 "Your browser has cookies disabled. Please enable cookies and reload this "
 "page before logging in!"
