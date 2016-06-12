@@ -43,11 +43,11 @@ class departmentManagement extends simpleManagement
     );
   }
 
-  function __construct($config, $ui)
+  function __construct()
   {
     $this->objectTypes  = self::getDepartmentTypes();
     $this->listXMLPath  = get_template_path('dep-list.xml', TRUE, dirname(__FILE__));
-    parent::__construct($config, $ui);
+    parent::__construct();
     $this->headpage->registerElementFilter("depLabel", "departmentManagement::filterDepLabel");
     $this->registerAction("open", "openEntry");
   }
@@ -68,7 +68,6 @@ class departmentManagement extends simpleManagement
     global $config, $ui;
     $config->get_departments();
     $config->make_idepartments();
-    $this->config = $config;
     $ui->reset_acl_cache();
     $headpage     = $this->getHeadpage();
     $headpage->refreshBasesList();
@@ -84,7 +83,8 @@ class departmentManagement extends simpleManagement
   // Overridden remove request method - Avoid removal of the ldap base.
   protected function removeEntryRequested($action = "", $target = array(), $all = array())
   {
-    $target = array_remove_entries(array($this->config->current['BASE']), $target);
+    global $config;
+    $target = array_remove_entries(array($config->current['BASE']), $target);
     return parent::removeEntryRequested($action, $target, $all);
   }
 

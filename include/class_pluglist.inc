@@ -34,10 +34,7 @@
 class pluglist {
   var $menu             = "";
   var $iconmenu         = "";
-  var $config           = NULL;
-  var $ui               = NULL;
   var $current          = "";
-
 
   /*!
    * \brief The plInfo result for all plugin, using class as key.
@@ -58,17 +55,10 @@ class pluglist {
 
   /*!
    * \brief List the plugins
-   *
-   * \param string $config Plugin configuration
-   *
-   * \param $ui UI
    */
-  function __construct(&$config, &$ui)
+  function __construct()
   {
-    global $class_mapping;
-
-    $this->ui     = &$ui;
-    $this->config = &$config;
+    global $class_mapping, $config;
 
     /* Fill info part of pluglist */
     $classes = get_declared_classes();
@@ -206,6 +196,7 @@ class pluglist {
    */
   function check_access($aclname)
   {
+    global $ui;
     if (isset($this->silly_cache[$aclname])) {
       return $this->silly_cache[$aclname];
     }
@@ -228,12 +219,12 @@ class pluglist {
       if (preg_match("/:self$/", $acl_to_check)) {
         $acl_to_check = preg_replace("/:self$/", "", $acl_to_check);
         if (strpos($acl_to_check, '/')) {
-          if ($this->ui->get_permissions($this->ui->dn, $acl_to_check, "") != "") {
+          if ($ui->get_permissions($ui->dn, $acl_to_check, "") != "") {
             $this->silly_cache[$aclname] = TRUE;
             return TRUE;
           }
         } else {
-          if ($this->ui->get_category_permissions($this->ui->dn, $acl_to_check, "") != "") {
+          if ($ui->get_category_permissions($ui->dn, $acl_to_check, "") != "") {
             $this->silly_cache[$aclname] = TRUE;
             return TRUE;
           }
@@ -241,7 +232,7 @@ class pluglist {
       } else {
 
         /* No self acls. Check if we have any acls for the given ACL type */
-        $deps = $this->ui->get_module_departments($acl_to_check, TRUE);
+        $deps = $ui->get_module_departments($acl_to_check, TRUE);
         if (count($deps)) {
           $this->silly_cache[$aclname] = TRUE;
           return TRUE;
@@ -302,14 +293,15 @@ class pluglist {
    */
   function gen_menu()
   {
+    global $config;
     if ($this->menu == "") {
       $this->menu = '<ul class="menu">'."\n";
       /* Parse headlines */
-      foreach ($this->config->data['SECTIONS'] as $section => $section_infos) {
+      foreach ($config->data['SECTIONS'] as $section => $section_infos) {
         $entries  = '';
 
         /* Parse sub-plugins */
-        foreach ($this->config->data['MENU'][$section] as $info) {
+        foreach ($config->data['MENU'][$section] as $info) {
           if (isset($info['CLASS']) && plugin_available($info['CLASS'])) {
             if (!$this->check_access($info['ACL'])) {
               continue;
@@ -371,17 +363,17 @@ class pluglist {
    */
   function show_iconmenu()
   {
-    global $class_mapping;
+    global $class_mapping, $config;
     if ($this->iconmenu == "") {
 
       /* Parse headlines */
-      foreach ($this->config->data['SECTIONS'] as $section => $section_infos) {
+      foreach ($config->data['SECTIONS'] as $section => $section_infos) {
         $entries  = '';
         $menu     = '';
         $menu     = '<div class="iconmenu_section"><h1 class="menuheader">';
         $menu     .= $section_infos['NAME']."</h1>\n";
 
-        foreach ($this->config->data['MENU'][$section] as $info) {
+        foreach ($config->data['MENU'][$section] as $info) {
           if (isset($info['CLASS']) && plugin_available($info['CLASS'])) {
             if (!$this->check_access($info['ACL'])) {
               continue;

@@ -19,6 +19,8 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+class NonExistingLdapNodeException extends Exception {};
+
 /*!
  * \file class_plugin.inc
  * Source code for the class plugin
@@ -35,14 +37,7 @@ class plugin
    *
    * \sa tab
    */
-  var $parent = NULL;
-
-  /*!
-    \brief Configuration container
-
-    Access to global configuration
-   */
-  var $config = NULL;
+  public $parent = NULL;
 
   /*!
     \brief Mark plugin as account
@@ -108,8 +103,7 @@ class plugin
    * an error message will be shown.
    * To configure this check correctly read the FAQ.
    */
-  var $entryCSN         = '';
-  var $CSN_check_active = FALSE;
+  var $entryCSN = '';
 
   /*!
    * \brief plugin constructor
@@ -124,10 +118,10 @@ class plugin
    *
    * \sa plugin()
    */
-  function __construct (&$config, $dn = NULL, $object = NULL)
+  function __construct ($dn = NULL, $object = NULL)
   {
-    /* Configuration is fine, allways */
-    $this->config = &$config;
+    global $config;
+
     $this->dn     = $dn;
 
     // Ensure that we've a valid acl_category set.
@@ -167,9 +161,12 @@ class plugin
           $this->setTemplate($object->is_template);
         }
       } else {
-        $ldap = $this->config->get_ldap_link();
+        $ldap = $config->get_ldap_link();
         $ldap->cat($this->dn);
         $this->attrs = $ldap->fetch();
+        if (empty($this->attrs)) {
+          throw new NonExistingLdapNodeException('Could not open dn '.$this->dn);
+        }
       }
 
       /* Set the template flag according to the existence of objectClass fdTemplate */
@@ -262,7 +259,8 @@ class plugin
 
   protected function templateSaveAttrs()
   {
-    $ldap = $this->config->get_ldap_link();
+    global $config;
+    $ldap = $config->get_ldap_link();
     $ldap->cat($this->dn);
     $template_attrs = $ldap->fetch();
     if (!$template_attrs) {
@@ -345,11 +343,12 @@ class plugin
    */
   function remove_from_parent()
   {
+    global $config;
     $this->attrs = array();
 
     if (!$this->mainTab) {
       /* include global link_info */
-      $ldap = $this->config->get_ldap_link();
+      $ldap = $config->get_ldap_link();
 
       /* Get current objectClasses in order to add the required ones */
       $ldap->cat($this->dn);
@@ -390,11 +389,6 @@ class plugin
    */
   function save_object()
   {
-    /* Update entry CSN if it is empty. */
-    if (empty($this->entryCSN) && $this->CSN_check_active) {
-      $this->entryCSN = getEntryCSN($this->dn);
-    }
-
     /* Save values to object */
     foreach ($this->attributes as $val) {
       if ($this->acl_is_writeable($val) && isset ($_POST["$val"])) {
@@ -428,8 +422,9 @@ class plugin
    */
   function save()
   {
+    global $config;
     /* include global link_info */
-    $ldap = $this->config->get_ldap_link();
+    $ldap = $config->get_ldap_link();
 
     $this->entryCSN = '';
 
@@ -535,20 +530,15 @@ class plugin
   {
     $message = array();
 
-    /* Skip if we've no config object */
-    if (!isset($this->config) || !is_object($this->config)) {
-      return $message;
-    }
-
     $this->callHook('CHECK', array(), $returnOutput);
     if (!empty($returnOutput)) {
       $message[] = join("\n", $returnOutput);
     }
 
     /* Check entryCSN */
-    if ($this->CSN_check_active) {
+    if (!empty($this->entryCSN)) {
       $current_csn = getEntryCSN($this->dn);
-      if (($current_csn != $this->entryCSN) && !empty($this->entryCSN) && !empty($current_csn)) {
+      if (($current_csn != $this->entryCSN) && !empty($current_csn)) {
         $this->entryCSN = $current_csn;
         $message[] = _('The object has changed since opened in FusionDirectory. All changes that may be done by others will get lost if you save this entry!');
       }
@@ -783,20 +773,30 @@ class plugin
     return $result;
   }
 
-  static function tpl_depends_of (&$cache, $depends, $key, $forbidden = NULL)
+  static function tpl_depends_of (&$cache, $depends, $key, $forbidden = array())
   {
     if (isset($cache[$key])) {
       return $cache[$key];
     }
-    if ($forbidden === NULL) {
-      $forbidden = $key;
-    } elseif ($forbidden == $key) {
-      die('Error : recursive dependency');
-    }
-    $array        =
+
+    $forbidden[] = $key;
+
+    $array =
       array_map(
-        function ($a) use (&$cache, $depends, $forbidden)
+        function ($a) use (&$cache, $depends, $forbidden, $key)
         {
+          if (in_array($a, $forbidden)) {
+            msg_dialog::display(
+              _('Error'),
+              sprintf(
+                _('Recursive dependency in the template fields: "%1$s" cannot depend on "%2$s" as "%2$s" already depends on "%1$s"'),
+                $key,
+                $a
+              ),
+              ERROR_DIALOG
+            );
+            return array();
+          }
           $deps = plugin::tpl_depends_of ($cache, $depends, $a, $forbidden);
           if (($askmeKey = array_search('askme', $deps)) !== FALSE) {
             /* Do not flat special askme dependency */
@@ -1011,7 +1011,8 @@ class plugin
    */
   function create_unique_dn($attribute, $base)
   {
-    $ldap = $this->config->get_ldap_link();
+    global $config;
+    $ldap = $config->get_ldap_link();
     $base = preg_replace('/^,*/', '', $base);
 
     /* Try to use plain entry first */
@@ -1058,12 +1059,13 @@ class plugin
    */
   private function rename($src_dn, $dst_dn)
   {
+    global $config;
     /* Try to move the source entry to the destination position */
-    $ldap = $this->config->get_ldap_link();
-    $ldap->cd($this->config->current['BASE']);
+    $ldap = $config->get_ldap_link();
+    $ldap->cd($config->current['BASE']);
     $ldap->create_missing_trees(preg_replace("/^[^,]+,/", '', $dst_dn));
     if (!$ldap->rename_dn($src_dn, $dst_dn)) {
-      new log('debug', 'Ldap Protocol v3 implementation error, ldap_rename failed.',
+      logging::log('debug', 'Ldap Protocol v3 implementation error, ldap_rename failed.',
               "FROM: $src_dn  -- TO: $dst_dn", array(), $ldap->get_error());
       @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, "Rename failed FROM: $src_dn  -- TO:  $dst_dn",
           'Ldap Protocol v3 implementation error. Error:'.$ldap->get_error());
@@ -1083,6 +1085,7 @@ class plugin
     */
   function move($src_dn, $dst_dn)
   {
+    global $config;
     /* Do not move if only upper- lowercase has changed */
     if (strtolower($src_dn) == strtolower($dst_dn)) {
       return TRUE;
@@ -1112,9 +1115,9 @@ class plugin
                             array("dn","objectClass"), GL_SUBSEARCH | GL_NO_ACL_CHECK);
 
     if (count($leaf_deps)) {
-      $this->config->get_departments();
-      $this->config->make_idepartments();
-      session::global_set("config", $this->config);
+      $config->get_departments();
+      $config->make_idepartments();
+      session::global_set("config", $config);
       $ui = get_userinfo();
       $ui->reset_acl_cache();
     }
@@ -1458,9 +1461,14 @@ class plugin
 
       $ui = get_userinfo();
 
-      $addAttrs['callerDN'] = $ui->dn;
-      $addAttrs['dn']       = $this->dn;
-      $addAttrs['location'] = $config->current['NAME'];
+      $addAttrs['callerDN']         = $ui->dn;
+      $addAttrs['callerCN']         = $ui->cn;
+      $addAttrs['callerUID']        = $ui->uid;
+      $addAttrs['callerSN']         = $ui->sn;
+      $addAttrs['callerGIVENNAME']  = $ui->givenName;
+
+      $addAttrs['dn']         = $this->dn;
+      $addAttrs['location']   = $config->current['NAME'];
 
       if (isset($this->parent->by_object)) {
         foreach ($this->parent->by_object as $object) {
@@ -1650,6 +1658,7 @@ class plugin
   */
   function get_allowed_bases()
   {
+    global $config;
     $deps = array();
 
     /* Is this a new object ? Or just an edited existing object */
@@ -1659,7 +1668,7 @@ class plugin
       $new = FALSE;
     }
 
-    foreach ($this->config->idepartments as $dn => $name) {
+    foreach ($config->idepartments as $dn => $name) {
       if ($new && $this->acl_is_createable($dn)) {
         $deps[$dn] = $name;
       } elseif (!$new && $this->acl_is_moveable($dn)) {
@@ -1668,9 +1677,9 @@ class plugin
     }
 
     /* Add current base */
-    if (isset($this->base) && isset($this->config->idepartments[$this->base])) {
-      $deps[$this->base] = $this->config->idepartments[$this->base];
-    } elseif (strtolower($this->dn) != strtolower($this->config->current['BASE'])) {
+    if (isset($this->base) && isset($config->idepartments[$this->base])) {
+      $deps[$this->base] = $config->idepartments[$this->base];
+    } elseif (strtolower($this->dn) != strtolower($config->current['BASE'])) {
       trigger_error("Cannot return list of departments, no default base found in class ".get_class($this).". (base is '".$this->base."')");
     }
     return $deps;
@@ -1698,21 +1707,8 @@ class plugin
     if ($ui->dn == $old_dn) {
       $ui->dn = $new_dn;
       session::global_set('ui', $ui);
-      new log("view", "acl/".get_class($this), $this->dn, array(), "Updated current object dn from '".$old_dn."' to '".$new_dn."'");
+      logging::log('view', 'acl/'.get_class($this), $this->dn, array(), 'Updated current object dn from "'.$old_dn.'" to "'.$new_dn.'"');
     }
-  }
-
-  /*!
-   * \brief Enable the Serial ID check
-   *
-   * This function enables the entry Serial ID check.  If an entry was edited while
-   * we have edited the entry too, an error message will be shown.
-   * To configure this check correctly read the FAQ.
-   */
-  function enable_CSN_check()
-  {
-    $this->CSN_check_active = TRUE;
-    $this->entryCSN = getEntryCSN($this->dn);
   }
 
   function is_modal_dialog()

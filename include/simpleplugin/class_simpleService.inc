@@ -35,18 +35,17 @@ class simpleService extends simplePlugin {
 
   /*! \brief constructor
    *
-   *  \param mixed $config The config object
    *  \param string $dn The dn of this instance
-   *  \param Object $object An object to copy values from
+   *  \param Object $parent The serverService instance
    *  \param array $attributesInfo An attributesInfo array, if NULL, getAttributesInfo will be used.
    *
    */
-  function __construct(&$config, $dn, $object = NULL, $attributesInfo = NULL)
+  function __construct ($dn = NULL, $parent = NULL, $attributesInfo = NULL)
   {
-    parent::__construct($config, $dn, $object, $attributesInfo);
+    /* $parent is the instance of serverService in this case, we set it as parent */
+    parent::__construct($dn, $parent, $parent, FALSE, $attributesInfo);
     $plInfos = pluglist::pluginInfos(get_class($this));
     $this->DisplayName  = $plInfos['plShortName'];
-    $this->parent       = $object; /* $object is the instance of serverService in this case */
   }
 
   /*! \brief This function display the service and return the html code
@@ -55,7 +54,7 @@ class simpleService extends simplePlugin {
   {
     if ($this->is_account && !$this->view_logged) {
       $this->view_logged = TRUE;
-      new log("view", "server/".get_class($this), $this->dn);
+      logging::log('view', 'server/'.get_class($this), $this->dn);
     }
 
     $str = parent::execute();

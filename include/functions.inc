@@ -124,6 +124,11 @@ function __fusiondirectory_autoload($class_name)
     exit;
   }
 
+  /* Do not try to autoload smarty classes */
+  if (strpos($class_name, 'Smarty_') === 0) {
+    return;
+  }
+
   if (isset($class_mapping["$class_name"])) {
     require_once($BASE_DIR.'/'.$class_mapping["$class_name"]);
   } else {
@@ -185,7 +190,7 @@ function load_plist ($ldap_available = TRUE)
     /* Initially load all classes */
     load_all_classes();
 
-    $plist = new pluglist($config, $ui);
+    $plist = new pluglist();
     session::global_set('plist', $plist);
     $config->loadPlist($plist);
     if ($ldap_available) {
@@ -294,7 +299,7 @@ function get_browser_language()
     }
   }
 
-  /* Check for global language settings in fusiondirectory.conf */
+  /* Check for global language settings in configuration */
   if (isset ($config) && $config->get_cfg_value('language') != '') {
     $lang = $config->get_cfg_value('language');
     if (!preg_match('/utf/i', $lang)) {
@@ -921,7 +926,7 @@ function get_sub_list($filter, $category, $sub_deps, $base = '', $attributes = a
     /* Log this fall back, it may be an unpredicted behaviour.
      */
     if (!count($sub_bases) && !count($departments)) {
-      new log('debug', 'all', __FILE__, $attributes,
+      logging::log('debug', 'all', __FILE__, $attributes,
           sprintf("get_sub_list(): Falling back to get_list(), due to empty sub_bases parameter.".
             " This may slow down FusionDirectory. Search was: '%s'", $filter));
     }
@@ -1236,7 +1241,7 @@ function &get_smarty()
  *
  * \param string $dn the subject for the conversion
  *
- * \param string $base the base dn, default: $this->config->current['BASE']
+ * \param string $base the base dn, default: $config->current['BASE']
  *
  * \return a string in the form as described above
  */
@@ -1273,7 +1278,7 @@ function convert_department_dn($dn, $base = NULL)
  * Example:
  * \code
  * # Determine LDAP base where systems are stored
- * $base = get_ou('systemRDN') . $this->config->current['BASE'];
+ * $base = get_ou('systemRDN') . $config->current['BASE'];
  * $ldap->cd($base);
  * \endcode
  *
@@ -2985,7 +2990,7 @@ function update_accessTo($from, $to)
     if (!$ldap->success()) {
       msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $dn, LDAP_MOD, "update_accessTo($from,$to)"), LDAP_ERROR);
     }
-    new log("modify", "update_accessTo($from,$to)", $dn, array_keys($new_attrs), $ldap->get_error());
+    logging::log('modify', "update_accessTo($from,$to)", $dn, array_keys($new_attrs), $ldap->get_error());
   }
 }
 

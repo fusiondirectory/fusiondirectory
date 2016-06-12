@@ -68,9 +68,9 @@ class userRoles extends simplePlugin
     );
   }
 
-  function __construct (&$config, $dn = NULL, $object = NULL)
+  function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE)
   {
-    parent::__construct($config, $dn, $object);
+    parent::__construct($dn, $object, $parent, $mainTab);
     $this->ignore_account = FALSE;
 
     /* Groups handling */

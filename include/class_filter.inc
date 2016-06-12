@@ -542,20 +542,20 @@ class filter
    *
    * \param string $value
    */
-  function getCompletitionList($config, $tag, $value = "*")
+  function getCompletitionList($cfg, $tag, $value = "*")
   {
     global $class_mapping;
     $res = array();
 
     // Is backend available?
-    $backend = "filter".$config['backend'];
+    $backend = "filter".$cfg['backend'];
     if (!isset($class_mapping["$backend"])) {
       die("Invalid backend specified in search config.");
     }
 
     // Load filter and attributes
-    $filter     = $config['filter'];
-    $attributes = $config['attribute'];
+    $filter     = $cfg['filter'];
+    $attributes = $cfg['attribute'];
     if (!is_array($attributes)) {
       $attributes = array($attributes);
     }
@@ -567,9 +567,9 @@ class filter
 
     // Make filter
     $filter = preg_replace("/\\$$tag/", ldap_escape_f($value), $filter);
-    if (isset($config['base']) && isset($config['scope']) && isset($config['category'])) {
-      $result = call_user_func(array($backend, 'query'), $this, $config['base'], $config['scope'], $filter, $attributes,
-                           $config["category"], $config["objectStorage"]);
+    if (isset($cfg['base']) && isset($cfg['scope']) && isset($cfg['category'])) {
+      $result = call_user_func(array($backend, 'query'), $this, $cfg['base'], $cfg['scope'], $filter, $attributes,
+                           $cfg["category"], $cfg["objectStorage"]);
     } else {
       $result = call_user_func(array($backend, 'query'), $this, $this->base, $this->scope, $filter, $attributes,
                            $this->category, $this->objectStorage);
@@ -602,9 +602,9 @@ class filter
     // Introduce maximum number of entries
     $max = 25;
 
-    foreach ($this->autocompleters as $tag => $config) {
+    foreach ($this->autocompleters as $tag => $cfg) {
       if (isset($_POST[$tag])) {
-        $result = $this->getCompletitionList($config, $tag, $_POST[$tag]);
+        $result = $this->getCompletitionList($cfg, $tag, $_POST[$tag]);
         $result = array_unique($result);
         asort($result);
 

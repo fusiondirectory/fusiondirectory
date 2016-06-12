@@ -494,7 +494,7 @@ class Step_Migrate extends setupStep
     $res = $ldap->add($testEntry);
     $ldap->cat($dn);
     if (!$ldap->count()) {
-      new log("view", "setup/".get_class($this), $dn, array(), $ldap->get_error());
+      logging::log('view', 'setup/'.get_class($this), $dn, array(), $ldap->get_error());
       throw new CheckFailedException(
         _('Failed'),
         sprintf(_('The specified user "%s" does not have full access to your LDAP database.'), $config->current['ADMINDN'])
@@ -505,7 +505,7 @@ class Step_Migrate extends setupStep
     $res = $ldap->rmDir($dn);
     $ldap->cat($dn);
     if ($ldap->count()) {
-      new log("view", "setup/".get_class($this), $dn, array(), $ldap->get_error());
+      logging::log('view', 'setup/'.get_class($this), $dn, array(), $ldap->get_error());
       throw new CheckFailedException(
         _('Failed'),
         sprintf(_('The specified user "%s" does not have full access to your ldap database.'), $config->current['ADMINDN'])

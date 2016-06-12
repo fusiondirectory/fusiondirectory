@@ -40,7 +40,7 @@ if ( $cleanup ){
 
   /* Create usermanagement object on demand */
   if (!session::is_set('departmentManagement')){
-    $departmentManagement= new departmentManagement ($config, $ui);
+    $departmentManagement = new departmentManagement ();
     session::set('departmentManagement',$departmentManagement);
   }
   $departmentManagement = session::get('departmentManagement');

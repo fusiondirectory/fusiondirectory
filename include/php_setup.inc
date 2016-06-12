@@ -28,25 +28,47 @@ require_once ("variables.inc");
 
 function html_trace($errstr = "")
 {
+  static $hideArgs = array(
+    'ldap_init'         => array(3),
+    'ldap_login_user'   => array(1),
+    'change_password'   => array(1),
+    'cred_decrypt'      => array(0,1),
+    'LDAP/__construct'  => array(1),
+  );
   if (!function_exists('debug_backtrace')) {
-    return array ("", "");
+    return array ('', '');
   }
   $trace = array_slice(debug_backtrace(), 1);
 
-  $return_html    = "<table width=\"100%\" style='background-color:#402005;color:white;border:2px solid red;border-spacing:0;border-collapse:collapse;'><tr><td colspan=3><h1 style='color:white'>"._("PHP error")." \"$errstr\"</h1></td></tr>";
-  $return_mailto  = rawurlencode("=== Trace ===");
+  $loc = '';
+  if (isset($trace[0]['file'])) {
+    $loc = ' - '._('File').': '.$trace[0]['file'];
+    if (isset($trace[0]['line'])) {
+      $loc .= ' ('._('Line').' '.$trace[0]['line'].')';
+    }
+  }
+
+  $return_html    = '<table width="100%" style="background-color:#402005;color:white;border:2px solid red;border-spacing:0;border-collapse:collapse;">'.
+                    '<tr><td colspan="3">'.
+                    '<h1 style="color:white">'._('PHP error').' "'.$errstr.'"'.$loc.'</h1>'.
+                    '</td></tr>';
+  $return_mailto  = rawurlencode('=== Trace ===');
   /* Generate trace history */
-  for ($index = 0, $c = count($trace); $index < $c; $index++) {
+  for ($index = 1, $c = count($trace); $index < $c; $index++) {
     $ct   = $trace[$index];
-    $loc  = "";
+    $loc  = '';
+    $func = '';
     if (isset($ct['class'])) {
       $loc .= _("class")." ".$ct['class'];
+      $func .= $ct['class'];
       if (isset($ct['function'])) {
-        $loc .= " / ";
+        $loc .= ' / ';
+        $func .= '/';
       }
     }
     if (isset($ct['function'])) {
       $loc .= _("function")." ".$ct['function'];
+      $func .= $ct['function'];
     }
     if (isset($ct['type'])) {
       switch ($ct['type']) {
@@ -63,16 +85,24 @@ function html_trace($errstr = "")
     }
     $args = "";
     if (isset($ct['args'])) {
-      $f = function ($arg) use(&$f) {
+      if (isset($hideArgs[$func])) {
+        $hideArgsIndexes = $hideArgs[$func];
+      } else {
+        $hideArgsIndexes = array();
+      }
+      $f = function ($index, $arg) use(&$f, $hideArgsIndexes) {
         static $i = 0;
+        if (($i == 0) && in_array($index, $hideArgsIndexes)) {
+          return '***';
+        }
         if ($i > 4) {
-          return "…";
+          return '…';
         }
         if (is_object($arg)) {
           return "CLASS:&nbsp;".get_class($arg);
-        } elseif (is_array($arg)) { /* Avoid convertig array to string errors */
+        } elseif (is_array($arg)) { /* Avoid converting array to string errors */
           $i++;
-          $ret = "array(".implode(',', array_map($f, $arg)).")";
+          $ret = "array(".implode(',', array_map($f, array_keys($arg), $arg)).")";
           $i--;
           return $ret;
         } else {
@@ -82,7 +112,7 @@ function html_trace($errstr = "")
           return '"'.htmlentities("$arg", ENT_COMPAT, 'UTF-8').'"';
         }
       };
-      $args = implode(',', array_map($f, $ct['args']));
+      $args = implode(',', array_map($f, array_keys($ct['args']), $ct['args']));
     }
     if (empty($args)) {
       $args = "-";
@@ -157,11 +187,11 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
   }
 
   /* Error messages are hidden in FusionDirectory, so we only send them to the logging class and abort here */
-  if (isset($config->data) && $config->get_cfg_value("displayerrors") != "TRUE") {
+  if (isset($config->data) && $config->get_cfg_value('displayerrors') != 'TRUE') {
 
     /* Write to syslog */
-    if (class_exists("log") && !preg_match("/No such object/", $errstr)) {
-      new log("view", "error", "", array(), "PHP error: $errstr ($errfile, line $errline)");
+    if (class_exists('logging') && !preg_match('/No such object/', $errstr)) {
+      logging::log('view', 'error', '', array(), "PHP error: $errstr ($errfile, line $errline)");
     }
 
     set_error_handler('gosaRaiseError', E_WARNING | E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT);
@@ -169,8 +199,8 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
   }
 
   /* Send all errors to logging class, except "Ldap : No such object" messages*/
-  if (class_exists("log") && !preg_match("/No such object/", $errstr)) {
-    new log("debug", "all", $errfile, array(), "Type:".$errno.", Message:".$errstr.", File:".$errfile.", Line: ".$errline);
+  if (class_exists('logging') && !preg_match('/No such object/', $errstr)) {
+    logging::log('debug', 'all', $errfile, array(), 'Type:'.$errno.', Message:'.$errstr.', File:'.$errfile.', Line: '.$errline);
   }
 
   /* Create header as needed */
@@ -244,8 +274,8 @@ function dummy_error_handler()
 }
 
 /* Bail out for incompatible/old PHP versions */
-if (!version_compare(phpversion(), "5.2.0", ">=")) {
-  echo "PHP version needs to be 5.2.0 or above to run FusionDirectory. Aborted.";
+if (!version_compare(phpversion(), PHP_MIN_VERSION, ">=")) {
+  echo "PHP version needs to be ".PHP_MIN_VERSION." or above to run FusionDirectory. Aborted.";
   exit();
 }
 

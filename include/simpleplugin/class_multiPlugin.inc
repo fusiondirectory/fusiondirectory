@@ -37,9 +37,10 @@ class multiPlugin extends simplePlugin
     return array();
   }
 
-  function __construct (&$config, $dn = NULL, $parent = NULL)
+  function __construct ($dn = NULL, $object = NULL, $parent = NULL)
   {
-    parent::__construct($config, $dn, $parent);
+    global $config;
+    parent::__construct($dn, $object, $parent, FALSE);
 
     $plInfos = pluglist::pluginInfos(get_class($this));
 
@@ -49,7 +50,7 @@ class multiPlugin extends simplePlugin
         continue;
       }
       $name = $plug['CLASS'];
-      $this->plugin[$name] = new $name($config, $dn, $parent);
+      $this->plugin[$name] = new $name($dn, $object, $parent);
 
       /* Acl base && category configuration,
           these settings will be overloaded in main.inc,
@@ -79,11 +80,6 @@ class multiPlugin extends simplePlugin
         $display .= back_to_main();
         return $display;
       }
-    } else {
-      foreach ($this->plugin as &$plug) {
-        $plug->parent = $this->parent;
-      }
-      unset($plug);
     }
 
     /* Execude  objects */

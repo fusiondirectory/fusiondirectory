@@ -62,12 +62,19 @@ if (!(is_dir($smarty->compile_dir) && is_writable($smarty->compile_dir))) {
 }
 
 /* Get posted language */
-if (isset($_POST['lang_selected']) && $_POST['lang_selected'] != "") {
+if (isset($_POST['lang_selected']) && $_POST['lang_selected'] != '') {
   $lang = $_POST['lang_selected'];
 
   /* Append .UTF-8 to language string if necessary */
-  if (!preg_match("/utf(-)8$/i", $lang)) {
-    $lang .= ".UTF-8";
+  if (!preg_match('/utf(-)?8$/i', $lang)) {
+    $lang .= '.UTF-8';
+  }
+} elseif (session::global_is_set('lang')) {
+  $lang = session::global_get('lang');
+
+  /* Append .UTF-8 to language string if necessary */
+  if (!preg_match('/utf(-)?8$/i', $lang)) {
+    $lang .= '.UTF-8';
   }
 } else {
   $lang = get_browser_language();

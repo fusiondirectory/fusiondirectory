@@ -34,10 +34,8 @@ class passwordMethodCrypt extends passwordMethod
 
   /*!
    * \brief passwordMethodCrypt Constructor
-   *
-   * \param string $config
    */
-  function __construct($config)
+  function __construct()
   {
   }
 

@@ -63,11 +63,16 @@ define("FPDF_FONTPATH", "/usr/share/php/fpdf/font/"); /*! Define fpdf font path 
 /*!
  * \brief FusionDirectory Version
  */
-define ("FD_VERSION", "1.0.12"); /*! Define FusionDirectory version */
+define ("FD_VERSION", "1.0.13"); /*! Define FusionDirectory version */
 
 /*!
  * \brief FusionDirectory config object RDN
  */
 define ("CONFIGRDN", "cn=config,ou=fusiondirectory,"); /*! Define FusionDirectory config object */
+
+/*!
+ * \brief Minimum PHP version
+ */
+define ("PHP_MIN_VERSION", "5.4.0");
 
 ?>

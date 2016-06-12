@@ -56,11 +56,9 @@ class config  {
    * - $data['SERVERS'] contains server informations.
    */
   var $data = array(
-    'TABS'      => array(),
     'LOCATIONS' => array(),
     'SERVERS'   => array(),
     'MAIN'      => array(),
-    'MENU'      => array()
   );
   var $basedir        = "";
 
@@ -145,10 +143,9 @@ class config  {
   function parse_data ($xmldata)
   {
     $this->data = array(
-      "TABS"      => array(),
-      "LOCATIONS" => array(),
-      "MAIN"      => array(),
-      "MENU"      => array()
+      'LOCATIONS' => array(),
+      'SERVERS'   => array(),
+      'MAIN'      => array(),
     );
 
     $this->parser = xml_parser_create();
@@ -202,19 +199,6 @@ class config  {
 
     /* Look through attributes */
     switch ($this->tags[$this->level - 1]) {
-
-      /* Handle tab section */
-      case 'TAB':
-        $name = $this->tags[$this->level - 2];
-
-        /* Create new array? */
-        if (!isset($this->data['TABS'][$name])) {
-          $this->data['TABS'][$name] = array();
-        }
-
-        /* Add elements */
-        $this->data['TABS'][$name][] = $attrs;
-        break;
 
       /* Handle location */
       case 'LOCATION':
@@ -316,7 +300,7 @@ class config  {
    *
    * Example usage:
    * \code
-   * $ldap = $this->config->get_ldap_link();
+   * $ldap = $config->get_ldap_link();
    * \endcode
    *
    * \param boolean $sizelimit Weither to impose a sizelimit on the LDAP object or not.
@@ -559,7 +543,7 @@ class config  {
     }
     if ($reload) {
       add_lock($dn, $ui->dn);
-      $config_plugin = new tabs_configInLdap($this, $this->data['TABS']['CONFIGURATIONTABS'], $dn, 'configuration');
+      $config_plugin = objects::open($dn, 'configuration');
       $config_plugin->save_object();
       $config_plugin->save();
       del_lock($dn);
@@ -772,7 +756,7 @@ class config  {
    *
    *  Example usage:
    *  \code
-   *  if ($this->config->boolValueIsTrue("main", "copyPaste")) {
+   *  if ($config->boolValueIsTrue("main", "copyPaste")) {
    *    echo "Copy Paste Handling is enabled";
    *  }
    *  \endcode
@@ -804,7 +788,7 @@ class config  {
    *
    *  Example usage:
    *  \code
-   *  $postcmd = $this->config->search(get_class($this), 'POSTMODIFY');
+   *  $postcmd = $config->search(get_class($this), 'POSTMODIFY');
    *  \endcode
    *
    *  \param string $class The class name
@@ -925,6 +909,8 @@ class config  {
     $this->data['OBJECTS']    = array();
     $this->data['SECTIONS']   = array();
     $this->data['CATEGORIES'] = array();
+    $this->data['MENU']       = array();
+    $this->data['TABS']       = array();
     foreach ($plist->info as $class => &$plInfo) {
       if (isset($plInfo['plObjectType'])) {
         $entry = array('CLASS' => $class,'NAME' => $plInfo['plShortName']);

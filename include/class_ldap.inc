@@ -1120,94 +1120,79 @@ class LDAP
       $this->connect();
     }
 
-    /* First we have to split the string into empty lines.
-       An empty line indicates an new Entry */
-    $entries = preg_split("/\n/", $str_attr);
+    /* First we split the string into lines */
+    $fileLines = preg_split("/\n/", $str_attr);
 
-    $data         = "";
-    $cnt          = 0;
-    $current_line = 0;
-
-    /* FIX ldif */
-    $tmp  = "";
-    $i    = 0;
-    foreach ($entries as $entry) {
-      if (preg_match("/^ /", $entry)) {
-        $tmp[$i] .= trim($entry);
+    /* Joining lines */
+    $line   = NULL;
+    $entry  = array();
+    $entryStart = -1;
+    foreach ($fileLines as $lineNumber => $fileLine) {
+      if (preg_match('/^ /', $fileLine)) {
+        if ($line === NULL) {
+          throw new Exception(sprintf(_('Error line %s, first line of an entry cannot start with a space'), $lineNumber));
+        }
+        /* Append to current line */
+        $line .= substr($fileLine, 1);
+      } elseif (preg_match('/^#/', $fileLine)) {
+        /* Ignore comment */
+        // TODO handle folded comment
+      } elseif (preg_match('/^version:/', $fileLine) && empty($entry)) {
+        /* Ignore version number */
       } else {
-        $i++;
-        $tmp[$i] = trim($entry);
-      }
-    }
-
-    $all = array();
-    /* Every single line ... */
-    foreach ($tmp as $entry) {
-      $current_line ++;
-
-      /* Removing Spaces to ..
-         .. test if a new entry begins */
-      $tmp  = str_replace(" ", "", $data );
-
-      /* .. prevent empty lines in an entry */
-      $tmp2 = str_replace(" ", "", $entry);
-
-      /* If the Block ends (Empty Line) */
-      if (empty($entry) && !empty($tmp)) {
-        /* Add collected lines as a complete block */
-        $all[$cnt] = $data;
-        $cnt ++;
-        $data = "";
-      } else {
-        /* Append lines ... */
-        if (!empty($tmp2)) {
-          /* check if we need base64_decode for this line */
-          if (strstr($tmp2, "::") !== FALSE) {
-            $encoded  = explode("::", $entry);
-            $attr     = trim($encoded[0]);
-            $value    = base64_decode(trim($encoded[1]));
-            /* Add linenumber */
-            $data .= $current_line."#".base64_encode($attr.":".$value)."\n";
-          } else {
-            /* Add Linenumber */
-            $data .= $current_line."#".base64_encode($entry)."\n";
+        if ($line !== NULL) {
+          /* Line has ended */
+          list ($key, $value) = explode(':', $line, 2);
+          $value = trim($value);
+          if (preg_match('/^:/', $value)) {
+            $value = base64_decode(trim(substr($value, 1)));
           }
+          if (preg_match('/^</', $value)) {
+            throw new Exception(sprintf(_('Error line %s, references to an external file are not supported'), $lineNumber));
+          }
+          if (empty($value)) {
+            throw new Exception(sprintf(_('Error line %s, attribute "%s" has no value'), $lineNumber, $key));
+          }
+          if ($key == 'dn') {
+            if (!empty($entry)) {
+              throw new Exception(sprintf(_('Error line %s, an entry bloc can only have one dn'), $lineNumber));
+            }
+            $entry['dn']  = $value;
+            $entryStart   = $lineNumber;
+          } elseif (empty($entry)) {
+            throw new Exception(sprintf(_('Error line %s, an entry bloc should start with the dn'), $lineNumber));
+          } else {
+            if (!isset($entry[$key])) {
+              $entry[$key] = array();
+            }
+            $entry[$key][] = $value;
+          }
+        }
+        /* Start new line */
+        $line = trim($fileLine);
+        if ($line == '') {
+          if (!empty($entry)) {
+            /* Entry is finished */
+            $entries[$entryStart] = $entry;
+          }
+          /* Start a new entry */
+          $entry      = array();
+          $entryStart = -1;
+          $line       = NULL;
         }
       }
     }
 
-    /* The Data we collected is not in the array all[];
-       For example the Data is stored like this..
-
-       all[0] = "1#dn : .... \n
-       2#ObjectType: person \n ...."
-
-       Now we check every insertblock and try to insert */
-    foreach ($all as $single) {
-      $lineone  = preg_split("/\n/", $single);
-      $ndn      = explode("#", $lineone[0]);
-      $line     = base64_decode($ndn[1]);
-
-      $dnn          = explode (":", $line, 2);
-      $current_line = $ndn[0];
-      $dn           = $dnn[0];
-      $value        = $dnn[1];
-
-      /* Every block must begin with a dn */
-      if ($dn != "dn") {
-        $error = sprintf(_("This is not a valid DN: '%s'. A block for import should begin with 'dn: ...' in line %s"), $line, $current_line);
-        throw new Exception($error);
-      }
-
+    foreach ($entries as $startLine => $entry) {
       /* Delete before insert */
-      $usermdir = ($this->dn_exists($value) && $DeleteOldEntries);
+      $usermdir = ($this->dn_exists($entry['dn']) && $DeleteOldEntries);
       /* Should we use Modify instead of Add */
-      $usemodify = ($this->dn_exists($value) && $JustModify);
+      $usemodify = ($this->dn_exists($entry['dn']) && $JustModify);
 
       /* If we can't Import, return with a file error */
-      if (!$this->import_single_entry($srp, $single, $usemodify, $usermdir)) {
-        $error = sprintf(_("Error while importing dn: '%s', please check your LDIF from line %s on!"), $line,
-                        $current_line);
+      if (!$this->import_single_entry($srp, $entry, $usemodify, $usermdir)) {
+        $error = sprintf(_("Error while importing dn: '%s', please check your LDIF from line %s on!"), $entry['dn'][0],
+                        $startLine);
         throw new Exception($error);
       }
     }
@@ -1221,13 +1206,13 @@ class LDAP
    *
    * \param integer $srp
    *
-   * \param string $str_attr
+   * \param array $data
    *
    * \param boolean $modify
    *
    * \param boolean $delete
    */
-  function import_single_entry($srp, $str_attr, $modify, $delete)
+  protected function import_single_entry($srp, $data, $modify, $delete)
   {
     global $config;
 
@@ -1240,84 +1225,31 @@ class LDAP
     }
 
     $ret  = FALSE;
-    $rows = preg_split("/\n/", $str_attr);
-    $data = FALSE;
-
-    foreach ($rows as $row) {
-      /* Check if we use Linenumbers (when import_complete_ldif is called we use
-         Linenumbers) Linenumbers are use like this 123#attribute : value */
-      if (!empty($row)) {
-        if (strpos($row, "#") != FALSE) {
-          /* We are using line numbers
-             Because there is a # before a : */
-          $tmp1 = explode("#", $row);
-          $row  = base64_decode($tmp1[1]);
-        }
-
-        /* Split the line into  attribute  and value */
-        $attr     = explode(":", $row, 2);
-        $attr[0]  = trim($attr[0]);  /* attribute */
-        $attr[1]  = $attr[1];  /* value */
-
-        /* Check :: was used to indicate base64_encoded strings */
-        if ((!empty($attr[1])) && ($attr[1][0] == ':')) {
-          $attr[1]  = trim(preg_replace("/^:/", "", $attr[1]));
-          $attr[1]  = base64_decode($attr[1]);
-        }
-
-        $attr[1] = trim($attr[1]);
-
-        /* Check for attributes that are used more than once */
-        if (!isset($data[$attr[0]])) {
-          $data[$attr[0]] = $attr[1];
-        } else {
-          $tmp = $data[$attr[0]];
-
-          if (!is_array($tmp)) {
-            $new[0] = $tmp;
-            $new[1] = $attr[1];
-
-            $datas[$attr[0]]['count'] = 1;
-            $data[$attr[0]]           = $new;
-          } else {
-            $cnt = $datas[$attr[0]]['count'];
-            $cnt ++;
-            $data[$attr[0]][$cnt]     = $attr[1];
-            $datas[$attr[0]]['count'] = $cnt;
-          }
-        }
-      }
-    }
 
     /* If dn is an index of data, we should try to insert the data */
     if (isset($data['dn'])) {
-
       /* Fix dn */
       $tmp = gosa_ldap_explode_dn($data['dn']);
       unset($tmp['count']);
-      $newdn = "";
+      $dn = '';
       foreach ($tmp as $tm) {
-        $newdn .= trim($tm).",";
+        $dn .= trim($tm).',';
       }
-      $newdn = preg_replace("/,$/", "", $newdn);
-      $data['dn'] = $newdn;
+      $dn = preg_replace('/,$/', '', $dn);
+      unset($data['dn']);
 
       /* Creating Entry */
-      $this->cd($data['dn']);
+      $this->cd($dn);
 
       /* Delete existing entry */
       if ($delete) {
-        $this->rmdir_recursive($srp, $data['dn']);
+        $this->rmdir_recursive($srp, $dn);
       }
 
       /* Create missing trees */
-      $this->cd ($this->basedn);
       $this->cd($config->current['BASE']);
-      $this->create_missing_trees($srp, preg_replace("/^[^,]+,/", "", $data['dn']));
-      $this->cd($data['dn']);
-
-      $dn = $data['dn'];
-      unset($data['dn']);
+      $this->create_missing_trees($srp, preg_replace('/^[^,]+,/', '', $dn));
+      $this->cd($dn);
 
       if (!$modify) {
         $this->cat($srp, $dn);
@@ -1326,7 +1258,7 @@ class LDAP
           $attrs = $this->fetch($srp);
           foreach (array_keys($attrs) as $name) {
             if (!is_numeric($name)) {
-              if (in_array($name, array("dn","count"))) {
+              if (in_array($name, array('dn','count'))) {
                 continue;
               }
               if (!isset($data[$name])) {
@@ -1346,7 +1278,7 @@ class LDAP
     }
 
     if (!$this->success()) {
-      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($this->get_error(), $dn, "", get_class()), LDAP_ERROR);
+      msg_dialog::display(_('LDAP error'), msgPool::ldaperror($this->get_error(), $dn, '', get_class()), LDAP_ERROR);
     }
 
     return $ret;

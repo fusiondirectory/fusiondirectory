@@ -30,7 +30,6 @@
 class simpleTabs
 {
   var $dn;
-  var $config;
   var $acl;
   var $is_template;
 
@@ -53,7 +52,7 @@ class simpleTabs
   /*!
    * \brief Tabs classes constructor
    *
-   * You should either call __construct($type, $dn, [$copied_object]) or (deprecated) __construct($config, $data, $dn, $category, [$copied_object])
+   * You should either call __construct($type, $dn, [$copied_object]) or (deprecated) __construct(NULL, $data, $dn, $category, [$copied_object])
    * */
   function __construct()
   {
@@ -71,6 +70,7 @@ class simpleTabs
       }
       $this->objectType = $type;
     } else {
+      trigger_error('deprecated call to old tabclass constructor');
       /* Deprecated, used by old management classes */
       //$config_object  = func_get_arg(0); // ignored
       $data           = func_get_arg(1);
@@ -83,7 +83,6 @@ class simpleTabs
 
     /* Save dn */
     $this->dn     = $dn;
-    $this->config = &$config;
 
     if (!count($data)) {
       $data[] = array("CLASS" => 'plugin',"NAME" => 'Error');
@@ -102,16 +101,14 @@ class simpleTabs
       $this->by_name[$tab['CLASS']] = $tab['NAME'];
 
       if ($baseobject === NULL) {
-        $baseobject = new $tab['CLASS']($this->config, $this->dn, $attrs_object);
-        $baseobject->enable_CSN_check();
+        $baseobject = new $tab['CLASS']($this->dn, $attrs_object, $this, TRUE);
         $this->by_object[$tab['CLASS']] = $baseobject;
         $this->baseclass                = $tab['CLASS'];
       } else {
-        $this->by_object[$tab['CLASS']] = new $tab['CLASS']($this->config, $this->dn, $baseobject);
+        $this->by_object[$tab['CLASS']] = new $tab['CLASS']($this->dn, $baseobject, $this, FALSE);
       }
 
       $this->read_only |= $this->by_object[$tab['CLASS']]->read_only;
-      $this->by_object[$tab['CLASS']]->parent = &$this;
       $this->by_object[$tab['CLASS']]->set_acl_category($this->acl_category);
     }
     unset($tab);
@@ -148,13 +145,11 @@ class simpleTabs
         continue;
       }
       if ($baseobject === NULL) {
-        $baseobject = new $class($this->config, $this->dn);
-        $baseobject->enable_CSN_check();
+        $baseobject = new $class($this->dn, NULL, $this, TRUE);
         $this->by_object[$name] = $baseobject;
       } else {
-        $this->by_object[$name] = new $class($this->config, $this->dn, $baseobject);
+        $this->by_object[$name] = new $class($this->dn, $baseobject, $this, FALSE);
       }
-      $this->by_object[$name]->parent = &$this;
       $this->by_object[$name]->set_acl_category($this->acl_category);
     }
   }
@@ -210,10 +205,9 @@ class simpleTabs
     $display = '<div class="tab_content">'."\n";
 
     $display .= $this->by_object[$this->current]->execute();
-    $modal_dialog = $this->by_object[$this->current]->is_modal_dialog();
 
     /* Build tab line */
-    $tabs   = $this->gen_tabs($modal_dialog);
+    $tabs   = $this->gen_tabs($this->dialogOpened());
 
     /* Footer for tabbed dialog */
     $display = $tabs.$display.'</div>';
@@ -455,19 +449,17 @@ class simpleTabs
    */
   function addSpecialTabs()
   {
-    $data       = $this->config->data['TABS']['SPECIALTABS'];
+    global $config;
     $baseobject = $this->getBaseObject();
-    foreach ($data as &$tab) {
+    foreach ($config->data['TABS']['SPECIALTABS'] as $tab) {
       if (!plugin_available($tab['CLASS'])) {
         continue;
       }
 
       $this->by_name[$tab['CLASS']] = $tab['NAME'];
-      $this->by_object[$tab['CLASS']] = new $tab['CLASS']($this->config, $this->dn, $baseobject);
-      $this->by_object[$tab['CLASS']]->parent = &$this;
+      $this->by_object[$tab['CLASS']] = new $tab['CLASS']($this->dn, $baseobject, $this, FALSE);
       $this->by_object[$tab['CLASS']]->set_acl_category($this->acl_category);
     }
-    unset($tab);
   }
 
   /*!
@@ -498,6 +490,19 @@ class simpleTabs
       $obj->setTemplate(TRUE);
     }
     unset($obj);
+  }
+
+  public function setNeedEditMode ($bool)
+  {
+    foreach ($this->by_object as &$obj) {
+      $obj->setNeedEditMode($bool);
+    }
+    unset($obj);
+  }
+
+  public function dialogOpened ()
+  {
+    return $this->by_object[$this->current]->is_modal_dialog();
   }
 
   function objectInfos()

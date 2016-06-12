@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 /* Logged in? Simple security check */
 if (!session::global_is_set('connected')) {
-  new log('security', 'login', '', array(), 'main.php called without session - logging out');
+  logging::log('security', 'login', '', array(), 'main.php called without session - logging out');
   header ('Location: index.php?message=nosession');
   exit;
 }
@@ -57,7 +57,7 @@ if (!session::global_is_set('connected')) {
 /* Check for uniqe ip address */
 $ui = session::global_get('ui');
 if ($_SERVER['REMOTE_ADDR'] != $ui->ip) {
-  new log('security', 'login', '', array(), 'main.php called with session which has a changed IP address.');
+  logging::log('security', 'login', '', array(), 'main.php called with session which has a changed IP address.');
   header ('Location: index.php?signout=1&message=newip');
   exit;
 }
@@ -84,7 +84,7 @@ if (session::global_get('_LAST_PAGE_REQUEST') != '') {
    */
   if ($request_time > $max_life) {
     session::destroy();
-    new log('security', 'login', '', array(), 'main.php called with expired session - logging out');
+    logging::log('security', 'login', '', array(), 'main.php called with expired session - logging out');
     header ('Location: index.php?signout=1&message=expired');
     exit;
   }
@@ -114,7 +114,7 @@ if (isset($global_check) && $config->get_cfg_value("forceglobals") == "TRUE") {
             _("Fatal error: Register globals is on. FusionDirectory will refuse to login unless this is fixed by an administrator."),
             FATAL_ERROR_DIALOG);
 
-  new log("security", "login", "", array(), "Register globals is on. For security reasons, this should be turned off.");
+  logging::log('security', 'login', '', array(), 'Register globals is on. For security reasons, this should be turned off.');
   session::destroy ();
   exit;
 }
@@ -133,11 +133,11 @@ $smarty->assign("hideMenus", FALSE);
 if ($config->get_cfg_value("handleExpiredAccounts") == "TRUE") {
   $expired = $ui->expired_status();
   if (($expired == POSIX_WARN_ABOUT_EXPIRATION) && !session::is_set('POSIX_WARN_ABOUT_EXPIRATION__DONE')) {
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $expired, "This user account (".$ui->uid.") is about to expire");
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $expired, 'This user account ('.$ui->uid.') is about to expire');
 
     // The users password is about to xpire soon, display a warning message.
-    new log("security", "fusiondirectory", "", array(), "password for user '".$ui->uid."' is about to expire");
-    msg_dialog::display(_("Password change"), _("Your password is about to expire, please change your password!"), INFO_DIALOG);
+    logging::log('security', 'fusiondirectory', '', array(), 'password for user "'.$ui->uid.'" is about to expire');
+    msg_dialog::display(_('Password change'), _('Your password is about to expire, please change your password!'), INFO_DIALOG);
     session::set('POSIX_WARN_ABOUT_EXPIRATION__DONE', TRUE);
   } elseif ($expired == POSIX_FORCE_PASSWORD_CHANGE) {
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $expired, "This user account expired");
@@ -165,7 +165,7 @@ if (isset($_GET['plug']) && $plist->plugin_access_allowed($_GET['plug'])) {
   $plugin_dir = $plist->get_path($plug);
   session::global_set('plugin_dir', $plugin_dir);
   if ($plugin_dir == '') {
-    new log('security', 'fusiondirectory', '', array(), "main.php called with invalid plug parameter \"$plug\"");
+    logging::log('security', 'fusiondirectory', '', array(), "main.php called with invalid plug parameter \"$plug\"");
     header ('Location: index.php?signout=1&message=invalidparameter&plug='.$plug);
     exit;
   }

@@ -181,3 +181,13 @@ documentation and additional help.
 * Christian Kreidl <christian.kreidl@ziti.uni-heidelberg.de>
   ppolicy improvement
   
+* Martin Hamant <mh@ow2.org>
+  Coded the LockUser fonction for the webservice
+  
+* Jonathan Swaelens <jonathan@opensides.be>
+  QA on FusionDirectory
+  RPM packaging maintener and ArchLinux Packager
+  
+* Timothée Giet timo@timotheegiet.com
+  New breezy icon Theme
+  

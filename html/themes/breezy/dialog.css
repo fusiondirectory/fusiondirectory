@@ -1,0 +1,32 @@
+
+div.msgtitle {
+width:auto;
+background-color:#F0F0F0;
+border: solid 1px #BBBBBB;
+margin-bottom:7px;
+}
+div.msgtitle h2 {
+margin:10px;
+}
+
+div.msgdialog {
+width:60%;
+z-index:150;
+position:relative;
+display:none;
+margin:auto;
+top:200px;
+}
+@media (max-height: 600px) {
+  div.msgdialog {
+    top:auto;
+  }
+}
+
+/* Small screens (i.e. phones) */
+@media (max-width: 640px) {
+  div.msgdialog {
+    top:auto;
+    width:auto;
+  }
+}

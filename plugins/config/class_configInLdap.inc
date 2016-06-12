@@ -49,7 +49,6 @@ class DebugLevelAttribute extends SetAttribute
 class configInLdap extends simplePlugin
 {
   var $objectclasses  = array("fusionDirectoryConf");
-  var $mainTab        = TRUE;
 
   static function plInfo()
   {
@@ -62,6 +61,7 @@ class configInLdap extends simplePlugin
         'configuration' => array(
           'name'      => _('FusionDirectory configuration'),
           'filter'    => 'objectClass=fusionDirectoryConf',
+          'tabClass'  => 'tabs_configInLdap',
           'icon'      => 'geticon.php?context=categories&icon=settings&size=16',
           'mainAttr'  => FALSE,
           'ou'        => preg_replace('/^[^,]+,/', '', CONFIGRDN)
@@ -465,8 +465,9 @@ class configInLdap extends simplePlugin
     );
   }
 
-  function __construct(&$config, $dn = NULL, $object = NULL)
+  function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE, $attributesInfo = NULL)
   {
+    global $config;
     $attributesInfo = self::getAttributesInfo();
     /* Languages */
     $languages = get_languages(TRUE);
@@ -480,7 +481,12 @@ class configInLdap extends simplePlugin
     $methods = $methods['name'];
     $attributesInfo['password']['attrs'][0]->setChoices($methods);
 
-    parent::__construct($config, $dn, $object, $attributesInfo);
+    try {
+      parent::__construct($dn, $object, $parent, $mainTab, $attributesInfo);
+    } catch (NonExistingLdapNodeException $e) {
+      parent::__construct('new', $object, $parent, $mainTab, $attributesInfo);
+      $this->dn = $dn;
+    }
 
     $this->fusionConfigMd5 = md5_file(CACHE_DIR."/".CLASS_CACHE);
 
