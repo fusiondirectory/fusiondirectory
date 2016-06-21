@@ -76,17 +76,19 @@ if (session::global_get('_LAST_PAGE_REQUEST') != '') {
   /* check FusionDirectory.conf for defined session lifetime */
   $max_life = $config->get_cfg_value('sessionLifetime', 60 * 60 * 2);
 
-  /* get time difference between last page reload */
-  $request_time = (time() - session::global_get('_LAST_PAGE_REQUEST'));
+  if ($max_life > 0) {
+    /* get time difference between last page reload */
+    $request_time = (time() - session::global_get('_LAST_PAGE_REQUEST'));
 
-  /* If page wasn't reloaded for more than max_life seconds
-   * kill session
-   */
-  if ($request_time > $max_life) {
-    session::destroy();
-    logging::log('security', 'login', '', array(), 'main.php called with expired session - logging out');
-    header ('Location: index.php?signout=1&message=expired');
-    exit;
+    /* If page wasn't reloaded for more than max_life seconds
+     * kill session
+     */
+    if ($request_time > $max_life) {
+      session::destroy();
+      logging::log('security', 'login', '', array(), 'main.php called with expired session - logging out');
+      header ('Location: index.php?signout=1&message=expired');
+      exit;
+    }
   }
 }
 session::global_set('_LAST_PAGE_REQUEST', time());

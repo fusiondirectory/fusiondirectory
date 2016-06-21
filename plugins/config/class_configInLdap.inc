@@ -204,7 +204,7 @@ class configInLdap extends simplePlugin
             TRUE
           ),
           new IntAttribute (
-            _('Session lifetime'), _('Defines when a session will expire in seconds.'),
+            _('Session lifetime'), _('Defines when a session will expire in seconds (0 to disable).'),
             'fdSessionLifeTime', TRUE,
             0 /*min*/, FALSE /*no max*/, 1800
           ),
