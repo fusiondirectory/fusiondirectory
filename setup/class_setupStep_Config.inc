@@ -47,10 +47,10 @@ class Step_Config extends configInLdap
     return array();
   }
 
-  function __construct($cv)
+  function __construct($parent, $cv)
   {
     global $config;
-    parent::__construct(CONFIGRDN.$config->current['BASE']);
+    parent::__construct(CONFIGRDN.$config->current['BASE'], NULL, $parent, TRUE);
 
     $this->attributesInfo['miscellaneous']['class'] = array('invisible');
     $this->attributesInfo['debug']['class'] = array('invisible');
