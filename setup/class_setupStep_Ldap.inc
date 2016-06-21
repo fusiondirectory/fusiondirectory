@@ -91,9 +91,9 @@ class Step_Ldap extends setupStep
     );
   }
 
-  function __construct()
+  function __construct($parent)
   {
-    parent::__construct();
+    parent::__construct($parent);
     $this->update_strings();
     $this->attributesAccess['base']->setSubmitForm(TRUE);
     $this->attributesAccess['admin']->setLinearRendering(TRUE);
