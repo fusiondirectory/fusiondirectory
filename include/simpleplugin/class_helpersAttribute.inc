@@ -219,6 +219,7 @@ class UnitIntAttribute extends CompositeAttribute
       $acl, $label
     );
     $this->setLinearRendering(TRUE);
+    $this->setRequired($required); /* As we use linear rendering we want the asterisk in the label if required */
   }
 
   function readValues($value)
@@ -228,7 +229,10 @@ class UnitIntAttribute extends CompositeAttribute
     }
     $choices = $this->attributes[1]->getChoices();
     sort($choices);
-    /* Find the approriate unit */
+    if ($value == 0) {
+      return array($value, $choices[0]);
+    }
+    /* Find the appropriate unit */
     for (
       $i = (count($choices) - 1);
       ($value % $choices[$i] != 0) && ($i > 0);
