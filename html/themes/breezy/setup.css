@@ -47,7 +47,7 @@ cursor:default;
 /* Disabled setup steps */
 #menucell.setup_navigation li.menuitem.disabled a.navigation_title {
 cursor:default;
-color:#AAA;
+color:#C0C2C3;
 }
 
 /* Disabled setup steps */
@@ -63,7 +63,7 @@ padding-bottom:3px;
 /* The style for the info of an active setup */
 #menucell.setup_navigation li.menuitem a.navigation_info {
 font-size:1em;
-color:#000;
+color:#31363b;
 margin:0;
 cursor:default;
 }
@@ -101,7 +101,7 @@ cursor:default;
 /* Container for name and status, when status is failed */
 div.step2_entry_container_info {
 padding:3px;
-border:1px solid #AAA;
+border:1px solid #C0C2C3;
 width:99%;
 cursor:default;
 }
