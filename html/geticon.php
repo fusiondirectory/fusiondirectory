@@ -39,12 +39,10 @@ $src    = IconTheme::findThemeIcon($theme, $_GET['context'], $_GET['icon'], $_GE
 
 header("Content-Type: image/png");
 if (isset($_GET['disabled']) && $_GET['disabled']) {
-  $im = imagecreatefrompng($src);
-  imageAlphaBlending($im, TRUE);
-  imageSaveAlpha($im, TRUE);
-  imagefilter($im, IMG_FILTER_GRAYSCALE);
-  imagepng($im);
-  imagedestroy($im);
+  $im = new Imagick($src);
+  $im->modulateImage(100, 0, 100);
+  $im->evaluateImage(Imagick::EVALUATE_DIVIDE, 2, Imagick::CHANNEL_ALPHA);
+  echo $im;
 } else {
   readfile($src);
 }
