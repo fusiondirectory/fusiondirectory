@@ -26,12 +26,12 @@ border:none;
 
 a:link {
 text-decoration:none;
-color:#2980b9;
+color:#31363B;
 }
 
 a:visited {
 text-decoration:none;
-color:#2980b9;
+color:#31363B;
 }
 
 td.listfooter {
@@ -140,6 +140,18 @@ border:1px solid #eff0f1;
 border-radius:8px;
 /*transition:box-shadow .5s ease, background .5s ease;*/
 }
+
+a.maintitlebar:link,div.maintitlebar:link {
+text-decoration:none;
+color:#2980b9;
+}
+
+a.maintitlebar:visited,div.maintitlebar:visited {
+text-decoration:none;
+color:#2980b9;
+}
+
+
 html.ltr a.maintitlebar,html.ltr div.maintitlebar {
 padding-right:5px;
 }
@@ -547,7 +559,7 @@ padding:5px 9px 5px 5px;
 
 #pulldown ul ul li a:hover {
 font-weight:normal;
-background-color:#418DD4;
+background-color:#D5EAF7;
 background-image:none;
 }
 

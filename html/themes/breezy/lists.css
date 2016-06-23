@@ -89,6 +89,16 @@ border-right:none;
 }
 
 
+table.listingTable > tbody > tr td > a:link {
+text-decoration:none;
+color:#2980b9;
+}
+
+table.listingTable > tbody > tr td > a:visited {
+text-decoration:none;
+color:#2980b9;
+}
+
 /* List border */
 
 div.nlistFooter {
@@ -190,7 +200,7 @@ cursor:pointer;
 
 a.treeListSelected {
 font-weight:bold;
-color:#1010AF;
+color:#2980b9;
 background-color:#DDD;
 padding:2px;
 cursor:pointer;
@@ -215,7 +225,7 @@ background:url(../../images/lists/node.png) no-repeat;
 
 li.treeListSelected a {
 font-weight:bold;
-color:#1010AF;
+color:#2980b9;
 padding:2px;
 }
 
