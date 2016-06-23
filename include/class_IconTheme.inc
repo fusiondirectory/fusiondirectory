@@ -133,6 +133,9 @@ class IconTheme
 
   function LookupIcon($context, $iconname, $size)
   {
+    if (!isset($this->subdirs[$context])) {
+      return NULL;
+    }
     foreach ($this->subdirs[$context] as $path => &$subdir) {
       if ($subdir->MatchesSize($size)) {
         foreach (self::$extensions as $extension) {
