@@ -868,7 +868,7 @@ class userinfo
     // Fetch required attributes
     foreach (array('shadowExpire','shadowLastChange','shadowMax','shadowMin',
                 'shadowInactive','shadowWarning','sambaKickoffTime') as $attr) {
-      $$attr = (isset($attrs[$attr][0])? $attrs[$attr][0] : NULL);
+      $$attr = (isset($attrs[$attr][0]) ? $attrs[$attr][0] : NULL);
     }
 
     // Check if the account has reached its kick off limitations.

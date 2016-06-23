@@ -150,11 +150,12 @@ if ($config->get_cfg_value("handleExpiredAccounts") == "TRUE") {
     $smarty->assign("hideMenus", TRUE);
     $plug = (isset($_GET['plug'])) ? $_GET['plug'] : NULL;
 
-    // Search for the 'password' class and set its id as active plug.
+    // Search for the 'user' class and set its id as active plug.
     foreach ($plist->dirlist as $key => $value) {
-      if (preg_match("/\bpassword\b/i", $value)) {
-        if ($plug != $key) {
+      if ($value == 'user') {
+        if ($_GET['plug'] != $key) {
           $_GET['plug'] = $key;
+          msg_dialog::display(_('Warning'), _('Your password has expired, please set a new one.'), WARNING_DIALOG);
         }
         break;
       }
