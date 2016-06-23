@@ -909,12 +909,15 @@ class plugin
    *
    * return the string with patterns replaced by their values
    */
-  static function tpl_parse_string($string, $attrs)
+  static function tpl_parse_string($string, $attrs, $escapeMethod = NULL)
   {
     $offset = 0;
     while (preg_match('/%([^%]+)%/', $string, $m, PREG_OFFSET_CAPTURE, $offset)) {
       $replace  = self::tpl_parse_mask($m[1][0], $attrs);
       $replace  = $replace[0];
+      if ($escapeMethod !== NULL) {
+        $replace = $escapeMethod($replace);
+      }
       $string   = substr_replace($string, $replace, $m[0][1], strlen($m[0][0]));
       $offset   = $m[0][1] + strlen($replace);
     }
@@ -1212,7 +1215,7 @@ class plugin
                   'newvalue'  => $newvalue,
                   'tab'       => $tabclass,
                 );
-              $filter = plugin::tpl_parse_string($filter, array('oldvalue' => ldap_escape($oldvalue, '', LDAP_ESCAPE_FILTER), 'newvalue' => ldap_escape($newvalue, '', LDAP_ESCAPE_FILTER)));
+              $filter = plugin::tpl_parse_string($filter, array('oldvalue' => $oldvalue, 'newvalue' => $newvalue), 'ldap_escape_f');
             } elseif ($mode == 'references') {
               $foreignRefs[$objectType]['refs'][$class]['name'] = $cinfos['plShortName'];
               $foreignRefs[$objectType]['refs'][$class]['fields'][$ofield] =
@@ -1222,7 +1225,7 @@ class plugin
                   'field'   => $field,
                   'value'   => $this->parent->by_object[$tabclass]->$field,
                 );
-              $filter = plugin::tpl_parse_string($filter, array('oldvalue' => ldap_escape($this->parent->by_object[$tabclass]->$field, '', LDAP_ESCAPE_FILTER)));
+              $filter = plugin::tpl_parse_string($filter, array('oldvalue' => $this->parent->by_object[$tabclass]->$field), 'ldap_escape_f');
             }
             if (!preg_match('/^\(.*\)$/', $filter)) {
               $filter = '('.$filter.')';
@@ -1480,7 +1483,7 @@ class plugin
         }
       }
 
-      $command = self::tpl_parse_string($command, $addAttrs);
+      $command = self::tpl_parse_string($command, $addAttrs, 'escapeshellarg');
 
       // If there are still some %.. in our command, try to fill these with some other class vars (FIXME: useless)
       if (preg_match("/%/", $command)) {
@@ -1501,7 +1504,7 @@ class plugin
           }
           $addAttrs[$name] = $value;
         }
-        $command = self::tpl_parse_string($command, $addAttrs);
+        $command = self::tpl_parse_string($command, $addAttrs, 'escapeshellarg');
       }
 
       @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execute");
