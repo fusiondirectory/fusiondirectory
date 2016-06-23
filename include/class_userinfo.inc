@@ -36,9 +36,10 @@ class userinfo
   var $ip;
   var $cn;
   var $uid;
+  var $sn           = '';
+  var $givenName    = '';
   var $gidNumber    = -1;
   var $language     = "";
-  var $config;
   var $subtreeACL   = array();
   var $ACL          = array();
   var $groups       = array();
@@ -51,10 +52,10 @@ class userinfo
 
   /* get acl's an put them into the userinfo object
      attr subtreeACL (userdn:components, userdn:component1#sub1#sub2,component2,...) */
-  function __construct(&$config, $userdn)
+  function __construct($unused, $userdn)
   {
-    $this->config = &$config;
-    $ldap = $this->config->get_ldap_link();
+    global $config;
+    $ldap = $config->get_ldap_link();
     $ldap->cat($userdn, array('cn', 'sn', 'givenName', 'uid', 'gidNumber', 'preferredLanguage'));
     $attrs = $ldap->fetch();
 
@@ -68,6 +69,12 @@ class userinfo
     if (isset($attrs['gidNumber'][0])) {
       $this->gidNumber = $attrs['gidNumber'][0];
     }
+    if (isset($attrs['sn'][0])) {
+      $this->sn = $attrs['sn'][0];
+    }
+    if (isset($attrs['givenName'][0])) {
+      $this->givenName = $attrs['givenName'][0];
+    }
 
     /* Assign user language */
     if (isset($attrs['preferredLanguage'][0])) {
@@ -78,7 +85,7 @@ class userinfo
     $this->uid  = $attrs['uid'][0];
     $this->ip   = $_SERVER['REMOTE_ADDR'];
 
-    $this->ignoreACL = ($this->config->get_cfg_value("ignoreAcl") == $this->dn);
+    $this->ignoreACL = ($config->get_cfg_value("ignoreAcl") == $this->dn);
 
     /* Initialize ACL_CACHE */
     $this->reset_acl_cache();
@@ -98,13 +105,14 @@ class userinfo
    */
   function loadACL()
   {
+    global $config;
     $this->ACL          = array();
     $this->groups       = array();
     $this->roles        = array();
     $this->result_cache = array();
     $this->reset_acl_cache();
-    $ldap = $this->config->get_ldap_link();
-    $ldap->cd($this->config->current['BASE']);
+    $ldap = $config->get_ldap_link();
+    $ldap->cd($config->current['BASE']);
 
     /* Get member groups... */
     $ldap->search('(&(objectClass=groupOfNames)(member='.ldap_escape_f($this->dn).'))', array('dn'));
@@ -399,6 +407,7 @@ class userinfo
    */
   function get_permissions($dn, $object, $attribute = "", $skip_write = FALSE)
   {
+    global $config;
     /* If we are forced to skip ACLs checks for the current user
         then return all permissions.
      */
@@ -452,7 +461,7 @@ class userinfo
 
     /* Get ldap object, for later filter checks
      */
-    $ldap = $this->config->get_ldap_link();
+    $ldap = $config->get_ldap_link();
 
     $acl = array("r" => "", "w" => "", "c" => "", "d" => "", "m" => "", "a" => "");
 
@@ -465,7 +474,7 @@ class userinfo
     foreach ($path as $element) {
 
       /* Clean potential ACLs for each level */
-      if (isset($this->config->idepartments[$cpath])) {
+      if (isset($config->idepartments[$cpath])) {
         $acl = $this->cleanACL($acl);
       }
 
@@ -534,13 +543,13 @@ class userinfo
            */
           if (strstr($object, "/0")) {
             $ocs = preg_replace("/\/0$/", "", $object);
-            if (isset($this->config->data['CATEGORIES'][$ocs])) {
+            if (isset($config->data['CATEGORIES'][$ocs])) {
 
               /* if $attribute is "", then check every single attribute for this object.
                  if it is 0, then just check the object category ACL.
                */
               if ($attribute == "") {
-                foreach ($this->config->data['CATEGORIES'][$ocs]['classes'] as $oc) {
+                foreach ($config->data['CATEGORIES'][$ocs]['classes'] as $oc) {
                   if (isset($subacl['acl'][$ocs.'/'.$oc])) {
                     // Skip ACLs wich are defined for ourselfs only - if not checking against ($ui->dn)
                     if (isset($subacl['acl'][$ocs.'/'.$oc][0]) &&
@@ -573,7 +582,7 @@ class userinfo
     /* If the requested ACL is for a container object, then alter
         ACLs by applying cleanACL a last time.
      */
-    if (isset($this->config->idepartments[$dn])) {
+    if (isset($config->idepartments[$dn])) {
       $acl = $this->cleanACL($acl);
     }
 
@@ -609,11 +618,12 @@ class userinfo
    */
   function get_module_departments($module, $skip_self_acls = FALSE )
   {
+    global $config;
     /* If we are forced to skip ACLs checks for the current user
         then return all departments as valid.
      */
     if ($this->ignore_acl_for_current_user()) {
-      return array_keys($this->config->idepartments);
+      return array_keys($config->idepartments);
     }
 
     /* Use cached results if possilbe */
@@ -647,11 +657,11 @@ class userinfo
             }
           }
 
-          if ($found && !isset($this->config->idepartments[$dn])) {
-            while (!isset($this->config->idepartments[$dn]) && strpos($dn, ",")) {
+          if ($found && !isset($config->idepartments[$dn])) {
+            while (!isset($config->idepartments[$dn]) && strpos($dn, ",")) {
               $dn = preg_replace("/^[^,]+,/", "", $dn);
             }
-            if (isset($this->config->idepartments[$dn])) {
+            if (isset($config->idepartments[$dn])) {
               $deps[$dn] = $dn;
             }
           }
@@ -659,7 +669,7 @@ class userinfo
       }
 
       /* For all gosaDepartments */
-      foreach ($this->config->departments as $dn) {
+      foreach ($config->departments as $dn) {
         if (isset($deps[$dn])) continue;
         $acl = "";
         if (strpos($mod, '/')) {
@@ -775,6 +785,7 @@ class userinfo
    */
   function has_complete_category_acls($dn, $category)
   {
+    global $config;
     $acl    = "rwcdm";
     $types  = "rwcdm";
 
@@ -783,8 +794,8 @@ class userinfo
       $acl = "";
     } else {
       if (!isset($this->result_cache['has_complete_category_acls'][$dn][$category]))   {
-        if (isset($this->config->data['CATEGORIES'][$category])) {
-          foreach ($this->config->data['CATEGORIES'][$category]['classes'] as $oc) {
+        if (isset($config->data['CATEGORIES'][$category])) {
+          foreach ($config->data['CATEGORIES'][$category]['classes'] as $oc) {
             /* Skip objectClass '0' (e.g. user/0) get_permissions will ever return '' ??  */
             if ($oc == "0") continue;
             $tmp = $this->get_permissions($dn, $category."/".$oc);
@@ -842,13 +853,14 @@ class userinfo
   */
   function expired_status ()
   {
+    global $config;
     // Skip this for the admin account, we do not want to lock him out.
     if ($this->is_user_admin()) {
       return 0;
     }
 
-    $ldap = $this->config->get_ldap_link();
-    $ldap->cd($this->config->current['BASE']);
+    $ldap = $config->get_ldap_link();
+    $ldap->cd($config->current['BASE']);
     $ldap->cat($this->dn);
     $attrs    = $ldap->fetch();
     $current  = floor(date("U") / 60 / 60 / 24);
@@ -947,10 +959,11 @@ class userinfo
    */
   function is_user_admin()
   {
+    global $config;
     if (empty($this->ACLperPath)) {
       $this->loadACL();
     }
-    return ($this->get_permissions($this->config->current['BASE'], 'user/user') == 'rwcdm');
+    return ($this->get_permissions($config->current['BASE'], 'user/user') == 'rwcdm');
   }
 }
 ?>

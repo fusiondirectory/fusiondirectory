@@ -23,11 +23,11 @@ class groupSelect extends simpleSelectManagement
   protected $objectTypes  = array('group');
   protected $autoFilter   = FALSE;
 
-  function __construct($config, $ui)
+  function __construct()
   {
     $this->filterXMLPath = get_template_path('group-filter.xml', TRUE, dirname(__FILE__));
 
-    parent::__construct($config, $ui);
+    parent::__construct();
   }
 }
 ?>

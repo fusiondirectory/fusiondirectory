@@ -31,8 +31,8 @@ session::global_set('errorsAlreadyPosted', array());
 
 /* Logged in? Simple security check */
 if (!session::global_is_set('ui')) {
-  new log("security", "unknown", "", array(), "Error: getbin.php called without session");
-  header ("Location: index.php");
+  logging::log('security', 'unknown', '', array(), 'Error: getbin.php called without session');
+  header ('Location: index.php');
   exit;
 }
 

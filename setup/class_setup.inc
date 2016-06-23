@@ -25,9 +25,6 @@ class fake_userinfo extends userinfo
 {
   function __construct()
   {
-    global $config;
-    $this->config = &$config;
-
     $this->cn   = 'fake_cn';
     $this->dn   = 'fake_dn';
     $this->uid  = 'fake_uid';
@@ -304,8 +301,8 @@ class setup
     $cv['fdDisplayErrors']  = FALSE;
     $cv['fdForceSSL']       = TRUE;
     $cv['debugLevel']       = 0;
-    $smarty->assign("cv",                       xmlentities($cv));
-    $smarty->assign("templateCompileDirectory", SPOOL_DIR);
+    $smarty->assign('cv',                       xmlentities($cv));
+    $smarty->assign('templateCompileDirectory', SPOOL_DIR);
     $xml = $smarty->fetch(CONFIG_TEMPLATE_DIR.CONFIG_FILE);
     $config->parse_data($xml);
     $config->set_current($config->data['MAIN']['DEFAULT']);

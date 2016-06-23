@@ -73,14 +73,18 @@ class simplePlugin extends plugin
 
   /*! \brief constructor
    *
-   *  \param mixed $config The config object
    *  \param string $dn The dn of this instance
    *  \param Object $object An object to copy values from
    *  \param array $attributesInfo An attributesInfo array, if NULL, getAttributesInfo will be used.
    *
    */
-  function __construct (&$config, $dn = NULL, $object = NULL, $attributesInfo = NULL)
+  function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE, $attributesInfo = NULL)
   {
+    global $config;
+
+    $this->parent   = $parent;
+    $this->mainTab  = $mainTab;
+
     if ($attributesInfo === NULL) {
       $attributesInfo = $this->getAttributesInfo();
     }
@@ -115,7 +119,7 @@ class simplePlugin extends plugin
     }
 
     // We call plugin constructor
-    parent::__construct($config, $dn, $object);
+    parent::__construct($dn, $object);
 
     $this->setTemplate($this->is_template);
 
@@ -123,6 +127,8 @@ class simplePlugin extends plugin
 
     if ($this->mainTab) {
       $this->is_account = TRUE;
+      /* TODO: When merging plugin and simplePlugin we should find a way to avoid doing a separate LDAP fetch for this */
+      $this->entryCSN = getEntryCSN($this->dn);
     }
 
     if (!isset($this->templatePath)) {
@@ -131,8 +137,8 @@ class simplePlugin extends plugin
 
     if (is_array($this->inheritance)) {
       /* Check group membership */
-      $ldap = $this->config->get_ldap_link();
-      $ldap->cd($this->config->current['BASE']);
+      $ldap = $config->get_ldap_link();
+      $ldap->cd($config->current['BASE']);
       foreach ($this->inheritance as $oc => $at) {
         if ($this->mainTab) {
           $filter = '(&(objectClass='.$oc.')('.$at.'='.ldap_escape_f($this->dn).'))';
@@ -362,7 +368,7 @@ class simplePlugin extends plugin
       $plInfo = pluglist::pluginInfos(get_class($this));
       if ($this->parent !== NULL) {
         if ($this->is_account) {
-          $disabled = FALSE;
+          $disabled = $this->acl_skip_write();
           $depends = array();
           if (isset($plInfo['plDepending'])) {
             foreach ($plInfo['plDepending'] as $plugin) {
@@ -381,7 +387,7 @@ class simplePlugin extends plugin
             get_class($this).'_modify_state'
           );
         } else {
-          $disabled = FALSE;
+          $disabled = $this->acl_skip_write();
           $depends = array();
           if (isset($plInfo['plDepends'])) {
             foreach ($plInfo['plDepends'] as $plugin) {
@@ -474,7 +480,7 @@ class simplePlugin extends plugin
     $class = get_class($this);
     $attrsWrapper = new stdClass();
     $attrsWrapper->attrs = $this->group_attrs;
-    $group = new $class($this->config, $this->group_attrs['dn'], $attrsWrapper);
+    $group = new $class($this->group_attrs['dn'], $attrsWrapper, $this->parent, $this->mainTab);
     $smarty = get_smarty();
 
     $group->renderAttributes(TRUE);
@@ -534,7 +540,8 @@ class simplePlugin extends plugin
 
   protected function ldap_remove ()
   {
-    $ldap = $this->config->get_ldap_link();
+    global $config;
+    $ldap = $config->get_ldap_link();
     if ($this->mainTab) {
       $ldap->rmdir_recursive($this->dn);
     } else {
@@ -555,10 +562,10 @@ class simplePlugin extends plugin
 
   protected function post_remove ()
   {
-    new log("remove", "plugin/".get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
+    logging::log('remove', 'plugin/'.get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
 
     /* Optionally execute a command after we're done */
-    $this->handle_post_events("remove");
+    $this->handle_post_events('remove');
   }
 
   /*! \brief This function handle $_POST informations
@@ -636,15 +643,16 @@ class simplePlugin extends plugin
 
   protected function ldap_save ($cleanup = TRUE)
   {
+    global $config;
     /* Check if this is a new entry ... add/modify */
-    $ldap = $this->config->get_ldap_link();
+    $ldap = $config->get_ldap_link();
     $ldap->cat($this->dn, array("objectClass"));
     if ($this->mainTab && !$this->initially_was_account) {
       if ($ldap->count()) {
         msg_dialog::display(_("Error when saving"), sprintf(_('There is already an entry with the same dn : %s'), $this->dn), ERROR_DIALOG);
         return;
       }
-      $ldap->cd($this->config->current['BASE']);
+      $ldap->cd($config->current['BASE']);
       $ldap->create_missing_trees(preg_replace('/^[^,]+,/', '', $this->dn));
       $action = "add";
     } else {
@@ -677,10 +685,10 @@ class simplePlugin extends plugin
     /* Propagate and log the event */
     if ($this->initially_was_account) {
       $this->handle_post_events('modify');
-      new log('modify', 'plugin/'.get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
+      logging::log('modify', 'plugin/'.get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
     } else {
       $this->handle_post_events('add');
-      new log('create', 'plugin/'.get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
+      logging::log('create', 'plugin/'.get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
     }
   }
 
@@ -743,7 +751,7 @@ class simplePlugin extends plugin
    *
    *  \param string $entry_dn the dn of the object to show/edit
    *
-   *  \param string $tabs the tab class to use (or TRUE to use tabs, FALSE to show directly the plugin class)
+   *  \param string $tabs TRUE to use tabs, FALSE to show directly the plugin class
    *
    *  \param boolean $edit_mode wether or not this plugin can be edited
    *
@@ -753,14 +761,11 @@ class simplePlugin extends plugin
   static function mainInc ($classname, $entry_dn, $tabs = FALSE, $edit_mode = TRUE, $objectType = FALSE)
   {
     global $remove_lock, $cleanup, $display, $config, $plug, $ui;
-    if ($tabs === TRUE) {
-      $tabs = 'tabs'; // Default tab class
-    }
 
     $plInfo     = pluglist::pluginInfos($classname);
     $plIcon     = (isset($plInfo['plIcon'])?$plInfo['plIcon']:'plugin.png');
     $plHeadline = $plInfo['plTitle'];
-    if (($tabs !== FALSE) && ($objectType === FALSE)) {
+    if ($objectType === FALSE) {
       $key = key($plInfo['plObjectType']);
       if (is_numeric($key)) {
         $key = $plInfo['plObjectType'][$key];
@@ -796,36 +801,27 @@ class simplePlugin extends plugin
         session::un_set('edit');
       }
 
-      /* Create account object on demand */
+      /* Create tab object on demand */
       if (!session::is_set($classname) || (isset($_GET['reset']) && $_GET['reset'] == 1)) {
-        if ($tabs) {
-          $account = new $tabs($objectType, $entry_dn);
-          if ($edit_mode) {
-            foreach ($account->by_object as &$obj) {
-              $obj->setNeedEditMode(TRUE);
-            }
-            unset($obj);
-          }
-        } else {
-          $account = new $classname($config, $entry_dn);
-          $account->enable_CSN_check();
-          $account->set_acl_category($plCategory);
-          if ($edit_mode) {
-            $account->setNeedEditMode(TRUE);
-          }
+        $tabObject = objects::open($entry_dn, $objectType);
+        if ($edit_mode) {
+          $tabObject->setNeedEditMode(TRUE);
+        }
+        if (!$tabs) {
+          $tabObject->current = $classname;
         }
         if (($entry_dn != '') && ($entry_dn != 'new')) {
-          $account->set_acl_base($entry_dn);
+          $tabObject->set_acl_base($entry_dn);
         } else {
-          $account->set_acl_base($config->current['BASE']);
+          $tabObject->set_acl_base($config->current['BASE']);
         }
-        session::set($classname, $account);
+        session::set($classname, $tabObject);
       }
-      $account = session::get($classname);
+      $tabObject = session::get($classname);
 
       /* save changes back to object */
       if (!$edit_mode || session::is_set('edit')) {
-        $account->save_object();
+        $tabObject->save_object();
       }
 
       if ($edit_mode) {
@@ -847,11 +843,11 @@ class simplePlugin extends plugin
         $info = "";
         if (isset($_POST['edit_finish'])) {
           /* Perform checks */
-          $message = $account->check();
+          $message = $tabObject->check();
 
           /* No errors, save object */
           if (count($message) == 0) {
-            $account->save();
+            $tabObject->save();
             del_lock($entry_dn);
             session::un_set('edit');
 
@@ -870,33 +866,31 @@ class simplePlugin extends plugin
       if ($edit_mode && $lock_msg) {
         $display = $lock_msg;
       } else {
-        $display .= $account->execute();
+        if ($tabs) {
+          $display .= $tabObject->execute();
+        } else {
+          $display .= $tabObject->by_object[$classname]->execute();
+        }
       }
 
       /* Store changes  in session */
       if (!$edit_mode || session::is_set('edit')) {
-        session::set($classname, $account);
+        session::set($classname, $tabObject);
       }
 
       /* Show page footer depending on the mode */
-      if ($edit_mode &&
-          ($tabs || (!$account->dialog && $account->is_account)) &&
-          empty($lock_msg)) {
+      $info = $entry_dn.'&nbsp;';
+      if ($edit_mode && (!$tabObject->dialogOpened()) && empty($lock_msg)) {
         $display .= '<p class="plugbottom">';
 
         /* Are we in edit mode? */
         if (session::is_set('edit')) {
           $display .= '<input type="submit" name="edit_finish" style="width:80px" value="'.msgPool::okButton().'"/>'."\n";
-          $display .= "&nbsp;";
+          $display .= '&nbsp;';
           $display .= '<input type="submit" name="edit_cancel" value="'.msgPool::cancelButton().'"/>'."\n";
-          $info = '<img class="center" alt="locked" src="geticon.php?context=status&amp;icon=object-locked&amp;size=16"/> '.
-                  $entry_dn."&nbsp;";
         } else {
-          $info = '<img class="center" alt="unlocked" src="geticon.php?context=status&amp;icon=object-unlocked&amp;size=16"/> '.
-                  $entry_dn.'&nbsp;';
-
           /* Only display edit button if there is at least one attribute editable */
-          if (preg_match("/r/", $ui->get_permissions($entry_dn, "$plCategory/$classname"))) {
+          if (preg_match('/r/', $ui->get_permissions($entry_dn, "$plCategory/$classname"))) {
             $info .= '<div style="display:inline-block" class="optional"><img class="center" alt="information" '.
                       'src="geticon.php?context=status&amp;icon=dialog-information&amp;size=16"> '.
                       msgPool::clickEditToChange().'</div>';
@@ -980,13 +974,19 @@ class simplePlugin extends plugin
     return $this->attributesAccess[$field]->foreignKeyCheck($value, $source);
   }
 
-  function deserializeValues($values) {
-    /* Walk through attributes */
-    foreach ($this->attributesAccess as $ldapName => &$attr) {
-      /* Load values */
-      $attr->deserializeValue($values);
+  function deserializeValues($values, $checkAcl = TRUE) {
+    foreach ($values as $name => $value) {
+      if (isset($this->attributesAccess[$name])) {
+        if (!$checkAcl || $this->acl_is_writeable($this->attributesAccess[$name]->getAcl())) {
+          $this->attributesAccess[$name]->setValue($value);
+        } else {
+          return sprintf(_('You don\'t have sufficient rights to edit field "%s"'), $name);
+        }
+      } else {
+        return sprintf(_('Unknown field "%s"'), $name);
+      }
     }
-    unset($attr);
+    return TRUE;
   }
 
   /* Returns TRUE if this attribute should be asked in the creation by template dialog */

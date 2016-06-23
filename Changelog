@@ -1,32 +1,67 @@
 FusionDirectory changelog
 =========================
 
+* FusionDirectory 1.0.13
+
+|Fix] Bugs #4570: error when saving a user with php7
+|Fix] Bugs #4571: when clicking on department in the left menu on php7
+|Fix] Bugs #4757: padlock next to user dn in edition screen is confusing
+|Fix] Bugs #4759: disabled account can still reset password ?
+|Fix] FusionDirectory plugins - Bugs #4763: Translation mishaps in dovecot plugin
+|Fix] Bugs #4764: Fusiondirectory exposes bindpw on error
+[Feature] Bugs #4774: Add an LDAP logging system
+|Fix] FusionDirectory plugins - Bugs #4776: unwanted debug in jsonrpc.php
+|Fix] FusionDirectory plugins - Bugs #4782: Systems snapshots are broken
+[Feature] FusionDirectory plugins - Bugs #4783: Use of templates through the webservice
+[Feature] Bugs #4785: create an interface to manage the option for the script managing the expiration messages
+|Fix] FusionDirectory plugins - Bugs #4787: Mail server should not be mandatory in alias plugin
+|Fix] FusionDirectory plugins - Bugs #4788: 'Incorrect response id (request id: 1, response id: )'
+|Fix] FusionDirectory plugins - Bugs #4789: Webservice setfields method needs documentation
+|Fix] Bugs #4794: sambaNTpassword is not updated when password is changed through «My account» menu
+|Fix] Bugs #4806: Importing ldif file with comments generates error
+|Fix] Bugs #4821: password recovery, email field focus
+|Fix] Bugs #4823: Imagick is not detected during the setup
+|Fix] Bugs #4824: Error when I will create fd-admin in the setup
+|Fix] Bugs #4826: File docs/INSTALL must be updated or deleted
+|Fix] Bugs #4828: FusionDirectory does not work with Smarty 3.1.29
+|Fix] Bugs #4833: Uncaught exception 'NonExistingObjectTypeException' with message 'Non-existing type ""
+[Feature] Bugs #4853: get the value of the connect user in a variable to be passed to scripts hooks
+|Fix] FusionDirectory plugins - Bugs #4855: PHP error about DNSenabled
+|Fix] FusionDirectory plugins - Bugs #4856: Copy past test of server
+[Feature] FusionDirectory plugins - Bugs #4857: When mail can be used to login, it should be unique
+|Fix] Bugs #4863: top header of the login page keep the green even when the breezy them is activated
+|Fix] FusionDirectory plugins - Wishlist #4790: make functions names consistent
+|Fix] FusionDirectory plugins - Wishlist #4791: setfields() : values structure and fields names
+|Fix] FusionDirectory plugins - Wishlist #4798: fields() : suggestion on returned array structure
+[Feature] FusionDirectory plugins - Wishlist #4799: creating an object with several activated tabs in one go
+[Feature] FusionDirectory plugins - Wishlist #4854: adding "lock/unlock entry" function to the webservice
+
 * FusionDirectory 1.0.12
 
-Bugs #4645: Could not add groups to user templates
-FusionDirectory plugins - Bugs #4658: csv import with empty field
-Bugs #4678: group : member objects list
-FusionDirectory plugins - Bugs #4689: we should be able to create mail address without having a server and a service referenced
-FusionDirectory plugins - Bugs #4692: remove the antivirus service
-FusionDirectory plugins - Bugs #4699: move postfix service in his own plugin
-FusionDirectory plugins - Bugs #4706: move the spamassasin service to his own plugin
-Bugs #4713: remove the antivirus service icons
-FusionDirectory plugins - Bugs #4714: leftover in services-fd.schema of the removal of the asterisk plugin
-FusionDirectory plugins - Bugs #4721: move the spam options for the mail user tab to a spamassasin user tab
-Bugs #4735: nginx + php-fpm with fusiondirectory
-Bugs #4737: we should remove data['SERVERS']['IMAP'] from config
-FusionDirectory plugins - Bugs #4739: remove the option Use custom sieve script (disables all Mail options!)
-FusionDirectory plugins - Bugs #4740: in the cyrus service the hostname, port should be mandatory
-FusionDirectory plugins - Bugs #4741: in the dovecot service the hostname, port should be mandatory
-FusionDirectory plugins - Bugs #4742: ppolicy: description cannot be set
-Bugs #4746: Error when saving user if objectClass person is missing.
-Bugs #4754: user template : %r|% does not work in password
-Bugs #4756: Update documentation with fixes/dev repos info.
-Wishlist #4687: ACL assignments can’t give rights to groups.
-Wishlist #4722: Use Nginx instead of Apache2
-Wishlist #4738: extend the search query to email
-FusionDirectory plugins - Wishlist #4743: ppolicy: user interface improvements
-Wishlist #4755: user template: password should show only one field
+|Fix] Bugs #4645: Could not add groups to user templates
+|Fix] FusionDirectory plugins - Bugs #4658: csv import with empty field
+|Fix] Bugs #4678: group : member objects list
+[Feature] FusionDirectory plugins - Bugs #4689: we should be able to create mail address without having a server and a service referenced
+|Fix] FusionDirectory plugins - Bugs #4692: remove the antivirus service
+|Fix] FusionDirectory plugins - Bugs #4699: move postfix service in his own plugin
+|Fix] FusionDirectory plugins - Bugs #4706: move the spamassasin service to his own plugin
+|Fix] Bugs #4713: remove the antivirus service icons
+|Fix] FusionDirectory plugins - Bugs #4714: leftover in services-fd.schema of the removal of the asterisk plugin
+|Fix] FusionDirectory plugins - Bugs #4721: move the spam options for the mail user tab to a spamassasin user tab
+|Fix] Bugs #4735: nginx + php-fpm with fusiondirectory
+|Fix] Bugs #4737: we should remove data['SERVERS']['IMAP'] from config
+|Fix] FusionDirectory plugins - Bugs #4739: remove the option Use custom sieve script (disables all Mail options!)
+|Fix] FusionDirectory plugins - Bugs #4740: in the cyrus service the hostname, port should be mandatory
+|Fix] FusionDirectory plugins - Bugs #4741: in the dovecot service the hostname, port should be mandatory
+|Fix] FusionDirectory plugins - Bugs #4742: ppolicy: description cannot be set
+|Fix] Bugs #4746: Error when saving user if objectClass person is missing.
+|Fix] Bugs #4754: user template : %r|% does not work in password
+|Fix] Bugs #4756: Update documentation with fixes/dev repos info.
+|Fix] Wishlist #4687: ACL assignments can’t give rights to groups.
+|Fix] Wishlist #4722: Use Nginx instead of Apache2
+[Feature] Wishlist #4738: extend the search query to email
+[Feature] FusionDirectory plugins - Wishlist #4743: ppolicy: user interface improvements
+[Feature] Wishlist #4755: user template: password should show only one field
 
 * FusionDirectory 1.0.11
 

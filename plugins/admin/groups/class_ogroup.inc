@@ -71,8 +71,11 @@ class ObjectsAttribute extends GenericDialogAttribute
 
   function renderOnlyFormInput()
   {
+    if (($this->size < 15) && ($this->size < count($this->value))) {
+      $this->size = min(15, count($this->value));
+    }
     $id       = $this->getHtmlId();
-    $display  = '<select multiple="multiple"  name="row'.$id.'[]" id="row'.$id.'"'.
+    $display  = '<select multiple="multiple"  name="row'.$id.'[]" id="row'.$id.'" size="'.$this->size.'"'.
                 ($this->disabled? ' disabled="disabled"':'').
                 ' >'."\n";
     foreach ($this->getDisplayValues() as $key => $value) {
@@ -130,7 +133,6 @@ class ObjectSelectDialog extends GenericSelectDialog
 
 class ogroup extends simplePlugin
 {
-  var $mainTab        = TRUE;
   var $objectclasses  = array('groupOfNames', 'gosaGroupOfNames');
 
   var $used_workstations = array();
@@ -229,9 +231,10 @@ class ogroup extends simplePlugin
     );
   }
 
-  function __construct (&$config, $dn = NULL, $object = NULL)
+  function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE)
   {
-    parent::__construct($config, $dn, $object);
+    global $config;
+    parent::__construct($dn, $object, $parent, $mainTab);
 
     $this->attributesAccess['trustMode']->setInLdap(FALSE);
     $this->attributesAccess['trustMode']->setManagedAttributes(
@@ -251,7 +254,7 @@ class ogroup extends simplePlugin
     /* Detect all workstations, which are already assigned to an object group
         - Those objects will be hidden in the add object dialog.
         - Check() will complain if such a system is assigned to this object group.*/
-    $base = $this->config->current['BASE'];
+    $base = $config->current['BASE'];
     $res  = get_list("(|(objectClass=gotoWorkstation)(objectClass=gotoTerminal))", "none",
                       $base, array("dn"), GL_NO_ACL_CHECK | GL_SUBSEARCH);
     $ws_dns = array();

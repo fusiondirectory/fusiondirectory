@@ -30,7 +30,6 @@
  */
 class passwordMethod
 {
-  var $config   = FALSE;
   var $attrs    = array();
   var $display  = FALSE;
   var $hash     = "";
@@ -39,11 +38,9 @@ class passwordMethod
   /*!
    * \brief Password method contructor
    *
-   * \param string $config
-   *
    * \param string $dn The DN
    */
-  function __construct($config, $dn = "")
+  function __construct($dn = "")
   {
   }
 
@@ -82,12 +79,11 @@ class passwordMethod
   /*!
    * \brief Is locked
    *
-   * \param string $config
-   *
    * \param string $dn The DN
    */
-  function is_locked($config, $dn = "")
+  function is_locked($dn = "")
   {
+    global $config;
     if (!$this->lockable) {
       return FALSE;
     }
@@ -114,30 +110,29 @@ class passwordMethod
    *               sambaLMPassword: !EBD223B61F8C259AD3B435B51404EE
    *               sambaNTPassword: !98BB35737013AAF181D0FE9FDA09E
    *
-   * \param string $config
-   *
    * \param string $dn
    */
-  function lock_account($config, $dn = "")
+  function lock_account($dn = "")
   {
-    return $this->generic_modify_account($config, $dn, 'LOCK');
+    return $this->generic_modify_account($dn, 'LOCK');
   }
 
   /*!
    * \brief Unlocks an account which was locked by 'lock_account()'.
    *        For details about the locking mechanism see 'lock_account()'.
    */
-  function unlock_account($config, $dn = "")
+  function unlock_account($dn = "")
   {
-    return $this->generic_modify_account($config, $dn, 'UNLOCK');
+    return $this->generic_modify_account($dn, 'UNLOCK');
   }
 
   /*!
    * \brief Unlocks an account which was locked by 'lock_account()'.
    *        For details about the locking mechanism see 'lock_account()'.
    */
-  private function generic_modify_account($config, $dn, $mode)
+  private function generic_modify_account($dn, $mode)
   {
+    global $config;
     if (!$this->lockable) {
       return FALSE;
     }
@@ -178,7 +173,7 @@ class passwordMethod
       lock_ssh_account($mode, $attrs, $modify);
 
       // (Un)lock the account by modifying the password hash.
-      $pwdClass = new user($config, $dn);
+      $pwdClass = new user($dn);
       $pwdClass->callHook('PRE'.$mode, array(), $ret);
 
       if ($mode == 'LOCK') {
@@ -217,7 +212,7 @@ class passwordMethod
     if (!session::is_set("passwordMethod::get_available_methods")) {
       foreach (array_keys($class_mapping) as $class) {
         if (preg_match('/passwordMethod/i', $class) && !preg_match("/^passwordMethod$/i", $class)) {
-          $test = new $class($config, "");
+          $test = new $class("");
           if ($test->is_available()) {
             $plugs = $test->get_hash_name();
             if (!is_array($plugs)) {
@@ -326,13 +321,13 @@ class passwordMethod
     foreach ($methods['class'] as $class) {
       $method = $class::_extract_method($class, $password_hash);
       if ($method != "") {
-        $test = new $class($config, $dn);
+        $test = new $class($dn);
         $test->set_hash($method);
         return $test;
       }
     }
 
-    $method = new passwordMethodClear($config, $dn);
+    $method = new passwordMethodClear($dn);
     $method->set_hash('clear');
     return $method;
   }
@@ -361,10 +356,8 @@ class passwordMethod
    */
   static function make_hash($password, $hash)
   {
-    global $config;
-
     $methods  = passwordMethod::get_available_methods();
-    $tmp      = new $methods[$hash]($config);
+    $tmp      = new $methods[$hash]();
     $tmp->set_hash($hash);
     return $tmp->generate_hash($password);
   }
@@ -408,7 +401,6 @@ class passwordMethod
   static function is_harmless($password)
   {
     global $config;
-
     if ($config->get_cfg_value("strictPasswordRules") == "TRUE") {
       // Do we have UTF8 characters in the password?
       return ($password == utf8_decode($password));
@@ -419,11 +411,10 @@ class passwordMethod
 
   /*!
    * \brief Get the password proposal
-   *
-   * \param string $config
    */
-  static function getPasswordProposal($config)
+  static function getPasswordProposal()
   {
+    global $config;
     if ($config->get_cfg_value('passwordProposalHook', '') != '') {
         $command = $config->get_cfg_value('passwordProposalHook', '');
       if (check_command($command)) {

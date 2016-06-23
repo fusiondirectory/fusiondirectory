@@ -33,10 +33,8 @@ class passwordMethodssha extends passwordMethod
 {
   /*!
    * \brief passwordMethodssha Constructor
-   *
-   * \param string $config
    */
-  function __construct($config)
+  function __construct()
   {
   }
 

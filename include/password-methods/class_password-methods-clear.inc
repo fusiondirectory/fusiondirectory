@@ -35,10 +35,8 @@ class passwordMethodClear extends passwordMethod
 
   /*!
    * \brief passwordMethodClear Constructor
-   *
-   * \param string $config
    */
-  function __construct($config)
+  function __construct()
   {
   }
 

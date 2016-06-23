@@ -70,7 +70,6 @@ class ACLsAttribute extends DialogOrderedArrayAttribute
 class aclRole extends simplePlugin
 {
   var $objectclasses  = array('top','gosaRole');
-  var $mainTab        = TRUE;
 
   static function plInfo()
   {
@@ -118,13 +117,6 @@ class aclRole extends simplePlugin
         )
       ),
     );
-  }
-
-  function __construct (&$config, $dn = NULL, $object = NULL)
-  {
-    parent::__construct($config, $dn, $object);
-
-    $this->attributesAccess['cn']->setUnique(TRUE);
   }
 }
 ?>

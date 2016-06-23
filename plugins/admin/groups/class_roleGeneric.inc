@@ -47,8 +47,6 @@ class RoleMembersAttribute extends UsersAttribute
 
 class roleGeneric extends simplePlugin
 {
-  var $mainTab = TRUE;
-
   var $objectclasses = array('organizationalRole');
 
   static function plInfo()
@@ -80,7 +78,7 @@ class roleGeneric extends simplePlugin
   static function getAttributesInfo ()
   {
     return array(
-      'section1' => array(
+      'main' => array(
         'name'  => _('Informations'),
         'attrs' => array(
           new BaseSelectorAttribute (get_ou('roleRDN')),
@@ -100,23 +98,19 @@ class roleGeneric extends simplePlugin
           new StringAttribute (
             _('Fax number'), _('Fax number'),
             'facsimileTelephoneNumber'
-          ),
+          )
+        )
+      ),
+      'members' => array(
+        'name'  => _('Role members'),
+        'attrs' => array(
           new RoleMembersAttribute (
-            _('Users'), _('Add users for the role'),
+            '', _('Add users for the role'),
             'roleOccupant', FALSE
           )
         )
       )
     );
-  }
-
-  /*!
-   * \brief Constructor
-   */
-  function __construct(&$config, $dn = NULL, $object = NULL)
-  {
-    parent::__construct($config, $dn, $object);
-    $this->attributesAccess['cn']->setUnique(TRUE);
   }
 }
 ?>

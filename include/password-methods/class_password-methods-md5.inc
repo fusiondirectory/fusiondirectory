@@ -34,10 +34,8 @@ class passwordMethodMd5 extends passwordMethod
 
   /*!
    * \brief passwordMethodMd5 Constructor
-   *
-   * \param string $config
    */
-  function __construct($config)
+  function __construct()
   {
   }
 

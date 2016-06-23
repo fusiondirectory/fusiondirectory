@@ -26,12 +26,20 @@ border:none;
 
 a:link {
 text-decoration:none;
+<<<<<<< HEAD
 color:#31363B;
+=======
+color:#2980b9;
+>>>>>>> upstream/master
 }
 
 a:visited {
 text-decoration:none;
+<<<<<<< HEAD
 color:#31363B;
+=======
+color:#2980b9;
+>>>>>>> upstream/master
 }
 
 td.listfooter {
@@ -348,7 +356,11 @@ color:#fcfcfc;
 
 table.check {
 background-color:#e1e1f1;
+<<<<<<< HEAD
 color:#31363b;
+=======
+color:#000;
+>>>>>>> upstream/master
 border:1px solid #c0c2c3;
 width:95%;
 }
@@ -597,9 +609,9 @@ border-color:#ffd324;
 color:#412701;
 }
 .success {
-background:#e6efc2;
+background:##f3f4f4;
 color:#264409;
-border-color:#c6d880;
+border-color:#f3f4f4;
 }
 .success h1,.success h2,.success h3,.success h4,.success h5,.success h6 {
 color:#378a00;

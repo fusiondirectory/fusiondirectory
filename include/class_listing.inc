@@ -130,7 +130,7 @@ class listing {
    */
   function setCopyPasteHandler($handler)
   {
-    $this->copyPasteHandler = &$handler;
+    $this->copyPasteHandler = $handler;
   }
 
   /*!
@@ -152,7 +152,7 @@ class listing {
    */
   function setSnapshotHandler($handler)
   {
-    $this->snapshotHandler = &$handler;
+    $this->snapshotHandler = $handler;
   }
 
   /*!
@@ -164,8 +164,8 @@ class listing {
    */
   function setFilter($filter)
   {
-    $this->filter     = &$filter;
-    $filter->headpage = &$this;
+    $this->filter     = $filter;
+    $filter->headpage = $this;
     if ($this->departmentBrowser) {
       $this->departments = $this->getDepartments();
     }
@@ -243,6 +243,7 @@ class listing {
         }
       }
     }
+    $this->categories = array_unique($this->categories);
 
     // Parse layout per column
     $this->colprops = $this->parseLayout($this->xmlData['table']['layout']);
@@ -258,8 +259,8 @@ class listing {
 
     // Evaluate columns to be exported
     if (isset($this->xmlData['table']['column'])) {
-      foreach ($this->xmlData['table']['column'] as $index => $config) {
-        if (isset($config['export']) && $config['export'] == "true") {
+      foreach ($this->xmlData['table']['column'] as $index => $cfg) {
+        if (isset($cfg['export']) && $cfg['export'] == "true") {
           $this->exportColumns[] = $index;
         }
       }
@@ -292,29 +293,29 @@ class listing {
     }
 
     if (isset($this->xmlData['table']['column'])) {
-      foreach ($this->xmlData['table']['column'] as $index => $config) {
+      foreach ($this->xmlData['table']['column'] as $index => $cfg) {
         // Initialize everything to one direction
         if ($sortInit) {
           $this->sortDirection[$index] = FALSE;
         }
 
         $sorter = "";
-        if ($index == $this->sortColumn && isset($config['sortAttribute']) &&
-            isset($config['sortType'])) {
-          $this->sortAttribute  = $config['sortAttribute'];
-          $this->sortType       = $config['sortType'];
+        if ($index == $this->sortColumn && isset($cfg['sortAttribute']) &&
+            isset($cfg['sortType'])) {
+          $this->sortAttribute  = $cfg['sortAttribute'];
+          $this->sortType       = $cfg['sortType'];
           $sorter = "&nbsp;<img class='center' title='".($this->sortDirection[$index]?_("Up"):_("Down"))."' src='geticon.php?context=actions&amp;size=16&amp;icon=view-sort-".($this->sortDirection[$index]?"descending":"ascending")."' alt='".($this->sortDirection[$index]?_('Sort up'):_('Sort down'))."'>";
         }
-        $sortable = (isset($config['sortAttribute']));
+        $sortable = (isset($cfg['sortAttribute']));
 
         $link = "href='?plug=".$_GET['plug']."&amp;PID=".$this->pid."&amp;act=SORT_$index'";
-        if (isset($config['label'])) {
+        if (isset($cfg['label'])) {
           if ($sortable) {
-            $this->header[$index] = "<th ".$this->colprops[$index]."><a $link>"._($config['label'])."$sorter</a></th>";
+            $this->header[$index] = "<th ".$this->colprops[$index]."><a $link>"._($cfg['label'])."$sorter</a></th>";
           } else {
-            $this->header[$index] = "<th ".$this->colprops[$index].">"._($config['label'])."</th>";
+            $this->header[$index] = "<th ".$this->colprops[$index].">"._($cfg['label'])."</th>";
           }
-          $this->plainHeader[] = _($config['label']);
+          $this->plainHeader[] = _($cfg['label']);
         } else {
           if ($sortable) {
             $this->header[$index] = "<th ".$this->colprops[$index]."><a $link>&nbsp;$sorter</a></th>";
@@ -398,13 +399,13 @@ class listing {
 
         // Render defined department columns, fill the rest with some stuff
         $rest = $this->numColumns - 1;
-        foreach ($this->xmlData['table']['department'] as $index => $config) {
+        foreach ($this->xmlData['table']['department'] as $index => $cfg) {
           $colspan = 1;
-          if (isset($config['span'])) {
-            $colspan        = $config['span'];
+          if (isset($cfg['span'])) {
+            $colspan        = $cfg['span'];
             $this->useSpan  = TRUE;
           }
-          $result .= "<td colspan='$colspan' ".$this->colprops[$index].">".$this->renderCell($config['value'], $entry, $row)."</td>";
+          $result .= "<td colspan='$colspan' ".$this->colprops[$index].">".$this->renderCell($cfg['value'], $entry, $row)."</td>";
           $rest -= $colspan;
         }
 
@@ -429,8 +430,8 @@ class listing {
         $trow .= "<td style='text-align:center;width:20px;'><input type='checkbox' id='listing_selected_$row' name='listing_selected_$row'></td>\n";
       }
 
-      foreach ($this->xmlData['table']['column'] as $index => $config) {
-        $renderedCell = $this->renderCell($config['value'], $entry, $row);
+      foreach ($this->xmlData['table']['column'] as $index => $cfg) {
+        $renderedCell = $this->renderCell($cfg['value'], $entry, $row);
         $trow .= "<td ".$this->colprops[$index].">".$renderedCell."</td>\n";
 
         // Save rendered column
@@ -689,11 +690,11 @@ class listing {
     $layout = preg_replace("/\|$/", "", $layout);
     $cols   = explode("|", $layout);
 
-    foreach ($cols as $index => $config) {
-      if ($config != "") {
+    foreach ($cols as $index => $cfg) {
+      if ($cfg != "") {
         $res      = "";
         $classes  = "";
-        $components = explode(';', $config);
+        $components = explode(';', $cfg);
         foreach ($components as $part) {
           if (preg_match("/^r$/", $part)) {
             $res .= "text-align:right;";
@@ -740,22 +741,22 @@ class listing {
   }
 
 
-  function renderCell($data, $config, $row)
+  function renderCell($data, $cfg, $row)
   {
     // Replace flat attributes in data string
-    for ($i = 0; $i < $config['count']; $i++) {
-      $attr   = $config[$i];
+    for ($i = 0; $i < $cfg['count']; $i++) {
+      $attr   = $cfg[$i];
       $value  = "";
-      if (is_array($config[$attr])) {
-        $value = $config[$attr][0];
+      if (is_array($cfg[$attr])) {
+        $value = $cfg[$attr][0];
       } else {
-        $value = $config[$attr];
+        $value = $cfg[$attr];
       }
       $data = preg_replace("/%\{$attr\}/", htmlentities($value, ENT_COMPAT, 'UTF-8'), $data);
     }
 
     // Watch out for filters and prepare to execute them
-    $data = $this->processElementFilter($data, $config, $row);
+    $data = $this->processElementFilter($data, $cfg, $row);
 
     // Replace all non replaced %{...} instances because they
     // are non resolved attributes or filters
@@ -775,7 +776,7 @@ class listing {
   }
 
 
-  function processElementFilter($data, $config, $row)
+  function processElementFilter($data, $cfg, $row)
   {
     preg_match_all("/%\{filter:([^(]+)\((.*)\)\}/", $data, $matches, PREG_SET_ORDER);
 
@@ -824,14 +825,14 @@ class listing {
 
         // Move dn if needed
         if ($param == "dn") {
-          $params[] = LDAP::fix($config["dn"]);
+          $params[] = LDAP::fix($cfg["dn"]);
           continue;
         }
 
         // LDAP variables get replaced by their objects
-        for ($i = 0; $i < $config['count']; $i++) {
-          if ($param == $config[$i]) {
-            $values = $config[$config[$i]];
+        for ($i = 0; $i < $cfg['count']; $i++) {
+          if ($param == $cfg[$i]) {
+            $values = $cfg[$cfg[$i]];
             if (is_array($values)) {
               unset($values['count']);
             }
@@ -1278,16 +1279,15 @@ class listing {
     }
 
     // Load shortcut
-    $actions  = &$this->xmlData['actionmenu']['action'];
     $result   = '<input type="hidden" name="act" id="actionmenu" value="">'.
                 '<div style="display:none"><input type="submit" name="exec_act" id="exec_act" value=""/></div>'.
                 '<ul class="level1" id="root"><li><a href="#">'._('Actions').
                 '&nbsp;<img class="center optional" src="images/down-arrow.png" alt="down arrow"/></a>';
 
     // Build ul/li list
-    $result .= $this->recurseActions($actions);
+    $result .= $this->recurseActions($this->xmlData['actionmenu']['action']);
 
-    return "<div id='pulldown'>".$result."</li></ul></div>";
+    return '<div id="pulldown">'.$result.'</li></ul></div>';
   }
 
   function renderActionMenuActionLink($separator, $action, $name, $icon)

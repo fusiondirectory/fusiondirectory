@@ -64,12 +64,12 @@ class Step_Checks extends setupStep
     $config_checks  = array();
 
     /* PHP version check */
-    $N = _("Checking PHP version");
-    $D = sprintf(_("PHP must be of version %s or above."), "5.2.0");
-    $S = _("Please upgrade to a supported version.");
-    $R = $this->check_php_version();
+    $N = _('Checking PHP version');
+    $D = sprintf(_('PHP must be of version %s or above.'), PHP_MIN_VERSION);
+    $S = _('Please upgrade to a supported version.');
+    $R = version_compare(phpversion(), PHP_MIN_VERSION, '>=');
     $M = TRUE;
-    $basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $basic_checks[] = array('NAME' => $N , 'DESC' => $D , 'RESULT' => $R , 'SOLUTION' => $S , 'MUST' => $M );
 
     /* Check for LDAP extension */
     $N = msgPool::checkingFor("LDAP");
@@ -87,13 +87,13 @@ class Step_Checks extends setupStep
     $M = TRUE;
     $basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
-    /* Check for php5-curl support */
-    $N = msgPool::checkingFor("curl");
-    $D = _("FusionDirectory requires this module to communicate with different types of servers and protocols.");
-    $S = msgPool::installPhpModule("php5-curl");
-    $R = is_callable("curl_init");
+    /* Check for curl support */
+    $N = msgPool::checkingFor('curl');
+    $D = _('FusionDirectory requires this module to communicate with different types of servers and protocols.');
+    $S = msgPool::installPhpModule('curl');
+    $R = is_callable('curl_init');
     $M = TRUE;
-    $basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $basic_checks[] = array('NAME' => $N , 'DESC' => $D , 'RESULT' => $R , 'SOLUTION' => $S , 'MUST' => $M );
 
     /* Check for iconv */
     $N = msgPool::checkingFor("iconv");
@@ -127,20 +127,12 @@ class Step_Checks extends setupStep
     $M = TRUE;
     $basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
-    $N = msgPool::checkingFor(_("imagick"));
-    $D = _("FusionDirectory requires this extension to handle images.");
-    $S = msgPool::installPhpModule("php5-imagick");
-
-    $IMGVER = phpversion('imagick');
-
-    if ($IMGVER > 1.0) {
-      $R = method_exists('imagick', 'getImageBlob');
-    } else {
-      $R = is_callable("imagick_blob2image");
-    }
-
+    $N = msgPool::checkingFor(_('imagick'));
+    $D = _('FusionDirectory requires this extension to handle images.');
+    $S = msgPool::installPhpModule('imagick');
+    $R = class_exists('Imagick', FALSE);
     $M = TRUE;
-    $basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $basic_checks[] = array('NAME' => $N , 'DESC' => $D , 'RESULT' => $R , 'SOLUTION' => $S , 'MUST' => $M );
 
     $N = msgPool::checkingFor(_("compression module"));
     $D = _("FusionDirectory requires this extension to handle snapshots.");
@@ -236,13 +228,6 @@ class Step_Checks extends setupStep
       }
     }
     $this->is_completed = !$failed;
-  }
-
-  /* Check if current PHP version is compatible
-      with the current version of FusionDirectory */
-  function check_php_version()
-  {
-    return version_compare(phpversion(), '5.2.0', '>=');
   }
 }
 

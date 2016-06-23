@@ -33,6 +33,7 @@ class ogrouptabs extends simpleTabs_noSpecial
 
   function loadtabs($gosaGroupObjects)
   {
+    global $config;
     if ($this->groupObjects == $gosaGroupObjects) {
       return;
     }
@@ -41,8 +42,8 @@ class ogrouptabs extends simpleTabs_noSpecial
 
     $tabs = array();
     if (strlen($objects)) {
-      if (isset($this->config->data['TABS']['OGROUP-DYNAMICTABS'])) {
-        $dtabs  = $this->config->data['TABS']['OGROUP-DYNAMICTABS'];
+      if (isset($config->data['TABS']['OGROUP-DYNAMICTABS'])) {
+        $dtabs  = $config->data['TABS']['OGROUP-DYNAMICTABS'];
       } else {
         $dtabs  = array();
       }
@@ -53,20 +54,20 @@ class ogrouptabs extends simpleTabs_noSpecial
         }
         $otype = ogroup::$objectTypes[$objects[$i]];
         $otabs = array();
-        if (isset($this->config->data['TABS'][strtoupper($otype).'TABS'])) {
+        if (isset($config->data['TABS'][strtoupper($otype).'TABS'])) {
           $otabs = array_uintersect(
             $dtabs,
-            $this->config->data['TABS'][strtoupper($otype).'TABS'],
+            $config->data['TABS'][strtoupper($otype).'TABS'],
             function ($a, $b)
             {
               return strcmp($a['CLASS'], $b['CLASS']);
             }
           );
         }
-        if (isset($this->config->data['TABS']['OGROUP-'.strtoupper($otype).'TABS'])) {
+        if (isset($config->data['TABS']['OGROUP-'.strtoupper($otype).'TABS'])) {
           $otabs = array_merge(
             $otabs,
-            $this->config->data['TABS']['OGROUP-'.strtoupper($otype).'TABS']
+            $config->data['TABS']['OGROUP-'.strtoupper($otype).'TABS']
           );
         }
         if ($tabs === FALSE) {
@@ -83,7 +84,7 @@ class ogrouptabs extends simpleTabs_noSpecial
         }
       }
     }
-    $tabs = array_merge($this->config->data['TABS']['OGROUPTABS'], (array)$tabs);
+    $tabs = array_merge($config->data['TABS']['OGROUPTABS'], (array)$tabs);
     $tabs = array_map(
       function ($a)
       {
@@ -107,16 +108,15 @@ class ogrouptabs extends simpleTabs_noSpecial
 
   function addTab ($class)
   {
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $class, "Adding tab ");
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $class, 'Adding tab ');
     $plInfos = pluglist::pluginInfos($class);
-    $this->by_name["$class"]            = $plInfos['plShortName'];
-    if (isset($this->removed_tabs["$class"])) {
-      $this->by_object["$class"] = $this->removed_tabs["$class"];
-      unset($this->removed_tabs["$class"]);
+    $this->by_name[$class]            = $plInfos['plShortName'];
+    if (isset($this->removed_tabs[$class])) {
+      $this->by_object[$class] = $this->removed_tabs[$class];
+      unset($this->removed_tabs[$class]);
     } else {
-      $this->by_object["$class"]          = new $class($this->config, $this->dn, $this->getBaseObject());
-      $this->by_object["$class"]->parent  = &$this;
-      $this->by_object["$class"]->set_acl_category($this->acl_category);
+      $this->by_object[$class] = new $class($this->dn, $this->getBaseObject(), $this, FALSE);
+      $this->by_object[$class]->set_acl_category($this->acl_category);
     }
   }
 
@@ -164,7 +164,6 @@ class ogrouptabs extends simpleTabs_noSpecial
 
       /* Don't touch base object */
       if ($name != 'ogroup') {
-        $obj->parent    = &$this;
         $obj->uid       = $baseobject->cn;
         $obj->cn        = $baseobject->cn;
         $obj->sn        = $baseobject->cn;
@@ -173,9 +172,6 @@ class ogrouptabs extends simpleTabs_noSpecial
         $this->by_object[$name] = $obj;
       }
     }
-
-    /* Update parent in base object */
-    $this->by_object['ogroup']->parent = &$this;
   }
 }
 ?>

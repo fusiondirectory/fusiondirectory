@@ -421,6 +421,7 @@ class Attribute
    */
   function check ()
   {
+    global $config;
     $value = $this->getValue();
     if ($this->isRequired() && !$this->disabled && (($value === "") || ($value === array()))) {
       return msgPool::required($this->getLabel());
@@ -429,8 +430,8 @@ class Attribute
       if (($value === "") || ($value === array())) {
         return;
       }
-      $ldap = $this->plugin->config->get_ldap_link();
-      $base = $this->plugin->config->current['BASE'];
+      $ldap = $config->get_ldap_link();
+      $base = $config->current['BASE'];
       if ($this->unique !== 'whole') {
         if (isset($this->plugin->base) && !empty($this->plugin->base)) {
           $base = $this->plugin->base;
@@ -507,7 +508,7 @@ class Attribute
                 break;
               }
             }
-            if (!in_array($dn_base, $this->plugin->config->departments)) {
+            if (!in_array($dn_base, $config->departments)) {
               continue;
             }
           }
@@ -550,24 +551,31 @@ class Attribute
    *
    *  \param array& attributes the attributes array
    */
-  function serializeAttribute(&$attributes)
+  function serializeAttribute(&$attributes, $form = TRUE)
   {
-    if ($this->visible) {
+    if (!$form || $this->visible) {
       $class = get_class($this);
       while ($class != 'Attribute') {
         $type[] = $class;
         $class  = get_parent_class($class);
       }
       $type[] = 'Attribute'; // To avoid empty array
-      $attributes[$this->getLdapName()] = array(
-        'id'          => $this->getHtmlId(),
+      $infos = array(
+        'htmlid'      => $this->getHtmlId(),
         'label'       => $this->getLabel(),
         'required'    => $this->isRequired(),
         'disabled'    => $this->disabled,
         'description' => $this->getDescription(),
         'value'       => $this->getValue(),
+        'default'     => $this->defaultValue,
         'type'        => $type,
       );
+      if (!$form) {
+        $infos['inldap']   = $this->isInLdap();
+        $infos['visible']  = $this->visible;
+        $infos['htmlids']  = $this->htmlIds();
+      }
+      $attributes[$this->getLdapName()] = $infos;
     }
   }
 
@@ -1193,10 +1201,10 @@ class SelectAttribute extends Attribute
     return $this->choices;
   }
 
-  function serializeAttribute(&$attributes)
+  function serializeAttribute(&$attributes, $form = TRUE)
   {
-    if ($this->visible) {
-      parent::serializeAttribute($attributes);
+    if (!$form || $this->visible) {
+      parent::serializeAttribute($attributes, $form);
 
       if ($this->outputs !== NULL) {
         $outputs = array_values($this->outputs);
@@ -1527,6 +1535,29 @@ class DateAttribute extends Attribute
   }
 }
 
+class GeneralizedTimeDateAttribute extends DateAttribute
+{
+  function __construct ($label, $description, $ldapName, $required, $defaultValue = 'now', $acl = "")
+  {
+    parent::__construct($label, $description, $ldapName, $required, '', $defaultValue, $acl);
+  }
+
+  protected function ldapToDate($ldapValue)
+  {
+    try {
+      return LdapGeneralizedTime::fromString($ldapValue);
+    } catch (LdapGeneralizedTimeBadFormatException $e) {
+      trigger_error('LDAP value "'.$ldapValue.'" for '.$this->getLdapName().' is not in the right date format.');
+      return new DateTime($ldapValue, timezone::utc());
+    }
+  }
+
+  protected function dateToLdap($dateValue)
+  {
+    return LdapGeneralizedTime::toString($dateValue);
+  }
+}
+
 /*! \brief This class allow to handle easily an File LDAP attribute
  *
  */
@@ -1782,9 +1813,11 @@ class ImageAttribute extends FileAttribute
         $this->value = $value;
       }
     } else {
-      msg_dialog::display(_("Error"),
-                _("Cannot save user picture, FusionDirectory requires the package 'php5-imagick' to be installed!"),
-                ERROR_DIALOG);
+      msg_dialog::display(
+        _('Error'),
+        _('Cannot save user picture, FusionDirectory requires the PHP module "imagick" to be installed!'),
+        ERROR_DIALOG
+      );
     }
   }
 
@@ -2489,14 +2522,25 @@ class CompositeAttribute extends Attribute
     }
   }
 
-  function serializeAttribute(&$attributes)
+  function serializeAttribute(&$attributes, $form = TRUE)
   {
-    if ($this->visible) {
+    if ($form) {
+      if ($this->visible) {
+        foreach ($this->attributes as &$attribute) {
+          $attribute->setDisabled($this->disabled);
+          $attribute->serializeAttribute($attributes, $form);
+        }
+        unset($attribute);
+      }
+    } else {
+      parent::serializeAttribute($attributes, $form);
+      $subattributes = array();
       foreach ($this->attributes as &$attribute) {
         $attribute->setDisabled($this->disabled);
-        $attribute->serializeAttribute($attributes);
+        $attribute->serializeAttribute($subattributes, $form);
       }
       unset($attribute);
+      $attributes[$this->getLdapName()]['attributes'] = $subattributes;
     }
   }
 
@@ -2862,9 +2906,10 @@ class SubNodesAttribute extends OrderedArrayAttribute
 
   protected function loadAttrValue ($attrs)
   {
+    global $config;
     /* Should we take dn from attrs or plugin? */
     if (isset($attrs['dn'])) {
-      $ldap = $this->plugin->config->get_ldap_link();
+      $ldap = $config->get_ldap_link();
       $ldap->ls('objectClass='.$this->objectClass, $attrs['dn']);
       $this->value = array();
       while ($subattrs = $ldap->fetch()) {
