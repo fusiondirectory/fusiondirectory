@@ -48,6 +48,16 @@ div#window_content > div {
 padding:10px;
 }
 
+a:link {
+text-decoration:none;
+color:#2980b9;
+}
+
+a:visited {
+text-decoration:none;
+color:#2980b9;
+}
+
 div#window_footer {
 padding:0;
 }
