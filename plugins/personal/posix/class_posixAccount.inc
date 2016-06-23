@@ -354,6 +354,9 @@ class posixAccount extends simplePlugin
       if (isset($this->attrs['force_ids'])) {
         $this->force_ids = ($this->attrs['force_ids'][0] != 'FALSE');
       }
+      if (isset($this->attrs['mustchangepassword'])) {
+        $this->mustchangepassword = ($this->attrs['mustchangepassword'][0] != 'FALSE');
+      }
     }
   }
 
@@ -561,14 +564,16 @@ class posixAccount extends simplePlugin
         $this->gidNumber, $this->getUid()), "");
     }
 
-    if ($this->mustchangepassword) {
-      $this->shadowLastChange =
-        floor(date('U') / EpochDaysDateAttribute::$secondsPerDay) - $this->shadowMax - 1;
-    } elseif (
-        ($this->is_account && !$this->initially_was_account) ||
-        $this->parent->getBaseObject()->attributesAccess['userPassword']->hasChanged()
-      ) {
-      $this->shadowLastChange = floor(date('U') / EpochDaysDateAttribute::$secondsPerDay);
+    if (!$this->is_template) {
+      if ($this->mustchangepassword) {
+        $this->shadowLastChange =
+          floor(date('U') / EpochDaysDateAttribute::$secondsPerDay) - $this->shadowMax - 1;
+      } elseif (
+          ($this->is_account && !$this->initially_was_account) ||
+          $this->parent->getBaseObject()->attributesAccess['userPassword']->hasChanged()
+        ) {
+        $this->shadowLastChange = floor(date('U') / EpochDaysDateAttribute::$secondsPerDay);
+      }
     }
 
     $this->updateAttributesValues();
@@ -596,6 +601,7 @@ class posixAccount extends simplePlugin
       } else {
         $this->attrs['force_ids']   = 'FALSE';
       }
+      $this->attrs['mustchangepassword'] = ($this->mustchangepassword ? 'TRUE' : 'FALSE');
     }
   }
 
@@ -667,6 +673,10 @@ class posixAccount extends simplePlugin
 
     if (isset($this->attrs['force_ids'])) {
       $this->force_ids = ($this->attrs['force_ids'][0] != 'FALSE');
+    }
+
+    if (isset($this->attrs['mustchangepassword'])) {
+      $this->mustchangepassword = ($this->attrs['mustchangepassword'][0] != 'FALSE');
     }
 
     $this->attributesAccess['uidNumber']->setInitialValue('');
