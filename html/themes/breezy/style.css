@@ -26,12 +26,20 @@ border:none;
 
 a:link {
 text-decoration:none;
+<<<<<<< HEAD
+color:#31363B;
+=======
 color:#2980b9;
+>>>>>>> upstream/master
 }
 
 a:visited {
 text-decoration:none;
+<<<<<<< HEAD
+color:#31363B;
+=======
 color:#2980b9;
+>>>>>>> upstream/master
 }
 
 td.listfooter {
@@ -140,6 +148,18 @@ border:1px solid #eff0f1;
 border-radius:8px;
 /*transition:box-shadow .5s ease, background .5s ease;*/
 }
+
+a.maintitlebar:link,div.maintitlebar:link {
+text-decoration:none;
+color:#2980b9;
+}
+
+a.maintitlebar:visited,div.maintitlebar:visited {
+text-decoration:none;
+color:#2980b9;
+}
+
+
 html.ltr a.maintitlebar,html.ltr div.maintitlebar {
 padding-right:5px;
 }
@@ -184,7 +204,7 @@ text-align:left;
 hr {
 width:100%;
 border:none;
-background-color:#AAA;
+background-color:#C0C2C3;
 height:1px;
 }
 
@@ -336,7 +356,11 @@ color:#fcfcfc;
 
 table.check {
 background-color:#e1e1f1;
+<<<<<<< HEAD
+color:#31363b;
+=======
 color:#000;
+>>>>>>> upstream/master
 border:1px solid #c0c2c3;
 width:95%;
 }
@@ -511,7 +535,7 @@ text-decoration:none;
 }
 
 #pulldown ul li.sep {
-color:#AAA;
+color:#C0C2C3;
 padding:.8em 0 .5em;
 }
 
@@ -547,7 +571,7 @@ padding:5px 9px 5px 5px;
 
 #pulldown ul ul li a:hover {
 font-weight:normal;
-background-color:#418DD4;
+background-color:#D5EAF7;
 background-image:none;
 }
 
@@ -664,7 +688,7 @@ div#header_right {
 padding-top:8px;
 text-align:right;
 height:38px;
-color:black;
+color:#31363b;
 }
 html.rtl div#header_right {
 text-align:left;
@@ -674,7 +698,7 @@ text-align:left;
 div.setup_header {
 background-color:#eff0f1;
 padding:4px 5px 4px;
-color:#000;
+color:#31363b;
 }
 
 /* On small screens */
