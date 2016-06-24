@@ -295,6 +295,16 @@ class IconTheme
     'actions/system-reinstall'      => array(
       array('applications','system-installer'),
     ),
+    'actions/task-start'            => array(
+      array('actions','media-playback-start'),
+    ),
+    'actions/task-stop'             => array(
+      array('actions','media-playback-stop'),
+    ),
+    'actions/task-schedule'         => array(
+      array('actions','chronometer'),
+      array('actions','smallclock'),
+    ),
     'actions/up'                    => array(
       array('actions','go-up'),
       array('actions','arrow-up'),
@@ -344,6 +354,9 @@ class IconTheme
     ),
     'status/object-unlocked'        => array(
       array('status','changes-allow'),
+    ),
+    'places/folder-network'        => array(
+      array('places','folder-remote'),
     ),
   );
 }
