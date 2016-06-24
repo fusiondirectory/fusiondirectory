@@ -20,8 +20,8 @@
 
     <div class="optional">
       {t}Please use your username and your password to log into the site administration system.{/t}<br />
-      {if $ssl}<b>{$ssl}</b>{/if}
-      {if $lifetime}<b><div style="color:red;">{$lifetime}</div></b>{/if}
+      {if $ssl}<span class="warning">{$ssl}</span>{/if}
+      {if $lifetime}<span class="warning">{$lifetime}</span>{/if}
     </div>
 
     <div>

@@ -79,6 +79,10 @@ html.rtl div#window_footer > div:nth-child(1) {
 text-align:right;
 }
 
+span.warning, p.warning {
+color:red;
+}
+
 /* On small screens */
 @media (max-width: 640px) {
   div#window_div {

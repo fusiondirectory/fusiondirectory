@@ -11,12 +11,6 @@ body.setup .plugin_window {
 border-radius:5px;
 }
 
-div.setup_menu {
-background-color:#F8F8F8;
-padding:4px 5px;
-border-bottom:1px solid #B0B0B0;
-}
-
 /* default.*/
 div.default {
 padding:2px 10px;
