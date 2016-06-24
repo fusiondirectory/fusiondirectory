@@ -166,10 +166,7 @@ class standAlonePage {
         exit;
       } elseif ($config->get_cfg_value("warnssl") == 'TRUE') {
         /* Display SSL mode warning? */
-        $smarty->assign("ssl", "<b>"._("Warning").":</b> ".
-                        _("Session will not be encrypted.").
-                        " <a style=\"color:red;\" href=\"".htmlentities($ssl).
-                        "\"><b>"._("Enter SSL session")."</b></a>!");
+        $smarty->assign ('ssl', sprintf(_('Warning: <a href="%s">Session is not encrypted!</a>'), $ssl));
       }
     }
 

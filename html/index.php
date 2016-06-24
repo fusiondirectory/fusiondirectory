@@ -52,17 +52,16 @@ function displayLogin()
   $smarty->assign ("message", $message);
 
   /* Displasy SSL mode warning? */
-  if (($ssl != "") && ($config->get_cfg_value('warnSSL') == 'TRUE')) {
-    $smarty->assign ("ssl", _("Warning").": <a style=\"color:red;\" href=\"$ssl\">"._("Session is not encrypted!")."</a>");
+  if (($ssl != '') && ($config->get_cfg_value('warnSSL') == 'TRUE')) {
+    $smarty->assign ('ssl', sprintf(_('Warning: <a href="%s">Session is not encrypted!</a>'), $ssl));
   } else {
-    $smarty->assign ("ssl", "");
+    $smarty->assign ('ssl', '');
   }
 
   if (!$config->check_session_lifetime()) {
-    $smarty->assign ("lifetime", _("Warning").": ".
-        _("The session lifetime configured in your fusiondirectory.conf will be overridden by php.ini settings."));
+    $smarty->assign ('lifetime', _('Warning: The session lifetime configured in your fusiondirectory.conf will be overridden by php.ini settings.'));
   } else {
-    $smarty->assign ("lifetime", "");
+    $smarty->assign ('lifetime', '');
   }
 
   /* Generate server list */

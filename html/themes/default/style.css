@@ -659,12 +659,17 @@ margin-right:35px;
 
 div#header_right {
 padding-top:8px;
-text-align:right;
 height:38px;
 color:black;
 }
+html.ltr div#header_right {
+text-align:right;
+}
 html.rtl div#header_right {
 text-align:left;
+}
+div#header_right div.version {
+font-size:20px;
 }
 
 /* Header col */
