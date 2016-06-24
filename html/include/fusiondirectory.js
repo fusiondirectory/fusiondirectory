@@ -564,20 +564,22 @@ function setProgressPie(context, percent)
 {
     context.clearRect(0, 0, 22, 22);
 
-    var r = "FF";
-    var g = "FF";
-    var b = "FF";
+    var r = "3D";
+    var g = "AE";
+    var b = "E9";
 
-    // Fade yellow
+    // Fade orange
     if (percent > 50) {
-        d = 255 - parseInt((percent-50) * 255 / 50)
-            b = d.toString(16);
+        r = "F6"
+        g = "74"
+        b = "00";
     }
 
     // Fade red
     if (percent > 75) {
-        d = 255 - parseInt((percent-75) * 255 / 25)
-            g = d.toString(16);
+        r = "ED"
+        g = "15"
+        b = "15"; 
     }
 
     context.strokeStyle = "#" + r  + g + b
