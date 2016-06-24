@@ -37,7 +37,7 @@ padding:0;
 /* Error message will be displayed as follows */
 div.sieve_error_msgs {
 background-color:#ff8d00;
-color:#000;
+color:#31363b;
 padding:5px;
 background-image:url(../../geticon.php?context=status&icon=dialog-warning&size=16);
 background-repeat:no-repeat;
@@ -58,7 +58,7 @@ table.object_container_container {
 width:100%;
 border-spacing:0;
 background-color:#F8F8F8;
-border:solid 1px #AAA;
+border:solid 1px #C0C2C3;
 }
 
 /* Container cell top left */
@@ -72,7 +72,7 @@ td.object_container_cell_top_right {
 background-color:#EEE;
 text-align:left;
 padding:2px;
-border-bottom:solid 1px #AAA;
+border-bottom:solid 1px #C0C2C3;
 }
 html.rtl td.object_container_cell_top_right {
 text-align:right;
@@ -85,10 +85,10 @@ background-color:#EEE;
 text-align:center;
 }
 html.ltr td.object_container_cell_bottom_left {
-border-right:solid 1px #AAA;
+border-right:solid 1px #C0C2C3;
 }
 html.rtl td.object_container_cell_bottom_left {
-border-left:solid 1px #AAA;
+border-left:solid 1px #C0C2C3;
 }
 
 /*************
@@ -332,7 +332,7 @@ border:solid 0 #EEE;
 /* Container */
 td.sieve_anyof_right {
 background-color:#BDBDBD;
-border:solid 1px #AAA;
+border:solid 1px #C0C2C3;
 }
 
 /*************
@@ -344,7 +344,7 @@ background-color:#F8F8F8;
 margin:0;
 border-spacing:0;
 padding:0;
-border:solid 1px #AAA;
+border:solid 1px #C0C2C3;
 }
 
 table.sieve_test_case {
@@ -367,8 +367,8 @@ td.container_:hover,div.container_:hover {
 display:block;
 }
 html.ltr td.container_:hover, html.ltr div.container_:hover {
-border-left:solid 2px #000;
+border-left:solid 2px #31363b;
 }
 html.rtl td.container_:hover, html.rtl div.container_:hover {
-border-right:solid 2px #000;
+border-right:solid 2px #31363b;
 }
