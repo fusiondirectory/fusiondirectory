@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-110\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2016-06-23 22:48+0200\n"
-"PO-Revision-Date: 2016-06-23 20:45+0000\n"
+"POT-Creation-Date: 2016-06-25 12:52+0200\n"
+"PO-Revision-Date: 2016-06-25 10:50+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/fusiondirectory/FusionDirectory-110/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -60,7 +60,7 @@ msgstr ""
 #: include/select/groupSelect/group-filter.tpl.c:14
 #: setup/setup_migrate_adminAccount.tpl.c:8
 msgid "Name"
-msgstr ""
+msgstr "Nimi"
 
 #: plugins/admin/groups/class_roleGeneric.inc:86
 #: plugins/admin/groups/class_group.inc:60
@@ -203,9 +203,8 @@ msgstr ""
 #: plugins/admin/groups/class_group.inc:181
 #: plugins/personal/posix/class_posixAccount.inc:470 include/functions.inc:799
 #: include/functions.inc:2554 include/class_xml.inc:55
-#: include/simpleplugin/class_simpleTabs.inc:319 html/index.php:56
-#: html/index.php:62 html/index.php:520 html/main.php:158
-#: html/class_passwordRecovery.inc:169 setup/class_setupStep_Migrate.inc:572
+#: include/simpleplugin/class_simpleTabs.inc:319 html/index.php:519
+#: html/main.php:158 setup/class_setupStep_Migrate.inc:572
 #: setup/class_setupStep_Migrate.inc:1083
 #: setup/class_setupStep_Migrate.inc:1202
 #: setup/class_setupStep_Migrate.inc:1313
@@ -478,16 +477,16 @@ msgstr ""
 #: plugins/admin/departments/class_department.inc:106
 #: plugins/personal/generic/class_user.inc:350
 msgid "Phone"
-msgstr ""
+msgstr "Puhelin"
 
 #: plugins/admin/departments/class_department.inc:106
 msgid "Telephone number"
-msgstr ""
+msgstr "Puhelinnumero"
 
 #: plugins/admin/departments/class_department.inc:110
 #: plugins/personal/generic/class_user.inc:362
 msgid "Fax"
-msgstr ""
+msgstr "Faksi"
 
 #: plugins/admin/departments/class_department.inc:110
 msgid "Facsimile telephone number"
@@ -556,13 +555,13 @@ msgstr ""
 
 #: plugins/admin/users/user-list.xml:41
 msgid "Given name"
-msgstr ""
+msgstr "Etunimi"
 
 #: plugins/admin/users/user-list.xml:49
 #: plugins/personal/generic/class_user.inc:377
 #: include/select/userSelect/class_userSelect.inc:32
 #: plugins/personal/generic/paste_generic.tpl.c:11
-#: ihtml/themes/default/recovery.tpl.c:29
+#: ihtml/themes/default/recovery.tpl.c:26
 msgid "Login"
 msgstr ""
 
@@ -933,7 +932,7 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:51
 #: plugins/personal/generic/class_user.inc:386
 #: plugins/personal/generic/paste_generic.tpl.c:14
-#: ihtml/themes/default/recovery.tpl.c:5 ihtml/themes/default/recovery.tpl.c:8
+#: ihtml/themes/default/recovery.tpl.c:2 ihtml/themes/default/recovery.tpl.c:5
 #: ihtml/themes/default/login.tpl.c:17 ihtml/themes/default/login.tpl.c:20
 #: ihtml/themes/default/login.tpl.c:23
 #: setup/setup_migrate_adminAccount.tpl.c:14
@@ -1008,7 +1007,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:354
 msgid "Mobile"
-msgstr ""
+msgstr "Mobiili"
 
 #: plugins/personal/generic/class_user.inc:354
 msgid "Business mobile number"
@@ -1151,8 +1150,8 @@ msgid ""
 msgstr ""
 
 #: plugins/personal/generic/class_user.inc:654
+#: ihtml/themes/default/recovery.tpl.c:29
 #: ihtml/themes/default/recovery.tpl.c:32
-#: ihtml/themes/default/recovery.tpl.c:35
 msgid "New password"
 msgstr ""
 
@@ -2177,11 +2176,11 @@ msgstr ""
 #: include/password-methods/class_password-methods-sasl.inc:85
 #: include/password-methods/class_password-methods.inc:428
 #: include/password-methods/class_password-methods.inc:438
-#: include/class_SnapshotHandler.inc:422 html/index.php:471 html/index.php:481
+#: include/class_SnapshotHandler.inc:422 html/index.php:470 html/index.php:480
 #: setup/class_setupStep_Migrate.inc:935
 #: ihtml/themes/default/msg_dialog.tpl.c:2 setup/setup_checks.tpl.c:5
 msgid "Error"
-msgstr ""
+msgstr "Virhe"
 
 #: include/class_listing.inc:579
 msgid "created by"
@@ -2301,7 +2300,7 @@ msgstr ""
 #: include/password-methods/class_password-methods-sha.inc:69
 #: include/password-methods/class_password-methods-ssha.inc:73
 #: include/password-methods/class_password-methods-ssha.inc:89
-#: html/index.php:149 html/main.php:208 html/class_passwordRecovery.inc:131
+#: html/index.php:148 html/main.php:208 html/class_passwordRecovery.inc:131
 msgid "Configuration error"
 msgstr ""
 
@@ -2323,7 +2322,7 @@ msgstr ""
 #: include/class_SnapshotHandler.inc:48 include/class_SnapshotHandler.inc:247
 #: include/class_SnapshotHandler.inc:280 include/class_SnapshotHandler.inc:296
 #: include/class_SnapshotHandler.inc:429 include/class_SnapshotHandler.inc:432
-#: html/index.php:367 html/class_passwordRecovery.inc:520
+#: html/index.php:366 html/class_passwordRecovery.inc:517
 #: setup/class_setupStep_Migrate.inc:451
 #: setup/class_setupStep_Migrate.inc:1130
 msgid "LDAP error"
@@ -3740,80 +3739,81 @@ msgstr ""
 msgid "Specified objectType is empty or invalid!"
 msgstr ""
 
-#: html/index.php:56
-msgid "Session is not encrypted!"
+#: html/index.php:56 html/class_passwordRecovery.inc:169
+#, php-format
+msgid "Warning: <a href=\"%s\">Session is not encrypted!</a>"
 msgstr ""
 
-#: html/index.php:63
+#: html/index.php:62
 msgid ""
-"The session lifetime configured in your fusiondirectory.conf will be "
-"overridden by php.ini settings."
+"Warning: The session lifetime configured in your fusiondirectory.conf will "
+"be overridden by php.ini settings."
 msgstr ""
 
-#: html/index.php:151
+#: html/index.php:150
 #, php-format
 msgid ""
 "FusionDirectory configuration %s/%s is not readable. Please run "
 "fusiondirectory-setup --check-config to fix this."
 msgstr ""
 
-#: html/index.php:172
+#: html/index.php:171
 msgid "Smarty error"
 msgstr ""
 
-#: html/index.php:174
+#: html/index.php:173
 #, php-format
 msgid "Directory \"%s\" specified as compile directory is not accessible!"
 msgstr ""
 
-#: html/index.php:209
+#: html/index.php:208
 msgid "Your FusionDirectory session has expired!"
 msgstr ""
 
-#: html/index.php:212
+#: html/index.php:211
 msgid "Your IP has changed!"
 msgstr ""
 
-#: html/index.php:215
+#: html/index.php:214
 #, php-format
 msgid "Invalid plugin parameter \"%s\"!"
 msgstr ""
 
-#: html/index.php:218
+#: html/index.php:217
 msgid "No session found!"
 msgstr ""
 
-#: html/index.php:253
+#: html/index.php:252
 msgid "LDAP schema check reported errors:"
 msgstr ""
 
-#: html/index.php:279
+#: html/index.php:278
 msgid "Please specify a valid username!"
 msgstr ""
 
-#: html/index.php:282
+#: html/index.php:281
 msgid "Please specify your password!"
 msgstr ""
 
-#: html/index.php:301
+#: html/index.php:300
 msgid "Please check the username/password combination."
 msgstr ""
 
-#: html/index.php:331
+#: html/index.php:330
 msgid "Account locked. Please contact your system administrator!"
 msgstr ""
 
-#: html/index.php:473
+#: html/index.php:472
 #, php-format
 msgid "CAS user \"%s\" could not be found in the LDAP"
 msgstr ""
 
-#: html/index.php:483
+#: html/index.php:482
 #, php-format
 msgid "CAS user \"%s\" match several users in the LDAP"
 msgstr ""
 
-#: html/index.php:520
+#: html/index.php:519
 msgid ""
 "Your browser has cookies disabled. Please enable cookies and reload this "
 "page before logging in!"
@@ -3881,52 +3881,44 @@ msgstr ""
 msgid "Directory '%s' specified as compile directory is not accessible!"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:170
-msgid "Session will not be encrypted."
-msgstr ""
-
-#: html/class_passwordRecovery.inc:172
-msgid "Enter SSL session"
-msgstr ""
-
-#: html/class_passwordRecovery.inc:444
+#: html/class_passwordRecovery.inc:441
 #, php-format
 msgid "Did not find an account with login \"%s\""
 msgstr ""
 
-#: html/class_passwordRecovery.inc:447
+#: html/class_passwordRecovery.inc:444
 #, php-format
 msgid "Found multiple accounts with login \"%s\""
 msgstr ""
 
-#: html/class_passwordRecovery.inc:461 ihtml/themes/default/recovery.tpl.c:74
+#: html/class_passwordRecovery.inc:458 ihtml/themes/default/recovery.tpl.c:71
 msgid "Email address"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:484
+#: html/class_passwordRecovery.inc:481
 #, php-format
 msgid "There is no account using email \"%s\""
 msgstr ""
 
-#: html/class_passwordRecovery.inc:487
+#: html/class_passwordRecovery.inc:484
 #, php-format
 msgid "There are several accounts using email \"%s\""
 msgstr ""
 
-#: html/class_passwordRecovery.inc:495
+#: html/class_passwordRecovery.inc:492
 #, php-format
 msgid "The user using email \"%s\" is locked. Please contact your administrator."
 msgstr ""
 
-#: html/class_passwordRecovery.inc:543
+#: html/class_passwordRecovery.inc:540
 msgid "Contact your administrator, there was a problem with mail server"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:554
+#: html/class_passwordRecovery.inc:551
 msgid "This token is invalid"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:614
+#: html/class_passwordRecovery.inc:611
 msgid "There was a problem with mail server, confirmation email not sent"
 msgstr ""
 
@@ -4784,81 +4776,78 @@ msgstr ""
 msgid "Set"
 msgstr ""
 
-#: ihtml/themes/default/recovery.tpl.c:2
-msgid "FusionDirectory password recovery"
-msgstr ""
-
-#: ihtml/themes/default/recovery.tpl.c:11
+#: ihtml/themes/default/recovery.tpl.c:8
 msgid "Lost password"
 msgstr ""
 
-#: ihtml/themes/default/recovery.tpl.c:14
+#: ihtml/themes/default/recovery.tpl.c:11
 msgid ""
 "Informations to reset password for %1 have been sent to email address %2"
 msgstr ""
 
-#: ihtml/themes/default/recovery.tpl.c:17
+#: ihtml/themes/default/recovery.tpl.c:14
 msgid "Warning : this email is only valid for %1 minutes."
 msgstr ""
 
-#: ihtml/themes/default/recovery.tpl.c:20
+#: ihtml/themes/default/recovery.tpl.c:17
 msgid ""
 "This dialog provides a simple way to change your password. Enter the new "
 "password (twice) in the fields below and press the 'Change' button."
 msgstr ""
 
+#: ihtml/themes/default/recovery.tpl.c:20
 #: ihtml/themes/default/recovery.tpl.c:23
-#: ihtml/themes/default/recovery.tpl.c:26
-#: ihtml/themes/default/recovery.tpl.c:68
-#: ihtml/themes/default/recovery.tpl.c:71 ihtml/themes/default/login.tpl.c:29
+#: ihtml/themes/default/recovery.tpl.c:65
+#: ihtml/themes/default/recovery.tpl.c:68 ihtml/themes/default/login.tpl.c:29
 #: ihtml/themes/default/login.tpl.c:32 ihtml/themes/default/login.tpl.c:35
 msgid "Directory"
 msgstr ""
 
+#: ihtml/themes/default/recovery.tpl.c:35
 #: ihtml/themes/default/recovery.tpl.c:38
-#: ihtml/themes/default/recovery.tpl.c:41
 msgid "New password repeated"
 msgstr ""
 
-#: ihtml/themes/default/recovery.tpl.c:44
+#: ihtml/themes/default/recovery.tpl.c:41
 msgid "Password strength"
+msgstr ""
+
+#: ihtml/themes/default/recovery.tpl.c:44
+#: ihtml/themes/default/recovery.tpl.c:77
+msgid "Change"
 msgstr ""
 
 #: ihtml/themes/default/recovery.tpl.c:47
 #: ihtml/themes/default/recovery.tpl.c:80
-msgid "Change"
-msgstr ""
-
-#: ihtml/themes/default/recovery.tpl.c:50
-#: ihtml/themes/default/recovery.tpl.c:83
 msgid "Click here to change your password"
 msgstr ""
 
+#: ihtml/themes/default/recovery.tpl.c:50
 #: ihtml/themes/default/recovery.tpl.c:53
-#: ihtml/themes/default/recovery.tpl.c:56
 msgid "Success"
 msgstr ""
 
-#: ihtml/themes/default/recovery.tpl.c:59
+#: ihtml/themes/default/recovery.tpl.c:56
 msgid "Your password has been changed successfully."
 msgstr ""
 
-#: ihtml/themes/default/recovery.tpl.c:62
+#: ihtml/themes/default/recovery.tpl.c:59
 msgid ""
 "Enter your current e-mail address in the field below and press the 'Change' "
 "button."
 msgstr ""
 
-#: ihtml/themes/default/recovery.tpl.c:65
+#: ihtml/themes/default/recovery.tpl.c:62
 msgid ""
-"=> Use your e-mail in the long format, e.g : John Doe => john.doe@ibcp.fr"
+"=> Use your e-mail in the long format, e.g : John Doe => "
+"john.doe@example.com"
 msgstr ""
 
-#: ihtml/themes/default/recovery.tpl.c:77
-msgid "Mail"
+#: ihtml/themes/default/recovery.tpl.c:74
+msgid "Email"
 msgstr ""
 
-#: ihtml/themes/default/recovery.tpl.c:86
+#: ihtml/themes/default/recovery.tpl.c:83
 msgid ""
 "Password recovery is not activated. If you have lost your password, please "
 "contact your administrator"
@@ -5062,7 +5051,7 @@ msgstr ""
 
 #: setup/setup_migrate_adminAccount.tpl.c:11
 msgid "User ID"
-msgstr ""
+msgstr "Käyttäjätunnus"
 
 #: setup/setup_migrate_adminAccount.tpl.c:17
 msgid "Password (again)"

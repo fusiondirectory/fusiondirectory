@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-110\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2016-06-10 13:25+0200\n"
-"PO-Revision-Date: 2016-06-09 08:52+0000\n"
+"POT-Creation-Date: 2016-06-25 12:52+0200\n"
+"PO-Revision-Date: 2016-06-25 11:18+0000\n"
 "Last-Translator: Benoit Mortier <benoit.mortier@opensides.be>\n"
 "Language-Team: French (http://www.transifex.com/fusiondirectory/FusionDirectory-110/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -147,7 +147,7 @@ msgstr "Forcer la valeur du GID pour ce groupe"
 
 #: plugins/admin/groups/class_group.inc:73
 #: plugins/admin/groups/class_group.inc:149
-#: plugins/personal/posix/class_posixAccount.inc:411
+#: plugins/personal/posix/class_posixAccount.inc:414
 msgid "GID"
 msgstr "GID"
 
@@ -204,11 +204,10 @@ msgid "Only allow this group to connect to this list of hosts"
 msgstr "Autoriser ce groupe à se connecter uniquement sur cette liste d'hôtes"
 
 #: plugins/admin/groups/class_group.inc:181
-#: plugins/personal/posix/class_posixAccount.inc:467 include/functions.inc:799
+#: plugins/personal/posix/class_posixAccount.inc:470 include/functions.inc:799
 #: include/functions.inc:2554 include/class_xml.inc:55
-#: include/simpleplugin/class_simpleTabs.inc:319 html/index.php:56
-#: html/index.php:62 html/index.php:520 html/class_passwordRecovery.inc:169
-#: setup/class_setupStep_Migrate.inc:572
+#: include/simpleplugin/class_simpleTabs.inc:319 html/index.php:519
+#: html/main.php:158 setup/class_setupStep_Migrate.inc:572
 #: setup/class_setupStep_Migrate.inc:1083
 #: setup/class_setupStep_Migrate.inc:1202
 #: setup/class_setupStep_Migrate.inc:1313
@@ -220,7 +219,7 @@ msgid "Warning"
 msgstr "Avertissement"
 
 #: plugins/admin/groups/class_group.inc:181
-#: plugins/personal/posix/class_posixAccount.inc:467
+#: plugins/personal/posix/class_posixAccount.inc:470
 msgid "Timeout while waiting for lock. Ignoring lock!"
 msgstr "Le temps d'attente du verrou a été dépassé. Verrou ignoré !"
 
@@ -565,7 +564,7 @@ msgstr "Prénom"
 #: plugins/personal/generic/class_user.inc:377
 #: include/select/userSelect/class_userSelect.inc:32
 #: plugins/personal/generic/paste_generic.tpl.c:11
-#: ihtml/themes/default/recovery.tpl.c:23
+#: ihtml/themes/default/recovery.tpl.c:26
 msgid "Login"
 msgstr "Identifiant"
 
@@ -936,7 +935,7 @@ msgstr "Méthode de chiffrement des mots de passe"
 #: plugins/personal/generic/class_user.inc:51
 #: plugins/personal/generic/class_user.inc:386
 #: plugins/personal/generic/paste_generic.tpl.c:14
-#: ihtml/themes/default/recovery.tpl.c:5 ihtml/themes/default/recovery.tpl.c:8
+#: ihtml/themes/default/recovery.tpl.c:2 ihtml/themes/default/recovery.tpl.c:5
 #: ihtml/themes/default/login.tpl.c:17 ihtml/themes/default/login.tpl.c:20
 #: ihtml/themes/default/login.tpl.c:23
 #: setup/setup_migrate_adminAccount.tpl.c:14
@@ -1154,8 +1153,8 @@ msgid ""
 msgstr "Les mots de passe entrés dans les champs 'Nouveau mot de passe' et celui dans le champ 'Répéter le nouveau mot de passe' ne concordent pas."
 
 #: plugins/personal/generic/class_user.inc:654
-#: ihtml/themes/default/recovery.tpl.c:26
 #: ihtml/themes/default/recovery.tpl.c:29
+#: ihtml/themes/default/recovery.tpl.c:32
 msgid "New password"
 msgstr "Nouveau mot de passe"
 
@@ -1340,11 +1339,11 @@ msgstr "mot de passe expiré"
 msgid "password not changeable"
 msgstr "mot de passe non modifiable"
 
-#: plugins/personal/posix/class_posixAccount.inc:408
+#: plugins/personal/posix/class_posixAccount.inc:411
 msgid "UID"
 msgstr "UID"
 
-#: plugins/personal/posix/class_posixAccount.inc:527
+#: plugins/personal/posix/class_posixAccount.inc:530
 #, php-format
 msgid "Group of user %s"
 msgstr "Groupe de l'utilisateur %s"
@@ -1586,8 +1585,8 @@ msgid "Session lifetime"
 msgstr "Durée de vie de la session"
 
 #: plugins/config/class_configInLdap.inc:207
-msgid "Defines when a session will expire in seconds."
-msgstr "Définit la durée d'une session en secondes."
+msgid "Defines when a session will expire in seconds (0 to disable)."
+msgstr "Définit la durée d'une session en secondes (0 pour désactiver)."
 
 #: plugins/config/class_configInLdap.inc:212
 msgid "HTTP authentication"
@@ -2167,7 +2166,7 @@ msgstr "Sélectionner tout"
 #: include/functions.inc:3196 include/functions.inc:3205
 #: include/functions.inc:3267 include/class_msg_dialog.inc:128
 #: include/class_xml.inc:58 include/class_plugin.inc:790
-#: include/class_plugin.inc:1518 include/class_CopyPasteHandler.inc:276
+#: include/class_plugin.inc:1521 include/class_CopyPasteHandler.inc:276
 #: include/simpleplugin/class_attribute.inc:1571
 #: include/simpleplugin/class_attribute.inc:1574
 #: include/simpleplugin/class_attribute.inc:1577
@@ -2180,7 +2179,7 @@ msgstr "Sélectionner tout"
 #: include/password-methods/class_password-methods-sasl.inc:85
 #: include/password-methods/class_password-methods.inc:428
 #: include/password-methods/class_password-methods.inc:438
-#: include/class_SnapshotHandler.inc:422 html/index.php:471 html/index.php:481
+#: include/class_SnapshotHandler.inc:422 html/index.php:470 html/index.php:480
 #: setup/class_setupStep_Migrate.inc:935
 #: ihtml/themes/default/msg_dialog.tpl.c:2 setup/setup_checks.tpl.c:5
 msgid "Error"
@@ -2304,7 +2303,7 @@ msgstr "Erreur XML dans fusiondirectory.conf : %s à la ligne %d"
 #: include/password-methods/class_password-methods-sha.inc:69
 #: include/password-methods/class_password-methods-ssha.inc:73
 #: include/password-methods/class_password-methods-ssha.inc:89
-#: html/index.php:149 html/main.php:205 html/class_passwordRecovery.inc:131
+#: html/index.php:148 html/main.php:208 html/class_passwordRecovery.inc:131
 msgid "Configuration error"
 msgstr "Erreur de configuration"
 
@@ -2326,7 +2325,7 @@ msgstr "Il semble que vous essayez de déchiffrer quelque chose qui n'est pas ch
 #: include/class_SnapshotHandler.inc:48 include/class_SnapshotHandler.inc:247
 #: include/class_SnapshotHandler.inc:280 include/class_SnapshotHandler.inc:296
 #: include/class_SnapshotHandler.inc:429 include/class_SnapshotHandler.inc:432
-#: html/index.php:367 html/class_passwordRecovery.inc:520
+#: html/index.php:366 html/class_passwordRecovery.inc:517
 #: setup/class_setupStep_Migrate.inc:451
 #: setup/class_setupStep_Migrate.inc:1130
 msgid "LDAP error"
@@ -3418,7 +3417,7 @@ msgid ""
 "\"%2$s\" as \"%2$s\" already depends on \"%1$s\""
 msgstr "Dépendance récursive dans les champs de modèle: \"%1$s\" ne peut pas dépendre de \"%2$s\" vu que  \"%2$s\" dépend déjà \"%1$s\""
 
-#: include/class_plugin.inc:1316
+#: include/class_plugin.inc:1319
 #, php-format
 msgid "Tab \"%s\""
 msgstr "Onglet \"%s\""
@@ -3528,39 +3527,39 @@ msgstr "Aucun"
 msgid "Unknown"
 msgstr "Inconnu"
 
-#: include/simpleplugin/class_helpersAttribute.inc:260
+#: include/simpleplugin/class_helpersAttribute.inc:264
 msgid "B"
 msgstr "O"
 
-#: include/simpleplugin/class_helpersAttribute.inc:261
+#: include/simpleplugin/class_helpersAttribute.inc:265
 msgid "KiB"
 msgstr "KiO"
 
-#: include/simpleplugin/class_helpersAttribute.inc:262
+#: include/simpleplugin/class_helpersAttribute.inc:266
 msgid "MiB"
 msgstr "MiO"
 
-#: include/simpleplugin/class_helpersAttribute.inc:263
+#: include/simpleplugin/class_helpersAttribute.inc:267
 msgid "GiB"
 msgstr "GiO"
 
-#: include/simpleplugin/class_helpersAttribute.inc:264
+#: include/simpleplugin/class_helpersAttribute.inc:268
 msgid "TiB"
 msgstr "TiO"
 
-#: include/simpleplugin/class_helpersAttribute.inc:275
+#: include/simpleplugin/class_helpersAttribute.inc:279
 msgid "seconds"
 msgstr "secondes"
 
-#: include/simpleplugin/class_helpersAttribute.inc:276
+#: include/simpleplugin/class_helpersAttribute.inc:280
 msgid "minutes"
 msgstr "minutes"
 
-#: include/simpleplugin/class_helpersAttribute.inc:277
+#: include/simpleplugin/class_helpersAttribute.inc:281
 msgid "hours"
 msgstr "heures"
 
-#: include/simpleplugin/class_helpersAttribute.inc:278
+#: include/simpleplugin/class_helpersAttribute.inc:282
 msgid "days"
 msgstr "jours"
 
@@ -3743,127 +3742,132 @@ msgstr "Option %s invalide !"
 msgid "Specified objectType is empty or invalid!"
 msgstr "Le type d'objet spécifié est vide ou invalide !"
 
-#: html/index.php:56
-msgid "Session is not encrypted!"
-msgstr "La session n'est pas chiffrée !"
+#: html/index.php:56 html/class_passwordRecovery.inc:169
+#, php-format
+msgid "Warning: <a href=\"%s\">Session is not encrypted!</a>"
+msgstr "Attention: <a href=%s\"> La session n'est pas chiffrée !<a>"
 
-#: html/index.php:63
+#: html/index.php:62
 msgid ""
-"The session lifetime configured in your fusiondirectory.conf will be "
-"overridden by php.ini settings."
-msgstr "La durée de validité des sessions configurée dans votre fusiondirectory.conf sera remplacée par celle définie dans votre php.ini."
+"Warning: The session lifetime configured in your fusiondirectory.conf will "
+"be overridden by php.ini settings."
+msgstr "Attention: La durée de validité des sessions configurée dans votre fusiondirectory.conf sera remplacée par celle définie dans votre php.ini."
 
-#: html/index.php:151
+#: html/index.php:150
 #, php-format
 msgid ""
 "FusionDirectory configuration %s/%s is not readable. Please run "
 "fusiondirectory-setup --check-config to fix this."
 msgstr "Le fichier de configuration de FusionDirectory %s/%s ne peut être lu. Veuillez exécuter fusiondirectory-setup --check-config."
 
-#: html/index.php:172
+#: html/index.php:171
 msgid "Smarty error"
 msgstr "Erreur Smarty"
 
-#: html/index.php:174
+#: html/index.php:173
 #, php-format
 msgid "Directory \"%s\" specified as compile directory is not accessible!"
 msgstr "Le répertoire \"%s\" spécifié comme répertoire de compilation est inaccessible !"
 
-#: html/index.php:209
+#: html/index.php:208
 msgid "Your FusionDirectory session has expired!"
 msgstr "Votre session FusionDirectory a expiré !"
 
-#: html/index.php:212
+#: html/index.php:211
 msgid "Your IP has changed!"
 msgstr "Votre IP a changé !"
 
-#: html/index.php:215
+#: html/index.php:214
 #, php-format
 msgid "Invalid plugin parameter \"%s\"!"
 msgstr "Paramètre de plugin «%s» invalide !"
 
-#: html/index.php:218
+#: html/index.php:217
 msgid "No session found!"
 msgstr "Aucune session trouvée !"
 
-#: html/index.php:253
+#: html/index.php:252
 msgid "LDAP schema check reported errors:"
 msgstr "La vérification des schémas LDAP a signalé des erreurs :"
 
-#: html/index.php:279
+#: html/index.php:278
 msgid "Please specify a valid username!"
 msgstr "Veuillez indiquer un nom d’utilisateur valide !"
 
-#: html/index.php:282
+#: html/index.php:281
 msgid "Please specify your password!"
 msgstr "Veuillez introduire votre mot de passe !"
 
-#: html/index.php:301
+#: html/index.php:300
 msgid "Please check the username/password combination."
 msgstr "Veuillez vérifier le nom d'utilisateur et le mot de passe."
 
-#: html/index.php:331
+#: html/index.php:330
 msgid "Account locked. Please contact your system administrator!"
 msgstr "Compte verrouillé. Veuillez contacter votre administrateur système !"
 
-#: html/index.php:473
+#: html/index.php:472
 #, php-format
 msgid "CAS user \"%s\" could not be found in the LDAP"
 msgstr "L'utilisateur CAS \"%s\" n'existe pas dans l'annuaire LDAP "
 
-#: html/index.php:483
+#: html/index.php:482
 #, php-format
 msgid "CAS user \"%s\" match several users in the LDAP"
 msgstr "L'utilisateur CAS \"%s\" correspond à plusieurs personnes  dans l'annuaire LDAP "
 
-#: html/index.php:520
+#: html/index.php:519
 msgid ""
 "Your browser has cookies disabled. Please enable cookies and reload this "
 "page before logging in!"
 msgstr "Votre navigateur a les cookies désactivés. Veuillez activer les cookies et recharger cette page avant de vous connecter !"
 
-#: html/main.php:113
+#: html/main.php:115
 msgid "PHP configuration"
 msgstr "Configuration de PHP"
 
-#: html/main.php:114
+#: html/main.php:116
 msgid ""
 "Fatal error: Register globals is on. FusionDirectory will refuse to login "
 "unless this is fixed by an administrator."
 msgstr "Erreur fatale : «Register globals» est activé. FusionDirectory ne permettra pas aux utilisateurs de se connecter tant que ceci n'est pas corrigé par un administrateur."
 
-#: html/main.php:140
+#: html/main.php:142
 msgid "Password change"
 msgstr "Changement de mot de passe"
 
-#: html/main.php:140
+#: html/main.php:142
 msgid "Your password is about to expire, please change your password!"
 msgstr "Votre mot de passe va bientôt expirer, veuillez changer votre mot de passe !"
 
-#: html/main.php:205
+#: html/main.php:158
+msgid "Your password has expired, please set a new one."
+msgstr "Votre mot de passe a expiré, veuillez changer votre mot de passe."
+
+#: html/main.php:208
 msgid "Running out of memory!"
 msgstr "Plus de mémoire disponible !"
 
-#: html/main.php:248
+#: html/main.php:251
 msgid "User ACL checks disabled"
 msgstr "Les vérifications des ACL de l'utilisateur ont été désactivés"
 
-#: html/main.php:286
+#: html/main.php:289
 msgid "Plugin"
 msgstr "Plugin"
 
-#: html/main.php:287
+#: html/main.php:290
 #, php-format
 msgid ""
 "Fatal error: Cannot find any plugin definitions for plugin '%s' ('%s' is not"
 " a file)!"
 msgstr "Erreur Fatale : Impossible de trouver une définition pour le plugin '%s' ! ('%s' n'est pas un fichier) !"
 
-#: html/main.php:302
+#: html/main.php:305
 msgid "Configuration Error"
 msgstr "Erreur de configuration"
 
-#: html/main.php:303
+#: html/main.php:306
 #, php-format
 msgid ""
 "Fatal error: not all POST variables have been transfered by PHP - please "
@@ -3880,52 +3884,44 @@ msgstr "Le fichier de configuration de FusionDirectory %s/%s ne peut être lu. A
 msgid "Directory '%s' specified as compile directory is not accessible!"
 msgstr "Le répertoire '%s' spécifié comme répertoire de compilation est inaccessible !"
 
-#: html/class_passwordRecovery.inc:170
-msgid "Session will not be encrypted."
-msgstr "La session ne sera pas chiffrée."
-
-#: html/class_passwordRecovery.inc:172
-msgid "Enter SSL session"
-msgstr "Démarrer une session SSL"
-
-#: html/class_passwordRecovery.inc:444
+#: html/class_passwordRecovery.inc:441
 #, php-format
 msgid "Did not find an account with login \"%s\""
 msgstr "Aucun compte utilisateur trouvé avec l'identifiant \"%s\""
 
-#: html/class_passwordRecovery.inc:447
+#: html/class_passwordRecovery.inc:444
 #, php-format
 msgid "Found multiple accounts with login \"%s\""
 msgstr "Plusieurs comptes trouvés avec l’identifiant \"%s\""
 
-#: html/class_passwordRecovery.inc:461 ihtml/themes/default/recovery.tpl.c:68
+#: html/class_passwordRecovery.inc:458 ihtml/themes/default/recovery.tpl.c:71
 msgid "Email address"
 msgstr "Adresse de courriel"
 
-#: html/class_passwordRecovery.inc:484
+#: html/class_passwordRecovery.inc:481
 #, php-format
 msgid "There is no account using email \"%s\""
 msgstr "Il n'y a pas de compte qui utilise le courriel \"%s\""
 
-#: html/class_passwordRecovery.inc:487
+#: html/class_passwordRecovery.inc:484
 #, php-format
 msgid "There are several accounts using email \"%s\""
 msgstr "Il y a plusieurs comptes qui utilise le courriel \"%s\""
 
-#: html/class_passwordRecovery.inc:495
+#: html/class_passwordRecovery.inc:492
 #, php-format
 msgid "The user using email \"%s\" is locked. Please contact your administrator."
 msgstr "L'utilisateur correspondant a l'adresse \"%s\" est verrouillé. Veuillez contacter votre administrateur système !"
 
-#: html/class_passwordRecovery.inc:543
+#: html/class_passwordRecovery.inc:540
 msgid "Contact your administrator, there was a problem with mail server"
 msgstr "Contactez votre administrateur système, il y a eu un problème avec le serveur de courriel"
 
-#: html/class_passwordRecovery.inc:554
+#: html/class_passwordRecovery.inc:551
 msgid "This token is invalid"
 msgstr "Le jeton n'est pas valide"
 
-#: html/class_passwordRecovery.inc:614
+#: html/class_passwordRecovery.inc:611
 msgid "There was a problem with mail server, confirmation email not sent"
 msgstr "Un problème est survenu avec le serveur, le courriel de confirmation n'a pas été envoyé"
 
@@ -4526,15 +4522,15 @@ msgid ""
 "'Off'."
 msgstr "Recherchez l'option 'zend.ze1_compatibility_mode' dans votre php.ini et mettez la à 'Off'."
 
-#: setup/class_setup.inc:127
+#: setup/class_setup.inc:122
 msgid "Setup error"
 msgstr "Erreur d'installation"
 
-#: setup/class_setup.inc:207
+#: setup/class_setup.inc:202
 msgid "Completed"
 msgstr "Terminé"
 
-#: setup/class_setup.inc:250
+#: setup/class_setup.inc:245
 msgid "Next"
 msgstr "Suivant"
 
@@ -4783,72 +4779,78 @@ msgstr "ignorer cette erreur et montrer toutes les entrées dans la limite de ta
 msgid "Set"
 msgstr "Valider"
 
-#: ihtml/themes/default/recovery.tpl.c:2
-msgid "FusionDirectory password recovery"
-msgstr "Récupération de mot de passe de FusionDirectory"
-
-#: ihtml/themes/default/recovery.tpl.c:11
+#: ihtml/themes/default/recovery.tpl.c:8
 msgid "Lost password"
 msgstr "Mot de passe perdu"
 
+#: ihtml/themes/default/recovery.tpl.c:11
+msgid ""
+"Informations to reset password for %1 have been sent to email address %2"
+msgstr "Informations pour réinitialiser le mot de passe pour %1 ont été envoyés à l'adresse email %2"
+
 #: ihtml/themes/default/recovery.tpl.c:14
+msgid "Warning : this email is only valid for %1 minutes."
+msgstr "Attention: cet e-mail est uniquement valable pour %1 minutes."
+
+#: ihtml/themes/default/recovery.tpl.c:17
 msgid ""
 "This dialog provides a simple way to change your password. Enter the new "
 "password (twice) in the fields below and press the 'Change' button."
 msgstr "Cette fenêtre vous permet de changer votre mot de passe de manière simple. Entrez le mot de passe actuel et le nouveau mot de passe (deux fois) dans les champs ci-dessous et appuyez sur le bouton 'Changer'."
 
-#: ihtml/themes/default/recovery.tpl.c:17
 #: ihtml/themes/default/recovery.tpl.c:20
-#: ihtml/themes/default/recovery.tpl.c:62
-#: ihtml/themes/default/recovery.tpl.c:65 ihtml/themes/default/login.tpl.c:29
+#: ihtml/themes/default/recovery.tpl.c:23
+#: ihtml/themes/default/recovery.tpl.c:65
+#: ihtml/themes/default/recovery.tpl.c:68 ihtml/themes/default/login.tpl.c:29
 #: ihtml/themes/default/login.tpl.c:32 ihtml/themes/default/login.tpl.c:35
 msgid "Directory"
 msgstr "Répertoire"
 
-#: ihtml/themes/default/recovery.tpl.c:32
 #: ihtml/themes/default/recovery.tpl.c:35
+#: ihtml/themes/default/recovery.tpl.c:38
 msgid "New password repeated"
 msgstr "Confirmation du nouveau mot de passe"
 
-#: ihtml/themes/default/recovery.tpl.c:38
+#: ihtml/themes/default/recovery.tpl.c:41
 msgid "Password strength"
 msgstr "Sécurité du mot de passe"
 
-#: ihtml/themes/default/recovery.tpl.c:41
-#: ihtml/themes/default/recovery.tpl.c:74
+#: ihtml/themes/default/recovery.tpl.c:44
+#: ihtml/themes/default/recovery.tpl.c:77
 msgid "Change"
 msgstr "Changer"
 
-#: ihtml/themes/default/recovery.tpl.c:44
-#: ihtml/themes/default/recovery.tpl.c:77
+#: ihtml/themes/default/recovery.tpl.c:47
+#: ihtml/themes/default/recovery.tpl.c:80
 msgid "Click here to change your password"
 msgstr "Cliquez ici pour changer votre mot de passe"
 
-#: ihtml/themes/default/recovery.tpl.c:47
 #: ihtml/themes/default/recovery.tpl.c:50
+#: ihtml/themes/default/recovery.tpl.c:53
 msgid "Success"
 msgstr "Succès"
 
-#: ihtml/themes/default/recovery.tpl.c:53
+#: ihtml/themes/default/recovery.tpl.c:56
 msgid "Your password has been changed successfully."
 msgstr "Votre mot de passe a été changé avec succès."
 
-#: ihtml/themes/default/recovery.tpl.c:56
+#: ihtml/themes/default/recovery.tpl.c:59
 msgid ""
 "Enter your current e-mail address in the field below and press the 'Change' "
 "button."
 msgstr "Entrez votre adresse de courriel actuelle dans le champ si dessous et appuyer sur le bouton 'Changer'."
 
-#: ihtml/themes/default/recovery.tpl.c:59
+#: ihtml/themes/default/recovery.tpl.c:62
 msgid ""
-"=> Use your e-mail in the long format, e.g : John Doe => john.doe@ibcp.fr"
-msgstr "Indiquez votre adresse complète, ex: jules.martin@exemple.fr"
+"=> Use your e-mail in the long format, e.g : John Doe => "
+"john.doe@example.com"
+msgstr "=> Indiquez votre adresse complète, ex: Jules Martin => jules.martin@exemple.fr"
 
-#: ihtml/themes/default/recovery.tpl.c:71
-msgid "Mail"
-msgstr "Courriel"
+#: ihtml/themes/default/recovery.tpl.c:74
+msgid "Email"
+msgstr "Adresse de messagerie"
 
-#: ihtml/themes/default/recovery.tpl.c:80
+#: ihtml/themes/default/recovery.tpl.c:83
 msgid ""
 "Password recovery is not activated. If you have lost your password, please "
 "contact your administrator"

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-110\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2016-06-10 13:25+0200\n"
-"PO-Revision-Date: 2016-06-03 11:03+0000\n"
+"POT-Creation-Date: 2016-06-25 12:52+0200\n"
+"PO-Revision-Date: 2016-06-25 10:50+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/fusiondirectory/FusionDirectory-110/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -144,7 +144,7 @@ msgstr "Vynutit konkrétní identifikátor pro tuto skupinu"
 
 #: plugins/admin/groups/class_group.inc:73
 #: plugins/admin/groups/class_group.inc:149
-#: plugins/personal/posix/class_posixAccount.inc:411
+#: plugins/personal/posix/class_posixAccount.inc:414
 msgid "GID"
 msgstr "GID"
 
@@ -201,11 +201,10 @@ msgid "Only allow this group to connect to this list of hosts"
 msgstr "Této skupině umožnit připojení pouze na počítače z tohoto seznamu"
 
 #: plugins/admin/groups/class_group.inc:181
-#: plugins/personal/posix/class_posixAccount.inc:467 include/functions.inc:799
+#: plugins/personal/posix/class_posixAccount.inc:470 include/functions.inc:799
 #: include/functions.inc:2554 include/class_xml.inc:55
-#: include/simpleplugin/class_simpleTabs.inc:319 html/index.php:56
-#: html/index.php:62 html/index.php:520 html/class_passwordRecovery.inc:169
-#: setup/class_setupStep_Migrate.inc:572
+#: include/simpleplugin/class_simpleTabs.inc:319 html/index.php:519
+#: html/main.php:158 setup/class_setupStep_Migrate.inc:572
 #: setup/class_setupStep_Migrate.inc:1083
 #: setup/class_setupStep_Migrate.inc:1202
 #: setup/class_setupStep_Migrate.inc:1313
@@ -217,7 +216,7 @@ msgid "Warning"
 msgstr "Varování"
 
 #: plugins/admin/groups/class_group.inc:181
-#: plugins/personal/posix/class_posixAccount.inc:467
+#: plugins/personal/posix/class_posixAccount.inc:470
 msgid "Timeout while waiting for lock. Ignoring lock!"
 msgstr "Vypršel časový limit při čekání na zámek – zámek bude proto nebude brán v potaz!"
 
@@ -562,7 +561,7 @@ msgstr "Jméno"
 #: plugins/personal/generic/class_user.inc:377
 #: include/select/userSelect/class_userSelect.inc:32
 #: plugins/personal/generic/paste_generic.tpl.c:11
-#: ihtml/themes/default/recovery.tpl.c:23
+#: ihtml/themes/default/recovery.tpl.c:26
 msgid "Login"
 msgstr "Přihlašovací jméno"
 
@@ -933,7 +932,7 @@ msgstr "Metoda otisku hesla"
 #: plugins/personal/generic/class_user.inc:51
 #: plugins/personal/generic/class_user.inc:386
 #: plugins/personal/generic/paste_generic.tpl.c:14
-#: ihtml/themes/default/recovery.tpl.c:5 ihtml/themes/default/recovery.tpl.c:8
+#: ihtml/themes/default/recovery.tpl.c:2 ihtml/themes/default/recovery.tpl.c:5
 #: ihtml/themes/default/login.tpl.c:17 ihtml/themes/default/login.tpl.c:20
 #: ihtml/themes/default/login.tpl.c:23
 #: setup/setup_migrate_adminAccount.tpl.c:14
@@ -1151,8 +1150,8 @@ msgid ""
 msgstr "Zadání v kolonkách Nové heslo a Zopakování nového hesla se neshodují."
 
 #: plugins/personal/generic/class_user.inc:654
-#: ihtml/themes/default/recovery.tpl.c:26
 #: ihtml/themes/default/recovery.tpl.c:29
+#: ihtml/themes/default/recovery.tpl.c:32
 msgid "New password"
 msgstr "Nové heslo"
 
@@ -1337,11 +1336,11 @@ msgstr "platnost hesla skončila"
 msgid "password not changeable"
 msgstr "heslo nelze změnit"
 
-#: plugins/personal/posix/class_posixAccount.inc:408
+#: plugins/personal/posix/class_posixAccount.inc:411
 msgid "UID"
 msgstr "UID"
 
-#: plugins/personal/posix/class_posixAccount.inc:527
+#: plugins/personal/posix/class_posixAccount.inc:530
 #, php-format
 msgid "Group of user %s"
 msgstr "Skupina uživatele %s"
@@ -1583,8 +1582,8 @@ msgid "Session lifetime"
 msgstr "Doba nečinnosti, po jejímž uplynutí bude relace automaticky ukončena."
 
 #: plugins/config/class_configInLdap.inc:207
-msgid "Defines when a session will expire in seconds."
-msgstr "Určuje, za jak dlouho (v sekundách) skončí platnost relace."
+msgid "Defines when a session will expire in seconds (0 to disable)."
+msgstr ""
 
 #: plugins/config/class_configInLdap.inc:212
 msgid "HTTP authentication"
@@ -2164,7 +2163,7 @@ msgstr "Vybrat vše"
 #: include/functions.inc:3196 include/functions.inc:3205
 #: include/functions.inc:3267 include/class_msg_dialog.inc:128
 #: include/class_xml.inc:58 include/class_plugin.inc:790
-#: include/class_plugin.inc:1518 include/class_CopyPasteHandler.inc:276
+#: include/class_plugin.inc:1521 include/class_CopyPasteHandler.inc:276
 #: include/simpleplugin/class_attribute.inc:1571
 #: include/simpleplugin/class_attribute.inc:1574
 #: include/simpleplugin/class_attribute.inc:1577
@@ -2177,7 +2176,7 @@ msgstr "Vybrat vše"
 #: include/password-methods/class_password-methods-sasl.inc:85
 #: include/password-methods/class_password-methods.inc:428
 #: include/password-methods/class_password-methods.inc:438
-#: include/class_SnapshotHandler.inc:422 html/index.php:471 html/index.php:481
+#: include/class_SnapshotHandler.inc:422 html/index.php:470 html/index.php:480
 #: setup/class_setupStep_Migrate.inc:935
 #: ihtml/themes/default/msg_dialog.tpl.c:2 setup/setup_checks.tpl.c:5
 msgid "Error"
@@ -2301,7 +2300,7 @@ msgstr "Chyba XML ve fusiondirectory.conf: %s na řádku %d"
 #: include/password-methods/class_password-methods-sha.inc:69
 #: include/password-methods/class_password-methods-ssha.inc:73
 #: include/password-methods/class_password-methods-ssha.inc:89
-#: html/index.php:149 html/main.php:205 html/class_passwordRecovery.inc:131
+#: html/index.php:148 html/main.php:208 html/class_passwordRecovery.inc:131
 msgid "Configuration error"
 msgstr "Chyba v nastavení"
 
@@ -2323,7 +2322,7 @@ msgstr ""
 #: include/class_SnapshotHandler.inc:48 include/class_SnapshotHandler.inc:247
 #: include/class_SnapshotHandler.inc:280 include/class_SnapshotHandler.inc:296
 #: include/class_SnapshotHandler.inc:429 include/class_SnapshotHandler.inc:432
-#: html/index.php:367 html/class_passwordRecovery.inc:520
+#: html/index.php:366 html/class_passwordRecovery.inc:517
 #: setup/class_setupStep_Migrate.inc:451
 #: setup/class_setupStep_Migrate.inc:1130
 msgid "LDAP error"
@@ -3415,7 +3414,7 @@ msgid ""
 "\"%2$s\" as \"%2$s\" already depends on \"%1$s\""
 msgstr ""
 
-#: include/class_plugin.inc:1316
+#: include/class_plugin.inc:1319
 #, php-format
 msgid "Tab \"%s\""
 msgstr "Panel %s"
@@ -3525,39 +3524,39 @@ msgstr "žádné"
 msgid "Unknown"
 msgstr "neznámé"
 
-#: include/simpleplugin/class_helpersAttribute.inc:260
+#: include/simpleplugin/class_helpersAttribute.inc:264
 msgid "B"
 msgstr "B"
 
-#: include/simpleplugin/class_helpersAttribute.inc:261
+#: include/simpleplugin/class_helpersAttribute.inc:265
 msgid "KiB"
 msgstr "KiB"
 
-#: include/simpleplugin/class_helpersAttribute.inc:262
+#: include/simpleplugin/class_helpersAttribute.inc:266
 msgid "MiB"
 msgstr "MiB"
 
-#: include/simpleplugin/class_helpersAttribute.inc:263
+#: include/simpleplugin/class_helpersAttribute.inc:267
 msgid "GiB"
 msgstr "GiB"
 
-#: include/simpleplugin/class_helpersAttribute.inc:264
+#: include/simpleplugin/class_helpersAttribute.inc:268
 msgid "TiB"
 msgstr "TiB"
 
-#: include/simpleplugin/class_helpersAttribute.inc:275
+#: include/simpleplugin/class_helpersAttribute.inc:279
 msgid "seconds"
 msgstr "sekundy"
 
-#: include/simpleplugin/class_helpersAttribute.inc:276
+#: include/simpleplugin/class_helpersAttribute.inc:280
 msgid "minutes"
 msgstr "minuty"
 
-#: include/simpleplugin/class_helpersAttribute.inc:277
+#: include/simpleplugin/class_helpersAttribute.inc:281
 msgid "hours"
 msgstr "hodiny"
 
-#: include/simpleplugin/class_helpersAttribute.inc:278
+#: include/simpleplugin/class_helpersAttribute.inc:282
 msgid "days"
 msgstr "dny"
 
@@ -3740,127 +3739,132 @@ msgstr ""
 msgid "Specified objectType is empty or invalid!"
 msgstr "Jako objectType (typ objektu) buď nebylo zadáno nic, nebo nesprávná hodnota."
 
-#: html/index.php:56
-msgid "Session is not encrypted!"
-msgstr "Tato relace není šifrována!"
+#: html/index.php:56 html/class_passwordRecovery.inc:169
+#, php-format
+msgid "Warning: <a href=\"%s\">Session is not encrypted!</a>"
+msgstr ""
 
-#: html/index.php:63
+#: html/index.php:62
 msgid ""
-"The session lifetime configured in your fusiondirectory.conf will be "
-"overridden by php.ini settings."
-msgstr "Nastavení doby platnosti sezení bude bráno z php.ini namísto z fusiondirectory.conf."
+"Warning: The session lifetime configured in your fusiondirectory.conf will "
+"be overridden by php.ini settings."
+msgstr ""
 
-#: html/index.php:151
+#: html/index.php:150
 #, php-format
 msgid ""
 "FusionDirectory configuration %s/%s is not readable. Please run "
 "fusiondirectory-setup --check-config to fix this."
 msgstr "Nastavení FusionDirectory %s/%s není čitelné. Pro nápravu spusťte (na serveru) příkaz fusiondirectory-setup --check-config ."
 
-#: html/index.php:172
+#: html/index.php:171
 msgid "Smarty error"
 msgstr "Chyba ve Smarty"
 
-#: html/index.php:174
+#: html/index.php:173
 #, php-format
 msgid "Directory \"%s\" specified as compile directory is not accessible!"
 msgstr "Složka %s, zadaná jako kompilační, není přístupná!"
 
-#: html/index.php:209
+#: html/index.php:208
 msgid "Your FusionDirectory session has expired!"
 msgstr "Platnost vašeho sezení ve FusionDirectory skončila!"
 
-#: html/index.php:212
+#: html/index.php:211
 msgid "Your IP has changed!"
 msgstr "Vaše IP adresa byla změněna!"
 
-#: html/index.php:215
+#: html/index.php:214
 #, php-format
 msgid "Invalid plugin parameter \"%s\"!"
 msgstr "Neplatný parametr %s pro zásuvný modul!"
 
-#: html/index.php:218
+#: html/index.php:217
 msgid "No session found!"
 msgstr "Nebyla nalezena žádná relace!"
 
-#: html/index.php:253
+#: html/index.php:252
 msgid "LDAP schema check reported errors:"
 msgstr "Chyby nahlášené při kontrole LDAP schématu:"
 
-#: html/index.php:279
+#: html/index.php:278
 msgid "Please specify a valid username!"
 msgstr "Zadejte platné uživatelské jméno!"
 
-#: html/index.php:282
+#: html/index.php:281
 msgid "Please specify your password!"
 msgstr "Zadejte své heslo!"
 
-#: html/index.php:301
+#: html/index.php:300
 msgid "Please check the username/password combination."
 msgstr "Zkontrolujte prosím správnost kombinace zadaného uživatelského jména a hesla."
 
-#: html/index.php:331
+#: html/index.php:330
 msgid "Account locked. Please contact your system administrator!"
 msgstr "Účet je uzamčen. Kontaktujte svého správce systémů!"
 
-#: html/index.php:473
+#: html/index.php:472
 #, php-format
 msgid "CAS user \"%s\" could not be found in the LDAP"
 msgstr ""
 
-#: html/index.php:483
+#: html/index.php:482
 #, php-format
 msgid "CAS user \"%s\" match several users in the LDAP"
 msgstr ""
 
-#: html/index.php:520
+#: html/index.php:519
 msgid ""
 "Your browser has cookies disabled. Please enable cookies and reload this "
 "page before logging in!"
 msgstr "Váš webový prohlížeč má zakázané cookies. Prosím povolte je a před dalším pokusem o přihlášení stránku nechejte tuto stránku načíst znovu!"
 
-#: html/main.php:113
+#: html/main.php:115
 msgid "PHP configuration"
 msgstr "Nastavení PHP"
 
-#: html/main.php:114
+#: html/main.php:116
 msgid ""
 "Fatal error: Register globals is on. FusionDirectory will refuse to login "
 "unless this is fixed by an administrator."
 msgstr "Fatální chyba: v PHP je zapnuto 'register globals'. Dokud to Váš správce systémů neopraví, nebude možné se přihlásit do FusionDirectory."
 
-#: html/main.php:140
+#: html/main.php:142
 msgid "Password change"
 msgstr "Změna hesla"
 
-#: html/main.php:140
+#: html/main.php:142
 msgid "Your password is about to expire, please change your password!"
 msgstr "Platnost vašeho hesla již brzy skončí – změňte ho prosím!"
 
-#: html/main.php:205
+#: html/main.php:158
+msgid "Your password has expired, please set a new one."
+msgstr ""
+
+#: html/main.php:208
 msgid "Running out of memory!"
 msgstr "Dochází volná kapacita operační paměti!"
 
-#: html/main.php:248
+#: html/main.php:251
 msgid "User ACL checks disabled"
 msgstr "kontrola dle ACL je vypnuta"
 
-#: html/main.php:286
+#: html/main.php:289
 msgid "Plugin"
 msgstr "Zásuvný modul"
 
-#: html/main.php:287
+#: html/main.php:290
 #, php-format
 msgid ""
 "Fatal error: Cannot find any plugin definitions for plugin '%s' ('%s' is not"
 " a file)!"
 msgstr "Fatální chyba: Nelze nalézt jakékoli definice zásuvného modulu pro modul %s (%s není soubor)!"
 
-#: html/main.php:302
+#: html/main.php:305
 msgid "Configuration Error"
 msgstr "Chyba v nastavení"
 
-#: html/main.php:303
+#: html/main.php:306
 #, php-format
 msgid ""
 "Fatal error: not all POST variables have been transfered by PHP - please "
@@ -3877,52 +3881,44 @@ msgstr "Nastavení %s/%s FusionDirectory není čitelné. Akce byla zrušena."
 msgid "Directory '%s' specified as compile directory is not accessible!"
 msgstr "Složka %s, nastavená jako místo pro provedení sestavení, není přístupná!"
 
-#: html/class_passwordRecovery.inc:170
-msgid "Session will not be encrypted."
-msgstr "Sezení nebude šifrováno."
-
-#: html/class_passwordRecovery.inc:172
-msgid "Enter SSL session"
-msgstr "otevřít relaci šifrovanou pomocí protokolu SSL"
-
-#: html/class_passwordRecovery.inc:444
+#: html/class_passwordRecovery.inc:441
 #, php-format
 msgid "Did not find an account with login \"%s\""
 msgstr "Účet s uživatelským jménem %s nebyl nalezen"
 
-#: html/class_passwordRecovery.inc:447
+#: html/class_passwordRecovery.inc:444
 #, php-format
 msgid "Found multiple accounts with login \"%s\""
 msgstr "Bylo nalezeno hned několik účtů s uživatelským jménem %s"
 
-#: html/class_passwordRecovery.inc:461 ihtml/themes/default/recovery.tpl.c:68
+#: html/class_passwordRecovery.inc:458 ihtml/themes/default/recovery.tpl.c:71
 msgid "Email address"
 msgstr "E-mailová adresa"
 
-#: html/class_passwordRecovery.inc:484
+#: html/class_passwordRecovery.inc:481
 #, php-format
 msgid "There is no account using email \"%s\""
 msgstr ""
 
-#: html/class_passwordRecovery.inc:487
+#: html/class_passwordRecovery.inc:484
 #, php-format
 msgid "There are several accounts using email \"%s\""
 msgstr ""
 
-#: html/class_passwordRecovery.inc:495
+#: html/class_passwordRecovery.inc:492
 #, php-format
 msgid "The user using email \"%s\" is locked. Please contact your administrator."
 msgstr ""
 
-#: html/class_passwordRecovery.inc:543
+#: html/class_passwordRecovery.inc:540
 msgid "Contact your administrator, there was a problem with mail server"
 msgstr "Nastal problém s poštovním serverem – obraťte se na svého správce systémů."
 
-#: html/class_passwordRecovery.inc:554
+#: html/class_passwordRecovery.inc:551
 msgid "This token is invalid"
 msgstr "tato poukázka (token) je neplatná"
 
-#: html/class_passwordRecovery.inc:614
+#: html/class_passwordRecovery.inc:611
 msgid "There was a problem with mail server, confirmation email not sent"
 msgstr "Vyskytl se problém s poštovním serverem, potvrzovací e-mail proto nebyl odeslán"
 
@@ -4523,15 +4519,15 @@ msgid ""
 "'Off'."
 msgstr "Vyhledejte ve svém souboru php.ini parametr zend.ze1_compatibility_mode a nastavte jej na hodnotu off ."
 
-#: setup/class_setup.inc:127
+#: setup/class_setup.inc:122
 msgid "Setup error"
 msgstr "Chyba instalátoru"
 
-#: setup/class_setup.inc:207
+#: setup/class_setup.inc:202
 msgid "Completed"
 msgstr "Hotovo"
 
-#: setup/class_setup.inc:250
+#: setup/class_setup.inc:245
 msgid "Next"
 msgstr "Další"
 
@@ -4787,72 +4783,78 @@ msgstr "Ignorovat tuto chybu a zobrazit všechny položky, které nejsou větš�
 msgid "Set"
 msgstr "Nastavit"
 
-#: ihtml/themes/default/recovery.tpl.c:2
-msgid "FusionDirectory password recovery"
-msgstr "Obnova ztraceného hesla od FusionDirectory"
-
-#: ihtml/themes/default/recovery.tpl.c:11
+#: ihtml/themes/default/recovery.tpl.c:8
 msgid "Lost password"
 msgstr "Ztracené heslo"
 
+#: ihtml/themes/default/recovery.tpl.c:11
+msgid ""
+"Informations to reset password for %1 have been sent to email address %2"
+msgstr ""
+
 #: ihtml/themes/default/recovery.tpl.c:14
+msgid "Warning : this email is only valid for %1 minutes."
+msgstr ""
+
+#: ihtml/themes/default/recovery.tpl.c:17
 msgid ""
 "This dialog provides a simple way to change your password. Enter the new "
 "password (twice) in the fields below and press the 'Change' button."
 msgstr "Tento dialog umožňuje jednoduše si změnit heslo. Zadejte (dvakrát) nové heslo do políček níže a klikněte na 'změnit'."
 
-#: ihtml/themes/default/recovery.tpl.c:17
 #: ihtml/themes/default/recovery.tpl.c:20
-#: ihtml/themes/default/recovery.tpl.c:62
-#: ihtml/themes/default/recovery.tpl.c:65 ihtml/themes/default/login.tpl.c:29
+#: ihtml/themes/default/recovery.tpl.c:23
+#: ihtml/themes/default/recovery.tpl.c:65
+#: ihtml/themes/default/recovery.tpl.c:68 ihtml/themes/default/login.tpl.c:29
 #: ihtml/themes/default/login.tpl.c:32 ihtml/themes/default/login.tpl.c:35
 msgid "Directory"
 msgstr "adresář"
 
-#: ihtml/themes/default/recovery.tpl.c:32
 #: ihtml/themes/default/recovery.tpl.c:35
+#: ihtml/themes/default/recovery.tpl.c:38
 msgid "New password repeated"
 msgstr "Zopakování nového hesla"
 
-#: ihtml/themes/default/recovery.tpl.c:38
+#: ihtml/themes/default/recovery.tpl.c:41
 msgid "Password strength"
 msgstr "Odolnost hesla"
 
-#: ihtml/themes/default/recovery.tpl.c:41
-#: ihtml/themes/default/recovery.tpl.c:74
+#: ihtml/themes/default/recovery.tpl.c:44
+#: ihtml/themes/default/recovery.tpl.c:77
 msgid "Change"
 msgstr "Změnit"
 
-#: ihtml/themes/default/recovery.tpl.c:44
-#: ihtml/themes/default/recovery.tpl.c:77
+#: ihtml/themes/default/recovery.tpl.c:47
+#: ihtml/themes/default/recovery.tpl.c:80
 msgid "Click here to change your password"
 msgstr "Pro změnu hesla klikněte sem"
 
-#: ihtml/themes/default/recovery.tpl.c:47
 #: ihtml/themes/default/recovery.tpl.c:50
+#: ihtml/themes/default/recovery.tpl.c:53
 msgid "Success"
 msgstr "Úspěch"
 
-#: ihtml/themes/default/recovery.tpl.c:53
+#: ihtml/themes/default/recovery.tpl.c:56
 msgid "Your password has been changed successfully."
 msgstr "Vaše heslo bylo úspěšně změněno."
 
-#: ihtml/themes/default/recovery.tpl.c:56
+#: ihtml/themes/default/recovery.tpl.c:59
 msgid ""
 "Enter your current e-mail address in the field below and press the 'Change' "
 "button."
 msgstr "Do políčka níže zadejte svou e-mailovou adresu a klikněte na  Změnit."
 
-#: ihtml/themes/default/recovery.tpl.c:59
+#: ihtml/themes/default/recovery.tpl.c:62
 msgid ""
-"=> Use your e-mail in the long format, e.g : John Doe => john.doe@ibcp.fr"
-msgstr "=> Použijte svou e-mailovou adresu v dlouhém formátu, například : Jan Novák => jan.novak@vase_domena.cz"
+"=> Use your e-mail in the long format, e.g : John Doe => "
+"john.doe@example.com"
+msgstr ""
 
-#: ihtml/themes/default/recovery.tpl.c:71
-msgid "Mail"
+#: ihtml/themes/default/recovery.tpl.c:74
+msgid "Email"
 msgstr "E-mail"
 
-#: ihtml/themes/default/recovery.tpl.c:80
+#: ihtml/themes/default/recovery.tpl.c:83
 msgid ""
 "Password recovery is not activated. If you have lost your password, please "
 "contact your administrator"
