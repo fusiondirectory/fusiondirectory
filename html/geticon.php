@@ -34,7 +34,8 @@ if (session::global_is_set('config')) {
 } else {
   header("cache-control: no-cache");
 }
-IconTheme::$extensions = array('png');
+IconTheme::$default_theme = 'breezy';
+IconTheme::$extensions    = array('png');
 $src    = IconTheme::findThemeIcon($theme, $_GET['context'], $_GET['icon'], $_GET['size']);
 
 header("Content-Type: image/png");
