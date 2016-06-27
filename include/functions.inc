@@ -343,12 +343,13 @@ function get_browser_language()
 function get_template_path($filename = '', $plugin = FALSE, $path = '')
 {
   global $config, $BASE_DIR;
+  $default_theme = 'breezy';
 
   /* Set theme */
   if (isset ($config)) {
-    $theme = $config->get_cfg_value('theme', 'default');
+    $theme = $config->get_cfg_value('theme', $default_theme);
   } else {
-    $theme = 'default';
+    $theme = $default_theme;
   }
 
   /* Return path for empty filename */
@@ -366,6 +367,9 @@ function get_template_path($filename = '', $plugin = FALSE, $path = '')
     if (file_exists("$BASE_DIR/ihtml/themes/$theme/$nf")) {
       return "$BASE_DIR/ihtml/themes/$theme/$nf/$filename";
     }
+    if (file_exists("$BASE_DIR/ihtml/themes/$default_theme/$nf")) {
+      return "$BASE_DIR/ihtml/themes/$default_theme/$nf/$filename";
+    }
     if (file_exists("$BASE_DIR/ihtml/themes/default/$nf")) {
       return "$BASE_DIR/ihtml/themes/default/$nf/$filename";
     }
@@ -380,6 +384,12 @@ function get_template_path($filename = '', $plugin = FALSE, $path = '')
     }
     if (file_exists("$BASE_DIR/ihtml/themes/$theme/$filename")) {
       return "$BASE_DIR/ihtml/themes/$theme/$filename";
+    }
+    if (file_exists("themes/$default_theme/$filename")) {
+      return "themes/$default_theme/$filename";
+    }
+    if (file_exists("$BASE_DIR/ihtml/themes/$default_theme/$filename")) {
+      return "$BASE_DIR/ihtml/themes/$default_theme/$filename";
     }
     if (file_exists("themes/default/$filename")) {
       return "themes/default/$filename";

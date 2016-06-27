@@ -20,12 +20,13 @@
 function smarty_function_filePath($params, &$smarty)
 {
   $config = session::global_get('config');
+  $default_theme = 'breezy';
 
   /* Set theme */
   if (isset ($config)) {
-    $theme = $config->get_cfg_value("theme", "default");
+    $theme = $config->get_cfg_value('theme', $default_theme);
   } else {
-    $theme = "default";
+    $theme = $default_theme;
   }
 
   $filename = $params['file'];
@@ -39,6 +40,12 @@ function smarty_function_filePath($params, &$smarty)
   }
   if (file_exists("$dir/themes/$theme/$filename")) {
     return "$dir/themes/$theme/$filename";
+  }
+  if (file_exists("themes/$default_theme/$filename")) {
+    return "themes/$default_theme/$filename";
+  }
+  if (file_exists("$dir/themes/$default_theme/$filename")) {
+    return "$dir/themes/$default_theme/$filename";
   }
   if (file_exists("themes/default/$filename")) {
     return "themes/default/$filename";

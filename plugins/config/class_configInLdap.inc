@@ -96,7 +96,7 @@ class configInLdap extends simplePlugin
             _('Theme'), _('Theme to be used'),
             'fdTheme', TRUE,
             self::get_themes(),
-            'default'
+            'breezy'
           ),
           new SelectAttribute (
             _('Timezone'), _('Timezone to be used'),
