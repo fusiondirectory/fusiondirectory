@@ -355,6 +355,9 @@ class IconTheme
     'status/object-unlocked'        => array(
       array('status','changes-allow'),
     ),
+    'status/task-waiting'        => array(
+      array('status','task-schedule'),
+    ),
     'places/folder-network'        => array(
       array('places','folder-remote'),
     ),
