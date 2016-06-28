@@ -153,7 +153,7 @@ class posixAccount extends simplePlugin
             'mustchangepassword', FALSE
           ),
           new IntAttribute(
-            _('Delay before locking password (days)'), _('The user won\'t be able to change his password after this number of days (leave empty to disable)'),
+            _('Minimum delay between password changes (days)'), _('The user won\'t be able to change his password before this number of days (leave empty to disable)'),
             'shadowMin', FALSE,
             0, FALSE, ''
           ),
