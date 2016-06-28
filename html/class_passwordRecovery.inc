@@ -179,9 +179,14 @@ class standAlonePage {
     if (isset($_SERVER['HTTPS']) && ($_SERVER["HTTPS"] == "on")) {
       $pageURL .= "s";
     }
-    $pageURL .= "://".$_SERVER["SERVER_NAME"];
-    if ($_SERVER["SERVER_PORT"] != "80") {
-      $pageURL .= ":".$_SERVER["SERVER_PORT"];
+    $pageURL .= '://';
+    if (!empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
+      $pageURL .= $_SERVER['HTTP_X_FORWARDED_HOST'];
+    } else {
+      $pageURL .= $_SERVER['SERVER_NAME'];
+      if ($_SERVER['SERVER_PORT'] != '80') {
+        $pageURL .= ':'.$_SERVER['SERVER_PORT'];
+      }
     }
     $pageURL .= $_SERVER["PHP_SELF"];
 
