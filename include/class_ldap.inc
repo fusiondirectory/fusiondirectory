@@ -1150,7 +1150,7 @@ class LDAP
           if (preg_match('/^</', $value)) {
             throw new Exception(sprintf(_('Error line %s, references to an external file are not supported'), $lineNumber));
           }
-          if (empty($value)) {
+          if ($value === '') {
             throw new Exception(sprintf(_('Error line %s, attribute "%s" has no value'), $lineNumber, $key));
           }
           if ($key == 'dn') {
