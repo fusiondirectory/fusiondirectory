@@ -63,7 +63,7 @@ class aclAssignmentCreationDialog extends simplePlugin
 
     $this->simpleManagement = $parent;
 
-    parent::__construct(NULL, $config->current['BASE']);
+    parent::__construct($config->current['BASE']);
 
     $this->attributesAccess['baseDn']->setInLdap(FALSE);
   }
