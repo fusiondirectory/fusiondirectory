@@ -30,6 +30,19 @@ class template
 
   protected $applied = FALSE;
 
+  function plInfo()
+  {
+    return array(
+      'plShortName'   => _('Template'),
+      'plDescription' => _('Object template, used to create several objects with similar values'),
+      'plCategory'    => array('user'),
+
+      'plProvidedAcls' => array(
+        'template_cn' => _('Template name')
+      )
+    );
+  }
+
   function __construct($type, $dn, $targetdn = NULL)
   {
     $this->type = $type;
