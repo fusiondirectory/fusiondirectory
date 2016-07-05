@@ -1872,7 +1872,7 @@ class BaseSelectorAttribute extends Attribute
     if ($desc === NULL) {
       $desc = _('Object base');
     }
-    parent::__construct($label, $desc, 'base', FALSE, '');
+    parent::__construct($label, $desc, 'base', FALSE, '', 'base');
     $this->setInLdap(FALSE);
     $this->ou = $ou;
   }
@@ -1914,13 +1914,12 @@ class BaseSelectorAttribute extends Attribute
   {
     if (!$this->disabled && $this->isVisible()) {
       /* Refresh base */
-      if  ($this->plugin->acl_is_moveable($this->value) ||
-          ($this->plugin->dn == 'new' && $this->plugin->acl_is_createable($this->value))) {
+      if  ($this->plugin->acl_is_moveable($this->value) || ($this->plugin->dn == 'new')) {
         if (!$this->baseSelector->update()) {
           if ($this->plugin->dn == 'new') {
-            msg_dialog::display(_('Error'), msgPool::permMove($this->plugin->dn), ERROR_DIALOG);
-          } else {
             msg_dialog::display(_('Error'), msgPool::permCreate(), ERROR_DIALOG);
+          } else {
+            msg_dialog::display(_('Error'), msgPool::permMove($this->plugin->dn), ERROR_DIALOG);
           }
         }
         if ($this->value != $this->baseSelector->getBase()) {
@@ -1958,7 +1957,7 @@ class BaseSelectorAttribute extends Attribute
     parent::setValue($value);
     if (is_object($this->plugin)) {
       /* Set the new acl base */
-      if ($this->plugin->dn == "new") {
+      if ($this->plugin->dn == 'new') {
         $this->plugin->set_acl_base($this->value);
       }
 
