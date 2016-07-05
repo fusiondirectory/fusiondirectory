@@ -152,11 +152,7 @@ class objects
     $tabClass = $infos['tabClass'];
 
     $tabObject = new $tabClass($type, $dn);
-    if ($dn == 'new') {
-      $tabObject->set_acl_base($config->current['BASE']);
-    } else {
-      $tabObject->set_acl_base($dn);
-    }
+    $tabObject->set_acl_base();
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "Openned as $type object");
 
     return $tabObject;
