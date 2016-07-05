@@ -169,7 +169,8 @@ class simplePlugin extends plugin
             'attrs' => array(
               '_template_cn' => new StringAttribute(
                 _('Template name'), _('This is the name of the template'),
-                '_template_cn', TRUE
+                '_template_cn', TRUE,
+                '', 'template_cn'
               )
             )
           ),
@@ -424,9 +425,35 @@ class simplePlugin extends plugin
     return $this->header.$smarty->fetch($this->templatePath);
   }
 
+  function attr_is_writeable($attr)
+  {
+    if ($attr->getLdapName() == 'base') {
+      if (!$this->acl_skip_write() && (!$this->initially_was_account || $this->acl_is_moveable() || $this->acl_is_removeable())) {
+        return TRUE;
+      } else {
+        return FALSE;
+      }
+    }
+    return $this->acl_is_writeable($attr->getAcl(), $this->acl_skip_write());
+  }
+
   function renderAttributes($readOnly = FALSE)
   {
+    global $ui;
     $smarty = get_smarty();
+
+    if ($this->is_template) {
+      $smarty->assign('template_cnACL', $ui->get_permissions($this->acl_base, $this->acl_category.'template', 'template_cn', $this->acl_skip_write()));
+    }
+
+    /* Handle rights to modify the base */
+    if (isset($this->attributesAccess['base'])) {
+      if ($this->attr_is_writeable($this->attributesAccess['base'])) {
+        $smarty->assign('baseACL', 'rw');
+      } else {
+        $smarty->assign('baseACL', 'r');
+      }
+    }
 
     $sections = array();
     foreach ($this->attributesInfo as $section => $sectionInfo) {
@@ -615,7 +642,7 @@ class simplePlugin extends plugin
       // A first pass that loads the post values
       foreach ($this->attributesInfo as $section => &$sectionInfo) {
         foreach ($sectionInfo['attrs'] as &$attr) {
-          if ($this->acl_is_writeable($attr->getAcl(), $this->acl_skip_write())) {
+          if ($this->attr_is_writeable($attr)) {
             // Each attribute know how to read its value from POST
             $attr->loadPostValue();
           }
@@ -626,7 +653,7 @@ class simplePlugin extends plugin
       // A second one that applies them. That allow complex stuff such as attribute disabling
       foreach ($this->attributesInfo as $section => &$sectionInfo) {
         foreach ($sectionInfo['attrs'] as &$attr) {
-          if ($this->acl_is_writeable($attr->getAcl(), $this->acl_skip_write())) {
+          if ($this->attr_is_writeable($attr)) {
             // Each attribute know how to read its value from POST
             $attr->applyPostValue();
           }

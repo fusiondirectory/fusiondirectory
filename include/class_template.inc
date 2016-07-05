@@ -49,6 +49,7 @@ class template
     $this->dn   = $dn;
     list($this->attrs, $depends) = plugin::tpl_fetch_template($this->dn);
     $this->needed     = plugin::tpl_needed_attrs($this->attrs, $depends);
+    $this->needed[]   = 'base';
     if ($targetdn === NULL) {
       $this->tabObject  = objects::create($this->type);
     } else {
@@ -79,6 +80,7 @@ class template
   {
     list($this->attrs, $depends) = plugin::tpl_fetch_template($this->dn);
     $this->needed     = plugin::tpl_needed_attrs($this->attrs, $depends); // This is needed because it removes %askme% values from attrs
+    $this->needed[]   = 'base';
     $this->tabObject  = objects::create($this->type);
     $tempTabObject    = objects::open($this->dn, $this->type); /* Used to know which tab is activated */
     foreach ($tempTabObject->by_object as $class => &$plugin) {
@@ -145,6 +147,7 @@ class template
     $smarty   = get_smarty();
     $sections = array();
     $posted   = array();
+    $smarty->assign('baseACL', 'rw');
     foreach ($this->tabObject->by_object as $class => &$plugin) {
       if (!isset($this->attributes[$class])) {
         continue;
@@ -153,7 +156,7 @@ class template
       foreach ($this->attributes[$class] as $attr) {
         if ($plugin->attributesAccess[$attr]->getAclInfo() !== FALSE) {
           // We assign ACLs so that attributes can use them in their template code
-          $smarty->assign($plugin->attributesAccess[$attr]->getAcl()."ACL", $plugin->getacl($plugin->attributesAccess[$attr]->getAcl()));
+          $smarty->assign($plugin->attributesAccess[$attr]->getAcl().'ACL', $plugin->getacl($plugin->attributesAccess[$attr]->getAcl()));
         }
         $plugin->attributesAccess[$attr]->renderAttribute($attributes, FALSE);
       }
