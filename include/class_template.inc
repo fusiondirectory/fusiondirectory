@@ -30,7 +30,7 @@ class template
 
   protected $applied = FALSE;
 
-  function plInfo()
+  static function plInfo()
   {
     return array(
       'plShortName'   => _('Template'),
