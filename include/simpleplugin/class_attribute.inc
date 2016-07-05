@@ -1956,6 +1956,7 @@ class BaseSelectorAttribute extends Attribute
       /* Set the new acl base */
       if ($this->plugin->dn == 'new') {
         $this->plugin->set_acl_base($this->value);
+        $this->plugin->parent->set_acl_base();
       }
 
       if (($this->baseSelector !== NULL) && ($this->baseSelector->getBase() !== $this->value)) {
