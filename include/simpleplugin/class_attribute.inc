@@ -1995,6 +1995,15 @@ class BaseSelectorAttribute extends Attribute
       return '';
     }
   }
+
+  function serializeAttribute(&$attributes, $form = TRUE)
+  {
+    if (!$form || $this->visible) {
+      parent::serializeAttribute($attributes, $form);
+
+      $attributes[$this->getLdapName()]['choices'] = $this->baseSelector->getBases();
+    }
+  }
 }
 
 /*! \brief This class allow to handle easily a multi-valuated attribute
