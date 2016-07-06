@@ -184,7 +184,7 @@ class aclManagement extends simpleManagement
     $type = 'aclAssignment';
 
     /* This might throw an exception which is catched in aclAssignmentCreationDialog */
-    $tabObject = objects::open($this->dn, $type);
+    $tabObject = objects::open($dn, $type);
 
     /* This will happen only if the exception is not thrown */
     $this->closeDialogs();
