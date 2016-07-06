@@ -299,5 +299,15 @@ class baseSelector {
   {
     return $this->base;
   }
+
+  /*!
+   * \brief Accessor of the bases
+   *
+   * \return Array containts the bases and their display text
+   */
+  function getBases()
+  {
+    return $this->pathMapping;
+  }
 }
 ?>
