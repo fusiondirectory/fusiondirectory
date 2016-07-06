@@ -127,7 +127,7 @@ class template
   {
     foreach ($values as $class => $class_values) {
       $result = $this->tabObject->by_object[$class]->deserializeValues($class_values);
-      if ($result !== TRUE) {
+      if ($result !== TRUE) {
         return $result;
       }
     }
