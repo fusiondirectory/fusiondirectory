@@ -70,7 +70,7 @@ class simpleTabs
       }
       $this->objectType = $type;
     } else {
-      trigger_error('deprecated call to old tabclass constructor');
+      //~ trigger_error('deprecated call to old tabclass constructor');
       /* Deprecated, used by old management classes */
       //$config_object  = func_get_arg(0); // ignored
       $data           = func_get_arg(1);
