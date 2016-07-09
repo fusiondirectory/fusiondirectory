@@ -1,6 +1,69 @@
 FusionDirectory changelog
 =========================
 
+* FusionDirectory 1.0.14
+
+|Fix] FusionDirectory plugins - Bugs #4142: Local quota
+|Fix] FusionDirectory plugins - Bugs #4766: testing the autofs plugin
+|Fix] FusionDirectory plugins - Bugs #4772: Autofs - Taille de champ "entrée automount" trop petite
+|Fix] Bugs #4831: Allow setting server name for password recovery feature
+|Fix] FusionDirectory plugins - Bugs #4874: plugins where there is still some images not in theme
+|Fix] Bugs #4875: Hooks can lead to arbitrary code execution
+|Fix] FusionDirectory plugins - Bugs #4876: Can't edit system: "Workstation"
+|Fix] FusionDirectory plugins - Bugs #4877: Can't edit Dns Zone.
+|Fix] FusionDirectory plugins - Bugs #4878: Can't create "Network devices"
+|Fix] FusionDirectory plugins - Bugs #4879: Can't add "printer" on Workstation
+|Fix] FusionDirectory plugins - Bugs #4880: Remote Desktop stay greyed out.
+|Fix] Bugs #4882: Session lifetime...
+|Fix] FusionDirectory plugins - Bugs #4883: Impossible to remove a workstation
+|Fix] FusionDirectory plugins - Bugs #4884: Case sensitive and DNS
+|Fix] FusionDirectory plugins - Bugs #4885: Quota plugin, server are greyed out.
+|Fix] FusionDirectory plugins - Bugs #4889: adding a link from printer to suser in the same fashion as user group & roles tab
+|Fix] Bugs #4890: Configuration saving is failing in setup
+|Fix] Bugs #4891: We would need a hook that works only if the account is created
+|Fix] Bugs #4892: Wrong placeholder names for HOOKS
+|Fix] FusionDirectory plugins - Bugs #4894: printGeneric code is too old and ugly and 1.1 code should be used instead
+|Fix] Bugs #4896: strings in recovery.tpl are not put in .po file
+|Feature] Bugs #4897: the breezy theme should be the default one in 1.0.14
+|Fix] Bugs #4898: add to documentation of the hooks that they should not contains quote for space in attributes
+|Fix] Bugs #4904: changement de mot de passe reste forcé après mise à jour du mot de passe
+|Fix] Bugs #4907: dans le template user, il ne mémorise pas la case forcer le changement mdp à la 1ere connexion
+|Fix] Bugs #4910: Greyed out icon are the same as normal one with breezy theme
+|Fix] Bugs #4912: erreurs php dans /var/log/messages (class_IconTheme.inc)
+|Fix] Bugs #4913: adding the eps and png of the FusionDirectory logo to the sources
+|Fix] Bugs #4915: refaire la favicon de FusionDirectory
+|Fix] Bugs #4916: Les liens sont en bleus à beaucoup d’endroit où cela semble inadapté
+|Fix] Bugs #4918: Clean tpl files
+|Fix] Bugs #4920: plugins where there is still some images not in theme
+|Fix] Bugs #4921: update timeout colors
+|Fix] FusionDirectory plugins - Bugs #4922: old option option still present in cyrus mail method
+|Fix] Bugs #4923: uid not passed to the mail-method cyrus
+|Feature] Bugs #4924: adding the language Finnish (Finland) (fi_FI)
+|Fix] Bugs #4925: document the autofs plugin
+|Fix] FusionDirectory plugins - Bugs #4927: fdCommunityMembershipType should no be used/displayed in community projects dep.
+|Fix] Bugs #4933: the default theme should be renomed legacy or kde3
+|Fix] FusionDirectory plugins - Bugs #4934: the default theme should be renomed legacy or kde3
+|Feature] FusionDirectory plugins - Bugs #4937: the breezy theme should be the default one in 1.0.14
+|Fix] FusionDirectory plugins - Bugs #4943: when clicking on the left menu on the gpg entry FusionDirectory crash
+|Fix] FusionDirectory plugins - Bugs #4944: when clicking on the left menu on the opsi import entry FusionDirectory crash
+|Fix] FusionDirectory plugins - Bugs #4946: the game plugin should be removed as its not longer usefull
+|Fix] FusionDirectory plugins - Bugs #4954: Regression: "Generic IMAP Server" (fdImapServer) was removed
+|Fix] FusionDirectory plugins - Bugs #4956: errror when suppressing or adding some service
+|Fix] Bugs #4957: when upgrading from 1.0.13 to 1.0.13-fixes going to breezy by default break fusiondirectory
+|Feature] Bugs #4970: templates have no acls
+|Fix] FusionDirectory plugins - Bugs #4971: Some services icons are missing
+|Fix] Bugs #4972: ACL assignment is broken
+|Fix] Bugs #4974: LDIF import crash on value 0
+|Fix] Bugs #4980: Icon status/dialog-warning missing in size 48 in breezy
+|Fix] Bugs #4981: trying to put an ACL assignments on an non existing branch crashes
+|Fix] Bugs #4982: CSV import base edition is broken
+|Fix] Bugs #4989: Recovery error message
+|Fix] FusionDirectory plugins - Bugs #4992: PHP error "deprecated call to old tabclass constructor"
+|Fix] FusionDirectory plugins - Bugs #4994: Shell is broken
+|Fix] FusionDirectory plugins - Wishlist #4773: Autofs - Vu liste n'affiche pas l'information principale pour les "Répertoires"
+|Fix] FusionDirectory plugins - Wishlist #4881: Is possible to modify url link?
+|Fix] FusionDirectory plugins - Wishlist #4955: add two boolean attributes to community organization
+
 * FusionDirectory 1.0.13
 
 |Fix] Bugs #4570: error when saving a user with php7
