@@ -242,7 +242,7 @@ class simpleManagement extends management
           array(
             'label'       => sprintf(_('%s template'), $i['name']),
             'category'    => $i['aclCategory'],
-            'class'       => 'fdTemplate',
+            'class'       => 'template',
             'image'       => $i['icon'],//FIXME
             'filter'      =>
               new ldapFilter(

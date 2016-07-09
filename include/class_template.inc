@@ -30,12 +30,26 @@ class template
 
   protected $applied = FALSE;
 
+  static function plInfo()
+  {
+    return array(
+      'plShortName'   => _('Template'),
+      'plDescription' => _('Object template, used to create several objects with similar values'),
+      'plCategory'    => array('user'),
+
+      'plProvidedAcls' => array(
+        'template_cn' => _('Template name')
+      )
+    );
+  }
+
   function __construct($type, $dn, $targetdn = NULL)
   {
     $this->type = $type;
     $this->dn   = $dn;
     list($this->attrs, $depends) = plugin::tpl_fetch_template($this->dn);
     $this->needed     = plugin::tpl_needed_attrs($this->attrs, $depends);
+    $this->needed[]   = 'base';
     if ($targetdn === NULL) {
       $this->tabObject  = objects::create($this->type);
     } else {
@@ -66,6 +80,7 @@ class template
   {
     list($this->attrs, $depends) = plugin::tpl_fetch_template($this->dn);
     $this->needed     = plugin::tpl_needed_attrs($this->attrs, $depends); // This is needed because it removes %askme% values from attrs
+    $this->needed[]   = 'base';
     $this->tabObject  = objects::create($this->type);
     $tempTabObject    = objects::open($this->dn, $this->type); /* Used to know which tab is activated */
     foreach ($tempTabObject->by_object as $class => &$plugin) {
@@ -112,7 +127,7 @@ class template
   {
     foreach ($values as $class => $class_values) {
       $result = $this->tabObject->by_object[$class]->deserializeValues($class_values);
-      if ($result !== TRUE) {
+      if ($result !== TRUE) {
         return $result;
       }
     }
@@ -132,6 +147,7 @@ class template
     $smarty   = get_smarty();
     $sections = array();
     $posted   = array();
+    $smarty->assign('baseACL', 'rw');
     foreach ($this->tabObject->by_object as $class => &$plugin) {
       if (!isset($this->attributes[$class])) {
         continue;
@@ -140,7 +156,7 @@ class template
       foreach ($this->attributes[$class] as $attr) {
         if ($plugin->attributesAccess[$attr]->getAclInfo() !== FALSE) {
           // We assign ACLs so that attributes can use them in their template code
-          $smarty->assign($plugin->attributesAccess[$attr]->getAcl()."ACL", $plugin->getacl($plugin->attributesAccess[$attr]->getAcl()));
+          $smarty->assign($plugin->attributesAccess[$attr]->getAcl().'ACL', $plugin->getacl($plugin->attributesAccess[$attr]->getAcl()));
         }
         $plugin->attributesAccess[$attr]->renderAttribute($attributes, FALSE);
       }

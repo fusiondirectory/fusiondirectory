@@ -35,9 +35,9 @@ class setupStep extends simplePlugin
     return array();
   }
 
-  function __construct()
+  function __construct($parent)
   {
-    parent::__construct();
+    parent::__construct(NULL, NULL, $parent);
     $this->update_strings();
   }
 

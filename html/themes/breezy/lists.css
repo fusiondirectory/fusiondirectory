@@ -3,9 +3,9 @@
  *           L i s t s          *
  ********************************/
 table.listingTable {
-border-top:1px solid #AAA;
-border-bottom:1px solid #AAA;
-border-left:1px solid #AAA;
+border-top:1px solid #C0C2C3;
+border-bottom:1px solid #C0C2C3;
+border-left:1px solid #C0C2C3;
 border-spacing:0;
 }
 
@@ -20,13 +20,13 @@ white-space:nowrap;
 table.listingTable > thead > tr > th {
 background:#F0F0F0;
 font-weight:bold;
-border-right:1px solid #AAA;
-border-bottom:1px solid #AAA;
+border-right:1px solid #C0C2C3;
+border-bottom:1px solid #C0C2C3;
 padding:3px;
 height:22px;
 }
 html.rtl table.listingTable > thead > tr > th {
-border-left:1px solid #AAA;
+border-left:1px solid #C0C2C3;
 border-right:none;
 }
 
@@ -73,10 +73,10 @@ table.listingTable > tbody > tr.entry-locked:hover {
 }
 
 table.listingTable > tbody > tr td {
-color:#000;
+color:#31363b;
 margin:3px;
 padding:2px;
-border-right:1px solid #AAA;
+border-right:1px solid #C0C2C3;
 word-wrap:break-word;
 white-space:normal;
 max-width:500px;
@@ -84,10 +84,20 @@ background:transparent;
 height:22px;
 }
 html.rtl table.listingTable > tbody > tr td {
-border-left:1px solid #AAA;
+border-left:1px solid #C0C2C3;
 border-right:none;
 }
 
+
+table.listingTable > tbody > tr td > a:link {
+text-decoration:none;
+color:#2980b9;
+}
+
+table.listingTable > tbody > tr td > a:visited {
+text-decoration:none;
+color:#2980b9;
+}
 
 /* List border */
 
@@ -102,7 +112,7 @@ width:auto;
 
 /* Sortable Lists (only used in user main tab) */
 div.sortableListContainer {
-border:1px solid #AAA;
+border:1px solid #C0C2C3;
 overflow:auto;
 margin-bottom:2px;
 }
@@ -111,29 +121,29 @@ margin-bottom:2px;
 background-color:#D8D8D8;
 padding:3px;
 text-align:left;
-border-left:1px solid #AAA;
+border-left:1px solid #C0C2C3;
 }
 html.rtl .sortableListContainer th {
 text-align:right;
-border-right:1px solid #AAA;
+border-right:1px solid #C0C2C3;
 border-left:none;
 }
 
 .sortableListContainer td {
 padding:3px;
 text-align:left;
-border-left:1px solid #AAA;
+border-left:1px solid #C0C2C3;
 }
 html.rtl .sortableListContainer td {
 text-align:right;
-border-right:1px solid #AAA;
+border-right:1px solid #C0C2C3;
 border-left:none;
 }
 
 tr.sortableListItem {
 background-color:#fcfcfc;
 cursor:move;
-color:#000;
+color:#31363b;
 }
 
 tr.sortableListItemFill {
@@ -144,7 +154,7 @@ cursor:default;
 tr.sortableListItemOdd {
 background-color:#F5F5F5;
 cursor:move;
-color:#000;
+color:#31363b;
 }
 
 tr.sortableListItem:hover,tr.sortableListItemOdd:hover {
@@ -190,7 +200,7 @@ cursor:pointer;
 
 a.treeListSelected {
 font-weight:bold;
-color:#1010AF;
+color:#2980b9;
 background-color:#DDD;
 padding:2px;
 cursor:pointer;
@@ -215,7 +225,7 @@ background:url(../../images/lists/node.png) no-repeat;
 
 li.treeListSelected a {
 font-weight:bold;
-color:#1010AF;
+color:#2980b9;
 padding:2px;
 }
 
@@ -229,7 +239,7 @@ background:#fcfcfc url(../../images/lists/lastnode.png) no-repeat;
 
 div.treeList {
 background-color:#fcfcfc;
-border:1px solid #AAA;
+border:1px solid #C0C2C3;
 padding:5px;
 position:absolute;
 z-index:500;

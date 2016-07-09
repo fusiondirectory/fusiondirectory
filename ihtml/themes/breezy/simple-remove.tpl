@@ -1,7 +1,7 @@
 <div class="notice">
   <div class="msgtitle">
     <h2>
-      <img alt="" src="geticon.php?context=status&amp;icon=dialog-warning&amp;size=32" class="center"/>&nbsp;{t}Warning: you are about to delete the ACL assignments on the following objects{/t}
+      <img alt="" src="geticon.php?context=status&amp;icon=dialog-warning&amp;size=32" class="center"/>&nbsp;{t}Warning: you are about to delete the following objects{/t}
     </h2>
   </div>
   <div>
@@ -13,11 +13,11 @@
           </li>
         {/foreach}
       </ul>
-      {t}This includes all ACL assignments made on this node(s). If you want the list of these assignments, please cancel and open the objects.{/t}
+      {t}Please double check if you really want to do this since there is no way for FusionDirectory to get your data back.{/t}
     </p>
 
     <p>
-     {t}Press 'Delete' to continue or 'Cancel' to abort.{/t}
+     {t}So - if you're sure - press 'Delete' to continue or 'Cancel' to abort.{/t}
     </p>
 
     <p class="plugbottom">

@@ -152,11 +152,7 @@ class objects
     $tabClass = $infos['tabClass'];
 
     $tabObject = new $tabClass($type, $dn);
-    if ($dn == 'new') {
-      $tabObject->set_acl_base($config->current['BASE']);
-    } else {
-      $tabObject->set_acl_base($dn);
-    }
+    $tabObject->set_acl_base();
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "Openned as $type object");
 
     return $tabObject;
@@ -233,9 +229,9 @@ class objects
 
   /* !\brief  This method returns a list of all available templates for the given type
    */
-  static function getTemplates($type)
+  static function getTemplates($type, $requiredPermissions = 'r')
   {
-    global $config;
+    global $config, $ui;
 
     $infos = self::infos($type);
 
@@ -248,7 +244,13 @@ class objects
       $ldap->search('(objectClass=fdTemplate)', array('cn'));
       if ($ldap->count() != 0) {
         while ($attrs = $ldap->fetch()) {
-          $templates[$ldap->getDN()] = $attrs['cn'][0]." - ".LDAP::fix($key);
+          $dn = $ldap->getDN();
+          if ($requiredPermissions != '') {
+            if (!preg_match('/'.$requiredPermissions.'/', $ui->get_permissions($dn, $infos['aclCategory'].'/'.'template'))) {
+              continue;
+            }
+          }
+          $templates[$dn] = $attrs['cn'][0]." - ".LDAP::fix($key);
         }
       }
     }

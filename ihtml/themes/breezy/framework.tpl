@@ -19,9 +19,11 @@
       </div>
       <div id="header_right">
         <a><span class="optional">{t}Signed in:{/t} </span><b>{$username}</b></a>
+        {if ($sessionLifetime > 0)}
         <div class="logout-label">
           <canvas id="sTimeout" width="22" height="22" title="{$sessionLifetime}|{t}Session expires in %d!{/t}"></canvas>
         </div>
+        {/if}
       </div>
     </div>
 
@@ -65,7 +67,9 @@
    }
   {/literal}
 
+  {if ($sessionLifetime > 0)}
    logout.delay({$sessionLifetime});
+  {/if}
 
   </script>
 

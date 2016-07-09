@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-110\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2016-06-10 13:25+0200\n"
-"PO-Revision-Date: 2016-06-03 11:03+0000\n"
+"POT-Creation-Date: 2016-07-06 13:53+0200\n"
+"PO-Revision-Date: 2016-07-06 11:49+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Latvian (http://www.transifex.com/fusiondirectory/FusionDirectory-110/language/lv/)\n"
 "MIME-Version: 1.0\n"
@@ -53,7 +53,7 @@ msgstr ""
 #: plugins/admin/groups/class_ogroup.inc:193
 #: plugins/admin/groups/group-list.xml:33
 #: plugins/admin/departments/class_department.inc:176
-#: plugins/admin/aclrole/class_aclRole.inc:100
+#: plugins/admin/aclrole/class_aclRole.inc:99
 #: include/simpleplugin/simple-select-list.xml:32
 #: include/simpleplugin/simple-list.xml:32
 #: plugins/admin/users/user-filter.tpl.c:20
@@ -74,7 +74,7 @@ msgstr ""
 #: plugins/admin/groups/group-list.xml:41
 #: plugins/admin/departments/class_department.inc:72
 #: plugins/admin/departments/dep-list.xml:29
-#: plugins/admin/aclrole/class_aclRole.inc:104
+#: plugins/admin/aclrole/class_aclRole.inc:103
 #: plugins/personal/generic/class_user.inc:319
 #: include/simpleplugin/simple-select-list.xml:40
 #: include/simpleplugin/simple-list.xml:40
@@ -124,7 +124,7 @@ msgstr ""
 #: plugins/admin/groups/group-list.xml:49
 #: plugins/admin/departments/class_department.inc:63
 #: plugins/admin/users/user-list.xml:57
-#: plugins/admin/aclrole/class_aclRole.inc:96
+#: plugins/admin/aclrole/class_aclRole.inc:95
 #: plugins/admin/acl/class_aclAssignment.inc:38
 msgid "Properties"
 msgstr ""
@@ -144,7 +144,7 @@ msgstr ""
 
 #: plugins/admin/groups/class_group.inc:73
 #: plugins/admin/groups/class_group.inc:149
-#: plugins/personal/posix/class_posixAccount.inc:411
+#: plugins/personal/posix/class_posixAccount.inc:414
 msgid "GID"
 msgstr ""
 
@@ -201,23 +201,22 @@ msgid "Only allow this group to connect to this list of hosts"
 msgstr ""
 
 #: plugins/admin/groups/class_group.inc:181
-#: plugins/personal/posix/class_posixAccount.inc:467 include/functions.inc:799
-#: include/functions.inc:2554 include/class_xml.inc:55
-#: include/simpleplugin/class_simpleTabs.inc:319 html/index.php:56
-#: html/index.php:62 html/index.php:520 html/class_passwordRecovery.inc:169
-#: setup/class_setupStep_Migrate.inc:572
+#: plugins/personal/posix/class_posixAccount.inc:470 include/functions.inc:809
+#: include/functions.inc:2564 include/class_xml.inc:55
+#: include/simpleplugin/class_simpleTabs.inc:319 html/index.php:519
+#: html/main.php:158 setup/class_setupStep_Migrate.inc:572
 #: setup/class_setupStep_Migrate.inc:1083
 #: setup/class_setupStep_Migrate.inc:1202
 #: setup/class_setupStep_Migrate.inc:1313
 #: setup/class_setupStep_Migrate.inc:1377
-#: setup/class_setupStep_Migrate.inc:1421 plugins/admin/acl/remove.tpl.c:2
-#: ihtml/themes/default/islocked.tpl.c:5 ihtml/themes/default/remove.tpl.c:2
-#: ihtml/themes/default/msg_dialog.tpl.c:5 setup/setup_checks.tpl.c:8
+#: setup/class_setupStep_Migrate.inc:1421 ihtml/themes/breezy/islocked.tpl.c:5
+#: ihtml/themes/breezy/remove.tpl.c:2 ihtml/themes/breezy/msg_dialog.tpl.c:5
+#: setup/setup_checks.tpl.c:8
 msgid "Warning"
 msgstr "Brīdinājums"
 
 #: plugins/admin/groups/class_group.inc:181
-#: plugins/personal/posix/class_posixAccount.inc:467
+#: plugins/personal/posix/class_posixAccount.inc:470
 msgid "Timeout while waiting for lock. Ignoring lock!"
 msgstr ""
 
@@ -274,12 +273,12 @@ msgstr "Izveidot"
 #: plugins/admin/groups/group-list.xml:74
 #: plugins/admin/groups/group-list.xml:119
 #: plugins/admin/departments/dep-list.xml:79
-#: plugins/admin/users/user-list.xml:105
+#: plugins/admin/users/user-list.xml:108
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:192
 #: include/simpleplugin/class_dialogAttributes.inc:635
 #: include/simpleplugin/class_dialogAttributes.inc:636
-#: include/simpleplugin/class_attribute.inc:2729
-#: include/simpleplugin/class_attribute.inc:2730
+#: include/simpleplugin/class_attribute.inc:2738
+#: include/simpleplugin/class_attribute.inc:2739
 #: include/simpleplugin/simple-list.xml:67
 #: include/simpleplugin/simple-list.xml:112
 msgid "Edit"
@@ -289,7 +288,7 @@ msgstr "Labot"
 #: plugins/admin/groups/group-list.xml:132
 #: plugins/admin/departments/dep-list.xml:67
 #: plugins/admin/departments/dep-list.xml:88
-#: plugins/admin/users/user-list.xml:112
+#: plugins/admin/users/user-list.xml:115
 #: include/simpleplugin/class_dialogAttributes.inc:645
 #: include/simpleplugin/class_dialogAttributes.inc:646
 #: include/simpleplugin/simple-list.xml:75
@@ -562,7 +561,7 @@ msgstr "Vārds"
 #: plugins/personal/generic/class_user.inc:377
 #: include/select/userSelect/class_userSelect.inc:32
 #: plugins/personal/generic/paste_generic.tpl.c:11
-#: ihtml/themes/default/recovery.tpl.c:23
+#: ihtml/themes/breezy/recovery.tpl.c:26
 msgid "Login"
 msgstr ""
 
@@ -572,43 +571,43 @@ msgstr ""
 msgid "User"
 msgstr ""
 
-#: plugins/admin/users/user-list.xml:86
+#: plugins/admin/users/user-list.xml:87
 #: include/simpleplugin/class_simpleManagement.inc:216
 msgid "From template"
 msgstr ""
 
-#: plugins/admin/users/user-list.xml:93
+#: plugins/admin/users/user-list.xml:95 include/class_template.inc:36
 #: include/simpleplugin/class_simpleManagement.inc:210
 #: include/simpleplugin/class_simpleManagement.inc:407
-#: ihtml/themes/default/template.tpl.c:5
+#: ihtml/themes/breezy/template.tpl.c:5
 msgid "Template"
 msgstr ""
 
-#: plugins/admin/users/user-list.xml:124
+#: plugins/admin/users/user-list.xml:127
 msgid "Lock users"
 msgstr ""
 
-#: plugins/admin/users/user-list.xml:132
+#: plugins/admin/users/user-list.xml:135
 msgid "Unlock users"
 msgstr ""
 
-#: plugins/admin/users/user-list.xml:143
+#: plugins/admin/users/user-list.xml:146
 msgid "Apply template"
 msgstr ""
 
-#: plugins/admin/users/user-list.xml:174
+#: plugins/admin/users/user-list.xml:177
 msgid "New user from template"
 msgstr ""
 
-#: plugins/admin/users/user-list.xml:187
+#: plugins/admin/users/user-list.xml:190
 msgid "Edit user"
 msgstr ""
 
-#: plugins/admin/users/user-list.xml:196
+#: plugins/admin/users/user-list.xml:199
 msgid "%{filter:lockLabel(userPassword)}"
 msgstr ""
 
-#: plugins/admin/users/user-list.xml:210
+#: plugins/admin/users/user-list.xml:213
 msgid "Remove user"
 msgstr ""
 
@@ -679,8 +678,8 @@ msgid "Edit category ACL"
 msgstr ""
 
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:194
-#: include/class_msgPool.inc:517 include/simpleplugin/class_attribute.inc:2739
-#: include/simpleplugin/class_attribute.inc:2740
+#: include/class_msgPool.inc:517 include/simpleplugin/class_attribute.inc:2748
+#: include/simpleplugin/class_attribute.inc:2749
 #, php-format
 msgid "Delete"
 msgstr ""
@@ -690,7 +689,7 @@ msgid "Reset category ACL"
 msgstr ""
 
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:202
-#: ihtml/themes/default/acl.tpl.c:41
+#: ihtml/themes/breezy/acl.tpl.c:41
 msgid "List of available ACL categories"
 msgstr ""
 
@@ -769,19 +768,19 @@ msgstr ""
 msgid "ACL role"
 msgstr ""
 
-#: plugins/admin/aclrole/class_aclRole.inc:100
+#: plugins/admin/aclrole/class_aclRole.inc:99
 msgid "A name for this role"
 msgstr ""
 
-#: plugins/admin/aclrole/class_aclRole.inc:104
+#: plugins/admin/aclrole/class_aclRole.inc:103
 msgid "Short description of this role"
 msgstr ""
 
-#: plugins/admin/aclrole/class_aclRole.inc:110
+#: plugins/admin/aclrole/class_aclRole.inc:109
 msgid "ACLs"
 msgstr ""
 
-#: plugins/admin/aclrole/class_aclRole.inc:114
+#: plugins/admin/aclrole/class_aclRole.inc:113
 msgid "ACLs which are part of this group"
 msgstr ""
 
@@ -803,19 +802,23 @@ msgstr ""
 msgid "DN you wish to add assignments for"
 msgstr ""
 
-#: plugins/admin/acl/class_aclManagement.inc:135
+#: plugins/admin/acl/class_aclManagement.inc:110
+msgid "The dn you entered could not be found in the LDAP"
+msgstr ""
+
+#: plugins/admin/acl/class_aclManagement.inc:139
 msgid "ACL assignments"
 msgstr ""
 
-#: plugins/admin/acl/class_aclManagement.inc:136
+#: plugins/admin/acl/class_aclManagement.inc:140
 msgid "ACL assignments management"
 msgstr ""
 
-#: plugins/admin/acl/class_aclManagement.inc:137
+#: plugins/admin/acl/class_aclManagement.inc:141
 msgid "Manage ACL roles assignments to users"
 msgstr ""
 
-#: plugins/admin/acl/class_aclManagement.inc:199
+#: plugins/admin/acl/class_aclManagement.inc:208
 #: plugins/admin/acl/class_aclAssignment.inc:261
 msgid "ACL Assignment"
 msgstr ""
@@ -857,7 +860,7 @@ msgid "Apply this ACL for all LDAP users"
 msgstr ""
 
 #: plugins/admin/acl/class_aclAssignment.inc:56
-#: ihtml/themes/default/acl.tpl.c:32
+#: ihtml/themes/breezy/acl.tpl.c:32
 msgid "Members"
 msgstr "Biedri"
 
@@ -933,9 +936,9 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:51
 #: plugins/personal/generic/class_user.inc:386
 #: plugins/personal/generic/paste_generic.tpl.c:14
-#: ihtml/themes/default/recovery.tpl.c:5 ihtml/themes/default/recovery.tpl.c:8
-#: ihtml/themes/default/login.tpl.c:17 ihtml/themes/default/login.tpl.c:20
-#: ihtml/themes/default/login.tpl.c:23
+#: ihtml/themes/breezy/recovery.tpl.c:2 ihtml/themes/breezy/recovery.tpl.c:5
+#: ihtml/themes/breezy/login.tpl.c:17 ihtml/themes/breezy/login.tpl.c:20
+#: ihtml/themes/breezy/login.tpl.c:23
 #: setup/setup_migrate_adminAccount.tpl.c:14
 msgid "Password"
 msgstr ""
@@ -1151,8 +1154,7 @@ msgid ""
 msgstr ""
 
 #: plugins/personal/generic/class_user.inc:654
-#: ihtml/themes/default/recovery.tpl.c:26
-#: ihtml/themes/default/recovery.tpl.c:29
+#: ihtml/themes/breezy/recovery.tpl.c:29 ihtml/themes/breezy/recovery.tpl.c:32
 msgid "New password"
 msgstr ""
 
@@ -1254,12 +1256,12 @@ msgid ""
 msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:156
-msgid "Delay before locking password (days)"
+msgid "Minimum delay between password changes (days)"
 msgstr ""
 
 #: plugins/personal/posix/class_posixAccount.inc:156
 msgid ""
-"The user won't be able to change his password after this number of days "
+"The user won't be able to change his password before this number of days "
 "(leave empty to disable)"
 msgstr ""
 
@@ -1337,11 +1339,11 @@ msgstr ""
 msgid "password not changeable"
 msgstr ""
 
-#: plugins/personal/posix/class_posixAccount.inc:408
+#: plugins/personal/posix/class_posixAccount.inc:411
 msgid "UID"
 msgstr ""
 
-#: plugins/personal/posix/class_posixAccount.inc:527
+#: plugins/personal/posix/class_posixAccount.inc:530
 #, php-format
 msgid "Group of user %s"
 msgstr ""
@@ -1583,7 +1585,7 @@ msgid "Session lifetime"
 msgstr ""
 
 #: plugins/config/class_configInLdap.inc:207
-msgid "Defines when a session will expire in seconds."
+msgid "Defines when a session will expire in seconds (0 to disable)."
 msgstr ""
 
 #: plugins/config/class_configInLdap.inc:212
@@ -2140,13 +2142,13 @@ msgstr ""
 msgid "Down"
 msgstr ""
 
-#: include/class_listing.inc:307 include/simpleplugin/class_attribute.inc:2701
-#: include/simpleplugin/class_attribute.inc:2702
+#: include/class_listing.inc:307 include/simpleplugin/class_attribute.inc:2710
+#: include/simpleplugin/class_attribute.inc:2711
 msgid "Sort up"
 msgstr ""
 
-#: include/class_listing.inc:307 include/simpleplugin/class_attribute.inc:2714
-#: include/simpleplugin/class_attribute.inc:2715
+#: include/class_listing.inc:307 include/simpleplugin/class_attribute.inc:2723
+#: include/simpleplugin/class_attribute.inc:2724
 msgid "Sort down"
 msgstr ""
 
@@ -2158,28 +2160,28 @@ msgstr ""
 #: include/class_config.inc:357 include/class_msgPool.inc:215
 #: include/class_msgPool.inc:235 include/class_msgPool.inc:265
 #: include/class_msgPool.inc:682 include/class_msgPool.inc:713
-#: include/class_msgPool.inc:740 include/functions.inc:3112
-#: include/functions.inc:3133 include/functions.inc:3173
-#: include/functions.inc:3185 include/functions.inc:3189
-#: include/functions.inc:3196 include/functions.inc:3205
-#: include/functions.inc:3267 include/class_msg_dialog.inc:128
+#: include/class_msgPool.inc:740 include/functions.inc:3124
+#: include/functions.inc:3145 include/functions.inc:3185
+#: include/functions.inc:3197 include/functions.inc:3201
+#: include/functions.inc:3208 include/functions.inc:3217
+#: include/functions.inc:3279 include/class_msg_dialog.inc:128
 #: include/class_xml.inc:58 include/class_plugin.inc:790
-#: include/class_plugin.inc:1518 include/class_CopyPasteHandler.inc:276
+#: include/class_plugin.inc:1521 include/class_CopyPasteHandler.inc:276
 #: include/simpleplugin/class_attribute.inc:1571
 #: include/simpleplugin/class_attribute.inc:1574
 #: include/simpleplugin/class_attribute.inc:1577
 #: include/simpleplugin/class_attribute.inc:1817
-#: include/simpleplugin/class_attribute.inc:1921
-#: include/simpleplugin/class_attribute.inc:1923
+#: include/simpleplugin/class_attribute.inc:1920
+#: include/simpleplugin/class_attribute.inc:1922
 #: include/simpleplugin/class_simpleTabs.inc:89
 #: include/simpleplugin/class_simpleTabs.inc:399
 #: include/password-methods/class_password-methods-sasl.inc:59
 #: include/password-methods/class_password-methods-sasl.inc:85
 #: include/password-methods/class_password-methods.inc:428
 #: include/password-methods/class_password-methods.inc:438
-#: include/class_SnapshotHandler.inc:422 html/index.php:471 html/index.php:481
+#: include/class_SnapshotHandler.inc:422 html/index.php:470 html/index.php:480
 #: setup/class_setupStep_Migrate.inc:935
-#: ihtml/themes/default/msg_dialog.tpl.c:2 setup/setup_checks.tpl.c:5
+#: ihtml/themes/breezy/msg_dialog.tpl.c:2 setup/setup_checks.tpl.c:5
 msgid "Error"
 msgstr "Kļūda"
 
@@ -2297,11 +2299,11 @@ msgstr ""
 
 #: include/class_config.inc:159 include/class_config.inc:284
 #: include/class_config.inc:884 include/class_config.inc:897
-#: include/functions.inc:668 include/class_timezone.inc:51
+#: include/functions.inc:678 include/class_timezone.inc:51
 #: include/password-methods/class_password-methods-sha.inc:69
 #: include/password-methods/class_password-methods-ssha.inc:73
 #: include/password-methods/class_password-methods-ssha.inc:89
-#: html/index.php:149 html/main.php:205 html/class_passwordRecovery.inc:131
+#: html/index.php:148 html/main.php:208 html/class_passwordRecovery.inc:131
 msgid "Configuration error"
 msgstr ""
 
@@ -2313,17 +2315,17 @@ msgid ""
 msgstr ""
 
 #: include/class_config.inc:322 include/class_ldap.inc:895
-#: include/class_ldap.inc:1281 include/functions.inc:531
-#: include/functions.inc:683 include/functions.inc:730
-#: include/functions.inc:791 include/functions.inc:846
-#: include/functions.inc:2991 include/functions.inc:3165
-#: include/simpleplugin/class_simplePlugin.inc:558
-#: include/simpleplugin/class_attribute.inc:2964
+#: include/class_ldap.inc:1281 include/functions.inc:541
+#: include/functions.inc:693 include/functions.inc:740
+#: include/functions.inc:801 include/functions.inc:856
+#: include/functions.inc:3003 include/functions.inc:3177
+#: include/simpleplugin/class_simplePlugin.inc:585
+#: include/simpleplugin/class_attribute.inc:2973
 #: include/password-methods/class_password-methods.inc:194
 #: include/class_SnapshotHandler.inc:48 include/class_SnapshotHandler.inc:247
 #: include/class_SnapshotHandler.inc:280 include/class_SnapshotHandler.inc:296
 #: include/class_SnapshotHandler.inc:429 include/class_SnapshotHandler.inc:432
-#: html/index.php:367 html/class_passwordRecovery.inc:520
+#: html/index.php:366 html/class_passwordRecovery.inc:522
 #: setup/class_setupStep_Migrate.inc:451
 #: setup/class_setupStep_Migrate.inc:1130
 msgid "LDAP error"
@@ -2370,10 +2372,10 @@ msgid "LDAP performance is poor: last query took about %.2fs!"
 msgstr ""
 
 #: include/class_ldap.inc:846 include/class_ldap.inc:882
-#: include/functions.inc:573 include/functions.inc:658
-#: include/functions.inc:778 include/functions.inc:1197
-#: include/functions.inc:2280 include/functions.inc:2322
-#: include/functions.inc:2351 include/class_session.inc:50
+#: include/functions.inc:583 include/functions.inc:668
+#: include/functions.inc:788 include/functions.inc:1207
+#: include/functions.inc:2290 include/functions.inc:2332
+#: include/functions.inc:2361 include/class_session.inc:50
 #: include/class_session.inc:88 include/class_session.inc:127
 #: include/class_acl.inc:118 include/class_logging.inc:80
 msgid "Internal error"
@@ -2695,28 +2697,27 @@ msgstr ""
 msgid "Missing %s PHP extension!"
 msgstr ""
 
-#: include/class_msgPool.inc:473 ihtml/themes/default/islocked.tpl.c:14
-#: ihtml/themes/default/remove.tpl.c:11 ihtml/themes/default/acl.tpl.c:53
-#: ihtml/themes/default/acl.tpl.c:59
-#: ihtml/themes/default/copyPasteDialog.tpl.c:17
-#: ihtml/themes/default/msg_dialog.tpl.c:17
+#: include/class_msgPool.inc:473 ihtml/themes/breezy/islocked.tpl.c:14
+#: ihtml/themes/breezy/acl.tpl.c:53 ihtml/themes/breezy/acl.tpl.c:59
+#: ihtml/themes/breezy/copyPasteDialog.tpl.c:17
+#: ihtml/themes/breezy/msg_dialog.tpl.c:17
 #: setup/setup_migrate_adminAccount.tpl.c:23
 #: setup/setup_migrate_gosaAccounts.tpl.c:32
 msgid "Cancel"
 msgstr ""
 
 #: include/class_msgPool.inc:481 setup/class_setupStep_Migrate.inc:133
-#: ihtml/themes/default/msg_dialog.tpl.c:14 setup/setup_checks.tpl.c:2
+#: ihtml/themes/breezy/msg_dialog.tpl.c:14 setup/setup_checks.tpl.c:2
 msgid "Ok"
 msgstr ""
 
-#: include/class_msgPool.inc:489 ihtml/themes/default/acl.tpl.c:50
-#: ihtml/themes/default/acl.tpl.c:56 setup/setup_migrate_adminAccount.tpl.c:20
+#: include/class_msgPool.inc:489 ihtml/themes/breezy/acl.tpl.c:50
+#: ihtml/themes/breezy/acl.tpl.c:56 setup/setup_migrate_adminAccount.tpl.c:20
 #: setup/setup_migrate_gosaAccounts.tpl.c:29
 msgid "Apply"
 msgstr ""
 
-#: include/class_msgPool.inc:497 ihtml/themes/default/copyPasteDialog.tpl.c:14
+#: include/class_msgPool.inc:497 ihtml/themes/breezy/copyPasteDialog.tpl.c:14
 msgid "Save"
 msgstr ""
 
@@ -3017,250 +3018,250 @@ msgid ""
 "Fatal error: cannot instantiate class '%s' - try running '%s' to fix this"
 msgstr ""
 
-#: include/functions.inc:501 include/functions.inc:3302
-#: include/class_xml.inc:61 include/simpleplugin/class_simplePlugin.inc:270
-#: include/simpleplugin/class_simplePlugin.inc:275
-#: include/simpleplugin/class_simplePlugin.inc:287
+#: include/functions.inc:511 include/functions.inc:3314
+#: include/class_xml.inc:61 include/simpleplugin/class_simplePlugin.inc:271
+#: include/simpleplugin/class_simplePlugin.inc:276
+#: include/simpleplugin/class_simplePlugin.inc:288
 #: html/class_passwordRecovery.inc:108
 msgid "Fatal error"
 msgstr ""
 
-#: include/functions.inc:502
+#: include/functions.inc:512
 #, php-format
 msgid "FATAL: Error when connecting the LDAP. Server said '%s'."
 msgstr ""
 
-#: include/functions.inc:573
+#: include/functions.inc:583
 msgid ""
 "Login (uid) is not unique inside the LDAP tree. Please contact your "
 "administrator."
 msgstr ""
 
-#: include/functions.inc:606
+#: include/functions.inc:616
 msgid "Authentication error"
 msgstr ""
 
-#: include/functions.inc:607
+#: include/functions.inc:617
 msgid ""
 "It seems your user password has expired. Please use <a "
 "href=\"recovery.php\">password recovery</a> to change it."
 msgstr ""
 
-#: include/functions.inc:658 include/functions.inc:778
+#: include/functions.inc:668 include/functions.inc:788
 msgid "Error while adding a lock. Contact the developers!"
 msgstr ""
 
-#: include/functions.inc:668
+#: include/functions.inc:678
 #, php-format
 msgid ""
 "Cannot create locking information in LDAP tree. Please contact your "
 "administrator!"
 msgstr ""
 
-#: include/functions.inc:668
+#: include/functions.inc:678
 #, php-format
 msgid "LDAP server returned: %s"
 msgstr ""
 
-#: include/functions.inc:799
+#: include/functions.inc:809
 msgid ""
 "Found multiple locks for object to be locked. This should not happen - "
 "cleaning up multiple references."
 msgstr ""
 
-#: include/functions.inc:1117
+#: include/functions.inc:1127
 #, php-format
 msgid "The size limit of %d entries is exceed!"
 msgstr ""
 
-#: include/functions.inc:1119
+#: include/functions.inc:1129
 #, php-format
 msgid ""
 "Set the new size limit to %s and show me this message if the limit still "
 "exceeds"
 msgstr ""
 
-#: include/functions.inc:1136
+#: include/functions.inc:1146
 msgid "Configure"
 msgstr ""
 
-#: include/functions.inc:1141
+#: include/functions.inc:1151
 msgid "incomplete"
 msgstr ""
 
-#: include/functions.inc:1546
+#: include/functions.inc:1556
 msgid "Continue anyway"
 msgstr ""
 
-#: include/functions.inc:1548
+#: include/functions.inc:1558
 msgid "Edit anyway"
 msgstr ""
 
-#: include/functions.inc:1550
+#: include/functions.inc:1560
 #, php-format
 msgid "You're going to edit the LDAP entry/entries %s"
 msgstr ""
 
-#: include/functions.inc:1804
+#: include/functions.inc:1814
 msgid "Entries per page"
 msgstr ""
 
-#: include/functions.inc:1835 include/class_filter.inc:353
+#: include/functions.inc:1845 include/class_filter.inc:353
 msgid "Apply filter"
 msgstr ""
 
-#: include/functions.inc:2103
+#: include/functions.inc:2113
 #, php-format
 msgid "%sB"
 msgstr ""
 
-#: include/functions.inc:2104
+#: include/functions.inc:2114
 #, php-format
 msgid "%sKiB"
 msgstr ""
 
-#: include/functions.inc:2105
+#: include/functions.inc:2115
 #, php-format
 msgid "%sMiB"
 msgstr ""
 
-#: include/functions.inc:2106
+#: include/functions.inc:2116
 #, php-format
 msgid "%sGiB"
 msgstr ""
 
-#: include/functions.inc:2107
+#: include/functions.inc:2117
 #, php-format
 msgid "%sTiB"
 msgstr ""
 
-#: include/functions.inc:2108
+#: include/functions.inc:2118
 #, php-format
 msgid "%sPiB"
 msgstr ""
 
-#: include/functions.inc:2109
+#: include/functions.inc:2119
 #, php-format
 msgid "%sEiB"
 msgstr ""
 
-#: include/functions.inc:2110
+#: include/functions.inc:2120
 #, php-format
 msgid "%sZiB"
 msgstr ""
 
-#: include/functions.inc:2111
+#: include/functions.inc:2121
 #, php-format
 msgid "%sYiB"
 msgstr ""
 
-#: include/functions.inc:2143 include/class_filter.inc:315
+#: include/functions.inc:2153 include/class_filter.inc:315
 msgid "*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 msgstr ""
 
-#: include/functions.inc:2280
+#: include/functions.inc:2290
 #, php-format
 msgid ""
 "File '%s' could not be deleted. Try fusiondirectory-setup --check-"
 "directories to fix permissions."
 msgstr ""
 
-#: include/functions.inc:2322
+#: include/functions.inc:2332
 msgid "Cannot write to revision file!"
 msgstr ""
 
-#: include/functions.inc:2351
+#: include/functions.inc:2361
 msgid "Cannot read to revision file!"
 msgstr ""
 
-#: include/functions.inc:2554
+#: include/functions.inc:2564
 msgid "'nextIdHook' is not available. Using default base!"
 msgstr ""
 
-#: include/functions.inc:2572
+#: include/functions.inc:2582
 msgid "LDAP warning"
 msgstr ""
 
-#: include/functions.inc:2572
+#: include/functions.inc:2582
 msgid "Cannot get schema information from server. No schema check possible!"
 msgstr ""
 
-#: include/functions.inc:2590
+#: include/functions.inc:2600
 msgid ""
 "Used to lock currently edited entries to avoid multiple changes at the same "
 "time."
 msgstr ""
 
-#: include/functions.inc:2602
+#: include/functions.inc:2612
 #, php-format
 msgid "Missing required object class '%s'!"
 msgstr ""
 
-#: include/functions.inc:2605
+#: include/functions.inc:2615
 #, php-format
 msgid "Missing optional object class '%s'!"
 msgstr ""
 
-#: include/functions.inc:2609
+#: include/functions.inc:2619
 #, php-format
 msgid "Class(es) available"
 msgstr ""
 
-#: include/functions.inc:2629
+#: include/functions.inc:2639
 msgid ""
 "You have installed the mixed groups plugin, but your schema configuration "
 "does not support this."
 msgstr ""
 
-#: include/functions.inc:2630
+#: include/functions.inc:2640
 msgid ""
 "In order to use mixed groups the objectClass \"posixGroup\" must be "
 "AUXILIARY"
 msgstr ""
 
-#: include/functions.inc:2633
+#: include/functions.inc:2643
 msgid ""
 "Your schema is configured to support mixed groups, but this plugin is not "
 "present."
 msgstr ""
 
-#: include/functions.inc:2634
+#: include/functions.inc:2644
 msgid "The objectClass \"posixGroup\" must be STRUCTURAL"
 msgstr ""
 
-#: include/functions.inc:3112 include/functions.inc:3133
-#: include/functions.inc:3173 include/functions.inc:3185
-#: include/functions.inc:3189 include/functions.inc:3196
-#: include/functions.inc:3205
+#: include/functions.inc:3124 include/functions.inc:3145
+#: include/functions.inc:3185 include/functions.inc:3197
+#: include/functions.inc:3201 include/functions.inc:3208
+#: include/functions.inc:3217
 msgid "Cannot allocate a free ID:"
 msgstr ""
 
-#: include/functions.inc:3112
+#: include/functions.inc:3124
 msgid "unknown idAllocation method!"
 msgstr ""
 
-#: include/functions.inc:3133
+#: include/functions.inc:3145
 #, php-format
 msgid "%sPoolMin >= %sPoolMax!"
 msgstr ""
 
-#: include/functions.inc:3173
+#: include/functions.inc:3185
 msgid "sambaUnixIdPool is not unique!"
 msgstr ""
 
-#: include/functions.inc:3185 include/functions.inc:3189
+#: include/functions.inc:3197 include/functions.inc:3201
 msgid "no ID available!"
 msgstr ""
 
-#: include/functions.inc:3205
+#: include/functions.inc:3217
 msgid "maximum tries exceeded!"
 msgstr ""
 
-#: include/functions.inc:3267
+#: include/functions.inc:3279
 msgid "Cannot allocate a free ID!"
 msgstr ""
 
-#: include/functions.inc:3303
+#: include/functions.inc:3315
 #, php-format
 msgid "Cannot locate file '%s' - please run '%s' to fix this"
 msgstr ""
@@ -3268,6 +3269,15 @@ msgstr ""
 #: include/class_session.inc:50 include/class_session.inc:88
 #: include/class_session.inc:127
 msgid "Requested channel does not exist! Please contact your Administrator."
+msgstr ""
+
+#: include/class_template.inc:37
+msgid "Object template, used to create several objects with similar values"
+msgstr ""
+
+#: include/class_template.inc:41
+#: include/simpleplugin/class_simplePlugin.inc:171
+msgid "Template name"
 msgstr ""
 
 #: include/class_pluglist.inc:163
@@ -3302,7 +3312,7 @@ msgstr ""
 msgid "method"
 msgstr ""
 
-#: include/php_setup.inc:131 ihtml/themes/default/msg_dialog.tpl.c:11
+#: include/php_setup.inc:131 ihtml/themes/breezy/msg_dialog.tpl.c:11
 msgid "Trace"
 msgstr ""
 
@@ -3415,13 +3425,13 @@ msgid ""
 "\"%2$s\" as \"%2$s\" already depends on \"%1$s\""
 msgstr ""
 
-#: include/class_plugin.inc:1316
+#: include/class_plugin.inc:1319
 #, php-format
 msgid "Tab \"%s\""
 msgstr ""
 
 #: include/class_CopyPasteHandler.inc:303
-#: ihtml/themes/default/copyPasteDialog.tpl.c:20
+#: ihtml/themes/breezy/copyPasteDialog.tpl.c:20
 msgid "Cancel all"
 msgstr ""
 
@@ -3434,49 +3444,45 @@ msgid "Template settings"
 msgstr ""
 
 #: include/simpleplugin/class_simplePlugin.inc:171
-msgid "Template name"
-msgstr ""
-
-#: include/simpleplugin/class_simplePlugin.inc:171
 msgid "This is the name of the template"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:270
+#: include/simpleplugin/class_simplePlugin.inc:271
 msgid "Only main tab can compute dn"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:277
+#: include/simpleplugin/class_simplePlugin.inc:278
 #, php-format
 msgid "Could not compute dn: no parent tab class for \"%s\""
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:289
+#: include/simpleplugin/class_simplePlugin.inc:290
 #, php-format
 msgid ""
 "Could not compute dn: could not find objectType infos from tab class \"%s\""
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:652
-#: include/simpleplugin/class_simplePlugin.inc:660
+#: include/simpleplugin/class_simplePlugin.inc:679
+#: include/simpleplugin/class_simplePlugin.inc:687
 msgid "Error when saving"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:652
+#: include/simpleplugin/class_simplePlugin.inc:679
 #, php-format
 msgid "There is already an entry with the same dn : %s"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:660
+#: include/simpleplugin/class_simplePlugin.inc:687
 #, php-format
 msgid "The entry %s is not existing"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:983
+#: include/simpleplugin/class_simplePlugin.inc:1010
 #, php-format
 msgid "You don't have sufficient rights to edit field \"%s\""
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:986
+#: include/simpleplugin/class_simplePlugin.inc:1013
 #, php-format
 msgid "Unknown field \"%s\""
 msgstr ""
@@ -3525,44 +3531,44 @@ msgstr ""
 msgid "Unknown"
 msgstr ""
 
-#: include/simpleplugin/class_helpersAttribute.inc:260
+#: include/simpleplugin/class_helpersAttribute.inc:264
 msgid "B"
 msgstr ""
 
-#: include/simpleplugin/class_helpersAttribute.inc:261
+#: include/simpleplugin/class_helpersAttribute.inc:265
 msgid "KiB"
 msgstr ""
 
-#: include/simpleplugin/class_helpersAttribute.inc:262
+#: include/simpleplugin/class_helpersAttribute.inc:266
 msgid "MiB"
 msgstr ""
 
-#: include/simpleplugin/class_helpersAttribute.inc:263
+#: include/simpleplugin/class_helpersAttribute.inc:267
 msgid "GiB"
 msgstr ""
 
-#: include/simpleplugin/class_helpersAttribute.inc:264
+#: include/simpleplugin/class_helpersAttribute.inc:268
 msgid "TiB"
 msgstr ""
 
-#: include/simpleplugin/class_helpersAttribute.inc:275
+#: include/simpleplugin/class_helpersAttribute.inc:279
 msgid "seconds"
 msgstr ""
 
-#: include/simpleplugin/class_helpersAttribute.inc:276
+#: include/simpleplugin/class_helpersAttribute.inc:280
 msgid "minutes"
 msgstr ""
 
-#: include/simpleplugin/class_helpersAttribute.inc:277
+#: include/simpleplugin/class_helpersAttribute.inc:281
 msgid "hours"
 msgstr ""
 
-#: include/simpleplugin/class_helpersAttribute.inc:278
+#: include/simpleplugin/class_helpersAttribute.inc:282
 msgid "days"
 msgstr ""
 
 #: include/simpleplugin/class_attribute.inc:544
-#: include/simpleplugin/class_attribute.inc:2209
+#: include/simpleplugin/class_attribute.inc:2218
 #, php-format
 msgid "%s (required)"
 msgstr ""
@@ -3647,7 +3653,7 @@ msgid ""
 msgstr ""
 
 #: include/simpleplugin/class_attribute.inc:1870
-#: setup/class_setupStep_Ldap.inc:50 ihtml/themes/default/simple-list.tpl.c:2
+#: setup/class_setupStep_Ldap.inc:50 ihtml/themes/breezy/simple-list.tpl.c:2
 msgid "Base"
 msgstr ""
 
@@ -3655,7 +3661,7 @@ msgstr ""
 msgid "Object base"
 msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:2823
+#: include/simpleplugin/class_attribute.inc:2832
 #, php-format
 msgid "Invalid value for %s"
 msgstr ""
@@ -3740,127 +3746,132 @@ msgstr ""
 msgid "Specified objectType is empty or invalid!"
 msgstr ""
 
-#: html/index.php:56
-msgid "Session is not encrypted!"
+#: html/index.php:56 html/class_passwordRecovery.inc:169
+#, php-format
+msgid "Warning: <a href=\"%s\">Session is not encrypted!</a>"
 msgstr ""
 
-#: html/index.php:63
+#: html/index.php:62
 msgid ""
-"The session lifetime configured in your fusiondirectory.conf will be "
-"overridden by php.ini settings."
+"Warning: The session lifetime configured in your fusiondirectory.conf will "
+"be overridden by php.ini settings."
 msgstr ""
 
-#: html/index.php:151
+#: html/index.php:150
 #, php-format
 msgid ""
 "FusionDirectory configuration %s/%s is not readable. Please run "
 "fusiondirectory-setup --check-config to fix this."
 msgstr ""
 
-#: html/index.php:172
+#: html/index.php:171
 msgid "Smarty error"
 msgstr ""
 
-#: html/index.php:174
+#: html/index.php:173
 #, php-format
 msgid "Directory \"%s\" specified as compile directory is not accessible!"
 msgstr ""
 
-#: html/index.php:209
+#: html/index.php:208
 msgid "Your FusionDirectory session has expired!"
 msgstr ""
 
-#: html/index.php:212
+#: html/index.php:211
 msgid "Your IP has changed!"
 msgstr ""
 
-#: html/index.php:215
+#: html/index.php:214
 #, php-format
 msgid "Invalid plugin parameter \"%s\"!"
 msgstr ""
 
-#: html/index.php:218
+#: html/index.php:217
 msgid "No session found!"
 msgstr ""
 
-#: html/index.php:253
+#: html/index.php:252
 msgid "LDAP schema check reported errors:"
 msgstr ""
 
-#: html/index.php:279
+#: html/index.php:278
 msgid "Please specify a valid username!"
 msgstr ""
 
-#: html/index.php:282
+#: html/index.php:281
 msgid "Please specify your password!"
 msgstr ""
 
-#: html/index.php:301
+#: html/index.php:300
 msgid "Please check the username/password combination."
 msgstr ""
 
-#: html/index.php:331
+#: html/index.php:330
 msgid "Account locked. Please contact your system administrator!"
 msgstr ""
 
-#: html/index.php:473
+#: html/index.php:472
 #, php-format
 msgid "CAS user \"%s\" could not be found in the LDAP"
 msgstr ""
 
-#: html/index.php:483
+#: html/index.php:482
 #, php-format
 msgid "CAS user \"%s\" match several users in the LDAP"
 msgstr ""
 
-#: html/index.php:520
+#: html/index.php:519
 msgid ""
 "Your browser has cookies disabled. Please enable cookies and reload this "
 "page before logging in!"
 msgstr ""
 
-#: html/main.php:113
+#: html/main.php:115
 msgid "PHP configuration"
 msgstr ""
 
-#: html/main.php:114
+#: html/main.php:116
 msgid ""
 "Fatal error: Register globals is on. FusionDirectory will refuse to login "
 "unless this is fixed by an administrator."
 msgstr ""
 
-#: html/main.php:140
+#: html/main.php:142
 msgid "Password change"
 msgstr ""
 
-#: html/main.php:140
+#: html/main.php:142
 msgid "Your password is about to expire, please change your password!"
 msgstr ""
 
-#: html/main.php:205
+#: html/main.php:158
+msgid "Your password has expired, please set a new one."
+msgstr ""
+
+#: html/main.php:208
 msgid "Running out of memory!"
 msgstr ""
 
-#: html/main.php:248
+#: html/main.php:251
 msgid "User ACL checks disabled"
 msgstr ""
 
-#: html/main.php:286
+#: html/main.php:289
 msgid "Plugin"
 msgstr ""
 
-#: html/main.php:287
+#: html/main.php:290
 #, php-format
 msgid ""
 "Fatal error: Cannot find any plugin definitions for plugin '%s' ('%s' is not"
 " a file)!"
 msgstr ""
 
-#: html/main.php:302
+#: html/main.php:305
 msgid "Configuration Error"
 msgstr ""
 
-#: html/main.php:303
+#: html/main.php:306
 #, php-format
 msgid ""
 "Fatal error: not all POST variables have been transfered by PHP - please "
@@ -3877,52 +3888,44 @@ msgstr ""
 msgid "Directory '%s' specified as compile directory is not accessible!"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:170
-msgid "Session will not be encrypted."
-msgstr ""
-
-#: html/class_passwordRecovery.inc:172
-msgid "Enter SSL session"
-msgstr ""
-
-#: html/class_passwordRecovery.inc:444
+#: html/class_passwordRecovery.inc:446
 #, php-format
 msgid "Did not find an account with login \"%s\""
 msgstr ""
 
-#: html/class_passwordRecovery.inc:447
+#: html/class_passwordRecovery.inc:449
 #, php-format
 msgid "Found multiple accounts with login \"%s\""
 msgstr ""
 
-#: html/class_passwordRecovery.inc:461 ihtml/themes/default/recovery.tpl.c:68
+#: html/class_passwordRecovery.inc:463 ihtml/themes/breezy/recovery.tpl.c:71
 msgid "Email address"
 msgstr "E-pasta adrese"
 
-#: html/class_passwordRecovery.inc:484
+#: html/class_passwordRecovery.inc:486
 #, php-format
 msgid "There is no account using email \"%s\""
 msgstr ""
 
-#: html/class_passwordRecovery.inc:487
+#: html/class_passwordRecovery.inc:489
 #, php-format
 msgid "There are several accounts using email \"%s\""
 msgstr ""
 
-#: html/class_passwordRecovery.inc:495
+#: html/class_passwordRecovery.inc:497
 #, php-format
 msgid "The user using email \"%s\" is locked. Please contact your administrator."
 msgstr ""
 
-#: html/class_passwordRecovery.inc:543
+#: html/class_passwordRecovery.inc:545
 msgid "Contact your administrator, there was a problem with mail server"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:554
+#: html/class_passwordRecovery.inc:556
 msgid "This token is invalid"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:614
+#: html/class_passwordRecovery.inc:616
 msgid "There was a problem with mail server, confirmation email not sent"
 msgstr ""
 
@@ -4044,7 +4047,7 @@ msgid "Welcome"
 msgstr ""
 
 #: setup/class_setupStep_Finish.inc:40
-#: ihtml/themes/default/copyPasteDialog.tpl.c:26
+#: ihtml/themes/breezy/copyPasteDialog.tpl.c:26
 msgid "Finish"
 msgstr ""
 
@@ -4523,15 +4526,15 @@ msgid ""
 "'Off'."
 msgstr ""
 
-#: setup/class_setup.inc:127
+#: setup/class_setup.inc:122
 msgid "Setup error"
 msgstr ""
 
-#: setup/class_setup.inc:207
+#: setup/class_setup.inc:202
 msgid "Completed"
 msgstr ""
 
-#: setup/class_setup.inc:250
+#: setup/class_setup.inc:245
 msgid "Next"
 msgstr ""
 
@@ -4554,7 +4557,7 @@ msgid "This object has no relationship to other objects."
 msgstr ""
 
 #: plugins/admin/users/user-filter.tpl.c:2
-#: ihtml/themes/default/simple-filter.tpl.c:2
+#: ihtml/themes/breezy/simple-filter.tpl.c:2
 #: include/select/groupSelect/group-filter.tpl.c:2
 msgid "Filter"
 msgstr "Filtrs"
@@ -4577,6 +4580,12 @@ msgstr ""
 
 #: plugins/admin/users/user-filter.tpl.c:17
 msgid "Show Samba users"
+msgstr ""
+
+#: plugins/admin/acl/remove.tpl.c:2
+msgid ""
+"Warning: you are about to delete the ACL assignments on the following "
+"objects"
 msgstr ""
 
 #: plugins/admin/acl/remove.tpl.c:5
@@ -4737,31 +4746,31 @@ msgstr ""
 msgid "Your password hash method will not be changed!"
 msgstr ""
 
-#: ihtml/themes/default/islocked.tpl.c:2
+#: ihtml/themes/breezy/islocked.tpl.c:2
 msgid "Locking conflict detected"
 msgstr ""
 
-#: ihtml/themes/default/islocked.tpl.c:8
+#: ihtml/themes/breezy/islocked.tpl.c:8
 msgid ""
 "If this lock detection is false, the other person has obviously closed the "
 "webbrowser during the edit operation. You may want to take over the lock by "
 "pressing the 'Edit anyway' button."
 msgstr ""
 
-#: ihtml/themes/default/islocked.tpl.c:11
+#: ihtml/themes/breezy/islocked.tpl.c:11
 msgid "Read only"
 msgstr ""
 
-#: ihtml/themes/default/template.tpl.c:2
+#: ihtml/themes/breezy/template.tpl.c:2
 msgid "Creating a new object using templates"
 msgstr ""
 
-#: ihtml/themes/default/template.tpl.c:8
-#: ihtml/themes/default/restore-confirm.tpl.c:14
+#: ihtml/themes/breezy/template.tpl.c:8
+#: ihtml/themes/breezy/restore-confirm.tpl.c:14
 msgid "Continue"
 msgstr ""
 
-#: ihtml/themes/default/sizelimit.tpl.c:2
+#: ihtml/themes/breezy/sizelimit.tpl.c:2
 msgid ""
 "The size limit option makes LDAP operations faster and saves the LDAP server"
 " from getting too much load. The easiest way to handle big databases without"
@@ -4769,243 +4778,244 @@ msgid ""
 "filters to get the entries you are looking for."
 msgstr ""
 
-#: ihtml/themes/default/sizelimit.tpl.c:5
+#: ihtml/themes/breezy/sizelimit.tpl.c:5
 msgid "Please choose the way to react for this session"
 msgstr ""
 
-#: ihtml/themes/default/sizelimit.tpl.c:8
+#: ihtml/themes/breezy/sizelimit.tpl.c:8
 msgid "ignore this error and show all entries the LDAP server returns"
 msgstr ""
 
-#: ihtml/themes/default/sizelimit.tpl.c:11
+#: ihtml/themes/breezy/sizelimit.tpl.c:11
 msgid ""
 "ignore this error and show all entries that fit into the defined sizelimit "
 "and let me use filters instead"
 msgstr ""
 
-#: ihtml/themes/default/sizelimit.tpl.c:14
+#: ihtml/themes/breezy/sizelimit.tpl.c:14
 msgid "Set"
 msgstr ""
 
-#: ihtml/themes/default/recovery.tpl.c:2
-msgid "FusionDirectory password recovery"
-msgstr ""
-
-#: ihtml/themes/default/recovery.tpl.c:11
+#: ihtml/themes/breezy/recovery.tpl.c:8
 msgid "Lost password"
 msgstr ""
 
-#: ihtml/themes/default/recovery.tpl.c:14
+#: ihtml/themes/breezy/recovery.tpl.c:11
+msgid ""
+"Informations to reset password for %1 have been sent to email address %2"
+msgstr ""
+
+#: ihtml/themes/breezy/recovery.tpl.c:14
+msgid "Warning : this email is only valid for %1 minutes."
+msgstr ""
+
+#: ihtml/themes/breezy/recovery.tpl.c:17
 msgid ""
 "This dialog provides a simple way to change your password. Enter the new "
 "password (twice) in the fields below and press the 'Change' button."
 msgstr ""
 
-#: ihtml/themes/default/recovery.tpl.c:17
-#: ihtml/themes/default/recovery.tpl.c:20
-#: ihtml/themes/default/recovery.tpl.c:62
-#: ihtml/themes/default/recovery.tpl.c:65 ihtml/themes/default/login.tpl.c:29
-#: ihtml/themes/default/login.tpl.c:32 ihtml/themes/default/login.tpl.c:35
+#: ihtml/themes/breezy/recovery.tpl.c:20 ihtml/themes/breezy/recovery.tpl.c:23
+#: ihtml/themes/breezy/recovery.tpl.c:65 ihtml/themes/breezy/recovery.tpl.c:68
+#: ihtml/themes/breezy/login.tpl.c:29 ihtml/themes/breezy/login.tpl.c:32
+#: ihtml/themes/breezy/login.tpl.c:35
 msgid "Directory"
 msgstr ""
 
-#: ihtml/themes/default/recovery.tpl.c:32
-#: ihtml/themes/default/recovery.tpl.c:35
+#: ihtml/themes/breezy/recovery.tpl.c:35 ihtml/themes/breezy/recovery.tpl.c:38
 msgid "New password repeated"
 msgstr ""
 
-#: ihtml/themes/default/recovery.tpl.c:38
+#: ihtml/themes/breezy/recovery.tpl.c:41
 msgid "Password strength"
 msgstr ""
 
-#: ihtml/themes/default/recovery.tpl.c:41
-#: ihtml/themes/default/recovery.tpl.c:74
+#: ihtml/themes/breezy/recovery.tpl.c:44 ihtml/themes/breezy/recovery.tpl.c:77
 msgid "Change"
 msgstr ""
 
-#: ihtml/themes/default/recovery.tpl.c:44
-#: ihtml/themes/default/recovery.tpl.c:77
+#: ihtml/themes/breezy/recovery.tpl.c:47 ihtml/themes/breezy/recovery.tpl.c:80
 msgid "Click here to change your password"
 msgstr ""
 
-#: ihtml/themes/default/recovery.tpl.c:47
-#: ihtml/themes/default/recovery.tpl.c:50
+#: ihtml/themes/breezy/recovery.tpl.c:50 ihtml/themes/breezy/recovery.tpl.c:53
 msgid "Success"
 msgstr ""
 
-#: ihtml/themes/default/recovery.tpl.c:53
+#: ihtml/themes/breezy/recovery.tpl.c:56
 msgid "Your password has been changed successfully."
 msgstr ""
 
-#: ihtml/themes/default/recovery.tpl.c:56
+#: ihtml/themes/breezy/recovery.tpl.c:59
 msgid ""
 "Enter your current e-mail address in the field below and press the 'Change' "
 "button."
 msgstr ""
 
-#: ihtml/themes/default/recovery.tpl.c:59
+#: ihtml/themes/breezy/recovery.tpl.c:62
 msgid ""
-"=> Use your e-mail in the long format, e.g : John Doe => john.doe@ibcp.fr"
+"=> Use your e-mail in the long format, e.g : John Doe => "
+"john.doe@example.com"
 msgstr ""
 
-#: ihtml/themes/default/recovery.tpl.c:71
-msgid "Mail"
-msgstr "Pasts"
+#: ihtml/themes/breezy/recovery.tpl.c:74
+msgid "Email"
+msgstr "E-pasts"
 
-#: ihtml/themes/default/recovery.tpl.c:80
+#: ihtml/themes/breezy/recovery.tpl.c:83
 msgid ""
 "Password recovery is not activated. If you have lost your password, please "
 "contact your administrator"
 msgstr ""
 
-#: ihtml/themes/default/remove.tpl.c:5
+#: ihtml/themes/breezy/remove.tpl.c:5
 msgid ""
-"This may be used by several groups. Please double check if your really want "
+"This may be used by several groups. Please double check if you really want "
 "to do this since there is no way for FusionDirectory to get your data back."
 msgstr ""
 
-#: ihtml/themes/default/remove.tpl.c:8
-#: ihtml/themes/default/simple-remove.tpl.c:8
+#: ihtml/themes/breezy/remove.tpl.c:8
+#: ihtml/themes/breezy/simple-remove.tpl.c:8
 msgid "So - if you're sure - press 'Delete' to continue or 'Cancel' to abort."
 msgstr "Ja esat pārliecināts, spiediet \"izdzēst\", lai turpinātu, vai \"Atcelt\", lai pārtrauktu. "
 
-#: ihtml/themes/default/login.tpl.c:2
+#: ihtml/themes/breezy/login.tpl.c:2
 msgid "Login screen"
 msgstr ""
 
-#: ihtml/themes/default/login.tpl.c:5
+#: ihtml/themes/breezy/login.tpl.c:5
 msgid ""
 "Please use your username and your password to log into the site "
 "administration system."
 msgstr ""
 
-#: ihtml/themes/default/login.tpl.c:8 ihtml/themes/default/login.tpl.c:11
-#: ihtml/themes/default/login.tpl.c:14
+#: ihtml/themes/breezy/login.tpl.c:8 ihtml/themes/breezy/login.tpl.c:11
+#: ihtml/themes/breezy/login.tpl.c:14
 msgid "Username"
 msgstr ""
 
-#: ihtml/themes/default/login.tpl.c:26
+#: ihtml/themes/breezy/login.tpl.c:26
 msgid "I forgot my password"
 msgstr ""
 
-#: ihtml/themes/default/login.tpl.c:38 ihtml/themes/default/login.tpl.c:44
+#: ihtml/themes/breezy/login.tpl.c:38 ihtml/themes/breezy/login.tpl.c:44
 msgid "Sign in"
 msgstr ""
 
-#: ihtml/themes/default/login.tpl.c:41
+#: ihtml/themes/breezy/login.tpl.c:41
 msgid "Click here to log in"
 msgstr ""
 
-#: ihtml/themes/default/restore-confirm.tpl.c:2
+#: ihtml/themes/breezy/restore-confirm.tpl.c:2
 msgid "Warning: you are about to restore the following snapshot"
 msgstr ""
 
-#: ihtml/themes/default/restore-confirm.tpl.c:5
+#: ihtml/themes/breezy/restore-confirm.tpl.c:5
 msgid "Any modification made to the object since this snapshot will be lost."
 msgstr ""
 
-#: ihtml/themes/default/restore-confirm.tpl.c:8
-#: ihtml/themes/default/simple-remove.tpl.c:5
+#: ihtml/themes/breezy/restore-confirm.tpl.c:8
+#: ihtml/themes/breezy/simple-remove.tpl.c:5
 msgid ""
 "Please double check if you really want to do this since there is no way for "
 "FusionDirectory to get your data back."
 msgstr ""
 
-#: ihtml/themes/default/restore-confirm.tpl.c:11
+#: ihtml/themes/breezy/restore-confirm.tpl.c:11
 msgid ""
 "So - if you're sure - press 'Continue' to continue or 'Cancel' to abort."
 msgstr ""
 
-#: ihtml/themes/default/acl.tpl.c:2
+#: ihtml/themes/breezy/acl.tpl.c:2
 msgid "Assigned ACL for current entry"
 msgstr ""
 
-#: ihtml/themes/default/acl.tpl.c:5
+#: ihtml/themes/breezy/acl.tpl.c:5
 msgid "New ACL"
 msgstr ""
 
-#: ihtml/themes/default/acl.tpl.c:8
+#: ihtml/themes/breezy/acl.tpl.c:8
 msgid "ACL type"
 msgstr ""
 
-#: ihtml/themes/default/acl.tpl.c:11 ihtml/themes/default/acl.tpl.c:14
+#: ihtml/themes/breezy/acl.tpl.c:11 ihtml/themes/breezy/acl.tpl.c:14
 msgid "Select an acl type"
 msgstr ""
 
-#: ihtml/themes/default/acl.tpl.c:17
+#: ihtml/themes/breezy/acl.tpl.c:17
 msgid "Additional filter options"
 msgstr ""
 
-#: ihtml/themes/default/acl.tpl.c:20
+#: ihtml/themes/breezy/acl.tpl.c:20
 msgid "Use members from"
 msgstr ""
 
-#: ihtml/themes/default/acl.tpl.c:23
+#: ihtml/themes/breezy/acl.tpl.c:23
 msgid "Available members"
 msgstr ""
 
-#: ihtml/themes/default/acl.tpl.c:26 ihtml/themes/default/acl.tpl.c:29
+#: ihtml/themes/breezy/acl.tpl.c:26 ihtml/themes/breezy/acl.tpl.c:29
 msgid "List message possible targets"
 msgstr ""
 
-#: ihtml/themes/default/acl.tpl.c:35 ihtml/themes/default/acl.tpl.c:38
+#: ihtml/themes/breezy/acl.tpl.c:35 ihtml/themes/breezy/acl.tpl.c:38
 msgid "List message recipients"
 msgstr ""
 
-#: ihtml/themes/default/acl.tpl.c:44
+#: ihtml/themes/breezy/acl.tpl.c:44
 msgid "ACL for this object"
 msgstr ""
 
-#: ihtml/themes/default/acl.tpl.c:47
+#: ihtml/themes/breezy/acl.tpl.c:47
 msgid "Available roles"
 msgstr ""
 
-#: ihtml/themes/default/simple-remove.tpl.c:2
+#: ihtml/themes/breezy/simple-remove.tpl.c:2
 msgid "Warning: you are about to delete the following objects"
 msgstr ""
 
-#: ihtml/themes/default/copyPasteDialog.tpl.c:2
+#: ihtml/themes/breezy/copyPasteDialog.tpl.c:2
 msgid "Copy & paste wizard"
 msgstr ""
 
-#: ihtml/themes/default/copyPasteDialog.tpl.c:5
+#: ihtml/themes/breezy/copyPasteDialog.tpl.c:5
 msgid ""
 "Some values need to be unique in the complete directory while some "
 "combinations make no sense. FusionDirectory shows the relevant attributes. "
 "Please maintain the values below to fulfill the policies."
 msgstr ""
 
-#: ihtml/themes/default/copyPasteDialog.tpl.c:8
+#: ihtml/themes/breezy/copyPasteDialog.tpl.c:8
 msgid "Remember that some properties like taken snapshots will not be copied!"
 msgstr ""
 
-#: ihtml/themes/default/copyPasteDialog.tpl.c:11
+#: ihtml/themes/breezy/copyPasteDialog.tpl.c:11
 msgid ""
 "Or if you copy or cut an entry within FusionDirectory and delete the source "
 "object, you may get errors while pasting this object again!"
 msgstr ""
 
-#: ihtml/themes/default/copyPasteDialog.tpl.c:23
+#: ihtml/themes/breezy/copyPasteDialog.tpl.c:23
 msgid "Operation complete"
 msgstr ""
 
-#: ihtml/themes/default/msg_dialog.tpl.c:8
+#: ihtml/themes/breezy/msg_dialog.tpl.c:8
 msgid "Information"
 msgstr "Informācija"
 
-#: ihtml/themes/default/framework.tpl.c:2
+#: ihtml/themes/breezy/framework.tpl.c:2
 msgid "Main"
 msgstr ""
 
-#: ihtml/themes/default/framework.tpl.c:5
+#: ihtml/themes/breezy/framework.tpl.c:5
 msgid "Sign out"
 msgstr ""
 
-#: ihtml/themes/default/framework.tpl.c:8
+#: ihtml/themes/breezy/framework.tpl.c:8
 msgid "Signed in:"
 msgstr ""
 
-#: ihtml/themes/default/framework.tpl.c:11
+#: ihtml/themes/breezy/framework.tpl.c:11
 #, c-format
 msgid "Session expires in %d!"
 msgstr ""

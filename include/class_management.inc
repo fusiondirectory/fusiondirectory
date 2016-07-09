@@ -982,11 +982,11 @@ class management
   /*!
    * \brief Set a new filter
    *
-   * \param string $str The new filter
+   * \param object $filter The new filter
    */
-  function setFilter($str)
+  function setFilter($filter)
   {
-    $this->filter = $str;
+    $this->filter = $filter;
   }
 
   function is_modal_dialog()

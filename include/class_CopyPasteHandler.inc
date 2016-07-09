@@ -221,11 +221,11 @@ class CopyPasteHandler
         $msgs = $entry['object']->check();
 
         /* To copy an object we require full read access to the object category */
-        $copy_acl = preg_match("/r/", $ui->has_complete_category_acls($entry['dn'], $entry['tab_acl_category']));
+        $copy_acl = preg_match("/r/", $ui->get_complete_category_acls($entry['dn'], $entry['tab_acl_category']));
 
         /* In order to copy an object we require read an delete acls */
-        $cut_acl  = preg_match("/d/", $ui->has_complete_category_acls($entry['dn'], $entry['tab_acl_category']));
-        $cut_acl &= preg_match("/r/", $ui->has_complete_category_acls($entry['dn'], $entry['tab_acl_category']));
+        $cut_acl  = preg_match("/d/", $ui->get_complete_category_acls($entry['dn'], $entry['tab_acl_category']));
+        $cut_acl &= preg_match("/r/", $ui->get_complete_category_acls($entry['dn'], $entry['tab_acl_category']));
 
         /* Check permissions */
         if ($entry['method'] == "copy" && !$copy_acl) {

@@ -212,9 +212,9 @@ class Step_Migrate extends setupStep
     );
   }
 
-  function __construct()
+  function __construct($parent)
   {
-    parent::__construct();
+    parent::__construct($parent);
     $this->fill_defaultRoles();
   }
 

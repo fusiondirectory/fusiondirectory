@@ -63,7 +63,7 @@ class aclAssignmentCreationDialog extends simplePlugin
 
     $this->simpleManagement = $parent;
 
-    parent::__construct(NULL, $config->current['BASE']);
+    parent::__construct($config->current['BASE']);
 
     $this->attributesAccess['baseDn']->setInLdap(FALSE);
   }
@@ -104,8 +104,12 @@ class aclAssignmentCreationDialog extends simplePlugin
       msg_dialog::displayChecks($msgs);
       return TRUE;
     }
-    $this->simpleManagement->closeDialogs();
-    $this->simpleManagement->newEntryConfirmed($this->baseDn);
+    try {
+      $this->simpleManagement->newEntryConfirmed($this->baseDn);
+    } catch (NonExistingLdapNodeException $e) {
+      msg_dialog::displayChecks(array(_('The dn you entered could not be found in the LDAP')));
+      return TRUE;
+    }
     return FALSE;
   }
 
@@ -179,14 +183,19 @@ class aclManagement extends simpleManagement
   {
     $type = 'aclAssignment';
 
+    /* This might throw an exception which is catched in aclAssignmentCreationDialog */
+    $tabObject = objects::open($dn, $type);
+
+    /* This will happen only if the exception is not thrown */
+    $this->closeDialogs();
+
     $this->displayApplyBtn  = FALSE;
     $this->dn               = $dn;
     $this->is_single_edit   = FALSE;
 
     set_object_info($this->dn);
 
-    // Open object
-    $this->openTabObject(objects::open($this->dn, $type), $this->headpage->getBase());
+    $this->openTabObject($tabObject, $this->headpage->getBase());
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Creating new ACL assignment');
   }
 

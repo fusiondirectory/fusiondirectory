@@ -10,7 +10,7 @@
         </a>
       </div>
       <div id="header_right">
-        <div class="logout-label">
+        <div class="version">
           {$version}
         </div>
       </div>

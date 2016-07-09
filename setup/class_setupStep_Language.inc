@@ -47,9 +47,9 @@ class Step_Language extends setupStep
     );
   }
 
-  function __construct()
+  function __construct($parent)
   {
-    parent::__construct();
+    parent::__construct($parent);
     $this->lang = get_browser_language();
     $this->attributesAccess['lang_selected']->setSize(20);
   }

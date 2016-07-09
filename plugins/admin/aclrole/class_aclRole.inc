@@ -81,7 +81,6 @@ class aclRole extends simplePlugin
         'name'        => _('ACL role'),
         'filter'      => 'objectClass=gosaRole',
         'ou'          => get_ou('aclRoleRDN'),
-        'tabClass'    => 'simpleTabs_noSpecial',
         'icon'        => 'geticon.php?context=categories&icon=acl&size=16',
       )),
 

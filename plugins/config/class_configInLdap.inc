@@ -96,7 +96,7 @@ class configInLdap extends simplePlugin
             _('Theme'), _('Theme to be used'),
             'fdTheme', TRUE,
             self::get_themes(),
-            'default'
+            'breezy'
           ),
           new SelectAttribute (
             _('Timezone'), _('Timezone to be used'),
@@ -204,7 +204,7 @@ class configInLdap extends simplePlugin
             TRUE
           ),
           new IntAttribute (
-            _('Session lifetime'), _('Defines when a session will expire in seconds.'),
+            _('Session lifetime'), _('Defines when a session will expire in seconds (0 to disable).'),
             'fdSessionLifeTime', TRUE,
             0 /*min*/, FALSE /*no max*/, 1800
           ),

@@ -77,6 +77,7 @@
       <type>entry</type>
       <image>geticon.php?context=types&amp;icon=user&amp;size=16</image>
       <label>User</label>
+      <acl>user/user[c]</acl>
      </action>
 
      <action>
@@ -84,6 +85,7 @@
       <type>entry</type>
       <image>geticon.php?context=types&amp;icon=user&amp;size=16</image>
       <label>From template</label>
+      <acl>user/user[c]</acl>
      </action>
 
      <action>
@@ -91,6 +93,7 @@
       <type>entry</type>
       <image>geticon.php?context=actions&amp;icon=document-new&amp;size=16</image>
       <label>Template</label>
+      <acl>user/template[c]</acl>
      </action>
     </action>
 

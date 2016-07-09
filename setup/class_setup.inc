@@ -50,13 +50,13 @@ class setup
   function __construct()
   {
     $this->o_steps = array(
-      new Step_Welcome(),
-      new Step_Language(),
-      new Step_Checks(),
-      new Step_Ldap(),
-      new Step_Config_before_init(),
-      new Step_Migrate(),
-      new Step_Finish(),
+      new Step_Welcome($this),
+      new Step_Language($this),
+      new Step_Checks($this),
+      new Step_Ldap($this),
+      new Step_Config_before_init($this),
+      new Step_Migrate($this),
+      new Step_Finish($this),
     );
 
     $this->i_steps = count($this->o_steps);
@@ -67,11 +67,6 @@ class setup
       header("Location: index.php");
       exit();
     }
-
-    foreach ($this->o_steps as &$step) {
-      $step->parent = &$this;
-    }
-    unset($step);
   }
 
   function execute()
@@ -318,7 +313,7 @@ class setup
 
   function reBuildConfigStep ($completed = NULL)
   {
-    $this->o_steps[$this->i_config] = new Step_Config($this->captured_values);
+    $this->o_steps[$this->i_config] = new Step_Config($this, $this->captured_values);
     if ($completed !== NULL) {
       $this->o_steps[$this->i_config]->is_completed = $completed;
     }

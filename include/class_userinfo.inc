@@ -311,7 +311,7 @@ class userinfo
   */
   function is_copyable($dn, $object, $class)
   {
-    return preg_match("/r/", $this->has_complete_category_acls($dn, $object));
+    return preg_match("/r/", $this->get_complete_category_acls($dn, $object));
   }
 
 
@@ -329,7 +329,7 @@ class userinfo
   function is_cutable($dn, $object, $class)
   {
     $remove = preg_match("/d/", $this->get_permissions($dn, $object."/".$class));
-    $read   = preg_match("/r/", $this->has_complete_category_acls($dn, $object));
+    $read   = preg_match("/r/", $this->get_complete_category_acls($dn, $object));
     return ($remove && $read);
   }
 
@@ -345,7 +345,7 @@ class userinfo
    */
   function is_pasteable($dn, $object)
   {
-    return preg_match("/w/", $this->has_complete_category_acls($dn, $object));
+    return preg_match("/w/", $this->get_complete_category_acls($dn, $object));
   }
 
 
@@ -365,8 +365,8 @@ class userinfo
     }
     $r = $w = TRUE;
     foreach ($object as $category) {
-      $w &= preg_match("/w/", $this->has_complete_category_acls($dn, $category));
-      $r &= preg_match("/r/", $this->has_complete_category_acls($dn, $category));
+      $w &= preg_match("/w/", $this->get_complete_category_acls($dn, $category));
+      $r &= preg_match("/r/", $this->get_complete_category_acls($dn, $category));
     }
     return ($r && $w);
   }
@@ -388,7 +388,7 @@ class userinfo
     }
     $r = TRUE;
     foreach ($object as $category) {
-      $r &= preg_match("/r/", $this->has_complete_category_acls($dn, $category));
+      $r &= preg_match("/r/", $this->get_complete_category_acls($dn, $category));
     }
     return $r;
   }
@@ -783,7 +783,7 @@ class userinfo
    *
    * \return string return acl combined with boolean AND
    */
-  function has_complete_category_acls($dn, $category)
+  function get_complete_category_acls($dn, $category)
   {
     global $config;
     $acl    = "rwcdm";
@@ -793,7 +793,7 @@ class userinfo
       trigger_error("category must be string");
       $acl = "";
     } else {
-      if (!isset($this->result_cache['has_complete_category_acls'][$dn][$category]))   {
+      if (!isset($this->result_cache['get_complete_category_acls'][$dn][$category]))   {
         if (isset($config->data['CATEGORIES'][$category])) {
           foreach ($config->data['CATEGORIES'][$category]['classes'] as $oc) {
             /* Skip objectClass '0' (e.g. user/0) get_permissions will ever return '' ??  */
@@ -808,9 +808,9 @@ class userinfo
         } else {
           $acl = "";
         }
-        $this->result_cache['has_complete_category_acls'][$dn][$category] = $acl;
+        $this->result_cache['get_complete_category_acls'][$dn][$category] = $acl;
       } else {
-        $acl = $this->result_cache['has_complete_category_acls'][$dn][$category];
+        $acl = $this->result_cache['get_complete_category_acls'][$dn][$category];
       }
     }
     return $acl;
@@ -868,7 +868,7 @@ class userinfo
     // Fetch required attributes
     foreach (array('shadowExpire','shadowLastChange','shadowMax','shadowMin',
                 'shadowInactive','shadowWarning','sambaKickoffTime') as $attr) {
-      $$attr = (isset($attrs[$attr][0])? $attrs[$attr][0] : NULL);
+      $$attr = (isset($attrs[$attr][0]) ? $attrs[$attr][0] : NULL);
     }
 
     // Check if the account has reached its kick off limitations.

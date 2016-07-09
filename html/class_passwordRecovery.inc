@@ -166,10 +166,7 @@ class standAlonePage {
         exit;
       } elseif ($config->get_cfg_value("warnssl") == 'TRUE') {
         /* Display SSL mode warning? */
-        $smarty->assign("ssl", "<b>"._("Warning").":</b> ".
-                        _("Session will not be encrypted.").
-                        " <a style=\"color:red;\" href=\"".htmlentities($ssl).
-                        "\"><b>"._("Enter SSL session")."</b></a>!");
+        $smarty->assign ('ssl', sprintf(_('Warning: <a href="%s">Session is not encrypted!</a>'), $ssl));
       }
     }
 
@@ -182,9 +179,14 @@ class standAlonePage {
     if (isset($_SERVER['HTTPS']) && ($_SERVER["HTTPS"] == "on")) {
       $pageURL .= "s";
     }
-    $pageURL .= "://".$_SERVER["SERVER_NAME"];
-    if ($_SERVER["SERVER_PORT"] != "80") {
-      $pageURL .= ":".$_SERVER["SERVER_PORT"];
+    $pageURL .= '://';
+    if (!empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
+      $pageURL .= $_SERVER['HTTP_X_FORWARDED_HOST'];
+    } else {
+      $pageURL .= $_SERVER['SERVER_NAME'];
+      if ($_SERVER['SERVER_PORT'] != '80') {
+        $pageURL .= ':'.$_SERVER['SERVER_PORT'];
+      }
     }
     $pageURL .= $_SERVER["PHP_SELF"];
 

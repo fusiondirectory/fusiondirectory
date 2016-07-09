@@ -35,9 +35,9 @@ class Step_Welcome extends setupStep
     );
   }
 
-  function __construct()
+  function __construct($parent)
   {
-    parent::__construct();
+    parent::__construct($parent);
 
     $this->is_enabled     = TRUE;
     $this->is_active      = TRUE;
