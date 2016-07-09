@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: FusionDirectory-110\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
 "POT-Creation-Date: 2016-07-06 13:53+0200\n"
-"PO-Revision-Date: 2016-07-06 11:49+0000\n"
+"PO-Revision-Date: 2016-07-08 12:18+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/fusiondirectory/FusionDirectory-110/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -79,7 +79,7 @@ msgstr ""
 #: include/simpleplugin/simple-select-list.xml:40
 #: include/simpleplugin/simple-list.xml:40
 msgid "Description"
-msgstr ""
+msgstr "Kuvaus"
 
 #: plugins/admin/groups/class_roleGeneric.inc:91
 msgid "Description of the role"
@@ -3900,7 +3900,7 @@ msgstr ""
 
 #: html/class_passwordRecovery.inc:463 ihtml/themes/breezy/recovery.tpl.c:71
 msgid "Email address"
-msgstr ""
+msgstr "Sähköpostiosoite"
 
 #: html/class_passwordRecovery.inc:486
 #, php-format
