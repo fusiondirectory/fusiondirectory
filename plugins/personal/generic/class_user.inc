@@ -516,9 +516,9 @@ class user extends simplePlugin
     return parent::execute();
   }
 
-  function ldap_save($cleanup = TRUE)
+  function ldap_save()
   {
-    parent::ldap_save($cleanup);
+    parent::ldap_save();
 
     if (!$this->is_template && $this->was_locked && $this->attributesAccess['userPassword']->hasChanged()) {
       $methods  = passwordMethod::get_available_methods();

@@ -180,9 +180,9 @@ class userRoles extends simplePlugin
     }
   }
 
-  function ldap_save($cleanup = TRUE)
+  function ldap_save()
   {
-    parent::ldap_save($cleanup);
+    parent::ldap_save();
 
     if (!$this->is_template) {
       /* We need to give an array which looks like an ldap fetch and match user filter */

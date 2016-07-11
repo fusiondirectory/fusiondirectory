@@ -697,7 +697,7 @@ class simplePlugin extends plugin
     }
   }
 
-  protected function ldap_save ($cleanup = TRUE)
+  protected function ldap_save ()
   {
     global $config;
     /* Check if this is a new entry ... add/modify */
@@ -719,9 +719,7 @@ class simplePlugin extends plugin
       $action = "modify";
     }
 
-    if ($cleanup) {
-      $this->cleanup();
-    }
+    $this->cleanup();
     $ldap->cd($this->dn);
     $ldap->$action($this->attrs);
     $this->ldap_error = $ldap->get_error();
