@@ -427,7 +427,7 @@ class simpleTabs
           $result = $obj->remove_from_parent();
         }
         if (!empty($result)) {
-          if ($creation && $first)
+          if ($creation && $first) {
             /* If the fail of main tab fails for a creation, cancel the save of other tabs */
             return $result;
           }
