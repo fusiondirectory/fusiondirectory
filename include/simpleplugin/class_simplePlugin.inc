@@ -688,6 +688,7 @@ class simplePlugin extends plugin
     if (!empty($errors)) {
       return $errors;
     }
+    $this->prepareNextCleanup();
     /* Post hooks and logging */
     $this->post_save();
     return;
@@ -957,11 +958,10 @@ class simplePlugin extends plugin
         $info = "";
         if (isset($_POST['edit_finish'])) {
           /* Perform checks */
-          $message = $tabObject->check();
+          $message = $tabObject->save();
 
           /* No errors, save object */
           if (count($message) == 0) {
-            $tabObject->save();
             del_lock($entry_dn);
             session::un_set('edit');
 

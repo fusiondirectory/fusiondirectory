@@ -146,10 +146,8 @@ class logging {
     $baseObject->fdAuditAttributes  = $entry['changes'];
     $baseObject->fdAuditResult      = $entry['result'];
     $baseObject->base               = $config->current['BASE'];
-    $message = $tabObject->check();
-    if (count($message) == 0) {
-      $tabObject->save();
-    } else {
+    $message = $tabObject->save();
+    if (!empty($message)) {
       msg_dialog::displayChecks($message);
     }
   }

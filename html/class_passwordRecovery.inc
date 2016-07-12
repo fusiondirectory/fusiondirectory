@@ -590,14 +590,13 @@ class passwordRecovery extends standAlonePage {
     );
 
     /* Is there any problem with entered passwords? */
-    $error = $userTabs->check();
-    if (!empty($error)) {
-      $this->message = $error;
+    $userTabs->save_object();
+    $errors = $userTabs->save();
+    if (!empty($errors)) {
+      $this->message = $errors;
       return;
     }
 
-    $userTabs->save_object();
-    $userTabs->save();
     fusiondirectory_log("User ".$this->uid." password has been changed");
     /* Send the mail */
     $mail_body = sprintf($this->mail2_body, $this->uid);

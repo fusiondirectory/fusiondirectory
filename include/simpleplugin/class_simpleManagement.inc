@@ -498,15 +498,14 @@ class simpleManagement extends management
     if ($cancel) {
       $msgs = array();
     } else {
-      $msgs = $this->tabObject->check();
+      $msgs = $this->tabObject->save();
     }
     if (count($msgs)) {
       msg_dialog::displayChecks($msgs);
       return;
     } else {
       if (!$cancel) {
-        $this->tabObject->save();
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "Template applied!");
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Template applied!');
       }
       del_lock($this->dn);
       if (empty($this->dns)) {

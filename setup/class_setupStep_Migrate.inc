@@ -929,14 +929,11 @@ class Step_Migrate extends setupStep
     $_POST[$tabObject->current.'_posted'] = TRUE;
     $_POST['dialog_refresh']              = TRUE;
     $tabObject->save_object();
-    $errors = $tabObject->check();
+    $errors = $tabObject->save();
     if (!empty($errors)) {
-      foreach ($errors as $error) {
-        msg_dialog::display(_('Error'), $error, ERROR_DIALOG);
-      }
+      msg_dialog::displayChecks($errors);
       return FALSE;
     }
-    $tabObject->save();
     $admindn = $tabObject->dn;
 
     /* Assigning role */

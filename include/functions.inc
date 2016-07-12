@@ -2805,12 +2805,11 @@ function change_password ($dn, $password, $hash = "")
     $userTab->userPassword,
     $userTab->attributesAccess['userPassword']->isLocked()
   );
-  $error = $userTabs->check();
+  $userTabs->save_object();
+  $error = $userTabs->save();
   if (!empty($error)) {
     return $error;
   }
-  $userTabs->save_object();
-  $userTabs->save();
 
   return TRUE;
 }

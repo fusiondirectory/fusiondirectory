@@ -773,12 +773,11 @@ class management
   {
     if ($this->tabObject instanceOf simpleTabs) {
       $this->tabObject->save_object();
-      $msgs = $this->tabObject->check();
+      $msgs = $this->tabObject->save();
       if (count($msgs)) {
         msg_dialog::displayChecks($msgs);
         return;
       } else {
-        $this->tabObject->save();
         @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, 'Entry saved!');
         $this->remove_lock();
         $this->closeDialogs();
@@ -808,13 +807,12 @@ class management
   {
     if ($this->tabObject instanceOf simpleTabs) {
       $this->tabObject->save_object();
-      $msgs = $this->tabObject->check();
+      $msgs = $this->tabObject->save();
       if (count($msgs)) {
         msg_dialog::displayChecks($msgs);
         return "";
       } else {
-        $this->tabObject->save();
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, "Modifications applied!");
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, 'Modifications applied!');
         $this->tabObject->re_init();
       }
     }

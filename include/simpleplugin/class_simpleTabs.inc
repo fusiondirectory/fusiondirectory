@@ -332,7 +332,7 @@ class simpleTabs
    *
    * \param boolean $ignore_account false
    */
-  function check()
+  protected function check()
   {
     global $config;
     $messages = array();
@@ -353,7 +353,7 @@ class simpleTabs
     $current_set = FALSE;
 
     /* Check all plugins */
-    foreach ($this->by_object as $key => &$obj) {
+    foreach ($this->by_object as $key => $obj) {
       if (($obj->is_account || $obj->ignore_account) && (!$obj->is_template)) {
         @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, "Checking");
 
@@ -373,7 +373,6 @@ class simpleTabs
         $obj->pl_notify = FALSE;
       }
     }
-    unset($obj);
 
     return $messages;
   }
@@ -385,46 +384,62 @@ class simpleTabs
    */
   function save()
   {
+    $messages = $this->check();
+    if (!empty($messages)) {
+      return $messages;
+    }
+
     $baseobject = $this->getBaseObject();
     $new_dn     = $baseobject->compute_dn();
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $new_dn, "Saving");
 
+    $errors = array();
+    $iscreation = ($this->dn == 'new');
+
     /* Move ? */
     if ($this->dn != $new_dn) {
       /* Write entry on new 'dn' */
-      if ($this->dn != 'new') {
+      if ($creation) {
+        /* use the new one */
+        $this->dn = $new_dn;
+      } else {
         if ($baseobject->move($this->dn, $new_dn)) {
           $this->dn = $new_dn;
         } else {
-          msg_dialog::display(_('Error'), sprintf(_('Move from "%s" to "%s" failed'), $this->dn, $new_dn), ERROR_DIALOG);
+          $errors[] = sprintf(_('Move from "%s" to "%s" failed'), $this->dn, $new_dn);
         }
-      } else {
-        /* use the new one */
-        $this->dn = $new_dn;
       }
     }
 
     /* Save all plugins */
-    foreach ($this->by_object as $key => &$obj) {
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, "Saving");
+    $first = TRUE;
+    foreach ($this->by_object as $key => $obj) {
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, 'Saving');
 
       $obj->dn = $this->dn;
 
-      if (!$obj instanceof plugin && !$obj instanceOf management) {
-        trigger_error("Something went wrong while saving ".$obj->dn.". Object class '".get_class($obj)."'.");
+      if (!($obj instanceof plugin) && !($obj instanceOf management)) {
+        trigger_error('Something went wrong while saving '.$obj->dn.'. Class "'.get_class($obj).'".');
       } else {
         if ($obj->is_account || $obj->ignore_account) {
-          if ($obj->save() == 1) {
-            return 1;
-          }
+          $result = $obj->save();
         } else {
-          $obj->remove_from_parent();
+          $result = $obj->remove_from_parent();
+        }
+        if (!empty($result)) {
+          if ($creation && $first)
+            /* If the fail of main tab fails for a creation, cancel the save of other tabs */
+            return $result;
+          }
+          $errors = array_merge($errors, $result);
         }
       }
+      if ($first) {
+        $first = FALSE;
+      }
     }
-    unset($obj);
 
-    return 0;
+    return $errors;
   }
 
   /*!
