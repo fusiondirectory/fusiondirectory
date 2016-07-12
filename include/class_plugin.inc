@@ -312,50 +312,6 @@ class plugin
   }
 
   /*!
-   * \brief Save data to LDAP, depending on is_account we save or delete
-   */
-  function save()
-  {
-    global $config;
-    /* include global link_info */
-    $ldap = $config->get_ldap_link();
-
-    $this->entryCSN = '';
-
-    /* Start with empty array */
-    $this->attrs = array();
-
-    /* Get current objectClasses in order to add the required ones */
-    $ldap->cat($this->dn);
-
-    $tmp = $ldap->fetch();
-    $oc = array();
-
-    if ($this->is_template) {
-      if (isset($tmp['fdTemplateField'])) {
-        foreach ($tmp['fdTemplateField'] as $tpl_field) {
-          if (preg_match('/^objectClass:(.+)$/', $tpl_field, $m)) {
-            $oc[] = $m[1];
-          }
-        }
-      }
-    } else {
-      if (isset($tmp['objectClass'])) {
-        $oc = $tmp['objectClass'];
-        unset($oc['count']);
-      }
-    }
-
-    $this->attrs['objectClass'] = array_merge_unique($oc, $this->objectclasses);
-
-    if ($this->initially_was_account) {
-      $this->handle_pre_events('modify');
-    } else {
-      $this->handle_pre_events('add');
-    }
-  }
-
-  /*!
    * \brief Remove attributes, empty arrays, arrays
    * single attributes that do not differ
    */
@@ -1202,15 +1158,15 @@ class plugin
   {
     switch ($mode) {
       case 'add':
-        $this->callHook($when.'CREATE', $addAttrs);
+        return $this->callHook($when.'CREATE', $addAttrs);
         break;
 
       case 'modify':
-        $this->callHook($when.'MODIFY', $addAttrs);
+        return $this->callHook($when.'MODIFY', $addAttrs);
         break;
 
       case 'remove':
-        $this->callHook($when.'REMOVE', $addAttrs);
+        return $this->callHook($when.'REMOVE', $addAttrs);
         break;
 
       default:
@@ -1317,7 +1273,7 @@ class plugin
         if (!empty($str)) {
           $message .= "Result: ".$str;
         }
-        msg_dialog::display(_("Error"), $message, ERROR_DIALOG);
+        return array($message);
       } elseif (is_array($arr)) {
         $str = implode("\n", $arr);
         @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Result: ".$str);

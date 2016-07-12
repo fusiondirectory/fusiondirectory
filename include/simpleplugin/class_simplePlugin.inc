@@ -674,14 +674,65 @@ class simplePlugin extends plugin
       $this->attrs = $this->templateSaveAttrs();
       $this->saved_attributes = array();
     }
+    $this->cleanup();
+    if (!$this->shouldSave()) {
+      return; /* Nothing to do here */
+    }
+    /* Pre hooks */
+    $errors = $this->pre_save();
+    if (!empty($errors)) {
+      return $errors;
+    }
+    /* LDAP save itself */
     $this->ldap_save();
+    if (!empty($errors)) {
+      return $errors;
+    }
+    /* Post hooks and logging */
     $this->post_save();
+    return;
+  }
+
+  protected function shouldSave()
+  {
+    if ($this->mainTab && !$this->initially_was_account) {
+      return TRUE;
+    }
+    return !empty($this->attrs);
   }
 
   protected function prepare_save ()
   {
-    /* Call parents save to prepare $this->attrs */
-    parent::save();
+    /* prepare $this->attrs */
+    $ldap = $config->get_ldap_link();
+
+    $this->entryCSN = '';
+
+    /* Start with empty array */
+    $this->attrs = array();
+
+    /* Get current objectClasses in order to add the required ones */
+    $ldap->cat($this->dn, array('fdTemplateField', 'objectClass'));
+
+    $tmp  = $ldap->fetch();
+    $oc   = array();
+
+    if ($this->is_template) {
+      if (isset($tmp['fdTemplateField'])) {
+        foreach ($tmp['fdTemplateField'] as $tpl_field) {
+          if (preg_match('/^objectClass:(.+)$/', $tpl_field, $m)) {
+            $oc[] = $m[1];
+          }
+        }
+      }
+    } else {
+      if (isset($tmp['objectClass'])) {
+        $oc = $tmp['objectClass'];
+        unset($oc['count']);
+      }
+    }
+
+    $this->attrs['objectClass'] = array_merge_unique($oc, $this->objectclasses);
 
     /* Fill attributes LDAP values into the attrs array */
     foreach ($this->attributesInfo as $section => $sectionInfo) {
@@ -697,36 +748,42 @@ class simplePlugin extends plugin
     }
   }
 
+  protected function pre_save () {
+    if ($this->initially_was_account) {
+      return $this->handle_pre_events('modify');
+    } else {
+      return $this->handle_pre_events('add');
+    }
+  }
+
   protected function ldap_save ()
   {
     global $config;
+
     /* Check if this is a new entry ... add/modify */
     $ldap = $config->get_ldap_link();
     $ldap->cat($this->dn, array("objectClass"));
     if ($this->mainTab && !$this->initially_was_account) {
       if ($ldap->count()) {
-        msg_dialog::display(_("Error when saving"), sprintf(_('There is already an entry with the same dn : %s'), $this->dn), ERROR_DIALOG);
-        return;
+        return array(sprintf(_('There is already an entry with the same dn : %s'), $this->dn));
       }
       $ldap->cd($config->current['BASE']);
       $ldap->create_missing_trees(preg_replace('/^[^,]+,/', '', $this->dn));
       $action = "add";
     } else {
       if (!$ldap->count()) {
-        msg_dialog::display(_("Error when saving"), sprintf(_('The entry %s is not existing'), $this->dn), ERROR_DIALOG);
-        return;
+        return array(sprintf(_('The entry %s is not existing'), $this->dn));
       }
       $action = "modify";
     }
 
-    $this->cleanup();
     $ldap->cd($this->dn);
     $ldap->$action($this->attrs);
     $this->ldap_error = $ldap->get_error();
 
     /* Check for errors */
     if (!$ldap->success()) {
-      msg_dialog::display(_("LDAP error while $action"), msgPool::ldaperror($ldap->get_error(), $this->dn, 0, get_class()), LDAP_ERROR);
+      return array(msgPool::ldaperror($ldap->get_error(), $this->dn, 0, get_class()));
     }
   }
 
@@ -738,11 +795,14 @@ class simplePlugin extends plugin
   {
     /* Propagate and log the event */
     if ($this->initially_was_account) {
-      $this->handle_post_events('modify');
+      $errors = $this->handle_post_events('modify');
       logging::log('modify', 'plugin/'.get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
     } else {
-      $this->handle_post_events('add');
+      $errors = $this->handle_post_events('add');
       logging::log('create', 'plugin/'.get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
+    }
+    if (!empty($errors)) {
+      msg_dialog::displayChecks($errors);
     }
   }
 
