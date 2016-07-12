@@ -704,6 +704,7 @@ class simplePlugin extends plugin
 
   protected function prepare_save ()
   {
+    global $config;
     /* prepare $this->attrs */
     $ldap = $config->get_ldap_link();
 
