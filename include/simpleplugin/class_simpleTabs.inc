@@ -393,8 +393,8 @@ class simpleTabs
     $new_dn     = $baseobject->compute_dn();
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $new_dn, "Saving");
 
-    $errors = array();
-    $iscreation = ($this->dn == 'new');
+    $errors   = array();
+    $creation = ($this->dn == 'new');
 
     /* Move ? */
     if ($this->dn != $new_dn) {
