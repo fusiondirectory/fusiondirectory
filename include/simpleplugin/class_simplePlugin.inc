@@ -757,6 +757,7 @@ class simplePlugin extends plugin
     }
   }
 
+  /* Returns an array with the errors or an empty array */
   protected function ldap_save ()
   {
     global $config;
@@ -786,6 +787,7 @@ class simplePlugin extends plugin
     if (!$ldap->success()) {
       return array(msgPool::ldaperror($ldap->get_error(), $this->dn, 0, get_class()));
     }
+    return array();
   }
 
   /*! \brief This function is called after LDAP save to do some post operations and logging
