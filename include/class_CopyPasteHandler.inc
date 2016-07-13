@@ -258,11 +258,18 @@ class CopyPasteHandler
     if (count($this->clean_objects)) {
       $this->save_object();
       foreach ($this->clean_objects as $key => $entry) {
-        /* Remove from queue -> avoid saving twice */
-        unset($this->queue[$key]);
-        unset($this->clean_objects[$key]);
+        $this->current = $entry;
+        $dn     = $this->current['object']->dn;
+        $errors = $this->current['object']->save();
 
-        $this->save_current($entry);
+        if (empty($errors)) {
+          $this->current_saved($dn);
+          /* Remove from queue -> avoid saving twice */
+          unset($this->queue[$key]);
+        } else {
+          $this->objects_to_fix[$key] = $entry;
+        }
+        unset($this->clean_objects[$key]);
       }
     }
 
@@ -273,14 +280,13 @@ class CopyPasteHandler
 
     /* Save current object if edition is finished */
     if (isset($_POST['edit_finish']) && $this->current) {
-      $msgs = $this->current['object']->check();
+      $dn     = $this->current['object']->dn;
+      $errors = $this->current['object']->save();
 
-      if (!count($msgs)) {
-        $this->save_current();
+      if (empty($errors)) {
+        $this->current_saved($dn);
       } else {
-        foreach ($msgs as $msg) {
-          msg_dialog::display(_("Error"), $msg, ERROR_DIALOG);
-        }
+        msg_dialog::displayChecks($errors);
       }
     }
 
@@ -315,17 +321,12 @@ class CopyPasteHandler
     return "";
   }
 
-  private function save_current($object = NULL)
+  private function current_saved($dn)
   {
-    if ($object !== NULL) {
-      $this->current = $object;
-    }
-    $this->lastdn = $this->current['object']->dn;
-    $this->current['object']->save();
+    $this->lastdn   = $dn;
     $this->handleReferences();
-    $this->current = FALSE;
+    $this->current  = FALSE;
   }
-
 
   /*!
    * \brief Get the last endited entry
