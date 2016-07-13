@@ -224,7 +224,6 @@ class CopyPasteHandler
           $entry = $this->load_entry_from_ldap($entry, $base);
           $this->queue[$key] = $entry;
         }
-        $msgs = $entry['object']->check();
 
         /* To copy an object we require full read access to the object category */
         $copy_acl = preg_match("/r/", $ui->get_complete_category_acls($entry['dn'], $entry['tab_acl_category']));
@@ -238,10 +237,8 @@ class CopyPasteHandler
           $this->disallowed_objects[$key] = $entry;
         } elseif ($entry['method'] == "cut" && !$cut_acl) {
           $this->disallowed_objects[$key] = $entry;
-        } elseif (!count($msgs)) {
-          $this->clean_objects[$key]  = $entry;
         } else {
-          $this->objects_to_fix[$key] = $entry;
+          $this->clean_objects[$key] = $entry;
         }
       }
       if (count($this->disallowed_objects)) {
@@ -271,6 +268,7 @@ class CopyPasteHandler
         }
         unset($this->clean_objects[$key]);
       }
+      $this->current = FALSE;
     }
 
     /* Save edited entry and force loading new one */
