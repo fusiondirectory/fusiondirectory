@@ -684,7 +684,7 @@ class simplePlugin extends plugin
       return $errors;
     }
     /* LDAP save itself */
-    $this->ldap_save();
+    $errors = $this->ldap_save();
     if (!empty($errors)) {
       return $errors;
     }
