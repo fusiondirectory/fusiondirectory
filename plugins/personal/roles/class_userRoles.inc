@@ -171,6 +171,20 @@ class userRoles extends simplePlugin
     $this->is_account = ((count($this->rolesMembership) > 0) || (count($this->groupsMembership) > 0));
   }
 
+  protected function shouldSave()
+  {
+    if (parent::shouldSave()) {
+      return TRUE;
+    }
+    if (array_differs($this->groupsMembership, $this->savedGroupsMembership)) {
+      return TRUE;
+    }
+    if (array_differs($this->rolesMembership, $this->savedRolesMembership)) {
+      return TRUE;
+    }
+    return FALSE;
+  }
+
   function prepare_save()
   {
     parent::prepare_save();
@@ -193,6 +207,7 @@ class userRoles extends simplePlugin
       $fake_attrs = array(
         'objectClass' => array('inetOrgPerson','organizationalPerson','person'),
         'cn'          => array($this->dn),
+        'uid'         => array($this->dn),
         'dn'          => $this->dn
       );
 
