@@ -218,7 +218,7 @@ class userRoles extends simplePlugin
           $g->getBaseObject()->attributesAccess['member']->searchAndRemove($this->dn);
           $msg = $g->save();
           if (empty($msg)) {
-            unset($this->savedGroupsMembership[$key];
+            unset($this->savedGroupsMembership[$key]);
           } else {
             msg_dialog::displayChecks($msg);
           }
@@ -247,7 +247,7 @@ class userRoles extends simplePlugin
           $r->getBaseObject()->attributesAccess['roleOccupant']->searchAndRemove($this->dn);
           $msg = $r->save();
           if (empty($msg)) {
-            unset($this->savedRolesMembership[$key];
+            unset($this->savedRolesMembership[$key]);
           } else {
             msg_dialog::displayChecks($msg);
           }
