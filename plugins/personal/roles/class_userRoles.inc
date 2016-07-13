@@ -175,14 +175,18 @@ class userRoles extends simplePlugin
   {
     parent::prepare_save();
     if ($this->is_template) {
-      $this->attrs['userGroups'] = $this->groupsMembership;
-      $this->attrs['userRoles'] = $this->rolesMembership;
+      $this->attrs['userGroups']  = $this->groupsMembership;
+      $this->attrs['userRoles']   = $this->rolesMembership;
     }
   }
 
   function ldap_save()
   {
-    parent::ldap_save();
+    $errors = parent::ldap_save();
+
+    if (!empty($errors)) {
+      return $errors;
+    }
 
     if (!$this->is_template) {
       /* We need to give an array which looks like an ldap fetch and match user filter */
@@ -198,16 +202,26 @@ class userRoles extends simplePlugin
         if (!in_array($ogroupdn, $this->savedGroupsMembership)) {
           $g = objects::open($ogroupdn, 'ogroup');
           $g->getBaseObject()->attributesAccess['member']->addValue($this->dn, $fake_attrs);
-          $g->save();
+          $msg = $g->save();
+          if (empty($msg)) {
+            $this->savedGroupsMembership[] = $ogroupdn;
+          } else {
+            msg_dialog::displayChecks($msg);
+          }
         }
       }
 
       /* Remove groups not listed in groupsMembership */
-      foreach ($this->savedGroupsMembership as $ogroupdn) {
+      foreach ($this->savedGroupsMembership as $key => $ogroupdn) {
         if (!in_array($ogroupdn, $groupsMembership)) {
           $g = objects::open($ogroupdn, 'ogroup');
           $g->getBaseObject()->attributesAccess['member']->searchAndRemove($this->dn);
-          $g->save();
+          $msg = $g->save();
+          if (empty($msg)) {
+            unset($this->savedGroupsMembership[$key];
+          } else {
+            msg_dialog::displayChecks($msg);
+          }
         }
       }
 
@@ -217,16 +231,26 @@ class userRoles extends simplePlugin
         if (!in_array($roledn, $this->savedRolesMembership)) {
           $r = objects::open($roledn, 'role');
           $r->getBaseObject()->attributesAccess['roleOccupant']->addValue($this->dn, $fake_attrs);
-          $r->save();
+          $msg = $r->save();
+          if (empty($msg)) {
+            $this->savedRolesMembership[] = $roledn;
+          } else {
+            msg_dialog::displayChecks($msg);
+          }
         }
       }
 
       /* Remove roles not listed in rolesMembership */
-      foreach ($this->savedRolesMembership as $roledn) {
+      foreach ($this->savedRolesMembership as $key => $roledn) {
         if (!in_array($roledn, $rolesMembership)) {
           $r = objects::open($roledn, 'role');
           $r->getBaseObject()->attributesAccess['roleOccupant']->searchAndRemove($this->dn);
-          $r->save();
+          $msg = $r->save();
+          if (empty($msg)) {
+            unset($this->savedRolesMembership[$key];
+          } else {
+            msg_dialog::displayChecks($msg);
+          }
         }
       }
     }
