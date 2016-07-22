@@ -86,7 +86,7 @@ class passwordMethodCrypt extends passwordMethod
 
     if ($this->hash == "crypt/md5") {
       $salt = "\$1\$";
-      for ($i = 0; $i < 8; $i++) {
+      for ($i = 0; $i < 6; $i++) {
           $salt .= get_random_char();
       }
       $salt .= "\$";
@@ -102,7 +102,7 @@ class passwordMethodCrypt extends passwordMethod
 
     if ($this->hash == "crypt/sha-256") {
       $salt = "\$5\$";
-      for ($i = 0; $i < 16; $i++) {
+      for ($i = 0; $i < 12; $i++) {
           $salt .= get_random_char();
       }
       $salt .= "\$";
@@ -110,7 +110,7 @@ class passwordMethodCrypt extends passwordMethod
 
     if ($this->hash == "crypt/sha-512") {
       $salt = "\$6\$";
-      for ($i = 0; $i < 16; $i++) {
+      for ($i = 0; $i < 12; $i++) {
           $salt .= get_random_char();
       }
       $salt .= "\$";
