@@ -128,8 +128,10 @@ class UserPasswordAttribute extends CompositeAttribute
 
   function setValue ($value)
   {
-    if ($this->attributes[0]->isDisabled() || ($value[0] == '')) {
-      $value[0] = $this->attributes[0]->getValue();
+    reset($value);
+    $key = key($value);
+    if ($this->attributes[0]->isDisabled() || ($value[$key] == '')) {
+      $value[$key] = $this->attributes[0]->getValue();
     }
     parent::setValue($value);
     $this->checkIfMethodNeedsPassword();
