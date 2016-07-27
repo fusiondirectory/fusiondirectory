@@ -547,9 +547,12 @@ class simplePlugin extends plugin
       $this->attrs = $this->templateSaveAttrs();
       $this->saved_attributes = array();
     }
-    if ($this->ldap_remove()) {
-      $this->post_remove();
+    $errors = $this->ldap_remove();
+    if (!empty($errors)) {
+      return $errors;
     }
+    $this->post_remove();
+    return;
   }
 
   /* Remove FusionDirectory attributes */
@@ -610,10 +613,9 @@ class simplePlugin extends plugin
     $this->ldap_error = $ldap->get_error();
 
     if ($ldap->success()) {
-      return TRUE;
+      return array();
     } else {
-      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->dn, LDAP_MOD, get_class()), LDAP_ERROR);
-      return FALSE;
+      return msgPool::ldaperror($ldap->get_error(), $this->dn, LDAP_MOD, get_class());
     }
   }
 

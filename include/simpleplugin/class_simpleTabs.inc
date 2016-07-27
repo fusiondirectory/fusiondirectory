@@ -323,7 +323,10 @@ class simpleTabs
 
     /* Delete for all plugins */
     foreach (array_reverse($this->by_object) as $obj) {
-      $obj->remove_from_parent();
+      $errors = $obj->remove_from_parent();
+      if (!empty($errors)) {
+        msg_dialog::displayChecks($errors);
+      }
     }
   }
 

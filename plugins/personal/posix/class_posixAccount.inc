@@ -641,7 +641,10 @@ class posixAccount extends simplePlugin
     }
 
     /* Remove and write to LDAP */
-    parent::remove_from_parent();
+    $errors = parent::remove_from_parent();
+    if (!empty($errors)) {
+      return $errors;
+    }
 
     /* Delete group only if cn is uid and there are no other members inside */
     $ldap = $config->get_ldap_link();

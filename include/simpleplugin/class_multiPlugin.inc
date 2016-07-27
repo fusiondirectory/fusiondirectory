@@ -156,26 +156,36 @@ class multiPlugin extends simplePlugin
   /* Save to LDAP */
   function save()
   {
+    $errors = array();
     /* Save objects */
     foreach ($this->plugin as &$plug) {
       $plug->dn = $this->dn;
       if ($plug->is_account || $plug->ignore_account) {
-        $plug->save();
+        $result = $plug->save();
       } else {
-        $plug->remove_from_parent();
+        $result = $plug->remove_from_parent();
+      }
+      if (!empty($result)) {
+        $errors = array_merge($errors, $result);
       }
     }
     unset($plug);
+    return $errors;
   }
 
   function remove_from_parent()
   {
+    $errors = array();
     /* Remove objects */
     foreach ($this->plugin as &$plug) {
       $plug->dn = $this->dn;
-      $plug->remove_from_parent();
+      $result = $plug->remove_from_parent();
+      if (!empty($result)) {
+        $errors = array_merge($errors, $result);
+      }
     }
     unset($plug);
+    return $errors;
   }
 
   function adapt_from_template($attrs, $skip = array())
