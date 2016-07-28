@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-110\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2016-07-06 13:53+0200\n"
-"PO-Revision-Date: 2016-07-06 11:49+0000\n"
+"POT-Creation-Date: 2016-07-28 21:17+0200\n"
+"PO-Revision-Date: 2016-07-28 19:13+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Vietnamese (Viet Nam) (http://www.transifex.com/fusiondirectory/FusionDirectory-110/language/vi_VN/)\n"
 "MIME-Version: 1.0\n"
@@ -203,7 +203,7 @@ msgstr ""
 #: plugins/admin/groups/class_group.inc:181
 #: plugins/personal/posix/class_posixAccount.inc:470 include/functions.inc:809
 #: include/functions.inc:2564 include/class_xml.inc:55
-#: include/simpleplugin/class_simpleTabs.inc:319 html/index.php:519
+#: include/simpleplugin/class_simpleTabs.inc:319 html/index.php:592
 #: html/main.php:158 setup/class_setupStep_Migrate.inc:572
 #: setup/class_setupStep_Migrate.inc:1083
 #: setup/class_setupStep_Migrate.inc:1202
@@ -625,7 +625,7 @@ msgstr "Quản lý người dùng"
 msgid "Manage user accounts and their properties"
 msgstr ""
 
-#: plugins/admin/users/class_userManagement.inc:141
+#: plugins/admin/users/class_userManagement.inc:149
 #: include/class_management.inc:334 include/class_management.inc:483
 #: include/class_management.inc:503 include/class_management.inc:521
 #: include/class_management.inc:570 include/class_CopyPasteHandler.inc:246
@@ -635,31 +635,31 @@ msgstr ""
 msgid "Permission"
 msgstr "Cho phép"
 
-#: plugins/admin/users/class_userManagement.inc:179
+#: plugins/admin/users/class_userManagement.inc:187
 msgid "Account locking"
 msgstr ""
 
-#: plugins/admin/users/class_userManagement.inc:180
+#: plugins/admin/users/class_userManagement.inc:188
 #, php-format
 msgid ""
 "Password method \"%s\" does not support locking. Account \"%s\" has not been"
 " locked!"
 msgstr ""
 
-#: plugins/admin/users/class_userManagement.inc:208
+#: plugins/admin/users/class_userManagement.inc:216
 msgid "Unlock account"
 msgstr ""
 
-#: plugins/admin/users/class_userManagement.inc:210
+#: plugins/admin/users/class_userManagement.inc:218
 msgid "Lock account"
 msgstr ""
 
-#: plugins/admin/users/class_userManagement.inc:237
+#: plugins/admin/users/class_userManagement.inc:245
 #: plugins/personal/generic/class_user.inc:283
 msgid "User account"
 msgstr ""
 
-#: plugins/admin/users/class_userManagement.inc:237
+#: plugins/admin/users/class_userManagement.inc:245
 #: plugins/personal/generic/class_user.inc:277
 msgid "User account information"
 msgstr ""
@@ -1589,366 +1589,382 @@ msgid "Defines when a session will expire in seconds (0 to disable)."
 msgstr ""
 
 #: plugins/config/class_configInLdap.inc:212
-msgid "HTTP authentication"
+msgid "HTTP Basic authentication"
 msgstr ""
 
 #: plugins/config/class_configInLdap.inc:212
-msgid "Use HTTP authentication protocol instead of the login form."
+msgid "Use HTTP Basic authentication protocol instead of the login form."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:219
+#: plugins/config/class_configInLdap.inc:217
+msgid "HTTP Header authentication"
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:217
+msgid "Use HTTP Header authentication instead of the login form."
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:222
+msgid "Header name"
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:222
+msgid "Name of the header containing user identifier."
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:229
 #: include/class_SnapshotDialogs.inc:186
 msgid "Snapshots"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:222
+#: plugins/config/class_configInLdap.inc:232
 msgid "Enable snapshots"
 msgstr "Bật chức năng snapshots"
 
-#: plugins/config/class_configInLdap.inc:222
+#: plugins/config/class_configInLdap.inc:232
 msgid ""
 "This enables you to save certain states of entries and restore them later "
 "on."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:227
+#: plugins/config/class_configInLdap.inc:237
 msgid "Snapshot base"
 msgstr "Gốc snapshot"
 
-#: plugins/config/class_configInLdap.inc:227
+#: plugins/config/class_configInLdap.inc:237
 msgid "The base where snapshots should be stored inside of the LDAP."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:234
+#: plugins/config/class_configInLdap.inc:244
 msgid "SSL"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:237
+#: plugins/config/class_configInLdap.inc:247
 msgid "Key path"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:237
+#: plugins/config/class_configInLdap.inc:247
 msgid "Path to FusionDirectory private key. Unused for now."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:242
+#: plugins/config/class_configInLdap.inc:252
 msgid "Certificate path"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:242
+#: plugins/config/class_configInLdap.inc:252
 msgid "Path to FusionDirectory certificate. Unused for now."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:247
-#: plugins/config/class_configInLdap.inc:262
+#: plugins/config/class_configInLdap.inc:257
+#: plugins/config/class_configInLdap.inc:272
 msgid "CA certificate path"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:247
+#: plugins/config/class_configInLdap.inc:257
 msgid "Path to the CA certificate. Used for validating Argonaut Server host."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:254
+#: plugins/config/class_configInLdap.inc:264
 msgid "CAS"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:257
+#: plugins/config/class_configInLdap.inc:267
 msgid "Enable CAS"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:257
+#: plugins/config/class_configInLdap.inc:267
 msgid "CAS login will be used instead of LDAP bind"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:262
+#: plugins/config/class_configInLdap.inc:272
 msgid "Path to the CA certificate of the CAS server"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:267
+#: plugins/config/class_configInLdap.inc:277
 msgid "Host"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:267
+#: plugins/config/class_configInLdap.inc:277
 msgid "Host of the CAS server"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:272
+#: plugins/config/class_configInLdap.inc:282
 msgid "Port"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:272
+#: plugins/config/class_configInLdap.inc:282
 msgid "Port the CAS server is listening on"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:277
+#: plugins/config/class_configInLdap.inc:287
 msgid "CAS context"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:277
+#: plugins/config/class_configInLdap.inc:287
 msgid "CAS context to be used"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:284
+#: plugins/config/class_configInLdap.inc:294
 msgid "People and group storage"
 msgstr "Kho lưu trữ người và nhóm"
 
-#: plugins/config/class_configInLdap.inc:288
+#: plugins/config/class_configInLdap.inc:298
 msgid "People DN attribute"
 msgstr "Thuộc tính DN người"
 
-#: plugins/config/class_configInLdap.inc:288
+#: plugins/config/class_configInLdap.inc:298
 msgid "Attribute to use at the beginning of users dn"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:293
+#: plugins/config/class_configInLdap.inc:303
 msgid "CN pattern"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:293
+#: plugins/config/class_configInLdap.inc:303
 msgid "The pattern to use to build the common name field"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:298
+#: plugins/config/class_configInLdap.inc:308
 msgid "Strict naming policy"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:299
+#: plugins/config/class_configInLdap.inc:309
 msgid "Enables strict checking of user and group names"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:304
+#: plugins/config/class_configInLdap.inc:314
 msgid "Group/user min id"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:305
+#: plugins/config/class_configInLdap.inc:315
 msgid ""
 "The minimum assignable user or group id to avoid security leaks with id 0 "
 "accounts."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:310
+#: plugins/config/class_configInLdap.inc:320
 msgid "Next id hook"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:310
+#: plugins/config/class_configInLdap.inc:320
 msgid ""
 "A script to be called for finding the next free id number for users or "
 "groups."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:314
+#: plugins/config/class_configInLdap.inc:324
 msgid "Base number for user id"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:315
+#: plugins/config/class_configInLdap.inc:325
 msgid "Where to start looking for a new free user id."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:320
+#: plugins/config/class_configInLdap.inc:330
 msgid "Base number for group id"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:321
+#: plugins/config/class_configInLdap.inc:331
 msgid "Where to start looking for a new free group id."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:326
+#: plugins/config/class_configInLdap.inc:336
 msgid "Users RDN"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:326
+#: plugins/config/class_configInLdap.inc:336
 msgid "The branch where users are stored."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:331
+#: plugins/config/class_configInLdap.inc:341
 msgid "Groups RDN"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:331
+#: plugins/config/class_configInLdap.inc:341
 msgid "The branch where groups are stored."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:336
+#: plugins/config/class_configInLdap.inc:346
 msgid "ACL role RDN"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:336
+#: plugins/config/class_configInLdap.inc:346
 msgid "The branch where ACL roles are stored."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:341
+#: plugins/config/class_configInLdap.inc:351
 msgid "Id allocation method"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:341
+#: plugins/config/class_configInLdap.inc:351
 msgid "Method to allocate user/group ids"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:344
+#: plugins/config/class_configInLdap.inc:354
 msgid "Traditional"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:344
+#: plugins/config/class_configInLdap.inc:354
 msgid "Samba unix id pool"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:347
+#: plugins/config/class_configInLdap.inc:357
 msgid "Pool user id min"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:347
+#: plugins/config/class_configInLdap.inc:357
 msgid "Minimum value for user id when using pool method"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:352
+#: plugins/config/class_configInLdap.inc:362
 msgid "Pool user id max"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:352
+#: plugins/config/class_configInLdap.inc:362
 msgid "Maximum value for user id when using pool method"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:357
+#: plugins/config/class_configInLdap.inc:367
 msgid "Pool group id min"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:357
+#: plugins/config/class_configInLdap.inc:367
 msgid "Minimum value for group id when using pool method"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:362
+#: plugins/config/class_configInLdap.inc:372
 msgid "Pool group id max"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:362
+#: plugins/config/class_configInLdap.inc:372
 msgid "Maximum value for group id when using pool method"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:367
+#: plugins/config/class_configInLdap.inc:377
 msgid "Restrict role members"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:367
+#: plugins/config/class_configInLdap.inc:377
 msgid ""
 "When enabled only users from the same branch or members of groups from the "
 "same branch can be added to a role."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:373
+#: plugins/config/class_configInLdap.inc:383
 msgid "Debugging"
 msgstr "Sửa lỗi"
 
-#: plugins/config/class_configInLdap.inc:376
+#: plugins/config/class_configInLdap.inc:386
 msgid "Display errors"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:377
+#: plugins/config/class_configInLdap.inc:387
 msgid ""
 "Shows PHP errors in the upper part of the screen. This should be disabled in"
 " productive deployments, because there might be some passwords in it."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:381
+#: plugins/config/class_configInLdap.inc:391
 msgid "Maximum LDAP query time"
 msgstr "Thời gian truy vấn LDAP tối đa"
 
-#: plugins/config/class_configInLdap.inc:381
+#: plugins/config/class_configInLdap.inc:391
 msgid ""
 "Stop LDAP actions if there is no answer within the specified number of "
 "seconds."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:386
+#: plugins/config/class_configInLdap.inc:396
 msgid "Log LDAP statistics"
 msgstr "Đăng nhập thống kê LDAP"
 
-#: plugins/config/class_configInLdap.inc:387
+#: plugins/config/class_configInLdap.inc:397
 msgid ""
 "Track LDAP timing statistics to the syslog. This may help to find indexing "
 "problems or bad search filters."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:392
+#: plugins/config/class_configInLdap.inc:402
 msgid "Debug level"
 msgstr "Cấp độ sửa lỗi"
 
-#: plugins/config/class_configInLdap.inc:393
+#: plugins/config/class_configInLdap.inc:403
 msgid "Display certain information on each page load."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:405
+#: plugins/config/class_configInLdap.inc:415
 msgid "Miscellaneous"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:410
+#: plugins/config/class_configInLdap.inc:420
 msgid "Hooks that are called when specific actions happens"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:414
+#: plugins/config/class_configInLdap.inc:424
 msgid "tab"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:414
+#: plugins/config/class_configInLdap.inc:424
 msgid "The tab that this hook concerns"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:419
+#: plugins/config/class_configInLdap.inc:429
 msgid "mode"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:419
+#: plugins/config/class_configInLdap.inc:429
 msgid "When to call this command"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:425
+#: plugins/config/class_configInLdap.inc:435
 msgid "cmd"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:425
+#: plugins/config/class_configInLdap.inc:435
 msgid "The command that will be called"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:432
+#: plugins/config/class_configInLdap.inc:442
 msgid "Hooks"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:439
+#: plugins/config/class_configInLdap.inc:449
 msgid "Display hook output"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:440
+#: plugins/config/class_configInLdap.inc:450
 msgid ""
 "When enabled successful hook execution output is displayed to the user using"
 " a dialog."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:445
+#: plugins/config/class_configInLdap.inc:455
 msgid "Available shells"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:445
+#: plugins/config/class_configInLdap.inc:455
 msgid "Available POSIX shells for FD users."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:452
+#: plugins/config/class_configInLdap.inc:462
 msgid "Show ACL tab on all objects"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:453
+#: plugins/config/class_configInLdap.inc:463
 msgid ""
 "For very specific ACL rights setting where you might need to give right on a"
 " single object."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:458
+#: plugins/config/class_configInLdap.inc:468
 msgid "Available department categories"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:458
+#: plugins/config/class_configInLdap.inc:468
 msgid "Available categories in the departments dropdown"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:475
+#: plugins/config/class_configInLdap.inc:485
 #: setup/class_setupStep_Language.inc:69
 msgid "Automatic"
 msgstr "Tự động"
@@ -2160,11 +2176,11 @@ msgstr "Chọn tất"
 #: include/class_config.inc:357 include/class_msgPool.inc:215
 #: include/class_msgPool.inc:235 include/class_msgPool.inc:265
 #: include/class_msgPool.inc:682 include/class_msgPool.inc:713
-#: include/class_msgPool.inc:740 include/functions.inc:3124
-#: include/functions.inc:3145 include/functions.inc:3185
-#: include/functions.inc:3197 include/functions.inc:3201
-#: include/functions.inc:3208 include/functions.inc:3217
-#: include/functions.inc:3279 include/class_msg_dialog.inc:128
+#: include/class_msgPool.inc:740 include/functions.inc:3123
+#: include/functions.inc:3144 include/functions.inc:3184
+#: include/functions.inc:3196 include/functions.inc:3200
+#: include/functions.inc:3207 include/functions.inc:3216
+#: include/functions.inc:3278 include/class_msg_dialog.inc:128
 #: include/class_xml.inc:58 include/class_plugin.inc:790
 #: include/class_plugin.inc:1521 include/class_CopyPasteHandler.inc:276
 #: include/simpleplugin/class_attribute.inc:1571
@@ -2179,7 +2195,8 @@ msgstr "Chọn tất"
 #: include/password-methods/class_password-methods-sasl.inc:85
 #: include/password-methods/class_password-methods.inc:428
 #: include/password-methods/class_password-methods.inc:438
-#: include/class_SnapshotHandler.inc:422 html/index.php:470 html/index.php:480
+#: include/class_SnapshotHandler.inc:422 html/index.php:448 html/index.php:469
+#: html/index.php:479 html/index.php:541 html/index.php:551
 #: setup/class_setupStep_Migrate.inc:935
 #: ihtml/themes/breezy/msg_dialog.tpl.c:2 setup/setup_checks.tpl.c:5
 msgid "Error"
@@ -2318,7 +2335,7 @@ msgstr ""
 #: include/class_ldap.inc:1281 include/functions.inc:541
 #: include/functions.inc:693 include/functions.inc:740
 #: include/functions.inc:801 include/functions.inc:856
-#: include/functions.inc:3003 include/functions.inc:3177
+#: include/functions.inc:3002 include/functions.inc:3176
 #: include/simpleplugin/class_simplePlugin.inc:585
 #: include/simpleplugin/class_attribute.inc:2973
 #: include/password-methods/class_password-methods.inc:194
@@ -3018,7 +3035,7 @@ msgid ""
 "Fatal error: cannot instantiate class '%s' - try running '%s' to fix this"
 msgstr "Lỗi nghiêm trọng: không thể tạo ra lớp '%s' - hãy thử chạy '%s' để sửa lỗi này"
 
-#: include/functions.inc:511 include/functions.inc:3314
+#: include/functions.inc:511 include/functions.inc:3313
 #: include/class_xml.inc:61 include/simpleplugin/class_simplePlugin.inc:271
 #: include/simpleplugin/class_simplePlugin.inc:276
 #: include/simpleplugin/class_simplePlugin.inc:288
@@ -3207,61 +3224,61 @@ msgstr "Lớp đối tượng lựa chọn '%s' mất tích!"
 msgid "Class(es) available"
 msgstr "Đã có lớp"
 
-#: include/functions.inc:2639
+#: include/functions.inc:2637
 msgid ""
 "You have installed the mixed groups plugin, but your schema configuration "
 "does not support this."
 msgstr ""
 
-#: include/functions.inc:2640
+#: include/functions.inc:2638
 msgid ""
 "In order to use mixed groups the objectClass \"posixGroup\" must be "
 "AUXILIARY"
 msgstr ""
 
-#: include/functions.inc:2643
+#: include/functions.inc:2641
 msgid ""
 "Your schema is configured to support mixed groups, but this plugin is not "
 "present."
 msgstr ""
 
-#: include/functions.inc:2644
+#: include/functions.inc:2642
 msgid "The objectClass \"posixGroup\" must be STRUCTURAL"
 msgstr ""
 
-#: include/functions.inc:3124 include/functions.inc:3145
-#: include/functions.inc:3185 include/functions.inc:3197
-#: include/functions.inc:3201 include/functions.inc:3208
-#: include/functions.inc:3217
+#: include/functions.inc:3123 include/functions.inc:3144
+#: include/functions.inc:3184 include/functions.inc:3196
+#: include/functions.inc:3200 include/functions.inc:3207
+#: include/functions.inc:3216
 msgid "Cannot allocate a free ID:"
 msgstr ""
 
-#: include/functions.inc:3124
+#: include/functions.inc:3123
 msgid "unknown idAllocation method!"
 msgstr ""
 
-#: include/functions.inc:3145
+#: include/functions.inc:3144
 #, php-format
 msgid "%sPoolMin >= %sPoolMax!"
 msgstr ""
 
-#: include/functions.inc:3185
+#: include/functions.inc:3184
 msgid "sambaUnixIdPool is not unique!"
 msgstr ""
 
-#: include/functions.inc:3197 include/functions.inc:3201
+#: include/functions.inc:3196 include/functions.inc:3200
 msgid "no ID available!"
 msgstr ""
 
-#: include/functions.inc:3217
+#: include/functions.inc:3216
 msgid "maximum tries exceeded!"
 msgstr ""
 
-#: include/functions.inc:3279
+#: include/functions.inc:3278
 msgid "Cannot allocate a free ID!"
 msgstr "Không thể phân phối một ID miễn phí!"
 
-#: include/functions.inc:3315
+#: include/functions.inc:3314
 #, php-format
 msgid "Cannot locate file '%s' - please run '%s' to fix this"
 msgstr "Không thể xác định vị trí file '%s'- xin hãy chạy '%s' để sửa lỗi này!"
@@ -3810,17 +3827,32 @@ msgstr "Xin hãy kiểm tra kết hợp tên người dùng/mật khẩu."
 msgid "Account locked. Please contact your system administrator!"
 msgstr "Tài khoản bị khóa. Xin hãy liên lạc với admin quản trị hệ thống của bạn!"
 
-#: html/index.php:472
+#: html/index.php:450
+#, php-format
+msgid "No value found in HTTP header \"%s\""
+msgstr ""
+
+#: html/index.php:471
+#, php-format
+msgid "Header user \"%s\" could not be found in the LDAP"
+msgstr ""
+
+#: html/index.php:481
+#, php-format
+msgid "Header user \"%s\" match several users in the LDAP"
+msgstr ""
+
+#: html/index.php:543
 #, php-format
 msgid "CAS user \"%s\" could not be found in the LDAP"
 msgstr ""
 
-#: html/index.php:482
+#: html/index.php:553
 #, php-format
 msgid "CAS user \"%s\" match several users in the LDAP"
 msgstr ""
 
-#: html/index.php:519
+#: html/index.php:592
 msgid ""
 "Your browser has cookies disabled. Please enable cookies and reload this "
 "page before logging in!"
