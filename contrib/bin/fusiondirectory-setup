@@ -1578,6 +1578,52 @@ sub get_deprecated {
   return (\@obsolete_attrs, \@obsolete_classes);
 }
 
+# function that migrates printers from FD<=1.0.13 to FD>=1.0.14
+sub migrate_printers {
+  # initiate the LDAP connexion
+  my %hash_ldap_param = get_ldap_connexion();
+
+  # LDAP's connection's parameters
+  my $base = $hash_ldap_param{base};
+  my $ldap = $hash_ldap_param{ldap};
+
+  my $mesg = $ldap->search(
+    filter => '(objectClass=gotoPrinter)',
+    base   => $base
+  );
+  $mesg->code && die $mesg->error;
+
+  if ($mesg->count > 0) {
+    print ("The following printers are using the obsolete gotoPrinter objectClass:\n");
+
+    my @entries = $mesg->entries;
+
+    foreach my $entry (@entries) {
+      print $entry->dn()."\n";
+    }
+
+    if (ask_yn_question("Migrate these entries to fdPrinter objectClass?")) {
+      foreach my $entry (@entries) {
+        my @replace;
+        my @classes = $entry->get_value('objectClass');
+        foreach my $class (@classes) {
+          if ($class ne 'gotoPrinter') {
+            push(@replace, "$class");
+          }
+        }
+        push(@replace, "fdPrinter");
+        $mesg = $ldap->modify($entry->dn(), replace => [ "objectClass" => \@replace ]);
+        $mesg->code && print $entry->dn().": ".$mesg->error."\n";
+        undef @replace;
+      }
+    }
+  }
+
+  # unbind to the LDAP server
+  my $unbind = $ldap->unbind;
+  $unbind->code && warn "! Unable to unbind from LDAP server: ", $unbind->error."\n";
+}
+
 # List LDAP attributes which have been deprecated
 sub list_deprecated {
   my ($obsolete_attrs, $obsolete_classes) = get_deprecated();
@@ -1824,6 +1870,7 @@ die ("! You have to run this script as root\n") if ($<!=0);
   $commands{"--check-ldap"}           = ["Checking your LDAP tree",                       \&check_ldap];
   $commands{"--check-ids"}            = ["Checking for duplicated uid or gid numbers",    \&check_id_numbers];
   $commands{"--migrate-users"}        = ["Migrating your users",                          \&migrate_users];
+  $commands{"--migrate-printers"}     = ["Migrating your printer from FD < 1.0.14",       \&migrate_printers];
   $commands{"--migrate-dns"}          = ["Migrating DNS zones for FD 1.0.10",             \&migrate_dns];
   $commands{"--migrate-acls"}         = ["Migrating your ACLs",                           \&migrate_acls];
   $commands{"--install-plugins"}      = ["Installing FusionDirectory's plugins",          \&install_plugins];
@@ -1921,6 +1968,10 @@ This option check your LDAP tree for duplicated uidNumber or gidNumber among use
 =item --migrate-users
 
 This option add FusionDirectory attributes to the people branch.
+
+=item --migrate-printers
+
+This option replace gosaPrinter objectClass by new fdPrinter objectClass.
 
 =item --migrate-dns
 
