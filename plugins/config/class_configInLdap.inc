@@ -549,6 +549,15 @@ class configInLdap extends simplePlugin
         )
       )
     );
+    $this->attributesAccess['fdHttpHeaderAuthActivated']->setManagedAttributes(
+      array(
+        'disable' => array (
+          FALSE => array (
+            'fdHttpHeaderAuthHeaderName',
+          )
+        )
+      )
+    );
   }
 
   function compute_dn()
