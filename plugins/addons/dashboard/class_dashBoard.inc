@@ -90,7 +90,7 @@ class dashboard extends simplePlugin
         if (is_array($section)) {
           $section = key($section);
         }
-        $node['priority'] = $config->data['SECTIONS'][$section]['PRIORITY'] * 100 + $pInfos['plPriority'];
+        $node['priority'] = $config->data['SECTIONS'][$section]['PRIORITY'] * 100 + (isset($pInfos['plPriority']) ? $pInfos['plPriority'] : 99);
       } else {
         $node['priority'] = 10000;
       }
