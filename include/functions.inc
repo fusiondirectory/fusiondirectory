@@ -2621,27 +2621,26 @@ function check_schema($cfg)
     }
   }
 
-  $tmp = $objectclasses;
-
-  /* The FusionDirectory base schema */
   $checks['posixGroup'] = $def_check;
-
-  $checks['posixGroup']['SCHEMA_FILES']     = array("core-fd.schema");
-  $checks['posixGroup']['CLASSES_REQUIRED'] = array("posixGroup");
+  $checks['posixGroup']['SCHEMA_FILES']     = array('nis.schema');
+  $checks['posixGroup']['CLASSES_REQUIRED'] = array('posixGroup');
   $checks['posixGroup']['STATUS']           = TRUE;
-  $checks['posixGroup']['IS_MUST_HAVE']     = TRUE;
-  $checks['posixGroup']['MSG']              = "";
-  $checks['posixGroup']['INFO']             = "";
+  $checks['posixGroup']['MSG']              = '';
+  $checks['posixGroup']['INFO']             = '';
 
-  /* Depending on mixed groups plugin installation status, we need different schema configurations */
-  if (class_available('mixedGroup') && isset($tmp['posixGroup']['STRUCTURAL'])) {
-    $checks['posixGroup']['STATUS'] = FALSE;
-    $checks['posixGroup']['MSG']    = _('You have installed the mixed groups plugin, but your schema configuration does not support this.');
-    $checks['posixGroup']['INFO']   = _('In order to use mixed groups the objectClass "posixGroup" must be AUXILIARY');
-  } elseif (!class_available('mixedGroup') && !isset($tmp['posixGroup']['STRUCTURAL'])) {
-    $checks['posixGroup']['STATUS'] = FALSE;
-    $checks['posixGroup']['MSG']    = _('Your schema is configured to support mixed groups, but this plugin is not present.');
-    $checks['posixGroup']['INFO']   = _('The objectClass "posixGroup" must be STRUCTURAL');
+  if (isset($objectclasses['posixGroup'])) {
+    $checks['posixGroup']['IS_MUST_HAVE']     = TRUE;
+
+    /* Depending on mixed groups plugin installation status, we need different schema configurations */
+    if (class_available('mixedGroup') && isset($objectclasses['posixGroup']['STRUCTURAL'])) {
+      $checks['posixGroup']['STATUS'] = FALSE;
+      $checks['posixGroup']['MSG']    = _('You have installed the mixed groups plugin, but your schema configuration does not support this.');
+      $checks['posixGroup']['INFO']   = _('In order to use mixed groups the objectClass "posixGroup" must be AUXILIARY');
+    } elseif (!class_available('mixedGroup') && !isset($objectclasses['posixGroup']['STRUCTURAL'])) {
+      $checks['posixGroup']['STATUS'] = FALSE;
+      $checks['posixGroup']['MSG']    = _('Your schema is configured to support mixed groups, but this plugin is not present.');
+      $checks['posixGroup']['INFO']   = _('The objectClass "posixGroup" must be STRUCTURAL');
+    }
   }
 
   return $checks;
