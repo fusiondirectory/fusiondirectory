@@ -8,7 +8,9 @@
 
 {$TEMPLATES}&nbsp;<label for='TEMPLATES'>{t}Show templates{/t}</label><br/>
 {$FUNCTIONAL}&nbsp;<label for='FUNCTIONAL'>{t}Show functional users{/t}</label><br/>
-{$POSIX}&nbsp;<label for='POSIX'>{t}Show POSIX users{/t}</label><br/>
+{if $USE_POSIX}
+  {$POSIX}&nbsp;<label for='POSIX'>{t}Show POSIX users{/t}</label><br/>
+{/if}
 {if $USE_MAIL}
   {$MAIL}&nbsp;<label for='MAIL'>{t}Show Mail users{/t}</label><br/>
 {/if}

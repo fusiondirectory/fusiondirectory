@@ -80,7 +80,14 @@ class userManagement extends simpleManagement
   {
     parent::configureFilter();
 
-    $classes = array('posixAccount');
+    $classes = array();
+    if (class_available('posixAccount')) {
+      $classes[]= 'posixAccount';
+    } else {
+      /* If posix plugin is not installed, ignore posix filter */
+      $this->filter->elements['POSIX']['unset']  = '';
+      $this->filter->elements['POSIX']['set']    = '';
+    }
     if (class_available('mailAccount')) {
       $classes[]= 'gosaMailAccount';
     } else {
@@ -102,8 +109,9 @@ class userManagement extends simpleManagement
   function renderList ()
   {
     $smarty = get_smarty();
-    $smarty->assign('USE_MAIL', class_available('mailAccount'));
-    $smarty->assign('USE_SAMBA', class_available('sambaAccount'));
+    $smarty->assign('USE_POSIX',  class_available('posixAccount'));
+    $smarty->assign('USE_MAIL',   class_available('mailAccount'));
+    $smarty->assign('USE_SAMBA',  class_available('sambaAccount'));
     return parent::renderList();
   }
 
