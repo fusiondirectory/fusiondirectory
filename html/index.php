@@ -429,6 +429,77 @@ class Index {
     }
   }
 
+  /* All login steps in the right order for HTTP Header login */
+  static function headerAuthLoginProcess()
+  {
+    global $config, $message, $ui;
+
+    self::init();
+
+    /* Reset error messages */
+    $message = '';
+
+    $header = $config->get_cfg_value('httpHeaderAuthHeaderName', 'AUTH_USER');
+
+    self::$username = $_SERVER['HTTP_'.$header];
+
+    if (!self::$username) {
+      msg_dialog::display(
+        _('Error'),
+        sprintf(
+          _('No value found in HTTP header "%s"'),
+          $header
+        ),
+        FATAL_ERROR_DIALOG
+      );
+      exit();
+    }
+
+    $ldap = $config->get_ldap_link();
+    $ldap->cd($config->current['BASE']);
+    $verify_attr = explode(',', $config->get_cfg_value('loginAttribute', 'uid'));
+    $filter = '';
+    foreach ($verify_attr as $attr) {
+      $filter .= '('.$attr.'='.ldap_escape_f(self::$username).')';
+    }
+    $ldap->search('(&(|'.$filter.')(objectClass=inetOrgPerson))');
+    $attrs = $ldap->fetch();
+    if ($ldap->count() < 1) {
+      msg_dialog::display(
+        _('Error'),
+        sprintf(
+          _('Header user "%s" could not be found in the LDAP'),
+          self::$username
+        ),
+        FATAL_ERROR_DIALOG
+      );
+      exit();
+    } elseif ($ldap->count() > 1) {
+      msg_dialog::display(
+        _('Error'),
+        sprintf(
+          _('Header user "%s" match several users in the LDAP'),
+          self::$username
+        ),
+        FATAL_ERROR_DIALOG
+      );
+      exit();
+    }
+    $ui = new userinfo($config, $attrs['dn']);
+    $ui->loadACL();
+
+    $success = self::runSteps(array(
+      'loginAndCheckExpired',
+      'runSchemaCheck',
+      'checkForLockingBranch',
+    ));
+
+    if ($success) {
+      /* Everything went well, redirect to main.php */
+      self::redirect();
+    }
+  }
+
   /* All login steps in the right order for CAS login */
   static function casLoginProcess()
   {
@@ -510,6 +581,8 @@ if ($config->get_cfg_value('httpAuthActivated') == 'TRUE') {
   spl_autoload_unregister('CAS_autoload');
   spl_autoload_register('CAS_autoload', TRUE, TRUE);
   Index::casLoginProcess();
+} elseif ($config->get_cfg_value('httpHeaderAuthActivated') == 'TRUE') {
+  Index::headerAuthLoginProcess();
 } elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
   /* Got a formular answer, validate and try to log in */
   Index::fullLoginProcess();
