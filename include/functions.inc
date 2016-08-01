@@ -593,7 +593,7 @@ function ldap_login_user ($username, $password)
     }
   }
   if (!$success) {
-    return FALSE;
+    return NULL;
   }
 
   /* got user dn, fill acl's */
