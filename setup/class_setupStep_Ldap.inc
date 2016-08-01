@@ -186,6 +186,7 @@ class Step_Ldap extends setupStep
   {
     $error = parent::check();
     if (!empty($error)) {
+      $this->update_base_choices();
       return $error;
     } elseif ($this->is_completed) {
       $checked  = check_schema($this->parent->captured_values);
