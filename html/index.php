@@ -291,7 +291,7 @@ class Index {
     global $ui, $config, $message, $smarty;
     /* Login as user, initialize user ACL's */
     $ui = ldap_login_user(self::$username, self::$password);
-    if ($ui === NULL || !$ui) {
+    if ($ui === NULL) {
       if (isset($_SERVER['REMOTE_ADDR'])) {
         logging::log('security', 'login', '', array(), 'Authentication failed for user "'.self::$username.'" [from '.$_SERVER['REMOTE_ADDR'].']');
       } else {
