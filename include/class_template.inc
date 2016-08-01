@@ -98,8 +98,12 @@ class template
 
   function getBase()
   {
-    $infos = objects::infos($this->type);
-    return dn2base($this->dn, 'ou=templates,'.$infos['ou']);
+    if (is_object($this->tabObject)) {
+      return $this->tabObject->getBaseObject()->base;
+    } else {
+      $infos = objects::infos($this->type);
+      return dn2base($this->dn, 'ou=templates,'.$infos['ou']);
+    }
   }
 
   function getNeeded()
@@ -219,7 +223,6 @@ class template
 
     $this->attrs = plugin::tpl_parse_attrs($this->attrs);
     $this->tabObject->adapt_from_template($this->attrs, call_user_func_array('array_merge', $this->attributes));
-    $this->tabObject->getBaseObject()->base = $this->getBase();
 
     $this->applied = TRUE;
     return $this->tabObject;
