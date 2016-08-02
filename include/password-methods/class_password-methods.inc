@@ -174,7 +174,11 @@ class passwordMethod
 
       // (Un)lock the account by modifying the password hash.
       $pwdClass = new user($dn);
-      $pwdClass->callHook('PRE'.$mode, array(), $ret);
+      $errors = $pwdClass->callHook('PRE'.$mode, array(), $ret);
+      if (!empty($errors)) {
+        msg_dialog::displayChecks($errors);
+        return FALSE;
+      }
 
       if ($mode == 'LOCK') {
         /* Lock entry */
@@ -189,7 +193,10 @@ class passwordMethod
 
       // Call the password post-lock hook, if defined.
       if ($ldap->success()) {
-        $pwdClass->callHook('POST'.$mode, array(), $ret);
+        $errors = $pwdClass->callHook('POST'.$mode, array(), $ret);
+        if (!empty($errors)) {
+          msg_dialog::displayChecks($errors);
+        }
       } else {
         msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), $dn, LDAP_MOD), LDAP_ERROR);
       }

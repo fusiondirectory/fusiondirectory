@@ -370,11 +370,9 @@ class plugin
    */
   function check()
   {
-    $message = array();
-
-    $this->callHook('CHECK', array(), $returnOutput);
+    $messages = $this->callHook('CHECK', array(), $returnOutput);
     if (!empty($returnOutput)) {
-      $message[] = join("\n", $returnOutput);
+      $messages[] = join("\n", $returnOutput);
     }
 
     /* Check entryCSN */
@@ -382,10 +380,10 @@ class plugin
       $current_csn = getEntryCSN($this->dn);
       if (($current_csn != $this->entryCSN) && !empty($current_csn)) {
         $this->entryCSN = $current_csn;
-        $message[] = _('The object has changed since opened in FusionDirectory. All changes that may be done by others will get lost if you save this entry!');
+        $messages[] = _('The object has changed since opened in FusionDirectory. All changes that may be done by others will get lost if you save this entry!');
       }
     }
-    return $message;
+    return $messages;
   }
 
   function setTemplate ($bool)
@@ -1209,12 +1207,14 @@ class plugin
   function callHook($cmd, $addAttrs = array(), &$returnOutput = array(), &$returnCode = NULL)
   {
     if ($this->is_template) {
-      return;
+      return array();
     }
     global $config;
-    $command = $config->searchHook(get_class($this), $cmd);
 
-    if ($command != "") {
+    $commands = $config->searchHooks(get_class($this), $cmd);
+    $messages = array();
+
+    foreach ($commands as $command) {
       // Walk trough attributes list and add the plugins attributes.
       foreach ($this->attributes as $attr) {
         $addAttrs[$attr] = $this->$attr;
@@ -1276,7 +1276,7 @@ class plugin
         if (!empty($str)) {
           $message .= "Result: ".$str;
         }
-        return array($message);
+        $messages[] = $message;
       } elseif (is_array($arr)) {
         $str = implode("\n", $arr);
         @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Result: ".$str);
@@ -1285,6 +1285,7 @@ class plugin
         }
       }
     }
+    return $messages;
   }
 
   /*! \brief Test for removability of the object

@@ -566,7 +566,10 @@ class config  {
             if (!isset($this->data['HOOKS'][$class])) {
               $this->data['HOOKS'][$class] = array('CLASS' => $parts[0]);
             }
-            $this->data['HOOKS'][$class][$mode] = $cmd;
+            if (!isset($this->data['HOOKS'][$class][$mode])) {
+              $this->data['HOOKS'][$class][$mode] = array();
+            }
+            $this->data['HOOKS'][$class][$mode][] = $cmd;
           }
         } elseif (preg_match('/^fd/', $key)) {
           if (isset($attrs[$key]['count']) && ($attrs[$key]['count'] > 1)) {
@@ -784,7 +787,7 @@ class config  {
   }
 
   /*!
-   * \brief Search for a hook
+   * \brief Search for hooks
    *
    *  Example usage:
    *  \code
@@ -794,12 +797,14 @@ class config  {
    *  \param string $class The class name
    *
    *  \param string $value Key to search in the hooks
+   *
+   *  \return array of hook commands or empty array
    */
-  function searchHook($class, $value)
+  function searchHooks($class, $value)
   {
     $class = strtoupper($class);
     $value = strtoupper($value);
-    return (isset($this->data['HOOKS'][$class][$value]) ? $this->data['HOOKS'][$class][$value] : '');
+    return (isset($this->data['HOOKS'][$class][$value]) ? $this->data['HOOKS'][$class][$value] : array());
   }
 
   /*!

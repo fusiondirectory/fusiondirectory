@@ -547,6 +547,11 @@ class simplePlugin extends plugin
       $this->attrs = $this->templateSaveAttrs();
       $this->saved_attributes = array();
     }
+    /* Pre hooks */
+    $errors = $this->pre_remove();
+    if (!empty($errors)) {
+      return $errors;
+    }
     $errors = $this->ldap_remove();
     if (!empty($errors)) {
       return $errors;
@@ -592,9 +597,11 @@ class simplePlugin extends plugin
         $this->attrs["$val"] = array();
       }
     }
+  }
 
+  protected function pre_remove () {
     if ($this->initially_was_account) {
-      $this->handle_pre_events('remove');
+      return $this->handle_pre_events('remove');
     }
   }
 
@@ -624,7 +631,10 @@ class simplePlugin extends plugin
     logging::log('remove', 'plugin/'.get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
 
     /* Optionally execute a command after we're done */
-    $this->handle_post_events('remove');
+    $errors = $this->handle_post_events('remove');
+    if (!empty($errors)) {
+      msg_dialog::displayChecks($errors);
+    }
   }
 
   /*! \brief This function handle $_POST informations
