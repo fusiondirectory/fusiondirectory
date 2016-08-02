@@ -610,7 +610,7 @@ class filter
 
         echo '<ul>';
         foreach ($result as $entry) {
-          echo '<li>'.mark($_POST[$tag], $entry).'</li>';
+          echo '<li>'.mark(htmlentities($_POST[$tag], ENT_COMPAT, 'UTF-8'), htmlentities($entry, ENT_COMPAT, 'UTF-8')).'</li>';
           if ($max-- == 0) {
             break;
           }
