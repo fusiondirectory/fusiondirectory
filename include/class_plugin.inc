@@ -1241,29 +1241,11 @@ class plugin
         }
       }
 
-      $command = self::tpl_parse_string($command, $addAttrs, 'escapeshellarg');
-
-      // If there are still some %.. in our command, try to fill these with some other class vars (FIXME: useless)
-      if (preg_match("/%/", $command)) {
-        $addAttrs = array();
-        $attrs = get_object_vars($this);
-        foreach ($attrs as $name => $value) {
-          if (is_array($value)) {
-            $s = "";
-            foreach ($value as $val) {
-              if (is_string($val) || is_int($val) || is_float($val) || is_bool($val)) {
-                $s .= $val.'|';
-              }
-            }
-            $value = trim($s, '|');
-          }
-          if (!is_string($value) && !is_int($value) && !is_float($value) && !is_bool($value)) {
-            continue;
-          }
-          $addAttrs[$name] = $value;
-        }
-        $command = self::tpl_parse_string($command, $addAttrs, 'escapeshellarg');
+      if (!isset($addAttrs['base']) && isset($this->base)) {
+        $addAttrs['base'] = $this->base;
       }
+
+      $command = self::tpl_parse_string($command, $addAttrs, 'escapeshellarg');
 
       @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execute");
       exec($command, $arr, $returnCode);
