@@ -933,7 +933,11 @@ class simplePlugin extends plugin
 
       /* Create tab object on demand */
       if (!session::is_set($classname) || (isset($_GET['reset']) && $_GET['reset'] == 1)) {
-        $tabObject = objects::open($entry_dn, $objectType);
+        try {
+          $tabObject = objects::open($entry_dn, $objectType);
+        } catch (NonExistingLdapNodeException $e) {
+          $tabObject = objects::open('new', $objectType);
+        }
         if ($edit_mode) {
           $tabObject->setNeedEditMode(TRUE);
         }
