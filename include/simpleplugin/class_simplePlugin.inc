@@ -827,22 +827,39 @@ class simplePlugin extends plugin
   function check ()
   {
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'check');
-    $message = parent::check();
+    $messages = array();
 
     foreach ($this->attributesInfo as $sectionInfo) {
       foreach ($sectionInfo['attrs'] as $attr) {
         $error = $attr->check();
         if (!empty($error)) {
           if (is_array($error)) {
-            $message = array_merge($message, $error);
+            $messages = array_merge($messages, $error);
           } else {
-            $message[] = $error;
+            $messages[] = $error;
           }
         }
       }
     }
 
-    return $message;
+    $error = $this->callHook('CHECK', array('nbCheckErrors' => count($messages)), $returnOutput);
+    if (!empty($error)) {
+      $messages = array_merge($messages, $error);
+    }
+    if (!empty($returnOutput)) {
+      $messages[] = join("\n", $returnOutput);
+    }
+
+    /* Check entryCSN */
+    if (!empty($this->entryCSN)) {
+      $current_csn = getEntryCSN($this->dn);
+      if (($current_csn != $this->entryCSN) && !empty($current_csn)) {
+        $this->entryCSN = $current_csn;
+        $messages[] = _('The object has changed since opened in FusionDirectory. All changes that may be done by others will get lost if you save this entry!');
+      }
+    }
+
+    return $messages;
   }
 
   /*! \brief This function generate the needed ACLs for a given attribtues array

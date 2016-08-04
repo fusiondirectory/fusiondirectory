@@ -365,27 +365,6 @@ class plugin
     }
   }
 
-  /*!
-   * \brief Check formular input
-   */
-  function check()
-  {
-    $messages = $this->callHook('CHECK', array(), $returnOutput);
-    if (!empty($returnOutput)) {
-      $messages[] = join("\n", $returnOutput);
-    }
-
-    /* Check entryCSN */
-    if (!empty($this->entryCSN)) {
-      $current_csn = getEntryCSN($this->dn);
-      if (($current_csn != $this->entryCSN) && !empty($current_csn)) {
-        $this->entryCSN = $current_csn;
-        $messages[] = _('The object has changed since opened in FusionDirectory. All changes that may be done by others will get lost if you save this entry!');
-      }
-    }
-    return $messages;
-  }
-
   function setTemplate ($bool)
   {
     $this->is_template = $bool;
