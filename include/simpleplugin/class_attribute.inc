@@ -1436,7 +1436,7 @@ class DateAttribute extends Attribute
   {
     if ($value === "" && !$this->isRequired()) {
       return $value;
-    } elseif (is_object($this->plugin) && $this->plugin->is_template && (preg_match('/%/', $value))) {
+    } elseif (is_object($this->plugin) && $this->plugin->is_template && preg_match('/%/', $value)) {
       return $value;
     } else {
       return $this->ldapToDate($value);
@@ -1451,7 +1451,11 @@ class DateAttribute extends Attribute
       try {
         return $this->getDateValue()->format('d.m.Y');
       } catch (Exception $e) {
-        return "";
+        if (is_object($this->plugin) && $this->plugin->is_template && preg_match('/%/', $this->value)) {
+          return $this->value;
+        } else {
+          return '';
+        }
       }
     }
   }
@@ -1489,8 +1493,8 @@ class DateAttribute extends Attribute
       try {
         $this->setValue($this->getDateValue());
       } catch (Exception $e) {
-        if (is_object($this->plugin) && $this->plugin->is_template) {
-          return $value;
+        if (is_object($this->plugin) && $this->plugin->is_template && preg_match('/%/', $this->value)) {
+          return $this->value;
         } else {
           throw $e;
         }
@@ -1511,7 +1515,7 @@ class DateAttribute extends Attribute
         try {
           $this->getDateValue();
         } catch (Exception $e) {
-          if (is_object($this->plugin) && $this->plugin->is_template) {
+          if (is_object($this->plugin) && $this->plugin->is_template && preg_match('/%/', $this->value)) {
             return;
           } else {
             return sprintf(_('Error, incorrect date: %s'), $e->getMessage());
