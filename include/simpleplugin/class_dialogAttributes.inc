@@ -641,7 +641,7 @@ class UserAttribute extends DialogButtonAttribute
         'image', $id.'_remove',
         array(
           'class' => 'center',
-          'src'   => 'geticon.php?context=actions&amp;icon=edit-delete&amp;size=16',
+          'src'   => 'geticon.php?context=actions&amp;icon=remove&amp;size=16',
           'title' => _('Remove'),
           'alt'   => _('Remove')
         )

@@ -1782,8 +1782,20 @@ class ImageAttribute extends FileAttribute
   function loadPostValue ()
   {
     $this->postValue = $this->value;
-    if (isset($_POST['upload'.$this->getHtmlId()])) {
-      parent::loadPostValue();
+    $id = $this->getHtmlId();
+    if (!$this->disabled && $this->isVisible()) {
+      foreach (array_keys($_POST) as $name) {
+        if (!$this->isRequired()) {
+          if (preg_match('/^'.$id.'_remove_/', $name)) {
+            $this->setPostValue('');
+            break;
+          }
+        }
+        if (preg_match('/^'.$id.'_upload_/', $name)) {
+          parent::loadPostValue();
+          break;
+        }
+      }
     }
   }
 
@@ -1846,7 +1858,26 @@ class ImageAttribute extends FileAttribute
                 ' title="'.$this->getDescription().'"'.
                 ' /><br/>';
     $display  .= $this->renderInputField('file', $id);
-    $display  .= $this->renderInputField('submit', 'upload'.$id, array('value' => _('Upload')));
+    $display .= $this->renderInputField(
+      'image', $id.'_upload',
+      array(
+        'class' => 'center',
+        'src'   => 'geticon.php?context=actions&amp;icon=upload&amp;size=16',
+        'title' => _('Upload'),
+        'alt'   => _('Upload')
+      )
+    );
+    if (!$this->isRequired()) {
+      $display .= $this->renderInputField(
+        'image', $id.'_remove',
+        array(
+          'class' => 'center',
+          'src'   => 'geticon.php?context=actions&amp;icon=remove&amp;size=16',
+          'title' => _('Remove'),
+          'alt'   => _('Remove')
+        )
+      );
+    }
     if (($this->getValue() == '') && ($this->placeholder != '')) {
       session::set('binary', $this->placeholder);
     } else {
