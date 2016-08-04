@@ -1513,7 +1513,11 @@ class DateAttribute extends Attribute
         try {
           $this->getDateValue();
         } catch (Exception $e) {
-          return _("Error, incorrect date: ").$e->getMessage();
+          if (is_object($this->plugin) && $this->plugin->is_template) {
+            return;
+          } else {
+            return sprintf(_('Error, incorrect date: %s'), $e->getMessage());
+          }
         }
       }
     }
