@@ -533,13 +533,7 @@ class passwordRecovery extends standAlonePage {
     /* Send the mail */
     $mail_body = sprintf($this->mail_body, $this->uid, $reinit_link);
 
-    /* From */
-    $headers = "From: ".$this->from_mail."\r\n";
-    $headers .= "Reply-To: ".$this->from_mail."\r\n";
-
-    $additional_parameters = "-f".$this->from_mail;
-
-    if (mail($this->email_address, $this->mail_subject, $mail_body, $headers, $additional_parameters)) {
+    if (mail_utf8($this->email_address, FALSE, $this->from_mail, $this->mail_subject, $mail_body)) {
       $this->step = 3;
     } else {
       $this->message[] = msgPool::invalid(_("Contact your administrator, there was a problem with mail server"));
@@ -601,13 +595,7 @@ class passwordRecovery extends standAlonePage {
     /* Send the mail */
     $mail_body = sprintf($this->mail2_body, $this->uid);
 
-    /* From */
-    $headers = "From: ".$this->from_mail."\r\n";
-    $headers .= "Reply-To: ".$this->from_mail."\r\n";
-
-    $additional_parameters = "-f".$this->from_mail;
-
-    if (mail($this->email_address, $this->mail2_subject, $mail_body, $headers, $additional_parameters)) {
+    if (mail_utf8($this->email_address, FALSE, $this->from_mail, $this->mail2_subject, $mail_body)) {
       $smarty = get_smarty();
       $this->step = 5;
       $smarty->assign('changed', TRUE);
