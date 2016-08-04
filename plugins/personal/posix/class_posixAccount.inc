@@ -60,7 +60,15 @@ class EpochDaysDateAttribute extends DateAttribute
     if (empty($this->value)) {
       return 0;
     } else {
-      return $this->dateToLdap($this->getDateValue());
+      try {
+        return $this->dateToLdap($this->getDateValue());
+      } catch (Exception $e) {
+        if (is_object($this->plugin) && $this->plugin->is_template) {
+          return $this->value;
+        } else {
+          throw $e;
+        }
+      }
     }
   }
 }
