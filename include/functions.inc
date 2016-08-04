@@ -3442,4 +3442,23 @@ function ldap_escape_dn($str, $ignore = '')
 {
   return ldap_escape($str, $ignore, LDAP_ESCAPE_DN);
 }
+
+function mail_utf8($to, $from_user, $from_email, $subject, $message)
+{
+  $subject = "=?UTF-8?B?".base64_encode($subject)."?=";
+  if ($from_user) {
+    $from_user = "=?UTF-8?B?".base64_encode($from_user)."?=";
+    $headers = "From: $from_user <$from_email>\r\n";
+    $headers .= "Reply-To: $from_user <$from_email>\r\n";
+  } else {
+    $headers = "From: <$from_email>\r\n";
+    $headers .= "Reply-To: <$from_email>\r\n";
+  }
+  $headers .= "MIME-Version: 1.0" . "\r\n" .
+              "Content-type: text/html; charset=UTF-8" . "\r\n";
+
+  $additional_parameters = "-f".$from_email;
+
+  return mail($to, $subject, $message, $headers, $additional_parameters);
+}
 ?>
