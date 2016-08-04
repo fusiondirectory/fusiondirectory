@@ -1490,7 +1490,6 @@ class DateAttribute extends Attribute
     } elseif (!($this->value instanceof DateTime)) {
       try {
         $this->setValue($this->getDateValue());
-        return $this->dateToLdap($this->value);
       } catch (Exception $e) {
         if (is_object($this->plugin) && $this->plugin->is_template) {
           return $value;
@@ -1499,6 +1498,7 @@ class DateAttribute extends Attribute
         }
       }
     }
+    return $this->dateToLdap($this->value);
   }
 
   function check ()
