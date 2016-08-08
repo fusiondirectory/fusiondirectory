@@ -8,7 +8,7 @@
 <div id="window_container">
 
 <div id="window_div">
-<form action="index.php" method="post" name="mainform" onSubmit="js_check(this);return true;">
+<form action="index.php" method="post" id="loginform" name="loginform" onSubmit="js_check(this);return true;">
 
 {$msg_dialogs}
   <div id="window_titlebar">
