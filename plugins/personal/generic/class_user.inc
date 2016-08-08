@@ -47,11 +47,11 @@ class UserPasswordAttribute extends CompositeAttribute
           $ldapName.'_pwstorage', TRUE,
           array_keys($pwd_methods), '', array_values($pwd_methods)
         ),
-        new PasswordAttribute(
+        new StringAttribute(
           _('Password'), _('Password (Leave empty if you do not wish to change it)'),
           $ldapName.'_password', $required
         ),
-        new PasswordAttribute(
+        new StringAttribute(
           _('Password again'), _('Same password as above, to avoid errors'),
           $ldapName.'_password2', $required
         ),
