@@ -2,7 +2,7 @@
 <body onLoad="javascript:$$('div.debug_div').each(function (a) { a.hide(); });">
   {$game_screen}
   {$php_errors}
-  <form action="main.php{$plug}" name="mainform" id="mainform" method="post" enctype="multipart/form-data">
+  <form action="main.php{$plug}" name="mainform" id="mainform" method="post" enctype="multipart/form-data" autocomplete="off">
     <div class="setup_header">
       <div id="header_left">
         <img id="fd_logo" class="optional" src="geticon.php?context=applications&amp;icon=fusiondirectory&amp;size=48" alt="FusionDirectory"/>
