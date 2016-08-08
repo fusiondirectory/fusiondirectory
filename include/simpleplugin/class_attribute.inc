@@ -818,6 +818,7 @@ class StringAttribute extends Attribute
 {
   protected $pattern;
   protected $example;
+  protected $autocomplete = NULL;
 
   /*! \brief The constructor of StringAttribute
    *
@@ -856,6 +857,9 @@ class StringAttribute extends Attribute
       $js       = $this->managedAttributesJS();
       $attributes['onChange'] = 'javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8');
     }
+    if ($this->autocomplete !== NULL) {
+      $attributes['autocomplete'] = ($this->autocomplete ? 'on' : 'off' );
+    }
     $display  = $this->renderInputField('text', $id, $attributes);
     return $this->renderAcl($display);
   }
@@ -877,6 +881,16 @@ class StringAttribute extends Attribute
     if (($this->pattern !== "") && !preg_match($this->pattern, $this->value)) {
       return msgPool::invalid($this->getLabel(), $this->value, $this->pattern, htmlentities($this->example));
     }
+  }
+
+  function setAutocomplete ($bool)
+  {
+    $this->autocomplete = $bool;
+  }
+
+  function getAutocomplete ()
+  {
+    return $this->autocomplete;
   }
 }
 
@@ -1031,16 +1045,6 @@ class PasswordAttribute extends StringAttribute
 {
   protected $autocomplete = FALSE;
 
-  function setAutocomplete ($bool)
-  {
-    $this->autocomplete = $bool;
-  }
-
-  function getAutocomplete ()
-  {
-    return $this->autocomplete;
-  }
-
   function renderFormInput ()
   {
     $id = $this->getHtmlId();
@@ -1051,6 +1055,9 @@ class PasswordAttribute extends StringAttribute
         'autocomplete' => ($this->autocomplete?'on':'off'),
       )
     );
+    if ($this->autocomplete === FALSE) {
+      $display = '{literal}<input autocomplete="off" value="foolautocompleteworkaround" type="text" style="display:none;"/>{/literal}'.$display;
+    }
     return $this->renderAcl($display);
   }
 

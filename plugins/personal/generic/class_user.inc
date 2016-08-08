@@ -47,11 +47,11 @@ class UserPasswordAttribute extends CompositeAttribute
           $ldapName.'_pwstorage', TRUE,
           array_keys($pwd_methods), '', array_values($pwd_methods)
         ),
-        new StringAttribute(
+        new PasswordAttribute(
           _('Password'), _('Password (Leave empty if you do not wish to change it)'),
           $ldapName.'_password', $required
         ),
-        new StringAttribute(
+        new PasswordAttribute(
           _('Password again'), _('Same password as above, to avoid errors'),
           $ldapName.'_password2', $required
         ),
@@ -385,7 +385,7 @@ class user extends simplePlugin
           new UserPasswordAttribute(
             _('Password'), _('Password of the user'),
             'userPassword', FALSE
-          )
+          ),
         )
       ),
       'homecontact' => array(
@@ -441,7 +441,7 @@ class user extends simplePlugin
             'manager', FALSE
           ),
         )
-      )
+      ),
     );
   }
 
@@ -450,6 +450,7 @@ class user extends simplePlugin
     parent::__construct($dn, $object, $parent, $mainTab);
 
     $this->attributesAccess['uid']->setUnique('whole');
+    $this->attributesAccess['uid']->setAutocomplete(FALSE);
     $this->attributesAccess['uid']->setDisabled($this->initially_was_account && !$this->is_template);
 
     $filename = './plugins/users/images/default.jpg';
