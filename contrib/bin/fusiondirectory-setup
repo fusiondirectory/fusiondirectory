@@ -1606,7 +1606,10 @@ sub migrate_printers {
       foreach my $entry (@entries) {
         my $newrdn = "cn=".$entry->get_value('cn')."+ipHostNumber=".$entry->get_value('ipHostNumber');
         $mesg = $ldap->moddn($entry->dn(), newrdn => $newrdn);
-        $mesg->code && print $entry->dn().": ".$mesg->error."\n";
+        if ($mesg->code) {
+          print $entry->dn().": ".$mesg->error."\n";
+          next;
+        }
         my $dn_old = $entry->dn();
         $dn_old =~ s/^[^,]+,/$newrdn,/;
         my @replace = ('ieee802Device', 'ipHost', 'fdPrinter');
@@ -1618,7 +1621,10 @@ sub migrate_printers {
         }
         $entry->replace("objectClass" => \@replace);
         $mesg = $ldap->add($entry);
-        $mesg->code && print $entry->dn().": ".$mesg->error."\n";
+        if ($mesg->code) {
+          print $entry->dn().": ".$mesg->error."\n";
+          next;
+        }
         undef @replace;
         $mesg = $ldap->delete($dn_old);
         $mesg->code && print $dn_old.": ".$mesg->error."\n";
