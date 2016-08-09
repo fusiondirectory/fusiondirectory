@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-110\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2016-08-02 08:42+0200\n"
-"PO-Revision-Date: 2016-07-28 21:04+0000\n"
-"Last-Translator: Benoit Mortier <benoit.mortier@opensides.be>\n"
+"POT-Creation-Date: 2016-08-09 20:44+0200\n"
+"PO-Revision-Date: 2016-08-09 18:41+0000\n"
+"Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: French (http://www.transifex.com/fusiondirectory/FusionDirectory-110/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -147,7 +147,7 @@ msgstr "Forcer la valeur du GID pour ce groupe"
 
 #: plugins/admin/groups/class_group.inc:73
 #: plugins/admin/groups/class_group.inc:149
-#: plugins/personal/posix/class_posixAccount.inc:414
+#: plugins/personal/posix/class_posixAccount.inc:422
 msgid "GID"
 msgstr "GID"
 
@@ -162,39 +162,39 @@ msgstr "Membres du groupe"
 
 #: plugins/admin/groups/class_group.inc:90
 #: plugins/admin/groups/class_ogroup.inc:215
-#: plugins/personal/posix/class_posixAccount.inc:188
+#: plugins/personal/posix/class_posixAccount.inc:196
 msgid "System trust"
 msgstr "Système de confiance"
 
 #: plugins/admin/groups/class_group.inc:94
 #: plugins/admin/groups/class_ogroup.inc:219
-#: plugins/personal/posix/class_posixAccount.inc:192
+#: plugins/personal/posix/class_posixAccount.inc:200
 msgid "Trust mode"
 msgstr "Mode de confiance"
 
 #: plugins/admin/groups/class_group.inc:94
 #: plugins/admin/groups/class_ogroup.inc:219
-#: plugins/personal/posix/class_posixAccount.inc:192
+#: plugins/personal/posix/class_posixAccount.inc:200
 msgid "Type of authorization for those hosts"
 msgstr "Type d'autorisation pour ces hôtes"
 
 #: plugins/admin/groups/class_group.inc:98
 #: plugins/admin/groups/class_ogroup.inc:223
-#: plugins/personal/posix/class_posixAccount.inc:196
-#: plugins/personal/posix/class_posixAccount.inc:218
+#: plugins/personal/posix/class_posixAccount.inc:204
+#: plugins/personal/posix/class_posixAccount.inc:226
 msgid "disabled"
 msgstr "désactivé"
 
 #: plugins/admin/groups/class_group.inc:98
 #: plugins/admin/groups/class_ogroup.inc:223
-#: plugins/personal/posix/class_posixAccount.inc:196
-#: plugins/personal/posix/class_posixAccount.inc:218
+#: plugins/personal/posix/class_posixAccount.inc:204
+#: plugins/personal/posix/class_posixAccount.inc:226
 msgid "full access"
 msgstr "accès complet"
 
 #: plugins/admin/groups/class_group.inc:98
 #: plugins/admin/groups/class_ogroup.inc:223
-#: plugins/personal/posix/class_posixAccount.inc:196
+#: plugins/personal/posix/class_posixAccount.inc:204
 msgid "allow access to these hosts"
 msgstr "permettre l'accès a ces hôtes"
 
@@ -204,7 +204,7 @@ msgid "Only allow this group to connect to this list of hosts"
 msgstr "Autoriser ce groupe à se connecter uniquement sur cette liste d'hôtes"
 
 #: plugins/admin/groups/class_group.inc:181
-#: plugins/personal/posix/class_posixAccount.inc:470 include/functions.inc:809
+#: plugins/personal/posix/class_posixAccount.inc:478 include/functions.inc:809
 #: include/functions.inc:2564 include/class_xml.inc:55
 #: include/simpleplugin/class_simpleTabs.inc:319 html/index.php:592
 #: html/main.php:158 setup/class_setupStep_Migrate.inc:572
@@ -219,7 +219,7 @@ msgid "Warning"
 msgstr "Avertissement"
 
 #: plugins/admin/groups/class_group.inc:181
-#: plugins/personal/posix/class_posixAccount.inc:470
+#: plugins/personal/posix/class_posixAccount.inc:478
 msgid "Timeout while waiting for lock. Ignoring lock!"
 msgstr "Le temps d'attente du verrou a été dépassé. Verrou ignoré !"
 
@@ -280,8 +280,8 @@ msgstr "Créer"
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:192
 #: include/simpleplugin/class_dialogAttributes.inc:635
 #: include/simpleplugin/class_dialogAttributes.inc:636
-#: include/simpleplugin/class_attribute.inc:2738
-#: include/simpleplugin/class_attribute.inc:2739
+#: include/simpleplugin/class_attribute.inc:2792
+#: include/simpleplugin/class_attribute.inc:2793
 #: include/simpleplugin/simple-list.xml:67
 #: include/simpleplugin/simple-list.xml:112
 msgid "Edit"
@@ -294,6 +294,8 @@ msgstr "Éditer"
 #: plugins/admin/users/user-list.xml:115
 #: include/simpleplugin/class_dialogAttributes.inc:645
 #: include/simpleplugin/class_dialogAttributes.inc:646
+#: include/simpleplugin/class_attribute.inc:1887
+#: include/simpleplugin/class_attribute.inc:1888
 #: include/simpleplugin/simple-list.xml:75
 #: include/simpleplugin/simple-list.xml:125
 msgid "Remove"
@@ -681,8 +683,8 @@ msgid "Edit category ACL"
 msgstr "Éditer les catégories ACL"
 
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:194
-#: include/class_msgPool.inc:517 include/simpleplugin/class_attribute.inc:2748
-#: include/simpleplugin/class_attribute.inc:2749
+#: include/class_msgPool.inc:517 include/simpleplugin/class_attribute.inc:2802
+#: include/simpleplugin/class_attribute.inc:2803
 #, php-format
 msgid "Delete"
 msgstr "Supprimer"
@@ -1123,230 +1125,230 @@ msgstr "Numéro de l'employé"
 msgid "Employee type"
 msgstr "Type d'employé"
 
-#: plugins/personal/generic/class_user.inc:606
+#: plugins/personal/generic/class_user.inc:607
 #, php-format
 msgid "Ppolicy \"%s\" could not be found in the LDAP!"
 msgstr "La ppolicy \"%s\" n’a pas été trouvée dans le LDAP !"
 
-#: plugins/personal/generic/class_user.inc:609
+#: plugins/personal/generic/class_user.inc:610
 msgid "You are not allowed to change your own password"
 msgstr "Vous n’êtes pas autorisé à changer votre mot de passe"
 
-#: plugins/personal/generic/class_user.inc:620
+#: plugins/personal/generic/class_user.inc:621
 #, php-format
 msgid "You must wait %d seconds before changing your password again"
 msgstr "Vous devez attendre %d secondes avant de changer votre mot de passe à nouveau"
 
-#: plugins/personal/generic/class_user.inc:634
+#: plugins/personal/generic/class_user.inc:635
 msgid "Password is in history of old passwords"
 msgstr "Le mot de passe est dans l'historique des mots de passe récents"
 
-#: plugins/personal/generic/class_user.inc:639
-#: plugins/personal/generic/class_user.inc:643
+#: plugins/personal/generic/class_user.inc:640
+#: plugins/personal/generic/class_user.inc:644
 msgid "Password is not being changed from existing value"
 msgstr "Le nouveau mot de passe est le même que l’ancien"
 
-#: plugins/personal/generic/class_user.inc:650
+#: plugins/personal/generic/class_user.inc:651
 msgid "You need to specify your current password in order to proceed."
 msgstr "Vous devez spécifier votre mode de passe actuel pour continuer."
 
-#: plugins/personal/generic/class_user.inc:652
+#: plugins/personal/generic/class_user.inc:653
 msgid ""
 "The passwords you've entered as \"New password\" and \"Repeated new "
 "password\" do not match."
 msgstr "Les mots de passe entrés dans les champs 'Nouveau mot de passe' et celui dans le champ 'Répéter le nouveau mot de passe' ne concordent pas."
 
-#: plugins/personal/generic/class_user.inc:654
+#: plugins/personal/generic/class_user.inc:655
 #: ihtml/themes/breezy/recovery.tpl.c:29 ihtml/themes/breezy/recovery.tpl.c:32
 msgid "New password"
 msgstr "Nouveau mot de passe"
 
-#: plugins/personal/generic/class_user.inc:656
+#: plugins/personal/generic/class_user.inc:657
 msgid "The password used as new and current are too similar."
 msgstr "Le nouveau et l'ancien mot de passe sont trop similaires."
 
-#: plugins/personal/generic/class_user.inc:658
+#: plugins/personal/generic/class_user.inc:659
 msgid "The password used as new is to short."
 msgstr "Le nouveau mot de passe est trop court."
 
-#: plugins/personal/generic/class_user.inc:660
+#: plugins/personal/generic/class_user.inc:661
 msgid "The password contains possibly problematic Unicode characters!"
 msgstr "Le mot de passe contient probablement des caractères Unicode qui sont problématique"
 
-#: plugins/personal/posix/class_posixAccount.inc:76
-#: plugins/personal/posix/class_posixAccount.inc:104
+#: plugins/personal/posix/class_posixAccount.inc:84
+#: plugins/personal/posix/class_posixAccount.inc:112
 msgid "Unix"
 msgstr "Unix"
 
-#: plugins/personal/posix/class_posixAccount.inc:77
+#: plugins/personal/posix/class_posixAccount.inc:85
 msgid "Edit users POSIX settings"
 msgstr "Éditer les paramètres POSIX"
 
-#: plugins/personal/posix/class_posixAccount.inc:108
+#: plugins/personal/posix/class_posixAccount.inc:116
 msgid "Home directory"
 msgstr "Répertoire Home"
 
-#: plugins/personal/posix/class_posixAccount.inc:108
+#: plugins/personal/posix/class_posixAccount.inc:116
 msgid "The path to the home directory of this user"
 msgstr "Chemin du répertoire \"home\" de cet utilisateur"
 
-#: plugins/personal/posix/class_posixAccount.inc:113
+#: plugins/personal/posix/class_posixAccount.inc:121
 msgid "Shell"
 msgstr "Shell"
 
-#: plugins/personal/posix/class_posixAccount.inc:113
+#: plugins/personal/posix/class_posixAccount.inc:121
 msgid "Which shell should be used when this user log in"
 msgstr "Shell à utiliser lors de la connexion de l’utilisateur"
 
-#: plugins/personal/posix/class_posixAccount.inc:117
+#: plugins/personal/posix/class_posixAccount.inc:125
 msgid "Primary group"
 msgstr "Groupe principal"
 
-#: plugins/personal/posix/class_posixAccount.inc:117
+#: plugins/personal/posix/class_posixAccount.inc:125
 msgid "Primary group for this user"
 msgstr "Groupe principal de cet utilisateur"
 
-#: plugins/personal/posix/class_posixAccount.inc:121
+#: plugins/personal/posix/class_posixAccount.inc:129
 #: setup/class_setupStep_Ldap.inc:83
 msgid "Status"
 msgstr "Statut"
 
-#: plugins/personal/posix/class_posixAccount.inc:121
+#: plugins/personal/posix/class_posixAccount.inc:129
 msgid "Status of this user unix account"
 msgstr "Statut du compte unix de l'utilisateur"
 
-#: plugins/personal/posix/class_posixAccount.inc:125
+#: plugins/personal/posix/class_posixAccount.inc:133
 msgid "Force user/group id"
 msgstr "Forcer l’id d’utilisateur/groupe"
 
-#: plugins/personal/posix/class_posixAccount.inc:125
+#: plugins/personal/posix/class_posixAccount.inc:133
 msgid "Force user id and group id values for this user"
 msgstr "Force les valeurs des ids d’utilisateur et de groupe pour cet utilisateur."
 
-#: plugins/personal/posix/class_posixAccount.inc:129
+#: plugins/personal/posix/class_posixAccount.inc:137
 msgid "User id"
 msgstr "Id d’utilisateur"
 
-#: plugins/personal/posix/class_posixAccount.inc:129
+#: plugins/personal/posix/class_posixAccount.inc:137
 msgid "User id value for this user"
 msgstr "Id d’utilisateur à utiliser pour cet utilisateur"
 
-#: plugins/personal/posix/class_posixAccount.inc:134
+#: plugins/personal/posix/class_posixAccount.inc:142
 msgid "Group id"
 msgstr "Id de groupe"
 
-#: plugins/personal/posix/class_posixAccount.inc:134
+#: plugins/personal/posix/class_posixAccount.inc:142
 msgid "Group id value for this user"
 msgstr "Id de groupe à utiliser pour cet utilisateur"
 
-#: plugins/personal/posix/class_posixAccount.inc:141
-#: plugins/personal/posix/class_posixAccount.inc:144
+#: plugins/personal/posix/class_posixAccount.inc:149
+#: plugins/personal/posix/class_posixAccount.inc:152
 msgid "Group membership"
 msgstr "Appartenance aux groupes"
 
-#: plugins/personal/posix/class_posixAccount.inc:148
+#: plugins/personal/posix/class_posixAccount.inc:156
 msgid "Account"
 msgstr "Compte"
 
-#: plugins/personal/posix/class_posixAccount.inc:152
+#: plugins/personal/posix/class_posixAccount.inc:160
 msgid "User must change password on first login"
 msgstr "L'utilisateur doit changer son mot de passe lors de sa première connexion"
 
-#: plugins/personal/posix/class_posixAccount.inc:152
+#: plugins/personal/posix/class_posixAccount.inc:160
 msgid ""
 "User must change password on first login (needs a value for Delay before "
 "forcing password change)"
 msgstr "L'utilisateur doit changer son mot de passe lors de la première connexion (il est nécessaire de remplir le champ «Délai»)"
 
-#: plugins/personal/posix/class_posixAccount.inc:156
+#: plugins/personal/posix/class_posixAccount.inc:164
 msgid "Minimum delay between password changes (days)"
 msgstr "Délai minimum entre les changements de mot de passe (jours)"
 
-#: plugins/personal/posix/class_posixAccount.inc:156
+#: plugins/personal/posix/class_posixAccount.inc:164
 msgid ""
 "The user won't be able to change his password before this number of days "
 "(leave empty to disable)"
 msgstr "L'utilisateur ne sera pas habilité à changer son mot de passe avant ce nombre de jour (laisser vide pour désactiver)"
 
-#: plugins/personal/posix/class_posixAccount.inc:161
+#: plugins/personal/posix/class_posixAccount.inc:169
 msgid "Delay before forcing password change (days)"
 msgstr "Délai avant de forcer le changement de mot de passe (en jours)"
 
-#: plugins/personal/posix/class_posixAccount.inc:161
+#: plugins/personal/posix/class_posixAccount.inc:169
 msgid ""
 "The user will be forced to change his password after this number of days "
 "(leave empty to disable)"
 msgstr "L'utilisateur sera forcé de changer son mot de passe après ce nombre de jours (laisser vide pour désactiver)"
 
-#: plugins/personal/posix/class_posixAccount.inc:166
+#: plugins/personal/posix/class_posixAccount.inc:174
 msgid "Password expiration date"
 msgstr "Date d'expiration du mot de passe"
 
-#: plugins/personal/posix/class_posixAccount.inc:166
+#: plugins/personal/posix/class_posixAccount.inc:174
 msgid ""
 "Date after which this user password will expire (leave empty to disable)"
 msgstr "Date après laquelle le mot de passe de l'utilisateur va expirer (laisser vide pour désactiver)"
 
-#: plugins/personal/posix/class_posixAccount.inc:171
+#: plugins/personal/posix/class_posixAccount.inc:179
 msgid "Delay of inactivity before disabling user (days)"
 msgstr "Délai d'inactivité avant de désactiver l'utilisateur (en jours)"
 
-#: plugins/personal/posix/class_posixAccount.inc:171
+#: plugins/personal/posix/class_posixAccount.inc:179
 msgid ""
 "Maximum delay of inactivity after password expiration before the user is "
 "disabled (leave empty to disable)"
 msgstr "Délai maximum d'inactivité après l'expiration du mot de passe avant que l'utilisateur soit désactivé (laisser vide pour désactiver)"
 
-#: plugins/personal/posix/class_posixAccount.inc:176
+#: plugins/personal/posix/class_posixAccount.inc:184
 msgid "Delay for user warning before password expiry (days)"
 msgstr "Délai d'avertissement de l'utilisateur avant l'expiration de son mot de passe (en jours)"
 
-#: plugins/personal/posix/class_posixAccount.inc:176
+#: plugins/personal/posix/class_posixAccount.inc:184
 msgid ""
 "The user will be warned this number of days before his password expiration "
 "(leave empty to disable)"
 msgstr "L'utilisateur sera averti à partir de ce nombre de jours restant avant l'expiration de son mot de passe (laisser vide pour désactiver)"
 
-#: plugins/personal/posix/class_posixAccount.inc:199
+#: plugins/personal/posix/class_posixAccount.inc:207
 msgid "Only allow this user to connect to this list of hosts"
 msgstr "Autoriser cet utilisateur à se connecter uniquement sur cette liste d’hôtes"
 
-#: plugins/personal/posix/class_posixAccount.inc:280
+#: plugins/personal/posix/class_posixAccount.inc:288
 #: include/class_management.inc:36 include/class_management.inc:37
 msgid "unconfigured"
 msgstr "non configuré"
 
-#: plugins/personal/posix/class_posixAccount.inc:290
+#: plugins/personal/posix/class_posixAccount.inc:298
 msgid "automatic"
 msgstr "automatique"
 
-#: plugins/personal/posix/class_posixAccount.inc:309
+#: plugins/personal/posix/class_posixAccount.inc:317
 msgid "expired"
 msgstr "expiré"
 
-#: plugins/personal/posix/class_posixAccount.inc:311
+#: plugins/personal/posix/class_posixAccount.inc:319
 msgid "grace time active"
 msgstr "temps de grâce actif"
 
-#: plugins/personal/posix/class_posixAccount.inc:314
-#: plugins/personal/posix/class_posixAccount.inc:316
-#: plugins/personal/posix/class_posixAccount.inc:318
+#: plugins/personal/posix/class_posixAccount.inc:322
+#: plugins/personal/posix/class_posixAccount.inc:324
+#: plugins/personal/posix/class_posixAccount.inc:326
 msgid "active"
 msgstr "actif"
 
-#: plugins/personal/posix/class_posixAccount.inc:314
+#: plugins/personal/posix/class_posixAccount.inc:322
 msgid "password expired"
 msgstr "mot de passe expiré"
 
-#: plugins/personal/posix/class_posixAccount.inc:316
+#: plugins/personal/posix/class_posixAccount.inc:324
 msgid "password not changeable"
 msgstr "mot de passe non modifiable"
 
-#: plugins/personal/posix/class_posixAccount.inc:411
+#: plugins/personal/posix/class_posixAccount.inc:419
 msgid "UID"
 msgstr "UID"
 
-#: plugins/personal/posix/class_posixAccount.inc:530
+#: plugins/personal/posix/class_posixAccount.inc:538
 #, php-format
 msgid "Group of user %s"
 msgstr "Groupe de l'utilisateur %s"
@@ -2161,13 +2163,13 @@ msgstr "Haut"
 msgid "Down"
 msgstr "Bas"
 
-#: include/class_listing.inc:307 include/simpleplugin/class_attribute.inc:2710
-#: include/simpleplugin/class_attribute.inc:2711
+#: include/class_listing.inc:307 include/simpleplugin/class_attribute.inc:2764
+#: include/simpleplugin/class_attribute.inc:2765
 msgid "Sort up"
 msgstr "Trier vers le haut"
 
-#: include/class_listing.inc:307 include/simpleplugin/class_attribute.inc:2723
-#: include/simpleplugin/class_attribute.inc:2724
+#: include/class_listing.inc:307 include/simpleplugin/class_attribute.inc:2777
+#: include/simpleplugin/class_attribute.inc:2778
 msgid "Sort down"
 msgstr "Trier vers le bas"
 
@@ -2186,12 +2188,12 @@ msgstr "Sélectionner tout"
 #: include/functions.inc:3278 include/class_msg_dialog.inc:128
 #: include/class_xml.inc:58 include/class_plugin.inc:790
 #: include/class_plugin.inc:1521 include/class_CopyPasteHandler.inc:276
-#: include/simpleplugin/class_attribute.inc:1571
-#: include/simpleplugin/class_attribute.inc:1574
-#: include/simpleplugin/class_attribute.inc:1577
-#: include/simpleplugin/class_attribute.inc:1817
-#: include/simpleplugin/class_attribute.inc:1920
-#: include/simpleplugin/class_attribute.inc:1922
+#: include/simpleplugin/class_attribute.inc:1594
+#: include/simpleplugin/class_attribute.inc:1597
+#: include/simpleplugin/class_attribute.inc:1600
+#: include/simpleplugin/class_attribute.inc:1852
+#: include/simpleplugin/class_attribute.inc:1974
+#: include/simpleplugin/class_attribute.inc:1976
 #: include/simpleplugin/class_simpleTabs.inc:89
 #: include/simpleplugin/class_simpleTabs.inc:399
 #: include/password-methods/class_password-methods-sasl.inc:59
@@ -2340,7 +2342,7 @@ msgstr "Il semble que vous essayez de déchiffrer quelque chose qui n'est pas ch
 #: include/functions.inc:801 include/functions.inc:856
 #: include/functions.inc:3002 include/functions.inc:3176
 #: include/simpleplugin/class_simplePlugin.inc:585
-#: include/simpleplugin/class_attribute.inc:2973
+#: include/simpleplugin/class_attribute.inc:3027
 #: include/password-methods/class_password-methods.inc:194
 #: include/class_SnapshotHandler.inc:48 include/class_SnapshotHandler.inc:247
 #: include/class_SnapshotHandler.inc:280 include/class_SnapshotHandler.inc:296
@@ -3433,6 +3435,7 @@ msgid "XML error"
 msgstr "Erreur XML"
 
 #: include/class_plugin.inc:543
+#: include/simpleplugin/class_simplePlugin.inc:752
 msgid ""
 "The object has changed since opened in FusionDirectory. All changes that may"
 " be done by others will get lost if you save this entry!"
@@ -3497,12 +3500,12 @@ msgstr "Il existe déjà une entrée avec le même dn : %s"
 msgid "The entry %s is not existing"
 msgstr "L'entrée %s n'existe pas"
 
-#: include/simpleplugin/class_simplePlugin.inc:1010
+#: include/simpleplugin/class_simplePlugin.inc:1028
 #, php-format
 msgid "You don't have sufficient rights to edit field \"%s\""
 msgstr "Vous ne disposez pas des droits suffisants pour modifier les champs \"%s\""
 
-#: include/simpleplugin/class_simplePlugin.inc:1013
+#: include/simpleplugin/class_simplePlugin.inc:1031
 #, php-format
 msgid "Unknown field \"%s\""
 msgstr "Champ inconnu \"%s\""
@@ -3542,8 +3545,8 @@ msgid "Group of user"
 msgstr "Groupe de l’utilisateur"
 
 #: include/simpleplugin/class_dialogAttributes.inc:624
-#: include/simpleplugin/class_attribute.inc:1098
-#: include/simpleplugin/class_attribute.inc:1132
+#: include/simpleplugin/class_attribute.inc:1105
+#: include/simpleplugin/class_attribute.inc:1139
 msgid "None"
 msgstr "Aucun"
 
@@ -3588,100 +3591,102 @@ msgid "days"
 msgstr "jours"
 
 #: include/simpleplugin/class_attribute.inc:544
-#: include/simpleplugin/class_attribute.inc:2218
+#: include/simpleplugin/class_attribute.inc:2272
 #, php-format
 msgid "%s (required)"
 msgstr "%s (requis)"
 
-#: include/simpleplugin/class_attribute.inc:1158
+#: include/simpleplugin/class_attribute.inc:1165
 #, php-format
 msgid "The value \"%s\" for field \"%s\" is not in the list of possible choices"
 msgstr "La valeur \"%s\" pour le champ \"%s\" est pas dans la liste des choix possibles"
 
-#: include/simpleplugin/class_attribute.inc:1285
+#: include/simpleplugin/class_attribute.inc:1292
 #, php-format
 msgid "An integer between %d and %d"
 msgstr "Un nombre entier entre %d et %d"
 
-#: include/simpleplugin/class_attribute.inc:1287
+#: include/simpleplugin/class_attribute.inc:1294
 #, php-format
 msgid "An integer larger than %d"
 msgstr "Un nombre entier supérieur à %d"
 
-#: include/simpleplugin/class_attribute.inc:1289
+#: include/simpleplugin/class_attribute.inc:1296
 #, php-format
 msgid "An integer smaller than %d"
 msgstr "Un nombre entier inférieur à %d"
 
-#: include/simpleplugin/class_attribute.inc:1391
+#: include/simpleplugin/class_attribute.inc:1398
 #, php-format
 msgid "A float between %f and %f"
 msgstr "Un nombre à virgule entre %f et %f"
 
-#: include/simpleplugin/class_attribute.inc:1393
+#: include/simpleplugin/class_attribute.inc:1400
 #, php-format
 msgid "A float larger than %f"
 msgstr "Un nombre à virgule supérieur à %f"
 
-#: include/simpleplugin/class_attribute.inc:1395
+#: include/simpleplugin/class_attribute.inc:1402
 #, php-format
 msgid "A float smaller than %f"
 msgstr "Un nombre à virgule inférieur à %f"
 
-#: include/simpleplugin/class_attribute.inc:1508
-msgid "Error, incorrect date: "
-msgstr "Erreur, date incorrecte :"
+#: include/simpleplugin/class_attribute.inc:1530
+#, php-format
+msgid "Error, incorrect date: %s"
+msgstr ""
 
-#: include/simpleplugin/class_attribute.inc:1571
-#: include/simpleplugin/class_attribute.inc:1574
-#: include/simpleplugin/class_attribute.inc:1577
+#: include/simpleplugin/class_attribute.inc:1594
+#: include/simpleplugin/class_attribute.inc:1597
+#: include/simpleplugin/class_attribute.inc:1600
 #, php-format
 msgid "Cannot read uploaded file: %s"
 msgstr "Impossible de lire le fichier importé : '%s'"
 
-#: include/simpleplugin/class_attribute.inc:1571
+#: include/simpleplugin/class_attribute.inc:1594
 msgid "file is empty"
 msgstr "Le fichier est vide"
 
-#: include/simpleplugin/class_attribute.inc:1574
+#: include/simpleplugin/class_attribute.inc:1597
 msgid "file not found"
 msgstr "fichier non trouvé"
 
-#: include/simpleplugin/class_attribute.inc:1577
+#: include/simpleplugin/class_attribute.inc:1600
 msgid "file not readable"
 msgstr "le fichier n'est pas lisible"
 
-#: include/simpleplugin/class_attribute.inc:1610
+#: include/simpleplugin/class_attribute.inc:1633
 #, php-format
 msgid "%s (%d bytes)"
 msgstr "%s (%d octets)"
 
-#: include/simpleplugin/class_attribute.inc:1657
-#: include/simpleplugin/class_attribute.inc:1837
+#: include/simpleplugin/class_attribute.inc:1680
+#: include/simpleplugin/class_attribute.inc:1877
+#: include/simpleplugin/class_attribute.inc:1878
 msgid "Upload"
 msgstr "Téléverser"
 
-#: include/simpleplugin/class_attribute.inc:1662
-#: include/simpleplugin/class_attribute.inc:1663
+#: include/simpleplugin/class_attribute.inc:1685
+#: include/simpleplugin/class_attribute.inc:1686
 msgid "Download"
 msgstr "Télécharger"
 
-#: include/simpleplugin/class_attribute.inc:1818
+#: include/simpleplugin/class_attribute.inc:1853
 msgid ""
 "Cannot save user picture, FusionDirectory requires the PHP module "
 "\"imagick\" to be installed!"
 msgstr "Impossible de sauver la photo de l'utilisateur, FusionDirectory a besoin que la bibliothèque php \"imagick\" soit installée pour cela."
 
-#: include/simpleplugin/class_attribute.inc:1870
+#: include/simpleplugin/class_attribute.inc:1924
 #: setup/class_setupStep_Ldap.inc:50 ihtml/themes/breezy/simple-list.tpl.c:2
 msgid "Base"
 msgstr "Base"
 
-#: include/simpleplugin/class_attribute.inc:1873
+#: include/simpleplugin/class_attribute.inc:1927
 msgid "Object base"
 msgstr "Base de l'objet"
 
-#: include/simpleplugin/class_attribute.inc:2832
+#: include/simpleplugin/class_attribute.inc:2886
 #, php-format
 msgid "Invalid value for %s"
 msgstr "Valeur invalide pour %s"
@@ -3952,15 +3957,15 @@ msgstr "Il y a plusieurs comptes qui utilise le courriel \"%s\""
 msgid "The user using email \"%s\" is locked. Please contact your administrator."
 msgstr "L'utilisateur correspondant a l'adresse \"%s\" est verrouillé. Veuillez contacter votre administrateur système !"
 
-#: html/class_passwordRecovery.inc:545
+#: html/class_passwordRecovery.inc:539
 msgid "Contact your administrator, there was a problem with mail server"
 msgstr "Contactez votre administrateur système, il y a eu un problème avec le serveur de courriel"
 
-#: html/class_passwordRecovery.inc:556
+#: html/class_passwordRecovery.inc:550
 msgid "This token is invalid"
 msgstr "Le jeton n'est pas valide"
 
-#: html/class_passwordRecovery.inc:616
+#: html/class_passwordRecovery.inc:604
 msgid "There was a problem with mail server, confirmation email not sent"
 msgstr "Un problème est survenu avec le serveur, le courriel de confirmation n'a pas été envoyé"
 
