@@ -2634,7 +2634,7 @@ function check_schema($cfg)
 
   foreach ($checks as $name => $value) {
     foreach ($value['CLASSES_REQUIRED'] as $class) {
-      if (!isset($objectclasses[$name])) {
+      if (!isset($objectclasses[$class])) {
         $checks[$name]['STATUS'] = FALSE;
         if ($value['IS_MUST_HAVE']) {
           $checks[$name]['MSG']    = sprintf(_('Missing required object class "%s"!'), $class);
