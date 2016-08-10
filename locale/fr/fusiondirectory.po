@@ -4,14 +4,15 @@
 # 
 # Translators:
 # Benoit Mortier <benoit.mortier@opensides.be>, 2016
+# MCMic, 2016
 # fusiondirectory <contact@fusiondirectory.org>, 2014
-# MCMic, 2015
+# MCMic, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-110\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2016-08-09 20:44+0200\n"
-"PO-Revision-Date: 2016-08-09 18:41+0000\n"
+"POT-Creation-Date: 2016-08-10 18:29+0200\n"
+"PO-Revision-Date: 2016-08-10 16:25+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: French (http://www.transifex.com/fusiondirectory/FusionDirectory-110/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -207,7 +208,8 @@ msgstr "Autoriser ce groupe à se connecter uniquement sur cette liste d'hôtes"
 #: plugins/personal/posix/class_posixAccount.inc:478 include/functions.inc:809
 #: include/functions.inc:2564 include/class_xml.inc:55
 #: include/simpleplugin/class_simpleTabs.inc:319 html/index.php:592
-#: html/main.php:158 setup/class_setupStep_Migrate.inc:572
+#: html/main.php:158 setup/class_setupStep_Ldap.inc:198
+#: setup/class_setupStep_Migrate.inc:572
 #: setup/class_setupStep_Migrate.inc:1083
 #: setup/class_setupStep_Migrate.inc:1202
 #: setup/class_setupStep_Migrate.inc:1313
@@ -1996,11 +1998,11 @@ msgstr "Activer ou non la fonctionnalité de récupération de mot de passe"
 
 #: plugins/config/class_recoveryConfig.inc:51
 msgid "Sender email address"
-msgstr "Adresse de messagerie de l'émetteur"
+msgstr "Adresse de courriel de l'émetteur"
 
 #: plugins/config/class_recoveryConfig.inc:52
 msgid "Email address from which mails will be sent"
-msgstr "Adresse de messagerie avec laquelle les messages seront envoyés"
+msgstr "Adresse de courriel de laquelle les messages seront envoyés"
 
 #: plugins/config/class_recoveryConfig.inc:58
 msgid "Link validity (minutes)"
@@ -2181,11 +2183,11 @@ msgstr "Sélectionner tout"
 #: include/class_config.inc:357 include/class_msgPool.inc:215
 #: include/class_msgPool.inc:235 include/class_msgPool.inc:265
 #: include/class_msgPool.inc:682 include/class_msgPool.inc:713
-#: include/class_msgPool.inc:740 include/functions.inc:3123
-#: include/functions.inc:3144 include/functions.inc:3184
-#: include/functions.inc:3196 include/functions.inc:3200
-#: include/functions.inc:3207 include/functions.inc:3216
-#: include/functions.inc:3278 include/class_msg_dialog.inc:128
+#: include/class_msgPool.inc:740 include/functions.inc:3150
+#: include/functions.inc:3171 include/functions.inc:3211
+#: include/functions.inc:3223 include/functions.inc:3227
+#: include/functions.inc:3234 include/functions.inc:3243
+#: include/functions.inc:3305 include/class_msg_dialog.inc:128
 #: include/class_xml.inc:58 include/class_plugin.inc:790
 #: include/class_plugin.inc:1521 include/class_CopyPasteHandler.inc:276
 #: include/simpleplugin/class_attribute.inc:1594
@@ -2340,14 +2342,14 @@ msgstr "Il semble que vous essayez de déchiffrer quelque chose qui n'est pas ch
 #: include/class_ldap.inc:1281 include/functions.inc:541
 #: include/functions.inc:693 include/functions.inc:740
 #: include/functions.inc:801 include/functions.inc:856
-#: include/functions.inc:3002 include/functions.inc:3176
+#: include/functions.inc:3029 include/functions.inc:3203
 #: include/simpleplugin/class_simplePlugin.inc:585
 #: include/simpleplugin/class_attribute.inc:3027
 #: include/password-methods/class_password-methods.inc:194
 #: include/class_SnapshotHandler.inc:48 include/class_SnapshotHandler.inc:247
 #: include/class_SnapshotHandler.inc:280 include/class_SnapshotHandler.inc:296
 #: include/class_SnapshotHandler.inc:429 include/class_SnapshotHandler.inc:432
-#: html/index.php:366 html/class_passwordRecovery.inc:522
+#: html/index.php:366 html/class_passwordRecovery.inc:521
 #: setup/class_setupStep_Migrate.inc:451
 #: setup/class_setupStep_Migrate.inc:1130
 msgid "LDAP error"
@@ -3040,7 +3042,7 @@ msgid ""
 "Fatal error: cannot instantiate class '%s' - try running '%s' to fix this"
 msgstr "Erreur fatale : impossible d'initialiser la classe '%s' - veuillez exécuter '%s' pour essayer de régler le problème"
 
-#: include/functions.inc:511 include/functions.inc:3313
+#: include/functions.inc:511 include/functions.inc:3340
 #: include/class_xml.inc:61 include/simpleplugin/class_simplePlugin.inc:271
 #: include/simpleplugin/class_simplePlugin.inc:276
 #: include/simpleplugin/class_simplePlugin.inc:288
@@ -3208,82 +3210,96 @@ msgstr "Avertissement LDAP"
 msgid "Cannot get schema information from server. No schema check possible!"
 msgstr "Impossible de récupérer les informations sur les schémas depuis le serveur. Vérification des schémas impossible !"
 
-#: include/functions.inc:2600
-msgid ""
-"Used to lock currently edited entries to avoid multiple changes at the same "
-"time."
-msgstr "Utilisé pour verrouiller les entrées actuellement modifiées afin d'éviter de multiples changements simultanés."
+#: include/functions.inc:2605
+msgid "Main FusionDirectory schema"
+msgstr ""
 
 #: include/functions.inc:2612
-#, php-format
-msgid "Missing required object class '%s'!"
-msgstr "Object class obligatoire '%s' manquante !"
-
-#: include/functions.inc:2615
-#, php-format
-msgid "Missing optional object class '%s'!"
-msgstr "Object class facultative '%s' manquante !"
+msgid "Schema used to store FusionDirectory configuration"
+msgstr ""
 
 #: include/functions.inc:2619
+msgid "Used to store trust mode information in users or groups."
+msgstr ""
+
+#: include/functions.inc:2626
+msgid "Used to store templates."
+msgstr ""
+
+#: include/functions.inc:2633
+msgid "Used to store POSIX information."
+msgstr ""
+
+#: include/functions.inc:2640
+#, php-format
+msgid "Missing required object class \"%s\"!"
+msgstr ""
+
+#: include/functions.inc:2642
+#, php-format
+msgid "Missing optional object class \"%s\"!"
+msgstr ""
+
+#: include/functions.inc:2646
 #, php-format
 msgid "Class(es) available"
 msgstr "Classe(s) disponible(s)"
 
-#: include/functions.inc:2637
+#: include/functions.inc:2664
 msgid ""
 "You have installed the mixed groups plugin, but your schema configuration "
 "does not support this."
 msgstr "Vous avez installé le plugin «mixed groups», mais vos schéma ne sont pas compatibles."
 
-#: include/functions.inc:2638
+#: include/functions.inc:2665
 msgid ""
 "In order to use mixed groups the objectClass \"posixGroup\" must be "
 "AUXILIARY"
 msgstr "Pour pouvoir utiliser «mixed groups» l’objectClass «posixGroup» doit être auxiliaire («AUXILIARY»)"
 
-#: include/functions.inc:2641
+#: include/functions.inc:2668
 msgid ""
 "Your schema is configured to support mixed groups, but this plugin is not "
 "present."
 msgstr "Vos schémas sont fait pour utiliser des «mixed groups», mais ce plugin n’est pas installé."
 
-#: include/functions.inc:2642
+#: include/functions.inc:2669
 msgid "The objectClass \"posixGroup\" must be STRUCTURAL"
 msgstr "L’objectClass «posixGroup» doit être structurelle («STRUCTURAL»)"
 
-#: include/functions.inc:3123 include/functions.inc:3144
-#: include/functions.inc:3184 include/functions.inc:3196
-#: include/functions.inc:3200 include/functions.inc:3207
-#: include/functions.inc:3216
+#: include/functions.inc:3150 include/functions.inc:3171
+#: include/functions.inc:3211 include/functions.inc:3223
+#: include/functions.inc:3227 include/functions.inc:3234
+#: include/functions.inc:3243
 msgid "Cannot allocate a free ID:"
 msgstr "Impossible d'allouer un ID libre :"
 
-#: include/functions.inc:3123
+#: include/functions.inc:3150
 msgid "unknown idAllocation method!"
 msgstr "Méthode d'allocation des id inconnue !"
 
-#: include/functions.inc:3144
+#: include/functions.inc:3171
 #, php-format
 msgid "%sPoolMin >= %sPoolMax!"
 msgstr "%sPoolMin >= %sPoolMax !"
 
-#: include/functions.inc:3184
+#: include/functions.inc:3211
 msgid "sambaUnixIdPool is not unique!"
 msgstr "sambaUnixIdPool n'est pas unique !"
 
-#: include/functions.inc:3196 include/functions.inc:3200
+#: include/functions.inc:3223 include/functions.inc:3227
 msgid "no ID available!"
 msgstr "Pas d’ID disponibles !"
 
-#: include/functions.inc:3216
+#: include/functions.inc:3243
 msgid "maximum tries exceeded!"
 msgstr "Nombre maximum d'essais dépassé !"
 
-#: include/functions.inc:3278
+#: include/functions.inc:3305
 msgid "Cannot allocate a free ID!"
 msgstr "Impossible d'assigner un ID !"
 
-#: include/functions.inc:3314
+#: include/functions.inc:3341
 #, php-format
 msgid "Cannot locate file '%s' - please run '%s' to fix this"
 msgstr "Fichier '%s' non trouvé - veuillez exécuter '%s' pour régler ce problème"
@@ -3634,7 +3650,7 @@ msgstr "Un nombre à virgule inférieur à %f"
 #: include/simpleplugin/class_attribute.inc:1530
 #, php-format
 msgid "Error, incorrect date: %s"
-msgstr ""
+msgstr "Erreur, date incorrecte  %s"
 
 #: include/simpleplugin/class_attribute.inc:1594
 #: include/simpleplugin/class_attribute.inc:1597
@@ -3928,44 +3944,44 @@ msgstr "Le fichier de configuration de FusionDirectory %s/%s ne peut être lu. A
 msgid "Directory '%s' specified as compile directory is not accessible!"
 msgstr "Le répertoire '%s' spécifié comme répertoire de compilation est inaccessible !"
 
-#: html/class_passwordRecovery.inc:446
+#: html/class_passwordRecovery.inc:445
 #, php-format
 msgid "Did not find an account with login \"%s\""
 msgstr "Aucun compte utilisateur trouvé avec l'identifiant \"%s\""
 
-#: html/class_passwordRecovery.inc:449
+#: html/class_passwordRecovery.inc:448
 #, php-format
 msgid "Found multiple accounts with login \"%s\""
 msgstr "Plusieurs comptes trouvés avec l’identifiant \"%s\""
 
-#: html/class_passwordRecovery.inc:463 ihtml/themes/breezy/recovery.tpl.c:71
+#: html/class_passwordRecovery.inc:462 ihtml/themes/breezy/recovery.tpl.c:71
 msgid "Email address"
 msgstr "Adresse de courriel"
 
-#: html/class_passwordRecovery.inc:486
+#: html/class_passwordRecovery.inc:485
 #, php-format
 msgid "There is no account using email \"%s\""
 msgstr "Il n'y a pas de compte qui utilise le courriel \"%s\""
 
-#: html/class_passwordRecovery.inc:489
+#: html/class_passwordRecovery.inc:488
 #, php-format
 msgid "There are several accounts using email \"%s\""
-msgstr "Il y a plusieurs comptes qui utilise le courriel \"%s\""
+msgstr "Il y a plusieurs comptes qui utilisent le courriel \"%s\""
 
-#: html/class_passwordRecovery.inc:497
+#: html/class_passwordRecovery.inc:496
 #, php-format
 msgid "The user using email \"%s\" is locked. Please contact your administrator."
-msgstr "L'utilisateur correspondant a l'adresse \"%s\" est verrouillé. Veuillez contacter votre administrateur système !"
+msgstr "L'utilisateur correspondant au courriel \"%s\" est verrouillé. Veuillez contacter votre administrateur système !"
 
-#: html/class_passwordRecovery.inc:539
+#: html/class_passwordRecovery.inc:538
 msgid "Contact your administrator, there was a problem with mail server"
 msgstr "Contactez votre administrateur système, il y a eu un problème avec le serveur de courriel"
 
-#: html/class_passwordRecovery.inc:550
+#: html/class_passwordRecovery.inc:549
 msgid "This token is invalid"
 msgstr "Le jeton n'est pas valide"
 
-#: html/class_passwordRecovery.inc:604
+#: html/class_passwordRecovery.inc:603
 msgid "There was a problem with mail server, confirmation email not sent"
 msgstr "Un problème est survenu avec le serveur, le courriel de confirmation n'a pas été envoyé"
 
@@ -4080,6 +4096,13 @@ msgstr "Veuillez fournir un utilisateur et un mot de passe !"
 #, php-format
 msgid "Bind as user '%s' to server '%s' succeeded!"
 msgstr "Connexion de l'utilisateur '%s' au serveur '%s' réussie !"
+
+#: setup/class_setupStep_Ldap.inc:196 setup/class_setupStep_Ldap.inc:198
+#, php-format
+msgid ""
+"%s\n"
+"Schema \"%s\": %s"
+msgstr ""
 
 #: setup/class_setupStep_Finish.inc:30 setup/class_setupStep_Welcome.inc:30
 #: setup/class_setupStep_Welcome.inc:50
@@ -4836,11 +4859,11 @@ msgstr "Mot de passe perdu"
 #: ihtml/themes/breezy/recovery.tpl.c:11
 msgid ""
 "Informations to reset password for %1 have been sent to email address %2"
-msgstr "Informations pour réinitialiser le mot de passe pour %1 ont été envoyés à l'adresse email %2"
+msgstr "Les informations pour réinitialiser le mot de passe pour %1 ont été envoyées à l'adresse de courriel %2"
 
 #: ihtml/themes/breezy/recovery.tpl.c:14
 msgid "Warning : this email is only valid for %1 minutes."
-msgstr "Attention: cet e-mail est uniquement valable pour %1 minutes."
+msgstr "Attention : ce courriel est uniquement valable pour %1 minutes."
 
 #: ihtml/themes/breezy/recovery.tpl.c:17
 msgid ""
@@ -4883,7 +4906,7 @@ msgstr "Votre mot de passe a été changé avec succès."
 msgid ""
 "Enter your current e-mail address in the field below and press the 'Change' "
 "button."
-msgstr "Entrez votre adresse de courriel actuelle dans le champ si dessous et appuyer sur le bouton 'Changer'."
+msgstr "Entrez votre adresse de courriel actuelle dans le champ ci-dessous et appuyez sur le bouton «Changer»."
 
 #: ihtml/themes/breezy/recovery.tpl.c:62
 msgid ""
@@ -4893,7 +4916,7 @@ msgstr "=> Indiquez votre adresse complète, ex: Jules Martin => jules.martin@ex
 
 #: ihtml/themes/breezy/recovery.tpl.c:74
 msgid "Email"
-msgstr "Adresse de messagerie"
+msgstr "Courriel"
 
 #: ihtml/themes/breezy/recovery.tpl.c:83
 msgid ""

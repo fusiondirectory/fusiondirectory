@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-110\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2016-08-09 20:44+0200\n"
-"PO-Revision-Date: 2016-08-09 18:41+0000\n"
+"POT-Creation-Date: 2016-08-10 18:29+0200\n"
+"PO-Revision-Date: 2016-08-10 16:25+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/fusiondirectory/FusionDirectory-110/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
@@ -205,7 +205,8 @@ msgstr ""
 #: plugins/personal/posix/class_posixAccount.inc:478 include/functions.inc:809
 #: include/functions.inc:2564 include/class_xml.inc:55
 #: include/simpleplugin/class_simpleTabs.inc:319 html/index.php:592
-#: html/main.php:158 setup/class_setupStep_Migrate.inc:572
+#: html/main.php:158 setup/class_setupStep_Ldap.inc:198
+#: setup/class_setupStep_Migrate.inc:572
 #: setup/class_setupStep_Migrate.inc:1083
 #: setup/class_setupStep_Migrate.inc:1202
 #: setup/class_setupStep_Migrate.inc:1313
@@ -2179,11 +2180,11 @@ msgstr ""
 #: include/class_config.inc:357 include/class_msgPool.inc:215
 #: include/class_msgPool.inc:235 include/class_msgPool.inc:265
 #: include/class_msgPool.inc:682 include/class_msgPool.inc:713
-#: include/class_msgPool.inc:740 include/functions.inc:3123
-#: include/functions.inc:3144 include/functions.inc:3184
-#: include/functions.inc:3196 include/functions.inc:3200
-#: include/functions.inc:3207 include/functions.inc:3216
-#: include/functions.inc:3278 include/class_msg_dialog.inc:128
+#: include/class_msgPool.inc:740 include/functions.inc:3150
+#: include/functions.inc:3171 include/functions.inc:3211
+#: include/functions.inc:3223 include/functions.inc:3227
+#: include/functions.inc:3234 include/functions.inc:3243
+#: include/functions.inc:3305 include/class_msg_dialog.inc:128
 #: include/class_xml.inc:58 include/class_plugin.inc:790
 #: include/class_plugin.inc:1521 include/class_CopyPasteHandler.inc:276
 #: include/simpleplugin/class_attribute.inc:1594
@@ -2338,14 +2339,14 @@ msgstr ""
 #: include/class_ldap.inc:1281 include/functions.inc:541
 #: include/functions.inc:693 include/functions.inc:740
 #: include/functions.inc:801 include/functions.inc:856
-#: include/functions.inc:3002 include/functions.inc:3176
+#: include/functions.inc:3029 include/functions.inc:3203
 #: include/simpleplugin/class_simplePlugin.inc:585
 #: include/simpleplugin/class_attribute.inc:3027
 #: include/password-methods/class_password-methods.inc:194
 #: include/class_SnapshotHandler.inc:48 include/class_SnapshotHandler.inc:247
 #: include/class_SnapshotHandler.inc:280 include/class_SnapshotHandler.inc:296
 #: include/class_SnapshotHandler.inc:429 include/class_SnapshotHandler.inc:432
-#: html/index.php:366 html/class_passwordRecovery.inc:522
+#: html/index.php:366 html/class_passwordRecovery.inc:521
 #: setup/class_setupStep_Migrate.inc:451
 #: setup/class_setupStep_Migrate.inc:1130
 msgid "LDAP error"
@@ -3038,7 +3039,7 @@ msgid ""
 "Fatal error: cannot instantiate class '%s' - try running '%s' to fix this"
 msgstr ""
 
-#: include/functions.inc:511 include/functions.inc:3313
+#: include/functions.inc:511 include/functions.inc:3340
 #: include/class_xml.inc:61 include/simpleplugin/class_simplePlugin.inc:271
 #: include/simpleplugin/class_simplePlugin.inc:276
 #: include/simpleplugin/class_simplePlugin.inc:288
@@ -3206,82 +3207,96 @@ msgstr ""
 msgid "Cannot get schema information from server. No schema check possible!"
 msgstr ""
 
-#: include/functions.inc:2600
-msgid ""
-"Used to lock currently edited entries to avoid multiple changes at the same "
-"time."
+#: include/functions.inc:2605
+msgid "Main FusionDirectory schema"
 msgstr ""
 
 #: include/functions.inc:2612
-#, php-format
-msgid "Missing required object class '%s'!"
-msgstr ""
-
-#: include/functions.inc:2615
-#, php-format
-msgid "Missing optional object class '%s'!"
+msgid "Schema used to store FusionDirectory configuration"
 msgstr ""
 
 #: include/functions.inc:2619
+msgid "Used to store trust mode information in users or groups."
+msgstr ""
+
+#: include/functions.inc:2626
+msgid "Used to store templates."
+msgstr ""
+
+#: include/functions.inc:2633
+msgid "Used to store POSIX information."
+msgstr ""
+
+#: include/functions.inc:2640
+#, php-format
+msgid "Missing required object class \"%s\"!"
+msgstr ""
+
+#: include/functions.inc:2642
+#, php-format
+msgid "Missing optional object class \"%s\"!"
+msgstr ""
+
+#: include/functions.inc:2646
 #, php-format
 msgid "Class(es) available"
 msgstr ""
 
-#: include/functions.inc:2637
+#: include/functions.inc:2664
 msgid ""
 "You have installed the mixed groups plugin, but your schema configuration "
 "does not support this."
 msgstr ""
 
-#: include/functions.inc:2638
+#: include/functions.inc:2665
 msgid ""
 "In order to use mixed groups the objectClass \"posixGroup\" must be "
 "AUXILIARY"
 msgstr ""
 
-#: include/functions.inc:2641
+#: include/functions.inc:2668
 msgid ""
 "Your schema is configured to support mixed groups, but this plugin is not "
 "present."
 msgstr ""
 
-#: include/functions.inc:2642
+#: include/functions.inc:2669
 msgid "The objectClass \"posixGroup\" must be STRUCTURAL"
 msgstr ""
 
-#: include/functions.inc:3123 include/functions.inc:3144
-#: include/functions.inc:3184 include/functions.inc:3196
-#: include/functions.inc:3200 include/functions.inc:3207
-#: include/functions.inc:3216
+#: include/functions.inc:3150 include/functions.inc:3171
+#: include/functions.inc:3211 include/functions.inc:3223
+#: include/functions.inc:3227 include/functions.inc:3234
+#: include/functions.inc:3243
 msgid "Cannot allocate a free ID:"
 msgstr ""
 
-#: include/functions.inc:3123
+#: include/functions.inc:3150
 msgid "unknown idAllocation method!"
 msgstr ""
 
-#: include/functions.inc:3144
+#: include/functions.inc:3171
 #, php-format
 msgid "%sPoolMin >= %sPoolMax!"
 msgstr ""
 
-#: include/functions.inc:3184
+#: include/functions.inc:3211
 msgid "sambaUnixIdPool is not unique!"
 msgstr ""
 
-#: include/functions.inc:3196 include/functions.inc:3200
+#: include/functions.inc:3223 include/functions.inc:3227
 msgid "no ID available!"
 msgstr ""
 
-#: include/functions.inc:3216
+#: include/functions.inc:3243
 msgid "maximum tries exceeded!"
 msgstr ""
 
-#: include/functions.inc:3278
+#: include/functions.inc:3305
 msgid "Cannot allocate a free ID!"
 msgstr ""
 
-#: include/functions.inc:3314
+#: include/functions.inc:3341
 #, php-format
 msgid "Cannot locate file '%s' - please run '%s' to fix this"
 msgstr ""
@@ -3926,44 +3941,44 @@ msgstr ""
 msgid "Directory '%s' specified as compile directory is not accessible!"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:446
+#: html/class_passwordRecovery.inc:445
 #, php-format
 msgid "Did not find an account with login \"%s\""
 msgstr ""
 
-#: html/class_passwordRecovery.inc:449
+#: html/class_passwordRecovery.inc:448
 #, php-format
 msgid "Found multiple accounts with login \"%s\""
 msgstr ""
 
-#: html/class_passwordRecovery.inc:463 ihtml/themes/breezy/recovery.tpl.c:71
+#: html/class_passwordRecovery.inc:462 ihtml/themes/breezy/recovery.tpl.c:71
 msgid "Email address"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:486
+#: html/class_passwordRecovery.inc:485
 #, php-format
 msgid "There is no account using email \"%s\""
 msgstr ""
 
-#: html/class_passwordRecovery.inc:489
+#: html/class_passwordRecovery.inc:488
 #, php-format
 msgid "There are several accounts using email \"%s\""
 msgstr ""
 
-#: html/class_passwordRecovery.inc:497
+#: html/class_passwordRecovery.inc:496
 #, php-format
 msgid "The user using email \"%s\" is locked. Please contact your administrator."
 msgstr ""
 
-#: html/class_passwordRecovery.inc:539
+#: html/class_passwordRecovery.inc:538
 msgid "Contact your administrator, there was a problem with mail server"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:550
+#: html/class_passwordRecovery.inc:549
 msgid "This token is invalid"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:604
+#: html/class_passwordRecovery.inc:603
 msgid "There was a problem with mail server, confirmation email not sent"
 msgstr ""
 
@@ -4077,6 +4092,13 @@ msgstr ""
 #: setup/class_setupStep_Ldap.inc:178
 #, php-format
 msgid "Bind as user '%s' to server '%s' succeeded!"
+msgstr ""
+
+#: setup/class_setupStep_Ldap.inc:196 setup/class_setupStep_Ldap.inc:198
+#, php-format
+msgid ""
+"%s\n"
+"Schema \"%s\": %s"
 msgstr ""
 
 #: setup/class_setupStep_Finish.inc:30 setup/class_setupStep_Welcome.inc:30

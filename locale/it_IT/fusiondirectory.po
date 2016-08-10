@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-110\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2016-08-09 20:44+0200\n"
-"PO-Revision-Date: 2016-08-09 18:41+0000\n"
-"Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
+"POT-Creation-Date: 2016-08-10 18:29+0200\n"
+"PO-Revision-Date: 2016-08-10 16:51+0000\n"
+"Last-Translator: Paola Penati <penati@avaya.com>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/fusiondirectory/FusionDirectory-110/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -207,7 +207,8 @@ msgstr "Consenti all'utente di connettersi solo a questo elenco di host "
 #: plugins/personal/posix/class_posixAccount.inc:478 include/functions.inc:809
 #: include/functions.inc:2564 include/class_xml.inc:55
 #: include/simpleplugin/class_simpleTabs.inc:319 html/index.php:592
-#: html/main.php:158 setup/class_setupStep_Migrate.inc:572
+#: html/main.php:158 setup/class_setupStep_Ldap.inc:198
+#: setup/class_setupStep_Migrate.inc:572
 #: setup/class_setupStep_Migrate.inc:1083
 #: setup/class_setupStep_Migrate.inc:1202
 #: setup/class_setupStep_Migrate.inc:1313
@@ -2181,11 +2182,11 @@ msgstr "Seleziona tutto"
 #: include/class_config.inc:357 include/class_msgPool.inc:215
 #: include/class_msgPool.inc:235 include/class_msgPool.inc:265
 #: include/class_msgPool.inc:682 include/class_msgPool.inc:713
-#: include/class_msgPool.inc:740 include/functions.inc:3123
-#: include/functions.inc:3144 include/functions.inc:3184
-#: include/functions.inc:3196 include/functions.inc:3200
-#: include/functions.inc:3207 include/functions.inc:3216
-#: include/functions.inc:3278 include/class_msg_dialog.inc:128
+#: include/class_msgPool.inc:740 include/functions.inc:3150
+#: include/functions.inc:3171 include/functions.inc:3211
+#: include/functions.inc:3223 include/functions.inc:3227
+#: include/functions.inc:3234 include/functions.inc:3243
+#: include/functions.inc:3305 include/class_msg_dialog.inc:128
 #: include/class_xml.inc:58 include/class_plugin.inc:790
 #: include/class_plugin.inc:1521 include/class_CopyPasteHandler.inc:276
 #: include/simpleplugin/class_attribute.inc:1594
@@ -2340,14 +2341,14 @@ msgstr "Sembra che si stia tentando di decodificare qualcosa che non è codifica
 #: include/class_ldap.inc:1281 include/functions.inc:541
 #: include/functions.inc:693 include/functions.inc:740
 #: include/functions.inc:801 include/functions.inc:856
-#: include/functions.inc:3002 include/functions.inc:3176
+#: include/functions.inc:3029 include/functions.inc:3203
 #: include/simpleplugin/class_simplePlugin.inc:585
 #: include/simpleplugin/class_attribute.inc:3027
 #: include/password-methods/class_password-methods.inc:194
 #: include/class_SnapshotHandler.inc:48 include/class_SnapshotHandler.inc:247
 #: include/class_SnapshotHandler.inc:280 include/class_SnapshotHandler.inc:296
 #: include/class_SnapshotHandler.inc:429 include/class_SnapshotHandler.inc:432
-#: html/index.php:366 html/class_passwordRecovery.inc:522
+#: html/index.php:366 html/class_passwordRecovery.inc:521
 #: setup/class_setupStep_Migrate.inc:451
 #: setup/class_setupStep_Migrate.inc:1130
 msgid "LDAP error"
@@ -3040,7 +3041,7 @@ msgid ""
 "Fatal error: cannot instantiate class '%s' - try running '%s' to fix this"
 msgstr "Errore fatale: impossibile inizializzare la classe '%s' - esegui '%s' per porre rimedio al problema"
 
-#: include/functions.inc:511 include/functions.inc:3313
+#: include/functions.inc:511 include/functions.inc:3340
 #: include/class_xml.inc:61 include/simpleplugin/class_simplePlugin.inc:271
 #: include/simpleplugin/class_simplePlugin.inc:276
 #: include/simpleplugin/class_simplePlugin.inc:288
@@ -3208,82 +3209,96 @@ msgstr "Avvertimento LDAP"
 msgid "Cannot get schema information from server. No schema check possible!"
 msgstr "Impossibile trovare informazioni sugli schemi a partire dal server. Nessuna verifica degli schemi è stata effettuata !"
 
-#: include/functions.inc:2600
-msgid ""
-"Used to lock currently edited entries to avoid multiple changes at the same "
-"time."
-msgstr "Usato per bloccare le entries attualmente modificate, al fine di evitare possibili cambiamenti multipli simultanei."
+#: include/functions.inc:2605
+msgid "Main FusionDirectory schema"
+msgstr "Schema principale di FusionDirectory"
 
 #: include/functions.inc:2612
-#, php-format
-msgid "Missing required object class '%s'!"
-msgstr "L'oggetto di classe '%s' richiesto è mancante !"
-
-#: include/functions.inc:2615
-#, php-format
-msgid "Missing optional object class '%s'!"
-msgstr "L'oggetto di classe '%s' opzionale è mancante !"
+msgid "Schema used to store FusionDirectory configuration"
+msgstr "Schema utilizzato per memorizzare la configurazione di FusionDirectory"
 
 #: include/functions.inc:2619
+msgid "Used to store trust mode information in users or groups."
+msgstr "Utilizzato per memorizzare le informazioni in modalità fiducia in utenti o gruppi."
+
+#: include/functions.inc:2626
+msgid "Used to store templates."
+msgstr "Usato per memorizzare i modelli."
+
+#: include/functions.inc:2633
+msgid "Used to store POSIX information."
+msgstr "Usato per memorizzare le informazioni POSIX."
+
+#: include/functions.inc:2640
+#, php-format
+msgid "Missing required object class \"%s\"!"
+msgstr "Manca la classe di oggetti necessaria \"%s\"!"
+
+#: include/functions.inc:2642
+#, php-format
+msgid "Missing optional object class \"%s\"!"
+msgstr "Manca classe di oggetti optional \"%s\"!"
+
+#: include/functions.inc:2646
 #, php-format
 msgid "Class(es) available"
 msgstr "Classe(i) disponibile(i)"
 
-#: include/functions.inc:2637
+#: include/functions.inc:2664
 msgid ""
 "You have installed the mixed groups plugin, but your schema configuration "
 "does not support this."
 msgstr "Avete installato il plugin di gruppi misti, ma la configurazione dello schema non supporta questo."
 
-#: include/functions.inc:2638
+#: include/functions.inc:2665
 msgid ""
 "In order to use mixed groups the objectClass \"posixGroup\" must be "
 "AUXILIARY"
 msgstr "Per usare gruppi misti l'objetClass \"posixGroup\" deve essere AUSILIARIO"
 
-#: include/functions.inc:2641
+#: include/functions.inc:2668
 msgid ""
 "Your schema is configured to support mixed groups, but this plugin is not "
 "present."
 msgstr "Il vostro schema é configurato per supportare gruppi misti, ma manca il plugin."
 
-#: include/functions.inc:2642
+#: include/functions.inc:2669
 msgid "The objectClass \"posixGroup\" must be STRUCTURAL"
 msgstr "L'objectClass \"posixGroup\" deve essere STRUTTURALE"
 
-#: include/functions.inc:3123 include/functions.inc:3144
-#: include/functions.inc:3184 include/functions.inc:3196
-#: include/functions.inc:3200 include/functions.inc:3207
-#: include/functions.inc:3216
+#: include/functions.inc:3150 include/functions.inc:3171
+#: include/functions.inc:3211 include/functions.inc:3223
+#: include/functions.inc:3227 include/functions.inc:3234
+#: include/functions.inc:3243
 msgid "Cannot allocate a free ID:"
 msgstr "Impossibile assegnare un ID libero:"
 
-#: include/functions.inc:3123
+#: include/functions.inc:3150
 msgid "unknown idAllocation method!"
 msgstr "Metodo idAllocation sconosciuto !"
 
-#: include/functions.inc:3144
+#: include/functions.inc:3171
 #, php-format
 msgid "%sPoolMin >= %sPoolMax!"
 msgstr "%sPoolMin >= %sPoolMax!"
 
-#: include/functions.inc:3184
+#: include/functions.inc:3211
 msgid "sambaUnixIdPool is not unique!"
 msgstr "sambaUnixIdPool non è univoco !"
 
-#: include/functions.inc:3196 include/functions.inc:3200
+#: include/functions.inc:3223 include/functions.inc:3227
 msgid "no ID available!"
 msgstr "nessun ID disponibile !"
 
-#: include/functions.inc:3216
+#: include/functions.inc:3243
 msgid "maximum tries exceeded!"
 msgstr "Il numero massimo di tentativi è stato superato"
 
-#: include/functions.inc:3278
+#: include/functions.inc:3305
 msgid "Cannot allocate a free ID!"
 msgstr "Impossibile assegnare un ID libero!"
 
-#: include/functions.inc:3314
+#: include/functions.inc:3341
 #, php-format
 msgid "Cannot locate file '%s' - please run '%s' to fix this"
 msgstr "Impossibile trovare il file '%s' - esegui '%s' per porre rimedio al problema"
@@ -3634,7 +3649,7 @@ msgstr "Un numero con la virgola più piccolo di %f"
 #: include/simpleplugin/class_attribute.inc:1530
 #, php-format
 msgid "Error, incorrect date: %s"
-msgstr ""
+msgstr "Errore, la data non é corretta: %s"
 
 #: include/simpleplugin/class_attribute.inc:1594
 #: include/simpleplugin/class_attribute.inc:1597
@@ -3928,44 +3943,44 @@ msgstr "Il file di configurazione %s/%s non è leggibile. Operazione Annullata."
 msgid "Directory '%s' specified as compile directory is not accessible!"
 msgstr "La cartella '%s' dichiarata come cartella di compilazione è inaccessibile !"
 
-#: html/class_passwordRecovery.inc:446
+#: html/class_passwordRecovery.inc:445
 #, php-format
 msgid "Did not find an account with login \"%s\""
 msgstr "Alcun account trovato con login \"%s\" "
 
-#: html/class_passwordRecovery.inc:449
+#: html/class_passwordRecovery.inc:448
 #, php-format
 msgid "Found multiple accounts with login \"%s\""
 msgstr "Trovati più accounts con login \"%s\""
 
-#: html/class_passwordRecovery.inc:463 ihtml/themes/breezy/recovery.tpl.c:71
+#: html/class_passwordRecovery.inc:462 ihtml/themes/breezy/recovery.tpl.c:71
 msgid "Email address"
 msgstr "Indirizzo di posta elettronica"
 
-#: html/class_passwordRecovery.inc:486
+#: html/class_passwordRecovery.inc:485
 #, php-format
 msgid "There is no account using email \"%s\""
 msgstr "Non c'è nessun account che usa l'indirizzo mail %s"
 
-#: html/class_passwordRecovery.inc:489
+#: html/class_passwordRecovery.inc:488
 #, php-format
 msgid "There are several accounts using email \"%s\""
 msgstr "Ci sono più account che usano l'indirizzo mail %s"
 
-#: html/class_passwordRecovery.inc:497
+#: html/class_passwordRecovery.inc:496
 #, php-format
 msgid "The user using email \"%s\" is locked. Please contact your administrator."
 msgstr "L'utente che usa la mail \"%s\" é bloccato. Si prega di contattare l'amministratore di sistema."
 
-#: html/class_passwordRecovery.inc:539
+#: html/class_passwordRecovery.inc:538
 msgid "Contact your administrator, there was a problem with mail server"
 msgstr "Contattare l'amministratore, c'è stato un problema con il server di posta elettronica"
 
-#: html/class_passwordRecovery.inc:550
+#: html/class_passwordRecovery.inc:549
 msgid "This token is invalid"
 msgstr "Questo token non è valido"
 
-#: html/class_passwordRecovery.inc:604
+#: html/class_passwordRecovery.inc:603
 msgid "There was a problem with mail server, confirmation email not sent"
 msgstr "Si è verificato un problema con il server mail, la email di conferma non è stata inviata"
 
@@ -4080,6 +4095,13 @@ msgstr "Specifica il nome utente e la password !"
 #, php-format
 msgid "Bind as user '%s' to server '%s' succeeded!"
 msgstr "La connessione dell'utente '%s' al server '%s' è riuscita !"
+
+#: setup/class_setupStep_Ldap.inc:196 setup/class_setupStep_Ldap.inc:198
+#, php-format
+msgid ""
+"%s\n"
+"Schema \"%s\": %s"
+msgstr "%s\nSchema \"%s\": %s"
 
 #: setup/class_setupStep_Finish.inc:30 setup/class_setupStep_Welcome.inc:30
 #: setup/class_setupStep_Welcome.inc:50
@@ -4641,8 +4663,8 @@ msgstr "Premi \"Rimuovi\" per continuare oppure \"Annulla\" per interrompere"
 #: plugins/addons/dashboard/users_accounts.tpl.c:2
 msgid "There is one expired account"
 msgid_plural "There are %1 expired accounts"
-msgstr[0] "Ci sono% 1 account scaduti"
-msgstr[1] "Ci sono% 1 account scaduti"
+msgstr[0] "C'é un account scaduto"
+msgstr[1] "Ci sono %1 di accounts scaduti"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:5
 msgid "There is no expired account"
@@ -4688,8 +4710,8 @@ msgstr "mail"
 #: plugins/addons/dashboard/users_accounts.tpl.c:35
 msgid "There is one account expiring in the next %1 days"
 msgid_plural "There are %2 accounts expiring in the next %1 days"
-msgstr[0] "Ci sono% 2 account in scadenza nei prossimi 1 % giorni "
-msgstr[1] "Ci sono% 2 account in scadenza nei prossimi 1 % giorni "
+msgstr[0] "C'é un account in scadenza nei prossimi 1% giorni "
+msgstr[1] "Ci sono %2 di accounts in scadenza nei prossimi 1% giorni "
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:38
 msgid "There is no account expiring in the next %1 days"
@@ -4702,13 +4724,13 @@ msgstr "Prossimi account che scadranno"
 #: plugins/addons/dashboard/groups_stats.tpl.c:2
 msgid "There is 1 group:"
 msgid_plural "There are %1 groups:"
-msgstr[0] "%2sono gruppi%1 "
-msgstr[1] ""
+msgstr[0] "C'é 1 gruppo:"
+msgstr[1] "Ci sono %1 gruppi:"
 
 #: plugins/addons/dashboard/groups_stats.tpl.c:5
 msgid "One of them is a %1 group"
 msgid_plural "%2 are %1 groups"
-msgstr[0] "%2 sono %1 gruppi"
+msgstr[0] "Uno di essi é un gruppo %1 "
 msgstr[1] "%2 sono %1 gruppi"
 
 #: plugins/addons/dashboard/groups_stats.tpl.c:8
@@ -4718,14 +4740,14 @@ msgstr "Non c'é alcun gruppo %1"
 #: plugins/addons/dashboard/users_stats.tpl.c:2
 msgid "There is 1 user:"
 msgid_plural "There are %1 users:"
-msgstr[0] "Ci sono %1 di utenti"
-msgstr[1] "Ci sono %1 di utenti"
+msgstr[0] "C'é un utente"
+msgstr[1] "Ci sono %1 utenti:"
 
 #: plugins/addons/dashboard/users_stats.tpl.c:5
 msgid "One of them have a %1 account"
 msgid_plural "%2 of them have a %1 account"
-msgstr[0] "%2di essi hanno %1account"
-msgstr[1] ""
+msgstr[0] "Uno di essi ha un account %1"
+msgstr[1] "%2 di essi hanno %1 account"
 
 #: plugins/addons/dashboard/users_stats.tpl.c:8
 msgid "None of them have a %1 account"
