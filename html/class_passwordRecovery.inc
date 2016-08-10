@@ -248,14 +248,10 @@ class passwordRecovery extends standAlonePage {
   {
     parent::__construct();
 
-    $smarty = get_smarty();
-
     if (isset($_GET['email_address']) && $_GET['email_address'] != "") {
       $this->email_address = validate($_GET['email_address']);
-      $smarty->assign('email_address', $this->email_address);
     } elseif (isset($_POST['email_address'])) {
       $this->email_address = validate($_POST['email_address']);
-      $smarty->assign('email_address', $this->email_address);
     }
 
     /* Check for selected user... */
@@ -264,7 +260,7 @@ class passwordRecovery extends standAlonePage {
     } elseif (isset($_POST['uid'])) {
       $this->uid = validate($_POST['uid']);
     } else {
-      $this->uid = "";
+      $this->uid = '';
     }
   }
 
@@ -322,13 +318,16 @@ class passwordRecovery extends standAlonePage {
     $smarty->assign('usePrototype', 'FALSE');
     $smarty->append('js_files',     'include/pwdStrength.js');
     $smarty->append('css_files',    get_template_path('login.css'));
+    $lang = session::global_get('lang');
+    $smarty->assign('lang', preg_replace('/_.*$/', '', $lang));
+    $smarty->assign('rtl', language_is_rtl($lang));
     $smarty->display(get_template_path('headers.tpl'));
 
     $smarty->assign('version',        FD_VERSION);
     $smarty->assign('step',           $this->step);
     $smarty->assign('delay_allowed',  $this->delay_allowed);
     $smarty->assign('activated',      $this->activated);
-
+    $smarty->assign('email_address',  $this->email_address);
     $smarty->display(get_template_path('recovery.tpl'));
     exit();
   }
