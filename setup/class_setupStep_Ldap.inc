@@ -194,7 +194,7 @@ class Step_Ldap extends setupStep
       foreach ($checked as $check) {
         if (!$check['STATUS']) {
           if ($check['IS_MUST_HAVE']) {
-            $error[] = $check['MSG'];
+            $error[] = sprintf(_("%s\nSchema \"%s\": %s"), $check['MSG'], $check['SCHEMA_FILE'], $check['INFO']);
           } else {
             msg_dialog::display(_('Warning'), sprintf(_("%s\nSchema \"%s\": %s"), $check['MSG'], $check['SCHEMA_FILE'], $check['INFO']), WARNING_DIALOG);
           }
