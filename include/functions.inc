@@ -2579,50 +2579,77 @@ function check_schema($cfg)
   $ldap = new ldapMultiplexer(new LDAP($cfg['admin'], $cfg['password'], $cfg['connection'], FALSE, $cfg['tls']));
   $objectclasses = $ldap->get_objectclasses(TRUE);
   if (count($objectclasses) == 0) {
-    msg_dialog::display(_("LDAP warning"), _("Cannot get schema information from server. No schema check possible!"), WARNING_DIALOG);
+    msg_dialog::display(_('LDAP warning'), _('Cannot get schema information from server. No schema check possible!'), WARNING_DIALOG);
+    return $checks;
   }
 
   /* This is the default block used for each entry.
    *  to avoid unset indexes.
    */
   $def_check = array(
-      "SCHEMA_FILES"     => array(),
-      "CLASSES_REQUIRED" => array(),
-      "STATUS"           => FALSE,
-      "IS_MUST_HAVE"     => FALSE,
-      "MSG"              => "",
-      "INFO"             => ""); // There is currently no information specified for this schema extension.;
+    'SCHEMA_FILE'       => '',
+    'CLASSES_REQUIRED'  => array(),
+    'STATUS'            => FALSE,
+    'IS_MUST_HAVE'      => FALSE,
+    'MSG'               => '',
+    'INFO'              => ''
+  );
 
-  /* FusionDirectory lock entry, used to mark currently edited objects as 'in use' */
-  $checks['gosaLockEntry']['SCHEMA_FILES']     = array('core-fd.schema');
-  $checks['gosaLockEntry']['CLASSES_REQUIRED'] = array('gosaLockEntry');
-  $checks['gosaLockEntry']['IS_MUST_HAVE']     = TRUE;
-  $checks['gosaLockEntry']['INFO']             = _('Used to lock currently edited entries to avoid multiple changes at the same time.');
+  /* FusionDirectory core schemas */
 
-  /* Some other checks */
-  $checks['posixAccount']['SCHEMA_FILES']     = array('nis.schema');
-  $checks['posixAccount']['CLASSES_REQUIRED'] = array('posixAccount');
-  $checks['posixAccount']['IS_MUST_HAVE']     = FALSE;
+  /* core-fd */
+  $checks['core-fd'] = $def_check;
+  $checks['core-fd']['SCHEMA_FILE']       = 'core-fd.schema';
+  $checks['core-fd']['CLASSES_REQUIRED']  = array('gosaLockEntry');
+  $checks['core-fd']['IS_MUST_HAVE']      = TRUE;
+  $checks['core-fd']['INFO']              = _('Main FusionDirectory schema');
+
+  /* core-fd-conf */
+  $checks['core-fd-conf'] = $def_check;
+  $checks['core-fd-conf']['SCHEMA_FILE']      = 'core-fd-conf.schema';
+  $checks['core-fd-conf']['CLASSES_REQUIRED'] = array('fusionDirectoryConf');
+  $checks['core-fd-conf']['IS_MUST_HAVE']     = TRUE;
+  $checks['core-fd-conf']['INFO']             = _('Schema used to store FusionDirectory configuration');
+
+  /* ldapns */
+  $checks['ldapns'] = $def_check;
+  $checks['ldapns']['SCHEMA_FILE']      = 'ldapns.schema';
+  $checks['ldapns']['CLASSES_REQUIRED'] = array('hostObject');
+  $checks['ldapns']['IS_MUST_HAVE']     = FALSE;
+  $checks['ldapns']['INFO']             = _('Used to store trust mode information in users or groups.');
+
+  /* template-fd */
+  $checks['template-fd'] = $def_check;
+  $checks['template-fd']['SCHEMA_FILE']      = 'template-fd.schema';
+  $checks['template-fd']['CLASSES_REQUIRED'] = array('fdTemplate');
+  $checks['template-fd']['IS_MUST_HAVE']     = FALSE;
+  $checks['template-fd']['INFO']             = _('Used to store templates.');
+
+  /* nis */
+  $checks['nis'] = $def_check;
+  $checks['nis']['SCHEMA_FILE']       = 'nis.schema';
+  $checks['nis']['CLASSES_REQUIRED']  = array('posixAccount');
+  $checks['nis']['IS_MUST_HAVE']      = FALSE;
+  $checks['nis']['INFO']              = _('Used to store POSIX information.');
 
   foreach ($checks as $name => $value) {
     foreach ($value['CLASSES_REQUIRED'] as $class) {
       if (!isset($objectclasses[$name])) {
+        $checks[$name]['STATUS'] = FALSE;
         if ($value['IS_MUST_HAVE']) {
-          $checks[$name]['STATUS'] = FALSE;
-          $checks[$name]['MSG']    = sprintf(_("Missing required object class '%s'!"), $class);
+          $checks[$name]['MSG']    = sprintf(_('Missing required object class "%s"!'), $class);
         } else {
-          $checks[$name]['STATUS'] = TRUE;
-          $checks[$name]['MSG']    = sprintf(_("Missing optional object class '%s'!"), $class);
+          $checks[$name]['MSG']    = sprintf(_('Missing optional object class "%s"!'), $class);
         }
       } else {
         $checks[$name]['STATUS']  = TRUE;
-        $checks[$name]['MSG']     = sprintf(_("Class(es) available"));
+        $checks[$name]['MSG']     = sprintf(_('Class(es) available'));
       }
     }
   }
 
   $checks['posixGroup'] = $def_check;
-  $checks['posixGroup']['SCHEMA_FILES']     = array('nis.schema');
+  $checks['posixGroup']['SCHEMA_FILE']      = 'nis.schema';
   $checks['posixGroup']['CLASSES_REQUIRED'] = array('posixGroup');
   $checks['posixGroup']['STATUS']           = TRUE;
   $checks['posixGroup']['MSG']              = '';
