@@ -190,4 +190,10 @@ documentation and additional help.
   
 * Timothée Giet timo@timotheegiet.com
   New breezy icon Theme
+
+* Clement Oudot <clem.oudot@gmail.com>
+  HTTP header authentication
+
+* Thomas Niercke <thomas@niercke.de>
+  Code and ideas for making Argonaut Events Extensible
   
