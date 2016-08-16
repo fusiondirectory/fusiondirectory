@@ -241,6 +241,16 @@ class DialogOrderedArrayAttribute extends OrderedArrayAttribute
     $this->attribute    = FALSE;
   }
 
+  function getFilterBlackList ()
+  {
+    trigger_error("abstract method");
+  }
+
+  function getFilterWhiteList ()
+  {
+    return array();
+  }
+
   function loadPostValue ()
   {
     if ($this->isVisible()) {
