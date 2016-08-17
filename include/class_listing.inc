@@ -606,27 +606,27 @@ class listing {
         }
       }
 
-      // Override base if we got signals from the navigation elements
-      $action = "";
-      foreach (array_keys($_POST) as $key) {
-        if (preg_match('/^(ROOT|BACK|HOME)_x$/', $key, $match)) {
-          $action = $match[1];
-          break;
+      if ($this->baseMode) {
+        // Override base if we got signals from the navigation elements
+        $action = '';
+        foreach (array_keys($_POST) as $key) {
+          if (preg_match('/^(ROOT|BACK|HOME)_x$/', $key, $match)) {
+            $action = $match[1];
+            break;
+          }
         }
-      }
 
-      // Navigation handling
-      if ($action == 'ROOT') {
-        $deps = $ui->get_module_departments($this->categories);
-        $this->setBase($deps[0]);
-        session::global_set("CurrentMainBase", $this->base);
-      }
-      if ($action == 'BACK') {
-        $base = preg_replace("/^[^,]+,/", "", $this->base);
-        $this->tryAndSetBase($base);
-      }
-      if ($action == 'HOME') {
-        $this->tryAndSetBase(get_base_from_people($ui->dn));
+        // Navigation handling
+        if ($action == 'ROOT') {
+          $deps = $ui->get_module_departments($this->categories);
+          $this->setBase($deps[0]);
+          session::global_set('CurrentMainBase', $this->base);
+        } elseif ($action == 'BACK') {
+          $base = preg_replace('/^[^,]+,/', '', $this->base);
+          $this->tryAndSetBase($base);
+        } elseif ($action == 'HOME') {
+          $this->tryAndSetBase(get_base_from_people($ui->dn));
+        }
       }
     }
 
@@ -1137,7 +1137,7 @@ class listing {
     }
 
     /* Check if we are in users home  department */
-    if (!count($deps) || $this->filter->base == get_base_from_people($ui->dn) || !in_array_ics(get_base_from_people($ui->dn), $deps)) {
+    if (!count($deps) || ($this->filter->base == get_base_from_people($ui->dn)) || !in_array_ics(get_base_from_people($ui->dn), $deps)) {
       $enableHome = FALSE;
     }
 

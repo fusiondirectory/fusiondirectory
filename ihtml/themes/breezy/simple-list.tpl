@@ -10,9 +10,10 @@
           <table>
             <tbody>
               <tr>
-                <td>{$ROOT}&nbsp;</td><td>{$BACK}&nbsp;</td><td>{$HOME}&nbsp;</td><td class="optional">{$RELOAD}&nbsp;</td><td>{$SEPARATOR}&nbsp;</td>
-                {if $BASE}<td>{t}Base{/t} {$BASE}&nbsp;</td><td>{$SEPARATOR}&nbsp;</td>{/if}
-                <td>{$ACTIONS}</td>
+                {if $BASE}<td>{$ROOT}&nbsp;</td><td>{$BACK}&nbsp;</td><td>{$HOME}&nbsp;</td>{/if}
+                <td class="optional">{$RELOAD}&nbsp;</td>
+                {if $BASE}<td>{$SEPARATOR}&nbsp;</td><td>{t}Base{/t} {$BASE}&nbsp;</td>{/if}
+                {if $ACTIONS}<td>{$SEPARATOR}&nbsp;</td><td>{$ACTIONS}</td>{/if}
               </tr>
             </tbody>
           </table>
