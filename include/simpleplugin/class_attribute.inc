@@ -623,7 +623,7 @@ class Attribute
     ));
   }
 
-  protected function htmlIds()
+  public function htmlIds()
   {
     return array($this->getHtmlId());
   }
@@ -1689,7 +1689,7 @@ class FileDownloadAttribute extends FileAttribute
     return $this->renderAcl($display);
   }
 
-  protected function htmlIds()
+  public function htmlIds()
   {
     $id   = $this->getHtmlId();
     $ids  = array('download'.$id);
@@ -1756,7 +1756,7 @@ class FileTextAreaAttribute extends FileDownloadAttribute
     return $this->renderAcl($display).parent::renderFormInput();
   }
 
-  protected function htmlIds()
+  public function htmlIds()
   {
     $ids    = parent::htmlIds();
     $ids[]  = $id.'_text';
@@ -1896,7 +1896,7 @@ class ImageAttribute extends FileAttribute
     return $this->renderAcl($display);
   }
 
-  protected function htmlIds()
+  public function htmlIds()
   {
     $id = $this->getHtmlId();
     return array($id.'_img',$id,'upload'.$id);
@@ -2304,7 +2304,7 @@ class SetAttribute extends Attribute
     return array_values($this->value);
   }
 
-  protected function htmlIds()
+  public function htmlIds()
   {
     $id = $this->getHtmlId();
     return array_merge(array('add'.$id,'del'.$id,'row'.$id), $this->attribute->htmlIds());
@@ -2628,7 +2628,7 @@ class CompositeAttribute extends Attribute
     return $display;
   }
 
-  protected function htmlIds()
+  public function htmlIds()
   {
     $ret = array();
     foreach ($this->attributes as &$attribute) {
@@ -2906,7 +2906,7 @@ class OrderedArrayAttribute extends SetAttribute
     }
   }
 
-  protected function htmlIds()
+  public function htmlIds()
   {
     $id   = $this->getHtmlId();
     $ids  = array('add'.$id);
