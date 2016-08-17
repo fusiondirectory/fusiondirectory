@@ -223,7 +223,7 @@ class DialogAttribute extends SetAttribute
     return $buttons;
   }
 
-  protected function htmlIds()
+  public function htmlIds()
   {
     $id = $this->getHtmlId();
     return array('add'.$id.'_dialog','del'.$id,'row'.$id);
@@ -288,7 +288,7 @@ class DialogOrderedArrayAttribute extends OrderedArrayAttribute
     );
   }
 
-  protected function htmlIds()
+  public function htmlIds()
   {
     $ids = parent::htmlIds();
     $ids[0] .= '_dialog';
@@ -525,7 +525,7 @@ class MailsAttribute extends DialogAttribute
     return $buttons;
   }
 
-  protected function htmlIds()
+  public function htmlIds()
   {
     $id = $this->getHtmlId();
     return array('add'.$id,'add'.$id.'_dialog','del'.$id,'row'.$id);
@@ -696,7 +696,7 @@ class UserAttribute extends DialogButtonAttribute
     }
   }
 
-  protected function htmlIds()
+  public function htmlIds()
   {
     $ids = array($this->getHtmlId());
     if (!$this->isRequired()) {
