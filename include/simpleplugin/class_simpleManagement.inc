@@ -530,7 +530,7 @@ class simpleManagement extends management
    */
   protected function saveChanges()
   {
-    if (($this->tabObject instanceOf tabs) && ($this->dialogObject instanceOf templateDialog)) {
+    if (($this->tabObject instanceOf simpleTabs) && ($this->dialogObject instanceOf templateDialog)) {
       $this->tabObject->save_object();
       $this->handleTemplateApply();
       return;
@@ -544,7 +544,7 @@ class simpleManagement extends management
    */
   protected function cancelEdit()
   {
-    if (($this->tabObject instanceOf tabs) && ($this->dialogObject instanceOf templateDialog)) {
+    if (($this->tabObject instanceOf simpleTabs) && ($this->dialogObject instanceOf templateDialog)) {
       $this->handleTemplateApply(TRUE);
       return;
     }
