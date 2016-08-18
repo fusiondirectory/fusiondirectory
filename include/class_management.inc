@@ -30,29 +30,16 @@
  */
 class management
 {
-  // The plugin description
-  public $plugname      = "unconfigured";
-  public $plIcon        = "unconfigured";
-  public $plDescription = "unconfigured";
-  public $plHeadline    = "unconfigured";
-
   // The currently used object(s) (e.g. in edit, removal)
-  public $dn      = "";  // this is public due to some compatibility problems with class plugin..
+  public $dn      = '';  // this is public due to some compatibility problems with class plugin..
   protected $dns  = array();
 
   // The last used object(s).
-  protected $last_dn  = "";
+  protected $last_dn  = '';
   protected $last_dns = array();
 
   // The common places the displayed objects are stored in. (e.g. array("ou=groups,",".."))
   protected $storagePoints = array();
-
-  // The tab definitions to use for the current object.
-  protected $tabClass     = "";      // e.g. usertabs
-  protected $tabType      = "";      // e.g. USERTABS
-  protected $aclPlugin    = "";      // e.g. generic
-  protected $aclCategory  = "";      // e.g. user
-  protected $objectName   = "";      // e.g. users
 
   // The opened object.
   protected $tabObject    = NULL;
@@ -96,10 +83,9 @@ class management
   // Some management classes are used in tab groups and needs this set to FALSE.
   var $is_template    = FALSE;
 
-  function  __construct($plugname, $headpage)
+  function  __construct($headpage)
   {
     global $config;
-    $this->plugname = $plugname;
     $this->headpage = $headpage;
 
     // Add copy&paste and snapshot handler.
@@ -165,7 +151,8 @@ class management
     if (isset($_REQUEST['dn'])) {
       $this->headpage->setBase($config->current['BASE']);
       $this->headpage->filter->setCurrentScope('sub');
-      $this->renderList();
+      $this->headpage->update();
+      $this->headpage->render();
     }
 
     // Handle actions (POSTs and GETs)
@@ -211,13 +198,6 @@ class management
     return $this->renderList();
   }
 
-  function renderList()
-  {
-    $this->headpage->update();
-    $display = $this->headpage->render();
-    return $this->getHeader().$display;
-  }
-
   function getHeadpage()
   {
     return $this->headpage;
@@ -235,27 +215,17 @@ class management
   protected function getHeader()
   {
     if ($this->skipHeader) {
-      return "";
+      return '';
     }
 
-    if (in_array_ics('plInfo', get_class_methods(get_class($this)))) {
-      $plInfos  = pluglist::pluginInfos(get_class($this));
-      $plTitle  = $plInfos['plTitle'];
-      $plIcon   = $plInfos['plIcon'];
-    } else {
-      $plTitle  = $this->plDescription;
-      $plIcon   = $this->plIcon;
-    }
+    $plInfos  = pluglist::pluginInfos(get_class($this));
+    $plTitle  = $plInfos['plTitle'];
+    $plIcon   = $plInfos['plIcon'];
 
     if (!preg_match('/^geticon/', $plIcon)) {
       $plIcon = get_template_path($plIcon);
     }
-    if (get_object_info() != '') {
-      $display = print_header($plIcon, _($plTitle), LDAP::fix(get_object_info()));
-    } else {
-      $display = print_header($plIcon, _($plTitle));
-    }
-    return $display;
+    return print_header($plIcon, $plTitle, LDAP::fix(get_object_info()));
   }
 
 
@@ -302,118 +272,6 @@ class management
     return $str;
   }
 
-
-  /*!
-   * \brief  Initiates the removal for the given entries
-   *           and displays a confirmation dialog.
-   *
-   * \param  String  $action  The name of the action which was the used as trigger.
-   *
-   * \param  Array   $target  A list of object dns, which should be affected by this method.
-   *
-   * \param  Array   $all     A combination of both 'action' and 'target'.
-   */
-  protected function removeEntryRequested($action = "", $target = array(), $all = array())
-  {
-    global $ui;
-    $disallowed = array();
-    $this->dns = array();
-
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, "Entry removel requested!");
-
-    // Check permissons for each target
-    foreach ($target as $dn) {
-      $acl = $ui->get_permissions($dn, $this->aclCategory."/".$this->aclPlugin);
-      if (preg_match("/d/", $acl)) {
-        $this->dns[] = $dn;
-      } else {
-        $disallowed[] = $dn;
-      }
-    }
-    if (count($disallowed)) {
-      msg_dialog::display(_("Permission"), msgPool::permDelete($disallowed), INFO_DIALOG);
-    }
-
-    // We've at least one entry to delete.
-    if (count($this->dns)) {
-
-      // check locks
-      if ($user = get_multiple_locks($this->dns)) {
-        return gen_locked_message($user, $this->dns);
-      }
-
-      // Add locks
-      $dns_names = array();
-      foreach ($this->dns as $dn) {
-        $dns_names[] = LDAP::fix($dn);
-      }
-      add_lock ($this->dns, $ui->dn);
-
-      // Display confirmation dialog.
-      $smarty = get_smarty();
-      $smarty->assign("info", msgPool::deleteInfo($dns_names, _($this->objectName)));
-      $smarty->assign("multiple", TRUE);
-      return $smarty->fetch(get_template_path('remove.tpl', TRUE));
-    }
-  }
-
-
-  /*!
-   * \brief  Object removal was confirmed, now remove the requested entries.
-   *
-   * \param  String  $action  The name of the action which was the used as trigger.
-   *
-   * \param  Array   $target  A list of object dns, which should be affected by this method.
-   *
-   * \param  Array   $all     A combination of both 'action' and 'target'.
-   *
-   * \param String $altTabClass Empty string.
-   *
-   * \param String $altTabType Empty string.
-   *
-   * \param String $altAclCategory Empty string.
-   */
-  function removeEntryConfirmed($action = "", $target = array(), $all = array(),
-      $altTabClass = "", $altTabType = "", $altAclCategory = "")
-  {
-    global $ui;
-    $tabType      = $this->tabType;
-    $tabClass     = $this->tabClass;
-    $aclCategory  = $this->aclCategory;
-
-    if (!empty($altTabClass)) $tabClass = $altTabClass;
-    if (!empty($altTabType)) $tabType = $altTabType;
-    if (!empty($altAclCategory)) $aclCategory = $altAclCategory;
-
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, "Entry removal confirmed!");
-
-    foreach ($this->dns as $dn) {
-      // Check permissions, are we allowed to remove this object?
-      $acl = $ui->get_permissions($dn, $aclCategory."/".$this->aclPlugin);
-      if (preg_match("/d/", $acl)) {
-
-        // Delete the object
-        $this->dn = $dn;
-        $this->openTabObject(
-          new $tabClass(NULL, $config->data['TABS'][$tabType], $this->dn, $aclCategory),
-          $this->dn
-        );
-        $this->tabObject->delete ();
-
-        // Remove the lock for the current object.
-        del_lock($this->dn);
-      } else {
-        msg_dialog::display(_('Permission error'), msgPool::permDelete(), ERROR_DIALOG);
-        logging::log('security', 'group/'.get_class($this), $dn, array(), 'Tried to trick deletion.');
-      }
-    }
-
-    // Cleanup
-    $this->remove_lock();
-    $this->closeDialogs();
-  }
-
-
   /*!
    * \brief  Detects actions/events send by the ui
    *           and the corresponding targets.
@@ -440,7 +298,6 @@ class management
     return $action;
   }
 
-
   /*!
    *  \brief  Calls the registered method for a given action/event.
    */
@@ -453,36 +310,6 @@ class management
         $action['targets'] = array();
       }
       return $this->$func($action['action'], $action['targets'], $action);
-    }
-  }
-
-  /*!
-   * \brief  Opens the snapshot creation dialog for the given target.
-   *
-   * \param  String  $action  The name of the action which was the used as trigger.
-   *
-   * \param  Array   $target  A list of object dns, which should be affected by this method.
-   *
-   * \param  Array   $all     A combination of both 'action' and 'target'.
-   */
-  function createSnapshotDialog($action = '', $target = array(), $all = array())
-  {
-    global $ui;
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, 'Snaptshot creation initiated!');
-
-    if (count($target) == 1) {
-      $this->dn = array_pop($target);
-      if (empty($this->dn)) {
-        return;
-      }
-      $aclCategory = $this->aclCategory;
-      if ($ui->allow_snapshot_create($this->dn, $aclCategory)) {
-        $this->dialogObject = new SnapshotCreateDialog($this->dn, $this, $aclCategory);
-        $this->dialogObject->set_acl_base($this->dn);
-      } else {
-        msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to create a snapshot for %s.'), $this->dn),
-            ERROR_DIALOG);
-      }
     }
   }
 
@@ -519,55 +346,6 @@ class management
       $this->closeDialogs();
     } else {
       msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $dn),
-          ERROR_DIALOG);
-    }
-  }
-
-
-  /*!
-   * \brief  Displays the "Restore snapshot dialog" for a given target.
-   *          If no target is specified, open the restore removed object
-   *           dialog.
-   * \param  String  $action  The name of the action which was the used as trigger.
-   *
-   * \param  Array   $target  A list of object dns, which should be affected by this method.
-   *
-   * \param  Array   $all'     A combination of both 'action' and 'target'.
-   */
-  function restoreSnapshotDialog($action = '', $target = array(), $all = array())
-  {
-    global $ui;
-
-    // Set current restore base for snapshot handling.
-    if (is_object($this->snapHandler)) {
-      $bases = array();
-      foreach ($this->storagePoints as $sp) {
-        $bases[] = $sp.$this->headpage->getBase();
-      }
-    }
-
-    // No bases specified? Try base
-    if (!count($bases)) $bases[] = $this->headpage->getBase();
-
-    if (!count($target)) {
-      // No target, open the restore removed object dialog.
-      $this->dn = $this->headpage->getBase();
-    } else {
-      // Display the restore points for a given object.
-      $this->dn = $target[0];
-    }
-    if (empty($this->dn)) {
-      return;
-    }
-
-    $aclCategory = $this->aclCategory;
-    if ($ui->allow_snapshot_restore($this->dn, $aclCategory)) {
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Snaptshot restoring initiated!');
-      $this->snapHandler->setSnapshotBases($bases);
-      $this->dialogObject = new SnapshotRestoreDialog($this->dn, $this, !count($target), $aclCategory);
-      $this->dialogObject->set_acl_base($this->dn);
-    } else {
-      msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $this->dn),
           ERROR_DIALOG);
     }
   }
@@ -616,189 +394,6 @@ class management
   }
 
   /*!
-   * \brief  This method intiates the object creation.
-   *
-   * \param  String  $action  The name of the action which was the used as trigger.
-   *
-   * \param  Array   $target  A list of object dns, which should be affected by this method.
-   *
-   * \param  Array   $all     A combination of both 'action' and 'target'.
-   *
-   * \param String $altTabClass Empty string.
-   *
-   * \param String $altTabType Empty string.
-   *
-   * \param String $altAclCategory Empty string.
-   */
-  function newEntry($action = "", $target = array(), $all = array(), $altTabClass = "", $altTabType = "", $altAclCategory = "")
-  {
-    global $config;
-    /* To handle mutliple object types overload this method.
-     * ...
-     *   registerAction('newUser', 'newEntry');
-     *   registerAction('newGroup','newEntry');
-     * ...
-     *
-     * function newEntry($action = "", $target= array(), $all=array(), $altTabClass ="", $altTabType = "", $altAclCategory)
-     * {
-     *   switch($action) {
-     *     case 'newUser' : {
-     *       mangement::newEntry($action,$target,$all,"usertabs","USERTABS","user");
-     *     }
-     *     case 'newGroup' : {
-     *       mangement::newEntry($action,$target,$all,"grouptabs","GROUPTABS","group");
-     *     }
-     *   }
-     * }
-     **/
-    $tabType      = $this->tabType;
-    $tabClass     = $this->tabClass;
-    $aclCategory  = $this->aclCategory;
-    if (!empty($altTabClass)) $tabClass = $altTabClass;
-    if (!empty($altTabType)) $tabType = $altTabType;
-    if (!empty($altAclCategory)) $aclCategory = $altAclCategory;
-
-    // Check locking & lock entry if required
-    $this->displayApplyBtn  = FALSE;
-    $this->dn               = "new";
-    $this->is_single_edit   = FALSE;
-
-    set_object_info($this->dn);
-
-    // Open object.
-    if (empty($tabClass) || empty($tabType)) {
-      // No tab type defined
-    } else {
-      if (isset($config->data['TABS'][$tabType])) {
-        $this->openTabObject(
-          new $tabClass(NULL, $config->data['TABS'][$tabType], $this->dn, $aclCategory),
-          $this->headpage->getBase()
-        );
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "Create new entry initiated!");
-      } else {
-        msg_dialog::display(_("Error"), sprintf(_("No tab declaration for '%s' found in your configuration file. Cannot create plugin instance!"), $tabType), ERROR_DIALOG);
-      }
-    }
-  }
-
-
-  /*!
-   * \brief  This method opens an existing object or a list of existing objects to be edited.
-   *
-   * \param  String  $action  The name of the action which was the used as trigger.
-   *
-   * \param  Array   $target  A list of object dns, which should be affected by this method.
-   *
-   * \param  Array   $all     A combination of both 'action' and 'target'.
-   *
-   * \param String $altTabClass Empty string.
-   *
-   * \param String $altTabType Empty string.
-   *
-   * \param String $altAclCategory Empty string.
-   */
-  function editEntry($action = "", $target = array(), $all = array(), $altTabClass = "", $altTabType = "", $altAclCategory = "")
-  {
-    global $config, $ui;
-    /* To handle mutliple object types overload this method.
-     * ...
-     *   registerAction('editUser', 'editEntry');
-     *   registerAction('editGroup','editEntry');
-     * ...
-     *
-     * function editEntry($action = "", $target= array(), $all=array(), $altTabClass ="", $altTabType = "", $altAclCategory)
-     * {
-     *   switch($action) {
-     *     case 'editUser' : {
-     *       mangement::editEntry($action,$target,$all,"usertabs","USERTABS","user");
-     *     }
-     *     case 'editGroup' : {
-     *       mangement::editEntry($action,$target,$all,"grouptabs","GROUPTABS","group");
-     *     }
-     *   }
-     * }
-     **/
-
-    // Do not create a new tabObject while there is already one opened,
-    //  the user may have just pressed F5 to reload the page.
-    if (is_object($this->tabObject)) {
-      return;
-    }
-
-    $tabType      = $this->tabType;
-    $tabClass     = $this->tabClass;
-    $aclCategory  = $this->aclCategory;
-    if (!empty($altTabClass)) $tabClass = $altTabClass;
-    if (!empty($altTabType)) $tabType = $altTabType;
-    if (!empty($altAclCategory)) $aclCategory = $altAclCategory;
-
-    $this->displayApplyBtn = count($target) == 1;
-
-    // Single edit - we only got one object dn.
-    if (count($target) == 1) {
-      $this->is_single_edit = TRUE;
-
-      // Get the dn of the object and creates lock
-      $this->dn = array_pop($target);
-      set_object_info($this->dn);
-      $user = get_lock($this->dn);
-      if ($user != "") {
-        return gen_locked_message($user, $this->dn, TRUE);
-      }
-      add_lock ($this->dn, $ui->dn);
-
-      // Open object.
-      if (empty($tabClass) || empty($tabType)) {
-        trigger_error("We can't edit any object(s). 'tabClass' or 'tabType' is empty!");
-      } else {
-        $tab = $tabClass;
-        $this->openTabObject(
-          new $tab(NULL, $config->data['TABS'][$tabType], $this->dn, $aclCategory),
-          $this->dn
-        );
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "Edit entry initiated!");
-      }
-    }
-  }
-
-
-  /*!
-   * \brief  Save object modifications and closes dialogs (returns to object listing).
-   *          - Calls 'tab::check' to validate the given input.
-   *          - Calls 'tab::save' to save back object modifications (e.g. to ldap).
-   *          - Calls 'management::remove_locks' to remove eventually created locks.
-   *          - Calls 'management::closeDialogs' to return to the object listing.
-   */
-  protected function saveChanges()
-  {
-    if ($this->tabObject instanceOf simpleTabs) {
-      $this->tabObject->save_object();
-      $msgs = $this->tabObject->save();
-      if (count($msgs)) {
-        msg_dialog::displayChecks($msgs);
-        return;
-      } else {
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, 'Entry saved!');
-        $this->remove_lock();
-        $this->closeDialogs();
-      }
-    } elseif ($this->dialogObject instanceOf plugin) {
-      $this->dialogObject->save_object();
-      $msgs = $this->dialogObject->check();
-      if (count($msgs)) {
-        msg_dialog::displayChecks($msgs);
-        return;
-      } else {
-        $this->dialogObject->save();
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, 'Entry saved!');
-        $this->remove_lock();
-        $this->closeDialogs();
-      }
-    }
-  }
-
-
-  /*!
    *  \brief  Save object modifications and keep dialogs opened.
    *          - Calls 'ldap::check' to validate the given input.
    *          - Calls 'ldap::save' to save back object modifications (e.g. to ldap).
@@ -817,7 +412,6 @@ class management
       }
     }
   }
-
 
   /*!
    * \brief  This method closes dialogs
@@ -839,18 +433,6 @@ class management
     set_object_info();
   }
 
-
-  /*!
-   * \brief  Editing an object was caneled.
-   *          Close dialogs/tabs and remove locks.
-   */
-  protected function cancelEdit()
-  {
-    $this->remove_lock();
-    $this->closeDialogs();
-  }
-
-
   /*!
    *  \brief  Every click in the list user interface sends an event
    *          here can we connect those events to a method.
@@ -862,7 +444,6 @@ class management
   {
     $this->actions[$action] = $target;
   }
-
 
   /*!
    * \brief  Removes ldap object locks created by this class.
@@ -878,103 +459,6 @@ class management
     if (count($this->dns)) {
       del_lock($this->dns);
     }
-  }
-
-
-  /*!
-   * \brief  This method is used to queue and process copy&paste actions.
-   *         Allows to copy, cut and paste mutliple entries at once.
-   *
-   * \param String $action The name of the action which was the used as trigger.
-   *
-   * \param Array $target A list of object dns, which should be affected by this method.
-   *
-   * \param Array $all A combination of both 'action' and 'target'.
-   *
-   * \param String $altTabClass Empty string.
-   *
-   * \param $altTabType Empty string.
-   *
-   * \param $altAclCategory Empty string.
-   *
-   * \param $altAclPlugin Empty string.
-   */
-  function copyPasteHandler($action = "", $target = array(), $all = array(),
-      $altTabClass = "", $altTabType = "", $altAclCategory = "", $altAclPlugin = "")
-  {
-    global $ui;
-
-    // Return without any actions while copy&paste handler is disabled.
-    if (!is_object($this->cpHandler)) {
-      return FALSE;
-    }
-
-    $tabType      = $this->tabType;
-    $tabClass     = $this->tabClass;
-    $aclCategory  = $this->aclCategory;
-    $aclPlugin    = $this->aclPlugin;
-    if (!empty($altTabClass) && !is_array($altTabClass)) {
-      $tabClass = $altTabClass;
-    }
-    if (!empty($altTabType) && !is_array($altTabType)) {
-      $tabType = $altTabType;
-    }
-    if (!empty($altAclCategory) && !is_array($altAclCategory)) {
-      $aclCategory = $altAclCategory;
-    }
-    if (!empty($altAclPlugin) && !is_array($altAclPlugin)) {
-      $aclPlugin = $altAclPlugin;
-    }
-
-    // Save user input
-    $this->cpHandler->save_object();
-
-    // Add entries to queue
-    if ($action == "copy" || $action == "cut") {
-      $this->cpHandler->cleanup_queue();
-      foreach ($target as $dn) {
-        if (is_array($altTabClass)) {
-          $tabClass = (empty($altTabClass[$dn])?$this->tabClass:$altTabClass[$dn]);
-        }
-        if (is_array($altTabType)) {
-          $tabType = $altTabType[$dn];
-        }
-        if (is_array($altAclCategory)) {
-          $aclCategory = (empty($altAclCategory[$dn])?$this->aclCategory:$altAclCategory[$dn]);
-        }
-        if (is_array($altAclPlugin)) {
-          $aclPlugin = $altAclPlugin[$dn];
-        }
-
-        if ($action == "copy" && $ui->is_copyable($dn, $aclCategory, $aclPlugin)) {
-          $this->cpHandler->add_to_queue($dn, "copy", $tabClass, $tabType, $aclCategory);
-          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "Entry copied!");
-        }
-        if ($action == "cut" && $ui->is_cutable($dn, $aclCategory, $aclPlugin)) {
-          $this->cpHandler->add_to_queue($dn, "cut", $tabClass, $tabType, $aclCategory);
-          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "Entry cutted!");
-        }
-      }
-    }
-
-    // Initiate pasting
-    if ($action == "paste") {
-      $this->cpPastingStarted = TRUE;
-    }
-
-    // Display any c&p dialogs, eg. object modifications required before pasting.
-    if ($this->cpPastingStarted && $this->cpHandler->entries_queued()) {
-      $data = $this->cpHandler->execute($this->headpage->getBase());
-      if (!empty($data)) {
-        return $data;
-      }
-    }
-
-    // Automatically disable pasting process since there is no entry left to paste.
-    if (!$this->cpHandler->entries_queued()) {
-      $this->cpPastingStarted = FALSE;
-    }
-    return "";
   }
 
   /*!

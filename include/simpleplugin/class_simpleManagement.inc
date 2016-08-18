@@ -114,12 +114,6 @@ class templateDialog
 
 class simpleManagement extends management
 {
-  /* Management attributes we override */
-  protected $tabClass     = 'simpleTabs';
-  protected $tabType      = '';
-  protected $aclCategory  = '';
-  protected $aclPlugin    = '';
-
   /* Attributes that child classes should override */
   protected $objectTypes  = array();
 
@@ -187,7 +181,7 @@ class simpleManagement extends management
     $headpage = new $this->headpageClass($this->parseXML($this->listXMLPath));
     $headpage->setFilter($filter);
 
-    parent::__construct('unused', $headpage);
+    parent::__construct($headpage);
 
     $this->configureHeadpage();
     $this->configureFilter();
@@ -408,7 +402,9 @@ class simpleManagement extends management
       );
     }
     $smarty->assign('objectFilters', $filters);
-    return parent::renderList();
+    $this->headpage->update();
+    $display = $this->headpage->render();
+    return $this->getHeader().$display;
   }
 
 
@@ -529,12 +525,35 @@ class simpleManagement extends management
    */
   protected function saveChanges()
   {
-    if (($this->tabObject instanceOf tabs) && ($this->dialogObject instanceOf templateDialog)) {
+    if (($this->tabObject instanceOf simpleTabs) && ($this->dialogObject instanceOf templateDialog)) {
       $this->tabObject->save_object();
       $this->handleTemplateApply();
       return;
     }
-    parent::saveChanges();
+    if ($this->tabObject instanceOf simpleTabs) {
+      $this->tabObject->save_object();
+      $msgs = $this->tabObject->save();
+      if (count($msgs)) {
+        msg_dialog::displayChecks($msgs);
+        return;
+      } else {
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, 'Entry saved!');
+        $this->remove_lock();
+        $this->closeDialogs();
+      }
+    } elseif ($this->dialogObject instanceOf plugin) {
+      $this->dialogObject->save_object();
+      $msgs = $this->dialogObject->check();
+      if (count($msgs)) {
+        msg_dialog::displayChecks($msgs);
+        return;
+      } else {
+        $this->dialogObject->save();
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, 'Entry saved!');
+        $this->remove_lock();
+        $this->closeDialogs();
+      }
+    }
   }
 
   /*!
@@ -543,13 +562,13 @@ class simpleManagement extends management
    */
   protected function cancelEdit()
   {
-    if (($this->tabObject instanceOf tabs) && ($this->dialogObject instanceOf templateDialog)) {
+    if (($this->tabObject instanceOf simpleTabs) && ($this->dialogObject instanceOf templateDialog)) {
       $this->handleTemplateApply(TRUE);
       return;
     }
-    parent::cancelEdit();
+    $this->remove_lock();
+    $this->closeDialogs();
   }
-
 
   /*!
    * \brief  This method opens an existing object or a list of existing objects to be edited.

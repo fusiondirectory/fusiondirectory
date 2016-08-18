@@ -153,7 +153,9 @@ class groupManagement extends simpleManagement
       );
     }
     $smarty->assign('objectFilters', $filters);
-    return management::renderList();
+    $this->headpage->update();
+    $display = $this->headpage->render();
+    return $this->getHeader().$display;
   }
 }
 ?>
