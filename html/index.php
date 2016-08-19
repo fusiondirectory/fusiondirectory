@@ -183,7 +183,7 @@ clean_smarty_compile_dir($smarty->compile_dir);
 
 initLanguage();
 
-$smarty->assign ('nextfield', 'username');
+$smarty->assign ('focusfield', 'username');
 
 if (isset($_POST['server'])) {
   $server = $_POST['server'];
@@ -223,7 +223,7 @@ if (isset($_REQUEST['message'])) {
 
 /* Class with a function for each login step
  * Each function can return a string to display an LDAP error, or FALSE to redirect to login
- * In this case it can set global $message and assign nextfield in smarty before hand */
+ * In this case it can set global $message and assign focusfield in smarty before hand */
 class Index {
   static protected $username;
   static protected $password;
@@ -279,7 +279,7 @@ class Index {
       return FALSE;
     } elseif (mb_strlen(self::$password, 'UTF-8') == 0) {
       $message = _('Please specify your password!');
-      $smarty->assign ('nextfield', 'password');
+      $smarty->assign ('focusfield', 'password');
       return FALSE;
     }
     return TRUE;
@@ -298,7 +298,7 @@ class Index {
         logging::log('security', 'login', '', array(), 'Authentication failed for user "'.self::$username.'"');
       }
       $message = _('Please check the username/password combination.');
-      $smarty->assign ('nextfield', 'password');
+      $smarty->assign ('focusfield', 'password');
       return FALSE;
     }
     return TRUE;
@@ -328,7 +328,7 @@ class Index {
       if ($expired == POSIX_ACCOUNT_EXPIRED) {
         logging::log('security', 'login', '', array(), 'Account for user "'.self::$username.'" has expired');
         $message = _('Account locked. Please contact your system administrator!');
-        $smarty->assign ('nextfield', 'password');
+        $smarty->assign ('focusfield', 'username');
         return FALSE;
       }
     }

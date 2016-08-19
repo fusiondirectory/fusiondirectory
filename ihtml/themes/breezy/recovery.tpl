@@ -59,11 +59,11 @@
       </tr>
       <tr>
        <td><label for="new_password">{t}New password{/t}</label></td>
-       <td><input type="password" name="new_password" id="new_password" value="" title="{t}New password{/t}" onFocus="nextfield= 'new_password_repeated';" onkeyup="testPasswordCss(document.getElementById('new_password').value);"></td>
+       <td><input type="password" name="new_password" id="new_password" value="" title="{t}New password{/t}" onkeyup="testPasswordCss(document.getElementById('new_password').value);" /></td>
       </tr>
       <tr>
        <td><label for="new_password_repeated">{t}New password repeated{/t}</label></td>
-       <td><input type="password" name="new_password_repeated" id="new_password_repeated" maxlength="40" value="" title="{t}New password repeated{/t}" onFocus="nextfield= 'apply';"></td>
+       <td><input type="password" name="new_password_repeated" id="new_password_repeated" maxlength="40" value="" title="{t}New password repeated{/t}" /></td>
       </tr>
       <tr>
        <td>{t}Password strength{/t}</td>

@@ -25,20 +25,22 @@
     </div>
 
     <div>
-      <label for="username"><img class="center" src="{$personal_img|escape}" alt="{t}Username{/t}" title="{t}Username{/t}"/>&nbsp;</label>
-      <input type="text" name="username" id="username" maxlength="40" value="{$username|escape}"
-       title="{t}Username{/t}" onFocus="nextfield= 'password';" />
+      <label for="username">
+        <img class="center" src="{$personal_img|escape}" alt="{t}Username{/t}" title="{t}Username{/t}"/>&nbsp;
+      </label>
+      <input type="text" name="username" id="username" maxlength="40" value="{$username|escape}" title="{t}Username{/t}" />
       <br />
       <br />
-      <label for="password"><img class="center" src="{$password_img|escape}" alt="{t}Password{/t}" title="{t}Password{/t}" />&nbsp;</label>
-      <input type="password" name="password" id="password" maxlength="40" value=""
-         title="{t}Password{/t}" onFocus="nextfield= 'login';" />
+      <label for="password">
+        <img class="center" src="{$password_img|escape}" alt="{t}Password{/t}" title="{t}Password{/t}" />&nbsp;
+      </label>
+      <input type="password" name="password" id="password" maxlength="40" value="" title="{t}Password{/t}"/>
       <br />
       <a href="recovery.php">{t}I forgot my password{/t}</a>
     </div>
     <div>
       <img class="center" src="{$directory_img|escape}" alt="{t}Directory{/t}" title="{t}Directory{/t}" />&nbsp;
-      <select name="server" title="{t}Directory{/t}" onchange="javascript:document.mainform.submit();">
+      <select name="server" title="{t}Directory{/t}" onchange="javascript:document.loginform.submit();">
         {html_options options=$server_options selected=$server_id}
       </select>
     </div>
@@ -58,14 +60,12 @@
   </div>
   <div id="window_footer" class="plugbottom">
     <div>
-    {$message}
+      <!-- Display error message on demand -->
+      {$message}
     </div>
     <div>
-      <!-- Display error message on demand -->
-      <input type="submit" name="login" value="{t}Sign in{/t}"
-       title="{t}Click here to log in{/t}" onFocus="nextfield='login';" />
+      <input type="submit" name="login" value="{t}Sign in{/t}" title="{t}Click here to log in{/t}"/>
       <input type="hidden" name="javascript" value="false" />
-      <input type="hidden" name="login" value="{t}Sign in{/t}" />
     </div>
   </div>
 
@@ -79,8 +79,7 @@
 <script type="text/javascript">
 <!--
   enable_keyPress = false;
-  nextfield= "{$nextfield}";
-  focus_field("{$nextfield}");
+  focus_field("{$focusfield}");
   next_msg_dialog();
 -->
 </script>
