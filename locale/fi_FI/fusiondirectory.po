@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: FusionDirectory-110\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
 "POT-Creation-Date: 2016-08-11 19:25+0200\n"
-"PO-Revision-Date: 2016-08-10 16:25+0000\n"
+"PO-Revision-Date: 2016-08-15 15:34+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/fusiondirectory/FusionDirectory-110/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -127,7 +127,7 @@ msgstr ""
 #: plugins/admin/aclrole/class_aclRole.inc:95
 #: plugins/admin/acl/class_aclAssignment.inc:38
 msgid "Properties"
-msgstr ""
+msgstr "Ominaisuudet"
 
 #: plugins/admin/groups/class_group.inc:65
 #: plugins/admin/groups/class_ogroup.inc:198
@@ -2349,7 +2349,7 @@ msgstr ""
 #: setup/class_setupStep_Migrate.inc:451
 #: setup/class_setupStep_Migrate.inc:1130
 msgid "LDAP error"
-msgstr ""
+msgstr "LDAP virhe"
 
 #: include/class_config.inc:322
 msgid "Cannot bind to LDAP. Please contact the system administrator."
