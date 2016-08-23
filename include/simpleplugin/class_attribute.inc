@@ -623,7 +623,7 @@ class Attribute
     ));
   }
 
-  protected function htmlIds()
+  public function htmlIds()
   {
     return array($this->getHtmlId());
   }
@@ -818,6 +818,7 @@ class StringAttribute extends Attribute
 {
   protected $pattern;
   protected $example;
+  protected $autocomplete = NULL;
 
   /*! \brief The constructor of StringAttribute
    *
@@ -856,6 +857,9 @@ class StringAttribute extends Attribute
       $js       = $this->managedAttributesJS();
       $attributes['onChange'] = 'javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8');
     }
+    if ($this->autocomplete !== NULL) {
+      $attributes['autocomplete'] = ($this->autocomplete ? 'on' : 'off' );
+    }
     $display  = $this->renderInputField('text', $id, $attributes);
     return $this->renderAcl($display);
   }
@@ -877,6 +881,16 @@ class StringAttribute extends Attribute
     if (($this->pattern !== "") && !preg_match($this->pattern, $this->value)) {
       return msgPool::invalid($this->getLabel(), $this->value, $this->pattern, htmlentities($this->example));
     }
+  }
+
+  function setAutocomplete ($bool)
+  {
+    $this->autocomplete = $bool;
+  }
+
+  function getAutocomplete ()
+  {
+    return $this->autocomplete;
   }
 }
 
@@ -1031,16 +1045,6 @@ class PasswordAttribute extends StringAttribute
 {
   protected $autocomplete = FALSE;
 
-  function setAutocomplete ($bool)
-  {
-    $this->autocomplete = $bool;
-  }
-
-  function getAutocomplete ()
-  {
-    return $this->autocomplete;
-  }
-
   function renderFormInput ()
   {
     $id = $this->getHtmlId();
@@ -1051,6 +1055,9 @@ class PasswordAttribute extends StringAttribute
         'autocomplete' => ($this->autocomplete?'on':'off'),
       )
     );
+    if ($this->autocomplete === FALSE) {
+      $display = '{literal}<input autocomplete="off" value="foolautocompleteworkaround" type="text" style="display:none;"/>{/literal}'.$display;
+    }
     return $this->renderAcl($display);
   }
 
@@ -1438,7 +1445,7 @@ class DateAttribute extends Attribute
   {
     if ($value === "" && !$this->isRequired()) {
       return $value;
-    } elseif (is_object($this->plugin) && $this->plugin->is_template && (preg_match('/%/', $value))) {
+    } elseif (is_object($this->plugin) && $this->plugin->is_template && preg_match('/%/', $value)) {
       return $value;
     } else {
       return $this->ldapToDate($value);
@@ -1453,7 +1460,11 @@ class DateAttribute extends Attribute
       try {
         return $this->getDateValue()->format('d.m.Y');
       } catch (Exception $e) {
-        return "";
+        if (is_object($this->plugin) && $this->plugin->is_template && preg_match('/%/', $this->value)) {
+          return $this->value;
+        } else {
+          return '';
+        }
       }
     }
   }
@@ -1488,7 +1499,15 @@ class DateAttribute extends Attribute
     if ($this->value === "" && !$this->isRequired()) {
       return $this->value;
     } elseif (!($this->value instanceof DateTime)) {
-      $this->setValue($this->getDateValue());
+      try {
+        $this->setValue($this->getDateValue());
+      } catch (Exception $e) {
+        if (is_object($this->plugin) && $this->plugin->is_template && preg_match('/%/', $this->value)) {
+          return $this->value;
+        } else {
+          throw $e;
+        }
+      }
     }
     return $this->dateToLdap($this->value);
   }
@@ -1505,7 +1524,11 @@ class DateAttribute extends Attribute
         try {
           $this->getDateValue();
         } catch (Exception $e) {
-          return _("Error, incorrect date: ").$e->getMessage();
+          if (is_object($this->plugin) && $this->plugin->is_template && preg_match('/%/', $this->value)) {
+            return;
+          } else {
+            return sprintf(_('Error, incorrect date: %s'), $e->getMessage());
+          }
         }
       }
     }
@@ -1668,7 +1691,7 @@ class FileDownloadAttribute extends FileAttribute
     return $this->renderAcl($display);
   }
 
-  protected function htmlIds()
+  public function htmlIds()
   {
     $id   = $this->getHtmlId();
     $ids  = array('download'.$id);
@@ -1735,7 +1758,7 @@ class FileTextAreaAttribute extends FileDownloadAttribute
     return $this->renderAcl($display).parent::renderFormInput();
   }
 
-  protected function htmlIds()
+  public function htmlIds()
   {
     $ids    = parent::htmlIds();
     $ids[]  = $id.'_text';
@@ -1770,8 +1793,20 @@ class ImageAttribute extends FileAttribute
   function loadPostValue ()
   {
     $this->postValue = $this->value;
-    if (isset($_POST['upload'.$this->getHtmlId()])) {
-      parent::loadPostValue();
+    $id = $this->getHtmlId();
+    if (!$this->disabled && $this->isVisible()) {
+      foreach (array_keys($_POST) as $name) {
+        if (!$this->isRequired()) {
+          if (preg_match('/^'.$id.'_remove_/', $name)) {
+            $this->setPostValue('');
+            break;
+          }
+        }
+        if (preg_match('/^'.$id.'_upload_/', $name)) {
+          parent::loadPostValue();
+          break;
+        }
+      }
     }
   }
 
@@ -1834,7 +1869,26 @@ class ImageAttribute extends FileAttribute
                 ' title="'.$this->getDescription().'"'.
                 ' /><br/>';
     $display  .= $this->renderInputField('file', $id);
-    $display  .= $this->renderInputField('submit', 'upload'.$id, array('value' => _('Upload')));
+    $display .= $this->renderInputField(
+      'image', $id.'_upload',
+      array(
+        'class' => 'center',
+        'src'   => 'geticon.php?context=actions&amp;icon=upload&amp;size=16',
+        'title' => _('Upload'),
+        'alt'   => _('Upload')
+      )
+    );
+    if (!$this->isRequired()) {
+      $display .= $this->renderInputField(
+        'image', $id.'_remove',
+        array(
+          'class' => 'center',
+          'src'   => 'geticon.php?context=actions&amp;icon=remove&amp;size=16',
+          'title' => _('Remove'),
+          'alt'   => _('Remove')
+        )
+      );
+    }
     if (($this->getValue() == '') && ($this->placeholder != '')) {
       session::set('binary', $this->placeholder);
     } else {
@@ -1844,7 +1898,7 @@ class ImageAttribute extends FileAttribute
     return $this->renderAcl($display);
   }
 
-  protected function htmlIds()
+  public function htmlIds()
   {
     $id = $this->getHtmlId();
     return array($id.'_img',$id,'upload'.$id);
@@ -2253,7 +2307,7 @@ class SetAttribute extends Attribute
     return array_values($this->value);
   }
 
-  protected function htmlIds()
+  public function htmlIds()
   {
     $id = $this->getHtmlId();
     return array_merge(array('add'.$id,'del'.$id,'row'.$id), $this->attribute->htmlIds());
@@ -2577,7 +2631,7 @@ class CompositeAttribute extends Attribute
     return $display;
   }
 
-  protected function htmlIds()
+  public function htmlIds()
   {
     $ret = array();
     foreach ($this->attributes as &$attribute) {
@@ -2855,7 +2909,7 @@ class OrderedArrayAttribute extends SetAttribute
     }
   }
 
-  protected function htmlIds()
+  public function htmlIds()
   {
     $id   = $this->getHtmlId();
     $ids  = array('add'.$id);

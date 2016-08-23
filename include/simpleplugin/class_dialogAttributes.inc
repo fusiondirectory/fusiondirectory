@@ -223,7 +223,7 @@ class DialogAttribute extends SetAttribute
     return $buttons;
   }
 
-  protected function htmlIds()
+  public function htmlIds()
   {
     $id = $this->getHtmlId();
     return array('add'.$id.'_dialog','del'.$id,'row'.$id);
@@ -239,6 +239,16 @@ class DialogOrderedArrayAttribute extends OrderedArrayAttribute
     Attribute::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
     $this->edit_enabled = TRUE;
     $this->attribute    = FALSE;
+  }
+
+  function getFilterBlackList ()
+  {
+    trigger_error("abstract method");
+  }
+
+  function getFilterWhiteList ()
+  {
+    return array();
   }
 
   function loadPostValue ()
@@ -278,7 +288,7 @@ class DialogOrderedArrayAttribute extends OrderedArrayAttribute
     );
   }
 
-  protected function htmlIds()
+  public function htmlIds()
   {
     $ids = parent::htmlIds();
     $ids[0] .= '_dialog';
@@ -515,7 +525,7 @@ class MailsAttribute extends DialogAttribute
     return $buttons;
   }
 
-  protected function htmlIds()
+  public function htmlIds()
   {
     $id = $this->getHtmlId();
     return array('add'.$id,'add'.$id.'_dialog','del'.$id,'row'.$id);
@@ -641,7 +651,7 @@ class UserAttribute extends DialogButtonAttribute
         'image', $id.'_remove',
         array(
           'class' => 'center',
-          'src'   => 'geticon.php?context=actions&amp;icon=edit-delete&amp;size=16',
+          'src'   => 'geticon.php?context=actions&amp;icon=remove&amp;size=16',
           'title' => _('Remove'),
           'alt'   => _('Remove')
         )
@@ -686,7 +696,7 @@ class UserAttribute extends DialogButtonAttribute
     }
   }
 
-  protected function htmlIds()
+  public function htmlIds()
   {
     $ids = array($this->getHtmlId());
     if (!$this->isRequired()) {

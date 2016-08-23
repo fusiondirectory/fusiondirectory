@@ -71,8 +71,8 @@ documentation and additional help.
   French online documentation
   English online documentation
 
-* Vincent Seynhaeve
-  Xls export plugin <vincent.seynhaeve@opensides.be>
+* Vincent Seynhaeve <vincent.seynhaeve@opensides.be>
+  Xls export plugin 
 
 * Wouter Verhelst <wouter@debian.org>
   accept-to-gettext code that helps for language conversation
@@ -163,7 +163,7 @@ documentation and additional help.
 * Adrian Reyer <are+fd@lihas.de>
   Modifier for templates to convert german umlauts to 7-bit ASCII
 
-* Samuel Bosquin samuel.bosquin@ibcp.fr
+* Samuel Bosquin <samuel.bosquin@ibcp.fr>
   Plugin FAI - LVM partitions
 
 * IOhannes umlaeute <noc@iem.at>
@@ -188,6 +188,15 @@ documentation and additional help.
   QA on FusionDirectory
   RPM packaging maintener and ArchLinux Packager
   
-* Timothée Giet timo@timotheegiet.com
+* Timothée Giet <timo@timotheegiet.com>
   New breezy icon Theme
+
+* Clement Oudot <clem.oudot@gmail.com>
+  HTTP header authentication
+
+* Thomas Niercke <thomas@niercke.de>
+  Code and ideas for making Argonaut Events Extensible
+  
+* Paola Penati <paolapenati@hotmail.com>
+  Italian translation
   

@@ -22,8 +22,6 @@
 Event.observe(window, 'resize', resizeHandler);
 Event.observe(window, 'load', resizeHandler);
 Event.observe(window, 'load', initProgressPie);
-Event.observe(window, 'keypress', keyHandler);
-
 
 /* Ask before switching a plugin with this function */
 function question(text, url)
@@ -100,80 +98,6 @@ function acl_toggle_all(regex)
   }
 }
 
-
-/* Global key handler to estimate which element gets the next focus if enter is pressed */
-function keyHandler(DnEvents) {
-  // determines whether Netscape or Internet Explorer
-  k = (Prototype.Browser.Gecko) ? DnEvents.keyCode : window.event.keyCode;
-  if (k == 13) { // enter key pressed
-    if(typeof(nextfield)!='undefined') {
-      if(nextfield == 'login') {
-        return true; // submit, we finished all fields
-      } else { // we are not done yet, send focus to next box
-        eval('document.mainform.' + nextfield + '.focus()');
-        return false;
-      }
-    } else {
-      if(Prototype.Browser.Gecko) {
-        if(DnEvents.target.type == 'textarea') {
-          return true;
-        } else if (DnEvents.target.type != 'submit') {
-          // TAB
-          var thisfield = document.getElementById(DnEvents.target.id);
-          for (i = 0; i < document.forms[0].elements.length; i++) {
-            if(document.forms[0].elements[i].id==thisfield.id) {
-              // Last form element on page?
-              if(i!=document.forms[0].elements.length-1) {
-                document.forms[0].elements[i+1].focus();
-              }
-            }
-          }
-          return false;
-        } else {
-          return true;
-        }
-        // Check for konqueror
-      } else if(document.clientWidth) {
-        // do nothing ATM
-      } else {
-        if(window.event.srcElement.type == 'textarea') {
-          return true;
-        } else if (window.event.srcElement.type != 'submit') {
-          // TAB
-          var thisfield = document.getElementById(window.event.srcElement.id);
-          for (i = 0; i < document.forms[0].elements.length; i++) {
-            if(document.forms[0].elements[i].id==thisfield.id) {
-              // Last form element on page?
-              if(i!=document.forms[0].elements.length-1) {
-                document.forms[0].elements[i+1].focus();
-              }
-            }
-          }
-          return false;
-        } else {
-          return true;
-        }
-      }
-    }
-  } else if (k==9) {
-    // Tab key pressed
-    if(Prototype.Browser.Gecko) {
-      if(DnEvents.target.type == 'textarea') {
-        document.getElementById(DnEvents.target.id).value+="\t";
-        return false;
-      }
-      // Check for konqueror
-    } else if(document.clientWidth) {
-      // do nothing ATM
-    } else {
-      if(window.event.srcElement.type == 'textarea') {
-        document.getElementById(window.event.srcElement.id).value+="\t";
-        return false;
-      }
-    }
-  }
-}
-
 function inArray(p_val, array) {
   var l = array.length;
   for (var i = 0; i < l; i++) {
@@ -231,14 +155,6 @@ function changeTripleSelectState_2nd_neg(firstTriggerField, secondTriggerField, 
     document.getElementById(myField).disabled= true;
   }
 }
-
-// work together to analyze keystrokes
-if (Prototype.Browser.Gecko){
-  window.onkeypress= keyHandler;
-} else {
-  document.onkeydown= keyHandler;
-}
-
 
 function popup(target, name) {
   var mypopup=
@@ -579,7 +495,7 @@ function setProgressPie(context, percent)
     if (percent > 75) {
         r = "ED"
         g = "15"
-        b = "15"; 
+        b = "15";
     }
 
     context.strokeStyle = "#" + r  + g + b

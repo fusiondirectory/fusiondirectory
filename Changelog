@@ -1,6 +1,45 @@
 FusionDirectory changelog
 =========================
 
+* FusionDirectory 1.0.15
+
+[Feature] Wishlist #4832: Allow removal of user picture
+[Feature] Bugs #4945: Add the possibility to use %askme% for password expiration in template
+FusionDirectory plugins - Bugs #4991: we should document all the change in the webservice done recently
+|Fix] Bugs #5003: Error on mixed groups when nis schema not present
+[Feature] Wishlist #5010: HTTP header authentication
+|Fix] Bugs #5012: [PRINTERS] old printers are not migrated after upgrade to 1.0.14
+|Fix] Bugs #5013: User that will expire in two weeks is not show in dashboard
+|Fix] Argonaut Deployment System - Bugs #5018: Reinstall trigger on a workstation trigger an error
+|Fix] FusionDirectory plugins - Bugs #5020: PHP errors in DHCP plugin with PHP7
+|Fix] Bugs #5021: Checkhook should have a way to know if other check errors occured
+|Fix] Bugs #5022: Random password does not work when we use a template in read only
+|Fix] Bugs #5023: Icon for section account is not found
+|Fix] FusionDirectory plugins - Bugs #5026: CSV import bug ?
+|Fix] FusionDirectory plugins - Bugs #5031: Icon for LDAP should be moved to core
+|Fix] Bugs #5040: Uppercase login triggers php notice
+|Fix] FusionDirectory plugins - Bugs #5043: GPG server info cannot be edited anymore
+[Feature] FusionDirectory plugins - Bugs #5044: Use simpleManagement in GPG plugin
+|Fix] Bugs #5047: add git-shell in default shell list
+|Fix] Bugs #5049: probleme de traduction dans le systeme de reinitialisation des mots de passe
+|Fix] Bugs #5050: mauvais encodage dans le message de demande de reinitialisation du mot de passe
+|Fix] FusionDirectory plugins - Bugs #5051: add a url text field for the linkedin account url
+|Fix] Bugs #5052: password storage in firefox provoque an issue in the password field of the user tab in FusionDirectory
+|Fix] FusionDirectory plugins - Bugs #5055: Argonaut actions launching is broken
+[Feature] FusionDirectory plugins - Bugs #5056: Need to edit class_argonautActions.inc for custom modules
+|Fix] Bugs #5057: check_schema should be reviewed
+|Fix] Bugs #5058: notice on 1.0.14-fixes
+|Fix] FusionDirectory plugins - Bugs #5068: PHP4 constructor in FAI plugin
+|Fix] FusionDirectory plugins - Bugs #5069: PHP4 constructor in mail plugin
+|Fix] Bugs #5071: Fatal error in FAI plugin
+|Fix] Bugs #5074: Error to add ACL
+|Fix] FusionDirectory plugins - Bugs #5075: Error to add ACL
+|Fix] FusionDirectory plugins - Bugs #5088: Add samba shares update action to the list
+|Fix] Bugs #5089: Attribute dob of fusiondirectory schema conflicts with evolution schema
+|Fix] FusionDirectory plugins - Bugs #5090: Attribute dob of fusiondirectory schema conflicts with evolution schema
+|Fix] Bugs #5092: FD should not interfere with form handling
+
+
 * FusionDirectory 1.0.14
 
 |Fix] FusionDirectory plugins - Bugs #4142: Local quota

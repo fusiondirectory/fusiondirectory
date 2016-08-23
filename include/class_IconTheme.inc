@@ -309,6 +309,10 @@ class IconTheme
       array('actions','go-up'),
       array('actions','arrow-up'),
     ),
+    'actions/upload'                => array(
+      array('actions','document-import'),
+      array('actions','up'),
+    ),
     'actions/down'                  => array(
       array('actions','go-down'),
       array('actions','arrow-down'),

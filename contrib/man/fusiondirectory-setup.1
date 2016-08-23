@@ -133,7 +133,7 @@
 .\" ========================================================================
 .\"
 .IX Title "FUSIONDIRECTORY-SETUP 1"
-.TH FUSIONDIRECTORY-SETUP 1 "2016-06-23" "FusionDirectory 1.0.14" "FusionDirectory Documentation"
+.TH FUSIONDIRECTORY-SETUP 1 "2016-08-09" "FusionDirectory 1.0.15" "FusionDirectory Documentation"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
@@ -168,6 +168,9 @@ This option check your \s-1LDAP\s0 tree for duplicated uidNumber or gidNumber am
 .IP "\-\-migrate\-users" 4
 .IX Item "--migrate-users"
 This option add FusionDirectory attributes to the people branch.
+.IP "\-\-migrate\-printers" 4
+.IX Item "--migrate-printers"
+This option replace gosaPrinter objectClass by new fdPrinter objectClass.
 .IP "\-\-migrate\-dns" 4
 .IX Item "--migrate-dns"
 This option moves \s-1DNS\s0 zones from systems branch to \s-1DNS\s0 branch, which is necessary for FusionDirectory 1.0.10 and above.

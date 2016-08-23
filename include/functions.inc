@@ -593,7 +593,7 @@ function ldap_login_user ($username, $password)
     }
   }
   if (!$success) {
-    return FALSE;
+    return NULL;
   }
 
   /* got user dn, fill acl's */
@@ -2579,69 +2579,95 @@ function check_schema($cfg)
   $ldap = new ldapMultiplexer(new LDAP($cfg['admin'], $cfg['password'], $cfg['connection'], FALSE, $cfg['tls']));
   $objectclasses = $ldap->get_objectclasses(TRUE);
   if (count($objectclasses) == 0) {
-    msg_dialog::display(_("LDAP warning"), _("Cannot get schema information from server. No schema check possible!"), WARNING_DIALOG);
+    msg_dialog::display(_('LDAP warning'), _('Cannot get schema information from server. No schema check possible!'), WARNING_DIALOG);
+    return $checks;
   }
 
   /* This is the default block used for each entry.
    *  to avoid unset indexes.
    */
   $def_check = array(
-      "SCHEMA_FILES"     => array(),
-      "CLASSES_REQUIRED" => array(),
-      "STATUS"           => FALSE,
-      "IS_MUST_HAVE"     => FALSE,
-      "MSG"              => "",
-      "INFO"             => ""); // There is currently no information specified for this schema extension.;
+    'SCHEMA_FILE'       => '',
+    'CLASSES_REQUIRED'  => array(),
+    'STATUS'            => FALSE,
+    'IS_MUST_HAVE'      => FALSE,
+    'MSG'               => '',
+    'INFO'              => ''
+  );
 
-  /* FusionDirectory lock entry, used to mark currently edited objects as 'in use' */
-  $checks['gosaLockEntry']['SCHEMA_FILES']     = array('core-fd.schema');
-  $checks['gosaLockEntry']['CLASSES_REQUIRED'] = array('gosaLockEntry');
-  $checks['gosaLockEntry']['IS_MUST_HAVE']     = TRUE;
-  $checks['gosaLockEntry']['INFO']             = _('Used to lock currently edited entries to avoid multiple changes at the same time.');
+  /* FusionDirectory core schemas */
 
-  /* Some other checks */
-  $checks['posixAccount']['SCHEMA_FILES']     = array('nis.schema');
-  $checks['posixAccount']['CLASSES_REQUIRED'] = array('posixAccount');
-  $checks['posixAccount']['IS_MUST_HAVE']     = FALSE;
+  /* core-fd */
+  $checks['core-fd'] = $def_check;
+  $checks['core-fd']['SCHEMA_FILE']       = 'core-fd.schema';
+  $checks['core-fd']['CLASSES_REQUIRED']  = array('gosaLockEntry');
+  $checks['core-fd']['IS_MUST_HAVE']      = TRUE;
+  $checks['core-fd']['INFO']              = _('Main FusionDirectory schema');
+
+  /* core-fd-conf */
+  $checks['core-fd-conf'] = $def_check;
+  $checks['core-fd-conf']['SCHEMA_FILE']      = 'core-fd-conf.schema';
+  $checks['core-fd-conf']['CLASSES_REQUIRED'] = array('fusionDirectoryConf');
+  $checks['core-fd-conf']['IS_MUST_HAVE']     = TRUE;
+  $checks['core-fd-conf']['INFO']             = _('Schema used to store FusionDirectory configuration');
+
+  /* ldapns */
+  $checks['ldapns'] = $def_check;
+  $checks['ldapns']['SCHEMA_FILE']      = 'ldapns.schema';
+  $checks['ldapns']['CLASSES_REQUIRED'] = array('hostObject');
+  $checks['ldapns']['IS_MUST_HAVE']     = FALSE;
+  $checks['ldapns']['INFO']             = _('Used to store trust mode information in users or groups.');
+
+  /* template-fd */
+  $checks['template-fd'] = $def_check;
+  $checks['template-fd']['SCHEMA_FILE']      = 'template-fd.schema';
+  $checks['template-fd']['CLASSES_REQUIRED'] = array('fdTemplate');
+  $checks['template-fd']['IS_MUST_HAVE']     = FALSE;
+  $checks['template-fd']['INFO']             = _('Used to store templates.');
+
+  /* nis */
+  $checks['nis'] = $def_check;
+  $checks['nis']['SCHEMA_FILE']       = 'nis.schema';
+  $checks['nis']['CLASSES_REQUIRED']  = array('posixAccount');
+  $checks['nis']['IS_MUST_HAVE']      = FALSE;
+  $checks['nis']['INFO']              = _('Used to store POSIX information.');
 
   foreach ($checks as $name => $value) {
     foreach ($value['CLASSES_REQUIRED'] as $class) {
-      if (!isset($objectclasses[$name])) {
+      if (!isset($objectclasses[$class])) {
+        $checks[$name]['STATUS'] = FALSE;
         if ($value['IS_MUST_HAVE']) {
-          $checks[$name]['STATUS'] = FALSE;
-          $checks[$name]['MSG']    = sprintf(_("Missing required object class '%s'!"), $class);
+          $checks[$name]['MSG']    = sprintf(_('Missing required object class "%s"!'), $class);
         } else {
-          $checks[$name]['STATUS'] = TRUE;
-          $checks[$name]['MSG']    = sprintf(_("Missing optional object class '%s'!"), $class);
+          $checks[$name]['MSG']    = sprintf(_('Missing optional object class "%s"!'), $class);
         }
       } else {
         $checks[$name]['STATUS']  = TRUE;
-        $checks[$name]['MSG']     = sprintf(_("Class(es) available"));
+        $checks[$name]['MSG']     = sprintf(_('Class(es) available'));
       }
     }
   }
 
-  $tmp = $objectclasses;
-
-  /* The FusionDirectory base schema */
   $checks['posixGroup'] = $def_check;
-
-  $checks['posixGroup']['SCHEMA_FILES']     = array("core-fd.schema");
-  $checks['posixGroup']['CLASSES_REQUIRED'] = array("posixGroup");
+  $checks['posixGroup']['SCHEMA_FILE']      = 'nis.schema';
+  $checks['posixGroup']['CLASSES_REQUIRED'] = array('posixGroup');
   $checks['posixGroup']['STATUS']           = TRUE;
-  $checks['posixGroup']['IS_MUST_HAVE']     = TRUE;
-  $checks['posixGroup']['MSG']              = "";
-  $checks['posixGroup']['INFO']             = "";
+  $checks['posixGroup']['MSG']              = '';
+  $checks['posixGroup']['INFO']             = '';
 
-  /* Depending on mixed groups plugin installation status, we need different schema configurations */
-  if (class_available('mixedGroup') && isset($tmp['posixGroup']['STRUCTURAL'])) {
-    $checks['posixGroup']['STATUS'] = FALSE;
-    $checks['posixGroup']['MSG']    = _('You have installed the mixed groups plugin, but your schema configuration does not support this.');
-    $checks['posixGroup']['INFO']   = _('In order to use mixed groups the objectClass "posixGroup" must be AUXILIARY');
-  } elseif (!class_available('mixedGroup') && !isset($tmp['posixGroup']['STRUCTURAL'])) {
-    $checks['posixGroup']['STATUS'] = FALSE;
-    $checks['posixGroup']['MSG']    = _('Your schema is configured to support mixed groups, but this plugin is not present.');
-    $checks['posixGroup']['INFO']   = _('The objectClass "posixGroup" must be STRUCTURAL');
+  if (isset($objectclasses['posixGroup'])) {
+    $checks['posixGroup']['IS_MUST_HAVE']     = TRUE;
+
+    /* Depending on mixed groups plugin installation status, we need different schema configurations */
+    if (class_available('mixedGroup') && isset($objectclasses['posixGroup']['STRUCTURAL'])) {
+      $checks['posixGroup']['STATUS'] = FALSE;
+      $checks['posixGroup']['MSG']    = _('You have installed the mixed groups plugin, but your schema configuration does not support this.');
+      $checks['posixGroup']['INFO']   = _('In order to use mixed groups the objectClass "posixGroup" must be AUXILIARY');
+    } elseif (!class_available('mixedGroup') && !isset($objectclasses['posixGroup']['STRUCTURAL'])) {
+      $checks['posixGroup']['STATUS'] = FALSE;
+      $checks['posixGroup']['MSG']    = _('Your schema is configured to support mixed groups, but this plugin is not present.');
+      $checks['posixGroup']['INFO']   = _('The objectClass "posixGroup" must be STRUCTURAL');
+    }
   }
 
   return $checks;
@@ -3442,5 +3468,24 @@ function ldap_escape_f($str, $ignore = '')
 function ldap_escape_dn($str, $ignore = '')
 {
   return ldap_escape($str, $ignore, LDAP_ESCAPE_DN);
+}
+
+function mail_utf8($to, $from_user, $from_email, $subject, $message, $type = 'plain')
+{
+  $subject = "=?UTF-8?B?".base64_encode($subject)."?=";
+  if ($from_user) {
+    $from_user = "=?UTF-8?B?".base64_encode($from_user)."?=";
+    $headers = "From: $from_user <$from_email>\r\n";
+    $headers .= "Reply-To: $from_user <$from_email>\r\n";
+  } else {
+    $headers = "From: <$from_email>\r\n";
+    $headers .= "Reply-To: <$from_email>\r\n";
+  }
+  $headers .= "MIME-Version: 1.0" . "\r\n" .
+              "Content-type: text/$type; charset=UTF-8" . "\r\n";
+
+  $additional_parameters = "-f".$from_email;
+
+  return mail($to, $subject, $message, $headers, $additional_parameters);
 }
 ?>

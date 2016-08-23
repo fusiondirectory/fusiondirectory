@@ -183,7 +183,7 @@ clean_smarty_compile_dir($smarty->compile_dir);
 
 initLanguage();
 
-$smarty->assign ('nextfield', 'username');
+$smarty->assign ('focusfield', 'username');
 
 if (isset($_POST['server'])) {
   $server = $_POST['server'];
@@ -223,7 +223,7 @@ if (isset($_REQUEST['message'])) {
 
 /* Class with a function for each login step
  * Each function can return a string to display an LDAP error, or FALSE to redirect to login
- * In this case it can set global $message and assign nextfield in smarty before hand */
+ * In this case it can set global $message and assign focusfield in smarty before hand */
 class Index {
   static protected $username;
   static protected $password;
@@ -279,7 +279,7 @@ class Index {
       return FALSE;
     } elseif (mb_strlen(self::$password, 'UTF-8') == 0) {
       $message = _('Please specify your password!');
-      $smarty->assign ('nextfield', 'password');
+      $smarty->assign ('focusfield', 'password');
       return FALSE;
     }
     return TRUE;
@@ -291,14 +291,14 @@ class Index {
     global $ui, $config, $message, $smarty;
     /* Login as user, initialize user ACL's */
     $ui = ldap_login_user(self::$username, self::$password);
-    if ($ui === NULL || !$ui) {
+    if ($ui === NULL) {
       if (isset($_SERVER['REMOTE_ADDR'])) {
         logging::log('security', 'login', '', array(), 'Authentication failed for user "'.self::$username.'" [from '.$_SERVER['REMOTE_ADDR'].']');
       } else {
         logging::log('security', 'login', '', array(), 'Authentication failed for user "'.self::$username.'"');
       }
       $message = _('Please check the username/password combination.');
-      $smarty->assign ('nextfield', 'password');
+      $smarty->assign ('focusfield', 'password');
       return FALSE;
     }
     return TRUE;
@@ -328,7 +328,7 @@ class Index {
       if ($expired == POSIX_ACCOUNT_EXPIRED) {
         logging::log('security', 'login', '', array(), 'Account for user "'.self::$username.'" has expired');
         $message = _('Account locked. Please contact your system administrator!');
-        $smarty->assign ('nextfield', 'password');
+        $smarty->assign ('focusfield', 'username');
         return FALSE;
       }
     }
@@ -429,6 +429,77 @@ class Index {
     }
   }
 
+  /* All login steps in the right order for HTTP Header login */
+  static function headerAuthLoginProcess()
+  {
+    global $config, $message, $ui;
+
+    self::init();
+
+    /* Reset error messages */
+    $message = '';
+
+    $header = $config->get_cfg_value('httpHeaderAuthHeaderName', 'AUTH_USER');
+
+    self::$username = $_SERVER['HTTP_'.$header];
+
+    if (!self::$username) {
+      msg_dialog::display(
+        _('Error'),
+        sprintf(
+          _('No value found in HTTP header "%s"'),
+          $header
+        ),
+        FATAL_ERROR_DIALOG
+      );
+      exit();
+    }
+
+    $ldap = $config->get_ldap_link();
+    $ldap->cd($config->current['BASE']);
+    $verify_attr = explode(',', $config->get_cfg_value('loginAttribute', 'uid'));
+    $filter = '';
+    foreach ($verify_attr as $attr) {
+      $filter .= '('.$attr.'='.ldap_escape_f(self::$username).')';
+    }
+    $ldap->search('(&(|'.$filter.')(objectClass=inetOrgPerson))');
+    $attrs = $ldap->fetch();
+    if ($ldap->count() < 1) {
+      msg_dialog::display(
+        _('Error'),
+        sprintf(
+          _('Header user "%s" could not be found in the LDAP'),
+          self::$username
+        ),
+        FATAL_ERROR_DIALOG
+      );
+      exit();
+    } elseif ($ldap->count() > 1) {
+      msg_dialog::display(
+        _('Error'),
+        sprintf(
+          _('Header user "%s" match several users in the LDAP'),
+          self::$username
+        ),
+        FATAL_ERROR_DIALOG
+      );
+      exit();
+    }
+    $ui = new userinfo($config, $attrs['dn']);
+    $ui->loadACL();
+
+    $success = self::runSteps(array(
+      'loginAndCheckExpired',
+      'runSchemaCheck',
+      'checkForLockingBranch',
+    ));
+
+    if ($success) {
+      /* Everything went well, redirect to main.php */
+      self::redirect();
+    }
+  }
+
   /* All login steps in the right order for CAS login */
   static function casLoginProcess()
   {
@@ -510,6 +581,8 @@ if ($config->get_cfg_value('httpAuthActivated') == 'TRUE') {
   spl_autoload_unregister('CAS_autoload');
   spl_autoload_register('CAS_autoload', TRUE, TRUE);
   Index::casLoginProcess();
+} elseif ($config->get_cfg_value('httpHeaderAuthActivated') == 'TRUE') {
+  Index::headerAuthLoginProcess();
 } elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
   /* Got a formular answer, validate and try to log in */
   Index::fullLoginProcess();

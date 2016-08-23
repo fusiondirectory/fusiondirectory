@@ -385,7 +385,7 @@ class user extends simplePlugin
           new UserPasswordAttribute(
             _('Password'), _('Password of the user'),
             'userPassword', FALSE
-          )
+          ),
         )
       ),
       'homecontact' => array(
@@ -441,7 +441,7 @@ class user extends simplePlugin
             'manager', FALSE
           ),
         )
-      )
+      ),
     );
   }
 
@@ -450,6 +450,7 @@ class user extends simplePlugin
     parent::__construct($dn, $object, $parent, $mainTab);
 
     $this->attributesAccess['uid']->setUnique('whole');
+    $this->attributesAccess['uid']->setAutocomplete(FALSE);
     $this->attributesAccess['uid']->setDisabled($this->initially_was_account && !$this->is_template);
 
     $filename = './plugins/users/images/default.jpg';

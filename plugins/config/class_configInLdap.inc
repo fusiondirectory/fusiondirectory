@@ -209,9 +209,19 @@ class configInLdap extends simplePlugin
             0 /*min*/, FALSE /*no max*/, 1800
           ),
           new BooleanAttribute (
-            _('HTTP authentication'), _('Use HTTP authentication protocol instead of the login form.'),
+            _('HTTP Basic authentication'), _('Use HTTP Basic authentication protocol instead of the login form.'),
             'fdHttpAuthActivated', FALSE,
             FALSE
+          ),
+          new BooleanAttribute (
+            _('HTTP Header authentication'), _('Use HTTP Header authentication instead of the login form.'),
+            'fdHttpHeaderAuthActivated', FALSE,
+            FALSE
+          ),
+          new StringAttribute (
+            _('Header name'), _('Name of the header containing user identifier.'),
+            'fdHttpHeaderAuthHeaderName', FALSE,
+            'AUTH_USER'
           ),
         )
       ),
@@ -446,7 +456,7 @@ class configInLdap extends simplePlugin
               'fdShells', FALSE
             ),
             array('/bin/ash','/bin/bash','/bin/csh','/bin/sh','/bin/ksh',
-                  '/bin/tcsh','/bin/dash','/bin/zsh','/sbin/nologin', '/bin/false')
+                  '/bin/tcsh','/bin/dash','/bin/zsh','/sbin/nologin', '/bin/false', '/usr/bin/git-shell')
           ),
           new BooleanAttribute (
             _('Show ACL tab on all objects'),
@@ -535,6 +545,15 @@ class configInLdap extends simplePlugin
             'fdCasHost',
             'fdCasPort',
             'fdCasContext',
+          )
+        )
+      )
+    );
+    $this->attributesAccess['fdHttpHeaderAuthActivated']->setManagedAttributes(
+      array(
+        'disable' => array (
+          FALSE => array (
+            'fdHttpHeaderAuthHeaderName',
           )
         )
       )
