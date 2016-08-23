@@ -1790,11 +1790,11 @@ and select your preferred mirror
 Upgrade FusionDirectory first
 =============================
 
-Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
+- Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
 
 apt-get install fusiondirectory
 
-Upgrade FusionDirectory schema package too.
+- Upgrade FusionDirectory schema package too.
 
 apt-get install fusiondirectory-schema
 
