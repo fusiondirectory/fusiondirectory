@@ -156,9 +156,24 @@ class simplePlugin extends plugin
     }
   }
 
+  function is_this_account($attrs)
+  {
+    $found = TRUE;
+    foreach ($this->objectclasses as $obj) {
+      if (preg_match('/top/i', $obj)) {
+        continue;
+      }
+      if (!isset($attrs['objectClass']) || !in_array_ics ($obj, $attrs['objectClass'])) {
+        $found = FALSE;
+        break;
+      }
+    }
+    return $found;
+  }
+
   function setTemplate ($bool)
   {
-    parent::setTemplate($bool);
+    $this->is_template = $bool;
     if ($this->is_template && $this->mainTab) {
       /* Unshift special section for template infos */
       $this->attributesInfo = array_merge(
@@ -187,6 +202,17 @@ class simplePlugin extends plugin
       $this->attributesAccess['_template_cn']->setValue($this->_template_cn);
       $this->attributesAccess['_template_cn']->setParent($this);
       unset($this->_template_cn);
+    }
+  }
+
+  /*! \brief This function returns an LDAP filter for this plugin object classes
+   */
+  function getObjectClassFilter ()
+  {
+    if (!empty($this->objectclasses)) {
+      return '(&(objectClass='.implode(')(objectClass=', $this->objectclasses).'))';
+    } else {
+      return '';
     }
   }
 
@@ -361,9 +387,9 @@ class simplePlugin extends plugin
       /* Show tab dialog headers */
       $plInfo = pluglist::pluginInfos(get_class($this));
       if ($this->parent !== NULL) {
+        $disabled = $this->acl_skip_write();
+        $depends = array();
         if ($this->is_account) {
-          $disabled = $this->acl_skip_write();
-          $depends = array();
           if (isset($plInfo['plDepending'])) {
             foreach ($plInfo['plDepending'] as $plugin) {
               if (isset($this->parent->by_object[$plugin]) &&
@@ -374,15 +400,14 @@ class simplePlugin extends plugin
               }
             }
           }
-          $this->header = $this->show_disable_header(
+          $this->header = $this->show_header(
             msgPool::removeFeaturesButton($plInfo['plShortName']),
             msgPool::featuresEnabled($plInfo['plShortName'], $depends),
+            $this->is_account,
             $disabled,
             get_class($this).'_modify_state'
           );
         } else {
-          $disabled = $this->acl_skip_write();
-          $depends = array();
           if (isset($plInfo['plDepends'])) {
             foreach ($plInfo['plDepends'] as $plugin) {
               if (!isset($this->parent->by_object[$plugin]) ||
@@ -393,9 +418,10 @@ class simplePlugin extends plugin
               }
             }
           }
-          $this->header = $this->show_enable_header(
+          $this->header = $this->show_header(
             msgPool::addFeaturesButton($plInfo['plShortName']),
             msgPool::featuresDisabled($plInfo['plShortName'], $depends),
+            $this->is_account,
             $disabled,
             get_class($this).'_modify_state'
           );
@@ -599,7 +625,8 @@ class simplePlugin extends plugin
     }
   }
 
-  protected function pre_remove () {
+  protected function pre_remove ()
+  {
     if ($this->initially_was_account) {
       return $this->handle_pre_events('remove');
     }
@@ -762,7 +789,8 @@ class simplePlugin extends plugin
     }
   }
 
-  protected function pre_save () {
+  protected function pre_save ()
+  {
     if ($this->initially_was_account) {
       return $this->handle_pre_events('modify');
     } else {
@@ -862,6 +890,302 @@ class simplePlugin extends plugin
     return $messages;
   }
 
+  function handleForeignKeys ($olddn = NULL, $newdn = NULL, $mode = 'move')
+  {
+    if (($olddn !== NULL) && ($olddn == $newdn)) {
+      return;
+    }
+    if ($this->is_template) {
+      return;
+    }
+    $this->browseForeignKeys(
+      'handle_'.$mode,
+      $olddn,
+      $newdn
+    );
+  }
+
+  function browseForeignKeys($mode, $param1 = NULL, $param2 = NULL)
+  {
+    if (preg_match('/^handle_/', $mode)) {
+      $olddn    = $param1;
+      $newdn    = $param2;
+      $classes  = array(get_class($this));
+    } elseif ($mode == 'references') {
+      $classes = array_keys($this->parent->by_object);
+    }
+    // We group by objetType concerned
+    $foreignRefs = array();
+    foreach ($classes as $tabclass) {
+      $infos = pluglist::pluginInfos($tabclass);
+      foreach ($infos['plForeignRefs'] as $field => $refs) {
+        if (preg_match('/^handle_/', $mode)) {
+          if ($newdn !== NULL) {
+            // Move action
+            if (($field != 'dn') && ($mode == 'handle_move')) {
+              // We only change dn
+              continue;
+            }
+          } elseif ($olddn === NULL) {
+            // Edit action
+            if ($field == 'dn') {
+              // dn did not change
+              continue;
+            } elseif (!$this->attributeHaveChanged($field)) {
+              // only look at changed attributes
+              continue;
+            }
+          }
+          // else = delete action, all fields are concerned, nothing to do here
+        }
+        foreach ($refs as $ref) {
+          $class  = $ref[0];
+          $ofield = $ref[1];
+          $filter = $ref[2];
+          $cinfos = pluglist::pluginInfos($class);
+          foreach ($cinfos['plObjectType'] as $key => $objectType) {
+            if (!is_numeric($key)) {
+              $objectType = $key;
+            }
+            if (preg_match('/^handle_/', $mode)) {
+              if ($field == 'dn') {
+                $oldvalue = $olddn;
+                $newvalue = $newdn;
+              } elseif (($olddn !== NULL) && ($newdn === NULL)) {
+                $oldvalue = $this->attributeInitialValue($field);
+                $newvalue = NULL;
+              } else {
+                $oldvalue = $this->attributeInitialValue($field);
+                $newvalue = $this->attributeValue($field);
+              }
+              $foreignRefs[$objectType]['refs'][$class][$ofield] =
+                array(
+                  'field'     => $field,
+                  'oldvalue'  => $oldvalue,
+                  'newvalue'  => $newvalue,
+                  'tab'       => $tabclass,
+                );
+              $filter = plugin::tpl_parse_string($filter, array('oldvalue' => $oldvalue, 'newvalue' => $newvalue), 'ldap_escape_f');
+            } elseif ($mode == 'references') {
+              $foreignRefs[$objectType]['refs'][$class]['name'] = $cinfos['plShortName'];
+              $foreignRefs[$objectType]['refs'][$class]['fields'][$ofield] =
+                array(
+                  'tab'     => $tabclass,
+                  'tabname' => $this->parent->by_name[$tabclass],
+                  'field'   => $field,
+                  'value'   => $this->parent->by_object[$tabclass]->$field,
+                );
+              $filter = plugin::tpl_parse_string($filter, array('oldvalue' => $this->parent->by_object[$tabclass]->$field), 'ldap_escape_f');
+            }
+            if (!preg_match('/^\(.*\)$/', $filter)) {
+              $filter = '('.$filter.')';
+            }
+            $foreignRefs[$objectType]['filters'][$filter] = $filter;
+          }
+        }
+      }
+    }
+
+    /* Back up POST content */
+    $SAVED_POST = $_POST;
+    $refs = array();
+    // For each concerned objectType
+    foreach ($foreignRefs as $objectType => $tabRefs) {
+      // Compute filter
+      $filters = array_values($tabRefs['filters']);
+      $filter = '(|'.join($filters).')';
+      // Search objects
+      try {
+        $objects = objects::ls($objectType, array('dn' => 'raw'), NULL, $filter);
+      } catch (NonExistingObjectTypeException $e) {
+        continue;
+      } catch (EmptyFilterException $e) {
+        continue;
+      }
+      // For each object of this type
+      foreach (array_keys($objects) as $dn) {
+        /* Avoid sending POST to opened objects */
+        $_POST = array();
+        // Build the object
+        $tabobject = objects::open($dn, $objectType);
+        if (preg_match('/^handle_/', $mode)) {
+          // For each tab concerned
+          foreach ($tabRefs['refs'] as $tab => $fieldRefs) {
+            // If the tab is activated on this object
+            if (isset($tabobject->by_object[$tab])) {
+              // For each field
+              foreach ($fieldRefs as $ofield => $field) {
+                // call plugin::foreignKeyUpdate(ldapname, oldvalue, newvalue, source) on the object
+                $tabobject->by_object[$tab]->foreignKeyUpdate(
+                  $ofield,
+                  $field['oldvalue'],
+                  $field['newvalue'],
+                  array(
+                    'CLASS' => $field['tab'],
+                    'FIELD' => $field['field'],
+                    'MODE'  => preg_replace('/^handle_/', '', $mode),
+                    'DN'    => $this->dn,
+                  )
+                );
+              }
+              $tabobject->by_object[$tab]->save_object();
+              $tabobject->by_object[$tab]->save();
+            }
+          }
+        } elseif ($mode == 'references') {
+          // For each tab concerned
+          foreach ($tabRefs['refs'] as $tab => $tab_infos) {
+            // If the tab is activated on this object
+            if (isset($tabobject->by_object[$tab])) {
+              // For each field
+              foreach ($tab_infos['fields'] as $ofield => $field) {
+                if ($tabobject->by_object[$tab]->foreignKeyCheck(
+                      $ofield,
+                      $field['value'],
+                      array(
+                        'CLASS' => $field['tab'],
+                        'FIELD' => $field['field'],
+                        'DN'    => $this->dn,
+                      )
+                    )) {
+                  if (!isset($refs[$dn])) {
+                    $refs[$dn] = array(
+                      'link'  => '',
+                      'tabs'  => array(),
+                    );
+                    try {
+                      $refs[$dn]['link'] = objects::link($dn, $objectType);
+                    } catch (Exception $e) {
+                      trigger_error("Could not create link to $dn: ".$e->getMessage());
+                      $refs[$dn]['link'] = $dn;
+                    }
+                  }
+                  if (!isset($refs[$dn]['tabs'][$tab])) {
+                    $refs[$dn]['tabs'][$tab] = array(
+                      'link'    => '',
+                      'fields'  => array(),
+                    );
+                    try {
+                      $refs[$dn]['tabs'][$tab]['link'] = objects::link($dn, $objectType, "tab_$tab", sprintf(_('Tab "%s"'), $tab_infos['name']));
+                    } catch (Exception $e) {
+                      trigger_error("Could not create link to $dn $tab: ".$e->getMessage());
+                      $refs[$dn]['tabs'][$tab]['link'] = $tab;
+                    }
+                  }
+                  $refs[$dn]['tabs'][$tab]['fields'][$ofield] = $field;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    /* Restore POST */
+    $_POST = $SAVED_POST;
+    if ($mode == 'references') {
+      return $refs;
+    }
+  }
+
+  /*
+   * \brief Adapt from template, using 'dn'
+   *
+   * \param string $dn The DN
+   *
+   * \param array $skip A new array
+   */
+  function adapt_from_template($attrs, $skip = array())
+  {
+    $this->attrs = $attrs;
+
+    /* Walk through attributes */
+    foreach ($this->attributesAccess as $ldapName => &$attr) {
+      /* Skip the ones in skip list */
+      if (in_array($ldapName, $skip)) {
+        continue;
+      }
+      /* Load values */
+      $attr->loadValue($this->attrs);
+    }
+    unset($attr);
+
+    /* Is Account? */
+    $this->is_account = $this->is_this_account($this->attrs);
+  }
+
+  protected function attributeHaveChanged($field)
+  {
+    return $this->attributesAccess[$field]->hasChanged();
+  }
+
+  protected function attributeValue($field)
+  {
+    return $this->attributesAccess[$field]->getValue();
+  }
+
+  protected function attributeInitialValue($field)
+  {
+    return $this->attributesAccess[$field]->getInitialValue();
+  }
+
+  function foreignKeyUpdate ($field, $oldvalue, $newvalue, $source)
+  {
+    if (!isset($source['MODE'])) {
+      $source['MODE'] = 'move';
+    }
+    $this->attributesAccess[$field]->foreignKeyUpdate($oldvalue, $newvalue, $source);
+  }
+
+  /*
+   * Source is an array like this:
+   * array(
+   *  'CLASS' => class,
+   *  'FIELD' => field,
+   *  'DN'    => dn,
+   *  'MODE'  => mode
+   * )
+   * mode being either 'copy' or 'move', defaults to 'move'
+   */
+  function foreignKeyCheck ($field, $value, $source)
+  {
+    return $this->attributesAccess[$field]->foreignKeyCheck($value, $source);
+  }
+
+  function deserializeValues($values, $checkAcl = TRUE)
+  {
+    foreach ($values as $name => $value) {
+      if (isset($this->attributesAccess[$name])) {
+        if (!$checkAcl || $this->acl_is_writeable($this->attributesAccess[$name]->getAcl())) {
+          $this->attributesAccess[$name]->setValue($value);
+        } else {
+          return sprintf(_('You don\'t have sufficient rights to edit field "%s"'), $name);
+        }
+      } else {
+        return sprintf(_('Unknown field "%s"'), $name);
+      }
+    }
+    return TRUE;
+  }
+
+  /* Returns TRUE if this attribute should be asked in the creation by template dialog */
+  function showInTemplate($attr, $templateAttrs)
+  {
+    if (isset($templateAttrs[$attr])) {
+      return FALSE;
+    }
+    return TRUE;
+  }
+
+  /*!
+   * \brief Return plugin informations for acl handling
+   *
+   * \return an array
+   */
+  static function plInfo()
+  {
+    return array();
+  }
+
   /*! \brief This function generate the needed ACLs for a given attribtues array
    *
    *  \param array $attributesInfo the attribute array
@@ -879,17 +1203,6 @@ class simplePlugin extends plugin
     }
 
     return $plProvidedAcls;
-  }
-
-  /*! \brief This function is the needed main.inc for users tab
-   *
-   *  \param array $classname the plugin class name
-   */
-  static function userMainInc ($classname)
-  {
-    global $ui;
-    trigger_error("userMainInc is deprecated");
-    return self::mainInc($classname, $ui->dn);
   }
 
   /*! \brief This function is the needed main.inc for plugins that are not used inside a management class
@@ -910,7 +1223,7 @@ class simplePlugin extends plugin
     global $remove_lock, $cleanup, $display, $config, $plug, $ui;
 
     $plInfo     = pluglist::pluginInfos($classname);
-    $plIcon     = (isset($plInfo['plIcon'])?$plInfo['plIcon']:'plugin.png');
+    $plIcon     = (isset($plInfo['plIcon']) ? $plInfo['plIcon'] : 'plugin.png');
     $plHeadline = $plInfo['plTitle'];
     if ($objectType === FALSE) {
       $key = key($plInfo['plObjectType']);
@@ -919,7 +1232,7 @@ class simplePlugin extends plugin
       }
       $objectType = $key;
     }
-    $plCategory = (isset($plInfo['plCategory'])?$plInfo['plCategory']:array('user'));
+    $plCategory = (isset($plInfo['plCategory']) ? $plInfo['plCategory'] : array('user'));
     $key = key($plCategory);
     if (is_numeric($key)) {
       $plCategory = $plCategory[$key];
@@ -1059,94 +1372,5 @@ class simplePlugin extends plugin
       $display = print_header($plIcon, $plHeadline, $info).$display;
     }
   }
-
-  /*
-   * \brief Adapt from template, using 'dn'
-   *
-   * \param string $dn The DN
-   *
-   * \param array $skip A new array
-   */
-  function adapt_from_template($attrs, $skip = array())
-  {
-    $this->attrs = $attrs;
-
-    /* Walk through attributes */
-    foreach ($this->attributesAccess as $ldapName => &$attr) {
-      /* Skip the ones in skip list */
-      if (in_array($ldapName, $skip)) {
-        continue;
-      }
-      /* Load values */
-      $attr->loadValue($this->attrs);
-    }
-    unset($attr);
-
-    /* Is Account? */
-    $this->is_account = $this->is_this_account($this->attrs);
-  }
-
-  protected function attributeHaveChanged($field)
-  {
-    return $this->attributesAccess[$field]->hasChanged();
-  }
-
-  protected function attributeValue($field)
-  {
-    return $this->attributesAccess[$field]->getValue();
-  }
-
-  protected function attributeInitialValue($field)
-  {
-    return $this->attributesAccess[$field]->getInitialValue();
-  }
-
-  function foreignKeyUpdate ($field, $oldvalue, $newvalue, $source)
-  {
-    if (!isset($source['MODE'])) {
-      $source['MODE'] = 'move';
-    }
-    $this->attributesAccess[$field]->foreignKeyUpdate($oldvalue, $newvalue, $source);
-  }
-
-  /*
-   * Source is an array like this:
-   * array(
-   *  'CLASS' => class,
-   *  'FIELD' => field,
-   *  'DN'    => dn,
-   *  'MODE'  => mode
-   * )
-   * mode being either 'copy' or 'move', defaults to 'move'
-   */
-  function foreignKeyCheck ($field, $value, $source)
-  {
-    return $this->attributesAccess[$field]->foreignKeyCheck($value, $source);
-  }
-
-  function deserializeValues($values, $checkAcl = TRUE) {
-    foreach ($values as $name => $value) {
-      if (isset($this->attributesAccess[$name])) {
-        if (!$checkAcl || $this->acl_is_writeable($this->attributesAccess[$name]->getAcl())) {
-          $this->attributesAccess[$name]->setValue($value);
-        } else {
-          return sprintf(_('You don\'t have sufficient rights to edit field "%s"'), $name);
-        }
-      } else {
-        return sprintf(_('Unknown field "%s"'), $name);
-      }
-    }
-    return TRUE;
-  }
-
-  /* Returns TRUE if this attribute should be asked in the creation by template dialog */
-  function showInTemplate($attr, $templateAttrs)
-  {
-    if (isset($templateAttrs[$attr])) {
-      return FALSE;
-    }
-    return TRUE;
-  }
 }
-
 ?>

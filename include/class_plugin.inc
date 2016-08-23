@@ -189,21 +189,6 @@ class plugin
     $this->initially_was_account = $this->is_account;
   }
 
-  function is_this_account($attrs)
-  {
-    $found = TRUE;
-    foreach ($this->objectclasses as $obj) {
-      if (preg_match('/top/i', $obj)) {
-        continue;
-      }
-      if (!isset($attrs['objectClass']) || !in_array_ics ($obj, $attrs['objectClass'])) {
-        $found = FALSE;
-        break;
-      }
-    }
-    return $found;
-  }
-
   function prepareSavedAttributes()
   {
     /* Prepare saved attributes */
@@ -363,11 +348,6 @@ class plugin
     foreach ($this->attrs as $name => $value) {
       $this->saved_attributes[$name] = $value;
     }
-  }
-
-  function setTemplate ($bool)
-  {
-    $this->is_template = $bool;
   }
 
   static function tpl_fetch_template($dn)
@@ -741,34 +721,6 @@ class plugin
    *
    * \param string $text The text
    *
-   * \param boolean $disabled FALSE
-   */
-  function show_enable_header($button_text, $text, $disabled = FALSE, $name = 'modify_state')
-  {
-    return $this->show_header($button_text, $text, FALSE, $disabled, $name);
-  }
-
-  /*!
-   * \brief Show header message for tab dialogs
-   *
-   * \param string $button_text The button text
-   *
-   * \param string $text The text
-   *
-   * \param boolean $disabled FALSE
-   */
-  function show_disable_header($button_text, $text, $disabled = FALSE, $name = 'modify_state')
-  {
-    return $this->show_header($button_text, $text, TRUE, $disabled, $name);
-  }
-
-  /*!
-   * \brief Show header message for tab dialogs
-   *
-   * \param string $button_text The button text
-   *
-   * \param string $text The text
-   *
    * \param boolean $plugin_enabled
    *
    * \param boolean $button_disabled FALSE
@@ -917,214 +869,6 @@ class plugin
     return TRUE;
   }
 
-  /*! \brief This function returns an LDAP filter for this plugin object classes
-   */
-  function getObjectClassFilter ()
-  {
-    if (!empty($this->objectclasses)) {
-      return '(&(objectClass='.implode(')(objectClass=', $this->objectclasses).'))';
-    } else {
-      return '';
-    }
-  }
-
-  function handleForeignKeys ($olddn = NULL, $newdn = NULL, $mode = 'move')
-  {
-    if (($olddn !== NULL) && ($olddn == $newdn)) {
-      return;
-    }
-    if ($this->is_template) {
-      return;
-    }
-    $this->browseForeignKeys(
-      'handle_'.$mode,
-      $olddn,
-      $newdn
-    );
-  }
-
-  function browseForeignKeys($mode, $param1 = NULL, $param2 = NULL)
-  {
-    if (preg_match('/^handle_/', $mode)) {
-      $olddn    = $param1;
-      $newdn    = $param2;
-      $classes  = array(get_class($this));
-    } elseif ($mode == 'references') {
-      $classes = array_keys($this->parent->by_object);
-    }
-    // We group by objetType concerned
-    $foreignRefs = array();
-    foreach ($classes as $tabclass) {
-      $infos = pluglist::pluginInfos($tabclass);
-      foreach ($infos['plForeignRefs'] as $field => $refs) {
-        if (preg_match('/^handle_/', $mode)) {
-          if ($newdn !== NULL) {
-            // Move action
-            if (($field != 'dn') && ($mode == 'handle_move')) {
-              // We only change dn
-              continue;
-            }
-          } elseif ($olddn === NULL) {
-            // Edit action
-            if ($field == 'dn') {
-              // dn did not change
-              continue;
-            } elseif (!$this->attributeHaveChanged($field)) {
-              // only look at changed attributes
-              continue;
-            }
-          }
-          // else = delete action, all fields are concerned, nothing to do here
-        }
-        foreach ($refs as $ref) {
-          $class  = $ref[0];
-          $ofield = $ref[1];
-          $filter = $ref[2];
-          $cinfos = pluglist::pluginInfos($class);
-          foreach ($cinfos['plObjectType'] as $key => $objectType) {
-            if (!is_numeric($key)) {
-              $objectType = $key;
-            }
-            if (preg_match('/^handle_/', $mode)) {
-              if ($field == 'dn') {
-                $oldvalue = $olddn;
-                $newvalue = $newdn;
-              } elseif (($olddn !== NULL) && ($newdn === NULL)) {
-                $oldvalue = $this->attributeInitialValue($field);
-                $newvalue = NULL;
-              } else {
-                $oldvalue = $this->attributeInitialValue($field);
-                $newvalue = $this->attributeValue($field);
-              }
-              $foreignRefs[$objectType]['refs'][$class][$ofield] =
-                array(
-                  'field'     => $field,
-                  'oldvalue'  => $oldvalue,
-                  'newvalue'  => $newvalue,
-                  'tab'       => $tabclass,
-                );
-              $filter = plugin::tpl_parse_string($filter, array('oldvalue' => $oldvalue, 'newvalue' => $newvalue), 'ldap_escape_f');
-            } elseif ($mode == 'references') {
-              $foreignRefs[$objectType]['refs'][$class]['name'] = $cinfos['plShortName'];
-              $foreignRefs[$objectType]['refs'][$class]['fields'][$ofield] =
-                array(
-                  'tab'     => $tabclass,
-                  'tabname' => $this->parent->by_name[$tabclass],
-                  'field'   => $field,
-                  'value'   => $this->parent->by_object[$tabclass]->$field,
-                );
-              $filter = plugin::tpl_parse_string($filter, array('oldvalue' => $this->parent->by_object[$tabclass]->$field), 'ldap_escape_f');
-            }
-            if (!preg_match('/^\(.*\)$/', $filter)) {
-              $filter = '('.$filter.')';
-            }
-            $foreignRefs[$objectType]['filters'][$filter] = $filter;
-          }
-        }
-      }
-    }
-
-    /* Back up POST content */
-    $SAVED_POST = $_POST;
-    $refs = array();
-    // For each concerned objectType
-    foreach ($foreignRefs as $objectType => $tabRefs) {
-      // Compute filter
-      $filters = array_values($tabRefs['filters']);
-      $filter = '(|'.join($filters).')';
-      // Search objects
-      try {
-        $objects = objects::ls($objectType, array('dn' => 'raw'), NULL, $filter);
-      } catch (NonExistingObjectTypeException $e) {
-        continue;
-      } catch (EmptyFilterException $e) {
-        continue;
-      }
-      // For each object of this type
-      foreach (array_keys($objects) as $dn) {
-        /* Avoid sending POST to opened objects */
-        $_POST = array();
-        // Build the object
-        $tabobject = objects::open($dn, $objectType);
-        if (preg_match('/^handle_/', $mode)) {
-          // For each tab concerned
-          foreach ($tabRefs['refs'] as $tab => $fieldRefs) {
-            // If the tab is activated on this object
-            if (isset($tabobject->by_object[$tab])) {
-              // For each field
-              foreach ($fieldRefs as $ofield => $field) {
-                // call plugin::foreignKeyUpdate(ldapname, oldvalue, newvalue, source) on the object
-                $tabobject->by_object[$tab]->foreignKeyUpdate(
-                  $ofield,
-                  $field['oldvalue'],
-                  $field['newvalue'],
-                  array(
-                    'CLASS' => $field['tab'],
-                    'FIELD' => $field['field'],
-                    'MODE'  => preg_replace('/^handle_/', '', $mode),
-                    'DN'    => $this->dn,
-                  )
-                );
-              }
-              $tabobject->by_object[$tab]->save_object();
-              $tabobject->by_object[$tab]->save();
-            }
-          }
-        } elseif ($mode == 'references') {
-          // For each tab concerned
-          foreach ($tabRefs['refs'] as $tab => $tab_infos) {
-            // If the tab is activated on this object
-            if (isset($tabobject->by_object[$tab])) {
-              // For each field
-              foreach ($tab_infos['fields'] as $ofield => $field) {
-                if ($tabobject->by_object[$tab]->foreignKeyCheck(
-                      $ofield,
-                      $field['value'],
-                      array(
-                        'CLASS' => $field['tab'],
-                        'FIELD' => $field['field'],
-                        'DN'    => $this->dn,
-                      )
-                    )) {
-                  if (!isset($refs[$dn])) {
-                    $refs[$dn] = array(
-                      'link'  => '',
-                      'tabs'  => array(),
-                    );
-                    try {
-                      $refs[$dn]['link'] = objects::link($dn, $objectType);
-                    } catch (Exception $e) {
-                      trigger_error("Could not create link to $dn: ".$e->getMessage());
-                      $refs[$dn]['link'] = $dn;
-                    }
-                  }
-                  if (!isset($refs[$dn]['tabs'][$tab])) {
-                    $refs[$dn]['tabs'][$tab] = array(
-                      'link'    => '',
-                      'fields'  => array(),
-                    );
-                    try {
-                      $refs[$dn]['tabs'][$tab]['link'] = objects::link($dn, $objectType, "tab_$tab", sprintf(_('Tab "%s"'), $tab_infos['name']));
-                    } catch (Exception $e) {
-                      trigger_error("Could not create link to $dn $tab: ".$e->getMessage());
-                      $refs[$dn]['tabs'][$tab]['link'] = $tab;
-                    }
-                  }
-                  $refs[$dn]['tabs'][$tab]['fields'][$ofield] = $field;
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    /* Restore POST */
-    $_POST = $SAVED_POST;
-    if ($mode == 'references') {
-      return $refs;
-    }
-  }
-
   /*! \brief Forward command execution requests
    *         to the pre/post hook execution method.
    *
@@ -1150,7 +894,7 @@ class plugin
         break;
 
       default:
-        trigger_error(sprintf('Invalid %s event type given %s! Valid types are [add,modify,remove].', strtolower($when), $mode));
+        trigger_error(sprintf('Invalid %s event type given: "%s"! Valid types are: add, modify, remove.', strtolower($when), $mode));
         break;
     }
   }
@@ -1258,16 +1002,6 @@ class plugin
   {
     $reason = "";
     return $reason;
-  }
-
-  /*!
-   * \brief Return plugin informations for acl handling
-   *
-   * \return an array
-   */
-  static function plInfo()
-  {
-    return array();
   }
 
   /*!

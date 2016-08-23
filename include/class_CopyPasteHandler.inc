@@ -66,33 +66,23 @@ class CopyPasteHandler
   /*!
    * \brief Entry entry to Copy & Paste queue.
    * A Queue entry is represented as follows.
-   *  array['file_name']  - Position on hdd
    *  array['method']     - 'copy' or 'cut'
    *  array['dn']         - the dn of the object added to the queue
-   *  array['tab_class']  - Tab object that should be used to initialize the new object
-   *  array['tab_object'] - Tab object name used to initialize correct object Type like USERTABS
+   *  array['type']       - Object type
    *
    * \param String $dn The dn of the object added to the queue
    *
    * \param String $action Copy or Cut
    *
-   * \param String $tab_class Tab object that should be used to initialize the new object
-   *
-   * \param String $tab_object Tab object name used to initialize correct object Type like USERTABS
-   *
-   * \param String $tab_acl_category Tab with acl category
-   *
-   * \param Object $parent the parent to set to the tab object
+   * \param String $type the type of the object
    */
-  function add_to_queue()
+  function add_to_queue($dn, $action, $type)
   {
     global $config;
-    $dn     = func_get_arg(0);
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "add_to_queue");
-    $action = func_get_arg(1);
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'add_to_queue');
 
-    if (!in_array($action, array("cut","copy"))) {
-      trigger_error(sprintf("Specified action '%s' does not exists for copy & paste.", $action));
+    if (!in_array($action, array('cut','copy'))) {
+      trigger_error(sprintf('Specified action "%s" does not exists for copy & paste.', $action));
       return FALSE;
     }
 
@@ -100,41 +90,15 @@ class CopyPasteHandler
 
     $tmp['method']  = $action;
     $tmp['dn']      = $dn;
+    $tmp['type']    = $type;
 
-    if (func_num_args() == 3) {
-      $type                     = func_get_arg(2);
-      $tmp['type']              = $type;
-      $infos                    = objects::infos($type);
-      $tmp['tab_acl_category']  = $infos['aclCategory'];
-      $tmp['parent']            = NULL;
-    } else {
-      // Deprecated
-      $tab_class = func_get_arg(2);
-      $tab_object = func_get_arg(3);
-      $tab_acl_category = func_get_arg(4);
-      $parent = NULL;
-      if (func_num_args() > 5) {
-        $parent = func_get_arg(5);
-      }
+    $infos                    = objects::infos($type);
+    $tmp['tab_acl_category']  = $infos['aclCategory'];
+    $tmp['parent']            = NULL;
 
-      if (!class_available($tab_class)) {
-        trigger_error(sprintf("Specified class object '%s' does not exists.", $tab_class));
-        return FALSE;
-      }
-
-      if (!isset($config->data['TABS'][$tab_object])) {
-        trigger_error(sprintf("Specified tab object '%s' does not exists.", $tab_object));
-        return FALSE;
-      }
-      $tmp['tab_class']         = $tab_class;
-      $tmp['tab_object']        = $tab_object;
-      $tmp['tab_acl_category']  = $tab_acl_category;
-      $tmp['parent']            = $parent;
-    }
-
-    $this->queue[]        = $tmp;
+    $this->queue[] = $tmp;
     if ($action == 'copy') {
-      $this->objectList[]   = $tmp;
+      $this->objectList[] = $tmp;
     }
     $this->require_update = TRUE;
 

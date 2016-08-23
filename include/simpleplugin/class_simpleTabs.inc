@@ -51,49 +51,30 @@ class simpleTabs
 
   /*!
    * \brief Tabs classes constructor
-   *
-   * You should either call __construct($type, $dn, [$copied_object]) or (deprecated) __construct(NULL, $data, $dn, $category, [$copied_object])
    * */
-  function __construct()
+  function __construct($type, $dn, $attrs_object = NULL)
   {
     global $config;
-    $attrs_object = NULL;
-    if (is_string(func_get_arg(0))) {
-      $type   = func_get_arg(0);
-      $dn     = func_get_arg(1);
-      $infos  = objects::infos($type);
 
-      $data           = $config->data['TABS'][$infos['tabGroup']];
-      $acl_category   = $infos['aclCategory'];
-      if (func_num_args() >= 3) {
-        $attrs_object  = func_get_arg(2);
-      }
-      $this->objectType = $type;
-    } else {
-      trigger_error('deprecated call to old tabclass constructor');
-      /* Deprecated, used by old management classes */
-      //$config_object  = func_get_arg(0); // ignored
-      $data           = func_get_arg(1);
-      $dn             = func_get_arg(2);
-      $acl_category   = func_get_arg(3);
-      if (func_num_args() >= 5) {
-        $attrs_object  = func_get_arg(4);
-      }
+    if (!is_string($type)) {
+      die('deprecated call to old tabclass constructor');
     }
 
-    /* Save dn */
-    $this->dn     = $dn;
+    $infos              = objects::infos($type);
+    $data               = $config->data['TABS'][$infos['tabGroup']];
+    $this->acl_category = $infos['aclCategory'];
+    $this->objectType   = $type;
+    $this->dn           = $dn;
 
     if (!count($data)) {
-      $data[] = array("CLASS" => 'plugin',"NAME" => 'Error');
-      msg_dialog::display(_("Error"),
-        sprintf(_("No plugin definitions found to initialize '%s', please check your configuration file."), get_class($this)),
+      $data[] = array('CLASS' => 'plugin','NAME' => 'Error');
+      msg_dialog::display(_('Error'),
+        sprintf(_('No plugin definitions found to initialize "%s", please check your configuration file.'), get_class($this)),
         ERROR_DIALOG);
     }
 
     $baseobject         = NULL;
-    $this->acl_category = $acl_category;
-    foreach ($data as &$tab) {
+    foreach ($data as $tab) {
       if (!plugin_available($tab['CLASS'])) {
         continue;
       }
@@ -111,15 +92,16 @@ class simpleTabs
       $this->read_only |= $this->by_object[$tab['CLASS']]->read_only;
       $this->by_object[$tab['CLASS']]->set_acl_category($this->acl_category);
     }
-    unset($tab);
 
     /* Initialize current */
     $this->current = $this->baseclass;
 
-    $infos = $this->objectInfos();
-    if ($infos && $infos['mainAttr']) {
+    if ($infos['mainAttr']) {
       $baseobject = $this->getBaseObject();
-      if (($baseobject instanceof simplePlugin) && $baseobject->attributesAccess[$infos['mainAttr']]->getUnique() === FALSE) {
+      if (
+        ($baseobject instanceof simplePlugin) &&
+        ($baseobject->attributesAccess[$infos['mainAttr']]->getUnique() === FALSE)
+      ) {
         $baseobject->attributesAccess[$infos['mainAttr']]->setUnique(TRUE);
       }
     }
