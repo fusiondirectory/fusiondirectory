@@ -377,7 +377,7 @@ class listing {
 
     // No results? Just take an empty colspanned row
     if (count($this->entries) + count($this->departments) == 0) {
-      $result .= "<tr><td class='list1nohighlight' colspan='$this->numColumns' style='height:100%;width:100%;'>&nbsp;</td></tr>";
+      $result .= '<tr><td colspan="'.$this->numColumns.'" style="height:100%;width:100%;">&nbsp;</td></tr>'."\n";
     }
 
     // Line color alternation
