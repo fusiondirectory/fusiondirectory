@@ -3,9 +3,11 @@ FusionDirectory changelog
 
 * FusionDirectory 1.0.15
 
+[Feature] Wishlist #4832: Allow removal of user picture
 [Feature] Bugs #4945: Add the possibility to use %askme% for password expiration in template
 FusionDirectory plugins - Bugs #4991: we should document all the change in the webservice done recently
 |Fix] Bugs #5003: Error on mixed groups when nis schema not present
+[Feature] Wishlist #5010: HTTP header authentication
 |Fix] Bugs #5012: [PRINTERS] old printers are not migrated after upgrade to 1.0.14
 |Fix] Bugs #5013: User that will expire in two weeks is not show in dashboard
 |Fix] Argonaut Deployment System - Bugs #5018: Reinstall trigger on a workstation trigger an error
@@ -27,9 +29,16 @@ FusionDirectory plugins - Bugs #4991: we should document all the change in the w
 [Feature] FusionDirectory plugins - Bugs #5056: Need to edit class_argonautActions.inc for custom modules
 |Fix] Bugs #5057: check_schema should be reviewed
 |Fix] Bugs #5058: notice on 1.0.14-fixes
-[Feature] Wishlist #4832: Allow removal of user picture
-[Feature] Wishlist #5010: HTTP header authentication
-[Feature] FusionDirectory plugins - Wishlist #5025: Manage pwdPolicyChecker objectClass
+|Fix] FusionDirectory plugins - Bugs #5068: PHP4 constructor in FAI plugin
+|Fix] FusionDirectory plugins - Bugs #5069: PHP4 constructor in mail plugin
+|Fix] Bugs #5071: Fatal error in FAI plugin
+|Fix] Bugs #5074: Error to add ACL
+|Fix] FusionDirectory plugins - Bugs #5075: Error to add ACL
+|Fix] FusionDirectory plugins - Bugs #5088: Add samba shares update action to the list
+|Fix] Bugs #5089: Attribute dob of fusiondirectory schema conflicts with evolution schema
+|Fix] FusionDirectory plugins - Bugs #5090: Attribute dob of fusiondirectory schema conflicts with evolution schema
+|Fix] Bugs #5092: FD should not interfere with form handling
+
 
 * FusionDirectory 1.0.14
 
