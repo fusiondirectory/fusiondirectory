@@ -1,7 +1,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -22,20 +22,6 @@
 Event.observe(window, 'resize', resizeHandler);
 Event.observe(window, 'load', resizeHandler);
 Event.observe(window, 'load', initProgressPie);
-
-/* Ask before switching a plugin with this function */
-function question(text, url)
-{
-  if(document.mainform.ignore){
-    location.href= url;
-    return true;
-  }
-  if(confirm(text)){
-    location.href= url;
-    return true;
-  }
-  return false;
-}
 
 
 /* Toggle checkbox that matches regex */
@@ -119,92 +105,8 @@ function changeState() {
   }
 }
 
-function changeSelectState(triggerField, myField) {
-  if (document.getElementById(triggerField).value != 2){
-    document.getElementById(myField).disabled= true;
-  } else {
-    document.getElementById(myField).disabled= false;
-  }
-}
-
-function changeSubselectState(triggerField, myField) {
-  if (document.getElementById(triggerField).checked == true){
-    document.getElementById(myField).disabled= false;
-  } else {
-    document.getElementById(myField).disabled= true;
-  }
-}
-
-function changeTripleSelectState(firstTriggerField, secondTriggerField, myField) {
-  if (
-      document.getElementById(firstTriggerField).checked == true &&
-      document.getElementById(secondTriggerField).checked == true){
-    document.getElementById(myField).disabled= false;
-  } else {
-    document.getElementById(myField).disabled= true;
-  }
-}
-
-<!-- Second field must be non-checked -->
-function changeTripleSelectState_2nd_neg(firstTriggerField, secondTriggerField, myField) {
-  if (
-      document.getElementById(firstTriggerField).checked == true &&
-      document.getElementById(secondTriggerField).checked == false){
-    document.getElementById(myField).disabled= false;
-  } else {
-    document.getElementById(myField).disabled= true;
-  }
-}
-
-function popup(target, name) {
-  var mypopup=
-    window.open(
-        target,
-        name,
-        "width=600,height=700,location=no,toolbar=no,directories=no,menubar=no,status=no,scrollbars=yes"
-         );
-  mypopup.focus();
-  return false;
-}
-
 function js_check(form) {
   form.javascript.value = 'true';
-}
-
-function divGOsa_toggle(element) {
-  var cell;
-  var cellname="tr_"+(element);
-
-  if (Prototype.Browser.Gecko) {
-    document.poppedLayer = document.getElementById(element);
-    cell= document.getElementById(cellname);
-
-    if (document.poppedLayer.style.visibility == "visible") {
-                        $(element).hide();
-      cell.style.height="0px";
-      document.poppedLayer.style.height="0px";
-    } else {
-                        $(element).show();
-      document.poppedLayer.style.height="";
-      if(document.defaultView) {
-        cell.style.height=document.defaultView.getComputedStyle(document.poppedLayer,"").getPropertyValue('height');
-      }
-    }
-  } else if (Prototype.Browser.IE) {
-    document.poppedLayer = document.getElementById(element);
-    cell= document.getElementById(cellname);
-    if (document.poppedLayer.style.visibility == "visible") {
-      $(element).hide();
-      cell.style.height="0px";
-      document.poppedLayer.style.height="0px";
-      document.poppedLayer.style.position="absolute";
-    } else {
-                        $(element).show();
-      cell.style.height="";
-      document.poppedLayer.style.height="";
-      document.poppedLayer.style.position="relative";
-    }
-  }
 }
 
 function resizeHandler (e) {
