@@ -35,19 +35,19 @@ class country extends department
         'ou'          => '',
         'icon'        => 'geticon.php?context=types&icon=country&size=16',
         'tabClass'    => 'deptabs',
-        'mainAttr'    => self::$namingAttr,
+        'mainAttr'    => static::$namingAttr,
       )),
       'plForeignKeys'  => array(
         'manager' => 'user'
       ),
 
-      'plProvidedAcls' => parent::generatePlProvidedAcls(self::getAttributesInfo())
+      'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())
     );
   }
 
   static function getAttributesInfo ()
   {
-    $attributesInfo = parent::getDepartmentAttributesInfo(_('country'), self::$namingAttr);
+    $attributesInfo = parent::getDepartmentAttributesInfo(_('country'), static::$namingAttr);
     unset($attributesInfo['location']);
     unset($attributesInfo['properties']['attrs'][3]); // category
     /* Country c attribut cannot contain any underscore */

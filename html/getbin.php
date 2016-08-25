@@ -20,12 +20,12 @@
 */
 
 /* Basic setup, remove eventually registered sessions */
-@require_once("../include/php_setup.inc");
-@require_once("functions.inc");
-@require_once("variables.inc");
+@require_once('../include/php_setup.inc');
+@require_once('functions.inc');
+@require_once('variables.inc');
 
 error_reporting (0);
-session_cache_limiter("private");
+session_cache_limiter('private');
 session::start();
 session::global_set('errorsAlreadyPosted', array());
 
@@ -36,23 +36,21 @@ if (!session::global_is_set('ui')) {
   exit;
 }
 
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
-header("Cache-Control: no-cache");
-header("Pragma: no-cache");
-header("Cache-Control: post-check=0, pre-check=0");
+header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
+header('Cache-Control: no-cache');
+header('Pragma: no-cache');
+header('Cache-Control: post-check=0, pre-check=0');
 
 $key = 'binary';
 if (isset ($_GET['key'])) {
   $key .= $_GET['key'];
 }
 
-$bintype = session::is_set($key.'type')
-  ? session::get($key.'type') : "octet-stream";
-header("Content-type: " . $bintype);
+$bintype = (session::is_set($key.'type') ? session::get($key.'type') : 'octet-stream');
+header('Content-type: '.$bintype);
 if (session::is_set($key.'file')) {
-  header( 'Content-disposition: attachment; filename="'
-    . session::get($key.'file')).'"';
+  header('Content-disposition: attachment; filename="'.session::get($key.'file').'"');
 }
 
 echo session::get($key);

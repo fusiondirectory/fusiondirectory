@@ -36,7 +36,7 @@ class userRoles extends simplePlugin
       'plObjectType'    => array('user'),
       'plPriority'      => 5,
 
-      'plProvidedAcls'  => parent::generatePlProvidedAcls(self::getAttributesInfo())
+      'plProvidedAcls'  => parent::generatePlProvidedAcls(static::getAttributesInfo())
     );
   }
 

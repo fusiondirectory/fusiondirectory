@@ -42,7 +42,7 @@ class objects
   static function ls ($type, $attrs = NULL, $ou = NULL, $filter = '')
   {
     if ($attrs === NULL) {
-      $infos = self::infos($type);
+      $infos = static::infos($type);
       $attrs = $infos['mainAttr'];
     }
 
@@ -52,7 +52,7 @@ class objects
       $search_attrs = array($attrs);
     }
     try {
-      $ldap   = self::search($type, $search_attrs, $ou, $filter);
+      $ldap = static::search($type, $search_attrs, $ou, $filter);
     } catch (NonExistingBranchException $e) {
       return array();
     }
@@ -94,7 +94,7 @@ class objects
   static function count ($type, $ou = NULL, $filter = '')
   {
     try {
-      $ldap = self::search($type, array('dn'), $ou, $filter);
+      $ldap = static::search($type, array('dn'), $ou, $filter);
     } catch (EmptyFilterException $e) {
       return 0;
     } catch (NonExistingBranchException $e) {
@@ -110,7 +110,7 @@ class objects
     if ($ou === NULL) {
       $ou = $config->current['BASE'];
     }
-    $infos = self::infos($type);
+    $infos = static::infos($type);
 
     if ($infos['filter'] == '') {
       throw new EmptyFilterException();
@@ -148,7 +148,7 @@ class objects
   {
     global $config;
 
-    $infos    = self::infos($type);
+    $infos    = static::infos($type);
     $tabClass = $infos['tabClass'];
 
     $tabObject = new $tabClass($type, $dn);
@@ -162,7 +162,7 @@ class objects
   {
     global $config;
 
-    $infos = self::infos($type);
+    $infos = static::infos($type);
     if (!isset($infos['management'])) {
       throw new Exception('Asked for link for type "'.$type.'" but it does not have a management class');
     }
@@ -199,7 +199,7 @@ class objects
 
   static function create ($type)
   {
-    return self::open('new', $type);
+    return static::open('new', $type);
   }
 
   static function infos ($type)
@@ -216,7 +216,7 @@ class objects
   static function isOfType ($attrs, $type)
   {
     //TODO : cache ldapFilter objects?
-    $infos  = self::infos($type);
+    $infos  = static::infos($type);
     $filter = ldapFilter::parse($infos['filter']);
     return $filter($attrs);
   }
@@ -233,7 +233,7 @@ class objects
   {
     global $config, $ui;
 
-    $infos = self::infos($type);
+    $infos = static::infos($type);
 
     $templates = array();
     $ldap = $config->get_ldap_link();

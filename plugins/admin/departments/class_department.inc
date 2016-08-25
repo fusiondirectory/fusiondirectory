@@ -41,20 +41,20 @@ class department extends simplePlugin
             'ou'        => '',
             'icon'      => 'geticon.php?context=places&icon=folder&size=16',
             'tabClass'  => 'deptabs',
-            'mainAttr'  => self::$namingAttr,
+            'mainAttr'  => static::$namingAttr,
           )
         ),
       'plForeignKeys'  => array(
         'manager' => 'user'
       ),
 
-      'plProvidedAcls' => parent::generatePlProvidedAcls(self::getAttributesInfo())
+      'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())
     );
   }
 
   static function getAttributesInfo()
   {
-    return self::getDepartmentAttributesInfo(_('department'), self::$namingAttr);
+    return static::getDepartmentAttributesInfo(_('department'), static::$namingAttr);
   }
   static function getDepartmentAttributesInfo($name, $namingAttr)
   {

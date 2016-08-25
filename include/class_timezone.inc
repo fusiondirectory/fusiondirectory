@@ -73,7 +73,7 @@ class timezone
     }
 
     /* Is there a correct timezone set in the fusiondirectory configuration */
-    if (self::setDefaultTimezoneFromConfig()) {
+    if (static::setDefaultTimezoneFromConfig()) {
       $tz       = $config->get_cfg_value('timezone');
       $tz_delta = date('Z', $stamp);
       $tz_delta = $tz_delta / 3600;

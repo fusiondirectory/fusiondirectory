@@ -41,7 +41,7 @@ class EpochDaysDateAttribute extends DateAttribute
 
   protected function ldapToDate($ldapValue)
   {
-    $date = DateTime::createFromFormat('U', $ldapValue * self::$secondsPerDay, timezone::utc());
+    $date = DateTime::createFromFormat('U', $ldapValue * static::$secondsPerDay, timezone::utc());
     if ($date !== FALSE) {
       return $date;
     } else {
@@ -52,7 +52,7 @@ class EpochDaysDateAttribute extends DateAttribute
 
   protected function dateToLdap($dateValue)
   {
-    return floor($dateValue->format('U') / self::$secondsPerDay);
+    return floor($dateValue->format('U') / static::$secondsPerDay);
   }
 
   function getEpochDays()
@@ -100,7 +100,7 @@ class posixAccount extends simplePlugin
         )
       ),
 
-      'plProvidedAcls'  => parent::generatePlProvidedAcls(self::getAttributesInfo())
+      'plProvidedAcls'  => parent::generatePlProvidedAcls(static::getAttributesInfo())
     );
   }
 

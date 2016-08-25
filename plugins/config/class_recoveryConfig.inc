@@ -29,7 +29,7 @@ class recoveryConfig extends simplePlugin
       'plDescription'   => _('Settings for the password recovery feature'),
       'plObjectType'    => array('configuration'),
 
-      'plProvidedAcls'  => parent::generatePlProvidedAcls(self::getAttributesInfo())
+      'plProvidedAcls'  => parent::generatePlProvidedAcls(static::getAttributesInfo())
     );
   }
 

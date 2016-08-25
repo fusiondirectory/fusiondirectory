@@ -147,9 +147,9 @@ class dashboardUsers extends simplePlugin
     while ($attrs = $ldap->fetch()) {
       // Test if account is expired now
       if ($attrs['shadowExpire'][0] <= $today) {
-        $expired_accounts[] = self::get_user_infos($attrs);
+        $expired_accounts[] = static::get_user_infos($attrs);
       } elseif ($attrs['shadowExpire'][0] <= $next_expired_date) {
-        $next_expired_accounts[] = self::get_user_infos($attrs);
+        $next_expired_accounts[] = static::get_user_infos($attrs);
       }
     }
 

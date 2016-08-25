@@ -84,7 +84,7 @@ class acl
     $result = array();
     foreach ($role as $aclTemplate) {
       $list = explode(':', $aclTemplate, 2);
-      $result[$list[0]] = self::extractACL($list[1]);
+      $result[$list[0]] = static::extractACL($list[1]);
     }
     ksort($result);
     return $result;

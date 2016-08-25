@@ -197,9 +197,9 @@ class CopyPasteHandler
         $cut_acl &= preg_match("/r/", $ui->get_complete_category_acls($entry['dn'], $entry['tab_acl_category']));
 
         /* Check permissions */
-        if ($entry['method'] == "copy" && !$copy_acl) {
+        if (($entry['method'] == 'copy') && !$copy_acl) {
           $this->disallowed_objects[$key] = $entry;
-        } elseif ($entry['method'] == "cut" && !$cut_acl) {
+        } elseif (($entry['method'] == 'cut') && !$cut_acl) {
           $this->disallowed_objects[$key] = $entry;
         } else {
           $this->clean_objects[$key] = $entry;
