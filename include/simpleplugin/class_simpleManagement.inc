@@ -931,5 +931,4 @@ class simpleManagement extends management
     }
   }
 }
-
 ?>
