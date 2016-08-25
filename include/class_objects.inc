@@ -22,6 +22,8 @@
 class NonExistingObjectTypeException extends Exception {};
 class NonExistingBranchException extends Exception {};
 class EmptyFilterException extends Exception {};
+class NoManagementClassException extends Exception {};
+class LDAPFailureException extends Exception {};
 
 class objects
 {
@@ -131,7 +133,7 @@ class objects
     $ldap->cd($ou);
     $ldap->search($filter, $search_attrs);
     if (!$ldap->success()) {
-      throw new Exception($ldap->get_error());
+      throw new LDAPFailureException($ldap->get_error());
     }
     return $ldap;
   }
@@ -164,7 +166,7 @@ class objects
 
     $infos = static::infos($type);
     if (!isset($infos['management'])) {
-      throw new Exception('Asked for link for type "'.$type.'" but it does not have a management class');
+      throw new NoManagementClassException('Asked for link for type "'.$type.'" but it does not have a management class');
     }
     $pInfos = pluglist::pluginInfos($infos['management']);
     $index  = $pInfos['INDEX'];
@@ -184,7 +186,7 @@ class objects
           $text = $dn;
         }
       } else {
-        throw new Exception('Dn '.$dn.' not found in LDAP');
+        throw new NonExistingLdapNodeException('Dn '.$dn.' not found in LDAP');
       }
     } elseif (is_array($text)) {
       $text = $text[$infos['nameAttr']][0];
