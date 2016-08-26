@@ -176,11 +176,6 @@ html.rtl div.treeList {
 float: right;
 }
 
-/* Max height for IE */
-* html div.treeList {
-height: expression( this.scrollHeight > 500 ? "500px" : "auto" );
-}
-
 table.listing_container {
 width: 100%;
 height: 100%;
