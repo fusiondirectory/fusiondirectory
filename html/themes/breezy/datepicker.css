@@ -26,7 +26,7 @@ padding: 2px;
 text-align: center;
 }
 
-div.datepicker .datepicker-header .header {
+div.datepicker .datepicker-header table.header {
 width: 175px;
 border: 0;
 padding: 0;
@@ -152,13 +152,14 @@ float: right;
 }
 
 .datepicker-opener-table {
+box-sizing: border-box;
 border: 1px solid transparent;
 padding: 0;
 border-spacing: 0;
 margin: 0 0 0 93px;
 background: transparent url(../../geticon.php?context=applications&icon=office-calendar&size=16) no-repeat 0 0;
-width: 18px;
-height: 18px;
+width: 20px;
+height: 20px;
 cursor: pointer;
 }
 html.rtl .datepicker-opener-table {

@@ -19,8 +19,6 @@ margin-bottom: 5px;
 padding-bottom: 3px;
 background-color: #f3f4f4;
 border: 1px solid #c0c2c3;
-/*border-radius:5px;*/
-/*box-shadow:0px 0px 3px black inset;*/
 }
 ul.menu > li > a {
 font-family: arial,helvetica,sans-serif;
@@ -37,7 +35,6 @@ padding-top: 5px;
 border-style: solid;
 border-color: #c0c2c3;
 border-width: 0px 0px 1px;
-/*border-radius:5px 5px 0 0;*/
 }
 
 ul.menu ul > li > a {
@@ -46,7 +43,7 @@ text-decoration: none;
 font-weight: normal;
 font-size: 12px;
 vertical-align: middle;
-margin: 2px 0px;
+margin: 2px 0;
 padding-top: 2px;
 padding-bottom: 2px;
 }
@@ -61,11 +58,9 @@ padding-right: 15px;
 
 .menuitem.menucurrent {
 background-color: #3daee9;
-/*box-shadow:0px 0px 2px black inset;*/
 }
 .menuitem:hover {
 background-color: #d5eaf7;
-/*box-shadow:0px 0px 2px black inset;*/
 }
 
 .menuitem a:link, .menuitem a:visited {
@@ -73,9 +68,6 @@ text-decoration: none;
 color: #31363b;
 }
 
-.menuitem {
-/*transition:box-shadow .5s ease, background .5s ease;*/
-}
 .menuitem a:hover {
 text-decoration: none;
 }
@@ -143,7 +135,6 @@ margin: .5%;
 padding: .5%;
 border-radius: 5px;
 border: 1px solid #f3f4f4;
-/*transition:box-shadow .5s ease, background .5s ease;*/
 }
 html.ltr .iconmenu {
 float: left;
@@ -155,7 +146,6 @@ text-align: right;
 }
 .iconmenu:hover {
 border: 1px solid #c0c2c3;
-/*box-shadow:0px 0px 4px black;*/
 }
 
 .iconmenu:nth-child(2)
