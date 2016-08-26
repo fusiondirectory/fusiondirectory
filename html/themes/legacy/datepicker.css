@@ -9,7 +9,7 @@ font-size: 10px;
 padding: 0;
 }
 
-div.datepicker-calendar table {
+.datepicker-calendar table {
 font-size: 10px;
 border: 1px solid #FFF;
 margin: 0;
@@ -17,7 +17,7 @@ padding: 0;
 text-align: center;
 }
 
-div.datepicker div.datepicker-header {
+div.datepicker .datepicker-header {
 font-size: 11px;
 font-weight: bold;
 background: #F0F0F0;
@@ -26,7 +26,7 @@ padding: 2px;
 text-align: center;
 }
 
-div.datepicker table.header {
+div.datepicker .datepicker-header .header {
 width: 175px;
 border: 0;
 padding: 0;
@@ -53,17 +53,17 @@ font-weight: bold;
 line-height: 16px;
 }
 
-div.datepicker-header {
+.datepicker-header {
 height: 16px;
 }
 
-div.datepicker-calendar table tbody tr {
+.datepicker-calendar table tbody tr {
 border: 1px solid #FFF;
 margin: 0;
 padding: 0;
 }
 
-div.datepicker-calendar table tbody tr td {
+.datepicker-calendar table tbody tr td {
 border: 1px #EAEAEA solid;
 margin: 0;
 padding: 0;
@@ -74,15 +74,15 @@ width: 21px;
 cursor: pointer;
 }
 
-div.datepicker-calendar table tbody tr td:hover,
-div.datepicker-calendar table tbody tr td.outbound:hover,
-div.datepicker-calendar table tbody tr td.today:hover {
+.datepicker-calendar table tbody tr td:hover,
+.datepicker-calendar table tbody tr td.outbound:hover,
+.datepicker-calendar table tbody tr td.today:hover {
 border: 1px #CCE9FF solid;
 background: #E9F5FF;
 cursor: pointer;
 }
 
-div.datepicker-calendar table tbody tr td.wday {
+.datepicker-calendar table tbody tr td.wday {
 border: 1px #AAA solid;
 background: #CCC;
 cursor: text;
@@ -92,12 +92,12 @@ line-height: 16px;
 font-weight: bold;
 }
 
-div.datepicker-calendar table tbody tr td.outbound {
+.datepicker-calendar table tbody tr td.outbound {
 background: #F4F3F3;
 }
 
-div.datepicker-calendar table tbody tr td.today,
-div.datepicker-calendar table tbody tr td.today:hover {
+.datepicker-calendar table tbody tr td.today,
+.datepicker-calendar table tbody tr td.today:hover {
 border: 1px #CCE9FF solid;
 background: #E9F5FF;
 background-image: url(../../images/date_active.png);
@@ -107,8 +107,8 @@ height: 16px;
 line-height: 16px;
 }
 
-div.datepicker-calendar table tbody tr td.nclick,
-div.datepicker-calendar table tbody tr td.nclick-outbound {
+.datepicker-calendar table tbody tr td.nclick,
+.datepicker-calendar table tbody tr td.nclick-outbound {
 cursor: default;
 color: #aaa;
 width: 21px;
@@ -116,20 +116,20 @@ height: 16px;
 line-height: 16px;
 }
 
-div.datepicker-calendar table tbody tr td.nclick-outbound {
+.datepicker-calendar table tbody tr td.nclick-outbound {
 background: #E8E4E4;
 width: 21px;
 height: 16px;
 line-height: 16px;
 }
 
-div.datepicker-calendar table tbody tr td.nclick:hover,
-div.datepicker-calendar table tbody tr td.nclick-outbound:hover {
+.datepicker-calendar table tbody tr td.nclick:hover,
+.datepicker-calendar table tbody tr td.nclick-outbound:hover {
 border: 1px #EAEAEA solid;
 background: #FFF;
 }
 
-div.datepicker-calendar table tbody tr td.nclick-outbound:hover {
+.datepicker-calendar table tbody tr td.nclick-outbound:hover {
 background: #E8E4E4;
 }
 
