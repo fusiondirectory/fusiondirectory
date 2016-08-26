@@ -185,7 +185,7 @@ function plugin_available($plugin)
  */
 function load_plist ($ldap_available = TRUE)
 {
-  global $config, $ui;
+  global $config;
   if (!session::global_is_set('plist')) {
     /* Initially load all classes */
     load_all_classes();
@@ -2821,7 +2821,6 @@ function get_correct_class_name($cls)
  */
 function change_password ($dn, $password, $hash = "")
 {
-  global $config;
   $userTabs = objects::open($dn, 'user');
   $userTab  = $userTabs->getBaseObject();
   $userTab->userPassword = array(
@@ -2874,7 +2873,6 @@ function lock_samba_account($mode, $attrs)
 /* Lock or unlock ssh account */
 function lock_ssh_account($mode, $attrs, &$modify)
 {
-  global $config;
   if (!isset($attrs['sshPublicKey'])) {
     return;
   }
@@ -3347,7 +3345,7 @@ function load_all_classes()
 
 function initLanguage($lang = NULL)
 {
-  global $GLOBALS,$BASE_DIR;
+  global $BASE_DIR;
   if ($lang === NULL) {
     $lang = get_browser_language();
   }

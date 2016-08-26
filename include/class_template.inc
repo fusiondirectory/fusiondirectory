@@ -140,10 +140,9 @@ class template
 
   function save_object()
   {
-    foreach ($this->tabObject->by_object as $class => &$plugin) {
+    foreach ($this->tabObject->by_object as $plugin) {
       $plugin->save_object();
     }
-    unset($plugin);
   }
 
   function execute()

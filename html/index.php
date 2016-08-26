@@ -402,7 +402,7 @@ class Index {
   /* All login steps in the right order for HTTP auth login */
   static function authLoginProcess()
   {
-    global $config, $message, $ui;
+    global $config, $message;
 
     static::init();
 
