@@ -4,11 +4,11 @@ vertical-align: top;
 text-align: justify;
 background-color: #f3f4f4;
 margin-top: 0px;
-margin-left:0;
-margin-right:0;
+margin-left: 0;
+margin-right: 0;
 width: auto;
 border: 1px solid #c0c2c3;
-padding:0;
+padding: 0;
 }
 
 div.pluginfo {
@@ -16,7 +16,7 @@ border-bottom: 1px solid #c0c2c3;
 width: 100%;
 padding-top: 2px;
 padding-bottom: 2px;
-margin-bottom:0;
+margin-bottom: 0;
 text-align: right;
 vertical-align: middle;
 background-color: #eff0f1;
@@ -32,11 +32,11 @@ border-style: solid;
 border-color: #c0c2c3;
 width: 100%;
 border-top-width: 1px;
-border-bottom-width:0;
-border-left-width:0;
-border-right-width:0;
+border-bottom-width: 0;
+border-left-width: 0;
+border-right-width: 0;
 padding-top: 10px;
-padding-bottom:0;
+padding-bottom: 0;
 text-align: right;
 font-family: arial,helvetica,sans-serif;
 clear: both;
@@ -45,7 +45,7 @@ p.plugbottom {
 position: fixed;
 bottom: 0px;
 right: 10px;
-margin:0;
+margin: 0;
 /*box-shadow:0px 0px 2px black;*/
 border-radius: 5px 5px 0 0;
 width: auto;
@@ -74,31 +74,31 @@ clear: left;
 width: 49%;
 vertical-align: top;
 border: 1px solid #c0c2c3;
-padding:0;
+padding: 0;
 margin-top: 0.5%;
 margin-left: 0.5%;
 margin-bottom: 0.5%;
-margin-right:0;
+margin-right: 0;
 position: relative;
 }
 html.rtl .plugin_section {
 float: right;
 clear: right;
-margin-left:0;
+margin-left: 0;
 margin-right: 0.5%;
 }
 
 html.ltr .plugin_section:nth-child(even) {
 float: right;
 clear: right;
-margin-left:0;
+margin-left: 0;
 margin-right: 0.5%;
 }
 html.rtl .plugin_section:nth-child(even) {
 float: left;
 clear: left;
 margin-left: 0.5%;
-margin-right:0;
+margin-right: 0;
 }
 
 div.plugin_section {
@@ -115,8 +115,8 @@ padding-top: 30px;
 
 fieldset.plugin_section legend {
 float: left;
-padding:0;
-margin:0;
+padding: 0;
+margin: 0;
 }
 html.rtl fieldset.plugin_section legend {
 float: right;
@@ -141,14 +141,14 @@ margin-right: -1px;
 
 fieldset.plugin_section legend span {
 position: absolute;
-top:0;
+top: 0;
 margin-top: -1px;
 }
 html.ltr fieldset.plugin_section legend span {
-left:0;
+left: 0;
 }
 html.rtl fieldset.plugin_section legend span {
-right:0;
+right: 0;
 }
 
 .plugin_section > span.legend {
@@ -210,7 +210,7 @@ background-color: #DFEFFF;
 /* On small screens */
 @media (max-width: 640px) {
   .plugin_window {
-  margin:0;
+  margin: 0;
   border: none;
   width: 100%;
   }
@@ -225,12 +225,12 @@ background-color: #DFEFFF;
   clear: both;
   width: 100%;
   border-top: none;
-  margin:0;
+  margin: 0;
   }
   .plugbottom {
   text-align: center;
   width: 100%;
-  margin:0;
+  margin: 0;
   padding-top: 5px;
   padding-bottom: 4px;
   padding-left: 1px;

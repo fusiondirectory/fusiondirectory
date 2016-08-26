@@ -8,16 +8,16 @@
  */
 table.sieve_default_table {
 width: 100%;
-margin:0;
-border-spacing:0;
-padding:0;
+margin: 0;
+border-spacing: 0;
+padding: 0;
 }
 
 /* Editing surface */
 table.editing_surface {
 width: 100%;
-margin:0;
-padding:0;
+margin: 0;
+padding: 0;
 }
 
 /* Editing surface menu */
@@ -30,8 +30,8 @@ padding: 5px;
 /* Editing surface content */
 td.editing_surface_content {
 background-color: #fcfcfc;
-margin:0;
-padding:0;
+margin: 0;
+padding: 0;
 }
 
 /* Error message will be displayed as follows */
@@ -56,7 +56,7 @@ height: 330px;
 /* The container itself */
 table.object_container_container {
 width: 100%;
-border-spacing:0;
+border-spacing: 0;
 background-color: #F8F8F8;
 border: solid 1px #C0C2C3;
 }
@@ -96,9 +96,9 @@ border-left: solid 1px #C0C2C3;
  *************/
 /* Container */
 table.sieve_comment_container {
-margin:0;
-padding:0;
-border-spacing:0;
+margin: 0;
+padding: 0;
+border-spacing: 0;
 width: 100%;
 background-color: #F8F8F8;
 }
@@ -114,9 +114,9 @@ height: 80px;
  *************/
 /* Container */
 table.sieve_require_container {
-margin:0;
-padding:0;
-border-spacing:0;
+margin: 0;
+padding: 0;
+border-spacing: 0;
 width: 100%;
 background-color: #F8F8F8;
 }
@@ -124,7 +124,7 @@ background-color: #F8F8F8;
 /* Editing area */
 input.sieve_require_input {
 width: 100%;
-border-spacing:0;
+border-spacing: 0;
 }
 
 /*************
@@ -132,9 +132,9 @@ border-spacing:0;
  *************/
 /* Container */
 table.sieve_fileinto_container {
-margin:0;
-padding:0;
-border-spacing:0;
+margin: 0;
+padding: 0;
+border-spacing: 0;
 width: 100%;
 background-color: #F8F8F8;
 }
@@ -153,9 +153,9 @@ width: 300px;
  *************/
 /* Container */
 table.sieve_keep_container {
-margin:0;
-padding:0;
-border-spacing:0;
+margin: 0;
+padding: 0;
+border-spacing: 0;
 width: 100%;
 background-color: #F8F8F8;
 }
@@ -173,9 +173,9 @@ padding-right: 20px;
  *************/
 /* Container */
 table.sieve_discard_container {
-margin:0;
-padding:0;
-border-spacing:0;
+margin: 0;
+padding: 0;
+border-spacing: 0;
 width: 100%;
 background-color: #F8F8F8;
 }
@@ -193,9 +193,9 @@ padding-right: 20px;
  *************/
 /* Container */
 table.sieve_redirect_container {
-margin:0;
-padding:0;
-border-spacing:0;
+margin: 0;
+padding: 0;
+border-spacing: 0;
 width: 100%;
 background-color: #F8F8F8;
 }
@@ -218,9 +218,9 @@ height: 30px;
  *************/
 /* Container */
 table.sieve_reject_container {
-margin:0;
-padding:0;
-border-spacing:0;
+margin: 0;
+padding: 0;
+border-spacing: 0;
 width: 100%;
 background-color: #F8F8F8;
 }
@@ -243,9 +243,9 @@ height: 55px;
  *************/
 /* Container */
 table.sieve_stop_container {
-margin:0;
-padding:0;
-border-spacing:0;
+margin: 0;
+padding: 0;
+border-spacing: 0;
 width: 100%;
 background-color: #F8F8F8;
 }
@@ -263,9 +263,9 @@ padding-right: 20px;
  *************/
 /* Container */
 table.sieve_vacation_container {
-margin:0;
-padding:0;
-border-spacing:0;
+margin: 0;
+padding: 0;
+border-spacing: 0;
 width: 100%;
 background-color: #F8F8F8;
 }
@@ -289,9 +289,9 @@ height: 55px;
  *************/
 table.sieve_allof_container {
 width: 100%;
-border-spacing:0;
-margin:0;
-padding:0;
+border-spacing: 0;
+margin: 0;
+padding: 0;
 border: solid 1px #999;
 }
 
@@ -314,9 +314,9 @@ background-color: #BDBDBD;
  *************/
 table.sieve_anyof_container {
 width: 100%;
-margin:0;
-border-spacing:0;
-padding:0;
+margin: 0;
+border-spacing: 0;
+padding: 0;
 border: solid 2px #CCC;
 }
 
@@ -341,17 +341,17 @@ border: solid 1px #C0C2C3;
 table.sieve_test_container {
 width: 100%;
 background-color: #F8F8F8;
-margin:0;
-border-spacing:0;
-padding:0;
+margin: 0;
+border-spacing: 0;
+padding: 0;
 border: solid 1px #C0C2C3;
 }
 
 table.sieve_test_case {
 width: 100%;
-margin:0;
-border-spacing:0;
-padding:0;
+margin: 0;
+border-spacing: 0;
+padding: 0;
 }
 
 html.ltr td.container_, html.ltr div.container_ {

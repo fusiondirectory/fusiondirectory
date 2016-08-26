@@ -30,7 +30,7 @@ margin-top: 5px;
 margin-bottom: 5px;
 }
 #menucell.setup_navigation li.menuitem > a {
-margin:0;
+margin: 0;
 }
 
 /* An enabled setup step will use this style in navigation*/
@@ -58,7 +58,7 @@ padding-bottom: 3px;
 #menucell.setup_navigation li.menuitem a.navigation_info {
 font-size: 1em;
 color: #000;
-margin:0;
+margin: 0;
 cursor: default;
 }
 html.ltr #menucell.setup_navigation li.menuitem a.navigation_info {
