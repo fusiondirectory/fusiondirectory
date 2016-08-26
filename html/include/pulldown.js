@@ -94,7 +94,7 @@ MenuContainer.prototype = {
 
     for (var i = 0; i < childNodes.length; i++) {
       var node = childNodes[i];
-      if (node.nodeType == 1) {
+      if (node.nodeType === 1) {
         if (this.type === "menuContainer") {
           if (node.tagName.toLowerCase() === "li") {
             this.menuItems.push(new MenuItem(node, this));
@@ -111,13 +111,14 @@ MenuContainer.prototype = {
   getBorders: function(element) {
     var ltrb = ["Left","Top","Right","Bottom"];
     var result = {};
+    var value;
     for (var i = 0; i < ltrb.length; ++i) {
       if (this.element.currentStyle)
-        var value = parseInt(this.element.currentStyle["border"+ltrb[i]+"Width"]);
+        value = parseInt(this.element.currentStyle["border"+ltrb[i]+"Width"]);
       else if (window.getComputedStyle)
-        var value = parseInt(window.getComputedStyle(this.element, "").getPropertyValue("border-"+ltrb[i].toLowerCase()+"-width"));
+        value = parseInt(window.getComputedStyle(this.element, "").getPropertyValue("border-"+ltrb[i].toLowerCase()+"-width"));
       else
-        var value = parseInt(this.element.style["border"+ltrb[i]]);
+        value = parseInt(this.element.style["border"+ltrb[i]]);
       result[ltrb[i].toLowerCase()] = isNaN(value) ? 0 : value;
     }
     return result;
@@ -133,7 +134,7 @@ MenuContainer.prototype = {
         top: (Position.positionedOffset(this.parent.element)[1] + Element.getHeight(this.parent.element)) + "px"
       });
     } else if (this.menuType === "flyout") {
-      var parentMenuBorders = this.parentMenu ? this.parentMenu.getBorders() : new Object();
+      var parentMenuBorders = this.parentMenu ? this.parentMenu.getBorders() : {};
       var thisBorders = this.getBorders();
       if (
         (Position.positionedOffset(this.parentMenu.element)[0] + this.parentMenu.element.offsetWidth + this.element.offsetWidth + 20) >
