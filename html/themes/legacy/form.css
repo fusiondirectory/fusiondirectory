@@ -1,27 +1,27 @@
 input, input:focus, select, textarea, textarea:focus {
-font-size:12px;
+font-size: 12px;
 }
 
 input[type=text], input[type=password], select {
-padding:2px;
+padding: 2px;
 }
 
 input[disabled] {
-color:#888;
-background-color:#DDD;
+color: #888;
+background-color: #DDD;
 }
 
 textarea[disabled], select[disabled] {
-color:#000;
-background-color:#DDD;
+color: #000;
+background-color: #DDD;
 }
 
 /* On small screens */
 @media (max-width: 640px) {
   input[type=text], input[type=password], input[type=file], textarea, select {
-  max-width:100%;
+  max-width: 100%;
   }
   input.base_selector {
-  max-width:100px;
+  max-width: 100px;
   }
 }
