@@ -118,13 +118,12 @@ MenuContainer.prototype = {
     var result = {};
     var value;
     for (var i = 0; i < ltrb.length; ++i) {
-      if (this.element.currentStyle) {
+      if (this.element.currentStyle)
         value = parseInt(this.element.currentStyle["border"+ltrb[i]+"Width"]);
-      } else if (window.getComputedStyle) {
+      else if (window.getComputedStyle)
         value = parseInt(window.getComputedStyle(this.element, "").getPropertyValue("border-"+ltrb[i].toLowerCase()+"-width"));
-      } else {
+      else
         value = parseInt(this.element.style["border"+ltrb[i]]);
-      }
       result[ltrb[i].toLowerCase()] = isNaN(value) ? 0 : value;
     }
     return result;
