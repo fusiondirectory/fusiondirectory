@@ -27,9 +27,7 @@
 /*!
  * \brief This class contains all the function needed to sort department
  */
-class departmentSortIterator implements Iterator {
-  private $data;
-
+class departmentSortIterator extends listingSortIterator {
   /*!
    * \brief departmentSortIterator constructor
    *
@@ -39,91 +37,7 @@ class departmentSortIterator implements Iterator {
    */
   public function __construct($data, $direction)
   {
-    // Sort for attribute
-    uasort(
-      $data,
-      function ($ao, $bo)
-      {
-        // Override sort attribute from data if needed
-        $attribute_a = $ao['sort-attribute'];
-        $attribute_b = $bo['sort-attribute'];
-
-        // Extract values from ao and bo
-        $a = $b = "";
-        if (isset($ao[$attribute_a])) {
-          $a = $ao[$attribute_a];
-          if (is_array($a)) {
-            $a = $a[0];
-          }
-        }
-        if (isset($bo[$attribute_b])) {
-          $b = $bo[$attribute_b];
-          if (is_array($b)) {
-            $b = $b[0];
-          }
-        }
-
-        // Sort for string by default
-        return strnatcmp($a, $b);
-      }
-    );
-
-    // Invert if direction is set
-    if ($direction) {
-      $this->data = array_reverse($data, TRUE);
-    } else {
-      $this->data = $data;
-    }
-  }
-
-  /*!
-   * \brief Put the array pointer to the first element
-   *
-   * \return the first element of the array
-   */
-  function rewind()
-  {
-    return reset($this->data);
-  }
-
-  /*!
-   * \brief Get the current data element
-   *
-   * \return The current element pointed by array pointer
-   */
-  function current()
-  {
-    return current($this->data);
-  }
-
-  /*!
-   * \brief Get the key element
-   *
-   * \return the key element of the array
-   */
-  function key()
-  {
-    return key($this->data);
-  }
-
-  /*!
-   * \brief Get the next data element
-   *
-   * \return The next element pointed by array pointer
-   */
-  function next()
-  {
-    return next($this->data);
-  }
-
-  /*!
-   * \brief Check if the data array is valid
-   *
-   * \return TRUE if the array is valid, return FALSE otherwise
-   */
-  function valid()
-  {
-    return (key($this->data) !== NULL);
+    parent::__construct($data, $direction, 'sort-attribute', 'department');
   }
 }
 ?>
