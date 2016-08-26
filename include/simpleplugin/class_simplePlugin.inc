@@ -920,21 +920,12 @@ class simplePlugin extends plugin
       $infos = pluglist::pluginInfos($tabclass);
       foreach ($infos['plForeignRefs'] as $field => $refs) {
         if (preg_match('/^handle_/', $mode)) {
-          if ($newdn !== NULL) {
-            // Move action
-            if (($field != 'dn') && ($mode == 'handle_move')) {
-              // We only change dn
-              continue;
-            }
-          } elseif ($olddn === NULL) {
-            // Edit action
-            if ($field == 'dn') {
-              // dn did not change
-              continue;
-            } elseif (!$this->attributeHaveChanged($field)) {
-              // only look at changed attributes
-              continue;
-            }
+          if (($newdn !== NULL) && ($field != 'dn') && ($mode == 'handle_move')) {
+            // Move action, ignore other fields than dn
+            continue;
+          } elseif (($newdn === NULL) && ($olddn === NULL) && (($field == 'dn') || (!$this->attributeHaveChanged($field)))) {
+            // Edit action, ignore dn changes or attributes which did not change
+            continue;
           }
           // else = delete action, all fields are concerned, nothing to do here
         }
