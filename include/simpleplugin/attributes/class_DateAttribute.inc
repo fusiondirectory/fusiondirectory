@@ -150,8 +150,7 @@ class DateAttribute extends Attribute
     $display  .= '{if $'.$this->getAcl().'ACL|regex_replace:"/[cdmr]/":"" == "w"}'.
         '<script type="text/javascript">
           {literal}
-          var datepicker  = new DatePicker({ relative : \''.$id.'\', language : \'{/literal}{$lang}{literal}\', keepFieldEmpty : true,
-                                             enableCloseEffect : false, enableShowEffect : false });
+          var datepicker  = new DatePicker({ relative : \''.$id.'\', language : \'{/literal}{$lang}{literal}\', keepFieldEmpty : true, enableCloseEffect : false, enableShowEffect : false });
           {/literal}
         </script>
         {/if}';

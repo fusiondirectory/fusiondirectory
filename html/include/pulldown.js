@@ -195,7 +195,7 @@ Object.extend(Object.extend(MenuItem.prototype, MenuContainer.prototype), {
     this.element.onmouseout = function() {
       if (menuItem.root.openDelayTimer) window.clearTimeout(menuItem.root.openDelayTimer);
       if (menuItem.root.closeDelayTimer) window.clearTimeout(menuItem.root.closeDelayTimer);
-      eval(menuItem.root.name + ".closingMenuItem = menuItem");
+      menuItem.root.closingMenuItem = menuItem;
       menuItem.root.closeDelayTimer = window.setTimeout(menuItem.root.name + ".closingMenuItem.subMenu.close()", menuItem.root.closeDelayTime);
     }
       }
