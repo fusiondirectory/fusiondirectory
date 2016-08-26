@@ -1,7 +1,7 @@
 table.tabs_header {
 width: 100%;
 border: none;
-border-spacing: 0px;
+border-spacing: 0;
 font-family: arial,helvetica,sans-serif;
 text-decoration: none;
 color: #2980b9;
@@ -98,7 +98,7 @@ width: auto;
 background-color: #F8F8F8;
 border-style: solid;
 border-color: #C0C2C3;
-border-top-width: 0px;
+border-top-width: 0;
 border-bottom-width: 1px;
 border-left-width: 1px;
 border-right-width: 1px;

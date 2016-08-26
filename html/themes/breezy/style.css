@@ -73,7 +73,6 @@ display: inline-block;
 padding: 2px;
 border: 1px solid #eff0f1;
 border-radius: 8px;
-/*transition:box-shadow .5s ease, background .5s ease;*/
 }
 
 a.maintitlebar:link,div.maintitlebar:link {
@@ -99,7 +98,6 @@ text-decoration: none;
 background-color: #f3f4f4;
 cursor: pointer;
 border: 1px solid #c0c2c3;
-/*box-shadow:0px 0px 2px black;*/
 }
 
 td.phonelist:hover {
@@ -183,7 +181,6 @@ border-spacing: 5px;
 padding: 0;
 margin-top: 0;
 vertical-align: top;
-/*box-shadow:0px 0px 2px black;*/
 }
 html.ltr table.framework {
 margin-left: 0;
@@ -561,8 +558,6 @@ float: right;
 .plugtop {
 color: #31363b;
 border: 1px solid #c0c2c3;
-/*border-radius:10px;*/
-/*box-shadow:0px 0px 4px black inset;*/
 padding: 10px;
 margin: 0;
 text-align: center;

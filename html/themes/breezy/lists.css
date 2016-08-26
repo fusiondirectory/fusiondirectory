@@ -229,7 +229,7 @@ min-width: 230px;
   }
   table.listing_container {
   border: none;
-  border-spacing: 0px;
+  border-spacing: 0;
   border-collapse: collapse;
   }
   table.listing_container > tbody > tr > td.list, table.listing_container > tbody >  tr > td.filter {

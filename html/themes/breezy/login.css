@@ -12,7 +12,6 @@ min-height: 100%;
 
 div#window_container {
 text-align: center;
-/*box-shadow:0 0 2px black;*/
 width: 100%;
 bottom: 0;
 top: 52px;
@@ -25,8 +24,6 @@ margin-top: 100px;
 border: 1px solid #c0c2c3;
 background-color: #f3f4f4;
 display: inline-block;
-/*border-radius:10px;*/
-/*box-shadow:0 0 3px black inset;*/
 }
 
 div#window_titlebar {
@@ -34,7 +31,6 @@ text-align: center;
 border-bottom: 1px solid #c0c2c3;
 padding: 8px;
 background-color: #eff0f1;
-/*border-radius:10px 10px 0 0;*/
 }
 
 div#window_titlebar > p {
@@ -99,8 +95,8 @@ color: red;
   width: 100% !important;
   }
   p.gosaLoginWarning {
-  margin-top: 0px;
-  margin-bottom: 0px;
+  margin-top: 0;
+  margin-bottom: 0;
   }
 }
 

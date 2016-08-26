@@ -3,7 +3,7 @@
 vertical-align: top;
 text-align: justify;
 background-color: #f3f4f4;
-margin-top: 0px;
+margin-top: 0;
 margin-left: 0;
 margin-right: 0;
 width: auto;
@@ -43,10 +43,9 @@ clear: both;
 }
 p.plugbottom {
 position: fixed;
-bottom: 0px;
+bottom: 0;
 right: 10px;
 margin: 0;
-/*box-shadow:0px 0px 2px black;*/
 border-radius: 5px 5px 0 0;
 width: auto;
 padding-left: 10px;
