@@ -67,7 +67,7 @@ class dashboard extends simplePlugin
     foreach ($config->data['OBJECTS'] as $type => $infos) {
       try {
         $nb = objects::count($type);
-      } catch (Exception $e) {
+      } catch (FusionDirectoryException $e) {
         $nb = 0;
         trigger_error("Problem with $type:".$e->getMessage());
       }

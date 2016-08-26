@@ -19,12 +19,6 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class NonExistingObjectTypeException extends Exception {};
-class NonExistingBranchException extends Exception {};
-class EmptyFilterException extends Exception {};
-class NoManagementClassException extends Exception {};
-class LDAPFailureException extends Exception {};
-
 class objects
 {
   /*!

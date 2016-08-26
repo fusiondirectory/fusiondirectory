@@ -1055,7 +1055,7 @@ class simplePlugin extends plugin
                     );
                     try {
                       $refs[$dn]['link'] = objects::link($dn, $objectType);
-                    } catch (Exception $e) {
+                    } catch (FusionDirectoryException $e) {
                       trigger_error("Could not create link to $dn: ".$e->getMessage());
                       $refs[$dn]['link'] = $dn;
                     }
@@ -1067,7 +1067,7 @@ class simplePlugin extends plugin
                     );
                     try {
                       $refs[$dn]['tabs'][$tab]['link'] = objects::link($dn, $objectType, "tab_$tab", sprintf(_('Tab "%s"'), $tab_infos['name']));
-                    } catch (Exception $e) {
+                    } catch (FusionDirectoryException $e) {
                       trigger_error("Could not create link to $dn $tab: ".$e->getMessage());
                       $refs[$dn]['tabs'][$tab]['link'] = $tab;
                     }

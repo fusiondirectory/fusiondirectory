@@ -28,11 +28,6 @@
 
 define("SPECIALS_OVERRIDE", FALSE);
 
-/*! \class LdapGeneralizedTimeBadFormatException
-    \brief Exception class which can be thrown by LDAP if the LDIF format is broken
-*/
-class LDIFImportException extends Exception {}
-
 /*!
  * \brief This class contains all ldap function needed to make
  * ldap operations easy
