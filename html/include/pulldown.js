@@ -35,7 +35,7 @@ Menu.prototype = {
     this.closingMenuItem = null;
 
     this.config();
-    if (typeof customConfigFunction == "function") {
+    if (typeof customConfigFunction === "function") {
       this.customConfig = customConfigFunction;
       this.customConfig();
     }
@@ -62,22 +62,26 @@ MenuContainer.prototype = {
     this.element = $(idOrElement);
           if (!this.element) return;
     this.parent = parent;
-    this.parentMenu = (this.type == "menuContainer") ? ((parent) ? parent.parent : null) : parent;
+    this.parentMenu = (this.type === "menuContainer") ? ((parent) ? parent.parent : null) : parent;
     this.root = parent instanceof Menu ? parent : parent.root;
     this.id = this.element.id;
 
-    if (this.type == "menuContainer") {
-      if (this.element.hasClassName("level1")) this.menuType = "horizontal";
-    else if (this.element.hasClassName("level2")) this.menuType = "dropdown";
-    else this.menuType = "flyout";
+    if (this.type === "menuContainer") {
+      if (this.element.hasClassName("level1"))
+        this.menuType = "horizontal";
+      else if (this.element.hasClassName("level2"))
+        this.menuType = "dropdown";
+      else
+        this.menuType = "flyout";
 
-      if (this.menuType == "flyout" || this.menuType == "dropdown") {
+      if (this.menuType === "flyout" || this.menuType === "dropdown") {
         this.isOpen = false;
-      Element.setStyle(this.element,{
+        Element.setStyle(this.element,{
           position: "absolute",
           top: "0px",
           left: "0px",
-          visibility: "hidden"});
+          visibility: "hidden"
+        });
       } else {
         this.isOpen = true;
       }
@@ -86,17 +90,17 @@ MenuContainer.prototype = {
     }
 
     var childNodes = this.element.childNodes;
-    if (childNodes == null) return;
+    if (childNodes === null) return;
 
     for (var i = 0; i < childNodes.length; i++) {
       var node = childNodes[i];
       if (node.nodeType == 1) {
-        if (this.type == "menuContainer") {
-          if (node.tagName.toLowerCase() == "li") {
+        if (this.type === "menuContainer") {
+          if (node.tagName.toLowerCase() === "li") {
             this.menuItems.push(new MenuItem(node, this));
           }
         } else {
-          if (node.tagName.toLowerCase() == "ul") {
+          if (node.tagName.toLowerCase() === "ul") {
             this.subMenu = new MenuContainer(node, this);
           }
         }
@@ -123,30 +127,29 @@ MenuContainer.prototype = {
     if (this.root.closeDelayTimer) window.clearTimeout(this.root.closeDelayTimer);
     this.parentMenu.closeAll(this);
     this.isOpen = true;
-    if (this.menuType == "dropdown") {
-    Element.setStyle(this.element,{
-      left: (Position.positionedOffset(this.parent.element)[0]) + "px",
-      top: (Position.positionedOffset(this.parent.element)[1] + Element.getHeight(this.parent.element)) + "px"
-    });
-
-    } else if (this.menuType == "flyout") {
+    if (this.menuType === "dropdown") {
+      Element.setStyle(this.element,{
+        left: (Position.positionedOffset(this.parent.element)[0]) + "px",
+        top: (Position.positionedOffset(this.parent.element)[1] + Element.getHeight(this.parent.element)) + "px"
+      });
+    } else if (this.menuType === "flyout") {
       var parentMenuBorders = this.parentMenu ? this.parentMenu.getBorders() : new Object();
       var thisBorders = this.getBorders();
       if (
         (Position.positionedOffset(this.parentMenu.element)[0] + this.parentMenu.element.offsetWidth + this.element.offsetWidth + 20) >
         (window.innerWidth ? window.innerWidth : document.body.offsetWidth)
       ) {
-      Element.setStyle(this.element,{
-            left: (- this.element.offsetWidth - (this.root.collapseBorders ?  0 : parentMenuBorders["left"])) + "px"
-      });
+        Element.setStyle(this.element,{
+          left: (- this.element.offsetWidth - (this.root.collapseBorders ?  0 : parentMenuBorders["left"])) + "px"
+        });
       } else {
-      Element.setStyle(this.element,{
+        Element.setStyle(this.element,{
           left: (this.parentMenu.element.offsetWidth - parentMenuBorders["left"] - (this.root.collapseBorders ?  Math.min(parentMenuBorders["right"], thisBorders["left"]) : 0)) + "px"
-      });
+        });
       }
-    Element.setStyle(this.element,{
+      Element.setStyle(this.element,{
         top: (this.parent.element.offsetTop - parentMenuBorders["top"] - this.menuItems[0].element.offsetTop) + "px"
-    });
+      });
     }
     Element.setStyle(this.element,{visibility: "visible"});
   },
@@ -179,26 +182,26 @@ Object.extend(Object.extend(MenuItem.prototype, MenuContainer.prototype), {
         menuItem.subMenu.open();
       }
     } else {
-    if (this.root.quickCollapse) {
-      this.element.onmouseover = function() {
-      menuItem.parentMenu.closeAll();
+      if (this.root.quickCollapse) {
+        this.element.onmouseover = function() {
+          menuItem.parentMenu.closeAll();
+        }
       }
     }
-      }
-      var linkTag = this.element.getElementsByTagName("A")[0];
-      if (linkTag) {
+    var linkTag = this.element.getElementsByTagName("A")[0];
+    if (linkTag) {
      linkTag.onfocus = this.element.onmouseover;
      this.link = linkTag;
      this.text = linkTag.text;
-      }
-      if (this.subMenu) {
-    this.element.onmouseout = function() {
-      if (menuItem.root.openDelayTimer) window.clearTimeout(menuItem.root.openDelayTimer);
-      if (menuItem.root.closeDelayTimer) window.clearTimeout(menuItem.root.closeDelayTimer);
-      menuItem.root.closingMenuItem = menuItem;
-      menuItem.root.closeDelayTimer = window.setTimeout(menuItem.root.name + ".closingMenuItem.subMenu.close()", menuItem.root.closeDelayTime);
     }
+    if (this.subMenu) {
+      this.element.onmouseout = function() {
+        if (menuItem.root.openDelayTimer) window.clearTimeout(menuItem.root.openDelayTimer);
+        if (menuItem.root.closeDelayTimer) window.clearTimeout(menuItem.root.closeDelayTimer);
+        menuItem.root.closingMenuItem = menuItem;
+        menuItem.root.closeDelayTimer = window.setTimeout(menuItem.root.name + ".closingMenuItem.subMenu.close()", menuItem.root.closeDelayTime);
       }
+    }
   },
 
   openItem: function() {
@@ -209,7 +212,7 @@ Object.extend(Object.extend(MenuItem.prototype, MenuContainer.prototype), {
   closeItem: function(trigger) {
     this.isOpen = false;
     if (this.subMenu) {
-      if (this.subMenu != trigger) this.subMenu.close();
+      if (this.subMenu !== trigger) this.subMenu.close();
     }
   }
 });
