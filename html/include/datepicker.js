@@ -634,15 +634,16 @@ DatePicker.prototype  = {
 
         /* on onclick : rebuild date value from id of current cell */
         var _curDate = new Date();
+        var _res;
 
         _curDate.setFullYear(h_ij["y"], h_ij["m"], h_ij["d"]);
         if ( this._disablePastDate || this._disableFutureDate ) {
           if ( this._disablePastDate ) {
-            var _res  = ( _curDate >= this._todayDate ) ? true : false;
+            _res  = ( _curDate >= this._todayDate ) ? true : false;
             this._bindCellOnClick( td, true, _res, h_ij["c"] );
           }
           if ( this._disableFutureDate ) {
-            var _res  = ( this._todayDate.getTime() + this._oneDayInMs > _curDate.getTime() ) ? true : false;
+            _res  = ( this._todayDate.getTime() + this._oneDayInMs > _curDate.getTime() ) ? true : false;
             this._bindCellOnClick( td, true, _res,  h_ij["c"] );
           }
         } else {
