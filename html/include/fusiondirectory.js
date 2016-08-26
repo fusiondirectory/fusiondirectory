@@ -110,18 +110,14 @@ function js_check(form) {
  */
 function focus_field()
 {
-  var i     = 0;
-  var e     = 0;
-  var found = false;
-  var element_name = "";
+  var i       = 0;
+  var found   = false;
   var element = null;
 
-  while(focus_field.arguments[i] && !found){
-
+  while (focus_field.arguments[i] && !found) {
     var tmp = document.getElementsByName(focus_field.arguments[i]);
-    for(e = 0 ; e < tmp.length ; e ++ ){
-
-      if(tmp[e].disabled != true &&  tmp[e].type != "none" && tmp[e].type != "hidden" ){
+    for (var e = 0 ; e < tmp.length ; e++) {
+      if ((tmp[e].disabled !== true) &&  (tmp[e].type !== "none") && (tmp[e].type !== "hidden")) {
         found = true;
         element = tmp[e];
         break;
@@ -130,7 +126,7 @@ function focus_field()
     i++;
   }
 
-  if(element && found){
+  if (element && found) {
     element.blur();
     element.focus();
   }
@@ -148,48 +144,47 @@ function focus_field()
  */
 function next_msg_dialog()
 {
-  var s_pending = "";
-  var a_pending = new Array();
-  var i_id      = 0;
-  var i         = 0;
+  var s_pending;
+  var a_pending;
+  var i_id;
   var tmp       = "";
-  var ele       = null;
-  var ele2      = null;
-  var cur_id    = "";
+  var ele;
+  var ele2;
+  var cur_id;
 
-  if(document.getElementById('current_msg_dialogs')){
+  if (document.getElementById('current_msg_dialogs')) {
     cur_id = document.getElementById('current_msg_dialogs').value;
-    if(cur_id != ""){
+    if (cur_id !== "") {
       ele = document.getElementById('e_layer' + cur_id);
       ele.onmousemove = "";
       $('e_layer' + cur_id).hide();
       document.getElementById('closed_msg_dialogs').value += "," + cur_id;
-      document.getElementById('current_msg_dialogs').value= "";
+      document.getElementById('current_msg_dialogs').value = "";
     }
   }
 
-  if(document.getElementById('pending_msg_dialogs')){
+  if (document.getElementById('pending_msg_dialogs')) {
     s_pending = document.getElementById('pending_msg_dialogs').value;
     a_pending = s_pending.split(",");
-    if(a_pending.length){
+    if (a_pending.length) {
       i_id = a_pending.pop();
-      for (i = 0 ; i < a_pending.length; ++i){
+      for (var i = 0 ; i < a_pending.length; ++i) {
         tmp = tmp + a_pending[i] + ',';
       }
       tmp = tmp.replace(/,$/g,"");
-      if(i_id != ""){
+      if (i_id !== "") {
         ele = document.getElementById('e_layer' + i_id);
         ele3 = document.getElementById('e_layerTitle' + i_id);
-        ele.style.display= 'block'  ;
-        document.getElementById('pending_msg_dialogs').value= tmp;
-        document.getElementById('current_msg_dialogs').value= i_id;
+        ele.style.display = 'block'  ;
+        document.getElementById('pending_msg_dialogs').value = tmp;
+        document.getElementById('current_msg_dialogs').value = i_id;
         ele2 = document.getElementById('e_layer2') ;
-        ele3.onmousedown = start_move_div_by_cursor;
-        ele2.onmouseup  = stop_move_div_by_cursor;
-        ele2.onmousemove = move_div_by_cursor;
-      }else{
-        ele2 = document.getElementById('e_layer2') ;
-        ele2.style.display ="none";
+        ele3.onmousedown  = start_move_div_by_cursor;
+        ele2.onmouseup    = stop_move_div_by_cursor;
+        ele2.onmousemove  = move_div_by_cursor;
+      } else {
+        ele2 = document.getElementById('e_layer2');
+        ele2.style.display = "none";
       }
     }
   }
@@ -210,14 +205,14 @@ function start_move_div_by_cursor(e)
 {
   var x = 0;
   var y = 0;
-  var cur_id = 0;
-  var dialog = null;
-  var event = null;
+  var cur_id;
+  var dialog;
+  var event;
 
   /* Get current msg_dialog position
    */
   cur_id = document.getElementById('current_msg_dialogs').value;
-  if(cur_id != ""){
+  if (cur_id !== "") {
     dialog = document.getElementById('e_layer' + cur_id);
     x = dialog.style.left;
     y = dialog.style.top;
@@ -229,16 +224,16 @@ function start_move_div_by_cursor(e)
 
   /* Get mouse position within msg_dialog
    */
-  if(window.event){
+  if (window.event) {
     event = window.event;
-    if(event.offsetX){
+    if (event.offsetX) {
       div_offset_x   = event.clientX -x;
       div_offset_y   = event.clientY -y;
       enable_move_div_by_cursor = true;
     }
-  }else if(e){
+  } else if(e) {
     event = e;
-    if(event.layerX){
+    if (event.layerX) {
       div_offset_x  = event.screenX -x;
       div_offset_y  = event.screenY -y;
       enable_move_div_by_cursor = true;
@@ -262,36 +257,36 @@ function stop_move_div_by_cursor()
 /* Move msg_dialog with cursor */
 function move_div_by_cursor(e)
 {
-  var event         = false;
-  var mouse_pos_x   = 0;
-  var mouse_pos_y   = 0;
-  var cur_div_x = 0;
-  var cur_div_y = 0;
-  var cur_id  = 0;
-  var dialog = null;
+  var event;
+  var mouse_pos_x;
+  var mouse_pos_y;
+  var cur_div_x;
+  var cur_div_y;
+  var cur_id;
+  var dialog;
 
 
-  if(undefined !== enable_move_div_by_cursor && enable_move_div_by_cursor == true){
+  if ((enable_move_div_by_cursor !== undefined) && (enable_move_div_by_cursor === true)) {
 
-    if(document.getElementById('current_msg_dialogs')){
+    if (document.getElementById('current_msg_dialogs')) {
 
       /* Get mouse position on screen
        */
-      if(window.event){
+      if (window.event) {
         event = window.event;
         mouse_pos_x = event.clientX;
         mouse_pos_y = event.clientY;
-      }else if (e){
+      } else if (e) {
         event = e;
         mouse_pos_x = event.screenX;
         mouse_pos_y = event.screenY;
-      }else{
+      } else {
         return;
       }
 
       /* Get id of current msg_dialog */
       cur_id = document.getElementById('current_msg_dialogs').value;
-      if(cur_id != ""){
+      if (cur_id !== "") {
         dialog = document.getElementById('e_layer' + cur_id);
 
         /* Calculate new position */
@@ -314,82 +309,81 @@ function move_div_by_cursor(e)
 
 function setProgressPie(context, percent)
 {
-    context.clearRect(0, 0, 22, 22);
+  context.clearRect(0, 0, 22, 22);
 
-    var r = "3D";
-    var g = "AE";
-    var b = "E9";
+  var r = "3D";
+  var g = "AE";
+  var b = "E9";
 
-    // Fade orange
-    if (percent > 50) {
-        r = "F6"
-        g = "74"
-        b = "00";
-    }
+  // Fade orange
+  if (percent > 50) {
+    r = "F6"
+    g = "74"
+    b = "00";
+  }
 
-    // Fade red
-    if (percent > 75) {
-        r = "ED"
-        g = "15"
-        b = "15";
-    }
+  // Fade red
+  if (percent > 75) {
+    r = "ED"
+    g = "15"
+    b = "15";
+  }
 
-    context.strokeStyle = "#" + r  + g + b
-        context.fillStyle = context.strokeStyle;
+  context.strokeStyle = "#" + r  + g + b
+  context.fillStyle   = context.strokeStyle;
 
-    context.beginPath();
-    context.moveTo(11,11)
-        context.arc(11,11,8,-Math.PI/2,-Math.PI/2 + Math.PI*percent/50,true);
-    context.closePath();
-    context.fill();
+  context.beginPath();
+  context.moveTo(11,11)
+  context.arc(11,11,8,-Math.PI/2,-Math.PI/2 + Math.PI*percent/50,true);
+  context.closePath();
+  context.fill();
 
-    context.moveTo(11,11)
-        context.beginPath();
-    context.arc(11,11,8,0,Math.PI*2,false);
-    context.closePath();
-    context.stroke();
+  context.moveTo(11,11)
+  context.beginPath();
+  context.arc(11,11,8,0,Math.PI*2,false);
+  context.closePath();
+  context.stroke();
 }
 
-function initProgressPie(){
-    var canvas = $('sTimeout');
+function initProgressPie() {
+  var canvas = $('sTimeout');
 
-    // Check the element is in the DOM and the browser supports canvas
-    if(canvas && canvas.getContext) {
-        var percent = 0.01;
-        var context = canvas.getContext('2d');
+  // Check the element is in the DOM and the browser supports canvas
+  if(canvas && canvas.getContext) {
+    var percent = 0.01;
+    var context = canvas.getContext('2d');
+    setProgressPie(context, percent);
+
+    // Extract timeout and title string out out canvas.title
+    var data = canvas.title;
+    var timeout = data.replace(/\|.*$/,'');
+    var title = data.replace(/^.*\|/,'');
+    var interval = 1;
+    var time = 0;
+    setInterval(
+      function() {
+        // Calculate percentage
+        percent += (interval / timeout) * 100;
+
+        // Increase current time by interval
+        time += interval;
+
+        // Generate title
+        var minutes = parseInt((timeout-time) / 60 );
+        var seconds = '' + parseInt((timeout-time) % 60);
+        if(seconds.length === 1) seconds = '0' + seconds ;
+        minutes = minutes + ':' + seconds;
+
+        // Set new  canval title
+        canvas.title = title.replace(/%d/ ,minutes);
         setProgressPie(context, percent);
 
-        // Extract timeout and title string out out canvas.title
-        var data = canvas.title;
-        var timeout = data.replace(/\|.*$/,'');
-        var title = data.replace(/^.*\|/,'');
-        var interval = 1;
-        var time = 0;
-        setInterval(function() {
-
-                // Calculate percentage
-                percent+= (interval / timeout) * 100;
-
-                // Increase current time by interval
-                time += interval;
-
-                // Generate title
-                var minutes = parseInt((timeout-time) / 60 );
-                var seconds = '' + parseInt((timeout-time) % 60);
-                if(seconds.length == 1) seconds = '0' + seconds ;
-                minutes = minutes + ':' + seconds;
-
-                // Set new  canval title
-                canvas.title=  title.replace(/%d/ ,minutes);
-                setProgressPie(context, percent);
-
-                if (percent>99) percent= 99;
-                }, (interval * 1000));
-    }
+        if (percent>99) percent = 99;
+      },
+      (interval * 1000)
+    );
+  }
 }
-
 
 // Global storage for baseSelector timer
 var rtimer;
-
-// vim:ts=2:syntax
