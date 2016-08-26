@@ -1,61 +1,61 @@
 /* Login screen */
 p.gosaLoginWarning {
-text-align:center;
-color:red;
-font-weight:bold;
-font-size:12px;
+text-align: center;
+color: red;
+font-weight: bold;
+font-size: 12px;
 }
 
 html, body {
-min-height:100%;
+min-height: 100%;
 }
 
 div#window_container {
-text-align:center;
+text-align: center;
 /*box-shadow:0 0 2px black;*/
-width:100%;
+width: 100%;
 bottom:0;
-top:52px;
-position:absolute;
+top: 52px;
+position: absolute;
 }
 
 div#window_div {
-min-width:50%;
-margin-top:100px;
-border:1px solid #c0c2c3;
-background-color:#f3f4f4;
-display:inline-block;
+min-width: 50%;
+margin-top: 100px;
+border: 1px solid #c0c2c3;
+background-color: #f3f4f4;
+display: inline-block;
 /*border-radius:10px;*/
 /*box-shadow:0 0 3px black inset;*/
 }
 
 div#window_titlebar {
-text-align:center;
-border-bottom:1px solid #c0c2c3;
-padding:8px;
-background-color:#eff0f1;
+text-align: center;
+border-bottom: 1px solid #c0c2c3;
+padding: 8px;
+background-color: #eff0f1;
 /*border-radius:10px 10px 0 0;*/
 }
 
 div#window_titlebar > p {
 margin:0;
 padding:0;
-font-size:24px;
-font-weight:bold;
+font-size: 24px;
+font-weight: bold;
 }
 
 div#window_content > div {
-padding:10px;
+padding: 10px;
 }
 
 a:link {
-text-decoration:none;
-color:#2980b9;
+text-decoration: none;
+color: #2980b9;
 }
 
 a:visited {
-text-decoration:none;
-color:#2980b9;
+text-decoration: none;
+color: #2980b9;
 }
 
 div#window_footer {
@@ -63,44 +63,44 @@ padding:0;
 }
 
 div#window_footer > div {
-display:inline-block;
-width:47%;
-padding:1%;
+display: inline-block;
+width: 47%;
+padding: 1%;
 }
 
 div#window_footer > div:nth-child(1) {
-color:red;
-font-weight:bold;
+color: red;
+font-weight: bold;
 }
 html.ltr div#window_footer > div:nth-child(1) {
-text-align:left;
+text-align: left;
 }
 html.rtl div#window_footer > div:nth-child(1) {
-text-align:right;
+text-align: right;
 }
 
 span.warning, p.warning {
-color:red;
+color: red;
 }
 
 /* On small screens */
 @media (max-width: 640px) {
   div#window_div {
-  min-width:70%;
-  margin-top:10px;
+  min-width: 70%;
+  margin-top: 10px;
   }
   div#window_footer > div {
-  display:block;
-  width:auto;
-  padding:5px;
-  text-align:center !important;
+  display: block;
+  width: auto;
+  padding: 5px;
+  text-align: center !important;
   }
   div#window_footer.plugbottom > div:nth-child(2) > input[type=submit] {
-  width:100% !important;
+  width: 100% !important;
   }
   p.gosaLoginWarning {
-  margin-top:0px;
-  margin-bottom:0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
   }
 }
 
