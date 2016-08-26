@@ -258,7 +258,7 @@ DatePicker.prototype  = {
     this._relative= h_p["relative"];
     if (h_p["language"]) {
       this._language = h_p["language"];
-      if (this._language_close.get(this._language) == undefined) {
+      if (this._language_close.get(this._language) === undefined) {
         this._language = 'en';
       }
     }
@@ -293,14 +293,14 @@ DatePicker.prototype  = {
       this._dateFormat = h_p["dateFormat"];
     if (Object.isFunction(h_p["cellCallback"]))
       this._cellCallback = h_p["cellCallback"];
-      this._setPositionTop  = ( h_p["setPositionTop"] ) ? parseInt(Number(h_p["setPositionTop"])) : 0;
-    this._setPositionLeft = ( h_p["setPositionLeft"] ) ? parseInt(Number(h_p["setPositionLeft"])) : 0;
     if (!Object.isUndefined(h_p["enableCloseOnBlur"]) && h_p["enableCloseOnBlur"])
       this._enableCloseOnBlur = true;
     if (!Object.isUndefined(h_p["disablePastDate"]) && h_p["disablePastDate"])
       this._disablePastDate = true;
     if (!Object.isUndefined(h_p["disableFutureDate"]) && !h_p["disableFutureDate"])
       this._disableFutureDate = false;
+    this._setPositionTop  = ( h_p["setPositionTop"] ) ? parseInt(Number(h_p["setPositionTop"])) : 0;
+    this._setPositionLeft = ( h_p["setPositionLeft"] ) ? parseInt(Number(h_p["setPositionLeft"])) : 0;
 
     this._id_datepicker         = 'datepicker-'+ this._relative;
     this._id_datepicker_prev    = this._id_datepicker +'-prev';
@@ -325,7 +325,7 @@ DatePicker.prototype  = {
         Builder.node('td',{className : "datepicker-opener", id : "datepicker-opener-"+ this._relative})
     ]);
     // insert into TBODY
-    if (datepickeropener.childNodes[0] != undefined) {
+    if (datepickeropener.childNodes[0] !== undefined) {
       datepickeropener.childNodes[0].appendChild(con);
     } else {
       datepickeropener.appendChild(con);
@@ -520,7 +520,7 @@ DatePicker.prototype  = {
    * _getMonthDays : given the year and month find the number of days.
    */
   _getMonthDays : function ( year, month ) {
-    if (((0 == (year%4)) && ((0 != (year%100)) || (0 == (year%400)))) && (month == 1))
+    if ((((year%4) === 0) && (((year%100) !== 0) || ((year%400) !== 0))) && (month === 1))
       return 29;
     return this._daysInMonth[month];
   },
@@ -530,7 +530,6 @@ DatePicker.prototype  = {
    */
   _buildCalendar : function () {
 
-    var _self = this;
     var tbody = $(this._id_datepicker +'-tbody');
     try {
       while ( tbody.hasChildNodes() )
@@ -596,7 +595,7 @@ DatePicker.prototype  = {
           d : daysIndex,
           m : currentMonth,
           y : currentYear,
-          c : ( switchNextMonth ) ? 'outbound' : (((daysIndex == this._todayDate.getDate()) && (this._current_mon  == this._todayDate.getMonth()) && (this._current_year == this._todayDate.getFullYear())) ? 'today' : null)
+          c : ( switchNextMonth ) ? 'outbound' : (((daysIndex === this._todayDate.getDate()) && (this._current_mon  === this._todayDate.getMonth()) && (this._current_year === this._todayDate.getFullYear())) ? 'today' : null)
         };
         daysIndex++;
 

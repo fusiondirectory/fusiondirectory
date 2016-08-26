@@ -19,18 +19,15 @@
 */
 
 /* Install event handlers */
-Event.observe(window, 'resize', resizeHandler);
-Event.observe(window, 'load', resizeHandler);
 Event.observe(window, 'load', initProgressPie);
-
 
 /* Toggle checkbox that matches regex */
 function chk_set_all(regex,value)
 {
   for (var i = 0; i < document.mainform.elements.length; i++) {
-    var _id=document.mainform.elements[i].id;
+    var _id = document.mainform.elements[i].id;
     if(_id.match(regex)) {
-            document.mainform.elements[i].checked= value;
+      document.mainform.elements[i].checked = value;
     }
   }
 }
@@ -39,15 +36,14 @@ function chk_set_all(regex,value)
 function chk_set_all_by_class(regex,value)
 {
   for (var i = 0; i < document.mainform.elements.length; i++) {
-    var _class=document.mainform.elements[i].getAttribute("class");
-        if(_class) {
-            if(_class.match(regex)) {
-                document.mainform.elements[i].checked= value;
-            }
+    var _class = document.mainform.elements[i].getAttribute("class");
+    if(_class) {
+      if(_class.match(regex)) {
+        document.mainform.elements[i].checked = value;
+      }
     }
   }
 }
-
 
 function toggle_all_(regex,state_object)
 {
@@ -73,12 +69,12 @@ function acl_set_all(regex,value)
 function acl_toggle_all(regex)
 {
   for (var i = 0; i < document.mainform.elements.length; i++) {
-    var _id=document.mainform.elements[i].id;
+    var _id = document.mainform.elements[i].id;
     if(_id.match(regex)) {
-      if (document.getElementById(_id).checked == true){
-        document.getElementById(_id).checked= false;
+      if (document.getElementById(_id).checked === true){
+        document.getElementById(_id).checked = false;
       } else {
-        document.getElementById(_id).checked= true;
+        document.getElementById(_id).checked = true;
       }
     }
   }
@@ -87,7 +83,7 @@ function acl_toggle_all(regex)
 function inArray(p_val, array) {
   var l = array.length;
   for (var i = 0; i < l; i++) {
-    if (array[i] == p_val) {
+    if (array[i] === p_val) {
       return true;
     }
   }
@@ -109,68 +105,6 @@ function js_check(form) {
   form.javascript.value = 'true';
 }
 
-function resizeHandler (e) {
-  if (!e) e=window.event;
-  if (document.getElementById("menucell") && document.getElementById("d_scrollbody")) {
-    var inner_height= window.innerHeight;
-    var min_height= 450;
-    var px_height= min_height;
-    var suggested= px_height;
-
-    // document.defaultView allows access to the rendered size of elements and should be supported by modern browsers
-    if(document.defaultView) {
-      var menu_height= 0;
-      if (document.getElementById("d_height")){
-        suggested= parseInt(document.getElementById("d_height").value);
-      } else {
-        menu_height=parseInt(document.defaultView.getComputedStyle(document.getElementById("menucell"),"").getPropertyValue('height'));
-        // Minimum height for divlist should be the bottom edge of the menu
-        min_height= menu_height-197;
-        suggested= min_height;
-        if((inner_height-230)-suggested>0) {
-          suggested= inner_height-230;
-        }
-
-      }
-
-      // IE uses other height specifications
-    } else if (Prototype.Browser.IE) {
-      suggested= document.all.menucell.offsetHeight;
-      offset= absTop(d_scrollbody);
-      suggested-= offset;
-      if((inner_height-230)-suggested>0) {
-        suggested= inner_height-230;
-      }
-    }
-
-    /* Reduce height if a list footer is set */
-        /*
-    if(document.getElementById("t_scrollfoot")){
-      suggested = suggested -20;
-    }
-
-    if (!document.getElementById("list_workaround")) {
-      document.getElementById("d_scrollbody").style.height=suggested+"px";
-    } else {
-      if (!Prototype.Browser.IE) {
-        current_height= parseInt(document.defaultView.getComputedStyle(document.getElementById("t_nscrollbody"),"").getPropertyValue('height'));
-        if (current_height < menu_height) {
-          document.getElementById("d_scrollbody").style.height=suggested+20+"px";
-        }
-      }
-    }
-    if (document.getElementById("t_nscrollbody")) {
-      document.getElementById("t_nscrollbody").style.height=(suggested-22)+"px";
-    }
-        */
-  }
-  return true;
-}
-
-function absTop(e) {
-  return (e.offsetParent)?e.offsetTop+absTop(e.offsetParent) : e.offsetTop;
-}
-
 /* Set focus to first valid input field
    avoid IExplorer warning about hidding or disabled fields
  */
@@ -180,7 +114,7 @@ function focus_field()
   var e     = 0;
   var found = false;
   var element_name = "";
-  var element =null;
+  var element = null;
 
   while(focus_field.arguments[i] && !found){
 
