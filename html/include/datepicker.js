@@ -304,9 +304,9 @@ DatePicker.prototype  = {
 
     this._id_datepicker         = 'datepicker-'+ this._relative;
     this._id_datepicker_prev    = this._id_datepicker +'-prev';
-    this._id_datepicker_prev-year = this._id_datepicker +'-prev-year';
+    this._id_datepicker_prev_year = this._id_datepicker +'-prev-year';
     this._id_datepicker_next    = this._id_datepicker +'-next';
-    this._id_datepicker_next-year = this._id_datepicker +'-next-year';
+    this._id_datepicker_next_year = this._id_datepicker +'-next-year';
     this._id_datepicker_hdr     = this._id_datepicker +'-header';
     this._id_datepicker_ftr     = this._id_datepicker +'-footer';
 
@@ -317,7 +317,7 @@ DatePicker.prototype  = {
       style     : 'display: none; z-index:'+ this._zindex });
 
 //    this._div.innerHTML = '<table><thead><tr><th width="10px" id="'+ this._id_datepicker_prev +'" style="cursor: pointer;">&nbsp;&lt;&lt;&nbsp;</th><th id="'+ this._id_datepicker_hdr +'" colspan="5"></th><th width="10px" id="'+ this._id_datepicker_next +'" style="cursor: pointer;">&nbsp;&gt;&gt;&nbsp;</th></tr></thead><tbody id="'+ this._id_datepicker +'-tbody"></tbody><tfoot><td colspan="7" id="'+ this._id_datepicker_ftr +'"></td></tfoot></table>';
-      this._div.innerHTML = '<div class="datepicker-header"><table class="header"><tr><td id="'+ this._id_datepicker_prev-year +'" class="prev-year"> << </td><td id="'+ this._id_datepicker_prev +'" class="prev"> < </td><td id="'+ this._id_datepicker_hdr +'" class="header"></td><td id="'+ this._id_datepicker_next +'" class="next"> > </td><td id="'+ this._id_datepicker_next-year +'" class="next-year"> >> </td></tr></table></div><div class="datepicker-calendar"><table class="body"><tbody id="'+ this._id_datepicker +'-tbody"></tbody></table></div><div id="'+ this._id_datepicker_ftr +'" class="datepicker-footer"></div>';
+      this._div.innerHTML = '<div class="datepicker-header"><table class="header"><tr><td id="'+ this._id_datepicker_prev_year +'" class="prev-year"> << </td><td id="'+ this._id_datepicker_prev +'" class="prev"> < </td><td id="'+ this._id_datepicker_hdr +'" class="header"></td><td id="'+ this._id_datepicker_next +'" class="next"> > </td><td id="'+ this._id_datepicker_next_year +'" class="next-year"> >> </td></tr></table></div><div class="datepicker-calendar"><table class="body"><tbody id="'+ this._id_datepicker +'-tbody"></tbody></table></div><div id="'+ this._id_datepicker_ftr +'" class="datepicker-footer"></div>';
 
     /* Build the datepicker icon */
     var datepickeropener = Builder.node('table',{className : "datepicker-opener-table", id: this._id_datepicker + '_image'});
@@ -398,9 +398,9 @@ DatePicker.prototype  = {
 
     /* declare the observers for UI control */
     Event.observe($(this._id_datepicker_prev),    'click', this.prevMonth.bindAsEventListener(this), false);
-    Event.observe($(this._id_datepicker_prev-year), 'click', this.prevYear.bindAsEventListener(this),   false);
+    Event.observe($(this._id_datepicker_prev_year), 'click', this.prevYear.bindAsEventListener(this),   false);
     Event.observe($(this._id_datepicker_next),    'click', this.nextMonth.bindAsEventListener(this), false);
-    Event.observe($(this._id_datepicker_next-year), 'click', this.nextYear.bindAsEventListener(this),   false);
+    Event.observe($(this._id_datepicker_next_year), 'click', this.nextYear.bindAsEventListener(this),   false);
     Event.observe($(this._id_datepicker_ftr),     'click', this.close.bindAsEventListener(this),    false);
 
   },
@@ -444,8 +444,8 @@ DatePicker.prototype  = {
       this._redrawCalendar();
     }
 
-    /* eval the clickCallback function */
-    eval(this._clickCallback());
+    /* call the clickCallback function */
+    this._clickCallback();
 
     /* Effect toggle to fade-in / fade-out the datepicker */
     if ( this._enableShowEffect ) {
@@ -488,7 +488,7 @@ DatePicker.prototype  = {
     } else {
       $(this._id_datepicker).hide();
     }
-    eval(this._afterClose());
+    this._afterClose();
   },
 
   /**
@@ -779,7 +779,7 @@ DatePicker.prototype  = {
 
     /* prev year link */
     var a_prevy = this._prevYear();
-    $(this._id_datepicker_prev-year).setAttribute('title', this.getMonthLocale(a_prevy[0]) +' '+ a_prevy[1]);
+    $(this._id_datepicker_prev_year).setAttribute('title', this.getMonthLocale(a_prevy[0]) +' '+ a_prevy[1]);
 
     /* prev link */
     var a_prev = this._prevMonthYear();
@@ -791,7 +791,7 @@ DatePicker.prototype  = {
 
     /* next year link */
     var a_nexty = this._nextYear();
-    $(this._id_datepicker_next-year).setAttribute('title', this.getMonthLocale(a_nexty[0]) +' '+ a_nexty[1]);
+    $(this._id_datepicker_next_year).setAttribute('title', this.getMonthLocale(a_nexty[0]) +' '+ a_nexty[1]);
 
     /* header */
     $(this._id_datepicker_hdr).update('&nbsp;&nbsp;&nbsp;'+ this.getMonthLocale(this._current_mon) +'&nbsp;'+ this._current_year +'&nbsp;&nbsp;&nbsp;');
