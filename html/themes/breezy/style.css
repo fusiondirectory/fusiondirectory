@@ -1,5 +1,5 @@
 body {
-margin:0;
+margin: 0;
 background-color: #eff0f1;
 color: #31363b;
 font-family: arial,helvetica,sans-serif;
@@ -43,12 +43,12 @@ height: 16px;
 
 td.scrollhead {
 vertical-align: top;
-padding:0;
+padding: 0;
 }
 
 td.scrollbody {
 vertical-align: top;
-padding:0;
+padding: 0;
 }
 
 div.scrollbody {
@@ -115,11 +115,11 @@ border-style: solid;
 border-color: #c0c2c3;
 width: 100%;
 border-top-width: 1px;
-border-bottom-width:0;
-border-left-width:0;
-border-right-width:0;
+border-bottom-width: 0;
+border-left-width: 0;
+border-right-width: 0;
 padding-top: 3px;
-padding-bottom:0;
+padding-bottom: 0;
 text-align: right;
 font-family: arial,helvetica,sans-serif;
 font-size: 10px;
@@ -172,24 +172,24 @@ text-align: right;
 /********************** Template migration *********************/
 
 form#mainform {
-margin:0;
+margin: 0;
 }
 
 table.framework {
 height: auto;
 width: 100%;
-border:0;
+border: 0;
 border-spacing: 5px;
-padding:0;
-margin-top:0;
+padding: 0;
+margin-top: 0;
 vertical-align: top;
 /*box-shadow:0px 0px 2px black;*/
 }
 html.ltr table.framework {
-margin-left:0;
+margin-left: 0;
 }
 html.rtl table.framework {
-margin-right:0;
+margin-right: 0;
 }
 
 table.framework td#maincell {
@@ -201,16 +201,16 @@ padding-bottom: 35px;
 
 /* cellpadding="0" */
 table.framework > tbody > tr > td {
-padding:0;
+padding: 0;
 }
 
 table.maintab {
 width: 100%;
 height: 100%;
-border:0;
-border-spacing:0;
-padding:0;
-margin:0;
+border: 0;
+border-spacing: 0;
+padding: 0;
+margin: 0;
 background-color: #507AAA;
 vertical-align: top;
 }
@@ -234,14 +234,14 @@ vertical-align: middle;
 
 div.contentboxb {
 border: 1px solid #c0c2c3;
-border-top-width:0;
+border-top-width: 0;
 vertical-align: middle;
 width: auto;
 background: #fcfcfc;
 padding: 5px;
 }
 .filter div.contentboxb {
-padding:0;
+padding: 0;
 }
 div.contentboxb > div {
 display: inline-block;
@@ -252,7 +252,7 @@ width: 100%;
 background: #EEEEEE;
 border-top: 1px solid #c0c2c3;
 text-align: right;
-margin:0;
+margin: 0;
 padding: 3px;
 box-sizing: border-box;
 }
@@ -269,8 +269,8 @@ margin: 3px;
 }
 
 p.contentboxb {
-padding-bottom:0;
-margin:0;
+padding-bottom: 0;
+margin: 0;
 border: 4px solid #f8f8f8;
 vertical-align: middle;
 }
@@ -304,7 +304,7 @@ border-left: 1px solid #c0c2c3;
 option.select {
 background-repeat: no-repeat;
 background-position: 0 top;
-border:0;
+border: 0;
 padding-bottom: 1px;
 height: 18px;
 }
@@ -359,17 +359,17 @@ border-top: 1px solid #c6c6bf;
 border-bottom: 1px solid #fcfcfc;
 margin: 2px 5px;
 /* top right bottom left */
-height:0;
+height: 0;
 font-size: 1px;
-line-height:0;
+line-height: 0;
 }
 
 div.autocomplete {
 position: absolute;
 background-color: #fcfcfc;
 border: 1px solid #c0c2c3;
-margin:0;
-padding:0;
+margin: 0;
+padding: 0;
 z-index: 600;
 overflow: hidden;
 word-wrap: break-word;
@@ -377,14 +377,14 @@ word-wrap: break-word;
 
 div.autocomplete ul {
 list-style-type: none;
-margin:0;
-padding:0;
+margin: 0;
+padding: 0;
 }
 
 div.autocomplete ul li {
 list-style-type: none;
 display: block;
-margin:0;
+margin: 0;
 padding: 2px;
 cursor: pointer;
 }
@@ -421,8 +421,8 @@ border-left: 1px #c0c2c3 solid;
 
 #pulldown ul {
 display: block;
-margin:0;
-padding:0;
+margin: 0;
+padding: 0;
 line-height: 1em;
 list-style: none;
 z-index: 90;
@@ -430,7 +430,7 @@ z-index: 90;
 
 #pulldown ul li {
 margin: 0 3px 0 0;
-padding:0;
+padding: 0;
 font-size: 12px;
 line-height: 1em;
 list-style-type: none;
@@ -446,7 +446,7 @@ width: auto;
 font-weight: normal;
 background: transparent;
 text-decoration: none;
-margin:0;
+margin: 0;
 padding: 5px;
 }
 html.rtl #pulldown ul li a {
@@ -470,8 +470,8 @@ float: none;
 /* End IE5-Mac hack */
 #pulldown ul ul {
 position: absolute;
-top:0;
-left:0;
+top: 0;
+left: 0;
 visibility: hidden;
 border-top: 1px #c0c2c3 solid;
 border-left: 1px #c0c2c3 solid;
@@ -483,8 +483,8 @@ background: #fcfcfc;
 #pulldown ul ul li {
 border-bottom: 1px solid #fcfcfc;
 float: none;
-margin:0;
-padding:0;
+margin: 0;
+padding: 0;
 width: 200px;
 }
 
@@ -564,7 +564,7 @@ border: 1px solid #c0c2c3;
 /*border-radius:10px;*/
 /*box-shadow:0px 0px 4px black inset;*/
 padding: 10px;
-margin:0;
+margin: 0;
 text-align: center;
 vertical-align: middle;
 background-color: #f3f4f4;
@@ -643,12 +643,12 @@ color: #31363b;
   }
   html.ltr a.maintitlebar {
   float: left;
-  margin:0;
-  padding:0;
+  margin: 0;
+  padding: 0;
   }
   html.rtl a.maintitlebar {
   float: right;
-  margin:0;
+  margin: 0;
   }
   a.maintitlebar img {
   padding: 6px;
@@ -656,11 +656,11 @@ color: #31363b;
   height: 22px;
   }
   html.ltr div#header_left .logout {
-  margin-left:0;
+  margin-left: 0;
   float: right;
   }
   html.rtl div#header_left .logout {
-  margin-right:0;
+  margin-right: 0;
   float: left;
   }
   html.ltr div#header_left, html.rtl div#header_left {
@@ -691,11 +691,11 @@ color: #31363b;
   font-size: 1em;
   }
   html.ltr div#header_left .plugtop {
-  margin:0;
+  margin: 0;
   padding-left: 6px;
   }
   html.rtl div#header_left .plugtop {
-  margin:0;
+  margin: 0;
   padding-right: 6px;
   }
   div.logout-label {
@@ -703,10 +703,10 @@ color: #31363b;
   vertical-align: middle;
   }
   table.framework {
-  margin:0;
+  margin: 0;
   border: none;
   width: 100%;
-  border-spacing:0;
+  border-spacing: 0;
   }
   table.framework #maincell
   {

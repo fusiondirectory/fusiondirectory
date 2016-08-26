@@ -6,7 +6,7 @@ table.listingTable {
 border-top: 1px solid #C0C2C3;
 border-bottom: 1px solid #C0C2C3;
 border-left: 1px solid #C0C2C3;
-border-spacing:0;
+border-spacing: 0;
 }
 
 table.listingTable thead tr {
@@ -106,7 +106,7 @@ background-color: #E5E5E5;
 border-left: 1px solid silver;
 border-right: 1px solid silver;
 border-bottom: 1px solid silver;
-padding:0;
+padding: 0;
 width: auto;
 }
 
@@ -114,8 +114,8 @@ width: auto;
 ul.treeList,ul.treeList ul {
 list-style-type: none;
 background: url(../../images/lists/vline.png) repeat-y;
-margin:0;
-padding:0;
+margin: 0;
+padding: 0;
 }
 
 html.ltr ul.treeList ul {
@@ -153,7 +153,7 @@ cursor: pointer;
 }
 
 ul.treeList li {
-margin:0;
+margin: 0;
 padding: 0 12px;
 line-height: 20px;
 background: url(../../images/lists/node.png) no-repeat;
@@ -234,11 +234,11 @@ min-width: 230px;
   }
   table.listing_container > tbody > tr > td.list, table.listing_container > tbody >  tr > td.filter {
   width: 100%;
-  min-width:0;
+  min-width: 0;
   max-width: none;
   height: auto;
   display: block;
-  padding:0;
+  padding: 0;
   }
   table.listing_container > tbody > tr > td.list > div, table.listing_container > tbody >  tr > td.filter > div {
   border: none;
