@@ -1,7 +1,7 @@
 
 /* On big screens */
 @media (min-width: 640px) {
-  .plugin_section#perso img#jpegPhoto_img {
+  .plugin-section#perso img#jpegPhoto_img {
   position:absolute;
   left:5px;
   top:32px;
@@ -9,7 +9,7 @@
   max-height:80%;
   }
 
-  .plugin_section#perso > div > table {
+  .plugin-section#perso > div > table {
   padding-left:160px;
   }
 }

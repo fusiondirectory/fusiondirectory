@@ -28,7 +28,7 @@ class Step_Language extends setupStep
     return array(
       'lang' => array(
         'name'      => _('Preferred language'),
-        'class'     => array('fullwidth', 'setup_language'),
+        'class'     => array('fullwidth', 'setup-language'),
         'attrs'     => array(
           new DisplayAttribute(
             '', '',

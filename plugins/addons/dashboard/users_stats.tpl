@@ -1,4 +1,4 @@
-<div id="{$sectionId}"  class="plugin_section">
+<div id="{$sectionId}"  class="plugin-section">
   <span class="legend">
     {$section}
   </span>

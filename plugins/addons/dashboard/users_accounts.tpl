@@ -1,4 +1,4 @@
-<div id="{$sectionId}"  class="plugin_section fullwidth">
+<div id="{$sectionId}"  class="plugin-section fullwidth">
   <span class="legend">
     {$section}
   </span>
