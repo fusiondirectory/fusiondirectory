@@ -352,7 +352,8 @@ class Step_Migrate extends setupStep
       /* Try to detect base class type, e.g. is it a dcObject */
       $dep_types  = departmentManagement::getDepartmentTypes();
       $dep_type   = "";
-      $attrs['objectClass'][] = 'gosaDepartment'; // This allow us to filter it as if it was already migrated
+      /* This allow us to filter it as if it was already migrated */
+      $attrs['objectClass'][] = 'gosaDepartment';
       foreach ($dep_types as $type) {
         if (objects::isOfType($attrs, $type)) {
           $dep_type = $type;
