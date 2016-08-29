@@ -43,9 +43,11 @@ class simpleTabs
   var $by_object  = array();
   var $acl_category;
 
-  var $parent = NULL; // A parent object if available, e.g. a management class.
+  /* A parent object if available, e.g. a management class. */
+  var $parent = NULL;
 
-  var $read_only = FALSE; // Used when the entry is opened as "readonly" due to locks.
+  /* Used when the entry is opened as "readonly" due to locks. */
+  var $read_only = FALSE;
 
   var $baseclass = "";
 
@@ -155,7 +157,8 @@ class simpleTabs
       } else {
         $baseobject->base = dn2base(get_userinfo()->dn);
       }
-      if (!($baseobject instanceOf simplePlugin) && is_object($baseobject->baseSelector)) { // For some plugins not yet migrated to simple plugin.
+      if (!($baseobject instanceOf simplePlugin) && is_object($baseobject->baseSelector)) {
+        /* For some plugins not yet migrated to simple plugin. */
         $baseobject->baseSelector->setBase($baseobject->base);
       }
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $baseobject->base, 'Fixed base');

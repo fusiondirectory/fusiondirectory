@@ -199,26 +199,22 @@ class config  {
 
     /* Look through attributes */
     switch ($this->tags[$this->level - 1]) {
-
       /* Handle location */
       case 'LOCATION':
         if ($this->tags[$this->level - 2] == 'MAIN') {
-          $name           = $attrs['NAME'];
-          $name           = preg_replace("/[<>\"']/", "", $name);
-          $attrs['NAME']  = $name;
+          $attrs['NAME'] = preg_replace('/[<>"\']/', '', $attrs['NAME']);
 
-          $this->currentLocation = $name;
+          $this->currentLocation = $attrs['NAME'];
 
           /* Add location elements */
-          $this->data['LOCATIONS'][$name] = $attrs;
+          $this->data['LOCATIONS'][$attrs['NAME']] = $attrs;
         }
         break;
 
       /* Handle referral tags */
       case 'REFERRAL':
         if ($this->tags[$this->level - 2] == 'LOCATION') {
-          $url    = $attrs['URI'];
-          $server = preg_replace('!^([^:]+://[^/]+)/.*$!', '\\1', $url);
+          $server = preg_replace('!^([^:]+://[^/]+)/.*$!', '\\1', $attrs['URI']);
 
           /* Add location elements */
           if (!isset($this->data['LOCATIONS'][$this->currentLocation]['REFERRAL'])) {
@@ -232,6 +228,10 @@ class config  {
       /* Load main parameters */
       case 'MAIN':
         $this->data['MAIN'] = array_merge ($this->data['MAIN'], $attrs);
+        break;
+
+      /* Ignore other tags */
+      default:
         break;
     }
   }
@@ -424,7 +424,8 @@ class config  {
     }
 
     $debugLevel = $this->get_cfg_value('DEBUGLEVEL');
-    if ($debugLevel & DEBUG_CONFIG) { // value from LDAP can't activate DEBUG_CONFIG
+    if ($debugLevel & DEBUG_CONFIG) {
+      /* Value from LDAP can't activate DEBUG_CONFIG */
       $debugLevel -= DEBUG_CONFIG;
     }
     if (isset($this->data['MAIN']['DEBUGLEVEL'])) {
@@ -608,7 +609,8 @@ class config  {
     foreach ($types as $type) {
       $i = objects::infos($type);
       $filter         .= $i['filter'];
-      $ldap_values[]  = $i['mainAttr']; // Specific key for departement objectTypes
+      /* Add type main attr to fetched attributes list */
+      $ldap_values[]  = $i['mainAttr'];
     }
     $filter = '(|'.$filter.')';
 
@@ -751,42 +753,6 @@ class config  {
   }
 
   /*!
-   * \brief Check if there's the specified bool value set in the configuration
-   *
-   *  The function checks, weither the specified bool value is set to a true
-   *  value in the configuration file. Considered true are either true or yes,
-   *  case-insensitive.
-   *
-   *  Example usage:
-   *  \code
-   *  if ($config->boolValueIsTrue("main", "copyPaste")) {
-   *    echo "Copy Paste Handling is enabled";
-   *  }
-   *  \endcode
-   *
-   *  \param string $section Section in the configuration file.
-   *
-   *  \param string $value Key in the given section, which is subject to check
-   *
-   *  \return bool TRUE if option set in the config file
-   */
-  function boolValueIsTrue($section, $value)
-  {
-    $section  = strtoupper($section);
-    $value    = strtoupper($value);
-    if (isset($this->data[$section][$value])) {
-
-      $data = $this->data[$section][$value];
-      if (preg_match("/^true$/i", $data) || preg_match("/yes/i", $data)) {
-        return TRUE;
-      }
-
-    }
-
-    return FALSE;
-  }
-
-  /*!
    * \brief Search for hooks
    *
    *  Example usage:
@@ -920,7 +886,8 @@ class config  {
       if (isset($plInfo['plObjectType'])) {
         $entry = array('CLASS' => $class,'NAME' => $plInfo['plShortName']);
         foreach ($plInfo['plObjectType'] as $key => $value) {
-          if (is_numeric($key)) { // This is not the main tab
+          if (is_numeric($key)) {
+            /* This is not the main tab */
             $tabclass = strtoupper($value)."TABS";
             if (($tabclass == 'GROUPTABS') && class_available('mixedGroup')) {
               $tabclass = 'OGROUP-USERTABS';
@@ -931,6 +898,7 @@ class config  {
             }
             $this->data['TABS'][$tabclass][] = $entry;
           } else {
+            /* This is the main tab */
             if (isset($this->data['OBJECTS'][strtoupper($key)])) {
               die("duplicated object type ".strtoupper($key)." in ".$this->data['OBJECTS'][strtoupper($key)]['mainTab']." and $class");
             }

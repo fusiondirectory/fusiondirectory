@@ -36,11 +36,11 @@ class LDIFImportException extends FusionDirectoryException {}
 /*! \class LdapGeneralizedTimeBadFormatException
     \brief Exception class which can be thrown by LdapGeneralizedTime if the format does not match
 */
-class LdapGeneralizedTimeBadFormatException extends FusionDirectoryException {};
+class LdapGeneralizedTimeBadFormatException extends FusionDirectoryException {}
 
-class NonExistingObjectTypeException extends FusionDirectoryException {};
-class NonExistingBranchException extends FusionDirectoryException {};
-class NonExistingLdapNodeException extends FusionDirectoryException {};
-class EmptyFilterException extends FusionDirectoryException {};
-class NoManagementClassException extends FusionDirectoryException {};
-class LDAPFailureException extends FusionDirectoryException {};
+class NonExistingObjectTypeException extends FusionDirectoryException {}
+class NonExistingBranchException extends FusionDirectoryException {}
+class NonExistingLdapNodeException extends FusionDirectoryException {}
+class EmptyFilterException extends FusionDirectoryException {}
+class NoManagementClassException extends FusionDirectoryException {}
+class LDAPFailureException extends FusionDirectoryException {}

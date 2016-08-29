@@ -244,32 +244,29 @@ class SnapshotHandler {
     foreach ($dns as $tmp_dn) {
       $data .= $ldap->generateLdif(LDAP::fix($tmp_dn), '(!(objectClass=gosaDepartment))', 'sub');
       if (!$ldap->success()) {
-        msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $tmp_dn, "", get_class()), LDAP_ERROR);
+        msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), $tmp_dn, '', get_class()), LDAP_ERROR);
       }
     }
 
-    $newName  = str_replace(".", "", $sec."-".$usec);
     $target   = array();
 
-    $target['objectClass']            = array("top", "gosaSnapshotObject");
+    $target['objectClass']            = array('top', 'gosaSnapshotObject');
     $target['gosaSnapshotData']       = gzcompress($data, 6);
     $target['gosaSnapshotDN']         = $dn;
     $target['description']            = $description;
-    $target['gosaSnapshotTimestamp']  = $newName;
 
     /* Insert the new snapshot
        But we have to check first, if the given gosaSnapshotTimestamp
        is already used, in this case we should increment this value till there is
        an unused value. */
-    $new_dn = "gosaSnapshotTimestamp=".$newName.",".$new_base;
-    $ldap->cat($new_dn);
-    while ($ldap->count()) {
+    do {
+      $target['gosaSnapshotTimestamp']  = str_replace('.', '', $sec.'-'.$usec);
+      $new_dn                           = 'gosaSnapshotTimestamp='.$target['gosaSnapshotTimestamp'].','.$new_base;
       $ldap->cat($new_dn);
-      $newName = str_replace(".", "", $sec."-".(++$usec));
-      $new_dn                           = "gosaSnapshotTimestamp=".$newName.",".$new_base;
-      $target['gosaSnapshotTimestamp']  = $newName;
-    }
-    /* Inset this new snapshot */
+      $usec++;
+    } while ($ldap->count());
+
+    /* Insert this new snapshot */
     $ldap->cd($this->snapshotRDN);
     $ldap->create_missing_trees($this->snapshotRDN);
     $ldap->create_missing_trees($new_base);
@@ -277,7 +274,7 @@ class SnapshotHandler {
     $ldap->add($target);
 
     if (!$ldap->success()) {
-      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $new_base, "", get_class()), LDAP_ERROR);
+      msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), $new_base, '', get_class()), LDAP_ERROR);
     }
   }
 

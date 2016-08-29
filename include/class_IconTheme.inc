@@ -18,14 +18,30 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class ThemeFileParsingException extends Exception {};
+class ThemeFileParsingException extends Exception {}
 
 class IconThemeDir
 {
+  /* Nominal (unscaled) size of the icons in this directory.
+   * Required. */
   private $Size;
+
+  /* Specifies the minimum (unscaled) size that the icons in this directory can be scaled to.
+   * Defaults to the value of Size if not present. */
   private $MinSize;
+
+  /* Specifies the maximum (unscaled) size that the icons in this directory can be scaled to.
+   * Defaults to the value of Size if not present. */
   private $MaxSize;
+
+  /* The type of icon sizes for the icons in this directory.
+   * Valid types are Fixed, Scalable and Threshold.
+   * The type decides what other keys in the section are used.
+   * If not specified, the default is Threshold. */
   private $Type      = 'Threshold';
+
+  /* The icons in this directory can be used if the size differ at most this much from the desired (unscaled) size.
+   * Defaults to 2 if not present. */
   private $Threshold = 2;
 
   function __construct($infos)
@@ -50,6 +66,7 @@ class IconThemeDir
     switch ($this->Type) {
       case 'Fixed':
         return ($this->Size == $size);
+      default:
       case 'Threshold':
       case 'Scalable':
         return (($this->MinSize <= $size) && ($size <= $this->MaxSize));
@@ -61,6 +78,7 @@ class IconThemeDir
     switch ($this->Type) {
       case 'Fixed':
         return abs($this->Size - $size);
+      default:
       case 'Threshold':
       case 'Scalable':
         if ($size < $this->MinSize) {

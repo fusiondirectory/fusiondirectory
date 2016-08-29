@@ -66,7 +66,8 @@ class templateDialog
         trigger_error('redefining template object');
       }
       $this->template = new template($this->type, $_POST['template']);
-      unset($_POST['template']); // This method can loop if there are several targets
+      /* This method can loop if there are several targets */
+      unset($_POST['template']);
     }
     if (is_object($this->template)) {
       if ($this->target !== NULL) {
@@ -902,14 +903,12 @@ class simpleManagement extends management
 
   static function mainInc ($classname)
   {
-    global $remove_lock, $cleanup, $display, $config, $ui;
+    global $remove_lock, $cleanup, $display;
 
     /* Remove locks */
-    if ($remove_lock) {
-      if (session::is_set($classname)) {
-          $macl = session::get($classname);
-          $macl->remove_lock();
-      }
+    if ($remove_lock && session::is_set($classname)) {
+      $macl = session::get($classname);
+      $macl->remove_lock();
     }
 
     if ($cleanup) {
