@@ -164,13 +164,14 @@ background-color: #fcfcfc;
 
 /* On small screens */
 @media (max-width: 640px) {
-  .iconmenu {
+  html.ltr .iconmenu,
+  html.rtl .iconmenu {
   text-align: center;
   margin: 2px;
   padding: 2px;
   min-width: 70px;
   min-height: 80px;
-  display: inline-block;
+  display: block;
   }
   .iconmenu .imgcontainer {
   margin: auto;

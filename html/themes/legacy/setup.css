@@ -55,16 +55,16 @@ padding-bottom: 3px;
 }
 
 /* The style for the info of an active setup */
-#menucell.setup-navigation li.menuitem a.navigation_info {
+#menucell.setup-navigation li.menuitem a.navigation-info {
 font-size: 1em;
 color: #000;
 margin: 0;
 cursor: default;
 }
-html.ltr #menucell.setup-navigation li.menuitem a.navigation_info {
+html.ltr #menucell.setup-navigation li.menuitem a.navigation-info {
 padding: 4px 4px 3px 15px;
 }
-html.rtl #menucell.setup-navigation li.menuitem a.navigation_info {
+html.rtl #menucell.setup-navigation li.menuitem a.navigation-info {
 padding: 4px 15px 3px 4px;
 }
 
@@ -122,41 +122,41 @@ text-align: left;
 }
 
 /* Status failed */
-div.step2_failed {
+div.step2-failed {
 color: red;
 padding-bottom: 4px;
 }
 
 /* Status failed but not necessary for setup */
-div.step2_warning {
+div.step2-warning {
 color: orange;
 padding-bottom: 4px;
 }
 
 /* Status successful */
-div.step2_successful {
+div.step2-successful {
 color: green;
 }
 
 /* Text used in info div. */
-div.step2_failed_text {
+div.step2-failed-text {
 background-repeat: no-repeat;
 }
-html.ltr div.step2_failed_text {
+html.ltr div.step2-failed-text {
 padding-left: 25px;
 }
-html.rtl div.step2_failed_text {
+html.rtl div.step2-failed-text {
 padding-right: 25px;
 }
 
 /* Text used in info div. On warnings */
-div.step2_warning_text {
+div.step2-warning-text {
 background-repeat: no-repeat;
 }
-html.ltr div.step2_warning_text {
+html.ltr div.step2-warning-text {
 padding-left: 25px;
 }
-html.rtl div.step2_warning_text {
+html.rtl div.step2-warning-text {
 padding-right: 25px;
 }
 

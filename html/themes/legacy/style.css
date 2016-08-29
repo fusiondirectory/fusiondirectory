@@ -493,7 +493,7 @@ span.mark {
 color: #B22;
 }
 
-#debug_handling {
+#debug-handling {
 border-color: #ddd;
 }
 .error, .notice, .success, .info {
@@ -576,11 +576,11 @@ div#header-left img {
 vertical-align: middle;
 }
 
-html.ltr div#header-left img#fd_logo {
+html.ltr div#header-left img#fd-logo {
 padding-left: 2px;
 padding-right: 25px;
 }
-html.rtl div#header-left img#fd_logo {
+html.rtl div#header-left img#fd-logo {
 padding-left: 25px;
 padding-right: 2px;
 }
@@ -608,7 +608,7 @@ font-size: 20px;
 }
 
 /* Header col */
-div.setup_header {
+div.setup-header {
 background-color: #bbcc99;
 padding: 4px 5px 2px;
 color: #000;
@@ -616,7 +616,7 @@ color: #000;
 
 /* On small screens */
 @media (max-width: 640px) {
-  div.setup_header {
+  div.setup-header {
   padding: 2px;
   height: 36px;
   }

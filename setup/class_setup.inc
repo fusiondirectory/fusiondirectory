@@ -208,7 +208,7 @@ class setup
         if ($b_active) {
           $str .= '<li class="menuitem menucurrent" title="'.$s_description.'">';
           $str .= '<a class="navigation-title">'.$s.$s_short_name.'</a>';
-          $str .= '<a class="navigation_info">'.$s_description.'</a>';
+          $str .= '<a class="navigation-info">'.$s_description.'</a>';
           $str .= '</li>';
         } else {
           $str .= '<li class="menuitem" title="'.$s_description.'">';

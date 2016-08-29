@@ -1,5 +1,4 @@
-.plugin-window
-{
+.plugin-window {
 vertical-align: top;
 text-align: justify;
 background-color: #f3f4f4;
@@ -216,8 +215,7 @@ background-color: #DFEFFF;
   width: 100%;
   }
   html.ltr .plugin-section, html.ltr .plugin-section:nth-child(even), html.ltr .plugin-section.fullwidth,
-  html.rtl .plugin-section, html.rtl .plugin-section:nth-child(even), html.rtl .plugin-section.fullwidth
-  {
+  html.rtl .plugin-section, html.rtl .plugin-section:nth-child(even), html.rtl .plugin-section.fullwidth {
   display: block;
   float: none;
   clear: both;
