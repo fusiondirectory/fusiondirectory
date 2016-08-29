@@ -699,7 +699,7 @@ color: #31363b;
   width: 36px;
   height: 36px;
   overflow: hidden;
-  display: inline-block;
+  display: block;
   }
   html.ltr a.maintitlebar {
   float: left;
@@ -726,14 +726,12 @@ color: #31363b;
   html.ltr div#header_left, html.rtl div#header_left {
   height: 40px;
   width: 100%;
-  float: none;
   }
   html.ltr div#header_right, html.rtl div#header_right {
   padding-top: 8px;
   height: 30px;
   margin-top: -40px;
   width: 100%;
-  float: none;
   }
   div#header_right a {
   background: #eff0f1;

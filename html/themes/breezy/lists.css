@@ -18,16 +18,18 @@ white-space: nowrap;
 }
 
 table.listingTable > thead > tr > th {
+box-sizing: content-box;
 background: #F0F0F0;
 font-weight: bold;
-border-right: 1px solid #C0C2C3;
 border-bottom: 1px solid #C0C2C3;
 padding: 3px;
 height: 22px;
 }
+html.ltr table.listingTable > thead > tr > th {
+border-right: 1px solid #C0C2C3;
+}
 html.rtl table.listingTable > thead > tr > th {
 border-left: 1px solid #C0C2C3;
-border-right: none;
 }
 
 table.listingTable > tbody {

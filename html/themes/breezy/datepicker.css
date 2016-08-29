@@ -64,6 +64,7 @@ padding: 0;
 }
 
 .datepicker-calendar table tbody tr td {
+box-sizing: content-box;
 border: 1px #EAEAEA solid;
 margin: 0;
 padding: 0;
@@ -83,6 +84,7 @@ cursor: pointer;
 }
 
 .datepicker-calendar table tbody tr td.wday {
+box-sizing: content-box;
 border: 1px #AAA solid;
 background: #CCC;
 cursor: text;
@@ -98,6 +100,7 @@ background: #F4F3F3;
 
 .datepicker-calendar table tbody tr td.today,
 .datepicker-calendar table tbody tr td.today:hover {
+box-sizing: content-box;
 border: 1px #CCE9FF solid;
 background: #E9F5FF;
 background-image: url(../../images/date_active.png);
