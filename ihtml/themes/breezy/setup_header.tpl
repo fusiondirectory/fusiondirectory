@@ -1,6 +1,6 @@
-<div class="setup_header">
+<div class="setup-header">
   <div id="header-left">
-    <img id="fd_logo" class="optional" src="geticon.php?context=applications&amp;icon=fusiondirectory&amp;size=48" alt="FusionDirectory"/>
+    <img id="fd-logo" class="optional" src="geticon.php?context=applications&amp;icon=fusiondirectory&amp;size=48" alt="FusionDirectory"/>
   </div>
   <div id="header-right">
     <div class="version">

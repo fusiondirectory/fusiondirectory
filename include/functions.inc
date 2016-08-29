@@ -250,7 +250,7 @@ function DEBUG($level, $line, $function, $file, $data, $info = '')
   }
   if (session::global_get('DEBUGLEVEL') & $level) {
     if ($first) {
-      echo '<div id="debug_handling" class="notice">'.
+      echo '<div id="debug-handling" class="notice">'.
             '<img src="geticon.php?context=status&amp;icon=dialog-information&amp;size=22" alt="info icon" style="vertical-align:middle;margin-right:.2em;"/>'.
             'There is some debug output '.
             '<button onClick="javascript:$$(\'div.debug_div\').each(function (a) { a.toggle(); });">Toggle</button>'.

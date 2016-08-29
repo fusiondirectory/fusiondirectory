@@ -19,9 +19,9 @@
           <div class="step2-entry-name"><b>{$check->title}</b></div>
           <div class="step2-entry-status">
             {if $check->status}
-              <div class="step2_successful">{$check->msg}</div>
+              <div class="step2-successful">{$check->msg}</div>
             {else}
-              <div class="step2_failed">{$check->msg}</div>
+              <div class="step2-failed">{$check->msg}</div>
             {/if}
           </div>
             {if $check->error}

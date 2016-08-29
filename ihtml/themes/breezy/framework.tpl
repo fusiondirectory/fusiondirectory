@@ -3,9 +3,9 @@
   {$game_screen}
   {$php_errors}
   <form action="main.php{$plug}" name="mainform" id="mainform" method="post" enctype="multipart/form-data">
-    <div class="setup_header">
+    <div class="setup-header">
       <div id="header-left">
-        <img id="fd_logo" class="optional" src="geticon.php?context=applications&amp;icon=fusiondirectory&amp;size=48" alt="FusionDirectory"/>
+        <img id="fd-logo" class="optional" src="geticon.php?context=applications&amp;icon=fusiondirectory&amp;size=48" alt="FusionDirectory"/>
         <a class="maintitlebar" href="main.php?reset=1">
           <img src="geticon.php?context=actions&amp;icon=go-home&amp;size=22" alt="Main"/>&nbsp;{t}Main{/t}
         </a>

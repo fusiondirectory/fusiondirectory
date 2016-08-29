@@ -202,7 +202,7 @@ class simpleTabs
     unset($obj);
 
     /* Show object */
-    $display = '<div class="tab_content">'."\n";
+    $display = '<div class="tab-content">'."\n";
 
     $display .= $this->by_object[$this->current]->execute();
 
@@ -249,16 +249,16 @@ class simpleTabs
     if (!$disabled) {
       $display .= '<input type="hidden" name="arg" value=""/>';
     }
-    $display  .= '<table class="tabs_header"><tbody><tr>';
+    $display  .= '<table class="tabs-header"><tbody><tr>';
     $index    = 0;
-    $style    = array('tab_left', 'tab_active', 'tab_right');
+    $style    = array('tab-left', 'tab-active', 'tab-right');
     foreach ($this->by_name as $class => $name) {
 
-      /* Activate right tabs with style "tab_right" */
+      /* Activate right tabs with style "tab-right" */
       if ($index == 1) {
         $index++;
       } elseif ($class == $this->current) {
-        /* Activate current tab with style "tab_active " */
+        /* Activate current tab with style "tab-active " */
         $index++;
       }
 
@@ -279,13 +279,13 @@ class simpleTabs
       /* Take care about notifications */
       $obj = $this->by_object[$class];
       if ($this->by_object[$class]->pl_notify && ($obj->is_account || $obj->ignore_account)) {
-        $cssClasses .= ' tab_notify';
+        $cssClasses .= ' tab-notify';
       }
       if ($disabled) {
-        $cssClasses .= ' tab_disabled';
+        $cssClasses .= ' tab-disabled';
       }
       if (!$obj->is_account && !$obj->ignore_account) {
-        $cssClasses .= ' tab_inactive';
+        $cssClasses .= ' tab-inactive';
       }
 
 
@@ -302,7 +302,7 @@ class simpleTabs
     }
 
     $display .= "<td>\n";
-    $display .= '<div class="tab_border">&nbsp;</div></td></tr></tbody></table>';
+    $display .= '<div class="tab-border">&nbsp;</div></td></tr></tbody></table>';
 
     return $display;
   }
