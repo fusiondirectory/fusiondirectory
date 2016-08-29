@@ -207,18 +207,18 @@ class setup
       if ($b_enabled) {
         if ($b_active) {
           $str .= '<li class="menuitem menucurrent" title="'.$s_description.'">';
-          $str .= '<a class="navigation_title">'.$s.$s_short_name.'</a>';
+          $str .= '<a class="navigation-title">'.$s.$s_short_name.'</a>';
           $str .= '<a class="navigation_info">'.$s_description.'</a>';
           $str .= '</li>';
         } else {
           $str .= '<li class="menuitem" title="'.$s_description.'">';
           $str .= '<a onClick="document.mainform.setup_goto_step.value=\''.$key.'\';document.mainform.submit();"
-            class="navigation_title">'.$s.$s_short_name.'</a>';
+            class="navigation-title">'.$s.$s_short_name.'</a>';
           $str .= '</li>';
         }
       } else {
         $str .= '<li class="menuitem disabled" title="'.$s_description.'">';
-        $str .= '<a class="navigation_title">'.$s.$s_short_name.'</a>';
+        $str .= '<a class="navigation-title">'.$s.$s_short_name.'</a>';
         $str .= '</li>';
       }
     }

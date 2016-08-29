@@ -3,14 +3,14 @@
     <h2>{t}Add required object classes to the LDAP base{/t}</h2>
 
     <b>{t}Current{/t}</b>
-    <div class="step2_entry_container_info">
+    <div class="step2-entry-container-info">
       <div style='padding-left:20px;'>
         <pre>{$infos.current}</pre>
       </div>
     </div>
     <br/>
     <b>{t}After migration{/t}</b>
-    <div class="step2_entry_container_info">
+    <div class="step2-entry-container-info">
       <div style='padding-left:20px;'>
         <pre>{$infos.target}</pre>
       </div>

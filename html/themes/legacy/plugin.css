@@ -1,5 +1,4 @@
-.plugin-window
-{
+.plugin-window {
 vertical-align: top;
 text-align: justify;
 background-color:  white;
@@ -67,7 +66,7 @@ display: block;
 clear: both;
 }
 
-.plugin_section {
+.plugin-section {
 display: block;
 float: left;
 clear: left;
@@ -81,48 +80,48 @@ margin-bottom: 0.5%;
 margin-right: 0;
 position: relative;
 }
-html.rtl .plugin_section {
+html.rtl .plugin-section {
 float: right;
 clear: right;
 margin-left: 0;
 margin-right: 0.5%;
 }
 
-html.ltr .plugin_section:nth-child(even) {
+html.ltr .plugin-section:nth-child(even) {
 float: right;
 clear: right;
 margin-left: 0;
 margin-right: 0.5%;
 }
-html.rtl .plugin_section:nth-child(even) {
+html.rtl .plugin-section:nth-child(even) {
 float: left;
 clear: left;
 margin-left: 0.5%;
 margin-right: 0;
 }
 
-div.plugin_section {
+div.plugin-section {
 padding-top: 25px;
 }
 
-.plugin_section > div {
+.plugin-section > div {
 padding: 5px;
 }
 
-fieldset.plugin_section > div {
+fieldset.plugin-section > div {
 padding-top: 30px;
 }
 
-fieldset.plugin_section legend {
+fieldset.plugin-section legend {
 float: left;
 padding: 0;
 margin: 0;
 }
-html.rtl fieldset.plugin_section legend {
+html.rtl fieldset.plugin-section legend {
 float: right;
 }
 
-fieldset.plugin_section legend span, .plugin_section > span.legend {
+fieldset.plugin-section legend span, .plugin-section > span.legend {
 font-weight: bold;
 background-color: #DBE6C6;
 border: 1px solid #B0B0B0;
@@ -132,49 +131,49 @@ padding-bottom: 5px;
 text-align: center;
 display: block;
 }
-html.ltr fieldset.plugin_section legend span, html.ltr .plugin_section > span.legend {
+html.ltr fieldset.plugin-section legend span, html.ltr .plugin-section > span.legend {
 margin-left: -1px;
 }
-html.rtl fieldset.plugin_section legend span, html.rtl .plugin_section > span.legend {
+html.rtl fieldset.plugin-section legend span, html.rtl .plugin-section > span.legend {
 margin-right: -1px;
 }
 
-fieldset.plugin_section legend span {
+fieldset.plugin-section legend span {
 position: absolute;
 top: 0;
 margin-top: -1px;
 }
-html.ltr fieldset.plugin_section legend span {
+html.ltr fieldset.plugin-section legend span {
 left: 0;
 }
-html.rtl fieldset.plugin_section legend span {
+html.rtl fieldset.plugin-section legend span {
 right: 0;
 }
 
-.plugin_section > span.legend {
+.plugin-section > span.legend {
 margin-top: -26px;
 }
 
-fieldset.plugin_section legend img, .plugin_section span.legend img {
+fieldset.plugin-section legend img, .plugin-section span.legend img {
 vertical-align: middle;
 }
-html.ltr fieldset.plugin_section legend img, html.ltr .plugin_section span.legend img {
+html.ltr fieldset.plugin-section legend img, html.ltr .plugin-section span.legend img {
 margin-right: 3px;
 }
-html.rtl fieldset.plugin_section legend img, html.rtl .plugin_section span.legend img {
+html.rtl fieldset.plugin-section legend img, html.rtl .plugin-section span.legend img {
 margin-left: 3px;
 }
 
 
-fieldset.plugin_section select[multiple], fieldset.plugin_section textarea {
+fieldset.plugin-section select[multiple], fieldset.plugin-section textarea {
 width: 100%;
 }
 
-.plugin_section > div > table {
+.plugin-section > div > table {
 min-width: 80%;
 }
 
-html.ltr .plugin_section.fullwidth, html.rtl .plugin_section.fullwidth {
+html.ltr .plugin-section.fullwidth, html.rtl .plugin-section.fullwidth {
 float: none;
 clear: both;
 width: auto;
@@ -184,26 +183,26 @@ margin-bottom: 0.5%;
 margin-right: 0.5%;
 }
 
-html.ltr .plugin_section.alone, html.rtl .plugin_section.alone {
+html.ltr .plugin-section.alone, html.rtl .plugin-section.alone {
 float: none;
 clear: both;
 }
 
-html.ltr .plugin_section.invisible, html.rtl .plugin_section.invisible {
+html.ltr .plugin-section.invisible, html.rtl .plugin-section.invisible {
 display: none;
 }
 
-fieldset.plugin_section.critical legend span, .plugin_section.critical > span.legend {
+fieldset.plugin-section.critical legend span, .plugin-section.critical > span.legend {
 font-weight: bold;
 background-color: #BCF;
 }
 
-fieldset.plugin_section.critical legend span:after, .plugin_section.critical > span.legend:after {
+fieldset.plugin-section.critical legend span:after, .plugin-section.critical > span.legend:after {
 content: "   (editing this can break your LDAP)";
 color: #D00;
 }
 
-.plugin_section.critical > div {
+.plugin-section.critical > div {
 background-color: #DFEFFF;
 }
 
@@ -214,11 +213,11 @@ background-color: #DFEFFF;
   border: none;
   width: 100%;
   }
-  .plugin_section > div > table {
+  .plugin-section > div > table {
   width: 100%;
   }
-  html.ltr .plugin_section, html.ltr .plugin_section:nth-child(even), html.ltr .plugin_section.fullwidth,
-  html.rtl .plugin_section, html.rtl .plugin_section:nth-child(even), html.rtl .plugin_section.fullwidth
+  html.ltr .plugin-section, html.ltr .plugin-section:nth-child(even), html.ltr .plugin-section.fullwidth,
+  html.rtl .plugin-section, html.rtl .plugin-section:nth-child(even), html.rtl .plugin-section.fullwidth
   {
   display: block;
   float: none;

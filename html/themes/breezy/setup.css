@@ -17,35 +17,35 @@ padding: 2px 10px;
 vertical-align: middle;
 }
 
-#menucell.setup_navigation {
+#menucell.setup-navigation {
 width: 200px;
 }
 
 /* The box used for each setup step */
-#menucell.setup_navigation li.menuitem {
+#menucell.setup-navigation li.menuitem {
 text-decoration: none;
 padding-top: 8px;
 padding-bottom: 8px;
 margin-top: 5px;
 margin-bottom: 5px;
 }
-#menucell.setup_navigation li.menuitem > a {
+#menucell.setup-navigation li.menuitem > a {
 margin: 0;
 }
 
 /* An enabled setup step will use this style in navigation*/
-#menucell.setup_navigation li.menuitem.menucurrent a.navigation_title {
+#menucell.setup-navigation li.menuitem.menucurrent a.navigation-title {
 cursor: default;
 }
 
 /* Disabled setup steps */
-#menucell.setup_navigation li.menuitem.disabled a.navigation_title {
+#menucell.setup-navigation li.menuitem.disabled a.navigation-title {
 cursor: default;
 color: #C0C2C3;
 }
 
 /* Disabled setup steps */
-#menucell.setup_navigation li.menuitem a.navigation_title {
+#menucell.setup-navigation li.menuitem a.navigation-title {
 font-size: 1.2em;
 font-weight: bold;
 text-decoration: none;
@@ -55,20 +55,20 @@ padding-bottom: 3px;
 }
 
 /* The style for the info of an active setup */
-#menucell.setup_navigation li.menuitem a.navigation_info {
+#menucell.setup-navigation li.menuitem a.navigation_info {
 font-size: 1em;
 color: #31363b;
 margin: 0;
 cursor: default;
 }
-html.ltr #menucell.setup_navigation li.menuitem a.navigation_info {
+html.ltr #menucell.setup-navigation li.menuitem a.navigation_info {
 padding: 4px 4px 3px 15px;
 }
-html.rtl #menucell.setup_navigation li.menuitem a.navigation_info {
+html.rtl #menucell.setup-navigation li.menuitem a.navigation_info {
 padding: 4px 15px 3px 4px;
 }
 
-.setup_language select#lang_selected {
+.setup-language select#lang_selected {
 width: 100%;
 }
 
@@ -76,24 +76,24 @@ width: 100%;
   Setup step 2 styles
 */
 /* used to hide display info div */
-div.solution_visible {
+div.solution-visible {
 display: block;
 width: 100%;
 text-align: left;
 }
-html.rtl div.solution_visible {
+html.rtl div.solution-visible {
 text-align: right;
 }
 
 /* Container for name and status */
-div.step2_entry_container {
+div.step2-entry-container {
 padding: 3px;
 width: 99%;
 cursor: default;
 }
 
 /* Container for name and status, when status is failed */
-div.step2_entry_container_info {
+div.step2-entry-container-info {
 padding: 3px;
 border: 1px solid #C0C2C3;
 width: 99%;
@@ -101,23 +101,23 @@ cursor: default;
 }
 
 /* Text shown for each entry */
-div.step2_entry_name {
+div.step2-entry-name {
 float: left;
 padding-bottom: 4px;
 vertical-align: middle;
 }
-html.rtl div.step2_entry_name {
+html.rtl div.step2-entry-name {
 float: right;
 }
 
 /* Status container */
-div.step2_entry_status {
+div.step2-entry-status {
 float: none;
 text-align: right;
 padding-bottom: 4px;
 vertical-align: middle;
 }
-html.rtl div.step2_entry_status {
+html.rtl div.step2-entry-status {
 text-align: left;
 }
 

@@ -115,7 +115,7 @@ max-width: 48px;
 h1.menuheader {
 margin: 0;
 padding: 10px;
-display: inline-block;
+display: block;
 border-bottom: 1px solid #AAAAAA;
 background-color: #DBE6C6;
 }

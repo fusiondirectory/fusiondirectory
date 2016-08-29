@@ -20,7 +20,7 @@
       <tbody>
         <tr>
           <!-- Menu -->
-          <td id="menucell" class="setup_navigation">
+          <td id="menucell" class="setup-navigation">
             {$navigation}
             <br/>
           </td>
