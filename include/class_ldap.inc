@@ -781,7 +781,7 @@ class LDAP
     if ($target == $this->basedn) {
       $l = array("dummy");
     } else {
-      $l = array_reverse(gosa_ldap_explode_dn($real_path));
+      $l = array_reverse(ldap_explode_dn($real_path, 0));
     }
     unset($l['count']);
     $cdn = $this->basedn;
@@ -1226,7 +1226,7 @@ class LDAP
     /* If dn is an index of data, we should try to insert the data */
     if (isset($data['dn'])) {
       /* Fix dn */
-      $tmp = gosa_ldap_explode_dn($data['dn']);
+      $tmp = ldap_explode_dn($data['dn'], 0);
       unset($tmp['count']);
       $dn = '';
       foreach ($tmp as $tm) {

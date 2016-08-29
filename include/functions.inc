@@ -2273,14 +2273,14 @@ function create_revision($revision_file, $revision)
   $result = FALSE;
 
   if (is_dir(dirname($revision_file)) && is_writable(dirname($revision_file))) {
-    if ($fh = fopen($revision_file, "w")) {
+    if ($fh = fopen($revision_file, 'w')) {
       if (fwrite($fh, $revision)) {
         $result = TRUE;
       }
+      fclose($fh);
     }
-    fclose($fh);
   } else {
-    msg_dialog::display(_("Internal error"), _("Cannot write to revision file!"), ERROR_DIALOG);
+    msg_dialog::display(_('Internal error'), _('Cannot write to revision file!'), ERROR_DIALOG);
   }
 
   return $result;
@@ -2308,11 +2308,11 @@ function compare_revision($revision_file, $revision)
       if ($revision == fread($fh, filesize($revision_file))) {
         $result = TRUE;
       }
+      // Close file
+      fclose($fh);
     } else {
-      msg_dialog::display(_("Internal error"), _("Cannot read to revision file!"), ERROR_DIALOG);
+      msg_dialog::display(_('Internal error'), _('Cannot read revision file!'), ERROR_DIALOG);
     }
-    // Close file
-    fclose($fh);
   }
 
   return $result;
@@ -2410,79 +2410,6 @@ function normalizeLdap($input)
 {
   trigger_error('deprecated, use ldap_escape_f');
   return addcslashes($input, '*()\\/');
-}
-
-
-/*!
- * \brief Explode a DN into its parts
- *
- * Similar to explode (http://php.net/explode), but a bit more specific
- * for the needs when splitting, exploding LDAP DNs.
- *
- * \param string $dn the DN to split
- *
- * \param $config a config object. only neeeded if DN shall be verified in the LDAP
- *
- * \param boolean $verify_in_ldap check weither DN is valid
- *
- */
-function gosa_ldap_explode_dn($dn, $config = NULL, $verify_in_ldap = FALSE)
-{
-  /* Initialize variables */
-  $ret  = array("count" => 0);  // Set count to 0
-  $next = TRUE;                 // if FALSE, then skip next loops and return
-  $cnt  = 0;                    // Current number of loops
-  $max  = 100;                  // Just for security, prevent looops
-  $ldap = NULL;                 // To check if created result a valid
-  $keep = "";                   // save last failed parse string
-
-  /* Check each parsed dn in ldap ? */
-  if (($config !== NULL) && $verify_in_ldap) {
-    $ldap = $config->get_ldap_link();
-  }
-
-  /* Lets start */
-  $called = FALSE;
-  while (preg_match("/,/", $dn) && $next && ($cnt < $max)) {
-
-    $cnt ++;
-    if (!preg_match("/,/", $dn)) {
-      $next = FALSE;
-    }
-    $object = preg_replace("/[,].*$/", "", $dn);
-    $dn     = preg_replace("/^[^,]+,/", "", $dn);
-
-    $called = TRUE;
-
-    /* Check if current dn is valid */
-    if ($ldap !== NULL) {
-      $ldap->cd($dn);
-      $ldap->cat($dn, array("dn"));
-      if ($ldap->count()) {
-        $ret[]  = $keep.$object;
-        $keep   = "";
-      } else {
-        $keep  .= $object.",";
-      }
-    } else {
-      $ret[]  = $keep.$object;
-      $keep   = "";
-    }
-  }
-
-  /* No dn was posted */
-  if ($cnt == 0 && !empty($dn)) {
-    $ret[] = $dn;
-  }
-
-  /* Append the rest */
-  $test = $keep.$dn;
-  if ($called && !empty($test)) {
-    $ret[] = $keep.$dn;
-  }
-  $ret['count'] = count($ret) - 1;
-
-  return $ret;
 }
 
 /*!
@@ -2633,7 +2560,8 @@ function check_schema($cfg)
  */
 function get_languages($languages_in_own_language = FALSE, $strip_region_tag = FALSE)
 {
-  $tmp_english = array( // locales in english
+  /* locales in english */
+  $tmp_english = array(
     "ar"    => "Arabic",
     "ca_ES" => "Catalan",
     "cs_CZ" => "Czech",
@@ -2660,7 +2588,8 @@ function get_languages($languages_in_own_language = FALSE, $strip_region_tag = F
 
   $ret = array();
   if ($languages_in_own_language) {
-    $tmp_ownlang = array( // locales in their own language
+    /* locales in their own language */
+    $tmp_ownlang = array(
       "ar"    => "عربية",
       "ca_ES" => "Català",
       "cs_CZ" => "Česky",
@@ -3091,8 +3020,9 @@ function get_next_id($attrib, $dn)
   switch ($config->get_cfg_value("idAllocationMethod", "traditional")) {
     case "pool":
       return get_next_id_pool($attrib);
+    default:
     case "traditional":
-      return get_next_id_traditional($attrib, $dn);
+      return get_next_id_traditional($attrib);
   }
 
   msg_dialog::display(_("Error"), _("Cannot allocate a free ID:")." "._("unknown idAllocation method!"), ERROR_DIALOG);
@@ -3203,7 +3133,7 @@ function get_next_id_pool($attrib)
  *
  * \return Return the next id
  */
-function get_next_id_traditional($attrib, $dn)
+function get_next_id_traditional($attrib)
 {
   global $config;
 
@@ -3356,7 +3286,7 @@ if (!function_exists('ldap_escape')) {
     if (!isset($charMaps[0])) {
       $charMaps[0] = array();
       for ($i = 0; $i < 256; $i++) {
-        $charMaps[0][chr($i)] = sprintf('\\%02x', $i);;
+        $charMaps[0][chr($i)] = sprintf('\\%02x', $i);
       }
 
       for ($i = 0, $l = count($charMaps[LDAP_ESCAPE_FILTER]); $i < $l; $i++) {
