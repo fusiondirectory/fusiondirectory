@@ -189,7 +189,7 @@ class baseSelector {
     }
 
     $link = "onclick=\"\$('bs_rebase_".$this->pid."').value='".base64_encode($config->current['BASE'])."';  $('submit_tree_base_".$this->pid."').click();\"";
-    $this->tree = '<input class="base_selector" type="text" name="'.$this->getInputHtmlId().'"'.
+    $this->tree = '<input class="base-selector" type="text" name="'.$this->getInputHtmlId().'"'.
                   ' id="'.$this->getInputHtmlId().'"'.
                   ' onkeydown="$(\'bs_'.$this->pid.'\').hide()"'.
                   ' onfocus="$(\'bs_'.$this->pid.'\').hide()"'.

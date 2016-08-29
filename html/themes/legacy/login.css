@@ -10,7 +10,7 @@ html, body {
 min-height: 100%;
 }
 
-div#window_container {
+div#window-container {
 text-align: center;
 box-shadow: 0 0 2px black;
 width: 100%;
@@ -19,7 +19,7 @@ top: 52px;
 position: absolute;
 }
 
-div#window_div {
+div#window-div {
 min-width: 50%;
 margin-top: 100px;
 border: 1px solid #AAAAAA;
@@ -29,7 +29,7 @@ border-radius: 10px;
 box-shadow: 0 0 3px black inset;
 }
 
-div#window_titlebar {
+div#window-titlebar {
 text-align: center;
 border-bottom: 1px solid #AAAAAA;
 padding: 8px;
@@ -37,35 +37,35 @@ background-color: #DBE6C6;
 border-radius: 10px 10px 0 0;
 }
 
-div#window_titlebar > p {
+div#window-titlebar > p {
 margin: 0;
 padding: 0;
 font-size: 24px;
 font-weight: bold;
 }
 
-div#window_content > div {
+div#window-content > div {
 padding: 10px;
 }
 
-div#window_footer {
+div#window-footer {
 padding: 0;
 }
 
-div#window_footer > div {
+div#window-footer > div {
 display: inline-block;
 width: 47%;
 padding: 1%;
 }
 
-div#window_footer > div:nth-child(1) {
+div#window-footer > div:nth-child(1) {
 color: red;
 font-weight: bold;
 }
-html.ltr div#window_footer > div:nth-child(1) {
+html.ltr div#window-footer > div:nth-child(1) {
 text-align: left;
 }
-html.rtl div#window_footer > div:nth-child(1) {
+html.rtl div#window-footer > div:nth-child(1) {
 text-align: right;
 }
 
@@ -75,17 +75,17 @@ color: red;
 
 /* On small screens */
 @media (max-width: 640px) {
-  div#window_div {
+  div#window-div {
   min-width: 70%;
   margin-top: 10px;
   }
-  div#window_footer > div {
+  div#window-footer > div {
   display: block;
   width: auto;
   padding: 5px;
   text-align: center !important;
   }
-  div#window_footer.plugbottom > div:nth-child(2) > input[type=submit] {
+  div#window-footer.plugbottom > div:nth-child(2) > input[type=submit] {
   width: 100% !important;
   }
   p.gosaLoginWarning {

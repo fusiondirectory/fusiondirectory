@@ -6,19 +6,19 @@
   </div>
   {$msg_dialogs}
 
-<div id="window_container">
+<div id="window-container">
 
-<div id="window_div">
+<div id="window-div">
 
   <form action='recovery.php{$params}' method='post' name='mainform' onSubmit='js_check(this);return true;'>
 
-  <div id="window_titlebar">
+  <div id="window-titlebar">
     <p>
       <img class="center" src="geticon.php?context=status&amp;icon=dialog-password&amp;size=48" alt="{t}Password{/t}" title="{t}Password{/t}"/>
       {t}Lost password{/t}
     </p>
   </div>
-  <div id="window_content">
+  <div id="window-content">
     <div>
 {if $activated}
       <!-- Display SSL warning message on demand -->
@@ -75,7 +75,7 @@
     </table>
   </div>
   </div>
-  <div id="window_footer" class="plugbottom">
+  <div id="window-footer" class="plugbottom">
     <div>
     </div>
     <div>
@@ -116,7 +116,7 @@
     </table>
   </div>
   </div>
-  <div id="window_footer" class="plugbottom">
+  <div id="window-footer" class="plugbottom">
     <div>
     </div>
     <div>

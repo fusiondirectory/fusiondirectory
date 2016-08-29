@@ -1,13 +1,13 @@
 /*********
  * Setup
  *********/
-html.ltr body.setup div#header_left .plugtop {
+html.ltr body.setup div#header-left .plugtop {
 margin-left: 80px;
 }
-html.rtl body.setup div#header_left .plugtop {
+html.rtl body.setup div#header-left .plugtop {
 margin-right: 80px;
 }
-body.setup .plugin_window {
+body.setup .plugin-window {
 border-radius: 5px;
 }
 
@@ -165,10 +165,10 @@ padding-right: 25px;
   body.setup a.plugtop img {
   height: 32px;
   }
-  html.ltr body.setup div#header_left .plugtop {
+  html.ltr body.setup div#header-left .plugtop {
   margin-left: 0px;
   }
-  html.rtl body.setup div#header_left .plugtop {
+  html.rtl body.setup div#header-left .plugtop {
   margin-right: 0px;
   }
 }

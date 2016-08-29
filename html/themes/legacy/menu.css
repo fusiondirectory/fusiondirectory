@@ -78,18 +78,18 @@ text-decoration: none;
 }
 
 /* Main menu */
-.iconmenu_section
+.iconmenu-section
 {
 border-top: 1px solid #AAAAAA;
 clear: both;
 }
 
-.iconmenu_section + br
+.iconmenu-section + br
 {
 clear: both;
 }
 
-.iconmenu_section:first-child
+.iconmenu-section:first-child
 {
 border-top: none;
 }
