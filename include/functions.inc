@@ -39,24 +39,6 @@ define('GL_SIZELIMIT',    2);
 define('GL_CONVERT',      4);
 define('GL_NO_ACL_CHECK', 8);
 
-/* Heimdal stuff */
-define('UNIVERSAL', 0x00);
-define('INTEGER', 0x02);
-define('OCTET_STRING', 0x04);
-define('OBJECT_IDENTIFIER', 0x06);
-define('SEQUENCE', 0x10);
-define('SEQUENCE_OF', 0x10);
-define('SET', 0x11);
-define('SET_OF', 0x11);
-define('DEBUG', FALSE);
-define('HDB_KU_MKEY', 0x484442);
-define('TWO_BIT_SHIFTS', 0x7efc);
-define('DES_CBC_CRC', 1);
-define('DES_CBC_MD4', 2);
-define('DES_CBC_MD5', 3);
-define('DES3_CBC_MD5', 5);
-define('DES3_CBC_SHA1', 16);
-
 /* Define constants for debugging */
 define ('DEBUG_TRACE',    1); /*! Debug level for tracing of common actions (save, check, etc.) */
 define ('DEBUG_LDAP',     2); /*! Debug level for LDAP queries */
@@ -70,8 +52,7 @@ define ('DEBUG_SI',       256); /*! Debug level for communication with Argonaut 
 define ('DEBUG_MAIL',     512); /*! Debug level for all about mail (mailAccounts, imap, sieve etc.) */
 define ('DEBUG_FAI',      1024); // FAI (incomplete)
 
-
-// Define shadow states
+/* Define shadow states */
 define ('POSIX_ACCOUNT_EXPIRED', 1);
 define ('POSIX_WARN_ABOUT_EXPIRATION', 2);
 define ('POSIX_FORCE_PASSWORD_CHANGE', 4);
