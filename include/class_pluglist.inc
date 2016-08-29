@@ -370,7 +370,7 @@ class pluglist {
       foreach ($config->data['SECTIONS'] as $section => $section_infos) {
         $entries  = '';
         $menu     = '';
-        $menu     = '<div class="iconmenu_section"><h1 class="menuheader">';
+        $menu     = '<div class="iconmenu-section"><h1 class="menuheader">';
         $menu     .= $section_infos['NAME']."</h1>\n";
 
         foreach ($config->data['MENU'][$section] as $info) {

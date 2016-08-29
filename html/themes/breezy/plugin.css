@@ -1,4 +1,4 @@
-.plugin_window
+.plugin-window
 {
 vertical-align: top;
 text-align: justify;
@@ -60,7 +60,7 @@ text-align: left;
 
 /* Simple Plugin specific things */
 
-.plugin_sections:after {
+.plugin-sections:after {
 content: "";
 display: block;
 clear: both;
@@ -207,7 +207,7 @@ background-color: #DFEFFF;
 
 /* On small screens */
 @media (max-width: 640px) {
-  .plugin_window {
+  .plugin-window {
   margin: 0;
   border: none;
   width: 100%;

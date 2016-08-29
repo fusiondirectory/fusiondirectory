@@ -5,18 +5,18 @@
 
 {* FusionDirectory login - smarty template *}
 
-<div id="window_container">
+<div id="window-container">
 
-<div id="window_div">
+<div id="window-div">
 <form action="index.php" method="post" id="loginform" name="loginform" onSubmit="js_check(this);return true;">
 
 {$msg_dialogs}
-  <div id="window_titlebar">
+  <div id="window-titlebar">
     <p>
       {t}Login screen{/t}
     </p>
   </div>
-  <div id="window_content">
+  <div id="window-content">
 
     <div class="optional">
       {t}Please use your username and your password to log into the site administration system.{/t}<br />
@@ -58,7 +58,7 @@
        </script>
       </p>
   </div>
-  <div id="window_footer" class="plugbottom">
+  <div id="window-footer" class="plugbottom">
     <div>
       <!-- Display error message on demand -->
       {$message}

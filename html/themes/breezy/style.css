@@ -547,10 +547,10 @@ color: #31363b;
 
 /* Header */
 
-html.ltr div#header_left {
+html.ltr div#header-left {
 float: left;
 }
-html.rtl div#header_left {
+html.rtl div#header-left {
 float: right;
 }
 
@@ -575,45 +575,45 @@ margin-right: 4px;
 html.rtl .plugtop img {
 margin-left: 4px;
 }
-html.ltr div#header_left .plugtop {
+html.ltr div#header-left .plugtop {
 margin-left: 35px;
 }
-html.rtl div#header_left .plugtop {
+html.rtl div#header-left .plugtop {
 margin-right: 35px;
 }
 
-div#header_left img {
+div#header-left img {
 vertical-align: middle;
 }
 
-html.ltr div#header_left img#fd_logo {
+html.ltr div#header-left img#fd_logo {
 padding-left: 2px;
 padding-right: 25px;
 }
-html.rtl div#header_left img#fd_logo {
+html.rtl div#header-left img#fd_logo {
 padding-left: 25px;
 padding-right: 2px;
 }
 
-html.ltr div#header_left .logout {
+html.ltr div#header-left .logout {
 margin-left: 35px;
 }
-html.rtl div#header_left .logout {
+html.rtl div#header-left .logout {
 margin-right: 35px;
 }
 
-div#header_right {
+div#header-right {
 padding-top: 8px;
 height: 38px;
 color: #31363b;
 }
-html.ltr div#header_right {
+html.ltr div#header-right {
 text-align: right;
 }
-html.rtl div#header_right {
+html.rtl div#header-right {
 text-align: left;
 }
-div#header_right div.version {
+div#header-right div.version {
 font-size: 20px;
 }
 
@@ -650,31 +650,31 @@ color: #31363b;
   width: 22px;
   height: 22px;
   }
-  html.ltr div#header_left .logout {
+  html.ltr div#header-left .logout {
   margin-left: 0;
   float: right;
   }
-  html.rtl div#header_left .logout {
+  html.rtl div#header-left .logout {
   margin-right: 0;
   float: left;
   }
-  html.ltr div#header_left, html.rtl div#header_left {
+  html.ltr div#header-left, html.rtl div#header-left {
   height: 40px;
   width: 100%;
   }
-  html.ltr div#header_right, html.rtl div#header_right {
+  html.ltr div#header-right, html.rtl div#header-right {
   padding-top: 8px;
   height: 30px;
   margin-top: -40px;
   width: 100%;
   }
-  div#header_right a {
+  div#header-right a {
   background: #eff0f1;
   }
   .optional {
   display: none !important;
   }
-  div#header_left .plugtop {
+  div#header-left .plugtop {
   display: inline-block;
   hyphens: none;
   overflow: hidden;
@@ -683,11 +683,11 @@ color: #31363b;
   padding-bottom: 2px;
   font-size: 1em;
   }
-  html.ltr div#header_left .plugtop {
+  html.ltr div#header-left .plugtop {
   margin: 0;
   padding-left: 6px;
   }
-  html.rtl div#header_left .plugtop {
+  html.rtl div#header-left .plugtop {
   margin: 0;
   padding-right: 6px;
   }
