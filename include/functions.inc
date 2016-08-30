@@ -2919,7 +2919,7 @@ function get_random_char ()
   if ($randno < 12) {
     // Digits, '/' and '.'
     return chr($randno + 46);
-  } else if ($randno < 38) {
+  } elseif ($randno < 38) {
     // Uppercase
     return chr($randno + 53);
   } else {

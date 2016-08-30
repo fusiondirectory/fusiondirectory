@@ -52,7 +52,7 @@
     <set>(objectClass=organizationalRole)</set>
   </element>
 
- <element>
+  <element>
     <type>checkbox</type>
     <tag>USER</tag>
     <default>true</default>
