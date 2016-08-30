@@ -54,16 +54,6 @@ class passwordMethodCrypt extends passwordMethod
   }
 
   /*!
-   * \brief Create template hash
-   *
-   * \param string $attrs
-   */
-  function create_template_hash($attrs)
-  {
-    return $this->generate_hash('N0T$3T4N0W').'N0T$3T4N0W';
-  }
-
-  /*!
    * \brief Generate template hash
    *
    * \param string $pwd Password
