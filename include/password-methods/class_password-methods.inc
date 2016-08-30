@@ -45,20 +45,6 @@ class passwordMethod
   }
 
   /*!
-   * \brief Create a template hash
-   *
-   * \param $attrs Attr
-   */
-  function create_template_hash($attrs)
-  {
-    if ($this->get_hash_name() == "") {
-      return "{crypt}N0T$3T4N0W";
-    } else {
-      return '{'.$this->get_hash().'}'.'N0T$3T4N0W';
-    }
-  }
-
-  /*!
    * \brief Get the Hash name
    */
   static function get_hash_name()
@@ -268,15 +254,6 @@ class passwordMethod
   }
 
   /*!
-   * \brief Method to let passwords backends manage additional information
-   *  besides the userAttribute entry
-   */
-  function set_password($password)
-  {
-    return TRUE;
-  }
-
-  /*!
    * \brief Method to check if a password matches a hash
    */
   function checkPassword($pwd, $hash)
@@ -384,16 +361,6 @@ class passwordMethod
   function get_hash()
   {
     return $this->hash;
-  }
-
-  /*!
-   * Get the current object
-   *
-   * \param string $dn The DN
-   */
-  function adapt_from_template($attrs)
-  {
-    return $this;
   }
 
   /*!
