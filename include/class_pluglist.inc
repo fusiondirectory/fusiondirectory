@@ -58,7 +58,7 @@ class pluglist {
    */
   function __construct()
   {
-    global $class_mapping, $config;
+    global $class_mapping;
 
     /* Fill info part of pluglist */
     $classes = get_declared_classes();

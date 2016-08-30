@@ -128,10 +128,13 @@ class recoveryConfig extends simplePlugin
       $ldap->cd($config->current['BASE']);
       $ldap->create_missing_trees($tokenBranch);
       if (!$ldap->success()) {
-        $display = msgPool::ldaperror($ldap->get_error(),
-                                  $tokenBranch, LDAP_MOD, get_class());
+        msg_dialog::display(
+          _('LDAP error'),
+          msgPool::ldaperror($ldap->get_error(), $tokenBranch, LDAP_MOD, get_class()),
+          LDAP_ERROR
+        );
       }
-      fusiondirectory_log("Created token branch ".$tokenBranch);
+      fusiondirectory_log('Created token branch '.$tokenBranch);
     }
 
     parent::__construct($dn, $object, $parent, $mainTab);

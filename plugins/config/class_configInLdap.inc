@@ -477,7 +477,6 @@ class configInLdap extends simplePlugin
 
   function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE, $attributesInfo = NULL)
   {
-    global $config;
     $attributesInfo = static::getAttributesInfo();
     /* Languages */
     $languages = get_languages(TRUE);

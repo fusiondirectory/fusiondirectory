@@ -142,8 +142,6 @@ class objects
    */
   static function open ($dn, $type)
   {
-    global $config;
-
     $infos    = static::infos($type);
     $tabClass = $infos['tabClass'];
 

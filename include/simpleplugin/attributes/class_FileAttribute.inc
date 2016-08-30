@@ -191,6 +191,7 @@ class FileTextAreaAttribute extends FileDownloadAttribute
 
   public function htmlIds()
   {
+    $id     = $this->getHtmlId();
     $ids    = parent::htmlIds();
     $ids[]  = $id.'_text';
     return $ids;

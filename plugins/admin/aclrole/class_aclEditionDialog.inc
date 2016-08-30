@@ -269,8 +269,6 @@ class ACLEditionDialog extends GenericDialog
    */
   function buildAclSelector($list)
   {
-    global $config;
-
     $display  = '<input type="hidden" name="acl_dummy_0_0_0" value="1"/>';
     $cols     = 3;
     $tmp      = session::global_get('plist');

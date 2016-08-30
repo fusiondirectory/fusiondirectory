@@ -162,7 +162,6 @@ class CompositeAttribute extends Attribute
     if (!is_array($values)) {
       $values = $this->inputValue($values);
     }
-    $i = 0;
     reset($values);
     foreach ($this->attributes as &$attribute) {
       $attribute->setValue(current($values));

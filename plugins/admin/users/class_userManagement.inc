@@ -137,7 +137,7 @@ class userManagement extends simpleManagement
     global $config, $ui;
     // Filter out entries we are not allowed to modify
     $disallowed = array();
-    $dns        = array();
+    $allowed    = array();
     foreach ($entry as $dn) {
       if (!preg_match('/w/', $ui->get_permissions($dn, 'user/password'))) {
         $disallowed[] = $dn;
@@ -188,8 +188,6 @@ class userManagement extends simpleManagement
                 sprintf(_('Password method "%s" does not support locking. Account "%s" has not been locked!'),
                   $hn, $dn), WARNING_DIALOG);
           }
-        } else {
-          // Can't lock unknown methods.
         }
       }
     }

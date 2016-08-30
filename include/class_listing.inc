@@ -1614,7 +1614,6 @@ class listing {
 
   function renderCopyPasteActions($row, $dn, $category, $class, $copy = TRUE, $cut = TRUE)
   {
-    global $config;
     // We can only provide information if we've got a copypaste handler
     // instance
     if (!(isset($this->copyPasteHandler) && is_object($this->copyPasteHandler))) {
