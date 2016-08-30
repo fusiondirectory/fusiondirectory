@@ -86,7 +86,9 @@ class plugin
 
   var $acl_base     = "";
   var $acl_category = "";
-  var $read_only    = FALSE; // Used when the entry is opened as "readonly" due to locks.
+
+  /* Used when the entry is opened as "readonly" due to locks. */
+  var $read_only    = FALSE;
 
   /* This can be set to render the tabulators in another stylesheet */
   var $pl_notify = FALSE;
@@ -217,7 +219,7 @@ class plugin
     }
   }
 
-  protected function templateLoadAttrs($template_attrs)
+  protected function templateLoadAttrs(array $template_attrs)
   {
     $this->is_template = TRUE;
     if ($this->mainTab) {
@@ -245,7 +247,8 @@ class plugin
       unset($template_attrs['fdTemplateField']['count']);
       unset($template_attrs['objectClass']['count']);
       unset($template_attrs['cn']['count']);
-      for ($i = 0; $i < $template_attrs['count']; ++$i) { // Remove numeric keys
+      for ($i = 0; $i < $template_attrs['count']; ++$i) {
+        /* Remove numeric keys */
         unset($template_attrs[$i]);
       }
       unset($template_attrs['count']);
@@ -361,7 +364,7 @@ class plugin
     return array($attrs, $depends);
   }
 
-  static function tpl_template_to_attrs($template_attrs)
+  static function tpl_template_to_attrs(array $template_attrs)
   {
     /* Translate template attrs into $attrs as if taken from LDAP */
     unset($template_attrs['fdTemplateField']['count']);
@@ -382,7 +385,7 @@ class plugin
 
   /* Apply a modifier
    * Returns an array of possible values */
-  static function tpl_apply_modifier($m, $args, $str)
+  static function tpl_apply_modifier($m, array $args, $str)
   {
     mb_internal_encoding('UTF-8');
     mb_regex_encoding('UTF-8');
@@ -391,36 +394,46 @@ class plugin
       $str = $str[0];
     }
     switch ($m) {
-      case 'F': // First
+      case 'F':
+        // First
         return array($str[0]);
-      case 'L': // Last
+      case 'L':
+        // Last
         return array(end($str));
-      case 'J': // Join
+      case 'J':
+        // Join
         if (isset($args[0])) {
           return array(join($args[0], $str));
         } else {
           return array(join($str));
         }
-      case 'C': // Count
+      case 'C':
+        // Count
         return array(count($str));
-      case 'c': // comment
+      case 'c':
+        // comment
         return array('');
-      case 'b': // base64
+      case 'b':
+        // base64
         if (isset($args[0]) && ($args[0] == 'd')) {
           return array(base64_decode($str));
         }
         return array(base64_encode($str));
-      case 'u': // uppercase
+      case 'u':
+        // uppercase
         return array(mb_strtoupper($str, 'UTF-8'));
-      case 'l': // lowercase
+      case 'l':
+        // lowercase
         return array(mb_strtolower($str, 'UTF-8'));
-      case 'a': // remove accent
+      case 'a':
+        // remove accent
         $str = htmlentities($str, ENT_NOQUOTES, 'UTF-8');
 
         $str = preg_replace('#&([A-za-z])(?:acute|cedil|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $str);
         $str = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $str); // handle ligatures
         return array(preg_replace('#&[^;]+;#', '', $str)); // delete unhandled characters
-      case 't': // translit
+      case 't':
+        // translit
         $localesaved = setlocale(LC_CTYPE, 0);
         $ret = array();
         foreach ($args as $arg) {
@@ -429,9 +442,11 @@ class plugin
         }
         setlocale(LC_CTYPE, $localesaved);
         return array_unique($ret);
-      case 'p': // spaces
+      case 'p':
+        // spaces
         return array(preg_replace('/\s/u', '', $str));
-      case 's': // substring
+      case 's':
+        // substring
         if (count($args) < 1) {
           trigger_error("Missing 's' substr modifier parameter");
         }
@@ -447,7 +462,8 @@ class plugin
         } else {
           return array(substr($str, $args[0], $args[1]));
         }
-      case 'r': // random string
+      case 'r':
+        // random string
         $length = 8;
         $chars  = 'b';
         if (count($args) >= 2) {
@@ -496,7 +512,7 @@ class plugin
     }
   }
 
-  static function tpl_parse_mask($mask, $attrs)
+  static function tpl_parse_mask($mask, array $attrs)
   {
     if ($mask == '|') {
       return array('%');
@@ -530,7 +546,8 @@ class plugin
       }
       $result = $result_tmp;
     }
-    foreach ($result as &$r) { // Array that were not converted by a modifier into a string are now converted to strings
+    foreach ($result as &$r) {
+      /* Array that were not converted by a modifier into a string are now converted to strings */
       if (is_array($r)) {
         $r = reset($r);
       }
@@ -539,7 +556,7 @@ class plugin
     return $result;
   }
 
-  static function tpl_depends_of (&$cache, $depends, $key, $forbidden = array())
+  static function tpl_depends_of (&$cache, $depends, $key, array $forbidden = array())
   {
     if (isset($cache[$key])) {
       return $cache[$key];
@@ -577,7 +594,7 @@ class plugin
     return $cache[$key];
   }
 
-  static function tpl_attrs_depends($attrs)
+  static function tpl_attrs_depends(array $attrs)
   {
     /* Compute dependencies of each attr */
     $depends = array();
@@ -592,7 +609,8 @@ class plugin
         while (preg_match('/%([^%\|]+\|)?([^%]+)%/', $value, $m, PREG_OFFSET_CAPTURE, $offset)) {
           $offset = $m[0][1] + strlen($m[0][0]);
           $depends[$key][] = $m[2][0];
-          if (!isset($attrs[$m[2][0]])) { // Dependency which has no value might be missing
+          if (!isset($attrs[$m[2][0]])) {
+            /* Dependency which has no value might be missing */
             $attrs[$m[2][0]]    = array();
             $depends[$m[2][0]]  = array();
           }
@@ -607,7 +625,7 @@ class plugin
     return $flatdepends;
   }
 
-  static function tpl_sort_attrs($attrs, $flatdepends)
+  static function tpl_sort_attrs(array $attrs, array $flatdepends)
   {
     /* Sort attrs depending of dependencies */
     uksort($attrs, function ($k1, $k2) use ($flatdepends) {
@@ -615,7 +633,8 @@ class plugin
         return -1;
       } elseif (in_array($k2, $flatdepends[$k1])) {
         return 1;
-      } else { // When no direct dependency, we sort by number of dependencies
+      } else {
+        /* When no direct dependency, we sort by number of dependencies */
         $c1 = count($flatdepends[$k1]);
         $c2 = count($flatdepends[$k2]);
         if ($c1 == $c2) {
@@ -631,7 +650,7 @@ class plugin
    *
    * return an array of attributes which are needed by the template
    */
-  static function tpl_needed_attrs(&$attrs, $flatdepends)
+  static function tpl_needed_attrs(array &$attrs, array $flatdepends)
   {
     $needed = array();
     foreach ($flatdepends as $attr => $depends) {
@@ -654,7 +673,7 @@ class plugin
    *
    * return an array with the final values of attributes
    */
-  static function tpl_parse_attrs($attrs)
+  static function tpl_parse_attrs(array $attrs)
   {
     foreach ($attrs as &$attr) {
       if (is_array($attr)) {
@@ -675,7 +694,7 @@ class plugin
    *
    * return the string with patterns replaced by their values
    */
-  static function tpl_parse_string($string, $attrs, $escapeMethod = NULL)
+  static function tpl_parse_string($string, array $attrs, $escapeMethod = NULL)
   {
     $offset = 0;
     while (preg_match('/%([^%]+)%/', $string, $m, PREG_OFFSET_CAPTURE, $offset)) {
@@ -876,7 +895,7 @@ class plugin
    *
    * \param  array  $addAttrs
    */
-  protected function handle_hooks($when, $mode, $addAttrs = array())
+  protected function handle_hooks($when, $mode, array $addAttrs = array())
   {
     switch ($mode) {
       case 'add':
@@ -900,7 +919,7 @@ class plugin
   /*! \brief Forward command execution requests
    *         to the post hook execution method.
    */
-  function handle_post_events($mode, $addAttrs = array())
+  function handle_post_events($mode, array $addAttrs = array())
   {
     /* Update foreign keys */
     if ($mode == 'remove') {
@@ -915,7 +934,7 @@ class plugin
    *  \brief Forward command execution requests
    *         to the pre hook execution method.
    */
-  function handle_pre_events($mode, $addAttrs = array())
+  function handle_pre_events($mode, array $addAttrs = array())
   {
     return $this->handle_hooks('PRE', $mode, $addAttrs);
   }
@@ -925,7 +944,7 @@ class plugin
    *           Replaces placeholder by class values of this plugin instance.
    *       Allows to a add special replacements.
    */
-  function callHook($cmd, $addAttrs = array(), &$returnOutput = array(), &$returnCode = NULL)
+  function callHook($cmd, array $addAttrs = array(), &$returnOutput = array(), &$returnCode = NULL)
   {
     if ($this->is_template) {
       return array();

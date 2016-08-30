@@ -567,7 +567,7 @@ class user extends simplePlugin
     }
   }
 
-  function callHook($cmd, $addAttrs = array(), &$returnOutput = array(), &$returnCode = NULL)
+  function callHook($cmd, array $addAttrs = array(), &$returnOutput = array(), &$returnCode = NULL)
   {
     $addAttrs['passwordMethod'] = $this->attributesAccess['userPassword']->getMethod();
     $addAttrs['userLocked']     = $this->attributesAccess['userPassword']->isLocked();

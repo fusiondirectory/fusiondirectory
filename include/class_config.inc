@@ -875,7 +875,7 @@ class config  {
     return FALSE;
   }
 
-  function loadPlist ($plist)
+  function loadPlist (pluglist $plist)
   {
     $this->data['OBJECTS']    = array();
     $this->data['SECTIONS']   = array();
@@ -1004,9 +1004,11 @@ class config  {
       }
       if (isset($plInfo['plObjectType'])) {
         foreach ($plInfo['plObjectType'] as $key => $value) {
-          if (is_numeric($key)) { // This is not the main tab
+          if (is_numeric($key)) {
+            /* This is not the main tab */
             $obj = strtoupper($value);
           } else {
+            /* This is the main tab */
             $obj = strtoupper($key);
           }
           /* if this is an existing objectType, not just a tab group */

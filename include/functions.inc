@@ -391,7 +391,7 @@ function get_template_path($filename = '', $plugin = FALSE, $path = '')
  *
  * \param array $haystack original array to remove the entries from
  */
-function array_remove_entries($needles, $haystack)
+function array_remove_entries(array $needles, array $haystack)
 {
   return array_values(array_diff($haystack, $needles));
 }
@@ -407,7 +407,7 @@ function array_remove_entries($needles, $haystack)
  *
  * \param array $haystack original array to remove the entries from
  */
-function array_remove_entries_ics($needles, $haystack)
+function array_remove_entries_ics(array $needles, array $haystack)
 {
   // strcasecmp will work, because we only compare ASCII values here
   return array_values(array_udiff($haystack, $needles, 'strcasecmp'));
@@ -2094,7 +2094,7 @@ function humanReadableSize ($bytes, $precision = 2)
  *
  * \return Return TRUE is value is found, FALSE if not.
  */
-function in_array_ics($value, $items)
+function in_array_ics($value, array $items)
 {
   return preg_grep('/^'.preg_quote($value, '/').'$/i', $items);
 }
@@ -2337,7 +2337,7 @@ function compare_revision($revision_file, $revision)
  *
  * \return return key or empty result
  */
-function array_key_ics($ikey, $items)
+function array_key_ics($ikey, array $items)
 {
   $tmp  = array_change_key_case($items, CASE_LOWER);
   $ikey = strtolower($ikey);
@@ -2720,7 +2720,7 @@ function change_password ($dn, $password, $hash = "")
 }
 
 /* Lock or unlock samba account */
-function lock_samba_account($mode, $attrs)
+function lock_samba_account($mode, array $attrs)
 {
   global $config;
   if (!isset($attrs['sambaNTPassword'][0])) {
@@ -2751,7 +2751,7 @@ function lock_samba_account($mode, $attrs)
 }
 
 /* Lock or unlock ssh account */
-function lock_ssh_account($mode, $attrs, &$modify)
+function lock_ssh_account($mode, array $attrs, &$modify)
 {
   if (!isset($attrs['sshPublicKey'])) {
     return;
