@@ -225,7 +225,7 @@ class pluglist {
             return TRUE;
           }
         } else {
-          if ($ui->get_category_permissions($ui->dn, $acl_to_check, "") != "") {
+          if ($ui->get_category_permissions($ui->dn, $acl_to_check) != '') {
             $this->silly_cache[$aclname] = TRUE;
             return TRUE;
           }

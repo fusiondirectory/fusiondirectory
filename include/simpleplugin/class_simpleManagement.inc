@@ -854,7 +854,7 @@ class simpleManagement extends management
         }
         $infos  = objects::infos($type);
 
-        if ($action == "copy" && $ui->is_copyable($dn, $infos['aclCategory'], $infos['mainTab'])) {
+        if ($action == "copy" && $ui->is_copyable($dn, $infos['aclCategory'])) {
           $this->cpHandler->add_to_queue($dn, "copy", $type);
           @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "Entry copied!");
         }

@@ -1165,10 +1165,8 @@ class plugin
    * \param string $old_dn specifies the actually used dn
    *
    * \param string $new_dn specifies the destiantion dn
-   *
-   * \param boolean $output_changes FALSE
    */
-  function update_acls($old_dn, $new_dn, $output_changes = FALSE)
+  function update_acls($old_dn, $new_dn)
   {
     /* Check if old_dn is empty. This should never happen */
     if (empty($old_dn) || empty($new_dn)) {

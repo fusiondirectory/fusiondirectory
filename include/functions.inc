@@ -576,7 +576,7 @@ function ldap_login_user ($username, $password)
   }
 
   /* got user dn, fill acl's */
-  $ui = new userinfo($config, $ldap->getDN());
+  $ui = new userinfo($ldap->getDN());
 
   /* password check, bind as user with supplied password  */
   $ldap->disconnect();

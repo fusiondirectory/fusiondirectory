@@ -486,7 +486,7 @@ class Index {
       );
       exit();
     }
-    $ui = new userinfo($config, $attrs['dn']);
+    $ui = new userinfo($attrs['dn']);
     $ui->loadACL();
 
     $success = static::runSteps(array(
@@ -558,7 +558,7 @@ class Index {
       );
       exit();
     }
-    $ui = new userinfo($config, $attrs['dn']);
+    $ui = new userinfo($attrs['dn']);
     $ui->loadACL();
 
     $success = static::runSteps(array(

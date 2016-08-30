@@ -18,31 +18,14 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-
 /*! \brief This class allow to handle easily a String LDAP attribute that contains a mail address
  *
  */
 class MailAttribute extends StringAttribute
 {
-  private $template;
-  /*! \brief The constructor of MailAttribute
-   *
-   *  \param string $label The label to show for this attribute
-   *  \param string $description A more detailed description for the attribute
-   *  \param string $ldapName The name of the attribute in the LDAP (If it's not in the ldap, still provide a unique name)
-   *  \param boolean $required Is this attribute mandatory or not
-   *  \param mixed $defaultValue The default value for this attribute
-   *  \param string $acl The name of the acl for this attribute if he does not use its own. (Leave empty if he should use its own like most attributes do)
-   *  \param boolean $template Should this email field accept template character '%' ?
-   */
-  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = "", $acl = "", $template = FALSE)
-  {
-    parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
-    $this->template = $template;
-  }
   function validate ()
   {
-    if (!tests::is_email($this->value, $this->template)) {
+    if (!tests::is_email($this->value)) {
       return msgPool::invalid($this->getLabel(), $this->value);
     }
   }

@@ -522,17 +522,17 @@ class msgPool {
    *
    * \param string $what Text for the button
    */
-  public static function editButton($what = "")
+  public static function editButton($what = '')
   {
-    return ($what == "" ? sprintf(_("Edit...")): sprintf(_("Edit %s..."), $what));
+    return (($what == '') ? sprintf(_('Edit...')) : sprintf(_('Edit %s...'), $what));
   }
 
   /*!
    * \brief Text for a back button
    */
-  public static function backButton($what = "")
+  public static function backButton()
   {
-    return _("Back");
+    return _('Back');
   }
 
   /*!
@@ -669,20 +669,6 @@ class msgPool {
   }
 
   /*!
-   * \brief Display error about database
-   *
-   * \param string $error Error to display
-   *
-   * \param string $plugin
-   */
-  public static function dbError($error, $plugin = "")
-  {
-    /* Assign headline depending on type */
-    $headline = _("Database operation failed!");
-    return $headline."<br><br><i>"._("Error").":</i> ".$error;
-  }
-
-  /*!
    * \brief Display LDAP error
    *
    * \param string $error Error to display
@@ -693,24 +679,24 @@ class msgPool {
    *
    * \param string $plugin
    */
-  public static function ldaperror($error, $dn = "", $type = 0, $plugin = "")
+  public static function ldaperror($error, $dn = '', $type = 0, $plugin = '')
   {
     /* Assign headline depending on type */
-    $typemap = array(1 => _("read operation"), _("add operation"), _("modify operation"),
-        _("delete operation"), _("search operation"), _("authentication"));
+    $typemap = array(1 => _('read operation'), _('add operation'), _('modify operation'),
+        _('delete operation'), _('search operation'), _('authentication'));
 
     if (isset($typemap[$type])) {
-      $headline = sprintf(_("LDAP %s failed!"), $typemap[$type]);
+      $headline = sprintf(_('LDAP %s failed!'), $typemap[$type]);
     } else {
-      $headline = _("LDAP operation failed!");
+      $headline = _('LDAP operation failed!');
     }
 
     /* Fill DN information */
-    if ($dn != "") {
-      $dn_info = "<br><br><i>"._("Object").":</i> ".LDAP::fix($dn);
+    if ($dn != '') {
+      $dn_info = '<br/><br/><i>'._('Object').':</i> '.LDAP::fix($dn);
     }
 
-    return $headline.$dn_info."<br><br><i>"._("Error").":</i> ".$error;
+    return $headline.$dn_info.'<br/><br/><i>'._('Error').':</i> '.$error;
   }
 
   /*!

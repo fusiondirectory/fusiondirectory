@@ -265,10 +265,8 @@ class tests {
    * \brief Check if the given argument is an email
    *
    * \param string $address The email address
-   *
-   * \param boolean $template FALSE
    */
-  public static function is_email($address, $deprecated = FALSE)
+  public static function is_email($address)
   {
     if ($address == "") {
       return TRUE;

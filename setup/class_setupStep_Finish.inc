@@ -66,7 +66,7 @@ class Step_Finish extends setupStep
     /* Create ui object */
 
     /* got user dn, fill acl's */
-    $ui = new userinfo($config, $cv['valid_admin']);
+    $ui = new userinfo($cv['valid_admin']);
     /* Username is set, load subtreeACL's now */
     $ui->loadACL();
 

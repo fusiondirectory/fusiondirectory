@@ -52,7 +52,7 @@ class userinfo
 
   /* get acl's an put them into the userinfo object
      attr subtreeACL (userdn:components, userdn:component1#sub1#sub2,component2,...) */
-  function __construct($unused, $userdn)
+  function __construct($userdn)
   {
     global $config;
     $ldap = $config->get_ldap_link();
@@ -284,13 +284,11 @@ class userinfo
    *
    * \param string $category Category for which we want the acl eg: server
    *
-   * \param bool $any_acl FALSE
-   *
    * \return all the permissions for the dn and category
    */
-  function get_category_permissions($dn, $category, $any_acl = FALSE)
+  function get_category_permissions($dn, $category)
   {
-    return @$this->get_permissions($dn, $category.'/0', "");
+    return @$this->get_permissions($dn, $category.'/0', '');
   }
 
 
@@ -301,13 +299,11 @@ class userinfo
    *
    * \param string $object The acl  category (e.g. user)
    *
-   * \param string $class  The acl  class (e.g. user)
-   *
    * \return boolean TRUE if the given object is copyable else FALSE
   */
-  function is_copyable($dn, $object, $class)
+  function is_copyable($dn, $object)
   {
-    return preg_match("/r/", $this->get_complete_category_acls($dn, $object));
+    return preg_match('/r/', $this->get_complete_category_acls($dn, $object));
   }
 
 
@@ -666,12 +662,14 @@ class userinfo
 
       /* For all gosaDepartments */
       foreach ($config->departments as $dn) {
-        if (isset($deps[$dn])) continue;
-        $acl = "";
+        if (isset($deps[$dn])) {
+          continue;
+        }
+        $acl = '';
         if (strpos($mod, '/')) {
           $acl .= $this->get_permissions($dn, $mod);
         } else {
-          $acl .= $this->get_category_permissions($dn, $mod, TRUE);
+          $acl .= $this->get_category_permissions($dn, $mod);
         }
         if (!empty($acl)) {
           $deps[$dn] = $dn;
@@ -792,8 +790,10 @@ class userinfo
       if (!isset($this->result_cache['get_complete_category_acls'][$dn][$category]))   {
         if (isset($config->data['CATEGORIES'][$category])) {
           foreach ($config->data['CATEGORIES'][$category]['classes'] as $oc) {
-            /* Skip objectClass '0' (e.g. user/0) get_permissions will ever return '' ??  */
-            if ($oc == "0") continue;
+            if ($oc == '0') {
+              /* Skip objectClass '0' (e.g. user/0) get_permissions will ever return '' ??  */
+              continue;
+            }
             $tmp = $this->get_permissions($dn, $category."/".$oc);
             for ($i = 0, $l = strlen($types); $i < $l; $i++) {
               if (!preg_match("/".$types[$i]."/", $tmp)) {

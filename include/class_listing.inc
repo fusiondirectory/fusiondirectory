@@ -1050,7 +1050,7 @@ class listing {
           $cut  = !isset($action['cut']) || $action['cut'] == "true";
           $result .= $this->renderCopyPasteActions($row, $this->entries[$row]['dn'], $category, $class, $copy, $cut);
         } else {
-          $result .= $this->renderSnapshotActions($row, $this->entries[$row]['dn'], $category, $class);
+          $result .= $this->renderSnapshotActions($row, $this->entries[$row]['dn'], $category);
         }
       }
     }
@@ -1639,7 +1639,7 @@ class listing {
 
     // Render copy entries
     if ($copy) {
-      if ($ui->is_copyable($dn, $category, $class)) {
+      if ($ui->is_copyable($dn, $category)) {
         $result .= '<input class="center" type="image"'.
                     ' src="geticon.php?context=actions&amp;icon=edit-copy&amp;size=16"'.
                     ' alt="'._('Copy').'" name="listing_copy_'.$row.'" title="'._('Copy this entry').'"'.
@@ -1705,42 +1705,41 @@ class listing {
   }
 
 
-  function renderSnapshotActions($row, $dn, $category, $class, $copy = TRUE, $cut = TRUE)
+  function renderSnapshotActions($row, $dn, $category)
   {
-    // We can only provide information if we've got a snapshot handler
-    // instance
-    if (!(isset($this->snapshotHandler) && is_object($this->snapshotHandler))) {
-      return "";
+    /* We can only provide information if we've got a snapshot handler instance */
+    if (!isset($this->snapshotHandler) || !is_object($this->snapshotHandler) || !$this->snapshotHandler->enabled()) {
+      return '';
     }
 
     // Presets
-    $result = "";
+    $result = '';
     $ui = get_userinfo();
 
-    // Only act if enabled here
-    if ($this->snapshotHandler->enabled()) {
+    if ($ui->allow_snapshot_restore($dn, $category)) {
+      /* Draw restore button */
 
-      // Draw restore button
-      if ($ui->allow_snapshot_restore($dn, $category)) {
-
-        // Do we have snapshots for this dn?
-        if ($this->snapshotHandler->hasSnapshots($dn)) {
-          $result .= "<input class='center' type='image' src='geticon.php?context=actions&amp;icon=document-restore&amp;size=16' ".
-                     "alt='"._("Restore snapshot")."' name='listing_restore_$row' title='".
-                     _("Restore snapshot")."' style='padding:1px'>";
-        } else {
-          $result .= "<img src='geticon.php?context=actions&amp;icon=document-restore&amp;size=16&amp;disabled=1' alt='restore' class='center' style='padding:1px'>";
-        }
-      }
-
-      // Draw snapshot button
-      if ($ui->allow_snapshot_create($dn, $category)) {
-          $result .= "<input class='center' type='image' src='geticon.php?context=actions&amp;icon=snapshot&amp;size=16' ".
-                     "alt='"._("Create snapshot")."' name='listing_snapshot_$row' title='".
-                     _("Create a new snapshot from this object")."' style='padding:1px'>";
+      if ($this->snapshotHandler->hasSnapshots($dn)) {
+        /* We have snapshots for this dn */
+        $result .= '<input class="center" type="image"'.
+                    ' src="geticon.php?context=actions&amp;icon=document-restore&amp;size=16"'.
+                    ' alt="'._('Restore snapshot').'" name="listing_restore_'.$row.'"'.
+                    ' title="'._('Restore snapshot').'" style="padding:1px"/>';
       } else {
-          $result .= "<img src='images/empty.png' alt=' ' class='center optional' style='padding:1px'>";
+        $result .= '<img class="center"'.
+                    ' src="geticon.php?context=actions&amp;icon=document-restore&amp;size=16&amp;disabled=1"'.
+                    ' alt="restore" style="padding:1px"/>';
       }
+    }
+
+    if ($ui->allow_snapshot_create($dn, $category)) {
+      /* Draw snapshot button */
+      $result .= '<input class="center" type="image"'.
+                  ' src="geticon.php?context=actions&amp;icon=snapshot&amp;size=16"'.
+                  ' alt="'._('Create snapshot').'" name="listing_snapshot_'.$row.'"'.
+                  ' title="'._('Create a new snapshot from this object').'" style="padding:1px"/>';
+    } else {
+      $result .= '<img src="images/empty.png" alt=" " class="center optional" style="padding:1px"/>';
     }
 
     return $result;
