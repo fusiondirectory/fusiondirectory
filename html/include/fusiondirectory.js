@@ -47,7 +47,7 @@ function chk_set_all_by_class(regex,value)
 
 function toggle_all_(regex,state_object)
 {
-  state = document.getElementById(state_object).checked;
+  var state = document.getElementById(state_object).checked;
   chk_set_all(regex, state);
 }
 
@@ -150,6 +150,7 @@ function next_msg_dialog()
   var tmp       = "";
   var ele;
   var ele2;
+  var ele3;
   var cur_id;
 
   if (document.getElementById('current_msg_dialogs')) {
@@ -174,11 +175,11 @@ function next_msg_dialog()
       tmp = tmp.replace(/,$/g,"");
       if (i_id !== "") {
         ele = document.getElementById('e_layer' + i_id);
+        ele2 = document.getElementById('e_layer2') ;
         ele3 = document.getElementById('e_layerTitle' + i_id);
         ele.style.display = 'block'  ;
         document.getElementById('pending_msg_dialogs').value = tmp;
         document.getElementById('current_msg_dialogs').value = i_id;
-        ele2 = document.getElementById('e_layer2') ;
         ele3.onmousedown  = start_move_div_by_cursor;
         ele2.onmouseup    = stop_move_div_by_cursor;
         ele2.onmousemove  = move_div_by_cursor;

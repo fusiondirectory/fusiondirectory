@@ -205,8 +205,12 @@ Object.extend(Object.extend(MenuItem.prototype, MenuContainer.prototype), {
     }
     if (this.subMenu) {
       this.element.onmouseout = function() {
-        if (menuItem.root.openDelayTimer) window.clearTimeout(menuItem.root.openDelayTimer);
-        if (menuItem.root.closeDelayTimer) window.clearTimeout(menuItem.root.closeDelayTimer);
+        if (menuItem.root.openDelayTimer) {
+          window.clearTimeout(menuItem.root.openDelayTimer);
+        }
+        if (menuItem.root.closeDelayTimer) {
+          window.clearTimeout(menuItem.root.closeDelayTimer);
+        }
         menuItem.root.closingMenuItem = menuItem;
         menuItem.root.closeDelayTimer = window.setTimeout(menuItem.root.name + ".closingMenuItem.subMenu.close()", menuItem.root.closeDelayTime);
       }
@@ -222,10 +226,8 @@ Object.extend(Object.extend(MenuItem.prototype, MenuContainer.prototype), {
 
   closeItem: function(trigger) {
     this.isOpen = false;
-    if (this.subMenu) {
-      if (this.subMenu !== trigger) {
-        this.subMenu.close();
-      }
+    if (this.subMenu && (this.subMenu !== trigger)) {
+      this.subMenu.close();
     }
   }
 });
