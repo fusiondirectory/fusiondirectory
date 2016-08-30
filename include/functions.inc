@@ -3017,11 +3017,14 @@ function get_random_char ()
 {
   $randno = rand (0, 63);
   if ($randno < 12) {
-    return chr($randno + 46); // Digits, '/' and '.'
-  } else if ($randno < 38) {
-    return chr($randno + 53); // Uppercase
+    // Digits, '/' and '.'
+    return chr($randno + 46);
+  } elseif ($randno < 38) {
+    // Uppercase
+    return chr($randno + 53);
   } else {
-    return chr($randno + 59); // Lowercase
+    // Lowercase
+    return chr($randno + 59);
   }
 }
 
