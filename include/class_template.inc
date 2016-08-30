@@ -79,10 +79,12 @@ class template
   function reset()
   {
     list($this->attrs, $depends) = plugin::tpl_fetch_template($this->dn);
-    $this->needed     = plugin::tpl_needed_attrs($this->attrs, $depends); // This is needed because it removes %askme% values from attrs
+    // This is needed because it removes %askme% values from attrs
+    $this->needed     = plugin::tpl_needed_attrs($this->attrs, $depends);
     $this->needed[]   = 'base';
     $this->tabObject  = objects::create($this->type);
-    $tempTabObject    = objects::open($this->dn, $this->type); /* Used to know which tab is activated */
+    /* Used to know which tab is activated */
+    $tempTabObject    = objects::open($this->dn, $this->type);
     foreach ($tempTabObject->by_object as $class => &$plugin) {
       if ($plugin->is_account || $plugin->ignore_account) {
         $this->tabObject->by_object[$class]->is_account = $plugin->is_account;

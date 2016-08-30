@@ -115,7 +115,8 @@ class ObjectsAttribute extends GenericDialogAttribute
 
   function listObjectTypes()
   {
-    $this->getDisplayValues(); // refresh types and displays
+    /* Refresh types and displays */
+    $this->getDisplayValues();
     return '['.join(array_unique($this->types)).']';
   }
 

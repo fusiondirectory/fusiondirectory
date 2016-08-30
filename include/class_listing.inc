@@ -1523,20 +1523,21 @@ class listing {
     // Get list of supported department types
     $types = departmentManagement::getDepartmentTypes();
 
-    // Load departments allowed by ACL
-    $validDepartments = $ui->get_module_departments($this->categories);
-
-    // Build filter and look in the LDAP for possible sub departments
-    // of current base
-    $filter = "(|";
-    $attrs  = array("description", "objectClass");
+    /* Create a list of attributes to fetch */
+    $filter       = '';
+    $ldap_values  = array('objectClass', 'description');
     foreach ($types as $type) {
       $i = objects::infos($type);
-      $filter .= $i['filter'];
-      $attrs[] = $i['mainAttr']; // Specific key for departement objectTypes
+      $filter         .= $i['filter'];
+      /* Add type main attr to fetched attributes list */
+      $ldap_values[]  = $i['mainAttr'];
     }
-    $filter .= ")";
-    $res = get_list($filter, $this->categories, $this->base, $attrs, GL_NONE);
+    $filter = '(|'.$filter.')';
+
+    $res = get_list($filter, $this->categories, $this->base, $ldap_values, GL_NONE);
+
+    // Load departments allowed by ACL
+    $validDepartments = $ui->get_module_departments($this->categories);
 
     // Analyze list of departments
     foreach ($res as $department) {

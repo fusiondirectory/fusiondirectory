@@ -38,21 +38,35 @@ class LDAP
   var $hascon         = FALSE;
   var $reconnect      = FALSE;
   var $tls            = FALSE;
-  var $cid;               //connection identifier
+
+  /* connection identifier */
+  var $cid;
+
   var $hasres         = array();
   var $sr             = array();
   var $re             = array();
   var $basedn         = "";
-  var $start          = array(); // 0 if we are fetching the first entry, otherwise 1
-  var $error          = ""; // Any error messages to be returned can be put here
+
+  /* 0 if we are fetching the first entry, otherwise 1 */
+  var $start          = array();
+
+  /* Any error messages to be returned can be put here */
+  var $error          = "";
+
   var $srp            = 0;
-  var $objectClasses    = array(); // Information read from slapd.oc.conf
-  var $binddn         = ""; // the dn for the bind
-  var $bindpw         = ""; //the dn's password for the bind
-  var $hostname       = "";
-  var $follow_referral    = FALSE;
-  var $referrals      = array();
-  var $max_ldap_query_time  = 0;   // 0, empty or negative values will disable this check
+
+  /* Information read from slapd.oc.conf */
+  var $objectClasses    = array();
+  /* the dn for the bind */
+  var $binddn           = "";
+  /* the dn's password for the bind */
+  var $bindpw           = "";
+  var $hostname         = "";
+  var $follow_referral  = FALSE;
+  var $referrals        = array();
+
+  /* 0, empty or negative values will disable this check */
+  var $max_ldap_query_time  = 0;
 
   /*!
    * \brief Create a LDAP connection

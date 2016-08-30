@@ -128,7 +128,8 @@ class dashboardUsers extends simplePlugin
      */
 
     /* getting the date in TIMESTAMP UNIX format */
-    $today        = floor(time() / 86400); // 24 * 60 * 60
+    /* 24 * 60 * 60 = 86400 */
+    $today        = floor(time() / 86400);
 
     /* Fetch global value from fusiondirectory.conf */
     $next_expired_days = $config->get_cfg_value('dashboardExpiredAccountsDays', 15);
@@ -175,7 +176,8 @@ class dashboardUsers extends simplePlugin
       $manager_phone  = '';
     }
 
-    $human_shadowExpire = date('d.m.Y', $attrs['shadowExpire'][0] * 86400); // 24 * 60 * 60
+    /* 24 * 60 * 60 = 86400 */
+    $human_shadowExpire = date('d.m.Y', $attrs['shadowExpire'][0] * 86400);
 
     return array(
       'uid'             => $attrs['uid'][0],

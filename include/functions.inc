@@ -50,7 +50,7 @@ define ('DEBUG_CONFIG',   64); /*! Debug level for CONFIG information */
 define ('DEBUG_ACL',      128); /*! Debug level for ACL infos */
 define ('DEBUG_SI',       256); /*! Debug level for communication with Argonaut */
 define ('DEBUG_MAIL',     512); /*! Debug level for all about mail (mailAccounts, imap, sieve etc.) */
-define ('DEBUG_FAI',      1024); // FAI (incomplete)
+define ('DEBUG_FAI',      1024); /* FAI (incomplete) */
 
 /* Define shadow states */
 define ('POSIX_ACCOUNT_EXPIRED', 1);
@@ -2917,11 +2917,14 @@ function get_random_char ()
 {
   $randno = rand (0, 63);
   if ($randno < 12) {
-    return chr($randno + 46); // Digits, '/' and '.'
+    // Digits, '/' and '.'
+    return chr($randno + 46);
   } else if ($randno < 38) {
-    return chr($randno + 53); // Uppercase
+    // Uppercase
+    return chr($randno + 53);
   } else {
-    return chr($randno + 59); // Lowercase
+    // Lowercase
+    return chr($randno + 59);
   }
 }
 

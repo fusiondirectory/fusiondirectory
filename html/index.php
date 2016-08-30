@@ -342,7 +342,8 @@ class Index {
     /* Not account expired or password forced change go to main page */
     logging::log('security', 'login', '', array(), 'User "'.static::$username.'" logged in successfully.');
     session::global_set('connected', 1);
-    $config->checkLdapConfig(); // check that newly installed plugins have their configuration in the LDAP
+    /* check that newly installed plugins have their configuration in the LDAP */
+    $config->checkLdapConfig();
     session::global_set('DEBUGLEVEL', $config->get_cfg_value('DEBUGLEVEL'));
     header ('Location: main.php?global_check=1');
     exit;

@@ -72,7 +72,8 @@ class pluglist {
         $infos = call_user_func(array($cname, 'plInfo'));
         if (is_subclass_of($cname, 'simpleService')) {
           $infos['plSelfModify']  = FALSE;
-          unset($infos['plObjectType']); // services are not part of any objectType
+          /* services are not part of any objectType */
+          unset($infos['plObjectType']);
           $infos['plCategory']    = array('server');
         } else {
           if (!isset($infos['plSelfModify'])) {

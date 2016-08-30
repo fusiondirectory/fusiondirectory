@@ -32,7 +32,8 @@
 
 class EpochDaysDateAttribute extends DateAttribute
 {
-  public static $secondsPerDay = 86400; //60 * 60 * 24
+  /* 24 * 60 * 60 = 86400 */
+  public static $secondsPerDay = 86400;
 
   function __construct ($label, $description, $ldapName, $required, $defaultValue = 'now', $acl = "")
   {
@@ -391,8 +392,8 @@ class posixAccount extends simplePlugin
     $ldap->search('(&(objectClass=posixGroup)(gidNumber='.ldap_escape_f($this->gidNumber).')(cn='.ldap_escape_f($this->getUid()).'))', array('cn','gidNumber'));
 
     if ($ldap->count() > 0) {
-      /* The copied user had its own group */
-      $this->primaryGroup = 0; // switch back to automatic
+      /* The copied user had its own group: switch back to automatic */
+      $this->primaryGroup = 0;
     }
 
     $this->force_ids = FALSE;

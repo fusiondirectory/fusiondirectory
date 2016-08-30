@@ -31,7 +31,8 @@
 class management
 {
   // The currently used object(s) (e.g. in edit, removal)
-  public $dn      = '';  // this is public due to some compatibility problems with class plugin..
+  // $dn is public due to some compatibility problems with class plugin..
+  public $dn      = '';
   protected $dns  = array();
 
   // The last used object(s).
