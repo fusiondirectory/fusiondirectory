@@ -46,11 +46,7 @@ class passwordMethodMd5 extends passwordMethod
    */
   function is_available()
   {
-    if (function_exists('md5')) {
-      return TRUE;
-    } else {
-      return FALSE;
-    }
+    return function_exists('md5');
   }
 
   /*!
@@ -60,7 +56,7 @@ class passwordMethodMd5 extends passwordMethod
    */
   function generate_hash($pwd)
   {
-    return  "{MD5}".base64_encode( pack('H*', md5($pwd)));
+    return  '{MD5}'.base64_encode( pack('H*', md5($pwd)));
   }
 
   /*!
@@ -68,7 +64,7 @@ class passwordMethodMd5 extends passwordMethod
    */
   static function get_hash_name()
   {
-    return "md5";
+    return 'md5';
   }
 }
 ?>

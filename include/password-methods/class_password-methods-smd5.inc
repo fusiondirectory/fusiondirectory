@@ -45,11 +45,7 @@ class passwordMethodsmd5 extends passwordMethod
    */
   function is_available()
   {
-    if ((!function_exists('md5'))) {
-      return FALSE;
-    } else {
-      return TRUE;
-    }
+    return function_exists('md5');
   }
 
   /*!
@@ -60,9 +56,9 @@ class passwordMethodsmd5 extends passwordMethod
   function generate_hash($pwd)
   {
     mt_srand(microtime() * 10000000);
-    $salt0  = substr(pack("h*", md5(mt_rand())), 0, 8);
-    $salt   = substr(pack("H*", md5($salt0 . $pwd)), 0, 4);
-    $hash   = "{SMD5}".base64_encode(pack("H*", md5($pwd . $salt)) . $salt);
+    $salt0  = substr(pack('h*', md5(mt_rand())), 0, 8);
+    $salt   = substr(pack('H*', md5($salt0 . $pwd)), 0, 4);
+    $hash   = '{SMD5}'.base64_encode(pack('H*', md5($pwd . $salt)) . $salt);
     return $hash;
   }
 
@@ -71,7 +67,7 @@ class passwordMethodsmd5 extends passwordMethod
     $hash = base64_decode(substr($hash, 6));
     $salt = substr($hash, 16);
     $hash = substr($hash, 0, 16);
-    $nhash = pack("H*", md5($pwd . $salt));
+    $nhash = pack('H*', md5($pwd . $salt));
     return ($nhash == $hash);
   }
 
@@ -80,7 +76,7 @@ class passwordMethodsmd5 extends passwordMethod
    */
   static function get_hash_name()
   {
-    return "smd5";
+    return 'smd5';
   }
 }
 ?>

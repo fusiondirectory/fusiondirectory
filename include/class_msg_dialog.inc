@@ -193,11 +193,7 @@ class msg_dialog
    */
   public function is_confirmed()
   {
-    if (isset($_POST['MSG_OK'.$this->i_ID])) {
-      return TRUE;
-    } else {
-      return FALSE;
-    }
+    return isset($_POST['MSG_OK'.$this->i_ID]);
   }
 
   /*!
