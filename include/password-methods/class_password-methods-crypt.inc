@@ -46,11 +46,7 @@ class passwordMethodCrypt extends passwordMethod
    */
   function is_available()
   {
-    if (function_exists("crypt")) {
-      return TRUE;
-    } else {
-      return FALSE;
-    }
+    return function_exists('crypt');
   }
 
   /*!
