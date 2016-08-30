@@ -37,10 +37,8 @@ function chk_set_all_by_class(regex,value)
 {
   for (var i = 0; i < document.mainform.elements.length; i++) {
     var _class = document.mainform.elements[i].getAttribute("class");
-    if(_class) {
-      if(_class.match(regex)) {
-        document.mainform.elements[i].checked = value;
-      }
+    if(_class && _class.match(regex)) {
+      document.mainform.elements[i].checked = value;
     }
   }
 }
@@ -271,47 +269,42 @@ function move_div_by_cursor(e)
   var dialog;
 
 
-  if ((enable_move_div_by_cursor !== undefined) && (enable_move_div_by_cursor === true)) {
+  if ((enable_move_div_by_cursor === true) && document.getElementById('current_msg_dialogs')) {
+    /* Get mouse position on screen */
+    if (window.event) {
+      event = window.event;
+      mouse_pos_x = event.clientX;
+      mouse_pos_y = event.clientY;
+    } else if (e) {
+      event = e;
+      mouse_pos_x = event.screenX;
+      mouse_pos_y = event.screenY;
+    } else {
+      return;
+    }
 
-    if (document.getElementById('current_msg_dialogs')) {
+    /* Get id of current msg_dialog */
+    cur_id = document.getElementById('current_msg_dialogs').value;
+    if (cur_id !== "") {
+      dialog = document.getElementById('e_layer' + cur_id);
 
-      /* Get mouse position on screen
-       */
-      if (window.event) {
-        event = window.event;
-        mouse_pos_x = event.clientX;
-        mouse_pos_y = event.clientY;
-      } else if (e) {
-        event = e;
-        mouse_pos_x = event.screenX;
-        mouse_pos_y = event.screenY;
-      } else {
-        return;
+      /* Calculate new position */
+      cur_div_x = mouse_pos_x - div_offset_x;
+      cur_div_y = mouse_pos_y - div_offset_y;
+
+      /* Ensure that dialog can't be moved out of screen */
+      if (cur_div_x < 0 ) {
+        cur_div_x = 0;
+      }
+      if (cur_div_y < 0 ) {
+        cur_div_y = 0;
       }
 
-      /* Get id of current msg_dialog */
-      cur_id = document.getElementById('current_msg_dialogs').value;
-      if (cur_id !== "") {
-        dialog = document.getElementById('e_layer' + cur_id);
-
-        /* Calculate new position */
-        cur_div_x = mouse_pos_x - div_offset_x;
-        cur_div_y = mouse_pos_y - div_offset_y;
-
-        /* Ensure that dialog can't be moved out of screen */
-        if (cur_div_x < 0 ) {
-          cur_div_x = 0;
-        }
-        if (cur_div_y < 0 ) {
-          cur_div_y = 0;
-        }
-
-        /* Assign new values */
-        dialog.style.left     = (cur_div_x ) + "px";
-        dialog.style.top      = (cur_div_y ) + "px";
-        dialog.style.margin   = "0";
-        dialog.style.position = "absolute";
-      }
+      /* Assign new values */
+      dialog.style.left     = (cur_div_x ) + "px";
+      dialog.style.top      = (cur_div_y ) + "px";
+      dialog.style.margin   = "0";
+      dialog.style.position = "absolute";
     }
   }
 }
