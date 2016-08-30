@@ -2,14 +2,14 @@
 /* On big screens */
 @media (min-width: 640px) {
   .plugin-section#perso img#jpegPhoto_img {
-  position:absolute;
-  left:5px;
-  top:32px;
-  box-sizing:border-box;
-  max-height:80%;
+  position: absolute;
+  left: 5px;
+  top: 32px;
+  box-sizing: border-box;
+  max-height: 80%;
   }
 
   .plugin-section#perso > div > table {
-  padding-left:160px;
+  padding-left: 160px;
   }
 }
