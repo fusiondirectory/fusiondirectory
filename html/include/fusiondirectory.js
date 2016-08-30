@@ -218,8 +218,12 @@ function start_move_div_by_cursor(e)
     y = dialog.style.top;
     x = x.replace(/[^0-9]/g,"");
     y = y.replace(/[^0-9]/g,"");
-    if(!y) y = 200;
-    if(!x) x = 200;
+    if(!y) {
+      y = 200;
+    }
+    if(!x) {
+      x = 200;
+    }
   }
 
   /* Get mouse position within msg_dialog
@@ -294,8 +298,12 @@ function move_div_by_cursor(e)
         cur_div_y = mouse_pos_y - div_offset_y;
 
         /* Ensure that dialog can't be moved out of screen */
-        if(cur_div_x < 0 ) cur_div_x = 0
-        if(cur_div_y < 0 ) cur_div_y = 0
+        if (cur_div_x < 0 ) {
+          cur_div_x = 0;
+        }
+        if (cur_div_y < 0 ) {
+          cur_div_y = 0;
+        }
 
         /* Assign new values */
         dialog.style.left     = (cur_div_x ) + "px";
@@ -371,14 +379,18 @@ function initProgressPie() {
         // Generate title
         var minutes = parseInt((timeout-time) / 60 );
         var seconds = '' + parseInt((timeout-time) % 60);
-        if(seconds.length === 1) seconds = '0' + seconds ;
+        if (seconds.length === 1) {
+          seconds = '0' + seconds;
+        }
         minutes = minutes + ':' + seconds;
 
         // Set new  canval title
         canvas.title = title.replace(/%d/ ,minutes);
         setProgressPie(context, percent);
 
-        if (percent>99) percent = 99;
+        if (percent > 99) {
+          percent = 99;
+        }
       },
       (interval * 1000)
     );

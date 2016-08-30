@@ -60,19 +60,22 @@ MenuContainer.prototype = {
 
   init: function(idOrElement, parent) {
     this.element = $(idOrElement);
-          if (!this.element) return;
+    if (!this.element) {
+      return;
+    }
     this.parent = parent;
     this.parentMenu = (this.type === "menuContainer") ? ((parent) ? parent.parent : null) : parent;
     this.root = parent instanceof Menu ? parent : parent.root;
     this.id = this.element.id;
 
     if (this.type === "menuContainer") {
-      if (this.element.hasClassName("level1"))
+      if (this.element.hasClassName("level1")) {
         this.menuType = "horizontal";
-      else if (this.element.hasClassName("level2"))
+      } else if (this.element.hasClassName("level2")) {
         this.menuType = "dropdown";
-      else
+      } else {
         this.menuType = "flyout";
+      }
 
       if (this.menuType === "flyout" || this.menuType === "dropdown") {
         this.isOpen = false;
@@ -90,7 +93,9 @@ MenuContainer.prototype = {
     }
 
     var childNodes = this.element.childNodes;
-    if (childNodes === null) return;
+    if (childNodes === null) {
+      return;
+    }
 
     for (var i = 0; i < childNodes.length; i++) {
       var node = childNodes[i];
@@ -113,19 +118,22 @@ MenuContainer.prototype = {
     var result = {};
     var value;
     for (var i = 0; i < ltrb.length; ++i) {
-      if (this.element.currentStyle)
+      if (this.element.currentStyle) {
         value = parseInt(this.element.currentStyle["border"+ltrb[i]+"Width"]);
-      else if (window.getComputedStyle)
+      } else if (window.getComputedStyle) {
         value = parseInt(window.getComputedStyle(this.element, "").getPropertyValue("border-"+ltrb[i].toLowerCase()+"-width"));
-      else
+      } else {
         value = parseInt(this.element.style["border"+ltrb[i]]);
+      }
       result[ltrb[i].toLowerCase()] = isNaN(value) ? 0 : value;
     }
     return result;
   },
 
   open: function() {
-    if (this.root.closeDelayTimer) window.clearTimeout(this.root.closeDelayTimer);
+    if (this.root.closeDelayTimer) {
+      window.clearTimeout(this.root.closeDelayTimer);
+    }
     this.parentMenu.closeAll(this);
     this.isOpen = true;
     if (this.menuType === "dropdown") {
@@ -207,13 +215,17 @@ Object.extend(Object.extend(MenuItem.prototype, MenuContainer.prototype), {
 
   openItem: function() {
     this.isOpen = true;
-    if (this.subMenu) { this.subMenu.open(); }
+    if (this.subMenu) {
+      this.subMenu.open();
+    }
   },
 
   closeItem: function(trigger) {
     this.isOpen = false;
     if (this.subMenu) {
-      if (this.subMenu !== trigger) this.subMenu.close();
+      if (this.subMenu !== trigger) {
+        this.subMenu.close();
+      }
     }
   }
 });
