@@ -4873,7 +4873,7 @@ msgstr ""
 
 #: ihtml/themes/breezy/recovery.tpl.c:74
 msgid "Email"
-msgstr ""
+msgstr "پست الکترونیک"
 
 #: ihtml/themes/breezy/recovery.tpl.c:83
 msgid ""

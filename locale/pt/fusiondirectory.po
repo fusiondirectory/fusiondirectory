@@ -1148,7 +1148,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:653
 msgid "You need to specify your current password in order to proceed."
-msgstr ""
+msgstr "Você precisa especificar sua senha atual para continuar."
 
 #: plugins/personal/generic/class_user.inc:655
 msgid ""
@@ -1163,11 +1163,11 @@ msgstr "Nova senha"
 
 #: plugins/personal/generic/class_user.inc:659
 msgid "The password used as new and current are too similar."
-msgstr ""
+msgstr "A senha utilizada como nova e atual são muito similares."
 
 #: plugins/personal/generic/class_user.inc:661
 msgid "The password used as new is to short."
-msgstr ""
+msgstr "A senha utilizada como nova é curta."
 
 #: plugins/personal/generic/class_user.inc:663
 msgid "The password contains possibly problematic Unicode characters!"
@@ -4054,7 +4054,7 @@ msgstr ""
 
 #: setup/class_setupStep_Ldap.inc:175 setup/class_setupStep_Ldap.inc:179
 msgid "Refresh"
-msgstr ""
+msgstr "Recarregar"
 
 #: setup/class_setupStep_Ldap.inc:176
 msgid "Please specify user and password!"

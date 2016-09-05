@@ -10,6 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
 "POT-Creation-Date: 2016-08-29 16:59+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: fusiondirectory <contact@fusiondirectory.org>, 2016\n"
 "Language-Team: Latvian (https://www.transifex.com/fusiondirectory/teams/12202/lv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -60,7 +61,7 @@ msgstr ""
 #: include/select/groupSelect/group-filter.tpl.c:14
 #: setup/setup_migrate_adminAccount.tpl.c:8
 msgid "Name"
-msgstr ""
+msgstr "Vārds "
 
 #: plugins/admin/groups/class_roleGeneric.inc:86
 #: plugins/admin/groups/class_group.inc:60
@@ -79,7 +80,7 @@ msgstr ""
 #: include/simpleplugin/simple-select-list.xml:40
 #: include/simpleplugin/simple-list.xml:40
 msgid "Description"
-msgstr ""
+msgstr "Apraksts"
 
 #: plugins/admin/groups/class_roleGeneric.inc:91
 msgid "Description of the role"
@@ -91,7 +92,7 @@ msgstr ""
 
 #: plugins/admin/groups/class_roleGeneric.inc:99
 msgid "Fax number"
-msgstr ""
+msgstr "Faksa numurs"
 
 #: plugins/admin/groups/class_roleGeneric.inc:105
 msgid "Role members"
@@ -213,7 +214,7 @@ msgstr ""
 #: ihtml/themes/breezy/remove.tpl.c:2 ihtml/themes/breezy/msg_dialog.tpl.c:5
 #: setup/setup_checks.tpl.c:8
 msgid "Warning"
-msgstr ""
+msgstr "Brīdinājums"
 
 #: plugins/admin/groups/class_group.inc:181
 #: plugins/personal/posix/class_posixAccount.inc:478
@@ -260,7 +261,7 @@ msgstr ""
 #: plugins/admin/users/user-list.xml:62 include/class_listing.inc:1284
 #: include/simpleplugin/simple-list.xml:48
 msgid "Actions"
-msgstr ""
+msgstr "Darbības"
 
 #: plugins/admin/groups/group-list.xml:66
 #: plugins/admin/departments/dep-list.xml:48
@@ -268,7 +269,7 @@ msgstr ""
 #: include/simpleplugin/simple-list.xml:59
 #: setup/class_setupStep_Migrate.inc:867 setup/class_setupStep_Migrate.inc:882
 msgid "Create"
-msgstr ""
+msgstr "Izveidot"
 
 #: plugins/admin/groups/group-list.xml:74
 #: plugins/admin/groups/group-list.xml:119
@@ -282,7 +283,7 @@ msgstr ""
 #: include/simpleplugin/simple-list.xml:67
 #: include/simpleplugin/simple-list.xml:112
 msgid "Edit"
-msgstr ""
+msgstr "Labot"
 
 #: plugins/admin/groups/group-list.xml:82
 #: plugins/admin/groups/group-list.xml:132
@@ -296,7 +297,7 @@ msgstr ""
 #: include/simpleplugin/simple-list.xml:75
 #: include/simpleplugin/simple-list.xml:125
 msgid "Remove"
-msgstr ""
+msgstr "Noņemt"
 
 #: plugins/admin/groups/class_groupManagement.inc:31
 #: plugins/personal/roles/class_userRoles.inc:31
@@ -393,7 +394,7 @@ msgstr ""
 #: plugins/admin/departments/dep-list.xml:21
 #: plugins/personal/generic/class_user.inc:426
 msgid "Department"
-msgstr ""
+msgstr "Nodaļa"
 
 #: plugins/admin/departments/class_department.inc:34
 #: plugins/admin/departments/class_department.inc:35
@@ -452,24 +453,24 @@ msgstr ""
 #: plugins/admin/departments/class_department.inc:96
 #: plugins/personal/generic/class_user.inc:336
 msgid "Location"
-msgstr ""
+msgstr "Atrašanās vieta"
 
 #: plugins/admin/departments/class_department.inc:93
 #: plugins/personal/generic/class_user.inc:340
 msgid "State"
-msgstr ""
+msgstr "Valsts"
 
 #: plugins/admin/departments/class_department.inc:99
 #: plugins/admin/departments/class_country.inc:29
 #: plugins/admin/departments/class_country.inc:30
 #: plugins/admin/departments/class_country.inc:33
 msgid "Country"
-msgstr ""
+msgstr "Valsts"
 
 #: plugins/admin/departments/class_department.inc:102
 #: plugins/personal/generic/class_user.inc:344
 msgid "Address"
-msgstr ""
+msgstr "Adrese"
 
 #: plugins/admin/departments/class_department.inc:102
 #, php-format
@@ -479,16 +480,16 @@ msgstr ""
 #: plugins/admin/departments/class_department.inc:106
 #: plugins/personal/generic/class_user.inc:352
 msgid "Phone"
-msgstr ""
+msgstr "Tālrunis"
 
 #: plugins/admin/departments/class_department.inc:106
 msgid "Telephone number"
-msgstr ""
+msgstr "Tālruņa numurs"
 
 #: plugins/admin/departments/class_department.inc:110
 #: plugins/personal/generic/class_user.inc:364
 msgid "Fax"
-msgstr ""
+msgstr "Fakss"
 
 #: plugins/admin/departments/class_department.inc:110
 msgid "Facsimile telephone number"
@@ -541,7 +542,7 @@ msgstr ""
 #: plugins/admin/departments/class_organization.inc:34
 #: plugins/personal/generic/class_user.inc:422
 msgid "Organization"
-msgstr ""
+msgstr "Organizācija"
 
 #: plugins/admin/departments/class_organization.inc:51
 msgid "organization"
@@ -553,11 +554,11 @@ msgstr ""
 
 #: plugins/admin/users/user-list.xml:33
 msgid "Surname"
-msgstr ""
+msgstr "Uzvārds"
 
 #: plugins/admin/users/user-list.xml:41
 msgid "Given name"
-msgstr ""
+msgstr "Vārds"
 
 #: plugins/admin/users/user-list.xml:49
 #: plugins/personal/generic/class_user.inc:379
@@ -617,7 +618,7 @@ msgstr ""
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:27
 #: setup/class_setupStep_Migrate.inc:872
 msgid "Users"
-msgstr ""
+msgstr "Lietotāji"
 
 #: plugins/admin/users/class_userManagement.inc:43
 msgid "Manage users"
@@ -634,7 +635,7 @@ msgstr ""
 #: include/simpleplugin/class_simpleManagement.inc:773
 #: include/simpleplugin/class_simpleManagement.inc:824
 msgid "Permission"
-msgstr ""
+msgstr "Atļauja"
 
 #: plugins/admin/users/class_userManagement.inc:187
 msgid "Account locking"
@@ -864,7 +865,7 @@ msgstr ""
 #: plugins/admin/acl/class_aclAssignment.inc:56
 #: ihtml/themes/breezy/acl.tpl.c:32
 msgid "Members"
-msgstr ""
+msgstr "Biedri"
 
 #: plugins/admin/acl/class_aclAssignment.inc:56
 msgid "Users or groups to assign this role to."
@@ -964,7 +965,7 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:311
 #: plugins/personal/generic/paste_generic.tpl.c:5
 msgid "Last name"
-msgstr ""
+msgstr "Uzvārds"
 
 #: plugins/personal/generic/class_user.inc:311
 msgid "Last name of this user"
@@ -973,7 +974,7 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:316
 #: plugins/personal/generic/paste_generic.tpl.c:8
 msgid "First name"
-msgstr ""
+msgstr "Vārds"
 
 #: plugins/personal/generic/class_user.inc:316
 msgid "First name of this user"
@@ -1013,7 +1014,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:356
 msgid "Mobile"
-msgstr ""
+msgstr "Mobilais"
 
 #: plugins/personal/generic/class_user.inc:356
 msgid "Business mobile number"
@@ -1021,7 +1022,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:360
 msgid "Pager"
-msgstr ""
+msgstr "Peidžeris"
 
 #: plugins/personal/generic/class_user.inc:360
 msgid "Business pager number"
@@ -1074,7 +1075,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:402
 msgid "Home postal address"
-msgstr ""
+msgstr "Mājas pasta adrese"
 
 #: plugins/personal/generic/class_user.inc:406
 msgid "Private phone"
@@ -1082,7 +1083,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:406
 msgid "Home phone number"
-msgstr ""
+msgstr "Mājas tālruņa numurs"
 
 #: plugins/personal/generic/class_user.inc:412
 msgid "Organizational information"
@@ -1090,7 +1091,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:417
 msgid "Title"
-msgstr ""
+msgstr "Nosaukums"
 
 #: plugins/personal/generic/class_user.inc:417
 msgid ""
@@ -2199,7 +2200,7 @@ msgstr ""
 #: html/index.php:479 html/index.php:541 html/index.php:551
 #: ihtml/themes/breezy/msg_dialog.tpl.c:2 setup/setup_checks.tpl.c:5
 msgid "Error"
-msgstr ""
+msgstr "Kļūda"
 
 #: include/class_listing.inc:579
 msgid "created by"
@@ -2325,7 +2326,7 @@ msgstr ""
 #: setup/class_setupStep_Migrate.inc:452
 #: setup/class_setupStep_Migrate.inc:1128
 msgid "LDAP error"
-msgstr ""
+msgstr "LDAP kļūda"
 
 #: include/class_config.inc:322
 msgid "Cannot bind to LDAP. Please contact the system administrator."
@@ -2375,7 +2376,7 @@ msgstr ""
 #: include/class_session.inc:127 include/class_acl.inc:118
 #: include/class_logging.inc:80
 msgid "Internal error"
-msgstr ""
+msgstr "Iekšējā kļūda"
 
 #: include/class_ldap.inc:845
 #, php-format
@@ -3327,7 +3328,7 @@ msgstr ""
 
 #: include/php_setup.inc:132
 msgid "Type"
-msgstr ""
+msgstr "Veids"
 
 #: include/php_setup.inc:133
 msgid "Arguments"
@@ -3918,7 +3919,7 @@ msgstr ""
 
 #: html/class_passwordRecovery.inc:462 ihtml/themes/breezy/recovery.tpl.c:71
 msgid "Email address"
-msgstr ""
+msgstr "E-pasta adrese"
 
 #: html/class_passwordRecovery.inc:485
 #, php-format
@@ -4585,7 +4586,7 @@ msgstr ""
 #: ihtml/themes/breezy/simple-filter.tpl.c:2
 #: include/select/groupSelect/group-filter.tpl.c:2
 msgid "Filter"
-msgstr ""
+msgstr "Filtrs"
 
 #: plugins/admin/users/user-filter.tpl.c:5
 msgid "Show templates"
@@ -4885,7 +4886,7 @@ msgstr ""
 
 #: ihtml/themes/breezy/recovery.tpl.c:74
 msgid "Email"
-msgstr ""
+msgstr "E-pasts"
 
 #: ihtml/themes/breezy/recovery.tpl.c:83
 msgid ""
@@ -4903,6 +4904,8 @@ msgstr ""
 #: ihtml/themes/breezy/simple-remove.tpl.c:8
 msgid "So - if you're sure - press 'Delete' to continue or 'Cancel' to abort."
 msgstr ""
+"Ja esat pārliecināts, spiediet \"izdzēst\", lai turpinātu, vai \"Atcelt\", "
+"lai pārtrauktu. "
 
 #: ihtml/themes/breezy/login.tpl.c:2
 msgid "Login screen"
@@ -5026,7 +5029,7 @@ msgstr ""
 
 #: ihtml/themes/breezy/msg_dialog.tpl.c:8
 msgid "Information"
-msgstr ""
+msgstr "Informācija"
 
 #: ihtml/themes/breezy/framework.tpl.c:2
 msgid "Main"
@@ -5091,7 +5094,7 @@ msgstr ""
 
 #: setup/setup_migrate_adminAccount.tpl.c:11
 msgid "User ID"
-msgstr ""
+msgstr "Lietotāja ID"
 
 #: setup/setup_migrate_adminAccount.tpl.c:17
 msgid "Password (again)"

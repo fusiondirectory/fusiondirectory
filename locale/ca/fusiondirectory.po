@@ -1163,11 +1163,11 @@ msgstr "Contrasenya nova"
 
 #: plugins/personal/generic/class_user.inc:659
 msgid "The password used as new and current are too similar."
-msgstr ""
+msgstr "La contrasenya nova i l'actual són massa similars."
 
 #: plugins/personal/generic/class_user.inc:661
 msgid "The password used as new is to short."
-msgstr ""
+msgstr "La contrasenya nova és massa curta."
 
 #: plugins/personal/generic/class_user.inc:663
 msgid "The password contains possibly problematic Unicode characters!"

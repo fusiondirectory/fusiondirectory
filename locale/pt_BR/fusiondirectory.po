@@ -47,7 +47,7 @@ msgstr ""
 
 #: plugins/admin/groups/class_roleGeneric.inc:82
 msgid "Informations"
-msgstr ""
+msgstr "Informações"
 
 #: plugins/admin/groups/class_roleGeneric.inc:86
 #: plugins/admin/groups/class_group.inc:60
@@ -507,7 +507,7 @@ msgstr ""
 
 #: plugins/admin/departments/class_departmentManagement.inc:38
 msgid "Users and groups"
-msgstr ""
+msgstr "Usuários e grupos"
 
 #: plugins/admin/departments/class_locality.inc:30
 #: plugins/admin/departments/class_locality.inc:31
@@ -900,7 +900,7 @@ msgstr ""
 
 #: plugins/addons/dashboard/class_dashBoard.inc:29
 msgid "Statistics and various informations"
-msgstr ""
+msgstr "Estatísticas e informações diversas"
 
 #: plugins/addons/dashboard/class_dashBoard.inc:37
 msgid "Reporting"
@@ -909,11 +909,11 @@ msgstr ""
 #: plugins/addons/dashboard/class_dashBoard.inc:48
 #: plugins/addons/dashboard/main_stats.tpl.c:2
 msgid "Statistics"
-msgstr ""
+msgstr "Estatísticas"
 
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:28
 msgid "Statistics about users"
-msgstr ""
+msgstr "Estatísticas a respeito de usuários"
 
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:39
 msgid "Users statistics"
@@ -926,7 +926,7 @@ msgstr ""
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:49
 #: plugins/addons/dashboard/users_accounts.tpl.c:8
 msgid "Expired accounts"
-msgstr ""
+msgstr "Contas expiradas"
 
 #: plugins/personal/generic/class_user.inc:46
 msgid "Password method"
@@ -1063,7 +1063,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:398
 msgid "Display name"
-msgstr ""
+msgstr "Nome de exibição"
 
 #: plugins/personal/generic/class_user.inc:398
 msgid "Name this user should appear as. Used by Exchange."
@@ -1091,7 +1091,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:417
 msgid "Title"
-msgstr ""
+msgstr "Título"
 
 #: plugins/personal/generic/class_user.inc:417
 msgid ""
@@ -1148,7 +1148,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:653
 msgid "You need to specify your current password in order to proceed."
-msgstr ""
+msgstr "Você precisa especificar sua atual senha para prosseguir."
 
 #: plugins/personal/generic/class_user.inc:655
 msgid ""
@@ -1163,11 +1163,11 @@ msgstr "Nova senha"
 
 #: plugins/personal/generic/class_user.inc:659
 msgid "The password used as new and current are too similar."
-msgstr ""
+msgstr "A nova senha é muito similar à senha atual."
 
 #: plugins/personal/generic/class_user.inc:661
 msgid "The password used as new is to short."
-msgstr ""
+msgstr "A nova senha é muito curta."
 
 #: plugins/personal/generic/class_user.inc:663
 msgid "The password contains possibly problematic Unicode characters!"
@@ -1645,7 +1645,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:247
 msgid "Key path"
-msgstr ""
+msgstr "Chave de pacote"
 
 #: plugins/config/class_configInLdap.inc:247
 msgid "Path to FusionDirectory private key. Unused for now."
@@ -1653,7 +1653,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:252
 msgid "Certificate path"
-msgstr ""
+msgstr "Caminho de certificado"
 
 #: plugins/config/class_configInLdap.inc:252
 msgid "Path to FusionDirectory certificate. Unused for now."
@@ -1686,7 +1686,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:277
 msgid "Host"
-msgstr ""
+msgstr "Host"
 
 #: plugins/config/class_configInLdap.inc:277
 msgid "Host of the CAS server"
@@ -1694,7 +1694,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:282
 msgid "Port"
-msgstr ""
+msgstr "Porta"
 
 #: plugins/config/class_configInLdap.inc:282
 msgid "Port the CAS server is listening on"
@@ -4084,7 +4084,7 @@ msgstr "Ligação como usuário '%s' falhou!"
 
 #: setup/class_setupStep_Ldap.inc:170
 msgid "Retry"
-msgstr ""
+msgstr "Tente novamente"
 
 #: setup/class_setupStep_Ldap.inc:174
 #, php-format
@@ -4093,7 +4093,7 @@ msgstr "Ligação anônima para o servidor '%s' bem sucedida."
 
 #: setup/class_setupStep_Ldap.inc:175 setup/class_setupStep_Ldap.inc:179
 msgid "Refresh"
-msgstr ""
+msgstr "Atualizar"
 
 #: setup/class_setupStep_Ldap.inc:176
 msgid "Please specify user and password!"
@@ -4703,7 +4703,7 @@ msgstr[1] ""
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:5
 msgid "There is no expired account"
-msgstr ""
+msgstr "Não há contas expiradas"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:11
 #: plugins/addons/dashboard/users_accounts.tpl.c:44
@@ -4740,7 +4740,7 @@ msgstr ""
 #: plugins/addons/dashboard/users_accounts.tpl.c:29
 #: plugins/addons/dashboard/users_accounts.tpl.c:62
 msgid "mail"
-msgstr ""
+msgstr "correio"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:35
 msgid "There is one account expiring in the next %1 days"
@@ -4754,7 +4754,7 @@ msgstr ""
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:41
 msgid "Next expired accounts"
-msgstr ""
+msgstr "Próximas contas a expirar"
 
 #: plugins/addons/dashboard/groups_stats.tpl.c:2
 msgid "There is 1 group:"
@@ -4796,7 +4796,7 @@ msgstr[1] ""
 
 #: plugins/addons/dashboard/users_stats.tpl.c:14
 msgid "None of them is locked"
-msgstr ""
+msgstr "Nenhum deles está travado"
 
 #: plugins/personal/generic/changed.tpl.c:2
 msgid ""
@@ -4961,7 +4961,7 @@ msgstr ""
 
 #: ihtml/themes/breezy/recovery.tpl.c:74
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: ihtml/themes/breezy/recovery.tpl.c:83
 msgid ""

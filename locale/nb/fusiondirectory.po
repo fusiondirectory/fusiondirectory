@@ -1684,7 +1684,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:277
 msgid "Host"
-msgstr ""
+msgstr "Vert"
 
 #: plugins/config/class_configInLdap.inc:277
 msgid "Host of the CAS server"

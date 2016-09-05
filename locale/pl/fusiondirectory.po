@@ -1063,7 +1063,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:398
 msgid "Display name"
-msgstr ""
+msgstr "Wyświetl nazwę"
 
 #: plugins/personal/generic/class_user.inc:398
 msgid "Name this user should appear as. Used by Exchange."
@@ -1091,7 +1091,7 @@ msgstr "Informacje organizacyjne"
 
 #: plugins/personal/generic/class_user.inc:417
 msgid "Title"
-msgstr ""
+msgstr "Tytuł"
 
 #: plugins/personal/generic/class_user.inc:417
 msgid ""
@@ -1148,7 +1148,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:653
 msgid "You need to specify your current password in order to proceed."
-msgstr ""
+msgstr "Proszę podać obecne hasło aby kontynuować."
 
 #: plugins/personal/generic/class_user.inc:655
 msgid ""
@@ -1163,11 +1163,11 @@ msgstr "Nowe hasło"
 
 #: plugins/personal/generic/class_user.inc:659
 msgid "The password used as new and current are too similar."
-msgstr ""
+msgstr "Hasło podane jako nowe jest zbyt podobne do obecnego."
 
 #: plugins/personal/generic/class_user.inc:661
 msgid "The password used as new is to short."
-msgstr ""
+msgstr "Hasło podane jako nowe jest za krótkie."
 
 #: plugins/personal/generic/class_user.inc:663
 msgid "The password contains possibly problematic Unicode characters!"
@@ -1692,7 +1692,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:282
 msgid "Port"
-msgstr ""
+msgstr "Port"
 
 #: plugins/config/class_configInLdap.inc:282
 msgid "Port the CAS server is listening on"
@@ -3386,7 +3386,7 @@ msgstr "Y-m-d, H:i:s"
 
 #: include/class_SnapshotDialogs.inc:135 include/class_SnapshotDialogs.inc:136
 msgid "Restore"
-msgstr ""
+msgstr "Odtwórz"
 
 #: include/class_SnapshotDialogs.inc:178
 msgid "Restoring snapshots"
@@ -4044,7 +4044,7 @@ msgstr ""
 
 #: setup/class_setupStep_Ldap.inc:170
 msgid "Retry"
-msgstr ""
+msgstr "Ponawia"
 
 #: setup/class_setupStep_Ldap.inc:174
 #, php-format
@@ -4053,7 +4053,7 @@ msgstr ""
 
 #: setup/class_setupStep_Ldap.inc:175 setup/class_setupStep_Ldap.inc:179
 msgid "Refresh"
-msgstr ""
+msgstr "Odśwież"
 
 #: setup/class_setupStep_Ldap.inc:176
 msgid "Please specify user and password!"
@@ -4901,7 +4901,7 @@ msgstr ""
 
 #: ihtml/themes/breezy/recovery.tpl.c:74
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: ihtml/themes/breezy/recovery.tpl.c:83
 msgid ""
