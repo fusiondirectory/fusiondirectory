@@ -431,7 +431,7 @@ class Attribute
     global $config;
     $value = $this->getValue();
     if ($this->isRequired() && !$this->disabled && (($value === "") || ($value === array()))) {
-      return msgPool::required($this->getLabel());
+      return msgPool::required($this->getLabel(), $this->getLdapName(), $this->getDescription());
     } elseif (($this->unique !== FALSE) && !$this->disabled) {
       $value = $this->computeLdapValue();
       if (($value === "") || ($value === array())) {
@@ -527,7 +527,7 @@ class Attribute
             continue;
           }
 
-          return msgPool::duplicated($this->getLabel(), $attrs['dn']);
+          return msgPool::duplicated($this->getLabel(), $attrs['dn'], $this->getLdapName(), $this->getDescription());
         }
       }
     }

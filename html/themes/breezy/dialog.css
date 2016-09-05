@@ -23,6 +23,10 @@ top: 200px;
   }
 }
 
+div.msgdialog .description {
+font-style:italic;
+}
+
 /* Small screens (i.e. phones) */
 @media (max-width: 640px) {
   div.msgdialog {
