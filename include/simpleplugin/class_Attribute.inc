@@ -18,6 +18,11 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*!
+ * \file class_Attribute.inc
+ * Source code for the main Attribute class
+ */
+
 /*! \brief This class allow to handle easily any kind of LDAP attribute
  *
  */

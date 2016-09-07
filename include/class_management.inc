@@ -255,7 +255,7 @@ class management
 
     // In case an of locked entry, we may have opened a read-only tab.
     $str = "";
-    if (isset($this->tabObject->read_only) && ($this->tabObject->read_only == TRUE)) {
+    if ($this->tabObject->readOnly()) {
       $str .= '<p class="plugbottom">'."\n".
         '<input type="submit" name="edit_cancel" value="'.msgPool::cancelButton().'">'."\n".
         '</p>';

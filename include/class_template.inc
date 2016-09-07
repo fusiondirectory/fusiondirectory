@@ -18,7 +18,12 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/* Class for applying a template */
+/*!
+ * \file class_template.inc
+ * Source code for the class template
+ */
+
+/*! \brief Class for applying a template */
 class template
 {
   protected $type;
@@ -75,7 +80,7 @@ class template
     }
   }
 
-  /* Used when you need to re-apply the same template with different values */
+  /*! \brief Used when you need to re-apply the same template with different values */
   function reset()
   {
     list($this->attrs, $depends) = plugin::tpl_fetch_template($this->dn);

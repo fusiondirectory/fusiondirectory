@@ -46,9 +46,6 @@ class simpleTabs
   /* A parent object if available, e.g. a management class. */
   var $parent = NULL;
 
-  /* Used when the entry is opened as "readonly" due to locks. */
-  var $read_only = FALSE;
-
   var $baseclass = "";
 
   /*!
@@ -91,7 +88,6 @@ class simpleTabs
         $this->by_object[$tab['CLASS']] = new $tab['CLASS']($this->dn, $baseobject, $this, FALSE);
       }
 
-      $this->read_only |= $this->by_object[$tab['CLASS']]->read_only;
       $this->by_object[$tab['CLASS']]->set_acl_category($this->acl_category);
     }
 
@@ -170,6 +166,12 @@ class simpleTabs
   function getBaseObject()
   {
     return $this->by_object[$this->baseclass];
+  }
+
+  /*! \brief Indicates if this tab class is read-only (because of locks) */
+  function readOnly()
+  {
+    return $this->getBaseObject()->readOnly();
   }
 
   /*!

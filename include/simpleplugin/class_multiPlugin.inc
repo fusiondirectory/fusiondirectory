@@ -85,10 +85,10 @@ class multiPlugin extends simplePlugin
     /* Execude  objects */
     $is_first = TRUE;
 
-    $ReadOnly = (!isset($this->parent) || !$this->parent) && !session::is_set('edit');
+    $readOnly = $this->readOnly();
 
     foreach ($this->plugin as &$plug) {
-      $plug->read_only = $ReadOnly;
+      $plug->read_only = $readOnly;
       if (!$is_first) {
         $display .= '<p class="seperator plugbottom">&nbsp;</p>';
       } else {

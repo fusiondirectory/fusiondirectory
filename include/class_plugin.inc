@@ -23,20 +23,11 @@
  * \file class_plugin.inc
  * Source code for the class plugin
  */
+
+/*! \brief plugin class, should not be used directly, see simplePlugin instead
+ */
 class plugin
 {
-  /*!
-   * \brief Reference to parent object
-   *
-   * This variable is used when the plugin is included in tabs
-   * and keeps reference to the tab class. Communication to other
-   * tabs is possible by 'name'. So the 'fax' plugin can ask the
-   * 'userinfo' plugin for the fax number.
-   *
-   * \sa tab
-   */
-  public $parent = NULL;
-
   /*!
     \brief Mark plugin as account
 
@@ -46,150 +37,31 @@ class plugin
     function, else the save function. Should be set to 'TRUE' if
     the construtor detects a valid LDAP object.
 
-    \sa plugin::__construct()
+    \sa simplePlugin::is_this_account()
    */
-  var $is_account             = FALSE;
-  var $initially_was_account  = FALSE;
-
-  /*!
-    \brief Mark plugin as template
-
-    Defines whether we are creating a template or a normal object.
-    Has conseqences on the way execute() shows the formular and how
-    save() puts the data to LDAP.
-
-    \sa plugin::save() plugin::execute()
-   */
-  var $is_template    = FALSE;
-  var $ignore_account = FALSE;
+  public $is_account            = FALSE;
+  public $initially_was_account = FALSE;
+  public $ignore_account        = FALSE;
 
   /*!
     \brief Represent temporary LDAP data
 
     This is only used internally.
    */
-  var $attrs = array();
+  protected $attrs = array();
 
-  /* Keep set of conflicting plugins */
-  var $conflicts = array();
+  var $dialog = FALSE;
 
-  /*!
-    \brief Used standard values
-
-    dn
-   */
-  var $dn         = "";
-  var $dialog     = FALSE;
-
-  var $objectclasses    = array();
-  var $saved_attributes = array();
+  protected $objectclasses    = array();
+  protected $saved_attributes = array();
 
   var $acl_base     = "";
   var $acl_category = "";
 
-  /* Used when the entry is opened as "readonly" due to locks. */
-  var $read_only    = FALSE;
+  /*! \brief Can be set to render the tabulators in another stylesheet */
+  public $pl_notify = FALSE;
 
-  /* This can be set to render the tabulators in another stylesheet */
-  var $pl_notify = FALSE;
-
-  /*!
-   * \brief Object entry CSN
-   *
-   * If an entry was edited while we have edited the entry too,
-   * an error message will be shown.
-   * To configure this check correctly read the FAQ.
-   */
-  var $entryCSN = '';
-
-  /*!
-   * \brief plugin constructor
-   *
-   * If 'dn' is set, the node loads the given 'dn' from LDAP
-   *
-   * \param $config configuration
-   *
-   * \param $dn Distinguished name to initialize plugin from
-   *
-   * \param $object NULL
-   *
-   * \sa plugin()
-   */
-  function __construct ($dn = NULL, $object = NULL)
-  {
-    global $config;
-
-    $this->dn     = $dn;
-
-    // Ensure that we've a valid acl_category set.
-    if (empty($this->acl_category)) {
-      $tmp = pluglist::pluginInfos(get_class($this));
-      if (isset($tmp['plCategory'])) {
-        $c = key($tmp['plCategory']);
-        if (is_numeric($c)) {
-          $c = $tmp['plCategory'][0];
-        }
-        $this->acl_category = $c.'/';
-      }
-    }
-
-    /* Handle new accounts, don't read information from LDAP */
-    if ($this->dn != 'new') {
-      /* Check if this entry was opened in read only mode */
-      if (isset($_POST['open_readonly'])) {
-        if (session::global_is_set('LOCK_CACHE')) {
-          $cache = &session::get('LOCK_CACHE');
-          if (isset($cache['READ_ONLY'][$this->dn])) {
-            $this->read_only = TRUE;
-          }
-        }
-      }
-
-      /* Save current dn as acl_base */
-      $this->acl_base = $this->dn;
-    }
-
-    /* Get LDAP descriptor */
-    if (($this->dn != 'new' && $this->dn !== NULL) || ($object !== NULL)) {
-      /* Load data to 'attrs' and save 'dn' */
-      if ($object !== NULL) {
-        $this->attrs = $object->attrs;
-        if (isset($object->is_template)) {
-          $this->setTemplate($object->is_template);
-        }
-      } else {
-        $ldap = $config->get_ldap_link();
-        $ldap->cat($this->dn);
-        $this->attrs = $ldap->fetch();
-        if (empty($this->attrs)) {
-          throw new NonExistingLdapNodeException('Could not open dn '.$this->dn);
-        }
-      }
-
-      /* Set the template flag according to the existence of objectClass fdTemplate */
-      if (isset($this->attrs['objectClass'])) {
-        if (in_array_ics ('fdTemplate', $this->attrs['objectClass'])) {
-          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, 'found', 'Template check');
-          $this->templateLoadAttrs($this->attrs);
-        }
-      }
-
-      /* Is Account? */
-      if ($this->is_this_account($this->attrs)) {
-        $this->is_account = TRUE;
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, 'found', 'Object check');
-      }
-    }
-
-    $this->loadAttributes();
-
-    $this->prepareSavedAttributes();
-
-    /* Save initial account state */
-    $this->initially_was_account = $this->is_account;
-  }
-
-  function prepareSavedAttributes()
+  protected function prepareSavedAttributes()
   {
     /* Prepare saved attributes */
     $this->saved_attributes = $this->attrs;
@@ -221,7 +93,6 @@ class plugin
 
   protected function templateLoadAttrs(array $template_attrs)
   {
-    $this->is_template = TRUE;
     if ($this->mainTab) {
       $this->_template_cn = $template_attrs['cn'][0];
     }
@@ -1044,7 +915,7 @@ class plugin
   /*! \brief Can we write the acl */
   function acl_is_writeable($attribute, $skip_write = FALSE)
   {
-    if ($this->read_only) {
+    if ($this->readOnly()) {
       return FALSE;
     }
     $ui = get_userinfo();
@@ -1069,7 +940,7 @@ class plugin
    */
   function acl_is_createable($base = "")
   {
-    if ($this->read_only) {
+    if ($this->readOnly()) {
       return FALSE;
     }
     $ui = get_userinfo();
@@ -1086,7 +957,7 @@ class plugin
    */
   function acl_is_removeable($base = "")
   {
-    if ($this->read_only) {
+    if ($this->readOnly()) {
       return FALSE;
     }
     $ui = get_userinfo();
@@ -1103,7 +974,7 @@ class plugin
    */
   function acl_is_moveable($base = "")
   {
-    if ($this->read_only) {
+    if ($this->readOnly()) {
       return FALSE;
     }
     $ui = get_userinfo();
@@ -1117,7 +988,7 @@ class plugin
   function getacl($attribute, $skip_write = FALSE)
   {
     $ui         = get_userinfo();
-    $skip_write |= $this->read_only;
+    $skip_write |= $this->readOnly();
     return $ui->get_permissions($this->acl_base, $this->acl_category.get_class($this), $attribute, $skip_write);
   }
 
@@ -1181,11 +1052,6 @@ class plugin
       session::global_set('ui', $ui);
       logging::log('view', 'acl/'.get_class($this), $this->dn, array(), 'Updated current object dn from "'.$old_dn.'" to "'.$new_dn.'"');
     }
-  }
-
-  function is_modal_dialog()
-  {
-    return (isset($this->dialog) && $this->dialog);
   }
 }
 ?>

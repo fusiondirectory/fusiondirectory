@@ -18,34 +18,59 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*!
+ * \file class_simplePlugin.inc
+ * Source code for the class simplePlugin
+ */
+
 /*! \brief This class is made for easy plugin creation for editing LDAP attributes
  *
  */
 class simplePlugin extends plugin
 {
-  /*! \brief This attribute store all information about attributes
-   *
-   */
+  /*! \brief This attribute store all information about attributes */
   var $attributesInfo;
+
   /*! \brief This attribute store references toward attributes
    *
    * associative array that stores attributeLdapName => reference on object
    */
   var $attributesAccess = array();
 
-  /*! \brief Do we want a header allowing to able/disable this plugin
+  /*! \brief dn of the opened object */
+  public $dn      = '';
+
+  /*! \brief original dn of the opened object */
+  public $orig_dn = '';
+
+  /*!
+   * \brief Reference to parent object
    *
+   * This variable is used when the plugin is included in tabs
+   * and keeps reference to the tab class. Communication to other
+   * tabs is possible by 'name'. So the 'fax' plugin can ask the
+   * 'userinfo' plugin for the fax number.
+   *
+   * \sa simpleTabs
    */
+  public $parent = NULL;
+
+  /*!
+    \brief Mark plugin as template
+
+    Defines whether we are editing a template or a normal object.
+    Has consequences on the way execute() shows the formular and how
+    save() puts the data to LDAP.
+   */
+  public $is_template    = FALSE;
+
+  /*! \brief Do we want a header allowing to able/disable this plugin */
   protected $displayHeader = FALSE;
 
-  /*! \brief Is this plugin the main tab, the one that handle the object itseld
-   *
-   */
+  /*! \brief Is this plugin the main tab, the one that handle the object itself */
   protected $mainTab = FALSE;
 
   protected $header = "";
-
-  public $orig_dn = "";
 
   protected $templatePath;
 
@@ -53,28 +78,34 @@ class simplePlugin extends plugin
    */
   protected $needEditMode = FALSE;
 
-  /*! \brief ldap error cache
-   *
-   */
-  protected $ldap_error;
-
-  /*! \brief Attributes that needs to be initialized before the others.
-   *
-   */
+  /*! \brief Attributes that needs to be initialized before the others */
   protected $preInitAttributes = array();
 
   /*! \brief FALSE to disable inheritance. Array like array ('objectClass' => 'attribute') to specify oc of the groups it might be inherited from
-   *
    */
   protected $inheritance      = FALSE;
   protected $member_of_group  = FALSE;
   protected $editing_group    = NULL;
   protected $group_attrs      = array();
 
+  /*! \brief Used when the entry is opened as "readonly" due to locks */
+  protected $read_only = FALSE;
+
+  /*!
+   * \brief Object entry CSN
+   *
+   * If an entry was edited while we have edited the entry too,
+   * an error message will be shown.
+   * To configure this check correctly read the FAQ.
+   */
+  protected $entryCSN = '';
+
   /*! \brief constructor
    *
    *  \param string $dn The dn of this instance
    *  \param Object $object An object to copy values from
+   *  \param Object $parent A parent instance, usually a simpleTabs instance.
+   *  \param boolean $mainTab Whether or not this is the main tab
    *  \param array $attributesInfo An attributesInfo array, if NULL, getAttributesInfo will be used.
    *
    */
@@ -82,6 +113,7 @@ class simplePlugin extends plugin
   {
     global $config;
 
+    $this->dn       = $dn;
     $this->parent   = $parent;
     $this->mainTab  = $mainTab;
 
@@ -118,16 +150,80 @@ class simplePlugin extends plugin
       }
     }
 
-    // We call plugin constructor
-    parent::__construct($dn, $object);
+    /* Ensure that we've a valid acl_category set */
+    if (empty($this->acl_category)) {
+      $tmp = pluglist::pluginInfos(get_class($this));
+      if (isset($tmp['plCategory'])) {
+        $c = key($tmp['plCategory']);
+        if (is_numeric($c)) {
+          $c = $tmp['plCategory'][0];
+        }
+        $this->acl_category = $c.'/';
+      }
+    }
 
-    $this->setTemplate($this->is_template);
+    /* Handle read only */
+    if ($this->dn != 'new') {
+      /* Check if this entry was opened in read only mode */
+      if (isset($_POST['open_readonly'])) {
+        if (session::global_is_set('LOCK_CACHE')) {
+          $cache = session::get('LOCK_CACHE');
+          if (isset($cache['READ_ONLY'][$this->dn])) {
+            $this->read_only = TRUE;
+          }
+        }
+      }
+
+      /* Save current dn as acl_base */
+      $this->acl_base = $this->dn;
+    }
+
+    /* Load LDAP data */
+    if (($this->dn != 'new' && $this->dn !== NULL) || ($object !== NULL)) {
+      /* Load data to 'attrs' */
+      if ($object !== NULL) {
+        /* From object */
+        $this->attrs = $object->attrs;
+        if (isset($object->is_template)) {
+          $this->setTemplate($object->is_template);
+        }
+      } else {
+        /* From LDAP */
+        $ldap = $config->get_ldap_link();
+        $ldap->cat($this->dn);
+        $this->attrs = $ldap->fetch();
+        if (empty($this->attrs)) {
+          throw new NonExistingLdapNodeException('Could not open dn '.$this->dn);
+        }
+      }
+
+      /* Set the template flag according to the existence of objectClass fdTemplate */
+      if (isset($this->attrs['objectClass'])) {
+        if (in_array_ics ('fdTemplate', $this->attrs['objectClass'])) {
+          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, 'found', 'Template check');
+          $this->setTemplate(TRUE);
+          $this->templateLoadAttrs($this->attrs);
+        }
+      }
+
+      /* Is Account? */
+      if ($this->is_this_account($this->attrs)) {
+        $this->is_account = TRUE;
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, 'found', 'Object check');
+      }
+    }
+
+    $this->loadAttributes();
+
+    $this->prepareSavedAttributes();
+
+    /* Save initial account state */
+    $this->initially_was_account = $this->is_account;
 
     $this->orig_dn = $dn;
 
     if ($this->mainTab) {
       $this->is_account = TRUE;
-      /* TODO: When merging plugin and simplePlugin we should find a way to avoid doing a separate LDAP fetch for this */
       $this->entryCSN = getEntryCSN($this->dn);
     }
 
@@ -154,6 +250,29 @@ class simplePlugin extends plugin
         }
       }
     }
+  }
+
+  protected function loadAttributes()
+  {
+    // We load attributes values
+    // First the one flagged as preInit
+    foreach ($this->preInitAttributes as $attr) {
+      $this->attributesAccess[$attr]->setParent($this);
+      $this->attributesAccess[$attr]->loadValue($this->attrs);
+    }
+    // Then the others
+    foreach ($this->attributesInfo as &$sectionInfo) {
+      foreach ($sectionInfo['attrs'] as $name => &$attr) {
+        if (in_array($name, $this->preInitAttributes)) {
+          /* skip the preInit ones */
+          continue;
+        }
+        $attr->setParent($this);
+        $attr->loadValue($this->attrs);
+      }
+      unset($attr);
+    }
+    unset($sectionInfo);
   }
 
   function is_this_account($attrs)
@@ -216,30 +335,8 @@ class simplePlugin extends plugin
     }
   }
 
-  protected function loadAttributes()
-  {
-    // We load attributes values
-    // First the one flagged as preInit
-    foreach ($this->preInitAttributes as $attr) {
-      $this->attributesAccess[$attr]->setParent($this);
-      $this->attributesAccess[$attr]->loadValue($this->attrs);
-    }
-    // Then the others
-    foreach ($this->attributesInfo as &$sectionInfo) {
-      foreach ($sectionInfo['attrs'] as $name => &$attr) {
-        if (in_array($name, $this->preInitAttributes)) {
-          /* skip the preInit ones */
-          continue;
-        }
-        $attr->setParent($this);
-        $attr->loadValue($this->attrs);
-      }
-      unset($attr);
-    }
-    unset($sectionInfo);
-  }
-
   /*! \brief This function allows to use the syntax $plugin->attributeName to get attributes values
+   *
    * It calls the getValue method on the concerned attribute
    * It also adds the $plugin->attribtues syntax to get attributes list
    */
@@ -356,6 +453,12 @@ class simplePlugin extends plugin
       }
     }
     return $this->editing_group;
+  }
+
+  /*! \brief Indicates if this object is opened as read-only (because of locks) */
+  function readOnly()
+  {
+    return $this->read_only;
   }
 
   /*! \brief This function display the plugin and return the html code
@@ -645,8 +748,6 @@ class simplePlugin extends plugin
       $ldap->modify($this->attrs);
     }
 
-    $this->ldap_error = $ldap->get_error();
-
     if ($ldap->success()) {
       return array();
     } else {
@@ -823,7 +924,6 @@ class simplePlugin extends plugin
 
     $ldap->cd($this->dn);
     $ldap->$action($this->attrs);
-    $this->ldap_error = $ldap->get_error();
 
     /* Check for errors */
     if (!$ldap->success()) {
@@ -1166,6 +1266,11 @@ class simplePlugin extends plugin
       return FALSE;
     }
     return TRUE;
+  }
+
+  function is_modal_dialog()
+  {
+    return (isset($this->dialog) && $this->dialog);
   }
 
   /*!

@@ -2783,12 +2783,12 @@ function getEntryCSN($dn)
 {
   global $config;
   if (empty($dn) || !is_object($config)) {
-    return "";
+    return '';
   }
 
   /* Get attribute that we should use as serial number */
-  $attr = $config->get_cfg_value("modificationDetectionAttribute");
-  if ($attr != "") {
+  $attr = $config->get_cfg_value('modificationDetectionAttribute');
+  if ($attr != '') {
     $ldap = $config->get_ldap_link();
     $ldap->cat($dn, array($attr));
     $csn = $ldap->fetch();
@@ -2796,7 +2796,7 @@ function getEntryCSN($dn)
       return $csn[$attr][0];
     }
   }
-  return "";
+  return '';
 }
 
 /*!
