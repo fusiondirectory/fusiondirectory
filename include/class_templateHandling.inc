@@ -286,8 +286,10 @@ class templateHandling
         $str = htmlentities($str, ENT_NOQUOTES, 'UTF-8');
 
         $str = preg_replace('#&([A-za-z])(?:acute|cedil|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $str);
-        $str = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $str); // handle ligatures
-        return array(preg_replace('#&[^;]+;#', '', $str)); // delete unhandled characters
+        // handle ligatures
+        $str = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $str);
+        // delete unhandled characters
+        return array(preg_replace('#&[^;]+;#', '', $str));
       case 't':
         // translit
         $localesaved = setlocale(LC_CTYPE, 0);
