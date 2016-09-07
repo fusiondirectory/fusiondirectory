@@ -52,8 +52,8 @@ class template
   {
     $this->type = $type;
     $this->dn   = $dn;
-    list($this->attrs, $depends) = plugin::tpl_fetch_template($this->dn);
-    $this->needed     = plugin::tpl_needed_attrs($this->attrs, $depends);
+    list($this->attrs, $depends) = templateHandling::fetch($this->dn);
+    $this->needed     = templateHandling::neededAttrs($this->attrs, $depends);
     $this->needed[]   = 'base';
     if ($targetdn === NULL) {
       $this->tabObject  = objects::create($this->type);
@@ -83,9 +83,9 @@ class template
   /*! \brief Used when you need to re-apply the same template with different values */
   function reset()
   {
-    list($this->attrs, $depends) = plugin::tpl_fetch_template($this->dn);
+    list($this->attrs, $depends) = templateHandling::fetch($this->dn);
     // This is needed because it removes %askme% values from attrs
-    $this->needed     = plugin::tpl_needed_attrs($this->attrs, $depends);
+    $this->needed     = templateHandling::neededAttrs($this->attrs, $depends);
     $this->needed[]   = 'base';
     $this->tabObject  = objects::create($this->type);
     /* Used to know which tab is activated */
@@ -227,7 +227,7 @@ class template
     }
     unset($array);
 
-    $this->attrs = plugin::tpl_parse_attrs($this->attrs);
+    $this->attrs = templateHandling::parseArray($this->attrs);
     $this->tabObject->adapt_from_template($this->attrs, call_user_func_array('array_merge', $this->attributes));
 
     $this->applied = TRUE;

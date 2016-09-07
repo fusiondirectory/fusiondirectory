@@ -1942,7 +1942,7 @@ function gen_uids($rule, $attributes)
   $variables  = array();
 
   for ($pos = 0; preg_match('/%([^%]+)%/', $stripped, $m, PREG_OFFSET_CAPTURE, $pos); ) {
-    $variables[$pos]  = plugin::tpl_parse_mask($m[1][0], $attributes);
+    $variables[$pos]  = templateHandling::parseMask($m[1][0], $attributes);
     $replace          = '{'.$pos.'}';
     $stripped         = substr_replace($stripped, $replace, $m[0][1], strlen($m[0][0]));
     $pos              = $m[0][1] + strlen($replace);

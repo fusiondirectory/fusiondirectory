@@ -244,7 +244,7 @@ class userManagement extends simpleManagement
                        'name="listing_edit_tab_user_'.$row.'"/>';
     if ($attrs = $ldap->fetch()) {
       if (in_array_ics ('fdTemplate', $attrs['objectClass'])) {
-        $attrs = plugin::tpl_template_to_attrs($attrs);
+        $attrs = templateHandling::fieldsFromLDAP($attrs);
       }
       foreach ($usertabs as $class => $usertab) {
         if ($usertab->is_this_account($attrs)) {

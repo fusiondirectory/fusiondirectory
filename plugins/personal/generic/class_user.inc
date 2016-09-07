@@ -478,7 +478,7 @@ class user extends simplePlugin
   {
     global $config;
     $pattern  = $config->get_cfg_value('CnPattern', '%givenName% %sn%');
-    $fields   = plugin::tpl_list_fields($pattern);
+    $fields   = templateHandling::listFields($pattern);
     $attrs    = array();
     foreach ($fields as $field) {
       if (in_array($field, $this->attributes)) {
@@ -496,7 +496,7 @@ class user extends simplePlugin
       }
       trigger_error('Could not find field '.$field.' in any tab!');
     }
-    $this->attributesAccess['cn']->setValue(plugin::tpl_parse_string($pattern, $attrs));
+    $this->attributesAccess['cn']->setValue(templateHandling::parseString($pattern, $attrs));
   }
 
   function compute_dn()

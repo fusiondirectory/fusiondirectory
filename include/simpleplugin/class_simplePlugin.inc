@@ -1057,7 +1057,7 @@ class simplePlugin extends plugin
                   'newvalue'  => $newvalue,
                   'tab'       => $tabclass,
                 );
-              $filter = plugin::tpl_parse_string($filter, array('oldvalue' => $oldvalue, 'newvalue' => $newvalue), 'ldap_escape_f');
+              $filter = templateHandling::parseString($filter, array('oldvalue' => $oldvalue, 'newvalue' => $newvalue), 'ldap_escape_f');
             } elseif ($mode == 'references') {
               $foreignRefs[$objectType]['refs'][$class]['name'] = $cinfos['plShortName'];
               $foreignRefs[$objectType]['refs'][$class]['fields'][$ofield] =
@@ -1067,7 +1067,7 @@ class simplePlugin extends plugin
                   'field'   => $field,
                   'value'   => $this->parent->by_object[$tabclass]->$field,
                 );
-              $filter = plugin::tpl_parse_string($filter, array('oldvalue' => $this->parent->by_object[$tabclass]->$field), 'ldap_escape_f');
+              $filter = templateHandling::parseString($filter, array('oldvalue' => $this->parent->by_object[$tabclass]->$field), 'ldap_escape_f');
             }
             if (!preg_match('/^\(.*\)$/', $filter)) {
               $filter = '('.$filter.')';
