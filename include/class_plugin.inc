@@ -130,8 +130,6 @@ class plugin
 
     $this->saved_attributes       = array();
     $this->initially_was_account  = FALSE;
-
-    $this->postCopyHook();
   }
 
   /*!
@@ -210,13 +208,6 @@ class plugin
     $display .= '<input type="submit" value="'.$button_text.'" name="'.$name.'" '.$state.'></p></div><hr class="separator"/>';
 
     return $display;
-  }
-
-  /*!
-   * \brief Executes a command after an object has been copied
-   */
-  function postCopyHook()
-  {
   }
 
   /*!

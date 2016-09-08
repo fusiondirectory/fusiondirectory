@@ -469,8 +469,9 @@ class user extends simplePlugin
     return (isset($attrs['objectClass']) && in_array_ics('inetOrgPerson', $attrs['objectClass']));
   }
 
-  function postCopyHook()
+  function resetCopyInfos()
   {
+    parent::resetCopyInfos();
     $this->attributesAccess['uid']->setDisabled($this->initially_was_account && !$this->is_template);
   }
 

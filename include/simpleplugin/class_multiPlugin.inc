@@ -198,8 +198,6 @@ class multiPlugin extends simplePlugin
     unset($plug);
   }
 
-  /* Prepare the connectivity obj
-   */
   function resetCopyInfos()
   {
     $this->dn = 'new';
@@ -207,15 +205,6 @@ class multiPlugin extends simplePlugin
       $plug->resetCopyInfos();
     }
     unset($plug);
-  }
-
-  /* Prepare the connectivity obj
-   */
-  function postCopyHook()
-  {
-    foreach ($this->plugin as &$plug) {
-      $plug->postCopyHook();
-    }
   }
 }
 
