@@ -64,6 +64,19 @@ class simplePlugin extends plugin
    */
   public $is_template    = FALSE;
 
+  /*!
+    \brief Represent temporary LDAP data
+
+    This is only used internally.
+   */
+  protected $attrs = array();
+
+  /*! \brief The objectClasses set by this tab */
+  protected $objectclasses = array();
+
+  /*! \brief The state of the attributes when we opened the object */
+  protected $saved_attributes = array();
+
   /*! \brief Do we want a header allowing to able/disable this plugin */
   protected $displayHeader = FALSE;
 
@@ -324,6 +337,36 @@ class simplePlugin extends plugin
     }
   }
 
+  protected function templateLoadAttrs(array $template_attrs)
+  {
+    if ($this->mainTab) {
+      $this->_template_cn = $template_attrs['cn'][0];
+    }
+    $this->attrs = templateHandling::fieldsFromLDAP($template_attrs);
+  }
+
+  protected function templateSaveAttrs()
+  {
+    global $config;
+    $ldap = $config->get_ldap_link();
+    $ldap->cat($this->dn);
+    $template_attrs = $ldap->fetch();
+    if (!$template_attrs) {
+      if (!$this->mainTab) {
+        trigger_error('It seems main tab has not been saved.');
+      }
+      $template_attrs = array(
+        'objectClass'     => array('fdTemplate'),
+        'fdTemplateField' => array()
+      );
+    }
+    $template_attrs = templateHandling::fieldsToLDAP($template_attrs, $this->attrs);
+    if ($this->mainTab) {
+      $template_attrs['cn'] = $this->_template_cn;
+    }
+    return $template_attrs;
+  }
+
   /*! \brief This function returns an LDAP filter for this plugin object classes
    */
   function getObjectClassFilter ()
@@ -553,6 +596,30 @@ class simplePlugin extends plugin
     }
 
     return $this->header.$smarty->fetch($this->templatePath);
+  }
+
+  /*!
+   * \brief Show header message for tab dialogs
+   *
+   * \param string $button_text The button text
+   *
+   * \param string $text The text
+   *
+   * \param boolean $plugin_enabled
+   *
+   * \param boolean $button_disabled FALSE
+   */
+  function show_header($button_text, $text, $plugin_enabled, $button_disabled = FALSE, $name = 'modify_state')
+  {
+    if ($button_disabled || ((!$this->acl_is_createable() && !$plugin_enabled) || (!$this->acl_is_removeable() && $plugin_enabled))) {
+        $state = 'disabled="disabled"';
+    } else {
+        $state = '';
+    }
+    $display = '<div width="100%"><p><b>'.$text.'</b><br/>'."\n";
+    $display .= '<input type="submit" value="'.$button_text.'" name="'.$name.'" '.$state.'></p></div><hr class="separator"/>';
+
+    return $display;
   }
 
   function attr_is_writeable($attr)
@@ -805,6 +872,90 @@ class simplePlugin extends plugin
     }
   }
 
+  protected function prepareSavedAttributes()
+  {
+    /* Prepare saved attributes */
+    $this->saved_attributes = $this->attrs;
+    foreach (array_keys($this->saved_attributes) as $index) {
+      if (is_numeric($index)) {
+        unset($this->saved_attributes[$index]);
+        continue;
+      }
+
+      if (!in_array_ics($index, $this->attributes) && strcasecmp('objectClass', $index)) {
+        unset($this->saved_attributes[$index]);
+        continue;
+      }
+
+      if (isset($this->saved_attributes[$index][0])) {
+        if (!isset($this->saved_attributes[$index]['count'])) {
+          $this->saved_attributes[$index]['count'] = count($this->saved_attributes[$index]);
+        }
+        if ($this->saved_attributes[$index]['count'] == 1) {
+          $tmp = $this->saved_attributes[$index][0];
+          unset($this->saved_attributes[$index]);
+          $this->saved_attributes[$index] = $tmp;
+          continue;
+        }
+      }
+      unset($this->saved_attributes[$index]['count']);
+    }
+  }
+
+  /*!
+   * \brief Remove attributes, empty arrays, arrays
+   * single attributes that do not differ
+   */
+  function cleanup()
+  {
+    foreach ($this->attrs as $index => $value) {
+
+      /* Convert arrays with one element to non arrays, if the saved
+         attributes are no array, too */
+      if (is_array($this->attrs[$index]) &&
+          count ($this->attrs[$index]) == 1 &&
+          isset($this->saved_attributes[$index]) &&
+          !is_array($this->saved_attributes[$index])) {
+        $this->attrs[$index] = $this->attrs[$index][0];
+      }
+
+      /* Remove emtpy arrays if they do not differ */
+      if (is_array($this->attrs[$index]) &&
+          count($this->attrs[$index]) == 0 &&
+          !isset($this->saved_attributes[$index])) {
+        unset ($this->attrs[$index]);
+        continue;
+      }
+
+      /* Remove single attributes that do not differ */
+      if (!is_array($this->attrs[$index]) &&
+          isset($this->saved_attributes[$index]) &&
+          !is_array($this->saved_attributes[$index]) &&
+          $this->attrs[$index] == $this->saved_attributes[$index]) {
+        unset ($this->attrs[$index]);
+        continue;
+      }
+
+      /* Remove arrays that do not differ */
+      if (is_array($this->attrs[$index]) &&
+          isset($this->saved_attributes[$index]) &&
+          is_array($this->saved_attributes[$index])) {
+        if (!array_differs($this->attrs[$index], $this->saved_attributes[$index])) {
+          unset ($this->attrs[$index]);
+          continue;
+        }
+      }
+    }
+  }
+
+  function prepareNextCleanup()
+  {
+    /* Update saved attributes and ensure that next cleanups will be successful too */
+    foreach ($this->attrs as $name => $value) {
+      $this->saved_attributes[$name] = $value;
+    }
+  }
+
   /*! \brief This function saves the object in the LDAP
    */
   function save ()
@@ -949,6 +1100,130 @@ class simplePlugin extends plugin
     if (!empty($errors)) {
       msg_dialog::displayChecks($errors);
     }
+  }
+
+  /*! \brief Forward command execution requests
+   *         to the pre/post hook execution method.
+   *
+   * \param  string  $when must be PRE or POST
+   *
+   * \param  string  $mode add, remove or modify
+   *
+   * \param  array  $addAttrs
+   */
+  protected function handle_hooks($when, $mode, array $addAttrs = array())
+  {
+    switch ($mode) {
+      case 'add':
+        return $this->callHook($when.'CREATE', $addAttrs);
+        break;
+
+      case 'modify':
+        return $this->callHook($when.'MODIFY', $addAttrs);
+        break;
+
+      case 'remove':
+        return $this->callHook($when.'REMOVE', $addAttrs);
+        break;
+
+      default:
+        trigger_error(sprintf('Invalid %s event type given: "%s"! Valid types are: add, modify, remove.', strtolower($when), $mode));
+        break;
+    }
+  }
+
+  /*! \brief Forward command execution requests
+   *         to the post hook execution method.
+   */
+  function handle_post_events($mode, array $addAttrs = array())
+  {
+    /* Update foreign keys */
+    if ($mode == 'remove') {
+      $this->handleForeignKeys($this->dn, NULL);
+    } elseif ($mode == 'modify') {
+      $this->handleForeignKeys();
+    }
+    return $this->handle_hooks('POST', $mode, $addAttrs);
+  }
+
+  /*!
+   *  \brief Forward command execution requests
+   *         to the pre hook execution method.
+   */
+  function handle_pre_events($mode, array $addAttrs = array())
+  {
+    return $this->handle_hooks('PRE', $mode, $addAttrs);
+  }
+
+  /*!
+   * \brief    Calls external hooks which are defined for this plugin (fusiondirectory.conf)
+   *           Replaces placeholder by class values of this plugin instance.
+   *       Allows to a add special replacements.
+   */
+  function callHook($cmd, array $addAttrs = array(), &$returnOutput = array(), &$returnCode = NULL)
+  {
+    if ($this->is_template) {
+      return array();
+    }
+    global $config;
+
+    $commands = $config->searchHooks(get_class($this), $cmd);
+    $messages = array();
+
+    foreach ($commands as $command) {
+      // Walk trough attributes list and add the plugins attributes.
+      foreach ($this->attributes as $attr) {
+        $addAttrs[$attr] = $this->$attr;
+      }
+
+      $ui = get_userinfo();
+
+      $addAttrs['callerDN']         = $ui->dn;
+      $addAttrs['callerCN']         = $ui->cn;
+      $addAttrs['callerUID']        = $ui->uid;
+      $addAttrs['callerSN']         = $ui->sn;
+      $addAttrs['callerGIVENNAME']  = $ui->givenName;
+
+      $addAttrs['dn']         = $this->dn;
+      $addAttrs['location']   = $config->current['NAME'];
+
+      if (isset($this->parent->by_object)) {
+        foreach ($this->parent->by_object as $object) {
+          foreach ($object->attributes as $attr) {
+            if (!isset($addAttrs[$attr])) {
+              $addAttrs[$attr] = $object->$attr;
+            }
+          }
+        }
+      }
+
+      if (!isset($addAttrs['base']) && isset($this->base)) {
+        $addAttrs['base'] = $this->base;
+      }
+
+      $command = templateHandling::parseString($command, $addAttrs, 'escapeshellarg');
+
+      @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execute");
+      exec($command, $arr, $returnCode);
+      $returnOutput = $arr;
+
+      if ($returnCode != 0) {
+        $str = implode("\n", $arr);
+        @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execution failed code: ".$returnCode);
+        $message = msgPool::cmdexecfailed($cmd, $command, get_class($this));
+        if (!empty($str)) {
+          $message .= "Result: ".$str;
+        }
+        $messages[] = $message;
+      } elseif (is_array($arr)) {
+        $str = implode("\n", $arr);
+        @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Result: ".$str);
+        if (!empty($str) && $config->get_cfg_value("displayHookOutput", "FALSE") == "TRUE") {
+          msg_dialog::display('['.get_class($this).' '.strtolower($cmd)."hook] $command", $str, INFO_DIALOG);
+        }
+      }
+    }
+    return $messages;
   }
 
   /*! \brief This function checks the attributes values and yell if something is wrong
@@ -1179,6 +1454,49 @@ class simplePlugin extends plugin
     }
   }
 
+  /*!
+   * \brief Create unique DN
+   *
+   * \param string $attribute
+   *
+   * \param string $base
+   */
+  function create_unique_dn($attribute, $base)
+  {
+    global $config;
+    $ldap = $config->get_ldap_link();
+    $base = preg_replace('/^,*/', '', $base);
+
+    /* Try to use plain entry first */
+    $dn = $attribute.'='.ldap_escape_dn($this->$attribute).','.$base;
+    if ($dn == $this->orig_dn) {
+      return $dn;
+    }
+    $ldap->cat($dn, array('dn'));
+    if (!$ldap->fetch()) {
+      return $dn;
+    }
+
+    /* Look for additional attributes */
+    foreach ($this->attributes as $attr) {
+      if (($attr == $attribute) || ($this->$attr == '') || is_array($this->$attr)) {
+        continue;
+      }
+
+      $dn = $attribute.'='.ldap_escape_dn($this->$attribute).'+'.$attr.'='.ldap_escape_dn($this->$attr).','.$base;
+      if ($dn == $this->orig_dn) {
+        return $dn;
+      }
+      $ldap->cat($dn, array('dn'));
+      if (!$ldap->fetch()) {
+        return $dn;
+      }
+    }
+
+    /* None found */
+    return 'none';
+  }
+
   /*
    * \brief Adapt from template, using 'dn'
    *
@@ -1203,6 +1521,18 @@ class simplePlugin extends plugin
 
     /* Is Account? */
     $this->is_account = $this->is_this_account($this->attrs);
+  }
+
+  /*!
+   * \brief This function is called on the copied object to set its dn to where it will be saved
+   */
+  function resetCopyInfos()
+  {
+    $this->dn       = 'new';
+    $this->orig_dn  = $this->dn;
+
+    $this->saved_attributes       = array();
+    $this->initially_was_account  = FALSE;
   }
 
   protected function attributeHaveChanged($field)
