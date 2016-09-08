@@ -114,10 +114,11 @@ class plugin
         'fdTemplateField' => array()
       );
     }
+    $template_attrs = templateHandling::fieldsToLDAP($template_attrs, $this->attrs);
     if ($this->mainTab) {
       $template_attrs['cn'] = $this->_template_cn;
     }
-    return templateHandling::fieldsToLDAP($template_attrs, $this->attrs);
+    return $template_attrs;
   }
 
   /*!
