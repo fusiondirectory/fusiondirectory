@@ -96,7 +96,7 @@ class plugin
     if ($this->mainTab) {
       $this->_template_cn = $template_attrs['cn'][0];
     }
-    $this->attrs = static::templateHandling::fieldsFromLDAP($template_attrs);
+    $this->attrs = templateHandling::fieldsFromLDAP($template_attrs);
   }
 
   protected function templateSaveAttrs()
