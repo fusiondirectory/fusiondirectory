@@ -458,17 +458,6 @@ class plugin
     return $messages;
   }
 
-  /*! \brief Test for removability of the object
-   *
-   * Allows testing of conditions for removal of object. If removal should be aborted
-   * the function needs to remove an error message.
-   */
-  function allow_remove()
-  {
-    $reason = "";
-    return $reason;
-  }
-
   /*!
    * \brief Set acl base
    *
