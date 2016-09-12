@@ -799,7 +799,7 @@ class simplePlugin extends plugin
    *
    *  \param string $entry_dn the dn of the object to show/edit
    *
-   *  \param string $tabs TRUE to use tabs, FALSE to show directly the plugin class
+   *  \param boolean $tabs TRUE to use tabs, FALSE to show directly the plugin class
    *
    *  \param boolean $edit_mode wether or not this plugin can be edited
    *
