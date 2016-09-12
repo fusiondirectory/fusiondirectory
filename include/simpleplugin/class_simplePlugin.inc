@@ -67,9 +67,9 @@ class simplePlugin extends plugin
   /*!
     \brief Represent temporary LDAP data
 
-    This is only used internally.
+    This should only be used internally.
    */
-  protected $attrs = array();
+  public $attrs = array();
 
   /*! \brief The objectClasses set by this tab */
   protected $objectclasses = array();
