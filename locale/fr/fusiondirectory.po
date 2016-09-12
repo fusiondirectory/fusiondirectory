@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2016-09-05 22:51+0200\n"
+"POT-Creation-Date: 2016-09-07 22:47+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Benoit Mortier <benoit.mortier@opensides.be>, 2016\n"
+"Last-Translator: fusiondirectory <contact@fusiondirectory.org>, 2016\n"
 "Language-Team: French (https://www.transifex.com/fusiondirectory/teams/12202/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -203,7 +203,7 @@ msgstr "Autoriser seulement ce groupe à se connecter sur ces listes d'hôtes"
 
 #: plugins/admin/groups/class_group.inc:181
 #: plugins/personal/posix/class_posixAccount.inc:479 include/functions.inc:790
-#: include/functions.inc:2442 include/simpleplugin/class_simpleTabs.inc:304
+#: include/functions.inc:2442 include/simpleplugin/class_simpleTabs.inc:306
 #: html/index.php:593 html/main.php:158 setup/class_setupStep_Ldap.inc:199
 #: setup/class_setupStep_Migrate.inc:573
 #: setup/class_setupStep_Migrate.inc:1081
@@ -583,7 +583,7 @@ msgstr "Utilisateur"
 msgid "From template"
 msgstr "Depuis un modèle"
 
-#: plugins/admin/users/user-list.xml:95 include/class_template.inc:36
+#: plugins/admin/users/user-list.xml:95 include/class_template.inc:41
 #: include/simpleplugin/class_simpleManagement.inc:205
 #: include/simpleplugin/class_simpleManagement.inc:402
 #: ihtml/themes/breezy/template.tpl.c:5
@@ -2305,14 +2305,14 @@ msgstr "Sélectionner tout"
 #: include/functions.inc:3104 include/functions.inc:3108
 #: include/functions.inc:3115 include/functions.inc:3124
 #: include/functions.inc:3186 include/class_msg_dialog.inc:136
-#: include/class_plugin.inc:573
+#: include/class_templateHandling.inc:388
 #: include/simpleplugin/attributes/class_FileAttribute.inc:31
 #: include/simpleplugin/attributes/class_FileAttribute.inc:34
 #: include/simpleplugin/attributes/class_FileAttribute.inc:37
 #: include/simpleplugin/attributes/class_FileAttribute.inc:284
 #: include/simpleplugin/attributes/class_BaseSelectorAttribute.inc:87
 #: include/simpleplugin/attributes/class_BaseSelectorAttribute.inc:89
-#: include/simpleplugin/class_simpleTabs.inc:73
+#: include/simpleplugin/class_simpleTabs.inc:70
 #: include/password-methods/class_password-methods-sasl.inc:60
 #: include/password-methods/class_password-methods-sasl.inc:86
 #: include/password-methods/class_password-methods.inc:400
@@ -3166,9 +3166,9 @@ msgstr ""
 "'%s' pour essayer de régler le problème"
 
 #: include/functions.inc:490 include/functions.inc:3221
-#: include/simpleplugin/class_simplePlugin.inc:298
-#: include/simpleplugin/class_simplePlugin.inc:303
-#: include/simpleplugin/class_simplePlugin.inc:315
+#: include/simpleplugin/class_simplePlugin.inc:395
+#: include/simpleplugin/class_simplePlugin.inc:400
+#: include/simpleplugin/class_simplePlugin.inc:412
 #: html/class_passwordRecovery.inc:108
 msgid "Fatal error"
 msgstr "Erreur Fatale"
@@ -3461,14 +3461,14 @@ msgstr ""
 "Le canal demandé n'existe pas ! Veuillez contacter votre administrateur "
 "système."
 
-#: include/class_template.inc:37
+#: include/class_template.inc:42
 msgid "Object template, used to create several objects with similar values"
 msgstr ""
 "modèle d'objet, utilisé pour créer plusieurs objets avec des valeurs "
 "similaires"
 
-#: include/class_template.inc:41
-#: include/simpleplugin/class_simplePlugin.inc:186
+#: include/class_template.inc:46
+#: include/simpleplugin/class_simplePlugin.inc:305
 msgid "Template name"
 msgstr "Nom du modèle"
 
@@ -3594,7 +3594,7 @@ msgstr "Pas d'exportation en pdf, la librairie FPDF n'est pas installée."
 msgid "PDF"
 msgstr "PDF"
 
-#: include/class_plugin.inc:575
+#: include/class_templateHandling.inc:390
 #, php-format
 msgid ""
 "Recursive dependency in the template fields: \"%1$s\" cannot depend on "
@@ -3612,24 +3612,24 @@ msgstr "Tout annuler"
 msgid "Cannot paste"
 msgstr "Impossible de coller"
 
-#: include/simpleplugin/class_simplePlugin.inc:183
+#: include/simpleplugin/class_simplePlugin.inc:302
 msgid "Template settings"
 msgstr "Paramètres du modèle"
 
-#: include/simpleplugin/class_simplePlugin.inc:186
+#: include/simpleplugin/class_simplePlugin.inc:305
 msgid "This is the name of the template"
 msgstr "Le nom de ce modèle "
 
-#: include/simpleplugin/class_simplePlugin.inc:298
+#: include/simpleplugin/class_simplePlugin.inc:395
 msgid "Only main tab can compute dn"
 msgstr "Seulement l'onglet principal peut générer un dn"
 
-#: include/simpleplugin/class_simplePlugin.inc:305
+#: include/simpleplugin/class_simplePlugin.inc:402
 #, php-format
 msgid "Could not compute dn: no parent tab class for \"%s\""
 msgstr "Impossible de générer le dn: pas de classe d’onglet parente pour \"%s\""
 
-#: include/simpleplugin/class_simplePlugin.inc:317
+#: include/simpleplugin/class_simplePlugin.inc:414
 #, php-format
 msgid ""
 "Could not compute dn: could not find objectType infos from tab class \"%s\""
@@ -3637,17 +3637,17 @@ msgstr ""
 "Impossible de générer le dn : pas d’infos sur le type d’objet pour la classe"
 " d’onglet \"%s\""
 
-#: include/simpleplugin/class_simplePlugin.inc:812
+#: include/simpleplugin/class_simplePlugin.inc:913
 #, php-format
 msgid "There is already an entry with the same dn : %s"
 msgstr "Il existe déjà une entrée avec le même dn: %s"
 
-#: include/simpleplugin/class_simplePlugin.inc:819
+#: include/simpleplugin/class_simplePlugin.inc:920
 #, php-format
 msgid "The entry %s is not existing"
 msgstr "L'entrée %s n'existe pas"
 
-#: include/simpleplugin/class_simplePlugin.inc:887
+#: include/simpleplugin/class_simplePlugin.inc:987
 msgid ""
 "The object has changed since opened in FusionDirectory. All changes that may"
 " be done by others will get lost if you save this entry!"
@@ -3656,18 +3656,18 @@ msgstr ""
 "modifications qui peuvent être faites par d'autres seront perdus si vous "
 "enregistrez cette entrée!"
 
-#: include/simpleplugin/class_simplePlugin.inc:1061
+#: include/simpleplugin/class_simplePlugin.inc:1161
 #, php-format
 msgid "Tab \"%s\""
 msgstr "Onglet \"%s\""
 
-#: include/simpleplugin/class_simplePlugin.inc:1153
+#: include/simpleplugin/class_simplePlugin.inc:1253
 #, php-format
 msgid "You don't have sufficient rights to edit field \"%s\""
 msgstr ""
 "Vous ne disposez pas des droits suffisants pour modifier les champs \"%s\""
 
-#: include/simpleplugin/class_simplePlugin.inc:1156
+#: include/simpleplugin/class_simplePlugin.inc:1256
 #, php-format
 msgid "Unknown field \"%s\""
 msgstr "Champ inconnu \"%s\""
@@ -3728,7 +3728,7 @@ msgid "A float smaller than %f"
 msgstr "Un nombre a virgule flottant plus petit que %f"
 
 #: include/simpleplugin/attributes/class_SetAttribute.inc:227
-#: include/simpleplugin/class_Attribute.inc:544
+#: include/simpleplugin/class_Attribute.inc:549
 #, php-format
 msgid "%s (required)"
 msgstr "%s (requis)"
@@ -3871,7 +3871,7 @@ msgstr "jours"
 msgid "NO LABEL"
 msgstr "Pas de titre"
 
-#: include/simpleplugin/class_simpleTabs.inc:74
+#: include/simpleplugin/class_simpleTabs.inc:71
 #, php-format
 msgid ""
 "No plugin definitions found to initialize \"%s\", please check your "
@@ -3880,12 +3880,12 @@ msgstr ""
 "Pas de définition de plugin pour l'initialisation de \"%s\", veuillez "
 "vérifier votre fichier de configuration."
 
-#: include/simpleplugin/class_simpleTabs.inc:304
+#: include/simpleplugin/class_simpleTabs.inc:306
 #, php-format
 msgid "Delete process has been canceled by plugin '%s': %s"
 msgstr "L'effacement à été interrompu par l'extension '%s': %s"
 
-#: include/simpleplugin/class_simpleTabs.inc:397
+#: include/simpleplugin/class_simpleTabs.inc:399
 #, php-format
 msgid "Move from \"%s\" to \"%s\" failed"
 msgstr "Déplacer de \"%s\" à \"%s\" a échoué"
