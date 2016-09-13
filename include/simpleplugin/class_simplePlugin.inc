@@ -104,6 +104,9 @@ class simplePlugin extends plugin
   /*! \brief Used when the entry is opened as "readonly" due to locks */
   protected $read_only = FALSE;
 
+  /*! \brief Last LDAP error (used by logging calls from post_* methods) */
+  protected $ldap_error;
+
   /*!
    * \brief Object entry CSN
    *
@@ -814,11 +817,12 @@ class simplePlugin extends plugin
       $ldap->cd($this->dn);
       $ldap->modify($this->attrs);
     }
+    $this->ldap_error = $ldap->get_error();
 
     if ($ldap->success()) {
       return array();
     } else {
-      return msgPool::ldaperror($ldap->get_error(), $this->dn, LDAP_MOD, get_class());
+      return msgPool::ldaperror($this->ldap_error, $this->dn, LDAP_MOD, get_class());
     }
   }
 
@@ -1075,10 +1079,11 @@ class simplePlugin extends plugin
 
     $ldap->cd($this->dn);
     $ldap->$action($this->attrs);
+    $this->ldap_error = $ldap->get_error();
 
     /* Check for errors */
     if (!$ldap->success()) {
-      return array(msgPool::ldaperror($ldap->get_error(), $this->dn, 0, get_class()));
+      return array(msgPool::ldaperror($this->ldap_error, $this->dn, 0, get_class()));
     }
     return array();
   }
