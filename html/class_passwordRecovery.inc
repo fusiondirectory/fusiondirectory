@@ -194,7 +194,11 @@ class standAlonePage {
     if ($port != '80') {
       $pageURL .= ':'.$port;
     }
-    $pageURL .= $_SERVER['PATH_INFO'];
+    if (empty($_SERVER['PATH_INFO'])) {
+      $pageURL .= $_SERVER['PHP_SELF'];
+    } else {
+      $pageURL .= $_SERVER['PATH_INFO'];
+    }
 
     return $pageURL;
   }
