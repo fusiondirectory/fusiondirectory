@@ -1,6 +1,6 @@
 [Icon Theme]
-Name=FusionDirectory
-Comment=FusionDirectory default icon theme
+Name=Legacy
+Comment=FusionDirectory legacy theme with Tango icons
 
 Directories=icons/16/actions,icons/22/actions,icons/32/actions,icons/48/actions,icons/scalable/actions,icons/16/apps,icons/22/apps,icons/32/apps,icons/48/apps,icons/scalable/apps,icons/16/status,icons/22/status,icons/32/status,icons/48/status,icons/scalable/status,icons/16/mimetypes,icons/22/mimetypes,icons/32/mimetypes,icons/48/mimetypes,icons/scalable/mimetypes,icons/16/places,icons/22/places,icons/32/places,icons/48/places,icons/scalable/places,icons/16/types,icons/22/types,icons/32/types,icons/48/types,icons/scalable/types,icons/16/categories,icons/22/categories,icons/32/categories,icons/48/categories,icons/scalable/categories,icons/16/devices,icons/22/devices,icons/32/devices,icons/48/devices,icons/scalable/devices
 
