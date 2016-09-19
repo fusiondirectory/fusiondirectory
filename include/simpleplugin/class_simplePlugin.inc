@@ -625,8 +625,15 @@ class simplePlugin extends plugin
     return $display;
   }
 
-  function attr_is_writeable($attr)
+  /*! \brief Check if logged in user have enough right to write this attribute value
+   *
+   * \param mixed $attr Attribute object or name (in this case it will be fetched from attributesAccess)
+   */
+  function attrIsWriteable($attr)
   {
+    if (!is_object($attr)) {
+      $attr = $this->attributesAccess[$attr];
+    }
     if ($attr->getLdapName() == 'base') {
       if (!$this->acl_skip_write() && (!$this->initially_was_account || $this->acl_is_moveable() || $this->acl_is_removeable())) {
         return TRUE;
@@ -648,7 +655,7 @@ class simplePlugin extends plugin
 
     /* Handle rights to modify the base */
     if (isset($this->attributesAccess['base'])) {
-      if ($this->attr_is_writeable($this->attributesAccess['base'])) {
+      if ($this->attrIsWriteable('base')) {
         $smarty->assign('baseACL', 'rw');
       } else {
         $smarty->assign('baseACL', 'r');
@@ -841,7 +848,7 @@ class simplePlugin extends plugin
    */
   function save_object ()
   {
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "save_object");
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'save_object');
     if ($this->displayHeader && isset($_POST[get_class($this).'_modify_state'])) {
       if ($this->is_account && $this->acl_is_removeable()) {
         $this->is_account = FALSE;
@@ -849,12 +856,12 @@ class simplePlugin extends plugin
         $this->is_account = TRUE;
       }
     }
-    if (isset($_POST[get_class($this)."_posted"])) {
+    if (isset($_POST[get_class($this).'_posted'])) {
       // If our form has been posted
       // A first pass that loads the post values
       foreach ($this->attributesInfo as $section => &$sectionInfo) {
         foreach ($sectionInfo['attrs'] as &$attr) {
-          if ($this->attr_is_writeable($attr)) {
+          if ($this->attrIsWriteable($attr)) {
             // Each attribute know how to read its value from POST
             $attr->loadPostValue();
           }
@@ -865,7 +872,7 @@ class simplePlugin extends plugin
       // A second one that applies them. That allow complex stuff such as attribute disabling
       foreach ($this->attributesInfo as $section => &$sectionInfo) {
         foreach ($sectionInfo['attrs'] as &$attr) {
-          if ($this->attr_is_writeable($attr)) {
+          if ($this->attrIsWriteable($attr)) {
             // Each attribute know how to read its value from POST
             $attr->applyPostValue();
           }
@@ -1582,10 +1589,10 @@ class simplePlugin extends plugin
   {
     foreach ($values as $name => $value) {
       if (isset($this->attributesAccess[$name])) {
-        if (!$checkAcl || $this->acl_is_writeable($this->attributesAccess[$name]->getAcl())) {
+        if (!$checkAcl || $this->attrIsWriteable($name)) {
           $this->attributesAccess[$name]->setValue($value);
         } else {
-          return sprintf(_('You don\'t have sufficient rights to edit field "%s"'), $name);
+          return msgPool::permModify($this->dn, $name);
         }
       } else {
         return sprintf(_('Unknown field "%s"'), $name);

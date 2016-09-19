@@ -137,23 +137,28 @@ class msgPool {
   /*!
    * \brief Display that we have no permission to modify an object
    *
-   * \param string $name Name of the object which will be modified
+   * \param string $name Name of the object which cannot be modified (or array of objects names)
+   * \param string $fields Name of the field of the object which cannot be modified
    */
-  public static function permModify($name = "")
+  public static function permModify($name = '', $field = '')
   {
-    if ($name == "") {
-      return _("You have no permission to modify this object!");
+    if ($name == '') {
+      return _('You have no permission to modify this object!');
     }
 
     if (!is_array($name)) {
-      return _("You have no permission to modify the object:")."<br><br><i>$name</i>";
+      if ($field != '') {
+        return sprintf(_('You have no permission to modify the field "%s" of object "%s"'), $field, $name);
+      } else {
+        return sprintf(_('You have no permission to modify the object:<br/>%s'), '<br/><i>'.$name.'</i>');
+      }
     }
 
     if (count($name) == 1) {
-      return _("You have no permission to modify the object:")."<br>".msgPool::buildList($name);
+      return sprintf(_('You have no permission to modify the object:<br/>%s'), msgPool::buildList($name));
     }
 
-    return _("You have no permission to modify these objects:")."<br>".msgPool::buildList($name);
+    return sprintf(_('You have no permission to modify these objects:<br/>%s'), msgPool::buildList($name));
   }
 
   /*!
@@ -466,7 +471,7 @@ class msgPool {
       }
 
       return sprintf(_("The field '%s' contains invalid characters"), $name).". ".
-        (strlen($mismatch) == 1?sprintf(_("'%s' is not allowed:"), $mismatch):sprintf(_("'%s' are not allowed!"), $mismatch)).
+        ((strlen($mismatch) == 1) ? sprintf(_("'%s' is not allowed:"), $mismatch) : sprintf(_("'%s' are not allowed!"), $mismatch)).
         "<br><br> \"$result\"$example";
     } else {
       return sprintf(_("The field '%s' contains invalid characters"), $name)."!$example";
@@ -520,9 +525,9 @@ class msgPool {
    *
    * \param string $what Text for the button
    */
-  public static function addButton($what = "")
+  public static function addButton($what = '')
   {
-    return ($what == "" ? sprintf(_("Add")): sprintf(_("Add %s"), $what));
+    return (($what == '') ? sprintf(_('Add')) : sprintf(_('Add %s'), $what));
   }
 
   /*!
@@ -530,9 +535,9 @@ class msgPool {
    *
    * \param string $what Text for the button
    */
-  public static function delButton($what = "")
+  public static function delButton($what = '')
   {
-    return ($what == "" ? sprintf(_("Delete")): sprintf(_("Delete %s"), $what));
+    return (($what == '') ? sprintf(_('Delete')) : sprintf(_('Delete %s'), $what));
   }
 
   /*!

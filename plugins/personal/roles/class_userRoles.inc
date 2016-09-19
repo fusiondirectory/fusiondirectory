@@ -76,9 +76,9 @@ class userRoles extends simplePlugin
     /* Groups handling */
     $groups      = array();
     $groupsattrs = objects::ls('ogroup', array('cn' => 1,  'description' => 1));
-    foreach($groupsattrs as $dn => $groupattr) {
+    foreach ($groupsattrs as $dn => $groupattr) {
       $groupDisplay = $groupattr['cn'];
-      if(isset($groupattr['description'])) {
+      if (isset($groupattr['description'])) {
         if (strlen($groupattr['description']) > 50) {
           $groupattr['description'] = substr($groupattr['description'], 0, 50).'…';
         }
@@ -105,9 +105,9 @@ class userRoles extends simplePlugin
     /* Roles handling */
     $roles        = array();
     $rolesattrs  = objects::ls('role', array('cn' => 1,  'description' => 1));
-    foreach($rolesattrs as $dn => $roleattr) {
+    foreach ($rolesattrs as $dn => $roleattr) {
       $roleDisplay = $roleattr['cn'];
-      if(isset($roleattr['description'])) {
+      if (isset($roleattr['description'])) {
         if (strlen($roleattr['description']) > 50) {
           $roleattr['description'] = substr($roleattr['description'], 0, 50).'…';
         }
@@ -216,12 +216,16 @@ class userRoles extends simplePlugin
       foreach ($groupsMembership as $ogroupdn) {
         if (!in_array($ogroupdn, $this->savedGroupsMembership)) {
           $g = objects::open($ogroupdn, 'ogroup');
+          if (!$g->getBaseObject()->attrIsWriteable('member')) {
+            $errors[] = msgPool::permModify($ogroupdn, 'member');
+            continue;
+          }
           $g->getBaseObject()->attributesAccess['member']->addValue($this->dn, $fake_attrs);
           $msg = $g->save();
           if (empty($msg)) {
             $this->savedGroupsMembership[] = $ogroupdn;
           } else {
-            msg_dialog::displayChecks($msg);
+            $errors = array_merge($errors, $msg);
           }
         }
       }
@@ -230,12 +234,16 @@ class userRoles extends simplePlugin
       foreach ($this->savedGroupsMembership as $key => $ogroupdn) {
         if (!in_array($ogroupdn, $groupsMembership)) {
           $g = objects::open($ogroupdn, 'ogroup');
+          if (!$g->getBaseObject()->attrIsWriteable('member')) {
+            $errors[] = msgPool::permModify($ogroupdn, 'member');
+            continue;
+          }
           $g->getBaseObject()->attributesAccess['member']->searchAndRemove($this->dn);
           $msg = $g->save();
           if (empty($msg)) {
             unset($this->savedGroupsMembership[$key]);
           } else {
-            msg_dialog::displayChecks($msg);
+            $errors = array_merge($errors, $msg);
           }
         }
       }
@@ -245,12 +253,16 @@ class userRoles extends simplePlugin
       foreach ($rolesMembership as $roledn) {
         if (!in_array($roledn, $this->savedRolesMembership)) {
           $r = objects::open($roledn, 'role');
+          if (!$r->getBaseObject()->attrIsWriteable('roleOccupant')) {
+            $errors[] = msgPool::permModify($roledn, 'roleOccupant');
+            continue;
+          }
           $r->getBaseObject()->attributesAccess['roleOccupant']->addValue($this->dn, $fake_attrs);
           $msg = $r->save();
           if (empty($msg)) {
             $this->savedRolesMembership[] = $roledn;
           } else {
-            msg_dialog::displayChecks($msg);
+            $errors = array_merge($errors, $msg);
           }
         }
       }
@@ -259,15 +271,21 @@ class userRoles extends simplePlugin
       foreach ($this->savedRolesMembership as $key => $roledn) {
         if (!in_array($roledn, $rolesMembership)) {
           $r = objects::open($roledn, 'role');
+          if (!$r->getBaseObject()->attrIsWriteable('roleOccupant')) {
+            $errors[] = msgPool::permModify($roledn, 'roleOccupant');
+            continue;
+          }
           $r->getBaseObject()->attributesAccess['roleOccupant']->searchAndRemove($this->dn);
           $msg = $r->save();
           if (empty($msg)) {
             unset($this->savedRolesMembership[$key]);
           } else {
-            msg_dialog::displayChecks($msg);
+            $errors = array_merge($errors, $msg);
           }
         }
       }
+
+      return $errors;
     }
   }
 
