@@ -401,9 +401,7 @@ class management
   }
 
   /*!
-   *  \brief  Save object modifications and keep dialogs opened.
-   *          - Calls 'ldap::check' to validate the given input.
-   *          - Calls 'ldap::save' to save back object modifications (e.g. to ldap).
+   *  \brief  Save object modifications and keep dialogs opened
    */
   protected function applyChanges()
   {
@@ -412,7 +410,6 @@ class management
       $msgs = $this->tabObject->save();
       if (count($msgs)) {
         msg_dialog::displayChecks($msgs);
-        return "";
       } else {
         @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, 'Modifications applied!');
         $this->tabObject->re_init();
