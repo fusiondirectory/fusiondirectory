@@ -695,10 +695,12 @@ class plugin
         $res = '';
         for ($i = 0; $i < $length; ++$i) {
           switch ($chars) {
-            case 'l':
+            case 'd':
+              /* digits */
               $res .= (string)rand(0, 9);
             break;
-            case 'd':
+            case 'l':
+              /* letters */
               $nb = mt_rand(65, 116);
               if ($nb > 90) {
                 /* lowercase */
@@ -707,6 +709,7 @@ class plugin
               $res .= chr($nb);
             break;
             case 'b':
+              /* both */
             default:
               $nb = mt_rand(65, 126);
               if ($nb > 116) {
