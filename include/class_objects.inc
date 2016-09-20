@@ -32,13 +32,24 @@ class objects
    *  Other values are considered to be 1.
    * \param string  $ou the LDAP branch to search in, base will be used if it is NULL
    * \param string  $filter an additional filter to use in the LDAP search.
+   * \param boolean $checkAcl should ACL be ignored or checked? Defaults to FALSE.
    *
    * \return The list of objects as an associative array (keys are dns)
    */
-  static function ls ($types, $attrs = NULL, $ou = NULL, $filter = '')
+  static function ls ($types, $attrs = NULL, $ou = NULL, $filter = '', $checkAcl = FALSE)
   {
+    global $ui;
+
     if (!is_array($types)) {
       $types = array($types);
+    }
+
+    if ($checkAcl) {
+      if (count($types) > 1) {
+        throw new FusionDirectoryException('Cannot evaluate ACL for several types');
+      }
+      $infos = static::infos(reset($types));
+      $acl = $infos['aclCategory'].'/'.$infos['mainTab'];
     }
 
     if ($attrs === NULL) {
@@ -66,6 +77,9 @@ class objects
     $result = array();
     while ($fetched_attrs = $ldap->fetch()) {
       $key = $fetched_attrs['dn'];
+      if ($checkAcl && !preg_match('/r/', $ui->get_permissions($key, $acl))) {
+        continue;
+      }
       if (is_array($attrs)) {
         $result[$key] = array();
         foreach ($attrs as $attr => $mode) {
