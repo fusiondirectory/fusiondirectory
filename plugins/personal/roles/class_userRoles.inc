@@ -75,7 +75,7 @@ class userRoles extends simplePlugin
 
     /* Groups handling */
     $groups      = array();
-    $groupsattrs = objects::ls('ogroup', array('cn' => 1,  'description' => 1));
+    $groupsattrs = objects::ls('ogroup', array('cn' => 1,  'description' => 1), NULL, '', TRUE);
     foreach ($groupsattrs as $dn => $groupattr) {
       $groupDisplay = $groupattr['cn'];
       if (isset($groupattr['description'])) {
@@ -87,11 +87,12 @@ class userRoles extends simplePlugin
       $groups[$dn] = $groupDisplay;
     }
     $this->attributesAccess['groupsMembership']->setInLdap(FALSE);
-    $this->attributesAccess['groupsMembership']->attribute->setChoices(array_keys($groups), array_values($groups));
     if ($this->is_template) {
       if (isset($this->attrs['userGroups'])) {
         unset($this->attrs['userGroups']['count']);
-        $this->groupsMembership = $this->attrs['userGroups'];
+        $myGroups = array_combine($this->attrs['userGroups'], $this->attrs['userGroups']);
+      } else {
+        $myGroups = array();
       }
     } else {
       if (($this->dn != '') && ($this->dn != 'new')) {
@@ -102,13 +103,16 @@ class userRoles extends simplePlugin
       } else {
         $myGroups = array();
       }
-      $this->attributesAccess['groupsMembership']->setValue(array_keys($myGroups));
       $this->savedGroupsMembership = array_keys($myGroups);
     }
+    /* We might be in some groups we have no read ACL on, so merge them in the choices */
+    $groups = array_merge($myGroups, $groups);
+    $this->attributesAccess['groupsMembership']->attribute->setChoices(array_keys($groups), array_values($groups));
+    $this->attributesAccess['groupsMembership']->setValue(array_keys($myGroups));
 
     /* Roles handling */
     $roles        = array();
-    $rolesattrs  = objects::ls('role', array('cn' => 1,  'description' => 1));
+    $rolesattrs  = objects::ls('role', array('cn' => 1,  'description' => 1), NULL, '', TRUE);
     foreach ($rolesattrs as $dn => $roleattr) {
       $roleDisplay = $roleattr['cn'];
       if (isset($roleattr['description'])) {
@@ -120,11 +124,12 @@ class userRoles extends simplePlugin
       $roles[$dn] = $roleDisplay;
     }
     $this->attributesAccess['rolesMembership']->setInLdap(FALSE);
-    $this->attributesAccess['rolesMembership']->attribute->setChoices(array_keys($roles), array_values($roles));
     if ($this->is_template) {
       if (isset($this->attrs['userRoles'])) {
         unset($this->attrs['userRoles']['count']);
-        $this->rolesMembership = $this->attrs['userRoles'];
+        $myRoles = array_combine($this->attrs['userRoles'], $this->attrs['userRoles']);
+      } else {
+        $myRoles = array();
       }
     } else {
       if (($this->dn != '') && ($this->dn != 'new')) {
@@ -135,9 +140,12 @@ class userRoles extends simplePlugin
       } else {
         $myRoles = array();
       }
-      $this->attributesAccess['rolesMembership']->setValue(array_keys($myRoles));
       $this->savedRolesMembership = array_keys($myRoles);
     }
+    /* We might be in some roles we have no read ACL on, so merge them in the choices */
+    $roles = array_merge($myRoles, $roles);
+    $this->attributesAccess['rolesMembership']->attribute->setChoices(array_keys($roles), array_values($roles));
+    $this->attributesAccess['rolesMembership']->setValue(array_keys($myRoles));
 
     $this->is_account = ((count($this->rolesMembership) > 0) || (count($this->groupsMembership) > 0));
     $this->initially_was_account = $this->is_account;
