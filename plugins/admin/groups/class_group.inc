@@ -23,6 +23,7 @@
 class group extends simplePlugin
 {
   var $objectclasses    = array('posixGroup');
+  protected $locks = array();
 
   static function plInfo()
   {
@@ -169,21 +170,8 @@ class group extends simplePlugin
       if ($this->attributesAccess['gidNumber']->getInitialValue() != "") {
         $this->gidNumber = $this->attributesAccess['gidNumber']->getInitialValue();
       } else {
-        /* Calculate new id's. We need to place a lock before calling get_next_id
-           to get real unique values.
-         */
-        $wait = 10;
-        while (get_lock("gidnumber") != "") {
-          sleep (1);
-
-          /* Oups - timed out */
-          if ($wait-- == 0) {
-            msg_dialog::display(_("Warning"), _("Timeout while waiting for lock. Ignoring lock!"), WARNING_DIALOG);
-            break;
-          }
-        }
-        add_lock ("gidnumber", "gosa");
-        $this->gidNumber = get_next_id("gidNumber", $this->dn);
+        $this->gidNumber = get_next_id_lock('gidNumber', $this->dn);
+        $this->locks[] = 'gidNumber';
       }
     }
 
@@ -201,10 +189,16 @@ class group extends simplePlugin
     }
   }
 
-  protected function post_save()
+  function save()
   {
-    del_lock("gidnumber");
-    parent::post_save();
+    $errors = parent::save();
+
+    foreach ($this->locks as $lock) {
+      del_lock($lock);
+    }
+    $this->locks = array();
+
+    return $errors;
   }
 
   function addUser($dn, $uid)

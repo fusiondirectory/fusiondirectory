@@ -78,6 +78,7 @@ class posixAccount extends simplePlugin
 {
   var $displayHeader = TRUE;
   var $objectclasses = array('posixAccount', 'shadowAccount');
+  protected $locks = array();
 
   static function plInfo()
   {
@@ -464,24 +465,11 @@ class posixAccount extends simplePlugin
        * - use existing number if possible
        * - if not, try to create a new uniqe one.
        * */
-      if ($this->attributesAccess['uidNumber']->getInitialValue() != "") {
+      if ($this->attributesAccess['uidNumber']->getInitialValue() != '') {
         $this->uidNumber = $this->attributesAccess['uidNumber']->getInitialValue();
       } else {
-        /* Calculate new id's. We need to place a lock before calling get_next_id
-           to get real unique values.
-         */
-        $wait = 10;
-        while (get_lock("uidnumber") != "") {
-          sleep (1);
-
-          /* Oups - timed out */
-          if ($wait-- == 0) {
-            msg_dialog::display(_("Warning"), _("Timeout while waiting for lock. Ignoring lock!"), WARNING_DIALOG);
-            break;
-          }
-        }
-        add_lock ("uidnumber", "gosa");
-        $this->uidNumber = get_next_id("uidNumber", $this->dn);
+        $this->uidNumber = get_next_id_lock('uidNumber', $this->dn);
+        $this->locks[] = 'uidNumber';
       }
     }
 
@@ -513,7 +501,8 @@ class posixAccount extends simplePlugin
 
         /* Request a new and unique gidNumber, if required */
         if (!$this->force_ids) {
-          $this->gidNumber = get_next_id('gidNumber', $this->dn);
+          $this->gidNumber = get_next_id_lock('gidNumber', $this->dn);
+          $this->locks[] = 'gidNumber';
         }
 
         /* If forced gidNumber could not be found, then check if the given group name already exists.
@@ -613,10 +602,21 @@ class posixAccount extends simplePlugin
     }
   }
 
+  function save()
+  {
+    $errors = parent::save();
+
+    foreach ($this->locks as $lock) {
+      del_lock($lock);
+    }
+    $this->locks = array();
+
+    return $errors;
+  }
+
   function ldap_save()
   {
     $errors = parent::ldap_save();
-    del_lock("uidnumber");
 
     if (!empty($errors)) {
       return $errors;

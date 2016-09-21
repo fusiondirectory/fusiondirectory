@@ -3014,20 +3014,44 @@ function get_next_id($attrib, $dn)
 {
   global $config;
 
-  if ($config->get_cfg_value("nextIdHook") != "") {
+  if ($config->get_cfg_value('nextIdHook') != '') {
     return get_next_id_hook($attrib, $dn);
   }
 
-  switch ($config->get_cfg_value("idAllocationMethod", "traditional")) {
-    case "pool":
+  switch ($config->get_cfg_value('idAllocationMethod', 'traditional')) {
+    case 'pool':
       return get_next_id_pool($attrib);
     default:
-    case "traditional":
+      msg_dialog::display(_('Warning'), sprintf(_('Unknown ID allocation method '%s'!'), $config->get_cfg_value('idAllocationMethod', 'traditional')), WARNING_DIALOG);
+    case 'traditional':
       return get_next_id_traditional($attrib);
   }
+}
 
-  msg_dialog::display(_("Error"), _("Cannot allocate a free ID:")." "._("unknown idAllocation method!"), ERROR_DIALOG);
-  return NULL;
+/*!
+ * \brief Get next id and add a lock to prevent other user to use it before us
+ */
+function get_next_id_lock($attrib, $dn)
+{
+  /* Calculate new id's. We need to place a lock before calling get_next_id
+     to get real unique values.
+   */
+  $wait = 10;
+  while ($user = get_lock($attrib)) {
+    sleep (1);
+
+    /* Oups - timed out */
+    if ($wait-- == 0) {
+      msg_dialog::display(
+        _('Warning'),
+        sprintf(_('Timeout while waiting for lock. Ignoring lock from %s!'), $user),
+        WARNING_DIALOG
+      );
+      break;
+    }
+  }
+  add_lock($attrib, $dn);
+  return get_next_id($attrib, $dn);
 }
 
 /*!
