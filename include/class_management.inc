@@ -401,7 +401,196 @@ class management
   }
 
   /*!
+<<<<<<< HEAD
    *  \brief  Save object modifications and keep dialogs opened
+=======
+   * \brief  This method intiates the object creation.
+   *
+   * \param  String  $action  The name of the action which was the used as trigger.
+   *
+   * \param  Array   $target  A list of object dns, which should be affected by this method.
+   *
+   * \param  Array   $all     A combination of both 'action' and 'target'.
+   *
+   * \param String $altTabClass Empty string.
+   *
+   * \param String $altTabType Empty string.
+   *
+   * \param String $altAclCategory Empty string.
+   */
+  function newEntry($action = "", $target = array(), $all = array(), $altTabClass = "", $altTabType = "", $altAclCategory = "")
+  {
+    global $config;
+    /* To handle mutliple object types overload this method.
+     * ...
+     *   registerAction('newUser', 'newEntry');
+     *   registerAction('newGroup','newEntry');
+     * ...
+     *
+     * function newEntry($action = "", $target= array(), $all=array(), $altTabClass ="", $altTabType = "", $altAclCategory)
+     * {
+     *   switch($action) {
+     *     case 'newUser' : {
+     *       mangement::newEntry($action,$target,$all,"usertabs","USERTABS","user");
+     *     }
+     *     case 'newGroup' : {
+     *       mangement::newEntry($action,$target,$all,"grouptabs","GROUPTABS","group");
+     *     }
+     *   }
+     * }
+     **/
+    $tabType      = $this->tabType;
+    $tabClass     = $this->tabClass;
+    $aclCategory  = $this->aclCategory;
+    if (!empty($altTabClass)) $tabClass = $altTabClass;
+    if (!empty($altTabType)) $tabType = $altTabType;
+    if (!empty($altAclCategory)) $aclCategory = $altAclCategory;
+
+    // Check locking & lock entry if required
+    $this->displayApplyBtn  = FALSE;
+    $this->dn               = "new";
+    $this->is_single_edit   = FALSE;
+
+    set_object_info($this->dn);
+
+    // Open object.
+    if (empty($tabClass) || empty($tabType)) {
+      // No tab type defined
+    } else {
+      if (isset($config->data['TABS'][$tabType])) {
+        $this->openTabObject(
+          new $tabClass(NULL, $config->data['TABS'][$tabType], $this->dn, $aclCategory),
+          $this->headpage->getBase()
+        );
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "Create new entry initiated!");
+      } else {
+        msg_dialog::display(_("Error"), sprintf(_("No tab declaration for '%s' found in your configuration file. Cannot create plugin instance!"), $tabType), ERROR_DIALOG);
+      }
+    }
+  }
+
+
+  /*!
+   * \brief  This method opens an existing object or a list of existing objects to be edited.
+   *
+   * \param  String  $action  The name of the action which was the used as trigger.
+   *
+   * \param  Array   $target  A list of object dns, which should be affected by this method.
+   *
+   * \param  Array   $all     A combination of both 'action' and 'target'.
+   *
+   * \param String $altTabClass Empty string.
+   *
+   * \param String $altTabType Empty string.
+   *
+   * \param String $altAclCategory Empty string.
+   */
+  function editEntry($action = "", $target = array(), $all = array(), $altTabClass = "", $altTabType = "", $altAclCategory = "")
+  {
+    global $config, $ui;
+    /* To handle mutliple object types overload this method.
+     * ...
+     *   registerAction('editUser', 'editEntry');
+     *   registerAction('editGroup','editEntry');
+     * ...
+     *
+     * function editEntry($action = "", $target= array(), $all=array(), $altTabClass ="", $altTabType = "", $altAclCategory)
+     * {
+     *   switch($action) {
+     *     case 'editUser' : {
+     *       mangement::editEntry($action,$target,$all,"usertabs","USERTABS","user");
+     *     }
+     *     case 'editGroup' : {
+     *       mangement::editEntry($action,$target,$all,"grouptabs","GROUPTABS","group");
+     *     }
+     *   }
+     * }
+     **/
+
+    // Do not create a new tabObject while there is already one opened,
+    //  the user may have just pressed F5 to reload the page.
+    if (is_object($this->tabObject)) {
+      return;
+    }
+
+    $tabType      = $this->tabType;
+    $tabClass     = $this->tabClass;
+    $aclCategory  = $this->aclCategory;
+    if (!empty($altTabClass)) $tabClass = $altTabClass;
+    if (!empty($altTabType)) $tabType = $altTabType;
+    if (!empty($altAclCategory)) $aclCategory = $altAclCategory;
+
+    $this->displayApplyBtn = count($target) == 1;
+
+    // Single edit - we only got one object dn.
+    if (count($target) == 1) {
+      $this->is_single_edit = TRUE;
+
+      // Get the dn of the object and creates lock
+      $this->dn = array_pop($target);
+      set_object_info($this->dn);
+      if ($locks = get_locks($this->dn)) {
+        return gen_locked_message($locks, $this->dn, TRUE);
+      }
+      add_lock ($this->dn, $ui->dn);
+
+      // Open object.
+      if (empty($tabClass) || empty($tabType)) {
+        trigger_error("We can't edit any object(s). 'tabClass' or 'tabType' is empty!");
+      } else {
+        $tab = $tabClass;
+        $this->openTabObject(
+          new $tab(NULL, $config->data['TABS'][$tabType], $this->dn, $aclCategory),
+          $this->dn
+        );
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "Edit entry initiated!");
+      }
+    }
+  }
+
+
+  /*!
+   * \brief  Save object modifications and closes dialogs (returns to object listing).
+   *          - Calls 'tab::check' to validate the given input.
+   *          - Calls 'tab::save' to save back object modifications (e.g. to ldap).
+   *          - Calls 'management::remove_locks' to remove eventually created locks.
+   *          - Calls 'management::closeDialogs' to return to the object listing.
+   */
+  protected function saveChanges()
+  {
+    if ($this->tabObject instanceOf simpleTabs) {
+      $this->tabObject->save_object();
+      $msgs = $this->tabObject->check();
+      if (count($msgs)) {
+        msg_dialog::displayChecks($msgs);
+        return;
+      } else {
+        $this->tabObject->save();
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, 'Entry saved!');
+        $this->remove_lock();
+        $this->closeDialogs();
+      }
+    } elseif ($this->dialogObject instanceOf plugin) {
+      $this->dialogObject->save_object();
+      $msgs = $this->dialogObject->check();
+      if (count($msgs)) {
+        msg_dialog::displayChecks($msgs);
+        return;
+      } else {
+        $this->dialogObject->save();
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, 'Entry saved!');
+        $this->remove_lock();
+        $this->closeDialogs();
+      }
+    }
+  }
+
+
+  /*!
+   *  \brief  Save object modifications and keep dialogs opened.
+   *          - Calls 'ldap::check' to validate the given input.
+   *          - Calls 'ldap::save' to save back object modifications (e.g. to ldap).
+>>>>>>> a2957fe... Fixes #5154 Cleaned up calls to lock system
    */
   protected function applyChanges()
   {

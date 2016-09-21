@@ -476,8 +476,8 @@ class simpleManagement extends management
     $this->dns  = $target;
 
     // check locks
-    if ($user = get_locks($this->dns)) {
-      return gen_locked_message($user, $this->dns);
+    if ($locks = get_locks($this->dns)) {
+      return gen_locked_message($locks, $this->dns);
     }
 
     // Add locks
@@ -609,9 +609,8 @@ class simpleManagement extends management
       // Get the dn of the object and creates lock
       $this->dn = array_pop($target);
       set_object_info($this->dn);
-      $user = get_lock($this->dn);
-      if ($user != "") {
-        return gen_locked_message($user, $this->dn, TRUE);
+      if ($locks = get_locks($this->dn)) {
+        return gen_locked_message($locks, $this->dn, TRUE);
       }
       add_lock ($this->dn, $ui->dn);
 
@@ -677,8 +676,8 @@ class simpleManagement extends management
     if (count($this->dns)) {
 
       // check locks
-      if ($user = get_locks($this->dns)) {
-        return gen_locked_message($user, $this->dns);
+      if ($locks = get_locks($this->dns)) {
+        return gen_locked_message($locks, $this->dns);
       }
 
       // Add locks
