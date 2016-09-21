@@ -476,7 +476,7 @@ class simpleManagement extends management
     $this->dns  = $target;
 
     // check locks
-    if ($user = get_multiple_locks($this->dns)) {
+    if ($user = get_locks($this->dns)) {
       return gen_locked_message($user, $this->dns);
     }
 
@@ -677,7 +677,7 @@ class simpleManagement extends management
     if (count($this->dns)) {
 
       // check locks
-      if ($user = get_multiple_locks($this->dns)) {
+      if ($user = get_locks($this->dns)) {
         return gen_locked_message($user, $this->dns);
       }
 

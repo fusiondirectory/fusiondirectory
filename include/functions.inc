@@ -755,17 +755,17 @@ function del_user_locks($userdn)
  *
  * \param string $object subject whose locks are to be searched
  *
- * \return string Returns the user who owns the lock or '' if no lock is found
- * or an error occured.
+ * \return string Returns the dn of the user who owns the lock or '' if no lock is found
+ * or FALSE if an error occured.
  */
-function get_lock ($object)
+function get_lock($object)
 {
   global $config;
 
   /* Sanity check */
   if ($object == '') {
     msg_dialog::display(_('Internal error'), _('Error while adding a lock. Contact the developers!'), ERROR_DIALOG);
-    return '';
+    return FALSE;
   }
 
   /* Allow readonly access, the plugin constructor will restrict the acls */
@@ -773,51 +773,34 @@ function get_lock ($object)
     return '';
   }
 
-  /* Get LDAP link, check for presence of the lock entry */
-  $user = '';
-  $ldap = $config->get_ldap_link();
-  $ldap->cd(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
-  $ldap->search('(&(objectClass=gosaLockEntry)(gosaObject='.base64_encode($object).'))', array('gosaUser'));
-  if (!$ldap->success()) {
-    msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), '', LDAP_SEARCH), LDAP_ERROR);
+  $locks = get_locks($object);
+  if ($locks === FALSE) {
+    return FALSE;
+  } elseif (empty($locks)) {
     return '';
+  } else {
+    return $locks[0]['user'];
   }
-
-  /* Check for broken locking information in LDAP */
-  if ($ldap->count() > 1) {
-
-    /* Hmm. We're removing broken LDAP information here and issue a warning. */
-    msg_dialog::display(_('Warning'), _('Found multiple locks for object to be locked. This should not happen - cleaning up multiple references.'), WARNING_DIALOG);
-
-    /* Clean up these references now... */
-    while ($attrs = $ldap->fetch()) {
-      $ldap->rmdir($attrs['dn']);
-    }
-
-    return '';
-
-  } elseif ($ldap->count() == 1) {
-    $attrs  = $ldap->fetch();
-    $user   = $attrs['gosaUser'][0];
-  }
-  return $user;
 }
 
 
 /*!
- * \brief Get locks for multiple objects
+ * \brief Get locks for objects
  *
  * Similar as get_lock(), but for multiple objects.
  *
- * \param array $objects Array of Objects for which a lock will be searched
+ * \param mixed $objects Array of dns for which a lock will be searched or dn of a single object
  *
- * \return A numbered array containing all found locks as an array with key 'dn'
- * and key 'user' or '' if an error occured.
+ * \return A numbered array containing all found locks as an array with key 'object'
+ * and key 'user', or FALSE if an error occured.
  */
-function get_multiple_locks($objects)
+function get_locks($objects)
 {
   global $config;
 
+  if (is_array($objects) && count($objects == 1)) {
+    $objects = reset($objects);
+  }
   if (is_array($objects)) {
     $filter = '(&(objectClass=gosaLockEntry)(|';
     foreach ($objects as $obj) {
@@ -829,22 +812,36 @@ function get_multiple_locks($objects)
   }
 
   /* Get LDAP link, check for presence of the lock entry */
-  $user = '';
   $ldap = $config->get_ldap_link();
   $ldap->cd(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
   $ldap->search($filter, array('gosaUser','gosaObject'));
   if (!$ldap->success()) {
     msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), '', LDAP_SEARCH), LDAP_ERROR);
-    return '';
+    return FALSE;
   }
 
-  $users = array();
+  $locks = array();
   while ($attrs = $ldap->fetch()) {
-    $dn   = base64_decode($attrs['gosaObject'][0]);
-    $user = $attrs['gosaUser'][0];
-    $users[] = array('dn' => $dn, 'user' => $user);
+    $locks[] = array(
+      'object'  => base64_decode($attrs['gosaObject'][0]),
+      'user'    => $attrs['gosaUser'][0],
+      'dn'      => $attrs['dn']
+    );
   }
-  return $users;
+
+  if (!is_array($objects) && (count($locks) > 1)) {
+    /* Hmm. We're removing broken LDAP information here and issue a warning. */
+    msg_dialog::display(_('Warning'), _('Found multiple locks for object to be locked. This should not happen - cleaning up multiple references.'), WARNING_DIALOG);
+
+    /* Clean up these references now... */
+    foreach ($locks as $lock) {
+      $ldap->rmdir($lock['dn']);
+    }
+
+    return FALSE;
+  }
+
+  return $locks;
 }
 
 
@@ -1434,8 +1431,8 @@ function strict_uid_mode()
  *
  * Example usage:
  * \code
- * if (($user = get_lock($this->dn)) != '') {
- *   return(gen_locked_message($user, $this->dn, TRUE));
+ * if ($locks = get_locks($this->dn)) {
+ *   return gen_locked_message($locks, $this->dn, TRUE);
  * }
  * \endcode
  *
@@ -1448,7 +1445,7 @@ function strict_uid_mode()
  *
  *
  */
-function gen_locked_message($user, $dn, $allow_readonly = FALSE)
+function gen_locked_message($locks, $dn, $allow_readonly = FALSE)
 {
   session::set('dn', $dn);
   $remove = FALSE;
@@ -1504,15 +1501,16 @@ function gen_locked_message($user, $dn, $allow_readonly = FALSE)
     $msg = $dn;
   }
 
-  $smarty->assign ('dn', $msg);
+  $smarty->assign('dn', $msg);
   if ($remove) {
-    $smarty->assign ('action', _('Continue anyway'));
+    $smarty->assign('action', _('Continue anyway'));
   } else {
-    $smarty->assign ('action', _('Edit anyway'));
+    $smarty->assign('action', _('Edit anyway'));
   }
-  $smarty->assign ('message', sprintf(_("You're going to edit the LDAP entry/entries %s"), "<b>".$msg."</b>", ""));
+  $smarty->assign('message', sprintf(_("You're going to edit the LDAP entry/entries %s"), "<b>".$msg."</b>", ""));
+  $smarty->assign('locks', $locks);
 
-  return $smarty->fetch (get_template_path('islocked.tpl'));
+  return $smarty->fetch(get_template_path('islocked.tpl'));
 }
 
 
