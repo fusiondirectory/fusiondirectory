@@ -7,9 +7,14 @@
   <div>
     <p>
       <b>{t}Warning{/t}:</b> {$message}
+      <ul>
+        {foreach from=$locks item=lock}
+          <li>{t 1=$lock.object 2=$lock.user}"%1" was locked by "%1"{/t}</li>
+        {/foreach}
+      </ul>
     </p>
     <p>
-      {t}If this lock detection is false, the other person has obviously closed the webbrowser during the edit operation. You may want to take over the lock by pressing the 'Edit anyway' button.{/t}
+      {t 1=$action}If this lock detection is false, the other person may have closed the webbrowser during the edit operation. You may want to take over the lock by pressing the "%1" button.{/t}
     </p>
 
     <p class="plugbottom">
