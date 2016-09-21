@@ -613,10 +613,14 @@ class posixAccount extends simplePlugin
     }
   }
 
-  function save()
+  function ldap_save()
   {
-    parent::save();
+    $errors = parent::ldap_save();
     del_lock("uidnumber");
+
+    if (!empty($errors)) {
+      return $errors;
+    }
 
     if (!$this->is_template && !class_available('mixedGroup')) {
       /* Take care about groupMembership values: add to groups */
@@ -625,19 +629,31 @@ class posixAccount extends simplePlugin
         if (!in_array($value, $this->savedGroupMembership)) {
           $g = objects::open($value, 'group');
           $g->by_object['group']->addUser($this->dn, $this->getUid());
-          $g->save();
+          $msg = $g->save();
+          if (empty($msg)) {
+            $this->savedGroupMembership[] = $value;
+          } else {
+            $errors = array_merge($errors, $msg);
+          }
         }
       }
 
       /* Remove groups not listed in groupMembership */
-      foreach ($this->savedGroupMembership as $value) {
+      foreach ($this->savedGroupMembership as $key => $value) {
         if (!in_array($value, $groupMembership)) {
           $g = objects::open($value, 'group');
           $g->by_object['group']->removeUser($this->getUid());
-          $g->save();
+          $msg = $g->save();
+          if (empty($msg)) {
+            unset($this->savedGroupMembership[$key]);
+          } else {
+            $errors = array_merge($errors, $msg);
+          }
         }
       }
     }
+
+    return $errors;
   }
 
   /* remove object from parent */

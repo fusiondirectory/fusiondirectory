@@ -292,9 +292,9 @@ class userRoles extends simplePlugin
           }
         }
       }
-
-      return $errors;
     }
+
+    return $errors;
   }
 
   function adapt_from_template($attrs, $skip = array())

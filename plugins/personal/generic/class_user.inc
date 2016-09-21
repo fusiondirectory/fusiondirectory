@@ -523,26 +523,33 @@ class user extends simplePlugin
 
   function ldap_save()
   {
-    parent::ldap_save();
+    $errors = parent::ldap_save();
+
+    if (!empty($errors)) {
+      return $errors;
+    }
 
     if (!$this->is_template && $this->was_locked && $this->attributesAccess['userPassword']->hasChanged()) {
       $methods  = passwordMethod::get_available_methods();
       $pmethod  = new $methods[$this->attributesAccess['userPassword']->getMethod()]($this->dn);
       $pmethod->lock_account($this->dn);
     }
+
+    return $errors;
   }
 
-  function save()
+  function post_save()
   {
-    parent::save();
+    global $ui;
 
     /* Update current locale settings, if we have edited ourselves */
-    $ui = session::get('ui');
     if (isset($this->attrs['preferredLanguage']) && ($this->dn == $ui->dn)) {
       $ui->language = $this->preferredLanguage;
       session::set('ui', $ui);
       session::set('Last_init_lang', 'update');
     }
+
+    return parent::post_save();
   }
 
   function adapt_from_template($attrs, $skip = array())
