@@ -139,7 +139,7 @@ class userManagement extends simpleManagement
     $disallowed = array();
     $allowed    = array();
     foreach ($entry as $dn) {
-      if (!preg_match('/w/', $ui->get_permissions($dn, 'user/password'))) {
+      if (!preg_match('/w/', $ui->get_permissions($dn, 'user/user', 'userPassword'))) {
         $disallowed[] = $dn;
       } else {
         $allowed[] = $dn;

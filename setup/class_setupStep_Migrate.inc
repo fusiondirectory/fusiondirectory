@@ -232,19 +232,19 @@ class Step_Migrate extends setupStep
         'cn'              => 'manager',
         'description'     => _('Give all rights on users in the given branch'),
         'objectclass'     => array('top', 'gosaRole'),
-        'gosaAclTemplate' => '0:user/password;cmdrw,user/user;cmdrw,user/posixAccount;cmdrw'
+        'gosaAclTemplate' => '0:user/user;cmdrw,user/posixAccount;cmdrw'
       ),
       array(
         'cn'              => 'editowninfos',
         'description'     => _('Allow users to edit their own information (main tab and posix use only on base)'),
         'objectclass'     => array('top', 'gosaRole'),
-        'gosaAclTemplate' => '0:user/posixAccount;srw,user/user;srw'
+        'gosaAclTemplate' => '0:user/user;srw,user/posixAccount;srw'
       ),
       array(
-        'cn'              => 'editowninfos',
+        'cn'              => 'editownpwd',
         'description'     => _('Allow users to edit their own password (use only on base)'),
         'objectclass'     => array('top', 'gosaRole'),
-        'gosaAclTemplate' => '0:user/password;srw'
+        'gosaAclTemplate' => '0:user/user;#userPassword;srw'
       ),
     );
   }

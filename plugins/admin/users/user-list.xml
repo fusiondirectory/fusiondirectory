@@ -123,7 +123,7 @@
       <name>lockUsers</name>
       <type>entry</type>
       <image>geticon.php?context=status&amp;icon=object-locked&amp;size=16</image>
-      <acl>user/password[w]</acl>
+      <acl>user/user[userPassword:rw]</acl>
       <label>Lock users</label>
     </action>
 
@@ -131,7 +131,7 @@
       <name>unlockUsers</name>
       <type>entry</type>
       <image>geticon.php?context=status&amp;icon=object-unlocked&amp;size=16</image>
-      <acl>user/password[w]</acl>
+      <acl>user/user[userPassword:rw]</acl>
       <label>Unlock users</label>
     </action>
 
@@ -195,7 +195,7 @@
       <type>entry</type>
       <objectclass>!fdTemplate</objectclass>
       <image>%{filter:lockImage(userPassword)}</image>
-      <acl>user/password[w]</acl>
+      <acl>user/user[userPassword:rw]</acl>
       <label>%{filter:lockLabel(userPassword)}</label>
     </action>
 
