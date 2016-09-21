@@ -880,10 +880,10 @@ class simplePlugin extends plugin
         /* Enter edit mode? */
         if ((isset($_POST['edit'])) && (!session::is_set('edit'))) {
           /* Check locking */
-          if (($username = get_lock($entry_dn)) != "") {
+          if ($locks = get_locks($entry_dn)) {
             session::set('back_plugin', $plug);
             session::set('LOCK_VARS_TO_USE', array("/^edit$/", "/^plug$/"));
-            $lock_msg = gen_locked_message($username, $entry_dn);
+            $lock_msg = gen_locked_message($locks, $entry_dn);
           } else {
             /* Lock the current entry */
             add_lock($entry_dn, $ui->dn);
