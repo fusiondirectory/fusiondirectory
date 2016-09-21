@@ -320,8 +320,8 @@ class userinfo
    */
   function is_cutable($dn, $object, $class)
   {
-    $remove = preg_match("/d/", $this->get_permissions($dn, $object."/".$class));
-    $read   = preg_match("/r/", $this->get_complete_category_acls($dn, $object));
+    $remove = preg_match('/d/', $this->get_permissions($dn, $object.'/'.$class));
+    $read   = preg_match('/r/', $this->get_complete_category_acls($dn, $object));
     return ($remove && $read);
   }
 
@@ -763,7 +763,6 @@ class userinfo
   /*!
    * \brief Return combined acls for a given category
    *
-   * #FIXME This could be logical wrong or could be optimized in the future
    * Return combined acls for a given category.
    * All acls will be combined like boolean AND
    * As example ('rwcdm' + 'rcd' + 'wrm'= 'r')
@@ -780,36 +779,35 @@ class userinfo
   function get_complete_category_acls($dn, $category)
   {
     global $config;
-    $acl    = "rwcdm";
-    $types  = "rwcdm";
+    $acl    = 'rwcdm';
 
     if (!is_string($category)) {
-      trigger_error("category must be string");
-      $acl = "";
+      trigger_error('category must be string');
+      return '';
     } else {
-      if (!isset($this->result_cache['get_complete_category_acls'][$dn][$category]))   {
-        if (isset($config->data['CATEGORIES'][$category])) {
-          foreach ($config->data['CATEGORIES'][$category]['classes'] as $oc) {
-            if ($oc == '0') {
-              /* Skip objectClass '0' (e.g. user/0) get_permissions will ever return '' ??  */
-              continue;
-            }
-            $tmp = $this->get_permissions($dn, $category."/".$oc);
-            for ($i = 0, $l = strlen($types); $i < $l; $i++) {
-              if (!preg_match("/".$types[$i]."/", $tmp)) {
-                $acl = preg_replace("/".$types[$i]."/", "", $acl);
-              }
+      if (isset($this->result_cache['get_complete_category_acls'][$dn][$category])) {
+        return $this->result_cache['get_complete_category_acls'][$dn][$category];
+      }
+      if (isset($config->data['CATEGORIES'][$category])) {
+        foreach ($config->data['CATEGORIES'][$category]['classes'] as $oc) {
+          if ($oc == '0') {
+            /* Skip objectClass '0' (e.g. user/0) */
+            continue;
+          }
+          $tmp = $this->get_permissions($dn, $category.'/'.$oc);
+          $types = $acl;
+          for ($i = 0, $l = strlen($types); $i < $l; $i++) {
+            if (!preg_match('/'.$types[$i].'/', $tmp)) {
+              $acl = preg_replace('/'.$types[$i].'/', '', $acl);
             }
           }
-        } else {
-          $acl = "";
         }
-        $this->result_cache['get_complete_category_acls'][$dn][$category] = $acl;
       } else {
-        $acl = $this->result_cache['get_complete_category_acls'][$dn][$category];
+        $acl = '';
       }
+      $this->result_cache['get_complete_category_acls'][$dn][$category] = $acl;
+      return $acl;
     }
-    return $acl;
   }
 
 

@@ -845,7 +845,7 @@ class simpleManagement extends management
     $this->cpHandler->save_object();
 
     // Add entries to queue
-    if ($action == "copy" || $action == "cut") {
+    if (($action == 'copy') || ($action == 'cut')) {
       $this->cpHandler->cleanup_queue();
       foreach ($target as $dn) {
         $type   = $this->getType($dn);
@@ -854,13 +854,13 @@ class simpleManagement extends management
         }
         $infos  = objects::infos($type);
 
-        if ($action == "copy" && $ui->is_copyable($dn, $infos['aclCategory'])) {
-          $this->cpHandler->add_to_queue($dn, "copy", $type);
-          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "Entry copied!");
+        if (($action == 'copy') && $ui->is_copyable($dn, $infos['aclCategory'])) {
+          $this->cpHandler->add_to_queue($dn, 'copy', $type);
+          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Entry copied!');
         }
-        if ($action == "cut" && $ui->is_cutable($dn, $infos['aclCategory'], $infos['mainTab'])) {
-          $this->cpHandler->add_to_queue($dn, "cut", $type);
-          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "Entry cutted!");
+        if (($action == 'cut') && $ui->is_cutable($dn, $infos['aclCategory'], $infos['mainTab'])) {
+          $this->cpHandler->add_to_queue($dn, 'cut', $type);
+          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Entry cut!');
         }
       }
     }

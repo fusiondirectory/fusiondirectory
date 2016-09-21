@@ -91,9 +91,10 @@ class CopyPasteHandler
     $tmp['dn']      = $dn;
     $tmp['type']    = $type;
 
-    $infos                    = objects::infos($type);
-    $tmp['tab_acl_category']  = $infos['aclCategory'];
-    $tmp['parent']            = NULL;
+    $infos              = objects::infos($type);
+    $tmp['aclCategory'] = $infos['aclCategory'];
+    $tmp['mainTab']     = $infos['mainTab'];
+    $tmp['parent']      = NULL;
 
     $this->queue[] = $tmp;
     if ($action == 'copy') {
@@ -187,12 +188,9 @@ class CopyPasteHandler
           $this->queue[$key] = $entry;
         }
 
-        /* To copy an object we require full read access to the object category */
-        $copy_acl = preg_match("/r/", $ui->get_complete_category_acls($entry['dn'], $entry['tab_acl_category']));
-
-        /* In order to copy an object we require read an delete acls */
-        $cut_acl  = preg_match("/d/", $ui->get_complete_category_acls($entry['dn'], $entry['tab_acl_category']));
-        $cut_acl &= preg_match("/r/", $ui->get_complete_category_acls($entry['dn'], $entry['tab_acl_category']));
+        /* Retrieve ACL infos */
+        $copy_acl = $ui->is_copyable($entry['dn'], $entry['aclCategory']);
+        $cut_acl  = $ui->is_cutable($entry['dn'], $entry['aclCategory'], $entry['mainTab']);
 
         /* Check permissions */
         if (($entry['method'] == 'copy') && !$copy_acl) {
@@ -208,7 +206,7 @@ class CopyPasteHandler
         foreach ($this->disallowed_objects as $entry) {
           $dns[] = $entry['dn'];
         }
-        msg_dialog::display(_("Permission"), msgPool::permCreate($dns), INFO_DIALOG);
+        msg_dialog::display(_('Permission'), msgPool::permCreate($dns), INFO_DIALOG);
       }
       $this->require_update = FALSE;
     }
