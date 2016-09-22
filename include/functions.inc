@@ -3026,7 +3026,7 @@ function get_next_id($attrib, $dn)
     case 'pool':
       return get_next_id_pool($attrib);
     default:
-      msg_dialog::display(_('Warning'), sprintf(_('Unknown ID allocation method '%s'!'), $config->get_cfg_value('idAllocationMethod', 'traditional')), WARNING_DIALOG);
+      msg_dialog::display(_('Warning'), sprintf(_('Unknown ID allocation method "%s"!'), $config->get_cfg_value('idAllocationMethod', 'traditional')), WARNING_DIALOG);
     case 'traditional':
       return get_next_id_traditional($attrib);
   }
