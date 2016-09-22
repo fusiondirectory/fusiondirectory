@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-110\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2016-09-20 18:20+0200\n"
-"PO-Revision-Date: 2016-09-20 16:16+0000\n"
+"POT-Creation-Date: 2016-09-22 13:56+0200\n"
+"PO-Revision-Date: 2016-09-22 11:53+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Vietnamese (Viet Nam) (http://www.transifex.com/fusiondirectory/FusionDirectory-110/language/vi_VN/)\n"
 "MIME-Version: 1.0\n"
@@ -201,9 +201,9 @@ msgid "Only allow this group to connect to this list of hosts"
 msgstr ""
 
 #: plugins/admin/groups/class_group.inc:181
-#: plugins/personal/posix/class_posixAccount.inc:478 include/functions.inc:809
+#: plugins/personal/posix/class_posixAccount.inc:478 include/functions.inc:855
 #: include/functions.inc:2564 include/class_xml.inc:55
-#: include/simpleplugin/class_simpleTabs.inc:319 html/index.php:592
+#: include/simpleplugin/class_simpleTabs.inc:319 html/index.php:596
 #: html/main.php:158 setup/class_setupStep_Ldap.inc:198
 #: setup/class_setupStep_Migrate.inc:572
 #: setup/class_setupStep_Migrate.inc:1083
@@ -631,10 +631,10 @@ msgstr ""
 #: plugins/admin/users/class_userManagement.inc:149
 #: include/class_management.inc:334 include/class_management.inc:483
 #: include/class_management.inc:503 include/class_management.inc:521
-#: include/class_management.inc:570 include/class_CopyPasteHandler.inc:246
-#: include/simpleplugin/class_simpleManagement.inc:654
-#: include/simpleplugin/class_simpleManagement.inc:754
-#: include/simpleplugin/class_simpleManagement.inc:805
+#: include/class_management.inc:570 include/class_CopyPasteHandler.inc:245
+#: include/simpleplugin/class_simpleManagement.inc:653
+#: include/simpleplugin/class_simpleManagement.inc:753
+#: include/simpleplugin/class_simpleManagement.inc:804
 msgid "Permission"
 msgstr "Cho phép"
 
@@ -2185,7 +2185,7 @@ msgstr "Chọn tất"
 #: include/functions.inc:3234 include/functions.inc:3243
 #: include/functions.inc:3305 include/class_msg_dialog.inc:128
 #: include/class_xml.inc:58 include/class_plugin.inc:793
-#: include/class_plugin.inc:1524 include/class_CopyPasteHandler.inc:276
+#: include/class_plugin.inc:1524 include/class_CopyPasteHandler.inc:275
 #: include/simpleplugin/class_attribute.inc:1594
 #: include/simpleplugin/class_attribute.inc:1597
 #: include/simpleplugin/class_attribute.inc:1600
@@ -2198,8 +2198,8 @@ msgstr "Chọn tất"
 #: include/password-methods/class_password-methods-sasl.inc:85
 #: include/password-methods/class_password-methods.inc:428
 #: include/password-methods/class_password-methods.inc:438
-#: include/class_SnapshotHandler.inc:422 html/index.php:448 html/index.php:469
-#: html/index.php:479 html/index.php:541 html/index.php:551
+#: include/class_SnapshotHandler.inc:422 html/index.php:452 html/index.php:473
+#: html/index.php:483 html/index.php:545 html/index.php:555
 #: setup/class_setupStep_Migrate.inc:935
 #: ihtml/themes/breezy/msg_dialog.tpl.c:2 setup/setup_checks.tpl.c:5
 msgid "Error"
@@ -2247,7 +2247,7 @@ msgid "Cut"
 msgstr "Cut"
 
 #: include/class_listing.inc:1604 include/class_listing.inc:1606
-#: include/class_CopyPasteHandler.inc:368
+#: include/class_CopyPasteHandler.inc:367
 msgid "Paste"
 msgstr "Paste"
 
@@ -2288,19 +2288,19 @@ msgid "The filter is incomplete!"
 msgstr ""
 
 #: include/class_management.inc:406
-#: include/simpleplugin/class_simpleManagement.inc:720
+#: include/simpleplugin/class_simpleManagement.inc:719
 msgid "Permission error"
 msgstr "Lỗi về cấp phép"
 
 #: include/class_management.inc:483
-#: include/simpleplugin/class_simpleManagement.inc:754
+#: include/simpleplugin/class_simpleManagement.inc:753
 #, php-format
 msgid "You are not allowed to create a snapshot for %s."
 msgstr "Bạn không được phép tạo ra snapshot cho %s."
 
 #: include/class_management.inc:503 include/class_management.inc:521
 #: include/class_management.inc:570
-#: include/simpleplugin/class_simpleManagement.inc:805
+#: include/simpleplugin/class_simpleManagement.inc:804
 #, php-format
 msgid "You are not allowed to restore a snapshot for %s."
 msgstr "Bạn không được phép phục hồi một snapshot cho %s."
@@ -2337,15 +2337,14 @@ msgstr ""
 #: include/class_config.inc:322 include/class_ldap.inc:895
 #: include/class_ldap.inc:1281 include/functions.inc:541
 #: include/functions.inc:693 include/functions.inc:740
-#: include/functions.inc:801 include/functions.inc:856
-#: include/functions.inc:3029 include/functions.inc:3203
-#: include/simpleplugin/class_simplePlugin.inc:592
+#: include/functions.inc:840 include/functions.inc:3029
+#: include/functions.inc:3203 include/simpleplugin/class_simplePlugin.inc:592
 #: include/simpleplugin/class_attribute.inc:3027
 #: include/password-methods/class_password-methods.inc:194
 #: include/class_SnapshotHandler.inc:48 include/class_SnapshotHandler.inc:247
 #: include/class_SnapshotHandler.inc:280 include/class_SnapshotHandler.inc:296
 #: include/class_SnapshotHandler.inc:429 include/class_SnapshotHandler.inc:432
-#: html/index.php:366 html/class_passwordRecovery.inc:531
+#: html/index.php:370 html/class_passwordRecovery.inc:531
 #: setup/class_setupStep_Migrate.inc:451
 #: setup/class_setupStep_Migrate.inc:1130
 msgid "LDAP error"
@@ -2393,7 +2392,7 @@ msgstr "Khả năng hoạt động của LDAP rất thấp: truy vấn lần cu�
 
 #: include/class_ldap.inc:846 include/class_ldap.inc:882
 #: include/functions.inc:583 include/functions.inc:668
-#: include/functions.inc:788 include/functions.inc:1207
+#: include/functions.inc:788 include/functions.inc:1206
 #: include/functions.inc:2290 include/functions.inc:2332
 #: include/functions.inc:2361 include/class_session.inc:50
 #: include/class_session.inc:88 include/class_session.inc:127
@@ -2724,7 +2723,7 @@ msgstr "'%s' không được cho phép!"
 msgid "Missing %s PHP extension!"
 msgstr "PHP mở rộng %s mất tích!"
 
-#: include/class_msgPool.inc:478 ihtml/themes/breezy/islocked.tpl.c:14
+#: include/class_msgPool.inc:478 ihtml/themes/breezy/islocked.tpl.c:17
 #: ihtml/themes/breezy/acl.tpl.c:53 ihtml/themes/breezy/acl.tpl.c:59
 #: ihtml/themes/breezy/copyPasteDialog.tpl.c:17
 #: ihtml/themes/breezy/msg_dialog.tpl.c:17
@@ -3090,41 +3089,41 @@ msgstr "Không thể tạo ra việc khóa thông tin trong cây LDAP.Xin hãy l
 msgid "LDAP server returned: %s"
 msgstr "LDAP server trả về: %s"
 
-#: include/functions.inc:809
+#: include/functions.inc:855
 msgid ""
 "Found multiple locks for object to be locked. This should not happen - "
 "cleaning up multiple references."
 msgstr "Tìm thấy nhiều khóa khác nhau để khóa đối tượng. Điều này không nên xảy ra - hãy dọn sạch các tham chiếu."
 
-#: include/functions.inc:1127
+#: include/functions.inc:1126
 #, php-format
 msgid "The size limit of %d entries is exceed!"
 msgstr "Đã vượt quá giới hạn kích cỡ của các entry %d!"
 
-#: include/functions.inc:1129
+#: include/functions.inc:1128
 #, php-format
 msgid ""
 "Set the new size limit to %s and show me this message if the limit still "
 "exceeds"
 msgstr "Thiết lập kích cỡ mới cho %s và cho tôi thấy tin nhắn nếu giới hạn này vẫn vượt quá tiêu chuẩn"
 
-#: include/functions.inc:1146
+#: include/functions.inc:1145
 msgid "Configure"
 msgstr "Cấu hình"
 
-#: include/functions.inc:1151
+#: include/functions.inc:1150
 msgid "incomplete"
 msgstr "chưa hoàn thành"
 
-#: include/functions.inc:1556
+#: include/functions.inc:1555
 msgid "Continue anyway"
 msgstr "Cứ tiếp tục"
 
-#: include/functions.inc:1558
+#: include/functions.inc:1557
 msgid "Edit anyway"
 msgstr "Cứ hiệu chỉnh"
 
-#: include/functions.inc:1560
+#: include/functions.inc:1559
 #, php-format
 msgid "You're going to edit the LDAP entry/entries %s"
 msgstr "Bạn sẽ hiệu chỉnh entry/các entry %s của LDAP"
@@ -3472,12 +3471,12 @@ msgstr ""
 msgid "Tab \"%s\""
 msgstr ""
 
-#: include/class_CopyPasteHandler.inc:303
+#: include/class_CopyPasteHandler.inc:302
 #: ihtml/themes/breezy/copyPasteDialog.tpl.c:20
 msgid "Cancel all"
 msgstr "Hủy bỏ tất"
 
-#: include/class_CopyPasteHandler.inc:370
+#: include/class_CopyPasteHandler.inc:369
 msgid "Cannot paste"
 msgstr "Không thể paste"
 
@@ -3829,52 +3828,56 @@ msgstr ""
 msgid "No session found!"
 msgstr ""
 
-#: html/index.php:252
+#: html/index.php:253
 msgid "LDAP schema check reported errors:"
 msgstr ""
 
-#: html/index.php:278
+#: html/index.php:255
+msgid "LDAP schema error"
+msgstr ""
+
+#: html/index.php:282
 msgid "Please specify a valid username!"
 msgstr "Xin hãy xác định một tên người dùng hợp lệ!"
 
-#: html/index.php:281
+#: html/index.php:285
 msgid "Please specify your password!"
 msgstr "Xin hãy xác định mật mã của bạn!"
 
-#: html/index.php:300
+#: html/index.php:304
 msgid "Please check the username/password combination."
 msgstr "Xin hãy kiểm tra kết hợp tên người dùng/mật khẩu."
 
-#: html/index.php:330
+#: html/index.php:334
 msgid "Account locked. Please contact your system administrator!"
 msgstr "Tài khoản bị khóa. Xin hãy liên lạc với admin quản trị hệ thống của bạn!"
 
-#: html/index.php:450
+#: html/index.php:454
 #, php-format
 msgid "No value found in HTTP header \"%s\""
 msgstr ""
 
-#: html/index.php:471
+#: html/index.php:475
 #, php-format
 msgid "Header user \"%s\" could not be found in the LDAP"
 msgstr ""
 
-#: html/index.php:481
+#: html/index.php:485
 #, php-format
 msgid "Header user \"%s\" match several users in the LDAP"
 msgstr ""
 
-#: html/index.php:543
+#: html/index.php:547
 #, php-format
 msgid "CAS user \"%s\" could not be found in the LDAP"
 msgstr ""
 
-#: html/index.php:553
+#: html/index.php:557
 #, php-format
 msgid "CAS user \"%s\" match several users in the LDAP"
 msgstr ""
 
-#: html/index.php:592
+#: html/index.php:596
 msgid ""
 "Your browser has cookies disabled. Please enable cookies and reload this "
 "page before logging in!"
@@ -4798,13 +4801,17 @@ msgid "Locking conflict detected"
 msgstr "Phát hiện xung đột khóa"
 
 #: ihtml/themes/breezy/islocked.tpl.c:8
-msgid ""
-"If this lock detection is false, the other person has obviously closed the "
-"webbrowser during the edit operation. You may want to take over the lock by "
-"pressing the 'Edit anyway' button."
-msgstr "Nếu việc phát hiện khóa này sai, một người nào đó chắc hẳn đã đóng trình duyệt web trong quá trình thao tác hiệu chỉnh. Bạn có thể muốn tiếp quản việc khóa bằng các nhấn vào nút 'tiếp tục hiệu chỉnh'."
+msgid "\"%1\" was locked by \"%1\""
+msgstr ""
 
 #: ihtml/themes/breezy/islocked.tpl.c:11
+msgid ""
+"If this lock detection is false, the other person may have closed the "
+"webbrowser during the edit operation. You may want to take over the lock by "
+"pressing the \"%1\" button."
+msgstr ""
+
+#: ihtml/themes/breezy/islocked.tpl.c:14
 msgid "Read only"
 msgstr ""
 
