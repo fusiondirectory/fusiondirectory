@@ -9,7 +9,7 @@
       <b>{t}Warning{/t}:</b> {$message}
       <ul>
         {foreach from=$locks item=lock}
-          <li>{t 1=$lock.object 2=$lock.user}"%1" was locked by "%1"{/t}</li>
+          <li>{t 1=$lock.object 2=$lock.user 3=$lock.timestamp.format('Y-m-d, H:i:s')}"%1" was locked by "%2" since %3{/t}</li>
         {/foreach}
       </ul>
     </p>
