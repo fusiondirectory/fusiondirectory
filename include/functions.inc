@@ -672,8 +672,8 @@ function add_lock($object, $user)
   /* Check for existing entries in lock area */
   $ldap = $config->get_ldap_link();
   $ldap->cd(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
-  $ldap->search('(&(objectClass=gosaLockEntry)(gosaUser='.ldap_escape_f($user).')(gosaObject='.base64_encode($object).'))',
-      array('gosaUser'));
+  $ldap->search('(&(objectClass=fdLockEntry)(fdUserDn='.ldap_escape_f($user).')(fdObjectDn='.base64_encode($object).'))',
+      array('fdUserDn'));
   if (!$ldap->success()) {
     msg_dialog::display(_('Configuration error'), sprintf(_('Cannot create locking information in LDAP tree. Please contact your administrator!').'<br><br>'._('LDAP server returned: %s'), '<br><br><i>'.$ldap->get_error().'</i>'), ERROR_DIALOG);
     return;
@@ -683,11 +683,14 @@ function add_lock($object, $user)
   if ($ldap->count() == 0) {
     $attrs  = array();
     $name   = md5($object);
-    $ldap->cd("cn=$name,".get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
-    $attrs['objectClass'] = 'gosaLockEntry';
-    $attrs['gosaUser']    = $user;
-    $attrs['gosaObject']  = base64_encode($object);
-    $attrs['cn']          = '$name';
+    $ldap->cd('cn='.$name.','.get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
+    $attrs = array(
+      'objectClass'     => 'fdLockEntry',
+      'fdUserDn'        => $user,
+      'fdObjectDn'      => base64_encode($object),
+      'cn'              => $name,
+      'fdLockTimestamp' => LdapGeneralizedTime::toString(new DateTime('now')),
+    );
     $ldap->add($attrs);
     if (!$ldap->success()) {
       msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), "cn=$name,".get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'], 0), LDAP_ERROR);
@@ -734,7 +737,7 @@ function del_lock ($object)
   /* Check for existance and remove the entry */
   $ldap = $config->get_ldap_link();
   $ldap->cd(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
-  $ldap->search('(&(objectClass=gosaLockEntry)(gosaObject='.base64_encode($object).'))', array('gosaObject'));
+  $ldap->search('(&(objectClass=fdLockEntry)(fdObjectDn='.base64_encode($object).'))', array('fdObjectDn'));
   $ldap->fetch();
   if (!$ldap->success()) {
     msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), $ldap->getDN(), LDAP_DEL, ERROR_DIALOG));
@@ -762,7 +765,7 @@ function del_user_locks($userdn)
   $ldap->cd(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
 
   /* Remove all objects of this user, drop errors silently in this case. */
-  $ldap->search('(&(objectClass=gosaLockEntry)(gosaUser='.ldap_escape_f($userdn).'))', array('gosaUser'));
+  $ldap->search('(&(objectClass=fdLockEntry)(fdUserDn='.ldap_escape_f($userdn).'))', array('fdUserDn'));
   while ($attrs = $ldap->fetch()) {
     $ldap->rmdir($attrs['dn']);
   }
@@ -823,19 +826,19 @@ function get_locks($objects)
     $objects = reset($objects);
   }
   if (is_array($objects)) {
-    $filter = '(&(objectClass=gosaLockEntry)(|';
+    $filter = '(&(objectClass=fdLockEntry)(|';
     foreach ($objects as $obj) {
-      $filter .= '(gosaObject='.base64_encode($obj).')';
+      $filter .= '(fdObjectDn='.base64_encode($obj).')';
     }
     $filter .= '))';
   } else {
-    $filter = '(&(objectClass=gosaLockEntry)(gosaObject='.base64_encode($objects).'))';
+    $filter = '(&(objectClass=fdLockEntry)(fdObjectDn='.base64_encode($objects).'))';
   }
 
   /* Get LDAP link, check for presence of the lock entry */
   $ldap = $config->get_ldap_link();
   $ldap->cd(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
-  $ldap->search($filter, array('gosaUser','gosaObject'));
+  $ldap->search($filter, array('fdUserDn','fdObjectDn'));
   if (!$ldap->success()) {
     msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), '', LDAP_SEARCH), LDAP_ERROR);
     return FALSE;
@@ -844,9 +847,10 @@ function get_locks($objects)
   $locks = array();
   while ($attrs = $ldap->fetch()) {
     $locks[] = array(
-      'object'  => base64_decode($attrs['gosaObject'][0]),
-      'user'    => $attrs['gosaUser'][0],
-      'dn'      => $attrs['dn']
+      'dn'        => $attrs['dn'],
+      'object'    => base64_decode($attrs['fdObjectDn'][0]),
+      'user'      => $attrs['fdUserDn'][0],
+      'timestamp' => LdapGeneralizedTime::fromString($attrs['fdLockTimestamp'][0]),
     );
   }
 
@@ -2600,7 +2604,7 @@ function check_schema($cfg)
   /* core-fd */
   $checks['core-fd'] = $def_check;
   $checks['core-fd']['SCHEMA_FILE']       = 'core-fd.schema';
-  $checks['core-fd']['CLASSES_REQUIRED']  = array('gosaLockEntry');
+  $checks['core-fd']['CLASSES_REQUIRED']  = array('fdLockEntry');
   $checks['core-fd']['IS_MUST_HAVE']      = TRUE;
   $checks['core-fd']['INFO']              = _('Main FusionDirectory schema');
 
