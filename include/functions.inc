@@ -838,7 +838,7 @@ function get_locks($objects)
   /* Get LDAP link, check for presence of the lock entry */
   $ldap = $config->get_ldap_link();
   $ldap->cd(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
-  $ldap->search($filter, array('fdUserDn','fdObjectDn'));
+  $ldap->search($filter, array('fdUserDn','fdObjectDn', 'fdLockTimestamp'));
   if (!$ldap->success()) {
     msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), '', LDAP_SEARCH), LDAP_ERROR);
     return FALSE;
