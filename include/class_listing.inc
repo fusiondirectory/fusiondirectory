@@ -1218,6 +1218,8 @@ class listing
    */
   function getAction()
   {
+    global $config;
+
     // Do not do anything if this is not our PID, or there's even no PID available...
     if (!isset($_REQUEST['dn']) && (!isset($_REQUEST['PID']) || $_REQUEST['PID'] != $this->pid)) {
       return;
@@ -1241,6 +1243,11 @@ class listing
           $result['targets'][]  = $this->entries[$target]['dn'];
         }
       } elseif (isset($_REQUEST['dn']) && preg_match('/^listing_([a-zA-Z_]+)$/', $key, $m)) {
+        /* Pre-render list to init things if a dn is gonna be opened on first load */
+        $this->setBase($config->current['BASE']);
+        $this->filter->setCurrentScope('sub');
+        $this->update();
+        $this->render();
         $dn                   = urldecode($_REQUEST['dn']);
         $result['action']     = $m[1];
         $result['targets'][]  = $dn;
