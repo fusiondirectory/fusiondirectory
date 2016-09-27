@@ -139,6 +139,9 @@ class groupManagement extends simpleManagement
     if (class_available('sambaAccount')) {
       $filters[]= array('id'  => 'SAMBA',       'label'  => _('Show samba groups'));
     }
+    if (class_available('simpleSecurityObject')) {
+      $filters[]= array('id'  => 'SIMPLESECURITYOBJECT',       'label'  => _('Show DSA entries'));
+    }
     if (class_available('systemManagement')) {
       $filters = array_merge(
         $filters,

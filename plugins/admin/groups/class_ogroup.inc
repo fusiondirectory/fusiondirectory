@@ -147,7 +147,8 @@ class ogroup extends simplePlugin
     'O' => 'winstation',
     'T' => 'terminal',
     'F' => 'phone',
-    'P' => 'printer'
+    'P' => 'printer',
+    'D' => 'simpleSecurityObject',
   );
 
   static function plInfo()
