@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2016-09-07 22:47+0200\n"
+"POT-Creation-Date: 2016-09-12 22:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: fusiondirectory <contact@fusiondirectory.org>, 2016\n"
+"Last-Translator: Dina Solveig Jalkanen <dinsteri@gmail.com>, 2016\n"
 "Language-Team: Finnish (Finland) (https://www.transifex.com/fusiondirectory/teams/12202/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -203,9 +203,8 @@ msgstr ""
 
 #: plugins/admin/groups/class_group.inc:181
 #: plugins/personal/posix/class_posixAccount.inc:479 include/functions.inc:790
-#: include/functions.inc:2442 include/simpleplugin/class_simpleTabs.inc:306
-#: html/index.php:593 html/main.php:158 setup/class_setupStep_Ldap.inc:199
-#: setup/class_setupStep_Migrate.inc:573
+#: include/functions.inc:2442 html/index.php:593 html/main.php:158
+#: setup/class_setupStep_Ldap.inc:199 setup/class_setupStep_Migrate.inc:573
 #: setup/class_setupStep_Migrate.inc:1081
 #: setup/class_setupStep_Migrate.inc:1200
 #: setup/class_setupStep_Migrate.inc:1311
@@ -902,11 +901,11 @@ msgstr ""
 msgid "Statistics and various informations"
 msgstr ""
 
-#: plugins/addons/dashboard/class_dashBoard.inc:37
+#: plugins/addons/dashboard/class_dashBoard.inc:38
 msgid "Reporting"
 msgstr ""
 
-#: plugins/addons/dashboard/class_dashBoard.inc:48
+#: plugins/addons/dashboard/class_dashBoard.inc:49
 #: plugins/addons/dashboard/main_stats.tpl.c:2
 msgid "Statistics"
 msgstr ""
@@ -944,7 +943,7 @@ msgstr ""
 #: ihtml/themes/breezy/login.tpl.c:23
 #: setup/setup_migrate_adminAccount.tpl.c:14
 msgid "Password"
-msgstr ""
+msgstr "Salasana"
 
 #: plugins/personal/generic/class_user.inc:51
 msgid "Password (Leave empty if you do not wish to change it)"
@@ -1123,53 +1122,53 @@ msgstr ""
 msgid "Employee type"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:610
+#: plugins/personal/generic/class_user.inc:611
 #, php-format
 msgid "Ppolicy \"%s\" could not be found in the LDAP!"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:613
+#: plugins/personal/generic/class_user.inc:614
 msgid "You are not allowed to change your own password"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:624
+#: plugins/personal/generic/class_user.inc:625
 #, php-format
 msgid "You must wait %d seconds before changing your password again"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:638
+#: plugins/personal/generic/class_user.inc:639
 msgid "Password is in history of old passwords"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:643
-#: plugins/personal/generic/class_user.inc:647
+#: plugins/personal/generic/class_user.inc:644
+#: plugins/personal/generic/class_user.inc:648
 msgid "Password is not being changed from existing value"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:654
+#: plugins/personal/generic/class_user.inc:655
 msgid "You need to specify your current password in order to proceed."
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:656
+#: plugins/personal/generic/class_user.inc:657
 msgid ""
 "The passwords you've entered as \"New password\" and \"Repeated new "
 "password\" do not match."
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:658
+#: plugins/personal/generic/class_user.inc:659
 #: ihtml/themes/breezy/recovery.tpl.c:29 ihtml/themes/breezy/recovery.tpl.c:32
 msgid "New password"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:660
+#: plugins/personal/generic/class_user.inc:661
 msgid "The password used as new and current are too similar."
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:662
+#: plugins/personal/generic/class_user.inc:663
 msgid "The password used as new is to short."
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:664
+#: plugins/personal/generic/class_user.inc:665
 msgid "The password contains possibly problematic Unicode characters!"
 msgstr ""
 
@@ -1692,7 +1691,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:282
 msgid "Port"
-msgstr ""
+msgstr "Portti"
 
 #: plugins/config/class_configInLdap.inc:282
 msgid "Port the CAS server is listening on"
@@ -3018,9 +3017,9 @@ msgid ""
 msgstr ""
 
 #: include/functions.inc:490 include/functions.inc:3221
-#: include/simpleplugin/class_simplePlugin.inc:395
-#: include/simpleplugin/class_simplePlugin.inc:400
-#: include/simpleplugin/class_simplePlugin.inc:412
+#: include/simpleplugin/class_simplePlugin.inc:438
+#: include/simpleplugin/class_simplePlugin.inc:443
+#: include/simpleplugin/class_simplePlugin.inc:455
 #: html/class_passwordRecovery.inc:108
 msgid "Fatal error"
 msgstr ""
@@ -3289,7 +3288,7 @@ msgid "Object template, used to create several objects with similar values"
 msgstr ""
 
 #: include/class_template.inc:46
-#: include/simpleplugin/class_simplePlugin.inc:305
+#: include/simpleplugin/class_simplePlugin.inc:318
 msgid "Template name"
 msgstr ""
 
@@ -3429,56 +3428,56 @@ msgstr ""
 msgid "Cannot paste"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:302
+#: include/simpleplugin/class_simplePlugin.inc:315
 msgid "Template settings"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:305
+#: include/simpleplugin/class_simplePlugin.inc:318
 msgid "This is the name of the template"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:395
+#: include/simpleplugin/class_simplePlugin.inc:438
 msgid "Only main tab can compute dn"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:402
+#: include/simpleplugin/class_simplePlugin.inc:445
 #, php-format
 msgid "Could not compute dn: no parent tab class for \"%s\""
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:414
+#: include/simpleplugin/class_simplePlugin.inc:457
 #, php-format
 msgid ""
 "Could not compute dn: could not find objectType infos from tab class \"%s\""
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:913
+#: include/simpleplugin/class_simplePlugin.inc:1064
 #, php-format
 msgid "There is already an entry with the same dn : %s"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:920
+#: include/simpleplugin/class_simplePlugin.inc:1071
 #, php-format
 msgid "The entry %s is not existing"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:987
+#: include/simpleplugin/class_simplePlugin.inc:1262
 msgid ""
 "The object has changed since opened in FusionDirectory. All changes that may"
 " be done by others will get lost if you save this entry!"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:1161
+#: include/simpleplugin/class_simplePlugin.inc:1436
 #, php-format
 msgid "Tab \"%s\""
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:1253
+#: include/simpleplugin/class_simplePlugin.inc:1583
 #, php-format
 msgid "You don't have sufficient rights to edit field \"%s\""
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:1256
+#: include/simpleplugin/class_simplePlugin.inc:1586
 #, php-format
 msgid "Unknown field \"%s\""
 msgstr ""
@@ -3684,12 +3683,7 @@ msgid ""
 "configuration file."
 msgstr ""
 
-#: include/simpleplugin/class_simpleTabs.inc:306
-#, php-format
-msgid "Delete process has been canceled by plugin '%s': %s"
-msgstr ""
-
-#: include/simpleplugin/class_simpleTabs.inc:399
+#: include/simpleplugin/class_simpleTabs.inc:390
 #, php-format
 msgid "Move from \"%s\" to \"%s\" failed"
 msgstr ""
