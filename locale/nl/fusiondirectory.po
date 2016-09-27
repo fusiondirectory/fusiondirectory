@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-110\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2016-09-22 13:56+0200\n"
-"PO-Revision-Date: 2016-09-22 11:53+0000\n"
+"POT-Creation-Date: 2016-09-27 18:04+0200\n"
+"PO-Revision-Date: 2016-09-27 16:01+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Dutch (http://www.transifex.com/fusiondirectory/FusionDirectory-110/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -50,7 +50,7 @@ msgstr "Informatie"
 
 #: plugins/admin/groups/class_roleGeneric.inc:86
 #: plugins/admin/groups/class_group.inc:60
-#: plugins/admin/groups/class_ogroup.inc:193
+#: plugins/admin/groups/class_ogroup.inc:194
 #: plugins/admin/groups/group-list.xml:33
 #: plugins/admin/departments/class_department.inc:176
 #: plugins/admin/aclrole/class_aclRole.inc:99
@@ -64,13 +64,13 @@ msgstr "Naam"
 
 #: plugins/admin/groups/class_roleGeneric.inc:86
 #: plugins/admin/groups/class_group.inc:60
-#: plugins/admin/groups/class_ogroup.inc:193
+#: plugins/admin/groups/class_ogroup.inc:194
 msgid "Name of this group"
 msgstr ""
 
 #: plugins/admin/groups/class_roleGeneric.inc:91
 #: plugins/admin/groups/class_group.inc:65
-#: plugins/admin/groups/class_ogroup.inc:198
+#: plugins/admin/groups/class_ogroup.inc:199
 #: plugins/admin/groups/group-list.xml:41
 #: plugins/admin/departments/class_department.inc:72
 #: plugins/admin/departments/dep-list.xml:29
@@ -102,8 +102,8 @@ msgid "Add users for the role"
 msgstr "Voeg gebruikers toe voor de rol"
 
 #: plugins/admin/groups/class_group.inc:33
-#: plugins/admin/groups/class_ogroup.inc:160
 #: plugins/admin/groups/class_ogroup.inc:161
+#: plugins/admin/groups/class_ogroup.inc:162
 msgid "Group"
 msgstr "Groep"
 
@@ -120,7 +120,7 @@ msgid "POSIX user group"
 msgstr ""
 
 #: plugins/admin/groups/class_group.inc:56
-#: plugins/admin/groups/class_ogroup.inc:189
+#: plugins/admin/groups/class_ogroup.inc:190
 #: plugins/admin/groups/group-list.xml:49
 #: plugins/admin/departments/class_department.inc:63
 #: plugins/admin/users/user-list.xml:57
@@ -130,7 +130,7 @@ msgid "Properties"
 msgstr "Eigenschappen"
 
 #: plugins/admin/groups/class_group.inc:65
-#: plugins/admin/groups/class_ogroup.inc:198
+#: plugins/admin/groups/class_ogroup.inc:199
 msgid "Short description of this group"
 msgstr ""
 
@@ -158,51 +158,51 @@ msgid "Group members"
 msgstr "Groepsleden"
 
 #: plugins/admin/groups/class_group.inc:90
-#: plugins/admin/groups/class_ogroup.inc:215
+#: plugins/admin/groups/class_ogroup.inc:216
 #: plugins/personal/posix/class_posixAccount.inc:196
 msgid "System trust"
 msgstr "Systeem vertrouwen"
 
 #: plugins/admin/groups/class_group.inc:94
-#: plugins/admin/groups/class_ogroup.inc:219
+#: plugins/admin/groups/class_ogroup.inc:220
 #: plugins/personal/posix/class_posixAccount.inc:200
 msgid "Trust mode"
 msgstr "Vertrouwensmodus"
 
 #: plugins/admin/groups/class_group.inc:94
-#: plugins/admin/groups/class_ogroup.inc:219
+#: plugins/admin/groups/class_ogroup.inc:220
 #: plugins/personal/posix/class_posixAccount.inc:200
 msgid "Type of authorization for those hosts"
 msgstr ""
 
 #: plugins/admin/groups/class_group.inc:98
-#: plugins/admin/groups/class_ogroup.inc:223
+#: plugins/admin/groups/class_ogroup.inc:224
 #: plugins/personal/posix/class_posixAccount.inc:204
 #: plugins/personal/posix/class_posixAccount.inc:226
 msgid "disabled"
 msgstr "gedeactiveerd"
 
 #: plugins/admin/groups/class_group.inc:98
-#: plugins/admin/groups/class_ogroup.inc:223
+#: plugins/admin/groups/class_ogroup.inc:224
 #: plugins/personal/posix/class_posixAccount.inc:204
 #: plugins/personal/posix/class_posixAccount.inc:226
 msgid "full access"
 msgstr "volledige toegang"
 
 #: plugins/admin/groups/class_group.inc:98
-#: plugins/admin/groups/class_ogroup.inc:223
+#: plugins/admin/groups/class_ogroup.inc:224
 #: plugins/personal/posix/class_posixAccount.inc:204
 msgid "allow access to these hosts"
 msgstr "sta toegang op deze computers toe"
 
 #: plugins/admin/groups/class_group.inc:101
-#: plugins/admin/groups/class_ogroup.inc:226
+#: plugins/admin/groups/class_ogroup.inc:227
 msgid "Only allow this group to connect to this list of hosts"
 msgstr ""
 
 #: plugins/admin/groups/class_group.inc:181
-#: plugins/personal/posix/class_posixAccount.inc:478 include/functions.inc:855
-#: include/functions.inc:2564 include/class_xml.inc:55
+#: plugins/personal/posix/class_posixAccount.inc:478 include/functions.inc:859
+#: include/functions.inc:2568 include/class_xml.inc:55
 #: include/simpleplugin/class_simpleTabs.inc:319 html/index.php:596
 #: html/main.php:158 setup/class_setupStep_Ldap.inc:198
 #: setup/class_setupStep_Migrate.inc:572
@@ -231,23 +231,23 @@ msgstr ""
 msgid "Non existing dn: %s"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:155
+#: plugins/admin/groups/class_ogroup.inc:156
 msgid "Object group"
 msgstr "Objectgroep"
 
-#: plugins/admin/groups/class_ogroup.inc:156
+#: plugins/admin/groups/class_ogroup.inc:157
 msgid "Object group information"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:205
+#: plugins/admin/groups/class_ogroup.inc:206
 msgid "Member objects"
 msgstr "Lidmaatschap objecten"
 
-#: plugins/admin/groups/class_ogroup.inc:208
+#: plugins/admin/groups/class_ogroup.inc:209
 msgid "Objects member of this group"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:320
+#: plugins/admin/groups/class_ogroup.inc:321
 msgid ""
 "Putting both workstations and terminals in the same group is not allowed"
 msgstr ""
@@ -355,27 +355,31 @@ msgstr "Toon mailgroepen"
 msgid "Show samba groups"
 msgstr "Toon Samba groepen"
 
-#: plugins/admin/groups/class_groupManagement.inc:146
-msgid "Show server groups"
-msgstr ""
-
-#: plugins/admin/groups/class_groupManagement.inc:147
-msgid "Show workstation groups"
-msgstr ""
-
-#: plugins/admin/groups/class_groupManagement.inc:148
-msgid "Show windows groups"
+#: plugins/admin/groups/class_groupManagement.inc:143
+msgid "Show DSA entries"
 msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:149
-msgid "Show terminal groups"
+msgid "Show server groups"
 msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:150
-msgid "Show printer groups"
+msgid "Show workstation groups"
 msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:151
+msgid "Show windows groups"
+msgstr ""
+
+#: plugins/admin/groups/class_groupManagement.inc:152
+msgid "Show terminal groups"
+msgstr ""
+
+#: plugins/admin/groups/class_groupManagement.inc:153
+msgid "Show printer groups"
+msgstr ""
+
+#: plugins/admin/groups/class_groupManagement.inc:154
 msgid "Show phone groups"
 msgstr ""
 
@@ -2179,11 +2183,11 @@ msgstr "Selecteer alles"
 #: include/class_config.inc:357 include/class_msgPool.inc:220
 #: include/class_msgPool.inc:240 include/class_msgPool.inc:270
 #: include/class_msgPool.inc:687 include/class_msgPool.inc:718
-#: include/class_msgPool.inc:745 include/functions.inc:3150
-#: include/functions.inc:3171 include/functions.inc:3211
-#: include/functions.inc:3223 include/functions.inc:3227
-#: include/functions.inc:3234 include/functions.inc:3243
-#: include/functions.inc:3305 include/class_msg_dialog.inc:128
+#: include/class_msgPool.inc:745 include/functions.inc:3154
+#: include/functions.inc:3175 include/functions.inc:3215
+#: include/functions.inc:3227 include/functions.inc:3231
+#: include/functions.inc:3238 include/functions.inc:3247
+#: include/functions.inc:3309 include/class_msg_dialog.inc:128
 #: include/class_xml.inc:58 include/class_plugin.inc:793
 #: include/class_plugin.inc:1524 include/class_CopyPasteHandler.inc:275
 #: include/simpleplugin/class_attribute.inc:1594
@@ -2336,9 +2340,9 @@ msgstr ""
 
 #: include/class_config.inc:322 include/class_ldap.inc:895
 #: include/class_ldap.inc:1281 include/functions.inc:541
-#: include/functions.inc:693 include/functions.inc:740
-#: include/functions.inc:840 include/functions.inc:3029
-#: include/functions.inc:3203 include/simpleplugin/class_simplePlugin.inc:592
+#: include/functions.inc:696 include/functions.inc:743
+#: include/functions.inc:843 include/functions.inc:3033
+#: include/functions.inc:3207 include/simpleplugin/class_simplePlugin.inc:592
 #: include/simpleplugin/class_attribute.inc:3027
 #: include/password-methods/class_password-methods.inc:194
 #: include/class_SnapshotHandler.inc:48 include/class_SnapshotHandler.inc:247
@@ -2392,9 +2396,9 @@ msgstr "LDAP performantie is slecht: laatste query duurde ongeveer %.2fs!"
 
 #: include/class_ldap.inc:846 include/class_ldap.inc:882
 #: include/functions.inc:583 include/functions.inc:668
-#: include/functions.inc:788 include/functions.inc:1206
-#: include/functions.inc:2290 include/functions.inc:2332
-#: include/functions.inc:2361 include/class_session.inc:50
+#: include/functions.inc:791 include/functions.inc:1210
+#: include/functions.inc:2294 include/functions.inc:2336
+#: include/functions.inc:2365 include/class_session.inc:50
 #: include/class_session.inc:88 include/class_session.inc:127
 #: include/class_acl.inc:118 include/class_logging.inc:80
 msgid "Internal error"
@@ -3044,7 +3048,7 @@ msgid ""
 "Fatal error: cannot instantiate class '%s' - try running '%s' to fix this"
 msgstr "Fatale error: kan class '%s' niet instantiëren - probeer '%s' te draaien om dit op te lossen"
 
-#: include/functions.inc:511 include/functions.inc:3340
+#: include/functions.inc:511 include/functions.inc:3344
 #: include/class_xml.inc:61 include/simpleplugin/class_simplePlugin.inc:271
 #: include/simpleplugin/class_simplePlugin.inc:276
 #: include/simpleplugin/class_simplePlugin.inc:288
@@ -3073,7 +3077,7 @@ msgid ""
 "href=\"recovery.php\">password recovery</a> to change it."
 msgstr ""
 
-#: include/functions.inc:668 include/functions.inc:788
+#: include/functions.inc:668 include/functions.inc:791
 msgid "Error while adding a lock. Contact the developers!"
 msgstr "Error tijdens het toevoegen van de lock. Contacteer de programmeurs!"
 
@@ -3089,219 +3093,219 @@ msgstr "Kan de locking informatie voor de LDAP tree niet aanmaken. Gelieve je sy
 msgid "LDAP server returned: %s"
 msgstr "LDAP server returned: %s"
 
-#: include/functions.inc:855
+#: include/functions.inc:859
 msgid ""
 "Found multiple locks for object to be locked. This should not happen - "
 "cleaning up multiple references."
 msgstr "Verschillende locks zijn teruggevonden voor het object dat je wilt in lock plaatsen. Dit zou niet mogen gebeuren - Opschonen van meerdere referenties."
 
-#: include/functions.inc:1126
+#: include/functions.inc:1130
 #, php-format
 msgid "The size limit of %d entries is exceed!"
 msgstr "De hoeveelheidslimiet van %d invoeren is overschreden!"
 
-#: include/functions.inc:1128
+#: include/functions.inc:1132
 #, php-format
 msgid ""
 "Set the new size limit to %s and show me this message if the limit still "
 "exceeds"
 msgstr "Stel de nieuwe hoeveelheidslimiet in op %s en toon me dit bericht indien de limiet nog steeds overschreden wordt."
 
-#: include/functions.inc:1145
+#: include/functions.inc:1149
 msgid "Configure"
 msgstr "Instellen"
 
-#: include/functions.inc:1150
+#: include/functions.inc:1154
 msgid "incomplete"
 msgstr "onvolledig"
 
-#: include/functions.inc:1555
+#: include/functions.inc:1559
 msgid "Continue anyway"
 msgstr "Toch doorgaan"
 
-#: include/functions.inc:1557
+#: include/functions.inc:1561
 msgid "Edit anyway"
 msgstr "Alsnog bewerken"
 
-#: include/functions.inc:1559
+#: include/functions.inc:1563
 #, php-format
 msgid "You're going to edit the LDAP entry/entries %s"
 msgstr "Je staat op het punt de LDAP inzending/inzendingen te wijzigen %s"
 
-#: include/functions.inc:1814
+#: include/functions.inc:1818
 msgid "Entries per page"
 msgstr "Regels per pagina"
 
-#: include/functions.inc:1845 include/class_filter.inc:353
+#: include/functions.inc:1849 include/class_filter.inc:353
 msgid "Apply filter"
 msgstr "Filter toepassen"
 
-#: include/functions.inc:2113
+#: include/functions.inc:2117
 #, php-format
 msgid "%sB"
 msgstr ""
 
-#: include/functions.inc:2114
+#: include/functions.inc:2118
 #, php-format
 msgid "%sKiB"
 msgstr ""
 
-#: include/functions.inc:2115
+#: include/functions.inc:2119
 #, php-format
 msgid "%sMiB"
 msgstr ""
 
-#: include/functions.inc:2116
+#: include/functions.inc:2120
 #, php-format
 msgid "%sGiB"
 msgstr ""
 
-#: include/functions.inc:2117
+#: include/functions.inc:2121
 #, php-format
 msgid "%sTiB"
 msgstr ""
 
-#: include/functions.inc:2118
+#: include/functions.inc:2122
 #, php-format
 msgid "%sPiB"
 msgstr ""
 
-#: include/functions.inc:2119
+#: include/functions.inc:2123
 #, php-format
 msgid "%sEiB"
 msgstr ""
 
-#: include/functions.inc:2120
+#: include/functions.inc:2124
 #, php-format
 msgid "%sZiB"
 msgstr ""
 
-#: include/functions.inc:2121
+#: include/functions.inc:2125
 #, php-format
 msgid "%sYiB"
 msgstr ""
 
-#: include/functions.inc:2153 include/class_filter.inc:315
+#: include/functions.inc:2157 include/class_filter.inc:315
 msgid "*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 msgstr "*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
-#: include/functions.inc:2290
+#: include/functions.inc:2294
 #, php-format
 msgid ""
 "File '%s' could not be deleted. Try fusiondirectory-setup --check-"
 "directories to fix permissions."
 msgstr "Bestand '%s' kon niet verwijderd worden. Probeer fusiondirectory-setup --check-directories om de rechten correct te plaatsen."
 
-#: include/functions.inc:2332
+#: include/functions.inc:2336
 msgid "Cannot write to revision file!"
 msgstr "Kan niet wegschrijven naar revisie bestand!"
 
-#: include/functions.inc:2361
+#: include/functions.inc:2365
 msgid "Cannot read to revision file!"
 msgstr "Kan revisie bestand niet lezen!"
 
-#: include/functions.inc:2564
+#: include/functions.inc:2568
 msgid "'nextIdHook' is not available. Using default base!"
 msgstr ""
 
-#: include/functions.inc:2582
+#: include/functions.inc:2586
 msgid "LDAP warning"
 msgstr "LDAP waarschuwing"
 
-#: include/functions.inc:2582
+#: include/functions.inc:2586
 msgid "Cannot get schema information from server. No schema check possible!"
 msgstr "Kan geen schema informatie krijgen van de server. Geen schema verificatie mogelijk!"
 
-#: include/functions.inc:2605
+#: include/functions.inc:2609
 msgid "Main FusionDirectory schema"
 msgstr ""
 
-#: include/functions.inc:2612
+#: include/functions.inc:2616
 msgid "Schema used to store FusionDirectory configuration"
 msgstr ""
 
-#: include/functions.inc:2619
+#: include/functions.inc:2623
 msgid "Used to store trust mode information in users or groups."
 msgstr ""
 
-#: include/functions.inc:2626
+#: include/functions.inc:2630
 msgid "Used to store templates."
 msgstr ""
 
-#: include/functions.inc:2633
+#: include/functions.inc:2637
 msgid "Used to store POSIX information."
 msgstr ""
 
-#: include/functions.inc:2640
+#: include/functions.inc:2644
 #, php-format
 msgid "Missing required object class \"%s\"!"
 msgstr ""
 
-#: include/functions.inc:2642
+#: include/functions.inc:2646
 #, php-format
 msgid "Missing optional object class \"%s\"!"
 msgstr ""
 
-#: include/functions.inc:2646
+#: include/functions.inc:2650
 #, php-format
 msgid "Class(es) available"
 msgstr "Class(es) beschikbaar"
 
-#: include/functions.inc:2664
+#: include/functions.inc:2668
 msgid ""
 "You have installed the mixed groups plugin, but your schema configuration "
 "does not support this."
 msgstr ""
 
-#: include/functions.inc:2665
+#: include/functions.inc:2669
 msgid ""
 "In order to use mixed groups the objectClass \"posixGroup\" must be "
 "AUXILIARY"
 msgstr ""
 
-#: include/functions.inc:2668
+#: include/functions.inc:2672
 msgid ""
 "Your schema is configured to support mixed groups, but this plugin is not "
 "present."
 msgstr ""
 
-#: include/functions.inc:2669
+#: include/functions.inc:2673
 msgid "The objectClass \"posixGroup\" must be STRUCTURAL"
 msgstr ""
 
-#: include/functions.inc:3150 include/functions.inc:3171
-#: include/functions.inc:3211 include/functions.inc:3223
-#: include/functions.inc:3227 include/functions.inc:3234
-#: include/functions.inc:3243
+#: include/functions.inc:3154 include/functions.inc:3175
+#: include/functions.inc:3215 include/functions.inc:3227
+#: include/functions.inc:3231 include/functions.inc:3238
+#: include/functions.inc:3247
 msgid "Cannot allocate a free ID:"
 msgstr "Kan geen vrij ID  toekennen:"
 
-#: include/functions.inc:3150
+#: include/functions.inc:3154
 msgid "unknown idAllocation method!"
 msgstr "onbekende idAllocation methode!"
 
-#: include/functions.inc:3171
+#: include/functions.inc:3175
 #, php-format
 msgid "%sPoolMin >= %sPoolMax!"
 msgstr "%sPoolMin >=%sPoolMax!"
 
-#: include/functions.inc:3211
+#: include/functions.inc:3215
 msgid "sambaUnixIdPool is not unique!"
 msgstr "sambaUnixIdPool is niet uniek!"
 
-#: include/functions.inc:3223 include/functions.inc:3227
+#: include/functions.inc:3227 include/functions.inc:3231
 msgid "no ID available!"
 msgstr "Geen ID beschikbaar!"
 
-#: include/functions.inc:3243
+#: include/functions.inc:3247
 msgid "maximum tries exceeded!"
 msgstr "maximum pogingen overschreden!"
 
-#: include/functions.inc:3305
+#: include/functions.inc:3309
 msgid "Cannot allocate a free ID!"
 msgstr "Kan geen vrij ID toekennen!"
 
-#: include/functions.inc:3341
+#: include/functions.inc:3345
 #, php-format
 msgid "Cannot locate file '%s' - please run '%s' to fix this"
 msgstr "Kan bestand '%s' niet vinden - gebruik aub '%s' om dit op te lossen"
@@ -4808,7 +4812,7 @@ msgid "Locking conflict detected"
 msgstr "Er is een blokkade conflict gedetecteerd"
 
 #: ihtml/themes/breezy/islocked.tpl.c:8
-msgid "\"%1\" was locked by \"%1\""
+msgid "\"%1\" has been locked by \"%2\" since %3"
 msgstr ""
 
 #: ihtml/themes/breezy/islocked.tpl.c:11
