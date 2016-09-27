@@ -3,9 +3,11 @@
 </div>
 
 <div class="contentboxb">
-  {foreach from=$objectFilters item="ofilter"}
-    {${$ofilter.id}}<label for="{$ofilter.id}">&nbsp;{$ofilter.label}</label><br/>
-  {/foreach}
+  {if isset($objectFilters)}
+    {foreach from=$objectFilters item="ofilter"}
+      {${$ofilter.id}}<label for="{$ofilter.id}">&nbsp;{$ofilter.label}</label><br/>
+    {/foreach}
+  {/if}
 
   <hr/>
   {$SCOPE}

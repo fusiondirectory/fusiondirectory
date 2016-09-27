@@ -148,14 +148,6 @@ class management
       }
     }
 
-    // Pre-render list to init things if a dn is gonna be opened on first load
-    if (isset($_REQUEST['dn'])) {
-      $this->headpage->setBase($config->current['BASE']);
-      $this->headpage->filter->setCurrentScope('sub');
-      $this->headpage->update();
-      $this->headpage->render();
-    }
-
     // Handle actions (POSTs and GETs)
     $str = $this->handleActions($this->detectPostActions());
     if ($str) {
