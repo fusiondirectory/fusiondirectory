@@ -71,6 +71,12 @@ class StringAttribute extends Attribute
     return $this->renderAcl($display);
   }
 
+  function fixPostValue ($value)
+  {
+    /* Replace CRLF by LF, to avoid non-ASCII chars in multiline values (mainly useful for textarea) */
+    return str_replace(array("\r\n", "\r"), "\n", $value);
+  }
+
   function check ()
   {
     $error = parent::check();

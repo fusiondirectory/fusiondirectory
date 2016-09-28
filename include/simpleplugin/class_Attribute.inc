@@ -154,12 +154,19 @@ class Attribute
     $this->manageAttributes($this->value);
   }
 
+  /*! \brief Set the postValue */
   function setPostValue ($value)
   {
     if ($this->isVisible()) {
-      $this->postValue = $value;
+      $this->postValue = $this->fixPostValue($value);
       $this->manageAttributes($this->postValue);
     }
+  }
+
+  /*! \brief In case a treatment is needed on POST content */
+  function fixPostValue ($value)
+  {
+    return $value;
   }
 
   /*! \brief Reset this attribute to its default value

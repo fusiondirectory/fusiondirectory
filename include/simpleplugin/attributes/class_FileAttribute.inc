@@ -52,10 +52,11 @@ class FileAttribute extends Attribute
    */
   function readFile($handle)
   {
-    $this->postValue = fread($handle, 1024);
+    $postValue = fread($handle, 1024);
     while (!feof($handle)) {
-      $this->postValue .= fread($handle, 1024);
+      $postValue .= fread($handle, 1024);
     }
+    $this->setPostValue($postValue);
     @fclose($handle);
   }
 
@@ -178,6 +179,12 @@ class FileTextAreaAttribute extends FileDownloadAttribute
         }
       }
     }
+  }
+
+  function fixPostValue ($value)
+  {
+    /* Replace CRLF by LF, to avoid non-ASCII chars */
+    return str_replace(array("\r\n", "\r"), "\n", $value);
   }
 
   function renderFormInput ()
