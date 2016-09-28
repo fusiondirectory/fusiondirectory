@@ -149,12 +149,19 @@ class Attribute
     $this->manageAttributes($this->value);
   }
 
+  /*! \brief Set the postValue */
   function setPostValue ($value)
   {
     if ($this->isVisible()) {
-      $this->postValue = $value;
+      $this->postValue = $this->fixPostValue($value);
       $this->manageAttributes($this->postValue);
     }
+  }
+
+  /*! \brief In case a treatment is needed on POST content */
+  function fixPostValue ($value)
+  {
+    return $value;
   }
 
   /*! \brief Reset this attribute to its default value
@@ -862,6 +869,12 @@ class StringAttribute extends Attribute
     }
     $display  = $this->renderInputField('text', $id, $attributes);
     return $this->renderAcl($display);
+  }
+
+  function fixPostValue ($value)
+  {
+    /* Replace CRLF by LF, to avoid non-ASCII chars in multiline values (mainly useful for textarea) */
+    return str_replace(array("\r\n", "\r"), "\n", $value);
   }
 
   function check ()
@@ -1614,10 +1627,11 @@ class FileAttribute extends Attribute
    */
   function readFile($handle)
   {
-    $this->postValue = fread($handle, 1024);
+    $postValue = fread($handle, 1024);
     while (!feof($handle)) {
-      $this->postValue .= fread($handle, 1024);
+      $postValue .= fread($handle, 1024);
     }
+    $this->setPostValue($postValue);
     @fclose($handle);
   }
 
@@ -1756,6 +1770,12 @@ class FileTextAreaAttribute extends FileDownloadAttribute
                 ($this->disabled? 'disabled="disabled"':'').'>'.
                 '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}</textarea><br/>';
     return $this->renderAcl($display).parent::renderFormInput();
+  }
+
+  function fixPostValue ($value)
+  {
+    /* Replace CRLF by LF, to avoid non-ASCII chars */
+    return str_replace(array("\r\n", "\r"), "\n", $value);
   }
 
   public function htmlIds()
