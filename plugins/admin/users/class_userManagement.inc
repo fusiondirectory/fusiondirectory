@@ -102,8 +102,12 @@ class userManagement extends simpleManagement
       $this->filter->elements['SAMBA']['unset'] = '';
       $this->filter->elements['SAMBA']['set']   = '';
     }
-    /* The FUNCTIONAL filter must not use inexisting classes */
-    $this->filter->elements['FUNCTIONAL']['set']  = '(!(|(objectClass='.implode(')(objectClass=', $classes).')))';
+    if (empty($classes)) {
+      $this->filter->elements['FUNCTIONAL']['set']  = '';
+    } else {
+      /* The FUNCTIONAL filter must not use inexisting classes */
+      $this->filter->elements['FUNCTIONAL']['set']  = '(!(|(objectClass='.implode(')(objectClass=', $classes).')))';
+    }
   }
 
   function renderList ()
