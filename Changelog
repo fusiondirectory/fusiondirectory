@@ -1,6 +1,34 @@
 FusionDirectory changelog
 =========================
 
+* FusionDirectory 1.0.16
+
+|Fix] Bugs #3587: Edit a template add bad characters
+Bugs #4808: improve the script error code and return documentation in hooks
+|Fix] Bugs #4925: document the autofs plugin
+|Fix] FusionDirectory plugins - Bugs #4997: getfields method returns wrong info in attrs_order
+|Fix] Bugs #5005: No upper case characters allowed in group-names
+|Fix] FusionDirectory plugins - Bugs #5093: [DNS plugin] when click to "Refresh zone file" button in DNS tab it would not update reverse zones.
+[Feature] Bugs #5095: Checkhook should have a way to know if other check errors occured
+|Fix] FusionDirectory plugins - Bugs #5138: Name of the directory must authorized "/"
+|Fix] Bugs #5145: Dashboard should not have references and ldap tabs
+|Fix] Bugs #5149: Handling of SSL and URL when behind a proxy
+|Fix] Bugs #5151: Create only digit with %r% placeholder not work
+|Fix] Bugs #5152: We should not be able of adding users to groups we have no rights on
+|Fix] Bugs #5153: Manager that manage a department cannot lock an user
+[Feature] Bugs #5154: Possibility to know who edit the same user when we have a lock entry error
+[Feature] FusionDirectory plugins - Bugs #5155: Add an ACL for LDAP tab
+[Feature] FusionDirectory plugins - Bugs #5156: Add a backend configuration to desactivate the warning popup when we add a user
+[Feature] Bugs #5157: Possibility to know when was a lock put when we have a conflict
+|Fix] FusionDirectory plugins - Bugs #5160: opsi import is broken
+|Fix] Bugs #5161: when trying to delete system i got a lock error
+[Feature] FusionDirectory plugins - Bugs #5165: Possible to store sudo role in different OU in the LDAP Tree
+|Fix] Bugs #5172: ldap error after upgrade from 1.0.15 release to 1.0.15 fixes (lock object)
+[Feature] FusionDirectory plugins - Bugs #5173: putting acl on ldap/import export
+[Feature] Wishlist #5004: Do not require nis schema
+[Feature] Wishlist #5096: HTTP header authentication
+[Feature] Wishlist #5162: allow DSA entries to be part of a group
+
 * FusionDirectory 1.0.15
 
 [Feature] Wishlist #4832: Allow removal of user picture
