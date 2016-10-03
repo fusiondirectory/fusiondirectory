@@ -1548,6 +1548,34 @@ sub migrate_acls {
   }
 }
 
+sub delete_gosa_locks {
+  # initiate the LDAP connexion
+  my %hash_ldap_param = get_ldap_connexion();
+
+  # LDAP's connection's parameters
+  my $base = $hash_ldap_param{base};
+  my $ldap = $hash_ldap_param{ldap};
+
+  # Search for old formatted ACLs
+  my $mesg = $ldap->search(
+    base => "$base",
+    filter => "(objectClass=gosaLockEntry)",
+    attrs => ['dn']
+  );
+  $mesg->code && die $mesg->error;
+
+  my @entries = $mesg->entries;
+
+  foreach my $entry (@entries) {
+    $mesg = $ldap->delete($entry);
+    if ($mesg->code) {
+      print "Failed to delete lock '".$entry->dn."': ".$mesg->error."\n";
+    } else {
+      print "Deleted lock '".$entry->dn."'\n";
+    }
+  }
+}
+
 # Get LDAP attributes which have been deprecated
 sub get_deprecated {
   # initiate the LDAP connexion
@@ -1886,6 +1914,7 @@ die ("! You have to run this script as root\n") if ($<!=0);
   $commands{"--migrate-printers"}     = ["Migrating your printer from FD < 1.0.14",       \&migrate_printers];
   $commands{"--migrate-dns"}          = ["Migrating DNS zones for FD 1.0.10",             \&migrate_dns];
   $commands{"--migrate-acls"}         = ["Migrating your ACLs",                           \&migrate_acls];
+  $commands{"--delete-gosa-locks"}    = ["Delete lock tokens using old gosaLockEntry class", \&delete_gosa_locks];
   $commands{"--install-plugins"}      = ["Installing FusionDirectory's plugins",          \&install_plugins];
   $commands{"--encrypt-passwords"}    = ["Encrypt passwords in fusiondirectory.conf",     \&encrypt_passwords];
   $commands{"--show-version"}         = ["Show FusionDirectory version from variables_common.inc", \&show_version];
@@ -1993,6 +2022,10 @@ This option moves DNS zones from systems branch to DNS branch, which is necessar
 =item --migrate-acls
 
 This option will migrated old GOsa style acl from 1.0.7 into FusionDirectory acl roles in 1.0.8
+
+=item --delete-gosa-locks
+
+This option will delete old GOsa style lock tokens from 1.0.15 or older
 
 =item --install-plugins
 
