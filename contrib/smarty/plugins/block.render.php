@@ -34,7 +34,7 @@ function smarty_block_render($params, $text, &$smarty)
 
   /* Debug output */
   if (session::is_set('DEBUGLEVEL') && session::get('DEBUGLEVEL') & DEBUG_ACL ) {
-    echo '<div style="color:blue;font-size:2;">&nbsp;'.$acl.'</div>';
+    echo '<div style="color:blue;">'.$acl.'</div>';
   }
 
   /* Read / Write*/
