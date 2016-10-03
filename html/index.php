@@ -248,8 +248,12 @@ class Index {
     $cfg['tls']         = ($config->get_cfg_value('ldapTLS') == 'TRUE');
     $str = check_schema($cfg);
     foreach ($str as $tr) {
-      if (isset($tr['IS_MUST_HAVE']) && !$tr['STATUS']) {
-        return _('LDAP schema check reported errors:').'<br/><br/><i>'.$tr['MSG'].'</i>';
+      if (!$tr['STATUS']) {
+        if ($tr['IS_MUST_HAVE']) {
+          return _('LDAP schema check reported errors:').'<br/><br/><i>'.$tr['MSG'].'</i>';
+        } else {
+          msg_dialog::display(_('LDAP schema error'), $tr['MSG'], WARNING_DIALOG);
+        }
       }
     }
     return TRUE;

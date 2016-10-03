@@ -59,7 +59,7 @@ class group extends simplePlugin
           new StringAttribute(
             _('Name'), _('Name of this group'),
             'cn', TRUE,
-            '', '', (strict_uid_mode() ? '/^[a-z0-9_-]+$/' : '/^[a-z0-9_.-]+$/')
+            '', '', (strict_uid_mode() ? '/^[a-z0-9_-]+$/' : '/^[a-z0-9_.-]+$/i')
           ),
           new TextAreaAttribute(
             _('Description'), _('Short description of this group'),

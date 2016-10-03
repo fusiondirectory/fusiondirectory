@@ -102,8 +102,12 @@ class userManagement extends simpleManagement
       $this->filter->elements['SAMBA']['unset'] = '';
       $this->filter->elements['SAMBA']['set']   = '';
     }
-    /* The FUNCTIONAL filter must not use inexisting classes */
-    $this->filter->elements['FUNCTIONAL']['set']  = '(!(|(objectClass='.implode(')(objectClass=', $classes).')))';
+    if (empty($classes)) {
+      $this->filter->elements['FUNCTIONAL']['set']  = '(objectClass=*)';
+    } else {
+      /* The FUNCTIONAL filter must not use inexisting classes */
+      $this->filter->elements['FUNCTIONAL']['set']  = '(!(|(objectClass='.implode(')(objectClass=', $classes).')))';
+    }
   }
 
   function renderList ()
@@ -139,7 +143,7 @@ class userManagement extends simpleManagement
     $disallowed = array();
     $dns        = array();
     foreach ($entry as $dn) {
-      if (!preg_match('/w/', $ui->get_permissions($dn, 'user/password'))) {
+      if (!preg_match('/w/', $ui->get_permissions($dn, 'user/user', 'userPassword'))) {
         $disallowed[] = $dn;
       } else {
         $allowed[] = $dn;

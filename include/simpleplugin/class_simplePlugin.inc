@@ -432,8 +432,15 @@ class simplePlugin extends plugin
     return $this->header.$smarty->fetch($this->templatePath);
   }
 
-  function attr_is_writeable($attr)
+  /*! \brief Check if logged in user have enough right to write this attribute value
+   *
+   * \param mixed $attr Attribute object or name (in this case it will be fetched from attributesAccess)
+   */
+  function attrIsWriteable($attr)
   {
+    if (!is_object($attr)) {
+      $attr = $this->attributesAccess[$attr];
+    }
     if ($attr->getLdapName() == 'base') {
       if (!$this->acl_skip_write() && (!$this->initially_was_account || $this->acl_is_moveable() || $this->acl_is_removeable())) {
         return TRUE;
@@ -455,7 +462,7 @@ class simplePlugin extends plugin
 
     /* Handle rights to modify the base */
     if (isset($this->attributesAccess['base'])) {
-      if ($this->attr_is_writeable($this->attributesAccess['base'])) {
+      if ($this->attrIsWriteable('base')) {
         $smarty->assign('baseACL', 'rw');
       } else {
         $smarty->assign('baseACL', 'r');
@@ -612,7 +619,7 @@ class simplePlugin extends plugin
       // A first pass that loads the post values
       foreach ($this->attributesInfo as $section => &$sectionInfo) {
         foreach ($sectionInfo['attrs'] as &$attr) {
-          if ($this->attr_is_writeable($attr)) {
+          if ($this->attrIsWriteable($attr)) {
             // Each attribute know how to read its value from POST
             $attr->loadPostValue();
           }
@@ -623,7 +630,7 @@ class simplePlugin extends plugin
       // A second one that applies them. That allow complex stuff such as attribute disabling
       foreach ($this->attributesInfo as $section => &$sectionInfo) {
         foreach ($sectionInfo['attrs'] as &$attr) {
-          if ($this->attr_is_writeable($attr)) {
+          if ($this->attrIsWriteable($attr)) {
             // Each attribute know how to read its value from POST
             $attr->applyPostValue();
           }
@@ -792,7 +799,7 @@ class simplePlugin extends plugin
    *
    *  \param string $entry_dn the dn of the object to show/edit
    *
-   *  \param string $tabs TRUE to use tabs, FALSE to show directly the plugin class
+   *  \param boolean $tabs TRUE to use tabs, FALSE to show directly the plugin class
    *
    *  \param boolean $edit_mode wether or not this plugin can be edited
    *
@@ -873,10 +880,10 @@ class simplePlugin extends plugin
         /* Enter edit mode? */
         if ((isset($_POST['edit'])) && (!session::is_set('edit'))) {
           /* Check locking */
-          if (($username = get_lock($entry_dn)) != "") {
+          if ($locks = get_locks($entry_dn)) {
             session::set('back_plugin', $plug);
             session::set('LOCK_VARS_TO_USE', array("/^edit$/", "/^plug$/"));
-            $lock_msg = gen_locked_message($username, $entry_dn);
+            $lock_msg = gen_locked_message($locks, $entry_dn);
           } else {
             /* Lock the current entry */
             add_lock($entry_dn, $ui->dn);
@@ -1025,7 +1032,7 @@ class simplePlugin extends plugin
         if (!$checkAcl || $this->acl_is_writeable($this->attributesAccess[$name]->getAcl())) {
           $this->attributesAccess[$name]->setValue($value);
         } else {
-          return sprintf(_('You don\'t have sufficient rights to edit field "%s"'), $name);
+          return msgPool::permModify($this->dn, $name);
         }
       } else {
         return sprintf(_('Unknown field "%s"'), $name);

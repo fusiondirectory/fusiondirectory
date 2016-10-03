@@ -23,7 +23,7 @@ class tabs_dashboard extends simpleTabs_noSpecial
   function __construct($type, $dn, $copied_object = NULL)
   {
     parent::__construct($type, $dn, $copied_object);
-    if (!class_available('dhcpService') && !class_available('serviceDNS')) {
+    if (!class_available('dhcpService') && !class_available('dnsZone')) {
       unset($this->by_object['dashboardNetwork']);
       unset($this->by_name['dashboardNetwork']);
     }

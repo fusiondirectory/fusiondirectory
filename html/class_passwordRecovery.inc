@@ -151,20 +151,16 @@ class standAlonePage {
     $smarty = get_smarty();
 
     /* Check for SSL connection */
-    $ssl = "";
-    $smarty->assign("ssl", "");
-    if (!isset($_SERVER['HTTPS']) || !stristr($_SERVER['HTTPS'], "on")) {
-      if (empty($_SERVER['REQUEST_URI'])) {
-        $ssl = "https://".$_SERVER['HTTP_HOST'].$_SERVER['PATH_INFO'];
-      } else {
-        $ssl = "https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-      }
+    $ssl = '';
+    $smarty->assign('ssl', '');
+    if (!sslOn()) {
+      $ssl = sslUrl();
 
       /* If SSL is forced, just forward to the SSL enabled site */
-      if ($config->get_cfg_value("forcessl") == 'TRUE') {
+      if ($config->get_cfg_value('forcessl') == 'TRUE') {
         header("Location: $ssl");
         exit;
-      } elseif ($config->get_cfg_value("warnssl") == 'TRUE') {
+      } elseif ($config->get_cfg_value('warnssl') == 'TRUE') {
         /* Display SSL mode warning? */
         $smarty->assign ('ssl', sprintf(_('Warning: <a href="%s">Session is not encrypted!</a>'), $ssl));
       }
@@ -175,20 +171,34 @@ class standAlonePage {
 
   function getPageURL()
   {
-    $pageURL = "http";
-    if (isset($_SERVER['HTTPS']) && ($_SERVER["HTTPS"] == "on")) {
-      $pageURL .= "s";
+    $protocol = 'http';
+    if (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) {
+      $protocol .= 's';
     }
-    $pageURL .= '://';
+    $port = '80';
     if (!empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
-      $pageURL .= $_SERVER['HTTP_X_FORWARDED_HOST'];
-    } else {
-      $pageURL .= $_SERVER['SERVER_NAME'];
-      if ($_SERVER['SERVER_PORT'] != '80') {
-        $pageURL .= ':'.$_SERVER['SERVER_PORT'];
+      $host = $_SERVER['HTTP_X_FORWARDED_HOST'];
+      if (isset($_SERVER['HTTP_X_FORWARDED_PORT'])) {
+        $port = $_SERVER['HTTP_X_FORWARDED_PORT'];
       }
+      if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
+        $protocol = $_SERVER['HTTP_X_FORWARDED_PROTO'];
+      }
+    } else {
+      $host = $_SERVER['SERVER_NAME'];
+      $port = $_SERVER['SERVER_PORT'];
     }
-    $pageURL .= $_SERVER["PHP_SELF"];
+
+    $pageURL = $protocol.'://';
+    $pageURL .= $host;
+    if ($port != '80') {
+      $pageURL .= ':'.$port;
+    }
+    if (empty($_SERVER['PATH_INFO'])) {
+      $pageURL .= $_SERVER['PHP_SELF'];
+    } else {
+      $pageURL .= $_SERVER['PATH_INFO'];
+    }
 
     return $pageURL;
   }

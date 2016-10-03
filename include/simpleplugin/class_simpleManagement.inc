@@ -479,8 +479,8 @@ class simpleManagement extends management
     $this->dns  = $target;
 
     // check locks
-    if ($user = get_multiple_locks($this->dns)) {
-      return gen_locked_message($user, $this->dns);
+    if ($locks = get_locks($this->dns)) {
+      return gen_locked_message($locks, $this->dns);
     }
 
     // Add locks
@@ -590,9 +590,8 @@ class simpleManagement extends management
       // Get the dn of the object and creates lock
       $this->dn = array_pop($target);
       set_object_info($this->dn);
-      $user = get_lock($this->dn);
-      if ($user != "") {
-        return gen_locked_message($user, $this->dn, TRUE);
+      if ($locks = get_locks($this->dn)) {
+        return gen_locked_message($locks, $this->dn, TRUE);
       }
       add_lock ($this->dn, $ui->dn);
 
@@ -658,8 +657,8 @@ class simpleManagement extends management
     if (count($this->dns)) {
 
       // check locks
-      if ($user = get_multiple_locks($this->dns)) {
-        return gen_locked_message($user, $this->dns);
+      if ($locks = get_locks($this->dns)) {
+        return gen_locked_message($locks, $this->dns);
       }
 
       // Add locks
@@ -826,7 +825,7 @@ class simpleManagement extends management
     $this->cpHandler->save_object();
 
     // Add entries to queue
-    if ($action == "copy" || $action == "cut") {
+    if (($action == 'copy') || ($action == 'cut')) {
       $this->cpHandler->cleanup_queue();
       foreach ($target as $dn) {
         $type   = $this->getType($dn);
@@ -835,13 +834,13 @@ class simpleManagement extends management
         }
         $infos  = objects::infos($type);
 
-        if ($action == "copy" && $ui->is_copyable($dn, $infos['aclCategory'], $infos['mainTab'])) {
-          $this->cpHandler->add_to_queue($dn, "copy", $type);
-          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "Entry copied!");
+        if (($action == 'copy') && $ui->is_copyable($dn, $infos['aclCategory'], $infos['mainTab'])) {
+          $this->cpHandler->add_to_queue($dn, 'copy', $type);
+          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Entry copied!');
         }
-        if ($action == "cut" && $ui->is_cutable($dn, $infos['aclCategory'], $infos['mainTab'])) {
-          $this->cpHandler->add_to_queue($dn, "cut", $type);
-          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "Entry cutted!");
+        if (($action == 'cut') && $ui->is_cutable($dn, $infos['aclCategory'], $infos['mainTab'])) {
+          $this->cpHandler->add_to_queue($dn, 'cut', $type);
+          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Entry cut!');
         }
       }
     }

@@ -137,23 +137,28 @@ class msgPool {
   /*!
    * \brief Display that we have no permission to modify an object
    *
-   * \param string $name Name of the object which will be modified
+   * \param string $name Name of the object which cannot be modified (or array of objects names)
+   * \param string $fields Name of the field of the object which cannot be modified
    */
-  public static function permModify($name = "")
+  public static function permModify($name = '', $field = '')
   {
-    if ($name == "") {
-      return _("You have no permission to modify this object!");
+    if ($name == '') {
+      return _('You have no permission to modify this object!');
     }
 
     if (!is_array($name)) {
-      return _("You have no permission to modify the object:")."<br><br><i>$name</i>";
+      if ($field != '') {
+        return sprintf(_('You have no permission to modify the field "%s" of object "%s"'), $field, $name);
+      } else {
+        return sprintf(_('You have no permission to modify the object:<br/>%s'), '<br/><i>'.$name.'</i>');
+      }
     }
 
     if (count($name) == 1) {
-      return _("You have no permission to modify the object:")."<br>".msgPool::buildList($name);
+      return sprintf(_('You have no permission to modify the object:<br/>%s'), msgPool::buildList($name));
     }
 
-    return _("You have no permission to modify these objects:")."<br>".msgPool::buildList($name);
+    return sprintf(_('You have no permission to modify these objects:<br/>%s'), msgPool::buildList($name));
   }
 
   /*!
