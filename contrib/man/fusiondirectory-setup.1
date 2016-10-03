@@ -133,7 +133,7 @@
 .\" ========================================================================
 .\"
 .IX Title "FUSIONDIRECTORY-SETUP 1"
-.TH FUSIONDIRECTORY-SETUP 1 "2016-08-09" "FusionDirectory 1.0.15" "FusionDirectory Documentation"
+.TH FUSIONDIRECTORY-SETUP 1 "2016-10-03" "FusionDirectory 1.0.15" "FusionDirectory Documentation"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
@@ -177,6 +177,9 @@ This option moves \s-1DNS\s0 zones from systems branch to \s-1DNS\s0 branch, whi
 .IP "\-\-migrate\-acls" 4
 .IX Item "--migrate-acls"
 This option will migrated old GOsa style acl from 1.0.7 into FusionDirectory acl roles in 1.0.8
+.IP "\-\-delete\-gosa\-locks" 4
+.IX Item "--delete-gosa-locks"
+This option will delete old GOsa style lock tokens from 1.0.15 or older
 .IP "\-\-install\-plugins" 4
 .IX Item "--install-plugins"
 This option will install the plugin from a tar.gz of the plugin. This option is intended for people wanting to install from the sources.
