@@ -3,7 +3,7 @@
 /*----------------------------------------------------------------------
 * Title.........: Debug Lib
 * Version.......: 0.5.4
-* Author........: Thomas Schüßler <tulpe@atomar.de>
+* Author........: Thomas SchÃ¼ÃŸler <tulpe@atomar.de>
 * Filename......: debuglib.php(s)
 * Last changed..: 16. July 2003
 * License.......: Free to use. Postcardware ;)
