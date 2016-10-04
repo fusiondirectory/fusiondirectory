@@ -1,6 +1,73 @@
 FusionDirectory changelog
 =========================
 
+* FusionDirectory 1.0.16
+
+|Fix] Bugs #3587: Edit a template add bad characters
+Bugs #4808: improve the script error code and return documentation in hooks
+|Fix] Bugs #4925: document the autofs plugin
+|Fix] FusionDirectory plugins - Bugs #4997: getfields method returns wrong info in attrs_order
+|Fix] Bugs #5005: No upper case characters allowed in group-names
+|Fix] FusionDirectory plugins - Bugs #5093: [DNS plugin] when click to "Refresh zone file" button in DNS tab it would not update reverse zones.
+[Feature] Bugs #5095: Checkhook should have a way to know if other check errors occured
+|Fix] FusionDirectory plugins - Bugs #5138: Name of the directory must authorized "/"
+|Fix] Bugs #5145: Dashboard should not have references and ldap tabs
+|Fix] Bugs #5149: Handling of SSL and URL when behind a proxy
+|Fix] Bugs #5151: Create only digit with %r% placeholder not work
+|Fix] Bugs #5152: We should not be able of adding users to groups we have no rights on
+|Fix] Bugs #5153: Manager that manage a department cannot lock an user
+[Feature] Bugs #5154: Possibility to know who edit the same user when we have a lock entry error
+[Feature] FusionDirectory plugins - Bugs #5155: Add an ACL for LDAP tab
+[Feature] FusionDirectory plugins - Bugs #5156: Add a backend configuration to desactivate the warning popup when we add a user
+[Feature] Bugs #5157: Possibility to know when was a lock put when we have a conflict
+|Fix] FusionDirectory plugins - Bugs #5160: opsi import is broken
+|Fix] Bugs #5161: when trying to delete system i got a lock error
+[Feature] FusionDirectory plugins - Bugs #5165: Possible to store sudo role in different OU in the LDAP Tree
+|Fix] Bugs #5172: ldap error after upgrade from 1.0.15 release to 1.0.15 fixes (lock object)
+[Feature] FusionDirectory plugins - Bugs #5173: putting acl on ldap/import export
+[Feature] Wishlist #5004: Do not require nis schema
+[Feature] Wishlist #5096: HTTP header authentication
+[Feature] Wishlist #5162: allow DSA entries to be part of a group
+
+* FusionDirectory 1.0.15
+
+[Feature] Wishlist #4832: Allow removal of user picture
+[Feature] Bugs #4945: Add the possibility to use %askme% for password expiration in template
+FusionDirectory plugins - Bugs #4991: we should document all the change in the webservice done recently
+|Fix] Bugs #5003: Error on mixed groups when nis schema not present
+[Feature] Wishlist #5010: HTTP header authentication
+|Fix] Bugs #5012: [PRINTERS] old printers are not migrated after upgrade to 1.0.14
+|Fix] Bugs #5013: User that will expire in two weeks is not show in dashboard
+|Fix] Argonaut Deployment System - Bugs #5018: Reinstall trigger on a workstation trigger an error
+|Fix] FusionDirectory plugins - Bugs #5020: PHP errors in DHCP plugin with PHP7
+|Fix] Bugs #5021: Checkhook should have a way to know if other check errors occured
+|Fix] Bugs #5022: Random password does not work when we use a template in read only
+|Fix] Bugs #5023: Icon for section account is not found
+|Fix] FusionDirectory plugins - Bugs #5026: CSV import bug ?
+|Fix] FusionDirectory plugins - Bugs #5031: Icon for LDAP should be moved to core
+|Fix] Bugs #5040: Uppercase login triggers php notice
+|Fix] FusionDirectory plugins - Bugs #5043: GPG server info cannot be edited anymore
+[Feature] FusionDirectory plugins - Bugs #5044: Use simpleManagement in GPG plugin
+|Fix] Bugs #5047: add git-shell in default shell list
+|Fix] Bugs #5049: probleme de traduction dans le systeme de reinitialisation des mots de passe
+|Fix] Bugs #5050: mauvais encodage dans le message de demande de reinitialisation du mot de passe
+|Fix] FusionDirectory plugins - Bugs #5051: add a url text field for the linkedin account url
+|Fix] Bugs #5052: password storage in firefox provoque an issue in the password field of the user tab in FusionDirectory
+|Fix] FusionDirectory plugins - Bugs #5055: Argonaut actions launching is broken
+[Feature] FusionDirectory plugins - Bugs #5056: Need to edit class_argonautActions.inc for custom modules
+|Fix] Bugs #5057: check_schema should be reviewed
+|Fix] Bugs #5058: notice on 1.0.14-fixes
+|Fix] FusionDirectory plugins - Bugs #5068: PHP4 constructor in FAI plugin
+|Fix] FusionDirectory plugins - Bugs #5069: PHP4 constructor in mail plugin
+|Fix] Bugs #5071: Fatal error in FAI plugin
+|Fix] Bugs #5074: Error to add ACL
+|Fix] FusionDirectory plugins - Bugs #5075: Error to add ACL
+|Fix] FusionDirectory plugins - Bugs #5088: Add samba shares update action to the list
+|Fix] Bugs #5089: Attribute dob of fusiondirectory schema conflicts with evolution schema
+|Fix] FusionDirectory plugins - Bugs #5090: Attribute dob of fusiondirectory schema conflicts with evolution schema
+|Fix] Bugs #5092: FD should not interfere with form handling
+
+
 * FusionDirectory 1.0.14
 
 |Fix] FusionDirectory plugins - Bugs #4142: Local quota

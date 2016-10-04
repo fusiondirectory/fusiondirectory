@@ -1765,9 +1765,372 @@ If they are old objectClasses it will warn you and you will have to remove it by
 
 !! Please read it carefully before applying !!
 
+New Breezy Theme
+================
+
+In this version by default there is a new more modern theme called breezy. To active it completely go to the configuration plugin, click edit and in the "Look and feel" section select breezy
+
+Enjoy :)
+
+
+Migrate FusionDirectory from 1.0.14 to 1.0.15
+=============================================
+
+Ubuntu 12.0.4 TLS users
+=======================
+
+Since 1.0.9.2 FusionDirectory need the php-cas library for CAS server support. This library can normally found in universe in the Ubuntu repositories 
+
+In case you did not find it, grab the deb from here and install it
+
+http://packages.ubuntu.com/trusty/all/php-cas/download
+
+and select your preferred mirror
+
+Upgrade FusionDirectory first
+=============================
+
+- Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
+
+apt-get install fusiondirectory
+
+- Upgrade FusionDirectory schema package too.
+
+apt-get install fusiondirectory-schema
+
+Plugin deprecated
+=================
+
+The apache2 plugin as been removed in this version
+
+apt-get remove fusiondirectory-plugin-apache2
+
+apt-get remove fusiondirectory-plugin-apache2-schema
+
+Upgrade of LDAP directory
+=========================
+
+- Upgrade the core template schema 
+
+fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd-conf.schema
+
+fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd.schema
+
+- if your are using the systems plugin you have to update its schema
+
+fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/systems-fd.schema
+
+- if your are using the personal plugin you have to update its schema
+
+fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/personal-fd.schema
+
+Remove old schema from /etc/ldap/schema/fusiondirectory
+=======================================================
+
+The old schema are not automatically removed from /etc/ldap/schema/fusiondirectory.
+You can safely remove recovery-fd.schema and asterisk-fd-conf.schema if they still exist
+
+Check for deprecated attributes and objectClasses in your LDAP
+
+fusiondirectory-setup --list-deprecated show deprecated attributes and objectClasses for FusionDirectory
+
+fusiondirectory-setup --list-deprecated
+List deprecated attributes and objectclasses
+Deprecated attributes:
+ gotoXKbVariant                	(GOto - Gonicus Terminal Concept, value xKbvariant.)        	- 1.3.6.1.4.1.10098.1.1.1.27
+ ghGfxAdapter                  	(Hardware definitions, value Grafikkarte)                   	- 1.3.6.1.4.1.10098.1.1.2.9
+ gotoModules                   	(GOto - Gonicus Terminal Concept, value kernel modules.)    	- 1.3.6.1.4.1.10098.1.1.1.32
+ gotoHardwareChecksum          	(GOto - quick way to see if something has changed)          	- 1.3.6.1.4.1.10098.1.1.2.12
+ gotoPrinterPPD                	(GOto - Gonicus Terminal Concept, PPD data)                 	- 1.3.6.1.4.1.10098.1.1.11.6
+ fdAsteriskDriver              	(Driver used for asterisk DB)                               	- 1.3.6.1.4.1.10098.1.1.9.30
+ fdRfc2307bis                  	(FusionDirectory - rfc2307bis)                              	- 1.3.6.1.4.1.38414.8.10.1
+ goFonAreaCode                 	(Store area code)                                           	- 1.3.6.1.4.1.10098.1.1.9.28
+ gotoGroupAdminPrinter         	(GOto - keeps printers we are admin for)                    	- 1.3.6.1.4.1.10098.1.1.11.17
+ gotoXVsync                    	(GOto - Gonicus Terminal Concept, value xVsync.)            	- 1.3.6.1.4.1.10098.1.1.1.19
+ printerWindowsDriverName      	(Windows name of the printer driver)                        	- 1.3.6.1.4.1.38414.6.10.3
+ printerWindowsDriverDir       	(Path to directory that contains windows drivers for this printer)	- 1.3.6.1.4.1.38414.6.10.2
+ fdSipContexts                 	(FusionDirectory - available sip contexts)                  	- 1.3.6.1.4.1.38414.19.11.1
+ fdPhoneConferenceRDN          	(FusionDirectory - Phone conference RDN)                    	- 1.3.6.1.4.1.38414.19.10.3
+ goFonPassword                 	(Admin password for fon server)                             	- 1.3.6.1.4.1.10098.1.1.9.27
+ fdSnapshotURI                 	(FusionDirectory - Snaphost URI)                            	- 1.3.6.1.4.1.38414.8.17.3
+ fdSnapshotAdminPassword       	(FusionDirectory - Snaphost admin password)                 	- 1.3.6.1.4.1.38414.8.17.5
+ gotoAdaptPath                 	(GOto - Gonicus Terminal Concept, value adaptpath.)         	- 1.3.6.1.4.1.10098.1.1.1.33
+ ghMemSize                     	(Hardware definitions, value memSize)                       	- 1.3.6.1.4.1.10098.1.1.2.2
+ gotoCdromEnable               	(GOto - Gonicus Terminal Concept, value cdromEnable.)       	- 1.3.6.1.4.1.10098.1.1.1.8
+ ghInventoryNumber             	(Unique number for inclusion in an inventory)               	- 1.3.6.1.4.1.10098.1.1.2.10
+ avArchiveMaxRecursion         	(Maximum number of archive nestings)                        	- 1.3.6.1.4.1.10098.1.1.9.73
+ goLogAdmin                    	(Admin user for log server)                                 	- 1.3.6.1.4.1.10098.1.1.9.24
+ gotoXMouseport                	(GOto - Gonicus Terminal Concept, value xMouseport.)        	- 1.3.6.1.4.1.10098.1.1.1.22
+ gotoXMouseButtons             	(GOto - Gonicus Terminal Concept, value xMouseButtons.)     	- 1.3.6.1.4.1.10098.1.1.1.23
+ gotoXKbLayout                 	(GOto - Gonicus Terminal Concept, value xKblayout.)         	- 1.3.6.1.4.1.10098.1.1.1.26
+ fdCopyPaste                   	(FusionDirectory - (de)Activate copy/paste)                 	- 1.3.6.1.4.1.38414.8.14.5
+ gotoScannerBackend            	(GOto - Gonicus Terminal Concept, value scannerBackend.)    	- 1.3.6.1.4.1.10098.1.1.1.39
+ printerWindowsInfFile         	(Path to windows inf file for this printer)                 	- 1.3.6.1.4.1.38414.6.10.1
+ avArchiveMaxCompressionRatio  	(Maximum compression ratio)                                 	- 1.3.6.1.4.1.10098.1.1.9.74
+ fdPhoneMacroRDN               	(FusionDirectory - Phone macro RDN)                         	- 1.3.6.1.4.1.38414.19.10.2
+ avMaxDirectoryRecursions      	(Number of recursions done with directories)                	- 1.3.6.1.4.1.10098.1.1.9.69
+ gotoUserPrinter               	(GOto - keeps printers shown for this user)                 	- 1.3.6.1.4.1.10098.1.1.11.12
+ fdPasswordHook                	(FusionDirectory - Password hook (external command))        	- 1.3.6.1.4.1.38414.8.13.4
+ gotoXColordepth               	(GOto - Gonicus Terminal Concept, value xColordepth.)       	- 1.3.6.1.4.1.10098.1.1.1.21
+ gotoXHsync                    	(GOto - Gonicus Terminal Concept, value xHsync.)            	- 1.3.6.1.4.1.10098.1.1.1.18
+ fdPersonalTitleInDN           	(FusionDirectory - Personal title in dn)                    	- 1.3.6.1.4.1.38414.8.12.5
+ gotoXMouseType                	(Hardware definitions, value Type of mouse)                 	- 1.3.6.1.4.1.10098.1.1.1.34
+ gotoNtpServer                 	(GOto - Gonicus Terminal Concept, value ntpServer.)         	- 1.3.6.1.4.1.10098.1.1.1.2
+ goLogDriver                   	(FD logging MDB2 driver name)                               	- 1.3.6.1.4.1.10098.1.1.9.84
+ fdPrimaryGroupFilter          	(FusionDirectory - Primary group filter)                    	- 1.3.6.1.4.1.38414.8.14.1
+ ghUsbSupport                  	(Hardware definitions, value usbSupport)                    	- 1.3.6.1.4.1.10098.1.1.2.3
+ gotoXKbModel                  	(GOto - Gonicus Terminal Concept, value xKbmodel.)          	- 1.3.6.1.4.1.10098.1.1.1.25
+ gotoSysStatus                 	(Keeps current system status - info shown in GOsa)          	- 1.3.6.1.4.1.10098.1.1.2.11
+ goLogDB                       	(GOsa logging DB name)                                      	- 1.3.6.1.4.1.10098.1.1.9.83
+ gotoFloppyEnable              	(GOto - Gonicus Terminal Concept, value floppyEnable.)      	- 1.3.6.1.4.1.10098.1.1.1.7
+ gotoFontPath                  	(GOto - Gonicus Terminal Concept, value fontPath.)          	- 1.3.6.1.4.1.10098.1.1.1.5
+ gotoAutoFs                    	(GOto - Gonicus Terminal Concept, value autofs.)            	- 1.3.6.1.4.1.10098.1.1.1.31
+ gotoXDriver                   	(GOto - Gonicus Terminal Concept, value xDriver.)           	- 1.3.6.1.4.1.10098.1.1.1.28
+ gotoXResolution               	(GOto - Gonicus Terminal Concept, value xResolution.)       	- 1.3.6.1.4.1.10098.1.1.1.20
+ goFonCountryCode              	(Store country code)                                        	- 1.3.6.1.4.1.10098.1.1.9.29
+ fdAccountRDN                  	(FusionDirectory - use a placeholder pattern for generating account RDNs)	- 1.3.6.1.4.1.38414.8.12.2
+ avMaxThreads                  	(Number of AV scanning threads)                             	- 1.3.6.1.4.1.10098.1.1.9.68
+ gotoScannerModel              	(GOto - Gonicus Terminal Concept, value scannerModel.)      	- 1.3.6.1.4.1.10098.1.1.1.40
+ gotoSndModule                 	(GOto - Gonicus Terminal Concept, value sound Modules.)     	- 1.3.6.1.4.1.10098.1.1.1.29
+ gotoLpdEnable                 	(GOto - Gonicus Terminal Concept, value lpdEnable.)         	- 1.3.6.1.4.1.10098.1.1.1.9
+ avHttpProxyURL                	(How to get the updates)                                    	- 1.3.6.1.4.1.10098.1.1.9.76
+ gotoRootPasswd                	(GOto - Gonicus Terminal Concept, value rootPasswd.)        	- 1.3.6.1.4.1.10098.1.1.1.14
+ goLogPassword                 	(Admin password for log server)                             	- 1.3.6.1.4.1.10098.1.1.9.25
+ gotoProfileServer             	(GOto - specifies the profile server)                       	- 1.3.6.1.4.1.10098.1.1.11.8
+ avDatabaseMirror              	(Where to find updates)                                     	- 1.3.6.1.4.1.10098.1.1.9.75
+ gotoGroupPrinter              	(GOto - keeps printers shown for this user)                 	- 1.3.6.1.4.1.10098.1.1.11.16
+ fdMailMethod                  	(FusionDirectory - Mail method)                             	- 1.3.6.1.4.1.38414.10.10.1
+ gotoFilesystem                	(GOto - Gonicus Terminal Concept, value filesystem.)        	- 1.3.6.1.4.1.10098.1.1.1.6
+ ghSoundAdapter                	(Hardware definitions, value soundAdapter)                  	- 1.3.6.1.4.1.10098.1.1.2.7
+ avArchiveMaxFileSize          	(Maximum archive file size)                                 	- 1.3.6.1.4.1.10098.1.1.9.72
+ avChecksPerDay                	(Update checks per day)                                     	- 1.3.6.1.4.1.10098.1.1.9.78
+ gotoScannerEnable             	(GOto - Gonicus Terminal Concept, value scannerEnable.)     	- 1.3.6.1.4.1.10098.1.1.1.10
+ ghScsiDev                     	(Hardware definitions, value scsiDev)                       	- 1.3.6.1.4.1.10098.1.1.2.5
+ goFaxPassword                 	(Admin password for fax server)                             	- 1.3.6.1.4.1.10098.1.1.9.23
+ goSyslogSection               	(What sections wants the server for its syslog service? i.e. *.*)	- 1.3.6.1.4.1.10098.1.1.9.9
+ gotoLpdServer                 	(GOto - Gonicus Terminal Concept, value lpdServer.)         	- 1.3.6.1.4.1.10098.1.1.1.4
+ avUser                        	(Username to run antivirus with)                            	- 1.3.6.1.4.1.10098.1.1.9.70
+ gotoProfileQuota              	(GOto - save quota for home)                                	- 1.3.6.1.4.1.10098.1.1.11.15
+ fdIdGenerator                 	(FusionDirectory - An automatic way to generate new user ids)	- 1.3.6.1.4.1.38414.8.12.4
+ avFlags                       	(Special flags for the antivirus scan engine)               	- 1.3.6.1.4.1.10098.1.1.9.71
+ gotoScannerClients            	(GOto - Gonicus Terminal Concept, value scannerClients.)    	- 1.3.6.1.4.1.10098.1.1.1.11
+ gotoXMonitor                  	(GOto - Gonicus Terminal Concept, value xMonitor.)          	- 1.3.6.1.4.1.10098.1.1.1.17
+ ghNetNic                      	(Hardware definitions, value Network Device)                	- 1.3.6.1.4.1.10098.1.1.2.8
+ goFonAdmin                    	(Admin user for fon server)                                 	- 1.3.6.1.4.1.10098.1.1.9.26
+ gotoShare                     	(GOto - specifies a share)                                  	- 1.3.6.1.4.1.10098.1.1.11.9
+ ghIdeDev                      	(Hardware definitions, value ideDev)                        	- 1.3.6.1.4.1.10098.1.1.2.4
+ fdSnapshotAdminDn             	(FusionDirectory - Snaphost admin dn)                       	- 1.3.6.1.4.1.38414.8.17.4
+ goFaxAdmin                    	(Admin principal for fax server)                            	- 1.3.6.1.4.1.10098.1.1.9.22
+ ghCpuType                     	(Hardware definitions, value cpuType)                       	- 1.3.6.1.4.1.10098.1.1.2.1
+ fdVoicemailContexts           	(FusionDirectory - available voicemail contexts)            	- 1.3.6.1.4.1.38414.19.11.2
+ gotoProfileFlags              	(GOto - Flags for Profile handling - C is for caching)      	- 1.3.6.1.4.1.10098.1.1.11.7
+ gotoUserAdminPrinter          	(GOto - keeps printers we are admin for)                    	- 1.3.6.1.4.1.10098.1.1.11.13
+Deprecated objectClasses:
+ goCupsServer                  	(CUPS server description)                                   	- 1.3.6.1.4.1.10098.1.2.1.23
+ goLogDBServer                 	(Log DB server description)                                 	- 1.3.6.1.4.1.10098.1.2.1.28
+ goFaxServer                   	(Fax server description)                                    	- 1.3.6.1.4.1.10098.1.2.1.26
+ goNtpServer                   	(Time server description)                                   	- 1.3.6.1.4.1.10098.1.2.1.20
+ goSyslogServer                	(Syslog server description)                                 	- 1.3.6.1.4.1.10098.1.2.1.21
+ goNfsServer                   	(NFS server description)                                    	- 1.3.6.1.4.1.10098.1.2.1.19
+ goFonServer                   	(Fon server description)                                    	- 1.3.6.1.4.1.10098.1.2.1.29
+ gosaUserTemplate              	(GOsa - Class for GOsa User Templates)                      	- 1.3.6.1.4.1.10098.1.2.1.19.11
+ goVirusServer                 	(Virus server definition)                                   	- 1.3.6.1.4.1.10098.1.2.1.39
+
+fusiondirectory-setup --check-deprecated will output a list of dn using old attributes and objectClasses of they are present in your ldap server
+
+fusiondirectory-setup --check-deprecated
+List LDAP entries using deprecated attributes or objectclasses
+There are no entries in the LDAP using obsolete attributes
+There are no entries in the LDAP using obsolete classes
+
+If you see the obsolete object class gotoPrinter you must run the next command and answer yes
+
+fusiondirectory-setup --migrate-printers
+
+fusiondirectory-setup --ldif-deprecated will output an ldif file on the console that you can use with ldapmodify to clean you ldap server from old attributes.
+
+If they are old objectClasses it will warn you and you will have to remove it by hand, they have been specified at the fusiondirectory-setup --check-deprecated step.
+
+!! Please read it carefully before applying !!
+
+==== Hook ====
+
+You must modify your hook so that they don't use quotes. The attributes are now automatically quotes and escape.
+
 ==== New Breezy Theme ====
 
 In this version by default there is a new more modern theme called breezy. To active it completely go to the configuration plugin, click edit and in the "Look and feel" section select breezy
+
+Enjoy :)
+
+
+Migrate FusionDirectory from 1.0.15 to 1.0.16
+=============================================
+
+Ubuntu 12.0.4 TLS users
+=======================
+
+Since 1.0.9.2 FusionDirectory need the php-cas library for CAS server support. This library can normally found in universe in the Ubuntu repositories 
+
+In case you did not find it, grab the deb from here and install it
+
+http://packages.ubuntu.com/trusty/all/php-cas/download
+
+and select your preferred mirror
+
+Upgrade FusionDirectory first
+=============================
+
+- Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
+
+apt-get install fusiondirectory
+
+- Upgrade FusionDirectory schema package too.
+
+apt-get install fusiondirectory-schema
+
+
+Upgrade of LDAP directory
+=========================
+
+- Upgrade the core template schema
+
+fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd-conf.schema
+
+fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd.schema
+
+
+Check for deprecated attributes and objectClasses in your LDAP
+==============================================================
+
+The --list-deprecated option of fusiondirectory-setup show deprecated attributes and objectClasses for FusionDirectory
+
+fusiondirectory-setup  --list-deprecated 
+List deprecated attributes and objectclasses
+Deprecated attributes:
+ gotoLpdServer                  (GOto - Gonicus Terminal Concept, value lpdServer.)             - 1.3.6.1.4.1.10098.1.1.1.4
+ fdPhoneMacroRDN                (FusionDirectory - Phone macro RDN)                             - 1.3.6.1.4.1.38414.19.10.2
+ gotoCdromEnable                (GOto - Gonicus Terminal Concept, value cdromEnable.)           - 1.3.6.1.4.1.10098.1.1.1.8
+ gotoFontPath                   (GOto - Gonicus Terminal Concept, value fontPath.)              - 1.3.6.1.4.1.10098.1.1.1.5
+ printerWindowsDriverDir        (Path to directory that contains windows drivers for this printer)      - 1.3.6.1.4.1.38414.6.10.2
+ avHttpProxyURL                 (How to get the updates)                                        - 1.3.6.1.4.1.10098.1.1.9.76
+ avMaxDirectoryRecursions       (Number of recursions done with directories)                    - 1.3.6.1.4.1.10098.1.1.9.69
+ goFonPassword                  (Admin password for fon server)                                 - 1.3.6.1.4.1.10098.1.1.9.27
+ gotoFilesystem                 (GOto - Gonicus Terminal Concept, value filesystem.)            - 1.3.6.1.4.1.10098.1.1.1.6
+ gotoPrinterPPD                 (GOto - Gonicus Terminal Concept, PPD data)                     - 1.3.6.1.4.1.10098.1.1.11.6
+ fdSnapshotAdminDn              (FusionDirectory - Snaphost admin dn)                           - 1.3.6.1.4.1.38414.8.17.4
+ ghUsbSupport                   (Hardware definitions, value usbSupport)                        - 1.3.6.1.4.1.10098.1.1.2.3
+ gotoScannerEnable              (GOto - Gonicus Terminal Concept, value scannerEnable.)         - 1.3.6.1.4.1.10098.1.1.1.10
+ gotoNtpServer                  (GOto - Gonicus Terminal Concept, value ntpServer.)             - 1.3.6.1.4.1.10098.1.1.1.2
+ goFaxPassword                  (Admin password for fax server)                                 - 1.3.6.1.4.1.10098.1.1.9.23
+ gotoSysStatus                  (Keeps current system status - info shown in GOsa)              - 1.3.6.1.4.1.10098.1.1.2.11
+ gotoUserAdminPrinter           (GOto - keeps printers we are admin for)                        - 1.3.6.1.4.1.10098.1.1.11.13
+ ghIdeDev                       (Hardware definitions, value ideDev)                            - 1.3.6.1.4.1.10098.1.1.2.4
+ gotoSndModule                  (GOto - Gonicus Terminal Concept, value sound Modules.)         - 1.3.6.1.4.1.10098.1.1.1.29
+ goFaxAdmin                     (Admin principal for fax server)                                - 1.3.6.1.4.1.10098.1.1.9.22
+ gotoAdaptPath                  (GOto - Gonicus Terminal Concept, value adaptpath.)             - 1.3.6.1.4.1.10098.1.1.1.33
+ gotoScannerModel               (GOto - Gonicus Terminal Concept, value scannerModel.)          - 1.3.6.1.4.1.10098.1.1.1.40
+ gotoXColordepth                (GOto - Gonicus Terminal Concept, value xColordepth.)           - 1.3.6.1.4.1.10098.1.1.1.21
+ fdAsteriskDriver               (Driver used for asterisk DB)                                   - 1.3.6.1.4.1.10098.1.1.9.30
+ fdSipContexts                  (FusionDirectory - available sip contexts)                      - 1.3.6.1.4.1.38414.19.11.1
+ gosaObject                     (GOsa - DN of an object)                                        - 1.3.6.1.4.1.10098.1.1.12.3
+ ghInventoryNumber              (Unique number for inclusion in an inventory)                   - 1.3.6.1.4.1.10098.1.1.2.10
+ ghSoundAdapter                 (Hardware definitions, value soundAdapter)                      - 1.3.6.1.4.1.10098.1.1.2.7
+ ghGfxAdapter                   (Hardware definitions, value Grafikkarte)                       - 1.3.6.1.4.1.10098.1.1.2.9
+ gotoXDriver                    (GOto - Gonicus Terminal Concept, value xDriver.)               - 1.3.6.1.4.1.10098.1.1.1.28
+ gotoShare                      (GOto - specifies a share)                                      - 1.3.6.1.4.1.10098.1.1.11.9
+ fdCopyPaste                    (FusionDirectory - (de)Activate copy/paste)                     - 1.3.6.1.4.1.38414.8.14.5
+ gotoAutoFs                     (GOto - Gonicus Terminal Concept, value autofs.)                - 1.3.6.1.4.1.10098.1.1.1.31
+ gotoScannerBackend             (GOto - Gonicus Terminal Concept, value scannerBackend.)        - 1.3.6.1.4.1.10098.1.1.1.39
+ gotoUserPrinter                (GOto - keeps printers shown for this user)                     - 1.3.6.1.4.1.10098.1.1.11.12
+ printerWindowsInfFile          (Path to windows inf file for this printer)                     - 1.3.6.1.4.1.38414.6.10.1
+ avChecksPerDay                 (Update checks per day)                                         - 1.3.6.1.4.1.10098.1.1.9.78
+ gotoScannerClients             (GOto - Gonicus Terminal Concept, value scannerClients.)        - 1.3.6.1.4.1.10098.1.1.1.11
+ gotoXKbLayout                  (GOto - Gonicus Terminal Concept, value xKblayout.)             - 1.3.6.1.4.1.10098.1.1.1.26
+ fdSnapshotAdminPassword        (FusionDirectory - Snaphost admin password)                     - 1.3.6.1.4.1.38414.8.17.5
+ fdPersonalTitleInDN            (FusionDirectory - Personal title in dn)                        - 1.3.6.1.4.1.38414.8.12.5
+ gotoXResolution                (GOto - Gonicus Terminal Concept, value xResolution.)           - 1.3.6.1.4.1.10098.1.1.1.20
+ fdPasswordHook                 (FusionDirectory - Password hook (external command))            - 1.3.6.1.4.1.38414.8.13.4
+ fdVoicemailContexts            (FusionDirectory - available voicemail contexts)                - 1.3.6.1.4.1.38414.19.11.2
+ fdIdGenerator                  (FusionDirectory - An automatic way to generate new user ids)   - 1.3.6.1.4.1.38414.8.12.4
+ goLogPassword                  (Admin password for log server)                                 - 1.3.6.1.4.1.10098.1.1.9.25
+ ghCpuType                      (Hardware definitions, value cpuType)                           - 1.3.6.1.4.1.10098.1.1.2.1
+ gotoGroupAdminPrinter          (GOto - keeps printers we are admin for)                        - 1.3.6.1.4.1.10098.1.1.11.17
+ fdAccountRDN                   (FusionDirectory - use a placeholder pattern for generating account RDNs)       - 1.3.6.1.4.1.38414.8.12.2
+ gotoFloppyEnable               (GOto - Gonicus Terminal Concept, value floppyEnable.)          - 1.3.6.1.4.1.10098.1.1.1.7
+ goFonAreaCode                  (Store area code)                                               - 1.3.6.1.4.1.10098.1.1.9.28
+ avArchiveMaxRecursion          (Maximum number of archive nestings)                            - 1.3.6.1.4.1.10098.1.1.9.73
+ gotoRootPasswd                 (GOto - Gonicus Terminal Concept, value rootPasswd.)            - 1.3.6.1.4.1.10098.1.1.1.14
+ fdPrimaryGroupFilter           (FusionDirectory - Primary group filter)                        - 1.3.6.1.4.1.38414.8.14.1
+ goFonCountryCode               (Store country code)                                            - 1.3.6.1.4.1.10098.1.1.9.29
+ avArchiveMaxFileSize           (Maximum archive file size)                                     - 1.3.6.1.4.1.10098.1.1.9.72
+ gotoProfileServer              (GOto - specifies the profile server)                           - 1.3.6.1.4.1.10098.1.1.11.8
+ goLogAdmin                     (Admin user for log server)                                     - 1.3.6.1.4.1.10098.1.1.9.24
+ fdPhoneConferenceRDN           (FusionDirectory - Phone conference RDN)                        - 1.3.6.1.4.1.38414.19.10.3
+ goFonAdmin                     (Admin user for fon server)                                     - 1.3.6.1.4.1.10098.1.1.9.26
+ goLogDriver                    (FD logging MDB2 driver name)                                   - 1.3.6.1.4.1.10098.1.1.9.84
+ gotoLpdEnable                  (GOto - Gonicus Terminal Concept, value lpdEnable.)             - 1.3.6.1.4.1.10098.1.1.1.9
+ gotoModules                    (GOto - Gonicus Terminal Concept, value kernel modules.)        - 1.3.6.1.4.1.10098.1.1.1.32
+ gotoProfileQuota               (GOto - save quota for home)                                    - 1.3.6.1.4.1.10098.1.1.11.15
+ avFlags                        (Special flags for the antivirus scan engine)                   - 1.3.6.1.4.1.10098.1.1.9.71
+ avUser                         (Username to run antivirus with)                                - 1.3.6.1.4.1.10098.1.1.9.70
+ ghMemSize                      (Hardware definitions, value memSize)                           - 1.3.6.1.4.1.10098.1.1.2.2
+ gotoXMonitor                   (GOto - Gonicus Terminal Concept, value xMonitor.)              - 1.3.6.1.4.1.10098.1.1.1.17
+ gotoGroupPrinter               (GOto - keeps printers shown for this user)                     - 1.3.6.1.4.1.10098.1.1.11.16
+ fdRfc2307bis                   (FusionDirectory - rfc2307bis)                                  - 1.3.6.1.4.1.38414.8.10.1
+ gotoProfileFlags               (GOto - Flags for Profile handling - C is for caching)          - 1.3.6.1.4.1.10098.1.1.11.7
+ fdMailMethod                   (FusionDirectory - Mail method)                                 - 1.3.6.1.4.1.38414.10.10.1
+ gotoXKbVariant                 (GOto - Gonicus Terminal Concept, value xKbvariant.)            - 1.3.6.1.4.1.10098.1.1.1.27
+ gotoXMouseport                 (GOto - Gonicus Terminal Concept, value xMouseport.)            - 1.3.6.1.4.1.10098.1.1.1.22
+ fdSnapshotURI                  (FusionDirectory - Snaphost URI)                                - 1.3.6.1.4.1.38414.8.17.3
+ gotoHardwareChecksum           (GOto - quick way to see if something has changed)              - 1.3.6.1.4.1.10098.1.1.2.12
+ printerWindowsDriverName       (Windows name of the printer driver)                            - 1.3.6.1.4.1.38414.6.10.3
+ ghScsiDev                      (Hardware definitions, value scsiDev)                           - 1.3.6.1.4.1.10098.1.1.2.5
+ gotoXMouseType                 (Hardware definitions, value Type of mouse)                     - 1.3.6.1.4.1.10098.1.1.1.34
+ gotoXVsync                     (GOto - Gonicus Terminal Concept, value xVsync.)                - 1.3.6.1.4.1.10098.1.1.1.19
+ goSyslogSection                (What sections wants the server for its syslog service? i.e. *.*)       - 1.3.6.1.4.1.10098.1.1.9.9
+ avDatabaseMirror               (Where to find updates)                                         - 1.3.6.1.4.1.10098.1.1.9.75
+ goLogDB                        (GOsa logging DB name)                                          - 1.3.6.1.4.1.10098.1.1.9.83
+ gosaUser                       (GOsa - DN of a user)                                           - 1.3.6.1.4.1.10098.1.1.12.2
+ gotoXHsync                     (GOto - Gonicus Terminal Concept, value xHsync.)                - 1.3.6.1.4.1.10098.1.1.1.18
+ avMaxThreads                   (Number of AV scanning threads)                                 - 1.3.6.1.4.1.10098.1.1.9.68
+ gotoXMouseButtons              (GOto - Gonicus Terminal Concept, value xMouseButtons.)         - 1.3.6.1.4.1.10098.1.1.1.23
+ avArchiveMaxCompressionRatio   (Maximum compression ratio)                                     - 1.3.6.1.4.1.10098.1.1.9.74
+ ghNetNic                       (Hardware definitions, value Network Device)                    - 1.3.6.1.4.1.10098.1.1.2.8
+ gotoXKbModel                   (GOto - Gonicus Terminal Concept, value xKbmodel.)              - 1.3.6.1.4.1.10098.1.1.1.25
+Deprecated objectClasses:
+ goFaxServer                    (Fax server description)                                        - 1.3.6.1.4.1.10098.1.2.1.26
+ goSyslogServer                 (Syslog server description)                                     - 1.3.6.1.4.1.10098.1.2.1.21
+ goCupsServer                   (CUPS server description)                                       - 1.3.6.1.4.1.10098.1.2.1.23
+ goNtpServer                    (Time server description)                                       - 1.3.6.1.4.1.10098.1.2.1.20
+ gosaLockEntry                  (GOsa - Class for GOsa locking)                                 - 1.3.6.1.4.1.10098.1.2.1.19.2
+ goVirusServer                  (Virus server definition)                                       - 1.3.6.1.4.1.10098.1.2.1.39
+ gosaUserTemplate               (GOsa - Class for GOsa User Templates)                          - 1.3.6.1.4.1.10098.1.2.1.19.11
+ goNfsServer                    (NFS server description)                                        - 1.3.6.1.4.1.10098.1.2.1.19
+ goFonServer                    (Fon server description)                                        - 1.3.6.1.4.1.10098.1.2.1.29
+ goLogDBServer                  (Log DB server description)                                     - 1.3.6.1.4.1.10098.1.2.1.28
+
+The --check-deprecated option will output a list of dn using old attributes and objectClasses of they are present in your ldap server
+
+fusiondirectory-setup --check-deprecated
+List LDAP entries using deprecated attributes or objectclasses
+There are no entries in the LDAP using obsolete attributes
+There are no entries in the LDAP using obsolete classes
+
+The lock attribute and objectClass has been Change so you need to run fusiondirectory-setup --delete-gosa-locks to remove them
+
+fusiondirectory-setup --delete-gosa-locks
+Delete lock tokens using old gosaLockEntry class
+Deleted lock 'cn=df0c0960f4202f794a331f07f3fbcccd,ou=locks,ou=fusiondirectory,dc=org'
+Deleted lock 'cn=157dc41f15328c6ae3f1a2542c0dd481,ou=locks,ou=fusiondirectory,dc=org'
+
+The --ldif-deprecated option will output an ldif file on the console that you can use with ldapmodify to clean you ldap server from old attributes.
+
+fusiondirectory-setup --ldif-deprecated > remove_deprecated.ldif
+
+If they are old objectClasses it will warn you and you will have to remove them by hand, they have been specified at the --check-deprecated step.
+
+!! Please read it carefully before applying !!
 
 Enjoy :)
 
