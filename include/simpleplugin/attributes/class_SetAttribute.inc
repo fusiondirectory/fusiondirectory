@@ -239,6 +239,23 @@ class SetAttribute extends Attribute
     }
   }
 
+  function serializeAttribute(&$attributes, $form = TRUE)
+  {
+    parent::serializeAttribute($attributes, $form);
+    if ($this->attribute === FALSE) {
+      return;
+    }
+    if ($form) {
+      return;
+    } else {
+      $subattributes = array();
+      $this->attribute->setDisabled($this->disabled);
+      $this->attribute->serializeAttribute($subattributes, $form);
+      $attributes[$this->getLdapName()]['attributes']       = $subattributes;
+      $attributes[$this->getLdapName()]['attributes_order'] = array_keys($subattributes);
+    }
+  }
+
   function getForHtmlId()
   {
     // Label should point to the attribute
