@@ -255,7 +255,8 @@ class CompositeAttribute extends Attribute
         $attribute->serializeAttribute($subattributes, $form);
       }
       unset($attribute);
-      $attributes[$this->getLdapName()]['attributes'] = $subattributes;
+      $attributes[$this->getLdapName()]['attributes']       = $subattributes;
+      $attributes[$this->getLdapName()]['attributes_order'] = array_keys($subattributes);
     }
   }
 
