@@ -1665,6 +1665,74 @@ sub migrate_printers {
   $unbind->code && warn "! Unable to unbind from LDAP server: ", $unbind->error."\n";
 }
 
+# function that migrates systems from FD<1.1 to FD>=1.1
+sub migrate_systems {
+  # initiate the LDAP connexion
+  my %hash_ldap_param = get_ldap_connexion();
+
+  # LDAP's connection's parameters
+  my $base = $hash_ldap_param{base};
+  my $ldap = $hash_ldap_param{ldap};
+
+  my @oldOCs = ('gotoWorkstation',  'goServer', 'gotoTerminal', 'gotoDevice');
+  my @newOCs = ('fdWorkstation',    'fdServer', 'fdTerminal',   'device');
+  foreach my $i (0 .. $#oldOCs) {
+    my $oldOC = $oldOCs[$i];
+    my $newOC = $newOCs[$i];
+
+    my $mesg = $ldap->search(
+      filter => "(objectClass=$oldOC)",
+      base   => $base
+    );
+    $mesg->code && die $mesg->error;
+
+    if ($mesg->count > 0) {
+      print ("The following systems are using the obsolete $oldOC objectClass:\n");
+
+      my @entries = $mesg->entries;
+
+      foreach my $entry (@entries) {
+        print $entry->dn()."\n";
+      }
+
+      if (ask_yn_question("Migrate these entries to $newOC objectClass?")) {
+        foreach my $entry (@entries) {
+          my $newrdn = "cn=".$entry->get_value('cn')."+ipHostNumber=".$entry->get_value('ipHostNumber');
+          $mesg = $ldap->moddn($entry->dn(), newrdn => $newrdn);
+          if ($mesg->code) {
+            print $entry->dn().": ".$mesg->error."\n";
+            next;
+          }
+          my $dn_old = $entry->dn();
+          $dn_old =~ s/^[^,]+,/$newrdn,/;
+          my @replace = ('ieee802Device', 'ipHost', $newOC);
+          my @classes = $entry->get_value('objectClass');
+          foreach my $class (@classes) {
+            if (($class ne $oldOC) && ($class ne 'GOhard')) {
+              push(@replace, "$class");
+            }
+          }
+          $entry->replace("objectClass" => \@replace);
+          $mesg = $ldap->add($entry);
+          if ($mesg->code) {
+            print $entry->dn().": ".$mesg->error."\n";
+            next;
+          }
+          undef @replace;
+          $mesg = $ldap->delete($dn_old);
+          $mesg->code && print $dn_old.": ".$mesg->error."\n";
+        }
+      }
+    } else {
+      print "Found no system using $oldOC\n";
+    }
+  }
+
+  # unbind to the LDAP server
+  my $unbind = $ldap->unbind;
+  $unbind->code && warn "! Unable to unbind from LDAP server: ", $unbind->error."\n";
+}
+
 # List LDAP attributes which have been deprecated
 sub list_deprecated {
   my ($obsolete_attrs, $obsolete_classes) = get_deprecated();
@@ -1911,7 +1979,8 @@ die ("! You have to run this script as root\n") if ($<!=0);
   $commands{"--check-ldap"}           = ["Checking your LDAP tree",                       \&check_ldap];
   $commands{"--check-ids"}            = ["Checking for duplicated uid or gid numbers",    \&check_id_numbers];
   $commands{"--migrate-users"}        = ["Migrating your users",                          \&migrate_users];
-  $commands{"--migrate-printers"}     = ["Migrating your printer from FD < 1.0.14",       \&migrate_printers];
+  $commands{"--migrate-printers"}     = ["Migrating your printers from FD < 1.0.14",      \&migrate_printers];
+  $commands{"--migrate-systems"}      = ["Migrating your systems from FD < 1.1",          \&migrate_systems];
   $commands{"--migrate-dns"}          = ["Migrating DNS zones for FD 1.0.10",             \&migrate_dns];
   $commands{"--migrate-acls"}         = ["Migrating your ACLs",                           \&migrate_acls];
   $commands{"--delete-gosa-locks"}    = ["Delete lock tokens using old gosaLockEntry class", \&delete_gosa_locks];
@@ -2014,6 +2083,10 @@ This option add FusionDirectory attributes to the people branch.
 =item --migrate-printers
 
 This option replace gosaPrinter objectClass by new fdPrinter objectClass.
+
+=item --migrate-systems
+
+This option replace old systems objectClasses by new objectClasses from FD 1.1.
 
 =item --migrate-dns
 
