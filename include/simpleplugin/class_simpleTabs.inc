@@ -365,6 +365,7 @@ class simpleTabs
    */
   function save()
   {
+    global $ui;
     $messages = $this->check();
     if (!empty($messages)) {
       return $messages;
@@ -418,6 +419,11 @@ class simpleTabs
       if ($first) {
         $first = FALSE;
       }
+    }
+
+    if (empty($errors) && ($this->dn == $ui->dn)) {
+      /* If the logged in user was edited, update his information */
+      $ui->loadLDAPInfo();
     }
 
     return $errors;

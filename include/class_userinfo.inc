@@ -55,9 +55,25 @@ class userinfo
   function __construct($userdn)
   {
     global $config;
+    $this->dn         = $userdn;
+    $this->ip         = $_SERVER['REMOTE_ADDR'];
+    $this->ignoreACL  = ($config->get_cfg_value('ignoreAcl') == $this->dn);
+
+    $this->loadLDAPInfo();
+
+    /* Initialize ACL_CACHE */
+    $this->reset_acl_cache();
+  }
+
+  /*! \brief Loads user information from LDAP */
+  function loadLDAPInfo()
+  {
+    global $config;
     $ldap = $config->get_ldap_link();
-    $ldap->cat($userdn, array('cn', 'sn', 'givenName', 'uid', 'gidNumber', 'preferredLanguage'));
+    $ldap->cat($this->dn, array('cn', 'sn', 'givenName', 'uid', 'gidNumber', 'preferredLanguage'));
     $attrs = $ldap->fetch();
+
+    $this->uid = $attrs['uid'][0];
 
     if (isset($attrs['cn'][0])) {
       $this->cn = $attrs['cn'][0];
@@ -80,15 +96,6 @@ class userinfo
     if (isset($attrs['preferredLanguage'][0])) {
       $this->language = $attrs['preferredLanguage'][0];
     }
-
-    $this->dn   = $userdn;
-    $this->uid  = $attrs['uid'][0];
-    $this->ip   = $_SERVER['REMOTE_ADDR'];
-
-    $this->ignoreACL = ($config->get_cfg_value("ignoreAcl") == $this->dn);
-
-    /* Initialize ACL_CACHE */
-    $this->reset_acl_cache();
   }
 
   /*!
