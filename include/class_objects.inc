@@ -36,7 +36,7 @@ class objects
    *
    * \return The list of objects as an associative array (keys are dns)
    */
-  static function ls ($types, $attrs = NULL, $ou = NULL, $filter = '', $checkAcl = FALSE)
+  static function ls ($types, $attrs = NULL, $ou = NULL, $filter = '', $checkAcl = FALSE, $scope = 'subtree')
   {
     global $ui;
 
@@ -70,7 +70,7 @@ class objects
       $search_attrs = array($attrs);
     }
     try {
-      $ldap = static::search($types, $search_attrs, $ou, $filter);
+      $ldap = static::search($types, $search_attrs, $ou, $filter, $scope);
     } catch (NonExistingBranchException $e) {
       return array();
     }
@@ -124,7 +124,7 @@ class objects
     return $ldap->count();
   }
 
-  private static function search ($types, $search_attrs, $ou = NULL, $filter = '')
+  private static function search ($types, $search_attrs, $ou = NULL, $filter = '', $scope = 'subtree')
   {
     global $config;
 
@@ -162,7 +162,7 @@ class objects
       $filter = '(&'.$filter.'(|'.implode($typeFilters).'))';
     }
     $ldap->cd($ou);
-    $ldap->search($filter, $search_attrs);
+    $ldap->search($filter, $search_attrs, $scope);
     if (!$ldap->success()) {
       throw new LDAPFailureException($ldap->get_error());
     }
@@ -189,7 +189,7 @@ class objects
     return $tabObject;
   }
 
-  static function link($dn, $type, $subaction = '', $text = NULL, $icon = TRUE)
+  static function link ($dn, $type, $subaction = '', $text = NULL, $icon = TRUE)
   {
     global $config;
 
@@ -260,7 +260,7 @@ class objects
 
   /* !\brief  This method returns a list of all available templates for the given type
    */
-  static function getTemplates($type, $requiredPermissions = 'r')
+  static function getTemplates ($type, $requiredPermissions = 'r')
   {
     global $config, $ui;
 

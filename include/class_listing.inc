@@ -1519,9 +1519,7 @@ class listing {
     }
   }
 
-  /*!
-   * Get the depatments
-   */
+  /*! \brief Get the departments */
   function getDepartments()
   {
     $departments = array();
@@ -1530,41 +1528,47 @@ class listing {
     // Get list of supported department types
     $types = departmentManagement::getDepartmentTypes();
 
-    /* Create a list of attributes to fetch */
-    $filter       = '';
-    $ldap_values  = array('objectClass', 'description');
-    foreach ($types as $type) {
-      $i = objects::infos($type);
-      $filter         .= $i['filter'];
-      /* Add type main attr to fetched attributes list */
-      $ldap_values[]  = $i['mainAttr'];
-    }
-    $filter = '(|'.$filter.')';
-
-    $res = get_list($filter, $this->categories, $this->base, $ldap_values, GL_NONE);
-
     // Load departments allowed by ACL
     $validDepartments = $ui->get_module_departments($this->categories);
 
-    // Analyze list of departments
-    foreach ($res as $department) {
-      if (!in_array($department['dn'], $validDepartments)) {
-        continue;
-      }
+    /* Fetch departments andtheir informations */
+    foreach ($types as $type) {
+      $i    = objects::infos($type);
+      $deps = objects::ls(
+        $type,
+        array(
+          'dn'            => 'raw',
+          'objectClass'   => 'raw',
+          'description'   => 'raw',
+          $i['mainAttr']  => 'raw'
+        ),
+        $this->base,
+        '',
+        FALSE,
+        'one'
+      );
 
-      // Add the attribute where we use for sorting
-      $oc = NULL;
-      foreach ($types as $type) {
-        if (objects::isOfType($department, $type)) {
-          $oc = $type;
-          break;
+      // Analyze list of departments
+      foreach ($deps as $department) {
+        if (!in_array($department['dn'], $validDepartments)) {
+          continue;
         }
-      }
-      $i = objects::infos($oc);
-      $department['sort-attribute'] = $i['mainAttr'];
 
-      // Move to the result list
-      $departments[] = $department;
+        /* php-ldap like indexes are needed for renderCell */
+        $count = 0;
+        foreach ($department as $key => $values) {
+          if ($key != 'dn') {
+            $department[$count++] = $key;
+          }
+        }
+        $department['count'] = $count;
+
+        // Add the attribute where we use for sorting
+        $department['sort-attribute'] = $i['mainAttr'];
+
+        // Move to the result list
+        $departments[] = $department;
+      }
     }
 
     return $departments;
