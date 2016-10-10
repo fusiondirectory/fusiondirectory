@@ -90,8 +90,9 @@ class plugin
     */
   function move($src_dn, $dst_dn)
   {
-    global $config;
-    /* Do not move if only upper- lowercase has changed */
+    global $config, $ui;
+
+    /* Do not move if only case has changed */
     if (strtolower($src_dn) == strtolower($dst_dn)) {
       return TRUE;
     }
@@ -101,29 +102,20 @@ class plugin
       return FALSE;
     }
 
-    /* Get list of users,groups and roles within this tree,
-        maybe we have to update ACL references.
-        * TODO : replace this with a call to handleForeignKeys on sub objects
-     */
-    $leaf_objs = get_list("(|(objectClass=posixGroup)(objectClass=inetOrgPerson)(objectClass=gosaRole))", array("all"), $dst_dn,
-                          array("dn","objectClass"), GL_SUBSEARCH | GL_NO_ACL_CHECK);
-    foreach ($leaf_objs as $obj) {
-      $new_dn = $obj['dn'];
-      $old_dn = preg_replace("/".preg_quote(LDAP::convert($dst_dn), '/')."$/i", $src_dn, LDAP::convert($new_dn));
-      $this->update_acls($old_dn, $new_dn);
+    /* Update userinfo if necessary */
+    if (preg_match('/'.preg_quote($src_dn, '/').'$/i', $ui->dn)) {
+      $ui_dn = preg_replace('/'.preg_quote($src_dn, '/').'$/i', $dst_dn, $ui->dn);
+      logging::log('view', 'acl/'.get_class($this), $this->dn, array(), 'Updated userinfo dn from "'.$ui->dn.'" to "'.$ui_dn.'"');
+      $ui->dn = $ui_dn;
     }
 
-    /* Check if there are gosa departments moved.
-       If there were deps moved, the force reload of config->deps.
-     */
-    $leaf_deps = get_list("(objectClass=gosaDepartment)", array("all"), $dst_dn,
-                            array("dn","objectClass"), GL_SUBSEARCH | GL_NO_ACL_CHECK);
-
-    if (count($leaf_deps)) {
+    /* Check if departments were moved. If so, force the reload of config->departments */
+    $ldap = $config->get_ldap_link();
+    $ldap->cd($dst_dn);
+    $ldap->search('(objectClass=gosaDepartment)', array('dn'));
+    if ($ldap->count()) {
       $config->get_departments();
       $config->make_idepartments();
-      session::global_set("config", $config);
-      $ui = get_userinfo();
       $ui->reset_acl_cache();
     }
 
@@ -267,30 +259,6 @@ class plugin
       trigger_error("Cannot return list of departments, no default base found in class ".get_class($this).". (base is '".$this->base."')");
     }
     return $deps;
-  }
-
-  /*
-   * \brief This function updates ACL settings if $old_dn was used.
-   *
-   * \param string $old_dn specifies the actually used dn
-   *
-   * \param string $new_dn specifies the destiantion dn
-   */
-  function update_acls($old_dn, $new_dn)
-  {
-    /* Check if old_dn is empty. This should never happen */
-    if (empty($old_dn) || empty($new_dn)) {
-      trigger_error("Failed to check acl dependencies, wrong dn given.");
-      return;
-    }
-
-    /* Update userinfo if necessary */
-    $ui = session::global_get('ui');
-    if ($ui->dn == $old_dn) {
-      $ui->dn = $new_dn;
-      session::global_set('ui', $ui);
-      logging::log('view', 'acl/'.get_class($this), $this->dn, array(), 'Updated current object dn from "'.$old_dn.'" to "'.$new_dn.'"');
-    }
   }
 }
 ?>
