@@ -83,7 +83,7 @@ class filterLDAP
     // Store in base - i.e. is a rdn value empty?
     $storeOnBase = in_array('', $objectStorage);
 
-    $default_method = (($storeOnBase && !($flags & GL_SUBSEARCH)) ? 'ls' : 'search');
+    $default_scope = (($storeOnBase && !($flags & GL_SUBSEARCH)) ? 'one' : 'subtree');
 
     // Initialize search bases
     $bases = array();
@@ -125,7 +125,7 @@ class filterLDAP
     $initial_base = $base;
 
     foreach ($bases as $base => $dnFilters) {
-      $method = $default_method;
+      $scope = $default_scope;
 
       // Break if the size limit is exceeded
       if ($limit_exceeded) {
@@ -146,15 +146,11 @@ class filterLDAP
 
       // In no-subsearch mode overwrite default method if
       // current base equals the initial base
-      if ($base == $initial_base && !($flags & GL_SUBSEARCH)) {
-        $method = "ls";
+      if (($base == $initial_base) && !($flags & GL_SUBSEARCH)) {
+        $scope = 'one';
       }
 
-      if ($method == "ls") {
-        $ldap->ls("(&$filter$dnFilter)", $base, $attributes);
-      } else {
-        $ldap->search("(&$filter$dnFilter)", $attributes);
-      }
+      $ldap->search("(&$filter$dnFilter)", $attributes, $scope);
 
       // Check for size limit exceeded messages for GUI feedback
       if (preg_match("/size limit/i", $ldap->get_error())) {

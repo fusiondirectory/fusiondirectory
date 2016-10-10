@@ -675,7 +675,8 @@ class SubNodesAttribute extends OrderedArrayAttribute
     /* Should we take dn from attrs or plugin? */
     if (isset($attrs['dn'])) {
       $ldap = $config->get_ldap_link();
-      $ldap->ls('objectClass='.$this->objectClass, $attrs['dn']);
+      $ldap->cd($attrs['dn']);
+      $ldap->search('objectClass='.$this->objectClass, array('*'), 'one');
       $this->value = array();
       while ($subattrs = $ldap->fetch()) {
         $this->attribute->resetToDefault();
@@ -699,7 +700,8 @@ class SubNodesAttribute extends OrderedArrayAttribute
   function postLdapSave ($ldap)
   {
     /* First delete all old nodes */
-    $ldap->ls('objectClass='.$this->objectClass, $this->plugin->dn, array('dn'));
+    $ldap->cd($this->plugin->dn);
+    $ldap->search('objectClass='.$this->objectClass, array('dn'), 'one');
     $delete = array();
     while ($attrs = $ldap->fetch()) {
       $delete[] = $attrs['dn'];

@@ -589,7 +589,8 @@ function ldap_login_user ($username, $password)
     return NULL;
   }
   if (class_available('ppolicyAccount')) {
-    $ldap->ls('(objectClass=*)', $config->current['BASE']);
+    $ldap->cd($config->current['BASE']);
+    $ldap->search('(objectClass=*)', array(), 'one');
     if (!$ldap->success()) {
       msg_dialog::display(
         _('Authentication error'),
@@ -966,9 +967,9 @@ function get_sub_list($filter, $category, $sub_deps, $base = '', $attributes = a
 
     /* Perform ONE or SUB scope searches? */
     if ($flags & GL_SUBSEARCH) {
-      $ldap->search($filter, $attributes);
+      $ldap->search($filter, $attributes, 'subtree');
     } else {
-      $ldap->ls($filter, $dep, $attributes);
+      $ldap->search($filter, $attributes, 'one');
     }
 
     /* Check for size limit exceeded messages for GUI feedback */
@@ -1044,9 +1045,9 @@ function get_list($filter, $category, $base = '', $attributes = array(), $flags 
 
   /* Perform ONE or SUB scope searches? */
   if ($flags & GL_SUBSEARCH) {
-    $ldap->search($filter, $attributes);
+    $ldap->search($filter, $attributes, 'subtree');
   } else {
-    $ldap->ls($filter, $base, $attributes);
+    $ldap->search($filter, $attributes, 'one');
   }
 
   /* Check for size limit exceeded messages for GUI feedback */

@@ -308,7 +308,7 @@ class LDAP
    *
    * \param array $attrs
    */
-  function search($srp, $filter, $attrs = array())
+  function search($srp, $filter, $attrs = array(), $scope = 'subtree')
   {
     if ($this->hascon) {
       if ($this->reconnect) {
@@ -317,7 +317,17 @@ class LDAP
 
       $start = microtime(TRUE);
       $this->clearResult($srp);
-      $this->sr[$srp] = @ldap_search($this->cid, LDAP::fix($this->basedn), $filter, $attrs);
+      switch (strtolower($scope)) {
+        case 'base':
+          throw new FusionDirectoryException('not implemented');
+        case 'one':
+          $this->sr[$srp] = @ldap_list($this->cid, LDAP::fix($this->basedn), $filter, $attrs);
+        break;
+        default:
+        case 'subtree':
+          $this->sr[$srp] = @ldap_search($this->cid, LDAP::fix($this->basedn), $filter, $attrs);
+          break;
+      }
       $this->error = @ldap_error($this->cid);
       $this->resetResult($srp);
       $this->hasres[$srp] = TRUE;
@@ -351,39 +361,9 @@ class LDAP
    */
   function ls($srp, $filter = "(objectclass=*)", $basedn = "", $attrs = array("*"))
   {
-    if ($this->hascon) {
-      if ($this->reconnect) {
-        $this->connect();
-      }
-
-      $this->clearResult($srp);
-      if ($basedn == "") {
-        $basedn = $this->basedn;
-      } else {
-        $basedn = LDAP::convert($basedn);
-      }
-
-      $start          = microtime(TRUE);
-      $this->sr[$srp] = @ldap_list($this->cid, LDAP::fix($basedn), $filter, $attrs);
-      $this->error    = @ldap_error($this->cid);
-      $this->resetResult($srp);
-      $this->hasres[$srp] = TRUE;
-
-       /* Check if query took longer as specified in max_ldap_query_time */
-      if ($this->max_ldap_query_time) {
-        $diff = microtime(TRUE) - $start;
-        if ($diff > $this->max_ldap_query_time) {
-          msg_dialog::display(_("Performance warning"), sprintf(_("LDAP performance is poor: last query took about %.2fs!"), $diff), WARNING_DIALOG);
-        }
-      }
-
-      $this->log("LDAP operation: time=".(microtime(TRUE) - $start)." operation=ls('".LDAP::fix($basedn)."', '$filter')");
-
-      return $this->sr[$srp];
-    } else {
-      $this->error = "Could not connect to LDAP server";
-      return "";
-    }
+    trigger_error('deprecated');
+    $this->cd($basedn);
+    return $this->search($srp, $filter, $attrs, 'one');
   }
 
   /*
