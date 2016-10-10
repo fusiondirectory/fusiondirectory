@@ -385,6 +385,8 @@ class simpleTabs
    */
   function save()
   {
+    global $ui;
+
     $baseobject = $this->getBaseObject();
     $new_dn     = $baseobject->compute_dn();
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $new_dn, "Saving");
@@ -423,6 +425,11 @@ class simpleTabs
       }
     }
     unset($obj);
+
+    if ($this->dn == $ui->dn) {
+      /* If the logged in user was edited, update his information */
+      $ui->loadLDAPInfo();
+    }
 
     return 0;
   }
