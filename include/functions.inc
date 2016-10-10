@@ -1546,33 +1546,6 @@ function to_string ($value)
   }
 }
 
-
-/*!
- * \brief Return a list of all printers in the current base
- *
- * Returns an array with the CNs of all printers (objects with
- * objectClass gotoPrinter) in the current base.
- * ($config->current['BASE']).
- *
- * Example:
- * \code
- * $this->printerList = get_printer_list();
- * \endcode
- *
- * \return array an array with the CNs of the printers as key and value.
- */
-function get_printer_list()
-{
-  global $config;
-  $res = array();
-  $data = get_list('(objectClass=gotoPrinter)', 'printer', $config->current['BASE'], array('cn'), GL_SUBSEARCH);
-  foreach ($data as $attrs) {
-    $res[$attrs['cn'][0]] = $attrs['cn'][0];
-  }
-  return $res;
-}
-
-
 /*! \brief Function to rewrite some problematic characters
  *
  * This function takes a string and replaces all possibly characters in it
