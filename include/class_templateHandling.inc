@@ -36,7 +36,8 @@ class templateHandling
     $ldap->cat($dn);
     $attrs    = $ldap->fetch();
     $attrs    = static::fieldsFromLDAP($attrs);
-    $depends  = static::attributesDependencies($attrs);
+    list($depends, $errors) = static::attributesDependencies($attrs);
+    msg_dialog::displayChecks($errors);
     $attrs    = static::sortAttributes($attrs, $depends);
     return array($attrs, $depends);
   }
@@ -101,6 +102,17 @@ class templateHandling
     }
     sort($template_attrs['fdTemplateField']);
     return $template_attrs;
+  }
+
+  /*! \brief Check template fields
+   *
+   * Returns errors if there are recursive dependencies.
+   * Might check more things later
+   */
+  public static function checkFields ($attrs)
+  {
+    list($depends, $errors) = static::attributesDependencies($attrs);
+    return $errors;
   }
 
   /*! \brief Parse a mask (without surrounding %) using $attrs attributes, apply modifiers and returns an array containing possible results */
@@ -374,7 +386,7 @@ class templateHandling
   }
 
   /*! \brief Flattens dependencies (if a depends of b which depends of c then a depends of c) */
-  protected static function flatDepends (&$cache, $depends, $key, array $forbidden = array())
+  protected static function flatDepends (&$cache, &$errors, $depends, $key, array $forbidden = array())
   {
     if (isset($cache[$key])) {
       return $cache[$key];
@@ -387,18 +399,14 @@ class templateHandling
         function ($a) use (&$cache, $depends, $forbidden, $key)
         {
           if (in_array($a, $forbidden)) {
-            msg_dialog::display(
-              _('Error'),
-              sprintf(
-                _('Recursive dependency in the template fields: "%1$s" cannot depend on "%2$s" as "%2$s" already depends on "%1$s"'),
-                $key,
-                $a
-              ),
-              ERROR_DIALOG
+            $errors[] = sprintf(
+              _('Recursive dependency in the template fields: "%1$s" cannot depend on "%2$s" as "%2$s" already depends on "%1$s"'),
+              $key,
+              $a
             );
             return array();
           }
-          $deps = static::flatDepends ($cache, $depends, $a, $forbidden);
+          $deps = static::flatDepends ($cache, $errors, $depends, $a, $forbidden);
           if (($askmeKey = array_search('askme', $deps)) !== FALSE) {
             /* Do not flat special askme dependency */
             unset($deps[$askmeKey]);
@@ -437,11 +445,12 @@ class templateHandling
       }
     }
     /* Flattens dependencies */
-    $flatdepends = array();
+    $flatdepends  = array();
+    $errors       = array();
     foreach ($depends as $key => $value) {
-      static::flatDepends($flatdepends, $depends, $key);
+      static::flatDepends($flatdepends, $errors, $depends, $key);
     }
-    return $flatdepends;
+    return array($flatdepends, $errors);
   }
 
   /*! \brief Sort attrs depending of dependencies */

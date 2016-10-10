@@ -974,6 +974,10 @@ class simplePlugin extends plugin
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "save");
     $this->prepare_save();
     if ($this->is_template && (!defined('_OLD_TEMPLATES_') || !_OLD_TEMPLATES_)) {
+      $errors = templateHandling::checkFields($this->attrs);
+      if (!empty($errors)) {
+        return $errors;
+      }
       $this->attrs = $this->templateSaveAttrs();
       $this->saved_attributes = array();
     }
