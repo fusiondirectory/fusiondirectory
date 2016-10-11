@@ -6,7 +6,7 @@
 
 <div class="contentboxb">
 
-{$TEMPLATES}&nbsp;<label for='TEMPLATES'>{t}Show templates{/t}</label><br/>
+{$FILTERTEMPLATE}&nbsp;<label for='FILTERTEMPLATE'>{t}Show templates{/t}</label><br/>
 {$FUNCTIONAL}&nbsp;<label for='FUNCTIONAL'>{t}Show functional users{/t}</label><br/>
 {if $USE_POSIX}
   {$POSIX}&nbsp;<label for='POSIX'>{t}Show POSIX users{/t}</label><br/>

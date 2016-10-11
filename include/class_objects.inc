@@ -33,6 +33,7 @@ class objects
    * \param string  $ou the LDAP branch to search in, base will be used if it is NULL
    * \param string  $filter an additional filter to use in the LDAP search.
    * \param boolean $checkAcl should ACL be ignored or checked? Defaults to FALSE.
+   * \param string  $scope scope, defaults to subtree. When using one, be careful what you put in $ou.
    *
    * \return The list of objects as an associative array (keys are dns)
    */

@@ -10,7 +10,7 @@
   <search>
     <query>
       <backend>LDAP</backend>
-      <filter>(&amp;$NAME(|(&amp;(objectClass=inetOrgPerson)(|$FUNCTIONAL$SAMBA$POSIX$MAIL))$TEMPLATES))</filter>
+      <filter>(&amp;$NAME(|(&amp;(objectClass=inetOrgPerson)(|$FUNCTIONAL$SAMBA$POSIX$MAIL))$FILTERTEMPLATE))</filter>
       <attribute>dn</attribute>
       <attribute>objectClass</attribute>
       <attribute>givenName</attribute>
@@ -45,7 +45,7 @@
 
   <element>
     <type>checkbox</type>
-    <tag>TEMPLATES</tag>
+    <tag>FILTERTEMPLATE</tag>
     <default></default>
     <unset></unset>
     <set>(objectClass=fdTemplate)</set>

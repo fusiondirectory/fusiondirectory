@@ -476,9 +476,15 @@ class filter
         }
       }
 
+      $objectStorage = $this->objectStorage;
+
+      if (isset($this->elements['FILTERTEMPLATE']) && $this->elementValues['FILTERTEMPLATE']) {
+        $objectStorage = array_merge($objectStorage, array_map(function ($oc) { return 'ou=templates,'.$oc; }, $objectStorage));
+      }
+
       // Now call filter method and merge resulting entries.
       $result = array_merge($result, call_user_func(array($backend, 'query'),
-            $this, $this->base, $this->scope, $filter, $attributes, $this->category, $this->objectStorage));
+            $this, $this->base, $this->scope, $filter, $attributes, $this->category, $objectStorage));
     }
 
     return $result;
