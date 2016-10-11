@@ -256,18 +256,11 @@ class ogroup extends simplePlugin
     /* Detect all workstations, which are already assigned to an object group
         - Those objects will be hidden in the add object dialog.
         - Check() will complain if such a system is assigned to this object group.*/
-    $base = $config->current['BASE'];
-    $res  = get_list("(|(objectClass=gotoWorkstation)(objectClass=gotoTerminal))", "none",
-                      $base, array("dn"), GL_NO_ACL_CHECK | GL_SUBSEARCH);
-    $ws_dns = array();
-    foreach ($res as $data) {
-      $ws_dns[] = $data['dn'];
-    }
-    $res = get_list("(&(member=*)(objectClass=gosaGroupOfNames)(|(gosaGroupObjects=[W])(gosaGroupObjects=[T])))", "none",
-                    $base, array("dn","member"), GL_NO_ACL_CHECK | GL_SUBSEARCH);
+    $ws_dns = array_keys(objects::ls(array('workstation','terminal')));
+    $res = objects::ls('ogroup', array('member' => '*'), NULL, '(&(member=*)(|(gosaGroupObjects=[W])(gosaGroupObjects=[T])))');
     $this->used_workstations = array();
-    foreach ($res as $og) {
-      if ($og['dn'] == $this->dn) {
+    foreach ($res as $odn => $og) {
+      if ($odn == $this->dn) {
         continue;
       }
       $this->used_workstations = array_merge($this->used_workstations, array_intersect($ws_dns, $og['member']));
