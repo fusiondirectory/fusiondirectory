@@ -36,6 +36,10 @@ if (session::global_is_set('config')) {
 }
 IconTheme::$default_theme = 'breezy';
 IconTheme::$extensions    = array('png');
+if (!isset($_GET['context']) || !isset($_GET['icon']) || !isset($_GET['size'])) {
+  trigger_error('Missing information in query string: '.$_SERVER['QUERY_STRING']);
+  exit;
+}
 $src    = IconTheme::findThemeIcon($theme, $_GET['context'], $_GET['icon'], $_GET['size']);
 
 header("Content-Type: image/png");
