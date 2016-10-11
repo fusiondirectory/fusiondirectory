@@ -372,6 +372,7 @@ class simpleTabs
     }
 
     $baseobject = $this->getBaseObject();
+    $old_dn     = $this->dn;
     $new_dn     = $baseobject->compute_dn();
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $new_dn, "Saving");
 
@@ -411,6 +412,7 @@ class simpleTabs
         if (!empty($result)) {
           if ($creation && $first) {
             /* If the fail of main tab fails for a creation, cancel the save of other tabs */
+            $this->dn = $old_dn;
             return $result;
           }
           $errors = array_merge($errors, $result);
@@ -424,6 +426,10 @@ class simpleTabs
     if (empty($errors) && ($this->dn == $ui->dn)) {
       /* If the logged in user was edited, update his information */
       $ui->loadLDAPInfo();
+    }
+
+    if (!empty($errors)) {
+      $this->dn = $old_dn;
     }
 
     return $errors;
