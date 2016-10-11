@@ -206,13 +206,13 @@ class simpleManagement extends management
         $this->headpage->xmlData['actionmenu']['action'][0]['action'] = array(
           array(
             'type'    => 'sub',
-            'image'   => 'geticon.php?context=actions&amp;icon=document-new&amp;size=16',
+            'image'   => 'geticon.php?context=actions&icon=document-new&size=16',
             'label'   => _('Template'),
             'action'  => array(),
           ),
           array(
             'type'    => 'sub',
-            'image'   => 'geticon.php?context=actions&amp;icon=document-new&amp;size=16',
+            'image'   => 'geticon.php?context=actions&icon=document-new&size=16',
             'label'   => _('From template'),
             'action'  => array(),
           ),
