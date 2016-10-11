@@ -32,13 +32,6 @@ require_once (CACHE_DIR.'/'.CLASS_CACHE);
 require_once ('functions_debug.inc');
 require_once ('accept-to-gettext.inc');
 
-/* Define get_list flags */
-define('GL_NONE',         0);
-define('GL_SUBSEARCH',    1);
-define('GL_SIZELIMIT',    2);
-define('GL_CONVERT',      4);
-define('GL_NO_ACL_CHECK', 8);
-
 /* Define constants for debugging */
 define ('DEBUG_TRACE',    1); /*! Debug level for tracing of common actions (save, check, etc.) */
 define ('DEBUG_LDAP',     2); /*! Debug level for LDAP queries */

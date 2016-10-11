@@ -50,8 +50,7 @@ class filterLDAP
    */
   static function query($parent, $base, $scope, $filter, $attributes, $category, $objectStorage = array(""))
   {
-    $flag   = (($scope == 'sub') ? GL_SUBSEARCH : 0);
-    return static::get_list($parent, $base, $filter, $attributes, $category, $objectStorage, $flag | GL_SIZELIMIT);
+    return static::get_list($parent, $base, $filter, $attributes, $category, $objectStorage, (($scope == 'sub') ? 'subtree' : 'one'), TRUE);
   }
 
   /*!
@@ -69,9 +68,13 @@ class filterLDAP
    *
    * \param array $objectStorage
    *
-   * \param flag $flags GL_SUBSEARCH
+   * \param string $searchScope subtree or one
+   *
+   * \param boolean $sizelimit
+   *
+   * \param boolean $checkAcl
    */
-  static function get_list($parent, $base, $filter, $attributes, $category, $objectStorage, $flags)
+  static function get_list($parent, $base, $filter, $attributes, $category, $objectStorage, $searchScope, $sizelimit = TRUE, $checkAcl = FALSE)
   {
     global $config, $ui;
 
@@ -83,39 +86,43 @@ class filterLDAP
     // Store in base - i.e. is a rdn value empty?
     $storeOnBase = in_array('', $objectStorage);
 
-    $default_scope = (($storeOnBase && !($flags & GL_SUBSEARCH)) ? 'one' : 'subtree');
+    if ($storeOnBase && ($searchScope == 'one')) {
+      $default_scope = 'one';
+    } else {
+      $default_scope = 'subtree';
+    }
 
     // Initialize search bases
     $bases = array();
 
     // Get list of sub bases to search on
     if ($storeOnBase) {
-      $bases[$base] = "";
+      $bases[$base] = '';
     } else {
       foreach ($objectStorage as $oc) {
         $oc = preg_replace('/,$/', '', $oc);
         if (!strpos($oc, ',')) {
           preg_match('/([^=]+)=(.*)$/', $oc, $m);
-          if ($flags & GL_SUBSEARCH) {
-            $bases[$base][] = $m[1].":dn:=".$m[2];
+          if ($searchScope == 'subtree') {
+            $bases[$base][] = $m[1].':dn:='.$m[2];
           } else {
-            $bases["$oc,$base"][] = $m[1].":dn:=".$m[2];
+            $bases[$oc.','.$base][] = $m[1].':dn:='.$m[2];
           }
         } else {
           // No, there's no \, in pre defined RDN values
           preg_match('/^([^,]+),(.*)$/', $oc, $matches);
           preg_match('/([^=]+)=(.*)$/', $matches[1], $m);
-          if ($flags & GL_SUBSEARCH) {
-            $bases[$base][] = $m[1].":dn:=".$m[2];
+          if ($searchScope == 'subtree') {
+            $bases[$base][] = $m[1].':dn:='.$m[2];
           } else {
-            $bases[$matches[2].",$base"][] = $m[1].":dn:=".$m[2];
+            $bases[$matches[2].','.$base][] = $m[1].':dn:='.$m[2];
           }
         }
       }
     }
 
     // Get LDAP link
-    $ldap = $config->get_ldap_link($flags & GL_SIZELIMIT);
+    $ldap = $config->get_ldap_link($sizelimit);
 
     // Do search for every base
     $result = array();
@@ -146,7 +153,7 @@ class filterLDAP
 
       // In no-subsearch mode overwrite default method if
       // current base equals the initial base
-      if (($base == $initial_base) && !($flags & GL_SUBSEARCH)) {
+      if (($base == $initial_base) && ($searchScope == 'one')) {
         $scope = 'one';
       }
 
@@ -163,15 +170,10 @@ class filterLDAP
       while ($attrs = $ldap->fetch()) {
         $dn = $ldap->getDN();
 
-        /* Convert dn into a printable format */
-        if ($flags & GL_CONVERT) {
-          $attrs["dn"] = convert_department_dn($dn);
-        } else {
-          $attrs["dn"] = $dn;
-        }
+        $attrs['dn'] = $dn;
 
         /* Skip ACL checks if we are forced to skip those checks */
-        if ($flags & GL_NO_ACL_CHECK) {
+        if (!$checkAcl) {
           $result[] = $attrs;
         } else {
           // Check entry permission
@@ -186,7 +188,6 @@ class filterLDAP
           }
         }
       }
-
     }
 
     return $result;
