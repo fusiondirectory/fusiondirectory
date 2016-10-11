@@ -56,9 +56,9 @@
       <backend>LDAPBlacklist</backend>
       <filter>(&amp;(objectClass=posixGroup)(|(cn=*$NAME*)(description=*$NAME*)))</filter>
       <attribute>cn</attribute>
+      <attribute>description</attribute>
       <frequency>0.5</frequency>
       <characters>3</characters>
     </autocomplete>
   </element>
-
 </filterdef>
