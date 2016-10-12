@@ -138,6 +138,9 @@ class userRoles extends simplePlugin
     $roles = array_merge($myRoles, $roles);
     $this->attributesAccess['rolesMembership']->attribute->setChoices(array_keys($roles), array_values($roles));
     $this->attributesAccess['rolesMembership']->setValue(array_keys($myRoles));
+
+    $this->is_account = ((count($this->rolesMembership) > 0) || (count($this->groupsMembership) > 0));
+    $this->initially_was_account = $this->is_account;
   }
 
   function is_this_account($attrs)
@@ -151,8 +154,7 @@ class userRoles extends simplePlugin
       }
       return FALSE;
     }
-    return ((objects::count('role', NULL, '(roleOccupant='.$attrs['dn'].')') > 0) ||
-            (objects::count('ogroup', NULL, '(member='.$attrs['dn'].')') > 0));
+    return FALSE;
   }
 
   function remove_from_parent()
