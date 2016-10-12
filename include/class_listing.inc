@@ -1430,7 +1430,7 @@ class listing
 
     if (isset($action['acl'])) {
       if (isset ($action['aclInfos'])) {
-        $aclsInfo = $action['aclInfos'];
+        $aclInfos = $action['aclInfos'];
       } else {
         /* First time we check permission for this action */
         if ($row !== NULL) {
