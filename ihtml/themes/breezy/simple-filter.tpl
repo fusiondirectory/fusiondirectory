@@ -11,7 +11,7 @@
   {$SCOPE}
   <hr/>
 
-  <label for="NAME"><img src="geticon.php?context=actions&amp;icon=system-search&amp;size=16"/></label>{$NAME}
+  <label for="NAME"><img src="geticon.php?context=actions&amp;icon=system-search&amp;size=16" alt="Search"/></label>{$NAME}
 
   <div>
     {$APPLY}
