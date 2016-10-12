@@ -56,7 +56,7 @@ class listing
   var $objectTypeCount  = array();
   protected $objectDnMapping  = array();
   var $copyPasteHandler = NULL;
-  var $snapshotHandler  = NULL;
+  protected $snapshotHandler  = NULL;
   var $exporter       = array();
   var $exportColumns  = array();
   var $useSpan        = FALSE;
@@ -152,7 +152,11 @@ class listing
    */
   function setSnapshotHandler($handler)
   {
-    $this->snapshotHandler = $handler;
+    if ($handler->enabled()) {
+      $this->snapshotHandler = $handler;
+    } else {
+      $this->snapshotHandler = NULL;
+    }
   }
 
   /*!
@@ -656,7 +660,7 @@ class listing
     }
 
     // Init snapshot list for renderSnapshotActions
-    if (isset($this->snapshotHandler) && is_object($this->snapshotHandler) && $this->snapshotHandler->enabled()) {
+    if (is_object($this->snapshotHandler)) {
       $this->snapshotHandler->initSnapshotCache($this->base);
     }
   }
@@ -1692,17 +1696,16 @@ class listing
 
   function renderSnapshotMenu($separator)
   {
-    // We can only provide information if we've got a snapshot handler
-    // instance
-    if (!(isset($this->snapshotHandler) && is_object($this->snapshotHandler))) {
-      return "";
+    // We can only provide information if we've got a snapshot handler instance
+    if (!is_object($this->snapshotHandler)) {
+      return '';
     }
 
     // Presets
     $result = "";
     $ui     = get_userinfo();
 
-    if ($this->snapshotHandler->enabled() && $ui->allow_snapshot_restore($this->base, $this->categories)) {
+    if ($ui->allow_snapshot_restore($this->base, $this->categories)) {
 
       // Check if there is something to restore
       $restore = FALSE;
@@ -1745,7 +1748,7 @@ class listing
   function renderSnapshotActions($row, $dn, $category)
   {
     /* We can only provide information if we've got a snapshot handler instance */
-    if (!isset($this->snapshotHandler) || !is_object($this->snapshotHandler) || !$this->snapshotHandler->enabled()) {
+    if (!is_object($this->snapshotHandler)) {
       return '';
     }
 
