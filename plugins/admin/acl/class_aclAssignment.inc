@@ -156,6 +156,11 @@ class ACLsAssignmentDialog extends GenericDialog
   function handle_finish ()
   {
     $this->dialog->save_object();
+    $messages = $this->dialog->check();
+    if (!empty($messages)) {
+      msg_dialog::displayChecks($messages);
+      return $this->dialog->execute();
+    }
     $this->attribute->addValue($this->dialog->getAclEntry());
     return FALSE;
   }
