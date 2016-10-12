@@ -325,9 +325,6 @@ class pluglist {
           $entries .= '<li class="menuitem" id="menuitem_'.$id.'">';
           $entries .= '<a href="'.$href.'" title="'.$plDescription.'">'.$plHeadline.'</a></li>'."\n";
 
-          if (!session::is_set('maxC')) {
-            session::set('maxC', "RO0K9CzEYCSAAOtOICCFhEDBKGSKANyHMKDHAEwFLNTJILwEMODJYPgMRA0F9IOPSPUKNEVCUKyDBAHNbIWFJOIP");
-          }
         }
 
         /* Append to menu */
