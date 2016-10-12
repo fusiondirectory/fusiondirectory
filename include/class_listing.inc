@@ -943,27 +943,6 @@ class listing
     return $this->objectTypes[$type];
   }
 
-
-  /*
-   * \brief If you want to have the summary without displaying informations
-   * it returns nothing to do an empty column, but calls filterObjectType to do statistics.
-   *
-   * \param string $dn The DN
-   *
-   * \param string $classes
-   *
-   * \return string an empty string
-   */
-  function filterObjectTypes($dn, $classes)
-  {
-    //fixme
-    $result = "";
-    foreach ($classes as $class) {
-        $result .= $this->filterObjectType($dn, array($class))."&nbsp;";
-    }
-    return "";
-  }
-
   /*!
    * \brief Icon of the object type
    *
