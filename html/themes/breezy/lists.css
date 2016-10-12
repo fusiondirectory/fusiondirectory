@@ -78,18 +78,22 @@ table.listingTable > tbody > tr td {
 color: #31363b;
 margin: 3px;
 padding: 2px;
-border-right: 1px solid #C0C2C3;
 word-wrap: break-word;
 white-space: normal;
 max-width: 500px;
 background: transparent;
 height: 22px;
 }
+html.ltr table.listingTable > tbody > tr td {
+border-right: 1px solid #C0C2C3;
+}
 html.rtl table.listingTable > tbody > tr td {
 border-left: 1px solid #C0C2C3;
-border-right: none;
 }
 
+table.listingTable > tbody > tr td > img {
+padding: 1px;
+}
 
 table.listingTable > tbody > tr td > a:link {
 text-decoration: none;

@@ -18,16 +18,18 @@ white-space: nowrap;
 }
 
 table.listingTable > thead > tr > th {
+box-sizing: content-box;
 background: #F0F0F0;
 font-weight: bold;
-border-right: 1px solid #AAA;
 border-bottom: 1px solid #AAA;
 padding: 3px;
 height: 22px;
 }
+html.ltr table.listingTable > thead > tr > th {
+border-right: 1px solid #AAA;
+}
 html.rtl table.listingTable > thead > tr > th {
 border-left: 1px solid #AAA;
-border-right: none;
 }
 
 table.listingTable > tbody {
@@ -76,16 +78,21 @@ table.listingTable > tbody > tr td {
 color: #000;
 margin: 3px;
 padding: 2px;
-border-right: 1px solid #AAA;
 word-wrap: break-word;
 white-space: normal;
 max-width: 500px;
 background: transparent;
 height: 22px;
 }
+html.ltr table.listingTable > tbody > tr td {
+border-right: 1px solid #AAA;
+}
 html.rtl table.listingTable > tbody > tr td {
 border-left: 1px solid #AAA;
-border-right: none;
+}
+
+table.listingTable > tbody > tr td > img {
+padding: 1px;
 }
 
 
@@ -155,10 +162,7 @@ color: #1010AF;
 padding: 2px;
 }
 
-ul.treeList li.last {
-background: #fff url(../../images/lists/lastnode.png) no-repeat;
-}
-
+ul.treeList li.last,
 ul.treeList li:last-child {
 background: #fff url(../../images/lists/lastnode.png) no-repeat;
 }
@@ -219,7 +223,7 @@ min-width: 230px;
   }
   table.listing-container {
   border: none;
-  border-spacing: 0px;
+  border-spacing: 0;
   border-collapse: collapse;
   }
   table.listing-container > tbody > tr > td.list, table.listing-container > tbody >  tr > td.filter {

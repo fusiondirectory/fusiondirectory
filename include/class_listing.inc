@@ -1009,7 +1009,7 @@ class listing
     foreach ($actions as $action) {
       // Skip the entry completely if there's no permission to execute it
       if (!$this->hasActionPermission($action, $dn, $classes)) {
-        $result .= "<img src='images/empty.png' alt=' ' class='center optional' style='padding:1px'>";
+        $result .= '<img src="images/empty.png" alt=" " class="center optional"/>';
         continue;
       }
 
@@ -1019,12 +1019,12 @@ class listing
         if (preg_match('/^(.*)!$/', $fa, $m)) {
           $fa = $m[1];
           if (isset($this->entries[$row][$fa]) && $this->entries[$row][$fa][0] == $fv) {
-            $result .= "<img src='images/empty.png' alt=' ' class='center optional' style='padding:1px'>";
+            $result .= '<img src="images/empty.png" alt=" " class="center optional"/>';
             continue;
           }
         } else {
           if (!isset($this->entries[$row][$fa]) && !$this->entries[$row][$fa][0] == $fv) {
-            $result .= "<img src='images/empty.png' alt=' ' class='center optional' style='padding:1px'>";
+            $result .= '<img src="images/empty.png" alt=" " class="center optional"/>';
             continue;
           }
         }
@@ -1037,17 +1037,17 @@ class listing
         if (preg_match('/^!(.*)$/', $objectclass, $m)) {
           $objectclass = $m[1];
           if (in_array($objectclass, $classes)) {
-            $result .= "<img src='images/empty.png' alt=' ' class='center optional' style='padding:1px'>";
+            $result .= '<img src="images/empty.png" alt=" " class="center optional"/>';
             continue;
           }
         } elseif (is_string($objectclass)) {
           if (!in_array($objectclass, $classes)) {
-            $result .= "<img src='images/empty.png' alt=' ' class='center optional' style='padding:1px'>";
+            $result .= '<img src="images/empty.png" alt=" " class="center optional"/>';
             continue;
           }
         } elseif (is_array($objectclass)) {
           if (count(array_intersect($objectclass, $classes)) != count($objectclass)) {
-            $result .= "<img src='images/empty.png' alt=' ' class='center optional' style='padding:1px'>";
+            $result .= '<img src="images/empty.png" alt=" " class="center optional"/>';
             continue;
           }
         }
@@ -1669,7 +1669,7 @@ class listing
                     ' alt="'._('Cut').'" name="listing_cut_'.$row.'" title="'._('Cut this entry').'"'.
                     ' style="padding:1px">';
       } else {
-        $result .= "<img src='images/empty.png' alt=' ' class='center optional' style='padding:1px'>";
+        $result .= '<img src="images/empty.png" alt=" " class="center optional"/>';
       }
     }
 
@@ -1681,7 +1681,7 @@ class listing
                     ' alt="'._('Copy').'" name="listing_copy_'.$row.'" title="'._('Copy this entry').'"'.
                     ' style="padding:1px">';
       } else {
-        $result .= "<img src='images/empty.png' alt=' ' class='center optional' style='padding:1px'>";
+        $result .= '<img src="images/empty.png" alt=" " class="center optional"/>';
       }
     }
 
