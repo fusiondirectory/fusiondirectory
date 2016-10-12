@@ -764,15 +764,20 @@ class listing
   function renderCell($data, $cfg, $row)
   {
     // Replace flat attributes in data string
-    for ($i = 0; $i < $cfg['count']; $i++) {
-      $attr   = $cfg[$i];
-      $value  = "";
-      if (is_array($cfg[$attr])) {
-        $value = $cfg[$attr][0];
+    $offset = 0;
+    while (preg_match('/%{([^}:]+)}/', $data, $m, PREG_OFFSET_CAPTURE, $offset)) {
+      if (isset($cfg[$m[1][0]])) {
+        $replace = $cfg[$m[1][0]];
+        if (is_array($replace)) {
+          $replace = $replace[0];
+        }
+        $replace = htmlentities($replace, ENT_COMPAT, 'UTF-8');
+        $data   = substr_replace($data, $replace, $m[0][1], strlen($m[0][0]));
+        $offset = $m[0][1] + strlen($replace);
       } else {
-        $value = $cfg[$attr];
+        trigger_error('Did not found attribute '.$m[1][0]);
+        $offset = $m[0][1] + strlen($m[1][0]);
       }
-      $data = preg_replace("/%\{$attr\}/", htmlentities($value, ENT_COMPAT, 'UTF-8'), $data);
     }
 
     // Watch out for filters and prepare to execute them
