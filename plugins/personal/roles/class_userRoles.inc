@@ -139,6 +139,9 @@ class userRoles extends simplePlugin
       $this->savedRolesMembership = array_keys($myRoles);
     }
 
+    $this->is_account = ((count($this->rolesMembership) > 0) || (count($this->groupsMembership) > 0));
+    $this->initially_was_account = $this->is_account;
+
     $this->updateAttributesValues();
   }
 
@@ -153,8 +156,7 @@ class userRoles extends simplePlugin
       }
       return FALSE;
     }
-    return ((objects::count('role', NULL, '(roleOccupant='.$attrs['dn'].')') > 0) ||
-            (objects::count('ogroup', NULL, '(member='.$attrs['dn'].')') > 0));
+    return FALSE;
   }
 
   function remove_from_parent()
