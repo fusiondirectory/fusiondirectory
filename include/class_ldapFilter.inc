@@ -38,8 +38,8 @@ class ldapFilter
 {
   static $operators = array('!', '&', '|');
 
-  var $operator;
-  var $subparts;
+  protected $operator;
+  protected $subparts;
 
   function __construct($operator, $subparts)
   {
@@ -70,6 +70,16 @@ class ldapFilter
       default:
         die('Unknown operator');
     }
+  }
+
+  function getOperator()
+  {
+    return $this->operator;
+  }
+
+  function getSubparts()
+  {
+    return $this->subparts;
   }
 
   static function parse($filter)
@@ -109,9 +119,23 @@ class ldapFilterLeaf extends ldapFilter
 {
   static $operators = array('=','=~','>','>=','<','<=');
 
+  protected $pattern;
+
   function __construct($left, $operator, $right)
   {
     parent::__construct($operator, array($left, $right));
+    if (($this->operator == '=') || ($this->operator == '=~')) {
+      $prefix = '';
+      $suffix = '';
+      if (preg_match('/^\\*/', $this->subparts[1])) {
+        $prefix = '.*';
+      }
+      if (preg_match('/\\*$/', $this->subparts[1])) {
+        $suffix = '.*';
+      }
+      $search = preg_replace(array('/^\\*/','/\\*$/'), '', $this->subparts[1]);
+      $this->pattern = '/^'.$prefix.preg_quote($search, '/').$suffix.'$/';
+    }
   }
 
   function __toString()
@@ -131,16 +155,7 @@ class ldapFilterLeaf extends ldapFilter
           case '=~':
             trigger_error('Filter apply might not work as expected');
           case '=':
-            $prefix = '';
-            $suffix = '';
-            if (preg_match('/^\\*/', $this->subparts[1])) {
-              $prefix = '.*';
-            }
-            if (preg_match('/\\*$/', $this->subparts[1])) {
-              $suffix = '.*';
-            }
-            $search = preg_replace(array('/^\\*/','/\\*$/'), '', $this->subparts[1]);
-            if (preg_match('/^'.$prefix.preg_quote($search, '/').$suffix.'$/', $value)) {
+            if (preg_match($this->pattern, $value)) {
               return TRUE;
             }
             break;
@@ -176,16 +191,19 @@ class ldapFilterLeaf extends ldapFilter
 function fdTemplateFilter($filter)
 {
   if ($filter instanceof ldapFilterLeaf) {
-    if ($filter->operator == '=') {
-      $filter->subparts[1] = $filter->subparts[0].':'.$filter->subparts[1];
-      $filter->subparts[0] = 'fdTemplateField';
+    if ($filter->getOperator() == '=') {
+      $subparts = $filter->getSubparts();
+      return new ldapFilterLeaf('fdTemplateField', '=', $subparts[0].':'.$subparts[1]);
     } else {
       trigger_error('Not able to adapt this filter for templates');
     }
   } else {
-    foreach ($filter->subparts as &$subpart) {
+    $subparts = $filter->getSubparts();
+    foreach ($subparts as &$subpart) {
       $subpart = fdTemplateFilter($subpart);
     }
+    unset($subpart);
+    return new ldapFilter($filter->getOperator(), $subparts);
   }
   return $filter;
 }
