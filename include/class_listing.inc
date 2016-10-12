@@ -55,7 +55,7 @@ class listing
   var $objectTypes      = array();
   var $objectTypeCount  = array();
   protected $objectDnMapping  = array();
-  var $copyPasteHandler = NULL;
+  protected $copyPasteHandler = NULL;
   protected $snapshotHandler  = NULL;
   var $exporter       = array();
   var $exportColumns  = array();
@@ -1610,8 +1610,8 @@ class listing
   {
     // We can only provide information if we've got a copypaste handler
     // instance
-    if (!(isset($this->copyPasteHandler) && is_object($this->copyPasteHandler))) {
-      return "";
+    if (!is_object($this->copyPasteHandler)) {
+      return '';
     }
 
     // Presets
@@ -1658,8 +1658,8 @@ class listing
   {
     // We can only provide information if we've got a copypaste handler
     // instance
-    if (!(isset($this->copyPasteHandler) && is_object($this->copyPasteHandler))) {
-      return "";
+    if (!is_object($this->copyPasteHandler)) {
+      return '';
     }
 
     // Presets
