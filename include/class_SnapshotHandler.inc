@@ -146,13 +146,39 @@ class SnapshotHandler {
   }
 
   /*!
+   * \brief Cache Snapshot information for all objects in $base
+   */
+  function initSnapshotCache($base)
+  {
+    global $config;
+    if (!$this->enabled()) {
+      return;
+    }
+
+    $ldap = $config->get_ldap_link();
+
+    // Initialize base
+    $base = $this->snapshot_dn($base);
+
+    /* Fetch all objects with */
+    $ldap->cd($base);
+    $ldap->search('(&(objectClass=gosaSnapshotObject)(gosaSnapshotDN=*))', array('gosaSnapshotDN'));
+
+    /* Store for which object we have snapshots */
+    $this->snapshotsCache = array();
+    while ($entry = $ldap->fetch()) {
+      $this->snapshotsCache[$entry['gosaSnapshotDN'][0]] = TRUE;
+    }
+  }
+
+  /*!
    * \brief Check if the DN has snapshots
    *
    * \return the numbers of snapshots
    */
   function hasSnapshots($dn)
   {
-    return (count($this->getSnapshots($dn)) > 0);
+    return $this->snapshotsCache[$dn];
   }
 
   /*!

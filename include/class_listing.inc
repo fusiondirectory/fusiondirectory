@@ -643,6 +643,11 @@ class listing {
     if ($this->entries == NULL) {
       $this->entries = array();
     }
+
+    // Init snapshot list for renderSnapshotActions
+    if (isset($this->snapshotHandler) && is_object($this->snapshotHandler) && $this->snapshotHandler->enabled()) {
+      $this->snapshotHandler->initSnapshotCache($this->base);
+    }
   }
 
   /*!
