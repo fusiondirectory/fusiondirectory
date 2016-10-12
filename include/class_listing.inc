@@ -63,6 +63,7 @@ class listing
   var $height         = 0;
   var $scrollPosition = 0;
   var $baseSelector;
+  protected $filterCache = array();
 
   /*!
    * \brief Create a listing
@@ -206,6 +207,8 @@ class listing
       $contents = file_get_contents($data);
       $this->xmlData = xml::xml2array($contents, 1);
     }
+
+    $this->filterCache = array();
 
     if (!isset($this->xmlData['list'])) {
       return FALSE;
@@ -393,11 +396,11 @@ class listing
       // Fill with department browser if configured this way
       $departmentIterator = new departmentSortIterator($this->departments, $this->sortDirection[$this->sortColumn]);
       foreach ($departmentIterator as $row => $entry) {
-        $result .= "<tr>";
+        $result .= '<tr>';
 
         // Render multi select if needed
         if ($this->multiSelect) {
-          $result .= "<td style='text-align:center;padding:0;'>&nbsp;</td>";
+          $result .= '<td>&nbsp;</td>';
         }
 
         // Render defined department columns, fill the rest with some stuff
@@ -408,16 +411,16 @@ class listing
             $colspan        = $cfg['span'];
             $this->useSpan  = TRUE;
           }
-          $result .= "<td colspan='$colspan' ".$this->colprops[$index].">".$this->renderCell($cfg['value'], $entry, $row)."</td>";
+          $result .= '<td colspan="'.$colspan.'" '.$this->colprops[$index].'>'.$this->renderCell('department', $index, $cfg['value'], $entry, $row).'</td>';
           $rest -= $colspan;
         }
 
         // Fill remaining cols with nothing
         $last = $this->numColumns - $rest;
         for ($i = 0; $i < $rest; $i++) {
-          $result .= "<td ".$this->colprops[$last + $i - 1].">&nbsp;</td>";
+          $result .= '<td '.$this->colprops[$last + $i - 1].'>&nbsp;</td>';
         }
-        $result .= "</tr>";
+        $result .= '</tr>';
 
         $alt++;
       }
@@ -426,24 +429,24 @@ class listing
 
     // Fill with contents, sort as configured
     foreach ($this->entries as $row => $entry) {
-      $trow = "";
+      $trow = '';
 
       // Render multi select if needed
       if ($this->multiSelect) {
-        $trow .= "<td style='text-align:center;width:20px;'><input type='checkbox' id='listing_selected_$row' name='listing_selected_$row'></td>\n";
+        $trow .= '<td style="text-align:center;width:20px;"><input type="checkbox" id="listing_selected_'.$row.'" name="listing_selected_'.$row.'"/></td>'."\n";
       }
 
       foreach ($this->xmlData['table']['column'] as $index => $cfg) {
-        $renderedCell = $this->renderCell($cfg['value'], $entry, $row);
-        $trow .= "<td ".$this->colprops[$index].">".$renderedCell."</td>\n";
+        $renderedCell = $this->renderCell('column', $index, $cfg['value'], $entry, $row);
+        $trow .= '<td '.$this->colprops[$index].'>'.$renderedCell.'</td>'."\n";
 
         // Save rendered column
         $sort = preg_replace('/.*>([^<]+)<.*$/', '$1', $renderedCell);
         $sort = preg_replace('/&nbsp;/', '', $sort);
         if (preg_match('/</', $sort)) {
-          $sort = "";
+          $sort = '';
         }
-        $this->entries[$row]["_sort$index"] = $sort;
+        $this->entries[$row]['_sort'.$index] = $sort;
       }
 
       // Save rendered entry
@@ -761,7 +764,7 @@ class listing
   }
 
 
-  function renderCell($data, $cfg, $row)
+  function renderCell($table, $index, $data, $cfg, $row)
   {
     // Replace flat attributes in data string
     $offset = 0;
@@ -781,7 +784,7 @@ class listing
     }
 
     // Watch out for filters and prepare to execute them
-    $data = $this->processElementFilter($data, $cfg, $row);
+    $data = $this->processElementFilter($table, $index, $data, $cfg, $row);
 
     // Replace all non replaced %{...} instances because they
     // are non resolved attributes or filters
@@ -801,79 +804,77 @@ class listing
   }
 
 
-  function processElementFilter($data, $cfg, $row)
+  function processElementFilter($type, $index, $data, $cfg, $row)
   {
-    preg_match_all("/%\{filter:([^(]+)\((.*)\)\}/", $data, $matches, PREG_SET_ORDER);
+    if (isset($this->filterCache[$type.$index])) {
+      $filters = $this->filterCache[$type.$index];
+    } else {
+      preg_match_all('/%{filter:([^(]+)\((.*)\)}/', $data, $matches, PREG_SET_ORDER);
 
-    foreach ($matches as $match) {
-      $cl     = "";
-      $method = "";
-      if (preg_match('/::/', $match[1])) {
-        $cl     = preg_replace('/::.*$/', '', $match[1]);
-        $method = preg_replace('/^.*::/', '', $match[1]);
-      } else {
-        if (!isset($this->filters[$match[1]])) {
-          continue;
+      $filters = array();
+      foreach ($matches as $match) {
+        $cl     = '';
+        $method = '';
+        if (!preg_match('/^(.*)::(.*)$/', $match[1], $m)) {
+          if (!isset($this->filters[$match[1]]) || !preg_match('/^(.*)::(.*)$/', $this->filters[$match[1]], $m)) {
+            trigger_error('Unknown filter '.$match[1]);
+            continue;
+          }
         }
-        $cl     = preg_replace('/::.*$/', '', $this->filters[$match[1]]);
-        $method = preg_replace('/^.*::/', '', $this->filters[$match[1]]);
+        $cl     = $m[1];
+        $method = $m[2];
+
+        // Prepare params for function call
+        preg_match_all('/"[^"]+"|[^,]+/', $match[2], $parts);
+
+        $filters[$match[0]] = array($cl, $method, $parts[0]);
       }
 
-      // Prepare params for function call
+      $this->filterCache[$type.$index] = $filters;
+    }
+
+    foreach ($filters as $filterstring => $filter) {
+      list ($cl, $method, $parts) = $filter;
       $params = array();
-      preg_match_all('/"[^"]+"|[^,]+/', $match[2], $parts);
-      foreach ($parts[0] as $param) {
-
-        // Row is replaced by the row number
-        if ($param == "row") {
-          $params[] = $row;
-          continue;
-        }
-
-        // pid is replaced by the current PID
-        if ($param == "pid") {
-          $params[] = $this->pid;
-          continue;
-        }
-
-        // base is replaced by the current base
-        if ($param == "base") {
-          $params[] = $this->getBase();
-          continue;
-        }
-
-        // Fixie with "" is passed directly
-        if (preg_match('/^".*"$/', $param)) {
-          $params[] = preg_replace('/"/', '', $param);
-          continue;
-        }
-
-        // Move dn if needed
-        if ($param == "dn") {
-          $params[] = LDAP::fix($cfg["dn"]);
-          continue;
-        }
-
-        // LDAP variables get replaced by their objects
-        for ($i = 0; $i < $cfg['count']; $i++) {
-          if ($param == $cfg[$i]) {
-            $values = $cfg[$cfg[$i]];
-            if (is_array($values)) {
-              unset($values['count']);
-            }
-            $params[] = $values;
+      foreach ($parts as $param) {
+        switch ($param) {
+          case 'row':
+            $params[] = $row;
             break;
-          }
+          case 'pid':
+            $params[] = $this->pid;
+            break;
+          case 'base':
+            $params[] = $this->getBase();
+            break;
+          case 'dn':
+            $params[] = LDAP::fix($cfg['dn']);
+            break;
+          default:
+            if (preg_match('/^"(.*)"$/', $param, $m)) {
+              // Fixie with "" is passed directly
+              $params[] = $m[1];
+            } elseif (isset($cfg[$param])) {
+              // LDAP variables get replaced by their objects
+              $values = $cfg[$param];
+              if (is_array($values)) {
+                unset($values['count']);
+              }
+              $params[] = $values;
+            } else {
+              $params[] = '';
+            }
+            break;
         }
       }
 
       // Replace information
-      if ($cl == "listing") {
-        // Non static call - seems to result in errors
-        $data = @preg_replace('/'.preg_quote($match[0]).'/', call_user_func_array(array($this, "$method"), $params), $data);
+      if ($cl == 'listing') {
+        // Non static call
+        $data = preg_replace('/'.preg_quote($filterstring).'/', call_user_func_array(array($this, $method), $params), $data);
       } else {
         // Static call
-        $data = preg_replace('/'.preg_quote($match[0]).'/', call_user_func_array(array($cl, $method), $params), $data);
+        $data = preg_replace('/'.preg_quote($filterstring).'/', call_user_func_array(array($cl, $method), $params), $data);
       }
     }
 
@@ -1063,8 +1064,8 @@ class listing
 
       // Render normal entries as usual
       if ($action['type'] == 'entry') {
-        $label = $this->processElementFilter($action['label'], $this->entries[$row], $row);
-        $image = $this->processElementFilter($action['image'], $this->entries[$row], $row);
+        $label = $this->processElementFilter('label', $action['name'], $action['label'], $this->entries[$row], $row);
+        $image = $this->processElementFilter('image', $action['name'], $action['image'], $this->entries[$row], $row);
         $result .= '<input class="center" type="image" src="'.htmlentities($image, ENT_COMPAT, 'UTF-8').'" title="'.$label.'" alt="'.$label.'" '.
                  'name="listing_'.$action['name'].'_'.$row.'"/>';
       }
@@ -1138,15 +1139,19 @@ class listing
     for ($i = 3;$i < func_num_args();$i++) {
       $val = func_get_arg($i);
       if (is_array($val)) {
-        $val = $val[0];
+        $val = implode("<br/>\n", $val);
       }
-      $params[] = htmlentities($val, ENT_COMPAT, 'UTF-8');
+      if (!empty($val)) {
+        $params[] = htmlentities($val, ENT_COMPAT, 'UTF-8');
+      }
     }
 
     $result = "&nbsp;";
-    $trans  = call_user_func_array("sprintf", $params);
-    if ($trans != "") {
-      return "<a href='?plug=".$_GET['plug']."&amp;PID=$pid&amp;act=listing_edit_$row' title='$dn'>$trans</a>";
+    if (count($params) > 1) {
+      $trans  = call_user_func_array('sprintf', $params);
+      if ($trans != '') {
+        return '<a href="?plug='.$_GET['plug'].'&amp;PID='.$pid.'&amp;act=listing_edit_'.$row.'" title="'.$dn.'">'.$trans.'</a>';
+      }
     }
 
     return $result;
