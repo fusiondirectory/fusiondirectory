@@ -385,7 +385,7 @@ class listing
 
     // Draw department browser if configured and we're not in sub mode
     $this->useSpan = FALSE;
-    if ($this->departmentBrowser && $this->filter->scope != "sub") {
+    if ($this->departmentBrowser && ($this->filter->scope != 'sub')) {
       // Fill with department browser if configured this way
       $departmentIterator = new departmentSortIterator($this->departments, $this->sortDirection[$this->sortColumn]);
       foreach ($departmentIterator as $row => $entry) {
@@ -469,9 +469,11 @@ class listing
     if ($this->showFooter) {
       $result .= '<div class="nlistFooter">';
 
-      foreach ($this->departmentTypes as $objectType) {
-        if (isset($this->objectTypeCount[$objectType['label']])) {
-          $result .= '<img class="center" src="'.htmlentities($objectType['image'], ENT_COMPAT, 'UTF-8').'" title="'.$objectType['label'].'" alt="'.$objectType['label'].'"/>&nbsp;'.$this->objectTypeCount[$objectType['label']]."&nbsp;&nbsp;&nbsp;&nbsp;";
+      if ($this->departmentBrowser && ($this->filter->scope != 'sub')) {
+        foreach ($this->departmentTypes as $objectType) {
+          if (isset($this->objectTypeCount[$objectType['label']])) {
+            $result .= '<img class="center" src="'.htmlentities($objectType['image'], ENT_COMPAT, 'UTF-8').'" title="'.$objectType['label'].'" alt="'.$objectType['label'].'"/>&nbsp;'.$this->objectTypeCount[$objectType['label']]."&nbsp;&nbsp;&nbsp;&nbsp;";
+          }
         }
       }
 
