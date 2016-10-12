@@ -91,6 +91,7 @@ html.rtl table.listingTable > tbody > tr td {
 border-left: 1px solid #C0C2C3;
 }
 
+table.listingTable > tbody > tr td > input[type=image],
 table.listingTable > tbody > tr td > img {
 padding: 1px;
 }

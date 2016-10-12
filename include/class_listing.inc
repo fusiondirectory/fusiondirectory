@@ -1005,31 +1005,7 @@ class listing
 
     // Go thru all actions
     $result   = "";
-    $actions  = $this->xmlData['actiontriggers']['action'];
-    foreach ($actions as $action) {
-      // Skip the entry completely if there's no permission to execute it
-      if (!$this->hasActionPermission($action, $dn, $classes)) {
-        $result .= '<img src="images/empty.png" alt=" " class="center optional"/>';
-        continue;
-      }
-
-      // Skip entry if the pseudo filter does not fit
-      if (isset($action['filter']) && preg_match('/^[a-z0-9_]+!?=[a-z0-9_]+$/i', $action['filter'])) {
-        list($fa, $fv) = explode('=', $action['filter']);
-        if (preg_match('/^(.*)!$/', $fa, $m)) {
-          $fa = $m[1];
-          if (isset($this->entries[$row][$fa]) && $this->entries[$row][$fa][0] == $fv) {
-            $result .= '<img src="images/empty.png" alt=" " class="center optional"/>';
-            continue;
-          }
-        } else {
-          if (!isset($this->entries[$row][$fa]) && !$this->entries[$row][$fa][0] == $fv) {
-            $result .= '<img src="images/empty.png" alt=" " class="center optional"/>';
-            continue;
-          }
-        }
-      }
-
+    foreach ($this->xmlData['actiontriggers']['action'] as &$action) {
       // If there's an objectclass definition and we don't have it
       // add an empty picture here.
       if (isset($action['objectclass'])) {
@@ -1053,17 +1029,39 @@ class listing
         }
       }
 
+      // Skip the entry completely if there's no permission to execute it
+      if (!$this->hasActionPermission($action, $dn, $row)) {
+        $result .= '<img src="images/empty.png" alt=" " class="center optional"/>';
+        continue;
+      }
+
+      // Skip entry if the pseudo filter does not fit
+      if (isset($action['filter']) && preg_match('/^[a-z0-9_]+!?=[a-z0-9_]+$/i', $action['filter'])) {
+        list($fa, $fv) = explode('=', $action['filter']);
+        if (preg_match('/^(.*)!$/', $fa, $m)) {
+          $fa = $m[1];
+          if (isset($this->entries[$row][$fa]) && $this->entries[$row][$fa][0] == $fv) {
+            $result .= '<img src="images/empty.png" alt=" " class="center optional"/>';
+            continue;
+          }
+        } else {
+          if (!isset($this->entries[$row][$fa]) && !$this->entries[$row][$fa][0] == $fv) {
+            $result .= '<img src="images/empty.png" alt=" " class="center optional"/>';
+            continue;
+          }
+        }
+      }
+
       // Render normal entries as usual
-      if ($action['type'] == "entry") {
+      if ($action['type'] == 'entry') {
         $label = $this->processElementFilter($action['label'], $this->entries[$row], $row);
         $image = $this->processElementFilter($action['image'], $this->entries[$row], $row);
-        $result .= "<input class='center' type='image' src='".htmlentities($image, ENT_COMPAT, 'UTF-8')."' title='$label' alt='$label' ".
-                 "name='listing_".$action['name']."_$row' style='padding:1px'>";
+        $result .= '<input class="center" type="image" src="'.htmlentities($image, ENT_COMPAT, 'UTF-8').'" title="'.$label.'" alt="'.$label.'" '.
+                 'name="listing_'.$action['name'].'_'.$row.'"/>';
       }
 
       // Handle special types
-      if ($action['type'] == "copypaste" || $action['type'] == "snapshot") {
-
+      if (($action['type'] == 'copypaste') || ($action['type'] == 'snapshot')) {
         $objectType = $this->getObjectTypeInfos($dn, $this->entries[$row]);
         $category   = $class = NULL;
         if ($objectType) {
@@ -1071,15 +1069,16 @@ class listing
           $class    = $objectType['class'];
         }
 
-        if ($action['type'] == "copypaste") {
-          $copy = !isset($action['copy']) || $action['copy'] == "true";
-          $cut  = !isset($action['cut']) || $action['cut'] == "true";
+        if ($action['type'] == 'copypaste') {
+          $copy = (!isset($action['copy'])  || ($action['copy'] == 'true'));
+          $cut  = (!isset($action['cut'])   || ($action['cut'] == 'true'));
           $result .= $this->renderCopyPasteActions($row, $this->entries[$row]['dn'], $category, $class, $copy, $cut);
         } else {
           $result .= $this->renderSnapshotActions($row, $this->entries[$row]['dn'], $category);
         }
       }
     }
+    unset($action);
 
     return $result;
   }
@@ -1333,14 +1332,14 @@ class listing
                   .'</li>';
   }
 
-  function recurseActions($actions)
+  function recurseActions(&$actions)
   {
     global $class_mapping;
     static $level = 2;
     $result       = "<ul class='level$level'>";
     $separator    = "";
 
-    foreach ($actions as $action) {
+    foreach ($actions as &$action) {
 
       // Skip the entry completely if there's no permission to execute it
       if (!$this->hasActionPermission($action, $this->filter->base)) {
@@ -1412,6 +1411,7 @@ class listing
 
       $separator = "";
     }
+    unset($action);
 
     $result .= "</ul>";
     return $result;
@@ -1424,69 +1424,71 @@ class listing
    *
    * \param string $dn The DN
    *
-   * \param string $classes
+   * \param string $row
    *
    */
-  function hasActionPermission($action, $dn, $classes = NULL)
+  function hasActionPermission(&$action, $dn, $row = NULL)
   {
-    $ui = get_userinfo();
+    global $ui;
 
     if (isset($action['acl'])) {
-      if (($attrs = $this->getEntry($dn)) != NULL) {
-        $otype = $this->getObjectTypeInfos($dn, $attrs);
-      } elseif ($classes) {
-        $otype = $this->getObjectTypeInfos($dn, array('objectClass' => $classes));
+      if (isset ($action['aclInfos'])) {
+        $aclsInfo = $action['aclInfos'];
       } else {
-        $otype = FALSE;
-      }
-      $acls = $action['acl'];
-      if (!is_array($acls)) {
-        $acls = array($acls);
-      }
-
-      // Every ACL has to pass
-      foreach ($acls as $acl) {
-        $module   = $this->categories;
-        $aclList  = array();
-
-        // Replace %acl if available
-        if ($otype) {
-          $acl = str_replace('%acl', $otype['category']."/".$otype['class'], $acl);
+        /* First time we check permission for this action */
+        if ($row !== NULL) {
+          $otype = $this->getObjectTypeInfos($dn, $this->entries[$row]);
+        } else {
+          $otype = FALSE;
         }
-
-        // Split for category and plugins if needed
-        // match for "[rw]" style entries
-        if (preg_match('/^\[([rwcdm]+)\]$/', $acl, $match)) {
-          $aclList = array($match[1]);
+        $acls = $action['acl'];
+        if (!is_array($acls)) {
+          $acls = array($acls);
         }
+        $aclInfos = array();
 
-        // match for "user[rw]" style entries
-        if (preg_match('/^([a-zA-Z0-9]+)\[([rwcdm]+)\]$/', $acl, $match)) {
-          $module   = $match[1];
-          $aclList  = array($match[2]);
-        }
+        // Every ACL has to pass
+        foreach ($acls as $acl) {
+          $module   = $this->categories;
+          $aclList  = array();
 
-        // match for "user/user[rw]" style entries
-        if (preg_match('/^([a-zA-Z0-9]+\/[a-zA-Z0-9]+)\[([rwcdm]+)\]$/', $acl, $match)) {
-          $module   = $match[1];
-          $aclList  = array($match[2]);
-        }
+          // Replace %acl if available
+          if ($otype) {
+            $acl = str_replace('%acl', $otype['category'].'/'.$otype['class'], $acl);
+          }
 
-        // match "user/user[userPassword:rw(,...)*]" style entries
-        if (preg_match('/^([a-zA-Z0-9]+\/[a-zA-Z0-9]+)\[([a-zA-Z0-9]+:[rwcdm]+(,[a-zA-Z0-9]+:[rwcdm]+)*)\]$/', $acl, $match)) {
-          $module   = $match[1];
-          $aclList  = explode(',', $match[2]);
-        }
+          // Split for category and plugins if needed
+          if (preg_match('/^\[([rwcdm]+)\]$/', $acl, $match)) {
+            // match for "[rw]" style entries
+            $aclList = array($match[1]);
+          } elseif (preg_match('/^([a-zA-Z0-9]+\/?[a-zA-Z0-9]+)\[([rwcdm]+)\]$/', $acl, $match)) {
+            // match for "user[rw]" style entries
+            // match for "user/user[rw]" style entries
+            $module   = $match[1];
+            $aclList  = array($match[2]);
+          } elseif (preg_match('/^([a-zA-Z0-9]+\/[a-zA-Z0-9]+)\[([a-zA-Z0-9]+:[rwcdm]+(,[a-zA-Z0-9]+:[rwcdm]+)*)\]$/', $acl, $match)) {
+            // match "user/user[userPassword:rw(,...)*]" style entries
+            $module   = $match[1];
+            $aclList  = explode(',', $match[2]);
+          }
 
-        // Walk thru prepared ACL by using $module
-        foreach ($aclList as $sAcl) {
-          $checkAcl = "";
-
-          // Category or detailed permission?
           $modules = $module;
           if (!is_array($modules)) {
             $modules = array($modules);
           }
+
+          $aclInfos[] = array($aclList, $modules);
+        }
+        $action['aclInfos'] = $aclInfos;
+      }
+
+      foreach ($aclInfos as $aclInfo) {
+        list ($aclList, $modules) = $aclInfo;
+        // Walk thru prepared ACL by using $module
+        foreach ($aclList as $sAcl) {
+          $checkAcl = '';
+
+          // Category or detailed permission?
           foreach ($modules as $module) {
             if (strpos($module, '/') !== FALSE) {
               if (preg_match('/([a-zA-Z0-9]+):([rwcdm]+)/', $sAcl, $m)) {
@@ -1508,7 +1510,6 @@ class listing
               return FALSE;
             }
           }
-
         }
       }
     }
@@ -1667,7 +1668,7 @@ class listing
         $result .= '<input class="center" type="image"'.
                     ' src="geticon.php?context=actions&amp;icon=edit-cut&amp;size=16"'.
                     ' alt="'._('Cut').'" name="listing_cut_'.$row.'" title="'._('Cut this entry').'"'.
-                    ' style="padding:1px">';
+                    '/>';
       } else {
         $result .= '<img src="images/empty.png" alt=" " class="center optional"/>';
       }
@@ -1679,7 +1680,7 @@ class listing
         $result .= '<input class="center" type="image"'.
                     ' src="geticon.php?context=actions&amp;icon=edit-copy&amp;size=16"'.
                     ' alt="'._('Copy').'" name="listing_copy_'.$row.'" title="'._('Copy this entry').'"'.
-                    ' style="padding:1px">';
+                    '/>';
       } else {
         $result .= '<img src="images/empty.png" alt=" " class="center optional"/>';
       }
@@ -1760,11 +1761,11 @@ class listing
         $result .= '<input class="center" type="image"'.
                     ' src="geticon.php?context=actions&amp;icon=document-restore&amp;size=16"'.
                     ' alt="'._('Restore snapshot').'" name="listing_restore_'.$row.'"'.
-                    ' title="'._('Restore snapshot').'" style="padding:1px"/>';
+                    ' title="'._('Restore snapshot').'"/>';
       } else {
         $result .= '<img class="center"'.
                     ' src="geticon.php?context=actions&amp;icon=document-restore&amp;size=16&amp;disabled=1"'.
-                    ' alt="restore" style="padding:1px"/>';
+                    ' alt="restore"/>';
       }
     }
 
@@ -1773,9 +1774,9 @@ class listing
       $result .= '<input class="center" type="image"'.
                   ' src="geticon.php?context=actions&amp;icon=snapshot&amp;size=16"'.
                   ' alt="'._('Create snapshot').'" name="listing_snapshot_'.$row.'"'.
-                  ' title="'._('Create a new snapshot from this object').'" style="padding:1px"/>';
+                  ' title="'._('Create a new snapshot from this object').'"/>';
     } else {
-      $result .= '<img src="images/empty.png" alt=" " class="center optional" style="padding:1px"/>';
+      $result .= '<img src="images/empty.png" alt=" " class="center optional"/>';
     }
 
     return $result;
