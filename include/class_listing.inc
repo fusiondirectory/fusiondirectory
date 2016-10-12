@@ -236,9 +236,8 @@ class listing {
         $this->xmlData['definition']['objectType'] = array($this->xmlData['definition']['objectType']);
       }
       foreach ($this->xmlData['definition']['objectType'] as $index => $otype) {
-        $tmp = $this->xmlData['definition']['objectType'][$index];
-        $this->objectTypes[$tmp['objectClass']] = $tmp;
-        if (isset($this->xmlData['definition']['objectType'][$index]['category'])) {
+        $this->objectTypes[$otype['objectClass']] = $otype;
+        if (isset($otype['category'])) {
           $this->categories[] = $otype['category'];
         }
       }
@@ -644,6 +643,11 @@ class listing {
       $this->entries = array();
     }
 
+    $this->dnToRow = array();
+    foreach ($this->entries as $row => $entry) {
+      $this->dnToRow[$entry['dn']] = $row;
+    }
+
     // Init snapshot list for renderSnapshotActions
     if (isset($this->snapshotHandler) && is_object($this->snapshotHandler) && $this->snapshotHandler->enabled()) {
       $this->snapshotHandler->initSnapshotCache($this->base);
@@ -938,7 +942,7 @@ class listing {
   }
 
   /*!
-   * \brief Statistics of the object type
+   * \brief Icon of the object type
    *
    * \param string $dn The DN
    *
@@ -956,7 +960,7 @@ class listing {
     }
     if ($type) {
       $this->objectDnMapping[$dn] = $type;
-      $result = "<img class='center' title='".LDAP::fix($dn)."' src='".htmlentities($this->objectTypes[$type]['image'], ENT_COMPAT, 'UTF-8')."' alt='$type'/>";
+      $result = '<img class="center" title="'.LDAP::fix($dn).'" src="'.htmlentities($this->objectTypes[$type]['image'], ENT_COMPAT, 'UTF-8').'" alt="'.$type.'"/>';
       if (!isset($this->objectTypeCount[$this->objectTypes[$type]['label']])) {
         $this->objectTypeCount[$this->objectTypes[$type]['label']] = 0;
       }
@@ -1782,10 +1786,8 @@ class listing {
 
   function getEntry($dn)
   {
-    foreach ($this->entries as $entry) {
-      if (isset($entry['dn']) && strcasecmp($dn, $entry['dn']) == 0) {
-        return $entry;
-      }
+    if (isset($this->dnToRow[$dn])) {
+      return $this->entries[$this->dnToRow[$dn]];
     }
     return NULL;
   }
