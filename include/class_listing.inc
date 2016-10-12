@@ -56,7 +56,7 @@ class listing
   var $objectTypeCount  = array();
   protected $objectDnMapping  = array();
   var $copyPasteHandler = NULL;
-  var $snapshotHandler  = NULL;
+  protected $snapshotHandler  = NULL;
   var $exporter       = array();
   var $exportColumns  = array();
   var $useSpan        = FALSE;
@@ -152,7 +152,11 @@ class listing
    */
   function setSnapshotHandler($handler)
   {
-    $this->snapshotHandler = $handler;
+    if ($handler->enabled()) {
+      $this->snapshotHandler = $handler;
+    } else {
+      $this->snapshotHandler = NULL;
+    }
   }
 
   /*!
@@ -656,7 +660,7 @@ class listing
     }
 
     // Init snapshot list for renderSnapshotActions
-    if (isset($this->snapshotHandler) && is_object($this->snapshotHandler) && $this->snapshotHandler->enabled()) {
+    if (is_object($this->snapshotHandler)) {
       $this->snapshotHandler->initSnapshotCache($this->base);
     }
   }
@@ -1681,17 +1685,16 @@ class listing
 
   function renderSnapshotMenu($separator)
   {
-    // We can only provide information if we've got a snapshot handler
-    // instance
-    if (!(isset($this->snapshotHandler) && is_object($this->snapshotHandler))) {
-      return "";
+    // We can only provide information if we've got a snapshot handler instance
+    if (!is_object($this->snapshotHandler)) {
+      return '';
     }
 
     // Presets
     $result = "";
     $ui     = get_userinfo();
 
-    if ($this->snapshotHandler->enabled() && $ui->allow_snapshot_restore($this->base, $this->categories)) {
+    if ($ui->allow_snapshot_restore($this->base, $this->categories)) {
 
       // Check if there is something to restore
       $restore = FALSE;
@@ -1733,40 +1736,34 @@ class listing
 
   function renderSnapshotActions($row, $dn, $category, $class, $copy = TRUE, $cut = TRUE)
   {
-    // We can only provide information if we've got a snapshot handler
-    // instance
-    if (!(isset($this->snapshotHandler) && is_object($this->snapshotHandler))) {
-      return "";
+    /* We can only provide information if we've got a snapshot handler instance */
+    if (!is_object($this->snapshotHandler)) {
+      return '';
     }
 
     // Presets
     $result = "";
     $ui = get_userinfo();
 
-    // Only act if enabled here
-    if ($this->snapshotHandler->enabled()) {
-
-      // Draw restore button
-      if ($ui->allow_snapshot_restore($dn, $category)) {
-
-        // Do we have snapshots for this dn?
-        if ($this->snapshotHandler->hasSnapshots($dn)) {
-          $result .= "<input class='center' type='image' src='geticon.php?context=actions&amp;icon=document-restore&amp;size=16' ".
-                     "alt='"._("Restore snapshot")."' name='listing_restore_$row' title='".
-                     _("Restore snapshot")."'>";
-        } else {
-          $result .= "<img src='geticon.php?context=actions&amp;icon=document-restore&amp;size=16&amp;disabled=1' alt='restore' class='center'>";
-        }
-      }
-
-      // Draw snapshot button
-      if ($ui->allow_snapshot_create($dn, $category)) {
-          $result .= "<input class='center' type='image' src='geticon.php?context=actions&amp;icon=snapshot&amp;size=16' ".
-                     "alt='"._("Create snapshot")."' name='listing_snapshot_$row' title='".
-                     _("Create a new snapshot from this object")."'>";
+    // Draw restore button
+    if ($ui->allow_snapshot_restore($dn, $category)) {
+      // Do we have snapshots for this dn?
+      if ($this->snapshotHandler->hasSnapshots($dn)) {
+        $result .= "<input class='center' type='image' src='geticon.php?context=actions&amp;icon=document-restore&amp;size=16' ".
+                   "alt='"._("Restore snapshot")."' name='listing_restore_$row' title='".
+                   _("Restore snapshot")."'>";
       } else {
-          $result .= "<img src='images/empty.png' alt=' ' class='center optional'>";
+        $result .= "<img src='geticon.php?context=actions&amp;icon=document-restore&amp;size=16&amp;disabled=1' alt='restore' class='center'>";
       }
+    }
+
+    // Draw snapshot button
+    if ($ui->allow_snapshot_create($dn, $category)) {
+      $result .= "<input class='center' type='image' src='geticon.php?context=actions&amp;icon=snapshot&amp;size=16' ".
+                 "alt='"._("Create snapshot")."' name='listing_snapshot_$row' title='".
+                 _("Create a new snapshot from this object")."'>";
+    } else {
+      $result .= "<img src='images/empty.png' alt=' ' class='center optional'>";
     }
 
     return $result;
