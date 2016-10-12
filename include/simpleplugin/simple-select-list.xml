@@ -16,7 +16,7 @@
     <layout>|20px;c|||</layout>
 
     <department>
-      <value>%{filter:objectType(dn,objectClass)}</value>
+      <value>%{filter:departmentType(row,dn)}</value>
     </department>
 
     <department>
@@ -25,7 +25,7 @@
     </department>
 
     <column>
-      <value>%{filter:objectType(dn,objectClass)}</value>
+      <value>%{filter:objectType(row,dn)}</value>
     </column>
 
     <column>
