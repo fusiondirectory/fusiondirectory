@@ -457,14 +457,6 @@ class config  {
 
     $ldap = $this->get_ldap_link();
 
-    /* Ldap Server */
-    $this->data['SERVERS']['LDAP'] = array();
-    $ldap->cd($this->current['BASE']);
-    $ldap->search('(&(objectClass=goLdapServer)(goLdapBase=*))');
-    while ($attrs = $ldap->fetch()) {
-      $this->data['SERVERS']['LDAP'][$attrs['dn']] = $attrs;
-    }
-
     /* Get samba servers from LDAP */
     $this->data['SERVERS']['SAMBA'] = array();
     if (class_available('sambaAccount')) {
