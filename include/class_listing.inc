@@ -28,8 +28,8 @@
  * \brief This class contains all the function needed to make the list
  * that show the objects inside FusionDirectory
  */
-class listing {
-
+class listing
+{
   var $xmlData;
   var $entries;
   var $departments            = array();
@@ -51,9 +51,10 @@ class listing {
   var $filters  = array();
   var $filter   = NULL;
   var $pid;
+  protected $departmentTypes  = array();
   var $objectTypes      = array();
   var $objectTypeCount  = array();
-  var $objectDnMapping  = array();
+  protected $objectDnMapping  = array();
   var $copyPasteHandler = NULL;
   var $snapshotHandler  = NULL;
   var $exporter       = array();
@@ -62,8 +63,6 @@ class listing {
   var $height         = 0;
   var $scrollPosition = 0;
   var $baseSelector;
-
-  var $typeCache = array();
 
   /*!
    * \brief Create a listing
@@ -101,8 +100,9 @@ class listing {
     $this->showFooter = ($config->get_cfg_value("listSummary") == "TRUE");
 
     // Register build in filters
-    $this->registerElementFilter("objectType",      "listing::filterObjectType");
+    $this->registerElementFilter("departmentType",  "listing::filterDepartmentType");
     $this->registerElementFilter("departmentLink",  "listing::filterDepartmentLink");
+    $this->registerElementFilter("objectType",      "listing::filterObjectType");
     $this->registerElementFilter("link",            "listing::filterLink");
     $this->registerElementFilter("nameLink",        "listing::filterNameLink");
     $this->registerElementFilter("actions",         "listing::filterActions");
@@ -221,7 +221,7 @@ class listing {
     $types = departmentManagement::getDepartmentTypes();
     foreach ($types as $type) {
       $i = objects::infos($type);
-      $this->objectTypes[strtoupper($type)] = array(
+      $this->departmentTypes[strtoupper($type)] = array(
         'label'       => $i['name'],
         'image'       => $i['icon'],
         'category'    => $i['aclCategory'],
@@ -467,16 +467,21 @@ class listing {
 
     // Add the footer if requested
     if ($this->showFooter) {
-      $result .= "<div class='nlistFooter'><div style='padding:3px'>";
+      $result .= '<div class="nlistFooter">';
 
-      foreach ($this->objectTypes as $objectType) {
+      foreach ($this->departmentTypes as $objectType) {
         if (isset($this->objectTypeCount[$objectType['label']])) {
-          $label = _($objectType['label']);
-          $result .= "<img class='center' src='".htmlentities($objectType['image'], ENT_COMPAT, 'UTF-8')."' title='$label' alt='$label'>&nbsp;".$this->objectTypeCount[$objectType['label']]."&nbsp;&nbsp;&nbsp;&nbsp;";
+          $result .= '<img class="center" src="'.htmlentities($objectType['image'], ENT_COMPAT, 'UTF-8').'" title="'.$objectType['label'].'" alt="'.$objectType['label'].'"/>&nbsp;'.$this->objectTypeCount[$objectType['label']]."&nbsp;&nbsp;&nbsp;&nbsp;";
         }
       }
 
-      $result .= "</div></div>";
+      foreach ($this->objectTypes as $objectType) {
+        if (isset($this->objectTypeCount[$objectType['label']])) {
+          $result .= '<img class="center" src="'.htmlentities($objectType['image'], ENT_COMPAT, 'UTF-8').'" title="'.$objectType['label'].'" alt="'.$objectType['label'].'"/>&nbsp;'.$this->objectTypeCount[$objectType['label']]."&nbsp;&nbsp;&nbsp;&nbsp;";
+        }
+      }
+
+      $result .= '</div>';
     }
 
     // Close list
@@ -871,16 +876,32 @@ class listing {
    */
   function getObjectType($dn, $attrs)
   {
-    if (isset($this->typeCache[$dn])) {
-      return $this->typeCache[$dn];
+    return $this->genericGetType($dn, $attrs, $this->objectTypes);
+  }
+
+  /*!
+   * \brief Get the department type
+   */
+  function getDepartmentType($dn, $attrs)
+  {
+    return $this->genericGetType($dn, $attrs, $this->departmentTypes);
+  }
+
+  /*!
+   * \brief Get the object or department type
+   */
+  protected function genericGetType($dn, $attrs, $types)
+  {
+    if (isset($this->objectDnMapping[$dn])) {
+      return $this->objectDnMapping[$dn];
     }
     $classes = $attrs['objectClass'];
     // Walk thru types and see if there's something matching
-    foreach ($this->objectTypes as $type => $objectType) {
+    foreach ($types as $type => $objectType) {
       if (isset($objectType['filter'])) {
         if ($objectType['filter']($attrs)) {
-          $this->typeCache[$dn] = $type;
-          return $this->typeCache[$dn];
+          $this->objectDnMapping[$dn] = $type;
+          return $this->objectDnMapping[$dn];
         } else {
           continue;
         }
@@ -905,7 +926,8 @@ class listing {
       }
 
       if ($found) {
-        return $type;
+        $this->objectDnMapping[$dn] = $type;
+        return $this->objectDnMapping[$dn];
       }
     }
 
@@ -934,6 +956,7 @@ class listing {
    */
   function filterObjectTypes($dn, $classes)
   {
+    //fixme
     $result = "";
     foreach ($classes as $class) {
         $result .= $this->filterObjectType($dn, array($class))."&nbsp;";
@@ -944,30 +967,43 @@ class listing {
   /*!
    * \brief Icon of the object type
    *
-   * \param string $dn The DN
+   * \param string $row The row
    *
-   * \param string $classes
+   * \param string $dn The DN
    */
-  function filterObjectType($dn, $classes = array())
+  function filterObjectType($row, $dn)
   {
-    // Walk thru classes and return on first match
+    return $this->filterGenericType($row, $dn, $this->objectTypes, $this->getObjectType($dn, $this->entries[$row]));
+  }
+
+  /*!
+   * \brief Generic method for department and objects once type is known
+   */
+  protected function filterGenericType($row, $dn, $types, $type)
+  {
     $result = "&nbsp;";
 
-    if (($attrs = $this->getEntry($dn)) != NULL) {
-      $type = $this->getObjectType($dn, $attrs);
-    } else {
-      $type = $this->getObjectType($dn, array('objectClass' => $classes));
-    }
     if ($type) {
-      $this->objectDnMapping[$dn] = $type;
-      $result = '<img class="center" title="'.LDAP::fix($dn).'" src="'.htmlentities($this->objectTypes[$type]['image'], ENT_COMPAT, 'UTF-8').'" alt="'.$type.'"/>';
-      if (!isset($this->objectTypeCount[$this->objectTypes[$type]['label']])) {
-        $this->objectTypeCount[$this->objectTypes[$type]['label']] = 0;
+      $result = '<img class="center" title="'.LDAP::fix($dn).'" src="'.htmlentities($types[$type]['image'], ENT_COMPAT, 'UTF-8').'" alt="'.$type.'"/>';
+      if (!isset($this->objectTypeCount[$types[$type]['label']])) {
+        $this->objectTypeCount[$types[$type]['label']] = 0;
       }
-      $this->objectTypeCount[$this->objectTypes[$type]['label']]++;
+      $this->objectTypeCount[$types[$type]['label']]++;
     }
 
     return $result;
+  }
+
+  /*!
+   * \brief Icon of the department type
+   *
+   * \param string $row The row
+   *
+   * \param string $dn The DN
+   */
+  function filterDepartmentType($row, $dn)
+  {
+    return $this->filterGenericType($row, $dn, $this->departmentTypes, $this->getDepartmentType($dn, $this->departments[$row]));
   }
 
   /*!

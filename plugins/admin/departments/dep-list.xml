@@ -14,7 +14,7 @@
     <layout>|20px;c|||70px;r|</layout>
 
     <column>
-      <value>%{filter:objectType(dn,objectClass)}</value>
+      <value>%{filter:objectType(row,dn)}</value>
     </column>
 
     <column>
