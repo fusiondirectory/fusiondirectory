@@ -18,6 +18,11 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*!
+ * \file class_SelectAttribute.inc
+ * Source code for the Select attributes
+ */
+
 /*! \brief This class allow to handle easily a Select LDAP attribute with a set of choices
  *
  */
@@ -35,7 +40,7 @@ class SelectAttribute extends Attribute
    *  \param boolean $required Is this attribute mandatory or not
    *  \param array $choices The choices this select should offer. Pass array("") if you're gonna fill it later with setChoices
    *  \param mixed $defaultValue The default value for this attribute
-   *  \param array $outputs The label corresponding to the choices, leave to NULL if you want to display the choices themselves
+   *  \param array $outputs The labels corresponding to the choices, leave to NULL if you want to display the choices themselves
    *  \param string $acl The name of the acl for this attribute if he does not use its own. (Leave empty if he should use its own like most attributes do)
    */
   function __construct ($label, $description, $ldapName, $required = FALSE, $choices = array(), $defaultValue = "", $outputs = NULL, $acl = "")
@@ -47,13 +52,18 @@ class SelectAttribute extends Attribute
     $this->setChoices($choices, $outputs);
   }
 
+  /*! \brief Set the options of the select attribute
+   *
+   *  \param array $choices The choices this select should offer
+   *  \param array $outputs The labels corresponding to the choices, leave to NULL if you want to display the choices themselves
+   */
   function setChoices ($choices, $outputs = NULL)
   {
     $this->outputs = NULL;
-    if (!$this->isRequired() && !in_array("", $choices, TRUE)) {
-      array_unshift($choices, "");
+    if (!$this->isRequired() && !in_array('', $choices, TRUE)) {
+      array_unshift($choices, '');
       if (is_array($outputs)) {
-        array_unshift($outputs, _("None"));
+        array_unshift($outputs, _('None'));
       }
     }
     $this->choices = $choices;
@@ -68,6 +78,10 @@ class SelectAttribute extends Attribute
     }
   }
 
+  /*! \brief Set the display options of the select attribute
+   *
+   *  \param array $outputs The labels corresponding to the choices, in the same order as the choices
+   */
   function setDisplayChoices ($values)
   {
     $this->outputs = array();
@@ -75,6 +89,13 @@ class SelectAttribute extends Attribute
     foreach ($this->choices as $choice) {
       $this->outputs[$choice] = $values[$i++];
     }
+  }
+
+  /*! \brief Get the choices
+   */
+  function getChoices ()
+  {
+    return $this->choices;
   }
 
   function setRequired ($bool)
@@ -154,11 +175,6 @@ class SelectAttribute extends Attribute
     return $this->renderAcl($display);
   }
 
-  function getChoices ()
-  {
-    return $this->choices;
-  }
-
   function serializeAttribute(&$attributes, $form = TRUE)
   {
     if (!$form || $this->visible) {
@@ -173,6 +189,7 @@ class SelectAttribute extends Attribute
     }
   }
 
+  /*! \brief Set the size of the HTML input tag, useful to display several options on the screen instead of just one */
   function setSize($size)
   {
     $this->size = $size;
