@@ -668,7 +668,7 @@ class LDAP
   /*!
    * \brief Function rmdir_recursive
    *
-   * Based in recursive_remove, adding two thing: full subtree remove, and delete own node.
+   * Based on recursive_remove, adding two thing: full subtree remove, and delete own node.
    *
    * \param $srp srp
    *
@@ -686,7 +686,7 @@ class LDAP
 
       /* Get sorted list of dn's to delete */
       $this->cd($deletedn);
-      $this->search($srp, "(objectClass=*)", array('dn'));
+      $this->search($srp, '(objectClass=*)', array('dn'));
       while ($attrs = $this->fetch($srp)) {
         $delarray[$attrs['dn']] = strlen($attrs['dn']);
       }
@@ -695,7 +695,7 @@ class LDAP
 
       /* Really Delete ALL dn's in subtree */
       foreach (array_keys($delarray) as $key) {
-        $r = @ldap_delete($this->cid, LDAP::fix($key));
+        $r = @ldap_delete($this->cid, $key);
         if ($r === FALSE) {
           break;
         }
@@ -910,29 +910,6 @@ class LDAP
     }
 
     return TRUE;
-  }
-
-  /*!
-   * \brief Recursive remove
-   *
-   * \param integer $srp
-   */
-  function recursive_remove($srp)
-  {
-    $delarray = array();
-
-    /* Get sorted list of dn's to delete */
-    $this->search($srp, '(objectClass=*)');
-    while ($attrs = $this->fetch($srp)) {
-      $delarray[$attrs['dn']] = strlen($attrs['dn']);
-    }
-    arsort($delarray);
-    reset($delarray);
-
-    /* Delete all dn's in subtree */
-    foreach (array_keys($delarray) as $key) {
-      $this->rmdir($key);
-    }
   }
 
   /*!
