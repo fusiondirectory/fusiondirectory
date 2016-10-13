@@ -158,7 +158,7 @@ class filterLDAP
           $obj = $parent->headpage->getObjectTypeInfos($dn, $attrs);
           if (isset($obj['category'])) {
             $o = $obj['category'].'/'.$obj['class'];
-            if (strpos($ui->get_permissions($dn, $o), 'r')) {
+            if (strpos($ui->get_permissions($dn, $o), 'r') !== FALSE) {
               $result[] = $attrs;
             }
           } else {

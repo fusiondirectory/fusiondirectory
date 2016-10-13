@@ -310,7 +310,7 @@ class userinfo
   */
   function is_copyable($dn, $object)
   {
-    return strpos($this->get_complete_category_acls($dn, $object), 'r');
+    return (strpos($this->get_complete_category_acls($dn, $object), 'r') !== FALSE);
   }
 
 
@@ -327,8 +327,8 @@ class userinfo
    */
   function is_cutable($dn, $object, $class)
   {
-    $remove = strpos($this->get_permissions($dn, $object.'/'.$class), 'd');
-    $read   = strpos($this->get_complete_category_acls($dn, $object), 'r');
+    $remove = (strpos($this->get_permissions($dn, $object.'/'.$class), 'd') !== FALSE);
+    $read   = (strpos($this->get_complete_category_acls($dn, $object), 'r') !== FALSE);
     return ($remove && $read);
   }
 
@@ -344,7 +344,7 @@ class userinfo
    */
   function is_pasteable($dn, $object)
   {
-    return strpos($this->get_complete_category_acls($dn, $object), 'w');
+    return (strpos($this->get_complete_category_acls($dn, $object), 'w') !== FALSE);
   }
 
 
@@ -364,8 +364,8 @@ class userinfo
     }
     $r = $w = TRUE;
     foreach ($object as $category) {
-      $w &= strpos($this->get_complete_category_acls($dn, $category), 'w');
-      $r &= strpos($this->get_complete_category_acls($dn, $category), 'r');
+      $w &= (strpos($this->get_complete_category_acls($dn, $category), 'w') !== FALSE);
+      $r &= (strpos($this->get_complete_category_acls($dn, $category), 'r') !== FALSE);
     }
     return ($r && $w);
   }
@@ -386,7 +386,7 @@ class userinfo
       $object = array($object);
     }
     foreach ($object as $category) {
-      if (!strpos($this->get_complete_category_acls($dn, $category), 'r')) {
+      if (strpos($this->get_complete_category_acls($dn, $category), 'r') === FALSE) {
         return FALSE;
       }
     }
@@ -804,7 +804,7 @@ class userinfo
           $tmp = $this->get_permissions($dn, $category.'/'.$oc);
           $types = $acl;
           for ($i = 0, $l = strlen($types); $i < $l; $i++) {
-            if (!strpos($tmp, $types[$i])) {
+            if (strpos($tmp, $types[$i]) === FALSE) {
               $acl = str_replace($types[$i], '', $acl);
             }
           }
