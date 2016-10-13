@@ -1120,8 +1120,11 @@ class listing
   function filterNameLink($row, $dn)
   {
     $infos  = $this->getObjectTypeInfos($dn, $this->entries[$row]);
-    $attr   = $infos['nameAttr'];
-    return $this->filterLink($row, $dn, "%s", $this->entries[$row][$attr]);
+    $value  = $this->entries[$row][$infos['nameAttr']];
+    if (is_array($value)) {
+      unset($value['count']);
+    }
+    return $this->filterLink($row, $dn, "%s", $value);
   }
 
   /*!
