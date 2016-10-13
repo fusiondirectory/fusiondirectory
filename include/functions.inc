@@ -597,7 +597,7 @@ function ldap_login_user ($username, $password)
   }
 
   /* got user dn, fill acl's */
-  $ui = new userinfo($config, $ldap->getDN());
+  $ui = new userinfo($config, $attrs['dn']);
 
   /* password check, bind as user with supplied password  */
   $ldap->disconnect();
@@ -738,12 +738,12 @@ function del_lock ($object)
   $ldap = $config->get_ldap_link();
   $ldap->cd(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
   $ldap->search('(&(objectClass=fdLockEntry)(fdObjectDn='.base64_encode($object).'))', array('fdObjectDn'));
-  $ldap->fetch();
+  $attrs = $ldap->fetch();
   if (!$ldap->success()) {
     msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), $ldap->getDN(), LDAP_DEL, ERROR_DIALOG));
     return;
-  } elseif ($ldap->getDN() != '') {
-    $ldap->rmdir($ldap->getDN());
+  } elseif ($attrs['dn'] != '') {
+    $ldap->rmdir($attrs['dn']);
   }
 }
 
@@ -3193,10 +3193,10 @@ function get_next_id_pool($attrib)
     }
 
     /* Store old attrib and generate new */
-    $attrs = $ldap->fetch();
-    $dn = $ldap->getDN();
-    $oldAttr = $attrs[$attrib][0];
-    $newAttr = $oldAttr + 1;
+    $attrs    = $ldap->fetch();
+    $dn       = $attrs['dn'];
+    $oldAttr  = $attrs[$attrib][0];
+    $newAttr  = $oldAttr + 1;
 
     /* Sanity check */
     if ($newAttr >= $max) {

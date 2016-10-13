@@ -911,10 +911,9 @@ class LDAP
     $delarray = array();
 
     /* Get sorted list of dn's to delete */
-    $this->search ($srp, "(objectClass=*)");
-    while ($this->fetch($srp)) {
-      $deldn            = $this->getDN($srp);
-      $delarray[$deldn] = strlen($deldn);
+    $this->search($srp, '(objectClass=*)');
+    while ($attrs = $this->fetch($srp)) {
+      $delarray[$attrs['dn']] = strlen($attrs['dn']);
     }
     arsort($delarray);
     reset($delarray);

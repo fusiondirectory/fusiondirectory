@@ -442,8 +442,8 @@ class listing
 
         // Save rendered column
         $sort = preg_replace('/.*>([^<]+)<.*$/', '$1', $renderedCell);
-        $sort = preg_replace('/&nbsp;/', '', $sort);
-        if (preg_match('/</', $sort)) {
+        $sort = str_replace('&nbsp;', '', $sort);
+        if (strpos($sort, '<')) {
           $sort = '';
         }
         $this->entries[$row]['_sort'.$index] = $sort;
@@ -719,32 +719,30 @@ class listing
         $classes  = "";
         $components = explode(';', $cfg);
         foreach ($components as $part) {
-          if (preg_match("/^r$/", $part)) {
-            $res .= "text-align:right;";
-            continue;
-          }
-          if (preg_match("/^l$/", $part)) {
-            $res .= "text-align:left;";
-            continue;
-          }
-          if (preg_match("/^c$/", $part)) {
-            $res .= "text-align:center;";
-            continue;
-          }
-          if (preg_match("/^o$/", $part)) {
-            $classes .= "optional ";
-            continue;
-          }
-          if (preg_match("/^[0-9]+(|px|%)(-d)?$/", $part)) {
-            if (!preg_match('/-d$/', $part)) {
-              /* d suffix means dynamic, ie no fixed width */
-              $res .= "width:$part;";
-            } else {
-              /* Remove the -d suffix */
-              $part = preg_replace('/-d$/', '', $part);
-            }
-            $res .= "min-width:$part;";
-            continue;
+          switch ($part) {
+            case 'r':
+              $res .= 'text-align:right;';
+              break;
+            case 'l':
+              $res .= 'text-align:left;';
+              break;
+            case 'c':
+              $res .= 'text-align:center;';
+              break;
+            case 'o':
+              $classes .= 'optional ';
+              break;
+            default:
+              if (preg_match('/^[0-9]+(|px|%)(-d)?$/', $part)) {
+                if (!preg_match('/-d$/', $part)) {
+                  /* d suffix means dynamic, ie no fixed width */
+                  $res .= "width:$part;";
+                } else {
+                  /* Remove the -d suffix */
+                  $part = preg_replace('/-d$/', '', $part);
+                }
+                $res .= "min-width:$part;";
+              }
           }
         }
 
@@ -1062,16 +1060,14 @@ class listing
         }
       }
 
-      // Render normal entries as usual
       if ($action['type'] == 'entry') {
+        // Render normal entries as usual
         $label = $this->processElementFilter('label', $action['name'], $action['label'], $this->entries[$row], $row);
         $image = $this->processElementFilter('image', $action['name'], $action['image'], $this->entries[$row], $row);
         $result .= '<input class="center" type="image" src="'.htmlentities($image, ENT_COMPAT, 'UTF-8').'" title="'.$label.'" alt="'.$label.'" '.
                  'name="listing_'.$action['name'].'_'.$row.'"/>';
-      }
-
-      // Handle special types
-      if (($action['type'] == 'copypaste') || ($action['type'] == 'snapshot')) {
+      } elseif (($action['type'] == 'copypaste') || ($action['type'] == 'snapshot')) {
+        // Handle special types
         $objectType = $this->getObjectTypeInfos($dn, $this->entries[$row]);
         $category   = $class = NULL;
         if ($objectType) {
@@ -1128,11 +1124,9 @@ class listing
    */
   function filterLink()
   {
-    $result = "&nbsp;";
-
-    $row = func_get_arg(0);
-    $pid = $this->pid;
-    $dn = LDAP::fix(func_get_arg(1));
+    $row    = func_get_arg(0);
+    $pid    = $this->pid;
+    $dn     = LDAP::fix(func_get_arg(1));
     $params = array(func_get_arg(2));
 
     // Collect sprintf params
@@ -1146,7 +1140,7 @@ class listing
       }
     }
 
-    $result = "&nbsp;";
+    $result = '&nbsp;';
     if (count($params) > 1) {
       $trans  = call_user_func_array('sprintf', $params);
       if ($trans != '') {
@@ -1620,8 +1614,8 @@ class listing
 
     // Switch flags to on if there's at least one category which allows read/paste
     foreach ($this->categories as $category) {
-      $read   = $read || preg_match('/r/', $ui->get_category_permissions($this->base, $category));
-      $paste  = $paste || $ui->is_pasteable($this->base, $category) == 1;
+      $read   = $read || strpos($ui->get_category_permissions($this->base, $category), 'r');
+      $paste  = $paste || ($ui->is_pasteable($this->base, $category) == 1);
     }
 
     // Draw entries that allow copy and cut
