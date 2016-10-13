@@ -256,9 +256,15 @@ class ogroup extends simplePlugin
     /* Detect all workstations, which are already assigned to an object group
         - Those objects will be hidden in the add object dialog.
         - Check() will complain if such a system is assigned to this object group.*/
-    $ws_dns = array_keys(objects::ls(array('workstation','terminal')));
-    $res = objects::ls('ogroup', array('member' => '*'), NULL, '(&(member=*)(|(gosaGroupObjects=[W])(gosaGroupObjects=[T])))');
     $this->used_workstations = array();
+    try {
+      $ws_dns = array_keys(objects::ls(array('workstation','terminal')));
+      $res = objects::ls('ogroup', array('member' => '*'), NULL, '(&(member=*)(|(gosaGroupObjects=[W])(gosaGroupObjects=[T])))');
+    } catch (NonExistingObjectTypeException $e) {
+      /* If workstation/terminal objectType is not existing, systems plugin is missing so there are no systems */
+      $ws_dns = array();
+      $res    = array();
+    }
     foreach ($res as $odn => $og) {
       if ($odn == $this->dn) {
         continue;
