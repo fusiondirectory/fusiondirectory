@@ -773,12 +773,11 @@ class listing
           $replace = $replace[0];
         }
         $replace = htmlentities($replace, ENT_COMPAT, 'UTF-8');
-        $data   = substr_replace($data, $replace, $m[0][1], strlen($m[0][0]));
-        $offset = $m[0][1] + strlen($replace);
       } else {
-        trigger_error('Did not found attribute '.$m[1][0]);
-        $offset = $m[0][1] + strlen($m[1][0]);
+        $replace = '&nbsp;';
       }
+      $data   = substr_replace($data, $replace, $m[0][1], strlen($m[0][0]));
+      $offset = $m[0][1] + strlen($replace);
     }
 
     // Watch out for filters and prepare to execute them
