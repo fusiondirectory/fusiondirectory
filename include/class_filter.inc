@@ -443,9 +443,16 @@ class filter
       $filter     = $query['filter'];
       $attributes = $query['attribute'];
 
-      // ObjectClass is required to check permissions later.
-      if (!in_array('objectClass', $attributes)) {
-        $attributes[] = 'objectClass';
+      if ($attributes === '*') {
+        $attributes = array($attributes);
+      } else {
+        if (!is_array($attributes)) {
+          $attributes = array($attributes);
+        }
+        // ObjectClass is required to check permissions later.
+        if (!in_array('objectClass', $attributes)) {
+          $attributes[] = 'objectClass';
+        }
       }
 
       // Generate final filter

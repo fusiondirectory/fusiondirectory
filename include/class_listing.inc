@@ -845,6 +845,9 @@ class listing
           case 'base':
             $params[] = $this->getBase();
             break;
+          case 'entry':
+            $params[] = $cfg;
+            break;
           case 'dn':
             $params[] = LDAP::fix($cfg['dn']);
             break;
