@@ -310,7 +310,7 @@ class userinfo
   */
   function is_copyable($dn, $object)
   {
-    return preg_match('/r/', $this->get_complete_category_acls($dn, $object));
+    return strpos($this->get_complete_category_acls($dn, $object), 'r');
   }
 
 
@@ -327,8 +327,8 @@ class userinfo
    */
   function is_cutable($dn, $object, $class)
   {
-    $remove = preg_match('/d/', $this->get_permissions($dn, $object.'/'.$class));
-    $read   = preg_match('/r/', $this->get_complete_category_acls($dn, $object));
+    $remove = strpos($this->get_permissions($dn, $object.'/'.$class), 'd');
+    $read   = strpos($this->get_complete_category_acls($dn, $object), 'r');
     return ($remove && $read);
   }
 
@@ -344,7 +344,7 @@ class userinfo
    */
   function is_pasteable($dn, $object)
   {
-    return preg_match("/w/", $this->get_complete_category_acls($dn, $object));
+    return strpos($this->get_complete_category_acls($dn, $object), 'w');
   }
 
 
@@ -364,8 +364,8 @@ class userinfo
     }
     $r = $w = TRUE;
     foreach ($object as $category) {
-      $w &= preg_match("/w/", $this->get_complete_category_acls($dn, $category));
-      $r &= preg_match("/r/", $this->get_complete_category_acls($dn, $category));
+      $w &= strpos($this->get_complete_category_acls($dn, $category), 'w');
+      $r &= strpos($this->get_complete_category_acls($dn, $category), 'r');
     }
     return ($r && $w);
   }
@@ -385,11 +385,12 @@ class userinfo
     if (!is_array($object)) {
       $object = array($object);
     }
-    $r = TRUE;
     foreach ($object as $category) {
-      $r &= preg_match("/r/", $this->get_complete_category_acls($dn, $category));
+      if (!strpos($this->get_complete_category_acls($dn, $category), 'r')) {
+        return FALSE;
+      }
     }
-    return $r;
+    return TRUE;
   }
 
   /*!
@@ -412,9 +413,9 @@ class userinfo
      */
     if ($this->ignore_acl_for_current_user()) {
       if ($skip_write) {
-        return "rcdm";
+        return 'rcdm';
       }
-      return "rwcdm";
+      return 'rwcdm';
     }
 
     /* Push cache answer? */
@@ -430,14 +431,14 @@ class userinfo
     /* Detect the set of ACLs we have to check for this object
      */
     $adn = $dn;
-    while (!isset($this->ACLperPath[$adn]) && (strpos($adn, ",") !== FALSE)) {
+    while (!isset($this->ACLperPath[$adn]) && (strpos($adn, ',') !== FALSE)) {
       $adn = preg_replace("/^[^,]*+,/", "", $adn);
     }
     if (isset($this->ACLperPath[$adn])) {
       $ACL = $this->ACLperPath[$adn];
     } else {
-      $ACL_CACHE["$dn+$object+$attribute"] = "";
-      return "";
+      $ACL_CACHE["$dn+$object+$attribute"] = '';
+      return '';
     }
 
     /* If we do not need to respect any user-filter settings
@@ -449,7 +450,7 @@ class userinfo
       if (isset($ACL_CACHE["$dn+$object+$attribute"])) {
         $ret = $ACL_CACHE["$dn+$object+$attribute"];
         if (!isset($ACL_CACHE["$orig_dn+$object+$attribute"])) {
-          $ACL_CACHE["$orig_dn+$object+$attribute"] = $ACL_CACHE["$dn+$object+$attribute"];
+          $ACL_CACHE["$orig_dn+$object+$attribute"] = $ret;
         }
         if ($skip_write) {
           $ret = str_replace('w', '', $ret);
@@ -458,18 +459,17 @@ class userinfo
       }
     }
 
-    /* Get ldap object, for later filter checks
-     */
+    /* Get ldap object, for later filter checks */
     $ldap = $config->get_ldap_link();
 
-    $acl = array("r" => "", "w" => "", "c" => "", "d" => "", "m" => "", "a" => "");
+    $acl = array('r' => '', 'w' => '', 'c' => '', 'd' => '', 'm' => '', 'a' => '');
 
     /* Build dn array */
     $path = explode(',', $dn);
     $path = array_reverse($path);
 
     /* Walk along the path to evaluate the acl */
-    $cpath = "";
+    $cpath = '';
     foreach ($path as $element) {
 
       /* Clean potential ACLs for each level */
@@ -513,7 +513,7 @@ class userinfo
           /* If attribute is "", we want to know, if we've *any* permissions here...
               Merge global class ACLs [0] with attributes specific ACLs [attribute].
            */
-          if ($attribute == "" && isset($subacl['acl'][$object])) {
+          if (($attribute == '') && isset($subacl['acl'][$object])) {
             foreach ($subacl['acl'][$object] as $attr => $dummy) {
               $acl = $this->mergeACL($acl, $subacl['type'], $subacl['acl'][$object][$attr]);
             }
@@ -540,7 +540,7 @@ class userinfo
 
           /* Category ACLs    (e.g. $object = "user/0")
            */
-          if (strstr($object, "/0")) {
+          if (strstr($object, '/0')) {
             $ocs = preg_replace("/\/0$/", "", $object);
             if (isset($config->data['CATEGORIES'][$ocs])) {
 
@@ -804,8 +804,8 @@ class userinfo
           $tmp = $this->get_permissions($dn, $category.'/'.$oc);
           $types = $acl;
           for ($i = 0, $l = strlen($types); $i < $l; $i++) {
-            if (!preg_match('/'.$types[$i].'/', $tmp)) {
-              $acl = preg_replace('/'.$types[$i].'/', '', $acl);
+            if (!strpos($tmp, $types[$i])) {
+              $acl = str_replace($types[$i], '', $acl);
             }
           }
         }

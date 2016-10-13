@@ -590,7 +590,7 @@ class config  {
         continue;
       }
 
-      $dn   = $ldap->getDN();
+      $dn   = $attrs['dn'];
       $data = objects::infos($oc);
       $this->department_info[$dn] = array(
         'img'         => $data['icon'],

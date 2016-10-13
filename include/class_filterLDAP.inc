@@ -148,9 +148,7 @@ class filterLDAP
       /* Crawl through result entries and perform the migration to the
          result array */
       while ($attrs = $ldap->fetch()) {
-        $dn = $ldap->getDN();
-
-        $attrs['dn'] = $dn;
+        $dn = $attrs['dn'];
 
         /* Skip ACL checks if we are forced to skip those checks */
         if (!$checkAcl) {
@@ -160,7 +158,7 @@ class filterLDAP
           $obj = $parent->headpage->getObjectTypeInfos($dn, $attrs);
           if (isset($obj['category'])) {
             $o = $obj['category'].'/'.$obj['class'];
-            if (preg_match('/r/', $ui->get_permissions($dn, $o))) {
+            if (strpos($ui->get_permissions($dn, $o), 'r')) {
               $result[] = $attrs;
             }
           } else {

@@ -276,7 +276,7 @@ class objects
       $ldap->search('(objectClass=fdTemplate)', array('cn'));
       if ($ldap->count() != 0) {
         while ($attrs = $ldap->fetch()) {
-          $dn = $ldap->getDN();
+          $dn = $attrs['dn'];
           if ($requiredPermissions != '') {
             if (!preg_match('/'.$requiredPermissions.'/', $ui->get_permissions($dn, $infos['aclCategory'].'/'.'template'))) {
               continue;

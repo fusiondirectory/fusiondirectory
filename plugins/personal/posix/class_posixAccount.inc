@@ -351,7 +351,7 @@ class posixAccount extends simplePlugin
           } else {
             $entry = $attrs['cn'][0].' ['.$attrs['description'][0].']';
           }
-          $groupMembership[$ldap->getDN()] = $entry;
+          $groupMembership[$attrs['dn']] = $entry;
         }
         asort($groupMembership);
         reset($groupMembership);
@@ -678,7 +678,7 @@ class posixAccount extends simplePlugin
     if ($ldap->count() != 0) {
       $attrs = $ldap->fetch();
       if ($attrs['cn'][0] == $this->getUid() && !isset($this->attrs['memberUid'])) {
-        $ldap->rmDir($ldap->getDN());
+        $ldap->rmDir($attrs['dn']);
       }
     }
   }
