@@ -443,7 +443,7 @@ class listing
         // Save rendered column
         $sort = preg_replace('/.*>([^<]+)<.*$/', '$1', $renderedCell);
         $sort = str_replace('&nbsp;', '', $sort);
-        if (strpos($sort, '<')) {
+        if (strpos($sort, '<') !== FALSE) {
           $sort = '';
         }
         $this->entries[$row]['_sort'.$index] = $sort;
@@ -1622,7 +1622,7 @@ class listing
 
     // Switch flags to on if there's at least one category which allows read/paste
     foreach ($this->categories as $category) {
-      $read   = $read || strpos($ui->get_category_permissions($this->base, $category), 'r');
+      $read   = $read || (strpos($ui->get_category_permissions($this->base, $category), 'r') !== FALSE);
       $paste  = $paste || ($ui->is_pasteable($this->base, $category) == 1);
     }
 
