@@ -55,7 +55,7 @@
 
     <column>
       <label>Properties</label>
-      <value>%{filter:filterProperties(row,dn)}</value>
+      <value>%{filter:filterProperties(row,dn,entry)}</value>
     </column>
 
     <column>
