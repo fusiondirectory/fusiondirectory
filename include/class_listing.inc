@@ -847,6 +847,9 @@ class listing
           case 'entry':
             $params[] = $cfg;
             break;
+          case 'objectType':
+            $params[] = $this->getObjectType($cfg['dn'], $cfg);
+            break;
           case 'dn':
             $params[] = LDAP::fix($cfg['dn']);
             break;

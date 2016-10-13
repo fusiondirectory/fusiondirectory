@@ -11,11 +11,7 @@
     <query>
       <backend>LDAP</backend>
       <filter>(&amp;(|(&amp;(objectClass=posixGroup)(|$PRIMARY$MAIL$SAMBA))$ROLE(&amp;(objectClass=groupOfNames)(|(gosaGroupObjects=[])$USER$GROUP$APPLICATION$SERVER$WORKSTATION$WINDOWS$TERMINAL$PRINTER$PHONE$SIMPLESECURITYOBJECT$UNKNOWN)))$NAME)</filter>
-      <attribute>dn</attribute>
-      <attribute>objectClass</attribute>
-      <attribute>cn</attribute>
-      <attribute>description</attribute>
-      <attribute>gosaGroupObjects</attribute>
+      <attribute>*</attribute>
     </query>
     <scope>auto</scope>
   </search>
