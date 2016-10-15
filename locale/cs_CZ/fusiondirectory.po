@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2016-09-27 18:37+0200\n"
+"POT-Creation-Date: 2016-10-15 17:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>, 2016\n"
 "Language-Team: Czech (Czech Republic) (https://www.transifex.com/fusiondirectory/teams/12202/cs_CZ/)\n"
@@ -31,7 +31,7 @@ msgstr "odkazy"
 
 #: plugins/admin/groups/class_roleGeneric.inc:55
 #: plugins/admin/groups/class_roleGeneric.inc:59
-#: plugins/admin/groups/class_groupManagement.inc:71
+#: plugins/admin/groups/class_groupManagement.inc:69
 #: plugins/admin/aclrole/class_aclRole.inc:77
 #: plugins/admin/acl/class_aclAssignment.inc:47
 msgid "Role"
@@ -57,8 +57,6 @@ msgstr "Informace"
 #: plugins/admin/aclrole/class_aclRole.inc:99
 #: include/simpleplugin/simple-select-list.xml:32
 #: include/simpleplugin/simple-list.xml:32
-#: plugins/admin/users/user-filter.tpl.c:20
-#: include/select/groupSelect/group-filter.tpl.c:14
 #: setup/setup_migrate_adminAccount.tpl.c:8
 msgid "Name"
 msgstr "název"
@@ -227,7 +225,7 @@ msgstr "členské objekty"
 msgid "Objects member of this group"
 msgstr "Objekty spadající do této skupiny"
 
-#: plugins/admin/groups/class_ogroup.inc:321
+#: plugins/admin/groups/class_ogroup.inc:320
 msgid ""
 "Putting both workstations and terminals in the same group is not allowed"
 msgstr "Není možné umístit počítače a terminály do jedné skupiny"
@@ -238,7 +236,7 @@ msgstr "seznam skupin"
 
 #: plugins/admin/groups/group-list.xml:54
 #: plugins/admin/departments/dep-list.xml:37
-#: plugins/admin/users/user-list.xml:62 include/class_listing.inc:1291
+#: plugins/admin/users/user-list.xml:62 include/class_listing.inc:1332
 #: include/simpleplugin/simple-list.xml:48
 msgid "Actions"
 msgstr "akce"
@@ -256,8 +254,8 @@ msgstr "vytvořit"
 #: plugins/admin/departments/dep-list.xml:79
 #: plugins/admin/users/user-list.xml:108
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:192
-#: include/simpleplugin/attributes/class_SetAttribute.inc:471
-#: include/simpleplugin/attributes/class_SetAttribute.inc:472
+#: include/simpleplugin/attributes/class_SetAttribute.inc:488
+#: include/simpleplugin/attributes/class_SetAttribute.inc:489
 #: include/simpleplugin/class_dialogAttributes.inc:645
 #: include/simpleplugin/class_dialogAttributes.inc:646
 #: include/simpleplugin/simple-list.xml:67
@@ -270,8 +268,8 @@ msgstr "upravit"
 #: plugins/admin/departments/dep-list.xml:67
 #: plugins/admin/departments/dep-list.xml:88
 #: plugins/admin/users/user-list.xml:115
-#: include/simpleplugin/attributes/class_FileAttribute.inc:320
-#: include/simpleplugin/attributes/class_FileAttribute.inc:321
+#: include/simpleplugin/attributes/class_FileAttribute.inc:327
+#: include/simpleplugin/attributes/class_FileAttribute.inc:328
 #: include/simpleplugin/class_dialogAttributes.inc:655
 #: include/simpleplugin/class_dialogAttributes.inc:656
 #: include/simpleplugin/simple-list.xml:75
@@ -292,74 +290,74 @@ msgstr "Spravovat skupiny a role"
 msgid "Allows you to manage object groups, POSIX groups and roles"
 msgstr ""
 
-#: plugins/admin/groups/class_groupManagement.inc:71
+#: plugins/admin/groups/class_groupManagement.inc:69
 msgid "Edit role properties"
 msgstr "Upravit vlastnosti role"
 
-#: plugins/admin/groups/class_groupManagement.inc:87
+#: plugins/admin/groups/class_groupManagement.inc:85
 msgid "Posix"
 msgstr "POSIX"
 
-#: plugins/admin/groups/class_groupManagement.inc:87
+#: plugins/admin/groups/class_groupManagement.inc:85
 msgid "Edit posix properties"
 msgstr "upravit POSIXové vlastnosti"
 
-#: plugins/admin/groups/class_groupManagement.inc:130
+#: plugins/admin/groups/class_groupManagement.inc:128
 msgid "Show user groups"
 msgstr "Zobrazit skupiny uživatele"
 
-#: plugins/admin/groups/class_groupManagement.inc:131
+#: plugins/admin/groups/class_groupManagement.inc:129
 #: include/select/groupSelect/group-filter.tpl.c:5
 msgid "Show primary groups"
 msgstr "zobrazovat primární skupiny"
 
-#: plugins/admin/groups/class_groupManagement.inc:132
+#: plugins/admin/groups/class_groupManagement.inc:130
 msgid "Show organizational roles"
 msgstr "Zobrazit organizační úlohy"
 
-#: plugins/admin/groups/class_groupManagement.inc:133
+#: plugins/admin/groups/class_groupManagement.inc:131
 msgid "Show application groups"
 msgstr "Zobrazit skupiny aplikací"
 
-#: plugins/admin/groups/class_groupManagement.inc:134
+#: plugins/admin/groups/class_groupManagement.inc:132
 msgid "Show unidentified groups"
 msgstr ""
 
-#: plugins/admin/groups/class_groupManagement.inc:137
+#: plugins/admin/groups/class_groupManagement.inc:135
 #: include/select/groupSelect/group-filter.tpl.c:11
 msgid "Show mail groups"
 msgstr "zobrazovat e-mailové skupiny"
 
-#: plugins/admin/groups/class_groupManagement.inc:140
+#: plugins/admin/groups/class_groupManagement.inc:138
 #: include/select/groupSelect/group-filter.tpl.c:8
 msgid "Show samba groups"
 msgstr "zobrazovat skupiny Samby"
 
-#: plugins/admin/groups/class_groupManagement.inc:143
+#: plugins/admin/groups/class_groupManagement.inc:141
 msgid "Show DSA entries"
 msgstr ""
 
-#: plugins/admin/groups/class_groupManagement.inc:149
+#: plugins/admin/groups/class_groupManagement.inc:147
 msgid "Show server groups"
 msgstr "Zobrazit skupiny serverů"
 
-#: plugins/admin/groups/class_groupManagement.inc:150
+#: plugins/admin/groups/class_groupManagement.inc:148
 msgid "Show workstation groups"
 msgstr "Zobrazit skupiny počítačů"
 
-#: plugins/admin/groups/class_groupManagement.inc:151
+#: plugins/admin/groups/class_groupManagement.inc:149
 msgid "Show windows groups"
 msgstr "Zobrazit skupiny počítačů s MS Windows"
 
-#: plugins/admin/groups/class_groupManagement.inc:152
+#: plugins/admin/groups/class_groupManagement.inc:150
 msgid "Show terminal groups"
 msgstr "Zobrazit skupiny terminálů"
 
-#: plugins/admin/groups/class_groupManagement.inc:153
+#: plugins/admin/groups/class_groupManagement.inc:151
 msgid "Show printer groups"
 msgstr "Zobrazit skupiny tiskáren"
 
-#: plugins/admin/groups/class_groupManagement.inc:154
+#: plugins/admin/groups/class_groupManagement.inc:152
 msgid "Show phone groups"
 msgstr "Zobrazit skupiny telefonů"
 
@@ -565,7 +563,7 @@ msgstr "Ze šablony"
 
 #: plugins/admin/users/user-list.xml:95 include/class_template.inc:41
 #: include/simpleplugin/class_simpleManagement.inc:205
-#: include/simpleplugin/class_simpleManagement.inc:402
+#: include/simpleplugin/class_simpleManagement.inc:401
 #: ihtml/themes/breezy/template.tpl.c:5
 msgid "Template"
 msgstr "šablona"
@@ -586,15 +584,15 @@ msgstr "aplikovat šablonu"
 msgid "New user from template"
 msgstr "vytvořit nového uživatele pomocí šablony"
 
-#: plugins/admin/users/user-list.xml:190
+#: plugins/admin/users/user-list.xml:189
 msgid "Edit user"
 msgstr "upravit uživatele"
 
-#: plugins/admin/users/user-list.xml:199
+#: plugins/admin/users/user-list.xml:198
 msgid "%{filter:lockLabel(userPassword)}"
 msgstr "%{filter:lockLabel(userPassword)}"
 
-#: plugins/admin/users/user-list.xml:213
+#: plugins/admin/users/user-list.xml:212
 msgid "Remove user"
 msgstr "odebrat uživatele"
 
@@ -612,20 +610,20 @@ msgstr "spravovat uživatele"
 msgid "Manage user accounts and their properties"
 msgstr ""
 
-#: plugins/admin/users/class_userManagement.inc:149
+#: plugins/admin/users/class_userManagement.inc:153
 #: include/class_management.inc:329 include/class_management.inc:347
 #: include/class_CopyPasteHandler.inc:209
-#: include/simpleplugin/class_simpleManagement.inc:672
-#: include/simpleplugin/class_simpleManagement.inc:772
-#: include/simpleplugin/class_simpleManagement.inc:823
+#: include/simpleplugin/class_simpleManagement.inc:671
+#: include/simpleplugin/class_simpleManagement.inc:771
+#: include/simpleplugin/class_simpleManagement.inc:822
 msgid "Permission"
 msgstr "oprávnění"
 
-#: plugins/admin/users/class_userManagement.inc:187
+#: plugins/admin/users/class_userManagement.inc:191
 msgid "Account locking"
 msgstr "zamykání účtu"
 
-#: plugins/admin/users/class_userManagement.inc:188
+#: plugins/admin/users/class_userManagement.inc:192
 #, php-format
 msgid ""
 "Password method \"%s\" does not support locking. Account \"%s\" has not been"
@@ -634,20 +632,20 @@ msgstr ""
 "Způsob ukládání hesel %s neumožňuje uzamykání účtů. Účet %s proto nebyl "
 "uzamčen!"
 
-#: plugins/admin/users/class_userManagement.inc:214
+#: plugins/admin/users/class_userManagement.inc:218
 msgid "Unlock account"
 msgstr "povolit účet"
 
-#: plugins/admin/users/class_userManagement.inc:216
+#: plugins/admin/users/class_userManagement.inc:220
 msgid "Lock account"
 msgstr "zamknout účet"
 
-#: plugins/admin/users/class_userManagement.inc:243
+#: plugins/admin/users/class_userManagement.inc:245
 #: plugins/personal/generic/class_user.inc:285
 msgid "User account"
 msgstr "Uživatelský účet"
 
-#: plugins/admin/users/class_userManagement.inc:243
+#: plugins/admin/users/class_userManagement.inc:245
 #: plugins/personal/generic/class_user.inc:279
 msgid "User account information"
 msgstr "Informace o uživatelském účtu"
@@ -667,8 +665,8 @@ msgstr "upravit ACL kategorie"
 
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:194
 #: include/class_msgPool.inc:540
-#: include/simpleplugin/attributes/class_SetAttribute.inc:481
-#: include/simpleplugin/attributes/class_SetAttribute.inc:482
+#: include/simpleplugin/attributes/class_SetAttribute.inc:498
+#: include/simpleplugin/attributes/class_SetAttribute.inc:499
 #, php-format
 msgid "Delete"
 msgstr "smazat"
@@ -808,7 +806,7 @@ msgid "Manage ACL roles assignments to users"
 msgstr ""
 
 #: plugins/admin/acl/class_aclManagement.inc:209
-#: plugins/admin/acl/class_aclAssignment.inc:261
+#: plugins/admin/acl/class_aclAssignment.inc:266
 msgid "ACL Assignment"
 msgstr "přiřazení ACL"
 
@@ -857,23 +855,23 @@ msgstr "členové"
 msgid "Users or groups to assign this role to."
 msgstr "Uživatelé či skupiny, kterým má být tato role přiřazena"
 
-#: plugins/admin/acl/class_aclAssignment.inc:247
+#: plugins/admin/acl/class_aclAssignment.inc:252
 msgid "ACL assignment"
 msgstr "Přiřazení ACL"
 
-#: plugins/admin/acl/class_aclAssignment.inc:262
+#: plugins/admin/acl/class_aclAssignment.inc:267
 msgid "Access control roles assignment"
 msgstr "Přiřazení úlohy řízení přístupu"
 
-#: plugins/admin/acl/class_aclAssignment.inc:281
+#: plugins/admin/acl/class_aclAssignment.inc:286
 msgid "Assignments"
 msgstr "Přiřazení"
 
-#: plugins/admin/acl/class_aclAssignment.inc:285
+#: plugins/admin/acl/class_aclAssignment.inc:290
 msgid "ACL role assignments for this base"
 msgstr "Přiřazení ACL úlohy pro tento základ"
 
-#: plugins/admin/acl/class_aclAssignment.inc:296
+#: plugins/admin/acl/class_aclAssignment.inc:301
 #, php-format
 msgid "Assignments on object or subtree %s"
 msgstr "Přiřazení na objektu či podstromu %s"
@@ -2167,15 +2165,15 @@ msgstr ""
 "Uživatelské jméno je samozřejmě pořád stejné – %s"
 
 #: plugins/config/class_recoveryConfig.inc:132 include/class_config.inc:322
-#: include/class_ldap.inc:926 include/class_ldap.inc:1310
-#: include/functions.inc:520 include/functions.inc:675
-#: include/functions.inc:722 include/functions.inc:822
-#: include/functions.inc:2908 include/functions.inc:3110
-#: include/simpleplugin/attributes/class_SetAttribute.inc:710
+#: include/class_ldap.inc:906 include/class_ldap.inc:1266
+#: include/functions.inc:513 include/functions.inc:669
+#: include/functions.inc:716 include/functions.inc:816
+#: include/functions.inc:2633 include/functions.inc:2835
+#: include/simpleplugin/attributes/class_SetAttribute.inc:729
 #: include/password-methods/class_password-methods.inc:187
-#: include/class_SnapshotHandler.inc:48 include/class_SnapshotHandler.inc:247
-#: include/class_SnapshotHandler.inc:277 include/class_SnapshotHandler.inc:293
-#: include/class_SnapshotHandler.inc:426 include/class_SnapshotHandler.inc:429
+#: include/class_SnapshotHandler.inc:53 include/class_SnapshotHandler.inc:284
+#: include/class_SnapshotHandler.inc:314 include/class_SnapshotHandler.inc:330
+#: include/class_SnapshotHandler.inc:470 include/class_SnapshotHandler.inc:473
 #: html/index.php:371 html/class_passwordRecovery.inc:531
 #: setup/class_setupStep_Migrate.inc:452
 #: setup/class_setupStep_Migrate.inc:1128
@@ -2234,44 +2232,43 @@ msgstr "Zásuvné moduly"
 msgid "Configuration for plugins"
 msgstr "Nastavení zásuvných modulů"
 
-#: include/class_listing.inc:307 include/class_listing.inc:1155
-#: include/class_listing.inc:1157
+#: include/class_listing.inc:313 include/class_listing.inc:1196
+#: include/class_listing.inc:1198
 msgid "Up"
 msgstr "nahoru"
 
-#: include/class_listing.inc:307
+#: include/class_listing.inc:313
 msgid "Down"
 msgstr "dolů"
 
-#: include/class_listing.inc:307
-#: include/simpleplugin/attributes/class_SetAttribute.inc:443
-#: include/simpleplugin/attributes/class_SetAttribute.inc:444
+#: include/class_listing.inc:313
+#: include/simpleplugin/attributes/class_SetAttribute.inc:460
+#: include/simpleplugin/attributes/class_SetAttribute.inc:461
 msgid "Sort up"
 msgstr "Seřadit vzestupně"
 
-#: include/class_listing.inc:307
-#: include/simpleplugin/attributes/class_SetAttribute.inc:456
-#: include/simpleplugin/attributes/class_SetAttribute.inc:457
+#: include/class_listing.inc:313
+#: include/simpleplugin/attributes/class_SetAttribute.inc:473
+#: include/simpleplugin/attributes/class_SetAttribute.inc:474
 msgid "Sort down"
 msgstr "Seřadit sestupně"
 
-#: include/class_listing.inc:368 setup/setup_migrate_gosaAccounts.tpl.c:23
+#: include/class_listing.inc:374 setup/setup_migrate_gosaAccounts.tpl.c:23
 msgid "Select all"
 msgstr "vybrat vše"
 
-#: include/class_listing.inc:538 include/class_management.inc:459
-#: include/class_config.inc:357 include/class_msgPool.inc:220
-#: include/class_msgPool.inc:240 include/class_msgPool.inc:270
-#: include/class_msgPool.inc:722 include/class_msgPool.inc:749
-#: include/functions.inc:3078 include/functions.inc:3118
-#: include/functions.inc:3130 include/functions.inc:3134
-#: include/functions.inc:3141 include/functions.inc:3150
-#: include/functions.inc:3212 include/class_msg_dialog.inc:136
-#: include/class_templateHandling.inc:391
+#: include/class_listing.inc:551 include/class_config.inc:357
+#: include/class_msgPool.inc:220 include/class_msgPool.inc:240
+#: include/class_msgPool.inc:270 include/class_msgPool.inc:722
+#: include/class_msgPool.inc:749 include/functions.inc:2803
+#: include/functions.inc:2843 include/functions.inc:2855
+#: include/functions.inc:2859 include/functions.inc:2866
+#: include/functions.inc:2875 include/functions.inc:2937
+#: include/class_msg_dialog.inc:136 include/class_msg_dialog.inc:172
 #: include/simpleplugin/attributes/class_FileAttribute.inc:31
 #: include/simpleplugin/attributes/class_FileAttribute.inc:34
 #: include/simpleplugin/attributes/class_FileAttribute.inc:37
-#: include/simpleplugin/attributes/class_FileAttribute.inc:284
+#: include/simpleplugin/attributes/class_FileAttribute.inc:291
 #: include/simpleplugin/attributes/class_BaseSelectorAttribute.inc:87
 #: include/simpleplugin/attributes/class_BaseSelectorAttribute.inc:89
 #: include/simpleplugin/class_simpleTabs.inc:70
@@ -2279,83 +2276,83 @@ msgstr "vybrat vše"
 #: include/password-methods/class_password-methods-sasl.inc:86
 #: include/password-methods/class_password-methods.inc:400
 #: include/password-methods/class_password-methods.inc:410
-#: include/class_SnapshotHandler.inc:419 html/index.php:453 html/index.php:474
+#: include/class_SnapshotHandler.inc:463 html/index.php:453 html/index.php:474
 #: html/index.php:484 html/index.php:546 html/index.php:556
 #: ihtml/themes/breezy/msg_dialog.tpl.c:2 setup/setup_checks.tpl.c:5
 msgid "Error"
 msgstr "chyba"
 
-#: include/class_listing.inc:579
+#: include/class_listing.inc:592
 msgid "created by"
 msgstr "vytvořeno (kým)"
 
-#: include/class_listing.inc:1147
+#: include/class_listing.inc:1188
 msgid "Go to root department"
 msgstr "přejít do kořene všech oddělení"
 
-#: include/class_listing.inc:1147 include/class_listing.inc:1149
+#: include/class_listing.inc:1188 include/class_listing.inc:1190
 #: include/class_baseSelector.inc:210
 msgid "Root"
 msgstr "kořen"
 
-#: include/class_listing.inc:1155
+#: include/class_listing.inc:1196
 msgid "Go up one department"
 msgstr "přejít o jedno oddělení výše"
 
-#: include/class_listing.inc:1163
+#: include/class_listing.inc:1204
 msgid "Go to user's department"
 msgstr "Přejít do oddělení uživatele"
 
-#: include/class_listing.inc:1163 include/class_listing.inc:1165
+#: include/class_listing.inc:1204 include/class_listing.inc:1206
 msgid "Home"
 msgstr "domovské"
 
-#: include/class_listing.inc:1170
+#: include/class_listing.inc:1211
 msgid "Reload list"
 msgstr "znovunačtení seznamu"
 
-#: include/class_listing.inc:1170 include/class_baseSelector.inc:262
+#: include/class_listing.inc:1211 include/class_baseSelector.inc:262
 msgid "Submit"
 msgstr "odeslat"
 
-#: include/class_listing.inc:1598 include/class_listing.inc:1651
+#: include/class_listing.inc:1645 include/class_listing.inc:1698
 msgid "Copy"
 msgstr "zkopírovat"
 
-#: include/class_listing.inc:1604 include/class_listing.inc:1639
+#: include/class_listing.inc:1651 include/class_listing.inc:1686
 msgid "Cut"
 msgstr "vyjmout"
 
-#: include/class_listing.inc:1612 include/class_listing.inc:1614
+#: include/class_listing.inc:1659 include/class_listing.inc:1661
 #: include/class_CopyPasteHandler.inc:337
 msgid "Paste"
 msgstr "vložit"
 
-#: include/class_listing.inc:1639
+#: include/class_listing.inc:1686
 msgid "Cut this entry"
 msgstr "vyjmout tuto položku"
 
-#: include/class_listing.inc:1651
+#: include/class_listing.inc:1698
 msgid "Copy this entry"
 msgstr "kopírovat tuto položku"
 
-#: include/class_listing.inc:1684 include/class_listing.inc:1686
+#: include/class_listing.inc:1730 include/class_listing.inc:1732
 msgid "Restore snapshots"
 msgstr "obnovit ze snímků"
 
-#: include/class_listing.inc:1700
+#: include/class_listing.inc:1746
 msgid "Export list"
 msgstr "exportovat seznam"
 
-#: include/class_listing.inc:1732 include/class_listing.inc:1733
+#: include/class_listing.inc:1778 include/class_listing.inc:1779
 msgid "Restore snapshot"
 msgstr "obnovit ze snímku"
 
-#: include/class_listing.inc:1745
+#: include/class_listing.inc:1791
 msgid "Create snapshot"
 msgstr "vytvořit snímek"
 
-#: include/class_listing.inc:1746
+#: include/class_listing.inc:1792
 msgid "Create a new snapshot from this object"
 msgstr "vytvořit nový snímek tohoto objektu"
 
@@ -2368,17 +2365,10 @@ msgid "The filter is incomplete!"
 msgstr "Tento filtr je neúplný!"
 
 #: include/class_management.inc:329 include/class_management.inc:347
-#: include/simpleplugin/class_simpleManagement.inc:823
+#: include/simpleplugin/class_simpleManagement.inc:822
 #, php-format
 msgid "You are not allowed to restore a snapshot for %s."
 msgstr "Nejste oprávněn(a) obnovit ze snímku %s."
-
-#: include/class_management.inc:459
-#, php-format
-msgid ""
-"No tab declaration for '%s' found in your configuration file. Cannot create "
-"plugin instance!"
-msgstr ""
 
 #: include/class_config.inc:156
 #, php-format
@@ -2386,8 +2376,8 @@ msgid "XML error in fusiondirectory.conf: %s at line %d"
 msgstr "Chybné XML ve fusiondirectory.conf: %s na řádku %d"
 
 #: include/class_config.inc:159 include/class_config.inc:284
-#: include/class_config.inc:855 include/class_config.inc:868
-#: include/functions.inc:657 include/class_timezone.inc:51
+#: include/class_config.inc:811 include/class_config.inc:824
+#: include/functions.inc:651 include/class_timezone.inc:51
 #: include/password-methods/class_password-methods-sha.inc:63
 #: include/password-methods/class_password-methods-ssha.inc:67
 #: include/password-methods/class_password-methods-ssha.inc:83
@@ -2411,7 +2401,7 @@ msgstr "Nedaří se přihlášení do LDAPu. Kontaktujte prosím správce systé
 msgid "Location \"%s\" could not be found in the configuration file"
 msgstr ""
 
-#: include/class_config.inc:856
+#: include/class_config.inc:812
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required variable '%s' is not"
@@ -2420,7 +2410,7 @@ msgstr ""
 "Pořizování snímků je sice povolené, ale není nastavena potřebná proměnná "
 "'%s'."
 
-#: include/class_config.inc:869
+#: include/class_config.inc:825
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required compression module "
@@ -2429,34 +2419,34 @@ msgstr ""
 "Pořizování snímků je sice povolené, ale chybí modul pro jejich kompresi. "
 "Nainstalujte prosím '%s'."
 
-#: include/class_config.inc:978
+#: include/class_config.inc:934
 msgid "All categories"
 msgstr "všechny kategorie"
 
-#: include/class_config.inc:1107
+#: include/class_config.inc:1063
 msgid "My account"
 msgstr "můj účet"
 
-#: include/class_ldap.inc:329 include/class_ldap.inc:376
+#: include/class_ldap.inc:339
 msgid "Performance warning"
 msgstr "varování ohledně výkonu"
 
-#: include/class_ldap.inc:329 include/class_ldap.inc:376
+#: include/class_ldap.inc:339
 #, php-format
 msgid "LDAP performance is poor: last query took about %.2fs!"
 msgstr "Výkonnost LDAPu je špatná: poslední dotaz trval celých %.2fs!"
 
-#: include/class_ldap.inc:875 include/class_ldap.inc:913
-#: include/functions.inc:562 include/functions.inc:647
-#: include/functions.inc:770 include/functions.inc:2246
-#: include/functions.inc:2285 include/functions.inc:2316
+#: include/class_ldap.inc:855 include/class_ldap.inc:893
+#: include/functions.inc:555 include/functions.inc:641
+#: include/functions.inc:764 include/functions.inc:1971
+#: include/functions.inc:2010 include/functions.inc:2041
 #: include/class_session.inc:50 include/class_session.inc:88
 #: include/class_session.inc:127 include/class_acl.inc:118
 #: include/class_logging.inc:80
 msgid "Internal error"
 msgstr "vnitřní chyba"
 
-#: include/class_ldap.inc:875
+#: include/class_ldap.inc:855
 #, php-format
 msgid ""
 "Cannot automatically create subtrees with RDN \"%s\": no object class found!"
@@ -2464,51 +2454,51 @@ msgstr ""
 "Podstromy s RDN %s se nedaří automaticky vytvářet: nebyla nalezena žádná "
 "třída objektu!"
 
-#: include/class_ldap.inc:913
+#: include/class_ldap.inc:893
 #, php-format
 msgid "Cannot automatically create subtrees with RDN \"%s\": not supported"
 msgstr "Nedaří se automaticky vytvořit podstromy s RDN %s: nepodporováno"
 
-#: include/class_ldap.inc:1025
+#: include/class_ldap.inc:981
 #, php-format
 msgid "while operating on '%s' using LDAP server '%s'"
 msgstr "při operaci na '%s' na LDAP serveru '%s'"
 
-#: include/class_ldap.inc:1027
+#: include/class_ldap.inc:983
 #, php-format
 msgid "while operating on LDAP server %s"
 msgstr "při operaci na LDAP serveru '%s'"
 
-#: include/class_ldap.inc:1117
+#: include/class_ldap.inc:1073
 msgid "proc_open failed to execute ldapsearch"
 msgstr "proc_open se nezdařilo vykonat ldapsearch"
 
-#: include/class_ldap.inc:1164
+#: include/class_ldap.inc:1120
 #, php-format
 msgid "Error line %s, first line of an entry cannot start with a space"
 msgstr ""
 
-#: include/class_ldap.inc:1182
+#: include/class_ldap.inc:1138
 #, php-format
 msgid "Error line %s, references to an external file are not supported"
 msgstr ""
 
-#: include/class_ldap.inc:1185
+#: include/class_ldap.inc:1141
 #, php-format
 msgid "Error line %s, attribute \"%s\" has no value"
 msgstr ""
 
-#: include/class_ldap.inc:1189
+#: include/class_ldap.inc:1145
 #, php-format
 msgid "Error line %s, an entry bloc can only have one dn"
 msgstr ""
 
-#: include/class_ldap.inc:1194
+#: include/class_ldap.inc:1150
 #, php-format
 msgid "Error line %s, an entry bloc should start with the dn"
 msgstr ""
 
-#: include/class_ldap.inc:1225
+#: include/class_ldap.inc:1181
 #, php-format
 msgid "Error while importing dn: \"%s\", please check your LDIF from line %s on!"
 msgstr ""
@@ -2743,7 +2733,7 @@ msgid "'%s' depends on '%s' - please provide both values!"
 msgstr "'%s' závisí na '%s' – zadejte prosím obě hodnoty!"
 
 #: include/class_msgPool.inc:406 include/class_msgPool.inc:429
-#: include/simpleplugin/attributes/class_SetAttribute.inc:569
+#: include/simpleplugin/attributes/class_SetAttribute.inc:586
 #, php-format
 msgid "\"%s\""
 msgstr ""
@@ -3106,13 +3096,13 @@ msgstr ""
 "Nově zadaná hodnota základu není platná a proto je stále používána "
 "předchozí!"
 
-#: include/functions.inc:104
+#: include/functions.inc:97
 #, php-format
 msgid "Fatal error: no class locations defined - please run '%s' to fix this"
 msgstr ""
 "fatální chyba: není určeno umístění třídy – pro nápravu prosím spusťe '%s'"
 
-#: include/functions.inc:123
+#: include/functions.inc:116
 #, php-format
 msgid ""
 "Fatal error: cannot instantiate class '%s' - try running '%s' to fix this"
@@ -3121,7 +3111,7 @@ msgstr ""
 "spuštěním '%s' --update-cache (na serveru) a restartujte svůj webový "
 "prohlížeč"
 
-#: include/functions.inc:490 include/functions.inc:3247
+#: include/functions.inc:483 include/functions.inc:2972
 #: include/simpleplugin/class_simplePlugin.inc:441
 #: include/simpleplugin/class_simplePlugin.inc:446
 #: include/simpleplugin/class_simplePlugin.inc:458
@@ -3129,12 +3119,12 @@ msgstr ""
 msgid "Fatal error"
 msgstr "fatální chyba"
 
-#: include/functions.inc:491
+#: include/functions.inc:484
 #, php-format
 msgid "FATAL: Error when connecting the LDAP. Server said '%s'."
 msgstr "FATÁLNÍ: chyba při připojování do LDAPu. Server ohlásil '%s'."
 
-#: include/functions.inc:562
+#: include/functions.inc:555
 msgid ""
 "Login (uid) is not unique inside the LDAP tree. Please contact your "
 "administrator."
@@ -3142,11 +3132,11 @@ msgstr ""
 "Přihlašovací údaj (uid) není v rámci LDAP stromu jedinečný! Kontaktujte "
 "svého správce systémů."
 
-#: include/functions.inc:595
+#: include/functions.inc:589
 msgid "Authentication error"
 msgstr "chyba ověření"
 
-#: include/functions.inc:596
+#: include/functions.inc:590
 msgid ""
 "It seems your user password has expired. Please use <a "
 "href=\"recovery.php\">password recovery</a> to change it."
@@ -3154,12 +3144,12 @@ msgstr ""
 "Zdá se, že platnost vašeho hesla skončila. Změňte jej pomocí funkce <a "
 "href=\"recovery.php\">obnovení hesla</a>."
 
-#: include/functions.inc:647 include/functions.inc:770
+#: include/functions.inc:641 include/functions.inc:764
 msgid "Error while adding a lock. Contact the developers!"
 msgstr ""
 "Nastala chyba při pokusu o přidání zámku. Nahlaste to prosím vývojářům!"
 
-#: include/functions.inc:657
+#: include/functions.inc:651
 #, php-format
 msgid ""
 "Cannot create locking information in LDAP tree. Please contact your "
@@ -3168,13 +3158,13 @@ msgstr ""
 "Nemohu vytvořit informaci o zamykání ve stromu LDAPu. Kontaktujte prosím "
 "svého správce systémů!"
 
-#: include/functions.inc:657
+#: include/functions.inc:651
 #, php-format
 msgid "LDAP server returned: %s"
 msgstr "LDAP server odpověděl: %s"
 
-#: include/functions.inc:838 include/functions.inc:2444
-#: include/functions.inc:3029 include/functions.inc:3050 html/index.php:597
+#: include/functions.inc:832 include/functions.inc:2169
+#: include/functions.inc:2754 include/functions.inc:2775 html/index.php:597
 #: html/main.php:158 setup/class_setupStep_Ldap.inc:199
 #: setup/class_setupStep_Migrate.inc:573
 #: setup/class_setupStep_Migrate.inc:1081
@@ -3187,7 +3177,7 @@ msgstr "LDAP server odpověděl: %s"
 msgid "Warning"
 msgstr "varování"
 
-#: include/functions.inc:838
+#: include/functions.inc:832
 msgid ""
 "Found multiple locks for object to be locked. This should not happen - "
 "cleaning up multiple references."
@@ -3195,12 +3185,12 @@ msgstr ""
 "Při pokusu o vyhrazení přístupu k objektu bylo nalezeno několik již "
 "existujících zámků. To by se nemělo stávat – probíhá jejich odstraňování."
 
-#: include/functions.inc:1109
+#: include/functions.inc:861
 #, php-format
 msgid "The size limit of %d entries is exceed!"
 msgstr "Limit velikosti položek %d je překročen!"
 
-#: include/functions.inc:1111
+#: include/functions.inc:863
 #, php-format
 msgid ""
 "Set the new size limit to %s and show me this message if the limit still "
@@ -3209,85 +3199,85 @@ msgstr ""
 "nastavit novou hodnotu limitu %s a v případě, že ani to nebude stačit, "
 "zobrazit toto hlášení znovu"
 
-#: include/functions.inc:1128
+#: include/functions.inc:880
 msgid "Configure"
 msgstr "nastavit"
 
-#: include/functions.inc:1133
+#: include/functions.inc:885
 msgid "incomplete"
 msgstr "neúplné"
 
-#: include/functions.inc:1510
+#: include/functions.inc:1262
 msgid "Continue anyway"
 msgstr "přesto pokračovat"
 
-#: include/functions.inc:1512
+#: include/functions.inc:1264
 msgid "Edit anyway"
 msgstr "přesto upravit"
 
-#: include/functions.inc:1514
+#: include/functions.inc:1266
 #, php-format
 msgid "You're going to edit the LDAP entry/entries %s"
 msgstr "chystáte se upravit položky LDAPu %s"
 
-#: include/functions.inc:1769
+#: include/functions.inc:1494
 msgid "Entries per page"
 msgstr "položek na stránku"
 
-#: include/functions.inc:1800 include/class_filter.inc:353
+#: include/functions.inc:1525 include/class_filter.inc:353
 msgid "Apply filter"
 msgstr "použít filtr"
 
-#: include/functions.inc:2068
+#: include/functions.inc:1793
 #, php-format
 msgid "%sB"
 msgstr "%sB"
 
-#: include/functions.inc:2069
+#: include/functions.inc:1794
 #, php-format
 msgid "%sKiB"
 msgstr "%sKiB"
 
-#: include/functions.inc:2070
+#: include/functions.inc:1795
 #, php-format
 msgid "%sMiB"
 msgstr "%sMiB"
 
-#: include/functions.inc:2071
+#: include/functions.inc:1796
 #, php-format
 msgid "%sGiB"
 msgstr "%sGiB"
 
-#: include/functions.inc:2072
+#: include/functions.inc:1797
 #, php-format
 msgid "%sTiB"
 msgstr "%sTiB"
 
-#: include/functions.inc:2073
+#: include/functions.inc:1798
 #, php-format
 msgid "%sPiB"
 msgstr "%sPiB"
 
-#: include/functions.inc:2074
+#: include/functions.inc:1799
 #, php-format
 msgid "%sEiB"
 msgstr "%sEiB"
 
-#: include/functions.inc:2075
+#: include/functions.inc:1800
 #, php-format
 msgid "%sZiB"
 msgstr "%sZiB"
 
-#: include/functions.inc:2076
+#: include/functions.inc:1801
 #, php-format
 msgid "%sYiB"
 msgstr "%sYiB"
 
-#: include/functions.inc:2108 include/class_filter.inc:315
+#: include/functions.inc:1833 include/class_filter.inc:315
 msgid "*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 msgstr "*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
-#: include/functions.inc:2246
+#: include/functions.inc:1971
 #, php-format
 msgid ""
 "File '%s' could not be deleted. Try fusiondirectory-setup --check-"
@@ -3296,64 +3286,64 @@ msgstr ""
 "Soubor %s nebylo možné smazat. Zkuste opravit přístupová práva spuštěním "
 "příkazu fusiondirectory-setup --check-directories"
 
-#: include/functions.inc:2285
+#: include/functions.inc:2010
 msgid "Cannot write to revision file!"
 msgstr "Nelze zapsat do souboru s revizemi!"
 
-#: include/functions.inc:2316
+#: include/functions.inc:2041
 msgid "Cannot read revision file!"
 msgstr ""
 
-#: include/functions.inc:2444
+#: include/functions.inc:2169
 msgid "'nextIdHook' is not available. Using default base!"
 msgstr "nextIdHook není k dispozici. Bude použit výchozí základ!"
 
-#: include/functions.inc:2462
+#: include/functions.inc:2187
 msgid "LDAP warning"
 msgstr "varování LDAPu"
 
-#: include/functions.inc:2462
+#: include/functions.inc:2187
 msgid "Cannot get schema information from server. No schema check possible!"
 msgstr ""
 "Nedaří se získat informace o schématech ze serveru. Schémata proto nelze "
 "ověřit!"
 
-#: include/functions.inc:2485
+#: include/functions.inc:2210
 msgid "Main FusionDirectory schema"
 msgstr ""
 
-#: include/functions.inc:2492
+#: include/functions.inc:2217
 msgid "Schema used to store FusionDirectory configuration"
 msgstr ""
 
-#: include/functions.inc:2499
+#: include/functions.inc:2224
 msgid "Used to store trust mode information in users or groups."
 msgstr ""
 
-#: include/functions.inc:2506
+#: include/functions.inc:2231
 msgid "Used to store templates."
 msgstr ""
 
-#: include/functions.inc:2513
+#: include/functions.inc:2238
 msgid "Used to store POSIX information."
 msgstr ""
 
-#: include/functions.inc:2520
+#: include/functions.inc:2245
 #, php-format
 msgid "Missing required object class \"%s\"!"
 msgstr ""
 
-#: include/functions.inc:2522
+#: include/functions.inc:2247
 #, php-format
 msgid "Missing optional object class \"%s\"!"
 msgstr ""
 
-#: include/functions.inc:2526
+#: include/functions.inc:2251
 #, php-format
 msgid "Class(es) available"
 msgstr "dostupné třídy"
 
-#: include/functions.inc:2544
+#: include/functions.inc:2269
 msgid ""
 "You have installed the mixed groups plugin, but your schema configuration "
 "does not support this."
@@ -3361,7 +3351,7 @@ msgstr ""
 "Zásuvný modul smíšených skupin je nainstalován, ale vaše nastavení schématu "
 "ho nepodporuje."
 
-#: include/functions.inc:2545
+#: include/functions.inc:2270
 msgid ""
 "In order to use mixed groups the objectClass \"posixGroup\" must be "
 "AUXILIARY"
@@ -3369,7 +3359,7 @@ msgstr ""
 "Aby bylo možné použít smíšené skupiny v objectClass posixGroup, je třeba aby"
 " byly POMOCNÉ"
 
-#: include/functions.inc:2548
+#: include/functions.inc:2273
 msgid ""
 "Your schema is configured to support mixed groups, but this plugin is not "
 "present."
@@ -3377,48 +3367,48 @@ msgstr ""
 "Stávající schéma je nastaveno pro smíšené skupiny, ale není přítomen "
 "příslušný zásuvný modul."
 
-#: include/functions.inc:2549
+#: include/functions.inc:2274
 msgid "The objectClass \"posixGroup\" must be STRUCTURAL"
 msgstr "Je třeba, aby ObjectClass posixGroup bylo STRUKTURÁLNÍ"
 
-#: include/functions.inc:3029
+#: include/functions.inc:2754
 #, php-format
 msgid "Unknown ID allocation method \"%s\"!"
 msgstr ""
 
-#: include/functions.inc:3051
+#: include/functions.inc:2776
 #, php-format
 msgid "Timeout while waiting for lock. Ignoring lock from %s!"
 msgstr ""
 
-#: include/functions.inc:3078 include/functions.inc:3118
-#: include/functions.inc:3130 include/functions.inc:3134
-#: include/functions.inc:3141 include/functions.inc:3150
+#: include/functions.inc:2803 include/functions.inc:2843
+#: include/functions.inc:2855 include/functions.inc:2859
+#: include/functions.inc:2866 include/functions.inc:2875
 msgid "Cannot allocate a free ID:"
 msgstr "Není k dispozici volné ID:"
 
-#: include/functions.inc:3078
+#: include/functions.inc:2803
 #, php-format
 msgid "%sPoolMin >= %sPoolMax!"
 msgstr "%sPoolMin >= %sPoolMax!"
 
-#: include/functions.inc:3118
+#: include/functions.inc:2843
 msgid "sambaUnixIdPool is not unique!"
 msgstr "Identifikátor sambaUnixIdPool není jedinečný!"
 
-#: include/functions.inc:3130 include/functions.inc:3134
+#: include/functions.inc:2855 include/functions.inc:2859
 msgid "no ID available!"
 msgstr "Není k dispozici ID!"
 
-#: include/functions.inc:3150
+#: include/functions.inc:2875
 msgid "maximum tries exceeded!"
 msgstr "překročen maximální počet neúspěšných pokusů!"
 
-#: include/functions.inc:3212
+#: include/functions.inc:2937
 msgid "Cannot allocate a free ID!"
 msgstr "Není k dispozici volné ID – není co přidělit!"
 
-#: include/functions.inc:3248
+#: include/functions.inc:2973
 #, php-format
 msgid "Cannot locate file '%s' - please run '%s' to fix this"
 msgstr ""
@@ -3499,7 +3489,7 @@ msgstr "zaslat hlášení o chybě"
 msgid "Toggle information"
 msgstr "přepnout informace"
 
-#: include/class_msg_dialog.inc:175
+#: include/class_msg_dialog.inc:177
 msgid "Please fix the above error and reload the page."
 msgstr "Opravte prosím výše zmíněnou chybu a znovunačtěte stránku."
 
@@ -3560,7 +3550,7 @@ msgstr ""
 msgid "PDF"
 msgstr "PDF"
 
-#: include/class_templateHandling.inc:393
+#: include/class_templateHandling.inc:403
 #, php-format
 msgid ""
 "Recursive dependency in the template fields: \"%1$s\" cannot depend on "
@@ -3602,28 +3592,28 @@ msgstr ""
 "Nedaří se spočítat dn: nedaří se nalézt objectType informace z panelu třídy "
 "%s"
 
-#: include/simpleplugin/class_simplePlugin.inc:1075
+#: include/simpleplugin/class_simplePlugin.inc:1079
 #, php-format
 msgid "There is already an entry with the same dn : %s"
 msgstr "Položka s takovým rozlišeným názvem již existuje: %s"
 
-#: include/simpleplugin/class_simplePlugin.inc:1082
+#: include/simpleplugin/class_simplePlugin.inc:1086
 #, php-format
 msgid "The entry %s is not existing"
 msgstr "Položka %s neexistuje"
 
-#: include/simpleplugin/class_simplePlugin.inc:1274
+#: include/simpleplugin/class_simplePlugin.inc:1278
 msgid ""
 "The object has changed since opened in FusionDirectory. All changes that may"
 " be done by others will get lost if you save this entry!"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:1448
+#: include/simpleplugin/class_simplePlugin.inc:1452
 #, php-format
 msgid "Tab \"%s\""
 msgstr "Panel %s"
 
-#: include/simpleplugin/class_simplePlugin.inc:1598
+#: include/simpleplugin/class_simplePlugin.inc:1602
 #, php-format
 msgid "Unknown field \"%s\""
 msgstr ""
@@ -3637,17 +3627,17 @@ msgstr "vyberte prosím požadované položky"
 msgid "%s template"
 msgstr "%s šablona"
 
-#: include/simpleplugin/class_simpleManagement.inc:396
-#: include/simpleplugin/class_simpleManagement.inc:402
+#: include/simpleplugin/class_simpleManagement.inc:395
+#: include/simpleplugin/class_simpleManagement.inc:401
 #, php-format
 msgid "Show %s"
 msgstr "Zobrazit %s"
 
-#: include/simpleplugin/class_simpleManagement.inc:738
+#: include/simpleplugin/class_simpleManagement.inc:737
 msgid "Permission error"
 msgstr "chyba oprávnění"
 
-#: include/simpleplugin/class_simpleManagement.inc:772
+#: include/simpleplugin/class_simpleManagement.inc:771
 #, php-format
 msgid "You are not allowed to create a snapshot for %s."
 msgstr "Nejste oprávněn(a) vytvořit snímek %s."
@@ -3683,12 +3673,12 @@ msgid "A float smaller than %f"
 msgstr "Desetinné číslo menší než %f"
 
 #: include/simpleplugin/attributes/class_SetAttribute.inc:227
-#: include/simpleplugin/class_Attribute.inc:549
+#: include/simpleplugin/class_Attribute.inc:556
 #, php-format
 msgid "%s (required)"
 msgstr "%s (vyžadováno)"
 
-#: include/simpleplugin/attributes/class_SetAttribute.inc:571
+#: include/simpleplugin/attributes/class_SetAttribute.inc:588
 #, php-format
 msgid "Invalid value for %s"
 msgstr "Neplatná hodnota pro %s"
@@ -3717,23 +3707,23 @@ msgstr "soubor nebyl nenalezen"
 msgid "file not readable"
 msgstr "soubor není čitelný"
 
-#: include/simpleplugin/attributes/class_FileAttribute.inc:71
+#: include/simpleplugin/attributes/class_FileAttribute.inc:72
 #, php-format
 msgid "%s (%d bytes)"
 msgstr "%s (%d bajtů)"
 
-#: include/simpleplugin/attributes/class_FileAttribute.inc:118
-#: include/simpleplugin/attributes/class_FileAttribute.inc:310
-#: include/simpleplugin/attributes/class_FileAttribute.inc:311
+#: include/simpleplugin/attributes/class_FileAttribute.inc:119
+#: include/simpleplugin/attributes/class_FileAttribute.inc:317
+#: include/simpleplugin/attributes/class_FileAttribute.inc:318
 msgid "Upload"
 msgstr "nahrát"
 
-#: include/simpleplugin/attributes/class_FileAttribute.inc:123
 #: include/simpleplugin/attributes/class_FileAttribute.inc:124
+#: include/simpleplugin/attributes/class_FileAttribute.inc:125
 msgid "Download"
 msgstr "stažení"
 
-#: include/simpleplugin/attributes/class_FileAttribute.inc:285
+#: include/simpleplugin/attributes/class_FileAttribute.inc:292
 msgid ""
 "Cannot save user picture, FusionDirectory requires the PHP module "
 "\"imagick\" to be installed!"
@@ -3829,7 +3819,7 @@ msgid ""
 "configuration file."
 msgstr ""
 
-#: include/simpleplugin/class_simpleTabs.inc:390
+#: include/simpleplugin/class_simpleTabs.inc:392
 #, php-format
 msgid "Move from \"%s\" to \"%s\" failed"
 msgstr ""
@@ -3856,12 +3846,12 @@ msgstr ""
 "Neznámý typ ACL %s!\n"
 "Pro převod acl do nového formátu spusťte fusiondirectory-setup --migrate-acls."
 
-#: include/class_acl.inc:165
+#: include/class_acl.inc:170
 #, php-format
 msgid "Unknown entry '%s'!"
 msgstr "Neznámá položka '%s'!"
 
-#: include/class_acl.inc:168
+#: include/class_acl.inc:173
 #, php-format
 msgid "All users"
 msgstr "všichni uživatelé"
@@ -3879,7 +3869,7 @@ msgstr ""
 "Aby bylo možné používat SASL, je třeba vyplnit kolonky saslRealm nebo "
 "saslExop na obrazovce s nastaveními"
 
-#: include/class_SnapshotHandler.inc:419
+#: include/class_SnapshotHandler.inc:463
 msgid "There was a problem uncompressing snapshot data"
 msgstr "Došlo k problému s rozbalováním dat zachyceného stavu"
 
