@@ -95,10 +95,14 @@ class userRoles extends simplePlugin
         $myGroups = array();
       }
     } else {
-      $myGroups  = objects::ls(
-        'ogroup', NULL, NULL,
-        '(member='.$this->dn.')'
-      );
+      if (($this->dn != '') && ($this->dn != 'new')) {
+        $myGroups  = objects::ls(
+          'ogroup', NULL, NULL,
+          '(member='.$this->dn.')'
+        );
+      } else {
+        $myGroups = array();
+      }
       $this->savedGroupsMembership = array_keys($myGroups);
     }
     /* We might be in some groups we have no read ACL on, so merge them in the choices */
@@ -128,10 +132,14 @@ class userRoles extends simplePlugin
         $myRoles = array();
       }
     } else {
-      $myRoles  = objects::ls(
-        'role', NULL, NULL,
-        '(roleOccupant='.$this->dn.')'
-      );
+      if (($this->dn != '') && ($this->dn != 'new')) {
+        $myRoles  = objects::ls(
+          'role', NULL, NULL,
+          '(roleOccupant='.$this->dn.')'
+        );
+      } else {
+        $myRoles = array();
+      }
       $this->savedRolesMembership = array_keys($myRoles);
     }
     /* We might be in some roles we have no read ACL on, so merge them in the choices */
@@ -159,7 +167,7 @@ class userRoles extends simplePlugin
 
   function remove_from_parent()
   {
-    if (!$this->is_template) {
+    if (!$this->is_template && ($this->dn != '') && ($this->dn != 'new')) {
       /* Remove all groups */
       foreach ($this->savedGroupsMembership as $ogroupdn) {
         $g = objects::open($ogroupdn, 'ogroup');
