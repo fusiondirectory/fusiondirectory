@@ -57,14 +57,14 @@ class groupManagement extends simpleManagement
     // Load information if needed
     $result = '&nbsp;';
     if (!empty($attrs)) {
-      if (lc($objectType) == 'ogroup') {
+      if (strtolower($objectType) == 'ogroup') {
         if (empty($gosaGroupObjects)) {
           return $result;
         } else {
           return self::filterGroupObjects($row, $gosaGroupObjects);
         }
       }
-      if (lc($objectType) == 'role') {
+      if (strtolower($objectType) == 'role') {
         return '<input class="center" type="image" src="geticon.php?context=types&amp;icon=role&amp;size=16" '.
                  'alt="'._('Role').'" title="'._('Edit role properties').'" '.
                  'name="listing_edit_'.$row.'" style="padding:1px"/>';
