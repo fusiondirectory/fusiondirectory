@@ -715,7 +715,7 @@ function del_lock ($object)
   if (!$ldap->success()) {
     msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), $ldap->getDN(), LDAP_DEL, ERROR_DIALOG));
     return;
-  } elseif ($attrs['dn'] != '') {
+  } elseif (!empty($attrs['dn'])) {
     $ldap->rmdir($attrs['dn']);
   }
 }
