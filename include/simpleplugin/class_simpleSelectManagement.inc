@@ -73,7 +73,9 @@ class simpleSelectManagement extends simpleManagement
     $row    = func_get_arg(1);
     $dn     = func_get_arg(2);
     $trans  = func_get_arg(3);
-    $trans  = $trans[0];
+    if (is_array($trans)) {
+      $trans  = $trans[0];
+    }
     if ($trans != '') {
       return '<a href="?plug='.$_GET['plug'].'&amp;PID='.$pid.'&amp;act=listing_select_'.$row.'&amp;add_finish=1" title="'.htmlentities($dn, ENT_COMPAT, 'UTF-8').'">'.htmlentities($trans, ENT_COMPAT, 'UTF-8').'</a>';
     }
