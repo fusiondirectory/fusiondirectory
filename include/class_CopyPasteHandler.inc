@@ -223,7 +223,7 @@ class CopyPasteHandler
         $msgs = $entry['object']->check();
 
         /* Retrieve ACL infos */
-        $copy_acl = $ui->is_copyable($entry['dn'], $entry['aclCategory']);
+        $copy_acl = $ui->is_copyable($entry['dn'], $entry['aclCategory'], $entry['mainTab']);
         $cut_acl  = $ui->is_cutable($entry['dn'], $entry['aclCategory'], $entry['mainTab']);
 
         /* Check permissions */
