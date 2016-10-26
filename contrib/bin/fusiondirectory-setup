@@ -93,6 +93,7 @@ my $aclrolerdn  = "ou=aclroles";
 my $grouprdn    = "ou=groups";
 my $systemrdn   = "ou=systems";
 my $dnsrdn      = "ou=dns";
+my $dhcprdn     = "ou=dhcp";
 
 #################################################################################################################################################
 
@@ -148,7 +149,7 @@ sub ask_user_input {
  return $answer;
 }
 
-# Die on all LDAP error except for «No such object»
+# Die on all LDAP error except for «No such object»
 sub die_on_ldap_errors
 {
   my ($mesg) = @_;
@@ -510,7 +511,7 @@ sub check_rights {
 sub check_directories {
   my $apache_group = get_apache_group();
 
-  # for each config directory
+  # for each config directory
   foreach my $dir (@config_dirs) {
 
       # if $dir is one of the dirs that remains to root
@@ -732,7 +733,7 @@ sub get_ldap_connexion {
   # read ldap's server's info from /etc/fusiondirectory/fusiondirectory.conf
   if (-e $fd_config) {
     my $twig = XML::Twig->new();    # create the twig
-    $twig->safe_parsefile($fd_config) or die("There is an error in $fd_config XML code: ".(split /\n/, $@)[1]."\n");
+    $twig->safe_parsefile($fd_config) or die("There is an error in $fd_config XML code: ".(split /\n/, $@)[1]."\n");
     my @locs = $twig->root->first_child('main')->children('location');
     my %locations = ();
     foreach my $loc (@locs) {
@@ -1299,7 +1300,7 @@ sub migrate_dns {
   foreach my $entry (@entries) {
     if ($entry->dn() !~ m/$dnsrdn/) {
       if (scalar(@baddns) == 0) {
-        print "The following are not in the DNS branch ($dnsrdn):\n";
+        print "The following are not in the DNS branch ($dnsrdn):\n";
       }
       print $entry->dn()."\n";
       push @baddns, $entry->dn();
@@ -1307,9 +1308,9 @@ sub migrate_dns {
   }
 
   if (scalar(@baddns) == 0) {
-    print "They all already are in the DNS branch ($dnsrdn):\n";
+    print "They all already are in the DNS branch ($dnsrdn):\n";
   } else {
-    if (ask_yn_question("Move these entries to the DNS branch ($dnsrdn)?")) {
+    if (ask_yn_question("Move these entries to the DNS branch ($dnsrdn)?")) {
       foreach my $entrydn (@baddns) {
         $entrydn =~ m/^([^,]+),(.+$systemrdn,(.+))$/ or die "Could not parse dn ".$entrydn."\n";
         my $rdn = $1;
@@ -1410,6 +1411,95 @@ sub migrate_dns {
           );
         }
         $result->code && print "Could not add DNS tab on $systemdn, LDAP error: ".$result->error."\nYou'll need to activate it yourself\n";
+      }
+    }
+  }
+}
+
+# function that moves DHCP configurations from systems to ou=dhcp
+sub migrate_dhcp {
+  # initiate the LDAP connexion
+  my %hash_ldap_param = get_ldap_connexion();
+
+  # LDAP's connection's parameters
+  my $base = $hash_ldap_param{base};
+  my $ldap = $hash_ldap_param{ldap};
+
+  # Search for DHCP configurations
+  my $mesg = $ldap->search(
+    base => "$base",
+    filter => "(objectClass=dhcpService)",
+    attrs => ['cn']
+  );
+  $mesg->code && die $mesg->error;
+
+  my @entries = $mesg->entries;
+
+  print "There are ".$mesg->count." DHCP configurations in the LDAP\n";
+
+  my @baddns  = ();
+
+  foreach my $entry (@entries) {
+    if ($entry->dn() !~ m/$dhcprdn/) {
+      if (scalar(@baddns) == 0) {
+        print "The following are not in the DHCP branch ($dhcprdn):\n";
+      }
+      print $entry->dn()."\n";
+      push @baddns, $entry->dn();
+    }
+  }
+
+  if (scalar(@baddns) == 0) {
+    print "They all already are in the DHCP branch ($dhcprdn):\n";
+  } else {
+    if (ask_yn_question("Move these entries to the DHCP branch ($dhcprdn)?")) {
+      foreach my $entrydn (@baddns) {
+        $entrydn =~ m/^([^,]+),(.+$systemrdn,(.+))$/ or die "Could not parse dn ".$entrydn."\n";
+        my $rdn = $1;
+        my $systemdn = $2;
+        my $entrybase = $3;
+        if (!branch_exists($ldap, "$dhcprdn,$entrybase")) {
+          create_branch($ldap, $entrybase, $dhcprdn);
+        }
+        my $result = $ldap->moddn (
+          $entrydn,
+          newrdn        => $rdn,
+          deleteoldrdn  => '1',
+          newsuperior   => "$dhcprdn,$entrybase"
+        );
+        $result->code && die "Migration of DHCP configuration entry failed, LDAP error: ".$result->error."\n";
+
+        my $configDn = "$rdn,$dhcprdn,$entrybase";
+
+        # Add DHCP service on server
+        $mesg = $ldap->search(
+          base    => $systemdn,
+          scope   => 'base',
+          filter  => '(objectClass=*)'
+        );
+        $mesg->code && die $mesg->error;
+        my $system_entry = $mesg->shift_entry;
+        $system_entry->get_value('objectClass');
+        my @classes = $system_entry->get_value('objectClass');
+        if (grep {$_ eq 'dhcpServer'} @classes) {
+          $result = $ldap->modify (
+            "$systemdn",
+            replace => {
+              'dhcpServiceDN' => $configDn,
+            }
+          );
+        } else {
+          $result = $ldap->modify (
+            "$systemdn",
+            replace => {
+              'dhcpServiceDN' => $configDn,
+            },
+            add => {
+              'objectClass' => 'dhcpServer'
+            }
+          );
+        }
+        $result->code && print "Could not add DHCP service on $systemdn, LDAP error: ".$result->error."\nYou'll need to activate it yourself\n";
       }
     }
   }
@@ -1862,7 +1952,7 @@ sub ldif_deprecated {
   }
 }
 
-# Read FD config in the LDAP
+# Read FD config in the LDAP
 sub read_ldap_config {
   # initiate the LDAP connexion
   my %hash_ldap_param = get_ldap_connexion();
@@ -1889,6 +1979,9 @@ sub read_ldap_config {
     }
     if (($mesg->entries)[0]->exists('fdDnsRDN')) {
       $dnsrdn = ($mesg->entries)[0]->get_value('fdDnsRDN');
+    }
+    if (($mesg->entries)[0]->exists('fdDhcpRDN')) {
+      $dhcprdn = ($mesg->entries)[0]->get_value('fdDhcpRDN');
     }
   }
 
@@ -1981,7 +2074,8 @@ die ("! You have to run this script as root\n") if ($<!=0);
   $commands{"--migrate-users"}        = ["Migrating your users",                          \&migrate_users];
   $commands{"--migrate-printers"}     = ["Migrating your printers from FD < 1.0.14",      \&migrate_printers];
   $commands{"--migrate-systems"}      = ["Migrating your systems from FD < 1.1",          \&migrate_systems];
-  $commands{"--migrate-dns"}          = ["Migrating DNS zones for FD 1.0.10",             \&migrate_dns];
+  $commands{"--migrate-dns"}          = ["Migrating DNS zones for FD >= 1.0.10",          \&migrate_dns];
+  $commands{"--migrate-dhcp"}         = ["Migrating DHCP configurations for FD >= 1.0.17",\&migrate_dhcp];
   $commands{"--migrate-acls"}         = ["Migrating your ACLs",                           \&migrate_acls];
   $commands{"--delete-gosa-locks"}    = ["Delete lock tokens using old gosaLockEntry class", \&delete_gosa_locks];
   $commands{"--install-plugins"}      = ["Installing FusionDirectory's plugins",          \&install_plugins];
@@ -1993,7 +2087,7 @@ die ("! You have to run this script as root\n") if ($<!=0);
   $commands{"--list-deprecated"}      = ["List deprecated attributes and objectclasses",  \&list_deprecated];
   $commands{"--check-deprecated"}     = ["List LDAP entries using deprecated attributes or objectclasses", \&check_deprecated];
   $commands{"--ldif-deprecated"}      = ["# Print an LDIF removing deprecated attributes",\&ldif_deprecated];
-  $commands{"--show-config"}          = ["Show an LDAP dump of the FusionDirectory configuration", \&show_ldap_config];
+  $commands{"--show-config"}          = ["Show an LDAP dump of the FusionDirectory configuration", \&show_ldap_config];
   $commands{"--set-config-VAR=value"} = ["Set the value in LDAP of a configuration field",\&set_config_var];
 
   my $usage = 0;
@@ -2091,6 +2185,10 @@ This option replace old systems objectClasses by new objectClasses from FD 1.1.
 =item --migrate-dns
 
 This option moves DNS zones from systems branch to DNS branch, which is necessary for FusionDirectory 1.0.10 and above.
+
+=item --migrate-dhcp
+
+This option moves DHCP configurations from systems branch to DHCP branch, which is necessary for FusionDirectory 1.0.17 and above.
 
 =item --migrate-acls
 
