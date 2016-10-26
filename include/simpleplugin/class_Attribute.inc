@@ -491,7 +491,11 @@ class Attribute
           },
           array_keys($infos['plObjectType']),
           array_values($infos['plObjectType'])
-        )
+        ),
+        function ($ou)
+        {
+          return ($ou !== FALSE);
+        }
       );
       while ($attrs = $ldap->fetch()) {
         if ($attrs['dn'] != $this->plugin->dn) {
