@@ -413,6 +413,7 @@ class simpleTabs
           if ($creation && $first) {
             /* If the fail of main tab fails for a creation, cancel the save of other tabs */
             $this->dn = $old_dn;
+            $obj->dn  = $this->dn;
             return $result;
           }
           $errors = array_merge($errors, $result);
@@ -430,6 +431,9 @@ class simpleTabs
 
     if (!empty($errors)) {
       $this->dn = $old_dn;
+      foreach ($this->by_object as $obj) {
+        $obj->dn = $this->dn;
+      }
     }
 
     return $errors;
