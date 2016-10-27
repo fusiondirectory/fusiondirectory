@@ -48,7 +48,7 @@ class locality extends department
 
   static function getAttributesInfo ()
   {
-    $attributesInfo = parent::getDepartmentAttributesInfo(_('locality'), static::$namingAttr);
+    $attributesInfo = parent::getDepartmentAttributesInfo(_('locality'));
     unset($attributesInfo['location']);
     unset($attributesInfo['properties']['attrs'][3]); // category
     return $attributesInfo;

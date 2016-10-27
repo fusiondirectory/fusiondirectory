@@ -48,7 +48,7 @@ class domain extends department
 
   static function getAttributesInfo ()
   {
-    $attributesInfo = parent::getDepartmentAttributesInfo(_('domain'), static::$namingAttr);
+    $attributesInfo = parent::getDepartmentAttributesInfo(_('domain'));
     unset($attributesInfo['location']);
     unset($attributesInfo['properties']['attrs'][3]); // category
     return $attributesInfo;

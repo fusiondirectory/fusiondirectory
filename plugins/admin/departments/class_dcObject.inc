@@ -48,7 +48,7 @@ class dcObject extends department
 
   static function getAttributesInfo ()
   {
-    $attributesInfo = parent::getDepartmentAttributesInfo(_('domain component'), static::$namingAttr);
+    $attributesInfo = parent::getDepartmentAttributesInfo(_('domain component'));
     unset($attributesInfo['location']);
     unset($attributesInfo['properties']['attrs'][3]); // category
     return $attributesInfo;

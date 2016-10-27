@@ -54,9 +54,9 @@ class department extends simplePlugin
 
   static function getAttributesInfo()
   {
-    return static::getDepartmentAttributesInfo(_('department'), static::$namingAttr);
+    return static::getDepartmentAttributesInfo(_('department'));
   }
-  static function getDepartmentAttributesInfo($name, $namingAttr)
+  static function getDepartmentAttributesInfo($name)
   {
     $attributesInfo = array(
       'properties' => array(
@@ -65,7 +65,7 @@ class department extends simplePlugin
           new BaseSelectorAttribute(''),
           new StringAttribute(
             sprintf(_('Name of %s'), $name), sprintf(_('A name for this %s'), $name),
-            $namingAttr, TRUE,
+            static::$namingAttr, TRUE,
             '', '', '/^[a-z0-9\._-]+$/i'
           ),
           new TextAreaAttribute(
@@ -113,7 +113,7 @@ class department extends simplePlugin
         )
       ),
     );
-    if ($namingAttr != 'ou') {
+    if (static::$namingAttr != 'ou') {
       $attributesInfo['properties']['attrs'][] = new HiddenAttribute('ou');
     }
     return $attributesInfo;
@@ -155,13 +155,7 @@ class department extends simplePlugin
       $this->attributesAccess['businessCategory']->setChoices($categoriesList);
     }
 
-    $this->attributesAccess[$this->getNamingAttr()]->setUnique(TRUE);
-  }
-
-  function getNamingAttr()
-  {
-    $class = get_class($this);
-    return $class::$namingAttr;
+    $this->attributesAccess[static::$namingAttr]->setUnique(TRUE);
   }
 
   /* Check values */
@@ -170,7 +164,7 @@ class department extends simplePlugin
     /* Call common method to give check the hook */
     $message = parent::check();
 
-    $namingAttr = $this->getNamingAttr();
+    $namingAttr = static::$namingAttr;
 
     if (tests::is_department_name_reserved($this->$namingAttr, $this->base)) {
       $message[] = msgPool::reserved(_("Name"));
@@ -195,8 +189,8 @@ class department extends simplePlugin
 
   function prepare_save()
   {
-    if ($this->getNamingAttr() != 'ou') {
-      $this->attributesAccess['ou']->setValue($this->attributesAccess[$this->getNamingAttr()]->getValue());
+    if (static::$namingAttr != 'ou') {
+      $this->attributesAccess['ou']->setValue($this->attributesAccess[static::$namingAttr]->getValue());
     }
     return parent::prepare_save();
   }
