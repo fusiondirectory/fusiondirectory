@@ -48,7 +48,7 @@ class organization extends department
 
   static function getAttributesInfo ()
   {
-    return parent::getDepartmentAttributesInfo(_('organization'), self::$namingAttr);
+    return parent::getDepartmentAttributesInfo(_('organization'));
   }
 }
 ?>
