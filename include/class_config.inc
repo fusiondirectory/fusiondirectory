@@ -486,25 +486,26 @@ class config  {
   }
 
   /* Check that configuration is in LDAP, check that no plugin got installed since last configuration update */
-  function checkLdapConfig ()
+  function checkLdapConfig ($forceReload = FALSE)
   {
     global $ui;
-    $ldap   = $this->get_ldap_link();
-    $dn     = CONFIGRDN.$this->current['BASE'];
-    $reload = TRUE;
-    $ldap->cat($dn, array('fusionConfigMd5'));
-    if ($attrs = $ldap->fetch()) {
-      if (isset($attrs['fusionConfigMd5'][0]) && ($attrs['fusionConfigMd5'][0] == md5_file(CACHE_DIR."/".CLASS_CACHE))) {
-        $reload = FALSE;
+    $dn = CONFIGRDN.$this->current['BASE'];
+
+    if (!$forceReload) {
+      $ldap = $this->get_ldap_link();
+      $ldap->cat($dn, array('fusionConfigMd5'));
+      if ($attrs = $ldap->fetch()) {
+        if (isset($attrs['fusionConfigMd5'][0]) && ($attrs['fusionConfigMd5'][0] == md5_file(CACHE_DIR.'/'.CLASS_CACHE))) {
+          return;
+        }
       }
     }
-    if ($reload) {
-      add_lock($dn, $ui->dn);
-      $config_plugin = objects::open($dn, 'configuration');
-      $config_plugin->save_object();
-      $config_plugin->save();
-      del_lock($dn);
-    }
+
+    add_lock($dn, $ui->dn);
+    $config_plugin = objects::open($dn, 'configuration');
+    $config_plugin->save_object();
+    $config_plugin->save();
+    del_lock($dn);
   }
 
   function load_inldap_config()
