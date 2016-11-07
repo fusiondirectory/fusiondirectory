@@ -26,7 +26,7 @@
 define("INFO_DIALOG",         10001);
 define("WARNING_DIALOG",      10002);
 define("ERROR_DIALOG",        10003);
-define("LDAP_ERROR",          10003); // LDAP_ERROR is the same as ERROR_DIALOG
+define("LDAP_ERROR",          10003);
 define("CONFIRM_DIALOG",      10004);
 define("FATAL_ERROR_DIALOG",  10006);
 
