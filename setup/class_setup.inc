@@ -40,9 +40,12 @@ class fake_userinfo extends userinfo
 
 class setup
 {
-  var $i_steps;               // Number of setup steps
-  var $i_current        = 0;  // Current step
-  var $i_previous       = 0;  // Previous setup step;
+  /* Number of setup steps */ 
+  var $i_steps;
+  /* Current step */
+  var $i_current        = 0;
+  /* Previous setup step; */
+  var $i_previous       = 0;
   var $i_config         = 4;
   var $o_steps          = array();
   var $captured_values  = array();

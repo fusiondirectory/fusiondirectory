@@ -240,7 +240,8 @@ class userinfo
     $without_self_acl = $all_acl = array();
     foreach ($this->ACL as $dn => $acl) {
       $sdn    = $dn;
-      $first  = TRUE; // Run at least once
+      /* Run at least once */
+      $first  = TRUE;
       while ((strpos($dn, ",") !== FALSE) || $first) {
         $first = FALSE;
         if (isset($this->ACL[$dn])) {

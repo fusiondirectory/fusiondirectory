@@ -68,10 +68,10 @@ define ('DEBUG_CONFIG',   64); /*! Debug level for CONFIG information */
 define ('DEBUG_ACL',      128); /*! Debug level for ACL infos */
 define ('DEBUG_SI',       256); /*! Debug level for communication with Argonaut */
 define ('DEBUG_MAIL',     512); /*! Debug level for all about mail (mailAccounts, imap, sieve etc.) */
-define ('DEBUG_FAI',      1024); // FAI (incomplete)
+define ('DEBUG_FAI',      1024); /*! Debug level for FAI (incomplete) */
 
 
-// Define shadow states
+/* Define shadow states */
 define ('POSIX_ACCOUNT_EXPIRED', 1);
 define ('POSIX_WARN_ABOUT_EXPIRATION', 2);
 define ('POSIX_FORCE_PASSWORD_CHANGE', 4);
