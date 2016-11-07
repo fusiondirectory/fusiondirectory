@@ -145,9 +145,12 @@ function al2gt($gettextlangs, $mime)
   /* Loop through the available languages/encodings, and pick the one
    * with the highest score, excluding the ones with a charset the user
    * did not include. */
-  $max_lang     = NULL; // The lang with the maximum score found
-  $max_l_score  = 0;    // The lang score of this lang
-  $max_c_score  = 0;    // The char score of this lang
+  /* The lang with the maximum score found */
+  $max_lang     = NULL;
+  /* The lang score of this lang */
+  $max_l_score  = 0;
+  /* The char score of this lang */
+  $max_c_score  = 0;
   foreach ($gettextlangs as $gtlang) {
     if (!($infos = parse_gettext_lang($gtlang))) {
       continue;
@@ -157,11 +160,13 @@ function al2gt($gettextlangs, $mime)
     $lang_score = max_scores($lang_scores, array($lang,$lang.'-'.$country,'*'));
     $char_score = max_scores($char_scores, array($char,'*'));
     if ($char_score == 0) {
-      continue; // exclude charsets the user refuses
+	  /* exclude charsets the user refuses */
+      continue;
     }
 
     if   (($lang_score > $max_l_score)
-      || (($lang_score == $max_l_score) && ($char_score > $max_c_score))) { // if lang scores are equals we compare char scores
+      || (($lang_score == $max_l_score) && ($char_score > $max_c_score))) {
+	  /* if lang scores are equals we compare char scores */
       $max_l_score  = $lang_score;
       $max_c_score  = $char_score;
       $max_lang     = $gtlang;
