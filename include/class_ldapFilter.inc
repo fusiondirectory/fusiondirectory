@@ -89,7 +89,8 @@ class ldapFilter
 
     if (in_array($filter[0], ldapFilter::$operators)) {
       $subfilters = array();
-      $filter .= ')'; // We need an ending parenthesis in order to catch last subpart correctly
+      /* We need an ending parenthesis in order to catch last subpart correctly */
+      $filter .= ')';
       $offset = 0;
       $level  = 0;
       $open;

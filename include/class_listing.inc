@@ -1576,7 +1576,8 @@ class listing
     foreach ($types as $type) {
       $i = objects::infos($type);
       $filter .= $i['filter'];
-      $attrs[] = $i['mainAttr']; // Specific key for departement objectTypes
+      // Specific key for departement objectTypes
+      $attrs[] = $i['mainAttr'];
     }
     $filter .= ")";
     $res = get_list($filter, $this->categories, $this->base, $attrs, GL_NONE);
