@@ -616,7 +616,7 @@ class Attribute
   function getAclInfo ()
   {
     /* If acl is not empty, we use an acl that is not ours, we have no acl to create */
-    if (empty($this->acl)) { 
+    if (empty($this->acl)) {
       return array(
         'name' => $this->getHtmlId(),
         'desc' => $this->getDescription()

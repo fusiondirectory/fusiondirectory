@@ -160,13 +160,13 @@ function al2gt($gettextlangs, $mime)
     $lang_score = max_scores($lang_scores, array($lang,$lang.'-'.$country,'*'));
     $char_score = max_scores($char_scores, array($char,'*'));
     if ($char_score == 0) {
-	  /* exclude charsets the user refuses */
+    /* exclude charsets the user refuses */
       continue;
     }
 
     if   (($lang_score > $max_l_score)
       || (($lang_score == $max_l_score) && ($char_score > $max_c_score))) {
-	  /* if lang scores are equals we compare char scores */
+    /* if lang scores are equals we compare char scores */
       $max_l_score  = $lang_score;
       $max_c_score  = $char_score;
       $max_lang     = $gtlang;

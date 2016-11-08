@@ -67,7 +67,7 @@ class templateDialog
       }
       $this->template = new template($this->type, $_POST['template']);
       /* This method can loop if there are several targets */
-      unset($_POST['template']); 
+      unset($_POST['template']);
     }
     if (is_object($this->template)) {
       if ($this->target !== NULL) {

@@ -40,7 +40,7 @@ class fake_userinfo extends userinfo
 
 class setup
 {
-  /* Number of setup steps */ 
+  /* Number of setup steps */
   var $i_steps;
   /* Current step */
   var $i_current        = 0;

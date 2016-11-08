@@ -351,7 +351,7 @@ class user extends simplePlugin
             'telephoneNumber', FALSE
           ),
           /* TODO: mobile attribute */
-          new PhoneNumberAttribute ( 
+          new PhoneNumberAttribute (
             _('Mobile'), _('Business mobile number'),
             'mobile', FALSE
           ),

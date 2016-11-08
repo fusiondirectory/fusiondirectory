@@ -393,7 +393,7 @@ class posixAccount extends simplePlugin
     if ($ldap->count() > 0) {
       /* The copied user had its own group */
       /* switch back to automatic */
-      $this->primaryGroup = 0; 
+      $this->primaryGroup = 0;
     }
 
     $this->force_ids = FALSE;

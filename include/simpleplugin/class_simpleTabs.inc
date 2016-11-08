@@ -44,10 +44,10 @@ class simpleTabs
   var $acl_category;
 
   /* A parent object if available, e.g. a management class. */
-  var $parent = NULL; 
+  var $parent = NULL;
 
   /* Used when the entry is opened as "readonly" due to locks. */
-  var $read_only = FALSE; 
+  var $read_only = FALSE;
 
   var $baseclass = "";
 
@@ -176,7 +176,7 @@ class simpleTabs
         $baseobject->base = dn2base(get_userinfo()->dn);
       }
       /* For some plugins not yet migrated to simple plugin. */
-      if (!($baseobject instanceOf simplePlugin) && is_object($baseobject->baseSelector)) { 
+      if (!($baseobject instanceOf simplePlugin) && is_object($baseobject->baseSelector)) {
         $baseobject->baseSelector->setBase($baseobject->base);
       }
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $baseobject->base, 'Fixed base');
