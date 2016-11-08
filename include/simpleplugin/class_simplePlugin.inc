@@ -203,7 +203,7 @@ class simplePlugin extends plugin
       foreach ($sectionInfo['attrs'] as $name => &$attr) {
         if (in_array($name, $this->preInitAttributes)) {
           /* skip the preInit ones */
-          continue; 
+          continue;
         }
         $attr->setParent($this);
         $attr->loadValue($this->attrs);

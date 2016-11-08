@@ -42,7 +42,7 @@ class FileAttribute extends Attribute
         $this->readFile($handle);
       }
       /* so that we only handle the file once */
-      $_FILES[$this->getHtmlId()]['name'] = ""; 
+      $_FILES[$this->getHtmlId()]['name'] = "";
     }
   }
 

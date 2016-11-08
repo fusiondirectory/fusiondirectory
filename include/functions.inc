@@ -2455,12 +2455,18 @@ function normalizeLdap($input)
 function gosa_ldap_explode_dn($dn, $config = NULL, $verify_in_ldap = FALSE)
 {
   /* Initialize variables */
-  $ret  = array("count" => 0);  // Set count to 0
-  $next = TRUE;                 // if FALSE, then skip next loops and return
-  $cnt  = 0;                    // Current number of loops
-  $max  = 100;                  // Just for security, prevent looops
-  $ldap = NULL;                 // To check if created result a valid
-  $keep = "";                   // save last failed parse string
+  /* Set count to 0 */
+  $ret  = array("count" => 0);
+  /* if FALSE, then skip next loops and return */
+  $next = TRUE;
+  /* Current number of loops */
+  $cnt  = 0;
+  /* Just for security, prevent looops */
+  $max  = 100;
+  /* To check if created result a valid */
+  $ldap = NULL;
+  /* save last failed parse string */
+  $keep = "";
 
   /* Check each parsed dn in ldap ? */
   if (($config !== NULL) && $verify_in_ldap) {
