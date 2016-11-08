@@ -570,7 +570,8 @@ class Attribute
         $type[] = $class;
         $class  = get_parent_class($class);
       }
-      $type[] = 'Attribute'; // To avoid empty array
+       /* To avoid empty array */
+      $type[] = 'Attribute';
       $infos = array(
         'htmlid'      => $this->getHtmlId(),
         'label'       => $this->getLabel(),
@@ -614,7 +615,8 @@ class Attribute
    */
   function getAclInfo ()
   {
-    if (empty($this->acl)) { // If acl is not empty, we use an acl that is not ours, we have no acl to create
+    /* If acl is not empty, we use an acl that is not ours, we have no acl to create */
+    if (empty($this->acl)) { 
       return array(
         'name' => $this->getHtmlId(),
         'desc' => $this->getDescription()

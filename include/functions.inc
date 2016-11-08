@@ -2659,7 +2659,8 @@ function check_schema($cfg)
  */
 function get_languages($languages_in_own_language = FALSE, $strip_region_tag = FALSE)
 {
-  $tmp_english = array( // locales in english
+  /* locales in english */
+  $tmp_english = array(
     "ar"    => "Arabic",
     "ca_ES" => "Catalan",
     "cs_CZ" => "Czech",
@@ -2686,7 +2687,8 @@ function get_languages($languages_in_own_language = FALSE, $strip_region_tag = F
 
   $ret = array();
   if ($languages_in_own_language) {
-    $tmp_ownlang = array( // locales in their own language
+    /* locales in their own language */
+    $tmp_ownlang = array(
       "ar"    => "عربية",
       "ca_ES" => "Català",
       "cs_CZ" => "Česky",

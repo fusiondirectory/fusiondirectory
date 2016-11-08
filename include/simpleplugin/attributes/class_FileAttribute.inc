@@ -41,7 +41,8 @@ class FileAttribute extends Attribute
         // Reading content
         $this->readFile($handle);
       }
-      $_FILES[$this->getHtmlId()]['name'] = ""; // so that we only handle the file once
+      /* so that we only handle the file once */
+      $_FILES[$this->getHtmlId()]['name'] = ""; 
     }
   }
 
@@ -304,7 +305,8 @@ class ImageAttribute extends FileAttribute
   {
     $this->setValue($this->inputValue($this->getValue()));
     $id = $this->getHtmlId();
-    srand((double)microtime() * 1000000); // Just to be sure the image is not cached
+    /* Just to be sure the image is not cached */
+    srand((double)microtime() * 1000000);
     $display  = '<img id="'.$id.'_img"'.
                 ($this->disabled? 'disabled="disabled"':'').
                 ' src="getbin.php?rand='.rand(0, 10000).'"'.

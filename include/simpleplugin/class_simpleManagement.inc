@@ -66,7 +66,8 @@ class templateDialog
         trigger_error('redefining template object');
       }
       $this->template = new template($this->type, $_POST['template']);
-      unset($_POST['template']); // This method can loop if there are several targets
+      /* This method can loop if there are several targets */
+      unset($_POST['template']); 
     }
     if (is_object($this->template)) {
       if ($this->target !== NULL) {

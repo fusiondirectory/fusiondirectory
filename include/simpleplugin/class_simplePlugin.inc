@@ -202,7 +202,8 @@ class simplePlugin extends plugin
     foreach ($this->attributesInfo as &$sectionInfo) {
       foreach ($sectionInfo['attrs'] as $name => &$attr) {
         if (in_array($name, $this->preInitAttributes)) {
-          continue; // skip the preInit ones
+          /* skip the preInit ones */
+          continue; 
         }
         $attr->setParent($this);
         $attr->loadValue($this->attrs);

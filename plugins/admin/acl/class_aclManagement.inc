@@ -166,7 +166,8 @@ class aclManagement extends simpleManagement
 
   function configureHeadpage ()
   {
-    $this->headpage->objectTypes = array(); // Remove department types so that we don't mistake assignments with them.
+    /* Remove department types so that we don't mistake assignments with them. */
+    $this->headpage->objectTypes = array();
     $this->headpage->registerElementFilter('filterLabel', 'aclManagement::filterLabel');
     parent::configureHeadpage();
   }
