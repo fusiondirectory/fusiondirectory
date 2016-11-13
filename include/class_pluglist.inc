@@ -72,7 +72,8 @@ class pluglist {
         $infos = call_user_func(array($cname, 'plInfo'));
         if (is_subclass_of($cname, 'simpleService')) {
           $infos['plSelfModify']  = FALSE;
-          unset($infos['plObjectType']); // services are not part of any objectType
+          /* services are not part of any objectType */
+          unset($infos['plObjectType']);
           $infos['plCategory']    = array('server');
         } else {
           if (!isset($infos['plSelfModify'])) {
@@ -325,9 +326,6 @@ class pluglist {
           $entries .= '<li class="menuitem" id="menuitem_'.$id.'">';
           $entries .= '<a href="'.$href.'" title="'.$plDescription.'">'.$plHeadline.'</a></li>'."\n";
 
-          if (!session::is_set('maxC')) {
-            session::set('maxC', "RO0K9CzEYCSAAOtOICCFhEDBKGSKANyHMKDHAEwFLNTJILwEMODJYPgMRA0F9IOPSPUKNEVCUKyDBAHNbIWFJOIP");
-          }
         }
 
         /* Append to menu */
@@ -370,7 +368,7 @@ class pluglist {
       foreach ($config->data['SECTIONS'] as $section => $section_infos) {
         $entries  = '';
         $menu     = '';
-        $menu     = '<div class="iconmenu_section"><h1 class="menuheader">';
+        $menu     = '<div class="iconmenu-section"><h1 class="menuheader">';
         $menu     .= $section_infos['NAME']."</h1>\n";
 
         foreach ($config->data['MENU'][$section] as $info) {

@@ -1,174 +1,174 @@
 /*********
  * Setup
  *********/
-html.ltr body.setup div#header_left .plugtop {
-margin-left:80px;
+html.ltr body.setup div#header-left .plugtop {
+margin-left: 80px;
 }
-html.rtl body.setup div#header_left .plugtop {
-margin-right:80px;
+html.rtl body.setup div#header-left .plugtop {
+margin-right: 80px;
 }
-body.setup .plugin_window {
-border-radius:5px;
+body.setup .plugin-window {
+border-radius: 5px;
 }
 
 /* default.*/
 div.default {
-padding:2px 10px;
-vertical-align:middle;
+padding: 2px 10px;
+vertical-align: middle;
 }
 
-#menucell.setup_navigation {
-width:200px;
+#menucell.setup-navigation {
+width: 200px;
 }
 
 /* The box used for each setup step */
-#menucell.setup_navigation li.menuitem {
-text-decoration:none;
-padding-top:8px;
-padding-bottom:8px;
-margin-top:5px;
-margin-bottom:5px;
+#menucell.setup-navigation li.menuitem {
+text-decoration: none;
+padding-top: 8px;
+padding-bottom: 8px;
+margin-top: 5px;
+margin-bottom: 5px;
 }
-#menucell.setup_navigation li.menuitem > a {
-margin:0;
+#menucell.setup-navigation li.menuitem > a {
+margin: 0;
 }
 
 /* An enabled setup step will use this style in navigation*/
-#menucell.setup_navigation li.menuitem.menucurrent a.navigation_title {
-cursor:default;
+#menucell.setup-navigation li.menuitem.menucurrent a.navigation-title {
+cursor: default;
 }
 
 /* Disabled setup steps */
-#menucell.setup_navigation li.menuitem.disabled a.navigation_title {
-cursor:default;
-color:#C0C2C3;
+#menucell.setup-navigation li.menuitem.disabled a.navigation-title {
+cursor: default;
+color: #C0C2C3;
 }
 
 /* Disabled setup steps */
-#menucell.setup_navigation li.menuitem a.navigation_title {
-font-size:1.2em;
-font-weight:bold;
-text-decoration:none;
-cursor:pointer;
-padding-top:3px;
-padding-bottom:3px;
+#menucell.setup-navigation li.menuitem a.navigation-title {
+font-size: 1.2em;
+font-weight: bold;
+text-decoration: none;
+cursor: pointer;
+padding-top: 3px;
+padding-bottom: 3px;
 }
 
 /* The style for the info of an active setup */
-#menucell.setup_navigation li.menuitem a.navigation_info {
-font-size:1em;
-color:#31363b;
-margin:0;
-cursor:default;
+#menucell.setup-navigation li.menuitem a.navigation-info {
+font-size: 1em;
+color: #31363b;
+margin: 0;
+cursor: default;
 }
-html.ltr #menucell.setup_navigation li.menuitem a.navigation_info {
-padding:4px 4px 3px 15px;
+html.ltr #menucell.setup-navigation li.menuitem a.navigation-info {
+padding: 4px 4px 3px 15px;
 }
-html.rtl #menucell.setup_navigation li.menuitem a.navigation_info {
-padding:4px 15px 3px 4px;
+html.rtl #menucell.setup-navigation li.menuitem a.navigation-info {
+padding: 4px 15px 3px 4px;
 }
 
-.setup_language select#lang_selected {
-width:100%;
+.setup-language select#lang_selected {
+width: 100%;
 }
 
 /*
   Setup step 2 styles
 */
 /* used to hide display info div */
-div.solution_visible {
-display:block;
-width:100%;
-text-align:left;
+div.solution-visible {
+display: block;
+width: 100%;
+text-align: left;
 }
-html.rtl div.solution_visible {
-text-align:right;
+html.rtl div.solution-visible {
+text-align: right;
 }
 
 /* Container for name and status */
-div.step2_entry_container {
-padding:3px;
-width:99%;
-cursor:default;
+div.step2-entry-container {
+padding: 3px;
+width: 99%;
+cursor: default;
 }
 
 /* Container for name and status, when status is failed */
-div.step2_entry_container_info {
-padding:3px;
-border:1px solid #C0C2C3;
-width:99%;
-cursor:default;
+div.step2-entry-container-info {
+padding: 3px;
+border: 1px solid #C0C2C3;
+width: 99%;
+cursor: default;
 }
 
 /* Text shown for each entry */
-div.step2_entry_name {
-float:left;
-padding-bottom:4px;
-vertical-align:middle;
+div.step2-entry-name {
+float: left;
+padding-bottom: 4px;
+vertical-align: middle;
 }
-html.rtl div.step2_entry_name {
-float:right;
+html.rtl div.step2-entry-name {
+float: right;
 }
 
 /* Status container */
-div.step2_entry_status {
-float:none;
-text-align:right;
-padding-bottom:4px;
-vertical-align:middle;
+div.step2-entry-status {
+float: none;
+text-align: right;
+padding-bottom: 4px;
+vertical-align: middle;
 }
-html.rtl div.step2_entry_status {
-text-align:left;
+html.rtl div.step2-entry-status {
+text-align: left;
 }
 
 /* Status failed */
-div.step2_failed {
-color:red;
-padding-bottom:4px;
+div.step2-failed {
+color: red;
+padding-bottom: 4px;
 }
 
 /* Status failed but not necessary for setup */
-div.step2_warning {
-color:orange;
-padding-bottom:4px;
+div.step2-warning {
+color: orange;
+padding-bottom: 4px;
 }
 
 /* Status successful */
-div.step2_successful {
-color:green;
+div.step2-successful {
+color: green;
 }
 
 /* Text used in info div. */
-div.step2_failed_text {
-background-repeat:no-repeat;
+div.step2-failed-text {
+background-repeat: no-repeat;
 }
-html.ltr div.step2_failed_text {
-padding-left:25px;
+html.ltr div.step2-failed-text {
+padding-left: 25px;
 }
-html.rtl div.step2_failed_text {
-padding-right:25px;
+html.rtl div.step2-failed-text {
+padding-right: 25px;
 }
 
 /* Text used in info div. On warnings */
-div.step2_warning_text {
-background-repeat:no-repeat;
+div.step2-warning-text {
+background-repeat: no-repeat;
 }
-html.ltr div.step2_warning_text {
-padding-left:25px;
+html.ltr div.step2-warning-text {
+padding-left: 25px;
 }
-html.rtl div.step2_warning_text {
-padding-right:25px;
+html.rtl div.step2-warning-text {
+padding-right: 25px;
 }
 
 /* On small screens */
 @media (max-width: 640px) {
   body.setup a.plugtop img {
-  height:32px;
+  height: 32px;
   }
-  html.ltr body.setup div#header_left .plugtop {
-  margin-left:0px;
+  html.ltr body.setup div#header-left .plugtop {
+  margin-left: 0;
   }
-  html.rtl body.setup div#header_left .plugtop {
-  margin-right:0px;
+  html.rtl body.setup div#header-left .plugtop {
+  margin-right: 0;
   }
 }

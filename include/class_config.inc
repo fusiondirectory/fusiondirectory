@@ -424,7 +424,8 @@ class config  {
     }
 
     $debugLevel = $this->get_cfg_value('DEBUGLEVEL');
-    if ($debugLevel & DEBUG_CONFIG) { // value from LDAP can't activate DEBUG_CONFIG
+    if ($debugLevel & DEBUG_CONFIG) {
+      /* value from LDAP can't activate DEBUG_CONFIG */
       $debugLevel -= DEBUG_CONFIG;
     }
     if (isset($this->data['MAIN']['DEBUGLEVEL'])) {
@@ -529,25 +530,26 @@ class config  {
   }
 
   /* Check that configuration is in LDAP, check that no plugin got installed since last configuration update */
-  function checkLdapConfig ()
+  function checkLdapConfig ($forceReload = FALSE)
   {
     global $ui;
-    $ldap   = $this->get_ldap_link();
-    $dn     = CONFIGRDN.$this->current['BASE'];
-    $reload = TRUE;
-    $ldap->cat($dn, array('fusionConfigMd5'));
-    if ($attrs = $ldap->fetch()) {
-      if (isset($attrs['fusionConfigMd5'][0]) && ($attrs['fusionConfigMd5'][0] == md5_file(CACHE_DIR."/".CLASS_CACHE))) {
-        $reload = FALSE;
+    $dn = CONFIGRDN.$this->current['BASE'];
+
+    if (!$forceReload) {
+      $ldap = $this->get_ldap_link();
+      $ldap->cat($dn, array('fusionConfigMd5'));
+      if ($attrs = $ldap->fetch()) {
+        if (isset($attrs['fusionConfigMd5'][0]) && ($attrs['fusionConfigMd5'][0] == md5_file(CACHE_DIR.'/'.CLASS_CACHE))) {
+          return;
+        }
       }
     }
-    if ($reload) {
-      add_lock($dn, $ui->dn);
-      $config_plugin = objects::open($dn, 'configuration');
-      $config_plugin->save_object();
-      $config_plugin->save();
-      del_lock($dn);
-    }
+
+    add_lock($dn, $ui->dn);
+    $config_plugin = objects::open($dn, 'configuration');
+    $config_plugin->save_object();
+    $config_plugin->save();
+    del_lock($dn);
   }
 
   function load_inldap_config()
@@ -605,7 +607,8 @@ class config  {
     foreach ($types as $type) {
       $i = objects::infos($type);
       $filter         .= $i['filter'];
-      $ldap_values[]  = $i['mainAttr']; // Specific key for departement objectTypes
+      /* Specific key for departement objectTypes */
+      $ldap_values[]  = $i['mainAttr'];
     }
     $filter = '(|'.$filter.')';
 
@@ -629,7 +632,7 @@ class config  {
         continue;
       }
 
-      $dn   = $ldap->getDN();
+      $dn   = $attrs['dn'];
       $data = objects::infos($oc);
       $this->department_info[$dn] = array(
         'img'         => $data['icon'],
@@ -915,7 +918,8 @@ class config  {
       if (isset($plInfo['plObjectType'])) {
         $entry = array('CLASS' => $class,'NAME' => $plInfo['plShortName']);
         foreach ($plInfo['plObjectType'] as $key => $value) {
-          if (is_numeric($key)) { // This is not the main tab
+          if (is_numeric($key)) {
+            /* This is not the main tab */
             $tabclass = strtoupper($value)."TABS";
             if (($tabclass == 'GROUPTABS') && class_available('mixedGroup')) {
               $tabclass = 'OGROUP-USERTABS';
@@ -1031,7 +1035,8 @@ class config  {
       }
       if (isset($plInfo['plObjectType'])) {
         foreach ($plInfo['plObjectType'] as $key => $value) {
-          if (is_numeric($key)) { // This is not the main tab
+          if (is_numeric($key)) {
+            /* This is not the main tab */
             $obj = strtoupper($value);
           } else {
             $obj = strtoupper($key);

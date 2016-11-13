@@ -91,7 +91,8 @@ class plugin
 
   var $acl_base     = "";
   var $acl_category = "";
-  var $read_only    = FALSE; // Used when the entry is opened as "readonly" due to locks.
+  // Used when the entry is opened as "readonly" due to locks.
+  var $read_only    = FALSE;
 
   /* This can be set to render the tabulators in another stylesheet */
   var $pl_notify = FALSE;
@@ -276,7 +277,8 @@ class plugin
       unset($template_attrs['fdTemplateField']['count']);
       unset($template_attrs['objectClass']['count']);
       unset($template_attrs['cn']['count']);
-      for ($i = 0; $i < $template_attrs['count']; ++$i) { // Remove numeric keys
+      for ($i = 0; $i < $template_attrs['count']; ++$i) {
+        // Remove numeric keys
         unset($template_attrs[$i]);
       }
       unset($template_attrs['count']);
@@ -652,8 +654,10 @@ class plugin
         $str = htmlentities($str, ENT_NOQUOTES, 'UTF-8');
 
         $str = preg_replace('#&([A-za-z])(?:acute|cedil|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $str);
-        $str = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $str); // handle ligatures
-        return array(preg_replace('#&[^;]+;#', '', $str)); // delete unhandled characters
+        // handle ligatures
+        $str = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $str);
+        // delete unhandled characters
+        return array(preg_replace('#&[^;]+;#', '', $str));
       case 't': // translit
         $localesaved = setlocale(LC_CTYPE, 0);
         $ret = array();
@@ -767,7 +771,8 @@ class plugin
       }
       $result = $result_tmp;
     }
-    foreach ($result as &$r) { // Array that were not converted by a modifier into a string are now converted to strings
+    // Array that were not converted by a modifier into a string are now converted to strings
+    foreach ($result as &$r) {
       if (is_array($r)) {
         $r = reset($r);
       }
@@ -829,7 +834,8 @@ class plugin
         while (preg_match('/%([^%\|]+\|)?([^%]+)%/', $value, $m, PREG_OFFSET_CAPTURE, $offset)) {
           $offset = $m[0][1] + strlen($m[0][0]);
           $depends[$key][] = $m[2][0];
-          if (!isset($attrs[$m[2][0]])) { // Dependency which has no value might be missing
+          // Dependency which has no value might be missing
+          if (!isset($attrs[$m[2][0]])) {
             $attrs[$m[2][0]]    = array();
             $depends[$m[2][0]]  = array();
           }
@@ -852,7 +858,8 @@ class plugin
         return -1;
       } elseif (in_array($k2, $flatdepends[$k1])) {
         return 1;
-      } else { // When no direct dependency, we sort by number of dependencies
+        // When no direct dependency, we sort by number of dependencies
+      } else {
         $c1 = count($flatdepends[$k1]);
         $c2 = count($flatdepends[$k2]);
         if ($c1 == $c2) {

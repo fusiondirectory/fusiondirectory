@@ -19,18 +19,15 @@
 */
 
 /* Install event handlers */
-Event.observe(window, 'resize', resizeHandler);
-Event.observe(window, 'load', resizeHandler);
 Event.observe(window, 'load', initProgressPie);
-
 
 /* Toggle checkbox that matches regex */
 function chk_set_all(regex,value)
 {
   for (var i = 0; i < document.mainform.elements.length; i++) {
-    var _id=document.mainform.elements[i].id;
+    var _id = document.mainform.elements[i].id;
     if(_id.match(regex)) {
-            document.mainform.elements[i].checked= value;
+      document.mainform.elements[i].checked = value;
     }
   }
 }
@@ -39,19 +36,16 @@ function chk_set_all(regex,value)
 function chk_set_all_by_class(regex,value)
 {
   for (var i = 0; i < document.mainform.elements.length; i++) {
-    var _class=document.mainform.elements[i].getAttribute("class");
-        if(_class) {
-            if(_class.match(regex)) {
-                document.mainform.elements[i].checked= value;
-            }
+    var _class = document.mainform.elements[i].getAttribute("class");
+    if(_class && _class.match(regex)) {
+      document.mainform.elements[i].checked = value;
     }
   }
 }
 
-
 function toggle_all_(regex,state_object)
 {
-  state = document.getElementById(state_object).checked;
+  var state = document.getElementById(state_object).checked;
   chk_set_all(regex, state);
 }
 
@@ -73,12 +67,12 @@ function acl_set_all(regex,value)
 function acl_toggle_all(regex)
 {
   for (var i = 0; i < document.mainform.elements.length; i++) {
-    var _id=document.mainform.elements[i].id;
+    var _id = document.mainform.elements[i].id;
     if(_id.match(regex)) {
-      if (document.getElementById(_id).checked == true){
-        document.getElementById(_id).checked= false;
+      if (document.getElementById(_id).checked === true){
+        document.getElementById(_id).checked = false;
       } else {
-        document.getElementById(_id).checked= true;
+        document.getElementById(_id).checked = true;
       }
     }
   }
@@ -87,7 +81,7 @@ function acl_toggle_all(regex)
 function inArray(p_val, array) {
   var l = array.length;
   for (var i = 0; i < l; i++) {
-    if (array[i] == p_val) {
+    if (array[i] === p_val) {
       return true;
     }
   }
@@ -109,85 +103,19 @@ function js_check(form) {
   form.javascript.value = 'true';
 }
 
-function resizeHandler (e) {
-  if (!e) e=window.event;
-  if (document.getElementById("menucell") && document.getElementById("d_scrollbody")) {
-    var inner_height= window.innerHeight;
-    var min_height= 450;
-    var px_height= min_height;
-    var suggested= px_height;
-
-    // document.defaultView allows access to the rendered size of elements and should be supported by modern browsers
-    if(document.defaultView) {
-      var menu_height= 0;
-      if (document.getElementById("d_height")){
-        suggested= parseInt(document.getElementById("d_height").value);
-      } else {
-        menu_height=parseInt(document.defaultView.getComputedStyle(document.getElementById("menucell"),"").getPropertyValue('height'));
-        // Minimum height for divlist should be the bottom edge of the menu
-        min_height= menu_height-197;
-        suggested= min_height;
-        if((inner_height-230)-suggested>0) {
-          suggested= inner_height-230;
-        }
-
-      }
-
-      // IE uses other height specifications
-    } else if (Prototype.Browser.IE) {
-      suggested= document.all.menucell.offsetHeight;
-      offset= absTop(d_scrollbody);
-      suggested-= offset;
-      if((inner_height-230)-suggested>0) {
-        suggested= inner_height-230;
-      }
-    }
-
-    /* Reduce height if a list footer is set */
-        /*
-    if(document.getElementById("t_scrollfoot")){
-      suggested = suggested -20;
-    }
-
-    if (!document.getElementById("list_workaround")) {
-      document.getElementById("d_scrollbody").style.height=suggested+"px";
-    } else {
-      if (!Prototype.Browser.IE) {
-        current_height= parseInt(document.defaultView.getComputedStyle(document.getElementById("t_nscrollbody"),"").getPropertyValue('height'));
-        if (current_height < menu_height) {
-          document.getElementById("d_scrollbody").style.height=suggested+20+"px";
-        }
-      }
-    }
-    if (document.getElementById("t_nscrollbody")) {
-      document.getElementById("t_nscrollbody").style.height=(suggested-22)+"px";
-    }
-        */
-  }
-  return true;
-}
-
-function absTop(e) {
-  return (e.offsetParent)?e.offsetTop+absTop(e.offsetParent) : e.offsetTop;
-}
-
 /* Set focus to first valid input field
    avoid IExplorer warning about hidding or disabled fields
  */
 function focus_field()
 {
-  var i     = 0;
-  var e     = 0;
-  var found = false;
-  var element_name = "";
-  var element =null;
+  var i       = 0;
+  var found   = false;
+  var element = null;
 
-  while(focus_field.arguments[i] && !found){
-
+  while (focus_field.arguments[i] && !found) {
     var tmp = document.getElementsByName(focus_field.arguments[i]);
-    for(e = 0 ; e < tmp.length ; e ++ ){
-
-      if(tmp[e].disabled != true &&  tmp[e].type != "none" && tmp[e].type != "hidden" ){
+    for (var e = 0 ; e < tmp.length ; e++) {
+      if ((tmp[e].disabled !== true) &&  (tmp[e].type !== "none") && (tmp[e].type !== "hidden")) {
         found = true;
         element = tmp[e];
         break;
@@ -196,7 +124,7 @@ function focus_field()
     i++;
   }
 
-  if(element && found){
+  if (element && found) {
     element.blur();
     element.focus();
   }
@@ -214,48 +142,48 @@ function focus_field()
  */
 function next_msg_dialog()
 {
-  var s_pending = "";
-  var a_pending = new Array();
-  var i_id      = 0;
-  var i         = 0;
+  var s_pending;
+  var a_pending;
+  var i_id;
   var tmp       = "";
-  var ele       = null;
-  var ele2      = null;
-  var cur_id    = "";
+  var ele;
+  var ele2;
+  var ele3;
+  var cur_id;
 
-  if(document.getElementById('current_msg_dialogs')){
+  if (document.getElementById('current_msg_dialogs')) {
     cur_id = document.getElementById('current_msg_dialogs').value;
-    if(cur_id != ""){
+    if (cur_id !== "") {
       ele = document.getElementById('e_layer' + cur_id);
       ele.onmousemove = "";
       $('e_layer' + cur_id).hide();
       document.getElementById('closed_msg_dialogs').value += "," + cur_id;
-      document.getElementById('current_msg_dialogs').value= "";
+      document.getElementById('current_msg_dialogs').value = "";
     }
   }
 
-  if(document.getElementById('pending_msg_dialogs')){
+  if (document.getElementById('pending_msg_dialogs')) {
     s_pending = document.getElementById('pending_msg_dialogs').value;
     a_pending = s_pending.split(",");
-    if(a_pending.length){
+    if (a_pending.length) {
       i_id = a_pending.pop();
-      for (i = 0 ; i < a_pending.length; ++i){
+      for (var i = 0 ; i < a_pending.length; ++i) {
         tmp = tmp + a_pending[i] + ',';
       }
       tmp = tmp.replace(/,$/g,"");
-      if(i_id != ""){
+      if (i_id !== "") {
         ele = document.getElementById('e_layer' + i_id);
+        ele2 = document.getElementById('e_layer2') ;
         ele3 = document.getElementById('e_layerTitle' + i_id);
-        ele.style.display= 'block'  ;
-        document.getElementById('pending_msg_dialogs').value= tmp;
-        document.getElementById('current_msg_dialogs').value= i_id;
-        ele2 = document.getElementById('e_layer2') ;
-        ele3.onmousedown = start_move_div_by_cursor;
-        ele2.onmouseup  = stop_move_div_by_cursor;
-        ele2.onmousemove = move_div_by_cursor;
-      }else{
-        ele2 = document.getElementById('e_layer2') ;
-        ele2.style.display ="none";
+        ele.style.display = 'block'  ;
+        document.getElementById('pending_msg_dialogs').value = tmp;
+        document.getElementById('current_msg_dialogs').value = i_id;
+        ele3.onmousedown  = start_move_div_by_cursor;
+        ele2.onmouseup    = stop_move_div_by_cursor;
+        ele2.onmousemove  = move_div_by_cursor;
+      } else {
+        ele2 = document.getElementById('e_layer2');
+        ele2.style.display = "none";
       }
     }
   }
@@ -276,35 +204,39 @@ function start_move_div_by_cursor(e)
 {
   var x = 0;
   var y = 0;
-  var cur_id = 0;
-  var dialog = null;
-  var event = null;
+  var cur_id;
+  var dialog;
+  var event;
 
   /* Get current msg_dialog position
    */
   cur_id = document.getElementById('current_msg_dialogs').value;
-  if(cur_id != ""){
+  if (cur_id !== "") {
     dialog = document.getElementById('e_layer' + cur_id);
     x = dialog.style.left;
     y = dialog.style.top;
     x = x.replace(/[^0-9]/g,"");
     y = y.replace(/[^0-9]/g,"");
-    if(!y) y = 200;
-    if(!x) x = 200;
+    if(!y) {
+      y = 200;
+    }
+    if(!x) {
+      x = 200;
+    }
   }
 
   /* Get mouse position within msg_dialog
    */
-  if(window.event){
+  if (window.event) {
     event = window.event;
-    if(event.offsetX){
+    if (event.offsetX) {
       div_offset_x   = event.clientX -x;
       div_offset_y   = event.clientY -y;
       enable_move_div_by_cursor = true;
     }
-  }else if(e){
+  } else if(e) {
     event = e;
-    if(event.layerX){
+    if (event.layerX) {
       div_offset_x  = event.screenX -x;
       div_offset_y  = event.screenY -y;
       enable_move_div_by_cursor = true;
@@ -328,134 +260,136 @@ function stop_move_div_by_cursor()
 /* Move msg_dialog with cursor */
 function move_div_by_cursor(e)
 {
-  var event         = false;
-  var mouse_pos_x   = 0;
-  var mouse_pos_y   = 0;
-  var cur_div_x = 0;
-  var cur_div_y = 0;
-  var cur_id  = 0;
-  var dialog = null;
+  var event;
+  var mouse_pos_x;
+  var mouse_pos_y;
+  var cur_div_x;
+  var cur_div_y;
+  var cur_id;
+  var dialog;
 
 
-  if(undefined !== enable_move_div_by_cursor && enable_move_div_by_cursor == true){
+  if ((enable_move_div_by_cursor === true) && document.getElementById('current_msg_dialogs')) {
+    /* Get mouse position on screen */
+    if (window.event) {
+      event = window.event;
+      mouse_pos_x = event.clientX;
+      mouse_pos_y = event.clientY;
+    } else if (e) {
+      event = e;
+      mouse_pos_x = event.screenX;
+      mouse_pos_y = event.screenY;
+    } else {
+      return;
+    }
 
-    if(document.getElementById('current_msg_dialogs')){
+    /* Get id of current msg_dialog */
+    cur_id = document.getElementById('current_msg_dialogs').value;
+    if (cur_id !== "") {
+      dialog = document.getElementById('e_layer' + cur_id);
 
-      /* Get mouse position on screen
-       */
-      if(window.event){
-        event = window.event;
-        mouse_pos_x = event.clientX;
-        mouse_pos_y = event.clientY;
-      }else if (e){
-        event = e;
-        mouse_pos_x = event.screenX;
-        mouse_pos_y = event.screenY;
-      }else{
-        return;
+      /* Calculate new position */
+      cur_div_x = mouse_pos_x - div_offset_x;
+      cur_div_y = mouse_pos_y - div_offset_y;
+
+      /* Ensure that dialog can't be moved out of screen */
+      if (cur_div_x < 0 ) {
+        cur_div_x = 0;
+      }
+      if (cur_div_y < 0 ) {
+        cur_div_y = 0;
       }
 
-      /* Get id of current msg_dialog */
-      cur_id = document.getElementById('current_msg_dialogs').value;
-      if(cur_id != ""){
-        dialog = document.getElementById('e_layer' + cur_id);
-
-        /* Calculate new position */
-        cur_div_x = mouse_pos_x - div_offset_x;
-        cur_div_y = mouse_pos_y - div_offset_y;
-
-        /* Ensure that dialog can't be moved out of screen */
-        if(cur_div_x < 0 ) cur_div_x = 0
-        if(cur_div_y < 0 ) cur_div_y = 0
-
-        /* Assign new values */
-        dialog.style.left     = (cur_div_x ) + "px";
-        dialog.style.top      = (cur_div_y ) + "px";
-        dialog.style.margin   = "0";
-        dialog.style.position = "absolute";
-      }
+      /* Assign new values */
+      dialog.style.left     = (cur_div_x ) + "px";
+      dialog.style.top      = (cur_div_y ) + "px";
+      dialog.style.margin   = "0";
+      dialog.style.position = "absolute";
     }
   }
 }
 
 function setProgressPie(context, percent)
 {
-    context.clearRect(0, 0, 22, 22);
+  context.clearRect(0, 0, 22, 22);
 
-    var r = "3D";
-    var g = "AE";
-    var b = "E9";
+  var r = "3D";
+  var g = "AE";
+  var b = "E9";
 
-    // Fade orange
-    if (percent > 50) {
-        r = "F6"
-        g = "74"
-        b = "00";
-    }
+  // Fade orange
+  if (percent > 50) {
+    r = "F6"
+    g = "74"
+    b = "00";
+  }
 
-    // Fade red
-    if (percent > 75) {
-        r = "ED"
-        g = "15"
-        b = "15";
-    }
+  // Fade red
+  if (percent > 75) {
+    r = "ED"
+    g = "15"
+    b = "15";
+  }
 
-    context.strokeStyle = "#" + r  + g + b
-        context.fillStyle = context.strokeStyle;
+  context.strokeStyle = "#" + r  + g + b
+  context.fillStyle   = context.strokeStyle;
 
-    context.beginPath();
-    context.moveTo(11,11)
-        context.arc(11,11,8,-Math.PI/2,-Math.PI/2 + Math.PI*percent/50,true);
-    context.closePath();
-    context.fill();
+  context.beginPath();
+  context.moveTo(11,11)
+  context.arc(11,11,8,-Math.PI/2,-Math.PI/2 + Math.PI*percent/50,true);
+  context.closePath();
+  context.fill();
 
-    context.moveTo(11,11)
-        context.beginPath();
-    context.arc(11,11,8,0,Math.PI*2,false);
-    context.closePath();
-    context.stroke();
+  context.moveTo(11,11)
+  context.beginPath();
+  context.arc(11,11,8,0,Math.PI*2,false);
+  context.closePath();
+  context.stroke();
 }
 
-function initProgressPie(){
-    var canvas = $('sTimeout');
+function initProgressPie() {
+  var canvas = $('sTimeout');
 
-    // Check the element is in the DOM and the browser supports canvas
-    if(canvas && canvas.getContext) {
-        var percent = 0.01;
-        var context = canvas.getContext('2d');
+  // Check the element is in the DOM and the browser supports canvas
+  if(canvas && canvas.getContext) {
+    var percent = 0.01;
+    var context = canvas.getContext('2d');
+    setProgressPie(context, percent);
+
+    // Extract timeout and title string out out canvas.title
+    var data = canvas.title;
+    var timeout = data.replace(/\|.*$/,'');
+    var title = data.replace(/^.*\|/,'');
+    var interval = 1;
+    var time = 0;
+    setInterval(
+      function() {
+        // Calculate percentage
+        percent += (interval / timeout) * 100;
+
+        // Increase current time by interval
+        time += interval;
+
+        // Generate title
+        var minutes = parseInt((timeout-time) / 60 );
+        var seconds = '' + parseInt((timeout-time) % 60);
+        if (seconds.length === 1) {
+          seconds = '0' + seconds;
+        }
+        minutes = minutes + ':' + seconds;
+
+        // Set new  canval title
+        canvas.title = title.replace(/%d/ ,minutes);
         setProgressPie(context, percent);
 
-        // Extract timeout and title string out out canvas.title
-        var data = canvas.title;
-        var timeout = data.replace(/\|.*$/,'');
-        var title = data.replace(/^.*\|/,'');
-        var interval = 1;
-        var time = 0;
-        setInterval(function() {
-
-                // Calculate percentage
-                percent+= (interval / timeout) * 100;
-
-                // Increase current time by interval
-                time += interval;
-
-                // Generate title
-                var minutes = parseInt((timeout-time) / 60 );
-                var seconds = '' + parseInt((timeout-time) % 60);
-                if(seconds.length == 1) seconds = '0' + seconds ;
-                minutes = minutes + ':' + seconds;
-
-                // Set new  canval title
-                canvas.title=  title.replace(/%d/ ,minutes);
-                setProgressPie(context, percent);
-
-                if (percent>99) percent= 99;
-                }, (interval * 1000));
-    }
+        if (percent > 99) {
+          percent = 99;
+        }
+      },
+      (interval * 1000)
+    );
+  }
 }
-
 
 // Global storage for baseSelector timer
 var rtimer;
-
-// vim:ts=2:syntax

@@ -1,6 +1,32 @@
 FusionDirectory changelog
 =========================
 
+* FusionDirectory 1.0.17
+
+[Fix] FusionDirectory plugins - Bugs #4953: auto.master should be stored into ldap
+[Fix] Bugs #5190: Too many ldap request when loading user list
+[Fix] Bugs #5191: Too many ldap request when loading list (snapshots)
+[Fix] FusionDirectory plugins - Bugs #5192: Fusiondirectory ldapmanager plugin fatal error when importing a ldif file
+[Fix] Bugs #5194: wrong icons / issue with objectType class_groupManagement.inc
+[Fix] Bugs #5195: Undefined index: dn / del_lock()
+FusionDirectory plugins - Bugs #5196: webservice: object is modified instead of created
+|Fix] FusionDirectory plugins - Bugs #5197: removing the ldif for default policy from the ppolicy plugin,
+[Feature] FusionDirectory plugins - Bugs #5198: merge the dhcp code from 1.1 into 1.0.17
+|Fix] FusionDirectory plugins - Bugs #5225: due to dhcp modification the network section on system is not inside a section
+[Fix] FusionDirectory plugins - Bugs #5226: audit showing an error everytime we save an dhcp object
+[Fix] FusionDirectory plugins - Bugs #5227: moving from branch inside a dhcp entry
+[Fix] FusionDirectory plugins - Bugs #5228: when trying to copy a dhcp entry is get Missing argument 3 for userinfo::is_copyable(), called in /usr/share/fusiondirectory/include/class_CopyPasteHandler.inc on line 226 and defined" - File: /usr/share/fusiondirectory/include/class_userinfo.inc (Line 31
+[Fix] FusionDirectory plugins - Bugs #5229: when i have a system who is in the dhcp range of my dhcp server, it find and display the right data but don't save it
+[Feature] Bugs #5230: we need a fusiondirectory-setup --migrate-dhcp
+|Fix] FusionDirectory plugins - Bugs #5231: we should not be able to remove the global
+[Feature] FusionDirectory plugins - Bugs #5232: we miss a dropdown for failover in the Create new DHCP section
+[Fix] FusionDirectory plugins - Bugs #5233: Remove ppolicydefault.ldif and dhcpd.schema from source
+[Fix] Bugs #5234: Plugin's configuration are not inserted if they are already installed
+[Fix] FusionDirectory plugins - Bugs #5236: Missed icon and CSS error
+[Fix] Bugs #5237: ogroup icon not clickable
+[Feature] FusionDirectory plugins - Wishlist #5193: Add ppolicy tab for DSA accounts
+[Feature] FusionDirectory plugins - Wishlist #5239: Champs pour enregistrer la volonté d'afficher la photo de la personne sur le site web
+
 * FusionDirectory 1.0.16
 
 |Fix] Bugs #3587: Edit a template add bad characters

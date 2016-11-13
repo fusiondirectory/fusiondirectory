@@ -225,7 +225,7 @@ class userManagement extends simpleManagement
     return $label;
   }
 
-  static function filterProperties($row, $dn)
+  static function filterProperties($row, $dn, $attrs)
   {
     global $config;
     static $usertabs = array();
@@ -243,12 +243,10 @@ class userManagement extends simpleManagement
     }
 
     // Load information if needed
-    $ldap = $config->get_ldap_link();
-    $ldap->cat($dn);
     $result = '<input class="center" type="image" src="geticon.php?context=applications&amp;icon=user-info&amp;size=16" '.
                        'alt="'._('User account').'" title="'._('User account information').'" '.
                        'name="listing_edit_tab_user_'.$row.'"/>';
-    if ($attrs = $ldap->fetch()) {
+    if (!empty($attrs)) {
       if (in_array_ics ('fdTemplate', $attrs['objectClass'])) {
         $attrs = plugin::tpl_template_to_attrs($attrs);
       }

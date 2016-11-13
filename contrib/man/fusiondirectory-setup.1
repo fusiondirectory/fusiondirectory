@@ -133,7 +133,7 @@
 .\" ========================================================================
 .\"
 .IX Title "FUSIONDIRECTORY-SETUP 1"
-.TH FUSIONDIRECTORY-SETUP 1 "2016-10-03" "FusionDirectory 1.0.15" "FusionDirectory Documentation"
+.TH FUSIONDIRECTORY-SETUP 1 "2016-11-08" "FusionDirectory 1.0.17" "FusionDirectory Documentation"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
@@ -174,6 +174,9 @@ This option replace gosaPrinter objectClass by new fdPrinter objectClass.
 .IP "\-\-migrate\-dns" 4
 .IX Item "--migrate-dns"
 This option moves \s-1DNS\s0 zones from systems branch to \s-1DNS\s0 branch, which is necessary for FusionDirectory 1.0.10 and above.
+.IP "\-\-migrate\-dhcp" 4
+.IX Item "--migrate-dhcp"
+This option moves \s-1DHCP\s0 configurations from systems branch to \s-1DHCP\s0 branch, which is necessary for FusionDirectory 1.0.17 and above.
 .IP "\-\-migrate\-acls" 4
 .IX Item "--migrate-acls"
 This option will migrated old GOsa style acl from 1.0.7 into FusionDirectory acl roles in 1.0.8

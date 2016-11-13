@@ -49,24 +49,22 @@ class groupManagement extends simpleManagement
     $this->headpage->registerElementFilter('filterProperties', 'groupManagement::filterProperties');
   }
 
-  static function filterProperties($row, $dn, $gosaGroupObjects = NULL)
+  static function filterProperties($row, $dn, $objectType, $attrs, $gosaGroupObjects = NULL)
   {
     global $config;
     static $grouptabs = array();
 
     // Load information if needed
-    $ldap = $config->get_ldap_link();
-    $ldap->cat($dn);
     $result = '&nbsp;';
-    if ($attrs = $ldap->fetch()) {
-      if (objects::isOfType($attrs, 'ogroup')) {
+    if (!empty($attrs)) {
+      if (strtolower($objectType) == 'ogroup') {
         if (empty($gosaGroupObjects)) {
           return $result;
         } else {
           return self::filterGroupObjects($row, $gosaGroupObjects);
         }
       }
-      if (objects::isOfType($attrs, 'role')) {
+      if (strtolower($objectType) == 'role') {
         return '<input class="center" type="image" src="geticon.php?context=types&amp;icon=role&amp;size=16" '.
                  'alt="'._('Role').'" title="'._('Edit role properties').'" '.
                  'name="listing_edit_'.$row.'" style="padding:1px"/>';

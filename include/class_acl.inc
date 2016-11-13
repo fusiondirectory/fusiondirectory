@@ -141,7 +141,12 @@ class acl
     foreach ($ma as $memberdn) {
       // Check for wildcard here
       $dn = base64_decode($memberdn);
-      if ($dn != "*") {
+      if ($dn != '*') {
+        if (empty($dn)) {
+          trigger_error('Empty dn found in members of ACL');
+          continue;
+        }
+
         $ldap->cat($dn, array('cn', 'objectClass', 'description', 'uid'));
 
         /* Found entry... */

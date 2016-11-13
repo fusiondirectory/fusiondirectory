@@ -94,10 +94,14 @@ class userRoles extends simplePlugin
         $this->groupsMembership = $this->attrs['userGroups'];
       }
     } else {
-      $myGroups  = objects::ls(
-        'ogroup', NULL, NULL,
-        '(member='.$this->dn.')'
-      );
+      if (($this->dn != '') && ($this->dn != 'new')) {
+        $myGroups  = objects::ls(
+          'ogroup', NULL, NULL,
+          '(member='.$this->dn.')'
+        );
+      } else {
+        $myGroups = array();
+      }
       $this->attributesAccess['groupsMembership']->setValue(array_keys($myGroups));
       $this->savedGroupsMembership = array_keys($myGroups);
     }
@@ -123,13 +127,20 @@ class userRoles extends simplePlugin
         $this->rolesMembership = $this->attrs['userRoles'];
       }
     } else {
-      $myRoles  = objects::ls(
-        'role', NULL, NULL,
-        '(roleOccupant='.$this->dn.')'
-      );
+      if (($this->dn != '') && ($this->dn != 'new')) {
+        $myRoles  = objects::ls(
+          'role', NULL, NULL,
+          '(roleOccupant='.$this->dn.')'
+        );
+      } else {
+        $myRoles = array();
+      }
       $this->attributesAccess['rolesMembership']->setValue(array_keys($myRoles));
       $this->savedRolesMembership = array_keys($myRoles);
     }
+
+    $this->is_account = ((count($this->rolesMembership) > 0) || (count($this->groupsMembership) > 0));
+    $this->initially_was_account = $this->is_account;
 
     $this->updateAttributesValues();
   }
@@ -145,13 +156,12 @@ class userRoles extends simplePlugin
       }
       return FALSE;
     }
-    return ((objects::count('role', NULL, '(roleOccupant='.$attrs['dn'].')') > 0) ||
-            (objects::count('ogroup', NULL, '(member='.$attrs['dn'].')') > 0));
+    return FALSE;
   }
 
   function remove_from_parent()
   {
-    if (!$this->is_template) {
+    if (!$this->is_template && ($this->dn != '') && ($this->dn != 'new')) {
       /* Remove all groups */
       foreach ($this->savedGroupsMembership as $ogroupdn) {
         $g = objects::open($ogroupdn, 'ogroup');

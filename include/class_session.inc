@@ -210,7 +210,7 @@ class session {
     session_set_cookie_params(24 * 60 * 60);
 
     /* Set cache limter to one day (parameter is minute !!)*/
-    session_cache_expire(60 * 24);  // default is 180
+    session_cache_expire(60 * 24);
 
     /* Set session max lifetime, to prevent the garbage collector to delete session before timeout.
        !! The garbage collector is a cron job on debian systems, the cronjob will fetch the timeout from

@@ -43,9 +43,11 @@ class simpleTabs
   var $by_object  = array();
   var $acl_category;
 
-  var $parent = NULL; // A parent object if available, e.g. a management class.
+  /* A parent object if available, e.g. a management class. */
+  var $parent = NULL;
 
-  var $read_only = FALSE; // Used when the entry is opened as "readonly" due to locks.
+  /* Used when the entry is opened as "readonly" due to locks. */
+  var $read_only = FALSE;
 
   var $baseclass = "";
 
@@ -173,7 +175,8 @@ class simpleTabs
       } else {
         $baseobject->base = dn2base(get_userinfo()->dn);
       }
-      if (!($baseobject instanceOf simplePlugin) && is_object($baseobject->baseSelector)) { // For some plugins not yet migrated to simple plugin.
+      /* For some plugins not yet migrated to simple plugin. */
+      if (!($baseobject instanceOf simplePlugin) && is_object($baseobject->baseSelector)) {
         $baseobject->baseSelector->setBase($baseobject->base);
       }
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $baseobject->base, 'Fixed base');
@@ -202,7 +205,7 @@ class simpleTabs
     unset($obj);
 
     /* Show object */
-    $display = '<div class="tab_content">'."\n";
+    $display = '<div class="tab-content">'."\n";
 
     $display .= $this->by_object[$this->current]->execute();
 
@@ -249,16 +252,16 @@ class simpleTabs
     if (!$disabled) {
       $display .= '<input type="hidden" name="arg" value=""/>';
     }
-    $display  .= '<table class="tabs_header"><tbody><tr>';
+    $display  .= '<table class="tabs-header"><tbody><tr>';
     $index    = 0;
-    $style    = array('tab_left', 'tab_active', 'tab_right');
+    $style    = array('tab-left', 'tab-active', 'tab-right');
     foreach ($this->by_name as $class => $name) {
 
-      /* Activate right tabs with style "tab_right" */
+      /* Activate right tabs with style "tab-right" */
       if ($index == 1) {
         $index++;
       } elseif ($class == $this->current) {
-        /* Activate current tab with style "tab_active " */
+        /* Activate current tab with style "tab-active " */
         $index++;
       }
 
@@ -279,13 +282,13 @@ class simpleTabs
       /* Take care about notifications */
       $obj = $this->by_object[$class];
       if ($this->by_object[$class]->pl_notify && ($obj->is_account || $obj->ignore_account)) {
-        $cssClasses .= ' tab_notify';
+        $cssClasses .= ' tab-notify';
       }
       if ($disabled) {
-        $cssClasses .= ' tab_disabled';
+        $cssClasses .= ' tab-disabled';
       }
       if (!$obj->is_account && !$obj->ignore_account) {
-        $cssClasses .= ' tab_inactive';
+        $cssClasses .= ' tab-inactive';
       }
 
 
@@ -302,7 +305,7 @@ class simpleTabs
     }
 
     $display .= "<td>\n";
-    $display .= '<div class="tab_border">&nbsp;</div></td></tr></tbody></table>';
+    $display .= '<div class="tab-border">&nbsp;</div></td></tr></tbody></table>';
 
     return $display;
   }
@@ -385,6 +388,8 @@ class simpleTabs
    */
   function save()
   {
+    global $ui;
+
     $baseobject = $this->getBaseObject();
     $new_dn     = $baseobject->compute_dn();
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $new_dn, "Saving");
@@ -423,6 +428,11 @@ class simpleTabs
       }
     }
     unset($obj);
+
+    if ($this->dn == $ui->dn) {
+      /* If the logged in user was edited, update his information */
+      $ui->loadLDAPInfo();
+    }
 
     return 0;
   }

@@ -68,10 +68,10 @@ define ('DEBUG_CONFIG',   64); /*! Debug level for CONFIG information */
 define ('DEBUG_ACL',      128); /*! Debug level for ACL infos */
 define ('DEBUG_SI',       256); /*! Debug level for communication with Argonaut */
 define ('DEBUG_MAIL',     512); /*! Debug level for all about mail (mailAccounts, imap, sieve etc.) */
-define ('DEBUG_FAI',      1024); // FAI (incomplete)
+define ('DEBUG_FAI',      1024); /*! Debug level for FAI (incomplete) */
 
 
-// Define shadow states
+/* Define shadow states */
 define ('POSIX_ACCOUNT_EXPIRED', 1);
 define ('POSIX_WARN_ABOUT_EXPIRATION', 2);
 define ('POSIX_FORCE_PASSWORD_CHANGE', 4);
@@ -250,7 +250,7 @@ function DEBUG($level, $line, $function, $file, $data, $info = '')
   }
   if (session::global_get('DEBUGLEVEL') & $level) {
     if ($first) {
-      echo '<div id="debug_handling" class="notice">'.
+      echo '<div id="debug-handling" class="notice">'.
             '<img src="geticon.php?context=status&amp;icon=dialog-information&amp;size=22" alt="info icon" style="vertical-align:middle;margin-right:.2em;"/>'.
             'There is some debug output '.
             '<button onClick="javascript:$$(\'div.debug_div\').each(function (a) { a.toggle(); });">Toggle</button>'.
@@ -597,7 +597,7 @@ function ldap_login_user ($username, $password)
   }
 
   /* got user dn, fill acl's */
-  $ui = new userinfo($config, $ldap->getDN());
+  $ui = new userinfo($config, $attrs['dn']);
 
   /* password check, bind as user with supplied password  */
   $ldap->disconnect();
@@ -738,12 +738,12 @@ function del_lock ($object)
   $ldap = $config->get_ldap_link();
   $ldap->cd(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
   $ldap->search('(&(objectClass=fdLockEntry)(fdObjectDn='.base64_encode($object).'))', array('fdObjectDn'));
-  $ldap->fetch();
+  $attrs = $ldap->fetch();
   if (!$ldap->success()) {
     msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), $ldap->getDN(), LDAP_DEL, ERROR_DIALOG));
     return;
-  } elseif ($ldap->getDN() != '') {
-    $ldap->rmdir($ldap->getDN());
+  } elseif (!empty($attrs['dn'])) {
+    $ldap->rmdir($attrs['dn']);
   }
 }
 
@@ -1593,33 +1593,6 @@ function to_string ($value)
     return $value;
   }
 }
-
-
-/*!
- * \brief Return a list of all printers in the current base
- *
- * Returns an array with the CNs of all printers (objects with
- * objectClass gotoPrinter) in the current base.
- * ($config->current['BASE']).
- *
- * Example:
- * \code
- * $this->printerList = get_printer_list();
- * \endcode
- *
- * \return array an array with the CNs of the printers as key and value.
- */
-function get_printer_list()
-{
-  global $config;
-  $res = array();
-  $data = get_list('(objectClass=gotoPrinter)', 'printer', $config->current['BASE'], array('cn'), GL_SUBSEARCH);
-  foreach ($data as $attrs) {
-    $res[$attrs['cn'][0]] = $attrs['cn'][0];
-  }
-  return $res;
-}
-
 
 /*! \brief Function to rewrite some problematic characters
  *
@@ -2482,12 +2455,18 @@ function normalizeLdap($input)
 function gosa_ldap_explode_dn($dn, $config = NULL, $verify_in_ldap = FALSE)
 {
   /* Initialize variables */
-  $ret  = array("count" => 0);  // Set count to 0
-  $next = TRUE;                 // if FALSE, then skip next loops and return
-  $cnt  = 0;                    // Current number of loops
-  $max  = 100;                  // Just for security, prevent looops
-  $ldap = NULL;                 // To check if created result a valid
-  $keep = "";                   // save last failed parse string
+  /* Set count to 0 */
+  $ret  = array("count" => 0);
+  /* if FALSE, then skip next loops and return */
+  $next = TRUE;
+  /* Current number of loops */
+  $cnt  = 0;
+  /* Just for security, prevent looops */
+  $max  = 100;
+  /* To check if created result a valid */
+  $ldap = NULL;
+  /* save last failed parse string */
+  $keep = "";
 
   /* Check each parsed dn in ldap ? */
   if (($config !== NULL) && $verify_in_ldap) {
@@ -2686,7 +2665,8 @@ function check_schema($cfg)
  */
 function get_languages($languages_in_own_language = FALSE, $strip_region_tag = FALSE)
 {
-  $tmp_english = array( // locales in english
+  /* locales in english */
+  $tmp_english = array(
     "ar"    => "Arabic",
     "ca_ES" => "Catalan",
     "cs_CZ" => "Czech",
@@ -2713,7 +2693,8 @@ function get_languages($languages_in_own_language = FALSE, $strip_region_tag = F
 
   $ret = array();
   if ($languages_in_own_language) {
-    $tmp_ownlang = array( // locales in their own language
+    /* locales in their own language */
+    $tmp_ownlang = array(
       "ar"    => "عربية",
       "ca_ES" => "Català",
       "cs_CZ" => "Česky",
@@ -3044,11 +3025,14 @@ function get_random_char ()
 {
   $randno = rand (0, 63);
   if ($randno < 12) {
-    return chr($randno + 46); // Digits, '/' and '.'
-  } else if ($randno < 38) {
-    return chr($randno + 53); // Uppercase
+    // Digits, '/' and '.'
+    return chr($randno + 46);
+  } elseif ($randno < 38) {
+    // Uppercase
+    return chr($randno + 53);
   } else {
-    return chr($randno + 59); // Lowercase
+    // Lowercase
+    return chr($randno + 59);
   }
 }
 
@@ -3217,10 +3201,10 @@ function get_next_id_pool($attrib)
     }
 
     /* Store old attrib and generate new */
-    $attrs = $ldap->fetch();
-    $dn = $ldap->getDN();
-    $oldAttr = $attrs[$attrib][0];
-    $newAttr = $oldAttr + 1;
+    $attrs    = $ldap->fetch();
+    $dn       = $attrs['dn'];
+    $oldAttr  = $attrs[$attrib][0];
+    $newAttr  = $oldAttr + 1;
 
     /* Sanity check */
     if ($newAttr >= $max) {

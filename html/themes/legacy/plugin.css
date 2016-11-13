@@ -1,261 +1,259 @@
-.plugin_window
-{
-vertical-align:top;
-text-align:justify;
-background-color: white;
-margin-top:0px;
-margin-left:0;
-margin-right:0;
-width:auto;
-border:1px solid #AAA;
-padding:0;
+.plugin-window {
+vertical-align: top;
+text-align: justify;
+background-color:  white;
+margin-top: 0;
+margin-left: 0;
+margin-right: 0;
+width: auto;
+border: 1px solid #AAA;
+padding: 0;
 }
 
 div.pluginfo {
-border-bottom:1px solid #AAA;
-width:100%;
-padding-top:2px;
-padding-bottom:2px;
-margin-bottom:0;
-text-align:right;
-vertical-align:middle;
-background-color:#dbe6c6;
-font-family:arial,helvetica,sans-serif;
-font-size:11px;
+border-bottom: 1px solid #AAA;
+width: 100%;
+padding-top: 2px;
+padding-bottom: 2px;
+margin-bottom: 0;
+text-align: right;
+vertical-align: middle;
+background-color: #dbe6c6;
+font-family: arial,helvetica,sans-serif;
+font-size: 11px;
 }
 html.rtl div.pluginfo {
-text-align:left;
+text-align: left;
 }
 
 .plugbottom {
-border-style:solid;
-border-color:#a0a0a0;
-width:100%;
-border-top-width:1px;
-border-bottom-width:0;
-border-left-width:0;
-border-right-width:0;
-padding-top:10px;
-padding-bottom:0;
-text-align:right;
-font-family:arial,helvetica,sans-serif;
-clear:both;
+border-style: solid;
+border-color: #a0a0a0;
+width: 100%;
+border-top-width: 1px;
+border-bottom-width: 0;
+border-left-width: 0;
+border-right-width: 0;
+padding-top: 10px;
+padding-bottom: 0;
+text-align: right;
+font-family: arial,helvetica,sans-serif;
+clear: both;
 }
 p.plugbottom {
-position:fixed;
-bottom:0px;
-right:10px;
-margin:0;
-box-shadow:0px 0px 2px black;
-border-radius:5px 5px 0 0;
-width:auto;
-padding-left:10px;
-padding-right:10px;
-padding-bottom:5px;
-padding-top:5px;
-background:#BC9;
+position: fixed;
+bottom: 0;
+right: 10px;
+margin: 0;
+box-shadow: 0px 0px 2px black;
+border-radius: 5px 5px 0 0;
+width: auto;
+padding-left: 10px;
+padding-right: 10px;
+padding-bottom: 5px;
+padding-top: 5px;
+background: #BC9;
 }
 html.rtl .plugbottom {
-text-align:left;
+text-align: left;
 }
 
 /* Simple Plugin specific things */
 
-.plugin_sections:after {
+.plugin-sections:after {
 content: "";
 display: block;
 clear: both;
 }
 
-.plugin_section {
-display:block;
-float:left;
-clear:left;
-width:49%;
-vertical-align:top;
-border:1px solid #B0B0B0;
-padding:0;
-margin-top:0.5%;
-margin-left:0.5%;
-margin-bottom:0.5%;
-margin-right:0;
+.plugin-section {
+display: block;
+float: left;
+clear: left;
+width: 49%;
+vertical-align: top;
+border: 1px solid #B0B0B0;
+padding: 0;
+margin-top: 0.5%;
+margin-left: 0.5%;
+margin-bottom: 0.5%;
+margin-right: 0;
 position: relative;
 }
-html.rtl .plugin_section {
-float:right;
-clear:right;
-margin-left:0;
-margin-right:0.5%;
+html.rtl .plugin-section {
+float: right;
+clear: right;
+margin-left: 0;
+margin-right: 0.5%;
 }
 
-html.ltr .plugin_section:nth-child(even) {
-float:right;
-clear:right;
-margin-left:0;
-margin-right:0.5%;
+html.ltr .plugin-section:nth-child(even) {
+float: right;
+clear: right;
+margin-left: 0;
+margin-right: 0.5%;
 }
-html.rtl .plugin_section:nth-child(even) {
-float:left;
-clear:left;
-margin-left:0.5%;
-margin-right:0;
-}
-
-div.plugin_section {
-padding-top:25px;
+html.rtl .plugin-section:nth-child(even) {
+float: left;
+clear: left;
+margin-left: 0.5%;
+margin-right: 0;
 }
 
-.plugin_section > div {
-padding:5px;
+div.plugin-section {
+padding-top: 25px;
 }
 
-fieldset.plugin_section > div {
-padding-top:30px;
+.plugin-section > div {
+padding: 5px;
 }
 
-fieldset.plugin_section legend {
-float:left;
-padding:0;
-margin:0;
-}
-html.rtl fieldset.plugin_section legend {
-float:right;
+fieldset.plugin-section > div {
+padding-top: 30px;
 }
 
-fieldset.plugin_section legend span, .plugin_section > span.legend {
-font-weight:bold;
-background-color:#DBE6C6;
-border:1px solid #B0B0B0;
-width:100%;
-padding-top:5px;
-padding-bottom:5px;
-text-align:center;
-display:block;
+fieldset.plugin-section legend {
+float: left;
+padding: 0;
+margin: 0;
 }
-html.ltr fieldset.plugin_section legend span, html.ltr .plugin_section > span.legend {
-margin-left:-1px;
-}
-html.rtl fieldset.plugin_section legend span, html.rtl .plugin_section > span.legend {
-margin-right:-1px;
+html.rtl fieldset.plugin-section legend {
+float: right;
 }
 
-fieldset.plugin_section legend span {
+fieldset.plugin-section legend span, .plugin-section > span.legend {
+font-weight: bold;
+background-color: #DBE6C6;
+border: 1px solid #B0B0B0;
+width: 100%;
+padding-top: 5px;
+padding-bottom: 5px;
+text-align: center;
+display: block;
+}
+html.ltr fieldset.plugin-section legend span, html.ltr .plugin-section > span.legend {
+margin-left: -1px;
+}
+html.rtl fieldset.plugin-section legend span, html.rtl .plugin-section > span.legend {
+margin-right: -1px;
+}
+
+fieldset.plugin-section legend span {
 position: absolute;
-top:0;
-margin-top:-1px;
+top: 0;
+margin-top: -1px;
 }
-html.ltr fieldset.plugin_section legend span {
-left:0;
+html.ltr fieldset.plugin-section legend span {
+left: 0;
 }
-html.rtl fieldset.plugin_section legend span {
-right:0;
-}
-
-.plugin_section > span.legend {
-margin-top:-26px;
+html.rtl fieldset.plugin-section legend span {
+right: 0;
 }
 
-fieldset.plugin_section legend img, .plugin_section span.legend img {
-vertical-align:middle;
+.plugin-section > span.legend {
+margin-top: -26px;
 }
-html.ltr fieldset.plugin_section legend img, html.ltr .plugin_section span.legend img {
-margin-right:3px;
+
+fieldset.plugin-section legend img, .plugin-section span.legend img {
+vertical-align: middle;
 }
-html.rtl fieldset.plugin_section legend img, html.rtl .plugin_section span.legend img {
-margin-left:3px;
+html.ltr fieldset.plugin-section legend img, html.ltr .plugin-section span.legend img {
+margin-right: 3px;
+}
+html.rtl fieldset.plugin-section legend img, html.rtl .plugin-section span.legend img {
+margin-left: 3px;
 }
 
 
-fieldset.plugin_section select[multiple], fieldset.plugin_section textarea {
-width:100%;
+fieldset.plugin-section select[multiple], fieldset.plugin-section textarea {
+width: 100%;
 }
 
-.plugin_section > div > table {
-min-width:80%;
+.plugin-section > div > table {
+min-width: 80%;
 }
 
-html.ltr .plugin_section.fullwidth, html.rtl .plugin_section.fullwidth {
-float:none;
-clear:both;
-width:auto;
-margin-top:0.5%;
-margin-left:0.5%;
-margin-bottom:0.5%;
-margin-right:0.5%;
+html.ltr .plugin-section.fullwidth, html.rtl .plugin-section.fullwidth {
+float: none;
+clear: both;
+width: auto;
+margin-top: 0.5%;
+margin-left: 0.5%;
+margin-bottom: 0.5%;
+margin-right: 0.5%;
 }
 
-html.ltr .plugin_section.alone, html.rtl .plugin_section.alone {
-float:none;
-clear:both;
+html.ltr .plugin-section.alone, html.rtl .plugin-section.alone {
+float: none;
+clear: both;
 }
 
-html.ltr .plugin_section.invisible, html.rtl .plugin_section.invisible {
-display:none;
+html.ltr .plugin-section.invisible, html.rtl .plugin-section.invisible {
+display: none;
 }
 
-fieldset.plugin_section.critical legend span, .plugin_section.critical > span.legend {
-font-weight:bold;
-background-color:#BCF;
+fieldset.plugin-section.critical legend span, .plugin-section.critical > span.legend {
+font-weight: bold;
+background-color: #BCF;
 }
 
-fieldset.plugin_section.critical legend span:after, .plugin_section.critical > span.legend:after {
-content:"   (editing this can break your LDAP)";
-color:#D00;
+fieldset.plugin-section.critical legend span:after, .plugin-section.critical > span.legend:after {
+content: "   (editing this can break your LDAP)";
+color: #D00;
 }
 
-.plugin_section.critical > div {
-background-color:#DFEFFF;
+.plugin-section.critical > div {
+background-color: #DFEFFF;
 }
 
 /* On small screens */
 @media (max-width: 640px) {
-  .plugin_window {
-  margin:0;
-  border:none;
-  width:100%;
+  .plugin-window {
+  margin: 0;
+  border: none;
+  width: 100%;
   }
-  .plugin_section > div > table {
-  width:100%;
+  .plugin-section > div > table {
+  width: 100%;
   }
-  html.ltr .plugin_section, html.ltr .plugin_section:nth-child(even), html.ltr .plugin_section.fullwidth,
-  html.rtl .plugin_section, html.rtl .plugin_section:nth-child(even), html.rtl .plugin_section.fullwidth
-  {
-  display:block;
-  float:none;
-  clear:both;
-  width:100%;
+  html.ltr .plugin-section, html.ltr .plugin-section:nth-child(even), html.ltr .plugin-section.fullwidth,
+  html.rtl .plugin-section, html.rtl .plugin-section:nth-child(even), html.rtl .plugin-section.fullwidth {
+  display: block;
+  float: none;
+  clear: both;
+  width: 100%;
   border-top: none;
-  margin:0;
+  margin: 0;
   }
   .plugbottom {
-  text-align:center;
-  width:100%;
-  margin:0;
-  padding-top:5px;
-  padding-bottom:4px;
-  padding-left:1px;
-  padding-right:1px;
-  border:none;
+  text-align: center;
+  width: 100%;
+  margin: 0;
+  padding-top: 5px;
+  padding-bottom: 4px;
+  padding-left: 1px;
+  padding-right: 1px;
+  border: none;
   }
   p.plugbottom {
-  left:5px;
-  right:5px;
+  left: 5px;
+  right: 5px;
   }
   .plugbottom input[type=submit], .plugbottom input[type=button] {
-  border:1px solid #DDD;
-  width:30% !important;
-  padding:10px;
-  display:inline-block;
-  font-weight:bold;
+  border: 1px solid #DDD;
+  width: 30% !important;
+  padding: 10px;
+  display: inline-block;
+  font-weight: bold;
   }
   .plugbottom input[type=submit]:active, .plugbottom input[type=button]:active {
-  position:relative;
-  top:1px;
+  position: relative;
+  top: 1px;
   }
   html.ltr .plugbottom input[type=submit]:active, html.ltr .plugbottom input[type=button]:active {
-  left:1px;
+  left: 1px;
   }
   html.rtl .plugbottom input[type=submit]:active, html.rtl .plugbottom input[type=button]:active {
-  right:1px;
+  right: 1px;
   }
 }

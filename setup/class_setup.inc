@@ -40,9 +40,12 @@ class fake_userinfo extends userinfo
 
 class setup
 {
-  var $i_steps;               // Number of setup steps
-  var $i_current        = 0;  // Current step
-  var $i_previous       = 0;  // Previous setup step;
+  /* Number of setup steps */
+  var $i_steps;
+  /* Current step */
+  var $i_current        = 0;
+  /* Previous setup step; */
+  var $i_previous       = 0;
   var $i_config         = 4;
   var $o_steps          = array();
   var $captured_values  = array();
@@ -207,18 +210,18 @@ class setup
       if ($b_enabled) {
         if ($b_active) {
           $str .= '<li class="menuitem menucurrent" title="'.$s_description.'">';
-          $str .= '<a class="navigation_title">'.$s.$s_short_name.'</a>';
-          $str .= '<a class="navigation_info">'.$s_description.'</a>';
+          $str .= '<a class="navigation-title">'.$s.$s_short_name.'</a>';
+          $str .= '<a class="navigation-info">'.$s_description.'</a>';
           $str .= '</li>';
         } else {
           $str .= '<li class="menuitem" title="'.$s_description.'">';
           $str .= '<a onClick="document.mainform.setup_goto_step.value=\''.$key.'\';document.mainform.submit();"
-            class="navigation_title">'.$s.$s_short_name.'</a>';
+            class="navigation-title">'.$s.$s_short_name.'</a>';
           $str .= '</li>';
         }
       } else {
         $str .= '<li class="menuitem disabled" title="'.$s_description.'">';
-        $str .= '<a class="navigation_title">'.$s.$s_short_name.'</a>';
+        $str .= '<a class="navigation-title">'.$s.$s_short_name.'</a>';
         $str .= '</li>';
       }
     }

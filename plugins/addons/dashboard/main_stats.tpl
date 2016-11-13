@@ -1,4 +1,4 @@
-<div class="plugin_section">
+<div class="plugin-section">
   <span class="legend">
     {t}Statistics{/t}
   </span>

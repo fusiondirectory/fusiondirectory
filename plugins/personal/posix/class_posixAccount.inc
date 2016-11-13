@@ -32,7 +32,7 @@
 
 class EpochDaysDateAttribute extends DateAttribute
 {
-  public static $secondsPerDay = 86400; //60 * 60 * 24
+  public static $secondsPerDay = 86400;
 
   function __construct ($label, $description, $ldapName, $required, $defaultValue = 'now', $acl = "")
   {
@@ -349,7 +349,7 @@ class posixAccount extends simplePlugin
           } else {
             $entry = $attrs['cn'][0].' ['.$attrs['description'][0].']';
           }
-          $groupMembership[$ldap->getDN()] = $entry;
+          $groupMembership[$attrs['dn']] = $entry;
         }
         asort($groupMembership);
         reset($groupMembership);
@@ -392,7 +392,8 @@ class posixAccount extends simplePlugin
 
     if ($ldap->count() > 0) {
       /* The copied user had its own group */
-      $this->primaryGroup = 0; // switch back to automatic
+      /* switch back to automatic */
+      $this->primaryGroup = 0;
     }
 
     $this->force_ids = FALSE;
@@ -659,7 +660,7 @@ class posixAccount extends simplePlugin
     if ($ldap->count() != 0) {
       $attrs = $ldap->fetch();
       if ($attrs['cn'][0] == $this->getUid() && !isset($this->attrs['memberUid'])) {
-        $ldap->rmDir($ldap->getDN());
+        $ldap->rmDir($attrs['dn']);
       }
     }
   }

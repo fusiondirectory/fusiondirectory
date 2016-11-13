@@ -66,7 +66,8 @@ class templateDialog
         trigger_error('redefining template object');
       }
       $this->template = new template($this->type, $_POST['template']);
-      unset($_POST['template']); // This method can loop if there are several targets
+      /* This method can loop if there are several targets */
+      unset($_POST['template']);
     }
     if (is_object($this->template)) {
       if ($this->target !== NULL) {
@@ -206,13 +207,13 @@ class simpleManagement extends management
         $this->headpage->xmlData['actionmenu']['action'][0]['action'] = array(
           array(
             'type'    => 'sub',
-            'image'   => 'geticon.php?context=actions&amp;icon=document-new&amp;size=16',
+            'image'   => 'geticon.php?context=actions&icon=document-new&size=16',
             'label'   => _('Template'),
             'action'  => array(),
           ),
           array(
             'type'    => 'sub',
-            'image'   => 'geticon.php?context=actions&amp;icon=document-new&amp;size=16',
+            'image'   => 'geticon.php?context=actions&icon=document-new&size=16',
             'label'   => _('From template'),
             'action'  => array(),
           ),
@@ -294,7 +295,6 @@ class simpleManagement extends management
         }
       }
     }
-    $this->headpage->registerElementFilter('filterRowLink', 'simpleManagement::filterRowLink');
     $this->headpage->refreshBasesList();
   }
 
@@ -863,21 +863,6 @@ class simpleManagement extends management
       $this->cpPastingStarted = FALSE;
     }
     return "";
-  }
-
-  static function filterRowLink()
-  {
-    $pid    = func_get_arg(0);
-    $row    = func_get_arg(1);
-    $dn     = func_get_arg(2);
-    $trans  = func_get_arg(3);
-    unset($trans['count']);
-    $trans  = join("<br/>\n", $trans);
-    if ($trans != "") {
-      return '<a href="?plug='.$_GET['plug'].'&amp;PID='.$pid.'&amp;act=listing_edit_'.$row.'" title="'.$dn.'">'.$trans.'</a>';
-    }
-
-    return '';
   }
 
   static function mainInc ($classname)

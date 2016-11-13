@@ -11,15 +11,7 @@
     <query>
       <backend>LDAP</backend>
       <filter>(&amp;$NAME(|(&amp;(objectClass=inetOrgPerson)(|$FUNCTIONAL$SAMBA$POSIX$MAIL))$TEMPLATES))</filter>
-      <attribute>dn</attribute>
-      <attribute>objectClass</attribute>
-      <attribute>givenName</attribute>
-      <attribute>sn</attribute>
-      <attribute>cn</attribute>
-      <attribute>uid</attribute>
-      <attribute>userPassword</attribute>
-      <attribute>fdTemplateField</attribute>
-      <attribute>mail</attribute>
+      <attribute>*</attribute>
     </query>
     <scope>auto</scope>
   </search>

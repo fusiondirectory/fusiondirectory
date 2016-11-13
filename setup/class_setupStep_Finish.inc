@@ -76,7 +76,7 @@ class Step_Finish extends setupStep
 
     /* Now we can save LDAP config */
     $config->loadPlist($plist);
-    $config->checkLdapConfig();
+    $config->checkLdapConfig(TRUE);
   }
 
   function execute()

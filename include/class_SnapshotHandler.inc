@@ -28,8 +28,11 @@
  * \brief This class contains all the function needed to handle
  * the snapshot functionality
  */
-class SnapshotHandler {
+class SnapshotHandler
+{
   var $snapshotBases  = array();
+
+  protected $enabled;
 
   /*!
    * \brief Create handler
@@ -39,13 +42,16 @@ class SnapshotHandler {
   function __construct()
   {
     global $config;
-    /* Prepare base */
-    $this->snapshotRDN = $config->get_cfg_value("snapshotBase");
-    $ldap = $config->get_ldap_link();
-    $ldap->cd($config->current['BASE']);
-    $ldap->create_missing_trees($this->snapshotRDN);
-    if (!$ldap->success()) {
-      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $this->snapshotRDN, "", get_class()), LDAP_ERROR);
+    $this->enabled = $config->snapshotEnabled();
+    if ($this->enabled) {
+      /* Prepare base */
+      $this->snapshotRDN = $config->get_cfg_value('snapshotBase');
+      $ldap = $config->get_ldap_link();
+      $ldap->cd($config->current['BASE']);
+      $ldap->create_missing_trees($this->snapshotRDN);
+      if (!$ldap->success()) {
+        msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), $this->snapshotRDN, '', get_class()), LDAP_ERROR);
+      }
     }
   }
 
@@ -56,8 +62,7 @@ class SnapshotHandler {
    */
   function enabled()
   {
-    global $config;
-    return $config->snapshotEnabled();
+    return $this->enabled;
   }
 
   /*!
@@ -146,13 +151,39 @@ class SnapshotHandler {
   }
 
   /*!
+   * \brief Cache Snapshot information for all objects in $base
+   */
+  function initSnapshotCache($base)
+  {
+    global $config;
+    if (!$this->enabled()) {
+      return;
+    }
+
+    $ldap = $config->get_ldap_link();
+
+    // Initialize base
+    $base = $this->snapshot_dn($base);
+
+    /* Fetch all objects with */
+    $ldap->cd($base);
+    $ldap->search('(&(objectClass=gosaSnapshotObject)(gosaSnapshotDN=*))', array('gosaSnapshotDN'));
+
+    /* Store for which object we have snapshots */
+    $this->snapshotsCache = array();
+    while ($entry = $ldap->fetch()) {
+      $this->snapshotsCache[$entry['gosaSnapshotDN'][0]] = TRUE;
+    }
+  }
+
+  /*!
    * \brief Check if the DN has snapshots
    *
    * \return the numbers of snapshots
    */
   function hasSnapshots($dn)
   {
-    return (count($this->getSnapshots($dn)) > 0);
+    return (isset($this->snapshotsCache[$dn]));
   }
 
   /*!

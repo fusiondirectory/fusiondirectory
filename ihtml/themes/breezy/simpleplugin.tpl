@@ -1,4 +1,4 @@
-<div class="plugin_sections">
+<div class="plugin-sections">
   {foreach from=$sections key=section item=display}
     {$display}
   {/foreach}

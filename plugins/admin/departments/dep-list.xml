@@ -14,7 +14,7 @@
     <layout>|20px;c|||70px;r|</layout>
 
     <column>
-      <value>%{filter:objectType(dn,objectClass)}</value>
+      <value>%{filter:objectType(row,dn)}</value>
     </column>
 
     <column>
@@ -43,9 +43,9 @@
   <actionmenu>
 
     <action>
-     <type>sub</type>
-     <image>geticon.php?context=actions&amp;icon=document-new&amp;size=16</image>
-     <label>Create</label>
+      <type>sub</type>
+      <image>geticon.php?context=actions&amp;icon=document-new&amp;size=16</image>
+      <label>Create</label>
     </action>
 
     <action>

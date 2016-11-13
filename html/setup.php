@@ -40,7 +40,7 @@ header("Content-type: text/html; charset=UTF-8");
 
 /* Set cookie lifetime to one day (The parameter is in seconds ) */
 session_set_cookie_params(24 * 60 * 60);
-session_cache_expire(60 * 24);  // default is 180
+session_cache_expire(60 * 24);
 ini_set("session.gc_maxlifetime", 24 * 60 * 60);
 
 /* Start session */

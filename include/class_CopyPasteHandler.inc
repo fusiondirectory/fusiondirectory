@@ -223,7 +223,7 @@ class CopyPasteHandler
         $msgs = $entry['object']->check();
 
         /* Retrieve ACL infos */
-        $copy_acl = $ui->is_copyable($entry['dn'], $entry['aclCategory']);
+        $copy_acl = $ui->is_copyable($entry['dn'], $entry['aclCategory'], $entry['mainTab']);
         $cut_acl  = $ui->is_cutable($entry['dn'], $entry['aclCategory'], $entry['mainTab']);
 
         /* Check permissions */
@@ -290,8 +290,7 @@ class CopyPasteHandler
       }
       if ($this->current) {
         $display = $this->current['object']->execute();
-        if (isset($this->current['object']->dialog) &&
-            (is_object($this->current['object']->dialog) || $this->current['object']->dialog)) {
+        if ($this->current['object']->dialogOpened()) {
           return $display;
         } else {
           // Display ok, (apply) and cancel buttons

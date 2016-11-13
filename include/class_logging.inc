@@ -134,7 +134,8 @@ class logging {
   {
     global $config;
     if ($entry['objecttype'] == 'plugin/auditEvent') {
-      return; // Avoid infinite loop
+      // Avoid infinite loop
+      return;
     }
     $tabObject = objects::create('auditEvent');
     $baseObject = $tabObject->getBaseObject();

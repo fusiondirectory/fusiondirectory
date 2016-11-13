@@ -1,4 +1,4 @@
-<div id="{$sectionId}" class="plugin_section{$sectionClasses}">
+<div id="{$sectionId}" class="plugin-section{$sectionClasses}">
   <span class="legend">
     {$section}
   </span>
@@ -11,17 +11,17 @@
         <div style="width:98%; padding:4px; background-color:{cycle values="#F0F0F0, #FFF"}">
           {if $check->error}
             <!-- Add ability to display info popup -->
-            <div class="step2_entry_container_info">
+            <div class="step2-entry-container-info">
           {else}
             <!-- Normal entry everything is fine -->
-            <div class="step2_entry_container">
+            <div class="step2-entry-container">
           {/if}
-          <div class="step2_entry_name"><b>{$check->title}</b></div>
-          <div class="step2_entry_status">
+          <div class="step2-entry-name"><b>{$check->title}</b></div>
+          <div class="step2-entry-status">
             {if $check->status}
-              <div class="step2_successful">{$check->msg}</div>
+              <div class="step2-successful">{$check->msg}</div>
             {else}
-              <div class="step2_failed">{$check->msg}</div>
+              <div class="step2-failed">{$check->msg}</div>
             {/if}
           </div>
             {if $check->error}

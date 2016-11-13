@@ -26,7 +26,7 @@
 define("INFO_DIALOG",         10001);
 define("WARNING_DIALOG",      10002);
 define("ERROR_DIALOG",        10003);
-define("LDAP_ERROR",          10003); // LDAP_ERROR is the same as ERROR_DIALOG
+define("LDAP_ERROR",          10003);
 define("CONFIRM_DIALOG",      10004);
 define("FATAL_ERROR_DIALOG",  10006);
 
@@ -147,38 +147,41 @@ class msg_dialog
     global $config;
     if ($this->i_Type == FATAL_ERROR_DIALOG) {
       $display =
-        "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"
-        \"http://www.w3.org/TR/html4/transitional.dtd\">
+        '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/transitional.dtd">
         <html><head>
         <title>FusionDirectory startup failed</title>
-        </head><body>";
+        </head><body>';
       if (isset($config) && is_object($config) &&
-        $config->get_cfg_value("displayerrors") == "TRUE") {
+        $config->get_cfg_value('displayerrors') == 'TRUE') {
         list($trace,) = html_trace();
         $display .= $trace;
       }
       $display .=
-        "<table style='width:100%; border:2px solid red;'>
-        <tr><td style='vertical-align:top;padding:10px'>
-        <img src='geticon.php?context=status&amp;icon=dialog-error&amp;size=32' alt='{t}Error{/t}'/>
-        </td><td style='width:100%'>
-        <b>".$this->s_Title."</b><br>
-        ".$this->s_Message."<br><br>
-        "._("Please fix the above error and reload the page.")."
-        </td></tr>
-        </table></body></html>";
+        '<table style="width:100%; border:2px solid red;">
+          <tr>
+            <td style="vertical-align:top;padding:10px">
+              <img src="geticon.php?context=status&amp;icon=dialog-error&amp;size=32" alt="'._('Error').'"/>
+            </td>
+            <td style="width:100%">
+              <b>'.$this->s_Title.'</b><br/>
+              '.$this->s_Message.'<br><br/>
+              '._('Please fix the above error and reload the page.').'
+            </td>
+          </tr>
+        </table></body></html>';
       return $display;
     } else {
 
       $smarty = get_smarty();
-      $smarty->assign("s_Trace", print_a($this->a_Trace, TRUE));
-      $smarty->assign("i_TraceCnt", count($this->a_Trace));
-      $smarty->assign("i_Type", $this->i_Type);
-      $smarty->assign("s_Message", $this->s_Message);
-      $smarty->assign("s_Title", $this->s_Title);
-      $smarty->assign("i_ID", $this->i_ID);
-      $smarty->assign("frame", FALSE);
-      $smarty->assign("JS", TRUE);
+      $smarty->assign('s_Trace',    print_a($this->a_Trace, TRUE));
+      $smarty->assign('i_TraceCnt', count($this->a_Trace));
+      $smarty->assign('i_Type',     $this->i_Type);
+      $smarty->assign('s_Message',  $this->s_Message);
+      $smarty->assign('s_Title',    $this->s_Title);
+      $smarty->assign('i_ID',       $this->i_ID);
+      $smarty->assign('frame',      FALSE);
+      $smarty->assign('JS',         TRUE);
       return $smarty->fetch(get_template_path('msg_dialog.tpl'));
     }
   }

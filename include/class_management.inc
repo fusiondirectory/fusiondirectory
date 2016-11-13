@@ -37,7 +37,8 @@ class management
   public $plHeadline    = "unconfigured";
 
   // The currently used object(s) (e.g. in edit, removal)
-  public $dn      = "";  // this is public due to some compatibility problems with class plugin..
+  // this is public due to some compatibility problems with class plugin..
+  public $dn      = "";
   protected $dns  = array();
 
   // The last used object(s).
@@ -48,11 +49,16 @@ class management
   protected $storagePoints = array();
 
   // The tab definitions to use for the current object.
-  protected $tabClass     = "";      // e.g. usertabs
-  protected $tabType      = "";      // e.g. USERTABS
-  protected $aclPlugin    = "";      // e.g. generic
-  protected $aclCategory  = "";      // e.g. user
-  protected $objectName   = "";      // e.g. users
+  // e.g. usertabs
+  protected $tabClass     = "";
+  // e.g. USERTABS
+  protected $tabType      = "";
+  // e.g. generic
+  protected $aclPlugin    = "";
+  // e.g. user
+  protected $aclCategory  = "";
+  // e.g. users
+  protected $objectName   = "";
 
   // The opened object.
   protected $tabObject    = NULL;

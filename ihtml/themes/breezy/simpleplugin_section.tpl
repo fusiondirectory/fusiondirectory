@@ -1,4 +1,4 @@
-<fieldset id="{$sectionId}" class="plugin_section{$sectionClasses}">
+<fieldset id="{$sectionId}" class="plugin-section{$sectionClasses}">
   <legend><span>{$section}</span></legend>
   <div>
   <table>
