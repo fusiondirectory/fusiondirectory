@@ -92,11 +92,13 @@ MenuContainer.prototype = {
     }
 
     var childNodes = this.element.childNodes;
-    if (childNodes === null) return;
-
+    if (childNodes === null) {
+      return;
+    }
+    
     for (var i = 0; i < childNodes.length; i++) {
       var node = childNodes[i];
-      if (node.nodeType == 1) {
+      if (node.nodeType === 1) {
         if (this.type === "menuContainer") {
           if (node.tagName.toLowerCase() === "li") {
             this.menuItems.push(new MenuItem(node, this));
@@ -138,7 +140,7 @@ MenuContainer.prototype = {
         top: (Position.positionedOffset(this.parent.element)[1] + Element.getHeight(this.parent.element)) + "px"
       });
     } else if (this.menuType === "flyout") {
-      var parentMenuBorders = this.parentMenu ? this.parentMenu.getBorders() : new Object();
+      var parentMenuBorders = this.parentMenu ? this.parentMenu.getBorders() : {};
       var thisBorders = this.getBorders();
       if (
         (Position.positionedOffset(this.parentMenu.element)[0] + this.parentMenu.element.offsetWidth + this.element.offsetWidth + 20) >
@@ -201,8 +203,13 @@ Object.extend(Object.extend(MenuItem.prototype, MenuContainer.prototype), {
     }
     if (this.subMenu) {
       this.element.onmouseout = function() {
-        if (menuItem.root.openDelayTimer) window.clearTimeout(menuItem.root.openDelayTimer);
-        if (menuItem.root.closeDelayTimer) window.clearTimeout(menuItem.root.closeDelayTimer);
+        if (menuItem.root.openDelayTimer) {
+          window.clearTimeout(menuItem.root.openDelayTimer);
+        }
+        
+        if (menuItem.root.closeDelayTimer) {
+          window.clearTimeout(menuItem.root.closeDelayTimer);
+        }
         menuItem.root.closingMenuItem = menuItem;
         menuItem.root.closeDelayTimer = window.setTimeout(menuItem.root.name + ".closingMenuItem.subMenu.close()", menuItem.root.closeDelayTime);
       }
@@ -219,7 +226,9 @@ Object.extend(Object.extend(MenuItem.prototype, MenuContainer.prototype), {
   closeItem: function(trigger) {
     this.isOpen = false;
     if (this.subMenu) {
-      if (this.subMenu !== trigger) this.subMenu.close();
+      if (this.subMenu !== trigger) {
+        this.subMenu.close();
+      }
     }
   }
 });
