@@ -447,7 +447,7 @@ DatePicker.prototype  = {
 
     /* Effect toggle to fade-in / fade-out the datepicker */
     if ( this._enableShowEffect ) {
-      new Effect.toggle(this._id_datepicker, this._showEffect, { duration: this._showDuration });
+      Effect.toggle(this._id_datepicker, this._showEffect, { duration: this._showDuration });
     } else {
       $(this._id_datepicker).show();
     }
@@ -459,28 +459,28 @@ DatePicker.prototype  = {
     if ( this._enableCloseEffect ) {
       switch(this._closeEffect) {
         case 'puff':
-          new Effect.Puff(this._id_datepicker, { duration : this._closeEffectDuration });
+          Effect.Puff(this._id_datepicker, { duration : this._closeEffectDuration });
         break;
         case 'blindUp':
-          new Effect.BlindUp(this._id_datepicker, { duration : this._closeEffectDuration });
+          Effect.BlindUp(this._id_datepicker, { duration : this._closeEffectDuration });
         break;
         case 'dropOut':
-          new Effect.DropOut(this._id_datepicker, { duration : this._closeEffectDuration });
+          Effect.DropOut(this._id_datepicker, { duration : this._closeEffectDuration });
         break;
         case 'switchOff':
-          new Effect.SwitchOff(this._id_datepicker, { duration : this._closeEffectDuration });
+          Effect.SwitchOff(this._id_datepicker, { duration : this._closeEffectDuration });
         break;
         case 'squish':
-          new Effect.Squish(this._id_datepicker, { duration : this._closeEffectDuration });
+          Effect.Squish(this._id_datepicker, { duration : this._closeEffectDuration });
         break;
         case 'fold':
-          new Effect.Fold(this._id_datepicker, { duration : this._closeEffectDuration });
+          Effect.Fold(this._id_datepicker, { duration : this._closeEffectDuration });
         break;
         case 'shrink':
-          new Effect.Shrink(this._id_datepicker, { duration : this._closeEffectDuration });
+          Effect.Shrink(this._id_datepicker, { duration : this._closeEffectDuration });
         break;
         default:
-          new Effect.Fade(this._id_datepicker, {  duration : this._closeEffectDuration });
+          Effect.Fade(this._id_datepicker, {  duration : this._closeEffectDuration });
         break;
       };
     } else {
