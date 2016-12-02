@@ -225,10 +225,8 @@ Object.extend(Object.extend(MenuItem.prototype, MenuContainer.prototype), {
 
   closeItem: function(trigger) {
     this.isOpen = false;
-    if (this.subMenu) {
-      if (this.subMenu !== trigger) {
-        this.subMenu.close();
-      }
+    if (this.subMenu && (this.subMenu !== trigger)) {
+      this.subMenu.close();
     }
   }
 });
