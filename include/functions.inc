@@ -1326,10 +1326,7 @@ function get_ou($name)
 
     'ipmiRDN'                 => 'ou=ipmi,',
 
-    'faxBlocklistRDN'     => 'ou=gofax,ou=systems,',
     'aclRoleRDN'          => 'ou=aclroles,',
-    'phoneMacroRDN'       => 'ou=macros,ou=asterisk,ou=configs,ou=systems,',
-    'phoneConferenceRDN'  => 'ou=conferences,ou=asterisk,ou=configs,ou=systems,',
 
     'faiBaseRDN'      => 'ou=fai,ou=configs,ou=systems,',
     'faiScriptRDN'    => 'ou=scripts,',
@@ -1352,9 +1349,8 @@ function get_ou($name)
 
     'aliasRDN'    => 'ou=alias,',
 
-    'dsaRDN'    => 'ou=dsa,',
+    'dsaRDN'    => 'ou=dsa,'
 
-    'mimetypeRDN' => 'ou=mime,'
   );
 
   /* Preset ou... */
