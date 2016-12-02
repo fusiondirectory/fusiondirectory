@@ -1308,7 +1308,7 @@ function get_ou($name)
     'fusiondirectoryRDN'      => 'ou=fusiondirectory,',
     'lockRDN'                 => 'ou=locks,',
     'tokenRDN'                => 'ou=tokens,',
-
+    'fdReminderTokenRDN'      => 'ou=reminder',
     'roleRDN'                 => 'ou=roles,',
     'ogroupRDN'               => 'ou=groups,',
     'applicationRDN'          => 'ou=apps,',
