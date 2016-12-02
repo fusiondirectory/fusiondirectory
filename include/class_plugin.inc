@@ -255,7 +255,7 @@ class plugin
     if ($this->mainTab) {
       $this->_template_cn = $template_attrs['cn'][0];
     }
-    $this->attrs = self::tpl_template_to_attrs($template_attrs);
+    $this->attrs = static::tpl_template_to_attrs($template_attrs);
   }
 
   protected function templateSaveAttrs()
@@ -591,9 +591,9 @@ class plugin
     $ldap = $config->get_ldap_link();
     $ldap->cat($dn);
     $attrs    = $ldap->fetch();
-    $attrs    = self::tpl_template_to_attrs($attrs);
-    $depends  = self::tpl_attrs_depends($attrs);
-    $attrs    = self::tpl_sort_attrs($attrs, $depends);
+    $attrs    = static::tpl_template_to_attrs($attrs);
+    $depends  = static::tpl_attrs_depends($attrs);
+    $attrs    = static::tpl_sort_attrs($attrs, $depends);
     return array($attrs, $depends);
   }
 
@@ -767,7 +767,7 @@ class plugin
       }
       $result_tmp = array();
       foreach ($result as $r) {
-        $result_tmp = array_merge($result_tmp, self::tpl_apply_modifier($modifier, $args, $r));
+        $result_tmp = array_merge($result_tmp, static::tpl_apply_modifier($modifier, $args, $r));
       }
       $result = $result_tmp;
     }
@@ -845,7 +845,7 @@ class plugin
     /* Flattens dependencies */
     $flatdepends = array();
     foreach ($depends as $key => $value) {
-      self::tpl_depends_of($flatdepends, $depends, $key);
+      static::tpl_depends_of($flatdepends, $depends, $key);
     }
     return $flatdepends;
   }
@@ -906,7 +906,7 @@ class plugin
           if (!is_numeric($key)) {
             continue;
           }
-          $string = self::tpl_parse_string($string, $attrs);
+          $string = static::tpl_parse_string($string, $attrs);
         }
         unset($string);
       }
@@ -923,7 +923,7 @@ class plugin
   {
     $offset = 0;
     while (preg_match('/%([^%]+)%/', $string, $m, PREG_OFFSET_CAPTURE, $offset)) {
-      $replace  = self::tpl_parse_mask($m[1][0], $attrs);
+      $replace  = static::tpl_parse_mask($m[1][0], $attrs);
       $replace  = $replace[0];
       if ($escapeMethod !== NULL) {
         $replace = $escapeMethod($replace);
@@ -1493,7 +1493,7 @@ class plugin
         }
       }
 
-      $command = self::tpl_parse_string($command, $addAttrs, 'escapeshellarg');
+      $command = static::tpl_parse_string($command, $addAttrs, 'escapeshellarg');
 
       // If there are still some %.. in our command, try to fill these with some other class vars (FIXME: useless)
       if (preg_match("/%/", $command)) {
@@ -1514,7 +1514,7 @@ class plugin
           }
           $addAttrs[$name] = $value;
         }
-        $command = self::tpl_parse_string($command, $addAttrs, 'escapeshellarg');
+        $command = static::tpl_parse_string($command, $addAttrs, 'escapeshellarg');
       }
 
       @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execute");

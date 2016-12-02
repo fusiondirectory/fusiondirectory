@@ -36,7 +36,7 @@ class locality extends department
         'ou'          => '',
         'icon'        => 'geticon.php?context=types&icon=locality&size=16',
         'tabClass'    => 'deptabs',
-        'mainAttr'    => self::$namingAttr,
+        'mainAttr'    => static::$namingAttr,
       )),
       'plForeignKeys'  => array(
         'manager' => 'user'

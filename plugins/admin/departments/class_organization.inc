@@ -36,7 +36,7 @@ class organization extends department
         'ou'          => '',
         'icon'        => 'geticon.php?context=types&icon=organization&size=16',
         'tabClass'    => 'deptabs',
-        'mainAttr'    => self::$namingAttr,
+        'mainAttr'    => static::$namingAttr,
       )),
       'plForeignKeys'  => array(
         'manager' => 'user'

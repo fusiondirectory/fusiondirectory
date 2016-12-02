@@ -71,7 +71,7 @@ class configInLdap extends simplePlugin
       'plManages'       => array('configuration'),
       'plPriority'      => 0,
 
-      'plProvidedAcls'  => parent::generatePlProvidedAcls(self::getAttributesInfo())
+      'plProvidedAcls'  => parent::generatePlProvidedAcls(static::getAttributesInfo())
     );
   }
 
@@ -95,7 +95,7 @@ class configInLdap extends simplePlugin
           new SelectAttribute (
             _('Theme'), _('Theme to be used'),
             'fdTheme', TRUE,
-            self::get_themes(),
+            static::get_themes(),
             'breezy'
           ),
           new SelectAttribute (
@@ -478,7 +478,7 @@ class configInLdap extends simplePlugin
   function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE, $attributesInfo = NULL)
   {
     global $config;
-    $attributesInfo = self::getAttributesInfo();
+    $attributesInfo = static::getAttributesInfo();
     /* Languages */
     $languages = get_languages(TRUE);
     asort($languages);

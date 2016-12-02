@@ -37,7 +37,7 @@ class departmentManagement extends simpleManagement
       'plIcon'        => 'geticon.php?context=places&icon=folder&size=48',
       'plSection'     => array('accounts' => array('name' => _('Users and groups'), 'priority' => 0)),
       'plPriority'    => 0,
-      'plManages'     => self::getDepartmentTypes(),
+      'plManages'     => static::getDepartmentTypes(),
 
       'plProvidedAcls' => array()
     );
@@ -45,7 +45,7 @@ class departmentManagement extends simpleManagement
 
   function __construct()
   {
-    $this->objectTypes  = self::getDepartmentTypes();
+    $this->objectTypes  = static::getDepartmentTypes();
     $this->listXMLPath  = get_template_path('dep-list.xml', TRUE, dirname(__FILE__));
     parent::__construct();
     $this->headpage->registerElementFilter("depLabel", "departmentManagement::filterDepLabel");

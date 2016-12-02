@@ -791,7 +791,7 @@ class simplePlugin extends plugin
   {
     global $ui;
     trigger_error("userMainInc is deprecated");
-    return self::mainInc($classname, $ui->dn);
+    return static::mainInc($classname, $ui->dn);
   }
 
   /*! \brief This function is the needed main.inc for plugins that are not used inside a management class

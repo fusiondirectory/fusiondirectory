@@ -230,8 +230,8 @@ class Index {
 
   static function init()
   {
-    self::$username = NULL;
-    self::$password = NULL;
+    static::$username = NULL;
+    static::$password = NULL;
   }
 
   /* Runs schemaCheck if activated in configuration */
@@ -277,11 +277,11 @@ class Index {
   static function validateUserInput()
   {
     global $message, $smarty;
-    self::$username = trim(self::$username);
-    if (!preg_match('/^[@A-Za-z0-9_.-]+$/', self::$username)) {
+    static::$username = trim(static::$username);
+    if (!preg_match('/^[@A-Za-z0-9_.-]+$/', static::$username)) {
       $message = _('Please specify a valid username!');
       return FALSE;
-    } elseif (mb_strlen(self::$password, 'UTF-8') == 0) {
+    } elseif (mb_strlen(static::$password, 'UTF-8') == 0) {
       $message = _('Please specify your password!');
       $smarty->assign ('focusfield', 'password');
       return FALSE;
@@ -294,12 +294,12 @@ class Index {
   {
     global $ui, $config, $message, $smarty;
     /* Login as user, initialize user ACL's */
-    $ui = ldap_login_user(self::$username, self::$password);
+    $ui = ldap_login_user(static::$username, static::$password);
     if ($ui === NULL) {
       if (isset($_SERVER['REMOTE_ADDR'])) {
-        logging::log('security', 'login', '', array(), 'Authentication failed for user "'.self::$username.'" [from '.$_SERVER['REMOTE_ADDR'].']');
+        logging::log('security', 'login', '', array(), 'Authentication failed for user "'.static::$username.'" [from '.$_SERVER['REMOTE_ADDR'].']');
       } else {
-        logging::log('security', 'login', '', array(), 'Authentication failed for user "'.self::$username.'"');
+        logging::log('security', 'login', '', array(), 'Authentication failed for user "'.static::$username.'"');
       }
       $message = _('Please check the username/password combination.');
       $smarty->assign ('focusfield', 'password');
@@ -330,7 +330,7 @@ class Index {
       $expired = $ui->expired_status();
 
       if ($expired == POSIX_ACCOUNT_EXPIRED) {
-        logging::log('security', 'login', '', array(), 'Account for user "'.self::$username.'" has expired');
+        logging::log('security', 'login', '', array(), 'Account for user "'.static::$username.'" has expired');
         $message = _('Account locked. Please contact your system administrator!');
         $smarty->assign ('focusfield', 'username');
         return FALSE;
@@ -344,7 +344,7 @@ class Index {
   {
     global $config;
     /* Not account expired or password forced change go to main page */
-    logging::log('security', 'login', '', array(), 'User "'.self::$username.'" logged in successfully.');
+    logging::log('security', 'login', '', array(), 'User "'.static::$username.'" logged in successfully.');
     session::global_set('connected', 1);
     // check that newly installed plugins have their configuration in the LDAP
     $config->checkLdapConfig();
@@ -366,7 +366,7 @@ class Index {
   static function runSteps($steps)
   {
     foreach($steps as $step) {
-      $status = self::$step();
+      $status = static::$step();
       if (is_string($status)) {
         msg_dialog::display(_('LDAP error'), $status, LDAP_ERROR);
         return FALSE;
@@ -382,15 +382,15 @@ class Index {
   {
     global $config, $message;
 
-    self::init();
+    static::init();
 
     /* Reset error messages */
     $message = '';
 
-    self::$username = $_POST['username'];
-    self::$password = $_POST['password'];
+    static::$username = $_POST['username'];
+    static::$password = $_POST['password'];
 
-    $success = self::runSteps(array(
+    $success = static::runSteps(array(
       'validateUserInput',
       'ldapLoginUser',
       'loginAndCheckExpired',
@@ -400,7 +400,7 @@ class Index {
 
     if ($success) {
       /* Everything went well, redirect to main.php */
-      self::redirect();
+      static::redirect();
     }
   }
 
@@ -409,16 +409,16 @@ class Index {
   {
     global $config, $message, $ui;
 
-    self::init();
+    static::init();
 
     if (!isset($_SERVER['PHP_AUTH_USER'])) {
-      self::authenticateHeader();
+      static::authenticateHeader();
     }
 
-    self::$username = $_SERVER['PHP_AUTH_USER'];
-    self::$password = $_SERVER['PHP_AUTH_PW'];
+    static::$username = $_SERVER['PHP_AUTH_USER'];
+    static::$password = $_SERVER['PHP_AUTH_PW'];
 
-    $success = self::runSteps(array(
+    $success = static::runSteps(array(
       'validateUserInput',
       'ldapLoginUser',
       'loginAndCheckExpired',
@@ -428,9 +428,9 @@ class Index {
 
     if ($success) {
       /* Everything went well, redirect to main.php */
-      self::redirect();
+      static::redirect();
     } else {
-      self::authenticateHeader($message);
+      static::authenticateHeader($message);
     }
   }
 
@@ -439,16 +439,16 @@ class Index {
   {
     global $config, $message, $ui;
 
-    self::init();
+    static::init();
 
     /* Reset error messages */
     $message = '';
 
     $header = $config->get_cfg_value('httpHeaderAuthHeaderName', 'AUTH_USER');
 
-    self::$username = $_SERVER['HTTP_'.$header];
+    static::$username = $_SERVER['HTTP_'.$header];
 
-    if (!self::$username) {
+    if (!static::$username) {
       msg_dialog::display(
         _('Error'),
         sprintf(
@@ -465,7 +465,7 @@ class Index {
     $verify_attr = explode(',', $config->get_cfg_value('loginAttribute', 'uid'));
     $filter = '';
     foreach ($verify_attr as $attr) {
-      $filter .= '('.$attr.'='.ldap_escape_f(self::$username).')';
+      $filter .= '('.$attr.'='.ldap_escape_f(static::$username).')';
     }
     $ldap->search('(&(|'.$filter.')(objectClass=inetOrgPerson))');
     $attrs = $ldap->fetch();
@@ -474,7 +474,7 @@ class Index {
         _('Error'),
         sprintf(
           _('Header user "%s" could not be found in the LDAP'),
-          self::$username
+          static::$username
         ),
         FATAL_ERROR_DIALOG
       );
@@ -484,7 +484,7 @@ class Index {
         _('Error'),
         sprintf(
           _('Header user "%s" match several users in the LDAP'),
-          self::$username
+          static::$username
         ),
         FATAL_ERROR_DIALOG
       );
@@ -493,7 +493,7 @@ class Index {
     $ui = new userinfo($config, $attrs['dn']);
     $ui->loadACL();
 
-    $success = self::runSteps(array(
+    $success = static::runSteps(array(
       'loginAndCheckExpired',
       'runSchemaCheck',
       'checkForLockingBranch',
@@ -501,7 +501,7 @@ class Index {
 
     if ($success) {
       /* Everything went well, redirect to main.php */
-      self::redirect();
+      static::redirect();
     }
   }
 
@@ -510,7 +510,7 @@ class Index {
   {
     global $config, $message, $ui;
 
-    self::init();
+    static::init();
 
     /* Reset error messages */
     $message = '';
@@ -531,13 +531,13 @@ class Index {
 
     // force CAS authentication
     phpCAS::forceAuthentication();
-    self::$username = phpCAS::getUser();
+    static::$username = phpCAS::getUser();
     $ldap = $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);
     $verify_attr = explode(',', $config->get_cfg_value('loginAttribute', 'uid'));
     $filter = '';
     foreach ($verify_attr as $attr) {
-      $filter .= '('.$attr.'='.ldap_escape_f(self::$username).')';
+      $filter .= '('.$attr.'='.ldap_escape_f(static::$username).')';
     }
     $ldap->search('(&(|'.$filter.')(objectClass=inetOrgPerson))');
     $attrs = $ldap->fetch();
@@ -546,7 +546,7 @@ class Index {
         _('Error'),
         sprintf(
           _('CAS user "%s" could not be found in the LDAP'),
-          self::$username
+          static::$username
         ),
         FATAL_ERROR_DIALOG
       );
@@ -556,7 +556,7 @@ class Index {
         _('Error'),
         sprintf(
           _('CAS user "%s" match several users in the LDAP'),
-          self::$username
+          static::$username
         ),
         FATAL_ERROR_DIALOG
       );
@@ -565,7 +565,7 @@ class Index {
     $ui = new userinfo($config, $attrs['dn']);
     $ui->loadACL();
 
-    $success = self::runSteps(array(
+    $success = static::runSteps(array(
       'loginAndCheckExpired',
       'runSchemaCheck',
       'checkForLockingBranch',
@@ -573,7 +573,7 @@ class Index {
 
     if ($success) {
       /* Everything went well, redirect to main.php */
-      self::redirect();
+      static::redirect();
     }
   }
 }

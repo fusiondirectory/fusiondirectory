@@ -27,7 +27,7 @@ class aclAssignmentDialogWindow extends simplePlugin
       'plDescription' => _('Access control roles assignment dialog'),
       'plCategory'    => array('acl'),
 
-      'plProvidedAcls' => parent::generatePlProvidedAcls(self::getAttributesInfo())
+      'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())
     );
   }
 
@@ -275,7 +275,7 @@ class aclAssignment extends simplePlugin
         )
       ),
 
-      'plProvidedAcls' => parent::generatePlProvidedAcls(self::getAttributesInfo())
+      'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())
     );
   }
 

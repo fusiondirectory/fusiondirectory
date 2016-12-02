@@ -35,13 +35,13 @@ class country extends department
         'ou'          => '',
         'icon'        => 'geticon.php?context=types&icon=country&size=16',
         'tabClass'    => 'deptabs',
-        'mainAttr'    => self::$namingAttr,
+        'mainAttr'    => static::$namingAttr,
       )),
       'plForeignKeys'  => array(
         'manager' => 'user'
       ),
 
-      'plProvidedAcls' => parent::generatePlProvidedAcls(self::getAttributesInfo())
+      'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())
     );
   }
 

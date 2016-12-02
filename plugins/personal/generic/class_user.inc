@@ -291,7 +291,7 @@ class user extends simplePlugin
         'manager' => array('user','dn')
       ),
 
-      'plProvidedAcls' => parent::generatePlProvidedAcls(self::getAttributesInfo())
+      'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())
     );
   }
 
