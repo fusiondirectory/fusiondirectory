@@ -96,7 +96,7 @@ MenuContainer.prototype = {
 
     for (var i = 0; i < childNodes.length; i++) {
       var node = childNodes[i];
-      if (node.nodeType == 1) {
+      if (node.nodeType === 1) {
         if (this.type === "menuContainer") {
           if (node.tagName.toLowerCase() === "li") {
             this.menuItems.push(new MenuItem(node, this));
@@ -138,7 +138,7 @@ MenuContainer.prototype = {
         top: (Position.positionedOffset(this.parent.element)[1] + Element.getHeight(this.parent.element)) + "px"
       });
     } else if (this.menuType === "flyout") {
-      var parentMenuBorders = this.parentMenu ? this.parentMenu.getBorders() : new Object();
+      var parentMenuBorders = this.parentMenu ? this.parentMenu.getBorders() : {};
       var thisBorders = this.getBorders();
       if (
         (Position.positionedOffset(this.parentMenu.element)[0] + this.parentMenu.element.offsetWidth + this.element.offsetWidth + 20) >
