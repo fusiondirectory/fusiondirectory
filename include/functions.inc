@@ -3373,7 +3373,7 @@ if (!function_exists('ldap_escape')) {
     if (!isset($charMaps[0])) {
       $charMaps[0] = array();
       for ($i = 0; $i < 256; $i++) {
-        $charMaps[0][chr($i)] = sprintf('\\%02x', $i);;
+        $charMaps[0][chr($i)] = sprintf('\\%02x', $i);
       }
 
       for ($i = 0, $l = count($charMaps[LDAP_ESCAPE_FILTER]); $i < $l; $i++) {
