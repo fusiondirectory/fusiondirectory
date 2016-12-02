@@ -678,7 +678,9 @@ class userinfo
 
       /* For all gosaDepartments */
       foreach ($config->departments as $dn) {
-        if (isset($deps[$dn])) continue;
+        if (isset($deps[$dn])) {
+          continue;
+        }
         $acl = "";
         if (strpos($mod, '/')) {
           $acl .= $this->get_permissions($dn, $mod);

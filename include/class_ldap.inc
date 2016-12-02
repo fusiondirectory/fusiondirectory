@@ -572,7 +572,10 @@ class LDAP
   function rm($attrs = "", $dn = "")
   {
     if ($this->hascon) {
-      if ($this->reconnect) $this->connect();
+      if ($this->reconnect) {
+        $this->connect();
+      }
+
       if ($dn == "")
         $dn = $this->basedn;
 
@@ -588,7 +591,10 @@ class LDAP
   function mod_add($attrs = "", $dn = "")
   {
     if ($this->hascon) {
-      if ($this->reconnect) $this->connect();
+      if ($this->reconnect) {
+        $this->connect();
+      }
+
       if ($dn == "")
         $dn = $this->basedn;
 
@@ -609,7 +615,10 @@ class LDAP
   function rmdir($deletedn)
   {
     if ($this->hascon) {
-      if ($this->reconnect) $this->connect();
+      if ($this->reconnect) {
+        $this->connect();
+      }
+
       $r = @ldap_delete($this->cid, LDAP::fix($deletedn));
       $this->error = @ldap_error($this->cid);
       return ($r ? $r : 0);
@@ -654,7 +663,10 @@ class LDAP
     $dest_rdn = preg_replace("/,.*$/", "", $dest);
 
     if ($this->hascon) {
-      if ($this->reconnect) $this->connect();
+      if ($this->reconnect) {
+        $this->connect();
+      }
+
       $r = ldap_rename($this->cid, @LDAP::fix($source), @LDAP::fix($dest_rdn), @LDAP::fix($parent), FALSE);
       $this->error = ldap_error($this->cid);
 
@@ -683,7 +695,9 @@ class LDAP
   function rmdir_recursive($srp, $deletedn)
   {
     if ($this->hascon) {
-      if ($this->reconnect) $this->connect();
+      if ($this->reconnect) {
+        $this->connect();
+      }
       $delarray = array();
 
       /* Get sorted list of dn's to delete */
@@ -743,7 +757,9 @@ class LDAP
       return 0;
     }
     if ($this->hascon) {
-      if ($this->reconnect) $this->connect();
+      if ($this->reconnect) {
+        $this->connect();
+      }
       $r = @ldap_modify($this->cid, LDAP::fix($this->basedn), $attrs);
       $this->error = @ldap_error($this->cid);
       if (!$this->success()) {
@@ -764,7 +780,9 @@ class LDAP
   function add($attrs)
   {
     if ($this->hascon) {
-      if ($this->reconnect) $this->connect();
+      if ($this->reconnect) {
+        $this->connect();
+      }
       $r = @ldap_add($this->cid, LDAP::fix($this->basedn), $attrs);
       $this->error = @ldap_error($this->cid);
       if (!$this->success()) {
@@ -869,7 +887,9 @@ class LDAP
           /* Fill in MUST values - but do not overwrite existing ones. */
           if (is_array($classes[$ocname]['MUST'])) {
             foreach ($classes[$ocname]['MUST'] as $attr) {
-              if (isset($na[$attr]) && !empty($na[$attr])) continue;
+              if (isset($na[$attr]) && !empty($na[$attr])) {
+                continue;
+              }
               $na[$attr] = 'filled';
             }
           }

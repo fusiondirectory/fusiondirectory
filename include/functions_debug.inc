@@ -326,7 +326,9 @@ function show_vars($show_all_vars = FALSE, $show_object_vars = FALSE)
   }
 
   foreach ($vars_arr as $vars_name => $vars_data) {
-    if ($vars_name != 'script_globals') global $$vars_name;
+    if ($vars_name != 'script_globals') {
+      global $$vars_name;
+    }
     if ($$vars_name) {
       print '<div class="vars-container" style="background-color:'.$vars_data[1].';"><span class="varsname">'.$vars_data[0].'</span><br />';
       print_a($$vars_name, FALSE, $show_object_vars, FALSE );

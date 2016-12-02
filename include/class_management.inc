@@ -200,8 +200,9 @@ class management
       }
 
       // No bases specified? Try base
-      if (!count($bases)) $bases[] = $this->headpage->getBase();
-
+      if (!count($bases)) {
+        $bases[] = $this->headpage->getBase();
+      }
       $this->snapHandler->setSnapshotBases($bases);
     }
 
@@ -379,9 +380,12 @@ class management
     $tabClass     = $this->tabClass;
     $aclCategory  = $this->aclCategory;
 
-    if (!empty($altTabClass)) $tabClass = $altTabClass;
-    if (!empty($altTabType)) $tabType = $altTabType;
-    if (!empty($altAclCategory)) $aclCategory = $altAclCategory;
+    if (!empty($altTabClass))
+      $tabClass = $altTabClass;
+    if (!empty($altTabType))
+      $tabType = $altTabType;
+    if (!empty($altAclCategory))
+      $aclCategory = $altAclCategory;
 
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, "Entry removal confirmed!");
 
@@ -423,9 +427,15 @@ class management
       return array();
     }
     $action = $this->headpage->getAction();
-    if (isset($_POST['edit_apply']))  $action['action'] = 'apply';
-    if (isset($_POST['edit_finish'])) $action['action'] = 'save';
-    if (isset($_POST['edit_cancel'])) $action['action'] = 'cancel';
+    if (isset($_POST['edit_apply'])) {
+      $action['action'] = 'apply';
+    }
+    if (isset($_POST['edit_finish'])) {
+      $action['action'] = 'save';
+    }
+    if (isset($_POST['edit_cancel'])) {
+      $action['action'] = 'cancel';
+    }
     if (!$this->is_modal_dialog()) {
       if (isset($_POST['delete_confirmed'])) {
         $action['action'] = 'removeConfirmed';
@@ -545,8 +555,9 @@ class management
     }
 
     // No bases specified? Try base
-    if (!count($bases)) $bases[] = $this->headpage->getBase();
-
+    if (!count($bases)) {
+      $bases[] = $this->headpage->getBase();
+    }
     if (!count($target)) {
       // No target, open the restore removed object dialog.
       $this->dn = $this->headpage->getBase();
@@ -652,9 +663,15 @@ class management
     $tabType      = $this->tabType;
     $tabClass     = $this->tabClass;
     $aclCategory  = $this->aclCategory;
-    if (!empty($altTabClass)) $tabClass = $altTabClass;
-    if (!empty($altTabType)) $tabType = $altTabType;
-    if (!empty($altAclCategory)) $aclCategory = $altAclCategory;
+    if (!empty($altTabClass)) {
+      $tabClass = $altTabClass;
+    }
+    if (!empty($altTabType)) {
+      $tabType = $altTabType;
+    }
+    if (!empty($altAclCategory)) {
+      $aclCategory = $altAclCategory;
+    }
 
     // Check locking & lock entry if required
     $this->displayApplyBtn  = FALSE;
@@ -726,9 +743,15 @@ class management
     $tabType      = $this->tabType;
     $tabClass     = $this->tabClass;
     $aclCategory  = $this->aclCategory;
-    if (!empty($altTabClass)) $tabClass = $altTabClass;
-    if (!empty($altTabType)) $tabType = $altTabType;
-    if (!empty($altAclCategory)) $aclCategory = $altAclCategory;
+    if (!empty($altTabClass)) {
+      $tabClass = $altTabClass;
+    }
+    if (!empty($altTabType)) {
+      $tabType = $altTabType;
+    }
+    if (!empty($altAclCategory)) {
+      $aclCategory = $altAclCategory;
+    }
 
     $this->displayApplyBtn = count($target) == 1;
 
