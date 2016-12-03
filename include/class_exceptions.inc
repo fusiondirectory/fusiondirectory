@@ -20,7 +20,7 @@
 
 /*!
  * \file class_exceptions.inc
- * Source code for Class LDAP
+ * Source code for FusionDirectory exceptions
  */
 
 /*! \class FusionDirectoryException
