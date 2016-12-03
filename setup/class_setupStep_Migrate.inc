@@ -44,7 +44,7 @@ array_to_ldif               - Create ldif output of an ldap result array
 
  ****************/
 
-class CheckFailedException extends Exception
+class CheckFailedException extends FusionDirectoryException
 {
   private $error;
 
