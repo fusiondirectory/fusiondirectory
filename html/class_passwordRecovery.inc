@@ -101,7 +101,7 @@ class standAlonePage {
 
   function loadConfig()
   {
-    global $_SERVER, $BASE_DIR;
+    global $BASE_DIR;
 
     /* Check if CONFIG_FILE is accessible */
     if (!is_readable(CONFIG_DIR."/".CONFIG_FILE)) {
