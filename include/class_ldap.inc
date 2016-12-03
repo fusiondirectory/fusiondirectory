@@ -686,7 +686,7 @@ class LDAP
   /*!
    * \brief Function rmdir_recursive
    *
-   * Based on recursive_remove, adding two thing: full subtree remove, and delete own node.
+   * Recursive remove, with full subtree remove, and delete own node.
    *
    * \param $srp srp
    *
