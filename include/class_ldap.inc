@@ -576,8 +576,9 @@ class LDAP
         $this->connect();
       }
 
-      if ($dn == "")
+      if ($dn == "") {
         $dn = $this->basedn;
+      }
 
       $r = ldap_mod_del($this->cid, LDAP::fix($dn), $attrs);
       $this->error = @ldap_error($this->cid);
@@ -595,8 +596,9 @@ class LDAP
         $this->connect();
       }
 
-      if ($dn == "")
+      if ($dn == "") {
         $dn = $this->basedn;
+      }
 
       $r = @ldap_mod_add($this->cid, LDAP::fix($dn), $attrs);
       $this->error = @ldap_error($this->cid);

@@ -380,12 +380,15 @@ class management
     $tabClass     = $this->tabClass;
     $aclCategory  = $this->aclCategory;
 
-    if (!empty($altTabClass))
+    if (!empty($altTabClass)) {
       $tabClass = $altTabClass;
-    if (!empty($altTabType))
+    }
+    if (!empty($altTabType)) {
       $tabType = $altTabType;
-    if (!empty($altAclCategory))
+    }
+    if (!empty($altAclCategory)) {
       $aclCategory = $altAclCategory;
+    }
 
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, "Entry removal confirmed!");
 

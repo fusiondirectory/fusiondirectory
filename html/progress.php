@@ -75,8 +75,10 @@ if (!function_exists("imagecreate")) {
   }
 
   /* Draw image in GD image stream */
-  $im = imagecreate ($x, $y)
-    or die ("Cannot Initialize new GD image stream");
+  $im = imagecreate ($x, $y);
+  if (!$im) {
+    die ('Cannot Initialize new GD image stream');
+  }
 
   /* Set colors */
   $bg_color = imagecolorallocate($im, 255,  255,  255);
