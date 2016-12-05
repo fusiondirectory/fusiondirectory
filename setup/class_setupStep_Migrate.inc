@@ -244,7 +244,7 @@ class Step_Migrate extends setupStep
         'cn'              => 'editownpwd',
         'description'     => _('Allow users to edit their own password (use only on base)'),
         'objectclass'     => array('top', 'gosaRole'),
-        'gosaAclTemplate' => '0:user/user;#userPassword;srw'
+        'gosaAclTemplate' => '0:user/user;s#userPassword;rw'
       ),
     );
   }
