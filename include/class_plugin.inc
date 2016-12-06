@@ -1270,7 +1270,7 @@ class plugin
           // For each tab concerned
           foreach ($tabRefs['refs'] as $tab => $fieldRefs) {
             // If the tab is activated on this object
-            if (isset($tabobject->by_object[$tab])) {
+            if (isset($tabobject->by_object[$tab]) && ($tabobject->by_object[$tab]->is_account || $tabobject->by_object[$tab]->ignore_account)) {
               // For each field
               foreach ($fieldRefs as $ofield => $field) {
                 // call plugin::foreignKeyUpdate(ldapname, oldvalue, newvalue, source) on the object
@@ -1287,9 +1287,9 @@ class plugin
                 );
               }
               $tabobject->by_object[$tab]->save_object();
-              $tabobject->by_object[$tab]->save();
             }
           }
+          $tabobject->save();
         } elseif ($mode == 'references') {
           // For each tab concerned
           foreach ($tabRefs['refs'] as $tab => $tab_infos) {
