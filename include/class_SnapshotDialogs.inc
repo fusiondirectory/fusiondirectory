@@ -127,7 +127,7 @@ class SnapshotsAttribute extends OrderedArrayAttribute
   protected function genRowIcons($key, $value)
   {
     $id = $this->getHtmlId();
-    list ($img, $width) = parent::genRowIcons($key, $value);
+    list ($img, $nbicons) = parent::genRowIcons($key, $value);
     $img = $this->renderInputField(
       'image', $id.'_restore_'.$key,
       array(
@@ -136,10 +136,10 @@ class SnapshotsAttribute extends OrderedArrayAttribute
         'alt'   => _('Restore'),
         'class' => 'center'
       )
-    ).'&nbsp;'.$img;
-    $width += 15;
+    ).$img;
+    $nbicons++;
 
-    return array ($img, $width);
+    return array ($img, $nbicons);
   }
 
   protected function handlePostValueActions($id, $postValue)
