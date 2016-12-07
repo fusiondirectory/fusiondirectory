@@ -166,6 +166,11 @@ class plugin
         if (empty($this->attrs)) {
           throw new NonExistingLdapNodeException('Could not open dn '.$this->dn);
         }
+        if ($this->mainTab) {
+          /* Make sure that initially_was_account is TRUE if we loaded an LDAP node,
+           *  even if it’s missing an objectClass */
+          $this->is_account = TRUE;
+        }
       }
 
       /* Set the template flag according to the existence of objectClass fdTemplate */
