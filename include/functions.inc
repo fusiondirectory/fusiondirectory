@@ -1010,8 +1010,8 @@ function get_ou($name)
   $map = array(
     'fusiondirectoryRDN'      => 'ou=fusiondirectory,',
     'lockRDN'                 => 'ou=locks,',
-    'tokenRDN'                => 'ou=tokens,',
-    'fdReminderTokenRDN'      => 'ou=reminder,',
+    'recoveryTokenRDN'        => 'ou=recovery,',
+    'reminderTokenRDN'        => 'ou=reminder,',
     'roleRDN'                 => 'ou=roles,',
     'ogroupRDN'               => 'ou=groups,',
     'applicationRDN'          => 'ou=apps,',

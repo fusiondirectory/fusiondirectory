@@ -374,7 +374,7 @@ class passwordRecovery extends standAlonePage {
     $ldap = $config->get_ldap_link();
 
     // Check if token branch is here
-    $token = get_ou('tokenRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'];
+    $token = get_ou('recoveryTokenRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'];
     $ldap->cat($token, array('dn'));
     if (!$ldap->count()) {
       /* It's not, let's create it */
@@ -421,7 +421,7 @@ class passwordRecovery extends standAlonePage {
     /* Retrieve hash from the ldap */
     $ldap = $config->get_ldap_link();
 
-    $token  = get_ou('tokenRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'];
+    $token  = get_ou('recoveryTokenRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'];
     $dn     = "ou=".$this->uid.",$token";
     $ldap->cat($dn);
     $attrs = $ldap->fetch();
