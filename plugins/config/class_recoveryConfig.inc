@@ -122,7 +122,7 @@ class recoveryConfig extends simplePlugin
     global $config;
     // Check if token branch is here
     $ldap = $config->get_ldap_link();
-    $tokenBranch = get_ou('tokenRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'];
+    $tokenBranch = get_ou('recoveryTokenRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'];
     $ldap->cat($tokenBranch, array('dn'));
     if (!$ldap->count()) {
       $ldap->cd($config->current['BASE']);
