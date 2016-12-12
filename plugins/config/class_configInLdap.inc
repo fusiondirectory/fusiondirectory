@@ -458,6 +458,10 @@ class configInLdap extends simplePlugin
             array('/bin/ash','/bin/bash','/bin/csh','/bin/sh','/bin/ksh',
                   '/bin/tcsh','/bin/dash','/bin/zsh','/sbin/nologin', '/bin/false', '/usr/bin/git-shell')
           ),
+          new SelectAttribute (
+            _('Default shell'), _('Shell used by default when activating Unix tab.'),
+            'fdDefaultShell', TRUE
+          ),
           new BooleanAttribute (
             _('Show ACL tab on all objects'),
             _('For very specific ACL rights setting where you might need to give right on a single object.'),
@@ -498,6 +502,8 @@ class configInLdap extends simplePlugin
     }
 
     $this->fusionConfigMd5 = md5_file(CACHE_DIR."/".CLASS_CACHE);
+
+    $this->attributesAccess['fdDefaultShell']->setChoices($this->fdShells);
 
     $this->attributesAccess['fdHttpAuthActivated']->setManagedAttributes(
       array(
@@ -562,6 +568,12 @@ class configInLdap extends simplePlugin
   function compute_dn()
   {
     return $this->dn;
+  }
+
+  function save_object()
+  {
+    parent::save_object();
+    $this->attributesAccess['fdDefaultShell']->setChoices($this->fdShells);
   }
 
   static function get_themes()

@@ -107,6 +107,7 @@ class posixAccount extends simplePlugin
   // The main function : information about attributes
   static function getAttributesInfo ()
   {
+    global $config;
     return array(
       'main' => array(
         'name'  => _('Unix'),
@@ -119,7 +120,9 @@ class posixAccount extends simplePlugin
           new StringAttribute('gecos', 'gecos', 'gecos'),
           new SelectAttribute(
             _('Shell'), _('Which shell should be used when this user log in'),
-            'loginShell', TRUE
+            'loginShell', TRUE,
+            $config->get_cfg_value('Shells', array(_('unconfigured'))),
+            $config->get_cfg_value('DefaultShell', '')
           ),
           new SelectAttribute(
             _('Primary group'), _('Primary group for this user'),
@@ -285,11 +288,11 @@ class posixAccount extends simplePlugin
     }
 
     /* Generate shell list from config */
-    $loginShellList = $config->get_cfg_value('Shells', array(_('unconfigured')));
+    $loginShellList = $this->attributesAccess['loginShell']->getChoices();
 
     /* Insert possibly missing loginShell */
     $loginShell = $this->attributesAccess['loginShell']->getValue();
-    if ($loginShell != "" && !in_array($loginShell, $loginShellList)) {
+    if (($loginShell != '') && !in_array($loginShell, $loginShellList)) {
       $loginShellList[] = $loginShell;
     }
     $this->attributesAccess['loginShell']->setChoices($loginShellList);
