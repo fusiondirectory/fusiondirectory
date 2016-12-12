@@ -772,7 +772,7 @@ sub get_ldap_connexion {
   # if can't find fusiondirectory.conf
   } else {
 
-    if ( ask_yn_question ("Can't find fusiondirectory.conf, do you want to specify LDAP's informations yourself ?: ") ) {
+    if ( ask_yn_question ("Can't find fusiondirectory.conf, do you want to specify LDAP's information yourself ?: ") ) {
       $uri = ask_user_input ("LDAP server's URI");
       $base = ask_user_input ("Search base");
       $hash_result{base} = $base;

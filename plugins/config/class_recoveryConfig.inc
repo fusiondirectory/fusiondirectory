@@ -91,7 +91,7 @@ class recoveryConfig extends simplePlugin
             _('Body of the first email, sent when the user ask for a new password. Use %s for the login and the recovery link.'),
             'fdPasswordRecoveryMailBody',
             TRUE,
-            _("Hello,\n\nHere are your informations : \n - Login : %s\n - Link : %s\n\nThis link is only valid for 10 minutes.")
+            _("Hello,\n\nHere is your information: \n - Login : %s\n - Link : %s\n\nThis link is only valid for 10 minutes.")
           )
         )
       ),

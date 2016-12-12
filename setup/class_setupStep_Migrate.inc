@@ -23,7 +23,7 @@
  * FUNCTIONS
 
 Step_Migrate                - Constructor.
-update_strings              - Used to update the displayed step informations.
+update_strings              - Used to update the displayed step information.
 initialize_checks           - Initialize migration steps.
 check_ldap_permissions      - Check if the used admin account has full access to the ldap database.
 check_gosaAccounts          - Check if there are users without the required objectClasses.

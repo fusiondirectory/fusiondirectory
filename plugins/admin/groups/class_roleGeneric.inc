@@ -79,7 +79,7 @@ class roleGeneric extends simplePlugin
   {
     return array(
       'main' => array(
-        'name'  => _('Informations'),
+        'name'  => _('Information'),
         'attrs' => array(
           new BaseSelectorAttribute (get_ou('roleRDN')),
           new StringAttribute(
