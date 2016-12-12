@@ -27,7 +27,7 @@ class departmentManagement extends simpleManagement
   protected $departmentRootVisible  = FALSE;
   protected $baseMode               = TRUE;
 
-  /* Return plugin informations for acl handling */
+  /* Return plugin information for acl handling */
   static function plInfo()
   {
     return array(
