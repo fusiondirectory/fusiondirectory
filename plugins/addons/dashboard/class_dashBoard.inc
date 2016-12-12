@@ -26,7 +26,7 @@ class dashboard extends simplePlugin
     return array(
       'plShortName'   => _('Dashboard'),
       'plTitle'       => _('Dashboard'),
-      'plDescription' => _('Statistics and various informations'),
+      'plDescription' => _('Statistics and various information'),
       'plIcon'        => 'geticon.php?context=applications&icon=utilities-system-monitor&size=48',
       'plObjectType'  => array(
         'dashboard' => array(
