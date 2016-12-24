@@ -103,6 +103,14 @@ class Step_Checks extends setupStep
     $M = TRUE;
     $basic_checks[] = array('NAME' => $N , 'DESC' => $D , 'RESULT' => $R , 'SOLUTION' => $S , 'MUST' => $M );
 
+    /* Check for filter support */
+    $N = msgPool::checkingFor('filter');
+    $D = _('FusionDirectory requires this module to filters a variable with a specified filter.');
+    $S = msgPool::installPhpModule('filter');
+    $R = is_callable('filter_var');
+    $M = TRUE;
+    $basic_checks[] = array('NAME' => $N , 'DESC' => $D , 'RESULT' => $R , 'SOLUTION' => $S , 'MUST' => $M );
+
     /* Check for iconv */
     $N = msgPool::checkingFor("iconv");
     $D = _("FusionDirectory requires this module for the samba integration.");
