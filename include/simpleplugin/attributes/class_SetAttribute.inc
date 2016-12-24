@@ -579,13 +579,7 @@ class OrderedArrayAttribute extends SetAttribute
       $this->attribute->loadPostValue();
       $this->attribute->applyPostValue();
       if ($error = $this->attribute->check()) {
-        $label = $this->getLabel();
-        if (empty($label)) {
-          $label = '<em>'.$this->getLdapName().'</em>';
-        } else {
-          $label = sprintf(_('"%s"'), $label);
-        }
-        msg_dialog::display(sprintf(_('Invalid value for %s'), $label), $error);
+        msg_dialog::display(sprintf(_('Invalid value for %s'), $this->getLabel()), $error);
       } else {
         $this->addPostValue($this->attribute->getValue());
       }
