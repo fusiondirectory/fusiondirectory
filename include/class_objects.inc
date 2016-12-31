@@ -127,7 +127,7 @@ class objects
     $ldap->cd($ou);
     $ldap->search($filter, $search_attrs);
     if (!$ldap->success()) {
-      throw new Exception($ldap->get_error());
+      throw new LDAPFailureException($ldap->get_error());
     }
     return $ldap;
   }
