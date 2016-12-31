@@ -1135,7 +1135,7 @@ class LDAP
     foreach ($fileLines as $lineNumber => $fileLine) {
       if (preg_match('/^ /', $fileLine)) {
         if ($line === NULL) {
-          throw new Exception(sprintf(_('Error line %s, first line of an entry cannot start with a space'), $lineNumber));
+          throw new LDIFImportException(sprintf(_('Error line %s, first line of an entry cannot start with a space'), $lineNumber));
         }
         /* Append to current line */
         $line .= substr($fileLine, 1);
@@ -1153,19 +1153,19 @@ class LDAP
             $value = base64_decode(trim(substr($value, 1)));
           }
           if (preg_match('/^</', $value)) {
-            throw new Exception(sprintf(_('Error line %s, references to an external file are not supported'), $lineNumber));
+            throw new LDIFImportException(sprintf(_('Error line %s, references to an external file are not supported'), $lineNumber));
           }
           if ($value === '') {
-            throw new Exception(sprintf(_('Error line %s, attribute "%s" has no value'), $lineNumber, $key));
+            throw new LDIFImportException(sprintf(_('Error line %s, attribute "%s" has no value'), $lineNumber, $key));
           }
           if ($key == 'dn') {
             if (!empty($entry)) {
-              throw new Exception(sprintf(_('Error line %s, an entry bloc can only have one dn'), $lineNumber));
+              throw new LDIFImportException(sprintf(_('Error line %s, an entry bloc can only have one dn'), $lineNumber));
             }
             $entry['dn']  = $value;
             $entryStart   = $lineNumber;
           } elseif (empty($entry)) {
-            throw new Exception(sprintf(_('Error line %s, an entry bloc should start with the dn'), $lineNumber));
+            throw new LDIFImportException(sprintf(_('Error line %s, an entry bloc should start with the dn'), $lineNumber));
           } else {
             if (!isset($entry[$key])) {
               $entry[$key] = array();
@@ -1196,9 +1196,7 @@ class LDAP
 
       /* If we can't Import, return with a file error */
       if (!$this->import_single_entry($srp, $entry, $usemodify, $usermdir)) {
-        $error = sprintf(_("Error while importing dn: '%s', please check your LDIF from line %s on!"), $entry['dn'][0],
-                        $startLine);
-        throw new Exception($error);
+        throw new LDIFImportException(sprintf(_('Error while importing dn: "%s", please check your LDIF from line %s on!'), $entry['dn'][0], $startLine));
       }
     }
   }

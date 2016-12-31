@@ -83,7 +83,7 @@ class IconTheme
     $this->path = $folder;
     $datas  = @parse_ini_file($folder.'/index.theme', TRUE, INI_SCANNER_RAW);
     if ($datas === FALSE) {
-      throw new Exception('Error while parsing theme file');
+      throw new ThemeFileParsingException('Error while parsing theme file');
     }
     if (isset($datas['Icon Theme']['Directories']) && !empty($datas['Icon Theme']['Directories'])) {
       $dirs   = preg_split('/,/', $datas['Icon Theme']['Directories']);
@@ -186,7 +186,8 @@ class IconTheme
             } else {
               $themes[$file] = new IconTheme("$path/$file", static::$default_theme);
             }
-          } catch (Exception $e) {
+          } catch (ThemeFileParsingException $e) {
+            continue;
           }
         }
       }
