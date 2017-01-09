@@ -1454,16 +1454,17 @@ sub migrate_dhcp {
   } else {
     if (ask_yn_question("Move these entries to the DHCP branch ($dhcprdn)?")) {
       foreach my $entrydn (@baddns) {
-        $entrydn =~ m/^([^,]+),(.+$systemrdn,(.+))$/ or die "Could not parse dn ".$entrydn."\n";
+        $entrydn =~ m/^([^,]+),(cn=(.+),$systemrdn,(.+))$/ or die "Could not parse dn ".$entrydn."\n";
         my $rdn = $1;
         my $systemdn = $2;
-        my $entrybase = $3;
+        my $systemcn = $3;
+        my $entrybase = $4;
         if (!branch_exists($ldap, "$dhcprdn,$entrybase")) {
           create_branch($ldap, $entrybase, $dhcprdn);
         }
         my $result = $ldap->moddn (
           $entrydn,
-          newrdn        => $rdn,
+          newrdn        => "$rdn-$systemcn",
           deleteoldrdn  => '1',
           newsuperior   => "$dhcprdn,$entrybase"
         );
