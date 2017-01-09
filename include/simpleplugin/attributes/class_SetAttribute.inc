@@ -132,6 +132,9 @@ class SetAttribute extends Attribute
     if (!empty($error) || ($this->attribute === FALSE)) {
       return $error;
     } else {
+      if (!is_array($this->value)) {
+        return sprintf(_('The value for multivaluated field "%s" is not an array'), $this->getLabel());
+      }
       foreach ($this->value as $value) {
         $this->attribute->setValue($value);
         $error = $this->attribute->check();
