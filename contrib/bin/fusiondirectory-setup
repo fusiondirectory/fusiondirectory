@@ -1454,7 +1454,7 @@ sub migrate_dhcp {
   } else {
     if (ask_yn_question("Move these entries to the DHCP branch ($dhcprdn)?")) {
       foreach my $entrydn (@baddns) {
-        $entrydn =~ m/^([^,]+),(cn=(.+),$systemrdn,(.+))$/ or die "Could not parse dn ".$entrydn."\n";
+        $entrydn =~ m/^([^,]+),(cn=([^,]+),.*$systemrdn,(.+))$/ or die "Could not parse dn ".$entrydn."\n";
         my $rdn = $1;
         my $systemdn = $2;
         my $systemcn = $3;
