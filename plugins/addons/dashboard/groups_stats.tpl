@@ -7,7 +7,7 @@
     {t count=$attributes.groups_stats.nb 1=$attributes.groups_stats.nb plural="There are %1 groups:"}There is 1 group:{/t}
     <ul>
       {foreach from=$attributes.groups_stats.groups item=g}
-        <li style="list-style-image:url({$g.img})">
+        <li style="list-style-image:url({$g.img|escape})">
         {if $g.nb > 0}
           {t count=$g.nb 1=$g.name 2=$g.nb plural="%2 are %1 groups"}One of them is a %1 group{/t}
         {else}
