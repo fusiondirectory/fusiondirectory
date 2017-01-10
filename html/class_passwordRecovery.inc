@@ -205,7 +205,7 @@ class standAlonePage {
 
   function encodeParams($keys)
   {
-    $params = "";
+    $params = '';
     foreach ($keys as $key) {
       $params .= "&amp;$key=".urlencode($this->$key);
     }
@@ -289,6 +289,11 @@ class passwordRecovery extends standAlonePage {
       if (isset($_POST['change'])) {
         $this->step4();
       } elseif (isset($_POST['apply'])) {
+        if ($_POST['email_address'] == '') {
+          $this->message[] = msgPool::required(_('Email address'));
+          return;
+        }
+        $this->email_address = $_POST['email_address'];
         $this->step2();
         if ($this->step == 2) { /* No errors */
           $this->step3();
@@ -468,17 +473,12 @@ class passwordRecovery extends standAlonePage {
   function step2()
   {
     global $config;
-    if ($_POST['email_address'] == "") {
-      $this->message[] = msgPool::required(_("Email address"));
-      return;
-    }
-    $this->email_address = $_POST['email_address'];
 
     /* Search uid corresponding to the mail */
     if ($this->usealternates) {
-      $filter = "(&(objectClass=gosaMailAccount)(|(mail=".$this->email_address.")(gosaMailAlternateAddress=".$this->email_address.")))";
+      $filter = '(&(objectClass=gosaMailAccount)(|(mail='.$this->email_address.')(gosaMailAlternateAddress='.$this->email_address.')))';
     } else {
-      $filter = "(&(objectClass=gosaMailAccount)(mail=".$this->email_address."))";
+      $filter = '(&(objectClass=gosaMailAccount)(mail='.$this->email_address.'))';
     }
     if (class_available('personalInfo') && ($config->get_cfg_value('privateEmailPasswordRecovery', 'FALSE') == 'TRUE')) {
       $filter = '(|'.$filter.'(&(objectClass=fdPersonalInfo)(fdPrivateMail='.$this->email_address.')))';
@@ -506,29 +506,38 @@ class passwordRecovery extends standAlonePage {
       $this->message[] = sprintf(_('The user using email "%s" is locked. Please contact your administrator.'), $this->email_address);
       return;
     }
+    $this->uid = $attrs['uid'][0];
+    $this->step = 2;
 
     $smarty = get_smarty();
 
-    $this->uid = $attrs['uid'][0];
     $smarty->assign('uid', $this->uid);
     $smarty->assign('email_address', $this->email_address);
-    $this->step = 2;
     $params = $this->encodeParams(array('uid', 'directory', 'email_address'));
     $smarty->assign('params', $params);
   }
 
-  /* generate a token and send it by email */
-  function step3()
+  protected function generateAndStoreToken()
   {
-    $smarty = get_smarty();
-    /* Send a mail, save information in session and create a very random unique id */
-
     $activatecode = $this->generateRandomHash();
 
     $error = $this->storeToken($activatecode);
 
     if (!empty($error)) {
-      msg_dialog::display(_("LDAP error"), $error, LDAP_ERROR);
+      $this->message[] = $error;
+      return FALSE;
+    }
+
+    return $activatecode;
+  }
+
+  /* generate a token and send it by email */
+  function step3()
+  {
+    /* Send a mail, save information in session and create a very random unique id */
+    $token = $this->generateAndStoreToken();
+
+    if ($token === FALSE) {
       return;
     }
 
@@ -547,6 +556,8 @@ class passwordRecovery extends standAlonePage {
     } else {
       $this->message[] = msgPool::invalid(_("Contact your administrator, there was a problem with mail server"));
     }
+    $smarty = get_smarty();
+
     $smarty->assign('uid', $this->uid);
   }
 
@@ -574,20 +585,19 @@ class passwordRecovery extends standAlonePage {
     }
   }
 
-  /* change the password and send confirmation email */
-  function step5()
+  protected function changeUserPassword($new_password, $new_password_repeated)
   {
     $dn = $this->getUserDn();
     if (!$dn) {
-      return;
+      return FALSE;
     }
 
     $userTabs = objects::open($dn, 'user');
     $userTab  = $userTabs->getBaseObject();
     $userTab->userPassword = array(
       '',
-      $_POST['new_password'],
-      $_POST['new_password_repeated'],
+      $new_password,
+      $new_password_repeated,
       $userTab->userPassword,
       $userTab->attributesAccess['userPassword']->isLocked()
     );
@@ -596,12 +606,24 @@ class passwordRecovery extends standAlonePage {
     $error = $userTabs->check();
     if (!empty($error)) {
       $this->message = $error;
-      return;
+      return FALSE;
     }
 
     $userTabs->save_object();
     $userTabs->save();
-    fusiondirectory_log("User ".$this->uid." password has been changed");
+    fusiondirectory_log('User '.$this->uid.' password has been changed');
+
+    return TRUE;
+  }
+
+  /* change the password and send confirmation email */
+  function step5()
+  {
+    $success = $this->changeUserPassword($_POST['new_password'], $_POST['new_password_repeated']);
+    if (!$success) {
+      return;
+    }
+
     /* Send the mail */
     $mail_body = sprintf($this->mail2_body, $this->uid);
 
