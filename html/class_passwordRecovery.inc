@@ -515,6 +515,8 @@ class passwordRecovery extends standAlonePage {
     $smarty->assign('email_address', $this->email_address);
     $params = $this->encodeParams(array('uid', 'directory', 'email_address'));
     $smarty->assign('params', $params);
+
+    return $attrs['dn'];
   }
 
   protected function generateAndStoreToken()
