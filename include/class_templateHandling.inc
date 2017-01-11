@@ -111,7 +111,7 @@ class templateHandling
    */
   public static function checkFields ($attrs)
   {
-    list($depends, $errors) = static::attributesDependencies($attrs);
+    list(, $errors) = static::attributesDependencies($attrs);
     return $errors;
   }
 

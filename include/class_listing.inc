@@ -967,13 +967,13 @@ class listing
    */
   function filterObjectType($row, $dn)
   {
-    return $this->filterGenericType($row, $dn, $this->objectTypes, $this->getObjectType($dn, $this->entries[$row]));
+    return $this->filterGenericType($dn, $this->objectTypes, $this->getObjectType($dn, $this->entries[$row]));
   }
 
   /*!
    * \brief Generic method for department and objects once type is known
    */
-  protected function filterGenericType($row, $dn, $types, $type)
+  protected function filterGenericType($dn, $types, $type)
   {
     $result = "&nbsp;";
 
@@ -997,7 +997,7 @@ class listing
    */
   function filterDepartmentType($row, $dn)
   {
-    return $this->filterGenericType($row, $dn, $this->departmentTypes, $this->getDepartmentType($dn, $this->departments[$row]));
+    return $this->filterGenericType($dn, $this->departmentTypes, $this->getDepartmentType($dn, $this->departments[$row]));
   }
 
   /*!

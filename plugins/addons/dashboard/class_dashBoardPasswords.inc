@@ -59,7 +59,7 @@ class dashboardPassword extends simplePlugin
     $nb_accounts = count($users);
     $nb_locked_accounts = 0;
     $methods_stats = array();
-    foreach ($users as $dn => $userPassword) {
+    foreach ($users as $userPassword) {
       if (!empty($userPassword)) {
         if (preg_match("/^\{[^\}]+\}!/", $userPassword)) {
           $nb_locked_accounts++;

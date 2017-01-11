@@ -757,8 +757,6 @@ function del_user_locks($userdn)
  */
 function get_lock($object)
 {
-  global $config;
-
   /* Sanity check */
   if ($object == '') {
     msg_dialog::display(_('Internal error'), _('Error while adding a lock. Contact the developers!'), ERROR_DIALOG);

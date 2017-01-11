@@ -1137,15 +1137,12 @@ class simplePlugin extends plugin
     switch ($mode) {
       case 'add':
         return $this->callHook($when.'CREATE', $addAttrs);
-        break;
 
       case 'modify':
         return $this->callHook($when.'MODIFY', $addAttrs);
-        break;
 
       case 'remove':
         return $this->callHook($when.'REMOVE', $addAttrs);
-        break;
 
       default:
         trigger_error(sprintf('Invalid %s event type given: "%s"! Valid types are: add, modify, remove.', strtolower($when), $mode));
