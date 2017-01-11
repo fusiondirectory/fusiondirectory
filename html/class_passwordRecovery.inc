@@ -531,7 +531,7 @@ class passwordRecovery extends standAlonePage {
 
   function generateAndStoreToken()
   {
-    $activatecode = self::generateRandomHash();
+    $activatecode = static::generateRandomHash();
 
     $error = $this->storeToken($activatecode);
 
