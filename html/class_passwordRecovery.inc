@@ -28,75 +28,83 @@ require_once("variables.inc");
 class standAlonePage {
   var $directory;
   var $activated;
+  protected $interactive;
 
   /* Constructor */
-  function __construct()
+  function __construct($interactive = TRUE)
   {
     global $config, $ssl, $ui;
-    /* Destroy old session if exists.
-        Else you will get your old session back, if you not logged out correctly. */
-    session::destroy();
-    session::start();
 
-    /* Reset errors */
-    reset_errors();
+    $this->interactive = $interactive;
 
-    $config       = $this->loadConfig();
+    if ($this->interactive) {
+      /* Destroy old session if exists.
+          Else you will get your old session back, if you not logged out correctly. */
+      session::destroy();
+      session::start();
 
-    /* If SSL is forced, just forward to the SSL enabled site */
-    if (($config->get_cfg_value("forcessl") == "TRUE") && ($ssl != '')) {
-      header ("Location: $ssl");
-      exit;
-    }
+      /* Reset errors */
+      reset_errors();
 
-    $this->setupSmarty();
+      $config = $this->loadConfig();
 
-    $smarty = get_smarty();
-
-    /* Generate server list */
-    $servers = array();
-    foreach ($config->data['LOCATIONS'] as $key => $ignored) {
-      $servers[$key] = $key;
-    }
-
-    $smarty->assign("show_directory_chooser", FALSE);
-
-    if (isset($_POST['server'])) {
-      $this->directory = validate($_POST['server']);
-    } elseif (isset($_GET['directory']) && isset($servers[$_GET['directory']])) {
-      $this->directory = validate($_GET['directory']);
-    } else {
-      $this->directory = $config->data['MAIN']['DEFAULT'];
-
-      if (!isset($servers[$this->directory])) {
-        $this->directory = key($servers);
+      /* If SSL is forced, just forward to the SSL enabled site */
+      if (($config->get_cfg_value("forcessl") == "TRUE") && ($ssl != '')) {
+        header ("Location: $ssl");
+        exit;
       }
 
-      if (count($servers) > 1) {
-        $smarty->assign("show_directory_chooser", TRUE);
-        $smarty->assign("server_options", $servers);
-        $smarty->assign("server_id", $this->directory);
-      }
-    }
+      $this->setupSmarty();
 
-    /* Set config to selected one */
-    $config->set_current($this->directory);
-    session::global_set('config', $config);
+      $smarty = get_smarty();
+
+      /* Generate server list */
+      $servers = array();
+      foreach ($config->data['LOCATIONS'] as $key => $ignored) {
+        $servers[$key] = $key;
+      }
+
+      $smarty->assign("show_directory_chooser", FALSE);
+
+      if (isset($_POST['server'])) {
+        $this->directory = validate($_POST['server']);
+      } elseif (isset($_GET['directory']) && isset($servers[$_GET['directory']])) {
+        $this->directory = validate($_GET['directory']);
+      } else {
+        $this->directory = $config->data['MAIN']['DEFAULT'];
+
+        if (!isset($servers[$this->directory])) {
+          $this->directory = key($servers);
+        }
+
+        if (count($servers) > 1) {
+          $smarty->assign("show_directory_chooser", TRUE);
+          $smarty->assign("server_options", $servers);
+          $smarty->assign("server_id", $this->directory);
+        }
+      }
+
+      /* Set config to selected one */
+      $config->set_current($this->directory);
+      session::global_set('config', $config);
+    }
 
     $this->activated = $this->readLdapConfig();
     if (!$this->activated) { /* Password recovery has been disabled */
       return;
     }
 
-    initLanguage();
+    if ($this->interactive) {
+      initLanguage();
 
-    if (session::global_is_set('plist')) {
-      session::global_un_set('plist');
+      if (session::global_is_set('plist')) {
+        session::global_un_set('plist');
+      }
+      $ui = new fake_userinfo();
+      load_plist();
+
+      $ssl = $this->checkForSSL();
     }
-    $ui = new fake_userinfo();
-    load_plist();
-
-    $ssl = $this->checkForSSL();
   }
 
   function loadConfig()
@@ -254,9 +262,9 @@ class passwordRecovery extends standAlonePage {
   var $usealternates;
 
   /* Constructor */
-  function __construct()
+  function __construct($interactive = TRUE)
   {
-    parent::__construct();
+    parent::__construct($interactive);
 
     if (isset($_GET['email_address']) && $_GET['email_address'] != "") {
       $this->email_address = validate($_GET['email_address']);
@@ -509,19 +517,21 @@ class passwordRecovery extends standAlonePage {
     $this->uid = $attrs['uid'][0];
     $this->step = 2;
 
-    $smarty = get_smarty();
+    if ($this->interactive) {
+      $smarty = get_smarty();
 
-    $smarty->assign('uid', $this->uid);
-    $smarty->assign('email_address', $this->email_address);
-    $params = $this->encodeParams(array('uid', 'directory', 'email_address'));
-    $smarty->assign('params', $params);
+      $smarty->assign('uid', $this->uid);
+      $smarty->assign('email_address', $this->email_address);
+      $params = $this->encodeParams(array('uid', 'directory', 'email_address'));
+      $smarty->assign('params', $params);
+    }
 
     return $attrs['dn'];
   }
 
-  protected function generateAndStoreToken()
+  function generateAndStoreToken()
   {
-    $activatecode = $this->generateRandomHash();
+    $activatecode = self::generateRandomHash();
 
     $error = $this->storeToken($activatecode);
 
@@ -587,7 +597,7 @@ class passwordRecovery extends standAlonePage {
     }
   }
 
-  protected function changeUserPassword($new_password, $new_password_repeated)
+  function changeUserPassword($new_password, $new_password_repeated)
   {
     $dn = $this->getUserDn();
     if (!$dn) {
