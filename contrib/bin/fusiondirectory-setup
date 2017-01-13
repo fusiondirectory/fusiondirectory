@@ -794,7 +794,7 @@ sub get_ldap_connexion {
 
   # bind to the LDAP server
   if (-e $fd_secrets) {
-    open($secret_file, $fd_secrets) || die ("Could not open $fd_secrets");
+    open($secret_file, q{<}, $fd_secrets) || die ("Could not open $fd_secrets");
     my $key = "";
     while(<$secret_file>) {
       if ($_ =~ m/RequestHeader set FDKEY ([^ \n]+)\n/) {
@@ -808,7 +808,7 @@ sub get_ldap_connexion {
 
   if ($tls) {
     # Read LDAP config file
-    open ($ldap_conf,$vars{ldap_conf}) or die ("! Failed to open ldap config file '$vars{ldap_conf}': $!\n");
+    open ($ldap_conf, q{<}, $vars{ldap_conf}) or die ("! Failed to open ldap config file '$vars{ldap_conf}': $!\n");
 
     my %tls_options = (
       'REQCERT'   => 'require',
