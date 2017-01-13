@@ -516,11 +516,11 @@ sub check_directories {
 
       # if $dir is one of the dirs that remains to root
       if ( grep (/.*$dir.*/, @root_config_dirs) ) {
-        check_rights($dir,"root","root",0755,1);
+        check_rights($dir,"root","root",755,1);
 
       # else if $dir is one of the dirs that remains to apache's user group, and the dir's owner is not root or the group is not the apache's user group, modifying owner
       } elsif ( grep ( /.*$dir.*/, @apache_config_dirs) ) {
-        check_rights($dir,"root",$apache_group,0770,1);
+        check_rights($dir,"root",$apache_group,770,1);
       }
   }
 }
@@ -530,7 +530,7 @@ sub check_config {
   my $apache_group = get_apache_group();
 
   # check config file
-  check_rights($fd_config,"root",$apache_group,0640,0) or die 'The config file does not exists!';
+  check_rights($fd_config,"root",$apache_group,640,0) or die 'The config file does not exists!';
 }
 
 ############################################################# Change install directories #################################################################################
