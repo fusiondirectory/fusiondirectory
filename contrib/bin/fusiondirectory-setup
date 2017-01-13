@@ -1957,7 +1957,7 @@ sub show_version {
   my $vars_file;
 
   if (-e $variables_common_path) {
-    open($vars_file, $variables_common_path) || die ("Could not open $variables_common_path");
+    open($vars_file, q{<}, $variables_common_path) || die ("Could not open $variables_common_path");
     while(<$vars_file>) {
       if ($_ =~ m/^define \(["']FD_VERSION["'], "([^"]+)"\);/) {
         print "FusionDirectory version is $1\n";
