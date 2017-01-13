@@ -729,6 +729,8 @@ sub get_ldap_connexion {
   my $uri = "";
   my $base = "";
   my $tls = 0;
+  my $secret_file;
+  my $ldap_conf;
 
   # read ldap's server's info from /etc/fusiondirectory/fusiondirectory.conf
   if (-e $fd_config) {
@@ -792,21 +794,21 @@ sub get_ldap_connexion {
 
   # bind to the LDAP server
   if (-e $fd_secrets) {
-    open(SECRETS, $fd_secrets) || die ("Could not open $fd_secrets");
+    open($secret_file, $fd_secrets) || die ("Could not open $fd_secrets");
     my $key = "";
-    while(<SECRETS>) {
+    while(<$secret_file>) {
       if ($_ =~ m/RequestHeader set FDKEY ([^ \n]+)\n/) {
         $key = $1;
         last;
       }
     }
-    close(SECRETS);
+    close($secret_file);
     $bind_pwd = cred_decrypt($bind_pwd, $key);
   }
 
   if ($tls) {
     # Read LDAP config file
-    open (LDAPCONF,$vars{ldap_conf}) or die ("! Failed to open ldap config file '$vars{ldap_conf}': $!\n");
+    open ($ldap_conf,$vars{ldap_conf}) or die ("! Failed to open ldap config file '$vars{ldap_conf}': $!\n");
 
     my %tls_options = (
       'REQCERT'   => 'require',
@@ -816,14 +818,14 @@ sub get_ldap_connexion {
       'CACERT'    => '',
     );
     # Scan LDAP config
-    while (<LDAPCONF>) {
+    while (<$ldap_conf>) {
       /^\s*(#|$)/ && next;
       chomp;
       if (m/^TLS_(REQCERT|CERT|KEY|CACERTDIR|CACERT)\s+(.*)\s*$/i) {
         $tls_options{uc $1} = $2;
       }
     }
-    close(LDAPCONF);
+    close($ldap_conf);
 
     $ldap->start_tls(
       verify      => $tls_options{'REQCERT'},
@@ -1952,15 +1954,17 @@ sub set_config_var {
 
 sub show_version {
   my $variables_common_path = "$vars{fd_home}/include/variables_common.inc";
+  my $vars_file;
+
   if (-e $variables_common_path) {
-    open(VARS, $variables_common_path) || die ("Could not open $variables_common_path");
-    while(<VARS>) {
+    open($vars_file, $variables_common_path) || die ("Could not open $variables_common_path");
+    while(<$vars_file>) {
       if ($_ =~ m/^define \(["']FD_VERSION["'], "([^"]+)"\);/) {
         print "FusionDirectory version is $1\n";
         last;
       }
     }
-    close(VARS);
+    close($vars_file);
   } else {
     print "File $variables_common_path does not exists, can’t find out FusionDirectory version\n";
   }
