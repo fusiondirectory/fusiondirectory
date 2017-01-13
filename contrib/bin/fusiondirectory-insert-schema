@@ -157,7 +157,7 @@ foreach my $schema (@schemas) {
 
   if ($modify < 2) {
     # Searching schema name in ldif file first line.
-    open $ldif_file, '< '.$path.$schema.".ldif" or die "Count not open ldif file : $!\n";
+    open $ldif_file, q{<}, $path.$schema.".ldif" or die "Count not open ldif file : $!\n";
     my $dn = "";
     while ($dn eq "") {
       chomp($dn = <$ldif_file>);
@@ -209,8 +209,8 @@ sub insert_schema
       my $dn_part = $1;
       # if the schema already exists in the LDAP server, modify it
       if ($modify == 1) {
-        open($schema_file, "<".$path.$schema.".ldif") or die_with_error('Could not open '."<".$path.$schema.".ldif: $!");
-        open($update_file, ">".$path.$schema."_update.ldif") or die_with_error('Could not open '.">".$path.$schema."_update.ldif: $!");
+        open($schema_file, q{<}, $path.$schema.".ldif") or die_with_error('Could not open '."<".$path.$schema.".ldif: $!");
+        open($update_file, q{>}, $path.$schema."_update.ldif") or die_with_error('Could not open '.">".$path.$schema."_update.ldif: $!");
         push @gen_files, $path.$schema."_update";
         my $attrs   = 0;
         my $classes = 0;
@@ -248,7 +248,7 @@ sub insert_schema
         close $schema_file;
         close $update_file;
       } else { # Emptying schema
-        open($update_file, ">".$path.$schema."_update.ldif") or die_with_error('Could not open '.">".$path.$schema."_update.ldif: $!");
+        open($update_file,  q{>}, $path.$schema."_update.ldif") or die_with_error('Could not open '.">".$path.$schema."_update.ldif: $!");
         push @gen_files, $path.$schema."_update";
         print $update_file "dn: $dn_part,cn=schema,cn=config\n";
         print $update_file "changetype: modify\n";
