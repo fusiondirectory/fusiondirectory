@@ -184,6 +184,7 @@ sub insert_schema
   my($schema, $schema_name) = @_;
   my $schema_file;
   my $update_file;
+  my $empty_file;
 
   $full_cmd = $search_cmd.$schema_name." cn";
   print ("\n");
@@ -242,21 +243,21 @@ sub insert_schema
             print $update_file "replace: olcObjectClasses\n";
           }
 
-          print $update_file;
+          print $update_file $_;
           print $update_file "\n";
         }
         close $schema_file;
         close $update_file;
       } else { # Emptying schema
-        open($update_file,  q{>}, $path.$schema."_update.ldif") or die_with_error('Could not open '.">".$path.$schema."_update.ldif: $!");
+        open($empty_file,  q{>}, $path.$schema."_update.ldif") or die_with_error('Could not open '.">".$path.$schema."_update.ldif: $!");
         push @gen_files, $path.$schema."_update";
-        print $update_file "dn: $dn_part,cn=schema,cn=config\n";
-        print $update_file "changetype: modify\n";
-        print $update_file "delete: olcAttributeTypes\n";
-        print $update_file "-\n";
-        print $update_file "delete: olcObjectClasses\n";
-        print $update_file "-\n";
-        close $update_file;
+        print $empty_file "dn: $dn_part,cn=schema,cn=config\n";
+        print $empty_file "changetype: modify\n";
+        print $empty_file "delete: olcAttributeTypes\n";
+        print $empty_file "-\n";
+        print $empty_file "delete: olcObjectClasses\n";
+        print $empty_file "-\n";
+        close $empty_file;
       }
       $full_cmd = $mod_cmd.$path.$schema."_update.ldif";
       print "executing '$full_cmd'\n";
