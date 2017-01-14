@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-110\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2016-12-28 16:11+0100\n"
-"PO-Revision-Date: 2016-12-28 15:11+0000\n"
+"POT-Creation-Date: 2017-01-11 19:09+0100\n"
+"PO-Revision-Date: 2017-01-10 14:53+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: Greek (Greece) (http://www.transifex.com/fusiondirectory/FusionDirectory-110/language/el_GR/)\n"
 "MIME-Version: 1.0\n"
@@ -372,12 +372,12 @@ msgstr ""
 #: include/functions.inc:724 include/functions.inc:822
 #: include/functions.inc:2988 include/functions.inc:3165
 #: include/class_config.inc:322 include/class_ldap.inc:924
-#: include/class_ldap.inc:1286 include/simpleplugin/class_simplePlugin.inc:593
-#: include/simpleplugin/attributes/class_SetAttribute.inc:723
+#: include/class_ldap.inc:1284 include/simpleplugin/class_simplePlugin.inc:593
+#: include/simpleplugin/attributes/class_SetAttribute.inc:726
 #: include/class_SnapshotHandler.inc:53 include/class_SnapshotHandler.inc:278
 #: include/class_SnapshotHandler.inc:311 include/class_SnapshotHandler.inc:327
 #: include/class_SnapshotHandler.inc:460 include/class_SnapshotHandler.inc:463
-#: html/index.php:371 html/class_passwordRecovery.inc:531
+#: html/index.php:371
 msgid "LDAP error"
 msgstr "Σφάλμα LDAP"
 
@@ -838,14 +838,14 @@ msgid "Down"
 msgstr "Κάτω"
 
 #: include/class_listing.inc:313
-#: include/simpleplugin/attributes/class_SetAttribute.inc:460
-#: include/simpleplugin/attributes/class_SetAttribute.inc:461
+#: include/simpleplugin/attributes/class_SetAttribute.inc:463
+#: include/simpleplugin/attributes/class_SetAttribute.inc:464
 msgid "Sort up"
 msgstr "Ταξινόμηση πάνω"
 
 #: include/class_listing.inc:313
-#: include/simpleplugin/attributes/class_SetAttribute.inc:473
-#: include/simpleplugin/attributes/class_SetAttribute.inc:474
+#: include/simpleplugin/attributes/class_SetAttribute.inc:476
+#: include/simpleplugin/attributes/class_SetAttribute.inc:477
 msgid "Sort down"
 msgstr "Ταξινόμηση κάτω"
 
@@ -928,7 +928,7 @@ msgstr "Δημιουργία νέου στιγμιότυπου από αυτό �
 #: include/functions.inc:3302 include/simpleplugin/class_simplePlugin.inc:272
 #: include/simpleplugin/class_simplePlugin.inc:277
 #: include/simpleplugin/class_simplePlugin.inc:289
-#: html/class_passwordRecovery.inc:108
+#: html/class_passwordRecovery.inc:116
 msgid "Fatal error"
 msgstr "Μοιραίο σφάλμα"
 
@@ -961,7 +961,7 @@ msgstr ""
 #: include/functions.inc:659 include/class_timezone.inc:51
 #: include/class_config.inc:159 include/class_config.inc:284
 #: include/class_config.inc:843 include/class_config.inc:856
-#: html/index.php:148 html/class_passwordRecovery.inc:131 html/main.php:208
+#: html/index.php:148 html/class_passwordRecovery.inc:139 html/main.php:208
 msgid "Configuration error"
 msgstr "Σφάλμα ρύθμισης"
 
@@ -1636,8 +1636,8 @@ msgid "Add %s"
 msgstr "Προσθήκη του %s"
 
 #: include/class_msgPool.inc:522
-#: include/simpleplugin/attributes/class_SetAttribute.inc:498
-#: include/simpleplugin/attributes/class_SetAttribute.inc:499
+#: include/simpleplugin/attributes/class_SetAttribute.inc:501
+#: include/simpleplugin/attributes/class_SetAttribute.inc:502
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:194
 #, php-format
 msgid "Delete"
@@ -2087,8 +2087,7 @@ msgstr ""
 
 #: include/class_ldap.inc:1199
 #, php-format
-msgid ""
-"Error while importing dn: '%s', please check your LDIF from line %s on!"
+msgid "Error while importing dn: \"%s\", please check your LDIF from line %s on!"
 msgstr ""
 
 #: include/simpleplugin/simple-select-list.xml:11
@@ -2153,8 +2152,8 @@ msgstr "Άγνωστο"
 #: include/simpleplugin/class_dialogAttributes.inc:646
 #: include/simpleplugin/simple-list.xml:67
 #: include/simpleplugin/simple-list.xml:112
-#: include/simpleplugin/attributes/class_SetAttribute.inc:488
-#: include/simpleplugin/attributes/class_SetAttribute.inc:489
+#: include/simpleplugin/attributes/class_SetAttribute.inc:491
+#: include/simpleplugin/attributes/class_SetAttribute.inc:492
 #: plugins/admin/departments/dep-list.xml:79
 #: plugins/admin/users/user-list.xml:108
 #: plugins/admin/groups/group-list.xml:74
@@ -2301,7 +2300,7 @@ msgid "Unknown field \"%s\""
 msgstr ""
 
 #: include/simpleplugin/class_Attribute.inc:555
-#: include/simpleplugin/attributes/class_SetAttribute.inc:227
+#: include/simpleplugin/attributes/class_SetAttribute.inc:230
 #, php-format
 msgid "%s (required)"
 msgstr "%s (απαιτείται)"
@@ -2356,7 +2355,12 @@ msgid ""
 "\"imagick\" to be installed!"
 msgstr ""
 
-#: include/simpleplugin/attributes/class_SetAttribute.inc:582
+#: include/simpleplugin/attributes/class_SetAttribute.inc:136
+#, php-format
+msgid "The value for multivaluated field \"%s\" is not an array"
+msgstr ""
+
+#: include/simpleplugin/attributes/class_SetAttribute.inc:585
 #, php-format
 msgid "Invalid value for %s"
 msgstr ""
@@ -2446,12 +2450,12 @@ msgstr "Όλοι οι χρήστες"
 msgid "Smarty"
 msgstr ""
 
-#: html/setup.php:59 html/class_passwordRecovery.inc:132
+#: html/setup.php:59 html/class_passwordRecovery.inc:140
 #, php-format
 msgid "Directory '%s' specified as compile directory is not accessible!"
 msgstr ""
 
-#: html/index.php:56 html/class_passwordRecovery.inc:165
+#: html/index.php:56 html/class_passwordRecovery.inc:173
 #, php-format
 msgid "Warning: <a href=\"%s\">Session is not encrypted!</a>"
 msgstr ""
@@ -2550,49 +2554,49 @@ msgid ""
 "page before logging in!"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:109
+#: html/class_passwordRecovery.inc:117
 #, php-format
 msgid "FusionDirectory configuration %s/%s is not readable. Aborted."
 msgstr "Οι ρυθμίσεις FusionDirectory %s/%s  δεν είναι αναγνώσιμες. Ακύρωση."
 
-#: html/class_passwordRecovery.inc:455
+#: html/class_passwordRecovery.inc:301 ihtml/themes/breezy/recovery.tpl.c:71
+msgid "Email address"
+msgstr "Διευθύνση ηλεκτρονικής αλληλογγραφίας"
+
+#: html/class_passwordRecovery.inc:468
 #, php-format
 msgid "Did not find an account with login \"%s\""
 msgstr ""
 
-#: html/class_passwordRecovery.inc:458
+#: html/class_passwordRecovery.inc:471
 #, php-format
 msgid "Found multiple accounts with login \"%s\""
 msgstr ""
 
-#: html/class_passwordRecovery.inc:472 ihtml/themes/breezy/recovery.tpl.c:71
-msgid "Email address"
-msgstr "Διευθύνση ηλεκτρονικής αλληλογγραφίας"
-
-#: html/class_passwordRecovery.inc:495
+#: html/class_passwordRecovery.inc:503
 #, php-format
 msgid "There is no account using email \"%s\""
 msgstr ""
 
-#: html/class_passwordRecovery.inc:498
+#: html/class_passwordRecovery.inc:506
 #, php-format
 msgid "There are several accounts using email \"%s\""
 msgstr ""
 
-#: html/class_passwordRecovery.inc:506
+#: html/class_passwordRecovery.inc:514
 #, php-format
 msgid "The user using email \"%s\" is locked. Please contact your administrator."
 msgstr ""
 
-#: html/class_passwordRecovery.inc:548
+#: html/class_passwordRecovery.inc:569
 msgid "Contact your administrator, there was a problem with mail server"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:559
+#: html/class_passwordRecovery.inc:582
 msgid "This token is invalid"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:613
+#: html/class_passwordRecovery.inc:647
 msgid "There was a problem with mail server, confirmation email not sent"
 msgstr ""
 
@@ -3231,6 +3235,18 @@ msgstr "Αναφορά"
 #: plugins/addons/dashboard/main_stats.tpl.c:2
 msgid "Statistics"
 msgstr "Στατιστικά"
+
+#: plugins/addons/dashboard/class_dashBoardPasswords.inc:26
+msgid "Passwords"
+msgstr ""
+
+#: plugins/addons/dashboard/class_dashBoardPasswords.inc:27
+msgid "Statistics about passwords"
+msgstr ""
+
+#: plugins/addons/dashboard/class_dashBoardPasswords.inc:38
+msgid "Passwords statistics"
+msgstr ""
 
 #: plugins/config/class_recoveryConfig.inc:28
 msgid "Password recovery"
@@ -4386,7 +4402,7 @@ msgstr "Αντικείμενα μέλους για αυτή την ομάδα"
 msgid "Only allow this group to connect to this list of hosts"
 msgstr "Επιτρέπεται σ'αυτή την ομάδα να συνδέεται στην ακόλουθη λίστα διακομιστών"
 
-#: plugins/admin/groups/class_ogroup.inc:322
+#: plugins/admin/groups/class_ogroup.inc:321
 msgid ""
 "Putting both workstations and terminals in the same group is not allowed"
 msgstr "Τοποθετηση σταθμών εργασίας και τερματικών στην ίδια ομάδα δεν επιτρέπεται"
@@ -5147,6 +5163,7 @@ msgid "There is no %1 group"
 msgstr ""
 
 #: plugins/addons/dashboard/users_stats.tpl.c:2
+#: plugins/addons/dashboard/pwd_stats.tpl.c:2
 msgid "There is 1 user:"
 msgid_plural "There are %1 users:"
 msgstr[0] ""
@@ -5162,13 +5179,19 @@ msgstr[1] ""
 msgid "None of them have a %1 account"
 msgstr ""
 
-#: plugins/addons/dashboard/users_stats.tpl.c:11
+#: plugins/addons/dashboard/pwd_stats.tpl.c:5
+msgid "One of them use %1 method"
+msgid_plural "%2 of them use %1 method"
+msgstr[0] ""
+msgstr[1] ""
+
+#: plugins/addons/dashboard/pwd_stats.tpl.c:8
 msgid "One of them is locked"
 msgid_plural "%1 of them are locked"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugins/addons/dashboard/users_stats.tpl.c:14
+#: plugins/addons/dashboard/pwd_stats.tpl.c:11
 msgid "None of them is locked"
 msgstr ""
 

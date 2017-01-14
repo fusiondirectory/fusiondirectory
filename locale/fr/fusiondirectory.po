@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Benoit Mortier <benoit.mortier@opensides.be>, 2016
+# Benoit Mortier <benoit.mortier@opensides.be>, 2016-2017
 # MCMic, 2016
 # fusiondirectory <contact@fusiondirectory.org>, 2014
 # MCMic, 2015-2016
@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-110\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2016-12-28 16:11+0100\n"
-"PO-Revision-Date: 2016-12-28 15:11+0000\n"
-"Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
+"POT-Creation-Date: 2017-01-11 19:09+0100\n"
+"PO-Revision-Date: 2017-01-11 18:07+0000\n"
+"Last-Translator: Benoit Mortier <benoit.mortier@opensides.be>\n"
 "Language-Team: French (http://www.transifex.com/fusiondirectory/FusionDirectory-110/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -95,13 +95,13 @@ msgstr "FusionDirectory a besoin de ce module pour dialoguer avec les différent
 #: setup/class_setupStep_Checks.inc:100
 msgid ""
 "FusionDirectory requires this module to encode variables for javascript use."
-msgstr ""
+msgstr "FusionDirectory a besoin de ce module pour encoder les variables pour l'utilisation dans du javascript."
 
 #: setup/class_setupStep_Checks.inc:108
 msgid ""
 "FusionDirectory requires this module to filters a variable with a specified "
 "filter."
-msgstr ""
+msgstr "FusionDirectory a besoin de ce module pour filtrer les variables avec un filtre spécifique"
 
 #: setup/class_setupStep_Checks.inc:116
 msgid "FusionDirectory requires this module for the samba integration."
@@ -370,12 +370,12 @@ msgstr "Impossible de gérer le type structural de votre objet racine. S'il vous
 #: include/functions.inc:724 include/functions.inc:822
 #: include/functions.inc:2988 include/functions.inc:3165
 #: include/class_config.inc:322 include/class_ldap.inc:924
-#: include/class_ldap.inc:1286 include/simpleplugin/class_simplePlugin.inc:593
-#: include/simpleplugin/attributes/class_SetAttribute.inc:723
+#: include/class_ldap.inc:1284 include/simpleplugin/class_simplePlugin.inc:593
+#: include/simpleplugin/attributes/class_SetAttribute.inc:726
 #: include/class_SnapshotHandler.inc:53 include/class_SnapshotHandler.inc:278
 #: include/class_SnapshotHandler.inc:311 include/class_SnapshotHandler.inc:327
 #: include/class_SnapshotHandler.inc:460 include/class_SnapshotHandler.inc:463
-#: html/index.php:371 html/class_passwordRecovery.inc:531
+#: html/index.php:371
 msgid "LDAP error"
 msgstr "Erreur LDAP"
 
@@ -836,14 +836,14 @@ msgid "Down"
 msgstr "Bas"
 
 #: include/class_listing.inc:313
-#: include/simpleplugin/attributes/class_SetAttribute.inc:460
-#: include/simpleplugin/attributes/class_SetAttribute.inc:461
+#: include/simpleplugin/attributes/class_SetAttribute.inc:463
+#: include/simpleplugin/attributes/class_SetAttribute.inc:464
 msgid "Sort up"
 msgstr "Trier vers le haut"
 
 #: include/class_listing.inc:313
-#: include/simpleplugin/attributes/class_SetAttribute.inc:473
-#: include/simpleplugin/attributes/class_SetAttribute.inc:474
+#: include/simpleplugin/attributes/class_SetAttribute.inc:476
+#: include/simpleplugin/attributes/class_SetAttribute.inc:477
 msgid "Sort down"
 msgstr "Trier vers le bas"
 
@@ -926,7 +926,7 @@ msgstr "Créer un nouvel instantané depuis cet objet"
 #: include/functions.inc:3302 include/simpleplugin/class_simplePlugin.inc:272
 #: include/simpleplugin/class_simplePlugin.inc:277
 #: include/simpleplugin/class_simplePlugin.inc:289
-#: html/class_passwordRecovery.inc:108
+#: html/class_passwordRecovery.inc:116
 msgid "Fatal error"
 msgstr "Erreur fatale"
 
@@ -959,7 +959,7 @@ msgstr "Vous devez remplir saslRealm ou saslExop dans l’écran de configuratio
 #: include/functions.inc:659 include/class_timezone.inc:51
 #: include/class_config.inc:159 include/class_config.inc:284
 #: include/class_config.inc:843 include/class_config.inc:856
-#: html/index.php:148 html/class_passwordRecovery.inc:131 html/main.php:208
+#: html/index.php:148 html/class_passwordRecovery.inc:139 html/main.php:208
 msgid "Configuration error"
 msgstr "Erreur de configuration"
 
@@ -1634,8 +1634,8 @@ msgid "Add %s"
 msgstr "Ajouter %s"
 
 #: include/class_msgPool.inc:522
-#: include/simpleplugin/attributes/class_SetAttribute.inc:498
-#: include/simpleplugin/attributes/class_SetAttribute.inc:499
+#: include/simpleplugin/attributes/class_SetAttribute.inc:501
+#: include/simpleplugin/attributes/class_SetAttribute.inc:502
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:194
 #, php-format
 msgid "Delete"
@@ -1705,7 +1705,7 @@ msgstr "Retirer les paramètres %s"
 
 #: include/class_msgPool.inc:654
 msgid "Click the 'Edit' button below to change information in this dialog"
-msgstr ""
+msgstr "Cliquez sur le bouton 'Éditer' ci-dessous pour changer les informations dans cette boite de dialogue"
 
 #: include/class_msgPool.inc:662
 msgid "January"
@@ -2085,9 +2085,8 @@ msgstr "Erreur ligne %s, une d'entrée doit commencer par le dn"
 
 #: include/class_ldap.inc:1199
 #, php-format
-msgid ""
-"Error while importing dn: '%s', please check your LDIF from line %s on!"
-msgstr "Erreur lors de l'importation du dn : '%s', veuillez vérifier votre fichier LDIF à partir de la ligne %s !"
+msgid "Error while importing dn: \"%s\", please check your LDIF from line %s on!"
+msgstr "Erreur lors de l'importation du dn : \"%s\", veuillez vérifier votre fichier LDIF à partir de la ligne %s !"
 
 #: include/simpleplugin/simple-select-list.xml:11
 msgid "Please select the desired entries"
@@ -2151,8 +2150,8 @@ msgstr "Inconnu"
 #: include/simpleplugin/class_dialogAttributes.inc:646
 #: include/simpleplugin/simple-list.xml:67
 #: include/simpleplugin/simple-list.xml:112
-#: include/simpleplugin/attributes/class_SetAttribute.inc:488
-#: include/simpleplugin/attributes/class_SetAttribute.inc:489
+#: include/simpleplugin/attributes/class_SetAttribute.inc:491
+#: include/simpleplugin/attributes/class_SetAttribute.inc:492
 #: plugins/admin/departments/dep-list.xml:79
 #: plugins/admin/users/user-list.xml:108
 #: plugins/admin/groups/group-list.xml:74
@@ -2299,7 +2298,7 @@ msgid "Unknown field \"%s\""
 msgstr "Champ inconnu \"%s\""
 
 #: include/simpleplugin/class_Attribute.inc:555
-#: include/simpleplugin/attributes/class_SetAttribute.inc:227
+#: include/simpleplugin/attributes/class_SetAttribute.inc:230
 #, php-format
 msgid "%s (required)"
 msgstr "%s (requis)"
@@ -2354,7 +2353,12 @@ msgid ""
 "\"imagick\" to be installed!"
 msgstr "Impossible de sauver la photo de l'utilisateur, FusionDirectory a besoin que la bibliothèque php \"imagick\" soit installée pour cela."
 
-#: include/simpleplugin/attributes/class_SetAttribute.inc:582
+#: include/simpleplugin/attributes/class_SetAttribute.inc:136
+#, php-format
+msgid "The value for multivaluated field \"%s\" is not an array"
+msgstr "La valeur du champ multivalué \"%s\" n'est pas un tableau"
+
+#: include/simpleplugin/attributes/class_SetAttribute.inc:585
 #, php-format
 msgid "Invalid value for %s"
 msgstr "Valeur invalide pour %s"
@@ -2444,12 +2448,12 @@ msgstr "Tous les utilisateurs"
 msgid "Smarty"
 msgstr "Smarty"
 
-#: html/setup.php:59 html/class_passwordRecovery.inc:132
+#: html/setup.php:59 html/class_passwordRecovery.inc:140
 #, php-format
 msgid "Directory '%s' specified as compile directory is not accessible!"
 msgstr "Le répertoire '%s' spécifié comme répertoire de compilation est inaccessible !"
 
-#: html/index.php:56 html/class_passwordRecovery.inc:165
+#: html/index.php:56 html/class_passwordRecovery.inc:173
 #, php-format
 msgid "Warning: <a href=\"%s\">Session is not encrypted!</a>"
 msgstr "Attention: <a href=%s\"> La session n'est pas chiffrée !<a>"
@@ -2548,49 +2552,49 @@ msgid ""
 "page before logging in!"
 msgstr "Votre navigateur a les cookies désactivés. Veuillez activer les cookies et recharger cette page avant de vous connecter !"
 
-#: html/class_passwordRecovery.inc:109
+#: html/class_passwordRecovery.inc:117
 #, php-format
 msgid "FusionDirectory configuration %s/%s is not readable. Aborted."
 msgstr "Le fichier de configuration de FusionDirectory %s/%s ne peut être lu. Abandon."
 
-#: html/class_passwordRecovery.inc:455
+#: html/class_passwordRecovery.inc:301 ihtml/themes/breezy/recovery.tpl.c:71
+msgid "Email address"
+msgstr "Adresse de courriel"
+
+#: html/class_passwordRecovery.inc:468
 #, php-format
 msgid "Did not find an account with login \"%s\""
 msgstr "Aucun compte utilisateur trouvé avec l'identifiant \"%s\""
 
-#: html/class_passwordRecovery.inc:458
+#: html/class_passwordRecovery.inc:471
 #, php-format
 msgid "Found multiple accounts with login \"%s\""
 msgstr "Plusieurs comptes trouvés avec l’identifiant \"%s\""
 
-#: html/class_passwordRecovery.inc:472 ihtml/themes/breezy/recovery.tpl.c:71
-msgid "Email address"
-msgstr "Adresse de courriel"
-
-#: html/class_passwordRecovery.inc:495
+#: html/class_passwordRecovery.inc:503
 #, php-format
 msgid "There is no account using email \"%s\""
 msgstr "Il n'y a pas de compte qui utilise le courriel \"%s\""
 
-#: html/class_passwordRecovery.inc:498
+#: html/class_passwordRecovery.inc:506
 #, php-format
 msgid "There are several accounts using email \"%s\""
 msgstr "Il y a plusieurs comptes qui utilisent le courriel \"%s\""
 
-#: html/class_passwordRecovery.inc:506
+#: html/class_passwordRecovery.inc:514
 #, php-format
 msgid "The user using email \"%s\" is locked. Please contact your administrator."
 msgstr "L'utilisateur correspondant au courriel \"%s\" est verrouillé. Veuillez contacter votre administrateur système !"
 
-#: html/class_passwordRecovery.inc:548
+#: html/class_passwordRecovery.inc:569
 msgid "Contact your administrator, there was a problem with mail server"
 msgstr "Contactez votre administrateur système, il y a eu un problème avec le serveur de courriel"
 
-#: html/class_passwordRecovery.inc:559
+#: html/class_passwordRecovery.inc:582
 msgid "This token is invalid"
 msgstr "Le jeton n'est pas valide"
 
-#: html/class_passwordRecovery.inc:613
+#: html/class_passwordRecovery.inc:647
 msgid "There was a problem with mail server, confirmation email not sent"
 msgstr "Un problème est survenu avec le serveur, le courriel de confirmation n'a pas été envoyé"
 
@@ -3219,7 +3223,7 @@ msgstr "Tableau de bord"
 
 #: plugins/addons/dashboard/class_dashBoard.inc:29
 msgid "Statistics and various information"
-msgstr ""
+msgstr "Statistiques et informations diverses"
 
 #: plugins/addons/dashboard/class_dashBoard.inc:38
 msgid "Reporting"
@@ -3229,6 +3233,18 @@ msgstr "Rapports"
 #: plugins/addons/dashboard/main_stats.tpl.c:2
 msgid "Statistics"
 msgstr "Statistiques"
+
+#: plugins/addons/dashboard/class_dashBoardPasswords.inc:26
+msgid "Passwords"
+msgstr "Mot de passes"
+
+#: plugins/addons/dashboard/class_dashBoardPasswords.inc:27
+msgid "Statistics about passwords"
+msgstr "Statistiques sur les mot de passe"
+
+#: plugins/addons/dashboard/class_dashBoardPasswords.inc:38
+msgid "Passwords statistics"
+msgstr "Statistiques mots de passe"
 
 #: plugins/config/class_recoveryConfig.inc:28
 msgid "Password recovery"
@@ -3325,7 +3341,7 @@ msgid ""
 " - Link : %s\n"
 "\n"
 "This link is only valid for 10 minutes."
-msgstr ""
+msgstr "Bonjour,\n\nVoici vos informations :\n- Identifiant : %s\n- Lien : %s\n\nCeci est seulement valide pour 10 minutes"
 
 #: plugins/config/class_recoveryConfig.inc:99
 msgid "Second email"
@@ -3907,11 +3923,11 @@ msgstr "Shells POSIX disponibles pour les utilisateurs de FusionDirectory"
 
 #: plugins/config/class_configInLdap.inc:462
 msgid "Default shell"
-msgstr ""
+msgstr "Shell par défaut"
 
 #: plugins/config/class_configInLdap.inc:462
 msgid "Shell used by default when activating Unix tab."
-msgstr ""
+msgstr "Shell utilisé par défaut lors de l'activation du tab Unix."
 
 #: plugins/config/class_configInLdap.inc:466
 msgid "Show ACL tab on all objects"
@@ -4384,7 +4400,7 @@ msgstr "Objets membres de ce groupe"
 msgid "Only allow this group to connect to this list of hosts"
 msgstr "Autoriser ce groupe à se connecter uniquement sur cette liste d'hôtes"
 
-#: plugins/admin/groups/class_ogroup.inc:322
+#: plugins/admin/groups/class_ogroup.inc:321
 msgid ""
 "Putting both workstations and terminals in the same group is not allowed"
 msgstr "Mettre les stations de travail et les terminaux dans le même groupe est interdit"
@@ -4509,7 +4525,7 @@ msgstr "Utilisateurs et groupes à qui appliquer ce rôle"
 #: plugins/admin/acl/class_aclAssignment.inc:190
 #, php-format
 msgid ", and %d others"
-msgstr ""
+msgstr ", et %d autres"
 
 #: plugins/admin/acl/class_aclAssignment.inc:259
 msgid "ACL assignment"
@@ -4805,7 +4821,7 @@ msgstr "Mot de passe perdu"
 
 #: ihtml/themes/breezy/recovery.tpl.c:11
 msgid "Information to reset password for %1 has been sent to email address %2"
-msgstr ""
+msgstr "Les informations pour réinitialiser le mot de passe pour %1 ont été envoyées à l'adresse de courriel %2"
 
 #: ihtml/themes/breezy/recovery.tpl.c:14
 msgid "Warning : this email is only valid for %1 minutes."
@@ -5145,6 +5161,7 @@ msgid "There is no %1 group"
 msgstr "Il n’y a aucun groupe %1"
 
 #: plugins/addons/dashboard/users_stats.tpl.c:2
+#: plugins/addons/dashboard/pwd_stats.tpl.c:2
 msgid "There is 1 user:"
 msgid_plural "There are %1 users:"
 msgstr[0] "Il y a 1 utilisateur :"
@@ -5160,13 +5177,19 @@ msgstr[1] "%2 d’entre eux ont un compte %1"
 msgid "None of them have a %1 account"
 msgstr "Aucun d’eux n’a un compte %1"
 
-#: plugins/addons/dashboard/users_stats.tpl.c:11
+#: plugins/addons/dashboard/pwd_stats.tpl.c:5
+msgid "One of them use %1 method"
+msgid_plural "%2 of them use %1 method"
+msgstr[0] "Un d’entre utilisent la méthode %1"
+msgstr[1] "%2 d’entre utilisent la méthode %1"
+
+#: plugins/addons/dashboard/pwd_stats.tpl.c:8
 msgid "One of them is locked"
 msgid_plural "%1 of them are locked"
 msgstr[0] "Un d'entre eux est verrouillé"
 msgstr[1] "%1 d’entre eux sont verrouillés"
 
-#: plugins/addons/dashboard/users_stats.tpl.c:14
+#: plugins/addons/dashboard/pwd_stats.tpl.c:11
 msgid "None of them is locked"
 msgstr "Aucun d'entre eux n’est verrouillé"
 
