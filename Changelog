@@ -1,6 +1,44 @@
 FusionDirectory changelog
 =========================
 
+* FusionDirectory 1.0.18
+
+[Fix] Bugs #4888: DNS record matching should be case insensitive
+[Fix] Bugs #4991: we should document all the change in the webservice done recently
+[Fix] Bugs #5070: FAI packageSelect class should use simpleSelectManagement
+[Fix] Bugs #5098: Exception should be reorganized
+[Fix] Bugs #5179: Terminal are missing fields
+[Feature] Bugs #5240: possibilité de grouper ou trier les applications sur la page d'acceuil
+[Feature] Bugs #5248: [DNS] "Refresh zone file" should be in DNS section too not just in DNS tab of some host where is DNS tab enabled.
+[Fix] Bugs #5249: [DHCP] after migration from .16 to .17 there previous configurations are not migrated to new one automatically.
+[Fix] Bugs #5252: User with 'editownpwd' or 'editowninfo' role should not be able to lock other accounts
+[Fix] Bugs #5254: Server inside Systems
+[Fix] Bugs #5255: Cannot add a workstation in a dhcp subnet
+[Fix] Bugs #5256: We not need dhcpStatements host-name when we add a host
+[Fix] Bugs #5257: Error in ldap when we will that FAI use all the remain space
+[Fix] Bugs #5258: Cannot modify a package class that is insert with help of fai2ldif
+[Fix] Bugs #5260: Check for json support during install.
+[Fix] Bugs #5264: Incompatibility between recovery password and user-reminder
+[Fix] Bugs #5265: removing RDN leftover of the removal of fax and asterisk plugin
+[Fix] Bugs #5266: forgot the remove user reminder config file
+[Fix] Bugs #5267: Incompatibility between recovery password and user-reminder
+[Fix] Bugs #5268: Missing check for package php-filter
+[Feature] Bugs #5270: List on "ACL assignments management" too short.
+[Fix] Bugs #5278: Translation: Plural form of "information"
+[Fix] Bugs #5279: Icons in the action column of OrderedArrayAttribute sometimes don’t have enough space
+[Feature] Bugs #5280: rewrote the pasword recovery with new RDN
+[Fix] Bugs #5283: Path for fusiondirectory-shell
+[Fix] Bugs #5292: Malformed data posted to fdPrivateMail through webservice deletes existing data.
+[Fix] Bugs #5294: Exception should be reorganized
+[Fix] Bugs #5295: Filter problem if dhcp object is in a department
+[Fix] Bugs #5296: Name dhcp object differently when we use migration-dhcp
+[Fix] Bugs #5298: XML error during installation of FD on debian Wheezy
+[Fix] Bugs #5299: When using FD in portal mode, avoid showing applications (which are not web applications)
+[Feature] Wishlist #4822: webservice and password recovery
+[Feature] #5271: Force encryption type
+[Feature] #5272: Select a default shell
+[Feature] #5293: Webservice: isUserLocked(sid)
+
 * FusionDirectory 1.0.17
 
 [Fix] FusionDirectory plugins - Bugs #4953: auto.master should be stored into ldap
