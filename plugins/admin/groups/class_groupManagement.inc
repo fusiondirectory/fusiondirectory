@@ -61,7 +61,7 @@ class groupManagement extends simpleManagement
         if (empty($gosaGroupObjects)) {
           return $result;
         } else {
-          return self::filterGroupObjects($row, $gosaGroupObjects);
+          return static::filterGroupObjects($row, $gosaGroupObjects);
         }
       }
       if (strtolower($objectType) == 'role') {

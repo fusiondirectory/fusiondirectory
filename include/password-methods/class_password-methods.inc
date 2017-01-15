@@ -190,7 +190,7 @@ class passwordMethod
    */
   static function get_available_methods()
   {
-    global $class_mapping, $config;
+    global $class_mapping;
     $ret  = FALSE;
     $i    = 0;
 
@@ -291,8 +291,6 @@ class passwordMethod
    */
   static function get_method($password_hash, $dn = "")
   {
-    global $config;
-
     $methods = passwordMethod::get_available_methods();
 
     foreach ($methods['class'] as $class) {

@@ -132,6 +132,9 @@ class SetAttribute extends Attribute
     if (!empty($error) || ($this->attribute === FALSE)) {
       return $error;
     } else {
+      if (!is_array($this->value)) {
+        return sprintf(_('The value for multivaluated field "%s" is not an array'), $this->getLabel());
+      }
       foreach ($this->value as $value) {
         $this->attribute->setValue($value);
         $error = $this->attribute->check();
@@ -434,9 +437,9 @@ class OrderedArrayAttribute extends SetAttribute
         continue;
       }
 
-      list ($img, $width) = $this->genRowIcons($key, $value);
+      list ($img, $nbicons) = $this->genRowIcons($key, $value);
 
-      $fields[] = array("html" => $img, "attach" => 'style="border:0px;width:'.$width.'px;"');
+      $fields[] = array("html" => $img, "attach" => 'style="border:0px;width:'.($nbicons * 20).'px;"');
       $div->AddEntry($fields);
     }
     $smarty->assign("div_$id", $div->DrawList());
@@ -448,10 +451,10 @@ class OrderedArrayAttribute extends SetAttribute
     $id = $this->getHtmlId();
 
     $img = '';
-    $width = 25;
+    $nbicons = 1;
 
     if ($this->order) {
-      $width += 20;
+      $nbicons += 2;
       if ($key != 0) {
         $img .= $this->renderInputField(
           'image', $id.'_up_'.$key,
@@ -461,9 +464,9 @@ class OrderedArrayAttribute extends SetAttribute
             'alt'   => _('Sort up'),
             'class' => 'center'
           )
-        ).'&nbsp;';
+        );
       } else {
-        $img .= '<img src="images/empty.png" alt="" style="width:10px;"/>';
+        $img .= '<img src="images/empty.png" alt="" style="width:16px;"/>';
       }
       if (($key + 1) < count($this->value)) {
         $img .= $this->renderInputField(
@@ -474,13 +477,13 @@ class OrderedArrayAttribute extends SetAttribute
             'alt'   => _('Sort down'),
             'class' => 'center'
           )
-        ).'&nbsp;';
+        );
       } else {
-        $img .= '<img src="images/empty.png" alt="" style="width:10px;"/>';
+        $img .= '<img src="images/empty.png" alt="" style="width:16px;"/>';
       }
     }
     if ($this->edit_enabled) {
-      $width += 15;
+      $nbicons++;
       $img .= $this->renderInputField(
         'image', $id.'_edit_'.$key,
         array(
@@ -489,7 +492,7 @@ class OrderedArrayAttribute extends SetAttribute
           'alt'   => _('Edit'),
           'class' => 'center'
         )
-      ).'&nbsp;';
+      );
     }
     $img .= $this->renderInputField(
       'image', $id.'_del_'.$key,
@@ -499,9 +502,9 @@ class OrderedArrayAttribute extends SetAttribute
         'alt'   => _('Delete'),
         'class' => 'center'
       )
-    ).'&nbsp;';
+    );
 
-    return array ($img, $width);
+    return array ($img, $nbicons);
   }
 
   protected function getAttributeArrayValue($key, $value)

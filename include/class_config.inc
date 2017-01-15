@@ -275,7 +275,7 @@ class config  {
         try {
           $cache[$creds] = cred_decrypt($creds, $_SERVER['HTTP_FDKEY']);
           session::global_set('HTTP_FDKEY_CACHE', $cache);
-        } catch (Exception $e) {
+        } catch (FusionDirectoryException $e) {
           $msg = sprintf(
             _('It seems you are trying to decode something which is not encoded : %s<br/>'."\n".
               'Please check you are not using a fusiondirectory.secrets file while your passwords are not encrypted.'),
@@ -456,50 +456,6 @@ class config  {
     }
 
     $ldap = $this->get_ldap_link();
-
-    /* Get NFS server lists */
-    $tmp  = array("default");
-    $tmp2 = array("default");
-    $ldap->cd($this->current['BASE']);
-    $ldap->search("(&(objectClass=goShareServer)(goExportEntry=*))");
-    while ($attrs = $ldap->fetch()) {
-      for ($i = 0; $i < $attrs["goExportEntry"]["count"]; $i++) {
-        if (preg_match('/^[^|]+\|[^|]+\|NFS\|.*$/', $attrs["goExportEntry"][$i])) {
-          $path   = preg_replace ("/^[^|]+\|[^|]+\|[^|]+\|[^|]+\|([^|]+).*$/", '\1', $attrs["goExportEntry"][$i]);
-          $tmp[]  = $attrs["cn"][0].":$path";
-        }
-        if (preg_match('/^[^|]+\|[^|]+\|NBD\|.*$/', $attrs["goExportEntry"][$i])) {
-          $path   = preg_replace ("/^[^|]+\|[^|]+\|[^|]+\|[^|]+\|([^|]+).*$/", '\1', $attrs["goExportEntry"][$i]);
-          $tmp2[] = $attrs["cn"][0].":$path";
-        }
-      }
-    }
-    $this->data['SERVERS']['NFS'] = $tmp;
-    $this->data['SERVERS']['NBD'] = $tmp2;
-
-    /* Load Terminalservers */
-    $ldap->cd ($this->current['BASE']);
-    $ldap->search ('(objectClass=goTerminalServer)', array('cn','gotoSessionType'));
-    $this->data['SERVERS']['TERMINAL']                = array();
-    $this->data['SERVERS']['TERMINAL'][]              = 'default';
-    $this->data['SERVERS']['TERMINAL_SESSION_TYPES']  = array();
-
-    while ($attrs = $ldap->fetch()) {
-      $this->data['SERVERS']['TERMINAL'][] = $attrs['cn'][0];
-      if (isset( $attrs['gotoSessionType']['count'])) {
-        for ($i = 0; $i < $attrs['gotoSessionType']['count']; $i++) {
-          $this->data['SERVERS']['TERMINAL_SESSION_TYPES'][$attrs['cn'][0]][] = $attrs['gotoSessionType'][$i];
-        }
-      }
-    }
-
-    /* Ldap Server */
-    $this->data['SERVERS']['LDAP'] = array();
-    $ldap->cd($this->current['BASE']);
-    $ldap->search('(&(objectClass=goLdapServer)(goLdapBase=*))');
-    while ($attrs = $ldap->fetch()) {
-      $this->data['SERVERS']['LDAP'][$attrs['dn']] = $attrs;
-    }
 
     /* Get samba servers from LDAP */
     $this->data['SERVERS']['SAMBA'] = array();
@@ -1112,7 +1068,9 @@ class config  {
       if (isset($plInfo['plMenuProvider']) && $plInfo['plMenuProvider']) {
         list($sections, $entries) = $class::getMenuEntries();
         foreach ($sections as $section => $infos) {
-          $this->data['SECTIONS'][$section] = array_change_key_case($infos, CASE_UPPER);
+          if (!isset($this->data['SECTIONS'][$section])) {
+            $this->data['SECTIONS'][$section] = array_change_key_case($infos, CASE_UPPER);
+          }
           if (!isset($this->data['MENU'][$section])) {
             $this->data['MENU'][$section] = array();
           }

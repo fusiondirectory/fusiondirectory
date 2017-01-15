@@ -45,7 +45,7 @@ class group extends simplePlugin
         'memberUid' => array('user','uid')
       ),
 
-      'plProvidedAcls'  => parent::generatePlProvidedAcls(self::getAttributesInfo())
+      'plProvidedAcls'  => parent::generatePlProvidedAcls(static::getAttributesInfo())
     );
   }
 

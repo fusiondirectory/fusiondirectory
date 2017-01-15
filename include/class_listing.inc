@@ -967,13 +967,13 @@ class listing
    */
   function filterObjectType($row, $dn)
   {
-    return $this->filterGenericType($row, $dn, $this->objectTypes, $this->getObjectType($dn, $this->entries[$row]));
+    return $this->filterGenericType($dn, $this->objectTypes, $this->getObjectType($dn, $this->entries[$row]));
   }
 
   /*!
    * \brief Generic method for department and objects once type is known
    */
-  protected function filterGenericType($row, $dn, $types, $type)
+  protected function filterGenericType($dn, $types, $type)
   {
     $result = "&nbsp;";
 
@@ -997,7 +997,7 @@ class listing
    */
   function filterDepartmentType($row, $dn)
   {
-    return $this->filterGenericType($row, $dn, $this->departmentTypes, $this->getDepartmentType($dn, $this->departments[$row]));
+    return $this->filterGenericType($dn, $this->departmentTypes, $this->getDepartmentType($dn, $this->departments[$row]));
   }
 
   /*!
@@ -1218,6 +1218,8 @@ class listing
    */
   function getAction()
   {
+    global $config;
+
     // Do not do anything if this is not our PID, or there's even no PID available...
     if (!isset($_REQUEST['dn']) && (!isset($_REQUEST['PID']) || $_REQUEST['PID'] != $this->pid)) {
       return;
@@ -1241,6 +1243,11 @@ class listing
           $result['targets'][]  = $this->entries[$target]['dn'];
         }
       } elseif (isset($_REQUEST['dn']) && preg_match('/^listing_([a-zA-Z_]+)$/', $key, $m)) {
+        /* Pre-render list to init things if a dn is gonna be opened on first load */
+        $this->setBase($config->current['BASE']);
+        $this->filter->setCurrentScope('sub');
+        $this->update();
+        $this->render();
         $dn                   = urldecode($_REQUEST['dn']);
         $result['action']     = $m[1];
         $result['targets'][]  = $dn;
@@ -1657,7 +1664,7 @@ class listing
 
   function renderCopyPasteActions($row, $dn, $category, $class, $copy = TRUE, $cut = TRUE)
   {
-    global $config;
+
     // We can only provide information if we've got a copypaste handler
     // instance
     if (!is_object($this->copyPasteHandler)) {

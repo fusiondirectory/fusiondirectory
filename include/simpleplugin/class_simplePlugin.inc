@@ -521,7 +521,7 @@ class simplePlugin extends plugin
     $group->renderAttributes(TRUE);
     $smarty->assign("hiddenPostedInput", get_class($this)."_posted");
 
-    return "<h1>Inherited informations:</h1><div></div>\n".$smarty->fetch($this->templatePath);
+    return "<h1>Inherited information:</h1><div></div>\n".$smarty->fetch($this->templatePath);
   }
 
   /*! \brief This function allows you to open a dialog
@@ -791,7 +791,7 @@ class simplePlugin extends plugin
   {
     global $ui;
     trigger_error("userMainInc is deprecated");
-    return self::mainInc($classname, $ui->dn);
+    return static::mainInc($classname, $ui->dn);
   }
 
   /*! \brief This function is the needed main.inc for plugins that are not used inside a management class

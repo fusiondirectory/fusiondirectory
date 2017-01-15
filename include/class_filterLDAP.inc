@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
@@ -30,8 +29,8 @@
   *
   * \see filter
   */
-class filterLDAP {
-
+class filterLDAP
+{
   /*!
    * \brief Query
    *
@@ -51,8 +50,8 @@ class filterLDAP {
    */
   static function query($parent, $base, $scope, $filter, $attributes, $category, $objectStorage = array(""))
   {
-    $flag   = ($scope == "sub"?GL_SUBSEARCH:0);
-    return filterLDAP::get_list($parent, $base, $filter, $attributes, $category, $objectStorage, $flag | GL_SIZELIMIT);
+    $flag   = (($scope == 'sub') ? GL_SUBSEARCH : 0);
+    return static::get_list($parent, $base, $filter, $attributes, $category, $objectStorage, $flag | GL_SIZELIMIT);
   }
 
   /*!
@@ -72,10 +71,9 @@ class filterLDAP {
    *
    * \param flag $flags GL_SUBSEARCH
    */
-  static function get_list($parent, $base, $filter, $attributes, $category, $objectStorage, $flags = GL_SUBSEARCH)
+  static function get_list($parent, $base, $filter, $attributes, $category, $objectStorage, $flags)
   {
-    $ui = session::global_get('ui');
-    $config = session::global_get('config');
+    global $config, $ui;
 
     // Move to arrays for category and objectStorage
     if (!is_array($category)) {
@@ -83,9 +81,9 @@ class filterLDAP {
     }
 
     // Store in base - i.e. is a rdn value empty?
-    $storeOnBase = in_array("", $objectStorage);
+    $storeOnBase = in_array('', $objectStorage);
 
-    $default_method = ($storeOnBase && !($flags & GL_SUBSEARCH))?"ls":"search";
+    $default_method = (($storeOnBase && !($flags & GL_SUBSEARCH)) ? 'ls' : 'search');
 
     // Initialize search bases
     $bases = array();
@@ -191,5 +189,4 @@ class filterLDAP {
     return $result;
   }
 }
-
 ?>

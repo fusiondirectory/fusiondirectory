@@ -18,6 +18,8 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+class ThemeFileParsingException extends Exception {}
+
 class IconThemeDir
 {
   private $Size;
@@ -83,7 +85,7 @@ class IconTheme
     $this->path = $folder;
     $datas  = @parse_ini_file($folder.'/index.theme', TRUE, INI_SCANNER_RAW);
     if ($datas === FALSE) {
-      throw new Exception('Error while parsing theme file');
+      throw new ThemeFileParsingException('Error while parsing theme file');
     }
     if (isset($datas['Icon Theme']['Directories']) && !empty($datas['Icon Theme']['Directories'])) {
       $dirs   = preg_split('/,/', $datas['Icon Theme']['Directories']);
@@ -111,8 +113,8 @@ class IconTheme
     if ($filename != NULL) {
       return $filename;
     }
-    if (isset(self::$fallbacks[$context.'/'.$icon])) {
-      foreach (self::$fallbacks[$context.'/'.$icon] as $fallback) {
+    if (isset(static::$fallbacks[$context.'/'.$icon])) {
+      foreach (static::$fallbacks[$context.'/'.$icon] as $fallback) {
         $filename = $this->LookupIcon($fallback[0], $fallback[1], $size);
         if ($filename != NULL) {
           return $filename;
@@ -123,7 +125,7 @@ class IconTheme
     if ($this->parent !== NULL) {
       $parent = $this->findTheme($this->parent);
       if ($parent === NULL) {
-        $parent = $this->findTheme(self::$default_theme);
+        $parent = $this->findTheme(static::$default_theme);
       }
       return $parent->FindIconHelper($context, $icon, $size);
     }
@@ -138,7 +140,7 @@ class IconTheme
     }
     foreach ($this->subdirs[$context] as $path => &$subdir) {
       if ($subdir->MatchesSize($size)) {
-        foreach (self::$extensions as $extension) {
+        foreach (static::$extensions as $extension) {
           $filename = $this->path.'/'.$path.'/'.$iconname.'.'.$extension;
           if (file_exists($filename)) {
             return $filename;
@@ -147,11 +149,11 @@ class IconTheme
       }
     }
     unset($subdir);
-    if (self::$find_closest) {
+    if (static::$find_closest) {
       $minimal_size = PHP_INT_MAX;
       foreach ($this->subdirs[$context] as $path => &$subdir) {
         if (($sizedistance = $subdir->SizeDistance($size)) < $minimal_size) {
-          foreach (self::$extensions as $extension) {
+          foreach (static::$extensions as $extension) {
             $filename = $this->path.'/'.$path.'/'.$iconname.'.'.$extension;
             if (file_exists($filename)) {
               $closest_filename = $filename;
@@ -181,32 +183,33 @@ class IconTheme
       while (($file = readdir($dir)) !== FALSE) {
         if (file_exists("$path/$file/index.theme") && !preg_match("/^\./", $file)) {
           try {
-            if ($file == self::$default_theme) {
+            if ($file == static::$default_theme) {
               $themes[$file] = new IconTheme("$path/$file",  NULL);
             } else {
-              $themes[$file] = new IconTheme("$path/$file", self::$default_theme);
+              $themes[$file] = new IconTheme("$path/$file", static::$default_theme);
             }
-          } catch (Exception $e) {
+          } catch (ThemeFileParsingException $e) {
+            continue;
           }
         }
       }
     }
-    $_SESSION[self::$session_var] = $themes;
+    $_SESSION[static::$session_var] = $themes;
   }
   static public function findThemeIcon($theme, $context, $icon, $size)
   {
-    if (!isset($_SESSION[self::$session_var])) {
+    if (!isset($_SESSION[static::$session_var])) {
       die('Error: no theme found in session');
     }
-    if (isset($_SESSION[self::$session_var][$theme])) {
-      return $_SESSION[self::$session_var][$theme]->FindIcon($context, $icon, $size);
+    if (isset($_SESSION[static::$session_var][$theme])) {
+      return $_SESSION[static::$session_var][$theme]->FindIcon($context, $icon, $size);
     }
-    return $_SESSION[self::$session_var][self::$default_theme]->FindIcon($context, $icon, $size);
+    return $_SESSION[static::$session_var][static::$default_theme]->FindIcon($context, $icon, $size);
   }
   public function findTheme($theme)
   {
-    if (isset($_SESSION[self::$session_var][$theme])) {
-      $ret = &$_SESSION[self::$session_var][$theme];
+    if (isset($_SESSION[static::$session_var][$theme])) {
+      $ret = &$_SESSION[static::$session_var][$theme];
       return $ret;
     }
     return NULL;

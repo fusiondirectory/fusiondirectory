@@ -146,7 +146,6 @@ class management
    */
   function execute()
   {
-    global $config;
     // Ensure that html posts and gets are kept even if we see a 'Entry islocked' dialog.
     $vars = array('/^act$/','/^listing/','/^PID$/','/^FILTER_PID$/');
     session::set('LOCK_VARS_TO_USE', $vars);
@@ -165,13 +164,6 @@ class management
       if (!$this->filter->isValid()) {
         msg_dialog::display(_("Filter error"), _("The filter is incomplete!"), ERROR_DIALOG);
       }
-    }
-
-    // Pre-render list to init things if a dn is gonna be opened on first load
-    if (isset($_REQUEST['dn'])) {
-      $this->headpage->setBase($config->current['BASE']);
-      $this->headpage->filter->setCurrentScope('sub');
-      $this->renderList();
     }
 
     // Handle actions (POSTs and GETs)
@@ -208,8 +200,9 @@ class management
       }
 
       // No bases specified? Try base
-      if (!count($bases)) $bases[] = $this->headpage->getBase();
-
+      if (!count($bases)) {
+        $bases[] = $this->headpage->getBase();
+      }
       $this->snapHandler->setSnapshotBases($bases);
     }
 
@@ -387,9 +380,15 @@ class management
     $tabClass     = $this->tabClass;
     $aclCategory  = $this->aclCategory;
 
-    if (!empty($altTabClass)) $tabClass = $altTabClass;
-    if (!empty($altTabType)) $tabType = $altTabType;
-    if (!empty($altAclCategory)) $aclCategory = $altAclCategory;
+    if (!empty($altTabClass)) {
+      $tabClass = $altTabClass;
+    }
+    if (!empty($altTabType)) {
+      $tabType = $altTabType;
+    }
+    if (!empty($altAclCategory)) {
+      $aclCategory = $altAclCategory;
+    }
 
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, "Entry removal confirmed!");
 
@@ -431,9 +430,15 @@ class management
       return array();
     }
     $action = $this->headpage->getAction();
-    if (isset($_POST['edit_apply']))  $action['action'] = 'apply';
-    if (isset($_POST['edit_finish'])) $action['action'] = 'save';
-    if (isset($_POST['edit_cancel'])) $action['action'] = 'cancel';
+    if (isset($_POST['edit_apply'])) {
+      $action['action'] = 'apply';
+    }
+    if (isset($_POST['edit_finish'])) {
+      $action['action'] = 'save';
+    }
+    if (isset($_POST['edit_cancel'])) {
+      $action['action'] = 'cancel';
+    }
     if (!$this->is_modal_dialog()) {
       if (isset($_POST['delete_confirmed'])) {
         $action['action'] = 'removeConfirmed';
@@ -553,8 +558,9 @@ class management
     }
 
     // No bases specified? Try base
-    if (!count($bases)) $bases[] = $this->headpage->getBase();
-
+    if (!count($bases)) {
+      $bases[] = $this->headpage->getBase();
+    }
     if (!count($target)) {
       // No target, open the restore removed object dialog.
       $this->dn = $this->headpage->getBase();
@@ -660,9 +666,15 @@ class management
     $tabType      = $this->tabType;
     $tabClass     = $this->tabClass;
     $aclCategory  = $this->aclCategory;
-    if (!empty($altTabClass)) $tabClass = $altTabClass;
-    if (!empty($altTabType)) $tabType = $altTabType;
-    if (!empty($altAclCategory)) $aclCategory = $altAclCategory;
+    if (!empty($altTabClass)) {
+      $tabClass = $altTabClass;
+    }
+    if (!empty($altTabType)) {
+      $tabType = $altTabType;
+    }
+    if (!empty($altAclCategory)) {
+      $aclCategory = $altAclCategory;
+    }
 
     // Check locking & lock entry if required
     $this->displayApplyBtn  = FALSE;
@@ -734,9 +746,15 @@ class management
     $tabType      = $this->tabType;
     $tabClass     = $this->tabClass;
     $aclCategory  = $this->aclCategory;
-    if (!empty($altTabClass)) $tabClass = $altTabClass;
-    if (!empty($altTabType)) $tabType = $altTabType;
-    if (!empty($altAclCategory)) $aclCategory = $altAclCategory;
+    if (!empty($altTabClass)) {
+      $tabClass = $altTabClass;
+    }
+    if (!empty($altTabType)) {
+      $tabType = $altTabType;
+    }
+    if (!empty($altAclCategory)) {
+      $aclCategory = $altAclCategory;
+    }
 
     $this->displayApplyBtn = count($target) == 1;
 

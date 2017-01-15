@@ -459,7 +459,7 @@ class SnapshotHandler
       if (!$ldap->success()) {
         msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $dn, "", get_class()), LDAP_ERROR);
       }
-    } catch (Exception $e) {
+    } catch (LDIFImportException $e) {
       msg_dialog::display(_('LDAP error'), $e->getMessage(), ERROR_DIALOG);
     }
   }

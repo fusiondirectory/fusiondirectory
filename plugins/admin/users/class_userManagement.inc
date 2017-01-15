@@ -141,7 +141,6 @@ class userManagement extends simpleManagement
     global $config, $ui;
     // Filter out entries we are not allowed to modify
     $disallowed = array();
-    $dns        = array();
     foreach ($entry as $dn) {
       if (!preg_match('/w/', $ui->get_permissions($dn, 'user/user', 'userPassword'))) {
         $disallowed[] = $dn;

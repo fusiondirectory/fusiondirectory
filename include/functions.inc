@@ -39,24 +39,6 @@ define('GL_SIZELIMIT',    2);
 define('GL_CONVERT',      4);
 define('GL_NO_ACL_CHECK', 8);
 
-/* Heimdal stuff */
-define('UNIVERSAL', 0x00);
-define('INTEGER', 0x02);
-define('OCTET_STRING', 0x04);
-define('OBJECT_IDENTIFIER ', 0x06);
-define('SEQUENCE', 0x10);
-define('SEQUENCE_OF', 0x10);
-define('SET', 0x11);
-define('SET_OF', 0x11);
-define('DEBUG', FALSE);
-define('HDB_KU_MKEY', 0x484442);
-define('TWO_BIT_SHIFTS', 0x7efc);
-define('DES_CBC_CRC', 1);
-define('DES_CBC_MD4', 2);
-define('DES_CBC_MD5', 3);
-define('DES3_CBC_MD5', 5);
-define('DES3_CBC_SHA1', 16);
-
 /* Define constants for debugging */
 define ('DEBUG_TRACE',    1); /*! Debug level for tracing of common actions (save, check, etc.) */
 define ('DEBUG_LDAP',     2); /*! Debug level for LDAP queries */
@@ -69,7 +51,6 @@ define ('DEBUG_ACL',      128); /*! Debug level for ACL infos */
 define ('DEBUG_SI',       256); /*! Debug level for communication with Argonaut */
 define ('DEBUG_MAIL',     512); /*! Debug level for all about mail (mailAccounts, imap, sieve etc.) */
 define ('DEBUG_FAI',      1024); /*! Debug level for FAI (incomplete) */
-
 
 /* Define shadow states */
 define ('POSIX_ACCOUNT_EXPIRED', 1);
@@ -185,7 +166,7 @@ function plugin_available($plugin)
  */
 function load_plist ($ldap_available = TRUE)
 {
-  global $config, $ui;
+  global $config;
   if (!session::global_is_set('plist')) {
     /* Initially load all classes */
     load_all_classes();
@@ -784,8 +765,6 @@ function del_user_locks($userdn)
  */
 function get_lock($object)
 {
-  global $config;
-
   /* Sanity check */
   if ($object == '') {
     msg_dialog::display(_('Internal error'), _('Error while adding a lock. Contact the developers!'), ERROR_DIALOG);
@@ -1307,8 +1286,8 @@ function get_ou($name)
   $map = array(
     'fusiondirectoryRDN'      => 'ou=fusiondirectory,',
     'lockRDN'                 => 'ou=locks,',
-    'tokenRDN'                => 'ou=tokens,',
-
+    'recoveryTokenRDN'        => 'ou=recovery,',
+    'reminderTokenRDN'        => 'ou=reminder,',
     'roleRDN'                 => 'ou=roles,',
     'ogroupRDN'               => 'ou=groups,',
     'applicationRDN'          => 'ou=apps,',
@@ -1326,10 +1305,7 @@ function get_ou($name)
 
     'ipmiRDN'                 => 'ou=ipmi,',
 
-    'faxBlocklistRDN'     => 'ou=gofax,ou=systems,',
     'aclRoleRDN'          => 'ou=aclroles,',
-    'phoneMacroRDN'       => 'ou=macros,ou=asterisk,ou=configs,ou=systems,',
-    'phoneConferenceRDN'  => 'ou=conferences,ou=asterisk,ou=configs,ou=systems,',
 
     'faiBaseRDN'      => 'ou=fai,ou=configs,ou=systems,',
     'faiScriptRDN'    => 'ou=scripts,',
@@ -1352,9 +1328,8 @@ function get_ou($name)
 
     'aliasRDN'    => 'ou=alias,',
 
-    'dsaRDN'    => 'ou=dsa,',
+    'dsaRDN'    => 'ou=dsa,'
 
-    'mimetypeRDN' => 'ou=mime,'
   );
 
   /* Preset ou... */
@@ -2223,8 +2198,9 @@ function scan_directory($path, $sort_desc = FALSE)
 
       /* Is this a correct result ?*/
       if ($dir) {
-        while ($fp = readdir($dir))
+        while ($fp = readdir($dir)) {
           $ret[] = $fp;
+        }
       }
     }
   }
@@ -2806,7 +2782,6 @@ function get_correct_class_name($cls)
  */
 function change_password ($dn, $password, $hash = "")
 {
-  global $config;
   $userTabs = objects::open($dn, 'user');
   $userTab  = $userTabs->getBaseObject();
   $userTab->userPassword = array(
@@ -2860,7 +2835,6 @@ function lock_samba_account($mode, $attrs)
 /* Lock or unlock ssh account */
 function lock_ssh_account($mode, $attrs, &$modify)
 {
-  global $config;
   if (!isset($attrs['sshPublicKey'])) {
     return;
   }
@@ -3048,7 +3022,7 @@ function cred_decrypt($input, $password)
   /************************* Inspired by Crypt/CBC.pm *******************************/
   $input = pack('H*', $input);
   if (substr($input, 0, 8) != 'Salted__') {
-    throw new Exception("Invalid hash header: expected 'Salted__', found '".substr($input, 0, 8)."'");
+    throw new FusionDirectoryException("Invalid hash header: expected 'Salted__', found '".substr($input, 0, 8)."'");
   }
   $salt   = substr($input, 8, 8);
   $input  = substr($input, 16);
@@ -3336,7 +3310,7 @@ function load_all_classes()
 
 function initLanguage($lang = NULL)
 {
-  global $GLOBALS,$BASE_DIR;
+  global $BASE_DIR;
   if ($lang === NULL) {
     $lang = get_browser_language();
   }
@@ -3396,7 +3370,7 @@ if (!function_exists('ldap_escape')) {
     if (!isset($charMaps[0])) {
       $charMaps[0] = array();
       for ($i = 0; $i < 256; $i++) {
-        $charMaps[0][chr($i)] = sprintf('\\%02x', $i);;
+        $charMaps[0][chr($i)] = sprintf('\\%02x', $i);
       }
 
       for ($i = 0, $l = count($charMaps[LDAP_ESCAPE_FILTER]); $i < $l; $i++) {

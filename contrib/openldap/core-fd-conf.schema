@@ -394,7 +394,7 @@ attributetype ( 1.3.6.1.4.1.38414.8.18.2 NAME 'fdTabHook'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
 
 attributetype ( 1.3.6.1.4.1.38414.8.18.3 NAME 'fdShells'
-  DESC 'FusionDirectory - available shell'
+  DESC 'FusionDirectory - available shells'
   EQUALITY caseExactIA5Match
   SUBSTR caseExactIA5SubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
@@ -422,6 +422,13 @@ attributetype ( 1.3.6.1.4.1.38414.8.18.7 NAME 'fdDepartmentCategories'
   EQUALITY caseExactIA5Match
   SUBSTR caseExactIA5SubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+
+attributetype ( 1.3.6.1.4.1.38414.8.18.8 NAME 'fdDefaultShell'
+  DESC 'FusionDirectory - default shell'
+  EQUALITY caseExactIA5Match
+  SUBSTR caseExactIA5SubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE)
 
 # Plugins
 
@@ -597,7 +604,7 @@ objectclass ( 1.3.6.1.4.1.38414.8.2.1 NAME 'fusionDirectoryConf'
     fdHttpAuthActivated $ fdHttpHeaderAuthActivated $ fdHttpHeaderAuthHeaderName $
     fdDisplayErrors $ fdLdapMaxQueryTime $ fdLdapStats $ fdDebugLevel $
     fdEnableSnapshots $ fdSnapshotBase $
-    fdTabHook $ fdShells $ fdDisplayHookOutput $
+    fdTabHook $ fdShells $ fdDefaultShell $ fdDisplayHookOutput $
     fdAclTabOnObjects $ fdDepartmentCategories $
     fdRfc2307bis $ fdCopyPaste $ fdSnapshotURI $
     fdSnapshotAdminDn $ fdSnapshotAdminPassword $ fdPersonalTitleInDN $ fdAccountRDN $

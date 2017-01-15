@@ -180,7 +180,7 @@ class ogroup extends simplePlugin
         )
       ),
 
-      'plProvidedAcls'  => parent::generatePlProvidedAcls(self::getAttributesInfo())
+      'plProvidedAcls'  => parent::generatePlProvidedAcls(static::getAttributesInfo())
     );
   }
 
@@ -235,7 +235,6 @@ class ogroup extends simplePlugin
 
   function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE)
   {
-    global $config;
     parent::__construct($dn, $object, $parent, $mainTab);
 
     $this->attributesAccess['trustMode']->setInLdap(FALSE);

@@ -112,7 +112,9 @@ class Print_a_class {
    */
   function print_a($array, $iteration = FALSE, $key_bg_color = FALSE)
   {
-    $key_bg_color or $key_bg_color = $this->key_bg_color;
+    if (!$key_bg_color) {
+      $key_bg_color = $this->key_bg_color;
+    }
 
     if (!$iteration && isset($this->export_flag)) {
       $this->output .= '<form id="pa_form_'.$this->export_hash.'" action="'.$this->export_dumper_path.'?mode='.$this->export_flag.'" method="post" target="_blank"><input name="array" type="hidden" value="'.htmlspecialchars( serialize( $array ) ).'"></form>';
@@ -123,8 +125,13 @@ class Print_a_class {
       for ($i = 0; $i < 6; $i += 2) {
         $c = substr( $key_bg_color, $i, 2 );
         $c = hexdec( $c );
-        ( $c += 15 ) > 255 and $c = 255;
-        isset($tmp_key_bg_color) or $tmp_key_bg_color = '';
+        $c += 15;
+        if ($c > 255) {
+          $c = 255;
+        }
+        if (!isset($tmp_key_bg_color)) {
+          $tmp_key_bg_color = '';
+        }
         $tmp_key_bg_color .= sprintf( "%02X", $c );
       }
       $key_bg_color = $tmp_key_bg_color;
@@ -221,7 +228,7 @@ class Print_a_class {
 function print_a($array, $return_mode = FALSE, $show_object_vars = FALSE, $export_flag = FALSE )
 {
   $e = error_reporting(0);
-  if (is_array($array) or is_object($array)) {
+  if (is_array($array) || is_object($array)) {
     $pa = new Print_a_class;
     if ($show_object_vars) {
       $pa->show_object_vars = TRUE;
@@ -326,7 +333,9 @@ function show_vars($show_all_vars = FALSE, $show_object_vars = FALSE)
   }
 
   foreach ($vars_arr as $vars_name => $vars_data) {
-    if ($vars_name != 'script_globals') global $$vars_name;
+    if ($vars_name != 'script_globals') {
+      global $$vars_name;
+    }
     if ($$vars_name) {
       print '<div class="vars-container" style="background-color:'.$vars_data[1].';"><span class="varsname">'.$vars_data[0].'</span><br />';
       print_a($$vars_name, FALSE, $show_object_vars, FALSE );

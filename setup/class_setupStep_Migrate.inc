@@ -23,7 +23,7 @@
  * FUNCTIONS
 
 Step_Migrate                - Constructor.
-update_strings              - Used to update the displayed step informations.
+update_strings              - Used to update the displayed step information.
 initialize_checks           - Initialize migration steps.
 check_ldap_permissions      - Check if the used admin account has full access to the ldap database.
 check_gosaAccounts          - Check if there are users without the required objectClasses.
@@ -44,7 +44,7 @@ array_to_ldif               - Create ldif output of an ldap result array
 
  ****************/
 
-class CheckFailedException extends Exception
+class CheckFailedException extends FusionDirectoryException
 {
   private $error;
 
@@ -244,7 +244,7 @@ class Step_Migrate extends setupStep
         'cn'              => 'editownpwd',
         'description'     => _('Allow users to edit their own password (use only on base)'),
         'objectclass'     => array('top', 'gosaRole'),
-        'gosaAclTemplate' => '0:user/user;#userPassword;srw'
+        'gosaAclTemplate' => '0:user/user;s#userPassword;rw'
       ),
     );
   }

@@ -867,7 +867,7 @@ class simpleManagement extends management
 
   static function mainInc ($classname)
   {
-    global $remove_lock, $cleanup, $display, $config, $ui;
+    global $remove_lock, $cleanup, $display;
 
     /* Remove locks */
     if ($remove_lock) {

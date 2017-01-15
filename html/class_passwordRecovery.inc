@@ -28,80 +28,88 @@ require_once("variables.inc");
 class standAlonePage {
   var $directory;
   var $activated;
+  protected $interactive;
 
   /* Constructor */
-  function __construct()
+  function __construct($interactive = TRUE)
   {
     global $config, $ssl, $ui;
-    /* Destroy old session if exists.
-        Else you will get your old session back, if you not logged out correctly. */
-    session::destroy();
-    session::start();
 
-    /* Reset errors */
-    reset_errors();
+    $this->interactive = $interactive;
 
-    $config       = $this->loadConfig();
+    if ($this->interactive) {
+      /* Destroy old session if exists.
+          Else you will get your old session back, if you not logged out correctly. */
+      session::destroy();
+      session::start();
 
-    /* If SSL is forced, just forward to the SSL enabled site */
-    if (($config->get_cfg_value("forcessl") == "TRUE") && ($ssl != '')) {
-      header ("Location: $ssl");
-      exit;
-    }
+      /* Reset errors */
+      reset_errors();
 
-    $this->setupSmarty();
+      $config = $this->loadConfig();
 
-    $smarty = get_smarty();
-
-    /* Generate server list */
-    $servers = array();
-    foreach ($config->data['LOCATIONS'] as $key => $ignored) {
-      $servers[$key] = $key;
-    }
-
-    $smarty->assign("show_directory_chooser", FALSE);
-
-    if (isset($_POST['server'])) {
-      $this->directory = validate($_POST['server']);
-    } elseif (isset($_GET['directory']) && isset($servers[$_GET['directory']])) {
-      $this->directory = validate($_GET['directory']);
-    } else {
-      $this->directory = $config->data['MAIN']['DEFAULT'];
-
-      if (!isset($servers[$this->directory])) {
-        $this->directory = key($servers);
+      /* If SSL is forced, just forward to the SSL enabled site */
+      if (($config->get_cfg_value("forcessl") == "TRUE") && ($ssl != '')) {
+        header ("Location: $ssl");
+        exit;
       }
 
-      if (count($servers) > 1) {
-        $smarty->assign("show_directory_chooser", TRUE);
-        $smarty->assign("server_options", $servers);
-        $smarty->assign("server_id", $this->directory);
-      }
-    }
+      $this->setupSmarty();
 
-    /* Set config to selected one */
-    $config->set_current($this->directory);
-    session::global_set('config', $config);
+      $smarty = get_smarty();
+
+      /* Generate server list */
+      $servers = array();
+      foreach ($config->data['LOCATIONS'] as $key => $ignored) {
+        $servers[$key] = $key;
+      }
+
+      $smarty->assign("show_directory_chooser", FALSE);
+
+      if (isset($_POST['server'])) {
+        $this->directory = validate($_POST['server']);
+      } elseif (isset($_GET['directory']) && isset($servers[$_GET['directory']])) {
+        $this->directory = validate($_GET['directory']);
+      } else {
+        $this->directory = $config->data['MAIN']['DEFAULT'];
+
+        if (!isset($servers[$this->directory])) {
+          $this->directory = key($servers);
+        }
+
+        if (count($servers) > 1) {
+          $smarty->assign("show_directory_chooser", TRUE);
+          $smarty->assign("server_options", $servers);
+          $smarty->assign("server_id", $this->directory);
+        }
+      }
+
+      /* Set config to selected one */
+      $config->set_current($this->directory);
+      session::global_set('config', $config);
+    }
 
     $this->activated = $this->readLdapConfig();
     if (!$this->activated) { /* Password recovery has been disabled */
       return;
     }
 
-    initLanguage();
+    if ($this->interactive) {
+      initLanguage();
 
-    if (session::global_is_set('plist')) {
-      session::global_un_set('plist');
+      if (session::global_is_set('plist')) {
+        session::global_un_set('plist');
+      }
+      $ui = new fake_userinfo();
+      load_plist();
+
+      $ssl = $this->checkForSSL();
     }
-    $ui = new fake_userinfo();
-    load_plist();
-
-    $ssl = $this->checkForSSL();
   }
 
   function loadConfig()
   {
-    global $_SERVER, $BASE_DIR;
+    global $BASE_DIR;
 
     /* Check if CONFIG_FILE is accessible */
     if (!is_readable(CONFIG_DIR."/".CONFIG_FILE)) {
@@ -205,7 +213,7 @@ class standAlonePage {
 
   function encodeParams($keys)
   {
-    $params = "";
+    $params = '';
     foreach ($keys as $key) {
       $params .= "&amp;$key=".urlencode($this->$key);
     }
@@ -254,9 +262,9 @@ class passwordRecovery extends standAlonePage {
   var $usealternates;
 
   /* Constructor */
-  function __construct()
+  function __construct($interactive = TRUE)
   {
-    parent::__construct();
+    parent::__construct($interactive);
 
     if (isset($_GET['email_address']) && $_GET['email_address'] != "") {
       $this->email_address = validate($_GET['email_address']);
@@ -289,6 +297,11 @@ class passwordRecovery extends standAlonePage {
       if (isset($_POST['change'])) {
         $this->step4();
       } elseif (isset($_POST['apply'])) {
+        if ($_POST['email_address'] == '') {
+          $this->message[] = msgPool::required(_('Email address'));
+          return;
+        }
+        $this->email_address = $_POST['email_address'];
         $this->step2();
         if ($this->step == 2) { /* No errors */
           $this->step3();
@@ -374,7 +387,7 @@ class passwordRecovery extends standAlonePage {
     $ldap = $config->get_ldap_link();
 
     // Check if token branch is here
-    $token = get_ou('tokenRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'];
+    $token = get_ou('recoveryTokenRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'];
     $ldap->cat($token, array('dn'));
     if (!$ldap->count()) {
       /* It's not, let's create it */
@@ -421,7 +434,7 @@ class passwordRecovery extends standAlonePage {
     /* Retrieve hash from the ldap */
     $ldap = $config->get_ldap_link();
 
-    $token  = get_ou('tokenRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'];
+    $token  = get_ou('recoveryTokenRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'];
     $dn     = "ou=".$this->uid.",$token";
     $ldap->cat($dn);
     $attrs = $ldap->fetch();
@@ -468,17 +481,12 @@ class passwordRecovery extends standAlonePage {
   function step2()
   {
     global $config;
-    if ($_POST['email_address'] == "") {
-      $this->message[] = msgPool::required(_("Email address"));
-      return;
-    }
-    $this->email_address = $_POST['email_address'];
 
     /* Search uid corresponding to the mail */
     if ($this->usealternates) {
-      $filter = "(&(objectClass=gosaMailAccount)(|(mail=".$this->email_address.")(gosaMailAlternateAddress=".$this->email_address.")))";
+      $filter = '(&(objectClass=gosaMailAccount)(|(mail='.$this->email_address.')(gosaMailAlternateAddress='.$this->email_address.')))';
     } else {
-      $filter = "(&(objectClass=gosaMailAccount)(mail=".$this->email_address."))";
+      $filter = '(&(objectClass=gosaMailAccount)(mail='.$this->email_address.'))';
     }
     if (class_available('personalInfo') && ($config->get_cfg_value('privateEmailPasswordRecovery', 'FALSE') == 'TRUE')) {
       $filter = '(|'.$filter.'(&(objectClass=fdPersonalInfo)(fdPrivateMail='.$this->email_address.')))';
@@ -506,29 +514,42 @@ class passwordRecovery extends standAlonePage {
       $this->message[] = sprintf(_('The user using email "%s" is locked. Please contact your administrator.'), $this->email_address);
       return;
     }
-
-    $smarty = get_smarty();
-
     $this->uid = $attrs['uid'][0];
-    $smarty->assign('uid', $this->uid);
-    $smarty->assign('email_address', $this->email_address);
     $this->step = 2;
-    $params = $this->encodeParams(array('uid', 'directory', 'email_address'));
-    $smarty->assign('params', $params);
+
+    if ($this->interactive) {
+      $smarty = get_smarty();
+
+      $smarty->assign('uid', $this->uid);
+      $smarty->assign('email_address', $this->email_address);
+      $params = $this->encodeParams(array('uid', 'directory', 'email_address'));
+      $smarty->assign('params', $params);
+    }
+
+    return $attrs['dn'];
+  }
+
+  function generateAndStoreToken()
+  {
+    $activatecode = static::generateRandomHash();
+
+    $error = $this->storeToken($activatecode);
+
+    if (!empty($error)) {
+      $this->message[] = $error;
+      return FALSE;
+    }
+
+    return $activatecode;
   }
 
   /* generate a token and send it by email */
   function step3()
   {
-    $smarty = get_smarty();
     /* Send a mail, save information in session and create a very random unique id */
+    $token = $this->generateAndStoreToken();
 
-    $activatecode = $this->generateRandomHash();
-
-    $error = $this->storeToken($activatecode);
-
-    if (!empty($error)) {
-      msg_dialog::display(_("LDAP error"), $error, LDAP_ERROR);
+    if ($token === FALSE) {
       return;
     }
 
@@ -547,6 +568,8 @@ class passwordRecovery extends standAlonePage {
     } else {
       $this->message[] = msgPool::invalid(_("Contact your administrator, there was a problem with mail server"));
     }
+    $smarty = get_smarty();
+
     $smarty->assign('uid', $this->uid);
   }
 
@@ -574,20 +597,19 @@ class passwordRecovery extends standAlonePage {
     }
   }
 
-  /* change the password and send confirmation email */
-  function step5()
+  function changeUserPassword($new_password, $new_password_repeated)
   {
     $dn = $this->getUserDn();
     if (!$dn) {
-      return;
+      return FALSE;
     }
 
     $userTabs = objects::open($dn, 'user');
     $userTab  = $userTabs->getBaseObject();
     $userTab->userPassword = array(
       '',
-      $_POST['new_password'],
-      $_POST['new_password_repeated'],
+      $new_password,
+      $new_password_repeated,
       $userTab->userPassword,
       $userTab->attributesAccess['userPassword']->isLocked()
     );
@@ -596,12 +618,24 @@ class passwordRecovery extends standAlonePage {
     $error = $userTabs->check();
     if (!empty($error)) {
       $this->message = $error;
-      return;
+      return FALSE;
     }
 
     $userTabs->save_object();
     $userTabs->save();
-    fusiondirectory_log("User ".$this->uid." password has been changed");
+    fusiondirectory_log('User '.$this->uid.' password has been changed');
+
+    return TRUE;
+  }
+
+  /* change the password and send confirmation email */
+  function step5()
+  {
+    $success = $this->changeUserPassword($_POST['new_password'], $_POST['new_password_repeated']);
+    if (!$success) {
+      return;
+    }
+
     /* Send the mail */
     $mail_body = sprintf($this->mail2_body, $this->uid);
 

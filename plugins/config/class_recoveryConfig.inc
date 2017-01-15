@@ -29,7 +29,7 @@ class recoveryConfig extends simplePlugin
       'plDescription'   => _('Settings for the password recovery feature'),
       'plObjectType'    => array('configuration'),
 
-      'plProvidedAcls'  => parent::generatePlProvidedAcls(self::getAttributesInfo())
+      'plProvidedAcls'  => parent::generatePlProvidedAcls(static::getAttributesInfo())
     );
   }
 
@@ -91,7 +91,7 @@ class recoveryConfig extends simplePlugin
             _('Body of the first email, sent when the user ask for a new password. Use %s for the login and the recovery link.'),
             'fdPasswordRecoveryMailBody',
             TRUE,
-            _("Hello,\n\nHere are your informations : \n - Login : %s\n - Link : %s\n\nThis link is only valid for 10 minutes.")
+            _("Hello,\n\nHere is your information: \n - Login : %s\n - Link : %s\n\nThis link is only valid for 10 minutes.")
           )
         )
       ),
@@ -122,7 +122,7 @@ class recoveryConfig extends simplePlugin
     global $config;
     // Check if token branch is here
     $ldap = $config->get_ldap_link();
-    $tokenBranch = get_ou('tokenRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'];
+    $tokenBranch = get_ou('recoveryTokenRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'];
     $ldap->cat($tokenBranch, array('dn'));
     if (!$ldap->count()) {
       $ldap->cd($config->current['BASE']);

@@ -153,18 +153,19 @@ $continue++; # activating continue feature only for insertions
 
 foreach my $schema (@schemas) {
   my $schema_name = "";
+  my $ldif_file;
 
   if ($modify < 2) {
     # Searching schema name in ldif file first line.
-    open FILE, '< '.$path.$schema.".ldif" or die "Count not open ldif file : $!\n";
+    open $ldif_file, q{<}, $path.$schema.".ldif" or die "Count not open ldif file : $!\n";
     my $dn = "";
     while ($dn eq "") {
-      chomp($dn = <FILE>);
+      chomp($dn = <$ldif_file>);
     }
     if ($dn =~ /^dn: cn=([^,]+),/) {
       $schema_name = $1;
     }
-    close(FILE);
+    close($ldif_file);
   }
 
   # Fallback on file name
@@ -181,6 +182,9 @@ remove_ldifs();
 sub insert_schema
 {
   my($schema, $schema_name) = @_;
+  my $schema_file;
+  my $update_file;
+  my $empty_file;
 
   $full_cmd = $search_cmd.$schema_name." cn";
   print ("\n");
@@ -206,18 +210,18 @@ sub insert_schema
       my $dn_part = $1;
       # if the schema already exists in the LDAP server, modify it
       if ($modify == 1) {
-        open(SCHEMA, "<".$path.$schema.".ldif") or die_with_error('Could not open '."<".$path.$schema.".ldif: $!");
-        open(UPDATE, ">".$path.$schema."_update.ldif") or die_with_error('Could not open '.">".$path.$schema."_update.ldif: $!");
+        open($schema_file, q{<}, $path.$schema.".ldif") or die_with_error('Could not open '."<".$path.$schema.".ldif: $!");
+        open($update_file, q{>}, $path.$schema."_update.ldif") or die_with_error('Could not open '.">".$path.$schema."_update.ldif: $!");
         push @gen_files, $path.$schema."_update";
         my $attrs   = 0;
         my $classes = 0;
-        while (<SCHEMA>) {
+        while (<$schema_file>) {
           next if m/^#/; # remove comments
           chomp;
           next if m/^$/; # remove empty lines
           if (m/^dn: cn=([^,]+),cn=schema,cn=config$/) {
-            print UPDATE "dn: $dn_part,cn=schema,cn=config\n";
-            print UPDATE "changetype: modify\n";
+            print $update_file "dn: $dn_part,cn=schema,cn=config\n";
+            print $update_file "changetype: modify\n";
             next;
           }
           if (!m/^olcAttributeTypes:/ && !m/^olcObjectClasses:/ && !m/^ /) {
@@ -231,29 +235,29 @@ sub insert_schema
 
           if (!$attrs && m/^olcAttributeTypes:/) {
             $attrs = 1;
-            print UPDATE "replace: olcAttributeTypes\n";
+            print $update_file "replace: olcAttributeTypes\n";
           }
           if (!$classes && m/^olcObjectClasses:/) {
             $classes = 1;
-            print UPDATE "-\n";
-            print UPDATE "replace: olcObjectClasses\n";
+            print $update_file "-\n";
+            print $update_file "replace: olcObjectClasses\n";
           }
 
-          print UPDATE;
-          print UPDATE "\n";
+          print $update_file $_;
+          print $update_file "\n";
         }
-        close SCHEMA;
-        close UPDATE;
+        close $schema_file;
+        close $update_file;
       } else { # Emptying schema
-        open(UPDATE, ">".$path.$schema."_update.ldif") or die_with_error('Could not open '.">".$path.$schema."_update.ldif: $!");
+        open($empty_file,  q{>}, $path.$schema."_update.ldif") or die_with_error('Could not open '.">".$path.$schema."_update.ldif: $!");
         push @gen_files, $path.$schema."_update";
-        print UPDATE "dn: $dn_part,cn=schema,cn=config\n";
-        print UPDATE "changetype: modify\n";
-        print UPDATE "delete: olcAttributeTypes\n";
-        print UPDATE "-\n";
-        print UPDATE "delete: olcObjectClasses\n";
-        print UPDATE "-\n";
-        close UPDATE;
+        print $empty_file "dn: $dn_part,cn=schema,cn=config\n";
+        print $empty_file "changetype: modify\n";
+        print $empty_file "delete: olcAttributeTypes\n";
+        print $empty_file "-\n";
+        print $empty_file "delete: olcObjectClasses\n";
+        print $empty_file "-\n";
+        close $empty_file;
       }
       $full_cmd = $mod_cmd.$path.$schema."_update.ldif";
       print "executing '$full_cmd'\n";

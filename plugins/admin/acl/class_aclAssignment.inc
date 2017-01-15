@@ -27,7 +27,7 @@ class aclAssignmentDialogWindow extends simplePlugin
       'plDescription' => _('Access control roles assignment dialog'),
       'plCategory'    => array('acl'),
 
-      'plProvidedAcls' => parent::generatePlProvidedAcls(self::getAttributesInfo())
+      'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())
     );
   }
 
@@ -178,11 +178,18 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
 {
   protected $order        = TRUE;
   protected $dialogClass  = 'ACLsAssignmentDialog';
+  protected $height       = 300;
 
   protected function getAttributeArrayValue($key, $value)
   {
     /* Convert text value to displayable array value */
-    $value['members'] = join(', ', $value['members']);
+    sort($value['members']);
+    static $nbShown = 4;
+    $members = join(', ', array_slice($value['members'], 0, $nbShown));
+    if (count($value['members']) > $nbShown) {
+      $members .= sprintf(_(', and %d others'), (count($value['members']) - $nbShown));
+    }
+    $value['members'] = $members;
     return $value;
   }
 
@@ -275,7 +282,7 @@ class aclAssignment extends simplePlugin
         )
       ),
 
-      'plProvidedAcls' => parent::generatePlProvidedAcls(self::getAttributesInfo())
+      'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())
     );
   }
 

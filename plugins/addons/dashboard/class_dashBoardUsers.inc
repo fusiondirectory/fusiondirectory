@@ -66,18 +66,10 @@ class dashboardUsers extends simplePlugin
   {
     global $config;
     /* User statistics */
+    $nb_accounts = objects::count('user');
+
     $ldap = $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);
-    $ldap->search('(objectClass=inetOrgPerson)', array('userPassword'));
-    $nb_accounts = $ldap->count();
-    $nb_locked_accounts = 0;
-    while ($attrs = $ldap->fetch()) {
-      if (isset($attrs['userPassword'][0]) && preg_match("/^\{[^\}]/", $attrs['userPassword'][0])) {
-        if (preg_match("/^[^\}]*+\}!/", $attrs['userPassword'][0])) {
-          $nb_locked_accounts++;
-        }
-      }
-    }
     $ldap->search('(&(objectClass=inetOrgPerson)(objectClass=gosaMailAccount))', array('cn'));
     $nb_mail_accounts = $ldap->count();
     $ldap->search('(&(objectClass=inetOrgPerson)(objectClass=posixAccount))', array('cn'));
@@ -93,7 +85,6 @@ class dashboardUsers extends simplePlugin
       ),
       'nb' => $nb_accounts,
       'img' => 'geticon.php?context=types&icon=user&size=16',
-      'locked_accounts' => array('nb' => $nb_locked_accounts, 'img' => "geticon.php?context=status&icon=object-locked&size=16"),
     );
   }
 
@@ -147,9 +138,9 @@ class dashboardUsers extends simplePlugin
     while ($attrs = $ldap->fetch()) {
       // Test if account is expired now
       if ($attrs['shadowExpire'][0] <= $today) {
-        $expired_accounts[] = self::get_user_infos($attrs);
+        $expired_accounts[] = static::get_user_infos($attrs);
       } elseif ($attrs['shadowExpire'][0] <= $next_expired_date) {
-        $next_expired_accounts[] = self::get_user_infos($attrs);
+        $next_expired_accounts[] = static::get_user_infos($attrs);
       }
     }
 

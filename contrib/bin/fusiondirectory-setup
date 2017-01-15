@@ -729,6 +729,8 @@ sub get_ldap_connexion {
   my $uri = "";
   my $base = "";
   my $tls = 0;
+  my $secret_file;
+  my $ldap_conf;
 
   # read ldap's server's info from /etc/fusiondirectory/fusiondirectory.conf
   if (-e $fd_config) {
@@ -772,7 +774,7 @@ sub get_ldap_connexion {
   # if can't find fusiondirectory.conf
   } else {
 
-    if ( ask_yn_question ("Can't find fusiondirectory.conf, do you want to specify LDAP's informations yourself ?: ") ) {
+    if ( ask_yn_question ("Can't find fusiondirectory.conf, do you want to specify LDAP's information yourself ?: ") ) {
       $uri = ask_user_input ("LDAP server's URI");
       $base = ask_user_input ("Search base");
       $hash_result{base} = $base;
@@ -792,21 +794,21 @@ sub get_ldap_connexion {
 
   # bind to the LDAP server
   if (-e $fd_secrets) {
-    open(SECRETS, $fd_secrets) || die ("Could not open $fd_secrets");
+    open($secret_file, q{<}, $fd_secrets) || die ("Could not open $fd_secrets");
     my $key = "";
-    while(<SECRETS>) {
+    while(<$secret_file>) {
       if ($_ =~ m/RequestHeader set FDKEY ([^ \n]+)\n/) {
         $key = $1;
         last;
       }
     }
-    close(SECRETS);
+    close($secret_file);
     $bind_pwd = cred_decrypt($bind_pwd, $key);
   }
 
   if ($tls) {
     # Read LDAP config file
-    open (LDAPCONF,$vars{ldap_conf}) or die ("! Failed to open ldap config file '$vars{ldap_conf}': $!\n");
+    open ($ldap_conf, q{<}, $vars{ldap_conf}) or die ("! Failed to open ldap config file '$vars{ldap_conf}': $!\n");
 
     my %tls_options = (
       'REQCERT'   => 'require',
@@ -816,14 +818,14 @@ sub get_ldap_connexion {
       'CACERT'    => '',
     );
     # Scan LDAP config
-    while (<LDAPCONF>) {
+    while (<$ldap_conf>) {
       /^\s*(#|$)/ && next;
       chomp;
       if (m/^TLS_(REQCERT|CERT|KEY|CACERTDIR|CACERT)\s+(.*)\s*$/i) {
         $tls_options{uc $1} = $2;
       }
     }
-    close(LDAPCONF);
+    close($ldap_conf);
 
     $ldap->start_tls(
       verify      => $tls_options{'REQCERT'},
@@ -1454,16 +1456,17 @@ sub migrate_dhcp {
   } else {
     if (ask_yn_question("Move these entries to the DHCP branch ($dhcprdn)?")) {
       foreach my $entrydn (@baddns) {
-        $entrydn =~ m/^([^,]+),(.+$systemrdn,(.+))$/ or die "Could not parse dn ".$entrydn."\n";
+        $entrydn =~ m/^([^,]+),(cn=([^,]+),.*$systemrdn,(.+))$/ or die "Could not parse dn ".$entrydn."\n";
         my $rdn = $1;
         my $systemdn = $2;
-        my $entrybase = $3;
+        my $systemcn = $3;
+        my $entrybase = $4;
         if (!branch_exists($ldap, "$dhcprdn,$entrybase")) {
           create_branch($ldap, $entrybase, $dhcprdn);
         }
         my $result = $ldap->moddn (
           $entrydn,
-          newrdn        => $rdn,
+          newrdn        => "$rdn-$systemcn",
           deleteoldrdn  => '1',
           newsuperior   => "$dhcprdn,$entrybase"
         );
@@ -1951,15 +1954,17 @@ sub set_config_var {
 
 sub show_version {
   my $variables_common_path = "$vars{fd_home}/include/variables_common.inc";
+  my $vars_file;
+
   if (-e $variables_common_path) {
-    open(VARS, $variables_common_path) || die ("Could not open $variables_common_path");
-    while(<VARS>) {
+    open($vars_file, q{<}, $variables_common_path) || die ("Could not open $variables_common_path");
+    while(<$vars_file>) {
       if ($_ =~ m/^define \(["']FD_VERSION["'], "([^"]+)"\);/) {
         print "FusionDirectory version is $1\n";
         last;
       }
     }
-    close(VARS);
+    close($vars_file);
   } else {
     print "File $variables_common_path does not exists, can’t find out FusionDirectory version\n";
   }

@@ -32,11 +32,6 @@
     '19941216101255,5Z'
 */
 
-/*! \class LdapGeneralizedTimeBadFormatException
-    \brief Exception class which can be thrown by LdapGeneralizedTime if the format does not match
-*/
-class LdapGeneralizedTimeBadFormatException extends Exception {};
-
 /*! \class LdapGeneralizedTime
     \brief LdapGeneralizedTime allows you to convert from and to LDAP GeneralizedTime format PHP DateTime objects
 
