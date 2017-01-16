@@ -32,7 +32,7 @@ class userSelect extends simpleSelectManagement
         'label'         => _('Login'),
         'sortAttribute' => 'uid',
         'sortType'      => 'string',
-        'value'         => '%{filter:link(row,dn,"%s",uid)}',
+        'value'         => '%{filter:selectLink(pid,row,dn,uid)}',
         'export'        => 'true',
       ),
     );
