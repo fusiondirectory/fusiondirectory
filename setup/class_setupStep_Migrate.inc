@@ -814,9 +814,8 @@ class Step_Migrate extends setupStep
 
               if (isset($ret['gosaAclTemplate'])) {
                 $cnt = $ret['gosaAclTemplate']['count'];
-                for ($e = 0; $e < $cnt; $e++) {
-
-                  $a_str = $ret['gosaAclTemplate'][$e];
+                for ($i = 0; $i < $cnt; $i++) {
+                  $a_str = $ret['gosaAclTemplate'][$i];
                   if (preg_match("/^[0-9]*:psub:/", $a_str) && preg_match("/:all;cmdrw$/", $a_str)) {
 
                     $members = explode(",", $tmp[3]);
