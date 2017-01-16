@@ -1595,7 +1595,7 @@ sub migrate_acls {
     if ($old_formats) {
       @nacls = sort @nacls;
       my $i = 0;
-      map { s/^[0-9]*:/$i:/; $i++ } @nacls; # Re-index acls
+      for (@nacls) { s/^[0-9]*:/$i:/; $i++ }; # Re-index acls
       my $result = $ldap->modify (
         $entry->dn,
         replace => {
