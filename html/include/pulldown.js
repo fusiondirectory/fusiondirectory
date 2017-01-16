@@ -115,7 +115,7 @@ MenuContainer.prototype = {
     }
   },
 
-  getBorders: function(element) {
+  getBorders: function() {
     var ltrb = ["Left","Top","Right","Bottom"];
     var result = {};
     var value;
