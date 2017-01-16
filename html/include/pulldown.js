@@ -25,6 +25,9 @@
  *                                            for an example see Menu.prototype.config
  */
 var Menu = Class.create();
+var MenuContainer = Class.create();
+var MenuItem = Class.create();
+
 Menu.prototype = {
 
   initialize: function(idOrElement, name, customConfigFunction) {
@@ -50,7 +53,6 @@ Menu.prototype = {
 
 }
 
-var MenuContainer = Class.create();
 MenuContainer.prototype = {
   initialize: function(idOrElement, parent) {
     this.type = "menuContainer";
@@ -175,9 +177,6 @@ MenuContainer.prototype = {
 
 }
 
-
-var MenuItem = Class.create();
-
 Object.extend(Object.extend(MenuItem.prototype, MenuContainer.prototype), {
   initialize: function(idOrElement, parent) {
     var menuItem = this;
@@ -231,9 +230,7 @@ Object.extend(Object.extend(MenuItem.prototype, MenuContainer.prototype), {
   }
 });
 
-
 var menu;
-
 
 function configMenu() {
   this.closeDelayTime = 300;
@@ -242,6 +239,5 @@ function configMenu() {
 function initMenu() {
   menu = new Menu('root', 'menu', configMenu);
 }
-
 
 Event.observe(window, 'load', initMenu, false);
