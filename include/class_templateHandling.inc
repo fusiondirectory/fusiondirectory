@@ -396,7 +396,7 @@ class templateHandling
 
     $array =
       array_map(
-        function ($a) use (&$cache, $depends, $forbidden, $key)
+        function ($a) use (&$cache, &$errors, $depends, $forbidden, $key)
         {
           if (in_array($a, $forbidden)) {
             $errors[] = sprintf(
