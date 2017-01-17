@@ -289,6 +289,9 @@ class simpleManagement extends management
         }
       }
     }
+    if ($this->autoActions && !$this->skipTemplates) {
+      $this->registerAction('template_apply', 'newEntryFromTemplate');
+    }
     $this->headpage->refreshBasesList();
   }
 
@@ -458,7 +461,15 @@ class simpleManagement extends management
     } else {
       $dn = NULL;
     }
-    $type = preg_replace('/^template_apply_/', '', $action);
+    if ($action == 'template_apply') {
+      if ($dn === NULL) {
+        return;
+      }
+      $type = $this->getType($dn);
+      $type = preg_replace('/^template_/', '', $type);
+    } else {
+      $type = preg_replace('/^template_apply_/', '', $action);
+    }
     $this->dialogObject = new templateDialog($this, $type, $dn);
   }
 
