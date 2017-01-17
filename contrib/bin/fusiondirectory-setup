@@ -1788,14 +1788,12 @@ sub migrate_systems {
 
       if (ask_yn_question("Migrate these entries to $newOC objectClass?")) {
         foreach my $entry (@entries) {
-          my $newrdn = "cn=".$entry->get_value('cn')."+ipHostNumber=".$entry->get_value('ipHostNumber');
-          $mesg = $ldap->moddn($entry->dn(), newrdn => $newrdn);
-          if ($mesg->code) {
-            print $entry->dn().": ".$mesg->error."\n";
-            next;
-          }
+          my $tmprdn = "cn=".$entry->get_value('cn')."+ipHostNumber=".$entry->get_value('ipHostNumber');
+          my $newrdn = "cn=".$entry->get_value('cn');
           my $dn_old = $entry->dn();
-          $dn_old =~ s/^[^,]+,/$newrdn,/;
+          my $dn_new = $entry->dn();
+          $dn_new =~ s/^[^,]+,/$tmprdn,/;
+          $entry->dn($dn_new);
           my @replace = ('ieee802Device', 'ipHost', $newOC);
           my @classes = $entry->get_value('objectClass');
           foreach my $class (@classes) {
@@ -1811,7 +1809,15 @@ sub migrate_systems {
           }
           undef @replace;
           $mesg = $ldap->delete($dn_old);
-          $mesg->code && print $dn_old.": ".$mesg->error."\n";
+          if ($mesg->code) {
+            print $entry->dn().": ".$mesg->error."\n";
+            next;
+          }
+          $mesg = $ldap->moddn($dn_new, newrdn => $newrdn);
+          if ($mesg->code) {
+            print $entry->dn().": ".$mesg->error."\n";
+            next;
+          }
         }
       }
     } else {
