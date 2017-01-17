@@ -1017,34 +1017,40 @@ class listing
     }
 
     // Go thru all actions
-    $result   = "";
+    $result   = '';
+    $emptyimg = '<img src="images/empty.png" alt=" " class="center optional"/>';
     foreach ($this->xmlData['actiontriggers']['action'] as &$action) {
       // If there's an objectclass definition and we don't have it
       // add an empty picture here.
       if (isset($action['objectclass'])) {
         $objectclass = $action['objectclass'];
+        $skip = FALSE;
         if (preg_match('/^!(.*)$/', $objectclass, $m)) {
           $objectclass = $m[1];
           if (in_array($objectclass, $classes)) {
-            $result .= '<img src="images/empty.png" alt=" " class="center optional"/>';
-            continue;
+            $skip = TRUE;
           }
         } elseif (is_string($objectclass)) {
           if (!in_array($objectclass, $classes)) {
-            $result .= '<img src="images/empty.png" alt=" " class="center optional"/>';
-            continue;
+            $skip = TRUE;
           }
         } elseif (is_array($objectclass)) {
           if (count(array_intersect($objectclass, $classes)) != count($objectclass)) {
-            $result .= '<img src="images/empty.png" alt=" " class="center optional"/>';
-            continue;
+            $skip = TRUE;
           }
+        }
+        if ($skip) {
+          $result .= $emptyimg;
+          if ($action['type'] == 'snapshot') {
+            $result .= $emptyimg;
+          }
+          continue;
         }
       }
 
       // Skip the entry completely if there's no permission to execute it
       if (!$this->hasActionPermission($action, $dn, $row)) {
-        $result .= '<img src="images/empty.png" alt=" " class="center optional"/>';
+        $result .= $emptyimg;
         continue;
       }
 
@@ -1054,12 +1060,12 @@ class listing
         if (preg_match('/^(.*)!$/', $fa, $m)) {
           $fa = $m[1];
           if (isset($this->entries[$row][$fa]) && $this->entries[$row][$fa][0] == $fv) {
-            $result .= '<img src="images/empty.png" alt=" " class="center optional"/>';
+            $result .= $emptyimg;
             continue;
           }
         } else {
           if (!isset($this->entries[$row][$fa]) && !$this->entries[$row][$fa][0] == $fv) {
-            $result .= '<img src="images/empty.png" alt=" " class="center optional"/>';
+            $result .= $emptyimg;
             continue;
           }
         }
