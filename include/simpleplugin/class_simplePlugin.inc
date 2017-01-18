@@ -29,13 +29,28 @@
 class simplePlugin extends plugin
 {
   /*! \brief This attribute store all information about attributes */
-  var $attributesInfo;
+  public $attributesInfo;
 
   /*! \brief This attribute store references toward attributes
    *
    * associative array that stores attributeLdapName => reference on object
    */
-  var $attributesAccess = array();
+  public $attributesAccess = array();
+
+  /*!
+    \brief Mark plugin as account
+
+    Defines whether this plugin is defined as an account or not.
+    This has consequences for the plugin to be saved from tab
+    mode. If it is set to 'FALSE' the tab will call the delete
+    function, else the save function. Should be set to 'TRUE' if
+    the construtor detects a valid LDAP object.
+
+    \sa simplePlugin::is_this_account()
+   */
+  public $is_account            = FALSE;
+  public $initially_was_account = FALSE;
+  public $ignore_account        = FALSE;
 
   /*! \brief dn of the opened object */
   public $dn      = '';
@@ -483,6 +498,44 @@ class simplePlugin extends plugin
       return $dn;
     }
     return $attr.'='.ldap_escape_dn($this->attributesAccess[$attr]->computeLdapValue()).','.$ou.$base;
+  }
+
+  /*!
+   * \brief Returns a list of all available departments for this object.
+   *
+   * If this object is new, all departments we are allowed to create a new object in are returned.
+   * If this is an existing object, return all deps we are allowed to move this object to.
+   * Used by BaseSelectorAttribute
+   *
+   * \return array [dn] => "..name"  // All deps. we are allowed to act on.
+  */
+  function get_allowed_bases()
+  {
+    global $config;
+    $deps = array();
+
+    /* Is this a new object ? Or just an edited existing object */
+    if (!$this->initially_was_account && $this->is_account) {
+      $new = TRUE;
+    } else {
+      $new = FALSE;
+    }
+
+    foreach ($config->idepartments as $dn => $name) {
+      if ($new && $this->acl_is_createable($dn)) {
+        $deps[$dn] = $name;
+      } elseif (!$new && $this->acl_is_moveable($dn)) {
+        $deps[$dn] = $name;
+      }
+    }
+
+    /* Add current base */
+    if (isset($this->base) && isset($config->idepartments[$this->base])) {
+      $deps[$this->base] = $config->idepartments[$this->base];
+    } elseif (strtolower($this->dn) != strtolower($config->current['BASE'])) {
+      trigger_error('Cannot return list of departments, no default base found in class '.get_class($this).'. (base is "'.$this->base.'")');
+    }
+    return $deps;
   }
 
   function getRequiredAttributes()

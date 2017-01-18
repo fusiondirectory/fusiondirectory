@@ -28,21 +28,6 @@
  */
 class plugin
 {
-  /*!
-    \brief Mark plugin as account
-
-    Defines whether this plugin is defined as an account or not.
-    This has consequences for the plugin to be saved from tab
-    mode. If it is set to 'FALSE' the tab will call the delete
-    function, else the save function. Should be set to 'TRUE' if
-    the construtor detects a valid LDAP object.
-
-    \sa simplePlugin::is_this_account()
-   */
-  public $is_account            = FALSE;
-  public $initially_was_account = FALSE;
-  public $ignore_account        = FALSE;
-
   var $acl_base     = "";
   var $acl_category = "";
 
@@ -216,44 +201,6 @@ class plugin
     $ui         = get_userinfo();
     $skip_write |= $this->readOnly();
     return $ui->get_permissions($this->acl_base, $this->acl_category.get_class($this), $attribute, $skip_write);
-  }
-
-  /*!
-   * \brief Returns a list of all available departments for this object.
-   *
-   * If this object is new, all departments we are allowed to create a new user in
-   * are returned. If this is an existing object, return all deps.
-   * We are allowed to move tis object too.
-   *
-   * \return array [dn] => "..name"  // All deps. we are allowed to act on.
-  */
-  function get_allowed_bases()
-  {
-    global $config;
-    $deps = array();
-
-    /* Is this a new object ? Or just an edited existing object */
-    if (!$this->initially_was_account && $this->is_account) {
-      $new = TRUE;
-    } else {
-      $new = FALSE;
-    }
-
-    foreach ($config->idepartments as $dn => $name) {
-      if ($new && $this->acl_is_createable($dn)) {
-        $deps[$dn] = $name;
-      } elseif (!$new && $this->acl_is_moveable($dn)) {
-        $deps[$dn] = $name;
-      }
-    }
-
-    /* Add current base */
-    if (isset($this->base) && isset($config->idepartments[$this->base])) {
-      $deps[$this->base] = $config->idepartments[$this->base];
-    } elseif (strtolower($this->dn) != strtolower($config->current['BASE'])) {
-      trigger_error("Cannot return list of departments, no default base found in class ".get_class($this).". (base is '".$this->base."')");
-    }
-    return $deps;
   }
 }
 ?>
