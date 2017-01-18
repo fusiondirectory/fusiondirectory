@@ -87,6 +87,8 @@ class simplePlugin extends plugin
 
   protected $templatePath;
 
+  protected $dialog = FALSE;
+
   /*! \brief Are we executed in a edit-mode environment? (this is FALSE if we're called from management, TRUE if we're called from a main.inc)
    */
   protected $needEditMode = FALSE;

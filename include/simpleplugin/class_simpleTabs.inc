@@ -35,6 +35,7 @@ class simpleTabs
 
   public    $objectType   = FALSE;
   protected $specialTabs  = TRUE;
+  protected $plNotify     = array();
 
   var $last       = "";
   var $current    = "";
@@ -265,7 +266,7 @@ class simpleTabs
 
       /* Take care about notifications */
       $obj = $this->by_object[$class];
-      if ($this->by_object[$class]->pl_notify && ($obj->is_account || $obj->ignore_account)) {
+      if ($this->plNotify[$class] && ($obj->is_account || $obj->ignore_account)) {
         $cssClasses .= ' tab-notify';
       }
       if ($disabled) {
@@ -335,23 +336,20 @@ class simpleTabs
 
     /* Check all plugins */
     foreach ($this->by_object as $key => $obj) {
+      $this->plNotify[$key] = FALSE;
       if (($obj->is_account || $obj->ignore_account) && (!$obj->is_template)) {
         @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, "Checking");
 
         $msg = $obj->check();
 
         if (count($msg)) {
-          $obj->pl_notify = TRUE;
+          $this->plNotify[$key] = TRUE;
           if (!$current_set) {
             $current_set    = TRUE;
             $this->current  = $key;
             $messages       = $msg;
           }
-        } else {
-          $obj->pl_notify = FALSE;
         }
-      } else {
-        $obj->pl_notify = FALSE;
       }
     }
 

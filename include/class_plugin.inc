@@ -43,13 +43,8 @@ class plugin
   public $initially_was_account = FALSE;
   public $ignore_account        = FALSE;
 
-  var $dialog = FALSE;
-
   var $acl_base     = "";
   var $acl_category = "";
-
-  /*! \brief Can be set to render the tabulators in another stylesheet */
-  public $pl_notify = FALSE;
 
   /*!
    * \brief  Rename/Move a given src_dn to the given dest_dn

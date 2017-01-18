@@ -238,7 +238,7 @@ class setup
     /* Skip adding forward/backward button,
      *  if the currently opened step is a sub dialog
      */
-    if ($this->o_steps[$this->i_current]->dialog) {
+    if ($this->o_steps[$this->i_current]->is_modal_dialog()) {
       $str = '';
     } else {
       $str = '   <p class="plugbottom">';
