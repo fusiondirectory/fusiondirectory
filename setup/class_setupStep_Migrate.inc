@@ -26,11 +26,11 @@ Step_Migrate                - Constructor.
 update_strings              - Used to update the displayed step information.
 initialize_checks           - Initialize migration steps.
 check_ldap_permissions      - Check if the used admin account has full access to the ldap database.
-check_gosaAccounts          - Check if there are users without the required objectClasses.
-migrate_gosaAccounts        - Migrate selected users to FusionDirectory user accounts.
-check_orgUnits   - Check if there are departments, that are not visible for FusionDirectory
-migrate_orgUnits - Migrate selected departments
-check_adminAccount - Check if there is at least one acl entry available
+check_accounts              - Check if there are users without the required objectClasses.
+migrate_accounts            - Migrate selected users to FusionDirectory user accounts.
+check_orgUnits              - Check if there are departments, that are not visible for FusionDirectory
+migrate_orgUnits            - Migrate selected departments
+check_adminAccount          - Check if there is at least one acl entry available
 checkBase                   - Check if there is a root object available
 
 get_user_list               - Get list of available users
@@ -185,7 +185,7 @@ class Step_Migrate extends setupStep
 
   /* Entries needing migration */
   var $orgUnits_toMigrate       = array();
-  var $gosaAccounts_toMigrate   = array();
+  var $accountsToMigrate   = array();
   var $outsideUsers_toMigrate   = array();
   var $outsideGroups_toMigrate  = array();
 
@@ -257,7 +257,7 @@ class Step_Migrate extends setupStep
     $checks = array(
       'baseOC'        => new StepMigrateCheck($this, 'baseOC',        _('Inspecting object classes in root object')),
       'permissions'   => new StepMigrateCheck($this, 'permissions',   _('Checking permission for LDAP database')),
-      'gosaAccounts'  => new StepMigrateCheck($this, 'gosaAccounts',  _('Checking for invisible users')),
+      'accounts'      => new StepMigrateCheck($this, 'accounts',      _('Checking for invisible users')),
       'adminAccount'  => new StepMigrateCheck($this, 'adminAccount',  _('Checking for super administrator')),
       'defaultACLs'   => new StepMigrateCheck($this, 'defaultACLs',   _('Checking for default ACL roles and groups')),
       'outsideUsers'  => new StepMigrateCheck($this, 'outsideUsers',  _('Checking for users outside the people tree')),
@@ -520,7 +520,7 @@ class Step_Migrate extends setupStep
   /* Check if there are users which will
    *  be invisible for FusionDirectory
    */
-  function check_gosaAccounts(&$checkobj)
+  function check_accounts(&$checkobj)
   {
     global $config;
     $ldap = $config->get_ldap_link();
@@ -528,8 +528,8 @@ class Step_Migrate extends setupStep
     /* Remember old list of invisible users, to be able to set
      *  the 'html checked' status for the checkboxes again
      */
-    $old    = $this->gosaAccounts_toMigrate;
-    $this->gosaAccounts_toMigrate = array();
+    $old    = $this->accountsToMigrate;
+    $this->accountsToMigrate = array();
 
     /* Get all invisible users */
     $ldap->cd($config->current['BASE']);
@@ -556,7 +556,7 @@ class Step_Migrate extends setupStep
         if (isset($old[base64_encode($attrs['dn'])])) {
           $attrs['checked'] = $old[base64_encode($attrs['dn'])]['checked'];
         }
-        $this->gosaAccounts_toMigrate[base64_encode($attrs['dn'])] = $attrs;
+        $this->accountsToMigrate[base64_encode($attrs['dn'])] = $attrs;
       }
     }
 
@@ -565,7 +565,7 @@ class Step_Migrate extends setupStep
         _('LDAP query failed'),
         _('Possibly the "root object" is missing.')
       );
-    } elseif (count($this->gosaAccounts_toMigrate) == 0) {
+    } elseif (count($this->accountsToMigrate) == 0) {
       /* No invisible */
       return '';
     } else {
@@ -573,23 +573,23 @@ class Step_Migrate extends setupStep
         "<div style='color:#F0A500'>"._("Warning")."</div>",
         sprintf(
           _('Found %s user(s) that will not be visible in FusionDirectory or which are incomplete.'),
-          count($this->gosaAccounts_toMigrate)
+          count($this->accountsToMigrate)
         ).$checkobj->submit()
       );
     }
   }
 
-  function check_gosaAccounts_migrate (&$checkobj)
+  function check_accounts_migrate (&$checkobj)
   {
     $this->check_multipleGeneric_migrate($checkobj, array('title' => _('User migration')));
   }
 
-  function check_gosaAccounts_migrate_refresh (&$checkobj)
+  function check_accounts_migrate_refresh (&$checkobj)
   {
     return $this->check_multipleGeneric_migrate_refresh($checkobj, array('title' => _('User migration')));
   }
 
-  function check_gosaAccounts_migrate_confirm(&$checkobj, $only_ldif = FALSE)
+  function check_accounts_migrate_confirm(&$checkobj, $only_ldif = FALSE)
   {
     return $this->check_multipleGeneric_migrate_confirm(
       $checkobj,
@@ -607,7 +607,7 @@ class Step_Migrate extends setupStep
     foreach ($infos['entries'] as $key => $data) {
       $infos['entries'][$key]['dn'] = LDAP::fix($data['dn']);
     }
-    $this->openDialog(new StepMigrateDialog($checkobj, 'setup_migrate_gosaAccounts.tpl', $infos));
+    $this->openDialog(new StepMigrateDialog($checkobj, 'setup_migrate_accounts.tpl', $infos));
   }
 
   function check_multipleGeneric_migrate_refresh (&$checkobj, $infos)
