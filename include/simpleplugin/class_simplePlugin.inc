@@ -538,6 +538,54 @@ class simplePlugin extends plugin
     return $deps;
   }
 
+  /*!
+    * \brief Move ldap entries from one place to another
+    *
+    * \param  string  $src_dn the source DN.
+    *
+    * \param  string  $dst_dn the destination DN.
+    */
+  function move($src_dn, $dst_dn)
+  {
+    global $config, $ui;
+
+    /* Do not move if only case has changed */
+    if (strtolower($src_dn) == strtolower($dst_dn)) {
+      return TRUE;
+    }
+
+    /* Try to move with ldap routines */
+    $ldap = $config->get_ldap_link();
+    $ldap->cd($config->current['BASE']);
+    $ldap->create_missing_trees(preg_replace('/^[^,]+,/', '', $dst_dn));
+    if (!$ldap->rename_dn($src_dn, $dst_dn)) {
+      logging::log('debug', 'Ldap Protocol v3 implementation error, ldap_rename failed.',
+        "FROM: $src_dn  -- TO: $dst_dn", array(), $ldap->get_error());
+      @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, "Rename failed FROM: $src_dn  -- TO:  $dst_dn",
+        'Ldap Protocol v3 implementation error. Error:'.$ldap->get_error());
+      return FALSE;
+    }
+
+    /* Update userinfo if necessary */
+    if (preg_match('/'.preg_quote($src_dn, '/').'$/i', $ui->dn)) {
+      $ui_dn = preg_replace('/'.preg_quote($src_dn, '/').'$/i', $dst_dn, $ui->dn);
+      logging::log('view', 'acl/'.get_class($this), $this->dn, array(), 'Updated userinfo dn from "'.$ui->dn.'" to "'.$ui_dn.'"');
+      $ui->dn = $ui_dn;
+    }
+
+    /* Check if departments were moved. If so, force the reload of config->departments */
+    $ldap->cd($dst_dn);
+    $ldap->search('(objectClass=gosaDepartment)', array('dn'));
+    if ($ldap->count()) {
+      $config->get_departments();
+      $config->make_idepartments();
+      $ui->reset_acl_cache();
+    }
+
+    $this->handleForeignKeys($src_dn, $dst_dn);
+    return TRUE;
+  }
+
   function getRequiredAttributes()
   {
     $tmp = array();
