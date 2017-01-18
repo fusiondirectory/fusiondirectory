@@ -413,7 +413,7 @@ class userinfo
      */
     if ($this->ignore_acl_for_current_user()) {
       if ($skip_write) {
-        return 'rcdm';
+        return 'r';
       }
       return 'rwcdm';
     }
@@ -453,7 +453,7 @@ class userinfo
           $ACL_CACHE["$orig_dn+$object+$attribute"] = $ret;
         }
         if ($skip_write) {
-          $ret = str_replace('w', '', $ret);
+          $ret = str_replace(array('w','c','d','m'), '', $ret);
         }
         return $ret;
       }

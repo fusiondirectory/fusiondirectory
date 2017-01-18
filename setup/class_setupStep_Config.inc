@@ -169,7 +169,7 @@ class Step_Config extends configInLdap
   {
     return TRUE;
   }
-  function getacl($attribute, $skip_write = FALSE)
+  function aclGetPermissions($attribute = '0', $base = NULL, $skipWrite = FALSE)
   {
     return 'cmdrw';
   }

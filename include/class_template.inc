@@ -166,7 +166,7 @@ class template
       foreach ($this->attributes[$class] as $attr) {
         if ($plugin->attributesAccess[$attr]->getAclInfo() !== FALSE) {
           // We assign ACLs so that attributes can use them in their template code
-          $smarty->assign($plugin->attributesAccess[$attr]->getAcl().'ACL', $plugin->getacl($plugin->attributesAccess[$attr]->getAcl()));
+          $smarty->assign($plugin->attributesAccess[$attr]->getAcl().'ACL', $plugin->aclGetPermissions($plugin->attributesAccess[$attr]->getAcl()));
         }
         $plugin->attributesAccess[$attr]->renderAttribute($attributes, FALSE);
       }

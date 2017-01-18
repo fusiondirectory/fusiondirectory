@@ -26,7 +26,7 @@
 /*! \brief This class is made for easy plugin creation for editing LDAP attributes
  *
  */
-class simplePlugin extends plugin
+class simplePlugin
 {
   /*! \brief This attribute store all information about attributes */
   public $attributesInfo;
@@ -51,6 +51,9 @@ class simplePlugin extends plugin
   public $is_account            = FALSE;
   public $initially_was_account = FALSE;
   public $ignore_account        = FALSE;
+
+  public $acl_base      = '';
+  public $acl_category  = '';
 
   /*! \brief dn of the opened object */
   public $dn      = '';
@@ -539,6 +542,26 @@ class simplePlugin extends plugin
   }
 
   /*!
+   * \brief Set acl base
+   *
+   * \param string $base
+   */
+  function set_acl_base($base)
+  {
+    $this->acl_base = $base;
+  }
+
+  /*!
+   * \brief Set acl category
+   *
+   * \param string $category
+   */
+  function set_acl_category($category)
+  {
+    $this->acl_category = "$category/";
+  }
+
+  /*!
     * \brief Move ldap entries from one place to another
     *
     * \param  string  $src_dn the source DN.
@@ -791,7 +814,7 @@ class simplePlugin extends plugin
       foreach ($sectionInfo['attrs'] as $attr) {
         if ($attr->getAclInfo() !== FALSE) {
           // We assign ACLs so that attributes can use them in their template code
-          $smarty->assign($attr->getAcl()."ACL", $this->getacl($attr->getAcl(), $this->acl_skip_write()));
+          $smarty->assign($attr->getAcl()."ACL", $this->aclGetPermissions($attr->getAcl(), NULL, $this->acl_skip_write()));
         }
         $attr->renderAttribute($attributes, $readOnly);
       }
@@ -848,6 +871,63 @@ class simplePlugin extends plugin
   protected function acl_skip_write ()
   {
     return ($this->needEditMode && !session::is_set('edit'));
+  }
+
+  /*! \brief Can we write the attribute */
+  function acl_is_writeable($attribute, $skipWrite = FALSE)
+  {
+    return preg_match('/w/', $this->aclGetPermissions($attribute, $skipWrite));
+  }
+
+  /*!
+   * \brief Can we read the acl
+   *
+   * \param string $attribute
+   */
+  function acl_is_readable($attribute)
+  {
+    return preg_match('/r/', $this->aclGetPermissions($attribute));
+  }
+
+  /*!
+   * \brief Can we create the object
+   *
+   * \param string $base Empty string
+   */
+  function acl_is_createable($base = NULL)
+  {
+    return preg_match('/c/', $this->aclGetPermissions('0', $base));
+  }
+
+  /*!
+   * \brief Can we delete the object
+   *
+   * \param string $base Empty string
+   */
+  function acl_is_removeable($base = NULL)
+  {
+    return preg_match('/d/', $this->aclGetPermissions('0', $base));
+  }
+
+  /*!
+   * \brief Can we move the object
+   *
+   * \param string $base Empty string
+   */
+  function acl_is_moveable($base = NULL)
+  {
+    return preg_match('/m/', $this->aclGetPermissions('0', $base));
+  }
+
+  /*! \brief Get the acl permissions for an attribute or the plugin itself */
+  function aclGetPermissions($attribute = '0', $base = NULL, $skipWrite = FALSE)
+  {
+    $ui         = get_userinfo();
+    $skipWrite  |= $this->readOnly();
+    if ($base === NULL) {
+      $base = $this->acl_base;
+    }
+    return $ui->get_permissions($base, $this->acl_category.get_class($this), $attribute, $skipWrite);
   }
 
   /*! \brief This function removes the object from LDAP
