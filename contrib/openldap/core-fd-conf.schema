@@ -8,13 +8,6 @@
 
 # Schema setup
 
-attributetype ( 1.3.6.1.4.1.38414.8.10.1 NAME 'fdRfc2307bis'
-  DESC 'FusionDirectory - rfc2307bis'
-  OBSOLETE
-  EQUALITY booleanMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
-  SINGLE-VALUE )
-
 attributetype ( 1.3.6.1.4.1.38414.8.10.2 NAME 'fdSchemaCheck'
   DESC 'FusionDirectory - Schema check'
   EQUALITY booleanMatch
@@ -53,35 +46,12 @@ attributetype ( 1.3.6.1.4.1.38414.8.12.1 NAME 'fdAccountPrimaryAttribute'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
   SINGLE-VALUE)
 
-attributetype ( 1.3.6.1.4.1.38414.8.12.2 NAME 'fdAccountRDN'
-  DESC 'FusionDirectory - use a placeholder pattern for generating account RDNs'
-  OBSOLETE
-  EQUALITY caseExactIA5Match
-  SUBSTR caseExactIA5SubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
-  SINGLE-VALUE)
-
 attributetype ( 1.3.6.1.4.1.38414.8.12.3 NAME 'fdNextIdHook'
   DESC 'FusionDirectory - A script to be called for finding the next free id for users or groups'
   EQUALITY caseExactIA5Match
   SUBSTR caseExactIA5SubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
   SINGLE-VALUE)
-
-attributetype ( 1.3.6.1.4.1.38414.8.12.4 NAME 'fdIdGenerator'
-  DESC 'FusionDirectory - An automatic way to generate new user ids'
-  OBSOLETE
-  EQUALITY caseExactIA5Match
-  SUBSTR caseExactIA5SubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
-  SINGLE-VALUE)
-
-attributetype ( 1.3.6.1.4.1.38414.8.12.5 NAME 'fdPersonalTitleInDN'
-  OBSOLETE
-  DESC 'FusionDirectory - Personal title in dn'
-  EQUALITY booleanMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
-  SINGLE-VALUE )
 
 attributetype ( 1.3.6.1.4.1.38414.8.12.6 NAME 'fdStrictNamingRules'
   DESC 'FusionDirectory - Strict naming rules'
@@ -193,14 +163,6 @@ attributetype ( 1.3.6.1.4.1.38414.8.13.3 NAME 'fdPasswordMinDiffer'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
   SINGLE-VALUE)
 
-attributetype ( 1.3.6.1.4.1.38414.8.13.4 NAME 'fdPasswordHook'
-  DESC 'FusionDirectory - Password hook (external command)'
-  OBSOLETE
-  EQUALITY caseExactIA5Match
-  SUBSTR caseExactIA5SubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
-  SINGLE-VALUE)
-
 attributetype ( 1.3.6.1.4.1.38414.8.13.5 NAME 'fdHandleExpiredAccounts'
   DESC 'FusionDirectory - Handle expired accounts'
   EQUALITY booleanMatch
@@ -229,13 +191,6 @@ attributetype ( 1.3.6.1.4.1.38414.8.13.8 NAME 'fdForcePasswordDefaultHash'
 
 # Core settings
 
-attributetype ( 1.3.6.1.4.1.38414.8.14.1 NAME 'fdPrimaryGroupFilter'
-  DESC 'FusionDirectory - Primary group filter'
-  OBSOLETE
-  EQUALITY booleanMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
-  SINGLE-VALUE )
-
 attributetype ( 1.3.6.1.4.1.38414.8.14.2 NAME 'fdListSummary'
   DESC 'FusionDirectory - Show list summary'
   EQUALITY booleanMatch
@@ -248,13 +203,6 @@ attributetype ( 1.3.6.1.4.1.38414.8.14.4 NAME 'fdModificationDetectionAttribute'
   SUBSTR caseExactIA5SubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
   SINGLE-VALUE)
-
-attributetype ( 1.3.6.1.4.1.38414.8.14.5 NAME 'fdCopyPaste'
-  DESC 'FusionDirectory - (de)Activate copy/paste'
-  OBSOLETE
-  EQUALITY booleanMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
-  SINGLE-VALUE )
 
 attributetype ( 1.3.6.1.4.1.38414.8.14.6 NAME 'fdLogging'
   DESC 'FusionDirectory - Logging'
@@ -356,30 +304,6 @@ attributetype ( 1.3.6.1.4.1.38414.8.17.1 NAME 'fdEnableSnapshots'
 
 attributetype ( 1.3.6.1.4.1.38414.8.17.2 NAME 'fdSnapshotBase'
   DESC 'FusionDirectory - Snaphost base'
-  EQUALITY caseExactIA5Match
-  SUBSTR caseExactIA5SubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
-  SINGLE-VALUE)
-
-attributetype ( 1.3.6.1.4.1.38414.8.17.3 NAME 'fdSnapshotURI'
-  DESC 'FusionDirectory - Snaphost URI'
-  OBSOLETE
-  EQUALITY caseExactIA5Match
-  SUBSTR caseExactIA5SubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
-  SINGLE-VALUE)
-
-attributetype ( 1.3.6.1.4.1.38414.8.17.4 NAME 'fdSnapshotAdminDn'
-  DESC 'FusionDirectory - Snaphost admin dn'
-  OBSOLETE
-  EQUALITY caseExactIA5Match
-  SUBSTR caseExactIA5SubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
-  SINGLE-VALUE)
-
-attributetype ( 1.3.6.1.4.1.38414.8.17.5 NAME 'fdSnapshotAdminPassword'
-  DESC 'FusionDirectory - Snaphost admin password'
-  OBSOLETE
   EQUALITY caseExactIA5Match
   SUBSTR caseExactIA5SubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
@@ -590,15 +514,15 @@ objectclass ( 1.3.6.1.4.1.38414.8.2.1 NAME 'fusionDirectoryConf'
     fusionConfigMd5 $
     fdSchemaCheck $
     fdLanguage $ fdTheme $ fdTimezone $
-    fdAccountPrimaryAttribute $ fdNextIdHook $ fdIdGenerator $
+    fdAccountPrimaryAttribute $ fdNextIdHook $
     fdStrictNamingRules $ fdMinId $ fdUidNumberBase $
     fdGidNumberBase $ fdUserRDN $ fdGroupRDN $ fdIdAllocationMethod $
     fdGidNumberPoolMin $ fdUidNumberPoolMin $ fdGidNumberPoolMax $ fdUidNumberPoolMax $
     fdAclRoleRDN $ fdCnPattern $ fdRestrictRoleMembers $
     fdPasswordDefaultHash $ fdPasswordMinLength $ fdPasswordMinDiffer $
-    fdPasswordHook $ fdHandleExpiredAccounts $ fdSaslRealm $ fdSaslExop $
+    fdHandleExpiredAccounts $ fdSaslRealm $ fdSaslExop $
     fdForcePasswordDefaultHash $
-    fdPrimaryGroupFilter $ fdListSummary $
+    fdListSummary $
     fdModificationDetectionAttribute $ fdLogging $ fdLdapSizeLimit $
     fdLoginAttribute $ fdForceSSL $ fdWarnSSL $ fdStoreFilterSettings $ fdSessionLifeTime $
     fdHttpAuthActivated $ fdHttpHeaderAuthActivated $ fdHttpHeaderAuthHeaderName $
@@ -606,8 +530,6 @@ objectclass ( 1.3.6.1.4.1.38414.8.2.1 NAME 'fusionDirectoryConf'
     fdEnableSnapshots $ fdSnapshotBase $
     fdTabHook $ fdShells $ fdDefaultShell $ fdDisplayHookOutput $
     fdAclTabOnObjects $ fdDepartmentCategories $
-    fdRfc2307bis $ fdCopyPaste $ fdSnapshotURI $
-    fdSnapshotAdminDn $ fdSnapshotAdminPassword $ fdPersonalTitleInDN $ fdAccountRDN $
     fdSslCaCertPath $ fdSslKeyPath $ fdSslCertPath $
     fdCasActivated $ fdCasServerCaCertPath $ fdCasHost $ fdCasPort $ fdCasContext
   ) )

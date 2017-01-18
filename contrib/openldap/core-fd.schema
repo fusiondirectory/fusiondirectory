@@ -83,11 +83,6 @@ objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.4 NAME 'gosaDepartment' SUP top AUXILIA
   MUST  ( ou $ description )
   MAY   ( manager $ co $ labeledURI ) )
 
-objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.11 NAME 'gosaUserTemplate' SUP top AUXILIARY
-  DESC 'GOsa - Class for GOsa User Templates'
-  OBSOLETE
-  MUST ( cn ))
-
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.12 NAME 'gosaGroupOfNames'
   DESC 'GOsa - Adds the gosaGroupObjects field to groupOfNames'
   SUP top AUXILIARY
