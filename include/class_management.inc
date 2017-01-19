@@ -78,48 +78,9 @@ class management
   // A list of configured actions/events
   protected $actions = array();
 
-  // Attributes managed by this plugin, can be used in post events;
-  public $attributes = array();
-
-  // Some management classes are used in tab groups and needs this set to FALSE.
-  var $is_template    = FALSE;
-
-  function  __construct($headpage)
-  {
-    global $config;
-    $this->headpage = $headpage;
-
-    // Add copy&paste and snapshot handler.
-    if (!$this->skipCpHandler) {
-      $this->cpHandler = new CopyPasteHandler();
-      $this->headpage->setCopyPasteHandler($this->cpHandler);
-    }
-    if (!$this->skipSnapHandler && ($config->get_cfg_value("enableSnapshots") == "TRUE")) {
-      $this->snapHandler = new SnapshotHandler();
-      $this->headpage->setSnapshotHandler($this->snapHandler);
-    }
-
-    // Register default actions
-    $this->registerAction("new",    "newEntry");
-    $this->registerAction("edit",   "editEntry");
-    $this->registerAction("apply",  "applyChanges");
-    $this->registerAction("save",   "saveChanges");
-
-    $this->registerAction("cancel",       "cancelEdit");
-    $this->registerAction("cancelDelete", "cancelEdit");
-
-    $this->registerAction("remove",           "removeEntryRequested");
-    $this->registerAction("removeConfirmed",  "removeEntryConfirmed");
-
-    $this->registerAction("copy",   "copyPasteHandler");
-    $this->registerAction("cut",    "copyPasteHandler");
-    $this->registerAction("paste",  "copyPasteHandler");
-
-    if ($config->get_cfg_value('enableSnapshots') == 'TRUE') {
-      $this->registerAction('snapshot', 'createSnapshotDialog');
-      $this->registerAction('restore',  'restoreSnapshotDialog');
-    }
-  }
+  // Some management classes are used in tab groups and needs this
+  public $is_template = FALSE;
+  public $attributes  = array();
 
   /*!
    * \brief  Execute this plugin
@@ -132,7 +93,7 @@ class management
     session::set('LOCK_VARS_TO_USE', $vars);
 
     /* Display the copy & paste dialog, if it is currently open */
-    $ret = $this->copyPasteHandler("", array());
+    $ret = $this->copyPasteHandler();
     if ($ret) {
       return $this->getHeader().$ret;
     }
@@ -143,7 +104,7 @@ class management
       session::global_set(get_class($this)."_filter", $this->filter);
       session::set('autocomplete', $this->filter);
       if (!$this->filter->isValid()) {
-        msg_dialog::display(_("Filter error"), _("The filter is incomplete!"), ERROR_DIALOG);
+        msg_dialog::display(_('Filter error'), _('The filter is incomplete!'), ERROR_DIALOG);
       }
     }
 
@@ -192,16 +153,6 @@ class management
     return $this->renderList();
   }
 
-  function getHeadpage()
-  {
-    return $this->headpage;
-  }
-
-  function getFilter()
-  {
-    return $this->filter;
-  }
-
   /*!
    * \brief  Generates the plugin header which is displayed whenever a tab object is
    *           opened.
@@ -222,7 +173,6 @@ class management
     return print_header($plIcon, $plTitle, LDAP::fix(get_object_info()));
   }
 
-
   /*!
    * \brief  Generates the footer which is used whenever a tab object is
    *           displayed.
@@ -231,7 +181,7 @@ class management
   {
     // Do not display tab footer for non tab objects
     if (!($this->tabObject instanceOf simpleTabs)) {
-      return "";
+      return '';
     }
 
     // Check if there is a dialog opened - We don't need any buttons in this case.
@@ -241,11 +191,11 @@ class management
 
     // Skip footer if requested;
     if ($this->skipFooter) {
-      return "";
+      return '';
     }
 
     // In case an of locked entry, we may have opened a read-only tab.
-    $str = "";
+    $str = '';
     if ($this->tabObject->readOnly()) {
       $str .= '<p class="plugbottom">'."\n".
         '<input type="submit" name="edit_cancel" value="'.msgPool::cancelButton().'">'."\n".
@@ -264,131 +214,6 @@ class management
       $str .= '</p>';
     }
     return $str;
-  }
-
-  /*!
-   * \brief  Detects actions/events send by the ui
-   *           and the corresponding targets.
-   */
-  function detectPostActions()
-  {
-    if (!is_object($this->headpage)) {
-      trigger_error("No valid headpage given....!");
-      return array();
-    }
-    $action = $this->headpage->getAction();
-    if (isset($_POST['edit_cancel'])) {
-      $action['action'] = 'cancel';
-    } elseif (isset($_POST['edit_finish'])) {
-      $action['action'] = 'save';
-    } elseif (isset($_POST['edit_apply'])) {
-      $action['action'] = 'apply';
-    }
-    if (!$this->is_modal_dialog()) {
-      if (isset($_POST['delete_confirmed'])) {
-        $action['action'] = 'removeConfirmed';
-      }
-      if (isset($_POST['delete_cancel'])) {
-        $action['action'] = 'cancelDelete';
-      }
-    }
-
-    return $action;
-  }
-
-  /*!
-   *  \brief  Calls the registered method for a given action/event.
-   */
-  function handleActions($action)
-  {
-    // Start action
-    if (isset($this->actions[$action['action']])) {
-      $func = $this->actions[$action['action']];
-      if (!isset($action['targets'])) {
-        $action['targets'] = array();
-      }
-      return $this->$func($action['action'], $action['targets'], $action);
-    }
-  }
-
-  /*!
-   * \brief  Creates a new snapshot entry
-   */
-  function createSnapshot($dn, $description)
-  {
-    global $ui;
-    if ($this->dn !== $dn) {
-      trigger_error('There was a problem with the snapshot workflow');
-      return;
-    }
-    if (!empty($dn) && $ui->allow_snapshot_create($dn, $this->dialogObject->aclCategory)) {
-      $this->snapHandler->createSnapshot($dn, $description);
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot created!');
-    } else {
-      msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $dn),
-          ERROR_DIALOG);
-    }
-  }
-
-  /*!
-   * \brief  Restores a snapshot object.
-   *
-   * \param  String  $dn  The DN of the snapshot
-   */
-  function restoreSnapshot($dn)
-  {
-    global $ui;
-    if (!empty($dn) && $ui->allow_snapshot_restore($dn, $this->dialogObject->aclCategory)) {
-      $this->snapHandler->restoreSnapshot($dn);
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot restored');
-      $this->closeDialogs();
-    } else {
-      msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $dn),
-          ERROR_DIALOG);
-    }
-  }
-
-  /*!
-   * \brief Get all deleted snapshots
-   *
-   * \param string $base The base
-   *
-   * \param string boolean $raw
-   */
-  function getAllDeletedSnapshots($raw = FALSE)
-  {
-    $tmp = array();
-    $snapshotBases = $this->snapHandler->getSnapshotBases();
-    if (is_array($snapshotBases)) {
-      foreach ($snapshotBases as $base) {
-        $tmp = array_merge($tmp, $this->snapHandler->getAllDeletedSnapshots($base, $raw));
-      }
-    } else {
-      $tmp = $this->snapHandler->getAllDeletedSnapshots($snapshotBases, $raw);
-    }
-    return $tmp;
-  }
-
-  /*
-   * \brief Return available snapshots for the given base
-   *
-   * \param string $dn The DN
-   *
-   * \param string boolean $raw
-   */
-  function getAvailableSnapsShots($dn, $raw = FALSE)
-  {
-    return $this->snapHandler->getAvailableSnapsShots($dn, $raw);
-  }
-
-  /*!
-   * \brief Delete a snapshot
-   *
-   * \param string $dn DN of the snapshot
-   */
-  function removeSnapshot($dn)
-  {
-    $this->snapHandler->removeSnapshot($dn);
   }
 
   /*!
@@ -454,16 +279,6 @@ class management
     if (count($this->dns)) {
       del_lock($this->dns);
     }
-  }
-
-  /*!
-   * \brief Set a new filter
-   *
-   * \param object $filter The new filter
-   */
-  function setFilter($filter)
-  {
-    $this->filter = $filter;
   }
 
   function is_modal_dialog()

@@ -166,7 +166,7 @@ class simpleManagement extends management
     }
     $this->storagePoints = array_unique($this->storagePoints);
     if (count($this->storagePoints) == 0) {
-      $this->storagePoints[] = "";
+      $this->storagePoints[] = '';
     }
 
     // Build filter
@@ -179,10 +179,35 @@ class simpleManagement extends management
     $this->setFilter($filter);
 
     // Build headpage
-    $headpage = new $this->headpageClass($this->parseXML($this->listXMLPath));
-    $headpage->setFilter($filter);
+    $this->headpage = new $this->headpageClass($this->parseXML($this->listXMLPath));
+    $this->headpage->setFilter($filter);
 
-    parent::__construct($headpage);
+    // Add copy&paste and snapshot handler.
+    if (!$this->skipCpHandler) {
+      $this->cpHandler = new CopyPasteHandler();
+      $this->headpage->setCopyPasteHandler($this->cpHandler);
+      $this->registerAction('copy',   'copyPasteHandler');
+      $this->registerAction('cut',    'copyPasteHandler');
+      $this->registerAction('paste',  'copyPasteHandler');
+    }
+    if (!$this->skipSnapHandler && ($config->get_cfg_value('enableSnapshots') == 'TRUE')) {
+      $this->snapHandler = new SnapshotHandler();
+      $this->headpage->setSnapshotHandler($this->snapHandler);
+      $this->registerAction('snapshot', 'createSnapshotDialog');
+      $this->registerAction('restore',  'restoreSnapshotDialog');
+    }
+
+    // Register default actions
+    $this->registerAction('new',    'newEntry');
+    $this->registerAction('edit',   'editEntry');
+    $this->registerAction('apply',  'applyChanges');
+    $this->registerAction('save',   'saveChanges');
+
+    $this->registerAction('cancel',       'cancelEdit');
+    $this->registerAction('cancelDelete', 'cancelEdit');
+
+    $this->registerAction('remove',           'removeEntryRequested');
+    $this->registerAction('removeConfirmed',  'removeEntryConfirmed');
 
     $this->configureHeadpage();
     $this->configureFilter();
@@ -382,6 +407,26 @@ class simpleManagement extends management
     return $data;
   }
 
+  function getHeadpage()
+  {
+    return $this->headpage;
+  }
+
+  function getFilter()
+  {
+    return $this->filter;
+  }
+
+  /*!
+   * \brief Set a new filter
+   *
+   * \param object $filter The new filter
+   */
+  function setFilter($filter)
+  {
+    $this->filter = $filter;
+  }
+
   function getType($dn)
   {
     return $this->getHeadpage()->getType($dn);
@@ -409,7 +454,6 @@ class simpleManagement extends management
     $display = $this->headpage->render();
     return $this->getHeader().$display;
   }
-
 
   /*!
    * \brief  This method intiates the object creation.
@@ -633,7 +677,52 @@ class simpleManagement extends management
     }
   }
 
-  function handleSubAction($all)
+  /*!
+   * \brief  Detects actions/events send by the ui
+   *           and the corresponding targets.
+   */
+  function detectPostActions()
+  {
+    if (!is_object($this->headpage)) {
+      trigger_error("No valid headpage given....!");
+      return array();
+    }
+    $action = $this->headpage->getAction();
+    if (isset($_POST['edit_cancel'])) {
+      $action['action'] = 'cancel';
+    } elseif (isset($_POST['edit_finish'])) {
+      $action['action'] = 'save';
+    } elseif (isset($_POST['edit_apply'])) {
+      $action['action'] = 'apply';
+    }
+    if (!$this->is_modal_dialog()) {
+      if (isset($_POST['delete_confirmed'])) {
+        $action['action'] = 'removeConfirmed';
+      }
+      if (isset($_POST['delete_cancel'])) {
+        $action['action'] = 'cancelDelete';
+      }
+    }
+
+    return $action;
+  }
+
+  /*!
+   *  \brief  Calls the registered method for a given action/event.
+   */
+  function handleActions($action)
+  {
+    // Start action
+    if (isset($this->actions[$action['action']])) {
+      $func = $this->actions[$action['action']];
+      if (!isset($action['targets'])) {
+        $action['targets'] = array();
+      }
+      return $this->$func($action['action'], $action['targets'], $action);
+    }
+  }
+
+  protected function handleSubAction($all)
   {
     if (preg_match('/^tab_/', $all['subaction'])) {
       $tab = preg_replace('/^tab_/', '', $all['subaction']);
@@ -891,6 +980,84 @@ class simpleManagement extends management
       $this->cpHandler->resetPaste();
     }
     return "";
+  }
+
+  /* Methods related to Snapshots */
+
+  /*!
+   * \brief  Creates a new snapshot entry
+   */
+  function createSnapshot($dn, $description)
+  {
+    global $ui;
+    if ($this->dn !== $dn) {
+      trigger_error('There was a problem with the snapshot workflow');
+      return;
+    }
+    if (!empty($dn) && $ui->allow_snapshot_create($dn, $this->dialogObject->aclCategory)) {
+      $this->snapHandler->createSnapshot($dn, $description);
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot created!');
+    } else {
+      msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $dn),
+          ERROR_DIALOG);
+    }
+  }
+
+  /*!
+   * \brief  Restores a snapshot object.
+   *
+   * \param  String  $dn  The DN of the snapshot
+   */
+  function restoreSnapshot($dn)
+  {
+    global $ui;
+    if (!empty($dn) && $ui->allow_snapshot_restore($dn, $this->dialogObject->aclCategory)) {
+      $this->snapHandler->restoreSnapshot($dn);
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot restored');
+      $this->closeDialogs();
+    } else {
+      msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $dn),
+          ERROR_DIALOG);
+    }
+  }
+
+  /*!
+   * \brief Get all deleted snapshots
+   *
+   * \param string $base The base
+   */
+  function getAllDeletedSnapshots()
+  {
+    $tmp = array();
+    $snapshotBases = $this->snapHandler->getSnapshotBases();
+    if (is_array($snapshotBases)) {
+      foreach ($snapshotBases as $base) {
+        $tmp = array_merge($tmp, $this->snapHandler->getAllDeletedSnapshots($base));
+      }
+    } else {
+      $tmp = $this->snapHandler->getAllDeletedSnapshots($snapshotBases);
+    }
+    return $tmp;
+  }
+
+  /*
+   * \brief Return available snapshots for the given base
+   *
+   * \param string $dn The DN
+   */
+  function getAvailableSnapsShots($dn)
+  {
+    return $this->snapHandler->getAvailableSnapsShots($dn);
+  }
+
+  /*!
+   * \brief Delete a snapshot
+   *
+   * \param string $dn DN of the snapshot
+   */
+  function removeSnapshot($dn)
+  {
+    $this->snapHandler->removeSnapshot($dn);
   }
 
   static function mainInc ($classname)

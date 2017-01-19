@@ -1724,15 +1724,8 @@ class listing
     $ui     = get_userinfo();
 
     if ($ui->allow_snapshot_restore($this->base, $this->categories)) {
-
-      // Check if there is something to restore
-      $restore = FALSE;
-      foreach ($this->snapshotHandler->getSnapshotBases() as $base) {
-        $restore = $restore || count($this->snapshotHandler->getDeletedSnapshots($base)) > 0;
-      }
-
       // Draw icons according to the restore flag
-      if ($restore) {
+      if ($this->snapshotHandler->hasDeletedSnapshots()) {
         $result .= $this->renderActionMenuActionLink($separator, 'restore', _('Restore snapshots'), 'geticon.php?context=actions&icon=document-restore&size=16');
       } else {
         $result .= "<li$separator><a href='#'><img src='geticon.php?context=actions&amp;icon=document-restore&amp;size=16&amp;disabled=1' alt='restore' class='center'>&nbsp;"._("Restore snapshots")."</a></li>";

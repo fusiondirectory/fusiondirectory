@@ -95,62 +95,16 @@ class SnapshotHandler
   }
 
   /*!
-   * \brief Get the deleted snapshots
-   *
-   * \param string $objectBase
-   *
-   * \param boolean $raw FALSE
+   * \brief Check if there are deleted snapshots
    */
-  function getDeletedSnapshots($objectBase, $raw = FALSE)
+  function hasDeletedSnapshots()
   {
-    global $config;
-    if (!$this->enabled()) {
-      return array();
-    }
-
-    $ldap = $config->get_ldap_link();
-
-    // Initialize base
-    $base = $this->snapshot_dn($objectBase);
-
-    /* Fetch all objects and check if they do not exist anymore */
-    $objects = array();
-    $ldap->cd($base);
-    $ldap->search(
-      '(objectClass=gosaSnapshotObject)',
-      array('gosaSnapshotTimestamp', 'gosaSnapshotDN', 'description'),
-      'one'
-    );
-    while ($entry = $ldap->fetch()) {
-      $chk = str_replace($base, "", $entry['dn']);
-      if (preg_match("/,ou=/", $chk)) {
-        continue;
-      }
-
-      if (!isset($entry['description'][0])) {
-        $entry['description'][0]  = "";
-      }
-      $objects[] = $entry;
-    }
-
-    /* Check if entry still exists */
-    foreach ($objects as $key => $entry) {
-      $ldap->cat($entry['gosaSnapshotDN'][0]);
-      if ($ldap->count()) {
-        unset($objects[$key]);
+    foreach ($this->getSnapshotBases() as $base) {
+      if (count($this->getAllDeletedSnapshots($base)) > 0) {
+        return TRUE;
       }
     }
-
-    /* Format result as requested */
-    if ($raw) {
-      return $objects;
-    } else {
-      $tmp = array();
-      foreach ($objects as $key => $entry) {
-        $tmp[base64_encode($entry['dn'])] = $entry['description'][0];
-      }
-    }
-    return $tmp;
+    return FALSE;
   }
 
   /*!
@@ -336,7 +290,7 @@ class SnapshotHandler
    *
    * \return available snapshots for the given base
    */
-  function getAvailableSnapsShots($dn, $raw = FALSE)
+  function getAvailableSnapsShots($dn)
   {
     global $config;
     if (!$this->enabled()) {
@@ -366,16 +320,7 @@ class SnapshotHandler
       $tmp[] = $entry;
     }
 
-    /* Return the raw array, or format the result */
-    if ($raw) {
-      return $tmp;
-    } else {
-      $tmp2 = array();
-      foreach ($tmp as $entry) {
-        $tmp2[base64_encode($entry['dn'])] = $entry['description'][0];
-      }
-    }
-    return $tmp2;
+    return $tmp;
   }
 
   /*!
@@ -385,7 +330,7 @@ class SnapshotHandler
    *
    * \param boolean $raw FALSE
    */
-  function getAllDeletedSnapshots($base_of_object, $raw = FALSE)
+  function getAllDeletedSnapshots($base_of_object)
   {
     global $config;
     if (!$this->enabled()) {
@@ -405,7 +350,6 @@ class SnapshotHandler
       'one'
     );
     while ($entry = $ldap->fetch()) {
-
       $chk = str_replace($new_base, "", $entry['dn']);
       if (preg_match("/,ou=/", $chk)) {
         continue;
@@ -425,16 +369,7 @@ class SnapshotHandler
       }
     }
 
-    /* Format result as requested */
-    if ($raw) {
-      return $tmp;
-    } else {
-      $tmp2 = array();
-      foreach ($tmp as $key => $entry) {
-        $tmp2[base64_encode($entry['dn'])] = $entry['description'][0];
-      }
-    }
-    return $tmp2;
+    return $tmp;
   }
 
 

@@ -207,9 +207,9 @@ class SnapshotRestoreDialog extends simplePlugin
   function updateList ()
   {
     if ($this->global) {
-      $this->snapshots = $this->parent->getAllDeletedSnapshots(TRUE);
+      $this->snapshots = $this->parent->getAllDeletedSnapshots();
     } else {
-      $this->snapshots = $this->parent->getAvailableSnapsShots($this->object_dn, TRUE);
+      $this->snapshots = $this->parent->getAvailableSnapsShots($this->object_dn);
     }
   }
 
