@@ -79,7 +79,8 @@ class simpleTabs
         continue;
       }
 
-      $this->by_name[$tab['CLASS']] = $tab['NAME'];
+      $this->by_name[$tab['CLASS']]   = $tab['NAME'];
+      $this->plNotify[$tab['CLASS']]  = FALSE;
 
       if ($baseobject === NULL) {
         $baseobject = new $tab['CLASS']($this->dn, $attrs_object, $this, TRUE);
@@ -466,7 +467,8 @@ class simpleTabs
         continue;
       }
 
-      $this->by_name[$tab['CLASS']] = $tab['NAME'];
+      $this->by_name[$tab['CLASS']]   = $tab['NAME'];
+      $this->plNotify[$tab['CLASS']]  = FALSE;
       $this->by_object[$tab['CLASS']] = new $tab['CLASS']($this->dn, $baseobject, $this, FALSE);
       $this->by_object[$tab['CLASS']]->set_acl_category($this->acl_category);
     }
