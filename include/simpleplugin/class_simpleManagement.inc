@@ -529,9 +529,7 @@ class simpleManagement extends management
 
   /*!
    * \brief  Save object modifications and closes dialogs (returns to object listing).
-   *          - Calls 'tab::check' to validate the given input.
-   *          - Calls 'tab::save' to save back object modifications (e.g. to ldap).
-   *          - Calls 'management::remove_locks' to remove eventually created locks.
+   *          - Calls 'simpleTabs::save' to save back object modifications (e.g. to ldap).
    *          - Calls 'management::closeDialogs' to return to the object listing.
    */
   protected function saveChanges()
@@ -552,7 +550,7 @@ class simpleManagement extends management
         $this->remove_lock();
         $this->closeDialogs();
       }
-    } elseif ($this->dialogObject instanceOf plugin) {
+    } elseif ($this->dialogObject instanceOf simplePlugin) {
       $this->dialogObject->save_object();
       $msgs = $this->dialogObject->check();
       if (count($msgs)) {
