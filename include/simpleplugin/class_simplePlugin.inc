@@ -876,7 +876,7 @@ class simplePlugin
   /*! \brief Can we write the attribute */
   function acl_is_writeable($attribute, $skipWrite = FALSE)
   {
-    return preg_match('/w/', $this->aclGetPermissions($attribute, $skipWrite));
+    return preg_match('/w/', $this->aclGetPermissions($attribute, NULL, $skipWrite));
   }
 
   /*!
