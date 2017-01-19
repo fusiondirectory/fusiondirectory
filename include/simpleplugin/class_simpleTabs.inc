@@ -399,7 +399,7 @@ class simpleTabs
 
       $obj->dn = $this->dn;
 
-      if (!($obj instanceof plugin) && !($obj instanceOf management)) {
+      if (!($obj instanceof simplePlugin) && !($obj instanceOf simpleManagement)) {
         trigger_error('Something went wrong while saving '.$obj->dn.'. Class "'.get_class($obj).'".');
       } else {
         if ($obj->is_account || $obj->ignore_account) {
