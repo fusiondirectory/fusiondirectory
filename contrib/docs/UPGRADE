@@ -2500,6 +2500,41 @@ Checking your indexed attributes
 
 Check that all you index still match with valid attributes present in your ldap directory 
 
+Migrate FusionDirectory from 1.0.18 to 1.0.19
+=============================================
+
+Ubuntu 12.0.4 TLS users
+=======================
+
+Since 1.0.9.2 FusionDirectory need the php-cas library for CAS server support. This library can normally found in universe in the Ubuntu repositories 
+
+In case you did not find it, grab the deb from here and install it
+
+http://packages.ubuntu.com/trusty/all/php-cas/download
+
+and select your preferred mirror
+
+Upgrade FusionDirectory first
+=============================
+
+- Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
+
+apt-get install fusiondirectory
+
+- Upgrade FusionDirectory schema package too.
+
+apt-get install fusiondirectory-schema
+
+Upgrade of LDAP directory
+=========================
+
+No upgrade
+
+Upgrade of LDAP directory
+=========================
+
+No Upgrade
+
 Enjoy :)
 
 ---
