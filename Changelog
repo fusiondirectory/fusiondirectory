@@ -1,6 +1,12 @@
 FusionDirectory changelog
 =========================
 
+* FusionDirectory 1.0.19
+
+[Fix] Bugs #5303: When clicking on login from user selection we end up in user edition
+[Fix] Bugs #5314: after upgrading to 1.0.18 we see those errors
+[Fix] Bugs #5317: The link sent by password recovery is broken
+
 * FusionDirectory 1.0.18
 
 [Fix] Bugs #4888: DNS record matching should be case insensitive
