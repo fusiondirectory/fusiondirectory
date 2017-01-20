@@ -230,8 +230,6 @@ class LDAP
   {
     if ($basedn == '') {
       $basedn = $this->basedn;
-    } else {
-      $basedn = $basedn;
     }
     return preg_replace("/[^,]*[,]*[ ]*(.*)/", "$1", $basedn);
   }
