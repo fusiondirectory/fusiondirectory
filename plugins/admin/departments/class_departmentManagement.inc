@@ -95,7 +95,7 @@ class departmentManagement extends simpleManagement
     if ($dn == $base) {
       $ou = ".";
     }
-    $dn = LDAP::fix(func_get_arg(1));
+    $dn = func_get_arg(1);
     return "<a href='?plug=".$_GET['plug']."&amp;PID=$pid&amp;act=listing_open_$row' title='$dn'>$ou</a>";
   }
 

@@ -233,7 +233,7 @@ class SnapshotHandler
     /* Create object */
     $data = '';
     foreach ($dns as $tmp_dn) {
-      $data .= $ldap->generateLdif(LDAP::fix($tmp_dn), '(!(objectClass=gosaDepartment))', 'sub');
+      $data .= $ldap->generateLdif($tmp_dn, '(!(objectClass=gosaDepartment))', 'sub');
       if (!$ldap->success()) {
         msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), $tmp_dn, '', get_class()), LDAP_ERROR);
       }

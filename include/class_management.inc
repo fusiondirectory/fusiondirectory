@@ -46,7 +46,7 @@ class management
     if (!preg_match('/^geticon/', $plIcon)) {
       $plIcon = get_template_path($plIcon);
     }
-    return print_header($plIcon, $plTitle, LDAP::fix(get_object_info()));
+    return print_header($plIcon, $plTitle, get_object_info());
   }
 
   /*!

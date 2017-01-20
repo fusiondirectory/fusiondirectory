@@ -282,7 +282,7 @@ class objects
               continue;
             }
           }
-          $templates[$dn] = $attrs['cn'][0]." - ".LDAP::fix($key);
+          $templates[$dn] = $attrs['cn'][0].' - '.$key;
         }
       }
     }

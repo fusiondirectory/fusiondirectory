@@ -208,7 +208,6 @@ class aclManagement extends simpleManagement
     }
     $ou .= "  &nbsp; ["._("ACL Assignment")."]";
 
-    $dn = LDAP::fix($dn);
     return "<a href='?plug=".$_GET['plug']."&amp;PID=$pid&amp;act=listing_edit_$row' title='$dn'>$ou</a>";
   }
 

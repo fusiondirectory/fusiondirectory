@@ -913,7 +913,7 @@ class simpleManagement extends management
         $entry  = $this->getHeadpage()->getEntry($dn);
         $objects[] = array(
           'name'  => $entry[$info['mainAttr']][0],
-          'dn'    => LDAP::fix($dn),
+          'dn'    => $dn,
           'icon'  => $info['icon'],
           'type'  => $info['name']
         );

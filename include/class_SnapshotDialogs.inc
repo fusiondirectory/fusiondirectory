@@ -219,7 +219,7 @@ class SnapshotRestoreDialog extends simplePlugin
       $objects = array(
         array(
           'name'  => 'snapshot',
-          'dn'    => LDAP::fix($this->snapDn),
+          'dn'    => $this->snapDn,
           'icon'  => 'geticon.php?context=actions&amp;icon=document-restore&amp;size=16',
           'type'  => 'Snapshot'
         )
@@ -233,7 +233,7 @@ class SnapshotRestoreDialog extends simplePlugin
       $objects = array(
         array(
           'name'  => 'snapshot',
-          'dn'    => LDAP::fix($this->snapDn),
+          'dn'    => $this->snapDn,
           'icon'  => 'geticon.php?context=actions&amp;icon=document-restore&amp;size=16',
           'type'  => 'Snapshot'
         )

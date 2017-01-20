@@ -605,7 +605,7 @@ class Step_Migrate extends setupStep
     /* Fix displayed dn syntax */
     $infos['entries'] = $this->$var;
     foreach ($infos['entries'] as $key => $data) {
-      $infos['entries'][$key]['dn'] = LDAP::fix($data['dn']);
+      $infos['entries'][$key]['dn'] = $data['dn'];
     }
     $this->openDialog(new StepMigrateDialog($checkobj, 'setup_migrate_accounts.tpl', $infos));
   }
@@ -624,7 +624,7 @@ class Step_Migrate extends setupStep
     $var = $checkobj->name.'_toMigrate';
     $infos['entries'] = $this->$var;
     foreach ($infos['entries'] as $key => $data) {
-      $infos['entries'][$key]['dn'] = LDAP::fix($data['dn']);
+      $infos['entries'][$key]['dn'] = $data['dn'];
     }
     return $infos;
   }
@@ -672,7 +672,7 @@ class Step_Migrate extends setupStep
               _('Migration error'),
               sprintf(
                 _('Cannot migrate entry "%s":').'<br/><br/><i>%s</i>',
-                LDAP::fix($attrs['dn']), $ldap->get_error()
+                $attrs['dn'], $ldap->get_error()
               ),
               ERROR_DIALOG
             );
@@ -1024,7 +1024,7 @@ class Step_Migrate extends setupStep
             _('Migration error'),
             sprintf(
               _('Cannot add ACL role "%s":').'<br/><br/><i>%s</i>',
-              LDAP::fix($dn), $ldap->get_error()
+              $dn, $ldap->get_error()
             ),
             ERROR_DIALOG
           );

@@ -388,9 +388,6 @@ class config  {
       $this->current['BASE'] = key($bases);
     }
 
-    /* Convert BASE to have escaped special characters */
-    $this->current['BASE'] = @LDAP::convert($this->current['BASE']);
-
     /* Parse LDAP referral informations */
     if (!isset($this->current['ADMINDN']) || !isset($this->current['ADMINPASSWORD'])) {
       $url      = $this->current['SERVER'];
@@ -684,7 +681,7 @@ class config  {
       }
 
       /* Fix name, if it contains a replace tag */
-      $name = preg_replace('/\\\\,/', ',', LDAP::fix($name));
+      $name = preg_replace('/\\\\,/', ',', $name);
 
       /* Check if current name is too long, then cut it */
       if (mb_strlen($name, 'UTF-8') > $max_size) {

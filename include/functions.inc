@@ -1071,9 +1071,9 @@ function get_ou($name)
 
   if ($ou != '') {
     if (!preg_match('/^[^=]+=[^=]+/', $ou)) {
-      $ou = @LDAP::convert("ou=$ou");
+      $ou = "ou=$ou";
     } else {
-      $ou = @LDAP::convert("$ou");
+      $ou = "$ou";
     }
 
     if (preg_match('/'.preg_quote($config->current['BASE'], '/').'$/', $ou)) {
@@ -2153,7 +2153,7 @@ function get_next_id_hook($attrib, $dn)
     $command = $config->get_cfg_value("nextIdHook");
 
     if ($command != "") {
-      $command .= " ".escapeshellarg(LDAP::fix($dn))." ".escapeshellarg($attrib);
+      $command .= " ".escapeshellarg($dn)." ".escapeshellarg($attrib);
       if (check_command($command)) {
         @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execute");
         exec($command, $output);

@@ -716,7 +716,7 @@ class msgPool {
 
     /* Fill DN information */
     if ($dn != '') {
-      $dn_info = '<br/><br/><i>'._('Object').':</i> '.LDAP::fix($dn);
+      $dn_info = '<br/><br/><i>'._('Object').':</i> '.$dn;
     }
 
     return $headline.$dn_info.'<br/><br/><i>'._('Error').':</i> '.$error;

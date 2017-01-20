@@ -851,7 +851,7 @@ class listing
             $params[] = $this->getObjectType($cfg['dn'], $cfg);
             break;
           case 'dn':
-            $params[] = LDAP::fix($cfg['dn']);
+            $params[] = $cfg['dn'];
             break;
           default:
             if (preg_match('/^"(.*)"$/', $param, $m)) {
@@ -978,7 +978,7 @@ class listing
     $result = "&nbsp;";
 
     if ($type) {
-      $result = '<img class="center" title="'.LDAP::fix($dn).'" src="'.htmlentities($types[$type]['image'], ENT_COMPAT, 'UTF-8').'" alt="'.$type.'"/>';
+      $result = '<img class="center" title="'.$dn.'" src="'.htmlentities($types[$type]['image'], ENT_COMPAT, 'UTF-8').'" alt="'.$type.'"/>';
       if (!isset($this->objectTypeCount[$types[$type]['label']])) {
         $this->objectTypeCount[$types[$type]['label']] = 0;
       }
@@ -1140,7 +1140,7 @@ class listing
   {
     $row    = func_get_arg(0);
     $pid    = $this->pid;
-    $dn     = LDAP::fix(func_get_arg(1));
+    $dn     = func_get_arg(1);
     $params = array(func_get_arg(2));
 
     // Collect sprintf params

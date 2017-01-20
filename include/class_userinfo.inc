@@ -193,12 +193,12 @@ class userinfo
           /* Inspect members... */
           foreach (array_keys($type['members']) as $grp) {
             /* Some group inside the members that is relevant for us? */
-            if (in_array_ics(@LDAP::convert(preg_replace('/^G:/', '', $grp)), $this->groups)) {
+            if (in_array_ics(preg_replace('/^G:/', '', $grp), $this->groups)) {
               $interresting = TRUE;
             }
 
             /* Some role inside the members that is relevant for us? */
-            if (in_array_ics(@LDAP::convert(preg_replace('/^R:/', '', $grp)), $this->roles)) {
+            if (in_array_ics(preg_replace('/^R:/', '', $grp), $this->roles)) {
               $interresting = TRUE;
             }
 

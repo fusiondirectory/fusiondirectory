@@ -60,11 +60,11 @@ class ObjectsAttribute extends GenericDialogAttribute
       }
       if (!isset($this->displays[$i])) {
         trigger_error('Unkown type for "'.$this->value[$i].'"');
-        $this->displays[$i] = sprintf(_('Unknown type : %s'), LDAP::fix($this->value[$i]));
+        $this->displays[$i] = sprintf(_('Unknown type : %s'), $this->value[$i]);
         $this->types[$i]    = 'I';
       }
     } else {
-      $this->displays[$i] = sprintf(_('Non existing dn: %s'), LDAP::fix($this->value[$i]));
+      $this->displays[$i] = sprintf(_('Non existing dn: %s'), $this->value[$i]);
       $this->types[$i]    = 'I';
     }
   }
