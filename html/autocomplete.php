@@ -74,8 +74,8 @@ if (isset($_GET['type']) && $_GET['type'] == "base") {
   $ui = session::global_get('ui');
 
   /* Is there a filter object arround? */
-  if (session::is_set("autocomplete")) {
-    $filter = session::get("autocomplete");
+  if (session::is_set('autocomplete')) {
+    $filter = session::get('autocomplete');
     $filter->processAutocomplete();
   }
 }

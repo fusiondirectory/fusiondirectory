@@ -113,7 +113,7 @@ class templateDialog
   }
 }
 
-class simpleManagement extends management
+class simpleManagement
 {
   // The currently used object(s) (e.g. in edit, removal)
   // $dn is public due to some compatibility problems with class plugin..
@@ -478,6 +478,18 @@ class simpleManagement extends management
     $this->filter = $filter;
   }
 
+  /*!
+   *  \brief  Every click in the list user interface sends an event
+   *          here can we connect those events to a method.
+   *          eg. see simpleManagement::registerEvent('new','createUser')
+   *          When the action/event new is send, the method 'createUser'
+   *          will be called.
+   */
+  function registerAction($action, $target)
+  {
+    $this->actions[$action] = $target;
+  }
+
   function getType($dn)
   {
     return $this->getHeadpage()->getType($dn);
@@ -575,6 +587,67 @@ class simpleManagement extends management
 
     // Display list
     return $this->renderList();
+  }
+
+  /*!
+   * \brief  Generates the plugin header which is displayed whenever a tab object is opened.
+   */
+  protected function getHeader()
+  {
+    if ($this->skipHeader) {
+      return '';
+    }
+
+    $plInfos  = pluglist::pluginInfos(get_class($this));
+    $plTitle  = $plInfos['plTitle'];
+    $plIcon   = $plInfos['plIcon'];
+
+    if (!preg_match('/^geticon/', $plIcon)) {
+      $plIcon = get_template_path($plIcon);
+    }
+    return print_header($plIcon, $plTitle, get_object_info());
+  }
+
+  /*!
+   * \brief  Generates the footer which is used whenever a tab object is displayed.
+   */
+  protected function _getTabFooter()
+  {
+    // Do not display tab footer for non tab objects
+    if (!($this->tabObject instanceOf simpleTabs)) {
+      return '';
+    }
+
+    // Check if there is a dialog opened - We don't need any buttons in this case.
+    if ($this->tabObject->dialogOpened()) {
+      return '';
+    }
+
+    // Skip footer if requested;
+    if ($this->skipFooter) {
+      return '';
+    }
+
+    // In case an of locked entry, we may have opened a read-only tab.
+    $str = '';
+    if ($this->tabObject->readOnly()) {
+      $str .= '<p class="plugbottom">'."\n".
+        '<input type="submit" name="edit_cancel" value="'.msgPool::cancelButton().'">'."\n".
+        '</p>';
+      return $str;
+    } else {
+      // Display ok, (apply) and cancel buttons
+      $str .= '<p class="plugbottom">'."\n";
+      $str .= '<input type="submit" name="edit_finish" style="width:80px" value="'.msgPool::okButton().'"/>'."\n";
+      $str .= "&nbsp;\n";
+      if ($this->displayApplyBtn) {
+        $str .= '<input type="submit" name="edit_apply" value="'.msgPool::applyButton().'"/>'."\n";
+        $str .= "&nbsp;\n";
+      }
+      $str .= '<input type="submit" name="edit_cancel" value="'.msgPool::cancelButton().'"/>'."\n";
+      $str .= '</p>';
+    }
+    return $str;
   }
 
   /*!
@@ -696,7 +769,7 @@ class simpleManagement extends management
   /*!
    * \brief  Save object modifications and closes dialogs (returns to object listing).
    *          - Calls 'simpleTabs::save' to save back object modifications (e.g. to ldap).
-   *          - Calls 'management::closeDialogs' to return to the object listing.
+   *          - Calls 'simpleManagement::closeDialogs' to return to the object listing.
    */
   protected function saveChanges()
   {
@@ -727,6 +800,23 @@ class simpleManagement extends management
         @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, 'Entry saved!');
         $this->remove_lock();
         $this->closeDialogs();
+      }
+    }
+  }
+
+  /*!
+   *  \brief  Save object modifications and keep dialogs opened
+   */
+  protected function applyChanges()
+  {
+    if ($this->tabObject instanceOf simpleTabs) {
+      $this->tabObject->save_object();
+      $msgs = $this->tabObject->save();
+      if (count($msgs)) {
+        msg_dialog::displayChecks($msgs);
+      } else {
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, 'Modifications applied!');
+        $this->tabObject->re_init();
       }
     }
   }
@@ -856,6 +946,54 @@ class simpleManagement extends management
       return TRUE;
     }
     return FALSE;
+  }
+
+  function openTabObject($object, $base)
+  {
+    $this->tabObject = $object;
+    $this->tabObject->set_acl_base($base);
+    $this->tabObject->parent = &$this;
+  }
+
+  /*!
+   * \brief  This method closes dialogs
+   *          and cleans up the cached object info and the ui.
+   */
+  public function closeDialogs()
+  {
+    $this->last_dn  = $this->dn;
+    $this->dn       = "";
+    $this->last_dns = $this->dns;
+    $this->dns      = array();
+
+    $this->last_tabObject     = $this->tabObject;
+    $this->tabObject          = NULL;
+    $this->last_dialogObject  = $this->dialogObject;
+    $this->dialogObject       = NULL;
+
+    $this->skipFooter   = FALSE;
+    set_object_info();
+  }
+
+  /*!
+   * \brief  Removes ldap object locks created by this class.
+   *         Whenever an object is edited, we create locks to avoid
+   *         concurrent modifications.
+   *         This locks will automatically removed here.
+   */
+  function remove_lock()
+  {
+    if (!empty($this->dn) && $this->dn != "new") {
+      del_lock($this->dn);
+    }
+    if (count($this->dns)) {
+      del_lock($this->dns);
+    }
+  }
+
+  function is_modal_dialog()
+  {
+    return (is_object($this->tabObject) || is_object($this->dialogObject));
   }
 
   /*! \brief    Queue selected objects to be removed.
