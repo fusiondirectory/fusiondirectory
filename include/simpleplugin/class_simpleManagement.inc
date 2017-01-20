@@ -115,6 +115,55 @@ class templateDialog
 
 class simpleManagement extends management
 {
+  // The currently used object(s) (e.g. in edit, removal)
+  // $dn is public due to some compatibility problems with class plugin..
+  public $dn      = '';
+  protected $dns  = array();
+
+  // The last used object(s).
+  protected $last_dn  = '';
+  protected $last_dns = array();
+
+  // The common places the displayed objects are stored in. (e.g. array("ou=groups,",".."))
+  protected $storagePoints = array();
+
+  // The opened object.
+  protected $tabObject    = NULL;
+  protected $dialogObject = NULL;
+
+  // The last opened object.
+  protected $last_tabObject     = NULL;
+  protected $last_dialogObject  = NULL;
+
+  // Whether to display the apply button or not
+  protected $displayApplyBtn = FALSE;
+
+  // Whether to display a header or not.
+  protected $skipHeader = FALSE;
+
+  // Whether to display a footer or not.
+  protected $skipFooter = FALSE;
+
+  // Copy&Paste handler
+  protected $cpHandler = NULL;
+
+  // Indicates that we want to paste objects right now.
+  protected $cpPastingStarted = FALSE;
+
+  // The Snapshot handler class.
+  protected $snapHandler = NULL;
+
+  // The listing handlers
+  protected $headpage = NULL;
+  protected $filter   = NULL;
+
+  // A list of configured actions/events
+  protected $actions = array();
+
+  // Some management classes are used in tab groups and needs this
+  public $is_template = FALSE;
+  public $attributes  = array();
+
   /* Attributes that child classes should override */
   protected $objectTypes  = array();
 
@@ -128,6 +177,8 @@ class simpleManagement extends management
   protected $listXMLPath      = NULL;
   protected $autoFilter       = TRUE;
   protected $autoActions      = TRUE;
+  protected $skipCpHandler    = FALSE;
+  protected $skipSnapHandler  = FALSE;
 
   protected $autoFilterAttributes = array('dn', 'cn', 'description');
 
@@ -453,6 +504,77 @@ class simpleManagement extends management
     $this->headpage->update();
     $display = $this->headpage->render();
     return $this->getHeader().$display;
+  }
+
+  /*!
+   * \brief  Execute this plugin
+   *          Handle actions/events, locking, snapshots, dialogs, tabs,...
+   */
+  function execute()
+  {
+    // Ensure that html posts and gets are kept even if we see a 'Entry islocked' dialog.
+    $vars = array('/^act$/','/^listing/','/^PID$/','/^FILTER_PID$/');
+    session::set('LOCK_VARS_TO_USE', $vars);
+
+    /* Display the copy & paste dialog, if it is currently open */
+    $ret = $this->copyPasteHandler();
+    if ($ret) {
+      return $this->getHeader().$ret;
+    }
+
+    // Update filter
+    if ($this->filter) {
+      $this->filter->update();
+      session::global_set(get_class($this).'_filter', $this->filter);
+      session::set('autocomplete', $this->filter);
+      if (!$this->filter->isValid()) {
+        msg_dialog::display(_('Filter error'), _('The filter is incomplete!'), ERROR_DIALOG);
+      }
+    }
+
+    // Handle actions (POSTs and GETs)
+    $str = $this->handleActions($this->detectPostActions());
+    if ($str) {
+      return $this->getHeader().$str;
+    }
+
+    // Open single dialog objects
+    if (is_object($this->dialogObject)) {
+      if (method_exists($this->dialogObject, 'save_object')) {
+        $this->dialogObject->save_object();
+      }
+      if (method_exists($this->dialogObject, 'execute')) {
+        $display = $this->dialogObject->execute();
+        $display .= $this->_getTabFooter();
+        return $this->getHeader().$display;
+      }
+    }
+
+    // Display tab object.
+    if ($this->tabObject instanceOf simpleTabs) {
+      $this->tabObject->save_object();
+      $display = $this->tabObject->execute();
+      $display .= $this->_getTabFooter();
+      return $this->getHeader().$display;
+    }
+
+    // Set current restore base for snapshot handling.
+    if (is_object($this->snapHandler)) {
+      $bases = array();
+      foreach ($this->storagePoints as $sp) {
+        $bases[] = $sp.$this->headpage->getBase();
+      }
+
+      // No bases specified? Try base
+      if (!count($bases)) {
+        $bases[] = $this->headpage->getBase();
+      }
+
+      $this->snapHandler->setSnapshotBases($bases);
+    }
+
+    // Display list
+    return $this->renderList();
   }
 
   /*!
