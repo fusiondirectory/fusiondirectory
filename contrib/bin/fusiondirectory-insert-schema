@@ -156,15 +156,15 @@ foreach my $schema (@schemas) {
 
   if ($modify < 2) {
     # Searching schema name in ldif file first line.
-    open FILE, '< '.$path.$schema.".ldif" or die "Count not open ldif file : $!\n";
+    open my $file, q{<}, $path.$schema.".ldif" or die "Count not open ldif file : $!\n";
     my $dn = "";
     while ($dn eq "") {
-      chomp($dn = <FILE>);
+      chomp($dn = <$file>);
     }
     if ($dn =~ /^dn: cn=([^,]+),/) {
       $schema_name = $1;
     }
-    close(FILE);
+    close($file);
   }
 
   # Fallback on file name
@@ -206,18 +206,18 @@ sub insert_schema
       my $dn_part = $1;
       # if the schema already exists in the LDAP server, modify it
       if ($modify == 1) {
-        open(SCHEMA, "<".$path.$schema.".ldif") or die_with_error('Could not open '."<".$path.$schema.".ldif: $!");
-        open(UPDATE, ">".$path.$schema."_update.ldif") or die_with_error('Could not open '.">".$path.$schema."_update.ldif: $!");
+        open(my $schema, q{<}, $path.$schema.".ldif") or die_with_error('Could not open '."<".$path.$schema.".ldif: $!");
+        open(my $update, q{>}, $path.$schema."_update.ldif") or die_with_error('Could not open '.">".$path.$schema."_update.ldif: $!");
         push @gen_files, $path.$schema."_update";
         my $attrs   = 0;
         my $classes = 0;
-        while (<SCHEMA>) {
+        while (<$schema>) {
           next if m/^#/; # remove comments
           chomp;
           next if m/^$/; # remove empty lines
           if (m/^dn: cn=([^,]+),cn=schema,cn=config$/) {
-            print UPDATE "dn: $dn_part,cn=schema,cn=config\n";
-            print UPDATE "changetype: modify\n";
+            print $update "dn: $dn_part,cn=schema,cn=config\n";
+            print $update "changetype: modify\n";
             next;
           }
           if (!m/^olcAttributeTypes:/ && !m/^olcObjectClasses:/ && !m/^ /) {
@@ -231,29 +231,29 @@ sub insert_schema
 
           if (!$attrs && m/^olcAttributeTypes:/) {
             $attrs = 1;
-            print UPDATE "replace: olcAttributeTypes\n";
+            print $update "replace: olcAttributeTypes\n";
           }
           if (!$classes && m/^olcObjectClasses:/) {
             $classes = 1;
-            print UPDATE "-\n";
-            print UPDATE "replace: olcObjectClasses\n";
+            print $update "-\n";
+            print $update "replace: olcObjectClasses\n";
           }
 
-          print UPDATE;
-          print UPDATE "\n";
+          print $update;
+          print $update "\n";
         }
-        close SCHEMA;
-        close UPDATE;
+        close $schema;
+        close $update;
       } else { # Emptying schema
-        open(UPDATE, ">".$path.$schema."_update.ldif") or die_with_error('Could not open '.">".$path.$schema."_update.ldif: $!");
+        open(my $update, q{>}, $path.$schema."_update.ldif") or die_with_error('Could not open '.">".$path.$schema."_update.ldif: $!");
         push @gen_files, $path.$schema."_update";
-        print UPDATE "dn: $dn_part,cn=schema,cn=config\n";
-        print UPDATE "changetype: modify\n";
-        print UPDATE "delete: olcAttributeTypes\n";
-        print UPDATE "-\n";
-        print UPDATE "delete: olcObjectClasses\n";
-        print UPDATE "-\n";
-        close UPDATE;
+        print $update "dn: $dn_part,cn=schema,cn=config\n";
+        print $update "changetype: modify\n";
+        print $update "delete: olcAttributeTypes\n";
+        print $update "-\n";
+        print $update "delete: olcObjectClasses\n";
+        print $update "-\n";
+        close $update;
       }
       $full_cmd = $mod_cmd.$path.$schema."_update.ldif";
       print "executing '$full_cmd'\n";

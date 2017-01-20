@@ -516,11 +516,11 @@ sub check_directories {
 
       # if $dir is one of the dirs that remains to root
       if ( grep (/.*$dir.*/, @root_config_dirs) ) {
-        check_rights($dir,"root","root",0755,1);
+        check_rights($dir,"root","root",oct(755),1);
 
       # else if $dir is one of the dirs that remains to apache's user group, and the dir's owner is not root or the group is not the apache's user group, modifying owner
       } elsif ( grep ( /.*$dir.*/, @apache_config_dirs) ) {
-        check_rights($dir,"root",$apache_group,0770,1);
+        check_rights($dir,"root",$apache_group,oct(770),1);
       }
   }
 }
@@ -530,7 +530,7 @@ sub check_config {
   my $apache_group = get_apache_group();
 
   # check config file
-  check_rights($fd_config,"root",$apache_group,0640,0) or die 'The config file does not exists!';
+  check_rights($fd_config,"root",$apache_group,oct(640),0) or die 'The config file does not exists!';
 }
 
 ############################################################# Change install directories #################################################################################
@@ -792,21 +792,21 @@ sub get_ldap_connexion {
 
   # bind to the LDAP server
   if (-e $fd_secrets) {
-    open(SECRETS, $fd_secrets) || die ("Could not open $fd_secrets");
+    open(my $secrets, q{<}, $fd_secrets) || die ("Could not open $fd_secrets");
     my $key = "";
-    while(<SECRETS>) {
+    while(<$secrets>) {
       if ($_ =~ m/RequestHeader set FDKEY ([^ \n]+)\n/) {
         $key = $1;
         last;
       }
     }
-    close(SECRETS);
+    close($secrets);
     $bind_pwd = cred_decrypt($bind_pwd, $key);
   }
 
   if ($tls) {
     # Read LDAP config file
-    open (LDAPCONF,$vars{ldap_conf}) or die ("! Failed to open ldap config file '$vars{ldap_conf}': $!\n");
+    open (my $ldapconf, q{<}, $vars{ldap_conf}) or die ("! Failed to open ldap config file '$vars{ldap_conf}': $!\n");
 
     my %tls_options = (
       'REQCERT'   => 'require',
@@ -816,14 +816,14 @@ sub get_ldap_connexion {
       'CACERT'    => '',
     );
     # Scan LDAP config
-    while (<LDAPCONF>) {
+    while (<$ldapconf>) {
       /^\s*(#|$)/ && next;
       chomp;
       if (m/^TLS_(REQCERT|CERT|KEY|CACERTDIR|CACERT)\s+(.*)\s*$/i) {
         $tls_options{uc $1} = $2;
       }
     }
-    close(LDAPCONF);
+    close($ldapconf);
 
     $ldap->start_tls(
       verify      => $tls_options{'REQCERT'},
@@ -1687,14 +1687,14 @@ sub set_config_var {
 sub show_version {
   my $variables_common_path = "$vars{fd_home}/include/variables_common.inc";
   if (-e $variables_common_path) {
-    open(VARS, $variables_common_path) || die ("Could not open $variables_common_path");
-    while(<VARS>) {
+    open(my $vars, q{<}, $variables_common_path) || die ("Could not open $variables_common_path");
+    while(<$vars>) {
       if ($_ =~ m/^define \(["']FD_VERSION["'], "([^"]+)"\);/) {
         print "FusionDirectory version is $1\n";
         last;
       }
     }
-    close(VARS);
+    close($vars);
   } else {
     print "File $variables_common_path does not exists, can’t find out FusionDirectory version\n";
   }
