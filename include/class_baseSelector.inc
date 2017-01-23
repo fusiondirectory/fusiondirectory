@@ -126,7 +126,7 @@ class baseSelector {
       $elements = explode(',', substr($base, 0, strlen($base) - strlen($config->current['BASE'])));
       $elements = array_reverse($elements, TRUE);
 
-      $this->pathMapping[$base] = (($base == $config->current['BASE']) ? '/' : ldap::fix(preg_replace('/(^|,)[a-z0-9]+=/i', '/', implode(',', $elements))));
+      $this->pathMapping[$base] = (($base == $config->current['BASE']) ? '/' : preg_replace('/(^|,)[a-z0-9]+=/i', '/', implode(',', $elements)));
     }
 
     // Save bases to session for autocompletion
