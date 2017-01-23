@@ -108,4 +108,3 @@ objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.19 NAME 'gosaSnapshotObject'
 objectclass ( 1.3.6.1.4.1.38414.62.2.1 NAME 'fdLockEntry' SUP top STRUCTURAL
   DESC 'GOsa - Class for FD locking'
   MUST ( fdUserDn $ fdObjectDn $ cn $ fdLockTimestamp ))
-
