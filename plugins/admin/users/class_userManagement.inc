@@ -121,7 +121,7 @@ class userManagement extends simpleManagement
 
   /* !\brief  Lock/unlock multiple users.
    */
-  function lockUsers($action, $target, $all)
+  function lockUsers($action, array $target, array $all)
   {
     if (!count($target)) {
       return;

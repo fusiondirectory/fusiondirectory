@@ -658,14 +658,8 @@ class simpleManagement
    * \param  Array   $target  A list of object dns, which should be affected by this method.
    *
    * \param  Array   $all     A combination of both 'action' and 'target'.
-   *
-   * \param String $altTabClass Empty string.
-   *
-   * \param String $altTabType Empty string.
-   *
-   * \param String $altAclCategory Empty string.
    */
-  function newEntry($action = "", $target = array(), $all = array(), $altTabClass = "", $altTabType = "", $altAclCategory = "")
+  function newEntry($action, array $target, array $all)
   {
     $type   = strtoupper(preg_replace('/^new_/', '', $action));
 
@@ -680,7 +674,7 @@ class simpleManagement
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "Create new entry initiated!");
   }
 
-  function newEntryTemplate($action = "", $target = array(), $all = array())
+  function newEntryTemplate($action, array $target, array $all)
   {
     if ($this->skipTemplates) {
       return;
@@ -690,7 +684,7 @@ class simpleManagement
     $this->tabObject->setTemplateMode('template_cn');
   }
 
-  function newEntryFromTemplate($action, $target = array())
+  function newEntryFromTemplate($action, array $target, array $all)
   {
     if ($this->skipTemplates) {
       return;
@@ -712,7 +706,7 @@ class simpleManagement
     $this->dialogObject = new templateDialog($this, $type, $dn);
   }
 
-  function applyTemplateToEntry($action, $target = array())
+  function applyTemplateToEntry($action, array $target, array $all)
   {
     global $ui;
     if ($this->skipTemplates) {
@@ -843,14 +837,8 @@ class simpleManagement
    * \param  Array   $target  A list of object dns, which should be affected by this method.
    *
    * \param  Array   $all     A combination of both 'action' and 'target'.
-   *
-   * \param String $altTabClass Empty string.
-   *
-   * \param String $altTabType Empty string.
-   *
-   * \param String $altAclCategory Empty string.
    */
-  function editEntry($action = "", $target = array(), $all = array(), $altTabClass = "", $altTabType = "", $altAclCategory = "")
+  function editEntry($action, array $target, array $all)
   {
     global $ui;
     // Do not create a new tabObject while there is already one opened,
@@ -999,7 +987,7 @@ class simpleManagement
   /*! \brief    Queue selected objects to be removed.
    *            Checks ACLs, Locks and ask for confirmation.
    */
-  protected function removeEntryRequested($action = "", $target = array(), $all = array())
+  protected function removeEntryRequested($action, array $target, array $all)
   {
     global $ui;
     $disallowed = array();
@@ -1066,8 +1054,7 @@ class simpleManagement
     }
   }
 
-  function removeEntryConfirmed($action = '', $target = array(), $all = array(),
-                                $altTabClass = '', $altTabType = '', $altAclCategory = '')
+  function removeEntryConfirmed($action, array $target, array $all)
   {
     global $ui;
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, "Entry removal confirmed!");
@@ -1111,7 +1098,7 @@ class simpleManagement
    *
    * \param  Array   $all     A combination of both 'action' and 'target'.
    */
-  function createSnapshotDialog($action = '', $target = array(), $all = array())
+  function createSnapshotDialog($action, array $target)
   {
     global $config, $ui;
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, 'Snaptshot creation initiated!');
@@ -1142,7 +1129,7 @@ class simpleManagement
    *
    * \param  Array   $all'     A combination of both 'action' and 'target'.
    */
-  function restoreSnapshotDialog($action = '', $target = array(), $all = array())
+  function restoreSnapshotDialog($action, array $target)
   {
     global $config, $ui;
     // Set current restore base for snapshot handling.
@@ -1188,8 +1175,7 @@ class simpleManagement
    *  @param  Array   'target'  A list of object dns, which should be affected by this method.
    *  @param  Array   'all'     A combination of both 'action' and 'target'.
    */
-  function copyPasteHandler($action = "", $target = array(), $all = array(),
-      $altTabClass = "", $altTabType = "", $altAclCategory = "", $altAclPlugin = "")
+  function copyPasteHandler($action = '', array $target = array(), array $all = array())
   {
     global $ui;
     // Return without any actions while copy&paste handler is disabled.

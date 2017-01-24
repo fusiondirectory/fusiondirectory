@@ -81,7 +81,7 @@ class departmentManagement extends simpleManagement
   }
 
   // Overridden remove request method - Avoid removal of the ldap base.
-  protected function removeEntryRequested($action = "", $target = array(), $all = array())
+  protected function removeEntryRequested($action, array $target, array $all)
   {
     global $config;
     $target = array_remove_entries(array($config->current['BASE']), $target);
@@ -100,9 +100,9 @@ class departmentManagement extends simpleManagement
   }
 
   // Finally remove departments and update departmnet browsers
-  function removeEntryConfirmed($action = "", $target = array(), $all = array(), $altTabClass = "", $altTabType = "", $altAclCategory = "")
+  function removeEntryConfirmed($action, array $target, array $all)
   {
-    parent::removeEntryConfirmed($action, $target, $all, $altTabClass, $altTabType, $altAclCategory);
+    parent::removeEntryConfirmed($action, $target, $all);
     $this->refreshDeps();
   }
 
