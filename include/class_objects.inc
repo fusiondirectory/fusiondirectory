@@ -247,10 +247,25 @@ class objects
 
   static function isOfType ($attrs, $type)
   {
-    //TODO : cache ldapFilter objects?
-    $infos  = static::infos($type);
-    $filter = ldapFilter::parse($infos['filter']);
+    $filter = static::getFilterObject($type);
     return $filter($attrs);
+  }
+
+  /* This method allows to cache parsed filter in filterObject key in objectTypes */
+  static function getFilterObject ($type)
+  {
+    global $config;
+
+    if (!isset($config->data['OBJECTS'][strtoupper($type)])) {
+      throw new NonExistingObjectTypeException('Non-existing type "'.$type.'"');
+    }
+
+    $infos =& $config->data['OBJECTS'][strtoupper($type)];
+
+    if (!isset($infos['filterObject'])) {
+      $infos['filterObject'] = ldapFilter::parse($infos['filter']);
+    }
+    return $infos['filterObject'];
   }
 
   static function types ()

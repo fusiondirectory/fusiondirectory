@@ -233,7 +233,7 @@ class listing
         'image'       => $i['icon'],
         'category'    => $i['aclCategory'],
         'class'       => $i['mainTab'],
-        'filter'      => ldapFilter::parse($i['filter']),
+        'filter'      => objects::getFilterObject($type),
         'nameAttr'    => $i['nameAttr'],
       );
     }

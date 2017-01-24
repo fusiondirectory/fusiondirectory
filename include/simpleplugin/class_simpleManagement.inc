@@ -299,13 +299,14 @@ class simpleManagement
         $i['icon'] = '';
       }
 
+      $filterObject = objects::getFilterObject($object);
       $this->headpage->objectTypes[$object] =
         array(
           'label'       => $i['name'],
           'category'    => $i['aclCategory'],
           'class'       => $i['mainTab'],
           'image'       => $i['icon'],
-          'filter'      => ldapFilter::parse($i['filter']),
+          'filter'      => $filterObject,
           'nameAttr'    => $i['nameAttr'],
         );
       if (!$this->skipTemplates) {
@@ -320,7 +321,7 @@ class simpleManagement
                 '&',
                 array(
                   new ldapFilterLeaf('objectClass', '=', 'fdTemplate'),
-                  fdTemplateFilter(ldapFilter::parse($i['filter'])),
+                  fdTemplateFilter($filterObject),
                 )
               ),
             'nameAttr'    => $i['nameAttr'],
