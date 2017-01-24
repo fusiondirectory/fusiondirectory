@@ -359,25 +359,6 @@ class tests {
     return ($first < $curr && $last > $curr);
   }
 
-  /*
-   * Check if entry value is a valid date
-   *
-   * \param string $date The date to check
-   */
-  public static function is_date($date)
-  {
-    if ($date == "") {
-      return TRUE;
-    }
-
-    //TODO: use global $lang to check date format
-    if (!preg_match("/([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{4})/", $date, $matches)) {
-      return FALSE;
-    }
-
-    return checkdate($matches[2], $matches[1], $matches[3]);
-  }
-
   /* \brief Check if the specified IP address $address is inside the given network */
   public static function is_in_ip_range($from, $to, $address)
   {

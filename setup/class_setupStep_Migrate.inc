@@ -1311,7 +1311,6 @@ class Step_Migrate extends setupStep
         sprintf(_('Found %s department(s) that will not be visible in FusionDirectory.'), count($this->orgUnits_toMigrate)).
         '&nbsp;'.$checkobj->submit()
       );
-      /* TODO: maybe warnings should be an other kind of exception? */
     }
   }
 

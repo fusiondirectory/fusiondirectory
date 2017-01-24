@@ -1058,7 +1058,6 @@ class LDAP
         $line .= substr($fileLine, 1);
       } elseif (preg_match('/^#/', $fileLine)) {
         /* Ignore comment */
-        // TODO handle folded comment
       } elseif (preg_match('/^version:/', $fileLine) && empty($entry)) {
         /* Ignore version number */
       } else {

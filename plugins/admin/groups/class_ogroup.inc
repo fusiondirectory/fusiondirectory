@@ -21,10 +21,8 @@
 
 class ObjectsAttribute extends GenericDialogAttribute
 {
-  //TODO : insert in black list used workstations
   protected $dialogClass  = 'ObjectSelectDialog';
   protected $types        = array();
-
 
   function getFilterBlackList ()
   {
