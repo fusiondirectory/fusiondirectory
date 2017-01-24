@@ -288,25 +288,21 @@ class tests {
    *
    * \param string $base
    */
-  public static function is_department_name_reserved($name, $base)
+  public static function is_department_name_reserved($name)
   {
-    $reservedName = array("systems","apps","incomming","internal","accounts","fax","addressbook",
-                            preg_replace("/ou=(.*),/", "\\1", get_people_ou()),
-                            preg_replace("/ou=(.*),/", "\\1", get_groups_ou()));
-    $follwedNames['/ou=fai,ou=configs,ou=systems,/'] = array("fai","hooks","templates","scripts","disk","packages","variables","profiles");
-
-    /* Check if name is one of the reserved names */
-    if (in_array_ics($name, $reservedName)) {
-      return TRUE;
-    }
-
-    /* Check all follow combinations if name is in array && parent base == array_key, return false*/
-    foreach ($follwedNames as $key => $names) {
-      if ((in_array_ics($name, $names)) && (preg_match($key, $base))) {
-        return TRUE;
+    global $config;
+    $reservedNames = array();
+    foreach ($config->data['OBJECTS'] as $type => $infos) {
+      if (isset($infos['ou'])) {
+        if ($infos['ou'] != '') {
+          if (preg_match('/ou=([^,]+),$/', $infos['ou'], $m)) {
+            $reservedNames[] = $m[1];
+          }
+        }
       }
     }
-    return FALSE;
+
+    return in_array_ics($name, array_unique($reservedNames));
   }
 
 
