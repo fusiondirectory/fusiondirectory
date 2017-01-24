@@ -2596,45 +2596,6 @@ function xmlentities($str)
   return $str;
 }
 
-
-/*!
- * \brief  Updates all accessTo attributes from a given value to a new one.
- *
- * \param  String  $from The source accessTo name.
- *
- * \param  String  $to   The destination accessTo name.
- */
-function update_accessTo($from, $to)
-{
-  global $config;
-  $ldap = $config->get_ldap_link();
-  $ldap->cd($config->current['BASE']);
-  $ldap->search('(&(objectClass=trustAccount)(accessTo='.ldap_escape_f($from).'))', array('objectClass','accessTo'));
-  while ($attrs = $ldap->fetch()) {
-    $new_attrs = array('accessTo' => array());
-    $dn = $attrs['dn'];
-    for ($i = 0; $i < $attrs['objectClass']['count']; $i++) {
-      $new_attrs['objectClass'][] = $attrs['objectClass'][$i];
-    }
-    for ($i = 0; $i < $attrs['accessTo']['count']; $i++) {
-      if ($attrs['accessTo'][$i] == $from) {
-        if (!empty($to)) {
-          $new_attrs['accessTo'][] = $to;
-        }
-      } else {
-        $new_attrs['accessTo'][] = $attrs['accessTo'][$i];
-      }
-    }
-    $ldap->cd($dn);
-    $ldap->modify($new_attrs);
-    if (!$ldap->success()) {
-      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $dn, LDAP_MOD, "update_accessTo($from,$to)"), LDAP_ERROR);
-    }
-    logging::log('modify', "update_accessTo($from,$to)", $dn, array_keys($new_attrs), $ldap->get_error());
-  }
-}
-
-
 /*!
  *  \brief Returns a random char
  */
