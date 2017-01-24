@@ -1812,7 +1812,7 @@ Some extra features allow you to install FusionDirectory's plugins, and change d
 
 =item --update-cache
 
-This option update the /var/cache/fusiondirectory/class.cache file. Wich contain PHP classes used in FusionDirectory, and their location.
+This option update the /var/cache/fusiondirectory/class.cache file. Which contain PHP classes used in FusionDirectory, and their location.
 
 =item --update-locales
 
@@ -1889,7 +1889,7 @@ This option will list the dn of LDAP entries using deprecated attributes or obje
 
 =item --ldif-deprecated
 
-This option will print an LDIF to allow you to remove deprecated attributes from you ldap server. Be carefull and check before applying.
+This option will print an LDIF to allow you to remove deprecated attributes from you ldap server. Be careful and check before applying.
 
 =item --show-config
 
