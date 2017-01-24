@@ -314,7 +314,7 @@ class simpleManagement
             'label'       => sprintf(_('%s template'), $i['name']),
             'category'    => $i['aclCategory'],
             'class'       => 'template',
-            'image'       => $i['icon'],//FIXME
+            'image'       => $i['icon'],
             'filter'      =>
               new ldapFilter(
                 '&',
