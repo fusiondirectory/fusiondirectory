@@ -1472,7 +1472,7 @@ sub migrate_dhcp {
         );
         $result->code && die "Migration of DHCP configuration entry failed, LDAP error: ".$result->error."\n";
 
-        my $configDn = "$rdn,$dhcprdn,$entrybase";
+        my $configDn = "$rdn-$systemcn,$dhcprdn,$entrybase";
 
         # Add DHCP service on server
         $mesg = $ldap->search(
