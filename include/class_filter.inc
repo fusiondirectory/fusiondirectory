@@ -34,13 +34,13 @@ class filter
   var $elementValues    = array();
   var $alphabetElements = array();
   var $autocompleter    = array();
-  var $category         = "";
+  var $category         = '';
   var $objectStorage    = array();
-  var $base             = "";
-  var $scope            = "";
+  var $base             = '';
+  var $scope            = '';
   var $query;
   var $initial          = FALSE;
-  var $scopeMode        = "auto";
+  var $scopeMode        = 'auto';
   var $alphabet         = NULL;
   var $converter        = array();
   var $pid;
@@ -71,33 +71,25 @@ class filter
     $contents       = file_get_contents($filename);
     $this->xmlData  = xml::xml2array($contents, 1);
 
-    if (!isset($this->xmlData['filterdef'])) {
+    if (!isset($this->xmlData['filterdef']['search'])) {
       return FALSE;
     }
 
-    $this->xmlData = $this->xmlData["filterdef"];
+    $this->xmlData = $this->xmlData['filterdef'];
 
     // Load filter
-    if (isset($this->xmlData['search'])) {
-      if (!isset($this->xmlData['search']['query'][0])) {
-        $this->xmlData['search']['query'] = array($this->xmlData['search']['query']);
-      }
-
-      // Move information
-      $entry            = $this->xmlData['search'];
-      $this->scopeMode  = $entry['scope'];
-      if ($entry['scope'] == "auto") {
-        $this->scope = "one";
-      } else {
-        $this->scope = $entry['scope'];
-      }
-      $this->query = $entry['query'];
-    } else {
-      return FALSE;
+    if (!isset($this->xmlData['search']['query'][0])) {
+      $this->xmlData['search']['query'] = array($this->xmlData['search']['query']);
     }
 
+    // Move information
+    $entry            = $this->xmlData['search'];
+    $this->scopeMode  = $entry['scope'];
+    $this->scope      = ($entry['scope'] == 'auto' ? 'one' : $entry['scope']);
+    $this->query      = $entry['query'];
+
     // Transfer initial value
-    if (isset($this->xmlData['definition']['initial']) && ($this->xmlData['definition']['initial'] == "true")) {
+    if (isset($this->xmlData['definition']['initial']) && ($this->xmlData['definition']['initial'] == 'true')) {
       $this->initial = TRUE;
     }
 
@@ -112,7 +104,6 @@ class filter
         $this->xmlData['element'] = array($this->xmlData['element']);
       }
       foreach ($this->xmlData['element'] as $element) {
-
         // Ignore elements without type
         if (!isset($element['type']) || !isset($element['tag'])) {
           continue;
@@ -132,18 +123,17 @@ class filter
         if (isset($element['default']) && !is_array($element['default'])) {
           $this->elementValues[$tag] = $element['default'];
         } else {
-          $this->elementValues[$tag] = "";
+          $this->elementValues[$tag] = '';
         }
 
         // Does this element react on alphabet links?
-        if (isset($element['alphabet']) && $element['alphabet'] == "true") {
+        if (isset($element['alphabet']) && ($element['alphabet'] == 'true')) {
           $this->alphabetElements[] = $tag;
         }
       }
 
       uasort($this->elements, 'strlenSort');
       $this->elements = array_reverse($this->elements);
-
     }
 
     return TRUE;
@@ -360,7 +350,7 @@ class filter
    */
   function renderScope()
   {
-    $checked = ($this->scope == "sub"?" checked":"");
+    $checked = ($this->scope == 'sub' ? ' checked' : '');
     return "<input type='checkbox' id='SCOPE' name='SCOPE' value='1' onClick='document.mainform.submit();'$checked>&nbsp;<LABEL for='SCOPE'>"._("Search in subtrees")."</LABEL>";
   }
 
@@ -430,13 +420,13 @@ class filter
     // Go thru all queries and merge results
     foreach ($this->query as $query) {
       if (!isset($query['backend']) || !isset($query['filter']) || !isset($query['attribute'])) {
-        die("No backend specified in search config.");
+        die('No backend specified in search config.');
       }
 
       // Is backend available?
-      $backend = "filter".$query['backend'];
+      $backend = 'filter'.$query['backend'];
       if (!isset($class_mapping["$backend"])) {
-        die("Invalid backend specified in search config.");
+        die('Invalid backend specified in search config.');
       }
 
       // Load filter and attributes
@@ -464,15 +454,15 @@ class filter
         // Handle converters if present
         if (isset($this->converter[$tag])) {
           preg_match('/([^:]+)::(.*)$/', $this->converter[$tag], $m);
-          $e_set    = call_user_func(array($m[1], $m[2]), preg_replace('/\$/', $this->elementValues[$tag], is_array($element['set'])?"":$element['set']));
-          $e_unset  = call_user_func(array($m[1], $m[2]), preg_replace('/\$/', $this->elementValues[$tag], is_array($element['unset'])?"":$element['unset']));
+          $e_set    = call_user_func(array($m[1], $m[2]), preg_replace('/\$/', $this->elementValues[$tag], is_array($element['set']) ? '' : $element['set']));
+          $e_unset  = call_user_func(array($m[1], $m[2]), preg_replace('/\$/', $this->elementValues[$tag], is_array($element['unset']) ? '' : $element['unset']));
         } else {
-          $e_set    = is_array($element['set'])?"":$element['set'];
-          $e_unset  = is_array($element['unset'])?"":$element['unset'];
+          $e_set    = (is_array($element['set']) ? '' : $element['set']);
+          $e_unset  = (is_array($element['unset']) ? '' : $element['unset']);
         }
 
         // Do not replace escaped \$ - This is required to be able to search for e.g. windows machines.
-        if ($this->elementValues[$tag] == "") {
+        if ($this->elementValues[$tag] == '') {
           $e_unset  = preg_replace('/([^\\\\])\$/', '${1}'.ldap_escape_f($this->elementValues[$tag]), $e_unset);
           $e_unset  = preg_replace('/\\\\\$/', '$', $e_unset);
           $filter   = preg_replace("/\\$$tag/", $e_unset, $filter);
@@ -539,8 +529,8 @@ class filter
       }
 
       // Save scope if needed
-      if ($this->scopeMode == "auto") {
-        $this->scope = (isset($_POST['SCOPE'])?"sub":"one");
+      if ($this->scopeMode == 'auto') {
+        $this->scope = (isset($_POST['SCOPE']) ? 'sub' : 'one');
       }
     }
 

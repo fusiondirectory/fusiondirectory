@@ -1,9 +1,8 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2017  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -29,17 +28,16 @@
  * \brief This class is responsible for parsing and querying the
  * fusiondirectory configuration file.
  */
-
-class config  {
-
+class config
+{
   /* XML parser */
   var $parser;
   var $config_found     = FALSE;
   var $tags             = array();
   var $level            = 0;
   var $gpc              = 0;
-  var $section          = "";
-  var $currentLocation  = "";
+  var $section          = '';
+  var $currentLocation  = '';
 
   /*!
    * \brief Store configuration for current location
@@ -60,15 +58,14 @@ class config  {
     'SERVERS'   => array(),
     'MAIN'      => array(),
   );
-  var $basedir        = "";
+  var $basedir        = '';
 
   /* Keep a copy of the current department list */
   var $departments      = array();
   var $idepartments     = array();
   var $department_info  = array();
-  var $filename         = "";
+  var $filename         = '';
   var $last_modified    = 0;
-
 
   /*!
    * \brief Class constructor of the config class
@@ -77,16 +74,15 @@ class config  {
    *
    * \param string $basedir base directory
    */
-  function __construct($filename, $basedir = "")
+  function __construct($filename, $basedir = '')
   {
     $this->basedir  = $basedir;
 
     /* Parse config file directly? */
-    if ($filename != "") {
+    if ($filename != '') {
       $this->parse($filename);
     }
   }
-
 
   /*!
    * \brief Check and reload the configuration
@@ -99,28 +95,27 @@ class config  {
   {
     /* Check if class_location.inc has changed, this is the case
         if we have installed or removed plugins. */
-    $tmp = stat(CACHE_DIR."/".CLASS_CACHE);
-    if (session::global_is_set("class_location.inc:timestamp")) {
-      if ($tmp['mtime'] != session::global_get("class_location.inc:timestamp")) {
-        session::global_un_set("plist");
+    $tmp = stat(CACHE_DIR.'/'.CLASS_CACHE);
+    if (session::global_is_set('class_location.inc:timestamp')) {
+      if ($tmp['mtime'] != session::global_get('class_location.inc:timestamp')) {
+        session::global_un_set('plist');
       }
     }
-    session::global_set("class_location.inc:timestamp", $tmp['mtime']);
+    session::global_set('class_location.inc:timestamp', $tmp['mtime']);
 
-    if (($this->filename != "") && ((filemtime($this->filename) != $this->last_modified) || $force)) {
+    if (($this->filename != '') && ((filemtime($this->filename) != $this->last_modified) || $force)) {
 
       $this->config_found     = FALSE;
       $this->tags             = array();
       $this->level            = 0;
       $this->gpc              = 0;
-      $this->section          = "";
-      $this->currentLocation  = "";
+      $this->section          = '';
+      $this->currentLocation  = '';
 
       $this->parse($this->filename);
       $this->set_current($this->current['NAME']);
     }
   }
-
 
   /*!
    * \brief Parse the given configuration file
@@ -134,7 +129,7 @@ class config  {
   {
     $this->last_modified  = filemtime($filename);
     $this->filename       = $filename;
-    $fh       = fopen($filename, "r");
+    $fh       = fopen($filename, 'r');
     $xmldata  = fread($fh, 100000);
     fclose($fh);
     $this->parse_data($xmldata);
@@ -161,7 +156,6 @@ class config  {
     }
     xml_parser_free($this->parser);
   }
-
 
   /*!
    * \brief Open xml tag when parsing the xml config
@@ -236,7 +230,6 @@ class config  {
     }
   }
 
-
   /*!
    * \brief Close xml tag when parsing the xml config
    *
@@ -252,7 +245,6 @@ class config  {
     }
     $this->level--;
   }
-
 
   /*!
    * \brief Get the password when needed from the config file
@@ -289,7 +281,6 @@ class config  {
     }
     return $creds;
   }
-
 
   /*!
    * \brief Get a LDAP link object
@@ -344,7 +335,6 @@ class config  {
     }
     return $obj;
   }
-
 
   /*!
    * \brief Set the current location
@@ -436,7 +426,6 @@ class config  {
 
     initLanguage();
   }
-
 
   /*!
    * \brief Load server information from config/LDAP
@@ -624,7 +613,6 @@ class config  {
       /* Add last ou element of current dn to our array */
       $last = &$arr;
       foreach ($elements as $key => $ele) {
-
         /* skip empty */
         if (empty($ele)) {
           continue;
@@ -654,7 +642,6 @@ class config  {
     $ret['/']['SUB']    = $arr;
     $this->idepartments = $this->generateDepartmentArray($ret, -1, $max_size);
   }
-
 
   /*
    * \brief Creates display friendly output from make_idepartments
@@ -744,7 +731,7 @@ class config  {
    *
    * \return string the configuration value if found or the default value
    */
-  function get_cfg_value($name, $default = "")
+  function get_cfg_value($name, $default = '')
   {
     $name = strtoupper($name);
     $res  = $default;
@@ -752,9 +739,9 @@ class config  {
     /* Check if we have a current value for $name */
     if (isset($this->current[$name])) {
       $res = $this->current[$name];
-    } elseif (isset($this->data["MAIN"][$name])) {
+    } elseif (isset($this->data['MAIN'][$name])) {
       /* Check if we have a global value for $name */
-      $res = $this->data["MAIN"][$name];
+      $res = $this->data['MAIN'][$name];
     }
 
     if (is_array($default) && !is_array($res)) {
@@ -763,7 +750,6 @@ class config  {
 
     return $res;
   }
-
 
   /*!
    * \brief Check if session lifetime matches session.gc_maxlifetime
@@ -790,7 +776,6 @@ class config  {
     }
   }
 
-
   /*!
    * \brief Check if snapshot are enabled
    *
@@ -798,35 +783,33 @@ class config  {
    */
   function snapshotEnabled()
   {
-    if ($this->get_cfg_value("enableSnapshots") == "TRUE") {
-
-      /* Check if the snapshot_base is defined */
-      if ($this->get_cfg_value("snapshotBase") == "") {
-
-        /* Send message if not done already */
-        if (!session::is_set("snapshotFailMessageSend")) {
-          session::set("snapshotFailMessageSend", TRUE);
-          msg_dialog::display(_("Configuration error"),
-              sprintf(_("The snapshot functionality is enabled, but the required variable '%s' is not set."),
-                      "snapshotBase"), ERROR_DIALOG);
-        }
-        return FALSE;
-      }
-
-      /* Check if gzcompress is available */
-      if (!is_callable("gzcompress")) {
-
-        /* Send message if not done already */
-        if (!session::is_set("snapshotFailMessageSend")) {
-          session::set("snapshotFailMessageSend", TRUE);
-          msg_dialog::display(_("Configuration error"),
-              sprintf(_("The snapshot functionality is enabled, but the required compression module is missing. Please install '%s'."), "php5-zip / php5-gzip"), ERROR_DIALOG);
-        }
-        return FALSE;
-      }
-      return TRUE;
+    if ($this->get_cfg_value('enableSnapshots') != 'TRUE') {
+      return FALSE;
     }
-    return FALSE;
+
+    /* Check if the snapshot_base is defined */
+    if ($this->get_cfg_value('snapshotBase') == '') {
+      /* Send message if not done already */
+      if (!session::is_set('snapshotFailMessageSend')) {
+        session::set('snapshotFailMessageSend', TRUE);
+        msg_dialog::display(_('Configuration error'),
+            sprintf(_('The snapshot functionality is enabled, but the required variable "%s" is not set.'),
+                    'snapshotBase'), ERROR_DIALOG);
+      }
+      return FALSE;
+    }
+
+    /* Check if gzcompress is available */
+    if (!is_callable('gzcompress')) {
+      /* Send message if not done already */
+      if (!session::is_set('snapshotFailMessageSend')) {
+        session::set('snapshotFailMessageSend', TRUE);
+        msg_dialog::display(_('Configuration error'),
+            sprintf(_('The snapshot functionality is enabled, but the required compression module is missing. Please install "%s".'), 'php5-zip / php5-gzip'), ERROR_DIALOG);
+      }
+      return FALSE;
+    }
+    return TRUE;
   }
 
   function loadPlist (pluglist $plist)
@@ -906,7 +889,7 @@ class config  {
         /* Walk through supplied list and feed only translated categories */
         $cats = array();
         foreach ($plInfo['plCategory'] as $idx => $data) {
-          $cat    = (is_numeric($idx)?$data:$idx);
+          $cat    = (is_numeric($idx) ? $data : $idx);
           $cats[] = $cat;
           if (!isset($this->data['CATEGORIES'][$cat])) {
             $this->data['CATEGORIES'][$cat] = array( 'classes' => array('0') );
@@ -1081,5 +1064,4 @@ class config  {
     );
   }
 }
-
 ?>

@@ -1,9 +1,8 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2017  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -216,11 +215,10 @@ class CopyPasteHandler
       $this->save_object();
       foreach ($this->clean_objects as $key => $entry) {
         $this->current = $entry;
-        $dn     = $this->current['object']->dn;
         $errors = $this->current['object']->save();
 
         if (empty($errors)) {
-          $this->current_saved($dn);
+          $this->current_saved();
           /* Remove from queue -> avoid saving twice */
           unset($this->queue[$key]);
         } else {
@@ -234,17 +232,15 @@ class CopyPasteHandler
     /* Save edited entry and force loading new one */
     if (isset($this->current['object'])) {
       $this->current['object']->save_object();
-    }
+      /* Save current object if edition is finished */
+      if (isset($_POST['edit_finish'])) {
+        $errors = $this->current['object']->save();
 
-    /* Save current object if edition is finished */
-    if (isset($_POST['edit_finish']) && $this->current) {
-      $dn     = $this->current['object']->dn;
-      $errors = $this->current['object']->save();
-
-      if (empty($errors)) {
-        $this->current_saved($dn);
-      } else {
-        msg_dialog::displayChecks($errors);
+        if (empty($errors)) {
+          $this->current_saved();
+        } else {
+          msg_dialog::displayChecks($errors);
+        }
       }
     }
 
@@ -275,12 +271,12 @@ class CopyPasteHandler
         }
       }
     }
-    return "";
+    return '';
   }
 
-  private function current_saved($dn)
+  private function current_saved()
   {
-    $this->lastdn   = $dn;
+    $this->lastdn   = $this->current['object']->dn;
     $this->handleReferences();
     $this->current  = FALSE;
   }

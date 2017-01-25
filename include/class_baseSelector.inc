@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2017  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -151,7 +151,7 @@ class baseSelector {
     $this->action = NULL;
     $last_base    = $this->base;
     if (isset($_REQUEST['BPID']) && $_REQUEST['BPID'] == $this->pid) {
-      if (isset($_POST['bs_rebase_'.$this->pid]) && !empty($_POST['bs_rebase_'.$this->pid])) {
+      if (!empty($_POST['bs_rebase_'.$this->pid])) {
         $new_base = base64_decode($_POST['bs_rebase_'.$this->pid]);
         if (isset($this->pathMapping[$new_base])) {
           $this->base   = $new_base;
@@ -160,21 +160,17 @@ class baseSelector {
           $this->lastState = FALSE;
           return FALSE;
         }
-      } else {
-        // Input field set?
-        if (isset($_POST[$this->getInputHtmlId()])) {
+      } elseif (isset($_POST[$this->getInputHtmlId()])) {
+        // Take over input field base
+        if (($this->submitButton && isset($_POST['submit_base_'.$this->pid.'_x'])) || !$this->submitButton) {
 
-          // Take over input field base
-          if ($this->submitButton && isset($_POST['submit_base_'.$this->pid.'_x']) || !$this->submitButton) {
-
-            // Check if base is available
-            $this->lastState = FALSE;
-            foreach ($this->pathMapping as $key => $path) {
-              if (mb_strtolower($path) == mb_strtolower($_POST[$this->getInputHtmlId()])) {
-                $this->base       = $key;
-                $this->lastState  = TRUE;
-                break;
-              }
+          // Check if base is available
+          $this->lastState = FALSE;
+          foreach ($this->pathMapping as $key => $path) {
+            if (mb_strtolower($path) == mb_strtolower($_POST[$this->getInputHtmlId()])) {
+              $this->base       = $key;
+              $this->lastState  = TRUE;
+              break;
             }
           }
         }
@@ -205,13 +201,12 @@ class baseSelector {
     }
     $this->tree .= "</script>";
 
-    $selected     = $this->base == $config->current['BASE']?"Selected":"";
+    $selected     = ($this->base == $config->current['BASE'] ? 'Selected' : '');
     $this->tree   .= "<div class='treeList' style='display:none;max-height:".$this->height."px' id='bs_".$this->pid."' onmouseover=\"window.clearTimeout(rtimer);\" onmouseout=\"rtimer= Element.hide.delay(0.25, 'bs_".$this->pid."')\"><a class='treeList$selected' $link>/&nbsp;["._("Root")."]</a><ul class='treeList'>\n";
     $first        = TRUE;
     $last_indent  = 2;
 
     foreach ($this->pathMapping as $base => $dummy) {
-
       // Skip root for tree
       if ($base == $config->current['BASE']) {
         continue;
@@ -223,25 +218,23 @@ class baseSelector {
       $indent = count($elements);
       if (!$first && ($indent == $last_indent)) {
         $this->tree .= "</li>\n";
-      }
-      if ($indent > $last_indent) {
+      } elseif ($indent > $last_indent) {
         $this->tree .= "<ul>\n";
-      }
-      if ($indent < $last_indent) {
+      } elseif ($indent < $last_indent) {
         for ($i = 0; $i < ($last_indent - $indent); $i++) {
           $this->tree .= "</li></ul>\n";
         }
         $this->tree .= "</li>\n";
       }
-      $selected   = ($this->base == $base?" class='treeListSelected'":"");
+      $selected   = ($this->base == $base ? ' class="treeListSelected"' : '');
       $link       = "onclick=\"\$('bs_rebase_".$this->pid."').value='".base64_encode($base)."';$('submit_tree_base_".$this->pid."').click();\"";
       $this->tree .= "<li><a$selected $link>".
                     '<img class="center" '.
                     'src="'.htmlentities($config->department_info[$base]['img'], ENT_COMPAT, 'UTF-8').'" '.
                     'alt="'.$config->department_info[$base]['name'].'"/>&nbsp;'.
                     $this->gennonbreaks($config->department_info[$base]['name']).
-                    ($config->department_info[$base]['description'] == ''?'':'&nbsp;<span class="informal">['.$this->gennonbreaks($config->department_info[$base]['description']).']</span>').
-                    "</a>";
+                    ($config->department_info[$base]['description'] == '' ? '' : '&nbsp;<span class="informal">['.$this->gennonbreaks($config->department_info[$base]['description']).']</span>').
+                    '</a>';
 
       $last_indent  = $indent;
       $first        = FALSE;
@@ -260,9 +253,9 @@ class baseSelector {
     if ($this->submitButton) {
       $this->tree .= "&nbsp;<input class='center' type='image' src='geticon.php?context=actions&amp;icon=submit&amp;size=16' title='"._("Submit")."' name='submit_base_".$this->pid."' id='submit_base_".$this->pid."' alt='"._("Submit")."'>";
     }
-    $this->tree .= "<input type='submit' style='display:none' name='submit_tree_base_".$this->pid."' id='submit_tree_base_".$this->pid."'>";
-    $this->tree .= "<input type='hidden' name='bs_rebase_".$this->pid."' id='bs_rebase_".$this->pid."'>";
-    $this->tree .= "<input type='hidden' name='BPID' id='BPID' value='".$this->pid."'>";
+    $this->tree .= '<input type="submit" style="display:none" name="submit_tree_base_'.$this->pid.'" id="submit_tree_base_'.$this->pid.'"/>';
+    $this->tree .= '<input type="hidden" name="bs_rebase_'.$this->pid.'" id="bs_rebase_'.$this->pid.'"/>';
+    $this->tree .= '<input type="hidden" name="BPID" id="BPID" value="'.$this->pid.'"/>';
 
     $this->lastState = TRUE;
     return TRUE;
