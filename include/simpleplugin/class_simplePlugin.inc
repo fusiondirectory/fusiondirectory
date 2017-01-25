@@ -657,6 +657,12 @@ class simplePlugin extends plugin
     $this->post_save();
   }
 
+  /* Used by prepare_save and template::apply */
+  public function mergeObjectClasses(array $oc)
+  {
+    return array_merge_unique($oc, $this->objectclasses);
+  }
+
   protected function prepare_save ()
   {
     /* Call parents save to prepare $this->attrs */

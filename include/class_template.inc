@@ -191,6 +191,11 @@ class template
   {
     if ($targetdn !== NULL) {
       $this->tabObject = objects::open($targetdn, $this->type);
+      foreach ($this->tabObject->by_object as $class => &$plugin) {
+        if ($plugin->is_account || $plugin->ignore_account) {
+          $this->attrs['objectClass'] = $plugin->mergeObjectClasses($this->attrs['objectClass']);
+        }
+      }
     } elseif ($this->applied) {
       trigger_error('Templates can’t be applied twice without calling reset before');
       return;

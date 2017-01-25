@@ -459,7 +459,7 @@ class plugin
     $is_new = empty($oc);
 
     /* Load (minimum) attributes, add missing ones */
-    $this->attrs['objectClass'] = array_merge_unique($oc, $this->objectclasses);
+    $this->attrs['objectClass'] = $this->mergeObjectClasses($oc);
 
     /* Copy standard attributes */
     foreach ($this->attributes as $val) {
