@@ -1197,6 +1197,12 @@ class simplePlugin
     return !empty($this->attrs);
   }
 
+  /* Used by prepare_save and template::apply */
+  public function mergeObjectClasses(array $oc)
+  {
+    return array_merge_unique($oc, $this->objectclasses);
+  }
+
   protected function prepare_save ()
   {
     global $config;
@@ -1229,7 +1235,7 @@ class simplePlugin
       }
     }
 
-    $this->attrs['objectClass'] = array_merge_unique($oc, $this->objectclasses);
+    $this->attrs['objectClass'] = $this->mergeObjectClasses($oc);
 
     /* Fill attributes LDAP values into the attrs array */
     foreach ($this->attributesInfo as $section => $sectionInfo) {

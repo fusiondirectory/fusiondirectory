@@ -142,7 +142,7 @@ class baseSelector {
   {
     global $config;
 
-    if (!isset($this->base) || ($this->base == "")) {
+    if (!isset($this->base) || ($this->base == '')) {
       $this->lastState = FALSE;
       return FALSE;
     }
@@ -179,7 +179,6 @@ class baseSelector {
           }
         }
       }
-
     }
 
     /* Skip if there's no change */
