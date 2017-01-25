@@ -38,8 +38,8 @@
  * The functions need to be handled with care, because they are not as strict
  * as one might expect.
  */
-class tests {
-
+class tests
+{
   /*!
    * \brief Test if the given string is a phone number
    *
@@ -292,7 +292,7 @@ class tests {
   {
     global $config;
     $reservedNames = array();
-    foreach ($config->data['OBJECTS'] as $type => $infos) {
+    foreach ($config->data['OBJECTS'] as $infos) {
       if (isset($infos['ou'])) {
         if ($infos['ou'] != '') {
           if (preg_match('/ou=([^,]+),$/', $infos['ou'], $m)) {
