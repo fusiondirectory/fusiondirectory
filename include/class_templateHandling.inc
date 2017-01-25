@@ -245,6 +245,56 @@ class templateHandling
     return $fields;
   }
 
+  private static function randomStringModifier(array $args)
+  {
+    $length = 8;
+    $chars  = 'b';
+    if (count($args) >= 2) {
+      $length = mt_rand($args[0], $args[1]);
+      if (count($args) >= 3) {
+        $chars = $args[2];
+      }
+    } elseif (count($args) >= 1) {
+      $length = $args[0];
+    }
+    $res = '';
+    for ($i = 0; $i < $length; ++$i) {
+      switch ($chars) {
+        case 'd':
+          /* digits */
+          $res .= (string)rand(0, 9);
+          break;
+        case 'l':
+          /* letters */
+          $nb = mt_rand(65, 116);
+          if ($nb > 90) {
+            /* lowercase */
+            $nb += 6;
+          }
+          $res .= chr($nb);
+          break;
+        case 'b':
+          /* both */
+        default:
+          $nb = mt_rand(65, 126);
+          if ($nb > 116) {
+            /* digit */
+            $nb = (string)($nb - 117);
+          } else {
+            if ($nb > 90) {
+              /* lowercase */
+              $nb += 6;
+            }
+            $nb = chr($nb);
+          }
+          $res .= $nb;
+          break;
+      }
+    }
+
+    return $res;
+  }
+
   /*! \brief Apply a modifier
    *
    * \param string $m the modifier
@@ -261,38 +311,47 @@ class templateHandling
       /* $str is an array and $m is lowercase, so it's a string modifier */
       $str = $str[0];
     }
+    $result = array($str);
     switch ($m) {
       case 'F':
         // First
-        return array($str[0]);
+        $result = array($str[0]);
+        break;
       case 'L':
         // Last
-        return array(end($str));
+        $result = array(end($str));
+        break;
       case 'J':
         // Join
         if (isset($args[0])) {
-          return array(join($args[0], $str));
+          $result = array(join($args[0], $str));
         } else {
-          return array(join($str));
+          $result = array(join($str));
         }
+        break;
       case 'C':
         // Count
-        return array(count($str));
+        $result = array(count($str));
+        break;
       case 'c':
         // comment
-        return array('');
+        $result = array('');
+        break;
       case 'b':
         // base64
         if (isset($args[0]) && ($args[0] == 'd')) {
-          return array(base64_decode($str));
+          $result = array(base64_decode($str));
         }
-        return array(base64_encode($str));
+        $result = array(base64_encode($str));
+        break;
       case 'u':
         // uppercase
-        return array(mb_strtoupper($str, 'UTF-8'));
+        $result = array(mb_strtoupper($str, 'UTF-8'));
+        break;
       case 'l':
         // lowercase
-        return array(mb_strtolower($str, 'UTF-8'));
+        $result = array(mb_strtolower($str, 'UTF-8'));
+        break;
       case 'a':
         // remove accent
         $str = htmlentities($str, ENT_NOQUOTES, 'UTF-8');
@@ -301,7 +360,8 @@ class templateHandling
         // handle ligatures
         $str = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $str);
         // delete unhandled characters
-        return array(preg_replace('#&[^;]+;#', '', $str));
+        $result = array(preg_replace('#&[^;]+;#', '', $str));
+        break;
       case 't':
         // translit
         $localesaved = setlocale(LC_CTYPE, 0);
@@ -311,10 +371,12 @@ class templateHandling
           $ret[] = iconv('UTF8', 'ASCII//TRANSLIT', $str);
         }
         setlocale(LC_CTYPE, $localesaved);
-        return array_unique($ret);
+        $result = array_unique($ret);
+        break;
       case 'p':
         // spaces
-        return array(preg_replace('/\s/u', '', $str));
+        $result = array(preg_replace('/\s/u', '', $str));
+        break;
       case 's':
         // substring
         if (count($args) < 1) {
@@ -328,61 +390,21 @@ class templateHandling
           for ($i = $m[1];$i < $m[2]; ++$i) {
             $res[] = substr($str, $args[0], $i);
           }
-          return array_unique($res);
+          $result = array_unique($res);
         } else {
-          return array(substr($str, $args[0], $args[1]));
+          $result = array(substr($str, $args[0], $args[1]));
         }
+        break;
       case 'r':
         // random string
-        $length = 8;
-        $chars  = 'b';
-        if (count($args) >= 2) {
-          $length = mt_rand($args[0], $args[1]);
-          if (count($args) >= 3) {
-            $chars = $args[2];
-          }
-        } elseif (count($args) >= 1) {
-          $length = $args[0];
-        }
-        $res = '';
-        for ($i = 0; $i < $length; ++$i) {
-          switch ($chars) {
-            case 'd':
-              /* digits */
-              $res .= (string)rand(0, 9);
-            break;
-            case 'l':
-              /* letters */
-              $nb = mt_rand(65, 116);
-              if ($nb > 90) {
-                /* lowercase */
-                $nb += 6;
-              }
-              $res .= chr($nb);
-            break;
-            case 'b':
-              /* both */
-            default:
-              $nb = mt_rand(65, 126);
-              if ($nb > 116) {
-                /* digit */
-                $nb = (string)($nb - 117);
-              } else {
-                if ($nb > 90) {
-                  /* lowercase */
-                  $nb += 6;
-                }
-                $nb = chr($nb);
-              }
-              $res .= $nb;
-            break;
-          }
-        }
-        return array($res);
+        $result = array(static::randomStringModifier($args));
+        break;
       default:
         trigger_error("Unkown modifier '$m'");
-        return array($str);
+        $result = array($str);
+        break;
     }
+    return $result;
   }
 
   /*! \brief Flattens dependencies (if a depends of b which depends of c then a depends of c) */
