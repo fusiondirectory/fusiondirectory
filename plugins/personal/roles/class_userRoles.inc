@@ -322,5 +322,7 @@ class userRoles extends simplePlugin
       unset($this->attrs['userRoles']['count']);
       $this->rolesMembership = $this->attrs['userRoles'];
     }
+
+    $this->is_account = ((count($this->rolesMembership) > 0) || (count($this->groupsMembership) > 0));
   }
 }
