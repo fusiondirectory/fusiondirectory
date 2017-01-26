@@ -273,16 +273,12 @@ class userRoles extends simplePlugin
     if (isset($this->attrs['userGroups'])) {
       unset($this->attrs['userGroups']['count']);
       $this->groupsMembership = $this->attrs['userGroups'];
-    } else {
-      $this->groupsMembership = array();
     }
 
     $this->savedRolesMembership = $this->rolesMembership;
     if (isset($this->attrs['userRoles'])) {
       unset($this->attrs['userRoles']['count']);
       $this->rolesMembership = $this->attrs['userRoles'];
-    } else {
-      $this->rolesMembership = array();
     }
   }
 }
