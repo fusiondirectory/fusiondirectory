@@ -697,8 +697,6 @@ class posixAccount extends simplePlugin
     if (isset($this->attrs['posixGroups'])) {
       unset($this->attrs['posixGroups']['count']);
       $this->groupMembership = $this->attrs['posixGroups'];
-    } else {
-      $this->groupMembership = array();
     }
 
     if (isset($this->attrs['force_ids'])) {
