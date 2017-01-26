@@ -110,7 +110,8 @@ class ogrouptabs extends simpleTabs_noSpecial
   {
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $class, 'Adding tab ');
     $plInfos = pluglist::pluginInfos($class);
-    $this->by_name[$class]            = $plInfos['plShortName'];
+    $this->by_name[$class]  = $plInfos['plShortName'];
+    $this->plNotify[$class] = FALSE;
     if (isset($this->removed_tabs[$class])) {
       $this->by_object[$class] = $this->removed_tabs[$class];
       unset($this->removed_tabs[$class]);
@@ -125,6 +126,7 @@ class ogrouptabs extends simpleTabs_noSpecial
     $this->removed_tabs["$class"] = $this->by_object["$class"];
     unset($this->by_object["$class"]);
     unset($this->by_name["$class"]);
+    unset($this->plNotify["$class"]);
   }
 
   function gen_tabs($disabled = FALSE)
