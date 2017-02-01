@@ -690,9 +690,6 @@ class Step_Migrate extends setupStep
   {
     global $config;
 
-    /* Reset settings */
-    $FD_1_0_8_found = FALSE;
-
     /* Establish ldap connection */
     $ldap = $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);
@@ -704,8 +701,7 @@ class Step_Migrate extends setupStep
         _('Possibly the "root object" is missing.')
       );
     } else {
-      $FD_1_0_8_found = FALSE;
-      $FD_1_0_7_found = FALSE;
+      $FD_admin_found = FALSE;
 
       $attrs = $ldap->fetch();
 
@@ -717,131 +713,70 @@ class Step_Migrate extends setupStep
         $rusers[$user_attrs['uid'][0]] = $user_attrs['dn'];
       }
       $groups = array();
-      $ldap->search("objectClass=posixGroup", array("cn","dn"));
+      $ldap->search('(objectClass=posixGroup)', array('cn','dn'));
       while ($group_attrs = $ldap->fetch()) {
         $groups[$group_attrs['dn']] = $group_attrs['cn'][0];
       }
+      $roles = array();
+      $ldap->search('(objectClass=organizationalRole)', array('cn','dn'));
+      while ($role_attrs = $ldap->fetch()) {
+        $roles[$role_attrs['dn']] = $role_attrs['cn'][0];
+      }
 
-      /* Check if a valid FusionDirectory 1.0.8 admin exists
+      /* Check if a valid FusionDirectory admin exists
           -> gosaAclEntry for an existing and accessible user.
        */
-      $valid_users  = "";
-      $valid_groups = "";
+      $valid_users  = '';
+      $valid_groups = '';
+      $valid_roles  = '';
       if (isset($attrs['gosaAclEntry'])) {
         $acls = $attrs['gosaAclEntry'];
         for ($i = 0; $i < $acls['count']; $i++) {
           $acl = $acls[$i];
-          $tmp = explode(":", $acl);
+          $tmp = explode(':', $acl);
 
-          if ($tmp[1] == "subtree") {
+          if ($tmp[1] == 'subtree') {
             /* Check if acl owner is a valid FusionDirectory user account */
-            $ldap->cat(base64_decode($tmp[2]), array("gosaAclTemplate"), '(gosaAclTemplate=*:all;cmdrw)');
+            $ldap->cat(base64_decode($tmp[2]), array('gosaAclTemplate'), '(gosaAclTemplate=*:all;cmdrw)');
             if ($ldap->count()) {
-              $members = explode(",", $tmp[3]);
+              $members = explode(',', $tmp[3]);
               foreach ($members as $member) {
                 $member = base64_decode($member);
 
                 if (isset($users[$member])) {
-                  $valid_users    .= $users[$member].", ";
-                  $FD_1_0_8_found = TRUE;
+                  $valid_users    .= $users[$member].', ';
+                  $FD_admin_found = TRUE;
                 }
                 if (isset($groups[$member])) {
                   $ldap->cat($member);
                   $group_attrs = $ldap->fetch();
-                  $val_users = "";
+                  $val_users = '';
                   if (isset($group_attrs['memberUid'])) {
                     for ($e = 0; $e < $group_attrs['memberUid']['count']; $e ++) {
                       if (isset($rusers[$group_attrs['memberUid'][$e]])) {
-                        $val_users .= $group_attrs['memberUid'][$e].", ";
+                        $val_users .= $group_attrs['memberUid'][$e].', ';
                       }
                     }
                   }
                   if (!empty($val_users)) {
-                    $valid_groups .= $groups[$member]."(<i>".trim($val_users, ", ")."</i>), ";
-                    $FD_1_0_8_found  = TRUE;
+                    $valid_groups .= $groups[$member].'(<i>'.trim($val_users, ', ').'</i>), ';
+                    $FD_admin_found  = TRUE;
                   }
                 }
-              }
-            }
-          }
-        }
-      }
-
-      /* Try to find an old FD 1.0.7 administrator account that may be migrated */
-      if (!$FD_1_0_8_found) {
-        $valid_users  = "";
-        $valid_groups = "";
-        if (isset($attrs['gosaAclEntry'])) {
-          $acls = $attrs['gosaAclEntry'];
-          for ($i = 0; $i < $acls['count']; $i++) {
-            $acl = $acls[$i];
-            $tmp = explode(":", $acl);
-
-            if ($tmp[1] == "psub") {
-              $members = explode(",", $tmp[2]);
-              foreach ($members as $member) {
-                $member = base64_decode($member);
-                if (isset($users[$member])) {
-                  if (preg_match("/all;cmdrw/i", $tmp[3])) {
-                    $valid_users    .= $users[$member].", ";
-                    $FD_1_0_7_found = TRUE;
-                  }
-                }
-                if (isset($groups[$member])) {
-                  if (preg_match("/all;cmdrw/i", $tmp[3])) {
-                    $ldap->cat($member);
-                    $group_attrs = $ldap->fetch();
-                    $val_users = "";
-                    if (isset($group_attrs['memberUid'])) {
-                      for ($e = 0; $e < $group_attrs['memberUid']['count']; $e++) {
-                        if (isset($rusers[$group_attrs['memberUid'][$e]])) {
-                          $val_users .= $group_attrs['memberUid'][$e].", ";
-                        }
+                if (isset($roles[$member])) {
+                  $ldap->cat($member);
+                  $roles_attrs = $ldap->fetch();
+                  $val_users = '';
+                  if (isset($role_attrs['roleOccupant'])) {
+                    for ($e = 0; $e < $role_attrs['roleOccupant']['count']; $e ++) {
+                      if (isset($users[$role_attrs['roleOccupant'][$e]])) {
+                        $val_users .= $users[$role_attrs['roleOccupant'][$e]].', ';
                       }
-                    }
-                    if (!empty($val_users)) {
-                      $valid_groups .= $groups[$member]."(<i>".trim($val_users, ", ")."</i>), ";
-                      $FD_1_0_7_found  = TRUE;
                     }
                   }
-                }
-              }
-            } elseif ($tmp[1] == "role") {
-              /* Check if acl owner is a valid FusionDirectory user account */
-              $ldap->cat(base64_decode($tmp[2]), array("gosaAclTemplate"));
-              $ret = $ldap->fetch();
-
-              if (isset($ret['gosaAclTemplate'])) {
-                $cnt = $ret['gosaAclTemplate']['count'];
-                for ($j = 0; $j < $cnt; $j++) {
-                  $a_str = $ret['gosaAclTemplate'][$j];
-                  if (preg_match("/^[0-9]*:psub:/", $a_str) && preg_match("/:all;cmdrw$/", $a_str)) {
-
-                    $members = explode(",", $tmp[3]);
-                    foreach ($members as $member) {
-                      $member = base64_decode($member);
-
-                      if (isset($users[$member])) {
-                        $valid_users    .= $users[$member].", ";
-                        $FD_1_0_7_found = TRUE;
-                      }
-                      if (isset($groups[$member])) {
-                        $ldap->cat($member);
-                        $group_attrs = $ldap->fetch();
-                        $val_users = "";
-                        if (isset($group_attrs['memberUid'])) {
-                          for ($e = 0; $e < $group_attrs['memberUid']['count']; $e ++) {
-                            if (isset($rusers[$group_attrs['memberUid'][$e]])) {
-                              $val_users .= $group_attrs['memberUid'][$e].", ";
-                            }
-                          }
-                        }
-                        if (!empty($val_users)) {
-                          $valid_groups .= $groups[$member]."(<i>".trim($val_users, ", ")."</i>), ";
-                          $FD_1_0_7_found  = TRUE;
-                        }
-                      }
-                    }
+                  if (!empty($val_users)) {
+                    $valid_roles .= $roles[$member].'(<i>'.trim($val_users, ', ').'</i>), ';
+                    $FD_admin_found  = TRUE;
                   }
                 }
               }
@@ -851,27 +786,16 @@ class Step_Migrate extends setupStep
       }
 
       /* Print out results */
-      if ($FD_1_0_7_found) {
-        $str = "";
+      if ($FD_admin_found) {
+        $str = '';
         if (!empty($valid_users)) {
-          $str .= '<i>'.sprintf(_('FD 1.0.7 administrative accounts found: %s'), trim($valid_users, ', ')).'</i><br/>';
+          $str .= '<b>'._('Users').'</b>:&nbsp;'.trim($valid_users, ', ').'<br/>';
         }
         if (!empty($valid_groups)) {
-          $str .= '<i>'.sprintf(_('FD 1.0.7 administrative groups found: %s'), trim($valid_groups, ', ')).'</i><br/>';
+          $str .= '<b>'._('Groups').'</b>:&nbsp;'.trim($valid_groups, ', ').'<br/>';
         }
-        $str .= _('You may run <i>fusiondirectory-setup --migrate-acls</i> after saving config file at the end of the setup to migrate it.<br/>');
-        throw new CheckFailedException(
-          _('Failed'),
-          $str._('There is no valid FusionDirectory 1.0.8 administrator account inside your LDAP.').'&nbsp;'.
-          $checkobj->submit(_('Create'), 'create')
-        );
-      } elseif ($FD_1_0_8_found) {
-        $str = "";
-        if (!empty($valid_users)) {
-          $str .= "<b>"._("Users")."</b>:&nbsp;".trim($valid_users, ", ")."<br>";
-        }
-        if (!empty($valid_groups)) {
-          $str .= "<b>"._("Groups")."</b>:&nbsp;".trim($valid_groups, ", ")."<br>";
+        if (!empty($valid_roles)) {
+          $str .= '<b>'._('Roles').'</b>:&nbsp;'.trim($valid_roles, ', ').'<br/>';
         }
         return $str;
       } else {
