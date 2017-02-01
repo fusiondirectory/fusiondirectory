@@ -2228,12 +2228,14 @@ function check_schema($cfg)
   $checks['template-fd']['IS_MUST_HAVE']     = FALSE;
   $checks['template-fd']['INFO']             = _('Used to store templates.');
 
-  /* nis */
-  $checks['nis'] = $def_check;
-  $checks['nis']['SCHEMA_FILE']       = 'nis.schema';
-  $checks['nis']['CLASSES_REQUIRED']  = array('posixAccount');
-  $checks['nis']['IS_MUST_HAVE']      = FALSE;
-  $checks['nis']['INFO']              = _('Used to store POSIX information.');
+  if (class_available('posixAccount')) {
+    /* nis */
+    $checks['nis'] = $def_check;
+    $checks['nis']['SCHEMA_FILE']       = 'nis.schema';
+    $checks['nis']['CLASSES_REQUIRED']  = array('posixAccount');
+    $checks['nis']['IS_MUST_HAVE']      = FALSE;
+    $checks['nis']['INFO']              = _('Used to store POSIX information.');
+  }
 
   foreach ($checks as $name => $value) {
     foreach ($value['CLASSES_REQUIRED'] as $class) {

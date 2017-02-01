@@ -217,7 +217,7 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
         } else {
           $value['role'] = $newvalue;
         }
-      } elseif (in_array($source['CLASS'], array('user','group','roleGeneric')) && (($member_key = array_search($oldvalue, $value['members'])) !== FALSE)) {
+      } elseif (in_array($source['CLASS'], array('user','posixGroup','roleGeneric')) && (($member_key = array_search($oldvalue, $value['members'])) !== FALSE)) {
         if ($newvalue === NULL) {
           unset($value['members'][$member_key]);
         } elseif ($source['MODE'] == 'move') {
@@ -225,7 +225,7 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
         } elseif ($source['MODE'] == 'copy') {
           $value['members'][] = $newvalue;
         }
-      } elseif (!in_array($source['CLASS'], array('aclRole','user','group','roleGeneric'))) {
+      } elseif (!in_array($source['CLASS'], array('aclRole','user','posixGroup','roleGeneric'))) {
         trigger_error('unknown source '.$source['CLASS']);
       }
     }
@@ -237,9 +237,9 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
     foreach ($this->value as $value) {
       if (($source['CLASS'] == 'aclRole') && ($value['role'] == $oldvalue)) {
         return TRUE;
-      } elseif (in_array($source['CLASS'], array('user','group','roleGeneric')) && in_array($oldvalue, $value['members'])) {
+      } elseif (in_array($source['CLASS'], array('user','posixGroup','roleGeneric')) && in_array($oldvalue, $value['members'])) {
         return TRUE;
-      } elseif (!in_array($source['CLASS'], array('aclRole','user','group','roleGeneric'))) {
+      } elseif (!in_array($source['CLASS'], array('aclRole','user','posixGroup','roleGeneric'))) {
         trigger_error('unknown source '.$source['CLASS']);
       }
     }
@@ -277,7 +277,7 @@ class aclAssignment extends simplePlugin
         'gosaAclEntry' => array(
           array('aclRole',      'dn', 'gosaAclEntry=*:*:%b|oldvalue%:*'),
           array('user',         'dn', 'gosaAclEntry=*:*:*:*%b|oldvalue%*'),
-          array('group',        'dn', 'gosaAclEntry=*:*:*:*%b|oldvalue%*'),
+          array('posixGroup',   'dn', 'gosaAclEntry=*:*:*:*%b|oldvalue%*'),
           array('roleGeneric',  'dn', 'gosaAclEntry=*:*:*:*%b|oldvalue%*'),
         )
       ),

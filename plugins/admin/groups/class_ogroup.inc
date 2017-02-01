@@ -167,7 +167,7 @@ class ogroup extends simplePlugin
       'plForeignKeys'  => array(
         'member' => array(
           array('user'),
-          array('group'),
+          array('posixGroup'),
           array('applicationGeneric'),
           array('serverGeneric'),
           array('workstationGeneric'),

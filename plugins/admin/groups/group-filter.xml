@@ -10,7 +10,7 @@
   <search>
     <query>
       <backend>LDAP</backend>
-      <filter>(&amp;(|(&amp;(objectClass=posixGroup)(|$PRIMARY$MAIL$SAMBA))$ROLE(&amp;(objectClass=groupOfNames)(|(gosaGroupObjects=[])$USER$GROUP$APPLICATION$SERVER$WORKSTATION$WINDOWS$TERMINAL$PRINTER$PHONE$SIMPLESECURITYOBJECT$UNKNOWN)))$NAME)</filter>
+      <filter>(&amp;(|$PRIMARY$MAIL$SAMBA$ROLE(&amp;(objectClass=groupOfNames)(|(gosaGroupObjects=[])$USER$GROUP$APPLICATION$SERVER$WORKSTATION$WINDOWS$TERMINAL$PRINTER$PHONE$SIMPLESECURITYOBJECT$UNKNOWN)))$NAME)</filter>
       <attribute>*</attribute>
     </query>
     <scope>auto</scope>
@@ -29,7 +29,7 @@
     <tag>MAIL</tag>
     <default>true</default>
     <unset></unset>
-    <set>(objectClass=gosaMailAccount)</set>
+    <set>(&amp;(objectClass=posixGroup)(objectClass=gosaMailAccount))</set>
   </element>
 
   <element>
@@ -37,7 +37,7 @@
     <tag>SAMBA</tag>
     <default>true</default>
     <unset></unset>
-    <set>(objectClass=sambaGroupMapping)</set>
+    <set>(&amp;(objectClass=posixGroup)(objectClass=sambaGroupMapping))</set>
   </element>
 
   <element>
