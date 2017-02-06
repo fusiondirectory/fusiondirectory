@@ -2181,7 +2181,7 @@ function check_schema($cfg)
   $checks = array();
 
   /* Get objectclasses */
-  $ldapObj = new LDAP($cfg['admin'], $cfg['password'], $cfg['connection'], FALSE, $cfg['tls'])
+  $ldapObj = new LDAP($cfg['admin'], $cfg['password'], $cfg['connection'], FALSE, $cfg['tls']);
   $ldap = new ldapMultiplexer($ldapObj);
   $objectclasses = $ldap->get_objectclasses(TRUE);
   if (count($objectclasses) == 0) {
