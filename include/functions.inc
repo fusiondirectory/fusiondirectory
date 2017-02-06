@@ -573,11 +573,13 @@ function ldap_login_user ($username, $password)
 
   /* password check, bind as user with supplied password  */
   $ldap->disconnect();
-  $ldap = new ldapMultiplexer(new LDAP($ui->dn, $password, $config->current['SERVER'],
-      isset($config->current['LDAPFOLLOWREFERRALS']) &&
-      $config->current['LDAPFOLLOWREFERRALS'] == 'TRUE',
-      isset($config->current['LDAPTLS'])
-      && $config->current['LDAPTLS'] == 'TRUE'));
+  $ldapObj = new LDAP($ui->dn, $password, $config->current['SERVER'],
+    isset($config->current['LDAPFOLLOWREFERRALS']) &&
+    $config->current['LDAPFOLLOWREFERRALS'] == 'TRUE',
+    isset($config->current['LDAPTLS'])
+    && $config->current['LDAPTLS'] == 'TRUE'
+  );
+  $ldap = new ldapMultiplexer($ldapObj);
   if (!$ldap->success()) {
     return NULL;
   }
@@ -2179,7 +2181,8 @@ function check_schema($cfg)
   $checks = array();
 
   /* Get objectclasses */
-  $ldap = new ldapMultiplexer(new LDAP($cfg['admin'], $cfg['password'], $cfg['connection'], FALSE, $cfg['tls']));
+  $ldapObj = new LDAP($cfg['admin'], $cfg['password'], $cfg['connection'], FALSE, $cfg['tls'])
+  $ldap = new ldapMultiplexer($ldapObj);
   $objectclasses = $ldap->get_objectclasses(TRUE);
   if (count($objectclasses) == 0) {
     msg_dialog::display(_('LDAP warning'), _('Cannot get schema information from server. No schema check possible!'), WARNING_DIALOG);
