@@ -129,6 +129,7 @@ class template
       foreach ($this->attributes[$class] as $attr) {
         $plugin->attributesAccess[$attr]->serializeAttribute($attributes[$class]['attrs'], FALSE);
       }
+      $attributes[$class]['attrs_order'] = array_keys($attributes[$class]['attrs']);
     }
 
     return $attributes;
