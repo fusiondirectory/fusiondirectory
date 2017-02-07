@@ -300,8 +300,9 @@ class user extends simplePlugin
   // The main function : information about attributes
   static function getAttributesInfo ()
   {
+    global $config;
     $languages = array_merge(array('' => ''), get_languages(TRUE));
-    return array(
+    $attributesInfo = array(
       'perso' => array(
         'name'  => _('Personal information'),
         'icon'  => 'geticon.php?context=types&icon=user&size=16',
@@ -445,6 +446,25 @@ class user extends simplePlugin
         )
       ),
     );
+    if ($config->get_cfg_value('SplitPostalAddress') == 'TRUE') {
+      $attributesInfo['contact']['attrs'][2]->setVisible(FALSE);
+      array_splice($attributesInfo['contact']['attrs'], 3, 0, array(
+        new StringAttribute (
+          _('Street'), _('Street part of the address'),
+          'street', FALSE
+        ),
+        new StringAttribute (
+          _('Post office box'), _('Post office box'),
+          'postOfficeBox', FALSE
+        ),
+        new IntAttribute (
+          _('Postal code'), _('Postal code'),
+          'postalCode', FALSE,
+          0, FALSE
+        ),
+      ));
+    }
+    return $attributesInfo;
   }
 
   function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE)
@@ -478,6 +498,11 @@ class user extends simplePlugin
   {
     global $config;
     $pattern  = $config->get_cfg_value('CnPattern', '%givenName% %sn%');
+    $this->attributesAccess['cn']->setValue($this->applyPattern($pattern));
+  }
+
+  private function applyPattern ($pattern)
+  {
     $fields   = templateHandling::listFields($pattern);
     $attrs    = array();
     foreach ($fields as $field) {
@@ -496,7 +521,8 @@ class user extends simplePlugin
       }
       trigger_error('Could not find field '.$field.' in any tab!');
     }
-    $this->attributesAccess['cn']->setValue(templateHandling::parseString($pattern, $attrs));
+
+    return templateHandling::parseString($pattern, $attrs);
   }
 
   function compute_dn()
@@ -518,6 +544,19 @@ class user extends simplePlugin
     $smarty = get_smarty();
     $smarty->append('css_files', 'plugins/users/style/user_tab.css');
     return parent::execute();
+  }
+
+  protected function prepare_save ()
+  {
+    global $config;
+    if ($config->get_cfg_value('SplitPostalAddress') == 'TRUE') {
+      $pattern = $config->get_cfg_value('PostalAddressPattern', '');
+      if (!empty($pattern)) {
+        $this->postalAddress = $this->applyPattern($this->attributesAccess['postalAddress']->inputValue($pattern));
+      }
+    }
+
+    return parent::prepare_save();
   }
 
   function ldap_save()

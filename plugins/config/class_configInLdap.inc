@@ -377,6 +377,14 @@ class configInLdap extends simplePlugin
             _('Restrict role members'), _('When enabled only users from the same branch or members of groups from the same branch can be added to a role.'),
             'fdRestrictRoleMembers'
           ),
+          new BooleanAttribute (
+            _('Separate address fields'), _('Expose street, postOfficeBox and postalCode fields instead of postalAddress.'),
+            'fdSplitPostalAddress'
+          ),
+          new PostalAddressAttribute (
+            _('Postal address pattern'), _('When using separate address fields, you can use a pattern to fill postalAddress field.'),
+            'fdPostalAddressPattern'
+          ),
         )
       ),
       'debug' => array(

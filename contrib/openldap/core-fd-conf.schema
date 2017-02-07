@@ -142,6 +142,19 @@ attributetype ( 1.3.6.1.4.1.38414.8.12.19 NAME 'fdRestrictRoleMembers'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
   SINGLE-VALUE )
 
+attributetype ( 1.3.6.1.4.1.38414.8.12.20 NAME 'fdSplitPostalAddress'
+  DESC 'FusionDirectory - Expose street, postOfficeBox and postalCode fields instead of postalAddress'
+  EQUALITY booleanMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.8.12.21 NAME 'fdPostalAddressPattern'
+  DESC 'FusionDirectory - When using separate address fields, you can use a pattern to fill postalAddress field'
+  EQUALITY caseExactIA5Match
+  SUBSTR caseExactIA5SubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE)
+
 # Password
 
 attributetype ( 1.3.6.1.4.1.38414.8.13.1 NAME 'fdPasswordDefaultHash'
@@ -518,7 +531,7 @@ objectclass ( 1.3.6.1.4.1.38414.8.2.1 NAME 'fusionDirectoryConf'
     fdStrictNamingRules $ fdMinId $ fdUidNumberBase $
     fdGidNumberBase $ fdUserRDN $ fdGroupRDN $ fdIdAllocationMethod $
     fdGidNumberPoolMin $ fdUidNumberPoolMin $ fdGidNumberPoolMax $ fdUidNumberPoolMax $
-    fdAclRoleRDN $ fdCnPattern $ fdRestrictRoleMembers $
+    fdAclRoleRDN $ fdCnPattern $ fdRestrictRoleMembers $ fdSplitPostalAddress $ fdPostalAddressPattern $
     fdPasswordDefaultHash $ fdPasswordMinLength $ fdPasswordMinDiffer $
     fdHandleExpiredAccounts $ fdSaslRealm $ fdSaslExop $
     fdForcePasswordDefaultHash $

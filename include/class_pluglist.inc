@@ -149,7 +149,7 @@ class pluglist {
             $this->info[$depend]['plDepending'] = array($cname);
           }
         } else {
-          trigger_error("$cname depends off the inexisting plugin $depend");
+          trigger_error("$cname depends of the inexisting plugin $depend");
         }
       }
     }
