@@ -252,6 +252,12 @@ class plugin
     }
   }
 
+  /* Used by prepare_save and template::apply */
+  public function mergeObjectClasses(array $oc)
+  {
+    return array_merge_unique($oc, $this->objectclasses);
+  }
+
   protected function templateLoadAttrs($template_attrs)
   {
     $this->is_template = TRUE;
