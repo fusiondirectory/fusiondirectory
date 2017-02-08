@@ -1146,12 +1146,20 @@ class listing
     // Collect sprintf params
     for ($i = 3;$i < func_num_args();$i++) {
       $val = func_get_arg($i);
-      if (is_array($val)) {
-        $val = implode("<br/>\n", $val);
+      if (empty($val)) {
+        continue;
       }
-      if (!empty($val)) {
-        $params[] = htmlentities($val, ENT_COMPAT, 'UTF-8');
+      if (!is_array($val)) {
+        $val = array($val);
       }
+      $val = array_map(
+        function ($v)
+        {
+          return htmlentities($v, ENT_COMPAT, 'UTF-8');
+        },
+        $val
+      );
+      $params[] = implode("<br/>\n", $val);
     }
 
     $result = '&nbsp;';
