@@ -1413,7 +1413,12 @@ sub migrate_systems {
           }
           $entry->replace("objectClass" => \@replace);
           if ($entry->exists('gotoMode')) {
-            $entry->add('fdMode' => $entry->get_value('gotoMode'));
+            my $gotoMode = $entry->get_value('gotoMode');
+            if ($gotoMode eq 'locked') {
+              $entry->add('fdMode' => 'locked');
+            } else {
+              $entry->add('fdMode' => 'unlocked');
+            }
             $entry->delete('gotoMode');
           }
           $mesg = $ldap->add($entry);
