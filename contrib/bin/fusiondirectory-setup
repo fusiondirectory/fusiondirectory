@@ -1412,6 +1412,10 @@ sub migrate_systems {
             }
           }
           $entry->replace("objectClass" => \@replace);
+          if ($entry->exists('gotoMode')) {
+            $entry->add('fdMode' => $entry->get_value('gotoMode'));
+            $entry->delete('gotoMode');
+          }
           $mesg = $ldap->add($entry);
           if ($mesg->code) {
             print $entry->dn().": ".$mesg->error."\n";
