@@ -75,4 +75,9 @@ define ("CONFIGRDN", "cn=config,ou=fusiondirectory,"); /*! Define FusionDirector
  */
 define ("PHP_MIN_VERSION", "5.4.0");
 
+/*!
+ * \brief Toggle crashing on PHP error, used for test suites
+ */
+define ('PHP_ERROR_FATAL', 'FALSE');
+
 ?>
