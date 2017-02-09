@@ -388,11 +388,11 @@ class templateHandling
         if (preg_match('/^(\d+)-(\d+)$/', $args[1], $m)) {
           $res = array();
           for ($i = $m[1];$i < $m[2]; ++$i) {
-            $res[] = substr($str, $args[0], $i);
+            $res[] = mb_substr($str, $args[0], $i);
           }
           $result = array_unique($res);
         } else {
-          $result = array(substr($str, $args[0], $args[1]));
+          $result = array(mb_substr($str, $args[0], $args[1]));
         }
         break;
       case 'r':
