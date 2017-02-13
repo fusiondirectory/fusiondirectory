@@ -1532,21 +1532,21 @@ class simplePlugin
                 $oldvalue = $this->attributeInitialValue($field);
                 $newvalue = $this->attributeValue($field);
               }
-              $foreignRefs[$objectType]['refs'][$class][$ofield] =
+              $foreignRefs[$objectType]['refs'][$class][$ofield][$field] =
                 array(
+                  'tab'       => $tabclass,
                   'field'     => $field,
                   'oldvalue'  => $oldvalue,
                   'newvalue'  => $newvalue,
-                  'tab'       => $tabclass,
                 );
               $filter = templateHandling::parseString($filter, array('oldvalue' => $oldvalue, 'newvalue' => $newvalue), 'ldap_escape_f');
             } elseif ($mode == 'references') {
               $foreignRefs[$objectType]['refs'][$class]['name'] = $cinfos['plShortName'];
-              $foreignRefs[$objectType]['refs'][$class]['fields'][$ofield] =
+              $foreignRefs[$objectType]['refs'][$class]['fields'][$ofield][$field] =
                 array(
                   'tab'     => $tabclass,
-                  'tabname' => $this->parent->by_name[$tabclass],
                   'field'   => $field,
+                  'tabname' => $this->parent->by_name[$tabclass],
                   'value'   => $this->parent->by_object[$tabclass]->$field,
                 );
               $filter = templateHandling::parseString($filter, array('oldvalue' => $this->parent->by_object[$tabclass]->$field), 'ldap_escape_f');
@@ -1588,19 +1588,21 @@ class simplePlugin
             // If the tab is activated on this object
             if (isset($tabobject->by_object[$tab]) && ($tabobject->by_object[$tab]->is_account || $tabobject->by_object[$tab]->ignore_account)) {
               // For each field
-              foreach ($fieldRefs as $ofield => $field) {
-                // call plugin::foreignKeyUpdate(ldapname, oldvalue, newvalue, source) on the object
-                $tabobject->by_object[$tab]->foreignKeyUpdate(
-                  $ofield,
-                  $field['oldvalue'],
-                  $field['newvalue'],
-                  array(
-                    'CLASS' => $field['tab'],
-                    'FIELD' => $field['field'],
-                    'MODE'  => preg_replace('/^handle_/', '', $mode),
-                    'DN'    => $this->dn,
-                  )
-                );
+              foreach ($fieldRefs as $ofield => $fields) {
+                foreach ($fields as $field) {
+                  // call plugin::foreignKeyUpdate(ldapname, oldvalue, newvalue, source) on the object
+                  $tabobject->by_object[$tab]->foreignKeyUpdate(
+                    $ofield,
+                    $field['oldvalue'],
+                    $field['newvalue'],
+                    array(
+                      'CLASS' => $field['tab'],
+                      'FIELD' => $field['field'],
+                      'MODE'  => preg_replace('/^handle_/', '', $mode),
+                      'DN'    => $this->dn,
+                    )
+                  );
+                }
               }
               $tabobject->by_object[$tab]->save_object();
             }
@@ -1612,41 +1614,43 @@ class simplePlugin
             // If the tab is activated on this object
             if (isset($tabobject->by_object[$tab])) {
               // For each field
-              foreach ($tab_infos['fields'] as $ofield => $field) {
-                if ($tabobject->by_object[$tab]->foreignKeyCheck(
-                      $ofield,
-                      $field['value'],
-                      array(
-                        'CLASS' => $field['tab'],
-                        'FIELD' => $field['field'],
-                        'DN'    => $this->dn,
-                      )
-                    )) {
-                  if (!isset($refs[$dn])) {
-                    $refs[$dn] = array(
-                      'link'  => '',
-                      'tabs'  => array(),
-                    );
-                    try {
-                      $refs[$dn]['link'] = objects::link($dn, $objectType);
-                    } catch (FusionDirectoryException $e) {
-                      trigger_error("Could not create link to $dn: ".$e->getMessage());
-                      $refs[$dn]['link'] = $dn;
+              foreach ($tab_infos['fields'] as $ofield => $fields) {
+                foreach ($fields as $field) {
+                  if ($tabobject->by_object[$tab]->foreignKeyCheck(
+                        $ofield,
+                        $field['value'],
+                        array(
+                          'CLASS' => $field['tab'],
+                          'FIELD' => $field['field'],
+                          'DN'    => $this->dn,
+                        )
+                      )) {
+                    if (!isset($refs[$dn])) {
+                      $refs[$dn] = array(
+                        'link'  => '',
+                        'tabs'  => array(),
+                      );
+                      try {
+                        $refs[$dn]['link'] = objects::link($dn, $objectType);
+                      } catch (FusionDirectoryException $e) {
+                        trigger_error("Could not create link to $dn: ".$e->getMessage());
+                        $refs[$dn]['link'] = $dn;
+                      }
                     }
-                  }
-                  if (!isset($refs[$dn]['tabs'][$tab])) {
-                    $refs[$dn]['tabs'][$tab] = array(
-                      'link'    => '',
-                      'fields'  => array(),
-                    );
-                    try {
-                      $refs[$dn]['tabs'][$tab]['link'] = objects::link($dn, $objectType, "tab_$tab", sprintf(_('Tab "%s"'), $tab_infos['name']));
-                    } catch (FusionDirectoryException $e) {
-                      trigger_error("Could not create link to $dn $tab: ".$e->getMessage());
-                      $refs[$dn]['tabs'][$tab]['link'] = $tab;
+                    if (!isset($refs[$dn]['tabs'][$tab])) {
+                      $refs[$dn]['tabs'][$tab] = array(
+                        'link'    => '',
+                        'fields'  => array(),
+                      );
+                      try {
+                        $refs[$dn]['tabs'][$tab]['link'] = objects::link($dn, $objectType, "tab_$tab", sprintf(_('Tab "%s"'), $tab_infos['name']));
+                      } catch (FusionDirectoryException $e) {
+                        trigger_error("Could not create link to $dn $tab: ".$e->getMessage());
+                        $refs[$dn]['tabs'][$tab]['link'] = $tab;
+                      }
                     }
+                    $refs[$dn]['tabs'][$tab]['fields'][$ofield] = $field;
                   }
-                  $refs[$dn]['tabs'][$tab]['fields'][$ofield] = $field;
                 }
               }
             }
