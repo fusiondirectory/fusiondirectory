@@ -188,7 +188,7 @@ class IconTheme
     return NULL;
   }
 
-  static public $default_theme  = 'default';
+  static public $default_theme  = 'breezy';
   static public $extensions     = array('png', 'xpm', 'svg');
   static public $find_closest   = FALSE;
 
@@ -202,7 +202,7 @@ class IconTheme
         if (file_exists("$path/$file/index.theme") && !preg_match("/^\./", $file)) {
           try {
             if ($file == static::$default_theme) {
-              $themes[$file] = new IconTheme("$path/$file",  NULL);
+              $themes[$file] = new IconTheme("$path/$file", NULL);
             } else {
               $themes[$file] = new IconTheme("$path/$file", static::$default_theme);
             }
