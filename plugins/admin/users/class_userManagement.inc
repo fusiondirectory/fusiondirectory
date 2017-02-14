@@ -34,7 +34,7 @@ class userManagement extends simpleManagement
   protected $autoFilter       = FALSE;
   protected $autoActions      = FALSE;
 
-  protected $skipTemplates = FALSE;
+  protected static $skipTemplates = FALSE;
 
   static function plInfo()
   {
