@@ -840,8 +840,9 @@ class config
               die("duplicated object type ".strtoupper($key)." in ".$this->data['OBJECTS'][strtoupper($key)]['mainTab']." and $class");
             }
             $tabclass = strtoupper($key)."TABS";
-            $value['tabGroup']  = $tabclass;
-            $value['mainTab']   = $class;
+            $value['tabGroup']        = $tabclass;
+            $value['mainTab']         = $class;
+            $value['templateActive']  = FALSE;
             foreach (array('ou', 'tabClass') as $i) {
               if (!isset($value[$i])) {
                 $value[$i] = NULL;
@@ -981,6 +982,9 @@ class config
 
           if (isset($this->data['OBJECTS'][$obj])) {
             $this->data['OBJECTS'][$obj]['management'] = $class;
+            if (isset($class::$skipTemplates) && ($class::$skipTemplates == FALSE)) {
+              $this->data['OBJECTS'][$obj]['templateActive'] = TRUE;
+            }
           }
         }
       }

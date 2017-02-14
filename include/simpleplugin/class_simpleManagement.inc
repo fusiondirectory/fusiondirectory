@@ -184,7 +184,7 @@ class simpleManagement
 
   protected $headpageClass = "listing";
 
-  protected static $skipTemplates = TRUE;
+  public static $skipTemplates = TRUE;
 
   function __construct()
   {
