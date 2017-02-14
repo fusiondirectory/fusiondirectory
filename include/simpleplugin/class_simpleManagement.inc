@@ -271,7 +271,7 @@ class simpleManagement
   function configureHeadpage ()
   {
     if ($this->autoActions) {
-      if (static::skipTemplates) {
+      if (static::$skipTemplates) {
         $this->headpage->xmlData['actionmenu']['action'][0]['action'] = array();
       } else {
         $this->headpage->xmlData['actionmenu']['action'][0]['action'] = array(
@@ -309,7 +309,7 @@ class simpleManagement
           'filter'      => $filterObject,
           'nameAttr'    => $i['nameAttr'],
         );
-      if (!static::skipTemplates) {
+      if (!static::$skipTemplates) {
         $this->headpage->objectTypes['template_'.$object] =
           array(
             'label'       => sprintf(_('%s template'), $i['name']),
@@ -346,7 +346,7 @@ class simpleManagement
           'label' => $i['name'],
           'acl'   => $i['aclCategory'].'/'.$i['mainTab'].'[c]',
         );
-        if (!static::skipTemplates) {
+        if (!static::$skipTemplates) {
           $this->registerAction('new_template_'.$object, 'newEntryTemplate');
           $this->registerAction('template_apply_'.$object, 'newEntryFromTemplate');
           $this->headpage->xmlData['actionmenu']['action'][0]['action'][0]['action'][] = array(
@@ -366,7 +366,7 @@ class simpleManagement
         }
       }
     }
-    if ($this->autoActions && !static::skipTemplates) {
+    if ($this->autoActions && !static::$skipTemplates) {
       $this->registerAction('template_apply', 'newEntryFromTemplate');
     }
     $this->headpage->refreshBasesList();
@@ -424,7 +424,7 @@ class simpleManagement
         $attributes[] = $i['mainAttr'];
         $attributes[] = $i['nameAttr'];
       }
-      if (!static::skipTemplates) {
+      if (!static::$skipTemplates) {
         $tag    = 'FILTERTEMPLATE';
         $filter .= '$'.$tag;
         $this->filter->elements[$tag] = array(
@@ -507,7 +507,7 @@ class simpleManagement
         'label' => sprintf(_('Show %s'), $config->data['OBJECTS'][$object]['name'])
       );
     }
-    if (!static::skipTemplates) {
+    if (!static::$skipTemplates) {
       $filters[] = array(
         'id'    => 'FILTERTEMPLATE',
         'label' => sprintf(_('Show %s'), _('Template'))
@@ -677,7 +677,7 @@ class simpleManagement
 
   function newEntryTemplate($action, array $target, array $all)
   {
-    if (static::skipTemplates) {
+    if (static::$skipTemplates) {
       return;
     }
     $action = preg_replace('/^new_template_/', 'new_', $action);
@@ -687,7 +687,7 @@ class simpleManagement
 
   function newEntryFromTemplate($action, array $target, array $all)
   {
-    if (static::skipTemplates) {
+    if (static::$skipTemplates) {
       return;
     }
     if (isset ($target[0])) {
@@ -710,7 +710,7 @@ class simpleManagement
   function applyTemplateToEntry($action, array $target, array $all)
   {
     global $ui;
-    if (static::skipTemplates) {
+    if (static::$skipTemplates) {
       return;
     }
     if (empty($target)) {
@@ -733,7 +733,7 @@ class simpleManagement
 
   function handleTemplateApply ($cancel = FALSE)
   {
-    if (static::skipTemplates) {
+    if (static::$skipTemplates) {
       return;
     }
     if ($cancel) {
@@ -853,7 +853,7 @@ class simpleManagement
     // Single edit - we only got one object dn.
     if (count($target) == 1) {
       $type = $this->getType($target[0]);
-      if (preg_match('/^template_/', $type) && !static::skipTemplates) {
+      if (preg_match('/^template_/', $type) && !static::$skipTemplates) {
         $type = preg_replace('/^template_/', '', $type);
       }
 
@@ -999,7 +999,7 @@ class simpleManagement
     // Check permissons for each target
     foreach ($target as $dn) {
       $type = $this->getType($dn);
-      if (preg_match('/^template_/', $type) && !static::skipTemplates) {
+      if (preg_match('/^template_/', $type) && !static::$skipTemplates) {
         $type = preg_replace('/^template_/', '', $type);
       }
       try {
@@ -1030,7 +1030,7 @@ class simpleManagement
       $objects = array();
       foreach ($this->dns as $dn) {
         $type   = $this->getType($dn);
-        if (preg_match('/^template_/', $type) && !static::skipTemplates) {
+        if (preg_match('/^template_/', $type) && !static::$skipTemplates) {
           $type = preg_replace('/^template_/', '', $type);
           $info = objects::infos($type);
           $info['mainAttr'] = 'cn';
@@ -1065,7 +1065,7 @@ class simpleManagement
       if (empty($type)) {
         continue;
       }
-      if (preg_match('/^template_/', $type) && !static::skipTemplates) {
+      if (preg_match('/^template_/', $type) && !static::$skipTemplates) {
         $type = preg_replace('/^template_/', '', $type);
       }
       $infos = objects::infos($type);
@@ -1192,7 +1192,7 @@ class simpleManagement
       $this->cpHandler->cleanup_queue();
       foreach ($target as $dn) {
         $type   = $this->getType($dn);
-        if (preg_match('/^template_/', $type) && !static::skipTemplates) {
+        if (preg_match('/^template_/', $type) && !static::$skipTemplates) {
           $type = preg_replace('/^template_/', '', $type);
         }
         $infos  = objects::infos($type);
