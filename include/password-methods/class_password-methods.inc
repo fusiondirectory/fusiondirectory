@@ -158,14 +158,15 @@ class passwordMethod
       // (Un)lock SSH keys
       lock_ssh_account($mode, $attrs, $modify);
 
-      // (Un)lock the account by modifying the password hash.
-      $pwdClass = new user($dn);
-      $errors = $pwdClass->callHook('PRE'.$mode, array(), $ret);
+      // Call pre hooks
+      $userClass = new user($dn);
+      $errors = $userClass->callHook('PRE'.$mode, array(), $ret);
       if (!empty($errors)) {
         msg_dialog::displayChecks($errors);
         return FALSE;
       }
 
+      // (Un)lock the account by modifying the password hash.
       if ($mode == 'LOCK') {
         /* Lock entry */
         $pwd = preg_replace("/(^[^\}]+\})(.*$)/",   "\\1!\\2",  $pwd);
@@ -173,13 +174,14 @@ class passwordMethod
         /* Unlock entry */
         $pwd = preg_replace("/(^[^\}]+\})!(.*$)/",  "\\1\\2",   $pwd);
       }
-      $modify["userPassword"] = $pwd;
+      $modify['userPassword'] = $pwd;
       $ldap->cd($dn);
       $ldap->modify($modify);
 
       // Call the password post-lock hook, if defined.
       if ($ldap->success()) {
-        $errors = $pwdClass->callHook('POST'.$mode, array(), $ret);
+        $userClass = new user($dn);
+        $errors = $userClass->callHook('POST'.$mode, array(), $ret);
         if (!empty($errors)) {
           msg_dialog::displayChecks($errors);
         }
