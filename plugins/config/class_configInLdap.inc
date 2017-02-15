@@ -438,7 +438,7 @@ class configInLdap extends simplePlugin
                   'hookMode', TRUE,
                   array('postcreate', 'postremove', 'postmodify',
                         'precreate', 'preremove', 'premodify', 'check',
-                        'prelock', 'postlock')
+                        'prelock', 'postlock', 'preunlock', 'postunlock')
                 ),
                 new StringAttribute(
                   _('cmd'), _('The command that will be called'),
