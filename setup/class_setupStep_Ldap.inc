@@ -113,8 +113,21 @@ class Step_Ldap extends setupStep
   {
     $attr = @LDAP::get_naming_contexts($this->connection);
     unset($attr['count']);
-    $this->attributesAccess['base']->setChoices($attr);
-    $this->attributesAccess['admin']->attributes[1]->setValue(','.$this->base);
+    if (count($attr)) {
+      if (!($this->attributesAccess['base'] instanceof SelectAttribute)) {
+        $this->attributesInfo['connection']['base'] = new SelectAttribute(
+          _('Base'), _('The LDAP directory base'),
+          'base', TRUE
+        );
+      }
+      $this->attributesAccess['base']->setChoices($attr);
+      $this->attributesAccess['admin']->attributes[1]->setValue(','.$this->base);
+    } else {
+      $this->attributesInfo['connection']['base'] = new StringAttribute(
+        _('Base'), _('The LDAP directory base'),
+        'base', TRUE
+      );
+    }
   }
 
   function save_object()
