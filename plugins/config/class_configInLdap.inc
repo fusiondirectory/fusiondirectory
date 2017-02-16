@@ -572,6 +572,15 @@ class configInLdap extends simplePlugin
         )
       )
     );
+    $this->attributesAccess['fdSplitPostalAddress']->setManagedAttributes(
+      array(
+        'disable' => array (
+          FALSE => array (
+            'fdPostalAddressPattern',
+          )
+        )
+      )
+    );
   }
 
   function compute_dn()
