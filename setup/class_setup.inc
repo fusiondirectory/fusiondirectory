@@ -56,13 +56,13 @@ class setup
   function __construct()
   {
     $this->o_steps = array(
-      new Step_Welcome($this),
-      new Step_Language($this),
-      new Step_Checks($this),
-      new Step_Ldap($this),
-      new Step_Config_before_init($this),
-      new Step_Migrate($this),
-      new Step_Finish($this),
+      new setupStepWelcome($this),
+      new setupStepLanguage($this),
+      new setupStepChecks($this),
+      new setupStepLdap($this),
+      new setupStepConfig_before_init($this),
+      new setupStepMigrate($this),
+      new setupStepFinish($this),
     );
 
     $this->i_steps = count($this->o_steps);
@@ -79,9 +79,9 @@ class setup
   {
     /* Display phpinfo() dialog when $_GET['info'] is set,
      *  but only do this, if user is allowed to use the setup.
-     * If setupStep_Welcome is_completed, we are allowed to view those infos-
+     * If setupsetupStepWelcome is_completed, we are allowed to view those infos-
      */
-    if (isset($_GET['info']) && preg_match("/Step_Welcome/i", get_class($this->o_steps[1])) && $this->o_steps[1]->is_completed()) {
+    if (isset($_GET['info']) && preg_match("/setupStepWelcome/i", get_class($this->o_steps[1])) && $this->o_steps[1]->is_completed()) {
       phpinfo();
       exit();
     }
@@ -319,7 +319,7 @@ class setup
 
   function reBuildConfigStep ($completed = NULL)
   {
-    $this->o_steps[$this->i_config] = new Step_Config($this, $this->captured_values);
+    $this->o_steps[$this->i_config] = new setupStepConfig($this, $this->captured_values);
     if ($completed !== NULL) {
       $this->o_steps[$this->i_config]->is_completed = $completed;
     }

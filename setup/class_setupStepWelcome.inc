@@ -19,7 +19,7 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class Step_Welcome extends setupStep
+class setupStepWelcome extends setupStep
 {
   var $header_image = 'geticon.php?context=applications&icon=config-welcome&size=48';
 

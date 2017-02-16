@@ -22,7 +22,7 @@
 /****************
  * FUNCTIONS
 
-Step_Migrate                - Constructor.
+setupStepMigrate                - Constructor.
 update_strings              - Used to update the displayed step information.
 initialize_checks           - Initialize migration steps.
 check_ldap_permissions      - Check if the used admin account has full access to the ldap database.
@@ -176,7 +176,7 @@ class StepMigrateCheck
   }
 }
 
-class Step_Migrate extends setupStep
+class setupStepMigrate extends setupStep
 {
   var $header_image   = "geticon.php?context=applications&icon=utilities-system-monitor&size=48";
 
