@@ -27,8 +27,8 @@
 /*!
  * \brief Class Base Selector
  */
-class baseSelector {
-
+class baseSelector
+{
   private $base;
   protected $pid;
   private $action;
@@ -183,6 +183,15 @@ class baseSelector {
       return TRUE;
     }
 
+    $this->renderTree();
+
+    $this->lastState = TRUE;
+    return TRUE;
+  }
+
+  protected function renderTree()
+  {
+    global $config;
     $link = "onclick=\"\$('bs_rebase_".$this->pid."').value='".base64_encode($config->current['BASE'])."';  $('submit_tree_base_".$this->pid."').click();\"";
     $this->tree = '<input class="base-selector" type="text" name="'.$this->getInputHtmlId().'"'.
                   ' id="'.$this->getInputHtmlId().'"'.
@@ -256,9 +265,6 @@ class baseSelector {
     $this->tree .= '<input type="submit" style="display:none" name="submit_tree_base_'.$this->pid.'" id="submit_tree_base_'.$this->pid.'"/>';
     $this->tree .= '<input type="hidden" name="bs_rebase_'.$this->pid.'" id="bs_rebase_'.$this->pid.'"/>';
     $this->tree .= '<input type="hidden" name="BPID" id="BPID" value="'.$this->pid.'"/>';
-
-    $this->lastState = TRUE;
-    return TRUE;
   }
 
 
