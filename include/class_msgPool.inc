@@ -398,22 +398,13 @@ class msgPool {
    *
    * \param string $name The entry duplicated
    */
-  public static function duplicated($name, $dn = NULL, $ldapName = '', $description = '')
+  public static function duplicated($name, $dn = NULL)
   {
-    if (empty($name)) {
-      $fieldName = sprintf('<em>%s</em>', $ldapName);
-    } else {
-      $fieldName = sprintf(_('"%s"'), $name);
-    }
     if ($dn == NULL) {
-      $msg = sprintf(_('There is already an entry with this %s attribute in the system!'), $fieldName);
+      return sprintf(_("There is already an entry with this '%s' attribute in the system!"), $name);
     } else {
-      $msg = sprintf(_('The entry "%s" already use this %s attribute!'), $dn, $fieldName);
+      return sprintf(_("The entry '%s' already use this '%s' attribute!"), $dn, $name);
     }
-    if (!empty($description)) {
-      $msg .= sprintf('<p class="description">%s</p>', $description);
-    }
-    return $msg;
   }
 
   /*!
@@ -421,18 +412,9 @@ class msgPool {
    *
    * \param string $name Name of the field
    */
-  public static function required($name, $ldapName = '', $description = '')
+  public static function required($name)
   {
-    if (empty($name)) {
-      $fieldName = sprintf('<em>%s</em>', $ldapName);
-    } else {
-      $fieldName = sprintf(_('"%s"'), $name);
-    }
-    $msg = sprintf(_('The required field %s is empty!'), $fieldName);
-    if (!empty($description)) {
-      $msg .= sprintf('<p class="description">%s</p>', $description);
-    }
-    return $msg;
+    return sprintf(_("The required field '%s' is empty!"), $name);
   }
 
   /*!
