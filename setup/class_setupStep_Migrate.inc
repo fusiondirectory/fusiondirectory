@@ -765,7 +765,7 @@ class Step_Migrate extends setupStep
                 }
                 if (isset($roles[$member])) {
                   $ldap->cat($member);
-                  $roles_attrs = $ldap->fetch();
+                  $role_attrs = $ldap->fetch();
                   $val_users = '';
                   if (isset($role_attrs['roleOccupant'])) {
                     for ($e = 0; $e < $role_attrs['roleOccupant']['count']; $e ++) {
