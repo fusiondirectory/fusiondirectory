@@ -140,8 +140,6 @@ class baseSelector
    */
   function update($force = FALSE)
   {
-    global $config;
-
     if (!isset($this->base) || ($this->base == '')) {
       $this->lastState = FALSE;
       return FALSE;
