@@ -167,7 +167,9 @@ class userRoles extends simplePlugin
 
   function remove_from_parent()
   {
-    if (!$this->is_template && ($this->dn != '') && ($this->dn != 'new')) {
+    if ($this->is_template) {
+      parent::remove_from_parent();
+    } elseif (($this->dn != '') && ($this->dn != 'new')) {
       /* Remove all groups */
       foreach ($this->savedGroupsMembership as $ogroupdn) {
         $g = objects::open($ogroupdn, 'ogroup');
@@ -209,6 +211,15 @@ class userRoles extends simplePlugin
     if ($this->is_template) {
       $this->attrs['userGroups']  = $this->groupsMembership;
       $this->attrs['userRoles']   = $this->rolesMembership;
+    }
+  }
+
+  function prepare_remove()
+  {
+    parent::prepare_remove();
+    if ($this->is_template) {
+      $this->attrs['userGroups']  = array();
+      $this->attrs['userRoles']   = array();
     }
   }
 
