@@ -134,11 +134,25 @@ class session {
   }
 
   /*!
-   * \brief Accessor of a session
+   * \brief Accessor of a session var
    *
-   * \param string $name Name of the session
+   * \param string $name Name of the session var
    */
-  public static function &global_get($name)
+  public static function global_get($name)
+  {
+    if (isset($_SESSION[$name])) {
+      return $_SESSION[$name];
+    } else {
+      return NULL;
+    }
+  }
+
+  /*!
+   * \brief Accessor of a session var by reference
+   *
+   * \param string $name Name of the session var
+   */
+  public static function &global_get_ref($name)
   {
     $ret = &$_SESSION[$name];
     return $ret;
