@@ -507,15 +507,12 @@ function ldap_login_user ($username, $password)
     exit();
   }
 
-  $ldap->cd($config->current['BASE']);
   $allowed_attributes = array('uid','mail');
   $verify_attr = array();
-  if ($config->get_cfg_value('loginAttribute') != '') {
-    $tmp = explode(',', $config->get_cfg_value('loginAttribute'));
-    foreach ($tmp as $attr) {
-      if (in_array($attr, $allowed_attributes)) {
-        $verify_attr[] = $attr;
-      }
+  $tmp = explode(',', $config->get_cfg_value('loginAttribute'));
+  foreach ($tmp as $attr) {
+    if (in_array($attr, $allowed_attributes)) {
+      $verify_attr[] = $attr;
     }
   }
 
@@ -529,22 +526,17 @@ function ldap_login_user ($username, $password)
     $filter .= '('.$attr.'='.$username.')';
   }
   $filter = '(&(|'.$filter.')(objectClass=inetOrgPerson))';
+  $ldap->cd($config->current['BASE']);
   $ldap->search($filter, $tmp);
 
   /* get results, only a count of 1 is valid */
-  switch ($ldap->count()) {
+  if ($ldap->count() == 0) {
     /* user not found */
-    case 0:
-      return NULL;
-
-    /* valid uniq user */
-    case 1:
-      break;
-
+    return NULL;
+  } elseif ($ldap->count() != 1) {
     /* found more than one matching id */
-    default:
-      msg_dialog::display(_('Internal error'), _('Login (uid) is not unique inside the LDAP tree. Please contact your administrator.'), FATAL_ERROR_DIALOG);
-      return NULL;
+    msg_dialog::display(_('Internal error'), _('Login (uid) is not unique inside the LDAP tree. Please contact your administrator.'), FATAL_ERROR_DIALOG);
+    return NULL;
   }
 
   /* LDAP schema is not case sensitive. Perform additional check. */
