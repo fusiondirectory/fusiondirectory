@@ -1352,7 +1352,6 @@ function check_command($cmdline)
   return TRUE;
 }
 
-
 /*!
  * \brief Print plugin HTML header
  *
@@ -1366,10 +1365,10 @@ function check_command($cmdline)
  */
 function print_header($image, $headline, $info = '')
 {
-    $smarty = get_smarty();
-    $smarty->assign('headline', $headline);
-    $smarty->assign('headline_image', $image);
-    $display = '';
+  $smarty = get_smarty();
+  $smarty->assign('headline', $headline);
+  $smarty->assign('headline_image', $image);
+  $display = '';
 
   if ($info != '') {
     $display .= '<div class="pluginfo">'."\n";
@@ -1379,136 +1378,6 @@ function print_header($image, $headline, $info = '')
   }
   return $display;
 }
-
-
-/*! \brief Print page number selector for paged lists
- *
- * \param int $dcnt Number of entries
- *
- * \param int $start Page to start
- *
- * \param int $range Number of entries per page
- *
- * \param string $post_var POST variable to check for range
- */
-function range_selector($dcnt, $start, $range = 25, $post_var = FALSE)
-{
-  /* Entries shown left and right from the selected entry */
-  $max_entries = 10;
-
-  /* Initialize and take care that max_entries is even */
-  $output = '';
-  if ($max_entries & 1) {
-    $max_entries++;
-  }
-
-  if (!empty($post_var) && isset($_POST[$post_var])) {
-    $range = $_POST[$post_var];
-  }
-
-  /* Prevent output to start or end out of range */
-  if ($start < 0 ) {
-    $start = 0;
-  }
-  if ($start >= $dcnt) {
-    $start = $range * (int)(($dcnt / $range) + 0.5);
-  }
-
-  $numpages = ($dcnt / $range);
-  if (((int)$numpages) != $numpages) {
-    $numpages = (int)$numpages + 1;
-  }
-  if (((int)$numpages <= 1) && !$post_var) {
-    return '';
-  }
-  $ppage = (int)(($start / $range) + 0.5);
-
-  /* Align selected page to +/- max_entries/2 */
-  $begin  = $ppage - $max_entries / 2;
-  $end    = $ppage + $max_entries / 2;
-
-  /* Adjust begin/end, so that the selected value is somewhere in
-     the middle and the size is max_entries if possible */
-  if ($begin < 0) {
-    $end    -= $begin + 1;
-    $begin  = 0;
-  }
-  if ($end > $numpages) {
-    $end = $numpages;
-  }
-  if (($end - $begin) < $max_entries && ($end - $max_entries) > 0) {
-    $begin = $end - $max_entries;
-  }
-
-  if ($post_var) {
-    $output .= "<div style='border:1px solid #E0E0E0; background-color:#FFFFFF;'>
-      <table width='100%'><tr><td style='width:25%'></td><td style='text-align:center;'>";
-  } else {
-    $output .= "<div style='border:1px solid #E0E0E0; background-color:#FFFFFF;'>";
-  }
-
-  /* Draw decrement */
-  if ($start > 0 ) {
-    $output .= "  <a href= \"main.php?plug=".validate($_GET['plug'])."&amp;start=".
-      ($start - $range)."\">".
-      '<img class="center" alt="back" src="geticon.php?context=actions&amp;icon=previous&amp;size=16"/></a>';
-  }
-
-  /* Draw pages */
-  for ($i = $begin; $i < $end; $i++) {
-    if ($ppage == $i) {
-      $output .= "<a style=\"vertical-align:middle;background-color:#D0D0D0;\" href=\"main.php?plug=".
-        validate($_GET['plug'])."&amp;start=".
-        ($i * $range)."\">&nbsp;".($i + 1)."&nbsp;</a>";
-    } else {
-      $output .= "<a style=\"vertical-align:middle;\" href=\"main.php?plug=".validate($_GET['plug']).
-        "&amp;start=".($i * $range)."\">&nbsp;".($i + 1)."&nbsp;</a>";
-    }
-  }
-
-  /* Draw increment */
-  if ($start < ($dcnt - $range)) {
-    $output .= "  <a href= \"main.php?plug=".validate($_GET['plug'])."&amp;start=".
-      ($start + $range)."\">".
-      '<img class="center" alt="forward" src="geticon.php?context=actions&amp;icon=next&amp;size=16"/></a>';
-  }
-
-  if ($post_var && $numpages) {
-    $output .= "</td><td style='width:25%;text-align:right;vertical-align:middle;'>&nbsp;"._("Entries per page")."&nbsp;<select style='vertical-align:middle;' name='".$post_var."' onChange='javascript:document.mainform.submit()'>";
-    foreach (array(20,50,100,200,"all") as $num) {
-      if ($num == "all") {
-        $var = 10000;
-      } else {
-        $var = $num;
-      }
-      if ($var == $range) {
-        $output .= "\n<option selected='selected' value='".$var."'>".$num."</option>";
-      } else {
-        $output .= "\n<option value='".$var."'>".$num."</option>";
-      }
-    }
-    $output .= "</select></td></tr></table></div>";
-  } else {
-    $output .= "</div>";
-  }
-
-  return $output;
-}
-
-
-/*!
- * \brief Generate HTML for the 'Apply filter' button
- *
- * \return the back button html code
- */
-function apply_filter()
-{
-  return '<table  width="100%"  style="background:#EEEEEE;border-top:1px solid #B0B0B0;">'.
-    '<tr><td style="width:100%;text-align:right;">'.
-    '<input type="submit" name="apply" value="'._("Apply filter").'">'.
-    '</td></tr></table>';
-}
-
 
 /*!
  * \brief Generate HTML for the 'Back' button
@@ -1520,7 +1389,6 @@ function back_to_main()
   return '<br><p class="plugbottom"><input type=submit name="password_back" value="'.
     msgPool::backButton().'"></p><input type="hidden" name="ignore">';
 }
-
 
 /*!
  * \brief Put netmask in n.n.n.n format
@@ -2109,7 +1977,6 @@ function array_differs_recursive($src, $dst)
   return ((string)$src != (string)$dst);
 }
 
-
 /*!
  * \brief Escape all LDAP filter relevant characters
  *
@@ -2152,7 +2019,6 @@ function get_next_id_hook($attrib, $dn)
   msg_dialog::display(_("Warning"), _("'nextIdHook' is not available. Using default base!"), WARNING_DIALOG);
   return $config->get_cfg_value("uidNumberBase");
 }
-
 
 /*!
  * \brief Check if LDAP schema matches the requirements
