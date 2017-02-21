@@ -115,7 +115,7 @@ class setupStepLdap extends setupStep
     unset($attr['count']);
     if (count($attr)) {
       if (!($this->attributesAccess['base'] instanceof SelectAttribute)) {
-        $this->attributesInfo['connection']['base'] = new SelectAttribute(
+        $this->attributesInfo['connection']['attrs']['base'] = new SelectAttribute(
           _('Base'), _('The LDAP directory base'),
           'base', TRUE
         );
@@ -123,7 +123,7 @@ class setupStepLdap extends setupStep
       $this->attributesAccess['base']->setChoices($attr);
       $this->attributesAccess['admin']->attributes[1]->setValue(','.$this->base);
     } else {
-      $this->attributesInfo['connection']['base'] = new StringAttribute(
+      $this->attributesInfo['connection']['attrs']['base'] = new StringAttribute(
         _('Base'), _('The LDAP directory base'),
         'base', TRUE
       );
