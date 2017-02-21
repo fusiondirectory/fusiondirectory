@@ -556,8 +556,8 @@ class Attribute
       }
       $attributes[$this->getLdapName()] = array(
         'htmlid'      => $this->getForHtmlId(),
-        'label'       => '{literal}'.$this->getLabel().'{/literal}'.($this->isRequired()?'{$must}':''),
-        'description' => ($this->isRequired()?sprintf(_("%s (required)"), $this->getDescription()):$this->getDescription()),
+        'label'       => '{literal}'.$this->getLabel().'{/literal}'.($this->isRequired() ? '{$must}' : ''),
+        'description' => ($this->isRequired() ? sprintf(_("%s (required)"), $this->getDescription()) : $this->getDescription()),
         'input'       => $input,
       );
     }
@@ -690,7 +690,7 @@ class Attribute
   {
     $input  = '<input type="'.$type.'" '.
               'name="'.$name.'" id="'.$name.'"'.
-              ($this->disabled? ' disabled="disabled"':'');
+              ($this->disabled ? ' disabled="disabled"' : '');
     foreach ($attributes as $label => $value) {
       $input .= ' '.$label.'="'.$value.'"';
     }

@@ -41,7 +41,7 @@ class StringAttribute extends Attribute
   {
     parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
     $this->pattern = $regexp;
-    $this->example = ($example === NULL?$defaultValue:$example);
+    $this->example = ($example === NULL ? $defaultValue : $example);
   }
 
   function setExample ($example)
@@ -116,7 +116,7 @@ class TextAreaAttribute extends StringAttribute
   {
     $id = $this->getHtmlId();
     $display  = '<textarea name="'.$id.'" id="'.$id.'"'.
-                ($this->disabled? 'disabled="disabled"':'').'>'.
+                ($this->disabled ? ' disabled="disabled"' : '').'>'.
                 '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}</textarea>';
     return $this->renderAcl($display);
   }
@@ -136,7 +136,7 @@ class PasswordAttribute extends StringAttribute
       'password', $id,
       array(
         'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}',
-        'autocomplete' => ($this->autocomplete?'on':'off'),
+        'autocomplete' => ($this->autocomplete ? 'on' : 'off'),
       )
     );
     if ($this->autocomplete === FALSE) {
