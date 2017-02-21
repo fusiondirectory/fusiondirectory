@@ -332,45 +332,36 @@ function get_template_path($filename = '', $plugin = FALSE, $path = '')
   /* Return plugin dir or root directory? */
   if ($plugin) {
     if ($path == '') {
-      $nf = preg_replace("!^".$BASE_DIR."/!", '', preg_replace('/^\.\.\//', '', session::global_get('plugin_dir')));
+      $path = session::global_get('plugin_dir');
+      $nf   = preg_replace('!^'.$BASE_DIR.'/!', '', preg_replace('/^\.\.\//', '', $path));
     } else {
-      $nf = preg_replace("!^".$BASE_DIR."/!", '', $path);
+      $nf = preg_replace('!^'.$BASE_DIR.'/!', '', $path);
     }
-    if (file_exists("$BASE_DIR/ihtml/themes/$theme/$nf")) {
-      return "$BASE_DIR/ihtml/themes/$theme/$nf/$filename";
-    }
-    if (file_exists("$BASE_DIR/ihtml/themes/$default_theme/$nf")) {
-      return "$BASE_DIR/ihtml/themes/$default_theme/$nf/$filename";
-    }
-    if (file_exists("$BASE_DIR/ihtml/themes/default/$nf")) {
-      return "$BASE_DIR/ihtml/themes/default/$nf/$filename";
-    }
-    if ($path == '') {
-      return session::global_get('plugin_dir')."/$filename";
-    } else {
-      return $path."/$filename";
-    }
+    $paths = array(
+      "$BASE_DIR/ihtml/themes/$theme/$nf/$filename",
+      "$BASE_DIR/ihtml/themes/$default_theme/$nf/$filename",
+      "$BASE_DIR/ihtml/themes/default/$nf/$filename",
+      $path."/$filename"
+    );
   } else {
-    if (file_exists("themes/$theme/$filename")) {
-      return "themes/$theme/$filename";
-    }
-    if (file_exists("$BASE_DIR/ihtml/themes/$theme/$filename")) {
-      return "$BASE_DIR/ihtml/themes/$theme/$filename";
-    }
-    if (file_exists("themes/$default_theme/$filename")) {
-      return "themes/$default_theme/$filename";
-    }
-    if (file_exists("$BASE_DIR/ihtml/themes/$default_theme/$filename")) {
-      return "$BASE_DIR/ihtml/themes/$default_theme/$filename";
-    }
-    if (file_exists("themes/default/$filename")) {
-      return "themes/default/$filename";
-    }
-    if (file_exists("$BASE_DIR/ihtml/themes/default/$filename")) {
-      return "$BASE_DIR/ihtml/themes/default/$filename";
-    }
-    return $filename;
+    $paths = array(
+      "themes/$theme/$filename",
+      "$BASE_DIR/ihtml/themes/$theme/$filename",
+      "themes/$default_theme/$filename",
+      "$BASE_DIR/ihtml/themes/$default_theme/$filename",
+      "themes/default/$filename",
+      "$BASE_DIR/ihtml/themes/default/$filename",
+      $filename
+    );
   }
+
+  foreach ($paths as $path) {
+    if (file_exists($path)) {
+      return $path;
+    }
+  }
+
+  return end($paths);
 }
 
 
