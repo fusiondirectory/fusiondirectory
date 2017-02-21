@@ -382,37 +382,5 @@ class passwordMethod
 
     return TRUE;
   }
-
-  /*!
-   * \brief Get the password proposal
-   */
-  static function getPasswordProposal()
-  {
-    global $config;
-    if ($config->get_cfg_value('passwordProposalHook', '') != '') {
-        $command = $config->get_cfg_value('passwordProposalHook', '');
-      if (check_command($command)) {
-        @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execute");
-        exec($command, $arr, $returnCode);
-
-        if ($returnCode != 0) {
-          $str = implode("\n", $arr);
-          @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execution failed code: ".$returnCode);
-          $message = msgPool::cmdexecfailed($cmd, $command, get_class($plugin));
-          msg_dialog::display(_("Error"), $message, ERROR_DIALOG);
-        } elseif (is_array($arr)) {
-          $str = implode("\n", $arr);
-          @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Result: ".$str);
-          if (count($arr) && !empty($arr[0])) {
-            return $arr[0];
-          }
-        }
-      } else {
-        $message = msgPool::cmdinvalid($cmd, $command, get_class($plugin));
-        msg_dialog::display(_("Error"), $message, ERROR_DIALOG);
-      }
-    }
-    return '';
-  }
 }
 ?>
