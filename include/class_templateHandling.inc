@@ -245,7 +245,7 @@ class templateHandling
     return $fields;
   }
 
-  private static function modifierRemoveAccents(array $args)
+  private static function modifierRemoveAccents($str)
   {
     $str = htmlentities($str, ENT_NOQUOTES, 'UTF-8');
 
@@ -256,7 +256,7 @@ class templateHandling
     return array(preg_replace('#&[^;]+;#', '', $str));
   }
 
-  private static function modifierTranslit(array $args)
+  private static function modifierTranslit(array $args, $str)
   {
     $localesaved = setlocale(LC_CTYPE, 0);
     $ret = array();
@@ -268,7 +268,7 @@ class templateHandling
     return array_unique($ret);
   }
 
-  private static function modifierSubString(array $args)
+  private static function modifierSubString(array $args, $str)
   {
     if (count($args) < 1) {
       trigger_error("Missing 's' substr modifier parameter");
@@ -396,11 +396,11 @@ class templateHandling
         break;
       case 'a':
         // remove accent
-        $result = static::modifierRemoveAccents($args);
+        $result = static::modifierRemoveAccents($str);
         break;
       case 't':
         // translit
-        $result = static::modifierTranslit($args);
+        $result = static::modifierTranslit($args, $str);
         break;
       case 'p':
         // spaces
@@ -408,7 +408,7 @@ class templateHandling
         break;
       case 's':
         // substring
-        $result = static::modifierSubString($args);
+        $result = static::modifierSubString($args, $str);
         break;
       case 'r':
         // random string
