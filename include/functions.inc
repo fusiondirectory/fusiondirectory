@@ -543,6 +543,7 @@ function ldap_get_user ($username)
       $success = TRUE;
     }
   }
+  $ldap->disconnect();
   if (!$success) {
     return FALSE;
   }
@@ -576,7 +577,6 @@ function ldap_login_user ($username, $password)
   }
 
   /* password check, bind as user with supplied password  */
-  $ldap->disconnect();
   $ldapObj = new LDAP($ui->dn, $password, $config->current['SERVER'],
     isset($config->current['LDAPFOLLOWREFERRALS']) &&
     $config->current['LDAPFOLLOWREFERRALS'] == 'TRUE',
