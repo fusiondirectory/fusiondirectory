@@ -245,7 +245,49 @@ class templateHandling
     return $fields;
   }
 
-  private static function randomStringModifier(array $args)
+  private static function modifierRemoveAccents(array $args)
+  {
+    $str = htmlentities($str, ENT_NOQUOTES, 'UTF-8');
+
+    $str = preg_replace('#&([A-za-z])(?:acute|cedil|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $str);
+    // handle ligatures
+    $str = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $str);
+    // delete unhandled characters
+    return array(preg_replace('#&[^;]+;#', '', $str));
+  }
+
+  private static function modifierTranslit(array $args)
+  {
+    $localesaved = setlocale(LC_CTYPE, 0);
+    $ret = array();
+    foreach ($args as $arg) {
+      setlocale(LC_CTYPE, array($arg,"$arg.UTF8"));
+      $ret[] = iconv('UTF8', 'ASCII//TRANSLIT', $str);
+    }
+    setlocale(LC_CTYPE, $localesaved);
+    return array_unique($ret);
+  }
+
+  private static function modifierSubString(array $args)
+  {
+    if (count($args) < 1) {
+      trigger_error("Missing 's' substr modifier parameter");
+    }
+    if (count($args) < 2) {
+      array_unshift($args, 0);
+    }
+    if (preg_match('/^(\d+)-(\d+)$/', $args[1], $m)) {
+      $res = array();
+      for ($i = $m[1];$i < $m[2]; ++$i) {
+        $res[] = mb_substr($str, $args[0], $i);
+      }
+      return array_unique($res);
+    } else {
+      return array(mb_substr($str, $args[0], $args[1]));
+    }
+  }
+
+  private static function modifierRandomString(array $args)
   {
     $length = 8;
     $chars  = 'b';
@@ -354,24 +396,11 @@ class templateHandling
         break;
       case 'a':
         // remove accent
-        $str = htmlentities($str, ENT_NOQUOTES, 'UTF-8');
-
-        $str = preg_replace('#&([A-za-z])(?:acute|cedil|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $str);
-        // handle ligatures
-        $str = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $str);
-        // delete unhandled characters
-        $result = array(preg_replace('#&[^;]+;#', '', $str));
+        $result = static::modifierRemoveAccents($args);
         break;
       case 't':
         // translit
-        $localesaved = setlocale(LC_CTYPE, 0);
-        $ret = array();
-        foreach ($args as $arg) {
-          setlocale(LC_CTYPE, array($arg,"$arg.UTF8"));
-          $ret[] = iconv('UTF8', 'ASCII//TRANSLIT', $str);
-        }
-        setlocale(LC_CTYPE, $localesaved);
-        $result = array_unique($ret);
+        $result = static::modifierTranslit($args);
         break;
       case 'p':
         // spaces
@@ -379,25 +408,11 @@ class templateHandling
         break;
       case 's':
         // substring
-        if (count($args) < 1) {
-          trigger_error("Missing 's' substr modifier parameter");
-        }
-        if (count($args) < 2) {
-          array_unshift($args, 0);
-        }
-        if (preg_match('/^(\d+)-(\d+)$/', $args[1], $m)) {
-          $res = array();
-          for ($i = $m[1];$i < $m[2]; ++$i) {
-            $res[] = mb_substr($str, $args[0], $i);
-          }
-          $result = array_unique($res);
-        } else {
-          $result = array(mb_substr($str, $args[0], $args[1]));
-        }
+        $result = static::modifierSubString($args);
         break;
       case 'r':
         // random string
-        $result = array(static::randomStringModifier($args));
+        $result = array(static::modifierRandomString($args));
         break;
       default:
         trigger_error("Unkown modifier '$m'");
