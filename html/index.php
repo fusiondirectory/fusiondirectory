@@ -460,16 +460,9 @@ class Index {
       exit();
     }
 
-    $ldap = $config->get_ldap_link();
-    $ldap->cd($config->current['BASE']);
-    $verify_attr = explode(',', $config->get_cfg_value('loginAttribute', 'uid'));
-    $filter = '';
-    foreach ($verify_attr as $attr) {
-      $filter .= '('.$attr.'='.ldap_escape_f(static::$username).')';
-    }
-    $ldap->search('(&(|'.$filter.')(objectClass=inetOrgPerson))');
-    $attrs = $ldap->fetch();
-    if ($ldap->count() < 1) {
+    $ui = ldap_get_user(static::$username);
+
+    if ($ui === FALSE) {
       msg_dialog::display(
         _('Error'),
         sprintf(
@@ -479,18 +472,19 @@ class Index {
         FATAL_ERROR_DIALOG
       );
       exit();
-    } elseif ($ldap->count() > 1) {
+    } elseif (is_string($ui)) {
       msg_dialog::display(
         _('Error'),
         sprintf(
-          _('Header user "%s" match several users in the LDAP'),
-          static::$username
+          _('Login with user "%s" triggered error: %s'),
+          static::$username,
+          $ui
         ),
         FATAL_ERROR_DIALOG
       );
       exit();
     }
-    $ui = new userinfo($attrs['dn']);
+
     $ui->loadACL();
 
     $success = static::runSteps(array(
@@ -532,16 +526,10 @@ class Index {
     // force CAS authentication
     phpCAS::forceAuthentication();
     static::$username = phpCAS::getUser();
-    $ldap = $config->get_ldap_link();
-    $ldap->cd($config->current['BASE']);
-    $verify_attr = explode(',', $config->get_cfg_value('loginAttribute', 'uid'));
-    $filter = '';
-    foreach ($verify_attr as $attr) {
-      $filter .= '('.$attr.'='.ldap_escape_f(static::$username).')';
-    }
-    $ldap->search('(&(|'.$filter.')(objectClass=inetOrgPerson))');
-    $attrs = $ldap->fetch();
-    if ($ldap->count() < 1) {
+
+    $ui = ldap_get_user(static::$username);
+
+    if ($ui === FALSE) {
       msg_dialog::display(
         _('Error'),
         sprintf(
@@ -551,18 +539,19 @@ class Index {
         FATAL_ERROR_DIALOG
       );
       exit();
-    } elseif ($ldap->count() > 1) {
+    } elseif (is_string($ui)) {
       msg_dialog::display(
         _('Error'),
         sprintf(
-          _('CAS user "%s" match several users in the LDAP'),
-          static::$username
+          _('Login with user "%s" triggered error: %s'),
+          static::$username,
+          $ui
         ),
         FATAL_ERROR_DIALOG
       );
       exit();
     }
-    $ui = new userinfo($attrs['dn']);
+
     $ui->loadACL();
 
     $success = static::runSteps(array(

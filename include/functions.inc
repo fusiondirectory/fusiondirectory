@@ -483,18 +483,15 @@ function ldap_init ($server, $base, $binddn = '', $pass = '')
 }
 
 /*!
- * \brief Verify user login against LDAP directory
+ * \brief Get user from LDAP directory
  *
- * Checks if the specified username is in the LDAP and verifies if the
- * password is correct by binding to the LDAP with the given credentials.
+ * Search the user by login or other fields authorized by the configuration
  *
- * \param string $username The username to check
+ * \param string $username The username or email to check
  *
- * \param string $password The password to check
- *
- * \return TRUE on SUCCESS, NULL or FALSE on error
+ * \return userinfo instance on SUCCESS, FALSE if not found, string error on error
  */
-function ldap_login_user ($username, $password)
+function ldap_get_user ($username)
 {
   global $config;
 
@@ -502,7 +499,7 @@ function ldap_login_user ($username, $password)
   $ldap = $config->get_ldap_link();
   if (!$ldap->success()) {
     msg_dialog::display(_('LDAP error'),
-        msgPool::ldaperror($ldap->get_error(), '', LDAP_AUTH).'<br><br>'.session::get('errors'),
+        msgPool::ldaperror($ldap->get_error(), '', LDAP_AUTH).'<br/><br/>'.session::get('errors'),
         FATAL_ERROR_DIALOG);
     exit();
   }
@@ -532,11 +529,10 @@ function ldap_login_user ($username, $password)
   /* get results, only a count of 1 is valid */
   if ($ldap->count() == 0) {
     /* user not found */
-    return NULL;
+    return FALSE;
   } elseif ($ldap->count() != 1) {
     /* found more than one matching id */
-    msg_dialog::display(_('Internal error'), _('Login (uid) is not unique inside the LDAP tree. Please contact your administrator.'), FATAL_ERROR_DIALOG);
-    return NULL;
+    return _('Login (uid) is not unique inside the LDAP tree. Please contact your administrator.');
   }
 
   /* LDAP schema is not case sensitive. Perform additional check. */
@@ -548,11 +544,36 @@ function ldap_login_user ($username, $password)
     }
   }
   if (!$success) {
-    return NULL;
+    return FALSE;
   }
 
-  /* got user dn, fill acl's */
-  $ui = new userinfo($attrs['dn']);
+  return new userinfo($attrs['dn']);
+}
+
+/*!
+ * \brief Verify user login against LDAP directory
+ *
+ * Checks if the specified username is in the LDAP and verifies if the
+ * password is correct by binding to the LDAP with the given credentials.
+ *
+ * \param string $username The username to check
+ *
+ * \param string $password The password to check
+ *
+ * \return TRUE on SUCCESS, NULL or FALSE on error
+ */
+function ldap_login_user ($username, $password)
+{
+  global $config;
+
+  $ui = ldap_get_user($username);
+
+  if ($ui === FALSE) {
+    return NULL;
+  } elseif (is_string($ui)) {
+    msg_dialog::display(_('Internal error'), $ui, FATAL_ERROR_DIALOG);
+    return NULL;
+  }
 
   /* password check, bind as user with supplied password  */
   $ldap->disconnect();
