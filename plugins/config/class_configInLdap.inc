@@ -106,14 +106,41 @@ class configInLdap extends simplePlugin
           new HiddenAttribute ('fusionConfigMd5'),
         )
       ),
-      'schema_setup' => array(
-        'name'  => _('Schema setup'),
+      'core_settings' => array(
+        'name'  => _('Core settings'),
         'attrs' => array(
+          new IntAttribute (
+            _('LDAP size limit'), _('Defines the number of entries to get from LDAP by default.'),
+            'fdLdapSizeLimit', FALSE,
+            0 /*min*/, FALSE /*no max*/, 200
+          ),
+          new SelectAttribute (
+            _('Edit locking'),
+            _('Check if a entry currently being edited has been modified outside of FusionDirectory in the meantime.'),
+            'fdModificationDetectionAttribute', FALSE,
+            array('', 'entryCSN', 'contextCSN'), 'entryCSN'
+          ),
+          new BooleanAttribute (
+            _('Enable logging'),
+            _('Event logging on FusionDirectory side.'),
+            'fdLogging', FALSE,
+            TRUE
+          ),
           new BooleanAttribute (
             _('Schema validation'),
             _('Enables schema checking during login.'),
             'fdSchemaCheck', FALSE,
             TRUE
+          ),
+          new BooleanAttribute (
+            _('Enable snapshots'), _('This enables you to save certain states of entries and restore them later on.'),
+            'fdEnableSnapshots', FALSE,
+            TRUE
+          ),
+          new StringAttribute (
+            _('Snapshot base'), _('The base where snapshots should be stored inside of the LDAP.'),
+            'fdSnapshotBase', FALSE,
+            'ou=snapshots,'.$config->current['BASE']
           ),
         )
       ),
@@ -151,34 +178,6 @@ class configInLdap extends simplePlugin
           new StringAttribute (
             _('SASL Exop'), _('Attribute to be stored in the userPassword attribute'),
             'fdSaslExop'
-          ),
-        )
-      ),
-      'core_settings' => array(
-        'name'  => _('Core settings'),
-        'attrs' => array(
-          new BooleanAttribute (
-            _('Display summary in listings'),
-            _('Determines whether a status bar will be shown on the bottom of lists, displaying a short summary of type and number of elements in the list.'),
-            'fdListSummary', FALSE,
-            TRUE
-          ),
-          new SelectAttribute (
-            _('Edit locking'),
-            _('Check if a entry currently being edited has been modified outside of FusionDirectory in the meantime.'),
-            'fdModificationDetectionAttribute', FALSE,
-            array('', 'entryCSN', 'contextCSN'), 'entryCSN'
-          ),
-          new BooleanAttribute (
-            _('Enable logging'),
-            _('Event logging on FusionDirectory side.'),
-            'fdLogging', FALSE,
-            TRUE
-          ),
-          new IntAttribute (
-            _('LDAP size limit'), _('Defines the number of entries to get from LDAP by default.'),
-            'fdLdapSizeLimit', FALSE,
-            0 /*min*/, FALSE /*no max*/, 200
           ),
         )
       ),
@@ -222,21 +221,6 @@ class configInLdap extends simplePlugin
             _('Header name'), _('Name of the header containing user identifier.'),
             'fdHttpHeaderAuthHeaderName', FALSE,
             'AUTH_USER'
-          ),
-        )
-      ),
-      'snapshots' => array(
-        'name'  => _('Snapshots'),
-        'attrs' => array(
-          new BooleanAttribute (
-            _('Enable snapshots'), _('This enables you to save certain states of entries and restore them later on.'),
-            'fdEnableSnapshots', FALSE,
-            TRUE
-          ),
-          new StringAttribute (
-            _('Snapshot base'), _('The base where snapshots should be stored inside of the LDAP.'),
-            'fdSnapshotBase', FALSE,
-            'ou=snapshots,'.$config->current['BASE']
           ),
         )
       ),
@@ -373,6 +357,29 @@ class configInLdap extends simplePlugin
       ),
       'miscellaneous' => array(
         'name'  => _('Miscellaneous'),
+        'attrs' => array(
+          new BooleanAttribute (
+            _('Display summary in listings'),
+            _('Determines whether a status bar will be shown on the bottom of lists, displaying a short summary of type and number of elements in the list.'),
+            'fdListSummary', FALSE,
+            TRUE
+          ),
+          new BooleanAttribute (
+            _('Show ACL tab on all objects'),
+            _('For very specific ACL rights setting where you might need to give right on a single object.'),
+            'fdAclTabOnObjects'
+          ),
+          new SetAttribute(
+            new StringAttribute (
+              _('Available department categories'), _('Available categories in the departments dropdown'),
+              'fdDepartmentCategories', FALSE
+            ),
+            array()
+          ),
+        )
+      ),
+      'hooks' => array(
+        'name'  => _('Hooks'),
         'class' => array('fullwidth'),
         'attrs' => array(
           new OrderedArrayAttribute (
@@ -410,18 +417,6 @@ class configInLdap extends simplePlugin
             _('Display hook output'),
             _('When enabled successful hook execution output is displayed to the user using a dialog.'),
             'fdDisplayHookOutput'
-          ),
-          new BooleanAttribute (
-            _('Show ACL tab on all objects'),
-            _('For very specific ACL rights setting where you might need to give right on a single object.'),
-            'fdAclTabOnObjects'
-          ),
-          new SetAttribute(
-            new StringAttribute (
-              _('Available department categories'), _('Available categories in the departments dropdown'),
-              'fdDepartmentCategories', FALSE
-            ),
-            array()
           ),
         )
       ),
