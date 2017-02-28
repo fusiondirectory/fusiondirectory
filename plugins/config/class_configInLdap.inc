@@ -310,28 +310,6 @@ class configInLdap extends simplePlugin
             'fdStrictNamingRules', FALSE,
             TRUE
           ),
-          new IntAttribute (
-            _('Group/user min id'),
-            _('The minimum assignable user or group id to avoid security leaks with id 0 accounts.'),
-            'fdMinId', FALSE,
-            0, FALSE, 100
-          ),
-          new StringAttribute (
-            _('Next id hook'), _('A script to be called for finding the next free id number for users or groups.'),
-            'fdNextIdHook', FALSE
-          ),
-          new IntAttribute (
-            _('Base number for user id'),
-            _('Where to start looking for a new free user id.'),
-            'fdUidNumberBase', FALSE,
-            0, FALSE, 1100
-          ),
-          new IntAttribute (
-            _('Base number for group id'),
-            _('Where to start looking for a new free group id.'),
-            'fdGidNumberBase', FALSE,
-            0, FALSE, 1100
-          ),
           new StringAttribute (
             _('Users RDN'), _('The branch where users are stored.'),
             'fdUserRDN', TRUE,
@@ -346,32 +324,6 @@ class configInLdap extends simplePlugin
             _('ACL role RDN'), _('The branch where ACL roles are stored.'),
             'fdAclRoleRDN', TRUE,
             'ou=aclroles'
-          ),
-          new SelectAttribute (
-            _('Id allocation method'), _('Method to allocate user/group ids'),
-            'fdIdAllocationMethod', TRUE,
-            array('traditional', 'pool'), 'traditional',
-            array(_('Traditional'), _('Samba unix id pool'))
-          ),
-          new IntAttribute (
-            _('Pool user id min'), _('Minimum value for user id when using pool method'),
-            'fdUidNumberPoolMin', FALSE,
-            0, FALSE, 10000
-          ),
-          new IntAttribute (
-            _('Pool user id max'), _('Maximum value for user id when using pool method'),
-            'fdUidNumberPoolMax', FALSE,
-            0, FALSE, 40000
-          ),
-          new IntAttribute (
-            _('Pool group id min'), _('Minimum value for group id when using pool method'),
-            'fdGidNumberPoolMin', FALSE,
-            0, FALSE, 10000
-          ),
-          new IntAttribute (
-            _('Pool group id max'), _('Maximum value for group id when using pool method'),
-            'fdGidNumberPoolMax', FALSE,
-            0, FALSE, 40000
           ),
           new BooleanAttribute (
             _('Restrict role members'), _('When enabled only users from the same branch or members of groups from the same branch can be added to a role.'),
@@ -459,18 +411,6 @@ class configInLdap extends simplePlugin
             _('When enabled successful hook execution output is displayed to the user using a dialog.'),
             'fdDisplayHookOutput'
           ),
-          new SetAttribute(
-            new StringAttribute (
-              _('Available shells'), _('Available POSIX shells for FD users.'),
-              'fdShells', FALSE
-            ),
-            array('/bin/ash','/bin/bash','/bin/csh','/bin/sh','/bin/ksh',
-                  '/bin/tcsh','/bin/dash','/bin/zsh','/sbin/nologin', '/bin/false', '/usr/bin/git-shell')
-          ),
-          new SelectAttribute (
-            _('Default shell'), _('Shell used by default when activating Unix tab.'),
-            'fdDefaultShell', TRUE
-          ),
           new BooleanAttribute (
             _('Show ACL tab on all objects'),
             _('For very specific ACL rights setting where you might need to give right on a single object.'),
@@ -512,8 +452,6 @@ class configInLdap extends simplePlugin
 
     $this->fusionConfigMd5 = md5_file(CACHE_DIR."/".CLASS_CACHE);
 
-    $this->attributesAccess['fdDefaultShell']->setChoices($this->fdShells);
-
     $this->attributesAccess['fdHttpAuthActivated']->setManagedAttributes(
       array(
         'erase' => array (
@@ -537,16 +475,6 @@ class configInLdap extends simplePlugin
         'disable' => array (
           TRUE => array (
             'fdWarnSSL',
-          )
-        )
-      )
-    );
-    $this->attributesAccess['fdIdAllocationMethod']->setManagedAttributes(
-      array(
-        'erase' => array (
-          'traditional' => array (
-            'fdUidNumberPoolMin','fdUidNumberPoolMax',
-            'fdGidNumberPoolMin','fdGidNumberPoolMax',
           )
         )
       )
@@ -586,12 +514,6 @@ class configInLdap extends simplePlugin
   function compute_dn()
   {
     return $this->dn;
-  }
-
-  function save_object()
-  {
-    parent::save_object();
-    $this->attributesAccess['fdDefaultShell']->setChoices($this->fdShells);
   }
 
   static function get_themes()
