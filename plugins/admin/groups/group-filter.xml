@@ -10,11 +10,19 @@
   <search>
     <query>
       <backend>LDAP</backend>
-      <filter>(&amp;(|$PRIMARY$MAIL$SAMBA$ROLE(&amp;(objectClass=groupOfNames)(|(gosaGroupObjects=[])$USER$GROUP$APPLICATION$SERVER$WORKSTATION$WINDOWS$TERMINAL$PRINTER$PHONE$SIMPLESECURITYOBJECT$UNKNOWN)))$NAME)</filter>
+      <filter>(&amp;(|$PRIMARY$MAIL$SAMBA$ROLE$FILTERTEMPLATE(&amp;(objectClass=groupOfNames)(|(gosaGroupObjects=[])$USER$GROUP$APPLICATION$SERVER$WORKSTATION$WINDOWS$TERMINAL$PRINTER$PHONE$SIMPLESECURITYOBJECT$UNKNOWN)))$NAME)</filter>
       <attribute>*</attribute>
     </query>
     <scope>auto</scope>
   </search>
+
+  <element>
+    <type>checkbox</type>
+    <tag>FILTERTEMPLATE</tag>
+    <default></default>
+    <unset></unset>
+    <set>(objectClass=fdTemplate)</set>
+  </element>
 
   <element>
     <type>checkbox</type>
@@ -147,7 +155,7 @@
     <alphabet>true</alphabet>
     <autocomplete>
       <backend>LDAP</backend>
-      <filter>(&amp;(|(objectClass=posixGroup)$ROLE(objectClass=groupOfNames))(|(cn=*$NAME*)(description=*$NAME*)))</filter>
+      <filter>(&amp;(|(objectClass=posixGroup)$ROLE$FILTERTEMPLATE(objectClass=groupOfNames))(|(cn=*$NAME*)(description=*$NAME*)))</filter>
       <attribute>cn</attribute>
       <frequency>0.5</frequency>
       <characters>3</characters>

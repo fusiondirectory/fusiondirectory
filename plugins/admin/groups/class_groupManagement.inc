@@ -25,6 +25,8 @@ class groupManagement extends simpleManagement
 
   protected $autoFilter = FALSE;
 
+  public static $skipTemplates = TRUE;
+
   static function plInfo()
   {
     return array(
@@ -65,6 +67,10 @@ class groupManagement extends simpleManagement
     if (!class_available('sambaAccount') || !class_available('posixGroup')) {
       $this->filter->elements['SAMBA']['unset']  = '';
       $this->filter->elements['SAMBA']['set']    = '';
+    }
+    if (static::$skipTemplates) {
+      $this->filter->elements['FILTERTEMPLATE']['unset']  = '';
+      $this->filter->elements['FILTERTEMPLATE']['set']    = '';
     }
   }
 
@@ -172,6 +178,12 @@ class groupManagement extends simpleManagement
           array('id'  => 'PRINTER',     'label'  => _('Show printer groups')),
           array('id'  => 'PHONE',       'label'  => _('Show phone groups')),
         )
+      );
+    }
+    if (!static::$skipTemplates) {
+      $filters[] = array(
+        'id'    => 'FILTERTEMPLATE',
+        'label' => sprintf(_('Show %s'), _('Template'))
       );
     }
     $smarty->assign('objectFilters', $filters);
