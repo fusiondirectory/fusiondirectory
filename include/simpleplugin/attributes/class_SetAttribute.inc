@@ -234,7 +234,7 @@ class SetAttribute extends Attribute
         $this->attribute->renderAttribute($attributes, $readOnly);
         $attributes[$this->getLdapName().'_buttons'] = array(
           'htmlid'      => 'add'.$this->getHtmlId(),
-          'label'       => '{literal}'.$this->getLabel().'{/literal}'.($this->isRequired()?'{$must}':''),
+          'label'       => '',
           'description' => '',
           'input'       => $this->renderButtons(),
         );

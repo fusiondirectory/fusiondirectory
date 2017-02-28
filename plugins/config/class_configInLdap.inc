@@ -388,19 +388,19 @@ class configInLdap extends simplePlugin
               'fdTabHook',
               array(
                 new SelectAttribute(
-                  _('tab'), _('The tab that this hook concerns'),
+                  _('Tab'), _('The tab that this hook concerns'),
                   'hookTab', TRUE,
                   $plugins
                 ),
                 new SelectAttribute(
-                  _('mode'), _('When to call this command'),
+                  _('Mode'), _('When to call this command'),
                   'hookMode', TRUE,
                   array('postcreate', 'postremove', 'postmodify',
                         'precreate', 'preremove', 'premodify', 'check',
                         'prelock', 'postlock', 'preunlock', 'postunlock')
                 ),
-                new StringAttribute(
-                  _('cmd'), _('The command that will be called'),
+                new TextAreaAttribute(
+                  _('Command'), _('The command that will be called'),
                   'hookCmd', TRUE
                 )
               ),
@@ -465,6 +465,9 @@ class configInLdap extends simplePlugin
         )
       )
     );
+
+    $this->attributesAccess['fdTabHook']->setLinearRendering(FALSE);
+
     $this->attributesAccess['fdForceSSL']->setManagedAttributes(
       array(
         'disable' => array (
