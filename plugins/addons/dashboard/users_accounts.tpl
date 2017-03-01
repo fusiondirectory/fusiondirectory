@@ -4,13 +4,13 @@
   </span>
   <div>
     <h1>
-    {if $attributes.expired.accounts|@count > 0}
+    {if $attributes.expired.accounts|@count >= 1}
       {t count=$attributes.expired.accounts|@count 1=$attributes.expired.accounts|@count plural="There are %1 expired accounts"}There is one expired account{/t}
     {else}
       {t}There is no expired account{/t}
     {/if}
     </h1>
-    {if $attributes.expired.accounts|@count > 0}
+    {if $attributes.expired.accounts|@count >= 1}
       <table style="width: 100%;" class="listingTable">
         <colgroup>
           <col width="10%"/>
@@ -54,13 +54,13 @@
      {/if}
 
     <h1>
-    {if $attributes.expired.accounts_next_days|@count > 0}
+    {if $attributes.expired.accounts_next_days|@count >= 1}
       {t count=$attributes.expired.accounts_next_days|@count 1=$attributes.expired.next_days 2=$attributes.expired.accounts_next_days|@count plural="There are %2 accounts expiring in the next %1 days"}There is one account expiring in the next %1 days{/t}
     {else}
       {t 1=$attributes.expired.next_days}There is no account expiring in the next %1 days{/t}
     {/if}
     </h1>
-    {if $attributes.expired.accounts_next_days|@count > 0}
+    {if $attributes.expired.accounts_next_days|@count >= 1}
       <table style="width: 100%;" class="listingTable">
         <colgroup>
           <col width="10%"/>
