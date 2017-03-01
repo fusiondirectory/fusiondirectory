@@ -12,7 +12,7 @@
       background-image:url(images/opacity_black.png);">
 {else}
 
-  {if $s_Trace != "" && $i_TraceCnt != 0}
+  {if $s_Trace != "" && $i_TraceCnt >= 1}
   <div id="trace_{$i_ID}"
     style="
       display:none;
@@ -49,7 +49,7 @@
       {$s_Message}
     </div>
     <div class="plugbottom">
-      {if $s_Trace != "" && $i_TraceCnt != 0}
+      {if $s_Trace != "" && $i_TraceCnt >= 1}
         <input type="button" id="Trace" name="Trace"
           onClick="$('trace_{$i_ID}').toggle();" value="{t}Trace{/t}"/>
       {/if}
