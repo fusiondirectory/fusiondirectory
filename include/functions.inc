@@ -1081,8 +1081,7 @@ function get_ou($name)
     $ou = $map[$name];
     return $ou;
   } else {
-    trigger_error('No department mapping found for type '.$name);
-    return '';
+    return NULL;
   }
 
   if ($ou != '') {

@@ -321,12 +321,12 @@ class Index {
     /* User might have its own language, re-run initLanguage */
     initLanguage();
 
-    /* Check that newly installed plugins have their configuration in the LDAP (needed before load_plist to avoid PHP errors of missing RDNs in config) */
-    $config->checkLdapConfig();
-
     /* We need a fully loaded plist and config to test account expiration */
     session::global_un_set('plist');
     $plist = load_plist();
+
+    /* Check that newly installed plugins have their configuration in the LDAP (will reload plist if needed) */
+    $config->checkLdapConfig();
 
     /* Check account expiration */
     if ($config->get_cfg_value('handleExpiredAccounts') == 'TRUE') {
