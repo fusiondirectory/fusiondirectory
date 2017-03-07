@@ -321,6 +321,9 @@ class Index {
     /* User might have its own language, re-run initLanguage */
     initLanguage();
 
+    /* Check that newly installed plugins have their configuration in the LDAP (needed before load_plist to avoid PHP errors of missing RDNs in config) */
+    $config->checkLdapConfig();
+
     /* We need a fully loaded plist and config to test account expiration */
     session::global_un_set('plist');
     $plist = load_plist();
@@ -346,8 +349,6 @@ class Index {
     /* Not account expired or password forced change go to main page */
     logging::log('security', 'login', '', array(), 'User "'.static::$username.'" logged in successfully.');
     session::global_set('connected', 1);
-    /* check that newly installed plugins have their configuration in the LDAP */
-    $config->checkLdapConfig();
     session::global_set('DEBUGLEVEL', $config->get_cfg_value('DEBUGLEVEL'));
     header ('Location: main.php?global_check=1');
     exit;
