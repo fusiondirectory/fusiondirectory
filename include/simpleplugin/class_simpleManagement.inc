@@ -590,7 +590,7 @@ class simpleManagement extends management
       // Get the dn of the object and creates lock
       $this->dn = array_pop($target);
       set_object_info($this->dn);
-      if ($locks = get_locks($this->dn)) {
+      if ($locks = get_locks($this->dn, TRUE)) {
         return gen_locked_message($locks, $this->dn, TRUE);
       }
       add_lock ($this->dn, $ui->dn);

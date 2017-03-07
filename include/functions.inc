@@ -796,10 +796,13 @@ function get_lock($object)
  *
  * \param mixed $objects Array of dns for which a lock will be searched or dn of a single object
  *
+ * \param boolean $allow_readonly TRUE if readonly access should be permitted,
+ * FALSE if not (default).
+ *
  * \return A numbered array containing all found locks as an array with key 'object'
  * and key 'user', or FALSE if an error occured.
  */
-function get_locks($objects)
+function get_locks($objects, $allow_readonly = FALSE)
 {
   global $config;
 
@@ -807,12 +810,19 @@ function get_locks($objects)
     $objects = reset($objects);
   }
   if (is_array($objects)) {
+    if ($allow_readonly) {
+      trigger_error('Read only is not possible for several objects');
+    }
     $filter = '(&(objectClass=fdLockEntry)(|';
     foreach ($objects as $obj) {
       $filter .= '(fdObjectDn='.base64_encode($obj).')';
     }
     $filter .= '))';
   } else {
+    if ($allow_readonly && isset($_POST['open_readonly'])) {
+      /* If readonly is allowed and asked and there is only one object, bypass lock detection */
+      return array();
+    }
     $filter = '(&(objectClass=fdLockEntry)(fdObjectDn='.base64_encode($objects).'))';
   }
 
