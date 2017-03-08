@@ -153,6 +153,15 @@ class FileDownloadAttribute extends FileAttribute
 
 class FileTextAreaAttribute extends FileDownloadAttribute
 {
+  /* Default values are not the same that for FileDownloadAttribute */
+  function __construct ($label, $description, $ldapName, $required = FALSE, $extension = '.txt', $upload = TRUE, $defaultValue = '', $acl = '')
+  {
+    parent::__construct(
+      $label, $description, $ldapName, $required,
+      $extension, $upload, $defaultValue, $acl
+    );
+  }
+
   /*! \brief Update this attributes postValue depending of the $_POST values
    */
   function loadPostValue ()
