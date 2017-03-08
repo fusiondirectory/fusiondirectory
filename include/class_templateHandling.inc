@@ -210,6 +210,10 @@ class templateHandling
    */
   public static function parseString($string, array $attrs, $escapeMethod = NULL)
   {
+    if (preg_match('/^%%/', $string)) {
+      /* Special case: %% at beginning of string means do not touch it. Used by binary attributes. */
+      return preg_replace('/^%%/', '', $string);
+    }
     $offset = 0;
     while (preg_match('/%([^%]+)%/', $string, $m, PREG_OFFSET_CAPTURE, $offset)) {
       $replace  = static::parseMask($m[1][0], $attrs);

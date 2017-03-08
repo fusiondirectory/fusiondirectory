@@ -352,4 +352,28 @@ class ImageAttribute extends FileAttribute
     $id = $this->getHtmlId();
     return array($id.'_img',$id,'upload'.$id);
   }
+
+  /*! \brief Fill LDAP value in the attrs array
+   */
+  function fillLdapValue (&$attrs)
+  {
+    if ($this->isInLdap()) {
+      $value = $this->computeLdapValue();
+      if ($value !== '') {
+        if (isset($this->plugin) && $this->plugin->is_template) {
+          /* Add %% to provide template from parsing binary string */
+          $value = '%%'.$value;
+        }
+        $attrs[$this->getLdapName()] = $value;
+      } else {
+        $attrs[$this->getLdapName()] = array();
+      }
+    }
+  }
+
+  function inputValue ($value)
+  {
+    /* Remove %% that might be there in case of templating */
+    return preg_replace('/^%%/', '', $value);
+  }
 }
