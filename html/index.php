@@ -394,9 +394,9 @@ class Index {
     $success = static::runSteps(array(
       'validateUserInput',
       'ldapLoginUser',
+      'checkForLockingBranch',
       'loginAndCheckExpired',
       'runSchemaCheck',
-      'checkForLockingBranch',
     ));
 
     if ($success) {
@@ -422,9 +422,9 @@ class Index {
     $success = static::runSteps(array(
       'validateUserInput',
       'ldapLoginUser',
+      'checkForLockingBranch',
       'loginAndCheckExpired',
       'runSchemaCheck',
-      'checkForLockingBranch',
     ));
 
     if ($success) {
@@ -489,9 +489,9 @@ class Index {
     $ui->loadACL();
 
     $success = static::runSteps(array(
+      'checkForLockingBranch',
       'loginAndCheckExpired',
       'runSchemaCheck',
-      'checkForLockingBranch',
     ));
 
     if ($success) {
@@ -556,9 +556,9 @@ class Index {
     $ui->loadACL();
 
     $success = static::runSteps(array(
+      'checkForLockingBranch',
       'loginAndCheckExpired',
       'runSchemaCheck',
-      'checkForLockingBranch',
     ));
 
     if ($success) {
