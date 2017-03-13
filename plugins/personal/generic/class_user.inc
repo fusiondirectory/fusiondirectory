@@ -291,7 +291,10 @@ class user extends simplePlugin
         'manager' => array('user','dn')
       ),
 
-      'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())
+      'plProvidedAcls' => array_merge(
+        parent::generatePlProvidedAcls(static::getAttributesInfo()),
+        array('userLock' => _('User lock status'))
+      )
     );
   }
 
