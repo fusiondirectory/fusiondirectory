@@ -32,7 +32,7 @@ class locality extends department
       'plObjectType'  => array('locality' => array(
         'aclCategory' => 'department',
         'name'        => _('Locality'),
-        'filter'      => '(&(objectClass=locality)(objectClass=gosaDepartment))',
+        'filter'      => '(&(!(objectClass=dcObject))(objectClass=locality)(objectClass=gosaDepartment))',
         'ou'          => '',
         'icon'        => 'geticon.php?context=types&icon=locality&size=16',
         'tabClass'    => 'deptabs',
