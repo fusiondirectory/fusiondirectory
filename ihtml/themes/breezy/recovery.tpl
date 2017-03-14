@@ -29,7 +29,7 @@
 
 {if $step==3}
     <p class="infotext">
-      {t 1=$uid 2=$email_address}Information to reset password for %1 has been sent to email address %2{/t}<br/>
+      {t 1=$login 2=$email_address}Information to reset password for %1 has been sent to email address %2{/t}<br/>
       <span class="warning">{t 1=$delay_allowed}Warning : this email is only valid for %1 minutes.{/t}</span>
     </p>
   </div>
@@ -52,9 +52,9 @@
       </tr>
       {/if}
       <tr>
-       <td><label for="uid">{t}Login{/t}</label></td>
+       <td><label for="login">{t}Login{/t}</label></td>
        <td>
-           <i>{$uid}</i>
+           <i>{$login}</i>
        </td>
       </tr>
       <tr>
@@ -138,7 +138,7 @@
   <!-- Place cursor in email field -->
   <script type="text/javascript">
     <!-- // First input field on page
-    focus_field('error_accept','uid','directory','username','current_password','email_address');
+    focus_field('error_accept','login','directory','username','current_password','email_address');
     next_msg_dialog();
     -->
   </script>
