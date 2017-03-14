@@ -484,16 +484,17 @@ class passwordRecovery extends standAlonePage {
     global $config;
 
     /* Search login corresponding to the mail */
+    $address_escaped = ldap_escape_f($this->email_address);
     if ($this->usealternates) {
-      $filter = '(&(objectClass=gosaMailAccount)(|(mail='.$this->email_address.')(gosaMailAlternateAddress='.$this->email_address.')))';
+      $filter = '(&(objectClass=gosaMailAccount)(|(mail='.$address_escaped.')(gosaMailAlternateAddress='.$address_escaped.')))';
     } else {
-      $filter = '(&(objectClass=gosaMailAccount)(mail='.$this->email_address.'))';
+      $filter = '(&(objectClass=gosaMailAccount)(mail='.$address_escaped.'))';
     }
     if (class_available('personalInfo') && ($config->get_cfg_value('privateEmailPasswordRecovery', 'FALSE') == 'TRUE')) {
-      $filter = '(|'.$filter.'(&(objectClass=fdPersonalInfo)(fdPrivateMail='.$this->email_address.')))';
+      $filter = '(|'.$filter.'(&(objectClass=fdPersonalInfo)(fdPrivateMail='.$address_escaped.')))';
     }
     if (class_available('supannAccount') && ($config->get_cfg_value('supannPasswordRecovery', 'TRUE') == 'TRUE')) {
-      $filter = '(|'.$filter.'(&(objectClass=supannPerson)(supannMailPerso='.$this->email_address.')))';
+      $filter = '(|'.$filter.'(&(objectClass=supannPerson)(supannMailPerso='.$address_escaped.')))';
     }
     $ldap = $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);
