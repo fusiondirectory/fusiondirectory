@@ -1036,7 +1036,6 @@ function get_ou($name)
     'printerRDN'              => 'ou=printers,ou=systems,',
     'phoneRDN'                => 'ou=phones,ou=systems,',
     'componentRDN'            => 'ou=netdevices,ou=systems,',
-    'sambaMachineAccountRDN'  => 'ou=computers,',
     'mobilePhoneRDN'          => 'ou=mobile,ou=systems,',
 
     'inventoryRDN'            => 'ou=inventory,',
@@ -1105,7 +1104,6 @@ function get_ou($name)
   }
 }
 
-
 /*!
  * \brief Get the OU for users
  *
@@ -1118,7 +1116,6 @@ function get_people_ou()
   return get_ou('userRDN');
 }
 
-
 /*! \brief Get the OU for groups
  *
  * Function for getting the groupRDN
@@ -1129,20 +1126,6 @@ function get_groups_ou()
 {
   return get_ou('groupRDN');
 }
-
-
-/*!
- * \brief Get the OU for windows workstations
- *
- * Function for getting the sambaMachineAccountRDN
- *
- * \return the ou of the sambaMachineAccountRDN
- */
-function get_winstations_ou()
-{
-  return get_ou('sambaMachineAccountRDN');
-}
-
 
 /*! \brief Return a base from a given user DN
  *
