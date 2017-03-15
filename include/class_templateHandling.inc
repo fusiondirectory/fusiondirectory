@@ -355,6 +355,18 @@ class templateHandling
     return $res;
   }
 
+  private static function modifierDate(array $args)
+  {
+    if (count($args) < 1) {
+      $args[] = 'now';
+    }
+    if (count($args) < 2) {
+      $args[] = 'd.m.Y';
+    }
+    $dateObject = new DateTime($args[0], new DateTimeZone('UTC'));
+    return array($dateObject->format($args[1]));
+  }
+
   /*! \brief Apply a modifier
    *
    * \param string $m the modifier
@@ -431,6 +443,10 @@ class templateHandling
       case 'r':
         // random string
         $result = array(static::modifierRandomString($args));
+        break;
+      case 'd':
+        // date
+        $result = array(static::modifierDate($args));
         break;
       default:
         trigger_error("Unkown modifier '$m'");
