@@ -272,6 +272,20 @@ class templateHandling
     return array_unique($ret);
   }
 
+  private static function modifierPregReplace(array $args, $str)
+  {
+    $pattern = '/\s/';
+    $replace = '';
+    if (count($args) >= 1) {
+      $pattern = $args[0];
+      if (count($args) >= 2) {
+        $replace = $args[1];
+      }
+    }
+
+    return array(preg_replace($pattern.'u', $replace, $str));
+  }
+
   private static function modifierSubString(array $args, $str)
   {
     if (count($args) < 1) {
@@ -408,7 +422,7 @@ class templateHandling
         break;
       case 'p':
         // spaces
-        $result = array(preg_replace('/\s/u', '', $str));
+        $result = static::modifierPregReplace($args, $str);
         break;
       case 's':
         // substring
