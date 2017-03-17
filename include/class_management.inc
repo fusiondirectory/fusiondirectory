@@ -147,7 +147,7 @@ class management
   function execute()
   {
     // Ensure that html posts and gets are kept even if we see a 'Entry islocked' dialog.
-    $vars = array('/^act$/','/^listing/','/^PID$/','/^FILTER_PID$/');
+    $vars = array('/^act$/','/^listing/','/^PID$/');
     session::set('LOCK_VARS_TO_USE', $vars);
 
     /* Display the copy & paste dialog, if it is currently open */
