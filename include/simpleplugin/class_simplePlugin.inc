@@ -1517,7 +1517,12 @@ class simplePlugin
           $ofield = $ref[1];
           $filter = $ref[2];
           $cinfos = pluglist::pluginInfos($class);
-          foreach ($cinfos['plObjectType'] as $key => $objectType) {
+          if (is_subclass_of($class, 'simpleService')) {
+            $objectTypes = array('server');
+          } else {
+            $objectTypes = $cinfos['plObjectType'];
+          }
+          foreach ($objectTypes as $key => $objectType) {
             if (!is_numeric($key)) {
               $objectType = $key;
             }
@@ -1586,12 +1591,13 @@ class simplePlugin
           // For each tab concerned
           foreach ($tabRefs['refs'] as $tab => $fieldRefs) {
             // If the tab is activated on this object
-            if (isset($tabobject->by_object[$tab]) && ($tabobject->by_object[$tab]->is_account || $tabobject->by_object[$tab]->ignore_account)) {
+            $pluginobject = $tabobject->getTabOrServiceObject($tab);
+            if ($pluginobject !== FALSE) {
               // For each field
               foreach ($fieldRefs as $ofield => $fields) {
                 foreach ($fields as $field) {
                   // call plugin::foreignKeyUpdate(ldapname, oldvalue, newvalue, source) on the object
-                  $tabobject->by_object[$tab]->foreignKeyUpdate(
+                  $pluginobject->foreignKeyUpdate(
                     $ofield,
                     $field['oldvalue'],
                     $field['newvalue'],
@@ -1604,7 +1610,7 @@ class simplePlugin
                   );
                 }
               }
-              $tabobject->by_object[$tab]->save_object();
+              $pluginobject->save_object();
             }
           }
           $tabobject->save();
@@ -1612,11 +1618,12 @@ class simplePlugin
           // For each tab concerned
           foreach ($tabRefs['refs'] as $tab => $tab_infos) {
             // If the tab is activated on this object
-            if (isset($tabobject->by_object[$tab])) {
+            $pluginobject = $tabobject->getTabOrServiceObject($tab);
+            if ($pluginobject !== FALSE) {
               // For each field
               foreach ($tab_infos['fields'] as $ofield => $fields) {
                 foreach ($fields as $field) {
-                  if ($tabobject->by_object[$tab]->foreignKeyCheck(
+                  if ($pluginobject->foreignKeyCheck(
                         $ofield,
                         $field['value'],
                         array(
@@ -1643,7 +1650,11 @@ class simplePlugin
                         'fields'  => array(),
                       );
                       try {
-                        $refs[$dn]['tabs'][$tab]['link'] = objects::link($dn, $objectType, "tab_$tab", sprintf(_('Tab "%s"'), $tab_infos['name']));
+                        if (is_subclass_of($tab, 'simpleService')) {
+                          $refs[$dn]['tabs'][$tab]['link'] = objects::link($dn, $objectType, "service_$tab", sprintf(_('Service "%s"'), $tab_infos['name']));
+                        } else {
+                          $refs[$dn]['tabs'][$tab]['link'] = objects::link($dn, $objectType, "tab_$tab", sprintf(_('Tab "%s"'), $tab_infos['name']));
+                        }
                       } catch (FusionDirectoryException $e) {
                         trigger_error("Could not create link to $dn $tab: ".$e->getMessage());
                         $refs[$dn]['tabs'][$tab]['link'] = $tab;
