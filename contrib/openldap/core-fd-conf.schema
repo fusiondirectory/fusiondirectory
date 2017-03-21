@@ -580,6 +580,12 @@ attributetype ( 1.3.6.1.4.1.38414.8.110.9 NAME 'fdPasswordRecoveryUseAlternate'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
   SINGLE-VALUE )
 
+attributetype ( 1.3.6.1.4.1.38414.8.110.10 NAME 'fdPasswordRecoveryLoginAttribute'
+  DESC 'Fusion Directory - Password recovery login attribute (usually uid)'
+  EQUALITY caseExactIA5Match
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE )
+
 
 # Object Class
 objectclass ( 1.3.6.1.4.1.38414.8.2.1 NAME 'fusionDirectoryConf'
@@ -627,7 +633,7 @@ objectclass ( 1.3.6.1.4.1.38414.8.2.3 NAME 'fdPasswordRecoveryConf'
     fdPasswordRecoveryMailSubject   $ fdPasswordRecoveryMailBody  $
     fdPasswordRecoveryMail2Subject  $ fdPasswordRecoveryMail2Body $
     fdPasswordRecoveryValidity      $ fdPasswordRecoverySalt      $
-    fdPasswordRecoveryUseAlternate
+    fdPasswordRecoveryUseAlternate  $ fdPasswordRecoveryLoginAttribute
   ) )
 
 # Dashboard Object Class
