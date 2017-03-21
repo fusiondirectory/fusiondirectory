@@ -74,6 +74,11 @@ class recoveryConfig extends simplePlugin
             'fdPasswordRecoveryUseAlternate',
             FALSE
           ),
+          new StringAttribute (
+            _('Login attribute'), _('Usually uid, but you can use something else for instance in case of SSO'),
+            'fdPasswordRecoveryLoginAttribute', TRUE,
+            'uid'
+          ),
         )
       ),
       'first_email' => array (
