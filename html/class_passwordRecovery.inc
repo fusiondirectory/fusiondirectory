@@ -237,7 +237,7 @@ class standAlonePage {
 }
 
 class passwordRecovery extends standAlonePage {
-  protected $loginAttribute = 'uid';
+  protected $loginAttribute;
   protected $login;
   var $message = array();
   var $email_address;
