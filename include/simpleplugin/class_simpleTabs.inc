@@ -522,6 +522,18 @@ class simpleTabs
     }
     return objects::infos($this->objectType);
   }
+
+  /* Return tab or service if activated, FALSE otherwise */
+  function getTabOrServiceObject($tab)
+  {
+    if (isset($this->by_object[$tab]) && ($this->by_object[$tab]->is_account || $this->by_object[$tab]->ignore_account)) {
+      return $this->by_object[$tab];
+    } elseif (is_subclass_of($tab, 'simpleService') && isset($this->by_object['ServerService']->plugins[$tab]) && $this->by_object['ServerService']->plugins[$tab]->is_account) {
+      return $this->by_object['ServerService']->plugins[$tab];
+    } else {
+      return FALSE;
+    }
+  }
 }
 
 class simpleTabs_noSpecial extends simpleTabs
