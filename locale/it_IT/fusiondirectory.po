@@ -4,15 +4,15 @@
 # 
 # Translators:
 # Ilaria Montaruli <Ilaria.Montaruli@gmail.com>, 2015
-# Paola Penati <penati@avaya.com>, 2016-2017
-# Paola Penati <penati@avaya.com>, 2016
+# Paola Penati <paola.penati@opensides.be>, 2016-2017
+# Paola Penati <paola.penati@opensides.be>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory-110\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
 "POT-Creation-Date: 2017-01-11 19:09+0100\n"
 "PO-Revision-Date: 2017-01-13 17:11+0000\n"
-"Last-Translator: Paola Penati <penati@avaya.com>\n"
+"Last-Translator: Paola Penati <paola.penati@opensides.be>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/fusiondirectory/FusionDirectory-110/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"

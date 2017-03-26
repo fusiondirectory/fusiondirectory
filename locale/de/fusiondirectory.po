@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: FusionDirectory-110\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
 "POT-Creation-Date: 2017-01-11 19:09+0100\n"
-"PO-Revision-Date: 2017-01-10 14:53+0000\n"
+"PO-Revision-Date: 2017-02-04 12:52+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>\n"
 "Language-Team: German (http://www.transifex.com/fusiondirectory/FusionDirectory-110/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -574,7 +574,7 @@ msgstr ""
 
 #: setup/class_setupStep_Ldap.inc:33
 msgid "LDAP connection"
-msgstr ""
+msgstr "LDAP-Verbindung"
 
 #: setup/class_setupStep_Ldap.inc:36
 msgid "Location name"
@@ -1937,7 +1937,7 @@ msgstr ""
 
 #: include/class_SnapshotDialogs.inc:41
 msgid "Reason"
-msgstr ""
+msgstr "Grund"
 
 #: include/class_SnapshotDialogs.inc:41
 msgid "Reason for creating this snapshot"
@@ -2116,7 +2116,7 @@ msgstr "Beschreibung"
 #: include/simpleplugin/class_dialogAttributes.inc:426
 #, php-format
 msgid "POSIX group %s"
-msgstr ""
+msgstr "POSIX-Gruppe %s"
 
 #: include/simpleplugin/class_dialogAttributes.inc:428
 #, php-format
@@ -2291,7 +2291,7 @@ msgstr ""
 #: include/simpleplugin/class_simplePlugin.inc:1039
 #, php-format
 msgid "Unknown field \"%s\""
-msgstr ""
+msgstr "Unbekanntes Feld \"%s\""
 
 #: include/simpleplugin/class_Attribute.inc:555
 #: include/simpleplugin/attributes/class_SetAttribute.inc:230
@@ -2362,7 +2362,7 @@ msgstr "Ungültiger Wert für %s"
 #: include/simpleplugin/attributes/class_DateAttribute.inc:131
 #, php-format
 msgid "Error, incorrect date: %s"
-msgstr ""
+msgstr "Fehler, falsches Datum: %s"
 
 #: include/simpleplugin/attributes/class_IntAttribute.inc:50
 #, php-format
@@ -2735,17 +2735,17 @@ msgstr "Benutzer muss beim ersten Anmelden sein Passwort ändern"
 msgid ""
 "User must change password on first login (needs a value for Delay before "
 "forcing password change)"
-msgstr ""
+msgstr "Benutzer muss das Passwort bei der ersten Anmeldung ändern (benötigt einen Wert für die Verzögerung, bevor die Passwortänderung erzwungen wird)"
 
 #: plugins/personal/posix/class_posixAccount.inc:167
 msgid "Minimum delay between password changes (days)"
-msgstr ""
+msgstr "Mindestverzögerung zwischen Passwortänderungen (Tage)"
 
 #: plugins/personal/posix/class_posixAccount.inc:167
 msgid ""
 "The user won't be able to change his password before this number of days "
 "(leave empty to disable)"
-msgstr ""
+msgstr "Der Benutzer kann sein Passwort nicht vor dieser Anzahl an Tagen ändern (zum Deaktivieren leer lassen)"
 
 #: plugins/personal/posix/class_posixAccount.inc:172
 msgid "Delay before forcing password change (days)"
@@ -3232,7 +3232,7 @@ msgstr "Statistiken"
 
 #: plugins/addons/dashboard/class_dashBoardPasswords.inc:26
 msgid "Passwords"
-msgstr ""
+msgstr "Passwörter"
 
 #: plugins/addons/dashboard/class_dashBoardPasswords.inc:27
 msgid "Statistics about passwords"
@@ -3582,7 +3582,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:222
 msgid "Header name"
-msgstr ""
+msgstr "Kopfdatenname"
 
 #: plugins/config/class_configInLdap.inc:222
 msgid "Name of the header containing user identifier."
@@ -3637,7 +3637,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:264
 msgid "CAS"
-msgstr ""
+msgstr "CAS"
 
 #: plugins/config/class_configInLdap.inc:267
 msgid "Enable CAS"
@@ -4073,7 +4073,7 @@ msgstr "Kategorie von diesem %s"
 
 #: plugins/admin/departments/class_department.inc:80
 msgid "Website"
-msgstr ""
+msgstr "Webseite"
 
 #: plugins/admin/departments/class_department.inc:80
 #, php-format
@@ -4269,7 +4269,7 @@ msgstr "Faxnummer"
 
 #: plugins/admin/groups/class_roleGeneric.inc:105
 msgid "Role members"
-msgstr ""
+msgstr "Rollenmitglieder"
 
 #: plugins/admin/groups/class_roleGeneric.inc:108
 msgid "Add users for the role"
@@ -4328,7 +4328,7 @@ msgstr "Samba-Gruppen anzeigen"
 
 #: plugins/admin/groups/class_groupManagement.inc:141
 msgid "Show DSA entries"
-msgstr ""
+msgstr "DSA-Einträge anzeigen"
 
 #: plugins/admin/groups/class_groupManagement.inc:147
 msgid "Show server groups"
@@ -4573,7 +4573,7 @@ msgstr "Alle Objekte im aktuellen Teilbaum"
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:217
 #, php-format
 msgid "Edit ACL for \"%s\""
-msgstr ""
+msgstr "ACL für \"%s\" bearbeiten"
 
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:258
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:357
@@ -4615,7 +4615,7 @@ msgstr "ACL-Rollenverwaltung"
 
 #: plugins/admin/aclrole/class_aclRoleManagement.inc:36
 msgid "Manage ACL roles"
-msgstr ""
+msgstr "ACL-Rollen verwalten"
 
 #: plugins/admin/aclrole/class_aclRole.inc:38
 #, php-format
