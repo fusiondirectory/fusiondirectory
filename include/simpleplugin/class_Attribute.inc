@@ -613,7 +613,7 @@ class Attribute
    */
   function renderAcl($display)
   {
-    return '{render acl=$'.$this->getAcl()."ACL}\n$display\n{/render}";
+    return '{render aclName="'.$this->getAcl().'" acl=$'.$this->getAcl()."ACL}\n$display\n{/render}";
   }
 
   /*! \brief Get ACL information about the ACL we need to create
