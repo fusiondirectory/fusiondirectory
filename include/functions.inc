@@ -2706,4 +2706,23 @@ function mail_utf8($to, $from_user, $from_email, $subject, $message, $type = 'pl
 
   return mail($to, $subject, $message, $headers, $additional_parameters);
 }
+
+/* Calls fopen, gives errors as an array if any, file handle if successful */
+function fopenWithErrorHandling()
+{
+  $args   = func_get_args();
+  $errors = array();
+  set_error_handler(
+    function ($errno, $errstr, $errfile, $errline, $errcontext) use (&$errors)
+    {
+      $errors[] = $errstr;
+    }
+  );
+  $fh = @call_user_func_array('fopen', $args);
+  restore_error_handler();
+  if ($fh !== FALSE) {
+    return $fh;
+  }
+  return $errors;
+}
 ?>
