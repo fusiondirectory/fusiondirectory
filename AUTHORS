@@ -203,3 +203,6 @@ documentation and additional help.
 * Martin Hamant <mh@ow2.org>
   Adding DSA accounts into groups
   
+* Mathias Soupault <mathias.soupault@inalco.fr>
+  Making supannAliasLogin usage possible in password recovery
+
