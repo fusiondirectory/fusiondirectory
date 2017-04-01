@@ -582,11 +582,13 @@ function ldap_login_user ($username, $password)
 
   /* password check, bind as user with supplied password  */
   $ldap->disconnect();
-  $ldap = new ldapMultiplexer(new LDAP($ui->dn, $password, $config->current['SERVER'],
-      isset($config->current['LDAPFOLLOWREFERRALS']) &&
-      $config->current['LDAPFOLLOWREFERRALS'] == 'TRUE',
-      isset($config->current['LDAPTLS'])
-      && $config->current['LDAPTLS'] == 'TRUE'));
+  $ldapObj = new LDAP($ui->dn, $password, $config->current['SERVER'],
+    isset($config->current['LDAPFOLLOWREFERRALS']) &&
+    $config->current['LDAPFOLLOWREFERRALS'] == 'TRUE',
+    isset($config->current['LDAPTLS'])
+    && $config->current['LDAPTLS'] == 'TRUE'
+  );
+  $ldap = new ldapMultiplexer($ldapObj);
   if (!$ldap->success()) {
     return NULL;
   }
@@ -635,7 +637,7 @@ function add_lock($object, $user)
     return;
   }
 
-  $cache = &session::global_get('LOCK_CACHE');
+  $cache = &session::global_get_ref('LOCK_CACHE');
   if (isset($_POST['open_readonly'])) {
     $cache['READ_ONLY'][$object] = TRUE;
     return;
@@ -708,7 +710,7 @@ function del_lock ($object)
       skip removing the lock entry, there wasn't any lock created.
     */
   if (session::global_is_set('LOCK_CACHE')) {
-    $cache = &session::global_get('LOCK_CACHE');
+    $cache = &session::global_get_ref('LOCK_CACHE');
     if (isset($cache['READ_ONLY'][$object])) {
       unset($cache['READ_ONLY'][$object]);
       return;
@@ -794,10 +796,13 @@ function get_lock($object)
  *
  * \param mixed $objects Array of dns for which a lock will be searched or dn of a single object
  *
+ * \param boolean $allow_readonly TRUE if readonly access should be permitted,
+ * FALSE if not (default).
+ *
  * \return A numbered array containing all found locks as an array with key 'object'
  * and key 'user', or FALSE if an error occured.
  */
-function get_locks($objects)
+function get_locks($objects, $allow_readonly = FALSE)
 {
   global $config;
 
@@ -805,12 +810,19 @@ function get_locks($objects)
     $objects = reset($objects);
   }
   if (is_array($objects)) {
+    if ($allow_readonly) {
+      trigger_error('Read only is not possible for several objects');
+    }
     $filter = '(&(objectClass=fdLockEntry)(|';
     foreach ($objects as $obj) {
       $filter .= '(fdObjectDn='.base64_encode($obj).')';
     }
     $filter .= '))';
   } else {
+    if ($allow_readonly && isset($_POST['open_readonly'])) {
+      /* If readonly is allowed and asked and there is only one object, bypass lock detection */
+      return array();
+    }
     $filter = '(&(objectClass=fdLockEntry)(fdObjectDn='.base64_encode($objects).'))';
   }
 
@@ -2535,7 +2547,8 @@ function check_schema($cfg)
   $checks = array();
 
   /* Get objectclasses */
-  $ldap = new ldapMultiplexer(new LDAP($cfg['admin'], $cfg['password'], $cfg['connection'], FALSE, $cfg['tls']));
+  $ldapObj = new LDAP($cfg['admin'], $cfg['password'], $cfg['connection'], FALSE, $cfg['tls']);
+  $ldap = new ldapMultiplexer($ldapObj);
   $objectclasses = $ldap->get_objectclasses(TRUE);
   if (count($objectclasses) == 0) {
     msg_dialog::display(_('LDAP warning'), _('Cannot get schema information from server. No schema check possible!'), WARNING_DIALOG);
@@ -3449,5 +3462,24 @@ function mail_utf8($to, $from_user, $from_email, $subject, $message, $type = 'pl
   $additional_parameters = "-f".$from_email;
 
   return mail($to, $subject, $message, $headers, $additional_parameters);
+}
+
+/* Calls fopen, gives errors as an array if any, file handle if successful */
+function fopenWithErrorHandling()
+{
+  $args   = func_get_args();
+  $errors = array();
+  set_error_handler(
+    function ($errno, $errstr, $errfile, $errline, $errcontext) use (&$errors)
+    {
+      $errors[] = $errstr;
+    }
+  );
+  $fh = @call_user_func_array('fopen', $args);
+  restore_error_handler();
+  if ($fh !== FALSE) {
+    return $fh;
+  }
+  return $errors;
 }
 ?>

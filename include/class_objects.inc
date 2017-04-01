@@ -22,9 +22,9 @@
 class objects
 {
   /*!
-   * \brief Get list of object of objectType $type in $ou
+   * \brief Get list of object of objectTypes from $types in $ou
    *
-   * \param string  $type the objectType to list
+   * \param array   $types the objectTypes to list
    * \param mixed   $attrs The attributes to fetch.
    * If this is a single value, the resulting associative array will have for each dn the value of this attribute.
    * If this is an array, the keys must be the wanted attributes, and the values can be either 1, '*' or 'raw'
@@ -32,14 +32,36 @@ class objects
    *  Other values are considered to be 1.
    * \param string  $ou the LDAP branch to search in, base will be used if it is NULL
    * \param string  $filter an additional filter to use in the LDAP search.
+   * \param boolean $checkAcl should ACL be ignored or checked? Defaults to FALSE.
    *
    * \return The list of objects as an associative array (keys are dns)
    */
-  static function ls ($type, $attrs = NULL, $ou = NULL, $filter = '')
+  static function ls ($types, $attrs = NULL, $ou = NULL, $filter = '', $checkAcl = FALSE)
   {
+    global $ui;
+
+    if (!is_array($types)) {
+      $types = array($types);
+    }
+
+    if ($checkAcl) {
+      if (count($types) > 1) {
+        throw new FusionDirectoryException('Cannot evaluate ACL for several types');
+      }
+      $infos = static::infos(reset($types));
+      $acl = $infos['aclCategory'].'/'.$infos['mainTab'];
+    }
+
     if ($attrs === NULL) {
-      $infos = static::infos($type);
-      $attrs = $infos['mainAttr'];
+      $attrs = array();
+      foreach ($types as $type) {
+        $infos = static::infos($type);
+        $attrs[] = $infos['mainAttr'];
+      }
+      $attrs = array_unique($attrs);
+      if (count($attrs) == 1) {
+        $attrs = $attrs[0];
+      }
     }
 
     if (is_array($attrs)) {
@@ -48,13 +70,16 @@ class objects
       $search_attrs = array($attrs);
     }
     try {
-      $ldap   = static::search($type, $search_attrs, $ou, $filter);
+      $ldap = static::search($types, $search_attrs, $ou, $filter);
     } catch (NonExistingBranchException $e) {
       return array();
     }
     $result = array();
     while ($fetched_attrs = $ldap->fetch()) {
       $key = $fetched_attrs['dn'];
+      if ($checkAcl && !preg_match('/r/', $ui->get_permissions($key, $acl))) {
+        continue;
+      }
       if (is_array($attrs)) {
         $result[$key] = array();
         foreach ($attrs as $attr => $mode) {
@@ -79,18 +104,18 @@ class objects
   }
 
   /*!
-   * \brief Get count of objects of objectType $type in $ou
+   * \brief Get count of objects of objectTypes from $types in $ou
    *
-   * \param string  $type the objectType to list
+   * \param array   $types the objectTypes to list
    * \param string  $ou the LDAP branch to search in, base will be used if it is NULL
    * \param string  $filter an additional filter to use in the LDAP search.
    *
    * \return The number of objects of type $type in $ou
    */
-  static function count ($type, $ou = NULL, $filter = '')
+  static function count ($types, $ou = NULL, $filter = '')
   {
     try {
-      $ldap = static::search($type, array('dn'), $ou, $filter);
+      $ldap = static::search($types, array('dn'), $ou, $filter);
     } catch (EmptyFilterException $e) {
       return 0;
     } catch (NonExistingBranchException $e) {
@@ -99,16 +124,28 @@ class objects
     return $ldap->count();
   }
 
-  private static function search ($type, $search_attrs, $ou = NULL, $filter = '')
+  private static function search ($types, $search_attrs, $ou = NULL, $filter = '')
   {
     global $config;
+
+    if (!is_array($types)) {
+      $types = array($types);
+    }
 
     if ($ou === NULL) {
       $ou = $config->current['BASE'];
     }
-    $infos = static::infos($type);
 
-    if ($infos['filter'] == '') {
+    $typeFilters = array();
+    foreach ($types as $type) {
+      $infos = static::infos($type);
+
+      if ($infos['filter'] == '') {
+        continue;
+      }
+      $typeFilters[] = $infos['filter'];
+    }
+    if (empty($typeFilters)) {
       throw new EmptyFilterException();
     }
 
@@ -117,12 +154,12 @@ class objects
       throw new NonExistingBranchException();
     }
     if (empty($filter)) {
-      $filter = $infos['filter'];
+      $filter = '(|'.implode($typeFilters).')';
     } else {
       if (!preg_match('/^\(.*\)$/', $filter)) {
         $filter = '('.$filter.')';
       }
-      $filter = '(&'.$filter.$infos['filter'].')';
+      $filter = '(&'.$filter.'(|'.implode($typeFilters).'))';
     }
     $ldap->cd($ou);
     $ldap->search($filter, $search_attrs);

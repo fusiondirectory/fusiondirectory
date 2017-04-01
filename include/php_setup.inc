@@ -169,7 +169,7 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
   /* Return if error reporting is set to zero */
   if (error_reporting() == 0) {
     set_error_handler('gosaRaiseError', E_WARNING | E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT);
-    return;
+    return FALSE;
   }
 
   /* Workaround for buggy imap_open error outputs */

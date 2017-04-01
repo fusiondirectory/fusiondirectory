@@ -1,6 +1,29 @@
 FusionDirectory changelog
 =========================
 
+* FusionDirectory 1.0.20
+
+[Fix] Bugs #5282: Documentation for Password Policy Plugin
+[Fix] Bugs #5362: PHP errors related to ogroup
+[Fix] FusionDirectory plugins - Bugs #5370: webservice doesn't provide a way to logout
+[Feature] Bugs #5397: User is able to lock their own account
+[Fix] Bugs #5410: edit conflict warning screen : "read only" button make the same page to reload
+[Fix] Bugs #5422: There seems to be a problem with TimeAttribute
+[Fix] Bugs #5426: Problems with PHP CAS on centos 7
+[Feature] FusionDirectory plugins - Bugs #5437: argonaut-ldap2zone should be able to get data from a branch
+[Feature] FusionDirectory plugins - Bugs #5438: we should add the directive check-names into the argonaut-dns service
+[Fix] FusionDirectory plugins - Bugs #5442: Document fopen activation for argonaut plugin
+[Feature] FusionDirectory plugins - Bugs #5443: argonaut ldap2zone should be able to create config for dns slave also, but not create the data
+[Feature] FusionDirectory plugins - Bugs #5444: dropdown in systems on the dns tab
+[Fix] FusionDirectory plugins - Bugs #5445: reorganize the argonaut dns plugin service
+[Fix] FusionDirectory plugins - Bugs #5446: Error message when trying to update System name in the systems page
+[Fix] Bugs #5448: Foreign keys from Services does not work
+[Fix] FusionDirectory plugins - Bugs #5452: Error when reloading dhcp service through FD
+[Fix] FusionDirectory plugins - Bugs #5457: Error modifynig DNS settings in the system's DNS tab
+[Feature] Wishlist #5424: Mail alternatif pour la récupération de mot de passe quand supann est activé
+[Feature] Wishlist #5425: Utiliser le supannAliasLogin dans les messages et les vues de récupération de mot de passe
+[Feature] Wishlist #5456: Fine grain ACL control
+
 * FusionDirectory 1.0.19
 
 [Fix] Bugs #5303: When clicking on login from user selection we end up in user edition

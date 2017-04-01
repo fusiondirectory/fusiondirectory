@@ -252,6 +252,12 @@ class plugin
     }
   }
 
+  /* Used by prepare_save and template::apply */
+  public function mergeObjectClasses(array $oc)
+  {
+    return array_merge_unique($oc, $this->objectclasses);
+  }
+
   protected function templateLoadAttrs($template_attrs)
   {
     $this->is_template = TRUE;
@@ -459,7 +465,7 @@ class plugin
     $is_new = empty($oc);
 
     /* Load (minimum) attributes, add missing ones */
-    $this->attrs['objectClass'] = array_merge_unique($oc, $this->objectclasses);
+    $this->attrs['objectClass'] = $this->mergeObjectClasses($oc);
 
     /* Copy standard attributes */
     foreach ($this->attributes as $val) {
@@ -924,6 +930,10 @@ class plugin
    */
   static function tpl_parse_string($string, $attrs, $escapeMethod = NULL)
   {
+    if (preg_match('/^%%/', $string)) {
+      /* Special case: %% at beginning of string means do not touch it. Used by binary attributes. */
+      return preg_replace('/^%%/', '', $string);
+    }
     $offset = 0;
     while (preg_match('/%([^%]+)%/', $string, $m, PREG_OFFSET_CAPTURE, $offset)) {
       $replace  = static::tpl_parse_mask($m[1][0], $attrs);
@@ -1206,7 +1216,12 @@ class plugin
           $ofield = $ref[1];
           $filter = $ref[2];
           $cinfos = pluglist::pluginInfos($class);
-          foreach ($cinfos['plObjectType'] as $key => $objectType) {
+          if (is_subclass_of($class, 'simpleService')) {
+            $objectTypes = array('server');
+          } else {
+            $objectTypes = $cinfos['plObjectType'];
+          }
+          foreach ($objectTypes as $key => $objectType) {
             if (!is_numeric($key)) {
               $objectType = $key;
             }
@@ -1275,11 +1290,12 @@ class plugin
           // For each tab concerned
           foreach ($tabRefs['refs'] as $tab => $fieldRefs) {
             // If the tab is activated on this object
-            if (isset($tabobject->by_object[$tab]) && ($tabobject->by_object[$tab]->is_account || $tabobject->by_object[$tab]->ignore_account)) {
+            $pluginobject = $tabobject->getTabOrServiceObject($tab);
+            if ($pluginobject !== FALSE) {
               // For each field
               foreach ($fieldRefs as $ofield => $field) {
                 // call plugin::foreignKeyUpdate(ldapname, oldvalue, newvalue, source) on the object
-                $tabobject->by_object[$tab]->foreignKeyUpdate(
+                $pluginobject->foreignKeyUpdate(
                   $ofield,
                   $field['oldvalue'],
                   $field['newvalue'],
@@ -1291,18 +1307,19 @@ class plugin
                   )
                 );
               }
-              $tabobject->by_object[$tab]->save_object();
-              $tabobject->by_object[$tab]->save();
+              $pluginobject->save_object();
+              $pluginobject->save();
             }
           }
         } elseif ($mode == 'references') {
           // For each tab concerned
           foreach ($tabRefs['refs'] as $tab => $tab_infos) {
             // If the tab is activated on this object
-            if (isset($tabobject->by_object[$tab])) {
+            $pluginobject = $tabobject->getTabOrServiceObject($tab);
+            if ($pluginobject !== FALSE) {
               // For each field
               foreach ($tab_infos['fields'] as $ofield => $field) {
-                if ($tabobject->by_object[$tab]->foreignKeyCheck(
+                if ($pluginobject->foreignKeyCheck(
                       $ofield,
                       $field['value'],
                       array(
@@ -1329,7 +1346,11 @@ class plugin
                       'fields'  => array(),
                     );
                     try {
-                      $refs[$dn]['tabs'][$tab]['link'] = objects::link($dn, $objectType, "tab_$tab", sprintf(_('Tab "%s"'), $tab_infos['name']));
+                      if (is_subclass_of($tab, 'simpleService')) {
+                        $refs[$dn]['tabs'][$tab]['link'] = objects::link($dn, $objectType, "service_$tab", sprintf(_('Service "%s"'), $tab_infos['name']));
+                      } else {
+                        $refs[$dn]['tabs'][$tab]['link'] = objects::link($dn, $objectType, "tab_$tab", sprintf(_('Tab "%s"'), $tab_infos['name']));
+                      }
                     } catch (Exception $e) {
                       trigger_error("Could not create link to $dn $tab: ".$e->getMessage());
                       $refs[$dn]['tabs'][$tab]['link'] = $tab;

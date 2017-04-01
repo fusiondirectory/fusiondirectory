@@ -113,9 +113,9 @@ if (isset($_REQUEST['signout']) && $_REQUEST['signout']) {
     $config = session::global_get('config');
     if ($config->get_cfg_value('casActivated') == 'TRUE') {
       require_once('CAS.php');
-      /* Move CAS autoload before FD autoload */
-      spl_autoload_unregister('CAS_autoload');
-      spl_autoload_register('CAS_autoload', TRUE, TRUE);
+      /* Move FD autoload after CAS autoload */
+      spl_autoload_unregister('__fusiondirectory_autoload');
+      spl_autoload_register('__fusiondirectory_autoload');
       phpCAS::client(
         CAS_VERSION_2_0,
         $config->get_cfg_value('casHost', 'localhost'),
@@ -582,9 +582,9 @@ if ($config->get_cfg_value('httpAuthActivated') == 'TRUE') {
   Index::authLoginProcess();
 } elseif ($config->get_cfg_value('casActivated') == 'TRUE') {
   require_once('CAS.php');
-  /* Move CAS autoload before FD autoload */
-  spl_autoload_unregister('CAS_autoload');
-  spl_autoload_register('CAS_autoload', TRUE, TRUE);
+  /* Move FD autoload after CAS autoload */
+  spl_autoload_unregister('__fusiondirectory_autoload');
+  spl_autoload_register('__fusiondirectory_autoload');
   Index::casLoginProcess();
 } elseif ($config->get_cfg_value('httpHeaderAuthActivated') == 'TRUE') {
   Index::headerAuthLoginProcess();
