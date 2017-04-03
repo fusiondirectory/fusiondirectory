@@ -503,6 +503,21 @@ class simplePlugin
     return $attr.'='.ldap_escape_dn($this->attributesAccess[$attr]->computeLdapValue()).','.$ou.$base;
   }
 
+  protected function addAttribute($section, $attr)
+  {
+    $name = $attr->getLdapName();
+    $this->attributesInfo[$section]['attrs'][$name] = $attr;
+    $this->attributesAccess[$name] =& $this->attributesInfo[$section]['attrs'][$name];
+    $this->attributesAccess[$name]->setParent($this);
+    unset($this->$name);
+  }
+
+  protected function removeAttribute($section, $id)
+  {
+    unset($this->attributesInfo[$section]['attrs'][$id]);
+    unset($this->attributesAccess[$id]);
+  }
+
   /*!
    * \brief Returns a list of all available departments for this object.
    *
