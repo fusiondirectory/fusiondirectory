@@ -1011,13 +1011,10 @@ class LDAP
     return $res;
   }
 
-
   function dn_exists($dn)
   {
-    return @ldap_list($this->cid, $dn, "(objectClass=*)", array("objectClass"));
+    return @ldap_read($this->cid, $dn, "(objectClass=*)", array("objectClass"));
   }
-
-
 
   /*!
    * \brief Function to imports ldifs
