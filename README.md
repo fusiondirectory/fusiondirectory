@@ -1,2 +1,2 @@
-[Donate to FusionDirectory on Liberapay](https://liberapay.com/assets/widgets/donate.svg)
+[Donate to FusionDirectory on Liberapay](https://liberapay.com/fusiondirectory/donate)
 
