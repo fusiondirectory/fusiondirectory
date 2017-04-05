@@ -691,17 +691,19 @@ class msgPool {
         _('delete operation'), _('search operation'), _('authentication'));
 
     if (isset($typemap[$type])) {
-      $headline = sprintf(_('LDAP %s failed!'), $typemap[$type]);
+      $msg = sprintf(_('LDAP %s failed!'), $typemap[$type]);
     } else {
-      $headline = _('LDAP operation failed!');
+      $msg = _('LDAP operation failed!');
     }
 
     /* Fill DN information */
     if ($dn != '') {
-      $dn_info = '<br/><br/><i>'._('Object').':</i> '.$dn;
+      $msg .= '<br/><br/><i>'._('Object').':</i> '.$dn;
     }
 
-    return $headline.$dn_info.'<br/><br/><i>'._('Error').':</i> '.$error;
+    $msg .= '<br/><br/><i>'._('Error').':</i> '.$error;
+
+    return $msg;
   }
 
   /*!
