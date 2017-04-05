@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: pl\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>=14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 
 #: setup/class_setupStep_Language.inc:30
 #: plugins/personal/generic/class_user.inc:384
@@ -5121,6 +5121,7 @@ msgid_plural "There are %1 groups:"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
+msgstr[3] ""
 
 #: plugins/addons/dashboard/groups_stats.tpl.c:5
 msgid "One of them is a %1 group"
@@ -5128,6 +5129,7 @@ msgid_plural "%2 are %1 groups"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
+msgstr[3] ""
 
 #: plugins/addons/dashboard/groups_stats.tpl.c:8
 msgid "There is no %1 group"
@@ -5140,6 +5142,7 @@ msgid_plural "There are %1 users:"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
+msgstr[3] ""
 
 #: plugins/addons/dashboard/users_stats.tpl.c:5
 msgid "One of them have a %1 account"
@@ -5147,6 +5150,7 @@ msgid_plural "%2 of them have a %1 account"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
+msgstr[3] ""
 
 #: plugins/addons/dashboard/users_stats.tpl.c:8
 msgid "None of them have a %1 account"
@@ -5158,6 +5162,7 @@ msgid_plural "%2 of them use %1 method"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
+msgstr[3] ""
 
 #: plugins/addons/dashboard/pwd_stats.tpl.c:8
 msgid "One of them is locked"
@@ -5165,6 +5170,7 @@ msgid_plural "%1 of them are locked"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
+msgstr[3] ""
 
 #: plugins/addons/dashboard/pwd_stats.tpl.c:11
 msgid "None of them is locked"
@@ -5176,6 +5182,7 @@ msgid_plural "There are %1 expired accounts"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
+msgstr[3] ""
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:5
 msgid "There is no expired account"
@@ -5224,6 +5231,7 @@ msgid_plural "There are %2 accounts expiring in the next %1 days"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
+msgstr[3] ""
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:38
 msgid "There is no account expiring in the next %1 days"

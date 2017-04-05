@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
 "POT-Creation-Date: 2017-01-23 21:40+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Paola Penati <penati@avaya.com>, 2017\n"
+"Last-Translator: Paola Penati <paola.penati@opensides.be>, 2017\n"
 "Language-Team: Italian (Italy) (https://www.transifex.com/fusiondirectory/teams/12202/it_IT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1221,7 +1221,7 @@ msgstr "Impossibile scrivere il file di revisione !"
 
 #: include/functions.inc:2039
 msgid "Cannot read revision file!"
-msgstr ""
+msgstr "Impossibile leggere il file di revisione!"
 
 #: include/functions.inc:2167
 msgid "'nextIdHook' is not available. Using default base!"
@@ -1304,12 +1304,12 @@ msgstr "L'objectClass \"posixGroup\" deve essere STRUTTURALE"
 #: include/functions.inc:2752
 #, php-format
 msgid "Unknown ID allocation method \"%s\"!"
-msgstr ""
+msgstr "Metodo di assegnazione ID \"%s\" sconosciuto!"
 
 #: include/functions.inc:2774
 #, php-format
 msgid "Timeout while waiting for lock. Ignoring lock from %s!"
-msgstr ""
+msgstr "Timeout durante l'attesa per il blocco. Ignorare blocco da %s!"
 
 #: include/functions.inc:2801 include/functions.inc:2841
 #: include/functions.inc:2853 include/functions.inc:2857
@@ -1644,22 +1644,22 @@ msgstr "'%s' dipende da '%s' - indica entrambi i valori !"
 #: include/simpleplugin/attributes/class_SetAttribute.inc:589
 #, php-format
 msgid "\"%s\""
-msgstr ""
+msgstr "\"%s\""
 
 #: include/class_msgPool.inc:409
 #, php-format
 msgid "There is already an entry with this %s attribute in the system!"
-msgstr ""
+msgstr "Esiste già una voce  con questo attributo %s nel sistema!"
 
 #: include/class_msgPool.inc:411
 #, php-format
 msgid "The entry \"%s\" already use this %s attribute!"
-msgstr ""
+msgstr "La entry \"%s\" usa già l'attributo %s!"
 
 #: include/class_msgPool.inc:431
 #, php-format
 msgid "The required field %s is empty!"
-msgstr ""
+msgstr "Il campo necessario %s é vuoto!"
 
 #: include/class_msgPool.inc:453
 msgid "Example:"
@@ -2296,6 +2296,8 @@ msgid ""
 "No plugin definitions found to initialize \"%s\", please check your "
 "configuration file."
 msgstr ""
+"Nessuna definizione di plugin trovato per inizializzare \"%s\", si prega di "
+"consultare il file di configurazione."
 
 #: include/simpleplugin/class_simpleTabs.inc:391
 #, php-format
@@ -5466,14 +5468,14 @@ msgstr ""
 #: plugins/addons/dashboard/groups_stats.tpl.c:2
 msgid "There is 1 group:"
 msgid_plural "There are %1 groups:"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "C'é 1 gruppo:"
+msgstr[1] "Vi sono %1 gruppi:"
 
 #: plugins/addons/dashboard/groups_stats.tpl.c:5
 msgid "One of them is a %1 group"
 msgid_plural "%2 are %1 groups"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Uno di essi é un gruppo %1"
+msgstr[1] "%2 sono %1 gruppi"
 
 #: plugins/addons/dashboard/groups_stats.tpl.c:8
 msgid "There is no %1 group"
@@ -5483,14 +5485,14 @@ msgstr "Non c'é alcun gruppo %1"
 #: plugins/addons/dashboard/pwd_stats.tpl.c:2
 msgid "There is 1 user:"
 msgid_plural "There are %1 users:"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "C'é 1 utente:"
+msgstr[1] "Ci sono %1 utenti:"
 
 #: plugins/addons/dashboard/users_stats.tpl.c:5
 msgid "One of them have a %1 account"
 msgid_plural "%2 of them have a %1 account"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Uno di essi ha %1 account"
+msgstr[1] "%2 di essi hanno un %1 account"
 
 #: plugins/addons/dashboard/users_stats.tpl.c:8
 msgid "None of them have a %1 account"
@@ -5499,14 +5501,14 @@ msgstr "Nessuno di essi ha %1 di account"
 #: plugins/addons/dashboard/pwd_stats.tpl.c:5
 msgid "One of them use %1 method"
 msgid_plural "%2 of them use %1 method"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Uno di essi usa %1  metodo"
+msgstr[1] "%2 di essi usano %1 metodo"
 
 #: plugins/addons/dashboard/pwd_stats.tpl.c:8
 msgid "One of them is locked"
 msgid_plural "%1 of them are locked"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Uno di essi é bloccato"
+msgstr[1] "%1 di essi sono bloccati"
 
 #: plugins/addons/dashboard/pwd_stats.tpl.c:11
 msgid "None of them is locked"
@@ -5515,8 +5517,8 @@ msgstr "Nessuno di loro è bloccato"
 #: plugins/addons/dashboard/users_accounts.tpl.c:2
 msgid "There is one expired account"
 msgid_plural "There are %1 expired accounts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "C'é un account scaduto"
+msgstr[1] "Ci sono %1 account scaduti"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:5
 msgid "There is no expired account"
@@ -5562,8 +5564,8 @@ msgstr "mail"
 #: plugins/addons/dashboard/users_accounts.tpl.c:35
 msgid "There is one account expiring in the next %1 days"
 msgid_plural "There are %2 accounts expiring in the next %1 days"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "C'é un account in scadenza nei prossimi %1 giorni"
+msgstr[1] "Ci sono %2 accounts in scadenza nei prossimi %1 giorni"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:38
 msgid "There is no account expiring in the next %1 days"

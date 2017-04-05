@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
 "POT-Creation-Date: 2017-01-23 21:40+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: fusiondirectory <contact@fusiondirectory.org>, 2016\n"
+"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>, 2017\n"
 "Language-Team: German (https://www.transifex.com/fusiondirectory/teams/12202/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -597,7 +597,7 @@ msgstr ""
 
 #: setup/class_setupStep_Ldap.inc:33
 msgid "LDAP connection"
-msgstr ""
+msgstr "LDAP-Verbindung"
 
 #: setup/class_setupStep_Ldap.inc:36
 msgid "Location name"
@@ -1602,7 +1602,7 @@ msgstr "'%s' hängt von '%s' ab - bitte geben Sie beide Werte an!"
 #: include/simpleplugin/attributes/class_SetAttribute.inc:589
 #, php-format
 msgid "\"%s\""
-msgstr ""
+msgstr "\"%s\""
 
 #: include/class_msgPool.inc:409
 #, php-format
@@ -1988,7 +1988,7 @@ msgstr ""
 
 #: include/class_SnapshotDialogs.inc:41
 msgid "Reason"
-msgstr ""
+msgstr "Grund"
 
 #: include/class_SnapshotDialogs.inc:41
 msgid "Reason for creating this snapshot"
@@ -2178,7 +2178,7 @@ msgstr "Beschreibung"
 #: include/simpleplugin/class_dialogAttributes.inc:426
 #, php-format
 msgid "POSIX group %s"
-msgstr ""
+msgstr "POSIX-Gruppe %s"
 
 #: include/simpleplugin/class_dialogAttributes.inc:428
 #, php-format
@@ -2371,7 +2371,7 @@ msgstr "Tab \"%s\""
 #: include/simpleplugin/class_simplePlugin.inc:1787
 #, php-format
 msgid "Unknown field \"%s\""
-msgstr ""
+msgstr "Unbekanntes Feld \"%s\""
 
 #: include/simpleplugin/class_Attribute.inc:560
 #: include/simpleplugin/attributes/class_SetAttribute.inc:230
@@ -2442,7 +2442,7 @@ msgstr "Ungültiger Wert für %s"
 #: include/simpleplugin/attributes/class_DateAttribute.inc:131
 #, php-format
 msgid "Error, incorrect date: %s"
-msgstr ""
+msgstr "Fehler, falsches Datum: %s"
 
 #: include/simpleplugin/attributes/class_IntAttribute.inc:50
 #, php-format
@@ -2825,16 +2825,20 @@ msgid ""
 "User must change password on first login (needs a value for Delay before "
 "forcing password change)"
 msgstr ""
+"Benutzer muss das Passwort bei der ersten Anmeldung ändern (benötigt einen "
+"Wert für die Verzögerung, bevor die Passwortänderung erzwungen wird)"
 
 #: plugins/personal/posix/class_posixAccount.inc:169
 msgid "Minimum delay between password changes (days)"
-msgstr ""
+msgstr "Mindestverzögerung zwischen Passwortänderungen (Tage)"
 
 #: plugins/personal/posix/class_posixAccount.inc:169
 msgid ""
 "The user won't be able to change his password before this number of days "
 "(leave empty to disable)"
 msgstr ""
+"Der Benutzer kann sein Passwort nicht vor dieser Anzahl an Tagen ändern (zum"
+" Deaktivieren leer lassen)"
 
 #: plugins/personal/posix/class_posixAccount.inc:174
 msgid "Delay before forcing password change (days)"
@@ -3328,7 +3332,7 @@ msgstr "Statistiken"
 
 #: plugins/addons/dashboard/class_dashBoardPasswords.inc:26
 msgid "Passwords"
-msgstr ""
+msgstr "Passwörter"
 
 #: plugins/addons/dashboard/class_dashBoardPasswords.inc:27
 msgid "Statistics about passwords"
@@ -3709,7 +3713,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:222
 msgid "Header name"
-msgstr ""
+msgstr "Kopfdatenname"
 
 #: plugins/config/class_configInLdap.inc:222
 msgid "Name of the header containing user identifier."
@@ -3766,7 +3770,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:264
 msgid "CAS"
-msgstr ""
+msgstr "CAS"
 
 #: plugins/config/class_configInLdap.inc:267
 msgid "Enable CAS"
@@ -4211,7 +4215,7 @@ msgstr "Kategorie von diesem %s"
 
 #: plugins/admin/departments/class_department.inc:80
 msgid "Website"
-msgstr ""
+msgstr "Webseite"
 
 #: plugins/admin/departments/class_department.inc:80
 #, php-format
@@ -4407,7 +4411,7 @@ msgstr "Faxnummer"
 
 #: plugins/admin/groups/class_roleGeneric.inc:105
 msgid "Role members"
-msgstr ""
+msgstr "Rollenmitglieder"
 
 #: plugins/admin/groups/class_roleGeneric.inc:108
 msgid "Add users for the role"
@@ -4466,7 +4470,7 @@ msgstr "Zeige Samba Gruppen"
 
 #: plugins/admin/groups/class_groupManagement.inc:141
 msgid "Show DSA entries"
-msgstr ""
+msgstr "DSA-Einträge anzeigen"
 
 #: plugins/admin/groups/class_groupManagement.inc:147
 msgid "Show server groups"
@@ -4711,7 +4715,7 @@ msgstr "Alle Objekte im aktuellen Teilbaum"
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:217
 #, php-format
 msgid "Edit ACL for \"%s\""
-msgstr ""
+msgstr "ACL für \"%s\" bearbeiten"
 
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:258
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:357
@@ -4753,7 +4757,7 @@ msgstr "ACL-Rollenverwaltung"
 
 #: plugins/admin/aclrole/class_aclRoleManagement.inc:36
 msgid "Manage ACL roles"
-msgstr ""
+msgstr "ACL-Rollen verwalten"
 
 #: plugins/admin/aclrole/class_aclRole.inc:38
 #, php-format
@@ -5326,8 +5330,8 @@ msgstr ""
 #: plugins/addons/dashboard/groups_stats.tpl.c:2
 msgid "There is 1 group:"
 msgid_plural "There are %1 groups:"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Es gibt 1 Gruppe:"
+msgstr[1] "Es gibt %1 Gruppen:"
 
 #: plugins/addons/dashboard/groups_stats.tpl.c:5
 msgid "One of them is a %1 group"
@@ -5343,8 +5347,8 @@ msgstr "Es gibt keine Gruppe %1"
 #: plugins/addons/dashboard/pwd_stats.tpl.c:2
 msgid "There is 1 user:"
 msgid_plural "There are %1 users:"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Es gibt 1 Benutzer:"
+msgstr[1] "Es gibt %1 Benutzer:"
 
 #: plugins/addons/dashboard/users_stats.tpl.c:5
 msgid "One of them have a %1 account"
