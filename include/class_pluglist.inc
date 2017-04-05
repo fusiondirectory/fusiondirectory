@@ -64,8 +64,9 @@ class pluglist {
     $classes = get_declared_classes();
 
     $index = 0;
-    $depends_infos  = array();
-    $foreign_refs   = array();
+    $depends_infos    = array();
+    $conflicts_infos  = array();
+    $foreign_refs     = array();
     foreach ($classes as $cname) {
       $cmethods = get_class_methods($cname);
       if (in_array_ics('plInfo', $cmethods)) {
@@ -85,6 +86,9 @@ class pluglist {
         }
         if (isset($infos['plDepends'])) {
           $depends_infos[] = $cname;
+        }
+        if (isset($infos['plConflicts'])) {
+          $conflicts_infos[] = $cname;
         }
         if (isset($infos['plForeignKeys'])) {
           foreach ($infos['plForeignKeys'] as $ofield => &$pfks) {
@@ -150,6 +154,19 @@ class pluglist {
           }
         } else {
           trigger_error("$cname depends of the inexisting plugin $depend");
+        }
+      }
+    }
+    foreach ($conflicts_infos as $cname) {
+      foreach ($this->info[$cname]['plConflicts'] as $conflict) {
+        if (isset($this->info[$conflict])) {
+          if (isset($this->info[$conflict]['plConflicts'])) {
+            if (!in_array($cname, $this->info[$conflict]['plConflicts'])) {
+              $this->info[$conflict]['plConflicts'][] = $cname;
+            }
+          } else {
+            $this->info[$conflict]['plConflicts'] = array($cname);
+          }
         }
       }
     }

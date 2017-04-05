@@ -683,8 +683,9 @@ class simplePlugin
       /* Show tab dialog headers */
       $plInfo = pluglist::pluginInfos(get_class($this));
       if ($this->parent !== NULL) {
-        $disabled = $this->acl_skip_write();
-        $depends = array();
+        $disabled   = $this->acl_skip_write();
+        $depends    = array();
+        $conflicts  = array();
         if ($this->is_account) {
           if (isset($plInfo['plDepending'])) {
             foreach ($plInfo['plDepending'] as $plugin) {
@@ -714,9 +715,19 @@ class simplePlugin
               }
             }
           }
+          if (isset($plInfo['plConflicts'])) {
+            foreach ($plInfo['plConflicts'] as $plugin) {
+              if (isset($this->parent->by_object[$plugin]) &&
+                  $this->parent->by_object[$plugin]->is_account) {
+                $disabled   = TRUE;
+                $conflictPlInfos  = pluglist::pluginInfos($plugin);
+                $conflicts[]      = $conflictPlInfos['plShortName'];
+              }
+            }
+          }
           $this->header = $this->show_header(
             msgPool::addFeaturesButton($plInfo['plShortName']),
-            msgPool::featuresDisabled($plInfo['plShortName'], $depends),
+            msgPool::featuresDisabled($plInfo['plShortName'], $depends, $conflicts),
             $this->is_account,
             $disabled,
             get_class($this).'_modify_state'

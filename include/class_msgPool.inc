@@ -604,24 +604,14 @@ class msgPool {
    *
    * \param array $depends Contains all the settings disabled
    */
-  public static function featuresDisabled($name, $depends = "")
+  public static function featuresDisabled($name, array $depends = array(), array $conflicts = array())
   {
-    if (($depends == "") || (is_array($depends) && count($depends) == 0)) {
-      return sprintf(_("This account has %s settings disabled. You can enable them by clicking below."), $name);
+    if (empty($depends) && empty($conflicts)) {
+      return sprintf(_('This account has %s settings disabled. You can enable them by clicking below.'), $name);
+    } elseif (!empty($depends)) {
+      return sprintf(_('This account has %s settings disabled. To enable them, you\'ll need to add the %s settings first!'), $name, implode(' / ', $depends));
     } else {
-      if (count($depends) == 1) {
-        if (is_array($depends)) {
-          $depends = $depends[0];
-        }
-        return sprintf(_("This account has %s settings disabled. To enable them, you'll need to add the %s settings first!"), $name, $depends);
-      } else {
-        $deps = "";
-        foreach ($depends as $dep) {
-          $deps .= "$dep / ";
-        }
-        $deps = preg_replace("/ \/ $/", "", $deps);
-        return sprintf(_("This account has %s settings disabled. To enable them, you'll need to add the %s settings first!"), $name, $deps);
-      }
+      return sprintf(_('This account has %s settings disabled. To enable them, you\'ll need to disable the %s settings first!'), $name, implode(' / ', $conflicts));
     }
   }
 
