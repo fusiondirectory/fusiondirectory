@@ -708,7 +708,7 @@ class user extends simplePlugin
     } elseif ($check_differ && (substr($current_password, 0, $differ) == substr($new_password, 0, $differ))) {
       return _('The password used as new and current are too similar.');
     } elseif ($check_length && (strlen($new_password) < $length)) {
-      return _('The password used as new is to short.');
+      return _('The password used as new is too short.');
     } elseif (!passwordMethod::is_harmless($new_password)) {
       return _('The password contains possibly problematic Unicode characters!');
     }
