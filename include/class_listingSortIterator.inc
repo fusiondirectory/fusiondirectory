@@ -42,7 +42,7 @@ class listingSortIterator implements Iterator {
    *
    * \param string $type
    */
-  public function __construct($data, $direction, $attribute, $type = "string")
+  public function __construct($data, $direction, $attribute, $type = 'string')
   {
     // Sort for attribute
     if ($attribute != '') {
@@ -60,7 +60,7 @@ class listingSortIterator implements Iterator {
           }
 
           // Extract values from ao and bo
-          $a = $b = "";
+          $a = $b = '';
           if (isset($ao[$attribute_a])) {
             $a = $ao[$attribute_a];
             if (is_array($a)) {
@@ -88,16 +88,16 @@ class listingSortIterator implements Iterator {
               return $b - $a;
 
             case 'date':
-              if ($a == "") {
-                $a = "31.12.0000";
+              if ($a == '') {
+                $a = '31.12.0000';
               }
-              if ($b == "") {
-                $b = "31.12.0000";
+              if ($b == '') {
+                $b = '31.12.0000';
               }
               list($d, $m, $y) = explode('.', $a);
-              $a = (int)sprintf("%04d%02d%02d", $y, $m, $d);
+              $a = (int)sprintf('%04d%02d%02d', $y, $m, $d);
               list($d, $m, $y) = explode('.', $b);
-              $b = (int)sprintf("%04d%02d%02d", $y, $m, $d);
+              $b = (int)sprintf('%04d%02d%02d', $y, $m, $d);
               return $b - $a;
 
             case 'ip':

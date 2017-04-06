@@ -786,7 +786,6 @@ class userinfo
   function get_complete_category_acls($dn, $category)
   {
     global $config;
-    $acl    = 'rwcdm';
 
     if (!is_string($category)) {
       trigger_error('category must be string');
@@ -795,6 +794,7 @@ class userinfo
       if (isset($this->result_cache['get_complete_category_acls'][$dn][$category])) {
         return $this->result_cache['get_complete_category_acls'][$dn][$category];
       }
+      $acl = 'rwcdm';
       if (isset($config->data['CATEGORIES'][$category])) {
         foreach ($config->data['CATEGORIES'][$category]['classes'] as $oc) {
           if ($oc == '0') {

@@ -59,7 +59,6 @@ class listing
   protected $snapshotHandler  = NULL;
   var $exporter       = array();
   var $exportColumns  = array();
-  var $useSpan        = FALSE;
   var $height         = 0;
   var $scrollPosition = 0;
   var $baseSelector;
@@ -340,25 +339,24 @@ class listing
   function render()
   {
     // Check for exeeded sizelimit
-    if (($message = check_sizelimit()) != "") {
+    if (($message = check_sizelimit()) != '') {
       return $message;
     }
 
     // Initialize list
-    $result = "<input type='hidden' value='$this->pid' name='PID'>\n";
-    $result .= "<input type='hidden' name='position_".$this->pid."' id='position_".$this->pid."'>\n";
+    $result = '<input type="hidden" value="'.$this->pid.'" name="PID"/>'."\n";
+    $result .= '<input type="hidden" name="position_'.$this->pid.'" id="position_'.$this->pid.'"/>'."\n";
     $height = 450;
     if ($this->height != 0) {
-      $result .= "<input type='hidden' value='$this->height' id='d_height'>\n";
+      $result .= '<input type="hidden" value="'.$this->height.'" id="d_height"/>'."\n";
       $height = $this->height;
     }
 
-    $result .= "<div id='d_scrollbody' style='width:100%;'>\n";
-    $result .= "<table style='width:100%;' id='t_scrolltable' class='listingTable'>\n";
-    $this->numColumns = count($this->colprops) + ($this->multiSelect?1:0);
+    $result .= '<div id="d_scrollbody" style="width:100%;"/>'."\n";
+    $result .= '<table style="width:100%;" id="t_scrolltable" class="listingTable">'."\n";
 
     // Build list header
-    $result .= "<thead><tr>\n";
+    $result .= '<thead><tr>'."\n";
     if ($this->multiSelect) {
       $width = '24px';
       $result .= '<th style="text-align:center;padding:0;width:'.$width.';"><input type="checkbox" id="select_all" name="select_all" title="'._('Select all').'" onClick=\'toggle_all_(\"listing_selected_[0-9]*$\",\"select_all\");\' ></th>'."\n";
@@ -366,22 +364,17 @@ class listing
     foreach ($this->header as $header) {
       $result .= $header;
     }
-    $result .= "</tr></thead>\n";
+    $result .= '</tr></thead>'."\n";
 
     // Build list body
-    $result .= "<tbody id='t_nscrollbody'>\n";
+    $result .= '<tbody id="t_nscrollbody">'."\n";
 
     // No results? Just take an empty colspanned row
     if (count($this->entries) + count($this->departments) == 0) {
-      $result .= '<tr><td colspan="'.$this->numColumns.'" style="height:100%;width:100%;">&nbsp;</td></tr>'."\n";
+      $result .= '<tr><td colspan="'.$this->numColumns + ($this->multiSelect ? 1 : 0).'" style="height:100%;width:100%;">&nbsp;</td></tr>'."\n";
     }
 
-    // Line color alternation
-    $alt  = 0;
-    $deps = 0;
-
     // Draw department browser if configured and we're not in sub mode
-    $this->useSpan = FALSE;
     if ($this->departmentBrowser && ($this->filter->scope != 'sub')) {
       // Fill with department browser if configured this way
       $departmentIterator = new departmentSortIterator($this->departments, $this->sortDirection[$this->sortColumn]);
@@ -394,27 +387,22 @@ class listing
         }
 
         // Render defined department columns, fill the rest with some stuff
-        $rest = $this->numColumns - 1;
+        $rest = $this->numColumns;
         foreach ($this->xmlData['table']['department'] as $index => $cfg) {
           $colspan = 1;
           if (isset($cfg['span'])) {
-            $colspan        = $cfg['span'];
-            $this->useSpan  = TRUE;
+            $colspan = $cfg['span'];
           }
           $result .= '<td colspan="'.$colspan.'" '.$this->colprops[$index].'>'.$this->renderCell('department', $index, $cfg['value'], $entry, $row).'</td>';
           $rest -= $colspan;
         }
 
         // Fill remaining cols with nothing
-        $last = $this->numColumns - $rest;
-        for ($i = 0; $i < $rest; $i++) {
-          $result .= '<td '.$this->colprops[$last + $i - 1].'>&nbsp;</td>';
+        for ($i = $this->numColumns - $rest; $i < $this->numColumns; $i++) {
+          $result .= '<td '.$this->colprops[$i].'>&nbsp;</td>';
         }
         $result .= '</tr>';
-
-        $alt++;
       }
-      $deps = $alt;
     }
 
     // Fill with contents, sort as configured
@@ -456,7 +444,6 @@ class listing
       }
 
       $result .= "</tr>\n";
-      $alt++;
     }
 
     // Close list body
@@ -773,10 +760,6 @@ class listing
     // Watch out for filters and prepare to execute them
     $data = $this->processElementFilter($table, $index, $data, $cfg, $row);
 
-    // Replace all non replaced %{...} instances because they
-    // are non resolved attributes or filters
-    $data = preg_replace('/%{[^}]+}/', '&nbsp;', $data);
-
     return $data;
   }
 
@@ -796,15 +779,15 @@ class listing
     if (isset($this->filterCache[$type.$index])) {
       $filters = $this->filterCache[$type.$index];
     } else {
-      preg_match_all('/%{filter:([^(]+)\((.*)\)}/', $data, $matches, PREG_SET_ORDER);
+      preg_match_all('/%{filter:([^(]+)\((.*)\)}/', $data, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE);
 
       $filters = array();
       foreach ($matches as $match) {
         $cl     = '';
         $method = '';
-        if (!preg_match('/^(.*)::(.*)$/', $match[1], $m)) {
-          if (!isset($this->filters[$match[1]]) || !preg_match('/^(.*)::(.*)$/', $this->filters[$match[1]], $m)) {
-            trigger_error('Unknown filter '.$match[1]);
+        if (!preg_match('/^(.*)::(.*)$/', $match[1][0], $m)) {
+          if (!isset($this->filters[$match[1][0]]) || !preg_match('/^(.*)::(.*)$/', $this->filters[$match[1][0]], $m)) {
+            trigger_error('Unknown filter '.$match[1][0]);
             continue;
           }
         }
@@ -812,16 +795,16 @@ class listing
         $method = $m[2];
 
         // Prepare params for function call
-        preg_match_all('/"[^"]+"|[^,]+/', $match[2], $parts);
+        preg_match_all('/"[^"]+"|[^,]+/', $match[2][0], $parts);
 
-        $filters[$match[0]] = array($cl, $method, $parts[0]);
+        $filters[$match[0][0]] = array($cl, $method, $parts[0], $match[0][1]);
       }
 
       $this->filterCache[$type.$index] = $filters;
     }
 
     foreach ($filters as $filterstring => $filter) {
-      list ($cl, $method, $parts) = $filter;
+      list ($cl, $method, $parts, $offset) = $filter;
       $params = array();
       foreach ($parts as $param) {
         switch ($param) {
@@ -864,10 +847,10 @@ class listing
       // Replace information
       if ($cl == 'listing') {
         // Non static call
-        $data = preg_replace('/'.preg_quote($filterstring).'/', call_user_func_array(array($this, $method), $params), $data);
+        $data = substr_replace($data, call_user_func_array(array($this, $method), $params), $offset, strlen($filterstring));
       } else {
         // Static call
-        $data = preg_replace('/'.preg_quote($filterstring).'/', call_user_func_array(array($cl, $method), $params), $data);
+        $data = substr_replace($data, call_user_func_array(array($cl, $method), $params), $offset, strlen($filterstring));
       }
     }
 
@@ -1003,13 +986,13 @@ class listing
   {
     // Do nothing if there's no menu defined
     if (!isset($this->xmlData['actiontriggers']['action'])) {
-      return "&nbsp;";
+      return '&nbsp;';
     }
 
     // Go thru all actions
     $result   = '';
     $emptyimg = '<img src="images/empty.png" alt=" " class="center optional"/>';
-    foreach ($this->xmlData['actiontriggers']['action'] as &$action) {
+    foreach ($this->xmlData['actiontriggers']['action'] as $action) {
       // If there's an objectclass definition and we don't have it
       // add an empty picture here.
       if (isset($action['objectclass'])) {
@@ -1085,7 +1068,6 @@ class listing
         }
       }
     }
-    unset($action);
 
     return $result;
   }
