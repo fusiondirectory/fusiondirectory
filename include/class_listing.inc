@@ -344,13 +344,6 @@ class listing
       return $message;
     }
 
-    // Some browsers don't have the ability do do scrollable table bodies, filter them
-    // here.
-    $switch = FALSE;
-    if (preg_match('/(Opera|Konqueror|Safari)/i', $_SERVER['HTTP_USER_AGENT'])) {
-      $switch = TRUE;
-    }
-
     // Initialize list
     $result = "<input type='hidden' value='$this->pid' name='PID'>\n";
     $result .= "<input type='hidden' name='position_".$this->pid."' id='position_".$this->pid."'>\n";
@@ -367,11 +360,8 @@ class listing
     // Build list header
     $result .= "<thead><tr>\n";
     if ($this->multiSelect) {
-      $width = "24px";
-      if (preg_match('/Konqueror/i', $_SERVER['HTTP_USER_AGENT'])) {
-        $width = "28px";
-      }
-      $result .= "<th style='text-align:center;padding:0;width:$width;'><input type='checkbox' id='select_all' name='select_all' title='"._("Select all")."' onClick='toggle_all_(\"listing_selected_[0-9]*$\",\"select_all\");' ></th>\n";
+      $width = '24px';
+      $result .= '<th style="text-align:center;padding:0;width:'.$width.';"><input type="checkbox" id="select_all" name="select_all" title="'._('Select all').'" onClick=\'toggle_all_(\"listing_selected_[0-9]*$\",\"select_all\");\' ></th>'."\n";
     }
     foreach ($this->header as $header) {
       $result .= $header;
@@ -494,7 +484,7 @@ class listing
     }
 
     // Close list
-    $result .= $switch?"<input type='hidden' id='list_workaround'>":"";
+    $result .= '';
 
     // Add scroll positioner
     $result .= '<script type="text/javascript">';
