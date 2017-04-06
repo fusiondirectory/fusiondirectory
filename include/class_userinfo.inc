@@ -966,5 +966,23 @@ class userinfo
     }
     return ($this->get_permissions($config->current['BASE'], 'user/user') == 'rwcdm');
   }
+
+  /* \brief Test if a plugin is blacklisted for this user (does not show up in the menu)
+   */
+  function isBlacklisted($plugin)
+  {
+    global $config;
+    $blacklist = $config->get_cfg_value('PluginsMenuBlacklist', array());
+    foreach ($blacklist as $item) {
+      list ($group, $p) = explode('|', $item, 2);
+      if ($plugin == $p) {
+        if (in_array($group, $this->groups) || in_array($group, $this->roles)) {
+          return TRUE;
+        }
+      }
+    }
+
+    return FALSE;
+  }
 }
 ?>

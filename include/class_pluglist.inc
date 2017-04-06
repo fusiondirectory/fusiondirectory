@@ -212,9 +212,20 @@ class pluglist {
    *
    * \return Boolean TRUE on success FALSE otherwise
    */
-  function check_access($aclname)
+  function check_access($infos)
   {
     global $ui;
+
+    if (isset($infos['CLASS']) && $ui->isBlacklisted($infos['CLASS'])) {
+      return FALSE;
+    }
+
+    if (!isset($infos['ACL'])) {
+      return FALSE;
+    }
+
+    $aclname = $infos['ACL'];
+
     if (isset($this->silly_cache[$aclname])) {
       return $this->silly_cache[$aclname];
     }
@@ -320,18 +331,15 @@ class pluglist {
 
         /* Parse sub-plugins */
         foreach ($config->data['MENU'][$section] as $info) {
+          if (!$this->check_access($info)) {
+            continue;
+          }
           if (isset($info['CLASS']) && plugin_available($info['CLASS'])) {
-            if (!$this->check_access($info['ACL'])) {
-              continue;
-            }
             $index  = $this->get_index($info['CLASS']);
             $this->allowed_plugins[$index] = $index;
             list ($plHeadline, $plDescription, $href, ) = $this->get_infos($info['CLASS']);
             $id             = $info['CLASS'];
           } elseif (!isset($info['CLASS'])) {
-            if (isset($info['ACL']) && !$this->check_access($info['ACL'])) {
-              continue;
-            }
             $plHeadline     = $info['TITLE'];
             $plDescription  = $info['DESCRIPTION'];
             $href           = $info['LINK'];
@@ -388,17 +396,14 @@ class pluglist {
         $menu     .= $section_infos['NAME']."</h1>\n";
 
         foreach ($config->data['MENU'][$section] as $info) {
+          if (!$this->check_access($info)) {
+            continue;
+          }
           if (isset($info['CLASS']) && plugin_available($info['CLASS'])) {
-            if (!$this->check_access($info['ACL'])) {
-              continue;
-            }
             /* Read information from class variable */
             list ($plHeadline, $plDescription, $href, $plIcon) = $this->get_infos($info['CLASS']);
             $id             = $info['CLASS'];
           } elseif (!isset($info['CLASS'])) {
-            if (isset($info['ACL']) && !$this->check_access($info['ACL'])) {
-              continue;
-            }
             $plHeadline     = $info['TITLE'];
             $plDescription  = $info['DESCRIPTION'];
             $href           = $info['LINK'];

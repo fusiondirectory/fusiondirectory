@@ -376,6 +376,29 @@ class configInLdap extends simplePlugin
             ),
             array()
           ),
+          new OrderedArrayAttribute(
+            new PipeSeparatedCompositeAttribute(
+              _('Use this to hide some menu entry to specific groups of users'),
+              'fdPluginsMenuBlacklist',
+              array(
+                new SelectAttribute(
+                  '', _('Group or role'),
+                  'blacklistGroup', TRUE,
+                  array()
+                ),
+                new SelectAttribute(
+                  '', _('Plugin to blacklist'),
+                  'blacklistPlugin', TRUE,
+                  array()
+                ),
+              ),
+              '',
+              _('Plugin menu blacklist')
+            ),
+            // no order
+            FALSE,
+            array()
+          )
         )
       ),
       'hooks' => array(
@@ -425,6 +448,7 @@ class configInLdap extends simplePlugin
 
   function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE, $attributesInfo = NULL)
   {
+    global $config;
     $attributesInfo = static::getAttributesInfo();
     /* Languages */
     $languages = get_languages(TRUE);
@@ -437,6 +461,42 @@ class configInLdap extends simplePlugin
     $methods = passwordMethod::get_available_methods();
     $methods = $methods['name'];
     $attributesInfo['password']['attrs'][0]->setChoices($methods);
+
+    $groupsAndRoles = array_merge(
+      array_map(
+        function ($group)
+        {
+          return sprintf(_('Group %s'), $group);
+        },
+        objects::ls('ogroup')
+      ),
+      array_map(
+        function ($role)
+        {
+          return sprintf(_('Role %s'), $role);
+        },
+        objects::ls('role')
+      )
+    );
+    $attributesInfo['miscellaneous']['attrs'][3]->attribute->attributes[0]->setChoices(
+      array_keys($groupsAndRoles),
+      array_values($groupsAndRoles)
+    );
+    $menuPlugins = array();
+    $plist = session::global_get('plist');
+    foreach ($config->data['SECTIONS'] as $section => $section_infos) {
+      foreach ($config->data['MENU'][$section] as $info) {
+        if (isset($info['CLASS'])) {
+          list ($plHeadline, , , ) = $plist->get_infos($info['CLASS']);
+          $menuPlugins[$info['CLASS']] = $plHeadline;
+        }
+      }
+    }
+    asort($menuPlugins);
+    $attributesInfo['miscellaneous']['attrs'][3]->attribute->attributes[1]->setChoices(
+      array_keys($menuPlugins),
+      array_values($menuPlugins)
+    );
 
     try {
       parent::__construct($dn, $object, $parent, $mainTab, $attributesInfo);
