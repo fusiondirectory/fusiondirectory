@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2017-04-05 14:21+0200\n"
+"POT-Creation-Date: 2017-04-05 19:06+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Benoit Mortier <benoit.mortier@opensides.be>, 2017\n"
 "Language-Team: French (https://www.transifex.com/fusiondirectory/teams/12202/fr/)\n"
@@ -1301,6 +1301,8 @@ msgid ""
 "The snapshot functionality is enabled, but the required variable \"%s\" is "
 "not set."
 msgstr ""
+"La fonctionnalité des instantanés est activée, mais la variable requise "
+"\"%s\" n'est pas configurée."
 
 #: include/class_config.inc:808
 #, php-format
@@ -1308,6 +1310,8 @@ msgid ""
 "The snapshot functionality is enabled, but the required compression module "
 "is missing. Please install \"%s\"."
 msgstr ""
+"La fonctionnalité des instantanés est activée, mais le module nécessaire à "
+"la compression est manquant. Veuillez installer \"%s\". "
 
 #: include/class_config.inc:916
 msgid "All categories"
@@ -1689,6 +1693,8 @@ msgid ""
 "This account has %s settings disabled. To enable them, you'll need to "
 "disable the %s settings first!"
 msgstr ""
+"Ce compte a les paramètres %s désactivés. Pour les activer, vous devez "
+"d'abord désactiver les paramètres %s !"
 
 #: include/class_msgPool.inc:625
 #, php-format
@@ -2596,7 +2602,7 @@ msgstr ""
 #: html/index.php:480 html/index.php:547
 #, php-format
 msgid "Login with user \"%s\" triggered error: %s"
-msgstr ""
+msgstr "La connexion avec l'utilisateur \"%s\" à déclenché l'erreur : \"%s\""
 
 #: html/index.php:537
 #, php-format
@@ -3020,11 +3026,11 @@ msgstr "Rue"
 
 #: plugins/personal/generic/class_user.inc:456
 msgid "Street part of the address"
-msgstr ""
+msgstr "Nom de la rue"
 
 #: plugins/personal/generic/class_user.inc:460
 msgid "Post office box"
-msgstr ""
+msgstr "Boîte postale"
 
 #: plugins/personal/generic/class_user.inc:464
 msgid "Postal code"
@@ -3078,7 +3084,7 @@ msgstr "Le nouveau et l'ancien mot de passe sont trop similaires."
 
 #: plugins/personal/generic/class_user.inc:711
 msgid "The password used as new is too short."
-msgstr ""
+msgstr "Le nouveau mot de passe est trop court."
 
 #: plugins/personal/generic/class_user.inc:713
 msgid "The password contains possibly problematic Unicode characters!"
@@ -3673,22 +3679,26 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:317
 msgid "Separate address fields"
-msgstr ""
+msgstr "Champs d'adresse séparés"
 
 #: plugins/config/class_configInLdap.inc:317
 msgid ""
 "Expose street, postOfficeBox and postalCode fields instead of postalAddress."
 msgstr ""
+"Exposez les champs Street, PostOfficeBox et postalCode au lieu de "
+"PostalAddress."
 
 #: plugins/config/class_configInLdap.inc:321
 msgid "Postal address pattern"
-msgstr ""
+msgstr "Modèle d'adresse postale"
 
 #: plugins/config/class_configInLdap.inc:321
 msgid ""
 "When using separate address fields, you can use a pattern to fill "
 "postalAddress field."
 msgstr ""
+"Lorsque vous utilisez des champs d'adresse distincts, vous pouvez utiliser "
+"un motif pour remplir le champ PostalAddress."
 
 #: plugins/config/class_configInLdap.inc:327
 msgid "Debugging"
@@ -3785,7 +3795,7 @@ msgstr "Déclencheurs appelés en fonction de l’exécution d’actions spécif
 
 #: plugins/config/class_configInLdap.inc:391
 msgid "Tab"
-msgstr ""
+msgstr "Onglet"
 
 #: plugins/config/class_configInLdap.inc:391
 msgid "The tab that this hook concerns"
@@ -3802,7 +3812,7 @@ msgstr "Quand appeler cette commande"
 
 #: plugins/config/class_configInLdap.inc:403
 msgid "Command"
-msgstr ""
+msgstr "Commande"
 
 #: plugins/config/class_configInLdap.inc:403
 msgid "The command that will be called"
@@ -5129,8 +5139,8 @@ msgstr "Aucun d’eux n’a un compte %1"
 #: plugins/addons/dashboard/pwd_stats.tpl.c:5
 msgid "One of them use %1 method"
 msgid_plural "%2 of them use %1 method"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Un d'entre eux utilise la méthode %1"
+msgstr[1] "%2 d’entre eux utilisent la méthode %1"
 
 #: plugins/addons/dashboard/pwd_stats.tpl.c:8
 msgid "One of them is locked"
