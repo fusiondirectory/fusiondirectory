@@ -1483,7 +1483,7 @@ sub migrate_winstations
         my $newrdn = "cn=".$cn;
         my $dn_old = $entry->dn();
         my $dn_new = $entry->dn();
-        $dn_new =~ s/^[^,]+,[^,]+,[^,]+,/$newrdn,$workstationrdn/;
+        $dn_new =~ s/^[^,]+,[^,]+,[^,]+,/$newrdn,$workstationrdn,/;
         $entry->dn($dn_new);
         my @replace = ('fdWorkstation');
         my @classes = $entry->get_value('objectClass');
