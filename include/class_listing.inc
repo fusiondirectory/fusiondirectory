@@ -371,7 +371,7 @@ class listing
 
     // No results? Just take an empty colspanned row
     if (count($this->entries) + count($this->departments) == 0) {
-      $result .= '<tr><td colspan="'.$this->numColumns + ($this->multiSelect ? 1 : 0).'" style="height:100%;width:100%;">&nbsp;</td></tr>'."\n";
+      $result .= '<tr><td colspan="'.($this->numColumns + ($this->multiSelect ? 1 : 0)).'" style="height:100%;width:100%;">&nbsp;</td></tr>'."\n";
     }
 
     // Draw department browser if configured and we're not in sub mode
