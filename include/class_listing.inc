@@ -352,14 +352,14 @@ class listing
       $height = $this->height;
     }
 
-    $result .= '<div id="d_scrollbody" style="width:100%;"/>'."\n";
+    $result .= '<div id="d_scrollbody" style="width:100%;">'."\n";
     $result .= '<table style="width:100%;" id="t_scrolltable" class="listingTable">'."\n";
 
     // Build list header
     $result .= '<thead><tr>'."\n";
     if ($this->multiSelect) {
       $width = '24px';
-      $result .= '<th style="text-align:center;padding:0;width:'.$width.';"><input type="checkbox" id="select_all" name="select_all" title="'._('Select all').'" onClick=\'toggle_all_(\"listing_selected_[0-9]*$\",\"select_all\");\' ></th>'."\n";
+      $result .= '<th style="text-align:center;padding:0;width:'.$width.';"><input type="checkbox" id="select_all" name="select_all" title="'._('Select all').'" onClick=\'toggle_all_("listing_selected_[0-9]*$","select_all");\' /></th>'."\n";
     }
     foreach ($this->header as $header) {
       $result .= $header;
