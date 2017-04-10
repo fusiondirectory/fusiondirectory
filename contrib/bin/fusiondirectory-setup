@@ -1422,6 +1422,9 @@ sub migrate_systems {
             }
             $entry->delete('gotoMode');
           }
+          if ($entry->exists('argonautLdap2zoneAllowNotify')) {
+            $entry->delete('argonautLdap2zoneAllowNotify');
+          }
           $mesg = $ldap->add($entry);
           if ($mesg->code) {
             print $entry->dn().": ".$mesg->error."\n";
