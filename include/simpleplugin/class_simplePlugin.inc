@@ -1385,6 +1385,7 @@ class simplePlugin
    */
   function handle_pre_events($mode, array $addAttrs = array())
   {
+    $this->ldap_error = '';
     return $this->handle_hooks('PRE', $mode, $addAttrs);
   }
 

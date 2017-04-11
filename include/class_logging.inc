@@ -49,12 +49,13 @@ class logging {
    *
    * \param $result         A status message, containing errors or success messages
    */
-  static function log ($action, $objecttype, $object, $changes_array = array(), $result = '')
+  static function log ($action, $objecttype, $object, array $changes_array = array(), $result = '')
   {
     global $config, $ui;
-    if (!is_array($changes_array)) {
-      trigger_error('log(string,string,string,array(),bool). Forth parameter must be an array.');
-      $changes_array = array();
+
+    if ($result === NULL) {
+      trigger_error('"Result" parameter should not be NULL');
+      $result = '';
     }
 
     /* Create data object */
