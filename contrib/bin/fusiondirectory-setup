@@ -1488,7 +1488,7 @@ sub migrate_winstations
         $dn_old =~ m/^[^,]+,.*$systemrdn,(.+)$/ or die "Could not parse dn ".$dn_old."\n";
         my $entrybase = $1;
         if (!branch_exists($ldap, "$workstationrdn,$entrybase")) {
-          if ($workstationrdn =~ m/^([^,]),([^,])$/) {
+          if ($workstationrdn =~ m/^([^,]+),([^,]+)$/) {
             if (!branch_exists($ldap, "$2,$entrybase")) {
               create_branch($ldap, $entrybase, $2);
             }
