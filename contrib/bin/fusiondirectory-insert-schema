@@ -7,7 +7,7 @@
 # Manipulate and insert the needed schema into the ldap server
 #
 #  This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-#  Copyright (C) 2011-2016  FusionDirectory
+#  Copyright (C) 2011-2017  FusionDirectory
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -30,319 +30,17 @@ use warnings;
 
 use 5.008;
 
-my $ldap_host_options = '-Y EXTERNAL -H ldapi:///';
-my $path              = "/etc/ldap/schema/fusiondirectory/";
-my $full_cmd          = "";
-my $schema2ldif       = "schema2ldif";
+my $ldapSchemaManager = 'ldap-schema-manager';
+my $defaultpath       = "/etc/ldap/schema/fusiondirectory/";
+my @defaultschemas    = ("core-fd.schema","core-fd-conf.schema","ldapns.schema","template-fd.schema");
 
-my $listschemas = 0;
-my $modify      = 0;
-my $schemalist  = 0;
-my $yes_flag    = 0;
-my $pathunset   = 1;
-my $continue    = 0;
-my @schemas     = ();
-my @gen_files   = ();
-my $delete_ldif = 1;
-foreach my $arg ( @ARGV ) {
-  if (not defined $ldap_host_options) {
-    $ldap_host_options = $arg;
-  } elsif ((lc($arg) eq '-i') || (lc($arg) eq '--insert')) {
-    if ($schemalist) {
-      usage();
-    }
-    $schemalist = 1;
-  } elsif ((lc($arg) eq '-l') || (lc($arg) eq '--list')) {
-    $listschemas = 1;
-  } elsif ((lc($arg) eq '-c') || (lc($arg) eq '--continue')) {
-    $continue = 1;
-  } elsif ((lc($arg) eq '-e') || (lc($arg) eq '--empty')) {
-    if ($schemalist) {
-      usage();
-    }
-    $modify = 2;
-    $schemalist = 1;
-  } elsif ((lc($arg) eq '-m') || (lc($arg) eq '--modify')) {
-    if ($schemalist) {
-      usage();
-    }
-    $modify = 1;
-    $schemalist = 1;
-  } elsif ((lc($arg) eq '-o') || (lc($arg) eq '--options')) {
-    undef $ldap_host_options;
-  } elsif ((lc($arg) eq '-n') || (lc($arg) eq '--nodelete')) {
-    $delete_ldif = 0;
-  } elsif ((lc($arg) eq '-y') || (lc($arg) eq '--yes')) {
-    $yes_flag = 1;
-  } elsif ((lc($arg) eq '-h') || (lc($arg) eq '--help')) {
-    usage();
-  } elsif ($schemalist) {
-    if ($arg =~ /(.*).ldif/) { # ignore ".ldif" if it is there
-      push @schemas, $1;
-    } elsif ($arg =~ /(.*).schema/) {
-      if (system("$schema2ldif $arg > $1.ldif") == 0) {
-        push @schemas, $1;
-        push @gen_files, $1;
-      } else {
-        push @gen_files, $1;
-        die_with_error("Something went wrong while trying to convert $arg to ldif\n");
-      }
-    } else {
-      push @schemas, $arg;
-    }
-  } elsif ($pathunset) {
-    $path = $arg."/";
-    $pathunset = 0;
-  } else {
-    usage();
-  }
-}
-
-# if --options is used with no value
-usage () if (not defined $ldap_host_options);
-
-# die if user is not "root"
-die_with_error ("! You have to run this script as root\n") if ($<!=0);
-
-my $add_cmd         = "ldapadd $ldap_host_options -f ";
-my $mod_cmd         = "ldapmodify $ldap_host_options -f ";
-my $ldapsearch      = "ldapsearch $ldap_host_options ";
-my $search_cmd      = $ldapsearch." -b \"cn=schema,cn=config\" cn={*}";
-my $list_cmd        = $search_cmd."* cn 2>/dev/null";
-my $cnconfig_cmd    = $ldapsearch." -b \"cn=config\" cn=config dn 2>/dev/null | grep dn:";
-
-if ($listschemas) {
-  list_schemas();
-  exit 0;
-}
-
-# die if the path doesn't exists
-die_with_error ("! $path doesn't seems to exists\n") if (!-e $path);
-
-#die if we are not in cn=config
-my $cnconfig = `$cnconfig_cmd`;
-if (!($cnconfig =~ m/^dn:\s*cn=config$/)) {
-  die_with_error ("! This tool is only intended to be with with a cn=config backend, cn=config could not be found in the LDAP");
-}
-
-if (scalar(@schemas) == 0) {
-  if ($modify == 2) {
-    usage("Missing schema list for -e option\n");
-  }
-  # insert the default schemas
-  @schemas = ("core-fd","core-fd-conf","ldapns","template-fd");
-  foreach my $schema (@schemas) {
-    if (system("$schema2ldif $path$schema.schema > $path$schema.ldif") == 0) {
-      push @gen_files, $path.$schema;
-    } else {
-      die_with_error ("Something went wrong while trying to convert $path$schema.schema to ldif\n");
-    }
-  }
-} elsif ($pathunset) {
-  $path = "";
-}
-
-if ($modify == 2) {
-  unless (ask_yn_question("Are you sure you want to empty schema(s) ".join(", ",@schemas)."?"))
-  {
-    die_with_error("Aborting…\n");
-  }
-}
-
-$continue++; # activating continue feature only for insertions
-
-foreach my $schema (@schemas) {
-  my $schema_name = "";
-  my $ldif_file;
-
-  if ($modify < 2) {
-    # Searching schema name in ldif file first line.
-    open $ldif_file, q{<}, $path.$schema.".ldif" or die "Count not open ldif file : $!\n";
-    my $dn = "";
-    while ($dn eq "") {
-      chomp($dn = <$ldif_file>);
-    }
-    if ($dn =~ /^dn: cn=([^,]+),/) {
-      $schema_name = $1;
-    }
-    close($ldif_file);
-  }
-
-  # Fallback on file name
-  if ($schema_name eq "") {
-    $schema_name = $schema;
-    $schema_name =~ s|^.*/||;
-  }
-
-  insert_schema($schema, $schema_name);
-}
-
-remove_ldifs();
-
-sub insert_schema
-{
-  my($schema, $schema_name) = @_;
-  my $schema_file;
-  my $update_file;
-  my $empty_file;
-
-  $full_cmd = $search_cmd.$schema_name." cn";
-  print ("\n");
-  my $search = `$full_cmd`;
-
-  if ($search !~ /# numEntries: 1/m) {
-    if ($modify) {
-      print "$schema_name does not exists in the LDAP, skipping…\n";
-    } else {
-      # if the schema doesn't already exists in the LDAP server, adding it
-      $full_cmd = $add_cmd.$path.$schema.".ldif";
-      print "executing '$full_cmd'\n";
-      if (system ($full_cmd) != 0) {
-        die_with_error ("Insertion failed!\n");
-      }
-    }
-  } else {
-    if ($modify) {
-      if ($search !~ m/dn: ([^,]+),cn=schema,cn=config/) {
-        print "Could not parse existing dn for $schema_name, skipping…\n";
-        return;
-      }
-      my $dn_part = $1;
-      # if the schema already exists in the LDAP server, modify it
-      if ($modify == 1) {
-        open($schema_file, q{<}, $path.$schema.".ldif") or die_with_error('Could not open '."<".$path.$schema.".ldif: $!");
-        open($update_file, q{>}, $path.$schema."_update.ldif") or die_with_error('Could not open '.">".$path.$schema."_update.ldif: $!");
-        push @gen_files, $path.$schema."_update";
-        my $attrs   = 0;
-        my $classes = 0;
-        while (<$schema_file>) {
-          next if m/^#/; # remove comments
-          chomp;
-          next if m/^$/; # remove empty lines
-          if (m/^dn: cn=([^,]+),cn=schema,cn=config$/) {
-            print $update_file "dn: $dn_part,cn=schema,cn=config\n";
-            print $update_file "changetype: modify\n";
-            next;
-          }
-          if (!m/^olcAttributeTypes:/ && !m/^olcObjectClasses:/ && !m/^ /) {
-            #skip cn, objectClass, …
-            next;
-          }
-
-          if (!$attrs && $classes) {
-            die "Malformed schema\n";
-          }
-
-          if (!$attrs && m/^olcAttributeTypes:/) {
-            $attrs = 1;
-            print $update_file "replace: olcAttributeTypes\n";
-          }
-          if (!$classes && m/^olcObjectClasses:/) {
-            $classes = 1;
-            print $update_file "-\n";
-            print $update_file "replace: olcObjectClasses\n";
-          }
-
-          print $update_file $_;
-          print $update_file "\n";
-        }
-        close $schema_file;
-        close $update_file;
-      } else { # Emptying schema
-        open($empty_file,  q{>}, $path.$schema."_update.ldif") or die_with_error('Could not open '.">".$path.$schema."_update.ldif: $!");
-        push @gen_files, $path.$schema."_update";
-        print $empty_file "dn: $dn_part,cn=schema,cn=config\n";
-        print $empty_file "changetype: modify\n";
-        print $empty_file "delete: olcAttributeTypes\n";
-        print $empty_file "-\n";
-        print $empty_file "delete: olcObjectClasses\n";
-        print $empty_file "-\n";
-        close $empty_file;
-      }
-      $full_cmd = $mod_cmd.$path.$schema."_update.ldif";
-      print "executing '$full_cmd'\n";
-      if (system ($full_cmd) != 0) {
-        die_with_error ("Insertion failed!\n");
-      }
-    } else {
-      print "$schema_name already exists in the LDAP, skipping…\n";
-    }
-  }
-}
-
-sub remove_ldifs
-{
-  if ($delete_ldif) {
-    foreach my $file (@gen_files) {
-      unlink "$file.ldif" or print "Could not delete $file.ldif\n";
-    }
-  }
-}
-
-sub die_with_error
-{
-  my ($error) = @_;
-  if ($continue == 2) {
-    print "Error: $error\nContinuing…\n";
-  } else {
-    remove_ldifs();
-    die $error;
-  }
-}
-
-sub list_schemas
-{
-  my @schemas = `$list_cmd`;
-  foreach my $schema (@schemas) {
-    if ($schema =~ m/cn:\s*{[0-9]+}(.*)$/) {
-      print "$1\n";
-    }
-  }
-}
-
-# ask a question send as parameter, and return true if the answer is "yes"
-sub ask_yn_question {
-  return 1 if ($yes_flag);
-  my ($question) = @_;
-  print ( "$question [Yes/No]?\n" );
-
-  while ( my $input = <STDIN> ) {
-    # remove the \n at the end of $input
-    chomp $input;
-
-    # if user's answer is "yes"
-    if ( lc($input) eq "yes" || lc($input) eq "y") {
-      return 1;
-    # else if he answer "no"
-    } elsif ( lc($input) eq "no" || lc($input) eq "n") {
-      return 0;
-    }
-  }
-}
-
-sub usage
-{
-  (@_) && print STDERR "\n@_\n\n";
-
-  print STDERR << "EOF";
- usage: $0 [-h] [-y] [-l] [-o options] [path] [-i|-m|-e schema1 schema2 …]
-
-  -h, --help      : this (help) message
-  path            : where to find the schemas
-  -i, --insert    : specify the schemas to insert
-  -l, --list      : list inserted schemas
-  -m, --modify    : modify exising inserted schemas
-  -e, --empty     : empty exising inserted schemas (do not remove them)
-  -n, --nodelete  : do not delete generated ldifs at the end
-  -o, --options   : set ldap options used (default is -Y EXTERNAL -H ldapi:///)
-  -c, --continue  : continue on error(s)
-  -y, --yes       : answer yes to all questions
-
-EOF
-  exit -1;
-}
-
-exit 0;
+exec (
+  $ldapSchemaManager,
+  '--tool-name', $0,
+  '--default-path', $defaultpath,
+  '--default-schemas', @defaultschemas, '--end',
+  @ARGV
+);
 
 =head1 NAME
 
@@ -350,11 +48,11 @@ fusiondirectory-insert-schema - insert schema needed by FusionDirectory into the
 
 =head1 SYNOPSIS
 
-fusiondirectory-insert-schema [<path of your schema files>] [-l] [-i|-m schema1 schema2]
+fusiondirectory-insert-schema [-y] [-n] [-c] [-o options] [path] [-h|-l|-i schema1 schema2|-m schema1 schema2|-e schema1 schema2]
 
 =head1 DESCRIPTION
 
-This program will insert the schema needed by FusionDirectory into the ldap server
+This program will insert the schema needed by FusionDirectory into the ldap server, or the specified schemas
 
 
 =head2 Options
@@ -435,7 +133,7 @@ This code is part of FusionDirectory <http://www.fusiondirectory.org>
 
 =over 1
 
-=item Copyright (C) 2011-2016 FusionDirectory Project
+=item Copyright (C) 2011-2017 FusionDirectory Project
 
 =back
 
