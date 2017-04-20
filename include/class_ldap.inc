@@ -1346,53 +1346,21 @@ class LDAP
     }
   }
 
-
-  function get_naming_contexts($server, $admin = "", $password = "")
+  function get_naming_contexts($server, $admin = '', $password = '')
   {
     /* Build LDAP connection */
     $ds = ldap_connect ($server);
     if (!$ds) {
-      die ("Can't bind to LDAP. No check possible!");
+      die ('Can\'t bind to LDAP. No check possible!');
     }
     ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
     ldap_bind ($ds, $admin, $password);
 
     /* Get base to look for naming contexts */
-    $sr   = @ldap_read ($ds, "", "objectClass=*", array("+"));
+    $sr   = @ldap_read ($ds, '', 'objectClass=*', array('namingContexts'));
     $attr = @ldap_get_entries($ds, $sr);
 
     return $attr[0]['namingcontexts'];
   }
-
-
-  function get_root_dse($server, $admin = "", $password = "")
-  {
-    /* Build LDAP connection */
-    $ds = ldap_connect ($server);
-    if (!$ds) {
-      die ("Can't bind to LDAP. No check possible!");
-    }
-    ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
-    ldap_bind ($ds, $admin, $password);
-
-    /* Get base to look for naming contexts */
-    $sr   = @ldap_read ($ds, "", "objectClass=*", array("+"));
-    $attr = @ldap_get_entries($ds, $sr);
-
-    /* Return empty array, if nothing was set */
-    if (!isset($attr[0])) {
-      return array();
-    }
-
-    /* Rework array... */
-    $result = array();
-    for ($i = 0; $i < $attr[0]['count']; $i++) {
-      $result[$attr[0][$i]] = $attr[0][$attr[0][$i]];
-      unset($result[$attr[0][$i]]['count']);
-    }
-
-    return $result;
-  }
-
 }
 ?>
