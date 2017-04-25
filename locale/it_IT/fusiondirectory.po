@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2017-04-05 19:06+0200\n"
+"POT-Creation-Date: 2017-04-21 17:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Paola Penati <paola.penati@opensides.be>, 2017\n"
 "Language-Team: Italian (Italy) (https://www.transifex.com/fusiondirectory/teams/12202/it_IT/)\n"
@@ -42,7 +42,7 @@ msgstr ""
 "browser. Questa impostazione può essere sovrascritto per utente ."
 
 #: setup/class_setupStepLanguage.inc:69
-#: plugins/config/class_configInLdap.inc:432
+#: plugins/config/class_configInLdap.inc:456
 msgid "Automatic"
 msgstr "Automatico"
 
@@ -757,7 +757,7 @@ msgstr ""
 msgid "The welcome message"
 msgstr "Messaggio di benvenuto"
 
-#: include/class_logging.inc:80 include/class_session.inc:50
+#: include/class_logging.inc:81 include/class_session.inc:50
 #: include/class_session.inc:88 include/class_session.inc:127
 #: include/functions.inc:575 include/functions.inc:647
 #: include/functions.inc:768 include/functions.inc:1835
@@ -767,55 +767,55 @@ msgstr "Messaggio di benvenuto"
 msgid "Internal error"
 msgstr "Errore interno"
 
-#: include/class_logging.inc:80
+#: include/class_logging.inc:81
 #, php-format
 msgid "Logging failed: %s"
 msgstr "Registrazione nel giornale di sistema non riuscita : %s"
 
-#: include/class_logging.inc:102
+#: include/class_logging.inc:103
 #, php-format
 msgid "Invalid option \"%s\" specified!"
 msgstr "Opzione '%s' non valida!"
 
-#: include/class_logging.inc:106
+#: include/class_logging.inc:107
 msgid "Specified objectType is empty or invalid!"
 msgstr "Il tipo d'oggetto specificato è vuoto oppure non è valido !"
 
-#: include/class_baseSelector.inc:212 include/class_listing.inc:1202
-#: include/class_listing.inc:1204
+#: include/class_baseSelector.inc:212 include/class_listing.inc:1174
+#: include/class_listing.inc:1176
 msgid "Root"
 msgstr "Root"
 
-#: include/class_baseSelector.inc:261 include/class_listing.inc:1225
+#: include/class_baseSelector.inc:261 include/class_listing.inc:1197
 msgid "Submit"
 msgstr "Invia"
 
-#: include/class_listing.inc:313 include/class_listing.inc:1210
-#: include/class_listing.inc:1212
+#: include/class_listing.inc:312 include/class_listing.inc:1182
+#: include/class_listing.inc:1184
 msgid "Up"
 msgstr "Sopra"
 
-#: include/class_listing.inc:313
+#: include/class_listing.inc:312
 msgid "Down"
 msgstr "Sotto"
 
-#: include/class_listing.inc:313
+#: include/class_listing.inc:312
 #: include/simpleplugin/attributes/class_SetAttribute.inc:463
 #: include/simpleplugin/attributes/class_SetAttribute.inc:464
 msgid "Sort up"
 msgstr "Ordina in modo crescente"
 
-#: include/class_listing.inc:313
+#: include/class_listing.inc:312
 #: include/simpleplugin/attributes/class_SetAttribute.inc:476
 #: include/simpleplugin/attributes/class_SetAttribute.inc:477
 msgid "Sort down"
 msgstr "Ordina in modo decrescente"
 
-#: include/class_listing.inc:374 setup/setup_migrate_accounts.tpl.c:23
+#: include/class_listing.inc:362 setup/setup_migrate_accounts.tpl.c:23
 msgid "Select all"
 msgstr "Seleziona tutto"
 
-#: include/class_listing.inc:551
+#: include/class_listing.inc:528
 #: include/password-methods/class_password-methods-sasl.inc:60
 #: include/password-methods/class_password-methods-sasl.inc:86
 #: include/class_msg_dialog.inc:136 include/class_msg_dialog.inc:172
@@ -835,74 +835,74 @@ msgstr "Seleziona tutto"
 msgid "Error"
 msgstr "Errore"
 
-#: include/class_listing.inc:592
+#: include/class_listing.inc:569
 msgid "created by"
 msgstr "Creato da"
 
-#: include/class_listing.inc:1202
+#: include/class_listing.inc:1174
 msgid "Go to root department"
 msgstr "Vai al dipartimento base"
 
-#: include/class_listing.inc:1210
+#: include/class_listing.inc:1182
 msgid "Go up one department"
 msgstr "Sali di un dipartimento"
 
-#: include/class_listing.inc:1218
+#: include/class_listing.inc:1190
 msgid "Go to user's department"
 msgstr "Vai al dipartimento dell'utente"
 
-#: include/class_listing.inc:1218 include/class_listing.inc:1220
+#: include/class_listing.inc:1190 include/class_listing.inc:1192
 msgid "Home"
 msgstr "Home"
 
-#: include/class_listing.inc:1225
+#: include/class_listing.inc:1197
 msgid "Reload list"
 msgstr "Ricarica la lista"
 
-#: include/class_listing.inc:1346 include/simpleplugin/simple-list.xml:48
+#: include/class_listing.inc:1318 include/simpleplugin/simple-list.xml:48
 #: plugins/admin/departments/dep-list.xml:37
 #: plugins/admin/users/user-list.xml:62 plugins/admin/groups/group-list.xml:54
 msgid "Actions"
 msgstr "Azioni"
 
-#: include/class_listing.inc:1659 include/class_listing.inc:1712
+#: include/class_listing.inc:1631 include/class_listing.inc:1684
 msgid "Copy"
 msgstr "Copia"
 
-#: include/class_listing.inc:1665 include/class_listing.inc:1700
+#: include/class_listing.inc:1637 include/class_listing.inc:1672
 msgid "Cut"
 msgstr "Taglia"
 
-#: include/class_listing.inc:1673 include/class_listing.inc:1675
+#: include/class_listing.inc:1645 include/class_listing.inc:1647
 #: include/class_CopyPasteHandler.inc:332
 msgid "Paste"
 msgstr "Incolla"
 
-#: include/class_listing.inc:1700
+#: include/class_listing.inc:1672
 msgid "Cut this entry"
 msgstr "Taglia questa voce"
 
-#: include/class_listing.inc:1712
+#: include/class_listing.inc:1684
 msgid "Copy this entry"
 msgstr "Copia questa voce"
 
-#: include/class_listing.inc:1737 include/class_listing.inc:1739
+#: include/class_listing.inc:1709 include/class_listing.inc:1711
 msgid "Restore snapshots"
 msgstr "Restaura le 'copie istantanee'"
 
-#: include/class_listing.inc:1753
+#: include/class_listing.inc:1725
 msgid "Export list"
 msgstr "Lista d'esportazione"
 
-#: include/class_listing.inc:1785 include/class_listing.inc:1786
+#: include/class_listing.inc:1757 include/class_listing.inc:1758
 msgid "Restore snapshot"
 msgstr "Restaura la 'copia istantanea'"
 
-#: include/class_listing.inc:1798
+#: include/class_listing.inc:1770
 msgid "Create snapshot"
 msgstr "Crea una 'copia istantanea'"
 
-#: include/class_listing.inc:1799
+#: include/class_listing.inc:1771
 msgid "Create a new snapshot from this object"
 msgstr "Crea una nuova 'copia istantanea a partire da questi oggetti"
 
@@ -1012,7 +1012,7 @@ msgstr ""
 "Errore fatale: impossibile inizializzare la classe '%s' - esegui '%s' per "
 "porre rimedio al problema"
 
-#: include/functions.inc:474 include/functions.inc:2558
+#: include/functions.inc:474 include/functions.inc:2552
 #: include/simpleplugin/class_simplePlugin.inc:466
 #: include/simpleplugin/class_simplePlugin.inc:471
 #: include/simpleplugin/class_simplePlugin.inc:483
@@ -1247,7 +1247,7 @@ msgstr ""
 msgid "The objectClass \"posixGroup\" must be STRUCTURAL"
 msgstr "L'objectClass \"posixGroup\" deve essere STRUTTURALE"
 
-#: include/functions.inc:2559
+#: include/functions.inc:2553
 #, php-format
 msgid "Cannot locate file '%s' - please run '%s' to fix this"
 msgstr ""
@@ -1298,6 +1298,8 @@ msgid ""
 "The snapshot functionality is enabled, but the required variable \"%s\" is "
 "not set."
 msgstr ""
+"La funzionalità snapshot è attivata, ma la variabile \"%s\" richiesta non è "
+"impostata."
 
 #: include/class_config.inc:808
 #, php-format
@@ -1305,6 +1307,8 @@ msgid ""
 "The snapshot functionality is enabled, but the required compression module "
 "is missing. Please install \"%s\"."
 msgstr ""
+"La funzionalità snapshot è abilitata, ma manca il modulo di compressione "
+"richiesto. Si prega di installare \"%s\"."
 
 #: include/class_config.inc:916
 msgid "All categories"
@@ -1686,6 +1690,8 @@ msgid ""
 "This account has %s settings disabled. To enable them, you'll need to "
 "disable the %s settings first!"
 msgstr ""
+"Questo account ha disattivato le impostazioni %s. Per abilitarle, devi prima"
+" disabilitare le impostazioni %s!"
 
 #: include/class_msgPool.inc:625
 #, php-format
@@ -2142,11 +2148,13 @@ msgid "POSIX group %s"
 msgstr "Gruppo POSIX %s"
 
 #: include/simpleplugin/class_dialogAttributes.inc:428
+#: plugins/config/class_configInLdap.inc:476
 #, php-format
 msgid "Role %s"
 msgstr "Ruolo %s"
 
 #: include/simpleplugin/class_dialogAttributes.inc:430
+#: plugins/config/class_configInLdap.inc:469
 #, php-format
 msgid "Group %s"
 msgstr "Raggruppa %s"
@@ -2323,7 +2331,7 @@ msgstr "C'é già un'altra entry con il medesimo dn: %s"
 msgid "The entry %s is not existing"
 msgstr "La voce %s non esiste"
 
-#: include/simpleplugin/class_simplePlugin.inc:1495
+#: include/simpleplugin/class_simplePlugin.inc:1496
 msgid ""
 "The object has changed since opened in FusionDirectory. All changes that may"
 " be done by others will get lost if you save this entry!"
@@ -2332,17 +2340,17 @@ msgstr ""
 "che possono essere state fatte da altri andranno perse se si salva questa "
 "voce !"
 
-#: include/simpleplugin/class_simplePlugin.inc:1680
+#: include/simpleplugin/class_simplePlugin.inc:1681
 #, php-format
 msgid "Service \"%s\""
 msgstr "Servizio \"%s\""
 
-#: include/simpleplugin/class_simplePlugin.inc:1682
+#: include/simpleplugin/class_simplePlugin.inc:1683
 #, php-format
 msgid "Tab \"%s\""
 msgstr "Tab \"%s\""
 
-#: include/simpleplugin/class_simplePlugin.inc:1834
+#: include/simpleplugin/class_simplePlugin.inc:1835
 #, php-format
 msgid "Unknown field \"%s\""
 msgstr "Campo \"%s\" sconosciuto"
@@ -2590,7 +2598,7 @@ msgstr "L'utente header \"%s\"  non è stato trovato nel LDAP"
 #: html/index.php:480 html/index.php:547
 #, php-format
 msgid "Login with user \"%s\" triggered error: %s"
-msgstr ""
+msgstr "L'accesso con utente \"%s\" ha innescato l'errore: %s"
 
 #: html/index.php:537
 #, php-format
@@ -3009,11 +3017,11 @@ msgstr "Via"
 
 #: plugins/personal/generic/class_user.inc:456
 msgid "Street part of the address"
-msgstr ""
+msgstr "Parte dell'indirizzo Via"
 
 #: plugins/personal/generic/class_user.inc:460
 msgid "Post office box"
-msgstr ""
+msgstr "Casella postale"
 
 #: plugins/personal/generic/class_user.inc:464
 msgid "Postal code"
@@ -3067,7 +3075,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:711
 msgid "The password used as new is too short."
-msgstr ""
+msgstr "La password utilizzata come nuova è troppo breve."
 
 #: plugins/personal/generic/class_user.inc:713
 msgid "The password contains possibly problematic Unicode characters!"
@@ -3658,22 +3666,26 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:317
 msgid "Separate address fields"
-msgstr ""
+msgstr "Campi indirizzi separati"
 
 #: plugins/config/class_configInLdap.inc:317
 msgid ""
 "Expose street, postOfficeBox and postalCode fields instead of postalAddress."
 msgstr ""
+"Esporre la via, la casella postale e i campi del codice postale anziché "
+"l'indirizzo postale."
 
 #: plugins/config/class_configInLdap.inc:321
 msgid "Postal address pattern"
-msgstr ""
+msgstr "Modello indirizzo postale"
 
 #: plugins/config/class_configInLdap.inc:321
 msgid ""
 "When using separate address fields, you can use a pattern to fill "
 "postalAddress field."
 msgstr ""
+"Quando si utilizzano campi di indirizzi separati, è possibile utilizzare un "
+"modello per riempire il campo postalAddress."
 
 #: plugins/config/class_configInLdap.inc:327
 msgid "Debugging"
@@ -3761,45 +3773,63 @@ msgstr "Categorie di reparto disponibili"
 msgid "Available categories in the departments dropdown"
 msgstr "Categorie disponibili nel menu a discesa"
 
-#: plugins/config/class_configInLdap.inc:382
-#: plugins/config/class_configInLdap.inc:410
+#: plugins/config/class_configInLdap.inc:381
+msgid "Use this to hide some menu entry to specific groups of users"
+msgstr ""
+"Utilizza questa funzione per nascondere alcune voci di menu a determinati "
+"gruppi di utenti"
+
+#: plugins/config/class_configInLdap.inc:385
+msgid "Group or role"
+msgstr "Gruppo o ruolo"
+
+#: plugins/config/class_configInLdap.inc:390
+msgid "Plugin to blacklist"
+msgstr "PLugin per la lista nera"
+
+#: plugins/config/class_configInLdap.inc:396
+msgid "Plugin menu blacklist"
+msgstr "Lista nera del menu Plugin"
+
+#: plugins/config/class_configInLdap.inc:405
+#: plugins/config/class_configInLdap.inc:433
 msgid "Hooks"
 msgstr "Connessioni"
 
-#: plugins/config/class_configInLdap.inc:387
+#: plugins/config/class_configInLdap.inc:410
 msgid "Hooks that are called when specific actions happens"
 msgstr "Hooks che sarà chiamato quando un'azione specificasi verifica"
 
-#: plugins/config/class_configInLdap.inc:391
+#: plugins/config/class_configInLdap.inc:414
 msgid "Tab"
-msgstr ""
+msgstr "Tab"
 
-#: plugins/config/class_configInLdap.inc:391
+#: plugins/config/class_configInLdap.inc:414
 msgid "The tab that this hook concerns"
 msgstr "Il tab concernente questo hook"
 
-#: plugins/config/class_configInLdap.inc:396
+#: plugins/config/class_configInLdap.inc:419
 #: plugins/admin/acl/class_aclAssignment.inc:41
 msgid "Mode"
 msgstr "Modalità"
 
-#: plugins/config/class_configInLdap.inc:396
+#: plugins/config/class_configInLdap.inc:419
 msgid "When to call this command"
 msgstr "Quando chiamare questo comando"
 
-#: plugins/config/class_configInLdap.inc:403
+#: plugins/config/class_configInLdap.inc:426
 msgid "Command"
-msgstr ""
+msgstr "Comando"
 
-#: plugins/config/class_configInLdap.inc:403
+#: plugins/config/class_configInLdap.inc:426
 msgid "The command that will be called"
 msgstr "Il comando che sarà chiamato"
 
-#: plugins/config/class_configInLdap.inc:417
+#: plugins/config/class_configInLdap.inc:440
 msgid "Display hook output"
 msgstr "Mostra hook di uscita"
 
-#: plugins/config/class_configInLdap.inc:418
+#: plugins/config/class_configInLdap.inc:441
 msgid ""
 "When enabled successful hook execution output is displayed to the user using"
 " a dialog."

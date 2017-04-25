@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2017-04-05 19:06+0200\n"
+"POT-Creation-Date: 2017-04-21 17:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>, 2016\n"
 "Language-Team: Polish (https://www.transifex.com/fusiondirectory/teams/12202/pl/)\n"
@@ -39,7 +39,7 @@ msgid ""
 msgstr ""
 
 #: setup/class_setupStepLanguage.inc:69
-#: plugins/config/class_configInLdap.inc:432
+#: plugins/config/class_configInLdap.inc:456
 msgid "Automatic"
 msgstr "Automatycznie"
 
@@ -676,7 +676,7 @@ msgstr ""
 msgid "The welcome message"
 msgstr "Wiadomość powitalna"
 
-#: include/class_logging.inc:80 include/class_session.inc:50
+#: include/class_logging.inc:81 include/class_session.inc:50
 #: include/class_session.inc:88 include/class_session.inc:127
 #: include/functions.inc:575 include/functions.inc:647
 #: include/functions.inc:768 include/functions.inc:1835
@@ -686,55 +686,55 @@ msgstr "Wiadomość powitalna"
 msgid "Internal error"
 msgstr "Błąd wewnętrzny"
 
-#: include/class_logging.inc:80
+#: include/class_logging.inc:81
 #, php-format
 msgid "Logging failed: %s"
 msgstr ""
 
-#: include/class_logging.inc:102
+#: include/class_logging.inc:103
 #, php-format
 msgid "Invalid option \"%s\" specified!"
 msgstr ""
 
-#: include/class_logging.inc:106
+#: include/class_logging.inc:107
 msgid "Specified objectType is empty or invalid!"
 msgstr ""
 
-#: include/class_baseSelector.inc:212 include/class_listing.inc:1202
-#: include/class_listing.inc:1204
+#: include/class_baseSelector.inc:212 include/class_listing.inc:1174
+#: include/class_listing.inc:1176
 msgid "Root"
 msgstr "Główny"
 
-#: include/class_baseSelector.inc:261 include/class_listing.inc:1225
+#: include/class_baseSelector.inc:261 include/class_listing.inc:1197
 msgid "Submit"
 msgstr "Wyślij"
 
-#: include/class_listing.inc:313 include/class_listing.inc:1210
-#: include/class_listing.inc:1212
+#: include/class_listing.inc:312 include/class_listing.inc:1182
+#: include/class_listing.inc:1184
 msgid "Up"
 msgstr "Góra"
 
-#: include/class_listing.inc:313
+#: include/class_listing.inc:312
 msgid "Down"
 msgstr "W dół"
 
-#: include/class_listing.inc:313
+#: include/class_listing.inc:312
 #: include/simpleplugin/attributes/class_SetAttribute.inc:463
 #: include/simpleplugin/attributes/class_SetAttribute.inc:464
 msgid "Sort up"
 msgstr ""
 
-#: include/class_listing.inc:313
+#: include/class_listing.inc:312
 #: include/simpleplugin/attributes/class_SetAttribute.inc:476
 #: include/simpleplugin/attributes/class_SetAttribute.inc:477
 msgid "Sort down"
 msgstr ""
 
-#: include/class_listing.inc:374 setup/setup_migrate_accounts.tpl.c:23
+#: include/class_listing.inc:362 setup/setup_migrate_accounts.tpl.c:23
 msgid "Select all"
 msgstr "Wybierz wszystko"
 
-#: include/class_listing.inc:551
+#: include/class_listing.inc:528
 #: include/password-methods/class_password-methods-sasl.inc:60
 #: include/password-methods/class_password-methods-sasl.inc:86
 #: include/class_msg_dialog.inc:136 include/class_msg_dialog.inc:172
@@ -754,74 +754,74 @@ msgstr "Wybierz wszystko"
 msgid "Error"
 msgstr "Błąd"
 
-#: include/class_listing.inc:592
+#: include/class_listing.inc:569
 msgid "created by"
 msgstr "utworzone przez"
 
-#: include/class_listing.inc:1202
+#: include/class_listing.inc:1174
 msgid "Go to root department"
 msgstr "Idź do głównego departamentu"
 
-#: include/class_listing.inc:1210
+#: include/class_listing.inc:1182
 msgid "Go up one department"
 msgstr "Idź jeden departament wyżej"
 
-#: include/class_listing.inc:1218
+#: include/class_listing.inc:1190
 msgid "Go to user's department"
 msgstr ""
 
-#: include/class_listing.inc:1218 include/class_listing.inc:1220
+#: include/class_listing.inc:1190 include/class_listing.inc:1192
 msgid "Home"
 msgstr "Katalog domowy"
 
-#: include/class_listing.inc:1225
+#: include/class_listing.inc:1197
 msgid "Reload list"
 msgstr "Przeładuj listę"
 
-#: include/class_listing.inc:1346 include/simpleplugin/simple-list.xml:48
+#: include/class_listing.inc:1318 include/simpleplugin/simple-list.xml:48
 #: plugins/admin/departments/dep-list.xml:37
 #: plugins/admin/users/user-list.xml:62 plugins/admin/groups/group-list.xml:54
 msgid "Actions"
 msgstr "Akcje"
 
-#: include/class_listing.inc:1659 include/class_listing.inc:1712
+#: include/class_listing.inc:1631 include/class_listing.inc:1684
 msgid "Copy"
 msgstr "Kopiuj"
 
-#: include/class_listing.inc:1665 include/class_listing.inc:1700
+#: include/class_listing.inc:1637 include/class_listing.inc:1672
 msgid "Cut"
 msgstr "Wytnij"
 
-#: include/class_listing.inc:1673 include/class_listing.inc:1675
+#: include/class_listing.inc:1645 include/class_listing.inc:1647
 #: include/class_CopyPasteHandler.inc:332
 msgid "Paste"
 msgstr "Wklej"
 
-#: include/class_listing.inc:1700
+#: include/class_listing.inc:1672
 msgid "Cut this entry"
 msgstr "Wytnij ten obiekt"
 
-#: include/class_listing.inc:1712
+#: include/class_listing.inc:1684
 msgid "Copy this entry"
 msgstr "Kopiuj ten obiekt"
 
-#: include/class_listing.inc:1737 include/class_listing.inc:1739
+#: include/class_listing.inc:1709 include/class_listing.inc:1711
 msgid "Restore snapshots"
 msgstr ""
 
-#: include/class_listing.inc:1753
+#: include/class_listing.inc:1725
 msgid "Export list"
 msgstr ""
 
-#: include/class_listing.inc:1785 include/class_listing.inc:1786
+#: include/class_listing.inc:1757 include/class_listing.inc:1758
 msgid "Restore snapshot"
 msgstr "Odtwórz snapshot"
 
-#: include/class_listing.inc:1798
+#: include/class_listing.inc:1770
 msgid "Create snapshot"
 msgstr "Utwórz spanshot"
 
-#: include/class_listing.inc:1799
+#: include/class_listing.inc:1771
 msgid "Create a new snapshot from this object"
 msgstr "Utwórz nowy snapshot z tego obiektu"
 
@@ -922,7 +922,7 @@ msgid ""
 "Fatal error: cannot instantiate class '%s' - try running '%s' to fix this"
 msgstr ""
 
-#: include/functions.inc:474 include/functions.inc:2558
+#: include/functions.inc:474 include/functions.inc:2552
 #: include/simpleplugin/class_simplePlugin.inc:466
 #: include/simpleplugin/class_simplePlugin.inc:471
 #: include/simpleplugin/class_simplePlugin.inc:483
@@ -1137,7 +1137,7 @@ msgstr ""
 msgid "The objectClass \"posixGroup\" must be STRUCTURAL"
 msgstr ""
 
-#: include/functions.inc:2559
+#: include/functions.inc:2553
 #, php-format
 msgid "Cannot locate file '%s' - please run '%s' to fix this"
 msgstr ""
@@ -1990,11 +1990,13 @@ msgid "POSIX group %s"
 msgstr ""
 
 #: include/simpleplugin/class_dialogAttributes.inc:428
+#: plugins/config/class_configInLdap.inc:476
 #, php-format
 msgid "Role %s"
 msgstr ""
 
 #: include/simpleplugin/class_dialogAttributes.inc:430
+#: plugins/config/class_configInLdap.inc:469
 #, php-format
 msgid "Group %s"
 msgstr ""
@@ -2167,23 +2169,23 @@ msgstr ""
 msgid "The entry %s is not existing"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:1495
+#: include/simpleplugin/class_simplePlugin.inc:1496
 msgid ""
 "The object has changed since opened in FusionDirectory. All changes that may"
 " be done by others will get lost if you save this entry!"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:1680
+#: include/simpleplugin/class_simplePlugin.inc:1681
 #, php-format
 msgid "Service \"%s\""
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:1682
+#: include/simpleplugin/class_simplePlugin.inc:1683
 #, php-format
 msgid "Tab \"%s\""
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:1834
+#: include/simpleplugin/class_simplePlugin.inc:1835
 #, php-format
 msgid "Unknown field \"%s\""
 msgstr ""
@@ -3509,45 +3511,61 @@ msgstr ""
 msgid "Available categories in the departments dropdown"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:382
-#: plugins/config/class_configInLdap.inc:410
-msgid "Hooks"
-msgstr "Zaczepy"
-
-#: plugins/config/class_configInLdap.inc:387
-msgid "Hooks that are called when specific actions happens"
+#: plugins/config/class_configInLdap.inc:381
+msgid "Use this to hide some menu entry to specific groups of users"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:391
-msgid "Tab"
+#: plugins/config/class_configInLdap.inc:385
+msgid "Group or role"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:391
-msgid "The tab that this hook concerns"
+#: plugins/config/class_configInLdap.inc:390
+msgid "Plugin to blacklist"
 msgstr ""
 
 #: plugins/config/class_configInLdap.inc:396
+msgid "Plugin menu blacklist"
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:405
+#: plugins/config/class_configInLdap.inc:433
+msgid "Hooks"
+msgstr "Zaczepy"
+
+#: plugins/config/class_configInLdap.inc:410
+msgid "Hooks that are called when specific actions happens"
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:414
+msgid "Tab"
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:414
+msgid "The tab that this hook concerns"
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:419
 #: plugins/admin/acl/class_aclAssignment.inc:41
 msgid "Mode"
 msgstr "Tryb"
 
-#: plugins/config/class_configInLdap.inc:396
+#: plugins/config/class_configInLdap.inc:419
 msgid "When to call this command"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:403
+#: plugins/config/class_configInLdap.inc:426
 msgid "Command"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:403
+#: plugins/config/class_configInLdap.inc:426
 msgid "The command that will be called"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:417
+#: plugins/config/class_configInLdap.inc:440
 msgid "Display hook output"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:418
+#: plugins/config/class_configInLdap.inc:441
 msgid ""
 "When enabled successful hook execution output is displayed to the user using"
 " a dialog."

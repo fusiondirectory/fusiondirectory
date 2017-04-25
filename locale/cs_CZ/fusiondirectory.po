@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2017-04-05 19:06+0200\n"
+"POT-Creation-Date: 2017-04-21 17:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>, 2016\n"
 "Language-Team: Czech (Czech Republic) (https://www.transifex.com/fusiondirectory/teams/12202/cs_CZ/)\n"
@@ -42,7 +42,7 @@ msgstr ""
 "nastavení může být přebito."
 
 #: setup/class_setupStepLanguage.inc:69
-#: plugins/config/class_configInLdap.inc:432
+#: plugins/config/class_configInLdap.inc:456
 msgid "Automatic"
 msgstr "automaticky"
 
@@ -744,7 +744,7 @@ msgstr "vítejte v průvodci nastavením FusionDirectory"
 msgid "The welcome message"
 msgstr "uvítací zpráva"
 
-#: include/class_logging.inc:80 include/class_session.inc:50
+#: include/class_logging.inc:81 include/class_session.inc:50
 #: include/class_session.inc:88 include/class_session.inc:127
 #: include/functions.inc:575 include/functions.inc:647
 #: include/functions.inc:768 include/functions.inc:1835
@@ -754,56 +754,56 @@ msgstr "uvítací zpráva"
 msgid "Internal error"
 msgstr "vnitřní chyba"
 
-#: include/class_logging.inc:80
+#: include/class_logging.inc:81
 #, php-format
 msgid "Logging failed: %s"
 msgstr "přihlášení selhalo: %s"
 
-#: include/class_logging.inc:102
+#: include/class_logging.inc:103
 #, php-format
 msgid "Invalid option \"%s\" specified!"
 msgstr ""
 
-#: include/class_logging.inc:106
+#: include/class_logging.inc:107
 msgid "Specified objectType is empty or invalid!"
 msgstr ""
 "Jako objectType (typ objektu) buď nebylo zadáno nic, nebo nesprávná hodnota."
 
-#: include/class_baseSelector.inc:212 include/class_listing.inc:1202
-#: include/class_listing.inc:1204
+#: include/class_baseSelector.inc:212 include/class_listing.inc:1174
+#: include/class_listing.inc:1176
 msgid "Root"
 msgstr "kořen"
 
-#: include/class_baseSelector.inc:261 include/class_listing.inc:1225
+#: include/class_baseSelector.inc:261 include/class_listing.inc:1197
 msgid "Submit"
 msgstr "odeslat"
 
-#: include/class_listing.inc:313 include/class_listing.inc:1210
-#: include/class_listing.inc:1212
+#: include/class_listing.inc:312 include/class_listing.inc:1182
+#: include/class_listing.inc:1184
 msgid "Up"
 msgstr "nahoru"
 
-#: include/class_listing.inc:313
+#: include/class_listing.inc:312
 msgid "Down"
 msgstr "dolů"
 
-#: include/class_listing.inc:313
+#: include/class_listing.inc:312
 #: include/simpleplugin/attributes/class_SetAttribute.inc:463
 #: include/simpleplugin/attributes/class_SetAttribute.inc:464
 msgid "Sort up"
 msgstr "Seřadit vzestupně"
 
-#: include/class_listing.inc:313
+#: include/class_listing.inc:312
 #: include/simpleplugin/attributes/class_SetAttribute.inc:476
 #: include/simpleplugin/attributes/class_SetAttribute.inc:477
 msgid "Sort down"
 msgstr "Seřadit sestupně"
 
-#: include/class_listing.inc:374 setup/setup_migrate_accounts.tpl.c:23
+#: include/class_listing.inc:362 setup/setup_migrate_accounts.tpl.c:23
 msgid "Select all"
 msgstr "vybrat vše"
 
-#: include/class_listing.inc:551
+#: include/class_listing.inc:528
 #: include/password-methods/class_password-methods-sasl.inc:60
 #: include/password-methods/class_password-methods-sasl.inc:86
 #: include/class_msg_dialog.inc:136 include/class_msg_dialog.inc:172
@@ -823,74 +823,74 @@ msgstr "vybrat vše"
 msgid "Error"
 msgstr "chyba"
 
-#: include/class_listing.inc:592
+#: include/class_listing.inc:569
 msgid "created by"
 msgstr "vytvořeno (kým)"
 
-#: include/class_listing.inc:1202
+#: include/class_listing.inc:1174
 msgid "Go to root department"
 msgstr "přejít do kořene všech oddělení"
 
-#: include/class_listing.inc:1210
+#: include/class_listing.inc:1182
 msgid "Go up one department"
 msgstr "přejít o jedno oddělení výše"
 
-#: include/class_listing.inc:1218
+#: include/class_listing.inc:1190
 msgid "Go to user's department"
 msgstr "Přejít do oddělení uživatele"
 
-#: include/class_listing.inc:1218 include/class_listing.inc:1220
+#: include/class_listing.inc:1190 include/class_listing.inc:1192
 msgid "Home"
 msgstr "domovské"
 
-#: include/class_listing.inc:1225
+#: include/class_listing.inc:1197
 msgid "Reload list"
 msgstr "znovunačtení seznamu"
 
-#: include/class_listing.inc:1346 include/simpleplugin/simple-list.xml:48
+#: include/class_listing.inc:1318 include/simpleplugin/simple-list.xml:48
 #: plugins/admin/departments/dep-list.xml:37
 #: plugins/admin/users/user-list.xml:62 plugins/admin/groups/group-list.xml:54
 msgid "Actions"
 msgstr "akce"
 
-#: include/class_listing.inc:1659 include/class_listing.inc:1712
+#: include/class_listing.inc:1631 include/class_listing.inc:1684
 msgid "Copy"
 msgstr "zkopírovat"
 
-#: include/class_listing.inc:1665 include/class_listing.inc:1700
+#: include/class_listing.inc:1637 include/class_listing.inc:1672
 msgid "Cut"
 msgstr "vyjmout"
 
-#: include/class_listing.inc:1673 include/class_listing.inc:1675
+#: include/class_listing.inc:1645 include/class_listing.inc:1647
 #: include/class_CopyPasteHandler.inc:332
 msgid "Paste"
 msgstr "vložit"
 
-#: include/class_listing.inc:1700
+#: include/class_listing.inc:1672
 msgid "Cut this entry"
 msgstr "vyjmout tuto položku"
 
-#: include/class_listing.inc:1712
+#: include/class_listing.inc:1684
 msgid "Copy this entry"
 msgstr "kopírovat tuto položku"
 
-#: include/class_listing.inc:1737 include/class_listing.inc:1739
+#: include/class_listing.inc:1709 include/class_listing.inc:1711
 msgid "Restore snapshots"
 msgstr "obnovit ze snímků"
 
-#: include/class_listing.inc:1753
+#: include/class_listing.inc:1725
 msgid "Export list"
 msgstr "exportovat seznam"
 
-#: include/class_listing.inc:1785 include/class_listing.inc:1786
+#: include/class_listing.inc:1757 include/class_listing.inc:1758
 msgid "Restore snapshot"
 msgstr "obnovit ze snímku"
 
-#: include/class_listing.inc:1798
+#: include/class_listing.inc:1770
 msgid "Create snapshot"
 msgstr "vytvořit snímek"
 
-#: include/class_listing.inc:1799
+#: include/class_listing.inc:1771
 msgid "Create a new snapshot from this object"
 msgstr "vytvořit nový snímek tohoto objektu"
 
@@ -999,7 +999,7 @@ msgstr ""
 "spuštěním '%s' --update-cache (na serveru) a restartujte svůj webový "
 "prohlížeč"
 
-#: include/functions.inc:474 include/functions.inc:2558
+#: include/functions.inc:474 include/functions.inc:2552
 #: include/simpleplugin/class_simplePlugin.inc:466
 #: include/simpleplugin/class_simplePlugin.inc:471
 #: include/simpleplugin/class_simplePlugin.inc:483
@@ -1233,7 +1233,7 @@ msgstr ""
 msgid "The objectClass \"posixGroup\" must be STRUCTURAL"
 msgstr "Je třeba, aby ObjectClass posixGroup bylo STRUKTURÁLNÍ"
 
-#: include/functions.inc:2559
+#: include/functions.inc:2553
 #, php-format
 msgid "Cannot locate file '%s' - please run '%s' to fix this"
 msgstr ""
@@ -2103,11 +2103,13 @@ msgid "POSIX group %s"
 msgstr ""
 
 #: include/simpleplugin/class_dialogAttributes.inc:428
+#: plugins/config/class_configInLdap.inc:476
 #, php-format
 msgid "Role %s"
 msgstr "Role %s"
 
 #: include/simpleplugin/class_dialogAttributes.inc:430
+#: plugins/config/class_configInLdap.inc:469
 #, php-format
 msgid "Group %s"
 msgstr "Skupina %s"
@@ -2283,23 +2285,23 @@ msgstr "Položka s takovým rozlišeným názvem již existuje: %s"
 msgid "The entry %s is not existing"
 msgstr "Položka %s neexistuje"
 
-#: include/simpleplugin/class_simplePlugin.inc:1495
+#: include/simpleplugin/class_simplePlugin.inc:1496
 msgid ""
 "The object has changed since opened in FusionDirectory. All changes that may"
 " be done by others will get lost if you save this entry!"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:1680
+#: include/simpleplugin/class_simplePlugin.inc:1681
 #, php-format
 msgid "Service \"%s\""
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:1682
+#: include/simpleplugin/class_simplePlugin.inc:1683
 #, php-format
 msgid "Tab \"%s\""
 msgstr "Panel %s"
 
-#: include/simpleplugin/class_simplePlugin.inc:1834
+#: include/simpleplugin/class_simplePlugin.inc:1835
 #, php-format
 msgid "Unknown field \"%s\""
 msgstr ""
@@ -3685,45 +3687,61 @@ msgstr ""
 msgid "Available categories in the departments dropdown"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:382
-#: plugins/config/class_configInLdap.inc:410
+#: plugins/config/class_configInLdap.inc:381
+msgid "Use this to hide some menu entry to specific groups of users"
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:385
+msgid "Group or role"
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:390
+msgid "Plugin to blacklist"
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:396
+msgid "Plugin menu blacklist"
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:405
+#: plugins/config/class_configInLdap.inc:433
 msgid "Hooks"
 msgstr "háčky"
 
-#: plugins/config/class_configInLdap.inc:387
+#: plugins/config/class_configInLdap.inc:410
 msgid "Hooks that are called when specific actions happens"
 msgstr "Háčky, které jsou volány pokud nastane konkrétní událost"
 
-#: plugins/config/class_configInLdap.inc:391
+#: plugins/config/class_configInLdap.inc:414
 msgid "Tab"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:391
+#: plugins/config/class_configInLdap.inc:414
 msgid "The tab that this hook concerns"
 msgstr "Panel, kterého se týká tento háček"
 
-#: plugins/config/class_configInLdap.inc:396
+#: plugins/config/class_configInLdap.inc:419
 #: plugins/admin/acl/class_aclAssignment.inc:41
 msgid "Mode"
 msgstr "režim"
 
-#: plugins/config/class_configInLdap.inc:396
+#: plugins/config/class_configInLdap.inc:419
 msgid "When to call this command"
 msgstr "Kdy spouštět tento příkaz"
 
-#: plugins/config/class_configInLdap.inc:403
+#: plugins/config/class_configInLdap.inc:426
 msgid "Command"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:403
+#: plugins/config/class_configInLdap.inc:426
 msgid "The command that will be called"
 msgstr "Příkaz, který bude spouštěn"
 
-#: plugins/config/class_configInLdap.inc:417
+#: plugins/config/class_configInLdap.inc:440
 msgid "Display hook output"
 msgstr "Zobrazit výstup háčku"
 
-#: plugins/config/class_configInLdap.inc:418
+#: plugins/config/class_configInLdap.inc:441
 msgid ""
 "When enabled successful hook execution output is displayed to the user using"
 " a dialog."

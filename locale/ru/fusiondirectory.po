@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2017-04-05 19:06+0200\n"
+"POT-Creation-Date: 2017-04-21 17:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>, 2016\n"
 "Language-Team: Russian (https://www.transifex.com/fusiondirectory/teams/12202/ru/)\n"
@@ -42,7 +42,7 @@ msgstr ""
 "настройка может быть переопределена для каждого пользователя."
 
 #: setup/class_setupStepLanguage.inc:69
-#: plugins/config/class_configInLdap.inc:432
+#: plugins/config/class_configInLdap.inc:456
 msgid "Automatic"
 msgstr "Автоматически"
 
@@ -712,7 +712,7 @@ msgstr "Добро пожаловать в мастер настройки Fusio
 msgid "The welcome message"
 msgstr "Сообщение приветствия"
 
-#: include/class_logging.inc:80 include/class_session.inc:50
+#: include/class_logging.inc:81 include/class_session.inc:50
 #: include/class_session.inc:88 include/class_session.inc:127
 #: include/functions.inc:575 include/functions.inc:647
 #: include/functions.inc:768 include/functions.inc:1835
@@ -722,55 +722,55 @@ msgstr "Сообщение приветствия"
 msgid "Internal error"
 msgstr "Внутренняя ошибка"
 
-#: include/class_logging.inc:80
+#: include/class_logging.inc:81
 #, php-format
 msgid "Logging failed: %s"
 msgstr "Не удалось войти: %s"
 
-#: include/class_logging.inc:102
+#: include/class_logging.inc:103
 #, php-format
 msgid "Invalid option \"%s\" specified!"
 msgstr ""
 
-#: include/class_logging.inc:106
+#: include/class_logging.inc:107
 msgid "Specified objectType is empty or invalid!"
 msgstr "Указанный объектный тип пустой или неверный!"
 
-#: include/class_baseSelector.inc:212 include/class_listing.inc:1202
-#: include/class_listing.inc:1204
+#: include/class_baseSelector.inc:212 include/class_listing.inc:1174
+#: include/class_listing.inc:1176
 msgid "Root"
 msgstr ""
 
-#: include/class_baseSelector.inc:261 include/class_listing.inc:1225
+#: include/class_baseSelector.inc:261 include/class_listing.inc:1197
 msgid "Submit"
 msgstr "Отправить"
 
-#: include/class_listing.inc:313 include/class_listing.inc:1210
-#: include/class_listing.inc:1212
+#: include/class_listing.inc:312 include/class_listing.inc:1182
+#: include/class_listing.inc:1184
 msgid "Up"
 msgstr "По убыванию"
 
-#: include/class_listing.inc:313
+#: include/class_listing.inc:312
 msgid "Down"
 msgstr "Вниз"
 
-#: include/class_listing.inc:313
+#: include/class_listing.inc:312
 #: include/simpleplugin/attributes/class_SetAttribute.inc:463
 #: include/simpleplugin/attributes/class_SetAttribute.inc:464
 msgid "Sort up"
 msgstr "Сортировать по возврастанию"
 
-#: include/class_listing.inc:313
+#: include/class_listing.inc:312
 #: include/simpleplugin/attributes/class_SetAttribute.inc:476
 #: include/simpleplugin/attributes/class_SetAttribute.inc:477
 msgid "Sort down"
 msgstr "Сортировать по убыванию"
 
-#: include/class_listing.inc:374 setup/setup_migrate_accounts.tpl.c:23
+#: include/class_listing.inc:362 setup/setup_migrate_accounts.tpl.c:23
 msgid "Select all"
 msgstr "Выбрать все"
 
-#: include/class_listing.inc:551
+#: include/class_listing.inc:528
 #: include/password-methods/class_password-methods-sasl.inc:60
 #: include/password-methods/class_password-methods-sasl.inc:86
 #: include/class_msg_dialog.inc:136 include/class_msg_dialog.inc:172
@@ -790,74 +790,74 @@ msgstr "Выбрать все"
 msgid "Error"
 msgstr "Ошибка"
 
-#: include/class_listing.inc:592
+#: include/class_listing.inc:569
 msgid "created by"
 msgstr "создано"
 
-#: include/class_listing.inc:1202
+#: include/class_listing.inc:1174
 msgid "Go to root department"
 msgstr "Перейти в корень подразделений"
 
-#: include/class_listing.inc:1210
+#: include/class_listing.inc:1182
 msgid "Go up one department"
 msgstr "Перейти вверх на одно подразделение"
 
-#: include/class_listing.inc:1218
+#: include/class_listing.inc:1190
 msgid "Go to user's department"
 msgstr "Перейти к подразделению пользователя"
 
-#: include/class_listing.inc:1218 include/class_listing.inc:1220
+#: include/class_listing.inc:1190 include/class_listing.inc:1192
 msgid "Home"
 msgstr ""
 
-#: include/class_listing.inc:1225
+#: include/class_listing.inc:1197
 msgid "Reload list"
 msgstr "Обновить список"
 
-#: include/class_listing.inc:1346 include/simpleplugin/simple-list.xml:48
+#: include/class_listing.inc:1318 include/simpleplugin/simple-list.xml:48
 #: plugins/admin/departments/dep-list.xml:37
 #: plugins/admin/users/user-list.xml:62 plugins/admin/groups/group-list.xml:54
 msgid "Actions"
 msgstr "Действия"
 
-#: include/class_listing.inc:1659 include/class_listing.inc:1712
+#: include/class_listing.inc:1631 include/class_listing.inc:1684
 msgid "Copy"
 msgstr "Копировать"
 
-#: include/class_listing.inc:1665 include/class_listing.inc:1700
+#: include/class_listing.inc:1637 include/class_listing.inc:1672
 msgid "Cut"
 msgstr "Вырезать"
 
-#: include/class_listing.inc:1673 include/class_listing.inc:1675
+#: include/class_listing.inc:1645 include/class_listing.inc:1647
 #: include/class_CopyPasteHandler.inc:332
 msgid "Paste"
 msgstr "Вставить"
 
-#: include/class_listing.inc:1700
+#: include/class_listing.inc:1672
 msgid "Cut this entry"
 msgstr "Вырезать эту запись"
 
-#: include/class_listing.inc:1712
+#: include/class_listing.inc:1684
 msgid "Copy this entry"
 msgstr "Копировать эту запись"
 
-#: include/class_listing.inc:1737 include/class_listing.inc:1739
+#: include/class_listing.inc:1709 include/class_listing.inc:1711
 msgid "Restore snapshots"
 msgstr "Восстановить снапшоты"
 
-#: include/class_listing.inc:1753
+#: include/class_listing.inc:1725
 msgid "Export list"
 msgstr "Экспортировать список"
 
-#: include/class_listing.inc:1785 include/class_listing.inc:1786
+#: include/class_listing.inc:1757 include/class_listing.inc:1758
 msgid "Restore snapshot"
 msgstr "Восстановить снапшот"
 
-#: include/class_listing.inc:1798
+#: include/class_listing.inc:1770
 msgid "Create snapshot"
 msgstr "Создать снапшот"
 
-#: include/class_listing.inc:1799
+#: include/class_listing.inc:1771
 msgid "Create a new snapshot from this object"
 msgstr "Создать новый снапшот из объекта"
 
@@ -962,7 +962,7 @@ msgstr ""
 "Критическая ошибка: не могу создать экземпляр класса '%s' - попробуйте "
 "запустить '%s' чтобы исправить это"
 
-#: include/functions.inc:474 include/functions.inc:2558
+#: include/functions.inc:474 include/functions.inc:2552
 #: include/simpleplugin/class_simplePlugin.inc:466
 #: include/simpleplugin/class_simplePlugin.inc:471
 #: include/simpleplugin/class_simplePlugin.inc:483
@@ -1186,7 +1186,7 @@ msgstr ""
 msgid "The objectClass \"posixGroup\" must be STRUCTURAL"
 msgstr ""
 
-#: include/functions.inc:2559
+#: include/functions.inc:2553
 #, php-format
 msgid "Cannot locate file '%s' - please run '%s' to fix this"
 msgstr ""
@@ -2056,11 +2056,13 @@ msgid "POSIX group %s"
 msgstr "POSIX группа %s"
 
 #: include/simpleplugin/class_dialogAttributes.inc:428
+#: plugins/config/class_configInLdap.inc:476
 #, php-format
 msgid "Role %s"
 msgstr "Роль %s"
 
 #: include/simpleplugin/class_dialogAttributes.inc:430
+#: plugins/config/class_configInLdap.inc:469
 #, php-format
 msgid "Group %s"
 msgstr "Группа %s"
@@ -2233,23 +2235,23 @@ msgstr "Уже есть запись с таким dn: %s"
 msgid "The entry %s is not existing"
 msgstr "Запись %s не существует"
 
-#: include/simpleplugin/class_simplePlugin.inc:1495
+#: include/simpleplugin/class_simplePlugin.inc:1496
 msgid ""
 "The object has changed since opened in FusionDirectory. All changes that may"
 " be done by others will get lost if you save this entry!"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:1680
+#: include/simpleplugin/class_simplePlugin.inc:1681
 #, php-format
 msgid "Service \"%s\""
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:1682
+#: include/simpleplugin/class_simplePlugin.inc:1683
 #, php-format
 msgid "Tab \"%s\""
 msgstr "Вкладка \"%s\""
 
-#: include/simpleplugin/class_simplePlugin.inc:1834
+#: include/simpleplugin/class_simplePlugin.inc:1835
 #, php-format
 msgid "Unknown field \"%s\""
 msgstr "Неизвестное поле \"%s\""
@@ -3622,45 +3624,61 @@ msgstr "Доступные категории подразделений"
 msgid "Available categories in the departments dropdown"
 msgstr "Доступные категории подразделений в раскрывающемся списке"
 
-#: plugins/config/class_configInLdap.inc:382
-#: plugins/config/class_configInLdap.inc:410
-msgid "Hooks"
-msgstr "Хуки"
-
-#: plugins/config/class_configInLdap.inc:387
-msgid "Hooks that are called when specific actions happens"
+#: plugins/config/class_configInLdap.inc:381
+msgid "Use this to hide some menu entry to specific groups of users"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:391
-msgid "Tab"
+#: plugins/config/class_configInLdap.inc:385
+msgid "Group or role"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:391
-msgid "The tab that this hook concerns"
+#: plugins/config/class_configInLdap.inc:390
+msgid "Plugin to blacklist"
 msgstr ""
 
 #: plugins/config/class_configInLdap.inc:396
+msgid "Plugin menu blacklist"
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:405
+#: plugins/config/class_configInLdap.inc:433
+msgid "Hooks"
+msgstr "Хуки"
+
+#: plugins/config/class_configInLdap.inc:410
+msgid "Hooks that are called when specific actions happens"
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:414
+msgid "Tab"
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:414
+msgid "The tab that this hook concerns"
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:419
 #: plugins/admin/acl/class_aclAssignment.inc:41
 msgid "Mode"
 msgstr "Режим"
 
-#: plugins/config/class_configInLdap.inc:396
+#: plugins/config/class_configInLdap.inc:419
 msgid "When to call this command"
 msgstr "Когда вызывать эту команду"
 
-#: plugins/config/class_configInLdap.inc:403
+#: plugins/config/class_configInLdap.inc:426
 msgid "Command"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:403
+#: plugins/config/class_configInLdap.inc:426
 msgid "The command that will be called"
 msgstr "Команда, которая будет вызвана"
 
-#: plugins/config/class_configInLdap.inc:417
+#: plugins/config/class_configInLdap.inc:440
 msgid "Display hook output"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:418
+#: plugins/config/class_configInLdap.inc:441
 msgid ""
 "When enabled successful hook execution output is displayed to the user using"
 " a dialog."
