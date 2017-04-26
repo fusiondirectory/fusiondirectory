@@ -193,6 +193,11 @@ class template
    * Cannot be called twice! If you need to, call reset between calls */
   function apply($targetdn = NULL)
   {
+    if ($this->applied) {
+      trigger_error('Templates can’t be applied twice without calling reset before');
+      return;
+    }
+
     if ($targetdn !== NULL) {
       $this->tabObject = objects::open($targetdn, $this->type);
       unset($this->attrs['objectClass']['count']);
@@ -201,9 +206,6 @@ class template
           $this->attrs['objectClass'] = $plugin->mergeObjectClasses($this->attrs['objectClass']);
         }
       }
-    } elseif ($this->applied) {
-      trigger_error('Templates can’t be applied twice without calling reset before');
-      return;
     }
 
     foreach ($this->tabObject->by_object as $class => &$plugin) {

@@ -85,6 +85,7 @@ class templateDialog
   function setNextTarget ($target)
   {
     $this->target = $target;
+    $this->template->reset();
   }
 
   function execute ()
