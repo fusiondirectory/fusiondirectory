@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2017-04-21 17:22+0200\n"
+"POT-Creation-Date: 2017-04-30 15:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>, 2016\n"
 "Language-Team: Arabic (https://www.transifex.com/fusiondirectory/teams/12202/ar/)\n"
@@ -868,11 +868,11 @@ msgid "Requested channel does not exist! Please contact your Administrator."
 msgstr ""
 
 #: include/class_CopyPasteHandler.inc:208
-#: include/simpleplugin/class_simpleManagement.inc:1018
-#: include/simpleplugin/class_simpleManagement.inc:1117
-#: include/simpleplugin/class_simpleManagement.inc:1168
-#: include/simpleplugin/class_simpleManagement.inc:1248
-#: include/simpleplugin/class_simpleManagement.inc:1266
+#: include/simpleplugin/class_simpleManagement.inc:1019
+#: include/simpleplugin/class_simpleManagement.inc:1118
+#: include/simpleplugin/class_simpleManagement.inc:1169
+#: include/simpleplugin/class_simpleManagement.inc:1249
+#: include/simpleplugin/class_simpleManagement.inc:1267
 #: plugins/admin/users/class_userManagement.inc:153
 msgid "Permission"
 msgstr ""
@@ -894,8 +894,8 @@ msgid "Login"
 msgstr ""
 
 #: include/class_template.inc:41
-#: include/simpleplugin/class_simpleManagement.inc:281
-#: include/simpleplugin/class_simpleManagement.inc:513
+#: include/simpleplugin/class_simpleManagement.inc:282
+#: include/simpleplugin/class_simpleManagement.inc:514
 #: plugins/admin/users/user-list.xml:95
 #: plugins/admin/groups/class_groupManagement.inc:186
 #: ihtml/themes/breezy/template.tpl.c:5
@@ -2089,43 +2089,43 @@ msgstr ""
 msgid "days"
 msgstr ""
 
-#: include/simpleplugin/class_simpleManagement.inc:287
+#: include/simpleplugin/class_simpleManagement.inc:288
 #: plugins/admin/users/user-list.xml:87
 msgid "From template"
 msgstr ""
 
-#: include/simpleplugin/class_simpleManagement.inc:315
+#: include/simpleplugin/class_simpleManagement.inc:316
 #, php-format
 msgid "%s template"
 msgstr ""
 
-#: include/simpleplugin/class_simpleManagement.inc:507
-#: include/simpleplugin/class_simpleManagement.inc:513
+#: include/simpleplugin/class_simpleManagement.inc:508
+#: include/simpleplugin/class_simpleManagement.inc:514
 #: plugins/admin/groups/class_groupManagement.inc:186
 #, php-format
 msgid "Show %s"
 msgstr ""
 
-#: include/simpleplugin/class_simpleManagement.inc:544
+#: include/simpleplugin/class_simpleManagement.inc:545
 msgid "Filter error"
 msgstr ""
 
-#: include/simpleplugin/class_simpleManagement.inc:544
+#: include/simpleplugin/class_simpleManagement.inc:545
 msgid "The filter is incomplete!"
 msgstr ""
 
-#: include/simpleplugin/class_simpleManagement.inc:1083
+#: include/simpleplugin/class_simpleManagement.inc:1084
 msgid "Permission error"
 msgstr ""
 
-#: include/simpleplugin/class_simpleManagement.inc:1117
+#: include/simpleplugin/class_simpleManagement.inc:1118
 #, php-format
 msgid "You are not allowed to create a snapshot for %s."
 msgstr ""
 
-#: include/simpleplugin/class_simpleManagement.inc:1168
-#: include/simpleplugin/class_simpleManagement.inc:1248
-#: include/simpleplugin/class_simpleManagement.inc:1266
+#: include/simpleplugin/class_simpleManagement.inc:1169
+#: include/simpleplugin/class_simpleManagement.inc:1249
+#: include/simpleplugin/class_simpleManagement.inc:1267
 #, php-format
 msgid "You are not allowed to restore a snapshot for %s."
 msgstr ""

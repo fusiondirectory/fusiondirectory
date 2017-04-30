@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2017-04-21 17:22+0200\n"
+"POT-Creation-Date: 2017-04-30 15:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Benoit Mortier <benoit.mortier@opensides.be>, 2017\n"
 "Language-Team: French (https://www.transifex.com/fusiondirectory/teams/12202/fr/)\n"
@@ -951,11 +951,11 @@ msgstr ""
 "système."
 
 #: include/class_CopyPasteHandler.inc:208
-#: include/simpleplugin/class_simpleManagement.inc:1018
-#: include/simpleplugin/class_simpleManagement.inc:1117
-#: include/simpleplugin/class_simpleManagement.inc:1168
-#: include/simpleplugin/class_simpleManagement.inc:1248
-#: include/simpleplugin/class_simpleManagement.inc:1266
+#: include/simpleplugin/class_simpleManagement.inc:1019
+#: include/simpleplugin/class_simpleManagement.inc:1118
+#: include/simpleplugin/class_simpleManagement.inc:1169
+#: include/simpleplugin/class_simpleManagement.inc:1249
+#: include/simpleplugin/class_simpleManagement.inc:1267
 #: plugins/admin/users/class_userManagement.inc:153
 msgid "Permission"
 msgstr "Permissions"
@@ -977,8 +977,8 @@ msgid "Login"
 msgstr "Identifiant"
 
 #: include/class_template.inc:41
-#: include/simpleplugin/class_simpleManagement.inc:281
-#: include/simpleplugin/class_simpleManagement.inc:513
+#: include/simpleplugin/class_simpleManagement.inc:282
+#: include/simpleplugin/class_simpleManagement.inc:514
 #: plugins/admin/users/user-list.xml:95
 #: plugins/admin/groups/class_groupManagement.inc:186
 #: ihtml/themes/breezy/template.tpl.c:5
@@ -2253,44 +2253,44 @@ msgstr "heures"
 msgid "days"
 msgstr "jours"
 
-#: include/simpleplugin/class_simpleManagement.inc:287
+#: include/simpleplugin/class_simpleManagement.inc:288
 #: plugins/admin/users/user-list.xml:87
 msgid "From template"
 msgstr "Depuis un modèle"
 
-#: include/simpleplugin/class_simpleManagement.inc:315
+#: include/simpleplugin/class_simpleManagement.inc:316
 #, php-format
 msgid "%s template"
 msgstr "%s modèle"
 
-#: include/simpleplugin/class_simpleManagement.inc:507
-#: include/simpleplugin/class_simpleManagement.inc:513
+#: include/simpleplugin/class_simpleManagement.inc:508
+#: include/simpleplugin/class_simpleManagement.inc:514
 #: plugins/admin/groups/class_groupManagement.inc:186
 #, php-format
 msgid "Show %s"
 msgstr "Afficher %s"
 
-#: include/simpleplugin/class_simpleManagement.inc:544
+#: include/simpleplugin/class_simpleManagement.inc:545
 msgid "Filter error"
 msgstr "Erreur de Filtre"
 
-#: include/simpleplugin/class_simpleManagement.inc:544
+#: include/simpleplugin/class_simpleManagement.inc:545
 msgid "The filter is incomplete!"
 msgstr "Le filtre est incomplet !"
 
-#: include/simpleplugin/class_simpleManagement.inc:1083
+#: include/simpleplugin/class_simpleManagement.inc:1084
 msgid "Permission error"
 msgstr "Erreur de permissions"
 
-#: include/simpleplugin/class_simpleManagement.inc:1117
+#: include/simpleplugin/class_simpleManagement.inc:1118
 #, php-format
 msgid "You are not allowed to create a snapshot for %s."
 msgstr ""
 "Vous n'êtes pas autorisé à créer une nouvelle copie instantanée pour %s."
 
-#: include/simpleplugin/class_simpleManagement.inc:1168
-#: include/simpleplugin/class_simpleManagement.inc:1248
-#: include/simpleplugin/class_simpleManagement.inc:1266
+#: include/simpleplugin/class_simpleManagement.inc:1169
+#: include/simpleplugin/class_simpleManagement.inc:1249
+#: include/simpleplugin/class_simpleManagement.inc:1267
 #, php-format
 msgid "You are not allowed to restore a snapshot for %s."
 msgstr "Vous n'êtes pas autorisé à restaurer un copie instantanée de %s."
@@ -3789,18 +3789,20 @@ msgstr "Les catégories disponibles dans le menu déroulant départements"
 #: plugins/config/class_configInLdap.inc:381
 msgid "Use this to hide some menu entry to specific groups of users"
 msgstr ""
+"Utilisez ceci pour cacher une entrée de menu à des groupes spécifiques "
+"d'utilisateurs"
 
 #: plugins/config/class_configInLdap.inc:385
 msgid "Group or role"
-msgstr ""
+msgstr "Groupes ou rôles"
 
 #: plugins/config/class_configInLdap.inc:390
 msgid "Plugin to blacklist"
-msgstr ""
+msgstr "Plugin à mettre en liste noire"
 
 #: plugins/config/class_configInLdap.inc:396
 msgid "Plugin menu blacklist"
-msgstr ""
+msgstr "Liste noire du menu des plugins"
 
 #: plugins/config/class_configInLdap.inc:405
 #: plugins/config/class_configInLdap.inc:433

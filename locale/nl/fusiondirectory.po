@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2017-04-21 17:22+0200\n"
+"POT-Creation-Date: 2017-04-30 15:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: fusiondirectory <contact@fusiondirectory.org>, 2016\n"
+"Last-Translator: Selina Oudermans <selina.oudermans@digipolis.be>, 2017\n"
 "Language-Team: Dutch (https://www.transifex.com/fusiondirectory/teams/12202/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -664,7 +664,7 @@ msgstr ""
 #: setup/class_setupStepMigrate.inc:950
 #, php-format
 msgid "Cannot add ACL role \"%s\":"
-msgstr ""
+msgstr "Kan de ACL rol \"%s\" niet toevoegen:"
 
 #: setup/class_setupStepMigrate.inc:1005
 #, php-format
@@ -921,11 +921,11 @@ msgstr ""
 "Gevraagde kanaal bestaat niet! Gelieve je Systeembeheerder te contacteren."
 
 #: include/class_CopyPasteHandler.inc:208
-#: include/simpleplugin/class_simpleManagement.inc:1018
-#: include/simpleplugin/class_simpleManagement.inc:1117
-#: include/simpleplugin/class_simpleManagement.inc:1168
-#: include/simpleplugin/class_simpleManagement.inc:1248
-#: include/simpleplugin/class_simpleManagement.inc:1266
+#: include/simpleplugin/class_simpleManagement.inc:1019
+#: include/simpleplugin/class_simpleManagement.inc:1118
+#: include/simpleplugin/class_simpleManagement.inc:1169
+#: include/simpleplugin/class_simpleManagement.inc:1249
+#: include/simpleplugin/class_simpleManagement.inc:1267
 #: plugins/admin/users/class_userManagement.inc:153
 msgid "Permission"
 msgstr "Rechten"
@@ -947,8 +947,8 @@ msgid "Login"
 msgstr "Inlognaam"
 
 #: include/class_template.inc:41
-#: include/simpleplugin/class_simpleManagement.inc:281
-#: include/simpleplugin/class_simpleManagement.inc:513
+#: include/simpleplugin/class_simpleManagement.inc:282
+#: include/simpleplugin/class_simpleManagement.inc:514
 #: plugins/admin/users/user-list.xml:95
 #: plugins/admin/groups/class_groupManagement.inc:186
 #: ihtml/themes/breezy/template.tpl.c:5
@@ -2172,50 +2172,50 @@ msgstr "uren"
 msgid "days"
 msgstr "dagen"
 
-#: include/simpleplugin/class_simpleManagement.inc:287
+#: include/simpleplugin/class_simpleManagement.inc:288
 #: plugins/admin/users/user-list.xml:87
 msgid "From template"
 msgstr ""
 
-#: include/simpleplugin/class_simpleManagement.inc:315
+#: include/simpleplugin/class_simpleManagement.inc:316
 #, php-format
 msgid "%s template"
 msgstr ""
 
-#: include/simpleplugin/class_simpleManagement.inc:507
-#: include/simpleplugin/class_simpleManagement.inc:513
+#: include/simpleplugin/class_simpleManagement.inc:508
+#: include/simpleplugin/class_simpleManagement.inc:514
 #: plugins/admin/groups/class_groupManagement.inc:186
 #, php-format
 msgid "Show %s"
 msgstr ""
 
-#: include/simpleplugin/class_simpleManagement.inc:544
+#: include/simpleplugin/class_simpleManagement.inc:545
 msgid "Filter error"
 msgstr "Filter fout"
 
-#: include/simpleplugin/class_simpleManagement.inc:544
+#: include/simpleplugin/class_simpleManagement.inc:545
 msgid "The filter is incomplete!"
 msgstr "Deze filter is niet compleet!"
 
-#: include/simpleplugin/class_simpleManagement.inc:1083
+#: include/simpleplugin/class_simpleManagement.inc:1084
 msgid "Permission error"
 msgstr "Permissiefout"
 
-#: include/simpleplugin/class_simpleManagement.inc:1117
+#: include/simpleplugin/class_simpleManagement.inc:1118
 #, php-format
 msgid "You are not allowed to create a snapshot for %s."
 msgstr "U heeft geen toestemming om een snapshot te maken voor %s."
 
-#: include/simpleplugin/class_simpleManagement.inc:1168
-#: include/simpleplugin/class_simpleManagement.inc:1248
-#: include/simpleplugin/class_simpleManagement.inc:1266
+#: include/simpleplugin/class_simpleManagement.inc:1169
+#: include/simpleplugin/class_simpleManagement.inc:1249
+#: include/simpleplugin/class_simpleManagement.inc:1267
 #, php-format
 msgid "You are not allowed to restore a snapshot for %s."
 msgstr "U heeft geen toestemming om een snapshot te herstellen voor %s."
 
 #: include/simpleplugin/simple-list.xml:11
 msgid "NO LABEL"
-msgstr ""
+msgstr "Geen label"
 
 #: include/simpleplugin/class_simplePlugin.inc:343
 msgid "Template settings"
@@ -2529,12 +2529,12 @@ msgstr "E-mail adres"
 #: html/class_passwordRecovery.inc:471
 #, php-format
 msgid "Did not find an account with login \"%s\""
-msgstr ""
+msgstr "Kan geen account vinden met login \"%s\""
 
 #: html/class_passwordRecovery.inc:474
 #, php-format
 msgid "Found multiple accounts with login \"%s\""
-msgstr ""
+msgstr "Er zijn meerdere accounts gevonden met login \"%s\""
 
 #: html/class_passwordRecovery.inc:507
 #, php-format
@@ -2989,7 +2989,7 @@ msgstr ""
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:49
 #: plugins/addons/dashboard/users_accounts.tpl.c:8
 msgid "Expired accounts"
-msgstr ""
+msgstr "Vervallen accounts"
 
 #: plugins/addons/dashboard/class_dashBoard.inc:27
 #: plugins/addons/dashboard/class_dashBoard.inc:28
@@ -3008,7 +3008,7 @@ msgstr ""
 #: plugins/addons/dashboard/class_dashBoard.inc:49
 #: plugins/addons/dashboard/main_stats.tpl.c:2
 msgid "Statistics"
-msgstr ""
+msgstr "Statistieken"
 
 #: plugins/addons/dashboard/class_dashBoardPasswords.inc:26
 msgid "Passwords"
@@ -3970,7 +3970,7 @@ msgstr "Informatie"
 #: plugins/admin/groups/class_roleGeneric.inc:86
 #: plugins/admin/groups/class_ogroup.inc:193
 msgid "Name of this group"
-msgstr ""
+msgstr "Naam van deze groep"
 
 #: plugins/admin/groups/class_roleGeneric.inc:91
 msgid "Description of the role"
@@ -4014,7 +4014,7 @@ msgstr "Wijzig posix eigenschappen"
 
 #: plugins/admin/groups/class_groupManagement.inc:153
 msgid "Show user groups"
-msgstr ""
+msgstr "Toon gebruikers groepen"
 
 #: plugins/admin/groups/class_groupManagement.inc:154
 msgid "Show organizational roles"
@@ -4049,15 +4049,15 @@ msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:174
 msgid "Show server groups"
-msgstr ""
+msgstr "Toon server groepen"
 
 #: plugins/admin/groups/class_groupManagement.inc:175
 msgid "Show workstation groups"
-msgstr ""
+msgstr "Toon workstation groepen"
 
 #: plugins/admin/groups/class_groupManagement.inc:176
 msgid "Show windows groups"
-msgstr ""
+msgstr "Toon Windows groepen"
 
 #: plugins/admin/groups/class_groupManagement.inc:177
 msgid "Show terminal groups"
@@ -4065,21 +4065,21 @@ msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:178
 msgid "Show printer groups"
-msgstr ""
+msgstr "Toon printer groepen"
 
 #: plugins/admin/groups/class_groupManagement.inc:179
 msgid "Show phone groups"
-msgstr ""
+msgstr "Toon telefoon groepen"
 
 #: plugins/admin/groups/class_ogroup.inc:61
 #, php-format
 msgid "Unknown type : %s"
-msgstr ""
+msgstr "Onbekend type: %s"
 
 #: plugins/admin/groups/class_ogroup.inc:65
 #, php-format
 msgid "Non existing dn: %s"
-msgstr ""
+msgstr "Onbestaand dn: %s"
 
 #: plugins/admin/groups/class_ogroup.inc:155
 msgid "Object group"
@@ -4087,7 +4087,7 @@ msgstr "Objectgroep"
 
 #: plugins/admin/groups/class_ogroup.inc:156
 msgid "Object group information"
-msgstr ""
+msgstr "Object groep informatie"
 
 #: plugins/admin/groups/class_ogroup.inc:160
 #: plugins/admin/groups/class_ogroup.inc:161
@@ -4155,7 +4155,7 @@ msgstr ""
 
 #: plugins/admin/acl/class_aclManagement.inc:49
 msgid "Dn"
-msgstr ""
+msgstr "Dn"
 
 #: plugins/admin/acl/class_aclManagement.inc:49
 msgid "DN you wish to add assignments for"
@@ -4167,7 +4167,7 @@ msgstr ""
 
 #: plugins/admin/acl/class_aclManagement.inc:139
 msgid "ACL assignments"
-msgstr ""
+msgstr "ACL taken"
 
 #: plugins/admin/acl/class_aclManagement.inc:140
 msgid "ACL assignments management"
@@ -4208,7 +4208,7 @@ msgstr ""
 
 #: plugins/admin/acl/class_aclAssignment.inc:52
 msgid "For all users"
-msgstr ""
+msgstr "Voor alle gebruikers"
 
 #: plugins/admin/acl/class_aclAssignment.inc:52
 msgid "Apply this ACL for all LDAP users"
@@ -4230,7 +4230,7 @@ msgstr ""
 
 #: plugins/admin/acl/class_aclAssignment.inc:259
 msgid "ACL assignment"
-msgstr ""
+msgstr "ACL taak"
 
 #: plugins/admin/acl/class_aclAssignment.inc:274
 msgid "Access control roles assignment"
@@ -4238,7 +4238,7 @@ msgstr ""
 
 #: plugins/admin/acl/class_aclAssignment.inc:293
 msgid "Assignments"
-msgstr ""
+msgstr "Taken"
 
 #: plugins/admin/acl/class_aclAssignment.inc:297
 msgid "ACL role assignments for this base"
@@ -4345,7 +4345,7 @@ msgstr ""
 
 #: plugins/admin/aclrole/class_aclRole.inc:109
 msgid "ACLs"
-msgstr ""
+msgstr "ACLs"
 
 #: plugins/admin/aclrole/class_aclRole.inc:113
 msgid "ACLs which are part of this group"
@@ -4932,7 +4932,7 @@ msgstr[1] ""
 
 #: plugins/addons/dashboard/pwd_stats.tpl.c:11
 msgid "None of them is locked"
-msgstr ""
+msgstr "Geen van hen zijn geblokkeerd"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:2
 msgid "There is one expired account"
@@ -4957,7 +4957,7 @@ msgstr "uid"
 #: plugins/addons/dashboard/users_accounts.tpl.c:17
 #: plugins/addons/dashboard/users_accounts.tpl.c:50
 msgid "cn"
-msgstr ""
+msgstr "cn"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:20
 #: plugins/addons/dashboard/users_accounts.tpl.c:32
@@ -4974,12 +4974,12 @@ msgstr ""
 #: plugins/addons/dashboard/users_accounts.tpl.c:26
 #: plugins/addons/dashboard/users_accounts.tpl.c:59
 msgid "manager"
-msgstr ""
+msgstr "Manager"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:29
 #: plugins/addons/dashboard/users_accounts.tpl.c:62
 msgid "mail"
-msgstr ""
+msgstr "E-mail"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:35
 msgid "There is one account expiring in the next %1 days"
@@ -5029,4 +5029,4 @@ msgstr ""
 
 #: plugins/admin/acl/remove.tpl.c:8
 msgid "Press 'Delete' to continue or 'Cancel' to abort."
-msgstr ""
+msgstr "Druk op 'Verwijderen' om door te gaan of 'Annuleren' om af te breken"
