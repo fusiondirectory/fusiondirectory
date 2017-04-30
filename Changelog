@@ -1,6 +1,121 @@
 FusionDirectory changelog
 =========================
 
+* FusionDirectory 1.1
+
+[Fix] Bugs #946: class_plugin should be reviewed
+[Fix] FusionDirectory plugins - Bugs #2419: systemManagement should be redone with simpleManagement
+[Fix] FusionDirectory plugins - Bugs #2692: Clean systems objectTypes
+[Feature] FusionDirectory plugins - Bugs #2878: we need a way to create systems from the inventory data
+[Feature] FusionDirectory plugins - Bugs #3147: Fai tab should have a foreignKey on profiles renaming
+[Feature] FusionDirectory plugins - Bugs #3337: termgroup should be using simplePlugin
+[Fix] FusionDirectory plugins - Bugs #3344: the Gohard objectClass should be flagged OBSOLETE and removed from the code
+[Feature] FusionDirectory plugins - Bugs #3614: The gotoMode attribute should be changed to fdSystemLock
+[Fix] Bugs #3789: tabs and plugin save method should not return anything
+[Fix] Bugs #3859: Trustmode in template is automaticaly desactivated
+[Fix] Bugs #3998: core functions still using the plugin framework
+[Feature] FusionDirectory plugins - Bugs #4023: We should be able to create a group with fusiondirectory-shell
+[Fix] Bugs #4029: We should convert all source files to UTF-8
+[Fix] FusionDirectory plugins - Bugs #4030: We should convert all source files to UTF-8
+[Feature] FusionDirectory plugins - Bugs #4358: System templates should be fully functionnal
+[Feature] FusionDirectory plugins - Bugs #4507: more dns development
+[Fix] FusionDirectory plugins - Bugs #4516: Inventory matching only works for systems at the root
+[Fix] Bugs #4522: setup: __fusiondirectory_autoload tries to load smarty classes
+[Fix] FusionDirectory plugins - Bugs #4556: all the date should be saved in the generalized time match format
+[Fix] Bugs #4688: Use the same message if we set a bad login or a bad password.
+[Feature] Bugs #4840: Recursive dependencies should be detected at template saving and forbidden
+[Feature] Bugs #4893: Plugin saving and hook workflow should be reviewed
+[Feature] Bugs #4917: FD should run all the hooks on a given tab
+[Fix] FusionDirectory plugins - Bugs #4973: Can't create indirect autofs directory. (slash problem)
+[Fix] FusionDirectory plugins - Bugs #4993: Shell is broken and field order is random
+[Fix] Bugs #5016: Fixing wrong FUNCTIONAL filter
+[Fix] Bugs #5041: FIXME legacy code should be removed from callHook method
+[Feature] FusionDirectory plugins - Bugs #5048: serverService should be based on simpleManagement
+[Fix] Bugs #5073: Navigation control should only appear if management has baseMode on.
+[Fix] Bugs #5091: management should be cleaned
+[Fix] Bugs #5150: We should not be able of adding users to groups we have no rights on
+[Feature] Bugs #5178: fusiondirectory-setup should allow to migrate systems from 1.0.16 to 1.1
+[Fix] Bugs #5186: When we edit the logged in user, its info should be updated
+[Fix] Bugs #5187: When saving again after an error, it tries to move if dn changed
+[Fix] Bugs #5189: The path for icons of template creation are wrong
+[Feature] FusionDirectory plugins - Bugs #5206: webservice exception with getfields() / ogroup
+[Fix] Bugs #5235: We should remove from the schemas obsolete stuff
+[Fix] Bugs #5238: strange dn issue when adding a group or deleting a group
+[Fix] FusionDirectory plugins - Bugs #5259: Connection failure between argonaut-server when we search a package
+[Feature] FusionDirectory plugins - Bugs #5301: create a plugin to manage the mailbox of renater partage platform
+[Feature] FusionDirectory plugins - Bugs #5309: DHCP configurations would need foreignKeys on primary and secondary servers
+[Fix] Bugs #5311: Reserved words function should be reviewed
+[Fix] FusionDirectory plugins - Bugs #5312: fdPhone and component situation
+[Fix] FusionDirectory plugins - Bugs #5313: Systems dashboard tab needs an update
+[Fix] FusionDirectory plugins - Bugs #5316: Add argonaut client tab to terminals
+[Fix] Bugs #5322: LDAP::convert and LDAP::fix functions should be deleted
+[Fix] Bugs #5328: correct spelling errors found in the manpages
+[Fix] FusionDirectory plugins - Bugs #5329: I cannot assign a repository parent in repository service
+[Fix] FusionDirectory plugins - Bugs #5330: Add to the release note that the format of repository service have changed
+[Fix] FusionDirectory plugins - Bugs #5331: We should check what is unused in the schemas and mark it OBSOLETE
+[Fix] FusionDirectory plugins - Bugs #5333: kolab2 plugin should be deleted
+[Fix] Bugs #5334: when migrating from 1.0.16 to 1.0.19 with the new version of --migrate-dhcp there is till a reference not corrected
+[Fix] FusionDirectory plugins - Bugs #5356: erreur in ldapdump after correcting by hand the dhcpservicedn after migration
+[Fix] Bugs #5357: Apply template remove sometimes values that are not in the template
+[Feature] Bugs #5358: Template et photo
+[Fix] Bugs #5367: We should remove from setup migration step obsolete stuff
+[Fix] FusionDirectory plugins - Bugs #5368: Webservice does not return attrs_order for templates (gettemplate method)
+[Fix] Bugs #5371: PHP error: Only variables should be passed by reference (/usr/share/fusiondirectory/include/functions.inc, line 2538)
+[Fix] Bugs #5372: Small error in breezy/style.css
+[Fix] Bugs #5380: Bad display of multivaluated attributes in listing columns
+[Fix] Bugs #5381: s modifier have problems with multibyte strings
+[Feature] FusionDirectory plugins - Bugs #5382: add a tab on systems to see what sudo roles are added to a specific system
+[Fix] FusionDirectory plugins - Bugs #5383: Types list for csv import is too long
+[Fix] FusionDirectory plugins - Bugs #5384: systems should not require argonaut
+[Fix] Bugs #5385: Several foreignKeys for the same attribute should work
+[Fix] Bugs #5394: We need a way to test if templates are activated for an objectType
+[Fix] Bugs #5398: Cannot remove a role in groups and roles tabs for a template
+[Fix] FusionDirectory plugins - Bugs #5400: Erreur fatale : impossible d'initialiser la classe 'argonautEventTypes' - veuillez exécuter 'fusiondirectory-setup --update-cache' pour essayer de régler le problème
+[Fix] FusionDirectory plugins - Bugs #5411: FAI partition table cannot be saved anymore
+[Fix] Bugs #5412: FileTextAreaAttribute modification is broken with default parameters
+[Fix] FusionDirectory plugins - Bugs #5413: Some plugins saving are not working properly
+[Fix] FusionDirectory plugins - Bugs #5414: PHP error in FAI plugin
+[Fix] Bugs #5421: Error at first login: «Cannot create locking information in LDAP tree»
+[Fix] Bugs #5423: PHP error when listing dcObject
+[Fix] FusionDirectory plugins - Bugs #5427: eduPersonAffiliation aren't shown correctly due to a mix in drop list
+[Feature] FusionDirectory plugins - Bugs #5429: use partage renater with template
+[Fix] Bugs #5433: when trying to change a password i got an error related to audit tool
+[Fix] FusionDirectory plugins - Bugs #5441: Allow notify option does not match what it does
+[Feature] FusionDirectory plugins - Bugs #5442: Document fopen activation for argonaut plugin
+[Feature] FusionDirectory plugins - Bugs #5462: DSA: description cannot be set
+[Fix] Bugs #5464: Listing objects through objects::ls trigger a first search with scope 1
+[Fix] FusionDirectory plugins - Bugs #5465: netConfigDNS does not exists anymore
+[Fix] FusionDirectory plugins - Bugs #5468: DHCP Plugin ACL role does not apply correctly
+[Fix] Bugs #5469: Browser specific hacks should be removed
+[Fix] FusionDirectory plugins - Bugs #5472: systems aren't showned
+[Feature] Bugs #5474: fusiondirectory-setup should allow to migrate winstations from 1.0.20 to 1.1
+[Fix] FusionDirectory plugins - Bugs #5476: Service deletion and cancel behaves in a weird way
+[Feature] Bugs #5479: fusiondirectory-insert-schemas should be based upon ldap-schema-manager
+[Fix] Bugs #5483: LDAP setup use an OpenLDAP specific syntax
+[Feature] Bugs #5485: Write process to migrate dhcp from 1.0.16 to 1.1
+[Fix] Bugs #5487: Applying template to multiple users fills fields from 1st user to the other users
+[Feature] Wishlist #4171: We should be able to paste a same copied object several times
+[Feature] Wishlist #4908: Amélioration placement initial du curseur dans les formulaires de saisie
+[Feature] Wishlist #5261: Allow for manual configuration of LDAP base
+[Feature] FusionDirectory plugins - Wishlist #5289: user-reminder using ppolicy values
+[Feature] Wishlist #5361: Add an option to split the address in separate fields
+[Feature] Wishlist #5363: POSIX should be moved to a plugin
+[Fix] Wishlist #5364: prelock/postlock hooks cannot be defined
+[Feature] FusionDirectory plugins - Wishlist #5365: POSIX should be moved to a plugin
+[Fix] Wishlist #5401: size of command field in hook subsystem
+[Feature] Wishlist #5428: Add a substitute placeholder
+[Feature] Wishlist #5431: place holder : %today%
+[Feature] Wishlist #5432: Substitute placeholder documentation
+[Feature] Wishlist #5434: Date place holder should be added to the documentation
+[Feature] FusionDirectory plugins - Wishlist #5450: add a switch wich decide what to do in case of deleting user
+[Feature] FusionDirectory plugins - Wishlist #5451: see more mailbox information on mail tab
+[Feature] FusionDirectory plugins - Wishlist #5455: Fetch PartageRENATER information
+[Feature] FusionDirectory plugins - Wishlist #5463: Workstations tab needs conflict and dependencies
+[Feature] Wishlist #5466: Tabs needs a conflict system
+[Feature] FusionDirectory plugins - Wishlist #5467: LDAP dump could show creation and modification dates
+[Feature] Wishlist #5470: Add the ability to hide per plugin menu entry (left menu and homepage) to a user or group
+[Feature] FusionDirectory plugins - Wishlist #5471: DHCP configuration enhancement
+
 * FusionDirectory 1.0.20
 
 [Fix] Bugs #5282: Documentation for Password Policy Plugin
