@@ -12,9 +12,11 @@
   <input name="{$hiddenPostedInput}" value="1" type="hidden"/>
 {/if}
 
-<!-- Place cursor -->
-<script type="text/javascript">
-  <!-- // First input field on page
-    focus_field('{$focusedField}');
-  -->
-</script>
+{if isset($focusedField)}
+  <!-- Place cursor -->
+  <script type="text/javascript">
+    <!-- // First input field on page
+      focus_field('{$focusedField}');
+    -->
+  </script>
+{/if}
