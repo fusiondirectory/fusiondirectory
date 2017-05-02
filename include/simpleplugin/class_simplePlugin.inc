@@ -707,7 +707,7 @@ class simplePlugin
         } else {
           if (isset($plInfo['plDepends'])) {
             foreach ($plInfo['plDepends'] as $plugin) {
-              if (!isset($this->parent->by_object[$plugin]) ||
+              if (isset($this->parent->by_object[$plugin]) &&
                   !$this->parent->by_object[$plugin]->is_account) {
                 $disabled   = TRUE;
                 $dependPlInfos  = pluglist::pluginInfos($plugin);
