@@ -23,12 +23,14 @@ class deptabs extends simpleTabs
 {
   function save()
   {
-    parent::save();
+    $errors = parent::save();
 
     /* Update department cache */
     global $config;
     $config->get_departments();
     $config->make_idepartments();
+
+    return $errors;
   }
 }
 ?>

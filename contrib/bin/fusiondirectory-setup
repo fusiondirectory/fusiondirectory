@@ -7,7 +7,7 @@
 #  Manage fusiondirectory installs from the command line
 #
 #  This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-#  Copyright (C) 2011-2016  FusionDirectory
+#  Copyright (C) 2011-2017  FusionDirectory
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -94,6 +94,7 @@ my $grouprdn    = "ou=groups";
 my $systemrdn   = "ou=systems";
 my $dnsrdn      = "ou=dns";
 my $dhcprdn     = "ou=dhcp";
+my $workstationrdn  = "ou=workstations,ou=systems";
 
 #################################################################################################################################################
 
@@ -516,11 +517,11 @@ sub check_directories {
 
       # if $dir is one of the dirs that remains to root
       if ( grep (/.*$dir.*/, @root_config_dirs) ) {
-        check_rights($dir,"root","root",0755,1);
+        check_rights($dir,"root","root",oct(755),1);
 
       # else if $dir is one of the dirs that remains to apache's user group, and the dir's owner is not root or the group is not the apache's user group, modifying owner
       } elsif ( grep ( /.*$dir.*/, @apache_config_dirs) ) {
-        check_rights($dir,"root",$apache_group,0770,1);
+        check_rights($dir,"root",$apache_group,oct(770),1);
       }
   }
 }
@@ -530,7 +531,7 @@ sub check_config {
   my $apache_group = get_apache_group();
 
   # check config file
-  check_rights($fd_config,"root",$apache_group,0640,0) or die 'The config file does not exists!';
+  check_rights($fd_config,"root",$apache_group,oct(640),0) or die 'The config file does not exists!';
 }
 
 ############################################################# Change install directories #################################################################################
@@ -729,8 +730,6 @@ sub get_ldap_connexion {
   my $uri = "";
   my $base = "";
   my $tls = 0;
-  my $secret_file;
-  my $ldap_conf;
 
   # read ldap's server's info from /etc/fusiondirectory/fusiondirectory.conf
   if (-e $fd_config) {
@@ -794,21 +793,21 @@ sub get_ldap_connexion {
 
   # bind to the LDAP server
   if (-e $fd_secrets) {
-    open($secret_file, q{<}, $fd_secrets) || die ("Could not open $fd_secrets");
+    open(my $secrets, q{<}, $fd_secrets) || die ("Could not open $fd_secrets");
     my $key = "";
-    while(<$secret_file>) {
+    while(<$secrets>) {
       if ($_ =~ m/RequestHeader set FDKEY ([^ \n]+)\n/) {
         $key = $1;
         last;
       }
     }
-    close($secret_file);
+    close($secrets);
     $bind_pwd = cred_decrypt($bind_pwd, $key);
   }
 
   if ($tls) {
     # Read LDAP config file
-    open ($ldap_conf, q{<}, $vars{ldap_conf}) or die ("! Failed to open ldap config file '$vars{ldap_conf}': $!\n");
+    open (my $ldapconf, q{<}, $vars{ldap_conf}) or die ("! Failed to open ldap config file '$vars{ldap_conf}': $!\n");
 
     my %tls_options = (
       'REQCERT'   => 'require',
@@ -818,14 +817,14 @@ sub get_ldap_connexion {
       'CACERT'    => '',
     );
     # Scan LDAP config
-    while (<$ldap_conf>) {
+    while (<$ldapconf>) {
       /^\s*(#|$)/ && next;
       chomp;
       if (m/^TLS_(REQCERT|CERT|KEY|CACERTDIR|CACERT)\s+(.*)\s*$/i) {
         $tls_options{uc $1} = $2;
       }
     }
-    close($ldap_conf);
+    close($ldapconf);
 
     $ldap->start_tls(
       verify      => $tls_options{'REQCERT'},
@@ -1165,9 +1164,6 @@ sub install_plugins {
     # copy includes
     create_and_copy_plugin_dir($plugin_path."/include/",$vars{fd_home}."/include/");
 
-    # copy etc FIXME !!! not right all files goes now to /var/cache/fusiondirectory/plugin
-    #my $files_dirs_copied = rcopy($plugin_path."/etc/*", $vars{fd_config_dir});
-
     # copy the locales
     create_and_copy_plugin_dir($plugin_path."/locale/",$vars{fd_home}."/locale/plugins/".$plugin);
 
@@ -1218,204 +1214,9 @@ sub migrate_users {
     }
   }
 
-  $mesg = $ldap->search(
-    filter => '(objectClass=gosaAccount)',
-    base   => $base
-  );
-  $mesg->code && die $mesg->error;
-
-  if ($mesg->count > 0) {
-    print ("The following users are using the obsolete gosaAccount objectClass:\n");
-
-    my @entries = $mesg->entries;
-
-    foreach my $entry (@entries) {
-      print $entry->dn()."\n";
-    }
-
-    if (ask_yn_question("Remove the gosaAccount objectClass from these entries?")) {
-      foreach my $entry (@entries) {
-        my @replace;
-        my @delete;
-        my @classes = $entry->get_value('objectClass');
-        if (grep {$_ eq 'gosaAccount'} @classes) {
-          foreach my $class (@classes) {
-            if ($class ne 'gosaAccount') {
-              push(@replace, "$class");
-            }
-          }
-          if (
-              ($entry->exists('dateOfBirth') || $entry->exists('personalTitle') || $entry->exists('gender'))
-              && !(grep {$_ eq 'fdPersonalInfo'} @classes)
-            ) {
-            push(@replace, "fdPersonalInfo");
-          }
-          if (!(grep {$_ eq 'sambaSamAccount'} @classes)) {
-            foreach my $sambaAttr ('sambaLMPassword','sambaNTPassword','sambaPwdLastSet','sambaBadPasswordCount','sambaBadPasswordTime') {
-              if ($entry->exists($sambaAttr)) {
-                push(@delete, $sambaAttr);
-              }
-            }
-          }
-        }
-        if (scalar(@delete) > 0) {
-          $mesg = $ldap->modify($entry->dn(), delete  => \@delete, replace => [ "objectClass" => \@replace ]);
-          $mesg->code && print $entry->dn()." (deleting samba attributes): ".$mesg->error."\n";
-        } else {
-          $mesg = $ldap->modify($entry->dn(), replace => [ "objectClass" => \@replace ]);
-          $mesg->code && print $entry->dn().": ".$mesg->error."\n";
-        }
-        undef @replace;
-        undef @delete;
-      }
-    }
-  }
-
   # unbind to the LDAP server
   my $unbind = $ldap->unbind;
   $unbind->code && warn "! Unable to unbind from LDAP server: ", $unbind->error."\n";
-}
-
-# function that moves DNS zones from systems to ou=dns
-sub migrate_dns {
-  # initiate the LDAP connexion
-  my %hash_ldap_param = get_ldap_connexion();
-
-  # LDAP's connection's parameters
-  my $base = $hash_ldap_param{base};
-  my $ldap = $hash_ldap_param{ldap};
-
-  # Search for DNS zones
-  my $mesg = $ldap->search(
-    base => "$base",
-    filter => "(&(objectClass=dNSZone)(relativeDomainName=@)(!(|(zoneName=*.arpa)(zoneName=*.arpa.))))",
-    attrs => ['zoneName']
-  );
-  $mesg->code && die $mesg->error;
-
-  my @entries = $mesg->entries;
-
-  print "There are ".$mesg->count." DNS zones in the LDAP\n";
-
-  my @baddns  = ();
-
-  foreach my $entry (@entries) {
-    if ($entry->dn() !~ m/$dnsrdn/) {
-      if (scalar(@baddns) == 0) {
-        print "The following are not in the DNS branch ($dnsrdn):\n";
-      }
-      print $entry->dn()."\n";
-      push @baddns, $entry->dn();
-    }
-  }
-
-  if (scalar(@baddns) == 0) {
-    print "They all already are in the DNS branch ($dnsrdn):\n";
-  } else {
-    if (ask_yn_question("Move these entries to the DNS branch ($dnsrdn)?")) {
-      foreach my $entrydn (@baddns) {
-        $entrydn =~ m/^([^,]+),(.+$systemrdn,(.+))$/ or die "Could not parse dn ".$entrydn."\n";
-        my $rdn = $1;
-        my $systemdn = $2;
-        my $entrybase = $3;
-        if (!branch_exists($ldap, "$dnsrdn,$entrybase")) {
-          create_branch($ldap, $entrybase, $dnsrdn);
-        }
-        my $result = $ldap->moddn (
-          $entrydn,
-          newrdn        => $rdn,
-          deleteoldrdn  => '1',
-          newsuperior   => "$dnsrdn,$entrybase"
-        );
-        $result->code && die "Migration of DNS zone entry failed, LDAP error: ".$result->error."\n";
-
-        my $zoneDn = "$rdn,$dnsrdn,$entrybase";
-
-        $mesg = $ldap->search(
-          base    => $zoneDn,
-          filter  => "(&(objectClass=dNSZone)(relativeDomainName=*)(!(|(zoneName=*.arpa)(zoneName=*.arpa.))))"
-        );
-        $mesg->code && die $mesg->error;
-
-        @entries = $mesg->entries;
-
-        foreach my $entry (@entries) {
-          $entry->dn() =~ m/^([^,]+),(relativeDomainName=[^,]+),$zoneDn$/ or next;
-          $rdn = $1;
-          my $relativeDomainName = $2;
-          if ($rdn eq $relativeDomainName) {
-            my %replace = ();
-            my @attributes = $entry->attributes();
-            foreach my $attr (@attributes) {
-              $replace{$attr} = $entry->get_value($attr, asref => 1)
-            }
-            $result = $ldap->modify (
-              "$rdn,$zoneDn",
-              replace => \%replace
-            );
-            $result->code && die "Migration of DNS zone subentry failed, LDAP error: ".$result->error."\n";
-            $result = $ldap->delete ($entry->dn());
-          } else {
-            $result = $ldap->moddn (
-              $entry->dn(),
-              newrdn        => $rdn,
-              deleteoldrdn  => '1',
-              newsuperior   => $zoneDn
-            );
-          }
-          $result->code && die "Migration of DNS zone subentry failed, LDAP error: ".$result->error."\n";
-        }
-
-        # Fix reverse zone PTR records DNs
-        $mesg = $ldap->search(
-          base    => $zoneDn,
-          filter  => "(&(objectClass=dNSZone)(!(relativeDomainName=@))(|(zoneName=*.arpa)(zoneName=*.arpa.)))"
-        );
-        $mesg->code && die $mesg->error;
-
-        @entries = $mesg->entries;
-
-        foreach my $entry (@entries) {
-          $entry->dn() =~ m/^([^,]+),relativeDomainName=[^,]+,$zoneDn$/ or next;
-          $result = $ldap->moddn (
-            $entry->dn(),
-            newrdn        => $1,
-            deleteoldrdn  => '1',
-            newsuperior   => 'zoneName='.$entry->get_value('zoneName').','.$zoneDn
-          );
-          $result->code && die "Migration of DNS reverse zone subentry ".$entry->dn()." failed, LDAP error: ".$result->error."\n";
-        }
-
-        # Add DNS tab on server
-        $mesg = $ldap->search(
-          base    => $systemdn,
-          scope   => 'base',
-          filter  => '(objectClass=*)'
-        );
-        $mesg->code && die $mesg->error;
-        my $system_entry = $mesg->shift_entry;
-        $system_entry->get_value('objectClass');
-        my @classes = $system_entry->get_value('objectClass');
-        if (grep {$_ eq 'fdDNSHost'} @classes) {
-          $result = $ldap->modify (
-            "$systemdn",
-            add => {
-              'fdDNSZoneDn' => $zoneDn,
-            }
-          );
-        } else {
-          $result = $ldap->modify (
-            "$systemdn",
-            add => {
-              'fdDNSZoneDn' => $zoneDn,
-              'objectClass' => 'fdDNSHost'
-            }
-          );
-        }
-        $result->code && print "Could not add DNS tab on $systemdn, LDAP error: ".$result->error."\nYou'll need to activate it yourself\n";
-      }
-    }
-  }
 }
 
 # function that moves DHCP configurations from systems to ou=dhcp
@@ -1508,139 +1309,6 @@ sub migrate_dhcp {
   }
 }
 
-sub migrate_acls {
-  # initiate the LDAP connexion
-  my %hash_ldap_param = get_ldap_connexion();
-
-  # LDAP's connection's parameters
-  my $base = $hash_ldap_param{base};
-  my $ldap = $hash_ldap_param{ldap};
-
-  # Search for old formatted ACLs
-  my $mesg = $ldap->search(
-    base => "$base",
-    filter => "(gosaAclEntry=*)",
-    attrs => ['gosaAclEntry']
-  );
-  $mesg->code && die $mesg->error;
-
-  while (my $entry = $mesg->shift_entry) {
-    my $acls = $entry->get_value('gosaAclEntry', asref => 1);
-    my @nacls = ();
-    my $old_formats = 0;
-    ACL: foreach my $acl (@$acls) {
-      my $old_format = 0;
-      my ($index,$scope,$part1,$part2,$filter);
-      if ($acl =~ m/:(p?sub|role):/) {
-        $old_format = 1;
-        ($index,$scope,$part1,$part2,$filter) = split(':', $acl);
-      } elsif ($acl !~ m/:subtree:/) {
-        # With one or base scope we can't know, we have to check other parts
-        ($index,$scope,$part1,$part2,$filter) = split(':', $acl);
-        my $dn = decode_base64($part1);
-        $mesg = $ldap->search(
-          base    => "$dn",
-          scope   => 'base',
-          filter  => '(objectClass=gosaRole)'
-        );
-        die_on_ldap_errors($mesg);
-        if ($mesg->count == 0) {
-          $old_format = 1;
-        }
-      }
-      if ($old_format) {
-        $old_formats = 1;
-        print "$acl needs migration\n";
-        my ($role_dn, $members);
-        if ($scope eq 'role') {
-          $role_dn = decode_base64($part1);
-          $members = $part2;
-          # Find scope in role
-          $mesg = $ldap->search(
-            base    => $role_dn,
-            scope   => 'base',
-            filter  => '(objectClass=gosaRole)'
-          );
-          die_on_ldap_errors($mesg);
-          if (my $role_entry = $mesg->shift_entry) {
-            my $acl_templates = $role_entry->get_value('gosaAclTemplate', asref => 1);
-            my $scope = '';
-            foreach my $acl_template (@$acl_templates) {
-              my ($t_index,$t_scope,$t_acl) = split(':',$acl_template);
-              if ($scope eq '') {
-                $scope = $t_scope;
-              } elsif ($scope ne $t_scope) {
-                print "We don't know how to migrate role $role_dn as it contains several scopes\n";
-                push @nacls, $acl;
-                next ACL;
-              }
-            }
-            push @nacls, "$index:$scope:".encode_base64($role_dn).":$members";
-          } else {
-            # Removing invalid ACL
-            print "Removing acl as associated role $role_dn does not exists\n";
-            next ACL;
-          }
-        } else {
-          my $cn = find_free_role_dn($ldap,$base,'migrated-acl');
-          $role_dn = create_role($ldap,$base,$cn,$part2);
-          $members = $part1;
-          if ($scope =~ m/sub$/) {
-            $scope = 'subtree';
-          }
-          push @nacls, "$index:$scope:".encode_base64($role_dn).":$members";
-        }
-      } else {
-        push @nacls, $acl;
-      }
-    }
-    if ($old_formats) {
-      @nacls = sort @nacls;
-      my $i = 0;
-      for (@nacls) { s/^[0-9]*:/$i:/; $i++ }; # Re-index acls
-      my $result = $ldap->modify (
-        $entry->dn,
-        replace => {
-          'gosaAclEntry'  => \@nacls
-        }
-      );
-      $result->code && warn "\n! failed to migrate ACL for '".$entry->dn."' - ".$result->error_name.": ".$result->error_text;
-      print "Migrated acls for '".$entry->dn."'\n";
-    }
-  }
-
-  # Search for old formatted ACL roles
-  $mesg = $ldap->search(
-    base => "$base",
-    filter => "(gosaAclTemplate=*:*:*)",
-    attrs => ['gosaAclTemplate']
-  );
-  $mesg->code && die $mesg->error;
-  ROLE: while (my $role_entry = $mesg->shift_entry) {
-    my $acl_templates = $role_entry->get_value('gosaAclTemplate', asref => 1);
-    my $scope = '';
-    my @ntemplates = ();
-    foreach my $acl_template (@$acl_templates) {
-      my ($t_index,$t_scope,$t_acl) = split(':',$acl_template);
-      if ($scope eq '') {
-        $scope = $t_scope;
-      } elsif ($scope ne $t_scope) {
-        print "We don't know how to migrate role '".$role_entry->dn."' as it contains several scopes\n";
-        next ROLE;
-      }
-      push @ntemplates, $t_index.':'.$t_acl;
-    }
-    my $result = $ldap->modify (
-      $role_entry->dn,
-      replace => {
-        'gosaAclTemplate'  => \@ntemplates
-      }
-    );
-    $result->code && warn "\n! failed to migrate ACL for '".$role_entry->dn."' - ".$result->error_name.": ".$result->error_text;
-    print "Migrated role '".$role_entry->dn."'\n";
-  }
-}
-
 sub delete_gosa_locks {
   # initiate the LDAP connexion
   my %hash_ldap_param = get_ldap_connexion();
@@ -1699,8 +1367,95 @@ sub get_deprecated {
   return (\@obsolete_attrs, \@obsolete_classes);
 }
 
-# function that migrates printers from FD<=1.0.13 to FD>=1.0.14
-sub migrate_printers {
+# function that migrates systems from FD<1.1 to FD>=1.1
+sub migrate_systems {
+  # initiate the LDAP connexion
+  my %hash_ldap_param = get_ldap_connexion();
+
+  # LDAP's connection's parameters
+  my $base = $hash_ldap_param{base};
+  my $ldap = $hash_ldap_param{ldap};
+
+  my @oldOCs = ('gotoWorkstation',  'goServer', 'gotoTerminal', 'gotoDevice');
+  my @newOCs = ('fdWorkstation',    'fdServer', 'fdTerminal',   'device');
+  foreach my $i (0 .. $#oldOCs) {
+    my $oldOC = $oldOCs[$i];
+    my $newOC = $newOCs[$i];
+
+    my $mesg = $ldap->search(
+      filter => "(objectClass=$oldOC)",
+      base   => $base
+    );
+    $mesg->code && die $mesg->error;
+
+    if ($mesg->count > 0) {
+      print ("The following systems are using the obsolete $oldOC objectClass:\n");
+
+      my @entries = $mesg->entries;
+
+      foreach my $entry (@entries) {
+        print $entry->dn()."\n";
+      }
+
+      if (ask_yn_question("Migrate these entries to $newOC objectClass?")) {
+        foreach my $entry (@entries) {
+          my $tmprdn = "cn=".$entry->get_value('cn')."+ipHostNumber=".$entry->get_value('ipHostNumber');
+          my $newrdn = "cn=".$entry->get_value('cn');
+          my $dn_old = $entry->dn();
+          my $dn_new = $entry->dn();
+          $dn_new =~ s/^[^,]+,/$tmprdn,/;
+          $entry->dn($dn_new);
+          my @replace = ('ieee802Device', 'ipHost', $newOC);
+          my @classes = $entry->get_value('objectClass');
+          foreach my $class (@classes) {
+            if (($class ne $oldOC) && ($class ne 'GOhard')) {
+              push(@replace, "$class");
+            }
+          }
+          $entry->replace("objectClass" => \@replace);
+          if ($entry->exists('gotoMode')) {
+            my $gotoMode = $entry->get_value('gotoMode');
+            if ($gotoMode eq 'locked') {
+              $entry->add('fdMode' => 'locked');
+            } else {
+              $entry->add('fdMode' => 'unlocked');
+            }
+            $entry->delete('gotoMode');
+          }
+          if ($entry->exists('argonautLdap2zoneAllowNotify')) {
+            $entry->delete('argonautLdap2zoneAllowNotify');
+          }
+          $mesg = $ldap->add($entry);
+          if ($mesg->code) {
+            print $entry->dn().": ".$mesg->error."\n";
+            next;
+          }
+          undef @replace;
+          $mesg = $ldap->delete($dn_old);
+          if ($mesg->code) {
+            print $entry->dn().": ".$mesg->error."\n";
+            next;
+          }
+          $mesg = $ldap->moddn($dn_new, newrdn => $newrdn);
+          if ($mesg->code) {
+            print $entry->dn().": ".$mesg->error."\n";
+            next;
+          }
+        }
+      }
+    } else {
+      print "Found no system using $oldOC\n";
+    }
+  }
+
+  # unbind to the LDAP server
+  my $unbind = $ldap->unbind;
+  $unbind->code && warn "! Unable to unbind from LDAP server: ", $unbind->error."\n";
+}
+
+# function that migrates winstations from FD<1.1 to FD>=1.1
+sub migrate_winstations
+{
   # initiate the LDAP connexion
   my %hash_ldap_param = get_ldap_connexion();
 
@@ -1709,13 +1464,13 @@ sub migrate_printers {
   my $ldap = $hash_ldap_param{ldap};
 
   my $mesg = $ldap->search(
-    filter => '(objectClass=gotoPrinter)',
+    filter => "(&(!(objectClass=fdWorkstation))(objectClass=sambaSamAccount))",
     base   => $base
   );
   $mesg->code && die $mesg->error;
 
   if ($mesg->count > 0) {
-    print ("The following printers are using the obsolete gotoPrinter objectClass:\n");
+    print ("The following winstations are not using the new fdWorkstation objectClass:\n");
 
     my @entries = $mesg->entries;
 
@@ -1723,20 +1478,90 @@ sub migrate_printers {
       print $entry->dn()."\n";
     }
 
-    if (ask_yn_question("Migrate these entries to fdPrinter objectClass?")) {
+    if (ask_yn_question("Migrate these entries to fdWorkstation objectClass?")) {
       foreach my $entry (@entries) {
-        my $newrdn = "cn=".$entry->get_value('cn')."+ipHostNumber=".$entry->get_value('ipHostNumber');
-        $mesg = $ldap->moddn($entry->dn(), newrdn => $newrdn);
+        my $cn = $entry->get_value('cn');
+        $cn =~ s/\$$//;
+        $entry->replace('cn' => $cn);
+        my $newrdn = "cn=".$cn;
+        my $dn_old = $entry->dn();
+        $dn_old =~ m/^[^,]+,.*$systemrdn,(.+)$/ or die "Could not parse dn ".$dn_old."\n";
+        my $entrybase = $1;
+        if (!branch_exists($ldap, "$workstationrdn,$entrybase")) {
+          if ($workstationrdn =~ m/^([^,]+),([^,]+)$/) {
+            if (!branch_exists($ldap, "$2,$entrybase")) {
+              create_branch($ldap, $entrybase, $2);
+            }
+            create_branch($ldap, "$2,$entrybase", $1);
+          } else {
+            create_branch($ldap, $entrybase, $workstationrdn);
+          }
+        }
+        my $dn_new = "$newrdn,$workstationrdn,$entrybase";
+        $entry->dn($dn_new);
+        my @replace = ('fdWorkstation');
+        my @classes = $entry->get_value('objectClass');
+        foreach my $class (@classes) {
+          if ($class ne 'account') {
+            push(@replace, "$class");
+          }
+        }
+        $entry->replace("objectClass" => \@replace);
+        $entry->add('fdMode' => 'unlocked');
+        $mesg = $ldap->add($entry);
         if ($mesg->code) {
           print $entry->dn().": ".$mesg->error."\n";
           next;
         }
+        undef @replace;
+        $mesg = $ldap->delete($dn_old);
+        if ($mesg->code) {
+          print $entry->dn().": ".$mesg->error."\n";
+          next;
+        }
+      }
+    }
+  } else {
+    print "Found no winstation to migrate\n";
+  }
+}
+
+# function that migrates phones from FD<1.1 to FD>=1.1
+sub migrate_phones {
+  # initiate the LDAP connexion
+  my %hash_ldap_param = get_ldap_connexion();
+
+  # LDAP's connection's parameters
+  my $base = $hash_ldap_param{base};
+  my $ldap = $hash_ldap_param{ldap};
+
+  my $mesg = $ldap->search(
+    filter => '(&(objectClass=fdPhone)(objectClass=device))',
+    base   => $base
+  );
+  $mesg->code && die $mesg->error;
+
+  if ($mesg->count > 0) {
+    print ("The following phones are still using the device objectClass:\n");
+
+    my @entries = $mesg->entries;
+
+    foreach my $entry (@entries) {
+      print $entry->dn()."\n";
+    }
+
+    if (ask_yn_question("Migrate these entries to fdPhone objectClass?")) {
+      foreach my $entry (@entries) {
+        my $tmprdn = "cn=".$entry->get_value('cn')."+objectClass=fdPhone";
+        my $newrdn = "cn=".$entry->get_value('cn');
         my $dn_old = $entry->dn();
-        $dn_old =~ s/^[^,]+,/$newrdn,/;
-        my @replace = ('ieee802Device', 'ipHost', 'fdPrinter');
+        my $dn_new = $entry->dn();
+        $dn_new =~ s/^[^,]+,/$tmprdn,/;
+        $entry->dn($dn_new);
+        my @replace = ();
         my @classes = $entry->get_value('objectClass');
         foreach my $class (@classes) {
-          if ($class ne 'gotoPrinter') {
+          if ($class ne 'device') {
             push(@replace, "$class");
           }
         }
@@ -1748,7 +1573,15 @@ sub migrate_printers {
         }
         undef @replace;
         $mesg = $ldap->delete($dn_old);
-        $mesg->code && print $dn_old.": ".$mesg->error."\n";
+        if ($mesg->code) {
+          print $entry->dn().": ".$mesg->error."\n";
+          next;
+        }
+        $mesg = $ldap->moddn($dn_new, newrdn => $newrdn);
+        if ($mesg->code) {
+          print $entry->dn().": ".$mesg->error."\n";
+          next;
+        }
       }
     }
   }
@@ -1826,7 +1659,7 @@ sub ldif_deprecated {
   my ($obsolete_attrs, $obsolete_classes) = get_deprecated();
 
   my $filterAttrs   = '(|'.join('', (map{ '('.$_->{'name'}.'=*)' } @$obsolete_attrs)).')';
-  my $filterClasses = '(|'.join('', (map{ '(objectClass='.$_->{'name'}.')' } (grep {$_ ne 'gosaAccount'} @$obsolete_classes))).')';
+  my $filterClasses = '(|'.join('', (map{ '(objectClass='.$_->{'name'}.')' } @$obsolete_classes)).')';
 
   # initiate the LDAP connexion
   my %hash_ldap_param = get_ldap_connexion();
@@ -1850,24 +1683,6 @@ sub ldif_deprecated {
           print "delete:".$attr->{'name'}."\n-\n";
         }
       }
-      my @classes = $entry->get_value('objectClass');
-      if (grep {$_ eq 'gosaAccount'} @classes) {
-        print "# Removing obsolete objectClass gosaAccount\n";
-        print "replace:objectClass\n";
-        foreach my $class (@classes) {
-          if ($class ne 'gosaAccount') {
-            print "objectClass:$class\n";
-          }
-        }
-        if (
-            ($entry->exists('dateOfBirth') || $entry->exists('personalTitle') || $entry->exists('gender'))
-            && !(grep {$_ eq 'fdPersonalInfo'} @classes)
-          ) {
-          print "objectClass:fdPersonalInfo\n";
-          print "# Adding fdPersonalInfo because either dateOfBirth, personalTitle or gender is present. See personal plugin.\n";
-        }
-        print "-\n";
-      }
       print "\n";
     }
   } else {
@@ -1881,7 +1696,7 @@ sub ldif_deprecated {
   $entries->code && die $entries->error;
 
   if ($entries->count > 0) {
-    print "# WARNING: There are entries in the LDAP using obsolete classes (other than gosaAccount), you need to edit them manually\n";
+    print "# WARNING: There are entries in the LDAP using obsolete classes, you need to edit them manually\n";
   } else {
     print "# There are no entries in the LDAP using obsolete classes\n";
   }
@@ -1917,6 +1732,9 @@ sub read_ldap_config {
     }
     if (($mesg->entries)[0]->exists('fdDhcpRDN')) {
       $dhcprdn = ($mesg->entries)[0]->get_value('fdDhcpRDN');
+    }
+    if (($mesg->entries)[0]->exists('fdWorkstationRDN')) {
+      $workstationrdn = ($mesg->entries)[0]->get_value('fdWorkstationRDN');
     }
   }
 
@@ -1954,17 +1772,15 @@ sub set_config_var {
 
 sub show_version {
   my $variables_common_path = "$vars{fd_home}/include/variables_common.inc";
-  my $vars_file;
-
   if (-e $variables_common_path) {
-    open($vars_file, q{<}, $variables_common_path) || die ("Could not open $variables_common_path");
-    while(<$vars_file>) {
+    open(my $vars, q{<}, $variables_common_path) || die ("Could not open $variables_common_path");
+    while(<$vars>) {
       if ($_ =~ m/^define \(["']FD_VERSION["'], "([^"]+)"\);/) {
         print "FusionDirectory version is $1\n";
         last;
       }
     }
-    close($vars_file);
+    close($vars);
   } else {
     print "File $variables_common_path does not exists, can’t find out FusionDirectory version\n";
   }
@@ -2009,10 +1825,10 @@ die ("! You have to run this script as root\n") if ($<!=0);
   $commands{"--check-ldap"}           = ["Checking your LDAP tree",                       \&check_ldap];
   $commands{"--check-ids"}            = ["Checking for duplicated uid or gid numbers",    \&check_id_numbers];
   $commands{"--migrate-users"}        = ["Migrating your users",                          \&migrate_users];
-  $commands{"--migrate-printers"}     = ["Migrating your printer from FD < 1.0.14",       \&migrate_printers];
-  $commands{"--migrate-dns"}          = ["Migrating DNS zones for FD 1.0.10",             \&migrate_dns];
+  $commands{"--migrate-phones"}       = ["Migrating your phones from FD < 1.1",           \&migrate_phones];
+  $commands{"--migrate-systems"}      = ["Migrating your systems from FD < 1.1",          \&migrate_systems];
+  $commands{"--migrate-winstations"}  = ["Migrating your winstations from FD < 1.1",      \&migrate_winstations];
   $commands{"--migrate-dhcp"}         = ["Migrating DHCP configurations for FD >= 1.0.17",\&migrate_dhcp];
-  $commands{"--migrate-acls"}         = ["Migrating your ACLs",                           \&migrate_acls];
   $commands{"--delete-gosa-locks"}    = ["Delete lock tokens using old gosaLockEntry class", \&delete_gosa_locks];
   $commands{"--install-plugins"}      = ["Installing FusionDirectory's plugins",          \&install_plugins];
   $commands{"--encrypt-passwords"}    = ["Encrypt passwords in fusiondirectory.conf",     \&encrypt_passwords];
@@ -2083,7 +1899,7 @@ Some extra features allow you to install FusionDirectory's plugins, and change d
 
 =item --update-cache
 
-This option update the /var/cache/fusiondirectory/class.cache file. Wich contain PHP classes used in FusionDirectory, and their location.
+This option update the /var/cache/fusiondirectory/class.cache file. Which contain PHP classes used in FusionDirectory, and their location.
 
 =item --update-locales
 
@@ -2110,21 +1926,21 @@ This option check your LDAP tree for duplicated uidNumber or gidNumber among use
 
 This option add FusionDirectory attributes to the people branch.
 
-=item --migrate-printers
+=item --migrate-phones
 
-This option replace gosaPrinter objectClass by new fdPrinter objectClass.
+This option removes device objectClass for phones as fdPhones is now structural since FD 1.1.
 
-=item --migrate-dns
+=item --migrate-systems
 
-This option moves DNS zones from systems branch to DNS branch, which is necessary for FusionDirectory 1.0.10 and above.
+This option replace old systems objectClasses by new objectClasses from FD 1.1.
+
+=item --migrate-winstations
+
+This option replace old winstations objectClasses by new objectClasses from FD 1.1.
 
 =item --migrate-dhcp
 
 This option moves DHCP configurations from systems branch to DHCP branch, which is necessary for FusionDirectory 1.0.17 and above.
-
-=item --migrate-acls
-
-This option will migrated old GOsa style acl from 1.0.7 into FusionDirectory acl roles in 1.0.8
 
 =item --delete-gosa-locks
 
@@ -2164,7 +1980,7 @@ This option will list the dn of LDAP entries using deprecated attributes or obje
 
 =item --ldif-deprecated
 
-This option will print an LDIF to allow you to remove deprecated attributes from you ldap server. Be carefull and check before applying.
+This option will print an LDIF to allow you to remove deprecated attributes from you ldap server. Be careful and check before applying.
 
 =item --show-config
 
@@ -2225,7 +2041,7 @@ This code is part of FusionDirectory (http://www.fusiondirectory.org/)
 
 =over 2
 
-=item Copyright (C) 2011-2016  FusionDirectory
+=item Copyright (C) 2011-2017  FusionDirectory
 
 =back
 

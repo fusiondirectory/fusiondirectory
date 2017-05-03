@@ -18,7 +18,12 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/* Class for applying a template */
+/*!
+ * \file class_template.inc
+ * Source code for the class template
+ */
+
+/*! \brief Class for applying a template */
 class template
 {
   protected $type;
@@ -47,8 +52,8 @@ class template
   {
     $this->type = $type;
     $this->dn   = $dn;
-    list($this->attrs, $depends) = plugin::tpl_fetch_template($this->dn);
-    $this->needed     = plugin::tpl_needed_attrs($this->attrs, $depends);
+    list($this->attrs, $depends) = templateHandling::fetch($this->dn);
+    $this->needed     = templateHandling::neededAttrs($this->attrs, $depends);
     $this->needed[]   = 'base';
     if ($targetdn === NULL) {
       $this->tabObject  = objects::create($this->type);
@@ -56,8 +61,7 @@ class template
       trigger_error("This should not be used for now");
       $this->tabObject  = objects::open($this->dn, $this->type);
     }
-    /* Used to know which tab is activated */
-    $tempTabObject    = objects::open($this->dn, $this->type);
+    $tempTabObject    = objects::open($this->dn, $this->type); /* Used to know which tab is activated */
     $this->attributes = array();
     foreach ($tempTabObject->by_object as $class => &$plugin) {
       if ($plugin->is_account || $plugin->ignore_account) {
@@ -76,12 +80,12 @@ class template
     }
   }
 
-  /* Used when you need to re-apply the same template with different values */
+  /*! \brief Used when you need to re-apply the same template with different values */
   function reset()
   {
-    list($this->attrs, $depends) = plugin::tpl_fetch_template($this->dn);
-    /* This is needed because it removes %askme% values from attrs */
-    $this->needed     = plugin::tpl_needed_attrs($this->attrs, $depends);
+    list($this->attrs, $depends) = templateHandling::fetch($this->dn);
+    // This is needed because it removes %askme% values from attrs
+    $this->needed     = templateHandling::neededAttrs($this->attrs, $depends);
     $this->needed[]   = 'base';
     $this->tabObject  = objects::create($this->type);
     /* Used to know which tab is activated */
@@ -125,6 +129,7 @@ class template
       foreach ($this->attributes[$class] as $attr) {
         $plugin->attributesAccess[$attr]->serializeAttribute($attributes[$class]['attrs'], FALSE);
       }
+      $attributes[$class]['attrs_order'] = array_keys($attributes[$class]['attrs']);
     }
 
     return $attributes;
@@ -143,10 +148,9 @@ class template
 
   function save_object()
   {
-    foreach ($this->tabObject->by_object as $class => &$plugin) {
+    foreach ($this->tabObject->by_object as $plugin) {
       $plugin->save_object();
     }
-    unset($plugin);
   }
 
   function execute()
@@ -163,7 +167,7 @@ class template
       foreach ($this->attributes[$class] as $attr) {
         if ($plugin->attributesAccess[$attr]->getAclInfo() !== FALSE) {
           // We assign ACLs so that attributes can use them in their template code
-          $smarty->assign($plugin->attributesAccess[$attr]->getAcl().'ACL', $plugin->getacl($plugin->attributesAccess[$attr]->getAcl()));
+          $smarty->assign($plugin->attributesAccess[$attr]->getAcl().'ACL', $plugin->aclGetPermissions($plugin->attributesAccess[$attr]->getAcl()));
         }
         $plugin->attributesAccess[$attr]->renderAttribute($attributes, FALSE);
       }
@@ -189,6 +193,11 @@ class template
    * Cannot be called twice! If you need to, call reset between calls */
   function apply($targetdn = NULL)
   {
+    if ($this->applied) {
+      trigger_error('Templates can’t be applied twice without calling reset before');
+      return;
+    }
+
     if ($targetdn !== NULL) {
       $this->tabObject = objects::open($targetdn, $this->type);
       unset($this->attrs['objectClass']['count']);
@@ -197,9 +206,6 @@ class template
           $this->attrs['objectClass'] = $plugin->mergeObjectClasses($this->attrs['objectClass']);
         }
       }
-    } elseif ($this->applied) {
-      trigger_error('Templates can’t be applied twice without calling reset before');
-      return;
     }
 
     foreach ($this->tabObject->by_object as $class => &$plugin) {
@@ -230,7 +236,7 @@ class template
     }
     unset($array);
 
-    $this->attrs = plugin::tpl_parse_attrs($this->attrs);
+    $this->attrs = templateHandling::parseArray($this->attrs);
     $this->tabObject->adapt_from_template($this->attrs, call_user_func_array('array_merge', $this->attributes));
 
     $this->applied = TRUE;

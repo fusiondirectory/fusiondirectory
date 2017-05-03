@@ -26,13 +26,13 @@ require_once ("variables.inc");
 
 require_once("../setup/class_setup.inc");
 require_once("../setup/class_setupStep.inc");
-require_once("../setup/class_setupStep_Welcome.inc");
-require_once("../setup/class_setupStep_Language.inc");
-require_once("../setup/class_setupStep_Checks.inc");
-require_once("../setup/class_setupStep_Ldap.inc");
-require_once("../setup/class_setupStep_Config.inc");
-require_once("../setup/class_setupStep_Migrate.inc");
-require_once("../setup/class_setupStep_Finish.inc");
+require_once("../setup/class_setupStepWelcome.inc");
+require_once("../setup/class_setupStepLanguage.inc");
+require_once("../setup/class_setupStepChecks.inc");
+require_once("../setup/class_setupStepLdap.inc");
+require_once("../setup/class_setupStepConfig.inc");
+require_once("../setup/class_setupStepMigrate.inc");
+require_once("../setup/class_setupStepFinish.inc");
 
 
 /* Set header */
@@ -40,6 +40,7 @@ header("Content-type: text/html; charset=UTF-8");
 
 /* Set cookie lifetime to one day (The parameter is in seconds ) */
 session_set_cookie_params(24 * 60 * 60);
+// default cache_expire is 180
 session_cache_expire(60 * 24);
 ini_set("session.gc_maxlifetime", 24 * 60 * 60);
 

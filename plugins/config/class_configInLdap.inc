@@ -106,14 +106,41 @@ class configInLdap extends simplePlugin
           new HiddenAttribute ('fusionConfigMd5'),
         )
       ),
-      'schema_setup' => array(
-        'name'  => _('Schema setup'),
+      'core_settings' => array(
+        'name'  => _('Core settings'),
         'attrs' => array(
+          new IntAttribute (
+            _('LDAP size limit'), _('Defines the number of entries to get from LDAP by default.'),
+            'fdLdapSizeLimit', FALSE,
+            0 /*min*/, FALSE /*no max*/, 200
+          ),
+          new SelectAttribute (
+            _('Edit locking'),
+            _('Check if a entry currently being edited has been modified outside of FusionDirectory in the meantime.'),
+            'fdModificationDetectionAttribute', FALSE,
+            array('', 'entryCSN', 'contextCSN'), 'entryCSN'
+          ),
+          new BooleanAttribute (
+            _('Enable logging'),
+            _('Event logging on FusionDirectory side.'),
+            'fdLogging', FALSE,
+            TRUE
+          ),
           new BooleanAttribute (
             _('Schema validation'),
             _('Enables schema checking during login.'),
             'fdSchemaCheck', FALSE,
             TRUE
+          ),
+          new BooleanAttribute (
+            _('Enable snapshots'), _('This enables you to save certain states of entries and restore them later on.'),
+            'fdEnableSnapshots', FALSE,
+            TRUE
+          ),
+          new StringAttribute (
+            _('Snapshot base'), _('The base where snapshots should be stored inside of the LDAP.'),
+            'fdSnapshotBase', FALSE,
+            'ou=snapshots,'.$config->current['BASE']
           ),
         )
       ),
@@ -151,34 +178,6 @@ class configInLdap extends simplePlugin
           new StringAttribute (
             _('SASL Exop'), _('Attribute to be stored in the userPassword attribute'),
             'fdSaslExop'
-          ),
-        )
-      ),
-      'core_settings' => array(
-        'name'  => _('Core settings'),
-        'attrs' => array(
-          new BooleanAttribute (
-            _('Display summary in listings'),
-            _('Determines whether a status bar will be shown on the bottom of lists, displaying a short summary of type and number of elements in the list.'),
-            'fdListSummary', FALSE,
-            TRUE
-          ),
-          new SelectAttribute (
-            _('Edit locking'),
-            _('Check if a entry currently being edited has been modified outside of FusionDirectory in the meantime.'),
-            'fdModificationDetectionAttribute', FALSE,
-            array('', 'entryCSN', 'contextCSN'), 'entryCSN'
-          ),
-          new BooleanAttribute (
-            _('Enable logging'),
-            _('Event logging on FusionDirectory side.'),
-            'fdLogging', FALSE,
-            TRUE
-          ),
-          new IntAttribute (
-            _('LDAP size limit'), _('Defines the number of entries to get from LDAP by default.'),
-            'fdLdapSizeLimit', FALSE,
-            0 /*min*/, FALSE /*no max*/, 200
           ),
         )
       ),
@@ -222,21 +221,6 @@ class configInLdap extends simplePlugin
             _('Header name'), _('Name of the header containing user identifier.'),
             'fdHttpHeaderAuthHeaderName', FALSE,
             'AUTH_USER'
-          ),
-        )
-      ),
-      'snapshots' => array(
-        'name'  => _('Snapshots'),
-        'attrs' => array(
-          new BooleanAttribute (
-            _('Enable snapshots'), _('This enables you to save certain states of entries and restore them later on.'),
-            'fdEnableSnapshots', FALSE,
-            TRUE
-          ),
-          new StringAttribute (
-            _('Snapshot base'), _('The base where snapshots should be stored inside of the LDAP.'),
-            'fdSnapshotBase', FALSE,
-            'ou=snapshots,'.$config->current['BASE']
           ),
         )
       ),
@@ -310,28 +294,6 @@ class configInLdap extends simplePlugin
             'fdStrictNamingRules', FALSE,
             TRUE
           ),
-          new IntAttribute (
-            _('Group/user min id'),
-            _('The minimum assignable user or group id to avoid security leaks with id 0 accounts.'),
-            'fdMinId', FALSE,
-            0, FALSE, 100
-          ),
-          new StringAttribute (
-            _('Next id hook'), _('A script to be called for finding the next free id number for users or groups.'),
-            'fdNextIdHook', FALSE
-          ),
-          new IntAttribute (
-            _('Base number for user id'),
-            _('Where to start looking for a new free user id.'),
-            'fdUidNumberBase', FALSE,
-            0, FALSE, 1100
-          ),
-          new IntAttribute (
-            _('Base number for group id'),
-            _('Where to start looking for a new free group id.'),
-            'fdGidNumberBase', FALSE,
-            0, FALSE, 1100
-          ),
           new StringAttribute (
             _('Users RDN'), _('The branch where users are stored.'),
             'fdUserRDN', TRUE,
@@ -347,35 +309,17 @@ class configInLdap extends simplePlugin
             'fdAclRoleRDN', TRUE,
             'ou=aclroles'
           ),
-          new SelectAttribute (
-            _('Id allocation method'), _('Method to allocate user/group ids'),
-            'fdIdAllocationMethod', TRUE,
-            array('traditional', 'pool'), 'traditional',
-            array(_('Traditional'), _('Samba unix id pool'))
-          ),
-          new IntAttribute (
-            _('Pool user id min'), _('Minimum value for user id when using pool method'),
-            'fdUidNumberPoolMin', FALSE,
-            0, FALSE, 10000
-          ),
-          new IntAttribute (
-            _('Pool user id max'), _('Maximum value for user id when using pool method'),
-            'fdUidNumberPoolMax', FALSE,
-            0, FALSE, 40000
-          ),
-          new IntAttribute (
-            _('Pool group id min'), _('Minimum value for group id when using pool method'),
-            'fdGidNumberPoolMin', FALSE,
-            0, FALSE, 10000
-          ),
-          new IntAttribute (
-            _('Pool group id max'), _('Maximum value for group id when using pool method'),
-            'fdGidNumberPoolMax', FALSE,
-            0, FALSE, 40000
-          ),
           new BooleanAttribute (
             _('Restrict role members'), _('When enabled only users from the same branch or members of groups from the same branch can be added to a role.'),
             'fdRestrictRoleMembers'
+          ),
+          new BooleanAttribute (
+            _('Separate address fields'), _('Expose street, postOfficeBox and postalCode fields instead of postalAddress.'),
+            'fdSplitPostalAddress'
+          ),
+          new PostalAddressAttribute (
+            _('Postal address pattern'), _('When using separate address fields, you can use a pattern to fill postalAddress field.'),
+            'fdPostalAddressPattern'
           ),
         )
       ),
@@ -413,6 +357,52 @@ class configInLdap extends simplePlugin
       ),
       'miscellaneous' => array(
         'name'  => _('Miscellaneous'),
+        'attrs' => array(
+          new BooleanAttribute (
+            _('Display summary in listings'),
+            _('Determines whether a status bar will be shown on the bottom of lists, displaying a short summary of type and number of elements in the list.'),
+            'fdListSummary', FALSE,
+            TRUE
+          ),
+          new BooleanAttribute (
+            _('Show ACL tab on all objects'),
+            _('For very specific ACL rights setting where you might need to give right on a single object.'),
+            'fdAclTabOnObjects'
+          ),
+          new SetAttribute(
+            new StringAttribute (
+              _('Available department categories'), _('Available categories in the departments dropdown'),
+              'fdDepartmentCategories', FALSE
+            ),
+            array()
+          ),
+          new OrderedArrayAttribute(
+            new PipeSeparatedCompositeAttribute(
+              _('Use this to hide some menu entry to specific groups of users'),
+              'fdPluginsMenuBlacklist',
+              array(
+                new SelectAttribute(
+                  '', _('Group or role'),
+                  'blacklistGroup', TRUE,
+                  array()
+                ),
+                new SelectAttribute(
+                  '', _('Plugin to blacklist'),
+                  'blacklistPlugin', TRUE,
+                  array()
+                ),
+              ),
+              '',
+              _('Plugin menu blacklist')
+            ),
+            // no order
+            FALSE,
+            array()
+          )
+        )
+      ),
+      'hooks' => array(
+        'name'  => _('Hooks'),
         'class' => array('fullwidth'),
         'attrs' => array(
           new OrderedArrayAttribute (
@@ -421,18 +411,19 @@ class configInLdap extends simplePlugin
               'fdTabHook',
               array(
                 new SelectAttribute(
-                  _('tab'), _('The tab that this hook concerns'),
+                  _('Tab'), _('The tab that this hook concerns'),
                   'hookTab', TRUE,
                   $plugins
                 ),
                 new SelectAttribute(
-                  _('mode'), _('When to call this command'),
+                  _('Mode'), _('When to call this command'),
                   'hookMode', TRUE,
                   array('postcreate', 'postremove', 'postmodify',
-                        'precreate', 'preremove', 'premodify', 'check')
+                        'precreate', 'preremove', 'premodify', 'check',
+                        'prelock', 'postlock', 'preunlock', 'postunlock')
                 ),
-                new StringAttribute(
-                  _('cmd'), _('The command that will be called'),
+                new TextAreaAttribute(
+                  _('Command'), _('The command that will be called'),
                   'hookCmd', TRUE
                 )
               ),
@@ -450,30 +441,6 @@ class configInLdap extends simplePlugin
             _('When enabled successful hook execution output is displayed to the user using a dialog.'),
             'fdDisplayHookOutput'
           ),
-          new SetAttribute(
-            new StringAttribute (
-              _('Available shells'), _('Available POSIX shells for FD users.'),
-              'fdShells', FALSE
-            ),
-            array('/bin/ash','/bin/bash','/bin/csh','/bin/sh','/bin/ksh',
-                  '/bin/tcsh','/bin/dash','/bin/zsh','/sbin/nologin', '/bin/false', '/usr/bin/git-shell')
-          ),
-          new SelectAttribute (
-            _('Default shell'), _('Shell used by default when activating Unix tab.'),
-            'fdDefaultShell', TRUE
-          ),
-          new BooleanAttribute (
-            _('Show ACL tab on all objects'),
-            _('For very specific ACL rights setting where you might need to give right on a single object.'),
-            'fdAclTabOnObjects'
-          ),
-          new SetAttribute(
-            new StringAttribute (
-              _('Available department categories'), _('Available categories in the departments dropdown'),
-              'fdDepartmentCategories', FALSE
-            ),
-            array()
-          ),
         )
       ),
     );
@@ -481,6 +448,7 @@ class configInLdap extends simplePlugin
 
   function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE, $attributesInfo = NULL)
   {
+    global $config;
     $attributesInfo = static::getAttributesInfo();
     /* Languages */
     $languages = get_languages(TRUE);
@@ -494,6 +462,42 @@ class configInLdap extends simplePlugin
     $methods = $methods['name'];
     $attributesInfo['password']['attrs'][0]->setChoices($methods);
 
+    $groupsAndRoles = array_merge(
+      array_map(
+        function ($group)
+        {
+          return sprintf(_('Group %s'), $group);
+        },
+        objects::ls('ogroup')
+      ),
+      array_map(
+        function ($role)
+        {
+          return sprintf(_('Role %s'), $role);
+        },
+        objects::ls('role')
+      )
+    );
+    $attributesInfo['miscellaneous']['attrs'][3]->attribute->attributes[0]->setChoices(
+      array_keys($groupsAndRoles),
+      array_values($groupsAndRoles)
+    );
+    $menuPlugins = array();
+    $plist = session::global_get('plist');
+    foreach ($config->data['SECTIONS'] as $section => $section_infos) {
+      foreach ($config->data['MENU'][$section] as $info) {
+        if (isset($info['CLASS'])) {
+          list ($plHeadline, , , ) = $plist->get_infos($info['CLASS']);
+          $menuPlugins[$info['CLASS']] = $plHeadline;
+        }
+      }
+    }
+    asort($menuPlugins);
+    $attributesInfo['miscellaneous']['attrs'][3]->attribute->attributes[1]->setChoices(
+      array_keys($menuPlugins),
+      array_values($menuPlugins)
+    );
+
     try {
       parent::__construct($dn, $object, $parent, $mainTab, $attributesInfo);
     } catch (NonExistingLdapNodeException $e) {
@@ -502,8 +506,6 @@ class configInLdap extends simplePlugin
     }
 
     $this->fusionConfigMd5 = md5_file(CACHE_DIR."/".CLASS_CACHE);
-
-    $this->attributesAccess['fdDefaultShell']->setChoices($this->fdShells);
 
     $this->attributesAccess['fdHttpAuthActivated']->setManagedAttributes(
       array(
@@ -523,21 +525,14 @@ class configInLdap extends simplePlugin
         )
       )
     );
+
+    $this->attributesAccess['fdTabHook']->setLinearRendering(FALSE);
+
     $this->attributesAccess['fdForceSSL']->setManagedAttributes(
       array(
         'disable' => array (
           TRUE => array (
             'fdWarnSSL',
-          )
-        )
-      )
-    );
-    $this->attributesAccess['fdIdAllocationMethod']->setManagedAttributes(
-      array(
-        'erase' => array (
-          'traditional' => array (
-            'fdUidNumberPoolMin','fdUidNumberPoolMax',
-            'fdGidNumberPoolMin','fdGidNumberPoolMax',
           )
         )
       )
@@ -563,17 +558,20 @@ class configInLdap extends simplePlugin
         )
       )
     );
+    $this->attributesAccess['fdSplitPostalAddress']->setManagedAttributes(
+      array(
+        'disable' => array (
+          FALSE => array (
+            'fdPostalAddressPattern',
+          )
+        )
+      )
+    );
   }
 
   function compute_dn()
   {
     return $this->dn;
-  }
-
-  function save_object()
-  {
-    parent::save_object();
-    $this->attributesAccess['fdDefaultShell']->setChoices($this->fdShells);
   }
 
   static function get_themes()

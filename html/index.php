@@ -325,6 +325,9 @@ class Index {
     session::global_un_set('plist');
     $plist = load_plist();
 
+    /* Check that newly installed plugins have their configuration in the LDAP (will reload plist if needed) */
+    $config->checkLdapConfig();
+
     /* Check account expiration */
     if ($config->get_cfg_value('handleExpiredAccounts') == 'TRUE') {
       $expired = $ui->expired_status();
@@ -346,8 +349,6 @@ class Index {
     /* Not account expired or password forced change go to main page */
     logging::log('security', 'login', '', array(), 'User "'.static::$username.'" logged in successfully.');
     session::global_set('connected', 1);
-    // check that newly installed plugins have their configuration in the LDAP
-    $config->checkLdapConfig();
     session::global_set('DEBUGLEVEL', $config->get_cfg_value('DEBUGLEVEL'));
     header ('Location: main.php?global_check=1');
     exit;
@@ -393,9 +394,9 @@ class Index {
     $success = static::runSteps(array(
       'validateUserInput',
       'ldapLoginUser',
+      'checkForLockingBranch',
       'loginAndCheckExpired',
       'runSchemaCheck',
-      'checkForLockingBranch',
     ));
 
     if ($success) {
@@ -421,9 +422,9 @@ class Index {
     $success = static::runSteps(array(
       'validateUserInput',
       'ldapLoginUser',
+      'checkForLockingBranch',
       'loginAndCheckExpired',
       'runSchemaCheck',
-      'checkForLockingBranch',
     ));
 
     if ($success) {
@@ -460,16 +461,9 @@ class Index {
       exit();
     }
 
-    $ldap = $config->get_ldap_link();
-    $ldap->cd($config->current['BASE']);
-    $verify_attr = explode(',', $config->get_cfg_value('loginAttribute', 'uid'));
-    $filter = '';
-    foreach ($verify_attr as $attr) {
-      $filter .= '('.$attr.'='.ldap_escape_f(static::$username).')';
-    }
-    $ldap->search('(&(|'.$filter.')(objectClass=inetOrgPerson))');
-    $attrs = $ldap->fetch();
-    if ($ldap->count() < 1) {
+    $ui = ldap_get_user(static::$username);
+
+    if ($ui === FALSE) {
       msg_dialog::display(
         _('Error'),
         sprintf(
@@ -479,24 +473,25 @@ class Index {
         FATAL_ERROR_DIALOG
       );
       exit();
-    } elseif ($ldap->count() > 1) {
+    } elseif (is_string($ui)) {
       msg_dialog::display(
         _('Error'),
         sprintf(
-          _('Header user "%s" match several users in the LDAP'),
-          static::$username
+          _('Login with user "%s" triggered error: %s'),
+          static::$username,
+          $ui
         ),
         FATAL_ERROR_DIALOG
       );
       exit();
     }
-    $ui = new userinfo($config, $attrs['dn']);
+
     $ui->loadACL();
 
     $success = static::runSteps(array(
+      'checkForLockingBranch',
       'loginAndCheckExpired',
       'runSchemaCheck',
-      'checkForLockingBranch',
     ));
 
     if ($success) {
@@ -532,16 +527,10 @@ class Index {
     // force CAS authentication
     phpCAS::forceAuthentication();
     static::$username = phpCAS::getUser();
-    $ldap = $config->get_ldap_link();
-    $ldap->cd($config->current['BASE']);
-    $verify_attr = explode(',', $config->get_cfg_value('loginAttribute', 'uid'));
-    $filter = '';
-    foreach ($verify_attr as $attr) {
-      $filter .= '('.$attr.'='.ldap_escape_f(static::$username).')';
-    }
-    $ldap->search('(&(|'.$filter.')(objectClass=inetOrgPerson))');
-    $attrs = $ldap->fetch();
-    if ($ldap->count() < 1) {
+
+    $ui = ldap_get_user(static::$username);
+
+    if ($ui === FALSE) {
       msg_dialog::display(
         _('Error'),
         sprintf(
@@ -551,24 +540,25 @@ class Index {
         FATAL_ERROR_DIALOG
       );
       exit();
-    } elseif ($ldap->count() > 1) {
+    } elseif (is_string($ui)) {
       msg_dialog::display(
         _('Error'),
         sprintf(
-          _('CAS user "%s" match several users in the LDAP'),
-          static::$username
+          _('Login with user "%s" triggered error: %s'),
+          static::$username,
+          $ui
         ),
         FATAL_ERROR_DIALOG
       );
       exit();
     }
-    $ui = new userinfo($config, $attrs['dn']);
+
     $ui->loadACL();
 
     $success = static::runSteps(array(
+      'checkForLockingBranch',
       'loginAndCheckExpired',
       'runSchemaCheck',
-      'checkForLockingBranch',
     ));
 
     if ($success) {

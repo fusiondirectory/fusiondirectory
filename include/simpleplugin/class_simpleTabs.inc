@@ -35,6 +35,7 @@ class simpleTabs
 
   public    $objectType   = FALSE;
   protected $specialTabs  = TRUE;
+  protected $plNotify     = array();
 
   var $last       = "";
   var $current    = "";
@@ -46,61 +47,40 @@ class simpleTabs
   /* A parent object if available, e.g. a management class. */
   var $parent = NULL;
 
-  /* Used when the entry is opened as "readonly" due to locks. */
-  var $read_only = FALSE;
-
   var $baseclass = "";
 
   /*!
    * \brief Tabs classes constructor
-   *
-   * You should either call __construct($type, $dn, [$copied_object]) or (deprecated) __construct(NULL, $data, $dn, $category, [$copied_object])
    * */
-  function __construct()
+  function __construct($type, $dn, $attrs_object = NULL)
   {
     global $config;
-    $attrs_object = NULL;
-    if (is_string(func_get_arg(0))) {
-      $type   = func_get_arg(0);
-      $dn     = func_get_arg(1);
-      $infos  = objects::infos($type);
 
-      $data           = $config->data['TABS'][$infos['tabGroup']];
-      $acl_category   = $infos['aclCategory'];
-      if (func_num_args() >= 3) {
-        $attrs_object  = func_get_arg(2);
-      }
-      $this->objectType = $type;
-    } else {
-      //~ trigger_error('deprecated call to old tabclass constructor');
-      /* Deprecated, used by old management classes */
-      //$config_object  = func_get_arg(0); // ignored
-      $data           = func_get_arg(1);
-      $dn             = func_get_arg(2);
-      $acl_category   = func_get_arg(3);
-      if (func_num_args() >= 5) {
-        $attrs_object  = func_get_arg(4);
-      }
+    if (!is_string($type)) {
+      die('deprecated call to old tabclass constructor');
     }
 
-    /* Save dn */
-    $this->dn     = $dn;
+    $infos              = objects::infos($type);
+    $data               = $config->data['TABS'][$infos['tabGroup']];
+    $this->acl_category = $infos['aclCategory'];
+    $this->objectType   = $type;
+    $this->dn           = $dn;
 
     if (!count($data)) {
-      $data[] = array("CLASS" => 'plugin',"NAME" => 'Error');
-      msg_dialog::display(_("Error"),
-        sprintf(_("No plugin definitions found to initialize '%s', please check your configuration file."), get_class($this)),
+      $data[] = array('CLASS' => 'plugin','NAME' => 'Error');
+      msg_dialog::display(_('Error'),
+        sprintf(_('No plugin definitions found to initialize "%s", please check your configuration file.'), get_class($this)),
         ERROR_DIALOG);
     }
 
     $baseobject         = NULL;
-    $this->acl_category = $acl_category;
-    foreach ($data as &$tab) {
+    foreach ($data as $tab) {
       if (!plugin_available($tab['CLASS'])) {
         continue;
       }
 
-      $this->by_name[$tab['CLASS']] = $tab['NAME'];
+      $this->by_name[$tab['CLASS']]   = $tab['NAME'];
+      $this->plNotify[$tab['CLASS']]  = FALSE;
 
       if ($baseobject === NULL) {
         $baseobject = new $tab['CLASS']($this->dn, $attrs_object, $this, TRUE);
@@ -110,18 +90,18 @@ class simpleTabs
         $this->by_object[$tab['CLASS']] = new $tab['CLASS']($this->dn, $baseobject, $this, FALSE);
       }
 
-      $this->read_only |= $this->by_object[$tab['CLASS']]->read_only;
       $this->by_object[$tab['CLASS']]->set_acl_category($this->acl_category);
     }
-    unset($tab);
 
     /* Initialize current */
     $this->current = $this->baseclass;
 
-    $infos = $this->objectInfos();
-    if ($infos && $infos['mainAttr']) {
+    if ($infos['mainAttr']) {
       $baseobject = $this->getBaseObject();
-      if (($baseobject instanceof simplePlugin) && $baseobject->attributesAccess[$infos['mainAttr']]->getUnique() === FALSE) {
+      if (
+        ($baseobject instanceof simplePlugin) &&
+        ($baseobject->attributesAccess[$infos['mainAttr']]->getUnique() === FALSE)
+      ) {
         $baseobject->attributesAccess[$infos['mainAttr']]->setUnique(TRUE);
       }
     }
@@ -175,8 +155,8 @@ class simpleTabs
       } else {
         $baseobject->base = dn2base(get_userinfo()->dn);
       }
-      /* For some plugins not yet migrated to simple plugin. */
       if (!($baseobject instanceOf simplePlugin) && is_object($baseobject->baseSelector)) {
+        /* For some plugins not yet migrated to simple plugin. */
         $baseobject->baseSelector->setBase($baseobject->base);
       }
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $baseobject->base, 'Fixed base');
@@ -188,6 +168,12 @@ class simpleTabs
   function getBaseObject()
   {
     return $this->by_object[$this->baseclass];
+  }
+
+  /*! \brief Indicates if this tab class is read-only (because of locks) */
+  function readOnly()
+  {
+    return $this->getBaseObject()->readOnly();
   }
 
   /*!
@@ -281,7 +267,7 @@ class simpleTabs
 
       /* Take care about notifications */
       $obj = $this->by_object[$class];
-      if ($this->by_object[$class]->pl_notify && ($obj->is_account || $obj->ignore_account)) {
+      if ($this->plNotify[$class] && ($obj->is_account || $obj->ignore_account)) {
         $cssClasses .= ' tab-notify';
       }
       if ($disabled) {
@@ -315,18 +301,12 @@ class simpleTabs
    */
   function delete()
   {
-    /* Check if all plugins will ACK for deletion */
-    foreach (array_reverse($this->by_object) as $key => $obj) {
-      $reason = $obj->allow_remove();
-      if ($reason != "") {
-        msg_dialog::display(_("Warning"), sprintf(_("Delete process has been canceled by plugin '%s': %s"), $key, $reason), WARNING_DIALOG);
-        return;
-      }
-    }
-
     /* Delete for all plugins */
     foreach (array_reverse($this->by_object) as $obj) {
-      $obj->remove_from_parent();
+      $errors = $obj->remove_from_parent();
+      if (!empty($errors)) {
+        msg_dialog::displayChecks($errors);
+      }
     }
   }
 
@@ -335,7 +315,7 @@ class simpleTabs
    *
    * \param boolean $ignore_account false
    */
-  function check()
+  protected function check()
   {
     global $config;
     $messages = array();
@@ -356,27 +336,23 @@ class simpleTabs
     $current_set = FALSE;
 
     /* Check all plugins */
-    foreach ($this->by_object as $key => &$obj) {
+    foreach ($this->by_object as $key => $obj) {
+      $this->plNotify[$key] = FALSE;
       if (($obj->is_account || $obj->ignore_account) && (!$obj->is_template)) {
         @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, "Checking");
 
         $msg = $obj->check();
 
         if (count($msg)) {
-          $obj->pl_notify = TRUE;
+          $this->plNotify[$key] = TRUE;
           if (!$current_set) {
             $current_set    = TRUE;
             $this->current  = $key;
             $messages       = $msg;
           }
-        } else {
-          $obj->pl_notify = FALSE;
         }
-      } else {
-        $obj->pl_notify = FALSE;
       }
     }
-    unset($obj);
 
     return $messages;
   }
@@ -389,52 +365,77 @@ class simpleTabs
   function save()
   {
     global $ui;
+    $messages = $this->check();
+    if (!empty($messages)) {
+      return $messages;
+    }
 
     $baseobject = $this->getBaseObject();
+    $old_dn     = $this->dn;
     $new_dn     = $baseobject->compute_dn();
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $new_dn, "Saving");
+
+    $errors   = array();
+    $creation = ($this->dn == 'new');
 
     /* Move ? */
     if ($this->dn != $new_dn) {
       /* Write entry on new 'dn' */
-      if ($this->dn != 'new') {
+      if ($creation) {
+        /* use the new one */
+        $this->dn = $new_dn;
+      } else {
         if ($baseobject->move($this->dn, $new_dn)) {
           $this->dn = $new_dn;
         } else {
-          msg_dialog::display(_('Error'), sprintf(_('Move from "%s" to "%s" failed'), $this->dn, $new_dn), ERROR_DIALOG);
+          $errors[] = sprintf(_('Move from "%s" to "%s" failed'), $this->dn, $new_dn);
         }
-      } else {
-        /* use the new one */
-        $this->dn = $new_dn;
       }
     }
 
     /* Save all plugins */
-    foreach ($this->by_object as $key => &$obj) {
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, "Saving");
+    $first = TRUE;
+    foreach ($this->by_object as $key => $obj) {
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, 'Saving');
 
       $obj->dn = $this->dn;
 
-      if (!$obj instanceof plugin && !$obj instanceOf management) {
-        trigger_error("Something went wrong while saving ".$obj->dn.". Object class '".get_class($obj)."'.");
+      if (!($obj instanceof simplePlugin) && !($obj instanceOf simpleManagement)) {
+        trigger_error('Something went wrong while saving '.$obj->dn.'. Class "'.get_class($obj).'".');
       } else {
         if ($obj->is_account || $obj->ignore_account) {
-          if ($obj->save() == 1) {
-            return 1;
-          }
+          $result = $obj->save();
         } else {
-          $obj->remove_from_parent();
+          $result = $obj->remove_from_parent();
+        }
+        if (!empty($result)) {
+          if ($creation && $first) {
+            /* If the fail of main tab fails for a creation, cancel the save of other tabs */
+            $this->dn = $old_dn;
+            $obj->dn  = $this->dn;
+            return $result;
+          }
+          $errors = array_merge($errors, $result);
         }
       }
+      if ($first) {
+        $first = FALSE;
+      }
     }
-    unset($obj);
 
-    if ($this->dn == $ui->dn) {
+    if (empty($errors) && ($this->dn == $ui->dn)) {
       /* If the logged in user was edited, update his information */
       $ui->loadLDAPInfo();
     }
 
-    return 0;
+    if (!empty($errors)) {
+      $this->dn = $old_dn;
+      foreach ($this->by_object as $obj) {
+        $obj->dn = $this->dn;
+      }
+    }
+
+    return $errors;
   }
 
   /*!
@@ -466,7 +467,8 @@ class simpleTabs
         continue;
       }
 
-      $this->by_name[$tab['CLASS']] = $tab['NAME'];
+      $this->by_name[$tab['CLASS']]   = $tab['NAME'];
+      $this->plNotify[$tab['CLASS']]  = FALSE;
       $this->by_object[$tab['CLASS']] = new $tab['CLASS']($this->dn, $baseobject, $this, FALSE);
       $this->by_object[$tab['CLASS']]->set_acl_category($this->acl_category);
     }

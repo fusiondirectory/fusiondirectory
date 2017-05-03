@@ -34,7 +34,7 @@ class userManagement extends simpleManagement
   protected $autoFilter       = FALSE;
   protected $autoActions      = FALSE;
 
-  protected $skipTemplates = FALSE;
+  public static $skipTemplates = FALSE;
 
   static function plInfo()
   {
@@ -121,7 +121,7 @@ class userManagement extends simpleManagement
 
   /* !\brief  Lock/unlock multiple users.
    */
-  function lockUsers($action, $target, $all)
+  function lockUsers($action, array $target, array $all)
   {
     if (!count($target)) {
       return;
@@ -141,6 +141,7 @@ class userManagement extends simpleManagement
     global $config, $ui;
     // Filter out entries we are not allowed to modify
     $disallowed = array();
+    $allowed    = array();
     foreach ($entry as $dn) {
       if (!preg_match('/w/', $ui->get_permissions($dn, 'user/user', 'userLock'))) {
         $disallowed[] = $dn;
@@ -191,8 +192,6 @@ class userManagement extends simpleManagement
                 sprintf(_('Password method "%s" does not support locking. Account "%s" has not been locked!'),
                   $hn, $dn), WARNING_DIALOG);
           }
-        } else {
-          // Can't lock unknown methods.
         }
       }
     }
@@ -247,7 +246,7 @@ class userManagement extends simpleManagement
                        'name="listing_edit_tab_user_'.$row.'"/>';
     if (!empty($attrs)) {
       if (in_array_ics ('fdTemplate', $attrs['objectClass'])) {
-        $attrs = plugin::tpl_template_to_attrs($attrs);
+        $attrs = templateHandling::fieldsFromLDAP($attrs);
       }
       foreach ($usertabs as $class => $usertab) {
         if ($usertab->is_this_account($attrs)) {

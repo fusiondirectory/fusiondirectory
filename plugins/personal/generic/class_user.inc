@@ -128,8 +128,10 @@ class UserPasswordAttribute extends CompositeAttribute
 
   function setValue ($value)
   {
-    if ($this->attributes[0]->isDisabled() || ($value[0] == '')) {
-      $value[0] = $this->attributes[0]->getValue();
+    reset($value);
+    $key = key($value);
+    if ($this->attributes[0]->isDisabled() || ($value[$key] == '')) {
+      $value[$key] = $this->attributes[0]->getValue();
     }
     parent::setValue($value);
     $this->checkIfMethodNeedsPassword();
@@ -301,8 +303,9 @@ class user extends simplePlugin
   // The main function : information about attributes
   static function getAttributesInfo ()
   {
+    global $config;
     $languages = array_merge(array('' => ''), get_languages(TRUE));
-    return array(
+    $attributesInfo = array(
       'perso' => array(
         'name'  => _('Personal information'),
         'icon'  => 'geticon.php?context=types&icon=user&size=16',
@@ -353,7 +356,6 @@ class user extends simplePlugin
             _('Phone'), _('Business phone number'),
             'telephoneNumber', FALSE
           ),
-          /* TODO: mobile attribute */
           new PhoneNumberAttribute (
             _('Mobile'), _('Business mobile number'),
             'mobile', FALSE
@@ -447,6 +449,25 @@ class user extends simplePlugin
         )
       ),
     );
+    if ($config->get_cfg_value('SplitPostalAddress') == 'TRUE') {
+      $attributesInfo['contact']['attrs'][2]->setVisible(FALSE);
+      array_splice($attributesInfo['contact']['attrs'], 3, 0, array(
+        new StringAttribute (
+          _('Street'), _('Street part of the address'),
+          'street', FALSE
+        ),
+        new StringAttribute (
+          _('Post office box'), _('Post office box'),
+          'postOfficeBox', FALSE
+        ),
+        new IntAttribute (
+          _('Postal code'), _('Postal code'),
+          'postalCode', FALSE,
+          0, FALSE
+        ),
+      ));
+    }
+    return $attributesInfo;
   }
 
   function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE)
@@ -470,8 +491,9 @@ class user extends simplePlugin
     return (isset($attrs['objectClass']) && in_array_ics('inetOrgPerson', $attrs['objectClass']));
   }
 
-  function postCopyHook()
+  function resetCopyInfos()
   {
+    parent::resetCopyInfos();
     $this->attributesAccess['uid']->setDisabled($this->initially_was_account && !$this->is_template);
   }
 
@@ -479,7 +501,12 @@ class user extends simplePlugin
   {
     global $config;
     $pattern  = $config->get_cfg_value('CnPattern', '%givenName% %sn%');
-    $fields   = plugin::tpl_list_fields($pattern);
+    $this->attributesAccess['cn']->setValue($this->applyPattern($pattern));
+  }
+
+  private function applyPattern ($pattern)
+  {
+    $fields   = templateHandling::listFields($pattern);
     $attrs    = array();
     foreach ($fields as $field) {
       if (in_array($field, $this->attributes)) {
@@ -497,7 +524,8 @@ class user extends simplePlugin
       }
       trigger_error('Could not find field '.$field.' in any tab!');
     }
-    $this->attributesAccess['cn']->setValue(plugin::tpl_parse_string($pattern, $attrs));
+
+    return templateHandling::parseString($pattern, $attrs);
   }
 
   function compute_dn()
@@ -521,28 +549,48 @@ class user extends simplePlugin
     return parent::execute();
   }
 
-  function ldap_save($cleanup = TRUE)
+  protected function prepare_save ()
   {
-    parent::ldap_save($cleanup);
+    global $config;
+    if ($config->get_cfg_value('SplitPostalAddress') == 'TRUE') {
+      $pattern = $config->get_cfg_value('PostalAddressPattern', '');
+      if (!empty($pattern)) {
+        $this->postalAddress = $this->applyPattern($this->attributesAccess['postalAddress']->inputValue($pattern));
+      }
+    }
+
+    return parent::prepare_save();
+  }
+
+  function ldap_save()
+  {
+    $errors = parent::ldap_save();
+
+    if (!empty($errors)) {
+      return $errors;
+    }
 
     if (!$this->is_template && $this->was_locked && $this->attributesAccess['userPassword']->hasChanged()) {
       $methods  = passwordMethod::get_available_methods();
       $pmethod  = new $methods[$this->attributesAccess['userPassword']->getMethod()]($this->dn);
       $pmethod->lock_account($this->dn);
     }
+
+    return $errors;
   }
 
-  function save()
+  function post_save()
   {
-    parent::save();
+    global $ui;
 
     /* Update current locale settings, if we have edited ourselves */
-    $ui = session::get('ui');
     if (isset($this->attrs['preferredLanguage']) && ($this->dn == $ui->dn)) {
       $ui->language = $this->preferredLanguage;
       session::set('ui', $ui);
       session::set('Last_init_lang', 'update');
     }
+
+    return parent::post_save();
   }
 
   function adapt_from_template($attrs, $skip = array())
@@ -569,7 +617,7 @@ class user extends simplePlugin
     }
   }
 
-  function callHook($cmd, $addAttrs = array(), &$returnOutput = array(), &$returnCode = NULL)
+  function callHook($cmd, array $addAttrs = array(), &$returnOutput = array(), &$returnCode = NULL)
   {
     $addAttrs['passwordMethod'] = $this->attributesAccess['userPassword']->getMethod();
     $addAttrs['userLocked']     = $this->attributesAccess['userPassword']->isLocked();
@@ -660,7 +708,7 @@ class user extends simplePlugin
     } elseif ($check_differ && (substr($current_password, 0, $differ) == substr($new_password, 0, $differ))) {
       return _('The password used as new and current are too similar.');
     } elseif ($check_length && (strlen($new_password) < $length)) {
-      return _('The password used as new is to short.');
+      return _('The password used as new is too short.');
     } elseif (!passwordMethod::is_harmless($new_password)) {
       return _('The password contains possibly problematic Unicode characters!');
     }

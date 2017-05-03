@@ -65,7 +65,6 @@ class simpleSelectManagement extends simpleManagement
 
   static function filterSelectLink()
   {
-    // TODO : replace this with javascript that select the line when multiSelect is TRUE
     if (func_num_args() < 4) {
       return '&nbsp';
     }

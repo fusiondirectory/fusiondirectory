@@ -64,8 +64,9 @@ class pluglist {
     $classes = get_declared_classes();
 
     $index = 0;
-    $depends_infos  = array();
-    $foreign_refs   = array();
+    $depends_infos    = array();
+    $conflicts_infos  = array();
+    $foreign_refs     = array();
     foreach ($classes as $cname) {
       $cmethods = get_class_methods($cname);
       if (in_array_ics('plInfo', $cmethods)) {
@@ -85,6 +86,9 @@ class pluglist {
         }
         if (isset($infos['plDepends'])) {
           $depends_infos[] = $cname;
+        }
+        if (isset($infos['plConflicts'])) {
+          $conflicts_infos[] = $cname;
         }
         if (isset($infos['plForeignKeys'])) {
           foreach ($infos['plForeignKeys'] as $ofield => &$pfks) {
@@ -149,7 +153,20 @@ class pluglist {
             $this->info[$depend]['plDepending'] = array($cname);
           }
         } else {
-          trigger_error("$cname depends off the inexisting plugin $depend");
+          trigger_error("$cname depends of the inexisting plugin $depend");
+        }
+      }
+    }
+    foreach ($conflicts_infos as $cname) {
+      foreach ($this->info[$cname]['plConflicts'] as $conflict) {
+        if (isset($this->info[$conflict])) {
+          if (isset($this->info[$conflict]['plConflicts'])) {
+            if (!in_array($cname, $this->info[$conflict]['plConflicts'])) {
+              $this->info[$conflict]['plConflicts'][] = $cname;
+            }
+          } else {
+            $this->info[$conflict]['plConflicts'] = array($cname);
+          }
         }
       }
     }
@@ -195,9 +212,20 @@ class pluglist {
    *
    * \return Boolean TRUE on success FALSE otherwise
    */
-  function check_access($aclname)
+  function check_access($infos)
   {
     global $ui;
+
+    if (isset($infos['CLASS']) && $ui->isBlacklisted($infos['CLASS'])) {
+      return FALSE;
+    }
+
+    if (!isset($infos['ACL'])) {
+      return FALSE;
+    }
+
+    $aclname = $infos['ACL'];
+
     if (isset($this->silly_cache[$aclname])) {
       return $this->silly_cache[$aclname];
     }
@@ -225,7 +253,7 @@ class pluglist {
             return TRUE;
           }
         } else {
-          if ($ui->get_category_permissions($ui->dn, $acl_to_check, "") != "") {
+          if ($ui->get_category_permissions($ui->dn, $acl_to_check) != '') {
             $this->silly_cache[$aclname] = TRUE;
             return TRUE;
           }
@@ -303,18 +331,15 @@ class pluglist {
 
         /* Parse sub-plugins */
         foreach ($config->data['MENU'][$section] as $info) {
+          if (!$this->check_access($info)) {
+            continue;
+          }
           if (isset($info['CLASS']) && plugin_available($info['CLASS'])) {
-            if (!$this->check_access($info['ACL'])) {
-              continue;
-            }
             $index  = $this->get_index($info['CLASS']);
             $this->allowed_plugins[$index] = $index;
             list ($plHeadline, $plDescription, $href, ) = $this->get_infos($info['CLASS']);
             $id             = $info['CLASS'];
           } elseif (!isset($info['CLASS'])) {
-            if (isset($info['ACL']) && !$this->check_access($info['ACL'])) {
-              continue;
-            }
             $plHeadline     = $info['TITLE'];
             $plDescription  = $info['DESCRIPTION'];
             $href           = $info['LINK'];
@@ -325,7 +350,6 @@ class pluglist {
 
           $entries .= '<li class="menuitem" id="menuitem_'.$id.'">';
           $entries .= '<a href="'.$href.'" title="'.$plDescription.'">'.$plHeadline.'</a></li>'."\n";
-
         }
 
         /* Append to menu */
@@ -372,17 +396,14 @@ class pluglist {
         $menu     .= $section_infos['NAME']."</h1>\n";
 
         foreach ($config->data['MENU'][$section] as $info) {
+          if (!$this->check_access($info)) {
+            continue;
+          }
           if (isset($info['CLASS']) && plugin_available($info['CLASS'])) {
-            if (!$this->check_access($info['ACL'])) {
-              continue;
-            }
             /* Read information from class variable */
             list ($plHeadline, $plDescription, $href, $plIcon) = $this->get_infos($info['CLASS']);
             $id             = $info['CLASS'];
           } elseif (!isset($info['CLASS'])) {
-            if (isset($info['ACL']) && !$this->check_access($info['ACL'])) {
-              continue;
-            }
             $plHeadline     = $info['TITLE'];
             $plDescription  = $info['DESCRIPTION'];
             $href           = $info['LINK'];

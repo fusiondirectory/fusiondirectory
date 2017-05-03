@@ -1,9 +1,8 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2017  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -33,9 +32,13 @@ class CopyPasteHandler
   var $current;
 
   /*!
-   * \brief This array contains all dns of the currently copyied objects
+   * \brief This array contains all dns of the currently copied objects
    */
-  var $queue = array();
+  protected $objectList = array();
+  /*!
+   * \brief This array contains all remaining objects to paste
+   */
+  protected $queue = array();
 
   /*!
    *  \brief The dn of the last edited object
@@ -62,33 +65,22 @@ class CopyPasteHandler
   /*!
    * \brief Entry entry to Copy & Paste queue.
    * A Queue entry is represented as follows.
-   *  array['file_name']  - Position on hdd
    *  array['method']     - 'copy' or 'cut'
    *  array['dn']         - the dn of the object added to the queue
-   *  array['tab_class']  - Tab object that should be used to initialize the new object
-   *  array['tab_object'] - Tab object name used to initialize correct object Type like USERTABS
+   *  array['type']       - Object type
    *
    * \param String $dn The dn of the object added to the queue
    *
    * \param String $action Copy or Cut
    *
-   * \param String $tab_class Tab object that should be used to initialize the new object
-   *
-   * \param String $tab_object Tab object name used to initialize correct object Type like USERTABS
-   *
-   * \param String $tab_acl_category Tab with acl category
-   *
-   * \param Object $parent the parent to set to the tab object
+   * \param String $type the type of the object
    */
-  function add_to_queue()
+  function add_to_queue($dn, $action, $type)
   {
-    global $config;
-    $dn     = func_get_arg(0);
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "add_to_queue");
-    $action = func_get_arg(1);
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'add_to_queue');
 
-    if (!in_array($action, array("cut","copy"))) {
-      trigger_error(sprintf("Specified action '%s' does not exists for copy & paste.", $action));
+    if (!in_array($action, array('cut','copy'))) {
+      trigger_error(sprintf('Specified action "%s" does not exists for copy & paste.', $action));
       return FALSE;
     }
 
@@ -96,41 +88,17 @@ class CopyPasteHandler
 
     $tmp['method']  = $action;
     $tmp['dn']      = $dn;
+    $tmp['type']    = $type;
 
-    if (func_num_args() == 3) {
-      $type               = func_get_arg(2);
-      $tmp['type']        = $type;
-      $infos              = objects::infos($type);
-      $tmp['aclCategory'] = $infos['aclCategory'];
-      $tmp['mainTab']     = $infos['mainTab'];
-      $tmp['parent']      = NULL;
-    } else {
-      // Deprecated
-      $tab_class = func_get_arg(2);
-      $tab_object = func_get_arg(3);
-      $tab_acl_category = func_get_arg(4);
-      $parent = NULL;
-      if (func_num_args() > 5) {
-        $parent = func_get_arg(5);
-      }
+    $infos              = objects::infos($type);
+    $tmp['aclCategory'] = $infos['aclCategory'];
+    $tmp['mainTab']     = $infos['mainTab'];
+    $tmp['parent']      = NULL;
 
-      if (!class_available($tab_class)) {
-        trigger_error(sprintf("Specified class object '%s' does not exists.", $tab_class));
-        return FALSE;
-      }
-
-      if (!isset($config->data['TABS'][$tab_object])) {
-        trigger_error(sprintf("Specified tab object '%s' does not exists.", $tab_object));
-        return FALSE;
-      }
-      $tmp['tab_class']   = $tab_class;
-      $tmp['tab_object']  = $tab_object;
-      $tmp['aclCategory'] = $tab_acl_category;
-      $tmp['mainTab']     = reset($config->data['TABS'][$tab_object]);
-      $tmp['parent']      = $parent;
+    $this->queue[] = $tmp;
+    if ($action == 'copy') {
+      $this->objectList[] = $tmp;
     }
-
-    $this->queue[]        = $tmp;
     $this->require_update = TRUE;
 
     return TRUE;
@@ -147,6 +115,17 @@ class CopyPasteHandler
     $this->current        = FALSE;
     $this->require_update = TRUE;
     $this->queue          = array();
+    $this->objectList     = array();
+  }
+
+  /*!
+   * \brief This resets the queue to allow pasting again.
+   */
+  function resetPaste()
+  {
+    $this->current        = FALSE;
+    $this->require_update = TRUE;
+    $this->queue          = $this->objectList;
   }
 
   /*!
@@ -157,30 +136,17 @@ class CopyPasteHandler
     return ((count($this->queue) > 0) || ($this->current != FALSE));
   }
 
-
   /*!
-   * \brief Paste one entry from queue
+   * \brief Paste one entry from LDAP
    */
-  function load_entry_from_queue($entry, $base)
+  protected function load_entry_from_ldap($entry, $base)
   {
-    global $config;
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $entry['dn'], 'load_entry_from_ldap');
     if (!isset($entry['tab_class']) && !isset($entry['type'])) {
       return array();
     }
 
-    if (isset($entry['type'])) {
-      $entry['object'] = objects::open($entry['dn'], $entry['type']);
-    } else {
-      trigger_error('Call to deprecated tabs constructor');
-      // old way
-      $tab_c  = $entry['tab_class'];
-      $tab_o  = $entry['tab_object'];
-      $tab_a  = $entry['aclCategory'];
-
-      // Deprecated
-      $entry['object'] = new $tab_c(NULL, $config->data['TABS'][$tab_o], $entry['dn'], $tab_a);
-    }
+    $entry['object'] = objects::open($entry['dn'], $entry['type']);
 
     $entry['object']->set_acl_base($base);
     if ($entry['parent'] !== NULL) {
@@ -217,24 +183,21 @@ class CopyPasteHandler
 
         /* Update entries on demand */
         if (!isset($entry['object'])) {
-          $entry = $this->load_entry_from_queue($entry, $base);
+          $entry = $this->load_entry_from_ldap($entry, $base);
           $this->queue[$key] = $entry;
         }
-        $msgs = $entry['object']->check();
 
         /* Retrieve ACL infos */
-        $copy_acl = $ui->is_copyable($entry['dn'], $entry['aclCategory'], $entry['mainTab']);
+        $copy_acl = $ui->is_copyable($entry['dn'], $entry['aclCategory']);
         $cut_acl  = $ui->is_cutable($entry['dn'], $entry['aclCategory'], $entry['mainTab']);
 
         /* Check permissions */
-        if ($entry['method'] == "copy" && !$copy_acl) {
+        if (($entry['method'] == 'copy') && !$copy_acl) {
           $this->disallowed_objects[$key] = $entry;
-        } elseif ($entry['method'] == "cut" && !$cut_acl) {
+        } elseif (($entry['method'] == 'cut') && !$cut_acl) {
           $this->disallowed_objects[$key] = $entry;
-        } elseif (!count($msgs)) {
-          $this->clean_objects[$key]  = $entry;
         } else {
-          $this->objects_to_fix[$key] = $entry;
+          $this->clean_objects[$key] = $entry;
         }
       }
       if (count($this->disallowed_objects)) {
@@ -251,28 +214,32 @@ class CopyPasteHandler
     if (count($this->clean_objects)) {
       $this->save_object();
       foreach ($this->clean_objects as $key => $entry) {
-        /* Remove from queue -> avoid saving twice */
-        unset($this->queue[$key]);
-        unset($this->clean_objects[$key]);
+        $this->current = $entry;
+        $errors = $this->current['object']->save();
 
-        $this->save_current($entry);
+        if (empty($errors)) {
+          $this->current_saved();
+          /* Remove from queue -> avoid saving twice */
+          unset($this->queue[$key]);
+        } else {
+          $this->objects_to_fix[$key] = $entry;
+        }
+        unset($this->clean_objects[$key]);
       }
+      $this->current = FALSE;
     }
 
     /* Save edited entry and force loading new one */
     if (isset($this->current['object'])) {
       $this->current['object']->save_object();
-    }
+      /* Save current object if edition is finished */
+      if (isset($_POST['edit_finish'])) {
+        $errors = $this->current['object']->save();
 
-    /* Save current object if edition is finished */
-    if (isset($_POST['edit_finish']) && $this->current) {
-      $msgs = $this->current['object']->check();
-
-      if (!count($msgs)) {
-        $this->save_current();
-      } else {
-        foreach ($msgs as $msg) {
-          msg_dialog::display(_("Error"), $msg, ERROR_DIALOG);
+        if (empty($errors)) {
+          $this->current_saved();
+        } else {
+          msg_dialog::displayChecks($errors);
         }
       }
     }
@@ -304,20 +271,15 @@ class CopyPasteHandler
         }
       }
     }
-    return "";
+    return '';
   }
 
-  private function save_current($object = NULL)
+  private function current_saved()
   {
-    if ($object !== NULL) {
-      $this->current = $object;
-    }
-    $this->lastdn = $this->current['object']->dn;
-    $this->current['object']->save();
+    $this->lastdn   = $this->current['object']->dn;
     $this->handleReferences();
-    $this->current = FALSE;
+    $this->current  = FALSE;
   }
-
 
   /*!
    * \brief Get the last endited entry
@@ -350,7 +312,11 @@ class CopyPasteHandler
     $dst_dn = $this->current['object']->dn;
     $src_dn = $this->current['dn'];
 
-    $this->current['object']->getBaseObject()->handleForeignKeys($src_dn, $dst_dn, ($this->current['method'] == 'cut'?'move':'copy'));
+    $this->current['object']->getBaseObject()->handleForeignKeys(
+      $src_dn,
+      $dst_dn,
+      ($this->current['method'] == 'cut' ? 'move' : 'copy')
+    );
   }
 
   /*!

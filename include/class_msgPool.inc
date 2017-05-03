@@ -453,7 +453,7 @@ class msgPool {
       }
 
       return sprintf(_("The field '%s' contains invalid characters"), $name).". ".
-        (strlen($mismatch) == 1?sprintf(_("'%s' is not allowed:"), $mismatch):sprintf(_("'%s' are not allowed!"), $mismatch)).
+        ((strlen($mismatch) == 1) ? sprintf(_("'%s' is not allowed:"), $mismatch) : sprintf(_("'%s' are not allowed!"), $mismatch)).
         "<br><br> \"$result\"$example";
     } else {
       return sprintf(_("The field '%s' contains invalid characters"), $name)."!$example";
@@ -507,9 +507,9 @@ class msgPool {
    *
    * \param string $what Text for the button
    */
-  public static function addButton($what = "")
+  public static function addButton($what = '')
   {
-    return ($what == "" ? sprintf(_("Add")): sprintf(_("Add %s"), $what));
+    return (($what == '') ? sprintf(_('Add')) : sprintf(_('Add %s'), $what));
   }
 
   /*!
@@ -517,9 +517,9 @@ class msgPool {
    *
    * \param string $what Text for the button
    */
-  public static function delButton($what = "")
+  public static function delButton($what = '')
   {
-    return ($what == "" ? sprintf(_("Delete")): sprintf(_("Delete %s"), $what));
+    return (($what == '') ? sprintf(_('Delete')) : sprintf(_('Delete %s'), $what));
   }
 
   /*!
@@ -527,17 +527,17 @@ class msgPool {
    *
    * \param string $what Text for the button
    */
-  public static function editButton($what = "")
+  public static function editButton($what = '')
   {
-    return ($what == "" ? sprintf(_("Edit...")): sprintf(_("Edit %s..."), $what));
+    return (($what == '') ? sprintf(_('Edit...')) : sprintf(_('Edit %s...'), $what));
   }
 
   /*!
    * \brief Text for a back button
    */
-  public static function backButton($what = "")
+  public static function backButton()
   {
-    return _("Back");
+    return _('Back');
   }
 
   /*!
@@ -604,24 +604,14 @@ class msgPool {
    *
    * \param array $depends Contains all the settings disabled
    */
-  public static function featuresDisabled($name, $depends = "")
+  public static function featuresDisabled($name, array $depends = array(), array $conflicts = array())
   {
-    if (($depends == "") || (is_array($depends) && count($depends) == 0)) {
-      return sprintf(_("This account has %s settings disabled. You can enable them by clicking below."), $name);
+    if (empty($depends) && empty($conflicts)) {
+      return sprintf(_('This account has %s settings disabled. You can enable them by clicking below.'), $name);
+    } elseif (!empty($depends)) {
+      return sprintf(_('This account has %s settings disabled. To enable them, you\'ll need to add the %s settings first!'), $name, implode(' / ', $depends));
     } else {
-      if (count($depends) == 1) {
-        if (is_array($depends)) {
-          $depends = $depends[0];
-        }
-        return sprintf(_("This account has %s settings disabled. To enable them, you'll need to add the %s settings first!"), $name, $depends);
-      } else {
-        $deps = "";
-        foreach ($depends as $dep) {
-          $deps .= "$dep / ";
-        }
-        $deps = preg_replace("/ \/ $/", "", $deps);
-        return sprintf(_("This account has %s settings disabled. To enable them, you'll need to add the %s settings first!"), $name, $deps);
-      }
+      return sprintf(_('This account has %s settings disabled. To enable them, you\'ll need to disable the %s settings first!'), $name, implode(' / ', $conflicts));
     }
   }
 
@@ -674,20 +664,6 @@ class msgPool {
   }
 
   /*!
-   * \brief Display error about database
-   *
-   * \param string $error Error to display
-   *
-   * \param string $plugin
-   */
-  public static function dbError($error, $plugin = "")
-  {
-    /* Assign headline depending on type */
-    $headline = _("Database operation failed!");
-    return $headline."<br><br><i>"._("Error").":</i> ".$error;
-  }
-
-  /*!
    * \brief Display LDAP error
    *
    * \param string $error Error to display
@@ -698,24 +674,26 @@ class msgPool {
    *
    * \param string $plugin
    */
-  public static function ldaperror($error, $dn = "", $type = 0, $plugin = "")
+  public static function ldaperror($error, $dn = '', $type = 0, $plugin = '')
   {
     /* Assign headline depending on type */
-    $typemap = array(1 => _("read operation"), _("add operation"), _("modify operation"),
-        _("delete operation"), _("search operation"), _("authentication"));
+    $typemap = array(1 => _('read operation'), _('add operation'), _('modify operation'),
+        _('delete operation'), _('search operation'), _('authentication'));
 
     if (isset($typemap[$type])) {
-      $headline = sprintf(_("LDAP %s failed!"), $typemap[$type]);
+      $msg = sprintf(_('LDAP %s failed!'), $typemap[$type]);
     } else {
-      $headline = _("LDAP operation failed!");
+      $msg = _('LDAP operation failed!');
     }
 
     /* Fill DN information */
-    if ($dn != "") {
-      $dn_info = "<br><br><i>"._("Object").":</i> ".LDAP::fix($dn);
+    if ($dn != '') {
+      $msg .= '<br/><br/><i>'._('Object').':</i> '.$dn;
     }
 
-    return $headline.$dn_info."<br><br><i>"._("Error").":</i> ".$error;
+    $msg .= '<br/><br/><i>'._('Error').':</i> '.$error;
+
+    return $msg;
   }
 
   /*!

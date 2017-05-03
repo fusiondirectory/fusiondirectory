@@ -45,13 +45,7 @@ class passwordMethodsha extends passwordMethod
    */
   function is_available()
   {
-    if (function_exists('sha1')) {
-      return TRUE;
-    } elseif (function_exists('mhash')) {
-      return TRUE;
-    } else {
-      return FALSE;
-    }
+    return (function_exists('sha1') || function_exists('mhash'));
   }
 
   /*!
@@ -62,11 +56,11 @@ class passwordMethodsha extends passwordMethod
   function generate_hash($password)
   {
     if (function_exists('sha1')) {
-      $hash = "{SHA}" . base64_encode(pack("H*", sha1($password)));
+      $hash = '{SHA}' . base64_encode(pack('H*', sha1($password)));
     } elseif (function_exists('mhash')) {
-      $hash = "{SHA}" . base64_encode(mHash(MHASH_SHA1, $password));
+      $hash = '{SHA}' . base64_encode(mHash(MHASH_SHA1, $password));
     } else {
-      msg_dialog::display(_("Configuration error"), msgPool::missingext("mhash"), ERROR_DIALOG);
+      msg_dialog::display(_('Configuration error'), msgPool::missingext('mhash'), ERROR_DIALOG);
       return FALSE;
     }
 
@@ -78,7 +72,7 @@ class passwordMethodsha extends passwordMethod
    */
   static function get_hash_name()
   {
-    return "sha";
+    return 'sha';
   }
 }
 ?>

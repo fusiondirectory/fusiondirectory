@@ -158,10 +158,15 @@ class passwordMethod
       // (Un)lock SSH keys
       lock_ssh_account($mode, $attrs, $modify);
 
-      // (Un)lock the account by modifying the password hash.
-      $pwdClass = new user($dn);
-      $pwdClass->callHook('PRE'.$mode, array(), $ret);
+      // Call pre hooks
+      $userClass = new user($dn);
+      $errors = $userClass->callHook('PRE'.$mode, array(), $ret);
+      if (!empty($errors)) {
+        msg_dialog::displayChecks($errors);
+        return FALSE;
+      }
 
+      // (Un)lock the account by modifying the password hash.
       if ($mode == 'LOCK') {
         /* Lock entry */
         $pwd = preg_replace("/(^[^\}]+\})(.*$)/",   "\\1!\\2",  $pwd);
@@ -169,13 +174,17 @@ class passwordMethod
         /* Unlock entry */
         $pwd = preg_replace("/(^[^\}]+\})!(.*$)/",  "\\1\\2",   $pwd);
       }
-      $modify["userPassword"] = $pwd;
+      $modify['userPassword'] = $pwd;
       $ldap->cd($dn);
       $ldap->modify($modify);
 
       // Call the password post-lock hook, if defined.
       if ($ldap->success()) {
-        $pwdClass->callHook('POST'.$mode, array(), $ret);
+        $userClass = new user($dn);
+        $errors = $userClass->callHook('POST'.$mode, array(), $ret);
+        if (!empty($errors)) {
+          msg_dialog::displayChecks($errors);
+        }
       } else {
         msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), $dn, LDAP_MOD), LDAP_ERROR);
       }
@@ -372,38 +381,6 @@ class passwordMethod
     }
 
     return TRUE;
-  }
-
-  /*!
-   * \brief Get the password proposal
-   */
-  static function getPasswordProposal()
-  {
-    global $config;
-    if ($config->get_cfg_value('passwordProposalHook', '') != '') {
-        $command = $config->get_cfg_value('passwordProposalHook', '');
-      if (check_command($command)) {
-        @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execute");
-        exec($command, $arr, $returnCode);
-
-        if ($returnCode != 0) {
-          $str = implode("\n", $arr);
-          @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execution failed code: ".$returnCode);
-          $message = msgPool::cmdexecfailed($cmd, $command, get_class($plugin));
-          msg_dialog::display(_("Error"), $message, ERROR_DIALOG);
-        } elseif (is_array($arr)) {
-          $str = implode("\n", $arr);
-          @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Result: ".$str);
-          if (count($arr) && !empty($arr[0])) {
-            return $arr[0];
-          }
-        }
-      } else {
-        $message = msgPool::cmdinvalid($cmd, $command, get_class($plugin));
-        msg_dialog::display(_("Error"), $message, ERROR_DIALOG);
-      }
-    }
-    return '';
   }
 }
 ?>

@@ -619,14 +619,13 @@ class passwordRecovery extends standAlonePage {
     );
 
     /* Is there any problem with entered passwords? */
-    $error = $userTabs->check();
-    if (!empty($error)) {
-      $this->message = $error;
-      return FALSE;
+    $userTabs->save_object();
+    $errors = $userTabs->save();
+    if (!empty($errors)) {
+      $this->message = $errors;
+      return;
     }
 
-    $userTabs->save_object();
-    $userTabs->save();
     fusiondirectory_log('User '.$this->login.' password has been changed');
 
     return TRUE;

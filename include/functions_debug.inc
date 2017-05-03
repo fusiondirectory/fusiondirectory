@@ -59,7 +59,7 @@
  * based on the print_a() function from
  * Stephan Pirson (Saibot)
  */
-class Print_a_class {
+class printAClass {
 
   // this can be changed to FALSE if you don't like the fancy string formatting
   var $look_for_leading_tabs = TRUE;
@@ -80,7 +80,7 @@ class Print_a_class {
   var $export_hash;
 
   /*!
-   * \brief Print_a_class constructor
+   * \brief printAClass constructor
    */
   function __construct()
   {
@@ -215,7 +215,7 @@ class Print_a_class {
 }
 
 /*
- * \brief helper function.. calls print_a() inside the print_a_class
+ * \brief helper function.. calls print_a() inside the printAClass
  *
  * \param array $array
  *
@@ -229,7 +229,7 @@ function print_a($array, $return_mode = FALSE, $show_object_vars = FALSE, $expor
 {
   $e = error_reporting(0);
   if (is_array($array) || is_object($array)) {
-    $pa = new Print_a_class;
+    $pa = new printAClass;
     if ($show_object_vars) {
       $pa->show_object_vars = TRUE;
     }

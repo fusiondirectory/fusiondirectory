@@ -234,7 +234,7 @@ class SetAttribute extends Attribute
         $this->attribute->renderAttribute($attributes, $readOnly);
         $attributes[$this->getLdapName().'_buttons'] = array(
           'htmlid'      => 'add'.$this->getHtmlId(),
-          'label'       => '{literal}'.$this->getLabel().'{/literal}'.($this->isRequired()?'{$must}':''),
+          'label'       => '',
           'description' => '',
           'input'       => $this->renderButtons(),
         );
@@ -672,7 +672,8 @@ class SubNodesAttribute extends OrderedArrayAttribute
     /* Should we take dn from attrs or plugin? */
     if (isset($attrs['dn'])) {
       $ldap = $config->get_ldap_link();
-      $ldap->ls('objectClass='.$this->objectClass, $attrs['dn']);
+      $ldap->cd($attrs['dn']);
+      $ldap->search('objectClass='.$this->objectClass, array('*'), 'one');
       $this->value = array();
       while ($subattrs = $ldap->fetch()) {
         $this->attribute->resetToDefault();
@@ -690,15 +691,14 @@ class SubNodesAttribute extends OrderedArrayAttribute
   /* Not saving anything into base node */
   function fillLdapValue (&$attrs)
   {
-    /* Remove crap made by plugin */
-    unset ($attrs[$this->getLdapName()]);
   }
 
   /* Special LDAP treatment that this attribute does after plugin ldap save */
   function postLdapSave ($ldap)
   {
     /* First delete all old nodes */
-    $ldap->ls('objectClass='.$this->objectClass, $this->plugin->dn, array('dn'));
+    $ldap->cd($this->plugin->dn);
+    $ldap->search('objectClass='.$this->objectClass, array('dn'), 'one');
     $delete = array();
     while ($attrs = $ldap->fetch()) {
       $delete[] = $attrs['dn'];

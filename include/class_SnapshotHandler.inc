@@ -95,59 +95,16 @@ class SnapshotHandler
   }
 
   /*!
-   * \brief Get the deleted snapshots
-   *
-   * \param string $objectBase
-   *
-   * \param boolean $raw FALSE
+   * \brief Check if there are deleted snapshots
    */
-  function getDeletedSnapshots($objectBase, $raw = FALSE)
+  function hasDeletedSnapshots()
   {
-    global $config;
-    if (!$this->enabled()) {
-      return array();
-    }
-
-    $ldap = $config->get_ldap_link();
-
-    // Initialize base
-    $base = $this->snapshot_dn($objectBase);
-
-    /* Fetch all objects and check if they do not exist anymore */
-    $objects = array();
-    $ldap->cd($base);
-    $ldap->ls("(objectClass=gosaSnapshotObject)", $base,
-                      array("gosaSnapshotTimestamp", "gosaSnapshotDN", "description"));
-    while ($entry = $ldap->fetch()) {
-      $chk = str_replace($base, "", $entry['dn']);
-      if (preg_match("/,ou=/", $chk)) {
-        continue;
-      }
-
-      if (!isset($entry['description'][0])) {
-        $entry['description'][0]  = "";
-      }
-      $objects[] = $entry;
-    }
-
-    /* Check if entry still exists */
-    foreach ($objects as $key => $entry) {
-      $ldap->cat($entry['gosaSnapshotDN'][0]);
-      if ($ldap->count()) {
-        unset($objects[$key]);
+    foreach ($this->getSnapshotBases() as $base) {
+      if (count($this->getAllDeletedSnapshots($base)) > 0) {
+        return TRUE;
       }
     }
-
-    /* Format result as requested */
-    if ($raw) {
-      return $objects;
-    } else {
-      $tmp = array();
-      foreach ($objects as $key => $entry) {
-        $tmp[base64_encode($entry['dn'])] = $entry['description'][0];
-      }
-    }
-    return $tmp;
+    return FALSE;
   }
 
   /*!
@@ -209,8 +166,11 @@ class SnapshotHandler
 
     /* Fetch all objects with  gosaSnapshotDN=$dn */
     $ldap->cd($base);
-    $ldap->ls("(&(objectClass=gosaSnapshotObject)(gosaSnapshotDN=".$dn."))", $base,
-        array("gosaSnapshotTimestamp","gosaSnapshotDN","description"));
+    $ldap->search(
+      '(&(objectClass=gosaSnapshotObject)(gosaSnapshotDN='.ldap_escape_f($dn).'))',
+      array('gosaSnapshotTimestamp','gosaSnapshotDN','description'),
+      'one'
+    );
 
     /* Put results into a list and add description if missing */
     $objects = array();
@@ -273,34 +233,31 @@ class SnapshotHandler
     /* Create object */
     $data = '';
     foreach ($dns as $tmp_dn) {
-      $data .= $ldap->generateLdif(LDAP::fix($tmp_dn), '(!(objectClass=gosaDepartment))', 'sub');
+      $data .= $ldap->generateLdif($tmp_dn, '(!(objectClass=gosaDepartment))', 'sub');
       if (!$ldap->success()) {
-        msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $tmp_dn, "", get_class()), LDAP_ERROR);
+        msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), $tmp_dn, '', get_class()), LDAP_ERROR);
       }
     }
 
-    $newName  = str_replace(".", "", $sec."-".$usec);
     $target   = array();
 
-    $target['objectClass']            = array("top", "gosaSnapshotObject");
+    $target['objectClass']            = array('top', 'gosaSnapshotObject');
     $target['gosaSnapshotData']       = gzcompress($data, 6);
     $target['gosaSnapshotDN']         = $dn;
     $target['description']            = $description;
-    $target['gosaSnapshotTimestamp']  = $newName;
 
     /* Insert the new snapshot
        But we have to check first, if the given gosaSnapshotTimestamp
        is already used, in this case we should increment this value till there is
        an unused value. */
-    $new_dn = "gosaSnapshotTimestamp=".$newName.",".$new_base;
-    $ldap->cat($new_dn);
-    while ($ldap->count()) {
+    do {
+      $target['gosaSnapshotTimestamp']  = str_replace('.', '', $sec.'-'.$usec);
+      $new_dn                           = 'gosaSnapshotTimestamp='.$target['gosaSnapshotTimestamp'].','.$new_base;
       $ldap->cat($new_dn);
-      $newName = str_replace(".", "", $sec."-".(++$usec));
-      $new_dn                           = "gosaSnapshotTimestamp=".$newName.",".$new_base;
-      $target['gosaSnapshotTimestamp']  = $newName;
-    }
-    /* Inset this new snapshot */
+      $usec++;
+    } while ($ldap->count());
+
+    /* Insert this new snapshot */
     $ldap->cd($this->snapshotRDN);
     $ldap->create_missing_trees($this->snapshotRDN);
     $ldap->create_missing_trees($new_base);
@@ -308,7 +265,7 @@ class SnapshotHandler
     $ldap->add($target);
 
     if (!$ldap->success()) {
-      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $new_base, "", get_class()), LDAP_ERROR);
+      msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), $new_base, '', get_class()), LDAP_ERROR);
     }
   }
 
@@ -333,7 +290,7 @@ class SnapshotHandler
    *
    * \return available snapshots for the given base
    */
-  function getAvailableSnapsShots($dn, $raw = FALSE)
+  function getAvailableSnapsShots($dn)
   {
     global $config;
     if (!$this->enabled()) {
@@ -349,8 +306,11 @@ class SnapshotHandler
 
     /* Fetch all objects with  gosaSnapshotDN=$dn */
     $ldap->cd($new_base);
-    $ldap->ls("(&(objectClass=gosaSnapshotObject)(gosaSnapshotDN=".$dn."))", $new_base,
-        array("gosaSnapshotTimestamp","gosaSnapshotDN","description"));
+    $ldap->search(
+      '(&(objectClass=gosaSnapshotObject)(gosaSnapshotDN='.ldap_escape_f($dn).'))',
+      array('gosaSnapshotTimestamp','gosaSnapshotDN','description'),
+      'one'
+    );
 
     /* Put results into a list and add description if missing */
     while ($entry = $ldap->fetch()) {
@@ -360,16 +320,7 @@ class SnapshotHandler
       $tmp[] = $entry;
     }
 
-    /* Return the raw array, or format the result */
-    if ($raw) {
-      return $tmp;
-    } else {
-      $tmp2 = array();
-      foreach ($tmp as $entry) {
-        $tmp2[base64_encode($entry['dn'])] = $entry['description'][0];
-      }
-    }
-    return $tmp2;
+    return $tmp;
   }
 
   /*!
@@ -379,7 +330,7 @@ class SnapshotHandler
    *
    * \param boolean $raw FALSE
    */
-  function getAllDeletedSnapshots($base_of_object, $raw = FALSE)
+  function getAllDeletedSnapshots($base_of_object)
   {
     global $config;
     if (!$this->enabled()) {
@@ -393,9 +344,12 @@ class SnapshotHandler
     /* Fetch all objects and check if they do not exist anymore */
     $tmp  = array();
     $ldap->cd($new_base);
-    $ldap->ls("(objectClass=gosaSnapshotObject)", $new_base, array("gosaSnapshotTimestamp","gosaSnapshotDN","description"));
+    $ldap->search(
+      '(objectClass=gosaSnapshotObject)',
+      array('gosaSnapshotTimestamp','gosaSnapshotDN','description'),
+      'one'
+    );
     while ($entry = $ldap->fetch()) {
-
       $chk = str_replace($new_base, "", $entry['dn']);
       if (preg_match("/,ou=/", $chk)) {
         continue;
@@ -415,16 +369,7 @@ class SnapshotHandler
       }
     }
 
-    /* Format result as requested */
-    if ($raw) {
-      return $tmp;
-    } else {
-      $tmp2 = array();
-      foreach ($tmp as $key => $entry) {
-        $tmp2[base64_encode($entry['dn'])] = $entry['description'][0];
-      }
-    }
-    return $tmp2;
+    return $tmp;
   }
 
 

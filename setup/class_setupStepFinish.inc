@@ -19,7 +19,7 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class Step_Finish extends setupStep
+class setupStepFinish extends setupStep
 {
   var $header_image = 'geticon.php?context=devices&icon=server&size=48';
 
@@ -66,7 +66,7 @@ class Step_Finish extends setupStep
     /* Create ui object */
 
     /* got user dn, fill acl's */
-    $ui = new userinfo($config, $cv['valid_admin']);
+    $ui = new userinfo($cv['valid_admin']);
     /* Username is set, load subtreeACL's now */
     $ui->loadACL();
 

@@ -29,7 +29,7 @@
  * go up, go down , back , next. etc...
  */
 class listingSortIterator implements Iterator {
-  private $data;
+  protected $data;
 
   /*!
    * \brief listingSortIterator constructor
@@ -42,58 +42,62 @@ class listingSortIterator implements Iterator {
    *
    * \param string $type
    */
-  public function __construct($data, $direction, $attribute, $type = "string")
+  public function __construct($data, $direction, $attribute, $type = 'string')
   {
-    global $_sortAttribute;
-    global $_sortType;
-    $_sortAttribute = $attribute;
-    $_sortType      = $type;
-
     // Sort for attribute
-    if ($attribute != "") {
+    if ($attribute != '') {
       uasort(
         $data,
-        function ($ao, $bo)
+        function ($ao, $bo) use ($attribute, $type)
         {
-          global $_sortAttribute;
-          global $_sortType;
+          if ($attribute == 'sort-attribute') {
+            // Override sort attribute from data if needed
+            $attribute_a = $ao['sort-attribute'];
+            $attribute_b = $bo['sort-attribute'];
+          } else {
+            $attribute_a = $attribute;
+            $attribute_b = $attribute;
+          }
 
           // Extract values from ao and bo
-          $a = $b = "";
-          if (isset($ao[$_sortAttribute])) {
-            $a = $ao[$_sortAttribute];
+          $a = $b = '';
+          if (isset($ao[$attribute_a])) {
+            $a = $ao[$attribute_a];
             if (is_array($a)) {
               $a = $a[0];
             }
           }
-          if (isset($bo[$_sortAttribute])) {
-            $b = $bo[$_sortAttribute];
+          if (isset($bo[$attribute_b])) {
+            $b = $bo[$attribute_b];
             if (is_array($b)) {
               $b = $b[0];
             }
           }
 
           // Take a look at the several types
-          switch ($_sortType) {
+          switch ($type) {
             // Sort for string by default
             default:
             case 'string':
               return strcoll($a, $b);
 
+            case 'department':
+              return strnatcmp($a, $b);
+
             case 'integer':
               return $b - $a;
 
             case 'date':
-              if ($a == "") {
-                $a = "31.12.0000";
+              if ($a == '') {
+                $a = '31.12.0000';
               }
-              if ($b == "") {
-                $b = "31.12.0000";
+              if ($b == '') {
+                $b = '31.12.0000';
               }
               list($d, $m, $y) = explode('.', $a);
-              $a = (int)sprintf("%04d%02d%02d", $y, $m, $d);
+              $a = (int)sprintf('%04d%02d%02d', $y, $m, $d);
               list($d, $m, $y) = explode('.', $b);
-              $b = (int)sprintf("%04d%02d%02d", $y, $m, $d);
+              $b = (int)sprintf('%04d%02d%02d', $y, $m, $d);
               return $b - $a;
 
             case 'ip':

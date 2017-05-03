@@ -38,8 +38,8 @@
  * The functions need to be handled with care, because they are not as strict
  * as one might expect.
  */
-class tests {
-
+class tests
+{
   /*!
    * \brief Test if the given string is a phone number
    *
@@ -265,10 +265,8 @@ class tests {
    * \brief Check if the given argument is an email
    *
    * \param string $address The email address
-   *
-   * \param boolean $template FALSE
    */
-  public static function is_email($address, $deprecated = FALSE)
+  public static function is_email($address)
   {
     if ($address == "") {
       return TRUE;
@@ -290,25 +288,21 @@ class tests {
    *
    * \param string $base
    */
-  public static function is_department_name_reserved($name, $base)
+  public static function is_department_name_reserved($name)
   {
-    $reservedName = array("systems","apps","incomming","internal","accounts","fax","addressbook",
-                            preg_replace("/ou=(.*),/", "\\1", get_people_ou()),
-                            preg_replace("/ou=(.*),/", "\\1", get_groups_ou()));
-    $follwedNames['/ou=fai,ou=configs,ou=systems,/'] = array("fai","hooks","templates","scripts","disk","packages","variables","profiles");
-
-    /* Check if name is one of the reserved names */
-    if (in_array_ics($name, $reservedName)) {
-      return TRUE;
-    }
-
-    /* Check all follow combinations if name is in array && parent base == array_key, return false*/
-    foreach ($follwedNames as $key => $names) {
-      if ((in_array_ics($name, $names)) && (preg_match($key, $base))) {
-        return TRUE;
+    global $config;
+    $reservedNames = array();
+    foreach ($config->data['OBJECTS'] as $infos) {
+      if (isset($infos['ou'])) {
+        if ($infos['ou'] != '') {
+          if (preg_match('/ou=([^,]+),$/', $infos['ou'], $m)) {
+            $reservedNames[] = $m[1];
+          }
+        }
       }
     }
-    return FALSE;
+
+    return in_array_ics($name, array_unique($reservedNames));
   }
 
 
@@ -363,25 +357,6 @@ class tests {
     $last   = $la[0] * (16777216) + $la[1] * (65536) + $la[2] * (256) + $la[3];
 
     return ($first < $curr && $last > $curr);
-  }
-
-  /*
-   * Check if entry value is a valid date
-   *
-   * \param string $date The date to check
-   */
-  public static function is_date($date)
-  {
-    if ($date == "") {
-      return TRUE;
-    }
-
-    //TODO: use global $lang to check date format
-    if (!preg_match("/([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{4})/", $date, $matches)) {
-      return FALSE;
-    }
-
-    return checkdate($matches[2], $matches[1], $matches[3]);
   }
 
   /* \brief Check if the specified IP address $address is inside the given network */

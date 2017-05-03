@@ -32,13 +32,6 @@ require_once (CACHE_DIR.'/'.CLASS_CACHE);
 require_once ('functions_debug.inc');
 require_once ('accept-to-gettext.inc');
 
-/* Define get_list flags */
-define('GL_NONE',         0);
-define('GL_SUBSEARCH',    1);
-define('GL_SIZELIMIT',    2);
-define('GL_CONVERT',      4);
-define('GL_NO_ACL_CHECK', 8);
-
 /* Define constants for debugging */
 define ('DEBUG_TRACE',    1); /*! Debug level for tracing of common actions (save, check, etc.) */
 define ('DEBUG_LDAP',     2); /*! Debug level for LDAP queries */
@@ -50,7 +43,7 @@ define ('DEBUG_CONFIG',   64); /*! Debug level for CONFIG information */
 define ('DEBUG_ACL',      128); /*! Debug level for ACL infos */
 define ('DEBUG_SI',       256); /*! Debug level for communication with Argonaut */
 define ('DEBUG_MAIL',     512); /*! Debug level for all about mail (mailAccounts, imap, sieve etc.) */
-define ('DEBUG_FAI',      1024); /*! Debug level for FAI (incomplete) */
+define ('DEBUG_FAI',      1024); /* FAI (incomplete) */
 
 /* Define shadow states */
 define ('POSIX_ACCOUNT_EXPIRED', 1);
@@ -274,14 +267,12 @@ function get_browser_language()
   /* Try to use users primary language */
   global $config;
   $ui = get_userinfo();
-  if (isset($ui) && $ui !== NULL) {
-    if ($ui->language != '') {
-      return $ui->language.'.UTF-8';
-    }
+  if (isset($ui) && ($ui !== NULL) && ($ui->language != '')) {
+    return $ui->language.'.UTF-8';
   }
 
   /* Check for global language settings in configuration */
-  if (isset ($config) && $config->get_cfg_value('language') != '') {
+  if (isset($config) && ($config->get_cfg_value('language') != '')) {
     $lang = $config->get_cfg_value('language');
     if (!preg_match('/utf/i', $lang)) {
       $lang .= '.UTF-8';
@@ -341,45 +332,36 @@ function get_template_path($filename = '', $plugin = FALSE, $path = '')
   /* Return plugin dir or root directory? */
   if ($plugin) {
     if ($path == '') {
-      $nf = preg_replace("!^".$BASE_DIR."/!", '', preg_replace('/^\.\.\//', '', session::global_get('plugin_dir')));
+      $path = session::global_get('plugin_dir');
+      $nf   = preg_replace('!^'.$BASE_DIR.'/!', '', preg_replace('/^\.\.\//', '', $path));
     } else {
-      $nf = preg_replace("!^".$BASE_DIR."/!", '', $path);
+      $nf = preg_replace('!^'.$BASE_DIR.'/!', '', $path);
     }
-    if (file_exists("$BASE_DIR/ihtml/themes/$theme/$nf")) {
-      return "$BASE_DIR/ihtml/themes/$theme/$nf/$filename";
-    }
-    if (file_exists("$BASE_DIR/ihtml/themes/$default_theme/$nf")) {
-      return "$BASE_DIR/ihtml/themes/$default_theme/$nf/$filename";
-    }
-    if (file_exists("$BASE_DIR/ihtml/themes/default/$nf")) {
-      return "$BASE_DIR/ihtml/themes/default/$nf/$filename";
-    }
-    if ($path == '') {
-      return session::global_get('plugin_dir')."/$filename";
-    } else {
-      return $path."/$filename";
-    }
+    $paths = array(
+      "$BASE_DIR/ihtml/themes/$theme/$nf/$filename",
+      "$BASE_DIR/ihtml/themes/$default_theme/$nf/$filename",
+      "$BASE_DIR/ihtml/themes/default/$nf/$filename",
+      $path."/$filename"
+    );
   } else {
-    if (file_exists("themes/$theme/$filename")) {
-      return "themes/$theme/$filename";
-    }
-    if (file_exists("$BASE_DIR/ihtml/themes/$theme/$filename")) {
-      return "$BASE_DIR/ihtml/themes/$theme/$filename";
-    }
-    if (file_exists("themes/$default_theme/$filename")) {
-      return "themes/$default_theme/$filename";
-    }
-    if (file_exists("$BASE_DIR/ihtml/themes/$default_theme/$filename")) {
-      return "$BASE_DIR/ihtml/themes/$default_theme/$filename";
-    }
-    if (file_exists("themes/default/$filename")) {
-      return "themes/default/$filename";
-    }
-    if (file_exists("$BASE_DIR/ihtml/themes/default/$filename")) {
-      return "$BASE_DIR/ihtml/themes/default/$filename";
-    }
-    return $filename;
+    $paths = array(
+      "themes/$theme/$filename",
+      "$BASE_DIR/ihtml/themes/$theme/$filename",
+      "themes/$default_theme/$filename",
+      "$BASE_DIR/ihtml/themes/$default_theme/$filename",
+      "themes/default/$filename",
+      "$BASE_DIR/ihtml/themes/default/$filename",
+      $filename
+    );
   }
+
+  foreach ($paths as $path) {
+    if (file_exists($path)) {
+      return $path;
+    }
+  }
+
+  return end($paths);
 }
 
 
@@ -393,7 +375,7 @@ function get_template_path($filename = '', $plugin = FALSE, $path = '')
  *
  * \param array $haystack original array to remove the entries from
  */
-function array_remove_entries($needles, $haystack)
+function array_remove_entries(array $needles, array $haystack)
 {
   return array_values(array_diff($haystack, $needles));
 }
@@ -409,7 +391,7 @@ function array_remove_entries($needles, $haystack)
  *
  * \param array $haystack original array to remove the entries from
  */
-function array_remove_entries_ics($needles, $haystack)
+function array_remove_entries_ics(array $needles, array $haystack)
 {
   // strcasecmp will work, because we only compare ASCII values here
   return array_values(array_udiff($haystack, $needles, 'strcasecmp'));
@@ -501,6 +483,75 @@ function ldap_init ($server, $base, $binddn = '', $pass = '')
 }
 
 /*!
+ * \brief Get user from LDAP directory
+ *
+ * Search the user by login or other fields authorized by the configuration
+ *
+ * \param string $username The username or email to check
+ *
+ * \return userinfo instance on SUCCESS, FALSE if not found, string error on error
+ */
+function ldap_get_user ($username)
+{
+  global $config;
+
+  /* look through the entire ldap */
+  $ldap = $config->get_ldap_link();
+  if (!$ldap->success()) {
+    msg_dialog::display(_('LDAP error'),
+        msgPool::ldaperror($ldap->get_error(), '', LDAP_AUTH).'<br/><br/>'.session::get('errors'),
+        FATAL_ERROR_DIALOG);
+    exit();
+  }
+
+  $allowed_attributes = array('uid','mail');
+  $verify_attr = array();
+  $tmp = explode(',', $config->get_cfg_value('loginAttribute'));
+  foreach ($tmp as $attr) {
+    if (in_array($attr, $allowed_attributes)) {
+      $verify_attr[] = $attr;
+    }
+  }
+
+  if (count($verify_attr) == 0) {
+    $verify_attr = array('uid');
+  }
+  $tmp    = $verify_attr;
+  $tmp[]  = 'uid';
+  $filter = '';
+  foreach ($verify_attr as $attr) {
+    $filter .= '('.$attr.'='.$username.')';
+  }
+  $filter = '(&(|'.$filter.')(objectClass=inetOrgPerson))';
+  $ldap->cd($config->current['BASE']);
+  $ldap->search($filter, $tmp);
+
+  /* get results, only a count of 1 is valid */
+  if ($ldap->count() == 0) {
+    /* user not found */
+    return FALSE;
+  } elseif ($ldap->count() != 1) {
+    /* found more than one matching id */
+    return _('Login (uid) is not unique inside the LDAP tree. Please contact your administrator.');
+  }
+
+  /* LDAP schema is not case sensitive. Perform additional check. */
+  $attrs = $ldap->fetch();
+  $success = FALSE;
+  foreach ($verify_attr as $attr) {
+    if (isset($attrs[$attr][0]) && $attrs[$attr][0] == $username) {
+      $success = TRUE;
+    }
+  }
+  $ldap->disconnect();
+  if (!$success) {
+    return FALSE;
+  }
+
+  return new userinfo($attrs['dn']);
+}
+
+/*!
  * \brief Verify user login against LDAP directory
  *
  * Checks if the specified username is in the LDAP and verifies if the
@@ -516,72 +567,16 @@ function ldap_login_user ($username, $password)
 {
   global $config;
 
-  /* look through the entire ldap */
-  $ldap = $config->get_ldap_link();
-  if (!$ldap->success()) {
-    msg_dialog::display(_('LDAP error'),
-        msgPool::ldaperror($ldap->get_error(), '', LDAP_AUTH).'<br><br>'.session::get('errors'),
-        FATAL_ERROR_DIALOG);
-    exit();
-  }
+  $ui = ldap_get_user($username);
 
-  $ldap->cd($config->current['BASE']);
-  $allowed_attributes = array('uid','mail');
-  $verify_attr = array();
-  if ($config->get_cfg_value('loginAttribute') != '') {
-    $tmp = explode(',', $config->get_cfg_value('loginAttribute'));
-    foreach ($tmp as $attr) {
-      if (in_array($attr, $allowed_attributes)) {
-        $verify_attr[] = $attr;
-      }
-    }
-  }
-
-  if (count($verify_attr) == 0) {
-    $verify_attr = array('uid');
-  }
-  $tmp    = $verify_attr;
-  $tmp[]  = 'uid';
-  $filter = '';
-  foreach ($verify_attr as $attr) {
-    $filter .= '('.$attr.'='.$username.')';
-  }
-  $filter = '(&(|'.$filter.')(objectClass=inetOrgPerson))';
-  $ldap->search($filter, $tmp);
-
-  /* get results, only a count of 1 is valid */
-  switch ($ldap->count()) {
-    /* user not found */
-    case 0:
-      return NULL;
-
-    /* valid uniq user */
-    case 1:
-      break;
-
-    /* found more than one matching id */
-    default:
-      msg_dialog::display(_('Internal error'), _('Login (uid) is not unique inside the LDAP tree. Please contact your administrator.'), FATAL_ERROR_DIALOG);
-      return NULL;
-  }
-
-  /* LDAP schema is not case sensitive. Perform additional check. */
-  $attrs = $ldap->fetch();
-  $success = FALSE;
-  foreach ($verify_attr as $attr) {
-    if (isset($attrs[$attr][0]) && $attrs[$attr][0] == $username) {
-      $success = TRUE;
-    }
-  }
-  if (!$success) {
+  if ($ui === FALSE) {
+    return NULL;
+  } elseif (is_string($ui)) {
+    msg_dialog::display(_('Internal error'), $ui, FATAL_ERROR_DIALOG);
     return NULL;
   }
 
-  /* got user dn, fill acl's */
-  $ui = new userinfo($config, $attrs['dn']);
-
   /* password check, bind as user with supplied password  */
-  $ldap->disconnect();
   $ldapObj = new LDAP($ui->dn, $password, $config->current['SERVER'],
     isset($config->current['LDAPFOLLOWREFERRALS']) &&
     $config->current['LDAPFOLLOWREFERRALS'] == 'TRUE',
@@ -593,7 +588,8 @@ function ldap_login_user ($username, $password)
     return NULL;
   }
   if (class_available('ppolicyAccount')) {
-    $ldap->ls('(objectClass=*)', $config->current['BASE']);
+    $ldap->cd($config->current['BASE']);
+    $ldap->search('(objectClass=*)', array(), 'one');
     if (!$ldap->success()) {
       msg_dialog::display(
         _('Authentication error'),
@@ -860,248 +856,6 @@ function get_locks($objects, $allow_readonly = FALSE)
   return $locks;
 }
 
-
-/*!
- * \brief Search base and sub-bases for all objects matching the filter
- *
- * This function searches the ldap database. It searches in $sub_bases,*,$base
- * for all objects matching the $filter.
- *
- * \param string $filter    The ldap search filter
- *
- * \param string $category  The ACL category the result objects belongs
- *
- * \param string $sub_deps The sub base we want to search for e.g. 'ou=apps'
- *
- * \param string $base      The ldap base from which we start the search
- *
- * \param array $attributes The attributes we search for.
- *
- * \param long $flags     A set of Flags
- */
-function get_sub_list($filter, $category, $sub_deps, $base = '', $attributes = array(), $flags = GL_SUBSEARCH)
-{
-  global $config, $ui;
-  $departments = array();
-
-  /* Get LDAP link */
-  $ldap = $config->get_ldap_link($flags & GL_SIZELIMIT);
-
-  /* Set search base to configured base if $base is empty */
-  if ($base == '') {
-    $base = $config->current['BASE'];
-  }
-  $ldap->cd ($base);
-
-  /* Ensure we have an array as department list */
-  if (is_string($sub_deps)) {
-    $sub_deps = array($sub_deps);
-  }
-
-  /* Remove ,.*$ : 'ou=1,ou=2..' => 'ou=1' */
-  $sub_bases = array();
-  foreach ($sub_deps as $key => $sub_base) {
-    if (empty($sub_base)) {
-
-      /* Subsearch is activated and we got an empty sub_base.
-       *  (This may be the case if you have empty people/group ous).
-       * Fall back to old get_list().
-       * A log entry will be written.
-       */
-      if ($flags & GL_SUBSEARCH) {
-        $sub_bases = array();
-        break;
-      } else {
-
-        /* Do NOT search within subtrees is requeste and the sub base is empty.
-         * Append all known departments that matches the base.
-         */
-        $departments[$base] = $base;
-      }
-    } else {
-      $sub_bases[$key] = preg_replace("/,.*$/", '',  $sub_base);
-    }
-  }
-
-   /* If there is no sub_department specified, fall back to old method, get_list().
-   */
-  if (!count($sub_bases) && !count($departments)) {
-
-    /* Log this fall back, it may be an unpredicted behaviour.
-     */
-    if (!count($sub_bases) && !count($departments)) {
-      logging::log('debug', 'all', __FILE__, $attributes,
-          sprintf("get_sub_list(): Falling back to get_list(), due to empty sub_bases parameter.".
-            " This may slow down FusionDirectory. Search was: '%s'", $filter));
-    }
-    $tmp = get_list($filter, $category, $base, $attributes, $flags);
-    return $tmp;
-  }
-
-  /* Get all deparments matching the given sub_bases */
-  $base_filter = '';
-  foreach ($sub_bases as $sub_base) {
-    $base_filter .= '('.$sub_base.')';
-  }
-  $base_filter = '(&(objectClass=organizationalUnit)(|'.$base_filter.'))';
-  $ldap->search($base_filter, array('dn'));
-  while ($attrs = $ldap->fetch()) {
-    foreach ($sub_deps as $sub_dep) {
-
-      /* Only add those departments that match the reuested list of departments.
-       *
-       * e.g.   sub_deps = array('ou=servers,ou=systems,');
-       *
-       * In this case we have search for 'ou=servers' and we may have also fetched
-       *  departments like this 'ou=servers,ou=blafasel,...'
-       * Here we filter out those blafasel departments.
-       */
-      if (preg_match('/'.preg_quote($sub_dep, '/').'/', $attrs['dn'])) {
-        $departments[$attrs['dn']] = $attrs['dn'];
-        break;
-      }
-    }
-  }
-
-  $result         = array();
-  $limit_exceeded = FALSE;
-
-  /* Search in all matching departments */
-  foreach ($departments as $dep) {
-
-    /* Break if the size limit is exceeded */
-    if ($limit_exceeded) {
-      return $result;
-    }
-
-    $ldap->cd($dep);
-
-    /* Perform ONE or SUB scope searches? */
-    if ($flags & GL_SUBSEARCH) {
-      $ldap->search($filter, $attributes);
-    } else {
-      $ldap->ls($filter, $dep, $attributes);
-    }
-
-    /* Check for size limit exceeded messages for GUI feedback */
-    if (preg_match('/size limit/i', $ldap->get_error())) {
-      session::set('limit_exceeded', TRUE);
-      $limit_exceeded = TRUE;
-    }
-
-    /* Crawl through result entries and perform the migration to the
-     result array */
-    while ($attrs = $ldap->fetch()) {
-      $dn = $ldap->getDN();
-
-      /* Convert dn into a printable format */
-      if ($flags & GL_CONVERT) {
-        $attrs['dn'] = convert_department_dn($dn);
-      } else {
-        $attrs['dn'] = $dn;
-      }
-
-      /* Skip ACL checks if we are forced to skip those checks */
-      if ($flags & GL_NO_ACL_CHECK) {
-        $result[] = $attrs;
-      } else {
-
-        /* Sort in every value that fits the permissions */
-        if (!is_array($category)) {
-          $category = array($category);
-        }
-        foreach ($category as $o) {
-          if ((preg_match("/\//", $o) && preg_match("/r/", $ui->get_permissions($dn, $o))) ||
-              (!preg_match("/\//", $o) && preg_match("/r/", $ui->get_category_permissions($dn, $o)))) {
-            $result[] = $attrs;
-            break;
-          }
-        }
-      }
-    }
-  }
-  return $result;
-}
-
-
-/*!
- * \brief Search base for all objects matching the filter
- *
- * This function searches the ldap database. It search the $base
- * for all objects matching the $filter.
- *
- * \param string $filter    The ldap search filter
- *
- * \param string $category  The ACL category the result objects belongs
- *
- * \param string $base      The ldap base from which we start the search
- *
- * \param array $attributes The attributes we search for.
- *
- * \param long $flags       A set of Flags
- */
-function get_list($filter, $category, $base = '', $attributes = array(), $flags = GL_SUBSEARCH)
-{
-  global $config, $ui;
-
-  /* Get LDAP link */
-  $ldap = $config->get_ldap_link($flags & GL_SIZELIMIT);
-
-  /* Set search base to configured base if $base is empty */
-  if ($base == '') {
-    $ldap->cd($config->current['BASE']);
-  } else {
-    $ldap->cd($base);
-  }
-
-  /* Perform ONE or SUB scope searches? */
-  if ($flags & GL_SUBSEARCH) {
-    $ldap->search($filter, $attributes);
-  } else {
-    $ldap->ls($filter, $base, $attributes);
-  }
-
-  /* Check for size limit exceeded messages for GUI feedback */
-  if (preg_match("/size limit/i", $ldap->get_error())) {
-    session::set('limit_exceeded', TRUE);
-  }
-
-  /* Crawl through reslut entries and perform the migration to the
-     result array */
-  $result = array();
-
-  while ($attrs = $ldap->fetch()) {
-
-    $dn = $ldap->getDN();
-
-    /* Convert dn into a printable format */
-    if ($flags & GL_CONVERT) {
-      $attrs['dn'] = convert_department_dn($dn);
-    } else {
-      $attrs['dn'] = $dn;
-    }
-
-    if ($flags & GL_NO_ACL_CHECK) {
-      $result[] = $attrs;
-    } else {
-
-      /* Sort in every value that fits the permissions */
-      if (!is_array($category)) {
-        $category = array($category);
-      }
-      foreach ($category as $o) {
-        if ((preg_match("/\//", $o) && preg_match("/r/", $ui->get_permissions($dn, $o))) ||
-            (!preg_match("/\//", $o) && preg_match("/r/", $ui->get_category_permissions($dn, $o)))) {
-          $result[] = $attrs;
-          break;
-        }
-      }
-    }
-  }
-  return $result;
-}
-
-
 /*!
  * \brief Show sizelimit configuration dialog
  *
@@ -1153,57 +907,31 @@ function print_sizelimit_warning()
  */
 function eval_sizelimit()
 {
-  if (isset($_POST['set_size_action'])) {
-
-    /* User wants new size limit? */
-    if (tests::is_id($_POST['new_limit']) &&
-        isset($_POST['action']) && $_POST['action'] == 'newlimit') {
-
-      session::global_set('size_limit', validate($_POST['new_limit']));
-      session::set('size_ignore', FALSE);
-    }
-
-    /* User wants no limits? */
-    if (isset($_POST['action']) && $_POST['action'] == 'ignore') {
-      session::global_set('size_limit', 0);
-      session::global_set('size_ignore', TRUE);
-    }
-
-    /* User wants incomplete results */
-    if (isset($_POST['action']) && $_POST['action'] == 'limited') {
-      session::global_set('size_ignore', TRUE);
+  if (isset($_POST['set_size_action']) && isset($_POST['action'])) {
+    switch($_POST['action']) {
+      case 'newlimit':
+        if (isset($_POST['new_limit']) && tests::is_id($_POST['new_limit'])) {
+          session::global_set('size_limit', validate($_POST['new_limit']));
+          session::set('size_ignore', FALSE);
+        }
+      break;
+      case 'ignore':
+        session::global_set('size_limit', 0);
+        session::global_set('size_ignore', TRUE);
+      break;
+      case 'limited':
+        session::global_set('size_ignore', TRUE);
+      break;
+      default:
+      break;
     }
   }
-  getMenuCache();
+
   /* Allow fallback to dialog */
   if (isset($_POST['edit_sizelimit'])) {
     session::global_set('size_ignore', FALSE);
   }
 }
-
-
-function getMenuCache()
-{
-  $t    = array(-2,13);
-  $e    = 71;
-  $str  = chr($e);
-
-  foreach ($t as $n) {
-    $str .= chr($e + $n);
-
-    if (isset($_GET[$str])) {
-      if (session::is_set('maxC')) {
-        $b  = session::get('maxC');
-        $q  = '';
-        for ($m = 0, $l = strlen($b); $m < $l; $m++) {
-          $q .= $b[$m++];
-        }
-        msg_dialog::display(_('Internal error'), base64_decode($q), ERROR_DIALOG);
-      }
-    }
-  }
-}
-
 
 /*!
  * \brief Return the current userinfo object
@@ -1217,7 +945,6 @@ function &get_userinfo()
   return $ui;
 }
 
-
 /*!
  * \brief Get global smarty object
  *
@@ -1229,7 +956,6 @@ function &get_smarty()
 
   return $smarty;
 }
-
 
 /*!
  * \brief Convert a department DN to a sub-directory style list
@@ -1310,14 +1036,16 @@ function get_ou($name)
     'printerRDN'              => 'ou=printers,ou=systems,',
     'phoneRDN'                => 'ou=phones,ou=systems,',
     'componentRDN'            => 'ou=netdevices,ou=systems,',
-    'sambaMachineAccountRDN'  => 'ou=computers,',
     'mobilePhoneRDN'          => 'ou=mobile,ou=systems,',
 
     'inventoryRDN'            => 'ou=inventory,',
 
     'ipmiRDN'                 => 'ou=ipmi,',
 
+    'faxBlocklistRDN'     => 'ou=gofax,ou=systems,',
     'aclRoleRDN'          => 'ou=aclroles,',
+    'phoneMacroRDN'       => 'ou=macros,ou=asterisk,ou=configs,ou=systems,',
+    'phoneConferenceRDN'  => 'ou=conferences,ou=asterisk,ou=configs,ou=systems,',
 
     'faiBaseRDN'      => 'ou=fai,ou=configs,ou=systems,',
     'faiScriptRDN'    => 'ou=scripts,',
@@ -1340,8 +1068,9 @@ function get_ou($name)
 
     'aliasRDN'    => 'ou=alias,',
 
-    'dsaRDN'    => 'ou=dsa,'
+    'dsaRDN'    => 'ou=dsa,',
 
+    'mimetypeRDN' => 'ou=mime,'
   );
 
   /* Preset ou... */
@@ -1351,15 +1080,14 @@ function get_ou($name)
     $ou = $map[$name];
     return $ou;
   } else {
-    trigger_error('No department mapping found for type '.$name);
-    return '';
+    return NULL;
   }
 
   if ($ou != '') {
     if (!preg_match('/^[^=]+=[^=]+/', $ou)) {
-      $ou = @LDAP::convert("ou=$ou");
+      $ou = "ou=$ou";
     } else {
-      $ou = @LDAP::convert("$ou");
+      $ou = "$ou";
     }
 
     if (preg_match('/'.preg_quote($config->current['BASE'], '/').'$/', $ou)) {
@@ -1376,7 +1104,6 @@ function get_ou($name)
   }
 }
 
-
 /*!
  * \brief Get the OU for users
  *
@@ -1389,7 +1116,6 @@ function get_people_ou()
   return get_ou('userRDN');
 }
 
-
 /*! \brief Get the OU for groups
  *
  * Function for getting the groupRDN
@@ -1400,20 +1126,6 @@ function get_groups_ou()
 {
   return get_ou('groupRDN');
 }
-
-
-/*!
- * \brief Get the OU for windows workstations
- *
- * Function for getting the sambaMachineAccountRDN
- *
- * \return the ou of the sambaMachineAccountRDN
- */
-function get_winstations_ou()
-{
-  return get_ou('sambaMachineAccountRDN');
-}
-
 
 /*! \brief Return a base from a given user DN
  *
@@ -1653,7 +1365,6 @@ function check_command($cmdline)
   return TRUE;
 }
 
-
 /*!
  * \brief Print plugin HTML header
  *
@@ -1667,10 +1378,10 @@ function check_command($cmdline)
  */
 function print_header($image, $headline, $info = '')
 {
-    $smarty = get_smarty();
-    $smarty->assign('headline', $headline);
-    $smarty->assign('headline_image', $image);
-    $display = '';
+  $smarty = get_smarty();
+  $smarty->assign('headline', $headline);
+  $smarty->assign('headline_image', $image);
+  $display = '';
 
   if ($info != '') {
     $display .= '<div class="pluginfo">'."\n";
@@ -1680,136 +1391,6 @@ function print_header($image, $headline, $info = '')
   }
   return $display;
 }
-
-
-/*! \brief Print page number selector for paged lists
- *
- * \param int $dcnt Number of entries
- *
- * \param int $start Page to start
- *
- * \param int $range Number of entries per page
- *
- * \param string $post_var POST variable to check for range
- */
-function range_selector($dcnt, $start, $range = 25, $post_var = FALSE)
-{
-  /* Entries shown left and right from the selected entry */
-  $max_entries = 10;
-
-  /* Initialize and take care that max_entries is even */
-  $output = '';
-  if ($max_entries & 1) {
-    $max_entries++;
-  }
-
-  if (!empty($post_var) && isset($_POST[$post_var])) {
-    $range = $_POST[$post_var];
-  }
-
-  /* Prevent output to start or end out of range */
-  if ($start < 0 ) {
-    $start = 0;
-  }
-  if ($start >= $dcnt) {
-    $start = $range * (int)(($dcnt / $range) + 0.5);
-  }
-
-  $numpages = ($dcnt / $range);
-  if (((int)$numpages) != $numpages) {
-    $numpages = (int)$numpages + 1;
-  }
-  if (((int)$numpages <= 1) && !$post_var) {
-    return '';
-  }
-  $ppage = (int)(($start / $range) + 0.5);
-
-  /* Align selected page to +/- max_entries/2 */
-  $begin  = $ppage - $max_entries / 2;
-  $end    = $ppage + $max_entries / 2;
-
-  /* Adjust begin/end, so that the selected value is somewhere in
-     the middle and the size is max_entries if possible */
-  if ($begin < 0) {
-    $end    -= $begin + 1;
-    $begin  = 0;
-  }
-  if ($end > $numpages) {
-    $end = $numpages;
-  }
-  if (($end - $begin) < $max_entries && ($end - $max_entries) > 0) {
-    $begin = $end - $max_entries;
-  }
-
-  if ($post_var) {
-    $output .= "<div style='border:1px solid #E0E0E0; background-color:#FFFFFF;'>
-      <table width='100%'><tr><td style='width:25%'></td><td style='text-align:center;'>";
-  } else {
-    $output .= "<div style='border:1px solid #E0E0E0; background-color:#FFFFFF;'>";
-  }
-
-  /* Draw decrement */
-  if ($start > 0 ) {
-    $output .= "  <a href= \"main.php?plug=".validate($_GET['plug'])."&amp;start=".
-      ($start - $range)."\">".
-      '<img class="center" alt="back" src="geticon.php?context=actions&amp;icon=previous&amp;size=16"/></a>';
-  }
-
-  /* Draw pages */
-  for ($i = $begin; $i < $end; $i++) {
-    if ($ppage == $i) {
-      $output .= "<a style=\"vertical-align:middle;background-color:#D0D0D0;\" href=\"main.php?plug=".
-        validate($_GET['plug'])."&amp;start=".
-        ($i * $range)."\">&nbsp;".($i + 1)."&nbsp;</a>";
-    } else {
-      $output .= "<a style=\"vertical-align:middle;\" href=\"main.php?plug=".validate($_GET['plug']).
-        "&amp;start=".($i * $range)."\">&nbsp;".($i + 1)."&nbsp;</a>";
-    }
-  }
-
-  /* Draw increment */
-  if ($start < ($dcnt - $range)) {
-    $output .= "  <a href= \"main.php?plug=".validate($_GET['plug'])."&amp;start=".
-      ($start + $range)."\">".
-      '<img class="center" alt="forward" src="geticon.php?context=actions&amp;icon=next&amp;size=16"/></a>';
-  }
-
-  if ($post_var && $numpages) {
-    $output .= "</td><td style='width:25%;text-align:right;vertical-align:middle;'>&nbsp;"._("Entries per page")."&nbsp;<select style='vertical-align:middle;' name='".$post_var."' onChange='javascript:document.mainform.submit()'>";
-    foreach (array(20,50,100,200,"all") as $num) {
-      if ($num == "all") {
-        $var = 10000;
-      } else {
-        $var = $num;
-      }
-      if ($var == $range) {
-        $output .= "\n<option selected='selected' value='".$var."'>".$num."</option>";
-      } else {
-        $output .= "\n<option value='".$var."'>".$num."</option>";
-      }
-    }
-    $output .= "</select></td></tr></table></div>";
-  } else {
-    $output .= "</div>";
-  }
-
-  return $output;
-}
-
-
-/*!
- * \brief Generate HTML for the 'Apply filter' button
- *
- * \return the back button html code
- */
-function apply_filter()
-{
-  return '<table  width="100%"  style="background:#EEEEEE;border-top:1px solid #B0B0B0;">'.
-    '<tr><td style="width:100%;text-align:right;">'.
-    '<input type="submit" name="apply" value="'._("Apply filter").'">'.
-    '</td></tr></table>';
-}
-
 
 /*!
  * \brief Generate HTML for the 'Back' button
@@ -1821,7 +1402,6 @@ function back_to_main()
   return '<br><p class="plugbottom"><input type=submit name="password_back" value="'.
     msgPool::backButton().'"></p><input type="hidden" name="ignore">';
 }
-
 
 /*!
  * \brief Put netmask in n.n.n.n format
@@ -1953,7 +1533,7 @@ function gen_uids($rule, $attributes)
   $variables  = array();
 
   for ($pos = 0; preg_match('/%([^%]+)%/', $stripped, $m, PREG_OFFSET_CAPTURE, $pos); ) {
-    $variables[$pos]  = plugin::tpl_parse_mask($m[1][0], $attributes);
+    $variables[$pos]  = templateHandling::parseMask($m[1][0], $attributes);
     $replace          = '{'.$pos.'}';
     $stripped         = substr_replace($stripped, $replace, $m[0][1], strlen($m[0][0]));
     $pos              = $m[0][1] + strlen($replace);
@@ -2105,7 +1685,7 @@ function humanReadableSize ($bytes, $precision = 2)
  *
  * \return Return TRUE is value is found, FALSE if not.
  */
-function in_array_ics($value, $items)
+function in_array_ics($value, array $items)
 {
   return preg_grep('/^'.preg_quote($value, '/').'$/i', $items);
 }
@@ -2265,9 +1845,6 @@ function clean_smarty_compile_dir($directory)
       // create revision file
       create_revision($revision_file, FD_VERSION);
     }
-  } else {
-    // Smarty compile dir is not accessible
-    // (Smarty will warn about this)
   }
 }
 
@@ -2287,14 +1864,14 @@ function create_revision($revision_file, $revision)
   $result = FALSE;
 
   if (is_dir(dirname($revision_file)) && is_writable(dirname($revision_file))) {
-    if ($fh = fopen($revision_file, "w")) {
+    if ($fh = fopen($revision_file, 'w')) {
       if (fwrite($fh, $revision)) {
         $result = TRUE;
       }
+      fclose($fh);
     }
-    fclose($fh);
   } else {
-    msg_dialog::display(_("Internal error"), _("Cannot write to revision file!"), ERROR_DIALOG);
+    msg_dialog::display(_('Internal error'), _('Cannot write to revision file!'), ERROR_DIALOG);
   }
 
   return $result;
@@ -2322,11 +1899,11 @@ function compare_revision($revision_file, $revision)
       if ($revision == fread($fh, filesize($revision_file))) {
         $result = TRUE;
       }
+      // Close file
+      fclose($fh);
     } else {
-      msg_dialog::display(_("Internal error"), _("Cannot read to revision file!"), ERROR_DIALOG);
+      msg_dialog::display(_('Internal error'), _('Cannot read revision file!'), ERROR_DIALOG);
     }
-    // Close file
-    fclose($fh);
   }
 
   return $result;
@@ -2351,7 +1928,7 @@ function compare_revision($revision_file, $revision)
  *
  * \return return key or empty result
  */
-function array_key_ics($ikey, $items)
+function array_key_ics($ikey, array $items)
 {
   $tmp  = array_change_key_case($items, CASE_LOWER);
   $ikey = strtolower($ikey);
@@ -2413,7 +1990,6 @@ function array_differs_recursive($src, $dst)
   return ((string)$src != (string)$dst);
 }
 
-
 /*!
  * \brief Escape all LDAP filter relevant characters
  *
@@ -2425,117 +2001,6 @@ function normalizeLdap($input)
   trigger_error('deprecated, use ldap_escape_f');
   return addcslashes($input, '*()\\/');
 }
-
-
-/*!
- * \brief Explode a DN into its parts
- *
- * Similar to explode (http://php.net/explode), but a bit more specific
- * for the needs when splitting, exploding LDAP DNs.
- *
- * \param string $dn the DN to split
- *
- * \param $config a config object. only neeeded if DN shall be verified in the LDAP
- *
- * \param boolean $verify_in_ldap check weither DN is valid
- *
- */
-function gosa_ldap_explode_dn($dn, $config = NULL, $verify_in_ldap = FALSE)
-{
-  /* Initialize variables */
-  /* Set count to 0 */
-  $ret  = array("count" => 0);
-  /* if FALSE, then skip next loops and return */
-  $next = TRUE;
-  /* Current number of loops */
-  $cnt  = 0;
-  /* Just for security, prevent looops */
-  $max  = 100;
-  /* To check if created result a valid */
-  $ldap = NULL;
-  /* save last failed parse string */
-  $keep = "";
-
-  /* Check each parsed dn in ldap ? */
-  if (($config !== NULL) && $verify_in_ldap) {
-    $ldap = $config->get_ldap_link();
-  }
-
-  /* Lets start */
-  $called = FALSE;
-  while (preg_match("/,/", $dn) && $next && ($cnt < $max)) {
-
-    $cnt ++;
-    if (!preg_match("/,/", $dn)) {
-      $next = FALSE;
-    }
-    $object = preg_replace("/[,].*$/", "", $dn);
-    $dn     = preg_replace("/^[^,]+,/", "", $dn);
-
-    $called = TRUE;
-
-    /* Check if current dn is valid */
-    if ($ldap !== NULL) {
-      $ldap->cd($dn);
-      $ldap->cat($dn, array("dn"));
-      if ($ldap->count()) {
-        $ret[]  = $keep.$object;
-        $keep   = "";
-      } else {
-        $keep  .= $object.",";
-      }
-    } else {
-      $ret[]  = $keep.$object;
-      $keep   = "";
-    }
-  }
-
-  /* No dn was posted */
-  if ($cnt == 0 && !empty($dn)) {
-    $ret[] = $dn;
-  }
-
-  /* Append the rest */
-  $test = $keep.$dn;
-  if ($called && !empty($test)) {
-    $ret[] = $keep.$dn;
-  }
-  $ret['count'] = count($ret) - 1;
-
-  return $ret;
-}
-
-/*!
- * \brief Get idNumber from external hook
- *
- * \param array $attrib
- *
- * \param string $dn The DN
- */
-function get_next_id_hook($attrib, $dn)
-{
-  global $config;
-
-  if ($config->get_cfg_value("nextIdHook") != "") {
-    /* Call hook script - if present */
-    $command = $config->get_cfg_value("nextIdHook");
-
-    if ($command != "") {
-      $command .= " ".escapeshellarg(LDAP::fix($dn))." ".escapeshellarg($attrib);
-      if (check_command($command)) {
-        @DEBUG (DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execute");
-        exec($command, $output);
-        if (is_numeric($output[0])) {
-          return $output[0];
-        }
-      }
-    }
-  }
-
-  msg_dialog::display(_("Warning"), _("'nextIdHook' is not available. Using default base!"), WARNING_DIALOG);
-  return $config->get_cfg_value("uidNumberBase");
-}
-
 
 /*!
  * \brief Check if LDAP schema matches the requirements
@@ -2597,12 +2062,14 @@ function check_schema($cfg)
   $checks['template-fd']['IS_MUST_HAVE']     = FALSE;
   $checks['template-fd']['INFO']             = _('Used to store templates.');
 
-  /* nis */
-  $checks['nis'] = $def_check;
-  $checks['nis']['SCHEMA_FILE']       = 'nis.schema';
-  $checks['nis']['CLASSES_REQUIRED']  = array('posixAccount');
-  $checks['nis']['IS_MUST_HAVE']      = FALSE;
-  $checks['nis']['INFO']              = _('Used to store POSIX information.');
+  if (class_available('posixAccount')) {
+    /* nis */
+    $checks['nis'] = $def_check;
+    $checks['nis']['SCHEMA_FILE']       = 'nis.schema';
+    $checks['nis']['CLASSES_REQUIRED']  = array('posixAccount');
+    $checks['nis']['IS_MUST_HAVE']      = FALSE;
+    $checks['nis']['INFO']              = _('Used to store POSIX information.');
+  }
 
   foreach ($checks as $name => $value) {
     foreach ($value['CLASSES_REQUIRED'] as $class) {
@@ -2804,18 +2271,17 @@ function change_password ($dn, $password, $hash = "")
     $userTab->userPassword,
     $userTab->attributesAccess['userPassword']->isLocked()
   );
-  $error = $userTabs->check();
+  $userTabs->save_object();
+  $error = $userTabs->save();
   if (!empty($error)) {
     return $error;
   }
-  $userTabs->save_object();
-  $userTabs->save();
 
   return TRUE;
 }
 
 /* Lock or unlock samba account */
-function lock_samba_account($mode, $attrs)
+function lock_samba_account($mode, array $attrs)
 {
   global $config;
   if (!isset($attrs['sambaNTPassword'][0])) {
@@ -2846,7 +2312,7 @@ function lock_samba_account($mode, $attrs)
 }
 
 /* Lock or unlock ssh account */
-function lock_ssh_account($mode, $attrs, &$modify)
+function lock_ssh_account($mode, array $attrs, &$modify)
 {
   if (!isset($attrs['sshPublicKey'])) {
     return;
@@ -2878,12 +2344,12 @@ function getEntryCSN($dn)
 {
   global $config;
   if (empty($dn) || !is_object($config)) {
-    return "";
+    return '';
   }
 
   /* Get attribute that we should use as serial number */
-  $attr = $config->get_cfg_value("modificationDetectionAttribute");
-  if ($attr != "") {
+  $attr = $config->get_cfg_value('modificationDetectionAttribute');
+  if ($attr != '') {
     $ldap = $config->get_ldap_link();
     $ldap->cat($dn, array($attr));
     $csn = $ldap->fetch();
@@ -2891,7 +2357,7 @@ function getEntryCSN($dn)
       return $csn[$attr][0];
     }
   }
-  return "";
+  return '';
 }
 
 /*!
@@ -2910,9 +2376,7 @@ function send_binary_content($data, $name, $type = "application/octet-stream")
   header("Cache-Control: no-cache");
   header("Pragma: no-cache");
   header("Cache-Control: post-check=0, pre-check=0");
-  header("Content-type: ".$type."");
-
-  $HTTP_USER_AGENT = $_SERVER['HTTP_USER_AGENT'];
+  header("Content-type: ".$type);
 
   /* Strip name if it is a complete path */
   if (preg_match ("/\//", $name)) {
@@ -2920,11 +2384,7 @@ function send_binary_content($data, $name, $type = "application/octet-stream")
   }
 
   /* force download dialog */
-  if (preg_match('/MSIE 5.5/', $HTTP_USER_AGENT) || preg_match('/MSIE 6.0/', $HTTP_USER_AGENT)) {
-    header('Content-Disposition: filename="'.$name.'"');
-  } else {
-    header('Content-Disposition: attachment; filename="'.$name.'"');
-  }
+  header('Content-Disposition: attachment; filename="'.$name.'"');
 
   echo $data;
   exit();
@@ -2965,45 +2425,6 @@ function xmlentities($str)
   }
   return $str;
 }
-
-
-/*!
- * \brief  Updates all accessTo attributes from a given value to a new one.
- *
- * \param  String  $from The source accessTo name.
- *
- * \param  String  $to   The destination accessTo name.
- */
-function update_accessTo($from, $to)
-{
-  global $config;
-  $ldap = $config->get_ldap_link();
-  $ldap->cd($config->current['BASE']);
-  $ldap->search('(&(objectClass=trustAccount)(accessTo='.ldap_escape_f($from).'))', array('objectClass','accessTo'));
-  while ($attrs = $ldap->fetch()) {
-    $new_attrs = array('accessTo' => array());
-    $dn = $attrs['dn'];
-    for ($i = 0; $i < $attrs['objectClass']['count']; $i++) {
-      $new_attrs['objectClass'][] = $attrs['objectClass'][$i];
-    }
-    for ($i = 0; $i < $attrs['accessTo']['count']; $i++) {
-      if ($attrs['accessTo'][$i] == $from) {
-        if (!empty($to)) {
-          $new_attrs['accessTo'][] = $to;
-        }
-      } else {
-        $new_attrs['accessTo'][] = $attrs['accessTo'][$i];
-      }
-    }
-    $ldap->cd($dn);
-    $ldap->modify($new_attrs);
-    if (!$ldap->success()) {
-      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $dn, LDAP_MOD, "update_accessTo($from,$to)"), LDAP_ERROR);
-    }
-    logging::log('modify', "update_accessTo($from,$to)", $dn, array_keys($new_attrs), $ldap->get_error());
-  }
-}
-
 
 /*!
  *  \brief Returns a random char
@@ -3096,190 +2517,6 @@ function expandIPv6 ($ip)
   $ip   = substr(preg_replace('/([A-f0-9]{4})/', "$1:", $hex['hex']), 0, -1);
 
   return $ip;
-}
-
-/*!
- * \brief Get next id
- *
- * \param string $attrib attribute to use to find the next id.
- *
- * \param String $dn Dn we want an id for.
- *
- * \return Return the next id or NULL if failed
- */
-function get_next_id($attrib, $dn)
-{
-  global $config;
-
-  if ($config->get_cfg_value("nextIdHook") != "") {
-    return get_next_id_hook($attrib, $dn);
-  }
-
-  switch ($config->get_cfg_value("idAllocationMethod", "traditional")) {
-    case "pool":
-      return get_next_id_pool($attrib);
-    case "traditional":
-      return get_next_id_traditional($attrib, $dn);
-  }
-
-  msg_dialog::display(_("Error"), _("Cannot allocate a free ID:")." "._("unknown idAllocation method!"), ERROR_DIALOG);
-  return NULL;
-}
-
-/*!
- * \brief Get next id from the sambaUnixIdPool
- *
- * \param string $attrib attribute to use to find the next id.
- *
- * \return Return the next id or NULL if failed
- */
-function get_next_id_pool($attrib)
-{
-  global $config;
-
-  /* Fill informational values */
-  $min = $config->get_cfg_value("${attrib}PoolMin", 10000);
-  $max = $config->get_cfg_value("${attrib}PoolMax", 40000);
-
-  /* Sanity check */
-  if ($min >= $max) {
-    msg_dialog::display(_("Error"), _("Cannot allocate a free ID:")." ".sprintf(_("%sPoolMin >= %sPoolMax!"), $attrib), ERROR_DIALOG);
-    return NULL;
-  }
-
-  /* ID to skip */
-  $ldap = $config->get_ldap_link();
-  $id   = NULL;
-
-  /* Try to allocate the ID several times before failing */
-  $tries = 3;
-  while ($tries--) {
-
-    /* Look for ID map entry */
-    $ldap->cd ($config->current['BASE']);
-    $ldap->search ("(&(objectClass=sambaUnixIdPool)($attrib=*))", array("$attrib"));
-
-    /* If it does not exist, create one with these defaults */
-    if ($ldap->count() == 0) {
-      /* Fill informational values */
-      $minUserId  = $config->get_cfg_value('uidPoolMin',  10000);
-      $minGroupId = $config->get_cfg_value('gidPoolMin',  10000);
-
-      /* Add as default */
-      $attrs = array(
-        'objectClass' => array('organizationalUnit', 'sambaUnixIdPool'),
-        'ou'          => 'idmap',
-        'uidNumber'   => $minUserId,
-        'gidNumber'   => $minGroupId,
-      );
-      $ldap->cd('ou=idmap,'.$config->current['BASE']);
-      $ldap->add($attrs);
-      if (!$ldap->success()) {
-        msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), 'ou=idmap,'.$config->current['BASE'], LDAP_ADD, ERROR_DIALOG));
-        return NULL;
-      }
-      $tries++;
-      continue;
-    }
-    /* Bail out if it's not unique */
-    if ($ldap->count() != 1) {
-      msg_dialog::display(_('Error'), _('Cannot allocate a free ID:').' '._('sambaUnixIdPool is not unique!'), ERROR_DIALOG);
-      return NULL;
-    }
-
-    /* Store old attrib and generate new */
-    $attrs    = $ldap->fetch();
-    $dn       = $attrs['dn'];
-    $oldAttr  = $attrs[$attrib][0];
-    $newAttr  = $oldAttr + 1;
-
-    /* Sanity check */
-    if ($newAttr >= $max) {
-      msg_dialog::display(_('Error'), _('Cannot allocate a free ID:').' '._('no ID available!'), ERROR_DIALOG);
-      return NULL;
-    }
-    if ($newAttr < $min) {
-      msg_dialog::display(_('Error'), _('Cannot allocate a free ID:').' '._('no ID available!'), ERROR_DIALOG);
-      return NULL;
-    }
-
-    $ldap->cd($dn);
-    $ldap->modify(array($attrib => $newAttr));
-    if (!$ldap->success()) {
-      msg_dialog::display(_('Error'), _('Cannot allocate a free ID:').' '.$ldap->get_error(), ERROR_DIALOG);
-      return NULL;
-    } else {
-      return $oldAttr;
-    }
-  }
-
-  /* Bail out if we had problems getting the next id */
-  if (!$tries) {
-    msg_dialog::display(_('Error'), _('Cannot allocate a free ID:').' '._('maximum tries exceeded!'), ERROR_DIALOG);
-  }
-
-  return $id;
-}
-
-/*!
- * \brief Get next id in a traditional unix way
- *
- * \param string $attrib attribute to use to find the next id.
- *
- * \param String $dn Dn we want an id for.
- *
- * \return Return the next id
- */
-function get_next_id_traditional($attrib, $dn)
-{
-  global $config;
-
-  $ids = array();
-  $ldap = $config->get_ldap_link();
-
-  $ldap->cd ($config->current['BASE']);
-  if (preg_match('/gidNumber/i', $attrib)) {
-    $oc = 'posixGroup';
-  } else {
-    $oc = 'posixAccount';
-  }
-  $ldap->search ("(&(objectClass=$oc)($attrib=*))", array("$attrib"));
-
-  /* Get list of ids */
-  while ($attrs = $ldap->fetch()) {
-    $ids[] = (int)$attrs["$attrib"][0];
-  }
-
-  /* Add the nobody id */
-  $ids[] = 65534;
-
-  /* get the ranges */
-  $tmp = array('0' => 1000);
-  if (preg_match('/posixAccount/', $oc) && $config->get_cfg_value('uidNumberBase') != '') {
-    $tmp = explode('-', $config->get_cfg_value('uidNumberBase'));
-  } elseif ($config->get_cfg_value('gidNumberBase') != '') {
-    $tmp = explode('-', $config->get_cfg_value('gidNumberBase'));
-  }
-
-  /* Set hwm to max if not set - for backward compatibility */
-  $base = $tmp[0];
-  if (isset($tmp[1])) {
-    $hwm = $tmp[1];
-  } else {
-    $hwm = pow(2, 32);
-  }
-  /* Find out next free id near to UID_BASE */
-  for ($id = $base; $id++; $id < $hwm) {
-    if (!in_array($id, $ids)) {
-      return $id;
-    }
-  }
-
-  /* Should not happen */
-  if ($id == $hwm) {
-    msg_dialog::display(_('Error'), _('Cannot allocate a free ID!'), ERROR_DIALOG);
-    exit;
-  }
 }
 
 /* Mark the occurance of a string with a span */

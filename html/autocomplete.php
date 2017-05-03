@@ -72,10 +72,11 @@ if (isset($_GET['type']) && $_GET['type'] == "base") {
 } else {
 
   $ui = session::global_get('ui');
+  $config = session::global_get('config');
 
   /* Is there a filter object arround? */
-  if (session::is_set("autocomplete")) {
-    $filter = session::get("autocomplete");
+  if (session::is_set('autocomplete')) {
+    $filter = session::get('autocomplete');
     $filter->processAutocomplete();
   }
 }

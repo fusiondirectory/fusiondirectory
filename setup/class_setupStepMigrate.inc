@@ -22,15 +22,15 @@
 /****************
  * FUNCTIONS
 
-Step_Migrate                - Constructor.
+setupStepMigrate                - Constructor.
 update_strings              - Used to update the displayed step information.
 initialize_checks           - Initialize migration steps.
 check_ldap_permissions      - Check if the used admin account has full access to the ldap database.
-check_gosaAccounts          - Check if there are users without the required objectClasses.
-migrate_gosaAccounts        - Migrate selected users to FusionDirectory user accounts.
-check_orgUnits   - Check if there are departments, that are not visible for FusionDirectory
-migrate_orgUnits - Migrate selected departments
-check_adminAccount - Check if there is at least one acl entry available
+check_accounts              - Check if there are users without the required objectClasses.
+migrate_accounts            - Migrate selected users to FusionDirectory user accounts.
+check_orgUnits              - Check if there are departments, that are not visible for FusionDirectory
+migrate_orgUnits            - Migrate selected departments
+check_adminAccount          - Check if there is at least one acl entry available
 checkBase                   - Check if there is a root object available
 
 get_user_list               - Get list of available users
@@ -176,7 +176,7 @@ class StepMigrateCheck
   }
 }
 
-class Step_Migrate extends setupStep
+class setupStepMigrate extends setupStep
 {
   var $header_image   = "geticon.php?context=applications&icon=utilities-system-monitor&size=48";
 
@@ -185,7 +185,7 @@ class Step_Migrate extends setupStep
 
   /* Entries needing migration */
   var $orgUnits_toMigrate       = array();
-  var $gosaAccounts_toMigrate   = array();
+  var $accountsToMigrate   = array();
   var $outsideUsers_toMigrate   = array();
   var $outsideGroups_toMigrate  = array();
 
@@ -257,7 +257,7 @@ class Step_Migrate extends setupStep
     $checks = array(
       'baseOC'        => new StepMigrateCheck($this, 'baseOC',        _('Inspecting object classes in root object')),
       'permissions'   => new StepMigrateCheck($this, 'permissions',   _('Checking permission for LDAP database')),
-      'gosaAccounts'  => new StepMigrateCheck($this, 'gosaAccounts',  _('Checking for invisible users')),
+      'accounts'      => new StepMigrateCheck($this, 'accounts',      _('Checking for invisible users')),
       'adminAccount'  => new StepMigrateCheck($this, 'adminAccount',  _('Checking for super administrator')),
       'defaultACLs'   => new StepMigrateCheck($this, 'defaultACLs',   _('Checking for default ACL roles and groups')),
       'outsideUsers'  => new StepMigrateCheck($this, 'outsideUsers',  _('Checking for users outside the people tree')),
@@ -352,9 +352,8 @@ class Step_Migrate extends setupStep
       /* Try to detect base class type, e.g. is it a dcObject */
       $dep_types  = departmentManagement::getDepartmentTypes();
       $dep_type   = "";
-      $attrs['objectClass'][] = 'gosaDepartment';
-
       /* This allow us to filter it as if it was already migrated */
+      $attrs['objectClass'][] = 'gosaDepartment';
       foreach ($dep_types as $type) {
         if (objects::isOfType($attrs, $type)) {
           $dep_type = $type;
@@ -521,7 +520,7 @@ class Step_Migrate extends setupStep
   /* Check if there are users which will
    *  be invisible for FusionDirectory
    */
-  function check_gosaAccounts(&$checkobj)
+  function check_accounts(&$checkobj)
   {
     global $config;
     $ldap = $config->get_ldap_link();
@@ -529,8 +528,8 @@ class Step_Migrate extends setupStep
     /* Remember old list of invisible users, to be able to set
      *  the 'html checked' status for the checkboxes again
      */
-    $old    = $this->gosaAccounts_toMigrate;
-    $this->gosaAccounts_toMigrate = array();
+    $old    = $this->accountsToMigrate;
+    $this->accountsToMigrate = array();
 
     /* Get all invisible users */
     $ldap->cd($config->current['BASE']);
@@ -557,7 +556,7 @@ class Step_Migrate extends setupStep
         if (isset($old[base64_encode($attrs['dn'])])) {
           $attrs['checked'] = $old[base64_encode($attrs['dn'])]['checked'];
         }
-        $this->gosaAccounts_toMigrate[base64_encode($attrs['dn'])] = $attrs;
+        $this->accountsToMigrate[base64_encode($attrs['dn'])] = $attrs;
       }
     }
 
@@ -566,7 +565,7 @@ class Step_Migrate extends setupStep
         _('LDAP query failed'),
         _('Possibly the "root object" is missing.')
       );
-    } elseif (count($this->gosaAccounts_toMigrate) == 0) {
+    } elseif (count($this->accountsToMigrate) == 0) {
       /* No invisible */
       return '';
     } else {
@@ -574,23 +573,23 @@ class Step_Migrate extends setupStep
         "<div style='color:#F0A500'>"._("Warning")."</div>",
         sprintf(
           _('Found %s user(s) that will not be visible in FusionDirectory or which are incomplete.'),
-          count($this->gosaAccounts_toMigrate)
+          count($this->accountsToMigrate)
         ).$checkobj->submit()
       );
     }
   }
 
-  function check_gosaAccounts_migrate (&$checkobj)
+  function check_accounts_migrate (&$checkobj)
   {
     $this->check_multipleGeneric_migrate($checkobj, array('title' => _('User migration')));
   }
 
-  function check_gosaAccounts_migrate_refresh (&$checkobj)
+  function check_accounts_migrate_refresh (&$checkobj)
   {
     return $this->check_multipleGeneric_migrate_refresh($checkobj, array('title' => _('User migration')));
   }
 
-  function check_gosaAccounts_migrate_confirm(&$checkobj, $only_ldif = FALSE)
+  function check_accounts_migrate_confirm(&$checkobj, $only_ldif = FALSE)
   {
     return $this->check_multipleGeneric_migrate_confirm(
       $checkobj,
@@ -606,9 +605,9 @@ class Step_Migrate extends setupStep
     /* Fix displayed dn syntax */
     $infos['entries'] = $this->$var;
     foreach ($infos['entries'] as $key => $data) {
-      $infos['entries'][$key]['dn'] = LDAP::fix($data['dn']);
+      $infos['entries'][$key]['dn'] = $data['dn'];
     }
-    $this->openDialog(new StepMigrateDialog($checkobj, 'setup_migrate_gosaAccounts.tpl', $infos));
+    $this->openDialog(new StepMigrateDialog($checkobj, 'setup_migrate_accounts.tpl', $infos));
   }
 
   function check_multipleGeneric_migrate_refresh (&$checkobj, $infos)
@@ -625,7 +624,7 @@ class Step_Migrate extends setupStep
     $var = $checkobj->name.'_toMigrate';
     $infos['entries'] = $this->$var;
     foreach ($infos['entries'] as $key => $data) {
-      $infos['entries'][$key]['dn'] = LDAP::fix($data['dn']);
+      $infos['entries'][$key]['dn'] = $data['dn'];
     }
     return $infos;
   }
@@ -673,7 +672,7 @@ class Step_Migrate extends setupStep
               _('Migration error'),
               sprintf(
                 _('Cannot migrate entry "%s":').'<br/><br/><i>%s</i>',
-                LDAP::fix($attrs['dn']), $ldap->get_error()
+                $attrs['dn'], $ldap->get_error()
               ),
               ERROR_DIALOG
             );
@@ -691,9 +690,6 @@ class Step_Migrate extends setupStep
   {
     global $config;
 
-    /* Reset settings */
-    $FD_1_0_8_found = FALSE;
-
     /* Establish ldap connection */
     $ldap = $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);
@@ -705,8 +701,7 @@ class Step_Migrate extends setupStep
         _('Possibly the "root object" is missing.')
       );
     } else {
-      $FD_1_0_8_found = FALSE;
-      $FD_1_0_7_found = FALSE;
+      $FD_admin_found = FALSE;
 
       $attrs = $ldap->fetch();
 
@@ -718,131 +713,70 @@ class Step_Migrate extends setupStep
         $rusers[$user_attrs['uid'][0]] = $user_attrs['dn'];
       }
       $groups = array();
-      $ldap->search("objectClass=posixGroup", array("cn","dn"));
+      $ldap->search('(objectClass=posixGroup)', array('cn','dn'));
       while ($group_attrs = $ldap->fetch()) {
         $groups[$group_attrs['dn']] = $group_attrs['cn'][0];
       }
+      $roles = array();
+      $ldap->search('(objectClass=organizationalRole)', array('cn','dn'));
+      while ($role_attrs = $ldap->fetch()) {
+        $roles[$role_attrs['dn']] = $role_attrs['cn'][0];
+      }
 
-      /* Check if a valid FusionDirectory 1.0.8 admin exists
+      /* Check if a valid FusionDirectory admin exists
           -> gosaAclEntry for an existing and accessible user.
        */
-      $valid_users  = "";
-      $valid_groups = "";
+      $valid_users  = '';
+      $valid_groups = '';
+      $valid_roles  = '';
       if (isset($attrs['gosaAclEntry'])) {
         $acls = $attrs['gosaAclEntry'];
         for ($i = 0; $i < $acls['count']; $i++) {
           $acl = $acls[$i];
-          $tmp = explode(":", $acl);
+          $tmp = explode(':', $acl);
 
-          if ($tmp[1] == "subtree") {
+          if ($tmp[1] == 'subtree') {
             /* Check if acl owner is a valid FusionDirectory user account */
-            $ldap->cat(base64_decode($tmp[2]), array("gosaAclTemplate"), '(gosaAclTemplate=*:all;cmdrw)');
+            $ldap->cat(base64_decode($tmp[2]), array('gosaAclTemplate'), '(gosaAclTemplate=*:all;cmdrw)');
             if ($ldap->count()) {
-              $members = explode(",", $tmp[3]);
+              $members = explode(',', $tmp[3]);
               foreach ($members as $member) {
                 $member = base64_decode($member);
 
                 if (isset($users[$member])) {
-                  $valid_users    .= $users[$member].", ";
-                  $FD_1_0_8_found = TRUE;
+                  $valid_users    .= $users[$member].', ';
+                  $FD_admin_found = TRUE;
                 }
                 if (isset($groups[$member])) {
                   $ldap->cat($member);
                   $group_attrs = $ldap->fetch();
-                  $val_users = "";
+                  $val_users = '';
                   if (isset($group_attrs['memberUid'])) {
                     for ($e = 0; $e < $group_attrs['memberUid']['count']; $e ++) {
                       if (isset($rusers[$group_attrs['memberUid'][$e]])) {
-                        $val_users .= $group_attrs['memberUid'][$e].", ";
+                        $val_users .= $group_attrs['memberUid'][$e].', ';
                       }
                     }
                   }
                   if (!empty($val_users)) {
-                    $valid_groups .= $groups[$member]."(<i>".trim($val_users, ", ")."</i>), ";
-                    $FD_1_0_8_found  = TRUE;
+                    $valid_groups .= $groups[$member].'(<i>'.trim($val_users, ', ').'</i>), ';
+                    $FD_admin_found  = TRUE;
                   }
                 }
-              }
-            }
-          }
-        }
-      }
-
-      /* Try to find an old FD 1.0.7 administrator account that may be migrated */
-      if (!$FD_1_0_8_found) {
-        $valid_users  = "";
-        $valid_groups = "";
-        if (isset($attrs['gosaAclEntry'])) {
-          $acls = $attrs['gosaAclEntry'];
-          for ($i = 0; $i < $acls['count']; $i++) {
-            $acl = $acls[$i];
-            $tmp = explode(":", $acl);
-
-            if ($tmp[1] == "psub") {
-              $members = explode(",", $tmp[2]);
-              foreach ($members as $member) {
-                $member = base64_decode($member);
-                if (isset($users[$member])) {
-                  if (preg_match("/all;cmdrw/i", $tmp[3])) {
-                    $valid_users    .= $users[$member].", ";
-                    $FD_1_0_7_found = TRUE;
-                  }
-                }
-                if (isset($groups[$member])) {
-                  if (preg_match("/all;cmdrw/i", $tmp[3])) {
-                    $ldap->cat($member);
-                    $group_attrs = $ldap->fetch();
-                    $val_users = "";
-                    if (isset($group_attrs['memberUid'])) {
-                      for ($e = 0; $e < $group_attrs['memberUid']['count']; $e++) {
-                        if (isset($rusers[$group_attrs['memberUid'][$e]])) {
-                          $val_users .= $group_attrs['memberUid'][$e].", ";
-                        }
+                if (isset($roles[$member])) {
+                  $ldap->cat($member);
+                  $role_attrs = $ldap->fetch();
+                  $val_users = '';
+                  if (isset($role_attrs['roleOccupant'])) {
+                    for ($e = 0; $e < $role_attrs['roleOccupant']['count']; $e ++) {
+                      if (isset($users[$role_attrs['roleOccupant'][$e]])) {
+                        $val_users .= $users[$role_attrs['roleOccupant'][$e]].', ';
                       }
-                    }
-                    if (!empty($val_users)) {
-                      $valid_groups .= $groups[$member]."(<i>".trim($val_users, ", ")."</i>), ";
-                      $FD_1_0_7_found  = TRUE;
                     }
                   }
-                }
-              }
-            } elseif ($tmp[1] == "role") {
-              /* Check if acl owner is a valid FusionDirectory user account */
-              $ldap->cat(base64_decode($tmp[2]), array("gosaAclTemplate"));
-              $ret = $ldap->fetch();
-
-              if (isset($ret['gosaAclTemplate'])) {
-                $cnt = $ret['gosaAclTemplate']['count'];
-                for ($j = 0; $j < $cnt; $j++) {
-                  $a_str = $ret['gosaAclTemplate'][$j];
-                  if (preg_match("/^[0-9]*:psub:/", $a_str) && preg_match("/:all;cmdrw$/", $a_str)) {
-
-                    $members = explode(",", $tmp[3]);
-                    foreach ($members as $member) {
-                      $member = base64_decode($member);
-
-                      if (isset($users[$member])) {
-                        $valid_users    .= $users[$member].", ";
-                        $FD_1_0_7_found = TRUE;
-                      }
-                      if (isset($groups[$member])) {
-                        $ldap->cat($member);
-                        $group_attrs = $ldap->fetch();
-                        $val_users = "";
-                        if (isset($group_attrs['memberUid'])) {
-                          for ($e = 0; $e < $group_attrs['memberUid']['count']; $e ++) {
-                            if (isset($rusers[$group_attrs['memberUid'][$e]])) {
-                              $val_users .= $group_attrs['memberUid'][$e].", ";
-                            }
-                          }
-                        }
-                        if (!empty($val_users)) {
-                          $valid_groups .= $groups[$member]."(<i>".trim($val_users, ", ")."</i>), ";
-                          $FD_1_0_7_found  = TRUE;
-                        }
-                      }
-                    }
+                  if (!empty($val_users)) {
+                    $valid_roles .= $roles[$member].'(<i>'.trim($val_users, ', ').'</i>), ';
+                    $FD_admin_found  = TRUE;
                   }
                 }
               }
@@ -852,27 +786,16 @@ class Step_Migrate extends setupStep
       }
 
       /* Print out results */
-      if ($FD_1_0_7_found) {
-        $str = "";
+      if ($FD_admin_found) {
+        $str = '';
         if (!empty($valid_users)) {
-          $str .= '<i>'.sprintf(_('FD 1.0.7 administrative accounts found: %s'), trim($valid_users, ', ')).'</i><br/>';
+          $str .= '<b>'._('Users').'</b>:&nbsp;'.trim($valid_users, ', ').'<br/>';
         }
         if (!empty($valid_groups)) {
-          $str .= '<i>'.sprintf(_('FD 1.0.7 administrative groups found: %s'), trim($valid_groups, ', ')).'</i><br/>';
+          $str .= '<b>'._('Groups').'</b>:&nbsp;'.trim($valid_groups, ', ').'<br/>';
         }
-        $str .= _('You may run <i>fusiondirectory-setup --migrate-acls</i> after saving config file at the end of the setup to migrate it.<br/>');
-        throw new CheckFailedException(
-          _('Failed'),
-          $str._('There is no valid FusionDirectory 1.0.8 administrator account inside your LDAP.').'&nbsp;'.
-          $checkobj->submit(_('Create'), 'create')
-        );
-      } elseif ($FD_1_0_8_found) {
-        $str = "";
-        if (!empty($valid_users)) {
-          $str .= "<b>"._("Users")."</b>:&nbsp;".trim($valid_users, ", ")."<br>";
-        }
-        if (!empty($valid_groups)) {
-          $str .= "<b>"._("Groups")."</b>:&nbsp;".trim($valid_groups, ", ")."<br>";
+        if (!empty($valid_roles)) {
+          $str .= '<b>'._('Roles').'</b>:&nbsp;'.trim($valid_roles, ', ').'<br/>';
         }
         return $str;
       } else {
@@ -884,7 +807,7 @@ class Step_Migrate extends setupStep
       }
     }
 
-    /* Reload base OC */
+    // Reload base OC
     $this->checks['baseOC']->run();
     return '';
   }
@@ -930,14 +853,11 @@ class Step_Migrate extends setupStep
     $_POST[$tabObject->current.'_posted'] = TRUE;
     $_POST['dialog_refresh']              = TRUE;
     $tabObject->save_object();
-    $errors = $tabObject->check();
+    $errors = $tabObject->save();
     if (!empty($errors)) {
-      foreach ($errors as $error) {
-        msg_dialog::display(_('Error'), $error, ERROR_DIALOG);
-      }
+      msg_dialog::displayChecks($errors);
       return FALSE;
     }
-    $tabObject->save();
     $admindn = $tabObject->dn;
 
     /* Assigning role */
@@ -1028,7 +948,7 @@ class Step_Migrate extends setupStep
             _('Migration error'),
             sprintf(
               _('Cannot add ACL role "%s":').'<br/><br/><i>%s</i>',
-              LDAP::fix($dn), $ldap->get_error()
+              $dn, $ldap->get_error()
             ),
             ERROR_DIALOG
           );
@@ -1315,7 +1235,6 @@ class Step_Migrate extends setupStep
         sprintf(_('Found %s department(s) that will not be visible in FusionDirectory.'), count($this->orgUnits_toMigrate)).
         '&nbsp;'.$checkobj->submit()
       );
-      /* TODO: maybe warnings should be an other kind of exception? */
     }
   }
 

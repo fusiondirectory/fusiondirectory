@@ -166,8 +166,10 @@ class department extends simplePlugin
 
     $namingAttr = static::$namingAttr;
 
-    if (tests::is_department_name_reserved($this->$namingAttr, $this->base)) {
-      $message[] = msgPool::reserved(_("Name"));
+    if ($namingAttr == 'ou') {
+      if (tests::is_department_name_reserved($this->$namingAttr)) {
+        $message[] = msgPool::reserved(_('Name'));
+      }
     }
 
     return $message;
@@ -195,14 +197,4 @@ class department extends simplePlugin
     return parent::prepare_save();
   }
 }
-    /* Hide base selector, if this object represents the base itself
-
-    $smarty->assign("is_root_dse", FALSE);
-    if ($this->dn == $config->current['BASE']) {
-      $smarty->assign("is_root_dse", TRUE);
-      $nA = $this->namingAttr."ACL";
-      $smarty->assign($nA, $this->getacl($this->namingAttr, TRUE));
-    }*/
-
-
 ?>

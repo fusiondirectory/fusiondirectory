@@ -49,12 +49,13 @@ class logging {
    *
    * \param $result         A status message, containing errors or success messages
    */
-  static function log ($action, $objecttype, $object, $changes_array = array(), $result = '')
+  static function log ($action, $objecttype, $object, array $changes_array = array(), $result = '')
   {
     global $config, $ui;
-    if (!is_array($changes_array)) {
-      trigger_error('log(string,string,string,array(),bool). Forth parameter must be an array.');
-      $changes_array = array();
+
+    if ($result === NULL) {
+      trigger_error('"Result" parameter should not be NULL');
+      $result = '';
     }
 
     /* Create data object */
@@ -134,7 +135,7 @@ class logging {
   {
     global $config;
     if ($entry['objecttype'] == 'plugin/auditEvent') {
-      // Avoid infinite loop
+      /* Avoid infinite loop */
       return;
     }
     $tabObject = objects::create('auditEvent');
@@ -147,10 +148,8 @@ class logging {
     $baseObject->fdAuditAttributes  = $entry['changes'];
     $baseObject->fdAuditResult      = $entry['result'];
     $baseObject->base               = $config->current['BASE'];
-    $message = $tabObject->check();
-    if (count($message) == 0) {
-      $tabObject->save();
-    } else {
+    $message = $tabObject->save();
+    if (!empty($message)) {
       msg_dialog::displayChecks($message);
     }
   }

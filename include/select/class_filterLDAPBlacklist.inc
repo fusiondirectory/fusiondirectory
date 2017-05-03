@@ -34,8 +34,6 @@ class filterLDAPBlacklist {
       $wlist = session::get('filterWhitelist');
       if (!empty($wlist)) {
         foreach ($entries as $id => $entry) {
-          $dn1 = $entry['dn'];
-          $dn2 = $wlist['dn'];
           if (in_array($entry['dn'], $wlist['dn'])) {
             continue;
           }

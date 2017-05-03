@@ -41,7 +41,7 @@ class FileAttribute extends Attribute
         // Reading content
         $this->readFile($handle);
       }
-      /* so that we only handle the file once */
+      // so that we only handle the file once
       $_FILES[$this->getHtmlId()]['name'] = "";
     }
   }
@@ -153,13 +153,15 @@ class FileDownloadAttribute extends FileAttribute
 
 class FileTextAreaAttribute extends FileDownloadAttribute
 {
-  function __construct ($label, $description, $ldapName, $required = FALSE, $extension = '.txt', $upload = TRUE, $defaultValue = "", $acl = "")
+  /* Default values are not the same that for FileDownloadAttribute */
+  function __construct ($label, $description, $ldapName, $required = FALSE, $extension = '.txt', $upload = TRUE, $defaultValue = '', $acl = '')
   {
     parent::__construct(
       $label, $description, $ldapName, $required,
       $extension, $upload, $defaultValue, $acl
     );
   }
+
   /*! \brief Update this attributes postValue depending of the $_POST values
    */
   function loadPostValue ()
@@ -188,6 +190,12 @@ class FileTextAreaAttribute extends FileDownloadAttribute
     }
   }
 
+  function fixPostValue ($value)
+  {
+    /* Replace CRLF by LF, to avoid non-ASCII chars */
+    return str_replace(array("\r\n", "\r"), "\n", $value);
+  }
+
   function renderFormInput ()
   {
     $id = $this->getHtmlId();
@@ -197,14 +205,9 @@ class FileTextAreaAttribute extends FileDownloadAttribute
     return $this->renderAcl($display).parent::renderFormInput();
   }
 
-  function fixPostValue ($value)
-  {
-    /* Replace CRLF by LF, to avoid non-ASCII chars */
-    return str_replace(array("\r\n", "\r"), "\n", $value);
-  }
-
   public function htmlIds()
   {
+    $id     = $this->getHtmlId();
     $ids    = parent::htmlIds();
     $ids[]  = $id.'_text';
     return $ids;
@@ -305,7 +308,7 @@ class ImageAttribute extends FileAttribute
   {
     $this->setValue($this->inputValue($this->getValue()));
     $id = $this->getHtmlId();
-    /* Just to be sure the image is not cached */
+    // Just to be sure the image is not cached
     srand((double)microtime() * 1000000);
     $display  = '<img id="'.$id.'_img"'.
                 ($this->disabled? 'disabled="disabled"':'').

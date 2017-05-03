@@ -133,7 +133,7 @@
 .\" ========================================================================
 .\"
 .IX Title "FUSIONDIRECTORY-SETUP 1"
-.TH FUSIONDIRECTORY-SETUP 1 "2017-03-29" "FusionDirectory 1.0.20" "FusionDirectory Documentation"
+.TH FUSIONDIRECTORY-SETUP 1 "2017-05-03" "FusionDirectory 1.1" "FusionDirectory Documentation"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
@@ -148,7 +148,7 @@ Some extra features allow you to install FusionDirectory's plugins, and change d
 .IX Subsection "Options"
 .IP "\-\-update\-cache" 4
 .IX Item "--update-cache"
-This option update the /var/cache/fusiondirectory/class.cache file. Wich contain \s-1PHP\s0 classes used in FusionDirectory, and their location.
+This option update the /var/cache/fusiondirectory/class.cache file. Which contain \s-1PHP\s0 classes used in FusionDirectory, and their location.
 .IP "\-\-update\-locales" 4
 .IX Item "--update-locales"
 This option update internalization, by generating a new .mo locales file for each language, with every .po files it found.
@@ -168,18 +168,18 @@ This option check your \s-1LDAP\s0 tree for duplicated uidNumber or gidNumber am
 .IP "\-\-migrate\-users" 4
 .IX Item "--migrate-users"
 This option add FusionDirectory attributes to the people branch.
-.IP "\-\-migrate\-printers" 4
-.IX Item "--migrate-printers"
-This option replace gosaPrinter objectClass by new fdPrinter objectClass.
-.IP "\-\-migrate\-dns" 4
-.IX Item "--migrate-dns"
-This option moves \s-1DNS\s0 zones from systems branch to \s-1DNS\s0 branch, which is necessary for FusionDirectory 1.0.10 and above.
+.IP "\-\-migrate\-phones" 4
+.IX Item "--migrate-phones"
+This option removes device objectClass for phones as fdPhones is now structural since \s-1FD 1.1.\s0
+.IP "\-\-migrate\-systems" 4
+.IX Item "--migrate-systems"
+This option replace old systems objectClasses by new objectClasses from \s-1FD 1.1.\s0
+.IP "\-\-migrate\-winstations" 4
+.IX Item "--migrate-winstations"
+This option replace old winstations objectClasses by new objectClasses from \s-1FD 1.1.\s0
 .IP "\-\-migrate\-dhcp" 4
 .IX Item "--migrate-dhcp"
 This option moves \s-1DHCP\s0 configurations from systems branch to \s-1DHCP\s0 branch, which is necessary for FusionDirectory 1.0.17 and above.
-.IP "\-\-migrate\-acls" 4
-.IX Item "--migrate-acls"
-This option will migrated old GOsa style acl from 1.0.7 into FusionDirectory acl roles in 1.0.8
 .IP "\-\-delete\-gosa\-locks" 4
 .IX Item "--delete-gosa-locks"
 This option will delete old GOsa style lock tokens from 1.0.15 or older
@@ -209,7 +209,7 @@ This option will list the deprecated attributes and objectclasses still in your 
 This option will list the dn of \s-1LDAP\s0 entries using deprecated attributes or objectclasses and no longer used by FusionDirectory.
 .IP "\-\-ldif\-deprecated" 4
 .IX Item "--ldif-deprecated"
-This option will print an \s-1LDIF\s0 to allow you to remove deprecated attributes from you ldap server. Be carefull and check before applying.
+This option will print an \s-1LDIF\s0 to allow you to remove deprecated attributes from you ldap server. Be careful and check before applying.
 .IP "\-\-show\-config" 4
 .IX Item "--show-config"
 This option will print a dump of the FusionDirectory configuration \s-1LDAP\s0 node.
@@ -260,8 +260,8 @@ Come Bernigaud
 .SH "LICENCE AND COPYRIGHT"
 .IX Header "LICENCE AND COPYRIGHT"
 This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-.IP "Copyright (C) 2011\-2016  FusionDirectory" 2
-.IX Item "Copyright (C) 2011-2016 FusionDirectory"
+.IP "Copyright (C) 2011\-2017  FusionDirectory" 2
+.IX Item "Copyright (C) 2011-2017 FusionDirectory"
 .PP
 This program is distributed in the hope that it will be useful,
 but \s-1WITHOUT ANY WARRANTY\s0; without even the implied warranty of

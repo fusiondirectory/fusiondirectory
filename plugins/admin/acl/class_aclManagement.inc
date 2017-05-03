@@ -166,7 +166,7 @@ class aclManagement extends simpleManagement
 
   function configureHeadpage ()
   {
-    /* Remove department types so that we don't mistake assignments with them. */
+    /* Remove department types so that we don't mistake assignments with them */
     $this->headpage->objectTypes = array();
     $this->headpage->registerElementFilter('filterLabel', 'aclManagement::filterLabel');
     parent::configureHeadpage();
@@ -175,7 +175,7 @@ class aclManagement extends simpleManagement
   /*!
    * \brief  This method intiates the object creation.
    */
-  function newEntry($action = '', $target = array(), $all = array(), $altTabClass = '', $altTabType = '', $altAclCategory = '')
+  function newEntry($action, array $target, array $all)
   {
     $this->dialogObject = new aclAssignmentCreationDialog($this);
   }
@@ -208,11 +208,10 @@ class aclManagement extends simpleManagement
     }
     $ou .= "  &nbsp; ["._("ACL Assignment")."]";
 
-    $dn = LDAP::fix($dn);
     return "<a href='?plug=".$_GET['plug']."&amp;PID=$pid&amp;act=listing_edit_$row' title='$dn'>$ou</a>";
   }
 
-  protected function removeEntryRequested($action = "", $target = array(), $all = array())
+  protected function removeEntryRequested($action, array $target, array $all)
   {
     $result = parent::removeEntryRequested($action, $target, $all);
     if ($result != "") {

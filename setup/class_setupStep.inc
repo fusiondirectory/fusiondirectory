@@ -104,15 +104,11 @@ class setupStep extends simplePlugin
   /* bypass LDAP loading */
   protected function loadAttributes()
   {
-    foreach ($this->attributesInfo as &$sectionInfo) {
-      foreach ($sectionInfo['attrs'] as $name => &$attr) {
+    foreach ($this->attributesInfo as $sectionInfo) {
+      foreach ($sectionInfo['attrs'] as $attr) {
         $attr->setParent($this);
       }
-      unset($attr);
     }
-    unset($sectionInfo);
-
-    $this->updateAttributesValues();
   }
 }
 ?>

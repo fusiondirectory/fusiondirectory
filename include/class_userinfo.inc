@@ -52,7 +52,7 @@ class userinfo
 
   /* get acl's an put them into the userinfo object
      attr subtreeACL (userdn:components, userdn:component1#sub1#sub2,component2,...) */
-  function __construct($unused, $userdn)
+  function __construct($userdn)
   {
     global $config;
     $this->dn         = $userdn;
@@ -193,12 +193,12 @@ class userinfo
           /* Inspect members... */
           foreach (array_keys($type['members']) as $grp) {
             /* Some group inside the members that is relevant for us? */
-            if (in_array_ics(@LDAP::convert(preg_replace('/^G:/', '', $grp)), $this->groups)) {
+            if (in_array_ics(preg_replace('/^G:/', '', $grp), $this->groups)) {
               $interresting = TRUE;
             }
 
             /* Some role inside the members that is relevant for us? */
-            if (in_array_ics(@LDAP::convert(preg_replace('/^R:/', '', $grp)), $this->roles)) {
+            if (in_array_ics(preg_replace('/^R:/', '', $grp), $this->roles)) {
               $interresting = TRUE;
             }
 
@@ -239,24 +239,19 @@ class userinfo
      */
     $without_self_acl = $all_acl = array();
     foreach ($this->ACL as $dn => $acl) {
-      $sdn    = $dn;
-      /* Run at least once */
-      $first  = TRUE;
-      while ((strpos($dn, ",") !== FALSE) || $first) {
-        $first = FALSE;
+      $sdn = $dn;
+      do {
         if (isset($this->ACL[$dn])) {
           $all_acl[$sdn][$dn]           = $this->ACL[$dn];
           $without_self_acl[$sdn][$dn]  = $this->ACL[$dn];
           foreach ($without_self_acl[$sdn][$dn] as $acl_id => $acl_set) {
 
-            /* Remember which ACL set has speicial user filter
-             */
+            /* Remember which ACL set has speicial user filter */
             if (isset($acl_set['filter']{1})) {
               $this->ACLperPath_usesFilter[$sdn] = TRUE;
             }
 
-            /* Remove all acl entries which are especially for the current user (self acl)
-             */
+            /* Remove all acl entries which are especially for the current user (self acl) */
             foreach ($acl_set['acl'] as $object => $object_acls) {
               if (isset($object_acls[0]) && (strpos($object_acls[0], "s") !== FALSE)) {
                 unset($without_self_acl[$sdn][$dn][$acl_id]['acl'][$object]);
@@ -265,7 +260,7 @@ class userinfo
           }
         }
         $dn = preg_replace("/^[^,]*+,/", "", $dn);
-      }
+      } while (strpos($dn, ',') !== FALSE);
     }
     $this->ACLperPath = $without_self_acl;
 
@@ -296,13 +291,11 @@ class userinfo
    *
    * \param string $category Category for which we want the acl eg: server
    *
-   * \param bool $any_acl FALSE
-   *
    * \return all the permissions for the dn and category
    */
-  function get_category_permissions($dn, $category, $any_acl = FALSE)
+  function get_category_permissions($dn, $category)
   {
-    return @$this->get_permissions($dn, $category.'/0', "");
+    return @$this->get_permissions($dn, $category.'/0', '');
   }
 
 
@@ -313,11 +306,9 @@ class userinfo
    *
    * \param string $object The acl  category (e.g. user)
    *
-   * \param string $class  The acl  class (e.g. user)
-   *
    * \return boolean TRUE if the given object is copyable else FALSE
   */
-  function is_copyable($dn, $object, $class)
+  function is_copyable($dn, $object)
   {
     return (strpos($this->get_complete_category_acls($dn, $object), 'r') !== FALSE);
   }
@@ -422,7 +413,7 @@ class userinfo
      */
     if ($this->ignore_acl_for_current_user()) {
       if ($skip_write) {
-        return 'rcdm';
+        return 'r';
       }
       return 'rwcdm';
     }
@@ -462,7 +453,7 @@ class userinfo
           $ACL_CACHE["$orig_dn+$object+$attribute"] = $ret;
         }
         if ($skip_write) {
-          $ret = str_replace('w', '', $ret);
+          $ret = str_replace(array('w','c','d','m'), '', $ret);
         }
         return $ret;
       }
@@ -681,11 +672,11 @@ class userinfo
         if (isset($deps[$dn])) {
           continue;
         }
-        $acl = "";
+        $acl = '';
         if (strpos($mod, '/')) {
           $acl .= $this->get_permissions($dn, $mod);
         } else {
-          $acl .= $this->get_category_permissions($dn, $mod, TRUE);
+          $acl .= $this->get_category_permissions($dn, $mod);
         }
         if (!empty($acl)) {
           $deps[$dn] = $dn;
@@ -795,7 +786,6 @@ class userinfo
   function get_complete_category_acls($dn, $category)
   {
     global $config;
-    $acl    = 'rwcdm';
 
     if (!is_string($category)) {
       trigger_error('category must be string');
@@ -804,6 +794,7 @@ class userinfo
       if (isset($this->result_cache['get_complete_category_acls'][$dn][$category])) {
         return $this->result_cache['get_complete_category_acls'][$dn][$category];
       }
+      $acl = 'rwcdm';
       if (isset($config->data['CATEGORIES'][$category])) {
         foreach ($config->data['CATEGORIES'][$category]['classes'] as $oc) {
           if ($oc == '0') {
@@ -974,6 +965,24 @@ class userinfo
       $this->loadACL();
     }
     return ($this->get_permissions($config->current['BASE'], 'user/user') == 'rwcdm');
+  }
+
+  /* \brief Test if a plugin is blacklisted for this user (does not show up in the menu)
+   */
+  function isBlacklisted($plugin)
+  {
+    global $config;
+    $blacklist = $config->get_cfg_value('PluginsMenuBlacklist', array());
+    foreach ($blacklist as $item) {
+      list ($group, $p) = explode('|', $item, 2);
+      if ($plugin == $p) {
+        if (in_array($group, $this->groups) || in_array($group, $this->roles)) {
+          return TRUE;
+        }
+      }
+    }
+
+    return FALSE;
   }
 }
 ?>

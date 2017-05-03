@@ -71,12 +71,12 @@ This path needs to be writeable by the user your webserver is running with.
 
 =item B<ignoreAcl> I<dn>
 
-The ignoreAcl value tells FusionDirectory to ignore complete ACL sets for the given DN. Add your DN here and you'll be able to restore accidently dropped ACLs.
+The ignoreAcl value tells FusionDirectory to ignore complete ACL sets for the given DN. Add your DN here and you'll be able to restore accidentally dropped ACLs.
 
 =item B<displayerrors> bool
 
 The  displayerrors  statement tells FusionDirectory to show PHP errors in the upper part of the screen. This should be disabled in productive deployments, because there
-might be some important passwords arround.
+might be some important passwords around.
 
 =back
 
@@ -157,7 +157,7 @@ This code is part of FusionDirectory <http://www.fusiondirectory.org>
 
 =item Copyright (C) 2003-2010 GONICUS GmbH
 
-=item Copyright (C) 2011-2016 FusionDirectory project
+=item Copyright (C) 2011-2017 FusionDirectory project
 
 =back
 

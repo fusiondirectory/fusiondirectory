@@ -149,8 +149,6 @@ class userRoles extends simplePlugin
 
     $this->is_account = ((count($this->rolesMembership) > 0) || (count($this->groupsMembership) > 0));
     $this->initially_was_account = $this->is_account;
-
-    $this->updateAttributesValues();
   }
 
   function is_this_account($attrs)
@@ -169,7 +167,9 @@ class userRoles extends simplePlugin
 
   function remove_from_parent()
   {
-    if (!$this->is_template && ($this->dn != '') && ($this->dn != 'new')) {
+    if ($this->is_template) {
+      parent::remove_from_parent();
+    } elseif (($this->dn != '') && ($this->dn != 'new')) {
       /* Remove all groups */
       foreach ($this->savedGroupsMembership as $ogroupdn) {
         $g = objects::open($ogroupdn, 'ogroup');
@@ -191,6 +191,20 @@ class userRoles extends simplePlugin
     $this->is_account = ((count($this->rolesMembership) > 0) || (count($this->groupsMembership) > 0));
   }
 
+  protected function shouldSave()
+  {
+    if (parent::shouldSave()) {
+      return TRUE;
+    }
+    if (array_differs($this->groupsMembership, $this->savedGroupsMembership)) {
+      return TRUE;
+    }
+    if (array_differs($this->rolesMembership, $this->savedRolesMembership)) {
+      return TRUE;
+    }
+    return FALSE;
+  }
+
   function prepare_save()
   {
     parent::prepare_save();
@@ -200,19 +214,31 @@ class userRoles extends simplePlugin
     }
   }
 
-  function ldap_save($cleanup = TRUE)
+  function prepare_remove()
   {
-    parent::ldap_save($cleanup);
+    parent::prepare_remove();
+    if ($this->is_template) {
+      $this->attrs['userGroups']  = array();
+      $this->attrs['userRoles']   = array();
+    }
+  }
+
+  function ldap_save()
+  {
+    $errors = parent::ldap_save();
+
+    if (!empty($errors)) {
+      return $errors;
+    }
 
     if (!$this->is_template) {
       /* We need to give an array which looks like an ldap fetch and match user filter */
       $fake_attrs = array(
         'objectClass' => array('inetOrgPerson','organizationalPerson','person'),
         'cn'          => array($this->dn),
+        'uid'         => array($this->dn),
         'dn'          => $this->dn
       );
-
-      $errors = array();
 
       /* Take care about groupsMembership values: add to groups */
       $groupsMembership = $this->attributesAccess['groupsMembership']->getValue();
@@ -224,12 +250,17 @@ class userRoles extends simplePlugin
             continue;
           }
           $g->getBaseObject()->attributesAccess['member']->addValue($this->dn, $fake_attrs);
-          $g->save();
+          $msg = $g->save();
+          if (empty($msg)) {
+            $this->savedGroupsMembership[] = $ogroupdn;
+          } else {
+            $errors = array_merge($errors, $msg);
+          }
         }
       }
 
       /* Remove groups not listed in groupsMembership */
-      foreach ($this->savedGroupsMembership as $ogroupdn) {
+      foreach ($this->savedGroupsMembership as $key => $ogroupdn) {
         if (!in_array($ogroupdn, $groupsMembership)) {
           $g = objects::open($ogroupdn, 'ogroup');
           if (!$g->getBaseObject()->attrIsWriteable('member')) {
@@ -237,7 +268,12 @@ class userRoles extends simplePlugin
             continue;
           }
           $g->getBaseObject()->attributesAccess['member']->searchAndRemove($this->dn);
-          $g->save();
+          $msg = $g->save();
+          if (empty($msg)) {
+            unset($this->savedGroupsMembership[$key]);
+          } else {
+            $errors = array_merge($errors, $msg);
+          }
         }
       }
 
@@ -251,12 +287,17 @@ class userRoles extends simplePlugin
             continue;
           }
           $r->getBaseObject()->attributesAccess['roleOccupant']->addValue($this->dn, $fake_attrs);
-          $r->save();
+          $msg = $r->save();
+          if (empty($msg)) {
+            $this->savedRolesMembership[] = $roledn;
+          } else {
+            $errors = array_merge($errors, $msg);
+          }
         }
       }
 
       /* Remove roles not listed in rolesMembership */
-      foreach ($this->savedRolesMembership as $roledn) {
+      foreach ($this->savedRolesMembership as $key => $roledn) {
         if (!in_array($roledn, $rolesMembership)) {
           $r = objects::open($roledn, 'role');
           if (!$r->getBaseObject()->attrIsWriteable('roleOccupant')) {
@@ -264,13 +305,17 @@ class userRoles extends simplePlugin
             continue;
           }
           $r->getBaseObject()->attributesAccess['roleOccupant']->searchAndRemove($this->dn);
-          $r->save();
+          $msg = $r->save();
+          if (empty($msg)) {
+            unset($this->savedRolesMembership[$key]);
+          } else {
+            $errors = array_merge($errors, $msg);
+          }
         }
       }
-
-      /* Display errors if any */
-      msg_dialog::displayChecks($errors);
     }
+
+    return $errors;
   }
 
   function adapt_from_template($attrs, $skip = array())

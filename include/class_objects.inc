@@ -33,10 +33,11 @@ class objects
    * \param string  $ou the LDAP branch to search in, base will be used if it is NULL
    * \param string  $filter an additional filter to use in the LDAP search.
    * \param boolean $checkAcl should ACL be ignored or checked? Defaults to FALSE.
+   * \param string  $scope scope, defaults to subtree. When using one, be careful what you put in $ou.
    *
    * \return The list of objects as an associative array (keys are dns)
    */
-  static function ls ($types, $attrs = NULL, $ou = NULL, $filter = '', $checkAcl = FALSE)
+  static function ls ($types, $attrs = NULL, $ou = NULL, $filter = '', $checkAcl = FALSE, $scope = 'subtree')
   {
     global $ui;
 
@@ -70,7 +71,7 @@ class objects
       $search_attrs = array($attrs);
     }
     try {
-      $ldap = static::search($types, $search_attrs, $ou, $filter);
+      $ldap = static::search($types, $search_attrs, $ou, $filter, $scope);
     } catch (NonExistingBranchException $e) {
       return array();
     }
@@ -124,7 +125,7 @@ class objects
     return $ldap->count();
   }
 
-  private static function search ($types, $search_attrs, $ou = NULL, $filter = '')
+  private static function search ($types, $search_attrs, $ou = NULL, $filter = '', $scope = 'subtree')
   {
     global $config;
 
@@ -162,7 +163,7 @@ class objects
       $filter = '(&'.$filter.'(|'.implode($typeFilters).'))';
     }
     $ldap->cd($ou);
-    $ldap->search($filter, $search_attrs);
+    $ldap->search($filter, $search_attrs, $scope);
     if (!$ldap->success()) {
       throw new LDAPFailureException($ldap->get_error());
     }
@@ -179,7 +180,6 @@ class objects
    */
   static function open ($dn, $type)
   {
-
     $infos    = static::infos($type);
     $tabClass = $infos['tabClass'];
 
@@ -190,7 +190,7 @@ class objects
     return $tabObject;
   }
 
-  static function link($dn, $type, $subaction = '', $text = NULL, $icon = TRUE)
+  static function link ($dn, $type, $subaction = '', $text = NULL, $icon = TRUE)
   {
     global $config;
 
@@ -247,10 +247,25 @@ class objects
 
   static function isOfType ($attrs, $type)
   {
-    //TODO : cache ldapFilter objects?
-    $infos  = static::infos($type);
-    $filter = ldapFilter::parse($infos['filter']);
+    $filter = static::getFilterObject($type);
     return $filter($attrs);
+  }
+
+  /* This method allows to cache parsed filter in filterObject key in objectTypes */
+  static function getFilterObject ($type)
+  {
+    global $config;
+
+    if (!isset($config->data['OBJECTS'][strtoupper($type)])) {
+      throw new NonExistingObjectTypeException('Non-existing type "'.$type.'"');
+    }
+
+    $infos =& $config->data['OBJECTS'][strtoupper($type)];
+
+    if (!isset($infos['filterObject'])) {
+      $infos['filterObject'] = ldapFilter::parse($infos['filter']);
+    }
+    return $infos['filterObject'];
   }
 
   static function types ()
@@ -261,7 +276,7 @@ class objects
 
   /* !\brief  This method returns a list of all available templates for the given type
    */
-  static function getTemplates($type, $requiredPermissions = 'r')
+  static function getTemplates ($type, $requiredPermissions = 'r')
   {
     global $config, $ui;
 
@@ -282,7 +297,7 @@ class objects
               continue;
             }
           }
-          $templates[$dn] = $attrs['cn'][0]." - ".LDAP::fix($key);
+          $templates[$dn] = $attrs['cn'][0].' - '.$key;
         }
       }
     }

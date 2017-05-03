@@ -19,7 +19,7 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class Step_Config_before_init extends setupStep
+class setupStepConfig_before_init extends setupStep
 {
   function update_strings()
   {
@@ -35,7 +35,7 @@ class Step_Config_before_init extends setupStep
   }
 }
 
-class Step_Config extends configInLdap
+class setupStepConfig extends configInLdap
 {
   var $is_active    = FALSE;
   var $is_enabled   = FALSE;
@@ -169,7 +169,7 @@ class Step_Config extends configInLdap
   {
     return TRUE;
   }
-  function getacl($attribute, $skip_write = FALSE)
+  function aclGetPermissions($attribute = '0', $base = NULL, $skipWrite = FALSE)
   {
     return 'cmdrw';
   }

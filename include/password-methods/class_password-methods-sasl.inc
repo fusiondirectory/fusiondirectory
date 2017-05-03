@@ -28,7 +28,7 @@
  * \see passwordMethod
  */
 class passwordMethodsasl extends passwordMethod {
-  /* uid, or exop specified field value */
+  // uid, or exop specified field value
   var $uid    = "";
   var $realm  = "";
   var $exop   = "";
@@ -87,7 +87,7 @@ class passwordMethodsasl extends passwordMethod {
       }
       return '{SASL}'.$this->uid.'@'.$this->realm;
     } else {
-      /* may not be the uid, see saslExop option */
+      // may not be the uid, see saslExop option
       return '{SASL}'.$this->uid;
     }
   }

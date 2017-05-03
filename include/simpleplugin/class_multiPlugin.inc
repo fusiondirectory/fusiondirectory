@@ -85,10 +85,10 @@ class multiPlugin extends simplePlugin
     /* Execude  objects */
     $is_first = TRUE;
 
-    $ReadOnly = (!isset($this->parent) || !$this->parent) && !session::is_set('edit');
+    $readOnly = $this->readOnly();
 
     foreach ($this->plugin as &$plug) {
-      $plug->read_only = $ReadOnly;
+      $plug->read_only = $readOnly;
       if (!$is_first) {
         $display .= '<p class="seperator plugbottom">&nbsp;</p>';
       } else {
@@ -156,26 +156,36 @@ class multiPlugin extends simplePlugin
   /* Save to LDAP */
   function save()
   {
+    $errors = array();
     /* Save objects */
     foreach ($this->plugin as &$plug) {
       $plug->dn = $this->dn;
       if ($plug->is_account || $plug->ignore_account) {
-        $plug->save();
+        $result = $plug->save();
       } else {
-        $plug->remove_from_parent();
+        $result = $plug->remove_from_parent();
+      }
+      if (!empty($result)) {
+        $errors = array_merge($errors, $result);
       }
     }
     unset($plug);
+    return $errors;
   }
 
   function remove_from_parent()
   {
+    $errors = array();
     /* Remove objects */
     foreach ($this->plugin as &$plug) {
       $plug->dn = $this->dn;
-      $plug->remove_from_parent();
+      $result = $plug->remove_from_parent();
+      if (!empty($result)) {
+        $errors = array_merge($errors, $result);
+      }
     }
     unset($plug);
+    return $errors;
   }
 
   function adapt_from_template($attrs, $skip = array())
@@ -188,8 +198,6 @@ class multiPlugin extends simplePlugin
     unset($plug);
   }
 
-  /* Prepare the connectivity obj
-   */
   function resetCopyInfos()
   {
     $this->dn = 'new';
@@ -197,15 +205,6 @@ class multiPlugin extends simplePlugin
       $plug->resetCopyInfos();
     }
     unset($plug);
-  }
-
-  /* Prepare the connectivity obj
-   */
-  function postCopyHook()
-  {
-    foreach ($this->plugin as &$plug) {
-      $plug->postCopyHook();
-    }
   }
 }
 

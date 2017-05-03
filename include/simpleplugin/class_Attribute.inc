@@ -18,6 +18,11 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*!
+ * \file class_Attribute.inc
+ * Source code for the main Attribute class
+ */
+
 /*! \brief This class allow to handle easily any kind of LDAP attribute
  *
  */
@@ -551,8 +556,8 @@ class Attribute
       }
       $attributes[$this->getLdapName()] = array(
         'htmlid'      => $this->getForHtmlId(),
-        'label'       => '{literal}'.$this->getLabel().'{/literal}'.($this->isRequired()?'{$must}':''),
-        'description' => ($this->isRequired()?sprintf(_("%s (required)"), $this->getDescription()):$this->getDescription()),
+        'label'       => '{literal}'.$this->getLabel().'{/literal}'.($this->isRequired() ? '{$must}' : ''),
+        'description' => ($this->isRequired() ? sprintf(_("%s (required)"), $this->getDescription()) : $this->getDescription()),
         'input'       => $input,
       );
     }
@@ -570,7 +575,7 @@ class Attribute
         $type[] = $class;
         $class  = get_parent_class($class);
       }
-       /* To avoid empty array */
+      /* Avoid empty array */
       $type[] = 'Attribute';
       $infos = array(
         'htmlid'      => $this->getHtmlId(),
@@ -608,20 +613,20 @@ class Attribute
    */
   function renderAcl($display)
   {
-    return '{render acl=$'.$this->getAcl()."ACL}\n$display\n{/render}";
+    return '{render aclName="'.$this->getAcl().'" acl=$'.$this->getAcl()."ACL}\n$display\n{/render}";
   }
 
   /*! \brief Get ACL information about the ACL we need to create
    */
   function getAclInfo ()
   {
-    /* If acl is not empty, we use an acl that is not ours, we have no acl to create */
     if (empty($this->acl)) {
       return array(
         'name' => $this->getHtmlId(),
         'desc' => $this->getDescription()
       );
     } else {
+      /* If acl is not empty, we use an acl that is not ours, we have no acl to create */
       return FALSE;
     }
   }
@@ -685,7 +690,7 @@ class Attribute
   {
     $input  = '<input type="'.$type.'" '.
               'name="'.$name.'" id="'.$name.'"'.
-              ($this->disabled? ' disabled="disabled"':'');
+              ($this->disabled ? ' disabled="disabled"' : '');
     foreach ($attributes as $label => $value) {
       $input .= ' '.$label.'="'.$value.'"';
     }
@@ -777,8 +782,6 @@ class ReadOnlyLDAPAttribute extends DisplayLDAPAttribute
 {
   function fillLdapValue (&$attrs)
   {
-    /* Remove crap made by plugin */
-    unset($attrs[$this->getLdapName()]);
   }
 }
 
@@ -822,5 +825,4 @@ class DisplayAttribute extends DisplayLDAPAttribute
     $this->setInLdap(FALSE);
   }
 }
-
 ?>

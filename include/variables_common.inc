@@ -63,7 +63,7 @@ define("FPDF_FONTPATH", "/usr/share/php/fpdf/font/"); /*! Define fpdf font path 
 /*!
  * \brief FusionDirectory Version
  */
-define ("FD_VERSION", "1.0.20"); /*! Define FusionDirectory version */
+define ("FD_VERSION", "1.1"); /*! Define FusionDirectory version */
 
 /*!
  * \brief FusionDirectory config object RDN
@@ -74,5 +74,10 @@ define ("CONFIGRDN", "cn=config,ou=fusiondirectory,"); /*! Define FusionDirector
  * \brief Minimum PHP version
  */
 define ("PHP_MIN_VERSION", "5.4.0");
+
+/*!
+ * \brief Toggle crashing on PHP error, used for test suites
+ */
+define ('PHP_ERROR_FATAL', 'FALSE');
 
 ?>

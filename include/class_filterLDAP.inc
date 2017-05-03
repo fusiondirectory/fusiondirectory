@@ -50,8 +50,7 @@ class filterLDAP
    */
   static function query($parent, $base, $scope, $filter, $attributes, $category, $objectStorage = array(""))
   {
-    $flag   = (($scope == 'sub') ? GL_SUBSEARCH : 0);
-    return static::get_list($parent, $base, $filter, $attributes, $category, $objectStorage, $flag | GL_SIZELIMIT);
+    return static::get_list($parent, $base, $filter, $attributes, $category, $objectStorage, (($scope == 'sub') ? 'subtree' : 'one'), TRUE);
   }
 
   /*!
@@ -69,9 +68,13 @@ class filterLDAP
    *
    * \param array $objectStorage
    *
-   * \param flag $flags GL_SUBSEARCH
+   * \param string $scope subtree or one
+   *
+   * \param boolean $sizelimit
+   *
+   * \param boolean $checkAcl
    */
-  static function get_list($parent, $base, $filter, $attributes, $category, $objectStorage, $flags)
+  static function get_list($parent, $base, $filter, $attributes, $category, $objectStorage, $scope, $sizelimit = TRUE, $checkAcl = FALSE)
   {
     global $config, $ui;
 
@@ -80,53 +83,47 @@ class filterLDAP
       $category = array($category);
     }
 
-    // Store in base - i.e. is a rdn value empty?
-    $storeOnBase = in_array('', $objectStorage);
-
-    $default_method = (($storeOnBase && !($flags & GL_SUBSEARCH)) ? 'ls' : 'search');
-
     // Initialize search bases
     $bases = array();
 
-    // Get list of sub bases to search on
-    if ($storeOnBase) {
-      $bases[$base] = "";
-    } else {
-      foreach ($objectStorage as $oc) {
-        $oc = preg_replace('/,$/', '', $oc);
-        if (!strpos($oc, ',')) {
-          preg_match('/([^=]+)=(.*)$/', $oc, $m);
-          if ($flags & GL_SUBSEARCH) {
-            $bases[$base][] = $m[1].":dn:=".$m[2];
-          } else {
-            $bases["$oc,$base"][] = $m[1].":dn:=".$m[2];
-          }
+    foreach ($objectStorage as $oc) {
+      $oc = preg_replace('/,$/', '', $oc);
+      if ($scope == 'one') {
+        if (empty($oc)) {
+          $bases[$base] = TRUE;
         } else {
-          // No, there's no \, in pre defined RDN values
-          preg_match('/^([^,]+),(.*)$/', $oc, $matches);
-          preg_match('/([^=]+)=(.*)$/', $matches[1], $m);
-          if ($flags & GL_SUBSEARCH) {
-            $bases[$base][] = $m[1].":dn:=".$m[2];
-          } else {
-            $bases[$matches[2].",$base"][] = $m[1].":dn:=".$m[2];
-          }
+          $bases[$oc.','.$base] = TRUE;
+        }
+      } else {
+        if (empty($oc)) {
+          /* If we search on the base as well because of an empty storage string,
+           * it makes no sense to do dn filters */
+          $bases[$base] = TRUE;
+          break;
+        }
+        $parts    = ldap_explode_dn($oc, 0);
+        unset($parts['count']);
+        $dnFilter = array();
+        foreach ($parts as $part) {
+          preg_match('/([^=]+)=(.*)$/', $part, $m);
+          $dnFilter[] = '('.$m[1].':dn:='.$m[2].')';
+        }
+        if (count($dnFilter) > 1) {
+          $bases[$base][] = '(&'.implode('', $dnFilter).')';
+        } else {
+          $bases[$base][] = $dnFilter[0];
         }
       }
     }
 
     // Get LDAP link
-    $ldap = $config->get_ldap_link($flags & GL_SIZELIMIT);
+    $ldap = $config->get_ldap_link($sizelimit);
 
     // Do search for every base
     $result = array();
     $limit_exceeded = FALSE;
 
-    // Save initial selected base for comparison purposes
-    $initial_base = $base;
-
     foreach ($bases as $base => $dnFilters) {
-      $method = $default_method;
-
       // Break if the size limit is exceeded
       if ($limit_exceeded) {
         return $result;
@@ -134,27 +131,13 @@ class filterLDAP
 
       // Switch to new base and search
       if (is_array($dnFilters)) {
-        $dnFilter = "(|";
-        foreach ($dnFilters as $df) {
-          $dnFilter .= "($df)";
-        }
-        $dnFilter .= ")";
+        $dnFilter = '(|'.implode('', $dnFilters).')';
       } else {
-        $dnFilter = "";
+        $dnFilter = '';
       }
       $ldap->cd($base);
 
-      // In no-subsearch mode overwrite default method if
-      // current base equals the initial base
-      if ($base == $initial_base && !($flags & GL_SUBSEARCH)) {
-        $method = "ls";
-      }
-
-      if ($method == "ls") {
-        $ldap->ls("(&$filter$dnFilter)", $base, $attributes);
-      } else {
-        $ldap->search("(&$filter$dnFilter)", $attributes);
-      }
+      $ldap->search('(&'.$filter.$dnFilter.')', $attributes, $scope);
 
       // Check for size limit exceeded messages for GUI feedback
       if (preg_match("/size limit/i", $ldap->get_error())) {
@@ -168,7 +151,7 @@ class filterLDAP
         $dn = $attrs['dn'];
 
         /* Skip ACL checks if we are forced to skip those checks */
-        if ($flags & GL_NO_ACL_CHECK) {
+        if (!$checkAcl) {
           $result[] = $attrs;
         } else {
           // Check entry permission
@@ -183,7 +166,6 @@ class filterLDAP
           }
         }
       }
-
     }
 
     return $result;

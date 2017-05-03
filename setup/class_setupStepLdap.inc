@@ -19,7 +19,7 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class Step_Ldap extends setupStep
+class setupStepLdap extends setupStep
 {
   var $header_image = 'geticon.php?context=places&icon=network-server&size=48';
 
@@ -113,8 +113,21 @@ class Step_Ldap extends setupStep
   {
     $attr = @LDAP::get_naming_contexts($this->connection);
     unset($attr['count']);
-    $this->attributesAccess['base']->setChoices($attr);
-    $this->attributesAccess['admin']->attributes[1]->setValue(','.$this->base);
+    if (count($attr)) {
+      if (!($this->attributesAccess['base'] instanceof SelectAttribute)) {
+        $this->attributesInfo['connection']['attrs']['base'] = new SelectAttribute(
+          _('Base'), _('The LDAP directory base'),
+          'base', TRUE
+        );
+      }
+      $this->attributesAccess['base']->setChoices($attr);
+      $this->attributesAccess['admin']->attributes[1]->setValue(','.$this->base);
+    } else {
+      $this->attributesInfo['connection']['attrs']['base'] = new StringAttribute(
+        _('Base'), _('The LDAP directory base'),
+        'base', TRUE
+      );
+    }
   }
 
   function save_object()
@@ -186,6 +199,7 @@ class Step_Ldap extends setupStep
   {
     $error = parent::check();
     if (!empty($error)) {
+      $this->update_base_choices();
       return $error;
     } elseif ($this->is_completed) {
       $checked  = check_schema($this->parent->captured_values);

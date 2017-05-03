@@ -147,3 +147,4 @@ class ObjectClassBooleanAttribute extends BooleanAttribute
     }
   }
 }
+

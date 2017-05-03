@@ -23,12 +23,13 @@
  * Source code for class message dialog
  */
 
-define("INFO_DIALOG",         10001);
-define("WARNING_DIALOG",      10002);
-define("ERROR_DIALOG",        10003);
-define("LDAP_ERROR",          10003);
-define("CONFIRM_DIALOG",      10004);
-define("FATAL_ERROR_DIALOG",  10006);
+define('INFO_DIALOG',         10001);
+define('WARNING_DIALOG',      10002);
+define('ERROR_DIALOG',        10003);
+// LDAP_ERROR is the same as ERROR_DIALOG
+define('LDAP_ERROR',          10003);
+define('CONFIRM_DIALOG',      10004);
+define('FATAL_ERROR_DIALOG',  10006);
 
 /*!
  * \brief This class contains all the function needed to make messages
@@ -36,12 +37,11 @@ define("FATAL_ERROR_DIALOG",  10006);
  */
 class msg_dialog
 {
-  private $s_Title    = "Undefined";
-  private $s_Message  = "Undefined";
+  private $s_Title    = 'Undefined';
+  private $s_Message  = 'Undefined';
   private $i_Type     = INFO_DIALOG;
   private $i_ID       = 0;
   private $a_Trace    = array();
-
 
   /*!
    * \brief Message dialog constructor
@@ -54,15 +54,23 @@ class msg_dialog
    */
   public function __construct($s_title, $s_message, $i_type)
   {
-    global $config;
-
-    if (empty($s_message)) {
-      return;
+    if (!in_array($i_type, array(INFO_DIALOG,WARNING_DIALOG,ERROR_DIALOG,CONFIRM_DIALOG,FATAL_ERROR_DIALOG))) {
+      trigger_error('Invalid msg_dialog type.');
+      $i_type = INFO_DIALOG;
     }
 
-    if (!in_array($i_type, array(INFO_DIALOG,WARNING_DIALOG,ERROR_DIALOG,CONFIRM_DIALOG,FATAL_ERROR_DIALOG))) {
-      trigger_error("Invalid msg_dialog type.");
-      $i_type = INFO_DIALOG;
+    $this->i_ID       = preg_replace('/[^0-9]*/', '', microtime());
+    $this->s_Title    = $s_title;
+    $this->s_Message  = $s_message;
+    $this->i_Type     = $i_type;
+  }
+
+  protected function show()
+  {
+    global $config;
+
+    if (empty($this->s_Message)) {
+      return;
     }
 
     if ((!session::is_set('errorsAlreadyPosted')) || !is_array(session::get('errorsAlreadyPosted'))) {
@@ -70,37 +78,36 @@ class msg_dialog
     }
 
     $errorsAlreadyPosted = session::get('errorsAlreadyPosted');
-    if (!isset($errorsAlreadyPosted[$s_title.$s_message])) {
-      $errorsAlreadyPosted[$s_title.$s_message] = 0;
+    if (!isset($errorsAlreadyPosted[$this->s_Title.$this->s_Message])) {
+      $errorsAlreadyPosted[$this->s_Title.$this->s_Message] = 0;
     }
-    $errorsAlreadyPosted[$s_title.$s_message]++;
+    $errorsAlreadyPosted[$this->s_Title.$this->s_Message]++;
 
-    if ($errorsAlreadyPosted[$s_title.$s_message] <= 1) {
-
-      $this->i_ID       = preg_replace("/[^0-9]*/", "", microtime());
-      $this->s_Title    = $s_title;
-      $this->s_Message  = $s_message;
-      $this->i_Type     = $i_type;
-
-      /* Append trace information, only if error messages are enabled */
-      if (isset($config) && is_object($config) &&
-        $config->get_cfg_value("displayerrors") == "TRUE") {
-        $this->a_Trace = debug_backtrace();
-      }
-      if (!session::is_set('msg_dialogs')) {
-        session::set('msg_dialogs', array());
-      }
-      if ($this->i_Type == FATAL_ERROR_DIALOG) {
-        restore_error_handler();
-        error_reporting(E_ALL);
-        echo $this->execute();
-      } else {
-        $msg_dialogs   = session::get('msg_dialogs');
-        $msg_dialogs[] = $this;
-        session::set('msg_dialogs', $msg_dialogs);
-      }
-    }
     session::set('errorsAlreadyPosted', $errorsAlreadyPosted);
+
+    if ($errorsAlreadyPosted[$this->s_Title.$this->s_Message] > 1) {
+      /* Skip if the same message was already reported once */
+      return;
+    }
+
+    /* Append trace information, only if error messages are enabled */
+    if (isset($config) && is_object($config) &&
+      $config->get_cfg_value('displayerrors') == 'TRUE') {
+      $this->a_Trace = debug_backtrace();
+    }
+    if ($this->i_Type == FATAL_ERROR_DIALOG) {
+      restore_error_handler();
+      error_reporting(E_ALL);
+      echo $this->execute();
+    } else {
+      if (session::is_set('msg_dialogs')) {
+        $msg_dialogs = session::get('msg_dialogs');
+      } else {
+        $msg_dialogs = array();
+      }
+      $msg_dialogs[] = $this;
+      session::set('msg_dialogs', $msg_dialogs);
+    }
   }
 
   /*!
@@ -114,7 +121,8 @@ class msg_dialog
    */
   public static function display($s_title, $s_message, $i_type = INFO_DIALOG)
   {
-    new msg_dialog($s_title, $s_message, $i_type);
+    $dialog = new msg_dialog($s_title, $s_message, $i_type);
+    $dialog->show();
   }
 
   /*
@@ -125,7 +133,7 @@ class msg_dialog
   public static function displayChecks($messages)
   {
     foreach ($messages as $error) {
-      msg_dialog::display(_('Error'), $error, ERROR_DIALOG);
+      static::display(_('Error'), $error, ERROR_DIALOG);
     }
   }
 

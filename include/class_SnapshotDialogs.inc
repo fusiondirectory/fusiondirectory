@@ -207,9 +207,9 @@ class SnapshotRestoreDialog extends simplePlugin
   function updateList ()
   {
     if ($this->global) {
-      $this->snapshots = $this->parent->getAllDeletedSnapshots(TRUE);
+      $this->snapshots = $this->parent->getAllDeletedSnapshots();
     } else {
-      $this->snapshots = $this->parent->getAvailableSnapsShots($this->object_dn, TRUE);
+      $this->snapshots = $this->parent->getAvailableSnapsShots($this->object_dn);
     }
   }
 
@@ -219,7 +219,7 @@ class SnapshotRestoreDialog extends simplePlugin
       $objects = array(
         array(
           'name'  => 'snapshot',
-          'dn'    => LDAP::fix($this->snapDn),
+          'dn'    => $this->snapDn,
           'icon'  => 'geticon.php?context=actions&amp;icon=document-restore&amp;size=16',
           'type'  => 'Snapshot'
         )
@@ -233,7 +233,7 @@ class SnapshotRestoreDialog extends simplePlugin
       $objects = array(
         array(
           'name'  => 'snapshot',
-          'dn'    => LDAP::fix($this->snapDn),
+          'dn'    => $this->snapDn,
           'icon'  => 'geticon.php?context=actions&amp;icon=document-restore&amp;size=16',
           'type'  => 'Snapshot'
         )

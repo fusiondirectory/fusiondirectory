@@ -25,6 +25,8 @@ class groupManagement extends simpleManagement
 
   protected $autoFilter = FALSE;
 
+  public static $skipTemplates = TRUE;
+
   static function plInfo()
   {
     return array(
@@ -49,6 +51,29 @@ class groupManagement extends simpleManagement
     $this->headpage->registerElementFilter('filterProperties', 'groupManagement::filterProperties');
   }
 
+  function configureFilter ()
+  {
+    parent::configureFilter();
+
+    if (!class_available('posixGroup')) {
+      /* If posix plugin is not installed, ignore posix filter */
+      $this->filter->elements['PRIMARY']['unset']  = '';
+      $this->filter->elements['PRIMARY']['set']    = '';
+    }
+    if (!class_available('mailAccount') || !class_available('posixGroup')) {
+      $this->filter->elements['MAIL']['unset']  = '';
+      $this->filter->elements['MAIL']['set']    = '';
+    }
+    if (!class_available('sambaAccount') || !class_available('posixGroup')) {
+      $this->filter->elements['SAMBA']['unset']  = '';
+      $this->filter->elements['SAMBA']['set']    = '';
+    }
+    if (static::$skipTemplates) {
+      $this->filter->elements['FILTERTEMPLATE']['unset']  = '';
+      $this->filter->elements['FILTERTEMPLATE']['set']    = '';
+    }
+  }
+
   static function filterProperties($row, $dn, $objectType, $attrs, $gosaGroupObjects = NULL)
   {
     global $config;
@@ -71,7 +96,7 @@ class groupManagement extends simpleManagement
       }
       if (empty($grouptabs)) {
         foreach ($config->data['TABS']['GROUPTABS'] as $plug) {
-          if ($plug['CLASS'] == 'group') {
+          if ($plug['CLASS'] == 'posixGroup') {
             continue;
           }
           if (class_available($plug['CLASS'])) {
@@ -126,19 +151,21 @@ class groupManagement extends simpleManagement
     $smarty = get_smarty();
     $filters = array(
       array('id'  => 'USER',        'label'  => _('Show user groups')),
-      array('id'  => 'PRIMARY',     'label'  => _('Show primary groups')),
       array('id'  => 'ROLE',        'label'  => _('Show organizational roles')),
       array('id'  => 'APPLICATION', 'label'  => _('Show application groups')),
       array('id'  => 'UNKNOWN',     'label'  => _('Show unidentified groups')),
     );
-    if (class_available('mailAccount')) {
-      $filters[]= array('id'  => 'MAIL',        'label'  => _('Show mail groups'));
-    }
-    if (class_available('sambaAccount')) {
-      $filters[]= array('id'  => 'SAMBA',       'label'  => _('Show samba groups'));
+    if (class_available('posixGroup')) {
+      $filters[] = array('id'  => 'PRIMARY',  'label'  => _('Show primary groups'));
+      if (class_available('mailAccount')) {
+        $filters[] = array('id'  => 'MAIL',  'label'  => _('Show mail groups'));
+      }
+      if (class_available('sambaAccount')) {
+        $filters[] = array('id'  => 'SAMBA', 'label'  => _('Show samba groups'));
+      }
     }
     if (class_available('simpleSecurityObject')) {
-      $filters[]= array('id'  => 'SIMPLESECURITYOBJECT',       'label'  => _('Show DSA entries'));
+      $filters[] = array('id'  => 'SIMPLESECURITYOBJECT',  'label'  => _('Show DSA entries'));
     }
     if (class_available('systemManagement')) {
       $filters = array_merge(
@@ -153,8 +180,16 @@ class groupManagement extends simpleManagement
         )
       );
     }
+    if (!static::$skipTemplates) {
+      $filters[] = array(
+        'id'    => 'FILTERTEMPLATE',
+        'label' => sprintf(_('Show %s'), _('Template'))
+      );
+    }
     $smarty->assign('objectFilters', $filters);
-    return management::renderList();
+    $this->headpage->update();
+    $display = $this->headpage->render();
+    return $this->getHeader().$display;
   }
 }
 ?>

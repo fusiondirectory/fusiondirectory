@@ -21,10 +21,8 @@
 
 class ObjectsAttribute extends GenericDialogAttribute
 {
-  //TODO : insert in black list used workstations
   protected $dialogClass  = 'ObjectSelectDialog';
   protected $types        = array();
-
 
   function getFilterBlackList ()
   {
@@ -60,11 +58,11 @@ class ObjectsAttribute extends GenericDialogAttribute
       }
       if (!isset($this->displays[$i])) {
         trigger_error('Unkown type for "'.$this->value[$i].'"');
-        $this->displays[$i] = sprintf(_('Unknown type : %s'), LDAP::fix($this->value[$i]));
+        $this->displays[$i] = sprintf(_('Unknown type : %s'), $this->value[$i]);
         $this->types[$i]    = 'I';
       }
     } else {
-      $this->displays[$i] = sprintf(_('Non existing dn: %s'), LDAP::fix($this->value[$i]));
+      $this->displays[$i] = sprintf(_('Non existing dn: %s'), $this->value[$i]);
       $this->types[$i]    = 'I';
     }
   }
@@ -115,7 +113,7 @@ class ObjectsAttribute extends GenericDialogAttribute
 
   function listObjectTypes()
   {
-    /* refresh types and displays */
+    /* Refresh types and displays */
     $this->getDisplayValues();
     return '['.join(array_unique($this->types)).']';
   }
@@ -169,7 +167,7 @@ class ogroup extends simplePlugin
       'plForeignKeys'  => array(
         'member' => array(
           array('user'),
-          array('group'),
+          array('posixGroup'),
           array('applicationGeneric'),
           array('serverGeneric'),
           array('workstationGeneric'),
@@ -235,7 +233,6 @@ class ogroup extends simplePlugin
 
   function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE)
   {
-    global $config;
     parent::__construct($dn, $object, $parent, $mainTab);
 
     $this->attributesAccess['trustMode']->setInLdap(FALSE);
@@ -256,25 +253,23 @@ class ogroup extends simplePlugin
     /* Detect all workstations, which are already assigned to an object group
         - Those objects will be hidden in the add object dialog.
         - Check() will complain if such a system is assigned to this object group.*/
-    $base = $config->current['BASE'];
-    $res  = get_list("(|(objectClass=gotoWorkstation)(objectClass=gotoTerminal))", "none",
-                      $base, array("dn"), GL_NO_ACL_CHECK | GL_SUBSEARCH);
-    $ws_dns = array();
-    foreach ($res as $data) {
-      $ws_dns[] = $data['dn'];
-    }
-    $res = get_list("(&(member=*)(objectClass=gosaGroupOfNames)(|(gosaGroupObjects=[W])(gosaGroupObjects=[T])))", "none",
-                    $base, array("dn","member"), GL_NO_ACL_CHECK | GL_SUBSEARCH);
     $this->used_workstations = array();
-    foreach ($res as $og) {
-      if ($og['dn'] == $this->dn) {
+    try {
+      $ws_dns = array_keys(objects::ls(array('workstation','terminal')));
+      $res = objects::ls('ogroup', array('member' => '*'), NULL, '(&(member=*)(|(gosaGroupObjects=[W])(gosaGroupObjects=[T])))');
+    } catch (NonExistingObjectTypeException $e) {
+      /* If workstation/terminal objectType is not existing, systems plugin is missing so there are no systems */
+      $ws_dns = array();
+      $res    = array();
+    }
+    foreach ($res as $odn => $og) {
+      if ($odn == $this->dn) {
         continue;
       }
       $this->used_workstations = array_merge($this->used_workstations, array_intersect($ws_dns, $og['member']));
     }
 
     $this->reload();
-    $this->updateAttributesValues();
   }
 
   /*! \brief This function returns an LDAP filter for this plugin object classes

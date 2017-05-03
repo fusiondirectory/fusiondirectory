@@ -91,7 +91,6 @@ class BaseSelectorAttribute extends Attribute
         }
         if ($this->value != $this->baseSelector->getBase()) {
           $this->setValue($this->baseSelector->getBase());
-          $this->plugin->is_modified = TRUE;
         }
       }
     }
@@ -175,4 +174,3 @@ class BaseSelectorAttribute extends Attribute
     }
   }
 }
-

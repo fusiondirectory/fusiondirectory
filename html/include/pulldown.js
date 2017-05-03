@@ -71,12 +71,13 @@ MenuContainer.prototype = {
     this.id = this.element.id;
 
     if (this.type === "menuContainer") {
-      if (this.element.hasClassName("level1"))
+      if (this.element.hasClassName("level1")) {
         this.menuType = "horizontal";
-      else if (this.element.hasClassName("level2"))
+      } else if (this.element.hasClassName("level2")) {
         this.menuType = "dropdown";
-      else
+      } else {
         this.menuType = "flyout";
+      }
 
       if (this.menuType === "flyout" || this.menuType === "dropdown") {
         this.isOpen = false;
@@ -97,7 +98,7 @@ MenuContainer.prototype = {
     if (childNodes === null) {
       return;
     }
-    
+
     for (var i = 0; i < childNodes.length; i++) {
       var node = childNodes[i];
       if (node.nodeType === 1) {
@@ -119,12 +120,13 @@ MenuContainer.prototype = {
     var result = {};
     var value;
     for (var i = 0; i < ltrb.length; ++i) {
-      if (this.element.currentStyle)
+      if (this.element.currentStyle) {
         value = parseInt(this.element.currentStyle["border"+ltrb[i]+"Width"]);
-      else if (window.getComputedStyle)
+      } else if (window.getComputedStyle) {
         value = parseInt(window.getComputedStyle(this.element, "").getPropertyValue("border-"+ltrb[i].toLowerCase()+"-width"));
-      else
+      } else {
         value = parseInt(this.element.style["border"+ltrb[i]]);
+      }
       result[ltrb[i].toLowerCase()] = isNaN(value) ? 0 : value;
     }
     return result;
@@ -205,7 +207,6 @@ Object.extend(Object.extend(MenuItem.prototype, MenuContainer.prototype), {
         if (menuItem.root.openDelayTimer) {
           window.clearTimeout(menuItem.root.openDelayTimer);
         }
-        
         if (menuItem.root.closeDelayTimer) {
           window.clearTimeout(menuItem.root.closeDelayTimer);
         }

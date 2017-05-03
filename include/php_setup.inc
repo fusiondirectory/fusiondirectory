@@ -258,12 +258,17 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
   $error_collector_mailto .= $mailto_trace;
 
   /* Flush in case of fatal errors */
-  set_error_handler('gosaRaiseError', E_WARNING | E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT);
-  if (preg_match('/^fatal/i', $errstr)) {
+  if (preg_match('/^fatal/i', $errstr) || (PHP_ERROR_FATAL == 'TRUE')) {
+    session::destroy();
+    if (PHP_ERROR_FATAL == 'TRUE') {
+      $error_collector = str_replace('display: none;', '', $error_collector);
+    }
     echo $error_collector."</div>";
     flush();
     exit;
   }
+
+  set_error_handler('gosaRaiseError', E_WARNING | E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT);
 }
 
 /*!

@@ -119,6 +119,7 @@ class dashboardUsers extends simplePlugin
      */
 
     /* getting the date in TIMESTAMP UNIX format */
+    /* 24 * 60 * 60 = 86400 */
     $today        = floor(time() / 86400);
 
     /* Fetch global value from fusiondirectory.conf */
@@ -166,6 +167,7 @@ class dashboardUsers extends simplePlugin
       $manager_phone  = '';
     }
 
+    /* 24 * 60 * 60 = 86400 */
     $human_shadowExpire = date('d.m.Y', $attrs['shadowExpire'][0] * 86400);
 
     return array(

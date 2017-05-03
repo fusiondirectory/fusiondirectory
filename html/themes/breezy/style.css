@@ -60,68 +60,6 @@ html.rtl div.scrollbody {
 text-align: right;
 }
 
-/* -------------- DEPRECATED ----------------- */
-td.list1 {
-background: transparent;
-border-right: 1px solid silver;
-padding: 3px;
-height: 22px;
-}
-
-td.list1nohighlight {
-background: #fcfcfc;
-border-right: 1px solid silver;
-padding: 3px;
-height: 22px;
-}
-
-td.list1nohighlightdisabled {
-background-color: #DFDBD7;
-border-right: 1px solid silver;
-padding: 3px;
-height: 2px;
-}
-
-td.list1#fill {
-height: 100%;
-}
-
-td.list1#icon {
-width: 0;
-text-align: center;
-}
-
-td.list1#info {
-width: 200px;
-}
-
-td.list1#property {
-width: 50px;
-}
-
-td.list1#properties7 {
-width: 136px;
-}
-
-td.list1#properties8 {
-width: 152px;
-}
-
-td.list1#properties9 {
-width: 168px;
-}
-
-td.list1#properties10 {
-width: 186px;
-}
-
-td.list1#actions {
-width: 52px;
-border-right: 0;
-text-align: right;
-}
-/* -------------------------------------------- */
-
 /* Title bar */
 a.maintitlebar,div.maintitlebar {
 font-family: arial,helvetica,sans-serif;
