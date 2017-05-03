@@ -157,7 +157,7 @@ This code is part of FusionDirectory <http://www.fusiondirectory.org>
 
 =item Copyright (C) 2003-2010 GONICUS GmbH
 
-=item Copyright (C) 2011-2016 FusionDirectory project
+=item Copyright (C) 2011-2017 FusionDirectory project
 
 =back
 
