@@ -27,6 +27,8 @@ class groupManagement extends simpleManagement
 
   public static $skipTemplates = TRUE;
 
+  protected $siActive = FALSE;
+
   static function plInfo()
   {
     return array(
@@ -47,7 +49,14 @@ class groupManagement extends simpleManagement
     $this->filterXMLPath  = get_template_path('group-filter.xml', TRUE, dirname(__FILE__));
     $this->listXMLPath    = get_template_path('group-list.xml', TRUE, dirname(__FILE__));
 
+    // Check if we are able to communicate with Argonaut server
+    if (class_available('supportDaemon') && class_available('argonautAction')) {
+      $o = new supportDaemon();
+      $this->siActive = $o->is_available();
+    }
+
     parent::__construct();
+
     $this->headpage->registerElementFilter('filterProperties', 'groupManagement::filterProperties');
   }
 
@@ -72,6 +81,161 @@ class groupManagement extends simpleManagement
       $this->filter->elements['FILTERTEMPLATE']['unset']  = '';
       $this->filter->elements['FILTERTEMPLATE']['set']    = '';
     }
+  }
+
+  function configureHeadpage ()
+  {
+    parent::configureHeadpage();
+
+    // Register Daemon Events
+    if ($this->siActive) {
+      $this->headpage->xmlData['actionmenu']['action'][4]['action'] = array();
+      $this->headpage->xmlData['actionmenu']['action'][5]['action'] = array();
+      $events = argonautEventTypes::get_event_types();
+      foreach ($events as $name => $data) {
+        $this->registerAction('T_'.$name, 'handleEvent');
+        $this->headpage->xmlData['actionmenu']['action'][4]['action'][] = array(
+        'name' => 'T_'.$name,
+        'type' => 'entry',
+        'image' => $data['img'],
+        'label' => $data['name'],
+        );
+        $this->registerAction('S_'.$name, 'handleEvent');
+        $this->headpage->xmlData['actionmenu']['action'][5]['action'][] = array(
+        'name' => 'S_'.$name,
+        'type' => 'entry',
+        'image' => $data['img'],
+        'label' => $data['name'],
+        );
+      }
+    } else {
+      unset($this->headpage->xmlData['actionmenu']['action'][3]);
+      unset($this->headpage->xmlData['actionmenu']['action'][4]);
+      unset($this->headpage->xmlData['actionmenu']['action'][5]);
+      $this->headpage->xmlData['actionmenu']['action'] = array_values($this->headpage->xmlData['actionmenu']['action']);
+    }
+    $this->registerAction('saveEvent', 'saveEventDialog');
+  }
+
+  /*! \brief    Handle Argonaut events
+   *            All schedules and triggered events are handled here.
+   */
+  function handleEvent($action, array $target)
+  {
+    global $config;
+
+    if (!$this->siActive) {
+      return;
+    }
+
+    // Detect whether this event is scheduled or triggered.
+    $triggered = TRUE;
+    if (preg_match('/^S_/', $action)) {
+      $triggered = FALSE;
+    }
+
+    // Detect triggered or scheduled actions
+    $headpage = $this->getHeadpage();
+    $event = preg_replace('/^[TS]_/', '', $action);
+
+    // Now send FAI/Argonaut events here.
+    $mac = array();
+
+    // Collect target mac addresses
+    $ldap = $config->get_ldap_link();
+    foreach ($target as $dn) {
+      $obj = $headpage->getEntry($dn);
+      if (isset($obj['member']['count'])) {
+        for ($i = 0; $i < $obj['member']['count']; $i++) {
+          $ldap->cat($obj['member'][$i]);
+          if ($attrs = $ldap->fetch()) {
+            if (isset($attrs['macAddress'][0])) {
+              $mac[] = $attrs['macAddress'][0];
+            } else {
+              msg_dialog::display(_('Action canceled'), sprintf(_('System %s has no mac address defined, cannot trigger action'), $obj['member'][$i]), ERROR_DIALOG);
+            }
+          } else {
+            msg_dialog::display(_('Action canceled'), sprintf(_('Could not find system %s, cannot trigger action'), $obj['member'][$i]), ERROR_DIALOG);
+          }
+        }
+      }
+    }
+
+    if ((count($mac) == 0) && $triggered) {
+      return;
+    }
+
+    $o_queue  = new supportDaemon();
+
+    /* Skip installation or update trigerred events,
+     *  if this entry is currently processing.
+     */
+    if ($triggered && in_array($event, array('reinstall','update'))) {
+      foreach ($mac as $key => $mac_address) {
+        if ($o_queue->is_currently_installing($mac_address)) {
+          msg_dialog::display(_('Action canceled'), sprintf(_('System %s is currently installing'), $dn), ERROR_DIALOG);
+          unset($mac[$key]);
+          logging::log('security', 'systems/'.get_class($this), '', array(), 'Skip adding "argonautAction::'.$event.'" for mac "'.$mac_address.'", there is already a job in progress.');
+        }
+      }
+    }
+
+    if ((count($mac) == 0) && $triggered) {
+      return;
+    }
+
+    // Prepare event to be added
+    $events   = argonautEventTypes::get_event_types();
+    if (isset($events[$event])) {
+      $this->dialogObject = new argonautAction($event, $mac);
+
+      if ($triggered) {
+        $this->dialogObject->scheduled = FALSE;
+        $res = $o_queue->append($this->dialogObject);
+        if ($o_queue->is_error()) {
+          msg_dialog::display(_('Infrastructure service'), msgPool::siError($o_queue->get_error()), ERROR_DIALOG);
+        } else {
+          msg_dialog::display(_('Action triggered'), sprintf(_('Action called without error (result was "%s")'), $res), INFO_DIALOG);
+        }
+        $this->closeDialogs();
+      } else {
+        $this->dialogObject->scheduled = TRUE;
+      }
+    }
+  }
+
+  /*! \brief  Save event dialogs.
+   *          And append the new Argonaut event.
+   */
+  function saveEventDialog()
+  {
+    $msgs = $this->dialogObject->check();
+    if (count($msgs)) {
+      msg_dialog::displayChecks($msgs);
+      return;
+    }
+    if ($this->siActive) {
+      $o_queue = new supportDaemon();
+      $o_queue->append($this->dialogObject);
+      if ($o_queue->is_error()) {
+        msg_dialog::display(_('Infrastructure service'), msgPool::siError($o_queue->get_error()), ERROR_DIALOG);
+      }
+      $this->closeDialogs();
+    }
+  }
+
+  /*! \brief  Detects actions/events send by the ui
+   *           and the corresponding targets.
+   */
+  function detectPostActions()
+  {
+    $action = parent::detectPostActions();
+    if (isset($_POST['save_event_dialog'])) {
+      $action['action'] = 'saveEvent';
+    } elseif (isset($_POST['abort_event_dialog'])) {
+      $action['action'] = 'cancel';
+    }
+    return $action;
   }
 
   static function filterProperties($row, $dn, $objectType, $attrs, $gosaGroupObjects = NULL)

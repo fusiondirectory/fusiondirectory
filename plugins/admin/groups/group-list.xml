@@ -88,6 +88,24 @@
     </action>
 
     <action>
+      <type>sub</type>
+      <image>geticon.php?context=types&amp;icon=action&amp;size=16</image>
+      <label>Trigger action</label>
+      <depends>argonautAction</depends>
+    </action>
+
+    <action>
+      <type>sub</type>
+      <image>geticon.php?context=actions&amp;icon=task-schedule&amp;size=16</image>
+      <label>Schedule action</label>
+      <depends>argonautAction</depends>
+    </action>
+
+    <action>
+      <type>separator</type>
+    </action>
+
+    <action>
       <type>exporter</type>
     </action>
 
