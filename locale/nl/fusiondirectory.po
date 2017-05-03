@@ -1073,47 +1073,47 @@ msgstr "Je staat op het punt de LDAP inzending/inzendingen te wijzigen %s"
 #: include/functions.inc:1657
 #, php-format
 msgid "%sB"
-msgstr ""
+msgstr "%sB"
 
 #: include/functions.inc:1658
 #, php-format
 msgid "%sKiB"
-msgstr ""
+msgstr "%sKiB"
 
 #: include/functions.inc:1659
 #, php-format
 msgid "%sMiB"
-msgstr ""
+msgstr "%sMiB"
 
 #: include/functions.inc:1660
 #, php-format
 msgid "%sGiB"
-msgstr ""
+msgstr "%sGiB"
 
 #: include/functions.inc:1661
 #, php-format
 msgid "%sTiB"
-msgstr ""
+msgstr "%sTiB"
 
 #: include/functions.inc:1662
 #, php-format
 msgid "%sPiB"
-msgstr ""
+msgstr "%sPiB"
 
 #: include/functions.inc:1663
 #, php-format
 msgid "%sEiB"
-msgstr ""
+msgstr "%sEiB"
 
 #: include/functions.inc:1664
 #, php-format
 msgid "%sZiB"
-msgstr ""
+msgstr "%sZiB"
 
 #: include/functions.inc:1665
 #, php-format
 msgid "%sYiB"
-msgstr ""
+msgstr "%sYiB"
 
 #: include/functions.inc:1697 include/class_filter.inc:305
 msgid "*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -1510,7 +1510,7 @@ msgstr "Het vereiste veld '%s' is leeg!"
 
 #: include/class_msgPool.inc:435
 msgid "Example:"
-msgstr ""
+msgstr "Voorbeeld:"
 
 #: include/class_msgPool.inc:455 include/class_msgPool.inc:459
 #, php-format
@@ -1884,7 +1884,7 @@ msgstr ""
 
 #: include/class_SnapshotDialogs.inc:41
 msgid "Reason"
-msgstr ""
+msgstr "Reden"
 
 #: include/class_SnapshotDialogs.inc:41
 msgid "Reason for creating this snapshot"
@@ -2142,19 +2142,19 @@ msgstr "B"
 
 #: include/simpleplugin/class_helpersAttribute.inc:248
 msgid "KiB"
-msgstr ""
+msgstr "KiB"
 
 #: include/simpleplugin/class_helpersAttribute.inc:249
 msgid "MiB"
-msgstr ""
+msgstr "MiB"
 
 #: include/simpleplugin/class_helpersAttribute.inc:250
 msgid "GiB"
-msgstr ""
+msgstr "GiB"
 
 #: include/simpleplugin/class_helpersAttribute.inc:251
 msgid "TiB"
-msgstr ""
+msgstr "TiB"
 
 #: include/simpleplugin/class_helpersAttribute.inc:262
 msgid "seconds"
@@ -2454,7 +2454,7 @@ msgstr "Je FusionDirectory sessie is vervallen!"
 
 #: html/index.php:211
 msgid "Your IP has changed!"
-msgstr ""
+msgstr "Je IP-adres is gewijzigd"
 
 #: html/index.php:214
 #, php-format
@@ -2696,7 +2696,7 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:285
 #: plugins/admin/users/class_userManagement.inc:245
 msgid "User account"
-msgstr ""
+msgstr "Gebruikersaccount"
 
 #: plugins/personal/generic/class_user.inc:298
 msgid "User lock status"
@@ -2713,7 +2713,7 @@ msgstr "Achternaam"
 
 #: plugins/personal/generic/class_user.inc:315
 msgid "Last name of this user"
-msgstr ""
+msgstr "Achternaam van deze gebruiker"
 
 #: plugins/personal/generic/class_user.inc:320
 #: plugins/personal/generic/paste_generic.tpl.c:8
@@ -2722,7 +2722,7 @@ msgstr "Voornaam"
 
 #: plugins/personal/generic/class_user.inc:320
 msgid "First name of this user"
-msgstr ""
+msgstr "Voornaam van deze gebruiker"
 
 #: plugins/personal/generic/class_user.inc:325
 msgid "Short description of the user"
@@ -2730,7 +2730,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:329
 msgid "Picture"
-msgstr ""
+msgstr "Afbeelding"
 
 #: plugins/personal/generic/class_user.inc:329
 msgid "The avatar for this user"
@@ -2808,11 +2808,11 @@ msgstr "Homepage"
 
 #: plugins/personal/generic/class_user.inc:372
 msgid "Personal homepage"
-msgstr ""
+msgstr "Persoonlijke homepagina"
 
 #: plugins/personal/generic/class_user.inc:378
 msgid "Account information"
-msgstr ""
+msgstr "account informatie"
 
 #: plugins/personal/generic/class_user.inc:383
 msgid "Login of this user"
@@ -2980,11 +2980,11 @@ msgstr ""
 
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:39
 msgid "Users statistics"
-msgstr ""
+msgstr "Statistieken van gebruikers"
 
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:44
 msgid "Groups statistics"
-msgstr ""
+msgstr "Statistieken van groepen"
 
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:49
 #: plugins/addons/dashboard/users_accounts.tpl.c:8
@@ -2999,11 +2999,11 @@ msgstr ""
 
 #: plugins/addons/dashboard/class_dashBoard.inc:29
 msgid "Statistics and various information"
-msgstr ""
+msgstr "Statistieken en diverse informatie"
 
 #: plugins/addons/dashboard/class_dashBoard.inc:38
 msgid "Reporting"
-msgstr ""
+msgstr "Rapportering"
 
 #: plugins/addons/dashboard/class_dashBoard.inc:49
 #: plugins/addons/dashboard/main_stats.tpl.c:2
@@ -3012,15 +3012,15 @@ msgstr "Statistieken"
 
 #: plugins/addons/dashboard/class_dashBoardPasswords.inc:26
 msgid "Passwords"
-msgstr ""
+msgstr "Wachtwoorden"
 
 #: plugins/addons/dashboard/class_dashBoardPasswords.inc:27
 msgid "Statistics about passwords"
-msgstr ""
+msgstr "Statistieken van het wachtwoord"
 
 #: plugins/addons/dashboard/class_dashBoardPasswords.inc:38
 msgid "Passwords statistics"
-msgstr ""
+msgstr "Wachtwoord statistieken"
 
 #: plugins/config/class_recoveryConfig.inc:28
 msgid "Password recovery"
@@ -3170,7 +3170,7 @@ msgstr "Configuratie"
 #: plugins/config/class_configInLdap.inc:57
 #: plugins/config/class_configInLdap.inc:62
 msgid "FusionDirectory configuration"
-msgstr ""
+msgstr "FusionDirectory configuratie"
 
 #: plugins/config/class_configInLdap.inc:58
 msgid "Configuration screen of FusionDirectory"
@@ -3380,7 +3380,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:228
 msgid "SSL"
-msgstr ""
+msgstr "SSL"
 
 #: plugins/config/class_configInLdap.inc:231
 msgid "Key path"
@@ -3534,7 +3534,7 @@ msgstr "Debugging"
 
 #: plugins/config/class_configInLdap.inc:330
 msgid "Display errors"
-msgstr ""
+msgstr "Fouten weergeven"
 
 #: plugins/config/class_configInLdap.inc:331
 msgid ""
@@ -3646,7 +3646,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:426
 msgid "Command"
-msgstr ""
+msgstr "Commando"
 
 #: plugins/config/class_configInLdap.inc:426
 msgid "The command that will be called"
@@ -3664,15 +3664,15 @@ msgstr ""
 
 #: plugins/config/class_pluginsConfigInLdap.inc:29
 msgid "Plugins"
-msgstr ""
+msgstr "Plugins"
 
 #: plugins/config/class_pluginsConfigInLdap.inc:30
 msgid "Configuration for plugins"
-msgstr ""
+msgstr "Configuratie voor plugins"
 
 #: plugins/config/class_mainPluginsConfig.inc:28
 msgid "Plugins configuration"
-msgstr ""
+msgstr "Plugins configuratie"
 
 #: plugins/config/class_mainPluginsConfig.inc:29
 msgid "FusionDirectory plugins configuration"
@@ -3791,7 +3791,7 @@ msgstr ""
 
 #: plugins/admin/departments/class_department.inc:80
 msgid "Website"
-msgstr ""
+msgstr "Website"
 
 #: plugins/admin/departments/class_department.inc:80
 #, php-format
@@ -3825,7 +3825,7 @@ msgstr ""
 
 #: plugins/admin/departments/class_organization.inc:51
 msgid "organization"
-msgstr ""
+msgstr "Organisatie"
 
 #: plugins/admin/departments/class_domain.inc:30
 #: plugins/admin/departments/class_domain.inc:31
@@ -3835,7 +3835,7 @@ msgstr "Domein"
 
 #: plugins/admin/departments/class_domain.inc:51
 msgid "domain"
-msgstr ""
+msgstr "Domein"
 
 #: plugins/admin/departments/class_departmentManagement.inc:35
 msgid "Manage departments"
@@ -4424,7 +4424,7 @@ msgstr "Migreer elke mogelijke LDAP setup - maak backup dumps!"
 
 #: setup/setup_welcome.tpl.c:29
 msgid "To continue:"
-msgstr ""
+msgstr "Om verder te gaan:"
 
 #: setup/setup_welcome.tpl.c:32
 msgid ""
@@ -4781,7 +4781,7 @@ msgstr "Bewerking afgerond"
 
 #: ihtml/themes/breezy/template.tpl.c:2
 msgid "Creating a new object using templates"
-msgstr ""
+msgstr "Een nieuw object aanmaken aan de hand  van een template"
 
 #: ihtml/themes/breezy/acl.tpl.c:2
 msgid "Assigned ACL for current entry"
