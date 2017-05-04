@@ -66,7 +66,16 @@ class dashboardUsers extends simplePlugin
   {
     global $config;
     /* User statistics */
-    $nb_accounts = objects::count('user');
+    try {
+      $nb_accounts = objects::count('user');
+    } catch (LDAPFailureException $e) {
+      msg_dialog::display(
+        _('LDAP error'),
+        sprintf(_('Total user number could not be computed because of the following LDAP error: %s'), $e->getMessage()),
+        ERROR_DIALOG
+      );
+      $nb_accounts = 0;
+    }
 
     $ldap = $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);

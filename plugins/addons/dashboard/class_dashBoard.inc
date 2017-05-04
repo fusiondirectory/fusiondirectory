@@ -70,7 +70,11 @@ class dashboard extends simplePlugin
         $nb = objects::count($type);
       } catch (FusionDirectoryException $e) {
         $nb = 0;
-        trigger_error("Problem with $type:".$e->getMessage());
+        msg_dialog::display(
+          _('LDAP error'),
+          sprintf(_('Statistics for type "%s" could not be computed because of the following error: %s'), $type, $e->getMessage()),
+          ERROR_DIALOG
+        );
       }
       if ($nb == 0) {
         continue;

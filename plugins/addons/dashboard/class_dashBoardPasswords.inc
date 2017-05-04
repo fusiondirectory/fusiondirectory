@@ -55,7 +55,16 @@ class dashboardPassword extends simplePlugin
 
     $defaultMethod = $config->get_cfg_value('passwordDefaultHash', 'ssha');
     $forceDefault = ($config->get_cfg_value('forcePasswordDefaultHash', 'FALSE') == 'TRUE');
-    $users = objects::ls('user', 'userPassword');
+    try {
+      $users = objects::ls('user', 'userPassword');
+    } catch (LDAPFailureException $e) {
+      msg_dialog::display(
+        _('LDAP error'),
+        sprintf(_('Password statistics could not be computed because of the following LDAP error: %s'), $e->getMessage()),
+        ERROR_DIALOG
+      );
+      $users = array();
+    }
     $nb_accounts = count($users);
     $nb_locked_accounts = 0;
     $methods_stats = array();
