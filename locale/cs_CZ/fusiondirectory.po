@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
 "POT-Creation-Date: 2017-04-30 15:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: fusiondirectory <contact@fusiondirectory.org>, 2016\n"
+"Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>, 2017\n"
 "Language-Team: Czech (Czech Republic) (https://www.transifex.com/fusiondirectory/teams/12202/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2955,7 +2955,7 @@ msgstr "nadřízený"
 
 #: plugins/personal/generic/class_user.inc:456
 msgid "Street"
-msgstr ""
+msgstr "Ulice"
 
 #: plugins/personal/generic/class_user.inc:456
 msgid "Street part of the address"
@@ -3060,7 +3060,7 @@ msgstr "Statistiky"
 
 #: plugins/addons/dashboard/class_dashBoardPasswords.inc:26
 msgid "Passwords"
-msgstr ""
+msgstr "Hesla"
 
 #: plugins/addons/dashboard/class_dashBoardPasswords.inc:27
 msgid "Statistics about passwords"
@@ -3444,7 +3444,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:221
 msgid "Header name"
-msgstr ""
+msgstr "Název hlavičky"
 
 #: plugins/config/class_configInLdap.inc:221
 msgid "Name of the header containing user identifier."
@@ -3731,7 +3731,7 @@ msgstr "Kdy spouštět tento příkaz"
 
 #: plugins/config/class_configInLdap.inc:426
 msgid "Command"
-msgstr ""
+msgstr "Příkaz"
 
 #: plugins/config/class_configInLdap.inc:426
 msgid "The command that will be called"

@@ -45,7 +45,7 @@ msgstr "Automatisch"
 
 #: setup/class_setupStepLdap.inc:33
 msgid "LDAP connection"
-msgstr ""
+msgstr "LDAP connectie"
 
 #: setup/class_setupStepLdap.inc:36
 msgid "Location name"
@@ -609,7 +609,7 @@ msgstr ""
 
 #: setup/class_setupStepMigrate.inc:584 setup/class_setupStepMigrate.inc:589
 msgid "User migration"
-msgstr ""
+msgstr "Gebruikers migratie"
 
 #: setup/class_setupStepMigrate.inc:672 setup/class_setupStepMigrate.inc:948
 msgid "Migration error"
