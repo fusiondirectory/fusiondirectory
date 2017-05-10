@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2017  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -27,37 +27,43 @@
  * \brief This class contains all the functions for sasl password methods
  * \see passwordMethod
  */
-class passwordMethodsasl extends passwordMethod {
+class passwordMethodsasl extends passwordMethod
+{
   // uid, or exop specified field value
-  var $uid    = "";
-  var $realm  = "";
-  var $exop   = "";
+  var $uid    = '';
+  var $realm  = '';
+  var $exop   = '';
 
   /*!
    * \brief passwordMethodsasl Constructor
    *
    * \param string $dn The DN
+   * \param object $userTab The user main tab object
    */
-  function __construct($dn = "")
+  function __construct($dn = '', $userTab = NULL)
   {
     global $config;
     $this->realm  = trim($config->get_cfg_value('saslRealm', ''));
     $this->exop   = trim($config->get_cfg_value('saslExop', ''));
 
-    if ($dn == "" || $dn == "new") {
+    if ($dn == '' || $dn == 'new') {
       return;
     }
 
-    $attr = (empty($this->exop)?'uid':$this->exop);
+    $attr = (empty($this->exop) ? 'uid' : $this->exop);
 
-    $ldap = $config->get_ldap_link();
-    $ldap->cd($config->current['BASE']);
-    $ldap->cat($dn, array($attr));
-    if ($ldap->count() == 1) {
-      $attrs = $ldap->fetch();
-      $this->uid = $attrs[$attr][0];
+    if (($userTab !== NULL) && isset($userTab->$attr)) {
+      $this->uid = $userTab->$attr;
     } else {
-      msg_dialog::display(_("Error"), sprintf(_("Cannot change password, unknown user '%s'"), $dn), ERROR_DIALOG);
+      $ldap = $config->get_ldap_link();
+      $ldap->cd($config->current['BASE']);
+      $ldap->cat($dn, array($attr));
+      if ($ldap->count() == 1) {
+        $attrs = $ldap->fetch();
+        $this->uid = $attrs[$attr][0];
+      } else {
+        msg_dialog::display(_('Error'), sprintf(_('Cannot change password, unknown user "%s"'), $dn), ERROR_DIALOG);
+      }
     }
   }
 
