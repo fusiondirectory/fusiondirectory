@@ -24,7 +24,7 @@ table.tabs-header > tbody > tr > td > div > a {
 display: inline-block;
 border-radius: 5px 5px 0 0;
 text-align: center;
-background-color: #D0D0D0;
+background-color: #d0d0d0;
 border: 1px solid #999;
 margin-top: 5px;
 padding-top: 1px;
@@ -95,9 +95,9 @@ border-bottom: 1px solid #999;
 div.tab-content {
 padding: 4px;
 width: auto;
-background-color: #F8F8F8;
+background-color: #f8f8f8;
 border-style: solid;
-border-color: #C0C2C3;
+border-color: #c0c2c3;
 border-top-width: 0;
 border-bottom-width: 1px;
 border-left-width: 1px;

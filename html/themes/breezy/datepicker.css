@@ -2,7 +2,7 @@
 div.datepicker {
 position: absolute;
 text-align: center;
-border: 1px #AAA solid;
+border: 1px #aaa solid;
 font-family: arial;
 background: #fcfcfc;
 font-size: 10px;
@@ -20,8 +20,8 @@ text-align: center;
 div.datepicker .datepicker-header {
 font-size: 11px;
 font-weight: bold;
-background: #F0F0F0;
-border-bottom: 1px solid #AAA;
+background: #f0f0f0;
+border-bottom: 1px solid #aaa;
 padding: 2px;
 text-align: center;
 }
@@ -43,7 +43,7 @@ line-height: 16px;
 }
 
 td.prev:hover,td.prev-year:hover,td.next:hover,td.next-year:hover {
-background-color: #D0D0D0;
+background-color: #d0d0d0;
 }
 
 td.header {
@@ -65,7 +65,7 @@ padding: 0;
 
 .datepicker-calendar table tbody tr td {
 box-sizing: content-box;
-border: 1px #EAEAEA solid;
+border: 1px #eaeaea solid;
 margin: 0;
 padding: 0;
 text-align: center;
@@ -78,15 +78,15 @@ cursor: pointer;
 .datepicker-calendar table tbody tr td:hover,
 .datepicker-calendar table tbody tr td.outbound:hover,
 .datepicker-calendar table tbody tr td.today:hover {
-border: 1px #CCE9FF solid;
-background: #E9F5FF;
+border: 1px #cce9ff solid;
+background: #e9f5ff;
 cursor: pointer;
 }
 
 .datepicker-calendar table tbody tr td.wday {
 box-sizing: content-box;
-border: 1px #AAA solid;
-background: #CCC;
+border: 1px #aaa solid;
+background: #ccc;
 cursor: text;
 width: 21px;
 height: 16px;
@@ -95,14 +95,14 @@ font-weight: bold;
 }
 
 .datepicker-calendar table tbody tr td.outbound {
-background: #F4F3F3;
+background: #f4f3f3;
 }
 
 .datepicker-calendar table tbody tr td.today,
 .datepicker-calendar table tbody tr td.today:hover {
 box-sizing: content-box;
-border: 1px #CCE9FF solid;
-background: #E9F5FF;
+border: 1px #cce9ff solid;
+background: #e9f5ff;
 background-image: url(../../images/date_active.png);
 background-repeat: no-repeat;
 width: 21px;
@@ -120,7 +120,7 @@ line-height: 16px;
 }
 
 .datepicker-calendar table tbody tr td.nclick-outbound {
-background: #E8E4E4;
+background: #e8e4e4;
 width: 21px;
 height: 16px;
 line-height: 16px;
@@ -128,18 +128,18 @@ line-height: 16px;
 
 .datepicker-calendar table tbody tr td.nclick:hover,
 .datepicker-calendar table tbody tr td.nclick-outbound:hover {
-border: 1px #EAEAEA solid;
+border: 1px #eaeaea solid;
 background: #fcfcfc;
 }
 
 .datepicker-calendar table tbody tr td.nclick-outbound:hover {
-background: #E8E4E4;
+background: #e8e4e4;
 }
 
 div.datepicker div.datepicker-footer {
 font-size: 10px;
-background: #F0F0F0;
-border-top: 1px solid #AAA;
+background: #f0f0f0;
+border-top: 1px solid #aaa;
 cursor: pointer;
 text-align: center;
 padding: 2px;

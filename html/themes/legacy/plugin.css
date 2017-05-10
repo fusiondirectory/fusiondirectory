@@ -6,12 +6,12 @@ margin-top: 0;
 margin-left: 0;
 margin-right: 0;
 width: auto;
-border: 1px solid #AAA;
+border: 1px solid #aaa;
 padding: 0;
 }
 
 div.pluginfo {
-border-bottom: 1px solid #AAA;
+border-bottom: 1px solid #aaa;
 width: 100%;
 padding-top: 2px;
 padding-bottom: 2px;
@@ -52,7 +52,7 @@ padding-left: 10px;
 padding-right: 10px;
 padding-bottom: 5px;
 padding-top: 5px;
-background: #BC9;
+background: #bc9;
 }
 html.rtl .plugbottom {
 text-align: left;
@@ -72,7 +72,7 @@ float: left;
 clear: left;
 width: 49%;
 vertical-align: top;
-border: 1px solid #B0B0B0;
+border: 1px solid #b0b0b0;
 padding: 0;
 margin-top: 0.5%;
 margin-left: 0.5%;
@@ -123,8 +123,8 @@ float: right;
 
 fieldset.plugin-section legend span, .plugin-section > span.legend {
 font-weight: bold;
-background-color: #DBE6C6;
-border: 1px solid #B0B0B0;
+background-color: #dbe6c6;
+border: 1px solid #b0b0b0;
 width: 100%;
 padding-top: 5px;
 padding-bottom: 5px;
@@ -194,16 +194,16 @@ display: none;
 
 fieldset.plugin-section.critical legend span, .plugin-section.critical > span.legend {
 font-weight: bold;
-background-color: #BCF;
+background-color: #bcf;
 }
 
 fieldset.plugin-section.critical legend span:after, .plugin-section.critical > span.legend:after {
 content: "   (editing this can break your LDAP)";
-color: #D00;
+color: #d00;
 }
 
 .plugin-section.critical > div {
-background-color: #DFEFFF;
+background-color: #dfefff;
 }
 
 /* On small screens */
@@ -240,7 +240,7 @@ background-color: #DFEFFF;
   right: 5px;
   }
   .plugbottom input[type=submit], .plugbottom input[type=button] {
-  border: 1px solid #DDD;
+  border: 1px solid #ddd;
   width: 30% !important;
   padding: 10px;
   display: inline-block;

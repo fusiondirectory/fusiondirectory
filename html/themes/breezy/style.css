@@ -26,16 +26,16 @@ border: none;
 
 a:link {
 text-decoration: none;
-color: #31363B;
+color: #31363b;
 }
 
 a:visited {
 text-decoration: none;
-color: #31363B;
+color: #31363b;
 }
 
 td.listfooter {
-background: #E5E5E5;
+background: #e5e5e5;
 border-top: 1px solid #c0c2c3;
 padding: 3px;
 height: 16px;
@@ -64,7 +64,7 @@ text-align: right;
 a.maintitlebar,div.maintitlebar {
 font-family: arial,helvetica,sans-serif;
 text-decoration: none;
-/*color:#FFFFFF;*/
+/*color:#ffffff;*/
 font-size: 12px;
 text-align: center;
 vertical-align: middle;
@@ -129,7 +129,7 @@ text-align: left;
 hr {
 width: 100%;
 border: none;
-background-color: #C0C2C3;
+background-color: #c0c2c3;
 height: 1px;
 }
 
@@ -208,12 +208,12 @@ border: 0;
 border-spacing: 0;
 padding: 0;
 margin: 0;
-background-color: #507AAA;
+background-color: #507aaa;
 vertical-align: top;
 }
 
 div.contentboxh {
-background-color: #F0F0F0;
+background-color: #f0f0f0;
 border: 1px solid #c0c2c3;
 border-bottom: none;
 height: 26px;
@@ -246,7 +246,7 @@ margin: 1px;
 }
 .filter div.contentboxb > div {
 width: 100%;
-background: #EEEEEE;
+background: #eeeeee;
 border-top: 1px solid #c0c2c3;
 text-align: right;
 margin: 0;
@@ -394,11 +394,11 @@ padding-right: 4px;
 
 
 div.autocomplete li:hover {
-background-color: #F0F0F0;
+background-color: #f0f0f0;
 }
 
 div.autocomplete ul li.selected {
-background-color: #F0F0F0;
+background-color: #f0f0f0;
 }
 
 #pulldown {
@@ -455,7 +455,7 @@ text-decoration: none;
 }
 
 #pulldown ul li.sep {
-color: #C0C2C3;
+color: #c0c2c3;
 padding: .8em 0 .5em;
 }
 
@@ -491,7 +491,7 @@ padding: 5px 9px 5px 5px;
 
 #pulldown ul ul li a:hover {
 font-weight: normal;
-background-color: #D5EAF7;
+background-color: #d5eaf7;
 background-image: none;
 }
 
@@ -501,7 +501,7 @@ font-style: italic;
 }
 
 span.mark {
-color: #B22;
+color: #b22;
 }
 
 #debug-handling {
