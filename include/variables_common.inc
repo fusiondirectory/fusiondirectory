@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2017  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -63,7 +63,7 @@ define("FPDF_FONTPATH", "/usr/share/php/fpdf/font/"); /*! Define fpdf font path 
 /*!
  * \brief FusionDirectory Version
  */
-define ("FD_VERSION", "1.1-fixes"); /*! Define FusionDirectory version */
+define ("FD_VERSION", "1.2-dev"); /*! Define FusionDirectory version */
 
 /*!
  * \brief FusionDirectory config object RDN
