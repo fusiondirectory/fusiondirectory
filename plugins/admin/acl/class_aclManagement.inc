@@ -200,15 +200,25 @@ class aclManagement extends simpleManagement
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Creating new ACL assignment');
   }
 
-  static function filterLabel($row, $dn, $pid = 0, $base = "", $ou = array())
+  static function filterLabel($row, $dn, $pid = 0, $base = '')
   {
-    $ou = $ou[0];
     if ($dn == $base) {
-      $ou = " . ";
+      $ou = ' . ';
+    } else {
+      for ($i = 4;$i < func_num_args();$i++) {
+        $val = func_get_arg($i);
+        if (empty($val)) {
+          continue;
+        }
+        if (!is_array($val)) {
+          $val = array($val);
+        }
+        $ou = htmlentities(reset($val), ENT_COMPAT, 'UTF-8');
+      }
     }
-    $ou .= "  &nbsp; ["._("ACL Assignment")."]";
+    $ou .= ' &nbsp; ['._('ACL Assignment').']';
 
-    return "<a href='?plug=".$_GET['plug']."&amp;PID=$pid&amp;act=listing_edit_$row' title='$dn'>$ou</a>";
+    return '<a href="?plug='.$_GET['plug'].'&amp;PID='.$pid.'&amp;act=listing_edit_'.$row.'" title="'.$dn.'">'.$ou.'</a>';
   }
 
   protected function removeEntryRequested($action, array $target, array $all)
