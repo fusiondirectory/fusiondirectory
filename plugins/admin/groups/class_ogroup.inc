@@ -27,7 +27,7 @@ class ObjectsAttribute extends GenericDialogAttribute
   function getFilterBlackList ()
   {
     return array(
-      'dn' => array_merge($this->getValue(), $this->plugin->used_workstations)
+      'dn' => array_merge($this->getValue(), $this->plugin->used_workstations, array($this->plugin->dn))
     );
   }
 
@@ -138,11 +138,10 @@ class ogroup extends simplePlugin
 
   static $objectTypes = array(
     'U' => 'user',
-    'G' => 'group',
+    'G' => 'ogroup',
     'A' => 'application',
     'S' => 'server',
     'W' => 'workstation',
-    'O' => 'winstation',
     'T' => 'terminal',
     'F' => 'phone',
     'P' => 'printer',
@@ -167,11 +166,10 @@ class ogroup extends simplePlugin
       'plForeignKeys'  => array(
         'member' => array(
           array('user'),
-          array('posixGroup'),
+          array('ogroup'),
           array('applicationGeneric'),
           array('serverGeneric'),
           array('workstationGeneric'),
-          array('winstationGeneric'),
           array('terminalGeneric'),
           array('phoneGeneric'),
           array('printGeneric'),

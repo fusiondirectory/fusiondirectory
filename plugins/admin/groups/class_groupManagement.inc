@@ -338,7 +338,6 @@ class groupManagement extends simpleManagement
         array(
           array('id'  => 'SERVER',      'label'  => _('Show server groups')),
           array('id'  => 'WORKSTATION', 'label'  => _('Show workstation groups')),
-          array('id'  => 'WINDOWS',     'label'  => _('Show windows groups')),
           array('id'  => 'TERMINAL',    'label'  => _('Show terminal groups')),
           array('id'  => 'PRINTER',     'label'  => _('Show printer groups')),
           array('id'  => 'PHONE',       'label'  => _('Show phone groups')),

@@ -10,7 +10,7 @@
   <search>
     <query>
       <backend>LDAP</backend>
-      <filter>(&amp;(|$PRIMARY$MAIL$SAMBA$ROLE$FILTERTEMPLATE(&amp;(objectClass=groupOfNames)(|(gosaGroupObjects=[])$USER$GROUP$APPLICATION$SERVER$WORKSTATION$WINDOWS$TERMINAL$PRINTER$PHONE$SIMPLESECURITYOBJECT$UNKNOWN)))$NAME)</filter>
+      <filter>(&amp;(|$PRIMARY$MAIL$SAMBA$ROLE$FILTERTEMPLATE(&amp;(objectClass=groupOfNames)(|(gosaGroupObjects=[])$USER$GROUP$APPLICATION$SERVER$WORKSTATION$TERMINAL$PRINTER$PHONE$SIMPLESECURITYOBJECT$UNKNOWN)))$NAME)</filter>
       <attribute>*</attribute>
     </query>
     <scope>auto</scope>
@@ -94,14 +94,6 @@
     <default>true</default>
     <unset></unset>
     <set>(gosaGroupObjects=*W*)</set>
-  </element>
-
-  <element>
-    <type>checkbox</type>
-    <tag>WINDOWS</tag>
-    <default>true</default>
-    <unset></unset>
-    <set>(gosaGroupObjects=*O*)</set>
   </element>
 
   <element>
