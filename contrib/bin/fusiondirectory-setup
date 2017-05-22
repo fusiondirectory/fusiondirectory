@@ -1190,6 +1190,7 @@ sub migrate_users {
           '(objectClass=person)'.
           '(objectClass=OpenLDAPperson)'.
         ')'.
+        '(!(objectClass=ipHost))'.
         '(!(objectClass=inetOrgPerson))'.
         '(uid=*)'.
       ')',
@@ -1464,7 +1465,7 @@ sub migrate_winstations
   my $ldap = $hash_ldap_param{ldap};
 
   my $mesg = $ldap->search(
-    filter => "(&(!(objectClass=fdWorkstation))(objectClass=sambaSamAccount))",
+    filter => "(&(!(objectClass=fdWorkstation))(!(objectClass=inetOrgPerson))(!(objectClass=posixGroup))(uid=*\$)(objectClass=sambaSamAccount))",
     base   => $base
   );
   $mesg->code && die $mesg->error;
