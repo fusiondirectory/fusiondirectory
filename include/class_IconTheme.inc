@@ -381,7 +381,7 @@ class IconTheme
       array('status','changes-allow'),
     ),
     'status/task-waiting'        => array(
-      array('status','task-schedule'),
+      array('actions','task-schedule'),
     ),
     'places/folder-network'        => array(
       array('places','folder-remote'),
