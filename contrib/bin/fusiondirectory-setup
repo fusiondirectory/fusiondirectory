@@ -95,6 +95,7 @@ my $systemrdn   = "ou=systems";
 my $dnsrdn      = "ou=dns";
 my $dhcprdn     = "ou=dhcp";
 my $workstationrdn  = "ou=workstations,ou=systems";
+my $winstationrdn   = "ou=computers,ou=systems";
 
 #################################################################################################################################################
 
@@ -1486,8 +1487,16 @@ sub migrate_winstations
         $entry->replace('cn' => $cn);
         my $newrdn = "cn=".$cn;
         my $dn_old = $entry->dn();
-        $dn_old =~ m/^[^,]+,.*$systemrdn,(.+)$/ or die "Could not parse dn ".$dn_old."\n";
-        my $entrybase = $1;
+        my $entrybase;
+        if ($dn_old =~ m/^[^,]+,$winstationrdn,(.+)$/) {
+          $entrybase = $1;
+        } elsif ($dn_old =~ m/^[^,]+,.*$systemrdn,(.+)$/) {
+          $entrybase = $1;
+        } elsif ($dn_old =~ m/^[^,]+,.*$winstationrdn,(.+)$/) {
+          $entrybase = $1;
+        } else {
+          die "Could not parse dn ".$dn_old."\n";
+        }
         if (!branch_exists($ldap, "$workstationrdn,$entrybase")) {
           if ($workstationrdn =~ m/^([^,]+),([^,]+)$/) {
             if (!branch_exists($ldap, "$2,$entrybase")) {
@@ -1736,6 +1745,9 @@ sub read_ldap_config {
     }
     if (($mesg->entries)[0]->exists('fdWorkstationRDN')) {
       $workstationrdn = ($mesg->entries)[0]->get_value('fdWorkstationRDN');
+    }
+    if (($mesg->entries)[0]->exists('fdSambaMachineAccountRDN')) {
+      $winstationrdn = ($mesg->entries)[0]->get_value('fdSambaMachineAccountRDN');
     }
   }
 
