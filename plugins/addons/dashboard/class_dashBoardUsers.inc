@@ -57,6 +57,19 @@ class dashboardUsers extends simplePlugin
   {
     parent::__construct($dn, $object, $parent, $mainTab);
 
+    $this->expiredAccountsColumns = array(
+      'user' => array(
+        'uid'             => _('Login'),
+        'cn'              => _('Name'),
+        'telephoneNumber' => _('Phone number'),
+        'expirationDate'  => _('Expiration date'),
+      ),
+      'manager' => array(
+        'manager_cn'      => _('Name'),
+        'manager_mail'    => _('Email'),
+        'manager_phone'   => _('Phone number'),
+      )
+    );
     $this->users_stats  = $this->computeUsersStats();
     $this->groups_stats = $this->computeGroupsStats();
     $this->expired      = $this->expired_accounts_info();
@@ -155,6 +168,7 @@ class dashboardUsers extends simplePlugin
     }
 
     return array(
+      'columns'             => $this->expiredAccountsColumns,
       'accounts'            => $expired_accounts,
       'accounts_next_days'  => $next_expired_accounts,
       'next_days'           => $next_expired_days,
@@ -176,8 +190,12 @@ class dashboardUsers extends simplePlugin
       $manager_phone  = '';
     }
 
-    /* 24 * 60 * 60 = 86400 */
-    $human_shadowExpire = date('d.m.Y', $attrs['shadowExpire'][0] * 86400);
+    if (isset($attrs['shadowExpire'][0])) {
+      /* 24 * 60 * 60 = 86400 */
+      $human_shadowExpire = date('d.m.Y', $attrs['shadowExpire'][0] * 86400);
+    } else {
+      $human_shadowExpire = '';
+    }
 
     return array(
       'uid'             => $attrs['uid'][0],
@@ -187,7 +205,7 @@ class dashboardUsers extends simplePlugin
       'manager_cn'      => $manager_cn,
       'manager_mail'    => $manager_mail,
       'manager_phone'   => $manager_phone,
-      'shadowExpire'    => $human_shadowExpire,
+      'expirationDate'  => $human_shadowExpire,
     );
   }
 }
