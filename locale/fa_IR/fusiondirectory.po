@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2017-04-30 15:08+0200\n"
+"POT-Creation-Date: 2017-05-21 17:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>, 2016\n"
 "Language-Team: Persian (Iran) (https://www.transifex.com/fusiondirectory/teams/12202/fa_IR/)\n"
@@ -535,7 +535,10 @@ msgstr ""
 #: include/class_SnapshotHandler.inc:53 include/class_SnapshotHandler.inc:238
 #: include/class_SnapshotHandler.inc:268 include/class_SnapshotHandler.inc:284
 #: include/class_SnapshotHandler.inc:405 include/class_SnapshotHandler.inc:408
-#: html/index.php:372 plugins/config/class_recoveryConfig.inc:137
+#: html/index.php:372 plugins/addons/dashboard/class_dashBoardUsers.inc:73
+#: plugins/addons/dashboard/class_dashBoard.inc:74
+#: plugins/addons/dashboard/class_dashBoardPasswords.inc:62
+#: plugins/config/class_recoveryConfig.inc:137
 msgid "LDAP error"
 msgstr "خطای LDAP"
 
@@ -735,8 +738,8 @@ msgid "Select all"
 msgstr ""
 
 #: include/class_listing.inc:528
-#: include/password-methods/class_password-methods-sasl.inc:60
-#: include/password-methods/class_password-methods-sasl.inc:86
+#: include/password-methods/class_password-methods-sasl.inc:65
+#: include/password-methods/class_password-methods-sasl.inc:92
 #: include/class_msg_dialog.inc:136 include/class_msg_dialog.inc:172
 #: include/class_config.inc:347 include/class_msgPool.inc:220
 #: include/class_msgPool.inc:240 include/class_msgPool.inc:270
@@ -825,12 +828,12 @@ msgstr ""
 msgid "Create a new snapshot from this object"
 msgstr ""
 
-#: include/password-methods/class_password-methods-sasl.inc:60
+#: include/password-methods/class_password-methods-sasl.inc:65
 #, php-format
-msgid "Cannot change password, unknown user '%s'"
+msgid "Cannot change password, unknown user \"%s\""
 msgstr ""
 
-#: include/password-methods/class_password-methods-sasl.inc:86
+#: include/password-methods/class_password-methods-sasl.inc:92
 msgid ""
 "You need to fill saslRealm or saslExop in the configuration screen in order "
 "to use SASL"
@@ -897,7 +900,7 @@ msgstr ""
 #: include/simpleplugin/class_simpleManagement.inc:282
 #: include/simpleplugin/class_simpleManagement.inc:514
 #: plugins/admin/users/user-list.xml:95
-#: plugins/admin/groups/class_groupManagement.inc:186
+#: plugins/admin/groups/class_groupManagement.inc:350
 #: ihtml/themes/breezy/template.tpl.c:5
 msgid "Template"
 msgstr ""
@@ -1963,7 +1966,7 @@ msgstr ""
 #: include/simpleplugin/simple-list.xml:32
 #: plugins/admin/departments/class_department.inc:171
 #: plugins/admin/groups/class_roleGeneric.inc:86
-#: plugins/admin/groups/class_ogroup.inc:193
+#: plugins/admin/groups/class_ogroup.inc:191
 #: plugins/admin/groups/group-list.xml:33
 #: plugins/admin/aclrole/class_aclRole.inc:99
 #: setup/setup_migrate_adminAccount.tpl.c:8
@@ -1976,7 +1979,7 @@ msgstr ""
 #: plugins/admin/departments/class_department.inc:72
 #: plugins/admin/departments/dep-list.xml:29
 #: plugins/admin/groups/class_roleGeneric.inc:91
-#: plugins/admin/groups/class_ogroup.inc:198
+#: plugins/admin/groups/class_ogroup.inc:196
 #: plugins/admin/groups/group-list.xml:41
 #: plugins/admin/aclrole/class_aclRole.inc:103
 msgid "Description"
@@ -2022,7 +2025,7 @@ msgstr ""
 #: plugins/admin/departments/dep-list.xml:79
 #: plugins/admin/users/user-list.xml:108
 #: plugins/admin/groups/group-list.xml:74
-#: plugins/admin/groups/group-list.xml:119
+#: plugins/admin/groups/group-list.xml:137
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:192
 msgid "Edit"
 msgstr ""
@@ -2037,7 +2040,7 @@ msgstr ""
 #: plugins/admin/departments/dep-list.xml:88
 #: plugins/admin/users/user-list.xml:115
 #: plugins/admin/groups/group-list.xml:82
-#: plugins/admin/groups/group-list.xml:132
+#: plugins/admin/groups/group-list.xml:150
 msgid "Remove"
 msgstr ""
 
@@ -2101,7 +2104,7 @@ msgstr ""
 
 #: include/simpleplugin/class_simpleManagement.inc:508
 #: include/simpleplugin/class_simpleManagement.inc:514
-#: plugins/admin/groups/class_groupManagement.inc:186
+#: plugins/admin/groups/class_groupManagement.inc:350
 #, php-format
 msgid "Show %s"
 msgstr ""
@@ -2541,7 +2544,7 @@ msgid "References"
 msgstr ""
 
 #: plugins/personal/roles/class_userRoles.inc:31
-#: plugins/admin/groups/class_groupManagement.inc:33
+#: plugins/admin/groups/class_groupManagement.inc:35
 msgid "Groups and roles"
 msgstr ""
 
@@ -2897,6 +2900,13 @@ msgstr ""
 msgid "Expired accounts"
 msgstr ""
 
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:74
+#, php-format
+msgid ""
+"Total user number could not be computed because of the following LDAP error:"
+" %s"
+msgstr ""
+
 #: plugins/addons/dashboard/class_dashBoard.inc:27
 #: plugins/addons/dashboard/class_dashBoard.inc:28
 #: plugins/addons/dashboard/class_dashBoard.inc:33
@@ -2916,6 +2926,13 @@ msgstr ""
 msgid "Statistics"
 msgstr ""
 
+#: plugins/addons/dashboard/class_dashBoard.inc:75
+#, php-format
+msgid ""
+"Statistics for type \"%s\" could not be computed because of the following "
+"error: %s"
+msgstr ""
+
 #: plugins/addons/dashboard/class_dashBoardPasswords.inc:26
 msgid "Passwords"
 msgstr ""
@@ -2926,6 +2943,13 @@ msgstr ""
 
 #: plugins/addons/dashboard/class_dashBoardPasswords.inc:38
 msgid "Passwords statistics"
+msgstr ""
+
+#: plugins/addons/dashboard/class_dashBoardPasswords.inc:63
+#, php-format
+msgid ""
+"Password statistics could not be computed because of the following LDAP "
+"error: %s"
 msgstr ""
 
 #: plugins/config/class_recoveryConfig.inc:28
@@ -3664,7 +3688,7 @@ msgstr ""
 
 #: plugins/admin/departments/class_department.inc:63
 #: plugins/admin/users/user-list.xml:57
-#: plugins/admin/groups/class_ogroup.inc:189
+#: plugins/admin/groups/class_ogroup.inc:187
 #: plugins/admin/groups/group-list.xml:49
 #: plugins/admin/acl/class_aclAssignment.inc:38
 #: plugins/admin/aclrole/class_aclRole.inc:95
@@ -3854,7 +3878,7 @@ msgstr ""
 
 #: plugins/admin/groups/class_roleGeneric.inc:55
 #: plugins/admin/groups/class_roleGeneric.inc:59
-#: plugins/admin/groups/class_groupManagement.inc:94
+#: plugins/admin/groups/class_groupManagement.inc:259
 #: plugins/admin/acl/class_aclAssignment.inc:47
 #: plugins/admin/aclrole/class_aclRole.inc:77
 msgid "Role"
@@ -3874,7 +3898,7 @@ msgid "Information"
 msgstr ""
 
 #: plugins/admin/groups/class_roleGeneric.inc:86
-#: plugins/admin/groups/class_ogroup.inc:193
+#: plugins/admin/groups/class_ogroup.inc:191
 msgid "Name of this group"
 msgstr ""
 
@@ -3898,82 +3922,113 @@ msgstr ""
 msgid "Add users for the role"
 msgstr ""
 
-#: plugins/admin/groups/class_groupManagement.inc:34
+#: plugins/admin/groups/class_groupManagement.inc:36
 msgid "Manage groups and roles"
 msgstr ""
 
-#: plugins/admin/groups/class_groupManagement.inc:35
+#: plugins/admin/groups/class_groupManagement.inc:37
 msgid "Allows you to manage object groups, POSIX groups and roles"
 msgstr ""
 
-#: plugins/admin/groups/class_groupManagement.inc:94
-msgid "Edit role properties"
-msgstr ""
-
-#: plugins/admin/groups/class_groupManagement.inc:110
-msgid "Posix"
-msgstr ""
-
-#: plugins/admin/groups/class_groupManagement.inc:110
-msgid "Edit posix properties"
-msgstr ""
-
-#: plugins/admin/groups/class_groupManagement.inc:153
-msgid "Show user groups"
-msgstr ""
-
-#: plugins/admin/groups/class_groupManagement.inc:154
-msgid "Show organizational roles"
+#: plugins/admin/groups/class_groupManagement.inc:155
+#: plugins/admin/groups/class_groupManagement.inc:158
+#: plugins/admin/groups/class_groupManagement.inc:176
+msgid "Action canceled"
 msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:155
+#, php-format
+msgid "System %s has no mac address defined, cannot trigger action"
+msgstr ""
+
+#: plugins/admin/groups/class_groupManagement.inc:158
+#, php-format
+msgid "Could not find system %s, cannot trigger action"
+msgstr ""
+
+#: plugins/admin/groups/class_groupManagement.inc:176
+#, php-format
+msgid "System %s is currently installing"
+msgstr ""
+
+#: plugins/admin/groups/class_groupManagement.inc:196
+#: plugins/admin/groups/class_groupManagement.inc:222
+msgid "Infrastructure service"
+msgstr ""
+
+#: plugins/admin/groups/class_groupManagement.inc:198
+msgid "Action triggered"
+msgstr ""
+
+#: plugins/admin/groups/class_groupManagement.inc:198
+#, php-format
+msgid "Action called without error (result was \"%s\")"
+msgstr ""
+
+#: plugins/admin/groups/class_groupManagement.inc:259
+msgid "Edit role properties"
+msgstr ""
+
+#: plugins/admin/groups/class_groupManagement.inc:275
+msgid "Posix"
+msgstr ""
+
+#: plugins/admin/groups/class_groupManagement.inc:275
+msgid "Edit posix properties"
+msgstr ""
+
+#: plugins/admin/groups/class_groupManagement.inc:318
+msgid "Show user groups"
+msgstr ""
+
+#: plugins/admin/groups/class_groupManagement.inc:319
+msgid "Show organizational roles"
+msgstr ""
+
+#: plugins/admin/groups/class_groupManagement.inc:320
 msgid "Show application groups"
 msgstr ""
 
-#: plugins/admin/groups/class_groupManagement.inc:156
+#: plugins/admin/groups/class_groupManagement.inc:321
 msgid "Show unidentified groups"
 msgstr ""
 
-#: plugins/admin/groups/class_groupManagement.inc:159
+#: plugins/admin/groups/class_groupManagement.inc:324
 #: include/select/groupSelect/group-filter.tpl.c:5
 msgid "Show primary groups"
 msgstr ""
 
-#: plugins/admin/groups/class_groupManagement.inc:161
+#: plugins/admin/groups/class_groupManagement.inc:326
 #: include/select/groupSelect/group-filter.tpl.c:11
 msgid "Show mail groups"
 msgstr ""
 
-#: plugins/admin/groups/class_groupManagement.inc:164
+#: plugins/admin/groups/class_groupManagement.inc:329
 #: include/select/groupSelect/group-filter.tpl.c:8
 msgid "Show samba groups"
 msgstr ""
 
-#: plugins/admin/groups/class_groupManagement.inc:168
+#: plugins/admin/groups/class_groupManagement.inc:333
 msgid "Show DSA entries"
 msgstr ""
 
-#: plugins/admin/groups/class_groupManagement.inc:174
+#: plugins/admin/groups/class_groupManagement.inc:339
 msgid "Show server groups"
 msgstr ""
 
-#: plugins/admin/groups/class_groupManagement.inc:175
+#: plugins/admin/groups/class_groupManagement.inc:340
 msgid "Show workstation groups"
 msgstr ""
 
-#: plugins/admin/groups/class_groupManagement.inc:176
-msgid "Show windows groups"
-msgstr ""
-
-#: plugins/admin/groups/class_groupManagement.inc:177
+#: plugins/admin/groups/class_groupManagement.inc:341
 msgid "Show terminal groups"
 msgstr ""
 
-#: plugins/admin/groups/class_groupManagement.inc:178
+#: plugins/admin/groups/class_groupManagement.inc:342
 msgid "Show printer groups"
 msgstr ""
 
-#: plugins/admin/groups/class_groupManagement.inc:179
+#: plugins/admin/groups/class_groupManagement.inc:343
 msgid "Show phone groups"
 msgstr ""
 
@@ -3987,66 +4042,74 @@ msgstr ""
 msgid "Non existing dn: %s"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:155
+#: plugins/admin/groups/class_ogroup.inc:154
 msgid "Object group"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:156
+#: plugins/admin/groups/class_ogroup.inc:155
 msgid "Object group information"
 msgstr ""
 
+#: plugins/admin/groups/class_ogroup.inc:159
 #: plugins/admin/groups/class_ogroup.inc:160
-#: plugins/admin/groups/class_ogroup.inc:161
 msgid "Group"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:198
+#: plugins/admin/groups/class_ogroup.inc:196
 msgid "Short description of this group"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:205
+#: plugins/admin/groups/class_ogroup.inc:203
 msgid "Member objects"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:208
+#: plugins/admin/groups/class_ogroup.inc:206
 msgid "Objects member of this group"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:215
+#: plugins/admin/groups/class_ogroup.inc:213
 msgid "System trust"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:219
+#: plugins/admin/groups/class_ogroup.inc:217
 msgid "Trust mode"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:219
+#: plugins/admin/groups/class_ogroup.inc:217
 msgid "Type of authorization for those hosts"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:223
+#: plugins/admin/groups/class_ogroup.inc:221
 msgid "disabled"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:223
+#: plugins/admin/groups/class_ogroup.inc:221
 msgid "full access"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:223
+#: plugins/admin/groups/class_ogroup.inc:221
 msgid "allow access to these hosts"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:226
+#: plugins/admin/groups/class_ogroup.inc:224
 msgid "Only allow this group to connect to this list of hosts"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:317
+#: plugins/admin/groups/class_ogroup.inc:315
 msgid ""
 "Putting both workstations and terminals in the same group is not allowed"
 msgstr ""
 
 #: plugins/admin/groups/group-list.xml:11
 msgid "List of groups"
+msgstr ""
+
+#: plugins/admin/groups/group-list.xml:93
+msgid "Trigger action"
+msgstr ""
+
+#: plugins/admin/groups/group-list.xml:100
+msgid "Schedule action"
 msgstr ""
 
 #: plugins/admin/acl/class_aclManagement.inc:31
@@ -4083,7 +4146,7 @@ msgstr ""
 msgid "Manage ACL roles assignments to users"
 msgstr ""
 
-#: plugins/admin/acl/class_aclManagement.inc:209
+#: plugins/admin/acl/class_aclManagement.inc:219
 #: plugins/admin/acl/class_aclAssignment.inc:273
 msgid "ACL Assignment"
 msgstr ""
