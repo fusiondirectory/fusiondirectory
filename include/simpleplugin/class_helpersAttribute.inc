@@ -23,6 +23,8 @@
  */
 class MailAttribute extends StringAttribute
 {
+  protected $trim = TRUE;
+
   function validate ()
   {
     if (!tests::is_email($this->value)) {
@@ -69,6 +71,8 @@ class UidAttribute extends TestValidateAttribute
  */
 class PathAttribute extends TestValidateAttribute
 {
+  protected $trim = TRUE;
+
   protected $testFunc = 'is_path';
 }
 
@@ -77,6 +81,8 @@ class PathAttribute extends TestValidateAttribute
  */
 class URLAttribute extends TestValidateAttribute
 {
+  protected $trim = TRUE;
+
   protected $testFunc = 'is_url';
 }
 
@@ -85,6 +91,8 @@ class URLAttribute extends TestValidateAttribute
  */
 class PhoneNumberAttribute extends TestValidateAttribute
 {
+  protected $trim = TRUE;
+
   protected $testFunc = 'is_phone_nr';
 }
 
@@ -93,6 +101,8 @@ class PhoneNumberAttribute extends TestValidateAttribute
  */
 class IPAttribute extends TestValidateAttribute
 {
+  protected $trim = TRUE;
+
   protected $testFunc = 'is_ip';
 }
 
@@ -101,6 +111,8 @@ class IPAttribute extends TestValidateAttribute
  */
 class IPv4Attribute extends TestValidateAttribute
 {
+  protected $trim = TRUE;
+
   protected $testFunc = 'is_ipv4';
 }
 
@@ -109,6 +121,8 @@ class IPv4Attribute extends TestValidateAttribute
  */
 class IPv6Attribute extends TestValidateAttribute
 {
+  protected $trim = TRUE;
+
   protected $testFunc = 'is_ipv6';
 }
 
@@ -117,6 +131,8 @@ class IPv6Attribute extends TestValidateAttribute
  */
 class MacAddressAttribute extends StringAttribute
 {
+  protected $trim = TRUE;
+
   function setValue ($value)
   {
     return parent::setValue(strtolower($value));
