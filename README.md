@@ -56,7 +56,7 @@ You can [register on our system][register] and enter your bug [on the forge][iss
   
 ## Donate
 
-If you like [FusionDirectory][FusionDirectory] and would like to donate even a small amount you can go to our Liberapay account
+If you like [FusionDirectory][FusionDirectory] and would like to [donate][donate-liberapay] even a small amount you can go to our Liberapay account
   
 ## License
 
