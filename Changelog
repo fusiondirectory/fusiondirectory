@@ -11,7 +11,6 @@ FusionDirectory changelog
 [Fix] FusionDirectory plugins - Bugs #5553: Crash error when we remove a posix group that we used in a template
 [Fix] Bugs #5554: Trim the certificates path
 [Fix] FusionDirectory plugins - Bugs #5557: Trim the certificates path
-[Fix] FusionDirectory plugins - Bugs #5560: The DNS plugin fails to find the primary server, if it's in another zone
 [Fix] Bugs #5562: Read rights on template let see the users in the root branch
 [Fix] FusionDirectory plugins - Bugs #5564: Automatic primary group is created at the root and not in the branch of the user
 [Feature] FusionDirectory plugins - Wishlist #5514: System - DHCP Tab - Preselect DHCP SUBNET according IP address or mask others
