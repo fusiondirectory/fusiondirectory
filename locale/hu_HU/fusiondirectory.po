@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2017-05-21 17:42+0200\n"
+"POT-Creation-Date: 2017-05-25 14:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>, 2016\n"
 "Language-Team: Hungarian (Hungary) (https://www.transifex.com/fusiondirectory/teams/12202/hu_HU/)\n"
@@ -535,7 +535,7 @@ msgstr ""
 #: include/class_SnapshotHandler.inc:53 include/class_SnapshotHandler.inc:238
 #: include/class_SnapshotHandler.inc:268 include/class_SnapshotHandler.inc:284
 #: include/class_SnapshotHandler.inc:405 include/class_SnapshotHandler.inc:408
-#: html/index.php:372 plugins/addons/dashboard/class_dashBoardUsers.inc:73
+#: html/index.php:372 plugins/addons/dashboard/class_dashBoardUsers.inc:86
 #: plugins/addons/dashboard/class_dashBoard.inc:74
 #: plugins/addons/dashboard/class_dashBoardPasswords.inc:62
 #: plugins/config/class_recoveryConfig.inc:137
@@ -891,6 +891,7 @@ msgstr ""
 
 #: include/select/userSelect/class_userSelect.inc:32
 #: plugins/personal/generic/class_user.inc:383
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:62
 #: plugins/admin/users/user-list.xml:49 ihtml/themes/breezy/recovery.tpl.c:26
 #: plugins/personal/generic/paste_generic.tpl.c:11
 msgid "Login"
@@ -1964,6 +1965,8 @@ msgstr ""
 
 #: include/simpleplugin/simple-select-list.xml:32
 #: include/simpleplugin/simple-list.xml:32
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:63
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:68
 #: plugins/admin/departments/class_department.inc:171
 #: plugins/admin/groups/class_roleGeneric.inc:86
 #: plugins/admin/groups/class_ogroup.inc:191
@@ -2899,7 +2902,22 @@ msgstr ""
 msgid "Expired accounts"
 msgstr ""
 
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:74
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:64
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:70
+#: plugins/admin/groups/class_roleGeneric.inc:95
+msgid "Phone number"
+msgstr "Telefonszám"
+
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:65
+msgid "Expiration date"
+msgstr ""
+
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:69
+#: ihtml/themes/breezy/recovery.tpl.c:74
+msgid "Email"
+msgstr ""
+
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:87
 #, php-format
 msgid ""
 "Total user number could not be computed because of the following LDAP error:"
@@ -3905,10 +3923,6 @@ msgstr "Csoport neve"
 msgid "Description of the role"
 msgstr ""
 
-#: plugins/admin/groups/class_roleGeneric.inc:95
-msgid "Phone number"
-msgstr "Telefonszám"
-
 #: plugins/admin/groups/class_roleGeneric.inc:99
 msgid "Fax number"
 msgstr "Faxszám"
@@ -4543,10 +4557,6 @@ msgid ""
 "john.doe@example.com"
 msgstr ""
 
-#: ihtml/themes/breezy/recovery.tpl.c:74
-msgid "Email"
-msgstr ""
-
 #: ihtml/themes/breezy/recovery.tpl.c:83
 msgid ""
 "Password recovery is not activated. If you have lost your password, please "
@@ -4871,53 +4881,21 @@ msgid "There is no expired account"
 msgstr ""
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:11
-#: plugins/addons/dashboard/users_accounts.tpl.c:44
+#: plugins/addons/dashboard/users_accounts.tpl.c:23
 msgid "Manager concerned"
 msgstr ""
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:14
-#: plugins/addons/dashboard/users_accounts.tpl.c:47
-msgid "uid"
-msgstr ""
-
-#: plugins/addons/dashboard/users_accounts.tpl.c:17
-#: plugins/addons/dashboard/users_accounts.tpl.c:50
-msgid "cn"
-msgstr ""
-
-#: plugins/addons/dashboard/users_accounts.tpl.c:20
-#: plugins/addons/dashboard/users_accounts.tpl.c:32
-#: plugins/addons/dashboard/users_accounts.tpl.c:53
-#: plugins/addons/dashboard/users_accounts.tpl.c:65
-msgid "telephoneNumber"
-msgstr ""
-
-#: plugins/addons/dashboard/users_accounts.tpl.c:23
-#: plugins/addons/dashboard/users_accounts.tpl.c:56
-msgid "shadowExpire"
-msgstr ""
-
-#: plugins/addons/dashboard/users_accounts.tpl.c:26
-#: plugins/addons/dashboard/users_accounts.tpl.c:59
-msgid "manager"
-msgstr ""
-
-#: plugins/addons/dashboard/users_accounts.tpl.c:29
-#: plugins/addons/dashboard/users_accounts.tpl.c:62
-msgid "mail"
-msgstr ""
-
-#: plugins/addons/dashboard/users_accounts.tpl.c:35
 msgid "There is one account expiring in the next %1 days"
 msgid_plural "There are %2 accounts expiring in the next %1 days"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugins/addons/dashboard/users_accounts.tpl.c:38
+#: plugins/addons/dashboard/users_accounts.tpl.c:17
 msgid "There is no account expiring in the next %1 days"
 msgstr ""
 
-#: plugins/addons/dashboard/users_accounts.tpl.c:41
+#: plugins/addons/dashboard/users_accounts.tpl.c:20
 msgid "Next expired accounts"
 msgstr ""
 

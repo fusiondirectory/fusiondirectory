@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2017-05-21 17:42+0200\n"
+"POT-Creation-Date: 2017-05-25 14:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Benoit Mortier <benoit.mortier@opensides.be>, 2017\n"
 "Language-Team: French (https://www.transifex.com/fusiondirectory/teams/12202/fr/)\n"
@@ -608,7 +608,7 @@ msgstr ""
 #: include/class_SnapshotHandler.inc:53 include/class_SnapshotHandler.inc:238
 #: include/class_SnapshotHandler.inc:268 include/class_SnapshotHandler.inc:284
 #: include/class_SnapshotHandler.inc:405 include/class_SnapshotHandler.inc:408
-#: html/index.php:372 plugins/addons/dashboard/class_dashBoardUsers.inc:73
+#: html/index.php:372 plugins/addons/dashboard/class_dashBoardUsers.inc:86
 #: plugins/addons/dashboard/class_dashBoard.inc:74
 #: plugins/addons/dashboard/class_dashBoardPasswords.inc:62
 #: plugins/config/class_recoveryConfig.inc:137
@@ -910,7 +910,7 @@ msgstr "Créer un nouveau snapshot depuis cet objet"
 #: include/password-methods/class_password-methods-sasl.inc:65
 #, php-format
 msgid "Cannot change password, unknown user \"%s\""
-msgstr ""
+msgstr "Impossible de changer le mot de passe, utilisateur \"%s\" inconnu."
 
 #: include/password-methods/class_password-methods-sasl.inc:92
 msgid ""
@@ -974,6 +974,7 @@ msgstr "Impossible de coller"
 
 #: include/select/userSelect/class_userSelect.inc:32
 #: plugins/personal/generic/class_user.inc:383
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:62
 #: plugins/admin/users/user-list.xml:49 ihtml/themes/breezy/recovery.tpl.c:26
 #: plugins/personal/generic/paste_generic.tpl.c:11
 msgid "Login"
@@ -2126,6 +2127,8 @@ msgstr "Veuillez sélectionner les entrées désirées"
 
 #: include/simpleplugin/simple-select-list.xml:32
 #: include/simpleplugin/simple-list.xml:32
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:63
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:68
 #: plugins/admin/departments/class_department.inc:171
 #: plugins/admin/groups/class_roleGeneric.inc:86
 #: plugins/admin/groups/class_ogroup.inc:191
@@ -3114,12 +3117,29 @@ msgstr "Statistiques des groupes"
 msgid "Expired accounts"
 msgstr "Comptes expirés"
 
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:74
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:64
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:70
+#: plugins/admin/groups/class_roleGeneric.inc:95
+msgid "Phone number"
+msgstr "Numéro de téléphone"
+
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:65
+msgid "Expiration date"
+msgstr "Date d'expiration"
+
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:69
+#: ihtml/themes/breezy/recovery.tpl.c:74
+msgid "Email"
+msgstr "Courriel"
+
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:87
 #, php-format
 msgid ""
 "Total user number could not be computed because of the following LDAP error:"
 " %s"
 msgstr ""
+"Le nombre total d'utilisateurs n'a pas pu être calculé en raison de l'erreur"
+" LDAP suivante: %s"
 
 #: plugins/addons/dashboard/class_dashBoard.inc:27
 #: plugins/addons/dashboard/class_dashBoard.inc:28
@@ -3146,6 +3166,8 @@ msgid ""
 "Statistics for type \"%s\" could not be computed because of the following "
 "error: %s"
 msgstr ""
+"Les statistiques pour le type \"%s\" n'ont pas pu être calculées en raison "
+"de l'erreur suivante: %s"
 
 #: plugins/addons/dashboard/class_dashBoardPasswords.inc:26
 msgid "Passwords"
@@ -3165,6 +3187,8 @@ msgid ""
 "Password statistics could not be computed because of the following LDAP "
 "error: %s"
 msgstr ""
+"Les statistiques de mot de passe n'ont pas pu être calculées en raison de "
+"l'erreur LDAP suivante: %s"
 
 #: plugins/config/class_recoveryConfig.inc:28
 msgid "Password recovery"
@@ -4196,10 +4220,6 @@ msgstr "Nom du groupe"
 msgid "Description of the role"
 msgstr "Description du rôle"
 
-#: plugins/admin/groups/class_roleGeneric.inc:95
-msgid "Phone number"
-msgstr "Numéro de téléphone"
-
 #: plugins/admin/groups/class_roleGeneric.inc:99
 msgid "Fax number"
 msgstr "Numéro de fax"
@@ -4235,7 +4255,7 @@ msgstr ""
 #: plugins/admin/groups/class_groupManagement.inc:158
 #, php-format
 msgid "Could not find system %s, cannot trigger action"
-msgstr ""
+msgstr "Impossible de trouver le système  %s, impossible d\"exécuter l'action"
 
 #: plugins/admin/groups/class_groupManagement.inc:176
 #, php-format
@@ -4876,10 +4896,6 @@ msgstr ""
 "=> Indiquez votre adresse complète, ex: Jules Martin => "
 "jules.martin@exemple.fr"
 
-#: ihtml/themes/breezy/recovery.tpl.c:74
-msgid "Email"
-msgstr "Courriel"
-
 #: ihtml/themes/breezy/recovery.tpl.c:83
 msgid ""
 "Password recovery is not activated. If you have lost your password, please "
@@ -5247,53 +5263,21 @@ msgid "There is no expired account"
 msgstr "Il n'y a pas de compte expiré"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:11
-#: plugins/addons/dashboard/users_accounts.tpl.c:44
+#: plugins/addons/dashboard/users_accounts.tpl.c:23
 msgid "Manager concerned"
 msgstr "Manager concerné"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:14
-#: plugins/addons/dashboard/users_accounts.tpl.c:47
-msgid "uid"
-msgstr "uid"
-
-#: plugins/addons/dashboard/users_accounts.tpl.c:17
-#: plugins/addons/dashboard/users_accounts.tpl.c:50
-msgid "cn"
-msgstr "cn"
-
-#: plugins/addons/dashboard/users_accounts.tpl.c:20
-#: plugins/addons/dashboard/users_accounts.tpl.c:32
-#: plugins/addons/dashboard/users_accounts.tpl.c:53
-#: plugins/addons/dashboard/users_accounts.tpl.c:65
-msgid "telephoneNumber"
-msgstr "Numéro de téléphone"
-
-#: plugins/addons/dashboard/users_accounts.tpl.c:23
-#: plugins/addons/dashboard/users_accounts.tpl.c:56
-msgid "shadowExpire"
-msgstr "Date d'expiration du mot de passe"
-
-#: plugins/addons/dashboard/users_accounts.tpl.c:26
-#: plugins/addons/dashboard/users_accounts.tpl.c:59
-msgid "manager"
-msgstr "manager"
-
-#: plugins/addons/dashboard/users_accounts.tpl.c:29
-#: plugins/addons/dashboard/users_accounts.tpl.c:62
-msgid "mail"
-msgstr "courriel"
-
-#: plugins/addons/dashboard/users_accounts.tpl.c:35
 msgid "There is one account expiring in the next %1 days"
 msgid_plural "There are %2 accounts expiring in the next %1 days"
 msgstr[0] "Il y a un compte qui expire dans les %1 prochain jours"
 msgstr[1] "Il y a %2 comptes qui expirent dans les %1 prochains jours"
 
-#: plugins/addons/dashboard/users_accounts.tpl.c:38
+#: plugins/addons/dashboard/users_accounts.tpl.c:17
 msgid "There is no account expiring in the next %1 days"
 msgstr "Il n’y a pas de compte qui expire dans les %1 prochains jours"
 
-#: plugins/addons/dashboard/users_accounts.tpl.c:41
+#: plugins/addons/dashboard/users_accounts.tpl.c:20
 msgid "Next expired accounts"
 msgstr "Prochains comptes expirés"
 
