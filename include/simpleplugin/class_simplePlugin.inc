@@ -254,12 +254,12 @@ class simplePlugin
       }
     }
 
+    /* Save initial account state */
+    $this->initially_was_account = $this->is_account;
+
     $this->loadAttributes();
 
     $this->prepareSavedAttributes();
-
-    /* Save initial account state */
-    $this->initially_was_account = $this->is_account;
 
     $this->orig_dn = $dn;
 
@@ -533,16 +533,10 @@ class simplePlugin
     $deps = array();
 
     /* Is this a new object ? Or just an edited existing object */
-    if (!$this->initially_was_account && $this->is_account) {
-      $new = TRUE;
-    } else {
-      $new = FALSE;
-    }
-
     foreach ($config->idepartments as $dn => $name) {
-      if ($new && $this->acl_is_createable($dn)) {
+      if (!$this->initially_was_account && $this->acl_is_createable($dn)) {
         $deps[$dn] = $name;
-      } elseif (!$new && $this->acl_is_moveable($dn)) {
+      } elseif ($this->initially_was_account && $this->acl_is_moveable($dn)) {
         $deps[$dn] = $name;
       }
     }
