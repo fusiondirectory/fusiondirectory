@@ -200,7 +200,7 @@ class UserPasswordAttribute extends CompositeAttribute
       trigger_error('Unknown password method '.$values[0]);
       return $values[3];
     }
-    $test = new $temp[$values[0]]($this->plugin->dn);
+    $test = new $temp[$values[0]]($this->plugin->dn, $this->plugin);
     $test->set_hash($values[0]);
     if ($this->plugin->is_template) {
       return $test->generate_hash($values[1]).'|'.$values[1];

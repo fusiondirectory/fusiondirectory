@@ -150,7 +150,7 @@ class userManagement extends simpleManagement
       }
     }
     if (count($disallowed)) {
-      msg_dialog::display(_('Permission'), msgPool::permDelete($disallowed), INFO_DIALOG);
+      msg_dialog::display(_('Permission'), msgPool::permModify($disallowed), INFO_DIALOG);
     }
 
     // Try to lock/unlock the rest of the entries.

@@ -1,9 +1,8 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2017  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -32,15 +31,16 @@ class passwordMethod
 {
   var $attrs    = array();
   var $display  = FALSE;
-  var $hash     = "";
+  var $hash     = '';
   var $lockable = TRUE;
 
   /*!
    * \brief Password method contructor
    *
    * \param string $dn The DN
+   * \param object $userTab The user main tab object
    */
-  function __construct($dn = "")
+  function __construct($dn = '', $userTab = NULL)
   {
   }
 
@@ -127,9 +127,9 @@ class passwordMethod
     }
 
     /* Get current password hash */
-    $attrs = $this->attrs;
-    $pwd  = "";
-    $ldap = $config->get_ldap_link();
+    $attrs  = $this->attrs;
+    $pwd    = '';
+    $ldap   = $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);
     if (!empty($dn)) {
       $ldap->cat($dn);

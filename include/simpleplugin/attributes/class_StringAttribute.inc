@@ -26,6 +26,7 @@ class StringAttribute extends Attribute
   protected $pattern;
   protected $example;
   protected $autocomplete = NULL;
+  protected $trim = FALSE;
 
   /*! \brief The constructor of StringAttribute
    *
@@ -105,6 +106,23 @@ class StringAttribute extends Attribute
   {
     return $this->autocomplete;
   }
+
+  function setValue ($value)
+  {
+    if ($this->trim) {
+      return parent::setValue(trim($value));
+    } else {
+      return parent::setValue($value);
+    }
+  }
+}
+
+/*! \brief This class allow to handle easily a String LDAP attribute that appears as a text area
+ *
+ */
+class TrimmedStringAttribute extends StringAttribute
+{
+  protected $trim = TRUE;
 }
 
 /*! \brief This class allow to handle easily a String LDAP attribute that appears as a text area

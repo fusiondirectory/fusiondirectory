@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2017-04-30 15:08+0200\n"
+"POT-Creation-Date: 2017-06-01 10:23+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FusionDirectory project <contact@fusiondirectory.org>\n"
 "Language-Team: English\n"
@@ -533,7 +533,10 @@ msgstr ""
 #: include/class_SnapshotHandler.inc:53 include/class_SnapshotHandler.inc:238
 #: include/class_SnapshotHandler.inc:268 include/class_SnapshotHandler.inc:284
 #: include/class_SnapshotHandler.inc:405 include/class_SnapshotHandler.inc:408
-#: html/index.php:372 plugins/config/class_recoveryConfig.inc:137
+#: html/index.php:372 plugins/addons/dashboard/class_dashBoardUsers.inc:73
+#: plugins/addons/dashboard/class_dashBoard.inc:74
+#: plugins/addons/dashboard/class_dashBoardPasswords.inc:62
+#: plugins/config/class_recoveryConfig.inc:137
 msgid "LDAP error"
 msgstr ""
 
@@ -735,8 +738,8 @@ msgid "Select all"
 msgstr ""
 
 #: include/class_listing.inc:528
-#: include/password-methods/class_password-methods-sasl.inc:60
-#: include/password-methods/class_password-methods-sasl.inc:86
+#: include/password-methods/class_password-methods-sasl.inc:65
+#: include/password-methods/class_password-methods-sasl.inc:92
 #: include/class_msg_dialog.inc:136 include/class_msg_dialog.inc:172
 #: include/class_config.inc:347 include/class_msgPool.inc:220
 #: include/class_msgPool.inc:240 include/class_msgPool.inc:270
@@ -825,12 +828,12 @@ msgstr ""
 msgid "Create a new snapshot from this object"
 msgstr ""
 
-#: include/password-methods/class_password-methods-sasl.inc:60
+#: include/password-methods/class_password-methods-sasl.inc:65
 #, php-format
-msgid "Cannot change password, unknown user '%s'"
+msgid "Cannot change password, unknown user \"%s\""
 msgstr ""
 
-#: include/password-methods/class_password-methods-sasl.inc:86
+#: include/password-methods/class_password-methods-sasl.inc:92
 msgid ""
 "You need to fill saslRealm or saslExop in the configuration screen in order "
 "to use SASL"
@@ -2052,39 +2055,39 @@ msgstr ""
 msgid "Move from \"%s\" to \"%s\" failed"
 msgstr ""
 
-#: include/simpleplugin/class_helpersAttribute.inc:247
+#: include/simpleplugin/class_helpersAttribute.inc:263
 msgid "B"
 msgstr ""
 
-#: include/simpleplugin/class_helpersAttribute.inc:248
+#: include/simpleplugin/class_helpersAttribute.inc:264
 msgid "KiB"
 msgstr ""
 
-#: include/simpleplugin/class_helpersAttribute.inc:249
+#: include/simpleplugin/class_helpersAttribute.inc:265
 msgid "MiB"
 msgstr ""
 
-#: include/simpleplugin/class_helpersAttribute.inc:250
+#: include/simpleplugin/class_helpersAttribute.inc:266
 msgid "GiB"
 msgstr ""
 
-#: include/simpleplugin/class_helpersAttribute.inc:251
+#: include/simpleplugin/class_helpersAttribute.inc:267
 msgid "TiB"
 msgstr ""
 
-#: include/simpleplugin/class_helpersAttribute.inc:262
+#: include/simpleplugin/class_helpersAttribute.inc:278
 msgid "seconds"
 msgstr ""
 
-#: include/simpleplugin/class_helpersAttribute.inc:263
+#: include/simpleplugin/class_helpersAttribute.inc:279
 msgid "minutes"
 msgstr ""
 
-#: include/simpleplugin/class_helpersAttribute.inc:264
+#: include/simpleplugin/class_helpersAttribute.inc:280
 msgid "hours"
 msgstr ""
 
-#: include/simpleplugin/class_helpersAttribute.inc:265
+#: include/simpleplugin/class_helpersAttribute.inc:281
 msgid "days"
 msgstr ""
 
@@ -2898,6 +2901,13 @@ msgstr ""
 msgid "Expired accounts"
 msgstr ""
 
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:74
+#, php-format
+msgid ""
+"Total user number could not be computed because of the following LDAP error: "
+"%s"
+msgstr ""
+
 #: plugins/addons/dashboard/class_dashBoard.inc:27
 #: plugins/addons/dashboard/class_dashBoard.inc:28
 #: plugins/addons/dashboard/class_dashBoard.inc:33
@@ -2917,6 +2927,13 @@ msgstr ""
 msgid "Statistics"
 msgstr ""
 
+#: plugins/addons/dashboard/class_dashBoard.inc:75
+#, php-format
+msgid ""
+"Statistics for type \"%s\" could not be computed because of the following "
+"error: %s"
+msgstr ""
+
 #: plugins/addons/dashboard/class_dashBoardPasswords.inc:26
 msgid "Passwords"
 msgstr ""
@@ -2927,6 +2944,13 @@ msgstr ""
 
 #: plugins/addons/dashboard/class_dashBoardPasswords.inc:38
 msgid "Passwords statistics"
+msgstr ""
+
+#: plugins/addons/dashboard/class_dashBoardPasswords.inc:63
+#, php-format
+msgid ""
+"Password statistics could not be computed because of the following LDAP "
+"error: %s"
 msgstr ""
 
 #: plugins/config/class_recoveryConfig.inc:28
@@ -4082,7 +4106,7 @@ msgstr ""
 msgid "Manage ACL roles assignments to users"
 msgstr ""
 
-#: plugins/admin/acl/class_aclManagement.inc:209
+#: plugins/admin/acl/class_aclManagement.inc:219
 #: plugins/admin/acl/class_aclAssignment.inc:273
 msgid "ACL Assignment"
 msgstr ""

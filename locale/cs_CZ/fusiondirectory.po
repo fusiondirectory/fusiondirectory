@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2017-04-30 15:08+0200\n"
+"POT-Creation-Date: 2017-05-25 14:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>, 2016\n"
 "Language-Team: Czech (Czech Republic) (https://www.transifex.com/fusiondirectory/teams/12202/cs_CZ/)\n"
@@ -600,7 +600,10 @@ msgstr ""
 #: include/class_SnapshotHandler.inc:53 include/class_SnapshotHandler.inc:238
 #: include/class_SnapshotHandler.inc:268 include/class_SnapshotHandler.inc:284
 #: include/class_SnapshotHandler.inc:405 include/class_SnapshotHandler.inc:408
-#: html/index.php:372 plugins/config/class_recoveryConfig.inc:137
+#: html/index.php:372 plugins/addons/dashboard/class_dashBoardUsers.inc:86
+#: plugins/addons/dashboard/class_dashBoard.inc:74
+#: plugins/addons/dashboard/class_dashBoardPasswords.inc:62
+#: plugins/config/class_recoveryConfig.inc:137
 msgid "LDAP error"
 msgstr "chyba LDAPu"
 
@@ -804,8 +807,8 @@ msgid "Select all"
 msgstr "vybrat vše"
 
 #: include/class_listing.inc:528
-#: include/password-methods/class_password-methods-sasl.inc:60
-#: include/password-methods/class_password-methods-sasl.inc:86
+#: include/password-methods/class_password-methods-sasl.inc:65
+#: include/password-methods/class_password-methods-sasl.inc:92
 #: include/class_msg_dialog.inc:136 include/class_msg_dialog.inc:172
 #: include/class_config.inc:347 include/class_msgPool.inc:220
 #: include/class_msgPool.inc:240 include/class_msgPool.inc:270
@@ -894,12 +897,12 @@ msgstr "vytvořit snímek"
 msgid "Create a new snapshot from this object"
 msgstr "vytvořit nový snímek tohoto objektu"
 
-#: include/password-methods/class_password-methods-sasl.inc:60
+#: include/password-methods/class_password-methods-sasl.inc:65
 #, php-format
-msgid "Cannot change password, unknown user '%s'"
-msgstr "Heslo nelze změnit, neznámý uživatel %s"
+msgid "Cannot change password, unknown user \"%s\""
+msgstr ""
 
-#: include/password-methods/class_password-methods-sasl.inc:86
+#: include/password-methods/class_password-methods-sasl.inc:92
 msgid ""
 "You need to fill saslRealm or saslExop in the configuration screen in order "
 "to use SASL"
@@ -961,6 +964,7 @@ msgstr "nemohu vložit"
 
 #: include/select/userSelect/class_userSelect.inc:32
 #: plugins/personal/generic/class_user.inc:383
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:62
 #: plugins/admin/users/user-list.xml:49 ihtml/themes/breezy/recovery.tpl.c:26
 #: plugins/personal/generic/paste_generic.tpl.c:11
 msgid "Login"
@@ -970,7 +974,7 @@ msgstr "uživatelské jméno"
 #: include/simpleplugin/class_simpleManagement.inc:282
 #: include/simpleplugin/class_simpleManagement.inc:514
 #: plugins/admin/users/user-list.xml:95
-#: plugins/admin/groups/class_groupManagement.inc:186
+#: plugins/admin/groups/class_groupManagement.inc:350
 #: ihtml/themes/breezy/template.tpl.c:5
 msgid "Template"
 msgstr "šablona"
@@ -2076,9 +2080,11 @@ msgstr "vyberte prosím požadované položky"
 
 #: include/simpleplugin/simple-select-list.xml:32
 #: include/simpleplugin/simple-list.xml:32
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:63
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:68
 #: plugins/admin/departments/class_department.inc:171
 #: plugins/admin/groups/class_roleGeneric.inc:86
-#: plugins/admin/groups/class_ogroup.inc:193
+#: plugins/admin/groups/class_ogroup.inc:191
 #: plugins/admin/groups/group-list.xml:33
 #: plugins/admin/aclrole/class_aclRole.inc:99
 #: setup/setup_migrate_adminAccount.tpl.c:8
@@ -2091,7 +2097,7 @@ msgstr "název"
 #: plugins/admin/departments/class_department.inc:72
 #: plugins/admin/departments/dep-list.xml:29
 #: plugins/admin/groups/class_roleGeneric.inc:91
-#: plugins/admin/groups/class_ogroup.inc:198
+#: plugins/admin/groups/class_ogroup.inc:196
 #: plugins/admin/groups/group-list.xml:41
 #: plugins/admin/aclrole/class_aclRole.inc:103
 msgid "Description"
@@ -2137,7 +2143,7 @@ msgstr "neznámé"
 #: plugins/admin/departments/dep-list.xml:79
 #: plugins/admin/users/user-list.xml:108
 #: plugins/admin/groups/group-list.xml:74
-#: plugins/admin/groups/group-list.xml:119
+#: plugins/admin/groups/group-list.xml:137
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:192
 msgid "Edit"
 msgstr "upravit"
@@ -2152,7 +2158,7 @@ msgstr "upravit"
 #: plugins/admin/departments/dep-list.xml:88
 #: plugins/admin/users/user-list.xml:115
 #: plugins/admin/groups/group-list.xml:82
-#: plugins/admin/groups/group-list.xml:132
+#: plugins/admin/groups/group-list.xml:150
 msgid "Remove"
 msgstr "odebrat"
 
@@ -2216,7 +2222,7 @@ msgstr "%s šablona"
 
 #: include/simpleplugin/class_simpleManagement.inc:508
 #: include/simpleplugin/class_simpleManagement.inc:514
-#: plugins/admin/groups/class_groupManagement.inc:186
+#: plugins/admin/groups/class_groupManagement.inc:350
 #, php-format
 msgid "Show %s"
 msgstr "Zobrazit %s"
@@ -2677,7 +2683,7 @@ msgid "References"
 msgstr "odkazy"
 
 #: plugins/personal/roles/class_userRoles.inc:31
-#: plugins/admin/groups/class_groupManagement.inc:33
+#: plugins/admin/groups/class_groupManagement.inc:35
 msgid "Groups and roles"
 msgstr "Skupiny a role"
 
@@ -2955,7 +2961,7 @@ msgstr "nadřízený"
 
 #: plugins/personal/generic/class_user.inc:456
 msgid "Street"
-msgstr ""
+msgstr "Ulice"
 
 #: plugins/personal/generic/class_user.inc:456
 msgid "Street part of the address"
@@ -3039,6 +3045,28 @@ msgstr "Statistiky skupin"
 msgid "Expired accounts"
 msgstr "Účty, jejichž platnost skončila"
 
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:64
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:70
+#: plugins/admin/groups/class_roleGeneric.inc:95
+msgid "Phone number"
+msgstr "telefonní číslo"
+
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:65
+msgid "Expiration date"
+msgstr "Datum vypršení platnosti"
+
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:69
+#: ihtml/themes/breezy/recovery.tpl.c:74
+msgid "Email"
+msgstr "E-mail"
+
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:87
+#, php-format
+msgid ""
+"Total user number could not be computed because of the following LDAP error:"
+" %s"
+msgstr ""
+
 #: plugins/addons/dashboard/class_dashBoard.inc:27
 #: plugins/addons/dashboard/class_dashBoard.inc:28
 #: plugins/addons/dashboard/class_dashBoard.inc:33
@@ -3058,9 +3086,16 @@ msgstr "Hlášení"
 msgid "Statistics"
 msgstr "Statistiky"
 
+#: plugins/addons/dashboard/class_dashBoard.inc:75
+#, php-format
+msgid ""
+"Statistics for type \"%s\" could not be computed because of the following "
+"error: %s"
+msgstr ""
+
 #: plugins/addons/dashboard/class_dashBoardPasswords.inc:26
 msgid "Passwords"
-msgstr ""
+msgstr "Hesla"
 
 #: plugins/addons/dashboard/class_dashBoardPasswords.inc:27
 msgid "Statistics about passwords"
@@ -3068,6 +3103,13 @@ msgstr ""
 
 #: plugins/addons/dashboard/class_dashBoardPasswords.inc:38
 msgid "Passwords statistics"
+msgstr ""
+
+#: plugins/addons/dashboard/class_dashBoardPasswords.inc:63
+#, php-format
+msgid ""
+"Password statistics could not be computed because of the following LDAP "
+"error: %s"
 msgstr ""
 
 #: plugins/config/class_recoveryConfig.inc:28
@@ -3444,7 +3486,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:221
 msgid "Header name"
-msgstr ""
+msgstr "Název hlavičky"
 
 #: plugins/config/class_configInLdap.inc:221
 msgid "Name of the header containing user identifier."
@@ -3731,7 +3773,7 @@ msgstr "Kdy spouštět tento příkaz"
 
 #: plugins/config/class_configInLdap.inc:426
 msgid "Command"
-msgstr ""
+msgstr "Příkaz"
 
 #: plugins/config/class_configInLdap.inc:426
 msgid "The command that will be called"
@@ -3849,7 +3891,7 @@ msgstr "oddělení"
 
 #: plugins/admin/departments/class_department.inc:63
 #: plugins/admin/users/user-list.xml:57
-#: plugins/admin/groups/class_ogroup.inc:189
+#: plugins/admin/groups/class_ogroup.inc:187
 #: plugins/admin/groups/group-list.xml:49
 #: plugins/admin/acl/class_aclAssignment.inc:38
 #: plugins/admin/aclrole/class_aclRole.inc:95
@@ -4041,7 +4083,7 @@ msgstr "odebrat uživatele"
 
 #: plugins/admin/groups/class_roleGeneric.inc:55
 #: plugins/admin/groups/class_roleGeneric.inc:59
-#: plugins/admin/groups/class_groupManagement.inc:94
+#: plugins/admin/groups/class_groupManagement.inc:259
 #: plugins/admin/acl/class_aclAssignment.inc:47
 #: plugins/admin/aclrole/class_aclRole.inc:77
 msgid "Role"
@@ -4061,17 +4103,13 @@ msgid "Information"
 msgstr "informace"
 
 #: plugins/admin/groups/class_roleGeneric.inc:86
-#: plugins/admin/groups/class_ogroup.inc:193
+#: plugins/admin/groups/class_ogroup.inc:191
 msgid "Name of this group"
 msgstr "Název této skupiny"
 
 #: plugins/admin/groups/class_roleGeneric.inc:91
 msgid "Description of the role"
 msgstr "Popis role"
-
-#: plugins/admin/groups/class_roleGeneric.inc:95
-msgid "Phone number"
-msgstr "telefonní číslo"
 
 #: plugins/admin/groups/class_roleGeneric.inc:99
 msgid "Fax number"
@@ -4085,82 +4123,113 @@ msgstr ""
 msgid "Add users for the role"
 msgstr "Přidat uživatele pro tuto roli"
 
-#: plugins/admin/groups/class_groupManagement.inc:34
+#: plugins/admin/groups/class_groupManagement.inc:36
 msgid "Manage groups and roles"
 msgstr "Spravovat skupiny a role"
 
-#: plugins/admin/groups/class_groupManagement.inc:35
+#: plugins/admin/groups/class_groupManagement.inc:37
 msgid "Allows you to manage object groups, POSIX groups and roles"
 msgstr ""
 
-#: plugins/admin/groups/class_groupManagement.inc:94
+#: plugins/admin/groups/class_groupManagement.inc:155
+#: plugins/admin/groups/class_groupManagement.inc:158
+#: plugins/admin/groups/class_groupManagement.inc:176
+msgid "Action canceled"
+msgstr "Akce zrušena"
+
+#: plugins/admin/groups/class_groupManagement.inc:155
+#, php-format
+msgid "System %s has no mac address defined, cannot trigger action"
+msgstr ""
+
+#: plugins/admin/groups/class_groupManagement.inc:158
+#, php-format
+msgid "Could not find system %s, cannot trigger action"
+msgstr ""
+
+#: plugins/admin/groups/class_groupManagement.inc:176
+#, php-format
+msgid "System %s is currently installing"
+msgstr ""
+
+#: plugins/admin/groups/class_groupManagement.inc:196
+#: plugins/admin/groups/class_groupManagement.inc:222
+msgid "Infrastructure service"
+msgstr "Služba infrastruktury"
+
+#: plugins/admin/groups/class_groupManagement.inc:198
+msgid "Action triggered"
+msgstr ""
+
+#: plugins/admin/groups/class_groupManagement.inc:198
+#, php-format
+msgid "Action called without error (result was \"%s\")"
+msgstr ""
+
+#: plugins/admin/groups/class_groupManagement.inc:259
 msgid "Edit role properties"
 msgstr "Upravit vlastnosti role"
 
-#: plugins/admin/groups/class_groupManagement.inc:110
+#: plugins/admin/groups/class_groupManagement.inc:275
 msgid "Posix"
 msgstr "POSIX"
 
-#: plugins/admin/groups/class_groupManagement.inc:110
+#: plugins/admin/groups/class_groupManagement.inc:275
 msgid "Edit posix properties"
 msgstr "upravit POSIXové vlastnosti"
 
-#: plugins/admin/groups/class_groupManagement.inc:153
+#: plugins/admin/groups/class_groupManagement.inc:318
 msgid "Show user groups"
 msgstr "Zobrazit skupiny uživatele"
 
-#: plugins/admin/groups/class_groupManagement.inc:154
+#: plugins/admin/groups/class_groupManagement.inc:319
 msgid "Show organizational roles"
 msgstr "Zobrazit organizační úlohy"
 
-#: plugins/admin/groups/class_groupManagement.inc:155
+#: plugins/admin/groups/class_groupManagement.inc:320
 msgid "Show application groups"
 msgstr "Zobrazit skupiny aplikací"
 
-#: plugins/admin/groups/class_groupManagement.inc:156
+#: plugins/admin/groups/class_groupManagement.inc:321
 msgid "Show unidentified groups"
 msgstr ""
 
-#: plugins/admin/groups/class_groupManagement.inc:159
+#: plugins/admin/groups/class_groupManagement.inc:324
 #: include/select/groupSelect/group-filter.tpl.c:5
 msgid "Show primary groups"
 msgstr "zobrazovat primární skupiny"
 
-#: plugins/admin/groups/class_groupManagement.inc:161
+#: plugins/admin/groups/class_groupManagement.inc:326
 #: include/select/groupSelect/group-filter.tpl.c:11
 msgid "Show mail groups"
 msgstr "zobrazovat e-mailové skupiny"
 
-#: plugins/admin/groups/class_groupManagement.inc:164
+#: plugins/admin/groups/class_groupManagement.inc:329
 #: include/select/groupSelect/group-filter.tpl.c:8
 msgid "Show samba groups"
 msgstr "zobrazovat skupiny Samby"
 
-#: plugins/admin/groups/class_groupManagement.inc:168
+#: plugins/admin/groups/class_groupManagement.inc:333
 msgid "Show DSA entries"
 msgstr ""
 
-#: plugins/admin/groups/class_groupManagement.inc:174
+#: plugins/admin/groups/class_groupManagement.inc:339
 msgid "Show server groups"
 msgstr "Zobrazit skupiny serverů"
 
-#: plugins/admin/groups/class_groupManagement.inc:175
+#: plugins/admin/groups/class_groupManagement.inc:340
 msgid "Show workstation groups"
 msgstr "Zobrazit skupiny počítačů"
 
-#: plugins/admin/groups/class_groupManagement.inc:176
-msgid "Show windows groups"
-msgstr "Zobrazit skupiny počítačů s MS Windows"
-
-#: plugins/admin/groups/class_groupManagement.inc:177
+#: plugins/admin/groups/class_groupManagement.inc:341
 msgid "Show terminal groups"
 msgstr "Zobrazit skupiny terminálů"
 
-#: plugins/admin/groups/class_groupManagement.inc:178
+#: plugins/admin/groups/class_groupManagement.inc:342
 msgid "Show printer groups"
 msgstr "Zobrazit skupiny tiskáren"
 
-#: plugins/admin/groups/class_groupManagement.inc:179
+#: plugins/admin/groups/class_groupManagement.inc:343
 msgid "Show phone groups"
 msgstr "Zobrazit skupiny telefonů"
 
@@ -4174,60 +4243,60 @@ msgstr "Neznámý typ: %s"
 msgid "Non existing dn: %s"
 msgstr "Neexistující rozlišený název: %s"
 
-#: plugins/admin/groups/class_ogroup.inc:155
+#: plugins/admin/groups/class_ogroup.inc:154
 msgid "Object group"
 msgstr "skupina objektu"
 
-#: plugins/admin/groups/class_ogroup.inc:156
+#: plugins/admin/groups/class_ogroup.inc:155
 msgid "Object group information"
 msgstr "Informace o skupině objektu"
 
+#: plugins/admin/groups/class_ogroup.inc:159
 #: plugins/admin/groups/class_ogroup.inc:160
-#: plugins/admin/groups/class_ogroup.inc:161
 msgid "Group"
 msgstr "skupina"
 
-#: plugins/admin/groups/class_ogroup.inc:198
+#: plugins/admin/groups/class_ogroup.inc:196
 msgid "Short description of this group"
 msgstr "Stručný popis této skupiny"
 
-#: plugins/admin/groups/class_ogroup.inc:205
+#: plugins/admin/groups/class_ogroup.inc:203
 msgid "Member objects"
 msgstr "členské objekty"
 
-#: plugins/admin/groups/class_ogroup.inc:208
+#: plugins/admin/groups/class_ogroup.inc:206
 msgid "Objects member of this group"
 msgstr "Objekty spadající do této skupiny"
 
-#: plugins/admin/groups/class_ogroup.inc:215
+#: plugins/admin/groups/class_ogroup.inc:213
 msgid "System trust"
 msgstr "důvěryhodnost systémů"
 
-#: plugins/admin/groups/class_ogroup.inc:219
+#: plugins/admin/groups/class_ogroup.inc:217
 msgid "Trust mode"
 msgstr "režim důvěryhodnosti"
 
-#: plugins/admin/groups/class_ogroup.inc:219
+#: plugins/admin/groups/class_ogroup.inc:217
 msgid "Type of authorization for those hosts"
 msgstr "Typ ověřování pro tyto stroje"
 
-#: plugins/admin/groups/class_ogroup.inc:223
+#: plugins/admin/groups/class_ogroup.inc:221
 msgid "disabled"
 msgstr "zakázáno"
 
-#: plugins/admin/groups/class_ogroup.inc:223
+#: plugins/admin/groups/class_ogroup.inc:221
 msgid "full access"
 msgstr "plný přístup"
 
-#: plugins/admin/groups/class_ogroup.inc:223
+#: plugins/admin/groups/class_ogroup.inc:221
 msgid "allow access to these hosts"
 msgstr "povolit přístup k těmto strojům"
 
-#: plugins/admin/groups/class_ogroup.inc:226
+#: plugins/admin/groups/class_ogroup.inc:224
 msgid "Only allow this group to connect to this list of hosts"
 msgstr "Této skupině umožnit připojení pouze na stroje z tohoto seznamu"
 
-#: plugins/admin/groups/class_ogroup.inc:317
+#: plugins/admin/groups/class_ogroup.inc:315
 msgid ""
 "Putting both workstations and terminals in the same group is not allowed"
 msgstr "Není možné umístit počítače a terminály do jedné skupiny"
@@ -4235,6 +4304,14 @@ msgstr "Není možné umístit počítače a terminály do jedné skupiny"
 #: plugins/admin/groups/group-list.xml:11
 msgid "List of groups"
 msgstr "seznam skupin"
+
+#: plugins/admin/groups/group-list.xml:93
+msgid "Trigger action"
+msgstr "spustit akci"
+
+#: plugins/admin/groups/group-list.xml:100
+msgid "Schedule action"
+msgstr "naplánovat akci"
 
 #: plugins/admin/acl/class_aclManagement.inc:31
 #: plugins/admin/acl/class_aclManagement.inc:32
@@ -4270,7 +4347,7 @@ msgstr ""
 msgid "Manage ACL roles assignments to users"
 msgstr ""
 
-#: plugins/admin/acl/class_aclManagement.inc:209
+#: plugins/admin/acl/class_aclManagement.inc:219
 #: plugins/admin/acl/class_aclAssignment.inc:273
 msgid "ACL Assignment"
 msgstr "přiřazení ACL"
@@ -4698,10 +4775,6 @@ msgid ""
 "john.doe@example.com"
 msgstr ""
 
-#: ihtml/themes/breezy/recovery.tpl.c:74
-msgid "Email"
-msgstr "E-mail"
-
 #: ihtml/themes/breezy/recovery.tpl.c:83
 msgid ""
 "Password recovery is not activated. If you have lost your password, please "
@@ -5066,54 +5139,22 @@ msgid "There is no expired account"
 msgstr "Není zde žádný účet, jehož platnost skončila"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:11
-#: plugins/addons/dashboard/users_accounts.tpl.c:44
+#: plugins/addons/dashboard/users_accounts.tpl.c:23
 msgid "Manager concerned"
 msgstr "Nadřízený, kterého se týká"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:14
-#: plugins/addons/dashboard/users_accounts.tpl.c:47
-msgid "uid"
-msgstr "Identifikátor uživatele (uid)"
-
-#: plugins/addons/dashboard/users_accounts.tpl.c:17
-#: plugins/addons/dashboard/users_accounts.tpl.c:50
-msgid "cn"
-msgstr "bežný název (cn)"
-
-#: plugins/addons/dashboard/users_accounts.tpl.c:20
-#: plugins/addons/dashboard/users_accounts.tpl.c:32
-#: plugins/addons/dashboard/users_accounts.tpl.c:53
-#: plugins/addons/dashboard/users_accounts.tpl.c:65
-msgid "telephoneNumber"
-msgstr "telefonniCislo"
-
-#: plugins/addons/dashboard/users_accounts.tpl.c:23
-#: plugins/addons/dashboard/users_accounts.tpl.c:56
-msgid "shadowExpire"
-msgstr "stinoveSkonciPlatnost"
-
-#: plugins/addons/dashboard/users_accounts.tpl.c:26
-#: plugins/addons/dashboard/users_accounts.tpl.c:59
-msgid "manager"
-msgstr "nadřízený"
-
-#: plugins/addons/dashboard/users_accounts.tpl.c:29
-#: plugins/addons/dashboard/users_accounts.tpl.c:62
-msgid "mail"
-msgstr "E-mail"
-
-#: plugins/addons/dashboard/users_accounts.tpl.c:35
 msgid "There is one account expiring in the next %1 days"
 msgid_plural "There are %2 accounts expiring in the next %1 days"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: plugins/addons/dashboard/users_accounts.tpl.c:38
+#: plugins/addons/dashboard/users_accounts.tpl.c:17
 msgid "There is no account expiring in the next %1 days"
 msgstr "V příštích %1 dnech nekončí platnost žádného z účtů"
 
-#: plugins/addons/dashboard/users_accounts.tpl.c:41
+#: plugins/addons/dashboard/users_accounts.tpl.c:20
 msgid "Next expired accounts"
 msgstr "Další účty, kterým skončila platnost"
 

@@ -74,7 +74,7 @@ class filterLDAP
    *
    * \param boolean $checkAcl
    */
-  static function get_list($parent, $base, $filter, $attributes, $category, $objectStorage, $scope, $sizelimit = TRUE, $checkAcl = FALSE)
+  static function get_list($parent, $base, $filter, $attributes, $category, $objectStorage, $scope, $sizelimit = TRUE, $skipAcl = FALSE)
   {
     global $config, $ui;
 
@@ -151,7 +151,7 @@ class filterLDAP
         $dn = $attrs['dn'];
 
         /* Skip ACL checks if we are forced to skip those checks */
-        if (!$checkAcl) {
+        if ($skipAcl) {
           $result[] = $attrs;
         } else {
           // Check entry permission

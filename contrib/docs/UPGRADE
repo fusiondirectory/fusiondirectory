@@ -2741,7 +2741,8 @@ apt-get remove fusiondirectory-plugin-kolab2
 apt-get remove fusiondirectory-plugin-kolab2-schema
 
 
-==== Upgrade schema2ldif ====
+Upgrade schema2ldif
+===================
 
 For Jessie distribution add extra repository
 
@@ -2753,7 +2754,8 @@ deb http://repos.fusiondirectory.org/debian-extra jessie main
 apt-get update
 apt-get install schema2ldif
 
-==== Upgrade FusionDirectory first ====
+Upgrade FusionDirectory first
+=============================
 
 - Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
 
@@ -2763,14 +2765,16 @@ apt-get install fusiondirectory
 
 apt-get install fusiondirectory-schema
 
-==== Upgrade of LDAP directory ====
+Upgrade of LDAP directory
+=========================
 
 - Upgrade the core schemas 
 
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd-conf.schema
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd.schema
 
-==== Upgrade of LDAP directory ====
+Upgrade of LDAP directory
+=========================
 
 - if you are using the argonaut plugin you have to update its schema
 
@@ -2869,14 +2873,53 @@ If they are old objectClasses it will warn you and you will have to remove them 
 Please read it carefully before applying :!::!:
 
 
-==== Checking your indexed attributes ====
+Checking your indexed attributes
+================================
 
 Check that all you index still match with valid attributes present in your ldap directory 
 
-==== New format for repository service  ====
+New format for repository service
+=================================
 
 If you have a repository service.
 Open and save it back so it will use the new format
+
+Enjoy :)
+
+
+Migrate FusionDirectory from 1.1 to 1.1.1
+=========================================
+
+New Depot Configuration
+=======================
+
+! The repositories have been cleaned and reorganized please update your configuration accordingly !
+
+https://documentation.fusiondirectory.org/en/dl_install
+ 
+Upgrade schema2ldif
+===================
+
+For Jessie distribution add extra repository
+
+# fusiondirectory debian-extra repository
+deb http://repos.fusiondirectory.org/debian-extra jessie main
+
+- Update the package list and upgrade schema2ldif
+
+apt-get update
+apt-get install schema2ldif
+
+Upgrade FusionDirectory first
+=============================
+
+- Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
+
+apt-get install fusiondirectory
+
+- Upgrade FusionDirectory schema package too.
+
+apt-get install fusiondirectory-schema
 
 Enjoy :)
 

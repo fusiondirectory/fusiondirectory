@@ -227,17 +227,17 @@ class configInLdap extends simplePlugin
       'ssl' => array(
         'name'  => _('SSL'),
         'attrs' => array(
-          new StringAttribute (
+          new TrimmedStringAttribute (
             _('Key path'), _('Path to FusionDirectory private key. Unused for now.'),
             'fdSslKeyPath', FALSE,
             '/etc/ssl/private/fd.key'
           ),
-          new StringAttribute (
+          new TrimmedStringAttribute (
             _('Certificate path'), _('Path to FusionDirectory certificate. Unused for now.'),
             'fdSslCertPath', FALSE,
             '/etc/ssl/certs/fd.cert'
           ),
-          new StringAttribute (
+          new TrimmedStringAttribute (
             _('CA certificate path'), _('Path to the CA certificate. Used for validating Argonaut Server host.'),
             'fdSslCaCertPath', FALSE,
             '/etc/ssl/certs/ca.cert'
@@ -252,7 +252,7 @@ class configInLdap extends simplePlugin
             'fdCasActivated', FALSE,
             FALSE
           ),
-          new StringAttribute (
+          new TrimmedStringAttribute (
             _('CA certificate path'), _('Path to the CA certificate of the CAS server'),
             'fdCasServerCaCertPath', FALSE,
             '/etc/ssl/certs/ca.cert'
