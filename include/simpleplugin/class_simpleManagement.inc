@@ -278,7 +278,7 @@ class simpleManagement
         $this->headpage->xmlData['actionmenu']['action'][0]['action'] = array(
           array(
             'type'    => 'sub',
-            'image'   => 'geticon.php?context=actions&icon=document-new&size=16',
+            'image'   => 'geticon.php?context=devices&icon=template&size=16',
             'label'   => _('Template'),
             'action'  => array(),
           ),
@@ -316,7 +316,7 @@ class simpleManagement
             'label'       => sprintf(_('%s template'), $i['name']),
             'category'    => $i['aclCategory'],
             'class'       => 'template',
-            'image'       => $i['icon'],
+            'image'       => 'geticon.php?context=devices&icon=template&size=16',
             'filter'      =>
               new ldapFilter(
                 '&',

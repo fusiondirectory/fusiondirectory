@@ -374,6 +374,9 @@ class IconTheme
       array('applications','os-windows'),
       array('applications','windows'),
     ),
+    'devices/template'              => array(
+      array('actions','document-new'),
+    ),
     'status/object-locked'          => array(
       array('status','changes-prevent'),
     ),
