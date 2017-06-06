@@ -321,7 +321,7 @@ class user extends simplePlugin
             'givenName', TRUE,
             '', '', '/[^,+"?()=<>;\\\\]/'
           ),
-          new StringAttribute (
+          new TextAreaAttribute (
             _('Description'), _('Short description of the user'),
             'description', FALSE
           ),
