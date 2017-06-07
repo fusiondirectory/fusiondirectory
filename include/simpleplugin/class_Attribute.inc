@@ -525,7 +525,7 @@ class Attribute
                 break;
               }
             }
-          } else { /* whole (or sub) */
+          } elseif ($this->uniqueFilter === NULL) { /* whole (or sub) */
             /* Check that this entry is in a concerned branch */
             foreach ($branches as $branch) {
               if (preg_match('/^'.preg_quote($branch, '/').'/', $dn_base)) {
@@ -537,6 +537,8 @@ class Attribute
             if (!in_array($dn_base, $config->departments)) {
               continue;
             }
+          } else {
+            $found = TRUE;
           }
           if (!$found) {
             continue;
