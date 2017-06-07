@@ -38,6 +38,7 @@ class Attribute
   private $required;
   /* \brief Should this attribute be saved into the LDAP */
   private $inLdap = TRUE;
+
   /* \brief Should this attribute be unique
    * FALSE  -> no unicity check
    * one    -> unicity check in the same base -> broken right now because of object ous
@@ -46,6 +47,10 @@ class Attribute
    * whole  -> unicity check in the whole LDAP
    */
   private $unique = FALSE;
+
+  /* \brief Filter to use when checking unicity
+   * Most of the time this is NULL and filter is computed from plugin objectTypes and objectClasses */
+  private $uniqueFilter = NULL;
 
   /* \brief Prefix for the html id */
   protected $htmlid_prefix = '';
@@ -124,13 +129,14 @@ class Attribute
     return $this->visible;
   }
 
-  function setUnique ($unique)
+  function setUnique ($unique, $filter = NULL)
   {
     if ($unique === TRUE) {
       $this->unique = 'one';
     } else {
       $this->unique = $unique;
     }
+    $this->uniqueFilter = $filter;
   }
 
   function getUnique ()
@@ -458,25 +464,29 @@ class Attribute
         $filter = '('.$this->getLdapName().'='.ldap_escape_f($value).')';
       }
       $infos = pluglist::pluginInfos(get_class($this->plugin));
-      $filters = array_map(
-        function ($key, $ot)
-        {
-          if (!is_numeric($key)) {
-            $ot = $key;
-          }
-          try {
-            $oinfos = objects::infos($ot);
-            return $oinfos['filter'];
-          } catch (NonExistingObjectTypeException $e) {
-            return '';
-          }
-        },
-        array_keys($infos['plObjectType']),
-        array_values($infos['plObjectType'])
-      );
-      $pluginFilter = $this->plugin->getObjectClassFilter();
-      if (!empty($pluginFilter)) {
-        $filters[] = $pluginFilter;
+      if ($this->uniqueFilter === NULL) {
+        $filters = array_map(
+          function ($key, $ot)
+          {
+            if (!is_numeric($key)) {
+              $ot = $key;
+            }
+            try {
+              $oinfos = objects::infos($ot);
+              return $oinfos['filter'];
+            } catch (NonExistingObjectTypeException $e) {
+              return '';
+            }
+          },
+          array_keys($infos['plObjectType']),
+          array_values($infos['plObjectType'])
+        );
+        $pluginFilter = $this->plugin->getObjectClassFilter();
+        if (!empty($pluginFilter)) {
+          $filters[] = $pluginFilter;
+        }
+      } else {
+        $filters = array($this->uniqueFilter);
       }
       $filter = '(&'.$filter.implode($filters).')';
       $ldap->search($filter, array($this->getLdapName()));
