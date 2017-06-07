@@ -1116,17 +1116,6 @@ function get_people_ou()
   return get_ou('userRDN');
 }
 
-/*! \brief Get the OU for groups
- *
- * Function for getting the groupRDN
- *
- * \return the ou of the groupRDN
- */
-function get_groups_ou()
-{
-  return get_ou('groupRDN');
-}
-
 /*! \brief Return a base from a given user DN
  *
  * \code
@@ -1328,8 +1317,8 @@ function dn2base($dn, $ou = NULL)
     if (get_people_ou() != '') {
       $dn = preg_replace('/,'.get_people_ou().'/i', ',', $dn);
     }
-    if (get_groups_ou() != '') {
-      $dn = preg_replace('/,'.get_groups_ou().'/i', ',', $dn);
+    if (get_ou('groupRDN') != '') {
+      $dn = preg_replace('/,'.get_ou('groupRDN').'/i', ',', $dn);
     }
   } else {
     $dn = preg_replace("/,$ou/i", ',', $dn);

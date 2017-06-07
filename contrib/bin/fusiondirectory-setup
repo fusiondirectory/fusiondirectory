@@ -1724,8 +1724,8 @@ sub read_ldap_config {
     if (($mesg->entries)[0]->exists('fdUserRDN')) {
       $userrdn = ($mesg->entries)[0]->get_value('fdUserRDN');
     }
-    if (($mesg->entries)[0]->exists('fdGroupRDN')) {
-      $grouprdn = ($mesg->entries)[0]->get_value('fdGroupRDN');
+    if (($mesg->entries)[0]->exists('fdOGroupRDN')) {
+      $grouprdn = ($mesg->entries)[0]->get_value('fdOGroupRDN');
     }
     if (($mesg->entries)[0]->exists('fdAclRoleRDN')) {
       $aclrolerdn = ($mesg->entries)[0]->get_value('fdAclRoleRDN');
