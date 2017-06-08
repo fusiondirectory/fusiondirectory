@@ -159,7 +159,7 @@ function plugin_available($plugin)
  */
 function load_plist ($ldap_available = TRUE)
 {
-  global $config;
+  global $config, $plist;
   if (!session::global_is_set('plist')) {
     /* Initially load all classes */
     load_all_classes();
@@ -2570,15 +2570,16 @@ function initLanguage($lang = NULL)
 
   $ret = FALSE;
 
-  /* Reset menu cache if language changed */
+  /* Reset plist cache if language changed */
   if ((!session::global_is_set('lang')) || (session::global_get('lang') != $lang)) {
     $ret = TRUE;
     if (session::global_is_set('plist')) {
       if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, session::global_get('lang'), 'Plist already loaded with language ');
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, session::global_get('lang'), 'Plist already loaded with language');
       }
-      $plist = session::global_get('plist');
-      $plist->reset_menus();
+      session::global_un_set('plist');
+      session::global_set('lang', $lang);
+      load_plist();
     }
   }
 
