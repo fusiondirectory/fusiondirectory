@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2017-06-07 18:36+0200\n"
+"POT-Creation-Date: 2017-06-12 17:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Dina Solveig Jalkanen <dinsteri@gmail.com>, 2017\n"
 "Language-Team: Finnish (Finland) (https://www.transifex.com/fusiondirectory/teams/12202/fi_FI/)\n"
@@ -1144,7 +1144,7 @@ msgstr ""
 msgid "Cannot locate file '%s' - please run '%s' to fix this"
 msgstr ""
 
-#: include/class_pluglist.inc:181
+#: include/class_pluglist.inc:183
 msgid "All objects in this category"
 msgstr ""
 
