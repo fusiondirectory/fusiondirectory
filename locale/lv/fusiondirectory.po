@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2017-06-12 17:42+0200\n"
+"POT-Creation-Date: 2017-06-13 19:52+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>, 2016\n"
 "Language-Team: Latvian (https://www.transifex.com/fusiondirectory/teams/12202/lv/)\n"
@@ -910,7 +910,7 @@ msgstr ""
 msgid "Object template, used to create several objects with similar values"
 msgstr ""
 
-#: include/class_template.inc:46
+#: include/class_template.inc:47
 #: include/simpleplugin/class_simplePlugin.inc:346
 msgid "Template name"
 msgstr ""
@@ -1196,7 +1196,7 @@ msgstr ""
 msgid "All categories"
 msgstr ""
 
-#: include/class_config.inc:1046
+#: include/class_config.inc:1047
 msgid "My account"
 msgstr ""
 
@@ -1952,7 +1952,7 @@ msgstr ""
 msgid "Error while importing dn: \"%s\", please check your LDIF from line %s on!"
 msgstr ""
 
-#: include/class_templateHandling.inc:474
+#: include/class_templateHandling.inc:490
 #, php-format
 msgid ""
 "Recursive dependency in the template fields: \"%1$s\" cannot depend on "
