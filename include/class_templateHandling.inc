@@ -379,15 +379,15 @@ class templateHandling
   {
     mb_internal_encoding('UTF-8');
     mb_regex_encoding('UTF-8');
-    if (is_array($str) && (strtolower($m) == $m)) {
+    if (is_array($str) && (!is_numeric($m)) && (strtolower($m) == $m)) {
       /* $str is an array and $m is lowercase, so it's a string modifier */
-      $str = $str[0];
+      $str = reset($str);
     }
     $result = array($str);
     switch ($m) {
       case 'F':
         // First
-        $result = array($str[0]);
+        $result = array(reset($str));
         break;
       case 'L':
         // Last
@@ -404,6 +404,22 @@ class templateHandling
       case 'C':
         // Count
         $result = array(count($str));
+        break;
+      case 'M':
+        // Match
+        if (count($args) < 1) {
+          trigger_error('Missing "M" match modifier parameter');
+          $args[] = '/.*/';
+        }
+        $result = array(array_filter($str, function ($s) use ($args) { return preg_match($args[0], $s); }));
+        break;
+      case '4':
+        // IPv4
+        $result = array(array_filter($str, 'tests::is_ipv4'));
+        break;
+      case '6':
+        // IPv6
+        $result = array(array_filter($str, 'tests::is_ipv6'));
         break;
       case 'c':
         // comment
