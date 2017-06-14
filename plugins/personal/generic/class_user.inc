@@ -549,6 +549,15 @@ class user extends simplePlugin
     return parent::execute();
   }
 
+  protected function shouldSave()
+  {
+    if ($this->attributesAccess['userPassword']->getClear() != '') {
+      /* There may be hooks using this even if LDAP object is not modified */
+      return TRUE;
+    }
+    return parent::shouldSave();
+  }
+
   protected function prepare_save ()
   {
     global $config;
