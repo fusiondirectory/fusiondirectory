@@ -25,7 +25,7 @@ class groupManagement extends simpleManagement
 
   protected $autoFilter = FALSE;
 
-  public static $skipTemplates = TRUE;
+  public static $skipTemplates = FALSE;
 
   protected $siActive = FALSE;
 
