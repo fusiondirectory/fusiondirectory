@@ -355,7 +355,7 @@ class simpleManagement
             'type'  => 'entry',
             'image' => $icon,
             'label' => $i['name'],
-            'acl'   => $i['aclCategory'].'/'.$i['mainTab'].'[c]',
+            'acl'   => $i['aclCategory'].'/template[c]',
           );
           $this->headpage->xmlData['actionmenu']['action'][0]['action'][1]['action'][] = array(
             'name'  => 'template_apply_'.$object,
