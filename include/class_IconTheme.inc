@@ -119,21 +119,21 @@ class IconTheme
     }
   }
 
-  function FindIcon($context, $icon, $size)
+  function FindIcon($plugin, $context, $icon, $size)
   {
     $context = strtolower($context);
-    return $this->FindIconHelper($context, $icon, $size);
+    return $this->FindIconHelper($plugin, $context, $icon, $size);
   }
 
-  function FindIconHelper($context, $icon, $size)
+  function FindIconHelper($plugin, $context, $icon, $size)
   {
-    $filename = $this->LookupIcon($context, $icon, $size);
+    $filename = $this->LookupIcon($plugin, $context, $icon, $size);
     if ($filename != NULL) {
       return $filename;
     }
     if (isset(static::$fallbacks[$context.'/'.$icon])) {
       foreach (static::$fallbacks[$context.'/'.$icon] as $fallback) {
-        $filename = $this->LookupIcon($fallback[0], $fallback[1], $size);
+        $filename = $this->LookupIcon($plugin, $fallback[0], $fallback[1], $size);
         if ($filename != NULL) {
           return $filename;
         }
@@ -145,21 +145,25 @@ class IconTheme
       if ($parent === NULL) {
         $parent = $this->findTheme(static::$default_theme);
       }
-      return $parent->FindIconHelper($context, $icon, $size);
+      return $parent->FindIconHelper($plugin, $context, $icon, $size);
     }
 
     return NULL;
   }
 
-  function LookupIcon($context, $iconname, $size)
+  function LookupIcon($plugin, $context, $iconname, $size)
   {
     if (!isset($this->subdirs[$context])) {
       return NULL;
     }
     foreach ($this->subdirs[$context] as $path => &$subdir) {
+      $themePath = $this->path;
+      if (isset($plugin)) {
+        $themePath = "plugins/".$plugin."/".$themePath;
+      }
       if ($subdir->MatchesSize($size)) {
         foreach (static::$extensions as $extension) {
-          $filename = $this->path.'/'.$path.'/'.$iconname.'.'.$extension;
+          $filename = $themePath.'/'.$path.'/'.$iconname.'.'.$extension;
           if (file_exists($filename)) {
             return $filename;
           }
@@ -214,15 +218,15 @@ class IconTheme
     }
     $_SESSION[static::$session_var] = $themes;
   }
-  static public function findThemeIcon($theme, $context, $icon, $size)
+  static public function findThemeIcon($theme, $plugin, $context, $icon, $size)
   {
     if (!isset($_SESSION[static::$session_var])) {
       die('Error: no theme found in session');
     }
     if (isset($_SESSION[static::$session_var][$theme])) {
-      return $_SESSION[static::$session_var][$theme]->FindIcon($context, $icon, $size);
+      return $_SESSION[static::$session_var][$theme]->FindIcon($plugin, $context, $icon, $size);
     }
-    return $_SESSION[static::$session_var][static::$default_theme]->FindIcon($context, $icon, $size);
+    return $_SESSION[static::$session_var][static::$default_theme]->FindIcon($plugin, $context, $icon, $size);
   }
   public function findTheme($theme)
   {
