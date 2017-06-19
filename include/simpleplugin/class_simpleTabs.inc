@@ -49,6 +49,8 @@ class simpleTabs
 
   var $baseclass = "";
 
+  public $ignoreAcls = FALSE;
+
   /*!
    * \brief Tabs classes constructor
    * */
@@ -510,6 +512,11 @@ class simpleTabs
       $obj->setNeedEditMode($bool);
     }
     unset($obj);
+  }
+
+  public function setIgnoreAcls($bool)
+  {
+    $this->ignoreAcls = $bool;
   }
 
   public function dialogOpened ()
