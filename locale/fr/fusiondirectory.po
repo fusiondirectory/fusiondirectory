@@ -631,8 +631,8 @@ msgid ""
 "Found %s user(s) that will not be visible in FusionDirectory or which are "
 "incomplete."
 msgstr ""
-"J'ai trouvé %s utilisateur(s) qui ne seront pas visibles dans ans "
-"FusionDirec."
+"%s utilisateur(s) trouvé(s) qui ne seront pas visibles dans FusionDirectory "
+"ou qui sont incomplet(s)."
 
 #: setup/class_setupStepMigrate.inc:584 setup/class_setupStepMigrate.inc:589
 msgid "User migration"
@@ -723,7 +723,7 @@ msgstr "Les références suivantes seront mises à jour"
 #: setup/class_setupStepMigrate.inc:1124
 #, php-format
 msgid "Found %s groups outside the configured tree '%s'."
-msgstr "J'ai trouvé %s groupes en dehors de la branche configurée '%s'."
+msgstr "%s groupes trouvés en dehors de la branche configurée '%s'."
 
 #: setup/class_setupStepMigrate.inc:1138 setup/class_setupStepMigrate.inc:1152
 msgid "Move groups into configured groups tree"
@@ -733,7 +733,7 @@ msgstr "Déplacer les groupes dans la branche configurée"
 #, php-format
 msgid "Found %s department(s) that will not be visible in FusionDirectory."
 msgstr ""
-"J'ai trouvé %s département(s) qui ne seront pas visible dans "
+"%s département(s) trouvé(s) qui ne seront pas visible(s) dans "
 "FusionDirectory."
 
 #: setup/class_setupStepMigrate.inc:1243 setup/class_setupStepMigrate.inc:1248
@@ -1257,7 +1257,8 @@ msgstr "L’objectClass «posixGroup» doit être structurelle («STRUCTURAL»)"
 #, php-format
 msgid "Cannot locate file '%s' - please run '%s' to fix this"
 msgstr ""
-"Je n'ai pas trouvé '%s' - veuillez exécuter '%s' pour régler ce problème"
+"Le fichier '%s' n’a pas été trouvé - veuillez exécuter '%s' pour régler ce "
+"problème"
 
 #: include/class_pluglist.inc:183
 msgid "All objects in this category"
@@ -1388,11 +1389,11 @@ msgstr "Ces objets de type '%s' seront effacés: %s"
 
 #: include/class_msgPool.inc:101
 msgid "You have no permission to delete this object!"
-msgstr "Vous n'avez pas les droits nécessaires pour supprimer cet objet !"
+msgstr "Vous n'avez pas les droits nécessaires pour supprimer cet objet !"
 
 #: include/class_msgPool.inc:105 include/class_msgPool.inc:109
 msgid "You have no permission to delete the object:"
-msgstr "Vous n'avez pas les droits nécessaires pour supprimer cet objet :"
+msgstr "Vous n'avez pas les droits nécessaires pour supprimer cet objet :"
 
 #: include/class_msgPool.inc:112
 msgid "You have no permission to delete these objects:"
@@ -3405,7 +3406,7 @@ msgstr "Paramétrage de base"
 
 #: plugins/config/class_configInLdap.inc:113
 msgid "LDAP size limit"
-msgstr "nombre maximal d'objet LDAP retournés"
+msgstr "Limite du nombre d'objets LDAP"
 
 #: plugins/config/class_configInLdap.inc:113
 msgid "Defines the number of entries to get from LDAP by default."
@@ -3834,7 +3835,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:380
 msgid "Group or role"
-msgstr "Groupes ou rôles"
+msgstr "Groupe ou rôle"
 
 #: plugins/config/class_configInLdap.inc:385
 msgid "Plugin to blacklist"
@@ -4347,7 +4348,7 @@ msgstr "le dn n'existe pas : %s"
 
 #: plugins/admin/groups/class_ogroup.inc:154
 msgid "Object group"
-msgstr "Groupes d'objets"
+msgstr "Groupe d'objets"
 
 #: plugins/admin/groups/class_ogroup.inc:155
 msgid "Object group information"
@@ -4356,7 +4357,7 @@ msgstr "Information du groupe d’objets"
 #: plugins/admin/groups/class_ogroup.inc:159
 #: plugins/admin/groups/class_ogroup.inc:160
 msgid "Group"
-msgstr "Groupes"
+msgstr "Groupe"
 
 #: plugins/admin/groups/class_ogroup.inc:196
 msgid "Short description of this group"
@@ -4421,7 +4422,7 @@ msgstr "Programmer une action"
 #: plugins/admin/acl/class_aclManagement.inc:32
 #: plugins/admin/acl/class_aclManagement.inc:45
 msgid "ACL assignment creation"
-msgstr "création d'affectation ACL"
+msgstr "Création d'affectation ACL"
 
 #: plugins/admin/acl/class_aclManagement.inc:33
 msgid "Create an ACL assignment on an arbitrary dn"
@@ -4441,11 +4442,11 @@ msgstr "Impossible de trouver le dn demande dans l'annuaire LDAP"
 
 #: plugins/admin/acl/class_aclManagement.inc:139
 msgid "ACL assignments"
-msgstr "Gestion des ACL"
+msgstr "Affectations ACL"
 
 #: plugins/admin/acl/class_aclManagement.inc:140
 msgid "ACL assignments management"
-msgstr "gestion des affectations ACL "
+msgstr "Gestion des affectations ACL "
 
 #: plugins/admin/acl/class_aclManagement.inc:141
 msgid "Manage ACL roles assignments to users"
@@ -4454,7 +4455,7 @@ msgstr "Affectations des rôles ACL pour les utilisateurs"
 #: plugins/admin/acl/class_aclManagement.inc:219
 #: plugins/admin/acl/class_aclAssignment.inc:273
 msgid "ACL Assignment"
-msgstr "Gestion des ACL"
+msgstr "Affectation ACL"
 
 #: plugins/admin/acl/class_aclAssignment.inc:26
 msgid "ACL Assignment Dialog"
@@ -4506,7 +4507,7 @@ msgstr ", et %d autres"
 
 #: plugins/admin/acl/class_aclAssignment.inc:259
 msgid "ACL assignment"
-msgstr "Gestion des ACL"
+msgstr "Affectation ACL"
 
 #: plugins/admin/acl/class_aclAssignment.inc:274
 msgid "Access control roles assignment"
@@ -4545,11 +4546,11 @@ msgstr "Remettre à zéro les catégories ACL"
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:202
 #: ihtml/themes/breezy/acl.tpl.c:41
 msgid "List of available ACL categories"
-msgstr "Liste des catégories d'acl disponibles"
+msgstr "Liste des catégories ACL disponibles"
 
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:215
 msgid "All objects in current subtree"
-msgstr "Tout les objets dans le sous arbres actuel"
+msgstr "Tous les objets dans le sous-arbre actuel"
 
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:217
 #, php-format
@@ -4592,7 +4593,7 @@ msgstr "L'objet au complet"
 
 #: plugins/admin/aclrole/class_aclRoleManagement.inc:35
 msgid "ACL roles management"
-msgstr "Gestion des rôles"
+msgstr "Gestion des rôles ACL"
 
 #: plugins/admin/aclrole/class_aclRoleManagement.inc:36
 msgid "Manage ACL roles"
@@ -4609,7 +4610,7 @@ msgstr "Contrôle d'accès (ACL)"
 
 #: plugins/admin/aclrole/class_aclRole.inc:81
 msgid "ACL role"
-msgstr "Rôles ACL"
+msgstr "Rôle ACL"
 
 #: plugins/admin/aclrole/class_aclRole.inc:99
 msgid "A name for this role"
@@ -4915,7 +4916,7 @@ msgstr "Nom d'utilisateur"
 
 #: ihtml/themes/breezy/login.tpl.c:26
 msgid "I forgot my password"
-msgstr "j'ai perdu mon mot de passe"
+msgstr "J'ai perdu mon mot de passe"
 
 #: ihtml/themes/breezy/login.tpl.c:38
 msgid "Sign in"
@@ -5279,7 +5280,7 @@ msgstr "Afficher les modèles"
 
 #: plugins/admin/users/user-filter.tpl.c:8
 msgid "Show functional users"
-msgstr "montrer les utilisateurs fonctionnels"
+msgstr "Montrer les utilisateurs fonctionnels"
 
 #: plugins/admin/users/user-filter.tpl.c:11
 msgid "Show POSIX users"
@@ -5306,8 +5307,8 @@ msgid ""
 "This includes all ACL assignments made on this node(s). If you want the list"
 " of these assignments, please cancel and open the objects."
 msgstr ""
-"Cela comprend toutes les affectations ACL faites sur ce noeud (s). Si vous "
-"voulez la liste de ces assignations, annuler et ouvrez les objets."
+"Cela comprend toutes les affectations ACL faites sur ce(s) noeud(s). Si vous"
+" voulez la liste de ces affectations, annulez et ouvrez les objets."
 
 #: plugins/admin/acl/remove.tpl.c:8
 msgid "Press 'Delete' to continue or 'Cancel' to abort."
