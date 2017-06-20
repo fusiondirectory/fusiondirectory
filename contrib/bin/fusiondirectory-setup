@@ -49,7 +49,7 @@ use Crypt::CBC;
 use Archive::Extract;
 
 # used to copy files
-use File::Copy::Recursive qw(rcopy);
+use File::Copy::Recursive qw(rcopy rmove);
 
 #XML parser
 use XML::Twig;
@@ -1098,13 +1098,13 @@ sub check_id_numbers_generic {
   }
 }
 
-# function that create a directory and copy plugin files in it
-sub create_and_copy_plugin_dir {
+# function that create a directory and move plugin files in it
+sub create_and_move_plugin_dir {
   my ($plugin_dir,$dest_dir) = @_;
   if ( -e $plugin_dir ){
     my $dir = dir ($dest_dir);
     $dir->mkpath() or warn ("! Unable to make ".$dest_dir."\n") if ( !-e $dest_dir);
-    my $files_dirs_copied = rcopy($plugin_dir."/*", $dest_dir);
+    my $files_dirs_copied = rmove($plugin_dir."/*", $dest_dir);
   }
 }
 
@@ -1138,38 +1138,37 @@ sub install_plugins {
     my $plugin = $1;
 
     # copy addons into plugins
-    create_and_copy_plugin_dir($plugin_path."/addons/", $vars{fd_home}."/plugins/addons/");
+    create_and_move_plugin_dir($plugin_path."/addons/", $vars{fd_home}."/plugins/addons/");
 
     # copy admin into plugins
-    create_and_copy_plugin_dir($plugin_path."/admin/", $vars{fd_home}."/plugins/admin/");
+    create_and_move_plugin_dir($plugin_path."/admin/", $vars{fd_home}."/plugins/admin/");
 
     # copy personal into plugins
-    create_and_copy_plugin_dir($plugin_path."/personal/", $vars{fd_home}."/plugins/personal/");
+    create_and_move_plugin_dir($plugin_path."/personal/", $vars{fd_home}."/plugins/personal/");
 
     # copy extra theme templates
-    create_and_copy_plugin_dir($plugin_path."/ihtml/", $vars{fd_home}."/ihtml/");
+    create_and_move_plugin_dir($plugin_path."/ihtml/", $vars{fd_home}."/ihtml/");
 
     # copy extra theme icons
-    create_and_copy_plugin_dir($plugin_path."/html/themes/", $vars{fd_home}."/html/themes/");
+    create_and_move_plugin_dir($plugin_path."/html/themes/", $vars{fd_home}."/html/themes/");
 
     # copy extra HTML and images
-    create_and_copy_plugin_dir($plugin_path."/html/", $vars{fd_home}."/html/plugins/".$plugin);
+    create_and_move_plugin_dir($plugin_path."/html/", $vars{fd_home}."/html/plugins/".$plugin);
 
     # copy contrib
-    create_and_copy_plugin_dir($plugin_path."/contrib/", $vars{fd_home}."/doc/contrib/".$plugin);
+    create_and_move_plugin_dir($plugin_path."/contrib/", $vars{fd_home}."/doc/contrib/".$plugin);
 
     # copy config
-    create_and_copy_plugin_dir($plugin_path."/config/", $vars{fd_home}."/plugins/config/");
+    create_and_move_plugin_dir($plugin_path."/config/", $vars{fd_home}."/plugins/config/");
 
     # copy ldap schema
-    create_and_copy_plugin_dir($plugin_path."/contrib/openldap/", $vars{fd_home}."/contrib/openldap/");
+    create_and_move_plugin_dir($plugin_path."/contrib/openldap/", $vars{fd_home}."/contrib/openldap/");
 
     # copy includes
-    create_and_copy_plugin_dir($plugin_path."/include/", $vars{fd_home}."/include/");
+    create_and_move_plugin_dir($plugin_path."/include/", $vars{fd_home}."/include/");
 
     # copy the locales
-    create_and_copy_plugin_dir($plugin_path."/locale/", $vars{fd_home}."/locale/plugins/".$plugin);
-
+    create_and_move_plugin_dir($plugin_path."/locale/", $vars{fd_home}."/locale/plugins/".$plugin);
   }
 
   #finally update FusionDirectory's class.cache and locales
