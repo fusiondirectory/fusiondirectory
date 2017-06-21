@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2017-06-13 19:52+0200\n"
+"POT-Creation-Date: 2017-06-21 11:50+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Language-Team: Indonesian (https://www.transifex.com/fusiondirectory/teams/12202/id/)\n"
 "MIME-Version: 1.0\n"
@@ -234,7 +234,7 @@ msgstr ""
 #: setup/class_setupStepChecks.inc:37
 msgid ""
 "PHP setup configuration (<a href=\"?info\" target=\"_blank\">show "
-"information)</a>)"
+"information</a>)"
 msgstr ""
 
 #: setup/class_setupStepChecks.inc:48 setup/class_setupStepChecks.inc:49
@@ -743,7 +743,7 @@ msgstr ""
 #: include/class_config.inc:347 include/class_msgPool.inc:220
 #: include/class_msgPool.inc:240 include/class_msgPool.inc:270
 #: include/class_msgPool.inc:694 include/class_msgPool.inc:723
-#: include/simpleplugin/class_simpleTabs.inc:71
+#: include/simpleplugin/class_simpleTabs.inc:73
 #: include/simpleplugin/attributes/class_BaseSelectorAttribute.inc:87
 #: include/simpleplugin/attributes/class_BaseSelectorAttribute.inc:89
 #: include/simpleplugin/attributes/class_FileAttribute.inc:31
@@ -2010,7 +2010,7 @@ msgstr ""
 
 #: include/simpleplugin/class_dialogAttributes.inc:634
 #: include/simpleplugin/attributes/class_SelectAttribute.inc:66
-#: include/simpleplugin/attributes/class_SelectAttribute.inc:111
+#: include/simpleplugin/attributes/class_SelectAttribute.inc:119
 msgid "None"
 msgstr ""
 
@@ -2046,14 +2046,14 @@ msgstr ""
 msgid "Remove"
 msgstr ""
 
-#: include/simpleplugin/class_simpleTabs.inc:72
+#: include/simpleplugin/class_simpleTabs.inc:74
 #, php-format
 msgid ""
 "No plugin definitions found to initialize \"%s\", please check your "
 "configuration file."
 msgstr ""
 
-#: include/simpleplugin/class_simpleTabs.inc:391
+#: include/simpleplugin/class_simpleTabs.inc:393
 #, php-format
 msgid "Move from \"%s\" to \"%s\" failed"
 msgstr ""
@@ -2162,33 +2162,33 @@ msgid ""
 "Could not compute dn: could not find objectType infos from tab class \"%s\""
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:1293
+#: include/simpleplugin/class_simplePlugin.inc:1296
 #, php-format
 msgid "There is already an entry with the same dn : %s"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:1300
+#: include/simpleplugin/class_simplePlugin.inc:1303
 #, php-format
 msgid "The entry %s is not existing"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:1490
+#: include/simpleplugin/class_simplePlugin.inc:1493
 msgid ""
 "The object has changed since opened in FusionDirectory. All changes that may"
 " be done by others will get lost if you save this entry!"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:1675
+#: include/simpleplugin/class_simplePlugin.inc:1678
 #, php-format
 msgid "Service \"%s\""
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:1677
+#: include/simpleplugin/class_simplePlugin.inc:1680
 #, php-format
 msgid "Tab \"%s\""
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:1829
+#: include/simpleplugin/class_simplePlugin.inc:1832
 #, php-format
 msgid "Unknown field \"%s\""
 msgstr ""
@@ -2203,7 +2203,7 @@ msgstr ""
 msgid "Object base"
 msgstr ""
 
-#: include/simpleplugin/attributes/class_SelectAttribute.inc:137
+#: include/simpleplugin/attributes/class_SelectAttribute.inc:145
 #, php-format
 msgid "The value \"%s\" for field \"%s\" is not in the list of possible choices"
 msgstr ""
@@ -2544,22 +2544,22 @@ msgstr ""
 msgid "References"
 msgstr ""
 
-#: plugins/personal/roles/class_userRoles.inc:31
+#: plugins/personal/roles/class_userRoles.inc:33
 #: plugins/admin/groups/class_groupManagement.inc:35
 msgid "Groups and roles"
 msgstr ""
 
-#: plugins/personal/roles/class_userRoles.inc:32
+#: plugins/personal/roles/class_userRoles.inc:34
 msgid "Edit user's groups and roles"
 msgstr ""
 
-#: plugins/personal/roles/class_userRoles.inc:47
-#: plugins/personal/roles/class_userRoles.inc:51
+#: plugins/personal/roles/class_userRoles.inc:49
+#: plugins/personal/roles/class_userRoles.inc:53
 msgid "Groups membership"
 msgstr ""
 
-#: plugins/personal/roles/class_userRoles.inc:58
-#: plugins/personal/roles/class_userRoles.inc:62
+#: plugins/personal/roles/class_userRoles.inc:60
+#: plugins/personal/roles/class_userRoles.inc:64
 msgid "Roles membership"
 msgstr ""
 
@@ -2834,53 +2834,53 @@ msgstr ""
 msgid "Postal code"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:659
+#: plugins/personal/generic/class_user.inc:668
 #, php-format
 msgid "Ppolicy \"%s\" could not be found in the LDAP!"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:662
+#: plugins/personal/generic/class_user.inc:671
 msgid "You are not allowed to change your own password"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:673
+#: plugins/personal/generic/class_user.inc:682
 #, php-format
 msgid "You must wait %d seconds before changing your password again"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:687
+#: plugins/personal/generic/class_user.inc:696
 msgid "Password is in history of old passwords"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:692
-#: plugins/personal/generic/class_user.inc:696
+#: plugins/personal/generic/class_user.inc:701
+#: plugins/personal/generic/class_user.inc:705
 msgid "Password is not being changed from existing value"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:703
+#: plugins/personal/generic/class_user.inc:712
 msgid "You need to specify your current password in order to proceed."
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:705
+#: plugins/personal/generic/class_user.inc:714
 msgid ""
 "The passwords you've entered as \"New password\" and \"Repeated new "
 "password\" do not match."
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:707
+#: plugins/personal/generic/class_user.inc:716
 #: ihtml/themes/breezy/recovery.tpl.c:29 ihtml/themes/breezy/recovery.tpl.c:32
 msgid "New password"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:709
+#: plugins/personal/generic/class_user.inc:718
 msgid "The password used as new and current are too similar."
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:711
+#: plugins/personal/generic/class_user.inc:720
 msgid "The password used as new is too short."
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:713
+#: plugins/personal/generic/class_user.inc:722
 msgid "The password contains possibly problematic Unicode characters!"
 msgstr ""
 
