@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2017-06-13 19:52+0200\n"
+"POT-Creation-Date: 2017-06-19 22:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Paola Penati <paola.penati@opensides.be>, 2017\n"
 "Language-Team: Italian (Italy) (https://www.transifex.com/fusiondirectory/teams/12202/it_IT/)\n"
@@ -254,10 +254,8 @@ msgstr "Verifica del modulo PHP e delle sue estensioni"
 #: setup/class_setupStepChecks.inc:37
 msgid ""
 "PHP setup configuration (<a href=\"?info\" target=\"_blank\">show "
-"information)</a>)"
+"information</a>)"
 msgstr ""
-"Configurazione di installazione PHP (<a href=\"?info\" "
-"target=\"_blank\">mostra informazione)</a>)"
 
 #: setup/class_setupStepChecks.inc:48 setup/class_setupStepChecks.inc:49
 msgid "Installation check"
@@ -825,7 +823,7 @@ msgstr "Seleziona tutto"
 #: include/class_config.inc:347 include/class_msgPool.inc:220
 #: include/class_msgPool.inc:240 include/class_msgPool.inc:270
 #: include/class_msgPool.inc:694 include/class_msgPool.inc:723
-#: include/simpleplugin/class_simpleTabs.inc:71
+#: include/simpleplugin/class_simpleTabs.inc:73
 #: include/simpleplugin/attributes/class_BaseSelectorAttribute.inc:87
 #: include/simpleplugin/attributes/class_BaseSelectorAttribute.inc:89
 #: include/simpleplugin/attributes/class_FileAttribute.inc:31
@@ -2171,7 +2169,7 @@ msgstr "Gruppo di utenti"
 
 #: include/simpleplugin/class_dialogAttributes.inc:634
 #: include/simpleplugin/attributes/class_SelectAttribute.inc:66
-#: include/simpleplugin/attributes/class_SelectAttribute.inc:111
+#: include/simpleplugin/attributes/class_SelectAttribute.inc:119
 msgid "None"
 msgstr "Nessuno"
 
@@ -2207,7 +2205,7 @@ msgstr "Modifica"
 msgid "Remove"
 msgstr "Elimina"
 
-#: include/simpleplugin/class_simpleTabs.inc:72
+#: include/simpleplugin/class_simpleTabs.inc:74
 #, php-format
 msgid ""
 "No plugin definitions found to initialize \"%s\", please check your "
@@ -2216,7 +2214,7 @@ msgstr ""
 "Nessuna definizione di plugin trovato per inizializzare \"%s\", si prega di "
 "consultare il file di configurazione."
 
-#: include/simpleplugin/class_simpleTabs.inc:391
+#: include/simpleplugin/class_simpleTabs.inc:393
 #, php-format
 msgid "Move from \"%s\" to \"%s\" failed"
 msgstr "Passare da \"%s\" a \"%s\" non riuscito"
@@ -2327,17 +2325,17 @@ msgstr ""
 "Impossibile calcolare il dn: impossibile trovare le informazioni di "
 "objectType in questa  classe scheda \"%s\""
 
-#: include/simpleplugin/class_simplePlugin.inc:1293
+#: include/simpleplugin/class_simplePlugin.inc:1296
 #, php-format
 msgid "There is already an entry with the same dn : %s"
 msgstr "C'é già un'altra entry con il medesimo dn: %s"
 
-#: include/simpleplugin/class_simplePlugin.inc:1300
+#: include/simpleplugin/class_simplePlugin.inc:1303
 #, php-format
 msgid "The entry %s is not existing"
 msgstr "La voce %s non esiste"
 
-#: include/simpleplugin/class_simplePlugin.inc:1490
+#: include/simpleplugin/class_simplePlugin.inc:1493
 msgid ""
 "The object has changed since opened in FusionDirectory. All changes that may"
 " be done by others will get lost if you save this entry!"
@@ -2346,17 +2344,17 @@ msgstr ""
 "che possono essere state fatte da altri andranno perse se si salva questa "
 "voce !"
 
-#: include/simpleplugin/class_simplePlugin.inc:1675
+#: include/simpleplugin/class_simplePlugin.inc:1678
 #, php-format
 msgid "Service \"%s\""
 msgstr "Servizio \"%s\""
 
-#: include/simpleplugin/class_simplePlugin.inc:1677
+#: include/simpleplugin/class_simplePlugin.inc:1680
 #, php-format
 msgid "Tab \"%s\""
 msgstr "Tab \"%s\""
 
-#: include/simpleplugin/class_simplePlugin.inc:1829
+#: include/simpleplugin/class_simplePlugin.inc:1832
 #, php-format
 msgid "Unknown field \"%s\""
 msgstr "Campo \"%s\" sconosciuto"
@@ -2371,7 +2369,7 @@ msgstr "%s (necessario)"
 msgid "Object base"
 msgstr "Base dell'oggetto"
 
-#: include/simpleplugin/attributes/class_SelectAttribute.inc:137
+#: include/simpleplugin/attributes/class_SelectAttribute.inc:145
 #, php-format
 msgid "The value \"%s\" for field \"%s\" is not in the list of possible choices"
 msgstr ""
@@ -2741,22 +2739,22 @@ msgstr "Benvenuto %s!"
 msgid "References"
 msgstr "Riferimenti"
 
-#: plugins/personal/roles/class_userRoles.inc:31
+#: plugins/personal/roles/class_userRoles.inc:33
 #: plugins/admin/groups/class_groupManagement.inc:35
 msgid "Groups and roles"
 msgstr "Gruppi e ruoli"
 
-#: plugins/personal/roles/class_userRoles.inc:32
+#: plugins/personal/roles/class_userRoles.inc:34
 msgid "Edit user's groups and roles"
 msgstr "Modifica gruppi e ruoli degli utenti"
 
-#: plugins/personal/roles/class_userRoles.inc:47
-#: plugins/personal/roles/class_userRoles.inc:51
+#: plugins/personal/roles/class_userRoles.inc:49
+#: plugins/personal/roles/class_userRoles.inc:53
 msgid "Groups membership"
 msgstr "Gruppi di appartenenza"
 
-#: plugins/personal/roles/class_userRoles.inc:58
-#: plugins/personal/roles/class_userRoles.inc:62
+#: plugins/personal/roles/class_userRoles.inc:60
+#: plugins/personal/roles/class_userRoles.inc:64
 msgid "Roles membership"
 msgstr "Ruoli di appartenenza"
 
@@ -3033,34 +3031,34 @@ msgstr "Casella postale"
 msgid "Postal code"
 msgstr "CAP"
 
-#: plugins/personal/generic/class_user.inc:659
+#: plugins/personal/generic/class_user.inc:668
 #, php-format
 msgid "Ppolicy \"%s\" could not be found in the LDAP!"
 msgstr "Impossibile trovare %s nell'annuario LDAP"
 
-#: plugins/personal/generic/class_user.inc:662
+#: plugins/personal/generic/class_user.inc:671
 msgid "You are not allowed to change your own password"
 msgstr "Non le é permesso cambiare la propria password"
 
-#: plugins/personal/generic/class_user.inc:673
+#: plugins/personal/generic/class_user.inc:682
 #, php-format
 msgid "You must wait %d seconds before changing your password again"
 msgstr "Devi attendere %d secondi prima di cambiare di nuovo la password"
 
-#: plugins/personal/generic/class_user.inc:687
+#: plugins/personal/generic/class_user.inc:696
 msgid "Password is in history of old passwords"
 msgstr "La password si trova nella cronologia delle vecchie password"
 
-#: plugins/personal/generic/class_user.inc:692
-#: plugins/personal/generic/class_user.inc:696
+#: plugins/personal/generic/class_user.inc:701
+#: plugins/personal/generic/class_user.inc:705
 msgid "Password is not being changed from existing value"
 msgstr "La password non è stata cambiata dal valore esistente"
 
-#: plugins/personal/generic/class_user.inc:703
+#: plugins/personal/generic/class_user.inc:712
 msgid "You need to specify your current password in order to proceed."
 msgstr "Devi specificare la tua 'Password attuale' per procedere."
 
-#: plugins/personal/generic/class_user.inc:705
+#: plugins/personal/generic/class_user.inc:714
 msgid ""
 "The passwords you've entered as \"New password\" and \"Repeated new "
 "password\" do not match."
@@ -3068,22 +3066,22 @@ msgstr ""
 "Le password che hai inserito come \" Nuova password \" e \"Ripeti nuova "
 "password\" non corrispondono."
 
-#: plugins/personal/generic/class_user.inc:707
+#: plugins/personal/generic/class_user.inc:716
 #: ihtml/themes/breezy/recovery.tpl.c:29 ihtml/themes/breezy/recovery.tpl.c:32
 msgid "New password"
 msgstr "Imposta la nuova password"
 
-#: plugins/personal/generic/class_user.inc:709
+#: plugins/personal/generic/class_user.inc:718
 msgid "The password used as new and current are too similar."
 msgstr ""
 "La password che hai definito come 'Nuova password' è troppo simile a quella "
 "attuale."
 
-#: plugins/personal/generic/class_user.inc:711
+#: plugins/personal/generic/class_user.inc:720
 msgid "The password used as new is too short."
 msgstr "La password utilizzata come nuova è troppo breve."
 
-#: plugins/personal/generic/class_user.inc:713
+#: plugins/personal/generic/class_user.inc:722
 msgid "The password contains possibly problematic Unicode characters!"
 msgstr "La password contiene caratteri Unicode eventualmente problematici!"
 
