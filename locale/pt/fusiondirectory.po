@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2017-06-21 11:50+0200\n"
+"POT-Creation-Date: 2017-06-22 11:12+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>, 2016\n"
 "Language-Team: Portuguese (https://www.transifex.com/fusiondirectory/teams/12202/pt/)\n"
@@ -175,8 +175,7 @@ msgstr ""
 #: setup/class_setupStepMigrate.inc:1234 setup/class_setupStepMigrate.inc:1297
 #: setup/class_setupStepMigrate.inc:1341 include/functions.inc:846
 #: html/index.php:587 html/main.php:158 setup/setup_checks.tpl.c:8
-#: ihtml/themes/breezy/islocked.tpl.c:5 ihtml/themes/breezy/remove.tpl.c:2
-#: ihtml/themes/breezy/msg_dialog.tpl.c:5
+#: ihtml/themes/breezy/islocked.tpl.c:5 ihtml/themes/breezy/msg_dialog.tpl.c:5
 msgid "Warning"
 msgstr "Atenção"
 
@@ -198,7 +197,6 @@ msgid "Welcome"
 msgstr ""
 
 #: setup/class_setupStepFinish.inc:40
-#: ihtml/themes/breezy/copyPasteDialog.tpl.c:26
 msgid "Finish"
 msgstr "Finalizar"
 
@@ -881,7 +879,6 @@ msgid "Permission"
 msgstr ""
 
 #: include/class_CopyPasteHandler.inc:268
-#: ihtml/themes/breezy/copyPasteDialog.tpl.c:20
 msgid "Cancel all"
 msgstr ""
 
@@ -893,7 +890,6 @@ msgstr "Impossível colar"
 #: plugins/personal/generic/class_user.inc:383
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:62
 #: plugins/admin/users/user-list.xml:49 ihtml/themes/breezy/recovery.tpl.c:26
-#: plugins/personal/generic/paste_generic.tpl.c:11
 msgid "Login"
 msgstr "Login"
 
@@ -1471,19 +1467,16 @@ msgstr ""
 
 #: include/class_msgPool.inc:478 setup/setup_migrate_adminAccount.tpl.c:23
 #: setup/setup_migrate_accounts.tpl.c:32 ihtml/themes/breezy/islocked.tpl.c:17
-#: ihtml/themes/breezy/copyPasteDialog.tpl.c:17
-#: ihtml/themes/breezy/msg_dialog.tpl.c:17 ihtml/themes/breezy/acl.tpl.c:53
-#: ihtml/themes/breezy/acl.tpl.c:59
+#: ihtml/themes/breezy/msg_dialog.tpl.c:17
 msgid "Cancel"
 msgstr "Cancelar"
 
 #: include/class_msgPool.inc:494 setup/setup_migrate_adminAccount.tpl.c:20
-#: setup/setup_migrate_accounts.tpl.c:29 ihtml/themes/breezy/acl.tpl.c:50
-#: ihtml/themes/breezy/acl.tpl.c:56
+#: setup/setup_migrate_accounts.tpl.c:29
 msgid "Apply"
 msgstr "Aplicar"
 
-#: include/class_msgPool.inc:502 ihtml/themes/breezy/copyPasteDialog.tpl.c:14
+#: include/class_msgPool.inc:502
 msgid "Save"
 msgstr "Salvar"
 
@@ -2583,7 +2576,6 @@ msgstr ""
 #: ihtml/themes/breezy/recovery.tpl.c:2 ihtml/themes/breezy/recovery.tpl.c:5
 #: ihtml/themes/breezy/login.tpl.c:17 ihtml/themes/breezy/login.tpl.c:20
 #: ihtml/themes/breezy/login.tpl.c:23
-#: plugins/personal/generic/paste_generic.tpl.c:14
 msgid "Password"
 msgstr "Senha"
 
@@ -2624,7 +2616,6 @@ msgid "Personal information"
 msgstr "Informação pessoal"
 
 #: plugins/personal/generic/class_user.inc:315
-#: plugins/personal/generic/paste_generic.tpl.c:5
 msgid "Last name"
 msgstr "Último nome"
 
@@ -2633,7 +2624,6 @@ msgid "Last name of this user"
 msgstr ""
 
 #: plugins/personal/generic/class_user.inc:320
-#: plugins/personal/generic/paste_generic.tpl.c:8
 msgid "First name"
 msgstr "Primeiro nome"
 
@@ -4194,7 +4184,6 @@ msgid "Apply this ACL for all LDAP users"
 msgstr ""
 
 #: plugins/admin/acl/class_aclAssignment.inc:56
-#: ihtml/themes/breezy/acl.tpl.c:32
 msgid "Members"
 msgstr "Membros"
 
@@ -4246,7 +4235,6 @@ msgid "Reset category ACL"
 msgstr ""
 
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:202
-#: ihtml/themes/breezy/acl.tpl.c:41
 msgid "List of available ACL categories"
 msgstr ""
 
@@ -4625,7 +4613,6 @@ msgid ""
 msgstr ""
 
 #: ihtml/themes/breezy/simple-remove.tpl.c:8
-#: ihtml/themes/breezy/remove.tpl.c:8
 msgid "So - if you're sure - press 'Delete' to continue or 'Cancel' to abort."
 msgstr ""
 "Então, se você tem certeza, pressione 'Deletar' para continuar ou 'Cancelar'"
@@ -4685,83 +4672,8 @@ msgstr ""
 msgid "Read only"
 msgstr ""
 
-#: ihtml/themes/breezy/remove.tpl.c:5
-msgid ""
-"This may be used by several groups. Please double check if you really want "
-"to do this since there is no way for FusionDirectory to get your data back."
-msgstr ""
-
-#: ihtml/themes/breezy/copyPasteDialog.tpl.c:2
-msgid "Copy & paste wizard"
-msgstr ""
-
-#: ihtml/themes/breezy/copyPasteDialog.tpl.c:5
-msgid ""
-"Some values need to be unique in the complete directory while some "
-"combinations make no sense. FusionDirectory shows the relevant attributes. "
-"Please maintain the values below to fulfill the policies."
-msgstr ""
-
-#: ihtml/themes/breezy/copyPasteDialog.tpl.c:8
-msgid "Remember that some properties like taken snapshots will not be copied!"
-msgstr ""
-
-#: ihtml/themes/breezy/copyPasteDialog.tpl.c:11
-msgid ""
-"Or if you copy or cut an entry within FusionDirectory and delete the source "
-"object, you may get errors while pasting this object again!"
-msgstr ""
-
-#: ihtml/themes/breezy/copyPasteDialog.tpl.c:23
-msgid "Operation complete"
-msgstr "Operação finalizada"
-
 #: ihtml/themes/breezy/template.tpl.c:2
 msgid "Creating a new object using templates"
-msgstr ""
-
-#: ihtml/themes/breezy/acl.tpl.c:2
-msgid "Assigned ACL for current entry"
-msgstr ""
-
-#: ihtml/themes/breezy/acl.tpl.c:5
-msgid "New ACL"
-msgstr ""
-
-#: ihtml/themes/breezy/acl.tpl.c:8
-msgid "ACL type"
-msgstr ""
-
-#: ihtml/themes/breezy/acl.tpl.c:11 ihtml/themes/breezy/acl.tpl.c:14
-msgid "Select an acl type"
-msgstr ""
-
-#: ihtml/themes/breezy/acl.tpl.c:17
-msgid "Additional filter options"
-msgstr ""
-
-#: ihtml/themes/breezy/acl.tpl.c:20
-msgid "Use members from"
-msgstr ""
-
-#: ihtml/themes/breezy/acl.tpl.c:23
-msgid "Available members"
-msgstr ""
-
-#: ihtml/themes/breezy/acl.tpl.c:26 ihtml/themes/breezy/acl.tpl.c:29
-msgid "List message possible targets"
-msgstr ""
-
-#: ihtml/themes/breezy/acl.tpl.c:35 ihtml/themes/breezy/acl.tpl.c:38
-msgid "List message recipients"
-msgstr ""
-
-#: ihtml/themes/breezy/acl.tpl.c:44
-msgid "ACL for this object"
-msgstr ""
-
-#: ihtml/themes/breezy/acl.tpl.c:47
-msgid "Available roles"
 msgstr ""
 
 #: plugins/generic/welcome/welcome.tpl.c:2
@@ -4781,46 +4693,6 @@ msgstr ""
 #: plugins/generic/references/contents.tpl.c:8
 msgid "This object has no relationship to other objects."
 msgstr ""
-
-#: plugins/personal/generic/paste_generic.tpl.c:2
-msgid "User settings"
-msgstr "Configurações do usuário"
-
-#: plugins/personal/generic/paste_generic.tpl.c:17
-msgid "Clear password"
-msgstr "Senha limpa"
-
-#: plugins/personal/generic/paste_generic.tpl.c:20
-msgid "Set new password"
-msgstr "Definir nova senha"
-
-#: plugins/personal/generic/paste_generic.tpl.c:23
-msgid "Personal picture"
-msgstr "Foto pessoal"
-
-#: plugins/personal/generic/paste_generic.tpl.c:26
-msgid "User picture"
-msgstr "Foto do usuário"
-
-#: plugins/personal/generic/paste_generic.tpl.c:29
-msgid "Remove picture"
-msgstr "Remover foto"
-
-#: plugins/personal/generic/nochange.tpl.c:2
-msgid "You have no permission to change your password at this time"
-msgstr ""
-
-#: plugins/personal/generic/nochange.tpl.c:5
-msgid "Your password hash method will not be changed!"
-msgstr ""
-
-#: plugins/personal/generic/changed.tpl.c:2
-msgid ""
-"You've successfully changed your password. Remember to change all programms "
-"configured to use it as well."
-msgstr ""
-"Sua senha foi alterada com sucesso. Lembre-se de alterar todos os programas "
-"que a usem."
 
 #: plugins/addons/dashboard/groups_stats.tpl.c:2
 msgid "There is 1 group:"
