@@ -256,6 +256,8 @@ msgid ""
 "PHP setup configuration (<a href=\"?info\" target=\"_blank\">show "
 "information</a>)"
 msgstr ""
+"Configuration de PHP (<a href=\"?info\" target=\"_blank\">afficher les "
+"informations</a>)"
 
 #: setup/class_setupStepChecks.inc:48 setup/class_setupStepChecks.inc:49
 msgid "Installation check"
@@ -4241,12 +4243,12 @@ msgstr ""
 #: plugins/admin/groups/class_groupManagement.inc:158
 #, php-format
 msgid "Could not find system %s, cannot trigger action"
-msgstr "Impossible de trouver le système  %s, impossible d\"exécuter l'action"
+msgstr "Impossible de trouver le système %s, impossible d’exécuter l'action"
 
 #: plugins/admin/groups/class_groupManagement.inc:176
 #, php-format
 msgid "System %s is currently installing"
-msgstr "Système %s est actuellement en cours d'installation"
+msgstr "Le système %s est actuellement en cours d'installation"
 
 #: plugins/admin/groups/class_groupManagement.inc:196
 #: plugins/admin/groups/class_groupManagement.inc:222
@@ -4260,11 +4262,11 @@ msgstr "Action déclenchée"
 #: plugins/admin/groups/class_groupManagement.inc:198
 #, php-format
 msgid "Action called without error (result was \"%s\")"
-msgstr "Action appelée sans erreur (résultat \"%s\")"
+msgstr "Action appelée sans erreur (résultat : \"%s\")"
 
 #: plugins/admin/groups/class_groupManagement.inc:259
 msgid "Edit role properties"
-msgstr "Éditer les propriétés du role"
+msgstr "Éditer les propriétés du rôle"
 
 #: plugins/admin/groups/class_groupManagement.inc:275
 msgid "Posix"
@@ -4272,7 +4274,7 @@ msgstr "Posix"
 
 #: plugins/admin/groups/class_groupManagement.inc:275
 msgid "Edit posix properties"
-msgstr "Modifier les propriétés posix"
+msgstr "Éditer les propriétés posix"
 
 #: plugins/admin/groups/class_groupManagement.inc:318
 msgid "Show user groups"
@@ -4280,7 +4282,7 @@ msgstr "Afficher les groupes utilisateurs"
 
 #: plugins/admin/groups/class_groupManagement.inc:319
 msgid "Show organizational roles"
-msgstr "Montrer les rôles organisationnels "
+msgstr "Afficher les rôles organisationels"
 
 #: plugins/admin/groups/class_groupManagement.inc:320
 msgid "Show application groups"
@@ -4293,17 +4295,17 @@ msgstr "Afficher des groupes non identifiés"
 #: plugins/admin/groups/class_groupManagement.inc:324
 #: include/select/groupSelect/group-filter.tpl.c:5
 msgid "Show primary groups"
-msgstr "Groupes principaux"
+msgstr "Afficher les groupes principaux"
 
 #: plugins/admin/groups/class_groupManagement.inc:326
 #: include/select/groupSelect/group-filter.tpl.c:11
 msgid "Show mail groups"
-msgstr "Groupes de messagerie"
+msgstr "Afficher les groupes de courriel"
 
 #: plugins/admin/groups/class_groupManagement.inc:329
 #: include/select/groupSelect/group-filter.tpl.c:8
 msgid "Show samba groups"
-msgstr "Groupes Samba"
+msgstr "Afficher les groupes Samba"
 
 #: plugins/admin/groups/class_groupManagement.inc:333
 msgid "Show DSA entries"
@@ -4332,12 +4334,12 @@ msgstr "Afficher les groupes de téléphones"
 #: plugins/admin/groups/class_ogroup.inc:61
 #, php-format
 msgid "Unknown type : %s"
-msgstr "Entrée inconnue:  '%s' "
+msgstr "Type inconnu : %s"
 
 #: plugins/admin/groups/class_ogroup.inc:65
 #, php-format
 msgid "Non existing dn: %s"
-msgstr "le dn n'existe pas : %s"
+msgstr "DN inexistant : %s"
 
 #: plugins/admin/groups/class_ogroup.inc:154
 msgid "Object group"
@@ -4366,11 +4368,11 @@ msgstr "Objets membres de ce groupe"
 
 #: plugins/admin/groups/class_ogroup.inc:213
 msgid "System trust"
-msgstr "Système de Confiance"
+msgstr "Systèmes"
 
 #: plugins/admin/groups/class_ogroup.inc:217
 msgid "Trust mode"
-msgstr "Mode de confiance"
+msgstr "Mode"
 
 #: plugins/admin/groups/class_ogroup.inc:217
 msgid "Type of authorization for those hosts"
@@ -4396,7 +4398,7 @@ msgstr "Autoriser seulement ce groupe à se connecter sur ces listes d'hôtes"
 msgid ""
 "Putting both workstations and terminals in the same group is not allowed"
 msgstr ""
-"Mettre les stations de travail et les terminaux dans le même groupe est "
+"Mettre des stations de travail et des terminaux dans le même groupe est "
 "interdit"
 
 #: plugins/admin/groups/group-list.xml:11
@@ -4427,11 +4429,11 @@ msgstr "Dn"
 
 #: plugins/admin/acl/class_aclManagement.inc:49
 msgid "DN you wish to add assignments for"
-msgstr "DN auquel vous souhaitez ajouter des affectations"
+msgstr "DN pour lequel vous souhaitez ajouter des affectations"
 
 #: plugins/admin/acl/class_aclManagement.inc:110
 msgid "The dn you entered could not be found in the LDAP"
-msgstr "Impossible de trouver le dn demande dans l'annuaire LDAP"
+msgstr "Impossible de trouver le dn demandé dans l'annuaire LDAP"
 
 #: plugins/admin/acl/class_aclManagement.inc:139
 msgid "ACL assignments"
@@ -4443,7 +4445,7 @@ msgstr "Gestion des affectations ACL "
 
 #: plugins/admin/acl/class_aclManagement.inc:141
 msgid "Manage ACL roles assignments to users"
-msgstr "Affectations des rôles ACL pour les utilisateurs"
+msgstr "Gérer les affectations des rôles ACL aux utilisateurs"
 
 #: plugins/admin/acl/class_aclManagement.inc:219
 #: plugins/admin/acl/class_aclAssignment.inc:273
@@ -4461,12 +4463,12 @@ msgstr "Boite de dialogue des affectations de rôles de contrôle d’accès"
 #: plugins/admin/acl/class_aclAssignment.inc:41
 msgid "Is this applying on complete subtree or only the base?"
 msgstr ""
-"Est-ce que cela doit être appliqué a la sous-arborescence complète ou "
-"seulement la base?"
+"Est-ce que cela doit être appliqué à la sous-arborescence complète ou "
+"seulement la base ?"
 
 #: plugins/admin/acl/class_aclAssignment.inc:44
 msgid "Subtree"
-msgstr "Sous branche"
+msgstr "Sous-arbre"
 
 #: plugins/admin/acl/class_aclAssignment.inc:44
 msgid "Base only"
@@ -4478,11 +4480,11 @@ msgstr "Rôle à appliquer"
 
 #: plugins/admin/acl/class_aclAssignment.inc:52
 msgid "For all users"
-msgstr "Tout les utilisateurs"
+msgstr "Tous les utilisateurs"
 
 #: plugins/admin/acl/class_aclAssignment.inc:52
 msgid "Apply this ACL for all LDAP users"
-msgstr "Appliquer cette ACL pour tout les utilisateurs LDAP"
+msgstr "Appliquer cette ACL pour tous les utilisateurs LDAP"
 
 #: plugins/admin/acl/class_aclAssignment.inc:56
 #: ihtml/themes/breezy/acl.tpl.c:32
@@ -4491,7 +4493,7 @@ msgstr "Membres"
 
 #: plugins/admin/acl/class_aclAssignment.inc:56
 msgid "Users or groups to assign this role to."
-msgstr "Utilisateurs et rôles à qui appliquer cette ACL"
+msgstr "Utilisateurs et groupes à qui appliquer cette ACL"
 
 #: plugins/admin/acl/class_aclAssignment.inc:190
 #, php-format
@@ -4504,20 +4506,20 @@ msgstr "Affectation ACL"
 
 #: plugins/admin/acl/class_aclAssignment.inc:274
 msgid "Access control roles assignment"
-msgstr "Gestion des listes de contrôle d’accès"
+msgstr "Affectation des listes de contrôle d’accès"
 
 #: plugins/admin/acl/class_aclAssignment.inc:293
 msgid "Assignments"
-msgstr "Affectation"
+msgstr "Affectations"
 
 #: plugins/admin/acl/class_aclAssignment.inc:297
 msgid "ACL role assignments for this base"
-msgstr "Affectation des rôles ACL pour cette base"
+msgstr "Affectations de rôles ACL pour cette base"
 
 #: plugins/admin/acl/class_aclAssignment.inc:308
 #, php-format
 msgid "Assignments on object or subtree %s"
-msgstr "Affectation sur l'objet ou la branche %s"
+msgstr "Affectations sur l'objet ou la branche %s"
 
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:186
 msgid "No ACL settings for this category"
@@ -4526,11 +4528,11 @@ msgstr "Pas d'ACL pour cette catégorie"
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:188
 #, php-format
 msgid "ACL for these objects: %s"
-msgstr "ACL pour ces objets: %s"
+msgstr "ACL pour ces objets : %s"
 
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:192
 msgid "Edit category ACL"
-msgstr "Editer les catégories ACL"
+msgstr "Éditer les catégories ACL"
 
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:194
 msgid "Reset category ACL"
@@ -4548,7 +4550,7 @@ msgstr "Tous les objets dans le sous-arbre actuel"
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:217
 #, php-format
 msgid "Edit ACL for \"%s\""
-msgstr "Modifier ACL pour \"%s\""
+msgstr "Éditer l’ACL pour \"%s\""
 
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:258
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:357
@@ -4558,27 +4560,27 @@ msgstr "lecture"
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:260
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:358
 msgid "write"
-msgstr "écrire"
+msgstr "écriture"
 
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:344
 msgid "Show/hide advanced settings"
-msgstr "Afficher/Cacher la configuration avancée"
+msgstr "Afficher/Cacher les paramètres avancés"
 
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:349
 msgid "Create objects"
-msgstr "Créer un objet"
+msgstr "Créer des objets"
 
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:350
 msgid "Move objects"
-msgstr "Bouger un objet"
+msgstr "Déplacer des objets"
 
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:351
 msgid "Remove objects"
-msgstr "Enlever les objets"
+msgstr "Supprimer des objets"
 
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:353
 msgid "Grant permission to owner"
-msgstr "Donner la permission à l'utilisateur"
+msgstr "Sur son propre nœud seulement"
 
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:362
 msgid "Complete object"
@@ -4595,11 +4597,11 @@ msgstr "Gérer les rôles ACL"
 #: plugins/admin/aclrole/class_aclRole.inc:38
 #, php-format
 msgid "Contains settings for these objects: %s"
-msgstr "Contient les paramètres pour ces objets: %s"
+msgstr "Contient les paramètres pour ces objets : %s"
 
 #: plugins/admin/aclrole/class_aclRole.inc:78
 msgid "Access control roles"
-msgstr "Contrôle d'accès (ACL)"
+msgstr "Rôles de contrôle d'accès (ACL)"
 
 #: plugins/admin/aclrole/class_aclRole.inc:81
 msgid "ACL role"
@@ -4607,7 +4609,7 @@ msgstr "Rôle ACL"
 
 #: plugins/admin/aclrole/class_aclRole.inc:99
 msgid "A name for this role"
-msgstr "Nom du rôle "
+msgstr "Un nom pour ce rôle"
 
 #: plugins/admin/aclrole/class_aclRole.inc:103
 msgid "Short description of this role"
@@ -4638,12 +4640,12 @@ msgid ""
 "This dialog will automatically add a new super administrator to your LDAP "
 "tree."
 msgstr ""
-"Ce dialogue vas automatiquement créer un nouveau super utilisateur dans "
-"votre arbre LDAP."
+"Ce dialogue va automatiquement créer un nouveau super utilisateur dans votre"
+" arbre LDAP."
 
 #: setup/setup_migrate_adminAccount.tpl.c:11
 msgid "User ID"
-msgstr "ID de l'utilisateur"
+msgstr "Indentifiant"
 
 #: setup/setup_migrate_adminAccount.tpl.c:17
 msgid "Password (again)"
@@ -4655,7 +4657,7 @@ msgid ""
 "any configuration right now. This simple wizard intends to help you while "
 "setting it up."
 msgstr ""
-"Il semble que c'est votre première installation de FusionDirectory - nous "
+"Il semble que c'est votre premier lancement de FusionDirectory - nous "
 "n'avons pas trouvé de configuration. Ce programme d'aide à l'installation "
 "vous aidera à configurer FusionDirectory."
 
@@ -4670,12 +4672,12 @@ msgstr "Créer une simple configuration mono site"
 #: setup/setup_welcome.tpl.c:11
 msgid "Tries to find problems within your PHP and LDAP setup"
 msgstr ""
-"Essaye de trouver si il existe des problèmes dans votre configuration PHP ou"
-" LDAP"
+"Essayer de trouver si il existe des problèmes dans votre configuration PHP "
+"ou LDAP"
 
 #: setup/setup_welcome.tpl.c:14
 msgid "Let you choose from a set of basic and advanced configuration switches"
-msgstr "Vous permet de choisir un jeu d'option de base ou avancées"
+msgstr "Vous permettre de régler des paramètres de base ou avancés"
 
 #: setup/setup_welcome.tpl.c:17
 msgid "Guided migration of existing LDAP trees"
@@ -4683,15 +4685,15 @@ msgstr "Migration assistée d'un annuaire LDAP existant"
 
 #: setup/setup_welcome.tpl.c:20
 msgid "What will the wizard NOT do for you?"
-msgstr "Qu'est ce que le l'assistant d'installation ne fera pas pour vous ?"
+msgstr "Qu'est ce que l'assistant d'installation ne fera PAS pour vous ?"
 
 #: setup/setup_welcome.tpl.c:23
 msgid "Find every possible configuration error"
-msgstr "Trouver toutes les erreur possible dans votre configuration"
+msgstr "Trouver toutes les erreurs possibles dans votre configuration"
 
 #: setup/setup_welcome.tpl.c:26
 msgid "Migrate every possible LDAP setup - create backup dumps!"
-msgstr "Migrer tout les scénario LDAP possible - créez des sauvegardes !"
+msgstr "Migrer tous les scénarios LDAP possibles - faites des sauvegardes !"
 
 #: setup/setup_welcome.tpl.c:29
 msgid "To continue:"
@@ -4704,16 +4706,16 @@ msgid ""
 "local filesystem. This can be done by executing the following command:"
 msgstr ""
 "Pour des raisons de sécurité vous devez vous authentifier en créant le "
-"fichier '%1', contenant l'ID de la session sur le(s) serveur(s). Ceci peut "
-"être réalisé en exécutant la commande suivante:"
+"fichier '%1', contenant l'ID de la session sur le serveur. Ceci peut être "
+"réalisé en exécutant la commande suivante :"
 
 #: setup/setup_welcome.tpl.c:35
 msgid "Click the 'Next' button when you've finished."
-msgstr "Cliquer sur 'Continuer' quand vous avez fini."
+msgstr "Cliquez sur 'Continuer' quand vous avez fini."
 
 #: setup/setup_migrate_baseOC.tpl.c:2
 msgid "Add required object classes to the LDAP base"
-msgstr "Ajouter les Object class obligatoires a l'annuaire LDAP. "
+msgstr "Ajouter les Object class obligatoires à la base LDAP"
 
 #: setup/setup_migrate_baseOC.tpl.c:5 setup/setup_migrate_accounts.tpl.c:17
 msgid "Current"
@@ -4733,10 +4735,10 @@ msgid ""
 " that may occur when migration to FusionDirectory base LDAP administration. "
 "You may want to fix the problems below, in order to provide smooth services."
 msgstr ""
-"Pendant l'inspection LDAP, nous allons regarder pour les problèmes "
-"classiques qui peuvent arriver lorsque l'on migre vers une administration "
-"basée sur FusionDirectory. Vous pouvez fixer les problèmes si dessous afin "
-"de procurer une administration facilitée."
+"Pendant l'inspection LDAP, nous allons chercher les problèmes classiques qui"
+" peuvent arriver lorsque l'on migre vers une administration basée sur "
+"FusionDirectory. Vous devriez corriger les problèmes ci-dessous pour tout se"
+" passe bien."
 
 #: setup/setup_migrate.tpl.c:5
 msgid "Check again"
@@ -4747,7 +4749,7 @@ msgid ""
 "This dialog allows moving a couple of entries to the configured tree. Doing "
 "this may straighten your LDAP service."
 msgstr ""
-"Ce dialogue permet de déplacer un ensemble d'entrées dans l’annuaire "
+"Ce dialogue permet de déplacer un ensemble d'entrées vers l’annuaire "
 "configuré. Exécuter cette opération peut améliorer votre service LDAP."
 
 #: setup/setup_migrate_accounts.tpl.c:5
@@ -4763,7 +4765,7 @@ msgstr ""
 
 #: setup/setup_migrate_accounts.tpl.c:8
 msgid "Move selected entries into this tree"
-msgstr "Déplacer les entrées sélectionnées "
+msgstr "Déplacer les entrées sélectionnées vers cette branche"
 
 #: setup/setup_migrate_accounts.tpl.c:11
 msgid ""
@@ -4782,7 +4784,7 @@ msgid ""
 msgstr ""
 "Si vous voulez savoir ce qui sera effectué lorsque vous migrerez les entrées"
 " sélectionnées, utilisez le bouton 'Montrer les changements' pour voir le "
-"fichier LDIF."
+"LDIF."
 
 #: setup/setup_migrate_accounts.tpl.c:26
 msgid "Show changes"
@@ -4795,8 +4797,7 @@ msgstr "Création du fichier de configuration"
 #: setup/setup_finish.tpl.c:5
 msgid "Run %1 to put the correct right on fusiondirectory.conf"
 msgstr ""
-"Exécutez %1 pour mettre les droits correctement sur le fichier "
-"fusiondirectory.conf"
+"Exécutez %1 pour mettre les bons droits sur le fichier fusiondirectory.conf"
 
 #: setup/setup_finish.tpl.c:8
 msgid "Download configuration"
@@ -4804,7 +4805,7 @@ msgstr "Télécharger la configuration"
 
 #: setup/setup_finish.tpl.c:11
 msgid "Status: "
-msgstr "Statut: "
+msgstr "Statut : "
 
 #: include/select/groupSelect/group-filter.tpl.c:2
 #: ihtml/themes/breezy/simple-filter.tpl.c:2
@@ -4831,9 +4832,9 @@ msgid ""
 "This dialog provides a simple way to change your password. Enter the new "
 "password (twice) in the fields below and press the 'Change' button."
 msgstr ""
-"Cette fenêtre vous permet de changer votre mot de passe de manière simple. "
-"Entrez le mot de passe actuel et le nouveau mot de passe (deux fois) dans "
-"les champs ci-dessous et appuyez sur le bouton 'Changer'."
+"Cette fenêtre vous permet de changer votre mot de passe facilement. Entrez "
+"le nouveau mot de passe (deux fois) dans les champs ci-dessous et appuyez "
+"sur le bouton 'Changer'."
 
 #: ihtml/themes/breezy/recovery.tpl.c:20 ihtml/themes/breezy/recovery.tpl.c:23
 #: ihtml/themes/breezy/recovery.tpl.c:65 ihtml/themes/breezy/recovery.tpl.c:68
@@ -4844,11 +4845,11 @@ msgstr "Répertoire"
 
 #: ihtml/themes/breezy/recovery.tpl.c:35 ihtml/themes/breezy/recovery.tpl.c:38
 msgid "New password repeated"
-msgstr "Nouveau mot de passe"
+msgstr "Nouveau mot de passe (de nouveau)"
 
 #: ihtml/themes/breezy/recovery.tpl.c:41
 msgid "Password strength"
-msgstr "Niveau de sécurité du mot de passe"
+msgstr "Sécurité du mot de passe"
 
 #: ihtml/themes/breezy/recovery.tpl.c:44 ihtml/themes/breezy/recovery.tpl.c:77
 msgid "Change"
@@ -4864,15 +4865,15 @@ msgstr "Réussi"
 
 #: ihtml/themes/breezy/recovery.tpl.c:56
 msgid "Your password has been changed successfully."
-msgstr "Votre mot de passe à été changé avec succès."
+msgstr "Votre mot de passe a été changé avec succès."
 
 #: ihtml/themes/breezy/recovery.tpl.c:59
 msgid ""
 "Enter your current e-mail address in the field below and press the 'Change' "
 "button."
 msgstr ""
-"Entrez votre adresse de messagerie actuel dans le champ si dessous et "
-"appuyer sur le bouton 'Changer'"
+"Entrez votre adresse de courriel dans le champ ci-dessous et appuyez sur le "
+"bouton 'Changer'."
 
 #: ihtml/themes/breezy/recovery.tpl.c:62
 msgid ""
@@ -4887,8 +4888,8 @@ msgid ""
 "Password recovery is not activated. If you have lost your password, please "
 "contact your administrator"
 msgstr ""
-"La fonction de récupération des mots de passe n'est pas activée. Si vous "
-"avez perdu votre mot de passe, contacter votre administrateur réseau"
+"La fonction de récupération de mot de passe n'est pas activée. Si vous avez "
+"perdu votre mot de passe, veuillez contacter votre administrateur réseau"
 
 #: ihtml/themes/breezy/login.tpl.c:2
 msgid "Login screen"
@@ -4899,8 +4900,8 @@ msgid ""
 "Please use your username and your password to log into the site "
 "administration system."
 msgstr ""
-"Veuillez utiliser votre nom d'utilisateur et votre mot de passe afin de vous"
-" connecter."
+"Veuillez entrer votre nom d'utilisateur et votre mot de passe afin de vous "
+"connecter."
 
 #: ihtml/themes/breezy/login.tpl.c:8 ihtml/themes/breezy/login.tpl.c:11
 #: ihtml/themes/breezy/login.tpl.c:14
@@ -4929,8 +4930,8 @@ msgstr ""
 "L'option size limit rend les opérations LDAP plus rapides et permet au "
 "serveur LDAP d'avoir un niveau de charge plus léger. La façon la plus facile"
 " de gérer des grandes bases de données sans de longs temps d'attentes, "
-"serait de limiter la recherche à des valeurs plus petites et d'utiliser les "
-"filtres pour obtenir les valeurs que vous recherchez."
+"serait de limiter la recherche à une taille plus petite et d'utiliser les "
+"filtres pour trouver les entrées que vous cherchez."
 
 #: ihtml/themes/breezy/sizelimit.tpl.c:5
 msgid "Please choose the way to react for this session"
@@ -4939,21 +4940,20 @@ msgstr "Veuillez choisir la façon de réagir pour cette session"
 #: ihtml/themes/breezy/sizelimit.tpl.c:8
 msgid "ignore this error and show all entries the LDAP server returns"
 msgstr ""
-"ignorer cette erreur et montrer toutes les entrées retournées par le serveur"
-" LDAP"
+"ignorer cette erreur et afficher toutes les entrées retournées par le "
+"serveur LDAP"
 
 #: ihtml/themes/breezy/sizelimit.tpl.c:11
 msgid ""
 "ignore this error and show all entries that fit into the defined sizelimit "
 "and let me use filters instead"
 msgstr ""
-"ignorer cette erreur et montrer toutes les entrées qui sont récupérées grâce"
-" au paramètre sizelimit défini et laissez moi utiliser les filtres pour "
-"restreindre les données a visualiser"
+"ignorer cette erreur et afficher les entrées sous la limite définie et "
+"utiliser les filtres pour restreindre les données affichées"
 
 #: ihtml/themes/breezy/sizelimit.tpl.c:14
 msgid "Set"
-msgstr "Activer"
+msgstr "Valider"
 
 #: ihtml/themes/breezy/simple-remove.tpl.c:2
 msgid "Warning: you are about to delete the following objects"
@@ -4965,15 +4965,14 @@ msgid ""
 "Please double check if you really want to do this since there is no way for "
 "FusionDirectory to get your data back."
 msgstr ""
-"Veuillez vérifier que vous voulez effectuer cette action. Toutes les données"
-" seront perdues étant donné qu'il est impossible pour FusionDirectory de "
-"récupérer vos données."
+"Veuillez vérifier que vous voulez effectuer cette action étant donné qu'il "
+"est impossible pour FusionDirectory de récupérer vos données par la suite."
 
 #: ihtml/themes/breezy/simple-remove.tpl.c:8
 #: ihtml/themes/breezy/remove.tpl.c:8
 msgid "So - if you're sure - press 'Delete' to continue or 'Cancel' to abort."
 msgstr ""
-"D'accord - si vous êtes sur - cliquez sur 'Supprimer' pour continuer ou sur "
+"Donc - si vous êtes sûr - cliquez sur 'Supprimer' pour continuer ou sur "
 "'Annuler' pour abandonner."
 
 #: ihtml/themes/breezy/framework.tpl.c:2
@@ -4986,12 +4985,12 @@ msgstr "Déconnexion"
 
 #: ihtml/themes/breezy/framework.tpl.c:8
 msgid "Signed in:"
-msgstr "Connecté:"
+msgstr "Connecté :"
 
 #: ihtml/themes/breezy/framework.tpl.c:11
 #, c-format
 msgid "Session expires in %d!"
-msgstr "La session expire dans %d !"
+msgstr "La session expire dans %d !"
 
 #: ihtml/themes/breezy/restore-confirm.tpl.c:2
 msgid "Warning: you are about to restore the following snapshot"
@@ -5020,7 +5019,7 @@ msgstr "Conflit de verrou détecté"
 
 #: ihtml/themes/breezy/islocked.tpl.c:8
 msgid "\"%1\" has been locked by \"%2\" since %3"
-msgstr "\"%1\" est verrouille par \"%2\" depuis %3"
+msgstr "\"%1\" a été verrouillé par \"%2\" depuis %3"
 
 #: ihtml/themes/breezy/islocked.tpl.c:11
 msgid ""
@@ -5029,9 +5028,9 @@ msgid ""
 "pressing the \"%1\" button."
 msgstr ""
 "Si la détection de ce verrou est fausse, une autre personne a manifestement "
-"fermé la fenêtre de son navigateur durant une opération de modification "
-"d'une entrée. Dans ce cas, vous pouvez supprimez le verrou en cliquant sur "
-"le bouton \"%1\"."
+"fermé la fenêtre de son navigateur durant une opération de modification. "
+"Dans ce cas, vous pouvez supprimer le verrou en cliquant sur le bouton "
+"\"%1\"."
 
 #: ihtml/themes/breezy/islocked.tpl.c:14
 msgid "Read only"
@@ -5048,7 +5047,7 @@ msgstr ""
 
 #: ihtml/themes/breezy/copyPasteDialog.tpl.c:2
 msgid "Copy & paste wizard"
-msgstr "Assistant pour le copier &amp; coller"
+msgstr "Assistant pour le copier/coller"
 
 #: ihtml/themes/breezy/copyPasteDialog.tpl.c:5
 msgid ""
@@ -5082,11 +5081,11 @@ msgstr "Opération réalisée"
 
 #: ihtml/themes/breezy/template.tpl.c:2
 msgid "Creating a new object using templates"
-msgstr "Créer une nouvelle entrée à partir d'un modèle"
+msgstr "Création d’un nouvel objet depuis un modèle"
 
 #: ihtml/themes/breezy/acl.tpl.c:2
 msgid "Assigned ACL for current entry"
-msgstr "ACL assignés à l'entrée actuelle"
+msgstr "ACL affectées à l'entrée actuelle"
 
 #: ihtml/themes/breezy/acl.tpl.c:5
 msgid "New ACL"
@@ -5134,19 +5133,19 @@ msgstr "L'équipe FusionDirectory"
 
 #: plugins/generic/references/contents.tpl.c:2
 msgid "<strong>%1</strong> references our <strong>%3</strong>"
-msgstr "<strong>%1</strong> fait référence à <strong>%3</strong>"
+msgstr "<strong>%1</strong> fait référence à notre <strong>%3</strong>"
 
 #: plugins/generic/references/contents.tpl.c:5
 msgid ""
 "<strong>%1</strong> references our field <strong>%3</strong> from tab "
 "<strong>%2</strong>"
 msgstr ""
-"<strong>%1</strong> fait référence au champ <strong>%3</strong> du tab "
-"<strong>%2</strong>"
+"<strong>%1</strong> fait référence au champ <strong>%3</strong> de notre "
+"onglet <strong>%2</strong>"
 
 #: plugins/generic/references/contents.tpl.c:8
 msgid "This object has no relationship to other objects."
-msgstr "Cette objet n'a pas de relation avec d'autres objets."
+msgstr "Cet objet n'a pas de relation avec d'autres objets."
 
 #: plugins/personal/generic/paste_generic.tpl.c:2
 msgid "User settings"
@@ -5220,7 +5219,7 @@ msgstr[1] "%2 d’entre eux ont un compte %1"
 
 #: plugins/addons/dashboard/users_stats.tpl.c:8
 msgid "None of them have a %1 account"
-msgstr "Aucun d’eux n’a un compte %1"
+msgstr "Aucun n’a un compte %1"
 
 #: plugins/addons/dashboard/pwd_stats.tpl.c:5
 msgid "One of them use %1 method"
@@ -5251,7 +5250,7 @@ msgstr "Il n'y a pas de compte expiré"
 #: plugins/addons/dashboard/users_accounts.tpl.c:11
 #: plugins/addons/dashboard/users_accounts.tpl.c:23
 msgid "Manager concerned"
-msgstr "Manager concerné"
+msgstr "Responsable concerné"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:14
 msgid "There is one account expiring in the next %1 days"
@@ -5265,7 +5264,7 @@ msgstr "Il n’y a pas de compte qui expire dans les %1 prochains jours"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:20
 msgid "Next expired accounts"
-msgstr "Prochains comptes expirés"
+msgstr "Prochains comptes à expirer"
 
 #: plugins/admin/users/user-filter.tpl.c:5
 msgid "Show templates"
@@ -5273,27 +5272,27 @@ msgstr "Afficher les modèles"
 
 #: plugins/admin/users/user-filter.tpl.c:8
 msgid "Show functional users"
-msgstr "Montrer les utilisateurs fonctionnels"
+msgstr "Afficher les utilisateurs fonctionnels"
 
 #: plugins/admin/users/user-filter.tpl.c:11
 msgid "Show POSIX users"
-msgstr "Montrer les utilisateurs Posix"
+msgstr "Afficher les utilisateurs POSIX"
 
 #: plugins/admin/users/user-filter.tpl.c:14
 msgid "Show Mail users"
-msgstr "Montrer les utilisateurs de la messagerie"
+msgstr "Afficher les utilisateurs de courriel"
 
 #: plugins/admin/users/user-filter.tpl.c:17
 msgid "Show Samba users"
-msgstr "Montrer les utilisateurs samba"
+msgstr "Afficher les utilisateurs Samba"
 
 #: plugins/admin/acl/remove.tpl.c:2
 msgid ""
 "Warning: you are about to delete the ACL assignments on the following "
 "objects"
 msgstr ""
-"Attention: vous êtes sur le point de supprimer les assignations d'ACL sur "
-"les objets suivants"
+"Attention : vous êtes sur le point de supprimer les affectations ACL sur les"
+" objets suivants"
 
 #: plugins/admin/acl/remove.tpl.c:5
 msgid ""
@@ -5306,5 +5305,4 @@ msgstr ""
 #: plugins/admin/acl/remove.tpl.c:8
 msgid "Press 'Delete' to continue or 'Cancel' to abort."
 msgstr ""
-"D'accord - si vous êtes sur - cliquez sur 'Supprimer' pour continuer ou sur "
-"'Annuler' pour abandonner."
+"Cliquez sur 'Supprimer' pour continuer ou sur 'Annuler' pour abandonner."

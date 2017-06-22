@@ -255,7 +255,7 @@ msgstr "Verifica del modulo PHP e delle sue estensioni"
 msgid ""
 "PHP setup configuration (<a href=\"?info\" target=\"_blank\">show "
 "information</a>)"
-msgstr ""
+msgstr "Configurazione di installazione PHP ( 1 mostra informazione 1 )"
 
 #: setup/class_setupStepChecks.inc:48 setup/class_setupStepChecks.inc:49
 msgid "Installation check"
