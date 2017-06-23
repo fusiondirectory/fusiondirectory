@@ -1,6 +1,47 @@
 FusionDirectory changelog
 =========================
 
+* FusionDirectory 1.2
+
+[Feature] Bugs #2586: class_plugin should be reviewed
+[Feature] FusionDirectory plugins - Bugs #3615: Adding fdSystemLock to windows workstations
+[Feature] FusionDirectory plugins - Bugs #4024: We should be able to create a system with fusiondirectory-shell
+[Feature] FusionDirectory plugins - Bugs #5315: mail methods code should be reviewed and cleaned
+[Feature] FusionDirectory plugins - Bugs #5340: DHCP postLdapSave should lock the object modified
+[Feature] FusionDirectory plugins - Bugs #5341: DHCP tab should be able to load values from template
+[Fix] Bugs #5347: Template types needs their own icon somehow
+[Feature] FusionDirectory plugins - Bugs #5504: We should be able to launch actions on group of systems
+[Feature] FusionDirectory plugins - Bugs #5506: Check that OPSI is fully working on groups
+[Feature] FusionDirectory plugins - Bugs #5512: Remove DNS tab or machine not remove the record associated
+[Fix] FusionDirectory plugins - Bugs #5519: template of workstations trigger the creation with the OPSI webservice
+[Fix] FusionDirectory plugins - Bugs #5520: Schedule action start directly
+[Fix] FusionDirectory plugins - Bugs #5540: Errors when trying to schedule actions
+[Fix] Bugs #5542: Icon for waiting task is not showing
+[Fix] Bugs #5545: Unicity is only tested upon the same objectType
+[Fix] FusionDirectory plugins - Bugs #5547: Wrong expiration date shown in ppolicy dashboard
+[Feature] FusionDirectory plugins - Bugs #5556: %askme% dans les champs date
+[Fix] FusionDirectory plugins - Bugs #5560: The DNS plugin fails to find the primary server, if it's in another zone
+[Fix] Bugs #5568: I have always the browser language, same if I specify another language in FusionDirectory configuration
+[Fix] FusionDirectory plugins - Bugs #5572: Samba home path fields are weirdly checked
+[Fix] FusionDirectory plugins - Bugs #5573: Unicity is only tested upon the same objectType
+[Fix] Bugs #5574: Groups RDN configuration is confusing
+[Feature] FusionDirectory plugins - Bugs #5584: System templates - Unable to use the DHCP tab
+[Feature] Bugs #5587: ACL - System templates
+[Fix] FusionDirectory plugins - Bugs #5592: webservice and logging : unexpected debug call
+[Fix] Bugs #5593: Script for hook 'user postmodify' is not executed when password hash=sasl and only the password is changed.
+[Fix] FusionDirectory plugins - Bugs #5595: Grab the version of the opsi package in a software-list
+[Fix] Bugs #5602: Add array modifiers
+[Fix] FusionDirectory plugins - Bugs #5636: Slave ldap2zone config should enforce final dot in zone name
+[Feature] Wishlist #5297: User tab / description as text area
+[Feature] Wishlist #5395: Import groups using csv
+[Feature] FusionDirectory plugins - Wishlist #5515: System - DNS Tab - Activating the DNS tab / DNS Domain should automatically add a A record
+[Feature] FusionDirectory plugins - Wishlist #5529: Add "Partage" capabilities with SYMPA
+[Feature] Wishlist #5532: We should be able to put groups in groups
+[Feature] FusionDirectory plugins - Wishlist #5534: Add "Partage" capabilities with group
+[Feature] FusionDirectory plugins - Wishlist #5582: Import groups using csv
+[Feature] FusionDirectory plugins - Wishlist #5585: System templates - DNS Tab
+[Feature] Wishlist #5625: Templates should bypass ACLs
+
 * FusionDirectory 1.1
 
 [Fix] Bugs #946: class_plugin should be reviewed
