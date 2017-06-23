@@ -193,6 +193,7 @@ documentation and additional help.
 
 * Clement Oudot <clem.oudot@gmail.com>
   HTTP header authentication
+  Password expiration date in dashboard
 
 * Thomas Niercke <thomas@niercke.de>
   Code and ideas for making Argonaut Events Extensible
