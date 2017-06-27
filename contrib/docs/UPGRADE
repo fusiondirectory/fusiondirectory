@@ -2880,6 +2880,50 @@ Open and save it back so it will use the new format
 
 Enjoy :)
 
+Migrate FusionDirectory from 1.1.1 to 1.2
+===========================================
+
+==== Upgrade schema2ldif ====
+
+For Jessie distribution add extra repository
+
+# fusiondirectory debian-extra repository
+deb http://repos.fusiondirectory.org/debian-extra jessie main
+
+- Update the package list and upgrade schema2ldif
+
+apt-get update
+apt-get install schema2ldif
+
+==== Upgrade FusionDirectory first ====
+
+- Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
+
+apt-get install fusiondirectory
+
+- Upgrade FusionDirectory schema package too.
+
+apt-get install fusiondirectory-schema
+
+==== Upgrade of LDAP directory ====
+
+- Upgrade core schema of FusionDirectory
+
+fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd.schema
+
+- if you are using the renater plugin you have to add its new schema
+
+fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/renater-partage-fd.schema
+
+- if you are using the sympa plugin you have to update its schema
+
+fusiondirectory-insert-schema -i /etc/ldap/schema/fusiondirectory/sympa-fd-conf.schema
+fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/sympa-fd.schema
+
+- In case you use system template that have a DNS tab, you need to remake it because the separator "|" is changed to "^"
+
+Enjoy :)
+
 ---
 * Further information
 
