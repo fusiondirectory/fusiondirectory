@@ -2878,7 +2878,41 @@ Check that all you index still match with valid attributes present in your ldap 
 If you have a repository service.
 Open and save it back so it will use the new format
 
-Enjoy :)
+
+Migrate FusionDirectory from 1.1 to 1.1.1
+=========================================
+
+New Depot Configuration
+=======================
+
+! The repositories have been cleaned and reorganized please update your configuration accordingly !
+
+https://documentation.fusiondirectory.org/en/dl_install
+
+Upgrade schema2ldif
+===================
+
+For Jessie distribution add extra repository
+
+# fusiondirectory debian-extra repository
+deb http://repos.fusiondirectory.org/debian-extra jessie main
+
+- Update the package list and upgrade schema2ldif
+
+apt-get update
+apt-get install schema2ldif
+
+Upgrade FusionDirectory first
+=============================
+
+- Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
+
+apt-get install fusiondirectory
+
+- Upgrade FusionDirectory schema package too.
+
+apt-get install fusiondirectory-schema
+
 
 Migrate FusionDirectory from 1.1.1 to 1.2
 ===========================================
