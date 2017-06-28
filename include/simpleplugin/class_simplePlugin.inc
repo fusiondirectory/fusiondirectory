@@ -701,7 +701,7 @@ class simplePlugin
         } else {
           if (isset($plInfo['plDepends'])) {
             foreach ($plInfo['plDepends'] as $plugin) {
-              if (!isset($this->parent->by_object[$plugin]) ||
+              if (isset($this->parent->by_object[$plugin]) &&
                   !$this->parent->by_object[$plugin]->is_account) {
                 $disabled   = TRUE;
                 $dependPlInfos  = pluglist::pluginInfos($plugin);
@@ -942,6 +942,9 @@ class simplePlugin
   /*! \brief Get the acl permissions for an attribute or the plugin itself */
   function aclGetPermissions($attribute = '0', $base = NULL, $skipWrite = FALSE)
   {
+    if (isset($this->parent) && isset($this->parent->ignoreAcls) && $this->parent->ignoreAcls) {
+      return 'cdmr'.($skipWrite ? '' : 'w');
+    }
     $ui         = get_userinfo();
     $skipWrite  |= $this->readOnly();
     if ($base === NULL) {

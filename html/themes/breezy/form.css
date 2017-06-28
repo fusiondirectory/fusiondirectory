@@ -8,12 +8,12 @@ padding: 2px;
 
 input[disabled] {
 color: #888;
-background-color: #DDD;
+background-color: #ddd;
 }
 
 textarea[disabled], select[disabled] {
 color: #31363b;
-background-color: #DDD;
+background-color: #ddd;
 }
 
 /* On small screens */

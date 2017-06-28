@@ -321,7 +321,7 @@ class user extends simplePlugin
             'givenName', TRUE,
             '', '', '/[^,+"?()=<>;\\\\]/'
           ),
-          new StringAttribute (
+          new TextAreaAttribute (
             _('Description'), _('Short description of the user'),
             'description', FALSE
           ),
@@ -547,6 +547,15 @@ class user extends simplePlugin
     $smarty = get_smarty();
     $smarty->append('css_files', 'plugins/users/style/user_tab.css');
     return parent::execute();
+  }
+
+  protected function shouldSave()
+  {
+    if ($this->attributesAccess['userPassword']->getClear() != '') {
+      /* There may be hooks using this even if LDAP object is not modified */
+      return TRUE;
+    }
+    return parent::shouldSave();
   }
 
   protected function prepare_save ()

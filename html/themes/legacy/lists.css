@@ -3,9 +3,9 @@
  *           L i s t s          *
  ********************************/
 table.listingTable {
-border-top: 1px solid #AAA;
-border-bottom: 1px solid #AAA;
-border-left: 1px solid #AAA;
+border-top: 1px solid #aaa;
+border-bottom: 1px solid #aaa;
+border-left: 1px solid #aaa;
 border-spacing: 0;
 }
 
@@ -19,17 +19,17 @@ white-space: nowrap;
 
 table.listingTable > thead > tr > th {
 box-sizing: content-box;
-background: #F0F0F0;
+background: #f0f0f0;
 font-weight: bold;
-border-bottom: 1px solid #AAA;
+border-bottom: 1px solid #aaa;
 padding: 3px;
 height: 22px;
 }
 html.ltr table.listingTable > thead > tr > th {
-border-right: 1px solid #AAA;
+border-right: 1px solid #aaa;
 }
 html.rtl table.listingTable > thead > tr > th {
-border-left: 1px solid #AAA;
+border-left: 1px solid #aaa;
 }
 
 table.listingTable > tbody {
@@ -44,19 +44,19 @@ white-space: nowrap;
 }
 
 table.listingTable > tbody > tr:nth-child(odd) {
-  background-color: #FFF;
+  background-color: #fff;
 }
 
 table.listingTable > tbody > tr:nth-child(even) {
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
 }
 
 table.listingTable > tbody > tr.entry-locked:nth-child(odd) {
-  background-color: #FFC;
+  background-color: #ffc;
 }
 
 table.listingTable > tbody > tr.entry-locked:nth-child(even) {
-  background-color: #F5F5CC;
+  background-color: #f5f5cc;
 }
 
 html.ltr table.listingTable > tbody > tr td:last-child {
@@ -67,11 +67,11 @@ padding-left: 5px;
 }
 
 table.listingTable > tbody > tr:hover {
-  background-color: #DDD;
+  background-color: #ddd;
 }
 
 table.listingTable > tbody > tr.entry-locked:hover {
-  background-color: #DDA;
+  background-color: #dda;
 }
 
 table.listingTable > tbody > tr td {
@@ -85,10 +85,10 @@ background: transparent;
 height: 22px;
 }
 html.ltr table.listingTable > tbody > tr td {
-border-right: 1px solid #AAA;
+border-right: 1px solid #aaa;
 }
 html.rtl table.listingTable > tbody > tr td {
-border-left: 1px solid #AAA;
+border-left: 1px solid #aaa;
 }
 
 table.listingTable > tbody > tr td > input[type=image],
@@ -100,7 +100,7 @@ padding: 2px;
 /* List border */
 
 div.nlistFooter {
-background-color: #E5E5E5;
+background-color: #e5e5e5;
 border-left: 1px solid silver;
 border-right: 1px solid silver;
 border-bottom: 1px solid silver;
@@ -124,7 +124,7 @@ margin-right: 10px;
 }
 
 ul.treeList a:hover {
-background-color: #DDD;
+background-color: #ddd;
 }
 
 a.treeList {
@@ -134,14 +134,14 @@ cursor: pointer;
 
 a.treeListSelected {
 font-weight: bold;
-color: #1010AF;
-background-color: #DDD;
+color: #1010af;
+background-color: #ddd;
 padding: 2px;
 cursor: pointer;
 }
 
 a.treeList:hover,a.treeListSelected:hover {
-background-color: #DDD;
+background-color: #ddd;
 padding: 2px;
 }
 
@@ -159,7 +159,7 @@ background: url(../../images/lists/node.png) no-repeat;
 
 li.treeListSelected a {
 font-weight: bold;
-color: #1010AF;
+color: #1010af;
 padding: 2px;
 }
 
@@ -169,8 +169,8 @@ background: #fff url(../../images/lists/lastnode.png) no-repeat;
 }
 
 div.treeList {
-background-color: #FFF;
-border: 1px solid #AAA;
+background-color: #fff;
+border: 1px solid #aaa;
 padding: 5px;
 position: absolute;
 z-index: 500;
@@ -243,7 +243,7 @@ min-width: 230px;
   display: block;
   }
   table.listing-container > tbody >  tr > td.filter input[type=submit] {
-  border: 1px solid #DDD;
+  border: 1px solid #ddd;
   width: 100% !important;
   padding: 10px;
   display: inline-block;

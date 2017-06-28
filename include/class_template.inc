@@ -40,12 +40,30 @@ class template
     return array(
       'plShortName'   => _('Template'),
       'plDescription' => _('Object template, used to create several objects with similar values'),
-      'plCategory'    => array('user'),
+      /* Categories for templates are computed in config class */
+      'plCategory'    => array(),
 
       'plProvidedAcls' => array(
         'template_cn' => _('Template name')
       )
     );
+  }
+
+  static function getTemplatedTypes()
+  {
+    $result = array();
+    $types  = objects::types();
+    foreach ($types as $type) {
+      if (in_array($type, departmentManagement::getDepartmentTypes())) {
+        continue;
+      }
+      $infos = objects::infos($type);
+      if ($infos['templateActive']) {
+        $result[$type] = $infos['name'];
+      }
+    }
+    asort($result);
+    return $result;
   }
 
   function __construct($type, $dn, $targetdn = NULL)

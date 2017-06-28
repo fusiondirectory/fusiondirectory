@@ -23,7 +23,7 @@ ul.menu > li > a {
 font-family: arial,helvetica,sans-serif;
 font-size: 12px;
 font-weight: bold;
-color: #31363B;
+color: #31363b;
 text-decoration: none;
 background-color: #eff0f1;
 text-align: center;
@@ -73,7 +73,7 @@ text-decoration: none;
 
 /* Main menu */
 .iconmenu-section {
-border-top: 1px solid #C0C2C3;
+border-top: 1px solid #c0c2c3;
 clear: both;
 }
 
@@ -151,7 +151,7 @@ clear: right;
 
 .iconmenu > a:link, .iconmenu > a:visited {
 text-decoration: none;
-color: #31363B;
+color: #31363b;
 }
 
 .iconmenu > a:hover {

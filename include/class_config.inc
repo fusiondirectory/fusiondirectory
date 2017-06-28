@@ -398,10 +398,6 @@ class config
     /* Load in-ldap configuration */
     $this->load_inldap_config();
 
-    /* Remove possibly added ',' from end of group and people ou */
-    $this->current['GROUPRDN']  = preg_replace("/,*$/", "", $this->current['GROUPRDN']);
-    $this->current['USERRDN']   = preg_replace("/,*$/", "", $this->current['USERRDN']);
-
     /* We update LDAPSIZELIMIT as it may have been changed by ldap config */
     session::global_set('size_limit', $this->current['LDAPSIZELIMIT']);
 
@@ -984,6 +980,7 @@ class config
             $this->data['OBJECTS'][$obj]['management'] = $class;
             if (isset($class::$skipTemplates) && ($class::$skipTemplates == FALSE)) {
               $this->data['OBJECTS'][$obj]['templateActive'] = TRUE;
+              $this->data['CATEGORIES'][$cat]['classes'][] = 'template';
             }
           }
         }

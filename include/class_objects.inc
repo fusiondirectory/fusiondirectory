@@ -125,7 +125,7 @@ class objects
     return $ldap->count();
   }
 
-  private static function search ($types, $search_attrs, $ou = NULL, $filter = '', $scope = 'subtree')
+  private static function search ($types, $search_attrs, $ou = NULL, $filter = '', $scope = 'subtree', $templateSearch = FALSE)
   {
     global $config;
 
@@ -161,6 +161,16 @@ class objects
         $filter = '('.$filter.')';
       }
       $filter = '(&'.$filter.'(|'.implode($typeFilters).'))';
+    }
+    if ($templateSearch) {
+      $templateFilterObject = new ldapFilter(
+        '&',
+        array(
+          new ldapFilterLeaf('objectClass', '=', 'fdTemplate'),
+          fdTemplateFilter(ldapFilter::parse($filter)),
+        )
+      );
+      $filter = "$templateFilterObject";
     }
     $ldap->cd($ou);
     $ldap->search($filter, $search_attrs, $scope);
@@ -276,7 +286,7 @@ class objects
 
   /* !\brief  This method returns a list of all available templates for the given type
    */
-  static function getTemplates ($type, $requiredPermissions = 'r')
+  static function getTemplates ($type, $requiredPermissions = 'r', $filter = '')
   {
     global $config, $ui;
 
@@ -286,9 +296,11 @@ class objects
     $ldap = $config->get_ldap_link();
     foreach ($config->departments as $key => $value) {
       // Search all templates from the current dn.
-      $ldap->cd($infos['ou'].$value);
-      // We could also adapt object filter to match templates
-      $ldap->search('(objectClass=fdTemplate)', array('cn'));
+      try {
+        $ldap = static::search($type, array('cn'), $infos['ou'].$value, $filter, 'subtree', TRUE);
+      } catch (NonExistingBranchException $e) {
+        continue;
+      }
       if ($ldap->count() != 0) {
         while ($attrs = $ldap->fetch()) {
           $dn = $attrs['dn'];

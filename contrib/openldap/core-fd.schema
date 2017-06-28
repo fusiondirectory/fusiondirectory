@@ -5,20 +5,6 @@
 
 # Attributes
 
-attributetype ( 1.3.6.1.4.1.10098.1.1.12.2 NAME 'gosaUser'
-  DESC 'GOsa - DN of a user'
-  OBSOLETE
-  EQUALITY caseIgnoreMatch
-  SUBSTR caseIgnoreSubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
-
-attributetype ( 1.3.6.1.4.1.10098.1.1.12.3 NAME 'gosaObject'
-  DESC 'GOsa - DN of an object'
-  OBSOLETE
-  EQUALITY caseIgnoreMatch
-  SUBSTR caseIgnoreSubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
-
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.30 NAME 'gosaGroupObjects'
   DESC 'GOsa - List of all object types that are in a gosaGroupOfNames'
   EQUALITY caseIgnoreIA5Match
@@ -72,11 +58,6 @@ attributetype ( 1.3.6.1.4.1.38414.62.1.3 NAME 'fdLockTimestamp'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.24 SINGLE-VALUE )
 
 # Classes
-
-objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.2 NAME 'gosaLockEntry' SUP top STRUCTURAL
-  DESC 'GOsa - Class for GOsa locking'
-  OBSOLETE
-  MUST ( gosaUser $ gosaObject $ cn ))
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.4 NAME 'gosaDepartment' SUP top AUXILIARY
   DESC 'GOsa - Class to mark Departments for GOsa'

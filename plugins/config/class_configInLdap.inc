@@ -300,11 +300,6 @@ class configInLdap extends simplePlugin
             'ou=people'
           ),
           new StringAttribute (
-            _('Groups RDN'), _('The branch where groups are stored.'),
-            'fdGroupRDN', TRUE,
-            'ou=groups'
-          ),
-          new StringAttribute (
             _('ACL role RDN'), _('The branch where ACL roles are stored.'),
             'fdAclRoleRDN', TRUE,
             'ou=aclroles'

@@ -24,6 +24,8 @@ class userRoles extends simplePlugin
 
   protected $savedGroupsMembership  = array();
   protected $savedRolesMembership   = array();
+  protected $templateGroups         = array();
+  protected $templateRoles          = array();
 
   static function plInfo()
   {
@@ -245,7 +247,7 @@ class userRoles extends simplePlugin
       foreach ($groupsMembership as $ogroupdn) {
         if (!in_array($ogroupdn, $this->savedGroupsMembership)) {
           $g = objects::open($ogroupdn, 'ogroup');
-          if (!$g->getBaseObject()->attrIsWriteable('member')) {
+          if (!in_array($ogroupdn, $this->templateGroups) && !$g->getBaseObject()->attrIsWriteable('member')) {
             $errors[] = msgPool::permModify($ogroupdn, 'member');
             continue;
           }
@@ -282,7 +284,7 @@ class userRoles extends simplePlugin
       foreach ($rolesMembership as $roledn) {
         if (!in_array($roledn, $this->savedRolesMembership)) {
           $r = objects::open($roledn, 'role');
-          if (!$r->getBaseObject()->attrIsWriteable('roleOccupant')) {
+          if (!in_array($roledn, $this->templateRoles) && !$r->getBaseObject()->attrIsWriteable('roleOccupant')) {
             $errors[] = msgPool::permModify($roledn, 'roleOccupant');
             continue;
           }
@@ -325,13 +327,27 @@ class userRoles extends simplePlugin
     $this->savedGroupsMembership = $this->groupsMembership;
     if (isset($this->attrs['userGroups'])) {
       unset($this->attrs['userGroups']['count']);
-      $this->groupsMembership = $this->attrs['userGroups'];
+      $myGroups = array_combine($this->attrs['userGroups'], $this->attrs['userGroups']);
+      $groups   = $this->attributesAccess['groupsMembership']->attribute->getDisplayChoices();
+      $groups   = array_merge($myGroups, $groups);
+      $this->attributesAccess['groupsMembership']->attribute->setChoices(array_keys($groups), array_values($groups));
+      $this->attributesAccess['groupsMembership']->setValue(array_keys($myGroups));
+      $this->templateGroups = array_keys($myGroups);
+    } else {
+      $this->templateGroups = array();
     }
 
     $this->savedRolesMembership = $this->rolesMembership;
     if (isset($this->attrs['userRoles'])) {
       unset($this->attrs['userRoles']['count']);
-      $this->rolesMembership = $this->attrs['userRoles'];
+      $myRoles = array_combine($this->attrs['userRoles'], $this->attrs['userRoles']);
+      $roles   = $this->attributesAccess['rolesMembership']->attribute->getDisplayChoices();
+      $roles   = array_merge($myRoles, $roles);
+      $this->attributesAccess['rolesMembership']->attribute->setChoices(array_keys($roles), array_values($roles));
+      $this->attributesAccess['rolesMembership']->setValue(array_keys($myRoles));
+      $this->templateRoles = array_keys($myRoles);
+    } else {
+      $this->templateRoles = array();
     }
 
     $this->is_account = ((count($this->rolesMembership) > 0) || (count($this->groupsMembership) > 0));

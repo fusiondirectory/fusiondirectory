@@ -374,6 +374,9 @@ class IconTheme
       array('applications','os-windows'),
       array('applications','windows'),
     ),
+    'devices/template'              => array(
+      array('actions','document-new'),
+    ),
     'status/object-locked'          => array(
       array('status','changes-prevent'),
     ),
@@ -381,7 +384,7 @@ class IconTheme
       array('status','changes-allow'),
     ),
     'status/task-waiting'        => array(
-      array('status','task-schedule'),
+      array('actions','task-schedule'),
     ),
     'places/folder-network'        => array(
       array('places','folder-remote'),

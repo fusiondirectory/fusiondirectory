@@ -41,7 +41,7 @@ cursor: default;
 /* Disabled setup steps */
 #menucell.setup-navigation li.menuitem.disabled a.navigation-title {
 cursor: default;
-color: #AAA;
+color: #aaa;
 }
 
 /* Disabled setup steps */
@@ -95,7 +95,7 @@ cursor: default;
 /* Container for name and status, when status is failed */
 div.step2-entry-container-info {
 padding: 3px;
-border: 1px solid #AAA;
+border: 1px solid #aaa;
 width: 99%;
 cursor: default;
 }

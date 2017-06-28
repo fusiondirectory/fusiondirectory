@@ -144,6 +144,7 @@ class CompositeAttribute extends Attribute
   function loadPostValue ()
   {
     foreach ($this->attributes as &$attribute) {
+      $attribute->setDisabled($this->disabled);
       $attribute->loadPostValue();
     }
     unset($attribute);
@@ -152,6 +153,7 @@ class CompositeAttribute extends Attribute
   function applyPostValue ()
   {
     foreach ($this->attributes as &$attribute) {
+      $attribute->setDisabled($this->disabled);
       $attribute->applyPostValue();
     }
     unset($attribute);

@@ -85,6 +85,7 @@ class SelectAttribute extends Attribute
   function setDisplayChoices ($values)
   {
     $this->outputs = array();
+    $values = array_values($values);
     $i = 0;
     foreach ($this->choices as $choice) {
       $this->outputs[$choice] = $values[$i++];
@@ -96,6 +97,13 @@ class SelectAttribute extends Attribute
   function getChoices ()
   {
     return $this->choices;
+  }
+
+  /*! \brief Get the displayed choices (keys are choices)
+   */
+  function getDisplayChoices ()
+  {
+    return $this->outputs;
   }
 
   function setRequired ($bool)

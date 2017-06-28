@@ -25,7 +25,7 @@ ul.menu > li > a {
 font-family: arial,helvetica,sans-serif;
 font-size: 12px;
 font-weight: bold;
-color: #00008F;
+color: #00008f;
 text-decoration: none;
 background-color: #dbe6c6;
 text-align: center;
@@ -34,11 +34,11 @@ margin-bottom: 3px;
 padding-bottom: 5px;
 padding-top: 5px;
 border-radius: 5px 5px 0 0;
-border: 1px solid #AAA;
+border: 1px solid #aaa;
 }
 
 ul.menu ul > li > a {
-color: #00008F;
+color: #00008f;
 text-decoration: none;
 font-weight: normal;
 font-size: 12px;
@@ -57,11 +57,11 @@ padding-right: 15px;
 }
 
 .menuitem.menucurrent {
-background-color: #E5F5D5;
+background-color: #e5f5d5;
 box-shadow: 0px 0px 2px black inset;
 }
 .menuitem:hover {
-background-color: #F0F0F0;
+background-color: #f0f0f0;
 box-shadow: 0px 0px 2px black inset;
 }
 
@@ -79,7 +79,7 @@ text-decoration: none;
 
 /* Main menu */
 .iconmenu-section {
-border-top: 1px solid #AAAAAA;
+border-top: 1px solid #aaaaaa;
 clear: both;
 }
 
@@ -111,16 +111,16 @@ h1.menuheader {
 margin: 0;
 padding: 10px;
 display: block;
-border-bottom: 1px solid #AAAAAA;
-background-color: #DBE6C6;
+border-bottom: 1px solid #aaaaaa;
+background-color: #dbe6c6;
 }
 html.ltr h1.menuheader {
-border-right: 1px solid #AAAAAA;
+border-right: 1px solid #aaaaaa;
 border-radius: 0 0 5px 0;
 float: left;
 }
 html.rtl h1.menuheader {
-border-left: 1px solid #AAAAAA;
+border-left: 1px solid #aaaaaa;
 border-radius: 0 0 0 5px;
 float: right;
 }
@@ -165,7 +165,7 @@ text-decoration: none;
 }
 
 div.iconmenu:hover {
-background-color: #F0F0F0;
+background-color: #f0f0f0;
 }
 
 /* On small screens */

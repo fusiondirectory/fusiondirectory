@@ -62,6 +62,8 @@ class pluglist {
 
     /* Fill info part of pluglist */
     $classes = get_declared_classes();
+    /* To avoid plugins changing index when reloading */
+    sort($classes);
 
     $index = 0;
     $depends_infos    = array();
@@ -475,16 +477,6 @@ class pluglist {
   function plugin_access_allowed($plug_id)
   {
     return isset($this->allowed_plugins[$plug_id]);
-  }
-
-
-  /*!
-   * \brief Force the menu to be recreated
-   */
-  function reset_menus()
-  {
-    $this->menu     = "";
-    $this->iconmenu = "";
   }
 
   static function pluginInfos($cname)

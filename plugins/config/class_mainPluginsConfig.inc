@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2016 FusionDirectory
+  Copyright (C) 2012-2017 FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@ class mainPluginsConfig extends simplePlugin
         'name'  => _('Object groups'),
         'attrs' => array(
           new StringAttribute (
-            _('OGroup RDN'), _('Branch in which object groups will be stored'),
+            _('Groups RDN'), _('Branch in which object groups will be stored'),
             'fdOGroupRDN', TRUE,
             'ou=groups'
           ),
