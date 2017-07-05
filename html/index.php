@@ -43,6 +43,8 @@ function displayLogin()
   $smarty->assign ('personal_img', "geticon.php?context=types&icon=user&size=48");
   $smarty->assign ('password_img', "geticon.php?context=status&icon=dialog-password&size=48");
   $smarty->assign ('directory_img', "geticon.php?context=places&icon=network-server&size=48");
+  $smarty->assign ('revision', FD_VERSION);
+  $smarty->assign ('year', date('Y'));
   $smarty->append ('css_files',  get_template_path('login.css'));
 
   /* Some error to display? */
@@ -51,7 +53,7 @@ function displayLogin()
   }
   $smarty->assign ("message", $message);
 
-  /* Displasy SSL mode warning? */
+  /* Display SSL mode warning? */
   if (($ssl != '') && ($config->get_cfg_value('warnSSL') == 'TRUE')) {
     $smarty->assign ('ssl', sprintf(_('Warning: <a href="%s">Session is not encrypted!</a>'), $ssl));
   } else {

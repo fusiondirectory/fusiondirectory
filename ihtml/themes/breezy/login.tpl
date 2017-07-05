@@ -1,7 +1,6 @@
 <body>
 
   {$php_errors}
-  {include file={filePath file="setup_header.tpl"}}
 
 {* FusionDirectory login - smarty template *}
 
@@ -13,7 +12,7 @@
 {$msg_dialogs}
   <div id="window-titlebar">
     <p>
-      {t}Login screen{/t}
+      {t}FusionDirectory{/t}
     </p>
   </div>
   <div id="window-content">
@@ -49,9 +48,9 @@
       <p class="gosaLoginWarning">
        <script type="text/javascript">
         <!--
-        document.cookie = "gosatest=empty;path=/";
-        if (document.cookie.indexOf( "gosatest=") > -1 )
-          document.cookie = "gosatest=empty;path=/;expires=Thu, 01-Jan-1970 00:00:01 GMT";
+        document.cookie = "fdtest=empty;path=/";
+        if (document.cookie.indexOf( "fdtest=") > -1 )
+          document.cookie = "fdtest=empty;path=/;expires=Thu, 01-Jan-1970 00:00:01 GMT";
         else
           document.write("{$cookies}");
         -->
@@ -74,6 +73,10 @@
 
 {$errors}
 
+</div>
+
+<div class="copynotice">
+  &copy; 2002-{$year} <a href="http://www.fusionDirectory.org">{t}The FusionDirectory team{/t}, {$revision}</a>
 </div>
 
 <script type="text/javascript">

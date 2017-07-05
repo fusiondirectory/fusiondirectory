@@ -4494,6 +4494,10 @@ msgid ""
 "password (twice) in the fields below and press the 'Change' button."
 msgstr ""
 
+#: ihtml/themes/breezy/recovery.tpl.c:106
+msgid "Return to login screen"
+msgstr ""
+
 #: ihtml/themes/breezy/recovery.tpl.c:20 ihtml/themes/breezy/recovery.tpl.c:23
 #: ihtml/themes/breezy/recovery.tpl.c:65 ihtml/themes/breezy/recovery.tpl.c:68
 #: ihtml/themes/breezy/login.tpl.c:29 ihtml/themes/breezy/login.tpl.c:32
