@@ -151,11 +151,11 @@ class filter
     if (isset($element['size'])) {
       $size = $element['size'];
     }
-    $maxlength = 30;
+    $maxlength = '';
     if (isset($element['maxlength'])) {
       $maxlength = $element['maxlength'];
     }
-    $result = "<input class='filter_textfield' id='$tag' name='$tag' type='text' size='$size' maxlength='{$maxlength}' value='".$this->elementValues[$tag]."'>";
+    $result = '<input class="filter_textfield" id="'.$tag.'" name="'.$tag.'" type="text" size="'.$size.'"'.(empty($maxlength) ? '' : ' maxlength="'.$maxlength.'"').' value="'.$this->elementValues[$tag].'"/>';
     if (isset($element['autocomplete'])) {
       $frequency  = "0.5";
       $characters = "1";

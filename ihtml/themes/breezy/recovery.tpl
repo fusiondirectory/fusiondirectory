@@ -63,7 +63,7 @@
       </tr>
       <tr>
        <td><label for="new_password_repeated">{t}New password repeated{/t}</label></td>
-       <td><input type="password" name="new_password_repeated" id="new_password_repeated" maxlength="40" value="" title="{t}New password repeated{/t}" /></td>
+       <td><input type="password" name="new_password_repeated" id="new_password_repeated" value="" title="{t}New password repeated{/t}" /></td>
       </tr>
       <tr>
        <td>{t}Password strength{/t}</td>

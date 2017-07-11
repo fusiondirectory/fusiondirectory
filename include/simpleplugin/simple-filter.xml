@@ -21,7 +21,6 @@
     <type>textfield</type>
     <tag>NAME</tag>
     <size>20</size>
-    <maxlength>60</maxlength>
     <default></default>
     <unset></unset>
     <set>FILTER</set>
