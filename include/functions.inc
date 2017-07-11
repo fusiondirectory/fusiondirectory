@@ -874,7 +874,7 @@ function check_sizelimit()
     $smarty = get_smarty();
     $smarty->assign('warning', sprintf(_('The size limit of %d entries is exceed!'),
           session::global_get('size_limit')));
-    $smarty->assign('limit_message', sprintf(_('Set the new size limit to %s and show me this message if the limit still exceeds'), '<input type="text" name="new_limit" maxlength="10" size="5" value="'.(session::global_get('size_limit') + 100).'">'));
+    $smarty->assign('limit_message', sprintf(_('Set the new size limit to %s and show me this message if the limit still exceeds'), '<input type="text" name="new_limit" maxlength="10" size="5" value="'.(session::global_get('size_limit') + 100).'"/>'));
     return $smarty->fetch(get_template_path('sizelimit.tpl'));
   }
 
