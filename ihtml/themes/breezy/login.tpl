@@ -1,6 +1,7 @@
 <body>
 
   {$php_errors}
+  {include file={filePath file="setup_header.tpl"}}
 
 {* FusionDirectory login - smarty template *}
 
@@ -12,7 +13,7 @@
 {$msg_dialogs}
   <div id="window-titlebar">
     <p>
-      {t}FusionDirectory{/t}
+      {t}Login{/t}
     </p>
   </div>
   <div id="window-content">
@@ -25,20 +26,20 @@
 
     <div>
       <label for="username">
-        <img class="center" src="{$personal_img|escape}" alt="{t}Username{/t}" title="{t}Username{/t}"/>&nbsp;
+        <img class="center" src="geticon.php?context=types&amp;icon=user&amp;size=48" alt="{t}Username{/t}" title="{t}Username{/t}"/>&nbsp;
       </label>
       <input type="text" name="username" id="username" value="{$username|escape}" title="{t}Username{/t}" />
       <br />
       <br />
       <label for="password">
-        <img class="center" src="{$password_img|escape}" alt="{t}Password{/t}" title="{t}Password{/t}" />&nbsp;
+        <img class="center" src="geticon.php?context=status&amp;icon=dialog-password&amp;size=48" alt="{t}Password{/t}" title="{t}Password{/t}" />&nbsp;
       </label>
       <input type="password" name="password" id="password" value="" title="{t}Password{/t}"/>
       <br />
       <a href="recovery.php">{t}I forgot my password{/t}</a>
     </div>
     <div>
-      <img class="center" src="{$directory_img|escape}" alt="{t}Directory{/t}" title="{t}Directory{/t}" />&nbsp;
+      <img class="center" src="geticon.php?context=places&amp;icon=network-server&amp;size=48" alt="{t}Directory{/t}" title="{t}Directory{/t}" />&nbsp;
       <select name="server" title="{t}Directory{/t}" onchange="javascript:document.loginform.submit();">
         {html_options options=$server_options selected=$server_id}
       </select>
@@ -75,9 +76,7 @@
 
 </div>
 
-<div class="copynotice">
-  &copy; 2002-{$year} <a href="http://www.fusionDirectory.org">{t}The FusionDirectory team{/t}, {$revision}</a>
-</div>
+{include file={filePath file="copynotice.tpl"}}
 
 <script type="text/javascript">
 <!--
