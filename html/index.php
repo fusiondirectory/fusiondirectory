@@ -38,14 +38,11 @@ function displayLogin()
   if (isset($_POST['username'])) {
     $username = trim($_POST['username']);
   }
-  $smarty->assign ('date', gmdate("D, d M Y H:i:s"));
-  $smarty->assign ('username', $username);
-  $smarty->assign ('personal_img', "geticon.php?context=types&icon=user&size=48");
-  $smarty->assign ('password_img', "geticon.php?context=status&icon=dialog-password&size=48");
-  $smarty->assign ('directory_img', "geticon.php?context=places&icon=network-server&size=48");
-  $smarty->assign ('revision', FD_VERSION);
-  $smarty->assign ('year', date('Y'));
-  $smarty->append ('css_files',  get_template_path('login.css'));
+  $smarty->assign ('date',      gmdate('D, d M Y H:i:s'));
+  $smarty->assign ('username',  $username);
+  $smarty->assign ('revision',  FD_VERSION);
+  $smarty->assign ('year',      date('Y'));
+  $smarty->append ('css_files', get_template_path('login.css'));
 
   /* Some error to display? */
   if (!isset($message)) {
