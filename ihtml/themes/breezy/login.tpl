@@ -46,7 +46,7 @@
     </div>
 
       <!-- check, if cookies are enabled -->
-      <p class="gosaLoginWarning">
+      <p class="fusiondirectoryLoginWarning">
        <script type="text/javascript">
         <!--
         document.cookie = "fdtest=empty;path=/";

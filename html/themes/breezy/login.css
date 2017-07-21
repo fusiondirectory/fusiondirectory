@@ -1,5 +1,5 @@
 /* Login screen */
-p.gosaLoginWarning {
+p.fusiondirectoryLoginWarning {
 text-align: center;
 color: red;
 font-weight: bold;
@@ -105,7 +105,7 @@ color: #31363b;
   div#window-footer.plugbottom > div:nth-child(2) > input[type=submit] {
   width: 100% !important;
   }
-  p.gosaLoginWarning {
+  p.fusiondirectoryLoginWarning {
   margin-top: 0;
   margin-bottom: 0;
   }
