@@ -37,6 +37,11 @@ background-color: #dbe6c6;
 border-radius: 10px 10px 0 0;
 }
 
+div#window-titlebar > img {
+float: left;
+height:30px;
+}
+
 div#window-titlebar > p {
 margin: 0;
 padding: 0;

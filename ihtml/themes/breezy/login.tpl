@@ -1,7 +1,6 @@
 <body>
 
   {$php_errors}
-  {include file={filePath file="setup_header.tpl"}}
 
 {* FusionDirectory login - smarty template *}
 
@@ -12,6 +11,7 @@
 
 {$msg_dialogs}
   <div id="window-titlebar">
+    <img id="fd-logo" src="geticon.php?context=applications&amp;icon=fusiondirectory&amp;size=48" alt="FusionDirectory"/>
     <p>
       {t}Sign in{/t}
     </p>

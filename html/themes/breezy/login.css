@@ -33,6 +33,11 @@ padding: 8px;
 background-color: #eff0f1;
 }
 
+div#window-titlebar > img {
+float: left;
+height: 30px;
+}
+
 div#window-titlebar > p {
 margin: 0;
 padding: 0;
