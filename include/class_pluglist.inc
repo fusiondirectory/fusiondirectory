@@ -223,7 +223,7 @@ class pluglist {
     }
 
     if (!isset($infos['ACL'])) {
-      return FALSE;
+      return TRUE;
     }
 
     $aclname = $infos['ACL'];
