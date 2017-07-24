@@ -13,7 +13,7 @@
 {$msg_dialogs}
   <div id="window-titlebar">
     <p>
-      {t}Login{/t}
+      {t}Sign in{/t}
     </p>
   </div>
   <div id="window-content">
