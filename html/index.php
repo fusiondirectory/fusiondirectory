@@ -318,10 +318,12 @@ class Index {
     session::global_set('ui', $ui);
 
     /* User might have its own language, re-run initLanguage */
-    initLanguage();
+    $plistReloaded = initLanguage();
 
     /* We need a fully loaded plist and config to test account expiration */
-    session::global_un_set('plist');
+    if (!$plistReloaded) {
+      session::global_un_set('plist');
+    }
     $plist = load_plist();
 
     /* Check that newly installed plugins have their configuration in the LDAP (will reload plist if needed) */
