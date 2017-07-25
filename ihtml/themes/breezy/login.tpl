@@ -1,7 +1,6 @@
 <body>
 
   {$php_errors}
-  {include file={filePath file="setup_header.tpl"}}
 
 {* FusionDirectory login - smarty template *}
 
@@ -12,8 +11,9 @@
 
 {$msg_dialogs}
   <div id="window-titlebar">
+    <img id="fd-logo" src="geticon.php?context=applications&amp;icon=fusiondirectory&amp;size=48" alt="FusionDirectory"/>
     <p>
-      {t}Login{/t}
+      {t}Sign in{/t}
     </p>
   </div>
   <div id="window-content">
@@ -46,7 +46,7 @@
     </div>
 
       <!-- check, if cookies are enabled -->
-      <p class="gosaLoginWarning">
+      <p class="fusiondirectoryLoginWarning">
        <script type="text/javascript">
         <!--
         document.cookie = "fdtest=empty;path=/";

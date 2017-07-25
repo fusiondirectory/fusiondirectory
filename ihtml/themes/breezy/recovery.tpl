@@ -1,7 +1,6 @@
 <body onLoad="javascript:$$('div.debug_div').each(function (a) { a.hide(); });">
   {* FusionDirectory recovery - smarty template *}
   {$php_errors}
-  {include file={filePath file="setup_header.tpl"}}
   {$msg_dialogs}
 
 <div id="window-container">
@@ -11,8 +10,8 @@
   <form action='recovery.php{$params}' method='post' name='mainform' onSubmit='js_check(this);return true;'>
 
   <div id="window-titlebar">
+    <img id="fd-logo" src="geticon.php?context=applications&amp;icon=fusiondirectory&amp;size=48" alt="FusionDirectory"/>
     <p>
-      <img class="center" src="geticon.php?context=status&amp;icon=dialog-password&amp;size=48" alt="{t}Password{/t}" title="{t}Password{/t}"/>
       {t}Lost password{/t}
     </p>
   </div>
