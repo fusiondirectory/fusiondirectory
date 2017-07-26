@@ -26,11 +26,16 @@ background-color: #f3f4f4;
 display: inline-block;
 }
 
+div#window-div > form {
+margin:0;
+}
+
 div#window-titlebar {
 text-align: center;
 border-bottom: 1px solid #c0c2c3;
 padding: 8px;
 background-color: #eff0f1;
+min-height: 30px;
 }
 
 div#window-titlebar > img {
