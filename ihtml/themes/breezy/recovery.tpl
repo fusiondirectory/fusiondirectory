@@ -1,7 +1,6 @@
 <body onLoad="javascript:$$('div.debug_div').each(function (a) { a.hide(); });">
   {* FusionDirectory recovery - smarty template *}
   {$php_errors}
-  {include file={filePath file="setup_header.tpl"}}
   {$msg_dialogs}
 
 <div id="window-container">
@@ -40,17 +39,17 @@
     <br/>
     <div style="text-align: center;">
       <label for="login">
-        <img class="center" src="geticon.php?context=types&amp;icon=user&amp;size=48" alt="{t}Username{/t}" title="{t}Username{/t}"/>&nbsp;
+        <img class="center" src="{$personal_img|escape}" alt="{t}Username{/t}" title="{t}Username{/t}"/>&nbsp;
       </label>
       <input type="text" name="login" value="{$login}" title="{t}Username{/t}" readonly />
       <br />
       <label for="new_password">
-        <img class="center" src="geticon.php?context=status&amp;icon=dialog-password&amp;size=48" alt="{t}New password{/t}" title="{t}New password{/t}"/>&nbsp;
+        <img class="center" src="{$password_img|escape}" alt="{t}New password{/t}" title="{t}New password{/t}"/>&nbsp;
       </label>
       <input type="password" name="new_password" id="new_password" value="" title="{t}New password{/t}" onkeyup="testPasswordCss(document.getElementById('new_password').value);" />
       <br />
       <label for="new_password_repeated">
-        <img class="center" src="geticon.php?context=status&amp;icon=dialog-password&amp;size=48" alt="{t}New password repeated{/t}" title="{t}New password repeated{/t}"/>&nbsp;
+        <img class="center" src="{$password_img|escape}" alt="{t}New password repeated{/t}" title="{t}New password repeated{/t}"/>&nbsp;
       </label>
       <input type="password" name="new_password_repeated" id="new_password_repeated" maxlength="40" value="" title="{t}New password repeated{/t}" />
       <br>
@@ -61,7 +60,7 @@
     </div>
     {if $show_directory_chooser}
     <div>
-      <img class="center" src="geticon.php?context=places&amp;icon=network-server&amp;size=48" alt="{t}Directory{/t}" title="{t}Directory{/t}" />&nbsp;
+      <img class="center" src="{$directory_img|escape}" alt="{t}Directory{/t}" title="{t}Directory{/t}" />&nbsp;
       <select name="server" title="{t}Directory{/t}" onchange="javascript:document.loginform.submit();">
         {html_options options=$server_options selected=$server_id}
       </select>
@@ -91,13 +90,13 @@
 
     <div>
       <label for="email_address">
-         <img class="center" src="geticon.php?context=applications&amp;icon=internet-mail&amp;size=48" alt="{t}Email address{/t}" title="{t}Email address{/t}" />&nbsp;
+         <img class="center" src="{$mail_img|escape}" alt="{t}Email address{/t}" title="{t}Email address{/t}" />&nbsp;
       </label>
       <input type="text" name="email_address" id="email_address" value="{$email_address}" title="{t}Email{/t}" onFocus=""/>
     </div>
     {if $show_directory_chooser}
     <div>
-      <img class="center" src="geticon.php?context=places&amp;icon=network-server&amp;size=48" alt="{t}Directory{/t}" title="{t}Directory{/t}" />&nbsp;
+      <img class="center" src="{$directory_img|escape}" alt="{t}Directory{/t}" title="{t}Directory{/t}" />&nbsp;
       <select name="server" title="{t}Directory{/t}" onchange="javascript:document.loginform.submit();">
         {html_options options=$server_options selected=$server_id}
       </select>
@@ -125,7 +124,9 @@
   </form>
 </div>
 </div>
-{include file={filePath file="copynotice.tpl"}}
+<div class="copynotice">
+  &copy; 2002-{$year} <a href="http://www.fusionDirectory.org">{t}The FusionDirectory team{/t}, {$revision}</a>
+</div>
 
   <!-- Place cursor in email field -->
   <script type="text/javascript">
