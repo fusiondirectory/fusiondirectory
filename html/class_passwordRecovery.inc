@@ -147,15 +147,10 @@ class standAlonePage {
     clean_smarty_compile_dir($smarty->compile_dir);
 
     $smarty->assign('password_img', 'geticon.php?context=status&icon=dialog-password&size=48');
-    $smarty->assign('mail_img', 'geticon.php?context=applications&icon=internet-mail&size=48');
-    $smarty->assign('directory_img', "geticon.php?context=places&icon=network-server&size=48");
-    $smarty->assign('personal_img', "geticon.php?context=types&icon=user&size=48");
     $smarty->assign('date', gmdate("D, d M Y H:i:s"));
     $smarty->assign('params', "");
     $smarty->assign('message', "");
     $smarty->assign('changed', FALSE);
-    $smarty->assign('revision', FD_VERSION);
-    $smarty->assign('year', date('Y'));
   }
 
   function checkForSSL()
