@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2017-06-22 11:12+0200\n"
+"POT-Creation-Date: 2017-07-24 11:13+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Selina Oudermans <selina.oudermans@digipolis.be>, 2017\n"
 "Language-Team: Dutch (https://www.transifex.com/fusiondirectory/teams/12202/nl/)\n"
@@ -176,7 +176,7 @@ msgstr ""
 #: setup/class_setupStepMigrate.inc:1004 setup/class_setupStepMigrate.inc:1123
 #: setup/class_setupStepMigrate.inc:1234 setup/class_setupStepMigrate.inc:1297
 #: setup/class_setupStepMigrate.inc:1341 include/functions.inc:846
-#: html/index.php:587 html/main.php:158 setup/setup_checks.tpl.c:8
+#: html/index.php:586 html/main.php:158 setup/setup_checks.tpl.c:8
 #: ihtml/themes/breezy/islocked.tpl.c:5 ihtml/themes/breezy/msg_dialog.tpl.c:5
 msgid "Warning"
 msgstr "Waarschuwing"
@@ -582,7 +582,7 @@ msgstr ""
 #: include/class_SnapshotHandler.inc:53 include/class_SnapshotHandler.inc:238
 #: include/class_SnapshotHandler.inc:268 include/class_SnapshotHandler.inc:284
 #: include/class_SnapshotHandler.inc:405 include/class_SnapshotHandler.inc:408
-#: html/index.php:372 plugins/addons/dashboard/class_dashBoardUsers.inc:86
+#: html/index.php:371 plugins/addons/dashboard/class_dashBoardUsers.inc:86
 #: plugins/addons/dashboard/class_dashBoard.inc:74
 #: plugins/addons/dashboard/class_dashBoardPasswords.inc:62
 #: plugins/config/class_recoveryConfig.inc:137
@@ -801,8 +801,8 @@ msgstr "Selecteer alles"
 #: include/simpleplugin/attributes/class_FileAttribute.inc:34
 #: include/simpleplugin/attributes/class_FileAttribute.inc:37
 #: include/simpleplugin/attributes/class_FileAttribute.inc:300
-#: include/class_SnapshotHandler.inc:398 html/index.php:454 html/index.php:468
-#: html/index.php:478 html/index.php:535 html/index.php:545
+#: include/class_SnapshotHandler.inc:398 html/index.php:453 html/index.php:467
+#: html/index.php:477 html/index.php:534 html/index.php:544
 #: setup/setup_checks.tpl.c:5 ihtml/themes/breezy/msg_dialog.tpl.c:2
 msgid "Error"
 msgstr "Fout"
@@ -895,7 +895,7 @@ msgstr ""
 #: include/functions.inc:657 include/class_timezone.inc:51
 #: include/class_config.inc:154 include/class_config.inc:276
 #: include/class_config.inc:791 include/class_config.inc:803
-#: html/index.php:148 html/class_passwordRecovery.inc:139 html/main.php:208
+#: html/index.php:147 html/class_passwordRecovery.inc:139 html/main.php:208
 msgid "Configuration error"
 msgstr "Configuratie fout"
 
@@ -942,7 +942,7 @@ msgstr "Kan niet plakken"
 #: include/select/userSelect/class_userSelect.inc:32
 #: plugins/personal/generic/class_user.inc:383
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:62
-#: plugins/admin/users/user-list.xml:49 ihtml/themes/breezy/recovery.tpl.c:26
+#: plugins/admin/users/user-list.xml:49 ihtml/themes/breezy/login.tpl.c:2
 msgid "Login"
 msgstr "Inlognaam"
 
@@ -950,7 +950,7 @@ msgstr "Inlognaam"
 #: include/simpleplugin/class_simpleManagement.inc:282
 #: include/simpleplugin/class_simpleManagement.inc:514
 #: plugins/admin/users/user-list.xml:95
-#: plugins/admin/groups/class_groupManagement.inc:350
+#: plugins/admin/groups/class_groupManagement.inc:351
 #: ihtml/themes/breezy/template.tpl.c:5
 msgid "Template"
 msgstr "Sjabloon"
@@ -2183,7 +2183,7 @@ msgstr ""
 
 #: include/simpleplugin/class_simpleManagement.inc:508
 #: include/simpleplugin/class_simpleManagement.inc:514
-#: plugins/admin/groups/class_groupManagement.inc:350
+#: plugins/admin/groups/class_groupManagement.inc:351
 #, php-format
 msgid "Show %s"
 msgstr ""
@@ -2420,95 +2420,95 @@ msgstr ""
 "Directory '%s' die opgegeven is als compileer directory is niet "
 "toegankelijk!"
 
-#: html/index.php:56 html/class_passwordRecovery.inc:173
+#: html/index.php:55 html/class_passwordRecovery.inc:174
 #, php-format
 msgid "Warning: <a href=\"%s\">Session is not encrypted!</a>"
 msgstr ""
 
-#: html/index.php:62
+#: html/index.php:61
 msgid ""
 "Warning: The session lifetime configured in your fusiondirectory.conf will "
 "be overridden by php.ini settings."
 msgstr ""
 
-#: html/index.php:150
+#: html/index.php:149
 #, php-format
 msgid ""
 "FusionDirectory configuration %s/%s is not readable. Please run "
 "fusiondirectory-setup --check-config to fix this."
 msgstr ""
 
-#: html/index.php:171
+#: html/index.php:170
 msgid "Smarty error"
 msgstr "Smarty error"
 
-#: html/index.php:173
+#: html/index.php:172
 #, php-format
 msgid "Directory \"%s\" specified as compile directory is not accessible!"
 msgstr ""
 
-#: html/index.php:208
+#: html/index.php:207
 msgid "Your FusionDirectory session has expired!"
 msgstr "Je FusionDirectory sessie is vervallen!"
 
-#: html/index.php:211
+#: html/index.php:210
 msgid "Your IP has changed!"
 msgstr "Je IP-adres is gewijzigd"
 
-#: html/index.php:214
+#: html/index.php:213
 #, php-format
 msgid "Invalid plugin parameter \"%s\"!"
 msgstr ""
 
-#: html/index.php:217
+#: html/index.php:216
 msgid "No session found!"
 msgstr ""
 
-#: html/index.php:253
+#: html/index.php:252
 msgid "LDAP schema check reported errors:"
 msgstr ""
 
-#: html/index.php:255
+#: html/index.php:254
 msgid "LDAP schema error"
 msgstr ""
 
-#: html/index.php:282
+#: html/index.php:281
 msgid "Please specify a valid username!"
 msgstr "Geef a.u.b. een geldige gebruikersnaam op!"
 
-#: html/index.php:285
+#: html/index.php:284
 msgid "Please specify your password!"
 msgstr "Geef a.u.b. uw wachtwoord op!"
 
-#: html/index.php:304
+#: html/index.php:303
 msgid "Please check the username/password combination."
 msgstr "Controleer a.u.b. de gebruikersnaam/wachtwoord combinatie."
 
-#: html/index.php:337
+#: html/index.php:336
 msgid "Account locked. Please contact your system administrator!"
 msgstr "Accound geblokkeerd. Contacteer aub je systeembeheerder!"
 
-#: html/index.php:456
+#: html/index.php:455
 #, php-format
 msgid "No value found in HTTP header \"%s\""
 msgstr ""
 
-#: html/index.php:470
+#: html/index.php:469
 #, php-format
 msgid "Header user \"%s\" could not be found in the LDAP"
 msgstr ""
 
-#: html/index.php:480 html/index.php:547
+#: html/index.php:479 html/index.php:546
 #, php-format
 msgid "Login with user \"%s\" triggered error: %s"
 msgstr ""
 
-#: html/index.php:537
+#: html/index.php:536
 #, php-format
 msgid "CAS user \"%s\" could not be found in the LDAP"
 msgstr ""
 
-#: html/index.php:587
+#: html/index.php:586
 msgid ""
 "Your browser has cookies disabled. Please enable cookies and reload this "
 "page before logging in!"
@@ -2521,44 +2521,45 @@ msgstr ""
 msgid "FusionDirectory configuration %s/%s is not readable. Aborted."
 msgstr "FusionDirectory configuratie %s/%s is niet leesbaar. Geannuleerd."
 
-#: html/class_passwordRecovery.inc:302 ihtml/themes/breezy/recovery.tpl.c:71
+#: html/class_passwordRecovery.inc:303 ihtml/themes/breezy/recovery.tpl.c:83
+#: ihtml/themes/breezy/recovery.tpl.c:86
 msgid "Email address"
 msgstr "E-mail adres"
 
-#: html/class_passwordRecovery.inc:471
+#: html/class_passwordRecovery.inc:472
 #, php-format
 msgid "Did not find an account with login \"%s\""
 msgstr "Kan geen account vinden met login \"%s\""
 
-#: html/class_passwordRecovery.inc:474
+#: html/class_passwordRecovery.inc:475
 #, php-format
 msgid "Found multiple accounts with login \"%s\""
 msgstr "Er zijn meerdere accounts gevonden met login \"%s\""
 
-#: html/class_passwordRecovery.inc:507
+#: html/class_passwordRecovery.inc:508
 #, php-format
 msgid "There is no account using email \"%s\""
 msgstr ""
 
-#: html/class_passwordRecovery.inc:510
+#: html/class_passwordRecovery.inc:511
 #, php-format
 msgid "There are several accounts using email \"%s\""
 msgstr ""
 
-#: html/class_passwordRecovery.inc:518
+#: html/class_passwordRecovery.inc:519
 #, php-format
 msgid "The user using email \"%s\" is locked. Please contact your administrator."
 msgstr ""
 
-#: html/class_passwordRecovery.inc:573
+#: html/class_passwordRecovery.inc:574
 msgid "Contact your administrator, there was a problem with mail server"
 msgstr "Contacteer je systeembeheerder, er was een probleem met de mailserver"
 
-#: html/class_passwordRecovery.inc:586
+#: html/class_passwordRecovery.inc:587
 msgid "This token is invalid"
 msgstr "Deze token is niet geldig"
 
-#: html/class_passwordRecovery.inc:650
+#: html/class_passwordRecovery.inc:651
 msgid "There was a problem with mail server, confirmation email not sent"
 msgstr ""
 "Er was een probleem met de mail server, de bevestiging werd niet verstuurd"
@@ -2954,6 +2955,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:716
 #: ihtml/themes/breezy/recovery.tpl.c:29 ihtml/themes/breezy/recovery.tpl.c:32
+#: ihtml/themes/breezy/recovery.tpl.c:35
 msgid "New password"
 msgstr "Nieuw wachtwoord"
 
@@ -2998,7 +3000,7 @@ msgid "Expiration date"
 msgstr "Vervaldatum"
 
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:69
-#: ihtml/themes/breezy/recovery.tpl.c:74
+#: ihtml/themes/breezy/recovery.tpl.c:89
 msgid "Email"
 msgstr "E-mail"
 
@@ -4080,45 +4082,49 @@ msgid "Show application groups"
 msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:321
+msgid "Show groups of groups"
+msgstr ""
+
+#: plugins/admin/groups/class_groupManagement.inc:322
 msgid "Show unidentified groups"
 msgstr ""
 
-#: plugins/admin/groups/class_groupManagement.inc:324
+#: plugins/admin/groups/class_groupManagement.inc:325
 #: include/select/groupSelect/group-filter.tpl.c:5
 msgid "Show primary groups"
 msgstr "Toon primaire groepen"
 
-#: plugins/admin/groups/class_groupManagement.inc:326
+#: plugins/admin/groups/class_groupManagement.inc:327
 #: include/select/groupSelect/group-filter.tpl.c:11
 msgid "Show mail groups"
 msgstr "Toon mailgroepen"
 
-#: plugins/admin/groups/class_groupManagement.inc:329
+#: plugins/admin/groups/class_groupManagement.inc:330
 #: include/select/groupSelect/group-filter.tpl.c:8
 msgid "Show samba groups"
 msgstr "Toon Samba groepen"
 
-#: plugins/admin/groups/class_groupManagement.inc:333
+#: plugins/admin/groups/class_groupManagement.inc:334
 msgid "Show DSA entries"
 msgstr ""
 
-#: plugins/admin/groups/class_groupManagement.inc:339
+#: plugins/admin/groups/class_groupManagement.inc:340
 msgid "Show server groups"
 msgstr "Toon server groepen"
 
-#: plugins/admin/groups/class_groupManagement.inc:340
+#: plugins/admin/groups/class_groupManagement.inc:341
 msgid "Show workstation groups"
 msgstr "Toon workstation groepen"
 
-#: plugins/admin/groups/class_groupManagement.inc:341
+#: plugins/admin/groups/class_groupManagement.inc:342
 msgid "Show terminal groups"
 msgstr ""
 
-#: plugins/admin/groups/class_groupManagement.inc:342
+#: plugins/admin/groups/class_groupManagement.inc:343
 msgid "Show printer groups"
 msgstr "Toon printer groepen"
 
-#: plugins/admin/groups/class_groupManagement.inc:343
+#: plugins/admin/groups/class_groupManagement.inc:344
 msgid "Show phone groups"
 msgstr "Toon telefoon groepen"
 
@@ -4606,37 +4612,52 @@ msgstr ""
 "'Verander' knop."
 
 #: ihtml/themes/breezy/recovery.tpl.c:20 ihtml/themes/breezy/recovery.tpl.c:23
-#: ihtml/themes/breezy/recovery.tpl.c:65 ihtml/themes/breezy/recovery.tpl.c:68
+#: ihtml/themes/breezy/recovery.tpl.c:26 ihtml/themes/breezy/login.tpl.c:8
+#: ihtml/themes/breezy/login.tpl.c:11 ihtml/themes/breezy/login.tpl.c:14
+msgid "Username"
+msgstr "Gebruikersnaam"
+
+#: ihtml/themes/breezy/recovery.tpl.c:38 ihtml/themes/breezy/recovery.tpl.c:41
+#: ihtml/themes/breezy/recovery.tpl.c:44
+msgid "New password repeated"
+msgstr "Nieuw wachtwoord opnieuw"
+
+#: ihtml/themes/breezy/recovery.tpl.c:47
+msgid "Password strength"
+msgstr "Wachtwoord sterkte"
+
+#: ihtml/themes/breezy/recovery.tpl.c:50 ihtml/themes/breezy/recovery.tpl.c:53
+#: ihtml/themes/breezy/recovery.tpl.c:56 ihtml/themes/breezy/recovery.tpl.c:92
+#: ihtml/themes/breezy/recovery.tpl.c:95 ihtml/themes/breezy/recovery.tpl.c:98
 #: ihtml/themes/breezy/login.tpl.c:29 ihtml/themes/breezy/login.tpl.c:32
 #: ihtml/themes/breezy/login.tpl.c:35
 msgid "Directory"
 msgstr "Directory"
 
-#: ihtml/themes/breezy/recovery.tpl.c:35 ihtml/themes/breezy/recovery.tpl.c:38
-msgid "New password repeated"
-msgstr "Nieuw wachtwoord opnieuw"
-
-#: ihtml/themes/breezy/recovery.tpl.c:41
-msgid "Password strength"
-msgstr "Wachtwoord sterkte"
-
-#: ihtml/themes/breezy/recovery.tpl.c:44 ihtml/themes/breezy/recovery.tpl.c:77
+#: ihtml/themes/breezy/recovery.tpl.c:59
+#: ihtml/themes/breezy/recovery.tpl.c:104
 msgid "Change"
 msgstr "Wijzig"
 
-#: ihtml/themes/breezy/recovery.tpl.c:47 ihtml/themes/breezy/recovery.tpl.c:80
+#: ihtml/themes/breezy/recovery.tpl.c:62
+#: ihtml/themes/breezy/recovery.tpl.c:107
 msgid "Click here to change your password"
 msgstr "Klik hier om je paswoord te wijzigen"
 
-#: ihtml/themes/breezy/recovery.tpl.c:50 ihtml/themes/breezy/recovery.tpl.c:53
+#: ihtml/themes/breezy/recovery.tpl.c:65 ihtml/themes/breezy/recovery.tpl.c:68
 msgid "Success"
 msgstr "Succes"
 
-#: ihtml/themes/breezy/recovery.tpl.c:56
+#: ihtml/themes/breezy/recovery.tpl.c:71
 msgid "Your password has been changed successfully."
 msgstr "Je paswoord is succesvol gewijzigd."
 
-#: ihtml/themes/breezy/recovery.tpl.c:59
+#: ihtml/themes/breezy/recovery.tpl.c:74
+#: ihtml/themes/breezy/recovery.tpl.c:101
+msgid "Return to login screen"
+msgstr ""
+
+#: ihtml/themes/breezy/recovery.tpl.c:77
 msgid ""
 "Enter your current e-mail address in the field below and press the 'Change' "
 "button."
@@ -4644,23 +4665,19 @@ msgstr ""
 "Vul je huidige e-mail adres in in onderstaand veld en klik op de 'Verander' "
 "knop."
 
-#: ihtml/themes/breezy/recovery.tpl.c:62
+#: ihtml/themes/breezy/recovery.tpl.c:80
 msgid ""
 "=> Use your e-mail in the long format, e.g : John Doe => "
 "john.doe@example.com"
 msgstr ""
 
-#: ihtml/themes/breezy/recovery.tpl.c:83
+#: ihtml/themes/breezy/recovery.tpl.c:110
 msgid ""
 "Password recovery is not activated. If you have lost your password, please "
 "contact your administrator"
 msgstr ""
 "Paswoord herstel is niet geactiveerd. Als u uw wachtwoord verloren hebt, "
 "gelieve dan uw beheerder te contacteren"
-
-#: ihtml/themes/breezy/login.tpl.c:2
-msgid "Login screen"
-msgstr "Login scherm"
 
 #: ihtml/themes/breezy/login.tpl.c:5
 msgid ""
@@ -4669,11 +4686,6 @@ msgid ""
 msgstr ""
 "Gebruik aub je gebruikersnaam en paswoord om in te loggen in het "
 "administratie systeem van de site."
-
-#: ihtml/themes/breezy/login.tpl.c:8 ihtml/themes/breezy/login.tpl.c:11
-#: ihtml/themes/breezy/login.tpl.c:14
-msgid "Username"
-msgstr "Gebruikersnaam"
 
 #: ihtml/themes/breezy/login.tpl.c:26
 msgid "I forgot my password"
@@ -4792,13 +4804,15 @@ msgstr ""
 msgid "Read only"
 msgstr "Read only"
 
+#: ihtml/themes/breezy/copynotice.tpl.c:2
+msgid ""
+"&copy; 2002-%1 <a href=\"http://www.fusiondirectory.org\">The "
+"FusionDirectory team, %2</a>"
+msgstr ""
+
 #: ihtml/themes/breezy/template.tpl.c:2
 msgid "Creating a new object using templates"
 msgstr "Een nieuw object aanmaken aan de hand  van een template"
-
-#: plugins/generic/welcome/welcome.tpl.c:2
-msgid "The FusionDirectory team"
-msgstr "Het FusionDirectory team"
 
 #: plugins/generic/references/contents.tpl.c:2
 msgid "<strong>%1</strong> references our <strong>%3</strong>"
