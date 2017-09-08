@@ -68,6 +68,11 @@ We have an various channel of communications
 
 So, you've developed a new cool feature? Fixed an annoying bug? Found a mistake? We'd be happy to hear from you! :+1:
 
+### Put FusionDirectory in debug mode
+
+* Go into FusionDirectory configuration
+* Activate the displaying of PHP errors, and the TRACE debug level
+
 ### Finding Wonderful Bugs
 
 >This section guides you through submitting a bug report. Following these guidelines helps maintainers and the community understand your report, reproduce the behavior, and find related reports.
@@ -81,6 +86,8 @@ Explain the problem and include additional details to help maintainers reproduce
 * **Describe the behavior** you observed after following the steps and point out what exactly is the problem with that behavior.
 * **Explain which behavior** you expected to see instead and why.
 * **Include screenshots and animated GIFs** which show you following the described steps and clearly demonstrate the problem. You can use [this tool](http://www.cockos.com/licecap/) to record GIFs on macOS and Windows, and this tool or [this tool](https://github.com/GNOME/byzanz) on Linux.
+* **Include the PHP errors and trace** collected at the debug step above
+* **If the problem is linked to a specific LDAP entry** attach its LDAP dump.
 
 ### Any Feedback To Enhance FusionDirectory
 
