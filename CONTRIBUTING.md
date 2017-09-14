@@ -25,9 +25,10 @@ You're so excited to contribute that you do not have time to read the entire doc
 
 1. [Our communication Channels](https://www.fusiondirectory.org/contact-us/). Feel free to discuss with us.
 2. Just be cool and respectful with others
-3. Use our `PHP CodeSniffer <http://pear.php.net/package/PHP_CodeSniffer>`_ rules to check code compliance [CodeSniffer](https://fusiondirectory-developer-documentation.readthedocs.io/en/latest/codingstandards.html#checking-standards)
-4. Your code should be tested
-5. Respect this simple commit message template
+3. create an FusionDirectory project account at [FusionDirectory Sign UP](https://register.fusiondirectory.org)
+4. Use our `PHP CodeSniffer <http://pear.php.net/package/PHP_CodeSniffer>`_ rules to check code compliance [CodeSniffer](https://fusiondirectory-developer-documentation.readthedocs.io/en/latest/codingstandards.html#checking-standards)
+5. Your code should be tested
+6. Respect this simple commit message template
 
 ```
 <emoji> <type>(<scope>): <subject>
@@ -47,7 +48,7 @@ Where type can be :
   * **style**: Cosmetics purpose
   * **test**: Adding missing or correcting tests
 7. For the subject, use the present tense ("Add feature" not "Added feature")
-8. Should be submitted through Github Pull Requests on develop.
+8. Should be submitted through [FusionDirectory gitlab](https://gitlab.fusiondirectory.org) via a pull request on the 1.x-dev branch.
 
 Now, if you want to go further, sit comfortably at the fireplace, grab your glasses and immerse yourself in our documentation.
 
@@ -63,10 +64,17 @@ We have an various channel of communications
 
 *  [#fusiondirectory, the irc channel of FusionDirectory on freenode](https://webchat.freenode.net/), channel #fusiondirectory
 *  [FusionDirectory Users mailing list](https://lists.fusiondirectory.org/wws/info/users)
+*  [FusionDirectory dev mailing list](https://lists.fusiondirectory.org/wws/info/developpers)
 
 ## How Can I Contribute?
 
 So, you've developed a new cool feature? Fixed an annoying bug? Found a mistake? We'd be happy to hear from you! :+1:
+
+### Register for a FusionDirectory project account
+
+To create a FusionDirectory project Account you must go to
+
+* [FusionDirectory Sign UP](https://register.fusiondirectory.org)
 
 ### Put FusionDirectory in debug mode
 
