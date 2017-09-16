@@ -119,7 +119,7 @@ After you've determined which repository your enhancement suggestion is related 
 * Fill in [the required template](Merge.md)
 * Include screenshots and animated GIFs in your pull request whenever possible.
 * Follow the [Coding standards](https://fusiondirectory-developer-documentation.readthedocs.io/en/latest/codingstandards.html#coding-standards)
-* Use our `PHP CodeSniffer <http://pear.php.net/package/PHP_CodeSniffer>`_ rules to check code compliance [CodeSniffer](https://fusiondirectory-developer-documentation.readthedocs.io/en/latest/codingstandards.html#checking-standards)
+* Use our `PHP CodeSniffer <http://pear.php.net/package/PHP_CodeSniffer>`_ rules to check code compliance [CodeSniffer](https://fusiondirectory-developer-documentation.readthedocs.io/en/latest/coding/codingstandards.html#checking-standards)
 * End all files with a newline
 
 ## Coding with style
