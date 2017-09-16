@@ -6,10 +6,10 @@ variables:
   GIT_SSL_NO_VERIFY: "true"
 
 # Execute before every job
-# Install libperl-critic-perl
+# Install libperl-critic-perl and php-codesniffer
 before_script:
   - apt-get update -qq
-  - apt-get install -y -qq libperl-critic-perl
+  - apt-get install -y -qq libperl-critic-perl php-codesniffer
 
 # Generate perlcritic rapport
 create_perlcritic_rapport:
@@ -17,3 +17,8 @@ create_perlcritic_rapport:
     - cp contrib/bin/fusiondirectory-setup contrib/bin/fusiondirectory-setup.pl
     - cp contrib/bin/fusiondirectory-insert-schema contrib/bin/fusiondirectory-insert-schema.pl
     - perlcritic --quiet --verbose "%f~|~%s~|~%l~|~%c~|~%m~|~%e~|~%p~||~%n" contrib/bin
+
+# PHP codesniffer
+create_php_code_sniffer_rapport:
+  script:
+    - phpcs --standard=contrib/FDStandard/ruleset.xml include
