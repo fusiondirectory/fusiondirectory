@@ -476,7 +476,16 @@ class filter
       $objectStorage = $this->objectStorage;
 
       if (isset($this->elements['FILTERTEMPLATE']) && $this->elementValues['FILTERTEMPLATE']) {
-        $objectStorage = array_merge($objectStorage, array_map(function ($oc) { return 'ou=templates,'.$oc; }, $objectStorage));
+        $objectStorage = array_merge(
+          $objectStorage,
+          array_map(
+            function ($oc)
+            {
+              return 'ou=templates,'.$oc;
+            },
+            $objectStorage
+          )
+        );
       }
 
       // Now call filter method and merge resulting entries.

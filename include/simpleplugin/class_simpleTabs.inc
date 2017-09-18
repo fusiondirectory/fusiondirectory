@@ -33,7 +33,7 @@ class simpleTabs
   var $acl;
   var $is_template;
 
-  public    $objectType   = FALSE;
+  public $objectType      = FALSE;
   protected $specialTabs  = TRUE;
   protected $plNotify     = array();
 

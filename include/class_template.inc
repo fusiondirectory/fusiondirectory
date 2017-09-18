@@ -81,7 +81,7 @@ class template
     }
     $tempTabObject    = objects::open($this->dn, $this->type); /* Used to know which tab is activated */
     $this->attributes = array();
-    foreach ($tempTabObject->by_object as $class => &$plugin) {
+    foreach ($tempTabObject->by_object as $class => $plugin) {
       if ($plugin->is_account || $plugin->ignore_account) {
         $this->tabObject->by_object[$class]->is_account = $plugin->is_account;
         $this->attributes[$class] = array();
@@ -108,7 +108,7 @@ class template
     $this->tabObject  = objects::create($this->type);
     /* Used to know which tab is activated */
     $tempTabObject    = objects::open($this->dn, $this->type);
-    foreach ($tempTabObject->by_object as $class => &$plugin) {
+    foreach ($tempTabObject->by_object as $class => $plugin) {
       if ($plugin->is_account || $plugin->ignore_account) {
         $this->tabObject->by_object[$class]->is_account = $plugin->is_account;
       }
@@ -139,7 +139,7 @@ class template
   function serialize()
   {
     $attributes = array();
-    foreach ($this->tabObject->by_object as $class => &$plugin) {
+    foreach ($this->tabObject->by_object as $class => $plugin) {
       if (!isset($this->attributes[$class])) {
         continue;
       }
@@ -219,7 +219,7 @@ class template
     if ($targetdn !== NULL) {
       $this->tabObject = objects::open($targetdn, $this->type);
       unset($this->attrs['objectClass']['count']);
-      foreach ($this->tabObject->by_object as $class => &$plugin) {
+      foreach ($this->tabObject->by_object as $class => $plugin) {
         if ($plugin->is_account || $plugin->ignore_account) {
           $this->attrs['objectClass'] = $plugin->mergeObjectClasses($this->attrs['objectClass']);
         }

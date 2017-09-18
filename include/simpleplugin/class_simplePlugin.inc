@@ -958,7 +958,7 @@ class simplePlugin
   function remove_from_parent()
   {
     if (!$this->initially_was_account || !$this->acl_is_removeable()) {
-      return;
+      return array();
     }
     $this->prepare_remove();
     if ($this->is_template && (!defined('_OLD_TEMPLATES_') || !_OLD_TEMPLATES_)) {
@@ -975,7 +975,7 @@ class simplePlugin
       return $errors;
     }
     $this->post_remove();
-    return;
+    return array();
   }
 
   /* Remove FusionDirectory attributes */
@@ -1194,7 +1194,7 @@ class simplePlugin
     }
     $this->cleanup();
     if (!$this->shouldSave()) {
-      return; /* Nothing to do here */
+      return array(); /* Nothing to do here */
     }
     /* Pre hooks */
     $errors = $this->pre_save();
@@ -1209,7 +1209,7 @@ class simplePlugin
     $this->prepareNextCleanup();
     /* Post hooks and logging */
     $this->post_save();
-    return;
+    return array();
   }
 
   protected function shouldSave()
@@ -1571,6 +1571,7 @@ class simplePlugin
               $filter = templateHandling::parseString($filter, array('oldvalue' => $oldvalue, 'newvalue' => $newvalue), 'ldap_escape_f');
             } elseif ($mode == 'references') {
               $foreignRefs[$objectType]['refs'][$class]['name'] = $cinfos['plShortName'];
+
               $foreignRefs[$objectType]['refs'][$class]['fields'][$ofield][$field] =
                 array(
                   'tab'     => $tabclass,

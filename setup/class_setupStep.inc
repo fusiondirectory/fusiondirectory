@@ -24,6 +24,7 @@ class setupStep extends simplePlugin
   protected $s_short_name   = 'Still undefined';
   protected $s_title        = 'Still undefined';
   protected $s_description  = 'Still undefined';
+
   var $is_active    = FALSE;
   var $is_enabled   = FALSE;
   var $is_completed = FALSE;

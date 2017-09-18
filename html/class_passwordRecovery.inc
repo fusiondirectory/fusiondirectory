@@ -519,8 +519,8 @@ class passwordRecovery extends standAlonePage {
       $this->message[] = sprintf(_('The user using email "%s" is locked. Please contact your administrator.'), $this->email_address);
       return;
     }
-    $this->login = $attrs[$this->loginAttribute][0];
-    $this->step = 2;
+    $this->login  = $attrs[$this->loginAttribute][0];
+    $this->step   = 2;
 
     if ($this->interactive) {
       $smarty = get_smarty();

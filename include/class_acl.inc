@@ -58,8 +58,8 @@ class acl
       {
         $infos_a = pluglist::pluginInfos(preg_replace('|^[^/]*/|', '', $a));
         $infos_b = pluglist::pluginInfos(preg_replace('|^[^/]*/|', '', $b));
-        $pa = (isset($infos_a['plPriority'])?$infos_a['plPriority']:0);
-        $pb = (isset($infos_b['plPriority'])?$infos_b['plPriority']:0);
+        $pa = (isset($infos_a['plPriority']) ? $infos_a['plPriority'] : 0);
+        $pb = (isset($infos_b['plPriority']) ? $infos_b['plPriority'] : 0);
         if ($pa == $pb) {
           return 0;
         }

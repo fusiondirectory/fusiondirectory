@@ -82,21 +82,21 @@ class userManagement extends simpleManagement
 
     $classes = array();
     if (class_available('posixAccount')) {
-      $classes[]= 'posixAccount';
+      $classes[] = 'posixAccount';
     } else {
       /* If posix plugin is not installed, ignore posix filter */
       $this->filter->elements['POSIX']['unset']  = '';
       $this->filter->elements['POSIX']['set']    = '';
     }
     if (class_available('mailAccount')) {
-      $classes[]= 'gosaMailAccount';
+      $classes[] = 'gosaMailAccount';
     } else {
       /* If mail plugin is not installed, ignore mail filter */
       $this->filter->elements['MAIL']['unset']  = '';
       $this->filter->elements['MAIL']['set']    = '';
     }
     if (class_available('sambaAccount')) {
-      $classes[]= 'sambaSamAccount';
+      $classes[] = 'sambaSamAccount';
     } else {
       /* If samba plugin is not installed, ignore samba filter */
       $this->filter->elements['SAMBA']['unset'] = '';

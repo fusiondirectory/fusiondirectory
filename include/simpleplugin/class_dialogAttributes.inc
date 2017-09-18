@@ -501,7 +501,7 @@ class MailsAttribute extends DialogAttribute
 
   function addValue ($dn, $attrs)
   {
-    $value = ($attrs != NULL?$attrs['mail'][0]:$dn);
+    $value = (($attrs != NULL) ? $attrs['mail'][0] : $dn);
     if (!in_array($value, $this->value)) {
       $this->value[]    = $value;
     }

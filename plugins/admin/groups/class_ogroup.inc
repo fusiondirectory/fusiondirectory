@@ -74,7 +74,7 @@ class ObjectsAttribute extends GenericDialogAttribute
     }
     $id       = $this->getHtmlId();
     $display  = '<select multiple="multiple"  name="row'.$id.'[]" id="row'.$id.'" size="'.$this->size.'"'.
-                ($this->disabled? ' disabled="disabled"':'').
+                ($this->disabled ? ' disabled="disabled"' : '').
                 ' >'."\n";
     foreach ($this->getDisplayValues() as $key => $value) {
       try {

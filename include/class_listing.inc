@@ -309,7 +309,7 @@ class listing
             isset($cfg['sortType'])) {
           $this->sortAttribute  = $cfg['sortAttribute'];
           $this->sortType       = $cfg['sortType'];
-          $sorter = "&nbsp;<img class='center' title='".($this->sortDirection[$index]?_("Up"):_("Down"))."' src='geticon.php?context=actions&amp;size=16&amp;icon=view-sort-".($this->sortDirection[$index]?"descending":"ascending")."' alt='".($this->sortDirection[$index]?_('Sort up'):_('Sort down'))."'>";
+          $sorter = "&nbsp;<img class='center' title='".($this->sortDirection[$index] ? _("Up") : _("Down"))."' src='geticon.php?context=actions&amp;size=16&amp;icon=view-sort-".($this->sortDirection[$index] ? "descending" : "ascending")."' alt='".($this->sortDirection[$index] ? _('Sort up') : _('Sort down'))."'>";
         }
         $sortable = (isset($cfg['sortAttribute']));
 
@@ -996,8 +996,8 @@ class listing
       // If there's an objectclass definition and we don't have it
       // add an empty picture here.
       if (isset($action['objectclass'])) {
-        $objectclass = $action['objectclass'];
-        $skip = FALSE;
+        $objectclass  = $action['objectclass'];
+        $skip         = FALSE;
         if (preg_match('/^!(.*)$/', $objectclass, $m)) {
           $objectclass = $m[1];
           if (in_array($objectclass, $classes)) {
@@ -1060,8 +1060,8 @@ class listing
         }
 
         if ($action['type'] == 'copypaste') {
-          $copy = (!isset($action['copy'])  || ($action['copy'] == 'true'));
-          $cut  = (!isset($action['cut'])   || ($action['cut'] == 'true'));
+          $copy = (!isset($action['copy']) || ($action['copy'] == 'true'));
+          $cut  = (!isset($action['cut']) || ($action['cut'] == 'true'));
           $result .= $this->renderCopyPasteActions($row, $this->entries[$row]['dn'], $category, $class, $copy, $cut);
         } else {
           $result .= $this->renderSnapshotActions($row, $this->entries[$row]['dn'], $category);
@@ -1350,7 +1350,7 @@ class listing
 
       // Skip entry if there're missing dependencies
       if (isset($action['depends'])) {
-        $deps = is_array($action['depends'])?$action['depends']:array($action['depends']);
+        $deps = is_array($action['depends']) ? $action['depends'] : array($action['depends']);
         foreach ($deps as $clazz) {
           if (!isset($class_mapping[$clazz])) {
             continue 2;

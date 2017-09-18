@@ -27,7 +27,7 @@ class SetAttribute extends Attribute
   protected $valueUnicity     = TRUE;
   protected $editingValue     = FALSE;
   protected $linearRendering  = TRUE;
-  protected $size = 4;
+  protected $size             = 4;
 
   /*! \brief The constructor of SetAttribute
    *
@@ -170,7 +170,7 @@ class SetAttribute extends Attribute
     $smarty = get_smarty();
     $smarty->assign($id.'_values', $this->getDisplayValues());
     $display = '<select multiple="multiple"  name="row'.$id.'[]" id="row'.$id.'" size="'.$this->size.'"'.
-                ($this->disabled? ' disabled="disabled"':'').
+                ($this->disabled ? ' disabled="disabled"' : '').
                 ' >'."\n";
     $display .= '{html_options options=$'.$id.'_values}';
     $display .= '</select><br/>'."\n";
@@ -226,8 +226,8 @@ class SetAttribute extends Attribute
       } else {
         $attributes[$this->getLdapName()] = array(
           'htmlid'      => $this->getForHtmlId(),
-          'label'       => '{literal}'.$this->getLabel().'{/literal}'.($this->isRequired()?'{$must}':''),
-          'description' => ($this->isRequired()?sprintf(_("%s (required)"), $this->getDescription()):$this->getDescription()),
+          'label'       => '{literal}'.$this->getLabel().'{/literal}'.($this->isRequired() ? '{$must}' : ''),
+          'description' => ($this->isRequired() ? sprintf(_("%s (required)"), $this->getDescription()) : $this->getDescription()),
           'input'       => $this->renderOnlyFormInput(),
         );
         $this->handleEditingValue();
@@ -450,8 +450,8 @@ class OrderedArrayAttribute extends SetAttribute
   {
     $id = $this->getHtmlId();
 
-    $img = '';
-    $nbicons = 1;
+    $img      = '';
+    $nbicons  = 1;
 
     if ($this->order) {
       $nbicons += 2;

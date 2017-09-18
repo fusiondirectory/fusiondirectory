@@ -202,7 +202,7 @@ if (($config->get_cfg_value('forcessl') == 'TRUE') && ($ssl != '')) {
 }
 
 if (isset($_REQUEST['message'])) {
-  switch($_REQUEST['message']) {
+  switch ($_REQUEST['message']) {
     case 'expired':
       $message = _('Your FusionDirectory session has expired!');
       break;
@@ -367,7 +367,7 @@ class Index {
   /* Run each step in $steps, stop on errors */
   static function runSteps($steps)
   {
-    foreach($steps as $step) {
+    foreach ($steps as $step) {
       $status = static::$step();
       if (is_string($status)) {
         msg_dialog::display(_('LDAP error'), $status, LDAP_ERROR);

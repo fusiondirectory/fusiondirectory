@@ -140,7 +140,7 @@ class SnapshotHandler
    */
   function hasSnapshots($dn)
   {
-    return (isset($this->snapshotsCache[$dn]));
+    return isset($this->snapshotsCache[$dn]);
   }
 
   /*!

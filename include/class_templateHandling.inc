@@ -411,7 +411,13 @@ class templateHandling
           trigger_error('Missing "M" match modifier parameter');
           $args[] = '/.*/';
         }
-        $result = array(array_filter($str, function ($s) use ($args) { return preg_match($args[0], $s); }));
+        $result = array(array_filter(
+          $str,
+          function ($s) use ($args)
+          {
+            return preg_match($args[0], $s);
+          }
+        ));
         break;
       case '4':
         // IPv4

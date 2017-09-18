@@ -135,8 +135,8 @@ class FileDownloadAttribute extends FileAttribute
     $id   = $this->getHtmlId();
     $ids  = array('download'.$id);
     if ($this->upload) {
-      $ids[] =  $id;
-      $ids[] =  'upload'.$id;
+      $ids[] = $id;
+      $ids[] = 'upload'.$id;
     }
     return $ids;
   }
@@ -200,7 +200,7 @@ class FileTextAreaAttribute extends FileDownloadAttribute
   {
     $id = $this->getHtmlId();
     $display  = '<textarea name="'.$id.'_text" id="'.$id.'_text"'.
-                ($this->disabled? 'disabled="disabled"':'').'>'.
+                ($this->disabled ? 'disabled="disabled"' : '').'>'.
                 '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}</textarea><br/>';
     return $this->renderAcl($display).parent::renderFormInput();
   }
@@ -311,7 +311,7 @@ class ImageAttribute extends FileAttribute
     // Just to be sure the image is not cached
     srand((double)microtime() * 1000000);
     $display  = '<img id="'.$id.'_img"'.
-                ($this->disabled? 'disabled="disabled"':'').
+                ($this->disabled ? 'disabled="disabled"' : '').
                 ' src="getbin.php?rand='.rand(0, 10000).'"'.
                 ' style="border:1px solid black;"'.
                 ' alt="'.$this->getDescription().'"'.
