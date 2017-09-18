@@ -181,7 +181,7 @@ function al2gt($gettextlangs, $mime)
    * through a "*" qualifier.*/
   list ($lang, $country, $char) = parse_gettext_lang($max_lang);
   if (!headers_sent()) {
-    header("Content-Language: $lang".(empty($country)?"":"-$country"));
+    header("Content-Language: $lang".(empty($country) ? "" : "-$country"));
     if (!empty($char)) {
       header("Content-Type: $mime; charset=$char");
     }

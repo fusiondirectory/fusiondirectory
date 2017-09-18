@@ -105,7 +105,7 @@ class dashboardUsers extends simplePlugin
         array('name' => 'posix',  'nb' => $nb_posix_accounts, 'img' => 'geticon.php?context=applications&icon=os-linux&size=16'),
         array('name' => 'samba',  'nb' => $nb_samba_accounts, 'img' => 'geticon.php?context=applications&icon=os-windows&size=16')
       ),
-      'nb' => $nb_accounts,
+      'nb'  => $nb_accounts,
       'img' => 'geticon.php?context=types&icon=user&size=16',
     );
   }
@@ -128,7 +128,7 @@ class dashboardUsers extends simplePlugin
         array('name' => 'mail',   'nb' => $nb_mail_groups,  'img' => 'geticon.php?context=applications&icon=internet-mail&size=16'),
         array('name' => 'samba',  'nb' => $nb_samba_groups, 'img' => 'geticon.php?context=applications&icon=os-windows&size=16')
       ),
-      'nb' => $nb,
+      'nb'  => $nb,
       'img' => 'geticon.php?context=types&icon=user-group&size=16',
     );
   }
@@ -200,8 +200,8 @@ class dashboardUsers extends simplePlugin
     return array(
       'uid'             => $attrs['uid'][0],
       'cn'              => $attrs['cn'][0],
-      'telephoneNumber' => (isset($attrs['telephoneNumber'][0])?$attrs['telephoneNumber'][0]:''),
-      'mail'            => (isset($attrs['mail'][0])?$attrs['mail'][0]:''),
+      'telephoneNumber' => (isset($attrs['telephoneNumber'][0]) ? $attrs['telephoneNumber'][0] : ''),
+      'mail'            => (isset($attrs['mail'][0]) ? $attrs['mail'][0] : ''),
       'manager_cn'      => $manager_cn,
       'manager_mail'    => $manager_mail,
       'manager_phone'   => $manager_phone,

@@ -979,8 +979,8 @@ class config
           if (isset($this->data['OBJECTS'][$obj])) {
             $this->data['OBJECTS'][$obj]['management'] = $class;
             if (isset($class::$skipTemplates) && ($class::$skipTemplates == FALSE)) {
-              $this->data['OBJECTS'][$obj]['templateActive'] = TRUE;
-              $this->data['CATEGORIES'][$cat]['classes'][] = 'template';
+              $this->data['OBJECTS'][$obj]['templateActive']  = TRUE;
+              $this->data['CATEGORIES'][$cat]['classes'][]    = 'template';
             }
           }
         }

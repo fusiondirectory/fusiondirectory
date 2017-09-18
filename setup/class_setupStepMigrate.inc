@@ -622,6 +622,7 @@ class setupStepMigrate extends setupStep
     }
     /* Fix displayed dn syntax */
     $var = $checkobj->name.'_toMigrate';
+
     $infos['entries'] = $this->$var;
     foreach ($infos['entries'] as $key => $data) {
       $infos['entries'][$key]['dn'] = $data['dn'];

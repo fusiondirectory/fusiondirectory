@@ -58,13 +58,13 @@ class BooleanAttribute extends Attribute
 
   function computeLdapValue ()
   {
-    return ($this->value?$this->trueValue:$this->falseValue);
+    return ($this->value ? $this->trueValue : $this->falseValue);
   }
 
   function renderFormInput ()
   {
     $id = $this->getHtmlId();
-    $attributes = ($this->value?array('checked' => 'checked'): array());
+    $attributes = ($this->value ? array('checked' => 'checked') : array());
     if ($this->submitForm) {
       $js       = 'document.mainform.submit();';
       $attributes['onChange'] = 'javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8');
@@ -85,7 +85,7 @@ class BooleanAttribute extends Attribute
         if (isset($this->managedAttributesMultipleValues[$value])) {
           trigger_error('Multiple values are not available for boolean attributes');
         } else {
-          $js .= 'disableAttributes = (document.getElementById('.json_encode($id).').checked == '.($value?'true':'false').');'."\n";
+          $js .= 'disableAttributes = (document.getElementById('.json_encode($id).').checked == '.($value ? 'true' : 'false').');'."\n";
         }
         foreach ($attributes as $attribute) {
           foreach ($this->plugin->attributesAccess[$attribute]->htmlIds() as $htmlId) {

@@ -370,7 +370,7 @@ class pluglist {
     }
     $lines  = preg_split("/\n/", $this->menu);
     foreach ($lines as &$line) {
-      if (preg_match('/'.preg_quote("main.php?plug=$plug&amp;reset=1",'/').'/', $line)) {
+      if (preg_match('/'.preg_quote("main.php?plug=$plug&amp;reset=1", '/').'/', $line)) {
         $line = preg_replace('/class="menuitem"/', 'class="menuitem menucurrent"', $line);
       } elseif (preg_match('/class="menuitem menucurrent"/', $line)) {
         $line = preg_replace('/class="menuitem menucurrent"/', 'class="menuitem"', $line);
@@ -424,7 +424,7 @@ class pluglist {
 
           $entries  .= '<div class="iconmenu" id="menuitem_icon_'.$id.'" onClick=\'location.href="'.$href.'"\' title="'.$plDescription.'">';
           $item     = '<div class="imgcontainer"><img src="'.$image.'" alt="'.$plHeadline.' icon"/></div><span>&nbsp;'.$plHeadline.'</span>';
-          $entries .= $item."</div>\n";
+          $entries  .= $item."</div>\n";
         }
 
         /* Append to menu */

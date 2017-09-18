@@ -58,7 +58,7 @@ class xml {
     xml_parser_free($parser);
 
     if (!$xml_values) {
-      return;//Hmm...
+      return;
     }
 
     //Initializations

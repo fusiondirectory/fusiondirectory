@@ -908,22 +908,22 @@ function print_sizelimit_warning()
 function eval_sizelimit()
 {
   if (isset($_POST['set_size_action']) && isset($_POST['action'])) {
-    switch($_POST['action']) {
+    switch ($_POST['action']) {
       case 'newlimit':
         if (isset($_POST['new_limit']) && tests::is_id($_POST['new_limit'])) {
           session::global_set('size_limit', validate($_POST['new_limit']));
           session::set('size_ignore', FALSE);
         }
-      break;
+        break;
       case 'ignore':
         session::global_set('size_limit', 0);
         session::global_set('size_ignore', TRUE);
-      break;
+        break;
       case 'limited':
         session::global_set('size_ignore', TRUE);
-      break;
+        break;
       default:
-      break;
+        break;
     }
   }
 
@@ -2025,6 +2025,7 @@ function check_schema($cfg)
 
   /* core-fd */
   $checks['core-fd'] = $def_check;
+
   $checks['core-fd']['SCHEMA_FILE']       = 'core-fd.schema';
   $checks['core-fd']['CLASSES_REQUIRED']  = array('fdLockEntry');
   $checks['core-fd']['IS_MUST_HAVE']      = TRUE;
@@ -2032,6 +2033,7 @@ function check_schema($cfg)
 
   /* core-fd-conf */
   $checks['core-fd-conf'] = $def_check;
+
   $checks['core-fd-conf']['SCHEMA_FILE']      = 'core-fd-conf.schema';
   $checks['core-fd-conf']['CLASSES_REQUIRED'] = array('fusionDirectoryConf');
   $checks['core-fd-conf']['IS_MUST_HAVE']     = TRUE;
@@ -2039,6 +2041,7 @@ function check_schema($cfg)
 
   /* ldapns */
   $checks['ldapns'] = $def_check;
+
   $checks['ldapns']['SCHEMA_FILE']      = 'ldapns.schema';
   $checks['ldapns']['CLASSES_REQUIRED'] = array('hostObject');
   $checks['ldapns']['IS_MUST_HAVE']     = FALSE;
@@ -2046,6 +2049,7 @@ function check_schema($cfg)
 
   /* template-fd */
   $checks['template-fd'] = $def_check;
+
   $checks['template-fd']['SCHEMA_FILE']      = 'template-fd.schema';
   $checks['template-fd']['CLASSES_REQUIRED'] = array('fdTemplate');
   $checks['template-fd']['IS_MUST_HAVE']     = FALSE;
@@ -2054,6 +2058,7 @@ function check_schema($cfg)
   if (class_available('posixAccount')) {
     /* nis */
     $checks['nis'] = $def_check;
+
     $checks['nis']['SCHEMA_FILE']       = 'nis.schema';
     $checks['nis']['CLASSES_REQUIRED']  = array('posixAccount');
     $checks['nis']['IS_MUST_HAVE']      = FALSE;
@@ -2077,6 +2082,7 @@ function check_schema($cfg)
   }
 
   $checks['posixGroup'] = $def_check;
+
   $checks['posixGroup']['SCHEMA_FILE']      = 'nis.schema';
   $checks['posixGroup']['CLASSES_REQUIRED'] = array('posixGroup');
   $checks['posixGroup']['STATUS']           = TRUE;

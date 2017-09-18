@@ -436,6 +436,7 @@ class simpleManagement
           'set'     => '(objectClass=fdTemplate)'
         );
         $this->filter->elementValues[$tag] = TRUE;
+
         $attributes[] = 'fdTemplateField';
       }
       $filter .= ')';

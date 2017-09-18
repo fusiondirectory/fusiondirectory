@@ -26,7 +26,7 @@ class StringAttribute extends Attribute
   protected $pattern;
   protected $example;
   protected $autocomplete = NULL;
-  protected $trim = FALSE;
+  protected $trim         = FALSE;
 
   /*! \brief The constructor of StringAttribute
    *

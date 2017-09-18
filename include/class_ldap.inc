@@ -257,7 +257,7 @@ class LDAP
           throw new FusionDirectoryException('not implemented');
         case 'one':
           $this->sr[$srp] = @ldap_list($this->cid, $this->basedn, $filter, $attrs);
-        break;
+          break;
         default:
         case 'subtree':
           $this->sr[$srp] = @ldap_search($this->cid, $this->basedn, $filter, $attrs);
@@ -798,8 +798,8 @@ class LDAP
           }
           if ($type == 'dc') {
             /* This is bad actually, but - tell me a better way? */
-            $na['objectClass'][] = 'organization';
-            $na['o'] = $param;
+            $na['objectClass'][]  = 'organization';
+            $na['o']              = $param;
           }
           $na[$type] = $param;
 
@@ -962,7 +962,7 @@ class LDAP
         trigger_error(sprintf("Invalid parameter for limit '%s', a numeric value is required."), $limit);
         return NULL;
     }
-    $limit = (!$limit)?'':' -z '.$limit;
+    $limit = (!$limit) ? '' : ' -z '.$limit;
 
     // Check scope values
     $scope = trim($scope);
@@ -970,7 +970,7 @@ class LDAP
         trigger_error(sprintf("Invalid parameter for scope '%s', please use 'base', 'one', 'sub' or 'children'."), $scope);
         return NULL;
     }
-    $scope = (!empty($scope))?' -s '.$scope: '';
+    $scope = (!empty($scope)) ? ' -s '.$scope : '';
 
     // Prepare parameters to be valid for shell execution
     $dn     = escapeshellarg($dn);
