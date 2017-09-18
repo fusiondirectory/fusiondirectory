@@ -1,0 +1,25 @@
+# Specify docker image
+image: debian:stretch
+
+# Define variable to disable SSL verification of GIT
+variables:
+  GIT_SSL_NO_VERIFY: "true"
+
+# Execute before every job
+# Install libperl-critic-perl, php-codesniffer and git
+before_script:
+  - apt-get update -qq
+  - apt-get install -y -qq libperl-critic-perl php-codesniffer git
+
+# Generate perlcritic rapport
+create_perlcritic_rapport:
+  script:
+    - cp contrib/bin/fusiondirectory-setup contrib/bin/fusiondirectory-setup.pl
+    - cp contrib/bin/fusiondirectory-insert-schema contrib/bin/fusiondirectory-insert-schema.pl
+    - perlcritic --quiet --verbose "%f~|~%s~|~%l~|~%c~|~%m~|~%e~|~%p~||~%n" contrib/bin
+
+# PHP codesniffer
+create_php_code_sniffer_rapport:
+  script:
+    - git clone https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
+    - phpcs --standard=../dev-tools/php-codesniffer-rules/FDStandard/ruleset.xml .
