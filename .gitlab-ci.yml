@@ -22,9 +22,9 @@ create_perlcritic_rapport:
 create_php_code_sniffer_rapport:
   script:
     - git clone https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
-    - phpcs --standard=../dev-tools/php-codesniffer-rules/FDStandard/ruleset.xml .
+    - find . -type f -name '*.php' -o -name '*.inc' -exec phpcs --standard=../dev-tools/php-codesniffer-rules/FDStandard/ruleset.xml "{}" \;
 
 # PHP lint
 create_php_lint_rapport:
   script:
-    - find . -type f -name '*.php' -name '*.inc' -exec php -l "{}" \;
+    - find . -type f -name '*.php' -o -name '*.inc' -exec php -l "{}" \;
