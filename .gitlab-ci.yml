@@ -13,6 +13,9 @@ before_script:
 
 # Generate perlcritic rapport
 create_perlcritic_rapport:
+  except:
+    - branches
+    - tags
   script:
     - cp contrib/bin/fusiondirectory-setup contrib/bin/fusiondirectory-setup.pl
     - cp contrib/bin/fusiondirectory-insert-schema contrib/bin/fusiondirectory-insert-schema.pl
@@ -20,11 +23,17 @@ create_perlcritic_rapport:
 
 # PHP codesniffer
 create_php_code_sniffer_rapport:
+  except:
+    - branches
+    - tags
   script:
     - git clone https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
     - find . -type f -name '*.php' -o -name '*.inc' -exec phpcs --standard=../dev-tools/php-codesniffer-rules/FDStandard/ruleset.xml "{}" \;
 
 # PHP lint
 create_php_lint_rapport:
+  except:
+    - branches
+    - tags
   script:
     - find . -type f -name '*.php' -o -name '*.inc' -print0 | xargs -0 -n1 php -l
