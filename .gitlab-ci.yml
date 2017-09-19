@@ -25,6 +25,6 @@ create_php_code_sniffer_rapport:
     - phpcs --standard=../dev-tools/php-codesniffer-rules/FDStandard/ruleset.xml .
 
 # PHP lint
-create_php_list_rapport:
+create_php_lint_rapport:
   script:
-    - find . -type f -name '*.php' -exec php -l "{}" \;
+    - find . -type f -name '*.php' -name '*.inc' -exec php -l "{}" \;
