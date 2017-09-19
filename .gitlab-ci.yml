@@ -24,7 +24,7 @@ create_php_code_sniffer_rapport:
     - git clone https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
     - phpcs --standard=../dev-tools/php-codesniffer-rules/FDStandard/ruleset.xml .
 
-# PHP link
+# PHP lint
 create_php_list_rapport:
   script:
     - find . -type f -name '*.php' -exec php -l "{}" \;
