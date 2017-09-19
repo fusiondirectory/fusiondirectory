@@ -6,10 +6,10 @@ variables:
   GIT_SSL_NO_VERIFY: "true"
 
 # Execute before every job
-# Install libperl-critic-perl, php-codesniffer and git
+# Install libperl-critic-perl, php-codesniffer, git and php
 before_script:
   - apt-get update -qq
-  - apt-get install -y -qq libperl-critic-perl php-codesniffer git
+  - apt-get install -y -qq libperl-critic-perl php-codesniffer git php
 
 # Generate perlcritic rapport
 create_perlcritic_rapport:
@@ -23,3 +23,8 @@ create_php_code_sniffer_rapport:
   script:
     - git clone https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
     - phpcs --standard=../dev-tools/php-codesniffer-rules/FDStandard/ruleset.xml .
+
+# PHP lint
+create_php_list_rapport:
+  script:
+    - find . -type f -name '*.php' -exec php -l "{}" \;
