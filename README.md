@@ -43,13 +43,15 @@ This question can be solved by creating:
 
 There are a couple ways you can try [to get help][get help].You can also join the `#fusiondirectory` IRC channel at freenode.net.
 
-You can [register on our system][register] and enter your bug [on the forge][issues-forge] or [here at github][issues-github] even if the forge is the prefered way of dealing with bugs
+You can [register on our system][register] and enter issues [FusionDirectory][issues-core] for the core program, and 
+[FusionDirectory Plugins][issues-plugins] for plugins.
 
 ## IRC Etiquette
 
 * If we don't answer right away then just hang out in the channel.  Someone will
   eventually write back to you as it just means we are away from keyboard,
   working on something else, or in a different timezone than you.
+
 * You should treat IRC as what it is: asynchronous chat.  Sure the messages can
   be instant but in most channels people are in different time zones.  At times
   chat replies can be in excess of 24hrs.
@@ -68,8 +70,8 @@ If you like [FusionDirectory][FusionDirectory] and would like to [donate][donate
 
 [register]: https://register.fusiondirectory.org
 
-[issues-forge]: https://forge.fusiondirectory.org/projects/fd/issues/new
+[issues-core]: https://gitlab.fusiondirectory.org/fusiondirectory/fd/issues
 
-[issues-github]: https://github.com/fusiondirectory/fusiondirectory/issues
+[issues-plugins]: https://gitlab.fusiondirectory.org/fusiondirectory/fd-plugins/issues
 
 [donate-liberapay]: https://liberapay.com/fusiondirectory/donate
