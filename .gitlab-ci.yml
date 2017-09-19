@@ -27,4 +27,4 @@ create_php_code_sniffer_rapport:
 # PHP lint
 create_php_lint_rapport:
   script:
-    - find . -type f -name '*.php' -o -name '*.inc' -exec php -l "{}" \;
+    - find . -type f -name '*.php' -o -name '*.inc' -print0 | xargs -0 -n1 php -l
