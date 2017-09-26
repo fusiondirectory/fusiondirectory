@@ -320,7 +320,7 @@ class simplePlugin
   {
     $found = TRUE;
     foreach ($this->objectclasses as $obj) {
-      if (preg_match('/top/i', $obj)) {
+      if (preg_match('/^top$/i', $obj)) {
         continue;
       }
       if (!isset($attrs['objectClass']) || !in_array_ics ($obj, $attrs['objectClass'])) {
