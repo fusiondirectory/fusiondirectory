@@ -180,3 +180,119 @@ class GeneralizedTimeDateAttribute extends DateAttribute
     return LdapGeneralizedTime::toString($dateValue);
   }
 }
+
+class TimeHisAttribute extends CompositeAttribute
+{
+  protected $convert;
+
+  function __construct($label, $description, $ldapName, $required, $convert = TRUE, $acl = '')
+  {
+    $this->convert = $convert;
+    $attributes = array(
+      new IntAttribute (
+        '',  _('Hours'),
+        $ldapName.'_hours', TRUE,
+        0, 23, 1
+      ),
+      new IntAttribute (
+        ':', _('Minutes'),
+        $ldapName.'_minutes', TRUE,
+        0, 59, 0
+      ),
+      new IntAttribute (
+        ':', _('Seconds'),
+        $ldapName.'_seconds', TRUE,
+        0, 59, 0
+      )
+    );
+    parent::__construct($description, $ldapName, $attributes, '/^(\d\d)(\d\d)(\d\d)$/', '%02d%02d%02d', $acl, $label);
+    $this->setLinearRendering(TRUE);
+  }
+
+  function readValues($value)
+  {
+    $values = parent::readValues($value);
+    if ($this->convert) {
+      $datetime = new DateTime('T'.implode(':', $values), timezone::utc());
+
+      $datetime->setTimeZone(timezone::getDefaultTimeZone());
+      if (count($values) < 3) {
+        $values = explode(':', $datetime->format('H:i'));
+      } else {
+        $values = explode(':', $datetime->format('H:i:s'));
+      }
+    }
+    return $values;
+  }
+
+  function writeValues($values)
+  {
+    if ($this->convert) {
+      $datetime = new DateTime('T'.implode(':', $values), timezone::getDefaultTimeZone());
+      $datetime->setTimeZone(timezone::utc());
+      if (count($values) < 3) {
+        $values = explode(':', $datetime->format('H:i'));
+      } else {
+        $values = explode(':', $datetime->format('H:i:s'));
+      }
+    }
+    return parent::writeValues($values);
+  }
+
+  function displayValue($value)
+  {
+    $values = parent::readValues($value);
+    $datetime = new DateTime('T'.implode(':', $values), timezone::utc());
+    if ($this->convert) {
+      $datetime->setTimeZone(timezone::getDefaultTimeZone());
+    }
+    if (count($values) < 3) {
+      return $datetime->format('H:i');
+    } else {
+      return $datetime->format('H:i:s');
+    }
+  }
+}
+
+class TimeHiAttribute extends TimeHisAttribute
+{
+  function __construct($label, $description, $ldapName, $required, $convert = TRUE, $acl = '')
+  {
+    $this->convert = $convert;
+    $attributes = array(
+      new IntAttribute (
+        '',  _('Hours'),
+        $ldapName.'_hours', TRUE,
+        0, 23, 1
+      ),
+      new IntAttribute (
+        ':', _('Minutes'),
+        $ldapName.'_minutes', TRUE,
+        0, 59, 0
+      )
+    );
+    CompositeAttribute::__construct($description, $ldapName, $attributes, '/^(\d\d)(\d\d)$/', '%02d%02d', $acl, $label);
+    $this->setLinearRendering(TRUE);
+  }
+}
+
+class DateTimeAttribute extends CompositeAttribute
+{
+  function __construct($label, $description, $ldapName, $required, $acl = '')
+  {
+    $attributes = array(
+      new DateAttribute(
+        _('Date'), '',
+        $ldapName.'_date', $required,
+        'Ymd'
+      ),
+      /* Disabling conversion as it needs to be done on the date+time level (see argonautAction for an example) */
+      new TimeHisAttribute(
+        _('Time'), '',
+        $ldapName.'_time', $required,
+        FALSE
+      )
+    );
+    parent::__construct($description, $ldapName, $attributes, '/^(\d{8})(\d{6})$/', '%s%s', $acl, $label);
+  }
+}
