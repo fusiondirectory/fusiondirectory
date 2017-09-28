@@ -467,8 +467,12 @@ class filter
           $e_unset  = preg_replace('/\\\\\$/', '$', $e_unset);
           $filter   = preg_replace("/\\$$tag/", $e_unset, $filter);
         } else {
-          $e_set  = preg_replace('/([^\\\\])\$/', '${1}'.ldap_escape_f($this->elementValues[$tag]), $e_set);
-          $e_set  = preg_replace('/\\\\\$/', '$', $e_set);
+          if (($element['type'] == 'textfield') && (preg_match('/^\(.+\)$/', $this->elementValues[$tag]))) {
+            $e_set = $this->elementValues[$tag];
+          } else {
+            $e_set  = preg_replace('/([^\\\\])\$/', '${1}'.ldap_escape_f($this->elementValues[$tag]), $e_set);
+            $e_set  = preg_replace('/\\\\\$/', '$', $e_set);
+          }
           $filter = preg_replace("/\\$$tag/", $e_set, $filter);
         }
       }
