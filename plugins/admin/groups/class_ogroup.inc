@@ -167,7 +167,7 @@ class ogroup extends simplePlugin
         'member' => array(
           array('user'),
           array('ogroup'),
-          array('applicationGeneric'),
+          array('application'),
           array('serverGeneric'),
           array('workstationGeneric'),
           array('terminalGeneric'),
