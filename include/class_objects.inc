@@ -57,11 +57,16 @@ class objects
       $attrs = array();
       foreach ($types as $type) {
         $infos = static::infos($type);
-        $attrs[] = $infos['mainAttr'];
+        if ($infos['mainAttr']) {
+          $attrs[] = $infos['mainAttr'];
+        }
       }
       $attrs = array_unique($attrs);
       if (count($attrs) == 1) {
         $attrs = $attrs[0];
+      }
+      if (count($attrs) == 0) {
+        $attrs = array('dn' => 'raw');
       }
     }
 
