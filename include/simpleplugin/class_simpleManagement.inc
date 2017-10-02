@@ -422,8 +422,12 @@ class simpleManagement
         );
         $this->filter->elementValues[$tag] = TRUE;
 
-        $attributes[] = $i['mainAttr'];
-        $attributes[] = $i['nameAttr'];
+        if ($i['mainAttr']) {
+          $attributes[] = $i['mainAttr'];
+        }
+        if ($i['nameAttr']) {
+          $attributes[] = $i['nameAttr'];
+        }
       }
       if (!static::$skipTemplates) {
         $tag    = 'FILTERTEMPLATE';
