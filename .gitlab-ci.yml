@@ -13,7 +13,7 @@ before_script:
 
 # Generate perlcritic rapport
 create_perlcritic_rapport:
-  except:
+  only:
     - branches
     - tags
   script:
@@ -23,7 +23,7 @@ create_perlcritic_rapport:
 
 # PHP codesniffer
 create_php_code_sniffer_rapport:
-  except:
+  only:
     - branches
     - tags
   script:
@@ -32,7 +32,7 @@ create_php_code_sniffer_rapport:
 
 # PHP lint
 create_php_lint_rapport:
-  except:
+  only:
     - branches
     - tags
   script:
