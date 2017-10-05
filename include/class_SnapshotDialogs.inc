@@ -85,6 +85,27 @@ class SnapshotsAttribute extends OrderedArrayAttribute
     $this->setInLdap(FALSE);
   }
 
+  function setParent (&$plugin)
+  {
+    parent::setParent($plugin);
+    if (is_object($this->plugin)) {
+      if ($this->plugin->global) {
+        $this->setHeaders(array(
+          _('DN'),
+          _('Date'),
+          _('Description'),
+          ''
+        ));
+      } else {
+        $this->setHeaders(array(
+          _('Date'),
+          _('Description'),
+          ''
+        ));
+      }
+    }
+  }
+
   function loadPostValue ()
   {
     if ($this->isVisible()) {
@@ -193,10 +214,10 @@ class SnapshotRestoreDialog extends simplePlugin
 
   function __construct ($dn, $parent, $global, $aclCategory)
   {
+    $this->global       = $global;
     parent::__construct();
     $this->object_dn    = $dn;
     $this->parent       = $parent;
-    $this->global       = $global;
     $this->aclCategory  = $aclCategory;
     if ($this->global) {
       $this->attributesAccess['object_dn']->setVisible(FALSE);
