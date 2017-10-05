@@ -105,6 +105,10 @@ class divSelectBox
                   ">\n";
     $s_return .= $this->_generatePage();
     $s_return .= '</table></div></div>';
+    $s_return .=
+        '<script type="text/javascript">
+          var sorter'.$this->id.' = tsorter.create(\''.$this->id.'\');
+        </script>';
     return $s_return;
   }
 

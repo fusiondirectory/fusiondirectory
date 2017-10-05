@@ -25,6 +25,7 @@
   <script src="include/controls.js" type="text/javascript"></script>
   <script src="include/pulldown.js" type="text/javascript"></script>
   <script src="include/datepicker.js" type="text/javascript"></script>
+  <script src="include/tsorter.js" type="text/javascript"></script>
 {/if}
 {foreach from=$js_files item=file}
   <script src="{$file}" type="text/javascript"></script>
