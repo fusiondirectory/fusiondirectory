@@ -79,7 +79,7 @@ var tsorter = (function()
                 if( that.prevCol !== -1 && that.ths[that.prevCol].className !== 'exc_cell'){
                     that.ths[that.prevCol].className = '';
                 }
-                that.quicksort(0, that.trs.length);
+                that.quicksort(0, that.trs.length - 1);
             }
             that.prevCol = that.column;
         },
@@ -152,7 +152,7 @@ var tsorter = (function()
             var that = this,
                 i;
 
-            for( i = 1; i < that.trs.length; i++ ) {
+            for( i = 1; i < (that.trs.length - 1); i++ ) {
                 that.tbody.insertBefore( that.trs[i], that.trs[0] );
             }
         },
