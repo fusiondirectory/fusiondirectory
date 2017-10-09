@@ -650,10 +650,15 @@ class LDAP
     }
 
     $str = "";
-    if (preg_match("/^objectClass: value #([0-9]*) invalid per syntax$/", $this->get_additional_error())) {
-      $oc = preg_replace("/^objectClass: value #([0-9]*) invalid per syntax$/", "\\1", $this->get_additional_error());
-      if (isset($attrs['objectClass'][$oc])) {
-        $str .= " - <b>objectClass: ".$attrs['objectClass'][$oc]."</b>";
+    if (preg_match("/^objectClass: value #([0-9]*) invalid per syntax$/", $this->get_additional_error(), $m)) {
+      if (isset($attrs['objectClass'])) {
+        $ocs = $attrs['objectClass'];
+        if (!is_array($ocs)) {
+          $ocs = array($ocs);
+        }
+        if (isset($ocs[$m[1]])) {
+          $str .= " - <b>objectClass: ".$ocs[$m[1]]."</b>";
+        }
       }
     }
     if ($error == "Undefined attribute type") {
