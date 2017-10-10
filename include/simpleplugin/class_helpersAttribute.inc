@@ -86,16 +86,6 @@ class URLAttribute extends TestValidateAttribute
   protected $testFunc = 'is_url';
 }
 
-/*! \brief This class allow to handle easily a String LDAP attribute that contains a path
- *
- */
-class PhoneNumberAttribute extends TestValidateAttribute
-{
-  protected $trim = TRUE;
-
-  protected $testFunc = 'is_phone_nr';
-}
-
 /*! \brief This class allow to handle easily a String LDAP attribute that contains an IP (v4 or v6)
  *
  */
