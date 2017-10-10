@@ -196,7 +196,11 @@ class ogroup extends simplePlugin
             _('Description'), _('Short description of this group'),
             'description', FALSE
           ),
-          new HiddenAttribute('gosaGroupObjects')
+          new HiddenAttribute('gosaGroupObjects'),
+          new UserAttribute(
+            _('Owner'), _('Owner'),
+            'owner', FALSE
+          ),
         )
       ),
       'members' => array(
