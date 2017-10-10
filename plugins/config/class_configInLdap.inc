@@ -455,6 +455,9 @@ class configInLdap extends simplePlugin
     /* Password methods */
     $methods = passwordMethod::get_available_methods();
     $methods = $methods['name'];
+    if (!in_array('sasl', $methods)) {
+      $methods[] = 'sasl';
+    }
     $attributesInfo['password']['attrs'][0]->setChoices($methods);
 
     $groupsAndRoles = array_merge(
@@ -567,6 +570,15 @@ class configInLdap extends simplePlugin
   function compute_dn()
   {
     return $this->dn;
+  }
+
+  function check()
+  {
+    $messages = parent::check();
+    if (($this->fdPasswordDefaultHash == 'sasl') && ($this->fdSaslRealm == '') && ($this->fdSaslExop == '')) {
+      $messages[] = _('You need to fill saslRealm or saslExop in the configuration screen in order to use SASL');
+    }
+    return $messages;
   }
 
   static function get_themes()
