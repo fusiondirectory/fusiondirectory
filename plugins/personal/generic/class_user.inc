@@ -352,13 +352,17 @@ class user extends simplePlugin
             _('Room No.'), _('Room number'),
             'roomNumber', FALSE
           ),
-          new PhoneNumberAttribute (
+          new PhoneNumberButtonAttribute (
             _('Phone'), _('Business phone number'),
-            'telephoneNumber', FALSE
+            'telephoneNumber', FALSE,
+            '',
+            'phone'
           ),
-          new PhoneNumberAttribute (
+          new PhoneNumberButtonAttribute (
             _('Mobile'), _('Business mobile number'),
-            'mobile', FALSE
+            'mobile', FALSE,
+            '',
+            'mobile'
           ),
           new PhoneNumberAttribute (
             _('Pager'), _('Business pager number'),
