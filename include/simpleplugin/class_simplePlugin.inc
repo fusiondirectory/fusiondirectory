@@ -675,61 +675,21 @@ class simplePlugin
 
     if ($this->displayHeader) {
       /* Show tab dialog headers */
-      $plInfo = pluglist::pluginInfos(get_class($this));
       if ($this->parent !== NULL) {
-        $disabled   = $this->acl_skip_write();
-        $depends    = array();
-        $conflicts  = array();
-        if ($this->is_account) {
-          if (isset($plInfo['plDepending'])) {
-            foreach ($plInfo['plDepending'] as $plugin) {
-              if (isset($this->parent->by_object[$plugin]) &&
-                  $this->parent->by_object[$plugin]->is_account) {
-                $disabled       = TRUE;
-                $dependPlInfos  = pluglist::pluginInfos($plugin);
-                $depends[]      = $dependPlInfos['plShortName'];
-              }
-            }
-          }
-          $this->header = $this->show_header(
-            msgPool::removeFeaturesButton($plInfo['plShortName']),
-            msgPool::featuresEnabled($plInfo['plShortName'], $depends),
-            $this->is_account,
-            $disabled,
-            get_class($this).'_modify_state'
-          );
-        } else {
-          if (isset($plInfo['plDepends'])) {
-            foreach ($plInfo['plDepends'] as $plugin) {
-              if (isset($this->parent->by_object[$plugin]) &&
-                  !$this->parent->by_object[$plugin]->is_account) {
-                $disabled   = TRUE;
-                $dependPlInfos  = pluglist::pluginInfos($plugin);
-                $depends[]      = $dependPlInfos['plShortName'];
-              }
-            }
-          }
-          if (isset($plInfo['plConflicts'])) {
-            foreach ($plInfo['plConflicts'] as $plugin) {
-              if (isset($this->parent->by_object[$plugin]) &&
-                  $this->parent->by_object[$plugin]->is_account) {
-                $disabled   = TRUE;
-                $conflictPlInfos  = pluglist::pluginInfos($plugin);
-                $conflicts[]      = $conflictPlInfos['plShortName'];
-              }
-            }
-          }
-          $this->header = $this->show_header(
-            msgPool::addFeaturesButton($plInfo['plShortName']),
-            msgPool::featuresDisabled($plInfo['plShortName'], $depends, $conflicts),
-            $this->is_account,
-            $disabled,
-            get_class($this).'_modify_state'
-          );
+        list($disabled, $buttonText, $text) = $this->getDisplayHeaderInfos();
+        $this->header = $this->show_header(
+          $buttonText,
+          $text,
+          $this->is_account,
+          $disabled,
+          get_class($this).'_modify_state'
+        );
+        if (!$this->is_account) {
           $this->displayPlugin = FALSE;
           return $this->header.$this->inheritanceDisplay();
         }
       } elseif (!$this->is_account) {
+        $plInfo = pluglist::pluginInfos(get_class($this));
         $this->header = '<img alt="" src="geticon.php?context=status&amp;icon=dialog-error&amp;size=16" align="middle"/>&nbsp;<b>'.
                         msgPool::noValidExtension($plInfo['plShortName'])."</b>";
         $this->header .= back_to_main();
@@ -750,6 +710,53 @@ class simplePlugin
     }
 
     return $this->header.$smarty->fetch($this->templatePath);
+  }
+
+  protected function getDisplayHeaderInfos()
+  {
+    $plInfo   = pluglist::pluginInfos(get_class($this));
+    $disabled = $this->acl_skip_write();
+    if ($this->is_account) {
+      $depends = array();
+      if (isset($plInfo['plDepending'])) {
+        foreach ($plInfo['plDepending'] as $plugin) {
+          if (isset($this->parent->by_object[$plugin]) &&
+              $this->parent->by_object[$plugin]->is_account) {
+            $disabled       = TRUE;
+            $dependPlInfos  = pluglist::pluginInfos($plugin);
+            $depends[]      = $dependPlInfos['plShortName'];
+          }
+        }
+      }
+      $buttonText = msgPool::removeFeaturesButton($plInfo['plShortName']);
+      $text       = msgPool::featuresEnabled($plInfo['plShortName'], $depends);
+    } else {
+      $depends    = array();
+      $conflicts  = array();
+      if (isset($plInfo['plDepends'])) {
+        foreach ($plInfo['plDepends'] as $plugin) {
+          if (isset($this->parent->by_object[$plugin]) &&
+              !$this->parent->by_object[$plugin]->is_account) {
+            $disabled   = TRUE;
+            $dependPlInfos  = pluglist::pluginInfos($plugin);
+            $depends[]      = $dependPlInfos['plShortName'];
+          }
+        }
+      }
+      if (isset($plInfo['plConflicts'])) {
+        foreach ($plInfo['plConflicts'] as $plugin) {
+          if (isset($this->parent->by_object[$plugin]) &&
+              $this->parent->by_object[$plugin]->is_account) {
+            $disabled   = TRUE;
+            $conflictPlInfos  = pluglist::pluginInfos($plugin);
+            $conflicts[]      = $conflictPlInfos['plShortName'];
+          }
+        }
+      }
+      $buttonText = msgPool::addFeaturesButton($plInfo['plShortName']);
+      $text       = msgPool::featuresDisabled($plInfo['plShortName'], $depends, $conflicts);
+    }
+    return array($disabled,$buttonText,$text);
   }
 
   /*!
