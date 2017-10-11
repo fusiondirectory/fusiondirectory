@@ -112,5 +112,34 @@ class roleGeneric extends simplePlugin
       )
     );
   }
+
+  function ldap_save()
+  {
+    global $ui;
+
+    $errors = array();
+
+    if (isset($this->attrs['roleOccupant'])) {
+      $savedOccupants     = $this->attributesAccess['roleOccupant']->getInitialValue();
+      $addingOccupants    = array_diff($this->attrs['roleOccupant'], $savedOccupants);
+      $removingOccupants  = array_diff($savedOccupants, $this->attrs['roleOccupant']);
+      foreach ($addingOccupants as $dn) {
+        if (strpos($ui->get_permissions($dn, 'user/user', 'rolesMembership', $this->acl_skip_write()), 'w') === FALSE) {
+          $errors[] = msgPool::permModify($dn, 'rolesMembership');
+        }
+      }
+      foreach ($removingOccupants as $dn) {
+        if (strpos($ui->get_permissions($dn, 'user/user', 'rolesMembership', $this->acl_skip_write()), 'w') === FALSE) {
+          $errors[] = msgPool::permModify($dn, 'rolesMembership');
+        }
+      }
+    }
+
+    if (!empty($errors)) {
+      return $errors;
+    }
+
+    return parent::ldap_save();
+  }
 }
 ?>
