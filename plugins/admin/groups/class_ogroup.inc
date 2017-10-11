@@ -118,6 +118,20 @@ class ObjectsAttribute extends GenericDialogAttribute
     return '['.join(array_unique($this->types)).']';
   }
 
+  function getTypedValues ()
+  {
+    $values = $this->getValue();
+    $ret    = array();
+    foreach ($values as $i => $v) {
+      if (!isset($ret[$this->types[$i]])) {
+        $ret[$this->types[$i]] = array();
+      }
+      $ret[$this->types[$i]][] = $v;
+    }
+
+    return $ret;
+  }
+
   protected function removeValue ($row)
   {
     parent::removeValue($row);
@@ -135,6 +149,8 @@ class ogroup extends simplePlugin
   var $objectclasses  = array('groupOfNames', 'gosaGroupOfNames');
 
   var $used_workstations = array();
+
+  protected $savedTypedMembers;
 
   static $objectTypes = array(
     'U' => 'user',
@@ -272,6 +288,7 @@ class ogroup extends simplePlugin
     }
 
     $this->reload();
+    $this->savedTypedMembers = $this->attributesAccess['member']->getTypedValues();
   }
 
   /*! \brief This function returns an LDAP filter for this plugin object classes
@@ -322,11 +339,40 @@ class ogroup extends simplePlugin
     return $message;
   }
 
+  function ldap_save()
+  {
+    global $ui;
+
+    $errors = array();
+
+    if (isset($this->attrs['member'])) {
+      $userMembers      = $this->attributesAccess['member']->getTypedValues()['U'];
+      $savedMembers     = $this->savedTypedMembers['U'];
+      $addingMembers    = array_diff($userMembers, $savedMembers);
+      $removingMembers  = array_diff($savedMembers, $userMembers);
+      foreach ($addingMembers as $dn) {
+        if (strpos($ui->get_permissions($dn, 'user/user', 'groupsMembership', $this->acl_skip_write()), 'w') === FALSE) {
+          $errors[] = msgPool::permModify($dn, 'groupsMembership');
+        }
+      }
+      foreach ($removingMembers as $dn) {
+        if (strpos($ui->get_permissions($dn, 'user/user', 'groupsMembership', $this->acl_skip_write()), 'w') === FALSE) {
+          $errors[] = msgPool::permModify($dn, 'groupsMembership');
+        }
+      }
+    }
+
+    if (!empty($errors)) {
+      return $errors;
+    }
+
+    return parent::ldap_save();
+  }
+
   function getGroupObjectTypes()
   {
     $this->reload();
     return $this->gosaGroupObjects;
-
   }
 }
 ?>
