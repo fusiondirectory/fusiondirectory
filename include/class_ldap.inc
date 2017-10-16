@@ -852,39 +852,6 @@ class LDAP
     return TRUE;
   }
 
-  /*!
-   * \brief Read a entry from a directory
-   *
-   * \param string $dn The DN
-   *
-   * \param string $name The name of the entry
-   *
-   * \param integer $r_array Initialized at 0
-   */
-  function get_attribute($dn, $name, $r_array = 0)
-  {
-    $data = "";
-    if ($this->reconnect) {
-      $this->connect();
-    }
-    $sr = @ldap_read($this->cid, $dn, "objectClass=*", array("$name"));
-
-    /* fill data from LDAP */
-    if ($sr) {
-      $ei = @ldap_first_entry($this->cid, $sr);
-      if ($ei) {
-        if ($info = @ldap_get_values_len($this->cid, $ei, "$name")) {
-          $data = $info[0];
-        }
-      }
-    }
-    if ($r_array == 0) {
-      return $data;
-    } else {
-      return $info;
-    }
-  }
-
 
   /*!
    * \brief Get the LDAP additional error

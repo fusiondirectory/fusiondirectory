@@ -183,10 +183,12 @@ class dashboardUsers extends simplePlugin
     global $config;
     if (isset($attrs['manager'][0])) {
       $ldap = $config->get_ldap_link();
-      $ldap->cd($config->current['BASE']);
-      $manager_cn     = $ldap->get_attribute($attrs['manager'][0], 'cn');
-      $manager_mail   = $ldap->get_attribute($attrs['manager'][0], 'mail');
-      $manager_phone  = $ldap->get_attribute($attrs['manager'][0], 'telephoneNumber');
+      $ldap->cat($attrs['manager'][0], array('cn', 'mail', 'telephoneNumber'));
+      if ($manager_attrs = $ldap->fetch()) {
+        $manager_cn     = (isset($manager_attrs['cn'][0]) ? $manager_attrs['cn'][0] : '');
+        $manager_mail   = (isset($manager_attrs['mail'][0]) ? $manager_attrs['mail'][0] : '');
+        $manager_phone  = (isset($manager_attrs['telephoneNumber'][0]) ? $manager_attrs['telephoneNumber'][0] : '');
+      }
     } else {
       $manager_cn     = '';
       $manager_mail   = '';
