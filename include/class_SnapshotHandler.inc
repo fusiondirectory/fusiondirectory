@@ -389,13 +389,17 @@ class SnapshotHandler
     $ldap = $config->get_ldap_link();
 
     /* Get the snapshot */
-    $ldap->cat($dn);
-    $ldap->fetch();
-
-    /* Prepare import string */
-    $data = gzuncompress($ldap->get_attribute($dn, 'gosaSnapshotData'));
-    if ($data === FALSE) {
-      msg_dialog::display(_('Error'), _('There was a problem uncompressing snapshot data'), ERROR_DIALOG);
+    $ldap->cat($dn, array('gosaSnapshotData'), '(gosaSnapshotData=*)');
+    if ($attrs = $ldap->fetch()) {
+      /* Prepare import string */
+      $data = gzuncompress($attrs['gosaSnapshotData'][0]);
+      if ($data === FALSE) {
+        msg_dialog::display(_('Error'), _('There was a problem uncompressing snapshot data'), ERROR_DIALOG);
+        return array();
+      }
+    } else {
+      msg_dialog::display(_('Error'), _('Snapshot data could not be fetched'), ERROR_DIALOG);
+      return array();
     }
 
     /* Import the given data */
