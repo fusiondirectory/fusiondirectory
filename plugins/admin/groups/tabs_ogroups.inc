@@ -49,7 +49,8 @@ class ogrouptabs extends simpleTabs_noSpecial
       }
       $tabs   = FALSE;
       for ($i = 0; $i < strlen($objects); $i++) {
-        if ($objects[$i] == 'I') {
+        if (in_array($objects[$i], array('I','G'))) {
+          /* Ignore unknown objects and groups */
           continue;
         }
         $otype = ogroup::$objectTypes[$objects[$i]];
