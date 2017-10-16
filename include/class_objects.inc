@@ -147,9 +147,16 @@ class objects
       $infos = static::infos($type);
 
       if ($infos['filter'] == '') {
-        continue;
+        if ($infos['filterRDN'] == '') {
+          continue;
+        } else {
+          $typeFilters[] = $infos['filterRDN'];
+        }
+      } elseif ($infos['filterRDN'] == '') {
+        $typeFilters[] = $infos['filter'];
+      } else {
+        $typeFilters[] = '(&'.$infos['filter'].$infos['filterRDN'].')';
       }
-      $typeFilters[] = $infos['filter'];
     }
     if (empty($typeFilters)) {
       throw new EmptyFilterException();
@@ -257,7 +264,28 @@ class objects
       throw new NonExistingObjectTypeException('Non-existing type "'.$type.'"');
     }
 
-    return $config->data['OBJECTS'][strtoupper($type)];
+    $infos =& $config->data['OBJECTS'][strtoupper($type)];
+
+    if (!isset($infos['filterRDN'])) {
+      if (empty($infos['ou'])) {
+        $infos['filterRDN'] = '';
+      } else {
+        $parts = ldap_explode_dn(preg_replace('/,$/', '', $infos['ou']), 0);
+        unset($parts['count']);
+        $dnFilter = array();
+        foreach ($parts as $part) {
+          preg_match('/([^=]+)=(.*)$/', $part, $m);
+          $dnFilter[] = '('.$m[1].':dn:='.$m[2].')';
+        }
+        if (count($dnFilter) > 1) {
+          $infos['filterRDN'] = '(&'.implode('', $dnFilter).')';
+        } else {
+          $infos['filterRDN'] = $dnFilter[0];
+        }
+      }
+    }
+
+    return $infos;
   }
 
   static function isOfType ($attrs, $type)
