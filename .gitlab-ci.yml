@@ -37,3 +37,12 @@ create_php_lint_rapport:
     - tags
   script:
     - find . -type f -name '*.php' -o -name '*.inc' -print0 | xargs -0 -n1 php -l
+
+# fusiondirectory-update-locale
+fusiondirectory-update-locale:
+  only:
+    - branches
+    - tags
+  script:
+    - git clone https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
+    - ../dev-tools/locale-scripts/fusiondirectory-update-locale
