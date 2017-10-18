@@ -10,7 +10,7 @@ create_perlcritic_rapport:
   only:
     - branches
     - tags
-before_script:
+  before_script:
   - apt-get update -qq
   - apt-get install -y -qq libperl-critic-perl
   script:
