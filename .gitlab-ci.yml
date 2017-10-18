@@ -46,6 +46,9 @@ fusiondirectory-update-locale:
   only:
     - branches
     - tags
+  before_script:
+    - apt-get update -qq
+    - apt-get install -y -qq git
   script:
     - git clone https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
     - ../dev-tools/locale-scripts/fusiondirectory-update-locale
