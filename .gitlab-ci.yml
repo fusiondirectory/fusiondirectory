@@ -63,6 +63,7 @@ update-transifex:
     - apt-get install -y -qq git transifex-client
   script:
     - git clone https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
+    - echo $'[https://www.transifex.com]\nhostname = https://www.transifex.com\nusername = '"$TRANSIFEX_USER"$'\npassword = '"$TRANSIFEX_PASSWORD"$'\ntoken = '"$TRANSIFEX_API_TOKEN"$'\n' > ~/.transifexrc
     - tx pull -a -f
     - ../dev-tools/locale-scripts/fusiondirectory-update-locale
     - tx push -f -s -t --skip --no-interactive
