@@ -52,3 +52,17 @@ fusiondirectory-update-locale:
   script:
     - git clone https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
     - ../dev-tools/locale-scripts/fusiondirectory-update-locale
+
+# Update transifex
+update-transifex:
+  only:
+    - branches
+    - tags
+  before_script:
+    - apt-get update -qq
+    - apt-get install -y -qq git transifex-client
+  script:
+    - git clone https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
+    - tx pull -a -f
+    - ../dev-tools/locale-scripts/fusiondirectory-update-locale
+    - tx push -f -s -t --skip --no-interactive
