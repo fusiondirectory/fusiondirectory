@@ -51,7 +51,7 @@ fusiondirectory-update-locale:
     - apt-get install -y -qq git
   script:
     - git clone https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
-    - ../dev-tools/locale-scripts/fusiondirectory-update-locale
+    - ../dev-tools/locale-scripts/fusiondirectory-update-locale -g
 
 # Update transifex
 update-transifex:
@@ -65,5 +65,5 @@ update-transifex:
     - git clone https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
     - echo $'[https://www.transifex.com]\nhostname = https://www.transifex.com\nusername = '"$TRANSIFEX_USER"$'\npassword = '"$TRANSIFEX_PASSWORD"$'\ntoken = '"$TRANSIFEX_API_TOKEN"$'\n' > ~/.transifexrc
     - tx pull -a -f
-    - ../dev-tools/locale-scripts/fusiondirectory-update-locale
+    - ../dev-tools/locale-scripts/fusiondirectory-update-locale -g
     - tx push -f -s -t --skip --no-interactive
