@@ -48,7 +48,7 @@ fusiondirectory-update-locale:
     - tags
   before_script:
     - apt-get update -qq
-    - apt-get install -y -qq git
+    - apt-get install -y -qq gettext git php-cli
   script:
     - git clone https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
     - ../dev-tools/locale-scripts/fusiondirectory-update-locale -g
@@ -60,7 +60,7 @@ update-transifex:
     - tags
   before_script:
     - apt-get update -qq
-    - apt-get install -y -qq git php-cli transifex-client
+    - apt-get install -y -qq gettext git php-cli transifex-client
   script:
     - git clone https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
     - echo $'[https://www.transifex.com]\nhostname = https://www.transifex.com\nusername = '"$TRANSIFEX_USER"$'\npassword = '"$TRANSIFEX_PASSWORD"$'\ntoken = '"$TRANSIFEX_API_TOKEN"$'\n' > ~/.transifexrc
