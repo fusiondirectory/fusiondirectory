@@ -5,8 +5,13 @@ image: debian:stretch
 variables:
   GIT_SSL_NO_VERIFY: "true"
 
+stages:
+  - test
+  - transifex
+
 # Generate perlcritic rapport
 create_perlcritic_rapport:
+  stage: test
   only:
     - branches
     - tags
@@ -20,6 +25,7 @@ create_perlcritic_rapport:
 
 # PHP codesniffer
 create_php_code_sniffer_rapport:
+  stage: test
   only:
     - branches
     - tags
@@ -32,6 +38,7 @@ create_php_code_sniffer_rapport:
 
 # PHP lint
 create_php_lint_rapport:
+  stage: test
   only:
     - branches
     - tags
@@ -43,6 +50,7 @@ create_php_lint_rapport:
 
 # fusiondirectory-update-locale
 fusiondirectory-update-locale:
+  stage: test
   only:
     - branches
     - tags
@@ -55,6 +63,7 @@ fusiondirectory-update-locale:
 
 # Update transifex
 update-transifex:
+  stage: transifex
   only:
     - branches
     - tags
