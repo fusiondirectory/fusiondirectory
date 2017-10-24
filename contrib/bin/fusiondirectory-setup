@@ -1862,9 +1862,9 @@ die ("! You have to run this script as root\n") if ($<!=0);
   set_vars();
 
   foreach my $arg ( @ARGV ) {
-    if (( lc($arg) =~ m/^--set-(.*)=(.*)$/ ) && (grep {$_ eq lc($1)} @vars_keys)) {
+    if (( $arg =~ m/^--set-(.*)=(.*)$/ ) && (grep {$_ eq lc($1)} @vars_keys)) {
       $vars{lc($1)} = $2;
-      print "Setting $1 to $2\n";
+      print "Setting ".lc($1)." to $2\n";
       set_vars();
     } elsif ( $arg =~ m/^--set-config-(.*)=(.*)$/ ) {
       set_config_var($1, $2);
