@@ -326,7 +326,6 @@ class objects
     $infos = static::infos($type);
 
     $templates = array();
-    $ldap = $config->get_ldap_link();
     foreach ($config->departments as $key => $value) {
       // Search all templates from the current dn.
       try {

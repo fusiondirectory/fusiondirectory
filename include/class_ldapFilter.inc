@@ -108,7 +108,12 @@ class ldapFilter
           }
         }
       }
-      return new ldapFilter($filter[0], $subfilters);
+      if (in_array($filter[0], array('&', '|')) && (count($subfilters) == 1)) {
+        /* Avoid empty levels */
+        return $subfilters[0];
+      } else {
+        return new ldapFilter($filter[0], $subfilters);
+      }
     } else {
       preg_match('/^(.+)('.join('|', ldapFilterLeaf::$operators).')(.+)$/', $filter, $m);
       return new ldapFilterLeaf($m[1], $m[2], $m[3]);
@@ -121,9 +126,14 @@ class ldapFilterLeaf extends ldapFilter
   static $operators = array('=','=~','>','>=','<','<=');
 
   protected $pattern;
+  protected $dnFilter = FALSE;
 
   function __construct($left, $operator, $right)
   {
+    if (strrpos($left, ':dn:', -4) !== FALSE) {
+      $this->dnFilter = TRUE;
+      $left = substr($left, 0, -4);
+    }
     parent::__construct($operator, array($left, $right));
     if (($this->operator == '=') || ($this->operator == '=~')) {
       $prefix = '';
@@ -135,17 +145,36 @@ class ldapFilterLeaf extends ldapFilter
         $suffix = '.*';
       }
       $search = preg_replace(array('/^\\*/','/\\*$/'), '', $this->subparts[1]);
-      $this->pattern = '/^'.$prefix.preg_quote($search, '/').$suffix.'$/';
+      if ($this->dnFilter) {
+        $this->pattern = '/'.$left.'='.$prefix.preg_quote($search, '/').$suffix.',/';
+      } else {
+        $this->pattern = '/^'.$prefix.preg_quote($search, '/').$suffix.'$/';
+      }
     }
+  }
+
+  function isDnFilter()
+  {
+    return $this->dnFilter;
   }
 
   function __toString()
   {
-    return '('.$this->subparts[0].$this->operator.$this->subparts[1].')';
+    return '('.$this->subparts[0].($this->dnFilter ? ':dn:' : '').$this->operator.$this->subparts[1].')';
   }
 
   function __invoke($array)
   {
+    if ($this->dnFilter) {
+      switch ($this->operator) {
+        case '=~':
+          trigger_error('Filter apply might not work as expected');
+        case '=':
+          return (isset($array['dn']) && preg_match($this->pattern, $array['dn']));
+        default:
+          die('Unsupported dn operator: '.$this->operator);
+      }
+    }
     if (isset($array[$this->subparts[0]])) {
       $values = $array[$this->subparts[0]];
       if (!is_array($values)) {
@@ -192,7 +221,9 @@ class ldapFilterLeaf extends ldapFilter
 function fdTemplateFilter($filter)
 {
   if ($filter instanceof ldapFilterLeaf) {
-    if ($filter->getOperator() == '=') {
+    if ($filter->isDnFilter()) {
+      return $filter;
+    } elseif ($filter->getOperator() == '=') {
       $subparts = $filter->getSubparts();
       return new ldapFilterLeaf('fdTemplateField', '=', $subparts[0].':'.$subparts[1]);
     } else {
