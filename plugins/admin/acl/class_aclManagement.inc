@@ -202,6 +202,7 @@ class aclManagement extends simpleManagement
 
   static function filterLabel($row, $dn, $pid = 0, $base = '')
   {
+    $ou = '';
     if ($dn == $base) {
       $ou = ' . ';
     } else {
@@ -214,6 +215,11 @@ class aclManagement extends simpleManagement
           $val = array($val);
         }
         $ou = htmlentities(reset($val), ENT_COMPAT, 'UTF-8');
+      }
+      if (empty($ou)) {
+        // If no name is found take what ever is used in the DN
+        preg_match('/^[^=]+=([^=,]+),/', $dn, $m);
+        $ou = $m[1];
       }
     }
     $ou .= ' &nbsp; ['._('ACL Assignment').']';
