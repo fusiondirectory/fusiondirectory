@@ -346,8 +346,15 @@ class ogroup extends simplePlugin
     $errors = array();
 
     if (isset($this->attrs['member'])) {
-      $userMembers      = $this->attributesAccess['member']->getTypedValues()['U'];
-      $savedMembers     = $this->savedTypedMembers['U'];
+      $userMembers  = array();
+      $savedMembers = array();
+      $members      = $this->attributesAccess['member']->getTypedValues();
+      if (isset($members['U'])) {
+        $userMembers = $members['U'];
+      }
+      if (isset($this->savedTypedMembers['U'])) {
+        $savedMembers = $this->savedTypedMembers['U'];
+      }
       $addingMembers    = array_diff($userMembers, $savedMembers);
       $removingMembers  = array_diff($savedMembers, $userMembers);
       foreach ($addingMembers as $dn) {
