@@ -6,12 +6,13 @@
 2. [Code of Conduct](#code-of-conduct)
 3. [I just have a question!](#i-just-have-a-question)
 4. [How Can I Contribute?](#how-can-i-contribute)
+    * [Translate FusionDirectory in your language](#translate-fusiondirectory)
     * [Finding Wonderful Bugs](#finding-wonderful-bugs)
     * [Any Feedback To Enhance Our Apps](#any-feedback-to-enhance-our-apps)
     * [Your Awesome And Mighty Codes Contributions](#your-awesome-and-mighty-codes-contributions)
 5. [Coding with style](#coding-with-style)
     * [Git Commit Messages](#git-commit-messages)
-    * [PHP Style Guide](#php-style-guide
+    * [PHP Style Guide](#php-style-guide)
 6. [Licensing](#licensing)
 
 ---
@@ -39,7 +40,15 @@ We have an various channel of communications
 
 ## How Can I Contribute?
 
-So, you've developed a new cool feature? Fixed an annoying bug? Found a mistake? We'd be happy to hear from you! :+1:
+So, you've developed a new cool feature? Fixed an annoying bug? Found a mistake? Want to help translate FusionDirectory in your own language. We'd be happy to hear from you! :+1:
+
+### Translate FusionDirectory
+
+We are using [Transifex](https://www.transifex.com/fusiondirectory/FusionDirectory-1x/) to translate FusionDirectory.
+
+* Create a transifex account
+* Ask to be added to the language group you want to translate
+* Start translating
 
 ### Register for a FusionDirectory project account
 
