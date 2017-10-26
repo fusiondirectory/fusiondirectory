@@ -242,6 +242,8 @@ class LDAP
    * \param string $filter The filter
    *
    * \param array $attrs
+   *
+   * \param string $scope Scope of the search: subtree/base/one
    */
   function search($srp, $filter, $attrs = array(), $scope = 'subtree')
   {
