@@ -1015,7 +1015,7 @@ class LDAP
 
     /* First we split the string into lines */
     $fileLines = preg_split("/\n/", $str_attr);
-    if (!empty(end($fileLines))) {
+    if (end($fileLines) != '') {
       $fileLines[] = '';
     }
 
