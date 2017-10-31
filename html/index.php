@@ -192,7 +192,10 @@ if (isset($_POST['server'])) {
 }
 
 $config->set_current($server);
-if (($config->get_cfg_value('casActivated') == 'TRUE') || ($config->get_cfg_value('httpAuthActivated') == 'TRUE')) {
+if (
+  ($config->get_cfg_value('casActivated') == 'TRUE') ||
+  ($config->get_cfg_value('httpAuthActivated') == 'TRUE') ||
+  ($config->get_cfg_value('httpHeaderAuthActivated') == 'TRUE')) {
   session::global_set('DEBUGLEVEL', 0);
 }
 
