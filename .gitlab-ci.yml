@@ -65,8 +65,7 @@ fusiondirectory-update-locale:
 update-transifex:
   stage: transifex
   only:
-    - branches
-    - tags
+    - 1.3-dev
   before_script:
     - apt-get update -qq
     - apt-get install -y -qq gettext git php-cli transifex-client
