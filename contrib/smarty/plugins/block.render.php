@@ -42,8 +42,6 @@ function smarty_block_render($params, $text, &$smarty)
     return $text;
   }
 
-  $text = preg_replace ("/\n/", 'GOSA_LINE_BREAK', $text);
-
   /* Disable objects, but keep those active that have mode=read_active */
   if (!(isset($params['mode']) && ($params['mode'] == 'read_active') && preg_match('/(r|w)/', $acl))) {
     if (!preg_match('/ disabled(="disabled")?( |\/?>)/', $text)) {
@@ -53,11 +51,11 @@ function smarty_block_render($params, $text, &$smarty)
 
   /* Read only */
   if (preg_match('/r/i', $acl)) {
-    return preg_replace('/GOSA_LINE_BREAK/', "\n", $text);
+    return $text;
   }
 
   /* No acls */
-  if (preg_match('/type[\'"= ].*submit/', $text)) {
+  if (preg_match('/type[\'"= ].*submit/s', $text)) {
     $text = preg_replace('/submit/', 'button', $text);
   } else {
     $text = preg_replace('/value=[\'"][^"\']*[\'"]/', '', $text);
@@ -65,9 +63,9 @@ function smarty_block_render($params, $text, &$smarty)
 
   /* Remove select options */
   $from = array(
-    "#<option.*<\/option>#i",
-    "/(<textarea.*>).*(<\/textarea>)/i",
-    "/^(.*<input.*)checked(.*>.*)$/i"
+    "#<option.*<\/option>#is",
+    "/(<textarea.*>).*(<\/textarea>)/is",
+    "/^(.*<input.*)checked(.*>.*)$/isD"
   );
 
   $to = array(
@@ -77,7 +75,6 @@ function smarty_block_render($params, $text, &$smarty)
   );
 
   $text = preg_replace($from, $to, $text);
-  $text = preg_replace('/GOSA_LINE_BREAK/', "\n", $text);
 
   return $text;
 }
