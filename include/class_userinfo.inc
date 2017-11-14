@@ -982,5 +982,26 @@ class userinfo
 
     return FALSE;
   }
+
+  /* \brief Search which ACL category should be used for this attribute and this object type, if any
+   *
+   * \return The ACL catogory or FALSE if not found
+   */
+  function getAttributeCategory($type, $attribute)
+  {
+    global $config;
+    $infos    = objects::infos($type);
+    $classes  = $config->data['CATEGORIES'][$infos['aclCategory']]['classes'];
+    foreach ($classes as $class) {
+      if ($class == '0') {
+        continue;
+      }
+      $acls = pluglist::pluginInfos($class)['plProvidedAcls'];
+      if (isset($acls[$acl])) {
+        return $infos['aclCategory'].'/'.$class;
+      }
+    }
+    return FALSE;
+  }
 }
 ?>
