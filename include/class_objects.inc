@@ -39,7 +39,11 @@ class objects
    */
   static function ls ($types, $attrs = NULL, $ou = NULL, $filter = '', $checkAcl = FALSE, $scope = 'subtree')
   {
-    global $ui;
+    global $ui, $config;
+
+    if ($ou === NULL) {
+      $ou = $config->current['BASE'];
+    }
 
     if (!is_array($types)) {
       $types = array($types);
@@ -53,6 +57,7 @@ class objects
       $acl = $infos['aclCategory'].'/'.$infos['mainTab'];
     }
 
+    $attrsAcls = array();
     if ($attrs === NULL) {
       $attrs = array();
       foreach ($types as $type) {
@@ -68,13 +73,28 @@ class objects
       if (count($attrs) == 0) {
         $attrs = array('dn' => 'raw');
       }
+      if (is_array($attrs)) {
+        $search_attrs = array_keys($attrs);
+      } else {
+        $search_attrs = array($attrs);
+      }
+    } elseif ($checkAcl) {
+      if (is_array($attrs)) {
+        $search_attrs = array_keys($attrs);
+      } else {
+        $search_attrs = array($attrs);
+      }
+      foreach ($search_attrs as $acl) {
+        $category = $ui->getAttributeCategory($type, $acl);
+        if ($category === FALSE) {
+          return array('errors' => array('Could not find ACL for attribute '.$acl));
+        }
+        if (strpos($ui->get_permissions($ou, $category, $acl), 'r') === FALSE) {
+          $attrsAcls[$acl] = array($category, $acl);
+        }
+      }
     }
 
-    if (is_array($attrs)) {
-      $search_attrs = array_keys($attrs);
-    } else {
-      $search_attrs = array($attrs);
-    }
     try {
       $ldap = static::search($types, $search_attrs, $ou, $filter, $scope);
     } catch (NonExistingBranchException $e) {
@@ -90,6 +110,10 @@ class objects
         $result[$key] = array();
         foreach ($attrs as $attr => $mode) {
           if (isset($fetched_attrs[$attr])) {
+            if (isset($attrsAcls[$attr]) &&
+                (strpos($ui->get_permissions($key, $attrsAcls[$attr][0], $attrsAcls[$attr][1]), 'r') === FALSE)) {
+              continue;
+            }
             switch ($mode) {
               case '*':
                 unset($fetched_attrs[$attr]['count']);
@@ -102,7 +126,14 @@ class objects
             }
           }
         }
+        if (count($result[$key]) === 0) {
+          unset($result[$key]);
+        }
       } elseif (isset($fetched_attrs[$attrs])) {
+        if (isset($attrsAcls[$attrs]) &&
+            (strpos($ui->get_permissions($key, $attrsAcls[$attrs][0], $attrsAcls[$attrs][1]), 'r') === FALSE)) {
+          continue;
+        }
         $result[$key] = $fetched_attrs[$attrs][0];
       }
     }
