@@ -39,7 +39,11 @@ class objects
    */
   static function ls ($types, $attrs = NULL, $ou = NULL, $filter = '', $checkAcl = FALSE, $scope = 'subtree')
   {
-    global $ui;
+    global $ui, $config;
+
+    if ($ou === NULL) {
+      $ou = $config->current['BASE'];
+    }
 
     if (!is_array($types)) {
       $types = array($types);
@@ -53,6 +57,7 @@ class objects
       $acl = $infos['aclCategory'].'/'.$infos['mainTab'];
     }
 
+    $attrsAcls = array();
     if ($attrs === NULL) {
       $attrs = array();
       foreach ($types as $type) {
@@ -68,15 +73,30 @@ class objects
       if (count($attrs) == 0) {
         $attrs = array('dn' => 'raw');
       }
+      if (is_array($attrs)) {
+        $search_attrs = array_keys($attrs);
+      } else {
+        $search_attrs = array($attrs);
+      }
+    } elseif ($checkAcl) {
+      if (is_array($attrs)) {
+        $search_attrs = array_keys($attrs);
+      } else {
+        $search_attrs = array($attrs);
+      }
+      foreach ($search_attrs as $acl) {
+        $category = $ui->getAttributeCategory($types[0], $acl);
+        if ($category === FALSE) {
+          throw new FusionDirectoryException('Could not find ACL for attribute "'.$acl.'"');
+        }
+        if (strpos($ui->get_permissions($ou, $category, $acl), 'r') === FALSE) {
+          $attrsAcls[$acl] = array($category, $acl);
+        }
+      }
     }
 
-    if (is_array($attrs)) {
-      $search_attrs = array_keys($attrs);
-    } else {
-      $search_attrs = array($attrs);
-    }
     try {
-      $ldap = static::search($types, $search_attrs, $ou, $filter, $scope);
+      $ldap = static::search($types, $search_attrs, $ou, $filter, $checkAcl, $scope);
     } catch (NonExistingBranchException $e) {
       return array();
     }
@@ -90,6 +110,10 @@ class objects
         $result[$key] = array();
         foreach ($attrs as $attr => $mode) {
           if (isset($fetched_attrs[$attr])) {
+            if (isset($attrsAcls[$attr]) &&
+                (strpos($ui->get_permissions($key, $attrsAcls[$attr][0], $attrsAcls[$attr][1]), 'r') === FALSE)) {
+              continue;
+            }
             switch ($mode) {
               case '*':
                 unset($fetched_attrs[$attr]['count']);
@@ -102,7 +126,14 @@ class objects
             }
           }
         }
+        if (count($result[$key]) === 0) {
+          unset($result[$key]);
+        }
       } elseif (isset($fetched_attrs[$attrs])) {
+        if (isset($attrsAcls[$attrs]) &&
+            (strpos($ui->get_permissions($key, $attrsAcls[$attrs][0], $attrsAcls[$attrs][1]), 'r') === FALSE)) {
+          continue;
+        }
         $result[$key] = $fetched_attrs[$attrs][0];
       }
     }
@@ -130,9 +161,9 @@ class objects
     return $ldap->count();
   }
 
-  private static function search ($types, $search_attrs, $ou = NULL, $filter = '', $scope = 'subtree', $templateSearch = FALSE)
+  private static function search ($types, $search_attrs, $ou = NULL, $filter = '', $checkAcl = FALSE, $scope = 'subtree', $templateSearch = FALSE)
   {
-    global $config;
+    global $config, $ui;
 
     if (!is_array($types)) {
       $types = array($types);
@@ -169,6 +200,22 @@ class objects
     if (empty($filter)) {
       $filter = '(|'.implode($typeFilters).')';
     } else {
+      if ($checkAcl) {
+        if (count($types) > 1) {
+          throw new FusionDirectoryException('Cannot evaluate ACL for several types');
+        }
+        $filterObject     = ldapFilter::parse($filter);
+        $filterAttributes = $filterObject->listUsedAttributes();
+        foreach ($filterAttributes as $acl) {
+          $category = $ui->getAttributeCategory($types[0], $acl);
+          if ($category === FALSE) {
+            throw new FusionDirectoryException('Could not find ACL for attribute "'.$acl.'"');
+          }
+          if (strpos($ui->get_permissions($ou, $category, $acl), 'r') === FALSE) {
+            throw new FusionDirectoryException('Not enough rights to use "'.$acl.'" in filter');
+          }
+        }
+      }
       if (!preg_match('/^\(.*\)$/', $filter)) {
         $filter = '('.$filter.')';
       }
@@ -329,7 +376,7 @@ class objects
     foreach ($config->departments as $key => $value) {
       // Search all templates from the current dn.
       try {
-        $ldap = static::search($type, array('cn'), $infos['ou'].$value, $filter, 'subtree', TRUE);
+        $ldap = static::search($type, array('cn'), $infos['ou'].$value, $filter, FALSE, 'subtree', TRUE);
       } catch (NonExistingBranchException $e) {
         continue;
       }
