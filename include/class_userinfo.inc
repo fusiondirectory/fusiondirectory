@@ -997,7 +997,7 @@ class userinfo
         continue;
       }
       $acls = pluglist::pluginInfos($class)['plProvidedAcls'];
-      if (isset($acls[$acl])) {
+      if (isset($acls[$attribute])) {
         return $infos['aclCategory'].'/'.$class;
       }
     }
