@@ -73,11 +73,6 @@ class objects
       if (count($attrs) == 0) {
         $attrs = array('dn' => 'raw');
       }
-      if (is_array($attrs)) {
-        $search_attrs = array_keys($attrs);
-      } else {
-        $search_attrs = array($attrs);
-      }
     } elseif ($checkAcl) {
       if (is_array($attrs)) {
         $search_attrs = array_keys($attrs);
@@ -93,6 +88,12 @@ class objects
           $attrsAcls[$acl] = array($category, $acl);
         }
       }
+    }
+
+    if (is_array($attrs)) {
+      $search_attrs = array_keys($attrs);
+    } else {
+      $search_attrs = array($attrs);
     }
 
     try {
