@@ -150,10 +150,10 @@ class objects
    *
    * \return The number of objects of type $type in $ou
    */
-  static function count ($types, $ou = NULL, $filter = '')
+  static function count ($types, $ou = NULL, $filter = '', $checkAcl = FALSE)
   {
     try {
-      $ldap = static::search($types, array('dn'), $ou, $filter);
+      $ldap = static::search($types, array('dn'), $ou, $filter, $checkAcl);
     } catch (EmptyFilterException $e) {
       return 0;
     } catch (NonExistingBranchException $e) {
