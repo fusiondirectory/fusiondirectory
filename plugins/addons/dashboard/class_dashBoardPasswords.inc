@@ -26,8 +26,9 @@ class dashboardPassword extends simplePlugin
       'plShortName'   => _('Passwords'),
       'plDescription' => _('Statistics about passwords'),
       'plObjectType'  => array('dashboard'),
+      'plPriority'    => 12,
 
-      'plProvidedAcls'    => array()
+      'plProvidedAcls'  => array()
     );
   }
 

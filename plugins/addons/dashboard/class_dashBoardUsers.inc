@@ -27,6 +27,7 @@ class dashboardUsers extends simplePlugin
       'plShortName'   => _('Users'),
       'plDescription' => _('Statistics about users'),
       'plObjectType'  => array('dashboard'),
+      'plPriority'    => 10,
 
       'plProvidedAcls'    => array()
     );
