@@ -945,6 +945,9 @@ class config
             /* This is the main tab */
             $obj = strtoupper($key);
           }
+          if (strpos($obj, 'OGROUP-') === 0) {
+            $obj = 'OGROUP';
+          }
           /* if this is an existing objectType, not just a tab group */
           if (isset($this->data['OBJECTS'][$obj])) {
             $cat    = $this->data['OBJECTS'][$obj]['aclCategory'];
