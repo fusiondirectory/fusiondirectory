@@ -553,11 +553,7 @@ class listing
       if ($this->departmentBrowser && isset($_GET['act'])) {
         if (preg_match('/^department_([0-9]+)$/', validate($_GET['act']), $match)) {
           if (isset($this->departments[$match[1]])) {
-            $this->base = $this->departments[$match[1]]['dn'];
-            if ($this->baseMode) {
-              $this->baseSelector->setBase($this->base);
-            }
-            session::global_set("CurrentMainBase", $this->base);
+            $this->setBase($this->departments[$match[1]]['dn']);
           }
         }
       }
@@ -610,7 +606,6 @@ class listing
         if ($action == 'ROOT') {
           $deps = $ui->get_module_departments($this->categories);
           $this->setBase($deps[0]);
-          session::global_set('CurrentMainBase', $this->base);
         } elseif ($action == 'BACK') {
           $base = preg_replace('/^[^,]+,/', '', $this->base);
           $this->tryAndSetBase($base);
@@ -656,6 +651,7 @@ class listing
     if ($this->baseMode) {
       $this->baseSelector->setBase($this->base);
     }
+    session::global_set('CurrentMainBase', $this->base);
   }
 
   function tryAndSetBase($base)
@@ -664,7 +660,6 @@ class listing
     $deps = $ui->get_module_departments($this->categories);
     if (in_array_ics($base, $deps)) {
       $this->setBase($base);
-      session::global_set("CurrentMainBase", $this->base);
     }
   }
 
@@ -1230,12 +1225,31 @@ class listing
         }
       } elseif (isset($_REQUEST['dn']) && preg_match('/^listing_([a-zA-Z_]+)$/', $key, $m)) {
         /* Pre-render list to init things if a dn is gonna be opened on first load */
-        $this->setBase($config->current['BASE']);
-        $this->filter->setCurrentScope('sub');
+        $dn         = urldecode($_REQUEST['dn']);
+        $action     = $m[1];
+        /* Detect the longer base valid for this dn */
+        $longerBase = '';
+        foreach (array_keys($this->bases) as $base) {
+          if (preg_match('/'.preg_quote($base, '/').'$/i', $dn)) {
+            if (strlen($base) > strlen($longerBase)) {
+              $longerBase = $base;
+            }
+          }
+        }
+        $this->setBase($longerBase);
+        /* Search for its main attr value */
+        if (isset($this->filter->elementValues['NAME']) && preg_match('/^[^=]+=([^,]+)/', $dn, $m)) {
+          $this->filter->elementValues['NAME'] = $m[1];
+        }
+        $this->filter->setCurrentScope('one');
+        /* Bypass size limit just to be sure */
+        $oldsizelimit = session::global_get('size_limit');
+        session::global_set('size_limit', 0);
         $this->update();
         $this->render();
-        $dn                   = urldecode($_REQUEST['dn']);
-        $result['action']     = $m[1];
+        session::global_set('size_limit', $oldsizelimit);
+        $this->filter->elementValues['NAME'] = '';
+        $result['action']     = $action;
         $result['targets'][]  = $dn;
         // Make sure no other management class intercept the same dn
         unset($_REQUEST['dn']);
