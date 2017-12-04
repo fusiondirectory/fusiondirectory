@@ -1544,12 +1544,19 @@ class simplePlugin
           if (is_subclass_of($class, 'simpleService')) {
             $objectTypes = array('server');
           } else {
-            $objectTypes = $cinfos['plObjectType'];
-          }
-          foreach ($objectTypes as $key => $objectType) {
-            if (!is_numeric($key)) {
-              $objectType = $key;
+            $objectTypes = array();
+            foreach ($cinfos['plObjectType'] as $key => $objectType) {
+              if (!is_numeric($key)) {
+                $objectType = $key;
+              }
+              if (preg_match('/^ogroup-/i', $objectType)) {
+                $objectType = 'ogroup';
+              }
+              $objectTypes[] = $objectType;
             }
+            $objectTypes = array_unique($objectTypes);
+          }
+          foreach ($objectTypes as $objectType) {
             if (preg_match('/^handle_/', $mode)) {
               if ($field == 'dn') {
                 $oldvalue = $olddn;
