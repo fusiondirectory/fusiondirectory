@@ -859,6 +859,10 @@ class simpleManagement
     // Single edit - we only got one object dn.
     if (count($target) == 1) {
       $type = $this->getType($target[0]);
+      if ($type === NULL) {
+        trigger_error('Could not find type for '.$target[0].', open canceled');
+        return;
+      }
       if (preg_match('/^template_/', $type) && !static::$skipTemplates) {
         $type = preg_replace('/^template_/', '', $type);
       }
