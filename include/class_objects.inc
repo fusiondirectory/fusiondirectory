@@ -84,6 +84,9 @@ class objects
         if ($category === FALSE) {
           throw new FusionDirectoryException('Could not find ACL for attribute "'.$search_attr.'"');
         }
+        if ($category === TRUE) {
+          continue;
+        }
         if (strpos($ui->get_permissions($ou, $category, $search_attr), 'r') === FALSE) {
           $attrsAcls[$search_attr] = array($category, $search_attr);
         }
@@ -97,15 +100,22 @@ class objects
     }
 
     try {
-      $ldap = static::search($types, $search_attrs, $ou, $filter, $checkAcl, $scope);
+      $ldap = static::search($types, $search_attrs, $ou, $filter, $checkAcl, $scope, FALSE, $partialFilterAcls);
     } catch (NonExistingBranchException $e) {
       return array();
     }
     $result = array();
     while ($fetched_attrs = $ldap->fetch()) {
       $key = $fetched_attrs['dn'];
-      if ($checkAcl && !preg_match('/r/', $ui->get_permissions($key, $acl))) {
-        continue;
+      if ($checkAcl) {
+        if (strpos($ui->get_permissions($key, $acl), 'r') === FALSE) {
+          continue;
+        }
+        foreach ($partialFilterAcls as $partialFilterAcl) {
+          if (strpos($ui->get_permissions($key, $partialFilterAcl[0], $partialFilterAcl[1]), 'r') === FALSE) {
+            continue;
+          }
+        }
       }
       if (is_array($attrs)) {
         $result[$key] = array();
@@ -153,7 +163,10 @@ class objects
   static function count ($types, $ou = NULL, $filter = '', $checkAcl = FALSE)
   {
     try {
-      $ldap = static::search($types, array('dn'), $ou, $filter, $checkAcl);
+      $ldap = static::search($types, array('dn'), $ou, $filter, $checkAcl, 'subtree', FALSE, $partialFilterAcls);
+      if (!empty($partialFilterAcls)) {
+        throw new FusionDirectoryException('Not enough rights to use "'.$partialFilterAcls[0][1].'" in filter');
+      }
     } catch (EmptyFilterException $e) {
       return 0;
     } catch (NonExistingBranchException $e) {
@@ -162,9 +175,11 @@ class objects
     return $ldap->count();
   }
 
-  private static function search ($types, $search_attrs, $ou = NULL, $filter = '', $checkAcl = FALSE, $scope = 'subtree', $templateSearch = FALSE)
+  private static function search ($types, $search_attrs, $ou = NULL, $filter = '', $checkAcl = FALSE, $scope = 'subtree', $templateSearch = FALSE, &$partialFilterAcls = array())
   {
     global $config, $ui;
+
+    $partialFilterAcls = array();
 
     if (!is_array($types)) {
       $types = array($types);
@@ -212,8 +227,11 @@ class objects
           if ($category === FALSE) {
             throw new FusionDirectoryException('Could not find ACL for attribute "'.$acl.'"');
           }
+          if ($category === TRUE) {
+            continue;
+          }
           if (strpos($ui->get_permissions($ou, $category, $acl), 'r') === FALSE) {
-            throw new FusionDirectoryException('Not enough rights to use "'.$acl.'" in filter');
+            $partialFilterAcls[] = array($category, $acl);
           }
         }
       }

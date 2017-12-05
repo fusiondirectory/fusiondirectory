@@ -987,13 +987,16 @@ class userinfo
 
   /* \brief Search which ACL category should be used for this attribute and this object type, if any
    *
-   * \return The ACL catogory or FALSE if not found
+   * \return The ACL category, or FALSE if not found, or TRUE if acl check should be bypassed
    */
   function getAttributeCategory($type, $attribute)
   {
     global $config;
     $infos    = objects::infos($type);
     $classes  = $config->data['CATEGORIES'][$infos['aclCategory']]['classes'];
+    if (in_array_ics($attribute, array('objectClass', 'dn'))) {
+      return TRUE;
+    }
     foreach ($classes as $class) {
       if ($class == '0') {
         continue;

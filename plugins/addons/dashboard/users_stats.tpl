@@ -4,7 +4,11 @@
   </span>
   <div>
     <img src="{$attributes.users_stats.img|escape}" alt="user icon"/>
-    {t count=$attributes.users_stats.nb 1=$attributes.users_stats.nb plural="There are %1 users:"}There is 1 user:{/t}
+    {if $attributes.users_stats.nb > 0}
+      {t count=$attributes.users_stats.nb 1=$attributes.users_stats.nb plural="There are %1 users:"}There is 1 user:{/t}
+    {else}
+      {t}There are no users{/t}
+    {/if}
     <ul>
       {foreach from=$attributes.users_stats.accounts item=acc}
         <li style="list-style-image:url({$acc.img|escape})">

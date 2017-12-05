@@ -38,7 +38,9 @@ class dashboard extends simplePlugin
       'plSection'     => array('reporting' => array('name' => _('Reporting'), 'priority' => 30)),
       'plPriority'    => 0,
 
-      'plProvidedAcls'  => array()
+      'plProvidedAcls'  => array(
+        'dashboard' => _('See dashboard')
+      )
     );
   }
 
@@ -67,7 +69,9 @@ class dashboard extends simplePlugin
     $stats = array();
     foreach ($config->data['OBJECTS'] as $type => $infos) {
       try {
-        $nb = objects::count($type);
+        $nb = count(objects::ls($type, NULL, NULL, '', TRUE));
+      } catch (EmptyFilterException $e) {
+        $nb = 0;
       } catch (FusionDirectoryException $e) {
         $nb = 0;
         msg_dialog::display(
