@@ -81,24 +81,21 @@ class dashboardUsers extends simplePlugin
     global $config;
     /* User statistics */
     try {
-      $nb_accounts = objects::count('user');
+      $nb_accounts        = count(objects::ls('user', NULL, NULL, '',                               TRUE));
+      $nb_mail_accounts   = count(objects::ls('user', NULL, NULL, '(objectClass=gosaMailAccount)',  TRUE));
+      $nb_posix_accounts  = count(objects::ls('user', NULL, NULL, '(objectClass=posixAccount)',     TRUE));
+      $nb_samba_accounts  = count(objects::ls('user', NULL, NULL, '(objectClass=sambaSamAccount)',  TRUE));
     } catch (LDAPFailureException $e) {
       msg_dialog::display(
         _('LDAP error'),
-        sprintf(_('Total user number could not be computed because of the following LDAP error: %s'), $e->getMessage()),
+        sprintf(_('User statistics could not be computed because of the following LDAP error: %s'), $e->getMessage()),
         ERROR_DIALOG
       );
-      $nb_accounts = 0;
+      $nb_accounts        = 0;
+      $nb_mail_accounts   = 0;
+      $nb_posix_accounts  = 0;
+      $nb_samba_accounts  = 0;
     }
-
-    $ldap = $config->get_ldap_link();
-    $ldap->cd($config->current['BASE']);
-    $ldap->search('(&(objectClass=inetOrgPerson)(objectClass=gosaMailAccount))', array('cn'));
-    $nb_mail_accounts = $ldap->count();
-    $ldap->search('(&(objectClass=inetOrgPerson)(objectClass=posixAccount))', array('cn'));
-    $nb_posix_accounts = $ldap->count();
-    $ldap->search('(&(objectClass=inetOrgPerson)(objectClass=sambaSamAccount))', array('cn'));
-    $nb_samba_accounts = $ldap->count();
 
     return array(
       'accounts' => array(
@@ -115,21 +112,27 @@ class dashboardUsers extends simplePlugin
   {
     global $config;
     /* Group statistics */
-    $ldap = $config->get_ldap_link();
-    $ldap->cd($config->current['BASE']);
-    $ldap->search('(objectClass=posixGroup)', array('cn'));
-    $nb = $ldap->count();
-    $ldap->search('(&(objectClass=posixGroup)(objectClass=fdGroupMail))', array('cn'));
-    $nb_mail_groups = $ldap->count();
-    $ldap->search('(&(objectClass=posixGroup)(objectClass=sambaSamAccount))', array('cn'));
-    $nb_samba_groups = $ldap->count();
+    try {
+      $nb_groups        = count(objects::ls('group', NULL, NULL, '',                              TRUE));
+      $nb_mail_groups   = count(objects::ls('group', NULL, NULL, '(objectClass=fdGroupMail)',     TRUE));
+      $nb_samba_groups  = count(objects::ls('group', NULL, NULL, '(objectClass=sambaSamAccount)', TRUE));
+    } catch (LDAPFailureException $e) {
+      msg_dialog::display(
+        _('LDAP error'),
+        sprintf(_('Group statistics could not be computed because of the following LDAP error: %s'), $e->getMessage()),
+        ERROR_DIALOG
+      );
+      $nb_groups          = 0;
+      $nb_mail_groups     = 0;
+      $nb_samba_accounts  = 0;
+    }
 
     return array(
       'groups' => array(
         array('name' => 'mail',   'nb' => $nb_mail_groups,  'img' => 'geticon.php?context=applications&icon=internet-mail&size=16'),
         array('name' => 'samba',  'nb' => $nb_samba_groups, 'img' => 'geticon.php?context=applications&icon=os-windows&size=16')
       ),
-      'nb'  => $nb,
+      'nb'  => $nb_groups,
       'img' => 'geticon.php?context=types&icon=user-group&size=16',
     );
   }
@@ -143,33 +146,52 @@ class dashboardUsers extends simplePlugin
 
     /* getting the date in TIMESTAMP UNIX format */
     /* 24 * 60 * 60 = 86400 */
-    $today        = floor(time() / 86400);
+    $today = floor(time() / 86400);
 
     /* Fetch global value from fusiondirectory.conf */
     $next_expired_days = $config->get_cfg_value('dashboardExpiredAccountsDays', 15);
     $next_expired_date = ($today + $next_expired_days);
 
     /* search all account with all date, mail, telephone */
-    $ldap = $config->get_ldap_link();
-    $ldap->cd($config->current['BASE']);
-    $ldap->search(
-      '(shadowExpire=*)',
-      array('uid','shadowExpire','mail','telephoneNumber','cn','manager')
-    );
+    try {
+      $users = objects::ls('user', array(
+          'dn'                    => 'raw',
+          'uid'                   => 'raw',
+          'cn'                    => 'raw',
+          'mail'                  => 'raw',
+          'telephoneNumber'       => 'raw',
+          'manager'               => 'raw',
+          'shadowExpire'          => 1,
+        ), NULL, '(shadowExpire=*)', TRUE);
+    } catch (LDAPFailureException $e) {
+      msg_dialog::display(
+        _('LDAP error'),
+        sprintf(_('Expired user information could not be computed because of the following LDAP error: %s'), $e->getMessage()),
+        ERROR_DIALOG
+      );
+      $users = array();
+    } catch (FusionDirectoryException $e) {
+      msg_dialog::display(
+        _('Error'),
+        sprintf(_('Expired user information could not be computed because of the following error: %s'), $e->getMessage()),
+        ERROR_DIALOG
+      );
+      $users = array();
+    }
 
-    $expired_accounts = array();
-    $next_expired_accounts = array();
-    while ($attrs = $ldap->fetch()) {
+    $expired_accounts       = array();
+    $next_expired_accounts  = array();
+    foreach ($users as $user) {
       // Test if account is expired now
-      if ($attrs['shadowExpire'][0] <= $today) {
-        $expired_accounts[] = static::get_user_infos($attrs);
-      } elseif ($attrs['shadowExpire'][0] <= $next_expired_date) {
-        $next_expired_accounts[] = static::get_user_infos($attrs);
+      if ($user['shadowExpire'] <= $today) {
+        $expired_accounts[] = static::get_user_infos($user);
+      } elseif ($user['shadowExpire'] <= $next_expired_date) {
+        $next_expired_accounts[] = static::get_user_infos($user);
       }
     }
 
-    uasort($expired_accounts, array('dashboardUsers','compareUsers'));
-    uasort($next_expired_accounts, array('dashboardUsers','compareUsers'));
+    uasort($expired_accounts,       array('dashboardUsers','compareUsers'));
+    uasort($next_expired_accounts,  array('dashboardUsers','compareUsers'));
 
     return array(
       'columns'             => $this->expiredAccountsColumns,

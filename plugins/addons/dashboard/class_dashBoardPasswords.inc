@@ -57,7 +57,7 @@ class dashboardPassword extends simplePlugin
     $defaultMethod = $config->get_cfg_value('passwordDefaultHash', 'ssha');
     $forceDefault = ($config->get_cfg_value('forcePasswordDefaultHash', 'FALSE') == 'TRUE');
     try {
-      $users = objects::ls('user', 'userPassword');
+      $users = objects::ls('user', 'userPassword', NULL, '', TRUE);
     } catch (LDAPFailureException $e) {
       msg_dialog::display(
         _('LDAP error'),
