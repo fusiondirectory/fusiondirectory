@@ -85,7 +85,7 @@ class ldapFilter
   function listUsedAttributes(&$result = array())
   {
     foreach ($this->subparts as $subpart) {
-      $subpart->listAttributes($result);
+      $subpart->listUsedAttributes($result);
     }
     return $result;
   }
