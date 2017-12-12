@@ -650,8 +650,8 @@ class listing
     $this->base = $base;
     if ($this->baseMode) {
       $this->baseSelector->setBase($this->base);
+      session::global_set('CurrentMainBase', $this->base);
     }
-    session::global_set('CurrentMainBase', $this->base);
   }
 
   function tryAndSetBase($base)
