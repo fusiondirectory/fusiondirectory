@@ -113,7 +113,7 @@ class objects
         }
         foreach ($partialFilterAcls as $partialFilterAcl) {
           if (strpos($ui->get_permissions($key, $partialFilterAcl[0], $partialFilterAcl[1]), 'r') === FALSE) {
-            continue;
+            continue 2;
           }
         }
       }
