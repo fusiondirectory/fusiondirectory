@@ -129,6 +129,11 @@ class Attribute
     return $this->visible;
   }
 
+  function isTemplate ()
+  {
+    return (is_object($this->plugin) && $this->plugin->is_template);
+  }
+
   function setUnique ($unique, $filter = NULL)
   {
     if ($unique === TRUE) {
@@ -572,7 +577,7 @@ class Attribute
         } else {
           $input = '{literal}'.htmlentities($value, ENT_COMPAT, 'UTF-8').'{/literal}';
         }
-      } elseif (is_object($this->plugin) && $this->plugin->is_template) {
+      } elseif ($this->isTemplate()) {
         $input = $this->renderTemplateInput();
       } else {
         $input = $this->renderFormInput();

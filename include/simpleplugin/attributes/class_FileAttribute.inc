@@ -360,7 +360,7 @@ class ImageAttribute extends FileAttribute
     if ($this->isInLdap()) {
       $value = $this->computeLdapValue();
       if ($value !== '') {
-        if (isset($this->plugin) && $this->plugin->is_template) {
+        if ($this->isTemplate()) {
           /* Add %% to provide template from parsing binary string */
           $value = '%%'.$value;
         }
