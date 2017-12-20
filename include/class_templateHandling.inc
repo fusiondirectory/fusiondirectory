@@ -187,7 +187,7 @@ class templateHandling
    *
    * \return array An array with the final values of attributes
    */
-  public static function parseArray(array $attrs)
+  public static function parseArray(array $attrs, array $specialAttrs)
   {
     foreach ($attrs as &$attr) {
       if (is_array($attr)) {
@@ -195,7 +195,7 @@ class templateHandling
           if (!is_numeric($key)) {
             continue;
           }
-          $string = static::parseString($string, $attrs);
+          $string = static::parseString($string, array_merge($attrs, $specialAttrs));
         }
         unset($string);
       }
