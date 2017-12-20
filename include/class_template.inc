@@ -171,6 +171,11 @@ class template
     }
   }
 
+  public function dialogOpened ()
+  {
+    return $this->tabObject->dialogOpened();
+  }
+
   function execute()
   {
     $smarty   = get_smarty();
@@ -180,6 +185,15 @@ class template
     foreach ($this->tabObject->by_object as $class => &$plugin) {
       if (!isset($this->attributes[$class])) {
         continue;
+      }
+      if ($plugin->is_modal_dialog()) {
+        $dialogResult = $plugin->dialog->execute();
+        if ($dialogResult === FALSE) {
+          $plugin->closeDialog();
+        } else {
+          $this->tabObject->current = $class;
+          return $dialogResult;
+        }
       }
       $attributes = array();
       foreach ($this->attributes[$class] as $attr) {

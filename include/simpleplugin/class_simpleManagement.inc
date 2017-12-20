@@ -92,7 +92,12 @@ class templateDialog
   {
     $smarty = get_smarty();
     if (is_object($this->template)) {
-      $smarty->assign('template_dialog', $this->template->execute());
+      $templateOutput = $this->template->execute();
+      if ($this->template->dialogOpened()) {
+        return $templateOutput;
+      } else {
+        $smarty->assign('template_dialog', $templateOutput);
+      }
     } else {
       $smarty->assign('templates', $this->templates);
     }
