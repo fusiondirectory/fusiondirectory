@@ -35,6 +35,8 @@ class template
 
   protected $applied = FALSE;
 
+  static protected $uiSpecialAttributes = array('dn','cn','uid','sn','givenName');
+
   static function plInfo()
   {
     return array(
@@ -268,7 +270,12 @@ class template
     }
     unset($array);
 
-    $this->attrs = templateHandling::parseArray($this->attrs);
+    $ui           = get_userinfo();
+    $specialAttrs = array();
+    foreach (static::$uiSpecialAttributes as $attr) {
+      $specialAttrs['caller'.strtoupper($attr)] = $ui->$attr;
+    }
+    $this->attrs = templateHandling::parseArray($this->attrs, $specialAttrs);
     $this->tabObject->adapt_from_template($this->attrs, call_user_func_array('array_merge', $this->attributes));
 
     $this->applied = TRUE;
