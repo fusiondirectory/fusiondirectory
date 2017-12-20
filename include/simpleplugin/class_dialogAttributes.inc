@@ -199,8 +199,11 @@ class DialogAttribute extends SetAttribute
   {
     parent::loadPostValue();
     if ($this->isVisible()) {
-      if (isset($_POST['add'.$this->getHtmlId().'_dialog'])) {
+      $id = $this->getHtmlId();
+      if (isset($_POST['add'.$id.'_dialog'])) {
         $this->plugin->openDialog(new $this->dialogClass($this->plugin, $this));
+      } elseif (isset($_POST['add'.$id]) && isset($_POST[$id]) && $this->isTemplate()) {
+        $this->addPostValue($_POST[$id]);
       }
     }
   }
@@ -212,9 +215,22 @@ class DialogAttribute extends SetAttribute
   function renderButtons ()
   {
     $id = $this->getHtmlId();
-    $buttons  = $this->renderInputField(
+    $buttons            = '';
+    $dialogButtonValue  = '{msgPool type=addButton}';
+    if ($this->isTemplate()) {
+      $buttons  .= $this->renderInputField(
+        'text', $id,
+        array('value' => $this->editingValue)
+      );
+      $buttons  .= $this->renderInputField(
+        'submit', 'add'.$id,
+        array('value' => '{msgPool type=addButton}')
+      );
+      $dialogButtonValue = _('Add (dialog)');
+    }
+    $buttons  .= $this->renderInputField(
       'submit', 'add'.$id.'_dialog',
-      array('value' => '{msgPool type=addButton}')
+      array('value' => $dialogButtonValue)
     );
     $buttons  .= $this->renderInputField(
       'submit', 'del'.$id,
@@ -226,7 +242,12 @@ class DialogAttribute extends SetAttribute
   public function htmlIds()
   {
     $id = $this->getHtmlId();
-    return array('add'.$id.'_dialog','del'.$id,'row'.$id);
+    $ids = array('add'.$id.'_dialog','del'.$id,'row'.$id);
+    if ($this->isTemplate()) {
+      $ids[] = $id;
+      $ids[] = 'add'.$id;
+    }
+    return $ids;
   }
 }
 
@@ -322,7 +343,9 @@ class GenericDialogAttribute extends DialogAttribute
 
   function addValue ($dn, $attrs)
   {
-    if ($this->store_attr == 'dn') {
+    if ($this->isTemplate() && ($attrs === NULL)) {
+      $value = $dn;
+    } elseif ($this->store_attr == 'dn') {
       $value = $dn;
     } else {
       $value = $attrs[$this->store_attr][0];
@@ -368,7 +391,12 @@ class GenericDialogAttribute extends DialogAttribute
       $ldap->cd($config->current['BASE']);
       $ldap->search('('.$this->store_attr.'='.ldap_escape_f($value).')', $this->ldapAttributesToGet());
     }
-    $this->fillDisplayValueFrom($i, $ldap->fetch());
+    $attrs = $ldap->fetch();
+    if (empty($attrs) && $this->isTemplate()) {
+      $this->fillDisplayValueFrom($i, NULL);
+    } else {
+      $this->fillDisplayValueFrom($i, $ldap->fetch());
+    }
   }
 
   protected function ldapAttributesToGet ()
@@ -378,7 +406,9 @@ class GenericDialogAttribute extends DialogAttribute
 
   protected function fillDisplayValueFrom ($i, $attrs)
   {
-    if (!isset($attrs[$this->display_attr])) {
+    if ($this->isTemplate() && ($attrs === NULL)) {
+      $this->displays[$i] = $this->value[$i];
+    } elseif (!isset($attrs[$this->display_attr])) {
       unset($this->value[$i]);
     } else {
       if ($this->display_attr == 'dn') {

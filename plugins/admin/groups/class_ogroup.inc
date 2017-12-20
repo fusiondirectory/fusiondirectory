@@ -62,8 +62,13 @@ class ObjectsAttribute extends GenericDialogAttribute
         $this->types[$i]    = 'I';
       }
     } else {
-      $this->displays[$i] = sprintf(_('Non existing dn: %s'), $this->value[$i]);
-      $this->types[$i]    = 'I';
+      if (($attrs === NULL) && $this->isTemplate()) {
+        $this->displays[$i] = $this->value[$i];
+        $this->types[$i]    = 'I';
+      } else {
+        $this->displays[$i] = sprintf(_('Non existing dn: %s'), $this->value[$i]);
+        $this->types[$i]    = 'I';
+      }
     }
   }
 

@@ -66,7 +66,7 @@ class IntAttribute extends Attribute
       // value is "" or array()
       return "";
     }
-    if (is_object($this->plugin) && $this->plugin->is_template) {
+    if ($this->isTemplate()) {
       return $value;
     } else {
       return intval($value);
@@ -167,7 +167,7 @@ class FloatAttribute extends IntAttribute
       // value is "" or array()
       return "";
     }
-    if (is_object($this->plugin) && $this->plugin->is_template) {
+    if ($this->isTemplate()) {
       return $value;
     } else {
       return floatval($value);
