@@ -395,7 +395,7 @@ class GenericDialogAttribute extends DialogAttribute
     if (empty($attrs) && $this->isTemplate()) {
       $this->fillDisplayValueFrom($i, NULL);
     } else {
-      $this->fillDisplayValueFrom($i, $ldap->fetch());
+      $this->fillDisplayValueFrom($i, $attrs);
     }
   }
 
