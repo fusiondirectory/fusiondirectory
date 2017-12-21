@@ -150,7 +150,7 @@ class ogrouptabs extends simpleTabs_noSpecial
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, "Removing");
 
       $obj->dn = $this->dn;
-      $errors = $obj->remove_from_parent();
+      $errors = $obj->remove(FALSE);
       if (!empty($errors)) {
         msg_dialog::displayChecks($errors);
       }

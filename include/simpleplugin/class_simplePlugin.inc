@@ -962,11 +962,17 @@ class simplePlugin
 
   /*! \brief This function removes the object from LDAP
    */
-  function remove_from_parent()
+  function remove($fulldelete = FALSE)
   {
-    if (!$this->initially_was_account || !$this->acl_is_removeable()) {
+    if (!$this->initially_was_account) {
       return array();
     }
+
+    if (!$fulldelete && !$this->acl_is_removeable()) {
+      trigger_error('remove was called on a tab without enough ACL rights');
+      return array();
+    }
+
     $this->prepare_remove();
     if ($this->is_template && (!defined('_OLD_TEMPLATES_') || !_OLD_TEMPLATES_)) {
       $this->attrs = $this->templateSaveAttrs();

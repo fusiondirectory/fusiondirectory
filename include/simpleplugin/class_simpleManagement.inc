@@ -1095,7 +1095,7 @@ class simpleManagement
         // Remove the lock for the current object.
         del_lock($this->dn);
       } else {
-        msg_dialog::display(_('Permission error'), msgPool::permDelete(), ERROR_DIALOG);
+        msg_dialog::display(_('Permission error'), msgPool::permDelete($dn), ERROR_DIALOG);
         logging::log('security', 'simpleManagement/'.get_class($this), $dn, array(), 'Tried to trick deletion.');
       }
     }
