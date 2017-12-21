@@ -163,7 +163,7 @@ class multiPlugin extends simplePlugin
       if ($plug->is_account || $plug->ignore_account) {
         $result = $plug->save();
       } else {
-        $result = $plug->remove_from_parent();
+        $result = $plug->remove(FALSE);
       }
       if (!empty($result)) {
         $errors = array_merge($errors, $result);
@@ -173,13 +173,13 @@ class multiPlugin extends simplePlugin
     return $errors;
   }
 
-  function remove_from_parent()
+  function remove($fulldelete = FALSE)
   {
     $errors = array();
     /* Remove objects */
     foreach ($this->plugin as &$plug) {
       $plug->dn = $this->dn;
-      $result = $plug->remove_from_parent();
+      $result = $plug->remove($fulldelete);
       if (!empty($result)) {
         $errors = array_merge($errors, $result);
       }

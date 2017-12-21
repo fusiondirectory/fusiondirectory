@@ -167,10 +167,10 @@ class userRoles extends simplePlugin
     return FALSE;
   }
 
-  function remove_from_parent()
+  protected function ldap_remove()
   {
     if ($this->is_template) {
-      parent::remove_from_parent();
+      return parent::ldap_remove();
     } elseif (($this->dn != '') && ($this->dn != 'new')) {
       /* Remove all groups */
       foreach ($this->savedGroupsMembership as $ogroupdn) {
@@ -185,6 +185,7 @@ class userRoles extends simplePlugin
         $r->save();
       }
     }
+    return array();
   }
 
   function save_object()

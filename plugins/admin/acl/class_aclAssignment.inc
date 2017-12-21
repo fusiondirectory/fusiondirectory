@@ -320,7 +320,7 @@ class aclAssignment extends simplePlugin
     if ($this->is_account) {
       return parent::save();
     } else {
-      return $this->remove_from_parent();
+      return $this->remove(FALSE);
     }
   }
 

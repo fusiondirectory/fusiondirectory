@@ -246,15 +246,6 @@ class passwordMethod
     return "";
   }
 
-
-  /*!
-   * \brief Method to let password backends remove additional information besides
-   * the userPassword attribute
-   */
-  function remove_from_parent()
-  {
-  }
-
   /*!
    * \brief Method to check if a password matches a hash
    */

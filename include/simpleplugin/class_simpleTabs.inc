@@ -299,17 +299,24 @@ class simpleTabs
   }
 
   /*!
-   * \brief Remove object from parent
+   * \brief Remove object from LDAP
    */
   function delete()
   {
-    /* Delete for all plugins */
+    if (!$this->getBaseObject()->acl_is_removeable()) {
+      msg_dialog::display(_('Permission'), msgPool::permDelete($this->getBaseObject()->dn), ERROR_DIALOG);
+      return FALSE;
+    }
+
+    /* Delete all tabs in reverse order */
     foreach (array_reverse($this->by_object) as $obj) {
-      $errors = $obj->remove_from_parent();
+      $errors = $obj->remove(TRUE);
       if (!empty($errors)) {
         msg_dialog::displayChecks($errors);
+        return FALSE;
       }
     }
+    return TRUE;
   }
 
   /*!
@@ -408,11 +415,11 @@ class simpleTabs
         if ($obj->is_account || $obj->ignore_account) {
           $result = $obj->save();
         } else {
-          $result = $obj->remove_from_parent();
+          $result = $obj->remove(FALSE);
         }
         if (!empty($result)) {
           if ($creation && $first) {
-            /* If the fail of main tab fails for a creation, cancel the save of other tabs */
+            /* If the save of main tab fails for a creation, cancel the save of other tabs */
             $this->dn = $old_dn;
             $obj->dn  = $this->dn;
             return $result;
