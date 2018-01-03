@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2017-11-20 15:10+0000\n"
+"POT-Creation-Date: 2017-12-21 14:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: fusiondirectory <contact@fusiondirectory.org>, 2016\n"
+"Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>, 2017\n"
 "Language-Team: Czech (Czech Republic) (https://www.transifex.com/fusiondirectory/teams/12202/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,7 +32,8 @@ msgstr ""
 #: include/simpleplugin/attributes/class_FileAttribute.inc:34
 #: include/simpleplugin/attributes/class_FileAttribute.inc:37
 #: include/simpleplugin/attributes/class_FileAttribute.inc:300
-#: include/simpleplugin/class_simpleTabs.inc:73 html/index.php:458
+#: include/simpleplugin/class_simpleTabs.inc:73
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:175 html/index.php:458
 #: html/index.php:472 html/index.php:482 html/index.php:539 html/index.php:549
 #: setup/setup_checks.tpl.c:5 ihtml/themes/breezy/msg_dialog.tpl.c:2
 msgid "Error"
@@ -75,9 +76,11 @@ msgstr ""
 #: include/simpleplugin/attributes/class_SetAttribute.inc:726
 #: include/class_ldap.inc:848 include/class_ldap.inc:1176
 #: plugins/config/class_recoveryConfig.inc:137
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:86
-#: plugins/addons/dashboard/class_dashBoardPasswords.inc:62
-#: plugins/addons/dashboard/class_dashBoard.inc:74
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:90
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:121
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:168
+#: plugins/addons/dashboard/class_dashBoardPasswords.inc:63
+#: plugins/addons/dashboard/class_dashBoard.inc:78
 #: setup/class_setupStepMigrate.inc:452 setup/class_setupStepMigrate.inc:1052
 #: html/index.php:376
 msgid "LDAP error"
@@ -110,7 +113,7 @@ msgstr ""
 msgid "All categories"
 msgstr "všechny kategorie"
 
-#: include/class_config.inc:1047
+#: include/class_config.inc:1050
 msgid "My account"
 msgstr "můj účet"
 
@@ -187,8 +190,8 @@ msgstr "zaslat hlášení o chybě"
 msgid "Toggle information"
 msgstr "přepnout informace"
 
-#: include/class_listing.inc:312 include/class_listing.inc:1182
-#: include/class_listing.inc:1184
+#: include/class_listing.inc:312 include/class_listing.inc:1177
+#: include/class_listing.inc:1179
 msgid "Up"
 msgstr "nahoru"
 
@@ -212,83 +215,83 @@ msgstr "Seřadit sestupně"
 msgid "Select all"
 msgstr "vybrat vše"
 
-#: include/class_listing.inc:569
+#: include/class_listing.inc:565
 msgid "created by"
 msgstr "vytvořeno (kým)"
 
-#: include/class_listing.inc:1174
+#: include/class_listing.inc:1169
 msgid "Go to root department"
 msgstr "přejít do kořene všech oddělení"
 
-#: include/class_listing.inc:1174 include/class_listing.inc:1176
+#: include/class_listing.inc:1169 include/class_listing.inc:1171
 #: include/class_baseSelector.inc:212
 msgid "Root"
 msgstr "kořen"
 
-#: include/class_listing.inc:1182
+#: include/class_listing.inc:1177
 msgid "Go up one department"
 msgstr "přejít o jedno oddělení výše"
 
-#: include/class_listing.inc:1190
+#: include/class_listing.inc:1185
 msgid "Go to user's department"
 msgstr "Přejít do oddělení uživatele"
 
-#: include/class_listing.inc:1190 include/class_listing.inc:1192
+#: include/class_listing.inc:1185 include/class_listing.inc:1187
 msgid "Home"
 msgstr "domovské"
 
-#: include/class_listing.inc:1197
+#: include/class_listing.inc:1192
 msgid "Reload list"
 msgstr "znovunačtení seznamu"
 
-#: include/class_listing.inc:1197 include/class_baseSelector.inc:261
+#: include/class_listing.inc:1192 include/class_baseSelector.inc:261
 msgid "Submit"
 msgstr "odeslat"
 
-#: include/class_listing.inc:1318 include/simpleplugin/simple-list.xml:48
+#: include/class_listing.inc:1332 include/simpleplugin/simple-list.xml:48
 #: plugins/admin/departments/dep-list.xml:37
 #: plugins/admin/groups/group-list.xml:54 plugins/admin/users/user-list.xml:62
 msgid "Actions"
 msgstr "akce"
 
-#: include/class_listing.inc:1631 include/class_listing.inc:1684
+#: include/class_listing.inc:1645 include/class_listing.inc:1698
 msgid "Copy"
 msgstr "zkopírovat"
 
-#: include/class_listing.inc:1637 include/class_listing.inc:1672
+#: include/class_listing.inc:1651 include/class_listing.inc:1686
 msgid "Cut"
 msgstr "vyjmout"
 
-#: include/class_listing.inc:1645 include/class_listing.inc:1647
+#: include/class_listing.inc:1659 include/class_listing.inc:1661
 #: include/class_CopyPasteHandler.inc:332
 msgid "Paste"
 msgstr "vložit"
 
-#: include/class_listing.inc:1672
+#: include/class_listing.inc:1686
 msgid "Cut this entry"
 msgstr "vyjmout tuto položku"
 
-#: include/class_listing.inc:1684
+#: include/class_listing.inc:1698
 msgid "Copy this entry"
 msgstr "kopírovat tuto položku"
 
-#: include/class_listing.inc:1709 include/class_listing.inc:1711
+#: include/class_listing.inc:1723 include/class_listing.inc:1725
 msgid "Restore snapshots"
 msgstr "obnovit ze snímků"
 
-#: include/class_listing.inc:1725
+#: include/class_listing.inc:1739
 msgid "Export list"
 msgstr "exportovat seznam"
 
-#: include/class_listing.inc:1757 include/class_listing.inc:1758
+#: include/class_listing.inc:1771 include/class_listing.inc:1772
 msgid "Restore snapshot"
 msgstr "obnovit ze snímku"
 
-#: include/class_listing.inc:1770
+#: include/class_listing.inc:1784
 msgid "Create snapshot"
 msgstr "vytvořit snímek"
 
-#: include/class_listing.inc:1771
+#: include/class_listing.inc:1785
 msgid "Create a new snapshot from this object"
 msgstr "vytvořit nový snímek tohoto objektu"
 
@@ -303,21 +306,22 @@ msgstr "Došlo k problému s rozbalováním dat zachyceného stavu"
 
 #: include/class_SnapshotHandler.inc:401
 msgid "Snapshot data could not be fetched"
-msgstr ""
+msgstr "Nepodařilo se získat data zachyceného stavu"
 
-#: include/class_template.inc:41
-#: include/simpleplugin/class_simpleManagement.inc:282
-#: include/simpleplugin/class_simpleManagement.inc:519
+#: include/class_template.inc:43
+#: include/simpleplugin/class_simpleManagement.inc:287
+#: include/simpleplugin/class_simpleManagement.inc:524
 #: plugins/admin/groups/class_groupManagement.inc:355
 #: plugins/admin/users/user-list.xml:95 ihtml/themes/breezy/template.tpl.c:5
 msgid "Template"
 msgstr "šablona"
 
-#: include/class_template.inc:42
+#: include/class_template.inc:44
 msgid "Object template, used to create several objects with similar values"
 msgstr ""
+"Šablona objektu, slouží k vytvoření vícero objektů s podobnými hodnotami"
 
-#: include/class_template.inc:47
+#: include/class_template.inc:49
 #: include/simpleplugin/class_simplePlugin.inc:346
 msgid "Template name"
 msgstr "název šablony"
@@ -340,7 +344,7 @@ msgstr "přihlášení selhalo: %s"
 #: include/class_logging.inc:103
 #, php-format
 msgid "Invalid option \"%s\" specified!"
-msgstr ""
+msgstr "Zadána neplatná volba „%s“!"
 
 #: include/class_logging.inc:107
 msgid "Specified objectType is empty or invalid!"
@@ -552,7 +556,7 @@ msgstr "Nelze zapsat do souboru s revizemi!"
 
 #: include/functions.inc:1894
 msgid "Cannot read revision file!"
-msgstr ""
+msgstr "Nedaří se číst soubor s revizí!"
 
 #: include/functions.inc:2008
 msgid "LDAP warning"
@@ -566,7 +570,7 @@ msgstr ""
 
 #: include/functions.inc:2032
 msgid "Main FusionDirectory schema"
-msgstr ""
+msgstr "Hlavní FusionDirectory schéma"
 
 #: include/functions.inc:2040
 msgid "Schema used to store FusionDirectory configuration"
@@ -639,17 +643,18 @@ msgstr "všechny objekty v této kategorii"
 
 #: include/select/userSelect/class_userSelect.inc:32
 #: plugins/admin/users/user-list.xml:49
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:62
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:63
 #: plugins/personal/generic/class_user.inc:387
 msgid "Login"
 msgstr "uživatelské jméno"
 
 #: include/class_CopyPasteHandler.inc:208
-#: include/simpleplugin/class_simpleManagement.inc:1024
-#: include/simpleplugin/class_simpleManagement.inc:1123
-#: include/simpleplugin/class_simpleManagement.inc:1174
-#: include/simpleplugin/class_simpleManagement.inc:1254
-#: include/simpleplugin/class_simpleManagement.inc:1272
+#: include/simpleplugin/class_simpleTabs.inc:307
+#: include/simpleplugin/class_simpleManagement.inc:1033
+#: include/simpleplugin/class_simpleManagement.inc:1132
+#: include/simpleplugin/class_simpleManagement.inc:1183
+#: include/simpleplugin/class_simpleManagement.inc:1263
+#: include/simpleplugin/class_simpleManagement.inc:1281
 #: plugins/admin/users/class_userManagement.inc:153
 msgid "Permission"
 msgstr "oprávnění"
@@ -1263,7 +1268,7 @@ msgstr ""
 "Nově zadaná hodnota základu není platná a proto je stále používána "
 "předchozí!"
 
-#: include/class_templateHandling.inc:496
+#: include/class_templateHandling.inc:500
 #, php-format
 msgid ""
 "Recursive dependency in the template fields: \"%1$s\" cannot depend on "
@@ -1277,12 +1282,12 @@ msgstr "vyberte prosím požadované položky"
 #: include/simpleplugin/simple-select-list.xml:32
 #: include/simpleplugin/simple-list.xml:32
 #: plugins/admin/departments/class_department.inc:173
-#: plugins/admin/groups/class_ogroup.inc:207
+#: plugins/admin/groups/class_ogroup.inc:212
 #: plugins/admin/groups/group-list.xml:33
 #: plugins/admin/groups/class_roleGeneric.inc:86
 #: plugins/admin/aclrole/class_aclRole.inc:99
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:63
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:68
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:64
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:69
 #: setup/setup_migrate_adminAccount.tpl.c:8
 msgid "Name"
 msgstr "název"
@@ -1292,13 +1297,29 @@ msgstr "název"
 #: include/class_SnapshotDialogs.inc:96 include/class_SnapshotDialogs.inc:102
 #: plugins/admin/departments/dep-list.xml:29
 #: plugins/admin/departments/class_department.inc:72
-#: plugins/admin/groups/class_ogroup.inc:212
+#: plugins/admin/groups/class_ogroup.inc:217
 #: plugins/admin/groups/group-list.xml:41
 #: plugins/admin/groups/class_roleGeneric.inc:91
 #: plugins/admin/aclrole/class_aclRole.inc:103
 #: plugins/personal/generic/class_user.inc:325
 msgid "Description"
 msgstr "popis"
+
+#: include/simpleplugin/class_simpleService.inc:113
+msgid "Get service status"
+msgstr ""
+
+#: include/simpleplugin/class_simpleService.inc:114
+msgid "Start service"
+msgstr "spustit službu"
+
+#: include/simpleplugin/class_simpleService.inc:115
+msgid "Stop service"
+msgstr "zastavit službu"
+
+#: include/simpleplugin/class_simpleService.inc:116
+msgid "Restart service"
+msgstr "restartovat službu"
 
 #: include/simpleplugin/attributes/class_BaseSelectorAttribute.inc:37
 #: setup/class_setupStepLdap.inc:50 setup/class_setupStepLdap.inc:119
@@ -1313,7 +1334,7 @@ msgstr "Základ objektu"
 #: include/simpleplugin/attributes/class_DateAttribute.inc:131
 #, php-format
 msgid "Error, incorrect date: %s"
-msgstr ""
+msgstr "Chyba, nesprávné datum: %s"
 
 #: include/simpleplugin/attributes/class_DateAttribute.inc:193
 #: include/simpleplugin/attributes/class_DateAttribute.inc:264
@@ -1381,8 +1402,8 @@ msgstr ""
 
 #: include/simpleplugin/attributes/class_FileAttribute.inc:336
 #: include/simpleplugin/attributes/class_FileAttribute.inc:337
-#: include/simpleplugin/class_dialogAttributes.inc:655
-#: include/simpleplugin/class_dialogAttributes.inc:656
+#: include/simpleplugin/class_dialogAttributes.inc:685
+#: include/simpleplugin/class_dialogAttributes.inc:686
 #: include/simpleplugin/simple-list.xml:75
 #: include/simpleplugin/simple-list.xml:125
 #: plugins/admin/departments/dep-list.xml:67
@@ -1395,14 +1416,14 @@ msgstr "odebrat"
 
 #: include/simpleplugin/attributes/class_PhoneNumberAttribute.inc:34
 msgid "Number"
-msgstr ""
+msgstr "Číslo"
 
 #: include/simpleplugin/attributes/class_PhoneNumberAttribute.inc:132
 #: include/simpleplugin/attributes/class_PhoneNumberAttribute.inc:133
 #: include/simpleplugin/attributes/class_SetAttribute.inc:491
 #: include/simpleplugin/attributes/class_SetAttribute.inc:492
-#: include/simpleplugin/class_dialogAttributes.inc:645
-#: include/simpleplugin/class_dialogAttributes.inc:646
+#: include/simpleplugin/class_dialogAttributes.inc:675
+#: include/simpleplugin/class_dialogAttributes.inc:676
 #: include/simpleplugin/simple-list.xml:67
 #: include/simpleplugin/simple-list.xml:112
 #: plugins/admin/departments/dep-list.xml:79
@@ -1449,7 +1470,7 @@ msgid "The value for multivaluated field \"%s\" is not an array"
 msgstr ""
 
 #: include/simpleplugin/attributes/class_SetAttribute.inc:230
-#: include/simpleplugin/class_Attribute.inc:583
+#: include/simpleplugin/class_Attribute.inc:588
 #, php-format
 msgid "%s (required)"
 msgstr "%s (vyžadováno)"
@@ -1461,7 +1482,7 @@ msgstr "Neplatná hodnota pro %s"
 
 #: include/simpleplugin/attributes/class_SelectAttribute.inc:66
 #: include/simpleplugin/attributes/class_SelectAttribute.inc:119
-#: include/simpleplugin/class_dialogAttributes.inc:634
+#: include/simpleplugin/class_dialogAttributes.inc:664
 msgid "None"
 msgstr "žádné"
 
@@ -1496,33 +1517,33 @@ msgstr ""
 "Nedaří se spočítat dn: nedaří se nalézt objectType informace z panelu třídy "
 "%s"
 
-#: include/simpleplugin/class_simplePlugin.inc:1303
+#: include/simpleplugin/class_simplePlugin.inc:1309
 #, php-format
 msgid "There is already an entry with the same dn : %s"
 msgstr "Položka s takovým rozlišeným názvem již existuje: %s"
 
-#: include/simpleplugin/class_simplePlugin.inc:1310
+#: include/simpleplugin/class_simplePlugin.inc:1316
 #, php-format
 msgid "The entry %s is not existing"
 msgstr "Položka %s neexistuje"
 
-#: include/simpleplugin/class_simplePlugin.inc:1500
+#: include/simpleplugin/class_simplePlugin.inc:1506
 msgid ""
 "The object has changed since opened in FusionDirectory. All changes that may"
 " be done by others will get lost if you save this entry!"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:1686
+#: include/simpleplugin/class_simplePlugin.inc:1699
 #, php-format
 msgid "Service \"%s\""
-msgstr ""
+msgstr "Služba „%s“"
 
-#: include/simpleplugin/class_simplePlugin.inc:1688
+#: include/simpleplugin/class_simplePlugin.inc:1701
 #, php-format
 msgid "Tab \"%s\""
 msgstr "Panel %s"
 
-#: include/simpleplugin/class_simplePlugin.inc:1840
+#: include/simpleplugin/class_simplePlugin.inc:1853
 #, php-format
 msgid "Unknown field \"%s\""
 msgstr "Neznámá kolonka „1%s“"
@@ -1534,7 +1555,7 @@ msgid ""
 "configuration file."
 msgstr ""
 
-#: include/simpleplugin/class_simpleTabs.inc:393
+#: include/simpleplugin/class_simpleTabs.inc:400
 #, php-format
 msgid "Move from \"%s\" to \"%s\" failed"
 msgstr ""
@@ -1575,68 +1596,72 @@ msgstr "hodiny"
 msgid "days"
 msgstr "dny"
 
-#: include/simpleplugin/class_dialogAttributes.inc:426
+#: include/simpleplugin/class_dialogAttributes.inc:229
+msgid "Add (dialog)"
+msgstr ""
+
+#: include/simpleplugin/class_dialogAttributes.inc:456
 #, php-format
 msgid "POSIX group %s"
 msgstr ""
 
-#: include/simpleplugin/class_dialogAttributes.inc:428
+#: include/simpleplugin/class_dialogAttributes.inc:458
 #: plugins/config/class_configInLdap.inc:474
 #, php-format
 msgid "Role %s"
 msgstr "Role %s"
 
-#: include/simpleplugin/class_dialogAttributes.inc:430
+#: include/simpleplugin/class_dialogAttributes.inc:460
 #: plugins/config/class_configInLdap.inc:467
 #, php-format
 msgid "Group %s"
 msgstr "Skupina %s"
 
-#: include/simpleplugin/class_dialogAttributes.inc:465
+#: include/simpleplugin/class_dialogAttributes.inc:495
 msgid "Group of user"
 msgstr "skupina uživatelů"
 
-#: include/simpleplugin/class_dialogAttributes.inc:636
+#: include/simpleplugin/class_dialogAttributes.inc:666
 msgid "Unknown"
 msgstr "neznámé"
 
-#: include/simpleplugin/class_simpleManagement.inc:288
+#: include/simpleplugin/class_simpleManagement.inc:293
 #: plugins/admin/users/user-list.xml:87
 msgid "From template"
 msgstr "Ze šablony"
 
-#: include/simpleplugin/class_simpleManagement.inc:316
+#: include/simpleplugin/class_simpleManagement.inc:321
 #, php-format
 msgid "%s template"
 msgstr "%s šablona"
 
-#: include/simpleplugin/class_simpleManagement.inc:513
-#: include/simpleplugin/class_simpleManagement.inc:519
+#: include/simpleplugin/class_simpleManagement.inc:518
+#: include/simpleplugin/class_simpleManagement.inc:524
 #: plugins/admin/groups/class_groupManagement.inc:355
 #, php-format
 msgid "Show %s"
 msgstr "Zobrazit %s"
 
-#: include/simpleplugin/class_simpleManagement.inc:550
+#: include/simpleplugin/class_simpleManagement.inc:555
 msgid "Filter error"
 msgstr "chyba filtru"
 
-#: include/simpleplugin/class_simpleManagement.inc:550
+#: include/simpleplugin/class_simpleManagement.inc:555
 msgid "The filter is incomplete!"
 msgstr "Tento filtr je neúplný!"
 
-#: include/simpleplugin/class_simpleManagement.inc:1089
+#: include/simpleplugin/class_simpleManagement.inc:1098
 msgid "Permission error"
 msgstr "chyba oprávnění"
 
-#: include/simpleplugin/class_simpleManagement.inc:1123
+#: include/simpleplugin/class_simpleManagement.inc:1132
 #, php-format
 msgid "You are not allowed to create a snapshot for %s."
 msgstr "Nejste oprávněn(a) vytvořit snímek %s."
 
-#: include/simpleplugin/class_simpleManagement.inc:1174
-#: include/simpleplugin/class_simpleManagement.inc:1254
-#: include/simpleplugin/class_simpleManagement.inc:1272
+#: include/simpleplugin/class_simpleManagement.inc:1183
+#: include/simpleplugin/class_simpleManagement.inc:1263
+#: include/simpleplugin/class_simpleManagement.inc:1281
 #, php-format
 msgid "You are not allowed to restore a snapshot for %s."
 msgstr "Nejste oprávněn(a) obnovit ze snímku %s."
@@ -1847,7 +1872,7 @@ msgid "department"
 msgstr "oddělení"
 
 #: plugins/admin/departments/class_department.inc:63
-#: plugins/admin/groups/class_ogroup.inc:203
+#: plugins/admin/groups/class_ogroup.inc:208
 #: plugins/admin/groups/group-list.xml:49
 #: plugins/admin/acl/class_aclAssignment.inc:38
 #: plugins/admin/users/user-list.xml:57
@@ -1881,12 +1906,12 @@ msgstr "Kategorie tohoto %s"
 
 #: plugins/admin/departments/class_department.inc:80
 msgid "Website"
-msgstr ""
+msgstr "Webové stránky"
 
 #: plugins/admin/departments/class_department.inc:80
 #, php-format
 msgid "Website of this %s"
-msgstr ""
+msgstr "Webová stránka tohoto %s"
 
 #: plugins/admin/departments/class_department.inc:84
 #: plugins/personal/generic/class_user.inc:450
@@ -2024,7 +2049,7 @@ msgstr "Služba infrastruktury"
 #: plugins/admin/groups/class_groupManagement.inc:198
 #: plugins/admin/groups/class_groupManagement.inc:203
 msgid "Action triggered"
-msgstr ""
+msgstr "Spuštěná akce"
 
 #: plugins/admin/groups/class_groupManagement.inc:198
 #, php-format
@@ -2070,11 +2095,11 @@ msgstr "Zobrazit skupiny aplikací"
 
 #: plugins/admin/groups/class_groupManagement.inc:325
 msgid "Show groups of groups"
-msgstr ""
+msgstr "Zobrazit skupiny skupin"
 
 #: plugins/admin/groups/class_groupManagement.inc:326
 msgid "Show unidentified groups"
-msgstr ""
+msgstr "Zobrazit neidentifikované skupiny"
 
 #: plugins/admin/groups/class_groupManagement.inc:329
 #: include/select/groupSelect/group-filter.tpl.c:5
@@ -2120,74 +2145,74 @@ msgstr "Zobrazit skupiny telefonů"
 msgid "Unknown type : %s"
 msgstr "Neznámý typ: %s"
 
-#: plugins/admin/groups/class_ogroup.inc:65
+#: plugins/admin/groups/class_ogroup.inc:69
 #, php-format
 msgid "Non existing dn: %s"
 msgstr "Neexistující rozlišený název: %s"
 
-#: plugins/admin/groups/class_ogroup.inc:170
+#: plugins/admin/groups/class_ogroup.inc:175
 msgid "Object group"
 msgstr "skupina objektu"
 
-#: plugins/admin/groups/class_ogroup.inc:171
+#: plugins/admin/groups/class_ogroup.inc:176
 msgid "Object group information"
 msgstr "Informace o skupině objektu"
 
-#: plugins/admin/groups/class_ogroup.inc:175
-#: plugins/admin/groups/class_ogroup.inc:176
+#: plugins/admin/groups/class_ogroup.inc:180
+#: plugins/admin/groups/class_ogroup.inc:181
 msgid "Group"
 msgstr "skupina"
 
-#: plugins/admin/groups/class_ogroup.inc:207
+#: plugins/admin/groups/class_ogroup.inc:212
 #: plugins/admin/groups/class_roleGeneric.inc:86
 msgid "Name of this group"
 msgstr "Název této skupiny"
 
-#: plugins/admin/groups/class_ogroup.inc:212
+#: plugins/admin/groups/class_ogroup.inc:217
 msgid "Short description of this group"
 msgstr "Stručný popis této skupiny"
 
-#: plugins/admin/groups/class_ogroup.inc:217
+#: plugins/admin/groups/class_ogroup.inc:222
 msgid "Owner"
 msgstr "vlastník"
 
-#: plugins/admin/groups/class_ogroup.inc:223
+#: plugins/admin/groups/class_ogroup.inc:228
 msgid "Member objects"
 msgstr "členské objekty"
 
-#: plugins/admin/groups/class_ogroup.inc:226
+#: plugins/admin/groups/class_ogroup.inc:231
 msgid "Objects member of this group"
 msgstr "Objekty spadající do této skupiny"
 
-#: plugins/admin/groups/class_ogroup.inc:233
+#: plugins/admin/groups/class_ogroup.inc:238
 msgid "System trust"
 msgstr "důvěryhodnost systémů"
 
-#: plugins/admin/groups/class_ogroup.inc:237
+#: plugins/admin/groups/class_ogroup.inc:242
 msgid "Trust mode"
 msgstr "režim důvěryhodnosti"
 
-#: plugins/admin/groups/class_ogroup.inc:237
+#: plugins/admin/groups/class_ogroup.inc:242
 msgid "Type of authorization for those hosts"
 msgstr "Typ ověřování pro tyto stroje"
 
-#: plugins/admin/groups/class_ogroup.inc:241
+#: plugins/admin/groups/class_ogroup.inc:246
 msgid "disabled"
 msgstr "zakázáno"
 
-#: plugins/admin/groups/class_ogroup.inc:241
+#: plugins/admin/groups/class_ogroup.inc:246
 msgid "full access"
 msgstr "plný přístup"
 
-#: plugins/admin/groups/class_ogroup.inc:241
+#: plugins/admin/groups/class_ogroup.inc:246
 msgid "allow access to these hosts"
 msgstr "povolit přístup k těmto strojům"
 
-#: plugins/admin/groups/class_ogroup.inc:244
+#: plugins/admin/groups/class_ogroup.inc:249
 msgid "Only allow this group to connect to this list of hosts"
 msgstr "Této skupině umožnit připojení pouze na stroje z tohoto seznamu"
 
-#: plugins/admin/groups/class_ogroup.inc:336
+#: plugins/admin/groups/class_ogroup.inc:341
 msgid ""
 "Putting both workstations and terminals in the same group is not allowed"
 msgstr "Není možné umístit počítače a terminály do jedné skupiny"
@@ -2222,8 +2247,8 @@ msgid "Description of the role"
 msgstr "Popis role"
 
 #: plugins/admin/groups/class_roleGeneric.inc:95
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:64
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:70
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:65
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:71
 msgid "Phone number"
 msgstr "telefonní číslo"
 
@@ -3244,11 +3269,11 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:380
 msgid "Group or role"
-msgstr ""
+msgstr "Skupina nebo role"
 
 #: plugins/config/class_configInLdap.inc:385
 msgid "Plugin to blacklist"
-msgstr ""
+msgstr "Zásuvný modul na seznam vykázaných"
 
 #: plugins/config/class_configInLdap.inc:391
 msgid "Plugin menu blacklist"
@@ -3304,33 +3329,54 @@ msgstr "automaticky"
 msgid "Statistics about users"
 msgstr "Statistiky o uživatelích"
 
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:39
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:40
 msgid "Users statistics"
 msgstr "Statistiky uživatelů"
 
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:44
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:45
 msgid "Groups statistics"
 msgstr "Statistiky skupin"
 
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:49
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:50
 #: plugins/addons/dashboard/users_accounts.tpl.c:8
 msgid "Expired accounts"
 msgstr "Účty, jejichž platnost skončila"
 
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:65
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:66
 msgid "Expiration date"
 msgstr "Datum vypršení platnosti"
 
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:69
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:70
 #: ihtml/themes/legacy/recovery.tpl.c:89 ihtml/themes/breezy/recovery.tpl.c:83
 msgid "Email"
 msgstr "E-mail"
 
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:87
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:91
 #, php-format
 msgid ""
-"Total user number could not be computed because of the following LDAP error:"
-" %s"
+"User statistics could not be computed because of the following LDAP error: "
+"%s"
+msgstr ""
+
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:122
+#, php-format
+msgid ""
+"Group statistics could not be computed because of the following LDAP error: "
+"%s"
+msgstr ""
+
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:169
+#, php-format
+msgid ""
+"Expired user information could not be computed because of the following LDAP"
+" error: %s"
+msgstr ""
+
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:176
+#, php-format
+msgid ""
+"Expired user information could not be computed because of the following "
+"error: %s"
 msgstr ""
 
 #: plugins/addons/dashboard/class_dashBoardPasswords.inc:26
@@ -3339,13 +3385,13 @@ msgstr "Hesla"
 
 #: plugins/addons/dashboard/class_dashBoardPasswords.inc:27
 msgid "Statistics about passwords"
-msgstr ""
+msgstr "Statistiky hesel"
 
-#: plugins/addons/dashboard/class_dashBoardPasswords.inc:38
+#: plugins/addons/dashboard/class_dashBoardPasswords.inc:39
 msgid "Passwords statistics"
-msgstr ""
+msgstr "Statistiky hesel"
 
-#: plugins/addons/dashboard/class_dashBoardPasswords.inc:63
+#: plugins/addons/dashboard/class_dashBoardPasswords.inc:64
 #, php-format
 msgid ""
 "Password statistics could not be computed because of the following LDAP "
@@ -3360,18 +3406,22 @@ msgstr "Přehled"
 
 #: plugins/addons/dashboard/class_dashBoard.inc:29
 msgid "Statistics and various information"
-msgstr ""
+msgstr "Statistiky a různé informace"
 
 #: plugins/addons/dashboard/class_dashBoard.inc:38
 msgid "Reporting"
 msgstr "Hlášení"
 
-#: plugins/addons/dashboard/class_dashBoard.inc:49
+#: plugins/addons/dashboard/class_dashBoard.inc:42
+msgid "See dashboard"
+msgstr ""
+
+#: plugins/addons/dashboard/class_dashBoard.inc:51
 #: plugins/addons/dashboard/main_stats.tpl.c:2
 msgid "Statistics"
 msgstr "Statistiky"
 
-#: plugins/addons/dashboard/class_dashBoard.inc:75
+#: plugins/addons/dashboard/class_dashBoard.inc:79
 #, php-format
 msgid ""
 "Statistics for type \"%s\" could not be computed because of the following "
@@ -3701,7 +3751,7 @@ msgstr "uvítací zpráva"
 
 #: setup/class_setupStepLdap.inc:33
 msgid "LDAP connection"
-msgstr ""
+msgstr "LDAP spojení"
 
 #: setup/class_setupStepLdap.inc:36
 msgid "Location name"
@@ -4514,7 +4564,7 @@ msgstr "Chyby nahlášené při kontrole LDAP schématu:"
 
 #: html/index.php:257
 msgid "LDAP schema error"
-msgstr ""
+msgstr "Chyba LDAP schématu"
 
 #: html/index.php:284
 msgid "Please specify a valid username!"
@@ -4643,13 +4693,17 @@ msgstr[1] ""
 msgstr[2] ""
 
 #: plugins/addons/dashboard/groups_stats.tpl.c:5
+msgid "There are no groups"
+msgstr ""
+
+#: plugins/addons/dashboard/groups_stats.tpl.c:8
 msgid "One of them is a %1 group"
 msgid_plural "%2 are %1 groups"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: plugins/addons/dashboard/groups_stats.tpl.c:8
+#: plugins/addons/dashboard/groups_stats.tpl.c:11
 msgid "There is no %1 group"
 msgstr "Není zde žádná %1 skupina"
 
@@ -4657,9 +4711,9 @@ msgstr "Není zde žádná %1 skupina"
 #: plugins/addons/dashboard/users_stats.tpl.c:2
 msgid "There is 1 user:"
 msgid_plural "There are %1 users:"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Je zde jeden uživatel:"
+msgstr[1] "Jsou zde dva uživatelé:"
+msgstr[2] "Je zde %1 uživatelů:"
 
 #: plugins/addons/dashboard/pwd_stats.tpl.c:5
 msgid "One of them use %1 method"
@@ -4680,13 +4734,17 @@ msgid "None of them is locked"
 msgstr "Žádný z nich není uzamčen"
 
 #: plugins/addons/dashboard/users_stats.tpl.c:5
+msgid "There are no users"
+msgstr ""
+
+#: plugins/addons/dashboard/users_stats.tpl.c:8
 msgid "One of them have a %1 account"
 msgid_plural "%2 of them have a %1 account"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: plugins/addons/dashboard/users_stats.tpl.c:8
+#: plugins/addons/dashboard/users_stats.tpl.c:11
 msgid "None of them have a %1 account"
 msgstr "Nikdo z nich nemá a %1 účet"
 
@@ -4965,7 +5023,7 @@ msgstr "Vaše heslo bylo úspěšně změněno."
 #: ihtml/themes/legacy/recovery.tpl.c:101
 #: ihtml/themes/breezy/recovery.tpl.c:68 ihtml/themes/breezy/recovery.tpl.c:95
 msgid "Return to login screen"
-msgstr ""
+msgstr "Vrátit na přihlašovací obrazovku"
 
 #: ihtml/themes/legacy/recovery.tpl.c:77 ihtml/themes/breezy/recovery.tpl.c:71
 msgid ""

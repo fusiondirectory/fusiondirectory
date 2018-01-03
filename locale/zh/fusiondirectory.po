@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2017-11-20 15:10+0000\n"
+"POT-Creation-Date: 2017-12-21 14:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>, 2016\n"
 "Language-Team: Chinese (https://www.transifex.com/fusiondirectory/teams/12202/zh/)\n"
@@ -32,7 +32,8 @@ msgstr ""
 #: include/simpleplugin/attributes/class_FileAttribute.inc:34
 #: include/simpleplugin/attributes/class_FileAttribute.inc:37
 #: include/simpleplugin/attributes/class_FileAttribute.inc:300
-#: include/simpleplugin/class_simpleTabs.inc:73 html/index.php:458
+#: include/simpleplugin/class_simpleTabs.inc:73
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:175 html/index.php:458
 #: html/index.php:472 html/index.php:482 html/index.php:539 html/index.php:549
 #: setup/setup_checks.tpl.c:5 ihtml/themes/breezy/msg_dialog.tpl.c:2
 msgid "Error"
@@ -75,9 +76,11 @@ msgstr ""
 #: include/simpleplugin/attributes/class_SetAttribute.inc:726
 #: include/class_ldap.inc:848 include/class_ldap.inc:1176
 #: plugins/config/class_recoveryConfig.inc:137
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:86
-#: plugins/addons/dashboard/class_dashBoardPasswords.inc:62
-#: plugins/addons/dashboard/class_dashBoard.inc:74
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:90
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:121
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:168
+#: plugins/addons/dashboard/class_dashBoardPasswords.inc:63
+#: plugins/addons/dashboard/class_dashBoard.inc:78
 #: setup/class_setupStepMigrate.inc:452 setup/class_setupStepMigrate.inc:1052
 #: html/index.php:376
 msgid "LDAP error"
@@ -110,7 +113,7 @@ msgstr ""
 msgid "All categories"
 msgstr ""
 
-#: include/class_config.inc:1047
+#: include/class_config.inc:1050
 msgid "My account"
 msgstr "我的账号"
 
@@ -186,8 +189,8 @@ msgstr ""
 msgid "Toggle information"
 msgstr "切换信息"
 
-#: include/class_listing.inc:312 include/class_listing.inc:1182
-#: include/class_listing.inc:1184
+#: include/class_listing.inc:312 include/class_listing.inc:1177
+#: include/class_listing.inc:1179
 msgid "Up"
 msgstr "上"
 
@@ -211,83 +214,83 @@ msgstr ""
 msgid "Select all"
 msgstr ""
 
-#: include/class_listing.inc:569
+#: include/class_listing.inc:565
 msgid "created by"
 msgstr ""
 
-#: include/class_listing.inc:1174
+#: include/class_listing.inc:1169
 msgid "Go to root department"
 msgstr "转到根部门"
 
-#: include/class_listing.inc:1174 include/class_listing.inc:1176
+#: include/class_listing.inc:1169 include/class_listing.inc:1171
 #: include/class_baseSelector.inc:212
 msgid "Root"
 msgstr "根"
 
-#: include/class_listing.inc:1182
+#: include/class_listing.inc:1177
 msgid "Go up one department"
 msgstr "向上跳转一个部门"
 
-#: include/class_listing.inc:1190
+#: include/class_listing.inc:1185
 msgid "Go to user's department"
 msgstr ""
 
-#: include/class_listing.inc:1190 include/class_listing.inc:1192
+#: include/class_listing.inc:1185 include/class_listing.inc:1187
 msgid "Home"
 msgstr ""
 
-#: include/class_listing.inc:1197
+#: include/class_listing.inc:1192
 msgid "Reload list"
 msgstr "重新加载列表"
 
-#: include/class_listing.inc:1197 include/class_baseSelector.inc:261
+#: include/class_listing.inc:1192 include/class_baseSelector.inc:261
 msgid "Submit"
 msgstr "提交"
 
-#: include/class_listing.inc:1318 include/simpleplugin/simple-list.xml:48
+#: include/class_listing.inc:1332 include/simpleplugin/simple-list.xml:48
 #: plugins/admin/departments/dep-list.xml:37
 #: plugins/admin/groups/group-list.xml:54 plugins/admin/users/user-list.xml:62
 msgid "Actions"
 msgstr "动作"
 
-#: include/class_listing.inc:1631 include/class_listing.inc:1684
+#: include/class_listing.inc:1645 include/class_listing.inc:1698
 msgid "Copy"
 msgstr ""
 
-#: include/class_listing.inc:1637 include/class_listing.inc:1672
+#: include/class_listing.inc:1651 include/class_listing.inc:1686
 msgid "Cut"
 msgstr ""
 
-#: include/class_listing.inc:1645 include/class_listing.inc:1647
+#: include/class_listing.inc:1659 include/class_listing.inc:1661
 #: include/class_CopyPasteHandler.inc:332
 msgid "Paste"
 msgstr "粘贴"
 
-#: include/class_listing.inc:1672
+#: include/class_listing.inc:1686
 msgid "Cut this entry"
 msgstr "剪切条目"
 
-#: include/class_listing.inc:1684
+#: include/class_listing.inc:1698
 msgid "Copy this entry"
 msgstr "拷贝条目"
 
-#: include/class_listing.inc:1709 include/class_listing.inc:1711
+#: include/class_listing.inc:1723 include/class_listing.inc:1725
 msgid "Restore snapshots"
 msgstr ""
 
-#: include/class_listing.inc:1725
+#: include/class_listing.inc:1739
 msgid "Export list"
 msgstr ""
 
-#: include/class_listing.inc:1757 include/class_listing.inc:1758
+#: include/class_listing.inc:1771 include/class_listing.inc:1772
 msgid "Restore snapshot"
 msgstr ""
 
-#: include/class_listing.inc:1770
+#: include/class_listing.inc:1784
 msgid "Create snapshot"
 msgstr ""
 
-#: include/class_listing.inc:1771
+#: include/class_listing.inc:1785
 msgid "Create a new snapshot from this object"
 msgstr ""
 
@@ -304,19 +307,19 @@ msgstr ""
 msgid "Snapshot data could not be fetched"
 msgstr ""
 
-#: include/class_template.inc:41
-#: include/simpleplugin/class_simpleManagement.inc:282
-#: include/simpleplugin/class_simpleManagement.inc:519
+#: include/class_template.inc:43
+#: include/simpleplugin/class_simpleManagement.inc:287
+#: include/simpleplugin/class_simpleManagement.inc:524
 #: plugins/admin/groups/class_groupManagement.inc:355
 #: plugins/admin/users/user-list.xml:95 ihtml/themes/breezy/template.tpl.c:5
 msgid "Template"
 msgstr "模板"
 
-#: include/class_template.inc:42
+#: include/class_template.inc:44
 msgid "Object template, used to create several objects with similar values"
 msgstr ""
 
-#: include/class_template.inc:47
+#: include/class_template.inc:49
 #: include/simpleplugin/class_simplePlugin.inc:346
 msgid "Template name"
 msgstr "模板名称"
@@ -609,17 +612,18 @@ msgstr ""
 
 #: include/select/userSelect/class_userSelect.inc:32
 #: plugins/admin/users/user-list.xml:49
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:62
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:63
 #: plugins/personal/generic/class_user.inc:387
 msgid "Login"
 msgstr "登录名"
 
 #: include/class_CopyPasteHandler.inc:208
-#: include/simpleplugin/class_simpleManagement.inc:1024
-#: include/simpleplugin/class_simpleManagement.inc:1123
-#: include/simpleplugin/class_simpleManagement.inc:1174
-#: include/simpleplugin/class_simpleManagement.inc:1254
-#: include/simpleplugin/class_simpleManagement.inc:1272
+#: include/simpleplugin/class_simpleTabs.inc:307
+#: include/simpleplugin/class_simpleManagement.inc:1033
+#: include/simpleplugin/class_simpleManagement.inc:1132
+#: include/simpleplugin/class_simpleManagement.inc:1183
+#: include/simpleplugin/class_simpleManagement.inc:1263
+#: include/simpleplugin/class_simpleManagement.inc:1281
 #: plugins/admin/users/class_userManagement.inc:153
 msgid "Permission"
 msgstr "允许"
@@ -1219,7 +1223,7 @@ msgid ""
 "The supplied base is not valid and has been reset to the previous value!"
 msgstr ""
 
-#: include/class_templateHandling.inc:496
+#: include/class_templateHandling.inc:500
 #, php-format
 msgid ""
 "Recursive dependency in the template fields: \"%1$s\" cannot depend on "
@@ -1233,12 +1237,12 @@ msgstr ""
 #: include/simpleplugin/simple-select-list.xml:32
 #: include/simpleplugin/simple-list.xml:32
 #: plugins/admin/departments/class_department.inc:173
-#: plugins/admin/groups/class_ogroup.inc:207
+#: plugins/admin/groups/class_ogroup.inc:212
 #: plugins/admin/groups/group-list.xml:33
 #: plugins/admin/groups/class_roleGeneric.inc:86
 #: plugins/admin/aclrole/class_aclRole.inc:99
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:63
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:68
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:64
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:69
 #: setup/setup_migrate_adminAccount.tpl.c:8
 msgid "Name"
 msgstr "名称"
@@ -1248,13 +1252,29 @@ msgstr "名称"
 #: include/class_SnapshotDialogs.inc:96 include/class_SnapshotDialogs.inc:102
 #: plugins/admin/departments/dep-list.xml:29
 #: plugins/admin/departments/class_department.inc:72
-#: plugins/admin/groups/class_ogroup.inc:212
+#: plugins/admin/groups/class_ogroup.inc:217
 #: plugins/admin/groups/group-list.xml:41
 #: plugins/admin/groups/class_roleGeneric.inc:91
 #: plugins/admin/aclrole/class_aclRole.inc:103
 #: plugins/personal/generic/class_user.inc:325
 msgid "Description"
 msgstr "描述"
+
+#: include/simpleplugin/class_simpleService.inc:113
+msgid "Get service status"
+msgstr ""
+
+#: include/simpleplugin/class_simpleService.inc:114
+msgid "Start service"
+msgstr ""
+
+#: include/simpleplugin/class_simpleService.inc:115
+msgid "Stop service"
+msgstr ""
+
+#: include/simpleplugin/class_simpleService.inc:116
+msgid "Restart service"
+msgstr ""
 
 #: include/simpleplugin/attributes/class_BaseSelectorAttribute.inc:37
 #: setup/class_setupStepLdap.inc:50 setup/class_setupStepLdap.inc:119
@@ -1337,8 +1357,8 @@ msgstr ""
 
 #: include/simpleplugin/attributes/class_FileAttribute.inc:336
 #: include/simpleplugin/attributes/class_FileAttribute.inc:337
-#: include/simpleplugin/class_dialogAttributes.inc:655
-#: include/simpleplugin/class_dialogAttributes.inc:656
+#: include/simpleplugin/class_dialogAttributes.inc:685
+#: include/simpleplugin/class_dialogAttributes.inc:686
 #: include/simpleplugin/simple-list.xml:75
 #: include/simpleplugin/simple-list.xml:125
 #: plugins/admin/departments/dep-list.xml:67
@@ -1357,8 +1377,8 @@ msgstr ""
 #: include/simpleplugin/attributes/class_PhoneNumberAttribute.inc:133
 #: include/simpleplugin/attributes/class_SetAttribute.inc:491
 #: include/simpleplugin/attributes/class_SetAttribute.inc:492
-#: include/simpleplugin/class_dialogAttributes.inc:645
-#: include/simpleplugin/class_dialogAttributes.inc:646
+#: include/simpleplugin/class_dialogAttributes.inc:675
+#: include/simpleplugin/class_dialogAttributes.inc:676
 #: include/simpleplugin/simple-list.xml:67
 #: include/simpleplugin/simple-list.xml:112
 #: plugins/admin/departments/dep-list.xml:79
@@ -1405,7 +1425,7 @@ msgid "The value for multivaluated field \"%s\" is not an array"
 msgstr ""
 
 #: include/simpleplugin/attributes/class_SetAttribute.inc:230
-#: include/simpleplugin/class_Attribute.inc:583
+#: include/simpleplugin/class_Attribute.inc:588
 #, php-format
 msgid "%s (required)"
 msgstr ""
@@ -1417,7 +1437,7 @@ msgstr ""
 
 #: include/simpleplugin/attributes/class_SelectAttribute.inc:66
 #: include/simpleplugin/attributes/class_SelectAttribute.inc:119
-#: include/simpleplugin/class_dialogAttributes.inc:634
+#: include/simpleplugin/class_dialogAttributes.inc:664
 msgid "None"
 msgstr ""
 
@@ -1449,33 +1469,33 @@ msgid ""
 "Could not compute dn: could not find objectType infos from tab class \"%s\""
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:1303
+#: include/simpleplugin/class_simplePlugin.inc:1309
 #, php-format
 msgid "There is already an entry with the same dn : %s"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:1310
+#: include/simpleplugin/class_simplePlugin.inc:1316
 #, php-format
 msgid "The entry %s is not existing"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:1500
+#: include/simpleplugin/class_simplePlugin.inc:1506
 msgid ""
 "The object has changed since opened in FusionDirectory. All changes that may"
 " be done by others will get lost if you save this entry!"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:1686
+#: include/simpleplugin/class_simplePlugin.inc:1699
 #, php-format
 msgid "Service \"%s\""
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:1688
+#: include/simpleplugin/class_simplePlugin.inc:1701
 #, php-format
 msgid "Tab \"%s\""
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:1840
+#: include/simpleplugin/class_simplePlugin.inc:1853
 #, php-format
 msgid "Unknown field \"%s\""
 msgstr ""
@@ -1487,7 +1507,7 @@ msgid ""
 "configuration file."
 msgstr ""
 
-#: include/simpleplugin/class_simpleTabs.inc:393
+#: include/simpleplugin/class_simpleTabs.inc:400
 #, php-format
 msgid "Move from \"%s\" to \"%s\" failed"
 msgstr ""
@@ -1528,68 +1548,72 @@ msgstr "小时"
 msgid "days"
 msgstr "天"
 
-#: include/simpleplugin/class_dialogAttributes.inc:426
+#: include/simpleplugin/class_dialogAttributes.inc:229
+msgid "Add (dialog)"
+msgstr ""
+
+#: include/simpleplugin/class_dialogAttributes.inc:456
 #, php-format
 msgid "POSIX group %s"
 msgstr ""
 
-#: include/simpleplugin/class_dialogAttributes.inc:428
+#: include/simpleplugin/class_dialogAttributes.inc:458
 #: plugins/config/class_configInLdap.inc:474
 #, php-format
 msgid "Role %s"
 msgstr ""
 
-#: include/simpleplugin/class_dialogAttributes.inc:430
+#: include/simpleplugin/class_dialogAttributes.inc:460
 #: plugins/config/class_configInLdap.inc:467
 #, php-format
 msgid "Group %s"
 msgstr ""
 
-#: include/simpleplugin/class_dialogAttributes.inc:465
+#: include/simpleplugin/class_dialogAttributes.inc:495
 msgid "Group of user"
 msgstr "用户组"
 
-#: include/simpleplugin/class_dialogAttributes.inc:636
+#: include/simpleplugin/class_dialogAttributes.inc:666
 msgid "Unknown"
 msgstr "未知"
 
-#: include/simpleplugin/class_simpleManagement.inc:288
+#: include/simpleplugin/class_simpleManagement.inc:293
 #: plugins/admin/users/user-list.xml:87
 msgid "From template"
 msgstr ""
 
-#: include/simpleplugin/class_simpleManagement.inc:316
+#: include/simpleplugin/class_simpleManagement.inc:321
 #, php-format
 msgid "%s template"
 msgstr ""
 
-#: include/simpleplugin/class_simpleManagement.inc:513
-#: include/simpleplugin/class_simpleManagement.inc:519
+#: include/simpleplugin/class_simpleManagement.inc:518
+#: include/simpleplugin/class_simpleManagement.inc:524
 #: plugins/admin/groups/class_groupManagement.inc:355
 #, php-format
 msgid "Show %s"
 msgstr ""
 
-#: include/simpleplugin/class_simpleManagement.inc:550
+#: include/simpleplugin/class_simpleManagement.inc:555
 msgid "Filter error"
 msgstr ""
 
-#: include/simpleplugin/class_simpleManagement.inc:550
+#: include/simpleplugin/class_simpleManagement.inc:555
 msgid "The filter is incomplete!"
 msgstr ""
 
-#: include/simpleplugin/class_simpleManagement.inc:1089
+#: include/simpleplugin/class_simpleManagement.inc:1098
 msgid "Permission error"
 msgstr ""
 
-#: include/simpleplugin/class_simpleManagement.inc:1123
+#: include/simpleplugin/class_simpleManagement.inc:1132
 #, php-format
 msgid "You are not allowed to create a snapshot for %s."
 msgstr ""
 
-#: include/simpleplugin/class_simpleManagement.inc:1174
-#: include/simpleplugin/class_simpleManagement.inc:1254
-#: include/simpleplugin/class_simpleManagement.inc:1272
+#: include/simpleplugin/class_simpleManagement.inc:1183
+#: include/simpleplugin/class_simpleManagement.inc:1263
+#: include/simpleplugin/class_simpleManagement.inc:1281
 #, php-format
 msgid "You are not allowed to restore a snapshot for %s."
 msgstr ""
@@ -1795,7 +1819,7 @@ msgid "department"
 msgstr "部门"
 
 #: plugins/admin/departments/class_department.inc:63
-#: plugins/admin/groups/class_ogroup.inc:203
+#: plugins/admin/groups/class_ogroup.inc:208
 #: plugins/admin/groups/group-list.xml:49
 #: plugins/admin/acl/class_aclAssignment.inc:38
 #: plugins/admin/users/user-list.xml:57
@@ -2068,74 +2092,74 @@ msgstr ""
 msgid "Unknown type : %s"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:65
+#: plugins/admin/groups/class_ogroup.inc:69
 #, php-format
 msgid "Non existing dn: %s"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:170
+#: plugins/admin/groups/class_ogroup.inc:175
 msgid "Object group"
 msgstr "对象组"
 
-#: plugins/admin/groups/class_ogroup.inc:171
+#: plugins/admin/groups/class_ogroup.inc:176
 msgid "Object group information"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:175
-#: plugins/admin/groups/class_ogroup.inc:176
+#: plugins/admin/groups/class_ogroup.inc:180
+#: plugins/admin/groups/class_ogroup.inc:181
 msgid "Group"
 msgstr "组"
 
-#: plugins/admin/groups/class_ogroup.inc:207
+#: plugins/admin/groups/class_ogroup.inc:212
 #: plugins/admin/groups/class_roleGeneric.inc:86
 msgid "Name of this group"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:212
+#: plugins/admin/groups/class_ogroup.inc:217
 msgid "Short description of this group"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:217
+#: plugins/admin/groups/class_ogroup.inc:222
 msgid "Owner"
 msgstr "所有者"
 
-#: plugins/admin/groups/class_ogroup.inc:223
+#: plugins/admin/groups/class_ogroup.inc:228
 msgid "Member objects"
 msgstr "成员对象"
 
-#: plugins/admin/groups/class_ogroup.inc:226
+#: plugins/admin/groups/class_ogroup.inc:231
 msgid "Objects member of this group"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:233
+#: plugins/admin/groups/class_ogroup.inc:238
 msgid "System trust"
 msgstr "信赖的系统"
 
-#: plugins/admin/groups/class_ogroup.inc:237
+#: plugins/admin/groups/class_ogroup.inc:242
 msgid "Trust mode"
 msgstr "信赖模式"
 
-#: plugins/admin/groups/class_ogroup.inc:237
+#: plugins/admin/groups/class_ogroup.inc:242
 msgid "Type of authorization for those hosts"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:241
+#: plugins/admin/groups/class_ogroup.inc:246
 msgid "disabled"
 msgstr "禁用"
 
-#: plugins/admin/groups/class_ogroup.inc:241
+#: plugins/admin/groups/class_ogroup.inc:246
 msgid "full access"
 msgstr "完全访问权限"
 
-#: plugins/admin/groups/class_ogroup.inc:241
+#: plugins/admin/groups/class_ogroup.inc:246
 msgid "allow access to these hosts"
 msgstr "允许访问这些主机"
 
-#: plugins/admin/groups/class_ogroup.inc:244
+#: plugins/admin/groups/class_ogroup.inc:249
 msgid "Only allow this group to connect to this list of hosts"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:336
+#: plugins/admin/groups/class_ogroup.inc:341
 msgid ""
 "Putting both workstations and terminals in the same group is not allowed"
 msgstr ""
@@ -2170,8 +2194,8 @@ msgid "Description of the role"
 msgstr ""
 
 #: plugins/admin/groups/class_roleGeneric.inc:95
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:64
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:70
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:65
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:71
 msgid "Phone number"
 msgstr "电话号码"
 
@@ -3207,33 +3231,54 @@ msgstr ""
 msgid "Statistics about users"
 msgstr ""
 
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:39
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:40
 msgid "Users statistics"
 msgstr ""
 
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:44
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:45
 msgid "Groups statistics"
 msgstr ""
 
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:49
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:50
 #: plugins/addons/dashboard/users_accounts.tpl.c:8
 msgid "Expired accounts"
 msgstr ""
 
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:65
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:66
 msgid "Expiration date"
 msgstr ""
 
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:69
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:70
 #: ihtml/themes/legacy/recovery.tpl.c:89 ihtml/themes/breezy/recovery.tpl.c:83
 msgid "Email"
 msgstr "邮件"
 
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:87
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:91
 #, php-format
 msgid ""
-"Total user number could not be computed because of the following LDAP error:"
-" %s"
+"User statistics could not be computed because of the following LDAP error: "
+"%s"
+msgstr ""
+
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:122
+#, php-format
+msgid ""
+"Group statistics could not be computed because of the following LDAP error: "
+"%s"
+msgstr ""
+
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:169
+#, php-format
+msgid ""
+"Expired user information could not be computed because of the following LDAP"
+" error: %s"
+msgstr ""
+
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:176
+#, php-format
+msgid ""
+"Expired user information could not be computed because of the following "
+"error: %s"
 msgstr ""
 
 #: plugins/addons/dashboard/class_dashBoardPasswords.inc:26
@@ -3244,11 +3289,11 @@ msgstr ""
 msgid "Statistics about passwords"
 msgstr ""
 
-#: plugins/addons/dashboard/class_dashBoardPasswords.inc:38
+#: plugins/addons/dashboard/class_dashBoardPasswords.inc:39
 msgid "Passwords statistics"
 msgstr ""
 
-#: plugins/addons/dashboard/class_dashBoardPasswords.inc:63
+#: plugins/addons/dashboard/class_dashBoardPasswords.inc:64
 #, php-format
 msgid ""
 "Password statistics could not be computed because of the following LDAP "
@@ -3269,12 +3314,16 @@ msgstr ""
 msgid "Reporting"
 msgstr ""
 
-#: plugins/addons/dashboard/class_dashBoard.inc:49
+#: plugins/addons/dashboard/class_dashBoard.inc:42
+msgid "See dashboard"
+msgstr ""
+
+#: plugins/addons/dashboard/class_dashBoard.inc:51
 #: plugins/addons/dashboard/main_stats.tpl.c:2
 msgid "Statistics"
 msgstr ""
 
-#: plugins/addons/dashboard/class_dashBoard.inc:75
+#: plugins/addons/dashboard/class_dashBoard.inc:79
 #, php-format
 msgid ""
 "Statistics for type \"%s\" could not be computed because of the following "
@@ -4447,11 +4496,15 @@ msgid_plural "There are %1 groups:"
 msgstr[0] ""
 
 #: plugins/addons/dashboard/groups_stats.tpl.c:5
+msgid "There are no groups"
+msgstr ""
+
+#: plugins/addons/dashboard/groups_stats.tpl.c:8
 msgid "One of them is a %1 group"
 msgid_plural "%2 are %1 groups"
 msgstr[0] ""
 
-#: plugins/addons/dashboard/groups_stats.tpl.c:8
+#: plugins/addons/dashboard/groups_stats.tpl.c:11
 msgid "There is no %1 group"
 msgstr ""
 
@@ -4476,11 +4529,15 @@ msgid "None of them is locked"
 msgstr ""
 
 #: plugins/addons/dashboard/users_stats.tpl.c:5
+msgid "There are no users"
+msgstr ""
+
+#: plugins/addons/dashboard/users_stats.tpl.c:8
 msgid "One of them have a %1 account"
 msgid_plural "%2 of them have a %1 account"
 msgstr[0] ""
 
-#: plugins/addons/dashboard/users_stats.tpl.c:8
+#: plugins/addons/dashboard/users_stats.tpl.c:11
 msgid "None of them have a %1 account"
 msgstr ""
 
