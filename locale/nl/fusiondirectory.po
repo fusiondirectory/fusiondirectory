@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2017-11-20 15:10+0000\n"
+"POT-Creation-Date: 2017-12-21 14:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: fusiondirectory <contact@fusiondirectory.org>, 2016\n"
+"Last-Translator: Lucien Antonissen <lucien.antonissen@digipolis.be>, 2016\n"
 "Language-Team: Dutch (https://www.transifex.com/fusiondirectory/teams/12202/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,7 +32,8 @@ msgstr ""
 #: include/simpleplugin/attributes/class_FileAttribute.inc:34
 #: include/simpleplugin/attributes/class_FileAttribute.inc:37
 #: include/simpleplugin/attributes/class_FileAttribute.inc:300
-#: include/simpleplugin/class_simpleTabs.inc:73 html/index.php:458
+#: include/simpleplugin/class_simpleTabs.inc:73
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:175 html/index.php:458
 #: html/index.php:472 html/index.php:482 html/index.php:539 html/index.php:549
 #: setup/setup_checks.tpl.c:5 ihtml/themes/breezy/msg_dialog.tpl.c:2
 msgid "Error"
@@ -40,7 +41,7 @@ msgstr "Fout"
 
 #: include/class_msg_dialog.inc:177
 msgid "Please fix the above error and reload the page."
-msgstr "Los aub de bovenstaande error op en herlaad de pagina."
+msgstr "Los a.u.b. de bovenstaande error op en herlaad de pagina."
 
 #: include/class_config.inc:151
 #, php-format
@@ -56,7 +57,7 @@ msgstr "XML fout in fusiondirectory.conf: %s op regel %d"
 #: include/functions.inc:657 html/class_passwordRecovery.inc:139
 #: html/main.php:208 html/index.php:147
 msgid "Configuration error"
-msgstr "Configuratie fout"
+msgstr "Configuratiefout"
 
 #: include/class_config.inc:272
 #, php-format
@@ -64,6 +65,8 @@ msgid ""
 "It seems you are trying to decode something which is not encoded : %s<br/>\n"
 "Please check you are not using a fusiondirectory.secrets file while your passwords are not encrypted."
 msgstr ""
+"Het lijkt erop dat je iets probeert te decoderen wat niet gecodeerd is: %s<br/>\n"
+"a.u.b. kijk na dat je geen gebruik maakt van een fusiondirectory.secrets file terwijl je paswoorden niet geëncrypteerd zijn."
 
 #: include/class_config.inc:313 include/class_SnapshotHandler.inc:53
 #: include/class_SnapshotHandler.inc:238 include/class_SnapshotHandler.inc:268
@@ -75,23 +78,24 @@ msgstr ""
 #: include/simpleplugin/attributes/class_SetAttribute.inc:726
 #: include/class_ldap.inc:848 include/class_ldap.inc:1176
 #: plugins/config/class_recoveryConfig.inc:137
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:86
-#: plugins/addons/dashboard/class_dashBoardPasswords.inc:62
-#: plugins/addons/dashboard/class_dashBoard.inc:74
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:90
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:121
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:168
+#: plugins/addons/dashboard/class_dashBoardPasswords.inc:63
+#: plugins/addons/dashboard/class_dashBoard.inc:78
 #: setup/class_setupStepMigrate.inc:452 setup/class_setupStepMigrate.inc:1052
 #: html/index.php:376
 msgid "LDAP error"
-msgstr "LDAP fout"
+msgstr "LDAPfout"
 
 #: include/class_config.inc:313
 msgid "Cannot bind to LDAP. Please contact the system administrator."
-msgstr ""
-"Kan niet binden met de LDAP. Gelie je systeembeheerder te contacteren."
+msgstr "Kan niet binden met LDAP, a.u.b. contacteer de systeembeheerder."
 
 #: include/class_config.inc:347
 #, php-format
 msgid "Location \"%s\" could not be found in the configuration file"
-msgstr ""
+msgstr "Plaats \"%s\" kon niet gevonden worden in het configuratiebestand"
 
 #: include/class_config.inc:792
 #, php-format
@@ -99,6 +103,8 @@ msgid ""
 "The snapshot functionality is enabled, but the required variable \"%s\" is "
 "not set."
 msgstr ""
+"De snapshot functionaliteit staat aan, maar de vereiste variabele \"%s\" is "
+"niet ingevuld."
 
 #: include/class_config.inc:804
 #, php-format
@@ -106,12 +112,14 @@ msgid ""
 "The snapshot functionality is enabled, but the required compression module "
 "is missing. Please install \"%s\"."
 msgstr ""
+"The snapshot-functionaliteit staat aan, maar de vereiste compressie module "
+"ontbreekt, a.u.b. installeer \"%s\"."
 
 #: include/class_config.inc:912
 msgid "All categories"
-msgstr "Alle categoriën"
+msgstr "Alle categorieën"
 
-#: include/class_config.inc:1047
+#: include/class_config.inc:1050
 msgid "My account"
 msgstr "Mijn account"
 
@@ -121,7 +129,7 @@ msgstr "Pagina"
 
 #: include/exporter/class_pdfExporter.inc:58
 msgid "No PDF export possible: there is no FPDF library installed."
-msgstr "Geen PDF export mogelijk: Er is geen FPDF library geinstalleerd."
+msgstr "Geen PDF export mogelijk: Er is geen FPDF bibliotheek geïnstalleerd."
 
 #: include/exporter/class_pdfExporter.inc:196
 msgid "PDF"
@@ -178,7 +186,7 @@ msgstr ""
 
 #: include/php_setup.inc:236
 msgid "Send bug report to the FusionDirectory Team"
-msgstr "Stuur probleemrapport naar het FusionDirectory Teal"
+msgstr "Stuur probleemrapport naar het FusionDirectory Team"
 
 #: include/php_setup.inc:237
 msgid "Send bugreport"
@@ -188,8 +196,8 @@ msgstr "Stuur probleemrapport"
 msgid "Toggle information"
 msgstr "Informatie weergeven/verbergen"
 
-#: include/class_listing.inc:312 include/class_listing.inc:1182
-#: include/class_listing.inc:1184
+#: include/class_listing.inc:312 include/class_listing.inc:1177
+#: include/class_listing.inc:1179
 msgid "Up"
 msgstr "Omhoog"
 
@@ -201,124 +209,126 @@ msgstr "Omlaag"
 #: include/simpleplugin/attributes/class_SetAttribute.inc:463
 #: include/simpleplugin/attributes/class_SetAttribute.inc:464
 msgid "Sort up"
-msgstr ""
+msgstr "Sorteer opwaarts"
 
 #: include/class_listing.inc:312
 #: include/simpleplugin/attributes/class_SetAttribute.inc:476
 #: include/simpleplugin/attributes/class_SetAttribute.inc:477
 msgid "Sort down"
-msgstr ""
+msgstr "Sorteer neerwaarts"
 
 #: include/class_listing.inc:362 setup/setup_migrate_accounts.tpl.c:23
 msgid "Select all"
 msgstr "Selecteer alles"
 
-#: include/class_listing.inc:569
+#: include/class_listing.inc:565
 msgid "created by"
 msgstr "aangemaakt door"
 
-#: include/class_listing.inc:1174
+#: include/class_listing.inc:1169
 msgid "Go to root department"
-msgstr "Ga naar basis afdelingen"
+msgstr "Ga naar basisafdeling"
 
-#: include/class_listing.inc:1174 include/class_listing.inc:1176
+#: include/class_listing.inc:1169 include/class_listing.inc:1171
 #: include/class_baseSelector.inc:212
 msgid "Root"
 msgstr "Basis"
 
-#: include/class_listing.inc:1182
+#: include/class_listing.inc:1177
 msgid "Go up one department"
 msgstr "Ga een afdeling omhoog"
 
-#: include/class_listing.inc:1190
+#: include/class_listing.inc:1185
 msgid "Go to user's department"
-msgstr ""
+msgstr "Ga naar de gebruikersafdeling"
 
-#: include/class_listing.inc:1190 include/class_listing.inc:1192
+#: include/class_listing.inc:1185 include/class_listing.inc:1187
 msgid "Home"
 msgstr "Home"
 
-#: include/class_listing.inc:1197
+#: include/class_listing.inc:1192
 msgid "Reload list"
 msgstr "Lijst herladen"
 
-#: include/class_listing.inc:1197 include/class_baseSelector.inc:261
+#: include/class_listing.inc:1192 include/class_baseSelector.inc:261
 msgid "Submit"
-msgstr "Verwerk"
+msgstr "Indienen"
 
-#: include/class_listing.inc:1318 include/simpleplugin/simple-list.xml:48
+#: include/class_listing.inc:1332 include/simpleplugin/simple-list.xml:48
 #: plugins/admin/departments/dep-list.xml:37
 #: plugins/admin/groups/group-list.xml:54 plugins/admin/users/user-list.xml:62
 msgid "Actions"
 msgstr "Acties"
 
-#: include/class_listing.inc:1631 include/class_listing.inc:1684
+#: include/class_listing.inc:1645 include/class_listing.inc:1698
 msgid "Copy"
 msgstr "Kopieer"
 
-#: include/class_listing.inc:1637 include/class_listing.inc:1672
+#: include/class_listing.inc:1651 include/class_listing.inc:1686
 msgid "Cut"
 msgstr "Knip"
 
-#: include/class_listing.inc:1645 include/class_listing.inc:1647
+#: include/class_listing.inc:1659 include/class_listing.inc:1661
 #: include/class_CopyPasteHandler.inc:332
 msgid "Paste"
 msgstr "Plakken"
 
-#: include/class_listing.inc:1672
+#: include/class_listing.inc:1686
 msgid "Cut this entry"
 msgstr "Deze invoer knippen"
 
-#: include/class_listing.inc:1684
+#: include/class_listing.inc:1698
 msgid "Copy this entry"
 msgstr "Deze invoer kopieren"
 
-#: include/class_listing.inc:1709 include/class_listing.inc:1711
+#: include/class_listing.inc:1723 include/class_listing.inc:1725
 msgid "Restore snapshots"
 msgstr "Restaureer snapshots"
 
-#: include/class_listing.inc:1725
+#: include/class_listing.inc:1739
 msgid "Export list"
 msgstr "Export lijst"
 
-#: include/class_listing.inc:1757 include/class_listing.inc:1758
+#: include/class_listing.inc:1771 include/class_listing.inc:1772
 msgid "Restore snapshot"
-msgstr "Restaureer snapshot"
+msgstr "Herstel snapshot"
 
-#: include/class_listing.inc:1770
+#: include/class_listing.inc:1784
 msgid "Create snapshot"
 msgstr "Maak snapshot"
 
-#: include/class_listing.inc:1771
+#: include/class_listing.inc:1785
 msgid "Create a new snapshot from this object"
 msgstr "Maak een nieuw snapshot van dit object"
 
 #: include/class_timezone.inc:52
 #, php-format
 msgid "The timezone setting \"%s\" in your configuration is not valid."
-msgstr ""
+msgstr "De tijdzone-instelling \"%s\" in je configuratie is ongeldig."
 
 #: include/class_SnapshotHandler.inc:397
 msgid "There was a problem uncompressing snapshot data"
-msgstr ""
+msgstr "Er was een probleem om snapshotdata te decomprimeren"
 
 #: include/class_SnapshotHandler.inc:401
 msgid "Snapshot data could not be fetched"
-msgstr ""
+msgstr "Snapshotdata kon niet opgehaald worden"
 
-#: include/class_template.inc:41
-#: include/simpleplugin/class_simpleManagement.inc:282
-#: include/simpleplugin/class_simpleManagement.inc:519
+#: include/class_template.inc:43
+#: include/simpleplugin/class_simpleManagement.inc:287
+#: include/simpleplugin/class_simpleManagement.inc:524
 #: plugins/admin/groups/class_groupManagement.inc:355
 #: plugins/admin/users/user-list.xml:95 ihtml/themes/breezy/template.tpl.c:5
 msgid "Template"
 msgstr "Sjabloon"
 
-#: include/class_template.inc:42
+#: include/class_template.inc:44
 msgid "Object template, used to create several objects with similar values"
 msgstr ""
+"Object sjabloon, gebruikt om verscheidene objecten met gelijkaardige waardes"
+" te creëren"
 
-#: include/class_template.inc:47
+#: include/class_template.inc:49
 #: include/simpleplugin/class_simplePlugin.inc:346
 msgid "Template name"
 msgstr "Sjabloon naam"
@@ -336,21 +346,21 @@ msgstr "Interne fout"
 #: include/class_logging.inc:81
 #, php-format
 msgid "Logging failed: %s"
-msgstr "Logging faalde: %s"
+msgstr "Logging mislukt: %s"
 
 #: include/class_logging.inc:103
 #, php-format
 msgid "Invalid option \"%s\" specified!"
-msgstr ""
+msgstr "Ongeldige optie \"%s\" gebruikt!"
 
 #: include/class_logging.inc:107
 msgid "Specified objectType is empty or invalid!"
-msgstr "Gespecifieerd objectType is leeg of ongeldig!"
+msgstr "Gebruikte objectType is leeg of ongeldig!"
 
 #: include/password-methods/class_password-methods-sasl.inc:65
 #, php-format
 msgid "Cannot change password, unknown user \"%s\""
-msgstr ""
+msgstr "Kan paswoord niet veranderen, onbekende gebruiker \"%s\""
 
 #: include/password-methods/class_password-methods-sasl.inc:92
 #: plugins/config/class_configInLdap.inc:579
@@ -358,6 +368,8 @@ msgid ""
 "You need to fill saslRealm or saslExop in the configuration screen in order "
 "to use SASL"
 msgstr ""
+"Je moet saslRealm of saslExop invullen in het configuratiescherm als je SASL"
+" wil gebruiken"
 
 #: include/class_filter.inc:305 include/functions.inc:1686
 msgid "*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -369,22 +381,22 @@ msgstr "Filter toepassen"
 
 #: include/class_filter.inc:354 include/class_msgPool.inc:51
 msgid "Search in subtrees"
-msgstr "Zoek in subtrees"
+msgstr "Zoek in substructuur"
 
 #: include/functions.inc:97
 #, php-format
 msgid "Fatal error: no class locations defined - please run '%s' to fix this"
 msgstr ""
-"Fatale error: geen class locaties gedefinieerd - draai aub '%s' om dit op te"
-" lossen"
+"Fatale fout: geen klasse-locaties gedefinieerd - a.u.b. voer '%s' uit om dit"
+" op te lossen"
 
 #: include/functions.inc:116
 #, php-format
 msgid ""
 "Fatal error: cannot instantiate class '%s' - try running '%s' to fix this"
 msgstr ""
-"Fatale error: kan class '%s' niet instantiëren - probeer '%s' te draaien om "
-"dit op te lossen"
+"Fatale error: kan klasse '%s' niet instantiëren - probeer '%s' te draaien om"
+" dit op te lossen"
 
 #: include/functions.inc:474 include/functions.inc:2547
 #: include/simpleplugin/class_simplePlugin.inc:466
@@ -398,27 +410,33 @@ msgstr "Fatale fout."
 #, php-format
 msgid "FATAL: Error when connecting the LDAP. Server said '%s'."
 msgstr ""
-"FATAAL: Fout bij het verbinden met de LDAP server. De server meldt: '%s'."
+"FATAAL: Fout bij het verbinden van de LDAP server. De server meldt: '%s'."
 
 #: include/functions.inc:535
 msgid ""
 "Login (uid) is not unique inside the LDAP tree. Please contact your "
 "administrator."
 msgstr ""
+"Login (uid) is niet uniek binnen de LDAP boom. a.u.b. contacteer je "
+"administrator."
 
 #: include/functions.inc:595
 msgid "Authentication error"
-msgstr "Authentificatie error"
+msgstr "Authenticatiefout"
 
 #: include/functions.inc:596
 msgid ""
 "It seems your user password has expired. Please use <a "
 "href=\"recovery.php\">password recovery</a> to change it."
 msgstr ""
+"Het lijkt erop dat je gebruikerspaswoord vervallen is. a.u.b. gebruik <a "
+"href=\"recovery.php\"> paswoord herstel </a> om het te veranderen."
 
 #: include/functions.inc:647 include/functions.inc:768
 msgid "Error while adding a lock. Contact the developers!"
-msgstr "Error tijdens het toevoegen van de lock. Contacteer de programmeurs!"
+msgstr ""
+"Fout tijdens het toevoegen van een vergrendeling. Contacteer de "
+"programmeurs!"
 
 #: include/functions.inc:657
 #, php-format
@@ -426,13 +444,13 @@ msgid ""
 "Cannot create locking information in LDAP tree. Please contact your "
 "administrator!"
 msgstr ""
-"Kan de locking informatie voor de LDAP tree niet aanmaken. Gelieve je "
+"Kan de vergrendelingsinformatie voor de LDAP-boom niet aanmaken. Gelieve je "
 "systeembeheerder te contacteren!"
 
 #: include/functions.inc:657
 #, php-format
 msgid "LDAP server returned: %s"
-msgstr "LDAP server returned: %s"
+msgstr "LDAP server weergegeven: %s"
 
 #: include/functions.inc:846 setup/class_setupStepLdap.inc:212
 #: setup/class_setupStepMigrate.inc:573 setup/class_setupStepMigrate.inc:1005
@@ -448,8 +466,9 @@ msgid ""
 "Found multiple locks for object to be locked. This should not happen - "
 "cleaning up multiple references."
 msgstr ""
-"Verschillende locks zijn teruggevonden voor het object dat je wilt in lock "
-"plaatsen. Dit zou niet mogen gebeuren - Opschonen van meerdere referenties."
+"Verschillende vergrendelingen zijn teruggevonden voor het object dat je in "
+"vergrendeling wil plaatsen. Dit zou niet mogen gebeuren - opschonen van "
+"meerdere referenties."
 
 #: include/functions.inc:875
 #, php-format
@@ -546,7 +565,7 @@ msgstr "Kan niet wegschrijven naar revisie bestand!"
 
 #: include/functions.inc:1894
 msgid "Cannot read revision file!"
-msgstr ""
+msgstr "Kan revisie bestand niet lezen!"
 
 #: include/functions.inc:2008
 msgid "LDAP warning"
@@ -555,70 +574,78 @@ msgstr "LDAP waarschuwing"
 #: include/functions.inc:2008
 msgid "Cannot get schema information from server. No schema check possible!"
 msgstr ""
-"Kan geen schema informatie krijgen van de server. Geen schema verificatie "
+"Kan geen schema-informatie krijgen van de server. Geen schemaverificatie "
 "mogelijk!"
 
 #: include/functions.inc:2032
 msgid "Main FusionDirectory schema"
-msgstr ""
+msgstr "HoofdFusionDirectoryschema"
 
 #: include/functions.inc:2040
 msgid "Schema used to store FusionDirectory configuration"
-msgstr ""
+msgstr "Schema gebruikt om FusionDirectory configuratie op te slaan"
 
 #: include/functions.inc:2048
 msgid "Used to store trust mode information in users or groups."
 msgstr ""
+"Gebruikt om trust-modus informatie op te slaan in gebruikers of groepen"
 
 #: include/functions.inc:2056
 msgid "Used to store templates."
-msgstr ""
+msgstr "Gebruikt om sjabloons op te slaan."
 
 #: include/functions.inc:2065
 msgid "Used to store POSIX information."
-msgstr ""
+msgstr "Gebruikt om POSIX informatie op te slaan."
 
 #: include/functions.inc:2073
 #, php-format
 msgid "Missing required object class \"%s\"!"
-msgstr ""
+msgstr "Ontbrekende vereiste objectklasse \" %s\"!"
 
 #: include/functions.inc:2075
 #, php-format
 msgid "Missing optional object class \"%s\"!"
-msgstr ""
+msgstr "Ontbrekende optionele objectklasse \" %s\"!"
 
 #: include/functions.inc:2079
 #, php-format
 msgid "Class(es) available"
-msgstr "Class(es) beschikbaar"
+msgstr "Klasse(n) beschikbaar"
 
 #: include/functions.inc:2098
 msgid ""
 "You have installed the mixed groups plugin, but your schema configuration "
 "does not support this."
 msgstr ""
+"Je hebt de gemengde groep plugin geïnstalleerd, maar je schemaconfiguratie "
+"ondersteund dit niet."
 
 #: include/functions.inc:2099
 msgid ""
 "In order to use mixed groups the objectClass \"posixGroup\" must be "
 "AUXILIARY"
 msgstr ""
+"Om gemengde groep te gebruiken moet de objectKlasse \"posixGroup\" AUXILIARY"
+" zijn"
 
 #: include/functions.inc:2102
 msgid ""
 "Your schema is configured to support mixed groups, but this plugin is not "
 "present."
 msgstr ""
+"Je schema is geconfigureerd om gemengde groepen te ondersteunen, maar deze "
+"plugin is niet aanwezig."
 
 #: include/functions.inc:2103
 msgid "The objectClass \"posixGroup\" must be STRUCTURAL"
-msgstr ""
+msgstr "De objectKlasse \"posixGroup\" moet STRUCTURAL zijn"
 
 #: include/functions.inc:2548
 #, php-format
 msgid "Cannot locate file '%s' - please run '%s' to fix this"
-msgstr "Kan bestand '%s' niet vinden - gebruik aub '%s' om dit op te lossen"
+msgstr ""
+"Kan bestand '%s' niet vinden - gebruik a.u.b. '%s' om dit op te lossen"
 
 #: include/class_pluglist.inc:185
 msgid "All objects in this category"
@@ -626,17 +653,18 @@ msgstr "Alle objecten in deze categorie"
 
 #: include/select/userSelect/class_userSelect.inc:32
 #: plugins/admin/users/user-list.xml:49
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:62
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:63
 #: plugins/personal/generic/class_user.inc:387
 msgid "Login"
-msgstr "Inlognaam"
+msgstr "Login"
 
 #: include/class_CopyPasteHandler.inc:208
-#: include/simpleplugin/class_simpleManagement.inc:1024
-#: include/simpleplugin/class_simpleManagement.inc:1123
-#: include/simpleplugin/class_simpleManagement.inc:1174
-#: include/simpleplugin/class_simpleManagement.inc:1254
-#: include/simpleplugin/class_simpleManagement.inc:1272
+#: include/simpleplugin/class_simpleTabs.inc:307
+#: include/simpleplugin/class_simpleManagement.inc:1033
+#: include/simpleplugin/class_simpleManagement.inc:1132
+#: include/simpleplugin/class_simpleManagement.inc:1183
+#: include/simpleplugin/class_simpleManagement.inc:1263
+#: include/simpleplugin/class_simpleManagement.inc:1281
 #: plugins/admin/users/class_userManagement.inc:153
 msgid "Permission"
 msgstr "Rechten"
@@ -666,7 +694,7 @@ msgstr "Selecteer om objecten te tonen die '%s' actief hebben"
 
 #: include/class_msgPool.inc:49
 msgid "Select to search within subtrees"
-msgstr "Selecteer om binnen subonderdelen te zoeken"
+msgstr "Selecteer om binnen substructuren te zoeken"
 
 #: include/class_msgPool.inc:67
 msgid "This object will be deleted!"
@@ -737,17 +765,17 @@ msgstr "Je hebt geen rechten om dit object te wijzigen!"
 #: include/class_msgPool.inc:151
 #, php-format
 msgid "You have no permission to modify the field \"%s\" of object \"%s\""
-msgstr ""
+msgstr "Je hebt geen toestemming om het veld \"%s\" of object \"%s\" te veranderen"
 
 #: include/class_msgPool.inc:153 include/class_msgPool.inc:158
 #, php-format
 msgid "You have no permission to modify the object:<br/>%s"
-msgstr ""
+msgstr "Je hebt geen toestemming om het object  <br/> %s te veranderen"
 
 #: include/class_msgPool.inc:161
 #, php-format
 msgid "You have no permission to modify these objects:<br/>%s"
-msgstr ""
+msgstr "Je hebt geen toestemming om deze objecten  <br/> %s te veranderen"
 
 #: include/class_msgPool.inc:172
 msgid "You have no permission to view this object!"
@@ -767,7 +795,7 @@ msgstr "Je hebt geen rechten om dit object te verplaatsen!"
 
 #: include/class_msgPool.inc:198 include/class_msgPool.inc:202
 msgid "You have no permission to move the object:"
-msgstr "Je hebt geenr rechten om dit object te verplaatsen:"
+msgstr "Je hebt geen rechten om dit object te verplaatsen:"
 
 #: include/class_msgPool.inc:205
 msgid "You have no permission to move these objects:"
@@ -776,12 +804,12 @@ msgstr "Je hebt geen rechten om deze objecten te verplaatsen:"
 #: include/class_msgPool.inc:223 include/class_msgPool.inc:243
 #: include/class_msgPool.inc:273
 msgid "Connection information"
-msgstr "Connectie informatie"
+msgstr "Verbindingsinformatie"
 
 #: include/class_msgPool.inc:225
 #, php-format
 msgid "Cannot connect to %s database!"
-msgstr "Kan niet connecteren met %s databank!"
+msgstr "Kan niet verbinden met %s databank!"
 
 #: include/class_msgPool.inc:245
 #, php-format
@@ -871,7 +899,7 @@ msgstr "'%s' moet %d zijn of hoger!"
 #: include/class_msgPool.inc:393
 #, php-format
 msgid "'%s' depends on '%s' - please provide both values!"
-msgstr "'%s' hangt af van '%s' - geef aub beidde waarden in!"
+msgstr "'%s' hangt af van '%s' - geef a.u.b. beide waarden in!"
 
 #: include/class_msgPool.inc:404
 #, php-format
@@ -881,7 +909,7 @@ msgstr "Er is al een inzending met dit '%s' attribuut in het systeem!"
 #: include/class_msgPool.inc:406
 #, php-format
 msgid "The entry '%s' already use this '%s' attribute!"
-msgstr ""
+msgstr "De invoer '%s' gebruikt dit '%s' attribuut al!"
 
 #: include/class_msgPool.inc:417
 #, php-format
@@ -895,7 +923,7 @@ msgstr "Voorbeeld:"
 #: include/class_msgPool.inc:455 include/class_msgPool.inc:459
 #, php-format
 msgid "The field '%s' contains invalid characters"
-msgstr ""
+msgstr "Het veld '%s' bevat ongeldige karakters"
 
 #: include/class_msgPool.inc:456
 #, php-format
@@ -1008,8 +1036,8 @@ msgid ""
 "This account has %s settings disabled. To enable them, you'll need to add "
 "the %s settings first!"
 msgstr ""
-"Deze account heeft %s opties op non-actief. Om ze te activeren moet je de %s"
-" opties eerst toevoegen!"
+"Deze account heeft %s instellingen op non-actief. Om ze te activeren moet je"
+" de %s instellingen eerst toevoegen!"
 
 #: include/class_msgPool.inc:614
 #, php-format
@@ -1017,6 +1045,8 @@ msgid ""
 "This account has %s settings disabled. To enable them, you'll need to "
 "disable the %s settings first!"
 msgstr ""
+"Deze account heeft %s instellingen op non-actief. Om ze te activeren moet je"
+" de %s opties eerst afzetten!"
 
 #: include/class_msgPool.inc:625
 #, php-format
@@ -1031,6 +1061,7 @@ msgstr "Verwijder %s opties"
 #: include/class_msgPool.inc:644
 msgid "Click the 'Edit' button below to change information in this dialog"
 msgstr ""
+"Klik de 'Bewerk' knop onderaan om informatie te veranderen in deze dialoog"
 
 #: include/class_msgPool.inc:652
 msgid "January"
@@ -1110,36 +1141,36 @@ msgstr "Zaterdag"
 
 #: include/class_msgPool.inc:680
 msgid "read operation"
-msgstr "lees operatie"
+msgstr "leesbewerking"
 
 #: include/class_msgPool.inc:680
 msgid "add operation"
-msgstr "voeg operatie toe"
+msgstr "voeg bewerking toe"
 
 #: include/class_msgPool.inc:680
 msgid "modify operation"
-msgstr "wijzig operatie"
+msgstr "wijzig bewerking"
 
 #: include/class_msgPool.inc:681
 msgid "delete operation"
-msgstr "verwijder operatie"
+msgstr "verwijder bewerking"
 
 #: include/class_msgPool.inc:681
 msgid "search operation"
-msgstr "zoek operatie"
+msgstr "zoek bewerking"
 
 #: include/class_msgPool.inc:681
 msgid "authentication"
-msgstr "authentificatie"
+msgstr "authenticatie"
 
 #: include/class_msgPool.inc:684
 #, php-format
 msgid "LDAP %s failed!"
-msgstr "LDAP %s faalde!"
+msgstr "LDAP %s mislukt!"
 
 #: include/class_msgPool.inc:686
 msgid "LDAP operation failed!"
-msgstr "LDAP operaite faalde!"
+msgstr "LDAP bewerking mislukt!"
 
 #: include/class_msgPool.inc:691 include/class_SnapshotDialogs.inc:33
 #: include/class_SnapshotDialogs.inc:203
@@ -1202,7 +1233,7 @@ msgid ""
 "configuration file!"
 msgstr ""
 "De waarde voor '%s' is momenteel niet geconfigureerd of niet geldig, "
-"verifieer aub je configuratie bestand!"
+"verifieer a.u.b. je configuratie bestand!"
 
 #: include/class_msgPool.inc:794
 #, php-format
@@ -1249,12 +1280,15 @@ msgid ""
 msgstr ""
 "De opgegeven base is niet geldig en is veranderd naar de vorige waarde!"
 
-#: include/class_templateHandling.inc:496
+#: include/class_templateHandling.inc:500
 #, php-format
 msgid ""
 "Recursive dependency in the template fields: \"%1$s\" cannot depend on "
 "\"%2$s\" as \"%2$s\" already depends on \"%1$s\""
 msgstr ""
+"Recursieve afhankelijkheid en de sjabloon velden: \"%1$s\" kan niet "
+"afhankelijk zijn van \"%2$s\" omdat \"%2$s\" reeds afhankelijk is van "
+"\"%1$s\""
 
 #: include/simpleplugin/simple-select-list.xml:11
 msgid "Please select the desired entries"
@@ -1263,12 +1297,12 @@ msgstr "Gelieve de items te selecteren"
 #: include/simpleplugin/simple-select-list.xml:32
 #: include/simpleplugin/simple-list.xml:32
 #: plugins/admin/departments/class_department.inc:173
-#: plugins/admin/groups/class_ogroup.inc:207
+#: plugins/admin/groups/class_ogroup.inc:212
 #: plugins/admin/groups/group-list.xml:33
 #: plugins/admin/groups/class_roleGeneric.inc:86
 #: plugins/admin/aclrole/class_aclRole.inc:99
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:63
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:68
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:64
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:69
 #: setup/setup_migrate_adminAccount.tpl.c:8
 msgid "Name"
 msgstr "Naam"
@@ -1278,13 +1312,29 @@ msgstr "Naam"
 #: include/class_SnapshotDialogs.inc:96 include/class_SnapshotDialogs.inc:102
 #: plugins/admin/departments/dep-list.xml:29
 #: plugins/admin/departments/class_department.inc:72
-#: plugins/admin/groups/class_ogroup.inc:212
+#: plugins/admin/groups/class_ogroup.inc:217
 #: plugins/admin/groups/group-list.xml:41
 #: plugins/admin/groups/class_roleGeneric.inc:91
 #: plugins/admin/aclrole/class_aclRole.inc:103
 #: plugins/personal/generic/class_user.inc:325
 msgid "Description"
 msgstr "Omschrijving"
+
+#: include/simpleplugin/class_simpleService.inc:113
+msgid "Get service status"
+msgstr "Ontvang service status"
+
+#: include/simpleplugin/class_simpleService.inc:114
+msgid "Start service"
+msgstr "Start service"
+
+#: include/simpleplugin/class_simpleService.inc:115
+msgid "Stop service"
+msgstr "Stop service"
+
+#: include/simpleplugin/class_simpleService.inc:116
+msgid "Restart service"
+msgstr "Herstart service"
 
 #: include/simpleplugin/attributes/class_BaseSelectorAttribute.inc:37
 #: setup/class_setupStepLdap.inc:50 setup/class_setupStepLdap.inc:119
@@ -1294,12 +1344,12 @@ msgstr "Basis"
 
 #: include/simpleplugin/attributes/class_BaseSelectorAttribute.inc:40
 msgid "Object base"
-msgstr ""
+msgstr "Objectbasis"
 
 #: include/simpleplugin/attributes/class_DateAttribute.inc:131
 #, php-format
 msgid "Error, incorrect date: %s"
-msgstr ""
+msgstr "Fout, niet correcte datum: %s"
 
 #: include/simpleplugin/attributes/class_DateAttribute.inc:193
 #: include/simpleplugin/attributes/class_DateAttribute.inc:264
@@ -1346,29 +1396,31 @@ msgstr "bestand onleesbaar"
 #: include/simpleplugin/attributes/class_FileAttribute.inc:72
 #, php-format
 msgid "%s (%d bytes)"
-msgstr ""
+msgstr "%s (%d bytes)"
 
 #: include/simpleplugin/attributes/class_FileAttribute.inc:119
 #: include/simpleplugin/attributes/class_FileAttribute.inc:326
 #: include/simpleplugin/attributes/class_FileAttribute.inc:327
 msgid "Upload"
-msgstr "Uploaden"
+msgstr "Upload"
 
 #: include/simpleplugin/attributes/class_FileAttribute.inc:124
 #: include/simpleplugin/attributes/class_FileAttribute.inc:125
 msgid "Download"
-msgstr "Downloaden"
+msgstr "Download"
 
 #: include/simpleplugin/attributes/class_FileAttribute.inc:301
 msgid ""
 "Cannot save user picture, FusionDirectory requires the PHP module "
 "\"imagick\" to be installed!"
 msgstr ""
+"Kan gebruiker foto niet opslaan, FusionDirectory heeft de installatie van de"
+" PHP module \"imagick\" nodig!"
 
 #: include/simpleplugin/attributes/class_FileAttribute.inc:336
 #: include/simpleplugin/attributes/class_FileAttribute.inc:337
-#: include/simpleplugin/class_dialogAttributes.inc:655
-#: include/simpleplugin/class_dialogAttributes.inc:656
+#: include/simpleplugin/class_dialogAttributes.inc:685
+#: include/simpleplugin/class_dialogAttributes.inc:686
 #: include/simpleplugin/simple-list.xml:75
 #: include/simpleplugin/simple-list.xml:125
 #: plugins/admin/departments/dep-list.xml:67
@@ -1381,14 +1433,14 @@ msgstr "Verwijderen"
 
 #: include/simpleplugin/attributes/class_PhoneNumberAttribute.inc:34
 msgid "Number"
-msgstr ""
+msgstr "Nummer"
 
 #: include/simpleplugin/attributes/class_PhoneNumberAttribute.inc:132
 #: include/simpleplugin/attributes/class_PhoneNumberAttribute.inc:133
 #: include/simpleplugin/attributes/class_SetAttribute.inc:491
 #: include/simpleplugin/attributes/class_SetAttribute.inc:492
-#: include/simpleplugin/class_dialogAttributes.inc:645
-#: include/simpleplugin/class_dialogAttributes.inc:646
+#: include/simpleplugin/class_dialogAttributes.inc:675
+#: include/simpleplugin/class_dialogAttributes.inc:676
 #: include/simpleplugin/simple-list.xml:67
 #: include/simpleplugin/simple-list.xml:112
 #: plugins/admin/departments/dep-list.xml:79
@@ -1402,113 +1454,117 @@ msgstr "Bewerken"
 #: include/simpleplugin/attributes/class_IntAttribute.inc:50
 #, php-format
 msgid "An integer between %d and %d"
-msgstr ""
+msgstr "Een integer tussen %d en %d"
 
 #: include/simpleplugin/attributes/class_IntAttribute.inc:52
 #, php-format
 msgid "An integer larger than %d"
-msgstr ""
+msgstr "Een integer groter dan %d"
 
 #: include/simpleplugin/attributes/class_IntAttribute.inc:54
 #, php-format
 msgid "An integer smaller than %d"
-msgstr ""
+msgstr "Een integer kleiner dan %d"
 
 #: include/simpleplugin/attributes/class_IntAttribute.inc:156
 #, php-format
 msgid "A float between %f and %f"
-msgstr ""
+msgstr "Een float tussen %f en %f"
 
 #: include/simpleplugin/attributes/class_IntAttribute.inc:158
 #, php-format
 msgid "A float larger than %f"
-msgstr ""
+msgstr "Een float groter dan %f"
 
 #: include/simpleplugin/attributes/class_IntAttribute.inc:160
 #, php-format
 msgid "A float smaller than %f"
-msgstr ""
+msgstr "Een float kleiner dan %f"
 
 #: include/simpleplugin/attributes/class_SetAttribute.inc:136
 #, php-format
 msgid "The value for multivaluated field \"%s\" is not an array"
-msgstr ""
+msgstr "De waarde voor multi-waardevelden \"%s\" is geen array"
 
 #: include/simpleplugin/attributes/class_SetAttribute.inc:230
-#: include/simpleplugin/class_Attribute.inc:583
+#: include/simpleplugin/class_Attribute.inc:588
 #, php-format
 msgid "%s (required)"
-msgstr ""
+msgstr "%s (verplicht)"
 
 #: include/simpleplugin/attributes/class_SetAttribute.inc:585
 #, php-format
 msgid "Invalid value for %s"
-msgstr ""
+msgstr "Ongeldige waarde voor %s"
 
 #: include/simpleplugin/attributes/class_SelectAttribute.inc:66
 #: include/simpleplugin/attributes/class_SelectAttribute.inc:119
-#: include/simpleplugin/class_dialogAttributes.inc:634
+#: include/simpleplugin/class_dialogAttributes.inc:664
 msgid "None"
 msgstr "Geen"
 
 #: include/simpleplugin/attributes/class_SelectAttribute.inc:145
 #, php-format
 msgid "The value \"%s\" for field \"%s\" is not in the list of possible choices"
-msgstr ""
+msgstr "De waarde \"%s\" voor veld \"%s\" staat niet in de lijst van mogelijke keuzes"
 
 #: include/simpleplugin/class_simplePlugin.inc:343
 msgid "Template settings"
-msgstr ""
+msgstr "Sjabloon instellingen"
 
 #: include/simpleplugin/class_simplePlugin.inc:346
 msgid "This is the name of the template"
-msgstr ""
+msgstr "Dit is de naam van het sjabloon"
 
 #: include/simpleplugin/class_simplePlugin.inc:466
 msgid "Only main tab can compute dn"
-msgstr ""
+msgstr "Alleen hoofdtab kan dn verwerken"
 
 #: include/simpleplugin/class_simplePlugin.inc:473
 #, php-format
 msgid "Could not compute dn: no parent tab class for \"%s\""
-msgstr ""
+msgstr "Kan dn niet verwerken: geen parent tabklasse voor \"%s\""
 
 #: include/simpleplugin/class_simplePlugin.inc:485
 #, php-format
 msgid ""
 "Could not compute dn: could not find objectType infos from tab class \"%s\""
 msgstr ""
+"Kan dn niet verwerken: kan objectType infos niet vinden van tabklasse \"%s\""
 
-#: include/simpleplugin/class_simplePlugin.inc:1303
+#: include/simpleplugin/class_simplePlugin.inc:1309
 #, php-format
 msgid "There is already an entry with the same dn : %s"
-msgstr ""
+msgstr "Er is al een invoer met dezelfde dn: %s"
 
-#: include/simpleplugin/class_simplePlugin.inc:1310
+#: include/simpleplugin/class_simplePlugin.inc:1316
 #, php-format
 msgid "The entry %s is not existing"
-msgstr ""
+msgstr "De invoer %s bestaat niet"
 
-#: include/simpleplugin/class_simplePlugin.inc:1500
+#: include/simpleplugin/class_simplePlugin.inc:1506
 msgid ""
 "The object has changed since opened in FusionDirectory. All changes that may"
 " be done by others will get lost if you save this entry!"
 msgstr ""
+"Het object is veranderd sinds de opening in Fusiondirectory. Alle "
+"ondertussen door anderen aangebrachte veranderingen zullen verloren gaan als"
+" je deze invoer bewaart."
 
-#: include/simpleplugin/class_simplePlugin.inc:1686
+#: include/simpleplugin/class_simplePlugin.inc:1699
 #, php-format
 msgid "Service \"%s\""
-msgstr ""
+msgstr "Service \"%s\""
 
-#: include/simpleplugin/class_simplePlugin.inc:1688
+#: include/simpleplugin/class_simplePlugin.inc:1701
 #, php-format
 msgid "Tab \"%s\""
-msgstr ""
+msgstr "Tab \"%s\""
 
-#: include/simpleplugin/class_simplePlugin.inc:1840
+#: include/simpleplugin/class_simplePlugin.inc:1853
 #, php-format
 msgid "Unknown field \"%s\""
-msgstr ""
+msgstr "Onbekend veld \"%s\""
 
 #: include/simpleplugin/class_simpleTabs.inc:74
 #, php-format
@@ -1516,11 +1572,13 @@ msgid ""
 "No plugin definitions found to initialize \"%s\", please check your "
 "configuration file."
 msgstr ""
+"Geen plugin definities gevonden om te initialiseren \"%s\", a.u.b. check je "
+"configuratie file."
 
-#: include/simpleplugin/class_simpleTabs.inc:393
+#: include/simpleplugin/class_simpleTabs.inc:400
 #, php-format
 msgid "Move from \"%s\" to \"%s\" failed"
-msgstr ""
+msgstr "Verplaats van \"%s\" tot \"%s\" mislukt"
 
 #: include/simpleplugin/class_helpersAttribute.inc:253
 msgid "B"
@@ -1558,68 +1616,72 @@ msgstr "uren"
 msgid "days"
 msgstr "dagen"
 
-#: include/simpleplugin/class_dialogAttributes.inc:426
+#: include/simpleplugin/class_dialogAttributes.inc:229
+msgid "Add (dialog)"
+msgstr "Toevoegen (dialoog)"
+
+#: include/simpleplugin/class_dialogAttributes.inc:456
 #, php-format
 msgid "POSIX group %s"
-msgstr ""
+msgstr "POSIX groep %s"
 
-#: include/simpleplugin/class_dialogAttributes.inc:428
+#: include/simpleplugin/class_dialogAttributes.inc:458
 #: plugins/config/class_configInLdap.inc:474
 #, php-format
 msgid "Role %s"
-msgstr ""
+msgstr "Rol %s"
 
-#: include/simpleplugin/class_dialogAttributes.inc:430
+#: include/simpleplugin/class_dialogAttributes.inc:460
 #: plugins/config/class_configInLdap.inc:467
 #, php-format
 msgid "Group %s"
-msgstr ""
+msgstr "Groep %s"
 
-#: include/simpleplugin/class_dialogAttributes.inc:465
+#: include/simpleplugin/class_dialogAttributes.inc:495
 msgid "Group of user"
 msgstr "Gebruikersgroep"
 
-#: include/simpleplugin/class_dialogAttributes.inc:636
+#: include/simpleplugin/class_dialogAttributes.inc:666
 msgid "Unknown"
 msgstr "Onbekend"
 
-#: include/simpleplugin/class_simpleManagement.inc:288
+#: include/simpleplugin/class_simpleManagement.inc:293
 #: plugins/admin/users/user-list.xml:87
 msgid "From template"
-msgstr ""
+msgstr "Van sjabloon"
 
-#: include/simpleplugin/class_simpleManagement.inc:316
+#: include/simpleplugin/class_simpleManagement.inc:321
 #, php-format
 msgid "%s template"
-msgstr ""
+msgstr "%s sjabloon"
 
-#: include/simpleplugin/class_simpleManagement.inc:513
-#: include/simpleplugin/class_simpleManagement.inc:519
+#: include/simpleplugin/class_simpleManagement.inc:518
+#: include/simpleplugin/class_simpleManagement.inc:524
 #: plugins/admin/groups/class_groupManagement.inc:355
 #, php-format
 msgid "Show %s"
-msgstr ""
+msgstr "Toon %s"
 
-#: include/simpleplugin/class_simpleManagement.inc:550
+#: include/simpleplugin/class_simpleManagement.inc:555
 msgid "Filter error"
-msgstr "Filter fout"
+msgstr "Filterfout"
 
-#: include/simpleplugin/class_simpleManagement.inc:550
+#: include/simpleplugin/class_simpleManagement.inc:555
 msgid "The filter is incomplete!"
 msgstr "Deze filter is niet compleet!"
 
-#: include/simpleplugin/class_simpleManagement.inc:1089
+#: include/simpleplugin/class_simpleManagement.inc:1098
 msgid "Permission error"
-msgstr "Permissiefout"
+msgstr "Toestemmingsfout"
 
-#: include/simpleplugin/class_simpleManagement.inc:1123
+#: include/simpleplugin/class_simpleManagement.inc:1132
 #, php-format
 msgid "You are not allowed to create a snapshot for %s."
 msgstr "U heeft geen toestemming om een snapshot te maken voor %s."
 
-#: include/simpleplugin/class_simpleManagement.inc:1174
-#: include/simpleplugin/class_simpleManagement.inc:1254
-#: include/simpleplugin/class_simpleManagement.inc:1272
+#: include/simpleplugin/class_simpleManagement.inc:1183
+#: include/simpleplugin/class_simpleManagement.inc:1263
+#: include/simpleplugin/class_simpleManagement.inc:1281
 #, php-format
 msgid "You are not allowed to restore a snapshot for %s."
 msgstr "U heeft geen toestemming om een snapshot te herstellen voor %s."
@@ -1637,7 +1699,7 @@ msgstr "Aanmaken"
 
 #: include/class_acl.inc:35 include/class_acl.inc:39
 msgid "ACL"
-msgstr "Rechten"
+msgstr "ACL"
 
 #: include/class_acl.inc:36
 msgid "Manage access control lists"
@@ -1654,11 +1716,13 @@ msgid ""
 "Unkown ACL type '%s'!\n"
 "You might need to run \"fusiondirectory-setup --migrate-acls\" to migrate your acls to the new format."
 msgstr ""
+"Onbekend ACL type '%s'! \n"
+"Je zal mogelijks \"fusiondirectory-setup --migrate-acls\" moeten uitvoeren om je acl's te migreren naar het nieuwe formaat."
 
 #: include/class_acl.inc:170
 #, php-format
 msgid "Unknown entry '%s'!"
-msgstr "Onbekende inzending '%s'!"
+msgstr "Onbekende invoer '%s'!"
 
 #: include/class_acl.inc:173
 #, php-format
@@ -1673,7 +1737,7 @@ msgstr ""
 
 #: include/class_ldap.inc:276
 msgid "Performance warning"
-msgstr "Performantie waarschuwing"
+msgstr "Performantiewaarschuwing"
 
 #: include/class_ldap.inc:276
 #, php-format
@@ -1685,11 +1749,15 @@ msgstr "LDAP performantie is slecht: laatste query duurde ongeveer %.2fs!"
 msgid ""
 "Cannot automatically create subtrees with RDN \"%s\": no object class found!"
 msgstr ""
+"Kan niet automatisch een substructuur met RDN \"%s\" creëren: geen "
+"objectklasse gevonden!"
 
 #: include/class_ldap.inc:835
 #, php-format
 msgid "Cannot automatically create subtrees with RDN \"%s\": not supported"
 msgstr ""
+"Kan niet automatisch een substructuur met RDN \"%s\" creëren: niet "
+"ondersteund"
 
 #: include/class_ldap.inc:890
 #, php-format
@@ -1703,53 +1771,55 @@ msgstr "bij het bewerken van LDAP server %s"
 
 #: include/class_ldap.inc:982
 msgid "proc_open failed to execute ldapsearch"
-msgstr ""
+msgstr "proc_open is er niet in geslaagd om ldapsearch uit te voeren"
 
 #: include/class_ldap.inc:1029
 #, php-format
 msgid "Error line %s, first line of an entry cannot start with a space"
 msgstr ""
+"Fout lijn %s, eerste lijn van een invoer kan niet starten met een spatie"
 
 #: include/class_ldap.inc:1047
 #, php-format
 msgid "Error line %s, references to an external file are not supported"
 msgstr ""
+"Fout lijn %s, referenties naar een extern bestand zijn niet ondersteund"
 
 #: include/class_ldap.inc:1050
 #, php-format
 msgid "Error line %s, attribute \"%s\" has no value"
-msgstr ""
+msgstr "Fout lijn %s, attribuut \"%s\" heeft geen waarde"
 
 #: include/class_ldap.inc:1054
 #, php-format
 msgid "Error line %s, an entry bloc can only have one dn"
-msgstr ""
+msgstr "Fout lijn %s, een invoerblok kan enkel maar één dn hebben"
 
 #: include/class_ldap.inc:1059
 #, php-format
 msgid "Error line %s, an entry bloc should start with the dn"
-msgstr ""
+msgstr "Fout lijn %s, een invoerblok moet starten met een dn"
 
 #: include/class_ldap.inc:1091
 #, php-format
 msgid "Error while importing dn: \"%s\", please check your LDIF from line %s on!"
-msgstr ""
+msgstr "Fout tijdens importeren dn: \"%s\", a.u.b. kijk je LDIF na vanaf lijn %s!"
 
 #: include/class_SnapshotDialogs.inc:30
 msgid "Creating an object snapshot"
-msgstr ""
+msgstr "Maak een object snapshot aan"
 
 #: include/class_SnapshotDialogs.inc:33 include/class_SnapshotDialogs.inc:203
 msgid "DN of the object you are creating a snapshot of"
-msgstr ""
+msgstr "DN van het object waarvan je een snapshot aan het maken bent"
 
 #: include/class_SnapshotDialogs.inc:37
 msgid "Timestamp"
-msgstr "Timestamp"
+msgstr "Timestempel"
 
 #: include/class_SnapshotDialogs.inc:37
 msgid "Timestamp of this snapshot creation"
-msgstr ""
+msgstr "Tijdstempel van het aanmaken van deze snapshot"
 
 #: include/class_SnapshotDialogs.inc:41
 msgid "Reason"
@@ -1757,7 +1827,7 @@ msgstr "Reden"
 
 #: include/class_SnapshotDialogs.inc:41
 msgid "Reason for creating this snapshot"
-msgstr ""
+msgstr "Reden van aanmaken van deze snapshot"
 
 #: include/class_SnapshotDialogs.inc:60 include/class_SnapshotDialogs.inc:139
 msgid "Y-m-d, H:i:s"
@@ -1765,23 +1835,23 @@ msgstr "Y-m-d,H-i:s"
 
 #: include/class_SnapshotDialogs.inc:94
 msgid "DN"
-msgstr ""
+msgstr "DN"
 
 #: include/class_SnapshotDialogs.inc:156 include/class_SnapshotDialogs.inc:157
 msgid "Restore"
-msgstr "Restaureer"
+msgstr "Herstel"
 
 #: include/class_SnapshotDialogs.inc:199
 msgid "Restoring snapshots"
-msgstr ""
+msgstr "Herstellen snapshots"
 
 #: include/class_SnapshotDialogs.inc:207
 msgid "Snapshots"
-msgstr ""
+msgstr "Snapshots"
 
 #: include/class_SnapshotDialogs.inc:207
 msgid "Existing snapshots for this object"
-msgstr ""
+msgstr "Bestaande snapshots voor dit object"
 
 #: plugins/admin/departments/dep-list.xml:9
 msgid "List of departments"
@@ -1802,7 +1872,7 @@ msgstr "Domein"
 
 #: plugins/admin/departments/class_domain.inc:51
 msgid "domain"
-msgstr "Domein"
+msgstr "domein"
 
 #: plugins/admin/departments/class_organization.inc:30
 #: plugins/admin/departments/class_organization.inc:31
@@ -1826,7 +1896,7 @@ msgid "department"
 msgstr "afdeling"
 
 #: plugins/admin/departments/class_department.inc:63
-#: plugins/admin/groups/class_ogroup.inc:203
+#: plugins/admin/groups/class_ogroup.inc:208
 #: plugins/admin/groups/group-list.xml:49
 #: plugins/admin/acl/class_aclAssignment.inc:38
 #: plugins/admin/users/user-list.xml:57
@@ -1837,17 +1907,17 @@ msgstr "Eigenschappen"
 #: plugins/admin/departments/class_department.inc:67
 #, php-format
 msgid "Name of %s"
-msgstr ""
+msgstr "Naam van %s"
 
 #: plugins/admin/departments/class_department.inc:67
 #, php-format
 msgid "A name for this %s"
-msgstr ""
+msgstr "Een naam voor deze  %s"
 
 #: plugins/admin/departments/class_department.inc:72
 #, php-format
 msgid "Short description of this %s"
-msgstr ""
+msgstr "Korte omschrijving van deze %s"
 
 #: plugins/admin/departments/class_department.inc:76
 msgid "Category"
@@ -1856,7 +1926,7 @@ msgstr "Categorie"
 #: plugins/admin/departments/class_department.inc:76
 #, php-format
 msgid "Category of this %s"
-msgstr ""
+msgstr "Categorie van deze %s"
 
 #: plugins/admin/departments/class_department.inc:80
 msgid "Website"
@@ -1865,7 +1935,7 @@ msgstr "Website"
 #: plugins/admin/departments/class_department.inc:80
 #, php-format
 msgid "Website of this %s"
-msgstr ""
+msgstr "Website van deze %s"
 
 #: plugins/admin/departments/class_department.inc:84
 #: plugins/personal/generic/class_user.inc:450
@@ -1875,7 +1945,7 @@ msgstr "Beheerder"
 #: plugins/admin/departments/class_department.inc:84
 #, php-format
 msgid "Manager of this %s"
-msgstr ""
+msgstr "Beheerder van deze %s"
 
 #: plugins/admin/departments/class_department.inc:90
 #: plugins/admin/departments/class_department.inc:96
@@ -1903,7 +1973,7 @@ msgstr "Adres"
 #: plugins/admin/departments/class_department.inc:102
 #, php-format
 msgid "A postal address for this %s"
-msgstr ""
+msgstr "Een postadres voor deze %s"
 
 #: plugins/admin/departments/class_department.inc:106
 #: plugins/personal/generic/class_user.inc:356
@@ -1921,41 +1991,43 @@ msgstr "Fax"
 
 #: plugins/admin/departments/class_department.inc:112
 msgid "Facsimile telephone number"
-msgstr ""
+msgstr "Facsimile telefoon nummer"
 
 #: plugins/admin/departments/class_dcObject.inc:30
 #: plugins/admin/departments/class_dcObject.inc:31
 #: plugins/admin/departments/class_dcObject.inc:34
 msgid "Domain Component"
-msgstr "Domein Component"
+msgstr "Domeinbestanddeel"
 
 #: plugins/admin/departments/class_dcObject.inc:51
 msgid "domain component"
-msgstr ""
+msgstr "domeinbestanddeel"
 
 #: plugins/admin/departments/class_country.inc:50
 msgid "country"
-msgstr ""
+msgstr "land"
 
 #: plugins/admin/departments/class_locality.inc:30
 #: plugins/admin/departments/class_locality.inc:31
 #: plugins/admin/departments/class_locality.inc:34
 msgid "Locality"
-msgstr "Localiteit"
+msgstr "Plaats"
 
 #: plugins/admin/departments/class_locality.inc:51
 msgid "locality"
-msgstr ""
+msgstr "plaats"
 
 #: plugins/admin/departments/class_departmentManagement.inc:35
 msgid "Manage departments"
-msgstr ""
+msgstr "Beheer afdelingen"
 
 #: plugins/admin/departments/class_departmentManagement.inc:36
 msgid ""
 "Manage departments, countries, domain components, domains, localities and "
 "organization nodes,"
 msgstr ""
+"Beheer afdelingen, landen, domeincomponenten, domeinen, plaatsen en "
+"organisatienodes"
 
 #: plugins/admin/departments/class_departmentManagement.inc:38
 msgid "Users and groups"
@@ -1964,15 +2036,15 @@ msgstr "Gebruikers en groepen"
 #: plugins/admin/groups/class_groupManagement.inc:35
 #: plugins/personal/roles/class_userRoles.inc:33
 msgid "Groups and roles"
-msgstr ""
+msgstr "Groepen en rollen"
 
 #: plugins/admin/groups/class_groupManagement.inc:36
 msgid "Manage groups and roles"
-msgstr ""
+msgstr "Beheer groepen en rollen"
 
 #: plugins/admin/groups/class_groupManagement.inc:37
 msgid "Allows you to manage object groups, POSIX groups and roles"
-msgstr ""
+msgstr "Laat je toe om object groepen te beheren, POSIX groepen en rollen"
 
 #: plugins/admin/groups/class_groupManagement.inc:155
 #: plugins/admin/groups/class_groupManagement.inc:158
@@ -1984,36 +2056,38 @@ msgstr "Handeling geannuleerd"
 #, php-format
 msgid "System %s has no mac address defined, cannot trigger action"
 msgstr ""
+"System %s heeft geen mac adres gedefinieerd, actie kan niet uitgevoerd "
+"worden"
 
 #: plugins/admin/groups/class_groupManagement.inc:158
 #, php-format
 msgid "Could not find system %s, cannot trigger action"
-msgstr ""
+msgstr "Kan systeem %s niet vinden, kan actie niet starten"
 
 #: plugins/admin/groups/class_groupManagement.inc:176
 #, php-format
 msgid "System %s is currently installing"
-msgstr ""
+msgstr "Systeem %s is aan het installeren"
 
 #: plugins/admin/groups/class_groupManagement.inc:195
 #: plugins/admin/groups/class_groupManagement.inc:226
 msgid "Infrastructure service"
-msgstr ""
+msgstr "Infrastructuurservice"
 
 #: plugins/admin/groups/class_groupManagement.inc:198
 #: plugins/admin/groups/class_groupManagement.inc:203
 msgid "Action triggered"
-msgstr ""
+msgstr "Actie gestart"
 
 #: plugins/admin/groups/class_groupManagement.inc:198
 #, php-format
 msgid "Action called without error (results were \"%s\")"
-msgstr ""
+msgstr "Actie opgevraagd zonder fout (resultaat waren \"%s\")"
 
 #: plugins/admin/groups/class_groupManagement.inc:203
 #, php-format
 msgid "Action called without error (result was \"%s\")"
-msgstr ""
+msgstr "Actie opgevraagd zonder fout (resultaat was \"%s\")"
 
 #: plugins/admin/groups/class_groupManagement.inc:263
 #: plugins/admin/groups/class_roleGeneric.inc:55
@@ -2021,11 +2095,11 @@ msgstr ""
 #: plugins/admin/acl/class_aclAssignment.inc:47
 #: plugins/admin/aclrole/class_aclRole.inc:77
 msgid "Role"
-msgstr "Funktie"
+msgstr "Rol"
 
 #: plugins/admin/groups/class_groupManagement.inc:263
 msgid "Edit role properties"
-msgstr ""
+msgstr "Bewerk roleigenschappen"
 
 #: plugins/admin/groups/class_groupManagement.inc:279
 msgid "Posix"
@@ -2033,27 +2107,27 @@ msgstr "Posix"
 
 #: plugins/admin/groups/class_groupManagement.inc:279
 msgid "Edit posix properties"
-msgstr "Wijzig posix eigenschappen"
+msgstr "Bewerk posix eigenschappen"
 
 #: plugins/admin/groups/class_groupManagement.inc:322
 msgid "Show user groups"
-msgstr "Toon gebruikers groepen"
+msgstr "Toon gebruikersgroepen"
 
 #: plugins/admin/groups/class_groupManagement.inc:323
 msgid "Show organizational roles"
-msgstr ""
+msgstr "Toon organisatierollen"
 
 #: plugins/admin/groups/class_groupManagement.inc:324
 msgid "Show application groups"
-msgstr ""
+msgstr "Toon applicatiegroepen"
 
 #: plugins/admin/groups/class_groupManagement.inc:325
 msgid "Show groups of groups"
-msgstr ""
+msgstr "Toon groepen van groepen"
 
 #: plugins/admin/groups/class_groupManagement.inc:326
 msgid "Show unidentified groups"
-msgstr ""
+msgstr "Toon ongeïdentificeerde groepen"
 
 #: plugins/admin/groups/class_groupManagement.inc:329
 #: include/select/groupSelect/group-filter.tpl.c:5
@@ -2068,108 +2142,109 @@ msgstr "Toon mailgroepen"
 #: plugins/admin/groups/class_groupManagement.inc:334
 #: include/select/groupSelect/group-filter.tpl.c:8
 msgid "Show samba groups"
-msgstr "Toon Samba groepen"
+msgstr "Toon samba-groepen"
 
 #: plugins/admin/groups/class_groupManagement.inc:338
 msgid "Show DSA entries"
-msgstr ""
+msgstr "Toon DSA ingaves"
 
 #: plugins/admin/groups/class_groupManagement.inc:344
 msgid "Show server groups"
-msgstr "Toon server groepen"
+msgstr "Toon servergroepen"
 
 #: plugins/admin/groups/class_groupManagement.inc:345
 msgid "Show workstation groups"
-msgstr "Toon workstation groepen"
+msgstr "Toon workstationgroepen"
 
 #: plugins/admin/groups/class_groupManagement.inc:346
 msgid "Show terminal groups"
-msgstr ""
+msgstr "Toon terminalgroepen"
 
 #: plugins/admin/groups/class_groupManagement.inc:347
 msgid "Show printer groups"
-msgstr "Toon printer groepen"
+msgstr "Toon printergroepen"
 
 #: plugins/admin/groups/class_groupManagement.inc:348
 msgid "Show phone groups"
-msgstr "Toon telefoon groepen"
+msgstr "Toon telefoongroepen"
 
 #: plugins/admin/groups/class_ogroup.inc:61
 #, php-format
 msgid "Unknown type : %s"
 msgstr "Onbekend type: %s"
 
-#: plugins/admin/groups/class_ogroup.inc:65
+#: plugins/admin/groups/class_ogroup.inc:69
 #, php-format
 msgid "Non existing dn: %s"
 msgstr "Onbestaand dn: %s"
 
-#: plugins/admin/groups/class_ogroup.inc:170
+#: plugins/admin/groups/class_ogroup.inc:175
 msgid "Object group"
 msgstr "Objectgroep"
 
-#: plugins/admin/groups/class_ogroup.inc:171
-msgid "Object group information"
-msgstr "Object groep informatie"
-
-#: plugins/admin/groups/class_ogroup.inc:175
 #: plugins/admin/groups/class_ogroup.inc:176
+msgid "Object group information"
+msgstr "Object groepsinformatie"
+
+#: plugins/admin/groups/class_ogroup.inc:180
+#: plugins/admin/groups/class_ogroup.inc:181
 msgid "Group"
 msgstr "Groep"
 
-#: plugins/admin/groups/class_ogroup.inc:207
+#: plugins/admin/groups/class_ogroup.inc:212
 #: plugins/admin/groups/class_roleGeneric.inc:86
 msgid "Name of this group"
 msgstr "Naam van deze groep"
 
-#: plugins/admin/groups/class_ogroup.inc:212
-msgid "Short description of this group"
-msgstr ""
-
 #: plugins/admin/groups/class_ogroup.inc:217
+msgid "Short description of this group"
+msgstr "Korte beschrijving van deze groep"
+
+#: plugins/admin/groups/class_ogroup.inc:222
 msgid "Owner"
 msgstr "Eigenaar"
 
-#: plugins/admin/groups/class_ogroup.inc:223
+#: plugins/admin/groups/class_ogroup.inc:228
 msgid "Member objects"
-msgstr "Lidmaatschap objecten"
+msgstr "Ledenobjecten"
 
-#: plugins/admin/groups/class_ogroup.inc:226
+#: plugins/admin/groups/class_ogroup.inc:231
 msgid "Objects member of this group"
-msgstr ""
+msgstr "Objectleden van deze groep"
 
-#: plugins/admin/groups/class_ogroup.inc:233
+#: plugins/admin/groups/class_ogroup.inc:238
 msgid "System trust"
 msgstr "Systeem vertrouwen"
 
-#: plugins/admin/groups/class_ogroup.inc:237
+#: plugins/admin/groups/class_ogroup.inc:242
 msgid "Trust mode"
 msgstr "Vertrouwensmodus"
 
-#: plugins/admin/groups/class_ogroup.inc:237
+#: plugins/admin/groups/class_ogroup.inc:242
 msgid "Type of authorization for those hosts"
-msgstr ""
+msgstr "Type van authorisatie voor deze hosts"
 
-#: plugins/admin/groups/class_ogroup.inc:241
+#: plugins/admin/groups/class_ogroup.inc:246
 msgid "disabled"
 msgstr "gedeactiveerd"
 
-#: plugins/admin/groups/class_ogroup.inc:241
+#: plugins/admin/groups/class_ogroup.inc:246
 msgid "full access"
 msgstr "volledige toegang"
 
-#: plugins/admin/groups/class_ogroup.inc:241
+#: plugins/admin/groups/class_ogroup.inc:246
 msgid "allow access to these hosts"
 msgstr "sta toegang op deze computers toe"
 
-#: plugins/admin/groups/class_ogroup.inc:244
+#: plugins/admin/groups/class_ogroup.inc:249
 msgid "Only allow this group to connect to this list of hosts"
-msgstr ""
+msgstr "Laat alleen deze groep toe om met deze lijst van hosts te verbinden "
 
-#: plugins/admin/groups/class_ogroup.inc:336
+#: plugins/admin/groups/class_ogroup.inc:341
 msgid ""
 "Putting both workstations and terminals in the same group is not allowed"
 msgstr ""
+"Werkstations en terminals in dezelfde groep plaatsen is niet toegestaan"
 
 #: plugins/admin/groups/group-list.xml:11
 msgid "List of groups"
@@ -2177,7 +2252,7 @@ msgstr "Lijst met groepen"
 
 #: plugins/admin/groups/group-list.xml:93
 msgid "Trigger action"
-msgstr "Trigger actie"
+msgstr "Start actie"
 
 #: plugins/admin/groups/group-list.xml:100
 msgid "Schedule action"
@@ -2185,11 +2260,11 @@ msgstr "Plan actie"
 
 #: plugins/admin/groups/class_roleGeneric.inc:56
 msgid "Role information"
-msgstr ""
+msgstr "Rolinformatie"
 
 #: plugins/admin/groups/class_roleGeneric.inc:60
 msgid "Organizational role"
-msgstr ""
+msgstr "Organisatierol"
 
 #: plugins/admin/groups/class_roleGeneric.inc:82
 #: ihtml/themes/breezy/msg_dialog.tpl.c:8
@@ -2201,18 +2276,18 @@ msgid "Description of the role"
 msgstr "Beschrijving van de rol"
 
 #: plugins/admin/groups/class_roleGeneric.inc:95
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:64
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:70
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:65
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:71
 msgid "Phone number"
 msgstr "Telefoonnummer"
 
 #: plugins/admin/groups/class_roleGeneric.inc:99
 msgid "Fax number"
-msgstr "Fax nummer"
+msgstr "Faxnummer"
 
 #: plugins/admin/groups/class_roleGeneric.inc:105
 msgid "Role members"
-msgstr ""
+msgstr "ledenrol"
 
 #: plugins/admin/groups/class_roleGeneric.inc:108
 msgid "Add users for the role"
@@ -2220,11 +2295,11 @@ msgstr "Voeg gebruikers toe voor de rol"
 
 #: plugins/admin/acl/class_aclAssignment.inc:26
 msgid "ACL Assignment Dialog"
-msgstr ""
+msgstr "ACL opdracht dialoog"
 
 #: plugins/admin/acl/class_aclAssignment.inc:27
 msgid "Access control roles assignment dialog"
-msgstr ""
+msgstr "Rollentoegangscontrole toewijzigsdialoog"
 
 #: plugins/admin/acl/class_aclAssignment.inc:41
 #: plugins/config/class_configInLdap.inc:414
@@ -2233,19 +2308,19 @@ msgstr "Modus"
 
 #: plugins/admin/acl/class_aclAssignment.inc:41
 msgid "Is this applying on complete subtree or only the base?"
-msgstr ""
+msgstr "Is dit toepasbaar op complete substructuur of enkel op de basis?"
 
 #: plugins/admin/acl/class_aclAssignment.inc:44
 msgid "Subtree"
-msgstr ""
+msgstr "Substructuur"
 
 #: plugins/admin/acl/class_aclAssignment.inc:44
 msgid "Base only"
-msgstr ""
+msgstr "Basis enkel"
 
 #: plugins/admin/acl/class_aclAssignment.inc:47
 msgid "Role to apply"
-msgstr ""
+msgstr "Toe te passen rol"
 
 #: plugins/admin/acl/class_aclAssignment.inc:52
 msgid "For all users"
@@ -2253,20 +2328,20 @@ msgstr "Voor alle gebruikers"
 
 #: plugins/admin/acl/class_aclAssignment.inc:52
 msgid "Apply this ACL for all LDAP users"
-msgstr ""
+msgstr "Pas deze ACL toe op alle LDAP gebruikers"
 
 #: plugins/admin/acl/class_aclAssignment.inc:56
 msgid "Members"
-msgstr "Groepsleden"
+msgstr "Leden"
 
 #: plugins/admin/acl/class_aclAssignment.inc:56
 msgid "Users or groups to assign this role to."
-msgstr ""
+msgstr "Gebruikers of groepen waaraan deze rol kan toegewezen worden"
 
 #: plugins/admin/acl/class_aclAssignment.inc:190
 #, php-format
 msgid ", and %d others"
-msgstr ""
+msgstr ", en %d anderen"
 
 #: plugins/admin/acl/class_aclAssignment.inc:259
 msgid "ACL assignment"
@@ -2279,30 +2354,30 @@ msgstr "ACL toekenning"
 
 #: plugins/admin/acl/class_aclAssignment.inc:274
 msgid "Access control roles assignment"
-msgstr ""
+msgstr "Toegangscontrole rollentoewijzing"
 
 #: plugins/admin/acl/class_aclAssignment.inc:293
 msgid "Assignments"
-msgstr "Taken"
+msgstr "Toewijzing"
 
 #: plugins/admin/acl/class_aclAssignment.inc:297
 msgid "ACL role assignments for this base"
-msgstr ""
+msgstr "ACL roltoewijzingen voor deze basis"
 
 #: plugins/admin/acl/class_aclAssignment.inc:308
 #, php-format
 msgid "Assignments on object or subtree %s"
-msgstr ""
+msgstr "Toewijzing op objecten of substructuur %s"
 
 #: plugins/admin/acl/class_aclManagement.inc:31
 #: plugins/admin/acl/class_aclManagement.inc:32
 #: plugins/admin/acl/class_aclManagement.inc:45
 msgid "ACL assignment creation"
-msgstr ""
+msgstr "ACL toewijzing aanmaak"
 
 #: plugins/admin/acl/class_aclManagement.inc:33
 msgid "Create an ACL assignment on an arbitrary dn"
-msgstr ""
+msgstr "Maak een ACL toewijzing aan op een willekeurige dn"
 
 #: plugins/admin/acl/class_aclManagement.inc:49
 msgid "Dn"
@@ -2310,23 +2385,23 @@ msgstr "Dn"
 
 #: plugins/admin/acl/class_aclManagement.inc:49
 msgid "DN you wish to add assignments for"
-msgstr ""
+msgstr "DN waarvoor je toewijzingen wil bijvoegen"
 
 #: plugins/admin/acl/class_aclManagement.inc:110
 msgid "The dn you entered could not be found in the LDAP"
-msgstr ""
+msgstr "De ingegeven dn kon niet in de LDAP worden gevonden"
 
 #: plugins/admin/acl/class_aclManagement.inc:139
 msgid "ACL assignments"
-msgstr "ACL taken"
+msgstr "ACL toewijzingen"
 
 #: plugins/admin/acl/class_aclManagement.inc:140
 msgid "ACL assignments management"
-msgstr ""
+msgstr "ACL toewijzingsbeheer"
 
 #: plugins/admin/acl/class_aclManagement.inc:141
 msgid "Manage ACL roles assignments to users"
-msgstr ""
+msgstr "Beheer ACL rollen toewijzingen aan gebruikers"
 
 #: plugins/admin/users/user-list.xml:11
 msgid "List of users"
@@ -2348,19 +2423,19 @@ msgstr "Gebruiker"
 
 #: plugins/admin/users/user-list.xml:127
 msgid "Lock users"
-msgstr "Blokkeer gebruikers"
+msgstr "Vergrendel gebruikers"
 
 #: plugins/admin/users/user-list.xml:135
 msgid "Unlock users"
-msgstr "Deblokkeer gebruikers"
+msgstr "Ontgrendel gebruikers"
 
 #: plugins/admin/users/user-list.xml:146
 msgid "Apply template"
-msgstr "Template toepassen"
+msgstr "Sjabloon toepassen"
 
 #: plugins/admin/users/user-list.xml:177
 msgid "New user from template"
-msgstr "Nieuwe gebruiker vanaf template"
+msgstr "Nieuwe gebruiker vanaf sjabloon"
 
 #: plugins/admin/users/user-list.xml:189
 msgid "Edit user"
@@ -2386,11 +2461,11 @@ msgstr "Beheer gebruikers"
 
 #: plugins/admin/users/class_userManagement.inc:44
 msgid "Manage user accounts and their properties"
-msgstr ""
+msgstr "Beheer gebruikersaccounts en hun eigenschappen"
 
 #: plugins/admin/users/class_userManagement.inc:191
 msgid "Account locking"
-msgstr "Account locking"
+msgstr "Account vergrendeling"
 
 #: plugins/admin/users/class_userManagement.inc:192
 #, php-format
@@ -2398,14 +2473,16 @@ msgid ""
 "Password method \"%s\" does not support locking. Account \"%s\" has not been"
 " locked!"
 msgstr ""
+"Paswoord methode \"%s\" ondersteunt geen vergrendeling. Account \"%s\" is "
+"niet vergrendeld!"
 
 #: plugins/admin/users/class_userManagement.inc:218
 msgid "Unlock account"
-msgstr "Deblokkeer account"
+msgstr "Ontgrendel account"
 
 #: plugins/admin/users/class_userManagement.inc:220
 msgid "Lock account"
-msgstr "Blokkeer account"
+msgstr "Vergrendel account"
 
 #: plugins/admin/users/class_userManagement.inc:245
 #: plugins/personal/generic/class_user.inc:285
@@ -2415,12 +2492,12 @@ msgstr "Gebruikersaccount"
 #: plugins/admin/users/class_userManagement.inc:245
 #: plugins/personal/generic/class_user.inc:279
 msgid "User account information"
-msgstr ""
+msgstr "Gebruikersaccount informatie"
 
 #: plugins/admin/aclrole/class_aclRole.inc:38
 #, php-format
 msgid "Contains settings for these objects: %s"
-msgstr "Bevat opties voor deze objecten: %s"
+msgstr "Bevat instellingen voor deze objecten: %s"
 
 #: plugins/admin/aclrole/class_aclRole.inc:78
 msgid "Access control roles"
@@ -2432,11 +2509,11 @@ msgstr "ACL rol"
 
 #: plugins/admin/aclrole/class_aclRole.inc:99
 msgid "A name for this role"
-msgstr ""
+msgstr "Een naam voor deze rol"
 
 #: plugins/admin/aclrole/class_aclRole.inc:103
 msgid "Short description of this role"
-msgstr ""
+msgstr "Korte omschrijving van deze rol"
 
 #: plugins/admin/aclrole/class_aclRole.inc:109
 msgid "ACLs"
@@ -2444,7 +2521,7 @@ msgstr "ACLs"
 
 #: plugins/admin/aclrole/class_aclRole.inc:113
 msgid "ACLs which are part of this group"
-msgstr ""
+msgstr "ACLs die een deel vormen van deze groep"
 
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:186
 msgid "No ACL settings for this category"
@@ -2469,26 +2546,26 @@ msgstr "Toon beschikbare ACL categoriëen"
 
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:215
 msgid "All objects in current subtree"
-msgstr "Alle objecten in huidige subtree"
+msgstr "Alle objecten in huidige substructuur"
 
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:217
 #, php-format
 msgid "Edit ACL for \"%s\""
-msgstr ""
+msgstr "Bewerk ACL voor \"%s\""
 
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:258
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:358
 msgid "read"
-msgstr "alleen lezen"
+msgstr "lezen"
 
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:260
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:359
 msgid "write"
-msgstr "afleveren, lezen & schrijven"
+msgstr "schrijven"
 
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:345
 msgid "Show/hide advanced settings"
-msgstr "Toon/verberg geavanceerde opties"
+msgstr "Toon/verberg geavanceerde instellingen"
 
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:350
 msgid "Create objects"
@@ -2512,11 +2589,11 @@ msgstr "Volledig object"
 
 #: plugins/admin/aclrole/class_aclRoleManagement.inc:35
 msgid "ACL roles management"
-msgstr ""
+msgstr "ACL rollenbeheer"
 
 #: plugins/admin/aclrole/class_aclRoleManagement.inc:36
 msgid "Manage ACL roles"
-msgstr ""
+msgstr "Beheer ACL rollen"
 
 #: plugins/config/class_mainPluginsConfig.inc:28
 msgid "Plugins configuration"
@@ -2524,7 +2601,7 @@ msgstr "Plugins configuratie"
 
 #: plugins/config/class_mainPluginsConfig.inc:29
 msgid "FusionDirectory plugins configuration"
-msgstr ""
+msgstr "FusionDirectory plugins configuratie"
 
 #: plugins/config/class_mainPluginsConfig.inc:42
 msgid "Object groups"
@@ -2532,11 +2609,11 @@ msgstr "Objectgroepen"
 
 #: plugins/config/class_mainPluginsConfig.inc:45
 msgid "Groups RDN"
-msgstr ""
+msgstr "Groeps RDN"
 
 #: plugins/config/class_mainPluginsConfig.inc:45
 msgid "Branch in which object groups will be stored"
-msgstr ""
+msgstr "Sectie waarin objectgroepen worden opgeslagen"
 
 #: plugins/config/class_mainPluginsConfig.inc:52
 msgid "SASL"
@@ -2544,55 +2621,59 @@ msgstr "SASL"
 
 #: plugins/config/class_mainPluginsConfig.inc:55
 msgid "Force to ask for password"
-msgstr ""
+msgstr "Verplicht om paswoord te vragen"
 
 #: plugins/config/class_mainPluginsConfig.inc:55
 msgid ""
 "Useful if you add a hook using password value when SASL user passwords are "
 "edited"
 msgstr ""
+"Nuttig als je een hook toevoegt gebruik makend van paswoord waarde wanneer "
+"SASL gebruikerspaswoorden worden bewerkt"
 
 #: plugins/config/class_dashBoardConfig.inc:28
 msgid "Dashboard configuration"
-msgstr ""
+msgstr "Dashboard configuratie"
 
 #: plugins/config/class_dashBoardConfig.inc:29
 msgid "FusionDirectory dashboard plugin configuration"
-msgstr ""
+msgstr "FusionDirectory dashboard plugin configuration"
 
 #: plugins/config/class_dashBoardConfig.inc:42
 msgid "Dashboard name schema"
-msgstr ""
+msgstr "Dashboardnaam schema"
 
 #: plugins/config/class_dashBoardConfig.inc:45
 msgid "Number of digits"
-msgstr ""
+msgstr "Aantal cijfers"
 
 #: plugins/config/class_dashBoardConfig.inc:45
 msgid "Number of digits to use after prefix"
-msgstr ""
+msgstr "Aantal cijfers te gebruiken na prefix"
 
 #: plugins/config/class_dashBoardConfig.inc:51
 msgid "Prefixes"
-msgstr ""
+msgstr "Voorvoegsel"
 
 #: plugins/config/class_dashBoardConfig.inc:51
 msgid "Prefixes to be used for computer ids"
-msgstr ""
+msgstr "Voorvoegsel te gebruiken voor de computers ids"
 
 #: plugins/config/class_dashBoardConfig.inc:59
 msgid "Dashboard expired users"
-msgstr ""
+msgstr "Dashboard vervallen gebruikers"
 
 #: plugins/config/class_dashBoardConfig.inc:62
 msgid "Number of days"
-msgstr ""
+msgstr "Aantal dagen"
 
 #: plugins/config/class_dashBoardConfig.inc:62
 msgid ""
 "Number of days before expiration needed for an account to show in the "
 "dashboard next expired accounts list"
 msgstr ""
+"Aantal dagen voor vervaltijd nodig voor een account om in het dashboard "
+"volgende vervallen accountlijst te tonen"
 
 #: plugins/config/class_pluginsConfigInLdap.inc:29
 msgid "Plugins"
@@ -2608,11 +2689,11 @@ msgstr "Paswoord herstel"
 
 #: plugins/config/class_recoveryConfig.inc:29
 msgid "Settings for the password recovery feature"
-msgstr "Instellingen voor de wachtwoord herstel feature"
+msgstr "Instellingen voor de paswoordherstelfunctie"
 
 #: plugins/config/class_recoveryConfig.inc:40
 msgid "Password recovery settings"
-msgstr "Paswoord herstel opties"
+msgstr "Paswoord herstel instellingen"
 
 #: plugins/config/class_recoveryConfig.inc:45
 msgid "Activate password recovery"
@@ -2620,15 +2701,15 @@ msgstr "Activeer paswoord herstel"
 
 #: plugins/config/class_recoveryConfig.inc:46
 msgid "Whether to activate or not password recovery feature"
-msgstr ""
+msgstr "Al dan niet activeren paswoordherstel mogelijkheid"
 
 #: plugins/config/class_recoveryConfig.inc:51
 msgid "Sender email address"
-msgstr "Zender email adres"
+msgstr "Zender e-mailadres"
 
 #: plugins/config/class_recoveryConfig.inc:52
 msgid "Email address from which mails will be sent"
-msgstr "Email adres van waaruit de mails zullen verzonden worden"
+msgstr "E-mail adres van waaruit de mails zullen verzonden worden"
 
 #: plugins/config/class_recoveryConfig.inc:58
 msgid "Link validity (minutes)"
@@ -2636,27 +2717,31 @@ msgstr "Link geldigheid (minuten)"
 
 #: plugins/config/class_recoveryConfig.inc:59
 msgid "Number of minutes before a recovery link expires"
-msgstr ""
+msgstr "Aantal minuten voordat een herstel-link vervalt"
 
 #: plugins/config/class_recoveryConfig.inc:65
 msgid "Salt for tokens"
-msgstr ""
+msgstr "Salt voor tokens"
 
 #: plugins/config/class_recoveryConfig.inc:66
 msgid ""
 "Just a security measure, you can put anything in there, even random "
 "characters"
 msgstr ""
+"Enkel een veiligheidsmaatregel, dit biedt vele mogelijkheden van invulling, "
+"zelfs willekeurige tekens"
 
 #: plugins/config/class_recoveryConfig.inc:72
 msgid "Allow the use of alternate addresses"
-msgstr ""
+msgstr "Sta gebruik van alternatieve adressen toe "
 
 #: plugins/config/class_recoveryConfig.inc:73
 msgid ""
 "Users will also be able to enter one of theirs alternate addresses to "
 "recover their password"
 msgstr ""
+"Gebruikers zullen ook in de mogelijkheid zijn om één van hun alternatieve "
+"adressen in te geven om hun paswoord te herstellen"
 
 #: plugins/config/class_recoveryConfig.inc:78
 #: plugins/config/class_configInLdap.inc:188
@@ -2667,10 +2752,11 @@ msgstr "Login attribuut"
 msgid ""
 "Usually uid, but you can use something else for instance in case of SSO"
 msgstr ""
+"Meestal uid, maar je kan iets anders gebruiken vb in het geval van SSO"
 
 #: plugins/config/class_recoveryConfig.inc:85
 msgid "First email"
-msgstr ""
+msgstr "Eerste e-mail"
 
 #: plugins/config/class_recoveryConfig.inc:88
 #: plugins/config/class_recoveryConfig.inc:107
@@ -2679,16 +2765,16 @@ msgstr "Onderwerp"
 
 #: plugins/config/class_recoveryConfig.inc:89
 msgid "Subject of the first email"
-msgstr ""
+msgstr "Onderwerp van de eerste e-mail"
 
 #: plugins/config/class_recoveryConfig.inc:92
 msgid "[FusionDirectory] Password recovery link"
-msgstr "[FusionDirectory] Paswoord herstel link"
+msgstr "[FusionDirectory] Paswoord herstel-link"
 
 #: plugins/config/class_recoveryConfig.inc:95
 #, php-format
 msgid "Body (first %s is login, second is link)"
-msgstr ""
+msgstr "Body (eerste %s is login, tweede is link)"
 
 #: plugins/config/class_recoveryConfig.inc:96
 #, php-format
@@ -2696,6 +2782,8 @@ msgid ""
 "Body of the first email, sent when the user ask for a new password. Use %s "
 "for the login and the recovery link."
 msgstr ""
+"Body van de eerste e-mail, verzonden als de gebruiker een nieuw paswoord "
+"vraagt. gebruik %s voor het inloggen en de herstel-link."
 
 #: plugins/config/class_recoveryConfig.inc:99
 #, php-format
@@ -2708,14 +2796,21 @@ msgid ""
 "\n"
 "This link is only valid for 10 minutes."
 msgstr ""
+"Halo, \n"
+"\n"
+"Hier is je informatie:\n"
+" - Login : %s\n"
+" - Link : %s\n"
+"\n"
+"Deze link is enkel 10 minuten geldig."
 
 #: plugins/config/class_recoveryConfig.inc:104
 msgid "Second email"
-msgstr ""
+msgstr "Tweede e-mail"
 
 #: plugins/config/class_recoveryConfig.inc:108
 msgid "Subject of the second email"
-msgstr ""
+msgstr "Onderwerp van de tweede e-mail"
 
 #: plugins/config/class_recoveryConfig.inc:111
 msgid "[FusionDirectory] Password recovery successful"
@@ -2724,7 +2819,7 @@ msgstr "[FusionDirectory] Paswoord herstel succesvol"
 #: plugins/config/class_recoveryConfig.inc:114
 #, php-format
 msgid "Body (%s is login)"
-msgstr ""
+msgstr "Body (%s is login)"
 
 #: plugins/config/class_recoveryConfig.inc:115
 #, php-format
@@ -2732,6 +2827,8 @@ msgid ""
 "Body of the second email, sent to confirm the password has been changed. Use"
 " %s for the user login."
 msgstr ""
+"Body van de tweede e-mail, verzonden om te bevestigen dat het paswoord "
+"veranderd is.  Gebruik  %s voor de gebruikerlogin."
 
 #: plugins/config/class_recoveryConfig.inc:118
 #, php-format
@@ -2754,11 +2851,11 @@ msgstr "FusionDirectory configuratie"
 
 #: plugins/config/class_configInLdap.inc:58
 msgid "Configuration screen of FusionDirectory"
-msgstr ""
+msgstr "Configuratiescherm van FusionDirectory"
 
 #: plugins/config/class_configInLdap.inc:88
 msgid "Look and feel"
-msgstr "Kijk en voel"
+msgstr "Vormgeving en stijl"
 
 #: plugins/config/class_configInLdap.inc:91
 msgid "Language"
@@ -2769,6 +2866,9 @@ msgid ""
 "Language of the application. If 'automatic' or not available, the one asked "
 "by the browser will be used. This setting can be overriden per user."
 msgstr ""
+"Taal van de applicatie. Indien 'automatisch' of 'niet beschikbaar' dan zal "
+"diegene gevraagd door de browser gebruikt worden. Deze instelling kan "
+"overschreven worden door de gebruiker."
 
 #: plugins/config/class_configInLdap.inc:96
 msgid "Theme"
@@ -2776,53 +2876,55 @@ msgstr "Thema"
 
 #: plugins/config/class_configInLdap.inc:96
 msgid "Theme to be used"
-msgstr ""
+msgstr "Te gebruiken thema "
 
 #: plugins/config/class_configInLdap.inc:102
 msgid "Timezone"
-msgstr "Tijdzone"
+msgstr "Tijdszone"
 
 #: plugins/config/class_configInLdap.inc:102
 msgid "Timezone to be used"
-msgstr ""
+msgstr "Te gebruiken Tijdszone"
 
 #: plugins/config/class_configInLdap.inc:110
 msgid "Core settings"
-msgstr ""
+msgstr "Kerninstellingen"
 
 #: plugins/config/class_configInLdap.inc:113
 msgid "LDAP size limit"
-msgstr ""
+msgstr "LDAP grootte-limiet"
 
 #: plugins/config/class_configInLdap.inc:113
 msgid "Defines the number of entries to get from LDAP by default."
-msgstr ""
+msgstr "Definieert het aantal standaard te verkrijgen ingaves van LDAP "
 
 #: plugins/config/class_configInLdap.inc:118
 msgid "Edit locking"
-msgstr ""
+msgstr "Bewerk vergrendeling"
 
 #: plugins/config/class_configInLdap.inc:119
 msgid ""
 "Check if a entry currently being edited has been modified outside of "
 "FusionDirectory in the meantime."
 msgstr ""
+"Kijk na of een invoer die op dit moment bewerkt wordt in tussentijd "
+"aangepast is geweest buiten FusionDirectory."
 
 #: plugins/config/class_configInLdap.inc:124
 msgid "Enable logging"
-msgstr ""
+msgstr "Activeer logging"
 
 #: plugins/config/class_configInLdap.inc:125
 msgid "Event logging on FusionDirectory side."
-msgstr ""
+msgstr "Gebeurtenislogging aan de zijde van FusionDirectory."
 
 #: plugins/config/class_configInLdap.inc:130
 msgid "Schema validation"
-msgstr ""
+msgstr "Schermbevestiging"
 
 #: plugins/config/class_configInLdap.inc:131
 msgid "Enables schema checking during login."
-msgstr ""
+msgstr "Activeer schemacontrole tijdens login "
 
 #: plugins/config/class_configInLdap.inc:136
 msgid "Enable snapshots"
@@ -2833,6 +2935,8 @@ msgid ""
 "This enables you to save certain states of entries and restore them later "
 "on."
 msgstr ""
+"Dit laat je toe om bepaalde toestand van ingaves te bewaren en later te "
+"herstellen."
 
 #: plugins/config/class_configInLdap.inc:141
 msgid "Snapshot base"
@@ -2840,7 +2944,7 @@ msgstr "Snaphosts basis"
 
 #: plugins/config/class_configInLdap.inc:141
 msgid "The base where snapshots should be stored inside of the LDAP."
-msgstr ""
+msgstr "De basis waar snapshots moeten opgeslagen worden binnen LDAP."
 
 #: plugins/config/class_configInLdap.inc:148
 msgid "Password settings"
@@ -2848,57 +2952,59 @@ msgstr "Paswoord opties"
 
 #: plugins/config/class_configInLdap.inc:151
 msgid "Password default hash"
-msgstr ""
+msgstr "Paswoord standaard hash"
 
 #: plugins/config/class_configInLdap.inc:151
 msgid "Default hash to be used"
-msgstr ""
+msgstr "Standaard te gebruiken hash "
 
 #: plugins/config/class_configInLdap.inc:156
 msgid "Force default hash"
-msgstr ""
+msgstr "Verplicht standaard hash"
 
 #: plugins/config/class_configInLdap.inc:156
 msgid "Force the use of the default password hash"
-msgstr ""
+msgstr "Verplicht het gebruik van standaard paswoordhash"
 
 #: plugins/config/class_configInLdap.inc:160
 msgid "Password minimum length"
-msgstr "Paswoord minimum lengte"
+msgstr "Paswoord minimumlengte"
 
 #: plugins/config/class_configInLdap.inc:160
 msgid "Minimum length of user passwords"
-msgstr ""
+msgstr "Minimum lengte van gebruikerspaswoorden"
 
 #: plugins/config/class_configInLdap.inc:165
 msgid "Password minimum differs"
-msgstr ""
+msgstr "Minimumpaswoord wijkt af"
 
 #: plugins/config/class_configInLdap.inc:165
 msgid "Minimum number of different characters from last password"
-msgstr ""
+msgstr "Minimum aantal verschillende karakters voor het laatste paswoord"
 
 #: plugins/config/class_configInLdap.inc:170
 msgid "Use account expiration"
-msgstr "Gebruik account expiration"
+msgstr "Gebruik accountvervaltijd"
 
 #: plugins/config/class_configInLdap.inc:171
 msgid ""
 "Enables shadow attribute tests during the login to FusionDirectory and "
 "forces password renewal or account locking"
 msgstr ""
+"Activeert schaduwattribuut-testen tijdens het inloggen op FusionDirectory en"
+" verplicht paswoordvernieuwing of accountlocking"
 
 #: plugins/config/class_configInLdap.inc:175
 msgid "SASL Realm"
-msgstr ""
+msgstr "SASL Realm"
 
 #: plugins/config/class_configInLdap.inc:179
 msgid "SASL Exop"
-msgstr ""
+msgstr "SASL Exop"
 
 #: plugins/config/class_configInLdap.inc:179
 msgid "Attribute to be stored in the userPassword attribute"
-msgstr ""
+msgstr "Attribuut op te slaan in het gebruikerspaswoordattribuut"
 
 #: plugins/config/class_configInLdap.inc:185
 msgid "Login and session"
@@ -2907,16 +3013,20 @@ msgstr "Login en sessie"
 #: plugins/config/class_configInLdap.inc:189
 msgid "Which LDAP attribute should be used as the login name during login."
 msgstr ""
+"Welk LDAP attribuut moet gebruikt worden als de loginnaam tijdens het "
+"inloggen."
 
 #: plugins/config/class_configInLdap.inc:195
 msgid "Enforce encrypted connections"
-msgstr "Forceer gëencrypteerde connecties"
+msgstr "Verplicht geëncrypteerde connecties"
 
 #: plugins/config/class_configInLdap.inc:196
 msgid ""
 "Enables PHP security checks to force encrypted access (https) to the web "
 "interface."
 msgstr ""
+"Activeert PHP veiligheidscontroles om  geëncrypteerde toegang (httpps) tot "
+"de web interface af te dwingen"
 
 #: plugins/config/class_configInLdap.inc:200
 msgid "Warn if session is not encrypted"
@@ -2925,6 +3035,8 @@ msgstr "Verwittig mij als de sessie niet gëencrypteerd is"
 #: plugins/config/class_configInLdap.inc:201
 msgid "will display a warning to the user when http is used instead of https."
 msgstr ""
+"Zal een waarschuwing tonen aan de gebruiker wanneer http gebruikt wordt "
+"i.p.v. https."
 
 #: plugins/config/class_configInLdap.inc:206
 msgid "Session lifetime"
@@ -2933,30 +3045,32 @@ msgstr "Sessie levensduur"
 #: plugins/config/class_configInLdap.inc:206
 msgid "Defines when a session will expire in seconds (0 to disable)."
 msgstr ""
+"Definieert wanneer een sessie zal vervallen in seconden (0 om uit te "
+"schakelen)."
 
 #: plugins/config/class_configInLdap.inc:211
 msgid "HTTP Basic authentication"
-msgstr ""
+msgstr "HTTP Basis authenticatie"
 
 #: plugins/config/class_configInLdap.inc:211
 msgid "Use HTTP Basic authentication protocol instead of the login form."
-msgstr ""
+msgstr "Gebruik HTTP basisauthenticatieprotocol i.p.v. het inlogformulier"
 
 #: plugins/config/class_configInLdap.inc:216
 msgid "HTTP Header authentication"
-msgstr ""
+msgstr "HTTP Header authenticatie"
 
 #: plugins/config/class_configInLdap.inc:216
 msgid "Use HTTP Header authentication instead of the login form."
-msgstr ""
+msgstr "Gebruik HTTP Header authenticatie i.p.v. het inlogformulier"
 
 #: plugins/config/class_configInLdap.inc:221
 msgid "Header name"
-msgstr ""
+msgstr "Headernaam"
 
 #: plugins/config/class_configInLdap.inc:221
 msgid "Name of the header containing user identifier."
-msgstr ""
+msgstr "Naam van de header die gebruikersidentiteit bevat"
 
 #: plugins/config/class_configInLdap.inc:228
 msgid "SSL"
@@ -2964,44 +3078,46 @@ msgstr "SSL"
 
 #: plugins/config/class_configInLdap.inc:231
 msgid "Key path"
-msgstr ""
+msgstr "Sleutelpad"
 
 #: plugins/config/class_configInLdap.inc:231
 msgid "Path to FusionDirectory private key. Unused for now."
-msgstr ""
+msgstr "Pad naar de FusionDirectory private sleutel. Voorlopig niet gebruikt."
 
 #: plugins/config/class_configInLdap.inc:236
 msgid "Certificate path"
-msgstr ""
+msgstr "Certificaatpad"
 
 #: plugins/config/class_configInLdap.inc:236
 msgid "Path to FusionDirectory certificate. Unused for now."
-msgstr ""
+msgstr "Pad naar FusionDirectory certificaat. Voorlopig niet gebruikt."
 
 #: plugins/config/class_configInLdap.inc:241
 #: plugins/config/class_configInLdap.inc:256
 msgid "CA certificate path"
-msgstr ""
+msgstr "CA certificaat pad"
 
 #: plugins/config/class_configInLdap.inc:241
 msgid "Path to the CA certificate. Used for validating Argonaut Server host."
 msgstr ""
+"Pad naar het CA certificaat. Gebruikt voor het valideren van de Argonaut "
+"host."
 
 #: plugins/config/class_configInLdap.inc:248
 msgid "CAS"
-msgstr ""
+msgstr "CAS"
 
 #: plugins/config/class_configInLdap.inc:251
 msgid "Enable CAS"
-msgstr ""
+msgstr "Activeer CAS"
 
 #: plugins/config/class_configInLdap.inc:251
 msgid "CAS login will be used instead of LDAP bind"
-msgstr ""
+msgstr "CAS login zal gebruikt worden i.p.v. LDAP bind"
 
 #: plugins/config/class_configInLdap.inc:256
 msgid "Path to the CA certificate of the CAS server"
-msgstr ""
+msgstr "Pad naar het CA certificaat van de CAS server"
 
 #: plugins/config/class_configInLdap.inc:261
 msgid "Host"
@@ -3009,7 +3125,7 @@ msgstr "Host"
 
 #: plugins/config/class_configInLdap.inc:261
 msgid "Host of the CAS server"
-msgstr ""
+msgstr "Host van de CAS server"
 
 #: plugins/config/class_configInLdap.inc:266
 msgid "Port"
@@ -3017,88 +3133,93 @@ msgstr "Poort"
 
 #: plugins/config/class_configInLdap.inc:266
 msgid "Port the CAS server is listening on"
-msgstr ""
+msgstr "Poort waarop de CAS server luistert"
 
 #: plugins/config/class_configInLdap.inc:271
 msgid "CAS context"
-msgstr ""
+msgstr "CAS context"
 
 #: plugins/config/class_configInLdap.inc:271
 msgid "CAS context to be used"
-msgstr ""
+msgstr "Te gebruiken CAS context "
 
 #: plugins/config/class_configInLdap.inc:278
 msgid "People and group storage"
-msgstr "People and group opslag"
+msgstr "Personen- en groepsopslag"
 
 #: plugins/config/class_configInLdap.inc:282
 msgid "People DN attribute"
-msgstr "People DN attribuut"
+msgstr "Personen DN attribuut"
 
 #: plugins/config/class_configInLdap.inc:282
 msgid "Attribute to use at the beginning of users dn"
-msgstr ""
+msgstr "Attribuut te gebruiken in het begin van gebruikers dn"
 
 #: plugins/config/class_configInLdap.inc:287
 msgid "CN pattern"
-msgstr ""
+msgstr "CN Patroon"
 
 #: plugins/config/class_configInLdap.inc:287
 msgid "The pattern to use to build the common name field"
 msgstr ""
+"Het patroon te gebruiken om het gemeenschappelijke naamveld aan te maken"
 
 #: plugins/config/class_configInLdap.inc:292
 msgid "Strict naming policy"
-msgstr ""
+msgstr "Strikt naambeleid"
 
 #: plugins/config/class_configInLdap.inc:293
 msgid "Enables strict checking of user and group names"
-msgstr ""
+msgstr "Activeert strikte controle van gebruikers- en groepsnamen"
 
 #: plugins/config/class_configInLdap.inc:298
 msgid "Users RDN"
-msgstr ""
+msgstr "Gebruikers RDN"
 
 #: plugins/config/class_configInLdap.inc:298
 msgid "The branch where users are stored."
-msgstr ""
+msgstr "De sectie waarin gebruikers opgeslagen zijn"
 
 #: plugins/config/class_configInLdap.inc:303
 msgid "ACL role RDN"
-msgstr ""
+msgstr "ACL rol RDN"
 
 #: plugins/config/class_configInLdap.inc:303
 msgid "The branch where ACL roles are stored."
-msgstr ""
+msgstr "De sectie waarin ACL rollen opgeslagen zijn"
 
 #: plugins/config/class_configInLdap.inc:308
 msgid "Restrict role members"
-msgstr ""
+msgstr "Beperk rol leden"
 
 #: plugins/config/class_configInLdap.inc:308
 msgid ""
 "When enabled only users from the same branch or members of groups from the "
 "same branch can be added to a role."
 msgstr ""
+"Wanneer geactiveerd kunnen enkel gebruikers van dezelfde familie of "
+"groepsleden van dezelfde familie toegevoegd worden aan een rol "
 
 #: plugins/config/class_configInLdap.inc:312
 msgid "Separate address fields"
-msgstr ""
+msgstr "Afzonderlijk adresveld"
 
 #: plugins/config/class_configInLdap.inc:312
 msgid ""
 "Expose street, postOfficeBox and postalCode fields instead of postalAddress."
-msgstr ""
+msgstr "Toon street, postOfficeBox en postalCode velden i.p.v. postalAddress"
 
 #: plugins/config/class_configInLdap.inc:316
 msgid "Postal address pattern"
-msgstr ""
+msgstr "Postadres patronen"
 
 #: plugins/config/class_configInLdap.inc:316
 msgid ""
 "When using separate address fields, you can use a pattern to fill "
 "postalAddress field."
 msgstr ""
+"Voor het gebruiken van afzonderlijke adresvelden kan je patronen gebruiken "
+"om postalAdres veld op te vullen."
 
 #: plugins/config/class_configInLdap.inc:322
 msgid "Debugging"
@@ -3113,6 +3234,8 @@ msgid ""
 "Shows PHP errors in the upper part of the screen. This should be disabled in"
 " productive deployments, because there might be some passwords in it."
 msgstr ""
+"Toont PHP fouten in het bovenste deel van het scherm. Dit moet afgezet "
+"worden in productieomgevingen omdat het mogelijks paswoorden kan tonen."
 
 #: plugins/config/class_configInLdap.inc:330
 msgid "Maximum LDAP query time"
@@ -3123,6 +3246,8 @@ msgid ""
 "Stop LDAP actions if there is no answer within the specified number of "
 "seconds."
 msgstr ""
+"Stop LDAP acties als er geen antwoord is binnen het aangegeven aantal "
+"seconden."
 
 #: plugins/config/class_configInLdap.inc:335
 msgid "Log LDAP statistics"
@@ -3133,6 +3258,8 @@ msgid ""
 "Track LDAP timing statistics to the syslog. This may help to find indexing "
 "problems or bad search filters."
 msgstr ""
+"Track LDAP timing statistieken naar de syslog. Dit kan helpen "
+"indexeerproblemen of slechte filters te vinden."
 
 #: plugins/config/class_configInLdap.inc:341
 msgid "Debug level"
@@ -3140,7 +3267,7 @@ msgstr "Debug level"
 
 #: plugins/config/class_configInLdap.inc:342
 msgid "Display certain information on each page load."
-msgstr ""
+msgstr "Toon bepaalde informatie bij het opladen van elke pagina"
 
 #: plugins/config/class_configInLdap.inc:354
 msgid "Miscellaneous"
@@ -3155,79 +3282,88 @@ msgid ""
 "Determines whether a status bar will be shown on the bottom of lists, "
 "displaying a short summary of type and number of elements in the list."
 msgstr ""
+"Bepaald of er een status bar zal getoond worden onderaan de lijsten die een "
+"korte opsomming van type en nummering van elementen in de lijst zal "
+"weergeven."
 
 #: plugins/config/class_configInLdap.inc:363
 msgid "Show ACL tab on all objects"
-msgstr ""
+msgstr "Toon ACL tab op alle objecten"
 
 #: plugins/config/class_configInLdap.inc:364
 msgid ""
 "For very specific ACL rights setting where you might need to give right on a"
 " single object."
 msgstr ""
+"Voor zeer specifieke ACL rechteninstellingen waarin je mogelijks rechten op "
+"één enkel object moet geven."
 
 #: plugins/config/class_configInLdap.inc:369
 msgid "Available department categories"
-msgstr ""
+msgstr "Beschikbare afdelingcategorieën"
 
 #: plugins/config/class_configInLdap.inc:369
 msgid "Available categories in the departments dropdown"
-msgstr ""
+msgstr "Beschikbare categorieën in de afdelingsdropdown"
 
 #: plugins/config/class_configInLdap.inc:376
 msgid "Use this to hide some menu entry to specific groups of users"
 msgstr ""
+"Gebruik dit om enkele menu ingaves naar specifieke groepen en gebruikers te "
+"verbergen"
 
 #: plugins/config/class_configInLdap.inc:380
 msgid "Group or role"
-msgstr ""
+msgstr "Groep of rol"
 
 #: plugins/config/class_configInLdap.inc:385
 msgid "Plugin to blacklist"
-msgstr ""
+msgstr "Plugin naar blacklist"
 
 #: plugins/config/class_configInLdap.inc:391
 msgid "Plugin menu blacklist"
-msgstr ""
+msgstr "Plugin menu blacklist"
 
 #: plugins/config/class_configInLdap.inc:400
 #: plugins/config/class_configInLdap.inc:428
 msgid "Hooks"
-msgstr "Inhakers"
+msgstr "Hooks"
 
 #: plugins/config/class_configInLdap.inc:405
 msgid "Hooks that are called when specific actions happens"
-msgstr ""
+msgstr "Hooks die opgeroepen worden als er specifieke acties plaats vinden"
 
 #: plugins/config/class_configInLdap.inc:409
 msgid "Tab"
-msgstr ""
+msgstr "Tab"
 
 #: plugins/config/class_configInLdap.inc:409
 msgid "The tab that this hook concerns"
-msgstr ""
+msgstr "De tab die op deze hook betrekking heeft"
 
 #: plugins/config/class_configInLdap.inc:414
 msgid "When to call this command"
-msgstr ""
+msgstr "Wanneer dit commando op te roepen"
 
 #: plugins/config/class_configInLdap.inc:421
 msgid "Command"
-msgstr "Commando"
+msgstr "Opdracht"
 
 #: plugins/config/class_configInLdap.inc:421
 msgid "The command that will be called"
-msgstr ""
+msgstr "De opdracht die opgeroepen zal worden"
 
 #: plugins/config/class_configInLdap.inc:435
 msgid "Display hook output"
-msgstr ""
+msgstr "Toon hook output"
 
 #: plugins/config/class_configInLdap.inc:436
 msgid ""
 "When enabled successful hook execution output is displayed to the user using"
 " a dialog."
 msgstr ""
+"Wanneer succesvol geactiveerd dan wordt er hook uitvoeringsoutput getoond "
+"aan de gebruiker gebruik makend van een dialoog."
 
 #: plugins/config/class_configInLdap.inc:451
 #: setup/class_setupStepLanguage.inc:69
@@ -3236,61 +3372,92 @@ msgstr "Automatisch"
 
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:28
 msgid "Statistics about users"
-msgstr ""
+msgstr "Statistieken over gebruikers"
 
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:39
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:40
 msgid "Users statistics"
 msgstr "Statistieken van gebruikers"
 
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:44
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:45
 msgid "Groups statistics"
 msgstr "Statistieken van groepen"
 
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:49
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:50
 #: plugins/addons/dashboard/users_accounts.tpl.c:8
 msgid "Expired accounts"
 msgstr "Vervallen accounts"
 
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:65
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:66
 msgid "Expiration date"
 msgstr "Vervaldatum"
 
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:69
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:70
 #: ihtml/themes/legacy/recovery.tpl.c:89 ihtml/themes/breezy/recovery.tpl.c:83
 msgid "Email"
 msgstr "E-mail"
 
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:87
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:91
 #, php-format
 msgid ""
-"Total user number could not be computed because of the following LDAP error:"
-" %s"
+"User statistics could not be computed because of the following LDAP error: "
+"%s"
 msgstr ""
+"Gebruikerstatistieken kunnen niet verwerkt worden vanwege de volgende LDAP "
+"fout: %s"
+
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:122
+#, php-format
+msgid ""
+"Group statistics could not be computed because of the following LDAP error: "
+"%s"
+msgstr ""
+"Groepstatistieken kunnen niet verwerkt worden vanwege de volgende LDAP fout:"
+" %s"
+
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:169
+#, php-format
+msgid ""
+"Expired user information could not be computed because of the following LDAP"
+" error: %s"
+msgstr ""
+"Vervallengebruikersinformatie kan niet verwerkt worden vanwege de volgende "
+"LDAP fout: %s"
+
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:176
+#, php-format
+msgid ""
+"Expired user information could not be computed because of the following "
+"error: %s"
+msgstr ""
+"Vervallengebruikersinformatie kan niet verwerkt worden vanwege de volgende "
+"fout: %s"
 
 #: plugins/addons/dashboard/class_dashBoardPasswords.inc:26
 msgid "Passwords"
-msgstr "Wachtwoorden"
+msgstr "Paswoorden"
 
 #: plugins/addons/dashboard/class_dashBoardPasswords.inc:27
 msgid "Statistics about passwords"
-msgstr "Statistieken van het wachtwoord"
+msgstr "Statistieken van het paswoord"
 
-#: plugins/addons/dashboard/class_dashBoardPasswords.inc:38
+#: plugins/addons/dashboard/class_dashBoardPasswords.inc:39
 msgid "Passwords statistics"
-msgstr "Wachtwoord statistieken"
+msgstr "Paswoord statistieken"
 
-#: plugins/addons/dashboard/class_dashBoardPasswords.inc:63
+#: plugins/addons/dashboard/class_dashBoardPasswords.inc:64
 #, php-format
 msgid ""
 "Password statistics could not be computed because of the following LDAP "
 "error: %s"
 msgstr ""
+"Paswoordstatistieken kunnen niet verwerkt worden vanwege de volgende LDAP "
+"fout: %s"
 
 #: plugins/addons/dashboard/class_dashBoard.inc:27
 #: plugins/addons/dashboard/class_dashBoard.inc:28
 #: plugins/addons/dashboard/class_dashBoard.inc:33
 msgid "Dashboard"
-msgstr ""
+msgstr "Dashboard"
 
 #: plugins/addons/dashboard/class_dashBoard.inc:29
 msgid "Statistics and various information"
@@ -3300,31 +3467,37 @@ msgstr "Statistieken en diverse informatie"
 msgid "Reporting"
 msgstr "Rapportering"
 
-#: plugins/addons/dashboard/class_dashBoard.inc:49
+#: plugins/addons/dashboard/class_dashBoard.inc:42
+msgid "See dashboard"
+msgstr "Zie dashboard"
+
+#: plugins/addons/dashboard/class_dashBoard.inc:51
 #: plugins/addons/dashboard/main_stats.tpl.c:2
 msgid "Statistics"
 msgstr "Statistieken"
 
-#: plugins/addons/dashboard/class_dashBoard.inc:75
+#: plugins/addons/dashboard/class_dashBoard.inc:79
 #, php-format
 msgid ""
 "Statistics for type \"%s\" could not be computed because of the following "
 "error: %s"
 msgstr ""
+"Statistieken voor type \"%s\" kunnen niet verwerkt worden vanwege de "
+"volgende fout: %s"
 
 #: plugins/personal/roles/class_userRoles.inc:34
 msgid "Edit user's groups and roles"
-msgstr ""
+msgstr "Bewerk gebruikers groepen en rollen"
 
 #: plugins/personal/roles/class_userRoles.inc:49
 #: plugins/personal/roles/class_userRoles.inc:53
 msgid "Groups membership"
-msgstr ""
+msgstr "Groep lidmaatschap"
 
 #: plugins/personal/roles/class_userRoles.inc:60
 #: plugins/personal/roles/class_userRoles.inc:64
 msgid "Roles membership"
-msgstr ""
+msgstr "Rollen lidmaatschap"
 
 #: plugins/personal/generic/class_user.inc:46
 msgid "Password method"
@@ -3332,7 +3505,7 @@ msgstr "Paswoord methode"
 
 #: plugins/personal/generic/class_user.inc:46
 msgid "Password hash method to use"
-msgstr ""
+msgstr "Paswoord te gebruiken hash methode"
 
 #: plugins/personal/generic/class_user.inc:51
 #: plugins/personal/generic/class_user.inc:396
@@ -3342,23 +3515,23 @@ msgstr ""
 #: ihtml/themes/legacy/login.tpl.c:23 ihtml/themes/breezy/login.tpl.c:17
 #: ihtml/themes/breezy/login.tpl.c:20 ihtml/themes/breezy/login.tpl.c:23
 msgid "Password"
-msgstr "Wachtwoord"
+msgstr "Paswoord"
 
 #: plugins/personal/generic/class_user.inc:51
 msgid "Password (Leave empty if you do not wish to change it)"
-msgstr ""
+msgstr "Paswoord (leeg laten als je het niet wil veranderen)"
 
 #: plugins/personal/generic/class_user.inc:55
 msgid "Password again"
-msgstr ""
+msgstr "Paswoord opnieuw"
 
 #: plugins/personal/generic/class_user.inc:55
 msgid "Same password as above, to avoid errors"
-msgstr ""
+msgstr "Zelfde paswoord als voordien, om fouten te vermijden"
 
 #: plugins/personal/generic/class_user.inc:298
 msgid "User lock status"
-msgstr ""
+msgstr "Gebruiker vergrendelingstatus"
 
 #: plugins/personal/generic/class_user.inc:310
 msgid "Personal information"
@@ -3382,7 +3555,7 @@ msgstr "Voornaam van deze gebruiker"
 
 #: plugins/personal/generic/class_user.inc:325
 msgid "Short description of the user"
-msgstr ""
+msgstr "Korte beschrijving van de gebruiker"
 
 #: plugins/personal/generic/class_user.inc:329
 msgid "Picture"
@@ -3390,19 +3563,19 @@ msgstr "Afbeelding"
 
 #: plugins/personal/generic/class_user.inc:329
 msgid "The avatar for this user"
-msgstr ""
+msgstr "De avatar van deze gebruiker"
 
 #: plugins/personal/generic/class_user.inc:336
 msgid "Organizational contact information"
-msgstr ""
+msgstr "Organisatie contact informatie"
 
 #: plugins/personal/generic/class_user.inc:348
 msgid "Business postal address"
-msgstr ""
+msgstr "Zakelijk postadres"
 
 #: plugins/personal/generic/class_user.inc:352
 msgid "Room No."
-msgstr "Kamer nr."
+msgstr "Kamernr."
 
 #: plugins/personal/generic/class_user.inc:352
 msgid "Room number"
@@ -3410,7 +3583,7 @@ msgstr "Kamernummer"
 
 #: plugins/personal/generic/class_user.inc:356
 msgid "Business phone number"
-msgstr ""
+msgstr "Zakelijk telefoonnummer"
 
 #: plugins/personal/generic/class_user.inc:362
 msgid "Mobile"
@@ -3418,19 +3591,19 @@ msgstr "GSM"
 
 #: plugins/personal/generic/class_user.inc:362
 msgid "Business mobile number"
-msgstr ""
+msgstr "Zakelijk mobielnummer"
 
 #: plugins/personal/generic/class_user.inc:368
 msgid "Pager"
-msgstr "Pieper"
+msgstr "Bieper"
 
 #: plugins/personal/generic/class_user.inc:368
 msgid "Business pager number"
-msgstr ""
+msgstr "Zakelijk biepernummer"
 
 #: plugins/personal/generic/class_user.inc:372
 msgid "Business fax number"
-msgstr ""
+msgstr "Zakelijk faxnummer"
 
 #: plugins/personal/generic/class_user.inc:376
 msgid "Homepage"
@@ -3442,11 +3615,11 @@ msgstr "Persoonlijke homepagina"
 
 #: plugins/personal/generic/class_user.inc:382
 msgid "Account information"
-msgstr "account informatie"
+msgstr "Account informatie"
 
 #: plugins/personal/generic/class_user.inc:387
 msgid "Login of this user"
-msgstr ""
+msgstr "Login van deze gebruiker"
 
 #: plugins/personal/generic/class_user.inc:391
 #: setup/class_setupStepLanguage.inc:30
@@ -3455,11 +3628,11 @@ msgstr "Gewenste taal"
 
 #: plugins/personal/generic/class_user.inc:396
 msgid "Password of the user"
-msgstr ""
+msgstr "Paswoord van de gebruiker"
 
 #: plugins/personal/generic/class_user.inc:402
 msgid "Personal contact information"
-msgstr ""
+msgstr "Persoonlijke contactinformatie"
 
 #: plugins/personal/generic/class_user.inc:406
 msgid "Display name"
@@ -3468,10 +3641,11 @@ msgstr "Getoonde naam"
 #: plugins/personal/generic/class_user.inc:406
 msgid "Name this user should appear as. Used by Exchange."
 msgstr ""
+"Naam zoals die bij deze gebruiker moet verschijnen. Gebruikt door Exchange. "
 
 #: plugins/personal/generic/class_user.inc:410
 msgid "Home address"
-msgstr ""
+msgstr "Thuisadres"
 
 #: plugins/personal/generic/class_user.inc:410
 msgid "Home postal address"
@@ -3498,14 +3672,16 @@ msgid ""
 "Title of a person in their organizational context. Each title is one value "
 "of this multi-valued attribute"
 msgstr ""
+"Titel van een persoon in zijn organisatiecontext. Elke titel is één waarde "
+"van dit multi-waardeattribuut."
 
 #: plugins/personal/generic/class_user.inc:434
 msgid "Department to which the user belongs"
-msgstr ""
+msgstr "Afdeling tot dewelke de gebruiker behoort"
 
 #: plugins/personal/generic/class_user.inc:438
 msgid "Department No."
-msgstr "Afdeling nr."
+msgstr "Afdelingsnr."
 
 #: plugins/personal/generic/class_user.inc:438
 msgid "Department number"
@@ -3513,27 +3689,27 @@ msgstr "Departement nummer"
 
 #: plugins/personal/generic/class_user.inc:442
 msgid "Employee No."
-msgstr "Personeel nr."
+msgstr "Personeelsnr."
 
 #: plugins/personal/generic/class_user.inc:442
 msgid "Employee number"
-msgstr "Werknemer nummer"
+msgstr "Werknemersnummer"
 
 #: plugins/personal/generic/class_user.inc:446
 msgid "Employee type"
-msgstr "Functie"
+msgstr "Werknemersfunctie"
 
 #: plugins/personal/generic/class_user.inc:460
 msgid "Street"
-msgstr ""
+msgstr "Straat"
 
 #: plugins/personal/generic/class_user.inc:460
 msgid "Street part of the address"
-msgstr ""
+msgstr "Straatdeel van het adres"
 
 #: plugins/personal/generic/class_user.inc:464
 msgid "Post office box"
-msgstr ""
+msgstr "Postkantoorbox"
 
 #: plugins/personal/generic/class_user.inc:468
 msgid "Postal code"
@@ -3542,25 +3718,26 @@ msgstr "Postcode"
 #: plugins/personal/generic/class_user.inc:672
 #, php-format
 msgid "Ppolicy \"%s\" could not be found in the LDAP!"
-msgstr ""
+msgstr "Ppolicy \"%s\" kon niet gevonden worden in de LDAP!"
 
 #: plugins/personal/generic/class_user.inc:675
 msgid "You are not allowed to change your own password"
-msgstr ""
+msgstr "Het is niet toegelaten je eigen paswoord te veranderen"
 
 #: plugins/personal/generic/class_user.inc:686
 #, php-format
 msgid "You must wait %d seconds before changing your password again"
 msgstr ""
+"Je moet %d seconden wachten voor je paswoord opnieuw kan aangepast worden"
 
 #: plugins/personal/generic/class_user.inc:700
 msgid "Password is in history of old passwords"
-msgstr ""
+msgstr "Paswoord staat in historie van oude paswoorden"
 
 #: plugins/personal/generic/class_user.inc:705
 #: plugins/personal/generic/class_user.inc:709
 msgid "Password is not being changed from existing value"
-msgstr ""
+msgstr "Paswoord is niet veranderd t.o.v. de bestaande waarde"
 
 #: plugins/personal/generic/class_user.inc:716
 msgid "You need to specify your current password in order to proceed."
@@ -3571,22 +3748,23 @@ msgid ""
 "The passwords you've entered as \"New password\" and \"Repeated new "
 "password\" do not match."
 msgstr ""
+"Het paswoord dat je ingebracht hebt als \"Nieuw paswoord\" en \"Herhaald "
+"nieuw paswoord\" komen niet overeen"
 
 #: plugins/personal/generic/class_user.inc:720
 #: ihtml/themes/legacy/recovery.tpl.c:29 ihtml/themes/legacy/recovery.tpl.c:32
 #: ihtml/themes/legacy/recovery.tpl.c:35 ihtml/themes/breezy/recovery.tpl.c:23
 #: ihtml/themes/breezy/recovery.tpl.c:26 ihtml/themes/breezy/recovery.tpl.c:29
 msgid "New password"
-msgstr "Nieuw wachtwoord"
+msgstr "Nieuw paswoord"
 
 #: plugins/personal/generic/class_user.inc:722
 msgid "The password used as new and current are too similar."
-msgstr ""
-"Het huidige wachtwoord en het nieuwe wachtwoord lijken te veel op elkaar."
+msgstr "Het huidige paswoord en het nieuwe paswoord lijken te veel op elkaar."
 
 #: plugins/personal/generic/class_user.inc:724
 msgid "The password used as new is too short."
-msgstr ""
+msgstr "Het paswoord ingevoerd als nieuw is te kort."
 
 #: plugins/personal/generic/class_user.inc:726
 msgid "The password contains possibly problematic Unicode characters!"
@@ -3605,7 +3783,7 @@ msgstr "Welkom %s!"
 
 #: setup/class_setup.inc:128
 msgid "Setup error"
-msgstr "Setup error"
+msgstr "Opzetfout"
 
 #: setup/class_setup.inc:208
 msgid "Completed"
@@ -3622,7 +3800,7 @@ msgstr "Welkom"
 
 #: setup/class_setupStepWelcome.inc:51
 msgid "Welcome to FusionDirectory setup wizard"
-msgstr "Welkom bij de FusionDirectory setup wizard"
+msgstr "Welkom bij de FusionDirectory opzetbegeleider"
 
 #: setup/class_setupStepWelcome.inc:52
 msgid "The welcome message"
@@ -3634,11 +3812,11 @@ msgstr "LDAP connectie"
 
 #: setup/class_setupStepLdap.inc:36
 msgid "Location name"
-msgstr "Naam van de locatie"
+msgstr "Naam van de plaats"
 
 #: setup/class_setupStepLdap.inc:36
 msgid "Name of this connexion to show in the LDAP server list"
-msgstr ""
+msgstr "Naam van deze verbinding om te tonen in de LDAP server lijst"
 
 #: setup/class_setupStepLdap.inc:41
 msgid "Connection URI"
@@ -3646,30 +3824,32 @@ msgstr "Connectie URI"
 
 #: setup/class_setupStepLdap.inc:41
 msgid "URI to contact the LDAP server. Usually starts with ldap://"
-msgstr ""
+msgstr "URI om de LDAP server te contacteren. Meestal startend met ldap://"
 
 #: setup/class_setupStepLdap.inc:46
 msgid "TLS connection"
-msgstr "TLS connectie"
+msgstr "TLS verbinding"
 
 #: setup/class_setupStepLdap.inc:46
 msgid "Should TLS be used to connect to this LDAP server?"
-msgstr ""
+msgstr "Moet TLS gebruikt worden om te verbinden met deze LDAP server?"
 
 #: setup/class_setupStepLdap.inc:50 setup/class_setupStepLdap.inc:119
 #: setup/class_setupStepLdap.inc:127
 msgid "The LDAP directory base"
-msgstr ""
+msgstr "De LDAP directory basis"
 
 #: setup/class_setupStepLdap.inc:56
 msgid "Authentication"
-msgstr "Authentificatie"
+msgstr "Authenticatie"
 
 #: setup/class_setupStepLdap.inc:59
 msgid ""
 "DN of the admin account to use for binding to the LDAP. Base is "
 "automatically appended."
 msgstr ""
+"DN van het admin account te gebruiken voor binding naar de LDAP. Basis is "
+"automatisch toegevoegd."
 
 #: setup/class_setupStepLdap.inc:74
 msgid "Admin DN"
@@ -3677,11 +3857,11 @@ msgstr "Beheerders DN"
 
 #: setup/class_setupStepLdap.inc:77
 msgid "Admin password"
-msgstr "Beheerders wachtwoord"
+msgstr "Beheerderspaswoord"
 
 #: setup/class_setupStepLdap.inc:77
 msgid "Password for the admin account to use for binding to the LDAP"
-msgstr ""
+msgstr "Paswoord voor het adminaccount te gebruiken voor binding naar de LDAP"
 
 #: setup/class_setupStepLdap.inc:83
 msgid "Status"
@@ -3694,6 +3874,7 @@ msgstr "Huidige status"
 #: setup/class_setupStepLdap.inc:86
 msgid "Result of last attempt at checking LDAP binding and basic schemas"
 msgstr ""
+"Resultaat van laatste poging van LDAP binding en basisschema's controles."
 
 #: setup/class_setupStepLdap.inc:107
 msgid "LDAP setup"
@@ -3701,7 +3882,7 @@ msgstr "LDAP setup"
 
 #: setup/class_setupStepLdap.inc:108
 msgid "LDAP connection setup"
-msgstr "LDAP connectie setup"
+msgstr "LDAP verbindingsopzet"
 
 #: setup/class_setupStepLdap.inc:109
 msgid ""
@@ -3732,11 +3913,11 @@ msgstr "Anonieme bind naar server '%s' is succesvol."
 
 #: setup/class_setupStepLdap.inc:188 setup/class_setupStepLdap.inc:192
 msgid "Refresh"
-msgstr "Ververs"
+msgstr "Vernieuwen"
 
 #: setup/class_setupStepLdap.inc:189
 msgid "Please specify user and password!"
-msgstr "Specifieer aub een gebruikersnaam en paswoord!"
+msgstr "Specifieer a.u.b. een gebruikersnaam en paswoord!"
 
 #: setup/class_setupStepLdap.inc:191
 #, php-format
@@ -3749,6 +3930,8 @@ msgid ""
 "%s\n"
 "Schema \"%s\": %s"
 msgstr ""
+"%s\n"
+"Schema \"%s\": %s"
 
 #: setup/class_setupStepChecks.inc:30 setup/class_setupStepMigrate.inc:206
 msgid "PHP module and extension checks"
@@ -3758,7 +3941,7 @@ msgstr "PHP module en extensie verificaties"
 msgid ""
 "PHP setup configuration (<a href=\"?info\" target=\"_blank\">show "
 "information</a>)"
-msgstr ""
+msgstr "PHP setup configuratie (1show information1)"
 
 #: setup/class_setupStepChecks.inc:48 setup/class_setupStepChecks.inc:49
 msgid "Installation check"
@@ -3779,7 +3962,7 @@ msgstr "PHP moet versie %s zijn of meer"
 
 #: setup/class_setupStepChecks.inc:69
 msgid "Please upgrade to a supported version."
-msgstr "Upgrade aub naar de gesupporteerde versie."
+msgstr "Upgrade a.u.b. naar de ondersteunde versie."
 
 #: setup/class_setupStepChecks.inc:76
 msgid "FusionDirectory requires this module to talk with your LDAP server."
@@ -3805,12 +3988,16 @@ msgstr ""
 msgid ""
 "FusionDirectory requires this module to encode variables for javascript use."
 msgstr ""
+"FusionDirectory heeft deze module nodig om variabelen te coderen voor "
+"javascript gebruik"
 
 #: setup/class_setupStepChecks.inc:108
 msgid ""
 "FusionDirectory requires this module to filters a variable with a specified "
 "filter."
 msgstr ""
+"FusionDirectory heeft deze module nodig om een variabele te filteren met een"
+" specifieke filter."
 
 #: setup/class_setupStepChecks.inc:116
 msgid "FusionDirectory requires this module for the samba integration."
@@ -3992,17 +4179,20 @@ msgstr "Analyseer je huidige LDAP voor FusionDirectory compatibiliteit"
 
 #: setup/class_setupStepMigrate.inc:233
 msgid "Give all rights on users in the given branch"
-msgstr ""
+msgstr "Geef alle rechten aan gebruikers in de gegeven familie"
 
 #: setup/class_setupStepMigrate.inc:239
 msgid ""
 "Allow users to edit their own information (main tab and posix use only on "
 "base)"
 msgstr ""
+"Toestaan dat gebruikers hun eigen informatie bewerken (enkel hoofdtab en "
+"posix gebruik alleen op basis)"
 
 #: setup/class_setupStepMigrate.inc:245
 msgid "Allow users to edit their own password (use only on base)"
 msgstr ""
+"Toestaan dat gebruikers hun eigen paswoord bewerken (gebruik enkel op basis)"
 
 #: setup/class_setupStepMigrate.inc:258
 msgid "Inspecting object classes in root object"
@@ -4010,39 +4200,39 @@ msgstr "Inspectie van de object classes in root object"
 
 #: setup/class_setupStepMigrate.inc:259
 msgid "Checking permission for LDAP database"
-msgstr "Rechten aan het nakijken voor de LDAP databank"
+msgstr "Controle op LDAPdatabankrechten"
 
 #: setup/class_setupStepMigrate.inc:260
 msgid "Checking for invisible users"
-msgstr "Verificatie voor onzichtbare gebruikers"
+msgstr "Controle op niet-zichtbare gebruikers"
 
 #: setup/class_setupStepMigrate.inc:261
 msgid "Checking for super administrator"
-msgstr "Verificatie voor super administrator"
+msgstr "Controle op super-administrator"
 
 #: setup/class_setupStepMigrate.inc:262
 msgid "Checking for default ACL roles and groups"
-msgstr ""
+msgstr "Controle op standaard ACL rollen en groepen"
 
 #: setup/class_setupStepMigrate.inc:263
 msgid "Checking for users outside the people tree"
-msgstr "Verificatie voor gebruikers buiten de people tree"
+msgstr "Controle op gebruikers buiten de personenstructuur"
 
 #: setup/class_setupStepMigrate.inc:264
 msgid "Checking for groups outside the groups tree"
-msgstr "Verificatie voor groepen buiten de groups tree"
+msgstr "Controle op groepen buiten de groepsstructuur"
 
 #: setup/class_setupStepMigrate.inc:265
 msgid "Checking for invisible departments"
-msgstr "Verificatie voor onzichtbare departementen"
+msgstr "Controle op niet-zichtbare afdelingen"
 
 #: setup/class_setupStepMigrate.inc:266
 msgid "Checking for duplicated UID numbers"
-msgstr "Verificatie voor duplicate UID nummers"
+msgstr "Controle op dubbele UID nummers"
 
 #: setup/class_setupStepMigrate.inc:267
 msgid "Checking for duplicated GID numbers"
-msgstr ""
+msgstr "Controle op dubbele GID nummers"
 
 #: setup/class_setupStepMigrate.inc:329 setup/class_setupStepMigrate.inc:488
 #: setup/class_setupStepMigrate.inc:565 setup/class_setupStepMigrate.inc:701
@@ -4050,7 +4240,7 @@ msgstr ""
 #: setup/class_setupStepMigrate.inc:1101 setup/class_setupStepMigrate.inc:1194
 #: setup/class_setupStepMigrate.inc:1272 setup/class_setupStepMigrate.inc:1316
 msgid "LDAP query failed"
-msgstr "LDAP query faalde"
+msgstr "LDAP query mislukt"
 
 #: setup/class_setupStepMigrate.inc:330 setup/class_setupStepMigrate.inc:489
 #: setup/class_setupStepMigrate.inc:566 setup/class_setupStepMigrate.inc:702
@@ -4058,7 +4248,7 @@ msgstr "LDAP query faalde"
 #: setup/class_setupStepMigrate.inc:1102 setup/class_setupStepMigrate.inc:1195
 #: setup/class_setupStepMigrate.inc:1273 setup/class_setupStepMigrate.inc:1317
 msgid "Possibly the \"root object\" is missing."
-msgstr ""
+msgstr "Mogelijk ontbreekt het \"root object\"."
 
 #: setup/class_setupStepMigrate.inc:346 setup/class_setupStepMigrate.inc:369
 #: setup/class_setupStepMigrate.inc:420 setup/class_setupStepMigrate.inc:500
@@ -4073,7 +4263,7 @@ msgstr "Ontbrekende FusionDirectory object class '%s'!"
 
 #: setup/class_setupStepMigrate.inc:348
 msgid "Please check your installation."
-msgstr "Kijk je installatie na aub."
+msgstr "Kijk je installatie na a.u.b.."
 
 #: setup/class_setupStepMigrate.inc:370
 #, php-format
@@ -4088,11 +4278,15 @@ msgstr ""
 #, php-format
 msgid "The specified user \"%s\" does not have full access to your LDAP database."
 msgstr ""
+"De vermelde gebruiker \"%s\" heeft geen volledige toegang tot je LDAP "
+"database."
 
 #: setup/class_setupStepMigrate.inc:512
 #, php-format
 msgid "The specified user \"%s\" does not have full access to your ldap database."
 msgstr ""
+"De vermelde gebruiker \"%s\" heeft geen volledige toegang tot je ldap "
+"database."
 
 #: setup/class_setupStepMigrate.inc:575
 #, php-format
@@ -4105,16 +4299,16 @@ msgstr ""
 
 #: setup/class_setupStepMigrate.inc:584 setup/class_setupStepMigrate.inc:589
 msgid "User migration"
-msgstr "Gebruikers migratie"
+msgstr "Gebruikersmigratie"
 
 #: setup/class_setupStepMigrate.inc:673 setup/class_setupStepMigrate.inc:949
 msgid "Migration error"
-msgstr "Migratie error"
+msgstr "Migratiefout"
 
 #: setup/class_setupStepMigrate.inc:675
 #, php-format
 msgid "Cannot migrate entry \"%s\":"
-msgstr ""
+msgstr "Kan ingave \"%s\" niet migreren:"
 
 #: setup/class_setupStepMigrate.inc:796
 msgid "Groups"
@@ -4122,7 +4316,7 @@ msgstr "Groepen"
 
 #: setup/class_setupStepMigrate.inc:799
 msgid "Roles"
-msgstr "Rolen"
+msgstr "Rollen"
 
 #: setup/class_setupStepMigrate.inc:805
 msgid "There is no FusionDirectory administrator account inside your LDAP."
@@ -4130,19 +4324,19 @@ msgstr "Er is geen FusionDirectory administrator account in je LDAP."
 
 #: setup/class_setupStepMigrate.inc:843
 msgid "Gives all rights on all objects"
-msgstr ""
+msgstr "Geeft alle rechten op alle objecten"
 
 #: setup/class_setupStepMigrate.inc:917
 msgid "Default ACL roles have not been inserted"
-msgstr ""
+msgstr "Standaard ACL rollen zijn niet ingevoegd"
 
 #: setup/class_setupStepMigrate.inc:919
 msgid "Some default ACL roles are missing"
-msgstr ""
+msgstr "Sommige standaard ACL rollen mankeren"
 
 #: setup/class_setupStepMigrate.inc:921
 msgid "Default ACL roles have been inserted"
-msgstr ""
+msgstr "Standaard ACL rollen zijn toegevoegd"
 
 #: setup/class_setupStepMigrate.inc:951
 #, php-format
@@ -4152,7 +4346,7 @@ msgstr "Kan de ACL rol \"%s\" niet toevoegen:"
 #: setup/class_setupStepMigrate.inc:1006
 #, php-format
 msgid "Found %s user(s) outside the configured tree \"%s\"."
-msgstr ""
+msgstr "Gebruiker(s) %s gevonden buiten de configuratieboom \"%s\"."
 
 #: setup/class_setupStepMigrate.inc:1020 setup/class_setupStepMigrate.inc:1034
 msgid "Move users into configured user tree"
@@ -4160,11 +4354,11 @@ msgstr "Verplaats gebruikers in deze geconfigureerde user tree"
 
 #: setup/class_setupStepMigrate.inc:1052
 msgid "Cannot move entries to the requested department!"
-msgstr ""
+msgstr "Kan ingaves niet naar de aangevraagde afdeling verplaatsen"
 
 #: setup/class_setupStepMigrate.inc:1064
 msgid "Entry will be moved from"
-msgstr ""
+msgstr "Ingave zal verplaatst worden van"
 
 #: setup/class_setupStepMigrate.inc:1064
 msgid "to"
@@ -4181,7 +4375,7 @@ msgstr "Vond %s groepen buiten de geconfigureerde tree '%s'."
 
 #: setup/class_setupStepMigrate.inc:1139 setup/class_setupStepMigrate.inc:1153
 msgid "Move groups into configured groups tree"
-msgstr ""
+msgstr "Verplaats groep naar geconfigureerde groepsboom"
 
 #: setup/class_setupStepMigrate.inc:1236
 #, php-format
@@ -4191,17 +4385,17 @@ msgstr ""
 
 #: setup/class_setupStepMigrate.inc:1244 setup/class_setupStepMigrate.inc:1249
 msgid "Department migration"
-msgstr ""
+msgstr "Afdelingmigratie"
 
 #: setup/class_setupStepMigrate.inc:1299
 #, php-format
 msgid "Found %s duplicate values for attribute \"uidNumber\":%s"
-msgstr ""
+msgstr "Dubbele waardes %s gevonden voor attribuut \"uidNumber\":%s"
 
 #: setup/class_setupStepMigrate.inc:1343
 #, php-format
 msgid "Found %s duplicate values for attribute \"gidNumber\":%s"
-msgstr ""
+msgstr "Dubbele waardes %s gevonden voor attribuut \"gidNumber\":%s"
 
 #: setup/class_setupStepFinish.inc:40
 msgid "Finish"
@@ -4213,14 +4407,14 @@ msgstr "Voltooid - schrijf configuratie bestand"
 
 #: setup/class_setupStepFinish.inc:42
 msgid "Write configuration file"
-msgstr "Schrijf configuratie bestand"
+msgstr "Schrijf configuratiebestand"
 
 #: setup/class_setupStepFinish.inc:89
 msgid ""
 "Your configuration file is currently world readable. Please update the file "
 "permissions!"
 msgstr ""
-"Je configuratie bestand is momenteel wereldleesbaar. Update aub de "
+"Je configuratie bestand is momenteel wereldleesbaar. Update a.u.b. de "
 "bestandsrechten!"
 
 #: setup/class_setupStepFinish.inc:91
@@ -4234,13 +4428,13 @@ msgid ""
 "user the webserver is running with is able to read %s, while other users "
 "shouldn't."
 msgstr ""
-"Na het downloaden en plaatsen van het bestand onder %s, verifieer aub dat de"
-" gebruiker die de webserver draait de mogelijkheid heeft om %s te lezen, "
+"Na het downloaden en plaatsen van het bestand onder %s, verifieer a.u.b. dat"
+" de gebruiker die de webserver draait de mogelijkheid heeft om %s te lezen, "
 "terwijl andere gebruikers dit niet kunnen."
 
 #: setup/class_setupStepLanguage.inc:59 setup/class_setupStepLanguage.inc:60
 msgid "Language setup"
-msgstr "Taal setup"
+msgstr "Taal instellingen"
 
 #: setup/class_setupStepLanguage.inc:61
 msgid "This step allows you to select your preferred language."
@@ -4252,6 +4446,9 @@ msgid ""
 "\"automatic\" will use the language requested by the browser. This setting "
 "can be overriden per user."
 msgstr ""
+"Op dit punt kan je de site-wijde standaard taal selecteren. Bij "
+"\"Automatisch\" kiezen zal de taal gevraagd door de browser gebruikt worden."
+" Deze instelling kan overschreven worden per gebruiker."
 
 #: html/setup.php:60
 msgid "Smarty"
@@ -4272,7 +4469,7 @@ msgstr "FusionDirectory configuratie %s/%s is niet leesbaar. Geannuleerd."
 #: html/class_passwordRecovery.inc:174 html/index.php:55
 #, php-format
 msgid "Warning: <a href=\"%s\">Session is not encrypted!</a>"
-msgstr ""
+msgstr "Waarschuwing: <a href=\"%s\">Sessie is niet geëncrypteerd!</a>"
 
 #: html/class_passwordRecovery.inc:303 ihtml/themes/legacy/recovery.tpl.c:83
 #: ihtml/themes/legacy/recovery.tpl.c:86 ihtml/themes/breezy/recovery.tpl.c:77
@@ -4293,17 +4490,19 @@ msgstr "Er zijn meerdere accounts gevonden met login \"%s\""
 #: html/class_passwordRecovery.inc:508
 #, php-format
 msgid "There is no account using email \"%s\""
-msgstr ""
+msgstr "Er is geen account dat e-mail gebruikt \"%s\""
 
 #: html/class_passwordRecovery.inc:511
 #, php-format
 msgid "There are several accounts using email \"%s\""
-msgstr ""
+msgstr "Er zijn verscheidene accounts die e-mail gebruiken \"%s\" "
 
 #: html/class_passwordRecovery.inc:519
 #, php-format
 msgid "The user using email \"%s\" is locked. Please contact your administrator."
 msgstr ""
+"De gebruiker die e-mail \"%s\" gebruikt is vergrendeld, a.u.b. contacteer je"
+" systeembeheerder."
 
 #: html/class_passwordRecovery.inc:574
 msgid "Contact your administrator, there was a problem with mail server"
@@ -4311,12 +4510,13 @@ msgstr "Contacteer je systeembeheerder, er was een probleem met de mailserver"
 
 #: html/class_passwordRecovery.inc:587
 msgid "This token is invalid"
-msgstr "Deze token is niet geldig"
+msgstr "Deze token is ongeldig"
 
 #: html/class_passwordRecovery.inc:651
 msgid "There was a problem with mail server, confirmation email not sent"
 msgstr ""
-"Er was een probleem met de mail server, de bevestiging werd niet verstuurd"
+"Er was een probleem met de mail server, de bevestigingse-mail werd niet "
+"verstuurd"
 
 #: html/main.php:115
 msgid "PHP configuration"
@@ -4327,8 +4527,8 @@ msgid ""
 "Fatal error: Register globals is on. FusionDirectory will refuse to login "
 "unless this is fixed by an administrator."
 msgstr ""
-"Fatale error : Registreer globals in aan. FusionDirectory zal login weigeren"
-" als dit niet opgelost wordt door een admin."
+"Fatale fout: Registreer globals in aan. FusionDirectory zal het inloggen "
+"weigeren als dit niet opgelost wordt door een systeembeheerder."
 
 #: html/main.php:142
 msgid "Password change"
@@ -4336,15 +4536,15 @@ msgstr "Paswoord wijzigen"
 
 #: html/main.php:142
 msgid "Your password is about to expire, please change your password!"
-msgstr "Je paswoord gaat vervallen, gelieve je paswoord te wijzigen!"
+msgstr "Je paswoord gaat spoedig vervallen, gelieve je paswoord te wijzigen!"
 
 #: html/main.php:158
 msgid "Your password has expired, please set a new one."
-msgstr ""
+msgstr "Je paswoord is vervallen, a.u.b. stel er een nieuw in."
 
 #: html/main.php:208
 msgid "Running out of memory!"
-msgstr "Bijna zonder geheugen!"
+msgstr "Geheugen bijna opgebruikt!"
 
 #: html/main.php:251
 msgid "User ACL checks disabled"
@@ -4360,7 +4560,7 @@ msgid ""
 "Fatal error: Cannot find any plugin definitions for plugin '%s' ('%s' is not"
 " a file)!"
 msgstr ""
-"Fatale error: Kan plugin definities niet vinden voor plugin '%s' ('%s' is "
+"Fatale fout: Kan plugin definities niet vinden voor plugin '%s' ('%s' is "
 "geen bestand)!"
 
 #: html/main.php:305
@@ -4373,14 +4573,16 @@ msgid ""
 "Fatal error: not all POST variables have been transfered by PHP - please "
 "inform your administrator!"
 msgstr ""
-"Fatale error: niet alle POST variabelen zijn verplaatst naar PHP - Informeer"
-" aub je administrator!"
+"Fatale fout: niet alle POST variabelen zijn verplaatst naar PHP - Informeer "
+"a.u.b. je systeembeheerder!"
 
 #: html/index.php:61
 msgid ""
 "Warning: The session lifetime configured in your fusiondirectory.conf will "
 "be overridden by php.ini settings."
 msgstr ""
+"Waarschuwing: De sessielevensduur geconfigureerd in je fusiondirectory.conf "
+"zal overschreven worden door php.ini instellingen."
 
 #: html/index.php:149
 #, php-format
@@ -4388,6 +4590,8 @@ msgid ""
 "FusionDirectory configuration %s/%s is not readable. Please run "
 "fusiondirectory-setup --check-config to fix this."
 msgstr ""
+"FusionDirectoryconfiguratie %s/%s is niet leesbaar. a.u.b. voer "
+"fusiondirectory-setup --check-config uit om dit te herstellen."
 
 #: html/index.php:170
 msgid "Smarty error"
@@ -4396,7 +4600,7 @@ msgstr "Smarty error"
 #: html/index.php:172
 #, php-format
 msgid "Directory \"%s\" specified as compile directory is not accessible!"
-msgstr ""
+msgstr "Directory \"%s\" aangeduid als compileer directory is niet toegankelijk!"
 
 #: html/index.php:210
 msgid "Your FusionDirectory session has expired!"
@@ -4409,19 +4613,19 @@ msgstr "Je IP-adres is gewijzigd"
 #: html/index.php:216
 #, php-format
 msgid "Invalid plugin parameter \"%s\"!"
-msgstr ""
+msgstr "Ongeldige plugin parameter \"%s\"!"
 
 #: html/index.php:219
 msgid "No session found!"
-msgstr ""
+msgstr "Geen sessie gevonden!"
 
 #: html/index.php:255
 msgid "LDAP schema check reported errors:"
-msgstr ""
+msgstr "LDAP schemacontrole gerapporteerde fouten:"
 
 #: html/index.php:257
 msgid "LDAP schema error"
-msgstr ""
+msgstr "LDAP schemafout"
 
 #: html/index.php:284
 msgid "Please specify a valid username!"
@@ -4429,35 +4633,35 @@ msgstr "Geef a.u.b. een geldige gebruikersnaam op!"
 
 #: html/index.php:287
 msgid "Please specify your password!"
-msgstr "Geef a.u.b. uw wachtwoord op!"
+msgstr "Geef a.u.b. uw paswoord op!"
 
 #: html/index.php:306
 msgid "Please check the username/password combination."
-msgstr "Controleer a.u.b. de gebruikersnaam/wachtwoord combinatie."
+msgstr "Controleer a.u.b. de gebruikersnaam/paswoord combinatie."
 
 #: html/index.php:341
 msgid "Account locked. Please contact your system administrator!"
-msgstr "Accound geblokkeerd. Contacteer aub je systeembeheerder!"
+msgstr "Accound geblokkeerd. Contacteer a.u.b. je systeembeheerder!"
 
 #: html/index.php:460
 #, php-format
 msgid "No value found in HTTP header \"%s\""
-msgstr ""
+msgstr "Geen waarde gevonden in HTTP header \"%s\""
 
 #: html/index.php:474
 #, php-format
 msgid "Header user \"%s\" could not be found in the LDAP"
-msgstr ""
+msgstr "Header gebruiker \"%s\" kan niet gevonden worden in de LDAP"
 
 #: html/index.php:484 html/index.php:551
 #, php-format
 msgid "Login with user \"%s\" triggered error: %s"
-msgstr ""
+msgstr "Login met gebruiker \"%s\" geactiveerde fout: %s"
 
 #: html/index.php:541
 #, php-format
 msgid "CAS user \"%s\" could not be found in the LDAP"
-msgstr ""
+msgstr "CAS gebruiker \"%s\" kon niet gevonden worden in de LDAP"
 
 #: html/index.php:591
 msgid ""
@@ -4478,12 +4682,16 @@ msgid ""
 "Warning: you are about to delete the ACL assignments on the following "
 "objects"
 msgstr ""
+"Waarschuwing: je staat op het punt om de ACL toewijzing van volgende "
+"objecten te verwijderen"
 
 #: plugins/admin/acl/remove.tpl.c:5
 msgid ""
 "This includes all ACL assignments made on this node(s). If you want the list"
 " of these assignments, please cancel and open the objects."
 msgstr ""
+"Dit bevat alle ACL opdrachten gemaakt op deze node(s). Als je de lijst van "
+"deze opdrachten wil, a.u.b. annuleer en open de objecten."
 
 #: plugins/admin/acl/remove.tpl.c:8
 msgid "Press 'Delete' to continue or 'Cancel' to abort."
@@ -4517,12 +4725,12 @@ msgstr[1] ""
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:5
 msgid "There is no expired account"
-msgstr ""
+msgstr "Er zijn geen vervallen accounts"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:11
 #: plugins/addons/dashboard/users_accounts.tpl.c:23
 msgid "Manager concerned"
-msgstr ""
+msgstr "Betrokken Manager"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:14
 msgid "There is one account expiring in the next %1 days"
@@ -4532,11 +4740,11 @@ msgstr[1] ""
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:17
 msgid "There is no account expiring in the next %1 days"
-msgstr ""
+msgstr "Er is geen account dat in de volgende %1 dagen vervalt"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:20
 msgid "Next expired accounts"
-msgstr ""
+msgstr "Volgende vervallen accounts"
 
 #: plugins/addons/dashboard/groups_stats.tpl.c:2
 msgid "There is 1 group:"
@@ -4545,14 +4753,18 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: plugins/addons/dashboard/groups_stats.tpl.c:5
+msgid "There are no groups"
+msgstr "Er zijn geen groepen"
+
+#: plugins/addons/dashboard/groups_stats.tpl.c:8
 msgid "One of them is a %1 group"
 msgid_plural "%2 are %1 groups"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugins/addons/dashboard/groups_stats.tpl.c:8
+#: plugins/addons/dashboard/groups_stats.tpl.c:11
 msgid "There is no %1 group"
-msgstr ""
+msgstr "Er zijn geen %1 groepen"
 
 #: plugins/addons/dashboard/pwd_stats.tpl.c:2
 #: plugins/addons/dashboard/users_stats.tpl.c:2
@@ -4578,24 +4790,30 @@ msgid "None of them is locked"
 msgstr "Geen van hen zijn geblokkeerd"
 
 #: plugins/addons/dashboard/users_stats.tpl.c:5
+msgid "There are no users"
+msgstr "Er zijn geen gebruikers"
+
+#: plugins/addons/dashboard/users_stats.tpl.c:8
 msgid "One of them have a %1 account"
 msgid_plural "%2 of them have a %1 account"
 msgstr[0] ""
 msgstr[1] ""
 
-#: plugins/addons/dashboard/users_stats.tpl.c:8
+#: plugins/addons/dashboard/users_stats.tpl.c:11
 msgid "None of them have a %1 account"
-msgstr ""
+msgstr "Geen van hen hebben een %1 account"
 
 #: plugins/generic/references/contents.tpl.c:2
 msgid "<strong>%1</strong> references our <strong>%3</strong>"
-msgstr ""
+msgstr "<strong>%1</strong> references our  <strong>%3</strong>"
 
 #: plugins/generic/references/contents.tpl.c:5
 msgid ""
 "<strong>%1</strong> references our field <strong>%3</strong> from tab "
 "<strong>%2</strong>"
 msgstr ""
+"<strong>%1</strong> references our field <strong>%3</strong> from tab "
+"<strong>%2</strong>"
 
 #: plugins/generic/references/contents.tpl.c:8
 msgid "This object has no relationship to other objects."
@@ -4603,19 +4821,19 @@ msgstr "Dit object heeft geen relatie met andere objecten."
 
 #: setup/setup_migrate_adminAccount.tpl.c:2
 msgid "Create a new FusionDirectory administrator account"
-msgstr "Maak een nieuwe FusionDirectory administrator account"
+msgstr "Maak een nieuw FusionDirectory systeembeheerdersaccount"
 
 #: setup/setup_migrate_adminAccount.tpl.c:5
 msgid ""
 "This dialog will automatically add a new super administrator to your LDAP "
 "tree."
 msgstr ""
-"Deze dialoog zal automatisch een nieuwe super administrator toevoegen in je "
-"LDAP tree."
+"Deze dialoog zal automatisch een nieuwe super systeembeheerder toevoegen in "
+"je LDAP tree."
 
 #: setup/setup_migrate_adminAccount.tpl.c:11
 msgid "User ID"
-msgstr "Gebruikers ID"
+msgstr "GebruikersID"
 
 #: setup/setup_migrate_adminAccount.tpl.c:17
 msgid "Password (again)"
@@ -4623,7 +4841,7 @@ msgstr "Paswoord (opnieuw)"
 
 #: setup/setup_migrate_baseOC.tpl.c:2
 msgid "Add required object classes to the LDAP base"
-msgstr "Voeg benodigde object classes naar de LDAP base"
+msgstr "Voeg benodigde objectklassen naar de LDAP basis"
 
 #: setup/setup_migrate_baseOC.tpl.c:5 setup/setup_migrate_accounts.tpl.c:17
 msgid "Current"
@@ -4631,7 +4849,7 @@ msgstr "Huidige"
 
 #: setup/setup_migrate_baseOC.tpl.c:8 setup/setup_migrate_accounts.tpl.c:20
 msgid "After migration"
-msgstr "Na de migratie"
+msgstr "Na migratie"
 
 #: setup/setup_migrate_baseOC.tpl.c:14
 msgid "Close"
@@ -4652,8 +4870,8 @@ msgid ""
 "setting it up."
 msgstr ""
 "Dit blijkt de eerste keer te zijn dat je FusionDirectory start - we vonden "
-"op dit moment geen configuratie. Deze simpele wizard is hier om je te helpen"
-" FusionDirectory op te zetten."
+"op dit moment geen configuratie. Deze eenvoudige hulpmodule bestaat om je te"
+" helpen FusionDirectory op te zetten."
 
 #: setup/setup_welcome.tpl.c:5
 msgid "What will the wizard do for you?"
@@ -4665,12 +4883,12 @@ msgstr "Maak een basis, single site configuratie"
 
 #: setup/setup_welcome.tpl.c:11
 msgid "Tries to find problems within your PHP and LDAP setup"
-msgstr "Probeer problemen te vinden met je PHP en LDAP setup"
+msgstr "Probeert problemen te vinden in je PHP en LDAP setup"
 
 #: setup/setup_welcome.tpl.c:14
 msgid "Let you choose from a set of basic and advanced configuration switches"
 msgstr ""
-"Laat je kiezen van een set basis of geavanceerde configuratie switches"
+"Laat je kiezen uit een set basis- of geavanceerde configuratieschakelaars"
 
 #: setup/setup_welcome.tpl.c:17
 msgid "Guided migration of existing LDAP trees"
@@ -4698,6 +4916,9 @@ msgid ""
 "creating the file '%1', containing the current session ID on the servers "
 "local filesystem. This can be done by executing the following command:"
 msgstr ""
+"Veiligheidshalve moet je je authenticeren voor de de installatie door file "
+"'%1' te creëren, gebaseerd op de huidige sessieID op het lokaal filesysteem "
+"van de servers. Dit kan gebeuren door de volgende instructie uit te voeren:"
 
 #: setup/setup_welcome.tpl.c:35
 msgid "Click the 'Next' button when you've finished."
@@ -4709,10 +4930,10 @@ msgid ""
 " that may occur when migration to FusionDirectory base LDAP administration. "
 "You may want to fix the problems below, in order to provide smooth services."
 msgstr ""
-"Tijdens de LDAP inspectie, gaan we verschillende pitfalls verifiëren dit kan"
-" gebeuren wanneer er een migratie gebeurd van FusionDirectory base LDAP "
-"administratie. Je zou de onderstaande problemen moeten oplossen, om de "
-"services vlot te laten verlopen."
+"Tijdens de LDAP inspectie, gaan we op verschillende standaard valkuilen "
+"verifiëren die kunnen ontstaan wanneer er een migratie gebeurd van "
+"FusionDirectory basis LDAP administratie. Je moet de onderstaande problemen "
+"oplossen om de services vlot te laten verlopen."
 
 #: setup/setup_migrate.tpl.c:5
 msgid "Check again"
@@ -4720,15 +4941,15 @@ msgstr "Verifieer nogmaals"
 
 #: setup/setup_finish.tpl.c:2
 msgid "Create your configuration file"
-msgstr "Maak je configuratie bestand"
+msgstr "Maak je configuratiebestand"
 
 #: setup/setup_finish.tpl.c:5
 msgid "Run %1 to put the correct right on fusiondirectory.conf"
-msgstr ""
+msgstr "Voer %1 uit om de juiste rechten op fusiondirectory.conf te plaatsen"
 
 #: setup/setup_finish.tpl.c:8
 msgid "Download configuration"
-msgstr "Systeem configuratie"
+msgstr "Download configuratie"
 
 #: setup/setup_finish.tpl.c:11
 msgid "Status: "
@@ -4739,6 +4960,8 @@ msgid ""
 "This dialog allows moving a couple of entries to the configured tree. Doing "
 "this may straighten your LDAP service."
 msgstr ""
+"Deze dialoog laat toe om een paar entries aan de geconfigureerde boom toe te"
+" voegen. Dit uitvoeren kan je LDAP service rechtzetten."
 
 #: setup/setup_migrate_accounts.tpl.c:5
 msgid ""
@@ -4746,10 +4969,13 @@ msgid ""
 "entries. The FusionDirectory setup can't migrate references, so you may want"
 " to cancel the migration in this case."
 msgstr ""
+"Wees voorzichtig met deze optie! Er kunnen referenties verwijzen naar deze "
+"ingaves. De FusionDirectory setup can geen referenties migreren, dus je zal "
+"mogelijks de migratie in dit geval willen annuleren."
 
 #: setup/setup_migrate_accounts.tpl.c:8
 msgid "Move selected entries into this tree"
-msgstr ""
+msgstr "Verplaats geselecteerde invoer naar deze tree"
 
 #: setup/setup_migrate_accounts.tpl.c:11
 msgid ""
@@ -4757,6 +4983,10 @@ msgid ""
 " If you want to change this for a couple of entries only, just select them "
 "and use the 'Migrate' button below."
 msgstr ""
+"De getoonde invoervelden zijn op dit ogenblik niet zichtbaar in de "
+"FusionDirectory interface. Als je dit wil veranderen voor een paar "
+"invoervelden hoef je hen enkel te selecteren en de ''Migreer' knop onderaan "
+"te gebruiken."
 
 #: setup/setup_migrate_accounts.tpl.c:14
 msgid ""
@@ -4769,25 +4999,30 @@ msgstr ""
 
 #: setup/setup_migrate_accounts.tpl.c:26
 msgid "Show changes"
-msgstr "Toon wijzigingen"
+msgstr "Toon veranderingen"
 
 #: ihtml/themes/legacy/recovery.tpl.c:8 ihtml/themes/breezy/recovery.tpl.c:2
 msgid "Lost password"
-msgstr "Paswoord vergeten"
+msgstr "Paswoord kwijt"
 
 #: ihtml/themes/legacy/recovery.tpl.c:11 ihtml/themes/breezy/recovery.tpl.c:5
 msgid "Information to reset password for %1 has been sent to email address %2"
 msgstr ""
+"Informatie om het paswoord opnieuw in te stellen voor %1 is verzonden naar "
+"email adres %2"
 
 #: ihtml/themes/legacy/recovery.tpl.c:14 ihtml/themes/breezy/recovery.tpl.c:8
 msgid "Warning : this email is only valid for %1 minutes."
-msgstr ""
+msgstr "Waarschuwing : deze email is enkel  %1 minuten geldig."
 
 #: ihtml/themes/legacy/recovery.tpl.c:17 ihtml/themes/breezy/recovery.tpl.c:11
 msgid ""
 "This dialog provides a simple way to change your password.<br/> Enter the "
 "new password (twice) in the fields below and press the 'Change' button."
 msgstr ""
+"Deze dialoog voorziet een simpele weg om je paswoord te veranderen. <br/> "
+"Geef het nieuw paswoord (twee maal) in in het onderstaand veld en druk de "
+"'Veranderen' knop."
 
 #: ihtml/themes/legacy/recovery.tpl.c:20 ihtml/themes/legacy/recovery.tpl.c:23
 #: ihtml/themes/legacy/recovery.tpl.c:26 ihtml/themes/legacy/login.tpl.c:8
@@ -4806,7 +5041,7 @@ msgstr "Nieuw wachtwoord opnieuw"
 
 #: ihtml/themes/legacy/recovery.tpl.c:47 ihtml/themes/breezy/recovery.tpl.c:41
 msgid "Password strength"
-msgstr "Wachtwoord sterkte"
+msgstr "Wachtwoordsterkte"
 
 #: ihtml/themes/legacy/recovery.tpl.c:50 ihtml/themes/legacy/recovery.tpl.c:53
 #: ihtml/themes/legacy/recovery.tpl.c:56 ihtml/themes/legacy/recovery.tpl.c:92
@@ -4846,14 +5081,14 @@ msgstr "Je paswoord is succesvol gewijzigd."
 #: ihtml/themes/legacy/recovery.tpl.c:101
 #: ihtml/themes/breezy/recovery.tpl.c:68 ihtml/themes/breezy/recovery.tpl.c:95
 msgid "Return to login screen"
-msgstr ""
+msgstr "Keer terug naar het inlogscherm"
 
 #: ihtml/themes/legacy/recovery.tpl.c:77 ihtml/themes/breezy/recovery.tpl.c:71
 msgid ""
 "Enter your current e-mail address in the field below and press the 'Change' "
 "button."
 msgstr ""
-"Vul je huidige e-mail adres in in onderstaand veld en klik op de 'Verander' "
+"Vul je huidige e-mailadres in in onderstaand veld en klik op de 'Verander' "
 "knop."
 
 #: ihtml/themes/legacy/recovery.tpl.c:80 ihtml/themes/breezy/recovery.tpl.c:74
@@ -4861,6 +5096,8 @@ msgid ""
 "=> Use your e-mail in the long format, e.g : John Doe => "
 "john.doe@example.com"
 msgstr ""
+"=> Gebruik je e-mail in het lange formaat, vb : John Doe => "
+"john.doe@example.com"
 
 #: ihtml/themes/legacy/recovery.tpl.c:110
 #: ihtml/themes/breezy/recovery.tpl.c:104
@@ -4869,7 +5106,7 @@ msgid ""
 "contact your administrator"
 msgstr ""
 "Paswoord herstel is niet geactiveerd. Als u uw wachtwoord verloren hebt, "
-"gelieve dan uw beheerder te contacteren"
+"gelieve dan uw systeembeheerder te contacteren"
 
 #: ihtml/themes/legacy/login.tpl.c:2 ihtml/themes/legacy/login.tpl.c:38
 #: ihtml/themes/breezy/login.tpl.c:2 ihtml/themes/breezy/login.tpl.c:38
@@ -4881,8 +5118,8 @@ msgid ""
 "Please use your username and your password to log into the site "
 "administration system."
 msgstr ""
-"Gebruik aub je gebruikersnaam en paswoord om in te loggen in het "
-"administratie systeem van de site."
+"Gebruik a.u.b. je gebruikersnaam en paswoord om in te loggen in het "
+"administratiesysteem van de site."
 
 #: ihtml/themes/legacy/login.tpl.c:26 ihtml/themes/breezy/login.tpl.c:26
 msgid "I forgot my password"
@@ -4895,6 +5132,7 @@ msgstr "Klik hier om in te loggen"
 #: ihtml/themes/breezy/simple-remove.tpl.c:2
 msgid "Warning: you are about to delete the following objects"
 msgstr ""
+"Waarschuwing: je staat op het punt de volgende objecten te verwijderen"
 
 #: ihtml/themes/breezy/simple-remove.tpl.c:5
 #: ihtml/themes/breezy/restore-confirm.tpl.c:8
@@ -4908,12 +5146,12 @@ msgstr ""
 #: ihtml/themes/breezy/simple-remove.tpl.c:8
 msgid "So - if you're sure - press 'Delete' to continue or 'Cancel' to abort."
 msgstr ""
-"Indien u zeker bent drukt u dan 'Verwijderen' om door te gaan of 'Annuleren'"
-" om te annuleren."
+"Indien u zeker bent, druk dan 'Verwijderen' om door te gaan of 'Annuleren' "
+"om te af te breken."
 
 #: ihtml/themes/breezy/template.tpl.c:2
 msgid "Creating a new object using templates"
-msgstr "Een nieuw object aanmaken aan de hand  van een template"
+msgstr "Een nieuw object aanmaken aan de hand  van een sjabloon"
 
 #: ihtml/themes/breezy/template.tpl.c:8
 #: ihtml/themes/breezy/restore-confirm.tpl.c:14
@@ -4925,14 +5163,16 @@ msgid ""
 "&copy; 2002-%1 <a href=\"http://www.fusiondirectory.org\">The "
 "FusionDirectory team, %2</a>"
 msgstr ""
+"&copy; 2002-%1 <a href=http://www.fusiondirectory.org> The FusionDirectory "
+"team, %2</a>"
 
 #: ihtml/themes/breezy/islocked.tpl.c:2
 msgid "Locking conflict detected"
-msgstr "Er is een blokkade conflict gedetecteerd"
+msgstr "Er is een vergrendelingsconflict gedetecteerd"
 
 #: ihtml/themes/breezy/islocked.tpl.c:8
 msgid "\"%1\" has been locked by \"%2\" since %3"
-msgstr ""
+msgstr "\"%1\" is vergrendeld door \"%2\" sinds %3"
 
 #: ihtml/themes/breezy/islocked.tpl.c:11
 msgid ""
@@ -4940,27 +5180,34 @@ msgid ""
 "webbrowser during the edit operation. You may want to take over the lock by "
 "pressing the \"%1\" button."
 msgstr ""
+"Als deze vergrendelingsdetectie fout is dan kan het zijn dat de andere "
+"persoon de webbrowser heeft gesloten tijdens de edit operatie. Je kan de "
+"lock overnemen door de \"%1\" knop te drukken."
 
 #: ihtml/themes/breezy/islocked.tpl.c:14
 msgid "Read only"
-msgstr "Read only"
+msgstr "Alleen lezen"
 
 #: ihtml/themes/breezy/restore-confirm.tpl.c:2
 msgid "Warning: you are about to restore the following snapshot"
-msgstr ""
+msgstr "Waarschuwing: je gaat de volgende snapshot herstellen"
 
 #: ihtml/themes/breezy/restore-confirm.tpl.c:5
 msgid "Any modification made to the object since this snapshot will be lost."
 msgstr ""
+"Alle veranderingen gemaakt aan dit object na deze snapshot zullen verloren "
+"zijn."
 
 #: ihtml/themes/breezy/restore-confirm.tpl.c:11
 msgid ""
 "So - if you're sure - press 'Continue' to continue or 'Cancel' to abort."
 msgstr ""
+"Dus - als je zeker bent - druk 'Doorgaan' om door te gaan of 'Annuleren' om "
+"af te breken."
 
 #: ihtml/themes/breezy/framework.tpl.c:2
 msgid "Main"
-msgstr "Hoofdmenu"
+msgstr "Hoofd"
 
 #: ihtml/themes/breezy/framework.tpl.c:5
 msgid "Sign out"
@@ -4982,10 +5229,10 @@ msgid ""
 " long timeouts would be to limit your search to smaller values and use "
 "filters to get the entries you are looking for."
 msgstr ""
-"De grootte limiet optie maakt LDAP bewerkingen sneller en behoedt de LDAP "
+"De groottelimiet optie maakt LDAP bewerkingen sneller en behoedt de LDAP "
 "server voor een te grote werkdruk. De eenvoudigste manier om met grote "
-"databases te werken zonder lange timeouts is door zoekopdrachten in grootte "
-"te beperken en door filters te gebruiken voor de informatie die u zoekt."
+"databases te werken zonder lange time-outs is door zoekopdrachten in grootte"
+" te beperken en door filters te gebruiken voor de informatie die u zoekt."
 
 #: ihtml/themes/breezy/sizelimit.tpl.c:5
 msgid "Please choose the way to react for this session"
@@ -5000,8 +5247,8 @@ msgid ""
 "ignore this error and show all entries that fit into the defined sizelimit "
 "and let me use filters instead"
 msgstr ""
-"Negeer deze fout en toon alle gegevens die passen binnen de gedefiniëerde "
-"grootte limiet en laat me daarvoor in de plaats filters gebruiken"
+"Negeer deze fout en toon alle gegevens die passen binnen de gedefinieerde "
+"groottelimiet en laat me daarvoor in de plaats filters gebruiken"
 
 #: ihtml/themes/breezy/sizelimit.tpl.c:14
 msgid "Set"
