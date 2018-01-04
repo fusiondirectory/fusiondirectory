@@ -29,7 +29,10 @@
       <backend>LDAP</backend>
       <filter>(&amp;(objectClass=inetOrgPerson)(|(cn=*$NAME*)(sn=*$NAME*)(givenName=*$NAME*)(uid=*$NAME*)(mail=*$NAME*)))</filter>
       <attribute>cn</attribute>
+      <attribute>sn</attribute>
+      <attribute>givenName</attribute>
       <attribute>uid</attribute>
+      <attribute>mail</attribute>
       <frequency>0.5</frequency>
       <characters>3</characters>
     </autocomplete>

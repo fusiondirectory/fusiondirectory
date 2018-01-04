@@ -375,6 +375,7 @@ class filter
       switch ($element['type']) {
         case "textfield":
           $htmlCode = $this->getTextfield($element);
+          $smarty->assign($tag.'DESC', sprintf(_('Searches in %s'), implode(', ', $element['autocomplete']['attribute'])));
           break;
 
         case "checkbox":
