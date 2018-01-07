@@ -13,11 +13,12 @@ First, you will have to find the RootDN account and the current RootDN password 
 
 sudo ldapsearch -H ldapi:// -LLL -Q -Y EXTERNAL -b "cn=config" "(olcRootDN=*)" dn olcRootDN olcRootPW | tee ~/newpasswd.ldif
 This should return the rootDN account and password for your DIT. It will also tell you the configuration database where this is defined. We also wrote this information to a file in our home directory so that we can modify it once we have the new password hash:
-
+```
 RootDN and RootPW for DIT
 dn: olcDatabase={1}hdb,cn=config
 olcRootDN: cn=admin,dc=example,dc=com
 olcRootPW: {SSHA}ncCXAJ5DjfRWgxE9pz9TUCNl2qGQHQT3
+```
 
 ## Hashing a New Password
 Next, we can use the slappasswd utility to hash a new password. We want to use the same hash that was in the olcRootPW line that we queried, indicated by the prefixed value with braces. In our case, this is {SSHA}.
