@@ -712,7 +712,7 @@ class simplePlugin
     return $this->header.$smarty->fetch($this->templatePath);
   }
 
-  protected function getDisplayHeaderInfos()
+  public function getDisplayHeaderInfos()
   {
     $plInfo   = pluglist::pluginInfos(get_class($this));
     $disabled = $this->acl_skip_write();
