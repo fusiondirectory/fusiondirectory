@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2017-12-21 14:27+0000\n"
+"POT-Creation-Date: 2018-01-08 15:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>, 2016\n"
 "Language-Team: Chinese (https://www.transifex.com/fusiondirectory/teams/12202/zh/)\n"
@@ -370,6 +370,11 @@ msgstr "应用过滤器"
 
 #: include/class_filter.inc:354 include/class_msgPool.inc:51
 msgid "Search in subtrees"
+msgstr ""
+
+#: include/class_filter.inc:378
+#, php-format
+msgid "Searches in %s"
 msgstr ""
 
 #: include/functions.inc:97

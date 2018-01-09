@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2017-12-21 14:27+0000\n"
+"POT-Creation-Date: 2018-01-08 15:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Lucien Antonissen <lucien.antonissen@digipolis.be>, 2016\n"
 "Language-Team: Dutch (https://www.transifex.com/fusiondirectory/teams/12202/nl/)\n"
@@ -382,6 +382,11 @@ msgstr "Filter toepassen"
 #: include/class_filter.inc:354 include/class_msgPool.inc:51
 msgid "Search in subtrees"
 msgstr "Zoek in substructuur"
+
+#: include/class_filter.inc:378
+#, php-format
+msgid "Searches in %s"
+msgstr "Zoekt in %s"
 
 #: include/functions.inc:97
 #, php-format
@@ -4720,8 +4725,8 @@ msgstr "Toon Samba gebruikers"
 #: plugins/addons/dashboard/users_accounts.tpl.c:2
 msgid "There is one expired account"
 msgid_plural "There are %1 expired accounts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Er is %1 vervallen account"
+msgstr[1] "Er zijn %1 vervallen accounts"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:5
 msgid "There is no expired account"
@@ -4735,8 +4740,8 @@ msgstr "Betrokken Manager"
 #: plugins/addons/dashboard/users_accounts.tpl.c:14
 msgid "There is one account expiring in the next %1 days"
 msgid_plural "There are %2 accounts expiring in the next %1 days"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Er is %2 account die vervalt in de volgende %1 dagen"
+msgstr[1] "Er zijn %2 accounts die vervallen in de volgende %1 dagen"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:17
 msgid "There is no account expiring in the next %1 days"
@@ -4749,8 +4754,8 @@ msgstr "Volgende vervallen accounts"
 #: plugins/addons/dashboard/groups_stats.tpl.c:2
 msgid "There is 1 group:"
 msgid_plural "There are %1 groups:"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Er is %1 groep:"
+msgstr[1] "Er zijn %1 groepen:"
 
 #: plugins/addons/dashboard/groups_stats.tpl.c:5
 msgid "There are no groups"
@@ -4759,8 +4764,8 @@ msgstr "Er zijn geen groepen"
 #: plugins/addons/dashboard/groups_stats.tpl.c:8
 msgid "One of them is a %1 group"
 msgid_plural "%2 are %1 groups"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%2 zijn %1 groep"
+msgstr[1] "%2 zijn %1 groepen"
 
 #: plugins/addons/dashboard/groups_stats.tpl.c:11
 msgid "There is no %1 group"
@@ -4770,20 +4775,20 @@ msgstr "Er zijn geen %1 groepen"
 #: plugins/addons/dashboard/users_stats.tpl.c:2
 msgid "There is 1 user:"
 msgid_plural "There are %1 users:"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Er is %1 gebruiker:"
+msgstr[1] "Er zijn %1 gebruikers:"
 
 #: plugins/addons/dashboard/pwd_stats.tpl.c:5
 msgid "One of them use %1 method"
 msgid_plural "%2 of them use %1 method"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%2 van hen gebruikt %1 methode"
+msgstr[1] "%2 van hen gebruiken %1 methode"
 
 #: plugins/addons/dashboard/pwd_stats.tpl.c:8
 msgid "One of them is locked"
 msgid_plural "%1 of them are locked"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 van hen is vergrendeld"
+msgstr[1] "%1 van hen zijn vergrendeld"
 
 #: plugins/addons/dashboard/pwd_stats.tpl.c:11
 msgid "None of them is locked"
@@ -4796,8 +4801,8 @@ msgstr "Er zijn geen gebruikers"
 #: plugins/addons/dashboard/users_stats.tpl.c:8
 msgid "One of them have a %1 account"
 msgid_plural "%2 of them have a %1 account"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%2 van hen heeft een %1 account"
+msgstr[1] "%2 van hen hebben een %1 account"
 
 #: plugins/addons/dashboard/users_stats.tpl.c:11
 msgid "None of them have a %1 account"
