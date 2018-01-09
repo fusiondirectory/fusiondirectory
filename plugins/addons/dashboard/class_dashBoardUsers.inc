@@ -140,9 +140,8 @@ class dashboardUsers extends simplePlugin
   function expired_accounts_info ()
   {
     global $config;
-    /*
-     * Begin of code for selecting expired account
-     */
+
+    /* Begin of code for selecting expired account */
 
     /* getting the date in TIMESTAMP UNIX format */
     /* 24 * 60 * 60 = 86400 */
@@ -152,17 +151,30 @@ class dashboardUsers extends simplePlugin
     $next_expired_days = $config->get_cfg_value('dashboardExpiredAccountsDays', 15);
     $next_expired_date = ($today + $next_expired_days);
 
+    if (!class_available('posixAccount')) {
+      /* if shadowExpire is not available no way to check expiration */
+      return array(
+        'columns'             => $this->expiredAccountsColumns,
+        'accounts'            => array(),
+        'accounts_next_days'  => array(),
+        'next_days'           => $next_expired_days,
+      );
+    }
+
     /* search all account with all date, mail, telephone */
     try {
-      $users = objects::ls('user', array(
-          'dn'                    => 'raw',
-          'uid'                   => 'raw',
-          'cn'                    => 'raw',
-          'mail'                  => 'raw',
-          'telephoneNumber'       => 'raw',
-          'manager'               => 'raw',
-          'shadowExpire'          => 1,
-        ), NULL, '(shadowExpire=*)', TRUE);
+      $attributes = array(
+        'dn'                    => 'raw',
+        'uid'                   => 'raw',
+        'cn'                    => 'raw',
+        'telephoneNumber'       => 'raw',
+        'manager'               => 'raw',
+        'shadowExpire'          => 1,
+      );
+      if (class_available('mailAccount')) {
+        $attributes['mail'] = 'raw';
+      }
+      $users = objects::ls('user', $attributes, NULL, '(shadowExpire=*)', TRUE);
     } catch (LDAPFailureException $e) {
       msg_dialog::display(
         _('LDAP error'),
