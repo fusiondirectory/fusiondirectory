@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2017-12-21 14:27+0000\n"
+"POT-Creation-Date: 2018-01-08 15:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Paola Penati <paola.penati@opensides.be>, 2018\n"
 "Language-Team: Italian (Italy) (https://www.transifex.com/fusiondirectory/teams/12202/it_IT/)\n"
@@ -387,6 +387,11 @@ msgstr "Applica filtro"
 #: include/class_filter.inc:354 include/class_msgPool.inc:51
 msgid "Search in subtrees"
 msgstr "Cerca nella sottostruttura"
+
+#: include/class_filter.inc:378
+#, php-format
+msgid "Searches in %s"
+msgstr ""
 
 #: include/functions.inc:97
 #, php-format
