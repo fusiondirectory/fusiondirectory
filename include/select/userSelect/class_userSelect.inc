@@ -21,7 +21,7 @@
 class userSelect extends simpleSelectManagement
 {
   protected $objectTypes          = array('user');
-  protected $autoFilterAttributes = array('dn', 'cn', 'uid', 'description');
+  protected $autoFilterAttributes = array('dn', 'cn', 'uid', 'description', 'mail');
 
   function parseXML ($file)
   {

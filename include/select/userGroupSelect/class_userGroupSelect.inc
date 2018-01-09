@@ -21,7 +21,7 @@
 class userGroupSelect extends userSelect
 {
   protected $objectTypes = array('user', 'group');
-  protected $autoFilterAttributes = array('dn', 'cn', 'uid', 'description');
+  protected $autoFilterAttributes = array('dn', 'cn', 'uid', 'description', 'mail');
 
   function __construct()
   {

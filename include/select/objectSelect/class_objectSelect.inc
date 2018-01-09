@@ -27,6 +27,6 @@ class objectSelect extends userSelect
     'terminal', 'workstation', 'server', 'printer', 'phone',
     'simpleSecurityObject'
   );
-  protected $autoFilterAttributes = array('dn', 'cn', 'uid', 'description');
+  protected $autoFilterAttributes = array('dn', 'cn', 'uid', 'description', 'mail');
 }
 ?>
