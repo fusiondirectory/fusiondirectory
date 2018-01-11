@@ -659,16 +659,25 @@ class UserAttribute extends DialogButtonAttribute
   function renderFormInput ()
   {
     $id = $this->getHtmlId();
-    $display  = '<img src="geticon.php?context=types&amp;icon=user&amp;size=16" alt="user icon" class="center"/>';
-    if ($this->getValue() == '') {
-      $display  .= '<b>'._('None').'</b>';
-    } elseif ($this->buttonText === NULL) {
-      $display  .= '<b>'._('Unknown').'</b>';
+    if ($this->isTemplate()) {
+      $display = $this->renderInputField(
+        'text', $id,
+        array(
+          'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}'
+        )
+      );
     } else {
-      $display  .= '<a>'.$this->buttonText.'</a>';
+      $display  = '<img src="geticon.php?context=types&amp;icon=user&amp;size=16" alt="user icon" class="center"/>';
+      if ($this->getValue() == '') {
+        $display  .= '<b>'._('None').'</b>';
+      } elseif ($this->buttonText === NULL) {
+        $display  .= '<b>'._('Unknown').'</b>';
+      } else {
+        $display  .= '<a>'.$this->buttonText.'</a>';
+      }
     }
     $display .= $this->renderInputField(
-      'image', $id,
+      'image', $id.'_dialog',
       array(
         'class' => 'center',
         'src'   => 'geticon.php?context=actions&amp;icon=document-edit&amp;size=16',
@@ -699,38 +708,51 @@ class UserAttribute extends DialogButtonAttribute
           if (preg_match('/^'.$id.'_remove_/', $name)) {
             $this->setValue('');
             $this->buttonText = NULL;
-            break;
+            return;
           }
         }
-        if (preg_match('/^'.$id.'_/', $name)) {
+        if (preg_match('/^'.$id.'_dialog_/', $name)) {
           $this->plugin->openDialog(new $this->dialogClass($this->plugin, $this));
-          break;
+          return;
         }
       }
+      if ($this->isTemplate() && isset($_POST[$id])) {
+        $this->setValue($_POST[$id]);
+      }
     }
+  }
+
+  function applyPostValue ()
+  {
   }
 
   protected function loadAttrValue ($attrs)
   {
     global $config;
     parent::loadAttrValue($attrs);
-    $dn = $this->getValue();
-    if ($dn != '') {
-      $ldap = $config->get_ldap_link();
-      $ldap->cat($dn);
-      if ($attrs = $ldap->fetch()) {
-        $this->handleDialogResult($dn, $attrs);
-      } else {
-        $this->buttonText = NULL;
+    if (!$this->isTemplate()) {
+      $dn = $this->getValue();
+      if ($dn != '') {
+        $ldap = $config->get_ldap_link();
+        $ldap->cat($dn);
+        if ($attrs = $ldap->fetch()) {
+          $this->handleDialogResult($dn, $attrs);
+        } else {
+          $this->buttonText = NULL;
+        }
       }
     }
   }
 
   public function htmlIds()
   {
-    $ids = array($this->getHtmlId());
+    $id   = $this->getHtmlId();
+    $ids  = array($id.'_dialog');
+    if ($this->isTemplate()) {
+      $ids[] = $id;
+    }
     if (!$this->isRequired()) {
-      $ids[] = $ids[0].'_remove';
+      $ids[] = $id.'_remove';
     }
     return $ids;
   }
