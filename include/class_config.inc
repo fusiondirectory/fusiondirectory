@@ -381,7 +381,7 @@ class config
     /* Parse LDAP referral informations */
     if (!isset($this->current['ADMINDN']) || !isset($this->current['ADMINPASSWORD'])) {
       $url      = $this->current['SERVER'];
-      $referral = $this->current['REFERRAL'][$url];
+      $referral = $this->current['REFERRAL'][$url] ? $this->current['REFERRAL'][$url] : array_shift($this->current['REFERRAL']);
 
       $this->current['ADMINDN']       = $referral['ADMINDN'];
       $this->current['ADMINPASSWORD'] = $referral['ADMINPASSWORD'];
