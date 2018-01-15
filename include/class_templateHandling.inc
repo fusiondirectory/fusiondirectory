@@ -364,6 +364,10 @@ class templateHandling
       $args[] = 'd.m.Y';
     }
     $dateObject = new DateTime($args[0], new DateTimeZone('UTC'));
+    if ($args[1] == 'epoch') {
+      /* Special handling for shadowExpire: days since epoch */
+      return array(floor($dateObject->format('U') / 86400));
+    }
     return array($dateObject->format($args[1]));
   }
 
