@@ -839,6 +839,7 @@ class config
             $value['tabGroup']        = $tabclass;
             $value['mainTab']         = $class;
             $value['templateActive']  = FALSE;
+            $value['snapshotActive']  = FALSE;
             foreach (array('ou', 'tabClass') as $i) {
               if (!isset($value[$i])) {
                 $value[$i] = NULL;
@@ -984,6 +985,10 @@ class config
             if (isset($class::$skipTemplates) && ($class::$skipTemplates == FALSE)) {
               $this->data['OBJECTS'][$obj]['templateActive']  = TRUE;
               $this->data['CATEGORIES'][$cat]['classes'][]    = 'template';
+            }
+            if (isset($class::$skipSnapshots) && ($class::$skipSnapshots == FALSE)) {
+              $this->data['OBJECTS'][$obj]['snapshotActive']  = TRUE;
+              $this->data['CATEGORIES'][$cat]['classes'][]    = 'SnapshotHandler';
             }
           }
         }

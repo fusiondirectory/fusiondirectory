@@ -130,8 +130,9 @@ class aclManagement extends simpleManagement
   protected $departmentRootVisible  = FALSE;
   protected $baseMode               = FALSE;
   protected $skipCpHandler          = TRUE;
-  protected $skipSnapHandler        = TRUE;
   protected $autoActions            = FALSE;
+
+  public static $skipSnapshots = TRUE;
 
   static function plInfo()
   {

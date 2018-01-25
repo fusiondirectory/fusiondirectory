@@ -184,13 +184,13 @@ class simpleManagement
   protected $autoFilter       = TRUE;
   protected $autoActions      = TRUE;
   protected $skipCpHandler    = FALSE;
-  protected $skipSnapHandler  = FALSE;
 
   protected $autoFilterAttributes = array('dn', 'cn', 'description');
 
   protected $headpageClass = "listing";
 
   public static $skipTemplates = TRUE;
+  public static $skipSnapshots = FALSE;
 
   function __construct()
   {
@@ -247,7 +247,7 @@ class simpleManagement
       $this->registerAction('cut',    'copyPasteHandler');
       $this->registerAction('paste',  'copyPasteHandler');
     }
-    if (!$this->skipSnapHandler && ($config->get_cfg_value('enableSnapshots') == 'TRUE')) {
+    if (!self::$skipSnapshots && ($config->get_cfg_value('enableSnapshots') == 'TRUE')) {
       $this->snapHandler = new SnapshotHandler();
       $this->headpage->setSnapshotHandler($this->snapHandler);
       $this->registerAction('snapshot', 'createSnapshotDialog');
@@ -1171,10 +1171,10 @@ class simpleManagement
       if (empty($this->dn)) {
         return;
       }
-      $aclCategory = $config->data['OBJECTS'][$this->getType($this->dn)]['aclCategory'];
+      $aclCategory  = $config->data['OBJECTS'][$this->getType($this->dn)]['aclCategory'];
     }
 
-    if ($ui->allow_snapshot_restore($this->dn, $aclCategory)) {
+    if ($ui->allow_snapshot_restore($this->dn, $aclCategory, !count($target))) {
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Snaptshot restoring initiated!');
       $this->snapHandler->setSnapshotBases($bases);
       $this->dialogObject = new SnapshotRestoreDialog($this->dn, $this, !count($target), $aclCategory);
@@ -1273,7 +1273,7 @@ class simpleManagement
   function restoreSnapshot($dn)
   {
     global $ui;
-    if (!empty($dn) && $ui->allow_snapshot_restore($dn, $this->dialogObject->aclCategory)) {
+    if (!empty($dn) && $ui->allow_snapshot_restore($dn, $this->dialogObject->aclCategory, $this->dialogObject->global)) {
       $this->snapHandler->restoreSnapshot($dn);
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot restored');
       $this->closeDialogs();
@@ -1319,7 +1319,14 @@ class simpleManagement
    */
   function removeSnapshot($dn)
   {
-    $this->snapHandler->removeSnapshot($dn);
+    global $ui;
+    if (!empty($dn) && $ui->allow_snapshot_delete($dn, $this->dialogObject->aclCategory)) {
+      $this->snapHandler->removeSnapshot($dn);
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot deleted');
+    } else {
+      msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to delete a snapshot for %s.'), $dn),
+          ERROR_DIALOG);
+    }
   }
 
   static function mainInc ($classname)
