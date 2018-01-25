@@ -24,8 +24,9 @@ class simpleSelectManagement extends simpleManagement
   protected $skipHeader = TRUE;
 
   protected $skipCpHandler    = TRUE;
-  protected $skipSnapHandler  = TRUE;
   protected $autoActions      = FALSE;
+
+  public static $skipSnapshots = TRUE;
 
   protected $departmentRootVisible  = FALSE;
 

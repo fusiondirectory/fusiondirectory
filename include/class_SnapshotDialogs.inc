@@ -205,7 +205,9 @@ class SnapshotRestoreDialog extends simplePlugin
           ),
           new SnapshotsAttribute (
             _('Snapshots'), _('Existing snapshots for this object'),
-            'snapshots', FALSE
+            'snapshots', FALSE,
+            array(),
+            'SnapshotHandler'
           ),
         )
       ),
@@ -236,6 +238,7 @@ class SnapshotRestoreDialog extends simplePlugin
 
   function execute ()
   {
+    global $ui;
     if ($this->dialog == 'delete') {
       $objects = array(
         array(
@@ -265,6 +268,19 @@ class SnapshotRestoreDialog extends simplePlugin
       $smarty->assign('objects', $objects);
       $str = $smarty->fetch(get_template_path('restore-confirm.tpl'));
     } else {
+      $smarty = get_smarty();
+      $permissions = $ui->get_snapshot_permissions($this->acl_base, $this->aclCategory);
+      $acl = '';
+      if (in_array('r', $permissions)) {
+        $acl .= 'r';
+      }
+      if (in_array(($this->global ? 'restore_deleted' : 'restore_over'), $permissions)) {
+        $acl .= 'w';
+      }
+      if (in_array('d', $permissions)) {
+        $acl .= 'd';
+      }
+      $smarty->assign('SnapshotHandlerACL', $acl);
       $str = parent::execute();
       $str .= '<p class="plugbottom">'.
              '  <input type="submit" name="edit_cancel" value="'.msgPool::backButton().'"/>'.

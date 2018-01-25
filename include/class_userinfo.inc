@@ -353,21 +353,16 @@ class userinfo
    *
    * \param string $dn     The destination dn
    *
-   * \param string $object The acl  category (e.g. user)
+   * \param string $categories The acl  category (e.g. user)
+   *
+   * \param boolean $deleted Is it a deleted or existing object
    *
    * \return boolean TRUE if we are allowed to restore a snapshot.
    */
-  function allow_snapshot_restore($dn, $object)
+  function allow_snapshot_restore($dn, $categories, $deleted)
   {
-    if (!is_array($object)) {
-      $object = array($object);
-    }
-    $r = $w = TRUE;
-    foreach ($object as $category) {
-      $w &= (strpos($this->get_complete_category_acls($dn, $category), 'w') !== FALSE);
-      $r &= (strpos($this->get_complete_category_acls($dn, $category), 'r') !== FALSE);
-    }
-    return ($r && $w);
+    $permissions = $this->get_snapshot_permissions($dn, $categories);
+    return in_array(($deleted ? 'restore_deleted' : 'restore_over'), $permissions);
   }
 
 
@@ -376,21 +371,55 @@ class userinfo
    *
    * \param string $dn     The source dn
    *
-   * \param string $object The acl category (e.g. user)
+   * \param string $categories The acl category (e.g. user)
    *
-   * \return boolean TRUE if we are allowed to restore a snapshot.
+   * \return boolean TRUE if we are allowed to create a snapshot.
    */
-  function allow_snapshot_create($dn, $object)
+  function allow_snapshot_create($dn, $categories)
   {
-    if (!is_array($object)) {
-      $object = array($object);
+    $permissions = $this->get_snapshot_permissions($dn, $categories);
+    return in_array('c', $permissions);
+  }
+
+
+  /*!
+   * \brief Checks if we are allowed to delete a snapshot of the given dn.
+   *
+   * \param string $dn     The source dn
+   *
+   * \param string $categories The acl category (e.g. user)
+   *
+   * \return boolean TRUE if we are allowed to delete a snapshot.
+   */
+  function allow_snapshot_delete($dn, $categories)
+  {
+    $permissions = $this->get_snapshot_permissions($dn, $categories);
+    return in_array('d', $permissions);
+  }
+
+  function get_snapshot_permissions($dn, $categories)
+  {
+    if (!is_array($categories)) {
+      $categories = array($categories);
     }
-    foreach ($object as $category) {
-      if (strpos($this->get_complete_category_acls($dn, $category), 'r') === FALSE) {
-        return FALSE;
+    /* Possible permissions for snapshots */
+    $objectPermissions    = array('r', 'c', 'd');
+    $attributePermissions = array('restore_over', 'restore_deleted');
+    foreach ($categories as $category) {
+      $acl = $this->get_permissions($dn, $category.'/SnapshotHandler');
+      foreach ($objectPermissions as $i => $perm) {
+        if (strpos($acl, $perm) === FALSE) {
+          unset($objectPermissions[$i]);
+        }
+      }
+      foreach ($attributePermissions as $i => $attribute) {
+        $acl = $this->get_permissions($dn, $category.'/SnapshotHandler', $attribute);
+        if (strpos($acl, 'w') === FALSE) {
+          unset($attributePermissions[$i]);
+        }
       }
     }
-    return TRUE;
+    return array_merge($objectPermissions, $attributePermissions);
   }
 
   /*!

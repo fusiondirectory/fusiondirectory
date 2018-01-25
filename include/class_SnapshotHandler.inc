@@ -34,6 +34,21 @@ class SnapshotHandler
 
   protected $enabled;
 
+  static function plInfo()
+  {
+    return array(
+      'plShortName'   => _('Snapshot'),
+      'plDescription' => _('Snapshot handler'),
+      /* Categories for snapshots are computed in config class */
+      'plCategory'    => array(),
+
+      'plProvidedAcls' => array(
+        'restore_over'    => _('Restore over an existing object'),
+        'restore_deleted' => _('Restore a deleted object'),
+      )
+    );
+  }
+
   /*!
    * \brief Create handler
    *
