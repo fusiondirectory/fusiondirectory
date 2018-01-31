@@ -413,7 +413,10 @@ class OrderedArrayAttribute extends SetAttribute
       $this->resetToDefault();
     }
     if ($this->order) {
+      ksort($this->value);
       $this->reIndexValues();
+    } else {
+      sort($this->value);
     }
   }
 
