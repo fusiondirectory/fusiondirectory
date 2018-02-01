@@ -387,10 +387,11 @@ class simpleTabs
         /* use the new one */
         $this->dn = $new_dn;
       } else {
-        if ($baseobject->move($this->dn, $new_dn)) {
+        if (($error = $baseobject->move($this->dn, $new_dn)) === TRUE) {
           $this->dn = $new_dn;
         } else {
-          $errors[] = sprintf(_('Move from "%s" to "%s" failed'), $this->dn, $new_dn);
+          $errors[] = sprintf(_('Move from "%s" to "%s" failed: %s'), $this->dn, $new_dn, $error);
+          return $errors;
         }
       }
     }
