@@ -586,7 +586,8 @@ class LDAP
       if ($this->reconnect) {
         $this->connect();
       }
-      $r = ldap_rename($this->cid, $source, $dest_rdn, $parent, FALSE);
+      /* We have to pass TRUE as deleteoldrdn in case the attribute is single-valued */
+      $r = ldap_rename($this->cid, $source, $dest_rdn, $parent, TRUE);
       $this->error = ldap_error($this->cid);
 
       /* Check if destination dn exists, if not the

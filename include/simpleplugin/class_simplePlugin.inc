@@ -576,6 +576,8 @@ class simplePlugin
     * \param  string  $src_dn the source DN.
     *
     * \param  string  $dst_dn the destination DN.
+    *
+    * \return TRUE on success, error string on failure
     */
   function move($src_dn, $dst_dn)
   {
@@ -595,7 +597,7 @@ class simplePlugin
         "FROM: $src_dn  -- TO: $dst_dn", array(), $ldap->get_error());
       @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, "Rename failed FROM: $src_dn  -- TO:  $dst_dn",
         'Ldap Protocol v3 implementation error. Error:'.$ldap->get_error());
-      return FALSE;
+      return $ldap->get_error();
     }
 
     /* Update userinfo if necessary */
