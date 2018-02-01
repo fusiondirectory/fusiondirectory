@@ -1049,7 +1049,7 @@ class simplePlugin
     if ($ldap->success()) {
       return array();
     } else {
-      return msgPool::ldaperror($this->ldap_error, $this->dn, LDAP_MOD, get_class());
+      return array(msgPool::ldaperror($this->ldap_error, $this->dn, LDAP_MOD, get_class()));
     }
   }
 
