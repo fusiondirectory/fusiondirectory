@@ -208,7 +208,18 @@ class config
       /* Handle referral tags */
       case 'REFERRAL':
         if ($this->tags[$this->level - 2] == 'LOCATION') {
-          $server = preg_replace('!^([^:]+://[^/]+)/.*$!', '\\1', $attrs['URI']);
+          if (isset($attrs['BASE'])) {
+            $server = $attrs['URI'];
+          } elseif (isset($this->data['LOCATIONS'][$this->currentLocation]['BASE'])) {
+            /* Fallback on location base */
+            $server         = $attrs['URI'];
+            $attrs['BASE']  = $this->data['LOCATIONS'][$this->currentLocation]['BASE'];
+          } else {
+            /* Format from FD<1.3 */
+            $server         = preg_replace('!^([^:]+://[^/]+)/.*$!', '\\1', $attrs['URI']);
+            $attrs['URI']   = $server;
+            $attrs['BASE']  = preg_replace('!^[^:]+://[^/]+/(.*)$!', '\\1', $attrs['URI']);
+          }
 
           /* Add location elements */
           if (!isset($this->data['LOCATIONS'][$this->currentLocation]['REFERRAL'])) {
@@ -355,36 +366,24 @@ class config
 
     /* Sort referrals, if present */
     if (isset($this->current['REFERRAL'])) {
-      $bases    = array();
       $servers  = array();
-      foreach ($this->current['REFERRAL'] as $ref) {
-        $server = preg_replace('%^(.*://[^/]+)/.*$%', '\\1', $ref['URI']);
-        $base   = preg_replace('%^.*://[^/]+/(.*)$%', '\\1', $ref['URI']);
-
-        $bases[$base]   = strlen($base);
-        $servers[$base] = $server;
+      foreach ($this->current['REFERRAL'] as $server => $ref) {
+        $servers[$server] = strlen($ref['BASE']);
       }
-      asort($bases);
-      reset($bases);
+      asort($servers);
+      reset($servers);
     }
 
     /* SERVER not defined? Load the one with the shortest base */
     if (!isset($this->current['SERVER'])) {
-      $this->current['SERVER'] = $servers[key($bases)];
-    }
-
-    /* BASE not defined? Load the one with the shortest base */
-    if (!isset($this->current['BASE'])) {
-      $this->current['BASE'] = key($bases);
+      $this->current['SERVER'] = key($servers);
     }
 
     /* Parse LDAP referral informations */
     if (!isset($this->current['ADMINDN']) || !isset($this->current['ADMINPASSWORD'])) {
-      $url      = $this->current['SERVER'];
-      $referral = $this->current['REFERRAL'][$url];
-
-      $this->current['ADMINDN']       = $referral['ADMINDN'];
-      $this->current['ADMINPASSWORD'] = $referral['ADMINPASSWORD'];
+      $this->current['BASE']          = $this->current['REFERRAL'][$this->current['SERVER']]['BASE'];
+      $this->current['ADMINDN']       = $this->current['REFERRAL'][$this->current['SERVER']]['ADMINDN'];
+      $this->current['ADMINPASSWORD'] = $this->current['REFERRAL'][$this->current['SERVER']]['ADMINPASSWORD'];
     }
 
     /* We need LDAPSIZELIMIT and LDAPSIZEIGNORE set before we connect to the ldap */

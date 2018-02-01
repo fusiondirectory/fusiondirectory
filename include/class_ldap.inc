@@ -751,8 +751,7 @@ class LDAP
       if ($ignoreReferralBases) {
         $found = FALSE;
         foreach ($this->referrals as $ref) {
-          $base = preg_replace('!^[^:]+://[^/]+/([^?]+).*$!', '\\1', $ref['URI']);
-          if ($base == $cdn) {
+          if ($ref['BASE'] == $cdn) {
             $found = TRUE;
             break;
           }
