@@ -739,14 +739,18 @@ sub get_ldap_connexion {
     my @locs = $twig->root->first_child('main')->children('location');
     my %locations = ();
     foreach my $loc (@locs) {
+      $loc->lc_attnames();
       my $ref = $loc->first_child('referral');
+      # Ignore case
+      $ref->lc_attnames();
       $locations{$loc->{'att'}->{'name'}} = {
         'tls'       => 0,
-        'uri'       => $ref->{'att'}->{'URI'},
-        'bind_dn'   => $ref->{'att'}->{'adminDn'},
-        'bind_pwd'  => $ref->{'att'}->{'adminPassword'}
+        'uri'       => $ref->{'att'}->{'uri'},
+        'base'      => $ref->{'att'}->{'base'} or $loc->{'att'}->{'base'} or '',
+        'bind_dn'   => $ref->{'att'}->{'admindn'},
+        'bind_pwd'  => $ref->{'att'}->{'adminpassword'}
       };
-      if (defined $loc->{'att'}->{'ldapTLS'} and $loc->{'att'}->{'ldapTLS'} =~ m/true/i) {
+      if (defined $loc->{'att'}->{'ldaptls'} and $loc->{'att'}->{'ldaptls'} =~ m/true/i) {
         $locations{$loc->{'att'}->{'name'}}->{'tls'} = 1
       }
     }
@@ -761,7 +765,11 @@ sub get_ldap_connexion {
       $location = $answer;
     }
 
-    if ($locations{$location}->{'uri'} =~ qr|^(.*)/([^/]+)$|) {
+    if ($locations{$location}->{'base'} ne '') {
+      $uri  = $locations{$location}->{'uri'};
+      $base = $locations{$location}->{'base'};
+    } elsif ($locations{$location}->{'uri'} =~ qr|^(.*)/([^/]+)$|) {
+      # Format from FD<1.3
       $uri  = $1;
       $base = $2;
     } else {
