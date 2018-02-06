@@ -746,7 +746,7 @@ sub get_ldap_connexion {
       $locations{$loc->{'att'}->{'name'}} = {
         'tls'       => 0,
         'uri'       => $ref->{'att'}->{'uri'},
-        'base'      => $ref->{'att'}->{'base'} or $loc->{'att'}->{'base'} or '',
+        'base'      => ($ref->{'att'}->{'base'} or $loc->{'att'}->{'base'} or ''),
         'bind_dn'   => $ref->{'att'}->{'admindn'},
         'bind_pwd'  => $ref->{'att'}->{'adminpassword'}
       };
