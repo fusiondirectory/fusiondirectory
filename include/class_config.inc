@@ -217,8 +217,8 @@ class config
           } else {
             /* Format from FD<1.3 */
             $server         = preg_replace('!^([^:]+://[^/]+)/.*$!', '\\1', $attrs['URI']);
-            $attrs['URI']   = $server;
             $attrs['BASE']  = preg_replace('!^[^:]+://[^/]+/(.*)$!', '\\1', $attrs['URI']);
+            $attrs['URI']   = $server;
           }
 
           /* Add location elements */
