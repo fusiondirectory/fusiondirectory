@@ -143,21 +143,23 @@ class ogrouptabs extends simpleTabs_noSpecial
 
   function save()
   {
+    $errors = parent::save();
+
     foreach ($this->removed_tabs as $key => &$obj) {
       if (isset($this->by_object[$key])) {
         continue;
       }
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, "Removing");
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, 'Removing');
 
       $obj->dn = $this->dn;
-      $errors = $obj->remove(FALSE);
-      if (!empty($errors)) {
-        msg_dialog::displayChecks($errors);
+      $tabErrors = $obj->remove(FALSE);
+      if (!empty($tabErrors)) {
+        $errors = array_merge($errors, $tabErrors);
       }
     }
     unset($obj);
 
-    return parent::save();
+    return $errors;
   }
 
   function save_object($save_current = FALSE)
