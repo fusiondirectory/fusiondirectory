@@ -2187,6 +2187,8 @@ function get_languages($languages_in_own_language = FALSE, $strip_region_tag = F
       }
     }
   }
+
+  asort($ret);
   return $ret;
 }
 
