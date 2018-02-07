@@ -447,7 +447,6 @@ class configInLdap extends simplePlugin
     $attributesInfo = static::getAttributesInfo();
     /* Languages */
     $languages = get_languages(TRUE);
-    asort($languages);
     $languages = array_merge(array("" => _("Automatic")), $languages);
     $attributesInfo['look_n_feel']['attrs'][0]->setChoices(array_keys($languages), array_values($languages));
     /* Timezones */
