@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2018-01-08 15:05+0000\n"
+"POT-Creation-Date: 2018-02-07 11:38+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Paola Penati <paola.penati@opensides.be>, 2018\n"
 "Language-Team: Italian (Italy) (https://www.transifex.com/fusiondirectory/teams/12202/it_IT/)\n"
@@ -19,8 +19,8 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: include/class_msg_dialog.inc:136 include/class_msg_dialog.inc:172
-#: include/class_config.inc:347 include/class_listing.inc:528
-#: include/class_SnapshotHandler.inc:397 include/class_SnapshotHandler.inc:401
+#: include/class_config.inc:358 include/class_listing.inc:528
+#: include/class_SnapshotHandler.inc:412 include/class_SnapshotHandler.inc:416
 #: include/password-methods/class_password-methods-sasl.inc:65
 #: include/password-methods/class_password-methods-sasl.inc:92
 #: include/class_msgPool.inc:220 include/class_msgPool.inc:240
@@ -33,7 +33,7 @@ msgstr ""
 #: include/simpleplugin/attributes/class_FileAttribute.inc:37
 #: include/simpleplugin/attributes/class_FileAttribute.inc:300
 #: include/simpleplugin/class_simpleTabs.inc:73
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:175 html/index.php:458
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:187 html/index.php:458
 #: html/index.php:472 html/index.php:482 html/index.php:539 html/index.php:549
 #: setup/setup_checks.tpl.c:5 ihtml/themes/breezy/msg_dialog.tpl.c:2
 msgid "Error"
@@ -48,8 +48,8 @@ msgstr "Correggi l'errore qui sotto e ricarica la pagina."
 msgid "XML error in fusiondirectory.conf: %s at line %d"
 msgstr "Errore XML nel file fusiondirectory.conf: %s alla linea %d"
 
-#: include/class_config.inc:154 include/class_config.inc:276
-#: include/class_config.inc:791 include/class_config.inc:803
+#: include/class_config.inc:154 include/class_config.inc:287
+#: include/class_config.inc:790 include/class_config.inc:802
 #: include/class_timezone.inc:51
 #: include/password-methods/class_password-methods-sha.inc:63
 #: include/password-methods/class_password-methods-ssha.inc:67
@@ -59,7 +59,7 @@ msgstr "Errore XML nel file fusiondirectory.conf: %s alla linea %d"
 msgid "Configuration error"
 msgstr "Errore di configurazione"
 
-#: include/class_config.inc:272
+#: include/class_config.inc:283
 #, php-format
 msgid ""
 "It seems you are trying to decode something which is not encoded : %s<br/>\n"
@@ -68,10 +68,10 @@ msgstr ""
 "Sembra che si stia tentando di decodificare qualcosa che non è codificato : \n"
 "%s <br/> Si prega di controllare non si stia utilizzando un file fusiondirectory.secrets mentre le password non sono crittografate."
 
-#: include/class_config.inc:313 include/class_SnapshotHandler.inc:53
-#: include/class_SnapshotHandler.inc:238 include/class_SnapshotHandler.inc:268
-#: include/class_SnapshotHandler.inc:284 include/class_SnapshotHandler.inc:409
-#: include/class_SnapshotHandler.inc:412
+#: include/class_config.inc:324 include/class_SnapshotHandler.inc:68
+#: include/class_SnapshotHandler.inc:253 include/class_SnapshotHandler.inc:283
+#: include/class_SnapshotHandler.inc:299 include/class_SnapshotHandler.inc:424
+#: include/class_SnapshotHandler.inc:427
 #: include/password-methods/class_password-methods.inc:189
 #: include/functions.inc:501 include/functions.inc:675
 #: include/functions.inc:722 include/functions.inc:830
@@ -80,7 +80,7 @@ msgstr ""
 #: plugins/config/class_recoveryConfig.inc:137
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:90
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:121
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:168
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:180
 #: plugins/addons/dashboard/class_dashBoardPasswords.inc:63
 #: plugins/addons/dashboard/class_dashBoard.inc:78
 #: setup/class_setupStepMigrate.inc:452 setup/class_setupStepMigrate.inc:1052
@@ -88,17 +88,17 @@ msgstr ""
 msgid "LDAP error"
 msgstr "Errore LDAP"
 
-#: include/class_config.inc:313
+#: include/class_config.inc:324
 msgid "Cannot bind to LDAP. Please contact the system administrator."
 msgstr ""
 "Errore di connessione al server LDAP. Contatta l'amministratore del sistema."
 
-#: include/class_config.inc:347
+#: include/class_config.inc:358
 #, php-format
 msgid "Location \"%s\" could not be found in the configuration file"
 msgstr "Location \" %s\" non è stata trovata nel file di configurazione"
 
-#: include/class_config.inc:792
+#: include/class_config.inc:791
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required variable \"%s\" is "
@@ -107,7 +107,7 @@ msgstr ""
 "La funzionalità snapshot è attivata, ma la variabile \"%s\" richiesta non è "
 "impostata."
 
-#: include/class_config.inc:804
+#: include/class_config.inc:803
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required compression module "
@@ -120,7 +120,7 @@ msgstr ""
 msgid "All categories"
 msgstr "Tutte le categorie"
 
-#: include/class_config.inc:1050
+#: include/class_config.inc:1054
 msgid "My account"
 msgstr "Identità personale"
 
@@ -312,11 +312,27 @@ msgstr ""
 "L'impostazione  \"%s\" del fuso orario nella vostra configurazione non é "
 "valida."
 
-#: include/class_SnapshotHandler.inc:397
+#: include/class_SnapshotHandler.inc:40
+msgid "Snapshot"
+msgstr ""
+
+#: include/class_SnapshotHandler.inc:41
+msgid "Snapshot handler"
+msgstr ""
+
+#: include/class_SnapshotHandler.inc:46
+msgid "Restore over an existing object"
+msgstr ""
+
+#: include/class_SnapshotHandler.inc:47
+msgid "Restore a deleted object"
+msgstr ""
+
+#: include/class_SnapshotHandler.inc:412
 msgid "There was a problem uncompressing snapshot data"
 msgstr "C'é stato un problema nella decompressione dei dati di snapshot"
 
-#: include/class_SnapshotHandler.inc:401
+#: include/class_SnapshotHandler.inc:416
 msgid "Snapshot data could not be fetched"
 msgstr "I dati dello snapshot non possono essere recuperati"
 
@@ -368,7 +384,7 @@ msgid "Cannot change password, unknown user \"%s\""
 msgstr "Impossibile modificare la password, utente \"%s\" sconosciuto "
 
 #: include/password-methods/class_password-methods-sasl.inc:92
-#: plugins/config/class_configInLdap.inc:579
+#: plugins/config/class_configInLdap.inc:578
 msgid ""
 "You need to fill saslRealm or saslExop in the configuration screen in order "
 "to use SASL"
@@ -408,7 +424,7 @@ msgstr ""
 "Errore fatale: impossibile inizializzare la classe '%s' - esegui '%s' per "
 "porre rimedio al problema"
 
-#: include/functions.inc:474 include/functions.inc:2547
+#: include/functions.inc:474 include/functions.inc:2549
 #: include/simpleplugin/class_simplePlugin.inc:466
 #: include/simpleplugin/class_simplePlugin.inc:471
 #: include/simpleplugin/class_simplePlugin.inc:483
@@ -648,7 +664,7 @@ msgstr ""
 msgid "The objectClass \"posixGroup\" must be STRUCTURAL"
 msgstr "L'objectClass \"posixGroup\" deve essere STRUTTURALE"
 
-#: include/functions.inc:2548
+#: include/functions.inc:2550
 #, php-format
 msgid "Cannot locate file '%s' - please run '%s' to fix this"
 msgstr ""
@@ -672,6 +688,7 @@ msgstr "Nome utente"
 #: include/simpleplugin/class_simpleManagement.inc:1183
 #: include/simpleplugin/class_simpleManagement.inc:1263
 #: include/simpleplugin/class_simpleManagement.inc:1281
+#: include/simpleplugin/class_simpleManagement.inc:1327
 #: plugins/admin/users/class_userManagement.inc:153
 msgid "Permission"
 msgstr "Autorizzazioni"
@@ -1430,8 +1447,8 @@ msgstr ""
 
 #: include/simpleplugin/attributes/class_FileAttribute.inc:336
 #: include/simpleplugin/attributes/class_FileAttribute.inc:337
-#: include/simpleplugin/class_dialogAttributes.inc:685
-#: include/simpleplugin/class_dialogAttributes.inc:686
+#: include/simpleplugin/class_dialogAttributes.inc:694
+#: include/simpleplugin/class_dialogAttributes.inc:695
 #: include/simpleplugin/simple-list.xml:75
 #: include/simpleplugin/simple-list.xml:125
 #: plugins/admin/departments/dep-list.xml:67
@@ -1450,8 +1467,8 @@ msgstr "Numero"
 #: include/simpleplugin/attributes/class_PhoneNumberAttribute.inc:133
 #: include/simpleplugin/attributes/class_SetAttribute.inc:491
 #: include/simpleplugin/attributes/class_SetAttribute.inc:492
-#: include/simpleplugin/class_dialogAttributes.inc:675
-#: include/simpleplugin/class_dialogAttributes.inc:676
+#: include/simpleplugin/class_dialogAttributes.inc:684
+#: include/simpleplugin/class_dialogAttributes.inc:685
 #: include/simpleplugin/simple-list.xml:67
 #: include/simpleplugin/simple-list.xml:112
 #: plugins/admin/departments/dep-list.xml:79
@@ -1510,7 +1527,7 @@ msgstr "Valore non valido per %s"
 
 #: include/simpleplugin/attributes/class_SelectAttribute.inc:66
 #: include/simpleplugin/attributes/class_SelectAttribute.inc:119
-#: include/simpleplugin/class_dialogAttributes.inc:664
+#: include/simpleplugin/class_dialogAttributes.inc:672
 msgid "None"
 msgstr "Nessuno"
 
@@ -1546,17 +1563,17 @@ msgstr ""
 "Impossibile calcolare il dn: impossibile trovare le informazioni di "
 "objectType in questa  classe scheda \"%s\""
 
-#: include/simpleplugin/class_simplePlugin.inc:1309
+#: include/simpleplugin/class_simplePlugin.inc:1311
 #, php-format
 msgid "There is already an entry with the same dn : %s"
 msgstr "C'é già un'altra entry con il medesimo dn: %s"
 
-#: include/simpleplugin/class_simplePlugin.inc:1316
+#: include/simpleplugin/class_simplePlugin.inc:1318
 #, php-format
 msgid "The entry %s is not existing"
 msgstr "La voce %s non esiste"
 
-#: include/simpleplugin/class_simplePlugin.inc:1506
+#: include/simpleplugin/class_simplePlugin.inc:1508
 msgid ""
 "The object has changed since opened in FusionDirectory. All changes that may"
 " be done by others will get lost if you save this entry!"
@@ -1565,17 +1582,17 @@ msgstr ""
 "che possono essere state fatte da altri andranno perse se si salva questa "
 "voce !"
 
-#: include/simpleplugin/class_simplePlugin.inc:1699
+#: include/simpleplugin/class_simplePlugin.inc:1701
 #, php-format
 msgid "Service \"%s\""
 msgstr "Servizio \"%s\""
 
-#: include/simpleplugin/class_simplePlugin.inc:1701
+#: include/simpleplugin/class_simplePlugin.inc:1703
 #, php-format
 msgid "Tab \"%s\""
 msgstr "Tab \"%s\""
 
-#: include/simpleplugin/class_simplePlugin.inc:1853
+#: include/simpleplugin/class_simplePlugin.inc:1855
 #, php-format
 msgid "Unknown field \"%s\""
 msgstr "Campo \"%s\" sconosciuto"
@@ -1591,8 +1608,8 @@ msgstr ""
 
 #: include/simpleplugin/class_simpleTabs.inc:400
 #, php-format
-msgid "Move from \"%s\" to \"%s\" failed"
-msgstr "Passare da \"%s\" a \"%s\" non riuscito"
+msgid "Move from \"%s\" to \"%s\" failed: %s"
+msgstr ""
 
 #: include/simpleplugin/class_helpersAttribute.inc:253
 msgid "B"
@@ -1640,13 +1657,13 @@ msgid "POSIX group %s"
 msgstr "Gruppo POSIX %s"
 
 #: include/simpleplugin/class_dialogAttributes.inc:458
-#: plugins/config/class_configInLdap.inc:474
+#: plugins/config/class_configInLdap.inc:473
 #, php-format
 msgid "Role %s"
 msgstr "Ruolo %s"
 
 #: include/simpleplugin/class_dialogAttributes.inc:460
-#: plugins/config/class_configInLdap.inc:467
+#: plugins/config/class_configInLdap.inc:466
 #, php-format
 msgid "Group %s"
 msgstr "Raggruppa %s"
@@ -1655,7 +1672,7 @@ msgstr "Raggruppa %s"
 msgid "Group of user"
 msgstr "Gruppo di utenti"
 
-#: include/simpleplugin/class_dialogAttributes.inc:666
+#: include/simpleplugin/class_dialogAttributes.inc:674
 msgid "Unknown"
 msgstr "Sconosciuto"
 
@@ -1699,6 +1716,11 @@ msgstr "Non sei autorizzato a creare una 'copia instantanea' di %s."
 #, php-format
 msgid "You are not allowed to restore a snapshot for %s."
 msgstr "Non sei autorizzato a restaurare una 'copia instantanea' di %s."
+
+#: include/simpleplugin/class_simpleManagement.inc:1327
+#, php-format
+msgid "You are not allowed to delete a snapshot for %s."
+msgstr ""
 
 #: include/simpleplugin/simple-list.xml:11
 msgid "NO LABEL"
@@ -2368,7 +2390,7 @@ msgid "ACL assignment"
 msgstr "Assegnazioni ACL"
 
 #: plugins/admin/acl/class_aclAssignment.inc:273
-#: plugins/admin/acl/class_aclManagement.inc:225
+#: plugins/admin/acl/class_aclManagement.inc:226
 msgid "ACL Assignment"
 msgstr "Gestione delle ACL"
 
@@ -2411,15 +2433,15 @@ msgstr "DN per il quale si desiderano aggiungere assegnazioni"
 msgid "The dn you entered could not be found in the LDAP"
 msgstr "Impossibile trovare il dn che avete inserito nell'LDAP"
 
-#: plugins/admin/acl/class_aclManagement.inc:139
+#: plugins/admin/acl/class_aclManagement.inc:140
 msgid "ACL assignments"
 msgstr "Assegnazioni ACL"
 
-#: plugins/admin/acl/class_aclManagement.inc:140
+#: plugins/admin/acl/class_aclManagement.inc:141
 msgid "ACL assignments management"
 msgstr "Gestione delle assagnazioni ACL"
 
-#: plugins/admin/acl/class_aclManagement.inc:141
+#: plugins/admin/acl/class_aclManagement.inc:142
 msgid "Manage ACL roles assignments to users"
 msgstr "Gestione delle assegnazioni dei ruoli ACL per gli utenti"
 
@@ -3398,8 +3420,8 @@ msgstr ""
 "Quando l'esecuzione dell'hook é abilitata con successo il risultato é "
 "mostrato all'utente tramite una finestra di dialogo."
 
-#: plugins/config/class_configInLdap.inc:451
-#: setup/class_setupStepLanguage.inc:69
+#: plugins/config/class_configInLdap.inc:450
+#: setup/class_setupStepLanguage.inc:68
 msgid "Automatic"
 msgstr "Automatico"
 
@@ -3447,7 +3469,7 @@ msgstr ""
 "Le statistiche di gruppo non possono essere calcolate a causa del seguente "
 "errore LDAP: %s"
 
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:169
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:181
 #, php-format
 msgid ""
 "Expired user information could not be computed because of the following LDAP"
@@ -3456,7 +3478,7 @@ msgstr ""
 "Le informazioni sugli utenti scaduti non possono essere calcolate a causa "
 "del seguente errore LDAP: %s"
 
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:176
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:188
 #, php-format
 msgid ""
 "Expired user information could not be computed because of the following "
