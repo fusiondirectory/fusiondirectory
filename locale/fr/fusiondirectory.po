@@ -1,6 +1,6 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR FusionDirectory Project
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the FusionDirectory package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 #, fuzzy
@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2017-07-24 11:13+0200\n"
+"POT-Creation-Date: 2018-02-06 18:06+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Benoit Mortier <benoit.mortier@opensides.be>, 2017\n"
 "Language-Team: French (https://www.transifex.com/fusiondirectory/teams/12202/fr/)\n"
@@ -189,7 +189,7 @@ msgstr ""
 #: setup/class_setupStepMigrate.inc:1004 setup/class_setupStepMigrate.inc:1123
 #: setup/class_setupStepMigrate.inc:1234 setup/class_setupStepMigrate.inc:1297
 #: setup/class_setupStepMigrate.inc:1341 include/functions.inc:846
-#: html/index.php:586 html/main.php:158 setup/setup_checks.tpl.c:8
+#: html/index.php:590 html/main.php:158 setup/setup_checks.tpl.c:8
 #: ihtml/themes/breezy/islocked.tpl.c:5 ihtml/themes/breezy/msg_dialog.tpl.c:5
 msgid "Warning"
 msgstr "Avertissement"
@@ -597,15 +597,15 @@ msgstr ""
 #: include/password-methods/class_password-methods.inc:189
 #: include/functions.inc:501 include/functions.inc:675
 #: include/functions.inc:722 include/functions.inc:830
-#: include/class_config.inc:313 include/class_ldap.inc:841
-#: include/class_ldap.inc:1197
+#: include/class_config.inc:313 include/class_ldap.inc:847
+#: include/class_ldap.inc:1208
 #: include/simpleplugin/attributes/class_SetAttribute.inc:726
 #: include/class_SnapshotHandler.inc:53 include/class_SnapshotHandler.inc:238
 #: include/class_SnapshotHandler.inc:268 include/class_SnapshotHandler.inc:284
 #: include/class_SnapshotHandler.inc:405 include/class_SnapshotHandler.inc:408
-#: html/index.php:371 plugins/addons/dashboard/class_dashBoardUsers.inc:86
+#: html/index.php:375 plugins/addons/dashboard/class_dashBoardUsers.inc:87
 #: plugins/addons/dashboard/class_dashBoard.inc:74
-#: plugins/addons/dashboard/class_dashBoardPasswords.inc:62
+#: plugins/addons/dashboard/class_dashBoardPasswords.inc:63
 #: plugins/config/class_recoveryConfig.inc:137
 msgid "LDAP error"
 msgstr "Erreur LDAP"
@@ -757,7 +757,7 @@ msgstr "Le message d'accueil"
 #: include/functions.inc:575 include/functions.inc:647
 #: include/functions.inc:768 include/functions.inc:1824
 #: include/functions.inc:1863 include/functions.inc:1894
-#: include/class_ldap.inc:790 include/class_ldap.inc:828
+#: include/class_ldap.inc:796 include/class_ldap.inc:834
 #: include/class_acl.inc:118
 msgid "Internal error"
 msgstr "Erreur interne"
@@ -824,8 +824,8 @@ msgstr "Sélectionner tout"
 #: include/simpleplugin/attributes/class_FileAttribute.inc:34
 #: include/simpleplugin/attributes/class_FileAttribute.inc:37
 #: include/simpleplugin/attributes/class_FileAttribute.inc:300
-#: include/class_SnapshotHandler.inc:398 html/index.php:453 html/index.php:467
-#: html/index.php:477 html/index.php:534 html/index.php:544
+#: include/class_SnapshotHandler.inc:398 html/index.php:457 html/index.php:471
+#: html/index.php:481 html/index.php:538 html/index.php:548
 #: setup/setup_checks.tpl.c:5 ihtml/themes/breezy/msg_dialog.tpl.c:2
 msgid "Error"
 msgstr "Erreur"
@@ -907,6 +907,7 @@ msgid "Cannot change password, unknown user \"%s\""
 msgstr "Impossible de changer le mot de passe, utilisateur «%s» inconnu."
 
 #: include/password-methods/class_password-methods-sasl.inc:92
+#: plugins/config/class_configInLdap.inc:579
 msgid ""
 "You need to fill saslRealm or saslExop in the configuration screen in order "
 "to use SASL"
@@ -920,7 +921,7 @@ msgstr ""
 #: include/functions.inc:657 include/class_timezone.inc:51
 #: include/class_config.inc:154 include/class_config.inc:276
 #: include/class_config.inc:791 include/class_config.inc:803
-#: html/index.php:147 html/class_passwordRecovery.inc:139 html/main.php:208
+#: html/index.php:148 html/class_passwordRecovery.inc:139 html/main.php:208
 msgid "Configuration error"
 msgstr "Erreur de configuration"
 
@@ -949,11 +950,11 @@ msgstr ""
 "système."
 
 #: include/class_CopyPasteHandler.inc:208
-#: include/simpleplugin/class_simpleManagement.inc:1019
-#: include/simpleplugin/class_simpleManagement.inc:1118
-#: include/simpleplugin/class_simpleManagement.inc:1169
-#: include/simpleplugin/class_simpleManagement.inc:1249
-#: include/simpleplugin/class_simpleManagement.inc:1267
+#: include/simpleplugin/class_simpleManagement.inc:1023
+#: include/simpleplugin/class_simpleManagement.inc:1122
+#: include/simpleplugin/class_simpleManagement.inc:1173
+#: include/simpleplugin/class_simpleManagement.inc:1253
+#: include/simpleplugin/class_simpleManagement.inc:1271
 #: plugins/admin/users/class_userManagement.inc:153
 msgid "Permission"
 msgstr "Permissions"
@@ -968,14 +969,14 @@ msgstr "Impossible de coller"
 
 #: include/select/userSelect/class_userSelect.inc:32
 #: plugins/personal/generic/class_user.inc:383
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:62
-#: plugins/admin/users/user-list.xml:49 ihtml/themes/breezy/login.tpl.c:2
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:63
+#: plugins/admin/users/user-list.xml:49 ihtml/themes/breezy/recovery.tpl.c:26
 msgid "Login"
 msgstr "Identifiant"
 
 #: include/class_template.inc:41
 #: include/simpleplugin/class_simpleManagement.inc:282
-#: include/simpleplugin/class_simpleManagement.inc:514
+#: include/simpleplugin/class_simpleManagement.inc:518
 #: plugins/admin/users/user-list.xml:95
 #: plugins/admin/groups/class_groupManagement.inc:351
 #: ihtml/themes/breezy/template.tpl.c:5
@@ -1253,7 +1254,7 @@ msgstr ""
 "Le fichier '%s' n’a pas été trouvé - veuillez exécuter '%s' pour régler ce "
 "problème"
 
-#: include/class_pluglist.inc:183
+#: include/class_pluglist.inc:185
 msgid "All objects in this category"
 msgstr "Tous les objets dans cette catégorie"
 
@@ -2037,7 +2038,7 @@ msgstr ""
 "La performance de votre annuaire est faible : la dernière requête a duré "
 "%.2fs !"
 
-#: include/class_ldap.inc:790
+#: include/class_ldap.inc:796
 #, php-format
 msgid ""
 "Cannot automatically create subtrees with RDN \"%s\": no object class found!"
@@ -2045,64 +2046,64 @@ msgstr ""
 "Impossible de créer automatiquement des sous-arbres avec le RDN «%s» : "
 "object class non trouvée !"
 
-#: include/class_ldap.inc:828
+#: include/class_ldap.inc:834
 #, php-format
 msgid "Cannot automatically create subtrees with RDN \"%s\": not supported"
 msgstr ""
 "Impossible de créer automatiquement des sous-arbres avec le RDN «%s» : non "
 "supporté"
 
-#: include/class_ldap.inc:916
+#: include/class_ldap.inc:922
 #, php-format
 msgid "while operating on '%s' using LDAP server '%s'"
 msgstr "lors de l'opération sur '%s' en utilisant le serveur LDAP '%s'"
 
-#: include/class_ldap.inc:918
+#: include/class_ldap.inc:924
 #, php-format
 msgid "while operating on LDAP server %s"
 msgstr "lors de l'opération sur le serveur LDAP %s"
 
-#: include/class_ldap.inc:1008
+#: include/class_ldap.inc:1014
 msgid "proc_open failed to execute ldapsearch"
 msgstr "proc_open a échoué lors de l’exécution de ldapsearch"
 
-#: include/class_ldap.inc:1052
+#: include/class_ldap.inc:1061
 #, php-format
 msgid "Error line %s, first line of an entry cannot start with a space"
 msgstr ""
 "Erreur ligne %s, la première ligne d'une entrée ne peut pas commencer par un"
 " espace"
 
-#: include/class_ldap.inc:1069
+#: include/class_ldap.inc:1079
 #, php-format
 msgid "Error line %s, references to an external file are not supported"
 msgstr ""
 "Erreur ligne %s, les références à un fichier externe ne sont pas prises en "
 "charge."
 
-#: include/class_ldap.inc:1072
+#: include/class_ldap.inc:1082
 #, php-format
 msgid "Error line %s, attribute \"%s\" has no value"
 msgstr "Erreur ligne %s, l'attribut «%s» n'a pas de valeur"
 
-#: include/class_ldap.inc:1076
+#: include/class_ldap.inc:1086
 #, php-format
 msgid "Error line %s, an entry bloc can only have one dn"
 msgstr "Erreur ligne %s, une entrée ne peut avoir qu'un seul dn"
 
-#: include/class_ldap.inc:1081
+#: include/class_ldap.inc:1091
 #, php-format
 msgid "Error line %s, an entry bloc should start with the dn"
 msgstr "Erreur ligne %s, une entrée doit commencer par le dn"
 
-#: include/class_ldap.inc:1112
+#: include/class_ldap.inc:1123
 #, php-format
 msgid "Error while importing dn: \"%s\", please check your LDIF from line %s on!"
 msgstr ""
 "Erreur lors de l'importation du dn : «%s», veuillez vérifier votre fichier "
 "LDIF à partir de la ligne %s !"
 
-#: include/class_templateHandling.inc:490
+#: include/class_templateHandling.inc:494
 #, php-format
 msgid ""
 "Recursive dependency in the template fields: \"%1$s\" cannot depend on "
@@ -2117,8 +2118,8 @@ msgstr "Veuillez sélectionner les entrées désirées"
 
 #: include/simpleplugin/simple-select-list.xml:32
 #: include/simpleplugin/simple-list.xml:32
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:63
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:68
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:64
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:69
 #: plugins/admin/departments/class_department.inc:171
 #: plugins/admin/groups/class_roleGeneric.inc:86
 #: plugins/admin/groups/class_ogroup.inc:191
@@ -2146,13 +2147,13 @@ msgid "POSIX group %s"
 msgstr "Groupe POSIX %s"
 
 #: include/simpleplugin/class_dialogAttributes.inc:428
-#: plugins/config/class_configInLdap.inc:471
+#: plugins/config/class_configInLdap.inc:474
 #, php-format
 msgid "Role %s"
 msgstr "Rôle %s"
 
 #: include/simpleplugin/class_dialogAttributes.inc:430
-#: plugins/config/class_configInLdap.inc:464
+#: plugins/config/class_configInLdap.inc:467
 #, php-format
 msgid "Group %s"
 msgstr "Groupe %s"
@@ -2210,8 +2211,8 @@ msgstr ""
 
 #: include/simpleplugin/class_simpleTabs.inc:393
 #, php-format
-msgid "Move from \"%s\" to \"%s\" failed"
-msgstr "Le déplacement de «%s» à «%s» a échoué"
+msgid "Move from \"%s\" to \"%s\" failed: %s"
+msgstr "Le déplacement de \"%s\" à \"%s\" a échoué: %s"
 
 #: include/simpleplugin/class_helpersAttribute.inc:263
 msgid "B"
@@ -2259,33 +2260,33 @@ msgstr "Depuis un modèle"
 msgid "%s template"
 msgstr "Modèle de %s"
 
-#: include/simpleplugin/class_simpleManagement.inc:508
-#: include/simpleplugin/class_simpleManagement.inc:514
+#: include/simpleplugin/class_simpleManagement.inc:512
+#: include/simpleplugin/class_simpleManagement.inc:518
 #: plugins/admin/groups/class_groupManagement.inc:351
 #, php-format
 msgid "Show %s"
 msgstr "Afficher %s"
 
-#: include/simpleplugin/class_simpleManagement.inc:545
+#: include/simpleplugin/class_simpleManagement.inc:549
 msgid "Filter error"
 msgstr "Erreur de filtre"
 
-#: include/simpleplugin/class_simpleManagement.inc:545
+#: include/simpleplugin/class_simpleManagement.inc:549
 msgid "The filter is incomplete!"
 msgstr "Le filtre est incomplet !"
 
-#: include/simpleplugin/class_simpleManagement.inc:1084
+#: include/simpleplugin/class_simpleManagement.inc:1088
 msgid "Permission error"
 msgstr "Erreur de permissions"
 
-#: include/simpleplugin/class_simpleManagement.inc:1118
+#: include/simpleplugin/class_simpleManagement.inc:1122
 #, php-format
 msgid "You are not allowed to create a snapshot for %s."
 msgstr "Vous n'êtes pas autorisé à créer un nouvel instantané pour %s."
 
-#: include/simpleplugin/class_simpleManagement.inc:1169
-#: include/simpleplugin/class_simpleManagement.inc:1249
-#: include/simpleplugin/class_simpleManagement.inc:1267
+#: include/simpleplugin/class_simpleManagement.inc:1173
+#: include/simpleplugin/class_simpleManagement.inc:1253
+#: include/simpleplugin/class_simpleManagement.inc:1271
 #, php-format
 msgid "You are not allowed to restore a snapshot for %s."
 msgstr "Vous n'êtes pas autorisé à restaurer un instantané de %s."
@@ -2320,17 +2321,17 @@ msgstr ""
 "Impossible de générer le dn : pas d’infos sur le type d’objet pour la classe"
 " d’onglet «%s»"
 
-#: include/simpleplugin/class_simplePlugin.inc:1296
+#: include/simpleplugin/class_simplePlugin.inc:1305
 #, php-format
 msgid "There is already an entry with the same dn : %s"
 msgstr "Il existe déjà une entrée avec le même dn : %s"
 
-#: include/simpleplugin/class_simplePlugin.inc:1303
+#: include/simpleplugin/class_simplePlugin.inc:1312
 #, php-format
 msgid "The entry %s is not existing"
 msgstr "L'entrée %s n'existe pas"
 
-#: include/simpleplugin/class_simplePlugin.inc:1493
+#: include/simpleplugin/class_simplePlugin.inc:1502
 msgid ""
 "The object has changed since opened in FusionDirectory. All changes that may"
 " be done by others will get lost if you save this entry!"
@@ -2339,17 +2340,17 @@ msgstr ""
 "modifications qui peuvent avoir été faites par d'autres seront perdues si "
 "vous sauvez cette entrée !"
 
-#: include/simpleplugin/class_simplePlugin.inc:1678
+#: include/simpleplugin/class_simplePlugin.inc:1694
 #, php-format
 msgid "Service \"%s\""
 msgstr "Service «%s»"
 
-#: include/simpleplugin/class_simplePlugin.inc:1680
+#: include/simpleplugin/class_simplePlugin.inc:1696
 #, php-format
 msgid "Tab \"%s\""
 msgstr "Onglet «%s»"
 
-#: include/simpleplugin/class_simplePlugin.inc:1832
+#: include/simpleplugin/class_simplePlugin.inc:1848
 #, php-format
 msgid "Unknown field \"%s\""
 msgstr "Champ inconnu «%s»"
@@ -2510,12 +2511,12 @@ msgstr ""
 "Le répertoire '%s' spécifié comme répertoire de compilation est inaccessible"
 " !"
 
-#: html/index.php:55 html/class_passwordRecovery.inc:174
+#: html/index.php:56 html/class_passwordRecovery.inc:173
 #, php-format
 msgid "Warning: <a href=\"%s\">Session is not encrypted!</a>"
 msgstr "Attention : <a href=\"%s\">La session n’est pas chiffrée !</a>"
 
-#: html/index.php:61
+#: html/index.php:62
 msgid ""
 "Warning: The session lifetime configured in your fusiondirectory.conf will "
 "be overridden by php.ini settings."
@@ -2523,7 +2524,7 @@ msgstr ""
 "Attention : La durée de validité des sessions configurée dans votre "
 "fusiondirectory.conf sera remplacée par celle définie dans votre php.ini."
 
-#: html/index.php:149
+#: html/index.php:150
 #, php-format
 msgid ""
 "FusionDirectory configuration %s/%s is not readable. Please run "
@@ -2532,80 +2533,80 @@ msgstr ""
 "Le fichier de configuration de FusionDirectory %s/%s ne peut être lu. "
 "Veuillez exécuter fusiondirectory-setup --check-config."
 
-#: html/index.php:170
+#: html/index.php:171
 msgid "Smarty error"
 msgstr "Erreur Smarty"
 
-#: html/index.php:172
+#: html/index.php:173
 #, php-format
 msgid "Directory \"%s\" specified as compile directory is not accessible!"
 msgstr ""
 "Le répertoire «%s» spécifié comme répertoire de compilation est inaccessible"
 " !"
 
-#: html/index.php:207
+#: html/index.php:211
 msgid "Your FusionDirectory session has expired!"
 msgstr "Votre session FusionDirectory a expiré !"
 
-#: html/index.php:210
+#: html/index.php:214
 msgid "Your IP has changed!"
 msgstr "Votre IP a changé !"
 
-#: html/index.php:213
+#: html/index.php:217
 #, php-format
 msgid "Invalid plugin parameter \"%s\"!"
 msgstr "Paramètre de plugin «%s» invalide !"
 
-#: html/index.php:216
+#: html/index.php:220
 msgid "No session found!"
 msgstr "Aucune session trouvée !"
 
-#: html/index.php:252
+#: html/index.php:256
 msgid "LDAP schema check reported errors:"
 msgstr "La vérification des schémas LDAP a signalé des erreurs :"
 
-#: html/index.php:254
+#: html/index.php:258
 msgid "LDAP schema error"
 msgstr "Erreur de schéma LDAP"
 
-#: html/index.php:281
+#: html/index.php:285
 msgid "Please specify a valid username!"
 msgstr "Veuillez entrer un nom d’utilisateur valide !"
 
-#: html/index.php:284
+#: html/index.php:288
 msgid "Please specify your password!"
 msgstr "Veuillez entrer votre mot de passe !"
 
-#: html/index.php:303
+#: html/index.php:307
 msgid "Please check the username/password combination."
 msgstr "Veuillez vérifier le nom d'utilisateur et le mot de passe."
 
-#: html/index.php:336
+#: html/index.php:340
 msgid "Account locked. Please contact your system administrator!"
 msgstr "Compte verrouillé. Veuillez contacter votre administrateur système !"
 
-#: html/index.php:455
+#: html/index.php:459
 #, php-format
 msgid "No value found in HTTP header \"%s\""
 msgstr "Aucune valeur trouvée dans l’entête HTTP «%s»"
 
-#: html/index.php:469
+#: html/index.php:473
 #, php-format
 msgid "Header user \"%s\" could not be found in the LDAP"
 msgstr ""
 "L'utilisateur «%s» mentionné dans l’entête n'existe pas dans l'annuaire LDAP"
 
-#: html/index.php:479 html/index.php:546
+#: html/index.php:483 html/index.php:550
 #, php-format
 msgid "Login with user \"%s\" triggered error: %s"
 msgstr "La connexion avec l'utilisateur «%s» a provoqué l'erreur : %s"
 
-#: html/index.php:536
+#: html/index.php:540
 #, php-format
 msgid "CAS user \"%s\" could not be found in the LDAP"
 msgstr "L'utilisateur CAS «%s» n'existe pas dans l'annuaire LDAP"
 
-#: html/index.php:586
+#: html/index.php:590
 msgid ""
 "Your browser has cookies disabled. Please enable cookies and reload this "
 "page before logging in!"
@@ -2620,49 +2621,48 @@ msgstr ""
 "Le fichier de configuration de FusionDirectory %s/%s ne peut être lu. "
 "Abandon."
 
-#: html/class_passwordRecovery.inc:303 ihtml/themes/breezy/recovery.tpl.c:83
-#: ihtml/themes/breezy/recovery.tpl.c:86
+#: html/class_passwordRecovery.inc:302 ihtml/themes/breezy/recovery.tpl.c:71
 msgid "Email address"
 msgstr "Adresse de courriel"
 
-#: html/class_passwordRecovery.inc:472
+#: html/class_passwordRecovery.inc:471
 #, php-format
 msgid "Did not find an account with login \"%s\""
 msgstr "Aucun compte utilisateur trouvé avec l’identifiant «%s»"
 
-#: html/class_passwordRecovery.inc:475
+#: html/class_passwordRecovery.inc:474
 #, php-format
 msgid "Found multiple accounts with login \"%s\""
 msgstr "Plusieurs comptes trouvés avec l’identifiant «%s»"
 
-#: html/class_passwordRecovery.inc:508
+#: html/class_passwordRecovery.inc:507
 #, php-format
 msgid "There is no account using email \"%s\""
 msgstr "Il n'y a pas de compte qui utilise le courriel «%s»"
 
-#: html/class_passwordRecovery.inc:511
+#: html/class_passwordRecovery.inc:510
 #, php-format
 msgid "There are several accounts using email \"%s\""
 msgstr "Il y a plusieurs comptes qui utilisent le courriel «%s»"
 
-#: html/class_passwordRecovery.inc:519
+#: html/class_passwordRecovery.inc:518
 #, php-format
 msgid "The user using email \"%s\" is locked. Please contact your administrator."
 msgstr ""
 "L'utilisateur correspondant au courriel «%s» est verrouillé. Veuillez "
 "contacter votre administrateur système !"
 
-#: html/class_passwordRecovery.inc:574
+#: html/class_passwordRecovery.inc:573
 msgid "Contact your administrator, there was a problem with mail server"
 msgstr ""
 "Contactez votre administrateur système, il y a eu un problème avec le "
 "serveur de courriel"
 
-#: html/class_passwordRecovery.inc:587
+#: html/class_passwordRecovery.inc:586
 msgid "This token is invalid"
 msgstr "Le jeton n'est pas valide"
 
-#: html/class_passwordRecovery.inc:651
+#: html/class_passwordRecovery.inc:650
 msgid "There was a problem with mail server, confirmation email not sent"
 msgstr ""
 "Un problème est survenu avec le serveur de courriel, le courriel de "
@@ -3069,7 +3069,6 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:716
 #: ihtml/themes/breezy/recovery.tpl.c:29 ihtml/themes/breezy/recovery.tpl.c:32
-#: ihtml/themes/breezy/recovery.tpl.c:35
 msgid "New password"
 msgstr "Nouveau mot de passe"
 
@@ -3091,35 +3090,35 @@ msgstr ""
 msgid "Statistics about users"
 msgstr "Statistiques sur les utilisateurs"
 
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:39
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:40
 msgid "Users statistics"
 msgstr "Statistiques utilisateurs"
 
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:44
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:45
 msgid "Groups statistics"
 msgstr "Statistiques des groupes"
 
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:49
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:50
 #: plugins/addons/dashboard/users_accounts.tpl.c:8
 msgid "Expired accounts"
 msgstr "Comptes expirés"
 
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:64
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:70
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:65
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:71
 #: plugins/admin/groups/class_roleGeneric.inc:95
 msgid "Phone number"
 msgstr "Numéro de téléphone"
 
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:65
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:66
 msgid "Expiration date"
 msgstr "Date d’expiration"
 
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:69
-#: ihtml/themes/breezy/recovery.tpl.c:89
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:70
+#: ihtml/themes/breezy/recovery.tpl.c:74
 msgid "Email"
 msgstr "Courriel"
 
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:87
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:88
 #, php-format
 msgid ""
 "Total user number could not be computed because of the following LDAP error:"
@@ -3164,11 +3163,11 @@ msgstr "Mots de passes"
 msgid "Statistics about passwords"
 msgstr "Statistiques sur les mots de passe"
 
-#: plugins/addons/dashboard/class_dashBoardPasswords.inc:38
+#: plugins/addons/dashboard/class_dashBoardPasswords.inc:39
 msgid "Passwords statistics"
 msgstr "Statistiques de mots de passe"
 
-#: plugins/addons/dashboard/class_dashBoardPasswords.inc:63
+#: plugins/addons/dashboard/class_dashBoardPasswords.inc:64
 #, php-format
 msgid ""
 "Password statistics could not be computed because of the following LDAP "
@@ -4443,7 +4442,7 @@ msgstr "Gestion des affectations ACL "
 msgid "Manage ACL roles assignments to users"
 msgstr "Gérer les affectations des rôles ACL aux utilisateurs"
 
-#: plugins/admin/acl/class_aclManagement.inc:219
+#: plugins/admin/acl/class_aclManagement.inc:225
 #: plugins/admin/acl/class_aclAssignment.inc:273
 msgid "ACL Assignment"
 msgstr "Affectation ACL"
@@ -4831,52 +4830,37 @@ msgstr ""
 "sur le bouton 'Changer'."
 
 #: ihtml/themes/breezy/recovery.tpl.c:20 ihtml/themes/breezy/recovery.tpl.c:23
-#: ihtml/themes/breezy/recovery.tpl.c:26 ihtml/themes/breezy/login.tpl.c:8
-#: ihtml/themes/breezy/login.tpl.c:11 ihtml/themes/breezy/login.tpl.c:14
-msgid "Username"
-msgstr "Nom d'utilisateur"
-
-#: ihtml/themes/breezy/recovery.tpl.c:38 ihtml/themes/breezy/recovery.tpl.c:41
-#: ihtml/themes/breezy/recovery.tpl.c:44
-msgid "New password repeated"
-msgstr "Nouveau mot de passe (de nouveau)"
-
-#: ihtml/themes/breezy/recovery.tpl.c:47
-msgid "Password strength"
-msgstr "Sécurité du mot de passe"
-
-#: ihtml/themes/breezy/recovery.tpl.c:50 ihtml/themes/breezy/recovery.tpl.c:53
-#: ihtml/themes/breezy/recovery.tpl.c:56 ihtml/themes/breezy/recovery.tpl.c:92
-#: ihtml/themes/breezy/recovery.tpl.c:95 ihtml/themes/breezy/recovery.tpl.c:98
+#: ihtml/themes/breezy/recovery.tpl.c:65 ihtml/themes/breezy/recovery.tpl.c:68
 #: ihtml/themes/breezy/login.tpl.c:29 ihtml/themes/breezy/login.tpl.c:32
 #: ihtml/themes/breezy/login.tpl.c:35
 msgid "Directory"
 msgstr "Répertoire"
 
-#: ihtml/themes/breezy/recovery.tpl.c:59
-#: ihtml/themes/breezy/recovery.tpl.c:104
+#: ihtml/themes/breezy/recovery.tpl.c:35 ihtml/themes/breezy/recovery.tpl.c:38
+msgid "New password repeated"
+msgstr "Nouveau mot de passe (de nouveau)"
+
+#: ihtml/themes/breezy/recovery.tpl.c:41
+msgid "Password strength"
+msgstr "Sécurité du mot de passe"
+
+#: ihtml/themes/breezy/recovery.tpl.c:44 ihtml/themes/breezy/recovery.tpl.c:77
 msgid "Change"
 msgstr "Changer"
 
-#: ihtml/themes/breezy/recovery.tpl.c:62
-#: ihtml/themes/breezy/recovery.tpl.c:107
+#: ihtml/themes/breezy/recovery.tpl.c:47 ihtml/themes/breezy/recovery.tpl.c:80
 msgid "Click here to change your password"
 msgstr "Cliquez ici pour changer votre mot de passe"
 
-#: ihtml/themes/breezy/recovery.tpl.c:65 ihtml/themes/breezy/recovery.tpl.c:68
+#: ihtml/themes/breezy/recovery.tpl.c:50 ihtml/themes/breezy/recovery.tpl.c:53
 msgid "Success"
 msgstr "Réussi"
 
-#: ihtml/themes/breezy/recovery.tpl.c:71
+#: ihtml/themes/breezy/recovery.tpl.c:56
 msgid "Your password has been changed successfully."
 msgstr "Votre mot de passe a été changé avec succès."
 
-#: ihtml/themes/breezy/recovery.tpl.c:74
-#: ihtml/themes/breezy/recovery.tpl.c:101
-msgid "Return to login screen"
-msgstr "Retour a là fenêtre de connexion"
-
-#: ihtml/themes/breezy/recovery.tpl.c:77
+#: ihtml/themes/breezy/recovery.tpl.c:59
 msgid ""
 "Enter your current e-mail address in the field below and press the 'Change' "
 "button."
@@ -4884,7 +4868,7 @@ msgstr ""
 "Entrez votre adresse de courriel dans le champ ci-dessous et appuyez sur le "
 "bouton 'Changer'."
 
-#: ihtml/themes/breezy/recovery.tpl.c:80
+#: ihtml/themes/breezy/recovery.tpl.c:62
 msgid ""
 "=> Use your e-mail in the long format, e.g : John Doe => "
 "john.doe@example.com"
@@ -4892,13 +4876,17 @@ msgstr ""
 "=> Indiquez votre adresse complète, ex: Jules Martin => "
 "jules.martin@exemple.fr"
 
-#: ihtml/themes/breezy/recovery.tpl.c:110
+#: ihtml/themes/breezy/recovery.tpl.c:83
 msgid ""
 "Password recovery is not activated. If you have lost your password, please "
 "contact your administrator"
 msgstr ""
 "La fonction de récupération de mot de passe n'est pas activée. Si vous avez "
 "perdu votre mot de passe, veuillez contacter votre administrateur réseau"
+
+#: ihtml/themes/breezy/login.tpl.c:2
+msgid "Login screen"
+msgstr "Écran de connexion"
 
 #: ihtml/themes/breezy/login.tpl.c:5
 msgid ""
@@ -4907,6 +4895,11 @@ msgid ""
 msgstr ""
 "Veuillez entrer votre nom d'utilisateur et votre mot de passe afin de vous "
 "connecter."
+
+#: ihtml/themes/breezy/login.tpl.c:8 ihtml/themes/breezy/login.tpl.c:11
+#: ihtml/themes/breezy/login.tpl.c:14
+msgid "Username"
+msgstr "Nom d'utilisateur"
 
 #: ihtml/themes/breezy/login.tpl.c:26
 msgid "I forgot my password"
@@ -5035,17 +5028,13 @@ msgstr ""
 msgid "Read only"
 msgstr "Lecture seule"
 
-#: ihtml/themes/breezy/copynotice.tpl.c:2
-msgid ""
-"&copy; 2002-%1 <a href=\"http://www.fusiondirectory.org\">The "
-"FusionDirectory team, %2</a>"
-msgstr ""
-"&copy; 2002-%1 <a href=\"http://www.fusiondirectory.org\">L'equipe de "
-"FusionDirectory, %2</a>"
-
 #: ihtml/themes/breezy/template.tpl.c:2
 msgid "Creating a new object using templates"
 msgstr "Création d’un nouvel objet depuis un modèle"
+
+#: plugins/generic/welcome/welcome.tpl.c:2
+msgid "The FusionDirectory team"
+msgstr "L'équipe de FusionDirectory"
 
 #: plugins/generic/references/contents.tpl.c:2
 msgid "<strong>%1</strong> references our <strong>%3</strong>"
