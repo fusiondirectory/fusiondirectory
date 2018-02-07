@@ -386,7 +386,7 @@ class filter
           break;
 
         default:
-          die ("Unknown element type specified!");
+          throw new Exception ('Unknown element type specified: '.$element['type'].'!');
       }
       $smarty->assign("$tag", $htmlCode);
     }
