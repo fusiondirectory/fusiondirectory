@@ -23,6 +23,19 @@ create_perlcritic_rapport:
     - cp contrib/bin/fusiondirectory-insert-schema contrib/bin/fusiondirectory-insert-schema.pl
     - perlcritic --quiet --verbose "%f~|~%s~|~%l~|~%c~|~%m~|~%e~|~%p~||~%n" contrib/bin
 
+# Perl lint
+create_perl_lint_rapport:
+  stage: test
+  only:
+    - branches
+    - tags
+  before_script:
+    - apt-get update -qq
+    - apt-get install -y -qq libarchive-extract-perl libcrypt-cbc-perl libdigest-sha-perl libfile-copy-recursive-perl
+    - apt-get install -y -qq libnet-ldap-perl libpath-class-perl libterm-readkey-perl libxml-twig-perl
+  script:
+    - perl -cW contrib/bin/fusiondirectory-setup contrib/bin/fusiondirectory-insert-schema
+
 # generate man pages to test validity
 test_manpages:
   stage: test
