@@ -23,6 +23,20 @@ create_perlcritic_rapport:
     - cp contrib/bin/fusiondirectory-insert-schema contrib/bin/fusiondirectory-insert-schema.pl
     - perlcritic --quiet --verbose "%f~|~%s~|~%l~|~%c~|~%m~|~%e~|~%p~||~%n" contrib/bin
 
+# generate man pages to test validity
+test_manpages:
+  stage: test
+  only:
+    - branches
+    - tags
+  script:
+    - pod2man -c "FusionDirectory Documentation" -r "FusionDirectory 1.3" contrib/bin/fusiondirectory-insert-schema contrib/man/fusiondirectory-insert-schema.1
+    - pod2man -c "FusionDirectory Documentation" -r "FusionDirectory 1.3" contrib/bin/fusiondirectory-setup contrib/man/fusiondirectory-setup.1
+    - pod2man -c "FusionDirectory Documentation" -r "FusionDirectory 1.3" contrib/man/fusiondirectory.conf.pod contrib/man/fusiondirectory.conf.5
+    - lexgrog contrib/man/fusiondirectory-insert-schema.1
+    - lexgrog man/fusiondirectory.conf.5
+    - lexgrog man/fusiondirectory-setup.1
+
 # PHP codesniffer
 create_php_code_sniffer_rapport:
   stage: test
