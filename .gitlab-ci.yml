@@ -31,7 +31,7 @@ test_manpages:
     - tags
   before_script:
   - apt-get update -qq
-  - apt-get install -y -qq perl
+  - apt-get install -y -qq perl man-db
   script:
     - pod2man -c "FusionDirectory Documentation" -r "FusionDirectory 1.3" contrib/bin/fusiondirectory-insert-schema contrib/man/fusiondirectory-insert-schema.1
     - pod2man -c "FusionDirectory Documentation" -r "FusionDirectory 1.3" contrib/bin/fusiondirectory-setup contrib/man/fusiondirectory-setup.1
