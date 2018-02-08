@@ -6,12 +6,14 @@ variables:
   GIT_SSL_NO_VERIFY: "true"
 
 stages:
-  - test
+  - test-perl
+  - test-php
+  - test-manpages
   - transifex
 
 # Generate perlcritic rapport
 create_perlcritic_rapport:
-  stage: test
+  stage: test-perl
   only:
     - branches
     - tags
@@ -25,7 +27,7 @@ create_perlcritic_rapport:
 
 # Perl lint
 create_perl_lint_rapport:
-  stage: test
+  stage: test-perl
   only:
     - branches
     - tags
@@ -38,7 +40,7 @@ create_perl_lint_rapport:
 
 # generate man pages to test validity
 test_manpages:
-  stage: test
+  stage: test-manpages
   only:
     - branches
     - tags
@@ -55,7 +57,7 @@ test_manpages:
 
 # PHP codesniffer
 create_php_code_sniffer_rapport:
-  stage: test
+  stage: test-php
   only:
     - branches
     - tags
@@ -68,7 +70,7 @@ create_php_code_sniffer_rapport:
 
 # PHP lint
 create_php_lint_rapport:
-  stage: test
+  stage: test-php
   only:
     - branches
     - tags
@@ -80,7 +82,7 @@ create_php_lint_rapport:
 
 # fusiondirectory-update-locale
 fusiondirectory-update-locale:
-  stage: test
+  stage: transifex
   only:
     - branches
     - tags
