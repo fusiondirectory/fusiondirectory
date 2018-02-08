@@ -2956,6 +2956,38 @@ fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/sympa-fd.schem
 
 - In case you use system template that have a DNS tab, you need to remake it because the separator "|" is changed to "^"
 
+Migrate FusionDirectory from 1.2 to 1.2.1
+===========================================
+
+==== Upgrade schema2ldif ====
+
+For Jessie distribution add extra repository
+
+# fusiondirectory debian-extra repository
+deb http://repos.fusiondirectory.org/debian-extra jessie main
+
+- Update the package list and upgrade schema2ldif
+
+apt-get update
+apt-get install schema2ldif
+
+==== Upgrade FusionDirectory first ====
+
+- Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
+
+apt-get install fusiondirectory
+
+- Upgrade FusionDirectory schema package too.
+
+apt-get install fusiondirectory-schema
+
+==== Upgrade of LDAP directory ====
+
+- Upgrade core schema of FusionDirectory
+
+fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd.schema
+
+
 Enjoy :)
 
 ---
