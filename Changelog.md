@@ -17,7 +17,6 @@
 - fd#5668 Password length on login page should have no limit
 - fd#5692 Update the readme.md with correct forge information
 - fd#5737 Dashboard tabs should be ordered
-- fd#5749 Webservice errors
 
 #### fusiondirectory-plugins
 - fd-plugins#5685 supannRefId on Structure object is too small and mono valued
@@ -61,7 +60,7 @@
 - fd-plugins#5745 PHP error in OPSI product properties
 - fd-plugins#5747 Line number in CSV import error messages is incorrect
 - fd-plugins#5754 Forward confirmation to manager does not work when extending the account expiration
-- fd-plugins#5755 User plugin reminder not support accent in message
+- fd-plugins#5755 User reminder does not support accents in the message
 - fd-plugins#5757 DHCP: Changing mac address in the system's system tab does not update the DHCP entries accordingly
 - fd-plugins#5766 Crash when DHCP plugin is not installed when we use OPSI import
 - fd-plugins#5768 Renaming DNS zones often results in an Exception being thrown
