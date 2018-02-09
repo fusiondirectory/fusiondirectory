@@ -147,7 +147,7 @@ You can define a set of referrals if you have several server to connect to.
 
 =head1 BUGS
 
-Please report any bugs, or post any suggestions, to the fusiondirectory mailing list fusiondirectory-users or to <https://forge.fusiondirectory.org/projects/fdirectory/issues/new>
+Please report any bugs, or post any suggestions, to the fusiondirectory mailing list fusiondirectory-users or to <https://gitlab.fusiondirectory.org/fusiondirectory/fd/issues/new>
 
 =head1 LICENCE AND COPYRIGHT
 
@@ -157,7 +157,7 @@ This code is part of FusionDirectory <http://www.fusiondirectory.org>
 
 =item Copyright (C) 2003-2010 GONICUS GmbH
 
-=item Copyright (C) 2011-2017 FusionDirectory project
+=item Copyright (C) 2011-2018 FusionDirectory project
 
 =back
 
