@@ -10,6 +10,7 @@ stages:
   - test-php
   - test-manpages
   - transifex
+  - build-tarballs
 
 # Generate perlcritic rapport
 create_perlcritic_rapport:
@@ -107,3 +108,12 @@ update-transifex:
     - tx pull -a -f
     - ../dev-tools/locale-scripts/fusiondirectory-update-locale -g
     - tx push -f -s -t --skip --no-interactive
+
+build-tarballs:
+  stage: build-tarballs
+  script:
+    - tar -cvzf fusiondirectory-core.tar.gz *
+  artifacts:
+    paths:
+    - tarballs/*
+    expire_in: 1h
