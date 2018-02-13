@@ -341,6 +341,9 @@ class SetAttribute extends Attribute
   }
 }
 
+/*!
+ * \brief Multivalued attribute displayed as a columned table. May allow ordering and/or editing
+ */
 class OrderedArrayAttribute extends SetAttribute
 {
   protected $order;
@@ -351,7 +354,9 @@ class OrderedArrayAttribute extends SetAttribute
   /*! \brief The constructor of OrderedArrayAttribute
    *
    *  \param Attribute $attribute The composite attribute you want to see multi-valuated
+   *  \param boolean $order Can the values be ordered
    *  \param array $values The default values
+   *  \param boolean $edit_enabled Can the values be edited
    */
   function __construct ($attribute, $order = TRUE, $values = array(), $edit_enabled = FALSE)
   {
@@ -638,6 +643,9 @@ class OrderedArrayAttribute extends SetAttribute
   }
 }
 
+/*!
+ * \brief An OrderedArrayAttribute which stores its values in LDAP subnodes
+ */
 class SubNodesAttribute extends OrderedArrayAttribute
 {
   protected $objectClass;

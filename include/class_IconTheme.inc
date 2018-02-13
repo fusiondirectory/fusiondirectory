@@ -22,6 +22,9 @@ class ThemeFileParsingException extends Exception
 {
 }
 
+/*!
+ * \brief Icon theme directory
+ */
 class IconThemeDir
 {
   /* Nominal (unscaled) size of the icons in this directory.
@@ -94,6 +97,9 @@ class IconThemeDir
   }
 }
 
+/*!
+ * \brief Icon theme
+ */
 class IconTheme
 {
   private $subdirs = array();

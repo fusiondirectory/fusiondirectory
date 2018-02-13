@@ -18,6 +18,9 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*!
+ * \brief Phone number selection
+ */
 class phoneSelect extends simpleSelectManagement
 {
   protected $multiSelect          = FALSE;
@@ -50,16 +53,25 @@ class phoneSelect extends simpleSelectManagement
   }
 }
 
+/*!
+ * \brief Mobile phone number selection
+ */
 class mobilePhoneSelect extends phoneSelect
 {
   protected $objectTypes = array('mobilePhone');
 }
 
+/*!
+ * \brief Phone number selection allowing both Phone and Mobile phone objects
+ */
 class anyPhoneSelect extends phoneSelect
 {
   protected $objectTypes = array('phone','mobilePhone');
 }
 
+/*!
+ * \brief Phone number selection dialog
+ */
 class phoneSelectDialog extends GenericDialog
 {
   function __construct($simplePlugin, $attribute, $type)

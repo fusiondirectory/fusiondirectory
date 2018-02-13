@@ -129,6 +129,9 @@ class ldapFilter
   }
 }
 
+/*!
+ * \brief Leaf of an LDAP filter, for instance (objectClass=*)
+ */
 class ldapFilterLeaf extends ldapFilter
 {
   static $operators = array('=','=~','>','>=','<','<=');

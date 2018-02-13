@@ -18,6 +18,9 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*!
+ * \brief System selection
+ */
 class systemSelect extends simpleSelectManagement
 {
   protected $autoFilterAttributes = array('dn', 'cn', 'ipHostNumber', 'macAddress');

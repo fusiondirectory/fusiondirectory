@@ -18,6 +18,9 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*!
+ * \brief User and/or POSIX group selection
+ */
 class userGroupSelect extends userSelect
 {
   protected $objectTypes = array('user', 'group');
@@ -32,6 +35,9 @@ class userGroupSelect extends userSelect
   }
 }
 
+/*!
+ * \brief User, user group and/or role selection
+ */
 class userGroupRoleSelect extends userGroupSelect
 {
   protected $objectTypes = array('user', 'group', 'role', 'ogroup');

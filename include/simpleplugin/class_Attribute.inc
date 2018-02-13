@@ -88,8 +88,8 @@ class Attribute
    *  \param string $description A more detailed description for the attribute
    *  \param string $ldapName The name of the attribute in the LDAP (If it's not in the ldap, still provide a unique name)
    *  \param boolean $required Is this attribute mandatory or not
-   *  \param mixed defaultValue The default value for this attribute
-   *  \param string acl The name of the acl for this attribute if he does not use its own. (Leave empty if he should use its own like most attributes do)
+   *  \param mixed $defaultValue The default value for this attribute
+   *  \param string $acl The name of the acl for this attribute if he does not use its own. (Leave empty if he should use its own like most attributes do)
    */
   function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = "", $acl = "")
   {
@@ -557,9 +557,9 @@ class Attribute
 
   /*! \brief Render this attribute form input(s)
    *
-   *  \param array& attributes the attributes array
+   *  \param array &$attributes the attributes array
    *
-   *  \param bool readOnly should we show text or input
+   *  \param bool $readOnly should we show text or input
    */
   function renderAttribute(&$attributes, $readOnly)
   {
@@ -593,7 +593,8 @@ class Attribute
 
   /*! \brief Serialize this attribute for RPC requests
    *
-   *  \param array& attributes the attributes array
+   * \param array &$attributes the attributes array
+   * \param boolean $form
    */
   function serializeAttribute(&$attributes, $form = TRUE)
   {
@@ -626,7 +627,7 @@ class Attribute
 
   /*! \brief Apply value from RPC requests
    *
-   *  \param array values the values array
+   *  \param array $values the values array
    */
   function deserializeValue($values)
   {
@@ -727,6 +728,9 @@ class Attribute
   }
 }
 
+/*!
+ * \brief Attribute hidden from the user
+ */
 class HiddenAttribute extends Attribute
 {
   /*! \brief The constructor of HiddenAttribute
@@ -748,6 +752,9 @@ class HiddenAttribute extends Attribute
   }
 }
 
+/*!
+ * \brief HiddenAttribute with several values
+ */
 class HiddenArrayAttribute extends HiddenAttribute
 {
   protected function loadAttrValue ($attrs)
@@ -763,7 +770,9 @@ class HiddenArrayAttribute extends HiddenAttribute
   }
 }
 
-/* Dummy attribute class in order to give stats information to the template */
+/*!
+ * \brief Dummy attribute class in order to give stats information to the template
+ */
 class FakeAttribute extends Attribute
 {
   function __construct ($ldapName)

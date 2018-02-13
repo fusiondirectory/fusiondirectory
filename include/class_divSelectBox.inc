@@ -79,7 +79,7 @@ class divSelectBox
   /*!
    * \brief Set column headers
    *
-   * \param array $a_entriedata
+   * \param array $headers
    */
   function SetHeaders($headers)
   {

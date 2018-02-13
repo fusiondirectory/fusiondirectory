@@ -80,7 +80,7 @@ class SelectAttribute extends Attribute
 
   /*! \brief Set the display options of the select attribute
    *
-   *  \param array $outputs The labels corresponding to the choices, in the same order as the choices
+   *  \param array $values The labels corresponding to the choices, in the same order as the choices
    */
   function setDisplayChoices ($values)
   {

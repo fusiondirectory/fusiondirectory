@@ -19,6 +19,9 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*!
+ * \brief Snapshot creation dialog
+ */
 class SnapshotCreateDialog extends simplePlugin
 {
   public $aclCategory;
@@ -74,6 +77,9 @@ class SnapshotCreateDialog extends simplePlugin
   }
 }
 
+/*!
+ * \brief Attribute which list the snapshots
+ */
 class SnapshotsAttribute extends OrderedArrayAttribute
 {
   function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = array(), $acl = '')
@@ -184,6 +190,9 @@ class SnapshotsAttribute extends OrderedArrayAttribute
   }
 }
 
+/*!
+ * \brief Snapshot restoration dialog
+ */
 class SnapshotRestoreDialog extends simplePlugin
 {
   public $global;

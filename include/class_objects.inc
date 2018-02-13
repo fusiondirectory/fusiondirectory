@@ -19,6 +19,11 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*!
+ * \brief Class for handling objects and their types
+ *
+ * Allows to list, open, create and delete objects
+ */
 class objects
 {
   /*!
@@ -157,6 +162,7 @@ class objects
    * \param array   $types the objectTypes to list
    * \param string  $ou the LDAP branch to search in, base will be used if it is NULL
    * \param string  $filter an additional filter to use in the LDAP search.
+   * \param boolean $checkAcl Should ACL be checked on the filtered attributes.
    *
    * \return The number of objects of type $type in $ou
    */

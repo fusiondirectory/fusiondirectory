@@ -72,7 +72,7 @@ class filterLDAP
    *
    * \param boolean $sizelimit
    *
-   * \param boolean $checkAcl
+   * \param boolean $skipAcl
    */
   static function get_list($parent, $base, $filter, $attributes, $category, $objectStorage, $scope, $sizelimit = TRUE, $skipAcl = FALSE)
   {

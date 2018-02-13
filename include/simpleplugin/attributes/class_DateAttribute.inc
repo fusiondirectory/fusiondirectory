@@ -158,6 +158,9 @@ class DateAttribute extends Attribute
   }
 }
 
+/*!
+ * \brief Date attribute storing standard LDAP GeneralizedTime format
+ */
 class GeneralizedTimeDateAttribute extends DateAttribute
 {
   function __construct ($label, $description, $ldapName, $required, $defaultValue = 'now', $acl = "")
@@ -181,6 +184,9 @@ class GeneralizedTimeDateAttribute extends DateAttribute
   }
 }
 
+/*!
+ * \brief Attribute storing time as His format
+ */
 class TimeHisAttribute extends CompositeAttribute
 {
   protected $convert;
@@ -254,6 +260,9 @@ class TimeHisAttribute extends CompositeAttribute
   }
 }
 
+/*!
+ * \brief Attribute storing time as Hi format
+ */
 class TimeHiAttribute extends TimeHisAttribute
 {
   function __construct($label, $description, $ldapName, $required, $convert = TRUE, $acl = '')
@@ -276,6 +285,9 @@ class TimeHiAttribute extends TimeHisAttribute
   }
 }
 
+/*!
+ * \brief Attribute storing both Date and Time
+ */
 class DateTimeAttribute extends CompositeAttribute
 {
   function __construct($label, $description, $ldapName, $required, $acl = '')

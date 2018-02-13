@@ -923,8 +923,6 @@ class LDAP
    *
    * \param  $filter       Limit the exported object to those maching this filter.
    *
-   * \param  array $attributes Attributes
-   *
    * \param  $scope        'base', 'sub' .. see manpage for 'ldapmodify' for details.
    *
    * \param  $limit        Limits the result.
@@ -1000,8 +998,6 @@ class LDAP
    * \param integer $srp
    *
    * \param string $str_attr
-   *
-   * \param string $error
    *
    * \param boolean $JustModify
    *
@@ -1293,7 +1289,7 @@ class LDAP
   /*!
    * \brief Add a string in log file
    *
-   * \param stri if(ng $string
+   * \param string $string
    */
   function log($string)
   {

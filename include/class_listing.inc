@@ -855,7 +855,8 @@ class listing
   /*!
    * \brief Get the object type
    *
-   * \param string $classes
+   * \param string $dn dn of the object
+   * \param string $attrs LDAP attributes of the object
    */
   function getObjectType($dn, $attrs)
   {
@@ -864,6 +865,9 @@ class listing
 
   /*!
    * \brief Get the department type
+   *
+   * \param string $dn dn of the object
+   * \param string $attrs LDAP attributes of the object
    */
   function getDepartmentType($dn, $attrs)
   {

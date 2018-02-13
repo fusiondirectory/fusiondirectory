@@ -18,6 +18,9 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*!
+ * \brief Template dialog handling
+ */
 class templateDialog
 {
   protected $simpleManagement;
@@ -119,6 +122,9 @@ class templateDialog
   }
 }
 
+/*!
+ * \brief Management base class
+ */
 class simpleManagement
 {
   // The currently used object(s) (e.g. in edit, removal)
@@ -1111,8 +1117,6 @@ class simpleManagement
    * \param  String  $action  The name of the action which was the used as trigger.
    *
    * \param  Array   $target  A list of object dns, which should be affected by this method.
-   *
-   * \param  Array   $all     A combination of both 'action' and 'target'.
    */
   function createSnapshotDialog($action, array $target)
   {
@@ -1142,8 +1146,6 @@ class simpleManagement
    * \param  String  $action  The name of the action which was the used as trigger.
    *
    * \param  Array   $target  A list of object dns, which should be affected by this method.
-   *
-   * \param  Array   $all'     A combination of both 'action' and 'target'.
    */
   function restoreSnapshotDialog($action, array $target)
   {
@@ -1187,9 +1189,9 @@ class simpleManagement
 
   /*! \brief  This method is used to queue and process copy&paste actions.
    *          Allows to copy, cut and paste mutliple entries at once.
-   *  @param  String  'action'  The name of the action which was the used as trigger.
-   *  @param  Array   'target'  A list of object dns, which should be affected by this method.
-   *  @param  Array   'all'     A combination of both 'action' and 'target'.
+   *  @param  string  $action  The name of the action which was the used as trigger.
+   *  @param  array   $target  A list of object dns, which should be affected by this method.
+   *  @param  array   $all     A combination of both 'action' and 'target'.
    */
   function copyPasteHandler($action = '', array $target = array(), array $all = array())
   {
@@ -1285,8 +1287,6 @@ class simpleManagement
 
   /*!
    * \brief Get all deleted snapshots
-   *
-   * \param string $base The base
    */
   function getAllDeletedSnapshots()
   {

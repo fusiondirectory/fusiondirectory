@@ -20,6 +20,9 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*!
+ * \brief filterLDAP backend with blacklist/whitelist handling
+ */
 class filterLDAPBlacklist {
 
   static function query($parent, $base, $scope, $filter, $attributes, $category, $objectStorage = "")

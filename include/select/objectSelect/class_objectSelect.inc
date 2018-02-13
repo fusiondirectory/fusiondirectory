@@ -18,7 +18,9 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/* We extend userSelect to have the login column */
+/*!
+ * \brief Object selection
+ */
 class objectSelect extends userSelect
 {
   protected $objectTypes = array(

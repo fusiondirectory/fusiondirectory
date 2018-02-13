@@ -37,6 +37,7 @@ class StringAttribute extends Attribute
    *  \param mixed $defaultValue The default value for this attribute
    *  \param string $acl The name of the acl for this attribute if he does not use its own. (Leave empty if he should use its own like most attributes do)
    *  \param string $regexp A regular expression that should be matched by the value of this attribute in order for it to be considered valid. Will be used as a PHP regexp and as an html5 input pattern.
+   *  \param string $example An example of a valid value
    */
   function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = "", $acl = "", $regexp = "", $example = NULL)
   {

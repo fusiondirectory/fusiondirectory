@@ -768,9 +768,11 @@ class simplePlugin
    *
    * \param string $text The text
    *
-   * \param boolean $plugin_enabled
+   * \param boolean $plugin_enabled Is the plugin/tab activated
    *
-   * \param boolean $button_disabled FALSE
+   * \param boolean $button_disabled Is the button disabled
+   *
+   * \param string $name The html name of the input, defaults to modify_state
    */
   function show_header($button_text, $text, $plugin_enabled, $button_disabled = FALSE, $name = 'modify_state')
   {
