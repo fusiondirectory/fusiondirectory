@@ -30,6 +30,8 @@ class BaseSelectorAttribute extends Attribute
   /*! \brief The constructor of BaseSelectorAttribute
    *
    *  \param string $ou The ou your objects are into. It will be used in order to detect the base they are in.
+   *  \param string $label The label to show for this attribute, defaults to "Base"
+   *  \param string $desc Description, defaults to "Object base"
    */
   function __construct ($ou, $label = NULL, $desc = NULL)
   {

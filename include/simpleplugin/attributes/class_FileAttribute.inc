@@ -73,7 +73,9 @@ class FileAttribute extends Attribute
   }
 }
 
-/* FileAttribue with download button */
+/*!
+ * \brief FileAttribue with a download button
+ */
 class FileDownloadAttribute extends FileAttribute
 {
   protected $extension;
@@ -151,6 +153,9 @@ class FileDownloadAttribute extends FileAttribute
   }
 }
 
+/*!
+ * \brief A FileDownloadAttribute which displays a text area to edit the value
+ */
 class FileTextAreaAttribute extends FileDownloadAttribute
 {
   /* Default values are not the same that for FileDownloadAttribute */
@@ -214,6 +219,9 @@ class FileTextAreaAttribute extends FileDownloadAttribute
   }
 }
 
+/*!
+ * \brief Attribute for storing an image
+ */
 class ImageAttribute extends FileAttribute
 {
   protected $width;

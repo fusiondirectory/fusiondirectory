@@ -1177,7 +1177,7 @@ function strict_uid_mode()
  * }
  * \endcode
  *
- * \param string $user the user who holds the lock
+ * \param string $locks the locks as returned by get_locks
  *
  * \param string $dn the locked DN
  *
@@ -2567,6 +2567,12 @@ function load_all_classes()
   }
 }
 
+
+/*!
+ * \brief Initialize language configuration
+ *
+ * \param string $lang Language locale to use, defaults to get_browser_language
+ */
 function initLanguage($lang = NULL)
 {
   global $BASE_DIR;
@@ -2612,13 +2618,7 @@ if (!function_exists('ldap_escape')) {
   define('LDAP_ESCAPE_FILTER', 0x01);
   define('LDAP_ESCAPE_DN',     0x02);
 
-  /**
-   * @param string $subject The subject string
-   * @param string $ignore Set of characters to leave untouched
-   * @param int $flags Any combination of LDAP_ESCAPE_* flags to indicate the
-   *                   set(s) of characters to escape.
-   * @return string
-   */
+  /* PHP version of ldap_escape for PHP<5.6 */
   function ldap_escape($subject, $ignore = '', $flags = 0)
   {
     static $charMaps = array(

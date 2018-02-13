@@ -108,7 +108,7 @@ class printAClass {
    *
    * \param boolean $iteration false
    *
-   * \param boolean $key_bg_colo false
+   * \param boolean $key_bg_color false
    */
   function print_a($array, $iteration = FALSE, $key_bg_color = FALSE)
   {

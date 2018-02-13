@@ -73,7 +73,7 @@ class acl
   /*!
    * \brief Explode a role
    *
-   * \param string $acl ACL to be exploded
+   * \param string $role ACL role to be exploded
    */
   static function explodeRole($role)
   {
@@ -124,7 +124,7 @@ class acl
   /*!
    * \brief Extract members of an acl
    *
-   * \param $acl The acl to be extracted members part
+   * \param $ms The members part of the ACL
    *
    * \return an array with members
    */

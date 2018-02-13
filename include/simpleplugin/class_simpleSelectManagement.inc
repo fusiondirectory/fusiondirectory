@@ -18,6 +18,9 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*!
+ * \brief Management base class for selection dialogs
+ */
 class simpleSelectManagement extends simpleManagement
 {
   protected $skipFooter = TRUE;

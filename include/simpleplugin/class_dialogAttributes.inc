@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2016  FusionDirectory
+  Copyright (C) 2012-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -18,6 +18,8 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*! \brief Generic dialog base class
+ */
 class GenericDialog
 {
   protected $dialogClass = "";
@@ -61,6 +63,8 @@ class GenericDialog
   }
 }
 
+/*! \brief Generic dialog for selection using a simpleSelectManagement based class
+ */
 class GenericSelectDialog extends GenericDialog
 {
   function dialog_execute ()
@@ -85,11 +89,15 @@ class GenericSelectDialog extends GenericDialog
   }
 }
 
+/*! \brief User selection dialog
+ */
 class UserSelectDialog extends GenericSelectDialog
 {
   protected $dialogClass = 'userSelect';
 }
 
+/*! \brief User selection dialog allowing only one user to get selected
+ */
 class SingleUserSelectDialog extends GenericDialog
 {
   protected $dialogClass = 'singleUserSelect';
@@ -107,26 +115,36 @@ class SingleUserSelectDialog extends GenericDialog
   }
 }
 
+/*! \brief System selection dialog
+ */
 class SystemSelectDialog extends GenericSelectDialog
 {
   protected $dialogClass = 'systemSelect';
 }
 
+/*! \brief User group selection dialog
+ */
 class UserGroupSelectDialog extends GenericSelectDialog
 {
   protected $dialogClass = 'userGroupSelect';
 }
 
+/*! \brief User group or/and role selection dialog
+ */
 class UserGroupRoleSelectDialog extends GenericSelectDialog
 {
   protected $dialogClass = 'userGroupRoleSelect';
 }
 
+/*! \brief Group selection dialog
+ */
 class GroupSelectDialog extends GenericSelectDialog
 {
   protected $dialogClass = 'groupSelect';
 }
 
+/*! \brief Mail address selection dialog
+ */
 class MailSelectDialog extends GenericSelectDialog
 {
   protected $dialogClass = 'mailAddressSelect';
@@ -251,6 +269,9 @@ class DialogAttribute extends SetAttribute
   }
 }
 
+/*!
+ * \brief An OrderedArrayAttribute which uses a dialog to create/edit values
+ */
 class DialogOrderedArrayAttribute extends OrderedArrayAttribute
 {
   protected $dialogClass;
@@ -323,6 +344,9 @@ class DialogOrderedArrayAttribute extends OrderedArrayAttribute
   }
 }
 
+/*!
+ * \brief Base class for DialogAttribute using a GenericDialog derived dialog
+ */
 class GenericDialogAttribute extends DialogAttribute
 {
   protected $displays     = array();
@@ -467,6 +491,9 @@ class UsersGroupsAttribute extends GenericDialogAttribute
   }
 }
 
+/*!
+ * \brief This class allows to handle an attribute for selecting users, groups or roles
+ */
 class UsersGroupsRolesAttribute extends UsersGroupsAttribute
 {
   protected $dialogClass = 'UserGroupRoleSelectDialog';
@@ -562,6 +589,9 @@ class MailsAttribute extends DialogAttribute
   }
 }
 
+/*!
+ * \brief Attribute storing a system list
+ */
 class SystemsAttribute extends DialogAttribute
 {
   protected $dialogClass = 'SystemSelectDialog';
@@ -580,6 +610,9 @@ class SystemsAttribute extends DialogAttribute
   }
 }
 
+/*!
+ * \brief Attribute showing a button
+ */
 class ButtonAttribute extends Attribute
 {
   protected $buttonText = NULL;
@@ -624,6 +657,9 @@ class ButtonAttribute extends Attribute
   }
 }
 
+/*!
+ * \brief Attribute showing a button which triggers a dialog
+ */
 class DialogButtonAttribute extends ButtonAttribute
 {
   protected $dialogClass  = NULL;
@@ -642,6 +678,9 @@ class DialogButtonAttribute extends ButtonAttribute
   }
 }
 
+/*!
+ * \brief Attribute storing the dn of a user which can be selected through a dialog
+ */
 class UserAttribute extends DialogButtonAttribute
 {
   function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = "", $acl = "")
@@ -758,6 +797,9 @@ class UserAttribute extends DialogButtonAttribute
   }
 }
 
+/*!
+ * \brief GenericDialog using a simplePlugin based class as dialog
+ */
 class GenericSimplePluginDialog extends GenericDialog
 {
   protected $initialDialogValue = NULL;

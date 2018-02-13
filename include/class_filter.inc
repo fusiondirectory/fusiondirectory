@@ -549,7 +549,7 @@ class filter
   /*!
    * \brief Get competition list
    *
-   * \param string $config
+   * \param string $cfg
    *
    * \param string $tag
    *

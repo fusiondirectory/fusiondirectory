@@ -138,7 +138,7 @@ class msgPool {
    * \brief Display that we have no permission to modify an object
    *
    * \param string $name Name of the object which cannot be modified (or array of objects names)
-   * \param string $fields Name of the field of the object which cannot be modified
+   * \param string $field Name of the field of the object which cannot be modified
    */
   public static function permModify($name = '', $field = '')
   {
@@ -396,7 +396,8 @@ class msgPool {
   /*!
    * \brief Display error about existing entry in the system
    *
-   * \param string $name The entry duplicated
+   * \param string $name The attribute name
+   * \param string $dn The existing entry dn
    */
   public static function duplicated($name, $dn = NULL)
   {
@@ -600,9 +601,11 @@ class msgPool {
   /*!
    * \brief List the features settings disabled
    *
-   * \param string $name Name of the setting
+   * \param string $name Name of the tab
    *
-   * \param array $depends Contains all the settings disabled
+   * \param array $depends Tabs this tab depends upon
+   *
+   * \param array $conflicts Tabs this tab conflicts with
    */
   public static function featuresDisabled($name, array $depends = array(), array $conflicts = array())
   {

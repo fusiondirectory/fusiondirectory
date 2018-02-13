@@ -208,8 +208,6 @@ class simpleTabs
 
   /*!
    * \brief Save a tabs object
-   *
-   * \param boolean $save_current false
    */
   function save_object()
   {
@@ -321,8 +319,6 @@ class simpleTabs
 
   /*!
    * \brief Check
-   *
-   * \param boolean $ignore_account false
    */
   protected function check()
   {
@@ -451,9 +447,8 @@ class simpleTabs
   /*!
    * \brief Adapt from template
    *
-   * \param string $dn The DN
-   *
-   * \param array $skip
+   * \param array $attrs an LDAP-like values array
+   * \param array $skip Attributes to skip
    */
   function adapt_from_template($attrs, $skip = array())
   {
@@ -553,6 +548,9 @@ class simpleTabs
   }
 }
 
+/*!
+ * \brief For objects which does not support special tabs such as LDAP and references
+ */
 class simpleTabs_noSpecial extends simpleTabs
 {
   protected $specialTabs = FALSE;

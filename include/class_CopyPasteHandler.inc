@@ -52,8 +52,6 @@ class CopyPasteHandler
 
   /*!
    * \brief Create CP handler
-   *
-   * \param string $config
    */
   function __construct()
   {

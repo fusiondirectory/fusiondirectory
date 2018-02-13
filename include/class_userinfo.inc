@@ -861,8 +861,6 @@ class userinfo
   /*!
   * \brief Checks the posixAccount status by comparing the shadow attributes.
   *
-  * \param object $config   The FusionDirectory configuration object.
-  *
   * \return const
   *                  POSIX_ACCOUNT_EXPIRED           - If the account is expired.
   *                  POSIX_WARN_ABOUT_EXPIRATION     - If the account is going to expire.

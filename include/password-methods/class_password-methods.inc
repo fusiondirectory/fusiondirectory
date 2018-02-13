@@ -310,6 +310,8 @@ class passwordMethod
   /*!
    * \brief Extract a method
    *
+   * \param string $classname The password method class name
+   *
    * \param string $password_hash
    */
   static function _extract_method($classname, $password_hash)

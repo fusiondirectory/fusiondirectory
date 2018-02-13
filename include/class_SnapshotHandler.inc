@@ -51,8 +51,6 @@ class SnapshotHandler
 
   /*!
    * \brief Create handler
-   *
-   * \param config $config
    */
   function __construct()
   {
@@ -342,8 +340,6 @@ class SnapshotHandler
    * \brief Get all deleted snapshots
    *
    * \param string $base_of_object
-   *
-   * \param boolean $raw FALSE
    */
   function getAllDeletedSnapshots($base_of_object)
   {

@@ -212,7 +212,7 @@ class pluglist {
    *
    * This function is used to check which plugins are visible.
    *
-   * \param string $aclname The acl tag to test, eg.  "user/user:self", "systems",...
+   * \param array $infos The acl infos, may contain keys CLASS and/or ACL
    *
    * \return Boolean TRUE on success FALSE otherwise
    */
