@@ -141,7 +141,7 @@ class ldapFilterLeaf extends ldapFilter
 
   function __construct($left, $operator, $right)
   {
-    if (strrpos($left, ':dn:', -4) !== FALSE) {
+    if (@strrpos($left, ':dn:', -4) !== FALSE) {
       $this->dnFilter = TRUE;
       $left = substr($left, 0, -4);
     }

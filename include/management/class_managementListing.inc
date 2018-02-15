@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -20,74 +20,164 @@
 */
 
 /*!
- * \file class_listing.inc
- * Source code for class listing
+ * \file class_managementListing.inc
+ * Source code for class managementListing
  */
 
 /*!
- * \brief This class contains all the function needed to make the list
- * that show the objects inside FusionDirectory
+ * \brief This class contains all the function needed to sort list
+ * go up, go down , back , next. etc...
  */
-class listing
+class entrySortIterator implements Iterator {
+  protected $data;
+
+  /*!
+   * \brief listingSortIterator constructor
+   *
+   * \param array $data listingSortIterator data
+   *
+   * \param $direction Direction
+   *
+   * \param $attribute Attribute
+   *
+   * \param string $type
+   */
+  public function __construct($entries, $column, $direction)
+  {
+    // Sort for attribute
+    if (is_object($column)) {
+      uasort(
+        $entries,
+        function ($ao, $bo) use ($column)
+        {
+          return $column->compare($ao, $bo);
+        }
+      );
+    }
+
+    // Invert if direction is set
+    if ($direction) {
+      $this->data = array_reverse($entries, TRUE);
+    } else {
+      $this->data = $entries;
+    }
+  }
+
+  /*!
+   * \brief Put the array pointer to the first element
+   *
+   * \return the first element of the array
+   */
+  function rewind()
+  {
+    return reset($this->data);
+  }
+
+  /*!
+   * \brief Get the current data element
+   *
+   * \return The current element pointed by array pointer
+   */
+  function current()
+  {
+    return current($this->data);
+  }
+
+  /*!
+   * \brief Get the key element
+   *
+   * \return the key element of the array
+   */
+  function key()
+  {
+    return key($this->data);
+  }
+
+  /*!
+   * \brief Get the next data element
+   *
+   * \return The next element pointed by array pointer
+   */
+  function next()
+  {
+    return next($this->data);
+  }
+
+  /*!
+   * \brief Check if the data array is valid
+   *
+   * \return TRUE if the array is valid, return FALSE otherwise
+   */
+  function valid()
+  {
+    return (key($this->data) !== NULL);
+  }
+}
+
+/*!
+ * \brief This class handles the entries list for a management instance
+ */
+class managementListing
 {
-  var $xmlData;
-  var $entries;
-  var $departments            = array();
-  var $departmentBrowser      = FALSE;
-  var $departmentRootVisible  = FALSE;
-  var $multiSelect            = FALSE;
-  var $template;
-  var $headline;
-  var $base;
-  var $sortDirection  = NULL;
-  var $sortColumn     = NULL;
-  var $sortAttribute;
-  var $sortType;
-  var $numColumns;
-  var $baseMode = FALSE;
-  var $bases    = array();
-  var $header   = array();
-  var $colprops = array();
-  var $filters  = array();
-  var $filter   = NULL;
-  var $pid;
-  protected $departmentTypes  = array();
-  var $objectTypes      = array();
-  var $objectTypeCount  = array();
-  protected $objectDnMapping  = array();
-  protected $copyPasteHandler = NULL;
-  protected $snapshotHandler  = NULL;
-  var $exporter       = array();
-  var $exportColumns  = array();
-  var $height         = 0;
-  var $scrollPosition = 0;
-  var $baseSelector;
-  protected $filterCache = array();
+  public $entries = array();
+  //~ var $departments            = array();
+  //~ var $departmentBrowser      = FALSE;
+  //~ var $departmentRootVisible  = FALSE;
+  public $multiSelect            = TRUE;
+  //~ var $template;
+  //~ var $headline;
+  protected $base;
+
+  protected $sortDirection  = NULL;
+  protected $sortColumn     = NULL;
+  //~ protected $sortAttribute;
+  //~ protected $sortType;
+
+  //~ protected $numColumns;
+  protected $baseMode = TRUE;
+  protected $bases    = array();
+  //~ protected $header   = array();
+  //~ protected $colprops = array();
+  //~ protected $filters  = array();
+  //~ protected $filter   = NULL;
+  protected $pid;
+  //~ protected $departmentTypes  = array();
+  //~ var $objectTypes      = array();
+  protected $objectTypeCount  = array();
+  //~ protected $objectDnMapping  = array();
+  //~ protected $copyPasteHandler = NULL;
+  //~ protected $snapshotHandler  = NULL;
+  //~ var $exporter       = array();
+  //~ var $exportColumns  = array();
+  protected $height         = 0;
+  protected $scrollPosition = 0;
+  protected $baseSelector;
+  //~ protected $filterCache = array();
+
+  /* The management class */
+  protected $parent;
+
+  protected $columns;
+
+  protected $showFooter;
 
   /*!
    * \brief Create a listing
    *
    * \param string $data either a filename or an array representation of the XML
    */
-  function __construct($data)
+  function __construct($parent)
   {
     global $config;
-    global $class_mapping;
+
+    $this->parent = $parent;
 
     // Initialize pid
-    $this->pid = preg_replace("/[^0-9]/", "", microtime(TRUE));
-
-    if (!$this->load($data)) {
-      if (is_array($data)) {
-        die("Cannot parse data : ".print_r($data, TRUE));
-      } else {
-        die("Cannot parse $data!");
-      }
-    }
+    $this->pid = preg_replace('/[^0-9]/', '', microtime(TRUE));
 
     // Set base for filter
     if ($this->baseMode) {
-      $this->base = session::global_get("CurrentMainBase");
+      $this->base = session::global_get('CurrentMainBase'); // Replace with config or ui var
       if ($this->base == NULL) {
         $this->base = $config->current['BASE'];
       }
@@ -97,28 +187,34 @@ class listing
     }
 
     // Move footer information
-    $this->showFooter = ($config->get_cfg_value("listSummary") == "TRUE");
+    $this->showFooter = ($config->get_cfg_value('listSummary') == 'TRUE');
 
     // Register build in filters
-    $this->registerElementFilter("departmentType",  "listing::filterDepartmentType");
-    $this->registerElementFilter("departmentLink",  "listing::filterDepartmentLink");
-    $this->registerElementFilter("objectType",      "listing::filterObjectType");
-    $this->registerElementFilter("link",            "listing::filterLink");
-    $this->registerElementFilter("nameLink",        "listing::filterNameLink");
-    $this->registerElementFilter("actions",         "listing::filterActions");
+    //~ $this->registerElementFilter("departmentType",  "listing::filterDepartmentType");
+    //~ $this->registerElementFilter("departmentLink",  "listing::filterDepartmentLink");
+    //~ $this->registerElementFilter("objectType",      "listing::filterObjectType");
+    //~ $this->registerElementFilter("link",            "listing::filterLink");
+    //~ $this->registerElementFilter("nameLink",        "listing::filterNameLink");
+    //~ $this->registerElementFilter("actions",         "listing::filterActions");
 
     // Load exporters
-    foreach (array_keys($class_mapping) as $class) {
-      if (preg_match('/Exporter$/', $class)) {
-        $info = call_user_func(array($class, "getInfo"));
-        if ($info != NULL) {
-          $this->exporter = array_merge($this->exporter, $info);
-        }
-      }
-    }
+    //~ foreach (array_keys($class_mapping) as $class) {
+      //~ if (preg_match('/Exporter$/', $class)) {
+        //~ $info = call_user_func(array($class, "getInfo"));
+        //~ if ($info != NULL) {
+          //~ $this->exporter = array_merge($this->exporter, $info);
+        //~ }
+      //~ }
+    //~ }
 
     // Instanciate base selector
     $this->baseSelector = new baseSelector($this->bases, $this->base);
+
+    $this->columns = array(
+      new LinkColumn('sn',        'Last name'),
+      new LinkColumn('givenName', 'First name'),
+      new StringColumn('uid',       'Login'),
+    );
   }
 
   /*!
@@ -193,92 +289,6 @@ class listing
     return FALSE;
   }
 
-  /*!
-   * \brief Load a file
-   *
-   * \param string $data either a filename or an array representation of the XML
-   */
-  function load($data)
-  {
-    if (is_array($data)) {
-      $this->xmlData = $data;
-    } else {
-      $contents = file_get_contents($data);
-      $this->xmlData = xml::xml2array($contents, 1);
-    }
-
-    $this->filterCache = array();
-
-    if (!isset($this->xmlData['list'])) {
-      return FALSE;
-    }
-
-    $this->xmlData = $this->xmlData["list"];
-
-    // Load some definition values
-    foreach (array("departmentBrowser", "departmentRootVisible", "multiSelect", "baseMode") as $token) {
-      if (isset($this->xmlData['definition'][$token]) &&
-          $this->xmlData['definition'][$token] == "true") {
-        $this->$token = TRUE;
-      }
-    }
-
-    // Fill objectTypes from departments and xml definition
-    $types = departmentManagement::getDepartmentTypes();
-    foreach ($types as $type) {
-      $i = objects::infos($type);
-      $this->departmentTypes[strtoupper($type)] = array(
-        'label'       => $i['name'],
-        'image'       => $i['icon'],
-        'category'    => $i['aclCategory'],
-        'class'       => $i['mainTab'],
-        'filter'      => objects::getFilterObject($type),
-        'nameAttr'    => $i['nameAttr'],
-      );
-    }
-    $this->categories = array();
-    if (isset($this->xmlData['definition']['objectType'])) {
-      if (isset($this->xmlData['definition']['objectType']['label'])) {
-        $this->xmlData['definition']['objectType'] = array($this->xmlData['definition']['objectType']);
-      }
-      foreach ($this->xmlData['definition']['objectType'] as $index => $otype) {
-        $this->objectTypes[$otype['objectClass']] = $otype;
-        if (isset($otype['category'])) {
-          $this->categories[] = $otype['category'];
-        }
-      }
-    }
-    $this->categories = array_unique($this->categories);
-
-    // Parse layout per column
-    $this->colprops = $this->parseLayout($this->xmlData['table']['layout']);
-
-    // Prepare table headers
-    $this->renderHeader();
-
-    // Assign headline/Categories
-    $this->headline = _($this->xmlData['definition']['label']);
-    if (!is_array($this->categories)) {
-      $this->categories = array($this->categories);
-    }
-
-    // Evaluate columns to be exported
-    if (isset($this->xmlData['table']['column'])) {
-      foreach ($this->xmlData['table']['column'] as $index => $cfg) {
-        if (isset($cfg['export']) && $cfg['export'] == "true") {
-          $this->exportColumns[] = $index;
-        }
-      }
-    }
-
-    if (isset($this->xmlData['actiontriggers']['action']['type'])) {
-      $this->xmlData['actiontriggers']['action'] = array($this->xmlData['actiontriggers']['action']);
-    }
-
-    return TRUE;
-  }
-
-
   function renderHeader()
   {
     $this->header = array();
@@ -288,48 +298,28 @@ class listing
     $sortInit = FALSE;
     if (!$this->sortDirection) {
       $this->sortColumn = 0;
-      if (isset($this->xmlData['definition']['defaultSortColumn'])) {
-        $this->sortColumn = $this->xmlData['definition']['defaultSortColumn'];
-      } else {
-        $this->sortAttribute = "";
-      }
       $this->sortDirection = array();
       $sortInit = TRUE;
     }
 
-    if (isset($this->xmlData['table']['column'])) {
-      foreach ($this->xmlData['table']['column'] as $index => $cfg) {
-        // Initialize everything to one direction
-        if ($sortInit) {
-          $this->sortDirection[$index] = FALSE;
-        }
-
-        $sorter = "";
-        if ($index == $this->sortColumn && isset($cfg['sortAttribute']) &&
-            isset($cfg['sortType'])) {
-          $this->sortAttribute  = $cfg['sortAttribute'];
-          $this->sortType       = $cfg['sortType'];
-          $sorter = "&nbsp;<img class='center' title='".($this->sortDirection[$index] ? _("Up") : _("Down"))."' src='geticon.php?context=actions&amp;size=16&amp;icon=view-sort-".($this->sortDirection[$index] ? "descending" : "ascending")."' alt='".($this->sortDirection[$index] ? _('Sort up') : _('Sort down'))."'>";
-        }
-        $sortable = (isset($cfg['sortAttribute']));
-
-        $link = "href='?plug=".$_GET['plug']."&amp;PID=".$this->pid."&amp;act=SORT_$index'";
-        if (isset($cfg['label'])) {
-          if ($sortable) {
-            $this->header[$index] = "<th ".$this->colprops[$index]."><a $link>"._($cfg['label'])."$sorter</a></th>";
-          } else {
-            $this->header[$index] = "<th ".$this->colprops[$index].">"._($cfg['label'])."</th>";
-          }
-          $this->plainHeader[] = _($cfg['label']);
-        } else {
-          if ($sortable) {
-            $this->header[$index] = "<th ".$this->colprops[$index]."><a $link>&nbsp;$sorter</a></th>";
-          } else {
-            $this->header[$index] = "<th ".$this->colprops[$index].">&nbsp;</th>";
-          }
-          $this->plainHeader[] = "";
-        }
+    foreach ($this->columns as $index => $column) {
+      // Initialize everything to one direction
+      if ($sortInit) {
+        $this->sortDirection[$index] = FALSE;
       }
+
+      $sorter = '';
+      if (($index == $this->sortColumn) && $column->isSortable()) {
+        $sorter = '&nbsp;<img class="center" title="'.($this->sortDirection[$index] ? _('Up') : _('Down')).'" src="geticon.php?context=actions&amp;size=16&amp;icon=view-sort-'.($this->sortDirection[$index] ? 'descending' : 'ascending').'" alt="'.($this->sortDirection[$index] ? _('Sort up') : _('Sort down')).'"/>';
+      }
+
+      $link = 'href="?plug='.$_GET['plug'].'&amp;PID='.$this->pid.'&amp;act=SORT_'.$index.'"';
+      if ($column->isSortable()) {
+        $this->header[$index] = '<th '.$column->getHtmlProps().'><a '.$link.'>'.$column->getLabel().$sorter.'</a></th>';
+      } else {
+        $this->header[$index] = '<th '.$column->getHtmlProps().'>'.$column->getLabel().'</th>';
+      }
+      $this->plainHeader[]  = $column->getLabel();
     }
   }
 
@@ -342,6 +332,8 @@ class listing
     if (($message = check_sizelimit()) != '') {
       return $message;
     }
+
+    $this->renderHeader();
 
     // Initialize list
     $result = '<input type="hidden" value="'.$this->pid.'" name="PID"/>'."\n";
@@ -370,80 +362,37 @@ class listing
     $result .= '<tbody id="t_nscrollbody">'."\n";
 
     // No results? Just take an empty colspanned row
-    if (count($this->entries) + count($this->departments) == 0) {
-      $result .= '<tr><td colspan="'.($this->numColumns + ($this->multiSelect ? 1 : 0)).'" style="height:100%;width:100%;">&nbsp;</td></tr>'."\n";
-    }
-
-    // Draw department browser if configured and we're not in sub mode
-    if ($this->departmentBrowser && ($this->filter->scope != 'sub')) {
-      // Fill with department browser if configured this way
-      $departmentIterator = new departmentSortIterator($this->departments, $this->sortDirection[$this->sortColumn]);
-      foreach ($departmentIterator as $row => $entry) {
-        $result .= '<tr>';
-
-        // Render multi select if needed
-        if ($this->multiSelect) {
-          $result .= '<td>&nbsp;</td>';
-        }
-
-        // Render defined department columns, fill the rest with some stuff
-        $rest = $this->numColumns;
-        foreach ($this->xmlData['table']['department'] as $index => $cfg) {
-          $colspan = 1;
-          if (isset($cfg['span'])) {
-            $colspan = $cfg['span'];
-          }
-          $result .= '<td colspan="'.$colspan.'" '.$this->colprops[$index].'>'.$this->renderCell('department', $index, $cfg['value'], $entry, $row).'</td>';
-          $rest -= $colspan;
-        }
-
-        // Fill remaining cols with nothing
-        for ($i = $this->numColumns - $rest; $i < $this->numColumns; $i++) {
-          $result .= '<td '.$this->colprops[$i].'>&nbsp;</td>';
-        }
-        $result .= '</tr>';
-      }
+    if (count($this->entries) == 0) {
+      $result .= '<tr><td colspan="'.(count($this->columns) + ($this->multiSelect ? 1 : 0)).'" style="height:100%;width:100%;">&nbsp;</td></tr>'."\n";
     }
 
     // Fill with contents, sort as configured
-    foreach ($this->entries as $row => $entry) {
-      $trow = '';
+    $row = 0;
+    foreach ($this->entries as $dn => &$entry) {
+      $trow       = '';
+      $rowclasses = array();
 
       // Render multi select if needed
       if ($this->multiSelect) {
-        $trow .= '<td style="text-align:center;width:20px;"><input type="checkbox" id="listing_selected_'.$row.'" name="listing_selected_'.$row.'"/></td>'."\n";
+        $trow .= '<td class="checkbox"><input type="checkbox" id="listing_selected_'.$row.'" name="listing_selected_'.$row.'"/></td>'."\n";
       }
 
-      foreach ($this->xmlData['table']['column'] as $index => $cfg) {
-        $renderedCell = $this->renderCell('column', $index, $cfg['value'], $entry, $row);
-        $trow .= '<td '.$this->colprops[$index].'>'.$renderedCell.'</td>'."\n";
-
-        // Save rendered column
-        $sort = preg_replace('/.*>([^<]+)<.*$/', '$1', $renderedCell);
-        $sort = str_replace('&nbsp;', '', $sort);
-        if (strpos($sort, '<') !== FALSE) {
-          $sort = '';
-        }
-        $this->entries[$row]['_sort'.$index] = $sort;
+      foreach ($this->columns as $index => $column) {
+        $renderedCell = $column->renderCell($this->pid, $row, $dn, $entry);
+        $trow .= '<td '.$column->getHtmlCellProps().'>'.$renderedCell.'</td>'."\n";
+        $rowclasses = array_merge($rowclasses, $column->getRowClasses());
       }
 
       // Save rendered entry
-      $this->entries[$row]['_rendered'] = $trow;
+      $entry['render'] = '<tr class="'.implode(' ', $rowclasses).'">'.$trow."</tr>\n";
+      $row++;
     }
+    unset($entry);
 
     // Complete list by sorting entries for _sort$index and appending them to the output
-    $entryIterator = new listingSortIterator($this->entries, $this->sortDirection[$this->sortColumn], "_sort".$this->sortColumn, $this->sortType);
+    $entryIterator = new entrySortIterator($this->entries, $this->columns[$this->sortColumn], $this->sortDirection[$this->sortColumn]);
     foreach ($entryIterator as $row => $entry) {
-      // Apply custom class to row?
-      if (preg_match("/<rowClass:([a-z0-9_-]*)\/>/i", $entry['_rendered'], $matches)) {
-          $result .= "<tr class='".$matches[1]."'>\n";
-          $result .= preg_replace("/<rowClass[^>]+>/", '', $entry['_rendered']);
-      } else {
-          $result .= "<tr>\n";
-          $result .= $entry['_rendered'];
-      }
-
-      $result .= "</tr>\n";
+      $result .= $entry['render'];
     }
 
     // Close list body
@@ -453,25 +402,15 @@ class listing
     if ($this->showFooter) {
       $result .= '<div class="nlistFooter">';
 
-      if ($this->departmentBrowser && ($this->filter->scope != 'sub')) {
-        foreach ($this->departmentTypes as $objectType) {
-          if (isset($this->objectTypeCount[$objectType['label']])) {
-            $result .= '<img class="center" src="'.htmlentities($objectType['image'], ENT_COMPAT, 'UTF-8').'" title="'.$objectType['label'].'" alt="'.$objectType['label'].'"/>&nbsp;'.$this->objectTypeCount[$objectType['label']]."&nbsp;&nbsp;&nbsp;&nbsp;";
-          }
-        }
-      }
-
-      foreach ($this->objectTypes as $objectType) {
-        if (isset($this->objectTypeCount[$objectType['label']])) {
-          $result .= '<img class="center" src="'.htmlentities($objectType['image'], ENT_COMPAT, 'UTF-8').'" title="'.$objectType['label'].'" alt="'.$objectType['label'].'"/>&nbsp;'.$this->objectTypeCount[$objectType['label']]."&nbsp;&nbsp;&nbsp;&nbsp;";
+      foreach ($this->parent->objectTypes as $type) {
+        if (isset($this->objectTypeCount[$type])) {
+          $infos = objects::infos($type);
+          $result .= '<img class="center" src="'.htmlentities($infos['icon'], ENT_COMPAT, 'UTF-8').'" title="'.$infos['name'].'" alt="'.$infos['name'].'"/>&nbsp;'.$this->objectTypeCount[$type]."&nbsp;&nbsp;&nbsp;&nbsp;";
         }
       }
 
       $result .= '</div>';
     }
-
-    // Close list
-    $result .= '';
 
     // Add scroll positioner
     $result .= '<script type="text/javascript">';
@@ -479,35 +418,37 @@ class listing
     $result .= 'var box = $("t_nscrollbody").onscroll= function() {$("position_'.$this->pid.'").value= this.scrollTop;}';
     $result .= '</script>';
 
-    $smarty = get_smarty();
-    $smarty->assign("usePrototype", "true");
-    $smarty->assign("FILTER", $this->filter->render());
-    $smarty->assign("SIZELIMIT", print_sizelimit_warning());
-    $smarty->assign("LIST", $result);
-    $smarty->assign("MULTISELECT", $this->multiSelect);
+    return $result;
 
-    // Assign navigation elements
-    $nav = $this->renderNavigation();
-    foreach ($nav as $key => $html) {
-      $smarty->assign($key, $html);
-    }
+    //~ $smarty = get_smarty();
+    //~ $smarty->assign("usePrototype", "true");
+    //~ $smarty->assign("FILTER", $this->filter->render());
+    //~ $smarty->assign("SIZELIMIT", print_sizelimit_warning());
+    //~ $smarty->assign("LIST", $result);
+    //~ $smarty->assign("MULTISELECT", $this->multiSelect);
 
-    // Assign action menu / base
-    $smarty->assign("ACTIONS", $this->renderActionMenu());
-    $smarty->assign("BASE", $this->renderBase());
+    //~ // Assign navigation elements
+    //~ $nav = $this->renderNavigation();
+    //~ foreach ($nav as $key => $html) {
+      //~ $smarty->assign($key, $html);
+    //~ }
 
-    // Assign summary
-    $smarty->assign("HEADLINE", $this->headline);
+    //~ // Assign action menu / base
+    //~ $smarty->assign("ACTIONS", $this->renderActionMenu());
+    //~ $smarty->assign("BASE", $this->renderBase());
 
-    // Try to load template from plugin the folder first...
-    $file = get_template_path($this->xmlData['definition']['template'], TRUE);
+    //~ // Assign summary
+    //~ $smarty->assign("HEADLINE", $this->headline);
 
-    // ... if this fails, try to load the file from the theme folder.
-    if (!file_exists($file)) {
-      $file = get_template_path($this->xmlData['definition']['template']);
-    }
+    //~ // Try to load template from plugin the folder first...
+    //~ $file = get_template_path($this->xmlData['definition']['template'], TRUE);
 
-    return $smarty->fetch($file);
+    //~ // ... if this fails, try to load the file from the theme folder.
+    //~ if (!file_exists($file)) {
+      //~ $file = get_template_path($this->xmlData['definition']['template']);
+    //~ }
+
+    //~ return $smarty->fetch($file);
   }
 
   /*!
@@ -534,25 +475,12 @@ class listing
       $refresh = TRUE;
     }
 
-    // Reset object counter / DN mapping
-    $this->objectTypeCount = array();
-    $this->objectDnMapping = array();
-
     // Do not do anything if this is not our PID
     if ($refresh || !(isset($_REQUEST['PID']) && $_REQUEST['PID'] != $this->pid)) {
 
       // Save position if set
       if (isset($_POST['position_'.$this->pid]) && is_numeric($_POST['position_'.$this->pid])) {
         $this->scrollPosition = $_POST['position_'.$this->pid];
-      }
-
-      // Override the base if we got a message from the browser navigation
-      if ($this->departmentBrowser && isset($_GET['act'])) {
-        if (preg_match('/^department_([0-9]+)$/', validate($_GET['act']), $match)) {
-          if (isset($this->departments[$match[1]])) {
-            $this->setBase($this->departments[$match[1]]['dn']);
-          }
-        }
       }
 
       // Filter POST with "act" attributes -> posted from action menu
@@ -601,8 +529,7 @@ class listing
 
         // Navigation handling
         if ($action == 'ROOT') {
-          $deps = $ui->get_module_departments($this->categories);
-          $this->setBase($deps[0]);
+          $this->setBase(key($this->bases));
         } elseif ($action == 'BACK') {
           $base = preg_replace('/^[^,]+,/', '', $this->base);
           $this->tryAndSetBase($base);
@@ -612,29 +539,32 @@ class listing
       }
     }
 
-    // Reload departments
-    if ($this->departmentBrowser) {
-      $this->departments = $this->getDepartments();
+    // Update filter and refresh entries
+    //~ $this->filter->setBase($this->base);
+    //~ $this->entries = $this->filter->query();
+    $attrs = array();
+    foreach ($this->columns as $column) {
+      $column->fillNeededAttributes($attrs);
+    }
+    $this->objectTypeCount  = array();
+    $this->entries          = array();
+    foreach ($this->parent->objectTypes as $type) {
+      $infos                        = objects::infos($type);
+      $base                         = (empty($infos['ou']) ? $this->base : $infos['ou'].$this->base);
+      $entries                      = objects::ls($type, $attrs, $base, '', TRUE, 'one');
+      $this->objectTypeCount[$type] = count($entries);
+      $this->entries                = array_merge($this->entries, $entries);
     }
 
-    // Update filter and refresh entries
-    $this->filter->setBase($this->base);
-    $this->entries = $this->filter->query();
-
-    // Fix filter if querie returns NULL
+    // Fix filter if query returns NULL
     if ($this->entries == NULL) {
       $this->entries = array();
     }
 
-    $this->dnToRow = array();
-    foreach ($this->entries as $row => $entry) {
-      $this->dnToRow[$entry['dn']] = $row;
-    }
-
-    // Init snapshot list for renderSnapshotActions
-    if (is_object($this->snapshotHandler)) {
-      $this->snapshotHandler->initSnapshotCache($this->base);
-    }
+    //~ $this->dnToRow = array();
+    //~ foreach ($this->entries as $row => $entry) {
+      //~ $this->dnToRow[$entry['dn']] = $row;
+    //~ }
   }
 
   /*!
@@ -653,9 +583,7 @@ class listing
 
   function tryAndSetBase($base)
   {
-    $ui   = get_userinfo();
-    $deps = $ui->get_module_departments($this->categories);
-    if (in_array_ics($base, $deps)) {
+    if (isset($this->bases[$base])) {
       $this->setBase($base);
     }
   }
@@ -948,10 +876,10 @@ class listing
 
     if ($type) {
       $result = '<img class="center" title="'.$dn.'" src="'.htmlentities($types[$type]['image'], ENT_COMPAT, 'UTF-8').'" alt="'.$type.'"/>';
-      if (!isset($this->objectTypeCount[$types[$type]['label']])) {
-        $this->objectTypeCount[$types[$type]['label']] = 0;
-      }
-      $this->objectTypeCount[$types[$type]['label']]++;
+      //~ if (!isset($this->objectTypeCount[$types[$type]['label']])) {
+        //~ $this->objectTypeCount[$types[$type]['label']] = 0;
+      //~ }
+      //~ $this->objectTypeCount[$types[$type]['label']]++;
     }
 
     return $result;
@@ -1152,15 +1080,15 @@ class listing
     $ui = get_userinfo();
 
     /* Check if base = first available base */
-    $deps = $ui->get_module_departments($this->categories);
+    $deps = array_keys($this->bases);
 
-    if (!count($deps) || $deps[0] == $this->filter->base) {
+    if (!count($deps) || $deps[0] == $this->base) {
       $enableBack = FALSE;
       $enableRoot = FALSE;
     }
 
     /* Check if we are in users home  department */
-    if (!count($deps) || ($this->filter->base == get_base_from_people($ui->dn)) || !in_array_ics(get_base_from_people($ui->dn), $deps)) {
+    if (!count($deps) || ($this->base == get_base_from_people($ui->dn)) || !in_array_ics(get_base_from_people($ui->dn), $deps)) {
       $enableHome = FALSE;
     }
 
@@ -1228,23 +1156,21 @@ class listing
         /* Pre-render list to init things if a dn is gonna be opened on first load */
         $dn         = urldecode($_REQUEST['dn']);
         $action     = $m[1];
-        if ($this->baseMode) {
-          /* Detect the longer base valid for this dn */
-          $longerBase = '';
-          foreach (array_keys($this->bases) as $base) {
-            if (preg_match('/'.preg_quote($base, '/').'$/i', $dn)) {
-              if (strlen($base) > strlen($longerBase)) {
-                $longerBase = $base;
-              }
+        /* Detect the longer base valid for this dn */
+        $longerBase = '';
+        foreach (array_keys($this->bases) as $base) {
+          if (preg_match('/'.preg_quote($base, '/').'$/i', $dn)) {
+            if (strlen($base) > strlen($longerBase)) {
+              $longerBase = $base;
             }
           }
-          $this->setBase($longerBase);
-          /* Search for its main attr value */
-          if (isset($this->filter->elementValues['NAME']) && preg_match('/^[^=]+=([^,]+)/', $dn, $m)) {
-            $this->filter->elementValues['NAME'] = $m[1];
-          }
-          $this->filter->setCurrentScope('one');
         }
+        $this->setBase($longerBase);
+        /* Search for its main attr value */
+        if (isset($this->filter->elementValues['NAME']) && preg_match('/^[^=]+=([^,]+)/', $dn, $m)) {
+          $this->filter->elementValues['NAME'] = $m[1];
+        }
+        $this->filter->setCurrentScope('one');
         /* Bypass size limit just to be sure */
         $oldsizelimit = session::global_get('size_limit');
         session::global_set('size_limit', 0);
@@ -1252,10 +1178,8 @@ class listing
         $this->render();
         session::global_set('size_limit', $oldsizelimit);
         $this->filter->elementValues['NAME'] = '';
-
         $result['action']     = $action;
         $result['targets'][]  = $dn;
-
         // Make sure no other management class intercept the same dn
         unset($_REQUEST['dn']);
       }
@@ -1548,7 +1472,14 @@ class listing
 
     // Fill internal bases list
     $this->bases = array();
-    $deps = $ui->get_module_departments($this->categories);
+
+    $categories = array();
+    foreach ($this->parent->objectTypes as $otype) {
+      $i = objects::infos($otype);
+      $categories[$i['aclCategory']] = $i['aclCategory'];
+    }
+
+    $deps = $ui->get_module_departments(array_values($categories));
     foreach ($config->idepartments as $key => $dep) {
       if (in_array_ics($key, $deps)) {
         $this->bases[$key] = $dep;
@@ -1577,7 +1508,7 @@ class listing
     $types = departmentManagement::getDepartmentTypes();
 
     // Load departments allowed by ACL
-    $validDepartments = $ui->get_module_departments($this->categories);
+    $validDepartments = array_keys($this->bases);
 
     /* Fetch departments andtheir informations */
     foreach ($types as $type) {
@@ -1710,31 +1641,6 @@ class listing
     return $result;
   }
 
-
-  function renderSnapshotMenu($separator)
-  {
-    // We can only provide information if we've got a snapshot handler instance
-    if (!is_object($this->snapshotHandler)) {
-      return '';
-    }
-
-    // Presets
-    $result = "";
-    $ui     = get_userinfo();
-
-    if ($ui->allow_snapshot_restore($this->base, $this->categories, TRUE)) {
-      // Draw icons according to the restore flag
-      if ($this->snapshotHandler->hasDeletedSnapshots()) {
-        $result .= $this->renderActionMenuActionLink($separator, 'restore', _('Restore snapshots'), 'geticon.php?context=actions&icon=document-restore&size=16');
-      } else {
-        $result .= "<li$separator><a href='#'><img src='geticon.php?context=actions&amp;icon=document-restore&amp;size=16&amp;disabled=1' alt='restore' class='center'>&nbsp;"._("Restore snapshots")."</a></li>";
-      }
-    }
-
-    return $result;
-  }
-
-
   function renderExporterMenu($separator)
   {
     // Presets
@@ -1794,26 +1700,6 @@ class listing
 
     return $result;
   }
-
-
-  function renderDaemonMenu($separator)
-  {
-    $result = "";
-
-    // If there is a daemon registered, draw the menu entries
-    if (class_available("DaemonEvent")) {
-      $events = DaemonEvent::get_event_types_by_category($this->categories);
-      if (isset($events['BY_CLASS']) && count($events['BY_CLASS'])) {
-        foreach ($events['BY_CLASS'] as $name => $event) {
-          $result .= "<li$separator><a href='#' onClick='document.getElementById(\"actionmenu\").value=\"$name\";document.getElementById(\"exec_act\").click();'>".$event['MenuImage']."&nbsp;".$event['s_Menu_Name']."</a></li>";
-          $separator = "";
-        }
-      }
-    }
-
-    return $result;
-  }
-
 
   function getEntry($dn)
   {
