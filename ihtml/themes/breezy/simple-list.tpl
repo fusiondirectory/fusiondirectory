@@ -12,8 +12,8 @@
               <tr>
                 {if $BASE}<td>{$ROOT}&nbsp;</td><td>{$BACK}&nbsp;</td><td>{$HOME}&nbsp;</td>{/if}
                 <td class="optional">{$RELOAD}&nbsp;</td>
-                {if $BASE}<td>{$SEPARATOR}&nbsp;</td><td>{t}Base{/t} {$BASE}&nbsp;</td>{/if}
-                {if $ACTIONS}<td>{$SEPARATOR}&nbsp;</td><td>{$ACTIONS}</td>{/if}
+                {if $BASE}<td><img src="images/lists/seperator.png" alt="-" height="16" width="1" class="center"/>&nbsp;</td><td>{t}Base{/t} {$BASE}&nbsp;</td>{/if}
+                {if $ACTIONS}<td><img src="images/lists/seperator.png" alt="-" height="16" width="1" class="center"/>&nbsp;</td><td>{$ACTIONS}</td>{/if}
               </tr>
             </tbody>
           </table>

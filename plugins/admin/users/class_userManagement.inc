@@ -1,9 +1,8 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -20,17 +19,11 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class userManagement extends simpleManagement
+class userManagement extends management
 {
-  protected $objectTypes  = array('user');
-
-  protected $departmentBrowser      = TRUE;
-  protected $departmentRootVisible  = FALSE;
   protected $baseMode               = TRUE;
   protected $multiSelect            = TRUE;
 
-  protected $filterXMLPath    = NULL;
-  protected $listXMLPath      = NULL;
   protected $autoFilter       = FALSE;
   protected $autoActions      = FALSE;
 
@@ -51,14 +44,6 @@ class userManagement extends simpleManagement
     );
   }
 
-  function __construct()
-  {
-    $this->filterXMLPath  = get_template_path('user-filter.xml',  TRUE, dirname(__FILE__));
-    $this->listXMLPath    = get_template_path('user-list.xml',    TRUE, dirname(__FILE__));
-
-    parent::__construct();
-  }
-
   function configureHeadpage ()
   {
     parent::configureHeadpage();
@@ -71,9 +56,9 @@ class userManagement extends simpleManagement
     $this->registerAction('lockUsers',    'lockUsers');
     $this->registerAction('unlockUsers',  'lockUsers');
 
-    $this->headpage->registerElementFilter('lockLabel',         'userManagement::filterLockLabel');
-    $this->headpage->registerElementFilter('lockImage',         'userManagement::filterLockImage');
-    $this->headpage->registerElementFilter('filterProperties',  'userManagement::filterProperties');
+    //~ $this->headpage->registerElementFilter('lockLabel',         'userManagement::filterLockLabel');
+    //~ $this->headpage->registerElementFilter('lockImage',         'userManagement::filterLockImage');
+    //~ $this->headpage->registerElementFilter('filterProperties',  'userManagement::filterProperties');
   }
 
   function configureFilter ()
@@ -110,14 +95,14 @@ class userManagement extends simpleManagement
     }
   }
 
-  function renderList ()
-  {
-    $smarty = get_smarty();
-    $smarty->assign('USE_POSIX',  class_available('posixAccount'));
-    $smarty->assign('USE_MAIL',   class_available('mailAccount'));
-    $smarty->assign('USE_SAMBA',  class_available('sambaAccount'));
-    return parent::renderList();
-  }
+  //~ function renderList ()
+  //~ {
+    //~ $smarty = get_smarty();
+    //~ $smarty->assign('USE_POSIX',  class_available('posixAccount'));
+    //~ $smarty->assign('USE_MAIL',   class_available('mailAccount'));
+    //~ $smarty->assign('USE_SAMBA',  class_available('sambaAccount'));
+    //~ return parent::renderList();
+  //~ }
 
   /* !\brief  Lock/unlock multiple users.
    */
