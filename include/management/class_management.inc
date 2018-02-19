@@ -88,16 +88,44 @@ class management
     //~ $this->headpage->setFilter($filter);
 
     // Register default actions
-    $this->registerAction('new',    'newEntry');
-    $this->registerAction('edit',   'editEntry');
-    $this->registerAction('apply',  'applyChanges');
-    $this->registerAction('save',   'saveChanges');
+    $createMenu = array();
+    foreach ($this->objectTypes as $type) {
+      $infos  = objects::infos($type);
+      $icon   = 'geticon.php?context=actions&icon=document-new&size=16';
+      if (isset($infos['icon'])) {
+        $icon = $infos['icon'];
+      }
+      $createMenu[] = new Action(
+        'new_'.$type, $infos['name'], $icon,
+        '0', 'newEntry'
+      );
+    }
+    $this->registerAction(
+      new ActionSubMenu(
+        'new', _('Create'), 'geticon.php?context=actions&icon=document-new&size=16',
+        $createMenu
+      )
+    );
 
-    $this->registerAction('cancel',       'cancelEdit');
-    $this->registerAction('cancelDelete', 'cancelEdit');
+    $this->registerAction(
+      new Action(
+        'edit', _('Edit'), 'geticon.php?context=actions&icon=document-edit&size=16',
+        '+', 'editEntry'
+      )
+    );
+    $this->registerAction(
+      new Action(
+        'remove', _('Remove'), 'geticon.php?context=actions&icon=edit-delete&size=16',
+        '+', 'removeRequested'
+      )
+    );
 
-    $this->registerAction('remove',           'removeEntryRequested');
-    $this->registerAction('removeConfirmed',  'removeEntryConfirmed');
+    /* Actions from footer are not in any menus and do not need a label */
+    $this->registerAction(new Action('apply',   '', '', '0', 'applyChanges',  FALSE));
+    $this->registerAction(new Action('save',    '', '', '0', 'saveChanges',   FALSE));
+    $this->registerAction(new Action('cancel',  '', '', '0', 'cancelEdit',    FALSE));
+    $this->registerAction(new Action('cancelDelete', '', '', '0', 'cancelEdit', FALSE));
+    $this->registerAction(new Action('removeConfirmed', '', '', '0', 'removeConfirmed', FALSE));
 
     //~ $this->configureHeadpage();
     //~ $this->configureFilter();
@@ -107,15 +135,13 @@ class management
   }
 
   /*!
-   *  \brief  Every click in the list user interface sends an event
-   *          here can we connect those events to a method.
-   *          eg. see simpleManagement::registerEvent('new','createUser')
-   *          When the action/event new is send, the method 'createUser'
-   *          will be called.
+   *  \brief Register an action to show in the action menu and/or the action column
    */
-  function registerAction($action, $target)
+  function registerAction(Action $action)
   {
-    $this->actions[$action] = $target;
+    foreach ($action->listActions() as $actionName) {
+      $this->actions[$actionName] = $action;
+    }
   }
 
   /*!
@@ -124,12 +150,11 @@ class management
    */
   function detectPostActions()
   {
-    //~ if (!is_object($this->headpage)) {
-      //~ trigger_error("No valid headpage given....!");
-      //~ return array();
-    //~ }
-    //~ $action = $this->headpage->getAction();
-    $action = array('action' => '');
+    // TODO: do not check all actions in dialog/tab mode
+    if (!is_object($this->listing)) {
+      throw new Exception('No valid listing object');
+    }
+    $action = $this->listing->getAction();
     if (isset($_POST['edit_cancel'])) {
       $action['action'] = 'cancel';
     } elseif (isset($_POST['edit_finish'])) {
@@ -156,11 +181,10 @@ class management
   {
     // Start action
     if (isset($this->actions[$action['action']])) {
-      $func = $this->actions[$action['action']];
       if (!isset($action['targets'])) {
         $action['targets'] = array();
       }
-      return $this->$func($action['action'], $action['targets'], $action);
+      return $this->actions[$action['action']]->execute($this, $action);
     }
   }
 
@@ -255,13 +279,30 @@ class management
     }
 
     //~ // Assign action menu / base
-    $smarty->assign('ACTIONS', $this->listing->renderActionMenu());
+    $smarty->assign('ACTIONS', $this->renderActionMenu());
     $smarty->assign('BASE', $this->listing->renderBase()); // TODO: move here?
 
     // Assign summary
     $smarty->assign('HEADLINE', $this->headline);
 
     return $this->getHeader().$smarty->fetch(get_template_path('simple-list.tpl'));
+  }
+
+  function renderActionMenu()
+  {
+    // Load shortcut
+    $result   = '<input type="hidden" name="act" id="actionmenu" value=""/>'."\n".
+                '<div style="display:none"><input type="submit" name="exec_act" id="exec_act" value=""/></div>'."\n".
+                '<ul class="level1" id="root"><li><a href="#">'._('Actions').
+                '&nbsp;<img class="center optional" src="images/down-arrow.png" alt="down arrow"/></a>'."\n";
+    $result   .= '<ul class="level2">'."\n";
+    foreach ($this->actions as $action) {
+      // TODO: ACL handling
+      // Build ul/li list
+      $result .= $action->renderMenuItems();
+    }
+
+    return '<div id="pulldown">'.$result.'</ul></li></ul></div>'."\n";
   }
 
   /*!
@@ -272,7 +313,7 @@ class management
    */
   function remove_lock()
   {
-    if (!empty($this->dn) && $this->dn != "new") {
+    if (!empty($this->dn) && $this->dn != 'new') {
       del_lock($this->dn);
     }
     if (count($this->dns)) {
@@ -296,6 +337,315 @@ class management
 
     return print_header($this->icon, $this->title, get_object_info());
   }
+
+  function openTabObject($object, $base)
+  {
+    $this->tabObject = $object;
+    $this->tabObject->set_acl_base($base);
+    $this->tabObject->parent = &$this;
+  }
+
+  /*!
+   * \brief  This method closes dialogs
+   *          and cleans up the cached object info and the ui.
+   */
+  public function closeDialogs()
+  {
+    $this->last_dn  = $this->dn;
+    $this->dn       = '';
+    $this->last_dns = $this->dns;
+    $this->dns      = array();
+
+    $this->last_tabObject     = $this->tabObject;
+    $this->tabObject          = NULL;
+    $this->last_dialogObject  = $this->dialogObject;
+    $this->dialogObject       = NULL;
+
+    set_object_info();
+  }
+
+  /*!
+   * \brief  Generates the footer which is used whenever a tab object is displayed.
+   */
+  protected function _getTabFooter()
+  {
+    // Do not display tab footer for non tab objects
+    if (!($this->tabObject instanceOf simpleTabs)) {
+      return '';
+    }
+
+    // Check if there is a dialog opened - We don't need any buttons in this case.
+    if ($this->tabObject->dialogOpened()) {
+      return '';
+    }
+
+    // In case an of locked entry, we may have opened a read-only tab.
+    $str = '';
+    if ($this->tabObject->readOnly()) {
+      $str .= '<p class="plugbottom">'."\n".
+        '<input type="submit" name="edit_cancel" value="'.msgPool::cancelButton().'">'."\n".
+        '</p>';
+      return $str;
+    } else {
+      // Display ok, (apply) and cancel buttons
+      $str .= '<p class="plugbottom">'."\n";
+      $str .= '<input type="submit" name="edit_finish" style="width:80px" value="'.msgPool::okButton().'"/>'."\n";
+      $str .= "&nbsp;\n";
+      if ($this->dn != 'new') {
+        $str .= '<input type="submit" name="edit_apply" value="'.msgPool::applyButton().'"/>'."\n";
+        $str .= "&nbsp;\n";
+      }
+      $str .= '<input type="submit" name="edit_cancel" value="'.msgPool::cancelButton().'"/>'."\n";
+      $str .= '</p>';
+    }
+    return $str;
+  }
+
+  /* Action handlers */
+
+  /*!
+   * \brief  This method intiates the object creation.
+   *
+   * \param  array  $action A combination of both 'action' and 'target':
+   *                        action: The name of the action which was the used as trigger.
+   *                        target: A list of object dns, which should be affected by this method.
+   */
+  function newEntry(array $action)
+  {
+    $type = preg_replace('/^new_/', '', $action['action']);
+
+    $this->dn = 'new';
+
+    set_object_info($this->dn);
+
+    // Open object
+    $this->openTabObject(objects::create($type), $this->listing->getBase());
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Create entry initiated');
+  }
+
+  /*!
+   * \brief  This method opens an existing object to be edited.
+   *
+   * \param  array  $action A combination of both 'action' and 'target':
+   *                        action: The name of the action which was the used as trigger.
+   *                        target: A list of object dns, which should be affected by this method.
+   */
+  function editEntry(array $action)
+  {
+    global $ui;
+
+    // Do not create a new tabObject while there is already one opened,
+    //  the user may have just pressed F5 to reload the page.
+    if (is_object($this->tabObject)) {
+      return;
+    }
+
+    $target = array_pop($action['targets']);
+
+    $type = $this->listing->getType($target);
+    if ($type === NULL) {
+      trigger_error('Could not find type for '.$target.', open canceled');
+      return;
+    }
+    //~ if (preg_match('/^template_/', $type) && !static::$skipTemplates) {
+      //~ $type = preg_replace('/^template_/', '', $type);
+    //~ }
+
+    // Get the dn of the object and create lock
+    $this->dn = $target;
+    set_object_info($this->dn);
+    if ($locks = get_locks($this->dn, TRUE)) {
+      return gen_locked_message($locks, $this->dn, TRUE);
+    }
+    add_lock ($this->dn, $ui->dn);
+
+    // Open object
+    $this->openTabObject(objects::open($this->dn, $type), $this->dn);
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Edit entry initiated');
+    if (isset($action['subaction'])) {
+      if ($this->handleSubAction($action) == FALSE) {
+        trigger_error('Was not able to handle subaction: '.$action['subaction']);
+      }
+    }
+  }
+
+  /*!
+   * \brief  Editing an object was caneled.
+   *          Close dialogs/tabs and remove locks.
+   */
+  function cancelEdit()
+  {
+    //~ if (($this->tabObject instanceOf simpleTabs) && ($this->dialogObject instanceOf templateDialog)) {
+      //~ $this->handleTemplateApply(TRUE);
+      //~ return;
+    //~ }
+    $this->remove_lock();
+    $this->closeDialogs();
+  }
+
+  /*!
+   * \brief  Save object modifications and closes dialogs (returns to object listing).
+   *          - Calls 'simpleTabs::save' to save back object modifications (e.g. to ldap).
+   *          - Calls 'simpleManagement::closeDialogs' to return to the object listing.
+   */
+  function saveChanges()
+  {
+    //~ if (($this->tabObject instanceOf simpleTabs) && ($this->dialogObject instanceOf templateDialog)) {
+      //~ $this->tabObject->save_object();
+      //~ $this->handleTemplateApply();
+      //~ return;
+    //~ }
+    if ($this->tabObject instanceOf simpleTabs) {
+      $this->tabObject->save_object();
+      $msgs = $this->tabObject->save();
+      if (count($msgs)) {
+        msg_dialog::displayChecks($msgs);
+        return;
+      } else {
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, 'Entry saved');
+        $this->remove_lock();
+        $this->closeDialogs();
+      }
+    } elseif ($this->dialogObject instanceOf simplePlugin) {
+      $this->dialogObject->save_object();
+      $msgs = $this->dialogObject->check();
+      if (count($msgs)) {
+        msg_dialog::displayChecks($msgs);
+        return;
+      } else {
+        $this->dialogObject->save();
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, 'Dialog saved');
+        $this->remove_lock();
+        $this->closeDialogs();
+      }
+    }
+  }
+
+  /*!
+   *  \brief  Save object modifications and keep dialogs opened
+   */
+  function applyChanges()
+  {
+    if ($this->tabObject instanceOf simpleTabs) {
+      $this->tabObject->save_object();
+      $msgs = $this->tabObject->save();
+      if (count($msgs)) {
+        msg_dialog::displayChecks($msgs);
+      } else {
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, 'Modifications applied');
+        $this->tabObject->re_init();
+      }
+    }
+  }
+
+  /*! \brief  Queue selected objects to be removed.
+   *          Checks ACLs, Locks and ask for confirmation.
+   */
+  function removeRequested(array $action)
+  {
+    global $ui;
+    $disallowed = array();
+    $this->dns  = array();
+
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $action['targets'], 'Entry deletion requested');
+
+    // Check permissons for each target
+    foreach ($action['targets'] as $dn) {
+      $type = $this->listing->getType($dn);
+      //~ if (preg_match('/^template_/', $type) && !static::$skipTemplates) {
+        //~ $type = preg_replace('/^template_/', '', $type);
+      //~ }
+      try {
+        $info = objects::infos($type);
+        $acl  = $ui->get_permissions($dn, $info['aclCategory'].'/'.$info['mainTab']);
+        if (preg_match('/d/', $acl)) {
+          $this->dns[] = $dn;
+        } else {
+          $disallowed[] = $dn;
+        }
+      } catch (NonExistingObjectTypeException $e) {
+        trigger_error('Unknown object type received :'.$e->getMessage());
+      }
+    }
+    if (count($disallowed)) {
+      msg_dialog::display(_('Permission'), msgPool::permDelete($disallowed), INFO_DIALOG);
+    }
+
+    // We've at least one entry to delete.
+    if (count($this->dns)) {
+      // check locks
+      if ($locks = get_locks($this->dns)) {
+        return gen_locked_message($locks, $this->dns);
+      }
+
+      // Add locks
+      $objects = array();
+      foreach ($this->dns as $dn) {
+        $type = $this->listing->getType($dn);
+        if (preg_match('/^template_/', $type) && !static::$skipTemplates) {
+          $type = preg_replace('/^template_/', '', $type);
+          $info = objects::infos($type);
+          $info['nameAttr'] = 'cn';
+        } else {
+          $info = objects::infos($type);
+        }
+        $entry  = $this->listing->getEntry($dn);
+        $objects[] = array(
+          'name'  => $entry[$info['nameAttr']],
+          'dn'    => $dn,
+          'icon'  => $info['icon'],
+          'type'  => $info['name']
+        );
+      }
+      add_lock ($this->dns, $ui->dn);
+
+      // Display confirmation dialog.
+      $smarty = get_smarty();
+      $smarty->assign('objects', $objects);
+      $smarty->assign('multiple', TRUE);
+      return $smarty->fetch(get_template_path('simple-remove.tpl'));
+    }
+  }
+
+  /*! \brief  Deletion was confirmed, delete the objects queued.
+   *          Checks ACLs just in case.
+   */
+  function removeConfirmed(array $action)
+  {
+    global $ui;
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, 'Entry deletion confirmed');
+
+    foreach ($this->dns as $dn) {
+      $type = $this->listing->getType($dn);
+      if (empty($type)) {
+        continue;
+      }
+      //~ if (preg_match('/^template_/', $type) && !static::$skipTemplates) {
+        //~ $type = preg_replace('/^template_/', '', $type);
+      //~ }
+      $infos = objects::infos($type);
+      // Check permissions, are we allowed to remove this object?
+      $acl = $ui->get_permissions($dn, $infos['aclCategory'].'/'.$infos['mainTab']);
+      if (preg_match('/d/', $acl)) {
+        // Delete the object
+        $this->dn = $dn;
+        $this->openTabObject(objects::open($this->dn, $type), $this->dn);
+        $this->tabObject->delete();
+
+        // Remove the lock for the current object.
+        del_lock($this->dn);
+      } else {
+        msg_dialog::display(_('Permission error'), msgPool::permDelete($dn), ERROR_DIALOG);
+        logging::log('security', 'simpleManagement/'.get_class($this), $dn, array(), 'Tried to trick deletion.');
+      }
+    }
+
+    // Cleanup
+    $this->remove_lock();
+    $this->closeDialogs();
+  }
+
+  /* End of action handlers */
 
   static function mainInc ($classname, $objectTypes = FALSE)
   {

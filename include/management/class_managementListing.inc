@@ -119,7 +119,9 @@ class entrySortIterator implements Iterator {
  */
 class managementListing
 {
-  public $entries = array();
+  protected $entries      = array();
+  protected $entriesIndex = array();
+  protected $entriesTypes = array();
   //~ var $departments            = array();
   //~ var $departmentBrowser      = FALSE;
   //~ var $departmentRootVisible  = FALSE;
@@ -548,23 +550,29 @@ class managementListing
     }
     $this->objectTypeCount  = array();
     $this->entries          = array();
+    $this->entriesTypes     = array();
     foreach ($this->parent->objectTypes as $type) {
-      $infos                        = objects::infos($type);
-      $base                         = (empty($infos['ou']) ? $this->base : $infos['ou'].$this->base);
-      $entries                      = objects::ls($type, $attrs, $base, '', TRUE, 'one');
+      // TODO: How do we handle collisions?
+      $infos      = objects::infos($type);
+      $base       = (empty($infos['ou']) ? $this->base : $infos['ou'].$this->base);
+      $attrsAsked = $attrs;
+      if (!empty($infos['mainAttr']) && !isset($attrsAsked[$infos['mainAttr']])) {
+        /* Ask for mainAttr */
+        $attrsAsked[$infos['mainAttr']] = '1';
+      }
+      if (!empty($infos['nameAttr']) && !isset($attrsAsked[$infos['nameAttr']])) {
+        /* Ask for nameAttr */
+        $attrsAsked[$infos['nameAttr']] = '1';
+      }
+
+      $entries = objects::ls($type, $attrsAsked, $base, '', TRUE, 'one');
+
       $this->objectTypeCount[$type] = count($entries);
       $this->entries                = array_merge($this->entries, $entries);
+      $this->entriesTypes           = array_merge($this->entriesTypes, array_fill_keys(array_keys($this->entries), $type));
     }
-
-    // Fix filter if query returns NULL
-    if ($this->entries == NULL) {
-      $this->entries = array();
-    }
-
-    //~ $this->dnToRow = array();
-    //~ foreach ($this->entries as $row => $entry) {
-      //~ $this->dnToRow[$entry['dn']] = $row;
-    //~ }
+    /* Store the order of the entries to access them by index later */
+    $this->entriesIndex = array_keys($this->entries);
   }
 
   /*!
@@ -885,191 +893,6 @@ class managementListing
     return $result;
   }
 
-  /*!
-   * \brief Icon of the department type
-   *
-   * \param string $row The row
-   *
-   * \param string $dn The DN
-   */
-  function filterDepartmentType($row, $dn)
-  {
-    return $this->filterGenericType($dn, $this->departmentTypes, $this->getDepartmentType($dn, $this->departments[$row]));
-  }
-
-  /*!
-   * \brief Filter actions
-   *
-   * \param string $dn The DN
-   *
-   * \param string $row
-   *
-   * \param string $classes
-   */
-  function filterActions($dn, $row, $classes)
-  {
-    // Do nothing if there's no menu defined
-    if (!isset($this->xmlData['actiontriggers']['action'])) {
-      return '&nbsp;';
-    }
-
-    // Go thru all actions
-    $result   = '';
-    $emptyimg = '<img src="images/empty.png" alt=" " class="center optional"/>';
-    foreach ($this->xmlData['actiontriggers']['action'] as $action) {
-      // If there's an objectclass definition and we don't have it
-      // add an empty picture here.
-      if (isset($action['objectclass'])) {
-        $objectclass  = $action['objectclass'];
-        $skip         = FALSE;
-        if (preg_match('/^!(.*)$/', $objectclass, $m)) {
-          $objectclass = $m[1];
-          if (in_array($objectclass, $classes)) {
-            $skip = TRUE;
-          }
-        } elseif (is_string($objectclass)) {
-          if (!in_array($objectclass, $classes)) {
-            $skip = TRUE;
-          }
-        } elseif (is_array($objectclass)) {
-          if (count(array_intersect($objectclass, $classes)) != count($objectclass)) {
-            $skip = TRUE;
-          }
-        }
-        if ($skip) {
-          $result .= $emptyimg;
-          if ($action['type'] == 'snapshot') {
-            $result .= $emptyimg;
-          }
-          continue;
-        }
-      }
-
-      // Skip the entry completely if there's no permission to execute it
-      if (!$this->hasActionPermission($action, $dn, $row)) {
-        $result .= $emptyimg;
-        continue;
-      }
-
-      // Skip entry if the pseudo filter does not fit
-      if (isset($action['filter']) && preg_match('/^[a-z0-9_]+!?=[a-z0-9_]+$/i', $action['filter'])) {
-        list($fa, $fv) = explode('=', $action['filter']);
-        if (preg_match('/^(.*)!$/', $fa, $m)) {
-          $fa = $m[1];
-          if (isset($this->entries[$row][$fa]) && $this->entries[$row][$fa][0] == $fv) {
-            $result .= $emptyimg;
-            continue;
-          }
-        } else {
-          if (!isset($this->entries[$row][$fa]) && !$this->entries[$row][$fa][0] == $fv) {
-            $result .= $emptyimg;
-            continue;
-          }
-        }
-      }
-
-      if ($action['type'] == 'entry') {
-        // Render normal entries as usual
-        $label = $this->processElementFilter('label', $action['name'], $action['label'], $this->entries[$row], $row);
-        $image = $this->processElementFilter('image', $action['name'], $action['image'], $this->entries[$row], $row);
-        $result .= '<input class="center" type="image" src="'.htmlentities($image, ENT_COMPAT, 'UTF-8').'" title="'.$label.'" alt="'.$label.'" '.
-                 'name="listing_'.$action['name'].'_'.$row.'"/>';
-      } elseif (($action['type'] == 'copypaste') || ($action['type'] == 'snapshot')) {
-        // Handle special types
-        $objectType = $this->getObjectTypeInfos($dn, $this->entries[$row]);
-        $category   = $class = NULL;
-        if ($objectType) {
-          $category = $objectType['category'];
-          $class    = $objectType['class'];
-        }
-
-        if ($action['type'] == 'copypaste') {
-          $copy = (!isset($action['copy']) || ($action['copy'] == 'true'));
-          $cut  = (!isset($action['cut']) || ($action['cut'] == 'true'));
-          $result .= $this->renderCopyPasteActions($row, $this->entries[$row]['dn'], $category, $class, $copy, $cut);
-        } else {
-          $result .= $this->renderSnapshotActions($row, $this->entries[$row]['dn'], $category);
-        }
-      }
-    }
-
-    return $result;
-  }
-
-  /*!
-   * \brief Filter the department link
-   *
-   * \param string $row
-   *
-   * \param string $dn The DN
-   *
-   * \param array $description
-   */
-  function filterDepartmentLink($row, $dn, $description)
-  {
-    $attr = $this->departments[$row]['sort-attribute'];
-    $name = $this->departments[$row][$attr];
-    if (is_array($name)) {
-      $name = $name[0];
-    }
-    $result = htmlentities(sprintf("%s [%s]", $name, $description[0]), ENT_COMPAT, 'UTF-8');
-    return "<a href='?plug=".$_GET['plug']."&amp;PID=$this->pid&amp;act=department_$row' title='$dn'>$result</a>";
-  }
-
-  /*!
-   * \brief Filter link with object name
-   */
-  function filterNameLink($row, $dn)
-  {
-    $infos  = $this->getObjectTypeInfos($dn, $this->entries[$row]);
-    $value  = $this->entries[$row][$infos['nameAttr']];
-    if (is_array($value)) {
-      unset($value['count']);
-    }
-    return $this->filterLink($row, $dn, "%s", $value);
-  }
-
-  /*!
-   * \brief Filter link
-   */
-  function filterLink()
-  {
-    $row    = func_get_arg(0);
-    $pid    = $this->pid;
-    $dn     = func_get_arg(1);
-    $params = array(func_get_arg(2));
-
-    // Collect sprintf params
-    for ($i = 3;$i < func_num_args();$i++) {
-      $val = func_get_arg($i);
-      if (empty($val)) {
-        continue;
-      }
-      if (!is_array($val)) {
-        $val = array($val);
-      }
-      $val = array_map(
-        function ($v)
-        {
-          return htmlentities($v, ENT_COMPAT, 'UTF-8');
-        },
-        $val
-      );
-      $params[] = implode("<br/>\n", $val);
-    }
-
-    $result = '&nbsp;';
-    if (count($params) > 1) {
-      $trans  = call_user_func_array('sprintf', $params);
-      if ($trans != '') {
-        return '<a href="?plug='.$_GET['plug'].'&amp;PID='.$pid.'&amp;act=listing_edit_'.$row.'" title="'.$dn.'">'.$trans.'</a>';
-      }
-    }
-
-    return $result;
-  }
-
-
   function renderNavigation()
   {
     $result = array();
@@ -1140,7 +963,7 @@ class managementListing
       $this->scrollPosition = $_POST['position_'.$this->pid];
     }
 
-    $result = array("targets" => array(), "action" => "");
+    $result = array('targets' => array(), 'action' => '');
 
     // Filter GET with "act" attributes
     if (isset($_GET['act'])) {
@@ -1148,9 +971,9 @@ class managementListing
       if (preg_match('/^listing_([a-zA-Z_]+)_([0-9]+)$/', $key, $m)) {
         $action = $m[1];
         $target = $m[2];
-        if (isset($this->entries[$target]['dn'])) {
+        if (isset($this->entriesIndex[$target])) {
           $result['action']     = $action;
-          $result['targets'][]  = $this->entries[$target]['dn'];
+          $result['targets'][]  = $this->entriesIndex[$target];
         }
       } elseif (isset($_REQUEST['dn']) && preg_match('/^listing_([a-zA-Z_]+)$/', $key, $m)) {
         /* Pre-render list to init things if a dn is gonna be opened on first load */
@@ -1201,8 +1024,8 @@ class managementListing
       // Capture selections
       if (preg_match('/^listing_selected_[0-9]+$/', $key)) {
         $target = preg_replace('/^listing_selected_([0-9]+)$/', '$1', $key);
-        if (isset($this->entries[$target]['dn'])) {
-          $result['targets'][] = $this->entries[$target]['dn'];
+        if (isset($this->entriesIndex[$target])) {
+          $result['targets'][] = $this->entriesIndex[$target];
         }
         continue;
       }
@@ -1210,9 +1033,9 @@ class managementListing
       // Capture action with target - this is a one shot
       if (preg_match('/^listing_[a-zA-Z_]+_[0-9]+(|_x)$/', $key)) {
         $target = preg_replace('/^listing_[a-zA-Z_]+_([0-9]+)(|_x)$/', '$1', $key);
-        if (isset($this->entries[$target]['dn'])) {
+        if (isset($this->entriesIndex[$target])) {
           $result['action']   = preg_replace('/^listing_([a-zA-Z_]+)_[0-9]+(|_x)$/', '$1', $key);
-          $result['targets']  = array($this->entries[$target]['dn']);
+          $result['targets']  = array($this->entriesIndex[$target]);
         }
         break;
       }
@@ -1225,7 +1048,7 @@ class managementListing
     }
 
     // Filter POST with "act" attributes -> posted from action menu
-    if (isset($_POST['act']) && $_POST['act'] != '') {
+    if (isset($_POST['act']) && ($_POST['act'] != '')) {
       if (!preg_match('/^export.*$/', $_POST['act'])) {
         $result['action'] = validate($_POST['act']);
       }
@@ -1703,8 +1526,8 @@ class managementListing
 
   function getEntry($dn)
   {
-    if (isset($this->dnToRow[$dn])) {
-      return $this->entries[$this->dnToRow[$dn]];
+    if (isset($this->entries[$dn])) {
+      return $this->entries[$dn];
     }
     return NULL;
   }
@@ -1724,12 +1547,11 @@ class managementListing
    */
   function getType($dn)
   {
-    if (isset($this->objectDnMapping[$dn])) {
-      return $this->objectDnMapping[$dn];
+    if (isset($this->entriesTypes[$dn])) {
+      return $this->entriesTypes[$dn];
     }
     return NULL;
   }
-
 }
 
 ?>
