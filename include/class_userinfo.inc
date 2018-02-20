@@ -427,7 +427,7 @@ class userinfo
    *
    * \param string $object     The acl category (e.g. user)
    *
-   * \param string $attribute  The acl class (e.g. user)
+   * \param string $attribute
    *
    * \param bool $skip_write   Remove the write acl for this dn
    *
