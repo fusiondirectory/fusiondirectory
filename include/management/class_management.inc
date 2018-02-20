@@ -51,6 +51,8 @@ class management
 
   protected $actions = array();
 
+  public $neededAttrs = array();
+
   // Whether to display a header or not.
   protected $skipHeader = FALSE;
 
@@ -83,10 +85,16 @@ class management
     //~ }
     //~ $this->setFilter($filter);
 
-    // Build headpage
-    //~ $this->headpage = new $this->headpageClass($this->parseXML($this->listXMLPath));
-    //~ $this->headpage->setFilter($filter);
+    $this->configureActions();
 
+    //~ $this->configureFilter();
+    //~ if ($this->baseMode === FALSE) {
+      //~ $this->headpage->setBase($config->current['BASE']);
+    //~ }
+  }
+
+  protected function configureActions()
+  {
     // Register default actions
     $createMenu = array();
     foreach ($this->objectTypes as $type) {
@@ -128,12 +136,6 @@ class management
     $this->registerAction(new HiddenAction('cancel',          'cancelEdit'));
     $this->registerAction(new HiddenAction('cancelDelete',    'cancelEdit'));
     $this->registerAction(new HiddenAction('removeConfirmed', 'removeConfirmed'));
-
-    //~ $this->configureHeadpage();
-    //~ $this->configureFilter();
-    //~ if ($this->baseMode === FALSE) {
-      //~ $this->headpage->setBase($config->current['BASE']);
-    //~ }
   }
 
   /*!
@@ -333,6 +335,17 @@ class management
     }
 
     return $result;
+  }
+
+  function getActionRowClasses($pid, $row, $dn, $type, array $entry)
+  {
+    $classes = array();
+    foreach ($this->actions as $action) {
+      // TODO optimize
+      $classes = array_merge($classes, $action->getRowClasses($pid, $row, $dn, $type, $entry));
+    }
+
+    return $classes;
   }
 
   /*!

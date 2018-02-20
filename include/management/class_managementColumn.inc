@@ -46,11 +46,6 @@ class StringColumn
     return TRUE;
   }
 
-  function getRowClasses()
-  {
-    return array();
-  }
-
   function getHtmlProps()
   {
     return '';
@@ -75,6 +70,11 @@ class StringColumn
     if (isset($this->attribute)) {
       $attrs[$this->attribute] = '1';
     }
+  }
+
+  function getRowClasses($pid, $row, $dn, $type, array $entry)
+  {
+    return array();
   }
 
   function renderCell($pid, $row, $dn, $type, array $entry)
@@ -186,6 +186,11 @@ class ActionsColumn extends StringColumn
   function isSortable()
   {
     return FALSE;
+  }
+
+  function getRowClasses($pid, $row, $dn, $type, array $entry)
+  {
+    return $this->parent->parent->getActionRowClasses($pid, $row, $dn, $type, $entry);
   }
 
   function renderCell($pid, $row, $dn, $type, array $entry)

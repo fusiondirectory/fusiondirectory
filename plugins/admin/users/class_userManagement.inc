@@ -19,15 +19,90 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+class LockAction extends Action
+{
+  function __construct($name, $targets, $callable, array $acl = array(), $inmenu = TRUE, $inline = TRUE)
+  {
+    parent::__construct(
+      $name,
+      array('lock' => _('Lock users'), 'unlock' => _('Unlock users')),
+      array(
+        'lock' => 'geticon.php?context=status&icon=object-locked&size=16',
+        'unlock' => 'geticon.php?context=status&icon=object-unlocked&size=16',
+      ),
+      $targets, $callable, $acl, $inmenu, $inline);
+  }
+
+  function isLocked(array $entry)
+  {
+    if (isset($entry['userPassword']) && preg_match('/^\{[^\}]/', $entry['userPassword'])) {
+      if (preg_match('/^[^\}]*+\}!/', $entry['userPassword'])) {
+        return TRUE;
+      } else {
+        return FALSE;
+      }
+    }
+    return NULL;
+  }
+
+  function renderMenuItems()
+  {
+    if (!$this->inmenu) {
+      return '';
+    }
+
+    return '<li id="actionmenu_'.$this->name.'_lock">'
+            .'<a href="#" onClick="'
+              ."document.getElementById('actionmenu').value='".$this->name."_lock';document.getElementById('exec_act').click();"
+            .'">'
+            .'<img src="'.htmlentities($this->icon['lock'], ENT_COMPAT, 'UTF-8').'" alt="'.$this->name.'" class="center">&nbsp;'.$this->label['lock'].'</a>'
+            .'</li>'."\n".
+            '<li id="actionmenu_'.$this->name.'_unlock">'
+            .'<a href="#" onClick="'
+              ."document.getElementById('actionmenu').value='".$this->name."_unlock';document.getElementById('exec_act').click();"
+            .'">'
+            .'<img src="'.htmlentities($this->icon['unlock'], ENT_COMPAT, 'UTF-8').'" alt="'.$this->name.'" class="center">&nbsp;'.$this->label['unlock'].'</a>'
+            .'</li>'."\n";
+  }
+
+  function getRowClasses($pid, $row, $dn, $type, array $entry)
+  {
+    $lockStatus = $this->isLocked($entry);
+    if ($lockStatus === TRUE) {
+      return array('entry-locked');
+    } else {
+      return array();
+    }
+  }
+
+  function renderColumnIcons($pid, $row, $dn, $type, array $entry)
+  {
+    if (!$this->inline) {
+      return '';
+    }
+
+    // Skip the entry completely if there's no permission to execute it
+    if (!$this->hasPermission($dn, $type)) {
+      return '<img src="images/empty.png" alt=" " class="center optional"/>';
+    }
+
+    $lockStatus = $this->isLocked($entry);
+    if ($lockStatus === NULL) {
+      return '<img src="images/empty.png" alt=" " class="center optional"/>';
+    } elseif ($lockStatus) {
+      // Render
+      return '<input class="center" type="image" src="'.htmlentities($this->icon['lock'], ENT_COMPAT, 'UTF-8').'"'.
+              ' title="'.$this->label['unlock'].'" alt="'.$this->label['unlock'].'" name="listing_'.$this->name.'_unlock_'.$row.'"/>';
+    } else {
+      return '<input class="center" type="image" src="'.htmlentities($this->icon['unlock'], ENT_COMPAT, 'UTF-8').'"'.
+              ' title="'.$this->label['lock'].'" alt="'.$this->label['lock'].'" name="listing_'.$this->name.'_lock_'.$row.'"/>';
+    }
+  }
+}
+
 class userManagement extends management
 {
-  protected $baseMode               = TRUE;
-  protected $multiSelect            = TRUE;
-
-  protected $autoFilter       = FALSE;
-  protected $autoActions      = FALSE;
-
-  public static $skipTemplates = FALSE;
+  public $neededAttrs = array('userPassword' => '1');
 
   static function plInfo()
   {
@@ -44,21 +119,29 @@ class userManagement extends management
     );
   }
 
-  function configureHeadpage ()
+
+  protected function configureActions()
   {
-    parent::configureHeadpage();
+    parent::configureActions();
     //~ $this->registerAction('new_user',               'newEntry');
     //~ $this->registerAction('new_template_user',      'newEntryTemplate');
     //~ $this->registerAction('template_apply_to_user', 'applyTemplateToEntry');
     //~ $this->registerAction('template_apply_user',    'newEntryFromTemplate');
 
-    //~ $this->registerAction('lock',         'lockEntry');
-    //~ $this->registerAction('lockUsers',    'lockUsers');
-    //~ $this->registerAction('unlockUsers',  'lockUsers');
-
-    //~ $this->headpage->registerElementFilter('lockLabel',         'userManagement::filterLockLabel');
-    //~ $this->headpage->registerElementFilter('lockImage',         'userManagement::filterLockImage');
-    //~ $this->headpage->registerElementFilter('filterProperties',  'userManagement::filterProperties');
+    $this->registerAction(
+      new LockAction(
+        'lockUsers',
+        '+', 'lockUsers',
+        array('userPassword:rw'), TRUE, TRUE
+      )
+    );
+    //~ $this->registerAction(
+      //~ new LockAction(
+        //~ 'unlockUsers', _('Unlock'), 'geticon.php?context=status&icon=object-unlocked&size=16',
+        //~ '+', 'lockUsers',
+        //~ array('userPassword:rw'), TRUE, TRUE, FALSE
+      //~ )
+    //~ );
   }
 
   function configureFilter ()
@@ -106,29 +189,16 @@ class userManagement extends management
 
   /* !\brief  Lock/unlock multiple users.
    */
-  function lockUsers($action, array $target, array $all)
-  {
-    if (!count($target)) {
-      return;
-    }
-    if ($action == 'lockUsers') {
-      $this->lockEntry($action, $target, $all, 'lock');
-    } else {
-      $this->lockEntry($action, $target, $all, 'unlock');
-    }
-  }
-
-
-  /* !\brief  Locks/unlocks the given user(s).
-   */
-  function lockEntry($action, $entry, $all, $type = 'toggle')
+  function lockUsers(array $action)
   {
     global $config, $ui;
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $action, 'Lock');
+
     // Filter out entries we are not allowed to modify
     $disallowed = array();
     $allowed    = array();
-    foreach ($entry as $dn) {
-      if (!preg_match('/w/', $ui->get_permissions($dn, 'user/user', 'userLock'))) {
+    foreach ($action['targets'] as $dn) {
+      if (strpos($ui->get_permissions($dn, 'user/user', 'userLock'), 'w') === FALSE) {
         $disallowed[] = $dn;
       } else {
         $allowed[] = $dn;
@@ -139,117 +209,36 @@ class userManagement extends management
     }
 
     // Try to lock/unlock the rest of the entries.
-    $ldap = $config->get_ldap_link();
     foreach ($allowed as $dn) {
-      $ldap->cat($dn, array('userPassword'));
-      if ($ldap->count() == 1) {
+      // We can't lock empty passwords.
+      $entry = $this->listing->getEntry($dn);
+      if (!isset($entry['userPassword'])) {
+        continue;
+      }
 
-        // We can't lock empty passwords.
-        $val = $ldap->fetch();
-        if (!isset($val['userPassword'])) {
-          continue;
+      // Detect the password method and try to lock/unlock.
+      $pwd      = $entry['userPassword'];
+      $method   = passwordMethod::get_method($pwd, $dn);
+      $success  = TRUE;
+      if ($method instanceOf passwordMethod) {
+        if (($action['subaction'] == 'lock') && !$method->is_locked($dn)) {
+          $success = $method->lock_account($dn);
+        } elseif (($action['subaction'] == 'unlock') && $method->is_locked($dn)) {
+          $success = $method->unlock_account($dn);
         }
 
-        // Detect the password method and try to lock/unlock.
-        $pwd      = $val['userPassword'][0];
-        $method   = passwordMethod::get_method($pwd, $val['dn']);
-        $success  = TRUE;
-        if ($method instanceOf passwordMethod) {
-          if ($type == 'toggle') {
-            if ($method->is_locked($val['dn'])) {
-              $success = $method->unlock_account($val['dn']);
-            } else {
-              $success = $method->lock_account($val['dn']);
-            }
-          } elseif ($type == 'lock' && !$method->is_locked($val['dn'])) {
-            $success = $method->lock_account($val['dn']);
-          } elseif ($type == 'unlock' && $method->is_locked($val['dn'])) {
-            $success = $method->unlock_account($val['dn']);
+        // Check if everything went fine.
+        if (!$success) {
+          $hn = $method->get_hash_name();
+          if (is_array($hn)) {
+            $hn = $hn[0];
           }
-
-          // Check if everything went fine.
-          if (!$success) {
-            $hn = $method->get_hash_name();
-            if (is_array($hn)) {
-              $hn = $hn[0];
-            }
-            msg_dialog::display(_('Account locking'),
-                sprintf(_('Password method "%s" does not support locking. Account "%s" has not been locked!'),
-                  $hn, $dn), WARNING_DIALOG);
-          }
+          msg_dialog::display(_('Account locking'),
+              sprintf(_('Password method "%s" does not support locking. Account "%s" has not been locked!'),
+                $hn, $dn), WARNING_DIALOG);
         }
       }
     }
-  }
-
-  static function filterLockImage($userPassword)
-  {
-    $image = 'images/empty.png';
-    if (isset($userPassword[0]) && preg_match('/^\{[^\}]/', $userPassword[0])) {
-      if (preg_match('/^[^\}]*+\}!/', $userPassword[0])) {
-        $image = 'geticon.php?context=status&icon=object-locked&size=16';
-      } else {
-        $image = 'geticon.php?context=status&icon=object-unlocked&size=16';
-      }
-    }
-    return $image;
-  }
-
-  static function filterLockLabel($userPassword)
-  {
-    $label = '';
-    if (isset($userPassword[0]) && preg_match('/^\{[^\}]/', $userPassword[0])) {
-      if (preg_match('/^[^\}]*+\}!/', $userPassword[0])) {
-        $label = _('Unlock account').'<rowClass:entry-locked/>';
-      } else {
-        $label = _('Lock account');
-      }
-    }
-    return $label;
-  }
-
-  static function filterProperties($row, $dn, $attrs)
-  {
-    global $config;
-    static $usertabs = array();
-    if (empty($usertabs)) {
-      foreach ($config->data['TABS']['USERTABS'] as $plug) {
-        if ($plug['CLASS'] == 'user') {
-          continue;
-        }
-        if (class_available($plug['CLASS'])) {
-          $name = $plug['CLASS'];
-
-          $usertabs[$name] = new $name('new');
-        }
-      }
-    }
-
-    // Load information if needed
-    $result = '<input class="center" type="image" src="geticon.php?context=applications&amp;icon=user-info&amp;size=16" '.
-                       'alt="'._('User account').'" title="'._('User account information').'" '.
-                       'name="listing_edit_tab_user_'.$row.'"/>';
-    if (!empty($attrs)) {
-      if (in_array_ics ('fdTemplate', $attrs['objectClass'])) {
-        $attrs = templateHandling::fieldsFromLDAP($attrs);
-      }
-      foreach ($usertabs as $class => $usertab) {
-        if ($usertab->is_this_account($attrs)) {
-          $infos = pluglist::pluginInfos($class);
-          if (isset($infos['plSmallIcon'])) {
-            $result .= '<input class="center" type="image" src="'.htmlentities($infos['plSmallIcon'], ENT_COMPAT, 'UTF-8').'" '.
-                       'alt="'.$infos['plShortName'].'" title="'.$infos['plShortName'].'" '.
-                       'name="listing_edit_tab_'.$class.'_'.$row.'"/>';
-          } else {
-            @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $infos['plShortName']." ($class)", "No icon for");
-          }
-        } else {
-          $result .= '<img src="images/empty.png" alt="" class="center optional '.$class.'"/>';
-        }
-      }
-    }
-
-    return $result;
   }
 }
 ?>
