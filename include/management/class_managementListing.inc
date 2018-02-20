@@ -389,7 +389,7 @@ class managementListing
       foreach ($this->columns as $index => $column) {
         $renderedCell = $column->renderCell($this->pid, $row, $dn, $this->entriesTypes[$dn], $entry);
         $trow .= '<td '.$column->getHtmlCellProps().'>'.$renderedCell.'</td>'."\n";
-        $rowclasses = array_merge($rowclasses, $column->getRowClasses());
+        $rowclasses = array_merge($rowclasses, $column->getRowClasses($this->pid, $row, $dn, $this->entriesTypes[$dn], $entry));
       }
 
       // Save rendered entry
@@ -551,7 +551,7 @@ class managementListing
     // Update filter and refresh entries
     //~ $this->filter->setBase($this->base);
     //~ $this->entries = $this->filter->query();
-    $attrs = array();
+    $attrs = $this->parent->neededAttrs;
     foreach ($this->columns as $column) {
       $column->fillNeededAttributes($attrs);
     }
@@ -992,7 +992,7 @@ class managementListing
       if (count($result['targets']) == 0) {
         unset($result['targets']);
       }
-      if (preg_match('/^(edit)_([a-zA-Z_]+)$/', $result['action'], $m)) {
+      if (preg_match('/^([a-zA-Z]+)_([a-zA-Z_]+)$/', $result['action'], $m)) {
         $result['action']     = $m[1];
         $result['subaction']  = $m[2];
       }
@@ -1039,7 +1039,7 @@ class managementListing
     if (count($result['targets']) == 0) {
       unset($result['targets']);
     }
-    if (preg_match('/^(edit)_([a-zA-Z_]+)/', $result['action'], $m)) {
+    if (preg_match('/^([a-zA-Z]+)_([a-zA-Z_]+)/', $result['action'], $m)) {
       $result['action']     = $m[1];
       $result['subaction']  = $m[2];
     }

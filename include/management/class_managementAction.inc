@@ -124,8 +124,17 @@ class Action
             .'</li>'."\n";
   }
 
+  function getRowClasses($pid, $row, $dn, $type, array $entry)
+  {
+    return array();
+  }
+
   function renderColumnIcons($pid, $row, $dn, $type, array $entry)
   {
+    if (!$this->inline) {
+      return '';
+    }
+
     // Skip the entry completely if there's no permission to execute it
     if (!$this->hasPermission($dn, $type)) {
       return '<img src="images/empty.png" alt=" " class="center optional"/>';
