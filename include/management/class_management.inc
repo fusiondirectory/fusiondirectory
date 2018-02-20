@@ -97,7 +97,8 @@ class management
       }
       $createMenu[] = new Action(
         'new_'.$type, $infos['name'], $icon,
-        '0', 'newEntry'
+        '0', 'newEntry',
+        array('c')
       );
     }
     $this->registerAction(
@@ -116,16 +117,17 @@ class management
     $this->registerAction(
       new Action(
         'remove', _('Remove'), 'geticon.php?context=actions&icon=edit-delete&size=16',
-        '+', 'removeRequested'
+        '+', 'removeRequested',
+        array('d')
       )
     );
 
     /* Actions from footer are not in any menus and do not need a label */
-    $this->registerAction(new Action('apply',   '', '', '0', 'applyChanges',  FALSE));
-    $this->registerAction(new Action('save',    '', '', '0', 'saveChanges',   FALSE));
-    $this->registerAction(new Action('cancel',  '', '', '0', 'cancelEdit',    FALSE));
-    $this->registerAction(new Action('cancelDelete', '', '', '0', 'cancelEdit', FALSE));
-    $this->registerAction(new Action('removeConfirmed', '', '', '0', 'removeConfirmed', FALSE));
+    $this->registerAction(new HiddenAction('apply',           'applyChanges'));
+    $this->registerAction(new HiddenAction('save',            'saveChanges'));
+    $this->registerAction(new HiddenAction('cancel',          'cancelEdit'));
+    $this->registerAction(new HiddenAction('cancelDelete',    'cancelEdit'));
+    $this->registerAction(new HiddenAction('removeConfirmed', 'removeConfirmed'));
 
     //~ $this->configureHeadpage();
     //~ $this->configureFilter();
@@ -177,7 +179,7 @@ class management
   /*!
    *  \brief  Calls the registered method for a given action/event.
    */
-  function handleActions(array $action)
+  function handleAction(array $action)
   {
     // Start action
     if (isset($this->actions[$action['action']])) {
@@ -213,9 +215,12 @@ class management
     //~ session::set('LOCK_VARS_TO_USE', $vars);
 
     // Handle actions (POSTs and GETs)
-    $str = $this->handleActions($this->detectPostActions());
-    if ($str) {
-      return $this->getHeader().$str;
+    $action = $this->detectPostActions();
+    if (!empty($action)) {
+      $str = $this->handleAction($action);
+      if ($str) {
+        return $this->getHeader().$str;
+      }
     }
 
     // Open single dialog objects
@@ -322,8 +327,7 @@ class management
   function renderActionColumn($pid, $row, $dn, $type, array $entry)
   {
     // Go thru all actions
-    $result   = '';
-    $emptyimg = '<img src="images/empty.png" alt=" " class="center optional"/>';
+    $result = '';
     foreach ($this->actions as $action) {
       $result .= $action->renderColumnIcons($pid, $row, $dn, $type, $entry);
     }

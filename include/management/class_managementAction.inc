@@ -30,6 +30,8 @@ class Action
   /* 0, 1, + or * */
   protected $targets;
 
+  protected $acl;
+
   /* Booleans */
   protected $inmenu;
   protected $inline;
@@ -39,7 +41,7 @@ class Action
   protected $minTargets;
   protected $maxTargets;
 
-  function __construct($name, $label, $icon, $targets, $callable, $inmenu = TRUE, $inline = TRUE)
+  function __construct($name, $label, $icon, $targets, $callable, array $acl = array(), $inmenu = TRUE, $inline = TRUE)
   {
     if ($targets == '0') {
       $inline = FALSE;
@@ -52,6 +54,7 @@ class Action
     $this->callable = $callable;
     $this->inmenu   = $inmenu;
     $this->inline   = $inline;
+    $this->acl      = $acl;
 
     switch ($targets) {
       case '0':
@@ -123,11 +126,10 @@ class Action
 
   function renderColumnIcons($pid, $row, $dn, $type, array $entry)
   {
-    // TODO Skip the entry completely if there's no permission to execute it
-    //~ if (!$this->hasActionPermission($action, $dn, $row)) {
-      //~ $result .= $emptyimg;
-      //~ continue;
-    //~ }
+    // Skip the entry completely if there's no permission to execute it
+    if (!$this->hasPermission($dn, $type)) {
+      return '<img src="images/empty.png" alt=" " class="center optional"/>';
+    }
 
     // TODO? Skip entry if the pseudo filter does not fit
     // TODO? Skip depending on type
@@ -135,6 +137,34 @@ class Action
     // Render
     return '<input class="center" type="image" src="'.htmlentities($this->icon, ENT_COMPAT, 'UTF-8').'"'.
             ' title="'.$this->label.'" alt="'.$this->label.'" name="listing_'.$this->name.'_'.$row.'"/>';
+  }
+
+  function hasPermission($dn, $type)
+  {
+    global $ui;
+
+    $infos  = objects::infos($type);
+    foreach ($this->acl as $acl) {
+      if (preg_match('/([a-zA-Z0-9]+):([rwcdm]+)/', $acl, $m)) {
+        /* attribute:rw */
+        $module   = $ui->getAttributeCategory($type, $m[1]);
+        $checkAcl = $ui->get_permissions($dn, $module, $m[1]);
+        $acl      = $m[2];
+      } else {
+        $module   = $infos['aclCategory'].'/'.$infos['mainTab'];
+        $checkAcl = $ui->get_permissions($dn, $module, '0');
+      }
+
+      // Split up remaining part of the acl and check rights
+      $parts = str_split($acl);
+      foreach ($parts as $part) {
+        if (strpos($checkAcl, $part) === FALSE) {
+          return FALSE;
+        }
+      }
+    }
+
+    return TRUE;
   }
 }
 
@@ -147,7 +177,7 @@ class ActionSubMenu extends Action
 
   function __construct($name, $label, $icon, array $actions, $inmenu = TRUE)
   {
-    parent::__construct($name, $label, $icon, '0', FALSE, $inmenu, FALSE);
+    parent::__construct($name, $label, $icon, '0', FALSE, array(), $inmenu, FALSE);
     foreach ($actions as $action) {
       $names = $action->listActions();
       foreach ($names as $name) {
@@ -194,5 +224,16 @@ class ActionSubMenu extends Action
 
   function renderColumnIcons($pid, $row, $dn, $type, array $entry)
   {
+  }
+}
+
+/*!
+ * \brief Action hidden from both column and menu
+ */
+class HiddenAction extends Action
+{
+  function __construct($name, $callable, array $acl = array())
+  {
+    parent::__construct($name, '', '', '0', $callable, $acl, FALSE, FALSE);
   }
 }
