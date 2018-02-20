@@ -27,10 +27,18 @@ class StringColumn
   protected $label;
   protected $type = 'string';
 
-  function __construct($attribute, $label)
+  /* management class instance */
+  protected $parent = NULL;
+
+  function __construct($attribute = NULL, $label = NULL)
   {
     $this->attribute  = $attribute;
     $this->label      = $label;
+  }
+
+  function setParent(managementListing $parent)
+  {
+    $this->parent = $parent;
   }
 
   function isSortable()
@@ -55,18 +63,23 @@ class StringColumn
 
   function getLabel()
   {
-    return _($this->label);
-    //~ return $this->label;
+    if (isset($this->label)) {
+      return _($this->label);
+    } else {
+      return '&nbsp;';
+    }
   }
 
   function fillNeededAttributes(array &$attrs)
   {
-    $attrs[$this->attribute] = '1';
+    if (isset($this->attribute)) {
+      $attrs[$this->attribute] = '1';
+    }
   }
 
-  function renderCell(string $pid, int $row, string $dn, array $entry)
+  function renderCell($pid, $row, $dn, $type, array $entry)
   {
-    if (isset($entry[$this->attribute])) {
+    if (isset($this->attribute) && isset($entry[$this->attribute])) {
       return htmlentities($entry[$this->attribute], ENT_COMPAT, 'UTF-8');
     } else {
       return '&nbsp;';
@@ -140,12 +153,106 @@ class StringColumn
 
 class LinkColumn extends StringColumn
 {
-  function renderCell(string $pid, int $row, string $dn, array $entry)
+  function renderCell($pid, $row, $dn, $type, array $entry)
   {
     if (isset($entry[$this->attribute])) {
       return '<a href="?plug='.$_GET['plug'].'&amp;PID='.$pid.'&amp;act=listing_edit_'.$row.'" title="'.$dn.'">'.htmlentities($entry[$this->attribute], ENT_COMPAT, 'UTF-8').'</a>';
     } else {
       return '&nbsp;';
     }
+  }
+}
+
+class ObjectTypeColumn extends StringColumn
+{
+  function isSortable()
+  {
+    return FALSE;
+  }
+
+  function renderCell($pid, $row, $dn, $type, array $entry)
+  {
+    if ($type) {
+      $infos = objects::infos($type);
+      return '<img class="center" title="'.$dn.'" src="'.htmlentities($infos['icon'], ENT_COMPAT, 'UTF-8').'" alt="'.$infos['name'].'"/>';
+    } else {
+      return '&nbsp;';
+    }
+  }
+}
+
+class ActionsColumn extends StringColumn
+{
+  function isSortable()
+  {
+    return FALSE;
+  }
+
+  function renderCell($pid, $row, $dn, $type, array $entry)
+  {
+    return $this->parent->parent->renderActionColumn($pid, $row, $dn, $type, $entry);
+  }
+}
+
+class PropertiesColumn extends StringColumn
+{
+  function isSortable()
+  {
+    return FALSE;
+  }
+
+  function fillNeededAttributes(array &$attrs)
+  {
+    $attrs['objectClass'] = '*';
+  }
+
+  function renderCell($pid, $row, $dn, $type, array $entry)
+  {
+    global $config;
+
+    $infos = objects::infos($type);
+
+    static $tabs = array();
+
+    if (empty($tabs[$type])) {
+      $tabs[$type] = array();
+      foreach ($config->data['TABS'][$infos['tabGroup']] as $plug) {
+        if ($plug['CLASS'] == $infos['mainTab']) {
+          continue;
+        }
+        if (class_available($plug['CLASS'])) {
+          $name = $plug['CLASS'];
+
+          $tabs[$type][$name] = new $name('new');
+        }
+      }
+    }
+
+    /* Main tab is always there */
+    $pInfos = pluglist::pluginInfos($infos['mainTab']);
+    $result = '<input class="center" type="image" src="'.htmlentities($pInfos['plSmallIcon'], ENT_COMPAT, 'UTF-8').'" '.
+               'alt="'.$pInfos['plShortName'].'" title="'.$pInfos['plShortName'].'" '.
+               'name="listing_edit_tab_'.$infos['mainTab'].'_'.$row.'"/>';
+    if (!empty($entry)) {
+      //~ if (in_array_ics ('fdTemplate', $attrs['objectClass'])) {
+        //~ $attrs = templateHandling::fieldsFromLDAP($attrs);
+      //~ }
+      foreach ($tabs[$type] as $class => $tab) {
+        if ($tab->is_this_account($entry)) {
+          $pInfos = pluglist::pluginInfos($class);
+          if (isset($pInfos['plSmallIcon'])) {
+            $result .= '<input class="center" type="image" src="'.htmlentities($pInfos['plSmallIcon'], ENT_COMPAT, 'UTF-8').'" '.
+                       'alt="'.$pInfos['plShortName'].'" title="'.$pInfos['plShortName'].'" '.
+                       'name="listing_edit_tab_'.$class.'_'.$row.'"/>';
+          } else {
+            @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $pInfos['plShortName']." ($class)", 'No icon for');
+          }
+        } else {
+          $result .= '<img src="images/empty.png" alt="" class="center optional '.$class.'"/>';
+        }
+      }
+    }
+
+    return $result;
   }
 }

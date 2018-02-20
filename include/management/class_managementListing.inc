@@ -157,7 +157,7 @@ class managementListing
   //~ protected $filterCache = array();
 
   /* The management class */
-  protected $parent;
+  public $parent;
 
   protected $columns;
 
@@ -213,10 +213,17 @@ class managementListing
     $this->baseSelector = new baseSelector($this->bases, $this->base);
 
     $this->columns = array(
+      new ObjectTypeColumn(),
       new LinkColumn('sn',        'Last name'),
       new LinkColumn('givenName', 'First name'),
       new StringColumn('uid',       'Login'),
+      new PropertiesColumn(NULL,       'Properties'),
+      new ActionsColumn(NULL,       'Actions'),
     );
+
+    foreach ($this->columns as $column) {
+      $column->setParent($this);
+    }
   }
 
   /*!
@@ -380,7 +387,7 @@ class managementListing
       }
 
       foreach ($this->columns as $index => $column) {
-        $renderedCell = $column->renderCell($this->pid, $row, $dn, $entry);
+        $renderedCell = $column->renderCell($this->pid, $row, $dn, $this->entriesTypes[$dn], $entry);
         $trow .= '<td '.$column->getHtmlCellProps().'>'.$renderedCell.'</td>'."\n";
         $rowclasses = array_merge($rowclasses, $column->getRowClasses());
       }
@@ -665,32 +672,6 @@ class managementListing
 
     return $result;
   }
-
-
-  function renderCell($table, $index, $data, $cfg, $row)
-  {
-    // Replace flat attributes in data string
-    $offset = 0;
-    while (preg_match('/%{([^}:]+)}/', $data, $m, PREG_OFFSET_CAPTURE, $offset)) {
-      if (isset($cfg[$m[1][0]])) {
-        $replace = $cfg[$m[1][0]];
-        if (is_array($replace)) {
-          $replace = $replace[0];
-        }
-        $replace = htmlentities($replace, ENT_COMPAT, 'UTF-8');
-      } else {
-        $replace = '&nbsp;';
-      }
-      $data   = substr_replace($data, $replace, $m[0][1], strlen($m[0][0]));
-      $offset = $m[0][1] + strlen($replace);
-    }
-
-    // Watch out for filters and prepare to execute them
-    $data = $this->processElementFilter($table, $index, $data, $cfg, $row);
-
-    return $data;
-  }
-
 
   function renderBase()
   {
