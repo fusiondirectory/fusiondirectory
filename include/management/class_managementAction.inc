@@ -120,6 +120,22 @@ class Action
             .'<img src="'.htmlentities($this->icon, ENT_COMPAT, 'UTF-8').'" alt="'.$this->name.'" class="center">&nbsp;'.$this->label.'</a>'
             .'</li>'."\n";
   }
+
+  function renderColumnIcons($pid, $row, $dn, $type, array $entry)
+  {
+    // TODO Skip the entry completely if there's no permission to execute it
+    //~ if (!$this->hasActionPermission($action, $dn, $row)) {
+      //~ $result .= $emptyimg;
+      //~ continue;
+    //~ }
+
+    // TODO? Skip entry if the pseudo filter does not fit
+    // TODO? Skip depending on type
+
+    // Render
+    return '<input class="center" type="image" src="'.htmlentities($this->icon, ENT_COMPAT, 'UTF-8').'"'.
+            ' title="'.$this->label.'" alt="'.$this->label.'" name="listing_'.$this->name.'_'.$row.'"/>';
+  }
 }
 
 /*!
@@ -174,5 +190,9 @@ class ActionSubMenu extends Action
       $result .= $action->renderMenuItems($level);
     }
     return $result.'</li></ul>'."\n";
+  }
+
+  function renderColumnIcons($pid, $row, $dn, $type, array $entry)
+  {
   }
 }

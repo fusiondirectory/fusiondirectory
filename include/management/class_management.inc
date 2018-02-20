@@ -177,7 +177,7 @@ class management
   /*!
    *  \brief  Calls the registered method for a given action/event.
    */
-  function handleActions($action)
+  function handleActions(array $action)
   {
     // Start action
     if (isset($this->actions[$action['action']])) {
@@ -186,6 +186,20 @@ class management
       }
       return $this->actions[$action['action']]->execute($this, $action);
     }
+  }
+
+  protected function handleSubAction(array $action)
+  {
+    if (preg_match('/^tab_/', $action['subaction'])) {
+      $tab = preg_replace('/^tab_/', '', $action['subaction']);
+      if (isset($this->tabObject->by_object[$tab])) {
+        $this->tabObject->current = $tab;
+      } else {
+        trigger_error('Unknown tab: '.$tab);
+      }
+      return TRUE;
+    }
+    return FALSE;
   }
 
   /*!
@@ -303,6 +317,18 @@ class management
     }
 
     return '<div id="pulldown">'.$result.'</ul></li></ul></div>'."\n";
+  }
+
+  function renderActionColumn($pid, $row, $dn, $type, array $entry)
+  {
+    // Go thru all actions
+    $result   = '';
+    $emptyimg = '<img src="images/empty.png" alt=" " class="center optional"/>';
+    foreach ($this->actions as $action) {
+      $result .= $action->renderColumnIcons($pid, $row, $dn, $type, $entry);
+    }
+
+    return $result;
   }
 
   /*!

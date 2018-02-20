@@ -47,14 +47,14 @@ class userManagement extends management
   function configureHeadpage ()
   {
     parent::configureHeadpage();
-    $this->registerAction('new_user',               'newEntry');
-    $this->registerAction('new_template_user',      'newEntryTemplate');
-    $this->registerAction('template_apply_to_user', 'applyTemplateToEntry');
-    $this->registerAction('template_apply_user',    'newEntryFromTemplate');
+    //~ $this->registerAction('new_user',               'newEntry');
+    //~ $this->registerAction('new_template_user',      'newEntryTemplate');
+    //~ $this->registerAction('template_apply_to_user', 'applyTemplateToEntry');
+    //~ $this->registerAction('template_apply_user',    'newEntryFromTemplate');
 
-    $this->registerAction('lock',         'lockEntry');
-    $this->registerAction('lockUsers',    'lockUsers');
-    $this->registerAction('unlockUsers',  'lockUsers');
+    //~ $this->registerAction('lock',         'lockEntry');
+    //~ $this->registerAction('lockUsers',    'lockUsers');
+    //~ $this->registerAction('unlockUsers',  'lockUsers');
 
     //~ $this->headpage->registerElementFilter('lockLabel',         'userManagement::filterLockLabel');
     //~ $this->headpage->registerElementFilter('lockImage',         'userManagement::filterLockImage');
