@@ -136,7 +136,7 @@ class Action
     }
 
     // Skip the entry completely if there's no permission to execute it
-    if (!$this->hasPermission($entry->dn, $entry->type)) {
+    if (!$this->hasPermission($entry->dn, $entry->getTemplatedType(), $entry->isTemplate())) {
       return '<img src="images/empty.png" alt=" " class="center optional"/>';
     }
 
@@ -148,7 +148,7 @@ class Action
             ' title="'.$this->label.'" alt="'.$this->label.'" name="listing_'.$this->name.'_'.$entry->row.'"/>';
   }
 
-  function hasPermission($dn, $type)
+  function hasPermission($dn, $type, $template)
   {
     global $ui;
 
@@ -160,7 +160,11 @@ class Action
         $checkAcl = $ui->get_permissions($dn, $module, $m[1]);
         $acl      = $m[2];
       } else {
-        $module   = $infos['aclCategory'].'/'.$infos['mainTab'];
+        if ($template) {
+          $module = $infos['aclCategory'].'/template';
+        } else {
+          $module = $infos['aclCategory'].'/'.$infos['mainTab'];
+        }
         $checkAcl = $ui->get_permissions($dn, $module, '0');
       }
 
