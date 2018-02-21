@@ -261,7 +261,7 @@ class management
 
     // Handle actions (POSTs and GETs)
     $action = $this->detectPostActions();
-    if (!empty($action)) {
+    if (!empty($action['action'])) {
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $action, 'Action');
       $str = $this->handleAction($action);
       if ($str) {
