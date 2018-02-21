@@ -921,7 +921,7 @@ class managementListing
       $this->scrollPosition = $_POST['position_'.$this->pid];
     }
 
-    $result = array('targets' => array(), 'action' => '');
+    $result = array('targets' => array(), 'action' => '', 'subaction' => NULL);
 
     // Filter GET with "act" attributes
     if (isset($_GET['act'])) {

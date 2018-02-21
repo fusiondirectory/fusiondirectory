@@ -125,10 +125,6 @@ class userManagement extends management
   protected function configureActions()
   {
     parent::configureActions();
-    //~ $this->registerAction('new_user',               'newEntry');
-    //~ $this->registerAction('new_template_user',      'newEntryTemplate');
-    //~ $this->registerAction('template_apply_to_user', 'applyTemplateToEntry');
-    //~ $this->registerAction('template_apply_user',    'newEntryFromTemplate');
 
     $this->registerAction(
       new LockAction(
