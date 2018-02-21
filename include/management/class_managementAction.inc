@@ -27,7 +27,7 @@ class Action
   protected $label;
   protected $icon;
 
-  /* 0, 1, + or * */
+  /* 0, 1, ?, + or * */
   protected $targets;
 
   protected $acl;
@@ -63,6 +63,10 @@ class Action
         break;
       case '1':
         $this->minTargets = 1;
+        $this->maxTargets = 1;
+        break;
+      case '?':
+        $this->minTargets = 0;
         $this->maxTargets = 1;
         break;
       case '+':
@@ -186,31 +190,33 @@ class Action
  */
 class ActionSubMenu extends Action
 {
-  protected $actions = array();
+  protected $actions  = array();
+  protected $handlers = array();
 
   function __construct($name, $label, $icon, array $actions, $inmenu = TRUE)
   {
     parent::__construct($name, $label, $icon, '0', FALSE, array(), $inmenu, FALSE);
-    foreach ($actions as $action) {
+    $this->actions = $actions;
+    foreach ($this->actions as $action) {
       $names = $action->listActions();
       foreach ($names as $name) {
-        $this->actions[$name] = $action;
+        $this->handlers[$name] = $action;
       }
     }
   }
 
   function listActions()
   {
-    $actions = array();
-    foreach ($this->actions as $action) {
-      $actions = array_merge($actions, $action->listActions());
-    }
-    return $actions;
+    return array_keys($this->handlers);
   }
 
   function execute($management, $action)
   {
-    return $this->actions[$action['action']]->execute($management, $action);
+    if (isset($action['subaction']) && isset($this->handlers[$action['action'].'_'.$action['subaction']])) {
+      return $this->handlers[$action['action'].'_'.$action['subaction']]->execute($management, $action);
+    } elseif (isset($this->handlers[$action['action']])) {
+      return $this->handlers[$action['action']]->execute($management, $action);
+    }
   }
 
   function renderMenuItems($level = 2)

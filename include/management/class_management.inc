@@ -49,7 +49,8 @@ class management
   protected $title;
   protected $icon;
 
-  protected $actions = array();
+  protected $actions        = array();
+  protected $actionHandlers = array();
 
   public $neededAttrs = array();
 
@@ -99,6 +100,12 @@ class management
   {
     // Register default actions
     $createMenu = array();
+
+    if (!static::$skipTemplates) {
+      $templateMenu     = array();
+      $fromTemplateMenu = array();
+    }
+
     foreach ($this->objectTypes as $type) {
       $infos  = objects::infos($type);
       $icon   = 'geticon.php?context=actions&icon=document-new&size=16';
@@ -110,7 +117,38 @@ class management
         '0', 'newEntry',
         array('c')
       );
+      if (!static::$skipTemplates) {
+        // TODO fix ACL
+        $templateMenu[] = new Action(
+          'new_template_'.$type, $infos['name'], $icon,
+          '0', 'newEntryTemplate',
+          array('c')
+        );
+        $fromTemplateMenu[] = new Action(
+          'template_apply_'.$type, $infos['name'], $icon,
+          '?', 'newEntryFromTemplate',
+          array('c')
+        );
+      }
     }
+
+    if (!static::$skipTemplates) {
+      $createMenu =
+        array_merge(
+          array(
+            new ActionSubMenu(
+              'template', _('Template'), 'geticon.php?context=devices&icon=template&size=16',
+              $templateMenu
+            ),
+            new ActionSubMenu(
+              'fromtemplate', _('From template'), 'geticon.php?context=actions&icon=document-new&size=16',
+              $fromTemplateMenu
+            ),
+          ),
+          $createMenu
+        );
+    }
+
     $this->registerAction(
       new ActionSubMenu(
         'new', _('Create'), 'geticon.php?context=actions&icon=document-new&size=16',
@@ -145,8 +183,9 @@ class management
    */
   function registerAction(Action $action)
   {
+    $this->actions[$action->getName()] = $action;
     foreach ($action->listActions() as $actionName) {
-      $this->actions[$actionName] = $action;
+      $this->actionHandlers[$actionName] = $action;
     }
   }
 
@@ -186,11 +225,13 @@ class management
   function handleAction(array $action)
   {
     // Start action
-    if (isset($this->actions[$action['action']])) {
-      if (!isset($action['targets'])) {
-        $action['targets'] = array();
-      }
-      return $this->actions[$action['action']]->execute($this, $action);
+    if (!isset($action['targets'])) {
+      $action['targets'] = array();
+    }
+    if (isset($action['subaction']) && isset($this->actionHandlers[$action['action'].'_'.$action['subaction']])) {
+      return $this->actionHandlers[$action['action'].'_'.$action['subaction']]->execute($this, $action);
+    } elseif (isset($this->actionHandlers[$action['action']])) {
+      return $this->actionHandlers[$action['action']]->execute($this, $action);
     }
   }
 
@@ -221,6 +262,7 @@ class management
     // Handle actions (POSTs and GETs)
     $action = $this->detectPostActions();
     if (!empty($action)) {
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $action, 'Action');
       $str = $this->handleAction($action);
       if ($str) {
         return $this->getHeader().$str;
@@ -487,7 +529,7 @@ class management
    */
   function newEntry(array $action)
   {
-    $type = preg_replace('/^new_/', '', $action['action']);
+    $type = $action['subaction'];
 
     $this->dn = 'new';
 
@@ -497,6 +539,62 @@ class management
     $this->openTabObject(objects::create($type), $this->listing->getBase());
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Create entry initiated');
   }
+
+  function newEntryTemplate(array $action)
+  {
+    if (static::$skipTemplates) {
+      return;
+    }
+    $action['subaction'] = preg_replace('/^template_/', '', $action['subaction']);
+    $this->newEntry($action);
+    $this->tabObject->setTemplateMode('template_cn');
+  }
+
+  function newEntryFromTemplate(array $action)
+  {
+    if (static::$skipTemplates) {
+      return;
+    }
+    if (isset($action['targets'][0])) {
+      $dn = $action['targets'][0];
+    } else {
+      $dn = NULL;
+    }
+    if ($action['subaction'] == 'apply') {
+      if ($dn === NULL) {
+        return;
+      }
+      $type = $this->listing->getEntry($dn)->getTemplatedType();
+    } else {
+      $type = preg_replace('/^apply_/', '', $action['subaction']);
+    }
+    $this->dialogObject = new templateDialog($this, $type, $dn);
+  }
+
+  function applyTemplateToEntry(array $action)
+  {
+    global $ui;
+    if (static::$skipTemplates) {
+      return;
+    }
+    if (empty($action['targets'])) {
+      return;
+    }
+    $type       = preg_replace('/^template_apply_to_/', '', $action['action']);
+    $this->dns  = $action['targets'];
+
+    // check locks
+    if ($locks = get_locks($this->dns)) {
+      return gen_locked_message($locks, $this->dns);
+    }
+
+    // Add locks
+    add_lock ($this->dns, $ui->dn);
+
+    $this->dn           = array_shift($this->dns);
+    $this->dialogObject = new templateDialog($this, $type, NULL, $this->dn);
+  }
+
 
   /*!
    * \brief  This method opens an existing object to be edited.
