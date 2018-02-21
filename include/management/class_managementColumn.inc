@@ -27,6 +27,8 @@ class StringColumn
   protected $label;
   protected $type = 'string';
 
+  protected $templateAttribute = NULL;
+
   /* management class instance */
   protected $parent = NULL;
 
@@ -34,6 +36,11 @@ class StringColumn
   {
     $this->attribute  = $attribute;
     $this->label      = $label;
+  }
+
+  function setTemplateAttribute($attribute)
+  {
+    $this->templateAttribute = $attribute;
   }
 
   function setParent(managementListing $parent)
@@ -79,8 +86,12 @@ class StringColumn
 
   function renderCell(ListingEntry $entry)
   {
-    if (isset($this->attribute) && isset($entry[$this->attribute])) {
-      return htmlentities($entry[$this->attribute], ENT_COMPAT, 'UTF-8');
+    $attribute = $this->attribute;
+    if (isset($this->templateAttribute) && $entry->isTemplate()) {
+      $attribute = $this->templateAttribute;
+    }
+    if (isset($attribute) && isset($entry[$attribute])) {
+      return htmlentities($entry[$attribute], ENT_COMPAT, 'UTF-8');
     } else {
       return '&nbsp;';
     }
@@ -155,8 +166,12 @@ class LinkColumn extends StringColumn
 {
   function renderCell(ListingEntry $entry)
   {
-    if (isset($entry[$this->attribute])) {
-      return '<a href="?plug='.$_GET['plug'].'&amp;PID='.$entry->getPid().'&amp;act=listing_edit_'.$entry->row.'" title="'.$entry->dn.'">'.htmlentities($entry[$this->attribute], ENT_COMPAT, 'UTF-8').'</a>';
+    $attribute = $this->attribute;
+    if (isset($this->templateAttribute) && $entry->isTemplate()) {
+      $attribute = $this->templateAttribute;
+    }
+    if (isset($entry[$attribute])) {
+      return '<a href="?plug='.$_GET['plug'].'&amp;PID='.$entry->getPid().'&amp;act=listing_edit_'.$entry->row.'" title="'.$entry->dn.'">'.htmlentities($entry[$attribute], ENT_COMPAT, 'UTF-8').'</a>';
     } else {
       return '&nbsp;';
     }
@@ -172,7 +187,10 @@ class ObjectTypeColumn extends StringColumn
 
   function renderCell(ListingEntry $entry)
   {
-    if ($entry->type) {
+    if ($entry->isTemplate()) {
+      $infos = objects::infos($entry->getTemplatedType());
+      return '<img class="center" title="'.$entry->dn.'" src="'.htmlentities('geticon.php?context=devices&icon=template&size=16', ENT_COMPAT, 'UTF-8').'" alt="'.sprintf(_('%s template'), $infos['name']).'"/>';
+    } elseif ($entry->type) {
       $infos = objects::infos($entry->type);
       return '<img class="center" title="'.$entry->dn.'" src="'.htmlentities($infos['icon'], ENT_COMPAT, 'UTF-8').'" alt="'.$infos['name'].'"/>';
     } else {
@@ -215,7 +233,7 @@ class PropertiesColumn extends StringColumn
   {
     global $config;
 
-    $infos = objects::infos($entry->type);
+    $infos = objects::infos($entry->getTemplatedType());
 
     static $tabs = array();
 
@@ -239,11 +257,13 @@ class PropertiesColumn extends StringColumn
                'alt="'.$pInfos['plShortName'].'" title="'.$pInfos['plShortName'].'" '.
                'name="listing_edit_tab_'.$infos['mainTab'].'_'.$entry->row.'"/>';
     if (!empty($entry)) {
-      //~ if (in_array_ics ('fdTemplate', $attrs['objectClass'])) {
-        //~ $attrs = templateHandling::fieldsFromLDAP($attrs);
-      //~ }
+      if ($entry->isTemplate()) {
+        $attrs = $entry->getTemplatedFields();
+      } else {
+        $attrs = $entry;
+      }
       foreach ($tabs[$entry->type] as $class => $tab) {
-        if ($tab->is_this_account($entry)) {
+        if ($tab->is_this_account($attrs)) {
           $pInfos = pluglist::pluginInfos($class);
           if (isset($pInfos['plSmallIcon'])) {
             $result .= '<input class="center" type="image" src="'.htmlentities($pInfos['plSmallIcon'], ENT_COMPAT, 'UTF-8').'" '.

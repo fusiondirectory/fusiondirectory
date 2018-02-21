@@ -114,48 +114,6 @@ class entrySortIterator implements Iterator {
   }
 }
 
-class ListingEntry implements ArrayAccess
-{
-  public $dn;
-  public $row;
-  public $type;
-  private $attrs;
-  protected $listing;
-
-  public function __construct(managementListing $listing, $type, $dn, array $attrs, $row = NULL) {
-    $this->listing  = $listing;
-    $this->type     = $type;
-    $this->dn       = $dn;
-    $this->attrs    = $attrs;
-    $this->row      = $row;
-  }
-
-  public function offsetSet($offset, $value) {
-    if (is_null($offset)) {
-      $this->container[] = $value;
-    } else {
-      $this->attrs[$offset] = $value;
-    }
-  }
-
-  public function offsetExists($offset) {
-    return isset($this->attrs[$offset]);
-  }
-
-  public function offsetUnset($offset) {
-    unset($this->attrs[$offset]);
-  }
-
-  public function offsetGet($offset) {
-    return (isset($this->attrs[$offset]) ? $this->attrs[$offset] : NULL);
-  }
-
-  public function getPid()
-  {
-    return $this->listing->pid;
-  }
-}
-
 /*!
  * \brief This class handles the entries list for a management instance
  */
@@ -167,8 +125,6 @@ class managementListing
   //~ var $departmentBrowser      = FALSE;
   //~ var $departmentRootVisible  = FALSE;
   public $multiSelect            = TRUE;
-  //~ var $template;
-  //~ var $headline;
   protected $base;
 
   protected $sortDirection  = NULL;
@@ -263,6 +219,8 @@ class managementListing
     foreach ($this->columns as $column) {
       $column->setParent($this);
     }
+
+    $this->columns[1]->setTemplateAttribute('cn');
   }
 
   /*!
@@ -467,36 +425,6 @@ class managementListing
     $result .= '</script>';
 
     return $result;
-
-    //~ $smarty = get_smarty();
-    //~ $smarty->assign("usePrototype", "true");
-    //~ $smarty->assign("FILTER", $this->filter->render());
-    //~ $smarty->assign("SIZELIMIT", print_sizelimit_warning());
-    //~ $smarty->assign("LIST", $result);
-    //~ $smarty->assign("MULTISELECT", $this->multiSelect);
-
-    //~ // Assign navigation elements
-    //~ $nav = $this->renderNavigation();
-    //~ foreach ($nav as $key => $html) {
-      //~ $smarty->assign($key, $html);
-    //~ }
-
-    //~ // Assign action menu / base
-    //~ $smarty->assign("ACTIONS", $this->renderActionMenu());
-    //~ $smarty->assign("BASE", $this->renderBase());
-
-    //~ // Assign summary
-    //~ $smarty->assign("HEADLINE", $this->headline);
-
-    //~ // Try to load template from plugin the folder first...
-    //~ $file = get_template_path($this->xmlData['definition']['template'], TRUE);
-
-    //~ // ... if this fails, try to load the file from the theme folder.
-    //~ if (!file_exists($file)) {
-      //~ $file = get_template_path($this->xmlData['definition']['template']);
-    //~ }
-
-    //~ return $smarty->fetch($file);
   }
 
   /*!
@@ -616,6 +544,15 @@ class managementListing
       $this->objectTypeCount[$type] = count($entries);
       foreach ($entries as $dn => $entry) {
         $this->entries[$dn] = new ListingEntry($this, $type, $dn, $entry, $row++);
+      }
+
+      if (!$this->parent::$skipTemplates) {
+        $entries = objects::ls($type, $attrsAsked, 'ou=templates,'.$base, '', TRUE, 'one', TRUE);
+
+        $this->objectTypeCount['template_'.$type] = count($entries);
+        foreach ($entries as $dn => $entry) {
+          $this->entries[$dn] = new ListingEntry($this, 'template_'.$type, $dn, $entry, $row++);
+        }
       }
     }
     /* Store the order of the entries to access them by index later */

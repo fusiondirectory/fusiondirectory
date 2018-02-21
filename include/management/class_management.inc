@@ -53,6 +53,8 @@ class management
 
   public $neededAttrs = array();
 
+  public static $skipTemplates = TRUE;
+
   // Whether to display a header or not.
   protected $skipHeader = FALSE;
 
@@ -444,6 +446,36 @@ class management
     return $str;
   }
 
+  function handleTemplateApply ($cancel = FALSE)
+  {
+    if (static::$skipTemplates) {
+      return;
+    }
+    if ($cancel) {
+      $msgs = array();
+    } else {
+      $msgs = $this->tabObject->save();
+    }
+    if (count($msgs)) {
+      msg_dialog::displayChecks($msgs);
+      return;
+    } else {
+      if (!$cancel) {
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Template applied!');
+      }
+      del_lock($this->dn);
+      if (empty($this->dns)) {
+        $this->closeDialogs();
+      } else {
+        $this->last_tabObject = $this->tabObject;
+        $this->tabObject      = NULL;
+        $this->dn             = array_shift($this->dns);
+        $this->dialogObject->setNextTarget($this->dn);
+        $this->dialogObject->save_object();
+      }
+    }
+  }
+
   /* Action handlers */
 
   /*!
@@ -485,14 +517,11 @@ class management
 
     $target = array_pop($action['targets']);
 
-    $type = $this->listing->getType($target);
-    if ($type === NULL) {
-      trigger_error('Could not find type for '.$target.', open canceled');
+    $entry = $this->listing->getEntry($target);
+    if ($entry === NULL) {
+      trigger_error('Could not find '.$target.', open canceled');
       return;
     }
-    //~ if (preg_match('/^template_/', $type) && !static::$skipTemplates) {
-      //~ $type = preg_replace('/^template_/', '', $type);
-    //~ }
 
     // Get the dn of the object and create lock
     $this->dn = $target;
@@ -503,7 +532,7 @@ class management
     add_lock ($this->dn, $ui->dn);
 
     // Open object
-    $this->openTabObject(objects::open($this->dn, $type), $this->dn);
+    $this->openTabObject(objects::open($this->dn, $entry->getTemplatedType()), $this->dn);
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Edit entry initiated');
     if (isset($action['subaction'])) {
       if ($this->handleSubAction($action) == FALSE) {
@@ -518,10 +547,10 @@ class management
    */
   function cancelEdit()
   {
-    //~ if (($this->tabObject instanceOf simpleTabs) && ($this->dialogObject instanceOf templateDialog)) {
-      //~ $this->handleTemplateApply(TRUE);
-      //~ return;
-    //~ }
+    if (($this->tabObject instanceOf simpleTabs) && ($this->dialogObject instanceOf templateDialog)) {
+      $this->handleTemplateApply(TRUE);
+      return;
+    }
     $this->remove_lock();
     $this->closeDialogs();
   }
@@ -533,11 +562,11 @@ class management
    */
   function saveChanges()
   {
-    //~ if (($this->tabObject instanceOf simpleTabs) && ($this->dialogObject instanceOf templateDialog)) {
-      //~ $this->tabObject->save_object();
-      //~ $this->handleTemplateApply();
-      //~ return;
-    //~ }
+    if (($this->tabObject instanceOf simpleTabs) && ($this->dialogObject instanceOf templateDialog)) {
+      $this->tabObject->save_object();
+      $this->handleTemplateApply();
+      return;
+    }
     if ($this->tabObject instanceOf simpleTabs) {
       $this->tabObject->save_object();
       $msgs = $this->tabObject->save();
@@ -594,14 +623,9 @@ class management
 
     // Check permissons for each target
     foreach ($action['targets'] as $dn) {
-      $type = $this->listing->getType($dn);
-      //~ if (preg_match('/^template_/', $type) && !static::$skipTemplates) {
-        //~ $type = preg_replace('/^template_/', '', $type);
-      //~ }
+      $entry = $this->listing->getEntry($dn);
       try {
-        $info = objects::infos($type);
-        $acl  = $ui->get_permissions($dn, $info['aclCategory'].'/'.$info['mainTab']);
-        if (preg_match('/d/', $acl)) {
+        if ($entry->checkAcl('d')) {
           $this->dns[] = $dn;
         } else {
           $disallowed[] = $dn;
@@ -625,19 +649,15 @@ class management
       $objects = array();
       foreach ($this->dns as $dn) {
         $entry  = $this->listing->getEntry($dn);
-        $type   = $entry->type;
-        if (preg_match('/^template_/', $type) && !static::$skipTemplates) {
-          $type = preg_replace('/^template_/', '', $type);
-          $info = objects::infos($type);
-          $info['nameAttr'] = 'cn';
-        } else {
-          $info = objects::infos($type);
+        $infos  = objects::infos($entry->getTemplatedType());
+        if ($entry->isTemplate()) {
+          $infos['nameAttr'] = 'cn';
         }
         $objects[] = array(
-          'name'  => $entry[$info['nameAttr']],
+          'name'  => $entry[$infos['nameAttr']],
           'dn'    => $dn,
-          'icon'  => $info['icon'],
-          'type'  => $info['name']
+          'icon'  => $infos['icon'],
+          'type'  => $infos['name']
         );
       }
       add_lock ($this->dns, $ui->dn);
@@ -659,20 +679,14 @@ class management
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, 'Entry deletion confirmed');
 
     foreach ($this->dns as $dn) {
-      $type = $this->listing->getType($dn);
-      if (empty($type)) {
+      $entry = $this->listing->getEntry($dn);
+      if (empty($entry)) {
         continue;
       }
-      //~ if (preg_match('/^template_/', $type) && !static::$skipTemplates) {
-        //~ $type = preg_replace('/^template_/', '', $type);
-      //~ }
-      $infos = objects::infos($type);
-      // Check permissions, are we allowed to remove this object?
-      $acl = $ui->get_permissions($dn, $infos['aclCategory'].'/'.$infos['mainTab']);
-      if (preg_match('/d/', $acl)) {
+      if ($entry->checkAcl('d')) {
         // Delete the object
         $this->dn = $dn;
-        $this->openTabObject(objects::open($this->dn, $type), $this->dn);
+        $this->openTabObject(objects::open($this->dn, $entry->getTemplatedType()), $this->dn);
         $this->tabObject->delete();
 
         // Remove the lock for the current object.

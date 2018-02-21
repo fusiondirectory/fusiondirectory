@@ -45,17 +45,19 @@ class templateHandling
   /*! \brief Translate template attrs into $attrs as if taken from LDAP */
   public static function fieldsFromLDAP (array $template_attrs)
   {
-    unset($template_attrs['fdTemplateField']['count']);
-    sort($template_attrs['fdTemplateField']);
     $attrs = array();
-    foreach ($template_attrs['fdTemplateField'] as $field) {
-      preg_match('/^([^:]+):(.*)$/s', $field, $m);
-      if (isset($attrs[$m[1]])) {
-        $attrs[$m[1]][] = $m[2];
-        $attrs[$m[1]]['count']++;
-      } else {
-        $attrs[$m[1]]           = array($m[2]);
-        $attrs[$m[1]]['count']  = 1;
+    if (isset($template_attrs['fdTemplateField'])) {
+      unset($template_attrs['fdTemplateField']['count']);
+      sort($template_attrs['fdTemplateField']);
+      foreach ($template_attrs['fdTemplateField'] as $field) {
+        preg_match('/^([^:]+):(.*)$/s', $field, $m);
+        if (isset($attrs[$m[1]])) {
+          $attrs[$m[1]][] = $m[2];
+          $attrs[$m[1]]['count']++;
+        } else {
+          $attrs[$m[1]]           = array($m[2]);
+          $attrs[$m[1]]['count']  = 1;
+        }
       }
     }
     return $attrs;

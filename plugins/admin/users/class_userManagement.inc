@@ -82,7 +82,7 @@ class LockAction extends Action
     }
 
     // Skip the entry completely if there's no permission to execute it
-    if (!$this->hasPermission($entry->dn, $entry->type)) {
+    if (!$this->hasPermission($entry->dn, $entry->getTemplatedType(), $entry->isTemplate())) {
       return '<img src="images/empty.png" alt=" " class="center optional"/>';
     }
 
@@ -103,6 +103,8 @@ class LockAction extends Action
 class userManagement extends management
 {
   public $neededAttrs = array('userPassword' => '1');
+
+  public static $skipTemplates = FALSE;
 
   static function plInfo()
   {

@@ -42,7 +42,7 @@ class objects
    *
    * \return The list of objects as an associative array (keys are dns)
    */
-  static function ls ($types, $attrs = NULL, $ou = NULL, $filter = '', $checkAcl = FALSE, $scope = 'subtree')
+  static function ls ($types, $attrs = NULL, $ou = NULL, $filter = '', $checkAcl = FALSE, $scope = 'subtree', $templateSearch = FALSE)
   {
     global $ui, $config;
 
@@ -105,7 +105,7 @@ class objects
     }
 
     try {
-      $ldap = static::search($types, $search_attrs, $ou, $filter, $checkAcl, $scope, FALSE, $partialFilterAcls);
+      $ldap = static::search($types, $search_attrs, $ou, $filter, $checkAcl, $scope, $templateSearch, $partialFilterAcls);
     } catch (NonExistingBranchException $e) {
       return array();
     }
@@ -166,10 +166,10 @@ class objects
    *
    * \return The number of objects of type $type in $ou
    */
-  static function count ($types, $ou = NULL, $filter = '', $checkAcl = FALSE)
+  static function count ($types, $ou = NULL, $filter = '', $checkAcl = FALSE, $templateSearch = FALSE)
   {
     try {
-      $ldap = static::search($types, array('dn'), $ou, $filter, $checkAcl, 'subtree', FALSE, $partialFilterAcls);
+      $ldap = static::search($types, array('dn'), $ou, $filter, $checkAcl, 'subtree', $templateSearch, $partialFilterAcls);
       if (!empty($partialFilterAcls)) {
         throw new FusionDirectoryException('Not enough rights to use "'.$partialFilterAcls[0][1].'" in filter');
       }
