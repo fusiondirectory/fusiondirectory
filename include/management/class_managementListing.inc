@@ -114,6 +114,48 @@ class entrySortIterator implements Iterator {
   }
 }
 
+class ListingEntry implements ArrayAccess
+{
+  public $dn;
+  public $row;
+  public $type;
+  private $attrs;
+  protected $listing;
+
+  public function __construct(managementListing $listing, $type, $dn, array $attrs, $row = NULL) {
+    $this->listing  = $listing;
+    $this->type     = $type;
+    $this->dn       = $dn;
+    $this->attrs    = $attrs;
+    $this->row      = $row;
+  }
+
+  public function offsetSet($offset, $value) {
+    if (is_null($offset)) {
+      $this->container[] = $value;
+    } else {
+      $this->attrs[$offset] = $value;
+    }
+  }
+
+  public function offsetExists($offset) {
+    return isset($this->attrs[$offset]);
+  }
+
+  public function offsetUnset($offset) {
+    unset($this->attrs[$offset]);
+  }
+
+  public function offsetGet($offset) {
+    return (isset($this->attrs[$offset]) ? $this->attrs[$offset] : NULL);
+  }
+
+  public function getPid()
+  {
+    return $this->listing->pid;
+  }
+}
+
 /*!
  * \brief This class handles the entries list for a management instance
  */
@@ -121,7 +163,6 @@ class managementListing
 {
   protected $entries      = array();
   protected $entriesIndex = array();
-  protected $entriesTypes = array();
   //~ var $departments            = array();
   //~ var $departmentBrowser      = FALSE;
   //~ var $departmentRootVisible  = FALSE;
@@ -142,7 +183,7 @@ class managementListing
   //~ protected $colprops = array();
   //~ protected $filters  = array();
   //~ protected $filter   = NULL;
-  protected $pid;
+  public $pid;
   //~ protected $departmentTypes  = array();
   //~ var $objectTypes      = array();
   protected $objectTypeCount  = array();
@@ -194,10 +235,8 @@ class managementListing
     // Register build in filters
     //~ $this->registerElementFilter("departmentType",  "listing::filterDepartmentType");
     //~ $this->registerElementFilter("departmentLink",  "listing::filterDepartmentLink");
-    //~ $this->registerElementFilter("objectType",      "listing::filterObjectType");
     //~ $this->registerElementFilter("link",            "listing::filterLink");
     //~ $this->registerElementFilter("nameLink",        "listing::filterNameLink");
-    //~ $this->registerElementFilter("actions",         "listing::filterActions");
 
     // Load exporters
     //~ foreach (array_keys($class_mapping) as $class) {
@@ -216,9 +255,9 @@ class managementListing
       new ObjectTypeColumn(),
       new LinkColumn('sn',        'Last name'),
       new LinkColumn('givenName', 'First name'),
-      new StringColumn('uid',       'Login'),
-      new PropertiesColumn(NULL,       'Properties'),
-      new ActionsColumn(NULL,       'Actions'),
+      new StringColumn('uid',     'Login'),
+      new PropertiesColumn(NULL,  'Properties'),
+      new ActionsColumn(NULL,     'Actions'),
     );
 
     foreach ($this->columns as $column) {
@@ -387,9 +426,9 @@ class managementListing
       }
 
       foreach ($this->columns as $index => $column) {
-        $renderedCell = $column->renderCell($this->pid, $row, $dn, $this->entriesTypes[$dn], $entry);
+        $renderedCell = $column->renderCell($entry);
         $trow .= '<td '.$column->getHtmlCellProps().'>'.$renderedCell.'</td>'."\n";
-        $rowclasses = array_merge($rowclasses, $column->getRowClasses($this->pid, $row, $dn, $this->entriesTypes[$dn], $entry));
+        $rowclasses = array_merge($rowclasses, $column->getRowClasses($entry));
       }
 
       // Save rendered entry
@@ -557,7 +596,7 @@ class managementListing
     }
     $this->objectTypeCount  = array();
     $this->entries          = array();
-    $this->entriesTypes     = array();
+    $row                    = 0;
     foreach ($this->parent->objectTypes as $type) {
       // TODO: How do we handle collisions?
       $infos      = objects::infos($type);
@@ -575,8 +614,9 @@ class managementListing
       $entries = objects::ls($type, $attrsAsked, $base, '', TRUE, 'one');
 
       $this->objectTypeCount[$type] = count($entries);
-      $this->entries                = array_merge($this->entries, $entries);
-      $this->entriesTypes           = array_merge($this->entriesTypes, array_fill_keys(array_keys($this->entries), $type));
+      foreach ($entries as $dn => $entry) {
+        $this->entries[$dn] = new ListingEntry($this, $type, $dn, $entry, $row++);
+      }
     }
     /* Store the order of the entries to access them by index later */
     $this->entriesIndex = array_keys($this->entries);
@@ -1400,8 +1440,8 @@ class managementListing
    */
   function getType($dn)
   {
-    if (isset($this->entriesTypes[$dn])) {
-      return $this->entriesTypes[$dn];
+    if (isset($this->entries[$dn])) {
+      return $this->entries[$dn]->type;
     }
     return NULL;
   }

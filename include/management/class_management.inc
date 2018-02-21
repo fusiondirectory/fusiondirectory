@@ -326,23 +326,23 @@ class management
     return '<div id="pulldown">'.$result.'</ul></li></ul></div>'."\n";
   }
 
-  function renderActionColumn($pid, $row, $dn, $type, array $entry)
+  function renderActionColumn(ListingEntry $entry)
   {
     // Go thru all actions
     $result = '';
     foreach ($this->actions as $action) {
-      $result .= $action->renderColumnIcons($pid, $row, $dn, $type, $entry);
+      $result .= $action->renderColumnIcons($entry);
     }
 
     return $result;
   }
 
-  function getActionRowClasses($pid, $row, $dn, $type, array $entry)
+  function getActionRowClasses(ListingEntry $entry)
   {
     $classes = array();
     foreach ($this->actions as $action) {
       // TODO optimize
-      $classes = array_merge($classes, $action->getRowClasses($pid, $row, $dn, $type, $entry));
+      $classes = array_merge($classes, $action->getRowClasses($entry));
     }
 
     return $classes;
@@ -624,7 +624,8 @@ class management
       // Add locks
       $objects = array();
       foreach ($this->dns as $dn) {
-        $type = $this->listing->getType($dn);
+        $entry  = $this->listing->getEntry($dn);
+        $type   = $entry->type;
         if (preg_match('/^template_/', $type) && !static::$skipTemplates) {
           $type = preg_replace('/^template_/', '', $type);
           $info = objects::infos($type);
@@ -632,7 +633,6 @@ class management
         } else {
           $info = objects::infos($type);
         }
-        $entry  = $this->listing->getEntry($dn);
         $objects[] = array(
           'name'  => $entry[$info['nameAttr']],
           'dn'    => $dn,

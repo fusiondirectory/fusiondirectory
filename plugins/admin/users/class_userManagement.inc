@@ -33,7 +33,7 @@ class LockAction extends Action
       $targets, $callable, $acl, $inmenu, $inline);
   }
 
-  function isLocked(array $entry)
+  function isLocked(ListingEntry $entry)
   {
     if (isset($entry['userPassword']) && preg_match('/^\{[^\}]/', $entry['userPassword'])) {
       if (preg_match('/^[^\}]*+\}!/', $entry['userPassword'])) {
@@ -65,7 +65,7 @@ class LockAction extends Action
             .'</li>'."\n";
   }
 
-  function getRowClasses($pid, $row, $dn, $type, array $entry)
+  function getRowClasses(ListingEntry $entry)
   {
     $lockStatus = $this->isLocked($entry);
     if ($lockStatus === TRUE) {
@@ -75,14 +75,14 @@ class LockAction extends Action
     }
   }
 
-  function renderColumnIcons($pid, $row, $dn, $type, array $entry)
+  function renderColumnIcons(ListingEntry $entry)
   {
     if (!$this->inline) {
       return '';
     }
 
     // Skip the entry completely if there's no permission to execute it
-    if (!$this->hasPermission($dn, $type)) {
+    if (!$this->hasPermission($entry->dn, $entry->type)) {
       return '<img src="images/empty.png" alt=" " class="center optional"/>';
     }
 
@@ -92,10 +92,10 @@ class LockAction extends Action
     } elseif ($lockStatus) {
       // Render
       return '<input class="center" type="image" src="'.htmlentities($this->icon['lock'], ENT_COMPAT, 'UTF-8').'"'.
-              ' title="'.$this->label['unlock'].'" alt="'.$this->label['unlock'].'" name="listing_'.$this->name.'_unlock_'.$row.'"/>';
+              ' title="'.$this->label['unlock'].'" alt="'.$this->label['unlock'].'" name="listing_'.$this->name.'_unlock_'.$entry->row.'"/>';
     } else {
       return '<input class="center" type="image" src="'.htmlentities($this->icon['unlock'], ENT_COMPAT, 'UTF-8').'"'.
-              ' title="'.$this->label['lock'].'" alt="'.$this->label['lock'].'" name="listing_'.$this->name.'_lock_'.$row.'"/>';
+              ' title="'.$this->label['lock'].'" alt="'.$this->label['lock'].'" name="listing_'.$this->name.'_lock_'.$entry->row.'"/>';
     }
   }
 }
@@ -135,13 +135,6 @@ class userManagement extends management
         array('userPassword:rw'), TRUE, TRUE
       )
     );
-    //~ $this->registerAction(
-      //~ new LockAction(
-        //~ 'unlockUsers', _('Unlock'), 'geticon.php?context=status&icon=object-unlocked&size=16',
-        //~ '+', 'lockUsers',
-        //~ array('userPassword:rw'), TRUE, TRUE, FALSE
-      //~ )
-    //~ );
   }
 
   function configureFilter ()
