@@ -72,12 +72,12 @@ class StringColumn
     }
   }
 
-  function getRowClasses($pid, $row, $dn, $type, array $entry)
+  function getRowClasses(ListingEntry $entry)
   {
     return array();
   }
 
-  function renderCell($pid, $row, $dn, $type, array $entry)
+  function renderCell(ListingEntry $entry)
   {
     if (isset($this->attribute) && isset($entry[$this->attribute])) {
       return htmlentities($entry[$this->attribute], ENT_COMPAT, 'UTF-8');
@@ -153,10 +153,10 @@ class StringColumn
 
 class LinkColumn extends StringColumn
 {
-  function renderCell($pid, $row, $dn, $type, array $entry)
+  function renderCell(ListingEntry $entry)
   {
     if (isset($entry[$this->attribute])) {
-      return '<a href="?plug='.$_GET['plug'].'&amp;PID='.$pid.'&amp;act=listing_edit_'.$row.'" title="'.$dn.'">'.htmlentities($entry[$this->attribute], ENT_COMPAT, 'UTF-8').'</a>';
+      return '<a href="?plug='.$_GET['plug'].'&amp;PID='.$entry->getPid().'&amp;act=listing_edit_'.$entry->row.'" title="'.$entry->dn.'">'.htmlentities($entry[$this->attribute], ENT_COMPAT, 'UTF-8').'</a>';
     } else {
       return '&nbsp;';
     }
@@ -170,11 +170,11 @@ class ObjectTypeColumn extends StringColumn
     return FALSE;
   }
 
-  function renderCell($pid, $row, $dn, $type, array $entry)
+  function renderCell(ListingEntry $entry)
   {
-    if ($type) {
-      $infos = objects::infos($type);
-      return '<img class="center" title="'.$dn.'" src="'.htmlentities($infos['icon'], ENT_COMPAT, 'UTF-8').'" alt="'.$infos['name'].'"/>';
+    if ($entry->type) {
+      $infos = objects::infos($entry->type);
+      return '<img class="center" title="'.$entry->dn.'" src="'.htmlentities($infos['icon'], ENT_COMPAT, 'UTF-8').'" alt="'.$infos['name'].'"/>';
     } else {
       return '&nbsp;';
     }
@@ -188,14 +188,14 @@ class ActionsColumn extends StringColumn
     return FALSE;
   }
 
-  function getRowClasses($pid, $row, $dn, $type, array $entry)
+  function getRowClasses(ListingEntry $entry)
   {
-    return $this->parent->parent->getActionRowClasses($pid, $row, $dn, $type, $entry);
+    return $this->parent->parent->getActionRowClasses($entry);
   }
 
-  function renderCell($pid, $row, $dn, $type, array $entry)
+  function renderCell(ListingEntry $entry)
   {
-    return $this->parent->parent->renderActionColumn($pid, $row, $dn, $type, $entry);
+    return $this->parent->parent->renderActionColumn($entry);
   }
 }
 
@@ -211,16 +211,16 @@ class PropertiesColumn extends StringColumn
     $attrs['objectClass'] = '*';
   }
 
-  function renderCell($pid, $row, $dn, $type, array $entry)
+  function renderCell(ListingEntry $entry)
   {
     global $config;
 
-    $infos = objects::infos($type);
+    $infos = objects::infos($entry->type);
 
     static $tabs = array();
 
-    if (empty($tabs[$type])) {
-      $tabs[$type] = array();
+    if (empty($tabs[$entry->type])) {
+      $tabs[$entry->type] = array();
       foreach ($config->data['TABS'][$infos['tabGroup']] as $plug) {
         if ($plug['CLASS'] == $infos['mainTab']) {
           continue;
@@ -228,7 +228,7 @@ class PropertiesColumn extends StringColumn
         if (class_available($plug['CLASS'])) {
           $name = $plug['CLASS'];
 
-          $tabs[$type][$name] = new $name('new');
+          $tabs[$entry->type][$name] = new $name('new');
         }
       }
     }
@@ -237,18 +237,18 @@ class PropertiesColumn extends StringColumn
     $pInfos = pluglist::pluginInfos($infos['mainTab']);
     $result = '<input class="center" type="image" src="'.htmlentities($pInfos['plSmallIcon'], ENT_COMPAT, 'UTF-8').'" '.
                'alt="'.$pInfos['plShortName'].'" title="'.$pInfos['plShortName'].'" '.
-               'name="listing_edit_tab_'.$infos['mainTab'].'_'.$row.'"/>';
+               'name="listing_edit_tab_'.$infos['mainTab'].'_'.$entry->row.'"/>';
     if (!empty($entry)) {
       //~ if (in_array_ics ('fdTemplate', $attrs['objectClass'])) {
         //~ $attrs = templateHandling::fieldsFromLDAP($attrs);
       //~ }
-      foreach ($tabs[$type] as $class => $tab) {
+      foreach ($tabs[$entry->type] as $class => $tab) {
         if ($tab->is_this_account($entry)) {
           $pInfos = pluglist::pluginInfos($class);
           if (isset($pInfos['plSmallIcon'])) {
             $result .= '<input class="center" type="image" src="'.htmlentities($pInfos['plSmallIcon'], ENT_COMPAT, 'UTF-8').'" '.
                        'alt="'.$pInfos['plShortName'].'" title="'.$pInfos['plShortName'].'" '.
-                       'name="listing_edit_tab_'.$class.'_'.$row.'"/>';
+                       'name="listing_edit_tab_'.$class.'_'.$entry->row.'"/>';
           } else {
             @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $pInfos['plShortName']." ($class)", 'No icon for');
           }

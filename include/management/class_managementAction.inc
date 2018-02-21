@@ -124,19 +124,19 @@ class Action
             .'</li>'."\n";
   }
 
-  function getRowClasses($pid, $row, $dn, $type, array $entry)
+  function getRowClasses(ListingEntry $entry)
   {
     return array();
   }
 
-  function renderColumnIcons($pid, $row, $dn, $type, array $entry)
+  function renderColumnIcons(ListingEntry $entry)
   {
     if (!$this->inline) {
       return '';
     }
 
     // Skip the entry completely if there's no permission to execute it
-    if (!$this->hasPermission($dn, $type)) {
+    if (!$this->hasPermission($entry->dn, $entry->type)) {
       return '<img src="images/empty.png" alt=" " class="center optional"/>';
     }
 
@@ -145,7 +145,7 @@ class Action
 
     // Render
     return '<input class="center" type="image" src="'.htmlentities($this->icon, ENT_COMPAT, 'UTF-8').'"'.
-            ' title="'.$this->label.'" alt="'.$this->label.'" name="listing_'.$this->name.'_'.$row.'"/>';
+            ' title="'.$this->label.'" alt="'.$this->label.'" name="listing_'.$this->name.'_'.$entry->row.'"/>';
   }
 
   function hasPermission($dn, $type)
@@ -231,7 +231,7 @@ class ActionSubMenu extends Action
     return $result.'</li></ul>'."\n";
   }
 
-  function renderColumnIcons($pid, $row, $dn, $type, array $entry)
+  function renderColumnIcons(ListingEntry $entry)
   {
   }
 }
