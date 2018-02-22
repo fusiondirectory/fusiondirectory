@@ -207,7 +207,7 @@ class managementListing
       new ObjectTypeColumn(),
       new LinkColumn('sn',        'Last name'),
       new LinkColumn('givenName', 'First name'),
-      new StringColumn('uid',     'Login'),
+      new Column('uid',           'Login'),
       new PropertiesColumn(NULL,  'Properties'),
       new ActionsColumn(NULL,     'Actions'),
     );
