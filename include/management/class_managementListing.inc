@@ -589,31 +589,31 @@ class managementListing
 
     /* Draw root button */
     if ($enableRoot) {
-      $result["ROOT"] = "<input class='center' type='image' src='geticon.php?context=actions&amp;icon=go-first&amp;size=16' ".
-                       "title='"._("Go to root department")."' name='ROOT' alt='"._("Root")."'>";
+      $result['ROOT'] = '<input type="image" src="geticon.php?context=actions&amp;icon=go-first&amp;size=16"'.
+                       ' name="ROOT" title="'._('Go to root department').'" alt="'._('Root').'"/>';
     } else {
-      $result["ROOT"] = "<img src='geticon.php?context=actions&amp;icon=go-first&amp;size=16&amp;disabled=1' class='center' alt='"._("Root")."'>";
+      $result['ROOT'] = '<img src="geticon.php?context=actions&amp;icon=go-first&amp;size=16&amp;disabled=1" alt="'._('Root').'"/>';
     }
 
     /* Draw back button */
     if ($enableBack) {
-      $result["BACK"] = "<input class='center' type='image' src='geticon.php?context=actions&amp;icon=go-up&amp;size=16' ".
-                       "title='"._("Go up one department")."' alt='"._("Up")."' name='BACK'>";
+      $result['BACK'] = '<input type="image" src="geticon.php?context=actions&amp;icon=go-up&amp;size=16"'.
+                       ' name="BACK" title="'._('Go up one department').'" alt="'._('Up').'"/>';
     } else {
-      $result["BACK"] = "<img src='geticon.php?context=actions&amp;icon=go-up&amp;size=16&amp;disabled=1' class='center' alt='"._("Up")."'>";
+      $result['BACK'] = '<img src="geticon.php?context=actions&amp;icon=go-up&amp;size=16&amp;disabled=1" alt="'._('Up').'"/>';
     }
 
     /* Draw home button */
     if ($enableHome) {
-      $result["HOME"] = '<input class="center" type="image" src="geticon.php?context=actions&amp;icon=go-home&amp;size=16"'.
-                        ' title="'._("Go to user's department").'" alt="'._('Home').'" name="HOME"/>';
+      $result['HOME'] = '<input type="image" src="geticon.php?context=actions&amp;icon=go-home&amp;size=16"'.
+                        ' name="HOME" title="'._('Go to user\'s department').'" alt="'._('Home').'"/>';
     } else {
-      $result["HOME"] = "<img src='geticon.php?context=actions&amp;icon=go-home&amp;size=16&amp;disabled=1' class='center' alt='"._("Home")."'>";
+      $result['HOME'] = '<img src="geticon.php?context=actions&amp;icon=go-home&amp;size=16&amp;disabled=1" alt="'._('Home').'"/>';
     }
 
     /* Draw reload button, this button is enabled everytime */
-    $result["RELOAD"] = "<input class='center optional' type='image' src='geticon.php?context=actions&amp;icon=view-refresh&amp;size=16' ".
-                       "title='"._("Reload list")."' name='REFRESH' alt='"._("Submit")."'>";
+    $result['RELOAD'] = '<input type="image" class="optional" src="geticon.php?context=actions&amp;icon=view-refresh&amp;size=16"'.
+                       ' name="REFRESH" title="'._('Reload list').'" alt="'._('Submit').'"/>';
 
     return $result;
   }
