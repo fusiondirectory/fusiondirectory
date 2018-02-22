@@ -29,6 +29,8 @@ class managementFilter
   protected $scope = 'one';
   protected $showTemplates = FALSE;
 
+  protected $search = '';
+
   /* The management class */
   public $parent;
 
@@ -77,6 +79,8 @@ class managementFilter
       $this->showTemplates = isset($_POST['TEMPLATES']);
 
       $this->scope = (isset($_POST['SCOPE']) ? 'sub' : 'one');
+
+      $this->search = (isset($_POST['SEARCH']) ? $_POST['SEARCH'] : '');
     }
   }
 
@@ -89,6 +93,7 @@ class managementFilter
 
     $smarty->assign('SCOPE',      $this->scope);
     $smarty->assign('FILTER_PID', $this->pid);
+    $smarty->assign('SEARCH',     $this->search);
     $smarty->assign('SEARCHDESC', sprintf(_('Searches in %s'), implode(', ', $this->searchAttributes)));
     $smarty->assign('TYPES',      $this->types);
     if (!$this->parent::$skipTemplates) {
@@ -127,6 +132,11 @@ class managementFilter
 
   function query (array $attrs, $base)
   {
+    $filter = '';
+    if (!empty($this->search)) {
+      $filter = '(|('.implode('=*'.$this->search.'*)(', $this->searchAttributes).'=*'.$this->search.'*))';
+    }
+
     $objectTypeCount  = array();
     $entries          = array();
     $row              = 0;
@@ -148,7 +158,7 @@ class managementFilter
         $attrsAsked[$infos['nameAttr']] = '1';
       }
 
-      $ldapEntries = objects::ls($type, $attrsAsked, $base, '', TRUE, $this->scope);
+      $ldapEntries = objects::ls($type, $attrsAsked, $base, $filter, TRUE, $this->scope);
 
       $objectTypeCount[$type] = count($ldapEntries);
       foreach ($ldapEntries as $dn => $entry) {
@@ -157,7 +167,7 @@ class managementFilter
       }
 
       if (!$this->parent::$skipTemplates && $this->showTemplates) {
-        $ldapEntries = objects::ls($type, $attrsAsked, (($this->scope == 'one') ? 'ou=templates,'.$base : $base), '', TRUE, $this->scope, TRUE);
+        $ldapEntries = objects::ls($type, $attrsAsked, (($this->scope == 'one') ? 'ou=templates,'.$base : $base), $filter, TRUE, $this->scope, TRUE);
 
         $objectTypeCount['template_'.$type] = count($ldapEntries);
         foreach ($ldapEntries as $dn => $entry) {
