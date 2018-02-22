@@ -21,7 +21,7 @@
 /*!
  * \brief Column base class
  */
-class StringColumn
+class Column
 {
   protected $attribute;
   protected $label;
@@ -159,125 +159,5 @@ class StringColumn
         }
         return 0;
     }
-  }
-}
-
-class LinkColumn extends StringColumn
-{
-  function renderCell(ListingEntry $entry)
-  {
-    $attribute = $this->attribute;
-    if (isset($this->templateAttribute) && $entry->isTemplate()) {
-      $attribute = $this->templateAttribute;
-    }
-    if (isset($entry[$attribute])) {
-      return '<a href="?plug='.$_GET['plug'].'&amp;PID='.$entry->getPid().'&amp;act=listing_edit_'.$entry->row.'" title="'.$entry->dn.'">'.htmlentities($entry[$attribute], ENT_COMPAT, 'UTF-8').'</a>';
-    } else {
-      return '&nbsp;';
-    }
-  }
-}
-
-class ObjectTypeColumn extends StringColumn
-{
-  function isSortable()
-  {
-    return FALSE;
-  }
-
-  function renderCell(ListingEntry $entry)
-  {
-    if ($entry->isTemplate()) {
-      $infos = objects::infos($entry->getTemplatedType());
-      return '<img title="'.$entry->dn.'" src="'.htmlentities('geticon.php?context=devices&icon=template&size=16', ENT_COMPAT, 'UTF-8').'" alt="'.sprintf(_('%s template'), $infos['name']).'"/>';
-    } elseif ($entry->type) {
-      $infos = objects::infos($entry->type);
-      return '<img title="'.$entry->dn.'" src="'.htmlentities($infos['icon'], ENT_COMPAT, 'UTF-8').'" alt="'.$infos['name'].'"/>';
-    } else {
-      return '&nbsp;';
-    }
-  }
-}
-
-class ActionsColumn extends StringColumn
-{
-  function isSortable()
-  {
-    return FALSE;
-  }
-
-  function getRowClasses(ListingEntry $entry)
-  {
-    return $this->parent->parent->getActionRowClasses($entry);
-  }
-
-  function renderCell(ListingEntry $entry)
-  {
-    return $this->parent->parent->renderActionColumn($entry);
-  }
-}
-
-class PropertiesColumn extends StringColumn
-{
-  function isSortable()
-  {
-    return FALSE;
-  }
-
-  function fillNeededAttributes(array &$attrs)
-  {
-    $attrs['objectClass'] = '*';
-  }
-
-  function renderCell(ListingEntry $entry)
-  {
-    global $config;
-
-    $infos = objects::infos($entry->getTemplatedType());
-
-    static $tabs = array();
-
-    if (empty($tabs[$entry->type])) {
-      $tabs[$entry->type] = array();
-      foreach ($config->data['TABS'][$infos['tabGroup']] as $plug) {
-        if ($plug['CLASS'] == $infos['mainTab']) {
-          continue;
-        }
-        if (class_available($plug['CLASS'])) {
-          $name = $plug['CLASS'];
-
-          $tabs[$entry->type][$name] = new $name('new');
-        }
-      }
-    }
-
-    /* Main tab is always there */
-    $pInfos = pluglist::pluginInfos($infos['mainTab']);
-    $result = '<input type="image" src="'.htmlentities($pInfos['plSmallIcon'], ENT_COMPAT, 'UTF-8').'" '.
-               'alt="'.$pInfos['plShortName'].'" title="'.$pInfos['plShortName'].'" '.
-               'name="listing_edit_tab_'.$infos['mainTab'].'_'.$entry->row.'"/>';
-    if (!empty($entry)) {
-      if ($entry->isTemplate()) {
-        $attrs = $entry->getTemplatedFields();
-      } else {
-        $attrs = $entry;
-      }
-      foreach ($tabs[$entry->type] as $class => $tab) {
-        if ($tab->is_this_account($attrs)) {
-          $pInfos = pluglist::pluginInfos($class);
-          if (isset($pInfos['plSmallIcon'])) {
-            $result .= '<input type="image" src="'.htmlentities($pInfos['plSmallIcon'], ENT_COMPAT, 'UTF-8').'" '.
-                       'alt="'.$pInfos['plShortName'].'" title="'.$pInfos['plShortName'].'" '.
-                       'name="listing_edit_tab_'.$class.'_'.$entry->row.'"/>';
-          } else {
-            @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $pInfos['plShortName']." ($class)", 'No icon for');
-          }
-        } else {
-          $result .= '<img src="images/empty.png" alt="" class="optional '.$class.'"/>';
-        }
-      }
-    }
-
-    return $result;
   }
 }
