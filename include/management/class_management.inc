@@ -476,7 +476,7 @@ class management
     } else {
       // Display ok, (apply) and cancel buttons
       $str .= '<p class="plugbottom">'."\n";
-      $str .= '<input type="submit" name="edit_finish" style="width:80px" value="'.msgPool::okButton().'"/>'."\n";
+      $str .= '<input type="submit" name="edit_finish" value="'.msgPool::okButton().'"/>'."\n";
       $str .= "&nbsp;\n";
       if ($this->dn != 'new') {
         $str .= '<input type="submit" name="edit_apply" value="'.msgPool::applyButton().'"/>'."\n";

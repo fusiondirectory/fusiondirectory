@@ -124,7 +124,7 @@ class Action
             .'<a href="#" onClick="'
               ."document.getElementById('actionmenu').value='".$this->name."';document.getElementById('exec_act').click();"
             .'">'
-            .'<img src="'.htmlentities($this->icon, ENT_COMPAT, 'UTF-8').'" alt="'.$this->name.'" class="center">&nbsp;'.$this->label.'</a>'
+            .'<img src="'.htmlentities($this->icon, ENT_COMPAT, 'UTF-8').'" alt="'.$this->name.'">&nbsp;'.$this->label.'</a>'
             .'</li>'."\n";
   }
 
@@ -141,14 +141,14 @@ class Action
 
     // Skip the entry completely if there's no permission to execute it
     if (!$this->hasPermission($entry->dn, $entry->getTemplatedType(), $entry->isTemplate())) {
-      return '<img src="images/empty.png" alt=" " class="center optional"/>';
+      return '<img src="images/empty.png" alt=" " class="optional"/>';
     }
 
     // TODO? Skip entry if the pseudo filter does not fit
     // TODO? Skip depending on type
 
     // Render
-    return '<input class="center" type="image" src="'.htmlentities($this->icon, ENT_COMPAT, 'UTF-8').'"'.
+    return '<input type="image" src="'.htmlentities($this->icon, ENT_COMPAT, 'UTF-8').'"'.
             ' title="'.$this->label.'" alt="'.$this->label.'" name="listing_'.$this->name.'_'.$entry->row.'"/>';
   }
 
@@ -228,7 +228,7 @@ class ActionSubMenu extends Action
     if (!empty($this->label)) {
       $img = '';
       if (!empty($this->icon)) {
-        $img = '<img class="center" src="'.htmlentities($this->icon, ENT_COMPAT, 'UTF-8').'" alt="'.$this->label.'"/>&nbsp;';
+        $img = '<img src="'.htmlentities($this->icon, ENT_COMPAT, 'UTF-8').'" alt="'.$this->label.'"/>&nbsp;';
       }
       $result .= '<li id="actionmenu_'.$this->name.'"><a href="#">'.$img.'&nbsp;'.$this->label.'&nbsp;<img src="images/forward-arrow.png" alt="forward arrow"/></a>'."\n";
     }

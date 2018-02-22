@@ -189,10 +189,10 @@ class ObjectTypeColumn extends StringColumn
   {
     if ($entry->isTemplate()) {
       $infos = objects::infos($entry->getTemplatedType());
-      return '<img class="center" title="'.$entry->dn.'" src="'.htmlentities('geticon.php?context=devices&icon=template&size=16', ENT_COMPAT, 'UTF-8').'" alt="'.sprintf(_('%s template'), $infos['name']).'"/>';
+      return '<img title="'.$entry->dn.'" src="'.htmlentities('geticon.php?context=devices&icon=template&size=16', ENT_COMPAT, 'UTF-8').'" alt="'.sprintf(_('%s template'), $infos['name']).'"/>';
     } elseif ($entry->type) {
       $infos = objects::infos($entry->type);
-      return '<img class="center" title="'.$entry->dn.'" src="'.htmlentities($infos['icon'], ENT_COMPAT, 'UTF-8').'" alt="'.$infos['name'].'"/>';
+      return '<img title="'.$entry->dn.'" src="'.htmlentities($infos['icon'], ENT_COMPAT, 'UTF-8').'" alt="'.$infos['name'].'"/>';
     } else {
       return '&nbsp;';
     }
@@ -253,7 +253,7 @@ class PropertiesColumn extends StringColumn
 
     /* Main tab is always there */
     $pInfos = pluglist::pluginInfos($infos['mainTab']);
-    $result = '<input class="center" type="image" src="'.htmlentities($pInfos['plSmallIcon'], ENT_COMPAT, 'UTF-8').'" '.
+    $result = '<input type="image" src="'.htmlentities($pInfos['plSmallIcon'], ENT_COMPAT, 'UTF-8').'" '.
                'alt="'.$pInfos['plShortName'].'" title="'.$pInfos['plShortName'].'" '.
                'name="listing_edit_tab_'.$infos['mainTab'].'_'.$entry->row.'"/>';
     if (!empty($entry)) {
@@ -266,14 +266,14 @@ class PropertiesColumn extends StringColumn
         if ($tab->is_this_account($attrs)) {
           $pInfos = pluglist::pluginInfos($class);
           if (isset($pInfos['plSmallIcon'])) {
-            $result .= '<input class="center" type="image" src="'.htmlentities($pInfos['plSmallIcon'], ENT_COMPAT, 'UTF-8').'" '.
+            $result .= '<input type="image" src="'.htmlentities($pInfos['plSmallIcon'], ENT_COMPAT, 'UTF-8').'" '.
                        'alt="'.$pInfos['plShortName'].'" title="'.$pInfos['plShortName'].'" '.
                        'name="listing_edit_tab_'.$class.'_'.$entry->row.'"/>';
           } else {
             @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $pInfos['plShortName']." ($class)", 'No icon for');
           }
         } else {
-          $result .= '<img src="images/empty.png" alt="" class="center optional '.$class.'"/>';
+          $result .= '<img src="images/empty.png" alt="" class="optional '.$class.'"/>';
         }
       }
     }
