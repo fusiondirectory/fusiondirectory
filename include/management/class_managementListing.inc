@@ -388,7 +388,11 @@ class managementListing
       foreach ($this->parent->objectTypes as $type) {
         if (isset($this->objectTypeCount[$type])) {
           $infos = objects::infos($type);
-          $result .= '<img src="'.htmlentities($infos['icon'], ENT_COMPAT, 'UTF-8').'" title="'.$infos['name'].'" alt="'.$infos['name'].'"/>&nbsp;'.$this->objectTypeCount[$type]."&nbsp;&nbsp;&nbsp;&nbsp;";
+          $result .= '<img src="'.htmlentities($infos['icon'], ENT_COMPAT, 'UTF-8').'" title="'.$infos['name'].'" alt="'.$infos['name'].'"/>&nbsp;'.$this->objectTypeCount[$type].'&nbsp;&nbsp;&nbsp;&nbsp;';
+        }
+        if (isset($this->objectTypeCount['template_'.$type])) {
+          $infos = objects::infos($type);
+          $result .= '<img src="'.htmlentities('geticon.php?context=devices&icon=template&size=16', ENT_COMPAT, 'UTF-8').'" title="'.sprintf(_('%s template'), $infos['name']).'" alt="'.sprintf(_('%s template'), $infos['name']).'"/>&nbsp;'.$this->objectTypeCount['template_'.$type].'&nbsp;&nbsp;&nbsp;&nbsp;';
         }
       }
 
