@@ -159,7 +159,7 @@ class managementListing
   /*!
    * \brief Create a listing
    *
-   * \param string $data either a filename or an array representation of the XML
+   * \param string $parent management instance
    */
   function __construct($parent)
   {
@@ -488,39 +488,7 @@ class managementListing
     foreach ($this->columns as $column) {
       $column->fillNeededAttributes($attrs);
     }
-    $this->objectTypeCount  = array();
-    $this->entries          = array();
-    $row                    = 0;
-    foreach ($this->parent->objectTypes as $type) {
-      // TODO: How do we handle collisions?
-      $infos      = objects::infos($type);
-      $base       = (empty($infos['ou']) ? $this->base : $infos['ou'].$this->base);
-      $attrsAsked = $attrs;
-      if (!empty($infos['mainAttr']) && !isset($attrsAsked[$infos['mainAttr']])) {
-        /* Ask for mainAttr */
-        $attrsAsked[$infos['mainAttr']] = '1';
-      }
-      if (!empty($infos['nameAttr']) && !isset($attrsAsked[$infos['nameAttr']])) {
-        /* Ask for nameAttr */
-        $attrsAsked[$infos['nameAttr']] = '1';
-      }
-
-      $entries = objects::ls($type, $attrsAsked, $base, '', TRUE, 'one');
-
-      $this->objectTypeCount[$type] = count($entries);
-      foreach ($entries as $dn => $entry) {
-        $this->entries[$dn] = new ListingEntry($this, $type, $dn, $entry, $row++);
-      }
-
-      if (!$this->parent::$skipTemplates) {
-        $entries = objects::ls($type, $attrsAsked, 'ou=templates,'.$base, '', TRUE, 'one', TRUE);
-
-        $this->objectTypeCount['template_'.$type] = count($entries);
-        foreach ($entries as $dn => $entry) {
-          $this->entries[$dn] = new ListingEntry($this, 'template_'.$type, $dn, $entry, $row++);
-        }
-      }
-    }
+    list($this->entries, $this->objectTypeCount) = $this->parent->filter->query($attrs, $this->base);
     /* Store the order of the entries to access them by index later */
     $this->entriesIndex = array_keys($this->entries);
   }

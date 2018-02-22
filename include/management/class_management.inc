@@ -27,7 +27,10 @@ class management
   public $objectTypes;
 
   /* managementListing instance which manages the entries */
-  protected $listing;
+  public $listing;
+
+  /* managementFilter instance which manages the filters */
+  public $filter;
 
   // The currently used object(s) (e.g. in edit, removal)
   protected $dn      = '';
@@ -86,7 +89,7 @@ class management
       //~ $filter = new filter();
       //~ $filter->setObjectStorage($this->storagePoints);
     //~ }
-    //~ $this->setFilter($filter);
+    $this->filter = new managementFilter($this);
 
     $this->configureActions();
 
@@ -290,14 +293,14 @@ class management
     }
 
     // Update filter
-    //~ if ($this->filter) {
-      //~ $this->filter->update();
+    if ($this->filter) {
+      $this->filter->update();
       //~ session::global_set(get_class($this).'_filter', $this->filter);
       //~ session::set('autocomplete', $this->filter);
       //~ if (!$this->filter->isValid()) {
         //~ msg_dialog::display(_('Filter error'), _('The filter is incomplete!'), ERROR_DIALOG);
       //~ }
-    //~ }
+    }
 
     // Update list
     $this->listing->update();
@@ -325,14 +328,10 @@ class management
       //~ );
     //~ }
     //~ $smarty->assign('objectFilters', $filters);
-    //~ $this->headpage->update();
-    //~ $display = $this->headpage->render();
-    //~ return $this->getHeader().$display;
 
     $smarty = get_smarty();
     $smarty->assign('usePrototype', 'true');
-    $smarty->assign('FILTER', '');
-    //~ $smarty->assign("FILTER", $this->filter->render());
+    $smarty->assign('FILTER',       $this->filter->render());
     $smarty->assign('SIZELIMIT',    print_sizelimit_warning());
     $smarty->assign('LIST',         $this->listing->render());
     $smarty->assign('MULTISELECT',  $this->listing->multiSelect);
