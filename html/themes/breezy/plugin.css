@@ -57,6 +57,10 @@ html.rtl .plugbottom {
 text-align: left;
 }
 
+.plugbottom input[type=submit], .plugbottom input[type=button] {
+min-width: 80px;
+}
+
 /* Simple Plugin specific things */
 
 .plugin-sections:after {

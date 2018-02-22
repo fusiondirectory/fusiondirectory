@@ -146,7 +146,6 @@ class managementListing
   //~ var $exporter       = array();
   //~ var $exportColumns  = array();
   protected $height         = 0;
-  protected $scrollPosition = 0;
   protected $baseSelector;
   //~ protected $filterCache = array();
 
@@ -296,7 +295,7 @@ class managementListing
 
       $sorter = '';
       if (($index == $this->sortColumn) && $column->isSortable()) {
-        $sorter = '&nbsp;<img class="center" title="'.($this->sortDirection[$index] ? _('Up') : _('Down')).'" src="geticon.php?context=actions&amp;size=16&amp;icon=view-sort-'.($this->sortDirection[$index] ? 'descending' : 'ascending').'" alt="'.($this->sortDirection[$index] ? _('Sort up') : _('Sort down')).'"/>';
+        $sorter = '&nbsp;<img title="'.($this->sortDirection[$index] ? _('Up') : _('Down')).'" src="geticon.php?context=actions&amp;size=16&amp;icon=view-sort-'.($this->sortDirection[$index] ? 'descending' : 'ascending').'" alt="'.($this->sortDirection[$index] ? _('Sort up') : _('Sort down')).'"/>';
       }
 
       $link = 'href="?plug='.$_GET['plug'].'&amp;PID='.$this->pid.'&amp;act=SORT_'.$index.'"';
@@ -323,21 +322,19 @@ class managementListing
 
     // Initialize list
     $result = '<input type="hidden" value="'.$this->pid.'" name="PID"/>'."\n";
-    $result .= '<input type="hidden" name="position_'.$this->pid.'" id="position_'.$this->pid.'"/>'."\n";
     $height = 450;
     if ($this->height != 0) {
       $result .= '<input type="hidden" value="'.$this->height.'" id="d_height"/>'."\n";
       $height = $this->height;
     }
 
-    $result .= '<div id="d_scrollbody" style="width:100%;">'."\n";
-    $result .= '<table style="width:100%;" id="t_scrolltable" class="listingTable">'."\n";
+    $result .= '<div style="width:100%;">'."\n";
+    $result .= '<table class="listingTable management">'."\n";
 
     // Build list header
     $result .= '<thead><tr>'."\n";
     if ($this->multiSelect) {
-      $width = '24px';
-      $result .= '<th style="text-align:center;padding:0;width:'.$width.';"><input type="checkbox" id="select_all" name="select_all" title="'._('Select all').'" onClick=\'toggle_all_("listing_selected_[0-9]*$","select_all");\' /></th>'."\n";
+      $result .= '<th class="checkbox"><input type="checkbox" id="select_all" name="select_all" title="'._('Select all').'" onClick=\'toggle_all_("listing_selected_[0-9]*$","select_all");\' /></th>'."\n";
     }
     foreach ($this->header as $header) {
       $result .= $header;
@@ -345,11 +342,11 @@ class managementListing
     $result .= '</tr></thead>'."\n";
 
     // Build list body
-    $result .= '<tbody id="t_nscrollbody">'."\n";
+    $result .= '<tbody>'."\n";
 
     // No results? Just take an empty colspanned row
     if (count($this->entries) == 0) {
-      $result .= '<tr><td colspan="'.(count($this->columns) + ($this->multiSelect ? 1 : 0)).'" style="height:100%;width:100%;">&nbsp;</td></tr>'."\n";
+      $result .= '<tr><td colspan="'.(count($this->columns) + ($this->multiSelect ? 1 : 0)).'" class="filler">&nbsp;</td></tr>'."\n";
     }
 
     // Fill with contents, sort as configured
@@ -391,18 +388,12 @@ class managementListing
       foreach ($this->parent->objectTypes as $type) {
         if (isset($this->objectTypeCount[$type])) {
           $infos = objects::infos($type);
-          $result .= '<img class="center" src="'.htmlentities($infos['icon'], ENT_COMPAT, 'UTF-8').'" title="'.$infos['name'].'" alt="'.$infos['name'].'"/>&nbsp;'.$this->objectTypeCount[$type]."&nbsp;&nbsp;&nbsp;&nbsp;";
+          $result .= '<img src="'.htmlentities($infos['icon'], ENT_COMPAT, 'UTF-8').'" title="'.$infos['name'].'" alt="'.$infos['name'].'"/>&nbsp;'.$this->objectTypeCount[$type]."&nbsp;&nbsp;&nbsp;&nbsp;";
         }
       }
 
       $result .= '</div>';
     }
-
-    // Add scroll positioner
-    $result .= '<script type="text/javascript">';
-    $result .= '$("t_nscrollbody").scrollTop= '.$this->scrollPosition.';';
-    $result .= 'var box = $("t_nscrollbody").onscroll= function() {$("position_'.$this->pid.'").value= this.scrollTop;}';
-    $result .= '</script>';
 
     return $result;
   }
@@ -433,11 +424,6 @@ class managementListing
 
     // Do not do anything if this is not our PID
     if ($refresh || !(isset($_REQUEST['PID']) && $_REQUEST['PID'] != $this->pid)) {
-
-      // Save position if set
-      if (isset($_POST['position_'.$this->pid]) && is_numeric($_POST['position_'.$this->pid])) {
-        $this->scrollPosition = $_POST['position_'.$this->pid];
-      }
 
       // Filter POST with "act" attributes -> posted from action menu
       if (isset($_POST['exec_act']) && $_POST['act'] != '') {
@@ -642,11 +628,6 @@ class managementListing
     // Do not do anything if this is not our PID, or there's even no PID available...
     if (!isset($_REQUEST['dn']) && (!isset($_REQUEST['PID']) || $_REQUEST['PID'] != $this->pid)) {
       return;
-    }
-
-    // Save position if set
-    if (isset($_POST['position_'.$this->pid]) && is_numeric($_POST['position_'.$this->pid])) {
-      $this->scrollPosition = $_POST['position_'.$this->pid];
     }
 
     $result = array('targets' => array(), 'action' => '', 'subaction' => NULL);
