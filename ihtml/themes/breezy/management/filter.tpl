@@ -36,7 +36,7 @@
   <hr/>
 
   <label for="SEARCH" title="{$SEARCHDESC|escape}"><img src="geticon.php?context=actions&amp;icon=system-search&amp;size=16" alt="Search"/>
-    <input class="filter_textfield" id="SEARCH" name="SEARCH" type="text" value=""/>
+    <input class="filter_textfield" id="SEARCH" name="SEARCH" type="text" value="{$SEARCH}"/>
   </label>
   <div>
     <input type="submit" name="apply" value="{t}Apply filter{/t}"/>
