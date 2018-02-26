@@ -106,6 +106,15 @@ class userManagement extends management
 
   public static $skipTemplates = FALSE;
 
+  public static $columns = array(
+    array('ObjectTypeColumn', array()),
+    array('LinkColumn',       array('attribute' => 'sn',        'label' => 'Last name')),
+    array('LinkColumn',       array('attribute' => 'givenName', 'label' => 'First name')),
+    array('Column',           array('attribute' => 'uid',       'label' => 'Login')),
+    array('PropertiesColumn', array('label' => 'Properties')),
+    array('ActionsColumn',    array('label' => 'Actions')),
+  );
+
   static function plInfo()
   {
     return array(

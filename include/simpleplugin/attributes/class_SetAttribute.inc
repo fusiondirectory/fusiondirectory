@@ -77,6 +77,14 @@ class SetAttribute extends Attribute
     return $this->attribute->getAcl();
   }
 
+  function getAclInfo ()
+  {
+    if ($this->attribute === FALSE) {
+      return parent::getAclInfo();
+    }
+    return $this->attribute->getAclInfo();
+  }
+
   function setAcl ($acl)
   {
     if ($this->attribute === FALSE) {

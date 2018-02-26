@@ -203,14 +203,17 @@ class managementListing
     // Instanciate base selector
     $this->baseSelector = new baseSelector($this->bases, $this->base);
 
-    $this->columns = array(
-      new ObjectTypeColumn(),
-      new LinkColumn('sn',        'Last name'),
-      new LinkColumn('givenName', 'First name'),
-      new Column('uid',           'Login'),
-      new PropertiesColumn(NULL,  'Properties'),
-      new ActionsColumn(NULL,     'Actions'),
-    );
+    $this->reloadColumns();
+  }
+
+  function reloadColumns()
+  {
+    $columnInfos = $this->parent->getColumnConfiguration();
+
+    $this->columns = array();
+    foreach ($columnInfos as $columnInfo) {
+      $this->columns[] = Column::build($columnInfo[0], $columnInfo[1]);
+    }
 
     foreach ($this->columns as $column) {
       $column->setParent($this);
@@ -559,35 +562,51 @@ class managementListing
       $enableHome = FALSE;
     }
 
-    /* Draw root button */
-    if ($enableRoot) {
-      $result['ROOT'] = '<input type="image" src="geticon.php?context=actions&amp;icon=go-first&amp;size=16"'.
-                       ' name="ROOT" title="'._('Go to root department').'" alt="'._('Root').'"/>';
-    } else {
-      $result['ROOT'] = '<img src="geticon.php?context=actions&amp;icon=go-first&amp;size=16&amp;disabled=1" alt="'._('Root').'"/>';
-    }
+    $actions = array(
+      array(
+        'id'      => 'ROOT',
+        'desc'    => _('Go to root department'),
+        'name'    => _('Root'),
+        'icon'    => 'geticon.php?context=actions&icon=go-first&size=16',
+        'enabled' => $enableRoot,
+        'class'   => '',
+      ),
+      array(
+        'id'      => 'BACK',
+        'desc'    => _('Go up one department'),
+        'name'    => _('Up'),
+        'icon'    => 'geticon.php?context=actions&icon=go-up&size=16',
+        'enabled' => $enableBack,
+        'class'   => '',
+      ),
+      array(
+        'id'      => 'HOME',
+        'desc'    => _('Go to user\'s department'),
+        'name'    => _('Home'),
+        'icon'    => 'geticon.php?context=actions&icon=go-home&size=16',
+        'enabled' => $enableHome,
+        'class'   => '',
+      ),
+      array(
+        'id'      => 'REFRESH',
+        'desc'    => _('Reload list'),
+        'name'    => _('Reload'),
+        'icon'    => 'geticon.php?context=actions&icon=view-refresh&size=16',
+        'enabled' => TRUE,
+        'class'   => 'optional',
+      ),
+      array(
+        'id'      => 'listing_configure',
+        'desc'    => _('Configure this management list'),
+        'name'    => _('Configure'),
+        'icon'    => 'geticon.php?context=categories&icon=settings&size=16',
+        'enabled' => TRUE,
+        'class'   => '',
+      ),
+    );
 
-    /* Draw back button */
-    if ($enableBack) {
-      $result['BACK'] = '<input type="image" src="geticon.php?context=actions&amp;icon=go-up&amp;size=16"'.
-                       ' name="BACK" title="'._('Go up one department').'" alt="'._('Up').'"/>';
-    } else {
-      $result['BACK'] = '<img src="geticon.php?context=actions&amp;icon=go-up&amp;size=16&amp;disabled=1" alt="'._('Up').'"/>';
-    }
-
-    /* Draw home button */
-    if ($enableHome) {
-      $result['HOME'] = '<input type="image" src="geticon.php?context=actions&amp;icon=go-home&amp;size=16"'.
-                        ' name="HOME" title="'._('Go to user\'s department').'" alt="'._('Home').'"/>';
-    } else {
-      $result['HOME'] = '<img src="geticon.php?context=actions&amp;icon=go-home&amp;size=16&amp;disabled=1" alt="'._('Home').'"/>';
-    }
-
-    /* Draw reload button, this button is enabled everytime */
-    $result['RELOAD'] = '<input type="image" class="optional" src="geticon.php?context=actions&amp;icon=view-refresh&amp;size=16"'.
-                       ' name="REFRESH" title="'._('Reload list').'" alt="'._('Submit').'"/>';
-
-    return $result;
+    // TODO Remove root/back/home if not base mode
+    return $actions;
   }
 
   /*!
