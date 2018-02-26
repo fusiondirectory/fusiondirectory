@@ -32,6 +32,14 @@ class management
   /* managementFilter instance which manages the filters */
   public $filter;
 
+  // Copy&Paste handler
+  protected $cpHandler = NULL;
+
+  // Indicates that we want to paste objects right now.
+  protected $cpPastingStarted = FALSE;
+
+  protected $skipCpHandler    = FALSE;
+
   // The currently used object(s) (e.g. in edit, removal)
   protected $dn      = '';
   protected $dns  = array();
@@ -99,29 +107,18 @@ class management
     //~ }
     $this->filter = new managementFilter($this);
 
+    // Add copy&paste and snapshot handler.
+    if (!$this->skipCpHandler) {
+      $this->cpHandler = new CopyPasteHandler();
+      //~ $this->headpage->setCopyPasteHandler($this->cpHandler);
+    }
+
     $this->configureActions();
 
     //~ $this->configureFilter();
     //~ if ($this->baseMode === FALSE) {
       //~ $this->headpage->setBase($config->current['BASE']);
     //~ }
-  }
-
-  public function getColumnConfiguration()
-  {
-    if (!isset($this->columnConfiguration)) {
-      // Default configuration
-      $this->columnConfiguration = static::$columns;
-    }
-    // Session configuration
-    return $this->columnConfiguration;
-    // TODO: LDAP configuration
-  }
-
-  public function setColumnConfiguration($columns)
-  {
-    $this->columnConfiguration = $columns;
-    $this->listing->reloadColumns();
   }
 
   protected function configureActions()
@@ -198,6 +195,31 @@ class management
       )
     );
 
+    if (!$this->skipCpHandler) {
+      $this->registerAction(
+        new Action(
+          'copy', _('Copy'), 'geticon.php?context=actions&icon=edit-copy&size=16',
+          '+', 'copyPasteHandler',
+          array('r')
+        )
+      );
+      $this->registerAction(
+        new Action(
+          'cut', _('Cut'), 'geticon.php?context=actions&icon=edit-cut&size=16',
+          '+', 'copyPasteHandler',
+          array('dr')
+        )
+      );
+      // TODO: disable paste when there is nothing to paste
+      $this->registerAction(
+        new Action(
+          'paste', _('Paste'), 'geticon.php?context=actions&icon=edit-paste&size=16',
+          '0', 'copyPasteHandler',
+          array('w')
+        )
+      );
+    }
+
     /* Actions from footer are not in any menus and do not need a label */
     $this->registerAction(new HiddenAction('apply',           'applyChanges'));
     $this->registerAction(new HiddenAction('save',            'saveChanges'));
@@ -216,6 +238,23 @@ class management
     foreach ($action->listActions() as $actionName) {
       $this->actionHandlers[$actionName] = $action;
     }
+  }
+
+  public function getColumnConfiguration()
+  {
+    if (!isset($this->columnConfiguration)) {
+      // Default configuration
+      $this->columnConfiguration = static::$columns;
+    }
+    // Session configuration
+    return $this->columnConfiguration;
+    // TODO: LDAP configuration
+  }
+
+  public function setColumnConfiguration($columns)
+  {
+    $this->columnConfiguration = $columns;
+    $this->listing->reloadColumns();
   }
 
   /*!
@@ -287,6 +326,12 @@ class management
     // Ensure that html posts and gets are kept even if we see a 'Entry islocked' dialog.
     //~ $vars = array('/^act$/','/^listing/','/^PID$/');
     //~ session::set('LOCK_VARS_TO_USE', $vars);
+
+    /* Display the copy & paste dialog, if it is currently open */
+    $ret = $this->copyPasteHandler();
+    if ($ret) {
+      return $this->getHeader().$ret;
+    }
 
     // Handle actions (POSTs and GETs)
     $action = $this->detectPostActions();
@@ -826,6 +871,60 @@ class management
   {
     $this->dialogObject = new ManagementConfigurationDialog($this);
   }
+
+  /*! \brief  This method is used to queue and process copy&paste actions.
+   *          Allows to copy, cut and paste mutliple entries at once.
+   */
+  function copyPasteHandler(array $action = array('action' => ''))
+  {
+    global $ui;
+
+    // Exit if copy&paste handler is disabled.
+    if (!is_object($this->cpHandler)) {
+      return FALSE;
+    }
+
+    // Save user input
+    $this->cpHandler->save_object();
+
+    // Add entries to queue
+    if (($action['action'] == 'copy') || ($action['action'] == 'cut')) {
+      $this->cpHandler->cleanup_queue();
+      foreach ($action['targets'] as $dn) {
+        $entry = $this->listing->getEntry($dn);
+        if (($action['action'] == 'copy') && $entry->checkAcl('r')) {
+          $this->cpHandler->add_to_queue($dn, 'copy', $entry->getTemplatedType());
+          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Entry copied!');
+        }
+        if (($action['action'] == 'cut') && $entry->checkAcl('rd')) {
+          $this->cpHandler->add_to_queue($dn, 'cut', $entry->getTemplatedType());
+          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Entry cut!');
+        }
+      }
+    }
+
+    // Initiate pasting
+    if ($action['action'] == 'paste') {
+      $this->cpPastingStarted = TRUE;
+    }
+
+    // Display any c&p dialogs, eg. object modifications required before pasting.
+    if ($this->cpPastingStarted && $this->cpHandler->entries_queued()) {
+      $data = $this->cpHandler->execute($this->listing->getBase());
+      if (!empty($data)) {
+        return $data;
+      }
+    }
+
+    // Automatically disable pasting process since there is no entry left to paste.
+    if (!$this->cpHandler->entries_queued()) {
+      $this->cpPastingStarted = FALSE;
+      $this->cpHandler->resetPaste();
+    }
+
+    return '';
+  }
+
 
   /* End of action handlers */
 
