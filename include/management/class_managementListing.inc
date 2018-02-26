@@ -141,7 +141,6 @@ class managementListing
   //~ var $objectTypes      = array();
   protected $objectTypeCount  = array();
   //~ protected $objectDnMapping  = array();
-  //~ protected $copyPasteHandler = NULL;
   //~ protected $snapshotHandler  = NULL;
   //~ var $exporter       = array();
   //~ var $exportColumns  = array();
@@ -220,18 +219,6 @@ class managementListing
     }
 
     $this->columns[1]->setTemplateAttribute('cn');
-  }
-
-  /*!
-   * \brief Set a CopyPasteHandler
-   *
-   * \param $handler The handler
-   *
-   * \see CopyPasteHandler
-   */
-  function setCopyPasteHandler($handler)
-  {
-    $this->copyPasteHandler = $handler;
   }
 
   /*!
@@ -812,94 +799,6 @@ class managementListing
     }
 
     return $departments;
-  }
-
-
-  function renderCopyPasteMenu($separator, $copy = TRUE, $cut = TRUE)
-  {
-    // We can only provide information if we've got a copypaste handler
-    // instance
-    if (!is_object($this->copyPasteHandler)) {
-      return '';
-    }
-
-    // Presets
-    $result = "";
-    $read   = FALSE;
-    $paste  = FALSE;
-    $ui     = get_userinfo();
-
-    // Switch flags to on if there's at least one category which allows read/paste
-    foreach ($this->categories as $category) {
-      $read   = $read || (strpos($ui->get_category_permissions($this->base, $category), 'r') !== FALSE);
-      $paste  = $paste || ($ui->is_pasteable($this->base, $category) == 1);
-    }
-
-    // Draw entries that allow copy and cut
-    if ($read) {
-      // Copy entry
-      if ($copy) {
-        $result .= $this->renderActionMenuActionLink($separator, 'copy', _('Copy'), 'geticon.php?context=actions&icon=edit-copy&size=16');
-        $separator = '';
-      }
-
-      // Cut entry
-      if ($cut) {
-        $result .= $this->renderActionMenuActionLink($separator, 'cut', _('Cut'), 'geticon.php?context=actions&icon=edit-cut&size=16');
-        $separator = '';
-      }
-    }
-
-    // Draw entries that allow pasting entries
-    if ($paste) {
-      if ($this->copyPasteHandler->entries_queued()) {
-        $result .= $this->renderActionMenuActionLink($separator, 'paste', _('Paste'), 'geticon.php?context=actions&icon=edit-paste&size=16');
-      } else {
-        $result .= "<li$separator>".'<a href="#"><img src="geticon.php?context=actions&amp;icon=edit-paste&amp;size=16&amp;disabled=1" alt="paste" class="center">&nbsp;'._('Paste').'</a></li>';
-      }
-    }
-
-    return $result;
-  }
-
-
-  function renderCopyPasteActions($row, $dn, $category, $class, $copy = TRUE, $cut = TRUE)
-  {
-    // We can only provide information if we've got a copypaste handler
-    // instance
-    if (!is_object($this->copyPasteHandler)) {
-      return '';
-    }
-
-    // Presets
-    $ui = get_userinfo();
-    $result = "";
-
-    // Render cut entries
-    if ($cut) {
-      if ($ui->is_cutable($dn, $category, $class)) {
-        $result .= '<input class="center" type="image"'.
-                    ' src="geticon.php?context=actions&amp;icon=edit-cut&amp;size=16"'.
-                    ' alt="'._('Cut').'" name="listing_cut_'.$row.'" title="'._('Cut this entry').'"'.
-                    '/>';
-      } else {
-        $result .= '<img src="images/empty.png" alt=" " class="center optional"/>';
-      }
-    }
-
-    // Render copy entries
-    if ($copy) {
-      if ($ui->is_copyable($dn, $category)) {
-        $result .= '<input class="center" type="image"'.
-                    ' src="geticon.php?context=actions&amp;icon=edit-copy&amp;size=16"'.
-                    ' alt="'._('Copy').'" name="listing_copy_'.$row.'" title="'._('Copy this entry').'"'.
-                    '/>';
-      } else {
-        $result .= '<img src="images/empty.png" alt=" " class="center optional"/>';
-      }
-    }
-
-    return $result;
   }
 
   function renderExporterMenu($separator)
