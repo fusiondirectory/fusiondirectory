@@ -59,6 +59,14 @@ class management
 
   public static $skipTemplates = TRUE;
 
+  /* Default columns */
+  public static $columns = array(
+    array('ObjectTypeColumn', array()),
+    array('LinkColumn',       array('attribute' => 'cn',          'label' => 'Name')),
+    array('LinkColumn',       array('attribute' => 'description', 'label' => 'Description')),
+    array('ActionsColumn',    array('label' => 'Actions')),
+  );
+
   // Whether to display a header or not.
   protected $skipHeader = FALSE;
 
@@ -97,6 +105,23 @@ class management
     //~ if ($this->baseMode === FALSE) {
       //~ $this->headpage->setBase($config->current['BASE']);
     //~ }
+  }
+
+  public function getColumnConfiguration()
+  {
+    if (!isset($this->columnConfiguration)) {
+      // Default configuration
+      $this->columnConfiguration = static::$columns;
+    }
+    // Session configuration
+    return $this->columnConfiguration;
+    // TODO: LDAP configuration
+  }
+
+  public function setColumnConfiguration($columns)
+  {
+    $this->columnConfiguration = $columns;
+    $this->listing->reloadColumns();
   }
 
   protected function configureActions()
@@ -179,6 +204,7 @@ class management
     $this->registerAction(new HiddenAction('cancel',          'cancelEdit'));
     $this->registerAction(new HiddenAction('cancelDelete',    'cancelEdit'));
     $this->registerAction(new HiddenAction('removeConfirmed', 'removeConfirmed'));
+    $this->registerAction(new HiddenAction('configure',       'configureDialog'));
   }
 
   /*!
@@ -337,10 +363,7 @@ class management
     $smarty->assign('MULTISELECT',  $this->listing->multiSelect);
 
     // Assign navigation elements
-    $nav = $this->listing->renderNavigation(); // TODO: move here?
-    foreach ($nav as $key => $html) {
-      $smarty->assign($key, $html);
-    }
+    $smarty->assign('NAVIGATION', $this->listing->renderNavigation()); // TODO: move here?
 
     //~ // Assign action menu / base
     $smarty->assign('ACTIONS', $this->renderActionMenu());
@@ -349,7 +372,7 @@ class management
     // Assign summary
     $smarty->assign('HEADLINE', $this->headline);
 
-    return $this->getHeader().$smarty->fetch(get_template_path('simple-list.tpl'));
+    return $this->getHeader().$smarty->fetch(get_template_path('management/list.tpl'));
   }
 
   function renderActionMenu()
@@ -797,6 +820,11 @@ class management
     // Cleanup
     $this->remove_lock();
     $this->closeDialogs();
+  }
+
+  function configureDialog(array $action)
+  {
+    $this->dialogObject = new ManagementConfigurationDialog($this);
   }
 
   /* End of action handlers */

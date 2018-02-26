@@ -32,6 +32,26 @@ class Column
   /* management class instance */
   protected $parent = NULL;
 
+  /*!
+   * \brief Builds a column object from given data
+   *
+   * \param string $type a column class
+   * \param array $data an associative array with attribute and label
+   * */
+  static function build($type, array $data)
+  {
+    $attribute  = NULL;
+    $label      = NULL;
+    if (isset($data['attribute'])) {
+      $attribute = $data['attribute'];
+    }
+    if (isset($data['label'])) {
+      $label = $data['label'];
+    }
+
+    return new $type($attribute, $label);
+  }
+
   function __construct($attribute = NULL, $label = NULL)
   {
     $this->attribute  = $attribute;

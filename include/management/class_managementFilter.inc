@@ -38,11 +38,6 @@ class managementFilter
 
   /*
    * Each objectType has its filters
-   * Then add Search field
-   * Then add Subscope (or on top? Or in navigation?)
-   *
-   * TODO:
-   * Ajouter une méthode query qui choppe les objets
    * */
 
   /*!
