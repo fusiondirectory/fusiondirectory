@@ -32,13 +32,14 @@ class management
   /* managementFilter instance which manages the filters */
   public $filter;
 
-  // Copy&Paste handler
-  protected $cpHandler = NULL;
-
-  // Indicates that we want to paste objects right now.
+  /* Copy&Paste */
+  protected $cpHandler        = NULL;
   protected $cpPastingStarted = FALSE;
-
   protected $skipCpHandler    = FALSE;
+
+  /* Snapshots */
+  protected $snapHandler        = NULL;
+  public static $skipSnapshots  = FALSE;
 
   // The currently used object(s) (e.g. in edit, removal)
   protected $dn      = '';
@@ -110,7 +111,10 @@ class management
     // Add copy&paste and snapshot handler.
     if (!$this->skipCpHandler) {
       $this->cpHandler = new CopyPasteHandler();
-      //~ $this->headpage->setCopyPasteHandler($this->cpHandler);
+    }
+    if (!static::$skipSnapshots && ($config->get_cfg_value('enableSnapshots') == 'TRUE')) {
+      $this->snapHandler = new SnapshotHandler();
+      //~ $this->headpage->setSnapshotHandler($this->snapHandler);
     }
 
     $this->configureActions();
@@ -123,6 +127,8 @@ class management
 
   protected function configureActions()
   {
+    global $config;
+
     // Register default actions
     $createMenu = array();
 
@@ -216,6 +222,22 @@ class management
           'paste', _('Paste'), 'geticon.php?context=actions&icon=edit-paste&size=16',
           '0', 'copyPasteHandler',
           array('w')
+        )
+      );
+    }
+
+    if (!self::$skipSnapshots && ($config->get_cfg_value('enableSnapshots') == 'TRUE')) {
+      $this->registerAction(
+        new Action(
+          'restore', _('Restore snapshot'), 'geticon.php?context=actions&icon=document-restore&size=16',
+          '*', 'restoreSnapshotDialog',
+          array('w')
+        )
+      );
+      $this->registerAction(
+        new Action(
+          'snapshot', _('Create snapshot'), 'geticon.php?context=actions&icon=snapshot&size=16',
+          '1', 'createSnapshotDialog'
         )
       );
     }
@@ -516,6 +538,16 @@ class management
     $this->dialogObject       = NULL;
 
     set_object_info();
+  }
+
+  protected function listAclCategories()
+  {
+    $cat = array();
+    foreach ($this->objectTypes as $type) {
+      $infos  = objects::infos($type);
+      $cat[]  = $infos['aclCategory'];
+    }
+    return array_unique($cat);
   }
 
   /*!
@@ -925,8 +957,155 @@ class management
     return '';
   }
 
+  /*!
+   * \brief  Opens the snapshot creation dialog for the given target.
+   */
+  function createSnapshotDialog(array $action)
+  {
+    global $config, $ui;
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $action['targets'], 'Snaptshot creation initiated!');
+
+    $this->dn = array_pop($action['targets']);
+    if (empty($this->dn)) {
+      return;
+    }
+    $entry = $this->listing->getEntry($this->dn);
+    if ($entry->snapshotCreationAllowed()) {
+      $this->dialogObject = new SnapshotCreateDialog($this->dn, $this, '');
+      $this->dialogObject->set_acl_base($this->dn);
+    } else {
+      msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to create a snapshot for %s.'), $this->dn),
+          ERROR_DIALOG);
+    }
+  }
+
+  /*!
+   * \brief  Displays the "Restore snapshot dialog" for a given target.
+   *          If no target is specified, open the restore removed object dialog.
+   */
+  function restoreSnapshotDialog(array $action)
+  {
+    global $config, $ui;
+
+    if (!count($action['targets'])) {
+      // No target, open the restore removed object dialog.
+      $this->dn     = $this->listing->getBase();
+      $aclCategory  = $this->listAclCategories();
+    } else {
+      // Display the restore points for a given object.
+      $this->dn = $action['targets'][0];
+      if (empty($this->dn)) {
+        return;
+      }
+      $aclCategory = objects::infos($this->getEntry($this->dn)->getTemplatedType())['aclCategory'];
+    }
+
+    if ($ui->allow_snapshot_restore($this->dn, $aclCategory, !count($action['targets']))) {
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Snaptshot restoring initiated!');
+      $this->dialogObject = new SnapshotRestoreDialog($this->dn, $this, !count($action['targets']), $aclCategory);
+    } else {
+      msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $this->dn),
+          ERROR_DIALOG);
+    }
+  }
 
   /* End of action handlers */
+
+  /* Methods related to Snapshots */
+
+  function getSnapshotBases()
+  {
+    $bases = array();
+    foreach ($this->objectTypes as $type) {
+      $infos  = objects::infos($type);
+      $bases[] = $infos['ou'].$this->listing->getBase();
+    }
+
+    // No bases specified? Try base
+    if (!count($bases)) {
+      $bases[] = $this->listing->getBase();
+    }
+
+    return array_unique($bases);
+  }
+
+  /*!
+   * \brief Get all deleted snapshots
+   */
+  function getAllDeletedSnapshots()
+  {
+    $bases = $this->getSnapshotBases();
+    $tmp = array();
+    foreach ($bases as $base) {
+      $tmp = array_merge($tmp, $this->snapHandler->getAllDeletedSnapshots($base));
+    }
+    return $tmp;
+  }
+
+  /*
+   * \brief Return available snapshots for the given base
+   *
+   * \param string $dn The DN
+   */
+  function getAvailableSnapsShots($dn)
+  {
+    return $this->snapHandler->getAvailableSnapsShots($dn);
+  }
+
+  /*!
+   * \brief  Creates a new snapshot entry
+   */
+  function createSnapshot($dn, $description)
+  {
+    global $ui;
+    if ($this->dn !== $dn) {
+      trigger_error('There was a problem with the snapshot workflow');
+      return;
+    }
+    if (!empty($dn) && $ui->allow_snapshot_create($dn, $this->dialogObject->aclCategory)) {
+      $this->snapHandler->createSnapshot($dn, $description);
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot created!');
+    } else {
+      msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $dn),
+          ERROR_DIALOG);
+    }
+  }
+
+  /*!
+   * \brief  Restores a snapshot object.
+   *
+   * \param  String  $dn  The DN of the snapshot
+   */
+  function restoreSnapshot($dn)
+  {
+    global $ui;
+    if (!empty($dn) && $ui->allow_snapshot_restore($dn, $this->dialogObject->aclCategory, $this->dialogObject->global)) {
+      $this->snapHandler->restoreSnapshot($dn);
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot restored');
+      $this->closeDialogs();
+    } else {
+      msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $dn),
+          ERROR_DIALOG);
+    }
+  }
+
+  /*!
+   * \brief Delete a snapshot
+   *
+   * \param string $dn DN of the snapshot
+   */
+  function removeSnapshot($dn)
+  {
+    global $ui;
+    if (!empty($dn) && $ui->allow_snapshot_delete($dn, $this->dialogObject->aclCategory)) {
+      $this->snapHandler->removeSnapshot($dn);
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot deleted');
+    } else {
+      msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to delete a snapshot for %s.'), $dn),
+          ERROR_DIALOG);
+    }
+  }
+
 
   static function mainInc ($classname, $objectTypes = FALSE)
   {

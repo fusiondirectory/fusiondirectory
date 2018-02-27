@@ -88,4 +88,20 @@ class ListingEntry implements ArrayAccess
 
     return TRUE;
   }
+
+  public function snapshotCreationAllowed()
+  {
+    global $ui;
+
+    $infos  = objects::infos($this->getTemplatedType());
+    return $ui->allow_snapshot_create($this->dn, $infos['aclCategory']);
+  }
+
+  public function snapshotRestoreAllowed()
+  {
+    global $ui;
+
+    $infos  = objects::infos($this->getTemplatedType());
+    return $ui->allow_snapshot_restore($this->dn, $infos['aclCategory'], FALSE);
+  }
 }

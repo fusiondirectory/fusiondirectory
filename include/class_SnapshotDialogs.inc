@@ -228,6 +228,7 @@ class SnapshotRestoreDialog extends simplePlugin
     $this->global       = $global;
     parent::__construct();
     $this->object_dn    = $dn;
+    $this->acl_base     = $dn;
     $this->parent       = $parent;
     $this->aclCategory  = $aclCategory;
     if ($this->global) {
