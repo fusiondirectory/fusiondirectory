@@ -588,21 +588,6 @@ class simpleManagement
       return $this->getHeader().$display;
     }
 
-    // Set current restore base for snapshot handling.
-    if (is_object($this->snapHandler)) {
-      $bases = array();
-      foreach ($this->storagePoints as $sp) {
-        $bases[] = $sp.$this->headpage->getBase();
-      }
-
-      // No bases specified? Try base
-      if (!count($bases)) {
-        $bases[] = $this->headpage->getBase();
-      }
-
-      $this->snapHandler->setSnapshotBases($bases);
-    }
-
     // Display list
     return $this->renderList();
   }
@@ -1178,9 +1163,7 @@ class simpleManagement
 
     if ($ui->allow_snapshot_restore($this->dn, $aclCategory, !count($target))) {
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Snaptshot restoring initiated!');
-      $this->snapHandler->setSnapshotBases($bases);
       $this->dialogObject = new SnapshotRestoreDialog($this->dn, $this, !count($target), $aclCategory);
-      $this->dialogObject->set_acl_base($this->dn);
     } else {
       msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $this->dn),
           ERROR_DIALOG);
@@ -1285,19 +1268,30 @@ class simpleManagement
     }
   }
 
+  function getSnapshotBases()
+  {
+    $bases = array();
+    foreach ($this->storagePoints as $sp) {
+      $bases[] = $sp.$this->headpage->getBase();
+    }
+
+    // No bases specified? Try base
+    if (!count($bases)) {
+      $bases[] = $this->headpage->getBase();
+    }
+
+    return $bases;
+  }
+
   /*!
    * \brief Get all deleted snapshots
    */
   function getAllDeletedSnapshots()
   {
+    $bases = $this->getSnapshotBases();
     $tmp = array();
-    $snapshotBases = $this->snapHandler->getSnapshotBases();
-    if (is_array($snapshotBases)) {
-      foreach ($snapshotBases as $base) {
-        $tmp = array_merge($tmp, $this->snapHandler->getAllDeletedSnapshots($base));
-      }
-    } else {
-      $tmp = $this->snapHandler->getAllDeletedSnapshots($snapshotBases);
+    foreach ($bases as $base) {
+      $tmp = array_merge($tmp, $this->snapHandler->getAllDeletedSnapshots($base));
     }
     return $tmp;
   }

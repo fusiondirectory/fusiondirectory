@@ -30,8 +30,6 @@
  */
 class SnapshotHandler
 {
-  var $snapshotBases  = array();
-
   protected $enabled;
 
   static function plInfo()
@@ -78,26 +76,6 @@ class SnapshotHandler
     return $this->enabled;
   }
 
-  /*!
-   * \brief Set a new snapshot bases
-   *
-   * \param array $bases
-   */
-  function setSnapshotBases($bases)
-  {
-    $this->snapshotBases = $bases;
-  }
-
-  /*!
-   * \brief Get the current snapshot bases
-   *
-   * \return array $bases
-   */
-  function getSnapshotBases()
-  {
-    return $this->snapshotBases;
-  }
-
   /* \brief Get the snapshot dn of an object dn
    */
   protected function snapshot_dn($dn)
@@ -110,9 +88,9 @@ class SnapshotHandler
   /*!
    * \brief Check if there are deleted snapshots
    */
-  function hasDeletedSnapshots()
+  function hasDeletedSnapshots($bases)
   {
-    foreach ($this->getSnapshotBases() as $base) {
+    foreach ($bases as $base) {
       if (count($this->getAllDeletedSnapshots($base)) > 0) {
         return TRUE;
       }
