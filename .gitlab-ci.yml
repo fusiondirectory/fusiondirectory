@@ -6,14 +6,51 @@ variables:
   GIT_SSL_NO_VERIFY: "true"
 
 stages:
-  - test-perl
-  - test-php
-  - test-manpages
+  - lint
+  - codestyle
+  - manpages
   - transifex
+
+## Stage lint
+
+# Perl lint
+create_perl_lint_rapport:
+  stage: lint
+  only:
+    - branches
+    - tags
+  before_script:
+    - apt-get update -qq
+    - apt-get install -y -qq libarchive-extract-perl libcrypt-cbc-perl libdigest-sha-perl libfile-copy-recursive-perl
+    - apt-get install -y -qq libnet-ldap-perl libpath-class-perl libterm-readkey-perl libxml-twig-perl
+  script:
+    - perl -cW contrib/bin/fusiondirectory-setup contrib/bin/fusiondirectory-insert-schema
+
+# PHP lint (jessie)
+create_php_lint_rapport_jessie:
+  image: php:5.6.33-cli-jessie
+  stage: lint
+  only:
+    - branches
+    - tags
+  script:
+    - find . -type f -name '*.php' -o -name '*.inc' -print0 | xargs -0 -n1 php -l
+
+# PHP lint (stretch)
+create_php_lint_rapport_stretch:
+  image: php:cli-stretch
+  stage: lint
+  only:
+    - branches
+    - tags
+  script:
+    - find . -type f -name '*.php' -o -name '*.inc' -print0 | xargs -0 -n1 php -l
+
+## Stage codestyle
 
 # Generate perlcritic rapport
 create_perlcritic_rapport:
-  stage: test-perl
+  stage: codestyle
   only:
     - branches
     - tags
@@ -25,22 +62,23 @@ create_perlcritic_rapport:
     - cp contrib/bin/fusiondirectory-insert-schema contrib/bin/fusiondirectory-insert-schema.pl
     - perlcritic --quiet --verbose "%f~|~%s~|~%l~|~%c~|~%m~|~%e~|~%p~||~%n" contrib/bin
 
-# Perl lint
-create_perl_lint_rapport:
-  stage: test-perl
+# PHP codesniffer
+create_php_code_sniffer_rapport:
+  stage: codestyle
   only:
     - branches
     - tags
   before_script:
     - apt-get update -qq
-    - apt-get install -y -qq libarchive-extract-perl libcrypt-cbc-perl libdigest-sha-perl libfile-copy-recursive-perl
-    - apt-get install -y -qq libnet-ldap-perl libpath-class-perl libterm-readkey-perl libxml-twig-perl
+    - apt-get install -y -qq  git php-cli php-codesniffer
   script:
-    - perl -cW contrib/bin/fusiondirectory-setup contrib/bin/fusiondirectory-insert-schema
+    - git clone https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
+    - find . -type f -name '*.php' -o -name '*.inc' > ./filelist
+    - phpcs --standard=../dev-tools/php-codesniffer-rules/FDStandard/ruleset.xml --file-list=./filelist
 
 # generate man pages to test validity
 test_manpages:
-  stage: test-manpages
+  stage: manpages
   only:
     - branches
     - tags
@@ -54,32 +92,6 @@ test_manpages:
     - lexgrog contrib/man/fusiondirectory-insert-schema.1
     - lexgrog contrib/man/fusiondirectory-setup.1
     - lexgrog contrib/man/fusiondirectory.conf.5
-
-# PHP codesniffer
-create_php_code_sniffer_rapport:
-  stage: test-php
-  only:
-    - branches
-    - tags
-  before_script:
-    - apt-get update -qq
-    - apt-get install -y -qq  git php-cli php-codesniffer
-  script:
-    - git clone https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
-    - find . -type f -name '*.php' -o -name '*.inc' > ./filelist
-    - phpcs --standard=../dev-tools/php-codesniffer-rules/FDStandard/ruleset.xml --file-list=./filelist
-
-# PHP lint
-create_php_lint_rapport:
-  stage: test-php
-  only:
-    - branches
-    - tags
-  before_script:
-    - apt-get update -qq
-    - apt-get install -y -qq php-cli
-  script:
-    - find . -type f -name '*.php' -o -name '*.inc' -print0 | xargs -0 -n1 php -l
 
 # fusiondirectory-update-locale
 fusiondirectory-update-locale:
