@@ -1749,7 +1749,7 @@ class listing
     // Draw entries
     $result .= "<li$separator id='actionmenu_exportList'><a href='#'><img class='center' src='geticon.php?context=actions&amp;icon=document-export&amp;size=16' alt='export'>&nbsp;"._("Export list")."&nbsp;<img src='images/forward-arrow.png' alt='arrow'></a><ul class='level3'>";
 
-    // Export CVS as build in exporter
+    // Render export actions
     foreach ($this->exporter as $action => $exporter) {
       $result .= $this->renderActionMenuActionLink('', $action, $exporter['label'], $exporter['image']);
     }

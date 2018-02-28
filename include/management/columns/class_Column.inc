@@ -73,6 +73,11 @@ class Column
     return TRUE;
   }
 
+  function isExportable()
+  {
+    return isset($this->attribute);
+  }
+
   function getHtmlProps()
   {
     return '';
@@ -114,6 +119,19 @@ class Column
       return htmlentities($entry[$attribute], ENT_COMPAT, 'UTF-8');
     } else {
       return '&nbsp;';
+    }
+  }
+
+  function getRawExportValue(ListingEntry $entry)
+  {
+    $attribute = $this->attribute;
+    if (isset($this->templateAttribute) && $entry->isTemplate()) {
+      $attribute = $this->templateAttribute;
+    }
+    if (isset($attribute) && isset($entry[$attribute])) {
+      return $entry[$attribute];
+    } else {
+      return '';
     }
   }
 

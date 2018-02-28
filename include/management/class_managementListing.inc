@@ -132,7 +132,7 @@ class managementListing
   //~ protected $numColumns;
   protected $baseMode = TRUE;
   protected $bases    = array();
-  //~ protected $header   = array();
+  protected $header   = array();
   //~ protected $colprops = array();
   //~ protected $filters  = array();
   //~ protected $filter   = NULL;
@@ -142,8 +142,6 @@ class managementListing
   protected $objectTypeCount  = array();
   //~ protected $objectDnMapping  = array();
   //~ protected $snapshotHandler  = NULL;
-  //~ var $exporter       = array();
-  //~ var $exportColumns  = array();
   protected $height         = 0;
   protected $baseSelector;
   //~ protected $filterCache = array();
@@ -171,7 +169,7 @@ class managementListing
 
     // Set base for filter
     if ($this->baseMode) {
-      $this->base = session::global_get('CurrentMainBase'); // Replace with config or ui var
+      $this->base = session::global_get('CurrentMainBase'); // TODO Replace with config or ui var
       if ($this->base == NULL) {
         $this->base = $config->current['BASE'];
       }
@@ -182,22 +180,6 @@ class managementListing
 
     // Move footer information
     $this->showFooter = ($config->get_cfg_value('listSummary') == 'TRUE');
-
-    // Register build in filters
-    //~ $this->registerElementFilter("departmentType",  "listing::filterDepartmentType");
-    //~ $this->registerElementFilter("departmentLink",  "listing::filterDepartmentLink");
-    //~ $this->registerElementFilter("link",            "listing::filterLink");
-    //~ $this->registerElementFilter("nameLink",        "listing::filterNameLink");
-
-    // Load exporters
-    //~ foreach (array_keys($class_mapping) as $class) {
-      //~ if (preg_match('/Exporter$/', $class)) {
-        //~ $info = call_user_func(array($class, "getInfo"));
-        //~ if ($info != NULL) {
-          //~ $this->exporter = array_merge($this->exporter, $info);
-        //~ }
-      //~ }
-    //~ }
 
     // Instanciate base selector
     $this->baseSelector = new baseSelector($this->bases, $this->base);
@@ -219,6 +201,11 @@ class managementListing
     }
 
     $this->columns[1]->setTemplateAttribute('cn');
+  }
+
+  function getColumns()
+  {
+    return $this->columns;
   }
 
   /*!
@@ -267,7 +254,6 @@ class managementListing
   function renderHeader()
   {
     $this->header = array();
-    $this->plainHeader = array();
 
     // Initialize sort?
     $sortInit = FALSE;
@@ -294,7 +280,6 @@ class managementListing
       } else {
         $this->header[$index] = '<th '.$column->getHtmlProps().'>'.$column->getLabel().'</th>';
       }
-      $this->plainHeader[]  = $column->getLabel();
     }
   }
 
@@ -362,8 +347,8 @@ class managementListing
     }
     unset($entry);
 
-    // Complete list by sorting entries for _sort$index and appending them to the output
-    $entryIterator = new entrySortIterator($this->entries, $this->columns[$this->sortColumn], $this->sortDirection[$this->sortColumn]);
+    // Complete list by sorting entries and appending them to the output
+    $entryIterator = $this->getIterator();
     foreach ($entryIterator as $row => $entry) {
       $result .= $entry['render'];
     }
@@ -392,6 +377,11 @@ class managementListing
     return $result;
   }
 
+  function getIterator()
+  {
+    return new entrySortIterator($this->entries, $this->columns[$this->sortColumn], $this->sortDirection[$this->sortColumn]);
+  }
+
   /*!
    * \brief Update a listing
    */
@@ -418,23 +408,6 @@ class managementListing
 
     // Do not do anything if this is not our PID
     if ($refresh || !(isset($_REQUEST['PID']) && $_REQUEST['PID'] != $this->pid)) {
-
-      // Filter POST with "act" attributes -> posted from action menu
-      if (isset($_POST['exec_act']) && $_POST['act'] != '') {
-        if (preg_match('/^export.*$/', $_POST['act']) && isset($this->exporter[$_POST['act']])) {
-          $exporter = $this->exporter[$_POST['act']];
-          $userinfo = ", "._("created by")." ".$ui->cn." - ".strftime('%A, %d. %B %Y, %H:%M:%S');
-          $entryIterator = new listingSortIterator($this->entries, $this->sortDirection[$this->sortColumn], "_sort".$this->sortColumn, $this->sortType);
-          $sortedEntries = array();
-          foreach ($entryIterator as $entry) {
-            $sortedEntries[] = $entry;
-          }
-          $instance = new $exporter['class']($this->headline.$userinfo, $this->plainHeader, $sortedEntries, $this->exportColumns);
-          $type = call_user_func(array($exporter['class'], "getInfo"));
-          $type = $type[$_POST['act']];
-          send_binary_content($instance->query(), $type['filename'], $type = $type['mime']);
-        }
-      }
 
       // Filter GET with "act" attributes
       if (isset($_GET['act'])) {
@@ -476,8 +449,6 @@ class managementListing
     }
 
     // Update filter and refresh entries
-    //~ $this->filter->setBase($this->base);
-    //~ $this->entries = $this->filter->query();
     $attrs = $this->parent->neededAttrs;
     foreach ($this->columns as $column) {
       $column->fillNeededAttributes($attrs);
@@ -694,9 +665,7 @@ class managementListing
 
     // Filter POST with "act" attributes -> posted from action menu
     if (isset($_POST['act']) && ($_POST['act'] != '')) {
-      if (!preg_match('/^export.*$/', $_POST['act'])) {
-        $result['action'] = validate($_POST['act']);
-      }
+      $result['action'] = validate($_POST['act']);
     }
 
     // Drop targets if empty
@@ -799,66 +768,6 @@ class managementListing
     }
 
     return $departments;
-  }
-
-  function renderExporterMenu($separator)
-  {
-    // Presets
-    $result = "";
-
-    // Draw entries
-    $result .= "<li$separator id='actionmenu_exportList'><a href='#'><img class='center' src='geticon.php?context=actions&amp;icon=document-export&amp;size=16' alt='export'>&nbsp;"._("Export list")."&nbsp;<img src='images/forward-arrow.png' alt='arrow'></a><ul class='level3'>";
-
-    // Export CVS as build in exporter
-    foreach ($this->exporter as $action => $exporter) {
-      $result .= $this->renderActionMenuActionLink('', $action, $exporter['label'], $exporter['image']);
-    }
-
-    // Finalize list
-    $result .= "</ul></li>";
-
-    return $result;
-  }
-
-
-  function renderSnapshotActions($row, $dn, $category)
-  {
-    /* We can only provide information if we've got a snapshot handler instance */
-    if (!is_object($this->snapshotHandler)) {
-      return '';
-    }
-
-    // Presets
-    $result = '';
-    $ui = get_userinfo();
-
-    if ($ui->allow_snapshot_restore($dn, $category, FALSE)) {
-      /* Draw restore button */
-
-      if ($this->snapshotHandler->hasSnapshots($dn)) {
-        /* We have snapshots for this dn */
-        $result .= '<input class="center" type="image"'.
-                    ' src="geticon.php?context=actions&amp;icon=document-restore&amp;size=16"'.
-                    ' alt="'._('Restore snapshot').'" name="listing_restore_'.$row.'"'.
-                    ' title="'._('Restore snapshot').'"/>';
-      } else {
-        $result .= '<img class="center"'.
-                    ' src="geticon.php?context=actions&amp;icon=document-restore&amp;size=16&amp;disabled=1"'.
-                    ' alt="restore"/>';
-      }
-    }
-
-    if ($ui->allow_snapshot_create($dn, $category)) {
-      /* Draw snapshot button */
-      $result .= '<input class="center" type="image"'.
-                  ' src="geticon.php?context=actions&amp;icon=snapshot&amp;size=16"'.
-                  ' alt="'._('Create snapshot').'" name="listing_snapshot_'.$row.'"'.
-                  ' title="'._('Create a new snapshot from this object').'"/>';
-    } else {
-      $result .= '<img src="images/empty.png" alt=" " class="center optional"/>';
-    }
-
-    return $result;
   }
 
   function getEntry($dn)

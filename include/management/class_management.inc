@@ -57,12 +57,14 @@ class management
   protected $last_tabObject     = NULL;
   protected $last_dialogObject  = NULL;
 
-  protected $headline;
-  protected $title;
-  protected $icon;
+  public $headline;
+  public $title;
+  public $icon;
 
   protected $actions        = array();
   protected $actionHandlers = array();
+
+  protected $exporters = array();
 
   public $neededAttrs = array();
 
@@ -81,7 +83,7 @@ class management
 
   function __construct($objectTypes = FALSE)
   {
-    global $config;
+    global $config, $class_mapping;
 
     $plInfos = pluglist::pluginInfos(get_class($this));
     if ($objectTypes === FALSE) {
@@ -97,16 +99,8 @@ class management
 
     $this->objectTypes = $objectTypes;
 
-    $this->listing = new managementListing($this);
-
-    // Build filter
-    //~ if (session::global_is_set(get_class($this).'_filter')) {
-      //~ $filter = session::global_get(get_class($this).'_filter');
-    //~ } else {
-      //~ $filter = new filter();
-      //~ $filter->setObjectStorage($this->storagePoints);
-    //~ }
-    $this->filter = new managementFilter($this);
+    $this->listing  = new managementListing($this);
+    $this->filter   = new managementFilter($this);
 
     // Add copy&paste and snapshot handler.
     if (!$this->skipCpHandler) {
@@ -114,7 +108,16 @@ class management
     }
     if (!static::$skipSnapshots && ($config->get_cfg_value('enableSnapshots') == 'TRUE')) {
       $this->snapHandler = new SnapshotHandler();
-      //~ $this->headpage->setSnapshotHandler($this->snapHandler);
+    }
+
+    // Load exporters
+    foreach (array_keys($class_mapping) as $class) {
+      if (preg_match('/Exporter$/', $class)) {
+        $info = call_user_func(array($class, 'getInfo'));
+        if ($info != NULL) {
+          $this->exporters = array_merge($this->exporters, $info);
+        }
+      }
     }
 
     $this->configureActions();
@@ -241,6 +244,21 @@ class management
         )
       );
     }
+
+    // Add export actions
+    $exportMenu = array();
+    foreach ($this->exporters as $action => $exporter) {
+      $exportMenu[] = new Action(
+        $action, $exporter['label'], $exporter['image'],
+        '0', 'export'
+      );
+    }
+    $this->registerAction(
+      new ActionSubMenu(
+        'export', _('Export list'), 'geticon.php?context=actions&icon=document-export&size=16',
+        $exportMenu
+      )
+    );
 
     /* Actions from footer are not in any menus and do not need a label */
     $this->registerAction(new HiddenAction('apply',           'applyChanges'));
@@ -1007,6 +1025,18 @@ class management
       msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $this->dn),
           ERROR_DIALOG);
     }
+  }
+
+
+  function export(array $action)
+  {
+    if (!isset($this->exporters[$action['action']])) {
+      trigger_error('Unknown exporter '.$action['action']);
+      return;
+    }
+    $exporter = $this->exporters[$action['action']];
+    $file     = $exporter['class']::export($this->listing);
+    send_binary_content($file, $exporter['filename'], $exporter['mime']);
   }
 
   /* End of action handlers */
