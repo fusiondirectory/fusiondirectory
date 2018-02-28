@@ -7,9 +7,9 @@ variables:
 
 stages:
   - test-perl
-  - test-php
   - test-php-jessie
   - test-php-stretch
+  - test-php-codesniffer
   - test-manpages
   - transifex
 
@@ -40,20 +40,6 @@ create_perl_lint_rapport:
   script:
     - perl -cW contrib/bin/fusiondirectory-setup contrib/bin/fusiondirectory-insert-schema
 
-# PHP codesniffer
-create_php_code_sniffer_rapport:
-  stage: test-php
-  only:
-    - branches
-    - tags
-  before_script:
-    - apt-get update -qq
-    - apt-get install -y -qq  git php-cli php-codesniffer
-  script:
-    - git clone https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
-    - find . -type f -name '*.php' -o -name '*.inc' > ./filelist
-    - phpcs --standard=../dev-tools/php-codesniffer-rules/FDStandard/ruleset.xml --file-list=./filelist
-
 # PHP lint (jessie)
 create_php_lint_rapport_jessie:
   image: 5.6.33-cli-jessie
@@ -73,6 +59,20 @@ create_php_lint_rapport_stretch:
     - tags
   script:
     - find . -type f -name '*.php' -o -name '*.inc' -print0 | xargs -0 -n1 php -l
+
+# PHP codesniffer
+create_php_code_sniffer_rapport:
+  stage: test-php-codesniffer
+  only:
+    - branches
+    - tags
+  before_script:
+    - apt-get update -qq
+    - apt-get install -y -qq  git php-cli php-codesniffer
+  script:
+    - git clone https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
+    - find . -type f -name '*.php' -o -name '*.inc' > ./filelist
+    - phpcs --standard=../dev-tools/php-codesniffer-rules/FDStandard/ruleset.xml --file-list=./filelist
 
 # generate man pages to test validity
 test_manpages:
