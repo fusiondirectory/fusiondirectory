@@ -7,7 +7,7 @@ variables:
 
 stages:
   - lint
-  - codestyling
+  - codestyle
   - manpages
   - transifex
 
@@ -46,11 +46,11 @@ create_php_lint_rapport_stretch:
   script:
     - find . -type f -name '*.php' -o -name '*.inc' -print0 | xargs -0 -n1 php -l
 
-## Stage codestyling
+## Stage codestyle
 
 # Generate perlcritic rapport
 create_perlcritic_rapport:
-  stage: codestyling
+  stage: codestyle
   only:
     - branches
     - tags
@@ -64,7 +64,7 @@ create_perlcritic_rapport:
 
 # PHP codesniffer
 create_php_code_sniffer_rapport:
-  stage: codestyling
+  stage: codestyle
   only:
     - branches
     - tags
