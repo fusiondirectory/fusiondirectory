@@ -7,8 +7,7 @@ variables:
 
 stages:
   - test-perl
-  - test-php-jessie
-  - test-php-stretch
+  - test-php-lint
   - test-php-codesniffer
   - test-manpages
   - transifex
@@ -42,8 +41,8 @@ create_perl_lint_rapport:
 
 # PHP lint (jessie)
 create_php_lint_rapport_jessie:
-  image: 5.6.33-cli-jessie
-  stage: test-php-jessie
+  image: php:5.6.33-cli-jessie
+  stage: test-php-lint
   only:
     - branches
     - tags
@@ -52,8 +51,8 @@ create_php_lint_rapport_jessie:
 
 # PHP lint (stretch)
 create_php_lint_rapport_stretch:
-  image: 5.6.33-cli-stretch
-  stage: test-php-stretch
+  image: php:5.6.33-cli-stretch
+  stage: test-php-lint
   only:
     - branches
     - tags
