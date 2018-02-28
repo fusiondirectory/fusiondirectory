@@ -185,61 +185,6 @@ class management
       )
     );
 
-    $this->registerAction(
-      new Action(
-        'edit', _('Edit'), 'geticon.php?context=actions&icon=document-edit&size=16',
-        '+', 'editEntry'
-      )
-    );
-    $this->registerAction(
-      new Action(
-        'remove', _('Remove'), 'geticon.php?context=actions&icon=edit-delete&size=16',
-        '+', 'removeRequested',
-        array('d')
-      )
-    );
-
-    if (!$this->skipCpHandler) {
-      $this->registerAction(
-        new Action(
-          'copy', _('Copy'), 'geticon.php?context=actions&icon=edit-copy&size=16',
-          '+', 'copyPasteHandler',
-          array('r')
-        )
-      );
-      $this->registerAction(
-        new Action(
-          'cut', _('Cut'), 'geticon.php?context=actions&icon=edit-cut&size=16',
-          '+', 'copyPasteHandler',
-          array('dr')
-        )
-      );
-      // TODO: disable paste when there is nothing to paste
-      $this->registerAction(
-        new Action(
-          'paste', _('Paste'), 'geticon.php?context=actions&icon=edit-paste&size=16',
-          '0', 'copyPasteHandler',
-          array('w')
-        )
-      );
-    }
-
-    if (!self::$skipSnapshots && ($config->get_cfg_value('enableSnapshots') == 'TRUE')) {
-      $this->registerAction(
-        new Action(
-          'restore', _('Restore snapshot'), 'geticon.php?context=actions&icon=document-restore&size=16',
-          '*', 'restoreSnapshotDialog',
-          array('w')
-        )
-      );
-      $this->registerAction(
-        new Action(
-          'snapshot', _('Create snapshot'), 'geticon.php?context=actions&icon=snapshot&size=16',
-          '1', 'createSnapshotDialog'
-        )
-      );
-    }
-
     // Add export actions
     $exportMenu = array();
     foreach ($this->exporters as $action => $exporter) {
@@ -254,6 +199,62 @@ class management
         $exportMenu
       )
     );
+
+    $this->registerAction(
+      new Action(
+        'edit', _('Edit'), 'geticon.php?context=actions&icon=document-edit&size=16',
+        '+', 'editEntry'
+      )
+    );
+
+    if (!$this->skipCpHandler) {
+      $this->registerAction(
+        new Action(
+          'cut', _('Cut'), 'geticon.php?context=actions&icon=edit-cut&size=16',
+          '+', 'copyPasteHandler',
+          array('dr')
+        )
+      );
+      $this->registerAction(
+        new Action(
+          'copy', _('Copy'), 'geticon.php?context=actions&icon=edit-copy&size=16',
+          '+', 'copyPasteHandler',
+          array('r')
+        )
+      );
+      // TODO: disable paste when there is nothing to paste
+      $this->registerAction(
+        new Action(
+          'paste', _('Paste'), 'geticon.php?context=actions&icon=edit-paste&size=16',
+          '0', 'copyPasteHandler',
+          array('w')
+        )
+      );
+    }
+
+    $this->registerAction(
+      new Action(
+        'remove', _('Remove'), 'geticon.php?context=actions&icon=edit-delete&size=16',
+        '+', 'removeRequested',
+        array('d')
+      )
+    );
+
+    if (!self::$skipSnapshots && ($config->get_cfg_value('enableSnapshots') == 'TRUE')) {
+      $this->registerAction(
+        new Action(
+          'snapshot', _('Create snapshot'), 'geticon.php?context=actions&icon=snapshot&size=16',
+          '1', 'createSnapshotDialog'
+        )
+      );
+      $this->registerAction(
+        new Action(
+          'restore', _('Restore snapshot'), 'geticon.php?context=actions&icon=document-restore&size=16',
+          '*', 'restoreSnapshotDialog',
+          array('w')
+        )
+      );
+    }
 
     /* Actions from footer are not in any menus and do not need a label */
     $this->registerAction(new HiddenAction('apply',           'applyChanges'));
