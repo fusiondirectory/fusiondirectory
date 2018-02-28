@@ -704,8 +704,7 @@ color: #000;
   width: 100%;
   border-spacing: 0;
   }
-  table.framework #maincell
-  {
+  table.framework #maincell {
   padding-bottom: 55px;
   }
 }
