@@ -26,7 +26,8 @@ class ListingEntry implements ArrayAccess
   private $attrs;
   protected $listing;
 
-  public function __construct(managementListing $listing, $type, $dn, array $attrs, $row = NULL) {
+  public function __construct(managementListing $listing, $type, $dn, array $attrs, $row = NULL)
+  {
     $this->listing  = $listing;
     $this->type     = $type;
     $this->dn       = $dn;
@@ -34,7 +35,8 @@ class ListingEntry implements ArrayAccess
     $this->row      = $row;
   }
 
-  public function offsetSet($offset, $value) {
+  public function offsetSet($offset, $value)
+  {
     if (is_null($offset)) {
       $this->container[] = $value;
     } else {
@@ -42,15 +44,18 @@ class ListingEntry implements ArrayAccess
     }
   }
 
-  public function offsetExists($offset) {
+  public function offsetExists($offset)
+  {
     return isset($this->attrs[$offset]);
   }
 
-  public function offsetUnset($offset) {
+  public function offsetUnset($offset)
+  {
     unset($this->attrs[$offset]);
   }
 
-  public function offsetGet($offset) {
+  public function offsetGet($offset)
+  {
     return (isset($this->attrs[$offset]) ? $this->attrs[$offset] : NULL);
   }
 

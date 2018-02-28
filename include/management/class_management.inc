@@ -121,11 +121,6 @@ class management
     }
 
     $this->configureActions();
-
-    //~ $this->configureFilter();
-    //~ if ($this->baseMode === FALSE) {
-      //~ $this->headpage->setBase($config->current['BASE']);
-    //~ }
   }
 
   protected function configureActions()
@@ -364,8 +359,8 @@ class management
   function execute()
   {
     // Ensure that html posts and gets are kept even if we see a 'Entry islocked' dialog.
-    //~ $vars = array('/^act$/','/^listing/','/^PID$/');
-    //~ session::set('LOCK_VARS_TO_USE', $vars);
+    $vars = array('/^act$/','/^listing/','/^PID$/');
+    session::set('LOCK_VARS_TO_USE', $vars);
 
     /* Display the copy & paste dialog, if it is currently open */
     $ret = $this->copyPasteHandler();
@@ -406,11 +401,6 @@ class management
     // Update filter
     if ($this->filter) {
       $this->filter->update();
-      //~ session::global_set(get_class($this).'_filter', $this->filter);
-      //~ session::set('autocomplete', $this->filter);
-      //~ if (!$this->filter->isValid()) {
-        //~ msg_dialog::display(_('Filter error'), _('The filter is incomplete!'), ERROR_DIALOG);
-      //~ }
     }
 
     // Update list
@@ -423,22 +413,6 @@ class management
   function renderList()
   {
     global $config;
-
-    //~ $smarty = get_smarty();
-    //~ $filters = array();
-    //~ foreach ($this->objectTypes as $object) {
-      //~ $filters[] = array(
-        //~ 'id'    => 'FILTER'.$object,
-        //~ 'label' => sprintf(_('Show %s'), $config->data['OBJECTS'][$object]['name'])
-      //~ );
-    //~ }
-    //~ if (!static::$skipTemplates) {
-      //~ $filters[] = array(
-        //~ 'id'    => 'FILTERTEMPLATE',
-        //~ 'label' => sprintf(_('Show %s'), _('Template'))
-      //~ );
-    //~ }
-    //~ $smarty->assign('objectFilters', $filters);
 
     $smarty = get_smarty();
     $smarty->assign('usePrototype', 'true');
