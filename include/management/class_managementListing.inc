@@ -592,6 +592,7 @@ class managementListing
           $result['targets'][]  = $this->entriesIndex[$target];
         }
       } elseif (isset($_REQUEST['dn']) && preg_match('/^listing_([a-zA-Z_]+)$/', $key, $m)) {
+        // TODO fix this
         /* Pre-render list to init things if a dn is gonna be opened on first load */
         $dn         = urldecode($_REQUEST['dn']);
         $action     = $m[1];
@@ -617,6 +618,7 @@ class managementListing
         $this->render();
         session::global_set('size_limit', $oldsizelimit);
         $this->filter->elementValues['NAME'] = '';
+
         $result['action']     = $action;
         $result['targets'][]  = $dn;
         // Make sure no other management class intercept the same dn

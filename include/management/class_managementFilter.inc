@@ -95,29 +95,6 @@ class managementFilter
       $smarty->assign('TEMPLATES',  $this->showTemplates);
     }
 
-    // Load template and replace elementsHtml[]
-    //~ foreach ($this->elements as $tag => $element) {
-      //~ $htmlCode = "";
-      //~ switch ($element['type']) {
-        //~ case "textfield":
-          //~ $htmlCode = $this->getTextfield($element);
-          //~ $smarty->assign($tag.'DESC', sprintf(_('Searches in %s'), implode(', ', $element['autocomplete']['attribute'])));
-          //~ break;
-
-        //~ case "checkbox":
-          //~ $htmlCode = $this->getCheckbox($element);
-          //~ break;
-
-        //~ case "combobox":
-          //~ $htmlCode = $this->getCombobox($element);
-          //~ break;
-
-        //~ default:
-          //~ throw new Exception ('Unknown element type specified: '.$element['type'].'!');
-      //~ }
-      //~ $smarty->assign("$tag", $htmlCode);
-    //~ }
-
     // load the file from the theme folder
     $file = get_template_path('management/filter.tpl');
 
