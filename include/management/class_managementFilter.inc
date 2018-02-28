@@ -91,7 +91,8 @@ class managementFilter
     $smarty->assign('SEARCH',     $this->search);
     $smarty->assign('SEARCHDESC', sprintf(_('Searches in %s'), implode(', ', $this->searchAttributes)));
     $smarty->assign('TYPES',      $this->types);
-    if (!get_class($this->parent)::$skipTemplates) {
+    $parentClass = get_class($this->parent);
+    if (!$parentClass::$skipTemplates) {
       $smarty->assign('TEMPLATES',  $this->showTemplates);
     }
 
@@ -138,7 +139,8 @@ class managementFilter
         $entries[$dn] = new ListingEntry($this->parent->listing, $type, $dn, $entry, $row++);
       }
 
-      if (!get_class($this->parent)::$skipTemplates && $this->showTemplates) {
+      $parentClass = get_class($this->parent);
+      if (!$parentClass::$skipTemplates && $this->showTemplates) {
         $ldapEntries = objects::ls($type, $attrsAsked, (($this->scope == 'one') ? 'ou=templates,'.$base : $base), $filter, TRUE, $this->scope, TRUE);
 
         $objectTypeCount['template_'.$type] = count($ldapEntries);

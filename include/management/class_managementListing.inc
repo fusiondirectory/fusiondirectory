@@ -407,7 +407,7 @@ class managementListing
     }
 
     // Do not do anything if this is not our PID
-    if ($refresh || !(isset($_REQUEST['PID']) && $_REQUEST['PID'] != $this->pid)) {
+    if ($refresh || !(isset($_REQUEST['PID']) && ($_REQUEST['PID'] != $this->pid))) {
 
       // Filter GET with "act" attributes
       if (isset($_GET['act'])) {
