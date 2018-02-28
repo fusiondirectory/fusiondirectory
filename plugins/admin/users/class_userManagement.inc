@@ -27,8 +27,8 @@ class LockAction extends Action
       $name,
       array('lock' => _('Lock users'), 'unlock' => _('Unlock users')),
       array(
-        'lock' => 'geticon.php?context=status&icon=object-locked&size=16',
-        'unlock' => 'geticon.php?context=status&icon=object-unlocked&size=16',
+        'lock'    => 'geticon.php?context=status&icon=object-locked&size=16',
+        'unlock'  => 'geticon.php?context=status&icon=object-unlocked&size=16',
       ),
       $targets, $callable, $acl, $inmenu, $inline);
   }
