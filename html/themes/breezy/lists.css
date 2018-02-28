@@ -242,8 +242,10 @@ height:100%;
 width:100%;
 }
 
-table.listingTable > thead > tr > th > img, table.listingTable > thead > tr > th > input[type=image],
-table.listingTable > tbody > tr > td > img, table.listingTable > tbody > tr > td > input[type=image] {
+table.listingTable > thead > tr > th > img,
+table.listingTable > thead > tr > th > input[type=image],
+table.listingTable > tbody > tr > td > img,
+table.listingTable > tbody > tr > td > input[type=image] {
 vertical-align: middle;
 }
 
