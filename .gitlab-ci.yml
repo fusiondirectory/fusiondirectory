@@ -51,7 +51,7 @@ create_php_lint_rapport_jessie:
 
 # PHP lint (stretch)
 create_php_lint_rapport_stretch:
-  image: php:5.6.33-cli-stretch
+  image: php:cli-stretch
   stage: test-php-lint
   only:
     - branches
