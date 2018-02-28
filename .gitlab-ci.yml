@@ -6,29 +6,16 @@ variables:
   GIT_SSL_NO_VERIFY: "true"
 
 stages:
-  - test-perl
-  - test-php-lint
-  - test-php-codesniffer
-  - test-manpages
+  - lint
+  - codestyling
+  - manpages
   - transifex
 
-# Generate perlcritic rapport
-create_perlcritic_rapport:
-  stage: test-perl
-  only:
-    - branches
-    - tags
-  before_script:
-  - apt-get update -qq
-  - apt-get install -y -qq libperl-critic-perl
-  script:
-    - cp contrib/bin/fusiondirectory-setup contrib/bin/fusiondirectory-setup.pl
-    - cp contrib/bin/fusiondirectory-insert-schema contrib/bin/fusiondirectory-insert-schema.pl
-    - perlcritic --quiet --verbose "%f~|~%s~|~%l~|~%c~|~%m~|~%e~|~%p~||~%n" contrib/bin
+## Stage lint
 
 # Perl lint
 create_perl_lint_rapport:
-  stage: test-perl
+  stage: lint
   only:
     - branches
     - tags
@@ -42,7 +29,7 @@ create_perl_lint_rapport:
 # PHP lint (jessie)
 create_php_lint_rapport_jessie:
   image: php:5.6.33-cli-jessie
-  stage: test-php-lint
+  stage: lint
   only:
     - branches
     - tags
@@ -52,16 +39,32 @@ create_php_lint_rapport_jessie:
 # PHP lint (stretch)
 create_php_lint_rapport_stretch:
   image: php:cli-stretch
-  stage: test-php-lint
+  stage: lint
   only:
     - branches
     - tags
   script:
     - find . -type f -name '*.php' -o -name '*.inc' -print0 | xargs -0 -n1 php -l
 
+## Stage codestyling
+
+# Generate perlcritic rapport
+create_perlcritic_rapport:
+  stage: codestyling
+  only:
+    - branches
+    - tags
+  before_script:
+  - apt-get update -qq
+  - apt-get install -y -qq libperl-critic-perl
+  script:
+    - cp contrib/bin/fusiondirectory-setup contrib/bin/fusiondirectory-setup.pl
+    - cp contrib/bin/fusiondirectory-insert-schema contrib/bin/fusiondirectory-insert-schema.pl
+    - perlcritic --quiet --verbose "%f~|~%s~|~%l~|~%c~|~%m~|~%e~|~%p~||~%n" contrib/bin
+
 # PHP codesniffer
 create_php_code_sniffer_rapport:
-  stage: test-php-codesniffer
+  stage: codestyling
   only:
     - branches
     - tags
@@ -75,7 +78,7 @@ create_php_code_sniffer_rapport:
 
 # generate man pages to test validity
 test_manpages:
-  stage: test-manpages
+  stage: manpages
   only:
     - branches
     - tags
