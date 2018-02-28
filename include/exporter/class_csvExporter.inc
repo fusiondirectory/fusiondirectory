@@ -1,9 +1,8 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -21,19 +20,19 @@
 */
 
 /*!
- * \file class_cvsExporter.inc
- * Source code for class cvsExporter
+ * \file class_csvExporter.inc
+ * Source code for class csvExporter
  */
 
 /*!
- * \brief This class contains all the functions needed for cvs export
+ * \brief This class contains all the functions needed for csv export
  */
 class csvExporter
 {
   var $result;
 
   /*!
-   * \brief Create a cvsExporter
+   * \brief Create a csvExporter
    *
    * \param array $headline
    *
@@ -53,7 +52,7 @@ class csvExporter
     }
 
     // Generate header
-    $this->result = "#";
+    $this->result = '#';
     foreach ($columns as $index) {
       if (isset($header[$index])) {
         $this->result .= trim(html_entity_decode($header[$index], ENT_QUOTES, 'UTF-8').";");
@@ -81,9 +80,35 @@ class csvExporter
    */
   function query()
   {
-     return $this->result;
+    return $this->result;
   }
 
+  static function export(managementListing $listing)
+  {
+    $columns  = $listing->getColumns();
+    $iterator = $listing->getIterator();
+
+    // Generate header
+    $result = '#';
+    foreach ($columns as $column) {
+      if ($column->isExportable()) {
+        $result .= $column->getLabel().';';
+      }
+    }
+    $result = preg_replace('/;$/', '', $result)."\n";
+
+    // Append entries
+    foreach ($iterator as $entry) {
+      foreach ($columns as $column) {
+        if ($column->isExportable()) {
+          $result .= $column->getRawExportValue($entry).';';
+        }
+      }
+      $result = preg_replace('/;$/', '', $result)."\n";
+    }
+
+    return $result;
+  }
 
   /*!
    * \brief Get Informations
