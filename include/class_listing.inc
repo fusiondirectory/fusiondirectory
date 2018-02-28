@@ -63,6 +63,7 @@ class listing
   var $scrollPosition = 0;
   var $baseSelector;
   protected $filterCache = array();
+  protected $parent;
 
   /*!
    * \brief Create a listing
@@ -119,6 +120,11 @@ class listing
 
     // Instanciate base selector
     $this->baseSelector = new baseSelector($this->bases, $this->base);
+  }
+
+  function setParent($parent)
+  {
+    $this->parent = $parent;
   }
 
   /*!

@@ -244,6 +244,7 @@ class simpleManagement
     // Build headpage
     $this->headpage = new $this->headpageClass($this->parseXML($this->listXMLPath));
     $this->headpage->setFilter($filter);
+    $this->headpage->setParent($this);
 
     // Add copy&paste and snapshot handler.
     if (!$this->skipCpHandler) {
