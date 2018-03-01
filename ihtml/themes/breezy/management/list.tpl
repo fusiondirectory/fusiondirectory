@@ -1,41 +1,53 @@
-<table class="listing-container">
+<input type="hidden" value="{$PID}" name="PID"/>
+
+<div style="width:100%;">
+<table class="listingTable management">
+  <thead><tr>
+    {if $multiSelect}
+      <th class="checkbox">
+        <input type="checkbox" id="select_all" name="select_all" title="{t}Select all{/t}" onClick='toggle_all_("listing_selected_[0-9]*$","select_all");' />
+      </th>
+    {/if}
+    {foreach from=$headers key=index item=header}
+      {if $header.sortable}
+        <th {$header.props}><a href="?plug={$PLUG}&amp;PID={$PID}&amp;act=SORT_{$index}">{$header.label|escape}
+        {if isset($header.sortdirection)}
+          &nbsp;<img title="{if $header.sortdirection}{t}Up{/t}{else}{t}Down{/t}{/if}" src="geticon.php?context=actions&amp;size=16&amp;icon=view-sort-{if $header.sortdirection}descending{else}ascending{/if}" alt="{if $header.sortdirection}{t}Sort up{/t}{else}{t}Sort down{/t}{/if}"/>
+        {/if}
+        </a></th>
+      {else}
+        <th {$header.props}>{$header.label|escape}</th>
+      {/if}
+    {/foreach}
+  </tr></thead>
+
   <tbody>
-    <tr>
-      <td class="list">
-        <div class="contentboxh">
-          <p class="contentboxh">&nbsp;{$HEADLINE}&nbsp;{$SIZELIMIT}</p>
-        </div>
+    {if (count($rows) == 0)}
+      <tr><td colspan="{$columnCount}" class="filler">&nbsp;</td></tr>
+    {/if}
 
-        <div class="contentboxb" style="background:white;">
-          <table>
-            <tbody>
-              <tr>
-                {foreach from=$NAVIGATION item="action"}
-                  <td class="{$action.class}">
-                  {if $action.enabled}
-                    <input type="image" src="{$action.icon|escape}"
-                      name="{$action.id}" title="{$action.desc}" alt="{$action.name}"/>
-                  {else}
-                    <img src="{$action.icon|escape}&amp;disabled=1" alt="{$action.name}"/>
-                  {/if}
-                  &nbsp;</td>
-                {/foreach}
-                {if $BASE}<td><img src="images/lists/seperator.png" alt="-" height="16" width="1" class="center"/>&nbsp;</td><td>{t}Base{/t} {$BASE}&nbsp;</td>{/if}
-                {if $ACTIONS}<td><img src="images/lists/seperator.png" alt="-" height="16" width="1" class="center"/>&nbsp;</td><td>{$ACTIONS}</td>{/if}
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div style="margin-top:4px;">
-          {$LIST}
-        </div>
-      </td>
-      <td class="filter">
-        {$FILTER}
-      </td>
-    </tr>
+    {foreach from=$rows item=row}
+      <tr class="{' '|implode:$row.classes}">
+      {if $multiSelect}
+        <td class="checkbox">
+          <input type="checkbox" id="listing_selected_{$row.index}" name="listing_selected_{$row.index}"/>
+        </td>
+      {/if}
+      {foreach from=$row.cells item=cell}
+        <td {$cell.props}>{$cell.render}</td>
+      {/foreach}
+      </tr>
+    {/foreach}
   </tbody>
 </table>
+</div>
 
-<input type="hidden" name="ignore"/>
+{if ($showFooter)}
+  <div class="nlistFooter">
+
+  {foreach from=$objectCounts item=type}
+    <img src="{$type.icon|escape}" title="{$type.name|escape}" alt="{$type.name|escape}"/>&nbsp;{$type.count}&nbsp;&nbsp;&nbsp;&nbsp;
+  {/foreach}
+
+  </div>
+{/if}

@@ -93,7 +93,7 @@ class Column
     if (isset($this->label)) {
       return _($this->label);
     } else {
-      return '&nbsp;';
+      return ' ';
     }
   }
 

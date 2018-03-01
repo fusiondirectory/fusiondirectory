@@ -415,11 +415,14 @@ class management
   {
     global $config;
 
+    $list   = $this->listing->render();
+    $filter = $this->filter->render();
+
     $smarty = get_smarty();
     $smarty->assign('usePrototype', 'true');
-    $smarty->assign('FILTER',       $this->filter->render());
+    $smarty->assign('FILTER',       $filter);
+    $smarty->assign('LIST',         $list);
     $smarty->assign('SIZELIMIT',    print_sizelimit_warning());
-    $smarty->assign('LIST',         $this->listing->render());
     $smarty->assign('MULTISELECT',  $this->listing->multiSelect);
 
     // Assign navigation elements
@@ -432,7 +435,7 @@ class management
     // Assign summary
     $smarty->assign('HEADLINE', $this->headline);
 
-    return $this->getHeader().$smarty->fetch(get_template_path('management/list.tpl'));
+    return $this->getHeader().$smarty->fetch(get_template_path('management/management.tpl'));
   }
 
   function renderActionMenu()

@@ -142,7 +142,6 @@ class managementListing
   protected $objectTypeCount  = array();
   //~ protected $objectDnMapping  = array();
   //~ protected $snapshotHandler  = NULL;
-  protected $height         = 0;
   protected $baseSelector;
   //~ protected $filterCache = array();
 
@@ -209,16 +208,6 @@ class managementListing
   }
 
   /*!
-   * \brief Set the height
-   *
-   * \param integer $height
-   */
-  function setHeight($height)
-  {
-    $this->height = $height;
-  }
-
-  /*!
    * \brief Set a SnapshotHandler
    *
    * \param $handler The handler
@@ -269,16 +258,13 @@ class managementListing
         $this->sortDirection[$index] = FALSE;
       }
 
-      $sorter = '';
+      $this->header[$index] = array(
+        'props'     => $column->getHtmlProps(),
+        'sortable'  => $column->isSortable(),
+        'label'     => $column->getLabel(),
+      );
       if (($index == $this->sortColumn) && $column->isSortable()) {
-        $sorter = '&nbsp;<img title="'.($this->sortDirection[$index] ? _('Up') : _('Down')).'" src="geticon.php?context=actions&amp;size=16&amp;icon=view-sort-'.($this->sortDirection[$index] ? 'descending' : 'ascending').'" alt="'.($this->sortDirection[$index] ? _('Sort up') : _('Sort down')).'"/>';
-      }
-
-      $link = 'href="?plug='.$_GET['plug'].'&amp;PID='.$this->pid.'&amp;act=SORT_'.$index.'"';
-      if ($column->isSortable()) {
-        $this->header[$index] = '<th '.$column->getHtmlProps().'><a '.$link.'>'.$column->getLabel().$sorter.'</a></th>';
-      } else {
-        $this->header[$index] = '<th '.$column->getHtmlProps().'>'.$column->getLabel().'</th>';
+        $this->header[$index]['sortdirection'] = $this->sortDirection[$index];
       }
     }
   }
@@ -295,86 +281,63 @@ class managementListing
 
     $this->renderHeader();
 
-    // Initialize list
-    $result = '<input type="hidden" value="'.$this->pid.'" name="PID"/>'."\n";
-    $height = 450;
-    if ($this->height != 0) {
-      $result .= '<input type="hidden" value="'.$this->height.'" id="d_height"/>'."\n";
-      $height = $this->height;
-    }
+    $smarty = get_smarty();
+    $smarty->assign('PID',          $this->pid);
+    $smarty->assign('PLUG',         $_GET['plug']);
+    $smarty->assign('multiSelect',  $this->multiSelect);
+    $smarty->assign('showFooter',   $this->showFooter);
+    $smarty->assign('headers',      $this->header);
 
-    $result .= '<div style="width:100%;">'."\n";
-    $result .= '<table class="listingTable management">'."\n";
-
-    // Build list header
-    $result .= '<thead><tr>'."\n";
-    if ($this->multiSelect) {
-      $result .= '<th class="checkbox"><input type="checkbox" id="select_all" name="select_all" title="'._('Select all').'" onClick=\'toggle_all_("listing_selected_[0-9]*$","select_all");\' /></th>'."\n";
-    }
-    foreach ($this->header as $header) {
-      $result .= $header;
-    }
-    $result .= '</tr></thead>'."\n";
-
-    // Build list body
-    $result .= '<tbody>'."\n";
-
-    // No results? Just take an empty colspanned row
-    if (count($this->entries) == 0) {
-      $result .= '<tr><td colspan="'.(count($this->columns) + ($this->multiSelect ? 1 : 0)).'" class="filler">&nbsp;</td></tr>'."\n";
-    }
-
-    // Fill with contents, sort as configured
-    $row = 0;
-    foreach ($this->entries as $dn => &$entry) {
-      $trow       = '';
-      $rowclasses = array();
-
-      // Render multi select if needed
-      if ($this->multiSelect) {
-        $trow .= '<td class="checkbox"><input type="checkbox" id="listing_selected_'.$row.'" name="listing_selected_'.$row.'"/></td>'."\n";
-      }
-
-      foreach ($this->columns as $index => $column) {
-        $renderedCell = $column->renderCell($entry);
-        $trow .= '<td '.$column->getHtmlCellProps().'>'.$renderedCell.'</td>'."\n";
-        $rowclasses = array_merge($rowclasses, $column->getRowClasses($entry));
-      }
-
-      // Save rendered entry
-      $entry['render'] = '<tr class="'.implode(' ', $rowclasses).'">'.$trow."</tr>\n";
-      $row++;
-    }
-    unset($entry);
+    $smarty->assign('columnCount', (count($this->columns) + ($this->multiSelect ? 1 : 0)));
 
     // Complete list by sorting entries and appending them to the output
     $entryIterator = $this->getIterator();
-    foreach ($entryIterator as $row => $entry) {
-      $result .= $entry['render'];
-    }
 
-    // Close list body
-    $result .= "</tbody></table></div>";
+    $rows = array();
+    foreach ($entryIterator as $entry) {
+      $row = array(
+        'cells'   => array(),
+        'classes' => array(),
+      );
+      foreach ($this->columns as $column) {
+        $row['cells'][] = array(
+          'props'   => $column->getHtmlCellProps(),
+          'render'  => $column->renderCell($entry)
+        );
+        $row['classes'] = array_merge($row['classes'], $column->getRowClasses($entry));
+      }
+
+      $row['index']   = $entry->row;
+
+      $rows[] = $row;
+    }
+    $smarty->assign('rows', $rows);
 
     // Add the footer if requested
     if ($this->showFooter) {
-      $result .= '<div class="nlistFooter">';
-
+      $types = array();
       foreach ($this->parent->objectTypes as $type) {
         if (isset($this->objectTypeCount[$type])) {
           $infos = objects::infos($type);
-          $result .= '<img src="'.htmlentities($infos['icon'], ENT_COMPAT, 'UTF-8').'" title="'.$infos['name'].'" alt="'.$infos['name'].'"/>&nbsp;'.$this->objectTypeCount[$type].'&nbsp;&nbsp;&nbsp;&nbsp;';
+          $types[] = array(
+            'name'      => $infos['name'],
+            'icon'      => $infos['icon'],
+            'count'     => $this->objectTypeCount[$type],
+          );
         }
         if (isset($this->objectTypeCount['template_'.$type])) {
           $infos = objects::infos($type);
-          $result .= '<img src="'.htmlentities('geticon.php?context=devices&icon=template&size=16', ENT_COMPAT, 'UTF-8').'" title="'.sprintf(_('%s template'), $infos['name']).'" alt="'.sprintf(_('%s template'), $infos['name']).'"/>&nbsp;'.$this->objectTypeCount['template_'.$type].'&nbsp;&nbsp;&nbsp;&nbsp;';
+          $types[] = array(
+            'name'      => sprintf(_('%s template'), $infos['name']),
+            'icon'      => 'geticon.php?context=devices&icon=template&size=16',
+            'count'     => $this->objectTypeCount['template_'.$type],
+          );
         }
       }
-
-      $result .= '</div>';
+      $smarty->assign('objectCounts', $types);
     }
 
-    return $result;
+    return $smarty->fetch(get_template_path('management/list.tpl'));
   }
 
   function getIterator()
