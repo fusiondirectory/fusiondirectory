@@ -1,21 +1,19 @@
 {function menu level=2}
   <ul class="level{$level}">
   {foreach $data as $entry}
-    {if isset($entry.actions)}
-      <li id="actionmenu_{$entry.name|escape}">
+    <li id="actionmenu_{$entry.name|escape}" {if $entry.separator}style="border-top:1px solid #AAA"{/if}>
+      {if isset($entry.actions)}
         <a href="#">
           <img src="{$entry.icon|escape}" alt="{$entry.name|escape}"/>&nbsp;{$entry.label|escape}
           &nbsp;<img src="images/forward-arrow.png" alt="forward arrow"/>
         </a>
         {menu data=$entry.actions level=$level+1}
-      </li>
-    {else}
-      <li id="actionmenu_{$entry.name|escape}">
+      {else}
         <a href="#" onClick="document.getElementById('actionmenu').value='{$entry.name|escape}';document.getElementById('exec_act').click();">
           <img src="{$entry.icon|escape}" alt="{$entry.name|escape}">&nbsp;{$entry.label|escape}
         </a>
-      </li>
-    {/if}
+      {/if}
+    </li>
   {/foreach}
   </ul>
 {/function}

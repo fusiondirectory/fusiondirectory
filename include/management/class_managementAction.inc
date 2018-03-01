@@ -41,6 +41,8 @@ class Action
   protected $minTargets;
   protected $maxTargets;
 
+  protected $separator = FALSE;
+
   function __construct($name, $label, $icon, $targets, $callable, array $acl = array(), $inmenu = TRUE, $inline = TRUE)
   {
     if ($targets == '0') {
@@ -92,6 +94,11 @@ class Action
     return $this->label;
   }
 
+  function setSeparator($bool)
+  {
+    $this->separator = $bool;
+  }
+
   function listActions()
   {
     return array($this->name);
@@ -121,9 +128,10 @@ class Action
       return;
     }
     $actions[] = array(
-      'name'  => $this->name,
-      'icon'  => $this->icon,
-      'label' => $this->label
+      'name'      => $this->name,
+      'icon'      => $this->icon,
+      'label'     => $this->label,
+      'separator' => $this->separator,
     );
   }
 
@@ -228,10 +236,11 @@ class ActionSubMenu extends Action
       $action->fillMenuItems($subactions);
     }
     $actions[] = array(
-      'name'    => $this->name,
-      'icon'    => $this->icon,
-      'label'   => $this->label,
-      'actions' => $subactions
+      'name'      => $this->name,
+      'icon'      => $this->icon,
+      'label'     => $this->label,
+      'separator' => $this->separator,
+      'actions'   => $subactions
     );
   }
 

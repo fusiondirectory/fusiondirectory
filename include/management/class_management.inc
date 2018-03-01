@@ -206,6 +206,7 @@ class management
         '+', 'editEntry'
       )
     );
+    $this->actions['edit']->setSeparator(TRUE);
 
     if (!$this->skipCpHandler) {
       $this->registerAction(
@@ -254,6 +255,7 @@ class management
           array('w')
         )
       );
+      $this->actions['snapshot']->setSeparator(TRUE);
     }
 
     /* Actions from footer are not in any menus and do not need a label */

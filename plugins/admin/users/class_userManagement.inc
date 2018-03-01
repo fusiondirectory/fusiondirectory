@@ -52,15 +52,17 @@ class LockAction extends Action
     }
 
     $actions[] = array(
-      'name'    => $this->name.'_lock',
-      'icon'    => $this->icon['lock'],
-      'label'   => $this->label['lock'],
+      'name'      => $this->name.'_lock',
+      'icon'      => $this->icon['lock'],
+      'label'     => $this->label['lock'],
+      'separator' => $this->separator,
     );
 
     $actions[] = array(
-      'name'    => $this->name.'_unlock',
-      'icon'    => $this->icon['unlock'],
-      'label'   => $this->label['unlock'],
+      'name'      => $this->name.'_unlock',
+      'icon'      => $this->icon['unlock'],
+      'label'     => $this->label['unlock'],
+      'separator' => FALSE,
     );
   }
 
@@ -141,6 +143,7 @@ class userManagement extends management
         array('userPassword:rw'), TRUE, TRUE
       )
     );
+    $this->actions['lockUsers']->setSeparator(TRUE);
   }
 
   function configureFilter ()
