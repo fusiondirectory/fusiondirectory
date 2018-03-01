@@ -115,5 +115,5 @@ build-tarballs:
     - tar -cvzf fusiondirectory-core.tar.gz *
   artifacts:
     paths:
-    - tarballs/fusiondirectory-core.tar.gz
+    - fusiondirectory-core.tar.gz
     expire_in: 1h
