@@ -115,17 +115,16 @@ class Action
     return call_user_func($func, $action);
   }
 
-  function renderMenuItems()
+  function fillMenuItems(&$actions)
   {
     if (!$this->inmenu) {
-      return '';
+      return;
     }
-    return '<li id="actionmenu_'.$this->name.'">'
-            .'<a href="#" onClick="'
-              ."document.getElementById('actionmenu').value='".$this->name."';document.getElementById('exec_act').click();"
-            .'">'
-            .'<img src="'.htmlentities($this->icon, ENT_COMPAT, 'UTF-8').'" alt="'.$this->name.'">&nbsp;'.$this->label.'</a>'
-            .'</li>'."\n";
+    $actions[] = array(
+      'name'  => $this->name,
+      'icon'  => $this->icon,
+      'label' => $this->label
+    );
   }
 
   function getRowClasses(ListingEntry $entry)
@@ -219,26 +218,21 @@ class ActionSubMenu extends Action
     }
   }
 
-  function renderMenuItems($level = 2)
+  function fillMenuItems(&$actions)
   {
     if (!$this->inmenu) {
-      return '';
+      return;
     }
-    $result = '';
-    if (!empty($this->label)) {
-      $img = '';
-      if (!empty($this->icon)) {
-        $img = '<img src="'.htmlentities($this->icon, ENT_COMPAT, 'UTF-8').'" alt="'.$this->label.'"/>&nbsp;';
-      }
-      $result .= '<li id="actionmenu_'.$this->name.'"><a href="#">'.$img.'&nbsp;'.$this->label.'&nbsp;<img src="images/forward-arrow.png" alt="forward arrow"/></a>'."\n";
-    }
-
-    $level++;
-    $result .= '<ul class="level'.$level.'">'."\n";
+    $subactions = array();
     foreach ($this->actions as $action) {
-      $result .= $action->renderMenuItems($level);
+      $action->fillMenuItems($subactions);
     }
-    return $result.'</li></ul>'."\n";
+    $actions[] = array(
+      'name'    => $this->name,
+      'icon'    => $this->icon,
+      'label'   => $this->label,
+      'actions' => $subactions
+    );
   }
 
   function renderColumnIcons(ListingEntry $entry)

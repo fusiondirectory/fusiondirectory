@@ -45,24 +45,23 @@ class LockAction extends Action
     return NULL;
   }
 
-  function renderMenuItems()
+  function fillMenuItems(&$actions)
   {
     if (!$this->inmenu) {
-      return '';
+      return;
     }
 
-    return '<li id="actionmenu_'.$this->name.'_lock">'
-            .'<a href="#" onClick="'
-              ."document.getElementById('actionmenu').value='".$this->name."_lock';document.getElementById('exec_act').click();"
-            .'">'
-            .'<img src="'.htmlentities($this->icon['lock'], ENT_COMPAT, 'UTF-8').'" alt="'.$this->name.'" class="center">&nbsp;'.$this->label['lock'].'</a>'
-            .'</li>'."\n".
-            '<li id="actionmenu_'.$this->name.'_unlock">'
-            .'<a href="#" onClick="'
-              ."document.getElementById('actionmenu').value='".$this->name."_unlock';document.getElementById('exec_act').click();"
-            .'">'
-            .'<img src="'.htmlentities($this->icon['unlock'], ENT_COMPAT, 'UTF-8').'" alt="'.$this->name.'" class="center">&nbsp;'.$this->label['unlock'].'</a>'
-            .'</li>'."\n";
+    $actions[] = array(
+      'name'    => $this->name.'_lock',
+      'icon'    => $this->icon['lock'],
+      'label'   => $this->label['lock'],
+    );
+
+    $actions[] = array(
+      'name'    => $this->name.'_unlock',
+      'icon'    => $this->icon['unlock'],
+      'label'   => $this->label['unlock'],
+    );
   }
 
   function getRowClasses(ListingEntry $entry)

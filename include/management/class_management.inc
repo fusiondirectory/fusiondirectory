@@ -415,8 +415,9 @@ class management
   {
     global $config;
 
-    $list   = $this->listing->render();
-    $filter = $this->filter->render();
+    $list     = $this->listing->render();
+    $filter   = $this->filter->render();
+    $actions  = $this->renderActionMenu();
 
     $smarty = get_smarty();
     $smarty->assign('usePrototype', 'true');
@@ -429,7 +430,7 @@ class management
     $smarty->assign('NAVIGATION', $this->listing->renderNavigation()); // TODO: move here?
 
     //~ // Assign action menu / base
-    $smarty->assign('ACTIONS', $this->renderActionMenu());
+    $smarty->assign('ACTIONS', $actions);
     $smarty->assign('BASE', $this->listing->renderBase()); // TODO: move here?
 
     // Assign summary
@@ -440,19 +441,15 @@ class management
 
   function renderActionMenu()
   {
-    // Load shortcut
-    $result   = '<input type="hidden" name="act" id="actionmenu" value=""/>'."\n".
-                '<div style="display:none"><input type="submit" name="exec_act" id="exec_act" value=""/></div>'."\n".
-                '<ul class="level1" id="root"><li><a href="#">'._('Actions').
-                '&nbsp;<img class="center optional" src="images/down-arrow.png" alt="down arrow"/></a>'."\n";
-    $result   .= '<ul class="level2">'."\n";
+    $menuActions = array();
     foreach ($this->actions as $action) {
       // TODO: ACL handling
       // Build ul/li list
-      $result .= $action->renderMenuItems();
+      $action->fillMenuItems($menuActions);
     }
-
-    return '<div id="pulldown">'.$result.'</ul></li></ul></div>'."\n";
+    $smarty = get_smarty();
+    $smarty->assign('actions', $menuActions);
+    return $smarty->fetch(get_template_path('management/actionmenu.tpl'));
   }
 
   function renderActionColumn(ListingEntry $entry)
@@ -561,6 +558,7 @@ class management
       return '';
     }
 
+    // TODO move to smarty template
     // In case an of locked entry, we may have opened a read-only tab.
     $str = '';
     if ($this->tabObject->readOnly()) {
