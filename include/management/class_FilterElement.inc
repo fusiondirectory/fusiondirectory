@@ -108,7 +108,7 @@ class TabFilterElement extends FilterElement
 
   public function getFilters(&$filters)
   {
-    foreach ($this->tabs as $class => &$tab) {
+    foreach ($this->tabs as $class => $tab) {
       if ($tab['checked']) {
         $filters[] = $tab['filter'];
       }
