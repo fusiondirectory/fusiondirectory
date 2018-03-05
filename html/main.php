@@ -54,13 +54,7 @@ if (!session::global_is_set('connected')) {
   exit;
 }
 
-/* Check for uniqe ip address */
-$ui = session::global_get('ui');
-if ($_SERVER['REMOTE_ADDR'] != $ui->ip) {
-  logging::log('security', 'login', '', array(), 'main.php called with session which has a changed IP address.');
-  header ('Location: index.php?signout=1&message=newip');
-  exit;
-}
+$ui     = session::global_get('ui');
 $config = session::global_get('config');
 
 /* If SSL is forced, just forward to the SSL enabled site */
