@@ -1253,8 +1253,10 @@ class listing
         $this->render();
         session::global_set('size_limit', $oldsizelimit);
         $this->filter->elementValues['NAME'] = '';
+
         $result['action']     = $action;
         $result['targets'][]  = $dn;
+
         // Make sure no other management class intercept the same dn
         unset($_REQUEST['dn']);
       }

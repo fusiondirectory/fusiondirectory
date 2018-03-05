@@ -77,10 +77,10 @@ class simpleService extends simplePlugin
 
     if (static::$showActions && is_object($this->parent->parent) && isset($this->parent->parent->by_object['argonautClient']) && $this->parent->parent->by_object['argonautClient']->is_account) {
       /* Allow/disallow some functions */
-      $fields['AllowStatus']  = ($this->status == '')         && $this->acl_is_writeable('simpleServiceStatus');
-      $fields['AllowStart']   = ($this->status == 'stopped')  && $this->acl_is_writeable('simpleServiceStart');
-      $fields['AllowStop']    = ($this->status == 'running')  && $this->acl_is_writeable('simpleServiceStop');
-      $fields['AllowRestart'] = ($this->status == 'running')  && $this->acl_is_writeable('simpleServiceRestart');
+      $fields['AllowStatus']  = ($this->status == '') && $this->acl_is_writeable('simpleServiceStatus');
+      $fields['AllowStart']   = ($this->status == 'stopped') && $this->acl_is_writeable('simpleServiceStart');
+      $fields['AllowStop']    = ($this->status == 'running') && $this->acl_is_writeable('simpleServiceStop');
+      $fields['AllowRestart'] = ($this->status == 'running') && $this->acl_is_writeable('simpleServiceRestart');
     } else {
       /* Disable some functions */
       $fields['AllowStatus']  = FALSE;
