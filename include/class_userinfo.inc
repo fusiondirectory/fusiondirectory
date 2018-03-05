@@ -33,7 +33,6 @@
 class userinfo
 {
   var $dn;
-  var $ip;
   var $cn;
   var $uid;
   var $sn           = '';
@@ -56,7 +55,6 @@ class userinfo
   {
     global $config;
     $this->dn         = $userdn;
-    $this->ip         = $_SERVER['REMOTE_ADDR'];
     $this->ignoreACL  = ($config->get_cfg_value('ignoreAcl') == $this->dn);
 
     $this->loadLDAPInfo();

@@ -209,9 +209,6 @@ if (isset($_REQUEST['message'])) {
     case 'expired':
       $message = _('Your FusionDirectory session has expired!');
       break;
-    case 'newip':
-      $message = _('Your IP has changed!');
-      break;
     case 'invalidparameter':
       $message = sprintf(_('Invalid plugin parameter "%s"!'), $_REQUEST['plug']);
       break;
