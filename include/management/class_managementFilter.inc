@@ -31,6 +31,8 @@ class managementFilter
 
   protected $search = '';
 
+  protected $filterElements = array();
+
   /* The management class */
   public $parent;
 
@@ -60,6 +62,10 @@ class managementFilter
         'infos'   => objects::infos($type),
       );
     }
+
+    $this->filterElements = array(
+      new TabFilterElement($this),
+    );
   }
 
   function update()
@@ -76,6 +82,10 @@ class managementFilter
       $this->scope = (isset($_POST['SCOPE']) ? 'sub' : 'one');
 
       $this->search = (isset($_POST['SEARCH']) ? $_POST['SEARCH'] : '');
+
+      foreach ($this->filterElements as $element) {
+        $element->update();
+      }
     }
   }
 
@@ -95,6 +105,11 @@ class managementFilter
     if (!$parentClass::$skipTemplates) {
       $smarty->assign('TEMPLATES',  $this->showTemplates);
     }
+    $elements = array();
+    foreach ($this->filterElements as $element) {
+      $elements[] = $element->render();
+    }
+    $smarty->assign('FILTERS',  $elements);
 
     // load the file from the theme folder
     $file = get_template_path('management/filter.tpl');
@@ -108,6 +123,16 @@ class managementFilter
     $filter = '';
     if (!empty($this->search)) {
       $filter = '(|('.implode('=*'.$this->search.'*)(', $this->searchAttributes).'=*'.$this->search.'*))';
+    }
+    $elementFilters = array();
+    foreach ($this->filterElements as $element) {
+      $element->getFilters($elementFilters);
+    }
+    if (!empty($elementFilters)) {
+      if (!empty($filter)) {
+        $elementFilters[] = $filter;
+      }
+      $filter = '(&'.implode('', $elementFilters).')';
     }
 
     $objectTypeCount  = array();

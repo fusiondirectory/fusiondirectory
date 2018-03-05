@@ -5,32 +5,32 @@
 </div>
 
 <div class="contentboxb">
-  {if isset($objectFilters)}
-    {foreach from=$objectFilters item="ofilter"}
-      {${$ofilter.id}}<label for="{$ofilter.id}">&nbsp;{$ofilter.label}</label><br/>
-    {/foreach}
-  {/if}
+  <fieldset><legend>{t}Types{/t}</legend>
   {foreach from=$TYPES key="key" item="type"}
     <label for="{$key}">
       <input type="checkbox" id="{$key}" name="{$key}" value="1" onClick="document.mainform.submit();"
-        {if ($type.show)}checked="checked"{/if}>
-      <img src="{$type.infos.icon|escape}">
-      {$type.infos.name}
+        {if ($type.show)}checked="checked"{/if}/>
+      <img src="{$type.infos.icon|escape}"/>
+      {$type.infos.name|escape}
     </label>
   {/foreach}
   {if isset($TEMPLATES)}
     <label for="TEMPLATES">
       <input type="checkbox" id="TEMPLATES" name="TEMPLATES" value="1" onClick="document.mainform.submit();"
-        {if ($TEMPLATES)}checked="checked"{/if}>
-      <img src="geticon.php?context=devices&amp;icon=template&amp;size=16">
+        {if ($TEMPLATES)}checked="checked"{/if}/>
+      <img src="geticon.php?context=devices&amp;icon=template&amp;size=16"/>
       {t}Template{/t}
     </label>
   {/if}
+  </fieldset>
+  {foreach from=$FILTERS key="key" item="element"}
+    {$element}
+  {/foreach}
 
   <hr/>
   <label for="SCOPE">
     <input type="checkbox" id="SCOPE" name="SCOPE" value="1" onClick="document.mainform.submit();"
-    {if ($SCOPE == 'sub')}checked="checked"{/if}>
+    {if ($SCOPE == 'sub')}checked="checked"{/if}/>
     &nbsp;{t}Search in subtrees{/t}
   </label>
   <hr/>

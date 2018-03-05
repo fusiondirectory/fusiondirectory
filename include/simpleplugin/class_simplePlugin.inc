@@ -331,6 +331,15 @@ class simplePlugin
     return $found;
   }
 
+  function getLdapFilter()
+  {
+    if (!empty($this->objectclasses)) {
+      return '(&(objectClass='.implode(')(objectClass=', $this->objectclasses).'))';
+    } else {
+      return FALSE;
+    }
+  }
+
   function setTemplate ($bool)
   {
     $this->is_template = $bool;

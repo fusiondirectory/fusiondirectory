@@ -253,8 +253,8 @@ margin: 0;
 padding: 3px;
 box-sizing: border-box;
 }
-.filter div.contentboxb > label img,
-.filter div.contentboxb > label input[type=checkbox] {
+.filter div.contentboxb label img,
+.filter div.contentboxb label input[type=checkbox] {
 vertical-align: middle;
 padding:0;
 margin:0;
@@ -262,6 +262,10 @@ margin:0;
 .filter div.contentboxb > label {
 display:block;
 margin:5px;
+}
+.filter div.contentboxb > fieldset > label {
+display:block;
+margin:5px 0 0 0;
 }
 .filter div.contentboxb > hr {
 margin-bottom: 3px;
