@@ -145,7 +145,9 @@ class managementFilter
       }
       $infos      = $this->types[$type]['infos'];
       if ($this->scope == 'one') {
-        $base     = (empty($infos['ou']) ? $base : $infos['ou'].$base);
+        $searchBase = (empty($infos['ou']) ? $base : $infos['ou'].$base);
+      } else {
+        $searchBase = $base;
       }
       $attrsAsked = $attrs;
       if (!empty($infos['mainAttr']) && !isset($attrsAsked[$infos['mainAttr']])) {
@@ -157,7 +159,7 @@ class managementFilter
         $attrsAsked[$infos['nameAttr']] = '1';
       }
 
-      $ldapEntries = objects::ls($type, $attrsAsked, $base, $filter, TRUE, $this->scope);
+      $ldapEntries = objects::ls($type, $attrsAsked, $searchBase, $filter, TRUE, $this->scope);
 
       $objectTypeCount[$type] = count($ldapEntries);
       foreach ($ldapEntries as $dn => $entry) {
@@ -167,7 +169,7 @@ class managementFilter
 
       $parentClass = get_class($this->parent);
       if (!$parentClass::$skipTemplates && $this->showTemplates) {
-        $ldapEntries = objects::ls($type, $attrsAsked, (($this->scope == 'one') ? 'ou=templates,'.$base : $base), $filter, TRUE, $this->scope, TRUE);
+        $ldapEntries = objects::ls($type, $attrsAsked, (($this->scope == 'one') ? 'ou=templates,'.$searchBase : $searchBase), $filter, TRUE, $this->scope, TRUE);
 
         $objectTypeCount['template_'.$type] = count($ldapEntries);
         foreach ($ldapEntries as $dn => $entry) {
