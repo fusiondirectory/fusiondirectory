@@ -120,18 +120,19 @@ class managementFilter
 
   function query (array $attrs, $base)
   {
-    $filter = '';
-    if (!empty($this->search)) {
-      $filter = '(|('.implode('=*'.$this->search.'*)(', $this->searchAttributes).'=*'.$this->search.'*))';
-    }
     $elementFilters = array();
     foreach ($this->filterElements as $element) {
       $element->getFilters($elementFilters);
     }
-    if (!empty($elementFilters)) {
-      if (!empty($filter)) {
-        $elementFilters[] = $filter;
+    if (!empty($this->search)) {
+      if (preg_match('/^\(.+\)$/', $this->search)) {
+        $elementFilters[] = $this->search;
+      } else {
+        $elementFilters[] =  '(|('.implode('=*'.$this->search.'*)(', $this->searchAttributes).'=*'.$this->search.'*))';
       }
+    }
+    $filter = '';
+    if (!empty($elementFilters)) {
       $filter = '(&'.implode('', $elementFilters).')';
     }
 
