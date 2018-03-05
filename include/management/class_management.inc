@@ -165,11 +165,11 @@ class management
       $createMenu =
         array_merge(
           array(
-            new ActionSubMenu(
+            new SubMenuAction(
               'template', _('Template'), 'geticon.php?context=devices&icon=template&size=16',
               $templateMenu
             ),
-            new ActionSubMenu(
+            new SubMenuAction(
               'fromtemplate', _('From template'), 'geticon.php?context=actions&icon=document-new&size=16',
               $fromTemplateMenu
             ),
@@ -179,7 +179,7 @@ class management
     }
 
     $this->registerAction(
-      new ActionSubMenu(
+      new SubMenuAction(
         'new', _('Create'), 'geticon.php?context=actions&icon=document-new&size=16',
         $createMenu
       )
@@ -194,7 +194,7 @@ class management
       );
     }
     $this->registerAction(
-      new ActionSubMenu(
+      new SubMenuAction(
         'export', _('Export list'), 'geticon.php?context=actions&icon=document-export&size=16',
         $exportMenu
       )

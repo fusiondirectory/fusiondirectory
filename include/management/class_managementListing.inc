@@ -25,125 +25,26 @@
  */
 
 /*!
- * \brief This class contains all the function needed to sort list
- * go up, go down , back , next. etc...
- */
-class entrySortIterator implements Iterator {
-  protected $data;
-
-  /*!
-   * \brief listingSortIterator constructor
-   *
-   * \param array $data listingSortIterator data
-   *
-   * \param $direction Direction
-   *
-   * \param $attribute Attribute
-   *
-   * \param string $type
-   */
-  public function __construct($entries, $column, $direction)
-  {
-    // Sort for attribute
-    if (is_object($column)) {
-      uasort(
-        $entries,
-        function ($ao, $bo) use ($column)
-        {
-          return $column->compare($ao, $bo);
-        }
-      );
-    }
-
-    // Invert if direction is set
-    if ($direction) {
-      $this->data = array_reverse($entries, TRUE);
-    } else {
-      $this->data = $entries;
-    }
-  }
-
-  /*!
-   * \brief Put the array pointer to the first element
-   *
-   * \return the first element of the array
-   */
-  function rewind()
-  {
-    return reset($this->data);
-  }
-
-  /*!
-   * \brief Get the current data element
-   *
-   * \return The current element pointed by array pointer
-   */
-  function current()
-  {
-    return current($this->data);
-  }
-
-  /*!
-   * \brief Get the key element
-   *
-   * \return the key element of the array
-   */
-  function key()
-  {
-    return key($this->data);
-  }
-
-  /*!
-   * \brief Get the next data element
-   *
-   * \return The next element pointed by array pointer
-   */
-  function next()
-  {
-    return next($this->data);
-  }
-
-  /*!
-   * \brief Check if the data array is valid
-   *
-   * \return TRUE if the array is valid, return FALSE otherwise
-   */
-  function valid()
-  {
-    return (key($this->data) !== NULL);
-  }
-}
-
-/*!
  * \brief This class handles the entries list for a management instance
  */
 class managementListing
 {
+  public $pid;
+
+  public $multiSelect = TRUE;
+
   protected $entries      = array();
   protected $entriesIndex = array();
-  public $multiSelect            = TRUE;
   protected $base;
 
   protected $sortDirection  = NULL;
   protected $sortColumn     = NULL;
-  //~ protected $sortAttribute;
-  //~ protected $sortType;
 
-  //~ protected $numColumns;
-  protected $baseMode = TRUE;
-  protected $bases    = array();
-  protected $header   = array();
-  //~ protected $colprops = array();
-  //~ protected $filters  = array();
-  //~ protected $filter   = NULL;
-  public $pid;
-  //~ protected $departmentTypes  = array();
-  //~ var $objectTypes      = array();
+  protected $baseMode         = TRUE;
+  protected $bases            = array();
+  protected $header           = array();
   protected $objectTypeCount  = array();
-  //~ protected $objectDnMapping  = array();
-  //~ protected $snapshotHandler  = NULL;
   protected $baseSelector;
-  //~ protected $filterCache = array();
 
   /* The management class */
   public $parent;
@@ -205,39 +106,6 @@ class managementListing
   function getColumns()
   {
     return $this->columns;
-  }
-
-  /*!
-   * \brief Set a SnapshotHandler
-   *
-   * \param $handler The handler
-   *
-   * \see  SnapshotHandler
-   */
-  function setSnapshotHandler($handler)
-  {
-    if ($handler->enabled()) {
-      $this->snapshotHandler = $handler;
-    } else {
-      $this->snapshotHandler = NULL;
-    }
-  }
-
-  /*!
-   * \brief Set a filter
-   *
-   * \param string $filter
-   *
-   * \see filter
-   */
-  function setFilter($filter)
-  {
-    $this->filter     = $filter;
-    $filter->headpage = $this;
-    if ($this->departmentBrowser) {
-      $this->departments = $this->getDepartments();
-    }
-    $this->filter->setBase($this->base);
   }
 
   function renderHeader()
@@ -342,7 +210,7 @@ class managementListing
 
   function getIterator()
   {
-    return new entrySortIterator($this->entries, $this->columns[$this->sortColumn], $this->sortDirection[$this->sortColumn]);
+    return new EntrySortIterator($this->entries, $this->columns[$this->sortColumn], $this->sortDirection[$this->sortColumn]);
   }
 
   /*!
@@ -680,78 +548,15 @@ class managementListing
     }
   }
 
-  /*! \brief Get the departments */
-  function getDepartments()
-  {
-    $departments = array();
-    $ui = get_userinfo();
-
-    // Get list of supported department types
-    $types = departmentManagement::getDepartmentTypes();
-
-    // Load departments allowed by ACL
-    $validDepartments = array_keys($this->bases);
-
-    /* Fetch departments andtheir informations */
-    foreach ($types as $type) {
-      $i    = objects::infos($type);
-      $deps = objects::ls(
-        $type,
-        array(
-          'dn'            => 'raw',
-          'objectClass'   => 'raw',
-          'description'   => 'raw',
-          $i['mainAttr']  => 'raw'
-        ),
-        $this->base,
-        '',
-        FALSE,
-        'one'
-      );
-
-      // Analyze list of departments
-      foreach ($deps as $department) {
-        if (!in_array($department['dn'], $validDepartments)) {
-          continue;
-        }
-
-        /* php-ldap like indexes are needed for renderCell */
-        $count = 0;
-        foreach ($department as $key => $values) {
-          if ($key != 'dn') {
-            $department[$count++] = $key;
-          }
-        }
-        $department['count'] = $count;
-
-        // Add the attribute where we use for sorting
-        $department['sort-attribute'] = $i['mainAttr'];
-
-        // Move to the result list
-        $departments[] = $department;
-      }
-    }
-
-    return $departments;
-  }
-
+  /*!
+   * \brief Get entry
+   *
+   * \param string $dn The DN
+   */
   function getEntry($dn)
   {
     if (isset($this->entries[$dn])) {
       return $this->entries[$dn];
-    }
-    return NULL;
-  }
-
-  /*!
-   * \brief Get type
-   *
-   * \param string $dn The DN
-   */
-  function getType($dn)
-  {
-    if (isset($this->entries[$dn])) {
-      return $this->entries[$dn]->type;
     }
     return NULL;
   }
