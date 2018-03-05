@@ -128,7 +128,7 @@ class managementFilter
       if (preg_match('/^\(.+\)$/', $this->search)) {
         $elementFilters[] = $this->search;
       } else {
-        $elementFilters[] =  '(|('.implode('=*'.$this->search.'*)(', $this->searchAttributes).'=*'.$this->search.'*))';
+        $elementFilters[] = '(|('.implode('=*'.$this->search.'*)(', $this->searchAttributes).'=*'.$this->search.'*))';
       }
     }
     $filter = '';
