@@ -42,7 +42,9 @@ class SnapshotCreateDialog extends simplePlugin
           ),
           new TextAreaAttribute (
             _('Reason'), _('Reason for creating this snapshot'),
-            'description', TRUE
+            'description', TRUE,
+            '',
+            'SnapshotHandler'
           ),
         )
       ),
@@ -56,6 +58,21 @@ class SnapshotCreateDialog extends simplePlugin
     $this->object_dn    = $dn;
     $this->parent       = $parent;
     $this->aclCategory  = $aclCategory;
+  }
+
+  function renderAttributes($readOnly = FALSE)
+  {
+    global $ui;
+    $smarty = get_smarty();
+
+    $permissions = $ui->get_snapshot_permissions($this->acl_base, $this->aclCategory);
+    $acl = '';
+    if (in_array('c', $permissions)) {
+      $acl .= 'crw';
+    }
+    $smarty->assign('SnapshotHandlerACL', $acl);
+
+    return parent::renderAttributes($readOnly);
   }
 
   function execute ()
