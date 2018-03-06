@@ -24,11 +24,12 @@ class groupManagement extends management
   public static $skipTemplates = FALSE;
 
   public static $columns = array(
-    array('ObjectTypeColumn', array()),
-    array('LinkColumn',       array('attribute' => 'cn',          'label' => 'Name')),
-    array('LinkColumn',       array('attribute' => 'description', 'label' => 'Description')),
-    array('PropertiesColumn', array('label' => 'Properties')),
-    array('ActionsColumn',    array('label' => 'Actions')),
+    array('ObjectTypeColumn',   array()),
+    array('LinkColumn',         array('attribute' => 'cn',          'label' => 'Name')),
+    array('LinkColumn',         array('attribute' => 'description', 'label' => 'Description')),
+    array('GroupContentColumn', array('label' => 'Members')),
+    array('PropertiesColumn',   array('label' => 'Properties')),
+    array('ActionsColumn',      array('label' => 'Actions')),
   );
 
   //~ protected $siActive = FALSE;
@@ -62,29 +63,6 @@ class groupManagement extends management
     parent::__construct();
 
     //~ $this->headpage->registerElementFilter('filterProperties', 'groupManagement::filterProperties');
-  }
-
-  function configureFilter ()
-  {
-    parent::configureFilter();
-
-    if (!class_available('posixGroup')) {
-      /* If posix plugin is not installed, ignore posix filter */
-      $this->filter->elements['PRIMARY']['unset']  = '';
-      $this->filter->elements['PRIMARY']['set']    = '';
-    }
-    if (!class_available('mailAccount') || !class_available('posixGroup')) {
-      $this->filter->elements['MAIL']['unset']  = '';
-      $this->filter->elements['MAIL']['set']    = '';
-    }
-    if (!class_available('sambaAccount') || !class_available('posixGroup')) {
-      $this->filter->elements['SAMBA']['unset']  = '';
-      $this->filter->elements['SAMBA']['set']    = '';
-    }
-    if (static::$skipTemplates) {
-      $this->filter->elements['FILTERTEMPLATE']['unset']  = '';
-      $this->filter->elements['FILTERTEMPLATE']['set']    = '';
-    }
   }
 
   function configureHeadpage ()

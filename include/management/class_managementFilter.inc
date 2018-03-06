@@ -120,6 +120,8 @@ class managementFilter
 
   function query (array $attrs, $base)
   {
+    global $ui;
+
     $elementFilters = array();
     foreach ($this->filterElements as $element) {
       $element->getFilters($elementFilters);
@@ -159,6 +161,13 @@ class managementFilter
         $attrsAsked[$infos['nameAttr']] = '1';
       }
 
+      foreach ($attrsAsked as $attr => $data) {
+        // TODO: find a better way to avoid Exceptions
+        $category = $ui->getAttributeCategory($type, $attr);
+        if ($category === FALSE) {
+          unset($attrsAsked[$attr]);
+        }
+      }
       $ldapEntries = objects::ls($type, $attrsAsked, $searchBase, $filter, TRUE, $this->scope);
 
       $objectTypeCount[$type] = count($ldapEntries);
