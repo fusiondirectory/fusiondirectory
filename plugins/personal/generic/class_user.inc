@@ -277,6 +277,7 @@ class user extends simplePlugin
     return array(
       'plShortName'   => _('User'),
       'plDescription' => _('User account information'),
+      'plFilter'      => '(objectClass=inetOrgPerson)',
       'plIcon'        => 'geticon.php?context=applications&icon=user-info&size=48',
       'plSmallIcon'   => 'geticon.php?context=applications&icon=user-info&size=16',
       'plSelfModify'  => TRUE,
@@ -489,12 +490,6 @@ class user extends simplePlugin
     $this->attributesAccess['jpegPhoto']->setPlaceholder(fread ($fd, filesize($filename)));
 
     $this->was_locked = $this->attributesAccess['userPassword']->isLocked();
-  }
-
-  function is_this_account($attrs)
-  {
-    /* Only inetOrgPerson is needed, it has the two others as SUP classes */
-    return (isset($attrs['objectClass']) && in_array_ics('inetOrgPerson', $attrs['objectClass']));
   }
 
   function resetCopyInfos()

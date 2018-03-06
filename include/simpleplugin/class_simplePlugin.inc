@@ -318,26 +318,24 @@ class simplePlugin
 
   function is_this_account($attrs)
   {
-    $found = TRUE;
-    foreach ($this->objectclasses as $obj) {
-      if (preg_match('/^top$/i', $obj)) {
-        continue;
+    $result = static::isAccount($attrs);
+    if ($result === NULL) {
+      if (!empty($this->objectclasses)) {
+        trigger_error('Deprecated fallback was used for '.get_called_class().'::is_this_account');
       }
-      if (!isset($attrs['objectClass']) || !in_array_ics ($obj, $attrs['objectClass'])) {
-        $found = FALSE;
-        break;
+      $found = TRUE;
+      foreach ($this->objectclasses as $obj) {
+        if (preg_match('/^top$/i', $obj)) {
+          continue;
+        }
+        if (!isset($attrs['objectClass']) || !in_array_ics ($obj, $attrs['objectClass'])) {
+          $found = FALSE;
+          break;
+        }
       }
+      return $found;
     }
-    return $found;
-  }
-
-  function getLdapFilter()
-  {
-    if (!empty($this->objectclasses)) {
-      return '(&(objectClass='.implode(')(objectClass=', $this->objectclasses).'))';
-    } else {
-      return FALSE;
-    }
+    return $result;
   }
 
   function setTemplate ($bool)
@@ -408,11 +406,8 @@ class simplePlugin
    */
   function getObjectClassFilter ()
   {
-    if (!empty($this->objectclasses)) {
-      return '(&(objectClass='.implode(')(objectClass=', $this->objectclasses).'))';
-    } else {
-      return '';
-    }
+    trigger_error('Deprecated');
+    return static::getLdapFilter();
   }
 
   /*! \brief This function allows to use the syntax $plugin->attributeName to get attributes values
@@ -1956,6 +1951,46 @@ class simplePlugin
   function is_modal_dialog()
   {
     return (isset($this->dialog) && $this->dialog);
+  }
+
+  static function fillAccountAttrsNeeded(&$needed)
+  {
+    $infos = pluglist::pluginInfos(get_called_class());
+    if (isset($infos['plFilterObject'])) {
+      $attrs = $infos['plFilterObject']->listUsedAttributes();
+      foreach ($attrs as $attr) {
+        if (!isset($needed[$attr])) {
+          $needed[$attr] = '*';
+        }
+      }
+    }
+  }
+
+  static function isAccount($attrs)
+  {
+    $infos = pluglist::pluginInfos(get_called_class());
+    if (isset($infos['plFilterObject'])) {
+      return $infos['plFilterObject']($attrs);
+    }
+    return NULL;
+  }
+
+  static function getLdapFilter()
+  {
+    $infos = pluglist::pluginInfos(get_called_class());
+    if (isset($infos['plFilter'])) {
+      return $infos['plFilter'];
+    }
+    return NULL;
+  }
+
+  static function getLdapFilterObject()
+  {
+    $infos = pluglist::pluginInfos(get_called_class());
+    if (isset($infos['plFilterObject'])) {
+      return $infos['plFilterObject'];
+    }
+    return NULL;
   }
 
   /*!

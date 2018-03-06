@@ -23,6 +23,30 @@
  */
 class PropertiesColumn extends Column
 {
+  protected $tabs;
+
+  function __construct(managementListing $parent, $attribute = NULL, $label = NULL)
+  {
+    global $config;
+
+    parent::__construct($parent, $attribute, $label);
+
+    $this->tabs = array();
+
+    foreach ($this->parent->parent->objectTypes as $type) {
+      $infos = objects::infos($type);
+      $this->tabs[$type] = array();
+      foreach ($config->data['TABS'][$infos['tabGroup']] as $plug) {
+        if ($plug['CLASS'] == $infos['mainTab']) {
+          continue;
+        }
+        if (class_available($plug['CLASS'])) {
+          $this->tabs[$type][] = $plug['CLASS'];
+        }
+      }
+    }
+  }
+
   function isSortable()
   {
     return FALSE;
@@ -30,7 +54,11 @@ class PropertiesColumn extends Column
 
   function fillNeededAttributes(array &$attrs)
   {
-    $attrs['objectClass'] = '*';
+    foreach ($this->tabs as $type => $tabs) {
+      foreach ($tabs as $class) {
+        $class::fillAccountAttrsNeeded($attrs);
+      }
+    }
   }
 
   function renderCell(ListingEntry $entry)
@@ -38,22 +66,6 @@ class PropertiesColumn extends Column
     global $config;
 
     $infos = objects::infos($entry->getTemplatedType());
-
-    static $tabs = array();
-
-    if (empty($tabs[$entry->type])) {
-      $tabs[$entry->type] = array();
-      foreach ($config->data['TABS'][$infos['tabGroup']] as $plug) {
-        if ($plug['CLASS'] == $infos['mainTab']) {
-          continue;
-        }
-        if (class_available($plug['CLASS'])) {
-          $name = $plug['CLASS'];
-
-          $tabs[$entry->type][$name] = new $name('new');
-        }
-      }
-    }
 
     /* Main tab is always there */
     $pInfos = pluglist::pluginInfos($infos['mainTab']);
@@ -66,8 +78,9 @@ class PropertiesColumn extends Column
       } else {
         $attrs = $entry;
       }
-      foreach ($tabs[$entry->type] as $class => $tab) {
-        if ($tab->is_this_account($attrs)) {
+      foreach ($this->tabs[$entry->type] as $class) {
+        $status = $class::isAccount($attrs);
+        if ($status !== FALSE) {
           $pInfos = pluglist::pluginInfos($class);
           if (isset($pInfos['plSmallIcon'])) {
             $result .= '<input type="image" src="'.htmlentities($pInfos['plSmallIcon'], ENT_COMPAT, 'UTF-8').'" '.

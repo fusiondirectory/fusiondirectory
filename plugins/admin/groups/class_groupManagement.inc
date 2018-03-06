@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,15 +19,19 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class groupManagement extends simpleManagement
+class groupManagement extends management
 {
-  protected $objectTypes  = array('ogroup', 'role', 'group');
-
-  protected $autoFilter = FALSE;
-
   public static $skipTemplates = FALSE;
 
-  protected $siActive = FALSE;
+  public static $columns = array(
+    array('ObjectTypeColumn', array()),
+    array('LinkColumn',       array('attribute' => 'cn',          'label' => 'Name')),
+    array('LinkColumn',       array('attribute' => 'description', 'label' => 'Description')),
+    array('PropertiesColumn', array('label' => 'Properties')),
+    array('ActionsColumn',    array('label' => 'Actions')),
+  );
+
+  //~ protected $siActive = FALSE;
 
   static function plInfo()
   {
@@ -46,8 +50,8 @@ class groupManagement extends simpleManagement
 
   function __construct()
   {
-    $this->filterXMLPath  = get_template_path('group-filter.xml', TRUE, dirname(__FILE__));
-    $this->listXMLPath    = get_template_path('group-list.xml', TRUE, dirname(__FILE__));
+    //~ $this->filterXMLPath  = get_template_path('group-filter.xml', TRUE, dirname(__FILE__));
+    //~ $this->listXMLPath    = get_template_path('group-list.xml', TRUE, dirname(__FILE__));
 
     // Check if we are able to communicate with Argonaut server
     if (class_available('supportDaemon') && class_available('argonautAction')) {
@@ -57,7 +61,7 @@ class groupManagement extends simpleManagement
 
     parent::__construct();
 
-    $this->headpage->registerElementFilter('filterProperties', 'groupManagement::filterProperties');
+    //~ $this->headpage->registerElementFilter('filterProperties', 'groupManagement::filterProperties');
   }
 
   function configureFilter ()
@@ -231,7 +235,7 @@ class groupManagement extends simpleManagement
 
   /*! \brief  Detects actions/events send by the ui
    *           and the corresponding targets.
-   */
+   *//*
   function detectPostActions()
   {
     $action = parent::detectPostActions();
@@ -241,60 +245,6 @@ class groupManagement extends simpleManagement
       $action['action'] = 'cancel';
     }
     return $action;
-  }
-
-  static function filterProperties($row, $dn, $objectType, $attrs, $gosaGroupObjects = NULL)
-  {
-    global $config;
-    static $grouptabs = array();
-
-    // Load information if needed
-    $result = '&nbsp;';
-    if (!empty($attrs)) {
-      if (strtolower($objectType) == 'ogroup') {
-        if (empty($gosaGroupObjects)) {
-          return $result;
-        } else {
-          return static::filterGroupObjects($row, $gosaGroupObjects);
-        }
-      }
-      if (strtolower($objectType) == 'role') {
-        return '<input class="center" type="image" src="geticon.php?context=types&amp;icon=role&amp;size=16" '.
-                 'alt="'._('Role').'" title="'._('Edit role properties').'" '.
-                 'name="listing_edit_'.$row.'" style="padding:1px"/>';
-      }
-      if (empty($grouptabs)) {
-        foreach ($config->data['TABS']['GROUPTABS'] as $plug) {
-          if ($plug['CLASS'] == 'posixGroup') {
-            continue;
-          }
-          if (class_available($plug['CLASS'])) {
-            $name = $plug['CLASS'];
-
-            $grouptabs[$name] = new $name($dn);
-          }
-        }
-      }
-      $result = '<input class="center" type="image" src="geticon.php?context=types&amp;icon=user-group&amp;size=16" '.
-                       'alt="'._('Posix').'" title="'._('Edit posix properties').'" '.
-                       'name="listing_edit_tab_group_'.$row.'" style="padding:1px"/>';
-      foreach ($grouptabs as $class => $grouptab) {
-        if ($grouptab->is_this_account($attrs)) {
-          $infos = pluglist::pluginInfos($class);
-          if (isset($infos['plSmallIcon'])) {
-            $result .= '<input class="center" type="image" src="'.htmlentities($infos['plSmallIcon'], ENT_COMPAT, 'UTF-8').'" '.
-                       'alt="'.$infos['plTitle'].'" title="'.$infos['plTitle'].'" '.
-                       'name="listing_edit_tab_'.$class.'_'.$row.'" style="padding:1px"/>';
-          } else {
-            @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $infos['plShortName']." ($class)", 'No icon for');
-          }
-        } else {
-          $result .= '<img src="images/empty.png" alt=" " class="center optional '.$class.'" style="padding:1px"/>';
-        }
-      }
-    }
-
-    return $result;
   }
 
   static function filterGroupObjects($row, $gosaGroupObjects)
@@ -359,6 +309,6 @@ class groupManagement extends simpleManagement
     $this->headpage->update();
     $display = $this->headpage->render();
     return $this->getHeader().$display;
-  }
+  }*/
 }
 ?>

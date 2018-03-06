@@ -38,7 +38,7 @@ class Column
    * \param string $type a column class
    * \param array $data an associative array with attribute and label
    * */
-  static function build($type, array $data)
+  static function build(managementListing $parent, $type, array $data)
   {
     $attribute  = NULL;
     $label      = NULL;
@@ -49,11 +49,12 @@ class Column
       $label = $data['label'];
     }
 
-    return new $type($attribute, $label);
+    return new $type($parent, $attribute, $label);
   }
 
-  function __construct($attribute = NULL, $label = NULL)
+  function __construct(managementListing $parent, $attribute = NULL, $label = NULL)
   {
+    $this->parent     = $parent;
     $this->attribute  = $attribute;
     $this->label      = $label;
   }
@@ -61,11 +62,6 @@ class Column
   function setTemplateAttribute($attribute)
   {
     $this->templateAttribute = $attribute;
-  }
-
-  function setParent(managementListing $parent)
-  {
-    $this->parent = $parent;
   }
 
   function isSortable()

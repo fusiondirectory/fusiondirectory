@@ -174,7 +174,7 @@ class ogroup extends simplePlugin
     return array(
       'plShortName'   => _('Object group'),
       'plDescription' => _('Object group information'),
-      'plSelfModify'  => FALSE,
+      'plFilter'      => '(objectClass=groupOfNames)',
       'plPriority'    => 1,
       'plObjectType'  => array('ogroup' => array(
         'name'        => _('Group'),
@@ -297,21 +297,6 @@ class ogroup extends simplePlugin
 
     $this->reload();
     $this->savedTypedMembers = $this->attributesAccess['member']->getTypedValues();
-  }
-
-  /*! \brief This function returns an LDAP filter for this plugin object classes
-   */
-  function getObjectClassFilter ()
-  {
-    return '(objectClass=groupOfNames)';
-  }
-
-  function is_this_account($attrs)
-  {
-    $this->objectclasses  = array('groupOfNames');
-    $found = parent::is_this_account($attrs);
-    $this->objectclasses  = array('groupOfNames', 'gosaGroupOfNames');
-    return $found;
   }
 
   function prepare_save()

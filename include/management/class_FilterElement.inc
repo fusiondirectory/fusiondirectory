@@ -67,12 +67,11 @@ class TabFilterElement extends FilterElement
           continue;
         }
         if (class_available($class)) {
-          $tab    = new $class('new');
-          $filter = $tab->getLdapFilter();
-          if (!empty($filter)) {
+          $classInfos = pluglist::pluginInfos($class);
+          if (isset($classInfos['plFilterObject'])) {
             $this->tabs[$class] = array(
-              'filter'  => ldapFilter::parse($filter),
-              'infos'   => pluglist::pluginInfos($class),
+              'filter'  => $classInfos['plFilterObject'],
+              'infos'   => $classInfos,
               'checked' => FALSE,
             );
           }

@@ -93,11 +93,7 @@ class managementListing
 
     $this->columns = array();
     foreach ($columnInfos as $columnInfo) {
-      $this->columns[] = Column::build($columnInfo[0], $columnInfo[1]);
-    }
-
-    foreach ($this->columns as $column) {
-      $column->setParent($this);
+      $this->columns[] = Column::build($this, $columnInfo[0], $columnInfo[1]);
     }
 
     $this->columns[1]->setTemplateAttribute('cn');
