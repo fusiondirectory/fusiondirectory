@@ -57,7 +57,7 @@ class PropertiesColumn extends Column
 
     /* Main tab is always there */
     $pInfos = pluglist::pluginInfos($infos['mainTab']);
-    $result = '<input type="image" src="'.htmlentities($pInfos['plSmallIcon'], ENT_COMPAT, 'UTF-8').'" '.
+    $result = '<input type="image" src="'.htmlentities((isset($pInfos['plSmallIcon']) ? $pInfos['plSmallIcon'] : $infos['icon']), ENT_COMPAT, 'UTF-8').'" '.
                'alt="'.$pInfos['plShortName'].'" title="'.$pInfos['plShortName'].'" '.
                'name="listing_edit_tab_'.$infos['mainTab'].'_'.$entry->row.'"/>';
     if (!empty($entry)) {

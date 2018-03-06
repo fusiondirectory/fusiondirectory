@@ -96,7 +96,7 @@ class TabFilterElement extends FilterElement
       $inputs['filter_tab_'.$class] = array(
         'name'    => $tab['infos']['plShortName'],
         'desc'    => $tab['infos']['plShortName'].' '.$tab['filter'],
-        'icon'    => $tab['infos']['plSmallIcon'],
+        'icon'    => (isset($tab['infos']['plSmallIcon']) ? $tab['infos']['plSmallIcon'] : NULL),
         'checked' => $tab['checked'],
       );
     }
