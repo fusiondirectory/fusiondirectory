@@ -495,7 +495,7 @@ class managementListing
       $result['action'] = validate($_POST['act']);
     }
 
-    if (preg_match('/^([a-zA-Z]+)_([a-zA-Z_]+)/', $result['action'], $m)) {
+    if (preg_match('/^([a-zA-Z\.]+)_([a-zA-Z_\.]+)$/', $result['action'], $m)) {
       $result['action']     = $m[1];
       $result['subaction']  = $m[2];
     }

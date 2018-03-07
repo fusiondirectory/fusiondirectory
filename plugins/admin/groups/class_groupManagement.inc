@@ -32,7 +32,7 @@ class groupManagement extends management
     array('ActionsColumn',      array('label' => 'Actions')),
   );
 
-  //~ protected $siActive = FALSE;
+  protected $siActive = FALSE;
 
   static function plInfo()
   {
@@ -51,9 +51,6 @@ class groupManagement extends management
 
   function __construct()
   {
-    //~ $this->filterXMLPath  = get_template_path('group-filter.xml', TRUE, dirname(__FILE__));
-    //~ $this->listXMLPath    = get_template_path('group-list.xml', TRUE, dirname(__FILE__));
-
     // Check if we are able to communicate with Argonaut server
     if (class_available('supportDaemon') && class_available('argonautAction')) {
       $o = new supportDaemon();
@@ -62,47 +59,49 @@ class groupManagement extends management
 
     parent::__construct();
 
-    //~ $this->headpage->registerElementFilter('filterProperties', 'groupManagement::filterProperties');
+    // TODO? add group content filter
+    // TODO enable sort by properties and member types
   }
 
-  function configureHeadpage ()
+  protected function configureActions()
   {
-    parent::configureHeadpage();
+    parent::configureActions();
 
-    // Register Daemon Events
     if ($this->siActive) {
-      $this->headpage->xmlData['actionmenu']['action'][4]['action'] = array();
-      $this->headpage->xmlData['actionmenu']['action'][5]['action'] = array();
+      $triggerActions   = array();
+      $scheduleActions  = array();
       $events = argonautEventTypes::get_event_types();
-      foreach ($events as $name => $data) {
-        $this->registerAction('T_'.$name, 'handleEvent');
-        $this->headpage->xmlData['actionmenu']['action'][4]['action'][] = array(
-        'name' => 'T_'.$name,
-        'type' => 'entry',
-        'image' => $data['img'],
-        'label' => $data['name'],
+      foreach ($events as $name => $infos) {
+        $triggerActions[] = new Action(
+          'trigger_'.$name, $infos['name'], $infos['img'],
+          '*', 'handleEvent'
         );
-        $this->registerAction('S_'.$name, 'handleEvent');
-        $this->headpage->xmlData['actionmenu']['action'][5]['action'][] = array(
-        'name' => 'S_'.$name,
-        'type' => 'entry',
-        'image' => $data['img'],
-        'label' => $data['name'],
+        $scheduleActions[] = new Action(
+          'schedule_'.$name, $infos['name'], $infos['img'],
+          '*', 'handleEvent'
         );
       }
-    } else {
-      unset($this->headpage->xmlData['actionmenu']['action'][3]);
-      unset($this->headpage->xmlData['actionmenu']['action'][4]);
-      unset($this->headpage->xmlData['actionmenu']['action'][5]);
-      $this->headpage->xmlData['actionmenu']['action'] = array_values($this->headpage->xmlData['actionmenu']['action']);
+      $this->registerAction(
+        new SubMenuAction(
+          'trigger', _('Trigger action'), 'geticon.php?context=types&icon=action&size=16',
+          $triggerActions
+        )
+      );
+      $this->registerAction(
+        new SubMenuAction(
+          'schedule', _('Schedule action'), 'geticon.php?context=actions&icon=task-schedule&size=16',
+          $scheduleActions
+        )
+      );
+      $this->actions['trigger']->setSeparator(TRUE);
+      $this->registerAction(new HiddenAction('saveEvent', 'saveEventDialog'));
     }
-    $this->registerAction('saveEvent', 'saveEventDialog');
   }
 
   /*! \brief    Handle Argonaut events
    *            All schedules and triggered events are handled here.
    */
-  function handleEvent($action, array $target)
+  function handleEvent($action)
   {
     global $config;
 
@@ -111,33 +110,27 @@ class groupManagement extends management
     }
 
     // Detect whether this event is scheduled or triggered.
-    $triggered = TRUE;
-    if (preg_match('/^S_/', $action)) {
-      $triggered = FALSE;
-    }
-
-    // Detect triggered or scheduled actions
-    $headpage = $this->getHeadpage();
-    $event = preg_replace('/^[TS]_/', '', $action);
+    $triggered  = ($action['action'] == 'trigger');
+    $event      = $action['subaction'];
 
     // Now send FAI/Argonaut events here.
     $mac = array();
 
     // Collect target mac addresses
     $ldap = $config->get_ldap_link();
-    foreach ($target as $dn) {
-      $obj = $headpage->getEntry($dn);
-      if (isset($obj['member']['count'])) {
-        for ($i = 0; $i < $obj['member']['count']; $i++) {
-          $ldap->cat($obj['member'][$i]);
+    foreach ($action['targets'] as $dn) {
+      $obj = $this->listing->getEntry($dn);
+      if (isset($obj['member'])) {
+        foreach ($obj['member'] as $member) {
+          $ldap->cat($member);
           if ($attrs = $ldap->fetch()) {
             if (isset($attrs['macAddress'][0])) {
               $mac[] = $attrs['macAddress'][0];
             } else {
-              msg_dialog::display(_('Action canceled'), sprintf(_('System %s has no mac address defined, cannot trigger action'), $obj['member'][$i]), ERROR_DIALOG);
+              msg_dialog::display(_('Action canceled'), sprintf(_('System %s has no mac address defined, cannot trigger action'), $member), ERROR_DIALOG);
             }
           } else {
-            msg_dialog::display(_('Action canceled'), sprintf(_('Could not find system %s, cannot trigger action'), $obj['member'][$i]), ERROR_DIALOG);
+            msg_dialog::display(_('Action canceled'), sprintf(_('Could not find system %s, cannot trigger action'), $member), ERROR_DIALOG);
           }
         }
       }
@@ -213,7 +206,7 @@ class groupManagement extends management
 
   /*! \brief  Detects actions/events send by the ui
    *           and the corresponding targets.
-   *//*
+   */
   function detectPostActions()
   {
     $action = parent::detectPostActions();
@@ -224,69 +217,5 @@ class groupManagement extends management
     }
     return $action;
   }
-
-  static function filterGroupObjects($row, $gosaGroupObjects)
-  {
-    $types  = preg_replace('/[^a-z]/i', '', $gosaGroupObjects[0]);
-    $result = '';
-    for ($i = 0; $i < strlen($types); $i++) {
-      if ($types[$i] == 'I') {
-        continue;
-      }
-      $info   = objects::infos(ogroup::$objectTypes[$types[$i]]);
-      $result .= '<img class="center" src="'.htmlentities($info['icon'], ENT_COMPAT, 'UTF-8').'" '.
-        'alt="'.$info['name'].'" title="'.$info['name'].'" style="padding:1px"/>';
-    }
-    if ($result == '') {
-      return '&nbsp;';
-    }
-    return $result;
-  }
-
-  function renderList()
-  {
-    $smarty = get_smarty();
-    $filters = array(
-      array('id'  => 'USER',        'label'  => _('Show user groups')),
-      array('id'  => 'ROLE',        'label'  => _('Show organizational roles')),
-      array('id'  => 'APPLICATION', 'label'  => _('Show application groups')),
-      array('id'  => 'GROUP',       'label'  => _('Show groups of groups')),
-      array('id'  => 'UNKNOWN',     'label'  => _('Show unidentified groups')),
-    );
-    if (class_available('posixGroup')) {
-      $filters[] = array('id'  => 'PRIMARY',  'label'  => _('Show primary groups'));
-      if (class_available('mailAccount')) {
-        $filters[] = array('id'  => 'MAIL',  'label'  => _('Show mail groups'));
-      }
-      if (class_available('sambaAccount')) {
-        $filters[] = array('id'  => 'SAMBA', 'label'  => _('Show samba groups'));
-      }
-    }
-    if (class_available('simpleSecurityObject')) {
-      $filters[] = array('id'  => 'SIMPLESECURITYOBJECT',  'label'  => _('Show DSA entries'));
-    }
-    if (class_available('systemManagement')) {
-      $filters = array_merge(
-        $filters,
-        array(
-          array('id'  => 'SERVER',      'label'  => _('Show server groups')),
-          array('id'  => 'WORKSTATION', 'label'  => _('Show workstation groups')),
-          array('id'  => 'TERMINAL',    'label'  => _('Show terminal groups')),
-          array('id'  => 'PRINTER',     'label'  => _('Show printer groups')),
-          array('id'  => 'PHONE',       'label'  => _('Show phone groups')),
-        )
-      );
-    }
-    if (!static::$skipTemplates) {
-      $filters[] = array(
-        'id'    => 'FILTERTEMPLATE',
-        'label' => sprintf(_('Show %s'), _('Template'))
-      );
-    }
-    $smarty->assign('objectFilters', $filters);
-    $this->headpage->update();
-    $display = $this->headpage->render();
-    return $this->getHeader().$display;
-  }*/
 }
 ?>
