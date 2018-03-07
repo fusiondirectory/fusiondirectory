@@ -60,6 +60,24 @@ class SnapshotCreateDialog extends simplePlugin
     $this->aclCategory  = $aclCategory;
   }
 
+  /*! \brief Check if logged in user have enough right to write this attribute value
+   *
+   * \param mixed $attr Attribute object or name (in this case it will be fetched from attributesAccess)
+   */
+  function attrIsWriteable($attr)
+  {
+    global $ui;
+
+    if (!is_object($attr)) {
+      $attr = $this->attributesAccess[$attr];
+    }
+    if ($attr->getLdapName() == 'description') {
+      return in_array('c', $ui->get_snapshot_permissions($this->acl_base, $this->aclCategory));
+    } else {
+      return parent::attrIsWriteable($attr);
+    }
+  }
+
   function renderAttributes($readOnly = FALSE)
   {
     global $ui;
