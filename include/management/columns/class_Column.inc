@@ -100,9 +100,8 @@ class Column
     }
   }
 
-  function getRowClasses(ListingEntry $entry)
+  function fillRowClasses(&$classes, ListingEntry $entry)
   {
-    return array();
   }
 
   function renderCell(ListingEntry $entry)

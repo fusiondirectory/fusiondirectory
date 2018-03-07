@@ -68,13 +68,10 @@ class LockAction extends Action
     );
   }
 
-  function getRowClasses(ListingEntry $entry)
+  function fillRowClasses(&$classes, ListingEntry $entry)
   {
-    $lockStatus = $this->isLocked($entry);
-    if ($lockStatus === TRUE) {
-      return array('entry-locked');
-    } else {
-      return array();
+    if ($this->isLocked($entry) === TRUE) {
+      $classes[] = 'entry-locked';
     }
   }
 

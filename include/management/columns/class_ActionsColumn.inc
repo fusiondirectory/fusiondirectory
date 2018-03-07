@@ -28,9 +28,9 @@ class ActionsColumn extends Column
     return FALSE;
   }
 
-  function getRowClasses(ListingEntry $entry)
+  function fillRowClasses(&$classes, ListingEntry $entry)
   {
-    return $this->parent->parent->getActionRowClasses($entry);
+    $this->parent->parent->fillActionRowClasses($classes, $entry);
   }
 
   function renderCell(ListingEntry $entry)

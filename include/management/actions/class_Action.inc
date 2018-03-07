@@ -143,9 +143,8 @@ class Action
     );
   }
 
-  function getRowClasses(ListingEntry $entry)
+  function fillRowClasses(&$classes, ListingEntry $entry)
   {
-    return array();
   }
 
   function renderColumnIcons(ListingEntry $entry)

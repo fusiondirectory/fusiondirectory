@@ -168,7 +168,7 @@ class managementListing
           'props'   => $column->getHtmlCellProps(),
           'render'  => $column->renderCell($entry)
         );
-        $row['classes'] = array_merge($row['classes'], $column->getRowClasses($entry));
+        $column->fillRowClasses($row['classes'], $entry);
       }
 
       $row['index']   = $entry->row;

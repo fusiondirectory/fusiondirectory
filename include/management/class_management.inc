@@ -464,15 +464,11 @@ class management
     return $result;
   }
 
-  function getActionRowClasses(ListingEntry $entry)
+  function fillActionRowClasses(&$classes, ListingEntry $entry)
   {
-    $classes = array();
     foreach ($this->actions as $action) {
-      // TODO optimize
-      $classes = array_merge($classes, $action->getRowClasses($entry));
+      $action->fillRowClasses($classes, $entry);
     }
-
-    return $classes;
   }
 
   /*!
