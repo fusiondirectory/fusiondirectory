@@ -301,24 +301,25 @@ class management
    */
   function detectPostActions()
   {
-    // TODO: do not check all actions in dialog/tab mode
     if (!is_object($this->listing)) {
       throw new Exception('No valid listing object');
     }
-    $action = $this->listing->getAction();
-    if (isset($_POST['edit_cancel'])) {
-      $action['action'] = 'cancel';
-    } elseif (isset($_POST['edit_finish'])) {
-      $action['action'] = 'save';
-    } elseif (isset($_POST['edit_apply'])) {
-      $action['action'] = 'apply';
-    }
-    if (!$this->is_modal_dialog()) {
+    $action = array('targets' => array(), 'action' => '', 'subaction' => NULL);
+    if ($this->is_modal_dialog()) {
+      if (isset($_POST['edit_cancel'])) {
+        $action['action'] = 'cancel';
+      } elseif (isset($_POST['edit_finish'])) {
+        $action['action'] = 'save';
+      } elseif (isset($_POST['edit_apply'])) {
+        $action['action'] = 'apply';
+      }
+    } else {
       if (isset($_POST['delete_confirmed'])) {
         $action['action'] = 'removeConfirmed';
-      }
-      if (isset($_POST['delete_cancel'])) {
+      } elseif (isset($_POST['delete_cancel'])) {
         $action['action'] = 'cancelDelete';
+      } else {
+        $action = $this->listing->getAction();
       }
     }
 
@@ -331,9 +332,6 @@ class management
   function handleAction(array $action)
   {
     // Start action
-    if (!isset($action['targets'])) {
-      $action['targets'] = array();
-    }
     if (isset($action['subaction']) && isset($this->actionHandlers[$action['action'].'_'.$action['subaction']])) {
       return $this->actionHandlers[$action['action'].'_'.$action['subaction']]->execute($this, $action);
     } elseif (isset($this->actionHandlers[$action['action']])) {
@@ -417,6 +415,7 @@ class management
   {
     global $config;
 
+    // Rendering things using smarty themselves first
     $list     = $this->listing->render();
     $filter   = $this->filter->render();
     $actions  = $this->renderActionMenu();
@@ -427,16 +426,10 @@ class management
     $smarty->assign('LIST',         $list);
     $smarty->assign('SIZELIMIT',    print_sizelimit_warning());
     $smarty->assign('MULTISELECT',  $this->listing->multiSelect);
-
-    // Assign navigation elements
-    $smarty->assign('NAVIGATION', $this->listing->renderNavigation()); // TODO: move here?
-
-    //~ // Assign action menu / base
-    $smarty->assign('ACTIONS', $actions);
-    $smarty->assign('BASE', $this->listing->renderBase()); // TODO: move here?
-
-    // Assign summary
-    $smarty->assign('HEADLINE', $this->headline);
+    $smarty->assign('NAVIGATION',   $this->listing->renderNavigation());
+    $smarty->assign('ACTIONS',      $actions);
+    $smarty->assign('BASE',         $this->listing->renderBase());
+    $smarty->assign('HEADLINE',     $this->headline);
 
     return $this->getHeader().$smarty->fetch(get_template_path('management/management.tpl'));
   }
@@ -983,7 +976,7 @@ class management
   {
     global $config, $ui;
 
-    if (!count($action['targets'])) {
+    if (empty($action['targets'])) {
       // No target, open the restore removed object dialog.
       $this->dn     = $this->listing->getBase();
       $aclCategory  = $this->listAclCategories();
@@ -996,9 +989,9 @@ class management
       $aclCategory = objects::infos($this->getEntry($this->dn)->getTemplatedType())['aclCategory'];
     }
 
-    if ($ui->allow_snapshot_restore($this->dn, $aclCategory, !count($action['targets']))) {
+    if ($ui->allow_snapshot_restore($this->dn, $aclCategory, empty($action['targets']))) {
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Snaptshot restoring initiated!');
-      $this->dialogObject = new SnapshotRestoreDialog($this->dn, $this, !count($action['targets']), $aclCategory);
+      $this->dialogObject = new SnapshotRestoreDialog($this->dn, $this, empty($action['targets']), $aclCategory);
     } else {
       msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $this->dn),
           ERROR_DIALOG);

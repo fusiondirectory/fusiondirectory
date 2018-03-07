@@ -452,10 +452,6 @@ class managementListing
         unset($_REQUEST['dn']);
       }
 
-      // Drop targets if empty
-      if (count($result['targets']) == 0) {
-        unset($result['targets']);
-      }
       if (preg_match('/^([a-zA-Z]+)_([a-zA-Z_]+)$/', $result['action'], $m)) {
         $result['action']     = $m[1];
         $result['subaction']  = $m[2];
@@ -465,7 +461,6 @@ class managementListing
 
     // Filter POST with "listing_" attributes
     foreach (array_keys($_POST) as $key) {
-
       // Capture selections
       if (preg_match('/^listing_selected_[0-9]+$/', $key)) {
         $target = preg_replace('/^listing_selected_([0-9]+)$/', '$1', $key);
@@ -497,10 +492,6 @@ class managementListing
       $result['action'] = validate($_POST['act']);
     }
 
-    // Drop targets if empty
-    if (count($result['targets']) == 0) {
-      unset($result['targets']);
-    }
     if (preg_match('/^([a-zA-Z]+)_([a-zA-Z_]+)/', $result['action'], $m)) {
       $result['action']     = $m[1];
       $result['subaction']  = $m[2];
