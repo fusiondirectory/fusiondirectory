@@ -8,9 +8,13 @@
           &nbsp;<img src="images/forward-arrow.png" alt="forward arrow"/>
         </a>
         {menu data=$entry.actions level=$level+1}
-      {else}
+      {elseif $entry.enabled}
         <a href="#" onClick="document.getElementById('actionmenu').value='{$entry.name|escape}';document.getElementById('exec_act').click();">
           <img src="{$entry.icon|escape}" alt="{$entry.name|escape}">&nbsp;{$entry.label|escape}
+        </a>
+      {else}
+        <a>
+          <img src="{$entry.icon|escape}&amp;disabled=1" alt="{$entry.name|escape}">&nbsp;{$entry.label|escape}
         </a>
       {/if}
     </li>

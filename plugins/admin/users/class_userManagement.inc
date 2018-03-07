@@ -55,6 +55,7 @@ class LockAction extends Action
       'name'      => $this->name.'_lock',
       'icon'      => $this->icon['lock'],
       'label'     => $this->label['lock'],
+      'enabled'   => $this->isEnabledFor(),
       'separator' => $this->separator,
     );
 
@@ -62,6 +63,7 @@ class LockAction extends Action
       'name'      => $this->name.'_unlock',
       'icon'      => $this->icon['unlock'],
       'label'     => $this->label['unlock'],
+      'enabled'   => $this->isEnabledFor(),
       'separator' => FALSE,
     );
   }

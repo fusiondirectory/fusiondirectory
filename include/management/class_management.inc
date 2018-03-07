@@ -223,7 +223,6 @@ class management
           array('r')
         )
       );
-      // TODO: disable paste when there is nothing to paste
       $this->registerAction(
         new Action(
           'paste', _('Paste'), 'geticon.php?context=actions&icon=edit-paste&size=16',
@@ -231,6 +230,7 @@ class management
           array('w')
         )
       );
+      $this->actions['paste']->setEnableFunction(array($this, 'enablePaste'));
     }
 
     $this->registerAction(
@@ -256,6 +256,7 @@ class management
         )
       );
       $this->actions['snapshot']->setSeparator(TRUE);
+      $this->actions['restore']->setEnableFunction(array($this, 'enableSnapshotRestore'));
     }
 
     /* Actions from footer are not in any menus and do not need a label */
@@ -406,6 +407,11 @@ class management
 
     // Update list
     $this->listing->update();
+
+    // Init snapshot list for renderSnapshotActions
+    if (is_object($this->snapHandler)) {
+      $this->snapHandler->initSnapshotCache($this->listing->getBase());
+    }
 
     // Display list
     return $this->renderList();
@@ -603,6 +609,15 @@ class management
         $this->dialogObject->setNextTarget($this->dn);
         $this->dialogObject->save_object();
       }
+    }
+  }
+
+  function enablePaste($action, ListingEntry $entry = NULL)
+  {
+    if ($entry === NULL) {
+      return $this->cpHandler->entries_queued();
+    } else {
+      return FALSE;
     }
   }
 
@@ -986,7 +1001,7 @@ class management
       if (empty($this->dn)) {
         return;
       }
-      $aclCategory = objects::infos($this->getEntry($this->dn)->getTemplatedType())['aclCategory'];
+      $aclCategory = objects::infos($this->listing->getEntry($this->dn)->getTemplatedType())['aclCategory'];
     }
 
     if ($ui->allow_snapshot_restore($this->dn, $aclCategory, empty($action['targets']))) {
@@ -1051,6 +1066,20 @@ class management
   function getAvailableSnapsShots($dn)
   {
     return $this->snapHandler->getAvailableSnapsShots($dn);
+  }
+
+  /*
+   * \brief Whether snapshot restore action should be enabled for an entry
+   */
+  function enableSnapshotRestore($action, ListingEntry $entry = NULL)
+  {
+    if ($entry !== NULL) {
+      /* For entries */
+      return $this->snapHandler->hasSnapshots($entry->dn);
+    } else {
+      /* For action menu */
+      return $this->snapHandler->hasDeletedSnapshots($this->getSnapshotBases());
+    }
   }
 
   /*!

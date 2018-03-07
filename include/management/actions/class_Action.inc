@@ -37,6 +37,7 @@ class Action
   protected $inline;
 
   protected $callable;
+  protected $enabledCallable;
 
   protected $minTargets;
   protected $maxTargets;
@@ -99,6 +100,11 @@ class Action
     $this->separator = $bool;
   }
 
+  function setEnableFunction(callable $callable)
+  {
+    $this->enabledCallable = $callable;
+  }
+
   function listActions()
   {
     return array($this->name);
@@ -127,10 +133,12 @@ class Action
     if (!$this->inmenu) {
       return;
     }
+
     $actions[] = array(
       'name'      => $this->name,
       'icon'      => $this->icon,
       'label'     => $this->label,
+      'enabled'   => $this->isEnabledFor(),
       'separator' => $this->separator,
     );
   }
@@ -151,12 +159,22 @@ class Action
       return '<img src="images/empty.png" alt=" " class="optional"/>';
     }
 
-    // TODO? Skip entry if the pseudo filter does not fit
-    // TODO? Skip depending on type
+    if (!$this->isEnabledFor($entry)) {
+      return '<img src="'.htmlentities($this->icon.'&disabled=1', ENT_COMPAT, 'UTF-8').'"'.
+              ' title="'.$this->label.'" alt="'.$this->label.'"/>';
+    }
 
     // Render
     return '<input type="image" src="'.htmlentities($this->icon, ENT_COMPAT, 'UTF-8').'"'.
             ' title="'.$this->label.'" alt="'.$this->label.'" name="listing_'.$this->name.'_'.$entry->row.'"/>';
+  }
+
+  function isEnabledFor(ListingEntry $entry = NULL)
+  {
+    if (isset($this->enabledCallable)) {
+      return call_user_func($this->enabledCallable, $this->name, $entry);
+    }
+    return TRUE;
   }
 
   function hasPermission($dn, $type, $template)
