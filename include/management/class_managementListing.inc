@@ -347,50 +347,53 @@ class managementListing
       $enableHome = FALSE;
     }
 
-    $actions = array(
-      array(
-        'id'      => 'ROOT',
-        'desc'    => _('Go to root department'),
-        'name'    => _('Root'),
-        'icon'    => 'geticon.php?context=actions&icon=go-first&size=16',
-        'enabled' => $enableRoot,
-        'class'   => '',
-      ),
-      array(
-        'id'      => 'BACK',
-        'desc'    => _('Go up one department'),
-        'name'    => _('Up'),
-        'icon'    => 'geticon.php?context=actions&icon=go-up&size=16',
-        'enabled' => $enableBack,
-        'class'   => '',
-      ),
-      array(
-        'id'      => 'HOME',
-        'desc'    => _('Go to user\'s department'),
-        'name'    => _('Home'),
-        'icon'    => 'geticon.php?context=actions&icon=go-home&size=16',
-        'enabled' => $enableHome,
-        'class'   => '',
-      ),
-      array(
-        'id'      => 'REFRESH',
-        'desc'    => _('Reload list'),
-        'name'    => _('Reload'),
-        'icon'    => 'geticon.php?context=actions&icon=view-refresh&size=16',
-        'enabled' => TRUE,
-        'class'   => 'optional',
-      ),
-      array(
-        'id'      => 'listing_configure',
-        'desc'    => _('Configure this management list'),
-        'name'    => _('Configure'),
-        'icon'    => 'geticon.php?context=categories&icon=settings&size=16',
-        'enabled' => TRUE,
-        'class'   => '',
-      ),
+    if ($this->baseMode) {
+      $actions = array(
+        array(
+          'id'      => 'ROOT',
+          'desc'    => _('Go to root department'),
+          'name'    => _('Root'),
+          'icon'    => 'geticon.php?context=actions&icon=go-first&size=16',
+          'enabled' => $enableRoot,
+          'class'   => '',
+        ),
+        array(
+          'id'      => 'BACK',
+          'desc'    => _('Go up one department'),
+          'name'    => _('Up'),
+          'icon'    => 'geticon.php?context=actions&icon=go-up&size=16',
+          'enabled' => $enableBack,
+          'class'   => '',
+        ),
+        array(
+          'id'      => 'HOME',
+          'desc'    => _('Go to user\'s department'),
+          'name'    => _('Home'),
+          'icon'    => 'geticon.php?context=actions&icon=go-home&size=16',
+          'enabled' => $enableHome,
+          'class'   => '',
+        ),
+      );
+    } else {
+      $actions = array();
+    }
+    $actions[] = array(
+      'id'      => 'REFRESH',
+      'desc'    => _('Reload list'),
+      'name'    => _('Reload'),
+      'icon'    => 'geticon.php?context=actions&icon=view-refresh&size=16',
+      'enabled' => TRUE,
+      'class'   => 'optional',
+    );
+    $actions[] = array(
+      'id'      => 'listing_configure',
+      'desc'    => _('Configure this management list'),
+      'name'    => _('Configure'),
+      'icon'    => 'geticon.php?context=categories&icon=settings&size=16',
+      'enabled' => TRUE,
+      'class'   => '',
     );
 
-    // TODO Remove root/back/home if not base mode
     return $actions;
   }
 
