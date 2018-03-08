@@ -1200,7 +1200,10 @@ class simplePlugin
   function save ()
   {
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "save");
-    $this->prepare_save();
+    $errors = $this->prepare_save();
+    if (!empty($errors)) {
+      return $errors;
+    }
     if ($this->is_template && (!defined('_OLD_TEMPLATES_') || !_OLD_TEMPLATES_)) {
       $errors = templateHandling::checkFields($this->attrs);
       if (!empty($errors)) {
@@ -1289,6 +1292,8 @@ class simplePlugin
         $attr->fillLdapValueHook($this->attrs);
       }
     }
+
+    return array();
   }
 
   protected function pre_save ()
