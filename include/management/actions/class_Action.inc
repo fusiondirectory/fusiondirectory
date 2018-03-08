@@ -44,7 +44,9 @@ class Action
 
   protected $separator = FALSE;
 
-  function __construct($name, $label, $icon, $targets, $callable, array $acl = array(), $inmenu = TRUE, $inline = TRUE)
+  protected $parent;
+
+  function __construct($name, $label, $icon, $targets, $callable, array $acls = array(), $inmenu = TRUE, $inline = TRUE)
   {
     if ($targets == '0') {
       $inline = FALSE;
@@ -57,7 +59,33 @@ class Action
     $this->callable = $callable;
     $this->inmenu   = $inmenu;
     $this->inline   = $inline;
-    $this->acl      = $acl;
+    $this->acl      = array();
+    /*
+     * acl may be of the form:
+     * acl (ex: 'd')
+     * attribute:acl (ex: 'userPassword:r')
+     * category/class/acl (ex: 'user/template/r')
+     * category/class/attribute:acl (ex: 'user/user/userPassword:r')
+     * /class/acl (ex: '/snapshot/c')
+     * /class/attribute:acl (ex: '/template/template_cn:w')
+     * */
+    foreach ($acls as $acl) {
+      $category   = NULL;
+      $class      = NULL;
+      $attribute  = '0';
+      if (strpos($acl, '/') !== FALSE) {
+        list($category, $class, $acl) = explode('/', $acl, 3);
+      }
+      if (strpos($acl, ':') !== FALSE) {
+        list($attribute, $acl) = explode(':', $acl, 2);
+      }
+      $this->acl[] = array(
+        'category'  => $category,
+        'class'     => $class,
+        'attribute' => $attribute,
+        'acl'       => str_split($acl),
+      );
+    }
 
     switch ($targets) {
       case '0':
@@ -83,6 +111,11 @@ class Action
       default:
         throw new Exception('Invalid targets value for action '.$name.': '.$targets);
     }
+  }
+
+  function setParent(management $parent)
+  {
+    $this->parent = $parent;
   }
 
   function getName()
@@ -134,6 +167,10 @@ class Action
       return;
     }
 
+    if (!$this->hasPermission($this->parent->listing->getBase())) {
+      return;
+    }
+
     $actions[] = array(
       'name'      => $this->name,
       'icon'      => $this->icon,
@@ -176,29 +213,46 @@ class Action
     return TRUE;
   }
 
-  function hasPermission($dn, $type, $template)
+  function hasPermission($dn, $type = NULL, $template = FALSE)
   {
     global $ui;
 
-    $infos  = objects::infos($type);
+    if ($type === NULL) {
+      $types = $this->parent->objectTypes;
+    } else {
+      $types = array($type);
+    }
+    /*
+     * if category is missing it’s deducted from type (all types are tested for menu actions)
+     * if class is missing it’s deducted from attribute if present, otherwise it’s type mainTab
+     * if attribute is missing 0 is used
+     */
     foreach ($this->acl as $acl) {
-      if (preg_match('/([a-zA-Z0-9]+):([rwcdm]+)/', $acl, $m)) {
-        /* attribute:rw */
-        $module   = $ui->getAttributeCategory($type, $m[1]);
-        $checkAcl = $ui->get_permissions($dn, $module, $m[1]);
-        $acl      = $m[2];
-      } else {
-        if ($template) {
-          $module = $infos['aclCategory'].'/template';
-        } else {
-          $module = $infos['aclCategory'].'/'.$infos['mainTab'];
+      $checkAcl = '';
+      if (!empty($acl['category'])) {
+        $checkAcl = $ui->get_permissions($dn, $acl['category'].'/'.$acl['class'], $acl['attribute']);
+      } elseif (empty($acl['class']) && ($acl['attribute'] != '0')) {
+        foreach ($types as $type) {
+          $module   = $ui->getAttributeCategory($type, $acl['attribute']);
+          $checkAcl .= $ui->get_permissions($dn, $module, $acl['attribute']);
         }
-        $checkAcl = $ui->get_permissions($dn, $module, '0');
+      } else {
+        foreach ($types as $type) {
+          $infos = objects::infos($type);
+          if (!empty($acl['class'])) {
+            /* Class with empty category may be used in special cases like '/snapshot/c'*/
+            $module = $infos['aclCategory'].'/'.$acl['class'];
+          } elseif ($template) {
+            $module = $infos['aclCategory'].'/template';
+          } else {
+            $module = $infos['aclCategory'].'/'.$infos['mainTab'];
+          }
+          $checkAcl .= $ui->get_permissions($dn, $module, $acl['attribute']);
+        }
       }
 
-      // Split up remaining part of the acl and check rights
-      $parts = str_split($acl);
-      foreach ($parts as $part) {
+      // Check rights
+      foreach ($acl['acl'] as $part) {
         if (strpos($checkAcl, $part) === FALSE) {
           return FALSE;
         }

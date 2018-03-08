@@ -51,6 +51,10 @@ class LockAction extends Action
       return;
     }
 
+    if (!$this->hasPermission($this->parent->listing->getBase())) {
+      return;
+    }
+
     $actions[] = array(
       'name'      => $this->name.'_lock',
       'icon'      => $this->icon['lock'],

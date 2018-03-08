@@ -144,19 +144,18 @@ class management
       $createMenu[] = new Action(
         'new_'.$type, $infos['name'], $icon,
         '0', 'newEntry',
-        array('c')
+        array($infos['aclCategory'].'/'.$infos['mainTab'].'/c')
       );
       if (!static::$skipTemplates) {
-        // TODO fix ACL
         $templateMenu[] = new Action(
           'new_template_'.$type, $infos['name'], $icon,
           '0', 'newEntryTemplate',
-          array('c')
+          array($infos['aclCategory'].'/template/c')
         );
         $fromTemplateMenu[] = new Action(
           'template_apply_'.$type, $infos['name'], $icon,
           '?', 'newEntryFromTemplate',
-          array('c')
+          array($infos['aclCategory'].'/template/r', $infos['aclCategory'].'/'.$infos['mainTab'].'/c')
         );
       }
     }
@@ -245,14 +244,15 @@ class management
       $this->registerAction(
         new Action(
           'snapshot', _('Create snapshot'), 'geticon.php?context=actions&icon=snapshot&size=16',
-          '1', 'createSnapshotDialog'
+          '1', 'createSnapshotDialog',
+          array('/snapshot/c')
         )
       );
       $this->registerAction(
         new Action(
           'restore', _('Restore snapshot'), 'geticon.php?context=actions&icon=document-restore&size=16',
           '*', 'restoreSnapshotDialog',
-          array('w')
+          array('w', '/snapshot/r')
         )
       );
       $this->actions['snapshot']->setSeparator(TRUE);
@@ -273,6 +273,7 @@ class management
    */
   function registerAction(Action $action)
   {
+    $action->setParent($this);
     $this->actions[$action->getName()] = $action;
     foreach ($action->listActions() as $actionName) {
       $this->actionHandlers[$actionName] = $action;

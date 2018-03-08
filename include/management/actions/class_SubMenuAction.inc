@@ -38,6 +38,15 @@ class SubMenuAction extends Action
     }
   }
 
+  function setParent(management $parent)
+  {
+    parent::setParent($parent);
+    foreach ($this->actions as $action) {
+      $action->setParent($parent);
+    }
+  }
+
+
   function listActions()
   {
     return array_keys($this->handlers);
@@ -57,17 +66,21 @@ class SubMenuAction extends Action
     if (!$this->inmenu) {
       return;
     }
+
     $subactions = array();
     foreach ($this->actions as $action) {
       $action->fillMenuItems($subactions);
     }
-    $actions[] = array(
-      'name'      => $this->name,
-      'icon'      => $this->icon,
-      'label'     => $this->label,
-      'separator' => $this->separator,
-      'actions'   => $subactions
-    );
+
+    if (!empty($subactions)) {
+      $actions[] = array(
+        'name'      => $this->name,
+        'icon'      => $this->icon,
+        'label'     => $this->label,
+        'separator' => $this->separator,
+        'actions'   => $subactions
+      );
+    }
   }
 
   function renderColumnIcons(ListingEntry $entry)
