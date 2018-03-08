@@ -210,11 +210,12 @@ class userRoles extends simplePlugin
 
   function prepare_save()
   {
-    parent::prepare_save();
+    $errors = parent::prepare_save();
     if ($this->is_template) {
       $this->attrs['userGroups']  = $this->groupsMembership;
       $this->attrs['userRoles']   = $this->rolesMembership;
     }
+    return $errors;
   }
 
   function prepare_remove()
