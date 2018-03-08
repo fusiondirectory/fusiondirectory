@@ -334,6 +334,20 @@ class SnapshotRestoreDialog extends simplePlugin
     return $str;
   }
 
+  function attrIsWriteable($attr)
+  {
+    global $ui;
+
+    if (!is_object($attr)) {
+      $attr = $this->attributesAccess[$attr];
+    }
+    if ($attr->getLdapName() == 'snapshots') {
+      return in_array(($this->global ? 'restore_deleted' : 'restore_over'), $ui->get_snapshot_permissions($this->acl_base, $this->aclCategory));
+    } else {
+      return parent::attrIsWriteable($attr);
+    }
+  }
+
   function triggerRestore($dn)
   {
     $this->dialog = 'restore';
