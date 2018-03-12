@@ -254,24 +254,6 @@ class simplePlugin
       }
     }
 
-    /* Save initial account state */
-    $this->initially_was_account = $this->is_account;
-
-    $this->loadAttributes();
-
-    $this->prepareSavedAttributes();
-
-    $this->orig_dn = $dn;
-
-    if ($this->mainTab) {
-      $this->is_account = TRUE;
-      $this->entryCSN = getEntryCSN($this->dn);
-    }
-
-    if (!isset($this->templatePath)) {
-      $this->templatePath = get_template_path('simpleplugin.tpl');
-    }
-
     if (is_array($this->inheritance)) {
       /* Check group membership */
       $ldap = $config->get_ldap_link();
@@ -290,6 +272,24 @@ class simplePlugin
           break;
         }
       }
+    }
+
+    /* Save initial account state */
+    $this->initially_was_account = $this->is_account;
+
+    $this->loadAttributes();
+
+    $this->prepareSavedAttributes();
+
+    $this->orig_dn = $dn;
+
+    if ($this->mainTab) {
+      $this->is_account = TRUE;
+      $this->entryCSN = getEntryCSN($this->dn);
+    }
+
+    if (!isset($this->templatePath)) {
+      $this->templatePath = get_template_path('simpleplugin.tpl');
     }
   }
 
