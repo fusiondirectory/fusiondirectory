@@ -2329,9 +2329,9 @@ function lock_ssh_account($mode, array $attrs, &$modify)
   $modify['sshPublicKey'] = array();
   for ($i = 0; $i < $attrs['sshPublicKey']['count']; ++$i) {
     if ($mode == 'LOCK') {
-      $modify['sshPublicKey'][] = preg_replace('/^/', 'disabled-', $attrs['sshPublicKey'][0]);
+      $modify['sshPublicKey'][] = preg_replace('/^/', 'disabled-', $attrs['sshPublicKey'][$i]);
     } else {
-      $modify['sshPublicKey'][] = preg_replace('/^disabled-/', '', $attrs['sshPublicKey'][0]);
+      $modify['sshPublicKey'][] = preg_replace('/^disabled-/', '', $attrs['sshPublicKey'][$i]);
     }
   }
 }
