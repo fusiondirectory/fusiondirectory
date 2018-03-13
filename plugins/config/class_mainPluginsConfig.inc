@@ -27,7 +27,6 @@ class mainPluginsConfig extends simplePlugin
     return array(
       "plShortName"     => _("Plugins configuration"),
       "plDescription"   => _("FusionDirectory plugins configuration"),
-      "plSelfModify"    => FALSE,
       "plCategory"      => array("configuration"),
       "plObjectType"    => array("smallConfig"),
 

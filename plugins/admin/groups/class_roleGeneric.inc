@@ -54,6 +54,7 @@ class roleGeneric extends simplePlugin
     return array(
       'plShortName'   => _('Role'),
       'plDescription' => _('Role information'),
+      'plFilter'      => '(&(objectClass=organizationalRole)(!(objectClass=simpleSecurityObject)))',
       'plObjectType'  => array('role' =>
         array(
           'name'        => _('Role'),

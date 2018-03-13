@@ -27,7 +27,6 @@ class dashboardConfig extends simplePlugin
     return array(
       'plShortName'     => _('Dashboard configuration'),
       'plDescription'   => _('FusionDirectory dashboard plugin configuration'),
-      'plSelfModify'    => FALSE,
       'plCategory'      => array('configuration'),
       'plObjectType'    => array('smallConfig'),
 

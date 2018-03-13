@@ -250,7 +250,7 @@ class simplePlugin
       /* Is Account? */
       if ($this->is_this_account($this->attrs)) {
         $this->is_account = TRUE;
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, 'found', 'Object check');
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, get_class($this), 'Tab active');
       }
     }
 
