@@ -31,7 +31,7 @@
  */
 class passwordMethodClear extends passwordMethod
 {
-  var $lockable = FALSE;
+  protected $lockable = FALSE;
 
   /*!
    * \brief passwordMethodClear Constructor
