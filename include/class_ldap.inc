@@ -1016,8 +1016,9 @@ class LDAP
     }
 
     /* Joining lines */
-    $line   = NULL;
-    $entry  = array();
+    $line       = NULL;
+    $entry      = array();
+    $entries    = array();
     $entryStart = -1;
     foreach ($fileLines as $lineNumber => $fileLine) {
       if (preg_match('/^ /', $fileLine)) {
@@ -1087,6 +1088,8 @@ class LDAP
         throw new LDIFImportException(sprintf(_('Error while importing dn: "%s", please check your LDIF from line %s on!'), $entry['dn'][0], $startLine));
       }
     }
+
+    return count($entries);
   }
 
   /*! \brief Function to Imports a single entry
