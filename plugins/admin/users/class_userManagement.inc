@@ -170,6 +170,16 @@ class userManagement extends simpleManagement
         $method   = passwordMethod::get_method($pwd, $val['dn']);
         $success  = TRUE;
         if ($method instanceOf passwordMethod) {
+          if (!$method->is_lockable()) {
+            $hn = $method->get_hash_name();
+            if (is_array($hn)) {
+              $hn = $hn[0];
+            }
+            msg_dialog::display(_('Account locking'),
+                sprintf(_('Password method "%s" does not support locking. Account "%s" has not been locked!'),
+                  $hn, $dn), ERROR_DIALOG);
+            return;
+          }
           if ($type == 'toggle') {
             if ($method->is_locked($val['dn'])) {
               $success = $method->unlock_account($val['dn']);
@@ -189,8 +199,8 @@ class userManagement extends simpleManagement
               $hn = $hn[0];
             }
             msg_dialog::display(_('Account locking'),
-                sprintf(_('Password method "%s" does not support locking. Account "%s" has not been locked!'),
-                  $hn, $dn), WARNING_DIALOG);
+                sprintf(_('Locking failed using password method "%s". Account "%s" has not been locked!'),
+                  $hn, $dn), ERROR_DIALOG);
           }
         }
       }

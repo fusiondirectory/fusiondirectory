@@ -32,7 +32,8 @@ class passwordMethod
   var $attrs    = array();
   var $display  = FALSE;
   var $hash     = '';
-  var $lockable = TRUE;
+
+  protected $lockable = TRUE;
 
   /*!
    * \brief Password method contructor
@@ -60,6 +61,16 @@ class passwordMethod
   function need_password()
   {
     return TRUE;
+  }
+
+  /*!
+   * \brief If we can lock the password
+   *
+   * \return boolean
+   */
+  function is_lockable()
+  {
+    return $this->lockable;
   }
 
   /*!
@@ -123,7 +134,7 @@ class passwordMethod
       return FALSE;
     }
     if ($mode != 'LOCK' && $mode != 'UNLOCK') {
-      die('Invalid mode "'.$mode.'"');
+      throw new FusionDirectoryException('Invalid mode "'.$mode.'"');
     }
 
     /* Get current password hash */
@@ -142,7 +153,6 @@ class passwordMethod
 
     /* We can only lock/unlock non-empty passwords */
     if (!empty($pwd)) {
-
       /* Check if this entry is already locked. */
       if (!preg_match("/^[^\}]*+\}!/", $pwd)) {
         if ($mode == 'UNLOCK') {
