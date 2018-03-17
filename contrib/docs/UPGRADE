@@ -2493,7 +2493,7 @@ Correcting acl editownpwd
   * Open the editownpwd acl
   * Save it 
 
-Its very important you do it, to know why look at https://forge.fusiondirectory.org/issues/5276
+Its very important you do it, to know why look at https://gitlab.fusiondirectory.org//issues/5276
 
 Checking your indexed attributes
 ================================
@@ -2711,7 +2711,7 @@ Correcting acl editownpwd
   * Open the editownpwd acl
   * Save it 
 
-Its very important you do it, to know why look at https://forge.fusiondirectory.org/issues/5276
+Its very important you do it, to know why look at https://gitlab.fusiondirectory.org//issues/5276
 
 Checking your indexed attributes
 ================================
@@ -2962,7 +2962,7 @@ Enjoy :)
 * Further information
 
 To improve this piece of software, please report all kind of errors using the bug tracker
-on https://forge.fusiondirectory.org
+on https://gitlab.fusiondirectory.org/
 
 Documentation: http://documentation.fusiondirectory.org/
 Mailinglist:   http://lists.fusiondirectory.org/
