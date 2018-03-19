@@ -10,7 +10,7 @@ stages:
   - codestyle
   - manpages
   - transifex
-  - build-tarballs
+  - tarballs
 
 ## Stage lint
 
@@ -123,10 +123,20 @@ update-transifex:
     - tx push -f -s -t --skip --no-interactive
 
 build-tarballs:
-  stage: build-tarballs
+  stage: tarballs
   script:
     - tar -cvzf fusiondirectory-core.tar.gz *
   artifacts:
     paths:
     - fusiondirectory-core.tar.gz
     expire_in: 1h
+
+build-release:
+  stage: tarballs
+  only:
+    - tags
+  script: 
+    - tar -cvzf fusiondirectory-core-$(grep '*' Changelog | head -n1 | cut -d ' ' -f3).tar.gz *
+  artifacts:
+    paths:
+      - fusiondirectory-core-$(grep '*' Changelog | head -n1 | cut -d ' ' -f3).tar.gz
