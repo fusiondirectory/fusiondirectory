@@ -138,6 +138,9 @@ class logging {
       /* Avoid infinite loop */
       return;
     }
+    if (empty($entry['object'])) {
+      $entry['object'] = 'none';
+    }
     $tabObject = objects::create('auditEvent');
     $baseObject = $tabObject->getBaseObject();
     $baseObject->fdAuditDateTime    = new DateTime('@'.$entry['timestamp']);
