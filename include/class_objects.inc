@@ -87,7 +87,7 @@ class objects
       foreach ($search_attrs as $search_attr) {
         $category = $ui->getAttributeCategory($types[0], $search_attr);
         if ($category === FALSE) {
-          throw new FusionDirectoryException('Could not find ACL for attribute "'.$search_attr.'"');
+          throw new FusionDirectoryException('Could not find ACL for attribute "'.$search_attr.'" for type "'.$types[0].'"');
         }
         if ($category === TRUE) {
           continue;
@@ -231,7 +231,7 @@ class objects
         foreach ($filterAttributes as $acl) {
           $category = $ui->getAttributeCategory($types[0], $acl);
           if ($category === FALSE) {
-            throw new FusionDirectoryException('Could not find ACL for attribute "'.$acl.'"');
+            throw new FusionDirectoryException('Could not find ACL for attribute "'.$acl.'" for type "'.$types[0].'"');
           }
           if ($category === TRUE) {
             continue;

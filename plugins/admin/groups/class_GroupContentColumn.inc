@@ -19,7 +19,7 @@
 */
 
 /*!
- * \brief Column showing the activated tabs of the object
+ * \brief Column showing the types of the member objects
  */
 class GroupContentColumn extends Column
 {

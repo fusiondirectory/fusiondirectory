@@ -68,6 +68,11 @@ class managementFilter
     );
   }
 
+  function addElement(FilterElement $element)
+  {
+    $this->filterElements[] = $element;
+  }
+
   function update()
   {
     if (isset($_POST['FILTER_PID']) && ($_POST['FILTER_PID'] == $this->pid)) {
@@ -123,19 +128,12 @@ class managementFilter
     global $ui;
 
     $elementFilters = array();
-    foreach ($this->filterElements as $element) {
-      $element->getFilters($elementFilters);
-    }
     if (!empty($this->search)) {
       if (preg_match('/^\(.+\)$/', $this->search)) {
         $elementFilters[] = $this->search;
       } else {
         $elementFilters[] = '(|('.implode('=*'.$this->search.'*)(', $this->searchAttributes).'=*'.$this->search.'*))';
       }
-    }
-    $filter = '';
-    if (!empty($elementFilters)) {
-      $filter = '(&'.implode('', $elementFilters).')';
     }
 
     $objectTypeCount  = array();
@@ -168,6 +166,19 @@ class managementFilter
           unset($attrsAsked[$attr]);
         }
       }
+
+      $typeElementFilters = $elementFilters;
+      foreach ($this->filterElements as $element) {
+        $skip = $element->getFilters($type, $typeElementFilters);
+        if ($skip === TRUE) {
+          continue 2;
+        }
+      }
+      $filter = '';
+      if (!empty($typeElementFilters)) {
+        $filter = '(&'.implode('', $typeElementFilters).')';
+      }
+
       $ldapEntries = objects::ls($type, $attrsAsked, $searchBase, $filter, TRUE, $this->scope);
 
       $objectTypeCount[$type] = count($ldapEntries);

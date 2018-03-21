@@ -59,8 +59,8 @@ class groupManagement extends management
 
     parent::__construct();
 
-    // TODO? add group content filter
     // TODO enable sort by properties and member types
+    $this->filter->addElement(new GroupContentFilterElement($this->filter));
   }
 
   protected function configureActions()
