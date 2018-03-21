@@ -79,13 +79,13 @@ class objects
       } else {
         $search_attrs = array($attrs);
       }
-      foreach ($search_attrs as $acl) {
-        $category = $ui->getAttributeCategory($types[0], $acl);
+      foreach ($search_attrs as $search_attr) {
+        $category = $ui->getAttributeCategory($types[0], $search_attr);
         if ($category === FALSE) {
-          throw new FusionDirectoryException('Could not find ACL for attribute "'.$acl.'"');
+          throw new FusionDirectoryException('Could not find ACL for attribute "'.$search_attr.'"');
         }
-        if (strpos($ui->get_permissions($ou, $category, $acl), 'r') === FALSE) {
-          $attrsAcls[$acl] = array($category, $acl);
+        if (strpos($ui->get_permissions($ou, $category, $search_attr), 'r') === FALSE) {
+          $attrsAcls[$search_attr] = array($category, $search_attr);
         }
       }
     }
