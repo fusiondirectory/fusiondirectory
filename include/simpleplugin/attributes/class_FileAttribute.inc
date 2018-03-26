@@ -23,6 +23,8 @@
  */
 class FileAttribute extends Attribute
 {
+  protected $binary = TRUE;
+
   function loadPostValue()
   {
     $this->postValue = $this->value;
@@ -71,6 +73,39 @@ class FileAttribute extends Attribute
   {
     return sprintf(_('%s (%d bytes)'), $this->getLabel(), mb_strlen($value, '8bit'));
   }
+
+  /*! \brief Serialize this attribute for RPC requests
+   *
+   * \param array &$attributes the attributes array
+   * \param boolean $form
+   */
+  function serializeAttribute(&$attributes, $form = TRUE)
+  {
+    if (!$form || $this->visible) {
+      parent::serializeAttribute($attributes, $form);
+
+      if ($this->binary) {
+        $attributes[$this->getLdapName()]['value']    = base64_encode($attributes[$this->getLdapName()]['value']);
+        $attributes[$this->getLdapName()]['default']  = base64_encode($attributes[$this->getLdapName()]['default']);
+        $attributes[$this->getLdapName()]['binary']   = TRUE;
+      }
+    }
+  }
+
+  /*! \brief Apply value from RPC requests
+   *
+   *  \param array $values the values array
+   */
+  function deserializeValue($values)
+  {
+    if (isset($values[$this->getLdapName()])) {
+      if ($this->binary) {
+        $this->setValue(base64_decode($values[$this->getLdapName()]));
+      } else {
+        $this->setValue($values[$this->getLdapName()]);
+      }
+    }
+  }
 }
 
 /*!
@@ -86,6 +121,7 @@ class FileDownloadAttribute extends FileAttribute
     parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
     $this->extension  = $extension;
     $this->upload     = $upload;
+    $this->binary     = ($extension != '.txt');
   }
 
   function computeFilename()
