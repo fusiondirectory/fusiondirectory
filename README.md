@@ -41,7 +41,24 @@ This question can be solved by creating:
 
 ## Installation and upgrade of FusionDirectory
 
-The installation and upgrade information is available on [fusiondirectory-install]
+The installation and upgrade information is available on [Install FusionDirectory][fusiondirectory-install]
+
+## Migration to FusionDirectory
+
+To migrate an existing LDAP tree, you've to do all steps [Install FusionDirectory][fusiondirectory-install],
+plus some modifications:
+
+* FusionDirectory only shows users that have the objectClass inetOrgPerson
+
+* FusionDirectory only recognizes subtrees (or departments in FusionDirectory's view of things) that have the objectClass gosaDepartment.
+  You can hide subtrees from FusionDirectory by not putting this objectClass inside.
+
+The FusionDirectory setup may be used to do these migrations, but it is not meant
+to work in every possible circumstance. Please be carefull when using it on
+productive system.
+
+That should be all. Entries should be visible in FusionDirectory now.
+Be aware that if your naming policy of user cn's differs from the way FusionDirectory handles it, the entries get rewritten to a FusionDirectory style dn.
 
 ## Get help
 
