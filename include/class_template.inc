@@ -83,13 +83,13 @@ class template
     }
     $tempTabObject    = objects::open($this->dn, $this->type); /* Used to know which tab is activated */
     $this->attributes = array();
-    foreach ($tempTabObject->by_object as $class => $plugin) {
-      if ($plugin->is_account || $plugin->ignore_account) {
-        $this->tabObject->by_object[$class]->is_account = $plugin->is_account;
+    $tempTabObject->setActiveTabs($this->tabObject);
+    foreach ($this->tabObject->by_object as $class => $tab) {
+      if ($tab->is_account || $tab->ignore_account) {
         $this->attributes[$class] = array();
-        $attrs = array_unique(array_merge($this->tabObject->by_object[$class]->getRequiredAttributes(), $this->needed));
-        foreach (array_keys($this->tabObject->by_object[$class]->attributesAccess) as $attr) {
-          if (!$plugin->showInTemplate($attr, $this->attrs)) {
+        $attrs = array_unique(array_merge($tab->getRequiredAttributes(), $this->needed));
+        foreach (array_keys($tab->attributesAccess) as $attr) {
+          if (!$tab->showInTemplate($attr, $this->attrs)) {
             continue;
           }
           if (in_array($attr, $attrs)) {
