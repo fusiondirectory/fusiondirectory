@@ -39,6 +39,10 @@ This question can be solved by creating:
 * A plugin for its management in FusionDirectory with the simple plugin api
 * An Argonaut module for the client installed on the server
 
+## Installation and upgrade of FusionDirectory
+
+The installation and upgrade information is available on [fusiondirectory-install]
+
 ## Get help
 
 There are a couple ways you can try [to get help][get help].You can also join the `#fusiondirectory` IRC channel at freenode.net.
@@ -65,6 +69,8 @@ If you like [FusionDirectory][FusionDirectory] and would like to [donate][donate
 [FusionDirectory][FusionDirectory] is  [GPL 2 License](COPYING).
 
 [FusionDirectory]: https://www.fusiondirectory.org/
+
+[fusiondirectory-install]: http://documentation.fusiondirectory.org/en/documentation_admin
 
 [get help]: https://www.fusiondirectory.org/contact-us/
 
