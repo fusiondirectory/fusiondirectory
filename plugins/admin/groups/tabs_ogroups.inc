@@ -136,6 +136,19 @@ class ogrouptabs extends simpleTabs_noSpecial
     return parent::gen_tabs($disabled);
   }
 
+  /*!
+   * \brief Sets the active tabs from this instance to an other one. Used by templates
+   */
+  function setActiveTabs(&$tabObject)
+  {
+    $tabObject->loadtabs($this->groupObjects);
+    foreach ($this->by_object as $class => $plugin) {
+      if ($plugin->is_account || $plugin->ignore_account) {
+        $tabObject->by_object[$class]->is_account = $plugin->is_account;
+      }
+    }
+  }
+
   function check($ignore_account = FALSE)
   {
     return parent::check(FALSE);

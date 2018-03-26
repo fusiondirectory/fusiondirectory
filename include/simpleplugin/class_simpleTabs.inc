@@ -114,7 +114,6 @@ class simpleTabs
     }
   }
 
-
   /*!
    * \brief Reinitializes the tab classes with fresh ldap values.
    *
@@ -135,6 +134,18 @@ class simpleTabs
         $this->by_object[$name] = new $class($this->dn, $baseobject, $this, FALSE);
       }
       $this->by_object[$name]->set_acl_category($this->acl_category);
+    }
+  }
+
+  /*!
+   * \brief Sets the active tabs from this instance to an other one. Used by templates
+   */
+  function setActiveTabs(&$tabObject)
+  {
+    foreach ($this->by_object as $class => $plugin) {
+      if ($plugin->is_account || $plugin->ignore_account) {
+        $tabObject->by_object[$class]->is_account = $plugin->is_account;
+      }
     }
   }
 
