@@ -1770,7 +1770,7 @@ class simplePlugin
     }
 
     /* None found */
-    return 'none';
+    throw new FusionDirectoryException(_('Failed to create a unique DN'));
   }
 
   /*
