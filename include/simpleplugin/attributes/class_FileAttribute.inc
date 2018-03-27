@@ -310,9 +310,10 @@ class ImageAttribute extends FileAttribute
     $id = $this->getHtmlId();
     // Just to be sure the image is not cached
     srand((double)microtime() * 1000000);
+    $key = $this->getLdapName().rand(0,10000);
     $display  = '<img id="'.$id.'_img"'.
-                ($this->disabled? 'disabled="disabled"':'').
-                ' src="getbin.php?rand='.rand(0, 10000).'"'.
+                ($this->disabled ? 'disabled="disabled"' : '').
+                ' src="getbin.php?key='.$key.'"'.
                 ' style="border:1px solid black;"'.
                 ' alt="'.$this->getDescription().'"'.
                 ' title="'.$this->getDescription().'"'.
@@ -339,9 +340,9 @@ class ImageAttribute extends FileAttribute
       );
     }
     if (($this->getValue() == '') && ($this->placeholder != '')) {
-      session::set('binary', $this->placeholder);
+      session::set('binary'.$key, $this->placeholder);
     } else {
-      session::set('binary', $this->getValue());
+      session::set('binary'.$key, $this->getValue());
     }
     session::set('binarytype', 'image/'.$this->format);
     return $this->renderAcl($display);
