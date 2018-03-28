@@ -714,9 +714,9 @@ class user extends simplePlugin
       return _('The passwords you\'ve entered as "New password" and "Repeated new password" do not match.');
     } elseif ($new_password == '') {
       return msgPool::required(_('New password'));
-    } elseif ($check_differ && (substr($current_password, 0, $differ) == substr($new_password, 0, $differ))) {
+    } elseif ($check_differ && (mb_substr($current_password, 0, $differ) == mb_substr($new_password, 0, $differ))) {
       return _('The password used as new and current are too similar.');
-    } elseif ($check_length && (strlen($new_password) < $length)) {
+    } elseif ($check_length && (mb_strlen($new_password) < $length)) {
       return _('The password used as new is too short.');
     } elseif (!passwordMethod::is_harmless($new_password)) {
       return _('The password contains possibly problematic Unicode characters!');
