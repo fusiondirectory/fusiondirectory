@@ -154,8 +154,14 @@ class Attribute
     return $this->inLdap;
   }
 
+  function checkValue ($value)
+  {
+    /* Should throw InvalidValueException if needed */
+  }
+
   function setValue ($value)
   {
+    $this->checkValue($value);
     $old_value    = $this->value;
     $this->value  = $value;
     if (($this->submitForm != FALSE) && ($this->submitForm !== TRUE) && ($old_value != $value) && is_object($this->plugin)) {
