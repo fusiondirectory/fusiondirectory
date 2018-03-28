@@ -38,6 +38,13 @@ class LDIFImportException extends FusionDirectoryException {}
 */
 class LdapGeneralizedTimeBadFormatException extends FusionDirectoryException {}
 
+/*! \class InvalidValueException
+    \brief Exception class which can be thrown if an attribute is set to a value with a non-compatible type
+*/
+class InvalidValueException extends FusionDirectoryException
+{
+}
+
 class NonExistingObjectTypeException extends FusionDirectoryException {}
 class NonExistingBranchException extends FusionDirectoryException {}
 class NonExistingLdapNodeException extends FusionDirectoryException {}
