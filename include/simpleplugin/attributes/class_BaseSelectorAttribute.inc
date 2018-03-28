@@ -120,6 +120,13 @@ class BaseSelectorAttribute extends Attribute
     }
   }
 
+  function checkValue($value)
+  {
+    if (!is_string($value) && (!is_object($value) || !method_exists($value, '__toString' ))) {
+      throw new InvalidValueException(_('Base field value should always be a string'));
+    }
+  }
+
   function setValue ($value)
   {
     parent::setValue($value);
