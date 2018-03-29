@@ -339,6 +339,13 @@ class SetAttribute extends Attribute
   {
     $this->size = $size;
   }
+
+  function checkValue($value)
+  {
+    if (!is_array($value)) {
+      throw new InvalidValueException(sprintf(_('SetAttribute "%s" was set to a non-compatible value'), $this->getLabel()));
+    }
+  }
 }
 
 class OrderedArrayAttribute extends SetAttribute
