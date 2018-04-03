@@ -139,6 +139,20 @@ class pluglist {
         if (!isset($infos['plTitle']) && isset($infos['plShortName'])) {
           $infos['plTitle'] = $infos['plShortName'];
         }
+        if (isset($infos['plObjectType'])) {
+          /* Convert object types to uppercase */
+          foreach(array_keys($infos['plObjectType']) as $key) {
+            if (is_numeric($key)) {
+              $infos['plObjectType'][$key] = strtoupper($infos['plObjectType'][$key]);
+            } else {
+              $newkey = strtoupper($key);
+              if ($newkey != $key) {
+                $infos['plObjectType'][$newkey] = $infos['plObjectType'][$key];
+                unset($infos['plObjectType'][$key]);
+              }
+            }
+          }
+        }
         $infos['plForeignRefs']         = array();
         $infos['INDEX']                 = $index;
         $this->info[$cname]             = $infos;
