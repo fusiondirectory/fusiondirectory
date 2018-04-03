@@ -1563,8 +1563,11 @@ class simplePlugin
           $ofield = $ref[1];
           $filter = $ref[2];
           $cinfos = pluglist::pluginInfos($class);
-          if (is_subclass_of($class, 'simpleService')) {
-            $objectTypes = array('server');
+          if ($class == 'aclAssignment') {
+            /* Special case: aclAssignment foreignKey is ignored on department types as it’s handled by the aclAssignment objectType */
+            $objectTypes = array('ACLASSIGNMENT');
+          } elseif (is_subclass_of($class, 'simpleService')) {
+            $objectTypes = array('SERVER');
           } else {
             $objectTypes = array();
             foreach ($cinfos['plObjectType'] as $key => $objectType) {
@@ -1572,7 +1575,7 @@ class simplePlugin
                 $objectType = $key;
               }
               if (preg_match('/^ogroup-/i', $objectType)) {
-                $objectType = 'ogroup';
+                $objectType = 'OGROUP';
               }
               $objectTypes[] = $objectType;
             }
