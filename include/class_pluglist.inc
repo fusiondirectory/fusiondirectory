@@ -141,7 +141,7 @@ class pluglist {
         }
         if (isset($infos['plObjectType'])) {
           /* Convert object types to uppercase */
-          foreach(array_keys($infos['plObjectType']) as $key) {
+          foreach (array_keys($infos['plObjectType']) as $key) {
             if (is_numeric($key)) {
               $infos['plObjectType'][$key] = strtoupper($infos['plObjectType'][$key]);
             } else {
