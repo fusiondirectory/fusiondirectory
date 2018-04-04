@@ -1536,15 +1536,64 @@ class simplePlugin
 
   function browseForeignKeys($mode, $param1 = NULL, $param2 = NULL)
   {
+    global $plist;
     if (preg_match('/^handle_/', $mode)) {
       $olddn    = $param1;
       $newdn    = $param2;
       $classes  = array(get_class($this));
+      $subobjects = ($olddn != $newdn); //FIXME
     } elseif ($mode == 'references') {
       $classes = array_keys($this->parent->by_object);
     }
-    // We group by objetType concerned
+    // We group by objectType concerned
     $foreignRefs = array();
+    if ($subobjects) {
+      $field = 'dn';
+      /* Special treatment for foreign keys on DN when moving an object
+       * All references on DN are treated on subobjects */
+      foreach ($plist->dnForeignRefs as $ref) {
+        $class      = $ref[0];
+        $ofield     = $ref[1];
+        $filter     = $ref[2];
+        $filtersub  = $ref[3];
+        if ($class == 'aclAssignment') {
+          /* Special case: aclAssignment foreignKey is ignored on department types as it’s handled by the aclAssignment objectType */
+          $objectTypes = array('ACLASSIGNMENT');
+        } elseif (is_subclass_of($class, 'simpleService')) {
+          $objectTypes = array('SERVER');
+        } else {
+          $objectTypes = array();
+          $cinfos = pluglist::pluginInfos($class);
+          foreach ($cinfos['plObjectType'] as $key => $objectType) {
+            if (!is_numeric($key)) {
+              $objectType = $key;
+            }
+            if (preg_match('/^ogroup-/i', $objectType)) {
+              $objectType = 'OGROUP';
+            }
+            $objectTypes[] = $objectType;
+          }
+          $objectTypes = array_unique($objectTypes);
+        }
+        foreach ($objectTypes as $objectType) {
+          $oldvalue = $olddn;
+          $newvalue = $newdn;
+
+          $foreignRefs[$objectType]['refs'][$class][$ofield][$field] =
+            array(
+              'tab'       => $classes[0],
+              'field'     => $field,
+              'oldvalue'  => $oldvalue,
+              'newvalue'  => $newvalue,
+            );
+          $filter = templateHandling::parseString($filtersub, array('oldvalue' => $oldvalue, 'newvalue' => $newvalue), 'ldap_escape_f');
+          if (!preg_match('/^\(.*\)$/', $filter)) {
+            $filter = '('.$filter.')';
+          }
+          $foreignRefs[$objectType]['filters'][$filter] = $filter;
+        }
+      }
+    }
     foreach ($classes as $tabclass) {
       $infos = pluglist::pluginInfos($tabclass);
       foreach ($infos['plForeignRefs'] as $field => $refs) {
