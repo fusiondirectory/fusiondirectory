@@ -446,7 +446,19 @@ class GenericDialogAttribute extends DialogAttribute
   function foreignKeyUpdate($oldvalue, $newvalue, $source)
   {
     foreach ($this->value as $key => &$value) {
-      if ($value == $oldvalue) {
+      if (($source['FIELD'] == 'dn') && ($source['MODE'] == 'move')) {
+        if ($newvalue === NULL) {
+          if (preg_match('/'.preg_quote($oldvalue, '/').'$/', $value)) {
+            $this->removeValue($key);
+          }
+        } else {
+          $value = preg_replace('/'.preg_quote($oldvalue, '/').'$/', $newvalue, $value, -1, $count);
+          if ($count > 0) {
+            /* Update display */
+            $this->fillDisplayValue($key);
+          }
+        }
+      } elseif ($value == $oldvalue) {
         if ($newvalue === NULL) {
           $this->removeValue($key);
         } elseif ($source['MODE'] == 'copy') {

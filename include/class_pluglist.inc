@@ -43,6 +43,11 @@ class pluglist {
   var $info             = array();
 
   /*!
+   * \brief Foreign references on DNs
+   */
+  var $dnForeignRefs = array();
+
+  /*!
    * \brief Using the plugin index as a key, the class of the plugin.
    */
   var $dirlist          = array();
@@ -123,6 +128,9 @@ class pluglist {
                 $foreign_refs[$class][$field] = array();
               }
               $foreign_refs[$class][$field][] = array($cname, $ofield, $filter);
+              if ($field == 'dn') {
+                $this->dnForeignRefs[] = array($cname, $ofield, $filter, (isset($pfk[3]) ? $pfk[3] : "$ofield=*%oldvalue%"));
+              }
             }
             unset($pfk);
           }

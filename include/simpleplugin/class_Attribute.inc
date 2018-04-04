@@ -710,7 +710,13 @@ class Attribute
   function foreignKeyUpdate($oldvalue, $newvalue, $source)
   {
     if ($source['MODE'] == 'move') {
-      if ($this->getValue() == $oldvalue) {
+      if ($source['FIELD'] == 'dn') {
+        $value = $this->getValue();
+        $value = preg_replace('/'.preg_quote($oldvalue, '/').'$/', $newvalue, $value, -1, $count);
+        if ($count > 0) {
+          $this->setValue($value);
+        }
+      } elseif ($this->getValue() == $oldvalue) {
         $this->setValue($newvalue);
       }
     }

@@ -317,7 +317,15 @@ class SetAttribute extends Attribute
   function foreignKeyUpdate($oldvalue, $newvalue, $source)
   {
     foreach ($this->value as $key => &$value) {
-      if ($value == $oldvalue) {
+      if (($source['FIELD'] == 'dn') && ($source['MODE'] == 'move')) {
+        if ($newvalue === NULL) {
+          if (preg_match('/'.preg_quote($oldvalue, '/').'$/', $value)) {
+            unset($this->value[$key]);
+          }
+        } else {
+          $value = preg_replace('/'.preg_quote($oldvalue, '/').'$/', $newvalue, $value);
+        }
+      } elseif ($value == $oldvalue) {
         if ($newvalue === NULL) {
           unset($this->value[$key]);
         } elseif ($source['MODE'] == 'copy') {
