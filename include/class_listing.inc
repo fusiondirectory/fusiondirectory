@@ -1231,21 +1231,23 @@ class listing
         /* Pre-render list to init things if a dn is gonna be opened on first load */
         $dn         = urldecode($_REQUEST['dn']);
         $action     = $m[1];
-        /* Detect the longer base valid for this dn */
-        $longerBase = '';
-        foreach (array_keys($this->bases) as $base) {
-          if (preg_match('/'.preg_quote($base, '/').'$/i', $dn)) {
-            if (strlen($base) > strlen($longerBase)) {
-              $longerBase = $base;
+        if ($this->baseMode) {
+          /* Detect the longer base valid for this dn */
+          $longerBase = '';
+          foreach (array_keys($this->bases) as $base) {
+            if (preg_match('/'.preg_quote($base, '/').'$/i', $dn)) {
+              if (strlen($base) > strlen($longerBase)) {
+                $longerBase = $base;
+              }
             }
           }
+          $this->setBase($longerBase);
+          /* Search for its main attr value */
+          if (isset($this->filter->elementValues['NAME']) && preg_match('/^[^=]+=([^,]+)/', $dn, $m)) {
+            $this->filter->elementValues['NAME'] = $m[1];
+          }
+          $this->filter->setCurrentScope('one');
         }
-        $this->setBase($longerBase);
-        /* Search for its main attr value */
-        if (isset($this->filter->elementValues['NAME']) && preg_match('/^[^=]+=([^,]+)/', $dn, $m)) {
-          $this->filter->elementValues['NAME'] = $m[1];
-        }
-        $this->filter->setCurrentScope('one');
         /* Bypass size limit just to be sure */
         $oldsizelimit = session::global_get('size_limit');
         session::global_set('size_limit', 0);
