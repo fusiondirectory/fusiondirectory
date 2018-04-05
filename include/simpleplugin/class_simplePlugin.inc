@@ -1578,7 +1578,7 @@ class simplePlugin
             if (preg_match('/^ogroup-/i', $objectType)) {
               $objectType = 'OGROUP';
             }
-            $objectTypes[] = $objectType;
+            $objectTypes[] = strtoupper($objectType);
           }
           $objectTypes = array_unique($objectTypes);
         }
