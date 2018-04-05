@@ -8,7 +8,6 @@ variables:
 stages:
   - lint
   - codestyle
-  - manpages
   - transifex
   - tarballs
 
@@ -47,6 +46,23 @@ create_php_lint_rapport_stretch:
   script:
     - find . -type f -name '*.php' -o -name '*.inc' -print0 | xargs -0 -n1 php -l
 
+# generate man pages to test validity
+create_manpages_lint_report:
+  stage: lint
+  only:
+    - branches
+    - tags
+  before_script:
+  - apt-get update -qq
+  - apt-get install -y -qq perl man-db
+  script:
+    - pod2man -c "FusionDirectory Documentation" -r "FusionDirectory 1.3" contrib/bin/fusiondirectory-insert-schema contrib/man/fusiondirectory-insert-schema.1
+    - pod2man -c "FusionDirectory Documentation" -r "FusionDirectory 1.3" contrib/bin/fusiondirectory-setup contrib/man/fusiondirectory-setup.1
+    - pod2man -c "FusionDirectory Documentation" -r "FusionDirectory 1.3" contrib/man/fusiondirectory.conf.pod contrib/man/fusiondirectory.conf.5
+    - lexgrog contrib/man/fusiondirectory-insert-schema.1
+    - lexgrog contrib/man/fusiondirectory-setup.1
+    - lexgrog contrib/man/fusiondirectory.conf.5
+
 ## Stage codestyle
 
 # Generate perlcritic rapport
@@ -77,6 +93,7 @@ create_php_code_sniffer_rapport:
     - find . -type f -name '*.php' -o -name '*.inc' > ./filelist
     - phpcs --standard=../dev-tools/php-codesniffer-rules/FDStandard/ruleset.xml --file-list=./filelist
 
+<<<<<<< HEAD
 # Sonar publishing
 sonar_publish:
   image: sonar-cli:3.1.0.1141
@@ -130,6 +147,8 @@ test_manpages:
     - lexgrog contrib/man/fusiondirectory-setup.1
     - lexgrog contrib/man/fusiondirectory.conf.5
 
+=======
+>>>>>>> e7172467... :sparkles: feat(gitlab-ci): Add manpage with lint
 # fusiondirectory-update-locale
 fusiondirectory-update-locale:
   stage: transifex
