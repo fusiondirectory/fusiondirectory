@@ -211,7 +211,7 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
   function foreignKeyUpdate($oldvalue, $newvalue, $source)
   {
     foreach ($this->value as $key => &$value) {
-      if (($source['FIELD'] == 'dn') && ($source['MODE'] == 'move')) {
+      if ($source['FIELD'] == 'dn') {
         if ($newvalue === NULL) {
           if (preg_match('/'.preg_quote($oldvalue, '/').'$/', $value['role'])) {
             unset($this->value[$key]);
@@ -222,23 +222,22 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
             }
           }
           unset($member);
-        } else {
+        } elseif ($source['MODE'] == 'move') {
           $value['role'] = preg_replace('/'.preg_quote($oldvalue, '/').'$/', $newvalue, $value['role']);
           foreach ($value['members'] as &$member) {
             $member = preg_replace('/'.preg_quote($oldvalue, '/').'$/', $newvalue, $member);
           }
           unset($member);
-        }
-      } elseif (in_array($source['CLASS'], array('user','posixGroup','roleGeneric')) && (($member_key = array_search($oldvalue, $value['members'])) !== FALSE)) {
-        if ($newvalue === NULL) {
-          unset($value['members'][$member_key]);
-        } elseif ($source['MODE'] == 'move') {
-          $value['members'][$member_key] = $newvalue;
         } elseif ($source['MODE'] == 'copy') {
-          $value['members'][] = $newvalue;
+          /* Copied members are added */
+          foreach ($value['members'] as $member) {
+            if (preg_match('/'.preg_quote($oldvalue, '/').'$/', $member)) {
+              $value['members'][] = preg_replace('/'.preg_quote($oldvalue, '/').'$/', $newvalue, $member);
+            }
+          }
         }
-      } elseif (!in_array($source['CLASS'], array('aclRole','user','posixGroup','roleGeneric'))) {
-        trigger_error('unknown source '.$source['CLASS']);
+      } else {
+        trigger_error('unknown source "'.$source['CLASS'].'" with field "'.$source['FIELD'].'"');
       }
     }
     unset($value);
