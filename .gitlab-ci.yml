@@ -8,7 +8,6 @@ variables:
 stages:
   - lint
   - codestyle
-  - manpages
   - transifex
   - tarballs
 
@@ -77,8 +76,8 @@ create_php_code_sniffer_rapport:
     - find . -type f -name '*.php' -o -name '*.inc' -exec phpcs --standard=../dev-tools/php-codesniffer-rules/FDStandard/ruleset.xml "{}" \;
 
 # generate man pages to test validity
-test_manpages:
-  stage: manpages
+create_manpages_lint_report:
+  stage: lint
   only:
     - branches
     - tags
