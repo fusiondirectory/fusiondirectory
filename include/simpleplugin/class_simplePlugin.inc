@@ -1537,6 +1537,8 @@ class simplePlugin
   function browseForeignKeys($mode, $param1 = NULL, $param2 = NULL)
   {
     global $config, $plist;
+
+    $subobjects = FALSE;
     if (preg_match('/^handle_/', $mode)) {
       $olddn    = $param1;
       $newdn    = $param2;
