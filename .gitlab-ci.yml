@@ -74,8 +74,7 @@ create_php_code_sniffer_rapport:
     - apt-get install -y -qq  git php-cli php-codesniffer
   script:
     - git clone https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
-    - find . -type f -name '*.php' -o -name '*.inc' > ./filelist
-    - phpcs --standard=../dev-tools/php-codesniffer-rules/FDStandard/ruleset.xml --file-list=./filelist
+    - find . -type f -name '*.php' -o -name '*.inc' -exec phpcs --standard=../dev-tools/php-codesniffer-rules/FDStandard/ruleset.xml "{}" \;
 
 # generate man pages to test validity
 test_manpages:
