@@ -1536,12 +1536,17 @@ class simplePlugin
 
   function browseForeignKeys($mode, $param1 = NULL, $param2 = NULL)
   {
-    global $plist;
+    global $config, $plist;
     if (preg_match('/^handle_/', $mode)) {
       $olddn    = $param1;
       $newdn    = $param2;
       $classes  = array(get_class($this));
-      $subobjects = ($olddn != $newdn); //FIXME
+      if ($olddn != $newdn) {
+        $ldap = $config->get_ldap_link();
+        $ldap->cd($olddn);
+        $ldap->search('(objectClass=*)', array('dn'), 'one');
+        $subobjects = ($ldap->count() > 0);
+      }
     } elseif ($mode == 'references') {
       $classes = array_keys($this->parent->by_object);
     }
