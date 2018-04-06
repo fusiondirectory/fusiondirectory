@@ -18,7 +18,6 @@ create_perl_lint_rapport:
   stage: lint
   only:
     - branches
-    - tags
   before_script:
     - apt-get update -qq
     - apt-get install -y -qq libarchive-extract-perl libcrypt-cbc-perl libdigest-sha-perl libfile-copy-recursive-perl
@@ -32,7 +31,6 @@ create_php_lint_rapport_jessie:
   stage: lint
   only:
     - branches
-    - tags
   script:
     - find . -type f -name '*.php' -o -name '*.inc' -print0 | xargs -0 -n1 php -l
 
@@ -42,7 +40,6 @@ create_php_lint_rapport_stretch:
   stage: lint
   only:
     - branches
-    - tags
   script:
     - find . -type f -name '*.php' -o -name '*.inc' -print0 | xargs -0 -n1 php -l
 
@@ -51,7 +48,6 @@ create_manpages_lint_report:
   stage: lint
   only:
     - branches
-    - tags
   before_script:
   - apt-get update -qq
   - apt-get install -y -qq perl man-db
@@ -70,7 +66,6 @@ create_perlcritic_rapport:
   stage: codestyle
   only:
     - branches
-    - tags
   before_script:
   - apt-get update -qq
   - apt-get install -y -qq libperl-critic-perl
@@ -84,7 +79,6 @@ create_php_code_sniffer_rapport:
   stage: codestyle
   only:
     - branches
-    - tags
   before_script:
     - apt-get update -qq
     - apt-get install -y -qq  git php-cli php-codesniffer
@@ -133,7 +127,6 @@ fusiondirectory-update-locale:
   stage: transifex
   only:
     - branches
-    - tags
   before_script:
     - apt-get update -qq
     - apt-get install -y -qq gettext git php-cli
@@ -146,7 +139,6 @@ update-transifex:
   stage: transifex
   only:
     - branches
-    - tags
   before_script:
     - apt-get update -qq
     - apt-get install -y -qq gettext git php-cli transifex-client
