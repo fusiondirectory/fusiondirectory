@@ -78,6 +78,9 @@ class pluglist {
       $cmethods = get_class_methods($cname);
       if (in_array_ics('plInfo', $cmethods)) {
         $infos = call_user_func(array($cname, 'plInfo'));
+        if (empty($infos)) {
+          continue;
+        }
         if (is_subclass_of($cname, 'simpleService')) {
           $infos['plSelfModify']  = FALSE;
           /* services are not part of any objectType */
