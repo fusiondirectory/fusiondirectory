@@ -1726,7 +1726,8 @@ class simplePlugin
               $pluginobject->save_object();
             }
           }
-          $tabobject->save();
+          $errors = $tabobject->save();
+          msg_dialog::displayChecks($errors);
         } elseif ($mode == 'references') {
           // For each tab concerned
           foreach ($tabRefs['refs'] as $tab => $tab_infos) {

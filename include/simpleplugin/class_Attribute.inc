@@ -711,12 +711,12 @@ class Attribute
   {
     if ($source['MODE'] == 'move') {
       if ($source['FIELD'] == 'dn') {
-        $value = $this->getValue();
+        $value = $this->getInitialValue();
         $value = preg_replace('/'.preg_quote($oldvalue, '/').'$/', $newvalue, $value, -1, $count);
         if ($count > 0) {
           $this->setValue($value);
         }
-      } elseif ($this->getValue() == $oldvalue) {
+      } elseif ($this->getInitialValue() == $oldvalue) {
         $this->setValue($newvalue);
       }
     }
