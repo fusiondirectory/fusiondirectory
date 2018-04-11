@@ -26,6 +26,13 @@ class SnapshotCreateDialog extends simplePlugin
 {
   public $aclCategory;
 
+  static function plInfo()
+  {
+    return array(
+      'plShortName' => 'SnapshotCreateDialog',
+    );
+  }
+
   static function getAttributesInfo ()
   {
     return array(
@@ -235,6 +242,13 @@ class SnapshotRestoreDialog extends simplePlugin
 
   protected $snapDn;
   protected $snapAction;
+
+  static function plInfo()
+  {
+    return array(
+      'plShortName' => 'SnapshotRestoreDialog',
+    );
+  }
 
   static function getAttributesInfo ()
   {
