@@ -163,7 +163,7 @@ build-release:
   only:
     - tags
   script: 
-    - tar -cvzf fusiondirectory-core-$(grep '*' Changelog | head -n1 | cut -d ' ' -f3).tar.gz *
+    - tar -cvzf fusiondirectory-core-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"').tar.gz *
   artifacts:
     paths:
       - fusiondirectory-core-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"').tar.gz
