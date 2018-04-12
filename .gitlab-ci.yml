@@ -166,4 +166,4 @@ build-release:
     - tar -cvzf fusiondirectory-core-$(grep '*' Changelog | head -n1 | cut -d ' ' -f3).tar.gz *
   artifacts:
     paths:
-      - fusiondirectory-core-$(grep '*' Changelog | head -n1 | cut -d ' ' -f3).tar.gz
+      - fusiondirectory-core-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"').tar.gz
