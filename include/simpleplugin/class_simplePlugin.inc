@@ -1545,7 +1545,7 @@ class simplePlugin
       $classes  = array(get_class($this));
       if ($olddn != $newdn) {
         $ldap = $config->get_ldap_link();
-        $ldap->cd($olddn);
+        $ldap->cd($newdn);
         $ldap->search('(objectClass=*)', array('dn'), 'one');
         $subobjects = ($ldap->count() > 0);
       }
