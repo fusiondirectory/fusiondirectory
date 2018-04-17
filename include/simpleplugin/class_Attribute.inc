@@ -635,11 +635,12 @@ class Attribute
    *
    *  \param array $values the values array
    */
-  function deserializeValue($values)
+  function deserializeValue($value)
   {
-    if (isset($values[$this->getLdapName()])) {
-      $this->setValue($values[$this->getLdapName()]);
+    if ($this->disabled) {
+      return sprintf(_('Attribute %s is disabled, its value could not be set'), $this->getLdapName());
     }
+    $this->setValue($values[$this->getLdapName()]);
   }
 
   /*! \brief Add ACL information around display

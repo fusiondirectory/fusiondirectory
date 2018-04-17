@@ -261,17 +261,6 @@ class CompositeAttribute extends Attribute
     }
   }
 
-  function deserializeValue($values)
-  {
-    if ($this->visible) {
-      foreach ($this->attributes as &$attribute) {
-        $attribute->setDisabled($this->disabled);
-        $attribute->deserializeValue($values);
-      }
-      unset($attribute);
-    }
-  }
-
   function renderFormInput()
   {
     $display = "";

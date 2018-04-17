@@ -94,16 +94,17 @@ class FileAttribute extends Attribute
 
   /*! \brief Apply value from RPC requests
    *
-   *  \param array $values the values array
+   *  \param mixed $value the value
    */
-  function deserializeValue($values)
+  function deserializeValue($value)
   {
-    if (isset($values[$this->getLdapName()])) {
-      if ($this->binary) {
-        $this->setValue(base64_decode($values[$this->getLdapName()]));
-      } else {
-        $this->setValue($values[$this->getLdapName()]);
-      }
+    if ($this->disabled) {
+      return sprintf(_('Attribute %s is disabled, its value could not be set'), $this->getLdapName());
+    }
+    if ($this->binary) {
+      $this->setValue(base64_decode($value));
+    } else {
+      $this->setValue($value);
     }
   }
 }
