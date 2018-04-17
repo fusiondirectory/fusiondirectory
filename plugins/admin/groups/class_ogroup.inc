@@ -194,6 +194,9 @@ class ogroup extends simplePlugin
           array('terminalGeneric'),
           array('phoneGeneric'),
           array('printGeneric'),
+        ),
+        'owner' => array(
+          array('user'),
         )
       ),
 
