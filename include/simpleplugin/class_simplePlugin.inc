@@ -1914,7 +1914,10 @@ class simplePlugin
     foreach ($values as $name => $value) {
       if (isset($this->attributesAccess[$name])) {
         if (!$checkAcl || $this->attrIsWriteable($name)) {
-          $this->attributesAccess[$name]->setValue($value);
+          $error = $this->attributesAccess[$name]->deserializeValue($value);
+          if (!empty($error)) {
+            return $error;
+          }
         } else {
           return msgPool::permModify($this->dn, $name);
         }
