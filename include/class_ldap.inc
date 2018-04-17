@@ -256,7 +256,8 @@ class LDAP
       $this->clearResult($srp);
       switch (strtolower($scope)) {
         case 'base':
-          throw new FusionDirectoryException('not implemented');
+          $this->sr[$srp] = @ldap_read($this->cid, $this->basedn, $filter, $attrs);
+          break;
         case 'one':
           $this->sr[$srp] = @ldap_list($this->cid, $this->basedn, $filter, $attrs);
           break;
