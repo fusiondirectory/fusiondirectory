@@ -1805,11 +1805,7 @@ class simplePlugin
 
     /* Try to use plain entry first */
     $dn = $attribute.'='.ldap_escape_dn($this->$attribute).','.$base;
-    if ($dn == $this->orig_dn) {
-      return $dn;
-    }
-    $ldap->cat($dn, array('dn'));
-    if (!$ldap->fetch()) {
+    if (($dn == $this->orig_dn) || !$ldap->dn_exists($dn)) {
       return $dn;
     }
 
@@ -1827,11 +1823,7 @@ class simplePlugin
           $dn .= '+'.$attr.'='.ldap_escape_dn($this->$attr);
         }
         $dn .= ','.$base;
-        if ($dn == $this->orig_dn) {
-          return $dn;
-        }
-        $ldap->cat($dn, array('dn'));
-        if (!$ldap->fetch()) {
+        if (($dn == $this->orig_dn) || !$ldap->dn_exists($dn)) {
           return $dn;
         }
       }
