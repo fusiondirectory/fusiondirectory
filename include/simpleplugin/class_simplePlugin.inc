@@ -1820,7 +1820,7 @@ class simplePlugin
         $usableAttributes[] = $attr;
       }
     }
-    for ($i = 2; $i < count($usableAttributes); $i++) {
+    for ($i = 1; $i < count($usableAttributes); $i++) {
       foreach (new Combinations($usableAttributes, $i) as $attrs) {
         $dn = $attribute.'='.ldap_escape_dn($this->$attribute);
         foreach ($attrs as $attr) {
