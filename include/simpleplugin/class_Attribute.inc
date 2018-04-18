@@ -633,14 +633,14 @@ class Attribute
 
   /*! \brief Apply value from RPC requests
    *
-   *  \param array $values the values array
+   *  \param mixed $value the value
    */
   function deserializeValue($value)
   {
     if ($this->disabled) {
       return sprintf(_('Attribute %s is disabled, its value could not be set'), $this->getLdapName());
     }
-    $this->setValue($values[$this->getLdapName()]);
+    $this->setValue($value);
   }
 
   /*! \brief Add ACL information around display
