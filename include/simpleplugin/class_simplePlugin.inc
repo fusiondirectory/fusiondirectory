@@ -1731,27 +1731,27 @@ class simplePlugin
 
     /* Try to use plain entry first */
     $dn = $attribute.'='.ldap_escape_dn($this->$attribute).','.$base;
-    if ($dn == $this->orig_dn) {
-      return $dn;
-    }
-    $ldap->cat($dn, array('dn'));
-    if (!$ldap->fetch()) {
+    if (($dn == $this->orig_dn) || !$ldap->dn_exists($dn)) {
       return $dn;
     }
 
-    /* Look for additional attributes */
+    /* Build DN with multiple attributes */
+    $usableAttributes = array();
     foreach ($this->attributes as $attr) {
-      if (($attr == $attribute) || ($this->$attr == '') || is_array($this->$attr)) {
-        continue;
+      if (($attr != $attribute) && is_string($this->$attr) && ($this->$attr != '')) {
+        $usableAttributes[] = $attr;
       }
-
-      $dn = $attribute.'='.ldap_escape_dn($this->$attribute).'+'.$attr.'='.ldap_escape_dn($this->$attr).','.$base;
-      if ($dn == $this->orig_dn) {
-        return $dn;
-      }
-      $ldap->cat($dn, array('dn'));
-      if (!$ldap->fetch()) {
-        return $dn;
+    }
+    for ($i = 1; $i < count($usableAttributes); $i++) {
+      foreach (new Combinations($usableAttributes, $i) as $attrs) {
+        $dn = $attribute.'='.ldap_escape_dn($this->$attribute);
+        foreach ($attrs as $attr) {
+          $dn .= '+'.$attr.'='.ldap_escape_dn($this->$attr);
+        }
+        $dn .= ','.$base;
+        if (($dn == $this->orig_dn) || !$ldap->dn_exists($dn)) {
+          return $dn;
+        }
       }
     }
 
