@@ -1816,10 +1816,9 @@ class simplePlugin
     /* Build DN with multiple attributes */
     $usableAttributes = array();
     foreach ($this->attributes as $attr) {
-      if (($attr == $attribute) || ($this->$attr == '') || is_array($this->$attr)) {
-        continue;
+      if (($attr != $attribute) && is_string($this->$attr) && ($this->$attr != '')) {
+        $usableAttributes[] = $attr;
       }
-      $usableAttributes[] = $attr;
     }
     for ($i = 2; $i < count($usableAttributes); $i++) {
       foreach (new Combinations($usableAttributes, $i) as $attrs) {
