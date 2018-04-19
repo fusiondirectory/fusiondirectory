@@ -290,7 +290,7 @@ class user extends simplePlugin
         'ou'          => get_ou('userRDN'),
       )),
       'plForeignKeys'  => array(
-        'manager' => array('user','dn')
+        'manager' => array('user','dn','manager=%oldvalue%','*')
       ),
 
       'plProvidedAcls' => array_merge(

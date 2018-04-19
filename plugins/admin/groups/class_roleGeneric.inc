@@ -65,7 +65,7 @@ class roleGeneric extends simplePlugin
         )
       ),
       'plForeignKeys'  => array(
-        'roleOccupant' => 'user'
+        'roleOccupant' => array('user','dn','roleOccupant=%oldvalue%','*')
       ),
 
       'plProvidedAcls'  => parent::generatePlProvidedAcls(static::getAttributesInfo())
