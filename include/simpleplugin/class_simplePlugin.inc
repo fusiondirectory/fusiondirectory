@@ -1563,6 +1563,13 @@ class simplePlugin
         $ofield     = $ref[1];
         $filter     = $ref[2];
         $filtersub  = $ref[3];
+        if ($filtersub == '*') {
+          if ($config->get_cfg_value('wildcardForeignKeys', 'TRUE') == 'TRUE') {
+            $filtersub = $ofield.'=*';
+          } else {
+            continue;
+          }
+        }
         if ($class == 'aclAssignment') {
           /* Special case: aclAssignment foreignKey is ignored on department types as it’s handled by the aclAssignment objectType */
           $objectTypes = array('ACLASSIGNMENT');

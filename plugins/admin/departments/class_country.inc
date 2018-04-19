@@ -38,7 +38,7 @@ class country extends department
         'mainAttr'    => static::$namingAttr,
       )),
       'plForeignKeys'  => array(
-        'manager' => 'user'
+        'manager' => array('user','dn','manager=%oldvalue%','*')
       ),
 
       'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())

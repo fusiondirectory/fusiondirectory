@@ -142,6 +142,11 @@ class configInLdap extends simplePlugin
             'fdSnapshotBase', FALSE,
             'ou=snapshots,'.$config->current['BASE']
           ),
+          new BooleanAttribute (
+            _('Wildcard foreign keys'), _('Enables wildcard searches like member=* when moving a whole departement. This will open all existing groups and roles to make sure foreign keys are respected. Slow on big trees.'),
+            'fdWildcardForeignKeys', FALSE,
+            TRUE
+          ),
         )
       ),
       'password' => array(

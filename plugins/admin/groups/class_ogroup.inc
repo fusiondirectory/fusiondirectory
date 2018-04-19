@@ -186,17 +186,17 @@ class ogroup extends simplePlugin
       )),
       'plForeignKeys'  => array(
         'member' => array(
-          array('user'),
-          array('ogroup'),
-          array('application'),
-          array('serverGeneric'),
-          array('workstationGeneric'),
-          array('terminalGeneric'),
-          array('phoneGeneric'),
-          array('printGeneric'),
+          array('user',               'dn','member=%oldvalue%','*'),
+          array('ogroup',             'dn','member=%oldvalue%','*'),
+          array('application',        'dn','member=%oldvalue%','*'),
+          array('serverGeneric',      'dn','member=%oldvalue%','*'),
+          array('workstationGeneric', 'dn','member=%oldvalue%','*'),
+          array('terminalGeneric',    'dn','member=%oldvalue%','*'),
+          array('phoneGeneric',       'dn','member=%oldvalue%','*'),
+          array('printGeneric',       'dn','member=%oldvalue%','*'),
         ),
         'owner' => array(
-          array('user'),
+          array('user','dn','owner=%oldvalue%','*')
         )
       ),
 
