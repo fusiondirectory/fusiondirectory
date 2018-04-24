@@ -419,7 +419,7 @@ class config
 
     timezone::setDefaultTimezoneFromConfig();
 
-    initLanguage();
+    Language::init();
   }
 
   /*!

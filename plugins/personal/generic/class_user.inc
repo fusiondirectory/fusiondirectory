@@ -304,7 +304,7 @@ class user extends simplePlugin
   static function getAttributesInfo ()
   {
     global $config;
-    $languages = array_merge(array('' => ''), get_languages(TRUE));
+    $languages = array_merge(array('' => ''), Language::list(TRUE));
     $attributesInfo = array(
       'perso' => array(
         'name'  => _('Personal information'),

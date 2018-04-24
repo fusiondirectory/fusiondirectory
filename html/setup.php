@@ -78,12 +78,12 @@ if (isset($_POST['lang_selected']) && $_POST['lang_selected'] != '') {
     $lang .= '.UTF-8';
   }
 } else {
-  $lang = get_browser_language();
+  $lang = Language::detect();
 }
 
-initLanguage($lang);
+Language::init($lang);
 
-$smarty->assign("rtl", language_is_rtl($lang));
+$smarty->assign("rtl",  Language::isRTL($lang));
 $smarty->assign("must", '<span class="must">*</span>');
 
 /* Minimal config */
@@ -99,7 +99,6 @@ $ui = new fake_userinfo();
 $display = "";
 require_once("../setup/main.inc");
 
-$smarty->assign("rtl", language_is_rtl($lang));
 $smarty->assign("date", date("l, dS F Y H:i:s O"));
 $header = $smarty->fetch(get_template_path('headers.tpl'));
 

@@ -90,7 +90,7 @@ function displayLogin()
   $smarty->assign("usePrototype", "false");
   $smarty->assign("date", date("l, dS F Y H:i:s O"));
   $smarty->assign("lang", preg_replace('/_.*$/', '', $lang));
-  $smarty->assign("rtl", language_is_rtl($lang));
+  $smarty->assign("rtl",  Language::isRTL($lang));
 
   $smarty->display (get_template_path('headers.tpl'));
   $smarty->assign("version", FD_VERSION);
@@ -180,7 +180,7 @@ if (!(is_dir($smarty->compile_dir) && is_writable($smarty->compile_dir))) {
 /* Check for old files in compile directory */
 clean_smarty_compile_dir($smarty->compile_dir);
 
-initLanguage();
+Language::init();
 
 $smarty->assign ('focusfield', 'username');
 
@@ -318,7 +318,7 @@ class Index {
     session::global_set('ui', $ui);
 
     /* User might have its own language, re-run initLanguage */
-    $plistReloaded = initLanguage();
+    $plistReloaded = Language::init();
 
     /* We need a fully loaded plist and config to test account expiration */
     if (!$plistReloaded) {

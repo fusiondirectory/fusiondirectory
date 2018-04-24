@@ -95,7 +95,7 @@ class standAlonePage {
     }
 
     if ($this->interactive) {
-      initLanguage();
+      Language::init();
 
       if (session::global_is_set('plist')) {
         session::global_un_set('plist');
@@ -345,7 +345,7 @@ class passwordRecovery extends standAlonePage {
     $smarty->append('css_files',    get_template_path('login.css'));
     $lang = session::global_get('lang');
     $smarty->assign('lang', preg_replace('/_.*$/', '', $lang));
-    $smarty->assign('rtl', language_is_rtl($lang));
+    $smarty->assign('rtl', Language::isRTL($lang));
     $smarty->display(get_template_path('headers.tpl'));
 
     $smarty->assign('version',        FD_VERSION);
