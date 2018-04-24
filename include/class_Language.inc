@@ -127,11 +127,9 @@ class Language
   /*!
    * \brief Get the language for the user connecting
    *
-   * \param boolean $languages_in_own_language FALSE
-   *
-   * \param boolean $strip_region_tag FALSE
+   * \param boolean $ownLanguage Should language names be stated in their own language as well
    */
-  public static function list($languages_in_own_language = FALSE, $strip_region_tag = FALSE)
+  public static function list($ownLanguage = FALSE)
   {
     /* locales in english */
     $tmp_english = array(
@@ -166,7 +164,7 @@ class Language
     );
 
     $ret = array();
-    if ($languages_in_own_language) {
+    if ($ownLanguage) {
       /* locales in their own language */
       $tmp_ownlang = array(
         'en_US' => 'English',
@@ -200,20 +198,11 @@ class Language
       );
 
       foreach ($tmp_english as $key => $name) {
-        $label = _($name)." (".$tmp_ownlang[$key].")";
-        if ($strip_region_tag) {
-          $ret[preg_replace("/^([^_]*).*$/", "\\1", $key)] = $label;
-        } else {
-          $ret[$key] = $label;
-        }
+        $ret[$key] = _($name).' ('.$tmp_ownlang[$key].')';
       }
     } else {
       foreach ($tmp_english as $key => $name) {
-        if ($strip_region_tag) {
-          $ret[preg_replace("/^([^_]*).*/", "\\1", $key)] = _($name);
-        } else {
-          $ret[$key] = _($name);
-        }
+        $ret[$key] = _($name);
       }
     }
 
