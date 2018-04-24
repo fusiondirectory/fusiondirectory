@@ -135,12 +135,12 @@ class Language
   {
     /* locales in english */
     $tmp_english = array(
+      'en_US' => 'English',
       'ar'    => 'Arabic',
       'ca_ES' => 'Catalan',
       'cs_CZ' => 'Czech',
       'de_DE' => 'German',
       'el_GR' => 'Greek',
-      'en_US' => 'English',
       'es_CO' => 'Colombian Spanish',
       'es_ES' => 'Spanish',
       'es_VE' => 'Venezuelan',
@@ -156,12 +156,12 @@ class Language
       'nb'    => 'Norwegian Bokmål',
       'nl_NL' => 'Dutch',
       'pl_PL' => 'Polish',
-      'pt'    => 'Portuguese',
       'pt_BR' => 'Brazilian',
+      'pt'    => 'Portuguese',
       'ru_RU' => 'Russian',
+      'sv_SE' => 'Swedish',
       'tr_TR' => 'Turkish',
       'vi_VN' => 'Vietnamese',
-      'sv_SE' => 'Swedish',
       'zh_CN' => 'Chinese',
     );
 
@@ -169,12 +169,12 @@ class Language
     if ($languages_in_own_language) {
       /* locales in their own language */
       $tmp_ownlang = array(
+        'en_US' => 'English',
         'ar'    => 'عربية',
         'ca_ES' => 'Català',
         'cs_CZ' => 'Česky',
         'de_DE' => 'Deutsch',
         'el_GR' => 'ελληνικά',
-        'en_US' => 'English',
         'es_CO' => 'Español Colombiano',
         'es_ES' => 'Español',
         'es_VE' => 'Castellano',
@@ -190,12 +190,12 @@ class Language
         'nb'    => 'Norsk bokmål',
         'nl_NL' => 'Nederlands',
         'pl_PL' => 'Polski',
-        'pt'    => 'Português',
         'pt_BR' => 'Português (Brasil)',
+        'pt'    => 'Português',
         'ru_RU' => 'русский язык',
+        'sv_SE' => 'Svenska',
         'tr_TR' => 'Türkçe',
         'vi_VN' => 'Tiếng Việt',
-        'sv_SE' => 'Svenska',
         'zh_CN' => '中文, 汉语, 漢語',
       );
 
@@ -217,7 +217,6 @@ class Language
       }
     }
 
-    asort($ret);
     return $ret;
   }
 
