@@ -42,11 +42,14 @@ class Language
       $lang = static::detect();
     }
 
+    list ($language, $country, $char) = parse_gettext_lang($lang);
     putenv('LANGUAGE=');
     putenv("LANG=$lang");
-    $langset = setlocale(LC_ALL, $lang);
+    $langset = setlocale(LC_ALL, $lang, $language.'.'.$char);
     if ($langset === FALSE) {
       trigger_error('Setting locale to '.$lang.' failed');
+    } elseif ($langset != $lang) {
+      trigger_error('Setting locale to '.$lang.' failed, fell back to '.$langset);
     }
     $GLOBALS['t_language']            = $lang;
     $GLOBALS['t_gettext_message_dir'] = $BASE_DIR.'/locale/';
@@ -134,7 +137,7 @@ class Language
     /* locales in english */
     $tmp_english = array(
       'en_US' => 'English',
-      'ar'    => 'Arabic',
+      'ar_EG' => 'Arabic',
       'ca_ES' => 'Catalan',
       'cs_CZ' => 'Czech',
       'de_DE' => 'German',
@@ -146,16 +149,16 @@ class Language
       'fi_FI' => 'Finnish',
       'fr_FR' => 'French',
       'hu_HU' => 'Hungarian',
-      'id'    => 'Indonesian',
+      'id_ID' => 'Indonesian',
       'it_IT' => 'Italian',
-      'ja'    => 'Japanese',
-      'ko'    => 'Korean',
-      'lv'    => 'Latvian',
-      'nb'    => 'Norwegian Bokmål',
+      'ja_JP' => 'Japanese',
+      'ko_KR' => 'Korean',
+      'lv_LV' => 'Latvian',
+      'nb_NO' => 'Norwegian Bokmål',
       'nl_NL' => 'Dutch',
       'pl_PL' => 'Polish',
       'pt_BR' => 'Brazilian',
-      'pt'    => 'Portuguese',
+      'pt_PT' => 'Portuguese',
       'ru_RU' => 'Russian',
       'sv_SE' => 'Swedish',
       'tr_TR' => 'Turkish',
@@ -168,7 +171,7 @@ class Language
       /* locales in their own language */
       $tmp_ownlang = array(
         'en_US' => 'English',
-        'ar'    => 'عربية',
+        'ar_EG' => 'عربية',
         'ca_ES' => 'Català',
         'cs_CZ' => 'Česky',
         'de_DE' => 'Deutsch',
@@ -180,16 +183,16 @@ class Language
         'fi_FI' => 'Suomi',
         'fr_FR' => 'Français',
         'hu_HU' => 'Magyar',
-        'id'    => 'Bahasa Indonesia',
+        'id_ID' => 'Bahasa Indonesia',
         'it_IT' => 'Italiano',
-        'ja'    => '日本語',
-        'ko'    => '한국어',
-        'lv'    => 'Latviešu valoda',
-        'nb'    => 'Norsk bokmål',
+        'ja_JP' => '日本語',
+        'ko_KR' => '한국어',
+        'lv_LV' => 'Latviešu valoda',
+        'nb_NO' => 'Norsk bokmål',
         'nl_NL' => 'Nederlands',
         'pl_PL' => 'Polski',
         'pt_BR' => 'Português (Brasil)',
-        'pt'    => 'Português',
+        'pt_PT' => 'Português',
         'ru_RU' => 'русский язык',
         'sv_SE' => 'Svenska',
         'tr_TR' => 'Türkçe',
@@ -210,16 +213,11 @@ class Language
   }
 
   /*!
-   * \brief Returns TRUE if $lang is a right to left language ($lang should match /.._..(\.UTF-8)?/)
+   * \brief Returns TRUE if $lang is a right to left language
    */
   public static function isRTL ($lang)
   {
-    $lang = preg_replace('/\.UTF-8$/', '', $lang);
-
-    if (preg_match('/^fa_/', $lang)) {
-      return TRUE;
-    }
-    return FALSE;
+    return preg_match('/^(fa_|ar_)/', $lang);
   }
 
   public static function setHeaders($language, $mime)
