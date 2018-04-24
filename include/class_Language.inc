@@ -112,7 +112,7 @@ class Language
     }
 
     /* Load supported languages */
-    $languages = static::list();
+    $languages = static::getList();
 
     /* Move supported languages to flat list */
     $langs = array();
@@ -129,7 +129,7 @@ class Language
    *
    * \param boolean $ownLanguage Should language names be stated in their own language as well
    */
-  public static function list($ownLanguage = FALSE)
+  public static function getList($ownLanguage = FALSE)
   {
     /* locales in english */
     $tmp_english = array(
