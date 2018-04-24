@@ -3,7 +3,7 @@
  * accept-to-gettext.inc -- convert information in 'Accept-*' headers to
  * gettext language identifiers.
  * Copyright (c) 2003, Wouter Verhelst <wouter@debian.org>
- * Copyright (c) 2012-2016, FusionDirectory
+ * Copyright (c) 2012-2018, FusionDirectory
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -115,7 +115,7 @@ function parse_gettext_lang ($str)
   }
 }
 
-function al2gt($gettextlangs, $mime)
+function al2gt($gettextlangs)
 {
   /* Check if ACCEPT_LANGUAGE isset */
   if (empty($_SERVER["HTTP_ACCEPT_LANGUAGE"])) {
@@ -177,15 +177,6 @@ function al2gt($gettextlangs, $mime)
     return NULL;
   }
 
-  /* We must re-parse the gettext-string now, since we may have found it
-   * through a "*" qualifier.*/
-  list ($lang, $country, $char) = parse_gettext_lang($max_lang);
-  if (!headers_sent()) {
-    header("Content-Language: $lang".(empty($country) ? "" : "-$country"));
-    if (!empty($char)) {
-      header("Content-Type: $mime; charset=$char");
-    }
-  }
   return $max_lang;
 }
 ?>
