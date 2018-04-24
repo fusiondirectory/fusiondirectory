@@ -65,6 +65,7 @@ class setupStepLanguage extends setupStep
   function execute()
   {
     $languages = Language::list(TRUE);
+    asort($languages);
     $languages = array_merge(array("" => _("Automatic")), $languages);
     $this->attributesAccess['lang_selected']->setChoices(array_keys($languages), array_values($languages));
     return parent::execute();
