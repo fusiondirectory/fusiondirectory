@@ -14,11 +14,6 @@
 ### Changed
 
 #### fusiondirectory
-- fusiondirectory#5664 Correct developers plugin packaging
-- fusiondirectory#5671 replace all the old forge.fusiondirectory.org urls
-- fusiondirectory#5677 Adapt packages to the removal of the contrib/docs directory
-
-#### fusiondirectory
 - fd#5668 Password length on login page should have no limit
 - fd#5692 Update the readme.md with correct forge information
 - fd#5732 Listing objects should check ACL on attributes
@@ -32,16 +27,7 @@
 - fd-plugins#5716 DNS Zone edition is too slow
 - fd-plugins#5740 Dashboard tabs are in random order
 
-### Removed
-
-#### fusiondirectory
-- fusiondirectory#5676 Remove doc from fusiondirectory-schema
-
 ### Fixed
-
-#### fusiondirectory
-- fusiondirectory#1 Fixes Jenkins build for FusionDirectory fixes SL package
-- fusiondirectory#2 Fixes Jenkins build for Scientific Linux package in 1.2-fixes
 
 #### fusiondirectory
 - fd#5348 LDIF import should support folded comments
@@ -90,6 +76,7 @@
 - fd-plugins#5796 Webservice does not return JSON encode error
 - fd-plugins#5798 API returns no error when asking for non existing tab using method getfields()
 - fd-plugins#5799 Calling getfields for 'supannAccount' triggers JSON encoding error
+- fd-plugins#5813 When we try to put an Google+  id in the personal plugin we get a crash
 
 ### Security
 
@@ -100,9 +87,6 @@
 ## %"FusionDirectory 1.2" - 2017-07-02
 
 ### Added
-
-#### fusiondirectory
-- fusiondirectory#5609 File renater-partage/admin/groups/renater-partage/class_partageGroup.inc was added
 
 #### fusiondirectory
 - fusiondirectory#5581 File renater-partage/admin/groups/renater-partage/class_partageGroup.inc was added
@@ -122,12 +106,7 @@
 ### Changed
 
 #### fusiondirectory
-- fusiondirectory#5605 Sympa plugin does not depend of alias anymore
-- fusiondirectory#5643 file ldapmanager/addons/ldapmanager/contentcsv.tpl has been removed
-
-#### fusiondirectory
 - fusiondirectory#5580 class_groupMail.inc was renamed as class_mailGroup.inc
-- fusiondirectory#5594 Sympa plugin does not depend of alias anymore
 - fusiondirectory#5640 file ldapmanager/addons/ldapmanager/contentcsv.tpl has been removed
 
 #### fusiondirectory
@@ -141,15 +120,6 @@
 - fd-plugins#5585 System templates - DNS Tab
 
 ### Fixed
-
-#### fusiondirectory
-- fusiondirectory#5369 SELinux rules problem
-- fusiondirectory#5435 Yum complains about already existing links when updating FD
-- fusiondirectory#5436 SELinux complains when updating FD-SELinux
-- fusiondirectory#5613 class_groupMail.inc was renamed as class_mailGroup.inc
-- fusiondirectory#5616 error in building mail plugin in 1.2
-- fusiondirectory#5618 date error in changelog
-- fusiondirectory#5621 rpmlint correction for specfile
 
 #### fusiondirectory
 - fd#2586 class_plugin should be reviewed
