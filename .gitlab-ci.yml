@@ -167,3 +167,8 @@ build-release:
   artifacts:
     paths:
       - fusiondirectory-core-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"').tar.gz
+
+trigger_build:
+  stage: deploy
+  script:
+    - "curl -X POST -F token=FD_PLUGINS_TRIGGER -F ref=1.3-dev https://gitlab.fusiondirectory.org/api/v4/projects/2/trigger/pipeline"
