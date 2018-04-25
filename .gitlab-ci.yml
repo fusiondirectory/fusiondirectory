@@ -172,4 +172,6 @@ build-release:
 trigger_build:
   stage: deploy
   script:
+    - apt-get update -qq
+    - apt-get install -y -qq curl
     - "curl -X POST -F token=FD_PLUGINS_TRIGGER -F ref=1.3-dev https://gitlab.fusiondirectory.org/api/v4/projects/2/trigger/pipeline"
