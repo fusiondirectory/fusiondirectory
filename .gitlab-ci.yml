@@ -10,6 +10,7 @@ stages:
   - codestyle
   - transifex
   - tarballs
+  - deploy
 
 ## Stage lint
 
