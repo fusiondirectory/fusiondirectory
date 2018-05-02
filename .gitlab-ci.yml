@@ -92,12 +92,12 @@ sonar_publish:
   image: sonar-cli:3.1.0.1141
   stage: codestyle
   only:
-    - 1.3-dev
+    - 1.4-dev
   script:
     - /home/sonar/*/bin/sonar-scanner
-      -D sonar.projectKey=fusiondirectory-dev
-      -D sonar.projectName=FusionDirectory-Dev
-      -D sonar.projectVersion=1.3
+      -D sonar.projectKey=fusiondirectory-1.4-dev
+      -D sonar.projectName=FusionDirectory-1.4-Dev
+      -D sonar.projectVersion=1.4
       -D sonar.sourceEncoding=UTF-8
       -D sonar.exclusions='html/themes/legacy/**/*,include/class_xml.inc'
       -D sonar.gitlab.project_id="$CI_PROJECT_PATH"
@@ -109,12 +109,12 @@ sonar_preview:
   image: sonar-cli:3.1.0.1141
   stage: codestyle
   except:
-    - 1.3-dev
+    - 1.4-dev
   script:
     - /home/sonar/*/bin/sonar-scanner
-      -D sonar.projectKey=fusiondirectory-dev
-      -D sonar.projectName=FusionDirectory-Dev
-      -D sonar.projectVersion=1.3
+      -D sonar.projectKey=fusiondirectory-1.4-dev
+      -D sonar.projectName=FusionDirectory-1.4-Dev
+      -D sonar.projectVersion=1.4
       -D sonar.sourceEncoding=UTF-8
       -D sonar.exclusions='html/themes/legacy/**/*,include/class_xml.inc'
       -D sonar.gitlab.project_id="$CI_PROJECT_PATH"
