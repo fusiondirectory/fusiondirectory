@@ -76,13 +76,12 @@ create_perlcritic_rapport:
 
 # PHP codesniffer
 create_php_code_sniffer_rapport:
-  image: php:cli-stretch
   stage: codestyle
   only:
     - branches
   before_script:
     - apt-get update -qq
-    - apt-get install -y -qq  git php-codesniffer
+    - apt-get install -y -qq  git php-cli php-codesniffer
   script:
     - git clone https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
     - find . -type f -name '*.php' -o -name '*.inc' > ./filelist
