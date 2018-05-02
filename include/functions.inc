@@ -365,13 +365,9 @@ function array_remove_entries_ics(array $needles, array $haystack)
  *
  * \return array
  */
-function array_merge_unique($ar1, $ar2)
+function array_merge_unique(array $ar1, array $ar2)
 {
-  if (!is_array($ar1) || !is_array($ar2)) {
-    trigger_error('Specified parameter(s) are not valid arrays.');
-  } else {
-    return array_values(array_unique(array_merge($ar1, $ar2)));
-  }
+  return array_values(array_unique(array_merge($ar1, $ar2)));
 }
 
 
@@ -1142,7 +1138,7 @@ function strict_uid_mode()
  *
  *
  */
-function gen_locked_message($locks, $dn, $allow_readonly = FALSE)
+function gen_locked_message(array $locks, $dn, $allow_readonly = FALSE)
 {
   session::set('dn', $dn);
   $remove = FALSE;
@@ -1463,7 +1459,7 @@ function _recurse_gen_uids($rule, $variables)
  *
  * \return array List of valid not used uids
  */
-function gen_uids($rule, $attributes)
+function gen_uids($rule, array $attributes)
 {
   global $config;
 
@@ -1894,7 +1890,7 @@ function array_key_ics($ikey, array $items)
  *
  * \return boolean TRUE or FALSE
  */
-function array_differs($src, $dst)
+function array_differs(array $src, array $dst)
 {
   /* If the count is differing, the arrays differ */
   if (count ($src) != count ($dst)) {
@@ -1952,7 +1948,7 @@ function normalizeLdap($input)
  *
  * \param string $cfg A config object
  */
-function check_schema($cfg)
+function check_schema(array $cfg)
 {
   $checks = array();
 

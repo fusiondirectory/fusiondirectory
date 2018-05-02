@@ -111,9 +111,8 @@ class LdapGeneralizedTime
     \param DateTime $date DateTime object to convert
     \param boolean $setToUTC Whether or not to set the date timezone to UTC. Defaults to TRUE.
   */
-  public static function toString ($date, $setToUTC = TRUE)
+  public static function toString (DateTime $date, $setToUTC = TRUE)
   {
-    assert($date instanceof DateTime);
     if ($setToUTC) {
       $date->setTimezone(new DateTimeZone('UTC'));
     }

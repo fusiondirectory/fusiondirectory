@@ -79,7 +79,7 @@ class FileAttribute extends Attribute
    * \param array &$attributes the attributes array
    * \param boolean $form
    */
-  function serializeAttribute(&$attributes, $form = TRUE)
+  function serializeAttribute(array &$attributes, $form = TRUE)
   {
     if (!$form || $this->visible) {
       parent::serializeAttribute($attributes, $form);
@@ -180,7 +180,7 @@ class FileDownloadAttribute extends FileAttribute
     return $ids;
   }
 
-  function renderAttribute(&$attributes, $readOnly)
+  function renderAttribute(array &$attributes, $readOnly)
   {
     if ($this->upload == FALSE) {
       parent::renderAttribute($attributes, FALSE);
@@ -401,7 +401,7 @@ class ImageAttribute extends FileAttribute
 
   /*! \brief Fill LDAP value in the attrs array
    */
-  function fillLdapValue (&$attrs)
+  function fillLdapValue (array &$attrs)
   {
     if ($this->isInLdap()) {
       $value = $this->computeLdapValue();

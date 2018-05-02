@@ -174,7 +174,7 @@ class PhoneNumberButtonAttribute extends PhoneNumberAttribute
     }
   }
 
-  function handleDialogResult ($dn, $attrs)
+  function handleDialogResult ($dn, array $attrs)
   {
     if (isset($attrs['telephoneNumber'][0])) {
       $this->setValue($attrs['telephoneNumber'][0]);

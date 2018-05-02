@@ -292,7 +292,7 @@ class Attribute
 
   /*! \brief If in LDAP, loads this attribute value from the attrs array
    */
-  function loadValue ($attrs)
+  function loadValue (array $attrs)
   {
     if ($this->inLdap) {
       $this->loadAttrValue($attrs);
@@ -302,7 +302,7 @@ class Attribute
 
   /*! \brief Loads this attribute value from the attrs array
    */
-  protected function loadAttrValue ($attrs)
+  protected function loadAttrValue (array $attrs)
   {
     if (isset($attrs[$this->getLdapName()])) {
       $this->setValue($this->inputValue($attrs[$this->getLdapName()][0]));
@@ -346,7 +346,7 @@ class Attribute
   /*! \brief Set a list of attributes that are managed by this attributes.
    * See FusionDirectory wiki for detailed documentation
    */
-  function setManagedAttributes ($mAttributes)
+  function setManagedAttributes (array $mAttributes)
   {
     if (isset($mAttributes['multiplevalues'])) {
       $this->managedAttributesMultipleValues = $mAttributes['multiplevalues'];
@@ -413,7 +413,7 @@ class Attribute
 
   /*! \brief Fill LDAP value in the attrs array
    */
-  function fillLdapValue (&$attrs)
+  function fillLdapValue (array &$attrs)
   {
     if ($this->inLdap) {
       $value = $this->computeLdapValue();
@@ -427,7 +427,7 @@ class Attribute
 
   /*! \brief Post-modify the attrs array if needed (used for erasing managed attributes)
    */
-  function fillLdapValueHook (&$attrs)
+  function fillLdapValueHook (array &$attrs)
   {
     foreach ($this->managedAttributes as $prefix => $array) {
       if ($prefix != 'erase') {
@@ -567,7 +567,7 @@ class Attribute
    *
    *  \param bool $readOnly should we show text or input
    */
-  function renderAttribute(&$attributes, $readOnly)
+  function renderAttribute(array &$attributes, $readOnly)
   {
     if ($this->visible) {
       if ($readOnly) {
@@ -602,7 +602,7 @@ class Attribute
    * \param array &$attributes the attributes array
    * \param boolean $form
    */
-  function serializeAttribute(&$attributes, $form = TRUE)
+  function serializeAttribute(array &$attributes, $form = TRUE)
   {
     if (!$form || $this->visible) {
       $class = get_class($this);
@@ -708,7 +708,7 @@ class Attribute
     return $this->renderFormInput();
   }
 
-  function foreignKeyUpdate($oldvalue, $newvalue, $source)
+  function foreignKeyUpdate($oldvalue, $newvalue, array $source)
   {
     if ($source['MODE'] == 'move') {
       if ($source['FIELD'] == 'dn') {
@@ -723,12 +723,12 @@ class Attribute
     }
   }
 
-  function foreignKeyCheck($value, $source)
+  function foreignKeyCheck($value, array $source)
   {
     return ($this->getValue() == $value);
   }
 
-  protected function renderInputField($type, $name, $attributes = array())
+  protected function renderInputField($type, $name, array $attributes = array())
   {
     $input  = '<input type="'.$type.'" '.
               'name="'.$name.'" id="'.$name.'"'.
@@ -770,7 +770,7 @@ class HiddenAttribute extends Attribute
  */
 class HiddenArrayAttribute extends HiddenAttribute
 {
-  protected function loadAttrValue ($attrs)
+  protected function loadAttrValue (array $attrs)
   {
     if (isset($attrs[$this->getLdapName()]['count'])) {
       $this->value = array();
@@ -794,7 +794,7 @@ class FakeAttribute extends Attribute
     $this->setInLdap(FALSE);
   }
 
-  function renderAttribute(&$attributes, $readOnly)
+  function renderAttribute(array &$attributes, $readOnly)
   {
     $attributes[$this->getLdapName()] = $this->getValue();
   }
@@ -841,7 +841,7 @@ class DisplayLDAPAttribute extends Attribute
  */
 class ReadOnlyLDAPAttribute extends DisplayLDAPAttribute
 {
-  function fillLdapValue (&$attrs)
+  function fillLdapValue (array &$attrs)
   {
   }
 }
@@ -852,7 +852,7 @@ class ReadOnlyLDAPAttribute extends DisplayLDAPAttribute
  */
 class DisplayLDAPArrayAttribute extends Attribute
 {
-  protected function loadAttrValue ($attrs)
+  protected function loadAttrValue (array $attrs)
   {
     if (isset($attrs[$this->getLdapName()]['count'])) {
       $this->value = array();

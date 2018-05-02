@@ -154,7 +154,7 @@ class CharSeparatedCompositeAttribute extends CompositeAttribute
     return explode($this->sep, $value);
   }
 
-  function writeValues($values)
+  function writeValues(array $values)
   {
     return join($this->sep, $values);
   }
@@ -198,7 +198,7 @@ class CommaListAttribute extends CompositeAttribute
     }
   }
 
-  function writeValues($values)
+  function writeValues(array $values)
   {
     return join($this->sep, $values[0]);
   }
@@ -242,7 +242,7 @@ class UnitIntAttribute extends CompositeAttribute
     return array($value / $choices[$i], $choices[$i]);
   }
 
-  function writeValues($values)
+  function writeValues(array $values)
   {
     if ($values[0] === '') {
       return '';
