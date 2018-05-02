@@ -265,11 +265,11 @@ class BytesSizeAttribute extends UnitIntAttribute
   function __construct ($label, $description, $ldapName, $required, $min = FALSE, $max = FALSE, $defaultValue = "", $acl = "")
   {
     $units = array(
-      1             => _('B'),
-      pow(1024, 1)  => _('KiB'),
-      pow(1024, 2)  => _('MiB'),
-      pow(1024, 3)  => _('GiB'),
-      pow(1024, 4)  => _('TiB'),
+      1         => _('B'),
+      1024 ** 1 => _('KiB'),
+      1024 ** 2 => _('MiB'),
+      1024 ** 3 => _('GiB'),
+      1024 ** 4 => _('TiB'),
     );
     parent::__construct ($label, $description, $ldapName, $required, $units, $min, $max, $defaultValue, $acl);
   }

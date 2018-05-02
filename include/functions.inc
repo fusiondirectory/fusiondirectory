@@ -1367,7 +1367,7 @@ function normalize_netmask($netmask)
 
       for ($i = 7; $i >= 0; $i--) {
         if ($num-- > 0) {
-          $result += pow(2, $i);
+          $result += 2 ** $i;
         }
       }
 
@@ -1418,7 +1418,7 @@ function netmask_to_bits($netmask)
         $res += 8 - $i;
         break;
       }
-      $start -= pow(2, $i);
+      $start -= 2 ** $i;
     }
   }
 
@@ -1499,7 +1499,7 @@ function gen_uids($rule, $attributes)
       $size = $m[2];
 
       $start = ($m[1] == ":" ? 0 : -1);
-      for ($i = $start, $p = pow(10, $size) - 1; $i < $p; $i++) {
+      for ($i = $start, $p = (10 ** $size) - 1; $i < $p; $i++) {
         if ($i == -1) {
           $number = "";
         } else {
@@ -1523,7 +1523,7 @@ function gen_uids($rule, $attributes)
 
       while (TRUE) {
         mt_srand((double)microtime() * 1000000);
-        $number = sprintf("%0".$size."d", mt_rand(0, pow(10, $size) - 1));
+        $number = sprintf("%0".$size."d", mt_rand(0, (10 ** $size) - 1));
         $res    = preg_replace('/{id#(\d+)}/', $number, $uid);
         $ldap->search('(uid='.ldap_escape_f(preg_replace('/[{}]/', '', $res)).')', array('dn'));
         if ($ldap->count() == 0) {
@@ -1614,7 +1614,7 @@ function humanReadableSize ($bytes, $precision = 2)
   }
   $base = log($bytes) / log(1024);
 
-  return sprintf($format[floor($base)], round(pow(1024, $base - floor($base)), $precision));
+  return sprintf($format[floor($base)], round(1024 ** ($base - floor($base)), $precision));
 }
 
 
