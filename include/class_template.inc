@@ -276,7 +276,7 @@ class template
       $specialAttrs['caller'.strtoupper($attr)] = $ui->$attr;
     }
     $this->attrs = templateHandling::parseArray($this->attrs, $specialAttrs);
-    $this->tabObject->adapt_from_template($this->attrs, call_user_func_array('array_merge', $this->attributes));
+    $this->tabObject->adapt_from_template($this->attrs, array_merge(...$this->attributes));
 
     $this->applied = TRUE;
     return $this->tabObject;

@@ -201,14 +201,13 @@ class aclManagement extends simpleManagement
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Creating new ACL assignment');
   }
 
-  static function filterLabel($row, $dn, $pid = 0, $base = '')
+  static function filterLabel($row, $dn, $pid = 0, $base = '', ...$vals)
   {
     $ou = '';
     if ($dn == $base) {
       $ou = ' . ';
     } else {
-      for ($i = 4;$i < func_num_args();$i++) {
-        $val = func_get_arg($i);
+      foreach ($vals as $val) {
         if (empty($val)) {
           continue;
         }

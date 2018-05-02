@@ -176,7 +176,7 @@ class templateHandling
         unset($attrs[$attr]);
       }
     }
-    $dependencies = array_unique(call_user_func_array('array_merge', $flatdepends));
+    $dependencies = array_unique(array_merge(...$flatdepends));
     foreach ($dependencies as $attr) {
       if (empty($flatdepends[$attr])) {
         $needed[] = $attr;
@@ -515,7 +515,7 @@ class templateHandling
         $depends[$key]
       );
     $array[]      = $depends[$key];
-    $cache[$key]  = array_unique(call_user_func_array('array_merge_recursive', $array));
+    $cache[$key]  = array_unique(array_merge_recursive(...$array));
     return $cache[$key];
   }
 

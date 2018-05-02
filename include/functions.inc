@@ -2512,9 +2512,8 @@ function mail_utf8($to, $from_user, $from_email, $subject, $message, $type = 'pl
 }
 
 /* Calls fopen, gives errors as an array if any, file handle if successful */
-function fopenWithErrorHandling()
+function fopenWithErrorHandling(...$args)
 {
-  $args   = func_get_args();
   $errors = array();
   set_error_handler(
     function ($errno, $errstr, $errfile, $errline, $errcontext) use (&$errors)
@@ -2522,7 +2521,7 @@ function fopenWithErrorHandling()
       $errors[] = $errstr;
     }
   );
-  $fh = @call_user_func_array('fopen', $args);
+  $fh = @fopen(...$args);
   restore_error_handler();
   if ($fh !== FALSE) {
     return $fh;
