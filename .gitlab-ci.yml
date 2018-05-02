@@ -76,7 +76,7 @@ create_perlcritic_rapport:
 
 # PHP codesniffer
 create_php_code_sniffer_rapport:
-  image: php:5.6.33-cli-jessie
+  image: php:cli-stretch
   stage: codestyle
   only:
     - branches
