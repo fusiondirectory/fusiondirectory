@@ -1,9 +1,8 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -119,8 +118,7 @@ class divSelectBox
    */
   function _numentries()
   {
-    $cnt = count($this->a_entries);
-    return $cnt;
+    return count($this->a_entries);
   }
 
   /*!
@@ -157,13 +155,9 @@ class divSelectBox
    */
   function _generateBody()
   {
-    $s_value  = '';
-    $s_key    = '';
-    $s_return = '';
-    $str      = '';
-
     /* If divselectbox is empty, append a single white entry */
     if (count($this->a_entries) == 0) {
+      $str = '';
       if ($this->headers !== FALSE) {
         $this->cols = count($this->headers);
         $str .= '<tr>';
@@ -181,8 +175,9 @@ class divSelectBox
       return $str;
     }
 
+    $s_return = '';
     $i = $this->_numEntries();
-    foreach ($this->a_entries as $s_key => $s_value) {
+    foreach ($this->a_entries as $s_value) {
       $i--;
 
       $s_return .= "\n<tr>";

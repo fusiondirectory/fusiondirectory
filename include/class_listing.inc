@@ -59,7 +59,6 @@ class listing
   protected $snapshotHandler  = NULL;
   var $exporter       = array();
   var $exportColumns  = array();
-  var $height         = 0;
   var $scrollPosition = 0;
   var $baseSelector;
   protected $filterCache = array();
@@ -137,16 +136,6 @@ class listing
   function setCopyPasteHandler($handler)
   {
     $this->copyPasteHandler = $handler;
-  }
-
-  /*!
-   * \brief Set the height
-   *
-   * \param integer $height
-   */
-  function setHeight($height)
-  {
-    $this->height = $height;
   }
 
   /*!
@@ -352,11 +341,6 @@ class listing
     // Initialize list
     $result = '<input type="hidden" value="'.$this->pid.'" name="PID"/>'."\n";
     $result .= '<input type="hidden" name="position_'.$this->pid.'" id="position_'.$this->pid.'"/>'."\n";
-    $height = 450;
-    if ($this->height != 0) {
-      $result .= '<input type="hidden" value="'.$this->height.'" id="d_height"/>'."\n";
-      $height = $this->height;
-    }
 
     $result .= '<div id="d_scrollbody" style="width:100%;">'."\n";
     $result .= '<table style="width:100%;" id="t_scrolltable" class="listingTable">'."\n";
@@ -756,9 +740,7 @@ class listing
     }
 
     // Watch out for filters and prepare to execute them
-    $data = $this->processElementFilter($table, $index, $data, $cfg, $row);
-
-    return $data;
+    return $this->processElementFilter($table, $index, $data, $cfg, $row);
   }
 
 
@@ -1431,6 +1413,8 @@ class listing
         case 'daemon':
           $result .= $this->renderDaemonMenu($separator);
           break;
+
+        default:
       }
 
       $separator = "";

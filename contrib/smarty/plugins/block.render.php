@@ -74,8 +74,6 @@ function smarty_block_render($params, $text, &$smarty)
     "\\1 \\2"
   );
 
-  $text = preg_replace($from, $to, $text);
-
-  return $text;
+  return preg_replace($from, $to, $text);
 }
 ?>

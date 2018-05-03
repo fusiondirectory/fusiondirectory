@@ -71,9 +71,9 @@ class IconThemeDir
     switch ($this->Type) {
       case 'Fixed':
         return ($this->Size == $size);
-      default:
       case 'Threshold':
       case 'Scalable':
+      default:
         return (($this->MinSize <= $size) && ($size <= $this->MaxSize));
     }
   }
@@ -83,9 +83,9 @@ class IconThemeDir
     switch ($this->Type) {
       case 'Fixed':
         return abs($this->Size - $size);
-      default:
       case 'Threshold':
       case 'Scalable':
+      default:
         if ($size < $this->MinSize) {
           return $this->MinSize - $size;
         }
@@ -149,11 +149,11 @@ class IconTheme
     }
 
     if ($this->parent !== NULL) {
-      $parent = $this->findTheme($this->parent);
-      if ($parent === NULL) {
-        $parent = $this->findTheme(static::$default_theme);
+      $parentTheme = $this->findTheme($this->parent);
+      if ($parentTheme === NULL) {
+        $parentTheme = $this->findTheme(static::$default_theme);
       }
-      return $parent->FindIconHelper($context, $icon, $size);
+      return $parentTheme->FindIconHelper($context, $icon, $size);
     }
 
     return NULL;

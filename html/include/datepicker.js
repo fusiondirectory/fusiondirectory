@@ -483,7 +483,7 @@ DatePicker.prototype  = {
         default:
           Effect.Fade(this._id_datepicker, {  duration : this._closeEffectDuration });
         break;
-      };
+      }
     } else {
       $(this._id_datepicker).hide();
     }
@@ -533,7 +533,7 @@ DatePicker.prototype  = {
     try {
       while ( tbody.hasChildNodes() )
       tbody.removeChild(tbody.childNodes[0]);
-    } catch ( e ) {};
+    } catch ( e ) {}
 
     /* generate day headers */
     var trDay = new Element('tr');

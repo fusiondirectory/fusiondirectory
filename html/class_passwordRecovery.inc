@@ -218,8 +218,7 @@ class standAlonePage {
     foreach ($keys as $key) {
       $params .= "&amp;$key=".urlencode($this->$key);
     }
-    $params = preg_replace('/^&amp;/', '?', $params);
-    return $params;
+    return preg_replace('/^&amp;/', '?', $params);
   }
 
   static function generateRandomHash()
@@ -566,9 +565,9 @@ class passwordRecovery extends standAlonePage {
     @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $reinit_link, 'Setting link to');
 
     /* Send the mail */
-    $mail_body = sprintf($this->mail_body, $this->login, $reinit_link);
+    $body = sprintf($this->mail_body, $this->login, $reinit_link);
 
-    if (mail_utf8($this->email_address, FALSE, $this->from_mail, $this->mail_subject, $mail_body)) {
+    if (mail_utf8($this->email_address, FALSE, $this->from_mail, $this->mail_subject, $body)) {
       $this->step = 3;
     } else {
       $this->message[] = msgPool::invalid(_("Contact your administrator, there was a problem with mail server"));
@@ -641,9 +640,9 @@ class passwordRecovery extends standAlonePage {
     }
 
     /* Send the mail */
-    $mail_body = sprintf($this->mail2_body, $this->login);
+    $body = sprintf($this->mail2_body, $this->login);
 
-    if (mail_utf8($this->email_address, FALSE, $this->from_mail, $this->mail2_subject, $mail_body)) {
+    if (mail_utf8($this->email_address, FALSE, $this->from_mail, $this->mail2_subject, $body)) {
       $smarty = get_smarty();
       $this->step = 5;
       $smarty->assign('changed', TRUE);

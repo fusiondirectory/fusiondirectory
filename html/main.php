@@ -197,10 +197,8 @@ if ($old_plugin_dir != $plugin_dir && $old_plugin_dir != "") {
 eval_sizelimit();
 
 /* Check for memory */
-if (function_exists("memory_get_usage")) {
-  if (memory_get_usage() > (to_byte(ini_get('memory_limit')) - 2048000 )) {
-    msg_dialog::display(_("Configuration error"), _("Running out of memory!"), WARNING_DIALOG);
-  }
+if (memory_get_usage() > (to_byte(ini_get('memory_limit')) - 2048000 )) {
+  msg_dialog::display(_("Configuration error"), _("Running out of memory!"), WARNING_DIALOG);
 }
 
 /* Redirect on back event */
@@ -293,14 +291,13 @@ $smarty->assign("contents", $display);
 $smarty->assign("sessionLifetime", $config->get_cfg_value("sessionLifetime", 60 * 60 * 2));
 
 /* If there's some post, take a look if everything is there... */
-if (isset($_POST) && count($_POST)) {
-  if (!isset($_POST['php_c_check'])) {
-    msg_dialog::display(
-            _("Configuration Error"),
-            sprintf(_("Fatal error: not all POST variables have been transfered by PHP - please inform your administrator!")),
-            FATAL_ERROR_DIALOG);
-    exit();
-  }
+if (isset($_POST) && count($_POST) && !isset($_POST['php_c_check'])) {
+  msg_dialog::display(
+    _('Configuration Error'),
+    sprintf(_('Fatal error: not all POST variables have been transfered by PHP - please inform your administrator!')),
+    FATAL_ERROR_DIALOG
+  );
+  exit();
 }
 
 /* Assign errors to smarty */
