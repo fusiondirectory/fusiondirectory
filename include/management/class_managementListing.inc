@@ -267,8 +267,8 @@ class managementListing
         if ($action == 'ROOT') {
           $this->setBase(key($this->bases));
         } elseif ($action == 'BACK') {
-          $base = preg_replace('/^[^,]+,/', '', $this->base);
-          $this->tryAndSetBase($base);
+          $parentBase = preg_replace('/^[^,]+,/', '', $this->base);
+          $this->tryAndSetBase($parentBase);
         } elseif ($action == 'HOME') {
           $this->tryAndSetBase(get_base_from_people($ui->dn));
         }
@@ -327,7 +327,6 @@ class managementListing
 
   function renderNavigation()
   {
-    $result = array();
     $enableBack = TRUE;
     $enableRoot = TRUE;
     $enableHome = TRUE;
@@ -429,10 +428,9 @@ class managementListing
         /* Detect the longer base valid for this dn */
         $longerBase = '';
         foreach (array_keys($this->bases) as $base) {
-          if (preg_match('/'.preg_quote($base, '/').'$/i', $dn)) {
-            if (strlen($base) > strlen($longerBase)) {
-              $longerBase = $base;
-            }
+          if (preg_match('/'.preg_quote($base, '/').'$/i', $dn)
+            && (strlen($base) > strlen($longerBase))) {
+            $longerBase = $base;
           }
         }
         $this->setBase($longerBase);

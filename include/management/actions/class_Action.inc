@@ -87,7 +87,7 @@ class Action
       );
     }
 
-    switch ($targets) {
+    switch ($this->targets) {
       case '0':
         $this->minTargets = 0;
         $this->maxTargets = 0;
@@ -109,7 +109,7 @@ class Action
         $this->maxTargets = FALSE;
         break;
       default:
-        throw new Exception('Invalid targets value for action '.$name.': '.$targets);
+        throw new FusionDirectoryException('Invalid targets value for action '.$this->name.': '.$this->targets);
     }
   }
 
@@ -149,10 +149,10 @@ class Action
       return;
     }
     if (count($action['targets']) < $this->minTargets) {
-      throw new Exception('Not enough targets ('.count($action['targets']).') passed for action '.$name);
+      throw new FusionDirectoryException('Not enough targets ('.count($action['targets']).') passed for action '.$this->name);
     }
     if (($this->maxTargets !== FALSE) && (count($action['targets']) > $this->maxTargets)) {
-      throw new Exception('Too many targets ('.count($action['targets']).') passed for action '.$name);
+      throw new FusionDirectoryException('Too many targets ('.count($action['targets']).') passed for action '.$this->name);
     }
     $func = $this->callable;
     if (!is_array($func)) {
