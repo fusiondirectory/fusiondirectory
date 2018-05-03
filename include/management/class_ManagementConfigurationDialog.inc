@@ -90,7 +90,6 @@ class ManagementConfigurationDialog extends simplePlugin
     $columnInfos  = $this->parent->getColumnConfiguration();
     $value        = array();
     foreach ($columnInfos as $column) {
-      $data = $column;
       if (!isset($column[1]['attribute'])) {
         $column[1]['attribute'] = '';
       }

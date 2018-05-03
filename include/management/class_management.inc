@@ -137,23 +137,23 @@ class management
 
     foreach ($this->objectTypes as $type) {
       $infos  = objects::infos($type);
-      $icon   = 'geticon.php?context=actions&icon=document-new&size=16';
+      $img    = 'geticon.php?context=actions&icon=document-new&size=16';
       if (isset($infos['icon'])) {
-        $icon = $infos['icon'];
+        $img = $infos['icon'];
       }
       $createMenu[] = new Action(
-        'new_'.$type, $infos['name'], $icon,
+        'new_'.$type, $infos['name'], $img,
         '0', 'newEntry',
         array($infos['aclCategory'].'/'.$infos['mainTab'].'/c')
       );
       if (!static::$skipTemplates) {
         $templateMenu[] = new Action(
-          'new_template_'.$type, $infos['name'], $icon,
+          'new_template_'.$type, $infos['name'], $img,
           '0', 'newEntryTemplate',
           array($infos['aclCategory'].'/template/c')
         );
         $fromTemplateMenu[] = new Action(
-          'template_apply_'.$type, $infos['name'], $icon,
+          'template_apply_'.$type, $infos['name'], $img,
           '?', 'newEntryFromTemplate',
           array($infos['aclCategory'].'/template/r', $infos['aclCategory'].'/'.$infos['mainTab'].'/c')
         );
@@ -304,7 +304,7 @@ class management
   function detectPostActions()
   {
     if (!is_object($this->listing)) {
-      throw new Exception('No valid listing object');
+      throw new FusionDirectoryException('No valid listing object');
     }
     $action = array('targets' => array(), 'action' => '', 'subaction' => NULL);
     if ($this->is_modal_dialog()) {
@@ -423,18 +423,18 @@ class management
     global $config;
 
     // Rendering things using smarty themselves first
-    $list     = $this->listing->render();
-    $filter   = $this->filter->render();
-    $actions  = $this->renderActionMenu();
+    $listRender   = $this->listing->render();
+    $filterRender = $this->filter->render();
+    $actionMenu   = $this->renderActionMenu();
 
     $smarty = get_smarty();
     $smarty->assign('usePrototype', 'true');
-    $smarty->assign('FILTER',       $filter);
-    $smarty->assign('LIST',         $list);
+    $smarty->assign('LIST',         $listRender);
+    $smarty->assign('FILTER',       $filterRender);
+    $smarty->assign('ACTIONS',      $actionMenu);
     $smarty->assign('SIZELIMIT',    print_sizelimit_warning());
     $smarty->assign('MULTISELECT',  $this->listing->multiSelect);
     $smarty->assign('NAVIGATION',   $this->listing->renderNavigation());
-    $smarty->assign('ACTIONS',      $actions);
     $smarty->assign('BASE',         $this->listing->renderBase());
     $smarty->assign('HEADLINE',     $this->headline);
 
@@ -563,7 +563,6 @@ class management
       $str .= '<p class="plugbottom">'."\n".
         '<input type="submit" name="edit_cancel" value="'.msgPool::cancelButton().'">'."\n".
         '</p>';
-      return $str;
     } else {
       // Display ok, (apply) and cancel buttons
       $str .= '<p class="plugbottom">'."\n";
@@ -733,7 +732,7 @@ class management
     $this->openTabObject(objects::open($this->dn, $entry->getTemplatedType()), $this->dn);
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Edit entry initiated');
     if (isset($action['subaction'])) {
-      if ($this->handleSubAction($action) == FALSE) {
+      if ($this->handleSubAction($action) === FALSE) {
         trigger_error('Was not able to handle subaction: '.$action['subaction']);
       }
     }

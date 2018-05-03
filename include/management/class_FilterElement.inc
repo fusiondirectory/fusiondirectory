@@ -40,7 +40,7 @@ class FilterElement
   }
 
   /* Fills LDAP filters for the given type. Returns TRUE if type should be skipped altogether. */
-  public function getFilters($type, &$filters)
+  public function getFilters($type, array &$filters)
   {
     return FALSE;
   }
@@ -106,9 +106,9 @@ class TabFilterElement extends FilterElement
     return $smarty->fetch(get_template_path('management/filter-element.tpl'));
   }
 
-  public function getFilters($type, &$filters)
+  public function getFilters($type, array &$filters)
   {
-    foreach ($this->tabs as $class => $tab) {
+    foreach ($this->tabs as $tab) {
       if ($tab['checked']) {
         $filters[] = $tab['filter'];
       }

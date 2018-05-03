@@ -164,7 +164,7 @@ class Attribute
     $this->checkValue($value);
     $old_value    = $this->value;
     $this->value  = $value;
-    if (($this->submitForm != FALSE) && ($this->submitForm !== TRUE) && ($old_value != $value) && is_object($this->plugin)) {
+    if (($this->submitForm !== FALSE) && ($this->submitForm !== TRUE) && ($old_value != $value) && is_object($this->plugin)) {
       $func = $this->submitForm;
       $this->plugin->$func();
     }

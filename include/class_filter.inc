@@ -387,7 +387,7 @@ class filter
           break;
 
         default:
-          throw new Exception ('Unknown element type specified: '.$element['type'].'!');
+          throw new FusionDirectoryException ('Unknown element type specified: '.$element['type'].'!');
       }
       $smarty->assign("$tag", $htmlCode);
     }
