@@ -42,7 +42,7 @@ class CompositeAttribute extends Attribute
    *  \param string $acl The name of the acl for this attribute if he does not use its own. (Leave empty if he should use its own like most attributes do)
    *  \param string $label The label to show for this attribute. Only useful if you put this attribute inside a SetAttribute, or if you use a specific template that needs it.
    */
-  function __construct ($description, $ldapName, $attributes, $readFormat, $writeFormat, $acl = "", $label = NULL)
+  function __construct ($description, $ldapName, array $attributes, $readFormat, $writeFormat, $acl = "", $label = NULL)
   {
     if ($label === NULL) {
       $label = $ldapName;
@@ -53,7 +53,7 @@ class CompositeAttribute extends Attribute
     $this->setAttributes($attributes);
   }
 
-  function setAttributes ($attributes)
+  function setAttributes (array $attributes)
   {
     $this->attributes   = $attributes;
     foreach ($this->attributes as &$attribute) {
@@ -80,7 +80,7 @@ class CompositeAttribute extends Attribute
     unset($attribute);
   }
 
-  function setManagedAttributes ($dontcare)
+  function setManagedAttributes (array $dontcare)
   {
     trigger_error('method setManagedAttributes is not supported for CompositeAttribute');
   }
@@ -112,7 +112,7 @@ class CompositeAttribute extends Attribute
     return array_fill(0, count($this->attributes), '');
   }
 
-  function writeValues($values)
+  function writeValues(array $values)
   {
     if ($this->writeFormat === FALSE) {
       return $values;
@@ -213,7 +213,7 @@ class CompositeAttribute extends Attribute
     unset($attribute);
   }
 
-  function renderAttribute(&$attributes, $readOnly)
+  function renderAttribute(array &$attributes, $readOnly)
   {
     if ($this->visible) {
       if ($this->linearRendering) {
@@ -238,7 +238,7 @@ class CompositeAttribute extends Attribute
     }
   }
 
-  function serializeAttribute(&$attributes, $form = TRUE)
+  function serializeAttribute(array &$attributes, $form = TRUE)
   {
     if ($form) {
       if ($this->visible) {

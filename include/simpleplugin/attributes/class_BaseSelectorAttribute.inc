@@ -46,7 +46,7 @@ class BaseSelectorAttribute extends Attribute
     $this->ou = $ou;
   }
 
-  function setManagedAttributes ($dontcare)
+  function setManagedAttributes (array $dontcare)
   {
     trigger_error('method setManagedAttributes is not supported for BaseSelectorAttribute');
   }
@@ -174,7 +174,7 @@ class BaseSelectorAttribute extends Attribute
     }
   }
 
-  function serializeAttribute(&$attributes, $form = TRUE)
+  function serializeAttribute(array &$attributes, $form = TRUE)
   {
     if (!$form || $this->visible) {
       parent::serializeAttribute($attributes, $form);

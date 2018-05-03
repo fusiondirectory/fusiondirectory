@@ -47,7 +47,7 @@ class SetAttribute extends Attribute
     $this->valueUnicity = $valueUnicity;
   }
 
-  function setManagedAttributes ($dontcare)
+  function setManagedAttributes (array $dontcare)
   {
     trigger_error('method setManagedAttributes is not supported for SetAttributes');
   }
@@ -57,7 +57,7 @@ class SetAttribute extends Attribute
     $this->linearRendering = $bool;
   }
 
-  protected function loadAttrValue ($attrs)
+  protected function loadAttrValue (array $attrs)
   {
     if (isset($attrs[$this->getLdapName()]["count"])) {
       $this->value = array();
@@ -222,7 +222,7 @@ class SetAttribute extends Attribute
     }
   }
 
-  function renderAttribute(&$attributes, $readOnly)
+  function renderAttribute(array &$attributes, $readOnly)
   {
     if ($this->attribute === FALSE) {
       return parent::renderAttribute($attributes, $readOnly);
@@ -250,7 +250,7 @@ class SetAttribute extends Attribute
     }
   }
 
-  function serializeAttribute(&$attributes, $form = TRUE)
+  function serializeAttribute(array &$attributes, $form = TRUE)
   {
     parent::serializeAttribute($attributes, $form);
     if ($this->attribute === FALSE) {
@@ -322,7 +322,7 @@ class SetAttribute extends Attribute
     return $result;
   }
 
-  function foreignKeyUpdate($oldvalue, $newvalue, $source)
+  function foreignKeyUpdate($oldvalue, $newvalue, array $source)
   {
     foreach ($this->value as $key => &$value) {
       if (($source['FIELD'] == 'dn') && ($source['MODE'] == 'move')) {
@@ -346,7 +346,7 @@ class SetAttribute extends Attribute
     unset($value);
   }
 
-  function foreignKeyCheck($value, $source)
+  function foreignKeyCheck($value, array $source)
   {
     return in_array($value, $this->value);
   }
@@ -425,7 +425,7 @@ class OrderedArrayAttribute extends SetAttribute
     return $ldapValue;
   }
 
-  protected function loadAttrValue ($attrs)
+  protected function loadAttrValue (array $attrs)
   {
     if (isset($attrs[$this->getLdapName()]["count"])) {
       $this->value = array();
@@ -697,7 +697,7 @@ class SubNodesAttribute extends OrderedArrayAttribute
     }
   }
 
-  protected function loadAttrValue ($attrs)
+  protected function loadAttrValue (array $attrs)
   {
     global $config;
     /* Should we take dn from attrs or plugin? */
@@ -720,7 +720,7 @@ class SubNodesAttribute extends OrderedArrayAttribute
   }
 
   /* Not saving anything into base node */
-  function fillLdapValue (&$attrs)
+  function fillLdapValue (array &$attrs)
   {
   }
 

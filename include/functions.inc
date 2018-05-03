@@ -365,13 +365,9 @@ function array_remove_entries_ics(array $needles, array $haystack)
  *
  * \return array
  */
-function array_merge_unique($ar1, $ar2)
+function array_merge_unique(array $ar1, array $ar2)
 {
-  if (!is_array($ar1) || !is_array($ar2)) {
-    trigger_error('Specified parameter(s) are not valid arrays.');
-  } else {
-    return array_values(array_unique(array_merge($ar1, $ar2)));
-  }
+  return array_values(array_unique(array_merge($ar1, $ar2)));
 }
 
 
@@ -1142,7 +1138,7 @@ function strict_uid_mode()
  *
  *
  */
-function gen_locked_message($locks, $dn, $allow_readonly = FALSE)
+function gen_locked_message(array $locks, $dn, $allow_readonly = FALSE)
 {
   session::set('dn', $dn);
   $remove = FALSE;
@@ -1367,7 +1363,7 @@ function normalize_netmask($netmask)
 
       for ($i = 7; $i >= 0; $i--) {
         if ($num-- > 0) {
-          $result += pow(2, $i);
+          $result += 2 ** $i;
         }
       }
 
@@ -1418,7 +1414,7 @@ function netmask_to_bits($netmask)
         $res += 8 - $i;
         break;
       }
-      $start -= pow(2, $i);
+      $start -= 2 ** $i;
     }
   }
 
@@ -1463,7 +1459,7 @@ function _recurse_gen_uids($rule, $variables)
  *
  * \return array List of valid not used uids
  */
-function gen_uids($rule, $attributes)
+function gen_uids($rule, array $attributes)
 {
   global $config;
 
@@ -1499,7 +1495,7 @@ function gen_uids($rule, $attributes)
       $size = $m[2];
 
       $start = ($m[1] == ":" ? 0 : -1);
-      for ($i = $start, $p = pow(10, $size) - 1; $i < $p; $i++) {
+      for ($i = $start, $p = (10 ** $size) - 1; $i < $p; $i++) {
         if ($i == -1) {
           $number = "";
         } else {
@@ -1523,7 +1519,7 @@ function gen_uids($rule, $attributes)
 
       while (TRUE) {
         mt_srand((double)microtime() * 1000000);
-        $number = sprintf("%0".$size."d", mt_rand(0, pow(10, $size) - 1));
+        $number = sprintf("%0".$size."d", mt_rand(0, (10 ** $size) - 1));
         $res    = preg_replace('/{id#(\d+)}/', $number, $uid);
         $ldap->search('(uid='.ldap_escape_f(preg_replace('/[{}]/', '', $res)).')', array('dn'));
         if ($ldap->count() == 0) {
@@ -1614,7 +1610,7 @@ function humanReadableSize ($bytes, $precision = 2)
   }
   $base = log($bytes) / log(1024);
 
-  return sprintf($format[floor($base)], round(pow(1024, $base - floor($base)), $precision));
+  return sprintf($format[floor($base)], round(1024 ** ($base - floor($base)), $precision));
 }
 
 
@@ -1894,7 +1890,7 @@ function array_key_ics($ikey, array $items)
  *
  * \return boolean TRUE or FALSE
  */
-function array_differs($src, $dst)
+function array_differs(array $src, array $dst)
 {
   /* If the count is differing, the arrays differ */
   if (count ($src) != count ($dst)) {
@@ -1952,7 +1948,7 @@ function normalizeLdap($input)
  *
  * \param string $cfg A config object
  */
-function check_schema($cfg)
+function check_schema(array $cfg)
 {
   $checks = array();
 
@@ -2413,75 +2409,6 @@ function load_all_classes()
   }
 }
 
-if (!function_exists('ldap_escape')) {
-  /* This bloc is for PHP<5.6 */
-  define('LDAP_ESCAPE_FILTER', 0x01);
-  define('LDAP_ESCAPE_DN',     0x02);
-
-  /* PHP version of ldap_escape for PHP<5.6 */
-  function ldap_escape($subject, $ignore = '', $flags = 0)
-  {
-    static $charMaps = array(
-      LDAP_ESCAPE_FILTER => array('\\', '*', '(', ')', "\x00"),
-      LDAP_ESCAPE_DN     => array('\\', ',', '=', '+', '<', '>', ';', '"', '#'),
-    );
-
-    // Pre-process the char maps on first call
-    if (!isset($charMaps[0])) {
-      $charMaps[0] = array();
-      for ($i = 0; $i < 256; $i++) {
-        $charMaps[0][chr($i)] = sprintf('\\%02x', $i);
-      }
-
-      for ($i = 0, $l = count($charMaps[LDAP_ESCAPE_FILTER]); $i < $l; $i++) {
-        $chr = $charMaps[LDAP_ESCAPE_FILTER][$i];
-        unset($charMaps[LDAP_ESCAPE_FILTER][$i]);
-        $charMaps[LDAP_ESCAPE_FILTER][$chr] = $charMaps[0][$chr];
-      }
-
-      for ($i = 0, $l = count($charMaps[LDAP_ESCAPE_DN]); $i < $l; $i++) {
-        $chr = $charMaps[LDAP_ESCAPE_DN][$i];
-        unset($charMaps[LDAP_ESCAPE_DN][$i]);
-        $charMaps[LDAP_ESCAPE_DN][$chr] = $charMaps[0][$chr];
-      }
-    }
-
-    // Create the base char map to escape
-    $flags = (int)$flags;
-    $charMap = array();
-    if ($flags & LDAP_ESCAPE_FILTER) {
-      $charMap += $charMaps[LDAP_ESCAPE_FILTER];
-    }
-    if ($flags & LDAP_ESCAPE_DN) {
-      $charMap += $charMaps[LDAP_ESCAPE_DN];
-    }
-    if (!$charMap) {
-      $charMap = $charMaps[0];
-    }
-
-    // Remove any chars to ignore from the list
-    $ignore = (string)$ignore;
-    for ($i = 0, $l = strlen($ignore); $i < $l; $i++) {
-      unset($charMap[$ignore[$i]]);
-    }
-
-    // Do the main replacement
-    $result = strtr($subject, $charMap);
-
-    // Encode leading/trailing spaces if LDAP_ESCAPE_DN is passed
-    if ($flags & LDAP_ESCAPE_DN) {
-      if ($result[0] === ' ') {
-        $result = '\\20' . substr($result, 1);
-      }
-      if ($result[strlen($result) - 1] === ' ') {
-        $result = substr($result, 0, -1) . '\\20';
-      }
-    }
-
-    return $result;
-  }
-}
-
 function ldap_escape_f($str, $ignore = '')
 {
   return ldap_escape($str, $ignore, LDAP_ESCAPE_FILTER);
@@ -2512,9 +2439,8 @@ function mail_utf8($to, $from_user, $from_email, $subject, $message, $type = 'pl
 }
 
 /* Calls fopen, gives errors as an array if any, file handle if successful */
-function fopenWithErrorHandling()
+function fopenWithErrorHandling(...$args)
 {
-  $args   = func_get_args();
   $errors = array();
   set_error_handler(
     function ($errno, $errstr, $errfile, $errline, $errcontext) use (&$errors)
@@ -2522,7 +2448,7 @@ function fopenWithErrorHandling()
       $errors[] = $errstr;
     }
   );
-  $fh = @call_user_func_array('fopen', $args);
+  $fh = @fopen(...$args);
   restore_error_handler();
   if ($fh !== FALSE) {
     return $fh;

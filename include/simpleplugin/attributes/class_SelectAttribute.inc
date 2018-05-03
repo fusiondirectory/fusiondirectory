@@ -57,7 +57,7 @@ class SelectAttribute extends Attribute
    *  \param array $choices The choices this select should offer
    *  \param array $outputs The labels corresponding to the choices, leave to NULL if you want to display the choices themselves
    */
-  function setChoices ($choices, $outputs = NULL)
+  function setChoices (array $choices, array $outputs = NULL)
   {
     $this->outputs = NULL;
     if (!$this->isRequired() && !in_array('', $choices, TRUE)) {
@@ -82,7 +82,7 @@ class SelectAttribute extends Attribute
    *
    *  \param array $values The labels corresponding to the choices, in the same order as the choices
    */
-  function setDisplayChoices ($values)
+  function setDisplayChoices (array $values)
   {
     $this->outputs = array();
     $values = array_values($values);
@@ -183,7 +183,7 @@ class SelectAttribute extends Attribute
     return $this->renderAcl($display);
   }
 
-  function serializeAttribute(&$attributes, $form = TRUE)
+  function serializeAttribute(array &$attributes, $form = TRUE)
   {
     if (!$form || $this->visible) {
       parent::serializeAttribute($attributes, $form);

@@ -1110,16 +1110,13 @@ class listing
   /*!
    * \brief Filter link
    */
-  function filterLink()
+  function filterLink($row, $dn, $mask, ...$vals)
   {
-    $row    = func_get_arg(0);
     $pid    = $this->pid;
-    $dn     = func_get_arg(1);
-    $params = array(func_get_arg(2));
+    $params = array($mask);
 
     // Collect sprintf params
-    for ($i = 3;$i < func_num_args();$i++) {
-      $val = func_get_arg($i);
+    foreach ($vals as $val) {
       if (empty($val)) {
         continue;
       }
@@ -1138,7 +1135,7 @@ class listing
 
     $result = '&nbsp;';
     if (count($params) > 1) {
-      $trans  = call_user_func_array('sprintf', $params);
+      $trans  = sprintf(...$params);
       if ($trans != '') {
         return '<a href="?plug='.$_GET['plug'].'&amp;PID='.$pid.'&amp;act=listing_edit_'.$row.'" title="'.$dn.'">'.$trans.'</a>';
       }

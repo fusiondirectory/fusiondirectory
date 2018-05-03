@@ -127,7 +127,7 @@ class ObjectClassBooleanAttribute extends BooleanAttribute
     $this->setInLdap(FALSE);
   }
 
-  function loadValue ($attrs)
+  function loadValue (array $attrs)
   {
     if (isset($attrs['objectClass'])) {
       $missing_oc = array_udiff($this->objectclasses, $attrs['objectClass'], 'strcasecmp');
@@ -138,7 +138,7 @@ class ObjectClassBooleanAttribute extends BooleanAttribute
     $this->initialValue = $this->value;
   }
 
-  function fillLdapValue (&$attrs)
+  function fillLdapValue (array &$attrs)
   {
     if ($this->getValue()) {
       $attrs['objectClass'] = array_merge_unique($this->objectclasses, $attrs['objectClass']);

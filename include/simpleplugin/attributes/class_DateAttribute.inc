@@ -81,7 +81,7 @@ class DateAttribute extends Attribute
     }
   }
 
-  protected function dateToLdap($dateValue)
+  protected function dateToLdap(DateTime $dateValue)
   {
     return $dateValue->format($this->format);
   }
@@ -178,7 +178,7 @@ class GeneralizedTimeDateAttribute extends DateAttribute
     }
   }
 
-  protected function dateToLdap($dateValue)
+  protected function dateToLdap(DateTime $dateValue)
   {
     return LdapGeneralizedTime::toString($dateValue);
   }
@@ -231,7 +231,7 @@ class TimeHisAttribute extends CompositeAttribute
     return $values;
   }
 
-  function writeValues($values)
+  function writeValues(array $values)
   {
     if ($this->convert) {
       $datetime = new DateTime('T'.implode(':', $values), timezone::getDefaultTimeZone());

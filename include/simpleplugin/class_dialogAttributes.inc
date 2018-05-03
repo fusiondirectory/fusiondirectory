@@ -405,7 +405,7 @@ class GenericDialogAttribute extends DialogAttribute
     return $this->displays;
   }
 
-  function setDisplayValues ($array)
+  function setDisplayValues (array $array)
   {
     $this->displays = $array;
   }
@@ -450,7 +450,7 @@ class GenericDialogAttribute extends DialogAttribute
     }
   }
 
-  function foreignKeyUpdate($oldvalue, $newvalue, $source)
+  function foreignKeyUpdate($oldvalue, $newvalue, array $source)
   {
     foreach ($this->value as $key => &$value) {
       if (($source['FIELD'] == 'dn') && ($source['MODE'] == 'move')) {
@@ -736,7 +736,7 @@ class UserAttribute extends DialogButtonAttribute
     $this->setRequired($required);
   }
 
-  function handleDialogResult ($dn, $attrs)
+  function handleDialogResult ($dn, array $attrs)
   {
     $this->setValue($dn);
     $this->buttonText = $attrs['cn'][0];
@@ -812,7 +812,7 @@ class UserAttribute extends DialogButtonAttribute
   {
   }
 
-  protected function loadAttrValue ($attrs)
+  protected function loadAttrValue (array $attrs)
   {
     global $config;
     parent::loadAttrValue($attrs);
