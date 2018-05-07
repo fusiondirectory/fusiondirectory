@@ -43,10 +43,9 @@ function smarty_block_render($params, $text)
   }
 
   /* Disable objects, but keep those active that have mode=read_active */
-  if (!(isset($params['mode']) && ($params['mode'] == 'read_active') && preg_match('/(r|w)/', $acl))) {
-    if (!preg_match('/ disabled(="disabled")?( |\/?>)/', $text)) {
-      $text = preg_replace('/name=/i', 'disabled="disabled" name=', $text);
-    }
+  if (!(isset($params['mode']) && ($params['mode'] == 'read_active') && preg_match('/(r|w)/', $acl))
+    && !preg_match('/ disabled(="disabled")?( |\/?>)/', $text)) {
+    $text = preg_replace('/name=/i', 'disabled="disabled" name=', $text);
   }
 
   /* Read only */
