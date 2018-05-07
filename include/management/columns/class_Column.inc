@@ -106,12 +106,12 @@ class Column
 
   function renderCell(ListingEntry $entry)
   {
-    $attribute = $this->attribute;
+    $attr = $this->attribute;
     if (isset($this->templateAttribute) && $entry->isTemplate()) {
-      $attribute = $this->templateAttribute;
+      $attr = $this->templateAttribute;
     }
-    if (isset($attribute) && isset($entry[$attribute])) {
-      return htmlentities($entry[$attribute], ENT_COMPAT, 'UTF-8');
+    if (isset($attr) && isset($entry[$attr])) {
+      return htmlentities($entry[$attr], ENT_COMPAT, 'UTF-8');
     } else {
       return '&nbsp;';
     }
@@ -119,12 +119,12 @@ class Column
 
   function getRawExportValue(ListingEntry $entry)
   {
-    $attribute = $this->attribute;
+    $attr = $this->attribute;
     if (isset($this->templateAttribute) && $entry->isTemplate()) {
-      $attribute = $this->templateAttribute;
+      $attr = $this->templateAttribute;
     }
-    if (isset($attribute) && isset($entry[$attribute])) {
-      return $entry[$attribute];
+    if (isset($attr) && isset($entry[$attr])) {
+      return $entry[$attr];
     } else {
       return '';
     }
@@ -158,11 +158,6 @@ class Column
 
     // Take a look at the several types
     switch ($this->type) {
-      // Sort for string by default
-      default:
-      case 'string':
-        return strcoll($a, $b);
-
       case 'department':
         return strnatcmp($a, $b);
 
@@ -191,6 +186,11 @@ class Column
           }
         }
         return 0;
+
+      // Sort for string by default
+      case 'string':
+      default:
+        return strcoll($a, $b);
     }
   }
 }

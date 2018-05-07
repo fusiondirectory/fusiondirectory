@@ -268,16 +268,10 @@ class tests
    */
   public static function is_email($address)
   {
-    if ($address == "") {
-      return TRUE;
-    }
-    if (filter_var($address, FILTER_VALIDATE_EMAIL) !== FALSE) {
-      return TRUE;
-    } elseif (filter_var($address.'.com', FILTER_VALIDATE_EMAIL) !== FALSE) {
-      /* this is to allow addresses like example@localhost, which are refused by some PHP version */
-      return TRUE;
-    }
-    return FALSE;
+    /* last test is to allow addresses like example@localhost, which are refused by some PHP version */
+    return (($address == '')
+      || (filter_var($address, FILTER_VALIDATE_EMAIL) !== FALSE)
+      || (filter_var($address.'.com', FILTER_VALIDATE_EMAIL) !== FALSE));
   }
 
 
@@ -293,12 +287,8 @@ class tests
     global $config;
     $reservedNames = array();
     foreach ($config->data['OBJECTS'] as $infos) {
-      if (isset($infos['ou'])) {
-        if ($infos['ou'] != '') {
-          if (preg_match('/ou=([^,]+),$/', $infos['ou'], $m)) {
-            $reservedNames[] = $m[1];
-          }
-        }
+      if (isset($infos['ou']) && preg_match('/ou=([^,]+),$/', $infos['ou'], $m)) {
+        $reservedNames[] = $m[1];
       }
     }
 

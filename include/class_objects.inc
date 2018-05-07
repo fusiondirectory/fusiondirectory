@@ -408,10 +408,9 @@ class objects
       if ($ldap->count() != 0) {
         while ($attrs = $ldap->fetch()) {
           $dn = $attrs['dn'];
-          if ($requiredPermissions != '') {
-            if (!preg_match('/'.$requiredPermissions.'/', $ui->get_permissions($dn, $infos['aclCategory'].'/'.'template'))) {
-              continue;
-            }
+          if (($requiredPermissions != '')
+            && !preg_match('/'.$requiredPermissions.'/', $ui->get_permissions($dn, $infos['aclCategory'].'/'.'template'))) {
+            continue;
           }
           $templates[$dn] = $attrs['cn'][0].' - '.$key;
         }

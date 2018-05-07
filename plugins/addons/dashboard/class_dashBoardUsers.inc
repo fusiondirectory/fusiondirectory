@@ -122,9 +122,9 @@ class dashboardUsers extends simplePlugin
         sprintf(_('Group statistics could not be computed because of the following LDAP error: %s'), $e->getMessage()),
         ERROR_DIALOG
       );
-      $nb_groups          = 0;
-      $nb_mail_groups     = 0;
-      $nb_samba_accounts  = 0;
+      $nb_groups        = 0;
+      $nb_mail_groups   = 0;
+      $nb_samba_groups  = 0;
     }
 
     return array(

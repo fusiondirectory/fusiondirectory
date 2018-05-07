@@ -202,6 +202,7 @@ class IconTheme
 
   /* We store themes in the session. To do otherwise, override these methods. */
   static public $session_var    = 'IconThemes';
+
   static public function loadThemes($path)
   {
     $themes = array();
@@ -222,6 +223,7 @@ class IconTheme
     }
     $_SESSION[static::$session_var] = $themes;
   }
+
   static public function findThemeIcon($theme, $context, $icon, $size)
   {
     if (!isset($_SESSION[static::$session_var])) {
@@ -232,11 +234,11 @@ class IconTheme
     }
     return $_SESSION[static::$session_var][static::$default_theme]->FindIcon($context, $icon, $size);
   }
+
   public function findTheme($theme)
   {
     if (isset($_SESSION[static::$session_var][$theme])) {
-      $ret = &$_SESSION[static::$session_var][$theme];
-      return $ret;
+      return $_SESSION[static::$session_var][$theme];
     }
     return NULL;
   }

@@ -140,19 +140,19 @@ class template
 
   function serialize()
   {
-    $attributes = array();
+    $ret = array();
     foreach ($this->tabObject->by_object as $class => $plugin) {
       if (!isset($this->attributes[$class])) {
         continue;
       }
-      $attributes[$class] = array('name' => $this->tabObject->by_name[$class], 'attrs' => array());
+      $ret[$class] = array('name' => $this->tabObject->by_name[$class], 'attrs' => array());
       foreach ($this->attributes[$class] as $attr) {
-        $plugin->attributesAccess[$attr]->serializeAttribute($attributes[$class]['attrs'], FALSE);
+        $plugin->attributesAccess[$attr]->serializeAttribute($ret[$class]['attrs'], FALSE);
       }
-      $attributes[$class]['attrs_order'] = array_keys($attributes[$class]['attrs']);
+      $ret[$class]['attrs_order'] = array_keys($ret[$class]['attrs']);
     }
 
-    return $attributes;
+    return $ret;
   }
 
   function deserialize($values)
@@ -197,19 +197,19 @@ class template
           return $dialogResult;
         }
       }
-      $attributes = array();
+      $attributesRendered = array();
       foreach ($this->attributes[$class] as $attr) {
         if ($plugin->attributesAccess[$attr]->getAclInfo() !== FALSE) {
           // We assign ACLs so that attributes can use them in their template code
           $smarty->assign($plugin->attributesAccess[$attr]->getAcl().'ACL', $plugin->aclGetPermissions($plugin->attributesAccess[$attr]->getAcl()));
         }
-        $plugin->attributesAccess[$attr]->renderAttribute($attributes, FALSE);
+        $plugin->attributesAccess[$attr]->renderAttribute($attributesRendered, FALSE);
       }
 
       $smarty->assign('section', $class);
       $smarty->assign('sectionId', $class);
       $smarty->assign('sectionClasses', ' fullwidth');
-      $smarty->assign('attributes', $attributes);
+      $smarty->assign('attributes', $attributesRendered);
 
       $posted[]   = $class.'_posted';
       $sections[] = $smarty->fetch(get_template_path('simpleplugin_section.tpl'));

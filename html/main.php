@@ -42,10 +42,10 @@ session::set('errorsAlreadyPosted', array());
 session::global_set('runtime_cache', array());
 session::set('limit_exceeded', FALSE);
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  @DEBUG (DEBUG_POST, __LINE__, __FUNCTION__, __FILE__, $_POST, "_POST");
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+  @DEBUG (DEBUG_POST, __LINE__, __FUNCTION__, __FILE__, $_POST, '_POST');
 }
-@DEBUG (DEBUG_SESSION, __LINE__, __FUNCTION__, __FILE__, session::get_all(), "_SESSION");
+@DEBUG (DEBUG_SESSION, __LINE__, __FUNCTION__, __FILE__, $_SESSION, '_SESSION');
 
 /* Logged in? Simple security check */
 if (!session::global_is_set('connected')) {
@@ -201,11 +201,10 @@ if (memory_get_usage() > (to_byte(ini_get('memory_limit')) - 2048000 )) {
   msg_dialog::display(_("Configuration error"), _("Running out of memory!"), WARNING_DIALOG);
 }
 
-/* Redirect on back event */
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-  /* Look for button events that match /^back[0-9]+$/,
-     extract the number and step the correct plugin. */
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+  /* Redirect on back event
+      Look for button events that match /^back[0-9]+$/,
+      extract the number and step the correct plugin. */
   foreach ($_POST as $key => $value) {
     if (preg_match("/^back[0-9]+$/", $key)) {
       $back = substr($key, 4);
@@ -213,12 +212,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       exit;
     }
   }
-}
-
-/* Redirect on password back event */
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['password_back'])) {
-  header ("Location: main.php");
-  exit;
+  /* Redirect on password back event */
+  if (isset($_POST['password_back'])) {
+    header ("Location: main.php");
+    exit;
+  }
 }
 
 /* Load department list when plugin has changed. That is some kind of
@@ -250,24 +248,23 @@ $smarty->assign ("plug", "$plug");
 $smarty->assign("usePrototype", "false");
 
 /* React on clicks */
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  if (isset($_POST['delete_lock']) || isset($_POST['open_readonly'])) {
+if (($_SERVER['REQUEST_METHOD"'] == 'POST')
+  && (isset($_POST['delete_lock']) || isset($_POST['open_readonly']))) {
 
-    /* Set old Post data */
-    if (session::global_is_set('LOCK_VARS_USED_GET')) {
-      foreach (session::global_get('LOCK_VARS_USED_GET') as $name => $value) {
-        $_GET[$name]  = $value;
-      }
+  /* Set old Post data */
+  if (session::global_is_set('LOCK_VARS_USED_GET')) {
+    foreach (session::global_get('LOCK_VARS_USED_GET') as $name => $value) {
+      $_GET[$name]  = $value;
     }
-    if (session::global_is_set('LOCK_VARS_USED_POST')) {
-      foreach (session::global_get('LOCK_VARS_USED_POST') as $name => $value) {
-        $_POST[$name] = $value;
-      }
+  }
+  if (session::global_is_set('LOCK_VARS_USED_POST')) {
+    foreach (session::global_get('LOCK_VARS_USED_POST') as $name => $value) {
+      $_POST[$name] = $value;
     }
-    if (session::global_is_set('LOCK_VARS_USED_REQUEST')) {
-      foreach (session::global_get('LOCK_VARS_USED_REQUEST') as $name => $value) {
-        $_REQUEST[$name] = $value;
-      }
+  }
+  if (session::global_is_set('LOCK_VARS_USED_REQUEST')) {
+    foreach (session::global_get('LOCK_VARS_USED_REQUEST') as $name => $value) {
+      $_REQUEST[$name] = $value;
     }
   }
 }

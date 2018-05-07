@@ -72,8 +72,7 @@ class setupStepConfig extends configInLdap
 
   function get_title()
   {
-    $infos = parent::plInfo();
-    return $infos['plDescription'];
+    return $this->get_description();
   }
 
   function get_description()

@@ -58,8 +58,7 @@ class passwordMethodsmd5 extends passwordMethod
     mt_srand(microtime() * 10000000);
     $salt0  = substr(pack('h*', md5(mt_rand())), 0, 8);
     $salt   = substr(pack('H*', md5($salt0 . $pwd)), 0, 4);
-    $hash   = '{SMD5}'.base64_encode(pack('H*', md5($pwd . $salt)) . $salt);
-    return $hash;
+    return '{SMD5}'.base64_encode(pack('H*', md5($pwd . $salt)) . $salt);
   }
 
   function checkPassword($pwd, $hash)

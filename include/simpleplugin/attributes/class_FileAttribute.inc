@@ -182,7 +182,7 @@ class FileDownloadAttribute extends FileAttribute
 
   function renderAttribute(array &$attributes, $readOnly)
   {
-    if ($this->upload == FALSE) {
+    if ($this->upload === FALSE) {
       parent::renderAttribute($attributes, FALSE);
     } else {
       parent::renderAttribute($attributes, $readOnly);
@@ -289,11 +289,9 @@ class ImageAttribute extends FileAttribute
     $id = $this->getHtmlId();
     if (!$this->disabled && $this->isVisible()) {
       foreach (array_keys($_POST) as $name) {
-        if (!$this->isRequired()) {
-          if (preg_match('/^'.$id.'_remove_/', $name)) {
-            $this->setPostValue('');
-            break;
-          }
+        if (!$this->isRequired() && preg_match('/^'.$id.'_remove_/', $name)) {
+          $this->setPostValue('');
+          break;
         }
         if (preg_match('/^'.$id.'_upload_/', $name)) {
           parent::loadPostValue();

@@ -731,10 +731,9 @@ class management
     // Open object
     $this->openTabObject(objects::open($this->dn, $entry->getTemplatedType()), $this->dn);
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Edit entry initiated');
-    if (isset($action['subaction'])) {
-      if ($this->handleSubAction($action) === FALSE) {
-        trigger_error('Was not able to handle subaction: '.$action['subaction']);
-      }
+    if (isset($action['subaction'])
+      && ($this->handleSubAction($action) === FALSE)) {
+      trigger_error('Was not able to handle subaction: '.$action['subaction']);
     }
   }
 

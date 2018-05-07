@@ -151,10 +151,6 @@ class printAClass {
         case 'array':
           break;
 
-        case 'object':
-          $key_style = 'color:#FF9B2F;';
-          break;
-
         case 'integer':
           $value_style = 'color:green;';
           break;
@@ -181,6 +177,11 @@ class printAClass {
             $value_style  = 'color:black;';
             $value        = nl2br(htmlspecialchars($value));
           }
+          break;
+
+        case 'object':
+        default:
+          $key_style = 'color:#FF9B2F;';
           break;
       }
 
@@ -260,11 +261,10 @@ function _script_globals()
   $varcount = 0;
 
   foreach ($GLOBALS as $GLOBALS_current_key => $GLOBALS_current_value) {
-    if (++$varcount > $GLOBALS_initial_count) {
-      /* die wollen wir nicht! */
-      if ($GLOBALS_current_key != 'HTTP_SESSION_VARS' && $GLOBALS_current_key != '_SESSION') {
-        $script_GLOBALS[$GLOBALS_current_key] = $GLOBALS_current_value;
-      }
+    if ((++$varcount > $GLOBALS_initial_count)
+      && ($GLOBALS_current_key != 'HTTP_SESSION_VARS')
+      && ($GLOBALS_current_key != '_SESSION')) {
+      $script_GLOBALS[$GLOBALS_current_key] = $GLOBALS_current_value;
     }
   }
 

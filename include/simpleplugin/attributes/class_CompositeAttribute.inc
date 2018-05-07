@@ -188,14 +188,13 @@ class CompositeAttribute extends Attribute
 
   function getArrayValue ()
   {
-    $values = array_map(
+    return array_map(
       function ($a)
       {
         return $a->displayValue($a->getValue());
       },
       $this->attributes
     );
-    return $values;
   }
 
   function check ()

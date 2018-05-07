@@ -900,27 +900,20 @@ class userinfo
     // Check if the account has reached its kick off limitations.
     // ----------------------------------------------------------
     // Once the accout reaches the kick off limit it has expired.
-    if ($sambaKickoffTime !== NULL) {
-      if (time() >= $sambaKickoffTime) {
-        return POSIX_ACCOUNT_EXPIRED;
-      }
+    if (($sambaKickoffTime !== NULL) && (time() >= $sambaKickoffTime)) {
+      return POSIX_ACCOUNT_EXPIRED;
     }
 
     // Check if the account has expired.
     // ---------------------------------
-    // An account is locked/expired once its expiration date has reached (shadowExpire).
+    // An account is locked/expired once its expiration date was reached (shadowExpire).
     // If the optional attribute (shadowInactive) is set, we've to postpone
     //  the account expiration by the amount of days specified in (shadowInactive).
-    if (($shadowExpire != NULL) && ($shadowExpire <= $current)) {
-
-      // The account seems to be expired, but we've to check 'shadowInactive' additionally.
-      // ShadowInactive specifies an amount of days we've to reprieve the user.
-      // It some kind of x days' grace.
-      if (($shadowInactive == NULL) || $current > $shadowExpire + $shadowInactive) {
-
-        // Finally we've detect that the account is deactivated.
-        return POSIX_ACCOUNT_EXPIRED;
-      }
+    // ShadowInactive specifies an amount of days we've to reprieve the user.
+    // It some kind of x days' grace.
+    if (($shadowExpire != NULL) && ($shadowExpire <= $current)
+      && (($shadowInactive == NULL) || ($current > $shadowExpire + $shadowInactive))) {
+      return POSIX_ACCOUNT_EXPIRED;
     }
 
     // The users password is going to expire.
@@ -930,18 +923,12 @@ class userinfo
     // The user has to be warned, if the days left till expiration, match the
     //  configured warning period (shadowWarning)
     // --> shadowWarning: Warn x days before account expiration.
-    if (($shadowExpire != NULL) && ($shadowWarning != NULL)) {
-
-      // Check if the account is still active and not already expired.
-      if ($shadowExpire >= $current) {
-
-        // Check if we've to warn the user by comparing the remaining
-        //  number of days till expiration with the configured amount
-        //  of days in shadowWarning.
-        if (($shadowExpire - $current) <= $shadowWarning) {
-          return POSIX_WARN_ABOUT_EXPIRATION;
-        }
-      }
+    // Check if the account is still active and not already expired.
+    // Check if we've to warn the user by comparing the remaining
+    //  number of days till expiration with the configured amount of days in shadowWarning.
+    if (($shadowExpire != NULL) && ($shadowWarning != NULL)
+      && ($shadowExpire >= $current) && ($shadowExpire <= $current + $shadowWarning)) {
+      return POSIX_WARN_ABOUT_EXPIRATION;
     }
 
     // -- I guess this is the correct detection, isn't it?
@@ -959,11 +946,10 @@ class userinfo
     // The age of the current password (shadowLastChange) plus the maximum
     //  amount amount of days (shadowMax) has to be smaller than the
     //  current timestamp.
-    if (($shadowLastChange != NULL) && ($shadowMax != NULL)) {
-      // Check if we've an outdated password.
-      if ($current >= ($shadowLastChange + $shadowMax)) {
-        return POSIX_FORCE_PASSWORD_CHANGE;
-      }
+    // Check if we've an outdated password.
+    if (($shadowLastChange != NULL) && ($shadowMax != NULL)
+      && ($current >= $shadowLastChange + $shadowMax)) {
+      return POSIX_FORCE_PASSWORD_CHANGE;
     }
 
     // Check if we've to freeze the users password.
@@ -971,11 +957,10 @@ class userinfo
     // Once a user has changed his password, he cannot change it again
     //  for a given amount of days (shadowMin).
     // We should not allow to change the password within FusionDirectory too.
-    if (($shadowLastChange != NULL) && ($shadowMin != NULL)) {
-      // Check if we've an outdated password.
-      if (($shadowLastChange + $shadowMin) >= $current) {
-        return POSIX_DISALLOW_PASSWORD_CHANGE;
-      }
+    // Check if we've an outdated password.
+    if (($shadowLastChange != NULL) && ($shadowMin != NULL)
+      && ($shadowLastChange + $shadowMin >= $current)) {
+      return POSIX_DISALLOW_PASSWORD_CHANGE;
     }
 
     return 0;

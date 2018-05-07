@@ -252,7 +252,7 @@ class LDAP
         $this->connect();
       }
 
-      $start = microtime(TRUE);
+      $startTime = microtime(TRUE);
       $this->clearResult($srp);
       switch (strtolower($scope)) {
         case 'base':
@@ -271,14 +271,12 @@ class LDAP
       $this->hasres[$srp] = TRUE;
 
       /* Check if query took longer as specified in max_ldap_query_time */
-      if ($this->max_ldap_query_time) {
-        $diff = microtime(TRUE) - $start;
-        if ($diff > $this->max_ldap_query_time) {
-          msg_dialog::display(_("Performance warning"), sprintf(_("LDAP performance is poor: last query took about %.2fs!"), $diff), WARNING_DIALOG);
-        }
+      $diff = microtime(TRUE) - $startTime;
+      if ($this->max_ldap_query_time && ($diff > $this->max_ldap_query_time)) {
+        msg_dialog::display(_("Performance warning"), sprintf(_("LDAP performance is poor: last query took about %.2fs!"), $diff), WARNING_DIALOG);
       }
 
-      $this->log("LDAP operation: time=".(microtime(TRUE) - $start)." operation=search('".$this->basedn."', '$filter')");
+      $this->log("LDAP operation: time=".$diff." operation=search('".$this->basedn."', '$filter')");
       return $this->sr[$srp];
     } else {
       $this->error = "Could not connect to LDAP server";
@@ -653,15 +651,14 @@ class LDAP
     }
 
     $str = "";
-    if (preg_match("/^objectClass: value #([0-9]*) invalid per syntax$/", $this->get_additional_error(), $m)) {
-      if (isset($attrs['objectClass'])) {
-        $ocs = $attrs['objectClass'];
-        if (!is_array($ocs)) {
-          $ocs = array($ocs);
-        }
-        if (isset($ocs[$m[1]])) {
-          $str .= " - <b>objectClass: ".$ocs[$m[1]]."</b>";
-        }
+    if (isset($attrs['objectClass'])
+      && preg_match("/^objectClass: value #([0-9]*) invalid per syntax$/", $this->get_additional_error(), $m)) {
+      $ocs = $attrs['objectClass'];
+      if (!is_array($ocs)) {
+        $ocs = array($ocs);
+      }
+      if (isset($ocs[$m[1]])) {
+        $str .= " - <b>objectClass: ".$ocs[$m[1]]."</b>";
       }
     }
     if ($error == "Undefined attribute type") {
@@ -886,12 +883,17 @@ class LDAP
       return $this->error;
     } else {
       $adderror = $this->get_additional_error();
-      if ($adderror != "") {
-        $error = $this->error." (".$this->get_additional_error().", ".sprintf(_("while operating on '%s' using LDAP server '%s'"), $this->basedn, $this->hostname).")";
+      if ($adderror != '') {
+        return sprintf(
+          _('%s (%s, while operating on "%s" using LDAP server "%s")'),
+          $this->error, $adderror, $this->basedn, $this->hostname
+        );
       } else {
-        $error = $this->error." (".sprintf(_("while operating on LDAP server %s"), $this->hostname).")";
+        return sprintf(
+          _('%s (while operating on LDAP server "%s")'),
+          $this->error, $this->hostname
+        );
       }
-      return $error;
     }
   }
 
@@ -1191,17 +1193,17 @@ class LDAP
     }
 
     // Get base to look for schema
-    $sr   = @ldap_read($this->cid, '', 'objectClass=*', array('subschemaSubentry'));
-    $attr = @ldap_get_entries($this->cid, $sr);
-    if (!isset($attr[0]['subschemasubentry'][0])) {
+    $res    = @ldap_read($this->cid, '', 'objectClass=*', array('subschemaSubentry'));
+    $attrs  = @ldap_get_entries($this->cid, $res);
+    if (!isset($attrs[0]['subschemasubentry'][0])) {
       return array();
     }
 
     /* Get list of objectclasses and fill array */
-    $nb = $attr[0]['subschemasubentry'][0];
+    $nb = $attrs[0]['subschemasubentry'][0];
     $objectclasses = array();
-    $sr = ldap_read ($this->cid, $nb, 'objectClass=*', array('objectclasses'));
-    $attrs = ldap_get_entries($this->cid, $sr);
+    $res    = ldap_read ($this->cid, $nb, 'objectClass=*', array('objectclasses'));
+    $attrs  = ldap_get_entries($this->cid, $res);
     if (!isset($attrs[0])) {
       return array();
     }
@@ -1332,10 +1334,10 @@ class LDAP
     ldap_bind ($ds, $admin, $password);
 
     /* Get base to look for naming contexts */
-    $sr   = @ldap_read ($ds, '', 'objectClass=*', array('namingContexts'));
-    $attr = @ldap_get_entries($ds, $sr);
+    $res    = @ldap_read ($ds, '', 'objectClass=*', array('namingContexts'));
+    $attrs  = @ldap_get_entries($ds, $res);
 
-    return $attr[0]['namingcontexts'];
+    return $attrs[0]['namingcontexts'];
   }
 }
 ?>

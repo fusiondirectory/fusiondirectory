@@ -54,8 +54,8 @@ class PropertiesColumn extends Column
 
   function fillNeededAttributes(array &$attrs)
   {
-    foreach ($this->tabs as $type => $tabs) {
-      foreach ($tabs as $class) {
+    foreach ($this->tabs as $classes) {
+      foreach ($classes as $class) {
         $class::fillAccountAttrsNeeded($attrs);
       }
     }
