@@ -38,8 +38,6 @@ class LoginCAS extends LoginMethod
     /* Reset error messages */
     $message = '';
 
-    //~ phpCAS::setDebug();
-
     // Initialize phpCAS
     phpCAS::client(
       CAS_VERSION_2_0,
@@ -50,7 +48,6 @@ class LoginCAS extends LoginMethod
 
     // Set the CA certificate that is the issuer of the cert
     phpCAS::setCasServerCACert($config->get_cfg_value('casServerCaCertPath'));
-    //~ phpCAS::setNoCasServerValidation();
 
     // force CAS authentication
     phpCAS::forceAuthentication();
