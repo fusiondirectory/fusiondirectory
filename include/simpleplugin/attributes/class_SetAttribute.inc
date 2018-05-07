@@ -583,13 +583,11 @@ class OrderedArrayAttribute extends SetAttribute
         return TRUE;
       }
     }
-    if ($this->edit_enabled) {
-      if (preg_match('/^'.$id.'_edit_/', $postValue)) {
-        $key = preg_replace('/^'.$id.'_edit_/', '', $postValue);
-        $key = preg_replace('/_[xy]$/', '', $key);
-        $this->handleEdit($key);
-        return TRUE;
-      }
+    if ($this->edit_enabled && preg_match('/^'.$id.'_edit_/', $postValue)) {
+      $key = preg_replace('/^'.$id.'_edit_/', '', $postValue);
+      $key = preg_replace('/_[xy]$/', '', $key);
+      $this->handleEdit($key);
+      return TRUE;
     }
     if (preg_match('/^'.$id.'_del_/', $postValue)) {
       $key = preg_replace('/^'.$id.'_del_/', '', $postValue);

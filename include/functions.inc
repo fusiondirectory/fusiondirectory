@@ -1029,8 +1029,7 @@ function get_ou($name)
   if ($config->get_cfg_value($name, '_not_set_') != '_not_set_') {
     $ou = $config->get_cfg_value($name);
   } elseif (isset($map[$name])) {
-    $ou = $map[$name];
-    return $ou;
+    return $map[$name];
   } else {
     return NULL;
   }
@@ -2365,9 +2364,7 @@ function isIpInNet($ip, $net, $mask)
 function expandIPv6 ($ip)
 {
   $hex  = unpack('H*hex', inet_pton($ip));
-  $ip   = substr(preg_replace('/([A-f0-9]{4})/', "$1:", $hex['hex']), 0, -1);
-
-  return $ip;
+  return substr(preg_replace('/([A-f0-9]{4})/', "$1:", $hex['hex']), 0, -1);
 }
 
 /* Mark the occurance of a string with a span */

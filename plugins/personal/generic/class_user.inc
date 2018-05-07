@@ -532,9 +532,9 @@ class user extends simplePlugin
   function compute_dn()
   {
     global $config;
+
     if ($this->is_template) {
-      $dn = 'cn='.ldap_escape_dn($this->_template_cn).',ou=templates,'.get_ou('userRDN').$this->base;
-      return $dn;
+      return 'cn='.ldap_escape_dn($this->_template_cn).',ou=templates,'.get_ou('userRDN').$this->base;
     }
 
     $this->update_cn();
@@ -683,10 +683,8 @@ class user extends simplePlugin
           return sprintf(_('You must wait %d seconds before changing your password again'), $policy['pwdMinAge'][0] - ($now->getTimeStamp() - $date->getTimeStamp()));
         }
       }
-      if (isset($policy['pwdSafeModify'][0]) && ($policy['pwdSafeModify'][0] == 'FALSE')) {
-        if (empty($current_password)) {
-          $current_password = NULL;
-        }
+      if (isset($policy['pwdSafeModify'][0]) && ($policy['pwdSafeModify'][0] == 'FALSE') && empty($current_password)) {
+        $current_password = NULL;
       }
       if (isset($attrs['pwdHistory'][0])) {
         unset($attrs['pwdHistory']['count']);

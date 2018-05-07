@@ -57,7 +57,7 @@ class listing
   protected $objectDnMapping  = array();
   protected $copyPasteHandler = NULL;
   protected $snapshotHandler  = NULL;
-  var $exporter       = array();
+  var $exporters      = array();
   var $exportColumns  = array();
   var $scrollPosition = 0;
   var $baseSelector;
@@ -112,7 +112,7 @@ class listing
       if (preg_match('/Exporter$/', $class)) {
         $info = call_user_func(array($class, "getInfo"));
         if ($info != NULL) {
-          $this->exporter = array_merge($this->exporter, $info);
+          $this->exporters = array_merge($this->exporters, $info);
         }
       }
     }
@@ -166,7 +166,7 @@ class listing
     $this->filter     = $filter;
     $filter->headpage = $this;
     if ($this->departmentBrowser) {
-      $this->departments = $this->getDepartments();
+      $this->refreshDepartmentsCache();
     }
     $this->filter->setBase($this->base);
   }
@@ -537,29 +537,26 @@ class listing
       }
 
       // Override the base if we got a message from the browser navigation
-      if ($this->departmentBrowser && isset($_GET['act'])) {
-        if (preg_match('/^department_([0-9]+)$/', validate($_GET['act']), $match)) {
-          if (isset($this->departments[$match[1]])) {
-            $this->setBase($this->departments[$match[1]]['dn']);
-          }
-        }
+      if ($this->departmentBrowser && isset($_GET['act'])
+        && preg_match('/^department_([0-9]+)$/', validate($_GET['act']), $match)
+        && isset($this->departments[$match[1]])) {
+        $this->setBase($this->departments[$match[1]]['dn']);
       }
 
       // Filter POST with "act" attributes -> posted from action menu
-      if (isset($_POST['exec_act']) && $_POST['act'] != '') {
-        if (preg_match('/^export.*$/', $_POST['act']) && isset($this->exporter[$_POST['act']])) {
-          $exporter = $this->exporter[$_POST['act']];
-          $userinfo = ", "._("created by")." ".$ui->cn." - ".strftime('%A, %d. %B %Y, %H:%M:%S');
-          $entryIterator = new listingSortIterator($this->entries, $this->sortDirection[$this->sortColumn], "_sort".$this->sortColumn, $this->sortType);
-          $sortedEntries = array();
-          foreach ($entryIterator as $entry) {
-            $sortedEntries[] = $entry;
-          }
-          $instance = new $exporter['class']($this->headline.$userinfo, $this->plainHeader, $sortedEntries, $this->exportColumns);
-          $type = call_user_func(array($exporter['class'], "getInfo"));
-          $type = $type[$_POST['act']];
-          send_binary_content($instance->query(), $type['filename'], $type = $type['mime']);
+      if (isset($_POST['exec_act']) && ($_POST['act'] != '')
+        && preg_match('/^export.*$/', $_POST['act']) && isset($this->exporters[$_POST['act']])) {
+        $exporter = $this->exporters[$_POST['act']];
+        $userinfo = ", "._("created by")." ".$ui->cn." - ".strftime('%A, %d. %B %Y, %H:%M:%S');
+        $entryIterator = new listingSortIterator($this->entries, $this->sortDirection[$this->sortColumn], "_sort".$this->sortColumn, $this->sortType);
+        $sortedEntries = array();
+        foreach ($entryIterator as $entry) {
+          $sortedEntries[] = $entry;
         }
+        $instance = new $exporter['class']($this->headline.$userinfo, $this->plainHeader, $sortedEntries, $this->exportColumns);
+        $type = call_user_func(array($exporter['class'], "getInfo"));
+        $type = $type[$_POST['act']];
+        send_binary_content($instance->query(), $type['filename'], $type = $type['mime']);
       }
 
       // Filter GET with "act" attributes
@@ -594,8 +591,7 @@ class listing
           $deps = $ui->get_module_departments($this->categories);
           $this->setBase($deps[0]);
         } elseif ($action == 'BACK') {
-          $base = preg_replace('/^[^,]+,/', '', $this->base);
-          $this->tryAndSetBase($base);
+          $this->tryAndSetBase(preg_replace('/^[^,]+,/', '', $this->base));
         } elseif ($action == 'HOME') {
           $this->tryAndSetBase(get_base_from_people($ui->dn));
         }
@@ -604,7 +600,7 @@ class listing
 
     // Reload departments
     if ($this->departmentBrowser) {
-      $this->departments = $this->getDepartments();
+      $this->refreshDepartmentsCache();
     }
 
     // Update filter and refresh entries
@@ -765,11 +761,10 @@ class listing
       foreach ($matches as $match) {
         $cl     = '';
         $method = '';
-        if (!preg_match('/^(.*)::(.*)$/', $match[1][0], $m)) {
-          if (!isset($this->filters[$match[1][0]]) || !preg_match('/^(.*)::(.*)$/', $this->filters[$match[1][0]], $m)) {
-            trigger_error('Unknown filter '.$match[1][0]);
-            continue;
-          }
+        if (!preg_match('/^(.*)::(.*)$/', $match[1][0], $m)
+          && (!isset($this->filters[$match[1][0]]) || !preg_match('/^(.*)::(.*)$/', $this->filters[$match[1][0]], $m))) {
+          trigger_error('Unknown filter '.$match[1][0]);
+          continue;
         }
         $cl     = $m[1];
         $method = $m[2];
@@ -1094,7 +1089,6 @@ class listing
    */
   function filterLink($row, $dn, $mask, ...$vals)
   {
-    $pid    = $this->pid;
     $params = array($mask);
 
     // Collect sprintf params
@@ -1119,7 +1113,7 @@ class listing
     if (count($params) > 1) {
       $trans  = sprintf(...$params);
       if ($trans != '') {
-        return '<a href="?plug='.$_GET['plug'].'&amp;PID='.$pid.'&amp;act=listing_edit_'.$row.'" title="'.$dn.'">'.$trans.'</a>';
+        return '<a href="?plug='.$_GET['plug'].'&amp;PID='.$this->pid.'&amp;act=listing_edit_'.$row.'" title="'.$dn.'">'.$trans.'</a>';
       }
     }
 
@@ -1217,10 +1211,9 @@ class listing
           /* Detect the longer base valid for this dn */
           $longerBase = '';
           foreach (array_keys($this->bases) as $base) {
-            if (preg_match('/'.preg_quote($base, '/').'$/i', $dn)) {
-              if (strlen($base) > strlen($longerBase)) {
-                $longerBase = $base;
-              }
+            if (preg_match('/'.preg_quote($base, '/').'$/i', $dn)
+              && (strlen($base) > strlen($longerBase))) {
+              $longerBase = $base;
             }
           }
           $this->setBase($longerBase);
@@ -1286,10 +1279,9 @@ class listing
     }
 
     // Filter POST with "act" attributes -> posted from action menu
-    if (isset($_POST['act']) && $_POST['act'] != '') {
-      if (!preg_match('/^export.*$/', $_POST['act'])) {
-        $result['action'] = validate($_POST['act']);
-      }
+    if (isset($_POST['act']) && ($_POST['act'] != '')
+      && !preg_match('/^export.*$/', $_POST['act'])) {
+      $result['action'] = validate($_POST['act']);
     }
 
     // Drop targets if empty
@@ -1554,11 +1546,12 @@ class listing
     }
   }
 
-  /*! \brief Get the departments */
-  function getDepartments()
+  /*! \brief Cache the departments */
+  function refreshDepartmentsCache()
   {
-    $departments = array();
     $ui = get_userinfo();
+
+    $this->departments = array();
 
     // Get list of supported department types
     $types = departmentManagement::getDepartmentTypes();
@@ -1566,7 +1559,7 @@ class listing
     // Load departments allowed by ACL
     $validDepartments = $ui->get_module_departments($this->categories);
 
-    /* Fetch departments andtheir informations */
+    /* Fetch departments and their informations */
     foreach ($types as $type) {
       $i    = objects::infos($type);
       $deps = objects::ls(
@@ -1602,11 +1595,9 @@ class listing
         $department['sort-attribute'] = $i['mainAttr'];
 
         // Move to the result list
-        $departments[] = $department;
+        $this->departments[] = $department;
       }
     }
-
-    return $departments;
   }
 
 
@@ -1731,7 +1722,7 @@ class listing
     $result .= "<li$separator id='actionmenu_exportList'><a href='#'><img class='center' src='geticon.php?context=actions&amp;icon=document-export&amp;size=16' alt='export'>&nbsp;"._("Export list")."&nbsp;<img src='images/forward-arrow.png' alt='arrow'></a><ul class='level3'>";
 
     // Render export actions
-    foreach ($this->exporter as $action => $exporter) {
+    foreach ($this->exporters as $action => $exporter) {
       $result .= $this->renderActionMenuActionLink('', $action, $exporter['label'], $exporter['image']);
     }
 

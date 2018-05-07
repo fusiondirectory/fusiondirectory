@@ -29,7 +29,6 @@
  */
 class passwordMethod
 {
-  var $attrs    = array();
   var $display  = FALSE;
   var $hash     = '';
 
@@ -95,8 +94,6 @@ class passwordMethod
       if (isset($attrs['userPassword'][0])) {
         $pwd = $attrs['userPassword'][0];
       }
-    } elseif (isset($this->attrs['userPassword'][0])) {
-      $pwd = $this->attrs['userPassword'][0];
     }
     return preg_match("/^[^\}]*+\}!/", $pwd);
   }
@@ -138,17 +135,16 @@ class passwordMethod
     }
 
     /* Get current password hash */
-    $attrs  = $this->attrs;
     $pwd    = '';
     $ldap   = $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);
     if (!empty($dn)) {
       $ldap->cat($dn);
       $attrs = $ldap->fetch();
-    }
-    if (isset($attrs['userPassword'][0])) {
-      $pwd = $attrs['userPassword'][0];
-      $dn  = $attrs['dn'];
+      if (isset($attrs['userPassword'][0])) {
+        $pwd = $attrs['userPassword'][0];
+        $dn  = $attrs['dn'];
+      }
     }
 
     /* We can only lock/unlock non-empty passwords */

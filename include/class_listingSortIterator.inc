@@ -76,11 +76,6 @@ class listingSortIterator implements Iterator {
 
           // Take a look at the several types
           switch ($type) {
-            // Sort for string by default
-            default:
-            case 'string':
-              return strcoll($a, $b);
-
             case 'department':
               return strnatcmp($a, $b);
 
@@ -109,6 +104,11 @@ class listingSortIterator implements Iterator {
                 }
               }
               return 0;
+
+            // Sort for string by default
+            case 'string':
+            default:
+              return strcoll($a, $b);
           }
         }
       );

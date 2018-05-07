@@ -36,11 +36,7 @@ class LockAction extends Action
   function isLocked(ListingEntry $entry)
   {
     if (isset($entry['userPassword']) && preg_match('/^\{[^\}]/', $entry['userPassword'])) {
-      if (preg_match('/^[^\}]*+\}!/', $entry['userPassword'])) {
-        return TRUE;
-      } else {
-        return FALSE;
-      }
+      return preg_match('/^[^\}]*+\}!/', $entry['userPassword']);
     }
     return NULL;
   }

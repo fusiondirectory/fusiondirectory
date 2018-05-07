@@ -408,10 +408,9 @@ class pluglist {
 
       /* Parse headlines */
       foreach ($config->data['SECTIONS'] as $section => $section_infos) {
-        $entries  = '';
-        $menu     = '';
-        $menu     = '<div class="iconmenu-section"><h1 class="menuheader">';
-        $menu     .= $section_infos['NAME']."</h1>\n";
+        $entries      = '';
+        $sectionMenu  = '<div class="iconmenu-section"><h1 class="menuheader">';
+        $sectionMenu  .= $section_infos['NAME']."</h1>\n";
 
         foreach ($config->data['MENU'][$section] as $info) {
           if (!$this->check_access($info)) {
@@ -445,7 +444,7 @@ class pluglist {
 
         /* Append to menu */
         if ($entries != "") {
-          $this->iconmenu .= $menu.$entries."</div>\n";
+          $this->iconmenu .= $sectionMenu.$entries."</div>\n";
         }
       }
     }

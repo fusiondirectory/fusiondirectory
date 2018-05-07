@@ -203,16 +203,15 @@ class simpleTabs
     }
     unset($obj);
 
+    /* Build tab line */
+    $display = $this->gen_tabs($this->dialogOpened());
+
     /* Show object */
-    $display = '<div class="tab-content">'."\n";
+    $display .= '<div class="tab-content">'."\n";
 
     $display .= $this->by_object[$this->current]->execute();
 
-    /* Build tab line */
-    $tabs   = $this->gen_tabs($this->dialogOpened());
-
-    /* Footer for tabbed dialog */
-    $display = $tabs.$display.'</div>';
+    $display .= '</div>';
 
     return $display;
   }
@@ -254,11 +253,9 @@ class simpleTabs
     $style    = array('tab-left', 'tab-active', 'tab-right');
     foreach ($this->by_name as $class => $name) {
 
-      /* Activate right tabs with style "tab-right" */
-      if ($index == 1) {
-        $index++;
-      } elseif ($class == $this->current) {
-        /* Activate current tab with style "tab-active " */
+      /* Activate right tabs with style "tab-right"
+       * Activate current tab with style "tab-active " */
+      if (($index == 1) || ($class == $this->current)) {
         $index++;
       }
 

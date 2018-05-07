@@ -179,11 +179,9 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
   }
 
   /* Hide ldap size limit messages */
-  if (preg_match('/ldap_error/', $errstr)) {
-    if (preg_match('/sizelimit/', $errstr)) {
-      set_error_handler('gosaRaiseError', E_WARNING | E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT);
-      return;
-    }
+  if (preg_match('/ldap_error/', $errstr) && preg_match('/sizelimit/', $errstr)) {
+    set_error_handler('gosaRaiseError', E_WARNING | E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT);
+    return;
   }
 
   /* Error messages are hidden in FusionDirectory, so we only send them to the logging class and abort here */

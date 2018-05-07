@@ -45,8 +45,8 @@ class config
   var $current = array();
 
   /* Link to LDAP-server */
-  var $ldap       = NULL;
-  var $referrals  = array();
+  protected $ldapLink = NULL;
+  var $referrals      = array();
 
   /*
    * \brief Configuration data
@@ -96,10 +96,9 @@ class config
     /* Check if class_location.inc has changed, this is the case
         if we have installed or removed plugins. */
     $tmp = stat(CACHE_DIR.'/'.CLASS_CACHE);
-    if (session::global_is_set('class_location.inc:timestamp')) {
-      if ($tmp['mtime'] != session::global_get('class_location.inc:timestamp')) {
-        session::global_un_set('plist');
-      }
+    if (session::global_is_set('class_location.inc:timestamp')
+      && ($tmp['mtime'] != session::global_get('class_location.inc:timestamp'))) {
+      session::global_un_set('plist');
     }
     session::global_set('class_location.inc:timestamp', $tmp['mtime']);
 
@@ -313,23 +312,23 @@ class config
    */
   function get_ldap_link($sizelimit = FALSE)
   {
-    if ($this->ldap === NULL || !is_resource($this->ldap->cid)) {
+    if ($this->ldapLink === NULL || !is_resource($this->ldapLink->cid)) {
 
       /* Build new connection */
-      $this->ldap = ldap_init ($this->current['SERVER'], $this->current['BASE'],
+      $this->ldapLink = ldap_init ($this->current['SERVER'], $this->current['BASE'],
           $this->current['ADMINDN'], $this->get_credentials($this->current['ADMINPASSWORD']));
 
       /* Check for connection */
-      if (is_null($this->ldap) || (is_int($this->ldap) && $this->ldap == 0)) {
+      if (is_null($this->ldapLink) || (is_int($this->ldapLink) && $this->ldapLink == 0)) {
         msg_dialog::display(_("LDAP error"), _("Cannot bind to LDAP. Please contact the system administrator."), FATAL_ERROR_DIALOG);
         exit();
       }
 
       /* Move referrals */
       if (!isset($this->current['REFERRAL'])) {
-        $this->ldap->referrals = array();
+        $this->ldapLink->referrals = array();
       } else {
-        $this->ldap->referrals = $this->current['REFERRAL'];
+        $this->ldapLink->referrals = $this->current['REFERRAL'];
       }
 
       if (!session::global_is_set('size_limit')) {
@@ -338,7 +337,7 @@ class config
       }
     }
 
-    $obj  = new ldapMultiplexer($this->ldap);
+    $obj  = new ldapMultiplexer($this->ldapLink);
     if ($sizelimit) {
       $obj->set_size_limit(session::global_get('size_limit'));
     } else {
@@ -454,13 +453,12 @@ class config
       }
 
       /* If no samba servers are found, look for configured sid/ridbase */
-      if (count($this->data['SERVERS']['SAMBA']) == 0) {
-        if (isset($this->current['SAMBASID']) && isset($this->current['SAMBARIDBASE'])) {
-          $this->data['SERVERS']['SAMBA']['DEFAULT'] = array(
-            'SID'     => $this->get_cfg_value('SAMBASID'),
-            'RIDBASE' => $this->get_cfg_value('SAMBARIDBASE')
-          );
-        }
+      if ((count($this->data['SERVERS']['SAMBA']) == 0)
+        && isset($this->current['SAMBASID']) && isset($this->current['SAMBARIDBASE'])) {
+        $this->data['SERVERS']['SAMBA']['DEFAULT'] = array(
+          'SID'     => $this->get_cfg_value('SAMBASID'),
+          'RIDBASE' => $this->get_cfg_value('SAMBARIDBASE')
+        );
       }
     }
 
@@ -475,10 +473,9 @@ class config
     if (!$forceReload) {
       $ldap = $this->get_ldap_link();
       $ldap->cat($dn, array('fusionConfigMd5'));
-      if ($attrs = $ldap->fetch()) {
-        if (isset($attrs['fusionConfigMd5'][0]) && ($attrs['fusionConfigMd5'][0] == md5_file(CACHE_DIR.'/'.CLASS_CACHE))) {
-          return;
-        }
+      if (($attrs = $ldap->fetch()) && isset($attrs['fusionConfigMd5'][0])
+        && ($attrs['fusionConfigMd5'][0] == md5_file(CACHE_DIR.'/'.CLASS_CACHE))) {
+        return;
       }
     }
 

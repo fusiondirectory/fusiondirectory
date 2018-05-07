@@ -117,9 +117,8 @@ class session {
     }
 
     /* Global fallback if not set */
-    if ($channel == "") {
-      $ret = &$_SESSION[$name];
-      return $ret;
+    if ($channel == '') {
+      return $_SESSION[$name];
     }
 
     /* Sanity check */
@@ -128,9 +127,7 @@ class session {
       exit;
     }
 
-    $channel  = "gch_".$channel;
-    $ret      = &$_SESSION[$channel][$name];
-    return $ret;
+    return $_SESSION['gch_'.$channel][$name];
   }
 
   /*!
@@ -154,8 +151,7 @@ class session {
    */
   public static function &global_get_ref($name)
   {
-    $ret = &$_SESSION[$name];
-    return $ret;
+    return $_SESSION[$name];
   }
 
   /*!
@@ -259,15 +255,6 @@ class session {
   public static function destroy()
   {
     @session_destroy();
-  }
-
-  /*!
-   * \brief Get all sessions
-   */
-  public static function &get_all()
-  {
-    $ret = &$_SESSION;
-    return $ret;
   }
 }
 ?>

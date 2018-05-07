@@ -301,33 +301,33 @@ class filter
       return $this->alphabet;
     }
 
-    $characters = _("*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
-    $alphabet   = "";
-    $c          = 0;
+    $characters     = _('*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789');
+    $this->alphabet = '';
+    $c              = 0;
 
     /* Fill cells with charaters */
     for ($i = 0, $l = mb_strlen($characters, 'UTF8'); $i < $l; $i++) {
       if ($c == 0) {
-        $alphabet .= "<tr>";
+        $this->alphabet .= "<tr>";
       }
 
-      $ch       = mb_substr($characters, $i, 1, "UTF8");
-      $alphabet .= "<td><a class=\"alphaselect\" href=\"main.php?plug=".
+      $ch             = mb_substr($characters, $i, 1, "UTF8");
+      $this->alphabet .= "<td><a class=\"alphaselect\" href=\"main.php?plug=".
         validate($_GET['plug'])."&amp;filter=".$ch."\">&nbsp;".$ch."&nbsp;</a></td>";
 
       if ($c++ == $columns) {
-        $alphabet .= "</tr>";
-        $c        = 0;
+        $this->alphabet .= "</tr>";
+        $c              = 0;
       }
     }
 
     /* Fill remaining cells */
     while ($c++ <= $columns) {
-      $alphabet .= "<td>&nbsp;</td>";
+      $this->alphabet .= "<td>&nbsp;</td>";
     }
 
     /* Save alphabet */
-    $this->alphabet = "<table width='100%'>$alphabet</table>";
+    $this->alphabet = '<table width="100%">'.$this->alphabet.'</table>';
 
     return $this->alphabet;
   }
@@ -473,24 +473,24 @@ class filter
         }
       }
 
-      $objectStorage = $this->objectStorage;
+      $branches = $this->objectStorage;
 
       if (isset($this->elements['FILTERTEMPLATE']) && $this->elementValues['FILTERTEMPLATE']) {
-        $objectStorage = array_merge(
-          $objectStorage,
+        $branches = array_merge(
+          $branches,
           array_map(
             function ($oc)
             {
               return 'ou=templates,'.$oc;
             },
-            $objectStorage
+            $branches
           )
         );
       }
 
       // Now call filter method and merge resulting entries.
       $result = array_merge($result, call_user_func(array($backend, 'query'),
-            $this, $this->base, $this->scope, $filter, $attributes, $this->category, $objectStorage));
+            $this, $this->base, $this->scope, $filter, $attributes, $this->category, $branches));
     }
 
     return $result;
@@ -504,10 +504,9 @@ class filter
   function isValid()
   {
     foreach ($this->elements as $tag => $element) {
-      if (isset($element->regex)) {
-        if (!preg_match('/'.(string)$element->regex.'/', $this->elementValues[$tag])) {
-          return FALSE;
-        }
+      if (isset($element->regex)
+       && !preg_match('/'.(string)$element->regex.'/', $this->elementValues[$tag])) {
+        return FALSE;
       }
     }
     return TRUE;
