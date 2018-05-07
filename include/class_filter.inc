@@ -184,13 +184,12 @@ class filter
   function getCheckbox($element)
   {
     $tag      = $element['tag'];
-    $checked  = "";
-    if ($this->elementValues[$tag] == "true") {
-      $checked = " checked";
+    $checked  = '';
+    if ($this->elementValues[$tag] == 'true') {
+      $checked = ' checked="checked"';
     }
 
-    $result = "<input class='filter_checkbox' id='$tag' name='$tag' type='checkbox' onClick='document.mainform.submit();' value='true'$checked>";
-    return $result;
+    return '<input type="checkbox" class="filter_checkbox" id="'.$tag.'" name="'.$tag.'" onClick="document.mainform.submit();" value="true"'.$checked.'/>';
   }
 
   /*!

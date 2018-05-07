@@ -981,11 +981,11 @@ class config
 
           if (isset($this->data['OBJECTS'][$obj])) {
             $this->data['OBJECTS'][$obj]['management'] = $class;
-            if (isset($class::$skipTemplates) && ($class::$skipTemplates == FALSE)) {
+            if (isset($class::$skipTemplates) && !$class::$skipTemplates) {
               $this->data['OBJECTS'][$obj]['templateActive']  = TRUE;
               $this->data['CATEGORIES'][$cat]['classes'][]    = 'template';
             }
-            if (isset($class::$skipSnapshots) && ($class::$skipSnapshots == FALSE)) {
+            if (isset($class::$skipSnapshots) && !$class::$skipSnapshots) {
               $this->data['OBJECTS'][$obj]['snapshotActive']  = TRUE;
               $this->data['CATEGORIES'][$cat]['classes'][]    = 'SnapshotHandler';
             }

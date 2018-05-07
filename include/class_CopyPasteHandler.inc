@@ -131,7 +131,7 @@ class CopyPasteHandler
    */
   function entries_queued()
   {
-    return ((count($this->queue) > 0) || ($this->current != FALSE));
+    return ((count($this->queue) > 0) || ($this->current !== FALSE));
   }
 
   /*!
@@ -190,9 +190,8 @@ class CopyPasteHandler
         $cut_acl  = $ui->is_cutable($entry['dn'], $entry['aclCategory'], $entry['mainTab']);
 
         /* Check permissions */
-        if (($entry['method'] == 'copy') && !$copy_acl) {
-          $this->disallowed_objects[$key] = $entry;
-        } elseif (($entry['method'] == 'cut') && !$cut_acl) {
+        if ( (($entry['method'] == 'copy') && !$copy_acl)
+          || (($entry['method'] == 'cut') && !$cut_acl)) {
           $this->disallowed_objects[$key] = $entry;
         } else {
           $this->clean_objects[$key] = $entry;
@@ -255,9 +254,7 @@ class CopyPasteHandler
       }
       if ($this->current) {
         $display = $this->current['object']->execute();
-        if ($this->current['object']->dialogOpened()) {
-          return $display;
-        } else {
+        if (!$this->current['object']->dialogOpened()) {
           // Display ok, (apply) and cancel buttons
           $display .= '<p class="plugbottom">'."\n";
           $display .= '<input type="submit" name="edit_finish" style="width:80px" value="'.msgPool::okButton().'"/>'."\n";
@@ -265,8 +262,8 @@ class CopyPasteHandler
           $display .= '<input type="submit" name="abort_current_cut-copy_operation" value="'.msgPool::cancelButton().'"/>'."\n";
           $display .= '<input type="submit" name="abort_all_cut-copy_operations" value="'._('Cancel all').'"/>'."\n";
           $display .= '</p>';
-          return $display;
         }
+        return $display;
       }
     }
     return '';

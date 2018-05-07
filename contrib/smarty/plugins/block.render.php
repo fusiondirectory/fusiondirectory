@@ -19,7 +19,7 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-function smarty_block_render($params, $text, &$smarty)
+function smarty_block_render($params, $text)
 {
   /* Skip closing tag </render> */
   if (empty($text)) {
@@ -43,10 +43,9 @@ function smarty_block_render($params, $text, &$smarty)
   }
 
   /* Disable objects, but keep those active that have mode=read_active */
-  if (!(isset($params['mode']) && ($params['mode'] == 'read_active') && preg_match('/(r|w)/', $acl))) {
-    if (!preg_match('/ disabled(="disabled")?( |\/?>)/', $text)) {
-      $text = preg_replace('/name=/i', 'disabled="disabled" name=', $text);
-    }
+  if (!(isset($params['mode']) && ($params['mode'] == 'read_active') && preg_match('/(r|w)/', $acl))
+    && !preg_match('/ disabled(="disabled")?( |\/?>)/', $text)) {
+    $text = preg_replace('/name=/i', 'disabled="disabled" name=', $text);
   }
 
   /* Read only */
@@ -74,8 +73,6 @@ function smarty_block_render($params, $text, &$smarty)
     "\\1 \\2"
   );
 
-  $text = preg_replace($from, $to, $text);
-
-  return $text;
+  return preg_replace($from, $to, $text);
 }
 ?>

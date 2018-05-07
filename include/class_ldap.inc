@@ -261,8 +261,8 @@ class LDAP
         case 'one':
           $this->sr[$srp] = @ldap_list($this->cid, $this->basedn, $filter, $attrs);
           break;
-        default:
         case 'subtree':
+        default:
           $this->sr[$srp] = @ldap_search($this->cid, $this->basedn, $filter, $attrs);
           break;
       }
@@ -348,8 +348,7 @@ class LDAP
         $this->connect();
       }
       $res  = @ldap_read($this->cid, $dn, $filter, array("objectClass"));
-      $rv   = @ldap_count_entries($this->cid, $res);
-      return $rv;
+      return @ldap_count_entries($this->cid, $res);
     } else {
       $this->error = "Could not connect to LDAP server";
       return FALSE;
@@ -859,13 +858,13 @@ class LDAP
   /*!
    * \brief Get the LDAP additional error
    *
-   * \return string $error containts LDAP_OPT_ERROR_STRING
+   * \return string containts LDAP_OPT_ERROR_STRING
    */
   function get_additional_error()
   {
-    $error = "";
-    @ldap_get_option ($this->cid, LDAP_OPT_ERROR_STRING, $error);
-    return $error;
+    $additional_error = '';
+    @ldap_get_option ($this->cid, LDAP_OPT_ERROR_STRING, $additional_error);
+    return $additional_error;
   }
 
   /*!
@@ -1186,12 +1185,9 @@ class LDAP
    */
   function get_objectclasses($force_reload = FALSE)
   {
-    $objectclasses = array();
-
     /* Return the cached results. */
     if (class_available('session') && session::global_is_set('LDAP_CACHE::get_objectclasses') && !$force_reload) {
-      $objectclasses = session::global_get('LDAP_CACHE::get_objectclasses');
-      return $objectclasses;
+      return session::global_get('LDAP_CACHE::get_objectclasses');
     }
 
     // Get base to look for schema

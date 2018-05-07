@@ -17,7 +17,7 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
-function smarty_function_filePath($params, &$smarty)
+function smarty_function_filePath($params, Smarty_Internal_Template $smarty)
 {
   $config = session::global_get('config');
   $default_theme = 'breezy';

@@ -42,7 +42,7 @@ class Language
       $lang = static::detect();
     }
 
-    list ($language, $country, $char) = parse_gettext_lang($lang);
+    list ($language, , $char) = parse_gettext_lang($lang);
     putenv('LANGUAGE=');
     putenv("LANG=$lang");
     $langset = setlocale(LC_ALL, $lang, $language.'.'.$char);
