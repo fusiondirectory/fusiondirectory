@@ -81,19 +81,18 @@ class BaseSelectorAttribute extends Attribute
 
   function applyPostValue ()
   {
-    if (!$this->disabled && $this->isVisible()) {
+    if (!$this->disabled && $this->isVisible()
+      && ($this->plugin->acl_is_moveable($this->value) || ($this->plugin->dn == 'new'))) {
       /* Refresh base */
-      if  ($this->plugin->acl_is_moveable($this->value) || ($this->plugin->dn == 'new')) {
-        if (!$this->baseSelector->update()) {
-          if ($this->plugin->dn == 'new') {
-            msg_dialog::display(_('Error'), msgPool::permCreate(), ERROR_DIALOG);
-          } else {
-            msg_dialog::display(_('Error'), msgPool::permMove($this->plugin->dn), ERROR_DIALOG);
-          }
+      if (!$this->baseSelector->update()) {
+        if ($this->plugin->dn == 'new') {
+          msg_dialog::display(_('Error'), msgPool::permCreate(), ERROR_DIALOG);
+        } else {
+          msg_dialog::display(_('Error'), msgPool::permMove($this->plugin->dn), ERROR_DIALOG);
         }
-        if ($this->value != $this->baseSelector->getBase()) {
-          $this->setValue($this->baseSelector->getBase());
-        }
+      }
+      if ($this->value != $this->baseSelector->getBase()) {
+        $this->setValue($this->baseSelector->getBase());
       }
     }
   }

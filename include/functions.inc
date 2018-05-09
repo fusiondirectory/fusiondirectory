@@ -1718,21 +1718,17 @@ function scan_directory($path, $sort_desc = FALSE)
   $ret = FALSE;
 
   /* is this a dir ? */
-  if (is_dir($path)) {
+  /* is this path a readable one */
+  if (is_dir($path) && is_readable($path)) {
+    /* Get contents and write it into an array */
+    $ret = array();
 
-    /* is this path a readable one */
-    if (is_readable($path)) {
+    $dir = opendir($path);
 
-      /* Get contents and write it into an array */
-      $ret = array();
-
-      $dir = opendir($path);
-
-      /* Is this a correct result ?*/
-      if ($dir) {
-        while ($fp = readdir($dir)) {
-          $ret[] = $fp;
-        }
+    /* Is this a correct result ?*/
+    if ($dir) {
+      while ($fp = readdir($dir)) {
+        $ret[] = $fp;
       }
     }
   }
@@ -1766,14 +1762,11 @@ function clean_smarty_compile_dir($directory)
       if (!compare_revision($revision_file, FD_VERSION)) {
         // If revision differs, clean compile directory
         foreach (scan_directory($directory) as $file) {
-          if (($file == ".") || ($file == "..")) {
+          if (($file == '.') || ($file == '..')) {
             continue;
           }
-          if (is_file($directory."/".$file)) {
-            // delete file
-            if (!unlink($directory."/".$file)) {
-              msg_dialog::display(_("Internal error"), sprintf(_("File '%s' could not be deleted. Try fusiondirectory-setup --check-directories to fix permissions."), $directory."/".$file), ERROR_DIALOG);
-            }
+          if (is_file($directory.'/'.$file) && !unlink($directory.'/'.$file)) {
+            msg_dialog::display(_("Internal error"), sprintf(_("File '%s' could not be deleted. Try fusiondirectory-setup --check-directories to fix permissions."), $directory."/".$file), ERROR_DIALOG);
           }
         }
       } else {

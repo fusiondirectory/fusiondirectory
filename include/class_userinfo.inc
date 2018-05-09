@@ -985,10 +985,8 @@ class userinfo
     $blacklist = $config->get_cfg_value('PluginsMenuBlacklist', array());
     foreach ($blacklist as $item) {
       list ($group, $p) = explode('|', $item, 2);
-      if ($plugin == $p) {
-        if (in_array($group, $this->groups) || in_array($group, $this->roles)) {
-          return TRUE;
-        }
+      if (($plugin == $p) && (in_array($group, $this->groups) || in_array($group, $this->roles))) {
+        return TRUE;
       }
     }
 

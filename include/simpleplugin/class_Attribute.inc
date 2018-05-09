@@ -375,8 +375,8 @@ class Attribute
     foreach ($this->managedAttributes as $array) {
       foreach ($array as $value => $attributes) {
         foreach ($attributes as $attribute) {
-          $disabled = $this->isValueManagingValue($myvalue, $value);
-          $this->plugin->attributesAccess[$attribute]->setManagingDisabled($this->getLdapName(), $disabled);
+          $disable = $this->isValueManagingValue($myvalue, $value);
+          $this->plugin->attributesAccess[$attribute]->setManagingDisabled($this->getLdapName(), $disable);
         }
       }
     }
@@ -416,9 +416,9 @@ class Attribute
   function fillLdapValue (array &$attrs)
   {
     if ($this->inLdap) {
-      $value = $this->computeLdapValue();
-      if ($value !== '') {
-        $attrs[$this->getLdapName()] = $value;
+      $ldapValue = $this->computeLdapValue();
+      if ($ldapValue !== '') {
+        $attrs[$this->getLdapName()] = $ldapValue;
       } else {
         $attrs[$this->getLdapName()] = array();
       }

@@ -201,12 +201,10 @@ class simplePlugin
     /* Handle read only */
     if ($this->dn != 'new') {
       /* Check if this entry was opened in read only mode */
-      if (isset($_POST['open_readonly'])) {
-        if (session::global_is_set('LOCK_CACHE')) {
-          $cache = session::get('LOCK_CACHE');
-          if (isset($cache['READ_ONLY'][$this->dn])) {
-            $this->read_only = TRUE;
-          }
+      if (isset($_POST['open_readonly']) && session::global_is_set('LOCK_CACHE')) {
+        $cache = session::get('LOCK_CACHE');
+        if (isset($cache['READ_ONLY'][$this->dn])) {
+          $this->read_only = TRUE;
         }
       }
 
@@ -239,12 +237,10 @@ class simplePlugin
       }
 
       /* Set the template flag according to the existence of objectClass fdTemplate */
-      if (isset($this->attrs['objectClass'])) {
-        if (in_array_ics ('fdTemplate', $this->attrs['objectClass'])) {
-          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, 'found', 'Template check');
-          $this->setTemplate(TRUE);
-          $this->templateLoadAttrs($this->attrs);
-        }
+      if (isset($this->attrs['objectClass']) && in_array_ics('fdTemplate', $this->attrs['objectClass'])) {
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, 'found', 'Template check');
+        $this->setTemplate(TRUE);
+        $this->templateLoadAttrs($this->attrs);
       }
 
       /* Is Account? */
@@ -501,8 +497,7 @@ class simplePlugin
       $base = $config->current['BASE'];
     }
     if ($this->is_template) {
-      $dn = 'cn='.ldap_escape_dn($this->_template_cn).',ou=templates,'.$ou.$base;
-      return $dn;
+      return 'cn='.ldap_escape_dn($this->_template_cn).',ou=templates,'.$ou.$base;
     }
     return $attr.'='.ldap_escape_dn($this->attributesAccess[$attr]->computeLdapValue()).','.$ou.$base;
   }
@@ -1182,11 +1177,10 @@ class simplePlugin
       /* Remove arrays that do not differ */
       if (is_array($this->attrs[$index]) &&
           isset($this->saved_attributes[$index]) &&
-          is_array($this->saved_attributes[$index])) {
-        if (!array_differs($this->attrs[$index], $this->saved_attributes[$index])) {
-          unset ($this->attrs[$index]);
-          continue;
-        }
+          is_array($this->saved_attributes[$index]) &&
+          !array_differs($this->attrs[$index], $this->saved_attributes[$index])) {
+        unset ($this->attrs[$index]);
+        continue;
       }
     }
   }
@@ -2058,13 +2052,11 @@ class simplePlugin
     }
 
     $lock_msg = "";
-    if ($edit_mode) {
+    if ($edit_mode
+      && ($remove_lock || (isset($_POST['edit_cancel']) && session::is_set('edit')))
+      && session::is_set($classname)) {
       /* Remove locks created by this plugin */
-      if ($remove_lock || (isset($_POST['edit_cancel']) && session::is_set('edit'))) {
-        if (session::is_set($classname)) {
-          del_lock($entry_dn);
-        }
-      }
+      del_lock($entry_dn);
     }
 
     /* Remove this plugin from session */

@@ -125,7 +125,7 @@ class setupStepFinish extends setupStep
   {
     clearstatcache();
     $p = fileperms($file);
-    return (decbin($p & 4) == TRUE);
+    return (bool) decbin($p & 4);
   }
 }
 ?>

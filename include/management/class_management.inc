@@ -42,12 +42,12 @@ class management
   public static $skipSnapshots  = FALSE;
 
   // The currently used object(s) (e.g. in edit, removal)
-  protected $dn      = '';
-  protected $dns  = array();
+  protected $currentDn  = '';
+  protected $currentDns = array();
 
   // The last used object(s).
-  protected $last_dn  = '';
-  protected $last_dns = array();
+  protected $previousDn   = '';
+  protected $previousDns  = array();
 
   // The opened object.
   protected $tabObject    = NULL;
@@ -480,11 +480,11 @@ class management
    */
   function remove_lock()
   {
-    if (!empty($this->dn) && $this->dn != 'new') {
-      del_lock($this->dn);
+    if (!empty($this->currentDn) && ($this->currentDn != 'new')) {
+      del_lock($this->currentDn);
     }
-    if (count($this->dns)) {
-      del_lock($this->dns);
+    if (count($this->currentDns)) {
+      del_lock($this->currentDns);
     }
   }
 
@@ -518,10 +518,10 @@ class management
    */
   public function closeDialogs()
   {
-    $this->last_dn  = $this->dn;
-    $this->dn       = '';
-    $this->last_dns = $this->dns;
-    $this->dns      = array();
+    $this->previousDn   = $this->currentDn;
+    $this->currentDn    = '';
+    $this->previousDns  = $this->currentDns;
+    $this->currentDns   = array();
 
     $this->last_tabObject     = $this->tabObject;
     $this->tabObject          = NULL;
@@ -568,7 +568,7 @@ class management
       $str .= '<p class="plugbottom">'."\n";
       $str .= '<input type="submit" name="edit_finish" value="'.msgPool::okButton().'"/>'."\n";
       $str .= "&nbsp;\n";
-      if ($this->dn != 'new') {
+      if ($this->currentDn != 'new') {
         $str .= '<input type="submit" name="edit_apply" value="'.msgPool::applyButton().'"/>'."\n";
         $str .= "&nbsp;\n";
       }
@@ -593,16 +593,16 @@ class management
       return;
     } else {
       if (!$cancel) {
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Template applied!');
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDn, 'Template applied!');
       }
-      del_lock($this->dn);
-      if (empty($this->dns)) {
+      del_lock($this->currentDn);
+      if (empty($this->currentDns)) {
         $this->closeDialogs();
       } else {
         $this->last_tabObject = $this->tabObject;
         $this->tabObject      = NULL;
-        $this->dn             = array_shift($this->dns);
-        $this->dialogObject->setNextTarget($this->dn);
+        $this->currentDn      = array_shift($this->currentDns);
+        $this->dialogObject->setNextTarget($this->currentDn);
         $this->dialogObject->save_object();
       }
     }
@@ -630,13 +630,13 @@ class management
   {
     $type = $action['subaction'];
 
-    $this->dn = 'new';
+    $this->currentDn = 'new';
 
-    set_object_info($this->dn);
+    set_object_info($this->currentDn);
 
     // Open object
     $this->openTabObject(objects::create($type), $this->listing->getBase());
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Create entry initiated');
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDn, 'Create entry initiated');
   }
 
   function newEntryTemplate(array $action)
@@ -679,19 +679,19 @@ class management
     if (empty($action['targets'])) {
       return;
     }
-    $type       = preg_replace('/^template_apply_to_/', '', $action['action']);
-    $this->dns  = $action['targets'];
+    $type             = preg_replace('/^template_apply_to_/', '', $action['action']);
+    $this->currentDns = $action['targets'];
 
     // check locks
-    if ($locks = get_locks($this->dns)) {
-      return gen_locked_message($locks, $this->dns);
+    if ($locks = get_locks($this->currentDns)) {
+      return gen_locked_message($locks, $this->currentDns);
     }
 
     // Add locks
-    add_lock ($this->dns, $ui->dn);
+    add_lock ($this->currentDns, $ui->dn);
 
-    $this->dn           = array_shift($this->dns);
-    $this->dialogObject = new templateDialog($this, $type, NULL, $this->dn);
+    $this->currentDn    = array_shift($this->currentDns);
+    $this->dialogObject = new templateDialog($this, $type, NULL, $this->currentDn);
   }
 
 
@@ -721,16 +721,16 @@ class management
     }
 
     // Get the dn of the object and create lock
-    $this->dn = $target;
-    set_object_info($this->dn);
-    if ($locks = get_locks($this->dn, TRUE)) {
-      return gen_locked_message($locks, $this->dn, TRUE);
+    $this->currentDn = $target;
+    set_object_info($this->currentDn);
+    if ($locks = get_locks($this->currentDn, TRUE)) {
+      return gen_locked_message($locks, $this->currentDn, TRUE);
     }
-    add_lock ($this->dn, $ui->dn);
+    add_lock ($this->currentDn, $ui->dn);
 
     // Open object
-    $this->openTabObject(objects::open($this->dn, $entry->getTemplatedType()), $this->dn);
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Edit entry initiated');
+    $this->openTabObject(objects::open($this->currentDn, $entry->getTemplatedType()), $this->currentDn);
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDn, 'Edit entry initiated');
     if (isset($action['subaction'])
       && ($this->handleSubAction($action) === FALSE)) {
       trigger_error('Was not able to handle subaction: '.$action['subaction']);
@@ -770,7 +770,7 @@ class management
         msg_dialog::displayChecks($msgs);
         return;
       } else {
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, 'Entry saved');
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDns, 'Entry saved');
         $this->remove_lock();
         $this->closeDialogs();
       }
@@ -782,7 +782,7 @@ class management
         return;
       } else {
         $this->dialogObject->save();
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, 'Dialog saved');
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDns, 'Dialog saved');
         $this->remove_lock();
         $this->closeDialogs();
       }
@@ -800,7 +800,7 @@ class management
       if (count($msgs)) {
         msg_dialog::displayChecks($msgs);
       } else {
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, 'Modifications applied');
+        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDns, 'Modifications applied');
         $this->tabObject->re_init();
       }
     }
@@ -812,8 +812,8 @@ class management
   function removeRequested(array $action)
   {
     global $ui;
-    $disallowed = array();
-    $this->dns  = array();
+    $disallowed       = array();
+    $this->currentDns = array();
 
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $action['targets'], 'Entry deletion requested');
 
@@ -822,7 +822,7 @@ class management
       $entry = $this->listing->getEntry($dn);
       try {
         if ($entry->checkAcl('d')) {
-          $this->dns[] = $dn;
+          $this->currentDns[] = $dn;
         } else {
           $disallowed[] = $dn;
         }
@@ -835,15 +835,15 @@ class management
     }
 
     // We've at least one entry to delete.
-    if (count($this->dns)) {
+    if (count($this->currentDns)) {
       // check locks
-      if ($locks = get_locks($this->dns)) {
-        return gen_locked_message($locks, $this->dns);
+      if ($locks = get_locks($this->currentDns)) {
+        return gen_locked_message($locks, $this->currentDns);
       }
 
       // Add locks
       $objects = array();
-      foreach ($this->dns as $dn) {
+      foreach ($this->currentDns as $dn) {
         $entry  = $this->listing->getEntry($dn);
         $infos  = objects::infos($entry->getTemplatedType());
         if ($entry->isTemplate()) {
@@ -856,7 +856,7 @@ class management
           'type'  => $infos['name']
         );
       }
-      add_lock ($this->dns, $ui->dn);
+      add_lock ($this->currentDns, $ui->dn);
 
       // Display confirmation dialog.
       $smarty = get_smarty();
@@ -872,21 +872,21 @@ class management
   function removeConfirmed(array $action)
   {
     global $ui;
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, 'Entry deletion confirmed');
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDns, 'Entry deletion confirmed');
 
-    foreach ($this->dns as $dn) {
+    foreach ($this->currentDns as $dn) {
       $entry = $this->listing->getEntry($dn);
       if (empty($entry)) {
         continue;
       }
       if ($entry->checkAcl('d')) {
         // Delete the object
-        $this->dn = $dn;
-        $this->openTabObject(objects::open($this->dn, $entry->getTemplatedType()), $this->dn);
+        $this->currentDn = $dn;
+        $this->openTabObject(objects::open($this->currentDn, $entry->getTemplatedType()), $this->currentDn);
         $this->tabObject->delete();
 
         // Remove the lock for the current object.
-        del_lock($this->dn);
+        del_lock($this->currentDn);
       } else {
         msg_dialog::display(_('Permission error'), msgPool::permDelete($dn), ERROR_DIALOG);
         logging::log('security', 'simpleManagement/'.get_class($this), $dn, array(), 'Tried to trick deletion.');
@@ -964,16 +964,16 @@ class management
     global $config, $ui;
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $action['targets'], 'Snaptshot creation initiated!');
 
-    $this->dn = array_pop($action['targets']);
-    if (empty($this->dn)) {
+    $this->currentDn = array_pop($action['targets']);
+    if (empty($this->currentDn)) {
       return;
     }
-    $entry = $this->listing->getEntry($this->dn);
+    $entry = $this->listing->getEntry($this->currentDn);
     if ($entry->snapshotCreationAllowed()) {
-      $this->dialogObject = new SnapshotCreateDialog($this->dn, $this, '');
-      $this->dialogObject->set_acl_base($this->dn);
+      $this->dialogObject = new SnapshotCreateDialog($this->currentDn, $this, '');
+      $this->dialogObject->set_acl_base($this->currentDn);
     } else {
-      msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to create a snapshot for %s.'), $this->dn),
+      msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to create a snapshot for %s.'), $this->currentDn),
           ERROR_DIALOG);
     }
   }
@@ -988,22 +988,22 @@ class management
 
     if (empty($action['targets'])) {
       // No target, open the restore removed object dialog.
-      $this->dn     = $this->listing->getBase();
-      $aclCategory  = $this->listAclCategories();
+      $this->currentDn  = $this->listing->getBase();
+      $aclCategory      = $this->listAclCategories();
     } else {
       // Display the restore points for a given object.
-      $this->dn = $action['targets'][0];
-      if (empty($this->dn)) {
+      $this->currentDn = $action['targets'][0];
+      if (empty($this->currentDn)) {
         return;
       }
-      $aclCategory = objects::infos($this->listing->getEntry($this->dn)->getTemplatedType())['aclCategory'];
+      $aclCategory = objects::infos($this->listing->getEntry($this->currentDn)->getTemplatedType())['aclCategory'];
     }
 
-    if ($ui->allow_snapshot_restore($this->dn, $aclCategory, empty($action['targets']))) {
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Snaptshot restoring initiated!');
-      $this->dialogObject = new SnapshotRestoreDialog($this->dn, $this, empty($action['targets']), $aclCategory);
+    if ($ui->allow_snapshot_restore($this->currentDn, $aclCategory, empty($action['targets']))) {
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDn, 'Snaptshot restoring initiated!');
+      $this->dialogObject = new SnapshotRestoreDialog($this->currentDn, $this, empty($action['targets']), $aclCategory);
     } else {
-      msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $this->dn),
+      msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $this->currentDn),
           ERROR_DIALOG);
     }
   }
@@ -1083,7 +1083,7 @@ class management
   function createSnapshot($dn, $description)
   {
     global $ui;
-    if ($this->dn !== $dn) {
+    if ($this->currentDn !== $dn) {
       trigger_error('There was a problem with the snapshot workflow');
       return;
     }

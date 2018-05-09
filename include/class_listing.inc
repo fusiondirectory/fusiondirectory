@@ -753,11 +753,11 @@ class listing
   function processElementFilter($type, $index, $data, $cfg, $row)
   {
     if (isset($this->filterCache[$type.$index])) {
-      $filters = $this->filterCache[$type.$index];
+      $filtersData = $this->filterCache[$type.$index];
     } else {
       preg_match_all('/%{filter:([^(]+)\((.*)\)}/', $data, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE);
 
-      $filters = array();
+      $filtersData = array();
       foreach ($matches as $match) {
         $cl     = '';
         $method = '';
@@ -772,13 +772,13 @@ class listing
         // Prepare params for function call
         preg_match_all('/"[^"]+"|[^,]+/', $match[2][0], $parts);
 
-        $filters[$match[0][0]] = array($cl, $method, $parts[0], $match[0][1]);
+        $filtersData[$match[0][0]] = array($cl, $method, $parts[0], $match[0][1]);
       }
 
-      $this->filterCache[$type.$index] = $filters;
+      $this->filterCache[$type.$index] = $filtersData;
     }
 
-    foreach ($filters as $filterstring => $filter) {
+    foreach ($filtersData as $filterstring => $filter) {
       list ($cl, $method, $parts, $offset) = $filter;
       $params = array();
       foreach ($parts as $param) {

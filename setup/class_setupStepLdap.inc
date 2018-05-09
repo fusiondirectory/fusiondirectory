@@ -163,10 +163,11 @@ class setupStepLdap extends setupStep
     $this->connect_id = ldap_connect($this->connection);
 
     if ($this->tls) {
-      if (@ldap_set_option($this->connect_id, LDAP_OPT_REFERRALS, 0)) {
-        if (@ldap_start_tls($this->connect_id)) {
-          $this->bind_id = @ldap_bind($this->connect_id, $this->admin, $this->password);
-        }
+      if (
+        @ldap_set_option($this->connect_id, LDAP_OPT_REFERRALS, 0) &&
+        @ldap_start_tls($this->connect_id)
+        ) {
+        $this->bind_id = @ldap_bind($this->connect_id, $this->admin, $this->password);
       }
       @ldap_set_option($this->connect_id, LDAP_OPT_PROTOCOL_VERSION, 3);
     } else {
