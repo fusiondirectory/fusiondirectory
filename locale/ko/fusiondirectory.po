@@ -10,11 +10,12 @@ msgstr ""
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
 "POT-Creation-Date: 2018-04-19 15:12+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Language-Team: Indonesian (https://www.transifex.com/fusiondirectory/teams/12202/id/)\n"
+"Last-Translator: Choi Chris <chulwon.choi@gmail.com>, 2018\n"
+"Language-Team: Korean (https://www.transifex.com/fusiondirectory/teams/12202/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: id\n"
+"Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: include/class_msg_dialog.inc:136 include/class_msg_dialog.inc:172
@@ -35,7 +36,7 @@ msgstr ""
 #: html/index.php:468 html/index.php:478 html/index.php:535 html/index.php:545
 #: setup/setup_checks.tpl.c:5 ihtml/themes/breezy/msg_dialog.tpl.c:2
 msgid "Error"
-msgstr ""
+msgstr "오류"
 
 #: include/class_msg_dialog.inc:177
 msgid "Please fix the above error and reload the page."
@@ -55,7 +56,7 @@ msgstr ""
 #: include/functions.inc:657 html/class_passwordRecovery.inc:139
 #: html/main.php:202 html/index.php:148
 msgid "Configuration error"
-msgstr ""
+msgstr "설정 에러"
 
 #: include/class_config.inc:272
 #, php-format
@@ -80,7 +81,7 @@ msgstr ""
 #: setup/class_setupStepMigrate.inc:452 setup/class_setupStepMigrate.inc:1051
 #: html/index.php:372
 msgid "LDAP error"
-msgstr ""
+msgstr "lDAP 오류"
 
 #: include/class_config.inc:313
 msgid "Cannot bind to LDAP. Please contact the system administrator."
@@ -163,7 +164,7 @@ msgstr ""
 
 #: include/php_setup.inc:132
 msgid "Type"
-msgstr ""
+msgstr "타입"
 
 #: include/php_setup.inc:133
 msgid "Arguments"
@@ -188,7 +189,7 @@ msgstr ""
 #: include/class_listing.inc:312 include/class_listing.inc:1182
 #: include/class_listing.inc:1184
 msgid "Up"
-msgstr ""
+msgstr "위"
 
 #: include/class_listing.inc:312
 msgid "Down"
@@ -247,7 +248,7 @@ msgstr ""
 #: plugins/admin/departments/dep-list.xml:37
 #: plugins/admin/groups/group-list.xml:54 plugins/admin/users/user-list.xml:62
 msgid "Actions"
-msgstr ""
+msgstr "작업"
 
 #: include/class_listing.inc:1631 include/class_listing.inc:1684
 msgid "Copy"
@@ -427,7 +428,7 @@ msgstr ""
 #: html/main.php:152 html/index.php:587 setup/setup_checks.tpl.c:8
 #: ihtml/themes/breezy/msg_dialog.tpl.c:5 ihtml/themes/breezy/islocked.tpl.c:5
 msgid "Warning"
-msgstr ""
+msgstr "ㅗ"
 
 #: include/functions.inc:846
 msgid ""
@@ -596,7 +597,7 @@ msgstr ""
 #: include/functions.inc:2542
 #, php-format
 msgid "Cannot locate file '%s' - please run '%s' to fix this"
-msgstr ""
+msgstr "'%s' 파일을 사용할 수 없습니다.  '%s' 를 실행해 주세요."
 
 #: include/class_pluglist.inc:185
 msgid "All objects in this category"
@@ -618,7 +619,7 @@ msgstr ""
 #: include/simpleplugin/class_simpleManagement.inc:1271
 #: plugins/admin/users/class_userManagement.inc:153
 msgid "Permission"
-msgstr ""
+msgstr "허"
 
 #: include/class_CopyPasteHandler.inc:268
 msgid "Cancel all"
@@ -1116,7 +1117,7 @@ msgstr ""
 #: include/class_SnapshotDialogs.inc:182
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:341
 msgid "Object"
-msgstr ""
+msgstr "오브젝트"
 
 #: include/class_msgPool.inc:707
 msgid "Upload failed!"
@@ -1237,7 +1238,7 @@ msgstr ""
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:69
 #: setup/setup_migrate_adminAccount.tpl.c:8
 msgid "Name"
-msgstr ""
+msgstr "명칭"
 
 #: include/simpleplugin/simple-select-list.xml:40
 #: include/simpleplugin/simple-list.xml:40
@@ -1249,7 +1250,7 @@ msgstr ""
 #: plugins/admin/aclrole/class_aclRole.inc:103
 #: plugins/personal/generic/class_user.inc:325
 msgid "Description"
-msgstr ""
+msgstr "설명"
 
 #: include/simpleplugin/attributes/class_BaseSelectorAttribute.inc:37
 #: setup/class_setupStepLdap.inc:50 setup/class_setupStepLdap.inc:119
@@ -1279,7 +1280,7 @@ msgstr ""
 
 #: include/simpleplugin/attributes/class_FileAttribute.inc:31
 msgid "file is empty"
-msgstr ""
+msgstr "파일이 비어있음"
 
 #: include/simpleplugin/attributes/class_FileAttribute.inc:34
 msgid "file not found"
@@ -1298,12 +1299,12 @@ msgstr ""
 #: include/simpleplugin/attributes/class_FileAttribute.inc:327
 #: include/simpleplugin/attributes/class_FileAttribute.inc:328
 msgid "Upload"
-msgstr ""
+msgstr "업로"
 
 #: include/simpleplugin/attributes/class_FileAttribute.inc:124
 #: include/simpleplugin/attributes/class_FileAttribute.inc:125
 msgid "Download"
-msgstr ""
+msgstr "다운로드"
 
 #: include/simpleplugin/attributes/class_FileAttribute.inc:301
 msgid ""
@@ -1323,7 +1324,7 @@ msgstr ""
 #: plugins/admin/groups/group-list.xml:150
 #: plugins/admin/users/user-list.xml:115
 msgid "Remove"
-msgstr ""
+msgstr "제거"
 
 #: include/simpleplugin/attributes/class_IntAttribute.inc:50
 #, php-format
@@ -1394,7 +1395,7 @@ msgstr ""
 #: include/simpleplugin/attributes/class_SelectAttribute.inc:119
 #: include/simpleplugin/class_dialogAttributes.inc:652
 msgid "None"
-msgstr ""
+msgstr "없음"
 
 #: include/simpleplugin/attributes/class_SelectAttribute.inc:145
 #, php-format
@@ -1462,7 +1463,7 @@ msgstr ""
 #: include/simpleplugin/class_simplePlugin.inc:1848
 #, php-format
 msgid "Unknown field \"%s\""
-msgstr ""
+msgstr "잘못된 필드 \"%s\""
 
 #: include/simpleplugin/class_simpleTabs.inc:74
 #, php-format
@@ -1540,7 +1541,7 @@ msgstr ""
 
 #: include/simpleplugin/class_dialogAttributes.inc:654
 msgid "Unknown"
-msgstr ""
+msgstr "알 수 없음"
 
 #: include/simpleplugin/class_simpleManagement.inc:288
 #: plugins/admin/users/user-list.xml:87
@@ -1703,7 +1704,7 @@ msgstr ""
 
 #: include/class_SnapshotDialogs.inc:37
 msgid "Timestamp"
-msgstr ""
+msgstr "타임스탬프"
 
 #: include/class_SnapshotDialogs.inc:37
 msgid "Timestamp of this snapshot creation"
@@ -1786,7 +1787,7 @@ msgstr ""
 #: plugins/admin/users/user-list.xml:57
 #: plugins/admin/aclrole/class_aclRole.inc:95
 msgid "Properties"
-msgstr ""
+msgstr "설정"
 
 #: plugins/admin/departments/class_department.inc:67
 #, php-format
@@ -1840,19 +1841,19 @@ msgstr ""
 #: plugins/admin/departments/class_department.inc:93
 #: plugins/personal/generic/class_user.inc:344
 msgid "State"
-msgstr ""
+msgstr "wn"
 
 #: plugins/admin/departments/class_department.inc:99
 #: plugins/admin/departments/class_country.inc:29
 #: plugins/admin/departments/class_country.inc:30
 #: plugins/admin/departments/class_country.inc:33
 msgid "Country"
-msgstr ""
+msgstr "지역"
 
 #: plugins/admin/departments/class_department.inc:102
 #: plugins/personal/generic/class_user.inc:348
 msgid "Address"
-msgstr ""
+msgstr "주소"
 
 #: plugins/admin/departments/class_department.inc:102
 #, php-format
@@ -1862,7 +1863,7 @@ msgstr ""
 #: plugins/admin/departments/class_department.inc:106
 #: plugins/personal/generic/class_user.inc:356
 msgid "Phone"
-msgstr ""
+msgstr "전화번호"
 
 #: plugins/admin/departments/class_department.inc:106
 msgid "Telephone number"
@@ -1913,7 +1914,7 @@ msgstr ""
 
 #: plugins/admin/departments/class_departmentManagement.inc:38
 msgid "Users and groups"
-msgstr ""
+msgstr "사용자와 그룹"
 
 #: plugins/admin/groups/class_groupManagement.inc:35
 #: plugins/personal/roles/class_userRoles.inc:33
@@ -1952,7 +1953,7 @@ msgstr ""
 #: plugins/admin/groups/class_groupManagement.inc:196
 #: plugins/admin/groups/class_groupManagement.inc:222
 msgid "Infrastructure service"
-msgstr ""
+msgstr "인프라 서비스"
 
 #: plugins/admin/groups/class_groupManagement.inc:198
 msgid "Action triggered"
@@ -1977,7 +1978,7 @@ msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:275
 msgid "Posix"
-msgstr ""
+msgstr "Posix"
 
 #: plugins/admin/groups/class_groupManagement.inc:275
 msgid "Edit posix properties"
@@ -2054,7 +2055,7 @@ msgstr ""
 
 #: plugins/admin/groups/class_ogroup.inc:154
 msgid "Object group"
-msgstr ""
+msgstr "객체 그룹"
 
 #: plugins/admin/groups/class_ogroup.inc:155
 msgid "Object group information"
@@ -2063,16 +2064,16 @@ msgstr ""
 #: plugins/admin/groups/class_ogroup.inc:159
 #: plugins/admin/groups/class_ogroup.inc:160
 msgid "Group"
-msgstr ""
+msgstr "그룹"
 
 #: plugins/admin/groups/class_ogroup.inc:191
 #: plugins/admin/groups/class_roleGeneric.inc:86
 msgid "Name of this group"
-msgstr ""
+msgstr "그룹 명칭"
 
 #: plugins/admin/groups/class_ogroup.inc:196
 msgid "Short description of this group"
-msgstr ""
+msgstr "그룹 요약"
 
 #: plugins/admin/groups/class_ogroup.inc:203
 msgid "Member objects"
@@ -2084,31 +2085,31 @@ msgstr ""
 
 #: plugins/admin/groups/class_ogroup.inc:213
 msgid "System trust"
-msgstr ""
+msgstr "시스템 신뢰"
 
 #: plugins/admin/groups/class_ogroup.inc:217
 msgid "Trust mode"
-msgstr ""
+msgstr "트러스트 노드"
 
 #: plugins/admin/groups/class_ogroup.inc:217
 msgid "Type of authorization for those hosts"
-msgstr ""
+msgstr "호스트에 대한 인증 타입"
 
 #: plugins/admin/groups/class_ogroup.inc:221
 msgid "disabled"
-msgstr ""
+msgstr "미사용"
 
 #: plugins/admin/groups/class_ogroup.inc:221
 msgid "full access"
-msgstr ""
+msgstr "전체 접근"
 
 #: plugins/admin/groups/class_ogroup.inc:221
 msgid "allow access to these hosts"
-msgstr ""
+msgstr "호스트에 접근 허용"
 
 #: plugins/admin/groups/class_ogroup.inc:224
 msgid "Only allow this group to connect to this list of hosts"
-msgstr ""
+msgstr "호스트 리스트에 접근 가능 그룹"
 
 #: plugins/admin/groups/class_ogroup.inc:315
 msgid ""
@@ -2138,7 +2139,7 @@ msgstr ""
 #: plugins/admin/groups/class_roleGeneric.inc:82
 #: ihtml/themes/breezy/msg_dialog.tpl.c:8
 msgid "Information"
-msgstr ""
+msgstr "정보"
 
 #: plugins/admin/groups/class_roleGeneric.inc:91
 msgid "Description of the role"
@@ -2288,7 +2289,7 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:278
 #: plugins/personal/generic/class_user.inc:284
 msgid "User"
-msgstr ""
+msgstr "사용자"
 
 #: plugins/admin/users/user-list.xml:127
 msgid "Lock users"
@@ -2568,11 +2569,11 @@ msgstr ""
 
 #: plugins/config/class_recoveryConfig.inc:51
 msgid "Sender email address"
-msgstr ""
+msgstr "발송자 메일주소"
 
 #: plugins/config/class_recoveryConfig.inc:52
 msgid "Email address from which mails will be sent"
-msgstr ""
+msgstr "메일이 발송될 이메일 주소"
 
 #: plugins/config/class_recoveryConfig.inc:58
 msgid "Link validity (minutes)"
@@ -2619,7 +2620,7 @@ msgstr ""
 #: plugins/config/class_recoveryConfig.inc:88
 #: plugins/config/class_recoveryConfig.inc:107
 msgid "Subject"
-msgstr ""
+msgstr "제목"
 
 #: plugins/config/class_recoveryConfig.inc:89
 msgid "Subject of the first email"
@@ -2949,7 +2950,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:261
 msgid "Host"
-msgstr ""
+msgstr "호스트"
 
 #: plugins/config/class_configInLdap.inc:261
 msgid "Host of the CAS server"
@@ -2957,7 +2958,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:266
 msgid "Port"
-msgstr ""
+msgstr "포트"
 
 #: plugins/config/class_configInLdap.inc:266
 msgid "Port the CAS server is listening on"
@@ -3197,7 +3198,7 @@ msgstr ""
 
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:66
 msgid "Expiration date"
-msgstr ""
+msgstr "만료일자"
 
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:70
 #: ihtml/themes/breezy/recovery.tpl.c:74
@@ -3285,7 +3286,7 @@ msgstr ""
 #: ihtml/themes/breezy/login.tpl.c:17 ihtml/themes/breezy/login.tpl.c:20
 #: ihtml/themes/breezy/login.tpl.c:23
 msgid "Password"
-msgstr ""
+msgstr "패스워드"
 
 #: plugins/personal/generic/class_user.inc:51
 msgid "Password (Leave empty if you do not wish to change it)"
@@ -3309,7 +3310,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:315
 msgid "Last name"
-msgstr ""
+msgstr "성"
 
 #: plugins/personal/generic/class_user.inc:315
 msgid "Last name of this user"
@@ -3317,7 +3318,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:320
 msgid "First name"
-msgstr ""
+msgstr "성"
 
 #: plugins/personal/generic/class_user.inc:320
 msgid "First name of this user"
@@ -3365,7 +3366,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:364
 msgid "Pager"
-msgstr ""
+msgstr "호출기"
 
 #: plugins/personal/generic/class_user.inc:364
 msgid "Business pager number"
@@ -3406,7 +3407,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:402
 msgid "Display name"
-msgstr ""
+msgstr "표시 이름"
 
 #: plugins/personal/generic/class_user.inc:402
 msgid "Name this user should appear as. Used by Exchange."
@@ -3625,7 +3626,7 @@ msgstr ""
 
 #: setup/class_setupStepLdap.inc:83
 msgid "Status"
-msgstr ""
+msgstr "상태"
 
 #: setup/class_setupStepLdap.inc:86
 msgid "Current status"
@@ -3661,7 +3662,7 @@ msgstr ""
 
 #: setup/class_setupStepLdap.inc:183
 msgid "Retry"
-msgstr ""
+msgstr "재시도"
 
 #: setup/class_setupStepLdap.inc:187
 #, php-format
@@ -4153,7 +4154,7 @@ msgstr ""
 #: html/class_passwordRecovery.inc:117
 #, php-format
 msgid "FusionDirectory configuration %s/%s is not readable. Aborted."
-msgstr ""
+msgstr "FustionDirection 설정 %s/%s 을 읽을 수 없습니다. 중단됨."
 
 #: html/class_passwordRecovery.inc:173 html/index.php:56
 #, php-format
@@ -4162,17 +4163,17 @@ msgstr ""
 
 #: html/class_passwordRecovery.inc:302 ihtml/themes/breezy/recovery.tpl.c:71
 msgid "Email address"
-msgstr ""
+msgstr "메일 주소"
 
 #: html/class_passwordRecovery.inc:471
 #, php-format
 msgid "Did not find an account with login \"%s\""
-msgstr ""
+msgstr "로그인 계정 \"%s\"을 찾을 수 없습니다."
 
 #: html/class_passwordRecovery.inc:474
 #, php-format
 msgid "Found multiple accounts with login \"%s\""
-msgstr ""
+msgstr "로그인 계정 \"%s\"이 여러 개 있습니다."
 
 #: html/class_passwordRecovery.inc:507
 #, php-format
@@ -4191,11 +4192,11 @@ msgstr ""
 
 #: html/class_passwordRecovery.inc:573
 msgid "Contact your administrator, there was a problem with mail server"
-msgstr ""
+msgstr "메일 서버에 문제가 발생핬습니다. 관리자에게 문의바랍니다."
 
 #: html/class_passwordRecovery.inc:586
 msgid "This token is invalid"
-msgstr ""
+msgstr "토큰이 유효하지 않습니다."
 
 #: html/class_passwordRecovery.inc:650
 msgid "There was a problem with mail server, confirmation email not sent"
@@ -4233,7 +4234,7 @@ msgstr ""
 
 #: html/main.php:283
 msgid "Plugin"
-msgstr ""
+msgstr "플러그인"
 
 #: html/main.php:284
 #, php-format
@@ -4342,7 +4343,7 @@ msgstr ""
 #: plugins/admin/users/user-filter.tpl.c:2
 #: ihtml/themes/breezy/simple-filter.tpl.c:2
 msgid "Filter"
-msgstr ""
+msgstr "필터"
 
 #: plugins/admin/acl/remove.tpl.c:2
 msgid ""
@@ -4672,7 +4673,7 @@ msgstr ""
 #: ihtml/themes/breezy/login.tpl.c:29 ihtml/themes/breezy/login.tpl.c:32
 #: ihtml/themes/breezy/login.tpl.c:35
 msgid "Directory"
-msgstr ""
+msgstr "디렉토리"
 
 #: ihtml/themes/breezy/recovery.tpl.c:35 ihtml/themes/breezy/recovery.tpl.c:38
 msgid "New password repeated"
@@ -4692,7 +4693,7 @@ msgstr ""
 
 #: ihtml/themes/breezy/recovery.tpl.c:50 ihtml/themes/breezy/recovery.tpl.c:53
 msgid "Success"
-msgstr ""
+msgstr "성공"
 
 #: ihtml/themes/breezy/recovery.tpl.c:56
 msgid "Your password has been changed successfully."

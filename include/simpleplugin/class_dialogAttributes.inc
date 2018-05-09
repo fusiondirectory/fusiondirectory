@@ -388,6 +388,24 @@ class GenericDialogAttribute extends DialogAttribute
       }
     }
   }
+
+  function foreignKeyUpdate($oldvalue, $newvalue, $source)
+  {
+    foreach ($this->value as $key => &$value) {
+      if ($value == $oldvalue) {
+        if ($newvalue === NULL) {
+          $this->removeValue($key);
+        } elseif ($source['MODE'] == 'copy') {
+          $this->value[] = $newvalue;
+        } elseif ($source['MODE'] == 'move') {
+          $value = $newvalue;
+          /* Update display */
+          $this->fillDisplayValue($key);
+        }
+      }
+    }
+    unset($value);
+  }
 }
 
 /*! \brief This class allows to handle an attribute for selecting user

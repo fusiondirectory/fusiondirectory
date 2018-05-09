@@ -82,6 +82,14 @@ class ldapFilter
     return $this->subparts;
   }
 
+  function listUsedAttributes(&$result = array())
+  {
+    foreach ($this->subparts as $subpart) {
+      $subpart->listUsedAttributes($result);
+    }
+    return $result;
+  }
+
   static function parse($filter)
   {
     // Remove starting and ending parenthesis
@@ -186,6 +194,16 @@ class ldapFilterLeaf extends ldapFilter
       }
     }
     return FALSE;
+  }
+
+  function listUsedAttributes(&$result = array())
+  {
+    if ($this->dnFilter) {
+      $result['dn'] = 'dn';
+    } else {
+      $result[$this->subparts[0]] = $this->subparts[0];
+    }
+    return $result;
   }
 }
 

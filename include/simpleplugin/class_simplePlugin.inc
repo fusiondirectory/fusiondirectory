@@ -320,7 +320,7 @@ class simplePlugin
   {
     $found = TRUE;
     foreach ($this->objectclasses as $obj) {
-      if (preg_match('/top/i', $obj)) {
+      if (preg_match('/^top$/i', $obj)) {
         continue;
       }
       if (!isset($attrs['objectClass']) || !in_array_ics ($obj, $attrs['objectClass'])) {
@@ -576,6 +576,8 @@ class simplePlugin
     * \param  string  $src_dn the source DN.
     *
     * \param  string  $dst_dn the destination DN.
+    *
+    * \return TRUE on success, error string on failure
     */
   function move($src_dn, $dst_dn)
   {
@@ -595,7 +597,7 @@ class simplePlugin
         "FROM: $src_dn  -- TO: $dst_dn", array(), $ldap->get_error());
       @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, "Rename failed FROM: $src_dn  -- TO:  $dst_dn",
         'Ldap Protocol v3 implementation error. Error:'.$ldap->get_error());
-      return FALSE;
+      return $ldap->get_error();
     }
 
     /* Update userinfo if necessary */
@@ -675,61 +677,21 @@ class simplePlugin
 
     if ($this->displayHeader) {
       /* Show tab dialog headers */
-      $plInfo = pluglist::pluginInfos(get_class($this));
       if ($this->parent !== NULL) {
-        $disabled   = $this->acl_skip_write();
-        $depends    = array();
-        $conflicts  = array();
-        if ($this->is_account) {
-          if (isset($plInfo['plDepending'])) {
-            foreach ($plInfo['plDepending'] as $plugin) {
-              if (isset($this->parent->by_object[$plugin]) &&
-                  $this->parent->by_object[$plugin]->is_account) {
-                $disabled       = TRUE;
-                $dependPlInfos  = pluglist::pluginInfos($plugin);
-                $depends[]      = $dependPlInfos['plShortName'];
-              }
-            }
-          }
-          $this->header = $this->show_header(
-            msgPool::removeFeaturesButton($plInfo['plShortName']),
-            msgPool::featuresEnabled($plInfo['plShortName'], $depends),
-            $this->is_account,
-            $disabled,
-            get_class($this).'_modify_state'
-          );
-        } else {
-          if (isset($plInfo['plDepends'])) {
-            foreach ($plInfo['plDepends'] as $plugin) {
-              if (isset($this->parent->by_object[$plugin]) &&
-                  !$this->parent->by_object[$plugin]->is_account) {
-                $disabled   = TRUE;
-                $dependPlInfos  = pluglist::pluginInfos($plugin);
-                $depends[]      = $dependPlInfos['plShortName'];
-              }
-            }
-          }
-          if (isset($plInfo['plConflicts'])) {
-            foreach ($plInfo['plConflicts'] as $plugin) {
-              if (isset($this->parent->by_object[$plugin]) &&
-                  $this->parent->by_object[$plugin]->is_account) {
-                $disabled   = TRUE;
-                $conflictPlInfos  = pluglist::pluginInfos($plugin);
-                $conflicts[]      = $conflictPlInfos['plShortName'];
-              }
-            }
-          }
-          $this->header = $this->show_header(
-            msgPool::addFeaturesButton($plInfo['plShortName']),
-            msgPool::featuresDisabled($plInfo['plShortName'], $depends, $conflicts),
-            $this->is_account,
-            $disabled,
-            get_class($this).'_modify_state'
-          );
+        list($disabled, $buttonText, $text) = $this->getDisplayHeaderInfos();
+        $this->header = $this->show_header(
+          $buttonText,
+          $text,
+          $this->is_account,
+          $disabled,
+          get_class($this).'_modify_state'
+        );
+        if (!$this->is_account) {
           $this->displayPlugin = FALSE;
           return $this->header.$this->inheritanceDisplay();
         }
       } elseif (!$this->is_account) {
+        $plInfo = pluglist::pluginInfos(get_class($this));
         $this->header = '<img alt="" src="geticon.php?context=status&amp;icon=dialog-error&amp;size=16" align="middle"/>&nbsp;<b>'.
                         msgPool::noValidExtension($plInfo['plShortName'])."</b>";
         $this->header .= back_to_main();
@@ -750,6 +712,53 @@ class simplePlugin
     }
 
     return $this->header.$smarty->fetch($this->templatePath);
+  }
+
+  public function getDisplayHeaderInfos()
+  {
+    $plInfo   = pluglist::pluginInfos(get_class($this));
+    $disabled = $this->acl_skip_write();
+    if ($this->is_account) {
+      $depends = array();
+      if (isset($plInfo['plDepending'])) {
+        foreach ($plInfo['plDepending'] as $plugin) {
+          if (isset($this->parent->by_object[$plugin]) &&
+              $this->parent->by_object[$plugin]->is_account) {
+            $disabled       = TRUE;
+            $dependPlInfos  = pluglist::pluginInfos($plugin);
+            $depends[]      = $dependPlInfos['plShortName'];
+          }
+        }
+      }
+      $buttonText = msgPool::removeFeaturesButton($plInfo['plShortName']);
+      $text       = msgPool::featuresEnabled($plInfo['plShortName'], $depends);
+    } else {
+      $depends    = array();
+      $conflicts  = array();
+      if (isset($plInfo['plDepends'])) {
+        foreach ($plInfo['plDepends'] as $plugin) {
+          if (isset($this->parent->by_object[$plugin]) &&
+              !$this->parent->by_object[$plugin]->is_account) {
+            $disabled   = TRUE;
+            $dependPlInfos  = pluglist::pluginInfos($plugin);
+            $depends[]      = $dependPlInfos['plShortName'];
+          }
+        }
+      }
+      if (isset($plInfo['plConflicts'])) {
+        foreach ($plInfo['plConflicts'] as $plugin) {
+          if (isset($this->parent->by_object[$plugin]) &&
+              $this->parent->by_object[$plugin]->is_account) {
+            $disabled   = TRUE;
+            $conflictPlInfos  = pluglist::pluginInfos($plugin);
+            $conflicts[]      = $conflictPlInfos['plShortName'];
+          }
+        }
+      }
+      $buttonText = msgPool::addFeaturesButton($plInfo['plShortName']);
+      $text       = msgPool::featuresDisabled($plInfo['plShortName'], $depends, $conflicts);
+    }
+    return array($disabled,$buttonText,$text);
   }
 
   /*!
@@ -1040,7 +1049,7 @@ class simplePlugin
     if ($ldap->success()) {
       return array();
     } else {
-      return msgPool::ldaperror($this->ldap_error, $this->dn, LDAP_MOD, get_class());
+      return array(msgPool::ldaperror($this->ldap_error, $this->dn, LDAP_MOD, get_class()));
     }
   }
 
@@ -1544,12 +1553,19 @@ class simplePlugin
           if (is_subclass_of($class, 'simpleService')) {
             $objectTypes = array('server');
           } else {
-            $objectTypes = $cinfos['plObjectType'];
-          }
-          foreach ($objectTypes as $key => $objectType) {
-            if (!is_numeric($key)) {
-              $objectType = $key;
+            $objectTypes = array();
+            foreach ($cinfos['plObjectType'] as $key => $objectType) {
+              if (!is_numeric($key)) {
+                $objectType = $key;
+              }
+              if (preg_match('/^ogroup-/i', $objectType)) {
+                $objectType = 'ogroup';
+              }
+              $objectTypes[] = $objectType;
             }
+            $objectTypes = array_unique($objectTypes);
+          }
+          foreach ($objectTypes as $objectType) {
             if (preg_match('/^handle_/', $mode)) {
               if ($field == 'dn') {
                 $oldvalue = $olddn;
@@ -1715,32 +1731,32 @@ class simplePlugin
 
     /* Try to use plain entry first */
     $dn = $attribute.'='.ldap_escape_dn($this->$attribute).','.$base;
-    if ($dn == $this->orig_dn) {
-      return $dn;
-    }
-    $ldap->cat($dn, array('dn'));
-    if (!$ldap->fetch()) {
+    if (($dn == $this->orig_dn) || !$ldap->dn_exists($dn)) {
       return $dn;
     }
 
-    /* Look for additional attributes */
+    /* Build DN with multiple attributes */
+    $usableAttributes = array();
     foreach ($this->attributes as $attr) {
-      if (($attr == $attribute) || ($this->$attr == '') || is_array($this->$attr)) {
-        continue;
+      if (($attr != $attribute) && is_string($this->$attr) && ($this->$attr != '')) {
+        $usableAttributes[] = $attr;
       }
-
-      $dn = $attribute.'='.ldap_escape_dn($this->$attribute).'+'.$attr.'='.ldap_escape_dn($this->$attr).','.$base;
-      if ($dn == $this->orig_dn) {
-        return $dn;
-      }
-      $ldap->cat($dn, array('dn'));
-      if (!$ldap->fetch()) {
-        return $dn;
+    }
+    for ($i = 1; $i < count($usableAttributes); $i++) {
+      foreach (new Combinations($usableAttributes, $i) as $attrs) {
+        $dn = $attribute.'='.ldap_escape_dn($this->$attribute);
+        foreach ($attrs as $attr) {
+          $dn .= '+'.$attr.'='.ldap_escape_dn($this->$attr);
+        }
+        $dn .= ','.$base;
+        if (($dn == $this->orig_dn) || !$ldap->dn_exists($dn)) {
+          return $dn;
+        }
       }
     }
 
     /* None found */
-    return 'none';
+    throw new FusionDirectoryException(_('Failed to create a unique DN'));
   }
 
   /*

@@ -33,7 +33,6 @@
 class userinfo
 {
   var $dn;
-  var $ip;
   var $cn;
   var $uid;
   var $sn           = '';
@@ -56,7 +55,6 @@ class userinfo
   {
     global $config;
     $this->dn         = $userdn;
-    $this->ip         = $_SERVER['REMOTE_ADDR'];
     $this->ignoreACL  = ($config->get_cfg_value('ignoreAcl') == $this->dn);
 
     $this->loadLDAPInfo();
@@ -982,6 +980,27 @@ class userinfo
       }
     }
 
+    return FALSE;
+  }
+
+  /* \brief Search which ACL category should be used for this attribute and this object type, if any
+   *
+   * \return The ACL catogory or FALSE if not found
+   */
+  function getAttributeCategory($type, $attribute)
+  {
+    global $config;
+    $infos    = objects::infos($type);
+    $classes  = $config->data['CATEGORIES'][$infos['aclCategory']]['classes'];
+    foreach ($classes as $class) {
+      if ($class == '0') {
+        continue;
+      }
+      $acls = pluglist::pluginInfos($class)['plProvidedAcls'];
+      if (isset($acls[$attribute])) {
+        return $infos['aclCategory'].'/'.$class;
+      }
+    }
     return FALSE;
   }
 }

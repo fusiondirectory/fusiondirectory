@@ -192,7 +192,10 @@ if (isset($_POST['server'])) {
 }
 
 $config->set_current($server);
-if (($config->get_cfg_value('casActivated') == 'TRUE') || ($config->get_cfg_value('httpAuthActivated') == 'TRUE')) {
+if (
+  ($config->get_cfg_value('casActivated') == 'TRUE') ||
+  ($config->get_cfg_value('httpAuthActivated') == 'TRUE') ||
+  ($config->get_cfg_value('httpHeaderAuthActivated') == 'TRUE')) {
   session::global_set('DEBUGLEVEL', 0);
 }
 
@@ -206,9 +209,6 @@ if (isset($_REQUEST['message'])) {
   switch($_REQUEST['message']) {
     case 'expired':
       $message = _('Your FusionDirectory session has expired!');
-      break;
-    case 'newip':
-      $message = _('Your IP has changed!');
       break;
     case 'invalidparameter':
       $message = sprintf(_('Invalid plugin parameter "%s"!'), $_REQUEST['plug']);

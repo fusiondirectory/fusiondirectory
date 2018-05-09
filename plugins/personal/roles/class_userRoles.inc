@@ -81,8 +81,8 @@ class userRoles extends simplePlugin
     foreach ($groupsattrs as $dn => $groupattr) {
       $groupDisplay = $groupattr['cn'];
       if (isset($groupattr['description'])) {
-        if (strlen($groupattr['description']) > 50) {
-          $groupattr['description'] = substr($groupattr['description'], 0, 50).'…';
+        if (mb_strlen($groupattr['description']) > 50) {
+          $groupattr['description'] = mb_substr($groupattr['description'], 0, 50).'…';
         }
         $groupDisplay .= ' ['.$groupattr['description'].']';
       }

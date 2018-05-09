@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2017-06-22 11:12+0200\n"
+"POT-Creation-Date: 2017-08-02 11:48+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FusionDirectory project <contact@fusiondirectory.org>\n"
 "Language-Team: English\n"
@@ -897,7 +897,7 @@ msgstr ""
 #: include/simpleplugin/class_simpleManagement.inc:282
 #: include/simpleplugin/class_simpleManagement.inc:514
 #: plugins/admin/users/user-list.xml:95
-#: plugins/admin/groups/class_groupManagement.inc:350
+#: plugins/admin/groups/class_groupManagement.inc:351
 #: ihtml/themes/breezy/template.tpl.c:5
 msgid "Template"
 msgstr ""
@@ -2099,7 +2099,7 @@ msgstr ""
 
 #: include/simpleplugin/class_simpleManagement.inc:508
 #: include/simpleplugin/class_simpleManagement.inc:514
-#: plugins/admin/groups/class_groupManagement.inc:350
+#: plugins/admin/groups/class_groupManagement.inc:351
 #, php-format
 msgid "Show %s"
 msgstr ""
@@ -3985,45 +3985,49 @@ msgid "Show application groups"
 msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:321
+msgid "Show groups of groups"
+msgstr ""
+
+#: plugins/admin/groups/class_groupManagement.inc:322
 msgid "Show unidentified groups"
 msgstr ""
 
-#: plugins/admin/groups/class_groupManagement.inc:324
+#: plugins/admin/groups/class_groupManagement.inc:325
 #: include/select/groupSelect/group-filter.tpl.c:5
 msgid "Show primary groups"
 msgstr ""
 
-#: plugins/admin/groups/class_groupManagement.inc:326
+#: plugins/admin/groups/class_groupManagement.inc:327
 #: include/select/groupSelect/group-filter.tpl.c:11
 msgid "Show mail groups"
 msgstr ""
 
-#: plugins/admin/groups/class_groupManagement.inc:329
+#: plugins/admin/groups/class_groupManagement.inc:330
 #: include/select/groupSelect/group-filter.tpl.c:8
 msgid "Show samba groups"
 msgstr ""
 
-#: plugins/admin/groups/class_groupManagement.inc:333
+#: plugins/admin/groups/class_groupManagement.inc:334
 msgid "Show DSA entries"
 msgstr ""
 
-#: plugins/admin/groups/class_groupManagement.inc:339
+#: plugins/admin/groups/class_groupManagement.inc:340
 msgid "Show server groups"
 msgstr ""
 
-#: plugins/admin/groups/class_groupManagement.inc:340
+#: plugins/admin/groups/class_groupManagement.inc:341
 msgid "Show workstation groups"
 msgstr ""
 
-#: plugins/admin/groups/class_groupManagement.inc:341
+#: plugins/admin/groups/class_groupManagement.inc:342
 msgid "Show terminal groups"
 msgstr ""
 
-#: plugins/admin/groups/class_groupManagement.inc:342
+#: plugins/admin/groups/class_groupManagement.inc:343
 msgid "Show printer groups"
 msgstr ""
 
-#: plugins/admin/groups/class_groupManagement.inc:343
+#: plugins/admin/groups/class_groupManagement.inc:344
 msgid "Show phone groups"
 msgstr ""
 

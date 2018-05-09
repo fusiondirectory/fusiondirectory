@@ -162,7 +162,7 @@ class filterLDAP
               $result[] = $attrs;
             }
           } else {
-            @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "Invalid objectType given!");
+            trigger_error('Could not find objectType for '.$dn.'!');
           }
         }
       }

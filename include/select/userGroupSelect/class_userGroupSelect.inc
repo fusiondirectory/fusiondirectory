@@ -22,6 +22,14 @@ class userGroupSelect extends userSelect
 {
   protected $objectTypes = array('user', 'group');
   protected $autoFilterAttributes = array('dn', 'cn', 'uid', 'description');
+
+  function __construct()
+  {
+    if (class_available('mixedGroup')) {
+      $this->objectTypes = array('user', 'ogroup');
+    }
+    parent::__construct();
+  }
 }
 
 class userGroupRoleSelect extends userGroupSelect

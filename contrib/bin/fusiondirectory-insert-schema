@@ -7,7 +7,7 @@
 # Manipulate and insert the needed schema into the ldap server
 #
 #  This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-#  Copyright (C) 2011-2017  FusionDirectory
+#  Copyright (C) 2011-2018  FusionDirectory
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -121,7 +121,7 @@ but beware that you will not be able to see things like password prompts as the 
 =head1 BUGS
 
 Please report any bugs, or post any suggestions, to the fusiondirectory mailing list fusiondirectory-users or to
-<https://forge.fusiondirectory.org/projects/fdirectory/issues/new>
+<https://gitlab.fusiondirectory.org/fusiondirectory/fd/issues/new>
 
 =head1 AUTHOR
 
@@ -133,7 +133,7 @@ This code is part of FusionDirectory <http://www.fusiondirectory.org>
 
 =over 1
 
-=item Copyright (C) 2011-2017 FusionDirectory Project
+=item Copyright (C) 2011-2018 FusionDirectory Project
 
 =back
 

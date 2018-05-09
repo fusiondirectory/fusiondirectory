@@ -173,7 +173,9 @@ class pluglist {
       }
     }
     foreach ($foreign_refs as $cname => $refs) {
-      $this->info[$cname]['plForeignRefs'] = $refs;
+      if (isset($this->info[$cname])) {
+        $this->info[$cname]['plForeignRefs'] = $refs;
+      }
     }
 
     /* Provide field for 'all' */
@@ -223,7 +225,7 @@ class pluglist {
     }
 
     if (!isset($infos['ACL'])) {
-      return FALSE;
+      return TRUE;
     }
 
     $aclname = $infos['ACL'];

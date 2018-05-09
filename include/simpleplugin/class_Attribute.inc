@@ -149,8 +149,14 @@ class Attribute
     return $this->inLdap;
   }
 
+  function checkValue ($value)
+  {
+    /* Should throw InvalidValueException if needed */
+  }
+
   function setValue ($value)
   {
+    $this->checkValue($value);
     $old_value    = $this->value;
     $this->value  = $value;
     if (($this->submitForm != FALSE) && ($this->submitForm !== TRUE) && ($old_value != $value) && is_object($this->plugin)) {
@@ -769,20 +775,31 @@ class FakeAttribute extends Attribute
  */
 class DisplayLDAPAttribute extends Attribute
 {
-  protected $allowHTML = FALSE;
+  protected $allowHTML    = FALSE;
+  protected $allowSmarty  = FALSE;
 
   function renderFormInput ()
   {
     if ($this->allowHTML) {
-      return $this->getValue();
+      $value = $this->getValue();
     } else {
-      return htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8');
+      $value = htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8');
+    }
+    if ($this->allowSmarty) {
+      return $value;
+    } else {
+      return '{literal}'.$value.'{/literal}';
     }
   }
 
   function setAllowHTML ($allowHTML)
   {
     $this->allowHTML = $allowHTML;
+  }
+
+  function setAllowSmarty ($allowSmarty)
+  {
+    $this->allowSmarty = $allowSmarty;
   }
 }
 
@@ -821,7 +838,7 @@ class DisplayLDAPArrayAttribute extends Attribute
     if (is_array($value)) {
       $value = join(', ', $value);
     }
-    return htmlentities($value, ENT_COMPAT, 'UTF-8');
+    return '{literal}'.htmlentities($value, ENT_COMPAT, 'UTF-8').'{/literal}';
   }
 }
 

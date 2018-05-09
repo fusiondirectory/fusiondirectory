@@ -28,13 +28,13 @@
       <label for="username">
         <img class="center" src="{$personal_img|escape}" alt="{t}Username{/t}" title="{t}Username{/t}"/>&nbsp;
       </label>
-      <input type="text" name="username" id="username" maxlength="40" value="{$username|escape}" title="{t}Username{/t}" />
+      <input type="text" name="username" id="username" value="{$username|escape}" title="{t}Username{/t}" />
       <br />
       <br />
       <label for="password">
         <img class="center" src="{$password_img|escape}" alt="{t}Password{/t}" title="{t}Password{/t}" />&nbsp;
       </label>
-      <input type="password" name="password" id="password" maxlength="40" value="" title="{t}Password{/t}"/>
+      <input type="password" name="password" id="password" value="" title="{t}Password{/t}"/>
       <br />
       <a href="recovery.php">{t}I forgot my password{/t}</a>
     </div>

@@ -1,23 +1,11 @@
-Migrate FusionDirectory from 1.0.6 to 1.0.7
-===========================================
+## Migrate FusionDirectory from 1.0.6 to 1.0.7
 
-- Upgrade fusiondirectory first
+  * Upgrade fusiondirectory first
 
 Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
 
-Debian
-======
 
-- Add new debian-extra repo to you source list
-
-deb http://repos.fusiondirectory.org/debian-extra wheezy main
-
-root@fusion-install:~# apt-get update
-root@fusion-install:~# apt-get install fusiondirectory
-root@fusion-install:~# apt-get upgrade
-
-Upgrade of LDAP directory
-=========================
+### Upgrade of your LDAP directory
 
 You have to update your LDAP schemas, first update the FusionDirectory core schemas. We have put a new option in fusiondirectory-insert-schema
 that allow you to update easily your schema without the use of ldif files.
@@ -30,65 +18,68 @@ The following schemas needs an update :
   * systems-fd-conf.schema
   * systems-fd.schema
 
-#fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd-conf.schema 
+```shell
+fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd-conf.schema 
+```
 
 You must do the same procedure for all other schema needing an update
 
-Migrate FusionDirectory from 1.0.7.0 or 1.0.7.1 to 1.0.7.2
-==========================================================
+## Migrate FusionDirectory from 1.0.7.0 or 1.0.7.1 to 1.0.7.2
 
-- Upgrade FusionDirectory first
+  * Upgrade FusionDirectory first
 
-Upgrading FusionDirectory core package before other ones to avoid dependencies errors:
+Upgrading FusionDirectory core package before other ones to avoid dependencies errors
 
-- Upgrade of your LDAP directory
+  * Upgrade of your LDAP directory
 
 You have to update your LDAP schemas, first update the FusionDirectory core schemas. We have put a new option in fusiondirectory-insert-schema that allow you to update easily your schema without the use of ldif files.
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd-conf.schema 
+```
 
-Migrate FusionDirectory from 1.0.7.2 to 1.0.7.3
-==========================================================
+## Migrate FusionDirectory from 1.0.7.2 to 1.0.7.3
 
-- Upgrade FusionDirectory first
+  * Upgrade FusionDirectory first
 
 Upgrading FusionDirectory core package before other ones to avoid dependencies errors:
 
-- Upgrade of your LDAP directory
+  * Upgrade of your LDAP directory
 
 You have to update your LDAP schemas, first update the FusionDirectory core schemas. We have put a new option in fusiondirectory-insert-schema that allow you to update easily your schema without the use of ldif files.
+In this version only the schema from the argonaut plugin needs to be update if you have the systems or argonaut plugins installed
 
-in this version only the schema from the argonaut plugin needs to be update if you have the systems or argonaut plugins installed
-
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/argonaut-fd.schema 
+```
 
-Migrate FusionDirectory from 1.0.7.3 to 1.0.7.4
-===============================================
+## Migrate FusionDirectory from 1.0.7.3 to 1.0.7.4
 
-- Upgrade FusionDirectory first
-
-Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
-
-Migrate FusionDirectory from 1.0.7.4 to 1.0.8
-=============================================
-
-- Upgrade FusionDirectory first
+  * Upgrade FusionDirectory first
 
 Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
 
-- Remove the deprecated plugins
+## Migrate FusionDirectory from 1.0.7.4 to 1.0.8
 
-The rolemanagement plugin has been integrated to the core so it must be removed.
+  * Upgrade FusionDirectory first
 
-The board plugin has been renamed so it must be replaced
+Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
 
-- Upgrade of LDAP directory
+### Remove the deprecated plugins
+
+The **rolemanagement** plugin has been integrated to the core so it must be removed.
+
+The **board** plugin has been renamed so it must be replaced
+
+### Upgrade of your LDAP directory
 
 You have to update your LDAP schemas, first update the FusionDirectory core schemas. 
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd.schema 
 
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd-conf.schema 
+```
 
 After that you have to update the schema for the plugins you are using. In this version the following schema have to be updated
 
@@ -96,27 +87,29 @@ After that you have to update the schema for the plugins you are using. In this 
   * ipmi-fd.schema
   * repository-fd.schema
 
-Migrate FusionDirectory from 1.0.8 to 1.0.8.1
-=============================================
+## Migrate FusionDirectory from 1.0.8 to 1.0.8.1
 
-- Upgrade FusionDirectory first
+  * Upgrade FusionDirectory first
 
 Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
 
-- Upgrade of LDAP directory
+### Upgrade of LDAP directory
  
 You have to update your LDAP schemas, first update the FusionDirectory core schemas. 
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd.schema 
 
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd-conf.schema 
+```
 
-
-
-- Check for deprecated attributes and objectClasses in your LDAP
+### Check for deprecated attributes and objectClasses in your LDAP
 
 FusionDirectory 1.0.8.1 comes with two new options in fusiondirectory-setup
 
+fusiondirectory-setup --list-deprecated show deprecated attributes and objectClasses for FusionDirectory
+
+```shell
 fusiondirectory-setup --list-deprecated
 
 List deprecated attributes and objectclasses
@@ -127,44 +120,45 @@ Deprecated attributes:
 Deprecated objectClasses:
  gosaAdministrativeUnitTag      (Marker for objects below administrational units (v2.6.1))      - 1.3.6.1.4.1.10098.1.2.1.19.16
  gosaAdministrativeUnit         (Marker for administrational units (v2.6.1))                    - 1.3.6.1.4.1.10098.1.2.1.19.15
+```
 
-fusiondirectory-setup --list-deprecated show deprecated attributes and objectClasses for FusionDirectory
+fusiondirectory-setup --check-deprecated will output an ldif file on the console that you can use with ldapmodify to clean you ldap server from old attributes and objectClass
 
+```shell
 fusiondirectory-setup --check-deprecated
 
 List LDAP entries using deprecated attributes or objectclasses
 There are no entries in the LDAP using obsolete attributes
 There are no entries in the LDAP using obsolete classes
+```
 
-fusiondirectory-setup --check-deprecated will output an ldif file on the console that you can use with ldapmodify to clean you ldap server from old attributes and objectClass
+## Migrate FusionDirectory from 1.0.8.1 to 1.0.8.2
 
-Migrate FusionDirectory from 1.0.8.1 to 1.0.8.2
-===============================================
+  * Upgrade FusionDirectory first
 
-- Upgrade FusionDirectory first
+Upgrade FusionDirectory core package before other ones to avoid dependencies errors
 
-Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
+## Migrate FusionDirectory from 1.0.8.2 to 1.0.8.3
 
+  * Upgrade FusionDirectory first
 
-Migrate FusionDirectory from 1.0.8.2 to 1.0.8.3
-===============================================
+Upgrade FusionDirectory core package before other ones to avoid dependencies errors
 
-- Upgrade FusionDirectory first
-
-Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
-
-- Upgrade of LDAP directory
+### Upgrade of your LDAP directory
  
 You have to update your LDAP schemas, first update the FusionDirectory core schemas. 
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd.schema 
 
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd-conf.schema 
+```
 
-- Check for deprecated attributes and objectClasses in your LDAP
+### Check for deprecated attributes and objectClasses in your LDAP
 
-FusionDirectory 1.0.8.1 comes with two new options in fusiondirectory-setup
+fusiondirectory-setup --list-deprecated show deprecated attributes and objectClasses for FusionDirectory
 
+```shell
 fusiondirectory-setup --list-deprecated
 
 List deprecated attributes and objectclasses
@@ -175,30 +169,31 @@ Deprecated attributes:
 Deprecated objectClasses:
  gosaAdministrativeUnitTag      (Marker for objects below administrational units (v2.6.1))      - 1.3.6.1.4.1.10098.1.2.1.19.16
  gosaAdministrativeUnit         (Marker for administrational units (v2.6.1))                    - 1.3.6.1.4.1.10098.1.2.1.19.15
+```
 
-fusiondirectory-setup --list-deprecated show deprecated attributes and objectClasses for FusionDirectory
+fusiondirectory-setup --check-deprecated will output an ldif file on the console that you can use with ldapmodify to clean you ldap server from old attributes and objectClass
 
+```shell
 fusiondirectory-setup --check-deprecated
 
 List LDAP entries using deprecated attributes or objectclasses
 There are no entries in the LDAP using obsolete attributes
 There are no entries in the LDAP using obsolete classes
-
-fusiondirectory-setup --check-deprecated will output an ldif file on the console that you can use with ldapmodify to clean you ldap server from old attributes and objectClass
+```
 
 !! Please read it carefully before applying !!
 
-Migrate FusionDirectory from 1.0.8.3 to 1.0.8.4
-===============================================
+## Migrate FusionDirectory from 1.0.8.3 to 1.0.8.4
 
-- Upgrade FusionDirectory first
+  * Upgrade FusionDirectory first
 
 Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
 
-- Check for deprecated attributes and objectClasses in your LDAP
+### Check for deprecated attributes and objectClasses in your LDAP
 
-FusionDirectory 1.0.8.1 comes with two new options in fusiondirectory-setup
+fusiondirectory-setup --list-deprecated show deprecated attributes and objectClasses for FusionDirectory
 
+```shell
 fusiondirectory-setup --list-deprecated
 
 List deprecated attributes and objectclasses
@@ -209,66 +204,77 @@ Deprecated attributes:
 Deprecated objectClasses:
  gosaAdministrativeUnitTag      (Marker for objects below administrational units (v2.6.1))      - 1.3.6.1.4.1.10098.1.2.1.19.16
  gosaAdministrativeUnit         (Marker for administrational units (v2.6.1))                    - 1.3.6.1.4.1.10098.1.2.1.19.15
+```
 
-fusiondirectory-setup --list-deprecated show deprecated attributes and objectClasses for FusionDirectory
+fusiondirectory-setup --check-deprecated will output an ldif file on the console that you can use with ldapmodify to clean you ldap server from old attributes and objectClass
 
+```shell
 fusiondirectory-setup --check-deprecated
 
 List LDAP entries using deprecated attributes or objectclasses
 There are no entries in the LDAP using obsolete attributes
 There are no entries in the LDAP using obsolete classes
-
-fusiondirectory-setup --check-deprecated will output an ldif file on the console that you can use with ldapmodify to clean you ldap server from old attributes and objectClass
+```
 
 !! Please read it carefully before applying !!
 
+## Migrate FusionDirectory from 1.0.8.4 to 1.0.8.5
 
+### Remove the deprecated plugins
 
-Migrate FusionDirectory from 1.0.8.4 to 1.0.8.5
-===============================================
+The **dashboard** plugin has been integrated to the core so it must be removed.
 
-- Remove the deprecated plugins
-
-The dashboard plugin has been integrated to the core so it must be removed.
-
+```shell
 apt-get --purge remove fusiondirectory-plugin-dashboard
+```
 
-- Upgrade FusionDirectory first
+  * Upgrade FusionDirectory first
 
 Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
 
+```shell
 apt-get install fusiondirectory
+```
 
-- Upgrade FusionDirectory schema package too.
+  * Upgrade FusionDirectory schema package too.
 
+```shell
 apt-get install fusiondirectory-schema
+```
 
-Upgrade of LDAP directory
-=========================
+### Upgrade of your LDAP directory
 
-- You may have to update your LDAP schemas, first update the FusionDirectory core schemas. 
+You may have to update your LDAP schemas, first update the FusionDirectory core schemas. 
 
 !!! Only update this one if you don't have the dashboard.schema installed, because now that dashboard is merged to core, its attribute are in core. !!!
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd.schema 
+```
 
-- If you are using the debconf plugin update his schema
+  * If you are using the debconf plugin update his schema
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/debconf.schema 
+```
 
-- If you are using the fai plugin update his schema
+  * If you are using the fai plugin update his schema
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/fai.schema 
+```
 
-If you are using the mail plugin update his schema
+  * If you are using the mail plugin update his schema
 
-- fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/mail-fd.schema 
+```shell
+fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/mail-fd.schema 
+```
 
-Check for deprecated attributes and objectClasses in your LDAP
-==============================================================
+### Check for deprecated attributes and objectClasses in your LDAP
 
-FusionDirectory 1.0.8.1 comes with two new options in fusiondirectory-setup
+fusiondirectory-setup --list-deprecated show deprecated attributes and objectClasses for FusionDirectory
 
+```shell
 fusiondirectory-setup --list-deprecated
 
 List deprecated attributes and objectclasses
@@ -279,60 +285,67 @@ Deprecated attributes:
 Deprecated objectClasses:
  gosaAdministrativeUnitTag      (Marker for objects below administrational units (v2.6.1))      - 1.3.6.1.4.1.10098.1.2.1.19.16
  gosaAdministrativeUnit         (Marker for administrational units (v2.6.1))                    - 1.3.6.1.4.1.10098.1.2.1.19.15
+```
 
-fusiondirectory-setup --list-deprecated show deprecated attributes and objectClasses for FusionDirectory
+fusiondirectory-setup --check-deprecated will output an ldif file on the console that you can use with ldapmodify to clean you ldap server from old attributes and objectClass
 
+```shell
 fusiondirectory-setup --check-deprecated
 
 List LDAP entries using deprecated attributes or objectclasses
 There are no entries in the LDAP using obsolete attributes
 There are no entries in the LDAP using obsolete classes
-
-fusiondirectory-setup --check-deprecated will output an ldif file on the console that you can use with ldapmodify to clean you ldap server from old attributes and objectClass
+```
 
 !! Please read it carefully before applying !!
 
-Migrate FusionDirectory from 1.0.8.5 to 1.0.8.6
-===============================================
+## Migrate FusionDirectory from 1.0.8.5 to 1.0.8.6
 
-- Upgrade FusionDirectory first
-
-Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
-
-apt-get install fusiondirectory
-
-- Upgrade FusionDirectory schema package too.
-
-apt-get install fusiondirectory-schema
-
-
-Migrate FusionDirectory from 1.0.8.6 to 1.0.8.7
-===============================================
-
-- Upgrade FusionDirectory first
+  * Upgrade FusionDirectory first
 
 Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
 
+```shell
 apt-get install fusiondirectory
+```
 
-- Upgrade FusionDirectory schema package too.
+  * Upgrade FusionDirectory schema package too.
 
+```shell
 apt-get install fusiondirectory-schema
+```
 
-Upgrade of LDAP directory
-=========================
+## Migrate FusionDirectory from 1.0.8.6 to 1.0.8.7
 
-- You may have to update your LDAP schemas, first update the FusionDirectory core schemas.
+  * Upgrade FusionDirectory first
+
+Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
+
+```shell
+apt-get install fusiondirectory
+```
+
+  * Upgrade FusionDirectory schema package too.
+
+```shell
+apt-get install fusiondirectory-schema
+```
+
+### Upgrade of your LDAP directory
+
+  * You may have to update your LDAP schemas, first update the FusionDirectory core schemas.
  
 !! You need to remove the dashboard.schema if installed, because now that dashboard is merged to core, its attribute are in core. !!
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd-conf.schema 
+```
 
-Check for deprecated attributes and objectClasses in your LDAP
-==============================================================
+### Check for deprecated attributes and objectClasses in your LDAP
 
-FusionDirectory 1.0.8.1 comes with two new options in fusiondirectory-setup
+fusiondirectory-setup --list-deprecated show deprecated attributes and objectClasses for FusionDirectory
 
+```shell
 fusiondirectory-setup --list-deprecated
 
 List deprecated attributes and objectclasses
@@ -343,43 +356,45 @@ Deprecated attributes:
 Deprecated objectClasses:
  gosaAdministrativeUnitTag      (Marker for objects below administrational units (v2.6.1))      - 1.3.6.1.4.1.10098.1.2.1.19.16
  gosaAdministrativeUnit         (Marker for administrational units (v2.6.1))                    - 1.3.6.1.4.1.10098.1.2.1.19.15
-
-fusiondirectory-setup --list-deprecated show deprecated attributes and objectClasses for FusionDirectory
-
-fusiondirectory-setup --check-deprecated
-
-List LDAP entries using deprecated attributes or objectclasses
-There are no entries in the LDAP using obsolete attributes
-There are no entries in the LDAP using obsolete classes
+```
 
 fusiondirectory-setup --check-deprecated will output an ldif file on the console that you can use with ldapmodify to clean you ldap server from old attributes and objectClass
 
+```shell
+fusiondirectory-setup --check-deprecated
+
+List LDAP entries using deprecated attributes or objectclasses
+There are no entries in the LDAP using obsolete attributes
+There are no entries in the LDAP using obsolete classes
+```
+
 !! Please read it carefully before applying !!
 
+## Migrate FusionDirectory from 1.0.8.7 to 1.0.8.8
 
-Migrate FusionDirectory from 1.0.8.7 to 1.0.8.8
-===============================================
-
-- Upgrade FusionDirectory first
+  * Upgrade FusionDirectory first
 
 Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
 
+```shell
 apt-get install fusiondirectory
+```
 
-- Upgrade FusionDirectory schema package too.
+  * Upgrade FusionDirectory schema package too.
 
+```shell
 apt-get install fusiondirectory-schema
+```
 
-Upgrade of LDAP directory
-=========================
+### Upgrade of LDAP directory
 
-- Nothing to do
+  * Nothing to do
 
-Check for deprecated attributes and objectClasses in your LDAP
-==============================================================
+### Check for deprecated attributes and objectClasses in your LDAP
 
-FusionDirectory 1.0.8.1 comes with two new options in fusiondirectory-setup
+fusiondirectory-setup --list-deprecated show deprecated attributes and objectClasses for FusionDirectory
 
+```shell
 fusiondirectory-setup --list-deprecated
 
 List deprecated attributes and objectclasses
@@ -390,48 +405,49 @@ Deprecated attributes:
 Deprecated objectClasses:
  gosaAdministrativeUnitTag      (Marker for objects below administrational units (v2.6.1))      - 1.3.6.1.4.1.10098.1.2.1.19.16
  gosaAdministrativeUnit         (Marker for administrational units (v2.6.1))                    - 1.3.6.1.4.1.10098.1.2.1.19.15
+```
 
-fusiondirectory-setup --list-deprecated show deprecated attributes and objectClasses for FusionDirectory
+fusiondirectory-setup --check-deprecated will output an ldif file on the console that you can use with ldapmodify to clean you ldap server from old attributes and objectClass
 
+```shell
 fusiondirectory-setup --check-deprecated
 
 List LDAP entries using deprecated attributes or objectclasses
 There are no entries in the LDAP using obsolete attributes
 There are no entries in the LDAP using obsolete classes
-
-fusiondirectory-setup –check-deprecated will output a list of dns using old attributes and objectClasses
-
-fusiondirectory-setup –ldif-deprecated will output an ldif file on the console that you can use with ldapmodify to clean you ldap server from old attributes and objectClasses 
+```
 
 !! Please read it carefully before applying !!
 
+## Migrate FusionDirectory from 1.0.8.8 to 1.0.8.9
 
-Migrate FusionDirectory from 1.0.8.8 to 1.0.8.9
-===============================================
+  * Upgrade FusionDirectory first
 
-- Upgrade FusionDirectory first
+Upgrade FusionDirectory core package before other ones to avoid dependencies errors
 
-Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
-
+```shell
 apt-get install fusiondirectory
+```
 
-- Upgrade FusionDirectory schema package too.
+  * Upgrade FusionDirectory schema package too.
 
+```shell
 apt-get install fusiondirectory-schema
+```
 
-Upgrade of LDAP directory
-=========================
+### Upgrade of LDAP directory
 
-- Upgrade the argonaut.schema if you use the argonaut plugin
+  * Upgrade the argonaut.schema if you use the argonaut plugin
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/argonaut-fd.schema 
+```
 
+### Check for deprecated attributes and objectClasses in your LDAP
 
-Check for deprecated attributes and objectClasses in your LDAP
-==============================================================
+fusiondirectory-setup --list-deprecated show deprecated attributes and objectClasses for FusionDirectory
 
-FusionDirectory 1.0.8.1 comes with two new options in fusiondirectory-setup
-
+```shell
 fusiondirectory-setup --list-deprecated
 
 List deprecated attributes and objectclasses
@@ -442,43 +458,37 @@ Deprecated attributes:
 Deprecated objectClasses:
  gosaAdministrativeUnitTag      (Marker for objects below administrational units (v2.6.1))      - 1.3.6.1.4.1.10098.1.2.1.19.16
  gosaAdministrativeUnit         (Marker for administrational units (v2.6.1))                    - 1.3.6.1.4.1.10098.1.2.1.19.15
+```
 
-fusiondirectory-setup --list-deprecated show deprecated attributes and objectClasses for FusionDirectory
+fusiondirectory-setup --check-deprecated will output an ldif file on the console that you can use with ldapmodify to clean you ldap server from old attributes and objectClass
 
+```shell
 fusiondirectory-setup --check-deprecated
 
 List LDAP entries using deprecated attributes or objectclasses
 There are no entries in the LDAP using obsolete attributes
 There are no entries in the LDAP using obsolete classes
-
-fusiondirectory-setup –check-deprecated will output a list of dns using old attributes and objectClasses
-
-fusiondirectory-setup –ldif-deprecated will output an ldif file on the console that you can use with ldapmodify to clean you ldap server from old attributes and objectClasses 
+```
 
 !! Please read it carefully before applying !!
 
+## Migrate FusionDirectory from 1.0.8.9 to 1.0.9
 
-
-
-Migrate FusionDirectory from 1.0.8.9 to 1.0.9
-=============================================
-
-Backup you template First
-=========================
+### Backup you template First
 
 The template system has been completely rewritten, and the old template will not be converted, so you need to backup them, remove them from FusionDirectory and then redo them.
 
 The new system is much cleaner because template are stored in they own branch now and are the basis for having template for the whole application in the future.
 
-Backup your phones
-==================
+### Backup your phones
 
 You must backup all your phones in a LDIF and remove them.
+
 Modify your LDIF like below:
 
-Before
-======
+  * Before
 
+```ldif
 cn=namePhone,ou=phones,ou=systems,dc=labo,dc=opensides,dc=be
 cn: namePhone
 goFonType: friend
@@ -487,10 +497,11 @@ goFonDefaultIP: dynamic
 ipHostNumber: 127.0.0.1
 macAddress: 00:0C:7F:31:33:F1
 objectClass: top
+```
 
-After
-=====
+  * After
 
+```ldif
 cn=namePhone,ou=phones,ou=systems
 cn: namePhone
 ipHostNumber: 127.0.0.1
@@ -499,11 +510,11 @@ objectClass: fdPhone
 objectClass: device
 objectClass: ieee802Device
 objectClass: ipHost
+```
 
 After the migration you may insert your phone again in your LDAP.
 
-Moved Attributes
-================
+### Moved Attributes
 
 We cleaned the core of FusionDirectory to only used classical attributes and objectClass, so the FusionDirectory special attributes on the first page of FusionDirectory
 are now managed by the personal plugin.
@@ -511,32 +522,36 @@ are now managed by the personal plugin.
 The personal plugin has been made to manage all kind of personal data and is best suited to contain those data not normalized.
 So of you use personalTitle, dateOfBirth, gender you will need to install the personal plugin.
 
-- Upgrade FusionDirectory first
+  * Upgrade FusionDirectory first
 
-Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
+Upgrade FusionDirectory core package before other ones to avoid dependencies errors
 
+```shell
 apt-get install fusiondirectory
+```
 
-- Upgrade FusionDirectory schema package too.
+  * Upgrade FusionDirectory schema package too.
 
+```shell
 apt-get install fusiondirectory-schema
+```
 
-Removed obsolete plugins
-========================
+### Removed obsolete plugins
 
 In this version we removed obsolete plugin, because they where based on software no longer existing
 or needed an sql backend and we decided they need to be rewritten using the now ldap backend of those softwares :
 
-asterisk : old plugin not maintainable anymore based on the sql backend, but now asterisk has an ldap backend has well.
+  * asterisk : old plugin not maintainable anymore based on the sql backend, but now asterisk has an ldap backend has well.
 
-fax : old code based on the gofax software from gonicus, not maintained anymore upstream.
+  * fax : old code based on the gofax software from gonicus, not maintained anymore upstream.
 
-openstack-compute : openstack management interface changed and this plugin is no longer relevant
+  * openstack-compute : openstack management interface changed and this plugin is no longer relevant
 
-uw-imap : long gone imap server, nobody that whe know still use it
+  * uw-imap : long gone imap server, nobody that whe know still use it
 
 They are no longer supported and should be removed from your installation
 
+```shell
 apt-get remove fusiondirectory-plugin-asterisk 
 
 apt-get remove fusiondirectory-plugin-fax
@@ -544,9 +559,9 @@ apt-get remove fusiondirectory-plugin-fax
 apt-get remove fusiondirectory-plugin-openstack-compute
 
 apt-get remove fusiondirectory-plugin-uwimap
+```
 
-New Plugin for peoples using a mix of groupOfNames and posixGroup on the same object
-====================================================================================
+### New Plugin for peoples using a mix of groupOfNames and posixGroup on the same object
 
 We cleaned the code of FusionDirectory and by default it make posixGroup or clean standard compliant groupOfNames.
 If you need a mix of groupOfNames and posixGroup on the same object you will need to install a new plugin called mixedgroups. 
@@ -555,48 +570,64 @@ If you need a mix of groupOfNames and posixGroup on the same object you will nee
 
 If you need to have a link between user and groups you are better using the standard compliant groupOfNames or roles for examples for web applications.
 
+```shell
 apt-get install fusiondirectory-plugin-mixedgroups 
+```
 
-Upgrade of LDAP directory
-=========================
+### Upgrade of your LDAP directory
 
-- Upgrade Core FusionDirectory Schema
+  * Upgrade Core FusionDirectory Schema
 
 The password recovery schema has been migrated into the core schema so you must remove it first
 
+```shell
 fusiondirectory-insert-schema -e recovery-fd
 Are you sure you want to empty schema(s) recovery-fd? [Yes/No]?
+```
 
-- Upgrade the core-fd.schema and core-fd-conf.schema
+  * Upgrade the core-fd.schema and core-fd-conf.schema
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd.schema 
 
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd-conf.schema 
+```
 
-- Upgrade the argonaut.schema if you use the argonaut plugin
+  * Upgrade the argonaut.schema if you use the argonaut plugin
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/argonaut-fd.schema 
+```
 
-- Upgrade the fai-fd-conf.schema if you use the fai plugin
+  * Upgrade the fai-fd-conf.schema if you use the fai plugin
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/fai-fd-conf.schema
+```
 
-- Upgrade the mail-fd.schema if you use the mail plugin
+  * Upgrade the mail-fd.schema if you use the mail plugin
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/mail-fd.schema 
+```
 
-- Upgrade the personal-fd.schema if you use the personal plugin
+  * Upgrade the personal-fd.schema if you use the personal plugin
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/personal-fd.schema  
+```
 
-- Upgrade the proxy-fd.schema if you use the squid plugin
+  * Upgrade the proxy-fd.schema if you use the squid plugin
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/proxy-fd.schema
+```
 
 - Upgrade the service-fd.schema, systems-fd.schema, systems-fd-conf.schema if you use the system plugin
 
 The Phone object has been migrated to the system plugin due to the removal of the asterisk plugin.
 
+```shell
 fusiondirectory-insert-schema -e asterisk-fd-conf
 Are you sure you want to empty schema(s) asterisk-fd-conf? [Yes/No]?
 
@@ -605,10 +636,11 @@ fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/service-fd.sch
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/systems-fd-conf.schema 
 
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/systems-fd.schema 
+```
 
-Check for deprecated attributes and objectClasses in your LDAP
-==============================================================
+### Check for deprecated attributes and objectClasses in your LDAP
 
+```shell
 fusiondirectory-setup --list-deprecated show deprecated attributes and objectClasses for FusionDirectory
 
 List deprecated attributes and objectclasses
@@ -674,17 +706,21 @@ Deprecated objectClasses:
  goCupsServer                   (CUPS server description)                                       - 1.3.6.1.4.1.10098.1.2.1.23
  gosaObject                     (GOsa - Class for GOsa settings)                                - 1.3.6.1.4.1.10098.1.2.1.19.1
  gosaCacheEntry                 (GOsa - Class for GOsa caching)                                 - 1.3.6.1.4.1.10098.1.2.1.19.3
+```
 
 fusiondirectory-setup --check-deprecated will output a list of dn using old attributes and objectClasses
 
+```shell
 fusiondirectory-setup --check-deprecated
 List LDAP entries using deprecated attributes or objectclasses
 cn=fusiondirectory,ou=configs,dc=fusiondirectory,dc=org contains an obsolete attribute
 uid=fd-admin,ou=people,dc=fusiondirectory,dc=org uses the obsolete object class gosaAccount
+```
 
 fusiondirectory-setup --ldif-deprecated will output an ldif file on the console that you can use with ldapmodify to clean you ldap server from old attributes.
 If they are old objectClasses it will warn you and you will have to remove it by hand, they have been specified at the fusiondirectory-setup --check-deprecated step.
 
+```shell
 fusiondirectory-setup --ldif-deprecated
 # Print an LDIF removing deprecated attributes
 dn:cn=fusiondirectory,ou=configs,dc=fusiondirectory,dc=org
@@ -694,42 +730,44 @@ delete:fdRfc2307bis
 delete:fdCopyPaste
 
 # WARNING: There are entries in the LDAP using obsolete classes, you need to edit them manually
+```
 
 **Please read it carefully before applying :!: :!:**
 
+## Migrate FusionDirectory from 1.0.9 to 1.0.9.1
 
-Migrate FusionDirectory from 1.0.9 to 1.0.9.1
-=============================================
+### Upgrade FusionDirectory first
 
-Upgrade FusionDirectory first
-=============================
+  * Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
 
-- Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
-
+```shell
 apt-get install fusiondirectory
+```
 
-- Upgrade FusionDirectory schema package too.
+  * Upgrade FusionDirectory schema package too.
 
+```shell
 apt-get install fusiondirectory-schema
+```
 
-Upgrade of LDAP directory
-=========================
+### Upgrade of your LDAP directory
 
-- Upgrade the core template schema
+  * Upgrade the core template schema
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/template-fd.schema 
+```
 
-Remove old schema from /etc/ldap/schema/fusiondirectory
-=======================================================
+### Remove old schema from /etc/ldap/schema/fusiondirectory
 
 The old schema are not automatically removed from /etc/ldap/schema/fusiondirectory.
 You can safely remove recovery-fd.schema and asterisk-fd.conf
 
-Check for deprecated attributes and objectClasses in your LDAP
-==============================================================
+### Check for deprecated attributes and objectClasses in your LDAP
 
 fusiondirectory-setup --list-deprecated show deprecated attributes and objectClasses for FusionDirectory
 
+```shell
 fusiondirectory-setup --list-deprecated
 List deprecated attributes and objectclasses
 Deprecated attributes:
@@ -798,15 +836,16 @@ Deprecated objectClasses:
  gosaUserTemplate               (GOsa - Class for GOsa User Templates)                          - 1.3.6.1.4.1.10098.1.2.1.19.11
  gosaAccount                    (GOsa - Class for GOsa Accounts)                                - 1.3.6.1.4.1.10098.1.2.1.19.6
  gosaObject                     (GOsa - Class for GOsa settings)                                - 1.3.6.1.4.1.10098.1.2.1.19.1
-
-
+```
 
 fusiondirectory-setup --check-deprecated will output a list of dn using old attributes and objectClasses
 
+```shell
 fusiondirectory-setup --check-deprecated
 List LDAP entries using deprecated attributes or objectclasses
 cn=fusiondirectory,ou=configs,dc=fusiondirectory,dc=org contains an obsolete attribute
 uid=fd-admin,ou=people,dc=fusiondirectory,dc=org uses the obsolete object class gosaAccount
+```
 
 fusiondirectory-setup --migrate-users can help you migrate you user to the new core classes that are used by FusionDirectory. If they are attributes moved over to the personal plugin, 
 it will automatically migrate them and you juste need to install the personal plugin
@@ -819,59 +858,69 @@ at the exception of the gosaAccount class that is migrated with fusiondirectory-
 Please read it carefully before applying !!
 
 
-Migrate FusionDirectory from 1.0.9.1 to 1.0.9.2
-===============================================
+## Migrate FusionDirectory from 1.0.9.1 to 1.0.9.2
 
-Upgrade FusionDirectory first
-=============================
+### Upgrade FusionDirectory first
 
-- Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
+  * Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
 
+```shell
 apt-get install fusiondirectory
+```
 
-- Upgrade FusionDirectory schema package too.
+  * Upgrade FusionDirectory schema package too.
 
+```shell
 apt-get install fusiondirectory-schema
+```
 
-Removed obsolete plugins
-========================
+### Removed obsolete plugins
 
 In this version we removed obsolete plugin, because they where based on software no longer existing or needed an sql backend and we decided 
 they need to be rewritten using the now ldap backend of those softwares :
 
-rsyslog : old plugin not maintainable anymore based on the sql backend, and we don't want to manage sql backend in FusionDiretory anymore
+  * rsyslog : old plugin not maintainable anymore based on the sql backend, and we don't want to manage sql backend in FusionDiretory anymore
 
-database-connector : sql abstraction code no longer needed now that rsylog plugin is removed
+  * database-connector : sql abstraction code no longer needed now that rsylog plugin is removed
 
 They are no longer supported and should be removed from your installation
 
+```shell
 apt-get remove fusiondirectory-plugin-rsyslog
 
 apt-get remove fusiondirectory-plugin-database-connector
+```
 
-==== Upgrade of LDAP directory ====
+### Upgrade of your LDAP directory
 
-- Upgrade the core template schema
+  * Upgrade the core template schema
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd.schema 
+```
 
-- if your are using the fusioninventory plugin you have to update his schema
+  * if your are using the fusioninventory plugin you have to update his schema
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/inventory-fd.schema
+```
 
-- if your are using the supann plugin you have to update his schema
+  * if your are using the supann plugin you have to update his schema
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/supann-fd.conf
+```
 
-==== Remove old schema from /etc/ldap/schema/fusiondirectory ====
+### Remove old schema from /etc/ldap/schema/fusiondirectory
 
 The old schema are not automatically removed from /etc/ldap/schema/fusiondirectory.
 You can safely remove recovery-fd.schema and asterisk-fd.conf if they still exist
 
-==== Check for deprecated attributes and objectClasses in your LDAP ====
+### Check for deprecated attributes and objectClasses in your LDAP
 
 fusiondirectory-setup --list-deprecated show deprecated attributes and objectClasses for FusionDirectory
 
+```shell
 fusiondirectory-setup --list-deprecated
 List deprecated attributes and objectclasses
 Deprecated attributes:
@@ -940,13 +989,16 @@ Deprecated objectClasses:
  gosaUserTemplate               (GOsa - Class for GOsa User Templates)                          - 1.3.6.1.4.1.10098.1.2.1.19.11
  gosaAccount                    (GOsa - Class for GOsa Accounts)                                - 1.3.6.1.4.1.10098.1.2.1.19.6
  gosaObject                     (GOsa - Class for GOsa settings)                                - 1.3.6.1.4.1.10098.1.2.1.19.1
+```
 
 fusiondirectory-setup --check-deprecated will output a list of dn using old attributes and objectClasses of they are present in your ldap server
 
+```shell
 fusiondirectory-setup --check-deprecated
 List LDAP entries using deprecated attributes or objectclasses
 There are no entries in the LDAP using obsolete attributes
 There are no entries in the LDAP using obsolete classes
+```
 
 fusiondirectory-setup --migrate-users can help you migrate you user to the new core classes that are used by FusionDirectory. 
 If they are attributes moved over to the personal plugin, it will automatically migrate them and you juste need to install the personal plugin
@@ -958,59 +1010,58 @@ step at the exception of the gosaAccount class that is migrated with **fusiondir
 
 Please read it carefully before applying :!::!:
 
+## Migrate FusionDirectory from 1.0.9.2 to 1.0.9.3
 
-Migrate FusionDirectory from 1.0.9.2 to 1.0.9.3
-===============================================
-
-Ubuntu 12.0.4 TLS users
-=======================
+### Ubuntu 12.0.4 TLS users
  
 Since 1.0.9.2 FusionDirectory need the php-cas library for CAS server support. This library can normally found in universe in the Ubuntu repositories.
 
-In case you did not find it, grab the deb from here and install it
+In case you did not find it, grab the deb from here [php cas][php-cas] and install it
 
-http://packages.ubuntu.com/trusty/all/php-cas/download
+### Upgrade FusionDirectory first
 
-and select your preferred mirror
+  * Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
 
-Upgrade FusionDirectory first
-=============================
-
-- Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
-
+```shell
 apt-get install fusiondirectory
+```
 
-- Upgrade FusionDirectory schema package too.
+  * Upgrade FusionDirectory schema package too.
 
+```shell
 apt-get install fusiondirectory-schema
+```
 
-Upgrade of LDAP directory
-=========================
+### Upgrade of your LDAP directory
 
-- Upgrade the core configuration schema
+  * Upgrade the core configuration schema
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd-conf.schema
+```
 
-- if your are using the system plugin you have to update his schema
+  * if your are using the system plugin you have to update his schema
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/service-fd.schema
+```
 
-- if your are using the repository plugin you have to update his schema
+  * if your are using the repository plugin you have to update his schema
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/repository.schema
+```
 
-Remove old schema from /etc/ldap/schema/fusiondirectory
-=======================================================
+### Remove old schema from /etc/ldap/schema/fusiondirectory
 
 The old schema are not automatically removed from /etc/ldap/schema/fusiondirectory.
 You can safely remove **recovery-fd.schema** and **asterisk-fd.conf** if they still exist
 
-Check for deprecated attributes and objectClasses in your LDAP
-==============================================================
+### Check for deprecated attributes and objectClasses in your LDAP
 
 **fusiondirectory-setup --list-deprecated** show deprecated attributes and objectClasses for FusionDirectory
 
-<code>
+```shell
 fusiondirectory-setup --list-deprecated
 List deprecated attributes and objectclasses
 Deprecated attributes:
@@ -1079,15 +1130,16 @@ Deprecated objectClasses:
  gosaUserTemplate               (GOsa - Class for GOsa User Templates)                          - 1.3.6.1.4.1.10098.1.2.1.19.11
  gosaAccount                    (GOsa - Class for GOsa Accounts)                                - 1.3.6.1.4.1.10098.1.2.1.19.6
  gosaObject                     (GOsa - Class for GOsa settings)                                - 1.3.6.1.4.1.10098.1.2.1.19.1
-</code>
-
+```
 
 fusiondirectory-setup --check-deprecated will output a list of dn using old attributes and objectClasses of they are present in your ldap server
 
+```shell
 fusiondirectory-setup --check-deprecated
 List LDAP entries using deprecated attributes or objectclasses
 There are no entries in the LDAP using obsolete attributes
 There are no entries in the LDAP using obsolete classes
+```
 
 fusiondirectory-setup --migrate-users can help you migrate you user to the new core classes that are used by FusionDirectory. 
 If they are attributes moved over to the personal plugin, it will automatically migrate them and you juste need to install the personal plugin
@@ -1099,71 +1151,76 @@ step at the exception of the gosaAccount class that is migrated with **fusiondir
 
 Please read it carefully before applying !!
 
+## Migrate FusionDirectory from 1.0.9.3 to 1.0.10
 
-Migrate FusionDirectory from 1.0.9.3 to 1.0.10
-==============================================
+### Ubuntu 12.0.4 TLS users
+ 
+Since 1.0.9.2 FusionDirectory need the php-cas library for CAS server support. This library can normally found in universe in the Ubuntu repositories.
 
-Ubuntu 12.0.4 TLS users
-=======================
+In case you did not find it, grab the deb from here [php cas][php-cas] and install it
 
-Since 1.0.9.2 FusionDirectory need the php-cas library for CAS server support. This library can normally found in universe in the Ubuntu repositories 
+### Upgrade FusionDirectory first
 
-In case you did not find it, grab the deb from here and install it
+  * Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
 
-http://packages.ubuntu.com/trusty/all/php-cas/download
-
-and select your preferred mirror
-
-Upgrade FusionDirectory first
-=============================
-
-Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
-
+```shell
 apt-get install fusiondirectory
+```
 
-Upgrade FusionDirectory schema package too.
+  * Upgrade FusionDirectory schema package too.
 
+```shell
 apt-get install fusiondirectory-schema
+```
 
-Upgrade of LDAP directory
-=========================
+### Upgrade of your LDAP directory
 
-- Upgrade the core configuration schema
+  * Upgrade the core configuration schema
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd.schema
 
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd-conf.schema
+```
 
-- if your are using the personal plugin you have to update his schema
+  * if your are using the personal plugin you have to update his schema
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/personal-fd.schema
+```
 
 - if your are using the system plugin you have to update his schema
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/systems-fd.schema
 
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/systems-fd-conf.schema 
 
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/service-fd.schema
+```
 
 - if your are using the dns plugin you have to update his schema
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/dns-fd-conf.schema 
+```
 
 and install a new schema
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/dns-fd.schema 
+```
 
-Remove old schema from /etc/ldap/schema/fusiondirectory
-=======================================================
+### Remove old schema from /etc/ldap/schema/fusiondirectory
 
 The old schema are not automatically removed from /etc/ldap/schema/fusiondirectory.
-You can safely remove recovery-fd.schema and asterisk-fd-conf.schema if they still exist
+You can safely remove **recovery-fd.schema** and **asterisk-fd-conf.schema** if they still exist
 
-Check for deprecated attributes and objectClasses in your LDAP
+### Check for deprecated attributes and objectClasses in your LDAP
 
 fusiondirectory-setup --list-deprecated show deprecated attributes and objectClasses for FusionDirectory
 
+```shell
 fusiondirectory-setup --list-deprecated
 List deprecated attributes and objectclasses
 Deprecated attributes:
@@ -1251,13 +1308,16 @@ Deprecated objectClasses:
  goLogDBServer                  (Log DB server description)                                     - 1.3.6.1.4.1.10098.1.2.1.28
  goSyslogServer                 (Syslog server description)                                     - 1.3.6.1.4.1.10098.1.2.1.21
  goNtpServer                    (Time server description)                                       - 1.3.6.1.4.1.10098.1.2.1.20
+```
 
 fusiondirectory-setup --check-deprecated will output a list of dn using old attributes and objectClasses of they are present in your ldap server
 
+```shell
 fusiondirectory-setup --check-deprecated
 List LDAP entries using deprecated attributes or objectclasses
 There are no entries in the LDAP using obsolete attributes
 There are no entries in the LDAP using obsolete classes
+```
 
 fusiondirectory-setup --ldif-deprecated will output an ldif file on the console that you can use with ldapmodify to clean you ldap server from old attributes.
 
@@ -1265,48 +1325,38 @@ If they are old objectClasses it will warn you and you will have to remove it by
 
 !! Please read it carefully before applying !!
 
-Migrate FusionDirectory from 1.0.10 to 1.0.11
-=============================================
+## Migrate FusionDirectory from 1.0.10 to 1.0.11
 
-Ubuntu 12.0.4 TLS users
-=======================
+### Ubuntu 12.0.4 TLS users
+ 
+Since 1.0.9.2 FusionDirectory need the php-cas library for CAS server support. This library can normally found in universe in the Ubuntu repositories.
 
-Since 1.0.9.2 FusionDirectory need the php-cas library for CAS server support. This library can normally found in universe in the Ubuntu repositories 
+In case you did not find it, grab the deb from here [php cas][php-cas] and install it
 
-In case you did not find it, grab the deb from here and install it
+### Upgrade FusionDirectory first
 
-http://packages.ubuntu.com/trusty/all/php-cas/download
+  * Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
 
-and select your preferred mirror
-
-Upgrade FusionDirectory first
-=============================
-
-Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
-
+```shell
 apt-get install fusiondirectory
+```
 
-Upgrade FusionDirectory schema package too.
+  * Upgrade FusionDirectory schema package too.
 
+```shell
 apt-get install fusiondirectory-schema
+```
 
 
-Migrate FusionDirectory from 1.0.11 to 1.0.12
-=============================================
+### Migrate FusionDirectory from 1.0.11 to 1.0.12
 
-Ubuntu 12.0.4 TLS users
-=======================
+### Ubuntu 12.0.4 TLS users
+ 
+Since 1.0.9.2 FusionDirectory need the php-cas library for CAS server support. This library can normally found in universe in the Ubuntu repositories.
 
-Since 1.0.9.2 FusionDirectory need the php-cas library for CAS server support. This library can normally found in universe in the Ubuntu repositories 
+In case you did not find it, grab the deb from here [php cas][php-cas] and install it
 
-In case you did not find it, grab the deb from here and install it
-
-http://packages.ubuntu.com/trusty/all/php-cas/download
-
-and select your preferred mirror
-
-Mail
-====
+### Mail plugin
 
 In this version the mail plugin has been cleaned and his dependency to the systems has been removed. 
 In the mean time the postfix and spamassassin service have been moved in their own plugins. The antivirus service have been removed.
@@ -1314,63 +1364,70 @@ In the mean time the postfix and spamassassin service have been moved in their o
 The old spamassasin settings from the mail / user tab have been rewritten and moved to a spamassasin, they now support the real LDAP backend of spamassasin. 
 So you will need to move your data to the new format before using them.
 
-Upgrade FusionDirectory first
-=============================
+### Upgrade FusionDirectory first
 
-Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
+  * Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
 
+```shell
 apt-get install fusiondirectory
+```
 
-Upgrade FusionDirectory schema package too.
+  * Upgrade FusionDirectory schema package too.
 
+```shell
 apt-get install fusiondirectory-schema
+```
 
-Upgrade of LDAP directory
-=========================
+### Upgrade of your LDAP directory
 
-- if your are using the mail plugin you have to update its schema
+  * if your are using the mail plugin you have to update its schema
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/mail-fd.schema
 
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/mail-fd-conf.schema
+```
 
-- if your are using the system plugin you have to update its schemas
+  * if your are using the system plugin you have to update its schemas
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/service-fd.schema
+```
 
-Postfix plugin
-==============
+### Postfix plugin
 
-- if you where using the postfix service in 1.0.11, you need to install the postfix plugin and insert the postfix schema
+  * if you where using the postfix service in 1.0.11, you need to install the postfix plugin and insert the postfix schema
 
+```shell
 apt-get install fusiondirectory-plugin-postfix
 
 apt-get install fusiondirectory-plugin-postfix-schema
 
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/postfix-fd.schema
+```
 
-Spamassasin plugin
-==================
+### Spamassasin plugin
 
-- if you where using the spamassin service in 1.0.11, you need to install the spamassassin plugin and insert the spamassasin schema
+  * if you where using the spamassin service in 1.0.11, you need to install the spamassassin plugin and insert the spamassasin schema
 
+```shell
 apt-get install fusiondirectory-plugin-spamassassin
 
 apt-get install fusiondirectory-plugin-spamassassin-schema
 
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/spamassassin-fd.schema
+```
 
-
-Remove old schema from /etc/ldap/schema/fusiondirectory
-=======================================================
+### Remove old schema from /etc/ldap/schema/fusiondirectory
 
 The old schema are not automatically removed from /etc/ldap/schema/fusiondirectory.
-You can safely remove recovery-fd.schema and asterisk-fd-conf.schema if they still exist
+You can safely remove **recovery-fd.schema** and **asterisk-fd-conf.schema** if they still exist
 
-Check for deprecated attributes and objectClasses in your LDAP
+### Check for deprecated attributes and objectClasses in your LDAP
 
 fusiondirectory-setup --list-deprecated show deprecated attributes and objectClasses for FusionDirectory
 
+```shell
 fusiondirectory-setup --list-deprecated
 List deprecated attributes and objectclasses
 Deprecated attributes:
@@ -1458,13 +1515,16 @@ Deprecated objectClasses:
  goLogDBServer                  (Log DB server description)                                     - 1.3.6.1.4.1.10098.1.2.1.28
  goSyslogServer                 (Syslog server description)                                     - 1.3.6.1.4.1.10098.1.2.1.21
  goNtpServer                    (Time server description)                                       - 1.3.6.1.4.1.10098.1.2.1.20
+```
 
 fusiondirectory-setup --check-deprecated will output a list of dn using old attributes and objectClasses of they are present in your ldap server
 
+```shell
 fusiondirectory-setup --check-deprecated
 List LDAP entries using deprecated attributes or objectclasses
 There are no entries in the LDAP using obsolete attributes
 There are no entries in the LDAP using obsolete classes
+```
 
 fusiondirectory-setup --ldif-deprecated will output an ldif file on the console that you can use with ldapmodify to clean you ldap server from old attributes.
 
@@ -1472,49 +1532,46 @@ If they are old objectClasses it will warn you and you will have to remove it by
 
 !! Please read it carefully before applying !!
 
+### Migrate FusionDirectory from 1.0.12 to 1.0.13
 
-Migrate FusionDirectory from 1.0.12 to 1.0.13
-=============================================
+### Ubuntu 12.0.4 TLS users
+ 
+Since 1.0.9.2 FusionDirectory need the php-cas library for CAS server support. This library can normally found in universe in the Ubuntu repositories.
 
-Ubuntu 12.0.4 TLS users
-=======================
+In case you did not find it, grab the deb from here [php cas][php-cas] and install it
 
-Since 1.0.9.2 FusionDirectory need the php-cas library for CAS server support. This library can normally found in universe in the Ubuntu repositories 
+### Upgrade FusionDirectory first
 
-In case you did not find it, grab the deb from here and install it
+  * Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
 
-http://packages.ubuntu.com/trusty/all/php-cas/download
-
-and select your preferred mirror
-
-Upgrade FusionDirectory first
-=============================
-
-Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
-
+```shell
 apt-get install fusiondirectory
+```
 
-Upgrade FusionDirectory schema package too.
+  * Upgrade FusionDirectory schema package too.
 
+```shell
 apt-get install fusiondirectory-schema
+```
 
-Upgrade of LDAP directory
-=========================
+### Upgrade of your LDAP directory
 
-- if your are using the alias plugin you have to update its schema
+  * if your are using the alias plugin you have to update its schema
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/alias-fd.schema
+```
 
-Remove old schema from /etc/ldap/schema/fusiondirectory
-=======================================================
+### Remove old schema from /etc/ldap/schema/fusiondirectory
 
 The old schema are not automatically removed from /etc/ldap/schema/fusiondirectory.
-You can safely remove recovery-fd.schema and asterisk-fd-conf.schema if they still exist
+You can safely remove **recovery-fd.schema** and **asterisk-fd-conf.schema** if they still exist
 
-Check for deprecated attributes and objectClasses in your LDAP
+### Check for deprecated attributes and objectClasses in your LDAP
 
 fusiondirectory-setup --list-deprecated show deprecated attributes and objectClasses for FusionDirectory
 
+```shell
 fusiondirectory-setup --list-deprecated
 List deprecated attributes and objectclasses
 Deprecated attributes:
@@ -1602,13 +1659,16 @@ Deprecated objectClasses:
  goLogDBServer                  (Log DB server description)                                     - 1.3.6.1.4.1.10098.1.2.1.28
  goSyslogServer                 (Syslog server description)                                     - 1.3.6.1.4.1.10098.1.2.1.21
  goNtpServer                    (Time server description)                                       - 1.3.6.1.4.1.10098.1.2.1.20
+```
 
 fusiondirectory-setup --check-deprecated will output a list of dn using old attributes and objectClasses of they are present in your ldap server
 
+```
 fusiondirectory-setup --check-deprecated
 List LDAP entries using deprecated attributes or objectclasses
 There are no entries in the LDAP using obsolete attributes
 There are no entries in the LDAP using obsolete classes
+```
 
 fusiondirectory-setup --ldif-deprecated will output an ldif file on the console that you can use with ldapmodify to clean you ldap server from old attributes.
 
@@ -1617,53 +1677,48 @@ If they are old objectClasses it will warn you and you will have to remove it by
 !! Please read it carefully before applying !!
 
 
+## Migrate FusionDirectory from 1.0.13 to 1.0.14
 
-Migrate FusionDirectory from 1.0.13 to 1.0.14
-=============================================
+### Ubuntu 12.0.4 TLS users
+ 
+Since 1.0.9.2 FusionDirectory need the php-cas library for CAS server support. This library can normally found in universe in the Ubuntu repositories.
 
-Ubuntu 12.0.4 TLS users
-=======================
+In case you did not find it, grab the deb from here [php cas][php-cas] and install it
 
-Since 1.0.9.2 FusionDirectory need the php-cas library for CAS server support. This library can normally found in universe in the Ubuntu repositories 
+### Upgrade FusionDirectory first
 
-In case you did not find it, grab the deb from here and install it
+  * Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
 
-http://packages.ubuntu.com/trusty/all/php-cas/download
-
-and select your preferred mirror
-
-Upgrade FusionDirectory first
-=============================
-
-Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
-
+```shell
 apt-get install fusiondirectory
+```
 
-Upgrade FusionDirectory schema package too.
+  * Upgrade FusionDirectory schema package too.
 
+```shell
 apt-get install fusiondirectory-schema
+```
 
-Upgrade of LDAP directory
-=========================
+### Upgrade of your LDAP directory
 
-- if your are using the community plugin you have to update its schema 
+  * if your are using the community plugin you have to update its schema 
 
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/community-fd.schema
 
-- if your are using the systems plugin you have to update its schema
+  * if your are using the systems plugin you have to update its schema
 
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/systems-fd.schema
 
-Remove old schema from /etc/ldap/schema/fusiondirectory
-=======================================================
+### Remove old schema from /etc/ldap/schema/fusiondirectory
 
 The old schema are not automatically removed from /etc/ldap/schema/fusiondirectory.
-You can safely remove recovery-fd.schema and asterisk-fd-conf.schema if they still exist
+You can safely remove **recovery-fd.schema** and **asterisk-fd-conf.schema** if they still exist
 
-Check for deprecated attributes and objectClasses in your LDAP
+### Check for deprecated attributes and objectClasses in your LDAP
 
 fusiondirectory-setup --list-deprecated show deprecated attributes and objectClasses for FusionDirectory
 
+```shell
 fusiondirectory-setup --list-deprecated
 List deprecated attributes and objectclasses
 Deprecated attributes:
@@ -1751,13 +1806,16 @@ Deprecated objectClasses:
  goLogDBServer                  (Log DB server description)                                     - 1.3.6.1.4.1.10098.1.2.1.28
  goSyslogServer                 (Syslog server description)                                     - 1.3.6.1.4.1.10098.1.2.1.21
  goNtpServer                    (Time server description)                                       - 1.3.6.1.4.1.10098.1.2.1.20
+```
 
 fusiondirectory-setup --check-deprecated will output a list of dn using old attributes and objectClasses of they are present in your ldap server
 
+```shell
 fusiondirectory-setup --check-deprecated
 List LDAP entries using deprecated attributes or objectclasses
 There are no entries in the LDAP using obsolete attributes
 There are no entries in the LDAP using obsolete classes
+```
 
 fusiondirectory-setup --ldif-deprecated will output an ldif file on the console that you can use with ldapmodify to clean you ldap server from old attributes.
 
@@ -1765,75 +1823,75 @@ If they are old objectClasses it will warn you and you will have to remove it by
 
 !! Please read it carefully before applying !!
 
-New Breezy Theme
-================
+### New Breezy Theme
 
 In this version by default there is a new more modern theme called breezy. To active it completely go to the configuration plugin, click edit and in the "Look and feel" section select breezy
 
-Enjoy :)
 
+## Migrate FusionDirectory from 1.0.14 to 1.0.15
 
-Migrate FusionDirectory from 1.0.14 to 1.0.15
-=============================================
+### Ubuntu 12.0.4 TLS users
+ 
+Since 1.0.9.2 FusionDirectory need the php-cas library for CAS server support. This library can normally found in universe in the Ubuntu repositories.
 
-Ubuntu 12.0.4 TLS users
-=======================
+In case you did not find it, grab the deb from here [php cas][php-cas] and install it
 
-Since 1.0.9.2 FusionDirectory need the php-cas library for CAS server support. This library can normally found in universe in the Ubuntu repositories 
+### Upgrade FusionDirectory first
 
-In case you did not find it, grab the deb from here and install it
+  * Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
 
-http://packages.ubuntu.com/trusty/all/php-cas/download
-
-and select your preferred mirror
-
-Upgrade FusionDirectory first
-=============================
-
-- Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
-
+```shell
 apt-get install fusiondirectory
+```
 
-- Upgrade FusionDirectory schema package too.
+  * Upgrade FusionDirectory schema package too.
 
+```shell
 apt-get install fusiondirectory-schema
+```
 
-Plugin deprecated
-=================
+### Removed plugin
 
 The apache2 plugin as been removed in this version
 
+```shell
 apt-get remove fusiondirectory-plugin-apache2
 
 apt-get remove fusiondirectory-plugin-apache2-schema
+```
 
-Upgrade of LDAP directory
-=========================
+### Upgrade of your LDAP directory
 
-- Upgrade the core template schema 
+  * Upgrade the core template schema 
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd-conf.schema
 
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd.schema
+```
 
-- if your are using the systems plugin you have to update its schema
+  * if your are using the systems plugin you have to update its schema
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/systems-fd.schema
+```
 
-- if your are using the personal plugin you have to update its schema
+  * if your are using the personal plugin you have to update its schema
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/personal-fd.schema
+```
 
-Remove old schema from /etc/ldap/schema/fusiondirectory
-=======================================================
+### Remove old schema from /etc/ldap/schema/fusiondirectory
 
 The old schema are not automatically removed from /etc/ldap/schema/fusiondirectory.
-You can safely remove recovery-fd.schema and asterisk-fd-conf.schema if they still exist
+You can safely remove **recovery-fd.schema** and **asterisk-fd-conf.schema** if they still exist
 
-Check for deprecated attributes and objectClasses in your LDAP
+### Check for deprecated attributes and objectClasses in your LDAP
 
 fusiondirectory-setup --list-deprecated show deprecated attributes and objectClasses for FusionDirectory
 
+```shell
 fusiondirectory-setup --list-deprecated
 List deprecated attributes and objectclasses
 Deprecated attributes:
@@ -1935,17 +1993,22 @@ Deprecated objectClasses:
  goFonServer                   	(Fon server description)                                    	- 1.3.6.1.4.1.10098.1.2.1.29
  gosaUserTemplate              	(GOsa - Class for GOsa User Templates)                      	- 1.3.6.1.4.1.10098.1.2.1.19.11
  goVirusServer                 	(Virus server definition)                                   	- 1.3.6.1.4.1.10098.1.2.1.39
+```
 
 fusiondirectory-setup --check-deprecated will output a list of dn using old attributes and objectClasses of they are present in your ldap server
 
+```shell
 fusiondirectory-setup --check-deprecated
 List LDAP entries using deprecated attributes or objectclasses
 There are no entries in the LDAP using obsolete attributes
 There are no entries in the LDAP using obsolete classes
+```
 
 If you see the obsolete object class gotoPrinter you must run the next command and answer yes
 
+```shell
 fusiondirectory-setup --migrate-printers
+```
 
 fusiondirectory-setup --ldif-deprecated will output an ldif file on the console that you can use with ldapmodify to clean you ldap server from old attributes.
 
@@ -1953,57 +2016,52 @@ If they are old objectClasses it will warn you and you will have to remove it by
 
 !! Please read it carefully before applying !!
 
-==== Hook ====
+### Hook
 
 You must modify your hook so that they don't use quotes. The attributes are now automatically quotes and escape.
 
-==== New Breezy Theme ====
+### New Breezy Theme
 
 In this version by default there is a new more modern theme called breezy. To active it completely go to the configuration plugin, click edit and in the "Look and feel" section select breezy
 
 
-Migrate FusionDirectory from 1.0.15 to 1.0.16
-=============================================
+## Migrate FusionDirectory from 1.0.15 to 1.0.16
 
-Ubuntu 12.0.4 TLS users
-=======================
+### Ubuntu 12.0.4 TLS users
+ 
+Since 1.0.9.2 FusionDirectory need the php-cas library for CAS server support. This library can normally found in universe in the Ubuntu repositories.
 
-Since 1.0.9.2 FusionDirectory need the php-cas library for CAS server support. This library can normally found in universe in the Ubuntu repositories 
+In case you did not find it, grab the deb from here [php cas][php-cas] and install it
 
-In case you did not find it, grab the deb from here and install it
+### Upgrade FusionDirectory first
 
-http://packages.ubuntu.com/trusty/all/php-cas/download
+  * Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
 
-and select your preferred mirror
-
-
-Upgrade FusionDirectory first
-=============================
-
-- Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
-
+```shell
 apt-get install fusiondirectory
+```
 
-- Upgrade FusionDirectory schema package too.
+  * Upgrade FusionDirectory schema package too.
 
+```shell
 apt-get install fusiondirectory-schema
+```
 
+### Upgrade of your LDAP directory
 
-Upgrade of LDAP directory
-=========================
+  * Upgrade the core template schema
 
-- Upgrade the core template schema
-
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd-conf.schema
 
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd.schema
+```
 
-
-Check for deprecated attributes and objectClasses in your LDAP
-==============================================================
+### Check for deprecated attributes and objectClasses in your LDAP
 
 The --list-deprecated option of fusiondirectory-setup show deprecated attributes and objectClasses for FusionDirectory
 
+```shell
 fusiondirectory-setup  --list-deprecated 
 List deprecated attributes and objectclasses
 Deprecated attributes:
@@ -2108,20 +2166,25 @@ Deprecated objectClasses:
  goNfsServer                    (NFS server description)                                        - 1.3.6.1.4.1.10098.1.2.1.19
  goFonServer                    (Fon server description)                                        - 1.3.6.1.4.1.10098.1.2.1.29
  goLogDBServer                  (Log DB server description)                                     - 1.3.6.1.4.1.10098.1.2.1.28
+```
 
 The --check-deprecated option will output a list of dn using old attributes and objectClasses of they are present in your ldap server
 
+```shell
 fusiondirectory-setup --check-deprecated
 List LDAP entries using deprecated attributes or objectclasses
 There are no entries in the LDAP using obsolete attributes
 There are no entries in the LDAP using obsolete classes
+```
 
 The lock attribute and objectClass has been Change so you need to run fusiondirectory-setup --delete-gosa-locks to remove them
 
+```shell
 fusiondirectory-setup --delete-gosa-locks
 Delete lock tokens using old gosaLockEntry class
 Deleted lock 'cn=df0c0960f4202f794a331f07f3fbcccd,ou=locks,ou=fusiondirectory,dc=org'
 Deleted lock 'cn=157dc41f15328c6ae3f1a2542c0dd481,ou=locks,ou=fusiondirectory,dc=org'
+```
 
 The --ldif-deprecated option will output an ldif file on the console that you can use with ldapmodify to clean you ldap server from old attributes.
 
@@ -2132,58 +2195,55 @@ If they are old objectClasses it will warn you and you will have to remove them 
 !! Please read it carefully before applying !!
 
 
-Migrate FusionDirectory from 1.0.16 to 1.0.17
-=============================================
+## Migrate FusionDirectory from 1.0.16 to 1.0.17
 
-Ubuntu 12.0.4 TLS users
-=======================
+### Ubuntu 12.0.4 TLS users
+ 
+Since 1.0.9.2 FusionDirectory need the php-cas library for CAS server support. This library can normally found in universe in the Ubuntu repositories.
 
-Since 1.0.9.2 FusionDirectory need the php-cas library for CAS server support. This library can normally found in universe in the Ubuntu repositories 
+In case you did not find it, grab the deb from here [php cas][php-cas] and install it
 
-In case you did not find it, grab the deb from here and install it
+### Upgrade FusionDirectory first
 
-http://packages.ubuntu.com/trusty/all/php-cas/download
+  * Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
 
-and select your preferred mirror
-
-Upgrade FusionDirectory first
-=============================
-
-- Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
-
+```shell
 apt-get install fusiondirectory
+```
 
-- Upgrade FusionDirectory schema package too.
+  * Upgrade FusionDirectory schema package too.
 
+```shell
 apt-get install fusiondirectory-schema
+```
 
+## Upgrade of your LDAP directory
 
-Upgrade of LDAP directory
-=========================
-
-- Upgrade schemas
+  * Upgrade schemas
 
 if your are using the fai plugin you have to update its schema
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/fai.schema
+```
 
 if your are using the dhcp plugin you have to install a new schema
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/dhcp-fd-conf.schema
+```
 
-
-Remove old ldif from /etc/ldap/schema/fusiondirectory
-=====================================================
+### Remove old ldif from /etc/ldap/schema/fusiondirectory
 
 We removed a default ldif from the ppolicy plugin, you can delete it
-safely from /etc/ldap/schema/fusiondirectory/ppolicydefault.ldif
+safely from **/etc/ldap/schema/fusiondirectory/ppolicydefault.ldif**
 
 
-Check for deprecated attributes and objectClasses in your LDAP
-==============================================================
+### Check for deprecated attributes and objectClasses in your LDAP
 
 The --list-deprecated option of fusiondirectory-setup show deprecated attributes and objectClasses for FusionDirectory
 
+```shell
 fusiondirectory-setup  --list-deprecated 
 List deprecated attributes and objectclasses
 Deprecated attributes:
@@ -2288,13 +2348,16 @@ Deprecated objectClasses:
  goNfsServer                    (NFS server description)                                        - 1.3.6.1.4.1.10098.1.2.1.19
  goFonServer                    (Fon server description)                                        - 1.3.6.1.4.1.10098.1.2.1.29
  goLogDBServer                  (Log DB server description)                                     - 1.3.6.1.4.1.10098.1.2.1.28
+```
 
 The --check-deprecated option will output a list of dn using old attributes and objectClasses of they are present in your ldap server
 
+```shell
 fusiondirectory-setup --check-deprecated
 List LDAP entries using deprecated attributes or objectclasses
 There are no entries in the LDAP using obsolete attributes
 There are no entries in the LDAP using obsolete classes
+```
 
 The --ldif-deprecated option will output an ldif file on the console that you can use with ldapmodify to clean you ldap server from old attributes.
 
@@ -2304,66 +2367,61 @@ If they are old objectClasses it will warn you and you will have to remove them 
 
 !! Please read it carefully before applying !!
 
-
-Migrate your DHCP entries
-=========================
+### Migrate your DHCP entries
 
 if you where using the DHCP plugin in 1.0.16, you need to migrate your entries to the dhcp branch, run the **fusiondirectory-setup --migrate-dhcp** for this
 
 fusiondirectory-setup --migrate-dhcp
 
 
-Checking your indexed attributes
-================================
+### Checking your indexed attributes
 
 Check that all you index still match with valid attributes present in your ldap directory 
 
 
-Migrate FusionDirectory from 1.0.17 to 1.0.18
-=============================================
+## Migrate FusionDirectory from 1.0.17 to 1.0.18
 
-Ubuntu 12.0.4 TLS users
-=======================
+### Ubuntu 12.0.4 TLS users
+ 
+Since 1.0.9.2 FusionDirectory need the php-cas library for CAS server support. This library can normally found in universe in the Ubuntu repositories.
 
-Since 1.0.9.2 FusionDirectory need the php-cas library for CAS server support. This library can normally found in universe in the Ubuntu repositories 
+In case you did not find it, grab the deb from here [php cas][php-cas] and install it
 
-In case you did not find it, grab the deb from here and install it
+### Upgrade FusionDirectory first
 
-http://packages.ubuntu.com/trusty/all/php-cas/download
+  * Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
 
-and select your preferred mirror
-
-Upgrade FusionDirectory first
-=============================
-
-- Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
-
+```shell
 apt-get install fusiondirectory
+```
 
-- Upgrade FusionDirectory schema package too.
+  * Upgrade FusionDirectory schema package too.
 
+```shell
 apt-get install fusiondirectory-schema
+```
 
+### Upgrade of your LDAP directory
 
-Upgrade of LDAP directory
-=========================
+  * Upgrade the core schemas
 
-- Upgrade the core schemas
-
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd-conf.schema
+```
 
-- if your are using the systems plugin you have to update its schema
+  * if your are using the systems plugin you have to update its schema
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/service-fd.schema
 
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/system-fd.schema
+```
 
-
-Check for deprecated attributes and objectClasses in your LDAP
-==============================================================
+### Check for deprecated attributes and objectClasses in your LDAP
 
 The --list-deprecated option of fusiondirectory-setup show deprecated attributes and objectClasses for FusionDirectory
 
+```shell
 fusiondirectory-setup  --list-deprecated 
 List deprecated attributes and objectclasses
 Deprecated attributes:
@@ -2468,13 +2526,16 @@ Deprecated objectClasses:
  goNfsServer                    (NFS server description)                                        - 1.3.6.1.4.1.10098.1.2.1.19
  goFonServer                    (Fon server description)                                        - 1.3.6.1.4.1.10098.1.2.1.29
  goLogDBServer                  (Log DB server description)                                     - 1.3.6.1.4.1.10098.1.2.1.28
+```
 
 The --check-deprecated option will output a list of dn using old attributes and objectClasses of they are present in your ldap server
 
+```shell
 fusiondirectory-setup --check-deprecated
 List LDAP entries using deprecated attributes or objectclasses
 There are no entries in the LDAP using obsolete attributes
 There are no entries in the LDAP using obsolete classes
+```
 
 The --ldif-deprecated option will output an ldif file on the console that you can use with ldapmodify to clean you ldap server from old attributes.
 
@@ -2484,8 +2545,7 @@ If they are old objectClasses it will warn you and you will have to remove them 
 
 !! Please read it carefully before applying !!
 
-Correcting acl editownpwd
-=========================
+### Correcting acl editownpwd
 
 !!!! to fix the error in the installed editownpwd, you need to go !!!!
 
@@ -2493,95 +2553,82 @@ Correcting acl editownpwd
   * Open the editownpwd acl
   * Save it 
 
-Its very important you do it, to know why look at https://forge.fusiondirectory.org/issues/5276
+Its very important you do it, to know why look at https://gitlab.fusiondirectory.org//issues/5276
 
-Checking your indexed attributes
-================================
+### Checking your indexed attributes
 
 Check that all you index still match with valid attributes present in your ldap directory 
 
-Migrate FusionDirectory from 1.0.18 to 1.0.19
-=============================================
+## Migrate FusionDirectory from 1.0.18 to 1.0.19
 
-Ubuntu 12.0.4 TLS users
-=======================
+### Ubuntu 12.0.4 TLS users
+ 
+Since 1.0.9.2 FusionDirectory need the php-cas library for CAS server support. This library can normally found in universe in the Ubuntu repositories.
 
-Since 1.0.9.2 FusionDirectory need the php-cas library for CAS server support. This library can normally found in universe in the Ubuntu repositories 
+In case you did not find it, grab the deb from here [php cas][php-cas] and install it
 
-In case you did not find it, grab the deb from here and install it
+### Upgrade FusionDirectory first
 
-http://packages.ubuntu.com/trusty/all/php-cas/download
+  * Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
 
-and select your preferred mirror
-
-Upgrade FusionDirectory first
-=============================
-
-- Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
-
+```shell
 apt-get install fusiondirectory
+```
 
-- Upgrade FusionDirectory schema package too.
+  * Upgrade FusionDirectory schema package too.
 
+```shell
 apt-get install fusiondirectory-schema
+```
 
-Upgrade of LDAP directory
-=========================
+### Upgrade of your LDAP directory
 
 No upgrade
 
-Upgrade of LDAP directory
-=========================
 
-No Upgrade
+## Migrate FusionDirectory from 1.0.19 to 1.0.20
 
-Enjoy :)
+### Ubuntu 12.0.4 TLS users
+ 
+Since 1.0.9.2 FusionDirectory need the php-cas library for CAS server support. This library can normally found in universe in the Ubuntu repositories.
 
-Migrate FusionDirectory from 1.0.19 to 1.0.20
-=============================================
+In case you did not find it, grab the deb from here [php cas][php-cas] and install it
 
-Ubuntu 12.0.4 TLS users
-=======================
+### Upgrade FusionDirectory first
 
-Since 1.0.9.2 FusionDirectory need the php-cas library for CAS server support. This library can normally found in universe in the Ubuntu repositories 
+  * Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
 
-In case you did not find it, grab the deb from here and install it
-
-http://packages.ubuntu.com/trusty/all/php-cas/download
-
-and select your preferred mirror
-
-Upgrade FusionDirectory first
-=============================
-
-- Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
-
+```shell
 apt-get install fusiondirectory
+```
 
-- Upgrade FusionDirectory schema package too.
+  * Upgrade FusionDirectory schema package too.
 
+```shell
 apt-get install fusiondirectory-schema
+```
 
+### Upgrade of your LDAP directory
 
-Upgrade of LDAP directory
-=========================
+  * Upgrade the core schemas
 
-- Upgrade the core schemas
-
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd-conf.schema
 
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/template-fd.schema
+```
 
-- if your are using the argonaut plugin you have to update its schema
+  * if your are using the argonaut plugin you have to update its schema
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/argonaut-fd.schema
+```
 
-
-Check for deprecated attributes and objectClasses in your LDAP
-==============================================================
+### Check for deprecated attributes and objectClasses in your LDAP
 
 The --list-deprecated option of fusiondirectory-setup show deprecated attributes and objectClasses for FusionDirectory
 
+```shell
 fusiondirectory-setup  --list-deprecated 
 List deprecated attributes and objectclasses
 Deprecated attributes:
@@ -2686,13 +2733,16 @@ Deprecated objectClasses:
  goNfsServer                    (NFS server description)                                        - 1.3.6.1.4.1.10098.1.2.1.19
  goFonServer                    (Fon server description)                                        - 1.3.6.1.4.1.10098.1.2.1.29
  goLogDBServer                  (Log DB server description)                                     - 1.3.6.1.4.1.10098.1.2.1.28
+```
 
 The --check-deprecated option will output a list of dn using old attributes and objectClasses of they are present in your ldap server
 
+```shell
 fusiondirectory-setup --check-deprecated
 List LDAP entries using deprecated attributes or objectclasses
 There are no entries in the LDAP using obsolete attributes
 There are no entries in the LDAP using obsolete classes
+```
 
 The --ldif-deprecated option will output an ldif file on the console that you can use with ldapmodify to clean you ldap server from old attributes.
 
@@ -2702,8 +2752,7 @@ If they are old objectClasses it will warn you and you will have to remove them 
 
 !! Please read it carefully before applying !!
 
-Correcting acl editownpwd
-=========================
+### Correcting acl editownpwd
 
 !!!! to fix the error in the installed editownpwd, you need to go !!!!
 
@@ -2711,109 +2760,125 @@ Correcting acl editownpwd
   * Open the editownpwd acl
   * Save it 
 
-Its very important you do it, to know why look at https://forge.fusiondirectory.org/issues/5276
+Its very important you do it, to know why look at https://gitlab.fusiondirectory.org//issues/5276
 
-Checking your indexed attributes
-================================
+### Checking your indexed attributes
 
 Check that all you index still match with valid attributes present in your ldap directory 
 
-Migrate FusionDirectory from 1.0.20 to 1.1
-==========================================
 
-Ubuntu 12.0.4 TLS users
-=======================
+## Migrate FusionDirectory from 1.0.20 to 1.1
+
+### Ubuntu 12.0.4 TLS users
  
-FusionDirectory needs the php-cas library for CAS server support. This library can normally be found in universe in the Ubuntu repositories.
+Since 1.0.9.2 FusionDirectory need the php-cas library for CAS server support. This library can normally found in universe in the Ubuntu repositories.
 
-In case you did not find it, grab the deb from there and install it:
+In case you did not find it, grab the deb from here [php cas][php-cas] and install it
 
-http://packages.ubuntu.com/trusty/all/php-cas/download
+### Removed plugins
 
-and select your favorite mirror
+  * If you used kolab2 plugin you need to remove the plugin and its schema with the following command
 
-Removed plugins
-===============
-
-- If you used kolab2 plugin you need to remove the plugin and its schema with the following command
-
+```shell
 apt-get remove fusiondirectory-plugin-kolab2
 apt-get remove fusiondirectory-plugin-kolab2-schema
+```
 
-
-==== Upgrade schema2ldif ====
+### Upgrade schema2ldif
 
 For Jessie distribution add extra repository
 
+```shell
 # fusiondirectory debian-extra repository
 deb http://repos.fusiondirectory.org/debian-extra jessie main
+```
 
-- Update the package list and upgrade schema2ldif
+  * Update the package list and upgrade schema2ldif
 
+```shell
 apt-get update
 apt-get install schema2ldif
+```
 
-==== Upgrade FusionDirectory first ====
+### Upgrade FusionDirectory first
 
-- Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
+  * Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
 
+```shell
 apt-get install fusiondirectory
+```
 
-- Upgrade FusionDirectory schema package too.
+  * Upgrade FusionDirectory schema package too.
 
+```shell
 apt-get install fusiondirectory-schema
+```
+### Upgrade of LDAP directory
 
-==== Upgrade of LDAP directory ====
+  * Upgrade the core schemas 
 
-- Upgrade the core schemas 
-
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd-conf.schema
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd.schema
+```
 
-==== Upgrade of LDAP directory ====
+  * if you are using the argonaut plugin you have to update its schema
 
-- if you are using the argonaut plugin you have to update its schema
-
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/argonaut-fd.schema
+```
 
-- if you are using the dhcp plugin you have to update its schema
+  * if you are using the dhcp plugin you have to update its schema
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/dhcp-fd.schema
+```
 
-- if you are using the fai plugin you have to update its schema
+  * if you are using the fai plugin you have to update its schema
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/fai.schema
+```
 
-- if you are using the mail plugin you have to update its schema
+  * if you are using the mail plugin you have to update its schema
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/mail-fd.schema
+```
 
-- if you are using the systems plugin you have to update its schema
+* if you are using the systems plugin you have to update its schema
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/service-fd.schema
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/systems-fd-conf.schema
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/systems-fd.schema
+```
 
-Migrate old objects
-===================
+### Migrate old objects
 
-- If you have systems use this command to migrate them
+  * If you have systems use this command to migrate them
 
+```shell
 fusiondirectory-setup --migrate-systems
+```
 
-- If you have phones use this command to migrate them
+  * If you have phones use this command to migrate them
 
+```shell
 fusiondirectory-setup --migrate-phones
+```
 
-- If you have winstations use this command to migrate them
+  * If you have winstations use this command to migrate them
 
+```shell
 fusiondirectory-setup --migrate-winstations
+```
 
-Check for deprecated attributes and objectClasses in your LDAP
-==============================================================
+### Check for deprecated attributes and objectClasses in your LDAP
 
 The list-deprecated option of fusiondirectory-setup show deprecated attributes and objectClasses for FusionDirectory
 
+```shell
 fusiondirectory-setup  --list-deprecated                                            
 List deprecated attributes and objectclasses
 Deprecated attributes:
@@ -2852,13 +2917,16 @@ Deprecated objectClasses:
  gotoPrinter                   	(GOto - Gonicus Terminal Concept, objectclass)              	- 1.3.6.1.4.1.10098.1.2.1.31
  gotoTerminal                  	(GOto - Gonicus Terminal Concept, objectclass)              	- 1.3.6.1.4.1.10098.1.2.1.1
  gotoWorkstationTemplate       	(GOto - Gonicus Terminal Concept, objectclass)              	- 1.3.6.1.4.1.10098.1.2.1.34
+```
 
 The check-deprecated option will output a list of dn using old attributes and objectClasses of they are present in your ldap server
 
+```shell
 fusiondirectory-setup --check-deprecated
 List LDAP entries using deprecated attributes or objectclasses
 There are no entries in the LDAP using obsolete attributes
 There are no entries in the LDAP using obsolete classes
+```
 
 The ldif-deprecated option will output an ldif file on the console that you can use with ldapmodify to clean you ldap server from old attributes.
 
@@ -2868,105 +2936,108 @@ If they are old objectClasses it will warn you and you will have to remove them 
 
 Please read it carefully before applying :!::!:
 
-
-==== Checking your indexed attributes ====
+### Checking your indexed attributes
 
 Check that all you index still match with valid attributes present in your ldap directory 
 
-==== New format for repository service  ====
+### New format for repository service
 
-If you have a repository service.
+  * If you have a repository service.
+
 Open and save it back so it will use the new format
 
+## Migrate FusionDirectory from 1.1 to 1.1.1
 
-Migrate FusionDirectory from 1.1 to 1.1.1
-=========================================
+### New Depot Configuration
 
-New Depot Configuration
-=======================
+! The repositories have been cleaned and reorganized please update your configuration accordingly [repository organisation][repo-urls] !
 
-! The repositories have been cleaned and reorganized please update your configuration accordingly !
-
-https://documentation.fusiondirectory.org/en/dl_install
-
-Upgrade schema2ldif
-===================
+### Upgrade schema2ldif
 
 For Jessie distribution add extra repository
 
+```shell
 # fusiondirectory debian-extra repository
 deb http://repos.fusiondirectory.org/debian-extra jessie main
+```
 
-- Update the package list and upgrade schema2ldif
+* Update the package list and upgrade schema2ldif
 
+```shell
 apt-get update
 apt-get install schema2ldif
+```
 
-Upgrade FusionDirectory first
-=============================
+### Upgrade FusionDirectory first
 
-- Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
+  * Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
 
+```shell
 apt-get install fusiondirectory
+```
 
-- Upgrade FusionDirectory schema package too.
+  * Upgrade FusionDirectory schema package too.
 
+```shell
 apt-get install fusiondirectory-schema
+```
 
+## Migrate FusionDirectory from 1.1.1 to 1.2
 
-Migrate FusionDirectory from 1.1.1 to 1.2
-===========================================
-
-==== Upgrade schema2ldif ====
+### Upgrade schema2ldif
 
 For Jessie distribution add extra repository
 
+```shell
 # fusiondirectory debian-extra repository
 deb http://repos.fusiondirectory.org/debian-extra jessie main
+```
 
-- Update the package list and upgrade schema2ldif
+* Update the package list and upgrade schema2ldif
 
+```shell
 apt-get update
 apt-get install schema2ldif
+```
 
-==== Upgrade FusionDirectory first ====
+### Upgrade FusionDirectory first
 
-- Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
+  * Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
 
+```shell
 apt-get install fusiondirectory
+```
 
-- Upgrade FusionDirectory schema package too.
+  * Upgrade FusionDirectory schema package too.
 
+```shell
 apt-get install fusiondirectory-schema
+```
 
-==== Upgrade of LDAP directory ====
+### Upgrade of your LDAP directory
 
-- Upgrade core schema of FusionDirectory
+  * Upgrade core schema of FusionDirectory
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd.schema
+```
 
-- if you are using the renater plugin you have to add its new schema
+  * if you are using the renater plugin you have to add its new schema
 
+```shell
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/renater-partage-fd.schema
+```
 
-- if you are using the sympa plugin you have to update its schema
+  * if you are using the sympa plugin you have to update its schema
 
+```shell
 fusiondirectory-insert-schema -i /etc/ldap/schema/fusiondirectory/sympa-fd-conf.schema
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/sympa-fd.schema
+```
 
-- In case you use system template that have a DNS tab, you need to remake it because the separator "|" is changed to "^"
+* In case you use system template that have a DNS tab, you need to remake it because the separator "|" is changed to "^"
 
-Enjoy :)
+[php-cas]: http://packages.ubuntu.com/trusty/all/php-cas/download
 
----
-* Further information
+[repo-urls]: https://documentation.fusiondirectory.org/en/dl_install
 
-To improve this piece of software, please report all kind of errors using the bug tracker
-on https://forge.fusiondirectory.org
-
-Documentation: http://documentation.fusiondirectory.org/
-Mailinglist:   http://lists.fusiondirectory.org/
-Irc:           #fusiondirectory on freenode
-
----
-The FusionDirectory project <contact@fusiondirectory.org>

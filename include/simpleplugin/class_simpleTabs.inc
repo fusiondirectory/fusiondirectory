@@ -374,8 +374,14 @@ class simpleTabs
 
     $baseobject = $this->getBaseObject();
     $old_dn     = $this->dn;
-    $new_dn     = $baseobject->compute_dn();
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $new_dn, "Saving");
+    try {
+      $new_dn     = $baseobject->compute_dn();
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $new_dn, 'Saving');
+    } catch (FusionDirectoryException $e) {
+      return array(
+        sprintf(_('Failed to compute DN for object: %s'), $e->getMessage())
+      );
+    }
 
     $errors   = array();
     $creation = ($this->dn == 'new');
@@ -387,10 +393,11 @@ class simpleTabs
         /* use the new one */
         $this->dn = $new_dn;
       } else {
-        if ($baseobject->move($this->dn, $new_dn)) {
+        if (($error = $baseobject->move($this->dn, $new_dn)) === TRUE) {
           $this->dn = $new_dn;
         } else {
-          $errors[] = sprintf(_('Move from "%s" to "%s" failed'), $this->dn, $new_dn);
+          $errors[] = sprintf(_('Move from "%s" to "%s" failed: %s'), $this->dn, $new_dn, $error);
+          return $errors;
         }
       }
     }

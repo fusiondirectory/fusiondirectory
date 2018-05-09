@@ -318,6 +318,7 @@ class groupManagement extends simpleManagement
       array('id'  => 'USER',        'label'  => _('Show user groups')),
       array('id'  => 'ROLE',        'label'  => _('Show organizational roles')),
       array('id'  => 'APPLICATION', 'label'  => _('Show application groups')),
+      array('id'  => 'GROUP',       'label'  => _('Show groups of groups')),
       array('id'  => 'UNKNOWN',     'label'  => _('Show unidentified groups')),
     );
     if (class_available('posixGroup')) {

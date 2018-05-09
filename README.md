@@ -39,17 +39,40 @@ This question can be solved by creating:
 * A plugin for its management in FusionDirectory with the simple plugin api
 * An Argonaut module for the client installed on the server
 
+## Installation and upgrade of FusionDirectory
+
+The installation and upgrade information is available on [Install FusionDirectory][fusiondirectory-install]
+
+## Migration to FusionDirectory
+
+To migrate an existing LDAP tree, you've to do all steps [Install FusionDirectory][fusiondirectory-install],
+plus some modifications:
+
+* FusionDirectory only shows users that have the objectClass inetOrgPerson
+
+* FusionDirectory only recognizes subtrees (or departments in FusionDirectory's view of things) that have the objectClass gosaDepartment.
+  You can hide subtrees from FusionDirectory by not putting this objectClass inside.
+
+The FusionDirectory setup may be used to do these migrations, but it is not meant
+to work in every possible circumstance. Please be carefull when using it on
+productive system.
+
+That should be all. Entries should be visible in FusionDirectory now.
+Be aware that if your naming policy of user cn's differs from the way FusionDirectory handles it, the entries get rewritten to a FusionDirectory style dn.
+
 ## Get help
 
 There are a couple ways you can try [to get help][get help].You can also join the `#fusiondirectory` IRC channel at freenode.net.
 
-You can [register on our system][register] and enter your bug [on the forge][issues-forge] or [here at github][issues-github] even if the forge is the prefered way of dealing with bugs
+You can [register on our system][register] and enter issues [FusionDirectory][issues-core] for the core program, and 
+[FusionDirectory Plugins][issues-plugins] for plugins.
 
 ## IRC Etiquette
 
 * If we don't answer right away then just hang out in the channel.  Someone will
   eventually write back to you as it just means we are away from keyboard,
   working on something else, or in a different timezone than you.
+
 * You should treat IRC as what it is: asynchronous chat.  Sure the messages can
   be instant but in most channels people are in different time zones.  At times
   chat replies can be in excess of 24hrs.
@@ -64,12 +87,14 @@ If you like [FusionDirectory][FusionDirectory] and would like to [donate][donate
 
 [FusionDirectory]: https://www.fusiondirectory.org/
 
+[fusiondirectory-install]: http://documentation.fusiondirectory.org/en/documentation_admin
+
 [get help]: https://www.fusiondirectory.org/contact-us/
 
 [register]: https://register.fusiondirectory.org
 
-[issues-forge]: https://forge.fusiondirectory.org/projects/fd/issues/new
+[issues-core]: https://gitlab.fusiondirectory.org/fusiondirectory/fd/issues
 
-[issues-github]: https://github.com/fusiondirectory/fusiondirectory/issues
+[issues-plugins]: https://gitlab.fusiondirectory.org/fusiondirectory/fd-plugins/issues
 
 [donate-liberapay]: https://liberapay.com/fusiondirectory/donate

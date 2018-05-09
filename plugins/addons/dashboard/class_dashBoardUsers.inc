@@ -27,6 +27,7 @@ class dashboardUsers extends simplePlugin
       'plShortName'   => _('Users'),
       'plDescription' => _('Statistics about users'),
       'plObjectType'  => array('dashboard'),
+      'plPriority'    => 10,
 
       'plProvidedAcls'    => array()
     );
@@ -167,6 +168,9 @@ class dashboardUsers extends simplePlugin
       }
     }
 
+    uasort($expired_accounts, array('dashboardUsers','compareUsers'));
+    uasort($next_expired_accounts, array('dashboardUsers','compareUsers'));
+
     return array(
       'columns'             => $this->expiredAccountsColumns,
       'accounts'            => $expired_accounts,
@@ -207,6 +211,21 @@ class dashboardUsers extends simplePlugin
       'manager_phone'   => $manager_phone,
       'expirationDate'  => $human_shadowExpire,
     );
+  }
+
+  static function compareUsers ($a, $b)
+  {
+    if ($a['expirationDate'] < $b['expirationDate']) {
+      return -1;
+    } elseif ($a['expirationDate'] > $b['expirationDate']) {
+      return 1;
+    } elseif ($a['uid'] < $b['uid']) {
+      return -1;
+    } elseif ($a['uid'] > $b['uid']) {
+      return 1;
+    } else {
+      return 0;
+    }
   }
 }
 ?>

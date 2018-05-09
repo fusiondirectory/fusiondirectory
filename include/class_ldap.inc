@@ -586,7 +586,8 @@ class LDAP
       if ($this->reconnect) {
         $this->connect();
       }
-      $r = ldap_rename($this->cid, $source, $dest_rdn, $parent, FALSE);
+      /* We have to pass TRUE as deleteoldrdn in case the attribute is single-valued */
+      $r = ldap_rename($this->cid, $source, $dest_rdn, $parent, TRUE);
       $this->error = ldap_error($this->cid);
 
       /* Check if destination dn exists, if not the
@@ -650,10 +651,15 @@ class LDAP
     }
 
     $str = "";
-    if (preg_match("/^objectClass: value #([0-9]*) invalid per syntax$/", $this->get_additional_error())) {
-      $oc = preg_replace("/^objectClass: value #([0-9]*) invalid per syntax$/", "\\1", $this->get_additional_error());
-      if (isset($attrs['objectClass'][$oc])) {
-        $str .= " - <b>objectClass: ".$attrs['objectClass'][$oc]."</b>";
+    if (preg_match("/^objectClass: value #([0-9]*) invalid per syntax$/", $this->get_additional_error(), $m)) {
+      if (isset($attrs['objectClass'])) {
+        $ocs = $attrs['objectClass'];
+        if (!is_array($ocs)) {
+          $ocs = array($ocs);
+        }
+        if (isset($ocs[$m[1]])) {
+          $str .= " - <b>objectClass: ".$ocs[$m[1]]."</b>";
+        }
       }
     }
     if ($error == "Undefined attribute type") {
@@ -1041,6 +1047,9 @@ class LDAP
 
     /* First we split the string into lines */
     $fileLines = preg_split("/\n/", $str_attr);
+    if (end($fileLines) != '') {
+      $fileLines[] = '';
+    }
 
     /* Joining lines */
     $line   = NULL;
@@ -1053,37 +1062,39 @@ class LDAP
         }
         /* Append to current line */
         $line .= substr($fileLine, 1);
-      } elseif (preg_match('/^#/', $fileLine)) {
-        /* Ignore comment */
-      } elseif (preg_match('/^version:/', $fileLine) && empty($entry)) {
-        /* Ignore version number */
       } else {
         if ($line !== NULL) {
-          /* Line has ended */
-          list ($key, $value) = explode(':', $line, 2);
-          $value = trim($value);
-          if (preg_match('/^:/', $value)) {
-            $value = base64_decode(trim(substr($value, 1)));
-          }
-          if (preg_match('/^</', $value)) {
-            throw new LDIFImportException(sprintf(_('Error line %s, references to an external file are not supported'), $lineNumber));
-          }
-          if ($value === '') {
-            throw new LDIFImportException(sprintf(_('Error line %s, attribute "%s" has no value'), $lineNumber, $key));
-          }
-          if ($key == 'dn') {
-            if (!empty($entry)) {
-              throw new LDIFImportException(sprintf(_('Error line %s, an entry bloc can only have one dn'), $lineNumber));
-            }
-            $entry['dn']  = $value;
-            $entryStart   = $lineNumber;
-          } elseif (empty($entry)) {
-            throw new LDIFImportException(sprintf(_('Error line %s, an entry bloc should start with the dn'), $lineNumber));
+          if (preg_match('/^#/', $line)) {
+            /* Ignore comment */
+          } elseif (preg_match('/^version:/', $line) && empty($entry)) {
+            /* Ignore version number */
           } else {
-            if (!isset($entry[$key])) {
-              $entry[$key] = array();
+            /* Line has ended */
+            list ($key, $value) = explode(':', $line, 2);
+            $value = trim($value);
+            if (preg_match('/^:/', $value)) {
+              $value = base64_decode(trim(substr($value, 1)));
             }
-            $entry[$key][] = $value;
+            if (preg_match('/^</', $value)) {
+              throw new LDIFImportException(sprintf(_('Error line %s, references to an external file are not supported'), $lineNumber));
+            }
+            if ($value === '') {
+              throw new LDIFImportException(sprintf(_('Error line %s, attribute "%s" has no value'), $lineNumber, $key));
+            }
+            if ($key == 'dn') {
+              if (!empty($entry)) {
+                throw new LDIFImportException(sprintf(_('Error line %s, an entry bloc can only have one dn'), $lineNumber));
+              }
+              $entry['dn']  = $value;
+              $entryStart   = $lineNumber;
+            } elseif (empty($entry)) {
+              throw new LDIFImportException(sprintf(_('Error line %s, an entry bloc should start with the dn'), $lineNumber));
+            } else {
+              if (!isset($entry[$key])) {
+                $entry[$key] = array();
+              }
+              $entry[$key][] = $value;
+            }
           }
         }
         /* Start new line */
