@@ -79,6 +79,10 @@ function html_trace($errstr = "")
         case "->":
           $type = _("method");
           break;
+
+        default:
+          $type = 'unknown';
+          break;
       }
     } else {
       $type = "-";

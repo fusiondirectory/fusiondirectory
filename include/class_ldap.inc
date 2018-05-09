@@ -1031,9 +1031,9 @@ class LDAP
         $line .= substr($fileLine, 1);
       } else {
         if ($line !== NULL) {
-          if (preg_match('/^#/', $line)) {
+          if (preg_match('/^#/', $line)
+            || (preg_match('/^version:/', $line) && empty($entry))) {
             /* Ignore comment */
-          } elseif (preg_match('/^version:/', $line) && empty($entry)) {
             /* Ignore version number */
           } else {
             /* Line has ended */

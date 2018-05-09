@@ -533,9 +533,10 @@ class simplePlugin
 
     /* Is this a new object ? Or just an edited existing object */
     foreach ($config->idepartments as $dn => $name) {
-      if (!$this->initially_was_account && $this->acl_is_createable($dn)) {
-        $deps[$dn] = $name;
-      } elseif ($this->initially_was_account && $this->acl_is_moveable($dn)) {
+      if (
+          (!$this->initially_was_account && $this->acl_is_createable($dn)) ||
+          ($this->initially_was_account && $this->acl_is_moveable($dn))
+        ) {
         $deps[$dn] = $name;
       }
     }
@@ -796,11 +797,10 @@ class simplePlugin
       $attr = $this->attributesAccess[$attr];
     }
     if ($attr->getLdapName() == 'base') {
-      if (!$this->acl_skip_write() && (!$this->initially_was_account || $this->acl_is_moveable() || $this->acl_is_removeable())) {
-        return TRUE;
-      } else {
-        return FALSE;
-      }
+      return (
+        !$this->acl_skip_write() &&
+        (!$this->initially_was_account || $this->acl_is_moveable() || $this->acl_is_removeable())
+      );
     }
     return $this->acl_is_writeable($attr->getAcl(), $this->acl_skip_write());
   }
@@ -1086,27 +1086,23 @@ class simplePlugin
     if (isset($_POST[get_class($this).'_posted'])) {
       // If our form has been posted
       // A first pass that loads the post values
-      foreach ($this->attributesInfo as $section => &$sectionInfo) {
-        foreach ($sectionInfo['attrs'] as &$attr) {
+      foreach ($this->attributesInfo as $sectionInfo) {
+        foreach ($sectionInfo['attrs'] as $attr) {
           if ($this->attrIsWriteable($attr)) {
             // Each attribute know how to read its value from POST
             $attr->loadPostValue();
           }
         }
-        unset ($attrs);
       }
-      unset($sectionInfo);
       // A second one that applies them. That allow complex stuff such as attribute disabling
-      foreach ($this->attributesInfo as $section => &$sectionInfo) {
-        foreach ($sectionInfo['attrs'] as &$attr) {
+      foreach ($this->attributesInfo as $sectionInfo) {
+        foreach ($sectionInfo['attrs'] as $attr) {
           if ($this->attrIsWriteable($attr)) {
             // Each attribute know how to read its value from POST
             $attr->applyPostValue();
           }
         }
-        unset ($attrs);
       }
-      unset($sectionInfo);
     }
   }
 
@@ -1279,7 +1275,7 @@ class simplePlugin
     $this->attrs['objectClass'] = $this->mergeObjectClasses($oc);
 
     /* Fill attributes LDAP values into the attrs array */
-    foreach ($this->attributesInfo as $section => $sectionInfo) {
+    foreach ($this->attributesInfo as $sectionInfo) {
       foreach ($sectionInfo['attrs'] as $attr) {
         $attr->fillLdapValue($this->attrs);
       }
@@ -1610,10 +1606,11 @@ class simplePlugin
       $infos = pluglist::pluginInfos($tabclass);
       foreach ($infos['plForeignRefs'] as $field => $refs) {
         if (preg_match('/^handle_/', $mode)) {
-          if (($newdn !== NULL) && ($field != 'dn') && ($mode == 'handle_move')) {
+          if (
+              (($newdn !== NULL) && ($field != 'dn') && ($mode == 'handle_move')) ||
+              (($newdn === NULL) && ($olddn === NULL) && (($field == 'dn') || (!$this->attributeHaveChanged($field))))
+            ) {
             // Move action, ignore other fields than dn
-            continue;
-          } elseif (($newdn === NULL) && ($olddn === NULL) && (($field == 'dn') || (!$this->attributeHaveChanged($field)))) {
             // Edit action, ignore dn changes or attributes which did not change
             continue;
           }
