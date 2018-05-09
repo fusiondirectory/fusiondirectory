@@ -143,11 +143,11 @@ class StepMigrateCheck
   public function save_object()
   {
     if (isset($_POST[$this->name.'_create'])) {
-      $fnc = $this->fnc.'_create';
-      $this->step->$fnc($this);
+      $createFnc = $this->fnc.'_create';
+      $this->step->$createFnc($this);
     } elseif (isset($_POST[$this->name.'_migrate'])) {
-      $fnc = $this->fnc.'_migrate';
-      $this->step->$fnc($this);
+      $migrateFnc = $this->fnc.'_migrate';
+      $this->step->$migrateFnc($this);
     }
   }
 
@@ -161,8 +161,8 @@ class StepMigrateCheck
 
   public function migrate_confirm()
   {
-    $fnc = $this->fnc.'_migrate'.'_confirm';
-    $res = $this->step->$fnc($this);
+    $migrateConfirmFnc = $this->fnc.'_migrate'.'_confirm';
+    $res = $this->step->$migrateConfirmFnc($this);
     if ($res) {
       $this->run();
     }
@@ -171,8 +171,8 @@ class StepMigrateCheck
 
   public function dialog_refresh()
   {
-    $fnc = $this->fnc.'_migrate'.'_refresh';
-    return $this->step->$fnc($this);
+    $migrateRefreshFnc = $this->fnc.'_migrate'.'_refresh';
+    return $this->step->$migrateRefreshFnc($this);
   }
 }
 

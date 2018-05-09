@@ -134,17 +134,17 @@ class setupStepConfig extends configInLdap
 
   function set_active($value = TRUE)
   {
-    $this->is_active = ($value == TRUE);
+    $this->is_active = (bool) $value;
   }
 
   function set_enabled($value = TRUE)
   {
-    $this->is_enabled = ($value == TRUE);
+    $this->is_enabled = (bool) $value;
   }
 
   function set_completed($value = TRUE)
   {
-    $this->is_completed = ($value == TRUE);
+    $this->is_completed = (bool) $value;
   }
 
   /* bypass acl system as there is no user login */

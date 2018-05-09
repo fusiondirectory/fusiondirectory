@@ -761,7 +761,7 @@ class SubNodesAttribute extends OrderedArrayAttribute
   {
     /* Later we might want to be able to choose which attribute to use in the dn */
     reset($this->attribute->attributes);
-    $attribute = key($this->attribute->attributes);
-    return $attribute.'='.$this->attribute->attributes[$attribute]->computeLdapValue().','.$this->plugin->dn;
+    $firstAttribute = key($this->attribute->attributes);
+    return $firstAttribute.'='.$this->attribute->attributes[$firstAttribute]->computeLdapValue().','.$this->plugin->dn;
   }
 }

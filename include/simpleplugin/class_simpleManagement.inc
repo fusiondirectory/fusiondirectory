@@ -877,10 +877,8 @@ class simpleManagement
       // Open object
       $this->openTabObject(objects::open($this->dn, $type), $this->dn);
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "Edit entry initiated!");
-      if (isset($all['subaction'])) {
-        if ($this->handleSubAction($all) == FALSE) {
-          trigger_error('Was not able to handle subaction: '.$all['subaction']);
-        }
+      if (isset($all['subaction']) && !$this->handleSubAction($all)) {
+        trigger_error('Was not able to handle subaction: '.$all['subaction']);
       }
     }
   }

@@ -153,15 +153,15 @@ class SelectAttribute extends Attribute
     $id = $this->getHtmlId();
     $smarty->assign($id."_choices", $this->choices);
     if ($this->outputs !== NULL) {
-      $outputs = array_values($this->outputs);
+      $smartyOutputs = array_values($this->outputs);
     } else {
-      $outputs = $this->choices;
+      $smartyOutputs = $this->choices;
     }
-    $key = array_search('', $outputs, TRUE);
+    $key = array_search('', $smartyOutputs, TRUE);
     if ($key !== FALSE) {
-      $outputs[$key] = '&nbsp;';
+      $smartyOutputs[$key] = '&nbsp;';
     }
-    $smarty->assign($id."_outputs", $outputs);
+    $smarty->assign($id."_outputs", $smartyOutputs);
     $smarty->assign($id."_selected", $this->getValue());
     $display  = '<select name="'.$id.'" id="'.$id.'" ';
     if ($this->disabled || (count($this->choices) == 0)) {
@@ -189,11 +189,11 @@ class SelectAttribute extends Attribute
       parent::serializeAttribute($attributes, $form);
 
       if ($this->outputs !== NULL) {
-        $outputs = array_values($this->outputs);
+        $tmpOutputs = array_values($this->outputs);
       } else {
-        $outputs = $this->choices;
+        $tmpOutputs = $this->choices;
       }
-      $attributes[$this->getLdapName()]['choices'] = array_combine($this->choices, $outputs);
+      $attributes[$this->getLdapName()]['choices'] = array_combine($this->choices, $tmpOutputs);
     }
   }
 

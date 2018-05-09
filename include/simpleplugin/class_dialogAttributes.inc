@@ -678,10 +678,8 @@ class ButtonAttribute extends Attribute
   function loadPostValue ()
   {
     $this->postValue = FALSE;
-    if ($this->isVisible()) {
-      if (isset($_POST[$this->getHtmlId()])) {
-        $this->setPostValue(TRUE);
-      }
+    if ($this->isVisible() && isset($_POST[$this->getHtmlId()])) {
+      $this->setPostValue(TRUE);
     }
   }
 
@@ -790,12 +788,10 @@ class UserAttribute extends DialogButtonAttribute
     $id = $this->getHtmlId();
     if (!$this->disabled && $this->isVisible()) {
       foreach (array_keys($_POST) as $name) {
-        if (!$this->isRequired()) {
-          if (preg_match('/^'.$id.'_remove_/', $name)) {
-            $this->setValue('');
-            $this->buttonText = NULL;
-            return;
-          }
+        if (!$this->isRequired() && preg_match('/^'.$id.'_remove_/', $name)) {
+          $this->setValue('');
+          $this->buttonText = NULL;
+          return;
         }
         if (preg_match('/^'.$id.'_dialog_/', $name)) {
           $this->plugin->openDialog(new $this->dialogClass($this->plugin, $this));

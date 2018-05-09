@@ -43,8 +43,8 @@ class TestValidateAttribute extends StringAttribute
 
   function validate ()
   {
-    $testFunc = $this->testFunc;
-    if (!tests::$testFunc($this->value)) {
+    $func = $this->testFunc;
+    if (!tests::$func($this->value)) {
       return msgPool::invalid($this->getLabel(), $this->value);
     }
   }

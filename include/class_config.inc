@@ -35,8 +35,6 @@ class config
   var $config_found     = FALSE;
   var $tags             = array();
   var $level            = 0;
-  var $gpc              = 0;
-  var $section          = '';
   var $currentLocation  = '';
 
   /*!
@@ -107,8 +105,6 @@ class config
       $this->config_found     = FALSE;
       $this->tags             = array();
       $this->level            = 0;
-      $this->gpc              = 0;
-      $this->section          = '';
       $this->currentLocation  = '';
 
       $this->parse($this->filename);
@@ -569,17 +565,17 @@ class config
         continue;
       }
 
-      $dn   = $attrs['dn'];
-      $data = objects::infos($oc);
+      $dn     = $attrs['dn'];
+      $infos  = objects::infos($oc);
       $this->department_info[$dn] = array(
-        'img'         => $data['icon'],
+        'img'         => $infos['icon'],
         'description' => (isset($attrs['description'][0]) ? $attrs['description'][0] : ''),
-        'name'        => $attrs[$data['mainAttr']][0]
+        'name'        => $attrs[$infos['mainAttr']][0]
       );
 
       /* Only assign non-root departments */
       if ($dn != $result['/']) {
-        $c_dn = convert_department_dn($dn).' ('.$data['mainAttr'].')';
+        $c_dn = convert_department_dn($dn).' ('.$infos['mainAttr'].')';
         $result[$c_dn] = $dn;
       }
     }
@@ -882,8 +878,8 @@ class config
       if (isset($plInfo['plCategory'])) {
         /* Walk through supplied list and feed only translated categories */
         $cats = array();
-        foreach ($plInfo['plCategory'] as $idx => $data) {
-          $cat    = (is_numeric($idx) ? $data : $idx);
+        foreach ($plInfo['plCategory'] as $idx => $infos) {
+          $cat    = (is_numeric($idx) ? $infos : $idx);
           $cats[] = $cat;
           if (!isset($this->data['CATEGORIES'][$cat])) {
             $this->data['CATEGORIES'][$cat] = array( 'classes' => array('0') );
@@ -893,11 +889,11 @@ class config
           }
           if (!is_numeric($idx)) {
             /* Non numeric index means -> base object containing more informations */
-            $this->data['CATEGORIES'][$cat]['description'] = $data['description'];
-            if (!is_array($data['objectClass'])) {
-              $data['objectClass'] = array($data['objectClass']);
+            $this->data['CATEGORIES'][$cat]['description'] = $infos['description'];
+            if (!is_array($infos['objectClass'])) {
+              $infos['objectClass'] = array($infos['objectClass']);
             }
-            $this->data['CATEGORIES'][$cat]['objectClass'] = $data['objectClass'];
+            $this->data['CATEGORIES'][$cat]['objectClass'] = $infos['objectClass'];
           }
         }
         $plInfo['plCategory'] = $cats;
