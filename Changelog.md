@@ -1,6 +1,9 @@
-## %"FusionDirectory 1.2.1" - 2018-04-19
+## %"FusionDirectory 1.2.1" - 2018-05-09
 
 ### Added
+
+#### fusiondirectory-plugins
+- fd-plugins#5548 Sort entries in ppolicy dashboard
 
 #### fusiondirectory
 - fd#5342 SimplePlugin should have a way to say a tab cannot be created for some reason
@@ -8,17 +11,7 @@
 - fd#5703 Sort entries in users dashboard
 - fd#5746 Using date modifier does not work for unix password expiration
 
-#### fusiondirectory-plugins
-- fd-plugins#5548 Sort entries in ppolicy dashboard
-
 ### Changed
-
-#### fusiondirectory
-- fd#5668 Password length on login page should have no limit
-- fd#5692 Update the readme.md with correct forge information
-- fd#5732 Listing objects should check ACL on attributes
-- fd#5737 Dashboard tabs should be ordered
-- fd#5808 multibyte functions should be used to truncate strings
 
 #### fusiondirectory-plugins
 - fd-plugins#5685 supannRefId on Structure object is too small and mono valued
@@ -27,31 +20,14 @@
 - fd-plugins#5716 DNS Zone edition is too slow
 - fd-plugins#5740 Dashboard tabs are in random order
 
-### Fixed
-
 #### fusiondirectory
-- fd#5348 LDIF import should support folded comments
-- fd#5588 fusiondirectory-setup custom smarty directory forced to lowercase
-- fd#5589 SASL missing from Password default hash field in setup wizard
-- fd#5701 Management filter is broken when mainAttr is FALSE
-- fd#5696 If tab objectClass contains top, tab gets activated by default
-- fd#5700 Non-existing classes in pluglist::$info
-- fd#5705 Correct contributing remove part about using the templates link
-- fd#5707 core-fd.schema still has gosa in description of attributes
-- fd#5711 ACL list have a PHP error when there are ACL on objects
-- fd#5712 Error text is wrong is some cases
-- fd#5724 Error before login on Centos 7
-- fd#5726 Log to fd behind an lemonldap::ng portal show debug log instead of main page
-- fd#5736 Display Attribute should not be interpreted by smarty
-- fd#5741 Foreign keys are broken on ogroups dynamic tabs
-- fd#5749 Webservice errors
-- fd#5758 Error when renaming a object with single-value main attribute
-- fd#5757 In case of LDAP errors during a deletion, a PHP error is triggered
-- fd#5759 Unclear "Invalid objectType" errors
-- fd#5795 Activating audit for action 'security' causes error at login
-- fd#5796 gosaGroupObjects field is incorrect after a member is being moved
-- fd#5800 Unclear LDAP errors when DN creation fails
-- fd#5807 Attributes should refuse invalid values
+- fd#5668 Password length on login page should have no limit
+- fd#5692 Update the readme.md with correct forge information
+- fd#5732 Listing objects should check ACL on attributes
+- fd#5737 Dashboard tabs should be ordered
+- fd#5808 multibyte functions should be used to truncate strings
+
+### Fixed
 
 #### fusiondirectory-plugins
 - fd-plugins#4036 Webservice does not display ACL errors in some cases
@@ -77,6 +53,31 @@
 - fd-plugins#5798 API returns no error when asking for non existing tab using method getfields()
 - fd-plugins#5799 Calling getfields for 'supannAccount' triggers JSON encoding error
 - fd-plugins#5813 When we try to put an Google+  id in the personal plugin we get a crash
+- fd-plugins#5815 Audit plugin crashes when the author dn is not found in the LDAP
+
+#### fusiondirectory
+- fd#5348 LDIF import should support folded comments
+- fd#5588 fusiondirectory-setup custom smarty directory forced to lowercase
+- fd#5589 SASL missing from Password default hash field in setup wizard
+- fd#5701 Management filter is broken when mainAttr is FALSE
+- fd#5696 If tab objectClass contains top, tab gets activated by default
+- fd#5700 Non-existing classes in pluglist::$info
+- fd#5705 Correct contributing remove part about using the templates link
+- fd#5707 core-fd.schema still has gosa in description of attributes
+- fd#5711 ACL list have a PHP error when there are ACL on objects
+- fd#5712 Error text is wrong is some cases
+- fd#5724 Error before login on Centos 7
+- fd#5726 Log to fd behind an lemonldap::ng portal show debug log instead of main page
+- fd#5736 Display Attribute should not be interpreted by smarty
+- fd#5741 Foreign keys are broken on ogroups dynamic tabs
+- fd#5749 Webservice errors
+- fd#5758 Error when renaming a object with single-value main attribute
+- fd#5757 In case of LDAP errors during a deletion, a PHP error is triggered
+- fd#5759 Unclear "Invalid objectType" errors
+- fd#5795 Activating audit for action 'security' causes error at login
+- fd#5796 gosaGroupObjects field is incorrect after a member is being moved
+- fd#5800 Unclear LDAP errors when DN creation fails
+- fd#5807 Attributes should refuse invalid values
 
 ### Security
 
