@@ -556,26 +556,10 @@ class management
       return '';
     }
 
-    // TODO move to smarty template
-    // In case an of locked entry, we may have opened a read-only tab.
-    $str = '';
-    if ($this->tabObject->readOnly()) {
-      $str .= '<p class="plugbottom">'."\n".
-        '<input type="submit" name="edit_cancel" value="'.msgPool::cancelButton().'">'."\n".
-        '</p>';
-    } else {
-      // Display ok, (apply) and cancel buttons
-      $str .= '<p class="plugbottom">'."\n";
-      $str .= '<input type="submit" name="edit_finish" value="'.msgPool::okButton().'"/>'."\n";
-      $str .= "&nbsp;\n";
-      if ($this->currentDn != 'new') {
-        $str .= '<input type="submit" name="edit_apply" value="'.msgPool::applyButton().'"/>'."\n";
-        $str .= "&nbsp;\n";
-      }
-      $str .= '<input type="submit" name="edit_cancel" value="'.msgPool::cancelButton().'"/>'."\n";
-      $str .= '</p>';
-    }
-    return $str;
+    $smarty = get_smarty();
+    $smarty->assign('readOnly', $this->tabObject->readOnly());
+    $smarty->assign('showApply', ($this->currentDn != 'new'));
+    return $smarty->fetch(get_template_path('tabfooter.tpl'));
   }
 
   function handleTemplateApply ($cancel = FALSE)
