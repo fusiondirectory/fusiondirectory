@@ -374,9 +374,10 @@ class GenericDialogAttribute extends DialogAttribute
 
   function addValue ($dn, $attrs)
   {
-    if ($this->isTemplate() && ($attrs === NULL)) {
-      $value = $dn;
-    } elseif ($this->store_attr == 'dn') {
+    if (
+        ($this->isTemplate() && ($attrs === NULL)) ||
+        ($this->store_attr == 'dn')
+      ) {
       $value = $dn;
     } else {
       $value = $attrs[$this->store_attr][0];

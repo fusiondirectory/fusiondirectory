@@ -1574,6 +1574,8 @@ function to_byte($value)
       case 'k':
         $mult = 1024;
         break;
+      default:
+        return $value;
     }
 
     return $mult * (int)substr($value, 0, -1);

@@ -246,9 +246,10 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
   function foreignKeyCheck($oldvalue, $source)
   {
     foreach ($this->value as $value) {
-      if (($source['CLASS'] == 'aclRole') && ($value['role'] == $oldvalue)) {
-        return TRUE;
-      } elseif (in_array($source['CLASS'], array('user','posixGroup','roleGeneric')) && in_array($oldvalue, $value['members'])) {
+      if (
+          (($source['CLASS'] == 'aclRole') && ($value['role'] == $oldvalue)) ||
+          (in_array($source['CLASS'], array('user','posixGroup','roleGeneric')) && in_array($oldvalue, $value['members']))
+        ) {
         return TRUE;
       } elseif (!in_array($source['CLASS'], array('aclRole','user','posixGroup','roleGeneric'))) {
         trigger_error('unknown source '.$source['CLASS']);

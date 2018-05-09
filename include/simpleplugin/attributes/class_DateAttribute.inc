@@ -44,9 +44,10 @@ class DateAttribute extends Attribute
 
   function inputValue ($value)
   {
-    if ($value === "" && !$this->isRequired()) {
-      return $value;
-    } elseif ($this->isTemplate() && preg_match('/%/', $value)) {
+    if (
+        (($value === '') && !$this->isRequired()) ||
+        ($this->isTemplate() && preg_match('/%/', $value))
+      ) {
       return $value;
     } else {
       return $this->ldapToDate($value);
