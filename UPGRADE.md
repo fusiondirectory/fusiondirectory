@@ -3037,6 +3037,7 @@ fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/sympa-fd.schem
 
 * In case you use system template that have a DNS tab, you need to remake it because the separator "|" is changed to "^"
 
-[php-cas]http://packages.ubuntu.com/trusty/all/php-cas/download
-[repo-urls] https://documentation.fusiondirectory.org/en/dl_install
+[php-cas]: http://packages.ubuntu.com/trusty/all/php-cas/download
+
+[repo-urls]: https://documentation.fusiondirectory.org/en/dl_install
 
