@@ -66,6 +66,12 @@ class SelectAttribute extends Attribute
         array_unshift($outputs, _('None'));
       }
     }
+    if ($this->isTemplate() && !in_array('%askme%', $choices)) {
+      $choices[] = '%askme%';
+      if (is_array($outputs)) {
+        $outputs[] = '%askme%';
+      }
+    }
     $this->choices = $choices;
     if (!in_array($this->defaultValue, $this->choices, TRUE) && isset($this->choices[0])) {
       $this->defaultValue = $this->choices[0];
@@ -201,6 +207,15 @@ class SelectAttribute extends Attribute
   function setSize($size)
   {
     $this->size = $size;
+  }
+
+  function setParent (&$plugin)
+  {
+    parent::setParent($plugin);
+    if ($this->isTemplate() && !in_array('%askme%', $this->choices)) {
+      $this->choices[]          = '%askme%';
+      $this->outputs['%askme%'] = '%askme%';
+    }
   }
 }
 
