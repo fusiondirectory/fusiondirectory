@@ -124,24 +124,26 @@ sonar_preview:
 
 # fusiondirectory-update-locale
 fusiondirectory-update-locale:
+  image: php:cli-stretch
   stage: transifex
   only:
     - branches
   before_script:
     - apt-get update -qq
-    - apt-get install -y -qq gettext git php-cli
+    - apt-get install -y -qq gettext git
   script:
     - git clone https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
     - ../dev-tools/locale-scripts/fusiondirectory-update-locale -g
 
 # Update transifex
 update-transifex:
+  image: php:cli-stretch
   stage: transifex
   only:
     - /^1.*$/
   before_script:
     - apt-get update -qq
-    - apt-get install -y -qq gettext git php-cli transifex-client
+    - apt-get install -y -qq gettext git transifex-client
   script:
     - git clone https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
     - echo $'[https://www.transifex.com]\nhostname = https://www.transifex.com\nusername = '"$TRANSIFEX_USER"$'\npassword = '"$TRANSIFEX_PASSWORD"$'\ntoken = '"$TRANSIFEX_API_TOKEN"$'\n' > ~/.transifexrc
