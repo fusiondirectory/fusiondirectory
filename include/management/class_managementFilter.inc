@@ -68,6 +68,11 @@ class managementFilter
     );
   }
 
+  function setScope($scope)
+  {
+    $this->scope = $scope;
+  }
+
   function addElement(FilterElement $element)
   {
     $this->filterElements[] = $element;
