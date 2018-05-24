@@ -559,7 +559,7 @@ class management
     $smarty = get_smarty();
     $smarty->assign('readOnly', $this->tabObject->readOnly());
     $smarty->assign('showApply', ($this->currentDn != 'new'));
-    return $smarty->fetch(get_template_path('tabfooter.tpl'));
+    return $smarty->fetch(get_template_path('management/tabfooter.tpl'));
   }
 
   function handleTemplateApply ($cancel = FALSE)
