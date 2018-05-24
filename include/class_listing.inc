@@ -333,8 +333,10 @@ class listing
    */
   function render()
   {
+    global $ui;
+
     // Check for exeeded sizelimit
-    if (($message = check_sizelimit()) != '') {
+    if (($message = $ui->sizeLimitHandler()->check()) != '') {
       return $message;
     }
 
@@ -472,7 +474,7 @@ class listing
     $smarty = get_smarty();
     $smarty->assign("usePrototype", "true");
     $smarty->assign("FILTER", $this->filter->render());
-    $smarty->assign("SIZELIMIT", print_sizelimit_warning());
+    $smarty->assign("SIZELIMIT", $ui->sizeLimitHandler()->renderWarning());
     $smarty->assign("LIST", $result);
     $smarty->assign("MULTISELECT", $this->multiSelect);
 
@@ -1179,7 +1181,7 @@ class listing
    */
   function getAction()
   {
-    global $config;
+    global $config, $ui;
 
     // Do not do anything if this is not our PID, or there's even no PID available...
     if (!isset($_REQUEST['dn']) && (!isset($_REQUEST['PID']) || $_REQUEST['PID'] != $this->pid)) {
@@ -1224,11 +1226,11 @@ class listing
           $this->filter->setCurrentScope('one');
         }
         /* Bypass size limit just to be sure */
-        $oldsizelimit = session::global_get('size_limit');
-        session::global_set('size_limit', 0);
+        $oldsizelimit = $ui->getSizeLimitHandler()->getSizeLimit();
+        $ui->getSizeLimitHandler()->setSizeLimit(0);
         $this->update();
         $this->render();
-        session::global_set('size_limit', $oldsizelimit);
+        $ui->getSizeLimitHandler()->setSizeLimit($oldsizelimit);
         $this->filter->elementValues['NAME'] = '';
 
         $result['action']     = $action;

@@ -194,7 +194,7 @@ if ($old_plugin_dir != $plugin_dir && $old_plugin_dir != "") {
 }
 
 /* Check for sizelimits */
-eval_sizelimit();
+$ui->getSizeLimitHandler()->update();
 
 /* Check for memory */
 if (memory_get_usage() > (to_byte(ini_get('memory_limit')) - 2048000 )) {

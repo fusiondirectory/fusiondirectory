@@ -138,8 +138,10 @@ class managementListing
    */
   function render()
   {
+    global $ui;
+
     // Check for exeeded sizelimit
-    if (($message = check_sizelimit()) != '') {
+    if (($message = $ui->getSizeLimitHandler()->check()) != '') {
       return $message;
     }
 
