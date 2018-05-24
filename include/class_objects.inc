@@ -42,7 +42,7 @@ class objects
    *
    * \return The list of objects as an associative array (keys are dns)
    */
-  static function ls ($types, $attrs = NULL, $ou = NULL, $filter = '', $checkAcl = FALSE, $scope = 'subtree', $templateSearch = FALSE)
+  static function ls ($types, $attrs = NULL, $ou = NULL, $filter = '', $checkAcl = FALSE, $scope = 'subtree', $templateSearch = FALSE, $sizeLimit = FALSE)
   {
     global $ui, $config;
 
@@ -105,7 +105,7 @@ class objects
     }
 
     try {
-      $ldap = static::search($types, $search_attrs, $ou, $filter, $checkAcl, $scope, $templateSearch, $partialFilterAcls);
+      $ldap = static::search($types, $search_attrs, $ou, $filter, $checkAcl, $scope, $templateSearch, $partialFilterAcls, $sizeLimit);
     } catch (NonExistingBranchException $e) {
       return array();
     }
@@ -181,7 +181,7 @@ class objects
     return $ldap->count();
   }
 
-  private static function search ($types, $search_attrs, $ou = NULL, $filter = '', $checkAcl = FALSE, $scope = 'subtree', $templateSearch = FALSE, &$partialFilterAcls = array())
+  private static function search ($types, $search_attrs, $ou = NULL, $filter = '', $checkAcl = FALSE, $scope = 'subtree', $templateSearch = FALSE, &$partialFilterAcls = array(), $sizeLimit = FALSE)
   {
     global $config, $ui;
 
@@ -215,7 +215,7 @@ class objects
       throw new EmptyFilterException();
     }
 
-    $ldap = $config->get_ldap_link();
+    $ldap = $config->get_ldap_link($sizeLimit);
     if (!$ldap->dn_exists($ou)) {
       throw new NonExistingBranchException();
     }
@@ -259,7 +259,12 @@ class objects
     $ldap->cd($ou);
     $ldap->search($filter, $search_attrs, $scope);
     if (!$ldap->success()) {
-      throw new LDAPFailureException($ldap->get_error());
+      if ($sizeLimit && preg_match('/size limit/i', $ldap->get_error())) {
+        // Check for size limit exceeded messages for GUI feedback
+        $ui->getSizeLimitHandler()->setLimitExceeded();
+      } else {
+        throw new LDAPFailureException($ldap->get_error());
+      }
     }
     return $ldap;
   }
