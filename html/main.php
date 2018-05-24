@@ -248,7 +248,7 @@ $smarty->assign ("plug", "$plug");
 $smarty->assign("usePrototype", "false");
 
 /* React on clicks */
-if (($_SERVER['REQUEST_METHOD"'] == 'POST')
+if (($_SERVER['REQUEST_METHOD'] == 'POST')
   && (isset($_POST['delete_lock']) || isset($_POST['open_readonly']))) {
 
   /* Set old Post data */
