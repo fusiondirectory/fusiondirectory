@@ -20,19 +20,19 @@
 
 class organization extends department
 {
-  static $namingAttr  = "o";
-  var $objectclasses  = array("top", "gosaDepartment");
-  var $structuralOC   = array("organization");
+  static protected $namingAttr  = 'o';
+  protected $structuralOC       = array('organization');
 
   static function plInfo()
   {
     return array(
       'plShortName'   => _('Organization'),
       'plDescription' => _('Organization'),
+      'plObjectClass' => array('gosaDepartment'),
+      'plFilter'      => '(&(objectClass=organization)(objectClass=gosaDepartment))',
       'plObjectType'  => array('organization' => array(
         'aclCategory' => 'department',
         'name'        => _('Organization'),
-        'filter'      => '(&(objectClass=organization)(objectClass=gosaDepartment))',
         'ou'          => '',
         'icon'        => 'geticon.php?context=types&icon=organization&size=16',
         'tabClass'    => 'deptabs',

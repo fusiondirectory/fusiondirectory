@@ -20,19 +20,19 @@
 
 class locality extends department
 {
-  static $namingAttr  = "l";
-  var $objectclasses  = array("top", "gosaDepartment");
-  var $structuralOC   = array("locality");
+  static protected $namingAttr  = 'l';
+  protected $structuralOC       = array('locality');
 
   static function plInfo()
   {
     return array(
       'plShortName'   => _('Locality'),
       'plDescription' => _('Locality'),
+      'plObjectClass' => array('gosaDepartment'),
+      'plFilter'      => '(&(!(objectClass=dcObject))(objectClass=locality)(objectClass=gosaDepartment))',
       'plObjectType'  => array('locality' => array(
         'aclCategory' => 'department',
         'name'        => _('Locality'),
-        'filter'      => '(&(!(objectClass=dcObject))(objectClass=locality)(objectClass=gosaDepartment))',
         'ou'          => '',
         'icon'        => 'geticon.php?context=types&icon=locality&size=16',
         'tabClass'    => 'deptabs',

@@ -20,17 +20,16 @@
 
 class mainPluginsConfig extends simplePlugin
 {
-  var $objectclasses  = array("fusionDirectoryPluginsConf");
-
   static function plInfo()
   {
     return array(
-      "plShortName"     => _("Plugins configuration"),
-      "plDescription"   => _("FusionDirectory plugins configuration"),
-      "plCategory"      => array("configuration"),
-      "plObjectType"    => array("smallConfig"),
+      'plShortName'     => _('Plugins configuration'),
+      'plDescription'   => _('FusionDirectory plugins configuration'),
+      'plCategory'      => array('configuration'),
+      'plObjectClass'   => array('fusionDirectoryPluginsConf'),
+      'plObjectType'    => array('smallConfig'),
 
-      "plProvidedAcls"  => parent::generatePlProvidedAcls(static::getAttributesInfo())
+      'plProvidedAcls'  => parent::generatePlProvidedAcls(static::getAttributesInfo())
     );
   }
 

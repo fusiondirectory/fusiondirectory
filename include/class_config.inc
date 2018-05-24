@@ -829,6 +829,8 @@ class config
               if (!preg_match('/^\(.*\)$/', $value['filter'])) {
                 $value['filter'] = '('.$value['filter'].')';
               }
+            } elseif (isset($plInfo['plFilter'])) {
+              $value['filter'] = $plInfo['plFilter'];
             } else {
               $value['filter'] = NULL;
             }

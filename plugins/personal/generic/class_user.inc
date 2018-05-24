@@ -84,7 +84,7 @@ class UserPasswordAttribute extends CompositeAttribute
   }
 
   /* We need to handle method select disabling manually */
-  function renderAttribute(&$attributes, $readOnly)
+  function renderAttribute(array &$attributes, $readOnly)
   {
     global $config;
     if ($this->visible) {
@@ -110,7 +110,7 @@ class UserPasswordAttribute extends CompositeAttribute
 
   /*! \brief Loads this attribute value from the attrs array
    */
-  protected function loadAttrValue ($attrs)
+  protected function loadAttrValue (array $attrs)
   {
     if (isset($attrs[$this->getLdapName()])) {
       $this->setValue($this->inputValue($attrs[$this->getLdapName()][0]));
@@ -186,7 +186,7 @@ class UserPasswordAttribute extends CompositeAttribute
     return array($pw_storage, $password, $password, $value, $locked);
   }
 
-  function writeValues($values)
+  function writeValues(array $values)
   {
     if ($this->needPassword[$values[0]] && ($values[1] == '')) {
       if ($this->plugin->is_template) {
@@ -268,8 +268,6 @@ class PostalAddressAttribute extends TextAreaAttribute
 
 class user extends simplePlugin
 {
-  var $objectclasses  = array('inetOrgPerson','organizationalPerson','person');
-
   private $was_locked;
 
   static function plInfo()
@@ -277,14 +275,14 @@ class user extends simplePlugin
     return array(
       'plShortName'   => _('User'),
       'plDescription' => _('User account information'),
-      'plFilter'      => '(objectClass=inetOrgPerson)',
       'plIcon'        => 'geticon.php?context=applications&icon=user-info&size=48',
       'plSmallIcon'   => 'geticon.php?context=applications&icon=user-info&size=16',
       'plSelfModify'  => TRUE,
+      'plObjectClass' => array('inetOrgPerson','organizationalPerson','person'),
+      'plFilter'      => '(objectClass=inetOrgPerson)',
       'plObjectType'  => array('user' => array(
         'name'        => _('User'),
         'description' => _('User account'),
-        'filter'      => '(objectClass=inetOrgPerson)',
         'mainAttr'    => 'uid',
         'nameAttr'    => 'cn',
         'icon'        => 'geticon.php?context=types&icon=user&size=16',

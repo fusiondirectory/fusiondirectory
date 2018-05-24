@@ -21,23 +21,22 @@
 
 class department extends simplePlugin
 {
-  static $namingAttr = 'ou';
-
-  /* Do not append the structural object classes here, they are added dynamically in the constructor */
-  var $objectclasses  = array("top", "gosaDepartment");
-  var $structuralOC   = array("organizationalUnit");
+  static protected $namingAttr  = 'ou';
+  protected $structuralOC       = array('organizationalUnit');
 
   static function plInfo()
   {
     return array(
       'plShortName'   => _('Department'),
       'plDescription' => _('Departments'),
+      /* Do not append the structural object classes here, they are added dynamically in the constructor */
+      'plObjectClass' => array('gosaDepartment'),
+      'plFilter'      => '(&(objectClass=organizationalUnit)(objectClass=gosaDepartment))',
       'plCategory'    => array('department' => array('objectClass' => 'gosaDepartment', 'description' => _('Departments'))),
       'plObjectType'  =>
         array(
           'department' => array(
             'name'      => _('Department'),
-            'filter'    => '(&(objectClass=organizationalUnit)(objectClass=gosaDepartment))',
             'ou'        => '',
             'icon'      => 'geticon.php?context=places&icon=folder&size=16',
             'tabClass'  => 'deptabs',

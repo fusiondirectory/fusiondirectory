@@ -20,19 +20,18 @@
 
 class dcObject extends department
 {
-  static $namingAttr  = "dc";
-  var $objectclasses  = array("top", "dcObject", "gosaDepartment");
-  var $structuralOC   = array("locality");
+  static protected $namingAttr  = 'dc';
+  protected $structuralOC       = array('locality');
 
   static function plInfo()
   {
     return array(
       'plShortName'   => _('Domain Component'),
       'plDescription' => _('Domain Component'),
+      'plObjectClass' => array('dcObject', 'gosaDepartment'),
       'plObjectType'  => array('dcObject' => array(
         'aclCategory' => 'department',
         'name'        => _('Domain Component'),
-        'filter'      => '(&(objectClass=dcObject)(objectClass=gosaDepartment))',
         'ou'          => '',
         'icon'        => 'geticon.php?context=types&icon=dc&size=16',
         'tabClass'    => 'deptabs',

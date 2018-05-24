@@ -69,17 +69,15 @@ class ACLsAttribute extends DialogOrderedArrayAttribute
 
 class aclRole extends simplePlugin
 {
-  var $objectclasses  = array('top','gosaRole');
-
   static function plInfo()
   {
     return array(
       'plShortName'   => _('Role'),
       'plDescription' => _('Access control roles'),
+      'plObjectClass' => array('gosaRole'),
       'plObjectType'  => array('aclRole' => array(
         'aclCategory' => 'acl',
         'name'        => _('ACL role'),
-        'filter'      => 'objectClass=gosaRole',
         'ou'          => get_ou('aclRoleRDN'),
         'icon'        => 'geticon.php?context=categories&icon=acl&size=16',
       )),

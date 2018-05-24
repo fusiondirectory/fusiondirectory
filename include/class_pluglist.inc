@@ -150,6 +150,13 @@ class pluglist {
         if (!isset($infos['plTitle']) && isset($infos['plShortName'])) {
           $infos['plTitle'] = $infos['plShortName'];
         }
+        if (!empty($infos['plObjectClass']) && !isset($infos['plFilter'])) {
+          if (count($infos['plObjectClass']) == 1) {
+            $infos['plFilter'] = '(objectClass='.$infos['plObjectClass'][0].')';
+          } else {
+            $infos['plFilter'] = '(&(objectClass='.implode(')(objectClass=', $infos['plObjectClass']).'))';
+          }
+        }
         if (isset($infos['plFilter'])) {
           $infos['plFilterObject'] = ldapFilter::parse($infos['plFilter']);
         }

@@ -260,8 +260,6 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
 
 class aclAssignment extends simplePlugin
 {
-  var $objectclasses  = array('gosaAcl');
-
   static function plInfo()
   {
     global $config;
@@ -269,7 +267,6 @@ class aclAssignment extends simplePlugin
       'aclAssignment' => array(
         'aclCategory' => 'acl',
         'name'        => _('ACL assignment'),
-        'filter'      => 'objectClass=gosaAcl',
         'ou'          => '',
         'icon'        => 'geticon.php?context=categories&icon=acl&size=16',
         'tabClass'    => 'simpleTabs_noSpecial',
@@ -284,6 +281,7 @@ class aclAssignment extends simplePlugin
     return array(
       'plShortName'   => _('ACL Assignment'),
       'plDescription' => _('Access control roles assignment'),
+      'plObjectClass' => array('gosaAcl'),
       'plObjectType'  => $oc,
       'plForeignKeys'  => array(
         'gosaAclEntry' => array(

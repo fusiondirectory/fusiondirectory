@@ -20,14 +20,13 @@
 
 class dashboardConfig extends simplePlugin
 {
-  var $objectclasses  = array('fdDashboardPluginConf');
-
   static function plInfo()
   {
     return array(
       'plShortName'     => _('Dashboard configuration'),
       'plDescription'   => _('FusionDirectory dashboard plugin configuration'),
       'plCategory'      => array('configuration'),
+      'plObjectClass'   => array('fdDashboardPluginConf'),
       'plObjectType'    => array('smallConfig'),
 
       'plProvidedAcls'  => parent::generatePlProvidedAcls(static::getAttributesInfo())
