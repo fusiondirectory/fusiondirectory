@@ -20,18 +20,19 @@
 
 class country extends department
 {
-  static $namingAttr  = "c";
-  var $structuralOC   = array("country");
+  static protected $namingAttr  = 'c';
+  protected $structuralOC       = array('country');
 
   static function plInfo()
   {
     return array(
       'plShortName'   => _('Country'),
       'plDescription' => _('Country'),
+      'plObjectClass' => array('gosaDepartment'),
+      'plFilter'      => '(&(objectClass=country)(objectClass=gosaDepartment))',
       'plObjectType'  => array('country' => array(
         'aclCategory' => 'department',
         'name'        => _('Country'),
-        'filter'      => '(&(objectClass=country)(objectClass=gosaDepartment))',
         'ou'          => '',
         'icon'        => 'geticon.php?context=types&icon=country&size=16',
         'tabClass'    => 'deptabs',

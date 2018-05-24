@@ -49,6 +49,9 @@ class userinfo
   var $ACLperPath             = array();
   var $ACLperPath_usesFilter  = array();
 
+  /*! \brief LDAP size limit handler */
+  protected $sizeLimitHandler;
+
   /* get acl's an put them into the userinfo object
      attr subtreeACL (userdn:components, userdn:component1#sub1#sub2,component2,...) */
   function __construct($userdn)
@@ -61,6 +64,8 @@ class userinfo
 
     /* Initialize ACL_CACHE */
     $this->reset_acl_cache();
+
+    $this->sizeLimitHandler = new ldapSizeLimit();
   }
 
   /*! \brief Loads user information from LDAP */
@@ -1015,6 +1020,11 @@ class userinfo
       }
     }
     return FALSE;
+  }
+
+  function getSizeLimitHandler()
+  {
+    return $this->sizeLimitHandler;
   }
 }
 ?>

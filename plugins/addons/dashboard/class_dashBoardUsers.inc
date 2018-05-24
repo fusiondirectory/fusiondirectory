@@ -216,6 +216,7 @@ class dashboardUsers extends simplePlugin
   static function get_user_infos($attrs)
   {
     global $config;
+
     if (isset($attrs['manager'][0])) {
       $ldap = $config->get_ldap_link();
       $ldap->cat($attrs['manager'][0], array('cn', 'mail', 'telephoneNumber'));
@@ -223,6 +224,10 @@ class dashboardUsers extends simplePlugin
         $manager_cn     = (isset($manager_attrs['cn'][0]) ? $manager_attrs['cn'][0] : '');
         $manager_mail   = (isset($manager_attrs['mail'][0]) ? $manager_attrs['mail'][0] : '');
         $manager_phone  = (isset($manager_attrs['telephoneNumber'][0]) ? $manager_attrs['telephoneNumber'][0] : '');
+      } else {
+        $manager_cn     = sprintf(_('Not found (%s)'), $attrs['manager'][0]);
+        $manager_mail   = '';
+        $manager_phone  = '';
       }
     } else {
       $manager_cn     = '';

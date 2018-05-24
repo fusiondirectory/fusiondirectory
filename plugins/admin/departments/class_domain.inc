@@ -20,19 +20,18 @@
 
 class domain extends department
 {
-  static $namingAttr  = "dc";
-  var $objectclasses  = array("top", "domain", "gosaDepartment");
-  var $structuralOC   = array("domain");
+  static protected $namingAttr  = 'dc';
+  protected $structuralOC       = array('domain');
 
   static function plInfo()
   {
     return array(
       'plShortName'   => _('Domain'),
       'plDescription' => _('Domain'),
+      'plObjectClass' => array('domain', 'gosaDepartment'),
       'plObjectType'  => array('domain' => array(
         'aclCategory' => 'department',
         'name'        => _('Domain'),
-        'filter'      => '(&(objectClass=domain)(objectClass=gosaDepartment))',
         'ou'          => '',
         'icon'        => 'geticon.php?context=types&icon=domain&size=16',
         'tabClass'    => 'deptabs',

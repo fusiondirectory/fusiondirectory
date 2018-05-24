@@ -420,7 +420,7 @@ class management
 
   function renderList()
   {
-    global $config;
+    global $config, $ui;
 
     // Rendering things using smarty themselves first
     $listRender   = $this->listing->render();
@@ -432,7 +432,7 @@ class management
     $smarty->assign('LIST',         $listRender);
     $smarty->assign('FILTER',       $filterRender);
     $smarty->assign('ACTIONS',      $actionMenu);
-    $smarty->assign('SIZELIMIT',    print_sizelimit_warning());
+    $smarty->assign('SIZELIMIT',    $ui->getSizeLimitHandler()->renderWarning());
     $smarty->assign('MULTISELECT',  $this->listing->multiSelect);
     $smarty->assign('NAVIGATION',   $this->listing->renderNavigation());
     $smarty->assign('BASE',         $this->listing->renderBase());
@@ -559,7 +559,7 @@ class management
     $smarty = get_smarty();
     $smarty->assign('readOnly', $this->tabObject->readOnly());
     $smarty->assign('showApply', ($this->currentDn != 'new'));
-    return $smarty->fetch(get_template_path('tabfooter.tpl'));
+    return $smarty->fetch(get_template_path('management/tabfooter.tpl'));
   }
 
   function handleTemplateApply ($cancel = FALSE)

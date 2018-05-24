@@ -20,13 +20,12 @@
 
 class recoveryConfig extends simplePlugin
 {
-  var $objectclasses  = array('fdPasswordRecoveryConf');
-
   static function plInfo()
   {
     return array(
       'plShortName'     => _('Password recovery'),
       'plDescription'   => _('Settings for the password recovery feature'),
+      'plObjectClass'   => array('fdPasswordRecoveryConf'),
       'plObjectType'    => array('configuration'),
 
       'plProvidedAcls'  => parent::generatePlProvidedAcls(static::getAttributesInfo())

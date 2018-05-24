@@ -208,7 +208,7 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
     return $key.':'.$value['scope'].':'.base64_encode($value['role']).':'.join(',', array_map('base64_encode', $value['members']));
   }
 
-  function foreignKeyUpdate($oldvalue, $newvalue, $source)
+  function foreignKeyUpdate($oldvalue, $newvalue, array $source)
   {
     foreach ($this->value as $key => &$value) {
       if ($source['FIELD'] == 'dn') {
@@ -243,7 +243,7 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
     unset($value);
   }
 
-  function foreignKeyCheck($oldvalue, $source)
+  function foreignKeyCheck($oldvalue, array $source)
   {
     foreach ($this->value as $value) {
       if (
@@ -260,8 +260,6 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
 
 class aclAssignment extends simplePlugin
 {
-  var $objectclasses  = array('gosaAcl');
-
   static function plInfo()
   {
     global $config;
@@ -269,7 +267,6 @@ class aclAssignment extends simplePlugin
       'aclAssignment' => array(
         'aclCategory' => 'acl',
         'name'        => _('ACL assignment'),
-        'filter'      => 'objectClass=gosaAcl',
         'ou'          => '',
         'icon'        => 'geticon.php?context=categories&icon=acl&size=16',
         'tabClass'    => 'simpleTabs_noSpecial',
@@ -284,6 +281,7 @@ class aclAssignment extends simplePlugin
     return array(
       'plShortName'   => _('ACL Assignment'),
       'plDescription' => _('Access control roles assignment'),
+      'plObjectClass' => array('gosaAcl'),
       'plObjectType'  => $oc,
       'plForeignKeys'  => array(
         'gosaAclEntry' => array(
@@ -356,7 +354,7 @@ class aclAssignment extends simplePlugin
     session::global_set('ui', $ui);
   }
 
-  function foreignKeyUpdate ($field, $oldvalue, $newvalue, $source)
+  function foreignKeyUpdate($field, $oldvalue, $newvalue, array $source)
   {
     /* Handle foreign keys only as the main tab so that they are not handled twice */
     if ($this->parent->getBaseObject() !== $this) {

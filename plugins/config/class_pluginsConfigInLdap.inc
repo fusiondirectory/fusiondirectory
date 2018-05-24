@@ -26,12 +26,12 @@ class pluginsConfigInLdap extends multiPlugin
   static function plInfo()
   {
     return array(
-      "plShortName"   => _("Plugins"),
-      "plDescription" => _("Configuration for plugins"),
-      "plPriority"    => 20,
-      "plObjectType"  => array("configuration"),
+      'plShortName'   => _('Plugins'),
+      'plDescription' => _('Configuration for plugins'),
+      'plPriority'    => 20,
+      'plObjectType'  => array('configuration'),
 
-      "plProvidedAcls"  => array()
+      'plProvidedAcls'  => array()
     );
   }
 }

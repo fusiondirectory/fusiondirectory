@@ -153,6 +153,12 @@ class simplePlugin
     $this->parent   = $parent;
     $this->mainTab  = $mainTab;
 
+    $plInfo = pluglist::pluginInfos(get_class($this));
+
+    if (isset($plInfo['plObjectClass'])) {
+      $this->objectclasses = $plInfo['plObjectClass'];
+    }
+
     if ($attributesInfo === NULL) {
       $attributesInfo = $this->getAttributesInfo();
     }
@@ -188,11 +194,10 @@ class simplePlugin
 
     /* Ensure that we've a valid acl_category set */
     if (empty($this->acl_category)) {
-      $tmp = pluglist::pluginInfos(get_class($this));
-      if (isset($tmp['plCategory'])) {
-        $c = key($tmp['plCategory']);
+      if (isset($plInfo['plCategory'])) {
+        $c = key($plInfo['plCategory']);
         if (is_numeric($c)) {
-          $c = $tmp['plCategory'][0];
+          $c = $plInfo['plCategory'][0];
         }
         $this->acl_category = $c.'/';
       }
@@ -1888,7 +1893,7 @@ class simplePlugin
     return $this->attributesAccess[$field]->getInitialValue();
   }
 
-  function foreignKeyUpdate ($field, $oldvalue, $newvalue, $source)
+  function foreignKeyUpdate($field, $oldvalue, $newvalue, array $source)
   {
     if (!isset($source['MODE'])) {
       $source['MODE'] = 'move';

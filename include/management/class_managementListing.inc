@@ -138,8 +138,10 @@ class managementListing
    */
   function render()
   {
+    global $ui;
+
     // Check for exeeded sizelimit
-    if (($message = check_sizelimit()) != '') {
+    if (($message = $ui->getSizeLimitHandler()->check()) != '') {
       return $message;
     }
 
@@ -210,32 +212,26 @@ class managementListing
   }
 
   /*!
-   * \brief Update a listing
+   * \brief Updates base and sorting according to POST and GET infos
    */
-  function update()
+  function updateBase()
   {
-    $ui = get_userinfo();
-
     // Take care of base selector
     if ($this->baseMode) {
       $this->baseSelector->update();
+
       // Check if a wrong base was supplied
       if (!$this->baseSelector->checkLastBaseUpdate()) {
-         msg_dialog::display(_("Error"), msgPool::check_base(), ERROR_DIALOG);
+         msg_dialog::display(_('Error'), msgPool::check_base(), ERROR_DIALOG);
       }
-    }
 
-    // Save base
-    $refresh = FALSE;
-    if ($this->baseMode) {
+      // Save base
       $this->base = $this->baseSelector->getBase();
-      session::global_set("CurrentMainBase", $this->base);
-      $refresh = TRUE;
+      session::global_set('CurrentMainBase', $this->base);
     }
 
     // Do not do anything if this is not our PID
-    if ($refresh || !(isset($_REQUEST['PID']) && ($_REQUEST['PID'] != $this->pid))) {
-
+    if ($this->baseMode || !(isset($_REQUEST['PID']) && ($_REQUEST['PID'] != $this->pid))) {
       // Filter GET with "act" attributes
       if (isset($_GET['act'])) {
         $key = validate($_GET['act']);
@@ -270,9 +266,20 @@ class managementListing
           $parentBase = preg_replace('/^[^,]+,/', '', $this->base);
           $this->tryAndSetBase($parentBase);
         } elseif ($action == 'HOME') {
+          $ui = get_userinfo();
           $this->tryAndSetBase(get_base_from_people($ui->dn));
         }
       }
+    }
+  }
+
+  /*!
+   * \brief Update a listing
+   */
+  function update($dn = NULL)
+  {
+    if ($dn === NULL) {
+      $this->updateBase();
     }
 
     // Update filter and refresh entries
@@ -280,7 +287,12 @@ class managementListing
     foreach ($this->columns as $column) {
       $column->fillNeededAttributes($attrs);
     }
-    list($this->entries, $this->objectTypeCount) = $this->parent->filter->query($attrs, $this->base);
+    if ($dn !== NULL) {
+      $this->parent->filter->setScope('base');
+      list($this->entries, $this->objectTypeCount) = $this->parent->filter->query($attrs, $dn);
+    } else {
+      list($this->entries, $this->objectTypeCount) = $this->parent->filter->query($attrs, $this->base);
+    }
     /* Store the order of the entries to access them by index later */
     $this->entriesIndex = array_keys($this->entries);
   }
@@ -421,7 +433,6 @@ class managementListing
           $result['targets'][]  = $this->entriesIndex[$target];
         }
       } elseif (isset($_REQUEST['dn']) && preg_match('/^listing_([a-zA-Z_]+)$/', $key, $m)) {
-        // TODO fix this
         /* Pre-render list to init things if a dn is gonna be opened on first load */
         $dn         = urldecode($_REQUEST['dn']);
         $action     = $m[1];
@@ -434,18 +445,8 @@ class managementListing
           }
         }
         $this->setBase($longerBase);
-        /* Search for its main attr value */
-        if (isset($this->filter->elementValues['NAME']) && preg_match('/^[^=]+=([^,]+)/', $dn, $m)) {
-          $this->filter->elementValues['NAME'] = $m[1];
-        }
-        $this->filter->setCurrentScope('one');
-        /* Bypass size limit just to be sure */
-        $oldsizelimit = session::global_get('size_limit');
-        session::global_set('size_limit', 0);
-        $this->update();
+        $this->update($dn);
         $this->render();
-        session::global_set('size_limit', $oldsizelimit);
-        $this->filter->elementValues['NAME'] = '';
 
         $result['action']     = $action;
         $result['targets'][]  = $dn;

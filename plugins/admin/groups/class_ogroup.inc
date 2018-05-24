@@ -151,8 +151,6 @@ class ObjectSelectDialog extends GenericSelectDialog
 
 class ogroup extends simplePlugin
 {
-  var $objectclasses  = array('groupOfNames', 'gosaGroupOfNames');
-
   var $used_workstations = array();
 
   protected $savedTypedMembers;
@@ -176,11 +174,12 @@ class ogroup extends simplePlugin
       'plDescription' => _('Object group information'),
       'plFilter'      => '(objectClass=groupOfNames)',
       'plPriority'    => 1,
+      'plObjectClass' => array('groupOfNames', 'gosaGroupOfNames'),
+      'plFilter'      => '(objectClass=groupOfNames)',
       'plObjectType'  => array('ogroup' => array(
         'name'        => _('Group'),
         'description' => _('Group'),
         'ou'          => get_ou('ogroupRDN'),
-        'filter'      => 'objectClass=groupOfNames',
         'icon'        => 'geticon.php?context=types&icon=resource-group&size=16',
         'tabClass'    => 'ogrouptabs',
       )),

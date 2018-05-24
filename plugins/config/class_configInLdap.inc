@@ -21,7 +21,7 @@
 /* Debug level is an OR combination of several values */
 class DebugLevelAttribute extends SetAttribute
 {
-  protected function loadAttrValue ($attrs)
+  protected function loadAttrValue (array $attrs)
   {
     if (isset($attrs[$this->getLdapName()])) {
       $value = $attrs[$this->getLdapName()][0];
@@ -48,8 +48,6 @@ class DebugLevelAttribute extends SetAttribute
 
 class configInLdap extends simplePlugin
 {
-  var $objectclasses  = array("fusionDirectoryConf");
-
   static function plInfo()
   {
     return array(
@@ -57,6 +55,7 @@ class configInLdap extends simplePlugin
       'plTitle'         => _('FusionDirectory configuration'),
       'plDescription'   => _('Configuration screen of FusionDirectory'),
       'plIcon'          => 'geticon.php?context=categories&icon=settings&size=48',
+      'plObjectClass'   => array('fusionDirectoryConf'),
       'plObjectType'    => array(
         'configuration' => array(
           'name'      => _('FusionDirectory configuration'),

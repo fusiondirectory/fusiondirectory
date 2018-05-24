@@ -68,6 +68,11 @@ class managementFilter
     );
   }
 
+  function setScope($scope)
+  {
+    $this->scope = $scope;
+  }
+
   function addElement(FilterElement $element)
   {
     $this->filterElements[] = $element;
@@ -179,7 +184,7 @@ class managementFilter
         $filter = '(&'.implode('', $typeElementFilters).')';
       }
 
-      $ldapEntries = objects::ls($type, $attrsAsked, $searchBase, $filter, TRUE, $this->scope);
+      $ldapEntries = objects::ls($type, $attrsAsked, $searchBase, $filter, TRUE, $this->scope, FALSE, TRUE);
 
       $objectTypeCount[$type] = count($ldapEntries);
       foreach ($ldapEntries as $dn => $entry) {

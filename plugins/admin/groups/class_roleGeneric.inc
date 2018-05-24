@@ -47,20 +47,18 @@ class RoleMembersAttribute extends UsersAttribute
 
 class roleGeneric extends simplePlugin
 {
-  var $objectclasses = array('organizationalRole');
-
   static function plInfo()
   {
     return array(
       'plShortName'   => _('Role'),
       'plDescription' => _('Role information'),
+      'plObjectClass' => array('organizationalRole'),
       'plFilter'      => '(&(objectClass=organizationalRole)(!(objectClass=simpleSecurityObject)))',
       'plObjectType'  => array('role' =>
         array(
           'name'        => _('Role'),
           'description' => _('Organizational role'),
           'ou'          => get_ou('roleRDN'),
-          'filter'      => '(&(objectClass=organizationalRole)(!(objectClass=simpleSecurityObject)))',
           'icon'        => 'geticon.php?context=types&icon=role&size=16',
           'mainAttr'    => 'cn',
         )
