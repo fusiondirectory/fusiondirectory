@@ -67,7 +67,7 @@ class GroupContentFilterElement extends FilterElement
     return $smarty->fetch(get_template_path('management/filter-element.tpl'));
   }
 
-  public function getFilters($type, &$filters)
+  public function getFilters($type, array &$filters)
   {
     if (strtoupper($type) == 'OGROUP') {
       foreach ($this->types as $type => $infos) {

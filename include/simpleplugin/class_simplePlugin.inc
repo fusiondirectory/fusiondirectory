@@ -1893,7 +1893,7 @@ class simplePlugin
     return $this->attributesAccess[$field]->getInitialValue();
   }
 
-  function foreignKeyUpdate ($field, $oldvalue, $newvalue, $source)
+  function foreignKeyUpdate($field, $oldvalue, $newvalue, array $source)
   {
     if (!isset($source['MODE'])) {
       $source['MODE'] = 'move';
