@@ -56,7 +56,7 @@ class managementFilter
     $this->pid = preg_replace('/[^0-9]/', '', microtime(TRUE));
 
     foreach ($this->parent->objectTypes as $type) {
-      $this->types[$type] = array(
+      $this->types['filter_type_'.$type] = array(
         'show'    => TRUE,
         'filters' => array(),
         'infos'   => objects::infos($type),
@@ -82,8 +82,8 @@ class managementFilter
   {
     if (isset($_POST['FILTER_PID']) && ($_POST['FILTER_PID'] == $this->pid)) {
       // Load post values and adapt filter, base and scope accordingly
-      foreach ($this->types as $type => &$data) {
-        $data['show'] = isset($_POST[$type]);
+      foreach ($this->types as $key => &$data) {
+        $data['show'] = isset($_POST[$key]);
       }
       unset($data);
 
@@ -145,10 +145,10 @@ class managementFilter
     $entries          = array();
     $row              = 0;
     foreach ($this->parent->objectTypes as $type) {
-      if (!$this->types[$type]['show']) {
+      if (!$this->types['filter_type_'.$type]['show']) {
         continue;
       }
-      $infos      = $this->types[$type]['infos'];
+      $infos      = $this->types['filter_type_'.$type]['infos'];
       if ($this->scope == 'one') {
         $searchBase = (empty($infos['ou']) ? $base : $infos['ou'].$base);
       } else {

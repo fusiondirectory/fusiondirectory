@@ -23,22 +23,12 @@
  */
 class GroupContentColumn extends Column
 {
-  function isSortable()
-  {
-    return FALSE;
-  }
-
-  function fillNeededAttributes(array &$attrs)
-  {
-    $attrs['gosaGroupObjects'] = '1';
-  }
-
   function renderCell(ListingEntry $entry)
   {
     global $config;
 
     if (strtolower($entry->getTemplatedType()) == 'ogroup') {
-      $types = preg_replace('/[^a-z]/i', '', $entry['gosaGroupObjects']);
+      $types = preg_replace('/[^a-z]/i', '', $entry[$this->attribute]);
     } else {
       $types = 'U';
     }

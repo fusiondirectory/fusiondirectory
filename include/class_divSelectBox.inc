@@ -30,15 +30,14 @@
  */
 class divSelectBox
 {
-  var $headers = FALSE;
-  var $a_entries;
-  var $summary;
-  var $cols;
+  protected $headers = FALSE;
+  protected $a_entries;
+  protected $summary;
+  protected $cols;
 
-  private $id;
+  protected $id;
 
-  // Members for page managment
-  var $height = '200px';
+  protected $height = '200px';
 
   /*!
    * \brief Default divSelectBox constructor
@@ -70,7 +69,7 @@ class divSelectBox
    *
    * \param array $a_entriedata
    */
-  function AddEntry($a_entriedata)
+  function addEntry($a_entriedata)
   {
     $this->a_entries[] = $a_entriedata;
   }
@@ -80,7 +79,7 @@ class divSelectBox
    *
    * \param array $headers
    */
-  function SetHeaders($headers)
+  function setHeaders($headers)
   {
     $this->headers = $headers;
   }
@@ -88,7 +87,7 @@ class divSelectBox
   /*!
    * \brief Draw the list
    */
-  function DrawList()
+  function drawList()
   {
     $s_return = '';
     $s_return .= '<div style="border:1px solid rgb(170,170,170);padding-right:1px;height:'.$this->height.';width:100%">'."\n";
@@ -102,7 +101,7 @@ class divSelectBox
                       'border:none; '.
                     '"'.
                   ">\n";
-    $s_return .= $this->_generatePage();
+    $s_return .= $this->generatePage();
     $s_return .= '</table></div></div>';
     if ($this->headers !== FALSE) {
       $s_return .=
@@ -114,19 +113,11 @@ class divSelectBox
   }
 
   /*!
-   * \brief Get the number of entries
-   */
-  function _numentries()
-  {
-    return count($this->a_entries);
-  }
-
-  /*!
    * \brief Set summary
    *
    * \param string $msg
    */
-  function SetSummary($msg)
+  function setSummary($msg)
   {
     $this->s_summary = $msg;
   }
@@ -134,7 +125,7 @@ class divSelectBox
   /*!
    * \brief Generate the page
    */
-  function _generatePage()
+  protected function generatePage()
   {
     $display = '';
     if ($this->headers !== FALSE) {
@@ -147,13 +138,13 @@ class divSelectBox
       }
       $display .= '</tr></thead>'."\n";
     }
-    return $display.'<tbody>'.$this->_generateBody().'</tbody>';
+    return $display.'<tbody>'.$this->generateBody().'</tbody>';
   }
 
   /*!
    * \brief Generate the body
    */
-  function _generateBody()
+  protected function generateBody()
   {
     /* If divselectbox is empty, append a single white entry */
     if (count($this->a_entries) == 0) {

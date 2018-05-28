@@ -47,11 +47,6 @@ class PropertiesColumn extends Column
     }
   }
 
-  function isSortable()
-  {
-    return FALSE;
-  }
-
   function fillNeededAttributes(array &$attrs)
   {
     foreach ($this->tabs as $classes) {
@@ -63,15 +58,68 @@ class PropertiesColumn extends Column
 
   function renderCell(ListingEntry $entry)
   {
-    global $config;
+    $tabs   = $this->computeIcons($entry);
+    $result = '';
+    foreach ($tabs as $tab) {
+      if (empty($tab['icon'])) {
+        $result .= '<img src="images/empty.png" alt="" class="optional '.$tab['tab'].'"/>';
+      } else {
+        $result .= '<input type="image" src="'.htmlentities($tab['icon'], ENT_COMPAT, 'UTF-8').'" '.
+                    'alt="'.htmlentities($tab['title'], ENT_COMPAT, 'UTF-8').'" title="'.htmlentities($tab['title'], ENT_COMPAT, 'UTF-8').'" '.
+                    'name="listing_edit_tab_'.$tab['tab'].'_'.$entry->row.'"/>';
+      }
+    }
+
+    return $result;
+  }
+
+  function compare(ListingEntry $ao, ListingEntry $bo)
+  {
+    if ($ao->getTemplatedType() != $bo->getTemplatedType()) {
+      return strcmp($ao->getTemplatedType(), $bo->getTemplatedType());
+    }
+
+    // Extract values from ao and bo
+    $a = $this->computeSortString($ao);
+    $b = $this->computeSortString($bo);
+
+    return strcmp($a, $b);
+  }
+
+  protected function computeSortString(ListingEntry $entry)
+  {
+    if (isset($entry->cache[__CLASS__]['sort'])) {
+      return $entry->cache[__CLASS__]['sort'];
+    }
+
+    $icons = $this->computeIcons($entry);
+    $entry->cache[__CLASS__]['sort'] = implode('', array_map(
+      function($tab)
+      {
+        return (empty($tab['icon']) ? 0 : 1);
+      },
+      $icons
+    ));;
+
+    return $entry->cache[__CLASS__]['sort'];
+  }
+
+  protected function computeIcons(ListingEntry $entry)
+  {
+    if (isset($entry->cache[__CLASS__]['icons'])) {
+      return $entry->cache[__CLASS__]['icons'];
+    }
 
     $infos = objects::infos($entry->getTemplatedType());
+    $icons = array();
 
     /* Main tab is always there */
     $pInfos = pluglist::pluginInfos($infos['mainTab']);
-    $result = '<input type="image" src="'.htmlentities((isset($pInfos['plSmallIcon']) ? $pInfos['plSmallIcon'] : $infos['icon']), ENT_COMPAT, 'UTF-8').'" '.
-               'alt="'.$pInfos['plShortName'].'" title="'.$pInfos['plShortName'].'" '.
-               'name="listing_edit_tab_'.$infos['mainTab'].'_'.$entry->row.'"/>';
+    $icons[]  = array(
+      'icon'  => (isset($pInfos['plSmallIcon']) ? $pInfos['plSmallIcon'] : $infos['icon']),
+      'title' => $pInfos['plShortName'],
+      'tab'   => $infos['mainTab'],
+    );
     if (!empty($entry)) {
       if ($entry->isTemplate()) {
         $attrs = $entry->getTemplatedFields();
@@ -83,18 +131,23 @@ class PropertiesColumn extends Column
         if ($status !== FALSE) {
           $pInfos = pluglist::pluginInfos($class);
           if (isset($pInfos['plSmallIcon'])) {
-            $result .= '<input type="image" src="'.htmlentities($pInfos['plSmallIcon'], ENT_COMPAT, 'UTF-8').'" '.
-                       'alt="'.$pInfos['plShortName'].'" title="'.$pInfos['plShortName'].'" '.
-                       'name="listing_edit_tab_'.$class.'_'.$entry->row.'"/>';
+            $icons[] = array(
+              'icon'  => $pInfos['plSmallIcon'],
+              'title' => $pInfos['plShortName'],
+              'tab'   => $class,
+            );
           } else {
             @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $pInfos['plShortName']." ($class)", 'No icon for');
           }
         } else {
-          $result .= '<img src="images/empty.png" alt="" class="optional '.$class.'"/>';
+          $icons[] = array(
+            'tab' => $class,
+          );
         }
       }
     }
 
-    return $result;
+    $entry->cache[__CLASS__]['icons'] = $icons;
+    return $entry->cache[__CLASS__]['icons'];
   }
 }

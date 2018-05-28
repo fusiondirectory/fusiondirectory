@@ -25,9 +25,9 @@ class groupManagement extends management
 
   public static $columns = array(
     array('ObjectTypeColumn',   array()),
-    array('LinkColumn',         array('attribute' => 'cn',          'label' => 'Name')),
-    array('LinkColumn',         array('attribute' => 'description', 'label' => 'Description')),
-    array('GroupContentColumn', array('label' => 'Members')),
+    array('LinkColumn',         array('attribute' => 'cn',                'label' => 'Name')),
+    array('LinkColumn',         array('attribute' => 'description',       'label' => 'Description')),
+    array('GroupContentColumn', array('attribute' => 'gosaGroupObjects',  'label' => 'Members')),
     array('PropertiesColumn',   array('label' => 'Properties')),
     array('ActionsColumn',      array('label' => 'Actions')),
   );
