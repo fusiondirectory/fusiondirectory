@@ -130,7 +130,7 @@ class Column
     }
   }
 
-  function compare($ao, $bo)
+  function compare(ListingEntry $ao, ListingEntry $bo)
   {
     if ($this->attribute == 'sort-attribute') {
       // Override sort attribute from data if needed
