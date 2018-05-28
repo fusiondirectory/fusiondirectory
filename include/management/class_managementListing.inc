@@ -290,6 +290,7 @@ class managementListing
     if ($dn !== NULL) {
       $this->parent->filter->setScope('base');
       list($this->entries, $this->objectTypeCount) = $this->parent->filter->query($attrs, $dn);
+      $this->parent->filter->setScope('one');
     } else {
       list($this->entries, $this->objectTypeCount) = $this->parent->filter->query($attrs, $this->base);
     }
