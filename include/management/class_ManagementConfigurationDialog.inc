@@ -32,6 +32,13 @@ class ManagementColumnAttribute extends CompositeAttribute
  */
 class ManagementConfigurationDialog extends simplePlugin
 {
+  static function plInfo ()
+  {
+    return array(
+      'plShortName' => 'ManagementConfigurationDialog',
+    );
+  }
+
   static function getAttributesInfo ()
   {
     global $class_mapping;
@@ -112,7 +119,6 @@ class ManagementConfigurationDialog extends simplePlugin
 
   function execute ()
   {
-    var_dump($this->managementColumns);
     $smarty = get_smarty();
     $smarty->assign('ManagementConfigurationACL', 'rw');
     $str = parent::execute();
