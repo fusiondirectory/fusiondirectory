@@ -371,7 +371,6 @@ class OrderedArrayAttribute extends SetAttribute
 {
   protected $order;
   protected $edit_enabled;
-  protected $height   = 90;
   protected $headers  = FALSE;
 
   /*! \brief The constructor of OrderedArrayAttribute
@@ -386,11 +385,6 @@ class OrderedArrayAttribute extends SetAttribute
     parent::__construct($attribute, $values);
     $this->order        = $order;
     $this->edit_enabled = $edit_enabled;
-  }
-
-  function setHeight($h)
-  {
-    $this->height = $h;
   }
 
   function setHeaders($h)
@@ -447,11 +441,18 @@ class OrderedArrayAttribute extends SetAttribute
 
   function renderOnlyFormInput ()
   {
+    if (($this->size < 15) && ($this->size < count($this->value))) {
+      $this->size = min(15, count($this->value));
+    }
     $id = $this->getHtmlId();
     $div = new divSelectBox('rows'.$id);
     $smarty = get_smarty();
-    $div->SetHeight($this->height);
-    $div->SetHeaders($this->headers);
+    $height = ($this->size * 26) + 6;
+    if ($this->headers) {
+      $height += 29;
+    }
+    $div->setHeight($height);
+    $div->setHeaders($this->headers);
     foreach ($this->value as $key => $value) {
       $fields = array();
       foreach ($this->getAttributeArrayValue($key, $value) as $field) {
@@ -468,9 +469,9 @@ class OrderedArrayAttribute extends SetAttribute
       list ($img, $nbicons) = $this->genRowIcons($key, $value);
 
       $fields[] = array("html" => $img, "attach" => 'style="border:0px;width:'.($nbicons * 20).'px;"');
-      $div->AddEntry($fields);
+      $div->addEntry($fields);
     }
-    $smarty->assign("div_$id", $div->DrawList());
+    $smarty->assign("div_$id", $div->drawList());
     return '{$div_'.$id.'}'."\n";
   }
 

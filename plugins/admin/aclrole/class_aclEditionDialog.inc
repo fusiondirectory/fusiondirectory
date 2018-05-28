@@ -196,11 +196,11 @@ class ACLEditionDialog extends GenericDialog
         $field1 = array('html' => $infos['description'], 'attach' => 'style="width:140px"');
         $field2 = array('html' => $summary);
         $field3 = array('html' => $action, 'attach' => 'style="border-right:0px;width:40px"');
-        $aclList->AddEntry(array($field1, $field2, $field3));
+        $aclList->addEntry(array($field1, $field2, $field3));
       }
 
       $smarty->assign('headline', _('List of available ACL categories'));
-      $smarty->assign('aclEdition', $aclList->DrawList());
+      $smarty->assign('aclEdition', $aclList->drawList());
     } elseif ($this->dialogState == 'edit') {
       /* Collect objects for selected category */
       $aclObjects = array();
