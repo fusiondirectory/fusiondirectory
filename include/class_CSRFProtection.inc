@@ -61,10 +61,8 @@ class CSRFProtection
       if (!empty($_SERVER['HTTP_HOST'])) {
         $target = $_SERVER['HTTP_HOST'];
       }
-      if ($target) {
-        if (!hash_equals($origin, $target)) {
-          throw new FusionDirectoryException('CSRF detected: origin and target are not matching ('.$origin.' != '.$target.')');
-        }
+      if ($target && !hash_equals($origin, $target)) {
+        throw new FusionDirectoryException('CSRF detected: origin and target are not matching ('.$origin.' != '.$target.')');
       }
     }
   }
