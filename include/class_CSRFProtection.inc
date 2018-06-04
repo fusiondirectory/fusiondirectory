@@ -31,7 +31,6 @@ class CSRFProtection
 
     static::checkHeaders();
 
-    $validToken = static::getToken();
     if ($_POST['CSRFtoken'] !== static::getToken()) {
       throw new Exception('CSRF protection token invalid');
     }
