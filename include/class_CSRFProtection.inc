@@ -26,13 +26,13 @@ class CSRFProtection
       return;
     }
     if (empty($_POST['CSRFtoken'])) {
-      throw new Exception('CSRF protection token missing');
+      throw new FusionDirectoryException('CSRF protection token missing');
     }
 
     static::checkHeaders();
 
     if ($_POST['CSRFtoken'] !== static::getToken()) {
-      throw new Exception('CSRF protection token invalid');
+      throw new FusionDirectoryException('CSRF protection token invalid');
     }
   }
 
@@ -63,7 +63,7 @@ class CSRFProtection
       }
       if ($target) {
         if (!hash_equals($origin, $target)) {
-          throw new Exception('CSRF detected: origin and target are not matching ('.$origin.' != '.$target.')');
+          throw new FusionDirectoryException('CSRF detected: origin and target are not matching ('.$origin.' != '.$target.')');
         }
       }
     }
