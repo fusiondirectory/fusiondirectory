@@ -29,6 +29,8 @@ class CSRFProtection
       throw new Exception('CSRF protection token missing');
     }
 
+    static::checkHeaders();
+
     $validToken = static::getToken();
     if ($_POST['CSRFtoken'] !== static::getToken()) {
       throw new Exception('CSRF protection token invalid');
@@ -41,5 +43,30 @@ class CSRFProtection
       session::set('CSRFtoken', standAlonePage::generateRandomHash());
     }
     return session::get('CSRFtoken');
+  }
+
+  public static function checkHeaders()
+  {
+    $origin = FALSE;
+    if (!empty($_SERVER['HTTP_ORIGIN'])) {
+      $origin = $_SERVER['HTTP_ORIGIN'];
+    } elseif (!empty($_SERVER['HTTP_REFERER'])) {
+      $origin = $_SERVER['HTTP_REFERER'];
+    }
+    if ($origin) {
+      $origin = preg_replace('|^[^/]+://([^/]+)(/.*)?$|', '\1', $origin);
+      $target = FALSE;
+      if (!empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
+        $target = $_SERVER['HTTP_X_FORWARDED_HOST'];
+      } else
+      if (!empty($_SERVER['HTTP_HOST'])) {
+        $target = $_SERVER['HTTP_HOST'];
+      }
+      if ($target) {
+        if (!hash_equals($origin, $target)) {
+          throw new Exception('CSRF detected: origin and target are not matching ('.$origin.' != '.$target.')');
+        }
+      }
+    }
   }
 }
