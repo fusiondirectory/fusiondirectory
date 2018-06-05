@@ -35,8 +35,10 @@ require_once("../setup/class_setupStepMigrate.inc");
 require_once("../setup/class_setupStepFinish.inc");
 
 
-/* Set header */
-header("Content-type: text/html; charset=UTF-8");
+/* Set headers */
+header('Content-type: text/html; charset=UTF-8');
+header('X-XSS-Protection: 1; mode=block');
+header('X-Content-Type-Options: nosniff');
 
 /* Set cookie lifetime to one day (The parameter is in seconds ) */
 session_set_cookie_params(24 * 60 * 60);
