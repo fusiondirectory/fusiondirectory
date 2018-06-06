@@ -154,10 +154,10 @@ update-transifex:
 build-tarballs:
   stage: tarballs
   script:
-    - tar -cvzf fusiondirectory-core.tar.gz *
+    - git archive --format=tar --prefix=fusiondirectory-$VERSION/ HEAD | gzip > tars/fusiondirectory-$CI_COMMIT_REF_NAME.tar.gz
   artifacts:
     paths:
-    - fusiondirectory-core.tar.gz
+    - fusiondirectory-$CI_COMMIT_REF_NAME.tar.gz
     expire_in: 1h
 
 build-release:
