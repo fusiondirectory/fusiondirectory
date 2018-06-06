@@ -176,4 +176,4 @@ build-release:
   artifacts:
     name: "fusiondirectory-core"
     paths:
-    - "./fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')"
+    - ./fusiondirectory-"$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')"
