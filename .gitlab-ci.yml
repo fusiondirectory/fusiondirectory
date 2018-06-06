@@ -159,10 +159,10 @@ build-tarballs:
     - apt-get update -qq
     - apt-get install -y -qq git
   script:
-    - git archive --format=tar --prefix=fusiondirectory-$(cut -d '-' -f1 <<< "$$CI_COMMIT_REF_NAME")/ HEAD | gzip > fusiondirectory-core-$(cut -d '-' -f1 <<< "$$CI_COMMIT_REF_NAME").tar.gz
+    - git archive --format=tar --prefix=fusiondirectory-$(cut -d '-' -f1 <<< "$CI_COMMIT_REF_NAME")/ HEAD | gzip > fusiondirectory-core-$(cut -d '-' -f1 <<< "$CI_COMMIT_REF_NAME").tar.gz
   artifacts:
     paths:
-    - fusiondirectory-core-$(cut -d '-' -f1 <<< "$$CI_COMMIT_REF_NAME").tar.gz
+    - fusiondirectory-core-$(cut -d '-' -f1 <<< "$CI_COMMIT_REF_NAME").tar.gz
     expire_in: 1h
 
 build-release:
