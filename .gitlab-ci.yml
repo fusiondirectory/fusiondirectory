@@ -162,7 +162,7 @@ build-tarballs:
   artifacts:
     name: "fusiondirectory-$CI_COMMIT_REF_NAME"
     paths:
-    - "./fusiondirectory-$CI_COMMIT_REF_NAME"
+      - "./fusiondirectory-$CI_COMMIT_REF_NAME"
     expire_in: 1h
 
 build-release:
@@ -176,4 +176,4 @@ build-release:
   artifacts:
     name: "fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')"
     paths:
-    - "./fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')"
+      - "./fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')"
