@@ -155,14 +155,13 @@ build-tarballs:
   stage: tarballs
   only:
     - /^1.*$/
-  before_script:
-    - apt-get update -qq
-    - apt-get install -y -qq git
   script:
-    - git archive --format=tar --prefix=fusiondirectory-$(cut -d '-' -f1 <<< "$CI_COMMIT_REF_NAME")/ HEAD | gzip > fusiondirectory-core-$(cut -d '-' -f1 <<< "$CI_COMMIT_REF_NAME").tar.gz
+    - cd .. || exit 1
+    - mv ./fd "./fusiondirectory-$CI_COMMIT_REF_NAME"
   artifacts:
+    name: "fusiondirectory-core-$CI_COMMIT_REF_NAME"
     paths:
-    - fusiondirectory-core-$(cut -d '-' -f1 <<< "$CI_COMMIT_REF_NAME").tar.gz
+    - "./fusiondirectory-$CI_COMMIT_REF_NAME"
     expire_in: 1h
 
 build-release:
