@@ -153,26 +153,27 @@ update-transifex:
 
 build-tarballs:
   stage: tarballs
+  only:
+    - /^1.*$/
   script:
     - mkdir "../fusiondirectory-$CI_COMMIT_REF_NAME"
     - mv ./* "../fusiondirectory-$CI_COMMIT_REF_NAME"
-    - mkdir ./target/
-    - mv "../fusiondirectory-$CI_COMMIT_REF_NAME" ./target/
+    - mv "../fusiondirectory-$CI_COMMIT_REF_NAME" ./
   artifacts:
     name: "fusiondirectory-$CI_COMMIT_REF_NAME"
     paths:
-    - ./target/
+    - "./fusiondirectory-$CI_COMMIT_REF_NAME"
     expire_in: 1h
 
 build-release:
   stage: tarballs
   only:
     - tags
-  before_script:
-    - apt-get update -qq
-    - apt-get install -y -qq git
   script:
-    - git archive --format=tar --prefix=fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')/ HEAD | gzip > fusiondirectory-core-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"').tar.gz
+    - mkdir "../fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')"
+    - mv ./* "../fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')"
+    - mv "../fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')" ./       
   artifacts:
+    name: "fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')"
     paths:
-      - fusiondirectory-core-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"').tar.gz
+    - "./fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')"
