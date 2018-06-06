@@ -153,19 +153,27 @@ update-transifex:
 
 build-tarballs:
   stage: tarballs
+  only:
+    - /^1.*$/
+  before_script:
+    - apt-get update -qq
+    - apt-get install -y -qq git
   script:
-    - tar -cvzf fusiondirectory-core.tar.gz *
+    - git archive --format=tar --prefix=fusiondirectory-$(cut -d '-' -f1 <<< "$$CI_COMMIT_REF_NAME")/ HEAD | gzip > fusiondirectory-core-$(cut -d '-' -f1 <<< "$$CI_COMMIT_REF_NAME").tar.gz
   artifacts:
     paths:
-    - fusiondirectory-core.tar.gz
+    - fusiondirectory-core-$(cut -d '-' -f1 <<< "$$CI_COMMIT_REF_NAME").tar.gz
     expire_in: 1h
 
 build-release:
   stage: tarballs
   only:
     - tags
-  script: 
-    - tar -cvzf fusiondirectory-core-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"').tar.gz *
+  before_script:
+    - apt-get update -qq
+    - apt-get install -y -qq git
+  script:
+    - git archive --format=tar --prefix=fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')/ HEAD | gzip > fusiondirectory-core-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"').tar.gz
   artifacts:
     paths:
       - fusiondirectory-core-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"').tar.gz
