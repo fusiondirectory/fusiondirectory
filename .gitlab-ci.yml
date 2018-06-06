@@ -156,8 +156,10 @@ build-tarballs:
   script:
     - mkdir "../fusiondirectory-$CI_COMMIT_REF_NAME"
     - mv ./* "../fusiondirectory-$CI_COMMIT_REF_NAME"
+    - rm -Rf ./.* ./*
     - mv "../fusiondirectory-$CI_COMMIT_REF_NAME" ./
   artifacts:
+    name: "fusiondirectory-$CI_COMMIT_REF_NAME"
     paths:
     - ./
     expire_in: 1h
