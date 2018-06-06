@@ -157,12 +157,12 @@ build-tarballs:
     - /^1.*$/
   script:
     - mkdir "../fusiondirectory-$CI_COMMIT_REF_NAME"
-    - mv ./* "../fusiondirectory-$CI_COMMIT_REF_NAME"
+    - cp -a ./* "../fusiondirectory-$CI_COMMIT_REF_NAME"
     - mv "../fusiondirectory-$CI_COMMIT_REF_NAME" ./
   artifacts:
     name: "fusiondirectory-$CI_COMMIT_REF_NAME"
     paths:
-      - "./fusiondirectory-$CI_COMMIT_REF_NAME"
+    - "./fusiondirectory-$CI_COMMIT_REF_NAME"
     expire_in: 1h
 
 build-release:
@@ -171,9 +171,9 @@ build-release:
     - tags
   script:
     - mkdir "../fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')"
-    - mv ./* "../fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')"
+    - cp -a ./* "../fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')"
     - mv "../fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')" ./       
   artifacts:
     name: "fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')"
     paths:
-      - "./fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')"
+    - "./fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')"
