@@ -153,6 +153,9 @@ update-transifex:
 
 build-tarballs:
   stage: tarballs
+  before_script:
+    - apt-get update -qq
+    - apt-get install -y -qq git
   script:
     - git archive --format=tar --prefix=fusiondirectory-$VERSION/ HEAD | gzip > tars/fusiondirectory-$CI_COMMIT_REF_NAME.tar.gz
   artifacts:
