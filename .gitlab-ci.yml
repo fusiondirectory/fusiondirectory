@@ -160,7 +160,7 @@ build-tarballs:
     - git archive --format=tar --prefix=fusiondirectory-1.3-dev/ HEAD | gzip > fusiondirectory-1.3-dev.tar.gz
   artifacts:
     paths:
-    - fusiondirectory-$CI_COMMIT_REF_NAME.tar.gz
+    - fusiondirectory-1.3-dev.tar.gz
     expire_in: 1h
 
 build-release:
