@@ -156,13 +156,13 @@ build-tarballs:
   only:
     - /^1.*$/
   script:
-    - mkdir ../fusiondirectory-"$(cut -d '-' -f1 <<< $CI_COMMIT_REF_NAME)"
-    - cp -a ./* ../fusiondirectory-"$(cut -d '-' -f1 <<< $CI_COMMIT_REF_NAME)"
-    - mv ../fusiondirectory-"$(cut -d '-' -f1 <<< $CI_COMMIT_REF_NAME)" ./
+    - mkdir ../fusiondirectory-$(cut -d '-' -f1 <<< $CI_COMMIT_REF_NAME)
+    - cp -a ./* ../fusiondirectory-$(cut -d '-' -f1 <<< $CI_COMMIT_REF_NAME)
+    - mv ../fusiondirectory-$(cut -d '-' -f1 <<< $CI_COMMIT_REF_NAME) ./
   artifacts:
-    name: fusiondirectory-"$(cut -d '-' -f1 <<< $CI_COMMIT_REF_NAME)"
+    name: fusiondirectory-$(cut -d '-' -f1 <<< $CI_COMMIT_REF_NAME)
     paths:
-    - ./fusiondirectory-"$(cut -d '-' -f1 <<< $CI_COMMIT_REF_NAME)"
+    - ./fusiondirectory-$(cut -d '-' -f1 <<< $CI_COMMIT_REF_NAME)
     expire_in: 1h
 
 build-release:
