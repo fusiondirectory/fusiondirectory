@@ -23,6 +23,12 @@
  */
 class LoginPost extends LoginMethod
 {
+  /*! \brief Displayed name */
+  static function getLabel()
+  {
+    return _('HTML form');
+  }
+
   /*! \brief All login steps in the right order for standard POST login */
   static function loginProcess()
   {
@@ -33,25 +39,23 @@ class LoginPost extends LoginMethod
     /* Reset error messages */
     $message = '';
 
-    static::$username = $_POST['username'];
-    static::$password = $_POST['password'];
+    if (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['login']) && isset($_POST['username']) && isset($_POST['password'])) {
 
-    $success = static::runSteps(array(
-      'validateUserInput',
-      'ldapLoginUser',
-      'checkForLockingBranch',
-      'loginAndCheckExpired',
-      'runSchemaCheck',
-    ));
+      static::$username = $_POST['username'];
+      static::$password = $_POST['password'];
 
-    if ($success) {
-      /* Everything went well, redirect to main.php */
-      static::redirect();
+      $success = static::runSteps(array(
+        'validateUserInput',
+        'ldapLoginUser',
+        'checkForLockingBranch',
+        'loginAndCheckExpired',
+        'runSchemaCheck',
+      ));
+
+      if ($success) {
+        /* Everything went well, redirect to main.php */
+        static::redirect();
+      }
     }
-  }
-
-  static function active()
-  {
-    return (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['login']));
   }
 }

@@ -23,6 +23,12 @@
  */
 class LoginHTTPAuth extends LoginMethod
 {
+  /*! \brief Displayed name */
+  static function getLabel()
+  {
+    return _('HTTP Basic Auth');
+  }
+
   /*! \brief All login steps in the right order for HTTP auth login */
   static function loginProcess()
   {
@@ -60,11 +66,5 @@ class LoginHTTPAuth extends LoginMethod
     header('HTTP/1.0 401 Unauthorized');
     echo "$message\n";
     exit;
-  }
-
-  static function active()
-  {
-    global $config;
-    return ($config->get_cfg_value('httpAuthActivated') == 'TRUE');
   }
 }

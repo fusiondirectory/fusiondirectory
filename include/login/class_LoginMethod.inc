@@ -175,20 +175,44 @@ class LoginMethod
   /*! \brief All login steps in the right order */
   static function loginProcess()
   {
+    global $config;
+    $method = $config->get_cfg_value('LoginMethod', '');
+    if (empty($method)) {
+      // Try to detect configurations from FD<1.4
+      if ($config->get_cfg_value('httpAuthActivated') == 'TRUE') {
+        $method = 'LoginHTTPAuth';
+      } elseif ($config->get_cfg_value('casActivated') == 'TRUE') {
+        $method = 'LoginCAS';
+      } elseif ($config->get_cfg_value('httpHeaderAuthActivated') == 'TRUE') {
+        $method = 'LoginHTTPHeader';
+      } else {
+        $method = 'LoginPost';
+      }
+    }
+    $method::loginProcess();
   }
 
-  static function active()
+  /*! \brief Displayed name for each login method. Returning FALSE disables a method */
+  static function getLabel()
   {
     return FALSE;
   }
 
   static function getMethods()
   {
-    return array(
-      'LoginHTTPAuth',
-      'LoginCAS',
-      'LoginHTTPHeader',
+    $methods = array(
       'LoginPost',
+      'LoginCAS',
+      'LoginHTTPAuth',
+      'LoginHTTPHeader',
     );
+    $return = array();
+    foreach ($methods as $method) {
+      $label = $method::getLabel();
+      if ($label) {
+        $return[$method] = $label;
+      }
+    }
+    return $return;
   }
 }

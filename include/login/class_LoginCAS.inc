@@ -23,6 +23,12 @@
  */
 class LoginCAS extends LoginMethod
 {
+  /*! \brief Displayed name */
+  static function getLabel()
+  {
+    return _('CAS');
+  }
+
   /*! \brief All login steps in the right order for CAS login */
   static function loginProcess()
   {
@@ -89,12 +95,20 @@ class LoginCAS extends LoginMethod
     if ($success) {
       /* Everything went well, redirect to main.php */
       static::redirect();
+    } else {
+      echo msg_dialog::get_dialogs();
+      if (!empty($message)) {
+        msg_dialog::display(
+          _('Error'),
+          sprintf(
+            _('Login with user "%s" triggered error: %s'),
+            static::$username,
+            $message
+          ),
+          FATAL_ERROR_DIALOG
+        );
+      }
+      exit();
     }
-  }
-
-  static function active()
-  {
-    global $config;
-    return ($config->get_cfg_value('casActivated') == 'TRUE');
   }
 }

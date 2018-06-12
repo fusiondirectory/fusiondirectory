@@ -211,15 +211,10 @@ class configInLdap extends simplePlugin
             'fdSessionLifeTime', TRUE,
             0 /*min*/, FALSE /*no max*/, 1800
           ),
-          new BooleanAttribute (
-            _('HTTP Basic authentication'), _('Use HTTP Basic authentication protocol instead of the login form.'),
-            'fdHttpAuthActivated', FALSE,
-            FALSE
-          ),
-          new BooleanAttribute (
-            _('HTTP Header authentication'), _('Use HTTP Header authentication instead of the login form.'),
-            'fdHttpHeaderAuthActivated', FALSE,
-            FALSE
+          new SelectAttribute (
+            _('Login method'),
+            _('Which login method should be used for connecting to FusionDirectory'),
+            'fdLoginMethod', TRUE
           ),
           new StringAttribute (
             _('Header name'), _('Name of the header containing user identifier.'),
@@ -251,11 +246,6 @@ class configInLdap extends simplePlugin
       'cas' => array(
         'name'  => _('CAS'),
         'attrs' => array(
-          new BooleanAttribute (
-            _('Enable CAS'), _('CAS login will be used instead of LDAP bind'),
-            'fdCasActivated', FALSE,
-            FALSE
-          ),
           new TrimmedStringAttribute (
             _('CA certificate path'), _('Path to the CA certificate of the CAS server'),
             'fdCasServerCaCertPath', FALSE,
@@ -463,6 +453,10 @@ class configInLdap extends simplePlugin
       $methods[] = 'sasl';
     }
     $attributesInfo['password']['attrs'][0]->setChoices($methods);
+    /* Login methods */
+    $methods = LoginMethod::getMethods();
+    $attributesInfo['login']['attrs'][4]->setChoices(array_keys($methods), array_values($methods));
+    //TODO Support previous settings
 
     $groupsAndRoles = array_merge(
       array_map(
@@ -509,15 +503,6 @@ class configInLdap extends simplePlugin
 
     $this->fusionConfigMd5 = md5_file(CACHE_DIR."/".CLASS_CACHE);
 
-    $this->attributesAccess['fdHttpAuthActivated']->setManagedAttributes(
-      array(
-        'erase' => array (
-          TRUE => array (
-            'fdCasActivated',
-          )
-        )
-      )
-    );
     $this->attributesAccess['fdEnableSnapshots']->setManagedAttributes(
       array(
         'disable' => array (
@@ -539,27 +524,6 @@ class configInLdap extends simplePlugin
         )
       )
     );
-    $this->attributesAccess['fdCasActivated']->setManagedAttributes(
-      array(
-        'disable' => array (
-          FALSE => array (
-            'fdCasServerCaCertPath',
-            'fdCasHost',
-            'fdCasPort',
-            'fdCasContext',
-          )
-        )
-      )
-    );
-    $this->attributesAccess['fdHttpHeaderAuthActivated']->setManagedAttributes(
-      array(
-        'disable' => array (
-          FALSE => array (
-            'fdHttpHeaderAuthHeaderName',
-          )
-        )
-      )
-    );
     $this->attributesAccess['fdSplitPostalAddress']->setManagedAttributes(
       array(
         'disable' => array (
@@ -569,6 +533,43 @@ class configInLdap extends simplePlugin
         )
       )
     );
+    $this->attributesAccess['fdLoginMethod']->setManagedAttributes(
+      array(
+        'multiplevalues' => array(
+          'noncas'    => array(
+            'LoginPost',
+            'LoginHTTPAuth',
+            'LoginHTTPHeader',
+          ),
+          'nonheader' => array(
+            'LoginPost',
+            'LoginCAS',
+            'LoginHTTPAuth'
+          ),
+        ),
+        'disable' => array(
+          'noncas' => array (
+            'fdCasServerCaCertPath',
+            'fdCasHost',
+            'fdCasPort',
+            'fdCasContext',
+          ),
+          'nonheader' => array (
+            'fdHttpHeaderAuthHeaderName',
+          )
+        )
+      )
+    );
+    if (empty($this->attrs['fdLoginMethod'][0])) {
+      // Reading OBSOLETE attributes from FD<1.4 to ease migration
+      if (isset($this->attrs['fdHttpAuthActivated'][0]) && ($this->attrs['fdHttpAuthActivated'][0] == 'TRUE')) {
+        $this->fdLoginMethod = 'LoginHTTPAuth';
+      } elseif (isset($this->attrs['fdCasActivated'][0]) && ($this->attrs['fdCasActivated'][0] == 'TRUE')) {
+        $this->fdLoginMethod = 'LoginCAS';
+      } elseif (isset($this->attrs['fdHttpHeaderAuthActivated'][0]) && ($this->attrs['fdHttpHeaderAuthActivated'][0] == 'TRUE')) {
+        $this->fdLoginMethod = 'LoginHTTPHeader';
+      }
+    }
   }
 
   function compute_dn()

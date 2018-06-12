@@ -270,18 +270,27 @@ attributetype ( 1.3.6.1.4.1.38414.8.15.5 NAME 'fdSessionLifeTime'
 
 attributetype ( 1.3.6.1.4.1.38414.8.15.6 NAME 'fdHttpAuthActivated'
   DESC 'FusionDirectory - HTTP Basic Auth activation'
+  OBSOLETE
   EQUALITY booleanMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
   SINGLE-VALUE )
 
 attributetype ( 1.3.6.1.4.1.38414.8.15.7 NAME 'fdHttpHeaderAuthActivated'
   DESC 'FusionDirectory - HTTP Header Auth activation'
+  OBSOLETE
   EQUALITY booleanMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
   SINGLE-VALUE )
 
 attributetype ( 1.3.6.1.4.1.38414.8.15.8 NAME 'fdHttpHeaderAuthHeaderName'
   DESC 'FusionDirectory - HTTP Header Auth - Header name'
+  EQUALITY caseExactIA5Match
+  SUBSTR caseExactIA5SubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.8.15.9 NAME 'fdLoginMethod'
+  DESC 'FusionDirectory - Active login method'
   EQUALITY caseExactIA5Match
   SUBSTR caseExactIA5SubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
@@ -421,6 +430,7 @@ attributetype ( 1.3.6.1.4.1.38414.8.20.3 NAME 'fdSslCertPath'
 
 attributetype ( 1.3.6.1.4.1.38414.8.21.1 NAME 'fdCasActivated'
   DESC 'FusionDirectory - CAS activation'
+  OBSOLETE
   EQUALITY booleanMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
   SINGLE-VALUE )
@@ -563,7 +573,8 @@ objectclass ( 1.3.6.1.4.1.38414.8.2.1 NAME 'fusionDirectoryConf'
     fdPluginsMenuBlacklist $
     fdAclTabOnObjects $ fdDepartmentCategories $
     fdSslCaCertPath $ fdSslKeyPath $ fdSslCertPath $
-    fdCasActivated $ fdCasServerCaCertPath $ fdCasHost $ fdCasPort $ fdCasContext
+    fdCasActivated $ fdCasServerCaCertPath $ fdCasHost $ fdCasPort $ fdCasContext $
+    fdLoginMethod
   ) )
 
 objectclass ( 1.3.6.1.4.1.38414.8.2.2 NAME 'fusionDirectoryPluginsConf'
