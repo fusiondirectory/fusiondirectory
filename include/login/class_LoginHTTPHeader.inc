@@ -23,6 +23,12 @@
  */
 class LoginHTTPHeader extends LoginMethod
 {
+  /*! \brief Displayed name */
+  static function getLabel()
+  {
+    return _('HTTP Header');
+  }
+
   /*! \brief All login steps in the right order for HTTP Header login */
   static function loginProcess()
   {
@@ -85,12 +91,20 @@ class LoginHTTPHeader extends LoginMethod
     if ($success) {
       /* Everything went well, redirect to main.php */
       static::redirect();
+    } else {
+      echo msg_dialog::get_dialogs();
+      if (!empty($message)) {
+        msg_dialog::display(
+          _('Error'),
+          sprintf(
+            _('Login with user "%s" triggered error: %s'),
+            static::$username,
+            $message
+          ),
+          FATAL_ERROR_DIALOG
+        );
+      }
+      exit();
     }
-  }
-
-  static function active()
-  {
-    global $config;
-    return ($config->get_cfg_value('httpHeaderAuthActivated') == 'TRUE');
   }
 }

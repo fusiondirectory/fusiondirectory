@@ -23,6 +23,12 @@
  */
 class LoginHTTPAuth extends LoginMethod
 {
+  /*! \brief Displayed name */
+  static function getLabel()
+  {
+    return _('HTTP Basic Auth');
+  }
+
   /*! \brief All login steps in the right order for HTTP auth login */
   static function loginProcess()
   {
@@ -53,9 +59,12 @@ class LoginHTTPAuth extends LoginMethod
     }
   }
 
-  static function active()
+  /*! \brief Return HTTP authentication header */
+  static function authenticateHeader($message = 'Authentication required')
   {
-    global $config;
-    return ($config->get_cfg_value('httpAuthActivated') == 'TRUE');
+    header('WWW-Authenticate: Basic realm="FusionDirectory"');
+    header('HTTP/1.0 401 Unauthorized');
+    echo "$message\n";
+    exit;
   }
 }
