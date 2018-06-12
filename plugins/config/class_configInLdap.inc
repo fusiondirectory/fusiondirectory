@@ -456,7 +456,6 @@ class configInLdap extends simplePlugin
     /* Login methods */
     $methods = LoginMethod::getMethods();
     $attributesInfo['login']['attrs'][4]->setChoices(array_keys($methods), array_values($methods));
-    //TODO Support previous settings
 
     $groupsAndRoles = array_merge(
       array_map(
