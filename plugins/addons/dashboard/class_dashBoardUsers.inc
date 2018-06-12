@@ -115,7 +115,7 @@ class dashboardUsers extends simplePlugin
     try {
       $nb_groups        = count(objects::ls('group', NULL, NULL, '',                              TRUE));
       $nb_mail_groups   = count(objects::ls('group', NULL, NULL, '(objectClass=fdGroupMail)',     TRUE));
-      $nb_samba_groups  = count(objects::ls('group', NULL, NULL, '(objectClass=sambaSamAccount)', TRUE));
+      $nb_samba_groups  = count(objects::ls('group', NULL, NULL, '(objectClass=sambaGroupMapping)', TRUE));
     } catch (LDAPFailureException $e) {
       msg_dialog::display(
         _('LDAP error'),
