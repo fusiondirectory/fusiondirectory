@@ -26,79 +26,6 @@ require_once ("variables.inc");
 require_once ("class_logging.inc");
 header("Content-type: text/html; charset=UTF-8");
 
-/* Display the login page and exit() */
-function displayLogin()
-{
-  global $smarty,$message,$config,$ssl,$error_collector,$error_collector_mailto;
-  $lang = session::global_get('lang');
-
-  error_reporting(E_ALL | E_STRICT);
-  /* Fill template with required values */
-  $username = '';
-  if (isset($_POST['username'])) {
-    $username = trim($_POST['username']);
-  }
-  $smarty->assign ('date',      gmdate('D, d M Y H:i:s'));
-  $smarty->assign ('username',  $username);
-  $smarty->assign ('revision',  FD_VERSION);
-  $smarty->assign ('year',      date('Y'));
-  $smarty->append ('css_files', get_template_path('login.css'));
-
-  /* Some error to display? */
-  if (!isset($message)) {
-    $message = "";
-  }
-  $smarty->assign ("message", $message);
-
-  /* Display SSL mode warning? */
-  if (($ssl != '') && ($config->get_cfg_value('warnSSL') == 'TRUE')) {
-    $smarty->assign ('ssl', sprintf(_('Warning: <a href="%s">Session is not encrypted!</a>'), $ssl));
-  } else {
-    $smarty->assign ('ssl', '');
-  }
-
-  if (!$config->check_session_lifetime()) {
-    $smarty->assign ('lifetime', _('Warning: The session lifetime configured in your fusiondirectory.conf will be overridden by php.ini settings.'));
-  } else {
-    $smarty->assign ('lifetime', '');
-  }
-
-  /* Generate server list */
-  $servers = array();
-  if (isset($_POST['server'])) {
-    $selected = $_POST['server'];
-  } else {
-    $selected = $config->data['MAIN']['DEFAULT'];
-  }
-  foreach ($config->data['LOCATIONS'] as $key => $ignored) {
-    $servers[$key] = $key;
-  }
-  $smarty->assign ("server_options", $servers);
-  $smarty->assign ("server_id", $selected);
-
-  /* show login screen */
-  $smarty->assign ("PHPSESSID", session_id());
-  if (session::is_set('errors')) {
-    $smarty->assign("errors", session::get('errors'));
-  }
-  if ($error_collector != "") {
-    $smarty->assign("php_errors", preg_replace("/%BUGBODY%/", $error_collector_mailto, $error_collector)."</div>");
-  } else {
-    $smarty->assign("php_errors", "");
-  }
-  $smarty->assign("msg_dialogs", msg_dialog::get_dialogs());
-  $smarty->assign("usePrototype", "false");
-  $smarty->assign("date", date("l, dS F Y H:i:s O"));
-  $smarty->assign("lang", preg_replace('/_.*$/', '', $lang));
-  $smarty->assign("rtl",  Language::isRTL($lang));
-
-  $smarty->display (get_template_path('headers.tpl'));
-  $smarty->assign("version", FD_VERSION);
-
-  $smarty->display(get_template_path('login.tpl'));
-  exit();
-}
-
 /*****************************************************************************
  *                               M   A   I   N                               *
  *****************************************************************************/
@@ -182,8 +109,6 @@ clean_smarty_compile_dir($smarty->compile_dir);
 
 Language::init();
 
-$smarty->assign ('focusfield', 'username');
-
 if (isset($_POST['server'])) {
   $server = $_POST['server'];
 } else {
@@ -194,7 +119,8 @@ $config->set_current($server);
 if (
   ($config->get_cfg_value('casActivated') == 'TRUE') ||
   ($config->get_cfg_value('httpAuthActivated') == 'TRUE') ||
-  ($config->get_cfg_value('httpHeaderAuthActivated') == 'TRUE')) {
+  ($config->get_cfg_value('httpHeaderAuthActivated') == 'TRUE') ||
+  in_array($config->get_cfg_value('LoginMethod'), array('LoginCas', 'LoginHTTPAuth', 'LoginHTTPHeader'))) {
   session::global_set('DEBUGLEVEL', 0);
 }
 
@@ -221,21 +147,4 @@ if (isset($_REQUEST['message'])) {
 }
 
 LoginMethod::loginProcess();
-
-/* Translation of cookie-warning. Whether to display it, is determined by JavaScript */
-$smarty->assign ('cookies', '<b>'._('Warning').':</b> '._('Your browser has cookies disabled. Please enable cookies and reload this page before logging in!'));
-
-/* Set focus to the error button if we've an error message */
-$focus = '';
-if (session::is_set('errors') && session::get('errors') != '') {
-  $focus = '<script type="text/javascript">';
-  $focus .= 'document.forms[0].error_accept.focus();';
-  $focus .= '</script>';
-}
-$smarty->assign('focus', $focus);
-
-displayLogin();
 ?>
-
-</body>
-</html>
