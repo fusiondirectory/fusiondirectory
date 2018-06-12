@@ -157,15 +157,6 @@ class LoginMethod
     exit;
   }
 
-  /*! \brief Return HTTP authentication header */
-  static function authenticateHeader($message = 'Authentication required')
-  {
-    header('WWW-Authenticate: Basic realm="FusionDirectory"');
-    header('HTTP/1.0 401 Unauthorized');
-    echo "$message\n";
-    exit;
-  }
-
   /*! \brief Run each step in $steps, stop on errors */
   static function runSteps($steps)
   {
