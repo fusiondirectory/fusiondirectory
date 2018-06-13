@@ -121,7 +121,7 @@ class dashboardUsers extends simplePlugin
     $nb = $ldap->count();
     $ldap->search('(&(objectClass=posixGroup)(objectClass=fdGroupMail))', array('cn'));
     $nb_mail_groups = $ldap->count();
-    $ldap->search('(&(objectClass=posixGroup)(objectClass=sambaSamAccount))', array('cn'));
+    $ldap->search('(&(objectClass=posixGroup)(objectClass=sambaGroupMapping))', array('cn'));
     $nb_samba_groups = $ldap->count();
 
     return array(
