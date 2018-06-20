@@ -45,7 +45,7 @@ class GroupContentFilterElement extends FilterElement
   public function update()
   {
     foreach ($this->types as $type => &$infos) {
-      $infos['checked'] = isset($_POST['filter_type_'.$type]);
+      $infos['checked'] = isset($_POST['filter_member_'.$type]);
     }
     unset($infos);
   }
@@ -54,7 +54,7 @@ class GroupContentFilterElement extends FilterElement
   {
     $inputs = array();
     foreach ($this->types as $type => $infos) {
-      $inputs['filter_type_'.$type] = array(
+      $inputs['filter_member_'.$type] = array(
         'name'    => $infos['infos']['name'],
         'desc'    => (isset($infos['infos']['description']) ? $infos['infos']['description'] : $infos['infos']['name']).' '.$infos['filter'],
         'icon'    => (isset($infos['infos']['icon']) ? $infos['infos']['icon'] : NULL),
