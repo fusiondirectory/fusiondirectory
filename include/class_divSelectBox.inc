@@ -167,7 +167,7 @@ class divSelectBox
     }
 
     $s_return = '';
-    $i = $this->_numEntries();
+    $i        = count($this->a_entries);
     foreach ($this->a_entries as $s_value) {
       $i--;
 
