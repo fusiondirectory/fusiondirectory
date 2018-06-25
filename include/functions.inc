@@ -175,25 +175,6 @@ function load_plist ($ldap_available = TRUE)
   return session::global_get('plist');
 }
 
-
-/*!
- * \brief Create seed with microseconds
- *
- * Example:
- * \code
- * srand(make_seed());
- * $random = rand();
- * \endcode
- *
- * \return float a floating point number which can be used to feed srand() with it
- */
-function make_seed()
-{
-  list($usec, $sec) = explode(' ', microtime());
-  return (float) $sec + ((float) $usec * 100000);
-}
-
-
 /*!
  * \brief Debug level action
  *
@@ -1522,8 +1503,7 @@ function gen_uids($rule, $attributes)
       $size = preg_replace('/^.*{id#(\d+)}.*$/', '\\1', $uid);
 
       while (TRUE) {
-        mt_srand((double)microtime() * 1000000);
-        $number = sprintf("%0".$size."d", mt_rand(0, pow(10, $size) - 1));
+        $number = sprintf("%0".$size."d", random_int(0, pow(10, $size) - 1));
         $res    = preg_replace('/{id#(\d+)}/', $number, $uid);
         $ldap->search('(uid='.ldap_escape_f(preg_replace('/[{}]/', '', $res)).')', array('dn'));
         if ($ldap->count() == 0) {
@@ -2479,6 +2459,35 @@ if (!function_exists('ldap_escape')) {
     }
 
     return $result;
+  }
+}
+
+if (!function_exists('random_int')) {
+  // PHP<7, we fallback on openssl_random_pseudo_bytes
+  function random_int($min, $max)
+  {
+    $range = $max - $min;
+    if ($range <= 0) {
+      return $min;
+    }
+
+    $log    = log($range, 2);
+    // length in bytes
+    $nbBytes  = (int) ($log / 8) + 1;
+    // length in bits
+    $nbBits   = (int) $log + 1;
+    // set all lower bits to 1
+    $filter = (int) (1 << $nbBits) - 1;
+    do {
+      $randomBytes = openssl_random_pseudo_bytes($nbBytes, $strong);
+      if (!$strong || ($randomBytes === FALSE)) {
+        throw new Exception('Failed to get random bytes');
+      }
+      $rnd = unpack('C', $randomBytes)[1];
+      // discard irrelevant bits
+      $rnd = $rnd & $filter;
+    } while ($rnd >= $range);
+    return $min + $rnd;
   }
 }
 

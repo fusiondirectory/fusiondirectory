@@ -310,7 +310,7 @@ class templateHandling
     $length = 8;
     $chars  = 'b';
     if (count($args) >= 2) {
-      $length = mt_rand($args[0], $args[1]);
+      $length = random_int($args[0], $args[1]);
       if (count($args) >= 3) {
         $chars = $args[2];
       }
@@ -322,11 +322,11 @@ class templateHandling
       switch ($chars) {
         case 'd':
           /* digits */
-          $res .= (string)rand(0, 9);
+          $res .= (string)random_int(0, 9);
           break;
         case 'l':
           /* letters */
-          $nb = mt_rand(65, 116);
+          $nb = random_int(65, 116);
           if ($nb > 90) {
             /* lowercase */
             $nb += 6;
@@ -336,7 +336,7 @@ class templateHandling
         case 'b':
           /* both */
         default:
-          $nb = mt_rand(65, 126);
+          $nb = random_int(65, 126);
           if ($nb > 116) {
             /* digit */
             $nb = (string)($nb - 117);
