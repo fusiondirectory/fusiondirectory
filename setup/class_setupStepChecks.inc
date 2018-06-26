@@ -95,6 +95,14 @@ class setupStepChecks extends setupStep
     $M = TRUE;
     $basic_checks[] = array('NAME' => $N , 'DESC' => $D , 'RESULT' => $R , 'SOLUTION' => $S , 'MUST' => $M );
 
+    /* Pseudo-random check */
+    $N = _('Checking cryptographically secure pseudo-random integers');
+    $D = _('You must use PHP>=7 or have openssl module activated so that FusionDirectory can generate cryptographically secure pseudo-random integers.');
+    $S = _('Please upgrade to PHP7 or activate openssl module.');
+    $R = (is_callable('random_int') || is_callable('openssl_random_pseudo_bytes'));
+    $M = TRUE;
+    $basic_checks[] = array('NAME' => $N , 'DESC' => $D , 'RESULT' => $R , 'SOLUTION' => $S , 'MUST' => $M );
+
     /* Check for json support */
     $N = msgPool::checkingFor('json');
     $D = _('FusionDirectory requires this module to encode variables for javascript use.');
