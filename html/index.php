@@ -29,6 +29,7 @@ require_once ("class_logging.inc");
 header('Content-type: text/html; charset=UTF-8');
 header('X-XSS-Protection: 1; mode=block');
 header('X-Content-Type-Options: nosniff');
+header('X-Frame-Options: deny');
 
 /* Display the login page and exit() */
 function displayLogin()
