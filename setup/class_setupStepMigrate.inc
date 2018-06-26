@@ -471,7 +471,7 @@ class setupStepMigrate extends setupStep
     $ldap = $config->get_ldap_link();
 
     /* Create dummy entry */
-    $name       = 'GOsa_setup_text_entry_'.session_id().rand(0, 999999);
+    $name       = 'GOsa_setup_text_entry_'.session_id().random_int(0, 999999);
     $dn         = 'ou='.$name.','.$config->current['BASE'];
     $testEntry  = array();
 
