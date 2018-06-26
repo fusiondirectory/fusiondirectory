@@ -31,6 +31,7 @@ require_once ("variables.inc");
 header('Content-type: text/html; charset=UTF-8');
 header('X-XSS-Protection: 1; mode=block');
 header('X-Content-Type-Options: nosniff');
+header('X-Frame-Options: deny');
 
 /* Set the text domain as 'fusiondirectory' */
 $domain = 'fusiondirectory';
