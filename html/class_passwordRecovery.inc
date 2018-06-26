@@ -104,6 +104,8 @@ class standAlonePage {
       load_plist();
 
       $ssl = $this->checkForSSL();
+
+      static::securityHeaders();
     }
   }
 
@@ -219,6 +221,13 @@ class standAlonePage {
       $params .= "&amp;$key=".urlencode($this->$key);
     }
     return preg_replace('/^&amp;/', '?', $params);
+  }
+
+  static function securityHeaders()
+  {
+    header('X-XSS-Protection: 1; mode=block');
+    header('X-Content-Type-Options: nosniff');
+    header('X-Frame-Options: deny');
   }
 
   static function generateRandomHash()
