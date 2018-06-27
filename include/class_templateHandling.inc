@@ -176,7 +176,7 @@ class templateHandling
         unset($attrs[$attr]);
       }
     }
-    $dependencies = array_unique(array_merge(...$flatdepends));
+    $dependencies = array_unique(array_merge(...array_values($flatdepends)));
     foreach ($dependencies as $attr) {
       if (empty($flatdepends[$attr])) {
         $needed[] = $attr;
