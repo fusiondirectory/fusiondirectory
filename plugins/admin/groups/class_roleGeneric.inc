@@ -32,7 +32,7 @@ class RoleMembersAttribute extends UsersAttribute
         if (empty($groups)) {
           $this->whitelistDns = array();
         } else {
-          $this->whitelistDns = array_merge_recursive(...$groups)['member'];
+          $this->whitelistDns = array_merge_recursive(...array_values($groups))['member'];
         }
       }
       return array(
