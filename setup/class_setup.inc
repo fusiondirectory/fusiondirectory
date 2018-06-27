@@ -122,32 +122,18 @@ class setup
       }
     }
 
-    /* display step error msgs */
+    /* Display step error messages */
     $msgs = $this->o_steps[$this->i_current]->check();
-    foreach ($msgs as $msg) {
-      msg_dialog::display(_("Setup error"), $msg, ERROR_DIALOG);
-    }
+    msg_dialog::displayChecks($msgs);
 
-    /* Check if step was selected */
-    if (isset($_GET['step']) || isset($_POST['next']) || isset($_POST['last'])) {
-
-      /* check if current setup step is completed now
-          and activate the next step if possible */
-      for ($i = 0; $i < $this->i_steps; $i++) {
-        if ($this->o_steps[$i]->is_completed()) {
-          if (isset($this->o_steps[($i + 1)])) {
-            $this->o_steps[($i + 1)]->set_enabled();
-          }
-        } else {
-          $this->disable_steps_from($i + 1);
-          break;
-        }
-      }
-    }
-
-    /* Disable all following steps, if one step isn't completed right now .*/
     for ($i = 0; $i < $this->i_steps; $i++) {
-      if (!$this->o_steps[$i]->is_completed()) {
+      if ($this->o_steps[$i]->is_completed()) {
+        /* If step is completed, activate the next step if possible */
+        if (isset($this->o_steps[($i + 1)])) {
+          $this->o_steps[($i + 1)]->set_enabled();
+        }
+      } else {
+        /* Disable all following steps, if one step isn't completed right now */
         $this->disable_steps_from($i + 1);
         break;
       }
