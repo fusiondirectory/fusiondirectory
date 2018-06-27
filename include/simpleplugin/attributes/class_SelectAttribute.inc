@@ -118,11 +118,13 @@ class SelectAttribute extends Attribute
     $key = array_search("", $this->choices, TRUE);
     if ($this->isRequired() && ($key !== FALSE)) {
       unset($this->choices[$key]);
-      unset($this->outputs[""]);
+      if ($this->outputs !== NULL) {
+        unset($this->outputs['']);
+      }
     } elseif (!$this->isRequired() && !in_array("", $this->choices, TRUE)) {
       $this->choices[] = "";
-      if (!isset($this->output[""])) {
-        $this->output[""] = _("None");
+      if (($this->outputs !== NULL) && !isset($this->output[''])) {
+        $this->output[''] = _('None');
       }
     }
   }
@@ -214,7 +216,9 @@ class SelectAttribute extends Attribute
     parent::setParent($plugin);
     if ($this->isTemplate() && !in_array('%askme%', $this->choices)) {
       $this->choices[]          = '%askme%';
-      $this->outputs['%askme%'] = '%askme%';
+      if ($this->outputs !== NULL) {
+        $this->outputs['%askme%'] = '%askme%';
+      }
     }
   }
 }

@@ -52,13 +52,27 @@ class BooleanAttribute extends Attribute
   function loadPostValue ()
   {
     if ($this->isVisible()) {
-      $this->setPostValue(isset($_POST[$this->getHtmlId()]));
+      if ($this->isTemplate() && !$this->submitForm && empty($this->managedAttributes)) {
+        if (!isset($_POST[$this->getHtmlId()])) {
+          $this->setPostValue(FALSE);
+        } elseif ($_POST[$this->getHtmlId()] == '%askme%') {
+          $this->setPostValue('%askme%');
+        } else {
+          $this->setPostValue($_POST[$this->getHtmlId()] == 'TRUE');
+        }
+      } else {
+        $this->setPostValue(isset($_POST[$this->getHtmlId()]));
+      }
     }
   }
 
   function computeLdapValue ()
   {
-    return ($this->value ? $this->trueValue : $this->falseValue);
+    if ($this->isTemplate() && ($this->value == '%askme%')) {
+      return $this->value;
+    } else {
+      return ($this->value ? $this->trueValue : $this->falseValue);
+    }
   }
 
   function renderFormInput ()
@@ -74,6 +88,32 @@ class BooleanAttribute extends Attribute
     }
     $display  = $this->renderInputField('checkbox', $id, $attributes);
     return $this->renderAcl($display);
+  }
+
+  function renderTemplateInput ()
+  {
+    if (!$this->submitForm && empty($this->managedAttributes)) {
+      /* Allow to set to %askme% if we are not (de)activating other fields */
+
+      $id = $this->getHtmlId();
+      if ($this->getValue() == '%askme%') {
+        $selected = '%askme%';
+      } elseif ($this->getValue()) {
+        $selected = 'TRUE';
+      } else {
+        $selected = 'FALSE';
+      }
+      $display  = '<select name="'.$id.'" id="'.$id.'" ';
+      if ($this->disabled) {
+        $display .= 'disabled="disabled" ';
+      }
+      $display .= '>';
+      $display .= '{html_options values=array("FALSE","TRUE","%askme%") output=array("FALSE","TRUE","%askme%") selected="'.$selected.'"}';
+      $display .= '</select>';
+      return $this->renderAcl($display);
+    } else {
+      return $this->renderFormInput();
+    }
   }
 
   protected function managedAttributesJS ()
