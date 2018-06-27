@@ -126,7 +126,7 @@ class PropertiesColumn extends Column
       } else {
         $attrs = $entry;
       }
-      foreach ($this->tabs[$entry->type] as $class) {
+      foreach ($this->tabs[$entry->getTemplatedType()] as $class) {
         $status = $class::isAccount($attrs);
         if ($status !== FALSE) {
           $pInfos = pluglist::pluginInfos($class);

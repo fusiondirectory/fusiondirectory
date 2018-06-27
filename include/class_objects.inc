@@ -100,6 +100,9 @@ class objects
 
     if (is_array($attrs)) {
       $search_attrs = array_keys($attrs);
+      if ($templateSearch) {
+        $search_attrs[] = 'fdTemplateField';
+      }
     } else {
       $search_attrs = array($attrs);
     }
@@ -140,6 +143,22 @@ class objects
               default:
                 $result[$key][$attr] = $fetched_attrs[$attr][0];
             }
+          }
+        }
+        if ($templateSearch) {
+          $result[$key]['fdTemplateField'] = array();
+          foreach ($fetched_attrs['fdTemplateField'] as $templateField) {
+            $attr = explode(':', $templateField, 2)[0];
+            if (isset($attrs[$attr])) {
+              if (isset($attrsAcls[$attr]) &&
+                  (strpos($ui->get_permissions($key, $attrsAcls[$attr][0], $attrsAcls[$attr][1]), 'r') === FALSE)) {
+                continue;
+              }
+              $result[$key]['fdTemplateField'][] = $templateField;
+            }
+          }
+          if (empty($result[$key]['fdTemplateField'])) {
+            unset($result[$key]['fdTemplateField']);
           }
         }
         if (count($result[$key]) === 0) {
