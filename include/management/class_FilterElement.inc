@@ -91,6 +91,9 @@ class TabFilterElement extends FilterElement
 
   public function render()
   {
+    if (empty($this->tabs)) {
+      return '';
+    }
     $inputs = array();
     foreach ($this->tabs as $class => $tab) {
       $inputs['filter_tab_'.$class] = array(
