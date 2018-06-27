@@ -96,6 +96,7 @@ class setupStepConfig extends configInLdap
   {
     global $config;
     parent::save_object();
+    $this->is_completed = FALSE;
     $tmp = $this->check();
     if (count($tmp) == 0) {
       /* Create root object if missing */
@@ -103,18 +104,25 @@ class setupStepConfig extends configInLdap
       $ldap->cd($config->current['BASE']);
       $ldap->create_missing_trees($config->current['BASE'], FALSE);
       if (!$ldap->success()) {
-        return msgPool::ldaperror($ldap->get_error(), $config->current['BASE'], 'create_missing_trees', get_class());
+        msg_dialog::display(
+          _('LDAP error'),
+          msgPool::ldaperror($ldap->get_error(), $config->current['BASE'], 'create_missing_trees', get_class()),
+          LDAP_ERROR
+        );
+        return;
       }
       /* Save in LDAP */
-      $this->save();
+      $errors = $this->save();
+      if (!empty($errors)) {
+        msg_dialog::displayChecks($errors);
+        return;
+      }
       /* Reload config from LDAP */
       $config->set_current($config->current['NAME']);
       session::global_un_set('plist');
       load_plist();
       $this->is_completed = TRUE;
       $this->parent->reBuildConfigStep(TRUE);
-    } else {
-      $this->is_completed = FALSE;
     }
   }
 
