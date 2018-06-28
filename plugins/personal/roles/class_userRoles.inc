@@ -174,15 +174,21 @@ class userRoles extends simplePlugin
     } elseif (($this->dn != '') && ($this->dn != 'new')) {
       /* Remove all groups */
       foreach ($this->savedGroupsMembership as $ogroupdn) {
-        $g = objects::open($ogroupdn, 'ogroup');
-        $g->getBaseObject()->attributesAccess['member']->searchAndRemove($this->dn);
-        $g->save();
+        try {
+          $g = objects::open($ogroupdn, 'ogroup');
+          $g->getBaseObject()->attributesAccess['member']->searchAndRemove($this->dn);
+          $g->save();
+        } catch (NonExistingLdapNodeException $e) {
+        }
       }
       /* Remove all roles */
       foreach ($this->savedRolesMembership as $roledn) {
-        $r = objects::open($roledn, 'role');
-        $r->getBaseObject()->attributesAccess['roleOccupant']->searchAndRemove($this->dn);
-        $r->save();
+        try {
+          $r = objects::open($roledn, 'role');
+          $r->getBaseObject()->attributesAccess['roleOccupant']->searchAndRemove($this->dn);
+          $r->save();
+        } catch (NonExistingLdapNodeException $e) {
+        }
       }
     }
   }
@@ -246,17 +252,21 @@ class userRoles extends simplePlugin
       $groupsMembership = $this->attributesAccess['groupsMembership']->getValue();
       foreach ($groupsMembership as $ogroupdn) {
         if (!in_array($ogroupdn, $this->savedGroupsMembership)) {
-          $g = objects::open($ogroupdn, 'ogroup');
-          if (!in_array($ogroupdn, $this->templateGroups) && !$g->getBaseObject()->attrIsWriteable('member')) {
-            $errors[] = msgPool::permModify($ogroupdn, 'member');
-            continue;
-          }
-          $g->getBaseObject()->attributesAccess['member']->addValue($this->dn, $fake_attrs);
-          $msg = $g->save();
-          if (empty($msg)) {
-            $this->savedGroupsMembership[] = $ogroupdn;
-          } else {
-            $errors = array_merge($errors, $msg);
+          try {
+            $g = objects::open($ogroupdn, 'ogroup');
+            if (!in_array($ogroupdn, $this->templateGroups) && !$g->getBaseObject()->attrIsWriteable('member')) {
+              $errors[] = msgPool::permModify($ogroupdn, 'member');
+              continue;
+            }
+            $g->getBaseObject()->attributesAccess['member']->addValue($this->dn, $fake_attrs);
+            $msg = $g->save();
+            if (empty($msg)) {
+              $this->savedGroupsMembership[] = $ogroupdn;
+            } else {
+              $errors = array_merge($errors, $msg);
+            }
+          } catch (NonExistingLdapNodeException $e) {
+            $errors[] = $e->getMessage();
           }
         }
       }
@@ -264,17 +274,21 @@ class userRoles extends simplePlugin
       /* Remove groups not listed in groupsMembership */
       foreach ($this->savedGroupsMembership as $key => $ogroupdn) {
         if (!in_array($ogroupdn, $groupsMembership)) {
-          $g = objects::open($ogroupdn, 'ogroup');
-          if (!$g->getBaseObject()->attrIsWriteable('member')) {
-            $errors[] = msgPool::permModify($ogroupdn, 'member');
-            continue;
-          }
-          $g->getBaseObject()->attributesAccess['member']->searchAndRemove($this->dn);
-          $msg = $g->save();
-          if (empty($msg)) {
-            unset($this->savedGroupsMembership[$key]);
-          } else {
-            $errors = array_merge($errors, $msg);
+          try {
+            $g = objects::open($ogroupdn, 'ogroup');
+            if (!$g->getBaseObject()->attrIsWriteable('member')) {
+              $errors[] = msgPool::permModify($ogroupdn, 'member');
+              continue;
+            }
+            $g->getBaseObject()->attributesAccess['member']->searchAndRemove($this->dn);
+            $msg = $g->save();
+            if (empty($msg)) {
+              unset($this->savedGroupsMembership[$key]);
+            } else {
+              $errors = array_merge($errors, $msg);
+            }
+          } catch (NonExistingLdapNodeException $e) {
+            $errors[] = $e->getMessage();
           }
         }
       }
@@ -283,17 +297,21 @@ class userRoles extends simplePlugin
       $rolesMembership = $this->attributesAccess['rolesMembership']->getValue();
       foreach ($rolesMembership as $roledn) {
         if (!in_array($roledn, $this->savedRolesMembership)) {
-          $r = objects::open($roledn, 'role');
-          if (!in_array($roledn, $this->templateRoles) && !$r->getBaseObject()->attrIsWriteable('roleOccupant')) {
-            $errors[] = msgPool::permModify($roledn, 'roleOccupant');
-            continue;
-          }
-          $r->getBaseObject()->attributesAccess['roleOccupant']->addValue($this->dn, $fake_attrs);
-          $msg = $r->save();
-          if (empty($msg)) {
-            $this->savedRolesMembership[] = $roledn;
-          } else {
-            $errors = array_merge($errors, $msg);
+          try {
+            $r = objects::open($roledn, 'role');
+            if (!in_array($roledn, $this->templateRoles) && !$r->getBaseObject()->attrIsWriteable('roleOccupant')) {
+              $errors[] = msgPool::permModify($roledn, 'roleOccupant');
+              continue;
+            }
+            $r->getBaseObject()->attributesAccess['roleOccupant']->addValue($this->dn, $fake_attrs);
+            $msg = $r->save();
+            if (empty($msg)) {
+              $this->savedRolesMembership[] = $roledn;
+            } else {
+              $errors = array_merge($errors, $msg);
+            }
+          } catch (NonExistingLdapNodeException $e) {
+            $errors[] = $e->getMessage();
           }
         }
       }
@@ -301,17 +319,21 @@ class userRoles extends simplePlugin
       /* Remove roles not listed in rolesMembership */
       foreach ($this->savedRolesMembership as $key => $roledn) {
         if (!in_array($roledn, $rolesMembership)) {
-          $r = objects::open($roledn, 'role');
-          if (!$r->getBaseObject()->attrIsWriteable('roleOccupant')) {
-            $errors[] = msgPool::permModify($roledn, 'roleOccupant');
-            continue;
-          }
-          $r->getBaseObject()->attributesAccess['roleOccupant']->searchAndRemove($this->dn);
-          $msg = $r->save();
-          if (empty($msg)) {
-            unset($this->savedRolesMembership[$key]);
-          } else {
-            $errors = array_merge($errors, $msg);
+          try {
+            $r = objects::open($roledn, 'role');
+            if (!$r->getBaseObject()->attrIsWriteable('roleOccupant')) {
+              $errors[] = msgPool::permModify($roledn, 'roleOccupant');
+              continue;
+            }
+            $r->getBaseObject()->attributesAccess['roleOccupant']->searchAndRemove($this->dn);
+            $msg = $r->save();
+            if (empty($msg)) {
+              unset($this->savedRolesMembership[$key]);
+            } else {
+              $errors = array_merge($errors, $msg);
+            }
+          } catch (NonExistingLdapNodeException $e) {
+            $errors[] = $e->getMessage();
           }
         }
       }
