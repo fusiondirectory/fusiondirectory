@@ -2310,7 +2310,7 @@ if (!function_exists('random_int')) {
   {
     $range = $max - $min;
     if ($range <= 0) {
-      return $min;
+      throw new Exception('Invalid range passed to random_int');
     }
 
     $log    = log($range, 2);
@@ -2325,7 +2325,7 @@ if (!function_exists('random_int')) {
       if (!$strong || ($randomBytes === FALSE)) {
         throw new Exception('Failed to get random bytes');
       }
-      $rnd = unpack('C', $randomBytes)[1];
+      $rnd = unpack('Q', $randomBytes)[1];
       // discard irrelevant bits
       $rnd = $rnd & $filter;
     } while ($rnd >= $range);
