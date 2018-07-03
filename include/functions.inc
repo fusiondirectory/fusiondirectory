@@ -2651,22 +2651,25 @@ if (!function_exists('random_int')) {
       throw new Exception('Invalid range passed to random_int');
     }
 
-    $log    = log($range, 2);
+    $log      = log($range, 2);
     // length in bytes
     $nbBytes  = (int) ($log / 8) + 1;
     // length in bits
     $nbBits   = (int) $log + 1;
     // set all lower bits to 1
-    $filter = (int) (1 << $nbBits) - 1;
+    $filter   = pow(2, $nbBits) - 1;
+    if ($filter >= PHP_INT_MAX) {
+      $filter = PHP_INT_MAX;
+    }
     do {
       $randomBytes = openssl_random_pseudo_bytes($nbBytes, $strong);
       if (!$strong || ($randomBytes === FALSE)) {
         throw new Exception('Failed to get random bytes');
       }
-      $rnd = unpack('L', $randomBytes)[1];
+      $rnd = hexdec(bin2hex($randomBytes));
       // discard irrelevant bits
       $rnd = $rnd & $filter;
-    } while ($rnd >= $range);
+    } while ($rnd > $range);
     return $min + $rnd;
   }
 }
