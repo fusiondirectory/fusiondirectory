@@ -2663,7 +2663,7 @@ if (!function_exists('random_int')) {
       if (!$strong || ($randomBytes === FALSE)) {
         throw new Exception('Failed to get random bytes');
       }
-      $rnd = unpack('Q', $randomBytes)[1];
+      $rnd = unpack('L', $randomBytes)[1];
       // discard irrelevant bits
       $rnd = $rnd & $filter;
     } while ($rnd >= $range);
