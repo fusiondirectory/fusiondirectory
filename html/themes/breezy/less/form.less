@@ -1,0 +1,23 @@
+@import "colors";
+
+input, input:focus, select, textarea, textarea:focus {
+font-size: 12px;
+}
+
+input[type=text], input[type=password], select {
+padding: 2px;
+}
+
+input[type=number] {
+width: 80px;
+}
+
+/* On small screens */
+@media (max-width: 640px) {
+  input[type=text], input[type=password], input[type=file], textarea, select {
+  max-width: 100%;
+  }
+  input.base-selector {
+  max-width: 100px;
+  }
+}

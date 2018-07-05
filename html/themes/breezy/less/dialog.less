@@ -1,0 +1,37 @@
+@import "colors";
+
+div.msgtitle {
+width: auto;
+background-color: @background-header-color;
+border: solid 1px @border-color-1;
+margin-bottom: 7px;
+}
+div.msgtitle h2 {
+margin: 10px;
+}
+
+div.msgdialog {
+width: 60%;
+z-index: 150;
+position: relative;
+display: none;
+margin: auto;
+top: 200px;
+}
+@media (max-height: 600px) {
+  div.msgdialog {
+    top: auto;
+  }
+}
+
+div.msgdialog .description {
+font-style: italic;
+}
+
+/* Small screens (i.e. phones) */
+@media (max-width: 640px) {
+  div.msgdialog {
+    top: auto;
+    width: auto;
+  }
+}
