@@ -4,6 +4,9 @@
   vertical-align: top;
 }
 /* Side menu */
+ul.menu {
+  font-size: 1em;
+}
 ul.menu,
 ul.menu ul {
   margin: 0;
@@ -20,8 +23,6 @@ ul.menu > li {
   border: 1px solid #c0c2c3;
 }
 ul.menu > li > a {
-  font-family: arial, helvetica, sans-serif;
-  font-size: 12px;
   font-weight: bold;
   color: #31363b;
   text-decoration: none;
@@ -39,7 +40,6 @@ ul.menu ul > li > a {
   color: #31363b;
   text-decoration: none;
   font-weight: normal;
-  font-size: 12px;
   vertical-align: middle;
   margin: 2px 0;
   padding-top: 2px;

@@ -2,10 +2,9 @@ table.tabs-header {
   width: 100%;
   border: none;
   border-spacing: 0;
-  font-family: arial, helvetica, sans-serif;
   text-decoration: none;
   color: #2980b9;
-  font-size: 13px;
+  font-size: 1.1em;
   font-weight: bold;
 }
 table.tabs-header > tbody > tr > td {

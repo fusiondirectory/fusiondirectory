@@ -3,10 +3,13 @@ body {
   background-color: #eff0f1;
   color: #31363b;
   font-family: arial, helvetica, sans-serif;
-  font-size: 12px;
+  font-size: 75%;
+}
+table {
+  font-size: inherit;
 }
 h1 {
-  font-size: 14px;
+  font-size: 1.2em;
   color: #31363b;
 }
 h2,
@@ -14,14 +17,14 @@ h3,
 h4,
 h5,
 h6 {
-  font-size: 13px;
+  font-size: 1.1em;
   color: #31363b;
 }
 td,
 p,
 b,
 th {
-  font-size: 12px;
+  font-size: 1em;
 }
 img {
   border: none;
@@ -59,9 +62,8 @@ html.rtl div.scrollbody {
 /* Title bar */
 a.maintitlebar,
 div.maintitlebar {
-  font-family: arial, helvetica, sans-serif;
   text-decoration: none;
-  font-size: 12px;
+  font-size: 1em;
   text-align: center;
   vertical-align: middle;
   cursor: pointer;
@@ -105,8 +107,7 @@ div.copynotice {
   padding-top: 3px;
   padding-bottom: 0;
   text-align: right;
-  font-family: arial, helvetica, sans-serif;
-  font-size: 10px;
+  font-size: .8em;
 }
 html.rtl div.copynotice {
   text-align: left;
@@ -119,7 +120,6 @@ hr {
 }
 .must {
   color: #dd0000;
-  font-family: arial, helvetica, sans-serif;
 }
 img.center {
   text-align: center;
@@ -185,8 +185,7 @@ div.contentboxh {
 }
 div.contentboxh > p {
   margin: 2px;
-  font-family: arial, helvetica, sans-serif;
-  font-size: 16px;
+  font-size: 1.3em;
   font-weight: bold;
   vertical-align: middle;
 }
@@ -335,7 +334,7 @@ html.rtl #pulldown {
 #pulldown ul li {
   margin: 0 3px 0 0;
   padding: 0;
-  font-size: 12px;
+  font-size: 1em;
   line-height: 1em;
   list-style-type: none;
 }
@@ -478,8 +477,7 @@ html.rtl div#header-left {
   text-align: center;
   vertical-align: middle;
   background-color: #f3f4f4;
-  font-family: arial, helvetica, sans-serif;
-  font-size: 18px;
+  font-size: 1.5em;
 }
 .plugtop img {
   height: 32px;
@@ -525,7 +523,7 @@ html.rtl div#header-right {
   text-align: left;
 }
 div#header-right div.version {
-  font-size: 20px;
+  font-size: 1.8em;
 }
 /* Header col */
 div.setup-header {

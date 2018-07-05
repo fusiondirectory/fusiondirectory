@@ -4,22 +4,26 @@ body {
 margin: 0;
 background-color: @background-color;
 color: @text-color;
-font-family: arial,helvetica,sans-serif;
-font-size: 12px;
+font-family: @font-family;
+font-size: @font-size;
+}
+
+table {
+font-size:inherit;
 }
 
 h1 {
-font-size: 14px;
+font-size: @big-title-font-size;
 color: @title-color;
 }
 
 h2,h3,h4,h5,h6 {
-font-size: 13px;
+font-size: @title-font-size;
 color: @title-color;
 }
 
 td,p,b,th {
-font-size: 12px;
+font-size: @text-font-size;
 }
 
 img {
@@ -64,9 +68,8 @@ text-align: right;
 
 /* Title bar */
 a.maintitlebar,div.maintitlebar {
-font-family: arial,helvetica,sans-serif;
 text-decoration: none;
-font-size: 12px;
+font-size: @text-font-size;
 text-align: center;
 vertical-align: middle;
 cursor: pointer;
@@ -113,8 +116,7 @@ border-right-width: 0;
 padding-top: 3px;
 padding-bottom: 0;
 text-align: right;
-font-family: arial,helvetica,sans-serif;
-font-size: 10px;
+font-size: .8em;
 }
 html.rtl div.copynotice {
 text-align: left;
@@ -129,7 +131,6 @@ height: 1px;
 
 .must {
 color: @warning-red-color;
-font-family: arial,helvetica,sans-serif;
 }
 
 img.center {
@@ -206,8 +207,7 @@ width: auto;
 
 div.contentboxh > p {
 margin: 2px;
-font-family: arial,helvetica,sans-serif;
-font-size: 16px;
+font-size: 1.3em;
 font-weight: bold;
 vertical-align: middle;
 }
@@ -372,7 +372,7 @@ z-index: 90;
 #pulldown ul li {
 margin: 0 3px 0 0;
 padding: 0;
-font-size: 12px;
+font-size: @text-font-size;
 line-height: 1em;
 list-style-type: none;
 }
@@ -508,8 +508,7 @@ margin: 0;
 text-align: center;
 vertical-align: middle;
 background-color: @background-second-color;
-font-family: arial,helvetica,sans-serif;
-font-size: 18px;
+font-size: 1.5em;
 }
 .plugtop img {
 height: 32px;
@@ -559,7 +558,7 @@ html.rtl div#header-right {
 text-align: left;
 }
 div#header-right div.version {
-font-size: 20px;
+font-size: 1.8em;
 }
 
 /* Header col */
@@ -626,7 +625,7 @@ color: @text-color;
   white-space: nowrap;
   padding-top: 2px;
   padding-bottom: 2px;
-  font-size: 1em;
+  font-size: @text-font-size;
   }
   html.ltr div#header-left .plugtop {
   margin: 0;
