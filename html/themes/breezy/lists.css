@@ -2,303 +2,271 @@
  *           L i s t s          *
  ********************************/
 table.listingTable {
-border-top: 1px solid #c0c2c3;
-border-bottom: 1px solid #c0c2c3;
-border-left: 1px solid #c0c2c3;
-border-spacing: 0;
+  border-top: 1px solid #c0c2c3;
+  border-bottom: 1px solid #c0c2c3;
+  border-left: 1px solid #c0c2c3;
+  border-spacing: 0;
 }
-
 table.listingTable thead tr {
-position: relative;
-height: auto;
-margin: 3px;
-padding: 1px;
-white-space: nowrap;
+  position: relative;
+  height: auto;
+  margin: 3px;
+  padding: 1px;
+  white-space: nowrap;
 }
-
 table.listingTable > thead > tr > th {
-box-sizing: content-box;
-background: #f0f0f0;
-font-weight: bold;
-border-bottom: 1px solid #c0c2c3;
-padding: 3px;
-height: 22px;
+  box-sizing: content-box;
+  background: #f0f0f0;
+  font-weight: bold;
+  border-bottom: 1px solid #c0c2c3;
+  padding: 3px;
+  height: 22px;
 }
 html.ltr table.listingTable > thead > tr > th {
-border-right: 1px solid #c0c2c3;
+  border-right: 1px solid #c0c2c3;
 }
 html.rtl table.listingTable > thead > tr > th {
-border-left: 1px solid #c0c2c3;
+  border-left: 1px solid #c0c2c3;
 }
-
 /* Up and Down Arrows */
 .listingTable > thead > tr > th.descend:after {
-content: "\25B2";
+  content: "\25B2";
 }
 .listingTable > thead > tr > th.ascend:after {
-content: "\25BC";
+  content: "\25BC";
 }
-
 table.listingTable > tbody {
-height: 100%;
-overflow-x: hidden;
-overflow-y: auto;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
-
 table.listingTable > tbody > tr {
-height: auto;
-white-space: nowrap;
+  height: auto;
+  white-space: nowrap;
 }
-
 table.listingTable > tbody > tr:nth-child(odd) {
   background-color: #fcfcfc;
 }
-
 table.listingTable > tbody > tr:nth-child(even) {
   background-color: #f5f5f5;
 }
-
 table.listingTable > tbody > tr.entry-locked:nth-child(odd) {
-  background-color: #ffc;
+  background-color: #ffffcc;
 }
-
 table.listingTable > tbody > tr.entry-locked:nth-child(even) {
   background-color: #f5f5cc;
 }
-
 html.ltr table.listingTable > tbody > tr td:last-child {
-padding-right: 5px;
+  padding-right: 5px;
 }
 html.rtl table.listingTable > tbody > tr td:last-child {
-padding-left: 5px;
+  padding-left: 5px;
 }
-
 table.listingTable > tbody > tr:hover {
-  background-color: #ddd;
+  background-color: #dddddd;
 }
-
 table.listingTable > tbody > tr.entry-locked:hover {
-  background-color: #dda;
+  background-color: #ddddaa;
 }
-
 table.listingTable > tbody > tr td {
-color: #31363b;
-margin: 3px;
-padding: 2px;
-word-wrap: break-word;
-white-space: normal;
-max-width: 500px;
-background: transparent;
-height: 22px;
+  color: #31363b;
+  margin: 3px;
+  padding: 2px;
+  word-wrap: break-word;
+  white-space: normal;
+  max-width: 500px;
+  background: transparent;
+  height: 22px;
 }
 html.ltr table.listingTable > tbody > tr td {
-border-right: 1px solid #c0c2c3;
+  border-right: 1px solid #c0c2c3;
 }
 html.rtl table.listingTable > tbody > tr td {
-border-left: 1px solid #c0c2c3;
+  border-left: 1px solid #c0c2c3;
 }
-
 table.listingTable > tbody > tr td > input[type=image],
 table.listingTable > tbody > tr td > img {
-padding: 2px;
+  padding: 2px;
 }
-
 table.listingTable > tbody > tr td > a:link {
-text-decoration: none;
-color: #2980b9;
+  text-decoration: none;
+  color: #2980b9;
 }
-
 table.listingTable > tbody > tr td > a:visited {
-text-decoration: none;
-color: #2980b9;
+  text-decoration: none;
+  color: #2980b9;
 }
-
 /* List border */
-
 div.nlistFooter {
-background-color: #e5e5e5;
-border-left: 1px solid silver;
-border-right: 1px solid silver;
-border-bottom: 1px solid silver;
-padding: 3px;
-width: auto;
+  background-color: #e5e5e5;
+  border-left: 1px solid silver;
+  border-right: 1px solid silver;
+  border-bottom: 1px solid silver;
+  padding: 3px;
+  width: auto;
 }
 div.nlistFooter img {
-vertical-align:middle;
+  vertical-align: middle;
 }
-
 /* Tree List (used in baseSelector) */
-ul.treeList,ul.treeList ul {
-list-style-type: none;
-background: url(../../images/lists/vline.png) repeat-y;
-margin: 0;
-padding: 0;
+ul.treeList,
+ul.treeList ul {
+  list-style-type: none;
+  background: url(../../images/lists/vline.png) repeat-y;
+  margin: 0;
+  padding: 0;
 }
-
 html.ltr ul.treeList ul {
-margin-left: 10px;
+  margin-left: 10px;
 }
 html.rtl ul.treeList ul {
-margin-right: 10px;
+  margin-right: 10px;
 }
-
 ul.treeList a:hover {
-background-color: #ddd;
+  background-color: #dddddd;
 }
-
 a.treeList {
-padding: 2px;
-cursor: pointer;
+  padding: 2px;
+  cursor: pointer;
 }
-
 a.treeListSelected {
-font-weight: bold;
-color: #2980b9;
-background-color: #ddd;
-padding: 2px;
-cursor: pointer;
+  font-weight: bold;
+  color: #2980b9;
+  background-color: #dddddd;
+  padding: 2px;
+  cursor: pointer;
 }
-
-a.treeList:hover,a.treeListSelected:hover {
-background-color: #ddd;
-padding: 2px;
+a.treeList:hover,
+a.treeListSelected:hover {
+  background-color: #dddddd;
+  padding: 2px;
 }
-
 ul.treeList a {
-padding: 2px;
-cursor: pointer;
+  padding: 2px;
+  cursor: pointer;
 }
-
 ul.treeList li {
-margin: 0;
-padding: 0 12px;
-line-height: 20px;
-background: url(../../images/lists/node.png) no-repeat;
+  margin: 0;
+  padding: 0 12px;
+  line-height: 20px;
+  background: url(../../images/lists/node.png) no-repeat;
 }
-
 li.treeListSelected a {
-font-weight: bold;
-color: #2980b9;
-padding: 2px;
+  font-weight: bold;
+  color: #2980b9;
+  padding: 2px;
 }
-
 ul.treeList li.last,
 ul.treeList li:last-child {
-background: #fcfcfc url(../../images/lists/lastnode.png) no-repeat;
+  background: #fcfcfc url(../../images/lists/lastnode.png) no-repeat;
 }
-
 div.treeList {
-background-color: #fcfcfc;
-border: 1px solid #c0c2c3;
-padding: 5px;
-position: absolute;
-z-index: 500;
-overflow-y: auto;
-float: left;
+  background-color: #fcfcfc;
+  border: 1px solid #c0c2c3;
+  padding: 5px;
+  position: absolute;
+  z-index: 500;
+  overflow-y: auto;
+  float: left;
 }
 html.rtl div.treeList {
-float: right;
+  float: right;
 }
-
 table.listing-container {
-width: 100%;
-height: 100%;
-vertical-align: top;
-text-align: left;
-border: none;
-border-spacing: 2px;
+  width: 100%;
+  height: 100%;
+  vertical-align: top;
+  text-align: left;
+  border: none;
+  border-spacing: 2px;
 }
 html.rtl table.listing-container {
-text-align: right;
+  text-align: right;
 }
-
 table.listing-container > tbody > tr > td.list {
-height: 100%;
-vertical-align: top;
+  height: 100%;
+  vertical-align: top;
 }
-
-table.listing-container > tbody >  tr > td.filter {
-max-width: 300px;
-vertical-align: top;
+table.listing-container > tbody > tr > td.filter {
+  max-width: 300px;
+  vertical-align: top;
 }
-
-table.listing-container > tbody >  tr > td.filter .contentboxb {
-min-width: 230px;
+table.listing-container > tbody > tr > td.filter .contentboxb {
+  min-width: 230px;
 }
-
 /* Management */
 table.listingTable.management {
-width:100%;
+  width: 100%;
 }
-
 table.listingTable.management > thead > tr > th.checkbox {
-text-align:center;
-padding:0;
-width:24px;
+  text-align: center;
+  padding: 0;
+  width: 24px;
 }
-
 table.listingTable.management > tbody > tr > td.filler {
-height:100%;
-width:100%;
+  height: 100%;
+  width: 100%;
 }
-
 table.listingTable > thead > tr > th > img,
 table.listingTable > thead > tr > th > input[type=image],
 table.listingTable > tbody > tr > td > img,
 table.listingTable > tbody > tr > td > input[type=image] {
-vertical-align: middle;
+  vertical-align: middle;
 }
-
 /* On small screens */
 @media (max-width: 640px) {
   table.listingTable {
-  table-layout: auto;
+    table-layout: auto;
   }
-  table.listingTable > tbody > tr > td, table.listingTable > thead > tr > th {
-  width: auto !important;
-  min-width: 0 !important;
+  table.listingTable > tbody > tr > td,
+  table.listingTable > thead > tr > th {
+    width: auto !important;
+    min-width: 0 !important;
   }
   html.ltr table.listingTable > tbody > tr td:last-child {
-  padding-right: 1px;
+    padding-right: 1px;
   }
   html.rtl table.listingTable > tbody > tr td:last-child {
-  padding-left: 1px;
+    padding-left: 1px;
   }
   table.listing-container {
-  border: none;
-  border-spacing: 0;
-  border-collapse: collapse;
+    border: none;
+    border-spacing: 0;
+    border-collapse: collapse;
   }
-  table.listing-container > tbody > tr > td.list, table.listing-container > tbody >  tr > td.filter {
-  width: 100%;
-  min-width: 0;
-  max-width: none;
-  height: auto;
-  display: block;
-  padding: 0;
+  table.listing-container > tbody > tr > td.list,
+  table.listing-container > tbody > tr > td.filter {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    height: auto;
+    display: block;
+    padding: 0;
   }
-  table.listing-container > tbody > tr > td.list > div, table.listing-container > tbody >  tr > td.filter > div {
-  border: none;
+  table.listing-container > tbody > tr > td.list > div,
+  table.listing-container > tbody > tr > td.filter > div {
+    border: none;
   }
-  table.listing-container > tbody > tr > td.list:after, table.listing-container > tbody >  tr > td.filter:after {
-  content: " ";
-  display: block;
+  table.listing-container > tbody > tr > td.list:after,
+  table.listing-container > tbody > tr > td.filter:after {
+    content: " ";
+    display: block;
   }
-  table.listing-container > tbody >  tr > td.filter input[type=submit] {
-  border: 1px solid #ddd;
-  width: 100% !important;
-  padding: 10px;
-  display: inline-block;
-  font-weight: bold;
+  table.listing-container > tbody > tr > td.filter input[type=submit] {
+    border: 1px solid #c0c2c3;
+    width: 100% !important;
+    padding: 10px;
+    display: inline-block;
+    font-weight: bold;
   }
-  html.ltr table.listing-container > tbody >  tr > td.filter input[type=submit]:active {
-  position: relative;
-  top: 1px;
-  left: 1px;
+  html.ltr table.listing-container > tbody > tr > td.filter input[type=submit]:active {
+    position: relative;
+    top: 1px;
+    left: 1px;
   }
-  html.rtl table.listing-container > tbody >  tr > td.filter input[type=submit]:active {
-  position: relative;
-  top: 1px;
-  right: 1px;
+  html.rtl table.listing-container > tbody > tr > td.filter input[type=submit]:active {
+    position: relative;
+    top: 1px;
+    right: 1px;
   }
 }

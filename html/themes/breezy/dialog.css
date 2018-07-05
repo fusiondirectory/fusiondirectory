@@ -1,31 +1,28 @@
 div.msgtitle {
-width: auto;
-background-color: #f0f0f0;
-border: solid 1px #bbbbbb;
-margin-bottom: 7px;
+  width: auto;
+  background-color: #f0f0f0;
+  border: solid 1px #c0c2c3;
+  margin-bottom: 7px;
 }
 div.msgtitle h2 {
-margin: 10px;
+  margin: 10px;
 }
-
 div.msgdialog {
-width: 60%;
-z-index: 150;
-position: relative;
-display: none;
-margin: auto;
-top: 200px;
+  width: 60%;
+  z-index: 150;
+  position: relative;
+  display: none;
+  margin: auto;
+  top: 200px;
 }
 @media (max-height: 600px) {
   div.msgdialog {
     top: auto;
   }
 }
-
 div.msgdialog .description {
-font-style: italic;
+  font-style: italic;
 }
-
 /* Small screens (i.e. phones) */
 @media (max-width: 640px) {
   div.msgdialog {
