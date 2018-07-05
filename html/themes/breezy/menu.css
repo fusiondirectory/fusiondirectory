@@ -68,30 +68,6 @@ html.rtl ul.menu ul > li > a {
   text-decoration: none;
 }
 /* Main menu */
-.iconmenu-section {
-  border-top: 1px solid #c0c2c3;
-  clear: both;
-}
-.iconmenu-section + br {
-  clear: both;
-}
-.iconmenu-section:first-child {
-  border-top: none;
-}
-.iconmenu .imgcontainer {
-  height: 48px;
-  width: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.iconmenu img {
-  border: none;
-  vertical-align: middle;
-  flex: none;
-  max-height: 48px;
-  max-width: 48px;
-}
 h1.menuheader {
   margin: 0;
   padding: 10px;
@@ -109,6 +85,31 @@ html.rtl h1.menuheader {
   border-radius: 0 0 0 5px;
   float: right;
 }
+@media (max-width: 640px) {
+  h1.menuheader {
+    display: block;
+    padding: 5px;
+    text-align: center;
+  }
+  html.ltr h1.menuheader {
+    border-right: none;
+    float: none;
+  }
+  html.rtl h1.menuheader {
+    border-left: none;
+    float: none;
+  }
+}
+.iconmenu-section {
+  border-top: 1px solid #c0c2c3;
+  clear: both;
+}
+.iconmenu-section + br {
+  clear: both;
+}
+.iconmenu-section:first-child {
+  border-top: none;
+}
 .iconmenu {
   cursor: pointer;
   display: flex;
@@ -119,6 +120,20 @@ html.rtl h1.menuheader {
   padding: .5%;
   border-radius: 5px;
   border: 1px solid #f3f4f4;
+}
+.iconmenu .imgcontainer {
+  height: 48px;
+  width: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.iconmenu img {
+  border: none;
+  vertical-align: middle;
+  flex: none;
+  max-height: 48px;
+  max-width: 48px;
 }
 html.ltr .iconmenu {
   float: left;
@@ -131,7 +146,7 @@ html.rtl .iconmenu {
 .iconmenu:hover {
   border: 1px solid #c0c2c3;
 }
-.iconmenu:nth-child(2) {
+html.ltr .iconmenu:nth-child(2) {
   clear: left;
 }
 html.rtl .iconmenu:nth-child(2) {
@@ -162,19 +177,6 @@ div.iconmenu:hover {
   .iconmenu .imgcontainer {
     margin: auto;
     display: block;
-    float: none;
-  }
-  h1.menuheader {
-    display: block;
-    padding: 5px;
-    text-align: center;
-  }
-  html.ltr h1.menuheader {
-    border-right: none;
-    float: none;
-  }
-  html.rtl h1.menuheader {
-    border-left: none;
     float: none;
   }
 }

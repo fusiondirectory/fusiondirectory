@@ -28,11 +28,12 @@ html.ltr table.listingTable > thead > tr > th {
 html.rtl table.listingTable > thead > tr > th {
   border-left: 1px solid #c0c2c3;
 }
-/* Up and Down Arrows */
-.listingTable > thead > tr > th.descend:after {
+table.listingTable > thead > tr > th.descend:after {
+  /* Up arrow */
   content: "\25B2";
 }
-.listingTable > thead > tr > th.ascend:after {
+table.listingTable > thead > tr > th.ascend:after {
+  /* Down arrow */
   content: "\25BC";
 }
 table.listingTable > tbody {
@@ -88,10 +89,7 @@ table.listingTable > tbody > tr td > input[type=image],
 table.listingTable > tbody > tr td > img {
   padding: 2px;
 }
-table.listingTable > tbody > tr td > a:link {
-  text-decoration: none;
-  color: #2980b9;
-}
+table.listingTable > tbody > tr td > a:link,
 table.listingTable > tbody > tr td > a:visited {
   text-decoration: none;
   color: #2980b9;
@@ -167,6 +165,8 @@ div.treeList {
   position: absolute;
   z-index: 500;
   overflow-y: auto;
+}
+html.ltr div.treeList {
   float: left;
 }
 html.rtl div.treeList {
@@ -176,9 +176,11 @@ table.listing-container {
   width: 100%;
   height: 100%;
   vertical-align: top;
-  text-align: left;
   border: none;
   border-spacing: 2px;
+}
+html.ltr table.listing-container {
+  text-align: left;
 }
 html.rtl table.listing-container {
   text-align: right;

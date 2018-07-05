@@ -1,197 +1,191 @@
 @import "colors";
 
 #menucell {
-border: none;
-width: 140px;
-vertical-align: top;
+  border: none;
+  width: 140px;
+  vertical-align: top;
 }
 
 /* Side menu */
-ul.menu, ul.menu ul {
- margin: 0;
- padding: 0;
- list-style-type: none;
-}
-ul.menu li > a {
-display: block;
-}
-ul.menu > li {
-margin-bottom: 5px;
-padding-bottom: 3px;
-background-color: @background-second-color;
-border: 1px solid @border-color-1;
-}
-ul.menu > li > a {
-font-family: arial,helvetica,sans-serif;
-font-size: 12px;
-font-weight: bold;
-color: @text-color;
-text-decoration: none;
-background-color: @background-color;
-text-align: center;
-vertical-align: middle;
-margin-bottom: 3px;
-padding-bottom: 5px;
-padding-top: 5px;
-border-style: solid;
-border-color: @border-color-1;
-border-width: 0 0 1px;
-}
-
-ul.menu ul > li > a {
-color: @text-color;
-text-decoration: none;
-font-weight: normal;
-font-size: 12px;
-vertical-align: middle;
-margin: 2px 0;
-padding-top: 2px;
-padding-bottom: 2px;
-}
-html.ltr ul.menu ul > li > a {
-text-align: left;
-padding-left: 15px;
-}
-html.rtl ul.menu ul > li > a {
-text-align: right;
-padding-right: 15px;
-}
-
-.menuitem.menucurrent {
-background-color: @menu-selected-color;
-}
-.menuitem:hover {
-background-color: @menu-hover-color;
+ul.menu {
+  &, & ul {
+   margin: 0;
+   padding: 0;
+   list-style-type: none;
+  }
+  li > a {
+    display: block;
+  }
+  > li {
+    margin-bottom: 5px;
+    padding-bottom: 3px;
+    background-color: @background-second-color;
+    border: 1px solid @border-color-1;
+    > a {
+      font-family: arial,helvetica,sans-serif;
+      font-size: 12px;
+      font-weight: bold;
+      color: @text-color;
+      text-decoration: none;
+      background-color: @background-color;
+      text-align: center;
+      vertical-align: middle;
+      margin-bottom: 3px;
+      padding-bottom: 5px;
+      padding-top: 5px;
+      border-style: solid;
+      border-color: @border-color-1;
+      border-width: 0 0 1px;
+    }
+  }
+  ul > li > a {
+    color: @text-color;
+    text-decoration: none;
+    font-weight: normal;
+    font-size: 12px;
+    vertical-align: middle;
+    margin: 2px 0;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    html.ltr & {
+      text-align: left;
+      padding-left: 15px;
+    }
+    html.rtl & {
+      text-align: right;
+      padding-right: 15px;
+    }
+  }
 }
 
-.menuitem a:link, .menuitem a:visited {
-text-decoration: none;
-color: @text-color;
-}
-
-.menuitem a:hover {
-text-decoration: none;
+.menuitem {
+  &.menucurrent {
+    background-color: @menu-selected-color;
+  }
+  &:hover {
+    background-color: @menu-hover-color;
+  }
+  a:link, a:visited {
+    text-decoration: none;
+    color: @text-color;
+  }
+  a:hover {
+    text-decoration: none;
+  }
 }
 
 /* Main menu */
-.iconmenu-section {
-border-top: 1px solid @border-color-1;
-clear: both;
-}
-
-.iconmenu-section + br {
-clear: both;
-}
-
-.iconmenu-section:first-child {
-border-top: none;
-}
-
-.iconmenu .imgcontainer {
-height: 48px;
-width: 48px;
-display: flex;
-align-items: center;
-justify-content: center;
-}
-
-.iconmenu img {
-border: none;
-vertical-align: middle;
-flex: none;
-max-height: 48px;
-max-width: 48px;
-}
 
 h1.menuheader {
-margin: 0;
-padding: 10px;
-display: inline-block;
-border-bottom: 1px solid @border-color-1;
-background-color: @background-color;
+  margin: 0;
+  padding: 10px;
+  display: inline-block;
+  border-bottom: 1px solid @border-color-1;
+  background-color: @background-color;
+  html.ltr & {
+    border-right: 1px solid @border-color-1;
+    border-radius: 0 0 5px 0;
+    float: left;
+  }
+  html.rtl & {
+    border-left: 1px solid @border-color-1;
+    border-radius: 0 0 0 5px;
+    float: right;
+  }
+  @media (max-width: 640px) {
+    display: block;
+    padding: 5px;
+    text-align: center;
+    html.ltr & {
+      border-right: none;
+      float: none;
+    }
+    html.rtl & {
+      border-left: none;
+      float: none;
+    }
+  }
 }
-html.ltr h1.menuheader {
-border-right: 1px solid @border-color-1;
-border-radius: 0 0 5px 0;
-float: left;
-}
-html.rtl h1.menuheader {
-border-left: 1px solid @border-color-1;
-border-radius: 0 0 0 5px;
-float: right;
+
+.iconmenu-section {
+  border-top: 1px solid @border-color-1;
+  clear: both;
+  + br {
+    clear: both;
+  }
+  &:first-child {
+    border-top: none;
+  }
 }
 
 .iconmenu {
-cursor: pointer;
-display: flex;
-align-items: center;
-width: 17%;
-min-width: 130px;
-margin: .5%;
-padding: .5%;
-border-radius: 5px;
-// Invisible border
-border: 1px solid @background-second-color;
+  .imgcontainer {
+    height: 48px;
+    width: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  img {
+    border: none;
+    vertical-align: middle;
+    flex: none;
+    max-height: 48px;
+    max-width: 48px;
+  }
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  width: 17%;
+  min-width: 130px;
+  margin: .5%;
+  padding: .5%;
+  border-radius: 5px;
+  // Invisible border
+  border: 1px solid @background-second-color;
+  html.ltr & {
+    float: left;
+    text-align: left;
+  }
+  html.rtl & {
+    float: right;
+    text-align: right;
+  }
+  &:hover {
+    border: 1px solid @border-color-1;
+  }
+  html.ltr &:nth-child(2) {
+    clear: left;
+  }
+  html.rtl &:nth-child(2) {
+    clear: right;
+  }
+  > a:link, > a:visited {
+    text-decoration: none;
+    color: @text-color;
+  }
+  > a:hover {
+    text-decoration: none;
+  }
 }
-html.ltr .iconmenu {
-float: left;
-text-align: left;
-}
-html.rtl .iconmenu {
-float: right;
-text-align: right;
-}
-.iconmenu:hover {
-border: 1px solid @border-color-1;
-}
-
-.iconmenu:nth-child(2) {
-clear: left;
-}
-html.rtl .iconmenu:nth-child(2) {
-clear: right;
-}
-
-.iconmenu > a:link, .iconmenu > a:visited {
-text-decoration: none;
-color: @text-color;
-}
-
-.iconmenu > a:hover {
-text-decoration: none;
-}
-
 div.iconmenu:hover {
-background-color: @background-focus-color;
+  background-color: @background-focus-color;
 }
 
 /* On small screens */
 @media (max-width: 640px) {
   html.ltr .iconmenu,
   html.rtl .iconmenu {
-  text-align: center;
-  margin: 2px;
-  padding: 2px;
-  min-width: 70px;
-  min-height: 80px;
-  display: block;
+    text-align: center;
+    margin: 2px;
+    padding: 2px;
+    min-width: 70px;
+    min-height: 80px;
+    display: block;
   }
   .iconmenu .imgcontainer {
-  margin: auto;
-  display: block;
-  float: none;
-  }
-  h1.menuheader {
-  display: block;
-  padding: 5px;
-  text-align: center;
-  }
-  html.ltr h1.menuheader {
-  border-right: none;
-  float: none;
-  }
-  html.rtl h1.menuheader {
-  border-left: none;
-  float: none;
+    margin: auto;
+    display: block;
+    float: none;
   }
 }

@@ -8,7 +8,6 @@ table.tabs-header {
   font-size: 13px;
   font-weight: bold;
 }
-/* tabs header */
 table.tabs-header > tbody > tr > td {
   padding: 0;
   vertical-align: bottom;
@@ -81,7 +80,6 @@ html.rtl table.tabs-header > tbody > tr > td > div.tab-right > a {
 table.tabs-header > tbody > tr > td > div.tab-border {
   border-bottom: 1px solid #999999;
 }
-/* tabs content */
 div.tab-content {
   padding: 4px;
   width: auto;

@@ -5,6 +5,12 @@ p.fusiondirectoryLoginWarning {
   font-weight: bold;
   font-size: 12px;
 }
+@media (max-width: 640px) {
+  p.fusiondirectoryLoginWarning {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
 html,
 body {
   min-height: 100%;
@@ -26,6 +32,12 @@ div#window-div {
 div#window-div > form {
   margin: 0;
 }
+@media (max-width: 640px) {
+  div#window-div {
+    min-width: 70%;
+    margin-top: 10px;
+  }
+}
 div#window-titlebar {
   text-align: center;
   border-bottom: 1px solid #c0c2c3;
@@ -46,10 +58,7 @@ div#window-titlebar > p {
 div#window-content > div {
   padding: 10px;
 }
-a:link {
-  text-decoration: none;
-  color: #2980b9;
-}
+a:link,
 a:visited {
   text-decoration: none;
   color: #2980b9;
@@ -72,6 +81,19 @@ html.ltr div#window-footer > div:nth-child(1) {
 html.rtl div#window-footer > div:nth-child(1) {
   text-align: right;
 }
+@media (max-width: 640px) {
+  div#window-footer > div {
+    display: block;
+    width: auto;
+    padding: 5px;
+    text-align: center !important;
+  }
+}
+@media (max-width: 640px) {
+  div#window-footer.plugbottom > div:nth-child(2) > input[type=submit] {
+    width: 100% !important;
+  }
+}
 span.warning,
 p.warning {
   color: #dd0000;
@@ -84,24 +106,4 @@ div.copynotice {
 }
 div.copynotice a {
   color: #31363b;
-}
-/* On small screens */
-@media (max-width: 640px) {
-  div#window-div {
-    min-width: 70%;
-    margin-top: 10px;
-  }
-  div#window-footer > div {
-    display: block;
-    width: auto;
-    padding: 5px;
-    text-align: center !important;
-  }
-  div#window-footer.plugbottom > div:nth-child(2) > input[type=submit] {
-    width: 100% !important;
-  }
-  p.fusiondirectoryLoginWarning {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
 }
