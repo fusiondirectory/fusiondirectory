@@ -18,8 +18,8 @@ div.default {
 #menucell.setup-navigation {
   width: 200px;
 }
-/* The box used for each setup step */
 #menucell.setup-navigation li.menuitem {
+  /* The box used for each setup step */
   text-decoration: none;
   padding-top: 8px;
   padding-bottom: 8px;
@@ -29,17 +29,17 @@ div.default {
 #menucell.setup-navigation li.menuitem > a {
   margin: 0;
 }
-/* An enabled setup step will use this style in navigation*/
 #menucell.setup-navigation li.menuitem.menucurrent a.navigation-title {
+  /* An enabled setup step will use this style in navigation */
   cursor: default;
 }
-/* Disabled setup steps */
 #menucell.setup-navigation li.menuitem.disabled a.navigation-title {
+  /* Disabled setup steps */
   cursor: default;
   color: #c0c2c3;
 }
-/* Setup steps */
 #menucell.setup-navigation li.menuitem a.navigation-title {
+  /* Setup steps */
   color: #31363b;
   font-size: 14px;
   font-weight: bold;
@@ -48,8 +48,8 @@ div.default {
   padding-top: 3px;
   padding-bottom: 3px;
 }
-/* The style for the info of an active setup */
 #menucell.setup-navigation li.menuitem a.navigation-info {
+  /* The style for the info of an active setup */
   font-size: 12px;
   color: #31363b;
   margin: 0;
@@ -71,6 +71,8 @@ html.rtl #menucell.setup-navigation li.menuitem a.navigation-info {
 div.solution-visible {
   display: block;
   width: 100%;
+}
+html.ltr div.solution-visible {
   text-align: left;
 }
 html.rtl div.solution-visible {
@@ -91,9 +93,11 @@ div.step2-entry-container-info {
 }
 /* Text shown for each entry */
 div.step2-entry-name {
-  float: left;
   padding-bottom: 4px;
   vertical-align: middle;
+}
+html.ltr div.step2-entry-name {
+  float: left;
 }
 html.rtl div.step2-entry-name {
   float: right;
@@ -101,9 +105,11 @@ html.rtl div.step2-entry-name {
 /* Status container */
 div.step2-entry-status {
   float: none;
-  text-align: right;
   padding-bottom: 4px;
   vertical-align: middle;
+}
+html.ltr div.step2-entry-status {
+  text-align: right;
 }
 html.rtl div.step2-entry-status {
   text-align: left;
@@ -123,22 +129,15 @@ div.step2-successful {
   color: #378a00;
 }
 /* Text used in info div. */
-div.step2-failed-text {
-  background-repeat: no-repeat;
-}
-html.ltr div.step2-failed-text {
-  padding-left: 25px;
-}
-html.rtl div.step2-failed-text {
-  padding-right: 25px;
-}
-/* Text used in info div. On warnings */
+div.step2-failed-text,
 div.step2-warning-text {
   background-repeat: no-repeat;
 }
+html.ltr div.step2-failed-text,
 html.ltr div.step2-warning-text {
   padding-left: 25px;
 }
+html.rtl div.step2-failed-text,
 html.rtl div.step2-warning-text {
   padding-right: 25px;
 }

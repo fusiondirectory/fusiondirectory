@@ -52,7 +52,7 @@ class simpleService extends simplePlugin
     $str = parent::execute();
 
     if (!$this->dialog) {
-      $str .= '<div class="plugbottom servicebottom">'.
+      $str .= '<p class="plugbottom servicebottom">'.
              '  <input type="submit" name="SaveService" value="'.msgPool::saveButton().'"/>&nbsp;'.
              '  <input type="submit" name="CancelService" value="'.msgPool::cancelButton().'"/>'.
              '</div>';

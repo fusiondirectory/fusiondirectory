@@ -15,14 +15,17 @@ div.pluginfo {
   padding-top: 2px;
   padding-bottom: 2px;
   margin-bottom: 0;
-  text-align: right;
   vertical-align: middle;
   background-color: #eff0f1;
   font-size: 11px;
 }
+html.ltr div.pluginfo {
+  text-align: right;
+}
 html.rtl div.pluginfo {
   text-align: left;
 }
+/* Common to plugins and login form */
 .plugbottom {
   border-style: solid;
   border-color: #c0c2c3;
@@ -33,13 +36,22 @@ html.rtl div.pluginfo {
   border-right-width: 0;
   padding-top: 10px;
   padding-bottom: 0;
-  text-align: right;
   clear: both;
 }
+html.ltr .plugbottom {
+  text-align: right;
+}
+html.rtl .plugbottom {
+  text-align: left;
+}
+.plugbottom input[type=submit],
+.plugbottom input[type=button] {
+  min-width: 80px;
+}
+/* Specific to plugin edition */
 p.plugbottom {
   position: fixed;
   bottom: 0;
-  right: 10px;
   margin: 0;
   border-radius: 5px 5px 0 0;
   width: auto;
@@ -49,12 +61,11 @@ p.plugbottom {
   padding-top: 5px;
   background: #e5e5e5;
 }
-html.rtl .plugbottom {
-  text-align: left;
+html.ltr p.plugbottom {
+  right: 10px;
 }
-.plugbottom input[type=submit],
-.plugbottom input[type=button] {
-  min-width: 80px;
+html.rtl p.plugbottom {
+  left: 10px;
 }
 /* Simple Plugin specific things */
 .plugin-sections:after {
@@ -64,16 +75,18 @@ html.rtl .plugbottom {
 }
 .plugin-section {
   display: block;
-  float: left;
-  clear: left;
   width: 49%;
   border: 1px solid #c0c2c3;
   padding: 0;
   margin-top: 0.5%;
-  margin-left: 0.5%;
   margin-bottom: 0.5%;
-  margin-right: 0;
   position: relative;
+}
+html.ltr .plugin-section {
+  float: left;
+  clear: left;
+  margin-left: 0.5%;
+  margin-right: 0;
 }
 html.rtl .plugin-section {
   float: right;
@@ -99,16 +112,29 @@ div.plugin-section {
 .plugin-section > div {
   padding: 5px;
 }
+.plugin-section > div > table {
+  min-width: 80%;
+}
+.plugin-section > span.legend {
+  margin-top: -26px;
+}
 fieldset.plugin-section > div {
   padding-top: 30px;
 }
 fieldset.plugin-section legend {
-  float: left;
   padding: 0;
   margin: 0;
 }
-html.rtl fieldset.plugin-section legend {
+html.ltr fieldset.plugin-section legend {
+  float: left;
+}
+html.ltr fieldset.plugin-section legend {
   float: right;
+}
+fieldset.plugin-section select[multiple],
+fieldset.plugin-section textarea {
+  width: 100%;
+  min-width: 130px;
 }
 fieldset.plugin-section legend span,
 .plugin-section > span.legend {
@@ -140,9 +166,6 @@ html.ltr fieldset.plugin-section legend span {
 html.rtl fieldset.plugin-section legend span {
   right: 0;
 }
-.plugin-section > span.legend {
-  margin-top: -26px;
-}
 fieldset.plugin-section legend img,
 .plugin-section span.legend img {
   vertical-align: middle;
@@ -154,13 +177,6 @@ html.ltr .plugin-section span.legend img {
 html.rtl fieldset.plugin-section legend img,
 html.rtl .plugin-section span.legend img {
   margin-left: 3px;
-}
-fieldset.plugin-section select[multiple],
-fieldset.plugin-section textarea {
-  width: 100%;
-}
-.plugin-section > div > table {
-  min-width: 80%;
 }
 html.ltr .plugin-section.fullwidth,
 html.rtl .plugin-section.fullwidth {

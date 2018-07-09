@@ -26,10 +26,7 @@ th {
 img {
   border: none;
 }
-a:link {
-  text-decoration: none;
-  color: #31363b;
-}
+a:link,
 a:visited {
   text-decoration: none;
   color: #31363b;
@@ -40,10 +37,7 @@ td.listfooter {
   padding: 3px;
   height: 16px;
 }
-td.scrollhead {
-  vertical-align: top;
-  padding: 0;
-}
+td.scrollhead,
 td.scrollbody {
   vertical-align: top;
   padding: 0;
@@ -51,6 +45,8 @@ td.scrollbody {
 div.scrollbody {
   background-color: #fcfcfc;
   overflow: auto;
+}
+html.ltr div.scrollbody {
   text-align: left;
 }
 html.rtl div.scrollbody {
@@ -70,10 +66,7 @@ div.maintitlebar {
   border-radius: 8px;
 }
 a.maintitlebar:link,
-div.maintitlebar:link {
-  text-decoration: none;
-  color: #2980b9;
-}
+div.maintitlebar:link,
 a.maintitlebar:visited,
 div.maintitlebar:visited {
   text-decoration: none;
@@ -103,8 +96,10 @@ div.copynotice {
   border-right-width: 0;
   padding-top: 3px;
   padding-bottom: 0;
-  text-align: right;
   font-size: 10px;
+}
+html.ltr div.copynotice {
+  text-align: right;
 }
 html.rtl div.copynotice {
   text-align: left;
@@ -122,24 +117,18 @@ img.center {
   text-align: center;
   vertical-align: middle;
 }
-input.center {
-  text-align: left;
-  vertical-align: middle;
-}
-html.rtl input.center {
-  text-align: right;
-}
-select.center {
-  text-align: left;
-  vertical-align: middle;
-}
-html.rtl select.center {
-  text-align: right;
-}
+input.center,
+select.center,
 a.center {
-  text-align: left;
   vertical-align: middle;
 }
+html.ltr input.center,
+html.ltr select.center,
+html.ltr a.center {
+  text-align: left;
+}
+html.rtl input.center,
+html.rtl select.center,
 html.rtl a.center {
   text-align: right;
 }
@@ -155,6 +144,7 @@ table.framework {
   padding: 0;
   margin-top: 0;
   vertical-align: top;
+  /* cellpadding="0" */
 }
 html.ltr table.framework {
   margin-left: 0;
@@ -168,7 +158,6 @@ table.framework td#maincell {
   vertical-align: top;
   padding-bottom: 35px;
 }
-/* cellpadding="0" */
 table.framework > tbody > tr > td {
   padding: 0;
 }
@@ -198,19 +187,6 @@ div.contentboxb {
   padding: 0;
   padding-top: 3px;
 }
-div.contentboxb > div {
-  display: inline-block;
-  margin: 1px;
-}
-.filter div.contentboxb > div {
-  width: 100%;
-  background: #e5e5e5;
-  border-top: 1px solid #c0c2c3;
-  text-align: right;
-  margin: 0;
-  padding: 3px;
-  box-sizing: border-box;
-}
 .filter div.contentboxb label img,
 .filter div.contentboxb label input[type=checkbox] {
   vertical-align: middle;
@@ -227,6 +203,19 @@ div.contentboxb > div {
 }
 .filter div.contentboxb > hr {
   margin-bottom: 3px;
+}
+div.contentboxb > div {
+  display: inline-block;
+  margin: 1px;
+}
+.filter div.contentboxb > div {
+  width: 100%;
+  background: #e5e5e5;
+  border-top: 1px solid #c0c2c3;
+  text-align: right;
+  margin: 0;
+  padding: 3px;
+  box-sizing: border-box;
 }
 div.contentboxb > img,
 div.contentboxb > input {
@@ -300,7 +289,7 @@ html.ltr div.autocomplete ul li {
 html.rtl div.autocomplete ul li {
   padding-right: 4px;
 }
-div.autocomplete li:hover {
+div.autocomplete ul li:hover {
   background-color: #dddddd;
 }
 div.autocomplete ul li.selected {
@@ -309,16 +298,7 @@ div.autocomplete ul li.selected {
 #pulldown {
   background: #fcfcfc;
   height: 23px;
-  border-top: 1px #c0c2c3 solid;
-  border-bottom: 1px #c0c2c3 solid;
-}
-html.ltr #pulldown {
-  border-left: 1px #c0c2c3 solid;
-  border-right: 1px #c0c2c3 solid;
-}
-html.rtl #pulldown {
-  border-right: 1px #c0c2c3 solid;
-  border-left: 1px #c0c2c3 solid;
+  border: 1px #c0c2c3 solid;
 }
 #pulldown ul {
   display: block;
@@ -329,17 +309,18 @@ html.rtl #pulldown {
   z-index: 90;
 }
 #pulldown ul li {
-  margin: 0 3px 0 0;
   padding: 0;
   font-size: 12px;
   line-height: 1em;
   list-style-type: none;
 }
+html.ltr #pulldown ul li {
+  margin: 0 3px 0 0;
+}
 html.rtl #pulldown ul li {
   margin: 0 0 0 3px;
 }
 #pulldown ul li a {
-  float: left;
   display: block;
   width: auto;
   font-weight: normal;
@@ -348,14 +329,17 @@ html.rtl #pulldown ul li {
   margin: 0;
   padding: 5px;
 }
+html.ltr #pulldown ul li a {
+  float: left;
+}
 html.rtl #pulldown ul li a {
   float: right;
 }
-#pulldown ul li img {
-  vertical-align: middle;
-}
 #pulldown ul li a:hover {
   text-decoration: none;
+}
+#pulldown ul li img {
+  vertical-align: middle;
 }
 #pulldown ul li.sep {
   color: #c0c2c3;
@@ -463,8 +447,27 @@ span.mark {
 html.ltr div#header-left {
   float: left;
 }
+html.ltr div#header-left .plugtop,
+html.ltr div#header-left .logout {
+  margin-left: 35px;
+}
 html.rtl div#header-left {
   float: right;
+}
+html.rtl div#header-left .plugtop,
+html.rtl div#header-left .logout {
+  margin-right: 35px;
+}
+div#header-left img {
+  vertical-align: middle;
+}
+html.ltr div#header-left img#fd-logo {
+  padding-left: 2px;
+  padding-right: 25px;
+}
+html.rtl div#header-left img#fd-logo {
+  padding-left: 25px;
+  padding-right: 2px;
 }
 .plugtop {
   color: #31363b;
@@ -484,29 +487,6 @@ html.ltr .plugtop img {
 }
 html.rtl .plugtop img {
   margin-left: 4px;
-}
-html.ltr div#header-left .plugtop {
-  margin-left: 35px;
-}
-html.rtl div#header-left .plugtop {
-  margin-right: 35px;
-}
-div#header-left img {
-  vertical-align: middle;
-}
-html.ltr div#header-left img#fd-logo {
-  padding-left: 2px;
-  padding-right: 25px;
-}
-html.rtl div#header-left img#fd-logo {
-  padding-left: 25px;
-  padding-right: 2px;
-}
-html.ltr div#header-left .logout {
-  margin-left: 35px;
-}
-html.rtl div#header-left .logout {
-  margin-right: 35px;
 }
 div#header-right {
   padding-top: 8px;
