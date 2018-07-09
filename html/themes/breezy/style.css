@@ -144,7 +144,6 @@ table.framework {
   padding: 0;
   margin-top: 0;
   vertical-align: top;
-  /* cellpadding="0" */
 }
 html.ltr table.framework {
   margin-left: 0;
@@ -159,6 +158,7 @@ table.framework td#maincell {
   padding-bottom: 35px;
 }
 table.framework > tbody > tr > td {
+  /* cellpadding="0" */
   padding: 0;
 }
 div.contentboxh {
@@ -314,12 +314,6 @@ div.autocomplete ul li.selected {
   line-height: 1em;
   list-style-type: none;
 }
-html.ltr #pulldown ul li {
-  margin: 0 3px 0 0;
-}
-html.rtl #pulldown ul li {
-  margin: 0 0 0 3px;
-}
 #pulldown ul li a {
   display: block;
   width: auto;
@@ -328,12 +322,6 @@ html.rtl #pulldown ul li {
   text-decoration: none;
   margin: 0;
   padding: 5px;
-}
-html.ltr #pulldown ul li a {
-  float: left;
-}
-html.rtl #pulldown ul li a {
-  float: right;
 }
 #pulldown ul li a:hover {
   text-decoration: none;
@@ -345,11 +333,6 @@ html.rtl #pulldown ul li a {
   color: #c0c2c3;
   padding: .8em 0 .5em;
 }
-/* Commented Backslash Hack hides rule from IE5-Mac \*/
-#pulldown ul li a {
-  float: none;
-}
-/* End IE5-Mac hack */
 #pulldown ul ul {
   position: absolute;
   top: 0;
