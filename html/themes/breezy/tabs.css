@@ -4,7 +4,7 @@ table.tabs-header {
   border-spacing: 0;
   text-decoration: none;
   color: #2980b9;
-  font-size: 1.1em;
+  font-size: 13px;
   font-weight: bold;
 }
 table.tabs-header > tbody > tr > td {

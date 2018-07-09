@@ -3,7 +3,7 @@ p.fusiondirectoryLoginWarning {
   text-align: center;
   color: #dd0000;
   font-weight: bold;
-  font-size: 1em;
+  font-size: 12px;
 }
 @media (max-width: 640px) {
   p.fusiondirectoryLoginWarning {
@@ -52,7 +52,7 @@ div#window-titlebar > img {
 div#window-titlebar > p {
   margin: 0;
   padding: 0;
-  font-size: 2em;
+  font-size: 24px;
   font-weight: bold;
 }
 div#window-content > div {

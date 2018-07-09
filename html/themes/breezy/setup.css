@@ -41,7 +41,7 @@ div.default {
 /* Setup steps */
 #menucell.setup-navigation li.menuitem a.navigation-title {
   color: #31363b;
-  font-size: 1.2em;
+  font-size: 14px;
   font-weight: bold;
   text-decoration: none;
   cursor: pointer;
@@ -50,7 +50,7 @@ div.default {
 }
 /* The style for the info of an active setup */
 #menucell.setup-navigation li.menuitem a.navigation-info {
-  font-size: 1em;
+  font-size: 12px;
   color: #31363b;
   margin: 0;
   cursor: default;

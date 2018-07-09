@@ -3,8 +3,7 @@ input:focus,
 select,
 textarea,
 textarea:focus {
-  font-size: inherit;
-  font-size: 1em;
+  font-size: 12px;
 }
 input[type=text],
 input[type=password],
