@@ -90,7 +90,7 @@ class multiPlugin extends simplePlugin
     foreach ($this->plugin as &$plug) {
       $plug->read_only = $readOnly;
       if (!$is_first) {
-        $display .= '<p class="seperator plugbottom">&nbsp;</p>';
+        $display .= '<p class="plugbottom">&nbsp;</p>';
       } else {
         $is_first = FALSE;
       }

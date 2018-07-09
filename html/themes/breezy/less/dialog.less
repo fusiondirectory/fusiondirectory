@@ -1,12 +1,15 @@
+@import "colors";
+
 div.msgtitle {
   width: auto;
-  background-color: #f0f0f0;
-  border: solid 1px #c0c2c3;
+  background-color: @background-header-color;
+  border: solid 1px @border-color-1;
   margin-bottom: 7px;
+  h2 {
+    margin: 10px;
+  }
 }
-div.msgtitle h2 {
-  margin: 10px;
-}
+
 div.msgdialog {
   width: 60%;
   z-index: 150;
@@ -14,17 +17,15 @@ div.msgdialog {
   display: none;
   margin: auto;
   top: 200px;
-}
-div.msgdialog .description {
-  font-style: italic;
-}
-@media (max-height: 600px) {
-  div.msgdialog {
+  .description {
+    font-style: italic;
+  }
+
+  @media (max-height: 600px) {
     top: auto;
   }
-}
-@media (max-width: 640px) {
-  div.msgdialog {
+
+  @media (max-width: 640px) {
     /* Small screens (i.e. phones) */
     top: auto;
     width: auto;

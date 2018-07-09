@@ -1,105 +1,92 @@
 table.tabs-header {
-width: 100%;
-border: none;
-border-spacing: 0;
-font-family: arial,helvetica,sans-serif;
-text-decoration: none;
-color: #2980b9;
-font-size: 13px;
-font-weight: bold;
+  width: 100%;
+  border: none;
+  border-spacing: 0;
+  text-decoration: none;
+  color: #2980b9;
+  font-size: 13px;
+  font-weight: bold;
 }
-
-/* tabs header */
 table.tabs-header > tbody > tr > td {
-padding: 0;
-vertical-align: bottom;
-white-space: nowrap;
-width: 1px;
+  padding: 0;
+  vertical-align: bottom;
+  white-space: nowrap;
+  width: 1px;
 }
 table.tabs-header > tbody > tr > td:last-child {
-width: auto;
+  width: auto;
 }
-
 table.tabs-header > tbody > tr > td > div > a {
-display: inline-block;
-border-radius: 5px 5px 0 0;
-text-align: center;
-background-color: #d0d0d0;
-border: 1px solid #999;
-margin-top: 5px;
-padding-top: 1px;
-padding-left: 8px;
-padding-right: 8px;
-padding-bottom: 5px;
-transition: margin .4s ease, padding .4s ease;
+  display: inline-block;
+  border-radius: 5px 5px 0 0;
+  text-align: center;
+  background-color: #d0d0d0;
+  border: 1px solid #999999;
+  margin-top: 5px;
+  padding-top: 1px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 5px;
+  transition: margin .4s ease, padding .4s ease;
 }
 table.tabs-header > tbody > tr > td > div > a:hover {
-margin-top: 0;
-padding-top: 2px;
-padding-bottom: 7px;
+  margin-top: 0;
+  padding-top: 2px;
+  padding-bottom: 7px;
 }
-
 table.tabs-header > tbody > tr > td > div.tab-active > a {
-background-color: #f8f8f8;
-border-bottom: 0;
-margin-top: 2px;
-padding-top: 2px;
-padding-bottom: 8px;
+  background-color: #f8f8f8;
+  border-bottom: 0;
+  margin-top: 2px;
+  padding-top: 2px;
+  padding-bottom: 8px;
 }
-
 table.tabs-header > tbody > tr > td > div.tab-inactive > a {
-color: grey;
-font-weight: normal;
+  color: #808080;
+  font-weight: normal;
 }
-
 table.tabs-header > tbody > tr > td > div.tab-disabled > a {
-color: grey;
+  color: #808080;
 }
 table.tabs-header > tbody > tr > td > div.tab-disabled > a:hover {
-margin-top: 5px;
-padding-top: 1px;
-padding-bottom: 5px;
+  margin-top: 5px;
+  padding-top: 1px;
+  padding-bottom: 5px;
 }
-
 table.tabs-header > tbody > tr > td > div.tab-notify > a {
-background-image: url(../../geticon.php?context=status&icon=dialog-information&size=16);
-background-repeat: no-repeat;
-background-position: 1px 1px;
+  background-image: url(../../geticon.php?context=status&icon=dialog-information&size=16);
+  background-repeat: no-repeat;
+  background-position: 1px 1px;
 }
 html.ltr table.tabs-header > tbody > tr > td > div.tab-notify > a {
-padding-left: 18px;
+  padding-left: 18px;
 }
 html.rtl table.tabs-header > tbody > tr > td > div.tab-notify > a {
-padding-right: 18px;
+  padding-right: 18px;
 }
-
 html.ltr table.tabs-header > tbody > tr > td > div.tab-left > a {
-border-right-width: 0;
+  border-right-width: 0;
 }
 html.rtl table.tabs-header > tbody > tr > td > div.tab-left > a {
-border-left-width: 0;
+  border-left-width: 0;
 }
-
 html.ltr table.tabs-header > tbody > tr > td > div.tab-right > a {
-border-left-width: 0;
+  border-left-width: 0;
 }
 html.rtl table.tabs-header > tbody > tr > td > div.tab-right > a {
-border-right-width: 0;
+  border-right-width: 0;
 }
-
 table.tabs-header > tbody > tr > td > div.tab-border {
-border-bottom: 1px solid #999;
+  border-bottom: 1px solid #999999;
 }
-
-/* tabs content */
 div.tab-content {
-padding: 4px;
-width: auto;
-background-color: #f8f8f8;
-border-style: solid;
-border-color: #c0c2c3;
-border-top-width: 0;
-border-bottom-width: 1px;
-border-left-width: 1px;
-border-right-width: 1px;
+  padding: 4px;
+  width: auto;
+  background-color: #f8f8f8;
+  border-style: solid;
+  border-color: #c0c2c3;
+  border-top-width: 0;
+  border-bottom-width: 1px;
+  border-left-width: 1px;
+  border-right-width: 1px;
 }

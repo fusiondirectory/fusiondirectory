@@ -1,122 +1,109 @@
 /* Login screen */
 p.fusiondirectoryLoginWarning {
-text-align: center;
-color: red;
-font-weight: bold;
-font-size: 12px;
+  text-align: center;
+  color: #dd0000;
+  font-weight: bold;
+  font-size: 12px;
 }
-
-html, body {
-min-height: 100%;
+@media (max-width: 640px) {
+  p.fusiondirectoryLoginWarning {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
 }
-
+html,
+body {
+  min-height: 100%;
+}
 div#window-container {
-text-align: center;
-width: 100%;
-bottom: 0;
-top: 52px;
-position: absolute;
+  text-align: center;
+  width: 100%;
+  bottom: 0;
+  top: 52px;
+  position: absolute;
 }
-
 div#window-div {
-min-width: 50%;
-margin-top: 100px;
-border: 1px solid #c0c2c3;
-background-color: #f3f4f4;
-display: inline-block;
+  min-width: 50%;
+  margin-top: 100px;
+  border: 1px solid #c0c2c3;
+  background-color: #f3f4f4;
+  display: inline-block;
 }
-
 div#window-div > form {
-margin:0;
+  margin: 0;
 }
-
-div#window-titlebar {
-text-align: center;
-border-bottom: 1px solid #c0c2c3;
-padding: 8px;
-background-color: #eff0f1;
-min-height: 30px;
-}
-
-div#window-titlebar > img {
-float: left;
-height: 30px;
-}
-
-div#window-titlebar > p {
-margin: 0;
-padding: 0;
-font-size: 24px;
-font-weight: bold;
-}
-
-div#window-content > div {
-padding: 10px;
-}
-
-a:link {
-text-decoration: none;
-color: #2980b9;
-}
-
-a:visited {
-text-decoration: none;
-color: #2980b9;
-}
-
-div#window-footer {
-padding: 0;
-}
-
-div#window-footer > div {
-display: inline-block;
-width: 47%;
-padding: 1%;
-}
-
-div#window-footer > div:nth-child(1) {
-color: red;
-font-weight: bold;
-}
-html.ltr div#window-footer > div:nth-child(1) {
-text-align: left;
-}
-html.rtl div#window-footer > div:nth-child(1) {
-text-align: right;
-}
-
-span.warning, p.warning {
-color: red;
-}
-
-div.copynotice {
-position: fixed;
-bottom: 0;
-right: 5px;
-border: none;
-}
-
-div.copynotice a {
-color: #31363b;
-}
-
-/* On small screens */
 @media (max-width: 640px) {
   div#window-div {
-  min-width: 70%;
-  margin-top: 10px;
+    min-width: 70%;
+    margin-top: 10px;
   }
+}
+div#window-titlebar {
+  text-align: center;
+  border-bottom: 1px solid #c0c2c3;
+  padding: 8px;
+  background-color: #eff0f1;
+  min-height: 30px;
+}
+div#window-titlebar > img {
+  float: left;
+  height: 30px;
+}
+div#window-titlebar > p {
+  margin: 0;
+  padding: 0;
+  font-size: 24px;
+  font-weight: bold;
+}
+div#window-content > div {
+  padding: 10px;
+}
+a:link,
+a:visited {
+  text-decoration: none;
+  color: #2980b9;
+}
+div#window-footer {
+  padding: 0;
+}
+div#window-footer > div {
+  display: inline-block;
+  width: 47%;
+  padding: 1%;
+}
+div#window-footer > div:nth-child(1) {
+  color: #dd0000;
+  font-weight: bold;
+}
+html.ltr div#window-footer > div:nth-child(1) {
+  text-align: left;
+}
+html.rtl div#window-footer > div:nth-child(1) {
+  text-align: right;
+}
+@media (max-width: 640px) {
   div#window-footer > div {
-  display: block;
-  width: auto;
-  padding: 5px;
-  text-align: center !important;
+    display: block;
+    width: auto;
+    padding: 5px;
+    text-align: center !important;
   }
+}
+@media (max-width: 640px) {
   div#window-footer.plugbottom > div:nth-child(2) > input[type=submit] {
-  width: 100% !important;
+    width: 100% !important;
   }
-  p.fusiondirectoryLoginWarning {
-  margin-top: 0;
-  margin-bottom: 0;
-  }
+}
+span.warning,
+p.warning {
+  color: #dd0000;
+}
+div.copynotice {
+  position: fixed;
+  bottom: 0;
+  right: 5px;
+  border: none;
+}
+div.copynotice a {
+  color: #31363b;
 }
