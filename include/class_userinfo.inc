@@ -582,7 +582,7 @@ class userinfo
               if ($attribute == "") {
                 foreach ($config->data['CATEGORIES'][$ocs]['classes'] as $oc) {
                   if (isset($subacl['acl'][$ocs.'/'.$oc])) {
-                    // Skip ACLs wich are defined for ourselfs only - if not checking against ($ui->dn)
+                    // Skip ACLs which are defined for ourselfs only - if not checking against ($ui->dn)
                     if (isset($subacl['acl'][$ocs.'/'.$oc][0]) &&
                         ($dn != $this->dn) &&
                         (strpos($subacl['acl'][$ocs.'/'.$oc][0], "s") !== FALSE)) {
@@ -1025,6 +1025,11 @@ class userinfo
   function getSizeLimitHandler()
   {
     return $this->sizeLimitHandler;
+  }
+
+  function getBase()
+  {
+    return get_base_from_people($this->dn);
   }
 }
 ?>

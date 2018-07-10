@@ -595,7 +595,7 @@ class listing
         } elseif ($action == 'BACK') {
           $this->tryAndSetBase(preg_replace('/^[^,]+,/', '', $this->base));
         } elseif ($action == 'HOME') {
-          $this->tryAndSetBase(get_base_from_people($ui->dn));
+          $this->tryAndSetBase($ui->getBase());
         }
       }
     }
@@ -1141,7 +1141,7 @@ class listing
     }
 
     /* Check if we are in users home  department */
-    if (!count($deps) || ($this->filter->base == get_base_from_people($ui->dn)) || !in_array_ics(get_base_from_people($ui->dn), $deps)) {
+    if (!count($deps) || ($this->filter->base == $ui->getBase()) || !in_array_ics($ui->getBase(), $deps)) {
       $enableHome = FALSE;
     }
 

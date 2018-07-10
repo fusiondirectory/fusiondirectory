@@ -206,7 +206,7 @@ class template
         $plugin->attributesAccess[$attr]->renderAttribute($attributesRendered, FALSE);
       }
 
-      $smarty->assign('section', $class);
+      $smarty->assign('section', $this->tabObject->by_name[$class]);
       $smarty->assign('sectionId', $class);
       $smarty->assign('sectionClasses', ' fullwidth');
       $smarty->assign('attributes', $attributesRendered);

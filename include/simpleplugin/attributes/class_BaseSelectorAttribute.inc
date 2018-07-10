@@ -61,7 +61,7 @@ class BaseSelectorAttribute extends Attribute
       }
       if ($this->plugin->dn == "new") {
         $ui = get_userinfo();
-        $this->setValue(dn2base(session::global_is_set("CurrentMainBase") ? "cn=dummy,".session::global_get("CurrentMainBase") : $ui->dn));
+        $this->setValue(session::global_is_set("CurrentMainBase") ? session::global_get("CurrentMainBase") : $ui->getBase());
       } else {
         $this->setValue(dn2base($this->plugin->dn, $this->ou));
       }
