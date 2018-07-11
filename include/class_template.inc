@@ -96,6 +96,10 @@ class template
             $this->attributes[$class][] = $attr;
           }
         }
+        if (empty($this->attributes[$class]) && $tab->ignore_account) {
+          // Do not show empty sections for tabs which are not explicitely enabled
+          unset($this->attributes[$class]);
+        }
       }
     }
   }
