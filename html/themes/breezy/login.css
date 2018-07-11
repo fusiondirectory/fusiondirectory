@@ -25,6 +25,7 @@ div#window-container {
 div#window-div {
   min-width: 50%;
   margin-top: 100px;
+  margin-bottom: 30px;
   border: 1px solid #c0c2c3;
   background-color: #f3f4f4;
   display: inline-block;

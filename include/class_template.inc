@@ -96,6 +96,10 @@ class template
             $this->attributes[$class][] = $attr;
           }
         }
+        if (empty($this->attributes[$class]) && $tab->ignore_account) {
+          // Do not show empty sections for tabs which are not explicitely enabled
+          unset($this->attributes[$class]);
+        }
       }
     }
   }
@@ -206,7 +210,7 @@ class template
         $plugin->attributesAccess[$attr]->renderAttribute($attributesRendered, FALSE);
       }
 
-      $smarty->assign('section', $class);
+      $smarty->assign('section', $this->tabObject->by_name[$class]);
       $smarty->assign('sectionId', $class);
       $smarty->assign('sectionClasses', ' fullwidth');
       $smarty->assign('attributes', $attributesRendered);

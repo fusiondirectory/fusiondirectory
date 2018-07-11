@@ -99,7 +99,7 @@ if (!session::global_is_set('config')) {
 $config = session::global_get('config');
 IconTheme::loadThemes('themes');
 /* Fake user bypassing acl system */
-$ui = new fake_userinfo();
+$ui = new userinfoNoAuth('setup');
 /* Call setup */
 $display = "";
 require_once("../setup/main.inc");

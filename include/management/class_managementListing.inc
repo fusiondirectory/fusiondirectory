@@ -267,7 +267,7 @@ class managementListing
           $this->tryAndSetBase($parentBase);
         } elseif ($action == 'HOME') {
           $ui = get_userinfo();
-          $this->tryAndSetBase(get_base_from_people($ui->dn));
+          $this->tryAndSetBase($ui->getBase());
         }
       }
     }
@@ -355,7 +355,7 @@ class managementListing
     }
 
     /* Check if we are in users home  department */
-    if (!count($deps) || ($this->base == get_base_from_people($ui->dn)) || !in_array_ics(get_base_from_people($ui->dn), $deps)) {
+    if (!count($deps) || ($this->base == $ui->getBase()) || !in_array_ics($ui->getBase(), $deps)) {
       $enableHome = FALSE;
     }
 
