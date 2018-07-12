@@ -155,7 +155,7 @@ class simplePlugin
 
     $plInfo = pluglist::pluginInfos(get_class($this));
 
-    if (isset($plInfo['plObjectClass'])) {
+    if (empty($this->objectclasses) && isset($plInfo['plObjectClass'])) {
       $this->objectclasses = $plInfo['plObjectClass'];
     }
 
