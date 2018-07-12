@@ -64,8 +64,6 @@ class SetAttribute extends Attribute
       for ($i = 0; $i < $attrs[$this->getLdapName()]["count"]; $i++) {
         $this->value[] = $attrs[$this->getLdapName()][$i];
       }
-    } else {
-      $this->resetToDefault();
     }
   }
 
@@ -429,8 +427,6 @@ class OrderedArrayAttribute extends SetAttribute
           $this->value[] = $value;
         }
       }
-    } else {
-      $this->resetToDefault();
     }
     if ($this->order) {
       $this->reIndexValues();
@@ -706,8 +702,6 @@ class SubNodesAttribute extends OrderedArrayAttribute
         unset($attribute);
         $this->value[] = $this->attribute->getValue();
       }
-    } else {
-      $this->resetToDefault();
     }
   }
 
