@@ -123,27 +123,27 @@ class department extends simplePlugin
   function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE)
   {
     global $config;
+
+    parent::__construct($dn, $object, $parent, $mainTab);
+
     /* Add the default structural object class if this is a new entry */
     $ldap = $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);
-    if ($dn == "" || $dn == "new" || !$ldap->dn_exists($dn)) {
+    if (($dn == '') || ($dn == 'new') || !$ldap->dn_exists($dn)) {
       $this->objectclasses = array_merge($this->structuralOC, $this->objectclasses);
     } else {
-      $ldap->cat($dn, array("structuralObjectClass"));
+      $ldap->cat($dn, array('structuralObjectClass'));
       $attrs = $ldap->fetch();
       if (isset($attrs['structuralObjectClass']['count'])) {
         for ($i = 0; $i < $attrs['structuralObjectClass']['count']; $i++) {
           $this->objectclasses[] = $attrs['structuralObjectClass'][$i];
         }
       } else {
-        /* Could not detect structural object class for this object, fall back to the default
-         */
+        /* Could not detect structural object class for this object, fall back to the default */
         $this->objectclasses = array_merge($this->structuralOC, $this->objectclasses);
       }
     }
     $this->objectclasses = array_unique($this->objectclasses);
-
-    parent::__construct($dn, $object, $parent, $mainTab);
 
     $categoriesList = $config->get_cfg_value('DepartmentCategories', array());
 
