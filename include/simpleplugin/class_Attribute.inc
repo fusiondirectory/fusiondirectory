@@ -777,8 +777,6 @@ class HiddenArrayAttribute extends HiddenAttribute
       for ($i = 0; $i < $attrs[$this->getLdapName()]['count']; $i++) {
         $this->value[] = $attrs[$this->getLdapName()][$i];
       }
-    } else {
-      $this->resetToDefault();
     }
   }
 }
@@ -859,8 +857,6 @@ class DisplayLDAPArrayAttribute extends Attribute
       for ($i = 0; $i < $attrs[$this->getLdapName()]['count']; $i++) {
         $this->value[] = $attrs[$this->getLdapName()][$i];
       }
-    } else {
-      $this->resetToDefault();
     }
   }
 
