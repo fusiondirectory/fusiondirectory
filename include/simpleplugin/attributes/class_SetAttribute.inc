@@ -226,7 +226,7 @@ class SetAttribute extends Attribute
           'htmlid'      => $this->getForHtmlId(),
           'label'       => '{literal}'.$this->getLabel().'{/literal}'.($this->isRequired() ? '{$must}' : ''),
           'description' => ($this->isRequired() ? sprintf(_("%s (required)"), $this->getDescription()) : $this->getDescription()),
-          'input'       => $this->renderOnlyFormInput(),
+          'input'       => $this->renderAcl($this->renderOnlyFormInput()),
         );
         $this->handleEditingValue();
         $this->attribute->renderAttribute($attributes, $readOnly);
@@ -234,7 +234,7 @@ class SetAttribute extends Attribute
           'htmlid'      => 'add'.$this->getHtmlId(),
           'label'       => '',
           'description' => '',
-          'input'       => $this->renderButtons(),
+          'input'       => $this->renderAcl($this->renderButtons()),
         );
       }
     }
