@@ -897,6 +897,31 @@ class LDAP
     }
   }
 
+  /*!
+   * \brief Get the errno
+   *
+   * Must be run right after the ldap request
+   */
+  function get_errno()
+  {
+    if ($this->error == 'Success') {
+      return 0;
+    } else {
+      return ldap_errno($this->cid);
+    }
+  }
+
+  /*!
+   * \brief Check if the search hit the size limit
+   *
+   * Must be run right after the search
+   */
+  function hitSizeLimit()
+  {
+    /* LDAP_SIZELIMIT_EXCEEDED 0x04 */
+    return ($this->get_errno() == 0x04);
+  }
+
   function get_credentials($url, $referrals = NULL)
   {
     $ret    = array();

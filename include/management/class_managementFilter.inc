@@ -144,6 +144,7 @@ class managementFilter
     $objectTypeCount  = array();
     $entries          = array();
     $row              = 0;
+    $ui->getSizeLimitHandler()->setLimitExceeded(FALSE);
     foreach ($this->parent->objectTypes as $type) {
       if (!$this->types['filter_type_'.$type]['show']) {
         continue;
