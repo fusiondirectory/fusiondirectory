@@ -25,11 +25,11 @@ class PropertiesColumn extends Column
 {
   protected $tabs;
 
-  function __construct(managementListing $parent, $attribute = NULL, $label = NULL)
+  function __construct(managementListing $parent, array $attributes = NULL, $label = NULL)
   {
     global $config;
 
-    parent::__construct($parent, $attribute, $label);
+    parent::__construct($parent, NULL, $label);
 
     $this->tabs = array();
 

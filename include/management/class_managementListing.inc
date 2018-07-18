@@ -96,7 +96,7 @@ class managementListing
       $this->columns[] = Column::build($this, $columnInfo[0], $columnInfo[1]);
     }
 
-    $this->columns[1]->setTemplateAttribute('cn');
+    $this->columns[1]->setTemplateAttributes(array('cn'));
   }
 
   function getColumns()

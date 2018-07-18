@@ -23,11 +23,14 @@
  */
 class Column
 {
-  protected $attribute;
+  /*! \brief Array of attributes to look for, ordered by priority
+   * The first non-empty attribute will be displayed */
+  protected $attributes;
+  /*! \brief Same thing for templates, if it differs */
+  protected $templateAttributes = NULL;
   protected $label;
   protected $type = 'string';
 
-  protected $templateAttribute = NULL;
 
   /* management class instance */
   protected $parent = NULL;
@@ -36,32 +39,35 @@ class Column
    * \brief Builds a column object from given data
    *
    * \param string $type a column class
-   * \param array $data an associative array with attribute and label
+   * \param array $data an associative array with "attributes" and "label"
    * */
   static function build(managementListing $parent, $type, array $data)
   {
-    $attribute  = NULL;
+    $attributes = NULL;
     $label      = NULL;
-    if (isset($data['attribute'])) {
-      $attribute = $data['attribute'];
+    if (isset($data['attributes'])) {
+      $attributes = $data['attributes'];
+      if (!is_array($attributes)) {
+        $attributes = array_map('trim', explode(',', $attributes));
+      }
     }
     if (isset($data['label'])) {
       $label = $data['label'];
     }
 
-    return new $type($parent, $attribute, $label);
+    return new $type($parent, $attributes, $label);
   }
 
-  function __construct(managementListing $parent, $attribute = NULL, $label = NULL)
+  function __construct(managementListing $parent, array $attributes = NULL, $label = NULL)
   {
     $this->parent     = $parent;
-    $this->attribute  = $attribute;
+    $this->attributes = $attributes;
     $this->label      = $label;
   }
 
-  function setTemplateAttribute($attribute)
+  function setTemplateAttributes(array $attributes = NULL)
   {
-    $this->templateAttribute = $attribute;
+    $this->templateAttributes = $attributes;
   }
 
   function isSortable()
@@ -71,7 +77,7 @@ class Column
 
   function isExportable()
   {
-    return isset($this->attribute);
+    return !empty($this->attributes);
   }
 
   function getHtmlProps()
@@ -95,8 +101,14 @@ class Column
 
   function fillNeededAttributes(array &$attrs)
   {
-    if (isset($this->attribute)) {
-      $attrs[$this->attribute] = '1';
+    if (isset($this->attributes)) {
+      foreach ($this->attributes as $attr) {
+        if (($attr == 'mainAttr') || ($attr == 'nameAttr')) {
+          /* nameAttr and mainAttr as always set as needed in managementFilter */
+          continue;
+        }
+        $attrs[$attr] = '1';
+      }
     }
   }
 
@@ -104,56 +116,50 @@ class Column
   {
   }
 
+  protected function getAttributeValue(ListingEntry $entry)
+  {
+    $attrs = $this->attributes;
+    if (isset($this->templateAttributes) && $entry->isTemplate()) {
+      $attrs = $this->templateAttributes;
+    }
+    if (isset($attrs)) {
+      foreach ($attrs as $attr) {
+        if (($attr == 'mainAttr') || ($attr == 'nameAttr')) {
+          $infos  = objects::infos($entry->getTemplatedType());
+          $attr   = $infos[$attr];
+        }
+        if (isset($entry[$attr])) {
+          return $entry[$attr];
+        }
+      }
+    }
+    return '';
+  }
+
   function renderCell(ListingEntry $entry)
   {
-    $attr = $this->attribute;
-    if (isset($this->templateAttribute) && $entry->isTemplate()) {
-      $attr = $this->templateAttribute;
-    }
-    if (isset($attr) && isset($entry[$attr])) {
-      return htmlentities($entry[$attr], ENT_COMPAT, 'UTF-8');
-    } else {
+    $value = $this->getAttributeValue($entry);
+    if ($value == '') {
       return '&nbsp;';
+    } else {
+      return htmlentities($value, ENT_COMPAT, 'UTF-8');
     }
   }
 
   function getRawExportValue(ListingEntry $entry)
   {
-    $attr = $this->attribute;
-    if (isset($this->templateAttribute) && $entry->isTemplate()) {
-      $attr = $this->templateAttribute;
-    }
-    if (isset($attr) && isset($entry[$attr])) {
-      return $entry[$attr];
-    } else {
-      return '';
-    }
+    return $this->getAttributeValue($entry);
   }
 
   function compare(ListingEntry $ao, ListingEntry $bo)
   {
-    if ($this->attribute == 'sort-attribute') {
-      // Override sort attribute from data if needed
-      $attribute_a = $ao['sort-attribute'];
-      $attribute_b = $bo['sort-attribute'];
-    } else {
-      $attribute_a = $this->attribute;
-      $attribute_b = $this->attribute;
+    $a = $this->getAttributeValue($ao);
+    $b = $this->getAttributeValue($bo);
+    if (is_array($a)) {
+      $a = $a[0];
     }
-
-    // Extract values from ao and bo
-    $a = $b = '';
-    if (isset($ao[$attribute_a])) {
-      $a = $ao[$attribute_a];
-      if (is_array($a)) {
-        $a = $a[0];
-      }
-    }
-    if (isset($bo[$attribute_b])) {
-      $b = $bo[$attribute_b];
-      if (is_array($b)) {
-        $b = $b[0];
-      }
+    if (is_array($b)) {
+      $b = $b[0];
     }
 
     // Take a look at the several types

@@ -73,8 +73,8 @@ class management
   /* Default columns */
   public static $columns = array(
     array('ObjectTypeColumn', array()),
-    array('LinkColumn',       array('attribute' => 'cn',          'label' => 'Name')),
-    array('LinkColumn',       array('attribute' => 'description', 'label' => 'Description')),
+    array('LinkColumn',       array('attributes' => 'nameAttr',    'label' => 'Name')),
+    array('LinkColumn',       array('attributes' => 'description', 'label' => 'Description')),
     array('ActionsColumn',    array('label' => 'Actions')),
   );
 
@@ -240,7 +240,7 @@ class management
       )
     );
 
-    if (!self::$skipSnapshots && ($config->get_cfg_value('enableSnapshots') == 'TRUE')) {
+    if (!static::$skipSnapshots && ($config->get_cfg_value('enableSnapshots') == 'TRUE')) {
       $this->registerAction(
         new Action(
           'snapshot', _('Create snapshot'), 'geticon.php?context=actions&icon=snapshot&size=16',
@@ -738,7 +738,7 @@ class management
   /*!
    * \brief  Save object modifications and closes dialogs (returns to object listing).
    *          - Calls 'simpleTabs::save' to save back object modifications (e.g. to ldap).
-   *          - Calls 'simpleManagement::closeDialogs' to return to the object listing.
+   *          - Calls 'management::closeDialogs' to return to the object listing.
    */
   function saveChanges()
   {
@@ -873,7 +873,7 @@ class management
         del_lock($this->currentDn);
       } else {
         msg_dialog::display(_('Permission error'), msgPool::permDelete($dn), ERROR_DIALOG);
-        logging::log('security', 'simpleManagement/'.get_class($this), $dn, array(), 'Tried to trick deletion.');
+        logging::log('security', 'management/'.get_class($this), $dn, array(), 'Tried to trick deletion.');
       }
     }
 

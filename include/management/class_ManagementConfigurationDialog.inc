@@ -69,7 +69,7 @@ class ManagementConfigurationDialog extends simplePlugin
                   $types, 'LinkColumn'
                 ),
                 new StringAttribute(
-                  _('Attribute'), _('LDAP Attribute to display'),
+                  _('Attribute'), _('LDAP attributes to display, comma separated. Special values "nameAttr" and "mainAttr" also works.'),
                   'columnAttribute', FALSE
                 ),
                 new StringAttribute(
@@ -97,13 +97,16 @@ class ManagementConfigurationDialog extends simplePlugin
     $columnInfos  = $this->parent->getColumnConfiguration();
     $value        = array();
     foreach ($columnInfos as $column) {
-      if (!isset($column[1]['attribute'])) {
-        $column[1]['attribute'] = '';
+      if (!isset($column[1]['attributes'])) {
+        $column[1]['attributes'] = '';
+      }
+      if (is_array($column[1]['attributes'])) {
+        $column[1]['attributes'] = implode(',', $column[1]['attributes']);
       }
       if (!isset($column[1]['label'])) {
         $column[1]['label'] = '';
       }
-      $value[] = array($column[0], $column[1]['attribute'], $column[1]['label']);
+      $value[] = array($column[0], $column[1]['attributes'], $column[1]['label']);
     }
     $this->attributesAccess['managementColumns']->setValue($value);
   }
@@ -138,7 +141,7 @@ class ManagementConfigurationDialog extends simplePlugin
     foreach ($values as $value) {
       $column = array($value[0], array());
       if (!empty($value[1])) {
-        $column[1]['attribute'] = $value[1];
+        $column[1]['attributes'] = $value[1];
       }
       if (!empty($value[2])) {
         $column[1]['label'] = $value[2];
