@@ -136,6 +136,8 @@ class simplePlugin
    */
   protected $entryCSN = '';
 
+  private $hadSubobjects = FALSE;
+
   /*! \brief constructor
    *
    *  \param string $dn The dn of this instance
@@ -1403,7 +1405,16 @@ class simplePlugin
    */
   function handle_pre_events($mode, array $addAttrs = array())
   {
+    global $config;
+
     $this->ldap_error = '';
+    if ($this->mainTab && ($mode == 'remove')) {
+      /* Store information if there was subobjects before deletion */
+      $ldap = $config->get_ldap_link();
+      $ldap->cd($this->dn);
+      $ldap->search('(objectClass=*)', array('dn'), 'one');
+      $this->hadSubobjects = ($ldap->count() > 0);
+    }
     return $this->handle_hooks('PRE', $mode, $addAttrs);
   }
 
@@ -1542,11 +1553,15 @@ class simplePlugin
       $olddn    = $param1;
       $newdn    = $param2;
       $classes  = array(get_class($this));
-      if ($olddn != $newdn) {
-        $ldap = $config->get_ldap_link();
-        $ldap->cd($newdn);
-        $ldap->search('(objectClass=*)', array('dn'), 'one');
-        $subobjects = ($ldap->count() > 0);
+      if (($olddn != $newdn) && $this->mainTab) {
+        if ($newdn === NULL) {
+          $subobjects = $this->hadSubobjects;
+        } else {
+          $ldap = $config->get_ldap_link();
+          $ldap->cd($newdn);
+          $ldap->search('(objectClass=*)', array('dn'), 'one');
+          $subobjects = ($ldap->count() > 0);
+        }
       }
     } elseif ($mode == 'references') {
       $classes = array_keys($this->parent->by_object);
