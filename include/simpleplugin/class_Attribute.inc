@@ -566,7 +566,18 @@ class Attribute
   {
     if ($this->visible) {
       if ($readOnly) {
-        $input = '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}';
+        $value = $this->getValue();
+        if (is_array($value)) {
+          $input = '{literal}'.implode('<br/>', array_map(
+            function ($v)
+            {
+              return htmlentities($v, ENT_COMPAT, 'UTF-8');
+            },
+            $value
+          )).'{/literal}';
+        } else {
+          $input = '{literal}'.htmlentities($value, ENT_COMPAT, 'UTF-8').'{/literal}';
+        }
       } elseif (is_object($this->plugin) && $this->plugin->is_template) {
         $input = $this->renderTemplateInput();
       } else {
