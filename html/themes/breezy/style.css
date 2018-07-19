@@ -222,11 +222,6 @@ div.contentboxb > input {
   display: inline-block;
   margin: 3px;
 }
-a.alphaselect:hover {
-  text-decoration: none;
-  background-color: #a0a0a0;
-  color: #fcfcfc;
-}
 option.select {
   background-repeat: no-repeat;
   background-position: 0 top;

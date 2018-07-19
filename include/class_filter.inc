@@ -32,7 +32,6 @@ class filter
   var $xmlData;
   var $elements         = array();
   var $elementValues    = array();
-  var $alphabetElements = array();
   var $autocompleter    = array();
   var $category         = '';
   var $objectStorage    = array();
@@ -41,7 +40,6 @@ class filter
   var $query;
   var $initial          = FALSE;
   var $scopeMode        = 'auto';
-  var $alphabet         = NULL;
   var $converter        = array();
   var $pid;
   var $headpage;
@@ -124,11 +122,6 @@ class filter
           $this->elementValues[$tag] = $element['default'];
         } else {
           $this->elementValues[$tag] = '';
-        }
-
-        // Does this element react on alphabet links?
-        if (isset($element['alphabet']) && ($element['alphabet'] == 'true')) {
-          $this->alphabetElements[] = $tag;
         }
       }
 
@@ -316,49 +309,6 @@ class filter
   }
 
   /*!
-   * \brief Render alphabet
-   *
-   * \param integer $columns
-   */
-  function renderAlphabet($columns = 10)
-  {
-    // Return pre-rendered alphabet if available
-    if ($this->alphabet) {
-      return $this->alphabet;
-    }
-
-    $characters     = _('*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789');
-    $this->alphabet = '';
-    $c              = 0;
-
-    /* Fill cells with charaters */
-    for ($i = 0, $l = mb_strlen($characters, 'UTF8'); $i < $l; $i++) {
-      if ($c == 0) {
-        $this->alphabet .= "<tr>";
-      }
-
-      $ch             = mb_substr($characters, $i, 1, "UTF8");
-      $this->alphabet .= "<td><a class=\"alphaselect\" href=\"main.php?plug=".
-        validate($_GET['plug'])."&amp;filter=".$ch."\">&nbsp;".$ch."&nbsp;</a></td>";
-
-      if ($c++ == $columns) {
-        $this->alphabet .= "</tr>";
-        $c              = 0;
-      }
-    }
-
-    /* Fill remaining cells */
-    while ($c++ <= $columns) {
-      $this->alphabet .= "<td>&nbsp;</td>";
-    }
-
-    /* Save alphabet */
-    $this->alphabet = '<table width="100%">'.$this->alphabet.'</table>';
-
-    return $this->alphabet;
-  }
-
-  /*!
    * \brief Render apply filter
    *
    * \return string
@@ -390,7 +340,6 @@ class filter
     }
 
     $smarty = get_smarty();
-    $smarty->assign("ALPHABET", $this->renderAlphabet());
     $smarty->assign("APPLY", $this->renderApply());
     $smarty->assign("SCOPE", $this->renderScope());
 
@@ -546,14 +495,6 @@ class filter
    */
   function update()
   {
-    /* React on alphabet links if needed */
-    if (isset($_GET['filter'])) {
-      $s = mb_substr(validate($_GET['filter']), 0, 1, "UTF8");
-      foreach ($this->alphabetElements as $tag) {
-        $this->elementValues[$tag] = $s;
-      }
-    }
-
     if (isset($_POST['FILTER_PID']) && $_POST['FILTER_PID'] == $this->pid) {
       // Load post values and adapt filter, base and scope accordingly - but
       // only if we didn't get a _GET
