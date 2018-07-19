@@ -985,7 +985,7 @@ class LDAP
     $admin  = escapeshellarg($this->binddn);
     $filter = escapeshellarg($filter);
 
-    $cmd = "ldapsearch -x -LLLL -D {$admin} {$filter} {$limit} {$scope} -H {$host} -b {$dn} -w {$pwd} ";
+    $cmd = 'ldapsearch'.($this->tls ? ' -ZZ' : '')." -x -LLLL -D {$admin} {$filter} {$limit} {$scope} -H {$host} -b {$dn} -w {$pwd} ";
 
     // Create list of process pipes
     $descriptorspec = array(
