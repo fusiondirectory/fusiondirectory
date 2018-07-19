@@ -492,7 +492,7 @@ class Attribute
           array_keys($infos['plObjectType']),
           array_values($infos['plObjectType'])
         );
-        $pluginFilter = $this->plugin->getObjectClassFilter();
+        $pluginFilter = get_class($this->plugin)::getLdapFilter();
         if (!empty($pluginFilter)) {
           $filters[] = $pluginFilter;
         }
