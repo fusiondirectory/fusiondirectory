@@ -107,7 +107,11 @@ class Column
           /* nameAttr and mainAttr as always set as needed in managementFilter */
           continue;
         }
-        $attrs[$attr] = '1';
+        if ($attr == 'dn') {
+          $attrs[$attr] = 'raw';
+        } else {
+          $attrs[$attr] = '1';
+        }
       }
     }
   }
