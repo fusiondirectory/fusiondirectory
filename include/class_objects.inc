@@ -278,7 +278,7 @@ class objects
     $ldap->cd($ou);
     $ldap->search($filter, $search_attrs, $scope);
     if (!$ldap->success()) {
-      if ($sizeLimit && preg_match('/size limit/i', $ldap->get_error())) {
+      if ($sizeLimit && $ldap->hitSizeLimit()) {
         // Check for size limit exceeded messages for GUI feedback
         $ui->getSizeLimitHandler()->setLimitExceeded();
       } else {

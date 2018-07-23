@@ -58,11 +58,12 @@ class managementListing
    *
    * \param string $parent management instance
    */
-  function __construct($parent)
+  function __construct($parent, $baseMode = TRUE)
   {
     global $config;
 
-    $this->parent = $parent;
+    $this->parent   = $parent;
+    $this->baseMode = $baseMode;
 
     // Initialize pid
     $this->pid = preg_replace('/[^0-9]/', '', microtime(TRUE));
@@ -74,15 +75,15 @@ class managementListing
         $this->base = $config->current['BASE'];
       }
       $this->refreshBasesList();
+
+      // Instanciate base selector
+      $this->baseSelector = new baseSelector($this->bases, $this->base);
     } else {
       $this->base = $config->current['BASE'];
     }
 
     // Move footer information
     $this->showFooter = ($config->get_cfg_value('listSummary') == 'TRUE');
-
-    // Instanciate base selector
-    $this->baseSelector = new baseSelector($this->bases, $this->base);
 
     $this->reloadColumns();
   }
@@ -96,7 +97,7 @@ class managementListing
       $this->columns[] = Column::build($this, $columnInfo[0], $columnInfo[1]);
     }
 
-    $this->columns[1]->setTemplateAttribute('cn');
+    $this->columns[1]->setTemplateAttributes(array('cn'));
   }
 
   function getColumns()

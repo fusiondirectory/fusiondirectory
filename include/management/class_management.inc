@@ -73,8 +73,8 @@ class management
   /* Default columns */
   public static $columns = array(
     array('ObjectTypeColumn', array()),
-    array('LinkColumn',       array('attribute' => 'cn',          'label' => 'Name')),
-    array('LinkColumn',       array('attribute' => 'description', 'label' => 'Description')),
+    array('LinkColumn',       array('attributes' => 'nameAttr',    'label' => 'Name')),
+    array('LinkColumn',       array('attributes' => 'description', 'label' => 'Description')),
     array('ActionsColumn',    array('label' => 'Actions')),
   );
 
@@ -99,8 +99,8 @@ class management
 
     $this->objectTypes = $objectTypes;
 
-    $this->listing  = new managementListing($this);
-    $this->filter   = new managementFilter($this);
+    $this->setUpListing();
+    $this->setUpFilter();
 
     // Add copy&paste and snapshot handler.
     if (!$this->skipCpHandler) {
@@ -121,6 +121,16 @@ class management
     }
 
     $this->configureActions();
+  }
+
+  protected function setUpListing()
+  {
+    $this->listing  = new managementListing($this);
+  }
+
+  protected function setUpFilter()
+  {
+    $this->filter   = new managementFilter($this);
   }
 
   protected function configureActions()
@@ -240,7 +250,7 @@ class management
       )
     );
 
-    if (!self::$skipSnapshots && ($config->get_cfg_value('enableSnapshots') == 'TRUE')) {
+    if (!static::$skipSnapshots && ($config->get_cfg_value('enableSnapshots') == 'TRUE')) {
       $this->registerAction(
         new Action(
           'snapshot', _('Create snapshot'), 'geticon.php?context=actions&icon=snapshot&size=16',
@@ -424,7 +434,7 @@ class management
 
     // Rendering things using smarty themselves first
     $listRender   = $this->listing->render();
-    $filterRender = $this->filter->render();
+    $filterRender = $this->renderFilter();
     $actionMenu   = $this->renderActionMenu();
 
     $smarty = get_smarty();
@@ -441,7 +451,12 @@ class management
     return $this->getHeader().$smarty->fetch(get_template_path('management/management.tpl'));
   }
 
-  function renderActionMenu()
+  protected function renderFilter()
+  {
+    return $this->filter->render();
+  }
+
+  protected function renderActionMenu()
   {
     $menuActions = array();
     foreach ($this->actions as $action) {
@@ -738,7 +753,7 @@ class management
   /*!
    * \brief  Save object modifications and closes dialogs (returns to object listing).
    *          - Calls 'simpleTabs::save' to save back object modifications (e.g. to ldap).
-   *          - Calls 'simpleManagement::closeDialogs' to return to the object listing.
+   *          - Calls 'management::closeDialogs' to return to the object listing.
    */
   function saveChanges()
   {
@@ -820,12 +835,14 @@ class management
 
     // We've at least one entry to delete.
     if (count($this->currentDns)) {
-      // check locks
+      // Check locks
       if ($locks = get_locks($this->currentDns)) {
         return gen_locked_message($locks, $this->currentDns);
       }
 
       // Add locks
+      add_lock($this->currentDns, $ui->dn);
+
       $objects = array();
       foreach ($this->currentDns as $dn) {
         $entry  = $this->listing->getEntry($dn);
@@ -840,14 +857,19 @@ class management
           'type'  => $infos['name']
         );
       }
-      add_lock ($this->currentDns, $ui->dn);
 
-      // Display confirmation dialog.
-      $smarty = get_smarty();
-      $smarty->assign('objects', $objects);
-      $smarty->assign('multiple', TRUE);
-      return $smarty->fetch(get_template_path('simple-remove.tpl'));
+      return $this->removeConfirmationDialog($objects);
     }
+  }
+
+  /*! \brief Display confirmation dialog
+   */
+  protected function removeConfirmationDialog(array $objects)
+  {
+    $smarty = get_smarty();
+    $smarty->assign('objects', $objects);
+    $smarty->assign('multiple', TRUE);
+    return $smarty->fetch(get_template_path('simple-remove.tpl'));
   }
 
   /*! \brief  Deletion was confirmed, delete the objects queued.
@@ -873,7 +895,7 @@ class management
         del_lock($this->currentDn);
       } else {
         msg_dialog::display(_('Permission error'), msgPool::permDelete($dn), ERROR_DIALOG);
-        logging::log('security', 'simpleManagement/'.get_class($this), $dn, array(), 'Tried to trick deletion.');
+        logging::log('security', 'management/'.get_class($this), $dn, array(), 'Tried to trick deletion.');
       }
     }
 

@@ -24,7 +24,6 @@
     <default></default>
     <unset></unset>
     <set>FILTER</set>
-    <alphabet>true</alphabet>
     <autocomplete>
       <backend>LDAP</backend>
       <filter>FILTER</filter>

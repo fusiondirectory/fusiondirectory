@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,16 +19,11 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class departmentManagement extends simpleManagement
+class departmentManagement extends management
 {
-  protected $objectTypes;
+  public static $skipSnapshots  = TRUE;
 
-  protected $departmentBrowser      = FALSE;
-  protected $departmentRootVisible  = FALSE;
-  protected $baseMode               = TRUE;
-
-  /* Return plugin information for acl handling */
-  static function plInfo()
+  public static function plInfo()
   {
     return array(
       'plShortName'   => _('Departments'),
@@ -43,17 +38,8 @@ class departmentManagement extends simpleManagement
     );
   }
 
-  function __construct()
-  {
-    $this->objectTypes  = static::getDepartmentTypes();
-    $this->listXMLPath  = get_template_path('dep-list.xml', TRUE, dirname(__FILE__));
-    parent::__construct();
-    $this->headpage->registerElementFilter("depLabel", "departmentManagement::filterDepLabel");
-    $this->registerAction("open", "openEntry");
-  }
-
   // Overriden save handler - We've to take care about the department tagging here.
-  protected function saveChanges()
+  function saveChanges()
   {
     $str = parent::saveChanges();
     if (!empty($str)) {
@@ -69,15 +55,7 @@ class departmentManagement extends simpleManagement
     $config->get_departments();
     $config->make_idepartments();
     $ui->reset_acl_cache();
-    $headpage     = $this->getHeadpage();
-    $headpage->refreshBasesList();
-  }
-
-  // An action handler which enables to switch into deparmtment by clicking the names.
-  function openEntry($action, $entry)
-  {
-    $headpage = $this->getHeadpage();
-    $headpage->setBase(array_pop($entry));
+    $this->listing->refreshBasesList();
   }
 
   // Overridden remove request method - Avoid removal of the ldap base.
@@ -88,18 +66,7 @@ class departmentManagement extends simpleManagement
     return parent::removeEntryRequested($action, $target, $all);
   }
 
-  // A filter which allows to open a department by clicking on the departments name.
-  static function filterDepLabel($row, $dn, $params, $ou, $pid, $base)
-  {
-    $ou = $ou[0];
-    if ($dn == $base) {
-      $ou = ".";
-    }
-    $dn = func_get_arg(1);
-    return "<a href='?plug=".$_GET['plug']."&amp;PID=$pid&amp;act=listing_open_$row' title='$dn'>$ou</a>";
-  }
-
-  // Finally remove departments and update departmnet browsers
+  // Finally remove departments and update department browsers
   function removeEntryConfirmed($action, array $target, array $all)
   {
     parent::removeEntryConfirmed($action, $target, $all);

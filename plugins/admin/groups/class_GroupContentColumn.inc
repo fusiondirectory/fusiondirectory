@@ -28,7 +28,7 @@ class GroupContentColumn extends Column
     global $config;
 
     if (strtolower($entry->getTemplatedType()) == 'ogroup') {
-      $types = preg_replace('/[^a-z]/i', '', $entry[$this->attribute]);
+      $types = preg_replace('/[^a-z]/i', '', $this->getAttributeValue($entry));
     } else {
       $types = 'U';
     }

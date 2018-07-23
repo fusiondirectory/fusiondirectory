@@ -25,14 +25,11 @@ class LinkColumn extends Column
 {
   function renderCell(ListingEntry $entry)
   {
-    $attribute = $this->attribute;
-    if (isset($this->templateAttribute) && $entry->isTemplate()) {
-      $attribute = $this->templateAttribute;
-    }
-    if (isset($entry[$attribute])) {
-      return '<a href="?plug='.$_GET['plug'].'&amp;PID='.$entry->getPid().'&amp;act=listing_edit_'.$entry->row.'" title="'.$entry->dn.'">'.htmlentities($entry[$attribute], ENT_COMPAT, 'UTF-8').'</a>';
-    } else {
+    $value = $this->getAttributeValue($entry);
+    if ($value == '') {
       return '&nbsp;';
+    } else {
+      return '<a href="?plug='.$_GET['plug'].'&amp;PID='.$entry->getPid().'&amp;act=listing_edit_'.$entry->row.'" title="'.$entry->dn.'">'.htmlentities($value, ENT_COMPAT, 'UTF-8').'</a>';
     }
   }
 }

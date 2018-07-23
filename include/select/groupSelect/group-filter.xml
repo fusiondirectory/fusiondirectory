@@ -51,7 +51,6 @@
     <default></default>
     <unset></unset>
     <set>(|(cn=*$*)(description=*$*))</set>
-    <alphabet>true</alphabet>
     <autocomplete>
       <backend>LDAPBlacklist</backend>
       <filter>(&amp;(objectClass=posixGroup)(|(cn=*$NAME*)(description=*$NAME*)))</filter>

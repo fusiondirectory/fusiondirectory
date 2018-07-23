@@ -122,6 +122,7 @@ class filterLDAP
     // Do search for every base
     $result = array();
     $limit_exceeded = FALSE;
+    $ui->getSizeLimitHandler()->setLimitExceeded(FALSE);
 
     foreach ($bases as $base => $dnFilters) {
       // Break if the size limit is exceeded
@@ -140,7 +141,7 @@ class filterLDAP
       $ldap->search('(&'.$filter.$dnFilter.')', $attributes, $scope);
 
       // Check for size limit exceeded messages for GUI feedback
-      if (preg_match("/size limit/i", $ldap->get_error())) {
+      if ($ldap->hitSizeLimit()) {
         $ui->getSizeLimitHandler()->setLimitExceeded();
         $limit_exceeded = TRUE;
       }

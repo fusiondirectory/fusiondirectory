@@ -265,7 +265,7 @@ class simplePlugin
         if ($this->mainTab) {
           $filter = '(&(objectClass='.$oc.')('.$at.'='.ldap_escape_f($this->dn).'))';
         } else {
-          $filter = '(&(objectClass='.$oc.')'.$this->getObjectClassFilter().'('.$at.'='.ldap_escape_f($this->dn).'))';
+          $filter = '(&(objectClass='.$oc.')'.static::getLdapFilter().'('.$at.'='.ldap_escape_f($this->dn).'))';
         }
         $ldap->search($filter, $this->attributes);
         if ($ldap->count() == 1) {

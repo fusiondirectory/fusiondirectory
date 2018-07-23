@@ -36,7 +36,7 @@ class LockAction extends Action
   function isLocked(ListingEntry $entry)
   {
     if (isset($entry['userPassword']) && preg_match('/^\{[^\}]/', $entry['userPassword'])) {
-      return preg_match('/^[^\}]*+\}!/', $entry['userPassword']);
+      return (preg_match('/^[^\}]*+\}!/', $entry['userPassword']) === 1);
     }
     return NULL;
   }
@@ -108,9 +108,9 @@ class userManagement extends management
 
   public static $columns = array(
     array('ObjectTypeColumn', array()),
-    array('LinkColumn',       array('attribute' => 'sn',        'label' => 'Last name')),
-    array('LinkColumn',       array('attribute' => 'givenName', 'label' => 'First name')),
-    array('Column',           array('attribute' => 'uid',       'label' => 'Login')),
+    array('LinkColumn',       array('attributes' => 'sn',        'label' => 'Last name')),
+    array('LinkColumn',       array('attributes' => 'givenName', 'label' => 'First name')),
+    array('Column',           array('attributes' => 'uid',       'label' => 'Login')),
     array('PropertiesColumn', array('label' => 'Properties')),
     array('ActionsColumn',    array('label' => 'Actions')),
   );

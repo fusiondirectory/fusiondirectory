@@ -1006,17 +1006,14 @@ class userinfo
   {
     global $config;
     $infos    = objects::infos($type);
-    $classes  = $config->data['CATEGORIES'][$infos['aclCategory']]['classes'];
+    $tabs     = $config->data['TABS'][$infos['tabGroup']];
     if (in_array_ics($attribute, array('objectClass', 'dn'))) {
       return TRUE;
     }
-    foreach ($classes as $class) {
-      if ($class == '0') {
-        continue;
-      }
-      $acls = pluglist::pluginInfos($class)['plProvidedAcls'];
+    foreach ($tabs as $tab) {
+      $acls = pluglist::pluginInfos($tab['CLASS'])['plProvidedAcls'];
       if (isset($acls[$attribute])) {
-        return $infos['aclCategory'].'/'.$class;
+        return $infos['aclCategory'].'/'.$tab['CLASS'];
       }
     }
     return FALSE;
