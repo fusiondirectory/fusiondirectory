@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ class aclAssignmentCreationDialog extends simplePlugin
 {
   protected $post_finish = 'add_finish';
   protected $post_cancel = 'add_cancel';
-  protected $simpleManagement;
+  protected $management;
 
   static function plInfo()
   {
@@ -61,7 +61,7 @@ class aclAssignmentCreationDialog extends simplePlugin
   {
     global $config;
 
-    $this->simpleManagement = $parent;
+    $this->management = $parent;
 
     parent::__construct($config->current['BASE']);
 
@@ -105,7 +105,7 @@ class aclAssignmentCreationDialog extends simplePlugin
       return TRUE;
     }
     try {
-      $this->simpleManagement->newEntryConfirmed($this->baseDn);
+      $this->management->newEntryConfirmed($this->baseDn);
     } catch (NonExistingLdapNodeException $e) {
       msg_dialog::displayChecks(array(_('The dn you entered could not be found in the LDAP')));
       return TRUE;
@@ -115,24 +115,25 @@ class aclAssignmentCreationDialog extends simplePlugin
 
   function handle_cancel ()
   {
-    $this->simpleManagement->closeDialogs();
+    $this->management->closeDialogs();
     return FALSE;
   }
 }
 
-class aclManagement extends simpleManagement
+class aclManagement extends management
 {
-  protected $objectTypes  = array('aclAssignment');
-
-  protected $autoFilterAttributes = array('dn', 'cn', 'description', 'ou', 'dc');
-
-  protected $departmentBrowser      = FALSE;
-  protected $departmentRootVisible  = FALSE;
-  protected $baseMode               = FALSE;
-  protected $skipCpHandler          = TRUE;
-  protected $autoActions            = FALSE;
+  protected $skipCpHandler     = TRUE;
 
   public static $skipSnapshots = TRUE;
+
+  public static $skipTemplates = TRUE;
+
+  /* We cannot show anything more than DN as there are no ACLs for other fields on aclAssignment object */
+  public static $columns = array(
+    array('ObjectTypeColumn', array()),
+    array('LinkColumn',       array('attributes' => 'dn', 'label' => 'DN')),
+    array('ActionsColumn',    array('label' => 'Actions')),
+  );
 
   static function plInfo()
   {
@@ -149,38 +150,31 @@ class aclManagement extends simpleManagement
     );
   }
 
-  function configureFilter()
+  protected function setUpListing()
   {
-    parent::configureFilter();
-    $this->filter->scope = 'sub';
+    /* Set baseMode to FALSE */
+    $this->listing  = new managementListing($this, FALSE);
   }
 
-  function parseXML ($file)
+  protected function setUpFilter()
   {
-    $data = parent::parseXML($file);
-    $data['list']['table']['column'][1]['value']          = '%{filter:filterLabel(row,dn,pid,base,ou,cn,dc,o)}';
-    $data['list']['table']['column'][1]['sortAttribute']  = 'dn';
-    $data['list']['actionmenu']['action'][0]['type'] = 'entry';
-    $data['list']['actionmenu']['action'][0]['name'] = 'new';
-    return $data;
-  }
-
-  function configureHeadpage ()
-  {
-    /* Remove department types so that we don't mistake assignments with them */
-    $this->headpage->objectTypes = array();
-    $this->headpage->registerElementFilter('filterLabel', 'aclManagement::filterLabel');
-    parent::configureHeadpage();
+    /* Set scope to sub */
+    parent::setUpFilter();
+    $this->filter->setScope('sub');
   }
 
   /*!
-   * \brief  This method intiates the object creation.
+   * \brief Opens aclAssignmentCreationDialog to enter an arbitrary DN
    */
-  function newEntry($action, array $target, array $all)
+  function newEntry(array $action)
   {
     $this->dialogObject = new aclAssignmentCreationDialog($this);
   }
 
+
+  /*!
+   * \brief Called by aclAssignmentCreationDialog
+   */
   function newEntryConfirmed($dn)
   {
     $type = 'aclAssignment';
@@ -191,49 +185,22 @@ class aclManagement extends simpleManagement
     /* This will happen only if the exception is not thrown */
     $this->closeDialogs();
 
-    $this->displayApplyBtn  = FALSE;
-    $this->dn               = $dn;
-    $this->is_single_edit   = FALSE;
+    $this->currentDn        = $dn;
 
-    set_object_info($this->dn);
+    set_object_info($this->currentDn);
 
-    $this->openTabObject($tabObject, $this->headpage->getBase());
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Creating new ACL assignment');
+    $this->openTabObject($tabObject, $this->listing->getBase());
+    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDn, 'Creating new ACL assignment');
   }
 
-  static function filterLabel($row, $dn, $pid = 0, $base = '', ...$vals)
+  /*! \brief Display confirmation dialog
+   */
+  protected function removeConfirmationDialog(array $objects)
   {
-    $ou = '';
-    if ($dn == $base) {
-      $ou = ' . ';
-    } else {
-      foreach ($vals as $val) {
-        if (empty($val)) {
-          continue;
-        }
-        if (!is_array($val)) {
-          $val = array($val);
-        }
-        $ou = htmlentities(reset($val), ENT_COMPAT, 'UTF-8');
-      }
-      if (empty($ou)) {
-        // If no name is found take what ever is used in the DN
-        preg_match('/^[^=]+=([^=,]+),/', $dn, $m);
-        $ou = $m[1];
-      }
-    }
-    $ou .= ' &nbsp; ['._('ACL Assignment').']';
-
-    return '<a href="?plug='.$_GET['plug'].'&amp;PID='.$pid.'&amp;act=listing_edit_'.$row.'" title="'.$dn.'">'.$ou.'</a>';
-  }
-
-  protected function removeEntryRequested($action, array $target, array $all)
-  {
-    $result = parent::removeEntryRequested($action, $target, $all);
-    if ($result != "") {
-      $smarty = get_smarty();
-      return $smarty->fetch(get_template_path('remove.tpl', TRUE, dirname(__FILE__)));
-    }
+    $smarty = get_smarty();
+    $smarty->assign('objects', $objects);
+    $smarty->assign('multiple', TRUE);
+    return $smarty->fetch(get_template_path('remove.tpl', TRUE, dirname(__FILE__)));
   }
 }
 ?>
