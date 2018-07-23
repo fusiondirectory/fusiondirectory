@@ -99,8 +99,8 @@ class management
 
     $this->objectTypes = $objectTypes;
 
-    $this->listing  = new managementListing($this);
-    $this->filter   = new managementFilter($this);
+    $this->setUpListing();
+    $this->setUpFilter();
 
     // Add copy&paste and snapshot handler.
     if (!$this->skipCpHandler) {
@@ -121,6 +121,16 @@ class management
     }
 
     $this->configureActions();
+  }
+
+  protected function setUpListing()
+  {
+    $this->listing  = new managementListing($this);
+  }
+
+  protected function setUpFilter()
+  {
+    $this->filter   = new managementFilter($this);
   }
 
   protected function configureActions()
@@ -820,12 +830,14 @@ class management
 
     // We've at least one entry to delete.
     if (count($this->currentDns)) {
-      // check locks
+      // Check locks
       if ($locks = get_locks($this->currentDns)) {
         return gen_locked_message($locks, $this->currentDns);
       }
 
       // Add locks
+      add_lock($this->currentDns, $ui->dn);
+
       $objects = array();
       foreach ($this->currentDns as $dn) {
         $entry  = $this->listing->getEntry($dn);
@@ -840,14 +852,19 @@ class management
           'type'  => $infos['name']
         );
       }
-      add_lock ($this->currentDns, $ui->dn);
 
-      // Display confirmation dialog.
-      $smarty = get_smarty();
-      $smarty->assign('objects', $objects);
-      $smarty->assign('multiple', TRUE);
-      return $smarty->fetch(get_template_path('simple-remove.tpl'));
+      return $this->removeConfirmationDialog($objects);
     }
+  }
+
+  /*! \brief Display confirmation dialog
+   */
+  protected function removeConfirmationDialog(array $objects)
+  {
+    $smarty = get_smarty();
+    $smarty->assign('objects', $objects);
+    $smarty->assign('multiple', TRUE);
+    return $smarty->fetch(get_template_path('simple-remove.tpl'));
   }
 
   /*! \brief  Deletion was confirmed, delete the objects queued.
