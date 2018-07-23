@@ -202,5 +202,11 @@ class aclManagement extends management
     $smarty->assign('multiple', TRUE);
     return $smarty->fetch(get_template_path('remove.tpl', TRUE, dirname(__FILE__)));
   }
+
+  protected function renderFilter()
+  {
+    /* Hide filter box */
+    return '';
+  }
 }
 ?>

@@ -434,7 +434,7 @@ class management
 
     // Rendering things using smarty themselves first
     $listRender   = $this->listing->render();
-    $filterRender = $this->filter->render();
+    $filterRender = $this->renderFilter();
     $actionMenu   = $this->renderActionMenu();
 
     $smarty = get_smarty();
@@ -451,7 +451,12 @@ class management
     return $this->getHeader().$smarty->fetch(get_template_path('management/management.tpl'));
   }
 
-  function renderActionMenu()
+  protected function renderFilter()
+  {
+    return $this->filter->render();
+  }
+
+  protected function renderActionMenu()
   {
     $menuActions = array();
     foreach ($this->actions as $action) {

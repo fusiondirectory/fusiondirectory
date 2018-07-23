@@ -31,9 +31,11 @@
           {$LIST}
         </div>
       </td>
+      {if !empty($FILTER)}
       <td class="filter">
         {$FILTER}
       </td>
+      {/if}
     </tr>
   </tbody>
 </table>
