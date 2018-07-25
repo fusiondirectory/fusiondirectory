@@ -276,7 +276,18 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST')
 /* Load plugin */
 if (is_file("$plugin_dir/main.inc")) {
   $display = "";
-  require ("$plugin_dir/main.inc");
+  try {
+    require ("$plugin_dir/main.inc");
+  } catch (Exception $e) {
+    $smarty->assign('header', print_header('geticon.php?context=status&icon=dialog-error&size=32', _('Fatal error!')));
+    $display = '<h1>'._('An unrecoverable error occurred. Please contact your administator.').'</h1><p>';
+    if (ini_get('display_errors') == 1) {
+      $display .= nl2br(htmlentities((string)$e, ENT_COMPAT, 'UTF-8'));
+    } else {
+      $display .= 'Error detail display is turned off.';
+    }
+    $display .= '</p>'."\n";
+  }
 } else {
   msg_dialog::display(
       _("Plugin"),
