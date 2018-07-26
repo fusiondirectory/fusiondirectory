@@ -193,19 +193,6 @@ if (memory_get_usage() > (to_byte(ini_get('memory_limit')) - 2048000 )) {
   msg_dialog::display(_("Configuration error"), _("Running out of memory!"), WARNING_DIALOG);
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-  /* Redirect on back event
-      Look for button events that match /^back[0-9]+$/,
-      extract the number and step the correct plugin. */
-  foreach ($_POST as $key => $value) {
-    if (preg_match("/^back[0-9]+$/", $key)) {
-      $back = substr($key, 4);
-      header ("Location: main.php?plug=$back");
-      exit;
-    }
-  }
-}
-
 /* Load department list when plugin has changed. That is some kind of
    compromise between speed and beeing up to date */
 if (isset($_GET['reset'])) {
