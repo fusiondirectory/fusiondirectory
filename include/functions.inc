@@ -155,27 +155,6 @@ function plugin_available($plugin)
 }
 
 /*!
- * \brief Loads plist and load it in config object
- */
-function load_plist ($ldap_available = TRUE)
-{
-  global $config, $plist;
-  if (!session::global_is_set('plist')) {
-    /* Initially load all classes */
-    load_all_classes();
-
-    $plist = new pluglist();
-    session::global_set('plist', $plist);
-    $config->loadPlist($plist);
-    if ($ldap_available) {
-      $config->get_departments();
-      $config->make_idepartments();
-    }
-  }
-  return session::global_get('plist');
-}
-
-/*!
  * \brief Debug level action
  *
  * Print a DEBUG level if specified debug level of the level matches the
@@ -432,7 +411,7 @@ function ldap_get_user ($username)
   $ldap = $config->get_ldap_link();
   if (!$ldap->success()) {
     msg_dialog::display(_('LDAP error'),
-        msgPool::ldaperror($ldap->get_error(), '', LDAP_AUTH).'<br/><br/>'.session::get('errors'),
+        msgPool::ldaperror($ldap->get_error(), '', LDAP_AUTH),
         FATAL_ERROR_DIALOG);
     exit();
   }
@@ -1234,17 +1213,6 @@ function print_header($image, $headline, $info = '')
     $display .= "<div></div>\n";
   }
   return $display;
-}
-
-/*!
- * \brief Generate HTML for the 'Back' button
- *
- * \return the back button html code
- */
-function back_to_main()
-{
-  return '<br><p class="plugbottom"><input type=submit name="password_back" value="'.
-    msgPool::backButton().'"></p><input type="hidden" name="ignore">';
 }
 
 /*!
@@ -2247,9 +2215,7 @@ function mark($needle, $haystack)
 
 function reset_errors()
 {
-  session::set('errors', '');
   session::set('errorsAlreadyPosted', array());
-  session::set('LastError', '');
 }
 
 function load_all_classes()

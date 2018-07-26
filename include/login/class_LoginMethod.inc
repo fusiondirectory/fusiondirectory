@@ -126,7 +126,7 @@ class LoginMethod
     if (!$plistReloaded) {
       session::global_un_set('plist');
     }
-    $plist = load_plist();
+    pluglist::load();
 
     /* Check that newly installed plugins have their configuration in the LDAP (will reload plist if needed) */
     $config->checkLdapConfig();
@@ -153,7 +153,7 @@ class LoginMethod
     logging::log('security', 'login', '', array(), 'User "'.static::$username.'" logged in successfully.');
     session::global_set('connected', 1);
     session::global_set('DEBUGLEVEL', $config->get_cfg_value('DEBUGLEVEL'));
-    header ('Location: main.php?global_check=1');
+    header ('Location: main.php');
     exit;
   }
 

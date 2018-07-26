@@ -52,7 +52,6 @@
       </tbody>
     </table>
 
-    {$errors}
     {$focus}
     <input type="hidden" name="php_c_check" value="1"/>
     <input type="hidden" name="CSRFtoken" value="{$CSRFtoken}"/>

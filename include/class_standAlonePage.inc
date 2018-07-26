@@ -32,76 +32,83 @@ class standAlonePage {
 
     $this->interactive = $interactive;
 
-    if ($this->interactive) {
-      /* Destroy old session if exists.
-          Else you will get your old session back, if you not logged out correctly. */
-      session::destroy();
-      session::start();
+    /* Destroy old session if exists.
+        Else you will get your old session back, if you not logged out correctly. */
+    session::destroy();
+    session::start();
 
-      /* Reset errors */
-      reset_errors();
+    $config = $this->loadConfig();
 
-      $config = $this->loadConfig();
-
-      /* If SSL is forced, just forward to the SSL enabled site */
-      if (($config->get_cfg_value('forcessl') == 'TRUE') && ($ssl != '')) {
-        header ("Location: $ssl");
-        exit;
-      }
-
-      static::securityHeaders();
-
-      $this->setupSmarty();
-
-      $smarty = get_smarty();
-
-      /* Generate server list */
-      $servers = array();
-      foreach ($config->data['LOCATIONS'] as $key => $ignored) {
-        $servers[$key] = $key;
-      }
-
-      $smarty->assign('show_directory_chooser', FALSE);
-
-      if (isset($_POST['server'])) {
-        $this->directory = validate($_POST['server']);
-      } elseif (isset($_GET['directory']) && isset($servers[$_GET['directory']])) {
-        $this->directory = validate($_GET['directory']);
-      } else {
-        $this->directory = $config->data['MAIN']['DEFAULT'];
-
-        if (!isset($servers[$this->directory])) {
-          $this->directory = key($servers);
-        }
-
-        if (count($servers) > 1) {
-          $smarty->assign('show_directory_chooser', TRUE);
-          $smarty->assign('server_options',         $servers);
-          $smarty->assign('server_id',              $this->directory);
-        }
-      }
-
-      /* Set config to selected one */
-      $config->set_current($this->directory);
-      session::global_set('config', $config);
+    /* Generate server list */
+    $servers = array();
+    foreach ($config->data['LOCATIONS'] as $key => $ignored) {
+      $servers[$key] = $key;
     }
 
+    if (isset($_POST['server']) && isset($servers[$_POST['server']])) {
+      $this->directory = validate($_POST['server']);
+    } elseif (isset($_GET['directory']) && isset($servers[$_GET['directory']])) {
+      $this->directory = validate($_GET['directory']);
+    } else {
+      $this->directory = $config->data['MAIN']['DEFAULT'];
+
+      if (!isset($servers[$this->directory])) {
+        $this->directory = key($servers);
+      }
+    }
+
+    /* Set config to selected one */
+    $config->set_current($this->directory);
+    session::global_set('config', $config);
+
     $this->activated = $this->readLdapConfig();
-    if (!$this->activated) { /* Password recovery has been disabled */
+    if (!$this->activated) {
+      /* This page has been disabled */
       return;
     }
 
+    $ui = new userinfoNoAuth(get_class($this));
+    session::global_set('ui', $ui);
+
+    static::init();
+
     if ($this->interactive) {
+      $smarty = get_smarty();
+      if (count($servers) > 1) {
+        $smarty->assign('show_directory_chooser', TRUE);
+        $smarty->assign('server_options',         $servers);
+        $smarty->assign('server_id',              $this->directory);
+      } else {
+        $smarty->assign('show_directory_chooser', FALSE);
+      }
+    }
+  }
+
+  function init()
+  {
+    global $config, $ssl, $ui;
+
+    reset_errors();
+
+    static::securityHeaders();
+
+    CSRFProtection::check();
+
+    $ui     = session::global_get('ui');
+    $config = session::global_get('config');
+
+    if ($this->interactive) {
+      timezone::setDefaultTimezoneFromConfig();
+
       Language::init();
 
-      if (session::global_is_set('plist')) {
-        session::global_un_set('plist');
-      }
-      $ui = new userinfoNoAuth(get_class($this));
-      load_plist();
-
-      $ssl = $this->checkForSSL();
+      $this->setupSmarty();
     }
+
+    $ssl = $this->checkForSSL();
+
+    /* Prepare plugin list */
+    pluglist::load();
   }
 
   function loadConfig()
@@ -155,6 +162,7 @@ class standAlonePage {
     $smarty->assign('rtl',          Language::isRTL($lang));
     $smarty->assign('must',         '<span class="must">*</span>');
     $smarty->assign('usePrototype', 'FALSE');
+    $smarty->assign('CSRFtoken',    CSRFProtection::getToken());
   }
 
   function assignSmartyVars()
@@ -163,9 +171,6 @@ class standAlonePage {
     $smarty = get_smarty();
 
     $smarty->assign('PHPSESSID', session_id());
-    if (session::is_set('errors')) {
-      $smarty->assign('errors', session::get('errors'));
-    }
     if ($error_collector != '') {
       $smarty->assign('php_errors', preg_replace('/%BUGBODY%/', $error_collector_mailto, $error_collector).'</div>');
     } else {
@@ -240,6 +245,22 @@ class standAlonePage {
       $params .= "&amp;$key=".urlencode($this->$key);
     }
     return preg_replace('/^&amp;/', '?', $params);
+  }
+
+  static function run()
+  {
+    session::start();
+
+    $class = get_called_class();
+    if (session::is_set('standAlonePage_'.$class)) {
+      $page = session::get('standAlonePage_'.$class);
+      $page->init();
+    } else {
+      $page = new $class();
+    }
+    session::set('standAlonePage_'.$class, $page);
+
+    $page->execute();
   }
 
   static function securityHeaders()

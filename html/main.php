@@ -19,9 +19,6 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/* Save start time */
-$start = microtime();
-
 /* Basic setup, remove eventually registered sessions */
 require_once ("../include/php_setup.inc");
 require_once ("functions.inc");
@@ -40,9 +37,7 @@ textdomain($domain);
 
 /* Remember everything we did after the last click */
 session::start();
-session::set('errorsAlreadyPosted', array());
-session::global_set('runtime_cache', array());
-session::set('limit_exceeded', FALSE);
+reset_errors();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   @DEBUG (DEBUG_POST, __LINE__, __FUNCTION__, __FILE__, $_POST, '_POST');
@@ -105,19 +100,7 @@ if (!session::global_is_set('CurrentMainBase')) {
 Language::init();
 
 /* Prepare plugin list */
-$plist = load_plist();
-
-/* Check for register globals */
-if (isset($global_check) && $config->get_cfg_value("forceglobals") == "TRUE") {
-  msg_dialog::display(
-            _("PHP configuration"),
-            _("Fatal error: Register globals is on. FusionDirectory will refuse to login unless this is fixed by an administrator."),
-            FATAL_ERROR_DIALOG);
-
-  logging::log('security', 'login', '', array(), 'Register globals is on. For security reasons, this should be turned off.');
-  session::destroy ();
-  exit;
-}
+pluglist::load();
 
 /* Check Plugin variable */
 if (session::global_is_set('plugin_dir')) {
@@ -203,24 +186,6 @@ $ui->getSizeLimitHandler()->update();
 /* Check for memory */
 if (memory_get_usage() > (to_byte(ini_get('memory_limit')) - 2048000 )) {
   msg_dialog::display(_("Configuration error"), _("Running out of memory!"), WARNING_DIALOG);
-}
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-  /* Redirect on back event
-      Look for button events that match /^back[0-9]+$/,
-      extract the number and step the correct plugin. */
-  foreach ($_POST as $key => $value) {
-    if (preg_match("/^back[0-9]+$/", $key)) {
-      $back = substr($key, 4);
-      header ("Location: main.php?plug=$back");
-      exit;
-    }
-  }
-  /* Redirect on password back event */
-  if (isset($_POST['password_back'])) {
-    header ("Location: main.php");
-    exit;
-  }
 }
 
 /* Load department list when plugin has changed. That is some kind of
@@ -313,21 +278,10 @@ if (isset($_POST) && count($_POST) && !isset($_POST['php_c_check'])) {
 }
 
 /* Assign errors to smarty */
-if (session::is_set('errors')) {
-  $smarty->assign("errors", session::get('errors'));
-}
 if ($error_collector != "") {
   $smarty->assign("php_errors", preg_replace("/%BUGBODY%/", $error_collector_mailto, $error_collector)."</div>");
 } else {
   $smarty->assign("php_errors", "");
-}
-
-/* Set focus to the error button if we've an error message */
-$focus = "";
-if (session::is_set('errors') && session::get('errors') != "") {
-  $focus = '<script type="text/javascript">';
-  $focus .= 'document.forms[0].error_accept.focus();';
-  $focus .= '</script>';
 }
 
 $focus = '<script type="text/javascript">';
@@ -369,6 +323,4 @@ echo $display;
 /* Save plist and config */
 session::global_set('plist', $plist);
 session::global_set('config', $config);
-session::set('errorsAlreadyPosted', array());
-
-?>
+reset_errors();

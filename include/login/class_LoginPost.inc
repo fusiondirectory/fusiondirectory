@@ -63,15 +63,6 @@ class LoginPost extends LoginMethod
     /* Translation of cookie-warning. Whether to display it, is determined by JavaScript */
     $smarty->assign('cookies', '<b>'._('Warning').':</b> '._('Your browser has cookies disabled. Please enable cookies and reload this page before logging in!'));
 
-    /* Set focus to the error button if we've an error message */
-    $focus = '';
-    if (session::is_set('errors') && session::get('errors') != '') {
-      $focus = '<script type="text/javascript">';
-      $focus .= 'document.forms[0].error_accept.focus();';
-      $focus .= '</script>';
-    }
-    $smarty->assign('focus', $focus);
-
     static::displayLogin();
   }
 
@@ -127,9 +118,6 @@ class LoginPost extends LoginMethod
 
     /* show login screen */
     $smarty->assign('PHPSESSID', session_id());
-    if (session::is_set('errors')) {
-      $smarty->assign('errors', session::get('errors'));
-    }
     if ($error_collector != '') {
       $smarty->assign('php_errors', preg_replace('/%BUGBODY%/', $error_collector_mailto, $error_collector).'</div>');
     } else {
