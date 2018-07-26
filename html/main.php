@@ -107,18 +107,6 @@ Language::init();
 /* Prepare plugin list */
 pluglist::load();
 
-/* Check for register globals */
-if (isset($global_check) && $config->get_cfg_value("forceglobals") == "TRUE") {
-  msg_dialog::display(
-            _("PHP configuration"),
-            _("Fatal error: Register globals is on. FusionDirectory will refuse to login unless this is fixed by an administrator."),
-            FATAL_ERROR_DIALOG);
-
-  logging::log('security', 'login', '', array(), 'Register globals is on. For security reasons, this should be turned off.');
-  session::destroy ();
-  exit;
-}
-
 /* Check Plugin variable */
 if (session::global_is_set('plugin_dir')) {
   $old_plugin_dir = session::global_get('plugin_dir');
