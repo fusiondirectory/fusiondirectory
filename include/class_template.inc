@@ -142,6 +142,35 @@ class template
     return $this->attributes;
   }
 
+  function alterAttributes($mandatories, $readonly, $hidden)
+  {
+    foreach ($mandatories as $class => $attrs) {
+      foreach ($attrs as $attr) {
+        if (!in_array($attr, $this->attributes[$class])) {
+          $this->attributes[$class][] = $attr;
+        }
+        $this->tabObject->by_object[$class]->attributesAccess[$attr]->setRequired(TRUE);
+      }
+    }
+    foreach ($readonly as $class => $attrs) {
+      foreach ($attrs as $attr) {
+        if (!in_array($attr, $this->attributes[$class])) {
+          $this->attributes[$class][] = $attr;
+        }
+        $this->tabObject->by_object[$class]->attributesAccess[$attr]->setDisabled(TRUE);
+      }
+    }
+    foreach ($hidden as $class => $attrs) {
+      foreach ($attrs as $attr) {
+        if (!in_array($attr, $this->attributes[$class])) {
+          $this->attributes[$class][] = $attr;
+        }
+        $this->tabObject->by_object[$class]->attributesAccess[$attr]->setDisabled(TRUE);
+        $this->tabObject->by_object[$class]->attributesAccess[$attr]->setVisible(FALSE);
+      }
+    }
+  }
+
   function serialize()
   {
     $ret = array();
