@@ -31,16 +31,16 @@ class userinfoNoAuth extends userinfo
 {
   function __construct($context = 'fake')
   {
-    $this->cn   = $context;
-    $this->dn   = $context;
-    $this->uid  = $context;
-    $this->ip   = $_SERVER['REMOTE_ADDR'];
+    parent::__construct($context);
 
     /* This fake user have all rights */
     $this->ignoreACL = TRUE;
+  }
 
-    /* Initialize ACL_CACHE */
-    $this->reset_acl_cache();
+  function loadLDAPInfo()
+  {
+    $this->cn   = $this->dn;
+    $this->uid  = $this->dn;
   }
 
   function getBase()
