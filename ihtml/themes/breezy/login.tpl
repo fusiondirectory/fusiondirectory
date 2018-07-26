@@ -72,8 +72,6 @@
 </form>
 </div>
 
-{$errors}
-
 </div>
 
 {include file={filePath file="copynotice.tpl"}}

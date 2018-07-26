@@ -163,9 +163,6 @@ class standAlonePage {
     $smarty = get_smarty();
 
     $smarty->assign('PHPSESSID', session_id());
-    if (session::is_set('errors')) {
-      $smarty->assign('errors', session::get('errors'));
-    }
     if ($error_collector != '') {
       $smarty->assign('php_errors', preg_replace('/%BUGBODY%/', $error_collector_mailto, $error_collector).'</div>');
     } else {

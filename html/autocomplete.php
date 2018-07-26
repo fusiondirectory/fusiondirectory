@@ -26,7 +26,7 @@
 
 session_cache_limiter("private");
 session::start();
-session::global_set('errorsAlreadyPosted', array());
+reset_errors();
 
 /* Logged in? Simple security check */
 if (!session::global_is_set('ui')) {

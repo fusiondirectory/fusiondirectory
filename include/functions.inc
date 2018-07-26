@@ -411,7 +411,7 @@ function ldap_get_user ($username)
   $ldap = $config->get_ldap_link();
   if (!$ldap->success()) {
     msg_dialog::display(_('LDAP error'),
-        msgPool::ldaperror($ldap->get_error(), '', LDAP_AUTH).'<br/><br/>'.session::get('errors'),
+        msgPool::ldaperror($ldap->get_error(), '', LDAP_AUTH),
         FATAL_ERROR_DIALOG);
     exit();
   }
@@ -2215,9 +2215,7 @@ function mark($needle, $haystack)
 
 function reset_errors()
 {
-  session::set('errors', '');
   session::set('errorsAlreadyPosted', array());
-  session::set('LastError', '');
 }
 
 function load_all_classes()

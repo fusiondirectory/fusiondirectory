@@ -63,9 +63,7 @@ if (isset($_REQUEST['signout']) && $_REQUEST['signout']) {
 }
 
 /* Reset errors */
-session::set('errors', '');
-session::set('errorsAlreadyPosted', '');
-session::set('LastError', '');
+reset_errors();
 
 /* Check if we need to run setup */
 if (!file_exists(CONFIG_DIR.'/'.CONFIG_FILE)) {

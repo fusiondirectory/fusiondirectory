@@ -36,7 +36,6 @@
       </tbody>
     </table>
 
-    {$errors}
     {$focus}
     <input type="hidden" name="setup_goto_step" value=""/>
     <input type="hidden" name="CSRFtoken" value="{$CSRFtoken}"/>

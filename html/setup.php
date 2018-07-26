@@ -50,7 +50,6 @@ ini_set("session.gc_maxlifetime", 24 * 60 * 60);
 /* Start session */
 session::start();
 session::global_set('DEBUGLEVEL', 0);
-session::set('errorsAlreadyPosted', array());
 
 CSRFProtection::check();
 
@@ -106,16 +105,6 @@ require_once("../setup/main.inc");
 
 $smarty->assign("date", date("l, dS F Y H:i:s O"));
 $header = $smarty->fetch(get_template_path('headers.tpl'));
-
-
-
-/* Set focus to the error button if we've an error message */
-$focus = "";
-if (session::is_set('errors') && session::get('errors') != "") {
-  $focus = '<script type="text/javascript">';
-  $focus .= 'document.forms[0].error_accept.focus();';
-  $focus .= '</script>';
-}
 
 $focus = '<script type="text/javascript">';
 $focus .= 'next_msg_dialog();';

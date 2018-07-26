@@ -25,7 +25,7 @@
 
 session_cache_limiter("private");
 session::start();
-session::global_set('errorsAlreadyPosted', array());
+reset_errors();
 
 $theme = '';
 if (session::global_is_set('config')) {

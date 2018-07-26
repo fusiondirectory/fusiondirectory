@@ -37,7 +37,7 @@ textdomain($domain);
 
 /* Remember everything we did after the last click */
 session::start();
-session::set('errorsAlreadyPosted', array());
+reset_errors();
 session::global_set('runtime_cache', array());
 session::set('limit_exceeded', FALSE);
 
@@ -280,21 +280,10 @@ if (isset($_POST) && count($_POST) && !isset($_POST['php_c_check'])) {
 }
 
 /* Assign errors to smarty */
-if (session::is_set('errors')) {
-  $smarty->assign("errors", session::get('errors'));
-}
 if ($error_collector != "") {
   $smarty->assign("php_errors", preg_replace("/%BUGBODY%/", $error_collector_mailto, $error_collector)."</div>");
 } else {
   $smarty->assign("php_errors", "");
-}
-
-/* Set focus to the error button if we've an error message */
-$focus = "";
-if (session::is_set('errors') && session::get('errors') != "") {
-  $focus = '<script type="text/javascript">';
-  $focus .= 'document.forms[0].error_accept.focus();';
-  $focus .= '</script>';
 }
 
 $focus = '<script type="text/javascript">';
@@ -336,6 +325,4 @@ echo $display;
 /* Save plist and config */
 session::global_set('plist', $plist);
 session::global_set('config', $config);
-session::set('errorsAlreadyPosted', array());
-
-?>
+reset_errors();
