@@ -1216,17 +1216,6 @@ function print_header($image, $headline, $info = '')
 }
 
 /*!
- * \brief Generate HTML for the 'Back' button
- *
- * \return the back button html code
- */
-function back_to_main()
-{
-  return '<br><p class="plugbottom"><input type=submit name="password_back" value="'.
-    msgPool::backButton().'"></p><input type="hidden" name="ignore">';
-}
-
-/*!
  * \brief Put netmask in n.n.n.n format
  *
  * \param string $netmask The netmask

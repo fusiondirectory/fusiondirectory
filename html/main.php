@@ -204,11 +204,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       exit;
     }
   }
-  /* Redirect on password back event */
-  if (isset($_POST['password_back'])) {
-    header ("Location: main.php");
-    exit;
-  }
 }
 
 /* Load department list when plugin has changed. That is some kind of

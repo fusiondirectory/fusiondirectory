@@ -701,7 +701,6 @@ class simplePlugin
         $plInfo = pluglist::pluginInfos(get_class($this));
         $this->header = '<img alt="" src="geticon.php?context=status&amp;icon=dialog-error&amp;size=16" align="middle"/>&nbsp;<b>'.
                         msgPool::noValidExtension($plInfo['plShortName'])."</b>";
-        $this->header .= back_to_main();
         $this->displayPlugin = FALSE;
         return $this->header.$this->inheritanceDisplay();
       }
