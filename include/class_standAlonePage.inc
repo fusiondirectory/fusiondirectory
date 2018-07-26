@@ -94,14 +94,45 @@ class standAlonePage {
     if ($this->interactive) {
       Language::init();
 
+      $ui = new userinfoNoAuth(get_class($this));
+      session::global_set('ui', $ui);
+
       if (session::global_is_set('plist')) {
         session::global_un_set('plist');
       }
-      $ui = new userinfoNoAuth(get_class($this));
       pluglist::load();
 
       $ssl = $this->checkForSSL();
     }
+  }
+
+  function init()
+  {
+    global $config, $ssl, $ui;
+
+    reset_errors();
+
+    static::securityHeaders();
+
+    CSRFProtection::check();
+
+    $ui     = session::global_get('ui');
+    $config = session::global_get('config');
+
+    /* If SSL is forced, just forward to the SSL enabled site */
+    if (($config->get_cfg_value('forcessl') == 'TRUE') && ($ssl != '')) {
+      header ("Location: $ssl");
+      exit;
+    }
+
+    timezone::setDefaultTimezoneFromConfig();
+
+    Language::init();
+
+    $this->setupSmarty();
+
+    /* Prepare plugin list */
+    pluglist::load();
   }
 
   function loadConfig()
@@ -155,6 +186,7 @@ class standAlonePage {
     $smarty->assign('rtl',          Language::isRTL($lang));
     $smarty->assign('must',         '<span class="must">*</span>');
     $smarty->assign('usePrototype', 'FALSE');
+    $smarty->assign('CSRFtoken',    CSRFProtection::getToken());
   }
 
   function assignSmartyVars()
@@ -237,6 +269,22 @@ class standAlonePage {
       $params .= "&amp;$key=".urlencode($this->$key);
     }
     return preg_replace('/^&amp;/', '?', $params);
+  }
+
+  static function run()
+  {
+    session::start();
+
+    $class = get_called_class();
+    if (session::is_set('standAlonePage_'.$class)) {
+      $page = session::get('standAlonePage_'.$class);
+      $page->init();
+    } else {
+      $page = new $class();
+    }
+    session::set('standAlonePage_'.$class, $page);
+
+    $page->execute();
   }
 
   static function securityHeaders()
