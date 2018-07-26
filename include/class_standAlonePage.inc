@@ -32,77 +32,55 @@ class standAlonePage {
 
     $this->interactive = $interactive;
 
-    if ($this->interactive) {
-      /* Destroy old session if exists.
-          Else you will get your old session back, if you not logged out correctly. */
-      session::destroy();
-      session::start();
+    /* Destroy old session if exists.
+        Else you will get your old session back, if you not logged out correctly. */
+    session::destroy();
+    session::start();
 
-      /* Reset errors */
-      reset_errors();
+    $config = $this->loadConfig();
 
-      $config = $this->loadConfig();
-
-      /* If SSL is forced, just forward to the SSL enabled site */
-      if (($config->get_cfg_value('forcessl') == 'TRUE') && ($ssl != '')) {
-        header ("Location: $ssl");
-        exit;
-      }
-
-      static::securityHeaders();
-
-      $this->setupSmarty();
-
-      $smarty = get_smarty();
-
-      /* Generate server list */
-      $servers = array();
-      foreach ($config->data['LOCATIONS'] as $key => $ignored) {
-        $servers[$key] = $key;
-      }
-
-      $smarty->assign('show_directory_chooser', FALSE);
-
-      if (isset($_POST['server'])) {
-        $this->directory = validate($_POST['server']);
-      } elseif (isset($_GET['directory']) && isset($servers[$_GET['directory']])) {
-        $this->directory = validate($_GET['directory']);
-      } else {
-        $this->directory = $config->data['MAIN']['DEFAULT'];
-
-        if (!isset($servers[$this->directory])) {
-          $this->directory = key($servers);
-        }
-
-        if (count($servers) > 1) {
-          $smarty->assign('show_directory_chooser', TRUE);
-          $smarty->assign('server_options',         $servers);
-          $smarty->assign('server_id',              $this->directory);
-        }
-      }
-
-      /* Set config to selected one */
-      $config->set_current($this->directory);
-      session::global_set('config', $config);
+    /* Generate server list */
+    $servers = array();
+    foreach ($config->data['LOCATIONS'] as $key => $ignored) {
+      $servers[$key] = $key;
     }
 
+    if (isset($_POST['server']) && isset($servers[$_POST['server']])) {
+      $this->directory = validate($_POST['server']);
+    } elseif (isset($_GET['directory']) && isset($servers[$_GET['directory']])) {
+      $this->directory = validate($_GET['directory']);
+    } else {
+      $this->directory = $config->data['MAIN']['DEFAULT'];
+
+      if (!isset($servers[$this->directory])) {
+        $this->directory = key($servers);
+      }
+    }
+
+    /* Set config to selected one */
+    $config->set_current($this->directory);
+    session::global_set('config', $config);
+
     $this->activated = $this->readLdapConfig();
-    if (!$this->activated) { /* Password recovery has been disabled */
+    if (!$this->activated) {
+      /* This page has been disabled */
       return;
     }
 
+    $ui = new userinfoNoAuth(get_class($this));
+    session::global_set('ui', $ui);
+
+    static::init();
+
     if ($this->interactive) {
-      Language::init();
-
-      $ui = new userinfoNoAuth(get_class($this));
-      session::global_set('ui', $ui);
-
-      if (session::global_is_set('plist')) {
-        session::global_un_set('plist');
+      $smarty = get_smarty();
+      if (count($servers) > 1) {
+        $smarty->assign('show_directory_chooser', TRUE);
+        $smarty->assign('server_options',         $servers);
+        $smarty->assign('server_id',              $this->directory);
+      } else {
+        $smarty->assign('show_directory_chooser', FALSE);
       }
-      pluglist::load();
-
-      $ssl = $this->checkForSSL();
     }
   }
 
@@ -119,17 +97,15 @@ class standAlonePage {
     $ui     = session::global_get('ui');
     $config = session::global_get('config');
 
-    /* If SSL is forced, just forward to the SSL enabled site */
-    if (($config->get_cfg_value('forcessl') == 'TRUE') && ($ssl != '')) {
-      header ("Location: $ssl");
-      exit;
+    if ($this->interactive) {
+      timezone::setDefaultTimezoneFromConfig();
+
+      Language::init();
+
+      $this->setupSmarty();
     }
 
-    timezone::setDefaultTimezoneFromConfig();
-
-    Language::init();
-
-    $this->setupSmarty();
+    $ssl = $this->checkForSSL();
 
     /* Prepare plugin list */
     pluglist::load();
