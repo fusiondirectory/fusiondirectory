@@ -105,7 +105,7 @@ if (!session::global_is_set('CurrentMainBase')) {
 Language::init();
 
 /* Prepare plugin list */
-$plist = load_plist();
+pluglist::load();
 
 /* Check for register globals */
 if (isset($global_check) && $config->get_cfg_value("forceglobals") == "TRUE") {

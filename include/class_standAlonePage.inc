@@ -98,7 +98,7 @@ class standAlonePage {
         session::global_un_set('plist');
       }
       $ui = new userinfoNoAuth(get_class($this));
-      load_plist();
+      pluglist::load();
 
       $ssl = $this->checkForSSL();
     }

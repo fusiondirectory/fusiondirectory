@@ -155,27 +155,6 @@ function plugin_available($plugin)
 }
 
 /*!
- * \brief Loads plist and load it in config object
- */
-function load_plist ($ldap_available = TRUE)
-{
-  global $config, $plist;
-  if (!session::global_is_set('plist')) {
-    /* Initially load all classes */
-    load_all_classes();
-
-    $plist = new pluglist();
-    session::global_set('plist', $plist);
-    $config->loadPlist($plist);
-    if ($ldap_available) {
-      $config->get_departments();
-      $config->make_idepartments();
-    }
-  }
-  return session::global_get('plist');
-}
-
-/*!
  * \brief Debug level action
  *
  * Print a DEBUG level if specified debug level of the level matches the

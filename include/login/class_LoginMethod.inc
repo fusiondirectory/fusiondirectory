@@ -126,7 +126,7 @@ class LoginMethod
     if (!$plistReloaded) {
       session::global_un_set('plist');
     }
-    $plist = load_plist();
+    pluglist::load();
 
     /* Check that newly installed plugins have their configuration in the LDAP (will reload plist if needed) */
     $config->checkLdapConfig();

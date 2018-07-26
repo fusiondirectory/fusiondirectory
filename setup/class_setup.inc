@@ -276,7 +276,7 @@ class setup
     $config->parse_data($xml);
     $config->set_current($config->data['MAIN']['DEFAULT']);
     session::global_un_set('plist');
-    load_plist();
+    pluglist::load();
     $this->reBuildConfigStep();
   }
 

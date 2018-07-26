@@ -510,5 +510,26 @@ class pluglist {
       trigger_error('plist not loaded yet');
     }
   }
+
+  /*!
+   * \brief Loads plist and load it in config object
+   */
+  static function load($ldap_available = TRUE)
+  {
+    global $config, $plist;
+    if (!session::global_is_set('plist')) {
+      /* Initially load all classes */
+      load_all_classes();
+
+      $plist = new pluglist();
+      session::global_set('plist', $plist);
+      $config->loadPlist($plist);
+      if ($ldap_available) {
+        $config->get_departments();
+        $config->make_idepartments();
+      }
+    }
+    return session::global_get('plist');
+  }
 }
 ?>

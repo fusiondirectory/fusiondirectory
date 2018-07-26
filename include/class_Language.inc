@@ -74,7 +74,7 @@ class Language
         }
         session::global_un_set('plist');
         session::global_set('lang', $lang);
-        load_plist();
+        pluglist::load();
       }
     }
 
