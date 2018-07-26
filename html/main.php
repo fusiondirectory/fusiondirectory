@@ -38,8 +38,6 @@ textdomain($domain);
 /* Remember everything we did after the last click */
 session::start();
 reset_errors();
-session::global_set('runtime_cache', array());
-session::set('limit_exceeded', FALSE);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   @DEBUG (DEBUG_POST, __LINE__, __FUNCTION__, __FILE__, $_POST, '_POST');
