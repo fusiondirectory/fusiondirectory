@@ -528,8 +528,11 @@ class pluglist {
         $config->get_departments();
         $config->make_idepartments();
       }
+    } else {
+      $plist = session::global_get('plist');
     }
-    return session::global_get('plist');
+
+    return $plist;
   }
 }
 ?>
