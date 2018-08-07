@@ -733,7 +733,7 @@ class LDAP
     $real_path = substr($target, 0, strlen($target) - strlen($this->basedn) - 1);
 
     if ($target == $this->basedn) {
-      $l = array("dummy");
+      $l = array('dummy');
     } else {
       $l = array_reverse(ldap_explode_dn($real_path, 0));
     }
@@ -744,21 +744,16 @@ class LDAP
     $classes = $this->get_objectclasses();
 
     foreach ($l as $part) {
-      if ($part != "dummy") {
+      if ($part != 'dummy') {
         $cdn = "$part,$cdn";
       }
 
       /* Ignore referrals */
       if ($ignoreReferralBases) {
-        $found = FALSE;
         foreach ($this->referrals as $ref) {
           if ($ref['BASE'] == $cdn) {
-            $found = TRUE;
-            break;
+            continue 2;
           }
-        }
-        if ($found) {
-          continue;
         }
       }
 
@@ -766,89 +761,100 @@ class LDAP
       $attrs = $this->fetch($srp);
 
       /* Create missing entry? */
-      if (!count($attrs)) {
-        $type   = preg_replace('/^([^=]+)=.*$/', '\\1', $cdn);
-        $param  = preg_replace('/^[^=]+=([^,]+).*$/', '\\1', $cdn);
-        $param  = preg_replace(array('/\\\\,/','/\\\\"/'), array(',','"'), $param);
+      if (count($attrs)) {
+        continue;
+      }
 
-        $na = array();
+      $type   = preg_replace('/^([^=]+)=.*$/', '\\1', $cdn);
+      $param  = preg_replace('/^[^=]+=([^,]+).*$/', '\\1', $cdn);
+      $param  = preg_replace(array('/\\\\,/','/\\\\"/'), array(',','"'), $param);
 
-        /* Automatic or traditional? */
-        if (count($classes)) {
+      $attrs = array($type => $param);
+
+      /* Hardcoded classes */
+      switch ($type) {
+        case 'ou':
+          $attrs['objectClass']  = array('organizationalUnit');
+          break;
+        case 'd':
+          $attrs['objectClass']  = array('domain');
+          break;
+        case 'dc':
+          $attrs['objectClass']  = array('dcObject');
+          break;
+        case 'o':
+          $attrs['objectClass']  = array('organization');
+          break;
+        case 'l':
+          $attrs['objectClass']  = array('locality');
+          break;
+        case 'c':
+          $attrs['objectClass']  = array('country');
+          break;
+        default:
+          /* Fallback to autodetection of objectClass */
+          if (!count($classes)) {
+            msg_dialog::display(_('Internal error'), sprintf(_('Cannot automatically create subtrees with RDN "%s": not supported'), $type), FATAL_ERROR_DIALOG);
+            exit();
+          }
           /* Get name of first matching objectClass */
-          $ocname = "";
+          $attrs['objectClass']  = array();
           foreach ($classes as $class) {
             if (isset($class['MUST']) && in_array($type, $class['MUST'])) {
-
-              /* Look for first classes that is structural... */
+              /* Look for first class that is structural... */
               if (isset($class['STRUCTURAL'])) {
-                $ocname = $class['NAME'];
+                $attrs['objectClass'] = array($class['NAME']);
                 break;
               }
 
-              /* Look for classes that are auxiliary... */
-              if (isset($class['AUXILIARY'])) {
-                $ocname = $class['NAME'];
+              /* Look for class that is auxiliary... */
+              if (empty($attrs['objectClass']) && isset($class['AUXILIARY'])) {
+                $attrs['objectClass'] = array($class['NAME']);
               }
+            } elseif (empty($attrs['objectClass']) && isset($class['MAY']) && in_array($type, $class['MAY'])) {
+              /* Better than nothing */
+              $attrs['objectClass'] = array($class['NAME']);
             }
           }
 
           /* Bail out, if we've nothing to do... */
-          if ($ocname == '') {
+          if (empty($attrs['objectClass'])) {
             msg_dialog::display(_('Internal error'), sprintf(_('Cannot automatically create subtrees with RDN "%s": no object class found!'), $type), FATAL_ERROR_DIALOG);
             exit();
           }
+      }
 
-          /* Assemble_entry */
-          $na['objectClass'] = array($ocname);
-          if (isset($classes[$ocname]['AUXILIARY'])) {
-            $na['objectClass'][] = $classes[$ocname]['SUP'];
-          }
-          if ($type == 'dc') {
-            /* This is bad actually, but - tell me a better way? */
-            $na['objectClass'][]  = 'organization';
-            $na['o']              = $param;
-          }
-          $na[$type] = $param;
+      $ocname = $attrs['objectClass'][0];
+      while (isset($classes[$ocname]['SUP']) && ($classes[$ocname]['SUP'] != 'top')) {
+        $ocname                 = $classes[$ocname]['SUP'];
+        $attrs['objectClass'][] = $ocname;
+      }
 
-          // Fill in MUST values - but do not overwrite existing ones.
-          if (is_array($classes[$ocname]['MUST'])) {
-            foreach ($classes[$ocname]['MUST'] as $attr) {
-              if (isset($na[$attr]) && !empty($na[$attr])) {
-                continue;
-              }
-              $na[$attr] = 'filled';
+      if (isset($classes[$ocname]['AUXILIARY'])) {
+        /* AUXILIARY class, we have to add a STRUCTURAL one */
+        $attrs['objectClass'][] = 'organization';
+      }
+
+      foreach ($attrs['objectClass'] as $ocname) {
+        // Fill in MUST values - but do not overwrite existing ones.
+        if (is_array($classes[$ocname]['MUST'])) {
+          foreach ($classes[$ocname]['MUST'] as $attr) {
+            if (empty($attrs[$attr])) {
+              $attrs[$attr] = $param;
             }
           }
-        } else {
-          /* Use alternative add... */
-          switch ($type) {
-            case 'ou':
-              $na['objectClass']  = 'organizationalUnit';
-              $na['ou']           = $param;
-              break;
-            case 'dc':
-              $na['objectClass']  = array('dcObject', 'top', 'organization');
-              $na['dc']           = $param;
-              $na['o']            = $param;
-              break;
-            default:
-              msg_dialog::display(_('Internal error'), sprintf(_('Cannot automatically create subtrees with RDN "%s": not supported'), $type), FATAL_ERROR_DIALOG);
-              exit();
-          }
-
         }
-        $this->cd($cdn);
-        $this->add($na);
+      }
+      $this->cd($cdn);
+      $this->add($attrs);
 
-        if (!$this->success()) {
-          @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $cdn, 'dn');
-          @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $na, 'Content');
-          @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->get_error(), 'LDAP error');
+      if (!$this->success()) {
+        @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $cdn, 'dn');
+        @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $attrs, 'Content');
+        @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->get_error(), 'LDAP error');
 
-          msg_dialog::display(_('LDAP error'), msgPool::ldaperror($this->get_error(), $cdn, LDAP_ADD, get_class()), LDAP_ERROR);
-          return FALSE;
-        }
+        msg_dialog::display(_('LDAP error'), msgPool::ldaperror($this->get_error(), $cdn, LDAP_ADD, get_class()), LDAP_ERROR);
+        return FALSE;
       }
     }
 
