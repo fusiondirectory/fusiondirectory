@@ -50,8 +50,14 @@ class country extends department
     $attributesInfo = parent::getDepartmentAttributesInfo(_('country'));
     unset($attributesInfo['location']);
     unset($attributesInfo['properties']['attrs'][3]); // category
-    /* Country c attribut cannot contain any underscore */
-    $attributesInfo['properties']['attrs'][1]->setPattern('/^[a-z0-9\.-]+$/i');
+    /* Replace Name field by country code */
+    $attributesInfo['properties']['attrs'][1] =
+      new StringAttribute(
+        _('Country code'), _('A two-letter country code from ISO 3166'),
+        static::$namingAttr, TRUE,
+        '', '',
+        '/^[a-z0-9\.-]{2}$/i', 'IT'
+      );
     return $attributesInfo;
   }
 }
