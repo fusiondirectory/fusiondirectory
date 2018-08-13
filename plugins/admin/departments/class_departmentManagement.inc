@@ -93,10 +93,9 @@ class departmentManagement extends simpleManagement
   {
     $ou = $ou[0];
     if ($dn == $base) {
-      $ou = ".";
+      $ou = '.';
     }
-    $dn = func_get_arg(1);
-    return "<a href='?plug=".$_GET['plug']."&amp;PID=$pid&amp;act=listing_open_$row' title='$dn'>$ou</a>";
+    return '<a href="?plug='.$_GET['plug'].'&amp;PID='.$pid.'&amp;act=listing_open_'.$row.'" title="'.htmlentities($dn, ENT_COMPAT, 'UTF-8').'">'.htmlentities($ou, ENT_COMPAT, 'UTF-8').'</a>';
   }
 
   // Finally remove departments and update departmnet browsers
