@@ -271,7 +271,7 @@ class baseSelector
    *
    * \param String $string The string which his space will be replaced
    */
-  function gennonbreaks($string)
+  function escape($string)
   {
     return str_replace(' ', '&nbsp;', htmlentities($string, ENT_COMPAT, 'UTF-8'));
   }
