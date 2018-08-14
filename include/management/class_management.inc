@@ -97,7 +97,16 @@ class management
       $this->icon = get_template_path($this->icon);
     }
 
-    $this->objectTypes = $objectTypes;
+    /* Ignore non existing objectTypes. This happens when an optional plugin is missing. */
+    foreach ($objectTypes as $key => $type) {
+      try {
+        objects::infos($type);
+      } catch (NonExistingObjectTypeException $e) {
+        unset($objectTypes[$key]);
+      }
+    }
+
+    $this->objectTypes = array_values($objectTypes);
 
     $this->setUpListing();
     $this->setUpFilter();
