@@ -238,9 +238,9 @@ class baseSelector
       $this->tree .= "<li><a$selected $link>".
                     '<img class="center" '.
                     'src="'.htmlentities($config->department_info[$base]['img'], ENT_COMPAT, 'UTF-8').'" '.
-                    'alt="'.$config->department_info[$base]['name'].'"/>&nbsp;'.
-                    $this->gennonbreaks($config->department_info[$base]['name']).
-                    ($config->department_info[$base]['description'] == '' ? '' : '&nbsp;<span class="informal">['.$this->gennonbreaks($config->department_info[$base]['description']).']</span>').
+                    'alt="'.htmlentities($config->department_info[$base]['name'], ENT_COMPAT, 'UTF-8').'"/>&nbsp;'.
+                    $this->escape($config->department_info[$base]['name']).
+                    (($config->department_info[$base]['description'] == '') ? '' : '&nbsp;<span class="informal">['.$this->escape($config->department_info[$base]['description']).']</span>').
                     '</a>';
 
       $last_indent  = $indent;
@@ -267,13 +267,13 @@ class baseSelector
 
 
   /*!
-   * \brief Replace all space of the string by non-breaking space
+   * \brief Replace all space of the string by non-breaking space and escapes HTML
    *
    * \param String $string The string which his space will be replaced
    */
-  function gennonbreaks($string)
+  function escape($string)
   {
-    return str_replace('-', '&#8209;', str_replace(' ', '&nbsp;', $string));
+    return str_replace(' ', '&nbsp;', htmlentities($string, ENT_COMPAT, 'UTF-8'));
   }
 
   /*!
