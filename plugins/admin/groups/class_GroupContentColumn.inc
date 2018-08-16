@@ -38,10 +38,14 @@ class GroupContentColumn extends Column
       if ($types[$i] == 'I') {
         continue;
       }
-      $infos  = objects::infos(ogroup::$objectTypes[$types[$i]]);
-      $result .= '<img src="'.htmlentities($infos['icon'], ENT_COMPAT, 'UTF-8').'"'.
-                  ' alt="'.htmlentities($infos['name'], ENT_COMPAT, 'UTF-8').'"'.
-                  ' title="'.htmlentities($infos['name'], ENT_COMPAT, 'UTF-8').'"/>';
+      try {
+        $infos  = objects::infos(ogroup::$objectTypes[$types[$i]]);
+        $result .= '<img src="'.htmlentities($infos['icon'], ENT_COMPAT, 'UTF-8').'"'.
+                    ' alt="'.htmlentities($infos['name'], ENT_COMPAT, 'UTF-8').'"'.
+                    ' title="'.htmlentities($infos['name'], ENT_COMPAT, 'UTF-8').'"/>';
+      } catch (NonExistingObjectTypeException $e) {
+        continue;
+      }
     }
     if ($result == '') {
       return '&nbsp;';

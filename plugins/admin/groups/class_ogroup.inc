@@ -52,8 +52,7 @@ class ObjectsAttribute extends GenericDialogAttribute
             break;
           }
         } catch (NonExistingObjectTypeException $e) {
-          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $e->getMessage(), "Objecttype");
-          unset(ogroup::$objectTypes[$code]);
+          continue;
         }
       }
       if (!isset($this->displays[$i])) {
@@ -82,13 +81,12 @@ class ObjectsAttribute extends GenericDialogAttribute
                 ($this->disabled ? ' disabled="disabled"' : '').
                 ' >'."\n";
     foreach ($this->getDisplayValues() as $key => $value) {
+      $infos = array();
       try {
-        $infos = array();
         if ($this->types[$key] !== 'I') {
           $infos = objects::infos(ogroup::$objectTypes[$this->types[$key]]);
         }
       } catch (NonExistingObjectTypeException $e) {
-        die('No type for '.$key.' '.$value);
       }
       if (isset($infos['icon'])) {
         $img = $infos['icon'];
