@@ -146,15 +146,13 @@ class managementFilter
     $row              = 0;
     $ui->getSizeLimitHandler()->setLimitExceeded(FALSE);
     foreach ($this->parent->objectTypes as $type) {
-      if (!$this->types['filter_type_'.$type]['show']) {
-        continue;
-      }
       $infos      = $this->types['filter_type_'.$type]['infos'];
       if ($this->scope == 'one') {
         $searchBase = (empty($infos['ou']) ? $base : $infos['ou'].$base);
       } else {
         $searchBase = $base;
       }
+
       $attrsAsked = $attrs;
       if (!empty($infos['mainAttr']) && !isset($attrsAsked[$infos['mainAttr']])) {
         /* Ask for mainAttr */
@@ -185,14 +183,6 @@ class managementFilter
         $filter = '(&'.implode('', $typeElementFilters).')';
       }
 
-      $ldapEntries = objects::ls($type, $attrsAsked, $searchBase, $filter, TRUE, $this->scope, FALSE, TRUE);
-
-      $objectTypeCount[$type] = count($ldapEntries);
-      foreach ($ldapEntries as $dn => $entry) {
-        // TODO: check collisions?
-        $entries[$dn] = new ListingEntry($this->parent->listing, $type, $dn, $entry, $row++);
-      }
-
       $parentClass = get_class($this->parent);
       if (!$parentClass::$skipTemplates && $this->showTemplates) {
         $ldapEntries = objects::ls($type, $attrsAsked, (($this->scope == 'one') ? 'ou=templates,'.$searchBase : $searchBase), $filter, TRUE, $this->scope, TRUE);
@@ -201,6 +191,18 @@ class managementFilter
         foreach ($ldapEntries as $dn => $entry) {
           $entries[$dn] = new ListingEntry($this->parent->listing, 'template_'.$type, $dn, $entry, $row++);
         }
+      }
+
+      if (!$this->types['filter_type_'.$type]['show']) {
+        continue;
+      }
+
+      $ldapEntries = objects::ls($type, $attrsAsked, $searchBase, $filter, TRUE, $this->scope, FALSE, TRUE);
+
+      $objectTypeCount[$type] = count($ldapEntries);
+      foreach ($ldapEntries as $dn => $entry) {
+        // TODO: check collisions?
+        $entries[$dn] = new ListingEntry($this->parent->listing, $type, $dn, $entry, $row++);
       }
     }
 
