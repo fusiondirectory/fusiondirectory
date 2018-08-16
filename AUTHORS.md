@@ -207,3 +207,5 @@ documentation and additional help.
 * Mathias Soupault <mathias.soupault@inalco.fr>
   Making supannAliasLogin usage possible in password recovery
 
+* Patzke Thomas <thomas.patzke2@thyssenkrupp.com>
+  Security and vulnerabitity testing
