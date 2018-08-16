@@ -33,12 +33,16 @@ class GroupContentFilterElement extends FilterElement
 
     $this->types = array();
     foreach (ogroup::$objectTypes as $key => $type) {
-      $infos = objects::infos($type);
-      $this->types[$type] = array(
-        'filter'  => '(gosaGroupObjects=*'.$key.'*)',
-        'infos'   => $infos,
-        'checked' => FALSE,
-      );
+      try {
+        $infos = objects::infos($type);
+        $this->types[$type] = array(
+          'filter'  => '(gosaGroupObjects=*'.$key.'*)',
+          'infos'   => $infos,
+          'checked' => FALSE,
+        );
+      } catch (NonExistingObjectTypeException $e) {
+        continue;
+      }
     }
   }
 
