@@ -87,7 +87,7 @@ class managementFilter
       }
       unset($data);
 
-      $this->showTemplates = isset($_POST['TEMPLATES']);
+      $this->showTemplates = isset($_POST['filter_type_TEMPLATE']);
 
       $this->scope = (isset($_POST['SCOPE']) ? 'sub' : 'one');
 
