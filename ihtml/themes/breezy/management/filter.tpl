@@ -15,8 +15,8 @@
     </label>
   {/foreach}
   {if isset($TEMPLATES)}
-    <label for="TEMPLATES">
-      <input type="checkbox" id="TEMPLATES" name="TEMPLATES" value="1"
+    <label for="filter_type_TEMPLATE">
+      <input type="checkbox" id="filter_type_TEMPLATE" name="filter_type_TEMPLATE" value="1"
         {if ($TEMPLATES)}checked="checked"{/if}/>
       <img src="geticon.php?context=devices&amp;icon=template&amp;size=16"/>
       {t}Template{/t}

@@ -101,6 +101,7 @@ class management
     foreach ($objectTypes as $key => $type) {
       try {
         objects::infos($type);
+        $objectTypes[$key] = strtoupper($type);
       } catch (NonExistingObjectTypeException $e) {
         unset($objectTypes[$key]);
       }
