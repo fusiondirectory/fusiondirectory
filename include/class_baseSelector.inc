@@ -235,7 +235,7 @@ class baseSelector
       }
       $selected   = ($this->base == $base ? ' class="treeListSelected"' : '');
       $link       = "onclick=\"\$('bs_rebase_".$this->pid."').value='".base64_encode($base)."';$('submit_tree_base_".$this->pid."').click();\"";
-      $this->tree .= "<li><a$selected $link>".
+      $this->tree .= '<li><a'.$selected.' '.$link.' title="'.$base.'">'.
                     '<img class="center" '.
                     'src="'.htmlentities($config->department_info[$base]['img'], ENT_COMPAT, 'UTF-8').'" '.
                     'alt="'.htmlentities($config->department_info[$base]['name'], ENT_COMPAT, 'UTF-8').'"/>&nbsp;'.
