@@ -29,7 +29,7 @@
  */
 class CopyPasteHandler
 {
-  var $current;
+  var $current = FALSE;
 
   /*!
    * \brief This array contains all dns of the currently copied objects
@@ -43,22 +43,19 @@ class CopyPasteHandler
   /*!
    *  \brief The dn of the last edited object
    */
-  var $lastdn = "";
+  protected $lastdn = '';
 
-  var $disallowed_objects = array();
-  var $objects_to_fix     = array();
-  var $clean_objects      = array();
-  var $require_update     = FALSE;
+  protected $disallowed_objects = array();
+  protected $objects_to_fix     = array();
+  protected $clean_objects      = array();
+  protected $require_update     = FALSE;
 
   /*!
    * \brief Create CP handler
    */
   function __construct()
   {
-    $this->current  = NULL;
-    $this->queue    = array();
   }
-
 
   /*!
    * \brief Entry entry to Copy & Paste queue.
