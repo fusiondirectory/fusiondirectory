@@ -104,6 +104,8 @@ class standAlonePage {
       load_plist();
 
       $ssl = $this->checkForSSL();
+
+      static::securityHeaders();
     }
   }
 
@@ -221,6 +223,13 @@ class standAlonePage {
     return $params;
   }
 
+  static function securityHeaders()
+  {
+    header('X-XSS-Protection: 1; mode=block');
+    header('X-Content-Type-Options: nosniff');
+    header('X-Frame-Options: deny');
+  }
+
   static function generateRandomHash()
   {
     /* Generate a very long random value */
@@ -228,9 +237,8 @@ class standAlonePage {
     $base       = 'ABCDEFGHKLMNOPQRSTWXYZabcdefghjkmnpqrstwxyz123456789';
     $max        = strlen($base) - 1;
     $randomhash = '';
-    mt_srand((double) microtime() * 1000000);
     while (strlen($randomhash) < $len + 1) {
-      $randomhash .= $base{mt_rand(0, $max)};
+      $randomhash .= $base{random_int(0, $max)};
     }
     return $randomhash;
   }

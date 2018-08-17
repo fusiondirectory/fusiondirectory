@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2018-04-19 15:12+0000\n"
+"POT-Creation-Date: 2018-08-14 13:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>, 2017\n"
 "Language-Team: Russian (https://www.transifex.com/fusiondirectory/teams/12202/ru/)\n"
@@ -32,8 +32,8 @@ msgstr ""
 #: include/simpleplugin/attributes/class_FileAttribute.inc:34
 #: include/simpleplugin/attributes/class_FileAttribute.inc:37
 #: include/simpleplugin/attributes/class_FileAttribute.inc:300
-#: include/simpleplugin/class_simpleTabs.inc:73 html/index.php:454
-#: html/index.php:468 html/index.php:478 html/index.php:535 html/index.php:545
+#: include/simpleplugin/class_simpleTabs.inc:73 html/index.php:459
+#: html/index.php:473 html/index.php:483 html/index.php:540 html/index.php:550
 #: setup/setup_checks.tpl.c:5 ihtml/themes/breezy/msg_dialog.tpl.c:2
 msgid "Error"
 msgstr "Ошибка"
@@ -53,8 +53,8 @@ msgstr "Ошибка XML в fusiondirectory.conf: %s в строке %d"
 #: include/password-methods/class_password-methods-sha.inc:63
 #: include/password-methods/class_password-methods-ssha.inc:67
 #: include/password-methods/class_password-methods-ssha.inc:83
-#: include/functions.inc:657 html/class_passwordRecovery.inc:139
-#: html/main.php:202 html/index.php:148
+#: include/functions.inc:638 html/class_passwordRecovery.inc:141
+#: html/main.php:206 html/index.php:153
 msgid "Configuration error"
 msgstr "Ошибка конфигурации"
 
@@ -70,16 +70,16 @@ msgstr ""
 #: include/class_SnapshotHandler.inc:284 include/class_SnapshotHandler.inc:405
 #: include/class_SnapshotHandler.inc:408
 #: include/password-methods/class_password-methods.inc:189
-#: include/functions.inc:501 include/functions.inc:675
-#: include/functions.inc:722 include/functions.inc:830
+#: include/functions.inc:482 include/functions.inc:656
+#: include/functions.inc:703 include/functions.inc:811
 #: include/simpleplugin/attributes/class_SetAttribute.inc:733
-#: include/class_ldap.inc:847 include/class_ldap.inc:1208
+#: include/class_ldap.inc:847 include/class_ldap.inc:1211
 #: plugins/config/class_recoveryConfig.inc:137
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:87
 #: plugins/addons/dashboard/class_dashBoardPasswords.inc:63
 #: plugins/addons/dashboard/class_dashBoard.inc:74
-#: setup/class_setupStepMigrate.inc:452 setup/class_setupStepMigrate.inc:1051
-#: html/index.php:372
+#: setup/class_setupStepConfig.inc:108 setup/class_setupStepMigrate.inc:452
+#: setup/class_setupStepMigrate.inc:1051 html/index.php:377
 msgid "LDAP error"
 msgstr "Ошибка LDAP"
 
@@ -320,10 +320,10 @@ msgstr ""
 msgid "Template name"
 msgstr "Название шаблона"
 
-#: include/class_logging.inc:81 include/functions.inc:575
-#: include/functions.inc:647 include/functions.inc:768
-#: include/functions.inc:1824 include/functions.inc:1863
-#: include/functions.inc:1894 include/class_acl.inc:118
+#: include/class_logging.inc:81 include/functions.inc:556
+#: include/functions.inc:628 include/functions.inc:749
+#: include/functions.inc:1804 include/functions.inc:1843
+#: include/functions.inc:1874 include/class_acl.inc:118
 #: include/class_session.inc:50 include/class_session.inc:88
 #: include/class_session.inc:127 include/class_ldap.inc:796
 #: include/class_ldap.inc:834
@@ -356,7 +356,7 @@ msgid ""
 "to use SASL"
 msgstr ""
 
-#: include/class_filter.inc:305 include/functions.inc:1686
+#: include/class_filter.inc:305 include/functions.inc:1666
 msgid "*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 msgstr "*АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЫЭЮЯ0123456789"
 
@@ -381,20 +381,20 @@ msgstr ""
 "Критическая ошибка: не могу создать экземпляр класса '%s' - попробуйте "
 "запустить '%s' чтобы исправить это"
 
-#: include/functions.inc:474 include/functions.inc:2541
+#: include/functions.inc:455 include/functions.inc:2521
 #: include/simpleplugin/class_simplePlugin.inc:466
 #: include/simpleplugin/class_simplePlugin.inc:471
 #: include/simpleplugin/class_simplePlugin.inc:483
-#: html/class_passwordRecovery.inc:116
+#: html/class_passwordRecovery.inc:118
 msgid "Fatal error"
 msgstr "Фатальная ошибка"
 
-#: include/functions.inc:475
+#: include/functions.inc:456
 #, php-format
 msgid "FATAL: Error when connecting the LDAP. Server said '%s'."
 msgstr "FATAL: Ошибка при подключении к LDAP. Сервер сообщил '%s'."
 
-#: include/functions.inc:535
+#: include/functions.inc:516
 msgid ""
 "Login (uid) is not unique inside the LDAP tree. Please contact your "
 "administrator."
@@ -402,21 +402,21 @@ msgstr ""
 "Логин (uid) не уникальный внутри LDAP дерева! Пожалуйста свяжитесь с вашим "
 "администратором."
 
-#: include/functions.inc:595
+#: include/functions.inc:576
 msgid "Authentication error"
 msgstr "Ошибка аутентификации"
 
-#: include/functions.inc:596
+#: include/functions.inc:577
 msgid ""
 "It seems your user password has expired. Please use <a "
 "href=\"recovery.php\">password recovery</a> to change it."
 msgstr ""
 
-#: include/functions.inc:647 include/functions.inc:768
+#: include/functions.inc:628 include/functions.inc:749
 msgid "Error while adding a lock. Contact the developers!"
 msgstr "Ошибка при добавлении блокировки. Свяжитесь с разработчиками!"
 
-#: include/functions.inc:657
+#: include/functions.inc:638
 #, php-format
 msgid ""
 "Cannot create locking information in LDAP tree. Please contact your "
@@ -425,21 +425,21 @@ msgstr ""
 "Невозможно создать информацию о блокировки в LDAP дереве. Пожалуйста "
 "свяжитесь с вашим администратором!"
 
-#: include/functions.inc:657
+#: include/functions.inc:638
 #, php-format
 msgid "LDAP server returned: %s"
 msgstr "LDAP сервер вернул: %s"
 
-#: include/functions.inc:846 setup/class_setupStepLdap.inc:212
+#: include/functions.inc:827 setup/class_setupStepLdap.inc:212
 #: setup/class_setupStepMigrate.inc:573 setup/class_setupStepMigrate.inc:1004
 #: setup/class_setupStepMigrate.inc:1123 setup/class_setupStepMigrate.inc:1234
 #: setup/class_setupStepMigrate.inc:1297 setup/class_setupStepMigrate.inc:1341
-#: html/main.php:152 html/index.php:587 setup/setup_checks.tpl.c:8
+#: html/main.php:156 html/index.php:592 setup/setup_checks.tpl.c:8
 #: ihtml/themes/breezy/msg_dialog.tpl.c:5 ihtml/themes/breezy/islocked.tpl.c:5
 msgid "Warning"
 msgstr "Предупреждение"
 
-#: include/functions.inc:846
+#: include/functions.inc:827
 msgid ""
 "Found multiple locks for object to be locked. This should not happen - "
 "cleaning up multiple references."
@@ -447,12 +447,12 @@ msgstr ""
 "Найдены множественные блокировки для заблокированного объекта. Это не должно"
 " было случиться - очистите их."
 
-#: include/functions.inc:875
+#: include/functions.inc:856
 #, php-format
 msgid "The size limit of %d entries is exceed!"
 msgstr "Найдено более %d объектов."
 
-#: include/functions.inc:877
+#: include/functions.inc:858
 #, php-format
 msgid ""
 "Set the new size limit to %s and show me this message if the limit still "
@@ -461,73 +461,73 @@ msgstr ""
 "Установить новое значение лимита в %s и показать мне это сообщение если "
 "лимит будет исчерпан."
 
-#: include/functions.inc:894
+#: include/functions.inc:875
 msgid "Configure"
 msgstr "Настроить"
 
-#: include/functions.inc:899
+#: include/functions.inc:880
 msgid "incomplete"
 msgstr "не полный"
 
-#: include/functions.inc:1247
+#: include/functions.inc:1228
 msgid "Continue anyway"
 msgstr "Продолжить в любом случае"
 
-#: include/functions.inc:1249
+#: include/functions.inc:1230
 msgid "Edit anyway"
 msgstr "Редактировать в любом случае"
 
-#: include/functions.inc:1251
+#: include/functions.inc:1232
 #, php-format
 msgid "You're going to edit the LDAP entry/entries %s"
 msgstr "Вы собираетесь редактировать LDAP запись/записи %s"
 
-#: include/functions.inc:1646
+#: include/functions.inc:1626
 #, php-format
 msgid "%sB"
 msgstr "%sB"
 
-#: include/functions.inc:1647
+#: include/functions.inc:1627
 #, php-format
 msgid "%sKiB"
 msgstr "%sKiB"
 
-#: include/functions.inc:1648
+#: include/functions.inc:1628
 #, php-format
 msgid "%sMiB"
 msgstr "%sMiB"
 
-#: include/functions.inc:1649
+#: include/functions.inc:1629
 #, php-format
 msgid "%sGiB"
 msgstr "%sGiB"
 
-#: include/functions.inc:1650
+#: include/functions.inc:1630
 #, php-format
 msgid "%sTiB"
 msgstr "%sTiB"
 
-#: include/functions.inc:1651
+#: include/functions.inc:1631
 #, php-format
 msgid "%sPiB"
 msgstr "%sPiB"
 
-#: include/functions.inc:1652
+#: include/functions.inc:1632
 #, php-format
 msgid "%sEiB"
 msgstr "%sEiB"
 
-#: include/functions.inc:1653
+#: include/functions.inc:1633
 #, php-format
 msgid "%sZiB"
 msgstr "%sZiB"
 
-#: include/functions.inc:1654
+#: include/functions.inc:1634
 #, php-format
 msgid "%sYiB"
 msgstr "%sYiB"
 
-#: include/functions.inc:1824
+#: include/functions.inc:1804
 #, php-format
 msgid ""
 "File '%s' could not be deleted. Try fusiondirectory-setup --check-"
@@ -536,81 +536,81 @@ msgstr ""
 "Файл '%s' не может быть удален. Попробуйте fusiondirectory-setup --check-"
 "directories чтобы исправить права."
 
-#: include/functions.inc:1863
+#: include/functions.inc:1843
 msgid "Cannot write to revision file!"
 msgstr "Не могу записать файл проверки!"
 
-#: include/functions.inc:1894
+#: include/functions.inc:1874
 msgid "Cannot read revision file!"
 msgstr ""
 
-#: include/functions.inc:2008
+#: include/functions.inc:1988
 msgid "LDAP warning"
 msgstr "Предупреждение LDAP"
 
-#: include/functions.inc:2008
+#: include/functions.inc:1988
 msgid "Cannot get schema information from server. No schema check possible!"
 msgstr ""
 "Не могу получить информацию о схемах с сервера. Проверить схемы невозможно!"
 
-#: include/functions.inc:2031
+#: include/functions.inc:2011
 msgid "Main FusionDirectory schema"
 msgstr ""
 
-#: include/functions.inc:2038
+#: include/functions.inc:2018
 msgid "Schema used to store FusionDirectory configuration"
 msgstr ""
 
-#: include/functions.inc:2045
+#: include/functions.inc:2025
 msgid "Used to store trust mode information in users or groups."
 msgstr ""
 
-#: include/functions.inc:2052
+#: include/functions.inc:2032
 msgid "Used to store templates."
 msgstr ""
 
-#: include/functions.inc:2060
+#: include/functions.inc:2040
 msgid "Used to store POSIX information."
 msgstr ""
 
-#: include/functions.inc:2068
+#: include/functions.inc:2048
 #, php-format
 msgid "Missing required object class \"%s\"!"
 msgstr ""
 
-#: include/functions.inc:2070
+#: include/functions.inc:2050
 #, php-format
 msgid "Missing optional object class \"%s\"!"
 msgstr ""
 
-#: include/functions.inc:2074
+#: include/functions.inc:2054
 #, php-format
 msgid "Class(es) available"
 msgstr "Доступные класс(ы)"
 
-#: include/functions.inc:2092
+#: include/functions.inc:2072
 msgid ""
 "You have installed the mixed groups plugin, but your schema configuration "
 "does not support this."
 msgstr ""
 
-#: include/functions.inc:2093
+#: include/functions.inc:2073
 msgid ""
 "In order to use mixed groups the objectClass \"posixGroup\" must be "
 "AUXILIARY"
 msgstr ""
 
-#: include/functions.inc:2096
+#: include/functions.inc:2076
 msgid ""
 "Your schema is configured to support mixed groups, but this plugin is not "
 "present."
 msgstr ""
 
-#: include/functions.inc:2097
+#: include/functions.inc:2077
 msgid "The objectClass \"posixGroup\" must be STRUCTURAL"
 msgstr ""
 
-#: include/functions.inc:2542
+#: include/functions.inc:2522
 #, php-format
 msgid "Cannot locate file '%s' - please run '%s' to fix this"
 msgstr ""
@@ -1326,8 +1326,8 @@ msgid "%s (%d bytes)"
 msgstr "%s (%d байт)"
 
 #: include/simpleplugin/attributes/class_FileAttribute.inc:119
+#: include/simpleplugin/attributes/class_FileAttribute.inc:326
 #: include/simpleplugin/attributes/class_FileAttribute.inc:327
-#: include/simpleplugin/attributes/class_FileAttribute.inc:328
 msgid "Upload"
 msgstr "Загрузить"
 
@@ -1342,10 +1342,10 @@ msgid ""
 "\"imagick\" to be installed!"
 msgstr ""
 
+#: include/simpleplugin/attributes/class_FileAttribute.inc:336
 #: include/simpleplugin/attributes/class_FileAttribute.inc:337
-#: include/simpleplugin/attributes/class_FileAttribute.inc:338
-#: include/simpleplugin/class_dialogAttributes.inc:673
-#: include/simpleplugin/class_dialogAttributes.inc:674
+#: include/simpleplugin/class_dialogAttributes.inc:690
+#: include/simpleplugin/class_dialogAttributes.inc:691
 #: include/simpleplugin/simple-list.xml:75
 #: include/simpleplugin/simple-list.xml:125
 #: plugins/admin/departments/dep-list.xml:67
@@ -1392,7 +1392,7 @@ msgid "The value for multivaluated field \"%s\" is not an array"
 msgstr ""
 
 #: include/simpleplugin/attributes/class_SetAttribute.inc:230
-#: include/simpleplugin/class_Attribute.inc:578
+#: include/simpleplugin/class_Attribute.inc:589
 #, php-format
 msgid "%s (required)"
 msgstr "%s (обязательный)"
@@ -1404,8 +1404,8 @@ msgstr ""
 
 #: include/simpleplugin/attributes/class_SetAttribute.inc:498
 #: include/simpleplugin/attributes/class_SetAttribute.inc:499
-#: include/simpleplugin/class_dialogAttributes.inc:663
-#: include/simpleplugin/class_dialogAttributes.inc:664
+#: include/simpleplugin/class_dialogAttributes.inc:680
+#: include/simpleplugin/class_dialogAttributes.inc:681
 #: include/simpleplugin/simple-list.xml:67
 #: include/simpleplugin/simple-list.xml:112
 #: plugins/admin/departments/dep-list.xml:79
@@ -1423,7 +1423,7 @@ msgstr "Неверное значение для %s"
 
 #: include/simpleplugin/attributes/class_SelectAttribute.inc:66
 #: include/simpleplugin/attributes/class_SelectAttribute.inc:119
-#: include/simpleplugin/class_dialogAttributes.inc:652
+#: include/simpleplugin/class_dialogAttributes.inc:669
 msgid "None"
 msgstr ""
 
@@ -1548,28 +1548,28 @@ msgstr "часы"
 msgid "days"
 msgstr "дни"
 
-#: include/simpleplugin/class_dialogAttributes.inc:444
+#: include/simpleplugin/class_dialogAttributes.inc:451
 #, php-format
 msgid "POSIX group %s"
 msgstr "POSIX группа %s"
 
-#: include/simpleplugin/class_dialogAttributes.inc:446
+#: include/simpleplugin/class_dialogAttributes.inc:453
 #: plugins/config/class_configInLdap.inc:474
 #, php-format
 msgid "Role %s"
 msgstr "Роль %s"
 
-#: include/simpleplugin/class_dialogAttributes.inc:448
+#: include/simpleplugin/class_dialogAttributes.inc:455
 #: plugins/config/class_configInLdap.inc:467
 #, php-format
 msgid "Group %s"
 msgstr "Группа %s"
 
-#: include/simpleplugin/class_dialogAttributes.inc:483
+#: include/simpleplugin/class_dialogAttributes.inc:490
 msgid "Group of user"
 msgstr "Группа пользователя"
 
-#: include/simpleplugin/class_dialogAttributes.inc:654
+#: include/simpleplugin/class_dialogAttributes.inc:671
 msgid "Unknown"
 msgstr "Неизвестно"
 
@@ -1698,32 +1698,32 @@ msgstr "во время операции на LDAP сервер %s"
 msgid "proc_open failed to execute ldapsearch"
 msgstr ""
 
-#: include/class_ldap.inc:1061
+#: include/class_ldap.inc:1062
 #, php-format
 msgid "Error line %s, first line of an entry cannot start with a space"
 msgstr ""
 
-#: include/class_ldap.inc:1079
+#: include/class_ldap.inc:1080
 #, php-format
 msgid "Error line %s, references to an external file are not supported"
 msgstr ""
 
-#: include/class_ldap.inc:1082
+#: include/class_ldap.inc:1083
 #, php-format
 msgid "Error line %s, attribute \"%s\" has no value"
 msgstr ""
 
-#: include/class_ldap.inc:1086
+#: include/class_ldap.inc:1087
 #, php-format
 msgid "Error line %s, an entry bloc can only have one dn"
 msgstr ""
 
-#: include/class_ldap.inc:1091
+#: include/class_ldap.inc:1092
 #, php-format
 msgid "Error line %s, an entry bloc should start with the dn"
 msgstr ""
 
-#: include/class_ldap.inc:1123
+#: include/class_ldap.inc:1124
 #, php-format
 msgid "Error while importing dn: \"%s\", please check your LDIF from line %s on!"
 msgstr ""
@@ -1925,6 +1925,14 @@ msgstr "доменный компонент"
 #: plugins/admin/departments/class_country.inc:50
 msgid "country"
 msgstr "страна"
+
+#: plugins/admin/departments/class_country.inc:56
+msgid "Country code"
+msgstr ""
+
+#: plugins/admin/departments/class_country.inc:56
+msgid "A two-letter country code from ISO 3166"
+msgstr ""
 
 #: plugins/admin/departments/class_locality.inc:30
 #: plugins/admin/departments/class_locality.inc:31
@@ -3617,15 +3625,11 @@ msgstr "Ссылки"
 msgid "Welcome %s!"
 msgstr "Добро пожаловать %s!"
 
-#: setup/class_setup.inc:128
-msgid "Setup error"
-msgstr "Ошибка настройки"
-
-#: setup/class_setup.inc:208
+#: setup/class_setup.inc:194
 msgid "Completed"
 msgstr "Завершено"
 
-#: setup/class_setup.inc:251
+#: setup/class_setup.inc:237
 msgid "Next"
 msgstr "Далее"
 
@@ -3812,22 +3816,36 @@ msgstr ""
 "FusionDirectory требуется этот модуль для взаимодействия с различными типами"
 " серверов и протоколов."
 
+#: setup/class_setupStepChecks.inc:99
+msgid "Checking cryptographically secure pseudo-random integers"
+msgstr ""
+
 #: setup/class_setupStepChecks.inc:100
+msgid ""
+"You must use PHP>=7 or have openssl module activated so that FusionDirectory"
+" can generate cryptographically secure pseudo-random integers."
+msgstr ""
+
+#: setup/class_setupStepChecks.inc:101
+msgid "Please upgrade to PHP7 or activate openssl module."
+msgstr ""
+
+#: setup/class_setupStepChecks.inc:108
 msgid ""
 "FusionDirectory requires this module to encode variables for javascript use."
 msgstr ""
 
-#: setup/class_setupStepChecks.inc:108
+#: setup/class_setupStepChecks.inc:116
 msgid ""
 "FusionDirectory requires this module to filters a variable with a specified "
 "filter."
 msgstr ""
 
-#: setup/class_setupStepChecks.inc:116
+#: setup/class_setupStepChecks.inc:124
 msgid "FusionDirectory requires this module for the samba integration."
 msgstr "FusionDirectory требуется модуль для интеграции с samba."
 
-#: setup/class_setupStepChecks.inc:124
+#: setup/class_setupStepChecks.inc:132
 msgid ""
 "FusionDirectory requires either 'mhash' or the 'sha1' module to make use of "
 "SSHA encryption."
@@ -3835,35 +3853,35 @@ msgstr ""
 "FusionDirectory требуется один из модулей 'mhash или 'sha1', чтобы "
 "использовать SSHA шифрование."
 
-#: setup/class_setupStepChecks.inc:132
+#: setup/class_setupStepChecks.inc:140
 msgid "FusionDirectory requires this module to talk to an IMAP server."
 msgstr "FusionDirectory требуется модуль для связи с IMAP сервером."
 
-#: setup/class_setupStepChecks.inc:139
+#: setup/class_setupStepChecks.inc:147
 msgid "mbstring"
 msgstr "mbstring"
 
-#: setup/class_setupStepChecks.inc:140
+#: setup/class_setupStepChecks.inc:148
 msgid "FusionDirectory requires this module to handle unicode strings."
 msgstr "FusionDirectory требуется модуль для обработки юникод строк."
 
-#: setup/class_setupStepChecks.inc:146
+#: setup/class_setupStepChecks.inc:154
 msgid "imagick"
 msgstr "imagick"
 
-#: setup/class_setupStepChecks.inc:147
+#: setup/class_setupStepChecks.inc:155
 msgid "FusionDirectory requires this extension to handle images."
 msgstr "FusionDirectory требуется расширение для обработки изображений."
 
-#: setup/class_setupStepChecks.inc:153
+#: setup/class_setupStepChecks.inc:161
 msgid "compression module"
 msgstr "модуль сжатия"
 
-#: setup/class_setupStepChecks.inc:154
+#: setup/class_setupStepChecks.inc:162
 msgid "FusionDirectory requires this extension to handle snapshots."
 msgstr "FusionDirectory требуется расширение для обработки снапшотов."
 
-#: setup/class_setupStepChecks.inc:164
+#: setup/class_setupStepChecks.inc:172
 msgid ""
 "register_globals is a PHP mechanism to register all global variables to be "
 "accessible from scripts without changing the scope. This may be a security "
@@ -3872,22 +3890,22 @@ msgstr ""
 "register_globals механизм PHP, предоставляющий доступ ко всем глобальным "
 "переменным из скриптов без изменения области видимости. Это не безопасно."
 
-#: setup/class_setupStepChecks.inc:165
+#: setup/class_setupStepChecks.inc:173
 msgid "Search for 'register_globals' in your php.ini and switch it to 'Off'."
 msgstr "Найдите 'register_globals' в вашем php.ini и переключите в 'Off'."
 
-#: setup/class_setupStepChecks.inc:172
+#: setup/class_setupStepChecks.inc:180
 msgid "PHP uses this value for the garbage collector to delete old sessions."
 msgstr ""
 "Это значение используется PHP сборщиком мусора, чтобы удалять старые сессии."
 
-#: setup/class_setupStepChecks.inc:173
+#: setup/class_setupStepChecks.inc:181
 msgid ""
 "Setting this value to one day will prevent loosing session and cookies "
 "before they really timeout."
 msgstr ""
 
-#: setup/class_setupStepChecks.inc:174
+#: setup/class_setupStepChecks.inc:182
 msgid ""
 "Search for 'session.gc_maxlifetime' in your php.ini and set it to 86400 or "
 "higher."
@@ -3895,12 +3913,12 @@ msgstr ""
 "Найдите 'session.gc_maxlifetime' в вашем php.ini и установите в 86400 или "
 "больше."
 
-#: setup/class_setupStepChecks.inc:181 setup/class_setupStepChecks.inc:197
-#: setup/class_setupStepChecks.inc:213 setup/class_setupStepChecks.inc:221
+#: setup/class_setupStepChecks.inc:189 setup/class_setupStepChecks.inc:205
+#: setup/class_setupStepChecks.inc:221 setup/class_setupStepChecks.inc:229
 msgid "Off"
 msgstr "Выкл"
 
-#: setup/class_setupStepChecks.inc:182
+#: setup/class_setupStepChecks.inc:190
 msgid ""
 "In Order to use FusionDirectory without any trouble, the session.auto_start "
 "option in your php.ini should be set to 'Off'."
@@ -3908,12 +3926,12 @@ msgstr ""
 "Чтобы во время использования FusionDirectory не возникло ни каких проблем, "
 "опция 'session.auto_start' должна быть установлена в 'Off' в вашем php.ini."
 
-#: setup/class_setupStepChecks.inc:183
+#: setup/class_setupStepChecks.inc:191
 msgid "Search for 'session.auto_start' in your php.ini and set it to 'Off'."
 msgstr ""
 "Найдите 'session.auto_start' в вашем php.ini и установите его в 'Off'."
 
-#: setup/class_setupStepChecks.inc:190
+#: setup/class_setupStepChecks.inc:198
 msgid ""
 "FusionDirectory needs at least 128MB of memory. Setting it below this limit "
 "may cause errors that are not reproducable! Increase it for larger setups."
@@ -3922,27 +3940,27 @@ msgstr ""
 "может привести к ошибкам, которые не воспроизводятся! Увеличьте его в "
 "большинстве случаев."
 
-#: setup/class_setupStepChecks.inc:191
+#: setup/class_setupStepChecks.inc:199
 msgid ""
 "Search for 'memory_limit' in your php.ini and set it to '128M' or higher."
 msgstr ""
 "Найдите 'memory_limit' в вашем php.ini и установите его в '128M' или больше."
 
-#: setup/class_setupStepChecks.inc:198
+#: setup/class_setupStepChecks.inc:206
 msgid ""
 "This option influences the PHP output handling. Turn this Option off, to "
 "increase performance."
 msgstr ""
 
-#: setup/class_setupStepChecks.inc:199
+#: setup/class_setupStepChecks.inc:207
 msgid "Search for 'implicit_flush' in your php.ini and set it to 'Off'."
 msgstr "Найдите 'implicit_flush' в вашем php.ini и установите его в 'Off'."
 
-#: setup/class_setupStepChecks.inc:206
+#: setup/class_setupStepChecks.inc:214
 msgid "The Execution time should be at least 30 seconds."
 msgstr "Время исполнения, должно быть не менее 30 секунд."
 
-#: setup/class_setupStepChecks.inc:207
+#: setup/class_setupStepChecks.inc:215
 msgid ""
 "Search for 'max_execution_time' in your php.ini and set it to '30' or "
 "higher."
@@ -3950,7 +3968,7 @@ msgstr ""
 "Найдите 'max_execution_time' в вашем php.ini и установите его в значение "
 "'30' или больше."
 
-#: setup/class_setupStepChecks.inc:214
+#: setup/class_setupStepChecks.inc:222
 msgid ""
 "Increase the server security by setting expose_php to 'off'. PHP won't send "
 "any information about the server you are running in this case."
@@ -3958,17 +3976,17 @@ msgstr ""
 "Повысить безопасность сервера установив опцию expose_php в 'off'. PHP не "
 "будет отправлять ни какую информацию о сервере, запускающему, в этом случае."
 
-#: setup/class_setupStepChecks.inc:215
+#: setup/class_setupStepChecks.inc:223
 msgid "Search for 'expose_php' in your php.ini and set if to 'Off'."
 msgstr "Найдите 'expose_php' в вашем php.ini и установите в 'Off'."
 
-#: setup/class_setupStepChecks.inc:222
+#: setup/class_setupStepChecks.inc:230
 msgid "Increase your server performance by setting magic_quotes_gpc to 'off'."
 msgstr ""
 "Повысите производительность вашего сервер установив setting magic_quotes_gpc"
 " в 'off'."
 
-#: setup/class_setupStepChecks.inc:223
+#: setup/class_setupStepChecks.inc:231
 msgid ""
 "Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to "
 "'Off'."
@@ -4251,73 +4269,73 @@ msgstr ""
 " \"автоматически\" будет и использоваться язык запрошенный браузером. Эта "
 "настройка может быть переопределена для каждого пользователя."
 
-#: html/setup.php:60
+#: html/setup.php:65
 msgid "Smarty"
 msgstr ""
 
-#: html/setup.php:60 html/class_passwordRecovery.inc:140
+#: html/setup.php:65 html/class_passwordRecovery.inc:142
 #, php-format
 msgid "Directory '%s' specified as compile directory is not accessible!"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:117
+#: html/class_passwordRecovery.inc:119
 #, php-format
 msgid "FusionDirectory configuration %s/%s is not readable. Aborted."
 msgstr "Конфигурация FusionDirectory %s/%s не читаема. Прервано."
 
-#: html/class_passwordRecovery.inc:173 html/index.php:56
+#: html/class_passwordRecovery.inc:175 html/index.php:61
 #, php-format
 msgid "Warning: <a href=\"%s\">Session is not encrypted!</a>"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:302 ihtml/themes/breezy/recovery.tpl.c:71
+#: html/class_passwordRecovery.inc:310 ihtml/themes/breezy/recovery.tpl.c:71
 msgid "Email address"
 msgstr "Адрес электронной почты"
 
-#: html/class_passwordRecovery.inc:471
+#: html/class_passwordRecovery.inc:479
 #, php-format
 msgid "Did not find an account with login \"%s\""
 msgstr "Не найден аккаунт с логином \"%s\""
 
-#: html/class_passwordRecovery.inc:474
+#: html/class_passwordRecovery.inc:482
 #, php-format
 msgid "Found multiple accounts with login \"%s\""
 msgstr "Найдено множество учетных записей с логином \"%s\""
 
-#: html/class_passwordRecovery.inc:507
+#: html/class_passwordRecovery.inc:515
 #, php-format
 msgid "There is no account using email \"%s\""
 msgstr ""
 
-#: html/class_passwordRecovery.inc:510
+#: html/class_passwordRecovery.inc:518
 #, php-format
 msgid "There are several accounts using email \"%s\""
 msgstr ""
 
-#: html/class_passwordRecovery.inc:518
+#: html/class_passwordRecovery.inc:526
 #, php-format
 msgid "The user using email \"%s\" is locked. Please contact your administrator."
 msgstr ""
 
-#: html/class_passwordRecovery.inc:573
+#: html/class_passwordRecovery.inc:581
 msgid "Contact your administrator, there was a problem with mail server"
 msgstr ""
 "Свяжитесь с вашим системным администратором, были проблемы с почтовым "
 "сервером"
 
-#: html/class_passwordRecovery.inc:586
+#: html/class_passwordRecovery.inc:594
 msgid "This token is invalid"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:650
+#: html/class_passwordRecovery.inc:658
 msgid "There was a problem with mail server, confirmation email not sent"
 msgstr "Были проблемы с почтовым сервером, имэйл подтверждения не отправлены"
 
-#: html/main.php:109
+#: html/main.php:113
 msgid "PHP configuration"
 msgstr "Настройки PHP"
 
-#: html/main.php:110
+#: html/main.php:114
 msgid ""
 "Fatal error: Register globals is on. FusionDirectory will refuse to login "
 "unless this is fixed by an administrator."
@@ -4325,43 +4343,43 @@ msgstr ""
 "Критическая ошибка: Register globals is on. FusionDirectory не позволит "
 "залогиниться до тех пор пока это не будет исправлено администратором."
 
-#: html/main.php:136
+#: html/main.php:140
 msgid "Password change"
 msgstr "Изменить пароль"
 
-#: html/main.php:136
+#: html/main.php:140
 msgid "Your password is about to expire, please change your password!"
 msgstr ""
 "Срок действия вашего пароля почти закончился, пожалуйста измените его!"
 
-#: html/main.php:152
+#: html/main.php:156
 msgid "Your password has expired, please set a new one."
 msgstr "Ваш пароль истек, пожалуйста установите новый."
 
-#: html/main.php:202
+#: html/main.php:206
 msgid "Running out of memory!"
 msgstr ""
 
-#: html/main.php:245
+#: html/main.php:249
 msgid "User ACL checks disabled"
 msgstr ""
 
-#: html/main.php:283
+#: html/main.php:287
 msgid "Plugin"
 msgstr "Плагин"
 
-#: html/main.php:284
+#: html/main.php:288
 #, php-format
 msgid ""
 "Fatal error: Cannot find any plugin definitions for plugin '%s' ('%s' is not"
 " a file)!"
 msgstr ""
 
-#: html/main.php:299
+#: html/main.php:303
 msgid "Configuration Error"
 msgstr ""
 
-#: html/main.php:300
+#: html/main.php:304
 #, php-format
 msgid ""
 "Fatal error: not all POST variables have been transfered by PHP - please "
@@ -4370,13 +4388,13 @@ msgstr ""
 "Критическая ошибка: не все POST переменные переданы в PHP - пожалуйста "
 "сообщите вашему системному администратору!"
 
-#: html/index.php:62
+#: html/index.php:67
 msgid ""
 "Warning: The session lifetime configured in your fusiondirectory.conf will "
 "be overridden by php.ini settings."
 msgstr ""
 
-#: html/index.php:150
+#: html/index.php:155
 #, php-format
 msgid ""
 "FusionDirectory configuration %s/%s is not readable. Please run "
@@ -4385,75 +4403,75 @@ msgstr ""
 "Не прочесть конфигурацию FusionDirectory %s/%s. Чтобы исправить это "
 "пожалуйста запустите  fusiondirectory-setup --check-config."
 
-#: html/index.php:171
+#: html/index.php:176
 msgid "Smarty error"
 msgstr "Ошибка Smarty"
 
-#: html/index.php:173
+#: html/index.php:178
 #, php-format
 msgid "Directory \"%s\" specified as compile directory is not accessible!"
 msgstr ""
 
-#: html/index.php:211
+#: html/index.php:216
 msgid "Your FusionDirectory session has expired!"
 msgstr "Время вашей сессии истекло!"
 
-#: html/index.php:214
+#: html/index.php:219
 #, php-format
 msgid "Invalid plugin parameter \"%s\"!"
 msgstr ""
 
-#: html/index.php:217
+#: html/index.php:222
 msgid "No session found!"
 msgstr ""
 
-#: html/index.php:253
+#: html/index.php:258
 msgid "LDAP schema check reported errors:"
 msgstr "Проверка схемы LDAP сообщает об ошибке:"
 
-#: html/index.php:255
+#: html/index.php:260
 msgid "LDAP schema error"
 msgstr ""
 
-#: html/index.php:282
+#: html/index.php:287
 msgid "Please specify a valid username!"
 msgstr "Введите корректное имя пользователя!"
 
-#: html/index.php:285
+#: html/index.php:290
 msgid "Please specify your password!"
 msgstr "Введите свой пароль!"
 
-#: html/index.php:304
+#: html/index.php:309
 msgid "Please check the username/password combination."
 msgstr "Проверьте, правильно ли вы ввели имя пользователя и пароль."
 
-#: html/index.php:337
+#: html/index.php:342
 msgid "Account locked. Please contact your system administrator!"
 msgstr ""
 "Учетная запись заблокирована. Пожалуйста свяжитесь с вашим системным "
 "администратором."
 
-#: html/index.php:456
+#: html/index.php:461
 #, php-format
 msgid "No value found in HTTP header \"%s\""
 msgstr ""
 
-#: html/index.php:470
+#: html/index.php:475
 #, php-format
 msgid "Header user \"%s\" could not be found in the LDAP"
 msgstr ""
 
-#: html/index.php:480 html/index.php:547
+#: html/index.php:485 html/index.php:552
 #, php-format
 msgid "Login with user \"%s\" triggered error: %s"
 msgstr ""
 
-#: html/index.php:537
+#: html/index.php:542
 #, php-format
 msgid "CAS user \"%s\" could not be found in the LDAP"
 msgstr "CAS пользователь \"%s\" не может быть найден в LDAP"
 
-#: html/index.php:587
+#: html/index.php:592
 msgid ""
 "Your browser has cookies disabled. Please enable cookies and reload this "
 "page before logging in!"

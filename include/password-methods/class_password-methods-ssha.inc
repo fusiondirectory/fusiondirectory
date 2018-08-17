@@ -56,12 +56,12 @@ class passwordMethodssha extends passwordMethod
   function generate_hash($pwd)
   {
     if (function_exists('sha1')) {
-      $salt = substr(pack('h*', md5(mt_rand())), 0, 8);
+      $salt = substr(pack('h*', md5(random_int(0, PHP_INT_MAX))), 0, 8);
       $salt = substr(pack('H*', sha1($salt.$pwd)), 0, 4);
       $pwd  = '{SSHA}'.base64_encode(pack('H*', sha1($pwd.$salt)).$salt);
       return $pwd;
     } elseif (function_exists('mhash')) {
-      $salt = mhash_keygen_s2k(MHASH_SHA1, $pwd, substr(pack('h*', md5(mt_rand())), 0, 8), 4);
+      $salt = mhash_keygen_s2k(MHASH_SHA1, $pwd, substr(pack('h*', md5(random_int(0, PHP_INT_MAX))), 0, 8), 4);
       $pwd  = '{SSHA}'.base64_encode(mhash(MHASH_SHA1, $pwd.$salt).$salt);
     } else {
       msg_dialog::display(_('Configuration error'), msgPool::missingext('mhash'), ERROR_DIALOG);

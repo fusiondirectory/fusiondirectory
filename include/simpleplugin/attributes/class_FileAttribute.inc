@@ -309,8 +309,7 @@ class ImageAttribute extends FileAttribute
     $this->setValue($this->inputValue($this->getValue()));
     $id = $this->getHtmlId();
     // Just to be sure the image is not cached
-    srand((double)microtime() * 1000000);
-    $key      = $this->getLdapName().rand(0, 10000);
+    $key      = $this->getLdapName().random_int(0, 10000);
     $display  = '<img id="'.$id.'_img"'.
                 ($this->disabled ? 'disabled="disabled"' : '').
                 ' src="getbin.php?key='.$key.'"'.

@@ -1,9 +1,8 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -28,8 +27,11 @@ require_once ("../include/php_setup.inc");
 require_once ("functions.inc");
 require_once ("variables.inc");
 
-/* Set header */
-header("Content-type: text/html; charset=UTF-8");
+/* Set headers */
+header('Content-type: text/html; charset=UTF-8');
+header('X-XSS-Protection: 1; mode=block');
+header('X-Content-Type-Options: nosniff');
+header('X-Frame-Options: deny');
 
 /* Set the text domain as 'fusiondirectory' */
 $domain = 'fusiondirectory';
@@ -53,6 +55,8 @@ if (!session::global_is_set('connected')) {
   header ('Location: index.php?message=nosession');
   exit;
 }
+
+CSRFProtection::check();
 
 $ui     = session::global_get('ui');
 $config = session::global_get('config');
@@ -324,7 +328,8 @@ if (session::is_set('errors') && session::get('errors') != "") {
 $focus = '<script type="text/javascript">';
 $focus .= 'next_msg_dialog();';
 $focus .= '</script>';
-$smarty->assign("focus", $focus);
+$smarty->assign('focus',      $focus);
+$smarty->assign('CSRFtoken',  CSRFProtection::getToken());
 
 /* Set channel if needed */
 //TODO: * move all global session calls to global_

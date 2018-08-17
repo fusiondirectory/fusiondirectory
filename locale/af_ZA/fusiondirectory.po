@@ -10,12 +10,11 @@ msgstr ""
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
 "POT-Creation-Date: 2018-08-14 13:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: fusiondirectory <contact@fusiondirectory.org>, 2017\n"
-"Language-Team: Catalan (https://www.transifex.com/fusiondirectory/teams/12202/ca/)\n"
+"Language-Team: Afrikaans (South Africa) (https://www.transifex.com/fusiondirectory/teams/12202/af_ZA/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ca\n"
+"Language: af_ZA\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: include/class_msg_dialog.inc:136 include/class_msg_dialog.inc:172
@@ -36,7 +35,7 @@ msgstr ""
 #: html/index.php:473 html/index.php:483 html/index.php:540 html/index.php:550
 #: setup/setup_checks.tpl.c:5 ihtml/themes/breezy/msg_dialog.tpl.c:2
 msgid "Error"
-msgstr "Error"
+msgstr ""
 
 #: include/class_msg_dialog.inc:177
 msgid "Please fix the above error and reload the page."
@@ -56,7 +55,7 @@ msgstr ""
 #: include/functions.inc:638 html/class_passwordRecovery.inc:141
 #: html/main.php:206 html/index.php:153
 msgid "Configuration error"
-msgstr "Error de la configuració"
+msgstr ""
 
 #: include/class_config.inc:272
 #, php-format
@@ -81,7 +80,7 @@ msgstr ""
 #: setup/class_setupStepConfig.inc:108 setup/class_setupStepMigrate.inc:452
 #: setup/class_setupStepMigrate.inc:1051 html/index.php:377
 msgid "LDAP error"
-msgstr "Error d'LDAP"
+msgstr ""
 
 #: include/class_config.inc:313
 msgid "Cannot bind to LDAP. Please contact the system administrator."
@@ -112,7 +111,7 @@ msgstr ""
 
 #: include/class_config.inc:1047
 msgid "My account"
-msgstr "El meu compte"
+msgstr ""
 
 #: include/exporter/class_PDF.php:61
 msgid "Page"
@@ -315,7 +314,7 @@ msgstr ""
 #: include/class_template.inc:47
 #: include/simpleplugin/class_simplePlugin.inc:346
 msgid "Template name"
-msgstr "Nom de la plantilla"
+msgstr ""
 
 #: include/class_logging.inc:81 include/functions.inc:556
 #: include/functions.inc:628 include/functions.inc:749
@@ -382,7 +381,7 @@ msgstr ""
 #: include/simpleplugin/class_simplePlugin.inc:483
 #: html/class_passwordRecovery.inc:118
 msgid "Fatal error"
-msgstr "Error fatal"
+msgstr ""
 
 #: include/functions.inc:456
 #, php-format
@@ -397,7 +396,7 @@ msgstr ""
 
 #: include/functions.inc:576
 msgid "Authentication error"
-msgstr "Error d'autenticació."
+msgstr ""
 
 #: include/functions.inc:577
 msgid ""
@@ -428,7 +427,7 @@ msgstr ""
 #: html/main.php:156 html/index.php:592 setup/setup_checks.tpl.c:8
 #: ihtml/themes/breezy/msg_dialog.tpl.c:5 ihtml/themes/breezy/islocked.tpl.c:5
 msgid "Warning"
-msgstr "Avís"
+msgstr ""
 
 #: include/functions.inc:827
 msgid ""
@@ -609,7 +608,7 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:383
 #: ihtml/themes/breezy/recovery.tpl.c:26
 msgid "Login"
-msgstr "Entrada"
+msgstr ""
 
 #: include/class_CopyPasteHandler.inc:208
 #: include/simpleplugin/class_simpleManagement.inc:1023
@@ -623,7 +622,7 @@ msgstr ""
 
 #: include/class_CopyPasteHandler.inc:268
 msgid "Cancel all"
-msgstr "Canceŀla-ho tot"
+msgstr ""
 
 #: include/class_CopyPasteHandler.inc:334
 msgid "Cannot paste"
@@ -897,21 +896,21 @@ msgstr ""
 #: ihtml/themes/breezy/msg_dialog.tpl.c:17
 #: ihtml/themes/breezy/islocked.tpl.c:17
 msgid "Cancel"
-msgstr "Canceŀla"
+msgstr ""
 
 #: include/class_msgPool.inc:486 setup/class_setupStepMigrate.inc:133
 #: setup/setup_checks.tpl.c:2 ihtml/themes/breezy/msg_dialog.tpl.c:14
 msgid "Ok"
-msgstr "D'acord"
+msgstr ""
 
 #: include/class_msgPool.inc:494 setup/setup_migrate_adminAccount.tpl.c:20
 #: setup/setup_migrate_accounts.tpl.c:29
 msgid "Apply"
-msgstr "Aplica"
+msgstr ""
 
 #: include/class_msgPool.inc:502
 msgid "Save"
-msgstr "Desa"
+msgstr ""
 
 #: include/class_msgPool.inc:512
 #, php-format
@@ -939,21 +938,21 @@ msgstr ""
 #: include/class_msgPool.inc:532
 #, php-format
 msgid "Edit..."
-msgstr "Edita…"
+msgstr ""
 
 #: include/class_msgPool.inc:532
 #, php-format
 msgid "Edit %s..."
-msgstr "Edita %s…"
+msgstr ""
 
 #: include/class_msgPool.inc:540
 msgid "Back"
-msgstr "Enrere"
+msgstr ""
 
 #: include/class_msgPool.inc:569
 #, php-format
 msgid "This account has no valid %s extensions!"
-msgstr "Aquest compte no té extensions de %s vàlides!"
+msgstr ""
 
 #: include/class_msgPool.inc:582
 #, php-format
@@ -961,8 +960,6 @@ msgid ""
 "This account has %s settings enabled. You can disable them by clicking "
 "below."
 msgstr ""
-"Aquest compte té paràmetres de %s habilitats. Podeu inhabilitar-los fent "
-"clic a sota."
 
 #: include/class_msgPool.inc:588 include/class_msgPool.inc:595
 #, php-format
@@ -1008,79 +1005,79 @@ msgstr ""
 
 #: include/class_msgPool.inc:652
 msgid "January"
-msgstr "gener"
+msgstr ""
 
 #: include/class_msgPool.inc:652
 msgid "February"
-msgstr "febrer"
+msgstr ""
 
 #: include/class_msgPool.inc:652
 msgid "March"
-msgstr "març"
+msgstr ""
 
 #: include/class_msgPool.inc:652
 msgid "April"
-msgstr "abril"
+msgstr ""
 
 #: include/class_msgPool.inc:653
 msgid "May"
-msgstr "maig"
+msgstr ""
 
 #: include/class_msgPool.inc:653
 msgid "June"
-msgstr "juny"
+msgstr ""
 
 #: include/class_msgPool.inc:653
 msgid "July"
-msgstr "juliol"
+msgstr ""
 
 #: include/class_msgPool.inc:653
 msgid "August"
-msgstr "agost"
+msgstr ""
 
 #: include/class_msgPool.inc:653
 msgid "September"
-msgstr "setembre"
+msgstr ""
 
 #: include/class_msgPool.inc:654
 msgid "October"
-msgstr "octubre"
+msgstr ""
 
 #: include/class_msgPool.inc:654
 msgid "November"
-msgstr "novembre"
+msgstr ""
 
 #: include/class_msgPool.inc:654
 msgid "December"
-msgstr "desembre"
+msgstr ""
 
 #: include/class_msgPool.inc:663
 msgid "Sunday"
-msgstr "diumenge"
+msgstr ""
 
 #: include/class_msgPool.inc:663
 msgid "Monday"
-msgstr "dilluns"
+msgstr ""
 
 #: include/class_msgPool.inc:663
 msgid "Tuesday"
-msgstr "dimarts"
+msgstr ""
 
 #: include/class_msgPool.inc:663
 msgid "Wednesday"
-msgstr "dimecres"
+msgstr ""
 
 #: include/class_msgPool.inc:663
 msgid "Thursday"
-msgstr "dijous"
+msgstr ""
 
 #: include/class_msgPool.inc:663
 msgid "Friday"
-msgstr "divendres"
+msgstr ""
 
 #: include/class_msgPool.inc:663
 msgid "Saturday"
-msgstr "dissabte"
+msgstr ""
 
 #: include/class_msgPool.inc:680
 msgid "read operation"
@@ -1119,7 +1116,7 @@ msgstr ""
 #: include/class_SnapshotDialogs.inc:182
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:341
 msgid "Object"
-msgstr "Objecte"
+msgstr ""
 
 #: include/class_msgPool.inc:707
 msgid "Upload failed!"
@@ -1240,7 +1237,7 @@ msgstr ""
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:69
 #: setup/setup_migrate_adminAccount.tpl.c:8
 msgid "Name"
-msgstr "Nom"
+msgstr ""
 
 #: include/simpleplugin/simple-select-list.xml:40
 #: include/simpleplugin/simple-list.xml:40
@@ -1258,7 +1255,7 @@ msgstr ""
 #: setup/class_setupStepLdap.inc:50 setup/class_setupStepLdap.inc:119
 #: setup/class_setupStepLdap.inc:127 ihtml/themes/breezy/simple-list.tpl.c:2
 msgid "Base"
-msgstr "Base"
+msgstr ""
 
 #: include/simpleplugin/attributes/class_BaseSelectorAttribute.inc:40
 msgid "Object base"
@@ -1539,7 +1536,7 @@ msgstr ""
 
 #: include/simpleplugin/class_dialogAttributes.inc:490
 msgid "Group of user"
-msgstr "Grup de l'usuari"
+msgstr ""
 
 #: include/simpleplugin/class_dialogAttributes.inc:671
 msgid "Unknown"
@@ -1706,7 +1703,7 @@ msgstr ""
 
 #: include/class_SnapshotDialogs.inc:37
 msgid "Timestamp"
-msgstr "Marca de temps"
+msgstr ""
 
 #: include/class_SnapshotDialogs.inc:37
 msgid "Timestamp of this snapshot creation"
@@ -1749,7 +1746,7 @@ msgstr ""
 #: plugins/admin/departments/class_department.inc:39
 #: plugins/personal/generic/class_user.inc:430
 msgid "Department"
-msgstr "Departament"
+msgstr ""
 
 #: plugins/admin/departments/class_domain.inc:30
 #: plugins/admin/departments/class_domain.inc:31
@@ -1766,7 +1763,7 @@ msgstr ""
 #: plugins/admin/departments/class_organization.inc:34
 #: plugins/personal/generic/class_user.inc:426
 msgid "Organization"
-msgstr "Organització"
+msgstr ""
 
 #: plugins/admin/departments/class_organization.inc:51
 msgid "organization"
@@ -1776,7 +1773,7 @@ msgstr ""
 #: plugins/admin/departments/class_department.inc:35
 #: plugins/admin/departments/class_departmentManagement.inc:34
 msgid "Departments"
-msgstr "Departaments"
+msgstr ""
 
 #: plugins/admin/departments/class_department.inc:57
 msgid "department"
@@ -1808,7 +1805,7 @@ msgstr ""
 
 #: plugins/admin/departments/class_department.inc:76
 msgid "Category"
-msgstr "Categoria"
+msgstr ""
 
 #: plugins/admin/departments/class_department.inc:76
 #, php-format
@@ -1827,7 +1824,7 @@ msgstr ""
 #: plugins/admin/departments/class_department.inc:84
 #: plugins/personal/generic/class_user.inc:446
 msgid "Manager"
-msgstr "Responsable"
+msgstr ""
 
 #: plugins/admin/departments/class_department.inc:84
 #, php-format
@@ -1838,24 +1835,24 @@ msgstr ""
 #: plugins/admin/departments/class_department.inc:96
 #: plugins/personal/generic/class_user.inc:340
 msgid "Location"
-msgstr "Localització"
+msgstr ""
 
 #: plugins/admin/departments/class_department.inc:93
 #: plugins/personal/generic/class_user.inc:344
 msgid "State"
-msgstr "Província"
+msgstr ""
 
 #: plugins/admin/departments/class_department.inc:99
 #: plugins/admin/departments/class_country.inc:29
 #: plugins/admin/departments/class_country.inc:30
 #: plugins/admin/departments/class_country.inc:33
 msgid "Country"
-msgstr "Estat"
+msgstr ""
 
 #: plugins/admin/departments/class_department.inc:102
 #: plugins/personal/generic/class_user.inc:348
 msgid "Address"
-msgstr "Adreça"
+msgstr ""
 
 #: plugins/admin/departments/class_department.inc:102
 #, php-format
@@ -1865,7 +1862,7 @@ msgstr ""
 #: plugins/admin/departments/class_department.inc:106
 #: plugins/personal/generic/class_user.inc:356
 msgid "Phone"
-msgstr "Telèfon"
+msgstr ""
 
 #: plugins/admin/departments/class_department.inc:106
 msgid "Telephone number"
@@ -1874,7 +1871,7 @@ msgstr ""
 #: plugins/admin/departments/class_department.inc:110
 #: plugins/personal/generic/class_user.inc:368
 msgid "Fax"
-msgstr "Fax"
+msgstr ""
 
 #: plugins/admin/departments/class_department.inc:110
 msgid "Facsimile telephone number"
@@ -1906,7 +1903,7 @@ msgstr ""
 #: plugins/admin/departments/class_locality.inc:31
 #: plugins/admin/departments/class_locality.inc:34
 msgid "Locality"
-msgstr "Localitat"
+msgstr ""
 
 #: plugins/admin/departments/class_locality.inc:51
 msgid "locality"
@@ -2149,7 +2146,7 @@ msgstr ""
 #: plugins/admin/groups/class_roleGeneric.inc:82
 #: ihtml/themes/breezy/msg_dialog.tpl.c:8
 msgid "Information"
-msgstr "Informació"
+msgstr ""
 
 #: plugins/admin/groups/class_roleGeneric.inc:91
 msgid "Description of the role"
@@ -2159,11 +2156,11 @@ msgstr ""
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:65
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:71
 msgid "Phone number"
-msgstr "Número de telèfon"
+msgstr ""
 
 #: plugins/admin/groups/class_roleGeneric.inc:99
 msgid "Fax number"
-msgstr "Número de fax"
+msgstr ""
 
 #: plugins/admin/groups/class_roleGeneric.inc:105
 msgid "Role members"
@@ -2799,7 +2796,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:148
 msgid "Password settings"
-msgstr "Paràmetres de la contrasenya"
+msgstr ""
 
 #: plugins/config/class_configInLdap.inc:151
 msgid "Password default hash"
@@ -3283,7 +3280,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:46
 msgid "Password method"
-msgstr "Mètode de contrasenya"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:46
 msgid "Password hash method to use"
@@ -3296,7 +3293,7 @@ msgstr ""
 #: ihtml/themes/breezy/login.tpl.c:17 ihtml/themes/breezy/login.tpl.c:20
 #: ihtml/themes/breezy/login.tpl.c:23
 msgid "Password"
-msgstr "Contrasenya"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:51
 msgid "Password (Leave empty if you do not wish to change it)"
@@ -3316,11 +3313,11 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:310
 msgid "Personal information"
-msgstr "Informació personal"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:315
 msgid "Last name"
-msgstr "Cognoms"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:315
 msgid "Last name of this user"
@@ -3328,7 +3325,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:320
 msgid "First name"
-msgstr "Nom"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:320
 msgid "First name of this user"
@@ -3356,11 +3353,11 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:352
 msgid "Room No."
-msgstr "Núm de sala"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:352
 msgid "Room number"
-msgstr "Número de sala"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:356
 msgid "Business phone number"
@@ -3368,7 +3365,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:360
 msgid "Mobile"
-msgstr "Mòbil"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:360
 msgid "Business mobile number"
@@ -3376,7 +3373,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:364
 msgid "Pager"
-msgstr "Buscapersones"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:364
 msgid "Business pager number"
@@ -3388,7 +3385,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:372
 msgid "Homepage"
-msgstr "Pàgina principal"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:372
 msgid "Personal homepage"
@@ -3405,7 +3402,7 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:387
 #: setup/class_setupStepLanguage.inc:30
 msgid "Preferred language"
-msgstr "Llengua preferida"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:392
 msgid "Password of the user"
@@ -3429,15 +3426,15 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:406
 msgid "Home postal address"
-msgstr "Adreça postal personal"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:410
 msgid "Private phone"
-msgstr "Telèfon privat"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:410
 msgid "Home phone number"
-msgstr "Número de telèfon personal"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:416
 msgid "Organizational information"
@@ -3459,23 +3456,23 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:434
 msgid "Department No."
-msgstr "Núm de department"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:434
 msgid "Department number"
-msgstr "Número de departament"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:438
 msgid "Employee No."
-msgstr "Núm d'empleat"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:438
 msgid "Employee number"
-msgstr "Número d'empleat"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:442
 msgid "Employee type"
-msgstr "Categoria professional"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:456
 msgid "Street"
@@ -3529,11 +3526,11 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:716
 #: ihtml/themes/breezy/recovery.tpl.c:29 ihtml/themes/breezy/recovery.tpl.c:32
 msgid "New password"
-msgstr "Contrasenya nova"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:718
 msgid "The password used as new and current are too similar."
-msgstr "La contrasenya nova i l'actual són massa similars."
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:720
 msgid "The password used as new is too short."
@@ -3983,7 +3980,7 @@ msgstr ""
 #: setup/class_setupStepMigrate.inc:420 setup/class_setupStepMigrate.inc:500
 #: setup/class_setupStepMigrate.inc:511 setup/class_setupStepMigrate.inc:803
 msgid "Failed"
-msgstr "Error"
+msgstr ""
 
 #: setup/class_setupStepMigrate.inc:347
 #, php-format
@@ -4119,7 +4116,7 @@ msgstr ""
 
 #: setup/class_setupStepFinish.inc:40
 msgid "Finish"
-msgstr "Finalitza"
+msgstr ""
 
 #: setup/class_setupStepFinish.inc:41
 msgid "Finish - write the configuration file"
@@ -4175,7 +4172,6 @@ msgstr ""
 #, php-format
 msgid "FusionDirectory configuration %s/%s is not readable. Aborted."
 msgstr ""
-"La configuració %s/%s del FusionDirectori no és llegible. S'està avortant."
 
 #: html/class_passwordRecovery.inc:175 html/index.php:61
 #, php-format
@@ -4225,7 +4221,7 @@ msgstr ""
 
 #: html/main.php:113
 msgid "PHP configuration"
-msgstr "Configuració del PHP"
+msgstr ""
 
 #: html/main.php:114
 msgid ""
@@ -4235,7 +4231,7 @@ msgstr ""
 
 #: html/main.php:140
 msgid "Password change"
-msgstr "Canvi de contrasenya"
+msgstr ""
 
 #: html/main.php:140
 msgid "Your password is about to expire, please change your password!"
@@ -4247,15 +4243,15 @@ msgstr ""
 
 #: html/main.php:206
 msgid "Running out of memory!"
-msgstr "S'està exhaurint la memòria!"
+msgstr ""
 
 #: html/main.php:249
 msgid "User ACL checks disabled"
-msgstr "S'han inhabilitat les comprovacions de les ACL dels usuaris"
+msgstr ""
 
 #: html/main.php:287
 msgid "Plugin"
-msgstr "Connector"
+msgstr ""
 
 #: html/main.php:288
 #, php-format
@@ -4299,7 +4295,7 @@ msgstr ""
 
 #: html/index.php:216
 msgid "Your FusionDirectory session has expired!"
-msgstr "La vostra sessió del FusionDirectori ha caducat!"
+msgstr ""
 
 #: html/index.php:219
 #, php-format
@@ -4320,11 +4316,11 @@ msgstr ""
 
 #: html/index.php:287
 msgid "Please specify a valid username!"
-msgstr "Especifiqueu un nom d'usuari vàlid."
+msgstr ""
 
 #: html/index.php:290
 msgid "Please specify your password!"
-msgstr "Especifiqueu la vostra contrasenya."
+msgstr ""
 
 #: html/index.php:309
 msgid "Please check the username/password combination."
@@ -4332,7 +4328,7 @@ msgstr ""
 
 #: html/index.php:342
 msgid "Account locked. Please contact your system administrator!"
-msgstr "El compte és blocat. Contacteu el vostre administrador de sistemes."
+msgstr ""
 
 #: html/index.php:461
 #, php-format
@@ -4359,8 +4355,6 @@ msgid ""
 "Your browser has cookies disabled. Please enable cookies and reload this "
 "page before logging in!"
 msgstr ""
-"El vostre navegador té les galetes inhabilitades. Habiliteu les galetes i "
-"torneu a carregar aquesta pàgina abans d'entrar."
 
 #: include/select/groupSelect/group-filter.tpl.c:2
 #: plugins/admin/users/user-filter.tpl.c:2
@@ -4679,7 +4673,7 @@ msgstr ""
 #: ihtml/themes/breezy/template.tpl.c:8
 #: ihtml/themes/breezy/restore-confirm.tpl.c:14
 msgid "Continue"
-msgstr "Continua"
+msgstr ""
 
 #: ihtml/themes/breezy/recovery.tpl.c:8
 msgid "Lost password"
@@ -4704,31 +4698,31 @@ msgstr ""
 #: ihtml/themes/breezy/login.tpl.c:29 ihtml/themes/breezy/login.tpl.c:32
 #: ihtml/themes/breezy/login.tpl.c:35
 msgid "Directory"
-msgstr "Directori"
+msgstr ""
 
 #: ihtml/themes/breezy/recovery.tpl.c:35 ihtml/themes/breezy/recovery.tpl.c:38
 msgid "New password repeated"
-msgstr "Contrasenya nova repetida"
+msgstr ""
 
 #: ihtml/themes/breezy/recovery.tpl.c:41
 msgid "Password strength"
-msgstr "Qualitat de la contrasenya"
+msgstr ""
 
 #: ihtml/themes/breezy/recovery.tpl.c:44 ihtml/themes/breezy/recovery.tpl.c:77
 msgid "Change"
-msgstr "Canvia"
+msgstr ""
 
 #: ihtml/themes/breezy/recovery.tpl.c:47 ihtml/themes/breezy/recovery.tpl.c:80
 msgid "Click here to change your password"
-msgstr "Feu clic aquí per canviar la vostra contrasenya"
+msgstr ""
 
 #: ihtml/themes/breezy/recovery.tpl.c:50 ihtml/themes/breezy/recovery.tpl.c:53
 msgid "Success"
-msgstr "Èxit"
+msgstr ""
 
 #: ihtml/themes/breezy/recovery.tpl.c:56
 msgid "Your password has been changed successfully."
-msgstr "S'ha canviat la vostra contrasenya amb èxit."
+msgstr ""
 
 #: ihtml/themes/breezy/recovery.tpl.c:59
 msgid ""
@@ -4765,7 +4759,7 @@ msgstr ""
 
 #: ihtml/themes/breezy/islocked.tpl.c:14
 msgid "Read only"
-msgstr "Només lectura"
+msgstr ""
 
 #: ihtml/themes/breezy/login.tpl.c:2
 msgid "Login screen"
@@ -4780,7 +4774,7 @@ msgstr ""
 #: ihtml/themes/breezy/login.tpl.c:8 ihtml/themes/breezy/login.tpl.c:11
 #: ihtml/themes/breezy/login.tpl.c:14
 msgid "Username"
-msgstr "Nom d'usuari"
+msgstr ""
 
 #: ihtml/themes/breezy/login.tpl.c:26
 msgid "I forgot my password"
@@ -4788,11 +4782,11 @@ msgstr ""
 
 #: ihtml/themes/breezy/login.tpl.c:38
 msgid "Sign in"
-msgstr "Entra"
+msgstr ""
 
 #: ihtml/themes/breezy/login.tpl.c:41
 msgid "Click here to log in"
-msgstr "Feu clic ací per entrar"
+msgstr ""
 
 #: ihtml/themes/breezy/restore-confirm.tpl.c:2
 msgid "Warning: you are about to restore the following snapshot"
@@ -4809,15 +4803,15 @@ msgstr ""
 
 #: ihtml/themes/breezy/framework.tpl.c:2
 msgid "Main"
-msgstr "Principal"
+msgstr ""
 
 #: ihtml/themes/breezy/framework.tpl.c:5
 msgid "Sign out"
-msgstr "Surt"
+msgstr ""
 
 #: ihtml/themes/breezy/framework.tpl.c:8
 msgid "Signed in:"
-msgstr "Identificat com a:"
+msgstr ""
 
 #: ihtml/themes/breezy/framework.tpl.c:11
 #, c-format

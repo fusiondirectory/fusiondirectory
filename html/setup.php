@@ -35,8 +35,11 @@ require_once("../setup/class_setupStepMigrate.inc");
 require_once("../setup/class_setupStepFinish.inc");
 
 
-/* Set header */
-header("Content-type: text/html; charset=UTF-8");
+/* Set headers */
+header('Content-type: text/html; charset=UTF-8');
+header('X-XSS-Protection: 1; mode=block');
+header('X-Content-Type-Options: nosniff');
+header('X-Frame-Options: deny');
 
 /* Set cookie lifetime to one day (The parameter is in seconds ) */
 session_set_cookie_params(24 * 60 * 60);
@@ -48,6 +51,8 @@ ini_set("session.gc_maxlifetime", 24 * 60 * 60);
 session::start();
 session::global_set('DEBUGLEVEL', 0);
 session::set('errorsAlreadyPosted', array());
+
+CSRFProtection::check();
 
 /* Attribute initialization, reset errors */
 reset_errors();
@@ -124,6 +129,7 @@ $smarty->assign("navigation",     $setup->get_navigation_html());
 $smarty->assign("headline_image", $setup->get_header_image());
 $smarty->assign("headline",       $setup->get_header_text());
 $smarty->assign("focus",          $focus);
+$smarty->assign('CSRFtoken',      CSRFProtection::getToken());
 $smarty->assign("msg_dialogs",    msg_dialog::get_dialogs());
 
 if ($error_collector != "") {

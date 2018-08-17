@@ -94,6 +94,13 @@ class SingleUserSelectDialog extends GenericDialog
 {
   protected $dialogClass = 'singleUserSelect';
 
+  function dialog_execute ()
+  {
+    session::set('filterBlacklist', $this->attribute->getFilterBlackList());
+    session::set('filterWhitelist', $this->attribute->getFilterWhiteList());
+    return parent::dialog_execute();
+  }
+
   function handle_finish ()
   {
     $result = $this->dialog->detectPostActions();
@@ -627,6 +634,16 @@ class DialogButtonAttribute extends ButtonAttribute
     if (!$this->disabled && $this->isVisible() && $this->postValue) {
       $this->plugin->openDialog(new $this->dialogClass($this->plugin, $this));
     }
+  }
+
+  function getFilterBlackList ()
+  {
+    return array();
+  }
+
+  function getFilterWhiteList ()
+  {
+    return array();
   }
 }
 

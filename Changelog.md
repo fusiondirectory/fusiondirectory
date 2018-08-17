@@ -1,3 +1,45 @@
+## %"FusionDirectory 1.2.2" - 2018-08-16
+
+### Added
+
+#### fusiondirectory-plugins
+- fd-plugins#5821 Add LUKS section to FAI disk entry
+
+### Changed
+
+#### fusiondirectory-plugins
+- fd-plugins#5836 random_int should be used instead of mt_rand
+- fd-plugins#5840 Duplicated value in affiliation file
+
+### Fixed
+
+#### fusiondirectory
+- fd#5730 PHP error when I deactivate "opsi client" tab on a workstation
+- fd#5789 LDIF import can trigger PHP errors on empty file
+- fd#5816 Blacklist is not reset correctly for UserAttribute
+- fd#5824 LDIF generation does not respect STARTTLS setting
+- fd#5846 Samba groups are not showing in dashboard
+- fd#5850 Config insertion LDAP errors from setup are not shown
+- fd#5851 Creating a user from a template with a non-existing group crashes
+- fd#5864 Name field for countries should be limited to two characters
+- fd#5868 HTML is not escaped in departments descriptions
+
+#### fusiondirectory-plugins
+- fd-plugins#5719 Locale issues in the fai plugin
+- fd-plugins#5741 Reference tab on the OPSI profile is not showing objects reference
+- fd-plugins#5810 WebService should not return session cookie
+- fd-plugins#5827 Fatal error in opsiProfile when OPSI server is not found in the LDAP
+- fd-plugins#5828 supannCodeEntite should allow uppercase as well
+- fd-plugins#5832 Copy/pasting of Samba groups fails
+- fd-plugins#5833 Error in supann tab when we use a template
+
+### Security
+
+#### fusiondirectory
+- fd#5840 Security Vulnerability: Cross Site Request Forgery
+- fd#5842 Security: Missing Security Headers
+- fd#5843 Security: Insecure Generation of Random Tokens
+
 ## %"FusionDirectory 1.2.1" - 2018-05-09
 
 ### Added
