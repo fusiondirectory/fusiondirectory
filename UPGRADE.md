@@ -2786,11 +2786,12 @@ apt-get remove fusiondirectory-plugin-kolab2-schema
 
 ### Upgrade schema2ldif
 
+
 For Jessie distribution add extra repository
 
 ```shell
 # fusiondirectory debian-extra repository
-deb http://repos.fusiondirectory.org/debian-extra jessie main
+deb http://repos.fusiondirectory.org/fusiondirectory-extra/debian-jessie/ jessie main
 ```
 
   * Update the package list and upgrade schema2ldif
@@ -2946,6 +2947,7 @@ Check that all you index still match with valid attributes present in your ldap 
 
 Open and save it back so it will use the new format
 
+
 ## Migrate FusionDirectory from 1.1 to 1.1.1
 
 ### New Depot Configuration
@@ -2958,7 +2960,7 @@ For Jessie distribution add extra repository
 
 ```shell
 # fusiondirectory debian-extra repository
-deb http://repos.fusiondirectory.org/debian-extra jessie main
+deb http://repos.fusiondirectory.org/fusiondirectory-extra/debian-jessie/ jessie main
 ```
 
 * Update the package list and upgrade schema2ldif
@@ -2990,7 +2992,14 @@ For Jessie distribution add extra repository
 
 ```shell
 # fusiondirectory debian-extra repository
-deb http://repos.fusiondirectory.org/debian-extra jessie main
+deb http://repos.fusiondirectory.org/fusiondirectory-extra/debian-jessie/ jessie main
+```
+
+For Stretch distribution add extra repository
+
+```shell
+# fusiondirectory debian-extra repository
+deb http://repos.fusiondirectory.org/fusiondirectory-extra/debian-stretch/ stretch main
 ```
 
 * Update the package list and upgrade schema2ldif
@@ -3037,7 +3046,65 @@ fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/sympa-fd.schem
 
 * In case you use system template that have a DNS tab, you need to remake it because the separator "|" is changed to "^"
 
+
+## Migrate FusionDirectory from 1.2 to 1.2.1
+
+### Upgrade schema2ldif
+
+For Jessie distribution add extra repository
+
+```shell
+# fusiondirectory debian-extra repository
+deb http://repos.fusiondirectory.org/fusiondirectory-extra/debian-jessie/ jessie main
+```
+
+For Stretch distribution add extra repository
+
+```shell
+# fusiondirectory debian-extra repository
+deb http://repos.fusiondirectory.org/fusiondirectory-extra/debian-stretch/ stretch main
+```
+
+
+* Update the package list and upgrade schema2ldif
+
+```shell
+apt-get update
+apt-get install schema2ldif
+```
+
+### Upgrade FusionDirectory first
+
+  * Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
+
+```shell
+apt-get install fusiondirectory
+```
+
+  * Upgrade FusionDirectory schema package too.
+
+```shell
+apt-get install fusiondirectory-schema
+```
+
 [php-cas]: http://packages.ubuntu.com/trusty/all/php-cas/download
 
 [repo-urls]: https://documentation.fusiondirectory.org/en/dl_install
+
+---
+* Further information
+
+To improve this piece of software, please report all kind of errors using the bug tracker
+on https://forge.fusiondirectory.org
+
+Documentation: https://documentation.fusiondirectory.org/
+Mailinglist:   https://lists.fusiondirectory.org/
+Irc:           #fusiondirectory on freenode
+
+---
+The FusionDirectory project https://www.fusiondirectory.org/
+
+
+
+Enjoy :)
 
