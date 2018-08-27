@@ -10,7 +10,7 @@
     <label for="{$key}">
       <input type="checkbox" id="{$key}" name="{$key}" value="1"
         {if ($type.show)}checked="checked"{/if}/>
-      <img src="{$type.infos.icon|escape}"/>
+      <img src="{$type.infos.icon|escape}" alt="{$key}"/>
       {$type.infos.name|escape}
     </label>
   {/foreach}
