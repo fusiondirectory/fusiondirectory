@@ -825,8 +825,9 @@ class setupStepMigrate extends setupStep
 
   function check_adminAccount_migrate_confirm(&$checkobj)
   {
-    global $config;
-    session::global_set('CurrentMainBase', $config->current['BASE']);
+    global $config, $ui;
+
+    $ui->setCurrentBase($config->current['BASE']);
 
     /* Creating role */
     $ldap = $config->get_ldap_link();

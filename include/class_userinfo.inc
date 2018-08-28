@@ -52,6 +52,9 @@ class userinfo
   /*! \brief LDAP size limit handler */
   protected $sizeLimitHandler;
 
+  /*! \brief Current management base */
+  protected $currentBase;
+
   /* get acl's an put them into the userinfo object
      attr subtreeACL (userdn:components, userdn:component1#sub1#sub2,component2,...) */
   function __construct($userdn)
@@ -1024,9 +1027,29 @@ class userinfo
     return $this->sizeLimitHandler;
   }
 
+  /* \brief Returns the base this user is stored in
+   */
   function getBase()
   {
     return get_base_from_people($this->dn);
+  }
+
+  /* \brief Returns the current base the user went to in management classes
+   */
+  function getCurrentBase()
+  {
+    if (!empty($this->currentBase)) {
+      return $this->currentBase;
+    } else {
+      return $this->getBase();
+    }
+  }
+
+  /* \brief Sets the current base the user went to in management classes
+   */
+  function setCurrentBase($base)
+  {
+    $this->currentBase = $base;
   }
 }
 ?>

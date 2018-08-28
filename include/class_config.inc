@@ -345,14 +345,16 @@ class config
    */
   function set_current($name)
   {
+    global $ui;
+
     if (!isset($this->data['LOCATIONS'][$name])) {
       msg_dialog::display(_('Error'), sprintf(_('Location "%s" could not be found in the configuration file'), $name), FATAL_ERROR_DIALOG);
       exit;
     }
     $this->current = $this->data['LOCATIONS'][$name];
 
-    if (isset($this->current['INITIAL_BASE'])) {
-      session::global_set('CurrentMainBase', $this->current['INITIAL_BASE']);
+    if (isset($this->current['INITIAL_BASE']) && isset($ui)) {
+      $ui->setCurrentBase($this->current['INITIAL_BASE']);
     }
 
     /* Sort referrals, if present */

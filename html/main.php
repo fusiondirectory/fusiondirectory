@@ -92,11 +92,6 @@ session::global_set('_LAST_PAGE_REQUEST', time());
 /* Set template compile directory */
 $smarty->compile_dir = $config->get_cfg_value("templateCompileDirectory", SPOOL_DIR);
 
-/* Preset current main base */
-if (!session::global_is_set('CurrentMainBase')) {
-  session::global_set('CurrentMainBase', get_base_from_people($ui->dn));
-}
-
 Language::init();
 
 /* Prepare plugin list */

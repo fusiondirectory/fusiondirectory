@@ -60,7 +60,7 @@ class managementListing
    */
   function __construct($parent, $baseMode = TRUE)
   {
-    global $config;
+    global $config, $ui;
 
     $this->parent   = $parent;
     $this->baseMode = $baseMode;
@@ -70,10 +70,7 @@ class managementListing
 
     // Set base for filter
     if ($this->baseMode) {
-      $this->base = session::global_get('CurrentMainBase'); // TODO Replace with config or ui var
-      if ($this->base == NULL) {
-        $this->base = $config->current['BASE'];
-      }
+      $this->base = $ui->getCurrentBase();
       $this->refreshBasesList();
 
       // Instanciate base selector
@@ -217,6 +214,8 @@ class managementListing
    */
   function updateBase()
   {
+    global $ui;
+
     // Take care of base selector
     if ($this->baseMode) {
       $this->baseSelector->update();
@@ -228,7 +227,7 @@ class managementListing
 
       // Save base
       $this->base = $this->baseSelector->getBase();
-      session::global_set('CurrentMainBase', $this->base);
+      $ui->setCurrentBase($this->base);
     }
 
     // Do not do anything if this is not our PID
@@ -306,10 +305,11 @@ class managementListing
    */
   function setBase($base)
   {
+    global $ui;
     $this->base = $base;
     if ($this->baseMode) {
       $this->baseSelector->setBase($this->base);
-      session::global_set('CurrentMainBase', $this->base);
+      $ui->setCurrentBase($this->base);
     }
   }
 
