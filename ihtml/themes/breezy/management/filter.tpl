@@ -18,7 +18,7 @@
     <label for="filter_type_TEMPLATE">
       <input type="checkbox" id="filter_type_TEMPLATE" name="filter_type_TEMPLATE" value="1"
         {if ($TEMPLATES)}checked="checked"{/if}/>
-      <img src="geticon.php?context=devices&amp;icon=template&amp;size=16"/>
+      <img src="geticon.php?context=devices&amp;icon=template&amp;size=16" alt="filter_type_TEMPLATE"/>
       {t}Template{/t}
     </label>
   {/if}
