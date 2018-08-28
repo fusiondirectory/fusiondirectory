@@ -200,14 +200,15 @@ class simpleTabs
     }
     unset($obj);
 
+    /* Compute tab content */
+    $tabContent = $this->by_object[$this->current]->execute();
+
     /* Build tab line */
     $display = $this->gen_tabs($this->dialogOpened());
 
     /* Show object */
     $display .= '<div class="tab-content">'."\n";
-
-    $display .= $this->by_object[$this->current]->execute();
-
+    $display .= $tabContent;
     $display .= '</div>';
 
     return $display;
