@@ -59,9 +59,9 @@ class BaseSelectorAttribute extends Attribute
       if ($this->plugin->is_template) {
         $this->ou = 'ou=templates,'.$this->ou;
       }
-      if ($this->plugin->dn == "new") {
+      if ($this->plugin->dn == 'new') {
         $ui = get_userinfo();
-        $this->setValue(session::global_is_set("CurrentMainBase") ? session::global_get("CurrentMainBase") : $ui->getBase());
+        $this->setValue($ui->getCurrentBase());
       } else {
         $this->setValue(dn2base($this->plugin->dn, $this->ou));
       }

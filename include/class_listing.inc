@@ -71,8 +71,7 @@ class listing
    */
   function __construct($data)
   {
-    global $config;
-    global $class_mapping;
+    global $config, $class_mapping, $ui;
 
     // Initialize pid
     $this->pid = preg_replace("/[^0-9]/", "", microtime(TRUE));
@@ -87,10 +86,7 @@ class listing
 
     // Set base for filter
     if ($this->baseMode) {
-      $this->base = session::global_get("CurrentMainBase");
-      if ($this->base == NULL) {
-        $this->base = $config->current['BASE'];
-      }
+      $this->base = $ui->getCurrentBase();
       $this->refreshBasesList();
     } else {
       $this->base = $config->current['BASE'];
@@ -522,7 +518,7 @@ class listing
     $refresh = FALSE;
     if ($this->baseMode) {
       $this->base = $this->baseSelector->getBase();
-      session::global_set("CurrentMainBase", $this->base);
+      $ui->setCurrentBase($this->base);
       $refresh = TRUE;
     }
 
@@ -632,10 +628,11 @@ class listing
    */
   function setBase($base)
   {
+    global $ui;
     $this->base = $base;
     if ($this->baseMode) {
       $this->baseSelector->setBase($this->base);
-      session::global_set('CurrentMainBase', $this->base);
+      $ui->setCurrentBase($this->base);
     }
   }
 

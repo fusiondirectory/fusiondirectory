@@ -160,14 +160,11 @@ class simpleTabs
 
   function resetBase()
   {
+    global $ui;
     $baseobject = $this->getBaseObject();
     if (isset($baseobject->base)) {
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $baseobject->base, 'Fixing base');
-      if (session::global_is_set('CurrentMainBase')) {
-        $baseobject->base = dn2base('cn=dummy,'.session::global_get('CurrentMainBase'));
-      } else {
-        $baseobject->base = dn2base(get_userinfo()->dn);
-      }
+      $baseobject->base = $ui->getCurrentBase();
       if (!($baseobject instanceOf simplePlugin) && is_object($baseobject->baseSelector)) {
         /* For some plugins not yet migrated to simple plugin. */
         $baseobject->baseSelector->setBase($baseobject->base);
@@ -203,14 +200,15 @@ class simpleTabs
     }
     unset($obj);
 
+    /* Compute tab content */
+    $tabContent = $this->by_object[$this->current]->execute();
+
     /* Build tab line */
     $display = $this->gen_tabs($this->dialogOpened());
 
     /* Show object */
     $display .= '<div class="tab-content">'."\n";
-
-    $display .= $this->by_object[$this->current]->execute();
-
+    $display .= $tabContent;
     $display .= '</div>';
 
     return $display;
