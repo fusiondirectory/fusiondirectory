@@ -470,7 +470,6 @@ class management
   {
     $menuActions = array();
     foreach ($this->actions as $action) {
-      // TODO: ACL handling
       // Build ul/li list
       $action->fillMenuItems($menuActions);
     }
