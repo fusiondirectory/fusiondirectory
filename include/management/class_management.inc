@@ -174,7 +174,7 @@ class management
         );
         $fromTemplateMenu[] = new Action(
           'template_apply_'.$type, $infos['name'], $img,
-          '?', 'newEntryFromTemplate',
+          '0', 'newEntryFromTemplate',
           array($infos['aclCategory'].'/template/r', $infos['aclCategory'].'/'.$infos['mainTab'].'/c')
         );
       }
@@ -252,6 +252,18 @@ class management
       $this->actions['paste']->setEnableFunction(array($this, 'enablePaste'));
     }
 
+    if (!static::$skipTemplates) {
+      $this->registerAction(
+        new Action(
+          'template_apply_to', _('Apply template'), 'geticon.php?context=actions&icon=tools-wizard&size=16',
+          '+', 'applyTemplateToEntry',
+          array('/template/r', 'c'),
+          TRUE,
+          FALSE
+        )
+      );
+    }
+
     $this->registerAction(
       new Action(
         'remove', _('Remove'), 'geticon.php?context=actions&icon=edit-delete&size=16',
@@ -277,6 +289,19 @@ class management
       );
       $this->actions['snapshot']->setSeparator(TRUE);
       $this->actions['restore']->setEnableFunction(array($this, 'enableSnapshotRestore'));
+    }
+
+    if (!static::$skipTemplates) {
+      $this->registerAction(
+        new Action(
+          'template_apply', _('Create an object from this template'), 'geticon.php?context=actions&icon=document-new&size=16',
+          '1', 'newEntryFromTemplate',
+          array('/template/r', 'c'),
+          FALSE,
+          TRUE,
+          array('template')
+        )
+      );
     }
 
     /* Actions from footer are not in any menus and do not need a label */
@@ -682,7 +707,6 @@ class management
     if (empty($action['targets'])) {
       return;
     }
-    $type             = preg_replace('/^template_apply_to_/', '', $action['action']);
     $this->currentDns = $action['targets'];
 
     // check locks
@@ -691,9 +715,36 @@ class management
     }
 
     // Add locks
-    add_lock ($this->currentDns, $ui->dn);
+    add_lock($this->currentDns, $ui->dn);
 
-    $this->currentDn    = array_shift($this->currentDns);
+    // Detect type and check that all targets share the same type
+    $type = NULL;
+
+    foreach ($this->currentDns as $dn) {
+      $entry = $this->listing->getEntry($dn);
+      if ($entry === NULL) {
+        trigger_error('Could not find '.$dn.', action canceled');
+        $this->currentDns = array();
+        return;
+      }
+
+      if ($entry->isTemplate()) {
+        msg_dialog::display(_('Error'), _('Applying a template to a template is not possible'), ERROR_DIALOG);
+        $this->currentDns = array();
+        return;
+      }
+
+      if (!isset($type)) {
+        $type = $entry->type;
+      } elseif ($entry->type != $type) {
+        msg_dialog::display(_('Error'), _('All selected entries need to share the same type to be able to apply a template to them'), ERROR_DIALOG);
+        $this->currentDns = array();
+        return;
+      }
+    }
+
+    $this->currentDn = array_shift($this->currentDns);
+
     $this->dialogObject = new templateDialog($this, $type, NULL, $this->currentDn);
   }
 

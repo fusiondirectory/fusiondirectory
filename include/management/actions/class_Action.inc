@@ -30,6 +30,9 @@ class Action
   /* 0, 1, ?, + or * */
   protected $targets;
 
+  /* Object types this action is present on */
+  protected $validTypes;
+
   protected $acl;
 
   /* Booleans */
@@ -46,20 +49,21 @@ class Action
 
   protected $parent;
 
-  function __construct($name, $label, $icon, $targets, $callable, array $acls = array(), $inmenu = TRUE, $inline = TRUE)
+  function __construct($name, $label, $icon, $targets, $callable, array $acls = array(), $inmenu = TRUE, $inline = TRUE, array $validTypes = array())
   {
     if ($targets == '0') {
       $inline = FALSE;
     }
 
-    $this->name     = $name;
-    $this->label    = $label;
-    $this->icon     = $icon;
-    $this->targets  = $targets;
-    $this->callable = $callable;
-    $this->inmenu   = $inmenu;
-    $this->inline   = $inline;
-    $this->acl      = array();
+    $this->name       = $name;
+    $this->label      = $label;
+    $this->icon       = $icon;
+    $this->targets    = $targets;
+    $this->callable   = $callable;
+    $this->inmenu     = $inmenu;
+    $this->inline     = $inline;
+    $this->validTypes = $validTypes;
+    $this->acl        = array();
     /*
      * acl may be of the form:
      * acl (ex: 'd')
@@ -187,6 +191,10 @@ class Action
   function renderColumnIcons(ListingEntry $entry)
   {
     if (!$this->inline) {
+      return '';
+    }
+
+    if (!empty($this->validTypes) && !($entry->isTemplate() && in_array('template', $this->validTypes)) && !in_array($entry->type, $this->validTypes)) {
       return '';
     }
 
