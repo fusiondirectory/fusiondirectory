@@ -174,7 +174,7 @@ class management
         );
         $fromTemplateMenu[] = new Action(
           'template_apply_'.$type, $infos['name'], $img,
-          '?', 'newEntryFromTemplate',
+          '0', 'newEntryFromTemplate',
           array($infos['aclCategory'].'/template/r', $infos['aclCategory'].'/'.$infos['mainTab'].'/c')
         );
       }
@@ -277,6 +277,19 @@ class management
       );
       $this->actions['snapshot']->setSeparator(TRUE);
       $this->actions['restore']->setEnableFunction(array($this, 'enableSnapshotRestore'));
+    }
+
+    if (!static::$skipTemplates) {
+      $this->registerAction(
+        new Action(
+          'template_apply', _('Create an object from this template'), 'geticon.php?context=actions&icon=document-new&size=16',
+          '1', 'newEntryFromTemplate',
+          array('/template/r', 'c'),
+          FALSE,
+          TRUE,
+          array('template')
+        )
+      );
     }
 
     /* Actions from footer are not in any menus and do not need a label */
