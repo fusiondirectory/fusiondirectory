@@ -25,7 +25,7 @@ class managementFilter
 {
   protected $types;
 
-  protected $searchAttributes = array('cn', 'description');
+  protected $searchAttributes = array();
   protected $scope = 'one';
   protected $showTemplates = FALSE;
 
@@ -61,6 +61,7 @@ class managementFilter
         'filters' => array(),
         'infos'   => objects::infos($type),
       );
+      $this->searchAttributes = array_unique(array_merge($this->searchAttributes, objects::getSearchedAttributes($type)));
     }
 
     $this->filterElements = array(
@@ -132,15 +133,6 @@ class managementFilter
   {
     global $ui;
 
-    $elementFilters = array();
-    if (!empty($this->search)) {
-      if (preg_match('/^\(.+\)$/', $this->search)) {
-        $elementFilters[] = $this->search;
-      } else {
-        $elementFilters[] = '(|('.implode('=*'.$this->search.'*)(', $this->searchAttributes).'=*'.$this->search.'*))';
-      }
-    }
-
     $objectTypeCount  = array();
     $entries          = array();
     $row              = 0;
@@ -168,6 +160,15 @@ class managementFilter
         $category = $ui->getAttributeCategory($type, $attr);
         if ($category === FALSE) {
           unset($attrsAsked[$attr]);
+        }
+      }
+
+      $elementFilters = array();
+      if (!empty($this->search)) {
+        if (preg_match('/^\(.+\)$/', $this->search)) {
+          $elementFilters[] = $this->search;
+        } else {
+          $elementFilters[] = '(|('.implode('=*'.$this->search.'*)(', objects::getSearchedAttributes($type)).'=*'.$this->search.'*))';
         }
       }
 

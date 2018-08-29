@@ -352,7 +352,7 @@ class objects
     return static::open('new', $type);
   }
 
-  static function infos ($type)
+  static function &infos ($type)
   {
     global $config;
 
@@ -395,16 +395,26 @@ class objects
   {
     global $config;
 
-    if (!isset($config->data['OBJECTS'][strtoupper($type)])) {
-      throw new NonExistingObjectTypeException('Non-existing type "'.$type.'"');
-    }
-
-    $infos =& $config->data['OBJECTS'][strtoupper($type)];
+    $infos =& static::infos($type);
 
     if (!isset($infos['filterObject'])) {
       $infos['filterObject'] = ldapFilter::parse($infos['filter']);
     }
     return $infos['filterObject'];
+  }
+
+  /* This method allows to cache searched attributes list in objectTypes */
+  static function getSearchedAttributes ($type)
+  {
+    global $config;
+
+    $infos =& static::infos($type);
+
+    if (!isset($infos['searchAttributes'])) {
+      $infos['searchAttributes'] = array_unique(array($infos['mainAttr'], $infos['nameAttr']));
+    }
+
+    return $infos['searchAttributes'];
   }
 
   static function types ()
