@@ -196,6 +196,7 @@ class ogroup extends simplePlugin
           array('user','dn','owner=%oldvalue%','*')
         )
       ),
+      'plSearchAttrs' => array('description'),
 
       'plProvidedAcls'  => parent::generatePlProvidedAcls(static::getAttributesInfo())
     );

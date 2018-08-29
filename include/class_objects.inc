@@ -411,7 +411,19 @@ class objects
     $infos =& static::infos($type);
 
     if (!isset($infos['searchAttributes'])) {
-      $infos['searchAttributes'] = array_unique(array($infos['mainAttr'], $infos['nameAttr']));
+      $searchAttrs = array();
+      $searchAttrs[$infos['mainAttr']] = $infos['aclCategory'].'/'.$infos['mainTab'];
+      $searchAttrs[$infos['nameAttr']] = $infos['aclCategory'].'/'.$infos['mainTab'];
+      foreach ($config->data['TABS'][$infos['tabGroup']] as $tab) {
+        if (!plugin_available($tab['CLASS'])) {
+          continue;
+        }
+        $attrs = pluglist::pluginInfos($tab['CLASS'])['plSearchAttrs'];
+        foreach ($attrs as $attr) {
+          $searchAttrs[$attr] = $infos['aclCategory'].'/'.$tab['CLASS'];
+        }
+      }
+      $infos['searchAttributes'] = $searchAttrs;
     }
 
     return $infos['searchAttributes'];

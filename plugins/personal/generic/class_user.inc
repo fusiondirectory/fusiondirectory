@@ -291,6 +291,7 @@ class user extends simplePlugin
       'plForeignKeys'  => array(
         'manager' => array('user','dn','manager=%oldvalue%','*')
       ),
+      'plSearchAttrs' => array('uid','description'),
 
       'plProvidedAcls' => array_merge(
         parent::generatePlProvidedAcls(static::getAttributesInfo()),

@@ -41,6 +41,7 @@ class organization extends department
       'plForeignKeys'  => array(
         'manager' => array('user','dn','manager=%oldvalue%','*')
       ),
+      'plSearchAttrs' => array('description'),
 
       'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())
     );

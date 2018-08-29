@@ -81,6 +81,7 @@ class aclRole extends simplePlugin
         'ou'          => get_ou('aclRoleRDN'),
         'icon'        => 'geticon.php?context=categories&icon=acl&size=16',
       )),
+      'plSearchAttrs' => array('description'),
 
       'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())
     );
