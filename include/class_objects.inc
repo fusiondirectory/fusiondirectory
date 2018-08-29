@@ -418,9 +418,11 @@ class objects
         if (!plugin_available($tab['CLASS'])) {
           continue;
         }
-        $attrs = pluglist::pluginInfos($tab['CLASS'])['plSearchAttrs'];
-        foreach ($attrs as $attr) {
-          $searchAttrs[$attr] = $infos['aclCategory'].'/'.$tab['CLASS'];
+        $plInfos = pluglist::pluginInfos($tab['CLASS']);
+        if (isset($plInfos['plSearchAttrs'])) {
+          foreach ($plInfos['plSearchAttrs'] as $attr) {
+            $searchAttrs[$attr] = $infos['aclCategory'].'/'.$tab['CLASS'];
+          }
         }
       }
       $infos['searchAttributes'] = $searchAttrs;
