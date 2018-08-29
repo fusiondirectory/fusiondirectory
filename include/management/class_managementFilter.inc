@@ -25,7 +25,7 @@ class managementFilter
 {
   protected $types;
 
-  protected $searchAttributes = array('cn', 'description');
+  protected $searchAttributes = array();
   protected $scope = 'one';
   protected $showTemplates = FALSE;
 
@@ -78,8 +78,10 @@ class managementFilter
     $this->filterElements[] = $element;
   }
 
-  function update()
+  function update($base)
   {
+    global $ui;
+
     if (isset($_POST['FILTER_PID']) && ($_POST['FILTER_PID'] == $this->pid)) {
       // Load post values and adapt filter, base and scope accordingly
       foreach ($this->types as $key => &$data) {
@@ -97,6 +99,18 @@ class managementFilter
         $element->update();
       }
     }
+
+    foreach ($this->parent->objectTypes as $type) {
+      $attrs = objects::getSearchedAttributes($type);
+
+      $this->searchAttributes[$type] = array();
+      foreach ($attrs as $attr => $acl) {
+        $rights = $ui->get_permissions($base, $acl);
+        if (strpos($rights, 'r') !== FALSE) {
+          $this->searchAttributes[$type][] = $attr;
+        }
+      }
+    }
   }
 
   /*!
@@ -109,8 +123,16 @@ class managementFilter
     $smarty->assign('SCOPE',      $this->scope);
     $smarty->assign('FILTER_PID', $this->pid);
     $smarty->assign('SEARCH',     $this->search);
-    $smarty->assign('SEARCHDESC', sprintf(_('Searches in %s'), implode(', ', $this->searchAttributes)));
     $smarty->assign('TYPES',      $this->types);
+
+    $searchAttrs = array();
+    foreach ($this->searchAttributes as $type => $attrs) {
+      foreach ($attrs as $attr) {
+        $searchAttrs[] = strtolower($type).'/'.$attr;
+      }
+    }
+    $smarty->assign('SEARCHDESC', sprintf(_('Searches in %s'), implode(', ', $searchAttrs)));
+
     $parentClass = get_class($this->parent);
     if (!$parentClass::$skipTemplates) {
       $smarty->assign('TEMPLATES',  $this->showTemplates);
@@ -131,15 +153,6 @@ class managementFilter
   function query (array $attrs, $base)
   {
     global $ui;
-
-    $elementFilters = array();
-    if (!empty($this->search)) {
-      if (preg_match('/^\(.+\)$/', $this->search)) {
-        $elementFilters[] = $this->search;
-      } else {
-        $elementFilters[] = '(|('.implode('=*'.$this->search.'*)(', $this->searchAttributes).'=*'.$this->search.'*))';
-      }
-    }
 
     $objectTypeCount  = array();
     $entries          = array();
@@ -168,6 +181,15 @@ class managementFilter
         $category = $ui->getAttributeCategory($type, $attr);
         if ($category === FALSE) {
           unset($attrsAsked[$attr]);
+        }
+      }
+
+      $elementFilters = array();
+      if (!empty($this->search)) {
+        if (preg_match('/^\(.+\)$/', $this->search)) {
+          $elementFilters[] = $this->search;
+        } else {
+          $elementFilters[] = '(|('.implode('=*'.$this->search.'*)(', $this->searchAttributes[$type]).'=*'.$this->search.'*))';
         }
       }
 

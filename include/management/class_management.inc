@@ -421,11 +421,6 @@ class management
       return $this->getHeader().$display;
     }
 
-    // Update filter
-    if ($this->filter) {
-      $this->filter->update();
-    }
-
     // Update list
     $this->listing->update();
 

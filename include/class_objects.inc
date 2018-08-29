@@ -352,7 +352,7 @@ class objects
     return static::open('new', $type);
   }
 
-  static function infos ($type)
+  static function &infos ($type)
   {
     global $config;
 
@@ -395,16 +395,38 @@ class objects
   {
     global $config;
 
-    if (!isset($config->data['OBJECTS'][strtoupper($type)])) {
-      throw new NonExistingObjectTypeException('Non-existing type "'.$type.'"');
-    }
-
-    $infos =& $config->data['OBJECTS'][strtoupper($type)];
+    $infos =& static::infos($type);
 
     if (!isset($infos['filterObject'])) {
       $infos['filterObject'] = ldapFilter::parse($infos['filter']);
     }
     return $infos['filterObject'];
+  }
+
+  /* This method allows to cache searched attributes list in objectTypes */
+  static function getSearchedAttributes ($type)
+  {
+    global $config;
+
+    $infos =& static::infos($type);
+
+    if (!isset($infos['searchAttributes'])) {
+      $searchAttrs = array();
+      $searchAttrs[$infos['mainAttr']] = $infos['aclCategory'].'/'.$infos['mainTab'];
+      $searchAttrs[$infos['nameAttr']] = $infos['aclCategory'].'/'.$infos['mainTab'];
+      foreach ($config->data['TABS'][$infos['tabGroup']] as $tab) {
+        if (!plugin_available($tab['CLASS'])) {
+          continue;
+        }
+        $attrs = pluglist::pluginInfos($tab['CLASS'])['plSearchAttrs'];
+        foreach ($attrs as $attr) {
+          $searchAttrs[$attr] = $infos['aclCategory'].'/'.$tab['CLASS'];
+        }
+      }
+      $infos['searchAttributes'] = $searchAttrs;
+    }
+
+    return $infos['searchAttributes'];
   }
 
   static function types ()

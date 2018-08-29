@@ -46,6 +46,7 @@ class department extends simplePlugin
       'plForeignKeys'  => array(
         'manager' => array('user','dn','manager=%oldvalue%','*')
       ),
+      'plSearchAttrs' => array('description'),
 
       'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())
     );

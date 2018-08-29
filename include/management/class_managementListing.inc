@@ -282,6 +282,9 @@ class managementListing
       $this->updateBase();
     }
 
+    // Update filter
+    $this->parent->filter->update($this->base);
+
     // Update filter and refresh entries
     $attrs = $this->parent->neededAttrs;
     foreach ($this->columns as $column) {
