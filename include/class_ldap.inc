@@ -1,10 +1,10 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
+  Copyright (C) 1998  Eric Kilfoil
+  Copyright (C) 2003 Alejandro Escanero Blanco
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2003 Alejandro Escanero Blanco <aescanero@chaosdimension.org>
-  Copyright (C) 1998  Eric Kilfoil <eric@ipass.net>
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
