@@ -42,6 +42,8 @@ class setupStepConfig extends configInLdap
   var $is_completed = FALSE;
   var $header_image;
 
+  protected $objectclasses = array('fusionDirectoryConf');
+
   static function plInfo()
   {
     return array();
