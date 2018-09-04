@@ -38,8 +38,8 @@ class selectManagement extends management
 
   function __construct($objectTypes = FALSE, $multiSelect = TRUE)
   {
-    parent::__construct($objectTypes);
     $this->multiSelect = $multiSelect;
+    parent::__construct($objectTypes);
   }
 
   protected function setUpListing()

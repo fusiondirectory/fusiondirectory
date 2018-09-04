@@ -93,31 +93,6 @@ class GenericSelectDialog extends GenericDialog
   }
 }
 
-/*! \brief User selection dialog allowing only one user to get selected
- */
-class SingleUserSelectDialog extends GenericDialog
-{
-  protected $dialogClass = 'singleUserSelect';
-
-  function dialog_execute ()
-  {
-    session::set('filterBlacklist', $this->attribute->getFilterBlackList());
-    session::set('filterWhitelist', $this->attribute->getFilterWhiteList());
-    return parent::dialog_execute();
-  }
-
-  function handle_finish ()
-  {
-    $result = $this->dialog->detectPostActions();
-    if (isset($result['targets']) && count($result['targets'])) {
-      $dn     = $result['targets'][0];
-      $entry  = $this->dialog->listing->getEntry($dn);
-      $this->attribute->handleDialogResult($dn, $entry);
-    }
-    return FALSE;
-  }
-}
-
 /*! \brief System selection dialog
  */
 class SystemSelectDialog extends GenericSelectDialog
@@ -503,13 +478,29 @@ class GenericSelectManagementDialog extends GenericSelectDialog
   }
 }
 
+/*! \brief Object selection dialog allowing only one object to get selected
+ */
+class GenericSingleSelectManagementDialog extends GenericSelectManagementDialog
+{
+  function handle_finish ()
+  {
+    $result = $this->dialog->detectPostActions();
+    if (isset($result['targets']) && count($result['targets'])) {
+      $dn     = $result['targets'][0];
+      $entry  = $this->dialog->listing->getEntry($dn);
+      $this->attribute->handleDialogResult($dn, $entry);
+    }
+    return FALSE;
+  }
+}
+
 /*! \brief This class allows to handle an attribute for selecting objects
  *
  * It looks like a SetAttribute, but clicking "Add" will open a dialog that allow to select one or more objects.
  * It stores their dn as values, but displays the cn.
  *
  */
-class ObjectsDialogAttribute extends GenericDialogAttribute
+class ObjectsAttribute extends GenericDialogAttribute
 {
   protected $dialogClass  = 'GenericSelectManagementDialog';
 
@@ -528,7 +519,7 @@ class ObjectsDialogAttribute extends GenericDialogAttribute
  * It stores their dn as values, but displays the cn.
  *
  */
-class UsersAttribute extends ObjectsDialogAttribute
+class UsersAttribute extends ObjectsAttribute
 {
   function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = array(), $store_attr = 'dn', $display_attr = 'cn', $acl = '')
   {
@@ -541,7 +532,7 @@ class UsersAttribute extends ObjectsDialogAttribute
  * It looks like a SetAttribute, but clicking "Add" will open a dialog that allow to select one or more users or groups.
  * It stores their dn as values, but displays the cn.
  */
-class UsersGroupsRolesAttribute extends ObjectsDialogAttribute
+class UsersGroupsRolesAttribute extends ObjectsAttribute
 {
   function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = array(), $store_attr = 'dn', $display_attr = 'cn', $acl = '')
   {
@@ -781,24 +772,44 @@ class DialogButtonAttribute extends ButtonAttribute
 }
 
 /*!
- * \brief Attribute storing the dn of a user which can be selected through a dialog
+ * \brief Attribute storing the dn of an object which can be selected through a dialog
  */
-class UserAttribute extends DialogButtonAttribute
+class ObjectAttribute extends DialogButtonAttribute
 {
-  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = "", $acl = "")
+  public $selectManagementParameters;
+
+  protected $objectType;
+  protected $displayAttr;
+
+  function __construct ($label, $description, $ldapName, $required, $objectType, $defaultValue = '', $acl = '')
   {
-    parent::__construct($label, $description, $ldapName, '', 'SingleUserSelectDialog', $defaultValue, $acl);
+    parent::__construct($label, $description, $ldapName, '', 'GenericSingleSelectManagementDialog', $defaultValue, $acl);
     $this->setRequired($required);
+    $this->selectManagementParameters = array(array($objectType), FALSE);
+    $this->objectType                 = $objectType;
   }
 
-  function handleDialogResult ($dn, ListingEntry $entry)
+  function setParent (&$plugin)
+  {
+    parent::setParent($plugin);
+    $infos = objects::infos($this->objectType);
+    $this->displayAttr = $infos['nameAttr'];
+  }
+
+  function handleDialogResult ($dn, $entry)
   {
     $this->setValue($dn);
-    $this->buttonText = $entry['cn'];
+
+    $this->buttonText = $entry[$this->displayAttr];
+    if (is_array($this->buttonText)) {
+      $this->buttonText = $this->buttonText[0];
+    }
   }
 
   function renderFormInput ()
   {
+    $infos = objects::infos($this->objectType);
+
     $id = $this->getHtmlId();
     if ($this->isTemplate()) {
       $display = $this->renderInputField(
@@ -808,7 +819,7 @@ class UserAttribute extends DialogButtonAttribute
         )
       );
     } else {
-      $display  = '<img src="geticon.php?context=types&amp;icon=user&amp;size=16" alt="user icon" class="center"/>';
+      $display  = '<img src="'.htmlentities($infos['icon'], ENT_COMPAT, 'UTF-8').'" alt="'.$infos['name'].'" class="center"/>';
       if ($this->getValue() == '') {
         $display  .= '<b>'._('None').'</b>';
       } elseif ($this->buttonText === NULL) {
@@ -873,7 +884,7 @@ class UserAttribute extends DialogButtonAttribute
       $dn = $this->getValue();
       if ($dn != '') {
         $ldap = $config->get_ldap_link();
-        $ldap->cat($dn);
+        $ldap->cat($dn, array($this->displayAttr));
         if ($attrs = $ldap->fetch()) {
           $this->handleDialogResult($dn, $attrs);
         } else {
@@ -894,6 +905,17 @@ class UserAttribute extends DialogButtonAttribute
       $ids[] = $id.'_remove';
     }
     return $ids;
+  }
+}
+
+/*!
+ * \brief Attribute storing the dn of a user which can be selected through a dialog
+ */
+class UserAttribute extends ObjectAttribute
+{
+  function __construct ($label, $description, $ldapName, $required, $defaultValue = '', $acl = '')
+  {
+    parent::__construct ($label, $description, $ldapName, $required, 'user', $defaultValue = '', $acl = '');
   }
 }
 

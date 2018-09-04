@@ -511,7 +511,7 @@ class management
       $action->fillMenuItems($menuActions);
     }
 
-    if (empty($actions)) {
+    if (empty($menuActions)) {
       return '';
     }
 

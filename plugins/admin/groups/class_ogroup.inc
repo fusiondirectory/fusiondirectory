@@ -19,10 +19,14 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class ObjectsAttribute extends GenericDialogAttribute
+class GroupMembersAttribute extends ObjectsAttribute
 {
-  protected $dialogClass  = 'ObjectSelectDialog';
   protected $types        = array();
+
+  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = array(), $store_attr = 'dn', $display_attr = 'cn', $acl = '')
+  {
+    parent::__construct($label, $description, $ldapName, $required, array_values(ogroup::$objectTypes), $defaultValue, $store_attr, $display_attr, $acl);
+  }
 
   function getFilterBlackList ()
   {
@@ -34,25 +38,44 @@ class ObjectsAttribute extends GenericDialogAttribute
   protected function fillDisplayValueFrom ($i, $attrs)
   {
     if ($attrs) {
-      foreach (ogroup::$objectTypes as $code => $objectType) {
-        try {
-          if (objects::isOfType($attrs, $objectType)) {
-            $infos = objects::infos($objectType);
-            $this->types[$i]    = $code;
-            $this->displays[$i] = $attrs[$infos['nameAttr']][0];
-            if (strtolower($objectType) == 'user') {
-              if (isset($attrs['description'][0])) {
-                $this->displays[$i] .= ' ['.$attrs['uid'][0].' - '.$attrs['description'][0].']';
-              } else {
-                $this->displays[$i] .= ' ['.$attrs['uid'][0].']';
+      if (is_array($attrs)) {
+        foreach (ogroup::$objectTypes as $code => $objectType) {
+          try {
+            if (objects::isOfType($attrs, $objectType)) {
+              $infos = objects::infos($objectType);
+              $this->types[$i]    = $code;
+              $this->displays[$i] = $attrs[$infos['nameAttr']][0];
+              if (strtolower($objectType) == 'user') {
+                if (isset($attrs['description'][0])) {
+                  $this->displays[$i] .= ' ['.$attrs['uid'][0].' - '.$attrs['description'][0].']';
+                } else {
+                  $this->displays[$i] .= ' ['.$attrs['uid'][0].']';
+                }
+              } elseif (isset($attrs['description'][0])) {
+                $this->displays[$i] .= ' ['.$attrs['description'][0].']';
               }
-            } elseif (isset($attrs['description'][0])) {
-              $this->displays[$i] .= ' ['.$attrs['description'][0].']';
+              break;
             }
-            break;
+          } catch (NonExistingObjectTypeException $e) {
+            continue;
           }
-        } catch (NonExistingObjectTypeException $e) {
-          continue;
+        }
+      } else {
+        $objectType = $attrs->getTemplatedType();
+        $code       = array_search(strtolower($objectType), array_map('strtolower', ogroup::$objectTypes));
+        if ($code !== FALSE) {
+          $infos              = objects::infos($objectType);
+          $this->types[$i]    = $code;
+          $this->displays[$i] = $attrs[$infos['nameAttr']];
+          if (strtolower($objectType) == 'user') {
+            if (isset($attrs['description'])) {
+              $this->displays[$i] .= ' ['.$attrs['uid'].' - '.$attrs['description'].']';
+            } else {
+              $this->displays[$i] .= ' ['.$attrs['uid'].']';
+            }
+          } elseif (isset($attrs['description'][0])) {
+            $this->displays[$i] .= ' ['.$attrs['description'].']';
+          }
         }
       }
       if (!isset($this->displays[$i])) {
@@ -142,11 +165,6 @@ class ObjectsAttribute extends GenericDialogAttribute
   }
 }
 
-class ObjectSelectDialog extends GenericSelectDialog
-{
-  protected $dialogClass = 'objectSelect';
-}
-
 class ogroup extends simplePlugin
 {
   var $used_workstations = array();
@@ -228,7 +246,7 @@ class ogroup extends simplePlugin
       'members' => array(
         'name'  => _('Member objects'),
         'attrs' => array(
-          new ObjectsAttribute(
+          new GroupMembersAttribute(
             '', _('Objects member of this group'),
             'member', TRUE,
             array(), 'dn'
