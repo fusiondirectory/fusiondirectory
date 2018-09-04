@@ -78,22 +78,19 @@ class GenericSelectDialog extends GenericDialog
   {
     $result = $this->dialog->detectPostActions();
     if (isset($result['targets'])) {
-      $headpage = $this->dialog->getHeadpage();
+      if ($this->dialog instanceof selectManagement) {
+        $headpage = $this->dialog->listing;
+      } else {
+        $headpage = $this->dialog->getHeadpage();
+      }
       foreach ($result['targets'] as $dn) {
-        $attrs = $headpage->getEntry($dn);
+        $entry = $headpage->getEntry($dn);
 
-        $this->attribute->addValue($dn, $attrs);
+        $this->attribute->addValue($dn, $entry);
       }
     }
     return FALSE;
   }
-}
-
-/*! \brief User selection dialog
- */
-class UserSelectDialog extends GenericSelectDialog
-{
-  protected $dialogClass = 'userSelect';
 }
 
 /*! \brief User selection dialog allowing only one user to get selected
@@ -113,10 +110,9 @@ class SingleUserSelectDialog extends GenericDialog
   {
     $result = $this->dialog->detectPostActions();
     if (isset($result['targets']) && count($result['targets'])) {
-      $headpage = $this->dialog->getHeadpage();
-      $dn       = $result['targets'][0];
-      $attrs    = $headpage->getEntry($dn);
-      $this->attribute->handleDialogResult($dn, $attrs);
+      $dn     = $result['targets'][0];
+      $entry  = $this->dialog->listing->getEntry($dn);
+      $this->attribute->handleDialogResult($dn, $entry);
     }
     return FALSE;
   }
@@ -127,20 +123,6 @@ class SingleUserSelectDialog extends GenericDialog
 class SystemSelectDialog extends GenericSelectDialog
 {
   protected $dialogClass = 'systemSelect';
-}
-
-/*! \brief User group selection dialog
- */
-class UserGroupSelectDialog extends GenericSelectDialog
-{
-  protected $dialogClass = 'userGroupSelect';
-}
-
-/*! \brief User group or/and role selection dialog
- */
-class UserGroupRoleSelectDialog extends GenericSelectDialog
-{
-  protected $dialogClass = 'userGroupRoleSelect';
 }
 
 /*! \brief Group selection dialog
@@ -394,7 +376,13 @@ class GenericDialogAttribute extends DialogAttribute
       ) {
       $value = $dn;
     } else {
-      $value = $attrs[$this->store_attr][0];
+      if (is_array($attrs)) {
+        // simpleSelectManagement
+        $value = $attrs[$this->store_attr][0];
+      } else {
+        // selectManagement
+        $value = $attrs[$this->store_attr];
+      }
     }
     if (!in_array($value, $this->value)) {
       end($this->value);
@@ -460,7 +448,13 @@ class GenericDialogAttribute extends DialogAttribute
       if ($this->display_attr == 'dn') {
         $this->displays[$i] = $attrs['dn'];
       } else {
-        $this->displays[$i] = $attrs[$this->display_attr][0];
+        if (is_array($attrs)) {
+          // simpleSelectManagement or LDAP data
+          $this->displays[$i] = $attrs[$this->display_attr][0];
+        } else {
+          // selectManagement
+          $this->displays[$i] = $attrs[$this->display_attr];
+        }
       }
     }
   }
@@ -496,15 +490,50 @@ class GenericDialogAttribute extends DialogAttribute
   }
 }
 
-/*! \brief This class allows to handle an attribute for selecting user
+/*! \brief Generic dialog for selection using a selectManagement class
+ */
+class GenericSelectManagementDialog extends GenericSelectDialog
+{
+  protected $dialogClass = 'selectManagement';
+
+  function __construct($simplePlugin, $attribute)
+  {
+    $this->attribute  = $attribute;
+    $this->dialog     = new $this->dialogClass(...$this->attribute->selectManagementParameters);
+  }
+}
+
+/*! \brief This class allows to handle an attribute for selecting objects
+ *
+ * It looks like a SetAttribute, but clicking "Add" will open a dialog that allow to select one or more objects.
+ * It stores their dn as values, but displays the cn.
+ *
+ */
+class ObjectsDialogAttribute extends GenericDialogAttribute
+{
+  protected $dialogClass  = 'GenericSelectManagementDialog';
+
+  public $selectManagementParameters;
+
+  function __construct ($label, $description, $ldapName, $required, array $objectTypes, $defaultValue = array(), $store_attr = 'dn', $display_attr = 'cn', $acl = '')
+  {
+    parent::__construct($label, $description, $ldapName, $required, $defaultValue, $store_attr, $display_attr, $acl);
+    $this->selectManagementParameters = array($objectTypes, TRUE);
+  }
+}
+
+/*! \brief This class allows to handle an attribute for selecting users
  *
  * It looks like a SetAttribute, but clicking "Add" will open a dialog that allow to select one or more users.
  * It stores their dn as values, but displays the cn.
  *
  */
-class UsersAttribute extends GenericDialogAttribute
+class UsersAttribute extends ObjectsDialogAttribute
 {
-  protected $dialogClass  = 'UserSelectDialog';
+  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = array(), $store_attr = 'dn', $display_attr = 'cn', $acl = '')
+  {
+    parent::__construct($label, $description, $ldapName, $required, array('user'), $defaultValue, $store_attr, $display_attr, $acl);
+  }
 }
 
 /*! \brief This class allows to handle an attribute for selecting user or groups
@@ -512,9 +541,12 @@ class UsersAttribute extends GenericDialogAttribute
  * It looks like a SetAttribute, but clicking "Add" will open a dialog that allow to select one or more users or groups.
  * It stores their dn as values, but displays the cn.
  */
-class UsersGroupsAttribute extends GenericDialogAttribute
+class UsersGroupsRolesAttribute extends ObjectsDialogAttribute
 {
-  protected $dialogClass = 'UserGroupSelectDialog';
+  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = array(), $store_attr = 'dn', $display_attr = 'cn', $acl = '')
+  {
+    parent::__construct($label, $description, $ldapName, $required, array('user', 'group', 'role', 'ogroup'), $defaultValue, $store_attr, $display_attr, $acl);
+  }
 
   protected function ldapAttributesToGet ()
   {
@@ -526,29 +558,36 @@ class UsersGroupsAttribute extends GenericDialogAttribute
     if (!isset($attrs[$this->display_attr])) {
       unset($this->value[$i]);
     } else {
+      if (is_array($attrs['cn'])) {
+        $cn = $attrs['cn'][0];
+      } else {
+        $cn = $attrs['cn'];
+      }
       if ($this->display_attr == 'dn') {
         $this->displays[$i] = $attrs['dn'];
       } elseif (in_array('posixGroup', $attrs['objectClass'])) {
-        $this->displays[$i] = sprintf(_('POSIX group %s'), trim($attrs['cn'][0]));
+        $this->displays[$i] = sprintf(_('POSIX group %s'), trim($cn));
       } elseif (in_array('organizationalRole', $attrs['objectClass'])) {
-        $this->displays[$i] = sprintf(_('Role %s'), trim($attrs['cn'][0]));
+        $this->displays[$i] = sprintf(_('Role %s'), trim($cn));
       } elseif (in_array('groupOfNames', $attrs['objectClass'])) {
-        $this->displays[$i] = sprintf(_('Group %s'), trim($attrs['cn'][0]));
-      } elseif (isset($attrs['uid'][0])) {
-        $this->displays[$i] = trim($attrs['uid'][0]);
+        $this->displays[$i] = sprintf(_('Group %s'), trim($cn));
+      } elseif (isset($attrs['uid'])) {
+        if (is_array($attrs['uid'])) {
+          $uid = $attrs['uid'][0];
+        } else {
+          $uid = $attrs['uid'];
+        }
+        $this->displays[$i] = trim($uid);
       } else {
-        $this->displays[$i] = $attrs[$this->display_attr][0];
+        if (is_array($attrs[$this->display_attr])) {
+          $display = $attrs[$this->display_attr][0];
+        } else {
+          $display = $attrs[$this->display_attr];
+        }
+        $this->displays[$i] = $display;
       }
     }
   }
-}
-
-/*!
- * \brief This class allows to handle an attribute for selecting users, groups or roles
- */
-class UsersGroupsRolesAttribute extends UsersGroupsAttribute
-{
-  protected $dialogClass = 'UserGroupRoleSelectDialog';
 }
 
 /*! \brief This class allows to handle an attribute for selecting groups
@@ -752,10 +791,10 @@ class UserAttribute extends DialogButtonAttribute
     $this->setRequired($required);
   }
 
-  function handleDialogResult ($dn, array $attrs)
+  function handleDialogResult ($dn, ListingEntry $entry)
   {
     $this->setValue($dn);
-    $this->buttonText = $attrs['cn'][0];
+    $this->buttonText = $entry['cn'];
   }
 
   function renderFormInput ()

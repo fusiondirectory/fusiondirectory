@@ -21,26 +21,11 @@
 /*!
  * \brief User selection
  */
-class userSelect extends simpleSelectManagement
+class userSelect extends selectManagement
 {
-  protected $objectTypes          = array('user');
-  protected $autoFilterAttributes = array('dn', 'cn', 'uid', 'description', 'mail');
-
-  function parseXML ($file)
+  function __construct($objectTypes = FALSE)
   {
-    $data = parent::parseXML($file);
-    $data['list']['table']['layout'] = '|20px;c||||';
-    $columns = array (
-      array (
-        'label'         => _('Login'),
-        'sortAttribute' => 'uid',
-        'sortType'      => 'string',
-        'value'         => '%{filter:selectLink(pid,row,dn,uid)}',
-        'export'        => 'true',
-      ),
-    );
-    array_splice($data['list']['table']['column'], 2, 0, $columns);
-    return $data;
+    parent::__construct(['user']);
   }
 }
 
