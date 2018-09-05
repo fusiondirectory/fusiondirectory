@@ -8,6 +8,7 @@
 <div id="window-div">
 
   <form action='recovery.php{$params}' method='post' name='mainform' onSubmit='js_check(this);return true;'>
+    <input type="hidden" name="CSRFtoken" value="{$CSRFtoken}"/>
 
   <div id="window-titlebar">
     <img id="fd-logo" src="geticon.php?context=applications&amp;icon=fusiondirectory&amp;size=48" alt="FusionDirectory"/>
