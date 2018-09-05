@@ -62,10 +62,6 @@ class standAlonePage {
     session::global_set('config', $config);
 
     $this->activated = $this->readLdapConfig();
-    if (!$this->activated) {
-      /* This page has been disabled */
-      return;
-    }
 
     $ui = new userinfoNoAuth(get_class($this));
     session::global_set('ui', $ui);
