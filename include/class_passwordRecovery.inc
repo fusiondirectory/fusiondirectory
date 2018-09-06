@@ -66,7 +66,7 @@ class passwordRecovery extends standAlonePage {
     }
   }
 
-  function execute()
+  function save_object()
   {
     if (!$this->activated) {
       return;
@@ -98,8 +98,10 @@ class passwordRecovery extends standAlonePage {
     }
   }
 
-  function displayPWchanger()
+  function execute()
   {
+    $this->save_object();
+
     /* Do we need to show error messages? */
     if (count($this->message) != 0) {
       /* Show error message and continue editing */
