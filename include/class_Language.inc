@@ -137,6 +137,7 @@ class Language
     /* locales in english */
     $tmp_english = array(
       'en_US' => 'English',
+      'af_ZA' => 'Afrikaans',
       'ar_EG' => 'Arabic',
       'ca_ES' => 'Catalan',
       'cs_CZ' => 'Czech',
@@ -163,6 +164,7 @@ class Language
       'sv_SE' => 'Swedish',
       'tr_TR' => 'Turkish',
       'vi_VN' => 'Vietnamese',
+      'zh_TW' => 'Taiwanese',
       'zh_CN' => 'Chinese',
     );
 
@@ -172,6 +174,7 @@ class Language
       $tmp_ownlang = array(
         'en_US' => 'English',
         'ar_EG' => 'عربية',
+        'af_ZA' => 'Afrikaans',
         'ca_ES' => 'Català',
         'cs_CZ' => 'Česky',
         'de_DE' => 'Deutsch',
@@ -197,6 +200,7 @@ class Language
         'sv_SE' => 'Svenska',
         'tr_TR' => 'Türkçe',
         'vi_VN' => 'Tiếng Việt',
+        'zh_TW' => 'Taiwanese',
         'zh_CN' => '中文, 汉语, 漢語',
       );
 
