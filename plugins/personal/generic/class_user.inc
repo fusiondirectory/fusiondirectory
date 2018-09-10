@@ -114,14 +114,10 @@ class UserPasswordAttribute extends CompositeAttribute
   {
     if (isset($attrs[$this->getLdapName()])) {
       $this->setValue($this->inputValue($attrs[$this->getLdapName()][0]));
-      $this->setRequired(FALSE);
-      $this->attributes[1]->setRequired(FALSE);
-      $this->attributes[2]->setRequired(FALSE);
+    } elseif ($this->plugin->initially_was_account) {
+      $this->setValue($this->inputValue(''));
     } else {
-      $this->setRequired(TRUE);
       $this->attributes[0]->resetToDefault();
-      $this->attributes[1]->setRequired(TRUE);
-      $this->attributes[2]->setRequired(TRUE);
       $this->checkIfMethodNeedsPassword();
     }
   }
@@ -148,11 +144,16 @@ class UserPasswordAttribute extends CompositeAttribute
     $method = $this->attributes[0]->getValue();
     if ($method != $this->previousMethod) {
       if ($this->needPassword[$method]) {
+        $hashEmpty = ($this->attributes[3]->getValue() == '');
         $this->attributes[1]->setVisible(TRUE);
+        $this->attributes[1]->setRequired($hashEmpty);
         $this->attributes[2]->setVisible(TRUE);
+        $this->attributes[2]->setRequired($hashEmpty);
       } else {
+        $this->attributes[1]->setRequired(FALSE);
         $this->attributes[1]->setVisible(FALSE);
         $this->attributes[1]->setValue('');
+        $this->attributes[2]->setRequired(FALSE);
         $this->attributes[2]->setVisible(FALSE);
         $this->attributes[2]->setValue('');
       }
@@ -178,10 +179,10 @@ class UserPasswordAttribute extends CompositeAttribute
           $value = $tmp->generate_hash($password);
         }
       }
-    } else {
-      if ($value != '') {
-        $pw_storage = 'clear';
-      }
+    } elseif ($value != '') {
+      $pw_storage = 'clear';
+    } elseif ($this->plugin->initially_was_account) {
+      $pw_storage = 'empty';
     }
     return array($pw_storage, $password, $password, $value, $locked);
   }
@@ -212,10 +213,6 @@ class UserPasswordAttribute extends CompositeAttribute
   function check()
   {
     $method = $this->attributes[0]->getValue();
-    if (!$this->needPassword[$method]) {
-      $this->attributes[1]->setRequired(FALSE);
-      $this->attributes[2]->setRequired(FALSE);
-    }
     $error = parent::check();
     if (!empty($error)) {
       return $error;
