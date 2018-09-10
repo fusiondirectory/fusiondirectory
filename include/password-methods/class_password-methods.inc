@@ -299,6 +299,11 @@ class passwordMethod
   {
     $methods = passwordMethod::get_available_methods();
 
+    if (empty($password_hash) && passwordMethodEmpty::is_available()) {
+      $method = new passwordMethodEmpty($dn);
+      return $method;
+    }
+
     foreach ($methods['class'] as $class) {
       $method = $class::_extract_method($class, $password_hash);
       if ($method != "") {
@@ -309,7 +314,6 @@ class passwordMethod
     }
 
     $method = new passwordMethodClear($dn);
-    $method->set_hash('clear');
     return $method;
   }
 
