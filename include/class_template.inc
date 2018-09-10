@@ -171,6 +171,8 @@ class template
     }
   }
 
+  /*! \brief Serialize this template for webservice
+   */
   function serialize()
   {
     $ret = array();
@@ -188,6 +190,8 @@ class template
     return $ret;
   }
 
+  /*! \brief Deserialize values into the template
+   */
   function deserialize($values)
   {
     foreach ($values as $class => $class_values) {
@@ -197,6 +201,34 @@ class template
       }
     }
     return TRUE;
+  }
+
+  /*! \brief Get all attribute values
+   *
+   *  this produces a format that you can send to setValues later (after a reset for instance)
+   */
+  function getValues()
+  {
+    $ret = array();
+    foreach ($this->tabObject->by_object as $class => $plugin) {
+      $ret[$class] = array();
+      foreach ($plugin->attributesAccess as $name => $attr) {
+        $ret[$class][$name] = $attr->getValue();
+      }
+    }
+
+    return $ret;
+  }
+
+  /*! \brief Set values
+   */
+  function setValues($values)
+  {
+    foreach ($values as $class => $class_values) {
+      foreach ($class_values as $name => $value) {
+        $this->tabObject->by_object[$class]->attributesAccess[$name]->setValue($value);
+      }
+    }
   }
 
   function save_object()

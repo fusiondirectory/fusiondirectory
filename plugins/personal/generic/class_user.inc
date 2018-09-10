@@ -124,6 +124,9 @@ class UserPasswordAttribute extends CompositeAttribute
 
   function setValue ($value)
   {
+    if (!is_array($value)) {
+      $value = $this->inputValue($value);
+    }
     reset($value);
     $key = key($value);
     if ($this->attributes[0]->isDisabled() || ($value[$key] == '')) {
@@ -143,7 +146,7 @@ class UserPasswordAttribute extends CompositeAttribute
   {
     $method = $this->attributes[0]->getValue();
     if ($method != $this->previousMethod) {
-      if ($this->needPassword[$method]) {
+      if (isset($this->needPassword[$method]) && $this->needPassword[$method]) {
         $hashEmpty = ($this->attributes[3]->getValue() == '');
         $this->attributes[1]->setVisible(TRUE);
         $this->attributes[1]->setRequired($hashEmpty);
@@ -167,7 +170,10 @@ class UserPasswordAttribute extends CompositeAttribute
     $pw_storage = $config->get_cfg_value('passwordDefaultHash', 'ssha');
     $locked     = FALSE;
     $password   = '';
-    if ($this->plugin->is_template) {
+    if ($this->plugin->is_template && !empty($value)) {
+      if ($value == '%askme%') {
+        return array('%askme%', '', '', $value, $locked);
+      }
       list($value, $password) = explode('|', $value, 2);
     }
     if (preg_match ('/^{[^}]+}/', $value)) {
@@ -189,12 +195,11 @@ class UserPasswordAttribute extends CompositeAttribute
 
   function writeValues(array $values)
   {
-    if ($this->needPassword[$values[0]] && ($values[1] == '')) {
-      if ($this->plugin->is_template) {
-        return '';
-      } else {
-        return $values[3];
-      }
+    if ($this->plugin->is_template && ($values[0] == '%askme%')) {
+      return '%askme%';
+    }
+    if (!$this->plugin->is_template && $this->needPassword[$values[0]] && ($values[1] == '')) {
+      return $values[3];
     }
     $temp = passwordMethod::get_available_methods();
     if (!isset($temp[$values[0]])) {

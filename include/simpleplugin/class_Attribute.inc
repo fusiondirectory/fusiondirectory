@@ -618,8 +618,8 @@ class Attribute
         'required'    => $this->isRequired(),
         'disabled'    => $this->disabled,
         'description' => $this->getDescription(),
-        'value'       => $this->getValue(),
-        'default'     => $this->defaultValue,
+        'value'       => $this->serializeValue(),
+        'default'     => $this->serializeValue($this->defaultValue),
         'type'        => $type,
       );
       if (!$form) {
@@ -641,6 +641,18 @@ class Attribute
       return sprintf(_('Attribute %s is disabled, its value could not be set'), $this->getLdapName());
     }
     $this->setValue($value);
+  }
+
+  /*! \brief Serialize value for RPC requests
+   *
+   *  \param mixed $value the value
+   */
+  function serializeValue($value = NULL)
+  {
+    if ($value === NULL) {
+      $value = $this->getValue();
+    }
+    return $value;
   }
 
   /*! \brief Add ACL information around display
