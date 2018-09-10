@@ -85,10 +85,24 @@ class FileAttribute extends Attribute
       parent::serializeAttribute($attributes, $form);
 
       if ($this->binary) {
-        $attributes[$this->getLdapName()]['value']    = base64_encode($attributes[$this->getLdapName()]['value']);
-        $attributes[$this->getLdapName()]['default']  = base64_encode($attributes[$this->getLdapName()]['default']);
         $attributes[$this->getLdapName()]['binary']   = TRUE;
       }
+    }
+  }
+
+  /*! \brief Serialize value for RPC requests
+   *
+   *  \param mixed $value the value
+   */
+  function serializeValue($value = NULL)
+  {
+    if ($value === NULL) {
+      $value = $this->getValue();
+    }
+    if ($this->binary) {
+      return base64_encode($value);
+    } else {
+      return $value;
     }
   }
 
