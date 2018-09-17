@@ -77,7 +77,7 @@ class passwordMethod
    *
    * \param string $dn The DN
    */
-  function is_locked($dn = "")
+  function is_locked($dn = '', $pwd = '')
   {
     global $config;
     if (!$this->lockable) {
@@ -85,7 +85,6 @@ class passwordMethod
     }
 
     /* Get current password hash */
-    $pwd = "";
     if (!empty($dn)) {
       $ldap = $config->get_ldap_link();
       $ldap->cd($config->current['BASE']);
@@ -147,56 +146,60 @@ class passwordMethod
       }
     }
 
-    /* We can only lock/unlock non-empty passwords */
-    if (!empty($pwd)) {
-      /* Check if this entry is already locked. */
-      if (!preg_match("/^[^\}]*+\}!/", $pwd)) {
-        if ($mode == 'UNLOCK') {
-          return TRUE;
-        }
-      } elseif ($mode == 'LOCK') {
+    /* Check if this entry is already locked. */
+    if (!preg_match("/^[^\}]*+\}!/", $pwd)) {
+      if ($mode == 'UNLOCK') {
         return TRUE;
       }
+    } elseif ($mode == 'LOCK') {
+      return TRUE;
+    }
 
-      // (Un)lock the samba account
-      $modify = lock_samba_account($mode, $attrs);
+    // (Un)lock the samba account
+    $modify = lock_samba_account($mode, $attrs);
 
-      // (Un)lock SSH keys
-      lock_ssh_account($mode, $attrs, $modify);
+    // (Un)lock SSH keys
+    lock_ssh_account($mode, $attrs, $modify);
 
-      // Call pre hooks
-      $userClass = new user($dn);
-      $errors = $userClass->callHook('PRE'.$mode, array(), $ret);
-      if (!empty($errors)) {
-        msg_dialog::displayChecks($errors);
-        return FALSE;
-      }
+    // Call pre hooks
+    $userClass = new user($dn);
+    $errors = $userClass->callHook('PRE'.$mode, array(), $ret);
+    if (!empty($errors)) {
+      msg_dialog::displayChecks($errors);
+      return FALSE;
+    }
 
-      // (Un)lock the account by modifying the password hash.
-      if ($mode == 'LOCK') {
-        /* Lock entry */
-        $pwd = preg_replace("/(^[^\}]+\})(.*$)/",   "\\1!\\2",  $pwd);
+    // (Un)lock the account by modifying the password hash.
+    if ($mode == 'LOCK') {
+      /* Lock entry */
+      if (empty($pwd)) {
+        $pwd = passwordMethodEmpty::LOCKVALUE;
       } else {
-        /* Unlock entry */
+        $pwd = preg_replace("/(^[^\}]+\})(.*$)/",   "\\1!\\2",  $pwd);
+      }
+    } else {
+      /* Unlock entry */
+      if ($pwd == passwordMethodEmpty::LOCKVALUE) {
+        $pwd = '';
+      } else {
         $pwd = preg_replace("/(^[^\}]+\})!(.*$)/",  "\\1\\2",   $pwd);
       }
-      $modify['userPassword'] = $pwd;
-      $ldap->cd($dn);
-      $ldap->modify($modify);
-
-      // Call the password post-lock hook, if defined.
-      if ($ldap->success()) {
-        $userClass = new user($dn);
-        $errors = $userClass->callHook('POST'.$mode, array(), $ret);
-        if (!empty($errors)) {
-          msg_dialog::displayChecks($errors);
-        }
-      } else {
-        msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), $dn, LDAP_MOD), LDAP_ERROR);
-      }
-      return $ldap->success();
     }
-    return FALSE;
+    $modify['userPassword'] = $pwd;
+    $ldap->cd($dn);
+    $ldap->modify($modify);
+
+    // Call the password post-lock hook, if defined.
+    if ($ldap->success()) {
+      $userClass = new user($dn);
+      $errors = $userClass->callHook('POST'.$mode, array(), $ret);
+      if (!empty($errors)) {
+        msg_dialog::displayChecks($errors);
+      }
+    } else {
+      msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), $dn, LDAP_MOD), LDAP_ERROR);
+    }
+    return $ldap->success();
   }
 
 
@@ -299,14 +302,15 @@ class passwordMethod
   {
     $methods = passwordMethod::get_available_methods();
 
-    if (empty($password_hash) && passwordMethodEmpty::is_available()) {
+    if (isset($methods['class']['passwordMethodEmpty']) && (passwordMethodEmpty::_extract_method($password_hash) != '')) {
+      /* Test empty method first as it gets priority */
       $method = new passwordMethodEmpty($dn);
       return $method;
     }
 
     foreach ($methods['class'] as $class) {
-      $method = $class::_extract_method($class, $password_hash);
-      if ($method != "") {
+      $method = $class::_extract_method($password_hash);
+      if ($method != '') {
         $test = new $class($dn);
         $test->set_hash($method);
         return $test;
@@ -324,9 +328,9 @@ class passwordMethod
    *
    * \param string $password_hash
    */
-  static function _extract_method($classname, $password_hash)
+  static function _extract_method($password_hash)
   {
-    $hash = $classname::get_hash_name();
+    $hash = static::get_hash_name();
     if (preg_match("/^\{$hash\}/i", $password_hash)) {
       return $hash;
     }
