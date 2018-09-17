@@ -54,7 +54,7 @@ class passwordMethodCrypt extends passwordMethod
    *
    * \param string $pwd Password
    */
-  function generate_hash($pwd)
+  function generate_hash($pwd, $locked = FALSE)
   {
     if ($this->hash == "crypt/standard-des") {
       $salt = "";
@@ -102,7 +102,7 @@ class passwordMethodCrypt extends passwordMethod
       $salt .= "\$";
     }
 
-    return "{CRYPT}".crypt($pwd, $salt);
+    return '{CRYPT}'.($locked ? '!' : '').crypt($pwd, $salt);
   }
 
   function checkPassword($pwd, $hash)

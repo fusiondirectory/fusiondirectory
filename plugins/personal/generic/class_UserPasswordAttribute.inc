@@ -58,7 +58,9 @@ class UserPasswordAttribute extends CompositeAttribute
         new HiddenAttribute(
           $ldapName.'_hash'
         ),
-        new HiddenAttribute(
+        new BooleanAttribute(
+          /* Label/Description will only be visible for templates */
+          _('Locked'), _('Whether accounts created with this template will be locked'),
           $ldapName.'_locked', FALSE,
           FALSE
         )
@@ -66,6 +68,7 @@ class UserPasswordAttribute extends CompositeAttribute
       '', '', $acl, $label
     );
     $this->attributes[0]->setSubmitForm(TRUE);
+    $this->attributes[4]->setTemplatable(FALSE);
   }
 
   public function setParent(&$plugin)
@@ -78,6 +81,9 @@ class UserPasswordAttribute extends CompositeAttribute
       if ($config->get_cfg_value('forcePasswordDefaultHash', 'FALSE') == 'TRUE') {
         $this->attributes[0]->setValue($hash);
         $this->attributes[0]->setDisabled(TRUE);
+      }
+      if (!$this->plugin->is_template) {
+        $this->attributes[4]->setVisible(FALSE);
       }
       $this->checkIfMethodNeedsPassword();
     }
@@ -166,11 +172,16 @@ class UserPasswordAttribute extends CompositeAttribute
 
   function readValues($value)
   {
+    return $this->readUserPasswordValues($value, $this->plugin->is_template);
+  }
+
+  function readUserPasswordValues($value, $istemplate)
+  {
     global $config;
     $pw_storage = $config->get_cfg_value('passwordDefaultHash', 'ssha');
     $locked     = FALSE;
     $password   = '';
-    if ($this->plugin->is_template && !empty($value)) {
+    if ($istemplate && !empty($value)) {
       if ($value == '%askme%') {
         return array('%askme%', '', '', $value, $locked);
       }
@@ -180,10 +191,7 @@ class UserPasswordAttribute extends CompositeAttribute
       $tmp = passwordMethod::get_method($value);
       if (is_object($tmp)) {
         $pw_storage = $tmp->get_hash();
-        $locked     = $tmp->is_locked($this->plugin->dn);
-        if ($this->plugin->is_template) {
-          $value = $tmp->generate_hash($password);
-        }
+        $locked     = $tmp->is_locked('', $value);
       }
     } elseif ($value != '') {
       $pw_storage = 'clear';
@@ -209,7 +217,7 @@ class UserPasswordAttribute extends CompositeAttribute
     $test = new $temp[$values[0]]($this->plugin->dn, $this->plugin);
     $test->set_hash($values[0]);
     if ($this->plugin->is_template) {
-      return $test->generate_hash($values[1]).'|'.$values[1];
+      return $test->generate_hash($values[1], $values[4]).'|'.$values[1];
     } else {
       return $test->generate_hash($values[1]);
     }

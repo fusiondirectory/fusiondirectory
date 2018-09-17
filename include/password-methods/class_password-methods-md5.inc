@@ -54,9 +54,9 @@ class passwordMethodMd5 extends passwordMethod
    *
    * \param string $pwd Password
    */
-  function generate_hash($pwd)
+  function generate_hash($pwd, $locked = FALSE)
   {
-    return  '{MD5}'.base64_encode( pack('H*', md5($pwd)));
+    return  '{MD5}'.($locked ? '!' : '').base64_encode( pack('H*', md5($pwd)));
   }
 
   /*!

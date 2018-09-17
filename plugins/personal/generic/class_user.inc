@@ -384,22 +384,9 @@ class user extends simplePlugin
     if ($this->uid != '') {
       $skip[] = 'uid';
     }
-    parent::adapt_from_template($attrs, $skip);
+    parent::adapt_from_template($attrs, array_merge($skip, array('userPassword')));
     if (isset($this->attrs['userPassword']) && !in_array('userPassword', $skip)) {
-      list($hash,$password) = explode('|', $this->attrs['userPassword'][0], 2);
-      if (preg_match ('/^{[^}]+}/', $hash)) {
-        $tmp = passwordMethod::get_method($hash);
-        if (is_object($tmp)) {
-          $hash = $tmp->generate_hash($password);
-        }
-      }
-      $this->userPassword = array(
-        '',
-        $password,
-        $password,
-        $hash,
-        $this->attributesAccess['userPassword']->isLocked()
-      );
+      $this->userPassword = $this->attributesAccess['userPassword']->readUserPasswordValues($this->attrs['userPassword'][0], TRUE);
     }
   }
 

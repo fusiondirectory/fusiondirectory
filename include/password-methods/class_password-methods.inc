@@ -77,7 +77,7 @@ class passwordMethod
    *
    * \param string $dn The DN
    */
-  function is_locked($dn = "")
+  function is_locked($dn = '', $pwd = '')
   {
     global $config;
     if (!$this->lockable) {
@@ -85,7 +85,6 @@ class passwordMethod
     }
 
     /* Get current password hash */
-    $pwd = "";
     if (!empty($dn)) {
       $ldap = $config->get_ldap_link();
       $ldap->cd($config->current['BASE']);
@@ -181,7 +180,7 @@ class passwordMethod
     } else {
       /* Unlock entry */
       if ($pwd == passwordMethodEmpty::LOCKVALUE) {
-        $pwd = array();
+        $pwd = '';
       } else {
         $pwd = preg_replace("/(^[^\}]+\})!(.*$)/",  "\\1\\2",   $pwd);
       }

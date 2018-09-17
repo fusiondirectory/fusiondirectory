@@ -25,6 +25,7 @@ class BooleanAttribute extends Attribute
 {
   public $trueValue;
   public $falseValue;
+  protected $templatable = TRUE;
 
   /*! \brief The constructor of BooleanAttribute
    *
@@ -42,6 +43,11 @@ class BooleanAttribute extends Attribute
     parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
     $this->trueValue  = $trueValue;
     $this->falseValue = $falseValue;
+  }
+
+  function setTemplatable($bool)
+  {
+    $this->templatable = $bool;
   }
 
   function inputValue ($value)
@@ -92,7 +98,7 @@ class BooleanAttribute extends Attribute
 
   function renderTemplateInput ()
   {
-    if (!$this->submitForm && empty($this->managedAttributes)) {
+    if (!$this->submitForm && empty($this->managedAttributes) && $this->templatable) {
       /* Allow to set to %askme% if we are not (de)activating other fields */
 
       $id = $this->getHtmlId();

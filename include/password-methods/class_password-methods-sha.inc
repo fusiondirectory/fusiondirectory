@@ -53,12 +53,12 @@ class passwordMethodsha extends passwordMethod
    *
    * \param string $password Password
    */
-  function generate_hash($password)
+  function generate_hash($password, $locked = FALSE)
   {
     if (function_exists('sha1')) {
-      $hash = '{SHA}' . base64_encode(pack('H*', sha1($password)));
+      $hash = '{SHA}'.($locked ? '!' : '').base64_encode(pack('H*', sha1($password)));
     } elseif (function_exists('mhash')) {
-      $hash = '{SHA}' . base64_encode(mHash(MHASH_SHA1, $password));
+      $hash = '{SHA}'.($locked ? '!' : '').base64_encode(mHash(MHASH_SHA1, $password));
     } else {
       msg_dialog::display(_('Configuration error'), msgPool::missingext('mhash'), ERROR_DIALOG);
       return FALSE;

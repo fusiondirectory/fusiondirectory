@@ -85,16 +85,16 @@ class passwordMethodsasl extends passwordMethod
    *
    * \param string $pwd Password
    */
-  function generate_hash($pwd)
+  function generate_hash($pwd, $locked = FALSE)
   {
     if (empty($this->exop)) {
       if (empty($this->realm)) {
         msg_dialog::display(_('Error'), _('You need to fill saslRealm or saslExop in the configuration screen in order to use SASL'), ERROR_DIALOG);
       }
-      return '{SASL}'.$this->uid.'@'.$this->realm;
+      return '{SASL}'.($locked ? '!' : '').$this->uid.'@'.$this->realm;
     } else {
       // may not be the uid, see saslExop option
-      return '{SASL}'.$this->uid;
+      return '{SASL}'.($locked ? '!' : '').$this->uid;
     }
   }
 

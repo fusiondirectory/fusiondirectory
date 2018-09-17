@@ -58,9 +58,9 @@ class passwordMethodEmpty extends passwordMethod
    *
    * \param string $pwd Password
    */
-  function generate_hash($pwd)
+  function generate_hash($pwd, $locked = FALSE)
   {
-    return '';
+    return ($locked ? static::LOCKVALUE : '');
   }
 
   /*!
