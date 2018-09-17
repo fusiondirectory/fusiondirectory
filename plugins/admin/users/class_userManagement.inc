@@ -37,6 +37,9 @@ class LockAction extends Action
   {
     if (isset($entry['userPassword']) && preg_match('/^\{[^\}]/', $entry['userPassword'])) {
       return (preg_match('/^[^\}]*+\}!/', $entry['userPassword']) === 1);
+    } elseif ((strtolower($entry->type) == 'user') && !isset($entry['userPassword'])) {
+      /* Empty lockable password */
+      return FALSE;
     }
     return NULL;
   }
@@ -170,9 +173,6 @@ class userManagement extends management
     foreach ($allowed as $dn) {
       // We can't lock empty passwords.
       $entry = $this->listing->getEntry($dn);
-      if (!isset($entry['userPassword'])) {
-        continue;
-      }
 
       // Detect the password method and try to lock/unlock.
       $pwd      = $entry['userPassword'];

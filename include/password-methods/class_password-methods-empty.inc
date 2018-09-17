@@ -30,9 +30,11 @@
  */
 class passwordMethodEmpty extends passwordMethod
 {
-  protected $lockable = FALSE;
+  protected $lockable   = TRUE;
 
   public $hash = 'empty';
+
+  const LOCKVALUE  = '{CRYPT}!';
 
   /*!
    * \brief passwordMethodClear Constructor
@@ -77,6 +79,15 @@ class passwordMethodEmpty extends passwordMethod
   function need_password()
   {
     return FALSE;
+  }
+
+  static function _extract_method($password_hash)
+  {
+    if (empty($password_hash) || ($password_hash == static::LOCKVALUE)) {
+      return static::get_hash_name();
+    }
+
+    return '';
   }
 }
 ?>
