@@ -198,6 +198,7 @@ class UserPasswordAttribute extends CompositeAttribute
     } elseif ($this->plugin->initially_was_account) {
       $pw_storage = 'empty';
     }
+    $locked = ($locked ? 'TRUE' : 'FALSE');
     return array($pw_storage, $password, $password, $value, $locked);
   }
 
@@ -225,7 +226,6 @@ class UserPasswordAttribute extends CompositeAttribute
 
   function check()
   {
-    $method = $this->attributes[0]->getValue();
     $error = parent::check();
     if (!empty($error)) {
       return $error;
