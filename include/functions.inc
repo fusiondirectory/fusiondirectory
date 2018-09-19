@@ -2674,6 +2674,47 @@ if (!function_exists('random_int')) {
   }
 }
 
+if (!function_exists('hash_equals')) {
+  /**
+   * Timing attack safe string comparison
+   *
+   * Fallback for PHP<5.6
+   *
+   * Compares two strings using the same time whether they're equal or not.
+   * This function should be used to mitigate timing attacks; for instance, when testing crypt() password hashes.
+   *
+   * @param string $known_string The string of known length to compare against
+   * @param string $user_string The user-supplied string
+   * @return boolean Returns TRUE when the two strings are equal, FALSE otherwise.
+   */
+  function hash_equals($known_string, $user_string)
+  {
+    if (func_num_args() !== 2) {
+      trigger_error('hash_equals() expects exactly 2 parameters, '.func_num_args().' given', E_USER_WARNING);
+      return NULL;
+    }
+    if (!is_string($known_string) || !is_string($user_string)) {
+      trigger_error('hash_equals(): Expected both parameters to be a string, '.gettype($known_string).' and '.gettype($user_string).' given', E_USER_WARNING);
+      return FALSE;
+    }
+    $known_string_len = strlen($known_string);
+    $user_string_len  = strlen($user_string);
+    if ($known_string_len !== $user_string_len) {
+      // use $known_string instead of $user_string to handle strings of different length.
+      $res = $known_string ^ $known_string;
+      // set $ret to 1 to make sure false is returned
+      $ret = 1;
+    } else {
+      $res = $known_string ^ $user_string;
+      $ret = 0;
+    }
+    for ($i = strlen($res) - 1; $i >= 0; $i--) {
+      $ret |= ord($res[$i]);
+    }
+    return ($ret === 0);
+  }
+}
+
 function ldap_escape_f($str, $ignore = '')
 {
   return ldap_escape($str, $ignore, LDAP_ESCAPE_FILTER);
