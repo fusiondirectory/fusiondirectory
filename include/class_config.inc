@@ -797,10 +797,13 @@ class config
     foreach ($plist->info as $class => &$plInfo) {
       if (isset($plInfo['plObjectType'])) {
         $entry = array('CLASS' => $class,'NAME' => $plInfo['plShortName']);
+        if (isset($plInfo['plSubTabs'])) {
+          $entry['SUBTABS'] = strtoupper($plInfo['plSubTabs']).'TABS';
+        }
         foreach ($plInfo['plObjectType'] as $key => $value) {
           if (is_numeric($key)) {
             /* This is not the main tab */
-            $tabclass = strtoupper($value)."TABS";
+            $tabclass = strtoupper($value).'TABS';
             if (($tabclass == 'GROUPTABS') && class_available('mixedGroup')) {
               $tabclass = 'OGROUP-USERTABS';
             }
