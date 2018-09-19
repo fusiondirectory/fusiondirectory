@@ -22,17 +22,16 @@ class pluginsConfigInLdap extends multiPlugin
 {
   var $tabClass = 'SMALLCONFIGTABS';
 
-  /* Return plugin informations for acl handling */
   static function plInfo()
   {
     return array(
-      "plShortName"   => _("Plugins"),
-      "plDescription" => _("Configuration for plugins"),
-      "plPriority"    => 20,
-      "plObjectType"  => array("configuration"),
+      'plShortName'   => _('Plugins'),
+      'plDescription' => _('Configuration for plugins'),
+      'plPriority'    => 20,
+      'plObjectType'  => array('configuration'),
+      'plSubTabs'     => 'smallConfig',
 
-      "plProvidedAcls"  => array()
+      'plProvidedAcls'  => array()
     );
   }
 }
-?>
