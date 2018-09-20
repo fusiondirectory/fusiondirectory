@@ -393,7 +393,7 @@ class user extends simplePlugin
   function callHook($cmd, array $addAttrs = array(), &$returnOutput = array(), &$returnCode = NULL)
   {
     $addAttrs['passwordMethod'] = $this->attributesAccess['userPassword']->getMethod();
-    $addAttrs['userLocked']     = $this->attributesAccess['userPassword']->isLocked();
+    $addAttrs['userLocked']     = (int)($this->attributesAccess['userPassword']->isLocked());
     $addAttrs['passwordClear']  = $this->attributesAccess['userPassword']->getClear();
     return parent::callHook($cmd, $addAttrs, $returnOutput, $returnCode);
   }
