@@ -78,8 +78,10 @@ documentation and additional help.
   accept-to-gettext code that helps for language conversation
 
 * Antoine Gallavardin <antoine.gallavardin@free.fr>
+  Add support for social network ORCID in personal
   Dhcp plugin patch to manage key and update zone in dhcp for dyndns
-  First version of the quota and supann plugin
+  First version of the quota plugin
+  First version of the supann plugin
   First version of the board plugin
 
 * Leonid Bogdanov <leonid_bogdanov@mail.ru>
@@ -104,6 +106,7 @@ documentation and additional help.
 
 * Alexis Michon <alexis.michon@ibcp.fr>
   Testing, First version of Password reset
+  Support for two or more MAC address for a system
 
 * Mike Gabriel <mike.gabriel@das-netzwerkteam.de>
   Various patches from debian-edu
@@ -209,3 +212,9 @@ documentation and additional help.
 
 * Patzke Thomas <thomas.patzke2@thyssenkrupp.com>
   Security and vulnerabitity testing
+
+* Janne Heß
+  Enhance the login and password reset theme
+
+* Peter Linss
+  Added catchall table to postfix plugin
