@@ -563,3 +563,68 @@
 #### fusiondirectory
 - fd#5303 When clicking on login from user selection we end up in user edition
 - fd#5317 The link sent by password recovery is broken
+
+## %"FusionDirectory 1.0.18" - 2017-01-16
+
+### Added
+
+#### fusiondirectory
+- fd#5271 Force encryption type
+- fd#5272 Select a default shell
+- fd#5293 Webservice: isUserLocked(sid)
+
+#### fusiondirectory-plugins
+- fd-plugins#4822 webservice and password recovery
+- fd-plugins#4991 we should document all the change in the webservice done recently
+- fd-plugins#5240 possibilité de grouper ou trier les applications sur la page d'acceuil
+- fd-plugins#5248 [DNS] "Refresh zone file" should be in DNS section too not just in DNS tab of some host where is DNS tab enabled.
+
+### Changed
+
+#### fusiondirectory
+- fd#5098 Exception should be reorganized
+- fd#5267 Incompatibility between recovery password and user-reminder
+- fd#5280 rewrote the pasword recovery with new RDN
+
+#### fusiondirectory-plugins
+- fd-plugins#5070 FAI packageSelect class should use simpleSelectManagement
+- fd-plugins#5264 Incompatibility between recovery password and user-reminder
+- fd-plugins#5294 Exception should be reorganized
+
+### Removed
+
+#### fusiondirectory
+- fd#5265 removing RDN leftover of the removal of fax and asterisk plugin
+
+#### fusiondirectory-plugins
+- fd-plugins#5266 forgot the remove user reminder config file
+
+### Fixed
+
+#### fusiondirectory
+- fd#5258 Cannot modify a package class that is insert with help of fai2ldif
+- fd#5260 Check for json support during install.
+- fd#5268 Missing check for package php-filter
+- fd#5270 List on "ACL assignments management" too short.
+- fd#5278 Translation: Plural form of "information"
+- fd#5279 Icons in the action column of OrderedArrayAttribute sometimes don’t have enough space
+- fd#5283 Path for fusiondirectory-shell
+- fd#5298 XML error during installation of FD on debian Wheezy
+
+#### fusiondirectory-plugins
+- fd-plugins#4888 DNS record matching should be case insensitive
+- fd-plugins#5179 Terminal are missing fields
+- fd-plugins#5249 [DHCP] after migration from .16 to .17 there previous configurations are not migrated to new one automatically.
+- fd-plugins#5254 Server inside Systems
+- fd-plugins#5255 Cannot add a workstation in a dhcp subnet
+- fd-plugins#5256 We not need dhcpStatements host-name when we add a host
+- fd-plugins#5257 Error in ldap when we will that FAI use all the remain space
+- fd-plugins#5295 Filter problem if dhcp object is in a department
+- fd-plugins#5296 Name dhcp object differently when we use migration-dhcp
+- fd-plugins#5299 When using FD in portal mode, avoid showing applications (which are not web applications)
+
+### Security
+
+#### fusiondirectory
+- fd#5252 User with 'editownpwd' or 'editowninfo' role should not be able to lock other accounts
+- fd#5292 Malformed data posted to fdPrivateMail through webservice deletes existing data.
