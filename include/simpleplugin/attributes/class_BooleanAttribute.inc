@@ -50,15 +50,24 @@ class BooleanAttribute extends Attribute
     $this->templatable = $bool;
   }
 
+  protected function isTemplatable()
+  {
+    /* Allow to set to %askme% if we are not (de)activating other fields */
+    return (!$this->submitForm && empty($this->managedAttributes) && $this->templatable);
+  }
+
   function inputValue ($value)
   {
+    if ($this->isTemplate() && $this->isTemplatable() && ($value == '%askme%')) {
+      return $value;
+    }
     return ($value == $this->trueValue);
   }
 
   function loadPostValue ()
   {
     if ($this->isVisible()) {
-      if ($this->isTemplate() && !$this->submitForm && empty($this->managedAttributes)) {
+      if ($this->isTemplate() && $this->isTemplatable()) {
         if (!isset($_POST[$this->getHtmlId()])) {
           $this->setPostValue(FALSE);
         } elseif ($_POST[$this->getHtmlId()] == '%askme%') {
@@ -74,7 +83,7 @@ class BooleanAttribute extends Attribute
 
   function computeLdapValue ()
   {
-    if ($this->isTemplate() && ($this->value == '%askme%')) {
+    if ($this->isTemplate() && $this->isTemplatable() && ($this->value == '%askme%')) {
       return $this->value;
     } else {
       return ($this->value ? $this->trueValue : $this->falseValue);
@@ -98,9 +107,7 @@ class BooleanAttribute extends Attribute
 
   function renderTemplateInput ()
   {
-    if (!$this->submitForm && empty($this->managedAttributes) && $this->templatable) {
-      /* Allow to set to %askme% if we are not (de)activating other fields */
-
+    if ($this->isTemplatable()) {
       $id = $this->getHtmlId();
       if ($this->getValue() == '%askme%') {
         $selected = '%askme%';
