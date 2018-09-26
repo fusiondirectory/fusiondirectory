@@ -353,3 +353,205 @@
 - fd-plugins#5572 Samba home path fields are weirdly checked
 - fd-plugins#5636 Slave ldap2zone config should enforce final dot in zone name
 
+## %"FusionDirectory 1.1.1" - 2017-06-06
+
+### Added
+
+#### fusiondirectory-plugins
+- fd-plugins#5514 System - DHCP Tab - Preselect DHCP SUBNET according IP address or mask others
+
+### Fixed
+
+#### fusiondirectory
+- fd#5511 Error displayed when SASL user created
+- fd#5528 PHP error and wrong display in ACL assignments in some cases
+- fd#5538 Unable to migrate winstations from 1.0.20 to 1.1
+- fd#5554 Trim the certificates path
+- fd#5562 Read rights on template let see the users in the root branch
+
+#### fusiondirectory-plugins
+- fd-plugins#5550 Unsufficient rights for accessing type 'user'
+- fd-plugins#5551 Cannot add a POSIX group to a user
+- fd-plugins#5553 Crash error when we remove a posix group that we used in a template
+- fd-plugins#5557 Trim the certificates path
+- fd-plugins#5564 Automatic primary group is created at the root and not in the branch of the user
+
+## %"FusionDirectory 1.1" - 201-05-18
+
+### Added
+
+#### fusiondirectory
+- fd#5428 Add a substitute placeholder
+- fd#5431 place holder  : %today%
+- fd#5432 Substitute placeholder documentation
+- fd#5434 Date place holder should be added to the documentation
+- fd#5466 Tabs needs a conflict system
+- fd#5470 Add the ability to hide per plugin menu entry (left menu and homepage) to a user or group
+- fd#5485 Write process to migrate dhcp from 1.0.16 to 1.1
+
+#### fusiondirectory-plugins
+- fd-plugins#2878 we need a way to create systems from the inventory data
+- fd-plugins#3147 Fai tab should have a foreignKey on profiles renaming
+- fd-plugins#4023 We should be able to create a group with fusiondirectory-shell
+- fd-plugins#4358 System templates should be fully functionnal
+- fd-plugins#5301 create a plugin to manage the mailbox of renater partage platform
+- fd-plugins#5309 DHCP configurations would need foreignKeys on primary and secondary servers
+- fd-plugins#5316 Add argonaut client tab to terminals
+- fd-plugins#5330 Add to the release note that the format of repository service have changed
+- fd-plugins#5382 add a tab on systems to see what sudo roles are added to a specific system
+- fd-plugins#5450 add a switch wich decide what to with the mailbox do in case of deleting user
+- fd-plugins#5451 see more mailbox information on mail tab
+- fd-plugins#5455 Fetch PartageRENATER information
+- fd-plugins#5467 LDAP dump could show creation and modification dates
+
+### Changed
+
+#### fusiondirectory
+- fd#946 class_plugin should be reviewed
+- fd#4893 Plugin saving and hook workflow should be reviewed
+- fd#4917 FD should run all the hooks on a given tab
+- fd#5041 FIXME legacy code should be removed from callHook method
+- fd#5073 Navigation control should only appear if management has baseMode on.
+- fd#5091 management should be cleaned
+- fd#5235 We should remove from the schemas obsolete stuff
+- fd#5311 Reserved words function should be reviewed
+- fd#5361 Add an option to split the address in separate fields
+- fd#5363 POSIX should be moved to a plugin
+- fd#5394 We need a way to test if templates are activated for an objectType
+- fd#5479 fusiondirectory-insert-schemas should be based upon ldap-schema-manager
+
+#### fusiondirectory-plugins
+- fd-plugins#2419 systemManagement should be redone with simpleManagement
+- fd-plugins#2692 Clean systems objectTypes
+- fd-plugins#3337 termgroup should be using simplePlugin
+- fd-plugins#3614 The gotoMode attribute should be changed to fdSystemLock
+- fd-plugins#4556 all the date should be saved in the generalized time match format
+- fd-plugins#4677 DHCP plugin should be redone completely with simplePlugin
+- fd-plugins#5048 serverService should be based on simpleManagement
+- fd-plugins#5312 fdPhone and component situation
+- fd-plugins#5331 We should check what is unused in the schemas and mark it OBSOLETE
+- fd-plugins#5383 Types list for csv import is too long
+- fd-plugins#5384 systems should not require argonaut
+- fd-plugins#5441 Allow notify option does not match what it does
+- fd-plugins#5463 Workstations tab needs conflict and dependencies
+
+### Removed
+
+#### fusiondirectory
+- fd#3998 core functions still using the plugin framework
+- fd#5322 LDAP::convert and LDAP::fix functions should be deleted
+
+#### fusiondirectory-plugins
+- fd-plugins#3344 the Gohard objectClass should be flagged OBSOLETE and removed from the code
+- fd-plugins#5333 kolab2 plugin should be deleted
+- fd-plugins#5465 netConfigDNS does not exists anymore
+
+### Fixed
+
+#### fusiondirectory
+- fd#3789 tabs and plugin save method should not return anything
+- fd#3859 Trustmode in template is automaticaly desactivated
+- fd#4029 We should convert all source files to UTF-8
+- fd#4171 We should be able to paste a same copied object several times
+- fd#4522 setup: __fusiondirectory_autoload tries to load smarty classes
+- fd#4688 Use the same message if we set a bad login or a bad password.
+- fd#4840 Recursive dependencies should be detected at template saving and forbidden
+- fd#4908 Amélioration placement initial du curseur dans les formulaires de saisie
+- fd#5016 Fixing wrong FUNCTIONAL filter
+- fd#5150 We should not be able of adding users to groups we have no rights on
+- fd#5178 fusiondirectory-setup should allow to migrate systems from 1.0.16 to 1.1
+- fd#5186 When we edit the logged in user, its info should be updated
+- fd#5187 When saving again after an error, it tries to move if dn changed
+- fd#5189 The path for icons of template creation are wrong
+- fd#5261 Allow for manual configuration of LDAP base
+- fd#5328 correct spelling errors found in the manpages
+- fd#5334 when migrating from 1.0.16 to 1.0.19 with the new version of --migrate-dhcp there is till a reference not corrected
+- fd#5357 Apply template remove sometimes values that are not in the template
+- fd#5358 Template et photo
+- fd#5364 prelock/postlock hooks cannot be defined
+- fd#5367 We should remove from setup migration step obsolete stuff
+- fd#5371 PHP error: Only variables should be passed by reference (/usr/share/fusiondirectory/include/functions.inc, line 2538)
+- fd#5372 Small error in breezy/style.css
+- fd#5380 Bad display of multivaluated attributes in listing columns
+- fd#5381 s modifier have problems with multibyte strings
+- fd#5385 Several foreignKeys for the same attribute should work
+- fd#5398 Cannot remove a role in groups and roles tabs for a template
+- fd#5401 size of command field in hook subsystem
+- fd#5412 FileTextAreaAttribute modification is broken with default parameters
+- fd#5421 Error at first login: «Cannot create locking information in LDAP tree»
+- fd#5423 PHP error when listing dcObject
+- fd#5433 when trying to change a password i got an error related to audit tool
+- fd#5464 Listing objects through objects::ls trigger a first search with scope 1
+- fd#5469 Browser specific hacks should be removed
+- fd#5474 fusiondirectory-setup should allow to migrate winstations from 1.0.20 to 1.1
+- fd#5483 LDAP setup use an OpenLDAP specific syntax
+- fd#5487 Applying template to multiple users fills fields from 1st user to the other users
+- fd#5509 dashboard : Size limit exceeded
+
+#### fusiondirectory-plugins
+- fd-plugins#4516 Inventory matching only works for systems at the root
+- fd-plugins#4973 Can't create indirect autofs directory. (slash problem)
+- fd-plugins#4993 Shell is broken and field order is random
+- fd-plugins#5259 Connection failure between argonaut-server when we search a package
+- fd-plugins#5289 user-reminder using ppolicy values
+- fd-plugins#5313 Systems dashboard tab needs an update
+- fd-plugins#5329 I cannot assign a repository parent in repository service
+- fd-plugins#5356 erreur in ldapdump after correcting by hand the dhcpservicedn after migration
+- fd-plugins#5365 POSIX should be moved to a plugin
+- fd-plugins#5368 Webservice does not return attrs_order for templates (gettemplate method)
+- fd-plugins#5400 Erreur fatale : impossible d'initialiser la classe 'argonautEventTypes' - veuillez exécuter 'fusiondirectory-setup --update-cache' pour essayer de régler le problème
+- fd-plugins#5411 FAI partition table cannot be saved anymore
+- fd-plugins#5413 Some plugins saving are not working properly
+- fd-plugins#5414 PHP error in FAI plugin
+- fd-plugins#5427 eduPersonAffiliation aren't shown  correctly due to a mix in drop list
+- fd-plugins#5429 use partage renater with template
+- fd-plugins#5462 DSA: description cannot be set
+- fd-plugins#5468 DHCP Plugin ACL role does not apply correctly
+- fd-plugins#5471 DHCP configuration enhancement
+- fd-plugins#5472 systems aren't showned
+- fd-plugins#5476 Service deletion and cancel behaves in a weird way
+- fd-plugins#5484 [DNS plugin] Reverse DNS Zones unusable with bind-sdb
+
+## %"FusionDirectory 1.0.20" - 2017-04-04
+
+### Added
+
+#### fusiondirectory
+- fd#5282 Documentation for Password Policy Plugin
+- fd#5424 Mail alternatif pour la récupération de mot de passe quand supann est activé
+- fd#5425 Utiliser le supannAliasLogin dans les messages et les vues de récupération de mot de passe
+
+#### fusiondirectory-plugins
+- fd-plugins#5437 argonaut-ldap2zone should be able to get data from a branch
+- fd-plugins#5438 we should add the directive check-names into the argonaut-dns service
+- fd-plugins#5442 Document fopen activation for argonaut plugin
+- fd-plugins#5443 argonaut ldap2zone should be able to create config for dns slave also, but not create the data
+
+### Changed
+
+#### fusiondirectory
+- fd#5456 Fine grain ACL control
+
+#### fusiondirectory-plugins
+- fd-plugins#5445 reorganize the argonaut dns plugin service
+
+### Fixed
+
+#### fusiondirectory
+- fd#5362 PHP errors related to ogroup
+- fd#5410 edit conflict warning screen : "read only" button make the same page to reload
+- fd#5422 There seems to be a problem with TimeAttribute
+- fd#5426 Problems with PHP CAS on centos 7
+- fd#5448 Foreign keys from Services does not work
+
+#### fusiondirectory-plugins
+- fd-plugins#5370 webservice doesn't provide a way to logout
+- fd-plugins#5444 dropdown in systems on the dns tab
+- fd-plugins#5446 Error message when trying to update System name in the systems page
+- fd-plugins#5452 Error when reloading dhcp service through FD
+- fd-plugins#5457 Error modifynig DNS settings in the system's DNS tab
+
+### Security
+
+#### fusiondirectory
+- fd#5397 User is able to lock their own account
