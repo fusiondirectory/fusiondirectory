@@ -555,3 +555,11 @@
 
 #### fusiondirectory
 - fd#5397 User is able to lock their own account
+
+## %"FusionDirectory 1.0.19" - 2017-01-20
+
+### Fixed
+
+#### fusiondirectory
+- fd#5303 When clicking on login from user selection we end up in user edition
+- fd#5317 The link sent by password recovery is broken
