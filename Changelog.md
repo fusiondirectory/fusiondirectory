@@ -715,3 +715,63 @@
 #### fusiondirectory-plugins
 - fd-plugins#4997 getfields method returns wrong info in attrs_order
 - fd-plugins#5160 opsi import is broken
+
+## %"FusionDirectory 1.0.15" - 2016-08-23
+
+### Added
+
+#### fusiondirectory
+- fd#4832 Allow removal of user picture
+- fd#4945 Add the possibility to use %askme% for password expiration in template
+- fd#5010 HTTP header authentication
+- fd#5012 [PRINTERS] old printers are not migrated after upgrade to 1.0.14
+- fd#5021 Checkhook should have a way to know if other check errors occured
+- fd#5047 add git-shell in default shell list
+
+#### fusiondirectory-plugins
+- fd-plugins#4991 we should document all the change in the webservice done recently
+- fd-plugins#5025 Manage pwdPolicyChecker objectClass
+- fd-plugins#5051 add a url text field for the linkedin account url
+- fd-plugins#5056 Need to edit class_argonautActions.inc for custom modules
+- fd-plugins#5088 Add samba shares update action to the list
+
+### Changed
+
+#### fusiondirectory
+- fd#5052 password storage in firefox provoque an issue in the password field of the user tab in FusionDirectory
+- fd#5057 check_schema should be reviewed
+- fd#5089 Attribute dob of fusiondirectory schema conflicts with evolution schema
+
+#### fusiondirectory-plugins
+- fd-plugins#5031 Icon for LDAP should be moved to core
+- fd-plugins#5043 GPG server info cannot be edited anymore
+- fd-plugins#5068 PHP4 constructor in FAI plugin
+- fd-plugins#5069 PHP4 constructor in mail plugin
+- fd-plugins#5090 Attribute dob of fusiondirectory schema conflicts with evolution schema
+
+### Removed
+
+#### fusiondirectory-plugins
+- fd-plugins#5045 Apache plugin should be removed
+
+### Fixed
+
+#### fusiondirectory
+- fd#5003 Error on mixed groups when nis schema not present
+- fd#5022 Random password does not work when we use a template in read only
+- fd#5023 Icon for section account is not found
+- fd#5040 Uppercase login triggers php notice
+- fd#5049 probleme de traduction dans le systeme de reinitialisation des mots de passe
+- fd#5050 mauvais encodage dans le message de demande de reinitialisation du mot de passe
+- fd#5058 notice on 1.0.14-fixes
+- fd#5071 Fatal error in FAI plugin
+- fd#5074 Error to add ACL
+- fd#5092 FD should not interfere with form handling
+
+#### fusiondirectory-plugins
+- fd-plugins#5020 PHP errors in DHCP plugin with PHP7
+- fd-plugins#5026 CSV import bug ?
+- fd-plugins#5032 check that the information for main menu is right in FusionDirectory documentation
+- fd-plugins#5044 Use simpleManagement in GPG plugin
+- fd-plugins#5055 Argonaut actions launching is broken
+- fd-plugins#5075 Error to add ACL
