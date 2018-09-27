@@ -628,3 +628,50 @@
 #### fusiondirectory
 - fd#5252 User with 'editownpwd' or 'editowninfo' role should not be able to lock other accounts
 - fd#5292 Malformed data posted to fdPrivateMail through webservice deletes existing data.
+
+## %"FusionDirectory 1.0.17" - 2016-11-06
+
+### Added
+
+#### fusiondirectory
+- fd#5230 we need a fusiondirectory-setup --migrate-dhcp
+
+#### fusiondirectory-plugins
+- fd-plugins#5193 Add ppolicy tab for DSA accounts
+- fd-plugins#5198 merge the dhcp code from 1.1 into 1.0.17
+- fd-plugins#5232 we miss a dropdown for failover in the Create new DHCP section
+- fd-plugins#5239 Champs pour enregistrer la volonté d'afficher la photo de la personne sur le site web
+
+### Changed
+
+#### fusiondirectory-plugins
+- fd-plugins#4953 auto.master should be stored into ldap
+
+### Removed
+
+#### fusiondirectory-plugins
+- fd-plugins#5197 removing the ldif for default policy from the ppolicy plugin,
+- fd-plugins#5231 we should not be able to remove the global
+- fd-plugins#5233 Remove ppolicydefault.ldif and dhcpd.schema from source
+
+### Fixed
+
+#### fusiondirectory
+- fd#5184 When a fatal error happens and geticon is not working we see the {t} tag
+- fd#5188 Unclear error when geticon.php gets wrong information
+- fd#5190 Too many ldap request when loading user list
+- fd#5191 Too many ldap request when loading list (snapshots)
+- fd#5194 wrong icons / issue with objectType class_groupManagement.inc
+- fd#5195 Undefined index: dn / del_lock()
+- fd#5196 webservice: object is modified instead of created
+- fd#5234 Plugin's configuration are not inserted if they are already installed
+
+#### fusiondirectory-plugins
+- fd-plugins#5192 Fusiondirectory ldapmanager plugin fatal error when importing a ldif file
+- fd-plugins#5225 due to dhcp modification the network section on system is not inside a section
+- fd-plugins#5226 audit showing an error everytime we save an dhcp object
+- fd-plugins#5227 moving from branch inside a dhcp entry
+- fd-plugins#5228 when trying to copy a dhcp entry is get Missing argument 3 for userinfo::is_copyable(), called in /usr/share/fusiondirectory/include/class_CopyPasteHandler.inc on line 226 and defined" - File: /usr/share/fusiondirectory/include/class_userinfo.
+- fd-plugins#5229 when i have a system who is in the dhcp range of my dhcp server, it find and display the right data but don't save it
+- fd-plugins#5236 Missed icon in the fusioninventory plugin
+- fd-plugins#5241 css error due to sonar cleanup
