@@ -675,3 +675,43 @@
 - fd-plugins#5229 when i have a system who is in the dhcp range of my dhcp server, it find and display the right data but don't save it
 - fd-plugins#5236 Missed icon in the fusioninventory plugin
 - fd-plugins#5241 css error due to sonar cleanup
+
+## %"FusionDirectory 1.0.16" - 2016-10-04
+
+### Added
+
+#### fusiondirectory
+- fd#4925 document the autofs plugin
+- fd#5096 HTTP header authentication
+- fd#5154 Possibility to know who edit the same user when we have a lock entry error
+- fd#5157 Possibility to know when was a lock put when we have a conflict
+- fd#5162 allow DSA entries to be part of a group
+- fd#5163 allow DSA entries to be part of a group - need to a an explanation in the documentation for how to make this fonctionality
+- fd#5172 ldap error after upgrade from 1.0.15 release to 1.0.15 fixes (lock object)
+
+#### fusiondirectory-plugins
+- fd-plugins#5155 Add an ACL for LDAP tab
+- fd-plugins#5156 Add a backend configuration to desactivate the warning popup when we add a user
+- fd-plugins#5165 Possible to store sudo role in different OU in the LDAP Tree
+- fd-plugins#5173 putting acl on ldap/import export
+
+### Changed
+
+#### fusiondirectory
+- fd#5004 Do not require nis schema
+
+### Fixed
+
+#### fusiondirectory
+- fd#3587 Edit a template add bad characters
+- fd#4808 improve the script error code and return documentation in hooks
+- fd#5005 No upper case characters allowed in group-names
+- fd#5145 Dashboard should not have references and ldap tabs
+- fd#5149 Handling of SSL and URL when behind a proxy
+- fd#5151 Create only digit with %r% placeholder not work
+- fd#5152 We should not be able of adding users to groups we have no rights on
+- fd#5153 Manager that manage a department cannot lock an user
+
+#### fusiondirectory-plugins
+- fd-plugins#4997 getfields method returns wrong info in attrs_order
+- fd-plugins#5160 opsi import is broken
