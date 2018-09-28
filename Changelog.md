@@ -775,3 +775,82 @@
 - fd-plugins#5044 Use simpleManagement in GPG plugin
 - fd-plugins#5055 Argonaut actions launching is broken
 - fd-plugins#5075 Error to add ACL
+
+## %"FusionDirectory 1.0.14" - 2016-07-10
+
+### Added
+
+#### fusiondirectory
+- fd#4796 documentation for centos 6
+- fd#4831 Allow setting server name for password recovery feature
+- fd#4913 adding the eps and png of the FusionDirectory logo to the sources
+- fd#4924 adding the language Finnish (Finland) (fi_FI)
+- fd#4970 templates have no acls
+- fd#4982 CSV import base edition is broken
+
+#### fusiondirectory-plugins
+- fd-plugins#4142 Local quota
+- fd-plugins#4955 add two boolean attributes to community organization
+
+### Changed
+
+#### fusiondirectory
+- fd#4897 the breezy theme should be the default one in 1.0.14
+- fd#4915 refaire la favicon de FusionDirectory
+
+#### fusiondirectory-plugins
+- fd-plugins#4894 printGeneric code is too old and ugly and 1.1 code should be used instead
+- fd-plugins#4934 the default theme should be renomed legacy or kde3
+- fd-plugins#4937 the breezy theme should be the default one in 1.0.14
+- fd-plugins#4954 Regression: "Generic IMAP Server" (fdImapServer) was removed
+
+### Removed
+
+#### fusiondirectory-plugins
+- fd-plugins#4927 fdCommunityMembershipType should no be used/displayed in community projects dep.
+- fd-plugins#4946 the game plugin should be removed as its not longer usefull
+
+### Fixed
+
+#### fusiondirectory
+- fd#4882 Session lifetime...
+- fd#4890 Configuration saving is failing in setup
+- fd#4896 strings in recovery.tpl are not put in .po file
+- fd#4904 changement de mot de passe reste forcé après mise à jour du mot de passe
+- fd#4907 dans le template user, il ne mémorise pas la case forcer le changement mdp à la 1ere connexion
+- fd#4910 Greyed out icon are the same as normal one with breezy theme
+- fd#4912 erreurs php dans /var/log/messages (class_IconTheme.inc)
+- fd#4916 Les liens sont en bleus à beaucoup d’endroit où cela semble inadapté
+- fd#4918 Clean tpl files
+- fd#4920 plugins where there is still some images not in theme
+- fd#4921 update timeout colors
+- fd#4923 uid not passed to the mail-method cyrus
+- fd#4972 ACL assignment is broken
+- fd#4974 LDIF import crash on value 0
+- fd#4980 Icon status/dialog-warning missing in size 48 in breezy
+- fd#4981 trying to put an ACL assignments on an non existing branch crashes
+
+#### fusiondirectory-plugins
+- fd-plugins#4766 testing the autofs plugin
+- fd-plugins#4772 Autofs - Taille de champ "entrée automount" trop petite
+- fd-plugins#4773 Autofs - Vu liste n'affiche pas l'information principale pour les "Répertoires"
+- fd-plugins#4874 plugins where there is still some images not in theme
+- fd-plugins#4876 Can't edit system: "Workstation"
+- fd-plugins#4877 Can't edit Dns Zone.
+- fd-plugins#4878 Can't create "Network devices"
+- fd-plugins#4879 Can't add "printer" on Workstation
+- fd-plugins#4880 Remote Desktop stay greyed out.
+- fd-plugins#4881 Is possible to modify url link?
+- fd-plugins#4884 Case sensitive and DNS
+- fd-plugins#4922 old option option still present in cyrus mail method
+- fd-plugins#4943 when clicking on the left menu on the gpg entry FusionDirectory crash
+- fd-plugins#4944 when clicking on the left menu on the opsi import entry FusionDirectory crash
+- fd-plugins#4956 errror when suppressing or adding some service
+- fd-plugins#4971 Some services icons are missing
+- fd-plugins#4992 PHP error "deprecated call to old tabclass constructor"
+- fd-plugins#4994 Shell is broken
+
+### Security
+
+#### fusiondirectory
+- fd#4875 Hooks can lead to arbitrary code execution
