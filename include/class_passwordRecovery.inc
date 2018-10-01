@@ -116,6 +116,7 @@ class passwordRecovery extends standAlonePage {
 
     $smarty->append('js_files',     'include/pwdStrength.js');
     $smarty->append('css_files',    get_template_path('login.css'));
+    $smarty->assign('title',        _('Password recovery'));
     $smarty->display(get_template_path('headers.tpl'));
 
     $smarty->assign('step',           $this->step);

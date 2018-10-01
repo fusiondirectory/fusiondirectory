@@ -14,11 +14,11 @@
           <img src="geticon.php?context=actions&amp;icon=application-exit&amp;size=22" alt="Sign out"/>&nbsp;{t}Sign out{/t}
         </a>
         <a class="plugtop">
-          <img src="{$headline_image|escape}" alt="{t}{$headline}{/t}"/>{t}{$headline}{/t}
+          <img src="{$headline_image|escape}" alt="{t}{$headline|escape}{/t}"/>{t}{$headline|escape}{/t}
         </a>
       </div>
       <div id="header-right">
-        <a><span class="optional">{t}Signed in:{/t} </span><b>{$username}</b></a>
+        <a><span class="optional">{t}Signed in:{/t} </span><b>{$username|escape}</b></a>
         {if ($sessionLifetime > 0)}
         <div class="logout-label">
           <canvas id="sTimeout" width="22" height="22" title="{$sessionLifetime}|{t}Session expires in %d!{/t}"></canvas>

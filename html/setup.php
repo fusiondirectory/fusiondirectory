@@ -103,19 +103,20 @@ $ui = new userinfoNoAuth('setup');
 $display = "";
 require_once("../setup/main.inc");
 
-$smarty->assign("date", date("l, dS F Y H:i:s O"));
-$header = $smarty->fetch(get_template_path('headers.tpl'));
-
 $focus = '<script type="text/javascript">';
 $focus .= 'next_msg_dialog();';
 $focus .= '</script>';
 
 /* show web frontend */
 $setup = session::global_get('setup');
+
+$smarty->assign('date',           date('l, dS F Y H:i:s O'));
+$smarty->assign('headline',       $setup->get_header_text());
+$header = $smarty->fetch(get_template_path('headers.tpl'));
+
 $smarty->assign("contents",       $display.$setup->get_bottom_html());
 $smarty->assign("navigation",     $setup->get_navigation_html());
 $smarty->assign("headline_image", $setup->get_header_image());
-$smarty->assign("headline",       $setup->get_header_text());
 $smarty->assign("focus",          $focus);
 $smarty->assign('CSRFtoken',      CSRFProtection::getToken());
 $smarty->assign("msg_dialogs",    msg_dialog::get_dialogs());
