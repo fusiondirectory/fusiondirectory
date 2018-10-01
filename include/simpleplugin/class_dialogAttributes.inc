@@ -255,7 +255,10 @@ class DialogAttribute extends SetAttribute
     }
     $buttons  .= $this->renderInputField(
       'submit', 'add'.$id.'_dialog',
-      array('value' => $dialogButtonValue)
+      array(
+        'class' => 'dialog',
+        'value' => $dialogButtonValue
+      )
     );
     $buttons  .= $this->renderInputField(
       'submit', 'del'.$id,
@@ -333,7 +336,10 @@ class DialogOrderedArrayAttribute extends OrderedArrayAttribute
     $id = $this->getHtmlId();
     return $this->renderInputField(
       'submit', 'add'.$id.'_dialog',
-      array('value' => '{msgPool type=addButton}')
+      array(
+        'class' => 'dialog',
+        'value' => '{msgPool type=addButton}'
+      )
     );
   }
 
@@ -611,7 +617,10 @@ class MailsAttribute extends DialogAttribute
     );
     $buttons  .= $this->renderInputField(
       'submit', 'add'.$id.'_dialog',
-      array('value' => '{msgPool type=addButton} (from list)')
+      array(
+        'class' => 'dialog',
+        'value' => '{msgPool type=addButton} (from list)'
+      )
     );
     $buttons  .= $this->renderInputField(
       'submit', 'del'.$id,
@@ -764,7 +773,7 @@ class UserAttribute extends DialogButtonAttribute
     $display .= $this->renderInputField(
       'image', $id.'_dialog',
       array(
-        'class' => 'center',
+        'class' => 'center dialog',
         'src'   => 'geticon.php?context=actions&amp;icon=document-edit&amp;size=16',
         'title' => _('Edit'),
         'alt'   => _('Edit')
