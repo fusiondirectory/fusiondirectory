@@ -48,6 +48,7 @@ function displayLogin()
   $smarty->assign ('revision',  FD_VERSION);
   $smarty->assign ('year',      date('Y'));
   $smarty->append ('css_files', get_template_path('login.css'));
+  $smarty->assign('title',      _('Sign in'));
 
   /* Some error to display? */
   if (!isset($message)) {

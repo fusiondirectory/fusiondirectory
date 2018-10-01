@@ -2,11 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" {if $lang}lang="{$lang}" xml:lang="{$lang}"{/if} {if $rtl}dir="rtl" class="rtl"{else}class="ltr"{/if}>
 
 <head>
-  <title>{if isset($title)}{$title}{else}FusionDirectory{/if}</title>
+  <title>FusionDirectory{if isset($title)} - {$title|escape}{elseif isset($headline)} - {$headline|escape}{/if}</title>
 
   <meta charset="utf-8"/>
 
-  <meta name="description" content="FusionDirectory - Login"/>
+  <meta name="description" content="FusionDirectory - Your Infrastructure Manager"/>
   <meta name="author" lang="en" content="FusionDirectory Project"/>
   <meta name="viewport" content="width=device-width"/>
 
