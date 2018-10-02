@@ -897,6 +897,10 @@ class ObjectLinkAttribute extends DisplayLDAPAttribute
 
   function renderFormInput ()
   {
+    if (empty($this->value)) {
+      return '';
+    }
+
     try {
       return objects::link($this->value, $this->type);
     } catch (NonExistingLdapNodeException $e) {
