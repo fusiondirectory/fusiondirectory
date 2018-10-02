@@ -51,14 +51,15 @@ class templateDialog
 
   function save_object ()
   {
-    if ($this->target === NULL) {
-      if (isset($_POST[$this->post_cancel])) {
-        return $this->handle_cancel();
-      }
-      if ((isset($_POST[$this->post_finish]) || isset($_GET[$this->post_finish])) && is_object($this->template)) {
-        $this->template->save_object();
-        return $this->handle_finish();
-      }
+    if (isset($_POST[$this->post_cancel])) {
+      return $this->handle_cancel();
+    }
+
+    if (($this->target === NULL) &&
+        (isset($_POST[$this->post_finish]) || isset($_GET[$this->post_finish])) &&
+        is_object($this->template)) {
+      $this->template->save_object();
+      return $this->handle_finish();
     }
 
     if (
