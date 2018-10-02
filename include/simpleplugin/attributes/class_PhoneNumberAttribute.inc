@@ -139,7 +139,7 @@ class PhoneNumberButtonAttribute extends PhoneNumberAttribute
       $display .= $this->renderAcl($this->renderInputField(
         'image', $id.'_edit',
         array(
-          'class' => 'center',
+          'class' => 'center dialog',
           'src'   => 'geticon.php?context=actions&amp;icon=document-edit&amp;size=16',
           'title' => _('Edit'),
           'alt'   => _('Edit')
