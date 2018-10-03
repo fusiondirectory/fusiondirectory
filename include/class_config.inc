@@ -1054,7 +1054,9 @@ class config
     $this->data['SECTIONS']['personal'] = array('NAME' => _('My account'), 'PRIORITY' => 40);
     $personal = array();
     foreach ($this->data['TABS']['USERTABS'] as $tab) {
-      $personal[] = array('CLASS' => $tab['CLASS'], 'ACL' => 'user/'.$tab['CLASS'].':self');
+      if ($plist->info[$tab['CLASS']]['plSelfModify']) {
+        $personal[] = array('CLASS' => $tab['CLASS'], 'ACL' => 'user/'.$tab['CLASS'].':self');
+      }
     }
     if (!isset($this->data['MENU']['personal'])) {
       $this->data['MENU']['personal'] = $personal;
