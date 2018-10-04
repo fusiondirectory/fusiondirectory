@@ -222,10 +222,13 @@ class template
 
   /*! \brief Set values
    */
-  function setValues($values)
+  function setValues($values, $ldapFormat = FALSE)
   {
     foreach ($values as $class => $class_values) {
       foreach ($class_values as $name => $value) {
+        if ($ldapFormat) {
+          $value = $this->tabObject->by_object[$class]->attributesAccess[$name]->inputValue($value);
+        }
         $this->tabObject->by_object[$class]->attributesAccess[$name]->setValue($value);
       }
     }
