@@ -854,3 +854,60 @@
 
 #### fusiondirectory
 - fd#4875 Hooks can lead to arbitrary code execution
+
+## %"FusionDirectory 1.0.13" - 2016-06-13
+
+### Added
+
+#### fusiondirectory
+- fd#4774 Add an LDAP Audit system
+- fd#4803 "Member object"  suggestions
+- fd#4853 get the value of the connect user in a variable to be passed to scripts hooks
+
+#### fusiondirectory-plugins
+- fd-plugins#4775 Create an expiration alert mail script
+- fd-plugins#4783 Use of templates through the webservice
+- fd-plugins#4854 adding "lock/unlock entry" function to the webservice
+
+### Changed
+
+#### fusiondirectory-plugins
+- fd-plugins#4787 Mail server should not be mandatory in alias plugin
+- fd-plugins#4790 make functions names consistent
+- fd-plugins#4799 creating an object with several activated tabs in one go
+
+### Removed
+
+#### fusiondirectory
+- fd#4757 padlock next to user dn in edition screen is confusing
+- fd#4826 File docs/INSTALL must be updated or deleted
+
+### Fixed
+
+#### fusiondirectory
+- fd#4759 disabled account can still reset password ?
+- fd#4794 sambaNTpassword is not updated when password is changed through «My account» menu
+- fd#4806 Importing ldif file with comments generates error
+- fd#4821 password recovery, email field focus
+- fd#4823 Imagick is not detected during the setup
+- fd#4824 Error when I will create fd-admin in the setup
+- fd#4828 FusionDirectory does not work with Smarty 3.1.29
+- fd#4863 top header of the login page keep the green even when the breezy them is activated
+
+#### fusiondirectory-plugins
+- fd-plugins#4763 Translation mishaps in dovecot plugin
+- fd-plugins#4776 unwanted debug in jsonrpc.php
+- fd-plugins#4782 Systems snapshots are broken
+- fd-plugins#4788 'Incorrect response id (request id: 1, response id: )'
+- fd-plugins#4789 Webservice setfields method needs documentation
+- fd-plugins#4791 setfields() : values structure and fields names
+- fd-plugins#4855 PHP error about DNSenabled
+- fd-plugins#4856 Copy past test of server
+- fd-plugins#4857 When mail can be used to login, it should be unique
+
+### Security
+
+#### fusiondirectory
+- fd#4764 Fusiondirectory exposes bindpw on error
+
+
