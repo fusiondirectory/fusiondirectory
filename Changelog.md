@@ -910,4 +910,53 @@
 #### fusiondirectory
 - fd#4764 Fusiondirectory exposes bindpw on error
 
+## %"FusionDirectory 1.0.12" - 2016-05-04
+
+### Added
+
+#### fusiondirectory
+- fd#4612 Graphical bugs if prototype is not installed
+- fd#4687 ACL assignments can’t give rights to groups.
+- fd#4722 Use Nginx instead of Apache2
+- fd#4735 nginx + php-fpm with fusiondirectory
+- fd#4738 extend the search query to email
+
+#### fusiondirectory-plugins
+- fd-plugins#4742 ppolicy: description cannot be set
+- fd-plugins#4743 ppolicy: user interface improvements
+
+### Changed
+
+#### fusiondirectory
+- fd#4678 group : member objects list
+- fd#4746 Error when saving user if objectClass person is missing.
+
+#### fusiondirectory-plugins
+- fd-plugins#4689 we should be able to create mail address without having a server and a service referenced
+- fd-plugins#4699 move postfix service in his own plugin
+- fd-plugins#4706 move the spamassasin service to his own plugin
+- fd-plugins#4721 move the spam options for the mail user tab to a spamassasin user tab
+
+### Removed
+
+#### fusiondirectory
+- fd#4713 remove the antivirus service icons
+- fd#4737 we should remove data['SERVERS']['IMAP'] from config
+- fd#4755 user template: password should show only one field
+
+#### fusiondirectory-plugins
+- fd-plugins#4692 remove the antivirus service
+- fd-plugins#4714 leftover in services-fd.schema of the removal of the asterisk plugin
+- fd-plugins#4739 remove the option Use custom sieve script (disables all Mail options!)
+
+### Fixed
+
+#### fusiondirectory
+- fd#4754 user template : %r|% does not work in password
+
+#### fusiondirectory-plugins
+- fd-plugins#4658 csv import with empty field
+- fd-plugins#4740 in the cyrus service the hostname, port should be mandatory
+- fd-plugins#4741 in the dovecot service the hostname, port should be mandatory
+
 
