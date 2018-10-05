@@ -1137,3 +1137,78 @@
 #### fusiondirectory-plugins
 - fd-plugins#4385 Locked users can connect using SSH keys
 
+## %"FusionDirectory 1.0.9.2" - 2016-01-10
+
+### Added
+
+#### fusiondirectory
+- fd#4001 passwordProposalHook
+- fd#4216 the setup in the ldap inspection step need a refresh button
+- fd#4217 the reset password system should look for supannMailPerso if the supann  plugin is installed
+- fd#4221 developer doc on documentation.fusiondirectory.org should have an explanation of the is_this_account system
+- fd#4239 ReadOnlyLDAPAttribute should be moved to class_attribute.inc
+- fd#4280 passwordProposalHook documentation should be written
+- fd#4288 the documentation about automation should be added
+
+#### fusiondirectory-plugins
+- fd-plugins#4220 Add a function to list the tab that are activate on an object in fusiondirectory-shell
+- fd-plugins#4334 the url in the webservice-shell should have the jsonrpc.php added automatically
+- fd-plugins#4353 Error when I try to grab centos packages with an argonaut-server on centos
+- fd-plugins#4409 the ssh plugin doesnt support ecdsa-sha2-nistp256 ssh public key format
+
+### Changed
+
+#### fusiondirectory
+- fd#2166 Semantic of plDescription and plShortname
+- fd#4219 allow FusionDirectory to be integrated into a cas infrastructure
+- fd#4343 Underscores in departement/domain component names not allowed
+- fd#4390 bump all copyright to 20xx-2016
+
+#### fusiondirectory-plugins
+- fd-plugins#4111 Clean FAI support daemon method
+- fd-plugins#4227 Change default block size value in 1024
+- fd-plugins#4238 ReadOnlyLDAPAttribute should be moved to class_attribute.inc
+- fd-plugins#4292 Migrate last FAI classes to simplePlugin
+- fd-plugins#4298 the usage of the fusiondirectory-shell doesnt explain the various options for connecting
+- fd-plugins#4364 Clean up the DaemonEvent mess
+- fd-plugins#4388 removed old gosa copyright in new argonaut code
+- fd-plugins#4389 bump all copyright to 20xx-2016
+
+### Removed
+
+#### fusiondirectory
+- fd#4281 PHP error about wrong acl when I edit the configuration
+- fd#4347 Remove config search method
+- fd#4367 We should delete the databaseManagement class
+
+#### fusiondirectory-plugins
+- fd-plugins#4109 The fai tab should not contain kernel options
+- fd-plugins#4365 We should delete the rsyslog plugin
+- fd-plugins#4394 Remove the mail method Cyrus Sendmail
+- fd-plugins#4419 remove the class_BootKernelAttribute.inc
+- fd-plugins#4425 remove fix_munged from the samba plugin
+
+### Fixed
+
+#### fusiondirectory
+- fd#4231 difference in provided ldap server in debian and Centos
+- fd#4253 PHP error when I go at dashboard
+- fd#4254 we can no longer select a windows workstation in the user samba tab systeme trust
+- fd#4261 It appears that prehooks not work with password recovery
+- fd#4345 password recovery show an error when activating recovery password
+- fd#4378 user deleted when we change its base
+- fd#4380 when migrating users with fusiondirectory-setup –migrate-users it cannot migrate user with samba attributes
+
+#### fusiondirectory-plugins
+- fd-plugins#3880 mailbox deletion through sieve and cyrus does not work
+- fd-plugins#4067 Argonaut Server documentation should mention «Get packages informations» option
+- fd-plugins#4200 I must tick "Search in subtrees" to see the elements in repository management
+- fd-plugins#4209 we can no longer select a windows workstation in the user samba tab systeme trust
+- fd-plugins#4225 the reset password system should look for supannMailPerso if the supann  plugin is installed
+- fd-plugins#4241 Problem when I try to save an already existing supann entry - dropdown dependancy not already filled
+- fd-plugins#4344 when saving the configuration with the application plugin installed
+- fd-plugins#4346 CSV import is broken
+- fd-plugins#4379 can't change informations in "Network Settings" in a network component object in systems
+- fd-plugins#4382 SSH plugin: error while adding keys with space(s) in comment
+- fd-plugins#4392 Error when I open a system from the inventory menu
+- fd-plugins#4395 PHP errors when I open inventory tab from a system
