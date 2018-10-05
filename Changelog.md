@@ -1212,3 +1212,53 @@
 - fd-plugins#4382 SSH plugin: error while adding keys with space(s) in comment
 - fd-plugins#4392 Error when I open a system from the inventory menu
 - fd-plugins#4395 PHP errors when I open inventory tab from a system
+
+## %"FusionDirectory 1.0.9.1" - 2015-10-03
+
+### Added
+
+#### fusiondirectory
+- fd#4149 Removal of the dashboard schema with -e is not in the migration documentation
+- fd#4154 add support for displayName attribute
+- fd#4185 The configuration is lost after upgrading to 1.0.9.1
+- fd#4186 The 1.0.9.x version breaks my password hooks
+- fd#4187 Documentation for new password use
+- fd#4190 fusiondirectory-setup should be improved
+- fd#4197 When we upgrade from 1.0.8.9 at 1.0.9 the old schemas are not removed
+- fd#4208 list of group membership in user when in mixed mode 1.0.9x is not showing the same info as in 1.0.8.9
+
+### Changed
+
+#### fusiondirectory
+- fd#4168 Underscores in group names not allowed anymore
+- fd#4173 When mixed group plugin is installed group and ogroup tabs should be merged
+- fd#4196 roles should no allow space in their name
+
+#### fusiondirectory-plugins
+- fd-plugins#4180 on Droplist, put entries in alphetical order
+
+### Removed
+
+#### fusiondirectory
+- fd#4136 we should remove the samba.schema from our contrib directory in core source
+- fd#4193 Remove gosaAccount with fusiondirectory-setup --migrate-users
+
+#### fusiondirectory-plugins
+- fd-plugins#4139 Remove old documentation
+
+### Fixed
+
+#### fusiondirectory
+- fd#4158 Fatal error after role creation
+- fd#4172 Filter for ogroups should be on groupOfNames
+- fd#4179 st field seems to be reading correctling but not setting correctly in a template
+- fd#4184 We missed a foreignkey in system trust in unix tab for user
+- fd#4191 Error in the fusiondirectory-setup
+- fd#4194 list of users membership in group when in mixed mode 1.0.9x is not showing the same info as in 1.0.8.9
+- fd#4195 when going to the page groups and roles with mixedgroup plugin installed
+- fd#4206 when a mixed group posixGroup and groupOfNames without the extra fd objectClass and attributes is opened then saved it tell me a group with the same name already exist
+
+#### fusiondirectory-plugins
+- fd-plugins#4169 Uncaught exception 'NonExistingObjectTypeException' with message 'Non-existing type "group"
+- fd-plugins#4183 option host-name with winstations results in error
+- fd-plugins#4199 the logon hours page is not correctly constructed
