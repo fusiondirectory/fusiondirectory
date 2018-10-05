@@ -1005,3 +1005,90 @@
 - fd-plugins#4637 DNS tab won’t work on winstations
 - fd-plugins#4676 Edit IDs problems related to our selenium test
 
+## %"FusionDirectory 1.0.10" - 2016-03-20
+
+### Added
+
+#### fusiondirectory
+- fd#4492 "login" name in group add page
+- fd#4515 fusiondirectory-setup need an option to migrate the dns 1.0.9.x version to 1.0.10
+- fd#4529 The category in department and organization should be a dropdown filled from the configuration backend
+- fd#4530 in the department and organization we need to add the labeledUri
+- fd#4531 The co (country friendlyName) in department and organization should be added and be dropdown filled from the configuration backend
+- fd#4539 add mobile phone to the user page
+- fd#4543 Add an option to fusiondirectory-setup to see the uid that are duplicated
+- fd#4561 be able to select all user from ou=people,dc=opensides,dc=be but be confined to your branch for all the rest
+- fd#4562 add http auth
+- fd#4564 Add a C modifier for counting an array
+- fd#4565 Fixedbutton themes should replace the default one
+
+#### fusiondirectory-plugins
+- fd-plugins#4484 allow ldap ipv6 uris
+- fd-plugins#4496 DNS plugin should support RFC 2317 for reverse zones
+- fd-plugins#4504 Support for split horizon should be added
+- fd-plugins#4511 Add a button to launch argonaut-ldap2zone from FusionDirectory
+- fd-plugins#4525 we should have attribute for start and end date into the personal-fd.schema and add it to the personal schema
+- fd-plugins#4526 add "co" attribute into personal-fd.schema and into personal plugin
+- fd-plugins#4527 create a community plugin to manage community aka organization and projects
+- fd-plugins#4528 tab community on the user
+- fd-plugins#4532 the personal plugin should have a field where we can put the badge number
+- fd-plugins#4533 make a subcontracting plugin
+- fd-plugins#4580 Newsletter plugin
+
+### Changed
+
+#### fusiondirectory
+- fd#4480 LDAP::convert and LDAP::fix functions are causing problems
+- fd#4518 Plugin deletion contains some useless ldap operation
+- fd#4519 ldap::rmdir_recursive is not optimal
+- fd#4524 To be able to add the organization URI into the User part of the user, the uri from Personal contact information should be moved to personal plugin
+- fd#4610 postalAddress (and homepostalAddress) content should stick to the RFC
+- fd#4611 setRequired should be public
+
+#### fusiondirectory-plugins
+- fd-plugins#1217 DNS service must be redone
+- fd-plugins#4468 Error when I try to move a system with the DNS tab activate
+- fd-plugins#4592 its best if we use the /html/themes everywher in place of /html/images evertime is possible
+- fd-plugins#4620 postalAddress (and homepostalAddress) content should stick to the RFC
+
+### Removed
+
+#### fusiondirectory
+- fd#4517 Some obsolete objectClass are still searched for in config
+
+#### fusiondirectory-plugins
+- fd-plugins#4490 nagios.tpl file is not used anymore
+- fd-plugins#4520 Syslog server field should be removed
+- fd-plugins#4521 LDAP server field should be removed (gotoLdapField)
+- fd-plugins#4523 ntp server should be removed
+- fd-plugins#4576 create tab for the plugin community onto organization and department
+
+### Fixed
+
+#### fusiondirectory
+- fd#4476 rewrite the part about fusiondirectory core in the documentation
+- fd#4477 rewrite the configuration password recovery page as this as been integrated into the configuration in core
+- fd#4478 Using %askme% in User id and group id in templates does not work
+- fd#4482 Debug log prevent connection in some cases
+- fd#4486 possible documentation tweaks
+- fd#4497 The order of user id and group id are inverted
+- fd#4498 Bad error message when we will use a GID with a non-existent group
+- fd#4505 fusiondirectory-setup --migrate-users not work when the users don't have all the samba attributs
+- fd#4508 second email and first email are inverted in the password recovery configuration page
+- fd#4544 Possibility to see the uid that are duplicate when we install FusionDirectory
+- fd#4557 when a user is on top people branch and get an acl in subtree for a lower branch i get " The supplied base is not valid and has been reset to the previous value! "
+- fd#4569 Groups containing unknown type objects or deleted objects does not appear
+- fd#4600 'base' sticky or not ?
+- fd#4606 the login column is missing in the groupOfname user selection list
+- fd#4613 Error about sambaUnixIdPool is unclear
+
+#### fusiondirectory-plugins
+- fd-plugins#4495 Use ldap_escape in compute_dn
+- fd-plugins#4512 when using cyrus in unix hierarchy mode and creating a user and activating mail tab at the same time, the mailbox is not created
+- fd-plugins#4514 It takes too long to load the reference tab for a DNS zone
+- fd-plugins#4540 Problème avec les vcf (vcards)
+- fd-plugins#4555 the terminal plugin has an error with the latest ntp removal fix
+- fd-plugins#4563 DNS zone serial is not updated when record are changed through the DNS tab of a system
+- fd-plugins#4575 Error with samba plugin and sambantpassword attribute
+- fd-plugins#4591 It’s impossible to delete root records in DNS zones
+- fd-plugins#4622 DNS record should be sorted
