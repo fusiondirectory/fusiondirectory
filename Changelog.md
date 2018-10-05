@@ -959,4 +959,49 @@
 - fd-plugins#4740 in the cyrus service the hostname, port should be mandatory
 - fd-plugins#4741 in the dovecot service the hostname, port should be mandatory
 
+## %"FusionDirectory 1.0.11" - 2016-04-07
+
+### Added
+
+#### fusiondirectory
+- fd#4659 when creating a user via  template or csv import, mandatory , alreay defined fields have to be re-inputed even if already defined
+
+#### fusiondirectory-plugins
+- fd-plugins#4632 Webservice needs a better method for modification
+- fd-plugins#4660 csv import lacks an option or help on what to do with the first line
+
+### Changed
+
+#### fusiondirectory-plugins                                                                                                                                                                                                     
+- fd-plugins#4657 community organization membership type                                                                                                                                                                         
+                                                                                                                                                                                                                                 
+### Removed                                                                                                                                                                                                                      
+                                                                                                                                                                                                                                 
+#### fusiondirectory                                                                                                                                                                                                             
+- fd#4621 Use of mcrypt should be removed                                                                                                                                                                                        
+- fd#4652 The weird _copy fallback should be removed                                                                                                                                                                             
+                                                                                                                                                                                                                                 
+#### fusiondirectory-plugins                                                                                                                                                                                                     
+- fd-plugins#4654 DHCP seems to use inexistant method getCn                                                                                                                                                                      
+                                                                                                                                                                                                                                 
+### Fixed                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                 
+#### fusiondirectory                                                                                                                                                                                                             
+- fd#4633 change requirement to php 5.4 for centos
+- fd#4634 DNS PTR migration does not work
+- fd#4638 UI issue, entry disappear in 'Base' dropdown
+- fd#4639 depending on FD language setting, the calendar doesn't show up on icon click
+- fd#4640 strange error when following org's link from user "references" tab
+- fd#4653 Having a wrong default location should trigger a fatal error
+- fd#4655 The edit anyway button does not work in my account menu
+- fd#4673 ImageAttribute are broken
+- fd#4674 translation issue  : department is service in french not département
+
+#### fusiondirectory-plugins
+- fd-plugins#4391 Choices order seems random in shell
+- fd-plugins#4630 DNS adding reverse zone issue (tested on FD 1.0.10) in class B and class A
+- fd-plugins#4635 [DNS] Reverse zone association breaks when there are several A record for the same domain.
+- fd-plugins#4636 [SYSTEMS] When add Windows Workstation (winStation) and enable DHCP it will not be enabled when edit again
+- fd-plugins#4637 DNS tab won’t work on winstations
+- fd-plugins#4676 Edit IDs problems related to our selenium test
 
