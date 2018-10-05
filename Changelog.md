@@ -1092,3 +1092,48 @@
 - fd-plugins#4575 Error with samba plugin and sambantpassword attribute
 - fd-plugins#4591 It’s impossible to delete root records in DNS zones
 - fd-plugins#4622 DNS record should be sorted
+
+## %"FusionDirectory 1.0.9.3" - 2016-02-06
+
+### Added
+
+#### fusiondirectory
+- fd#4459 Desactivate other authentification method from configuration file
+
+### Changed
+
+#### fusiondirectory
+- fd#4485 'fusiondirectory-insert-schema -m' should check if the specificed file exists
+
+#### fusiondirectory-plugins
+- fd-plugins#4456 Can't find a way to specify a '/' in distribution or media name in the repository plugin
+- fd-plugins#4465 remove from the service-fd.schema objectClass no longer used
+
+### Removed
+
+#### fusiondirectory
+- fd#4479 In primary group in unix tab there is a «None» option
+- fd#4481 «Enable primary group filter» option is obsolete
+
+#### fusiondirectory-plugins
+- fd-plugins#4463 There are still traces of the rsyslog plugin in the schema and config class
+
+### Fixed
+
+#### fusiondirectory
+- fd#4444 Debug log prevent connection in some cases
+- fd#4452 Adding a user to a group using "Groups and roles" tab creates some PHP errors
+- fd#4464 There are still traces of the rsyslog plugin in the schema and config class
+- fd#4466 fixing deprecated warnings in php7
+
+#### fusiondirectory-plugins
+- fd-plugins#4457 FusionDirectory don't find the dns server if he is in a department
+
+### Security
+
+#### fusiondirectory
+- fd#4473 Locked users can connect using SSH keys
+
+#### fusiondirectory-plugins
+- fd-plugins#4385 Locked users can connect using SSH keys
+
