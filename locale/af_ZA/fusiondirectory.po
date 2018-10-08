@@ -10,12 +10,11 @@ msgstr ""
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
 "POT-Creation-Date: 2018-10-04 08:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: fusiondirectory <contact@fusiondirectory.org>, 2018\n"
-"Language-Team: Norwegian Bokmål (https://www.transifex.com/fusiondirectory/teams/12202/nb/)\n"
+"Language-Team: Afrikaans (South Africa) (https://www.transifex.com/fusiondirectory/teams/12202/af_ZA/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nb\n"
+"Language: af_ZA\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: include/class_msg_dialog.inc:136 include/class_msg_dialog.inc:172
@@ -45,7 +44,7 @@ msgstr ""
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:187
 #: setup/setup_checks.tpl.c:5 ihtml/themes/breezy/msg_dialog.tpl.c:2
 msgid "Error"
-msgstr "Feil"
+msgstr ""
 
 #: include/class_msg_dialog.inc:177
 msgid "Please fix the above error and reload the page."
@@ -125,7 +124,7 @@ msgstr ""
 #: plugins/admin/departments/dep-list.xml:48
 #: setup/class_setupStepMigrate.inc:806
 msgid "Create"
-msgstr "Opprett"
+msgstr ""
 
 #: include/management/class_management.inc:217 include/class_listing.inc:1721
 msgid "Export list"
@@ -143,7 +142,7 @@ msgstr ""
 #: plugins/admin/departments/dep-list.xml:79
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:192
 msgid "Edit"
-msgstr "Endre"
+msgstr ""
 
 #: include/management/class_management.inc:233 include/class_listing.inc:1633
 #: include/class_listing.inc:1668
@@ -174,7 +173,7 @@ msgstr ""
 #: plugins/admin/departments/dep-list.xml:67
 #: plugins/admin/departments/dep-list.xml:88
 msgid "Remove"
-msgstr "Fjern"
+msgstr ""
 
 #: include/management/class_management.inc:278 include/class_listing.inc:1766
 msgid "Create snapshot"
@@ -336,7 +335,7 @@ msgstr ""
 #: setup/class_setupStepConfig.inc:109 setup/class_setupStepMigrate.inc:452
 #: setup/class_setupStepMigrate.inc:1053
 msgid "LDAP error"
-msgstr "LDAP-feil"
+msgstr ""
 
 #: include/class_config.inc:320
 msgid "Cannot bind to LDAP. Please contact the system administrator."
@@ -1574,7 +1573,7 @@ msgstr ""
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:69
 #: setup/setup_migrate_adminAccount.tpl.c:8
 msgid "Name"
-msgstr "Navn"
+msgstr ""
 
 #: include/simpleplugin/simple-select-list.xml:40
 #: include/simpleplugin/simple-list.xml:40
@@ -1586,7 +1585,7 @@ msgstr "Navn"
 #: plugins/admin/aclrole/class_aclRole.inc:102
 #: plugins/personal/generic/class_user.inc:104
 msgid "Description"
-msgstr "Beskrivelse"
+msgstr ""
 
 #: include/simpleplugin/class_simpleService.inc:113
 msgid "Get service status"
@@ -2123,7 +2122,7 @@ msgstr ""
 #: plugins/admin/acl/class_aclAssignment.inc:38
 #: plugins/admin/aclrole/class_aclRole.inc:94
 msgid "Properties"
-msgstr "Egenskaper"
+msgstr ""
 
 #: plugins/admin/departments/class_department.inc:67
 #, php-format
@@ -3167,7 +3166,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:255
 msgid "Host"
-msgstr "Vert"
+msgstr ""
 
 #: plugins/config/class_configInLdap.inc:255
 msgid "Host of the CAS server"
@@ -3559,7 +3558,7 @@ msgstr ""
 #: plugins/personal/generic/class_user.inc:53
 #: plugins/personal/generic/class_user.inc:61
 msgid "User"
-msgstr "Bruker"
+msgstr ""
 
 #: plugins/personal/generic/class_user.inc:54
 msgid "User account information"
@@ -4244,7 +4243,7 @@ msgstr ""
 #: setup/class_setupStepMigrate.inc:420 setup/class_setupStepMigrate.inc:500
 #: setup/class_setupStepMigrate.inc:511 setup/class_setupStepMigrate.inc:804
 msgid "Failed"
-msgstr "Feil"
+msgstr ""
 
 #: setup/class_setupStepMigrate.inc:347
 #, php-format
@@ -4510,7 +4509,7 @@ msgstr ""
 #: ihtml/themes/breezy/management/filter.tpl.c:2
 #: ihtml/themes/breezy/simple-filter.tpl.c:2
 msgid "Filter"
-msgstr "Filter"
+msgstr ""
 
 #: include/select/groupSelect/group-filter.tpl.c:5
 msgid "Show primary groups"
