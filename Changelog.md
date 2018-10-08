@@ -1262,3 +1262,213 @@
 - fd-plugins#4169 Uncaught exception 'NonExistingObjectTypeException' with message 'Non-existing type "group"
 - fd-plugins#4183 option host-name with winstations results in error
 - fd-plugins#4199 the logon hours page is not correctly constructed
+
+## %"FusionDirectory 1.0.9" - 2015-09-24
+
+### Added
+
+#### fusiondirectory
+- fd#2516 Having a way of generating objectTypes graphs
+- fd#3064 Migrate fai to simplePlugin
+- fd#3158 FusionDirectory could have an alternate theme
+- fd#3233 We should use freedesktop Icon Theme Specification
+- fd#3247 Plugins needs to be able to know which objectType they are opened as
+- fd#3594 We should be able to use roles for ACL assignements
+- fd#3730 Ppolicy plugin
+- fd#3771 Add /sbin/nologin in shells
+- fd#3780 We should migrate DNS and DHCP services root objects
+- fd#3787 template-fd.schema should be in the default schemas in fusiondirectory-insert-schema
+- fd#3804 Documentation for using role in acl assignement
+- fd#3813 Ppolicy plugin should check password history
+- fd#3845 Error when we add a posix group
+- fd#3857 We should be able to apply templates
+- fd#3905 Icons of actif tabs not appear on template
+- fd#3931 We need a plugin for support of ugly groups
+- fd#3959 Password force default hash does not work
+- fd#4008 edit locking should have a default value selected during web setup
+- fd#4012 Argonaut server should support HTTPS
+- fd#4040 add spanish colombian to FD
+- fd#4143 the template management has completely changed in 1.0.9 so we need a new documentation about this
+- fd#4152 Add an example of -o option to man page of fusiondirectory-insert-schema
+
+#### fusiondirectory-plugins
+- fd-plugins#955 write https support for PHP JSONRPC
+- fd-plugins#2678 sudoOption should allow to negate
+- fd-plugins#2894 More plugins should use foreignKeys
+- fd-plugins#2948 we should add write features to the webservice
+- fd-plugins#3258 Paste SSH public key directly in FD interface
+- fd-plugins#3733 Systems classes needs compute_dn methods
+- fd-plugins#3748 Set a default secure_path when we activate it
+- fd-plugins#3777 remove the obligation to have an gosaAccount on user entries to be displayed by FusionDirectory
+- fd-plugins#3844 Add title option on the tr
+- fd-plugins#3922 We need a plugin for support of ugly groups
+- fd-plugins#3929 Group synchronization Samba / UNIX
+- fd-plugins#3966 Argonaut server should support HTTPS
+- fd-plugins#3980 move phones out the asterisk plugin to the system plugins
+- fd-plugins#4000 some entries in the supann plugin don't have english explanation next to the attribute name
+- fd-plugins#4016 Webservice must respect ACLs
+- fd-plugins#4022 We should be able to create a user with fusiondirectory-shell
+- fd-plugins#4042 We missed a method to delete objects with fusiondirectory-shell
+- fd-plugins#4047 creating an argonaut-fai-monitor service
+- fd-plugins#4062 Specify POSIX group in a message
+- fd-plugins#4145 Systems plugin needs to include obsolete asterisk attributes
+
+### Changed
+
+#### fusiondirectory
+- fd#1887 Template system should be redone
+- fd#1955 unique is checked only in the object base
+- fd#2004 Object groups should be handled automatically
+- fd#2407 Migrate class_user to simple-plugin
+- fd#2602 Improve debug-help plugin
+- fd#2608 group should use simplePlugin
+- fd#2622 Select classes should be cleaned and regrouped
+- fd#2624 ogroup should use simplePlugin
+- fd#2919 Setup should be rewritten
+- fd#3078 Clean ArrayAttribute hierarchy
+- fd#3248 Plugins needs to be able to know which objectType they are opened as
+- fd#3250 unique is checked only in the object base
+- fd#3299 Use relative path for geticon
+- fd#3317 LDAP reorganization
+- fd#3334 userManagement should be using simpleManagement
+- fd#3383 Password change and hooks should be cleaned
+- fd#3384 We need to remove manual handling of foreignKeys
+- fd#3452 remove the obligation to have an gosaAccount on user entries to be displayed by FusionDirectory
+- fd#3471 move the objectgroup plugin inside the group plugin
+- fd#3602 password recovery config should be merged with core configuration
+- fd#3636 Main menu should handle better icon sizes
+- fd#3718 groupOfNames and rfc2307bis situation must be cleaned
+- fd#3848 generic user view should be reorganized
+- fd#3850 the DESC of each attribute and object should describe exactly the purpose of it
+- fd#3851 it seems the gosaCacheEntry objectClass is no longer used
+- fd#3907 Rework CN and DN related options
+- fd#3921 User templates should support roles
+- fd#4051 Mac addresses should always be in lowercase
+- fd#4100 The logout screen should be redone (session expiry)
+- fd#4146 check the copyright date on licence in each file
+
+#### fusiondirectory-plugins
+- fd-plugins#2509 LDAP manager should be using simplePlugin
+- fd-plugins#2629 Object groups should be handled automatically
+- fd-plugins#2642 Select classes should be cleaned and regrouped
+- fd-plugins#2650 ogroup should use simplePlugin
+- fd-plugins#3063 Migrate fai to simplePlugin
+- fd-plugins#3272 All systems object should use simpleTabs
+- fd-plugins#3343 put the obsolete word into the system-fd.schema each time we see deprecated
+- fd-plugins#3386 We need to remove manual handling of foreignKeys
+- fd-plugins#3388 Samba account should handle samba password
+- fd-plugins#3418 ButtonAttribute API has changed
+- fd-plugins#3451 Some fai code should be made generic
+- fd-plugins#3503 Argonaut is sometimes called «infastructure service» and sometimes «service infrastructure»
+- fd-plugins#3593 We should migrate DNS and DHCP services root objects
+- fd-plugins#3743 In FAI plugin base propositions should contain distribution
+- fd-plugins#3862 developement documentation should be updated for icons situation
+- fd-plugins#4059 Manage argonaut-fuse with FusionDirectory and remove serviceRepository from the actions
+- fd-plugins#4075 Allow select Supann Role by choosing in several base
+- fd-plugins#4102 Kolab plugin should specify «Kolab 2»
+
+### Removed
+
+#### fusiondirectory
+- fd#3222 Clean dead code
+- fd#3231 Remove useless snashot fields from config ldap schema
+- fd#3722 We should remove the «enable copy&paste» option
+- fd#3741 Error when I do fusiondirectory-insert-schema
+- fd#3755 fusiondirectory.conf attribute configVersion is unused and should be removed
+- fd#3839 cleanup the icons situation
+- fd#3846 template are in their own branch now but code still reference gosaUserTemplate objectClass who is deprecated
+- fd#3849 we should remove (v2.6.1) from the schema descriptions
+- fd#3853 Remove deprecated objectClass and attributes of 1.0.8.7
+- fd#3858 Delete CUPS service references and goService
+- fd#3914 We should remove the class tabs
+- fd#3947 FD should stop using the word generic every where
+- fd#3949 We should get rid of get_post function
+- fd#3990 removing the test in fusiondirectory web setup for the database library
+- fd#4002 password.tpl is not used anymore it should be deleted
+- fd#4014 function missing in personal/generic/class_user.inc
+- fd#4056 We should remove the Automatic logins option
+- fd#4114 remove slapd.conf from contrib/openldap as no one use slapd.conf anymore and there is error in it
+
+#### fusiondirectory-plugins
+- fd-plugins#700 Test the uw-imap plugin
+- fd-plugins#3345 remove the uw-imap plugin from fusiondirectory sources
+- fd-plugins#3694 openstack-compute is obsolete and should be deleted
+- fd-plugins#3840 cleanup the icons situation
+- fd-plugins#3847 template are in their own branch now but code still reference gosaUserTemplate objectClass who is deprecated
+- fd-plugins#3852 we should remove (v2.6.1) from the schema descriptions
+- fd-plugins#3856 Delete CUPS service
+- fd-plugins#3916 We should remove the class tabs
+- fd-plugins#3981 remove the asterisk plugin from 1.0.9
+- fd-plugins#3992 remove the fax plugin
+- fd-plugins#4034 Remove the FIXME in FAI about priority
+- fd-plugins#4066 Weblink refers to IPMI
+- fd-plugins#4068 password.tpl is not used anymore it should be deleted
+- fd-plugins#4107 the autodect button for the mac address should be removed
+
+### Fixed
+
+#### fusiondirectory
+- fd#2595 The code should follow code guidelines
+- fd#3237 System trust in Unix tab is broken
+- fd#3342 Welcome icon is broken in 1.0.9
+- fd#3355 weird things happens when moving error pop-ups
+- fd#3424 PHP errors in setup step migrate
+- fd#3432 fdSaslRealm and fdSaslExop are booleans in the schema
+- fd#3752 the setup doesnt find the ldap anymore when fai plugin is installed
+- fd#3756 Error in the setup if the schemas are not inserted
+- fd#3779 Fatal error in recovery: Non-existing type "user"
+- fd#3820 Some PHP errors on password recovery page
+- fd#3842 Trustmode in template is automaticaly desactivated
+- fd#3843 Error when we try to lock a user
+- fd#3855 Templates and hooks should be fixed
+- fd#3897 Setup fails if root object is missing
+- fd#3906 PHP error when I try to copy a template
+- fd#3908 Create a user with template that force primary group not work
+- fd#3940 the in ldap inspection phase departements should not show fusiondirectory owned branch to migration
+- fd#3954 The ids in aclRole depend of the langage of FusionDirectory
+- fd#3955 ACL roles should use geticon as well
+- fd#3991 comment is wrong on the test for the php ldap extension
+- fd#4032 verify that there is no problem in the gettext conversion for all plugins
+- fd#4043 Display message about sasl but I not use it
+- fd#4061 PHP error when I use a template to create a user
+- fd#4063 Use a modifer for password in a template not work in SSHA
+- fd#4064 PHP error when I delete a template
+- fd#4073 CSV import is broken
+- fd#4092 Base field should show "/" instead of being empty for root.
+- fd#4093 There are HTML errors in the code
+- fd#4137 Locked icon on users is broken
+- fd#4141 check-deprecated should say which obsolete objectClass an entry is using
+- fd#4144 Reference for ogroup not work
+- fd#4148 PHP Errors when I set some informations in a template
+- fd#4150 PHP error on template after I remove the userPassword
+
+#### fusiondirectory-plugins
+- fd-plugins#3242 samba group tab is broken
+- fd-plugins#3255 Better error message if release is not set
+- fd-plugins#3354 Error about missing FAI class when creating a debian repository
+- fd-plugins#3589 Must set blocksize > 0 to cancel
+- fd-plugins#3740 CSV import is broken
+- fd-plugins#3745 Can’t create FAI profile
+- fd-plugins#3747 We cannot set a dhcp for a system
+- fd-plugins#3751 Systems plugin is broken
+- fd-plugins#3795 Copy of fai objects is not working
+- fd-plugins#3800 Errors about base are shown when switching from FAI to an other plugin
+- fd-plugins#3802 PHP error: undefined variable: dn
+- fd-plugins#3861 PHP error when we create a template
+- fd-plugins#3952 We miss dhcp service icon
+- fd-plugins#3958 fusiondirectory-shell don't give a prompt to create an user
+- fd-plugins#4007 when installing all plugins i got error message about samba sid-rid
+- fd-plugins#4009 The configured mail attribute '' is unsupported!  when all plugin at installed at once
+- fd-plugins#4031 verify that there is no problem in the gettext conversion for all plugins
+- fd-plugins#4037 It seem that force ssl not work for webservice
+- fd-plugins#4038 Mandatory for primary dns server and mailadress not work
+- fd-plugins#4039 Error when I update dns by dns service
+- fd-plugins#4045 Error when I edit FAIBASE partition class
+- fd-plugins#4060 Erreur plugin game lors de la création de serveur
+- fd-plugins#4065 I got a PHP error when I open a package class
+- fd-plugins#4072 CSV import is broken
+- fd-plugins#4076 eduPersonNickName isn't save if modified and generate an error if account with eduPersonNickName is deleted
+- fd-plugins#4083 the phone component should not have a nis group tab
+- fd-plugins#4112 the dns plugin allow me to edit zone name and ip address in the global zone service tab
+- fd-plugins#4147 check the copyright date on licence in each file
+- fd-plugins#4151 we cannot save a phone because the ipHostNumber attribute is not saved
