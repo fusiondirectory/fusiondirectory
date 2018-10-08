@@ -1472,3 +1472,168 @@
 - fd-plugins#4112 the dns plugin allow me to edit zone name and ip address in the global zone service tab
 - fd-plugins#4147 check the copyright date on licence in each file
 - fd-plugins#4151 we cannot save a phone because the ipHostNumber attribute is not saved
+
+## %"FusionDirectory 1.0.8.9" - 2015-08-03
+
+### Added
+
+#### fusiondirectory
+- fd#3930 updating the list of supported language in fusiondirectory
+
+#### fusiondirectory-plugins
+- fd-plugins#3831 we missed documentation for developers plugin
+- fd-plugins#3834 we missed documentation for webservice plugin
+- fd-plugins#3877 add a switch to select the good library when in wheezy or jessie for fusiondirectory-shell
+- fd-plugins#3937 Add title option on the tr
+- fd-plugins#3943 Add a option to not touch at the reverse zone
+- fd-plugins#3946 Add copyright in the header of the ppolicy plugin files
+
+### Changed
+
+#### fusiondirectory
+- fd#3829 Move documentation of dashboard and rolemanagement in core
+- fd#3961 the DESC of each attribute and object should describe exactly the purpose of it - ported description and formatting issues to 1.0.8.x
+
+### Fixed
+
+#### fusiondirectory
+- fd#3882 We missed jsonrpc entry in our api
+- fd#3928 Doesn't work if ldap's cn=admin has password with "<" symbol
+- fd#3932 Password default hashes of type CRYPT/XXX other than CRYPT/MD5 are not working
+- fd#3941 fusiondirectory-setup --check-ldap should respect password encoding taken from the ldap
+
+#### fusiondirectory-plugins
+- fd-plugins#3960 fusiondirectory-shell cannot cat a user
+- fd-plugins#3962 fusiondirectory-shell should handle multivaluated attributes properly
+
+## %"FusionDirectory 1.0.8.8" - 2015-07-01
+
+### Added
+
+#### fusiondirectory
+- fd#3705 add the to faq that if user doesnt show up check if nis.schema is installed
+- fd#3824 Unix account - /bin/false
+- fd#3870 fusiondirectory-setup miss the explanation of --check-deprectaed into to manpages
+- fd#3878 we need an option in fusiondirectory-setup to tell us the fusiondirectory version
+- fd#3879 we need an option into fusiondirectory-insert-schema to empty a schema
+- fd#3887 Support apache group for Archlinux
+- fd#3919 fusiondirectory-setup miss the explanation of --migrate-acls into to manpage
+
+#### fusiondirectory-plugins
+- fd-plugins#3830 we missed documentation for applications plugin
+- fd-plugins#3832 we missed documentation for ejbca plugin
+- fd-plugins#3833 we missed documentation for gpg plugin
+- fd-plugins#3841 we missed documentation for certificates plugin
+
+### Changed
+
+#### fusiondirectory
+- fd#3864 correct all the date and version on the man pages
+- fd#3920 reorganize the command for list, write, set vars
+
+#### fusiondirectory-plugins
+- fd-plugins#3890 Vacation range should be disabled on mail methods as none implements it
+- fd-plugins#3898 check if the demo plugin is current and use the current simple plugin api
+
+### Removed
+
+#### fusiondirectory
+- fd#3917 remove the fusiondirectory-setup --migrate-repositories
+
+#### fusiondirectory-plugins
+- fd-plugins#3913 remove screenshot and demosection.php from developers packages
+
+### Fixed
+
+#### fusiondirectory
+- fd#3884 Setup fails if root object is missing
+
+## %"FusionDirectory 1.0.8.7" - 2015-06-05
+
+### Added
+
+#### fusiondirectory
+- fd#3757 Let password-methods-sasl prompt for a password when a password-hook is  configured
+- fd#3769 Add /sbin/nologin in shells
+- fd#3776 Php error when editing a user
+- fd#3808 password strength widget is broken from email redirection
+- fd#3809 authorize to set the same password when using simpel password system ( not ppolicy)
+- fd#3817 Viewing a group removes all members that don't have a memberUid in addition to member attribute
+- fd#3826 We miss icons for plugin certificates
+- fd#3837 fusiondirectory-setup doesn't handle correctly start_tls support
+
+#### fusiondirectory-plugins
+- fd-plugins#3706 Manage userCertificate attribute under User tab
+- fd-plugins#3785 Add TXT values in global zone record
+- fd-plugins#3815 Conversion of PEM certificate in DER (binary)
+- fd-plugins#3827 We miss icons for plugin certificates
+
+### Changed
+
+#### fusiondirectory
+- fd#3772 Password recovery cannot find a suitable password method for current hash
+- fd#3810 check all copyright year in source
+
+#### fusiondirectory-plugins
+- fd-plugins#3811 check all copyright year in source
+- fd-plugins#3816 Fix refresh DNS button in systems
+- fd-plugins#3822 check all copyright year in source
+
+### Removed
+
+#### fusiondirectory
+- fd#3753 Recovery password use default hash
+
+#### fusiondirectory-plugins
+- fd-plugins#3835 Documentation that we must remove
+
+### Fixed
+
+#### fusiondirectory
+- fd#3783 Using Password recovery with the Personal plugin fails.
+
+#### fusiondirectory-plugins
+- fd-plugins#3762 when copying 4 servers at once from a departement to another
+- fd-plugins#3786 We cannot add TXT value in DNS
+
+## %"FusionDirectory 1.0.8.6" - 2015-05-27
+
+### Added
+
+#### fusiondirectory
+- fd#3713 the group and user is different for apache on SLES 11 SP3
+- fd#3746 Ppolicy should be applied in password recovery
+
+#### fusiondirectory-plugins
+- fd-plugins#3691 Export sub entries with ldapmanager
+- fd-plugins#3693 the apache icon for the apache plugin doesnt appaers in dashboard
+
+### Changed
+
+#### fusiondirectory
+- fd#3643 Ppolicy plugin should check password history
+
+#### fusiondirectory-plugins
+- fd-plugins#3720 Language setting
+
+### Removed
+
+#### fusiondirectory
+- fd#3692 class_ldap.inc has leftover debug
+- fd#3738 rfc2307bis option should be removed
+- fd#3750 fusiondirectory.conf attribute configVersion is unused and should be removed
+
+### Fixed
+
+#### fusiondirectory
+- fd#3235 When a manager changes its base the managed user attributes are changed
+- fd#3604 Role icon is display for all users
+- fd#3685 generateLdif() fails with bind-passwords containg '$'
+- fd#3690 the setup doesnt find the ldap anymore when fai plugin is installed
+- fd#3723 Missing icon
+- fd#3731 A icon is missing when we set a manager
+- fd#3732 When debug trace level is on, we can’t log in anymore
+
+#### fusiondirectory-plugins
+- fd-plugins#3687 Address book plugin show infos only in admin
+- fd-plugins#3719 ACLs of GPG-Plugin
