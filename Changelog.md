@@ -1886,3 +1886,66 @@
 
 #### fusiondirectory
 - fd#3316 possible xss in login screen
+
+## %"FusionDirectory 1.0.8.1" - 2014-09-02
+
+### Added
+
+#### fusiondirectory
+- fd#3060 We should try to ease migrations when schema attributes are disappearing
+- fd#3134 fusiondirectory-insert-schema should allow ldap auth
+- fd#3224 fusiondirectory-setup may contain help for migrating versions
+- fd#3282 adding /en/ files to fusiondirectory to enable automatic update of the transifex po files
+
+#### fusiondirectory-plugins
+- fd-plugins#3204 add a manpage for fusiondirectory-shell
+- fd-plugins#3283 adding /en/ files to fusiondirectory to enable automatic update of the transifex po files
+
+### Changed
+
+#### fusiondirectory
+- fd#3213 First time role installation on a default installation
+- fd#3236 fusiondirectory-setup contains duplicated code for branch creation
+- fd#3239 Use some CSS3 features
+- fd#3260 Apache2.4 does not allow underscores in request header variables anymore
+- fd#3284 we are now allowed to use non-ascii string in gettext translation for en
+
+#### fusiondirectory-plugins
+- fd-plugins#3251 The list of objectTypes is no longer present in class_debugHelp.inc
+- fd-plugins#3298 Use relative path for geticon
+
+### Removed
+
+#### fusiondirectory
+- fd#3203 remove overlib.js leftover
+- fd#3218 Remove the plugin restauration feature
+- fd#3230 Snapshot type should be deprecated
+- fd#3266 We must remove update-from-1.0.6-to-1.0.7 for 1.0.8.1
+
+#### fusiondirectory-plugins
+- fd-plugins#3271 Rename a server create PHP errors
+
+### Fixed
+
+#### fusiondirectory
+- fd#3212 After the upgrade the ACL system looks broken,
+- fd#3216 fusiondirectory-setup should die on ldap search error
+- fd#3217 Editing the config triggers php errors
+- fd#3238 Department creation is broken
+- fd#3261 Improve white-space trimming of mcrypt_decrypt() results
+- fd#3262 Make non-default plugin tabs browseable when the plugin is viewed in non-editable mode
+- fd#3268 fusiondirectory.secrets not included via fusiondirectory-apache.conf
+- fd#3274 When we migrate the acls we have an error
+- fd#3287 Undefined variable lang in index.php
+- fd#3290 Cannot run a postCreate Hook by using uid field as parameters
+
+#### fusiondirectory-plugins
+- fd-plugins#3189 ldap dump should escape html
+- fd-plugins#3241 Supann entite regexp is wrong
+- fd-plugins#3257 Allow options in sshPublicKey
+
+### Security
+
+#### fusiondirectory
+- fd#3227 Hide userPassword on change_password postmodfy hook error message
+- fd#3263 Login with expire password work if we modify the URL
