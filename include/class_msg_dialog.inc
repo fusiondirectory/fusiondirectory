@@ -172,8 +172,8 @@ class msg_dialog
               <img src="geticon.php?context=status&amp;icon=dialog-error&amp;size=32" alt="'._('Error').'"/>
             </td>
             <td style="width:100%">
-              <b>'.$this->s_Title.'</b><br/>
-              '.$this->s_Message.'<br><br/>
+              <b>'.htmlentities($this->s_Title, ENT_COMPAT, 'UTF-8').'</b><br/>
+              '.htmlentities($this->s_Message, ENT_COMPAT, 'UTF-8').'<br><br/>
               '._('Please fix the above error and reload the page.').'
             </td>
           </tr>
