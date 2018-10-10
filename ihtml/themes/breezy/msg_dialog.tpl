@@ -41,12 +41,12 @@
       {elseif $i_Type == $smarty.const.INFO_DIALOG || $i_Type == $smarty.const.CONFIRM_DIALOG}
         <img src="geticon.php?context=status&amp;icon=dialog-information&amp;size=32" class="center" alt="{t}Information{/t}"/>
       {/if}
-        {$s_Title}
+        {$s_Title|escape}
       </h2>
     </div>
 
     <div style="z-index:250;width:100%;">
-      {$s_Message}
+      {$s_Message|escape}
     </div>
     <div class="plugbottom">
       {if $s_Trace != "" && $i_TraceCnt != 0}
