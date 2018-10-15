@@ -2223,3 +2223,21 @@
 - fd-plugins#2868 freeradius plugin have erroneous default value for Tunnel medium type
 - fd-plugins#2934 the ipmi puglin does not work
 - fd-plugins#2939 ldif error in 1.0.6 to 1.0.7 upgrade LDIFs for plugin-systems
+
+## %"FusionDirectory 1.0.7.1" - 2013-11-18
+
+### Added
+
+#### fusiondirectory
+- fd#2830 refresh readme and install for 1.0.8
+- fd#2860 make a changelog for FusionDirectory 1.0.7.1
+
+### Changed
+
+#### fusiondirectory
+- fd#2850 Creating several templates with same login placeholder won't work
+
+### Fixed
+
+#### fusiondirectory
+- fd#2845 user main.inc is broken
