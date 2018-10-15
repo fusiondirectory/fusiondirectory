@@ -1949,3 +1949,176 @@
 #### fusiondirectory
 - fd#3227 Hide userPassword on change_password postmodfy hook error message
 - fd#3263 Login with expire password work if we modify the URL
+
+## %"FusionDirectory 1.0.8" - 2014-06-30
+
+### Added
+
+#### fusiondirectory
+- fd#1754 tools for upgrading schema
+- fd#1922 Foreign key should be handled between plugins
+- fd#2630 check hooks are not in the documentation
+- fd#2858 merge master of simple-plugin to fusiondirectory
+- fd#2898 SimpleManagement should handle better the name column
+- fd#2915 in the LDAP connection setup page we should have a button in the authentifiacation section that allow us to test the conbimation of admin dn and admin password
+- fd#2926 We should use freedesktop Icon Theme Specification
+- fd#2979 FusionDirectory could detect old ACL format
+- fd#3065 Having some default roles
+- fd#3157 some icons are missing I only see the alternate text
+- fd#3177 add a space modifier to remove space in template
+
+#### fusiondirectory-plugins
+- fd-plugins#343 we need a webservice for fusiondirectory
+- fd-plugins#2396 create a ipmi basic plugin for FusionDirectory
+- fd-plugins#2425 IPMI interfaces should have a tab for credentials
+- fd-plugins#2456 create a mail method for dovecot
+- fd-plugins#2496 merging the dovecot plugin
+- fd-plugins#2497 merging the sogo plugin
+- fd-plugins#2513 we miss an icon for sogo, repository, gpg
+- fd-plugins#2581 We should have a plugin for FusionInventory
+- fd-plugins#2662 the fusioninventory plugin should have a configuration plugin
+- fd-plugins#2695 Dashboard should provide a link to the argonaut server
+- fd-plugins#2714 Samba Domain general attributes management
+- fd-plugins#2910 argonaut server service should have an option to not get packages even if a mirror is created in FusionDirectory
+
+### Changed
+
+#### fusiondirectory
+- fd#1711 %attribute% syntax should be used
+- fd#2220 Snapshot URI and user should default to the same one as FD
+- fd#2313 Rethink categories and object types
+- fd#2397 The code should follow code guidelines
+- fd#2438 Find out why schemaCheck disable get_objectclasses
+- fd#2446 TrustsAttribute should be replaced by ServersAttribute
+- fd#2488 We should be able of getting a list of object from an objectType
+- fd#2502 divSelectBox should be able to display column titles
+- fd#2547 ldap class has unused vars and methods
+- fd#2566 SnapShotDialog and SnapshotHandler have duplicated code
+- fd#2596 Departments should be based on simplePlugin
+- fd#2625 We should be able to create link to object edition easily
+- fd#2670 Ease ACL handling
+- fd#2720 Improving HTML&CSS code
+- fd#2723 Default password hash is weak
+- fd#2727 Password posthooks are broken
+- fd#2731 Fix the 1.0.8 branch work
+- fd#2839 Fix the systemSelect situation
+- fd#2901 We need to clarify role situation
+- fd#2928 Message dialog should be reworked
+- fd#2929 LDAP dialog errors should have error style
+- fd#3074 cleaning the snapshot management
+- fd#3090 We can’t use /tmp for auth token anymore
+- fd#3092 Add a visual effect (change header color?) when editing
+
+#### fusiondirectory-plugins
+- fd-plugins#2410 The code should follow code guidelines
+- fd-plugins#2447 TrustsAttribute should be replaced by ServersAttribute
+- fd-plugins#2483 Rethink categories and object types
+- fd-plugins#2503 argonautLogView should not use divlist
+- fd-plugins#2512 class_tabs should be cleaned
+- fd-plugins#2532 applications and mimetypes should be moved to their own plugin
+- fd-plugins#2548 ldap class has unused vars and methods
+- fd-plugins#2550 divlist should not be used anymore
+- fd-plugins#2626 We should be able to create link to object edition easily
+- fd-plugins#2645 objects::ls should be used instead of config::getObjectList
+- fd-plugins#2655 we need an addon for the fusioninventory plugin that list all data thats in the inventory branch
+- fd-plugins#2741 systems plugin needs to be adapted to new listing feature
+- fd-plugins#2744 OPSI plugin contains duplicated code
+- fd-plugins#2852 rename the board plugin to dashboard
+- fd-plugins#2884 Ease ACL handling
+- fd-plugins#2896 More plugins should be using simpleManagement
+- fd-plugins#2937 We should use freedesktop Icon Theme Specification
+- fd-plugins#2949 add ipmi as a system attribute and not as a new system
+- fd-plugins#2954 Samba is uselessy using plugin class
+- fd-plugins#3036 Cannot redeclare class SubNodesAttribute
+- fd-plugins#3088 Ajout d'adresse mail alternative vide
+
+### Removed
+
+#### fusiondirectory
+- fd#2418 All gosaUnitTag related code should be removed
+- fd#2848 Duplicated code in setup_stepFinish
+- fd#3052 Debug output when not specified during setup
+
+#### fusiondirectory-plugins
+- fd-plugins#2420 All gosaUnitTag related code should be removed
+- fd-plugins#2729 Samba munged attribute ACLs
+- fd-plugins#2840 Fix the systemSelect situation
+- fd-plugins#3099 Role plugin moved to core
+
+### Fixed
+
+#### fusiondirectory
+- fd#2412 Reading categories should not be done in acl constructor
+- fd#2432 locking conflict errors
+- fd#2505 class_tabs should be cleaned
+- fd#2526 User cn is not always handled correctly
+- fd#2544 class_config should follow code guidelines
+- fd#2549 class certificate should follow code guidelines
+- fd#2551 divlist should be deleted
+- fd#2552 class_filter should follow code guidelines
+- fd#2553 class_msgPool should follow code guidelines
+- fd#2554 functions_debug should follow guidelines
+- fd#2555 class_plugin should follow code guidelines
+- fd#2560 Unused local vars in setupStep_Migrate
+- fd#2565 Password can't contains <
+- fd#2567 password-methods should follow code guidelines
+- fd#2575 Error warning header image should not break line
+- fd#2609 There is an error in plugin::tpl_parse_mask
+- fd#2637 Errors about attrSort redifinition
+- fd#2638 listing should allow to set the baseMode outside of the xml
+- fd#2673 fix config get_department documentation
+- fd#2728 Locked account and samba
+- fd#2732 scope one for filter is ignored
+- fd#2736 Create an user and setup an acl as the same time
+- fd#2738 when creating a user in a template with accent and uppercase modifier
+- fd#2758 when installing FusionDirectory for the first time it put an error message about samba sid / rid right on the login page
+- fd#2838 Fix filter.tpl files
+- fd#2844 LDAP SIZE LIMIT should be fixed
+- fd#2846 Load acl category from plManages entry
+- fd#2867 The code should not fix default values
+- fd#2904 setup is broken in 1.0.8 when inspecting department
+- fd#2916 Group creation is broken
+- fd#2917 Problem with Unix settings "Force UID/GID" and "User must change password on first login"
+- fd#2918 when creating the fd-admin user in the migration phase i got an error
+- fd#2938 typo error in class_DaemonEvent.inc
+- fd#2977 fusiondirectory-setup --migrate-acls fails if roles branch does not exists.
+- fd#3002 Improve HTML code in order to ease tests
+- fd#3027 Warning the gidNumber is already in use when we edit a group
+- fd#3030 Info message when we copy/paste ACL roles in the same place
+- fd#3041 divSelectBox should take an html id in its constructor
+- fd#3044 Cannot apply an ACL
+- fd#3045 In acl assignments the base sometimes wrongly show
+- fd#3066 Copy user in an other base create the user in the root base
+- fd#3067 The copy of an user is not in the group of these user
+- fd#3087 Renommer un groupe
+- fd#3111 systemSelect crash the unix tab
+- fd#3120 samba domain don't appears !
+- fd#3163 Icon theme inheritance is broken
+
+#### fusiondirectory-plugins
+- fd-plugins#2511 FusionDirectory should provide valid HTML
+- fd-plugins#2530 User GPG keys info are not fetched when opening the tab
+- fd-plugins#2607 PHP error "Undefined property: mailgroup::$uid"
+- fd-plugins#2699 jsonRPCClient should not prevent from using HTTP auth
+- fd-plugins#2733 Debconf should be reworked
+- fd-plugins#2837 Fix filter.tpl files
+- fd-plugins#2921 the select for the systems doesn't work on 1.0.8
+- fd-plugins#2922 the samba plugin is broken on 1.0.8
+- fd-plugins#2930 LDAP dialog errors should have error style
+- fd-plugins#2935 old board plugin still appears on fresh FD 1.0.8 install
+- fd-plugins#2946 Samba tslogin is broken
+- fd-plugins#3051 GUI corruption
+- fd-plugins#3053 Wrong objectclass names in Dashboard schema
+- fd-plugins#3058 GUI corruption
+- fd-plugins#3145 when install fusiondirectory-plugins-opsi, php class couldn't be loaded
+- fd-plugins#3148 Argonaut queue is crashing when trying to load FAI logs
+- fd-plugins#3153 When creating an FAI branch, subbranches should be created as well
+- fd-plugins#3156 some icons are missing I only see the alternate text
+- fd-plugins#3164 Servers service tab causes trouble with pluginfo div
+- fd-plugins#3175 unable to copy / paste opsi software list and opsi profile on fd web interface
+
+### Security
+
+#### fusiondirectory
+- fd#2784 shell_exec should not be used in the code it is present in class_ldap.inc
+- fd#3072 Password hook not block the password change if you logged in fd-admin.
