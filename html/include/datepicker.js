@@ -8,6 +8,10 @@
  *  Modified 10.06.2008
  * by Manu <manu@bytefresser.de>
  *
+ *  Modified 15.10.2018
+ * by FusionDirectory Project
+ *  -> Add defaultDate/_default_date
+ *
  */
 
 /**
@@ -200,6 +204,7 @@ DatePicker.prototype  = {
   _disablePastDate    : false,
   _disableFutureDate  : false,
   _oneDayInMs       : 24 * 3600 * 1000,
+  _default_date     : null,
 
   /* positionning */
   _topOffset        : 20,
@@ -240,7 +245,10 @@ DatePicker.prototype  = {
 
     if (! this._df.match(this._current_date)) {
 
-      this._current_date = this._df.current_date();
+      if (this._default_date != null) {
+        this._current_date = this._default_date;
+      } else
+        this._current_date = this._df.current_date();
 
       /* set the field value ? */
       if (!this._keepFieldEmpty)
@@ -292,6 +300,8 @@ DatePicker.prototype  = {
       this._externalControl = h_p["externalControl"];
     if (!Object.isUndefined(h_p["dateFormat"]))
       this._dateFormat = h_p["dateFormat"];
+    if (!Object.isUndefined(h_p["defaultDate"]))
+      this._default_date = h_p["defaultDate"];
     if (Object.isFunction(h_p["cellCallback"]))
       this._cellCallback = h_p["cellCallback"];
     if (!Object.isUndefined(h_p["enableCloseOnBlur"]) && h_p["enableCloseOnBlur"])
