@@ -2122,3 +2122,104 @@
 #### fusiondirectory
 - fd#2784 shell_exec should not be used in the code it is present in class_ldap.inc
 - fd#3072 Password hook not block the password change if you logged in fd-admin.
+
+## %"FusionDirectory 1.0.7.5" - 2014-09-02
+
+### Changed
+
+#### fusiondirectory
+- fd#3223 The snapshot base is not proposed
+
+#### fusiondirectory-plugins
+- fd-plugins#3150 FAI profiles with the same name as a class are causing troubles
+
+### Fixed
+
+#### fusiondirectory-plugins
+- fd-plugins#3159 only a part a OPSI netboot description is shown (wich isn't significant)
+- fd-plugins#3174 Supann have some problems
+
+## %"FusionDirectory 1.0.7.4" - 2014-05-19
+
+### Added
+
+#### fusiondirectory
+- fd#3109 There is no documentation for encrypt password option
+- fd#3110 fusiondirectory-setup is unable to use TLS
+- fd#3137 adding brazilian into FusionDirectory
+
+### Changed
+
+#### fusiondirectory-plugins
+- fd-plugins#3089 Clean OPSI import code to reuse it for other imports
+- fd-plugins#3108 adapting the doxyfile to make it run into the jenkins
+
+### Fixed
+
+#### fusiondirectory
+- fd#3098 the sort is not correct in the ip colum of the system list
+
+#### fusiondirectory-plugins
+- fd-plugins#3091 ssh public key issue with 1.0.7.3
+- fd-plugins#3095 the sort is not correct in the ip colum of the system list
+
+## %"FusionDirectory 1.0.7.3" - 2014-04-03
+
+### Removed
+
+#### fusiondirectory-plugins
+- fd-plugins#2984 remove the entry for the static tftp path in argonaut fuse service
+
+### Fixed
+
+#### fusiondirectory
+- fd#3073 Snapshot (or restore snapshot) not working
+
+#### fusiondirectory-plugins
+- fd-plugins#3015 error when trying to create the cronjob for creating debian mirror
+- fd-plugins#3031 PHP error: Undefined index: use_fon_group
+
+## %"FusionDirectory 1.0.7.2" - 2014-02-04
+
+### Added
+
+#### fusiondirectory
+- fd#2859 Fix the template grouping situation
+- fd#2897 Provide a way to show hook execution results to the user via web
+- fd#2951 fusiondirectory-insert-schema need a -m option to allow to easyli insert ldif update-schema
+- fd#2952 Add Swedish language
+- fd#2955 add arabic language
+
+#### fusiondirectory-plugins
+- fd-plugins#2877 weblink should also be a tab for network device and printer
+
+### Changed
+
+#### fusiondirectory-plugins
+- fd-plugins#2861 memory exhaustion when supann plugin is installed
+- fd-plugins#2945 Bug with InitialProgram (MungedDial) Samba field
+
+### Removed
+
+#### fusiondirectory
+- fd#2927 A double border is shown when there are errors at login
+- fd#2942 There is some leftover of multiedit support
+
+#### fusiondirectory-plugins
+- fd-plugins#2940 PHP error: Undefined property: phoneAccount::$multi_boxes
+
+### Fixed
+
+#### fusiondirectory
+- fd#2774 wrong size in chrome 29.0.1547.76
+- fd#2847 Template bug in memberUid
+- fd#2865 snapshot are broken nearly everywhere
+- fd#2900 Wrong plIcon in personal/generic and personal/posix
+- fd#2941 PHP error: Undefined index: passwordRecoverySalt
+- fd#2947 In configuration screen hooks can't use placeholders
+- fd#2962 updating the docs for install, upgrade, ldap migration
+
+#### fusiondirectory-plugins
+- fd-plugins#2868 freeradius plugin have erroneous default value for Tunnel medium type
+- fd-plugins#2934 the ipmi puglin does not work
+- fd-plugins#2939 ldif error in 1.0.6 to 1.0.7 upgrade LDIFs for plugin-systems
