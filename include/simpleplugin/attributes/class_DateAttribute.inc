@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2016  FusionDirectory
+  Copyright (C) 2012-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -73,11 +73,7 @@ class DateAttribute extends Attribute
       try {
         return $this->getDateValue()->format('d.m.Y');
       } catch (Exception $e) {
-        if ($this->isTemplate() && preg_match('/%/', $this->value)) {
-          return $this->value;
-        } else {
-          return '';
-        }
+        return $this->value;
       }
     }
   }
@@ -88,8 +84,7 @@ class DateAttribute extends Attribute
     if ($date !== FALSE) {
       return $date;
     } else {
-      trigger_error('LDAP value for '.$this->getLdapName().' was not in the right date format.');
-      return new DateTime($ldapValue, new DateTimeZone('UTC'));
+      return $ldapValue;
     }
   }
 
@@ -115,11 +110,7 @@ class DateAttribute extends Attribute
       try {
         $this->setValue($this->getDateValue());
       } catch (Exception $e) {
-        if ($this->isTemplate() && preg_match('/%/', $this->value)) {
-          return $this->value;
-        } else {
-          throw $e;
-        }
+        return $this->value;
       }
     }
     return $this->dateToLdap($this->value);
@@ -194,8 +185,7 @@ class GeneralizedTimeDateAttribute extends DateAttribute
     try {
       return LdapGeneralizedTime::fromString($ldapValue);
     } catch (LdapGeneralizedTimeBadFormatException $e) {
-      trigger_error('LDAP value "'.$ldapValue.'" for '.$this->getLdapName().' is not in the right date format.');
-      return new DateTime($ldapValue, timezone::utc());
+      return $ldapValue;
     }
   }
 
