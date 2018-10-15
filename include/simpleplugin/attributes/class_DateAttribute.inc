@@ -25,6 +25,7 @@
 class DateAttribute extends Attribute
 {
   protected $format;
+  protected $defaultDate;
 
   /*! \brief The constructor of DateAttribute
    *
@@ -34,12 +35,22 @@ class DateAttribute extends Attribute
    *  \param boolean $required Is this attribute mandatory or not
    *  \param string $format The date format. It can be any format recognized by DateTime::format. see http://www.php.net/manual/fr/function.date.php
    *  \param mixed $defaultValue The default value for this attribute
+   *  \param mixed $defaultDate The default date for the date picker when attribute is empty
    *  \param string $acl The name of the acl for this attribute if he does not use its own. (Leave empty if he should use its own like most attributes do)
    */
-  function __construct ($label, $description, $ldapName, $required, $format, $defaultValue = 'now', $acl = "")
+  function __construct ($label, $description, $ldapName, $required, $format, $defaultValue = 'now', $defaultDate = NULL, $acl = '')
   {
     parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
     $this->format = $format;
+    if ($defaultDate !== NULL) {
+      try {
+        $date = new DateTime($defaultDate, new DateTimeZone('UTC'));
+        $defaultDate = $date->format('d.m.Y');
+      } catch (Exception $e) {
+        $defaultDate = NULL;
+      }
+    }
+    $this->defaultDate = $defaultDate;
   }
 
   function inputValue ($value)
@@ -151,7 +162,16 @@ class DateAttribute extends Attribute
     $display  .= '{if $'.$this->getAcl().'ACL|regex_replace:"/[cdmr]/":"" == "w"}'.
         '<script type="text/javascript">
           {literal}
-          var datepicker  = new DatePicker({ relative : \''.$id.'\', language : \'{/literal}{$lang}{literal}\', keepFieldEmpty : true, enableCloseEffect : false, enableShowEffect : false });
+          var datepicker  = new DatePicker('.
+            '{ '.
+              'relative : \''.$id.'\', '.
+              (($this->defaultDate !== NULL) ? 'defaultDate : \''.$this->defaultDate.'\', ' : '').
+              'language : \'{/literal}{$lang}{literal}\', '.
+              'keepFieldEmpty : true, '.
+              'enableCloseEffect : false, '.
+              'enableShowEffect : false '.
+            '}'.
+          ');
           {/literal}
         </script>
         {/if}';
@@ -164,9 +184,9 @@ class DateAttribute extends Attribute
  */
 class GeneralizedTimeDateAttribute extends DateAttribute
 {
-  function __construct ($label, $description, $ldapName, $required, $defaultValue = 'now', $acl = "")
+  function __construct ($label, $description, $ldapName, $required, $defaultValue = 'now', $defaultDate = NULL, $acl = '')
   {
-    parent::__construct($label, $description, $ldapName, $required, '', $defaultValue, $acl);
+    parent::__construct($label, $description, $ldapName, $required, '', $defaultValue, $defaultDate, $acl);
   }
 
   protected function ldapToDate($ldapValue)
