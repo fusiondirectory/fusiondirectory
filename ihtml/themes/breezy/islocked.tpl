@@ -24,7 +24,7 @@
       <input type="submit" name="open_readonly" value="{t}Read only{/t}"/>
       {/if}
       &nbsp;
-      <input type="submit" name="cancel_lock" value="{t}Cancel{/t}"/>
+      <input type="submit" formnovalidate="formnovalidate" name="cancel_lock" value="{t}Cancel{/t}"/>
     </p>
 
     <input type="hidden" name="dn" value="{$dn}"/>

@@ -788,7 +788,7 @@ class simplePlugin
         $state = '';
     }
     $display = '<div width="100%"><p><b>'.$text.'</b><br/>'."\n";
-    $display .= '<input type="submit" value="'.$button_text.'" name="'.$name.'" '.$state.'></p></div><hr class="separator"/>';
+    $display .= '<input type="submit" formnovalidate="formnovalidate" value="'.$button_text.'" name="'.$name.'" '.$state.'></p></div><hr class="separator"/>';
 
     return $display;
   }
@@ -2174,7 +2174,7 @@ class simplePlugin
         if (session::is_set('edit')) {
           $display .= '<input type="submit" name="edit_finish" style="width:80px" value="'.msgPool::okButton().'"/>'."\n";
           $display .= '&nbsp;';
-          $display .= '<input type="submit" name="edit_cancel" value="'.msgPool::cancelButton().'"/>'."\n";
+          $display .= '<input type="submit" formnovalidate="formnovalidate" name="edit_cancel" value="'.msgPool::cancelButton().'"/>'."\n";
         } else {
           /* Only display edit button if there is at least one attribute editable */
           if (preg_match('/r/', $ui->get_permissions($entry_dn, $plCategory.'/'.$tabObject->current))) {

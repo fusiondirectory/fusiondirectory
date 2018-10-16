@@ -5,5 +5,5 @@
   <input type="submit" name="add_finish" value="{msgPool type=addButton}"/>
   &nbsp;
 {/if}
-  <input type="submit" name="add_cancel" value="{msgPool type=cancelButton}"/>
+  <input type="submit" formnovalidate="formnovalidate" name="add_cancel" value="{msgPool type=cancelButton}"/>
 </p>

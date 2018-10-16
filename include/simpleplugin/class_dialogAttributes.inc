@@ -882,7 +882,7 @@ class GenericSimplePluginDialog extends GenericDialog
   {
     return '<div style="width:100%; text-align:right; clear:both; float:none;">'.
            '  <input type="submit" name="'.$this->post_finish.'" value="'.msgPool::saveButton().'"/>&nbsp;'.
-           '  <input type="submit" name="'.$this->post_cancel.'" value="'.msgPool::cancelButton().'"/>'.
+           '  <input type="submit" formnovalidate="formnovalidate" name="'.$this->post_cancel.'" value="'.msgPool::cancelButton().'"/>'.
            '</div>';
   }
 

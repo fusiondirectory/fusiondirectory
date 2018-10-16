@@ -101,7 +101,7 @@ class aclAssignmentDialogWindow extends simplePlugin
         '<p class="plugbottom">'.
         '  <input type="submit" name="add_acl_finish" value="{msgPool type=addButton}"/>'.
         '  &nbsp;'.
-        '  <input type="submit" name="add_acl_cancel" value="{msgPool type=cancelButton}"/>'.
+        '  <input type="submit" formnovalidate="formnovalidate" name="add_acl_cancel" value="{msgPool type=cancelButton}"/>'.
         '</p>');
     }
     return $display;
