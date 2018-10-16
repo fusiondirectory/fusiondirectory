@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
 
-  Copyright (C) 2013-2016  FusionDirectory
+  Copyright (C) 2013-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -122,9 +122,10 @@ class ldapFilter
       } else {
         return new ldapFilter($filter[0], $subfilters);
       }
-    } else {
-      preg_match('/^(.+)('.join('|', ldapFilterLeaf::$operators).')(.+)$/', $filter, $m);
+    } elseif (preg_match('/^([^\\(\\)\\=\\>\\<]+)('.join('|', ldapFilterLeaf::$operators).')([^\\(\\)]+)$/', $filter, $m)) {
       return new ldapFilterLeaf($m[1], $m[2], $m[3]);
+    } else {
+      throw new FusionDirectoryException('Failed to parse '.$filter);
     }
   }
 }
@@ -134,7 +135,7 @@ class ldapFilter
  */
 class ldapFilterLeaf extends ldapFilter
 {
-  static $operators = array('=','=~','>','>=','<','<=');
+  static $operators = array('=','~=','>=','<=');
 
   protected $pattern;
   protected $dnFilter = FALSE;
@@ -146,7 +147,7 @@ class ldapFilterLeaf extends ldapFilter
       $left = substr($left, 0, -4);
     }
     parent::__construct($operator, array($left, $right));
-    if (($this->operator == '=') || ($this->operator == '=~')) {
+    if (($this->operator == '=') || ($this->operator == '~=')) {
       $prefix = '';
       $suffix = '';
       if (preg_match('/^\\*/', $this->subparts[1])) {
@@ -158,6 +159,8 @@ class ldapFilterLeaf extends ldapFilter
       $search = preg_replace(array('/^\\*/','/\\*$/'), '', $this->subparts[1]);
       if ($this->dnFilter) {
         $this->pattern = '/'.$left.'='.$prefix.preg_quote($search, '/').$suffix.',/';
+      } elseif ($this->subparts[1] == '*') {
+        $this->pattern = '/^.*$/';
       } else {
         $this->pattern = '/^'.$prefix.preg_quote($search, '/').$suffix.'$/';
       }
@@ -178,7 +181,7 @@ class ldapFilterLeaf extends ldapFilter
   {
     if ($this->dnFilter) {
       switch ($this->operator) {
-        case '=~':
+        case '~=':
           trigger_error('Filter apply might not work as expected');
         case '=':
           return (isset($array['dn']) && preg_match($this->pattern, $array['dn']));
@@ -193,20 +196,10 @@ class ldapFilterLeaf extends ldapFilter
       }
       foreach ($values as $value) {
         switch ($this->operator) {
-          case '=~':
+          case '~=':
             trigger_error('Filter apply might not work as expected');
           case '=':
             if (preg_match($this->pattern, $value)) {
-              return TRUE;
-            }
-            break;
-          case '<':
-            if ($value < $this->subparts[1]) {
-              return TRUE;
-            }
-            break;
-          case '>':
-            if ($value > $this->subparts[1]) {
               return TRUE;
             }
             break;
@@ -260,5 +253,3 @@ function fdTemplateFilter($filter)
   }
   return $filter;
 }
-
-?>
