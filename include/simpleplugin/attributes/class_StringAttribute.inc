@@ -80,6 +80,9 @@ class StringAttribute extends Attribute
     if ($this->html5pattern !== NULL) {
       $attributes['pattern'] = htmlentities($this->html5pattern, ENT_COMPAT, 'UTF-8');
     }
+    if ($this->isRequired()) {
+      $attributes['required'] = 'required';
+    }
     $display  = $this->renderInputField($this->inputType, $id, $attributes);
     return $this->renderAcl($display);
   }
@@ -153,7 +156,9 @@ class TextAreaAttribute extends StringAttribute
   {
     $id = $this->getHtmlId();
     $display  = '<textarea name="'.$id.'" id="'.$id.'"'.
-                ($this->disabled ? ' disabled="disabled"' : '').'>'.
+                ($this->disabled ? ' disabled="disabled"' : '').
+                ($this->isRequired() ? ' required="required"' : '').
+                '>'.
                 '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}</textarea>';
     return $this->renderAcl($display);
   }

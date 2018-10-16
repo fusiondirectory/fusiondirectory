@@ -43,7 +43,7 @@ class SetAttribute extends Attribute
       $values
     );
     $this->attribute = $attribute;
-    $this->attribute->setRequired(TRUE);
+    $this->attribute->setRequired(FALSE);
     $this->valueUnicity = $valueUnicity;
   }
 
@@ -278,8 +278,8 @@ class SetAttribute extends Attribute
   function renderButtons ()
   {
     $id = $this->getHtmlId();
-    $buttons  = $this->renderInputField('submit', 'add'.$id, array('value' => '{msgPool type=addButton}'));
-    $buttons .= $this->renderInputField('submit', 'del'.$id, array('value' => '{msgPool type=delButton}'));
+    $buttons  = $this->renderInputField('submit', 'add'.$id, array('value' => '{msgPool type=addButton}', 'formnovalidate' => 'formnovalidate'));
+    $buttons .= $this->renderInputField('submit', 'del'.$id, array('value' => '{msgPool type=delButton}', 'formnovalidate' => 'formnovalidate'));
     return $buttons;
   }
 
@@ -656,7 +656,7 @@ class OrderedArrayAttribute extends SetAttribute
   function renderButtons ()
   {
     $id = $this->getHtmlId();
-    $buttons = $this->renderInputField('submit', 'add'.$id, array('value' => '{msgPool type=addButton}'));
+    $buttons = $this->renderInputField('submit', 'add'.$id, array('value' => '{msgPool type=addButton}', 'formnovalidate' => 'formnovalidate'));
     return $buttons;
   }
 }
