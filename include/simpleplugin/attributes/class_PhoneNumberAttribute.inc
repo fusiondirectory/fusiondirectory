@@ -110,8 +110,9 @@ class phoneSelectDialog extends GenericDialog
  */
 class PhoneNumberAttribute extends TestValidateAttribute
 {
-  protected $trim     = TRUE;
-  protected $testFunc = 'is_phone_nr';
+  protected $trim       = TRUE;
+  protected $testFunc   = 'is_phone_nr';
+  protected $inputType  = 'tel';
 }
 
 /*! \brief Displays a text field and a button to select the phone from object list

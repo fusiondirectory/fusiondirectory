@@ -27,6 +27,7 @@ class StringAttribute extends Attribute
   protected $example;
   protected $autocomplete = NULL;
   protected $trim         = FALSE;
+  protected $inputType    = 'text';
 
   /*! \brief The constructor of StringAttribute
    *
@@ -69,7 +70,7 @@ class StringAttribute extends Attribute
     if ($this->autocomplete !== NULL) {
       $attributes['autocomplete'] = ($this->autocomplete ? 'on' : 'off' );
     }
-    $display  = $this->renderInputField('text', $id, $attributes);
+    $display  = $this->renderInputField($this->inputType, $id, $attributes);
     return $this->renderAcl($display);
   }
 
