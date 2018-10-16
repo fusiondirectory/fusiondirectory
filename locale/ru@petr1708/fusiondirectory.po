@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2018-10-04 08:58+0000\n"
+"POT-Creation-Date: 2018-10-16 08:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Language-Team: Russian Petrine orthography (https://www.transifex.com/fusiondirectory/teams/12202/ru%40petr1708/)\n"
 "MIME-Version: 1.0\n"
@@ -1619,31 +1619,31 @@ msgstr ""
 msgid "Base field value should always be a string"
 msgstr ""
 
-#: include/simpleplugin/attributes/class_DateAttribute.inc:132
+#: include/simpleplugin/attributes/class_DateAttribute.inc:134
 #, php-format
 msgid "Error, incorrect date: %s"
 msgstr ""
 
-#: include/simpleplugin/attributes/class_DateAttribute.inc:200
-#: include/simpleplugin/attributes/class_DateAttribute.inc:274
+#: include/simpleplugin/attributes/class_DateAttribute.inc:210
+#: include/simpleplugin/attributes/class_DateAttribute.inc:284
 msgid "Hours"
 msgstr ""
 
-#: include/simpleplugin/attributes/class_DateAttribute.inc:205
-#: include/simpleplugin/attributes/class_DateAttribute.inc:279
+#: include/simpleplugin/attributes/class_DateAttribute.inc:215
+#: include/simpleplugin/attributes/class_DateAttribute.inc:289
 msgid "Minutes"
 msgstr ""
 
-#: include/simpleplugin/attributes/class_DateAttribute.inc:210
+#: include/simpleplugin/attributes/class_DateAttribute.inc:220
 msgid "Seconds"
 msgstr ""
 
-#: include/simpleplugin/attributes/class_DateAttribute.inc:298
+#: include/simpleplugin/attributes/class_DateAttribute.inc:308
 #: include/class_SnapshotDialogs.inc:143 include/class_SnapshotDialogs.inc:149
 msgid "Date"
 msgstr ""
 
-#: include/simpleplugin/attributes/class_DateAttribute.inc:304
+#: include/simpleplugin/attributes/class_DateAttribute.inc:314
 msgid "Time"
 msgstr ""
 
