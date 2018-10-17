@@ -43,8 +43,15 @@ class SetAttribute extends Attribute
       $values
     );
     $this->attribute = $attribute;
-    $this->attribute->setRequired(FALSE);
+    $this->attribute->setRequired(TRUE);
+    $this->attribute->setIsSubAttribute(TRUE);
     $this->valueUnicity = $valueUnicity;
+  }
+
+  function setIsSubAttribute($bool)
+  {
+    parent::setIsSubAttribute($bool);
+    $this->attribute->setIsSubAttribute($this->isSubAttribute);
   }
 
   function setManagedAttributes (array $dontcare)
@@ -231,18 +238,22 @@ class SetAttribute extends Attribute
         parent::renderAttribute($attributes, $readOnly);
       } else {
         $attributes[$this->getLdapName()] = array(
-          'htmlid'      => $this->getForHtmlId(),
-          'label'       => '{literal}'.$this->getLabel().'{/literal}'.($this->isRequired() ? '{$must}' : ''),
-          'description' => ($this->isRequired() ? sprintf(_("%s (required)"), $this->getDescription()) : $this->getDescription()),
-          'input'       => $this->renderAcl($this->renderOnlyFormInput()),
+          'htmlid'        => $this->getForHtmlId(),
+          'label'         => '{literal}'.$this->getLabel().'{/literal}'.($this->isRequired() ? '{$must}' : ''),
+          'description'   => ($this->isRequired() ? sprintf(_("%s (required)"), $this->getDescription()) : $this->getDescription()),
+          'input'         => $this->renderAcl($this->renderOnlyFormInput()),
+          'subattribute'  => $this->isSubAttribute,
+          'required'      => $this->isRequired(),
         );
         $this->handleEditingValue();
         $this->attribute->renderAttribute($attributes, $readOnly);
         $attributes[$this->getLdapName().'_buttons'] = array(
-          'htmlid'      => 'add'.$this->getHtmlId(),
-          'label'       => '',
-          'description' => '',
-          'input'       => $this->renderAcl($this->renderButtons()),
+          'htmlid'        => 'add'.$this->getHtmlId(),
+          'label'         => '',
+          'description'   => '',
+          'input'         => $this->renderAcl($this->renderButtons()),
+          'subattribute'  => TRUE,
+          'required'      => FALSE,
         );
       }
     }

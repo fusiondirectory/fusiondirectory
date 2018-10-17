@@ -62,6 +62,15 @@ class CompositeAttribute extends Attribute
     unset($attribute);
   }
 
+  function setIsSubAttribute($bool)
+  {
+    parent::setIsSubAttribute($bool);
+    foreach ($this->attributes as &$attribute) {
+      $attribute->setIsSubAttribute($this->isSubAttribute);
+    }
+    unset($attribute);
+  }
+
   function setAcl ($acl)
   {
     parent::setAcl($acl);

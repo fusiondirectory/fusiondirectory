@@ -82,6 +82,12 @@ class Attribute
   /* \bried Array of booleans telling for each managing attributes if he's disabling us */
   protected $managingAttributesOrders = array();
 
+  /* \bried If this is TRUE it means this attribute is not directly submitted with the form
+   * but is part of a multivalue attribute.
+   * It means it should not be set as required in the HTML form for instance.
+   */
+  protected $isSubAttribute = FALSE;
+
   /*! \brief The constructor of Attribute
    *
    *  \param string $label The label to show for this attribute
@@ -112,6 +118,11 @@ class Attribute
   {
     $this->plugin = $plugin;
     $this->manageAttributes($this->getValue());
+  }
+
+  function setIsSubAttribute($bool)
+  {
+    $this->isSubAttribute = $bool;
   }
 
   function setInLdap ($inLdap)
@@ -589,10 +600,12 @@ class Attribute
         $input = $this->renderFormInput();
       }
       $attributes[$this->getLdapName()] = array(
-        'htmlid'      => $this->getForHtmlId(),
-        'label'       => '{literal}'.$this->getLabel().'{/literal}'.($this->isRequired() ? '{$must}' : ''),
-        'description' => ($this->isRequired() ? sprintf(_("%s (required)"), $this->getDescription()) : $this->getDescription()),
-        'input'       => $input,
+        'htmlid'        => $this->getForHtmlId(),
+        'label'         => '{literal}'.$this->getLabel().'{/literal}'.($this->isRequired() ? '{$must}' : ''),
+        'description'   => ($this->isRequired() ? sprintf(_("%s (required)"), $this->getDescription()) : $this->getDescription()),
+        'input'         => $input,
+        'subattribute'  => $this->isSubAttribute,
+        'required'      => $this->isRequired(),
       );
     }
   }
