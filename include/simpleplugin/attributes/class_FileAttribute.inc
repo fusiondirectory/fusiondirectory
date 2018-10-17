@@ -116,6 +116,7 @@ class FileDownloadAttribute extends FileAttribute
 {
   protected $extension;
   protected $upload;
+  protected $download = TRUE;
 
   function __construct ($label, $description, $ldapName, $required = FALSE, $extension = '', $upload = FALSE, $defaultValue = "", $acl = "")
   {
@@ -134,13 +135,15 @@ class FileDownloadAttribute extends FileAttribute
   {
     if ($this->isVisible()) {
       $this->postValue = $this->value;
-      foreach (array_keys($_POST) as $name) {
-        if (preg_match('/^download'.$this->getHtmlId().'/', $name)) {
-          session::set('binary', $this->value);
-          session::set('binarytype', 'octet-stream');
-          session::set('binaryfile', $this->computeFilename());
-          header('location: getbin.php');
-          exit();
+      if ($this->download) {
+        foreach (array_keys($_POST) as $name) {
+          if (preg_match('/^download'.$this->getHtmlId().'/', $name)) {
+            session::set('binary', $this->value);
+            session::set('binarytype', 'octet-stream');
+            session::set('binaryfile', $this->computeFilename());
+            header('location: getbin.php');
+            exit();
+          }
         }
       }
       if ($this->upload && isset($_POST['upload'.$this->getHtmlId()])) {
@@ -157,22 +160,27 @@ class FileDownloadAttribute extends FileAttribute
       $display  .= $this->renderInputField('file', $id);
       $display  .= $this->renderInputField('submit', 'upload'.$id, array('value' => _('Upload')));
     }
-    $display  .= $this->renderInputField(
-      'image', 'download'.$id,
-      array(
-        'title' => _('Download'),
-        'alt'   => _('Download'),
-        'class' => 'center',
-        'src'   => 'geticon.php?context=actions&amp;icon=document-save&amp;size=16',
-      )
-    );
+    if ($this->download) {
+      $display  .= $this->renderInputField(
+        'image', 'download'.$id,
+        array(
+          'title' => _('Download'),
+          'alt'   => _('Download'),
+          'class' => 'center',
+          'src'   => 'geticon.php?context=actions&amp;icon=document-save&amp;size=16',
+        )
+      );
+    }
     return $this->renderAcl($display);
   }
 
   public function htmlIds()
   {
     $id   = $this->getHtmlId();
-    $ids  = array('download'.$id);
+    $ids  = array();
+    if ($this->download) {
+      $ids[] = 'download'.$id;
+    }
     if ($this->upload) {
       $ids[] = $id;
       $ids[] = 'upload'.$id;
@@ -196,12 +204,13 @@ class FileDownloadAttribute extends FileAttribute
 class FileTextAreaAttribute extends FileDownloadAttribute
 {
   /* Default values are not the same that for FileDownloadAttribute */
-  function __construct ($label, $description, $ldapName, $required = FALSE, $extension = '.txt', $upload = TRUE, $defaultValue = '', $acl = '')
+  function __construct ($label, $description, $ldapName, $required = FALSE, $extension = '.txt', $upload = TRUE, $download = TRUE, $defaultValue = '', $acl = '')
   {
     parent::__construct(
       $label, $description, $ldapName, $required,
       $extension, $upload, $defaultValue, $acl
     );
+    $this->download = $download;
   }
 
   /*! \brief Update this attributes postValue depending of the $_POST values
@@ -210,13 +219,15 @@ class FileTextAreaAttribute extends FileDownloadAttribute
   {
     if ($this->isVisible()) {
       $this->postValue = $this->value;
-      foreach (array_keys($_POST) as $name) {
-        if (preg_match('/^download'.$this->getHtmlId().'/', $name)) {
-          session::set('binary', $this->value);
-          session::set('binarytype', 'octet-stream');
-          session::set('binaryfile', $this->computeFilename());
-          header('location: getbin.php');
-          exit();
+      if ($this->download) {
+        foreach (array_keys($_POST) as $name) {
+          if (preg_match('/^download'.$this->getHtmlId().'/', $name)) {
+            session::set('binary', $this->value);
+            session::set('binarytype', 'octet-stream');
+            session::set('binaryfile', $this->computeFilename());
+            header('location: getbin.php');
+            exit();
+          }
         }
       }
       if ($this->upload) {
