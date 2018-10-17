@@ -18,21 +18,6 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/*! \brief This class allow to handle easily a String LDAP attribute that contains a mail address
- *
- */
-class MailAttribute extends StringAttribute
-{
-  protected $trim = TRUE;
-
-  function validate ()
-  {
-    if (!tests::is_email($this->value)) {
-      return msgPool::invalid($this->getLabel(), $this->value);
-    }
-  }
-}
-
 
 /*! \brief This class allow to handle easily a String LDAP attribute that needs to be validated by a test from class tests
  *
@@ -48,6 +33,16 @@ class TestValidateAttribute extends StringAttribute
       return msgPool::invalid($this->getLabel(), $this->value);
     }
   }
+}
+
+/*! \brief This class allow to handle easily a String LDAP attribute that contains a mail address
+ *
+ */
+class MailAttribute extends TestValidateAttribute
+{
+  protected $trim       = TRUE;
+  protected $testFunc   = 'is_email';
+  protected $inputType  = 'email';
 }
 
 /*! \brief This class allow to handle easily a String LDAP attribute that contains a host name
