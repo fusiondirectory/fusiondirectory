@@ -5,7 +5,9 @@
 <div class="contentboxb">
   {if isset($objectFilters)}
     {foreach from=$objectFilters item="ofilter"}
-      {${$ofilter.id}}<label for="{$ofilter.id}">&nbsp;{$ofilter.label}</label><br/>
+      <label for="{$ofilter.id}">
+        {${$ofilter.id}}&nbsp;{$ofilter.label}
+      </label>
     {/foreach}
   {/if}
 
@@ -13,7 +15,10 @@
   {$SCOPE}
   <hr/>
 
-  <label for="NAME" title="{$NAMEDESC}"><img src="geticon.php?context=actions&amp;icon=system-search&amp;size=16" alt="Search"/></label>{$NAME}
+  <label for="NAME" title="{$NAMEDESC}">
+    <img src="geticon.php?context=actions&amp;icon=system-search&amp;size=16" alt="Search"/>
+    {$NAME}
+  </label>
 
   <div>
     {$APPLY}

@@ -3,15 +3,15 @@
 </div>
 
 <div class="contentboxb">
-  {$PRIMARY}&nbsp;<label for="PRIMARY">{t}Show primary groups{/t}</label><br/>
-  {$SAMBA}&nbsp;<label for="SAMBA">{t}Show samba groups{/t}</label><br/>
-  {$MAIL}&nbsp;<label for="MAIL">{t}Show mail groups{/t}</label><br/>
+  <label for="PRIMARY">{$PRIMARY}&nbsp;{t}Show primary groups{/t}</label><br/>
+  <label for="SAMBA">{$SAMBA}&nbsp;{t}Show samba groups{/t}</label><br/>
+  <label for="MAIL">{$MAIL}&nbsp;{t}Show mail groups{/t}</label><br/>
 
   <hr/>
   {$SCOPE}
   <hr/>
 
-  <label for="NAME"><img src="geticon.php?context=actions&amp;icon=system-search&amp;size=16"/></label>{$NAME}
+  <label for="NAME"><img src="geticon.php?context=actions&amp;icon=system-search&amp;size=16"/>{$NAME}</label>
 
   <div>
     {$APPLY}
