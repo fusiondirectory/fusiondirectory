@@ -169,7 +169,7 @@ class FileDownloadAttribute extends FileAttribute
     $display = '';
     if ($this->upload) {
       $display  .= $this->renderInputField('file', $id);
-      $display  .= $this->renderInputField('submit', 'upload'.$id, array('value' => _('Upload')));
+      $display  .= $this->renderInputField('submit', 'upload'.$id, array('value' => _('Upload'), 'formnovalidate' => 'formnovalidate'));
     }
     $display  .= $this->renderInputField(
       'image', 'download'.$id,

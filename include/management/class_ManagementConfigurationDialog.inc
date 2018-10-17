@@ -128,7 +128,7 @@ class ManagementConfigurationDialog extends simplePlugin
 
     $str .= '<p class="plugbottom">'.
            '  <input type="submit" name="edit_finish" value="'.msgPool::saveButton().'"/>&nbsp;'.
-           '  <input type="submit" name="edit_cancel" value="'.msgPool::cancelButton().'"/>'.
+           '  <input type="submit" formnovalidate="formnovalidate" name="edit_cancel" value="'.msgPool::cancelButton().'"/>'.
            '</p>';
 
     return $str;

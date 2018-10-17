@@ -1309,7 +1309,7 @@ class listing
 
     // Load shortcut
     $result   = '<input type="hidden" name="act" id="actionmenu" value="">'.
-                '<div style="display:none"><input type="submit" name="exec_act" id="exec_act" value=""/></div>'.
+                '<div style="display:none"><input type="submit" formnovalidate="formnovalidate" name="exec_act" id="exec_act" value=""/></div>'.
                 '<ul class="level1" id="root"><li><a href="#">'._('Actions').
                 '&nbsp;<img class="center optional" src="images/down-arrow.png" alt="down arrow"/></a>';
 

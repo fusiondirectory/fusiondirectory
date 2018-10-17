@@ -128,7 +128,7 @@ class ldapSizeLimit
   function renderWarning()
   {
     if (($this->sizeLimit >= 10000000) || $this->limitExceeded) {
-      $config = '<input type="submit" name="edit_sizelimit" value="'._('Configure').'"/>';
+      $config = '<input type="submit" name="edit_sizelimit" value="'._('Configure').'" formnovalidate="formnovalidate"/>';
     } else {
       $config = '';
     }

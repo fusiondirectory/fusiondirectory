@@ -27,6 +27,8 @@ class StringAttribute extends Attribute
   protected $example;
   protected $autocomplete = NULL;
   protected $trim         = FALSE;
+  protected $inputType    = 'text';
+  protected $html5pattern = NULL;
 
   /*! \brief The constructor of StringAttribute
    *
@@ -42,7 +44,7 @@ class StringAttribute extends Attribute
   function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = "", $acl = "", $regexp = "", $example = NULL)
   {
     parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
-    $this->pattern = $regexp;
+    $this->setPattern($regexp);
     $this->example = ($example === NULL ? $defaultValue : $example);
   }
 
@@ -54,6 +56,14 @@ class StringAttribute extends Attribute
   function setPattern ($pattern)
   {
     $this->pattern = $pattern;
+    if (preg_match('/^(.)\^(.*)\$\1$/', $pattern, $m)) {
+      /* Only convert anchored patterns
+       * First and last characters are the same means no modifiers are in use
+       */
+      $this->html5pattern = $m[2];
+    } else {
+      $this->html5pattern = NULL;
+    }
   }
 
   function renderFormInput ()
@@ -69,7 +79,13 @@ class StringAttribute extends Attribute
     if ($this->autocomplete !== NULL) {
       $attributes['autocomplete'] = ($this->autocomplete ? 'on' : 'off' );
     }
-    $display  = $this->renderInputField('text', $id, $attributes);
+    if ($this->html5pattern !== NULL) {
+      $attributes['pattern'] = '{literal}'.htmlentities($this->html5pattern, ENT_COMPAT, 'UTF-8').'{/literal}';
+    }
+    if ($this->isRequired()) {
+      $attributes['required'] = 'required';
+    }
+    $display  = $this->renderInputField($this->inputType, $id, $attributes);
     return $this->renderAcl($display);
   }
 
@@ -142,7 +158,9 @@ class TextAreaAttribute extends StringAttribute
   {
     $id = $this->getHtmlId();
     $display  = '<textarea name="'.$id.'" id="'.$id.'"'.
-                ($this->disabled ? ' disabled="disabled"' : '').'>'.
+                ($this->disabled ? ' disabled="disabled"' : '').
+                ($this->isRequired() ? ' required="required"' : '').
+                '>'.
                 '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}</textarea>';
     return $this->renderAcl($display);
   }

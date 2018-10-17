@@ -92,7 +92,7 @@ class aclAssignmentCreationDialog extends simplePlugin
       return parent::execute()."\n".
       '<p class="plugbottom">'."\n".
       '  <input type="submit" name="'.$this->post_finish.'" value="'.msgPool::addButton().'"/>&nbsp;'."\n".
-      '  <input type="submit" name="'.$this->post_cancel.'" value="'.msgPool::cancelButton().'"/>'."\n".
+      '  <input type="submit" formnovalidate="formnovalidate" name="'.$this->post_cancel.'" value="'.msgPool::cancelButton().'"/>'."\n".
       '</p>';
     }
   }

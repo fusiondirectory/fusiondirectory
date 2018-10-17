@@ -22,7 +22,7 @@
 
     <hr/>
     <div style='width:100%; text-align:right; padding:5px;'>
-      <input type='submit' name='dialog_cancel' value='{t}Close{/t}'>
+      <input type='submit' formnovalidate="formnovalidate" name='dialog_cancel' value='{t}Close{/t}'>
     </div>
   </div>
 </div>

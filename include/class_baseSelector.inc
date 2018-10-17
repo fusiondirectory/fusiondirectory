@@ -260,7 +260,7 @@ class baseSelector
     if ($this->submitButton) {
       $this->tree .= "&nbsp;<input class='center' type='image' src='geticon.php?context=actions&amp;icon=submit&amp;size=16' title='"._("Submit")."' name='submit_base_".$this->pid."' id='submit_base_".$this->pid."' alt='"._("Submit")."'>";
     }
-    $this->tree .= '<input type="submit" style="display:none" name="submit_tree_base_'.$this->pid.'" id="submit_tree_base_'.$this->pid.'"/>';
+    $this->tree .= '<input type="submit" formnovalidate="formnovalidate" style="display:none" name="submit_tree_base_'.$this->pid.'" id="submit_tree_base_'.$this->pid.'"/>';
     $this->tree .= '<input type="hidden" name="bs_rebase_'.$this->pid.'" id="bs_rebase_'.$this->pid.'"/>';
     $this->tree .= '<input type="hidden" name="BPID" id="BPID" value="'.$this->pid.'"/>';
   }

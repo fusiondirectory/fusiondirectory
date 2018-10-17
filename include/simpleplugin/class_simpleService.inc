@@ -54,7 +54,7 @@ class simpleService extends simplePlugin
     if (!$this->dialog) {
       $str .= '<p class="plugbottom servicebottom">'.
              '  <input type="submit" name="SaveService" value="'.msgPool::saveButton().'"/>&nbsp;'.
-             '  <input type="submit" name="CancelService" value="'.msgPool::cancelButton().'"/>'.
+             '  <input type="submit" formnovalidate="formnovalidate" name="CancelService" value="'.msgPool::cancelButton().'"/>'.
              '</div>';
     }
 

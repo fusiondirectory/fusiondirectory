@@ -108,6 +108,9 @@ class IntAttribute extends Attribute
       $js       = $this->managedAttributesJS();
       $attributes['onChange'] = 'javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8');
     }
+    if ($this->isRequired()) {
+      $attributes['required'] = 'required';
+    }
     $display = $this->renderInputField('number', $id, $attributes);
     return $this->renderAcl($display);
   }

@@ -23,5 +23,5 @@
 <p class="plugbottom">
   <input type="submit" name="template_continue" value="{t}Continue{/t}"/>
   &nbsp;
-  <input type="submit" name="template_cancel" value="{msgPool type=cancelButton}"/>
+  <input type="submit" formnovalidate="formnovalidate" name="template_cancel" value="{msgPool type=cancelButton}"/>
 </p>

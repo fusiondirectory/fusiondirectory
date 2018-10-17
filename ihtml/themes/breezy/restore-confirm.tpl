@@ -23,7 +23,7 @@
 
     <p class="plugbottom">
       <input type="submit" name="restore_confirmed" value="{t}Continue{/t}"/>
-      <input type="submit" name="restore_cancel" value="{msgPool type=cancelButton}"/>
+      <input type="submit" formnovalidate="formnovalidate" name="restore_cancel" value="{msgPool type=cancelButton}"/>
     </p>
   </div>
 </div>

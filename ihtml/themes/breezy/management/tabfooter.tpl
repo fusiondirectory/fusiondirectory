@@ -1,6 +1,6 @@
 {if $readOnly}
   <p class="plugbottom">
-    <input type="submit" name="edit_cancel" value="{msgPool type=cancelButton}"/>
+    <input type="submit" formnovalidate="formnovalidate" name="edit_cancel" value="{msgPool type=cancelButton}"/>
   </p>
 {else}
   <p class="plugbottom">
@@ -10,6 +10,6 @@
       <input type="submit" name="edit_apply" value="{msgPool type=applyButton}"/>
       &nbsp;
     {/if}
-    <input type="submit" name="edit_cancel" value="{msgPool type=cancelButton}"/>
+    <input type="submit" formnovalidate="formnovalidate" name="edit_cancel" value="{msgPool type=cancelButton}"/>
   </p>
 {/if}

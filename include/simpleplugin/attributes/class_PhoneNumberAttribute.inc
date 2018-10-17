@@ -108,10 +108,15 @@ class phoneSelectDialog extends GenericDialog
 
 /*! \brief This class allow to handle easily an LDAP attribute that contains a phone number
  */
-class PhoneNumberAttribute extends TestValidateAttribute
+class PhoneNumberAttribute extends StringAttribute
 {
-  protected $trim     = TRUE;
-  protected $testFunc = 'is_phone_nr';
+  protected $trim       = TRUE;
+  protected $inputType  = 'tel';
+
+  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = '', $acl = '', $regexp = '/^[\/0-9 ()+*-]+$/', $example = NULL)
+  {
+    parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl, $regexp, $example);
+  }
 }
 
 /*! \brief Displays a text field and a button to select the phone from object list

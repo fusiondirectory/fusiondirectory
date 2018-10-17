@@ -65,7 +65,7 @@ dn: {$entry.dn}
     <div style="width:99%; text-align:right; padding-top:5px;">
       <input type="submit" name="dialog_confirm" value="{t}Apply{/t}"/>
       &nbsp;
-      <input type="submit" name="dialog_cancel" value="{t}Cancel{/t}"/>
+      <input type="submit" formnovalidate="formnovalidate" name="dialog_cancel" value="{t}Cancel{/t}"/>
     </div>
   </div>
 </div>

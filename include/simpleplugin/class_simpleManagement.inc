@@ -637,7 +637,7 @@ class simpleManagement
     $str = '';
     if ($this->tabObject->readOnly()) {
       $str .= '<p class="plugbottom">'."\n".
-        '<input type="submit" name="edit_cancel" value="'.msgPool::cancelButton().'">'."\n".
+        '<input type="submit" formnovalidate="formnovalidate" name="edit_cancel" value="'.msgPool::cancelButton().'">'."\n".
         '</p>';
       return $str;
     } else {
@@ -649,7 +649,7 @@ class simpleManagement
         $str .= '<input type="submit" name="edit_apply" value="'.msgPool::applyButton().'"/>'."\n";
         $str .= "&nbsp;\n";
       }
-      $str .= '<input type="submit" name="edit_cancel" value="'.msgPool::cancelButton().'"/>'."\n";
+      $str .= '<input type="submit" formnovalidate="formnovalidate" name="edit_cancel" value="'.msgPool::cancelButton().'"/>'."\n";
       $str .= '</p>';
     }
     return $str;

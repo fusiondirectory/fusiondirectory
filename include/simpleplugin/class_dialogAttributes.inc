@@ -249,20 +249,27 @@ class DialogAttribute extends SetAttribute
       );
       $buttons  .= $this->renderInputField(
         'submit', 'add'.$id,
-        array('value' => '{msgPool type=addButton}')
+        array(
+          'value'           => '{msgPool type=addButton}',
+          'formnovalidate'  => 'formnovalidate'
+        )
       );
       $dialogButtonValue = _('Add (dialog)');
     }
     $buttons  .= $this->renderInputField(
       'submit', 'add'.$id.'_dialog',
       array(
-        'class' => 'dialog',
-        'value' => $dialogButtonValue
+        'class'           => 'dialog',
+        'value'           => $dialogButtonValue,
+        'formnovalidate'  => 'formnovalidate'
       )
     );
     $buttons  .= $this->renderInputField(
       'submit', 'del'.$id,
-      array('value' => '{msgPool type=delButton}')
+      array(
+        'value'           => '{msgPool type=delButton}',
+        'formnovalidate'  => 'formnovalidate'
+      )
     );
     return $buttons;
   }
@@ -337,8 +344,9 @@ class DialogOrderedArrayAttribute extends OrderedArrayAttribute
     return $this->renderInputField(
       'submit', 'add'.$id.'_dialog',
       array(
-        'class' => 'dialog',
-        'value' => '{msgPool type=addButton}'
+        'class'           => 'dialog',
+        'value'           => '{msgPool type=addButton}',
+        'formnovalidate'  => 'formnovalidate'
       )
     );
   }
@@ -882,7 +890,7 @@ class GenericSimplePluginDialog extends GenericDialog
   {
     return '<div style="width:100%; text-align:right; clear:both; float:none;">'.
            '  <input type="submit" name="'.$this->post_finish.'" value="'.msgPool::saveButton().'"/>&nbsp;'.
-           '  <input type="submit" name="'.$this->post_cancel.'" value="'.msgPool::cancelButton().'"/>'.
+           '  <input type="submit" formnovalidate="formnovalidate" name="'.$this->post_cancel.'" value="'.msgPool::cancelButton().'"/>'.
            '</div>';
   }
 

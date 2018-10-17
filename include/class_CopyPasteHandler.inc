@@ -256,8 +256,8 @@ class CopyPasteHandler
           $display .= '<p class="plugbottom">'."\n";
           $display .= '<input type="submit" name="edit_finish" style="width:80px" value="'.msgPool::okButton().'"/>'."\n";
           $display .= "&nbsp;\n";
-          $display .= '<input type="submit" name="abort_current_cut-copy_operation" value="'.msgPool::cancelButton().'"/>'."\n";
-          $display .= '<input type="submit" name="abort_all_cut-copy_operations" value="'._('Cancel all').'"/>'."\n";
+          $display .= '<input type="submit" formnovalidate="formnovalidate" name="abort_current_cut-copy_operation" value="'.msgPool::cancelButton().'"/>'."\n";
+          $display .= '<input type="submit" formnovalidate="formnovalidate" name="abort_all_cut-copy_operations" value="'._('Cancel all').'"/>'."\n";
           $display .= '</p>';
         }
         return $display;
