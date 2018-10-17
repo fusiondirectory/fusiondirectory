@@ -56,8 +56,10 @@ class StringAttribute extends Attribute
   function setPattern ($pattern)
   {
     $this->pattern = $pattern;
-    if (preg_match('/^(.)(.*)\1$/', $pattern, $m)) {
-      // First and last characters are the same means no modifiers are in use
+    if (preg_match('/^(.)\^(.*)\$\1$/', $pattern, $m)) {
+      /* Only convert anchored patterns
+       * First and last characters are the same means no modifiers are in use
+       */
       $this->html5pattern = $m[2];
     } else {
       $this->html5pattern = NULL;
@@ -78,7 +80,7 @@ class StringAttribute extends Attribute
       $attributes['autocomplete'] = ($this->autocomplete ? 'on' : 'off' );
     }
     if ($this->html5pattern !== NULL) {
-      $attributes['pattern'] = htmlentities($this->html5pattern, ENT_COMPAT, 'UTF-8');
+      $attributes['pattern'] = '{literal}'.htmlentities($this->html5pattern, ENT_COMPAT, 'UTF-8').'{/literal}';
     }
     if ($this->isRequired()) {
       $attributes['required'] = 'required';
