@@ -118,16 +118,14 @@ class MacAddressAttribute extends StringAttribute
 {
   protected $trim = TRUE;
 
+  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = '', $acl = '')
+  {
+    parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl, '/^([a-fA-F0-9]{2}:){5}[a-fA-F0-9]{2}$/', '5E:FF:56:A2:AF:15');
+  }
+
   function setValue ($value)
   {
     return parent::setValue(strtolower($value));
-  }
-
-  function validate ()
-  {
-    if (!tests::is_mac($this->value)) {
-      return msgPool::invalid($this->getLabel(), $this->value);
-    }
   }
 }
 
