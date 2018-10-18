@@ -4,7 +4,8 @@ input, input:focus, select, textarea, textarea:focus {
   font-size: @text-font-size;
 }
 
-input[type=text], input[type=password], select {
+
+input[type=color], input[type=date], input[type=datetime-local], input[type=email], input[type=number], input[type=password], input[type=search], input[type=tel], input[type=text], input[type=time], input[type=url], select {
   padding: 2px;
 }
 
@@ -14,7 +15,8 @@ input[type=number] {
 
 /* On small screens */
 @media (max-width: 640px) {
-  input[type=text], input[type=password], input[type=file], textarea, select {
+  input[type=color], input[type=date], input[type=datetime-local], input[type=email], input[type=number], input[type=password], input[type=search], input[type=tel], input[type=text], input[type=time], input[type=url],
+  input[type=file], textarea, select {
     max-width: 100%;
   }
   input.base-selector {
