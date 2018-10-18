@@ -91,6 +91,22 @@ class StringAttribute extends Attribute
     return $this->renderAcl($display);
   }
 
+  function renderTemplateInput ()
+  {
+    $id = $this->getHtmlId();
+    $attributes = array(
+      'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}'
+    );
+    if ($this->autocomplete !== NULL) {
+      $attributes['autocomplete'] = ($this->autocomplete ? 'on' : 'off' );
+    }
+    if ($this->isSubAttribute) {
+      $attributes['class'] = 'subattribute';
+    }
+    $display  = $this->renderInputField('text', $id, $attributes);
+    return $this->renderAcl($display);
+  }
+
   function fixPostValue ($value)
   {
     /* Replace CRLF by LF, to avoid non-ASCII chars in multiline values (mainly useful for textarea) */
@@ -166,6 +182,17 @@ class TextAreaAttribute extends StringAttribute
                 '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}</textarea>';
     return $this->renderAcl($display);
   }
+
+  function renderTemplateInput ()
+  {
+    $id = $this->getHtmlId();
+    $display  = '<textarea name="'.$id.'" id="'.$id.'"'.
+                ($this->disabled ? ' disabled="disabled"' : '').
+                ($this->isSubAttribute ? ' class="subattribute"' : '').
+                '>'.
+                '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}</textarea>';
+    return $this->renderAcl($display);
+  }
 }
 
 /*! \brief This class allow to handle easily a String LDAP attribute that contains a password
@@ -174,25 +201,14 @@ class TextAreaAttribute extends StringAttribute
 class PasswordAttribute extends StringAttribute
 {
   protected $autocomplete = FALSE;
+  protected $inputType    = 'password';
 
   function renderFormInput ()
   {
-    $id = $this->getHtmlId();
-    $display  = $this->renderInputField(
-      'password', $id,
-      array(
-        'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}',
-        'autocomplete' => ($this->autocomplete ? 'on' : 'off'),
-      )
-    );
+    $display = parent::renderFormInput();
     if ($this->autocomplete === FALSE) {
       $display = '{literal}<input autocomplete="off" value="foolautocompleteworkaround" type="text" style="display:none;"/>{/literal}'.$display;
     }
-    return $this->renderAcl($display);
-  }
-
-  function renderTemplateInput ()
-  {
-    return parent::renderFormInput();
+    return $display;
   }
 }
