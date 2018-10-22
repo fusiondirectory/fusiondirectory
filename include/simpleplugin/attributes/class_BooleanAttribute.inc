@@ -58,7 +58,7 @@ class BooleanAttribute extends Attribute
 
   function inputValue ($value)
   {
-    if ($this->isTemplate() && $this->isTemplatable() && ($value == '%askme%')) {
+    if ($this->isTemplate() && $this->isTemplatable() && ($value === '%askme%')) {
       return $value;
     }
     return ($value == $this->trueValue);
@@ -70,7 +70,7 @@ class BooleanAttribute extends Attribute
       if ($this->isTemplate() && $this->isTemplatable()) {
         if (!isset($_POST[$this->getHtmlId()])) {
           $this->setPostValue(FALSE);
-        } elseif ($_POST[$this->getHtmlId()] == '%askme%') {
+        } elseif ($_POST[$this->getHtmlId()] === '%askme%') {
           $this->setPostValue('%askme%');
         } else {
           $this->setPostValue($_POST[$this->getHtmlId()] == 'TRUE');
@@ -83,7 +83,7 @@ class BooleanAttribute extends Attribute
 
   function computeLdapValue ()
   {
-    if ($this->isTemplate() && $this->isTemplatable() && ($this->value == '%askme%')) {
+    if ($this->isTemplate() && $this->isTemplatable() && ($this->value === '%askme%')) {
       return $this->value;
     } else {
       return ($this->value ? $this->trueValue : $this->falseValue);
@@ -109,7 +109,7 @@ class BooleanAttribute extends Attribute
   {
     if ($this->isTemplatable()) {
       $id = $this->getHtmlId();
-      if ($this->getValue() == '%askme%') {
+      if ($this->getValue() === '%askme%') {
         $selected = '%askme%';
       } elseif ($this->getValue()) {
         $selected = 'TRUE';
