@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" {if $rtl}dir="rtl" class="rtl"{else}class="ltr"{/if}>
+<html xmlns="http://www.w3.org/1999/xhtml" {if $lang}lang="{$lang}" xml:lang="{$lang}"{/if} {if $rtl}dir="rtl" class="rtl"{else}class="ltr"{/if}>
 
 <head>
   <title>FusionDirectory{if isset($title)} - {$title|escape}{elseif isset($headline)} - {$headline|escape}{/if}</title>
