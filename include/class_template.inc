@@ -171,6 +171,11 @@ class template
     }
   }
 
+  function getAttribute($tab, $attr)
+  {
+    return $this->tabObject->by_object[$tab]->attributesAccess[$attr];
+  }
+
   /*! \brief Serialize this template for webservice
    */
   function serialize()
