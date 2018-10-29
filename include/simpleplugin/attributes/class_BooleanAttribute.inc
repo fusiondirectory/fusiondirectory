@@ -90,6 +90,15 @@ class BooleanAttribute extends Attribute
     }
   }
 
+  function displayValue($value)
+  {
+    if ($this->isTemplate() && $this->isTemplatable() && ($value === '%askme%')) {
+      return $value;
+    } else {
+      return ($value ? _('yes') : _('no'));
+    }
+  }
+
   function renderFormInput ()
   {
     $id = $this->getHtmlId();
