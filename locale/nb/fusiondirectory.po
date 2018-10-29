@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2018-10-16 08:21+0000\n"
+"POT-Creation-Date: 2018-10-25 10:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>, 2018\n"
 "Language-Team: Norwegian Bokmål (https://www.transifex.com/fusiondirectory/teams/12202/nb/)\n"
@@ -40,7 +40,7 @@ msgstr ""
 #: include/simpleplugin/attributes/class_FileAttribute.inc:33
 #: include/simpleplugin/attributes/class_FileAttribute.inc:36
 #: include/simpleplugin/attributes/class_FileAttribute.inc:39
-#: include/simpleplugin/attributes/class_FileAttribute.inc:357
+#: include/simpleplugin/attributes/class_FileAttribute.inc:368
 #: include/simpleplugin/class_simpleTabs.inc:73
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:187
 #: setup/setup_checks.tpl.c:5 ihtml/themes/breezy/msg_dialog.tpl.c:2
@@ -132,12 +132,12 @@ msgid "Export list"
 msgstr ""
 
 #: include/management/class_management.inc:224
-#: include/simpleplugin/attributes/class_PhoneNumberAttribute.inc:144
-#: include/simpleplugin/attributes/class_PhoneNumberAttribute.inc:145
-#: include/simpleplugin/attributes/class_SetAttribute.inc:516
-#: include/simpleplugin/attributes/class_SetAttribute.inc:517
-#: include/simpleplugin/class_dialogAttributes.inc:778
-#: include/simpleplugin/class_dialogAttributes.inc:779
+#: include/simpleplugin/attributes/class_PhoneNumberAttribute.inc:149
+#: include/simpleplugin/attributes/class_PhoneNumberAttribute.inc:150
+#: include/simpleplugin/attributes/class_SetAttribute.inc:527
+#: include/simpleplugin/attributes/class_SetAttribute.inc:528
+#: include/simpleplugin/class_dialogAttributes.inc:786
+#: include/simpleplugin/class_dialogAttributes.inc:787
 #: include/simpleplugin/simple-list.xml:67
 #: include/simpleplugin/simple-list.xml:112
 #: plugins/admin/departments/dep-list.xml:79
@@ -165,10 +165,10 @@ msgid "Apply template"
 msgstr ""
 
 #: include/management/class_management.inc:269
-#: include/simpleplugin/attributes/class_FileAttribute.inc:393
-#: include/simpleplugin/attributes/class_FileAttribute.inc:394
-#: include/simpleplugin/class_dialogAttributes.inc:788
-#: include/simpleplugin/class_dialogAttributes.inc:789
+#: include/simpleplugin/attributes/class_FileAttribute.inc:404
+#: include/simpleplugin/attributes/class_FileAttribute.inc:405
+#: include/simpleplugin/class_dialogAttributes.inc:796
+#: include/simpleplugin/class_dialogAttributes.inc:797
 #: include/simpleplugin/simple-list.xml:75
 #: include/simpleplugin/simple-list.xml:125
 #: plugins/admin/departments/dep-list.xml:67
@@ -325,7 +325,7 @@ msgstr ""
 #: include/password-methods/class_password-methods.inc:200
 #: include/functions.inc:413 include/functions.inc:587
 #: include/functions.inc:634 include/functions.inc:742
-#: include/simpleplugin/attributes/class_SetAttribute.inc:750
+#: include/simpleplugin/attributes/class_SetAttribute.inc:761
 #: include/class_ldap.inc:845 include/class_ldap.inc:1202
 #: plugins/config/class_recoveryConfig.inc:136
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:90
@@ -447,15 +447,15 @@ msgid "Down"
 msgstr ""
 
 #: include/class_listing.inc:303
-#: include/simpleplugin/attributes/class_SetAttribute.inc:488
-#: include/simpleplugin/attributes/class_SetAttribute.inc:489
+#: include/simpleplugin/attributes/class_SetAttribute.inc:499
+#: include/simpleplugin/attributes/class_SetAttribute.inc:500
 #: ihtml/themes/breezy/management/list.tpl.c:11
 msgid "Sort up"
 msgstr ""
 
 #: include/class_listing.inc:303
-#: include/simpleplugin/attributes/class_SetAttribute.inc:501
-#: include/simpleplugin/attributes/class_SetAttribute.inc:502
+#: include/simpleplugin/attributes/class_SetAttribute.inc:512
+#: include/simpleplugin/attributes/class_SetAttribute.inc:513
 #: ihtml/themes/breezy/management/list.tpl.c:14
 msgid "Sort down"
 msgstr ""
@@ -1261,8 +1261,8 @@ msgid "Add %s"
 msgstr ""
 
 #: include/class_msgPool.inc:523
-#: include/simpleplugin/attributes/class_SetAttribute.inc:526
-#: include/simpleplugin/attributes/class_SetAttribute.inc:527
+#: include/simpleplugin/attributes/class_SetAttribute.inc:537
+#: include/simpleplugin/attributes/class_SetAttribute.inc:538
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:194
 #, php-format
 msgid "Delete"
@@ -1673,23 +1673,23 @@ msgid "%s (%d bytes)"
 msgstr ""
 
 #: include/simpleplugin/attributes/class_FileAttribute.inc:116
-#: include/simpleplugin/class_Attribute.inc:641
+#: include/simpleplugin/class_Attribute.inc:654
 #, php-format
 msgid "Attribute %s is disabled, its value could not be set"
 msgstr ""
 
-#: include/simpleplugin/attributes/class_FileAttribute.inc:172
-#: include/simpleplugin/attributes/class_FileAttribute.inc:383
-#: include/simpleplugin/attributes/class_FileAttribute.inc:384
+#: include/simpleplugin/attributes/class_FileAttribute.inc:175
+#: include/simpleplugin/attributes/class_FileAttribute.inc:394
+#: include/simpleplugin/attributes/class_FileAttribute.inc:395
 msgid "Upload"
 msgstr ""
 
-#: include/simpleplugin/attributes/class_FileAttribute.inc:177
-#: include/simpleplugin/attributes/class_FileAttribute.inc:178
+#: include/simpleplugin/attributes/class_FileAttribute.inc:181
+#: include/simpleplugin/attributes/class_FileAttribute.inc:182
 msgid "Download"
 msgstr ""
 
-#: include/simpleplugin/attributes/class_FileAttribute.inc:358
+#: include/simpleplugin/attributes/class_FileAttribute.inc:369
 msgid ""
 "Cannot save user picture, FusionDirectory requires the PHP module "
 "\"imagick\" to be installed!"
@@ -1714,45 +1714,45 @@ msgstr ""
 msgid "An integer smaller than %d"
 msgstr ""
 
-#: include/simpleplugin/attributes/class_IntAttribute.inc:156
+#: include/simpleplugin/attributes/class_IntAttribute.inc:162
 #, php-format
 msgid "A float between %f and %f"
 msgstr ""
 
-#: include/simpleplugin/attributes/class_IntAttribute.inc:158
+#: include/simpleplugin/attributes/class_IntAttribute.inc:164
 #, php-format
 msgid "A float larger than %f"
 msgstr ""
 
-#: include/simpleplugin/attributes/class_IntAttribute.inc:160
+#: include/simpleplugin/attributes/class_IntAttribute.inc:166
 #, php-format
 msgid "A float smaller than %f"
 msgstr ""
 
-#: include/simpleplugin/attributes/class_SetAttribute.inc:142
+#: include/simpleplugin/attributes/class_SetAttribute.inc:149
 #, php-format
 msgid "The value for multivaluated field \"%s\" is not an array"
 msgstr ""
 
-#: include/simpleplugin/attributes/class_SetAttribute.inc:236
-#: include/simpleplugin/class_Attribute.inc:594
+#: include/simpleplugin/attributes/class_SetAttribute.inc:243
+#: include/simpleplugin/class_Attribute.inc:605
 #, php-format
 msgid "%s (required)"
 msgstr ""
 
-#: include/simpleplugin/attributes/class_SetAttribute.inc:360
+#: include/simpleplugin/attributes/class_SetAttribute.inc:371
 #, php-format
 msgid "SetAttribute \"%s\" was set to a non-compatible value"
 msgstr ""
 
-#: include/simpleplugin/attributes/class_SetAttribute.inc:608
+#: include/simpleplugin/attributes/class_SetAttribute.inc:619
 #, php-format
 msgid "Invalid value for %s"
 msgstr ""
 
 #: include/simpleplugin/attributes/class_SelectAttribute.inc:66
 #: include/simpleplugin/attributes/class_SelectAttribute.inc:127
-#: include/simpleplugin/class_dialogAttributes.inc:766
+#: include/simpleplugin/class_dialogAttributes.inc:774
 msgid "None"
 msgstr ""
 
@@ -1761,7 +1761,7 @@ msgstr ""
 msgid "The value \"%s\" for field \"%s\" is not in the list of possible choices"
 msgstr ""
 
-#: include/simpleplugin/attributes/class_StringAttribute.inc:114
+#: include/simpleplugin/attributes/class_StringAttribute.inc:148
 #, php-format
 msgid "StringAttribute \"%s\" was set to a non-compatible value"
 msgstr ""
@@ -1841,73 +1841,73 @@ msgstr ""
 msgid "Move from \"%s\" to \"%s\" failed: %s"
 msgstr ""
 
-#: include/simpleplugin/class_Attribute.inc:919
+#: include/simpleplugin/class_Attribute.inc:932
 #, php-format
 msgid "Invalid: %s"
 msgstr ""
 
-#: include/simpleplugin/class_helpersAttribute.inc:268
+#: include/simpleplugin/class_helpersAttribute.inc:261
 msgid "B"
 msgstr ""
 
-#: include/simpleplugin/class_helpersAttribute.inc:269
+#: include/simpleplugin/class_helpersAttribute.inc:262
 msgid "KiB"
 msgstr ""
 
-#: include/simpleplugin/class_helpersAttribute.inc:270
+#: include/simpleplugin/class_helpersAttribute.inc:263
 msgid "MiB"
 msgstr ""
 
-#: include/simpleplugin/class_helpersAttribute.inc:271
+#: include/simpleplugin/class_helpersAttribute.inc:264
 msgid "GiB"
 msgstr ""
 
-#: include/simpleplugin/class_helpersAttribute.inc:272
+#: include/simpleplugin/class_helpersAttribute.inc:265
 msgid "TiB"
 msgstr ""
 
-#: include/simpleplugin/class_helpersAttribute.inc:286
+#: include/simpleplugin/class_helpersAttribute.inc:279
 msgid "seconds"
 msgstr ""
 
-#: include/simpleplugin/class_helpersAttribute.inc:287
+#: include/simpleplugin/class_helpersAttribute.inc:280
 msgid "minutes"
 msgstr ""
 
-#: include/simpleplugin/class_helpersAttribute.inc:288
+#: include/simpleplugin/class_helpersAttribute.inc:281
 msgid "hours"
 msgstr ""
 
-#: include/simpleplugin/class_helpersAttribute.inc:289
+#: include/simpleplugin/class_helpersAttribute.inc:282
 msgid "days"
 msgstr ""
 
-#: include/simpleplugin/class_dialogAttributes.inc:254
+#: include/simpleplugin/class_dialogAttributes.inc:257
 msgid "Add (dialog)"
 msgstr ""
 
-#: include/simpleplugin/class_dialogAttributes.inc:524
+#: include/simpleplugin/class_dialogAttributes.inc:532
 #, php-format
 msgid "POSIX group %s"
 msgstr ""
 
-#: include/simpleplugin/class_dialogAttributes.inc:526
+#: include/simpleplugin/class_dialogAttributes.inc:534
 #: plugins/config/class_configInLdap.inc:471
 #, php-format
 msgid "Role %s"
 msgstr ""
 
-#: include/simpleplugin/class_dialogAttributes.inc:528
+#: include/simpleplugin/class_dialogAttributes.inc:536
 #: plugins/config/class_configInLdap.inc:464
 #, php-format
 msgid "Group %s"
 msgstr ""
 
-#: include/simpleplugin/class_dialogAttributes.inc:566
+#: include/simpleplugin/class_dialogAttributes.inc:574
 msgid "Group of user"
 msgstr ""
 
-#: include/simpleplugin/class_dialogAttributes.inc:768
+#: include/simpleplugin/class_dialogAttributes.inc:776
 msgid "Unknown"
 msgstr ""
 
@@ -2083,7 +2083,6 @@ msgstr ""
 #: plugins/admin/departments/dep-list.xml:21
 #: plugins/admin/departments/class_department.inc:30
 #: plugins/admin/departments/class_department.inc:39
-#: plugins/personal/generic/class_user.inc:213
 msgid "Department"
 msgstr ""
 
@@ -3713,7 +3712,11 @@ msgid ""
 msgstr ""
 
 #: plugins/personal/generic/class_user.inc:213
-msgid "Department to which the user belongs"
+msgid "Unit"
+msgstr ""
+
+#: plugins/personal/generic/class_user.inc:213
+msgid "Organizational unit this user belongs to"
 msgstr ""
 
 #: plugins/personal/generic/class_user.inc:217
