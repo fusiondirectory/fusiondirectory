@@ -176,6 +176,15 @@ class template
     return $this->tabObject->by_object[$tab]->attributesAccess[$attr];
   }
 
+  function getAttributeTab($attr)
+  {
+    foreach ($this->tabObject->by_object as $tab => $tabObject) {
+      if (isset($tabObject->attributesAccess[$attr])) {
+        return $tab;
+      }
+    }
+  }
+
   /*! \brief Serialize this template for webservice
    */
   function serialize()
