@@ -694,7 +694,7 @@ class simplePlugin
         }
       } elseif (!$this->is_account) {
         $plInfo = pluglist::pluginInfos(get_class($this));
-        $this->header = '<img alt="" src="geticon.php?context=status&amp;icon=dialog-error&amp;size=16" align="middle"/>&nbsp;<b>'.
+        $this->header = '<img alt="'._('Error').'" src="geticon.php?context=status&amp;icon=dialog-error&amp;size=16" align="middle"/>&nbsp;<b>'.
                         msgPool::noValidExtension($plInfo['plShortName'])."</b>";
         $this->header .= back_to_main();
         $this->displayPlugin = FALSE;
@@ -832,8 +832,7 @@ class simplePlugin
       if (isset($sectionInfo['icon'])) {
         $legend = '<img '.
                   'src="'.htmlentities($sectionInfo['icon'], ENT_COMPAT, 'UTF-8').'" '.
-                  'alt="section '.$sectionInfo['name'].' icon" '.
-                  'title="section '.$sectionInfo['name'].' icon" '.
+                  'alt="" '.
                   '/>'.$legend;
       }
       $smarty->assign("section", $legend);

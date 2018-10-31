@@ -251,7 +251,7 @@ class baseSelector
       $this->tree .= "<li><a$selected $link>".
                     '<img class="center" '.
                     'src="'.htmlentities($config->department_info[$base]['img'], ENT_COMPAT, 'UTF-8').'" '.
-                    'alt="'.htmlentities($config->department_info[$base]['name'], ENT_COMPAT, 'UTF-8').'"/>&nbsp;'.
+                    'alt=""/>&nbsp;'.
                     $this->escape($config->department_info[$base]['name']).
                     (($config->department_info[$base]['description'] == '') ? '' : '&nbsp;<span class="informal">['.$this->escape($config->department_info[$base]['description']).']</span>').
                     '</a>';
