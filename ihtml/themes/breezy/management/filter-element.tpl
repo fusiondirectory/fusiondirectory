@@ -4,7 +4,7 @@
       <input type="checkbox" id="{$key}" name="{$key}" value="1"
         {if ($input.checked)}checked="checked"{/if}/>
       {if isset($input.icon)}
-        <img src="{$input.icon|escape}" alt="{$key}"/>
+        <img src="{$input.icon|escape}" alt=""/>
       {else}
         <img src="images/empty.png" alt=""/>
       {/if}

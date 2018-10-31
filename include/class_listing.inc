@@ -1168,7 +1168,7 @@ class listing
 
     /* Draw reload button, this button is enabled everytime */
     $result["RELOAD"] = "<input class='center optional' type='image' src='geticon.php?context=actions&amp;icon=view-refresh&amp;size=16' ".
-                       "title='"._("Reload list")."' name='REFRESH' alt='"._("Submit")."'>";
+                       "title='"._("Reload list")."' name='REFRESH' alt='"._("Reload list")."'>";
 
     return $result;
   }
@@ -1311,7 +1311,7 @@ class listing
     $result   = '<input type="hidden" name="act" id="actionmenu" value="">'.
                 '<div style="display:none"><input type="submit" formnovalidate="formnovalidate" name="exec_act" id="exec_act" value=""/></div>'.
                 '<ul class="level1" id="root"><li><a href="#">'._('Actions').
-                '&nbsp;<img class="center optional" src="images/down-arrow.png" alt="down arrow"/></a>';
+                '&nbsp;<img class="center optional" src="images/down-arrow.png" alt=""/></a>';
 
     // Build ul/li list
     $result .= $this->recurseActions($this->xmlData['actionmenu']['action']);
@@ -1325,7 +1325,7 @@ class listing
                   .'<a href="#" onClick="'
                     ."document.getElementById('actionmenu').value='$action';document.getElementById('exec_act').click();"
                   .'">'
-                  .'<img src="'.htmlentities($icon, ENT_COMPAT, 'UTF-8').'" alt="'.$action.'" class="center">&nbsp;'.$name.'</a>'
+                  .'<img src="'.htmlentities($icon, ENT_COMPAT, 'UTF-8').'" alt="" class="center"/>&nbsp;'.$name.'</a>'
                   .'</li>';
   }
 
@@ -1364,7 +1364,7 @@ class listing
         if (isset($action['label'])) {
           $img = "";
           if (isset($action['image'])) {
-            $img = "<img class='center' src='".htmlentities($action['image'], ENT_COMPAT, 'UTF-8')."' alt='".$action['label']."'/>&nbsp;";
+            $img = "<img class='center' src='".htmlentities($action['image'], ENT_COMPAT, 'UTF-8')."' alt=''/>&nbsp;";
           }
           $result .= "<li id='actionmenu_".strtolower($action['label'])."'$separator><a href='#'>$img"._($action['label'])."&nbsp;<img src='images/forward-arrow.png' alt='forward arrow'/></a>";
         }
@@ -1640,7 +1640,7 @@ class listing
       if ($this->copyPasteHandler->entries_queued()) {
         $result .= $this->renderActionMenuActionLink($separator, 'paste', _('Paste'), 'geticon.php?context=actions&icon=edit-paste&size=16');
       } else {
-        $result .= "<li$separator>".'<a href="#"><img src="geticon.php?context=actions&amp;icon=edit-paste&amp;size=16&amp;disabled=1" alt="paste" class="center">&nbsp;'._('Paste').'</a></li>';
+        $result .= "<li$separator>".'<a href="#"><img src="geticon.php?context=actions&amp;icon=edit-paste&amp;size=16&amp;disabled=1" alt="" class="center"/>&nbsp;'._('Paste').'</a></li>';
       }
     }
 
@@ -1704,7 +1704,7 @@ class listing
       if ($this->snapshotHandler->hasDeletedSnapshots($this->parent->getSnapshotBases())) {
         $result .= $this->renderActionMenuActionLink($separator, 'restore', _('Restore snapshots'), 'geticon.php?context=actions&icon=document-restore&size=16');
       } else {
-        $result .= "<li$separator><a href='#'><img src='geticon.php?context=actions&amp;icon=document-restore&amp;size=16&amp;disabled=1' alt='restore' class='center'>&nbsp;"._("Restore snapshots")."</a></li>";
+        $result .= "<li$separator><a href='#'><img src='geticon.php?context=actions&amp;icon=document-restore&amp;size=16&amp;disabled=1' alt='' class='center'>&nbsp;"._("Restore snapshots")."</a></li>";
       }
     }
 
@@ -1718,7 +1718,7 @@ class listing
     $result = "";
 
     // Draw entries
-    $result .= "<li$separator id='actionmenu_exportList'><a href='#'><img class='center' src='geticon.php?context=actions&amp;icon=document-export&amp;size=16' alt='export'>&nbsp;"._("Export list")."&nbsp;<img src='images/forward-arrow.png' alt='arrow'></a><ul class='level3'>";
+    $result .= "<li$separator id='actionmenu_exportList'><a href='#'><img class='center' src='geticon.php?context=actions&amp;icon=document-export&amp;size=16' alt=''>&nbsp;"._("Export list")."&nbsp;<img src='images/forward-arrow.png' alt='arrow'></a><ul class='level3'>";
 
     // Render export actions
     foreach ($this->exporters as $action => $exporter) {
@@ -1755,7 +1755,7 @@ class listing
       } else {
         $result .= '<img class="center"'.
                     ' src="geticon.php?context=actions&amp;icon=document-restore&amp;size=16&amp;disabled=1"'.
-                    ' alt="restore"/>';
+                    ' alt="'._('Restore snapshot').'"/>';
       }
     }
 

@@ -10,7 +10,7 @@
     <label for="{$key}">
       <input type="checkbox" id="{$key}" name="{$key}" value="1"
         {if ($type.show)}checked="checked"{/if}/>
-      <img src="{$type.infos.icon|escape}" alt="{$key}"/>
+      <img src="{$type.infos.icon|escape}" alt=""/>
       {$type.infos.name|escape}
     </label>
   {/foreach}
@@ -18,7 +18,7 @@
     <label for="filter_type_TEMPLATE">
       <input type="checkbox" id="filter_type_TEMPLATE" name="filter_type_TEMPLATE" value="1"
         {if ($TEMPLATES)}checked="checked"{/if}/>
-      <img src="geticon.php?context=devices&amp;icon=template&amp;size=16" alt="filter_type_TEMPLATE"/>
+      <img src="geticon.php?context=devices&amp;icon=template&amp;size=16" alt=""/>
       {t}Template{/t}
     </label>
   {/if}

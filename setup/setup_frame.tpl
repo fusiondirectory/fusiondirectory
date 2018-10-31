@@ -4,9 +4,9 @@
   <form action="setup.php" name="mainform" id="mainform" method="post" enctype="multipart/form-data">
     <div class="setup-header">
       <div id="header-left">
-        <img id="fd-logo" class="optional" src="geticon.php?context=applications&amp;icon=fusiondirectory&amp;size=48" alt="FusionDirectory"/>
+        <img id="fd-logo" class="optional" src="geticon.php?context=applications&amp;icon=fusiondirectory&amp;size=48" alt="FusionDirectory logo"/>
         <a class="plugtop">
-          <img src="{$headline_image|escape}" alt="{t}{$headline}{/t}"/>{t}{$headline}{/t}
+          <img src="{$headline_image|escape}" alt=""/>{t}{$headline}{/t}
         </a>
       </div>
       <div id="header-right">
