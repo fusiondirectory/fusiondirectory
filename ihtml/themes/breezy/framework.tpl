@@ -5,16 +5,16 @@
   <form action="main.php{$plug}" name="mainform" id="mainform" method="post" enctype="multipart/form-data">
     <div class="setup-header">
       <div id="header-left">
-        <img id="fd-logo" class="optional" src="geticon.php?context=applications&amp;icon=fusiondirectory&amp;size=48" alt="FusionDirectory"/>
+        <img id="fd-logo" class="optional" src="geticon.php?context=applications&amp;icon=fusiondirectory&amp;size=48" alt="FusionDirectory logo"/>
         <a class="maintitlebar" href="main.php?reset=1">
-          <img src="geticon.php?context=actions&amp;icon=go-home&amp;size=22" alt="Main"/>&nbsp;{t}Main{/t}
+          <img src="geticon.php?context=actions&amp;icon=go-home&amp;size=22" alt=""/>&nbsp;{t}Main{/t}
         </a>
         &nbsp;
         <a class="maintitlebar logout" href="index.php?signout=1">
-          <img src="geticon.php?context=actions&amp;icon=application-exit&amp;size=22" alt="Sign out"/>&nbsp;{t}Sign out{/t}
+          <img src="geticon.php?context=actions&amp;icon=application-exit&amp;size=22" alt=""/>&nbsp;{t}Sign out{/t}
         </a>
         <a class="plugtop">
-          <img src="{$headline_image|escape}" alt="{t}{$headline|escape}{/t}"/>{t}{$headline|escape}{/t}
+          <img src="{$headline_image|escape}" alt=""/>{t}{$headline|escape}{/t}
         </a>
       </div>
       <div id="header-right">
