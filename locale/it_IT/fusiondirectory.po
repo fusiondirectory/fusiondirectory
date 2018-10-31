@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2018-10-25 10:14+0000\n"
+"POT-Creation-Date: 2018-10-31 16:07+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Paola Penati <paola.penati@opensides.be>, 2018\n"
 "Language-Team: Italian (Italy) (https://www.transifex.com/fusiondirectory/teams/12202/it_IT/)\n"
@@ -41,7 +41,9 @@ msgstr ""
 #: include/simpleplugin/attributes/class_FileAttribute.inc:36
 #: include/simpleplugin/attributes/class_FileAttribute.inc:39
 #: include/simpleplugin/attributes/class_FileAttribute.inc:368
+#: include/simpleplugin/class_simplePlugin.inc:702
 #: include/simpleplugin/class_simpleTabs.inc:73
+#: include/simpleplugin/class_multiPlugin.inc:78
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:187
 #: setup/setup_checks.tpl.c:5 ihtml/themes/breezy/msg_dialog.tpl.c:2
 msgid "Error"
@@ -183,7 +185,7 @@ msgid "Create snapshot"
 msgstr "Crea una 'copia istantanea'"
 
 #: include/management/class_management.inc:285 include/class_listing.inc:1753
-#: include/class_listing.inc:1754
+#: include/class_listing.inc:1754 include/class_listing.inc:1758
 msgid "Restore snapshot"
 msgstr "Restaura la 'copia istantanea'"
 
@@ -478,10 +480,6 @@ msgstr "Ordina in modo decrescente"
 msgid "Select all"
 msgstr "Seleziona tutto"
 
-#: include/class_listing.inc:1171 include/class_baseSelector.inc:261
-msgid "Submit"
-msgstr "Invia"
-
 #: include/class_listing.inc:1313 include/simpleplugin/simple-list.xml:48
 #: plugins/admin/departments/dep-list.xml:37
 #: ihtml/themes/breezy/management/actionmenu.tpl.c:2
@@ -669,8 +667,8 @@ msgstr "L'utente header \"%s\"  non è stato trovato nel LDAP"
 msgid "HTTP Basic Auth"
 msgstr "HTTP Basic Auth"
 
-#: include/class_passwordRecovery.inc:85 ihtml/themes/legacy/recovery.tpl.c:83
-#: ihtml/themes/legacy/recovery.tpl.c:86 ihtml/themes/breezy/recovery.tpl.c:77
+#: include/class_passwordRecovery.inc:85 ihtml/themes/legacy/recovery.tpl.c:77
+#: ihtml/themes/legacy/recovery.tpl.c:80 ihtml/themes/breezy/recovery.tpl.c:77
 #: ihtml/themes/breezy/recovery.tpl.c:80
 msgid "Email address"
 msgstr "Indirizzo di posta elettronica"
@@ -736,6 +734,10 @@ msgid ""
 msgstr ""
 "é necessario compilare saslRealm o saslExop nello schermo di configurazione "
 "per usare SASL"
+
+#: include/class_baseSelector.inc:261
+msgid "Submit"
+msgstr "Invia"
 
 #: include/class_standAlonePage.inc:117 include/functions.inc:386
 #: include/functions.inc:2231 include/simpleplugin/class_simplePlugin.inc:473
@@ -1700,6 +1702,14 @@ msgstr "Base dell'oggetto"
 msgid "Base field value should always be a string"
 msgstr "Il valore del campo base dovrebbe sempre essere una stringa"
 
+#: include/simpleplugin/attributes/class_BooleanAttribute.inc:98
+msgid "yes"
+msgstr ""
+
+#: include/simpleplugin/attributes/class_BooleanAttribute.inc:98
+msgid "no"
+msgstr ""
+
 #: include/simpleplugin/attributes/class_DateAttribute.inc:134
 #, php-format
 msgid "Error, incorrect date: %s"
@@ -1875,17 +1885,17 @@ msgstr ""
 "Impossibile calcolare il dn: impossibile trovare le informazioni di "
 "objectType in questa  classe scheda \"%s\""
 
-#: include/simpleplugin/class_simplePlugin.inc:1318
+#: include/simpleplugin/class_simplePlugin.inc:1317
 #, php-format
 msgid "There is already an entry with the same dn : %s"
 msgstr "C'é già un'altra entry con il medesimo dn: %s"
 
-#: include/simpleplugin/class_simplePlugin.inc:1325
+#: include/simpleplugin/class_simplePlugin.inc:1324
 #, php-format
 msgid "The entry %s is not existing"
 msgstr "La voce %s non esiste"
 
-#: include/simpleplugin/class_simplePlugin.inc:1524
+#: include/simpleplugin/class_simplePlugin.inc:1523
 msgid ""
 "The object has changed since opened in FusionDirectory. All changes that may"
 " be done by others will get lost if you save this entry!"
@@ -1894,21 +1904,21 @@ msgstr ""
 "che possono essere state fatte da altri andranno perse se si salva questa "
 "voce !"
 
-#: include/simpleplugin/class_simplePlugin.inc:1789
+#: include/simpleplugin/class_simplePlugin.inc:1788
 #, php-format
 msgid "Service \"%s\""
 msgstr "Servizio \"%s\""
 
-#: include/simpleplugin/class_simplePlugin.inc:1791
+#: include/simpleplugin/class_simplePlugin.inc:1790
 #, php-format
 msgid "Tab \"%s\""
 msgstr "Tab \"%s\""
 
-#: include/simpleplugin/class_simplePlugin.inc:1854
+#: include/simpleplugin/class_simplePlugin.inc:1853
 msgid "Failed to create a unique DN"
 msgstr "Impossibile creare un DN univoco"
 
-#: include/simpleplugin/class_simplePlugin.inc:1946
+#: include/simpleplugin/class_simplePlugin.inc:1945
 #, php-format
 msgid "Unknown field \"%s\""
 msgstr "Campo \"%s\" sconosciuto"
@@ -3608,7 +3618,7 @@ msgid "Expiration date"
 msgstr "Data di scadenza"
 
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:70
-#: ihtml/themes/legacy/recovery.tpl.c:89 ihtml/themes/breezy/recovery.tpl.c:83
+#: ihtml/themes/legacy/recovery.tpl.c:83 ihtml/themes/breezy/recovery.tpl.c:83
 msgid "Email"
 msgstr "Indirizzo di posta elettronica"
 
@@ -3731,7 +3741,6 @@ msgstr "Algoritmo da usare per la password"
 #: plugins/personal/generic/class_UserPasswordAttribute.inc:51
 #: plugins/personal/generic/class_user.inc:175
 #: setup/setup_migrate_adminAccount.tpl.c:14
-#: ihtml/themes/legacy/recovery.tpl.c:2 ihtml/themes/legacy/recovery.tpl.c:5
 #: ihtml/themes/legacy/login.tpl.c:17 ihtml/themes/legacy/login.tpl.c:20
 #: ihtml/themes/legacy/login.tpl.c:23 ihtml/themes/breezy/login.tpl.c:17
 #: ihtml/themes/breezy/login.tpl.c:20 ihtml/themes/breezy/login.tpl.c:23
@@ -3996,8 +4005,8 @@ msgstr ""
 "password\" non corrispondono."
 
 #: plugins/personal/generic/class_user.inc:478
-#: ihtml/themes/legacy/recovery.tpl.c:29 ihtml/themes/legacy/recovery.tpl.c:32
-#: ihtml/themes/legacy/recovery.tpl.c:35 ihtml/themes/breezy/recovery.tpl.c:23
+#: ihtml/themes/legacy/recovery.tpl.c:23 ihtml/themes/legacy/recovery.tpl.c:26
+#: ihtml/themes/legacy/recovery.tpl.c:29 ihtml/themes/breezy/recovery.tpl.c:23
 #: ihtml/themes/breezy/recovery.tpl.c:26 ihtml/themes/breezy/recovery.tpl.c:29
 msgid "New password"
 msgstr "Imposta la nuova password"
@@ -5132,21 +5141,21 @@ msgstr ""
 msgid "Show changes"
 msgstr "Mostra le modifiche"
 
-#: ihtml/themes/legacy/recovery.tpl.c:8 ihtml/themes/breezy/recovery.tpl.c:2
+#: ihtml/themes/legacy/recovery.tpl.c:2 ihtml/themes/breezy/recovery.tpl.c:2
 msgid "Lost password"
 msgstr "Password dimenticata"
 
-#: ihtml/themes/legacy/recovery.tpl.c:11 ihtml/themes/breezy/recovery.tpl.c:5
+#: ihtml/themes/legacy/recovery.tpl.c:5 ihtml/themes/breezy/recovery.tpl.c:5
 msgid "Information to reset password for %1 has been sent to email address %2"
 msgstr ""
 "Le informazioni per resettare la password di %1 sono stati inviati "
 "all'indirizzo di posta elettronica %2"
 
-#: ihtml/themes/legacy/recovery.tpl.c:14 ihtml/themes/breezy/recovery.tpl.c:8
+#: ihtml/themes/legacy/recovery.tpl.c:8 ihtml/themes/breezy/recovery.tpl.c:8
 msgid "Warning : this email is only valid for %1 minutes."
 msgstr "Attenzione: questa e-mail é valida soltanto per %1 minuti."
 
-#: ihtml/themes/legacy/recovery.tpl.c:17 ihtml/themes/breezy/recovery.tpl.c:11
+#: ihtml/themes/legacy/recovery.tpl.c:11 ihtml/themes/breezy/recovery.tpl.c:11
 msgid ""
 "This dialog provides a simple way to change your password.<br/> Enter the "
 "new password (twice) in the fields below and press the 'Change' button."
@@ -5155,8 +5164,8 @@ msgstr ""
 "password. <br/>Immettere la nuova password (due volte) nei campi sottostanti"
 " e premere il pulsante \"Cambia\"."
 
-#: ihtml/themes/legacy/recovery.tpl.c:20 ihtml/themes/legacy/recovery.tpl.c:23
-#: ihtml/themes/legacy/recovery.tpl.c:26 ihtml/themes/legacy/login.tpl.c:8
+#: ihtml/themes/legacy/recovery.tpl.c:14 ihtml/themes/legacy/recovery.tpl.c:17
+#: ihtml/themes/legacy/recovery.tpl.c:20 ihtml/themes/legacy/login.tpl.c:8
 #: ihtml/themes/legacy/login.tpl.c:11 ihtml/themes/legacy/login.tpl.c:14
 #: ihtml/themes/breezy/recovery.tpl.c:14 ihtml/themes/breezy/recovery.tpl.c:17
 #: ihtml/themes/breezy/recovery.tpl.c:20 ihtml/themes/breezy/login.tpl.c:8
@@ -5164,19 +5173,19 @@ msgstr ""
 msgid "Username"
 msgstr "Nome utente"
 
-#: ihtml/themes/legacy/recovery.tpl.c:38 ihtml/themes/legacy/recovery.tpl.c:41
-#: ihtml/themes/legacy/recovery.tpl.c:44 ihtml/themes/breezy/recovery.tpl.c:32
+#: ihtml/themes/legacy/recovery.tpl.c:32 ihtml/themes/legacy/recovery.tpl.c:35
+#: ihtml/themes/legacy/recovery.tpl.c:38 ihtml/themes/breezy/recovery.tpl.c:32
 #: ihtml/themes/breezy/recovery.tpl.c:35 ihtml/themes/breezy/recovery.tpl.c:38
 msgid "New password repeated"
 msgstr "Ripeti la nuova password"
 
-#: ihtml/themes/legacy/recovery.tpl.c:47 ihtml/themes/breezy/recovery.tpl.c:41
+#: ihtml/themes/legacy/recovery.tpl.c:41 ihtml/themes/breezy/recovery.tpl.c:41
 msgid "Password strength"
 msgstr "Livello di sicurezza della password"
 
-#: ihtml/themes/legacy/recovery.tpl.c:50 ihtml/themes/legacy/recovery.tpl.c:53
-#: ihtml/themes/legacy/recovery.tpl.c:56 ihtml/themes/legacy/recovery.tpl.c:92
-#: ihtml/themes/legacy/recovery.tpl.c:95 ihtml/themes/legacy/recovery.tpl.c:98
+#: ihtml/themes/legacy/recovery.tpl.c:44 ihtml/themes/legacy/recovery.tpl.c:47
+#: ihtml/themes/legacy/recovery.tpl.c:50 ihtml/themes/legacy/recovery.tpl.c:86
+#: ihtml/themes/legacy/recovery.tpl.c:89 ihtml/themes/legacy/recovery.tpl.c:92
 #: ihtml/themes/legacy/login.tpl.c:29 ihtml/themes/legacy/login.tpl.c:32
 #: ihtml/themes/legacy/login.tpl.c:35 ihtml/themes/breezy/recovery.tpl.c:44
 #: ihtml/themes/breezy/recovery.tpl.c:47 ihtml/themes/breezy/recovery.tpl.c:50
@@ -5186,35 +5195,33 @@ msgstr "Livello di sicurezza della password"
 msgid "Directory"
 msgstr "Cartella"
 
-#: ihtml/themes/legacy/recovery.tpl.c:59
-#: ihtml/themes/legacy/recovery.tpl.c:104
+#: ihtml/themes/legacy/recovery.tpl.c:53 ihtml/themes/legacy/recovery.tpl.c:98
 #: ihtml/themes/breezy/recovery.tpl.c:53 ihtml/themes/breezy/recovery.tpl.c:98
 msgid "Change"
 msgstr "Modifica"
 
-#: ihtml/themes/legacy/recovery.tpl.c:62
-#: ihtml/themes/legacy/recovery.tpl.c:107
+#: ihtml/themes/legacy/recovery.tpl.c:56
+#: ihtml/themes/legacy/recovery.tpl.c:101
 #: ihtml/themes/breezy/recovery.tpl.c:56
 #: ihtml/themes/breezy/recovery.tpl.c:101
 msgid "Click here to change your password"
 msgstr "Premi qui per cambiare la tua password."
 
-#: ihtml/themes/legacy/recovery.tpl.c:65 ihtml/themes/legacy/recovery.tpl.c:68
+#: ihtml/themes/legacy/recovery.tpl.c:59 ihtml/themes/legacy/recovery.tpl.c:62
 #: ihtml/themes/breezy/recovery.tpl.c:59 ihtml/themes/breezy/recovery.tpl.c:62
 msgid "Success"
 msgstr "Completato"
 
-#: ihtml/themes/legacy/recovery.tpl.c:71 ihtml/themes/breezy/recovery.tpl.c:65
+#: ihtml/themes/legacy/recovery.tpl.c:65 ihtml/themes/breezy/recovery.tpl.c:65
 msgid "Your password has been changed successfully."
 msgstr "La tua password è stata modificata."
 
-#: ihtml/themes/legacy/recovery.tpl.c:74
-#: ihtml/themes/legacy/recovery.tpl.c:101
+#: ihtml/themes/legacy/recovery.tpl.c:68 ihtml/themes/legacy/recovery.tpl.c:95
 #: ihtml/themes/breezy/recovery.tpl.c:68 ihtml/themes/breezy/recovery.tpl.c:95
 msgid "Return to login screen"
 msgstr "Ritorna alla schermata di accesso"
 
-#: ihtml/themes/legacy/recovery.tpl.c:77 ihtml/themes/breezy/recovery.tpl.c:71
+#: ihtml/themes/legacy/recovery.tpl.c:71 ihtml/themes/breezy/recovery.tpl.c:71
 msgid ""
 "Enter your current e-mail address in the field below and press the 'Change' "
 "button."
@@ -5222,7 +5229,7 @@ msgstr ""
 "Inserisci il tuo indirizzo mail nel campo sottostante e premi il pulsante "
 "'Modifica'"
 
-#: ihtml/themes/legacy/recovery.tpl.c:80 ihtml/themes/breezy/recovery.tpl.c:74
+#: ihtml/themes/legacy/recovery.tpl.c:74 ihtml/themes/breezy/recovery.tpl.c:74
 msgid ""
 "=> Use your e-mail in the long format, e.g : John Doe => "
 "john.doe@example.com"
@@ -5230,7 +5237,7 @@ msgstr ""
 "=> Usa la tua e-mail nel formato lungo, per es.: John Doe => "
 "john.doe@example.com"
 
-#: ihtml/themes/legacy/recovery.tpl.c:110
+#: ihtml/themes/legacy/recovery.tpl.c:104
 #: ihtml/themes/breezy/recovery.tpl.c:104
 msgid ""
 "Password recovery is not activated. If you have lost your password, please "
