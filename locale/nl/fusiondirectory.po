@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2018-10-25 10:14+0000\n"
+"POT-Creation-Date: 2018-10-31 16:07+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Rombout de Neef <rombout.deneef@digipolis.be>, 2018\n"
 "Language-Team: Dutch (https://www.transifex.com/fusiondirectory/teams/12202/nl/)\n"
@@ -41,7 +41,9 @@ msgstr ""
 #: include/simpleplugin/attributes/class_FileAttribute.inc:36
 #: include/simpleplugin/attributes/class_FileAttribute.inc:39
 #: include/simpleplugin/attributes/class_FileAttribute.inc:368
+#: include/simpleplugin/class_simplePlugin.inc:702
 #: include/simpleplugin/class_simpleTabs.inc:73
+#: include/simpleplugin/class_multiPlugin.inc:78
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:187
 #: setup/setup_checks.tpl.c:5 ihtml/themes/breezy/msg_dialog.tpl.c:2
 msgid "Error"
@@ -181,7 +183,7 @@ msgid "Create snapshot"
 msgstr "Maak snapshot"
 
 #: include/management/class_management.inc:285 include/class_listing.inc:1753
-#: include/class_listing.inc:1754
+#: include/class_listing.inc:1754 include/class_listing.inc:1758
 msgid "Restore snapshot"
 msgstr "Herstel snapshot"
 
@@ -472,10 +474,6 @@ msgstr "Sorteer neerwaarts"
 msgid "Select all"
 msgstr "Selecteer alles"
 
-#: include/class_listing.inc:1171 include/class_baseSelector.inc:261
-msgid "Submit"
-msgstr "Indienen"
-
 #: include/class_listing.inc:1313 include/simpleplugin/simple-list.xml:48
 #: plugins/admin/departments/dep-list.xml:37
 #: ihtml/themes/breezy/management/actionmenu.tpl.c:2
@@ -662,8 +660,8 @@ msgstr "Header gebruiker \"%s\" kan niet gevonden worden in de LDAP"
 msgid "HTTP Basic Auth"
 msgstr ""
 
-#: include/class_passwordRecovery.inc:85 ihtml/themes/legacy/recovery.tpl.c:83
-#: ihtml/themes/legacy/recovery.tpl.c:86 ihtml/themes/breezy/recovery.tpl.c:77
+#: include/class_passwordRecovery.inc:85 ihtml/themes/legacy/recovery.tpl.c:77
+#: ihtml/themes/legacy/recovery.tpl.c:80 ihtml/themes/breezy/recovery.tpl.c:77
 #: ihtml/themes/breezy/recovery.tpl.c:80
 msgid "Email address"
 msgstr "E-mail adres"
@@ -727,6 +725,10 @@ msgid ""
 msgstr ""
 "Je moet saslRealm of saslExop invullen in het configuratiescherm als je SASL"
 " wil gebruiken"
+
+#: include/class_baseSelector.inc:261
+msgid "Submit"
+msgstr "Indienen"
 
 #: include/class_standAlonePage.inc:117 include/functions.inc:386
 #: include/functions.inc:2231 include/simpleplugin/class_simplePlugin.inc:473
@@ -1690,6 +1692,14 @@ msgstr "Objectbasis"
 msgid "Base field value should always be a string"
 msgstr ""
 
+#: include/simpleplugin/attributes/class_BooleanAttribute.inc:98
+msgid "yes"
+msgstr ""
+
+#: include/simpleplugin/attributes/class_BooleanAttribute.inc:98
+msgid "no"
+msgstr ""
+
 #: include/simpleplugin/attributes/class_DateAttribute.inc:134
 #, php-format
 msgid "Error, incorrect date: %s"
@@ -1862,17 +1872,17 @@ msgid ""
 msgstr ""
 "Kan dn niet verwerken: kan objectType infos niet vinden van tabklasse \"%s\""
 
-#: include/simpleplugin/class_simplePlugin.inc:1318
+#: include/simpleplugin/class_simplePlugin.inc:1317
 #, php-format
 msgid "There is already an entry with the same dn : %s"
 msgstr "Er is al een invoer met dezelfde dn: %s"
 
-#: include/simpleplugin/class_simplePlugin.inc:1325
+#: include/simpleplugin/class_simplePlugin.inc:1324
 #, php-format
 msgid "The entry %s is not existing"
 msgstr "De invoer %s bestaat niet"
 
-#: include/simpleplugin/class_simplePlugin.inc:1524
+#: include/simpleplugin/class_simplePlugin.inc:1523
 msgid ""
 "The object has changed since opened in FusionDirectory. All changes that may"
 " be done by others will get lost if you save this entry!"
@@ -1881,21 +1891,21 @@ msgstr ""
 "ondertussen door anderen aangebrachte veranderingen zullen verloren gaan als"
 " je deze invoer bewaart."
 
-#: include/simpleplugin/class_simplePlugin.inc:1789
+#: include/simpleplugin/class_simplePlugin.inc:1788
 #, php-format
 msgid "Service \"%s\""
 msgstr "Service \"%s\""
 
-#: include/simpleplugin/class_simplePlugin.inc:1791
+#: include/simpleplugin/class_simplePlugin.inc:1790
 #, php-format
 msgid "Tab \"%s\""
 msgstr "Tab \"%s\""
 
-#: include/simpleplugin/class_simplePlugin.inc:1854
+#: include/simpleplugin/class_simplePlugin.inc:1853
 msgid "Failed to create a unique DN"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:1946
+#: include/simpleplugin/class_simplePlugin.inc:1945
 #, php-format
 msgid "Unknown field \"%s\""
 msgstr "Onbekend veld \"%s\""
@@ -3570,7 +3580,7 @@ msgid "Expiration date"
 msgstr "Vervaldatum"
 
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:70
-#: ihtml/themes/legacy/recovery.tpl.c:89 ihtml/themes/breezy/recovery.tpl.c:83
+#: ihtml/themes/legacy/recovery.tpl.c:83 ihtml/themes/breezy/recovery.tpl.c:83
 msgid "Email"
 msgstr "E-mail"
 
@@ -3685,7 +3695,6 @@ msgstr "Paswoord te gebruiken hash methode"
 #: plugins/personal/generic/class_UserPasswordAttribute.inc:51
 #: plugins/personal/generic/class_user.inc:175
 #: setup/setup_migrate_adminAccount.tpl.c:14
-#: ihtml/themes/legacy/recovery.tpl.c:2 ihtml/themes/legacy/recovery.tpl.c:5
 #: ihtml/themes/legacy/login.tpl.c:17 ihtml/themes/legacy/login.tpl.c:20
 #: ihtml/themes/legacy/login.tpl.c:23 ihtml/themes/breezy/login.tpl.c:17
 #: ihtml/themes/breezy/login.tpl.c:20 ihtml/themes/breezy/login.tpl.c:23
@@ -3952,8 +3961,8 @@ msgstr ""
 "nieuw paswoord\" komen niet overeen"
 
 #: plugins/personal/generic/class_user.inc:478
-#: ihtml/themes/legacy/recovery.tpl.c:29 ihtml/themes/legacy/recovery.tpl.c:32
-#: ihtml/themes/legacy/recovery.tpl.c:35 ihtml/themes/breezy/recovery.tpl.c:23
+#: ihtml/themes/legacy/recovery.tpl.c:23 ihtml/themes/legacy/recovery.tpl.c:26
+#: ihtml/themes/legacy/recovery.tpl.c:29 ihtml/themes/breezy/recovery.tpl.c:23
 #: ihtml/themes/breezy/recovery.tpl.c:26 ihtml/themes/breezy/recovery.tpl.c:29
 msgid "New password"
 msgstr "Nieuw paswoord"
@@ -5071,28 +5080,28 @@ msgstr ""
 msgid "Show changes"
 msgstr "Toon veranderingen"
 
-#: ihtml/themes/legacy/recovery.tpl.c:8 ihtml/themes/breezy/recovery.tpl.c:2
+#: ihtml/themes/legacy/recovery.tpl.c:2 ihtml/themes/breezy/recovery.tpl.c:2
 msgid "Lost password"
 msgstr "Paswoord kwijt"
 
-#: ihtml/themes/legacy/recovery.tpl.c:11 ihtml/themes/breezy/recovery.tpl.c:5
+#: ihtml/themes/legacy/recovery.tpl.c:5 ihtml/themes/breezy/recovery.tpl.c:5
 msgid "Information to reset password for %1 has been sent to email address %2"
 msgstr ""
 "Informatie om het paswoord opnieuw in te stellen voor %1 is verzonden naar "
 "email adres %2"
 
-#: ihtml/themes/legacy/recovery.tpl.c:14 ihtml/themes/breezy/recovery.tpl.c:8
+#: ihtml/themes/legacy/recovery.tpl.c:8 ihtml/themes/breezy/recovery.tpl.c:8
 msgid "Warning : this email is only valid for %1 minutes."
 msgstr "Waarschuwing : deze email is enkel  %1 minuten geldig."
 
-#: ihtml/themes/legacy/recovery.tpl.c:17 ihtml/themes/breezy/recovery.tpl.c:11
+#: ihtml/themes/legacy/recovery.tpl.c:11 ihtml/themes/breezy/recovery.tpl.c:11
 msgid ""
 "This dialog provides a simple way to change your password.<br/> Enter the "
 "new password (twice) in the fields below and press the 'Change' button."
 msgstr ""
 
-#: ihtml/themes/legacy/recovery.tpl.c:20 ihtml/themes/legacy/recovery.tpl.c:23
-#: ihtml/themes/legacy/recovery.tpl.c:26 ihtml/themes/legacy/login.tpl.c:8
+#: ihtml/themes/legacy/recovery.tpl.c:14 ihtml/themes/legacy/recovery.tpl.c:17
+#: ihtml/themes/legacy/recovery.tpl.c:20 ihtml/themes/legacy/login.tpl.c:8
 #: ihtml/themes/legacy/login.tpl.c:11 ihtml/themes/legacy/login.tpl.c:14
 #: ihtml/themes/breezy/recovery.tpl.c:14 ihtml/themes/breezy/recovery.tpl.c:17
 #: ihtml/themes/breezy/recovery.tpl.c:20 ihtml/themes/breezy/login.tpl.c:8
@@ -5100,19 +5109,19 @@ msgstr ""
 msgid "Username"
 msgstr "Gebruikersnaam"
 
-#: ihtml/themes/legacy/recovery.tpl.c:38 ihtml/themes/legacy/recovery.tpl.c:41
-#: ihtml/themes/legacy/recovery.tpl.c:44 ihtml/themes/breezy/recovery.tpl.c:32
+#: ihtml/themes/legacy/recovery.tpl.c:32 ihtml/themes/legacy/recovery.tpl.c:35
+#: ihtml/themes/legacy/recovery.tpl.c:38 ihtml/themes/breezy/recovery.tpl.c:32
 #: ihtml/themes/breezy/recovery.tpl.c:35 ihtml/themes/breezy/recovery.tpl.c:38
 msgid "New password repeated"
 msgstr "Nieuw wachtwoord opnieuw"
 
-#: ihtml/themes/legacy/recovery.tpl.c:47 ihtml/themes/breezy/recovery.tpl.c:41
+#: ihtml/themes/legacy/recovery.tpl.c:41 ihtml/themes/breezy/recovery.tpl.c:41
 msgid "Password strength"
 msgstr "Wachtwoordsterkte"
 
-#: ihtml/themes/legacy/recovery.tpl.c:50 ihtml/themes/legacy/recovery.tpl.c:53
-#: ihtml/themes/legacy/recovery.tpl.c:56 ihtml/themes/legacy/recovery.tpl.c:92
-#: ihtml/themes/legacy/recovery.tpl.c:95 ihtml/themes/legacy/recovery.tpl.c:98
+#: ihtml/themes/legacy/recovery.tpl.c:44 ihtml/themes/legacy/recovery.tpl.c:47
+#: ihtml/themes/legacy/recovery.tpl.c:50 ihtml/themes/legacy/recovery.tpl.c:86
+#: ihtml/themes/legacy/recovery.tpl.c:89 ihtml/themes/legacy/recovery.tpl.c:92
 #: ihtml/themes/legacy/login.tpl.c:29 ihtml/themes/legacy/login.tpl.c:32
 #: ihtml/themes/legacy/login.tpl.c:35 ihtml/themes/breezy/recovery.tpl.c:44
 #: ihtml/themes/breezy/recovery.tpl.c:47 ihtml/themes/breezy/recovery.tpl.c:50
@@ -5122,35 +5131,33 @@ msgstr "Wachtwoordsterkte"
 msgid "Directory"
 msgstr "Directory"
 
-#: ihtml/themes/legacy/recovery.tpl.c:59
-#: ihtml/themes/legacy/recovery.tpl.c:104
+#: ihtml/themes/legacy/recovery.tpl.c:53 ihtml/themes/legacy/recovery.tpl.c:98
 #: ihtml/themes/breezy/recovery.tpl.c:53 ihtml/themes/breezy/recovery.tpl.c:98
 msgid "Change"
 msgstr "Wijzig"
 
-#: ihtml/themes/legacy/recovery.tpl.c:62
-#: ihtml/themes/legacy/recovery.tpl.c:107
+#: ihtml/themes/legacy/recovery.tpl.c:56
+#: ihtml/themes/legacy/recovery.tpl.c:101
 #: ihtml/themes/breezy/recovery.tpl.c:56
 #: ihtml/themes/breezy/recovery.tpl.c:101
 msgid "Click here to change your password"
 msgstr "Klik hier om je paswoord te wijzigen"
 
-#: ihtml/themes/legacy/recovery.tpl.c:65 ihtml/themes/legacy/recovery.tpl.c:68
+#: ihtml/themes/legacy/recovery.tpl.c:59 ihtml/themes/legacy/recovery.tpl.c:62
 #: ihtml/themes/breezy/recovery.tpl.c:59 ihtml/themes/breezy/recovery.tpl.c:62
 msgid "Success"
 msgstr "Succes"
 
-#: ihtml/themes/legacy/recovery.tpl.c:71 ihtml/themes/breezy/recovery.tpl.c:65
+#: ihtml/themes/legacy/recovery.tpl.c:65 ihtml/themes/breezy/recovery.tpl.c:65
 msgid "Your password has been changed successfully."
 msgstr "Je paswoord is succesvol gewijzigd."
 
-#: ihtml/themes/legacy/recovery.tpl.c:74
-#: ihtml/themes/legacy/recovery.tpl.c:101
+#: ihtml/themes/legacy/recovery.tpl.c:68 ihtml/themes/legacy/recovery.tpl.c:95
 #: ihtml/themes/breezy/recovery.tpl.c:68 ihtml/themes/breezy/recovery.tpl.c:95
 msgid "Return to login screen"
 msgstr "Keer terug naar het inlogscherm"
 
-#: ihtml/themes/legacy/recovery.tpl.c:77 ihtml/themes/breezy/recovery.tpl.c:71
+#: ihtml/themes/legacy/recovery.tpl.c:71 ihtml/themes/breezy/recovery.tpl.c:71
 msgid ""
 "Enter your current e-mail address in the field below and press the 'Change' "
 "button."
@@ -5158,7 +5165,7 @@ msgstr ""
 "Vul je huidige e-mailadres in in onderstaand veld en klik op de 'Verander' "
 "knop."
 
-#: ihtml/themes/legacy/recovery.tpl.c:80 ihtml/themes/breezy/recovery.tpl.c:74
+#: ihtml/themes/legacy/recovery.tpl.c:74 ihtml/themes/breezy/recovery.tpl.c:74
 msgid ""
 "=> Use your e-mail in the long format, e.g : John Doe => "
 "john.doe@example.com"
@@ -5166,7 +5173,7 @@ msgstr ""
 "=> Gebruik je e-mail in het lange formaat, vb : John Doe => "
 "john.doe@example.com"
 
-#: ihtml/themes/legacy/recovery.tpl.c:110
+#: ihtml/themes/legacy/recovery.tpl.c:104
 #: ihtml/themes/breezy/recovery.tpl.c:104
 msgid ""
 "Password recovery is not activated. If you have lost your password, please "
