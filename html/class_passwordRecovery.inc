@@ -477,10 +477,10 @@ class passwordRecovery extends standAlonePage {
     $ldap->search($filter, array('dn'));
 
     if ($ldap->count() < 1) {
-      $this->message[] = sprintf(_('Did not find an account with login "%s"'), $this->login);
+      $this->message[] = sprintf(_('Did not find an account with login "%s"'), htmlentities($this->login, ENT_COMPAT, 'UTF-8'));
       return;
     } elseif ($ldap->count() > 1) {
-      $this->message[] = sprintf(_('Found multiple accounts with login "%s"'), $this->login);
+      $this->message[] = sprintf(_('Found multiple accounts with login "%s"'), htmlentities($this->login, ENT_COMPAT, 'UTF-8'));
       return;
     }
 
@@ -513,10 +513,10 @@ class passwordRecovery extends standAlonePage {
 
     /* Only one ldap node should be found */
     if ($ldap->count() < 1) {
-      $this->message[] = sprintf(_('There is no account using email "%s"'), $this->email_address);
+      $this->message[] = sprintf(_('There is no account using email "%s"'), htmlentities($this->email_address, ENT_COMPAT, 'UTF-8'));
       return;
     } elseif ($ldap->count() > 1) {
-      $this->message[] = sprintf(_('There are several accounts using email "%s"'), $this->email_address);
+      $this->message[] = sprintf(_('There are several accounts using email "%s"'), htmlentities($this->email_address, ENT_COMPAT, 'UTF-8'));
       return;
     }
 
@@ -524,7 +524,7 @@ class passwordRecovery extends standAlonePage {
 
     $method = passwordMethod::get_method($attrs['userPassword'][0], $attrs['dn']);
     if (is_object($method) && $method->is_locked($attrs['dn'])) {
-      $this->message[] = sprintf(_('The user using email "%s" is locked. Please contact your administrator.'), $this->email_address);
+      $this->message[] = sprintf(_('The user using email "%s" is locked. Please contact your administrator.'), htmlentities($this->email_address, ENT_COMPAT, 'UTF-8'));
       return;
     }
     $this->login  = $attrs[$this->loginAttribute][0];
