@@ -87,8 +87,9 @@ if (isset($_POST['lang_selected']) && $_POST['lang_selected'] != '') {
 
 Language::init($lang);
 
-$smarty->assign("rtl",  Language::isRTL($lang));
-$smarty->assign("must", '<span class="must">*</span>');
+$smarty->assign('lang', preg_replace('/_.*$/', '', $lang));
+$smarty->assign('rtl',  Language::isRTL($lang));
+$smarty->assign('must', '<span class="must">*</span>');
 
 /* Minimal config */
 if (!session::global_is_set('config')) {

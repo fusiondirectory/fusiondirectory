@@ -155,7 +155,12 @@ class simplePlugin
     $this->parent   = $parent;
     $this->mainTab  = $mainTab;
 
-    $plInfo = pluglist::pluginInfos(get_class($this));
+    try {
+      $plInfo = pluglist::pluginInfos(get_class($this));
+    } catch (UnknownClassException $e) {
+      /* May happen in special cases like setup */
+      $plInfo = array();
+    }
 
     if (empty($this->objectclasses) && isset($plInfo['plObjectClass'])) {
       $this->objectclasses = $plInfo['plObjectClass'];

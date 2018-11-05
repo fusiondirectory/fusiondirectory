@@ -71,6 +71,10 @@ class NoManagementClassException extends FusionDirectoryException
 {
 }
 
+class UnknownClassException extends FusionDirectoryException
+{
+}
+
 class LDAPFailureException extends FusionDirectoryException
 {
 }
