@@ -505,6 +505,9 @@ class pluglist {
   {
     $plist = session::global_get('plist');
     if ($plist) {
+      if (!isset($plist->info[$cname])) {
+        throw new UnknownClassException($cname);
+      }
       return $plist->info[$cname];
     } else {
       trigger_error('plist not loaded yet');

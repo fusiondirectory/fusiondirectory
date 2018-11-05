@@ -64,7 +64,7 @@ class setup
      *  but only do this, if user is allowed to use the setup.
      * If setupsetupStepWelcome is_completed, we are allowed to view those infos-
      */
-    if (isset($_GET['info']) && preg_match("/setupStepWelcome/i", get_class($this->o_steps[1])) && $this->o_steps[1]->is_completed()) {
+    if (isset($_GET['info']) && preg_match('/setupStepWelcome/i', get_class($this->o_steps[0])) && $this->o_steps[0]->is_completed()) {
       phpinfo();
       exit();
     }
