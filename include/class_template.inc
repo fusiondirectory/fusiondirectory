@@ -357,7 +357,7 @@ class template
     foreach (static::$uiSpecialAttributes as $attr) {
       $specialAttrs['caller'.strtoupper($attr)] = $ui->$attr;
     }
-    $this->attrs = templateHandling::parseArray($this->attrs, $specialAttrs);
+    $this->attrs = templateHandling::parseArray($this->attrs, $specialAttrs, $targetdn);
     $this->tabObject->adapt_from_template($this->attrs, array_merge(...array_values($this->attributes)));
 
     $this->applied = TRUE;

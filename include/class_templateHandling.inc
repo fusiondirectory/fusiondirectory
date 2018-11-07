@@ -187,17 +187,21 @@ class templateHandling
 
   /*! \brief Parse template masks in an array
    *
+   * \param array $attrs        The attributes in LDAP format
+   * \param array $specialAttrs Some additional fake attributes which can be used in masks
+   * \param string $target      Dn of an object to ignore in the unicity check
+   *
    * \return array An array with the final values of attributes
    */
-  public static function parseArray(array $attrs, array $specialAttrs)
+  public static function parseArray(array $attrs, array $specialAttrs, $target = NULL)
   {
-    foreach ($attrs as &$attr) {
+    foreach ($attrs as $name => &$attr) {
       if (is_array($attr)) {
         foreach ($attr as $key => &$string) {
           if (!is_numeric($key)) {
             continue;
           }
-          $string = static::parseString($string, array_merge($attrs, $specialAttrs));
+          $string = static::parseString($string, array_merge($attrs, $specialAttrs), NULL, $name, $target);
         }
         unset($string);
       }
@@ -208,25 +212,79 @@ class templateHandling
 
   /*! \brief Parse template masks in a single string
    *
+   * \param string $string          The mask
+   * \param array $attrs            The attributes in LDAP format
+   * \param callable $escapeMethod  Method to call to escape mask result
+   * \param string $unique          Name of the LDAP attribute to check unicity on, if any
+   * \param string $target          Dn of an object to ignore in the unicity check
+   *
    * \return string the string with patterns replaced by their values
    */
-  public static function parseString($string, array $attrs, $escapeMethod = NULL)
+  public static function parseString($string, array $attrs, $escapeMethod = NULL, $unique = NULL, $target = NULL)
   {
+    global $config;
+
     if (preg_match('/^%%/', $string)) {
       /* Special case: %% at beginning of string means do not touch it. Used by binary attributes. */
       return preg_replace('/^%%/', '', $string);
     }
-    $offset = 0;
-    while (preg_match('/%([^%]+)%/', $string, $m, PREG_OFFSET_CAPTURE, $offset)) {
+
+    $vars         = array();
+    while (preg_match('/%([^%]+)%/', $string, $m, PREG_OFFSET_CAPTURE)) {
       $replace  = static::parseMask($m[1][0], $attrs);
-      $replace  = $replace[0];
-      if ($escapeMethod !== NULL) {
-        $replace = $escapeMethod($replace);
-      }
-      $string   = substr_replace($string, $replace, $m[0][1], strlen($m[0][0]));
-      $offset   = $m[0][1] + strlen($replace);
+      $vars[]   = array($m[0][1], strlen($m[0][0]), $replace);
     }
+
+    $generator = static::iteratePossibleValues($string, $vars, $escapeMethod);
+
+    $string = $generator->current();
+
+    if (($unique !== NULL) && !empty($vars)) {
+      $ldap = $config->get_ldap_link();
+      $ldap->cd($config->current['BASE']);
+      /* Return the first found unique value */
+      foreach ($generator as $value) {
+        $filter = '('.ldap_escape_f($unique).'='.ldap_escape_f($value).')';
+        $ldap->search($filter, array('dn'));
+        if (
+          ($ldap->count() == 0) ||
+          (($target !== NULL) && ($ldap->count() == 1) && ($ldap->getDN() == $target))
+          ) {
+          return $value;
+        }
+      }
+    }
+
     return $string;
+  }
+
+
+  /*! \brief Generator that yields possible template mask values
+   *
+   * \param string $rule            The mask
+   * \param array $variables        The possible values for each mask with its position and length
+   * \param callable $escapeMethod  Method to call to escape mask result
+   */
+  protected static function iteratePossibleValues($rule, array $variables, $escapeMethod = NULL)
+  {
+    if (!count($variables)) {
+      yield $rule;
+      return;
+    }
+
+    /* Start from the end to avoid messing the positions, and to avoid ids at the end if not needed (common usecase) */
+    list($pos, $length, $val) = array_pop($variables);
+
+    /* $val may be an iterator or an array */
+    foreach ($val as $possibility) {
+      if ($escapeMethod !== NULL) {
+        $possibility = $escapeMethod($possibility);
+      }
+      $nrule = mb_substr_replace($rule, $possibility, $pos, $length);
+      foreach (static::iteratePossibleValues($nrule, $variables, $escapeMethod) as $result) {
+        yield $result;
+      }
+    }
   }
 
   /*! \brief Parse template masks in a single string and list the fields it needs
@@ -389,7 +447,6 @@ class templateHandling
       /* $str is an array and $m is lowercase, so it's a string modifier */
       $str = reset($str);
     }
-    $result = array($str);
     switch ($m) {
       case 'F':
         // First
