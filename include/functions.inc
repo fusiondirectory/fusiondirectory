@@ -1292,131 +1292,6 @@ function netmask_to_bits($netmask)
   return $res;
 }
 
-
-/*!
- * \brief Recursion helper for gen_uids()
- */
-function _recurse_gen_uids($rule, $variables)
-{
-  $result = array();
-
-  if (!count($variables)) {
-    return array($rule);
-  }
-
-  reset($variables);
-  $key  = key($variables);
-  $val  = current($variables);
-  unset($variables[$key]);
-
-  foreach ($val as $possibility) {
-    $nrule  = str_replace("{$key}", $possibility, $rule);
-    $result = array_merge($result, _recurse_gen_uids($nrule, $variables));
-  }
-
-  return $result;
-}
-
-
-/*!
- * \brief Generate a list of uid proposals based on a rule
- *
- *  Unroll given rule string by filling in attributes and replacing
- *  all keywords.
- *
- * \param string $rule The rule string from fusiondirectory.conf.
- *
- * \param array $attributes A dictionary of attribute/value mappings
- *
- * \return array List of valid not used uids
- */
-function gen_uids($rule, array $attributes)
-{
-  global $config;
-
-  // Attributes should be arrays
-  foreach ($attributes as $name => $value) {
-      $attributes[$name] = array($value);
-  }
-
-  /* Search for keys and fill the variables array with all
-     possible values for that key. */
-  $stripped   = $rule;
-  $variables  = array();
-
-  for ($pos = 0; preg_match('/%([^%]+)%/', $stripped, $m, PREG_OFFSET_CAPTURE, $pos); ) {
-    $variables[$pos]  = templateHandling::parseMask($m[1][0], $attributes);
-    $replace          = '{'.$pos.'}';
-    $stripped         = substr_replace($stripped, $replace, $m[0][1], strlen($m[0][0]));
-    $pos              = $m[0][1] + strlen($replace);
-  }
-
-  /* Recurse through all possible combinations */
-  $proposed = _recurse_gen_uids($stripped, $variables);
-
-  /* Get list of used ID's */
-  $ldap = $config->get_ldap_link();
-  $ldap->cd($config->current['BASE']);
-
-  /* Remove used uids and watch out for id tags */
-  $ret = array();
-  foreach ($proposed as $uid) {
-    /* Check for id tag and modify uid if needed */
-    if (preg_match('/\{id(:|!)(\d+)}/', $uid, $m)) {
-      $size = $m[2];
-
-      $start = ($m[1] == ":" ? 0 : -1);
-      for ($i = $start, $p = (10 ** $size) - 1; $i < $p; $i++) {
-        if ($i == -1) {
-          $number = "";
-        } else {
-          $number = sprintf("%0".$size."d", $i + 1);
-        }
-        $res = preg_replace('/{id(:|!)\d+}/', $number, $uid);
-
-        $ldap->search('(uid='.ldap_escape_f(preg_replace('/[{}]/', '', $res)).')', array('dn'));
-        if ($ldap->count() == 0) {
-          $uid = $res;
-          break;
-        }
-      }
-
-      /* Remove link if nothing has been found */
-      $uid = preg_replace('/{id(:|!)\d+}/', '', $uid);
-    }
-
-    if (preg_match('/\{id#\d+}/', $uid)) {
-      $size = preg_replace('/^.*{id#(\d+)}.*$/', '\\1', $uid);
-
-      while (TRUE) {
-        $number = sprintf("%0".$size."d", random_int(0, (10 ** $size) - 1));
-        $res    = preg_replace('/{id#(\d+)}/', $number, $uid);
-        $ldap->search('(uid='.ldap_escape_f(preg_replace('/[{}]/', '', $res)).')', array('dn'));
-        if ($ldap->count() == 0) {
-          $uid = $res;
-          break;
-        }
-      }
-
-      /* Remove link if nothing has been found */
-      $uid = preg_replace('/{id#\d+}/', '', $uid);
-    }
-
-    /* Don't assign used ones */
-    $ldap->search('(uid='.ldap_escape_f(preg_replace('/[{}]/', '', $uid)).')', array('dn'));
-    if ($ldap->count() == 0) {
-      /* Add uid, but remove {} first. These are invalid anyway. */
-      $uid = preg_replace('/[{}]/', '', $uid);
-      if ($uid != '') {
-        $ret[] = $uid;
-      }
-    }
-  }
-
-  return array_unique($ret);
-}
-
-
 /*!
  * \brief Convert various data sizes to bytes
  *
@@ -2315,4 +2190,22 @@ function fopenWithErrorHandling(...$args)
   }
   return $errors;
 }
-?>
+
+// Check to see if it exists in case PHP has this function later
+if (!function_exists('mb_substr_replace')) {
+  // Same parameters as substr_replace with the extra encoding parameter
+  function mb_substr_replace ($string, $replacement, $start, $length = NULL, $encoding = NULL)
+  {
+    if ($encoding == NULL) {
+      $encoding = mb_internal_encoding();
+    }
+    if ($length == NULL) {
+      return  mb_substr($string, 0, $start, $encoding).
+              $replacement;
+    } else {
+      return  mb_substr($string, 0, $start, $encoding).
+              $replacement.
+              mb_substr($string, $start + $length, mb_strlen($string, $encoding), $encoding);
+    }
+  }
+}
