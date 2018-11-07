@@ -431,6 +431,28 @@ class templateHandling
     return array($dateObject->format($args[1]));
   }
 
+  private static function modifierNumber(array $args)
+  {
+    if (count($args) < 1) {
+      $args[] = FALSE;
+    }
+    if (count($args) < 2) {
+      $args[] = 1;
+    }
+    if (count($args) < 3) {
+      $args[] = 1;
+    }
+    $numberGenerator = function ($mandatory, $start, $step) {
+      $i = $start;
+      while (TRUE) {
+        yield $i;
+        $i += $step;
+      }
+    };
+
+    return $numberGenerator($args[0], $args[1], $args[2]);
+  }
+
   /*! \brief Apply a modifier
    *
    * \param string $m the modifier
@@ -532,6 +554,10 @@ class templateHandling
       case 'd':
         // date
         $result = array(static::modifierDate($args));
+        break;
+      case 'n':
+        // number
+        $result = static::modifierNumber($args);
         break;
       default:
         trigger_error("Unkown modifier '$m'");
