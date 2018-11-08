@@ -229,10 +229,12 @@ class templateHandling
       return preg_replace('/^%%/', '', $string);
     }
 
-    $vars         = array();
-    while (preg_match('/%([^%]+)%/', $string, $m, PREG_OFFSET_CAPTURE)) {
+    $offset = 0;
+    $vars   = array();
+    while (preg_match('/%([^%]+)%/', $string, $m, PREG_OFFSET_CAPTURE, $offset)) {
       $replace  = static::parseMask($m[1][0], $attrs);
       $vars[]   = array($m[0][1], strlen($m[0][0]), $replace);
+      $offset   = $m[0][1] + strlen($m[0][0]);
     }
 
     $generator = static::iteratePossibleValues($string, $vars, $escapeMethod);
