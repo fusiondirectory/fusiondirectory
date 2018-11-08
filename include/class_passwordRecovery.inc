@@ -19,36 +19,38 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class passwordRecovery extends standAlonePage {
+class passwordRecovery extends standAlonePage
+{
   protected $loginAttribute;
   protected $login;
-  var $message = array();
-  var $email_address;
+  protected $email_address;
 
-  var $step = 1;
-
-  /* Some Configuration variable */
+  protected $message;
+  protected $step;
 
   /* Salt needed to mask the uniq id in the ldap */
-  var $salt;
+  protected $salt;
+
   /* Delay allowed for the user to change his password (minutes) */
-  var $delay_allowed;
+  protected $delay_allowed;
 
   /* Sender */
-  var $from_mail;
+  protected $from_mail;
 
-  var $mail_body;
-  var $mail_subject;
+  protected $mail_body;
+  protected $mail_subject;
 
-  var $mail2_body;
-  var $mail2_subject;
+  protected $mail2_body;
+  protected $mail2_subject;
 
-  var $usealternates;
+  protected $usealternates;
 
-  /* Constructor */
-  function __construct($interactive = TRUE)
+  function init()
   {
-    parent::__construct($interactive);
+    parent::init();
+
+    $this->step     = 1;
+    $this->message  = array();
 
     if (isset($_GET['email_address']) && ($_GET['email_address'] != '')) {
       $this->email_address = validate($_GET['email_address']);
@@ -196,7 +198,8 @@ class passwordRecovery extends standAlonePage {
                                 $dn, LDAP_ADD, get_class());
     }
 
-    return ""; /* Everything went well */
+    /* Everything went well */
+    return '';
   }
 
   function checkToken($token)
