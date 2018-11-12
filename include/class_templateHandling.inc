@@ -128,11 +128,11 @@ class templateHandling
       $modifiers = $m[1];
       $mask = substr($mask, strlen($m[0]));
     }
-    $result = array('');
+    $result = array();
     if (isset($attrs[$mask])) {
-      $result = array($attrs[$mask]);
-      if (is_array($result[0])) {
-        unset($result[0]['count']);
+      $result = $attrs[$mask];
+      if (is_array($result)) {
+        unset($result['count']);
       }
     } elseif (($mask != '') && !preg_match('/c/', $modifiers)) {
       trigger_error("'$mask' was not found in attributes");
@@ -146,19 +146,8 @@ class templateHandling
         $args = explode(',', $m[1]);
         $i += strlen($m[1]) + 2;
       }
-      $result_tmp = array();
-      foreach ($result as $r) {
-        $result_tmp = array_merge($result_tmp, static::applyModifier($modifier, $args, $r));
-      }
-      $result = $result_tmp;
+      $result = static::applyModifier($modifier, $args, $result);
     }
-    foreach ($result as &$r) {
-      /* Array that were not converted by a modifier into a string are now converted to strings */
-      if (is_array($r)) {
-        $r = reset($r);
-      }
-    }
-    unset($r);
     return $result;
   }
 
@@ -469,7 +458,11 @@ class templateHandling
     mb_regex_encoding('UTF-8');
     if (is_array($str) && (!is_numeric($m)) && (strtolower($m) == $m)) {
       /* $str is an array and $m is lowercase, so it's a string modifier */
-      $str = reset($str);
+      if (count($str) == 0) {
+        $str = '';
+      } else {
+        $str = reset($str);
+      }
     }
     switch ($m) {
       case 'F':
@@ -498,21 +491,21 @@ class templateHandling
           trigger_error('Missing "M" match modifier parameter');
           $args[] = '/.*/';
         }
-        $result = array(array_filter(
+        $result = array_filter(
           $str,
           function ($s) use ($args)
           {
             return preg_match($args[0], $s);
           }
-        ));
+        );
         break;
       case '4':
         // IPv4
-        $result = array(array_filter($str, 'tests::is_ipv4'));
+        $result = array_filter($str, 'tests::is_ipv4');
         break;
       case '6':
         // IPv6
-        $result = array(array_filter($str, 'tests::is_ipv6'));
+        $result = array_filter($str, 'tests::is_ipv6');
         break;
       case 'c':
         // comment
