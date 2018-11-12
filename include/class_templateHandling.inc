@@ -133,6 +133,8 @@ class templateHandling
       $result = $attrs[$mask];
       if (is_array($result)) {
         unset($result['count']);
+      } else {
+        $result = array($result);
       }
     } elseif (($mask != '') && !preg_match('/c/', $modifiers)) {
       trigger_error("'$mask' was not found in attributes");
