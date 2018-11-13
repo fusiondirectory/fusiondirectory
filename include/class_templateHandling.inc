@@ -436,6 +436,9 @@ class templateHandling
       $args[] = 1;
     }
     $numberGenerator = function ($mandatory, $start, $step) {
+      if (!$mandatory) {
+        yield '';
+      }
       $i = $start;
       while (TRUE) {
         yield $i;
