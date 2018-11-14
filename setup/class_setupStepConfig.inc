@@ -182,5 +182,11 @@ class setupStepConfig extends configInLdap
   {
     return 'cmdrw';
   }
+
+  /* We need static method to work as if we were configInLdap */
+  static function isAccount($attrs)
+  {
+    return configInLdap::isAccount($attrs);
+  }
 }
 ?>
