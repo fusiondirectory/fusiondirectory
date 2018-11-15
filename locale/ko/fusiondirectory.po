@@ -3,13 +3,16 @@
 # This file is distributed under the same license as the FusionDirectory package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
+# Translators:
+# Choi Chris <chulwon.choi@gmail.com>, 2018
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2018-08-14 13:30+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"POT-Creation-Date: 2018-11-15 11:33+0000\n"
+"PO-Revision-Date: 2017-11-03 10:16+0000\n"
 "Last-Translator: Choi Chris <chulwon.choi@gmail.com>, 2018\n"
 "Language-Team: Korean (https://www.transifex.com/fusiondirectory/teams/12202/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -301,8 +304,8 @@ msgid "There was a problem uncompressing snapshot data"
 msgstr ""
 
 #: include/class_template.inc:41
-#: include/simpleplugin/class_simpleManagement.inc:282
-#: include/simpleplugin/class_simpleManagement.inc:518
+#: include/simpleplugin/class_simpleManagement.inc:284
+#: include/simpleplugin/class_simpleManagement.inc:520
 #: plugins/admin/groups/class_groupManagement.inc:351
 #: plugins/admin/users/user-list.xml:95 ihtml/themes/breezy/template.tpl.c:5
 msgid "Template"
@@ -612,11 +615,11 @@ msgid "Login"
 msgstr ""
 
 #: include/class_CopyPasteHandler.inc:208
-#: include/simpleplugin/class_simpleManagement.inc:1023
-#: include/simpleplugin/class_simpleManagement.inc:1122
-#: include/simpleplugin/class_simpleManagement.inc:1173
-#: include/simpleplugin/class_simpleManagement.inc:1253
-#: include/simpleplugin/class_simpleManagement.inc:1271
+#: include/simpleplugin/class_simpleManagement.inc:1025
+#: include/simpleplugin/class_simpleManagement.inc:1124
+#: include/simpleplugin/class_simpleManagement.inc:1175
+#: include/simpleplugin/class_simpleManagement.inc:1255
+#: include/simpleplugin/class_simpleManagement.inc:1273
 #: plugins/admin/users/class_userManagement.inc:153
 msgid "Permission"
 msgstr "허"
@@ -1225,7 +1228,7 @@ msgstr ""
 
 #: include/simpleplugin/simple-select-list.xml:11
 msgid "Please select the desired entries"
-msgstr ""
+msgstr "원하는 항목을 선택하십시오."
 
 #: include/simpleplugin/simple-select-list.xml:32
 #: include/simpleplugin/simple-list.xml:32
@@ -1543,43 +1546,43 @@ msgstr ""
 msgid "Unknown"
 msgstr "알 수 없음"
 
-#: include/simpleplugin/class_simpleManagement.inc:288
+#: include/simpleplugin/class_simpleManagement.inc:290
 #: plugins/admin/users/user-list.xml:87
 msgid "From template"
 msgstr ""
 
-#: include/simpleplugin/class_simpleManagement.inc:316
+#: include/simpleplugin/class_simpleManagement.inc:318
 #, php-format
 msgid "%s template"
 msgstr ""
 
-#: include/simpleplugin/class_simpleManagement.inc:512
-#: include/simpleplugin/class_simpleManagement.inc:518
+#: include/simpleplugin/class_simpleManagement.inc:514
+#: include/simpleplugin/class_simpleManagement.inc:520
 #: plugins/admin/groups/class_groupManagement.inc:351
 #, php-format
 msgid "Show %s"
 msgstr ""
 
-#: include/simpleplugin/class_simpleManagement.inc:549
+#: include/simpleplugin/class_simpleManagement.inc:551
 msgid "Filter error"
 msgstr ""
 
-#: include/simpleplugin/class_simpleManagement.inc:549
+#: include/simpleplugin/class_simpleManagement.inc:551
 msgid "The filter is incomplete!"
 msgstr ""
 
-#: include/simpleplugin/class_simpleManagement.inc:1088
+#: include/simpleplugin/class_simpleManagement.inc:1090
 msgid "Permission error"
 msgstr "권한 오류"
 
-#: include/simpleplugin/class_simpleManagement.inc:1122
+#: include/simpleplugin/class_simpleManagement.inc:1124
 #, php-format
 msgid "You are not allowed to create a snapshot for %s."
 msgstr ""
 
-#: include/simpleplugin/class_simpleManagement.inc:1173
-#: include/simpleplugin/class_simpleManagement.inc:1253
-#: include/simpleplugin/class_simpleManagement.inc:1271
+#: include/simpleplugin/class_simpleManagement.inc:1175
+#: include/simpleplugin/class_simpleManagement.inc:1255
+#: include/simpleplugin/class_simpleManagement.inc:1273
 #, php-format
 msgid "You are not allowed to restore a snapshot for %s."
 msgstr ""
@@ -1593,7 +1596,7 @@ msgstr ""
 #: plugins/admin/groups/group-list.xml:66 plugins/admin/users/user-list.xml:73
 #: setup/class_setupStepMigrate.inc:805
 msgid "Create"
-msgstr ""
+msgstr "생성"
 
 #: include/class_acl.inc:35 include/class_acl.inc:39
 msgid "ACL"
@@ -1836,7 +1839,7 @@ msgstr ""
 #: plugins/admin/departments/class_department.inc:96
 #: plugins/personal/generic/class_user.inc:340
 msgid "Location"
-msgstr ""
+msgstr "위치"
 
 #: plugins/admin/departments/class_department.inc:93
 #: plugins/personal/generic/class_user.inc:344
@@ -2130,11 +2133,11 @@ msgstr ""
 
 #: plugins/admin/groups/group-list.xml:93
 msgid "Trigger action"
-msgstr ""
+msgstr "트리거 동작"
 
 #: plugins/admin/groups/group-list.xml:100
 msgid "Schedule action"
-msgstr ""
+msgstr "게획된 동작"
 
 #: plugins/admin/groups/class_roleGeneric.inc:56
 msgid "Role information"
@@ -3097,7 +3100,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:354
 msgid "Miscellaneous"
-msgstr ""
+msgstr "기타"
 
 #: plugins/config/class_configInLdap.inc:357
 msgid "Display summary in listings"
@@ -4031,7 +4034,7 @@ msgstr ""
 
 #: setup/class_setupStepMigrate.inc:795
 msgid "Groups"
-msgstr ""
+msgstr "그룹"
 
 #: setup/class_setupStepMigrate.inc:798
 msgid "Roles"
@@ -4499,7 +4502,7 @@ msgstr ""
 
 #: setup/setup_migrate_adminAccount.tpl.c:11
 msgid "User ID"
-msgstr ""
+msgstr "사용자 ID"
 
 #: setup/setup_migrate_adminAccount.tpl.c:17
 msgid "Password (again)"

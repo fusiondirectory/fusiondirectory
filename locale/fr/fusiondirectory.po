@@ -3,14 +3,19 @@
 # This file is distributed under the same license as the FusionDirectory package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
+# Translators:
+# MCMic, 2017
+# fusiondirectory <contact@fusiondirectory.org>, 2017
+# Benoit Mortier <benoit.mortier@opensides.be>, 2018
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2018-08-14 13:30+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Benoit Mortier <benoit.mortier@opensides.be>, 2017\n"
+"POT-Creation-Date: 2018-11-15 11:33+0000\n"
+"PO-Revision-Date: 2017-11-03 10:16+0000\n"
+"Last-Translator: Benoit Mortier <benoit.mortier@opensides.be>, 2018\n"
 "Language-Team: French (https://www.transifex.com/fusiondirectory/teams/12202/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -312,8 +317,8 @@ msgid "There was a problem uncompressing snapshot data"
 msgstr "Il y a eu un problème lors de la décompression de l’instantané"
 
 #: include/class_template.inc:41
-#: include/simpleplugin/class_simpleManagement.inc:282
-#: include/simpleplugin/class_simpleManagement.inc:518
+#: include/simpleplugin/class_simpleManagement.inc:284
+#: include/simpleplugin/class_simpleManagement.inc:520
 #: plugins/admin/groups/class_groupManagement.inc:351
 #: plugins/admin/users/user-list.xml:95 ihtml/themes/breezy/template.tpl.c:5
 msgid "Template"
@@ -658,11 +663,11 @@ msgid "Login"
 msgstr "Identifiant"
 
 #: include/class_CopyPasteHandler.inc:208
-#: include/simpleplugin/class_simpleManagement.inc:1023
-#: include/simpleplugin/class_simpleManagement.inc:1122
-#: include/simpleplugin/class_simpleManagement.inc:1173
-#: include/simpleplugin/class_simpleManagement.inc:1253
-#: include/simpleplugin/class_simpleManagement.inc:1271
+#: include/simpleplugin/class_simpleManagement.inc:1025
+#: include/simpleplugin/class_simpleManagement.inc:1124
+#: include/simpleplugin/class_simpleManagement.inc:1175
+#: include/simpleplugin/class_simpleManagement.inc:1255
+#: include/simpleplugin/class_simpleManagement.inc:1273
 #: plugins/admin/users/class_userManagement.inc:153
 msgid "Permission"
 msgstr "Permissions"
@@ -1625,43 +1630,43 @@ msgstr "Groupe d'utilisateurs"
 msgid "Unknown"
 msgstr "Inconnu"
 
-#: include/simpleplugin/class_simpleManagement.inc:288
+#: include/simpleplugin/class_simpleManagement.inc:290
 #: plugins/admin/users/user-list.xml:87
 msgid "From template"
 msgstr "Depuis un modèle"
 
-#: include/simpleplugin/class_simpleManagement.inc:316
+#: include/simpleplugin/class_simpleManagement.inc:318
 #, php-format
 msgid "%s template"
 msgstr "Modèle de %s"
 
-#: include/simpleplugin/class_simpleManagement.inc:512
-#: include/simpleplugin/class_simpleManagement.inc:518
+#: include/simpleplugin/class_simpleManagement.inc:514
+#: include/simpleplugin/class_simpleManagement.inc:520
 #: plugins/admin/groups/class_groupManagement.inc:351
 #, php-format
 msgid "Show %s"
 msgstr "Afficher %s"
 
-#: include/simpleplugin/class_simpleManagement.inc:549
+#: include/simpleplugin/class_simpleManagement.inc:551
 msgid "Filter error"
 msgstr "Erreur de filtre"
 
-#: include/simpleplugin/class_simpleManagement.inc:549
+#: include/simpleplugin/class_simpleManagement.inc:551
 msgid "The filter is incomplete!"
 msgstr "Le filtre est incomplet !"
 
-#: include/simpleplugin/class_simpleManagement.inc:1088
+#: include/simpleplugin/class_simpleManagement.inc:1090
 msgid "Permission error"
 msgstr "Erreur de permissions"
 
-#: include/simpleplugin/class_simpleManagement.inc:1122
+#: include/simpleplugin/class_simpleManagement.inc:1124
 #, php-format
 msgid "You are not allowed to create a snapshot for %s."
 msgstr "Vous n'êtes pas autorisé à créer un nouvel instantané pour %s."
 
-#: include/simpleplugin/class_simpleManagement.inc:1173
-#: include/simpleplugin/class_simpleManagement.inc:1253
-#: include/simpleplugin/class_simpleManagement.inc:1271
+#: include/simpleplugin/class_simpleManagement.inc:1175
+#: include/simpleplugin/class_simpleManagement.inc:1255
+#: include/simpleplugin/class_simpleManagement.inc:1273
 #, php-format
 msgid "You are not allowed to restore a snapshot for %s."
 msgstr "Vous n'êtes pas autorisé à restaurer un instantané de %s."
