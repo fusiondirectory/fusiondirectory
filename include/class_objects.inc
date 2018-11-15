@@ -58,8 +58,9 @@ class objects
       if (count($types) > 1) {
         throw new FusionDirectoryException('Cannot evaluate ACL for several types');
       }
-      $infos = static::infos(reset($types));
-      $acl = $infos['aclCategory'].'/'.$infos['mainTab'];
+      $infos  = static::infos(reset($types));
+      $acl    = $infos['aclCategory'].'/'.$infos['mainTab'];
+      $tplAcl = $infos['aclCategory'].'/template';
     }
 
     $attrsAcls = array();
@@ -102,6 +103,7 @@ class objects
       $search_attrs = array_keys($attrs);
       if ($templateSearch) {
         $search_attrs[] = 'fdTemplateField';
+        $search_attrs[] = 'cn';
       }
     } else {
       $search_attrs = array($attrs);
@@ -146,6 +148,12 @@ class objects
           }
         }
         if ($templateSearch) {
+          if (
+              isset($fetched_attrs['cn']) &&
+              (!$checkAcl || (strpos($ui->get_permissions($key, $tplAcl, 'template_cn'), 'r') !== FALSE))
+            ) {
+            $result[$key]['cn'] = $fetched_attrs['cn'][0];
+          }
           $result[$key]['fdTemplateField'] = array();
           foreach ($fetched_attrs['fdTemplateField'] as $templateField) {
             $attr = explode(':', $templateField, 2)[0];
