@@ -118,6 +118,7 @@ class templateDialog
 
   function handle_cancel ()
   {
+    $this->simpleManagement->remove_lock();
     $this->simpleManagement->closeDialogs();
     return FALSE;
   }
