@@ -316,21 +316,23 @@ class objects
     return $tabObject;
   }
 
-  static function link ($dn, $type, $subaction = '', $text = NULL, $icon = TRUE)
+  static function link ($dn, $type, $subaction = '', $text = NULL, $icon = TRUE, $link = TRUE)
   {
     global $config;
 
     $infos = static::infos($type);
-    if (!isset($infos['management'])) {
-      throw new NoManagementClassException('Asked for link for type "'.$type.'" but it does not have a management class');
+    if ($link) {
+      if (!isset($infos['management'])) {
+        throw new NoManagementClassException('Asked for link for type "'.$type.'" but it does not have a management class');
+      }
+      $pInfos = pluglist::pluginInfos($infos['management']);
+      $index  = $pInfos['INDEX'];
+      $action = 'edit';
+      if ($subaction != '') {
+        $action .= '_'.$subaction;
+      }
+      $href = "main.php?plug=$index&amp;reset=1&amp;act=listing_$action&amp;dn=".urlencode($dn);
     }
-    $pInfos = pluglist::pluginInfos($infos['management']);
-    $index  = $pInfos['INDEX'];
-    $action = 'edit';
-    if ($subaction != '') {
-      $action .= '_'.$subaction;
-    }
-    $href   = "main.php?plug=$index&amp;reset=1&amp;act=listing_$action&amp;dn=".urlencode($dn);
 
     if ($text === NULL) {
       $ldap = $config->get_ldap_link();
@@ -348,11 +350,17 @@ class objects
       $text = $text[$infos['nameAttr']][0];
     }
 
+    $text = htmlentities($text, ENT_COMPAT, 'UTF-8');
+
     if ($icon && isset($infos['icon'])) {
       $text = '<img alt="'.$infos['name'].'" title="'.$dn.'" src="'.htmlentities($infos['icon'], ENT_COMPAT, 'UTF-8').'" class="center"/>&nbsp;'.$text;
     }
 
-    return '<a href="'.$href.'">'.$text.'</a>';
+    if ($link) {
+      $text = '<a href="'.$href.'">'.$text.'</a>';
+    }
+
+    return $text;
   }
 
   static function create ($type)
