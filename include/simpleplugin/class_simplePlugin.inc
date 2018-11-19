@@ -1046,7 +1046,7 @@ class simplePlugin
   protected function pre_remove ()
   {
     if ($this->initially_was_account) {
-      return $this->handle_pre_events('remove');
+      return $this->handle_pre_events('remove', array('modifiedLdapAttrs' => array_keys($this->attrs)));
     }
   }
 
@@ -1075,7 +1075,7 @@ class simplePlugin
     logging::log('remove', 'plugin/'.get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
 
     /* Optionally execute a command after we're done */
-    $errors = $this->handle_post_events('remove');
+    $errors = $this->handle_post_events('remove', array('modifiedLdapAttrs' => array_keys($this->attrs)));
     if (!empty($errors)) {
       msg_dialog::displayChecks($errors);
     }
@@ -1303,9 +1303,9 @@ class simplePlugin
   protected function pre_save ()
   {
     if ($this->initially_was_account) {
-      return $this->handle_pre_events('modify');
+      return $this->handle_pre_events('modify', array('modifiedLdapAttrs' => array_keys($this->attrs)));
     } else {
-      return $this->handle_pre_events('add');
+      return $this->handle_pre_events('add', array('modifiedLdapAttrs' => array_keys($this->attrs)));
     }
   }
 
@@ -1350,10 +1350,10 @@ class simplePlugin
   {
     /* Propagate and log the event */
     if ($this->initially_was_account) {
-      $errors = $this->handle_post_events('modify');
+      $errors = $this->handle_post_events('modify', array('modifiedLdapAttrs' => array_keys($this->attrs)));
       logging::log('modify', 'plugin/'.get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
     } else {
-      $errors = $this->handle_post_events('add');
+      $errors = $this->handle_post_events('add', array('modifiedLdapAttrs' => array_keys($this->attrs)));
       logging::log('create', 'plugin/'.get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
     }
     if (!empty($errors)) {
