@@ -2154,17 +2154,34 @@ function ldap_escape_dn($str, $ignore = '')
   return ldap_escape($str, $ignore, LDAP_ESCAPE_DN);
 }
 
-function mail_utf8($to, $from_user, $from_email, $subject, $message, $type = 'plain')
+function mail_utf8($to, $from_user, $from_email, $subject, $message, $replyto_user = NULL, $replyto_email = NULL, $type = 'plain')
 {
   $subject = "=?UTF-8?B?".base64_encode($subject)."?=";
+
+  if ($replyto_user === NULL) {
+    $replyto_user = $from_user;
+  }
+
+  if ($replyto_email === NULL) {
+    $replyto_email = $from_email;
+  }
+
   if ($from_user) {
     $from_user = "=?UTF-8?B?".base64_encode($from_user)."?=";
     $headers = "From: $from_user <$from_email>\r\n";
-    $headers .= "Reply-To: $from_user <$from_email>\r\n";
   } else {
     $headers = "From: <$from_email>\r\n";
-    $headers .= "Reply-To: <$from_email>\r\n";
   }
+
+  if ($replyto_email) {
+    if ($replyto_user) {
+      $replyto_user = "=?UTF-8?B?".base64_encode($replyto_user)."?=";
+      $headers .= "Reply-To: $replyto_user <$replyto_email>\r\n";
+    } else {
+      $headers .= "Reply-To: <$replyto_email>\r\n";
+    }
+  }
+
   $headers .= "MIME-Version: 1.0" . "\r\n" .
               "Content-type: text/$type; charset=UTF-8" . "\r\n";
 
