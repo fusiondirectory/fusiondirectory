@@ -420,9 +420,13 @@ class management
     $action = $this->detectPostActions();
     if (!empty($action['action'])) {
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $action, 'Action');
-      $str = $this->handleAction($action);
-      if ($str) {
-        return $this->getHeader().$str;
+      try {
+        $str = $this->handleAction($action);
+        if ($str) {
+          return $this->getHeader().$str;
+        }
+      } catch (FusionDirectoryException $e) {
+        msg_dialog::display(_('Error'), $e->getMessage(), ERROR_DIALOG);
       }
     }
 

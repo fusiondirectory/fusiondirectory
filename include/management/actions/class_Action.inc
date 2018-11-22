@@ -153,10 +153,10 @@ class Action
       return;
     }
     if (count($action['targets']) < $this->minTargets) {
-      throw new FusionDirectoryException('Not enough targets ('.count($action['targets']).') passed for action '.$this->name);
+      throw new FusionDirectoryException(sprintf(_('Not enough targets (%d) passed for action "%s"'), count($action['targets']), $this->name));
     }
     if (($this->maxTargets !== FALSE) && (count($action['targets']) > $this->maxTargets)) {
-      throw new FusionDirectoryException('Too many targets ('.count($action['targets']).') passed for action '.$this->name);
+      throw new FusionDirectoryException(sprintf(_('Too many targets (%d) passed for action "%s"'), count($action['targets']), $this->name));
     }
     $func = $this->callable;
     if (!is_array($func)) {
