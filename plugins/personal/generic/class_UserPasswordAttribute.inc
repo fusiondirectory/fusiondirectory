@@ -22,7 +22,7 @@
 class UserPasswordAttribute extends CompositeAttribute
 {
   protected $needPassword;
-  protected $previousMethod;
+  protected $previousMethodInfo = NULL;
 
   function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = "", $acl = "")
   {
@@ -150,8 +150,9 @@ class UserPasswordAttribute extends CompositeAttribute
 
   function checkIfMethodNeedsPassword()
   {
-    $method = $this->attributes[0]->getValue();
-    if ($method != $this->previousMethod) {
+    $method     = $this->attributes[0]->getValue();
+    $methodInfo = $method.$this->attributes[3]->getValue();
+    if ($methodInfo != $this->previousMethodInfo) {
       if (isset($this->needPassword[$method]) && $this->needPassword[$method]) {
         $hashEmpty = ($this->attributes[3]->getValue() == '');
         $this->attributes[1]->setVisible(TRUE);
@@ -167,7 +168,7 @@ class UserPasswordAttribute extends CompositeAttribute
         $this->attributes[2]->setValue('');
       }
     }
-    $this->previousMethod = $method;
+    $this->previousMethodInfo = $methodInfo;
   }
 
   function readValues($value)
