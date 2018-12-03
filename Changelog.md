@@ -1,3 +1,190 @@
+## %"FusionDirectory 1.3" - 2018-09-24
+
+### Added
+
+#### fusiondirectory
+- fd#4567 search box suggestions
+- fd#4771 extend the search query to email , bis : member objects
+- fd#5535 Owner field is missing on group objects
+- fd#5626 Add %askme% support for members in groups and roles
+- fd#5685 add how to debug fd in the contributing guide
+- fd#5697 Add more attributes for times and dates
+- fd#5708 Add a way to sort tables
+- fd#5734 No ACLs for dashboard
+- fd#5738 oGroup not have the ACL for the deployement time frame
+- fd#5743 Give more control over snapshot permission
+- fd#5745 Special caller* tags should be available in templates as well
+- fd#5750 Add the possibility to have a textbox in template to define the manager
+- fd#5762 Add hungarian, indonesian, japanese, korean, latvian, turkish, to the available languages
+- fd#5826 Add support for date filters
+- fd#5834 We cannot use "askme" in BooleanAttribute and SelectAttribute
+- fd#5863 adapt fusiondirectory-setup to migrate the supannTypeEntite attribute to contain {SUPANN} prefix
+- fd#5885 Add the language Afrikaans (South Africa) (af_ZA) Chinese (Taiwan) (zh_TW)
+
+#### fusiondirectory-plugins
+- fd-plugins#1311 Show in system list which system are on/off
+- fd-plugins#2347 Two or more MAC address for a system
+- fd-plugins#3549 the sudo plugin doesnt allow to save the sudoNotBefore and sudoNotAfter
+- fd-plugins#4387 Improve the sorting of services
+- fd-plugins#4807 Import LDIF by pasting into textfield
+- fd-plugins#5001 config-option "Store final dot in domains" does not effect SOA-checks for powerdns
+- fd-plugins#5166 Add a webservice method to add a value to multi-valuated attributes
+- fd-plugins#5176 List in applications tab of roles should be sorted alphabetically
+- fd-plugins#5430 template placeHolder
+- fd-plugins#5518 Allow the list of record inside the dns zone to be sorted by column
+- fd-plugins#5543 Enable mail tab for entries having mail attribute
+- fd-plugins#5566 System - DHCP Tab - Sort the list Alphabetically
+- fd-plugins#5596 Allow to setup OPSI product outside of profiles
+- fd-plugins#5675 Add an boolean attribute "agreement signed"
+- fd-plugins#5681 The opsi plugin needs the department management dropdown
+- fd-plugins#5700 We should be able to forbid deployments outside of a given time frame
+- fd-plugins#5706 Add mixed-groups support to sudo plugin
+- fd-plugins#5731 Add a tab in the opsi plugin on a system to show log for this computer
+- fd-plugins#5733 Add support for social network ORCID in personal
+- fd-plugins#5737 Add last date of connection of a client inside the opsi client tab
+- fd-plugins#5738 Add opsi stat tab to the dashboard
+- fd-plugins#5739 Add a new field into weblink to store an inventory url
+- fd-plugins#5746 Add ACL support to dashboard tabs
+- fd-plugins#5749 Use target dn as base for ACL checking in deployment queue
+- fd-plugins#5756 Extend manager email possibilities in user-reminder
+- fd-plugins#5761 Add catchall table to postfix plugin
+- fd-plugins#5763 Add template selection into opsi import
+- fd-plugins#5764 When importing OPSI hosts, have an option to import the packages associated
+- fd-plugins#5787 Add an option to inherit profile from group when OPSI tab is activated
+- fd-plugins#5789 Posix plugin should prevent save when automatic group cannot be created
+- fd-plugins#5791 Add an option to inherit localboots from group
+- fd-plugins#5801 Add other source capabilities for supannTypeEntiteAffectation
+- fd-plugins#5816 Audit plugin should have a way to select a range of date to show entries
+- fd-plugins#5830 Add domain alias table in postfix plugin
+- fd-plugins#5831 Create a new plugin for adding more information related to Supann Structure
+- fd-plugins#5845 Add support for FAI 5 to argonaut-fuse
+- fd-plugins#5846 Add vfat as filesystem for FAI partition
+- fd-plugins#5847 Add a workaround for dracut that use FQDN for hostname
+
+### Changed
+
+#### fusiondirectory
+- fd#4467 We should be able to select the phone number from list
+- fd#5569 How create a plugin documentation make reference to plugin class
+- fd#5570 Restrict member removal through ACLs
+- fd#5583 When editing a user, groups and roles tabs shows membership to groups stored outside the configured groups DN
+- fd#5590 All plugins icons are missing
+- fd#5671 Redesign login screen and password recovery
+- fd#5695 Number input fields are too wide
+- fd#5704 Use proper pattern matching instead of GOSA_LINE_BREAK hack
+- fd#5713 Groups now ignore subgroups for type-checking to know which tabs should appear
+- fd#5723 move how_to_contribute page from the wiki to developper documentation
+- fd#5725 Minimum PHP version should be bumped to 5.6
+- fd#5752 Allow to define multiple LDAP servers for one location
+- fd#5761 The language list in user is not sorted
+- fd#5802 FileAttribute through webservice should base64 encode binary data to avoid crashes
+- fd#5838 Change /location by /Directory in contrib/apache/fusiondirectory-apache.conf
+- fd#5883 Update the whole copyright to 2018
+
+#### fusiondirectory-plugins
+- fd-plugins#5658 Plugins folder should be reorganized to ease packaging
+- fd-plugins#5680 In the argonaut dns plugin we need a dropdow for the zone in the argonaut slave part
+- fd-plugins#5696 We should remove the files which moved to dev-tools
+- fd-plugins#5702 Making the ip non mandatory in the opsi backend plugin when people don 't manage dns and dhcp with opsi
+- fd-plugins#5705 Make mandatory IPs a configuration option in the systems plugins
+- fd-plugins#5714 Adapt developers plugin to new plugin convention
+- fd-plugins#5722 move how_to_contribute page from the wiki to developper documentation
+- fd-plugins#5723 Split posix and ppolicy alert email settings
+- fd-plugins#5728 Attribute gotoXdmcpServer is single-value in schema but multi-value in FD
+- fd-plugins#5735 Viewing the log from the argonaut queue should not be fai dependent
+- fd-plugins#5767 systems-fd.schema classes should allow "description" and "l" fields
+- fd-plugins#5772 Adapt code to new snapshots ACL system
+- fd-plugins#5811 Missing SUBSTR matching rules for DN foreign keys
+- fd-plugins#5814 Adapt code to new Language class
+- fd-plugins#5835 add other source capabilities for supannEmpCorp
+- fd-plugins#5837 More feature switch should be added to mail methods
+- fd-plugins#5848 Matching  mail suffix between PARTAGE and FD
+- fd-plugins#5849 fusiondirectory-plugin-renater-partage : gosaMailAlternateAddress domain suffix domain must be checked
+- fd-plugins#5855 Change the partage icon to be the new one
+- fd-plugins#5861 Update the whole copyright to 2018
+
+### Removed
+
+#### fusiondirectory
+- fd#5714 Method ldap::get_attribute should be removed
+
+### Fixed
+
+#### fusiondirectory
+- fd#5565 prepare_save should be able to return errors as well
+- fd#5571 Crash when I apply a template
+- fd#5637 Web applications are not visible
+- fd#5657 Groups within Groups Disappear from UI
+- fd#5690 Lots of code styling errors
+- fd#5722 I cannot use workstation template
+- fd#5729 PHP error in class_groupManagement.inc
+- fd#5739 Links to objects might fail
+- fd#5742 ACL handling for start/stop/restart service is broken
+- fd#5747 Deletion of objects should not treat ACL on each tab separately
+- fd#5787 member_of_group should be set before attribute loading
+- fd#5788 Failed lock attempt gives misleading error (password method does not support locking )
+- fd#5798 Tabs are not working on ogroup templates
+- fd#5799 When we rename a department foreignKeys on subobjects DN are not updated
+- fd#5810 Foreign key on IMAP server is failing
+- fd#5811 UID can be changed from the API
+- fd#5817 Unique DN creation may fail for audit plugin
+- fd#5819 2-letter locales cannot be used (ar, id, ja, ko, lv, nb, pt)
+- fd#5820 HTTP header says "Content-Language: ar"
+- fd#5837 Update the contrib/apache/fusiondirectory-apache.conf
+- fd#5853 Add button for SetAttribute does not get disabled when linearRendering is FALSE
+- fd#5855 dashboard crash if we have system plugin but not argonaut plugin in FD 1.3
+- fd#5857 Template cannot fill SetAttributes
+- fd#5861 We cannot do a snapshot from an element in locality
+
+#### fusiondirectory-plugins
+- fd-plugins#5344 We should find a way to translate description of sudo options
+- fd-plugins#5638 SSH Plugin - Display bug
+- fd-plugins#5655 PHP error in OPSI import
+- fd-plugins#5670 Lenteur dans le plugin DNS
+- fd-plugins#5691 Lots of styling error in the code
+- fd-plugins#5693 update the readme.md with new forge informations
+- fd-plugins#5701 Result message displayed when triggerring an action is weird
+- fd-plugins#5712 Puppet tab creation should be forbidden if there is no server
+- fd-plugins#5721 I cannot use workstation template
+- fd-plugins#5727 FusionDirectory display an PHP error when I deactivate "opsi client" tab on a workstation
+- fd-plugins#5732 FAI log tab is shown as active even if there is no log
+- fd-plugins#5742 OPSI tab shows a failure to fetch logs for templates
+- fd-plugins#5743 PHP error in argonaut-queue
+- fd-plugins#5748 ACL handling for start/stop/restart service is broken
+- fd-plugins#5750 Server copy/paste is broken
+- fd-plugins#5752 Renaming a workstation with opsi tab creates another workstation with the new name in OPSI
+- fd-plugins#5762 Fatal error: Access level to puppetNode::getDisplayHeaderInfos() must be public (as in class simplePlugin)
+- fd-plugins#5765 OPSI tab behaves badly when Mac address is empty
+- fd-plugins#5769 DNS fields in record add dialog are greyed out when creating a new system
+- fd-plugins#5777 Most POSIX group tabs have no icon set
+- fd-plugins#5804 Sympa list alias cn cannot contain '@'
+- fd-plugins#5808 Foreign key on mail servers are not working
+- fd-plugins#5822 Add a check in the renater partage service class, to check that the class of service is correctly written
+- fd-plugins#5825 LDAP error in audit plugin
+- fd-plugins#5839 dashboard crash if we have system plugin but not argonaut plugin in FD 1.3
+- fd-plugins#5842 Invalid call to strpos in debconfProfileGeneric
+
+## %"FusionDirectory 1.2.3" - 2018-11-15
+
+### Added
+
+#### fusiondirectory
+- fd#5890 hash_equals is not available in PHP 5.4
+- fd#5901 Add the pdf with the oid of fusiondirectory in the contrib dir of the core
+
+### Fixed
+
+#### fusiondirectory
+- fd#5797 cancel button has no effect (apply template)
+
+#### fusiondirectory-plugins
+- fd-plugins#5870 Supann should not trigger PHP errors on empty lines in nomenclature files
+
+### Security
+
+#### fusiondirectory
+- fd#5918 Password recovery does not escape fields in error messages
+
 ## %"FusionDirectory 1.2.2" - 2018-08-16
 
 ### Added
