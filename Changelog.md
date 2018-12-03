@@ -164,6 +164,27 @@
 - fd-plugins#5839 dashboard crash if we have system plugin but not argonaut plugin in FD 1.3
 - fd-plugins#5842 Invalid call to strpos in debconfProfileGeneric
 
+## %"FusionDirectory 1.2.3" - 2018-11-15
+
+### Added
+
+#### fusiondirectory
+- fd#5890 hash_equals is not available in PHP 5.4
+- fd#5901 Add the pdf with the oid of fusiondirectory in the contrib dir of the core
+
+### Fixed
+
+#### fusiondirectory
+- fd#5797 cancel button has no effect (apply template)
+
+#### fusiondirectory-plugins
+- fd-plugins#5870 Supann should not trigger PHP errors on empty lines in nomenclature files
+
+### Security
+
+#### fusiondirectory
+- fd#5918 Password recovery does not escape fields in error messages
+
 ## %"FusionDirectory 1.2.2" - 2018-08-16
 
 ### Added

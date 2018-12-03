@@ -3087,6 +3087,40 @@ apt-get install fusiondirectory
 apt-get install fusiondirectory-schema
 ```
 
+
+## Migrate FusionDirectory from 1.2.1 to 1.2.2
+
+### Upgrade FusionDirectory first
+
+  * Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
+
+```shell
+apt-get install fusiondirectory
+```
+
+  * Upgrade FusionDirectory schema package too.
+
+```shell
+apt-get install fusiondirectory-schema
+```
+
+## Migrate FusionDirectory from 1.2.2 to 1.2.3
+
+### Upgrade FusionDirectory first
+
+  * Upgrade FusionDirectory core package before other ones to avoid dependencies errors:
+
+```shell
+apt-get install fusiondirectory
+```
+
+  * Upgrade FusionDirectory schema package too.
+
+```shell
+apt-get install fusiondirectory-schema
+```
+
+
 [php-cas]: http://packages.ubuntu.com/trusty/all/php-cas/download
 
 [repo-urls]: https://documentation.fusiondirectory.org/en/dl_install
