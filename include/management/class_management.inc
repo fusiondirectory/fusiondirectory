@@ -860,6 +860,8 @@ class management
       } else {
         @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDns, 'Modifications applied');
         $this->tabObject->re_init();
+        /* Avoid applying the POST a second time */
+        $_POST = array();
       }
     }
   }
