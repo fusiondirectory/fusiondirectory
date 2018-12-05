@@ -56,7 +56,8 @@ class CSRFProtection
       $origin = preg_replace('|^[^/]+://([^/]+)(/.*)?$|', '\1', $origin);
       $target = FALSE;
       if (!empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
-        $target = $_SERVER['HTTP_X_FORWARDED_HOST'];
+        /* Only take the first value, there may be several separated by commas */
+        list($target) = explode(',', $_SERVER['HTTP_X_FORWARDED_HOST'], 2);
       } else
       if (!empty($_SERVER['HTTP_HOST'])) {
         $target = $_SERVER['HTTP_HOST'];
