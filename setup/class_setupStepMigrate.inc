@@ -185,7 +185,7 @@ class setupStepMigrate extends setupStep
 
   /* Entries needing migration */
   var $orgUnits_toMigrate       = array();
-  var $accountsToMigrate   = array();
+  var $accounts_toMigrate       = array();
   var $outsideUsers_toMigrate   = array();
   var $outsideGroups_toMigrate  = array();
 
@@ -528,8 +528,8 @@ class setupStepMigrate extends setupStep
     /* Remember old list of invisible users, to be able to set
      *  the 'html checked' status for the checkboxes again
      */
-    $old    = $this->accountsToMigrate;
-    $this->accountsToMigrate = array();
+    $old    = $this->accounts_toMigrate;
+    $this->accounts_toMigrate = array();
 
     /* Get all invisible users */
     $ldap->cd($config->current['BASE']);
@@ -556,7 +556,7 @@ class setupStepMigrate extends setupStep
         if (isset($old[base64_encode($attrs['dn'])])) {
           $attrs['checked'] = $old[base64_encode($attrs['dn'])]['checked'];
         }
-        $this->accountsToMigrate[base64_encode($attrs['dn'])] = $attrs;
+        $this->accounts_toMigrate[base64_encode($attrs['dn'])] = $attrs;
       }
     }
 
@@ -565,7 +565,7 @@ class setupStepMigrate extends setupStep
         _('LDAP query failed'),
         _('Possibly the "root object" is missing.')
       );
-    } elseif (count($this->accountsToMigrate) == 0) {
+    } elseif (count($this->accounts_toMigrate) == 0) {
       /* No invisible */
       return '';
     } else {
@@ -573,7 +573,7 @@ class setupStepMigrate extends setupStep
         "<div style='color:#F0A500'>"._("Warning")."</div>",
         sprintf(
           _('Found %s user(s) that will not be visible in FusionDirectory or which are incomplete.'),
-          count($this->accountsToMigrate)
+          count($this->accounts_toMigrate)
         ).$checkobj->submit()
       );
     }
@@ -581,12 +581,24 @@ class setupStepMigrate extends setupStep
 
   function check_accounts_migrate (&$checkobj)
   {
-    $this->check_multipleGeneric_migrate($checkobj, array('title' => _('User migration')));
+    $this->check_multipleGeneric_migrate(
+      $checkobj,
+      array(
+        'title'   => _('User migration'),
+        'outside' => FALSE,
+      )
+    );
   }
 
   function check_accounts_migrate_refresh (&$checkobj)
   {
-    return $this->check_multipleGeneric_migrate_refresh($checkobj, array('title' => _('User migration')));
+    return $this->check_multipleGeneric_migrate_refresh(
+      $checkobj,
+      array(
+        'title'   => _('User migration'),
+        'outside' => FALSE,
+      )
+    );
   }
 
   function check_accounts_migrate_confirm(&$checkobj, $only_ldif = FALSE)
@@ -710,8 +722,12 @@ class setupStepMigrate extends setupStep
       $users = array();
       $ldap->search('(objectClass=inetOrgPerson)', array('uid','dn'));
       while ($user_attrs = $ldap->fetch()) {
-        $users[$user_attrs['dn']] = $user_attrs['uid'][0];
-        $rusers[$user_attrs['uid'][0]] = $user_attrs['dn'];
+        if (isset($user_attrs['uid'][0])) {
+          $users[$user_attrs['dn']]       = $user_attrs['uid'][0];
+          $rusers[$user_attrs['uid'][0]]  = $user_attrs['dn'];
+        } else {
+          $users[$user_attrs['dn']] = $user_attrs['dn'];
+        }
       }
       $groups = array();
       $ldap->search('(objectClass=posixGroup)', array('cn','dn'));
@@ -1021,7 +1037,7 @@ class setupStepMigrate extends setupStep
         'title'       => _('Move users into configured user tree'),
         'outside'     => TRUE,
         'ous'         => $config->departments,
-        'destination' => $_POST['destination'],
+        'destination' => (isset($_POST['destination']) ? $_POST['destination'] : ''),
       )
     );
   }
@@ -1035,7 +1051,7 @@ class setupStepMigrate extends setupStep
         'title'       => _('Move users into configured user tree'),
         'outside'     => TRUE,
         'ous'         => $config->departments,
-        'destination' => $_POST['destination'],
+        'destination' => (isset($_POST['destination']) ? $_POST['destination'] : ''),
       )
     );
   }
@@ -1140,7 +1156,7 @@ class setupStepMigrate extends setupStep
         'title'       => _('Move groups into configured groups tree'),
         'outside'     => TRUE,
         'ous'         => $config->departments,
-        'destination' => $_POST['destination'],
+        'destination' => (isset($_POST['destination']) ? $_POST['destination'] : ''),
       )
     );
   }
@@ -1154,7 +1170,7 @@ class setupStepMigrate extends setupStep
         'title'       => _('Move groups into configured groups tree'),
         'outside'     => TRUE,
         'ous'         => $config->departments,
-        'destination' => $_POST['destination'],
+        'destination' => (isset($_POST['destination']) ? $_POST['destination'] : ''),
       )
     );
   }
@@ -1242,12 +1258,24 @@ class setupStepMigrate extends setupStep
 
   function check_orgUnits_migrate(&$checkobj)
   {
-    $this->check_multipleGeneric_migrate($checkobj, array('title' => _('Department migration')));
+    $this->check_multipleGeneric_migrate(
+      $checkobj,
+      array(
+        'title'   => _('Department migration'),
+        'outside' => FALSE,
+      )
+    );
   }
 
   function check_orgUnits_migrate_refresh(&$checkobj)
   {
-    return $this->check_multipleGeneric_migrate_refresh($checkobj, array('title' => _('Department migration')));
+    return $this->check_multipleGeneric_migrate_refresh(
+      $checkobj,
+      array(
+        'title'   => _('Department migration'),
+        'outside' => FALSE,
+      )
+    );
   }
 
   function check_orgUnits_migrate_confirm(&$checkobj, $only_ldif)
