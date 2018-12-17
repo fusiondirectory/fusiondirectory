@@ -1626,80 +1626,85 @@ class simplePlugin
       }
     }
     foreach ($classes as $tabclass) {
-      $infos = pluglist::pluginInfos($tabclass);
-      foreach ($infos['plForeignRefs'] as $field => $refs) {
-        if (preg_match('/^handle_/', $mode)) {
-          if (
-              (($newdn !== NULL) && ($field != 'dn') && ($mode == 'handle_move')) ||
-              (($newdn === NULL) && ($olddn === NULL) && (($field == 'dn') || (!$this->attributeHaveChanged($field))))
-            ) {
-            // Move action, ignore other fields than dn
-            // Edit action, ignore dn changes or attributes which did not change
-            continue;
-          }
-          // else = delete action, all fields are concerned, nothing to do here
-        }
-        foreach ($refs as $ref) {
-          $class  = $ref[0];
-          $ofield = $ref[1];
-          $filter = $ref[2];
-          $cinfos = pluglist::pluginInfos($class);
-          if ($class == 'aclAssignment') {
-            /* Special case: aclAssignment foreignKey is ignored on department types as it’s handled by the aclAssignment objectType */
-            $objectTypes = array('ACLASSIGNMENT');
-          } elseif (is_subclass_of($class, 'simpleService')) {
-            $objectTypes = array('SERVER');
-          } else {
-            $objectTypes = array();
-            foreach ($cinfos['plObjectType'] as $key => $objectType) {
-              if (!is_numeric($key)) {
-                $objectType = $key;
-              }
-              if (preg_match('/^ogroup-/i', $objectType)) {
-                $objectType = 'OGROUP';
-              }
-              $objectTypes[] = $objectType;
+      try {
+        $infos = pluglist::pluginInfos($tabclass);
+        foreach ($infos['plForeignRefs'] as $field => $refs) {
+          if (preg_match('/^handle_/', $mode)) {
+            if (
+                (($newdn !== NULL) && ($field != 'dn') && ($mode == 'handle_move')) ||
+                (($newdn === NULL) && ($olddn === NULL) && (($field == 'dn') || (!$this->attributeHaveChanged($field))))
+              ) {
+              // Move action, ignore other fields than dn
+              // Edit action, ignore dn changes or attributes which did not change
+              continue;
             }
-            $objectTypes = array_unique($objectTypes);
+            // else = delete action, all fields are concerned, nothing to do here
           }
-          foreach ($objectTypes as $objectType) {
-            if (preg_match('/^handle_/', $mode)) {
-              if ($field == 'dn') {
-                $oldvalue = $olddn;
-                $newvalue = $newdn;
-              } elseif (($olddn !== NULL) && ($newdn === NULL)) {
-                $oldvalue = $this->attributeInitialValue($field);
-                $newvalue = NULL;
-              } else {
-                $oldvalue = $this->attributeInitialValue($field);
-                $newvalue = $this->attributeValue($field);
+          foreach ($refs as $ref) {
+            $class  = $ref[0];
+            $ofield = $ref[1];
+            $filter = $ref[2];
+            $cinfos = pluglist::pluginInfos($class);
+            if ($class == 'aclAssignment') {
+              /* Special case: aclAssignment foreignKey is ignored on department types as it’s handled by the aclAssignment objectType */
+              $objectTypes = array('ACLASSIGNMENT');
+            } elseif (is_subclass_of($class, 'simpleService')) {
+              $objectTypes = array('SERVER');
+            } else {
+              $objectTypes = array();
+              foreach ($cinfos['plObjectType'] as $key => $objectType) {
+                if (!is_numeric($key)) {
+                  $objectType = $key;
+                }
+                if (preg_match('/^ogroup-/i', $objectType)) {
+                  $objectType = 'OGROUP';
+                }
+                $objectTypes[] = $objectType;
               }
-              $foreignRefs[$objectType]['refs'][$class][$ofield][$field] =
-                array(
-                  'tab'       => $tabclass,
-                  'field'     => $field,
-                  'oldvalue'  => $oldvalue,
-                  'newvalue'  => $newvalue,
-                );
-              $filter = templateHandling::parseString($filter, array('oldvalue' => $oldvalue, 'newvalue' => $newvalue), 'ldap_escape_f');
-            } elseif ($mode == 'references') {
-              $foreignRefs[$objectType]['refs'][$class]['name'] = $cinfos['plShortName'];
+              $objectTypes = array_unique($objectTypes);
+            }
+            foreach ($objectTypes as $objectType) {
+              if (preg_match('/^handle_/', $mode)) {
+                if ($field == 'dn') {
+                  $oldvalue = $olddn;
+                  $newvalue = $newdn;
+                } elseif (($olddn !== NULL) && ($newdn === NULL)) {
+                  $oldvalue = $this->attributeInitialValue($field);
+                  $newvalue = NULL;
+                } else {
+                  $oldvalue = $this->attributeInitialValue($field);
+                  $newvalue = $this->attributeValue($field);
+                }
+                $foreignRefs[$objectType]['refs'][$class][$ofield][$field] =
+                  array(
+                    'tab'       => $tabclass,
+                    'field'     => $field,
+                    'oldvalue'  => $oldvalue,
+                    'newvalue'  => $newvalue,
+                  );
+                $filter = templateHandling::parseString($filter, array('oldvalue' => $oldvalue, 'newvalue' => $newvalue), 'ldap_escape_f');
+              } elseif ($mode == 'references') {
+                $foreignRefs[$objectType]['refs'][$class]['name'] = $cinfos['plShortName'];
 
-              $foreignRefs[$objectType]['refs'][$class]['fields'][$ofield][$field] =
-                array(
-                  'tab'     => $tabclass,
-                  'field'   => $field,
-                  'tabname' => $this->parent->by_name[$tabclass],
-                  'value'   => $this->parent->by_object[$tabclass]->$field,
-                );
-              $filter = templateHandling::parseString($filter, array('oldvalue' => $this->parent->by_object[$tabclass]->$field), 'ldap_escape_f');
+                $foreignRefs[$objectType]['refs'][$class]['fields'][$ofield][$field] =
+                  array(
+                    'tab'     => $tabclass,
+                    'field'   => $field,
+                    'tabname' => $this->parent->by_name[$tabclass],
+                    'value'   => $this->parent->by_object[$tabclass]->$field,
+                  );
+                $filter = templateHandling::parseString($filter, array('oldvalue' => $this->parent->by_object[$tabclass]->$field), 'ldap_escape_f');
+              }
+              if (!preg_match('/^\(.*\)$/', $filter)) {
+                $filter = '('.$filter.')';
+              }
+              $foreignRefs[$objectType]['filters'][$filter] = $filter;
             }
-            if (!preg_match('/^\(.*\)$/', $filter)) {
-              $filter = '('.$filter.')';
-            }
-            $foreignRefs[$objectType]['filters'][$filter] = $filter;
           }
         }
+      } catch (UnknownClassException $e) {
+        /* May happen in special cases like setup */
+        continue;
       }
     }
 
