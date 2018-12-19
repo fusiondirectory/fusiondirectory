@@ -3,13 +3,17 @@
 # This file is distributed under the same license as the FusionDirectory package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
+# Translators:
+# fusiondirectory <contact@fusiondirectory.org>, 2018
+# Ettore Atalan <atalanttore@googlemail.com>, 2018
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2018-09-07 11:10+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"POT-Creation-Date: 2018-12-18 14:20+0000\n"
+"PO-Revision-Date: 2016-08-29 14:52+0000\n"
 "Last-Translator: Ettore Atalan <atalanttore@googlemail.com>, 2018\n"
 "Language-Team: German (https://www.transifex.com/fusiondirectory/teams/12202/de/)\n"
 "MIME-Version: 1.0\n"
@@ -328,8 +332,8 @@ msgid "Snapshot data could not be fetched"
 msgstr ""
 
 #: include/class_template.inc:43
-#: include/simpleplugin/class_simpleManagement.inc:293
-#: include/simpleplugin/class_simpleManagement.inc:530
+#: include/simpleplugin/class_simpleManagement.inc:295
+#: include/simpleplugin/class_simpleManagement.inc:532
 #: plugins/admin/groups/class_groupManagement.inc:355
 #: plugins/admin/users/user-list.xml:95 ihtml/themes/breezy/template.tpl.c:5
 msgid "Template"
@@ -662,12 +666,12 @@ msgstr "Kennung"
 
 #: include/class_CopyPasteHandler.inc:206
 #: include/simpleplugin/class_simpleTabs.inc:316
-#: include/simpleplugin/class_simpleManagement.inc:1039
-#: include/simpleplugin/class_simpleManagement.inc:1136
-#: include/simpleplugin/class_simpleManagement.inc:1185
-#: include/simpleplugin/class_simpleManagement.inc:1265
-#: include/simpleplugin/class_simpleManagement.inc:1283
-#: include/simpleplugin/class_simpleManagement.inc:1327
+#: include/simpleplugin/class_simpleManagement.inc:1041
+#: include/simpleplugin/class_simpleManagement.inc:1138
+#: include/simpleplugin/class_simpleManagement.inc:1187
+#: include/simpleplugin/class_simpleManagement.inc:1267
+#: include/simpleplugin/class_simpleManagement.inc:1285
+#: include/simpleplugin/class_simpleManagement.inc:1329
 #: plugins/admin/users/class_userManagement.inc:153
 msgid "Permission"
 msgstr "Berechtigung"
@@ -1664,48 +1668,48 @@ msgstr "Gruppe des Benutzers"
 msgid "Unknown"
 msgstr "Unbekannt"
 
-#: include/simpleplugin/class_simpleManagement.inc:299
+#: include/simpleplugin/class_simpleManagement.inc:301
 #: plugins/admin/users/user-list.xml:87
 msgid "From template"
 msgstr "Aus Vorlage"
 
-#: include/simpleplugin/class_simpleManagement.inc:327
+#: include/simpleplugin/class_simpleManagement.inc:329
 #, php-format
 msgid "%s template"
 msgstr "%s Vorlage"
 
-#: include/simpleplugin/class_simpleManagement.inc:524
-#: include/simpleplugin/class_simpleManagement.inc:530
+#: include/simpleplugin/class_simpleManagement.inc:526
+#: include/simpleplugin/class_simpleManagement.inc:532
 #: plugins/admin/groups/class_groupManagement.inc:355
 #, php-format
 msgid "Show %s"
 msgstr "Zeigen %s"
 
-#: include/simpleplugin/class_simpleManagement.inc:561
+#: include/simpleplugin/class_simpleManagement.inc:563
 msgid "Filter error"
 msgstr "Filter Fehler"
 
-#: include/simpleplugin/class_simpleManagement.inc:561
+#: include/simpleplugin/class_simpleManagement.inc:563
 msgid "The filter is incomplete!"
 msgstr "Der Filter ist unvollständig!"
 
-#: include/simpleplugin/class_simpleManagement.inc:1104
+#: include/simpleplugin/class_simpleManagement.inc:1106
 msgid "Permission error"
 msgstr "Berechtigungsfehler"
 
-#: include/simpleplugin/class_simpleManagement.inc:1136
+#: include/simpleplugin/class_simpleManagement.inc:1138
 #, php-format
 msgid "You are not allowed to create a snapshot for %s."
 msgstr "Ihnen ist es nicht erlaubt, einen Snapshot für %s zu erstellen."
 
-#: include/simpleplugin/class_simpleManagement.inc:1185
-#: include/simpleplugin/class_simpleManagement.inc:1265
-#: include/simpleplugin/class_simpleManagement.inc:1283
+#: include/simpleplugin/class_simpleManagement.inc:1187
+#: include/simpleplugin/class_simpleManagement.inc:1267
+#: include/simpleplugin/class_simpleManagement.inc:1285
 #, php-format
 msgid "You are not allowed to restore a snapshot for %s."
 msgstr "Ihnen ist es nicht erlaubt, einen Snapshot für %s wiederherzustellen."
 
-#: include/simpleplugin/class_simpleManagement.inc:1327
+#: include/simpleplugin/class_simpleManagement.inc:1329
 #, php-format
 msgid "You are not allowed to delete a snapshot for %s."
 msgstr ""
