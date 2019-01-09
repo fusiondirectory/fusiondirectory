@@ -36,13 +36,13 @@
           {foreach from=$attributes.expired.accounts item=account}
             <tr>
               {foreach from=$attributes.expired.columns.user key=colkey item=colname}
-                <td>&nbsp;{$account.$colkey}</td>
+                <td>{$account.$colkey}&nbsp;</td>
               {/foreach}
               {foreach from=$attributes.expired.columns.manager key=colkey item=colname}
                 {if $colkey==manager_mail}
                   <td><a href="mailto:{$account.$colkey}">{$account.$colkey}</a></td>
                 {else}
-                  <td>&nbsp;{$account.$colkey}</td>
+                  <td>{$account.$colkey}&nbsp;</td>
                 {/if}
               {/foreach}
             </tr>
