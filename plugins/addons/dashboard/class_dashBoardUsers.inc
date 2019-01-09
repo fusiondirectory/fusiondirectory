@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org)
   Copyright (C) 2010 Antoine Gallavardin
-  Copyright (C) 2011-2018 FusionDirectory
+  Copyright (C) 2011-2019 FusionDirectory project
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -122,9 +122,14 @@ class dashboardUsers extends simplePlugin
         sprintf(_('Group statistics could not be computed because of the following LDAP error: %s'), $e->getMessage()),
         ERROR_DIALOG
       );
-      $nb_groups          = 0;
-      $nb_mail_groups     = 0;
-      $nb_samba_accounts  = 0;
+      $nb_groups        = 0;
+      $nb_mail_groups   = 0;
+      $nb_samba_groups  = 0;
+    } catch (NonExistingObjectTypeException $e) {
+      /* Posix plugin is not installed */
+      $nb_groups        = 0;
+      $nb_mail_groups   = 0;
+      $nb_samba_groups  = 0;
     }
 
     return array(
@@ -216,6 +221,7 @@ class dashboardUsers extends simplePlugin
   static function get_user_infos($attrs)
   {
     global $config;
+
     if (isset($attrs['manager'][0])) {
       $ldap = $config->get_ldap_link();
       $ldap->cat($attrs['manager'][0], array('cn', 'mail', 'telephoneNumber'));
@@ -223,6 +229,10 @@ class dashboardUsers extends simplePlugin
         $manager_cn     = (isset($manager_attrs['cn'][0]) ? $manager_attrs['cn'][0] : '');
         $manager_mail   = (isset($manager_attrs['mail'][0]) ? $manager_attrs['mail'][0] : '');
         $manager_phone  = (isset($manager_attrs['telephoneNumber'][0]) ? $manager_attrs['telephoneNumber'][0] : '');
+      } else {
+        $manager_cn     = sprintf(_('Not found (%s)'), $attrs['manager'][0]);
+        $manager_mail   = '';
+        $manager_phone  = '';
       }
     } else {
       $manager_cn     = '';
