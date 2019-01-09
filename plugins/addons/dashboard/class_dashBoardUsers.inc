@@ -125,6 +125,11 @@ class dashboardUsers extends simplePlugin
       $nb_groups        = 0;
       $nb_mail_groups   = 0;
       $nb_samba_groups  = 0;
+    } catch (NonExistingObjectTypeException $e) {
+      /* Posix plugin is not installed */
+      $nb_groups        = 0;
+      $nb_mail_groups   = 0;
+      $nb_samba_groups  = 0;
     }
 
     return array(
