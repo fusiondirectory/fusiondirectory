@@ -2412,3 +2412,47 @@
 - fd-plugins#2740 when the opsi plugin is installed i always have this error even withtout an opsi server configured "Can't find IP for OPSI service"
 - fd-plugins#2742 When an opsi server has not an mac address
 - fd-plugins#2757 since their moving the icon for applications and mimetypes doesnt appers in the menu
+
+## %"FusionDirectory 1.0.6" - 2013-05-10
+
+### Added
+
+#### fusiondirectory
+- fd#2355 Severities in the FDstandard codesniffer standard should be set
+- fd#2374 the ldapFollowReferrals should be in fusiondirectory.conf.pod as it is a file config option
+
+#### fusiondirectory-plugins
+- fd-plugins#2349 the dsa plugin should allow to select the password encoding method
+
+### Changed
+
+#### fusiondirectory
+- fd#2378 Postcreate doesn't parse variables
+
+#### fusiondirectory-plugins
+- fd-plugins#2352 dsaManagement should use simpleManagement
+- fd-plugins#2377 config directory incorrect for the samba plugin
+
+### Removed
+
+#### fusiondirectory
+- fd#2356 all checkbox=$multiple_support should be remove from the smarty templates
+- fd#2362 remove the update schema from 1.0.4 for 1.0.6
+
+#### fusiondirectory-plugins
+- fd-plugins#2357 all checkbox=$multiple_support should be remove from the smarty templates
+- fd-plugins#2364 remove the update schema from 1.0.4 for 1.0.6
+- fd-plugins#2365 remove the remaning readme into the plugins
+
+### Fixed
+
+#### fusiondirectory
+- fd#2346 Fusiondirectory 1.0.5 + wheezy + user management
+- fd#2351 case of forcePasswordDefaultHash
+- fd#2361 Login uses simple quotes for translated strings in smarty template
+- fd#2371 fusiondirectory-insert-schema should look for the right name
+
+#### fusiondirectory-plugins
+- fd-plugins#2336 kolab2 schema failed insertion
+- fd-plugins#2350 when i save a mail group i got a not needed gosaMailDelivery mode saved
+
