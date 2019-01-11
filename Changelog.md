@@ -2241,3 +2241,174 @@
 
 #### fusiondirectory
 - fd#2845 user main.inc is broken
+
+## %"FusionDirectory 1.0.7" - 2013-11-06
+
+### Added
+
+#### fusiondirectory
+- fd#2245 Add a test to codesniffer for the php foreach issue
+- fd#2354 Config backend is not in the documentation
+- fd#2406 Allow filter to have no template
+- fd#2431 We should add an easy way of adding css files.
+- fd#2482 We need a default value for ipmiRDN
+- fd#2520 Could not load: 'UserPasswordAttribute'
+- fd#2546 RTL
+- fd#2564 remove mysql-dependencies in asterisk-plugin
+- fd#2569 cleanup fusiondirectory.pod removing all obsoleted options
+- fd#2584 Array to string conversion error when saving DNS
+- fd#2618 adding a --list-ldap to fusiondirectory-setup
+- fd#2631 No (obvious) way to select the pool allocation method
+- fd#2658 include class_objects.inc in core
+- fd#2739 add a space modifier to remove space in template
+- fd#2756 Next id hook should have documentation
+- fd#2815 create ldif for updating the schema in 1.0.7
+
+#### fusiondirectory-plugins
+- fd-plugins#2478 Adaptation for Dovecot plugin
+- fd-plugins#2578 Update packet
+- fd-plugins#2651 integrating dovecot, gpg, ipmi, repository, sogo, weblink into the stable branch
+- fd-plugins#2660 we need an the icon from the fusioninventory project for our fusioninventory plugin
+- fd-plugins#2668 now that we have an acl support in the ldapdump fonctionnality it should be moved out of the debug-help plugin and put onto is own plugin
+- fd-plugins#2677 Add export feature in rsyslog plugin
+- fd-plugins#2689 adding the fusioninventory plugin to plugins
+- fd-plugins#2816 create ldif for updating the schema in 1.0.7
+- fd-plugins#2825 move the developpers stuff into a developpers plugin in the plugins
+
+### Changed
+
+#### fusiondirectory
+- fd#1097 ACL menu should show plShortName
+- fd#2266 fusiondirectory-setup should fetch config in the LDAP
+- fd#2390 when proofreading doc i found mention of a check hook
+- fd#2408 Rework menu html code
+- fd#2409 style.css should be split
+- fd#2416 posixAccount should use DisplayAttribute
+- fd#2435 Some clean is needed in the tpl organization.
+- fd#2443 Sauvegarde acl
+- fd#2457 migrate fusionddirectory-encrypt-password into fusiondirectory-setup
+- fd#2489 Left menu css should be reworked
+- fd#2559 Error message are weirdly displayed
+- fd#2576 Some installation instruction path are wrong
+- fd#2639 No .ldif since FD 1.0.6, change doc: admin_installation_from_source
+- fd#2640 No more config in /etc, change doc: admin_installation_from_source
+- fd#2697 moving smarty var from variables_common.inc to variables.inc
+
+#### fusiondirectory-plugins
+- fd-plugins#215 /usr/share/fusiondirectory/plugins/addons/goto/deploy-filter.tpl status
+- fd-plugins#2339 "board" plugin rename to "dashboard"
+- fd-plugins#2433 remove serviceDebianRepository from argonaut client tab
+- fd-plugins#2434 mac should be changed back to non mandatory in system
+- fd-plugins#2436 style.css should be split
+- fd-plugins#2484 config directory incorrect for the mail plugin
+- fd-plugins#2690 Rework postfixTransportTable
+- fd-plugins#2716 Repositories should be associated to distro/section couples
+- fd-plugins#2717 Repository type should be in the form
+
+### Removed
+
+#### fusiondirectory
+- fd#2514 remove the meta code  from headers.tpl
+- fd#2663 Smarty 3 vs Smarty 2
+- fd#2681 class_acl changes html code depending on browser
+- fd#2685 now that we have an acl support in the ldapdump fonctionnality it should be moved out of the debug-help plugin and put onto is own plugin
+- fd#2687 non-JS fall-backs should be removed
+- fd#2748 we should remove from fusiondirectory-setup all the old code for systems, asterisk, mail
+- fd#2749 the apache config provided by the core should not include the line of config for fusiondirectory.secrets
+- fd#2819 remove scriptaculous from the source
+- fd#2821 remove included smarty gettext
+- fd#2823 remove schema2ldif from the source
+- fd#2824 move the developpers stuff into a developpers plugin in the plugins
+
+#### fusiondirectory-plugins
+- fd-plugins#2440 Some clean is needed in the tpl organization.
+- fd-plugins#2561 remove mysql-dependencies in asterisk-plugin
+- fd-plugins#2615 remove FakeAttribute du to moving it to simple-plugin
+- fd-plugins#2688 non-JS fall-backs should be removed
+- fd-plugins#2798 remove the old obsolete doc in the nergroups plugin
+
+### Fixed
+
+#### fusiondirectory
+- fd#2340 Default value for "encodings" after installation
+- fd#2384 available roles it's a wrong definition in acl
+- fd#2389 Configuration windows red form not very explicit
+- fd#2403 When going to objectgroups with only the core plugins i get  Undefined index: SERVERS
+- fd#2429 There are wrong pattern in pod explanations
+- fd#2448 postcreate syntax is wrong in some docs
+- fd#2452 When /dev/random runs out of entropy, it blocks the mcrypt_create_iv function.
+- fd#2463 there is an error in fusiondirectory.conf manpage
+- fd#2476 Checking checkbox does not enable fields in setup
+- fd#2486 Incorrect syntax for core-fd-conf schema
+- fd#2494 divSelectBox should escape html code from its cells
+- fd#2507 import_complete_ldif error handling is broken
+- fd#2510 FusionDirectory should provide valid HTML
+- fd#2515 Allow single quote in givenName
+- fd#2523 correct misspelling from fusiondirectory-setup-manpage.patch and fusiondirectory-setup.patch debian patchs in core
+- fd#2525 Copy paste is broken
+- fd#2528 php errors in logs
+- fd#2540 It is possible to add a completely blank shell to the shell list in "Configuration"
+- fd#2542 French translation error
+- fd#2592 PHP error: Undefined index: rtl
+- fd#2593 fullwidth is broken for right sections
+- fd#2617 fusiondirectory-setup --check-ldap doesnt work if password is chiffred in fusiondirectory.conf
+- fd#2620 fusiondirectory-insert-schema should die when an error occurs
+- fd#2635 Add the admin DN as a dummy member instead of the group DN (when using rfc2307bis)
+- fd#2643 backtrace when trying to create new items with the repository plugin
+- fd#2652 fusiondirectory-insert-schema fails when not cn=config
+- fd#2669 forceSSL in fusiondirectory.conf doesn't work
+- fd#2672 PHP error about MUST undefined
+- fd#2674 php error in class_objects.inc with php PHP 5.3.3-7+squeeze16
+- fd#2682 Syntax error in core-fd-conf.schema
+- fd#2691 Not possible to remove login restriction (gosaLoginRestriction)
+- fd#2703 the check on template for uid unicity is wrong
+- fd#2710 in the ldapmanager plugin, it doesnt respect the password encryption method declared in FusionDirectory
+- fd#2715 in the acl plugin is don't see the categories in the list
+- fd#2718 multi-valuated settings cause problem when there is only one value
+- fd#2719 management is wrongly testing ACLs for removal
+- fd#2721 Password posthooks are broken
+- fd#2722 objectClass and attributes are duplicated in systems-fd.schema
+- fd#2726 Doxyfile contains absolute paths
+- fd#2747 the fusiondirectory-setup --install-plugins doesnt install the files contained in the include dir of the plugins
+- fd#2751 fusiondirectory-setup --install-plugins doesnt install the config backend of each plugin
+- fd#2752 fusiondirectory-setup --install-plugins doesnt install the ldap schema of all in the plugin in the contrib dirs when usign the tarballs
+- fd#2753 when installing FusionDirectory for the first time it put an error message about samba sid / rid right on the login page
+- fd#2754 Next id hook is wrongly placed
+- fd#2755 fusiondirectory-insert-schema should remove the ldif after an error occurs
+- fd#2829 wrong dir for smarty in fusiondirectory-setup
+
+#### fusiondirectory-plugins
+- fd-plugins#1948 DHCP subsection not appearing
+- fd-plugins#2375 "launching action T_Deployment.reboot" debug message
+- fd-plugins#2393 case of cyrusDeleteMailbox
+- fd-plugins#2404 FusionDirectory bugreport - when going to applications to create one i get PHP error: Illegal string offset 'ke
+- fd-plugins#2413 Board have some useless lines
+- fd-plugins#2421 Incorrect syntax for systems-fd schema
+- fd-plugins#2424 Error message when i create an user
+- fd-plugins#2426 removal of errors cache
+- fd-plugins#2430 Migrate class_user to simple-plugin
+- fd-plugins#2442 Action scheduling from deployment queue crashes
+- fd-plugins#2449 modification d'un utilisateur
+- fd-plugins#2474 Error deleting object from queue
+- fd-plugins#2490 Board : PHP error "Invalid argument supplied for foreach()"
+- fd-plugins#2493 We need to adapt a few things to last simplePlugin commit
+- fd-plugins#2498 divSelectBox should escape html code from its cells
+- fd-plugins#2506 ButtonAttribute has been renamed
+- fd-plugins#2508 import_complete_ldif error handling is broken
+- fd-plugins#2543 in the mail config backend the translation for the generic method is false
+- fd-plugins#2545 the service postfix doesnt check the postfixMyHostname correctly
+- fd-plugins#2574 when saving a windows workstations the uid is stored twice wrongly
+- fd-plugins#2580 Deployment queue - error aborting queued jobs
+- fd-plugins#2583 Array to string conversion error when saving DNS
+- fd-plugins#2612 missing or wrong attribute
+- fd-plugins#2636 DNS Zones unusable with bind-sdb
+- fd-plugins#2675 Boolean options in sudo are always reset to FALSE
+- fd-plugins#2676 log messages shouldn't be truncated in rsyslog plugin
+- fd-plugins#2679 Quota plugin have some leftovers
+- fd-plugins#2698 don't change stauts of opsi installed package when adding or removing packages to an opsi profile
+- fd-plugins#2700 Empty translated strings should be avoided
+- fd-plugins#2705 in the ldapmanager plugin, the import csv doesnt show my template
+- fd-plugins#2711 the dn is wrong when saving imported user into ldap from ldapmanager
+- fd-plugins#2740 when the opsi plugin is installed i always have this error even withtout an opsi server configured "Can't find IP for OPSI service"
+- fd-plugins#2742 When an opsi server has not an mac address
+- fd-plugins#2757 since their moving the icon for applications and mimetypes doesnt appers in the menu
