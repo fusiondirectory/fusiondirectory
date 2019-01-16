@@ -882,4 +882,29 @@ class DisplayAttribute extends DisplayLDAPAttribute
     $this->setInLdap(FALSE);
   }
 }
-?>
+
+/*! \brief This class allow to display a link to an object which dn is stored in the attribute
+ */
+class ObjectLinkAttribute extends DisplayLDAPAttribute
+{
+  protected $type;
+
+  function __construct ($label, $description, $ldapName, $required, $type, $defaultValue = "", $acl = "")
+  {
+    parent::__construct ($label, $description, $ldapName, $required, $defaultValue, $acl);
+    $this->type = $type;
+  }
+
+  function renderFormInput ()
+  {
+    if (empty($this->value)) {
+      return '';
+    }
+
+    try {
+      return objects::link($this->value, $this->type);
+    } catch (NonExistingLdapNodeException $e) {
+      return '<a><img src="geticon.php?context=status&amp;icon=dialog-warning&amp;size=16" alt="warning" class="center"/>&nbsp;'.sprintf(_('Invalid: %s'), $this->value).'</a>';
+    }
+  }
+}
