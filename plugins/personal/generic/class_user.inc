@@ -412,7 +412,7 @@ class user extends simplePlugin
             _('Home address'), _('Home postal address'),
             'homePostalAddress', FALSE
           ),
-          new StringAttribute (
+          new PhoneNumberAttribute (
             _('Private phone'), _('Home phone number'),
             'homePhone', FALSE
           ),
