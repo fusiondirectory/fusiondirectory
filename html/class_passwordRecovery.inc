@@ -354,6 +354,7 @@ class passwordRecovery extends standAlonePage {
     $lang = session::global_get('lang');
     $smarty->assign('lang', preg_replace('/_.*$/', '', $lang));
     $smarty->assign('rtl', Language::isRTL($lang));
+    $smarty->assign('title',        _('Password recovery'));
     $smarty->display(get_template_path('headers.tpl'));
 
     $smarty->assign('version',        FD_VERSION);

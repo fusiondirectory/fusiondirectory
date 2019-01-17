@@ -347,7 +347,6 @@ if (isset($_POST['_channel_'])) {
 } else {
   $smarty->assign("channel", "");
 }
-$smarty->assign ("title", "FusionDirectory");
 
 if (class_available('Game')) {
   $smarty->assign('game_screen', Game::run());
