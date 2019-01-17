@@ -673,9 +673,9 @@ class LDAP
   /*!
    * \brief Modify a entry of the directory LDAP
    *
-   * \param string $attrs The new entry
+   * \param array $attrs The new entry
    */
-  function modify($attrs)
+  function modify(array $attrs)
   {
     if (count($attrs) == 0) {
       return 0;
