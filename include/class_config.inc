@@ -313,8 +313,9 @@ class config
    */
   function get_ldap_link($sizelimit = FALSE)
   {
-    if ($this->ldap === NULL || !is_resource($this->ldap->cid)) {
+    global $ui;
 
+    if ($this->ldap === NULL || !is_resource($this->ldap->cid)) {
       /* Build new connection */
       $this->ldap = ldap_init ($this->current['SERVER'], $this->current['BASE'],
           $this->current['ADMINDN'], $this->get_credentials($this->current['ADMINPASSWORD']));
@@ -331,16 +332,11 @@ class config
       } else {
         $this->ldap->referrals = $this->current['REFERRAL'];
       }
-
-      if (!session::global_is_set('size_limit')) {
-        session::global_set('size_limit',   $this->current['LDAPSIZELIMIT']);
-        session::global_set('size_ignore',  preg_match('/true/i', $this->current['LDAPSIZEIGNORE']));
-      }
     }
 
     $obj  = new ldapMultiplexer($this->ldap);
     if ($sizelimit) {
-      $obj->set_size_limit(session::global_get('size_limit'));
+      $obj->set_size_limit($ui->getSizeLimitHandler()->getSizeLimit());
     } else {
       $obj->set_size_limit(0);
     }
@@ -386,19 +382,8 @@ class config
       $this->current['ADMINPASSWORD'] = $this->current['REFERRAL'][$this->current['SERVER']]['ADMINPASSWORD'];
     }
 
-    /* We need LDAPSIZELIMIT and LDAPSIZEIGNORE set before we connect to the ldap */
-    if (!isset($this->current['LDAPSIZELIMIT'])) {
-      $this->current['LDAPSIZELIMIT'] = 200;
-    }
-    if (!isset($this->current['LDAPSIZEIGNORE'])) {
-      $this->current['LDAPSIZEIGNORE'] = "TRUE";
-    }
-
     /* Load in-ldap configuration */
     $this->load_inldap_config();
-
-    /* We update LDAPSIZELIMIT as it may have been changed by ldap config */
-    session::global_set('size_limit', $this->current['LDAPSIZELIMIT']);
 
     if (class_available('systemManagement')) {
       /* Load server informations */

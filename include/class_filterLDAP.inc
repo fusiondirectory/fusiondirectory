@@ -141,7 +141,7 @@ class filterLDAP
 
       // Check for size limit exceeded messages for GUI feedback
       if (preg_match("/size limit/i", $ldap->get_error())) {
-        session::set('limit_exceeded', TRUE);
+        $ui->getSizeLimitHandler()->setLimitExceeded();
         $limit_exceeded = TRUE;
       }
 
