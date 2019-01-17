@@ -739,7 +739,7 @@ function get_locks($objects, $allow_readonly = FALSE)
 {
   global $config;
 
-  if (is_array($objects) && count($objects == 1)) {
+  if (is_array($objects) && (count($objects) == 1)) {
     $objects = reset($objects);
   }
   if (is_array($objects)) {
@@ -1410,7 +1410,7 @@ function netmask_to_bits($netmask)
 /*!
  * \brief Recursion helper for gen_uids()
  */
-function _recurse_gen_uids($rule, $variables)
+function _recurse_gen_uids($rule, array $variables)
 {
   $result = array();
 
