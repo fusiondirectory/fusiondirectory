@@ -577,24 +577,15 @@ class msgPool {
    *
    * \param array $depends Contains all the settings enabled
    */
-  public static function featuresEnabled($name, $depends = "")
+  public static function featuresEnabled($name, $depends = '')
   {
-    if (($depends == "") || (is_array($depends) && count($depends) == 0)) {
+    if (($depends == "") || (is_array($depends) && (count($depends) == 0))) {
       return sprintf(_("This account has %s settings enabled. You can disable them by clicking below."), $name);
     } else {
-      if (count($depends) == 1) {
-        if (is_array($depends)) {
-          $depends = $depends[0];
-        }
-        return sprintf(_("This account has %s settings enabled. To disable them, you'll need to remove the %s settings first!"), $name, $depends);
-      } else {
-        $deps = "";
-        foreach ($depends as $dep) {
-          $deps .= "$dep / ";
-        }
-        $deps = preg_replace("/ \/ $/", "", $deps);
-        return sprintf(_("This account has %s settings enabled. To disable them, you'll need to remove the %s settings first!"), $name, $deps);
+      if (is_array($depends)) {
+        $depends = implode(' / ', $depends);
       }
+      return sprintf(_("This account has %s settings enabled. To disable them, you'll need to remove the %s settings first!"), $name, $depends);
     }
   }
 

@@ -714,7 +714,7 @@ function get_locks($objects, $allow_readonly = FALSE)
 {
   global $config;
 
-  if (is_array($objects) && count($objects == 1)) {
+  if (is_array($objects) && (count($objects) == 1)) {
     $objects = reset($objects);
   }
   if (is_array($objects)) {
