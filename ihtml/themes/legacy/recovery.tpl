@@ -12,7 +12,7 @@
 
   <div id="window-titlebar">
     <p>
-      <img class="center" src="geticon.php?context=status&amp;icon=dialog-password&amp;size=48" alt="{t}Password{/t}" title="{t}Password{/t}"/>
+      <img class="center" src="geticon.php?context=status&amp;icon=dialog-password&amp;size=48" alt=""/>
       {t}Lost password{/t}
     </p>
   </div>

@@ -436,7 +436,7 @@ class pluglist {
           }
 
           $entries  .= '<div class="iconmenu" id="menuitem_icon_'.$id.'" onClick=\'location.href="'.$href.'"\' title="'.$plDescription.'">';
-          $item     = '<div class="imgcontainer"><img src="'.$image.'" alt="'.$plHeadline.' icon"/></div><span>&nbsp;'.$plHeadline.'</span>';
+          $item     = '<div class="imgcontainer"><img src="'.$image.'" alt=""/></div><span>&nbsp;'.$plHeadline.'</span>';
           $entries  .= $item."</div>\n";
         }
 

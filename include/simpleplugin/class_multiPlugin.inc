@@ -75,7 +75,7 @@ class multiPlugin extends simplePlugin
       }
       unset($plug);
       if (!$enabled) {
-        $display = '<img alt="" src="geticon.php?context=status&amp;icon=dialog-error&amp;size=16" align="middle"/>&nbsp;<b>'.
+        $display = '<img alt="'._('Error').'" src="geticon.php?context=status&amp;icon=dialog-error&amp;size=16" align="middle"/>&nbsp;<b>'.
                     msgPool::noValidExtension()."</b>";
         $display .= back_to_main();
         return $display;
