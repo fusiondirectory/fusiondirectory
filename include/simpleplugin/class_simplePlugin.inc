@@ -1153,7 +1153,7 @@ class simplePlugin
       /* Convert arrays with one element to non arrays, if the saved
          attributes are no array, too */
       if (is_array($this->attrs[$index]) &&
-          count ($this->attrs[$index]) == 1 &&
+          (count($this->attrs[$index]) == 1) &&
           isset($this->saved_attributes[$index]) &&
           !is_array($this->saved_attributes[$index])) {
         $this->attrs[$index] = $this->attrs[$index][0];
@@ -1161,7 +1161,7 @@ class simplePlugin
 
       /* Remove emtpy arrays if they do not differ */
       if (is_array($this->attrs[$index]) &&
-          count($this->attrs[$index]) == 0 &&
+          (count($this->attrs[$index]) == 0) &&
           !isset($this->saved_attributes[$index])) {
         unset ($this->attrs[$index]);
         continue;
@@ -1171,7 +1171,7 @@ class simplePlugin
       if (!is_array($this->attrs[$index]) &&
           isset($this->saved_attributes[$index]) &&
           !is_array($this->saved_attributes[$index]) &&
-          $this->attrs[$index] == $this->saved_attributes[$index]) {
+          ($this->attrs[$index] == $this->saved_attributes[$index])) {
         unset ($this->attrs[$index]);
         continue;
       }
