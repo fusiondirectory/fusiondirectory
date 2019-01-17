@@ -1017,18 +1017,29 @@ class userinfo
   function getAttributeCategory($type, $attribute)
   {
     global $config;
-    $infos    = objects::infos($type);
-    $classes  = $config->data['CATEGORIES'][$infos['aclCategory']]['classes'];
+
     if (in_array_ics($attribute, array('objectClass', 'dn'))) {
       return TRUE;
     }
-    foreach ($classes as $class) {
-      if ($class == '0') {
-        continue;
-      }
-      $acls = pluglist::pluginInfos($class)['plProvidedAcls'];
+
+    if (is_array($type)) {
+      /* Used for recursion through subtabs */
+      $tabs = $type;
+    } else {
+      /* Usual workflow */
+      $infos  = objects::infos($type);
+      $tabs   = $config->data['TABS'][$infos['tabGroup']];
+    }
+    foreach ($tabs as $tab) {
+      $acls = pluglist::pluginInfos($tab['CLASS'])['plProvidedAcls'];
       if (isset($acls[$attribute])) {
-        return $infos['aclCategory'].'/'.$class;
+        return $infos['aclCategory'].'/'.$tab['CLASS'];
+      }
+      if (isset($tab['SUBTABS'])) {
+        $acl = $this->getAttributeCategory($config->data['TABS'][$tab['SUBTABS']], $attribute);
+        if ($acl !== FALSE) {
+          return $acl;
+        }
       }
     }
     return FALSE;
