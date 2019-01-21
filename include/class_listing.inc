@@ -484,7 +484,7 @@ class listing
     $smarty = get_smarty();
     $smarty->assign("usePrototype", "true");
     $smarty->assign("FILTER", $this->filter->render());
-    $smarty->assign("SIZELIMIT", $ui->getSizeLimitHandler(()->renderWarning());
+    $smarty->assign("SIZELIMIT", $ui->getSizeLimitHandler()->renderWarning());
     $smarty->assign("LIST", $result);
     $smarty->assign("MULTISELECT", $this->multiSelect);
 
