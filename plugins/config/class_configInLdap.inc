@@ -387,7 +387,9 @@ class configInLdap extends simplePlugin
             // no order
             FALSE,
             array()
-          )
+          ),
+          // Needed here for ACLs
+          new HiddenAttribute ('fdManagementConfig'),
         )
       ),
       'hooks' => array(

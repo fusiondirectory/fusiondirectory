@@ -327,13 +327,20 @@ class management
 
   public function getColumnConfiguration()
   {
+    global $config;
+
+    if (!isset($this->columnConfiguration)) {
+      // LDAP configuration
+      $this->columnConfiguration = $config->getManagementConfig(get_class($this));
+    }
+
     if (!isset($this->columnConfiguration)) {
       // Default configuration
       $this->columnConfiguration = static::$columns;
     }
+
     // Session configuration
     return $this->columnConfiguration;
-    // TODO: LDAP configuration
   }
 
   public function setColumnConfiguration($columns)

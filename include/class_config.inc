@@ -382,6 +382,9 @@ class config
     /* Load in-ldap configuration */
     $this->load_inldap_config();
 
+    /* Parse management config */
+    $this->loadManagementConfig();
+
     if (class_available('systemManagement')) {
       /* Load server informations */
       $this->load_servers();
@@ -501,6 +504,65 @@ class config
           $this->current[$key] = $value;
         }
       }
+    }
+  }
+
+  /*!
+   * \brief Loads the management classes config to index them by class
+   */
+  private function loadManagementConfig()
+  {
+    if (isset($this->current['MANAGEMENTCONFIG'])) {
+      $value = array();
+      foreach ($this->current['MANAGEMENTCONFIG'] as $value) {
+        list($class, $config) = explode(':', $value, 2);
+        $value[$class] = $config;
+      }
+      $this->current['MANAGEMENTCONFIG'] = $value;
+    }
+  }
+
+  /*!
+   * \brief Update the management config in the LDAP and the cache
+   */
+  public function updateManagementConfig($managementClass, $managementConfig)
+  {
+    $managementConfig = json_encode($managementConfig, JSON_THROW_ON_ERROR);
+    $changes = array();
+    if (isset($this->current['MANAGEMENTCONFIG'][$managementClass])) {
+      /* If there already was a config for this class, remove it */
+      if ($this->current['MANAGEMENTCONFIG'][$managementClass] == $managementConfig) {
+        /* Unless it's the same one and we've got nothing to do */
+        return array();
+      }
+      $changes[] = array(
+        'attrib'  => 'fdManagementConfig',
+        'modtype' => LDAP_MODIFY_BATCH_REMOVE,
+        'values'  => array($managementClass.':'.$this->current['MANAGEMENTCONFIG'][$managementClass]),
+      );
+    }
+    /* Add the new one */
+    $changes[] = array(
+      'attrib'  => 'fdManagementConfig',
+      'modtype' => LDAP_MODIFY_BATCH_ADD,
+      'values'  => array($managementClass.':'.$managementConfig),
+    );
+    $ldap = $this->get_ldap_link();
+    $ldap->cd(CONFIGRDN.$this->current['BASE']);
+    if (!$ldap->modify_batch($modifs)) {
+      return array($ldap->get_error());
+    }
+  }
+
+  /*!
+   * \brief Returns the config for a management class, or NULL
+   */
+  public function getManagementConfig($managementClass)
+  {
+    if (isset($this->current['MANAGEMENTCONFIG'][$managementClass])) {
+      return json_decode($this->current['MANAGEMENTCONFIG'][$managementClass], TRUE);
+    } else {
+      return NULL;
     }
   }
 
