@@ -25,6 +25,7 @@ class BooleanAttribute extends Attribute
 {
   public $trueValue;
   public $falseValue;
+  protected $templatable = TRUE;
 
   /*! \brief The constructor of BooleanAttribute
    *
