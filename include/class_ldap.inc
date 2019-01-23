@@ -697,6 +697,29 @@ class LDAP
   }
 
   /*!
+   * \brief Modify a entry of the directory LDAP with fine control
+   *
+   * \param array $changes The changes
+   */
+  function modify_batch(array $changes)
+  {
+    if (count($changes) == 0) {
+      return TRUE;
+    }
+    if ($this->hascon) {
+      if ($this->reconnect) {
+        $this->connect();
+      }
+      $r            = @ldap_modify_batch($this->cid, $this->basedn, $changes);
+      $this->error  = @ldap_error($this->cid);
+      return $r;
+    } else {
+      $this->error = 'Could not connect to LDAP server';
+      return FALSE;
+    }
+  }
+
+  /*!
    * \brief Add entry in the LDAP directory
    *
    * \param string $attrs The entry to add

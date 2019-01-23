@@ -83,6 +83,10 @@ class ManagementConfigurationDialog extends simplePlugin
             array(),
             TRUE // edition
           ),
+          new BooleanAttribute(
+            _('Persitent'), _('Should this configuration be saved in the LDAP as the default configuration for this management page'),
+            'saveInLdap', FALSE
+          ),
         )
       ),
     );
@@ -92,6 +96,10 @@ class ManagementConfigurationDialog extends simplePlugin
   {
     parent::__construct();
     $this->parent       = $parent;
+    $this->attributesAccess['saveInLdap']->setInLdap(FALSE);
+    if (!$this->attrIsWriteable('saveInLdap')) {
+      $this->attributesAccess['saveInLdap']->setVisible(FALSE);
+    }
     $this->attributesAccess['managementColumns']->setInLdap(FALSE);
     $this->attributesAccess['managementColumns']->setLinearRendering(FALSE);
     $columnInfos  = $this->parent->getColumnConfiguration();
@@ -113,8 +121,13 @@ class ManagementConfigurationDialog extends simplePlugin
 
   function attrIsWriteable($attr)
   {
+    global $config, $ui;
+
     if (($attr === 'managementColumns') || (is_object($attr) && ($attr->getLdapName() == 'managementColumns'))) {
       return TRUE;
+    } elseif (($attr === 'saveInLdap') || (is_object($attr) && ($attr->getLdapName() == 'saveInLdap'))) {
+      $acl = $ui->get_permissions(CONFIGRDN.$config->current['BASE'], 'configuration/configInLdap', 'fdManagementConfig', $this->readOnly());
+      return (strpos($acl, 'w') !== FALSE);
     } else {
       return parent::attrIsWriteable($attr);
     }
@@ -136,6 +149,7 @@ class ManagementConfigurationDialog extends simplePlugin
 
   function save ()
   {
+    global $config;
     $columnInfos  = array();
     $values       = $this->managementColumns;
     foreach ($values as $value) {
@@ -149,5 +163,10 @@ class ManagementConfigurationDialog extends simplePlugin
       $columnInfos[] = $column;
     }
     $this->parent->setColumnConfiguration($columnInfos);
+
+    if ($this->saveInLdap) {
+      $errors = $config->updateManagementConfig(get_class($this->parent), $columnInfos);
+      msg_dialog::displayChecks($errors);
+    }
   }
 }
