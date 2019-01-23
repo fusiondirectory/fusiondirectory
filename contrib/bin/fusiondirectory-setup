@@ -278,24 +278,18 @@ sub encrypt_passwords {
 
   # Print reminder
   print "
-Please adapt your http fusiondirectory location declaration to include the newly
+Please adapt your http fusiondirectory declaration to include the newly
 created $fd_secrets.
 
 Example:
 
-Alias /fusiondirectory /usr/share/fusiondirectory/html
+# Include FusionDirectory to your web service
+Alias /fusiondirectory $vars{fd_home}
 
-<Location /fusiondirectory>
-  php_admin_flag engine on
-  php_admin_flag register_globals off
-  php_admin_flag allow_call_time_pass_reference off
-  php_admin_flag expose_php off
-  php_admin_flag zend.ze1_compatibility_mode off
-  php_admin_flag register_long_arrays off
-  php_admin_value upload_tmp_dir /var/spool/fusiondirectory/
-  php_admin_value session.cookie_lifetime 0
-  include /etc/fusiondirectory/fusiondirectory.secrets
-</Location>
+<Directory $vars{fd_home}>
+  # Include the secrects file
+  include $fd_secrets
+</Directory>
 
 
 Please reload your httpd configuration after you've modified anything.\n";
