@@ -97,7 +97,9 @@ class ManagementConfigurationDialog extends simplePlugin
     parent::__construct();
     $this->parent       = $parent;
     $this->attributesAccess['saveInLdap']->setInLdap(FALSE);
-    /* TODO test ACL */
+    if (!$this->attrIsWriteable('saveInLdap')) {
+      $this->attributesAccess['saveInLdap']->setVisible(FALSE);
+    }
     $this->attributesAccess['managementColumns']->setInLdap(FALSE);
     $this->attributesAccess['managementColumns']->setLinearRendering(FALSE);
     $columnInfos  = $this->parent->getColumnConfiguration();
@@ -119,8 +121,13 @@ class ManagementConfigurationDialog extends simplePlugin
 
   function attrIsWriteable($attr)
   {
+    global $config, $ui;
+
     if (($attr === 'managementColumns') || (is_object($attr) && ($attr->getLdapName() == 'managementColumns'))) {
       return TRUE;
+    } elseif (($attr === 'saveInLdap') || (is_object($attr) && ($attr->getLdapName() == 'saveInLdap'))) {
+      $acl = $ui->get_permissions(CONFIGRDN.$config->current['BASE'], 'configuration/configInLdap', 'fdManagementConfig', $this->readOnly());
+      return (strpos($acl, 'w') !== FALSE);
     } else {
       return parent::attrIsWriteable($attr);
     }
