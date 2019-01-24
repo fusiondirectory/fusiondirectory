@@ -85,7 +85,9 @@ class ManagementConfigurationDialog extends simplePlugin
           ),
           new BooleanAttribute(
             _('Persitent'), _('Should this configuration be saved in the LDAP as the default configuration for this management page'),
-            'saveInLdap', FALSE
+            'saveInLdap', FALSE,
+            FALSE,
+            'fdManagementConfig'
           ),
         )
       ),
@@ -135,8 +137,11 @@ class ManagementConfigurationDialog extends simplePlugin
 
   function execute ()
   {
+    global $config, $ui;
+
     $smarty = get_smarty();
     $smarty->assign('ManagementConfigurationACL', 'rw');
+    $smarty->assign('fdManagementConfigACL', $ui->get_permissions(CONFIGRDN.$config->current['BASE'], 'configuration/configInLdap', 'fdManagementConfig', $this->readOnly()));
     $str = parent::execute();
 
     $str .= '<p class="plugbottom">'.
