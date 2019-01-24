@@ -513,10 +513,13 @@ class config
   private function loadManagementConfig()
   {
     if (isset($this->current['MANAGEMENTCONFIG'])) {
+      if (!is_array($this->current['MANAGEMENTCONFIG'])) {
+        $this->current['MANAGEMENTCONFIG'] = array($this->current['MANAGEMENTCONFIG']);
+      }
       $value = array();
-      foreach ($this->current['MANAGEMENTCONFIG'] as $value) {
-        list($class, $config) = explode(':', $value, 2);
-        $value[$class] = $config;
+      foreach ($this->current['MANAGEMENTCONFIG'] as $config) {
+        list($class, $json) = explode(':', $config, 2);
+        $value[$class] = $json;
       }
       $this->current['MANAGEMENTCONFIG'] = $value;
     }
@@ -552,6 +555,8 @@ class config
     if (!$ldap->modify_batch($changes)) {
       return array($ldap->get_error());
     }
+    $this->current['MANAGEMENTCONFIG'][$managementClass] = $managementConfig;
+    return array();
   }
 
   /*!
