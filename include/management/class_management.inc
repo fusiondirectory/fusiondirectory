@@ -85,13 +85,10 @@ class management
   {
     global $config, $class_mapping;
 
-    $plInfos = pluglist::pluginInfos(get_class($this));
     if ($objectTypes === FALSE) {
+      $plInfos = pluglist::pluginInfos(get_class($this));
       $objectTypes  = $plInfos['plManages'];
     }
-    $this->headline = $plInfos['plShortName'];
-    $this->title    = $plInfos['plTitle'];
-    $this->icon     = $plInfos['plIcon'];
 
     if (!preg_match('/^geticon/', $this->icon)) {
       $this->icon = get_template_path($this->icon);
@@ -109,6 +106,7 @@ class management
 
     $this->objectTypes = array_values($objectTypes);
 
+    $this->setUpHeadline();
     $this->setUpListing();
     $this->setUpFilter();
 
@@ -141,6 +139,15 @@ class management
   protected function setUpFilter()
   {
     $this->filter   = new managementFilter($this);
+  }
+
+  protected function setUpHeadline()
+  {
+    $plInfos = pluglist::pluginInfos(get_class($this));
+
+    $this->headline = $plInfos['plShortName'];
+    $this->title    = $plInfos['plTitle'];
+    $this->icon     = $plInfos['plIcon'];
   }
 
   protected function configureActions()
@@ -484,7 +491,6 @@ class management
     $smarty->assign('FILTER',       $filterRender);
     $smarty->assign('ACTIONS',      $actionMenu);
     $smarty->assign('SIZELIMIT',    $ui->getSizeLimitHandler()->renderWarning());
-    $smarty->assign('MULTISELECT',  $this->listing->multiSelect);
     $smarty->assign('NAVIGATION',   $this->listing->renderNavigation());
     $smarty->assign('BASE',         $this->listing->renderBase());
     $smarty->assign('HEADLINE',     $this->headline);
@@ -504,6 +510,11 @@ class management
       // Build ul/li list
       $action->fillMenuItems($menuActions);
     }
+
+    if (empty($menuActions)) {
+      return '';
+    }
+
     $smarty = get_smarty();
     $smarty->assign('actions', $menuActions);
     return $smarty->fetch(get_template_path('management/actionmenu.tpl'));

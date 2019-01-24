@@ -31,8 +31,6 @@ class managementListing
 {
   public $pid;
 
-  public $multiSelect = TRUE;
-
   protected $entries      = array();
   protected $entriesIndex = array();
   protected $base;
@@ -41,6 +39,7 @@ class managementListing
   protected $sortColumn     = NULL;
 
   protected $baseMode         = TRUE;
+  protected $multiSelect      = TRUE;
   protected $bases            = array();
   protected $header           = array();
   protected $objectTypeCount  = array();
@@ -58,12 +57,13 @@ class managementListing
    *
    * \param string $parent management instance
    */
-  function __construct($parent, $baseMode = TRUE)
+  function __construct($parent, $baseMode = TRUE, $multiSelect = TRUE)
   {
     global $config, $ui;
 
-    $this->parent   = $parent;
-    $this->baseMode = $baseMode;
+    $this->parent       = $parent;
+    $this->baseMode     = $baseMode;
+    $this->multiSelect  = $multiSelect;
 
     // Initialize pid
     $this->pid = preg_replace('/[^0-9]/', '', microtime(TRUE));
@@ -553,6 +553,11 @@ class managementListing
       return $this->entries[$dn];
     }
     return NULL;
+  }
+
+  function getMultiSelect()
+  {
+    return $this->multiSelect;
   }
 }
 
