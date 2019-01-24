@@ -600,5 +600,20 @@ class configInLdap extends simplePlugin
     }
     return array_unique($themes);
   }
+
+  static function mainInc($classname = NULL, $entry_dn = NULL, $tabs = TRUE, $edit_mode = TRUE, $objectType = FALSE)
+  {
+    global $config;
+
+    if ($classname === NULL) {
+      $classname = get_called_class();
+    }
+
+    if ($entry_dn === NULL) {
+      $entry_dn = CONFIGRDN.$config->current['BASE'];
+    }
+
+    parent::mainInc($classname, $entry_dn, $tabs, $edit_mode, $objectType);
+  }
 }
 ?>
