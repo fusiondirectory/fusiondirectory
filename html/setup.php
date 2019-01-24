@@ -101,8 +101,7 @@ IconTheme::loadThemes('themes');
 /* Fake user bypassing acl system */
 $ui = new userinfoNoAuth('setup');
 /* Call setup */
-$display = "";
-require_once("../setup/main.inc");
+setup::mainInc();
 
 $focus = '<script type="text/javascript">';
 $focus .= 'next_msg_dialog();';
