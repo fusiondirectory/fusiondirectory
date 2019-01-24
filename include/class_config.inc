@@ -527,7 +527,7 @@ class config
    */
   public function updateManagementConfig($managementClass, $managementConfig)
   {
-    $managementConfig = json_encode($managementConfig, JSON_THROW_ON_ERROR);
+    $managementConfig = json_encode($managementConfig);
     $changes = array();
     if (isset($this->current['MANAGEMENTCONFIG'][$managementClass])) {
       /* If there already was a config for this class, remove it */
@@ -549,7 +549,7 @@ class config
     );
     $ldap = $this->get_ldap_link();
     $ldap->cd(CONFIGRDN.$this->current['BASE']);
-    if (!$ldap->modify_batch($modifs)) {
+    if (!$ldap->modify_batch($changes)) {
       return array($ldap->get_error());
     }
   }
