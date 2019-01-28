@@ -509,7 +509,15 @@ class ObjectsAttribute extends GenericDialogAttribute
   function __construct ($label, $description, $ldapName, $required, array $objectTypes, $defaultValue = array(), $store_attr = 'dn', $display_attr = 'cn', $acl = '')
   {
     parent::__construct($label, $description, $ldapName, $required, $defaultValue, $store_attr, $display_attr, $acl);
-    $this->selectManagementParameters = array($objectTypes, TRUE);
+    $this->selectManagementParameters = array(
+      $objectTypes,
+      TRUE,
+      array(
+        'objectClass' => '*',
+        $store_attr   => (($store_attr == 'dn') ? 'raw' : 1),
+        $display_attr => (($display_attr == 'dn') ? 'raw' : 1),
+      )
+    );
   }
 }
 
@@ -537,11 +545,14 @@ class UsersGroupsRolesAttribute extends ObjectsAttribute
   function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = array(), $store_attr = 'dn', $display_attr = 'cn', $acl = '')
   {
     parent::__construct($label, $description, $ldapName, $required, array('user', 'group', 'role', 'ogroup'), $defaultValue, $store_attr, $display_attr, $acl);
+    $this->selectManagementParameters[2]['cn']          = 1;
+    $this->selectManagementParameters[2]['uid']         = 1;
+    $this->selectManagementParameters[2]['objectClass'] = '*';
   }
 
   protected function ldapAttributesToGet ()
   {
-    return array('cn', 'uid', 'objectClass');
+    return array_unique(array($store_attr, $display_attr, 'cn', 'uid', 'objectClass'));
   }
 
   protected function fillDisplayValueFrom ($i, $attrs)
