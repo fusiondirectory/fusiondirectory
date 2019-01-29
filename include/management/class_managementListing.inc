@@ -559,6 +559,25 @@ class managementListing
   {
     return $this->multiSelect;
   }
-}
 
-?>
+  function fillSearchedAttributes($type, array &$attrs)
+  {
+    global $ui;
+
+    $searchedAttributes = array();
+    foreach ($this->columns as $column) {
+      $column->fillSearchedAttributes($searchedAttributes);
+    }
+
+    $searchedAttributes = array_unique($searchedAttributes);
+
+    foreach ($searchedAttributes as $attr) {
+      if (!isset($attrs[$attr])) {
+        $category = $ui->getAttributeCategory($type, $attr);
+        if ($category !== FALSE) {
+          $attrs[$attr] = $category;
+        }
+      }
+    }
+  }
+}
