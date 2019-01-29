@@ -2054,9 +2054,17 @@ class simplePlugin
    *  \param string $objectType The objectType to use (will be taken in the plInfo if FALSE)
    *
    */
-  static function mainInc ($classname, $entry_dn, $tabs = FALSE, $edit_mode = TRUE, $objectType = FALSE)
+  static function mainInc ($classname = NULL, $entry_dn = NULL, $tabs = FALSE, $edit_mode = TRUE, $objectType = FALSE)
   {
     global $remove_lock, $cleanup, $display, $config, $plug, $ui;
+
+    if ($classname === NULL) {
+      $classname = get_called_class();
+    }
+
+    if ($entry_dn === NULL) {
+      $entry_dn = $ui->dn;
+    }
 
     $plInfo     = pluglist::pluginInfos($classname);
     $plIcon     = (isset($plInfo['plIcon']) ? $plInfo['plIcon'] : 'plugin.png');

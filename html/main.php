@@ -97,11 +97,11 @@ Language::init();
 /* Prepare plugin list */
 pluglist::load();
 
-/* Check Plugin variable */
-if (session::global_is_set('plugin_dir')) {
-  $old_plugin_dir = session::global_get('plugin_dir');
+/* Check previous plugin index */
+if (session::global_is_set('plugin_index')) {
+  $old_plugin_index = session::global_get('plugin_index');
 } else {
-  $old_plugin_dir = "";
+  $old_plugin_index = '';
 }
 
 $plist->gen_menu();
@@ -140,19 +140,12 @@ if ($config->get_cfg_value("handleExpiredAccounts") == "TRUE") {
 }
 
 if (isset($_GET['plug']) && $plist->plugin_access_allowed($_GET['plug'])) {
-  $plug       = validate($_GET['plug']);
-  $plugin_dir = $plist->get_path($plug);
-  session::global_set('plugin_dir', $plugin_dir);
-  if ($plugin_dir == '') {
-    logging::log('security', 'fusiondirectory', '', array(), "main.php called with invalid plug parameter \"$plug\"");
-    header ('Location: index.php?signout=1&message=invalidparameter&plug='.$plug);
-    exit;
-  }
+  $plugin_index = validate($_GET['plug']);
 } else {
   /* set to welcome page as default plugin */
-  session::global_set('plugin_dir', 'welcome');
-  $plugin_dir = "$BASE_DIR/plugins/generic/welcome";
+  $plugin_index = 'welcome';
 }
+session::global_set('plugin_index', $plugin_index);
 
 /* Handle plugin locks.
     - Remove the plugin from session if we switched to another. (cleanup)
@@ -162,14 +155,9 @@ if (isset($_GET['plug']) && $plist->plugin_access_allowed($_GET['plug'])) {
 $cleanup      = FALSE;
 $remove_lock  = FALSE;
 
-/* Check if we have changed the selected plugin
-*/
-if ($old_plugin_dir != $plugin_dir && $old_plugin_dir != "") {
-  if (is_file("$old_plugin_dir/main.inc")) {
-    $cleanup = $remove_lock = TRUE;
-    require ("$old_plugin_dir/main.inc");
-    $cleanup = $remove_lock = FALSE;
-  }
+/* Check if we have changed the selected plugin */
+if (!empty($old_plugin_index) && ($old_plugin_index != $plugin_index)) {
+  pluglist::runMainInc($old_plugin_index, TRUE);
 } elseif ((isset($_GET['reset']) && $_GET['reset'] == 1) || isset($_POST['delete_lock'])) {
   /* Reset was posted, remove all created locks for the current plugin */
   $remove_lock = TRUE;
@@ -195,8 +183,8 @@ $lang = session::global_get('lang');
 $smarty->assign ('lang',  preg_replace('/_.*$/', '', $lang));
 $smarty->assign ('rtl',   Language::isRTL($lang));
 $smarty->assign ('must',  '<span class="must">*</span>');
-if (isset($plug)) {
-  $plug = "?plug=$plug";
+if (isset($plugin_index)) {
+  $plug = "?plug=$plugin_index";
 } else {
   $plug = "";
 }
@@ -234,28 +222,7 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST')
 }
 
 /* Load plugin */
-if (is_file("$plugin_dir/main.inc")) {
-  $display = "";
-  try {
-    require ("$plugin_dir/main.inc");
-  } catch (Exception $e) {
-    $smarty->assign('header', print_header('geticon.php?context=status&icon=dialog-error&size=32', _('Fatal error!')));
-    $display = '<h1>'._('An unrecoverable error occurred. Please contact your administator.').'</h1><p>';
-    if (ini_get('display_errors') == 1) {
-      $display .= nl2br(htmlentities((string)$e, ENT_COMPAT, 'UTF-8'));
-    } else {
-      $display .= 'Error detail display is turned off.';
-    }
-    $display .= '</p>'."\n";
-  }
-} else {
-  msg_dialog::display(
-      _("Plugin"),
-      sprintf(_("Fatal error: Cannot find any plugin definitions for plugin '%s' ('%s' is not a file)!"), $plug, "$plugin_dir/main.inc"),
-      FATAL_ERROR_DIALOG);
-  exit();
-}
-
+pluglist::runMainInc($plugin_index);
 
 /* Print_out last ErrorMessage repeated string. */
 $smarty->assign("msg_dialogs", msg_dialog::get_dialogs());

@@ -115,5 +115,17 @@ class dashboard extends simplePlugin
 
     return $stats;
   }
+
+  static function mainInc($classname = NULL, $entry_dn = NULL, $tabs = TRUE, $edit_mode = FALSE, $objectType = FALSE)
+  {
+    if ($classname === NULL) {
+      $classname = get_called_class();
+    }
+
+    if ($entry_dn === NULL) {
+      $entry_dn = '';
+    }
+
+    parent::mainInc($classname, $entry_dn, $tabs, $edit_mode, $objectType);
+  }
 }
-?>

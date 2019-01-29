@@ -1217,9 +1217,13 @@ class management
   }
 
 
-  static function mainInc ($classname, $objectTypes = FALSE)
+  static function mainInc ($classname = NULL, $objectTypes = FALSE)
   {
     global $remove_lock, $cleanup, $display;
+
+    if ($classname === NULL) {
+      $classname = get_called_class();
+    }
 
     /* Remove locks */
     if ($remove_lock && session::is_set($classname)) {

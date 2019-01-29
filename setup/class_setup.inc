@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2019  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -292,5 +292,24 @@ class setup
       $this->o_steps[$this->i_config]->is_completed = $completed;
     }
   }
+
+  static function mainInc()
+  {
+    global $setup, $display;
+
+    $display = '';
+
+    /* Create a new setup class if necessary  */
+    if (!session::is_set('setup') || (isset($_GET['reset']) && ($_GET['reset'] == 1))) {
+      session::set('setup', new setup());
+    }
+    $setup = session::get('setup');
+
+    /* Execute formular */
+    $setup->save_object();
+    $display = $setup->execute();
+
+    /* Store changes  in session */
+    session::set('setup', $setup);
+  }
 }
-?>

@@ -537,5 +537,48 @@ class pluglist {
 
     return $plist;
   }
+
+  static function runMainInc($index, $forceCleanup = FALSE)
+  {
+    global $BASE_DIR, $config, $plist, $ui, $smarty, $display, $remove_lock, $cleanup, $plug;
+
+    if ($index == 'welcome') {
+      $plugin_dir = "$BASE_DIR/plugins/generic/welcome";
+      $plugin     = $index;
+    } else {
+      $plugin_dir = $plist->get_path($index);
+      $plugin     = $plist->dirlist[$index];
+    }
+
+    try {
+      if ($forceCleanup) {
+        $cleanup = $remove_lock = TRUE;
+      }
+      if (is_file("$plugin_dir/main.inc")) {
+        $display = '';
+        require ("$plugin_dir/main.inc");
+      } elseif (is_callable(array($plugin, 'mainInc'))) {
+        $plugin::mainInc();
+      } else {
+        msg_dialog::display(
+          _('Plugin'),
+          sprintf(_("Fatal error: Cannot find any plugin definitions for plugin '%s' ('%s' is not a file)!"), $plugin, "$plugin_dir/main.inc"),
+          FATAL_ERROR_DIALOG
+        );
+        exit();
+      }
+      if ($forceCleanup) {
+        $cleanup = $remove_lock = FALSE;
+      }
+    } catch (Exception $e) {
+      $smarty->assign('header', print_header('geticon.php?context=status&icon=dialog-error&size=32', _('Fatal error!')));
+      $display = '<h1>'._('An unrecoverable error occurred. Please contact your administator.').'</h1><p>';
+      if (ini_get('display_errors') == 1) {
+        $display .= nl2br(htmlentities((string)$e, ENT_COMPAT, 'UTF-8'));
+      } else {
+        $display .= 'Error detail display is turned off.';
+      }
+      $display .= '</p>'."\n";
+    }
+  }
 }
-?>
