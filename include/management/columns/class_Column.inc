@@ -116,6 +116,21 @@ class Column
     }
   }
 
+  function fillSearchedAttributes(array &$attrs)
+  {
+    if (isset($this->attributes)) {
+      foreach ($this->attributes as $attr) {
+        if (($attr == 'mainAttr') || ($attr == 'nameAttr')) {
+          /* nameAttr and mainAttr as always searched for */
+          continue;
+        }
+        if ($attr != 'dn') {
+          $attrs[] = $attr;
+        }
+      }
+    }
+  }
+
   function fillRowClasses(&$classes, ListingEntry $entry)
   {
   }

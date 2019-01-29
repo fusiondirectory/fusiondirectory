@@ -104,6 +104,7 @@ class managementFilter
       $attrs = objects::getSearchedAttributes($type);
 
       $this->searchAttributes[$type] = array();
+      $this->parent->listing->fillSearchedAttributes($type, $attrs);
       foreach ($attrs as $attr => $acl) {
         $rights = $ui->get_permissions($base, $acl);
         if (strpos($rights, 'r') !== FALSE) {
