@@ -549,6 +549,8 @@ class pluglist {
       $plugin_dir = $plist->get_path($index);
       $plugin     = $plist->dirlist[$index];
     }
+    /* Used by get_template_path */
+    session::set('plugin_dir', $plugin_dir);
 
     try {
       if ($forceCleanup) {
