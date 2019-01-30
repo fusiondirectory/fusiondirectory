@@ -36,9 +36,6 @@ class LoginPost extends LoginMethod
 
     static::init();
 
-    /* Reset error messages */
-    $message = '';
-
     $smarty->assign ('focusfield', 'username');
 
     if (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['login']) && isset($_POST['username']) && isset($_POST['password'])) {
@@ -70,9 +67,11 @@ class LoginPost extends LoginMethod
   static protected function displayLogin()
   {
     global $smarty,$message,$config,$ssl,$error_collector,$error_collector_mailto;
+
     $lang = session::global_get('lang');
 
     error_reporting(E_ALL | E_STRICT);
+
     /* Fill template with required values */
     $username = '';
     if (isset($_POST['username'])) {
