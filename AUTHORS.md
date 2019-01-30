@@ -218,3 +218,6 @@ documentation and additional help.
 
 * Peter Linss
   Added catchall table to postfix plugin
+
+* Renato Ramonda
+  Support for SSH ed25519 keys
