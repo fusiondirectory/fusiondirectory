@@ -29,15 +29,20 @@ class LinkColumn extends Column
     if ($value == '') {
       return '&nbsp;';
     } else {
-      if ($this->parent->parent instanceof selectManagement) {
-        if ($this->parent->getMultiSelect()) {
-          return '<label title="'.$entry->dn.'" for="listing_selected_'.$entry->row.'">'.htmlentities($value, ENT_COMPAT, 'UTF-8').'</label>';
-        } else {
-          return '<a href="?plug='.$_GET['plug'].'&amp;PID='.$entry->getPid().'&amp;act=listing_select_'.$entry->row.'&amp;add_finish=1" title="'.$entry->dn.'">'.htmlentities($value, ENT_COMPAT, 'UTF-8').'</a>';
-        }
+      return $this->renderLink($entry, htmlentities($value, ENT_COMPAT, 'UTF-8'));
+    }
+  }
+
+  protected function renderLink(ListingEntry $entry, $htmlValue)
+  {
+    if ($this->parent->parent instanceof selectManagement) {
+      if ($this->parent->getMultiSelect()) {
+        return '<label title="'.$entry->dn.'" for="listing_selected_'.$entry->row.'">'.$htmlValue.'</label>';
       } else {
-        return '<a href="?plug='.$_GET['plug'].'&amp;PID='.$entry->getPid().'&amp;act=listing_edit_'.$entry->row.'" title="'.$entry->dn.'">'.htmlentities($value, ENT_COMPAT, 'UTF-8').'</a>';
+        return '<a href="?plug='.$_GET['plug'].'&amp;PID='.$entry->getPid().'&amp;act=listing_select_'.$entry->row.'&amp;add_finish=1" title="'.$entry->dn.'">'.$htmlValue.'</a>';
       }
+    } else {
+      return '<a href="?plug='.$_GET['plug'].'&amp;PID='.$entry->getPid().'&amp;act=listing_edit_'.$entry->row.'" title="'.$entry->dn.'">'.$htmlValue.'</a>';
     }
   }
 }

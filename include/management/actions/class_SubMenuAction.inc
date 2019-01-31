@@ -38,6 +38,17 @@ class SubMenuAction extends Action
     }
   }
 
+  function addAction(Action $action)
+  {
+    $this->actions[] = $action;
+    $names = $action->listActions();
+    foreach ($names as $name) {
+      $this->handlers[$name] = $action;
+    }
+    /* Rerun registerAction process */
+    $this->parent->registerAction($this);
+  }
+
   function setParent(management $parent)
   {
     parent::setParent($parent);
@@ -45,7 +56,6 @@ class SubMenuAction extends Action
       $action->setParent($parent);
     }
   }
-
 
   function listActions()
   {

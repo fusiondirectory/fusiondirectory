@@ -62,7 +62,7 @@ class Action
     $this->callable   = $callable;
     $this->inmenu     = $inmenu;
     $this->inline     = $inline;
-    $this->validTypes = $validTypes;
+    $this->validTypes = array_map('strtoupper', $validTypes);
     $this->acl        = array();
     /*
      * acl may be of the form:
@@ -194,7 +194,7 @@ class Action
       return '';
     }
 
-    if (!empty($this->validTypes) && !($entry->isTemplate() && in_array('template', $this->validTypes)) && !in_array($entry->type, $this->validTypes)) {
+    if (!empty($this->validTypes) && !($entry->isTemplate() && in_array('TEMPLATE', $this->validTypes)) && !in_array($entry->type, $this->validTypes)) {
       return '';
     }
 
