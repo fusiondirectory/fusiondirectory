@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
 
-  Copyright (C) 2017-2019  FusionDirectory
+  Copyright (C) 2018-2019  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -20,29 +20,21 @@
 */
 
 /*!
- * \brief This class handles an element from the management filter box
+ * \brief Column rendering LdapGeneralizedTime attributes
  */
-class FilterElement
+class LdapGeneralizedTimeColumn extends LinkColumn
 {
-  protected $parent;
+  protected $type = 'string';
 
-  public function __construct(managementFilter $parent)
+  function renderCell(ListingEntry $entry)
   {
-    $this->parent = $parent;
-  }
-
-  /* Reads POST */
-  public function update()
-  {
-  }
-
-  public function render()
-  {
-  }
-
-  /* Fills LDAP filters for the given type. Returns TRUE if type should be skipped altogether. */
-  public function getFilters($type, array &$filters)
-  {
-    return FALSE;
+    $value = $this->getAttributeValue($entry);
+    if ($value != '') {
+      $dateObject = LdapGeneralizedTime::fromString($value);
+      if (is_object($dateObject)) {
+        return $this->renderLink($entry, $dateObject->format('Y-m-d, H:i:s'));
+      }
+    }
+    return '&nbsp;';
   }
 }
