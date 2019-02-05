@@ -453,6 +453,8 @@ class userinfo
       return 'rwcdm';
     }
 
+    $attribute = static::sanitizeAttributeName($attribute);
+
     /* Push cache answer? */
     $ACL_CACHE = &session::global_get_ref('ACL_CACHE');
     if (isset($ACL_CACHE["$dn+$object+$attribute"])) {
@@ -1013,6 +1015,8 @@ class userinfo
       return TRUE;
     }
 
+    $attribute = static::sanitizeAttributeName($attribute);
+
     if (is_array($type)) {
       /* Used for recursion through subtabs */
       $tabs = $type;
@@ -1065,5 +1069,11 @@ class userinfo
   {
     $this->currentBase = $base;
   }
+
+  /* \brief Get ACL name or HTML id from attribute name
+   */
+  public static function sanitizeAttributeName($name)
+  {
+    return preg_replace('/[\/\-,.#:;]/', '_', $name);
+  }
 }
-?>
