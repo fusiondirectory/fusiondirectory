@@ -122,6 +122,7 @@ class managementFilter
     $smarty = get_smarty();
 
     $smarty->assign('SCOPE',      $this->scope);
+    $smarty->assign('BASEMODE',   $this->parent->listing->getBaseMode());
     $smarty->assign('FILTER_PID', $this->pid);
     $smarty->assign('SEARCH',     $this->search);
     $smarty->assign('TYPES',      $this->types);

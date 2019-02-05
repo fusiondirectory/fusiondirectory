@@ -28,12 +28,15 @@
   {/foreach}
 
   <hr/>
+
+  {if $BASEMODE}
   <label for="SCOPE">
     <input type="checkbox" id="SCOPE" name="SCOPE" value="1"
     {if ($SCOPE == 'sub')}checked="checked"{/if}/>
     &nbsp;{t}Search in subtrees{/t}
   </label>
   <hr/>
+  {/if}
 
   <label for="SEARCH" title="{$SEARCHDESC|escape}"><img src="geticon.php?context=actions&amp;icon=system-search&amp;size=16" alt="Search"/>
     <input class="filter_textfield" id="SEARCH" name="SEARCH" type="search" value="{$SEARCH}"/>
