@@ -222,7 +222,7 @@ class Attribute
 
   function getHtmlId ()
   {
-    return $this->htmlid_prefix.preg_replace('/[\/\-,.#:;]/', '_', $this->getLdapName());
+    return $this->htmlid_prefix.userinfo::sanitizeAttributeName($this->getLdapName());
   }
 
   /* html id to put in the "for" attribute of our "label" tag */
