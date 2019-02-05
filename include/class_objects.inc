@@ -427,8 +427,12 @@ class objects
 
     if (!isset($infos['searchAttributes'])) {
       $searchAttrs = array();
-      $searchAttrs[$infos['mainAttr']] = $infos['aclCategory'].'/'.$infos['mainTab'];
-      $searchAttrs[$infos['nameAttr']] = $infos['aclCategory'].'/'.$infos['mainTab'];
+      if (!empty($infos['mainAttr'])) {
+        $searchAttrs[$infos['mainAttr']] = $infos['aclCategory'].'/'.$infos['mainTab'];
+      }
+      if (!empty($infos['nameAttr'])) {
+        $searchAttrs[$infos['nameAttr']] = $infos['aclCategory'].'/'.$infos['mainTab'];
+      }
       foreach ($config->data['TABS'][$infos['tabGroup']] as $tab) {
         if (!plugin_available($tab['CLASS'])) {
           continue;
