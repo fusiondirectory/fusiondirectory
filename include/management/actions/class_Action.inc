@@ -142,6 +142,11 @@ class Action
     $this->enabledCallable = $callable;
   }
 
+  function setInMenu($inmenu)
+  {
+    $this->inmenu = $inmenu;
+  }
+
   function listActions()
   {
     return array($this->name);

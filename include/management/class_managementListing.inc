@@ -85,6 +85,11 @@ class managementListing
     $this->reloadColumns();
   }
 
+  function getBaseMode()
+  {
+    return $this->baseMode;
+  }
+
   function reloadColumns()
   {
     $columnInfos = $this->parent->getColumnConfiguration();
