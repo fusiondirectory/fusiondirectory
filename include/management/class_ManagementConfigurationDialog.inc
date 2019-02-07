@@ -109,9 +109,8 @@ class ManagementConfigurationDialog extends simplePlugin
     foreach ($columnInfos as $column) {
       if (!isset($column[1]['attributes'])) {
         $column[1]['attributes'] = '';
-      }
-      if (is_array($column[1]['attributes'])) {
-        $column[1]['attributes'] = implode(',', $column[1]['attributes']);
+      } elseif (is_array($column[1]['attributes'])) {
+        $column[1]['attributes'] = json_encode($column[1]['attributes']);
       }
       if (!isset($column[1]['label'])) {
         $column[1]['label'] = '';
@@ -160,7 +159,12 @@ class ManagementConfigurationDialog extends simplePlugin
     foreach ($values as $value) {
       $column = array($value[0], array());
       if (!empty($value[1])) {
-        $column[1]['attributes'] = $value[1];
+        $jsonDecoded = json_decode($value[1], TRUE);
+        if ($jsonDecoded !== NULL) {
+          $column[1]['attributes'] = $jsonDecoded;
+        } else {
+          $column[1]['attributes'] = $value[1];
+        }
       }
       if (!empty($value[2])) {
         $column[1]['label'] = $value[2];
