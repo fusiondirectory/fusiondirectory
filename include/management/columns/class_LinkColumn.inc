@@ -29,7 +29,18 @@ class LinkColumn extends Column
     if ($value == '') {
       return '&nbsp;';
     } else {
-      return $this->renderLink($entry, htmlentities($value, ENT_COMPAT, 'UTF-8'));
+      if (is_array($value)) {
+        $value = array_map(
+          function ($v)
+          {
+            return htmlentities($v, ENT_COMPAT, 'UTF-8');
+          },
+          $value
+        );
+        return $this->renderLink($entry, implode("<br/>\n", $value));
+      } else {
+        return $this->renderLink($entry, htmlentities($value, ENT_COMPAT, 'UTF-8'));
+      }
     }
   }
 

@@ -24,10 +24,12 @@
 class Column
 {
   /*! \brief Array of attributes to look for, ordered by priority
-   * The first non-empty attribute will be displayed */
-  protected $attributes;
+   * The first non-empty attribute will be displayed
+   * The array is organized as the one passed to objects::ls
+   * */
+  private $attributes;
   /*! \brief Same thing for templates, if it differs */
-  protected $templateAttributes = NULL;
+  private $templateAttributes = NULL;
   protected $label;
   protected $type = 'string';
 
@@ -61,13 +63,30 @@ class Column
   function __construct(managementListing $parent, array $attributes = NULL, $label = NULL)
   {
     $this->parent     = $parent;
-    $this->attributes = $attributes;
+    $this->setAttributesVar('attributes', $attributes);
     $this->label      = $label;
+  }
+
+  protected function setAttributesVar($var, array $attributes = NULL)
+  {
+    if (is_array($attributes) && is_numeric(key($attributes))) {
+      $val = array();
+      foreach ($attributes as $attribute) {
+        if ($attribute == 'dn') {
+          $val[$attribute] = 'raw';
+        } else {
+          $val[$attribute] = 1;
+        }
+      }
+      $this->$var = $val;
+    } else {
+      $this->$var = $attributes;
+    }
   }
 
   function setTemplateAttributes(array $attributes = NULL)
   {
-    $this->templateAttributes = $attributes;
+    $this->setAttributesVar('templateAttributes', $attributes);
   }
 
   function isSortable()
@@ -102,16 +121,12 @@ class Column
   function fillNeededAttributes(array &$attrs)
   {
     if (isset($this->attributes)) {
-      foreach ($this->attributes as $attr) {
+      foreach ($this->attributes as $attr => $how) {
         if (($attr == 'mainAttr') || ($attr == 'nameAttr')) {
           /* nameAttr and mainAttr as always set as needed in managementFilter */
           continue;
         }
-        if ($attr == 'dn') {
-          $attrs[$attr] = 'raw';
-        } else {
-          $attrs[$attr] = '1';
-        }
+        $attrs[$attr] = $how;
       }
     }
   }
@@ -119,7 +134,7 @@ class Column
   function fillSearchedAttributes(array &$attrs)
   {
     if (isset($this->attributes)) {
-      foreach ($this->attributes as $attr) {
+      foreach (array_keys($this->attributes) as $attr) {
         if (($attr == 'mainAttr') || ($attr == 'nameAttr')) {
           /* nameAttr and mainAttr as always searched for */
           continue;
@@ -142,7 +157,7 @@ class Column
       $attrs = $this->templateAttributes;
     }
     if (isset($attrs)) {
-      foreach ($attrs as $attr) {
+      foreach (array_keys($attrs) as $attr) {
         if (($attr == 'mainAttr') || ($attr == 'nameAttr')) {
           $infos  = objects::infos($entry->getTemplatedType());
           $attr   = $infos[$attr];
