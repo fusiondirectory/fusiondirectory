@@ -157,7 +157,7 @@ class department extends simplePlugin
       $this->attributesAccess['businessCategory']->setChoices($categoriesList);
     }
 
-    $this->attributesAccess[static::$namingAttr]->setUnique(TRUE);
+    $this->attributesAccess[static::$namingAttr]->setUnique('one');
   }
 
   /* Check values */

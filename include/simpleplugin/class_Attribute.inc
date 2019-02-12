@@ -148,6 +148,7 @@ class Attribute
   function setUnique ($unique, $filter = NULL)
   {
     if ($unique === TRUE) {
+      trigger_error('Deprecated fallback');
       $this->unique = 'one';
     } else {
       $this->unique = $unique;
@@ -487,7 +488,7 @@ class Attribute
       }
       $infos = pluglist::pluginInfos(get_class($this->plugin));
       if ($this->uniqueFilter === NULL) {
-        $filters = array_map(
+        $objectTypeFilters = array_map(
           function ($key, $ot)
           {
             if (!is_numeric($key)) {
@@ -503,6 +504,10 @@ class Attribute
           array_keys($infos['plObjectType']),
           array_values($infos['plObjectType'])
         );
+        $filters = array();
+        if (!empty($objectTypeFilters)) {
+          $filters[] = '(|'.implode($objectTypeFilters).')';
+        }
         $pluginFilter = call_user_func(array(get_class($this->plugin), 'getLdapFilter'));
         if (!empty($pluginFilter)) {
           $filters[] = $pluginFilter;
