@@ -104,7 +104,7 @@ class simpleTabs
         ($baseobject instanceof simplePlugin) &&
         ($baseobject->attributesAccess[$infos['mainAttr']]->getUnique() === FALSE)
       ) {
-        $baseobject->attributesAccess[$infos['mainAttr']]->setUnique(TRUE);
+        $baseobject->attributesAccess[$infos['mainAttr']]->setUnique('one');
       }
     }
 

@@ -148,6 +148,7 @@ class Attribute
   function setUnique ($unique, $filter = NULL)
   {
     if ($unique === TRUE) {
+      trigger_error('Deprecated fallback');
       $this->unique = 'one';
     } else {
       $this->unique = $unique;
