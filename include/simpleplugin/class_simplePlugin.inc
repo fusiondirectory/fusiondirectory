@@ -1,7 +1,8 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2016  FusionDirectory
+
+  Copyright (C) 2012-2019  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -147,7 +148,7 @@ class simplePlugin
    *  \param array $attributesInfo An attributesInfo array, if NULL, getAttributesInfo will be used.
    *
    */
-  function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE, $attributesInfo = NULL)
+  function __construct (string $dn = NULL, $object = NULL, $parent = NULL, bool $mainTab = FALSE, array $attributesInfo = NULL)
   {
     global $config;
 
@@ -346,7 +347,7 @@ class simplePlugin
     return $result;
   }
 
-  function setTemplate ($bool)
+  function setTemplate (bool $bool)
   {
     $this->is_template = $bool;
     if ($this->is_template && $this->mainTab) {
@@ -471,7 +472,7 @@ class simplePlugin
 
   /*! \brief This function returns the dn this object should have
    */
-  public function compute_dn()
+  public function compute_dn(): string
   {
     global $config;
     if (!$this->mainTab) {
@@ -514,7 +515,7 @@ class simplePlugin
     return $attr.'='.ldap_escape_dn($this->attributesAccess[$attr]->computeLdapValue()).','.$ou.$base;
   }
 
-  protected function addAttribute($section, $attr)
+  protected function addAttribute(string $section, Attribute $attr)
   {
     $name = $attr->getLdapName();
     $this->attributesInfo[$section]['attrs'][$name] = $attr;
@@ -523,7 +524,7 @@ class simplePlugin
     unset($this->$name);
   }
 
-  protected function removeAttribute($section, $id)
+  protected function removeAttribute(string $section, string $id)
   {
     unset($this->attributesInfo[$section]['attrs'][$id]);
     unset($this->attributesAccess[$id]);
@@ -538,7 +539,7 @@ class simplePlugin
    *
    * \return array [dn] => "..name"  // All deps. we are allowed to act on.
   */
-  function get_allowed_bases()
+  function get_allowed_bases(): array
   {
     global $config;
     $deps = array();
@@ -577,7 +578,7 @@ class simplePlugin
    *
    * \param string $category
    */
-  function set_acl_category($category)
+  function set_acl_category(string $category)
   {
     $this->acl_category = "$category/";
   }
@@ -591,7 +592,7 @@ class simplePlugin
     *
     * \return TRUE on success, error string on failure
     */
-  function move($src_dn, $dst_dn)
+  function move(string $src_dn, string $dst_dn)
   {
     global $config, $ui;
 
@@ -632,7 +633,7 @@ class simplePlugin
     return TRUE;
   }
 
-  function getRequiredAttributes()
+  function getRequiredAttributes(): array
   {
     $tmp = array();
     foreach ($this->attributesAccess as $attr) {
@@ -663,7 +664,7 @@ class simplePlugin
 
   /*! \brief This function display the plugin and return the html code
    */
-  function execute ()
+  function execute(): string
   {
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "execute");
 
@@ -725,7 +726,7 @@ class simplePlugin
     return $this->header.$smarty->fetch($this->templatePath);
   }
 
-  public function getDisplayHeaderInfos()
+  public function getDisplayHeaderInfos(): array
   {
     $plInfo   = pluglist::pluginInfos(get_class($this));
     $disabled = $this->acl_skip_write();
@@ -785,7 +786,7 @@ class simplePlugin
    *
    * \param string $name The html name of the input, defaults to modify_state
    */
-  function show_header($button_text, $text, $plugin_enabled, $button_disabled = FALSE, $name = 'modify_state')
+  function show_header(string $button_text, string $text, bool $plugin_enabled, bool $button_disabled = FALSE, string $name = 'modify_state'): string
   {
     if ($button_disabled || ((!$this->acl_is_createable() && !$plugin_enabled) || (!$this->acl_is_removeable() && $plugin_enabled))) {
         $state = 'disabled="disabled"';
@@ -802,7 +803,7 @@ class simplePlugin
    *
    * \param mixed $attr Attribute object or name (in this case it will be fetched from attributesAccess)
    */
-  function attrIsWriteable($attr)
+  function attrIsWriteable($attr): bool
   {
     if (!is_object($attr)) {
       $attr = $this->attributesAccess[$attr];
@@ -816,7 +817,7 @@ class simplePlugin
     return $this->acl_is_writeable($attr->getAcl(), $this->acl_skip_write());
   }
 
-  function renderAttributes($readOnly = FALSE)
+  function renderAttributes(bool $readOnly = FALSE)
   {
     global $ui;
     $smarty = get_smarty();
@@ -870,7 +871,7 @@ class simplePlugin
     $smarty->assign("sections", $sections);
   }
 
-  function inheritanceDisplay()
+  function inheritanceDisplay(): string
   {
     if (!$this->member_of_group) {
       return "";
@@ -908,13 +909,13 @@ class simplePlugin
     $this->needEditMode = $bool;
   }
 
-  protected function acl_skip_write ()
+  protected function acl_skip_write (): bool
   {
     return ($this->needEditMode && !session::is_set('edit'));
   }
 
   /*! \brief Can we write the attribute */
-  function acl_is_writeable($attribute, $skipWrite = FALSE)
+  function acl_is_writeable($attribute, bool $skipWrite = FALSE): bool
   {
     return preg_match('/w/', $this->aclGetPermissions($attribute, NULL, $skipWrite));
   }
@@ -924,7 +925,7 @@ class simplePlugin
    *
    * \param string $attribute
    */
-  function acl_is_readable($attribute)
+  function acl_is_readable($attribute): bool
   {
     return preg_match('/r/', $this->aclGetPermissions($attribute));
   }
@@ -934,7 +935,7 @@ class simplePlugin
    *
    * \param string $base Empty string
    */
-  function acl_is_createable($base = NULL)
+  function acl_is_createable(string $base = NULL): bool
   {
     return preg_match('/c/', $this->aclGetPermissions('0', $base));
   }
@@ -944,7 +945,7 @@ class simplePlugin
    *
    * \param string $base Empty string
    */
-  function acl_is_removeable($base = NULL)
+  function acl_is_removeable(string $base = NULL): bool
   {
     return preg_match('/d/', $this->aclGetPermissions('0', $base));
   }
@@ -954,13 +955,13 @@ class simplePlugin
    *
    * \param string $base Empty string
    */
-  function acl_is_moveable($base = NULL)
+  function acl_is_moveable(string $base = NULL): bool
   {
     return preg_match('/m/', $this->aclGetPermissions('0', $base));
   }
 
   /*! \brief Get the acl permissions for an attribute or the plugin itself */
-  function aclGetPermissions($attribute = '0', $base = NULL, $skipWrite = FALSE)
+  function aclGetPermissions($attribute = '0', string $base = NULL, bool $skipWrite = FALSE): string
   {
     if (isset($this->parent) && isset($this->parent->ignoreAcls) && $this->parent->ignoreAcls) {
       return 'cdmr'.($skipWrite ? '' : 'w');
@@ -975,7 +976,7 @@ class simplePlugin
 
   /*! \brief This function removes the object from LDAP
    */
-  function remove($fulldelete = FALSE)
+  function remove($fulldelete = FALSE): array
   {
     if (!$this->initially_was_account) {
       return array();
@@ -1050,7 +1051,7 @@ class simplePlugin
     }
   }
 
-  protected function ldap_remove ()
+  protected function ldap_remove(): array
   {
     global $config;
     $ldap = $config->get_ldap_link();
@@ -1201,7 +1202,7 @@ class simplePlugin
 
   /*! \brief This function saves the object in the LDAP
    */
-  function save ()
+  function save(): array
   {
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "save");
     $errors = $this->prepare_save();
@@ -1236,7 +1237,7 @@ class simplePlugin
     return array();
   }
 
-  protected function shouldSave()
+  protected function shouldSave(): bool
   {
     if ($this->mainTab && !$this->initially_was_account) {
       return TRUE;
@@ -1245,12 +1246,12 @@ class simplePlugin
   }
 
   /* Used by prepare_save and template::apply */
-  public function mergeObjectClasses(array $oc)
+  public function mergeObjectClasses(array $oc): array
   {
     return array_merge_unique($oc, $this->objectclasses);
   }
 
-  protected function prepare_save ()
+  protected function prepare_save(): array
   {
     global $config;
     /* prepare $this->attrs */
@@ -1310,7 +1311,7 @@ class simplePlugin
   }
 
   /* Returns an array with the errors or an empty array */
-  protected function ldap_save ()
+  protected function ldap_save(): array
   {
     global $config;
 
@@ -1370,7 +1371,7 @@ class simplePlugin
    *
    * \param  array  $addAttrs
    */
-  protected function handle_hooks($when, $mode, array $addAttrs = array())
+  protected function handle_hooks(string $when, string $mode, array $addAttrs = array())
   {
     switch ($mode) {
       case 'add':
@@ -1391,7 +1392,7 @@ class simplePlugin
   /*! \brief Forward command execution requests
    *         to the post hook execution method.
    */
-  function handle_post_events($mode, array $addAttrs = array())
+  function handle_post_events(string $mode, array $addAttrs = array())
   {
     /* Update foreign keys */
     if ($mode == 'remove') {
@@ -1406,7 +1407,7 @@ class simplePlugin
    *  \brief Forward command execution requests
    *         to the pre hook execution method.
    */
-  function handle_pre_events($mode, array $addAttrs = array())
+  function handle_pre_events(string $mode, array $addAttrs = array())
   {
     global $config;
 
@@ -1426,7 +1427,7 @@ class simplePlugin
    *           Replaces placeholder by class values of this plugin instance.
    *       Allows to a add special replacements.
    */
-  function callHook($cmd, array $addAttrs = array(), &$returnOutput = array(), &$returnCode = NULL)
+  function callHook($cmd, array $addAttrs = array(), &$returnOutput = array(), &$returnCode = NULL): array
   {
     if ($this->is_template) {
       return array();
@@ -1494,7 +1495,7 @@ class simplePlugin
 
   /*! \brief This function checks the attributes values and yell if something is wrong
    */
-  function check ()
+  function check(): array
   {
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'check');
     $messages = array();
@@ -1532,7 +1533,7 @@ class simplePlugin
     return $messages;
   }
 
-  function handleForeignKeys ($olddn = NULL, $newdn = NULL, $mode = 'move')
+  function handleForeignKeys (string $olddn = NULL, string $newdn = NULL, string $mode = 'move')
   {
     if (($olddn !== NULL) && ($olddn == $newdn)) {
       return;
@@ -1547,7 +1548,7 @@ class simplePlugin
     );
   }
 
-  function browseForeignKeys($mode, $param1 = NULL, $param2 = NULL)
+  function browseForeignKeys(string $mode, $param1 = NULL, $param2 = NULL)
   {
     global $config, $plist;
 
@@ -1827,7 +1828,7 @@ class simplePlugin
    *
    * \param string $base
    */
-  function create_unique_dn($attribute, $base)
+  function create_unique_dn(string $attribute, string $base): string
   {
     global $config;
     $ldap = $config->get_ldap_link();
@@ -1864,13 +1865,9 @@ class simplePlugin
   }
 
   /*
-   * \brief Adapt from template, using 'dn'
-   *
-   * \param string $dn The DN
-   *
-   * \param array $skip A new array
+   * \brief Adapt from template
    */
-  function adapt_from_template($attrs, $skip = array())
+  function adapt_from_template(array $attrs, array $skip = array())
   {
     $this->attrs = $attrs;
 
@@ -1901,22 +1898,22 @@ class simplePlugin
     $this->initially_was_account  = FALSE;
   }
 
-  protected function attributeHaveChanged($field)
+  protected function attributeHaveChanged(string $field): bool
   {
     return $this->attributesAccess[$field]->hasChanged();
   }
 
-  protected function attributeValue($field)
+  protected function attributeValue(string $field)
   {
     return $this->attributesAccess[$field]->getValue();
   }
 
-  protected function attributeInitialValue($field)
+  protected function attributeInitialValue(string $field)
   {
     return $this->attributesAccess[$field]->getInitialValue();
   }
 
-  function foreignKeyUpdate($field, $oldvalue, $newvalue, array $source)
+  function foreignKeyUpdate(string $field, $oldvalue, $newvalue, array $source)
   {
     if (!isset($source['MODE'])) {
       $source['MODE'] = 'move';
@@ -1934,12 +1931,12 @@ class simplePlugin
    * )
    * mode being either 'copy' or 'move', defaults to 'move'
    */
-  function foreignKeyCheck ($field, $value, $source)
+  function foreignKeyCheck (string $field, $value, array $source)
   {
     return $this->attributesAccess[$field]->foreignKeyCheck($value, $source);
   }
 
-  function deserializeValues($values, $checkAcl = TRUE)
+  function deserializeValues(array $values, bool $checkAcl = TRUE)
   {
     foreach ($values as $name => $value) {
       if (isset($this->attributesAccess[$name])) {
@@ -1959,7 +1956,7 @@ class simplePlugin
   }
 
   /* Returns TRUE if this attribute should be asked in the creation by template dialog */
-  function showInTemplate($attr, $templateAttrs)
+  function showInTemplate(string $attr, array $templateAttrs): bool
   {
     if (isset($templateAttrs[$attr])) {
       return FALSE;
@@ -1967,7 +1964,7 @@ class simplePlugin
     return TRUE;
   }
 
-  function is_modal_dialog()
+  function is_modal_dialog(): bool
   {
     return (isset($this->dialog) && $this->dialog);
   }
@@ -2017,7 +2014,7 @@ class simplePlugin
    *
    * \return an array
    */
-  static function plInfo()
+  static function plInfo(): array
   {
     return array();
   }
@@ -2026,7 +2023,7 @@ class simplePlugin
    *
    *  \param array $attributesInfo the attribute array
    */
-  static function generatePlProvidedAcls ($attributesInfo)
+  static function generatePlProvidedAcls(array $attributesInfo): array
   {
     $plProvidedAcls = array();
     foreach ($attributesInfo as $sectionInfo) {
@@ -2214,4 +2211,3 @@ class simplePlugin
     }
   }
 }
-?>
