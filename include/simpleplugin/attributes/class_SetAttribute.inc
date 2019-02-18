@@ -543,7 +543,7 @@ class OrderedArrayAttribute extends SetAttribute
     return array ($img, $nbicons);
   }
 
-  protected function getAttributeArrayValue($key, $value)
+  protected function getAttributeArrayValue ($key, $value)
   {
     $this->attribute->setValue($value);
     return $this->attribute->getArrayValue();

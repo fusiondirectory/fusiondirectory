@@ -47,7 +47,7 @@ class simpleService extends simplePlugin
 
   /*! \brief This function display the service and return the html code
    */
-  function execute()
+  function execute (): string
   {
     $str = parent::execute();
 
@@ -61,13 +61,13 @@ class simpleService extends simplePlugin
     return $str;
   }
 
-  protected function acl_skip_write()
+  protected function acl_skip_write (): bool
   {
     return FALSE;
   }
 
   /*! \brief Get service information for serverService plugin */
-  function getListEntry()
+  function getListEntry ()
   {
     /* Assign status flag */
     $fields['Status']       = $this->status;
@@ -96,7 +96,7 @@ class simpleService extends simplePlugin
   }
 
   /*! \brief This function save new status flag */
-  function setStatus($value)
+  function setStatus ($value)
   {
     /* Can't set status flag for new services (Object doesn't exists in ldap tree) */
     if (!$this->initially_was_account) {
@@ -106,7 +106,7 @@ class simpleService extends simplePlugin
     $this->status = $value;
   }
 
-  static function generatePlProvidedAcls ($attributesInfo)
+  static function generatePlProvidedAcls ($attributesInfo): array
   {
     $acls = parent::generatePlProvidedAcls($attributesInfo);
     if (static::$showActions) {

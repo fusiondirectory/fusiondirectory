@@ -183,7 +183,7 @@ class ogroup extends simplePlugin
     'D' => 'simpleSecurityObject',
   );
 
-  static function plInfo()
+  static function plInfo (): array
   {
     return array(
       'plShortName'   => _('Object group'),
@@ -220,7 +220,7 @@ class ogroup extends simplePlugin
     );
   }
 
-  static function getAttributesInfo ()
+  static function getAttributesInfo (): array
   {
     return array(
       'main' => array(
@@ -315,7 +315,7 @@ class ogroup extends simplePlugin
     $this->savedTypedMembers = $this->attributesAccess['member']->getTypedValues();
   }
 
-  function prepare_save()
+  function prepare_save (): array
   {
     $this->reload();
     $errors = parent::prepare_save();
@@ -339,7 +339,7 @@ class ogroup extends simplePlugin
     $this->gosaGroupObjects = $this->attributesAccess['member']->listObjectTypes();
   }
 
-  function check()
+  function check (): array
   {
     $message = parent::check();
     $this->reload();
@@ -350,7 +350,7 @@ class ogroup extends simplePlugin
     return $message;
   }
 
-  function ldap_save()
+  function ldap_save (): array
   {
     global $ui;
 

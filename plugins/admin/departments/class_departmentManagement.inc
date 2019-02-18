@@ -23,7 +23,7 @@ class departmentManagement extends management
 {
   public static $skipSnapshots  = TRUE;
 
-  public static function plInfo()
+  public static function plInfo (): array
   {
     return array(
       'plShortName'   => _('Departments'),

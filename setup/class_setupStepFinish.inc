@@ -23,7 +23,7 @@ class setupStepFinish extends setupStep
 {
   var $header_image = 'geticon.php?context=devices&icon=server&size=48';
 
-  static function getAttributesInfo()
+  static function getAttributesInfo (): array
   {
     return array(
       'welcome' => array(
@@ -35,7 +35,7 @@ class setupStepFinish extends setupStep
     );
   }
 
-  function update_strings()
+  function update_strings ()
   {
     $this->s_short_name   = _('Finish');
     $this->s_title        = _('Finish - write the configuration file');
@@ -79,7 +79,7 @@ class setupStepFinish extends setupStep
     $config->checkLdapConfig(TRUE);
   }
 
-  function execute()
+  function execute (): string
   {
     /* Check if there is currently an active fusiondirectory.conf */
     $exists   = file_exists(CONFIG_DIR."/".CONFIG_FILE);
@@ -98,7 +98,7 @@ class setupStepFinish extends setupStep
     return parent::execute();
   }
 
-  function save_object()
+  function save_object ()
   {
     parent::save_object();
     $exists = file_exists(CONFIG_DIR.'/'.CONFIG_FILE);

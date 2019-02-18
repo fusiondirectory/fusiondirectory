@@ -48,7 +48,7 @@ class DebugLevelAttribute extends SetAttribute
 
 class configInLdap extends simplePlugin
 {
-  static function plInfo()
+  static function plInfo (): array
   {
     return array(
       'plShortName'     => _('Configuration'),
@@ -74,7 +74,7 @@ class configInLdap extends simplePlugin
     );
   }
 
-  static function getAttributesInfo ()
+  static function getAttributesInfo (): array
   {
     global $config;
     $plugins = array();
@@ -86,62 +86,62 @@ class configInLdap extends simplePlugin
       'look_n_feel' => array(
         'name'  => _('Look and feel'),
         'attrs' => array(
-          new SelectAttribute (
+          new SelectAttribute(
             _('Language'), _('Language of the application. If \'automatic\' or not available, the one asked by the browser will be used. This setting can be overriden per user.'),
             'fdLanguage', FALSE,
             array('')
           ),
-          new SelectAttribute (
+          new SelectAttribute(
             _('Theme'), _('Theme to be used'),
             'fdTheme', TRUE,
             static::get_themes(),
             'breezy'
           ),
-          new SelectAttribute (
+          new SelectAttribute(
             _('Timezone'), _('Timezone to be used'),
             'fdTimezone', TRUE,
             array('America/New_York')
           ),
-          new HiddenAttribute ('fusionConfigMd5'),
+          new HiddenAttribute('fusionConfigMd5'),
         )
       ),
       'core_settings' => array(
         'name'  => _('Core settings'),
         'attrs' => array(
-          new IntAttribute (
+          new IntAttribute(
             _('LDAP size limit'), _('Defines the number of entries to get from LDAP by default.'),
             'fdLdapSizeLimit', FALSE,
             0 /*min*/, FALSE /*no max*/, 200
           ),
-          new SelectAttribute (
+          new SelectAttribute(
             _('Edit locking'),
             _('Check if a entry currently being edited has been modified outside of FusionDirectory in the meantime.'),
             'fdModificationDetectionAttribute', FALSE,
             array('', 'entryCSN', 'contextCSN'), 'entryCSN'
           ),
-          new BooleanAttribute (
+          new BooleanAttribute(
             _('Enable logging'),
             _('Event logging on FusionDirectory side.'),
             'fdLogging', FALSE,
             TRUE
           ),
-          new BooleanAttribute (
+          new BooleanAttribute(
             _('Schema validation'),
             _('Enables schema checking during login.'),
             'fdSchemaCheck', FALSE,
             TRUE
           ),
-          new BooleanAttribute (
+          new BooleanAttribute(
             _('Enable snapshots'), _('This enables you to save certain states of entries and restore them later on.'),
             'fdEnableSnapshots', FALSE,
             TRUE
           ),
-          new StringAttribute (
+          new StringAttribute(
             _('Snapshot base'), _('The base where snapshots should be stored inside of the LDAP.'),
             'fdSnapshotBase', FALSE,
             'ou=snapshots,'.$config->current['BASE']
           ),
-          new BooleanAttribute (
+          new BooleanAttribute(
             _('Wildcard foreign keys'), _('Enables wildcard searches like member=* when moving a whole departement. This will open all existing groups and roles to make sure foreign keys are respected. Slow on big trees.'),
             'fdWildcardForeignKeys', FALSE,
             TRUE
@@ -151,35 +151,35 @@ class configInLdap extends simplePlugin
       'password' => array(
         'name'  => _('Password settings'),
         'attrs' => array(
-          new SelectAttribute (
+          new SelectAttribute(
             _('Password default hash'), _('Default hash to be used'),
             'fdPasswordDefaultHash', TRUE,
             array('ssha')
           ),
-          new BooleanAttribute (
+          new BooleanAttribute(
             _('Force default hash'), _('Force the use of the default password hash'),
             'fdForcePasswordDefaultHash'
           ),
-          new IntAttribute (
+          new IntAttribute(
             _('Password minimum length'), _('Minimum length of user passwords'),
             'fdPasswordMinLength', FALSE,
             0 /*min*/, FALSE /*no max*/
           ),
-          new IntAttribute (
+          new IntAttribute(
             _('Password minimum differs'), _('Minimum number of different characters from last password'),
             'fdPasswordMinDiffer', FALSE,
             0 /*min*/, FALSE /*no max*/
           ),
-          new BooleanAttribute (
+          new BooleanAttribute(
             _('Use account expiration'),
             _('Enables shadow attribute tests during the login to FusionDirectory and forces password renewal or account locking'),
             'fdHandleExpiredAccounts'
           ),
-          new StringAttribute (
+          new StringAttribute(
             _('SASL Realm'), _('SASL Realm'),
             'fdSaslRealm'
           ),
-          new StringAttribute (
+          new StringAttribute(
             _('SASL Exop'), _('Attribute to be stored in the userPassword attribute'),
             'fdSaslExop'
           ),
@@ -188,35 +188,35 @@ class configInLdap extends simplePlugin
       'login' => array(
         'name'  => _('Login and session'),
         'attrs' => array(
-          new SelectAttribute (
+          new SelectAttribute(
             _('Login attribute'),
             _('Which LDAP attribute should be used as the login name during login.'),
             'fdLoginAttribute', TRUE,
             array('uid', 'mail', 'uid,mail'), 'uid',
             array('uid', 'mail', 'both')
           ),
-          new BooleanAttribute (
+          new BooleanAttribute(
             _('Enforce encrypted connections'),
             _('Enables PHP security checks to force encrypted access (https) to the web interface.'),
             'fdForceSSL'
           ),
-          new BooleanAttribute (
+          new BooleanAttribute(
             _('Warn if session is not encrypted'),
             _('will display a warning to the user when http is used instead of https.'),
             'fdWarnSSL', FALSE,
             TRUE
           ),
-          new IntAttribute (
+          new IntAttribute(
             _('Session lifetime'), _('Defines when a session will expire in seconds (0 to disable).'),
             'fdSessionLifeTime', TRUE,
             0 /*min*/, FALSE /*no max*/, 1800
           ),
-          new SelectAttribute (
+          new SelectAttribute(
             _('Login method'),
             _('Which login method should be used for connecting to FusionDirectory'),
             'fdLoginMethod', TRUE
           ),
-          new StringAttribute (
+          new StringAttribute(
             _('Header name'), _('Name of the header containing user identifier.'),
             'fdHttpHeaderAuthHeaderName', FALSE,
             'AUTH_USER'
@@ -226,17 +226,17 @@ class configInLdap extends simplePlugin
       'ssl' => array(
         'name'  => _('SSL'),
         'attrs' => array(
-          new TrimmedStringAttribute (
+          new TrimmedStringAttribute(
             _('Key path'), _('Path to FusionDirectory private key. Unused for now.'),
             'fdSslKeyPath', FALSE,
             '/etc/ssl/private/fd.key'
           ),
-          new TrimmedStringAttribute (
+          new TrimmedStringAttribute(
             _('Certificate path'), _('Path to FusionDirectory certificate. Unused for now.'),
             'fdSslCertPath', FALSE,
             '/etc/ssl/certs/fd.cert'
           ),
-          new TrimmedStringAttribute (
+          new TrimmedStringAttribute(
             _('CA certificate path'), _('Path to the CA certificate. Used for validating Argonaut Server host.'),
             'fdSslCaCertPath', FALSE,
             '/etc/ssl/certs/ca.cert'
@@ -246,22 +246,22 @@ class configInLdap extends simplePlugin
       'cas' => array(
         'name'  => _('CAS'),
         'attrs' => array(
-          new TrimmedStringAttribute (
+          new TrimmedStringAttribute(
             _('CA certificate path'), _('Path to the CA certificate of the CAS server'),
             'fdCasServerCaCertPath', FALSE,
             '/etc/ssl/certs/ca.cert'
           ),
-          new StringAttribute (
+          new StringAttribute(
             _('Host'), _('Host of the CAS server'),
             'fdCasHost', FALSE,
             'localhost'
           ),
-          new IntAttribute (
+          new IntAttribute(
             _('Port'), _('Port the CAS server is listening on'),
             'fdCasPort', FALSE,
             0 /*min*/, FALSE /*no max*/, 443
           ),
-          new StringAttribute (
+          new StringAttribute(
             _('CAS context'), _('CAS context to be used'),
             'fdCasContext', FALSE,
             '/cas'
@@ -272,41 +272,41 @@ class configInLdap extends simplePlugin
         'name'  => _('People and group storage'),
         'class' => array('critical'),
         'attrs' => array(
-          new SelectAttribute (
+          new SelectAttribute(
             _('People DN attribute'), _('Attribute to use at the beginning of users dn'),
             'fdAccountPrimaryAttribute', TRUE,
             array('uid', 'cn')
           ),
-          new StringAttribute (
+          new StringAttribute(
             _('CN pattern'), _('The pattern to use to build the common name field'),
             'fdCnPattern', TRUE,
             '%givenName% %sn%'
           ),
-          new BooleanAttribute (
+          new BooleanAttribute(
             _('Strict naming policy'),
             _('Enables strict checking of user and group names'),
             'fdStrictNamingRules', FALSE,
             TRUE
           ),
-          new StringAttribute (
+          new StringAttribute(
             _('Users RDN'), _('The branch where users are stored.'),
             'fdUserRDN', TRUE,
             'ou=people'
           ),
-          new StringAttribute (
+          new StringAttribute(
             _('ACL role RDN'), _('The branch where ACL roles are stored.'),
             'fdAclRoleRDN', TRUE,
             'ou=aclroles'
           ),
-          new BooleanAttribute (
+          new BooleanAttribute(
             _('Restrict role members'), _('When enabled only users from the same branch or members of groups from the same branch can be added to a role.'),
             'fdRestrictRoleMembers'
           ),
-          new BooleanAttribute (
+          new BooleanAttribute(
             _('Separate address fields'), _('Expose street, postOfficeBox and postalCode fields instead of postalAddress.'),
             'fdSplitPostalAddress'
           ),
-          new PostalAddressAttribute (
+          new PostalAddressAttribute(
             _('Postal address pattern'), _('When using separate address fields, you can use a pattern to fill postalAddress field.'),
             'fdPostalAddressPattern'
           ),
@@ -315,23 +315,23 @@ class configInLdap extends simplePlugin
       'debug' => array(
         'name'  => _('Debugging'),
         'attrs' => array(
-          new BooleanAttribute (
+          new BooleanAttribute(
             _('Display errors'),
             _('Shows PHP errors in the upper part of the screen. This should be disabled in productive deployments, because there might be some passwords in it.'),
             'fdDisplayErrors'
           ),
-          new IntAttribute (
+          new IntAttribute(
             _('Maximum LDAP query time'), _('Stop LDAP actions if there is no answer within the specified number of seconds.'),
             'fdLdapMaxQueryTime', FALSE,
             0 /*min*/, FALSE /*no max*/
           ),
-          new BooleanAttribute (
+          new BooleanAttribute(
             _('Log LDAP statistics'),
             _('Track LDAP timing statistics to the syslog. This may help to find indexing problems or bad search filters.'),
             'fdLdapStats'
           ),
-          new DebugLevelAttribute (
-            new SelectAttribute (
+          new DebugLevelAttribute(
+            new SelectAttribute(
               _('Debug level'),
               _('Display certain information on each page load.'),
               'fdDebugLevel', FALSE,
@@ -347,19 +347,19 @@ class configInLdap extends simplePlugin
       'miscellaneous' => array(
         'name'  => _('Miscellaneous'),
         'attrs' => array(
-          new BooleanAttribute (
+          new BooleanAttribute(
             _('Display summary in listings'),
             _('Determines whether a status bar will be shown on the bottom of lists, displaying a short summary of type and number of elements in the list.'),
             'fdListSummary', FALSE,
             TRUE
           ),
-          new BooleanAttribute (
+          new BooleanAttribute(
             _('Show ACL tab on all objects'),
             _('For very specific ACL rights setting where you might need to give right on a single object.'),
             'fdAclTabOnObjects'
           ),
           new SetAttribute(
-            new StringAttribute (
+            new StringAttribute(
               _('Available department categories'), _('Available categories in the departments dropdown'),
               'fdDepartmentCategories', FALSE
             ),
@@ -389,15 +389,15 @@ class configInLdap extends simplePlugin
             array()
           ),
           // Needed here for ACLs
-          new HiddenAttribute ('fdManagementConfig'),
+          new HiddenAttribute('fdManagementConfig'),
         )
       ),
       'hooks' => array(
         'name'  => _('Hooks'),
         'class' => array('fullwidth'),
         'attrs' => array(
-          new OrderedArrayAttribute (
-            new CompositeAttribute (
+          new OrderedArrayAttribute(
+            new CompositeAttribute(
               _('Hooks that are called when specific actions happens'),
               'fdTabHook',
               array(
@@ -427,7 +427,7 @@ class configInLdap extends simplePlugin
             array(),
             TRUE // edition
           ),
-          new BooleanAttribute (
+          new BooleanAttribute(
             _('Display hook output'),
             _('When enabled successful hook execution output is displayed to the user using a dialog.'),
             'fdDisplayHookOutput'
@@ -573,12 +573,12 @@ class configInLdap extends simplePlugin
     }
   }
 
-  function compute_dn()
+  function compute_dn (): string
   {
     return $this->dn;
   }
 
-  function check()
+  function check (): array
   {
     $messages = parent::check();
     if (($this->fdPasswordDefaultHash == 'sasl') && ($this->fdSaslRealm == '') && ($this->fdSaslExop == '')) {

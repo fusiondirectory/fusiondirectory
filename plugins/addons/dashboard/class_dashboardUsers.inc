@@ -21,7 +21,7 @@
 
 class dashboardUsers extends simplePlugin
 {
-  static function plInfo()
+  static function plInfo (): array
   {
     return array(
       'plShortName'   => _('Users'),
@@ -33,7 +33,7 @@ class dashboardUsers extends simplePlugin
     );
   }
 
-  static function getAttributesInfo()
+  static function getAttributesInfo (): array
   {
     return array(
       'userstats' => array(

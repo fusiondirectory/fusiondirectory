@@ -25,7 +25,7 @@ class aclAssignmentCreationDialog extends simplePlugin
   protected $post_cancel = 'add_cancel';
   protected $management;
 
-  static function plInfo()
+  static function plInfo (): array
   {
     return array(
       'plShortName'   => _('ACL assignment creation'),
@@ -37,7 +37,7 @@ class aclAssignmentCreationDialog extends simplePlugin
     );
   }
 
-  static function getAttributesInfo ()
+  static function getAttributesInfo (): array
   {
     global $config;
     return array(
@@ -45,7 +45,7 @@ class aclAssignmentCreationDialog extends simplePlugin
         'name'  => _('ACL assignment creation'),
         'class' => array('fullwidth'),
         'attrs' => array(
-          new StringAttribute (
+          new StringAttribute(
             _('Dn'), _('DN you wish to add assignments for'),
             'baseDn', TRUE,
             $config->current['BASE'], 'aclMode',
@@ -68,7 +68,7 @@ class aclAssignmentCreationDialog extends simplePlugin
     $this->attributesAccess['baseDn']->setInLdap(FALSE);
   }
 
-  function save_object()
+  function save_object ()
   {
     parent::save_object();
     if (isset($_POST[$this->post_cancel])) {
@@ -80,11 +80,11 @@ class aclAssignmentCreationDialog extends simplePlugin
     return TRUE;
   }
 
-  function save()
+  function save (): array
   {
   }
 
-  function execute()
+  function execute (): string
   {
     if ($this->save_object()) {
       $smarty = get_smarty();
@@ -135,7 +135,7 @@ class aclManagement extends management
     array('ActionsColumn',    array('label' => 'Actions')),
   );
 
-  static function plInfo()
+  static function plInfo (): array
   {
     return array(
       'plShortName'   => _('ACL assignments'),

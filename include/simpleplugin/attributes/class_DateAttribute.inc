@@ -202,21 +202,21 @@ class TimeHisAttribute extends CompositeAttribute
 {
   protected $convert;
 
-  function __construct($label, $description, $ldapName, $required, $convert = TRUE, $acl = '')
+  function __construct ($label, $description, $ldapName, $required, $convert = TRUE, $acl = '')
   {
     $this->convert = $convert;
     $attributes = array(
-      new IntAttribute (
+      new IntAttribute(
         '',  _('Hours'),
         $ldapName.'_hours', TRUE,
         0, 23, 1
       ),
-      new IntAttribute (
+      new IntAttribute(
         ':', _('Minutes'),
         $ldapName.'_minutes', TRUE,
         0, 59, 0
       ),
-      new IntAttribute (
+      new IntAttribute(
         ':', _('Seconds'),
         $ldapName.'_seconds', TRUE,
         0, 59, 0
@@ -276,16 +276,16 @@ class TimeHisAttribute extends CompositeAttribute
  */
 class TimeHiAttribute extends TimeHisAttribute
 {
-  function __construct($label, $description, $ldapName, $required, $convert = TRUE, $acl = '')
+  function __construct ($label, $description, $ldapName, $required, $convert = TRUE, $acl = '')
   {
     $this->convert = $convert;
     $attributes = array(
-      new IntAttribute (
+      new IntAttribute(
         '',  _('Hours'),
         $ldapName.'_hours', TRUE,
         0, 23, 1
       ),
-      new IntAttribute (
+      new IntAttribute(
         ':', _('Minutes'),
         $ldapName.'_minutes', TRUE,
         0, 59, 0
@@ -301,7 +301,7 @@ class TimeHiAttribute extends TimeHisAttribute
  */
 class DateTimeAttribute extends CompositeAttribute
 {
-  function __construct($label, $description, $ldapName, $required, $acl = '')
+  function __construct ($label, $description, $ldapName, $required, $acl = '')
   {
     $attributes = array(
       new DateAttribute(

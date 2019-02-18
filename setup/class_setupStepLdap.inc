@@ -26,7 +26,7 @@ class setupStepLdap extends setupStep
   var $connect_id = FALSE;
   var $bind_id    = FALSE;
 
-  static function getAttributesInfo()
+  static function getAttributesInfo (): array
   {
     return array(
       'connection' => array(
@@ -91,7 +91,7 @@ class setupStepLdap extends setupStep
     );
   }
 
-  function __construct($parent)
+  function __construct ($parent)
   {
     parent::__construct($parent);
     $this->update_strings();
@@ -102,14 +102,14 @@ class setupStepLdap extends setupStep
     $this->status = $this->get_connection_status();
   }
 
-  function update_strings()
+  function update_strings ()
   {
     $this->s_short_name   = _('LDAP setup');
     $this->s_title        = _('LDAP connection setup');
     $this->s_description  = _('This dialog performs the basic configuration of the LDAP connectivity for FusionDirectory.');
   }
 
-  function update_base_choices()
+  function update_base_choices ()
   {
     $attr = @LDAP::get_naming_contexts($this->connection);
     unset($attr['count']);
@@ -130,7 +130,7 @@ class setupStepLdap extends setupStep
     }
   }
 
-  function save_object()
+  function save_object ()
   {
     $base       = $this->base;
     $connection = $this->connection;
@@ -154,7 +154,7 @@ class setupStepLdap extends setupStep
     }
   }
 
-  function get_connection_status()
+  function get_connection_status ()
   {
     $this->connect_id = FALSE;
     $this->bind_id    = FALSE;
@@ -196,7 +196,7 @@ class setupStepLdap extends setupStep
     }
   }
 
-  function check()
+  function check (): array
   {
     $error = parent::check();
     if (!empty($error)) {

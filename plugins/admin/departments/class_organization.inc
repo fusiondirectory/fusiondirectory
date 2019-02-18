@@ -23,7 +23,7 @@ class organization extends department
   static protected $namingAttr  = 'o';
   protected $structuralOC       = array('organization');
 
-  static function plInfo()
+  static function plInfo (): array
   {
     return array(
       'plShortName'   => _('Organization'),
@@ -47,7 +47,7 @@ class organization extends department
     );
   }
 
-  static function getAttributesInfo ()
+  static function getAttributesInfo (): array
   {
     return parent::getDepartmentAttributesInfo(_('organization'));
   }

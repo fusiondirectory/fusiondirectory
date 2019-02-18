@@ -23,7 +23,7 @@ class country extends department
   static protected $namingAttr  = 'c';
   protected $structuralOC       = array('country');
 
-  static function plInfo()
+  static function plInfo (): array
   {
     return array(
       'plShortName'   => _('Country'),
@@ -47,7 +47,7 @@ class country extends department
     );
   }
 
-  static function getAttributesInfo ()
+  static function getAttributesInfo (): array
   {
     $attributesInfo = parent::getDepartmentAttributesInfo(_('country'));
     unset($attributesInfo['location']);

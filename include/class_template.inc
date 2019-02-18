@@ -37,7 +37,7 @@ class template
 
   static protected $uiSpecialAttributes = array('dn','cn','uid','sn','givenName');
 
-  static function plInfo()
+  static function plInfo ()
   {
     return array(
       'plShortName'   => _('Template'),

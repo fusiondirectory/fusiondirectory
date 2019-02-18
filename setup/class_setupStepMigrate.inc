@@ -48,7 +48,7 @@ class CheckFailedException extends FusionDirectoryException
 {
   private $error;
 
-  public function __construct($msg, $error)
+  public function __construct ($msg, $error)
   {
     parent::__construct($msg);
     $this->error = $error;
@@ -69,7 +69,7 @@ class StepMigrateDialog extends GenericDialog
   private $tplfile;
   private $check;
 
-  public function __construct(&$check, $tpl, $infos)
+  public function __construct (&$check, $tpl, $infos)
   {
     $this->attribute  = NULL;
     $this->dialog     = NULL;
@@ -116,7 +116,7 @@ class StepMigrateCheck
   public $fnc;
   private $step;
 
-  public function __construct($step, $name, $title)
+  public function __construct ($step, $name, $title)
   {
     $this->name   = $name;
     $this->title  = $title;
@@ -140,7 +140,7 @@ class StepMigrateCheck
     }
   }
 
-  public function save_object()
+  public function save_object ()
   {
     if (isset($_POST[$this->name.'_create'])) {
       $createFnc = $this->fnc.'_create';
@@ -198,7 +198,7 @@ class setupStepMigrate extends setupStep
   /* Defaults ACL roles */
   var $defaultRoles;
 
-  static function getAttributesInfo()
+  static function getAttributesInfo (): array
   {
     return array(
       'checks' => array(
@@ -212,13 +212,13 @@ class setupStepMigrate extends setupStep
     );
   }
 
-  function __construct($parent)
+  function __construct ($parent)
   {
     parent::__construct($parent);
     $this->fill_defaultRoles();
   }
 
-  function update_strings()
+  function update_strings ()
   {
     $this->s_short_name   = _('LDAP inspection');
     $this->s_title        = _('LDAP inspection');
@@ -292,7 +292,7 @@ class setupStepMigrate extends setupStep
     return preg_replace("/\n$/", '', $ret);
   }
 
-  function execute()
+  function execute (): string
   {
     if (empty($this->checks) || isset($_POST['reload'])) {
       $this->initialize_checks();
@@ -303,7 +303,7 @@ class setupStepMigrate extends setupStep
     return parent::execute();
   }
 
-  function save_object()
+  function save_object ()
   {
     $this->is_completed = TRUE;
     parent::save_object();

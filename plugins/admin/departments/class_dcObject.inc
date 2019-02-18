@@ -23,7 +23,7 @@ class dcObject extends department
   static protected $namingAttr  = 'dc';
   protected $structuralOC       = array('locality');
 
-  static function plInfo()
+  static function plInfo (): array
   {
     return array(
       'plShortName'   => _('Domain Component'),
@@ -46,7 +46,7 @@ class dcObject extends department
     );
   }
 
-  static function getAttributesInfo ()
+  static function getAttributesInfo (): array
   {
     $attributesInfo = parent::getDepartmentAttributesInfo(_('domain component'));
     unset($attributesInfo['location']);

@@ -81,7 +81,7 @@ class management
   // Whether to display a header or not.
   protected $skipHeader = FALSE;
 
-  function __construct($objectTypes = FALSE)
+  function __construct ($objectTypes = FALSE)
   {
     global $config, $class_mapping;
 
@@ -418,7 +418,7 @@ class management
    * \brief  Execute this plugin
    *          Handle actions/events, locking, snapshots, dialogs, tabs,...
    */
-  function execute()
+  function execute (): string
   {
     // Ensure that html posts and gets are kept even if we see a 'Entry islocked' dialog.
     $vars = array('/^act$/','/^listing/','/^PID$/');
@@ -433,7 +433,7 @@ class management
     // Handle actions (POSTs and GETs)
     $action = $this->detectPostActions();
     if (!empty($action['action'])) {
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $action, 'Action');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $action, 'Action');
       try {
         $str = $this->handleAction($action);
         if ($str) {
@@ -643,7 +643,7 @@ class management
       return;
     } else {
       if (!$cancel) {
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDn, 'Template applied!');
+        @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDn, 'Template applied!');
       }
       del_lock($this->currentDn);
       if (empty($this->currentDns)) {
@@ -686,7 +686,7 @@ class management
 
     // Open object
     $this->openTabObject(objects::create($type), $this->listing->getBase());
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDn, 'Create entry initiated');
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDn, 'Create entry initiated');
   }
 
   function newEntryTemplate(array $action)
@@ -806,7 +806,7 @@ class management
 
     // Open object
     $this->openTabObject(objects::open($this->currentDn, $entry->getTemplatedType()), $this->currentDn);
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDn, 'Edit entry initiated');
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDn, 'Edit entry initiated');
     if (isset($action['subaction'])
       && ($this->handleSubAction($action) === FALSE)) {
       trigger_error('Was not able to handle subaction: '.$action['subaction']);
@@ -846,7 +846,7 @@ class management
         msg_dialog::displayChecks($msgs);
         return;
       } else {
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDns, 'Entry saved');
+        @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDns, 'Entry saved');
         $this->remove_lock();
         $this->closeDialogs();
       }
@@ -858,7 +858,7 @@ class management
         return;
       } else {
         $this->dialogObject->save();
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDns, 'Dialog saved');
+        @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDns, 'Dialog saved');
         $this->remove_lock();
         $this->closeDialogs();
       }
@@ -876,7 +876,7 @@ class management
       if (count($msgs)) {
         msg_dialog::displayChecks($msgs);
       } else {
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDns, 'Modifications applied');
+        @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDns, 'Modifications applied');
         $this->tabObject->re_init();
         /* Avoid applying the POST a second time */
         $_POST = array();
@@ -893,7 +893,7 @@ class management
     $disallowed       = array();
     $this->currentDns = array();
 
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $action['targets'], 'Entry deletion requested');
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $action['targets'], 'Entry deletion requested');
 
     // Check permissons for each target
     foreach ($action['targets'] as $dn) {
@@ -957,7 +957,7 @@ class management
   function removeConfirmed(array $action)
   {
     global $ui;
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDns, 'Entry deletion confirmed');
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDns, 'Entry deletion confirmed');
 
     foreach ($this->currentDns as $dn) {
       $entry = $this->listing->getEntry($dn);
@@ -1010,11 +1010,11 @@ class management
         $entry = $this->listing->getEntry($dn);
         if (($action['action'] == 'copy') && $entry->checkAcl('r')) {
           $this->cpHandler->add_to_queue($dn, 'copy', $entry->getTemplatedType());
-          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Entry copied!');
+          @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Entry copied!');
         }
         if (($action['action'] == 'cut') && $entry->checkAcl('rd')) {
           $this->cpHandler->add_to_queue($dn, 'cut', $entry->getTemplatedType());
-          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Entry cut!');
+          @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Entry cut!');
         }
       }
     }
@@ -1047,7 +1047,7 @@ class management
   function createSnapshotDialog(array $action)
   {
     global $config, $ui;
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $action['targets'], 'Snaptshot creation initiated!');
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $action['targets'], 'Snaptshot creation initiated!');
 
     $this->currentDn = array_pop($action['targets']);
     if (empty($this->currentDn)) {
@@ -1085,7 +1085,7 @@ class management
     }
 
     if ($ui->allow_snapshot_restore($this->currentDn, $aclCategory, empty($action['targets']))) {
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDn, 'Snaptshot restoring initiated!');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDn, 'Snaptshot restoring initiated!');
       $this->dialogObject = new SnapshotRestoreDialog($this->currentDn, $this, empty($action['targets']), $aclCategory);
     } else {
       msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $this->currentDn),
@@ -1174,7 +1174,7 @@ class management
     }
     if (!empty($dn) && $ui->allow_snapshot_create($dn, $this->dialogObject->aclCategory)) {
       $this->snapHandler->createSnapshot($dn, $description);
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot created!');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot created!');
     } else {
       msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $dn),
           ERROR_DIALOG);
@@ -1191,7 +1191,7 @@ class management
     global $ui;
     if (!empty($dn) && $ui->allow_snapshot_restore($dn, $this->dialogObject->aclCategory, $this->dialogObject->global)) {
       $this->snapHandler->restoreSnapshot($dn);
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot restored');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot restored');
       $this->closeDialogs();
     } else {
       msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $dn),
@@ -1209,7 +1209,7 @@ class management
     global $ui;
     if (!empty($dn) && $ui->allow_snapshot_delete($dn, $this->dialogObject->aclCategory)) {
       $this->snapHandler->removeSnapshot($dn);
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot deleted');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot deleted');
     } else {
       msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to delete a snapshot for %s.'), $dn),
           ERROR_DIALOG);

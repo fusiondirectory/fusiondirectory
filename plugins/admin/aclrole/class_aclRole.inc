@@ -69,7 +69,7 @@ class ACLsAttribute extends DialogOrderedArrayAttribute
 
 class aclRole extends simplePlugin
 {
-  static function plInfo()
+  static function plInfo (): array
   {
     return array(
       'plShortName'   => _('Role'),
@@ -87,7 +87,7 @@ class aclRole extends simplePlugin
     );
   }
 
-  static function getAttributesInfo()
+  static function getAttributesInfo (): array
   {
     return array(
       'properties' => array(

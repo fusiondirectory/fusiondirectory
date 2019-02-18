@@ -21,7 +21,7 @@
 
 class setupStepConfig_before_init extends setupStep
 {
-  function update_strings()
+  function update_strings ()
   {
     global $config;
     if (!isset($config->current['BASE'])) {
@@ -44,12 +44,12 @@ class setupStepConfig extends configInLdap
 
   protected $objectclasses = array('fusionDirectoryConf');
 
-  static function plInfo()
+  static function plInfo (): array
   {
     return array();
   }
 
-  function __construct($parent, $cv)
+  function __construct ($parent, $cv)
   {
     global $config;
     parent::__construct(CONFIGRDN.$config->current['BASE'], NULL, $parent, TRUE);
@@ -60,31 +60,31 @@ class setupStepConfig extends configInLdap
     $this->fdLanguage     = $cv['lang_selected'];
   }
 
-  function update_strings()
+  function update_strings ()
   {
     $infos = parent::plInfo();
     $this->header_image = $infos['plIcon'];
   }
 
-  function get_short_name()
+  function get_short_name ()
   {
     $infos = parent::plInfo();
     return $infos['plTitle'];
   }
 
-  function get_title()
+  function get_title ()
   {
     return $this->get_description();
   }
 
-  function get_description()
+  function get_description ()
   {
     $infos = parent::plInfo();
     return $infos['plDescription'];
   }
 
   /* Return attributes handled by this setup step */
-  function get_attributes()
+  function get_attributes ()
   {
     $tmp = array();
     foreach (array_keys($this->attributesAccess) as $attr) {
@@ -93,7 +93,7 @@ class setupStepConfig extends configInLdap
     return $tmp;
   }
 
-  function save_object()
+  function save_object ()
   {
     global $config;
     parent::save_object();
@@ -127,64 +127,64 @@ class setupStepConfig extends configInLdap
     }
   }
 
-  function is_active()
+  function is_active ()
   {
     return $this->is_active;
   }
 
-  function is_enabled()
+  function is_enabled ()
   {
     return $this->is_enabled;
   }
 
-  function is_completed()
+  function is_completed ()
   {
     return $this->is_completed;
   }
 
-  function set_active($value = TRUE)
+  function set_active ($value = TRUE)
   {
     $this->is_active = (bool) $value;
   }
 
-  function set_enabled($value = TRUE)
+  function set_enabled ($value = TRUE)
   {
     $this->is_enabled = (bool) $value;
   }
 
-  function set_completed($value = TRUE)
+  function set_completed ($value = TRUE)
   {
     $this->is_completed = (bool) $value;
   }
 
   /* bypass acl system as there is no user login */
-  function acl_is_writeable($attribute, $skip_write = FALSE)
+  function acl_is_writeable ($attribute, $skip_write = FALSE): bool
   {
     return TRUE;
   }
-  function acl_is_readable($attribute)
+  function acl_is_readable ($attribute): bool
   {
     return TRUE;
   }
-  function acl_is_createable($base = "")
+  function acl_is_createable ($base = ""): bool
   {
     return TRUE;
   }
-  function acl_is_removeable($base = "")
+  function acl_is_removeable ($base = ""): bool
   {
     return TRUE;
   }
-  function acl_is_moveable($base = "")
+  function acl_is_moveable ($base = ""): bool
   {
     return TRUE;
   }
-  function aclGetPermissions($attribute = '0', $base = NULL, $skipWrite = FALSE)
+  function aclGetPermissions ($attribute = '0', $base = NULL, $skipWrite = FALSE): string
   {
     return 'cmdrw';
   }
 
   /* We need static method to work as if we were configInLdap */
-  static function isAccount($attrs)
+  static function isAccount ($attrs)
   {
     return configInLdap::isAccount($attrs);
   }

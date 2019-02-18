@@ -29,7 +29,7 @@
  */
 class acl
 {
-  static function plInfo()
+  static function plInfo ()
   {
     return array(
       'plShortName'   => _('ACL'),
