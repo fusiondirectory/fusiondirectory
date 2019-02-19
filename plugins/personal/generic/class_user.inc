@@ -47,7 +47,7 @@ class user extends simplePlugin
 {
   private $was_locked;
 
-  static function plInfo()
+  static function plInfo (): array
   {
     return array(
       'plShortName'   => _('User'),
@@ -77,8 +77,7 @@ class user extends simplePlugin
     );
   }
 
-  // The main function : information about attributes
-  static function getAttributesInfo ()
+  static function getAttributesInfo (): array
   {
     global $config;
     $languages = Language::getList(TRUE);
@@ -90,21 +89,21 @@ class user extends simplePlugin
         'icon'  => 'geticon.php?context=types&icon=user&size=16',
         'attrs' => array(
           new HiddenAttribute('cn'),
-          new StringAttribute (
+          new StringAttribute(
             _('Last name'), _('Last name of this user'),
             'sn', TRUE,
             '', '', '/^[^,+"?()=<>;\\\\]+$/'
           ),
-          new StringAttribute (
+          new StringAttribute(
             _('First name'), _('First name of this user'),
             'givenName', TRUE,
             '', '', '/^[^,+"?()=<>;\\\\]+$/'
           ),
-          new TextAreaAttribute (
+          new TextAreaAttribute(
             _('Description'), _('Short description of the user'),
             'description', FALSE
           ),
-          new ImageAttribute (
+          new ImageAttribute(
             _('Picture'), _('The avatar for this user'),
             'jpegPhoto', FALSE,
             150, 200, 'jpeg'
@@ -115,43 +114,43 @@ class user extends simplePlugin
         'name'  => _('Organizational contact information'),
         'icon'  => 'geticon.php?context=types&icon=contact&size=16',
         'attrs' => array(
-          new StringAttribute (
+          new StringAttribute(
             _('Location'), _('Location'),
             'l', FALSE
           ),
-          new StringAttribute (
+          new StringAttribute(
             _('State'), _('State'),
             'st', FALSE
           ),
-          new PostalAddressAttribute (
+          new PostalAddressAttribute(
             _('Address'), _('Business postal address'),
             'postalAddress', FALSE
           ),
-          new StringAttribute (
+          new StringAttribute(
             _('Room No.'), _('Room number'),
             'roomNumber', FALSE
           ),
-          new PhoneNumberButtonAttribute (
+          new PhoneNumberButtonAttribute(
             _('Phone'), _('Business phone number'),
             'telephoneNumber', FALSE,
             '',
             'phone'
           ),
-          new PhoneNumberButtonAttribute (
+          new PhoneNumberButtonAttribute(
             _('Mobile'), _('Business mobile number'),
             'mobile', FALSE,
             '',
             'mobile'
           ),
-          new PhoneNumberAttribute (
+          new PhoneNumberAttribute(
             _('Pager'), _('Business pager number'),
             'pager', FALSE
           ),
-          new PhoneNumberAttribute (
+          new PhoneNumberAttribute(
             _('Fax'), _('Business fax number'),
             'facsimileTelephoneNumber', FALSE
           ),
-          new URLAttribute (
+          new URLAttribute(
             _('Homepage'), _('Personal homepage'),
             'labeledURI', FALSE
           ),
@@ -161,12 +160,12 @@ class user extends simplePlugin
         'name'  => _('Account information'),
         'icon'  => 'geticon.php?context=applications&icon=ldap&size=16',
         'attrs' => array(
-          new BaseSelectorAttribute (get_ou("userRDN")),
-          new UidAttribute (
+          new BaseSelectorAttribute(get_ou("userRDN")),
+          new UidAttribute(
             _('Login'), _('Login of this user'),
             'uid', TRUE
           ),
-          new SelectAttribute (
+          new SelectAttribute(
             _('Preferred language'), _('Preferred language'),
             'preferredLanguage', FALSE,
             array_keys($languages), '', array_values($languages)
@@ -181,15 +180,15 @@ class user extends simplePlugin
         'name'  => _('Personal contact information'),
         'icon'  => 'geticon.php?context=types&icon=contact&size=16',
         'attrs' => array(
-          new StringAttribute (
+          new StringAttribute(
             _('Display name'), _('Name this user should appear as. Used by Exchange.'),
             'displayName', FALSE
           ),
-          new PostalAddressAttribute (
+          new PostalAddressAttribute(
             _('Home address'), _('Home postal address'),
             'homePostalAddress', FALSE
           ),
-          new PhoneNumberAttribute (
+          new PhoneNumberAttribute(
             _('Private phone'), _('Home phone number'),
             'homePhone', FALSE
           ),
@@ -199,29 +198,29 @@ class user extends simplePlugin
         'name'  => _('Organizational information'),
         'icon'  => 'geticon.php?context=places&icon=folder&size=16',
         'attrs' => array(
-          new SetAttribute (
-            new StringAttribute (
+          new SetAttribute(
+            new StringAttribute(
               _('Title'), _('Title of a person in their organizational context. Each title is one value of this multi-valued attribute'),
               'title', FALSE
             )
           ),
-          new StringAttribute (
+          new StringAttribute(
             _('Organization'), _('Organization'),
             'o', FALSE
           ),
-          new StringAttribute (
+          new StringAttribute(
             _('Unit'), _('Organizational unit this user belongs to'),
             'ou', FALSE
           ),
-          new StringAttribute (
+          new StringAttribute(
             _('Department No.'), _('Department number'),
             'departmentNumber', FALSE
           ),
-          new StringAttribute (
+          new StringAttribute(
             _('Employee No.'), _('Employee number'),
             'employeeNumber', FALSE
           ),
-          new StringAttribute (
+          new StringAttribute(
             _('Employee type'), _('Employee type'),
             'employeeType', FALSE
           ),
@@ -235,15 +234,15 @@ class user extends simplePlugin
     if ($config->get_cfg_value('SplitPostalAddress') == 'TRUE') {
       $attributesInfo['contact']['attrs'][2]->setVisible(FALSE);
       array_splice($attributesInfo['contact']['attrs'], 3, 0, array(
-        new StringAttribute (
+        new StringAttribute(
           _('Street'), _('Street part of the address'),
           'street', FALSE
         ),
-        new StringAttribute (
+        new StringAttribute(
           _('Post office box'), _('Post office box'),
           'postOfficeBox', FALSE
         ),
-        new IntAttribute (
+        new IntAttribute(
           _('Postal code'), _('Postal code'),
           'postalCode', FALSE,
           0, FALSE
@@ -262,13 +261,13 @@ class user extends simplePlugin
     $this->attributesAccess['uid']->setDisabled($this->initially_was_account && !$this->is_template);
 
     $filename = './plugins/users/images/default.jpg';
-    $fd       = fopen ($filename, 'rb');
-    $this->attributesAccess['jpegPhoto']->setPlaceholder(fread ($fd, filesize($filename)));
+    $fd       = fopen($filename, 'rb');
+    $this->attributesAccess['jpegPhoto']->setPlaceholder(fread($fd, filesize($filename)));
 
     $this->was_locked = $this->attributesAccess['userPassword']->isLocked();
   }
 
-  function resetCopyInfos()
+  function resetCopyInfos ()
   {
     parent::resetCopyInfos();
     $this->attributesAccess['uid']->setDisabled($this->initially_was_account && !$this->is_template);
@@ -305,7 +304,7 @@ class user extends simplePlugin
     return templateHandling::parseString($pattern, $attrs);
   }
 
-  function compute_dn()
+  function compute_dn (): string
   {
     global $config;
 
@@ -319,14 +318,14 @@ class user extends simplePlugin
     return $this->create_unique_dn($attribute, get_ou('userRDN').$this->base);
   }
 
-  function execute()
+  function execute (): string
   {
     $smarty = get_smarty();
     $smarty->append('css_files', 'plugins/users/style/user_tab.css');
     return parent::execute();
   }
 
-  protected function shouldSave()
+  protected function shouldSave (): bool
   {
     if ($this->attributesAccess['userPassword']->getClear() != '') {
       /* There may be hooks using this even if LDAP object is not modified */
@@ -335,7 +334,7 @@ class user extends simplePlugin
     return parent::shouldSave();
   }
 
-  protected function prepare_save ()
+  protected function prepare_save (): array
   {
     global $config;
     if ($config->get_cfg_value('SplitPostalAddress') == 'TRUE') {
@@ -348,7 +347,7 @@ class user extends simplePlugin
     return parent::prepare_save();
   }
 
-  function ldap_save()
+  function ldap_save (): array
   {
     $errors = parent::ldap_save();
 
@@ -365,7 +364,7 @@ class user extends simplePlugin
     return $errors;
   }
 
-  function post_save()
+  function post_save ()
   {
     global $ui;
 
@@ -379,7 +378,7 @@ class user extends simplePlugin
     return parent::post_save();
   }
 
-  function adapt_from_template($attrs, $skip = array())
+  function adapt_from_template (array $attrs, array $skip = array())
   {
     if ($this->uid != '') {
       $skip[] = 'uid';
@@ -390,7 +389,7 @@ class user extends simplePlugin
     }
   }
 
-  function callHook($cmd, array $addAttrs = array(), &$returnOutput = array(), &$returnCode = NULL)
+  function callHook ($cmd, array $addAttrs = array(), &$returnOutput = array(), &$returnCode = NULL): array
   {
     $addAttrs['passwordMethod'] = $this->attributesAccess['userPassword']->getMethod();
     $addAttrs['userLocked']     = (int)($this->attributesAccess['userPassword']->isLocked());

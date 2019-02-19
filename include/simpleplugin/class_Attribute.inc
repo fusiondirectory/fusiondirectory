@@ -120,7 +120,7 @@ class Attribute
     $this->manageAttributes($this->getValue());
   }
 
-  function setIsSubAttribute($bool)
+  function setIsSubAttribute ($bool)
   {
     $this->isSubAttribute = $bool;
   }
@@ -583,7 +583,7 @@ class Attribute
    *
    *  \param bool $readOnly should we show text or input
    */
-  function renderAttribute(array &$attributes, $readOnly)
+  function renderAttribute (array &$attributes, $readOnly)
   {
     if ($this->visible) {
       if ($readOnly) {
@@ -620,7 +620,7 @@ class Attribute
    * \param array &$attributes the attributes array
    * \param boolean $form
    */
-  function serializeAttribute(array &$attributes, $form = TRUE)
+  function serializeAttribute (array &$attributes, $form = TRUE)
   {
     if (!$form || $this->visible) {
       $class = get_class($this);
@@ -653,7 +653,7 @@ class Attribute
    *
    *  \param mixed $value the value
    */
-  function deserializeValue($value)
+  function deserializeValue ($value)
   {
     if ($this->disabled) {
       return sprintf(_('Attribute %s is disabled, its value could not be set'), $this->getLdapName());
@@ -665,7 +665,7 @@ class Attribute
    *
    *  \param mixed $value the value
    */
-  function serializeValue($value = NULL)
+  function serializeValue ($value = NULL)
   {
     if ($value === NULL) {
       $value = $this->getValue();
@@ -677,7 +677,7 @@ class Attribute
    *
    *  \param string $display the display information to pass through ACL
    */
-  function renderAcl($display)
+  function renderAcl ($display)
   {
     return '{render aclName="'.$this->getAcl().'" acl=$'.$this->getAcl()."ACL}\n$display\n{/render}";
   }
@@ -707,7 +707,7 @@ class Attribute
     ));
   }
 
-  public function htmlIds()
+  public function htmlIds ()
   {
     return array($this->getHtmlId());
   }
@@ -738,7 +738,7 @@ class Attribute
     return $this->renderFormInput();
   }
 
-  function foreignKeyUpdate($oldvalue, $newvalue, array $source)
+  function foreignKeyUpdate ($oldvalue, $newvalue, array $source)
   {
     if ($source['MODE'] == 'move') {
       if ($source['FIELD'] == 'dn') {
@@ -753,12 +753,12 @@ class Attribute
     }
   }
 
-  function foreignKeyCheck($value, array $source)
+  function foreignKeyCheck ($value, array $source)
   {
     return ($this->getValue() == $value);
   }
 
-  protected function renderInputField($type, $name, array $attributes = array())
+  protected function renderInputField ($type, $name, array $attributes = array())
   {
     $input  = '<input type="'.$type.'" '.
               'name="'.$name.'" id="'.$name.'"'.
@@ -822,7 +822,7 @@ class FakeAttribute extends Attribute
     $this->setInLdap(FALSE);
   }
 
-  function renderAttribute(array &$attributes, $readOnly)
+  function renderAttribute (array &$attributes, $readOnly)
   {
     $attributes[$this->getLdapName()] = $this->getValue();
   }
@@ -908,7 +908,7 @@ class DisplayAttribute extends DisplayLDAPAttribute
 {
   function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = "", $acl = "")
   {
-    parent::__construct ($label, $description, $ldapName, $required, $defaultValue, $acl);
+    parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
     $this->setInLdap(FALSE);
   }
 }
@@ -921,7 +921,7 @@ class ObjectLinkAttribute extends DisplayLDAPAttribute
 
   function __construct ($label, $description, $ldapName, $required, $type, $defaultValue = "", $acl = "")
   {
-    parent::__construct ($label, $description, $ldapName, $required, $defaultValue, $acl);
+    parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
     $this->type = $type;
   }
 

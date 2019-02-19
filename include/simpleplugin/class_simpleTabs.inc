@@ -54,7 +54,7 @@ class simpleTabs
   /*!
    * \brief Tabs classes constructor
    * */
-  function __construct($type, $dn, $attrs_object = NULL)
+  function __construct ($type, $dn, $attrs_object = NULL)
   {
     global $config;
 
@@ -119,7 +119,7 @@ class simpleTabs
    *
    * This maybe usefull if for example the apply button was pressed.
    */
-  function re_init()
+  function re_init ()
   {
     $baseobject = NULL;
     foreach ($this->by_object as $name => $object) {
@@ -140,7 +140,7 @@ class simpleTabs
   /*!
    * \brief Sets the active tabs from this instance to an other one. Used by templates
    */
-  function setActiveTabs(&$tabObject)
+  function setActiveTabs (&$tabObject)
   {
     foreach ($this->by_object as $class => $plugin) {
       if ($plugin->is_account || $plugin->ignore_account) {
@@ -149,7 +149,7 @@ class simpleTabs
     }
   }
 
-  function resetCopyInfos()
+  function resetCopyInfos ()
   {
     $this->dn = 'new';
     foreach ($this->by_object as &$obj) {
@@ -158,30 +158,30 @@ class simpleTabs
     unset($obj);
   }
 
-  function resetBase()
+  function resetBase ()
   {
     global $ui;
     $baseobject = $this->getBaseObject();
     if (isset($baseobject->base)) {
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $baseobject->base, 'Fixing base');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $baseobject->base, 'Fixing base');
       $baseobject->base = $ui->getCurrentBase();
       if (!($baseobject instanceOf simplePlugin) && is_object($baseobject->baseSelector)) {
         /* For some plugins not yet migrated to simple plugin. */
         $baseobject->baseSelector->setBase($baseobject->base);
       }
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $baseobject->base, 'Fixed base');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $baseobject->base, 'Fixed base');
     } else {
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, '', 'no base');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, '', 'no base');
     }
   }
 
-  function getBaseObject()
+  function getBaseObject ()
   {
     return $this->by_object[$this->baseclass];
   }
 
   /*! \brief Indicates if this tab class is read-only (because of locks) */
-  function readOnly()
+  function readOnly ()
   {
     return $this->getBaseObject()->readOnly();
   }
@@ -189,7 +189,7 @@ class simpleTabs
   /*!
    * \brief Save the tab(s) contents
    */
-  function execute()
+  function execute ()
   {
     /* Look for pressed tab button first */
     foreach ($this->by_object as $class => &$obj) {
@@ -217,7 +217,7 @@ class simpleTabs
   /*!
    * \brief Save a tabs object
    */
-  function save_object()
+  function save_object ()
   {
     /* Ensure that the currently selected tab is valid. */
     if (!isset($this->by_name[$this->current])) {
@@ -229,7 +229,7 @@ class simpleTabs
 
     /* Save last tab */
     if ($this->last != "") {
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->last, "Saving");
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->last, "Saving");
 
       $this->by_object[$this->last]->save_object();
     }
@@ -240,7 +240,7 @@ class simpleTabs
    *
    * \param boolean $disabled false
    */
-  function gen_tabs($disabled = FALSE)
+  function gen_tabs ($disabled = FALSE)
   {
     $display = "";
     if (!$disabled) {
@@ -305,7 +305,7 @@ class simpleTabs
   /*!
    * \brief Remove object from LDAP
    */
-  function delete()
+  function delete ()
   {
     if (!$this->getBaseObject()->acl_is_removeable()) {
       msg_dialog::display(_('Permission'), msgPool::permDelete($this->getBaseObject()->dn), ERROR_DIALOG);
@@ -326,7 +326,7 @@ class simpleTabs
   /*!
    * \brief Check
    */
-  protected function check()
+  protected function check ()
   {
     global $config;
     $messages = array();
@@ -350,7 +350,7 @@ class simpleTabs
     foreach ($this->by_object as $key => $obj) {
       $this->plNotify[$key] = FALSE;
       if (($obj->is_account || $obj->ignore_account) && (!$obj->is_template)) {
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, "Checking");
+        @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, "Checking");
 
         $msg = $obj->check();
 
@@ -373,7 +373,7 @@ class simpleTabs
    *
    * \param boolean $ignore_account false
    */
-  function save()
+  function save ()
   {
     global $ui;
     $messages = $this->check();
@@ -385,7 +385,7 @@ class simpleTabs
     $old_dn     = $this->dn;
     try {
       $new_dn     = $baseobject->compute_dn();
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $new_dn, 'Saving');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $new_dn, 'Saving');
     } catch (FusionDirectoryException $e) {
       return array(
         sprintf(_('Failed to compute DN for object: %s'), $e->getMessage())
@@ -414,7 +414,7 @@ class simpleTabs
     /* Save all plugins */
     $first = TRUE;
     foreach ($this->by_object as $key => $obj) {
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, 'Saving');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, 'Saving');
 
       $obj->dn = $this->dn;
 
@@ -462,10 +462,10 @@ class simpleTabs
    * \param array $attrs an LDAP-like values array
    * \param array $skip Attributes to skip
    */
-  function adapt_from_template($attrs, $skip = array())
+  function adapt_from_template ($attrs, $skip = array())
   {
     foreach ($this->by_object as $key => &$obj) {
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, "Adapting");
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, "Adapting");
       $obj->parent = &$this;
       $obj->adapt_from_template($attrs, $skip);
     }
@@ -475,7 +475,7 @@ class simpleTabs
   /*!
    * \brief Add special Tabs
    */
-  function addSpecialTabs()
+  function addSpecialTabs ()
   {
     global $config;
     $baseobject = $this->getBaseObject();
@@ -496,7 +496,7 @@ class simpleTabs
    *
    * \param string $base The new acl base
    */
-  function set_acl_base($base = "")
+  function set_acl_base ($base = "")
   {
     /* Update reference, transfer variables */
     $first = ($base == "");
@@ -511,7 +511,7 @@ class simpleTabs
     unset($obj);
   }
 
-  function setTemplateMode($cn)
+  function setTemplateMode ($cn)
   {
     $this->getBaseObject()->_template_cn = $cn;
 
@@ -529,7 +529,7 @@ class simpleTabs
     unset($obj);
   }
 
-  public function setIgnoreAcls($bool)
+  public function setIgnoreAcls ($bool)
   {
     $this->ignoreAcls = $bool;
   }
@@ -539,7 +539,7 @@ class simpleTabs
     return $this->by_object[$this->current]->is_modal_dialog();
   }
 
-  function objectInfos()
+  function objectInfos ()
   {
     if ($this->objectType === FALSE) {
       return FALSE;
@@ -548,7 +548,7 @@ class simpleTabs
   }
 
   /* Return tab or service if activated, FALSE otherwise */
-  function getTabOrServiceObject($tab)
+  function getTabOrServiceObject ($tab)
   {
     if (isset($this->by_object[$tab]) && ($this->by_object[$tab]->is_account || $this->by_object[$tab]->ignore_account)) {
       return $this->by_object[$tab];

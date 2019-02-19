@@ -25,7 +25,7 @@ class PropertiesColumn extends Column
 {
   protected $tabs;
 
-  function __construct(managementListing $parent, array $attributes = NULL, $label = NULL)
+  function __construct (managementListing $parent, array $attributes = NULL, string $label = NULL)
   {
     global $config;
 
@@ -47,7 +47,7 @@ class PropertiesColumn extends Column
     }
   }
 
-  function fillNeededAttributes(array &$attrs)
+  function fillNeededAttributes (array &$attrs)
   {
     foreach ($this->tabs as $classes) {
       foreach ($classes as $class) {
@@ -56,7 +56,7 @@ class PropertiesColumn extends Column
     }
   }
 
-  function renderCell(ListingEntry $entry)
+  function renderCell (ListingEntry $entry): string
   {
     $tabs   = $this->computeIcons($entry);
     $result = '';
@@ -73,7 +73,7 @@ class PropertiesColumn extends Column
     return $result;
   }
 
-  function compare(ListingEntry $ao, ListingEntry $bo)
+  function compare (ListingEntry $ao, ListingEntry $bo): int
   {
     if ($ao->getTemplatedType() != $bo->getTemplatedType()) {
       return strcmp($ao->getTemplatedType(), $bo->getTemplatedType());
@@ -86,7 +86,7 @@ class PropertiesColumn extends Column
     return strcmp($a, $b);
   }
 
-  protected function computeSortString(ListingEntry $entry)
+  protected function computeSortString (ListingEntry $entry): string
   {
     if (isset($entry->cache[__CLASS__]['sort'])) {
       return $entry->cache[__CLASS__]['sort'];
@@ -99,12 +99,12 @@ class PropertiesColumn extends Column
         return (empty($tab['icon']) ? 0 : 1);
       },
       $icons
-    ));;
+    ));
 
     return $entry->cache[__CLASS__]['sort'];
   }
 
-  protected function computeIcons(ListingEntry $entry)
+  protected function computeIcons (ListingEntry $entry): array
   {
     if (isset($entry->cache[__CLASS__]['icons'])) {
       return $entry->cache[__CLASS__]['icons'];
@@ -137,7 +137,7 @@ class PropertiesColumn extends Column
               'tab'   => $class,
             );
           } else {
-            @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $pInfos['plShortName']." ($class)", 'No icon for');
+            @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $pInfos['plShortName']." ($class)", 'No icon for');
           }
         } else {
           $icons[] = array(

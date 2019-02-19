@@ -26,22 +26,22 @@ class FilterElement
 {
   protected $parent;
 
-  public function __construct(managementFilter $parent)
+  public function __construct (managementFilter $parent)
   {
     $this->parent = $parent;
   }
 
   /* Reads POST */
-  public function update()
+  public function update ()
   {
   }
 
-  public function render()
+  public function render ()
   {
   }
 
   /* Fills LDAP filters for the given type. Returns TRUE if type should be skipped altogether. */
-  public function getFilters($type, array &$filters)
+  public function getFilters ($type, array &$filters)
   {
     return FALSE;
   }

@@ -27,7 +27,7 @@ class userRoles extends simplePlugin
   protected $templateGroups         = array();
   protected $templateRoles          = array();
 
-  static function plInfo()
+  static function plInfo (): array
   {
     return array(
       'plShortName'     => _('Groups and roles'),
@@ -42,7 +42,7 @@ class userRoles extends simplePlugin
     );
   }
 
-  static function getAttributesInfo ()
+  static function getAttributesInfo (): array
   {
     return array(
       'groups' => array(
@@ -153,7 +153,7 @@ class userRoles extends simplePlugin
     $this->initially_was_account = $this->is_account;
   }
 
-  function is_this_account($attrs)
+  function is_this_account ($attrs)
   {
     if (!isset($attrs['dn'])) {
       if (isset($attrs['userGroups'])) { /* Template groups field */
@@ -167,7 +167,7 @@ class userRoles extends simplePlugin
     return FALSE;
   }
 
-  protected function ldap_remove()
+  protected function ldap_remove (): array
   {
     if ($this->is_template) {
       return parent::ldap_remove();
@@ -194,13 +194,13 @@ class userRoles extends simplePlugin
     return array();
   }
 
-  function save_object()
+  function save_object ()
   {
     parent::save_object();
     $this->is_account = ((count($this->rolesMembership) > 0) || (count($this->groupsMembership) > 0));
   }
 
-  protected function shouldSave()
+  protected function shouldSave (): bool
   {
     if (parent::shouldSave()) {
       return TRUE;
@@ -214,7 +214,7 @@ class userRoles extends simplePlugin
     return FALSE;
   }
 
-  function prepare_save()
+  function prepare_save (): array
   {
     $errors = parent::prepare_save();
     if ($this->is_template) {
@@ -224,7 +224,7 @@ class userRoles extends simplePlugin
     return $errors;
   }
 
-  function prepare_remove()
+  function prepare_remove ()
   {
     parent::prepare_remove();
     if ($this->is_template) {
@@ -233,7 +233,7 @@ class userRoles extends simplePlugin
     }
   }
 
-  function ldap_save()
+  function ldap_save (): array
   {
     $errors = parent::ldap_save();
 
@@ -344,7 +344,7 @@ class userRoles extends simplePlugin
     return $errors;
   }
 
-  function adapt_from_template($attrs, $skip = array())
+  function adapt_from_template (array $attrs, array $skip = array())
   {
     parent::adapt_from_template($attrs, $skip);
 

@@ -115,7 +115,7 @@ function parse_gettext_lang ($str)
   }
 }
 
-function al2gt($gettextlangs)
+function al2gt ($gettextlangs)
 {
   /* Check if ACCEPT_LANGUAGE isset */
   if (empty($_SERVER["HTTP_ACCEPT_LANGUAGE"])) {

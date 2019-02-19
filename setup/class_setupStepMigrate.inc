@@ -48,13 +48,13 @@ class CheckFailedException extends FusionDirectoryException
 {
   private $error;
 
-  public function __construct($msg, $error)
+  public function __construct ($msg, $error)
   {
     parent::__construct($msg);
     $this->error = $error;
   }
 
-  public function getError()
+  public function getError ()
   {
     return $this->error;
   }
@@ -69,7 +69,7 @@ class StepMigrateDialog extends GenericDialog
   private $tplfile;
   private $check;
 
-  public function __construct(&$check, $tpl, $infos)
+  public function __construct (&$check, $tpl, $infos)
   {
     $this->attribute  = NULL;
     $this->dialog     = NULL;
@@ -78,7 +78,7 @@ class StepMigrateDialog extends GenericDialog
     $this->check      = $check;
   }
 
-  public function dialog_execute()
+  public function dialog_execute ()
   {
     if (
       isset($_POST['dialog_showchanges']) ||
@@ -116,7 +116,7 @@ class StepMigrateCheck
   public $fnc;
   private $step;
 
-  public function __construct($step, $name, $title)
+  public function __construct ($step, $name, $title)
   {
     $this->name   = $name;
     $this->title  = $title;
@@ -124,7 +124,7 @@ class StepMigrateCheck
     $this->step   = $step;
   }
 
-  public function run($fnc = NULL)
+  public function run ($fnc = NULL)
   {
     if ($fnc === NULL) {
       $fnc          = $this->fnc;
@@ -140,7 +140,7 @@ class StepMigrateCheck
     }
   }
 
-  public function save_object()
+  public function save_object ()
   {
     if (isset($_POST[$this->name.'_create'])) {
       $createFnc = $this->fnc.'_create';
@@ -159,7 +159,7 @@ class StepMigrateCheck
     return '<input type="submit" name="'.$this->name.'_'.$id.'" value="'.$value.'"/>';
   }
 
-  public function migrate_confirm()
+  public function migrate_confirm ()
   {
     $migrateConfirmFnc = $this->fnc.'_migrate'.'_confirm';
     $res = $this->step->$migrateConfirmFnc($this);
@@ -169,7 +169,7 @@ class StepMigrateCheck
     return $res;
   }
 
-  public function dialog_refresh()
+  public function dialog_refresh ()
   {
     $migrateRefreshFnc = $this->fnc.'_migrate'.'_refresh';
     return $this->step->$migrateRefreshFnc($this);
@@ -198,7 +198,7 @@ class setupStepMigrate extends setupStep
   /* Defaults ACL roles */
   var $defaultRoles;
 
-  static function getAttributesInfo()
+  static function getAttributesInfo (): array
   {
     return array(
       'checks' => array(
@@ -212,20 +212,20 @@ class setupStepMigrate extends setupStep
     );
   }
 
-  function __construct($parent)
+  function __construct ($parent)
   {
     parent::__construct($parent);
     $this->fill_defaultRoles();
   }
 
-  function update_strings()
+  function update_strings ()
   {
     $this->s_short_name   = _('LDAP inspection');
     $this->s_title        = _('LDAP inspection');
     $this->s_description  = _('Analyze your current LDAP for FusionDirectory compatibility');
   }
 
-  function fill_defaultRoles()
+  function fill_defaultRoles ()
   {
     $this->defaultRoles = array(
       array(
@@ -249,7 +249,7 @@ class setupStepMigrate extends setupStep
     );
   }
 
-  function initialize_checks()
+  function initialize_checks ()
   {
     global $config;
     $config->get_departments();
@@ -271,7 +271,7 @@ class setupStepMigrate extends setupStep
   }
 
   /* Return ldif information for a given attribute array */
-  function array_to_ldif($attrs)
+  function array_to_ldif ($attrs)
   {
     $ret = '';
     unset($attrs['count']);
@@ -292,7 +292,7 @@ class setupStepMigrate extends setupStep
     return preg_replace("/\n$/", '', $ret);
   }
 
-  function execute()
+  function execute (): string
   {
     if (empty($this->checks) || isset($_POST['reload'])) {
       $this->initialize_checks();
@@ -303,7 +303,7 @@ class setupStepMigrate extends setupStep
     return parent::execute();
   }
 
-  function save_object()
+  function save_object ()
   {
     $this->is_completed = TRUE;
     parent::save_object();
@@ -316,7 +316,7 @@ class setupStepMigrate extends setupStep
    * If the parameter just_check is TRUE, then just check for the OCs.
    * If the Parameter is FALSE, try to add the required object classes.
    */
-  function check_baseOC(&$checkobj)
+  function check_baseOC (&$checkobj)
   {
     global $config;
     $ldap = $config->get_ldap_link();
@@ -465,7 +465,7 @@ class setupStepMigrate extends setupStep
    * Create and remove a dummy object,
    *  to ensure that we have the necessary permissions
    */
-  function check_permissions(&$checkobj)
+  function check_permissions (&$checkobj)
   {
     global $config;
     $ldap = $config->get_ldap_link();
@@ -491,7 +491,7 @@ class setupStepMigrate extends setupStep
     }
 
     /* Try to create dummy object */
-    $ldap->cd ($dn);
+    $ldap->cd($dn);
     $res = $ldap->add($testEntry);
     $ldap->cat($dn);
     if (!$ldap->count()) {
@@ -520,7 +520,7 @@ class setupStepMigrate extends setupStep
   /* Check if there are users which will
    *  be invisible for FusionDirectory
    */
-  function check_accounts(&$checkobj)
+  function check_accounts (&$checkobj)
   {
     global $config;
     $ldap = $config->get_ldap_link();
@@ -601,7 +601,7 @@ class setupStepMigrate extends setupStep
     );
   }
 
-  function check_accounts_migrate_confirm(&$checkobj, $only_ldif = FALSE)
+  function check_accounts_migrate_confirm (&$checkobj, $only_ldif = FALSE)
   {
     return $this->check_multipleGeneric_migrate_confirm(
       $checkobj,
@@ -642,7 +642,7 @@ class setupStepMigrate extends setupStep
     return $infos;
   }
 
-  function check_multipleGeneric_migrate_confirm(&$checkobj, $oc, $mandatory, $only_ldif)
+  function check_multipleGeneric_migrate_confirm (&$checkobj, $oc, $mandatory, $only_ldif)
   {
     global $config;
     $ldap = $config->get_ldap_link();
@@ -699,7 +699,7 @@ class setupStepMigrate extends setupStep
   }
 
   /* Check Acls if there is at least one object with acls defined */
-  function check_adminAccount(&$checkobj)
+  function check_adminAccount (&$checkobj)
   {
     global $config;
 
@@ -829,7 +829,7 @@ class setupStepMigrate extends setupStep
     return '';
   }
 
-  function check_adminAccount_create(&$checkobj)
+  function check_adminAccount_create (&$checkobj)
   {
     $infos = array(
       'uid'       => 'fd-admin',
@@ -839,7 +839,7 @@ class setupStepMigrate extends setupStep
     $this->openDialog(new StepMigrateDialog($checkobj, 'setup_migrate_adminAccount.tpl', $infos));
   }
 
-  function check_adminAccount_migrate_confirm(&$checkobj)
+  function check_adminAccount_migrate_confirm (&$checkobj)
   {
     global $config, $ui;
 
@@ -897,7 +897,7 @@ class setupStepMigrate extends setupStep
     return TRUE;
   }
 
-  function check_adminAccount_migrate_refresh(&$checkobj)
+  function check_adminAccount_migrate_refresh (&$checkobj)
   {
     return array(
       'uid'       => $_POST['uid'],
@@ -907,7 +907,7 @@ class setupStepMigrate extends setupStep
   }
 
   /* Check if default roles and groupes have been inserted */
-  function check_defaultACLs(&$checkobj)
+  function check_defaultACLs (&$checkobj)
   {
     global $config;
     $ldap = $config->get_ldap_link();
@@ -947,7 +947,7 @@ class setupStepMigrate extends setupStep
     }
   }
 
-  function check_defaultACLs_migrate(&$checkobj)
+  function check_defaultACLs_migrate (&$checkobj)
   {
     global $config;
     $ldap = $config->get_ldap_link();
@@ -979,7 +979,7 @@ class setupStepMigrate extends setupStep
   }
 
   /* Search for users outside the people ou */
-  function check_outsideUsers(&$checkobj)
+  function check_outsideUsers (&$checkobj)
   {
     global $config;
     $ldap = $config->get_ldap_link();
@@ -1028,7 +1028,7 @@ class setupStepMigrate extends setupStep
     }
   }
 
-  function check_outsideUsers_migrate(&$checkobj)
+  function check_outsideUsers_migrate (&$checkobj)
   {
     global $config;
     $this->check_multipleGeneric_migrate(
@@ -1042,7 +1042,7 @@ class setupStepMigrate extends setupStep
     );
   }
 
-  function check_outsideUsers_migrate_refresh(&$checkobj)
+  function check_outsideUsers_migrate_refresh (&$checkobj)
   {
     global $config;
     return $this->check_multipleGeneric_migrate_refresh(
@@ -1056,7 +1056,7 @@ class setupStepMigrate extends setupStep
     );
   }
 
-  function check_outsideUsers_migrate_confirm(&$checkobj, $only_ldif = FALSE, $ou = 'userRDN')
+  function check_outsideUsers_migrate_confirm (&$checkobj, $only_ldif = FALSE, $ou = 'userRDN')
   {
     global $config;
     $ldap = $config->get_ldap_link();
@@ -1101,7 +1101,7 @@ class setupStepMigrate extends setupStep
   }
 
   /* Search for groups outside the group ou */
-  function check_outsideGroups(&$checkobj)
+  function check_outsideGroups (&$checkobj)
   {
     global $config;
     $ldap = $config->get_ldap_link();
@@ -1147,7 +1147,7 @@ class setupStepMigrate extends setupStep
     }
   }
 
-  function check_outsideGroups_migrate(&$checkobj)
+  function check_outsideGroups_migrate (&$checkobj)
   {
     global $config;
     $this->check_multipleGeneric_migrate(
@@ -1161,7 +1161,7 @@ class setupStepMigrate extends setupStep
     );
   }
 
-  function check_outsideGroups_migrate_refresh(&$checkobj)
+  function check_outsideGroups_migrate_refresh (&$checkobj)
   {
     global $config;
     return $this->check_multipleGeneric_migrate_refresh(
@@ -1175,13 +1175,13 @@ class setupStepMigrate extends setupStep
     );
   }
 
-  function check_outsideGroups_migrate_confirm(&$checkobj, $only_ldif = FALSE)
+  function check_outsideGroups_migrate_confirm (&$checkobj, $only_ldif = FALSE)
   {
     return $this->check_outsideUsers_migrate_confirm($checkobj, $only_ldif, 'groupRDN');
   }
 
   /* Check if there are invisible organizational Units */
-  function check_orgUnits(&$checkobj)
+  function check_orgUnits (&$checkobj)
   {
     global $config;
     $ldap = $config->get_ldap_link();
@@ -1256,7 +1256,7 @@ class setupStepMigrate extends setupStep
     }
   }
 
-  function check_orgUnits_migrate(&$checkobj)
+  function check_orgUnits_migrate (&$checkobj)
   {
     $this->check_multipleGeneric_migrate(
       $checkobj,
@@ -1267,7 +1267,7 @@ class setupStepMigrate extends setupStep
     );
   }
 
-  function check_orgUnits_migrate_refresh(&$checkobj)
+  function check_orgUnits_migrate_refresh (&$checkobj)
   {
     return $this->check_multipleGeneric_migrate_refresh(
       $checkobj,
@@ -1278,7 +1278,7 @@ class setupStepMigrate extends setupStep
     );
   }
 
-  function check_orgUnits_migrate_confirm(&$checkobj, $only_ldif)
+  function check_orgUnits_migrate_confirm (&$checkobj, $only_ldif)
   {
     return $this->check_multipleGeneric_migrate_confirm(
       $checkobj,
@@ -1289,7 +1289,7 @@ class setupStepMigrate extends setupStep
   }
 
   /* Check if there are uidNumbers which are used more than once */
-  function check_uidNumber(&$checkobj)
+  function check_uidNumber (&$checkobj)
   {
     global $config;
     $ldap = $config->get_ldap_link();
@@ -1333,7 +1333,7 @@ class setupStepMigrate extends setupStep
   }
 
   /* Check if there are duplicated gidNumbers present in ldap */
-  function check_gidNumber(&$checkobj)
+  function check_gidNumber (&$checkobj)
   {
     global $config;
     $ldap = $config->get_ldap_link();

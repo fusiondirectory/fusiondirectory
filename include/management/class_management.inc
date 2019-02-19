@@ -81,7 +81,7 @@ class management
   // Whether to display a header or not.
   protected $skipHeader = FALSE;
 
-  function __construct($objectTypes = FALSE)
+  function __construct ($objectTypes = FALSE)
   {
     global $config, $class_mapping;
 
@@ -131,17 +131,17 @@ class management
     $this->configureActions();
   }
 
-  protected function setUpListing()
+  protected function setUpListing ()
   {
     $this->listing  = new managementListing($this);
   }
 
-  protected function setUpFilter()
+  protected function setUpFilter ()
   {
     $this->filter   = new managementFilter($this);
   }
 
-  protected function setUpHeadline()
+  protected function setUpHeadline ()
   {
     $plInfos = pluglist::pluginInfos(get_class($this));
 
@@ -150,7 +150,7 @@ class management
     $this->icon     = $plInfos['plIcon'];
   }
 
-  protected function configureActions()
+  protected function configureActions ()
   {
     global $config;
 
@@ -323,7 +323,7 @@ class management
   /*!
    *  \brief Register an action to show in the action menu and/or the action column
    */
-  function registerAction(Action $action)
+  function registerAction (Action $action)
   {
     $action->setParent($this);
     $this->actions[$action->getName()] = $action;
@@ -332,7 +332,7 @@ class management
     }
   }
 
-  public function getColumnConfiguration()
+  public function getColumnConfiguration (): array
   {
     global $config;
 
@@ -350,7 +350,7 @@ class management
     return $this->columnConfiguration;
   }
 
-  public function setColumnConfiguration($columns)
+  public function setColumnConfiguration ($columns)
   {
     $this->columnConfiguration = $columns;
     $this->listing->reloadColumns();
@@ -360,7 +360,7 @@ class management
    * \brief  Detects actions/events send by the ui
    *           and the corresponding targets.
    */
-  function detectPostActions()
+  function detectPostActions (): array
   {
     if (!is_object($this->listing)) {
       throw new FusionDirectoryException('No valid listing object');
@@ -390,7 +390,7 @@ class management
   /*!
    *  \brief  Calls the registered method for a given action/event.
    */
-  function handleAction(array $action)
+  function handleAction (array $action)
   {
     // Start action
     if (isset($action['subaction']) && isset($this->actionHandlers[$action['action'].'_'.$action['subaction']])) {
@@ -400,7 +400,7 @@ class management
     }
   }
 
-  protected function handleSubAction(array $action)
+  protected function handleSubAction (array $action): bool
   {
     if (preg_match('/^tab_/', $action['subaction'])) {
       $tab = preg_replace('/^tab_/', '', $action['subaction']);
@@ -418,7 +418,7 @@ class management
    * \brief  Execute this plugin
    *          Handle actions/events, locking, snapshots, dialogs, tabs,...
    */
-  function execute()
+  function execute (): string
   {
     // Ensure that html posts and gets are kept even if we see a 'Entry islocked' dialog.
     $vars = array('/^act$/','/^listing/','/^PID$/');
@@ -433,7 +433,7 @@ class management
     // Handle actions (POSTs and GETs)
     $action = $this->detectPostActions();
     if (!empty($action['action'])) {
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $action, 'Action');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $action, 'Action');
       try {
         $str = $this->handleAction($action);
         if ($str) {
@@ -476,7 +476,7 @@ class management
     return $this->renderList();
   }
 
-  function renderList()
+  function renderList (): string
   {
     global $config, $ui;
 
@@ -498,12 +498,12 @@ class management
     return $this->getHeader().$smarty->fetch(get_template_path('management/management.tpl'));
   }
 
-  protected function renderFilter()
+  protected function renderFilter (): string
   {
     return $this->filter->render();
   }
 
-  protected function renderActionMenu()
+  protected function renderActionMenu (): string
   {
     $menuActions = array();
     foreach ($this->actions as $action) {
@@ -520,7 +520,7 @@ class management
     return $smarty->fetch(get_template_path('management/actionmenu.tpl'));
   }
 
-  function renderActionColumn(ListingEntry $entry)
+  function renderActionColumn (ListingEntry $entry): string
   {
     // Go thru all actions
     $result = '';
@@ -531,7 +531,7 @@ class management
     return $result;
   }
 
-  function fillActionRowClasses(&$classes, ListingEntry $entry)
+  function fillActionRowClasses (&$classes, ListingEntry $entry)
   {
     foreach ($this->actions as $action) {
       $action->fillRowClasses($classes, $entry);
@@ -544,7 +544,7 @@ class management
    *         concurrent modifications.
    *         This locks will automatically removed here.
    */
-  function remove_lock()
+  function remove_lock ()
   {
     if (!empty($this->currentDn) && ($this->currentDn != 'new')) {
       del_lock($this->currentDn);
@@ -554,7 +554,7 @@ class management
     }
   }
 
-  function is_modal_dialog()
+  function is_modal_dialog (): bool
   {
     return (is_object($this->tabObject) || is_object($this->dialogObject));
   }
@@ -562,7 +562,7 @@ class management
   /*!
    * \brief  Generates the plugin header which is displayed whenever a tab object is opened.
    */
-  protected function getHeader()
+  protected function getHeader (): string
   {
     if ($this->skipHeader) {
       return '';
@@ -571,7 +571,7 @@ class management
     return print_header($this->icon, $this->title, get_object_info());
   }
 
-  function openTabObject($object, $base)
+  function openTabObject ($object, $base)
   {
     $this->tabObject = $object;
     $this->tabObject->set_acl_base($base);
@@ -582,7 +582,7 @@ class management
    * \brief  This method closes dialogs
    *          and cleans up the cached object info and the ui.
    */
-  public function closeDialogs()
+  public function closeDialogs ()
   {
     $this->previousDn   = $this->currentDn;
     $this->currentDn    = '';
@@ -597,7 +597,7 @@ class management
     set_object_info();
   }
 
-  protected function listAclCategories()
+  protected function listAclCategories (): array
   {
     $cat = array();
     foreach ($this->objectTypes as $type) {
@@ -610,7 +610,7 @@ class management
   /*!
    * \brief  Generates the footer which is used whenever a tab object is displayed.
    */
-  protected function _getTabFooter()
+  protected function _getTabFooter (): string
   {
     // Do not display tab footer for non tab objects
     if (!($this->tabObject instanceOf simpleTabs)) {
@@ -643,7 +643,7 @@ class management
       return;
     } else {
       if (!$cancel) {
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDn, 'Template applied!');
+        @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDn, 'Template applied!');
       }
       del_lock($this->currentDn);
       if (empty($this->currentDns)) {
@@ -658,7 +658,7 @@ class management
     }
   }
 
-  function enablePaste($action, ListingEntry $entry = NULL)
+  function enablePaste ($action, ListingEntry $entry = NULL): bool
   {
     if ($entry === NULL) {
       return $this->cpHandler->entries_queued();
@@ -676,7 +676,7 @@ class management
    *                        action: The name of the action which was the used as trigger.
    *                        target: A list of object dns, which should be affected by this method.
    */
-  function newEntry(array $action)
+  function newEntry (array $action)
   {
     $type = $action['subaction'];
 
@@ -686,10 +686,10 @@ class management
 
     // Open object
     $this->openTabObject(objects::create($type), $this->listing->getBase());
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDn, 'Create entry initiated');
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDn, 'Create entry initiated');
   }
 
-  function newEntryTemplate(array $action)
+  function newEntryTemplate (array $action)
   {
     if (static::$skipTemplates) {
       return;
@@ -699,7 +699,7 @@ class management
     $this->tabObject->setTemplateMode('template_cn');
   }
 
-  function newEntryFromTemplate(array $action)
+  function newEntryFromTemplate (array $action)
   {
     if (static::$skipTemplates) {
       return;
@@ -720,7 +720,7 @@ class management
     $this->dialogObject = new templateDialog($this, $type, $dn);
   }
 
-  function applyTemplateToEntry(array $action)
+  function applyTemplateToEntry (array $action)
   {
     global $ui;
     if (static::$skipTemplates) {
@@ -778,7 +778,7 @@ class management
    *                        action: The name of the action which was the used as trigger.
    *                        target: A list of object dns, which should be affected by this method.
    */
-  function editEntry(array $action)
+  function editEntry (array $action)
   {
     global $ui;
 
@@ -802,11 +802,11 @@ class management
     if ($locks = get_locks($this->currentDn, TRUE)) {
       return gen_locked_message($locks, $this->currentDn, TRUE);
     }
-    add_lock ($this->currentDn, $ui->dn);
+    add_lock($this->currentDn, $ui->dn);
 
     // Open object
     $this->openTabObject(objects::open($this->currentDn, $entry->getTemplatedType()), $this->currentDn);
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDn, 'Edit entry initiated');
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDn, 'Edit entry initiated');
     if (isset($action['subaction'])
       && ($this->handleSubAction($action) === FALSE)) {
       trigger_error('Was not able to handle subaction: '.$action['subaction']);
@@ -817,7 +817,7 @@ class management
    * \brief  Editing an object was caneled.
    *          Close dialogs/tabs and remove locks.
    */
-  function cancelEdit()
+  function cancelEdit ()
   {
     if (($this->tabObject instanceOf simpleTabs) && ($this->dialogObject instanceOf templateDialog)) {
       $this->handleTemplateApply(TRUE);
@@ -832,7 +832,7 @@ class management
    *          - Calls 'simpleTabs::save' to save back object modifications (e.g. to ldap).
    *          - Calls 'management::closeDialogs' to return to the object listing.
    */
-  function saveChanges()
+  function saveChanges ()
   {
     if (($this->tabObject instanceOf simpleTabs) && ($this->dialogObject instanceOf templateDialog)) {
       $this->tabObject->save_object();
@@ -846,7 +846,7 @@ class management
         msg_dialog::displayChecks($msgs);
         return;
       } else {
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDns, 'Entry saved');
+        @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDns, 'Entry saved');
         $this->remove_lock();
         $this->closeDialogs();
       }
@@ -858,7 +858,7 @@ class management
         return;
       } else {
         $this->dialogObject->save();
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDns, 'Dialog saved');
+        @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDns, 'Dialog saved');
         $this->remove_lock();
         $this->closeDialogs();
       }
@@ -868,7 +868,7 @@ class management
   /*!
    *  \brief  Save object modifications and keep dialogs opened
    */
-  function applyChanges()
+  function applyChanges ()
   {
     if ($this->tabObject instanceOf simpleTabs) {
       $this->tabObject->save_object();
@@ -876,7 +876,7 @@ class management
       if (count($msgs)) {
         msg_dialog::displayChecks($msgs);
       } else {
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDns, 'Modifications applied');
+        @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDns, 'Modifications applied');
         $this->tabObject->re_init();
         /* Avoid applying the POST a second time */
         $_POST = array();
@@ -887,13 +887,13 @@ class management
   /*! \brief  Queue selected objects to be removed.
    *          Checks ACLs, Locks and ask for confirmation.
    */
-  function removeRequested(array $action)
+  function removeRequested (array $action)
   {
     global $ui;
     $disallowed       = array();
     $this->currentDns = array();
 
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $action['targets'], 'Entry deletion requested');
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $action['targets'], 'Entry deletion requested');
 
     // Check permissons for each target
     foreach ($action['targets'] as $dn) {
@@ -943,7 +943,7 @@ class management
 
   /*! \brief Display confirmation dialog
    */
-  protected function removeConfirmationDialog(array $objects)
+  protected function removeConfirmationDialog (array $objects)
   {
     $smarty = get_smarty();
     $smarty->assign('objects', $objects);
@@ -954,10 +954,10 @@ class management
   /*! \brief  Deletion was confirmed, delete the objects queued.
    *          Checks ACLs just in case.
    */
-  function removeConfirmed(array $action)
+  function removeConfirmed (array $action)
   {
     global $ui;
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDns, 'Entry deletion confirmed');
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDns, 'Entry deletion confirmed');
 
     foreach ($this->currentDns as $dn) {
       $entry = $this->listing->getEntry($dn);
@@ -983,7 +983,7 @@ class management
     $this->closeDialogs();
   }
 
-  function configureDialog(array $action)
+  function configureDialog (array $action)
   {
     $this->dialogObject = new ManagementConfigurationDialog($this);
   }
@@ -991,7 +991,7 @@ class management
   /*! \brief  This method is used to queue and process copy&paste actions.
    *          Allows to copy, cut and paste mutliple entries at once.
    */
-  function copyPasteHandler(array $action = array('action' => ''))
+  function copyPasteHandler (array $action = array('action' => ''))
   {
     global $ui;
 
@@ -1010,11 +1010,11 @@ class management
         $entry = $this->listing->getEntry($dn);
         if (($action['action'] == 'copy') && $entry->checkAcl('r')) {
           $this->cpHandler->add_to_queue($dn, 'copy', $entry->getTemplatedType());
-          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Entry copied!');
+          @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Entry copied!');
         }
         if (($action['action'] == 'cut') && $entry->checkAcl('rd')) {
           $this->cpHandler->add_to_queue($dn, 'cut', $entry->getTemplatedType());
-          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Entry cut!');
+          @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Entry cut!');
         }
       }
     }
@@ -1044,10 +1044,10 @@ class management
   /*!
    * \brief  Opens the snapshot creation dialog for the given target.
    */
-  function createSnapshotDialog(array $action)
+  function createSnapshotDialog (array $action)
   {
     global $config, $ui;
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $action['targets'], 'Snaptshot creation initiated!');
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $action['targets'], 'Snaptshot creation initiated!');
 
     $this->currentDn = array_pop($action['targets']);
     if (empty($this->currentDn)) {
@@ -1067,7 +1067,7 @@ class management
    * \brief  Displays the "Restore snapshot dialog" for a given target.
    *          If no target is specified, open the restore removed object dialog.
    */
-  function restoreSnapshotDialog(array $action)
+  function restoreSnapshotDialog (array $action)
   {
     global $config, $ui;
 
@@ -1085,7 +1085,7 @@ class management
     }
 
     if ($ui->allow_snapshot_restore($this->currentDn, $aclCategory, empty($action['targets']))) {
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDn, 'Snaptshot restoring initiated!');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDn, 'Snaptshot restoring initiated!');
       $this->dialogObject = new SnapshotRestoreDialog($this->currentDn, $this, empty($action['targets']), $aclCategory);
     } else {
       msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $this->currentDn),
@@ -1094,7 +1094,7 @@ class management
   }
 
 
-  function export(array $action)
+  function export (array $action)
   {
     if (!isset($this->exporters[$action['action']])) {
       trigger_error('Unknown exporter '.$action['action']);
@@ -1109,7 +1109,7 @@ class management
 
   /* Methods related to Snapshots */
 
-  function getSnapshotBases()
+  function getSnapshotBases (): array
   {
     $bases = array();
     foreach ($this->objectTypes as $type) {
@@ -1128,7 +1128,7 @@ class management
   /*!
    * \brief Get all deleted snapshots
    */
-  function getAllDeletedSnapshots()
+  function getAllDeletedSnapshots (): array
   {
     $bases = $this->getSnapshotBases();
     $tmp = array();
@@ -1143,7 +1143,7 @@ class management
    *
    * \param string $dn The DN
    */
-  function getAvailableSnapsShots($dn)
+  function getAvailableSnapsShots (string $dn): array
   {
     return $this->snapHandler->getAvailableSnapsShots($dn);
   }
@@ -1151,7 +1151,7 @@ class management
   /*
    * \brief Whether snapshot restore action should be enabled for an entry
    */
-  function enableSnapshotRestore($action, ListingEntry $entry = NULL)
+  function enableSnapshotRestore ($action, ListingEntry $entry = NULL): bool
   {
     if ($entry !== NULL) {
       /* For entries */
@@ -1165,7 +1165,7 @@ class management
   /*!
    * \brief  Creates a new snapshot entry
    */
-  function createSnapshot($dn, $description)
+  function createSnapshot (string $dn, string $description)
   {
     global $ui;
     if ($this->currentDn !== $dn) {
@@ -1174,7 +1174,7 @@ class management
     }
     if (!empty($dn) && $ui->allow_snapshot_create($dn, $this->dialogObject->aclCategory)) {
       $this->snapHandler->createSnapshot($dn, $description);
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot created!');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot created!');
     } else {
       msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $dn),
           ERROR_DIALOG);
@@ -1186,12 +1186,12 @@ class management
    *
    * \param  String  $dn  The DN of the snapshot
    */
-  function restoreSnapshot($dn)
+  function restoreSnapshot (string $dn)
   {
     global $ui;
     if (!empty($dn) && $ui->allow_snapshot_restore($dn, $this->dialogObject->aclCategory, $this->dialogObject->global)) {
       $this->snapHandler->restoreSnapshot($dn);
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot restored');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot restored');
       $this->closeDialogs();
     } else {
       msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $dn),
@@ -1204,12 +1204,12 @@ class management
    *
    * \param string $dn DN of the snapshot
    */
-  function removeSnapshot($dn)
+  function removeSnapshot (string $dn)
   {
     global $ui;
     if (!empty($dn) && $ui->allow_snapshot_delete($dn, $this->dialogObject->aclCategory)) {
       $this->snapHandler->removeSnapshot($dn);
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot deleted');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot deleted');
     } else {
       msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to delete a snapshot for %s.'), $dn),
           ERROR_DIALOG);
@@ -1249,6 +1249,4 @@ class management
       session::set($classname, $managementObject);
     }
   }
-
-
 }

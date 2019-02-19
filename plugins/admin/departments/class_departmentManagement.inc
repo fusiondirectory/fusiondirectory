@@ -23,7 +23,7 @@ class departmentManagement extends management
 {
   public static $skipSnapshots  = TRUE;
 
-  public static function plInfo()
+  public static function plInfo (): array
   {
     return array(
       'plShortName'   => _('Departments'),
@@ -39,7 +39,7 @@ class departmentManagement extends management
   }
 
   // Overriden save handler - We've to take care about the department tagging here.
-  function saveChanges()
+  function saveChanges ()
   {
     $str = parent::saveChanges();
     if (!empty($str)) {
@@ -49,7 +49,7 @@ class departmentManagement extends management
     $this->refreshDeps();
   }
 
-  function refreshDeps()
+  function refreshDeps ()
   {
     global $config, $ui;
     $config->get_departments();
@@ -59,7 +59,7 @@ class departmentManagement extends management
   }
 
   // Overridden remove request method - Avoid removal of the ldap base.
-  protected function removeEntryRequested($action, array $target, array $all)
+  protected function removeEntryRequested ($action, array $target, array $all)
   {
     global $config;
     $target = array_remove_entries(array($config->current['BASE']), $target);
@@ -67,15 +67,14 @@ class departmentManagement extends management
   }
 
   // Finally remove departments and update department browsers
-  function removeEntryConfirmed($action, array $target, array $all)
+  function removeEntryConfirmed ($action, array $target, array $all)
   {
     parent::removeEntryConfirmed($action, $target, $all);
     $this->refreshDeps();
   }
 
-  static function getDepartmentTypes()
+  static function getDepartmentTypes (): array
   {
     return array('DEPARTMENT','COUNTRY','DCOBJECT','DOMAIN','LOCALITY','ORGANIZATION');
   }
 }
-?>

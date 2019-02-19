@@ -82,7 +82,7 @@ class printAClass {
   /*!
    * \brief printAClass constructor
    */
-  function __construct()
+  function __construct ()
   {
     $this->export_hash = uniqid('');
   }
@@ -110,7 +110,7 @@ class printAClass {
    *
    * \param boolean $key_bg_color false
    */
-  function print_a($array, $iteration = FALSE, $key_bg_color = FALSE)
+  function print_a ($array, $iteration = FALSE, $key_bg_color = FALSE)
   {
     if (!$key_bg_color) {
       $key_bg_color = $this->key_bg_color;
@@ -226,7 +226,7 @@ class printAClass {
  *
  * \param boolean $export_flag false
  */
-function print_a($array, $return_mode = FALSE, $show_object_vars = FALSE, $export_flag = FALSE )
+function print_a ($array, $return_mode = FALSE, $show_object_vars = FALSE, $export_flag = FALSE )
 {
   $e = error_reporting(0);
   if (is_array($array) || is_object($array)) {
@@ -245,7 +245,7 @@ function print_a($array, $return_mode = FALSE, $show_object_vars = FALSE, $expor
     $output = '<span style="color:red;font-size:small;">print_a( '.gettype( $array ).' )</span>';
   }
 
-  error_reporting ($e);
+  error_reporting($e);
   if ($return_mode) {
     return $output;
   } else {
@@ -254,7 +254,7 @@ function print_a($array, $return_mode = FALSE, $show_object_vars = FALSE, $expor
   }
 }
 
-function _script_globals()
+function _script_globals ()
 {
   global $GLOBALS_initial_count;
 
@@ -275,7 +275,7 @@ function _script_globals()
 /*!
  * \brief Show the runtime
  */
-function show_runtime()
+function show_runtime ()
 {
   $MICROTIME_END    = microtime();
   $MICROTIME_START  = explode(' ', $GLOBALS['MICROTIME_START']);
@@ -294,7 +294,7 @@ function show_runtime()
  * show_vars(1) shows all
  * show_vars(,1) shows object properties in addition
  */
-function show_vars($show_all_vars = FALSE, $show_object_vars = FALSE)
+function show_vars ($show_all_vars = FALSE, $show_object_vars = FALSE)
 {
   if (isset($GLOBALS['no_vars'])) {
     return;

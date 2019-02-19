@@ -57,7 +57,7 @@ class userinfo
 
   /* get acl's an put them into the userinfo object
      attr subtreeACL (userdn:components, userdn:component1#sub1#sub2,component2,...) */
-  function __construct($userdn)
+  function __construct ($userdn)
   {
     global $config;
     $this->dn         = $userdn;
@@ -72,7 +72,7 @@ class userinfo
   }
 
   /*! \brief Loads user information from LDAP */
-  function loadLDAPInfo()
+  function loadLDAPInfo ()
   {
     global $config;
     $ldap = $config->get_ldap_link();
@@ -107,7 +107,7 @@ class userinfo
   /*!
   * \brief Reset acl cache
   */
-  public function reset_acl_cache()
+  public function reset_acl_cache ()
   {
     /* Initialize ACL_CACHE */
     session::global_set('ACL_CACHE', array());
@@ -116,7 +116,7 @@ class userinfo
   /*!
    * \brief Load an acl
    */
-  function loadACL()
+  function loadACL ()
   {
     global $config;
     $this->ACL          = array();
@@ -285,7 +285,7 @@ class userinfo
    *
    * \return Return the next id or NULL if failed
    */
-  function get_acl_target_objects()
+  function get_acl_target_objects ()
   {
     return array_keys($this->ACLperPath);
   }
@@ -299,7 +299,7 @@ class userinfo
    *
    * \return all the permissions for the dn and category
    */
-  function get_category_permissions($dn, $category)
+  function get_category_permissions ($dn, $category)
   {
     return @$this->get_permissions($dn, $category.'/0', '');
   }
@@ -314,7 +314,7 @@ class userinfo
    *
    * \return boolean TRUE if the given object is copyable else FALSE
   */
-  function is_copyable($dn, $object)
+  function is_copyable ($dn, $object)
   {
     return (strpos($this->get_complete_category_acls($dn, $object), 'r') !== FALSE);
   }
@@ -331,7 +331,7 @@ class userinfo
    *
    * \return boolean TRUE if the given object is cutable else FALSE
    */
-  function is_cutable($dn, $object, $class)
+  function is_cutable ($dn, $object, $class)
   {
     $remove = (strpos($this->get_permissions($dn, $object.'/'.$class), 'd') !== FALSE);
     $read   = (strpos($this->get_complete_category_acls($dn, $object), 'r') !== FALSE);
@@ -348,7 +348,7 @@ class userinfo
    *
    * \return Boolean TRUE if we are allowed to paste an object.
    */
-  function is_pasteable($dn, $object)
+  function is_pasteable ($dn, $object)
   {
     return (strpos($this->get_complete_category_acls($dn, $object), 'w') !== FALSE);
   }
@@ -365,7 +365,7 @@ class userinfo
    *
    * \return boolean TRUE if we are allowed to restore a snapshot.
    */
-  function allow_snapshot_restore($dn, $categories, $deleted)
+  function allow_snapshot_restore ($dn, $categories, $deleted)
   {
     $permissions = $this->get_snapshot_permissions($dn, $categories);
     return in_array(($deleted ? 'restore_deleted' : 'restore_over'), $permissions);
@@ -381,7 +381,7 @@ class userinfo
    *
    * \return boolean TRUE if we are allowed to create a snapshot.
    */
-  function allow_snapshot_create($dn, $categories)
+  function allow_snapshot_create ($dn, $categories)
   {
     $permissions = $this->get_snapshot_permissions($dn, $categories);
     return in_array('c', $permissions);
@@ -397,13 +397,13 @@ class userinfo
    *
    * \return boolean TRUE if we are allowed to delete a snapshot.
    */
-  function allow_snapshot_delete($dn, $categories)
+  function allow_snapshot_delete ($dn, $categories)
   {
     $permissions = $this->get_snapshot_permissions($dn, $categories);
     return in_array('d', $permissions);
   }
 
-  function get_snapshot_permissions($dn, $categories)
+  function get_snapshot_permissions ($dn, $categories)
   {
     if (!is_array($categories)) {
       $categories = array($categories);
@@ -440,7 +440,7 @@ class userinfo
    * \param bool $skip_write   Remove the write acl for this dn
    *
    */
-  function get_permissions($dn, $object, $attribute = "", $skip_write = FALSE)
+  function get_permissions ($dn, $object, $attribute = "", $skip_write = FALSE)
   {
     global $config;
     /* If we are forced to skip ACLs checks for the current user
@@ -652,7 +652,7 @@ class userinfo
    *
    * \return array Return all accessible departments
    */
-  function get_module_departments($module, $skip_self_acls = FALSE )
+  function get_module_departments ($module, $skip_self_acls = FALSE )
   {
     global $config;
     /* If we are forced to skip ACLs checks for the current user
@@ -736,7 +736,7 @@ class userinfo
    *
    * \param $newACL The new ACL
    */
-  function mergeACL($acl, $type, $newACL)
+  function mergeACL ($acl, $type, $newACL)
   {
     $at = array("subtree" => "s", "one" => "1");
 
@@ -777,7 +777,7 @@ class userinfo
    *
    * \param boolean $reset FALSE
    */
-  function cleanACL($acl, $reset = FALSE)
+  function cleanACL ($acl, $reset = FALSE)
   {
     foreach ($acl as $key => $value) {
       /* Continue, if value is empty or subtree */
@@ -820,7 +820,7 @@ class userinfo
    *
    * \return string return acl combined with boolean AND
    */
-  function get_complete_category_acls($dn, $category)
+  function get_complete_category_acls ($dn, $category)
   {
     global $config;
 
@@ -861,7 +861,7 @@ class userinfo
    * \return Returns TRUE if the current user is configured in IGNORE_ACL=".."
    *  in your fusiondirectory.conf FALSE otherwise
    */
-  function ignore_acl_for_current_user()
+  function ignore_acl_for_current_user ()
   {
     return $this->ignoreACL;
   }
@@ -978,7 +978,7 @@ class userinfo
 
   /* \brief Check if a user is a 'user admin'
    */
-  function is_user_admin()
+  function is_user_admin ()
   {
     global $config;
     if (empty($this->ACLperPath)) {
@@ -989,7 +989,7 @@ class userinfo
 
   /* \brief Test if a plugin is blacklisted for this user (does not show up in the menu)
    */
-  function isBlacklisted($plugin)
+  function isBlacklisted ($plugin)
   {
     global $config;
     $blacklist = $config->get_cfg_value('PluginsMenuBlacklist', array());
@@ -1007,7 +1007,7 @@ class userinfo
    *
    * \return The ACL category, or FALSE if not found, or TRUE if acl check should be bypassed
    */
-  function getAttributeCategory($type, $attribute)
+  function getAttributeCategory ($type, $attribute)
   {
     global $config;
 
@@ -1040,21 +1040,21 @@ class userinfo
     return FALSE;
   }
 
-  function getSizeLimitHandler()
+  function getSizeLimitHandler ()
   {
     return $this->sizeLimitHandler;
   }
 
   /* \brief Returns the base this user is stored in
    */
-  function getBase()
+  function getBase ()
   {
     return get_base_from_people($this->dn);
   }
 
   /* \brief Returns the current base the user went to in management classes
    */
-  function getCurrentBase()
+  function getCurrentBase ()
   {
     if (!empty($this->currentBase)) {
       return $this->currentBase;
@@ -1065,14 +1065,14 @@ class userinfo
 
   /* \brief Sets the current base the user went to in management classes
    */
-  function setCurrentBase($base)
+  function setCurrentBase ($base)
   {
     $this->currentBase = $base;
   }
 
   /* \brief Get ACL name or HTML id from attribute name
    */
-  public static function sanitizeAttributeName($name)
+  public static function sanitizeAttributeName ($name)
   {
     return preg_replace('/[\/\-,.#:;]/', '_', $name);
   }

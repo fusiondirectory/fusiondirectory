@@ -49,7 +49,7 @@ class filter
    *
    * \param string $filename
    */
-  function __construct($filename)
+  function __construct ($filename)
   {
     // Load eventually passed filename
     if (!$this->load($filename)) {
@@ -64,7 +64,7 @@ class filter
    *
    * \param string $filename
    */
-  function load($filename)
+  function load ($filename)
   {
     $contents       = file_get_contents($filename);
     $this->xmlData  = xml::xml2array($contents, 1);
@@ -137,7 +137,7 @@ class filter
    *
    * \param array $element
    */
-  function getTextfield($element)
+  function getTextfield ($element)
   {
     $tag  = $element['tag'];
     $size = 30;
@@ -174,7 +174,7 @@ class filter
    *
    * \param array $element
    */
-  function getCheckbox($element)
+  function getCheckbox ($element)
   {
     $tag      = $element['tag'];
     $checked  = '';
@@ -190,7 +190,7 @@ class filter
    *
    * \param array $element
    */
-  function getCombobox($element)
+  function getCombobox ($element)
   {
     $result = "<select name='".$element['tag']."' size='1' onChange='document.mainform.submit();'>";
 
@@ -228,7 +228,7 @@ class filter
    *
    * \param array $element
    */
-  function getDatePicker($element)
+  function getDatePicker ($element)
   {
     global $lang;
     $tag    = $element['tag'];
@@ -255,7 +255,7 @@ class filter
    *
    * \param array $options
    */
-  function setComboBoxOptions($tag, $options)
+  function setComboBoxOptions ($tag, $options)
   {
     if (isset($this->elements[$tag]) && ($this->elements[$tag]['type'] == "combobox")) {
       $this->elements[$tag]['value'] = array();
@@ -272,7 +272,7 @@ class filter
    *
    * \param string $hook
    */
-  function setConverter($field, $hook)
+  function setConverter ($field, $hook)
   {
     $this->converter[$field] = $hook;
   }
@@ -282,7 +282,7 @@ class filter
    *
    * \param string $storage
    */
-  function setObjectStorage($storage)
+  function setObjectStorage ($storage)
   {
     $this->objectStorage = $storage;
   }
@@ -293,7 +293,7 @@ class filter
    *
    * \param string $base
    */
-  function setBase($base)
+  function setBase ($base)
   {
     $this->base = $base;
   }
@@ -303,7 +303,7 @@ class filter
    *
    * \param string $scope
    */
-  function setCurrentScope($scope)
+  function setCurrentScope ($scope)
   {
     $this->scope = $scope;
   }
@@ -313,7 +313,7 @@ class filter
    *
    * \return string
    */
-  function renderApply()
+  function renderApply ()
   {
     return "<input type='submit' name='apply' value='"._("Apply filter")."'>";
   }
@@ -323,7 +323,7 @@ class filter
    *
    * \return string
    */
-  function renderScope()
+  function renderScope ()
   {
     $checked = ($this->scope == 'sub' ? ' checked' : '');
     return "<LABEL for='SCOPE'><input type='checkbox' id='SCOPE' name='SCOPE' value='1' onClick='document.mainform.submit();'$checked>&nbsp;"._("Search in subtrees")."</LABEL>";
@@ -332,7 +332,7 @@ class filter
   /*!
    * \brief Render
    */
-  function render()
+  function render ()
   {
     /* If template is not filled, we display nothing */
     if (!isset ($this->xmlData['definition']['template'])) {
@@ -365,7 +365,7 @@ class filter
           break;
 
         default:
-          throw new FusionDirectoryException ('Unknown element type specified: '.$element['type'].'!');
+          throw new FusionDirectoryException('Unknown element type specified: '.$element['type'].'!');
       }
       $smarty->assign("$tag", $htmlCode);
     }
@@ -385,7 +385,7 @@ class filter
   /*!
    * \brief Query
    */
-  function query()
+  function query ()
   {
     global $class_mapping;
     $result = array();
@@ -479,7 +479,7 @@ class filter
    *
    * \return TRUE if is valid, FALSE otherwise
    */
-  function isValid()
+  function isValid ()
   {
     foreach ($this->elements as $tag => $element) {
       if (isset($element->regex)
@@ -493,7 +493,7 @@ class filter
   /*!
    * \brief Update
    */
-  function update()
+  function update ()
   {
     if (isset($_POST['FILTER_PID']) && $_POST['FILTER_PID'] == $this->pid) {
       // Load post values and adapt filter, base and scope accordingly - but
@@ -532,7 +532,7 @@ class filter
    *
    * \param string $value
    */
-  function getCompletitionList($cfg, $tag, $value = "*")
+  function getCompletitionList ($cfg, $tag, $value = "*")
   {
     global $class_mapping;
     $res = array();
@@ -585,7 +585,7 @@ class filter
   /*!
    * \brief Auto complete
    */
-  function processAutocomplete()
+  function processAutocomplete ()
   {
     $result = array();
 
@@ -619,7 +619,7 @@ class filter
  *
  * \param array $b
  */
-function strlenSort($a, $b)
+function strlenSort ($a, $b)
 {
   if (strlen($a['tag']) == strlen($b['tag'])) {
     return 0;

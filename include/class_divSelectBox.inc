@@ -42,7 +42,7 @@ class divSelectBox
   /*!
    * \brief Default divSelectBox constructor
    */
-  function __construct($id)
+  function __construct ($id)
   {
     $this->s_summary  = '';
     $this->a_entries  = array();
@@ -55,7 +55,7 @@ class divSelectBox
    *
    * \param integer $h Height
    */
-  function setHeight($h)
+  function setHeight ($h)
   {
     if (is_numeric($h)) {
       $this->height = $h.'px';
@@ -69,7 +69,7 @@ class divSelectBox
    *
    * \param array $a_entriedata
    */
-  function addEntry($a_entriedata)
+  function addEntry ($a_entriedata)
   {
     $this->a_entries[] = $a_entriedata;
   }
@@ -79,7 +79,7 @@ class divSelectBox
    *
    * \param array $headers
    */
-  function setHeaders($headers)
+  function setHeaders ($headers)
   {
     $this->headers = $headers;
   }
@@ -87,7 +87,7 @@ class divSelectBox
   /*!
    * \brief Draw the list
    */
-  function drawList()
+  function drawList ()
   {
     $s_return = '';
     $s_return .= '<div style="border:1px solid rgb(170,170,170);padding-right:1px;height:'.$this->height.';width:100%">'."\n";
@@ -117,7 +117,7 @@ class divSelectBox
    *
    * \param string $msg
    */
-  function setSummary($msg)
+  function setSummary ($msg)
   {
     $this->s_summary = $msg;
   }
@@ -125,7 +125,7 @@ class divSelectBox
   /*!
    * \brief Generate the page
    */
-  protected function generatePage()
+  protected function generatePage ()
   {
     $display = '';
     if ($this->headers !== FALSE) {
@@ -144,7 +144,7 @@ class divSelectBox
   /*!
    * \brief Generate the body
    */
-  protected function generateBody()
+  protected function generateBody ()
   {
     /* If divselectbox is empty, append a single white entry */
     if (count($this->a_entries) == 0) {

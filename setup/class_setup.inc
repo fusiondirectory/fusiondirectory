@@ -36,7 +36,7 @@ class setup
   var $o_steps          = array();
   var $captured_values  = array();
 
-  function __construct()
+  function __construct ()
   {
     $this->o_steps = array(
       new setupStepWelcome($this),
@@ -58,7 +58,7 @@ class setup
     }
   }
 
-  function execute()
+  function execute ()
   {
     /* Display phpinfo() dialog when $_GET['info'] is set,
      *  but only do this, if user is allowed to use the setup.
@@ -78,7 +78,7 @@ class setup
 
 
   /* Save posted attributes  */
-  function save_object()
+  function save_object ()
   {
     /* Call save_object for current setup step */
     $this->o_steps[$this->i_current]->save_object();
@@ -149,7 +149,7 @@ class setup
   }
 
 
-  function disable_steps_from($start)
+  function disable_steps_from ($start)
   {
     for ($i = $start; $i < $this->i_steps; $i++) {
       $this->o_steps[$i]->set_enabled(FALSE);
@@ -159,7 +159,7 @@ class setup
 
 
   /* Create navigation menu */
-  function get_navigation_html()
+  function get_navigation_html ()
   {
     $str = '<ul class="menu"><li><a>FusionDirectory Setup</a><ul>';
     foreach ($this->o_steps as $key => $step) {
@@ -201,7 +201,7 @@ class setup
   }
 
 
-  function get_bottom_html()
+  function get_bottom_html ()
   {
     /* Skip adding forward/backward button,
      *  if the currently opened step is a sub dialog
@@ -223,20 +223,20 @@ class setup
   }
 
   /* Create header entry */
-  function get_header_text()
+  function get_header_text ()
   {
     return $this->o_steps[$this->i_current]->get_title();
   }
 
   /* Create header entry */
-  function get_header_image()
+  function get_header_image ()
   {
     return $this->o_steps[$this->i_current]->header_image;
   }
 
 
   /* Check if the given step id is valid and selectable */
-  function selectable_step($id)
+  function selectable_step ($id)
   {
     if (isset($this->o_steps[$id]) && $this->o_steps[$id]->is_enabled()) {
       return TRUE;
@@ -244,7 +244,7 @@ class setup
     return FALSE;
   }
 
-  function step_name_to_id($name)
+  function step_name_to_id ($name)
   {
     foreach ($this->o_steps as $id => $class) {
       if (get_class($class) == $name) {
@@ -255,7 +255,7 @@ class setup
   }
 
   /* Called when LDAP is configured */
-  function read_ldap_config()
+  function read_ldap_config ()
   {
     global $config;
     /* Get attributes from current ldap step */
@@ -293,7 +293,7 @@ class setup
     }
   }
 
-  static function mainInc()
+  static function mainInc ()
   {
     global $setup, $display;
 

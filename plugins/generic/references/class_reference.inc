@@ -20,7 +20,7 @@
 
 class reference extends simplePlugin
 {
-  static function plInfo()
+  static function plInfo (): array
   {
     return array(
       'plShortName'   => _('References'),
@@ -37,7 +37,7 @@ class reference extends simplePlugin
     );
   }
 
-  static function getAttributesInfo ()
+  static function getAttributesInfo (): array
   {
     return array(
       'main' => array(
@@ -58,7 +58,7 @@ class reference extends simplePlugin
     $this->refs = NULL;
   }
 
-  function execute()
+  function execute (): string
   {
     if ($this->refs === NULL) {
       $this->fillRefs();
@@ -68,7 +68,7 @@ class reference extends simplePlugin
     return parent::execute();
   }
 
-  function fillRefs()
+  function fillRefs ()
   {
     if (!isset($this->parent)) {
       $this->refs = NULL;
@@ -77,16 +77,16 @@ class reference extends simplePlugin
     $this->refs = $this->browseForeignKeys('references');
   }
 
-  function check()
+  function check (): array
   {
   }
 
-  function save()
+  function save (): array
   {
     return array();
   }
 
-  function remove($fulldelete = FALSE)
+  function remove (bool $fulldelete = FALSE): array
   {
     return array();
   }

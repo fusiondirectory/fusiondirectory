@@ -23,7 +23,7 @@ class setupStepFinish extends setupStep
 {
   var $header_image = 'geticon.php?context=devices&icon=server&size=48';
 
-  static function getAttributesInfo()
+  static function getAttributesInfo (): array
   {
     return array(
       'welcome' => array(
@@ -35,14 +35,14 @@ class setupStepFinish extends setupStep
     );
   }
 
-  function update_strings()
+  function update_strings ()
   {
     $this->s_short_name   = _('Finish');
     $this->s_title        = _('Finish - write the configuration file');
     $this->s_description  = _('Write configuration file');
   }
 
-  function get_conf_data()
+  function get_conf_data ()
   {
     $smarty           = get_smarty();
     $cv               = $this->parent->captured_values;
@@ -52,7 +52,7 @@ class setupStepFinish extends setupStep
     return $smarty->fetch(CONFIG_TEMPLATE_DIR.CONFIG_FILE);
   }
 
-  function insertConfigDefaults()
+  function insertConfigDefaults ()
   {
     /* Insert default config values, even for installed plugin */
     global $config, $ui, $plist, $BASE_DIR;
@@ -79,7 +79,7 @@ class setupStepFinish extends setupStep
     $config->checkLdapConfig(TRUE);
   }
 
-  function execute()
+  function execute (): string
   {
     /* Check if there is currently an active fusiondirectory.conf */
     $exists   = file_exists(CONFIG_DIR."/".CONFIG_FILE);
@@ -98,7 +98,7 @@ class setupStepFinish extends setupStep
     return parent::execute();
   }
 
-  function save_object()
+  function save_object ()
   {
     parent::save_object();
     $exists = file_exists(CONFIG_DIR.'/'.CONFIG_FILE);
@@ -121,7 +121,7 @@ class setupStepFinish extends setupStep
   }
 
   /* check if given file is world readable */
-  function is_world_readable($file)
+  function is_world_readable ($file)
   {
     clearstatcache();
     $p = fileperms($file);

@@ -95,7 +95,7 @@ class logging {
    *
    * \param Array $entry to be checked
    */
-  static protected function check($entry = array())
+  static protected function check ($entry = array())
   {
     $msgs = array();
 
@@ -115,7 +115,7 @@ class logging {
    *
    * \param Array $entry Entry to be loged
    */
-  static protected function log_into_syslog($entry)
+  static protected function log_into_syslog ($entry)
   {
     $str = '';
     if (empty($entry['object']) && empty($entry['changes'])) {
@@ -131,7 +131,7 @@ class logging {
    *
    * \param Array $entry Entry to be loged
    */
-  static protected function log_into_ldap($entry)
+  static protected function log_into_ldap ($entry)
   {
     global $config;
     if ($entry['objecttype'] == 'plugin/auditEvent') {

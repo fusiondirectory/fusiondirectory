@@ -23,12 +23,12 @@
  */
 class LinkColumn extends Column
 {
-  function renderCell(ListingEntry $entry)
+  function renderCell (ListingEntry $entry): string
   {
     return $this->renderLink($entry, parent::renderCell($entry));
   }
 
-  protected function renderLink(ListingEntry $entry, $htmlValue)
+  protected function renderLink (ListingEntry $entry, $htmlValue): string
   {
     if ($this->parent->parent instanceof selectManagement) {
       if ($this->parent->getMultiSelect()) {

@@ -35,7 +35,7 @@ class passwordMethodMd5 extends passwordMethod
   /*!
    * \brief passwordMethodMd5 Constructor
    */
-  function __construct()
+  function __construct ()
   {
   }
 
@@ -44,7 +44,7 @@ class passwordMethodMd5 extends passwordMethod
    *
    * \return TRUE if is avaibable, otherwise return false
    */
-  function is_available()
+  function is_available ()
   {
     return function_exists('md5');
   }
@@ -54,7 +54,7 @@ class passwordMethodMd5 extends passwordMethod
    *
    * \param string $pwd Password
    */
-  function generate_hash($pwd, $locked = FALSE)
+  function generate_hash ($pwd, $locked = FALSE)
   {
     return  '{MD5}'.($locked ? '!' : '').base64_encode( pack('H*', md5($pwd)));
   }
@@ -62,7 +62,7 @@ class passwordMethodMd5 extends passwordMethod
   /*!
    * \brief Get the hash name
    */
-  static function get_hash_name()
+  static function get_hash_name ()
   {
     return 'md5';
   }

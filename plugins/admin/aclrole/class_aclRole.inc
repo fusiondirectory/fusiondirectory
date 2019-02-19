@@ -24,7 +24,7 @@ class ACLsAttribute extends DialogOrderedArrayAttribute
   protected $order        = TRUE;
   protected $dialogClass  = 'ACLEditionDialog';
 
-  protected function getAttributeArrayValue($key, $value)
+  protected function getAttributeArrayValue ($key, $value)
   {
     /* Convert text value to displayable array value */
 
@@ -39,13 +39,13 @@ class ACLsAttribute extends DialogOrderedArrayAttribute
     return array($summary);
   }
 
-  function readValue($value)
+  function readValue ($value)
   {
     $acl = explode(':', $value, 2);
     return array($acl[0], acl::extractACL($acl[1]));
   }
 
-  function writeValue($key, $value)
+  function writeValue ($key, $value)
   {
     $acl = '';
     foreach ($value as $object => $contents) {
@@ -69,7 +69,7 @@ class ACLsAttribute extends DialogOrderedArrayAttribute
 
 class aclRole extends simplePlugin
 {
-  static function plInfo()
+  static function plInfo (): array
   {
     return array(
       'plShortName'   => _('Role'),
@@ -87,7 +87,7 @@ class aclRole extends simplePlugin
     );
   }
 
-  static function getAttributesInfo()
+  static function getAttributesInfo (): array
   {
     return array(
       'properties' => array(

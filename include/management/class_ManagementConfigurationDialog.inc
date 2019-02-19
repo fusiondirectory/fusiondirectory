@@ -23,7 +23,7 @@ class ManagementColumnAttribute extends CompositeAttribute
 
   function __construct ($label, $description, $ldapName, $attributes, $acl = "")
   {
-    parent::__construct ($description, $ldapName, $attributes, FALSE, FALSE, $acl, $label);
+    parent::__construct($description, $ldapName, $attributes, FALSE, FALSE, $acl, $label);
   }
 }
 
@@ -32,14 +32,14 @@ class ManagementColumnAttribute extends CompositeAttribute
  */
 class ManagementConfigurationDialog extends simplePlugin
 {
-  static function plInfo ()
+  static function plInfo (): array
   {
     return array(
       'plShortName' => 'ManagementConfigurationDialog',
     );
   }
 
-  static function getAttributesInfo ()
+  static function getAttributesInfo (): array
   {
     global $class_mapping;
 
@@ -57,8 +57,8 @@ class ManagementConfigurationDialog extends simplePlugin
         'class' => array('fullwidth'),
         'name'  => _('Management configuration'),
         'attrs' => array(
-          new OrderedArrayAttribute (
-            new ManagementColumnAttribute (
+          new OrderedArrayAttribute(
+            new ManagementColumnAttribute(
               _('Columns'),
               _('Columns displayed for this management list'),
               'managementColumns',
@@ -120,7 +120,7 @@ class ManagementConfigurationDialog extends simplePlugin
     $this->attributesAccess['managementColumns']->setValue($value);
   }
 
-  function attrIsWriteable($attr)
+  function attrIsWriteable ($attr): bool
   {
     global $config, $ui;
 
@@ -134,7 +134,7 @@ class ManagementConfigurationDialog extends simplePlugin
     }
   }
 
-  function execute ()
+  function execute (): string
   {
     global $config, $ui;
 
@@ -151,7 +151,7 @@ class ManagementConfigurationDialog extends simplePlugin
     return $str;
   }
 
-  function save ()
+  function save (): array
   {
     global $config;
     $columnInfos  = array();

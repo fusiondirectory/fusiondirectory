@@ -24,13 +24,13 @@
 class LoginHTTPHeader extends LoginMethod
 {
   /*! \brief Displayed name */
-  static function getLabel()
+  static function getLabel ()
   {
     return _('HTTP Header');
   }
 
   /*! \brief All login steps in the right order for HTTP Header login */
-  static function loginProcess()
+  static function loginProcess ()
   {
     global $config, $message, $ui;
 

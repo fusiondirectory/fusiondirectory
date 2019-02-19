@@ -25,13 +25,13 @@
  */
 class filterLDAPBlacklist {
 
-  static function query($parent, $base, $scope, $filter, $attributes, $category, $objectStorage = "")
+  static function query ($parent, $base, $scope, $filter, $attributes, $category, $objectStorage = "")
   {
     $result = filterLDAP::query($parent, $base, $scope, $filter, $attributes, $category, $objectStorage);
     return filterLDAPBlacklist::filterByBlacklist($result);
   }
 
-  static function filterByBlacklist($entries)
+  static function filterByBlacklist ($entries)
   {
     if (session::is_set('filterWhitelist')) {
       $wlist = session::get('filterWhitelist');

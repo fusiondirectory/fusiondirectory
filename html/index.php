@@ -89,7 +89,7 @@ if (!is_readable(CONFIG_DIR.'/'.CONFIG_FILE)) {
 $config = new config(CONFIG_DIR.'/'.CONFIG_FILE, $BASE_DIR);
 session::global_set('config', $config);
 session::global_set('DEBUGLEVEL', $config->get_cfg_value('DEBUGLEVEL'));
-@DEBUG (DEBUG_CONFIG, __LINE__, __FUNCTION__, __FILE__, $config->data, 'config');
+@DEBUG(DEBUG_CONFIG, __LINE__, __FUNCTION__, __FILE__, $config->data, 'config');
 
 /* Set template compile directory */
 $smarty->compile_dir = $config->get_cfg_value('templateCompileDirectory', SPOOL_DIR);
@@ -129,7 +129,7 @@ if (
 
 /* If SSL is forced, just forward to the SSL enabled site */
 if (($config->get_cfg_value('forcessl') == 'TRUE') && ($ssl != '')) {
-  header ("Location: $ssl");
+  header("Location: $ssl");
   exit;
 }
 
@@ -150,4 +150,3 @@ if (isset($_REQUEST['message'])) {
 }
 
 LoginMethod::loginProcess();
-?>

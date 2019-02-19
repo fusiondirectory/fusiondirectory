@@ -45,7 +45,7 @@ class passwordRecovery extends standAlonePage
 
   protected $usealternates;
 
-  function init()
+  function init ()
   {
     parent::init();
 
@@ -68,7 +68,7 @@ class passwordRecovery extends standAlonePage
     }
   }
 
-  function save_object()
+  function save_object ()
   {
     if (!$this->activated) {
       return;
@@ -100,7 +100,7 @@ class passwordRecovery extends standAlonePage
     }
   }
 
-  function execute()
+  function execute ()
   {
     $this->save_object();
 
@@ -132,7 +132,7 @@ class passwordRecovery extends standAlonePage
   /* Check that password recovery is activated, read config in ldap
    * Returns a boolean saying if password recovery is activated
    */
-  function readLdapConfig()
+  function readLdapConfig ()
   {
     global $config;
     $this->salt           = $config->get_cfg_value('passwordRecoverySalt');
@@ -153,7 +153,7 @@ class passwordRecovery extends standAlonePage
     return ($config->get_cfg_value('passwordRecoveryActivated') == "TRUE");
   }
 
-  function storeToken($temp_password)
+  function storeToken ($temp_password)
   {
     global $config;
     /* Store it in ldap with the salt */
@@ -167,7 +167,7 @@ class passwordRecovery extends standAlonePage
     $ldap->cat($token, array('dn'));
     if (!$ldap->count()) {
       /* It's not, let's create it */
-      $ldap->cd ($config->current['BASE']);
+      $ldap->cd($config->current['BASE']);
       $ldap->create_missing_trees($token);
       if (!$ldap->success()) {
         return msgPool::ldaperror($ldap->get_error(),
@@ -202,7 +202,7 @@ class passwordRecovery extends standAlonePage
     return '';
   }
 
-  function checkToken($token)
+  function checkToken ($token)
   {
     global $config;
     $salt_token = $this->salt.$token.$this->salt;
@@ -224,7 +224,7 @@ class passwordRecovery extends standAlonePage
            ($ldap_token == $sha1_token);
   }
 
-  function getUserDn()
+  function getUserDn ()
   {
     global $config;
     /* Retrieve dn from the ldap */
@@ -255,7 +255,7 @@ class passwordRecovery extends standAlonePage
   }
 
   /* Find the login of for the given email address */
-  function step2()
+  function step2 ()
   {
     global $config;
 
@@ -307,7 +307,7 @@ class passwordRecovery extends standAlonePage
     return $attrs['dn'];
   }
 
-  function generateAndStoreToken()
+  function generateAndStoreToken ()
   {
     $activatecode = static::generateRandomHash();
 
@@ -322,7 +322,7 @@ class passwordRecovery extends standAlonePage
   }
 
   /* generate a token and send it by email */
-  function step3()
+  function step3 ()
   {
     /* Send a mail, save information in session and create a very random unique id */
     $token = $this->generateAndStoreToken();
@@ -352,7 +352,7 @@ class passwordRecovery extends standAlonePage
   }
 
   /* check if the given token is the good one */
-  function step4()
+  function step4 ()
   {
     $uniq_id_from_mail = validate($_GET['uniq']);
 
@@ -375,7 +375,7 @@ class passwordRecovery extends standAlonePage
     }
   }
 
-  function changeUserPassword($new_password, $new_password_repeated)
+  function changeUserPassword ($new_password, $new_password_repeated)
   {
     $dn = $this->getUserDn();
     if (!$dn) {
@@ -406,7 +406,7 @@ class passwordRecovery extends standAlonePage
   }
 
   /* change the password and send confirmation email */
-  function step5()
+  function step5 ()
   {
     $success = $this->changeUserPassword($_POST['new_password'], $_POST['new_password_repeated']);
     if (!$success) {

@@ -26,7 +26,7 @@
  */
 require_once ("variables.inc");
 
-function html_trace($errstr = "")
+function html_trace ($errstr = "")
 {
   static $hideArgs = array(
     'ldap_init'         => array(3),
@@ -163,7 +163,7 @@ function html_trace($errstr = "")
  *
  * \param string $errline The error line
  */
-function gosaRaiseError($errno, $errstr, $errfile, $errline)
+function gosaRaiseError ($errno, $errstr, $errfile, $errline)
 {
   global $error_collector,$config, $error_collector_mailto;
 
@@ -276,13 +276,13 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
 /*!
  * \brief Dummy error handler
  */
-function dummy_error_handler()
+function dummy_error_handler ()
 {
 }
 
 /*! \brief Returns TRUE if SSL was used to contact FD, whether directly or through a proxy
  */
-function sslOn()
+function sslOn ()
 {
   if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
     return (strcasecmp($_SERVER['HTTP_X_FORWARDED_PROTO'], 'https') == 0);
@@ -295,7 +295,7 @@ function sslOn()
 
 /*! \brief Returns SSL URL to redirect to
  */
-function sslUrl()
+function sslUrl ()
 {
   $ssl = 'https://';
   if (empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
@@ -323,7 +323,7 @@ date_default_timezone_set("GMT");
 /* Get base dir for reference */
 $BASE_DIR = dirname(dirname(__FILE__));
 $ROOT_DIR = $BASE_DIR."/html";
-error_reporting (E_ALL | E_STRICT);
+error_reporting(E_ALL | E_STRICT);
 
 /* Register error handler */
 $error_collector        = "";

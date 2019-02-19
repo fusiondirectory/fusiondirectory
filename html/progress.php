@@ -40,7 +40,7 @@ if ($p < 0) {
 } elseif ($p > 100) {
   $p = 100;
 }
-$p = intval ($p);
+$p = intval($p);
 
 /* Check dimensions */
 if ($x < 3 || $x > 1000) {
@@ -75,7 +75,7 @@ if (!function_exists("imagecreate")) {
   }
 
   /* Draw image in GD image stream */
-  $im = imagecreate ($x, $y);
+  $im = imagecreate($x, $y);
   if (!$im) {
     die ('Cannot Initialize new GD image stream');
   }
@@ -87,18 +87,16 @@ if (!function_exists("imagecreate")) {
   $tx_color = imagecolorallocate($im, 240,  10,   90);
 
   /* Draw progress bar */
-  imagerectangle ($im, 0, 0, $x - 1, $y - 1, $br_color);
-  imagefilledrectangle ($im, 1, 1, (($x - 2) * $p / 100),
-      $y - 2, $fi_color);
+  imagerectangle($im, 0, 0, $x - 1, $y - 1, $br_color);
+  imagefilledrectangle($im, 1, 1, (($x - 2) * $p / 100), $y - 2, $fi_color);
 
   /* Is font to big for progress bar? */
   if ($font != 0) {
-    imagestring ($im, $font, ($x - $fx) / 2, ($y - $fy) / 2, "$p%", $tx_color);
+    imagestring($im, $font, ($x - $fx) / 2, ($y - $fy) / 2, "$p%", $tx_color);
   }
 
   /* Finally draw the image and remove context */
-  header ("Content-type: image/png");
-  imagepng ($im);
-  imagedestroy ($im);
+  header("Content-type: image/png");
+  imagepng($im);
+  imagedestroy($im);
 }
-?>

@@ -62,7 +62,7 @@ class CompositeAttribute extends Attribute
     unset($attribute);
   }
 
-  function setIsSubAttribute($bool)
+  function setIsSubAttribute ($bool)
   {
     parent::setIsSubAttribute($bool);
     foreach ($this->attributes as &$attribute) {
@@ -99,7 +99,7 @@ class CompositeAttribute extends Attribute
     $this->linearRendering = $bool;
   }
 
-  function readValues($value)
+  function readValues ($value)
   {
     $res = preg_match($this->readFormat, $value, $m);
     if ($res === 1) {
@@ -121,7 +121,7 @@ class CompositeAttribute extends Attribute
     return array_fill(0, count($this->attributes), '');
   }
 
-  function writeValues(array $values)
+  function writeValues (array $values)
   {
     if ($this->writeFormat === FALSE) {
       return $values;
@@ -221,7 +221,7 @@ class CompositeAttribute extends Attribute
     unset($attribute);
   }
 
-  function renderAttribute(array &$attributes, $readOnly)
+  function renderAttribute (array &$attributes, $readOnly)
   {
     if ($this->visible) {
       if ($this->linearRendering) {
@@ -236,7 +236,7 @@ class CompositeAttribute extends Attribute
     }
   }
 
-  function getForHtmlId()
+  function getForHtmlId ()
   {
     // Label (if any) should point to the first attribute
     if (isset($this->attributes[0])) {
@@ -246,7 +246,7 @@ class CompositeAttribute extends Attribute
     }
   }
 
-  function serializeAttribute(array &$attributes, $form = TRUE)
+  function serializeAttribute (array &$attributes, $form = TRUE)
   {
     if ($form) {
       if ($this->visible) {
@@ -269,7 +269,7 @@ class CompositeAttribute extends Attribute
     }
   }
 
-  function renderFormInput()
+  function renderFormInput ()
   {
     $display = "";
     foreach ($this->attributes as &$attribute) {
@@ -282,7 +282,7 @@ class CompositeAttribute extends Attribute
     return $display;
   }
 
-  public function htmlIds()
+  public function htmlIds ()
   {
     $ret = array();
     foreach ($this->attributes as &$attribute) {

@@ -34,7 +34,7 @@ class userManagement extends management
     array('ActionsColumn',    array('label' => 'Actions')),
   );
 
-  static function plInfo()
+  static function plInfo (): array
   {
     return array(
       'plShortName'   => _('Users'),
@@ -50,7 +50,7 @@ class userManagement extends management
   }
 
 
-  protected function configureActions()
+  protected function configureActions ()
   {
     parent::configureActions();
 
@@ -66,10 +66,10 @@ class userManagement extends management
 
   /* !\brief  Lock/unlock multiple users.
    */
-  function lockUsers(array $action)
+  function lockUsers (array $action)
   {
     global $config, $ui;
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $action, 'Lock');
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $action, 'Lock');
 
     // Filter out entries we are not allowed to modify
     $disallowed = array();

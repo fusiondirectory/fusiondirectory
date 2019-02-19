@@ -23,7 +23,7 @@ class setupStepChecks extends setupStep
 {
   var $header_image = 'geticon.php?context=categories&icon=checks&size=48';
 
-  static function getAttributesInfo()
+  static function getAttributesInfo (): array
   {
     return array(
       'modules' => array(
@@ -43,7 +43,7 @@ class setupStepChecks extends setupStep
     );
   }
 
-  function update_strings()
+  function update_strings ()
   {
     $this->s_short_name   = _('Installation check');
     $this->s_title        = _('Installation check');
@@ -51,14 +51,14 @@ class setupStepChecks extends setupStep
   }
 
   /* Execute and display template */
-  function execute()
+  function execute (): string
   {
     $this->run_checks();
     return parent::execute();
   }
 
   /* Execute all checks */
-  function run_checks()
+  function run_checks ()
   {
     $basic_checks   = array();
     $config_checks  = array();
@@ -237,7 +237,7 @@ class setupStepChecks extends setupStep
     $this->config_checks  = $config_checks;
   }
 
-  function save_object()
+  function save_object ()
   {
     parent::save_object();
      /* If everything is fine, set this step to completed

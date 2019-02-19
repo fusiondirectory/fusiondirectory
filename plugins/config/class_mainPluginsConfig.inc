@@ -20,7 +20,7 @@
 
 class mainPluginsConfig extends simplePlugin
 {
-  static function plInfo()
+  static function plInfo (): array
   {
     return array(
       'plShortName'     => _('Plugins configuration'),
@@ -33,13 +33,13 @@ class mainPluginsConfig extends simplePlugin
     );
   }
 
-  static function getAttributesInfo ()
+  static function getAttributesInfo (): array
   {
     return array(
       'ogroups' => array(
         'name'  => _('Object groups'),
         'attrs' => array(
-          new StringAttribute (
+          new StringAttribute(
             _('Groups RDN'), _('Branch in which object groups will be stored'),
             'fdOGroupRDN', TRUE,
             'ou=groups'
@@ -49,7 +49,7 @@ class mainPluginsConfig extends simplePlugin
       'sasl' => array(
         'name'  => _('SASL'),
         'attrs' => array(
-          new BooleanAttribute (
+          new BooleanAttribute(
             _('Force to ask for password'), _('Useful if you add a hook using password value when SASL user passwords are edited'),
             'fdForceSaslPasswordAsk', TRUE,
             FALSE

@@ -79,7 +79,7 @@ class LDAP
    *
    * \param boolean $tls FALSE
    */
-  function __construct($binddn, $bindpw, $hostname, $follow_referral = FALSE, $tls = FALSE)
+  function __construct ($binddn, $bindpw, $hostname, $follow_referral = FALSE, $tls = FALSE)
   {
     global $config;
     $this->follow_referral  = $follow_referral;
@@ -102,7 +102,7 @@ class LDAP
    *
    * \return increase srp
    */
-  function getSearchResource()
+  function getSearchResource ()
   {
     $this->sr[$this->srp]     = NULL;
     $this->start[$this->srp]  = 0;
@@ -115,7 +115,7 @@ class LDAP
    *
    * \param string $dn The DN
    */
-  static function prepare4filter($dn)
+  static function prepare4filter ($dn)
   {
     trigger_error('deprecated, use ldap_escape_f instead');
     return ldap_escape_f($dn);
@@ -126,7 +126,7 @@ class LDAP
    *
    *  The string $error containts result of the connection
    */
-  function connect()
+  function connect ()
   {
     $this->hascon     = FALSE;
     $this->reconnect  = FALSE;
@@ -161,7 +161,7 @@ class LDAP
   /*!
    *  \brief Rebind
    */
-  function rebind($ldap, $referral)
+  function rebind ($ldap, $referral)
   {
     $credentials = $this->get_credentials($referral);
     if (@ldap_bind($ldap, $credentials['ADMINDN'], $credentials['ADMINPASSWORD'])) {
@@ -178,7 +178,7 @@ class LDAP
   /*!
    *  \brief Reconnect to LDAP server
    */
-  function reconnect()
+  function reconnect ()
   {
     if ($this->reconnect) {
       $this->unbind();
@@ -188,7 +188,7 @@ class LDAP
   /*!
    *  \brief Unbind to LDAP server
    */
-  function unbind()
+  function unbind ()
   {
     @ldap_unbind($this->cid);
     $this->cid = NULL;
@@ -197,7 +197,7 @@ class LDAP
   /*!
    *  \brief Disconnect to LDAP server
    */
-  function disconnect()
+  function disconnect ()
   {
     if ($this->hascon) {
       @ldap_close($this->cid);
@@ -210,7 +210,7 @@ class LDAP
    *
    * \param string $dir The new directory
    */
-  function cd($dir)
+  function cd ($dir)
   {
     if ($dir == '..') {
       $this->basedn = $this->getParentDir();
@@ -226,7 +226,7 @@ class LDAP
    *
    * \return String, the parent directory
    */
-  function getParentDir($basedn = '')
+  function getParentDir ($basedn = '')
   {
     if ($basedn == '') {
       $basedn = $this->basedn;
@@ -245,7 +245,7 @@ class LDAP
    *
    * \param string $scope Scope of the search: subtree/base/one
    */
-  function search($srp, $filter, $attrs = array(), $scope = 'subtree')
+  function search ($srp, $filter, $attrs = array(), $scope = 'subtree')
   {
     if ($this->hascon) {
       if ($this->reconnect) {
@@ -295,7 +295,7 @@ class LDAP
    *
    * \param array $attrs
    */
-  function ls($srp, $filter = "(objectclass=*)", $basedn = "", $attrs = array("*"))
+  function ls ($srp, $filter = "(objectclass=*)", $basedn = "", $attrs = array("*"))
   {
     trigger_error('deprecated');
     $this->cd($basedn);
@@ -313,7 +313,7 @@ class LDAP
    *
    * \param string $filter Initialized at "(objectclass=*)"
    */
-  function cat($srp, $dn, $attrs = array("*"), $filter = "(objectclass=*)")
+  function cat ($srp, $dn, $attrs = array("*"), $filter = "(objectclass=*)")
   {
     if ($this->hascon) {
       if ($this->reconnect) {
@@ -339,7 +339,7 @@ class LDAP
    *
    * \param string $filter The filter of the research
    */
-  function object_match_filter($dn, $filter)
+  function object_match_filter ($dn, $filter)
   {
     if ($this->hascon) {
       if ($this->reconnect) {
@@ -358,7 +358,7 @@ class LDAP
    *
    * \param $size The limit
    */
-  function set_size_limit($size)
+  function set_size_limit ($size)
   {
     /* Ignore zero settings */
     if ($size == 0) {
@@ -376,7 +376,7 @@ class LDAP
    *
    * \param integer $srp
    */
-  function fetch($srp)
+  function fetch ($srp)
   {
     $att = array();
     if ($this->hascon) {
@@ -415,7 +415,7 @@ class LDAP
    *
    * \param integer $srp Value to be reset
    */
-  function resetResult($srp)
+  function resetResult ($srp)
   {
     $this->start[$srp] = 0;
   }
@@ -425,7 +425,7 @@ class LDAP
    *
    * \param integer $srp The result to clear
    */
-  function clearResult($srp)
+  function clearResult ($srp)
   {
     if ($this->hasres[$srp]) {
       $this->hasres[$srp] = FALSE;
@@ -438,7 +438,7 @@ class LDAP
    *
    * \param $srp srp
    */
-  function getDN($srp)
+  function getDN ($srp)
   {
     if ($this->hascon) {
       if ($this->hasres[$srp]) {
@@ -465,7 +465,7 @@ class LDAP
    *
    * \param $srp srp
    */
-  function count($srp)
+  function count ($srp)
   {
     if ($this->hascon) {
       if ($this->hasres[$srp]) {
@@ -490,7 +490,7 @@ class LDAP
    *
    * \param string $dn Empty string
    */
-  function rm($attrs = "", $dn = "")
+  function rm ($attrs = "", $dn = "")
   {
     if ($this->hascon) {
       if ($this->reconnect) {
@@ -509,7 +509,7 @@ class LDAP
     }
   }
 
-  function mod_add($attrs = "", $dn = "")
+  function mod_add ($attrs = "", $dn = "")
   {
     if ($this->hascon) {
       if ($this->reconnect) {
@@ -533,7 +533,7 @@ class LDAP
    *
    * \param string $deletedn The DN to be deleted
   */
-  function rmdir($deletedn)
+  function rmdir ($deletedn)
   {
     if ($this->hascon) {
       if ($this->reconnect) {
@@ -558,7 +558,7 @@ class LDAP
    *
    * \return Boolean TRUE on success else FALSE.
    */
-  function rename_dn($source, $dest)
+  function rename_dn ($source, $dest)
   {
     /* Check if source and destination are the same entry */
     if (strtolower($source) == strtolower($dest)) {
@@ -612,7 +612,7 @@ class LDAP
    *
    * \return TRUE on sucessfull , 0 in error, and "" when we don't get a ldap conection
    */
-  function rmdir_recursive($srp, $deletedn)
+  function rmdir_recursive ($srp, $deletedn)
   {
     if ($this->hascon) {
       if ($this->reconnect) {
@@ -644,7 +644,7 @@ class LDAP
     }
   }
 
-  function makeReadableErrors($error, $attrs)
+  function makeReadableErrors ($error, $attrs)
   {
     if ($this->success()) {
       return "";
@@ -675,7 +675,7 @@ class LDAP
    *
    * \param array $attrs The new entry
    */
-  function modify(array $attrs)
+  function modify (array $attrs)
   {
     if (count($attrs) == 0) {
       return 0;
@@ -701,7 +701,7 @@ class LDAP
    *
    * \param array $changes The changes
    */
-  function modify_batch(array $changes)
+  function modify_batch (array $changes)
   {
     if (count($changes) == 0) {
       return TRUE;
@@ -724,7 +724,7 @@ class LDAP
    *
    * \param string $attrs The entry to add
    */
-  function add($attrs)
+  function add ($attrs)
   {
     if ($this->hascon) {
       if ($this->reconnect) {
@@ -747,7 +747,7 @@ class LDAP
    *
    * Creates missing trees, in our example ou=orga,dc=base will get created if not existing, same thing for ou=example,ou=orga,dc=base
    * */
-  function create_missing_trees($srp, $target, $ignoreReferralBases = TRUE)
+  function create_missing_trees ($srp, $target, $ignoreReferralBases = TRUE)
   {
     $real_path = substr($target, 0, strlen($target) - strlen($this->basedn) - 1);
 
@@ -781,7 +781,7 @@ class LDAP
         }
       }
 
-      $this->cat ($srp, $cdn);
+      $this->cat($srp, $cdn);
       $attrs = $this->fetch($srp);
 
       /* Create missing entry? */
@@ -880,10 +880,10 @@ class LDAP
    *
    * \return string containts LDAP_OPT_ERROR_STRING
    */
-  function get_additional_error()
+  function get_additional_error ()
   {
     $additional_error = '';
-    @ldap_get_option ($this->cid, LDAP_OPT_ERROR_STRING, $additional_error);
+    @ldap_get_option($this->cid, LDAP_OPT_ERROR_STRING, $additional_error);
     return $additional_error;
   }
 
@@ -892,7 +892,7 @@ class LDAP
    *
    * \return boolean TRUE if Success is found in $error, else return FALSE
    */
-  function success()
+  function success ()
   {
     return preg_match('/Success/i', $this->error);
   }
@@ -900,7 +900,7 @@ class LDAP
   /*!
    * \brief Get the error
    */
-  function get_error()
+  function get_error ()
   {
     if ($this->error == 'Success') {
       return $this->error;
@@ -925,7 +925,7 @@ class LDAP
    *
    * Must be run right after the ldap request
    */
-  function get_errno()
+  function get_errno ()
   {
     if ($this->error == 'Success') {
       return 0;
@@ -939,13 +939,13 @@ class LDAP
    *
    * Must be run right after the search
    */
-  function hitSizeLimit()
+  function hitSizeLimit ()
   {
     /* LDAP_SIZELIMIT_EXCEEDED 0x04 */
     return ($this->get_errno() == 0x04);
   }
 
-  function get_credentials($url, $referrals = NULL)
+  function get_credentials ($url, $referrals = NULL)
   {
     $ret    = array();
     $url    = preg_replace('!\?\?.*$!', '', $url);
@@ -1033,7 +1033,7 @@ class LDAP
     return $res;
   }
 
-  function dn_exists($dn)
+  function dn_exists ($dn)
   {
     return @ldap_read($this->cid, $dn, "(objectClass=*)", array("objectClass"));
   }
@@ -1053,7 +1053,7 @@ class LDAP
    *
    * \param boolean $DeleteOldEntries
    */
-  function import_complete_ldif($srp, $str_attr, $JustModify, $DeleteOldEntries)
+  function import_complete_ldif ($srp, $str_attr, $JustModify, $DeleteOldEntries)
   {
     if ($this->reconnect) {
       $this->connect();
@@ -1156,7 +1156,7 @@ class LDAP
    *
    * \param boolean $delete
    */
-  protected function import_single_entry($srp, $data, $modify, $delete)
+  protected function import_single_entry ($srp, $data, $modify, $delete)
   {
     global $config;
 
@@ -1233,7 +1233,7 @@ class LDAP
    *
    * \param boolean $force_reload FALSE
    */
-  function get_objectclasses($force_reload = FALSE)
+  function get_objectclasses ($force_reload = FALSE)
   {
     /* Return the cached results. */
     if (class_available('session') && session::global_is_set('LDAP_CACHE::get_objectclasses') && !$force_reload) {
@@ -1250,7 +1250,7 @@ class LDAP
     /* Get list of objectclasses and fill array */
     $nb = $attrs[0]['subschemasubentry'][0];
     $objectclasses = array();
-    $res    = ldap_read ($this->cid, $nb, 'objectClass=*', array('objectclasses'));
+    $res    = ldap_read($this->cid, $nb, 'objectClass=*', array('objectclasses'));
     $attrs  = ldap_get_entries($this->cid, $res);
     if (!isset($attrs[0])) {
       return array();
@@ -1315,7 +1315,7 @@ class LDAP
   }
 
 
-  function value2container($value)
+  function value2container ($value)
   {
     /* Set emtpy values to "TRUE" only */
     if (preg_match('/^\s*$/', $value)) {
@@ -1341,12 +1341,12 @@ class LDAP
    *
    * \param string $string
    */
-  function log($string)
+  function log ($string)
   {
     if (session::global_is_set('config')) {
       $cfg = session::global_get('config');
       if (isset($cfg->current['LDAPSTATS']) && preg_match('/true/i', $cfg->current['LDAPSTATS'])) {
-        syslog (LOG_INFO, $string);
+        syslog(LOG_INFO, $string);
       }
     }
   }
@@ -1358,7 +1358,7 @@ class LDAP
    *
    * \param $dn The DN
    */
-  function getCn($dn)
+  function getCn ($dn)
   {
     $simple = explode(",", $dn);
 
@@ -1371,21 +1371,20 @@ class LDAP
     }
   }
 
-  function get_naming_contexts($server, $admin = '', $password = '')
+  function get_naming_contexts ($server, $admin = '', $password = '')
   {
     /* Build LDAP connection */
-    $ds = ldap_connect ($server);
+    $ds = ldap_connect($server);
     if (!$ds) {
       die ('Can\'t bind to LDAP. No check possible!');
     }
     ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
-    ldap_bind ($ds, $admin, $password);
+    ldap_bind($ds, $admin, $password);
 
     /* Get base to look for naming contexts */
-    $res    = @ldap_read ($ds, '', 'objectClass=*', array('namingContexts'));
+    $res    = @ldap_read($ds, '', 'objectClass=*', array('namingContexts'));
     $attrs  = @ldap_get_entries($ds, $res);
 
     return $attrs[0]['namingcontexts'];
   }
 }
-?>

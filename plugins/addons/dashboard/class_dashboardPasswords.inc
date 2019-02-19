@@ -20,7 +20,7 @@
 
 class dashboardPassword extends simplePlugin
 {
-  static function plInfo()
+  static function plInfo (): array
   {
     return array(
       'plShortName'   => _('Passwords'),
@@ -32,7 +32,7 @@ class dashboardPassword extends simplePlugin
     );
   }
 
-  static function getAttributesInfo()
+  static function getAttributesInfo (): array
   {
     return array(
       'pwds' => array(

@@ -57,7 +57,7 @@ class managementListing
    *
    * \param string $parent management instance
    */
-  function __construct($parent, $baseMode = TRUE, $multiSelect = TRUE)
+  function __construct ($parent, $baseMode = TRUE, $multiSelect = TRUE)
   {
     global $config, $ui;
 
@@ -85,12 +85,12 @@ class managementListing
     $this->reloadColumns();
   }
 
-  function getBaseMode()
+  function getBaseMode ()
   {
     return $this->baseMode;
   }
 
-  function reloadColumns()
+  function reloadColumns ()
   {
     $columnInfos = $this->parent->getColumnConfiguration();
 
@@ -102,12 +102,12 @@ class managementListing
     $this->columns[1]->setTemplateAttributes(array('cn'));
   }
 
-  function getColumns()
+  function getColumns ()
   {
     return $this->columns;
   }
 
-  function renderHeader()
+  function renderHeader ()
   {
     $this->header = array();
 
@@ -139,7 +139,7 @@ class managementListing
   /*!
    * \brief Render
    */
-  function render()
+  function render ()
   {
     global $ui;
 
@@ -209,7 +209,7 @@ class managementListing
     return $smarty->fetch(get_template_path('management/list.tpl'));
   }
 
-  function getIterator()
+  function getIterator ()
   {
     return new EntrySortIterator($this->entries, $this->columns[$this->sortColumn], $this->sortDirection[$this->sortColumn]);
   }
@@ -217,7 +217,7 @@ class managementListing
   /*!
    * \brief Updates base and sorting according to POST and GET infos
    */
-  function updateBase()
+  function updateBase ()
   {
     global $ui;
 
@@ -281,7 +281,7 @@ class managementListing
   /*!
    * \brief Update a listing
    */
-  function update($dn = NULL)
+  function update ($dn = NULL)
   {
     if ($dn === NULL) {
       $this->updateBase();
@@ -311,7 +311,7 @@ class managementListing
    *
    * \param string $base
    */
-  function setBase($base)
+  function setBase ($base)
   {
     global $ui;
     $this->base = $base;
@@ -321,7 +321,7 @@ class managementListing
     }
   }
 
-  function tryAndSetBase($base)
+  function tryAndSetBase ($base)
   {
     if (isset($this->bases[$base])) {
       $this->setBase($base);
@@ -333,12 +333,12 @@ class managementListing
    *
    * \return the base
    */
-  function getBase()
+  function getBase ()
   {
     return $this->base;
   }
 
-  function renderBase()
+  function renderBase ()
   {
     if (!$this->baseMode) {
       return;
@@ -347,7 +347,7 @@ class managementListing
     return $this->baseSelector->render();
   }
 
-  function renderNavigation()
+  function renderNavigation ()
   {
     $enableBack = TRUE;
     $enableRoot = TRUE;
@@ -421,7 +421,7 @@ class managementListing
   /*!
    * \brief Get action
    */
-  function getAction()
+  function getAction ()
   {
     global $config;
 
@@ -514,7 +514,7 @@ class managementListing
   /*!
    * \brief Refresh the bases list
    */
-  function refreshBasesList()
+  function refreshBasesList ()
   {
     global $config;
     $ui = get_userinfo();
@@ -552,7 +552,7 @@ class managementListing
    *
    * \param string $dn The DN
    */
-  function getEntry($dn)
+  function getEntry ($dn)
   {
     if (isset($this->entries[$dn])) {
       return $this->entries[$dn];
@@ -560,12 +560,12 @@ class managementListing
     return NULL;
   }
 
-  function getMultiSelect()
+  function getMultiSelect ()
   {
     return $this->multiSelect;
   }
 
-  function fillSearchedAttributes($type, array &$attrs)
+  function fillSearchedAttributes ($type, array &$attrs)
   {
     global $ui;
 

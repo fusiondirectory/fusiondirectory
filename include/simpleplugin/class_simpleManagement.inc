@@ -34,7 +34,7 @@ class templateDialog
   protected $post_finish = 'template_continue';
   protected $post_cancel = 'template_cancel';
 
-  function __construct($simpleManagement, $type, $dn = NULL, $target = NULL)
+  function __construct ($simpleManagement, $type, $dn = NULL, $target = NULL)
   {
     $this->simpleManagement = $simpleManagement;
     $this->type             = $type;
@@ -200,7 +200,7 @@ class simpleManagement
   public static $skipTemplates = TRUE;
   public static $skipSnapshots = FALSE;
 
-  function __construct()
+  function __construct ()
   {
     global $config;
 
@@ -479,12 +479,12 @@ class simpleManagement
     return $data;
   }
 
-  function getHeadpage()
+  function getHeadpage ()
   {
     return $this->headpage;
   }
 
-  function getFilter()
+  function getFilter ()
   {
     return $this->filter;
   }
@@ -494,7 +494,7 @@ class simpleManagement
    *
    * \param object $filter The new filter
    */
-  function setFilter($filter)
+  function setFilter ($filter)
   {
     $this->filter = $filter;
   }
@@ -506,17 +506,17 @@ class simpleManagement
    *          When the action/event new is send, the method 'createUser'
    *          will be called.
    */
-  function registerAction($action, $target)
+  function registerAction ($action, $target)
   {
     $this->actions[$action] = $target;
   }
 
-  function getType($dn)
+  function getType ($dn)
   {
     return $this->getHeadpage()->getType($dn);
   }
 
-  function renderList()
+  function renderList ()
   {
     global $config;
     $smarty = get_smarty();
@@ -543,7 +543,7 @@ class simpleManagement
    * \brief  Execute this plugin
    *          Handle actions/events, locking, snapshots, dialogs, tabs,...
    */
-  function execute()
+  function execute ()
   {
     // Ensure that html posts and gets are kept even if we see a 'Entry islocked' dialog.
     $vars = array('/^act$/','/^listing/','/^PID$/');
@@ -598,7 +598,7 @@ class simpleManagement
   /*!
    * \brief  Generates the plugin header which is displayed whenever a tab object is opened.
    */
-  protected function getHeader()
+  protected function getHeader ()
   {
     if ($this->skipHeader) {
       return '';
@@ -617,7 +617,7 @@ class simpleManagement
   /*!
    * \brief  Generates the footer which is used whenever a tab object is displayed.
    */
-  protected function _getTabFooter()
+  protected function _getTabFooter ()
   {
     // Do not display tab footer for non tab objects
     if (!($this->tabObject instanceOf simpleTabs)) {
@@ -665,7 +665,7 @@ class simpleManagement
    *
    * \param  Array   $all     A combination of both 'action' and 'target'.
    */
-  function newEntry($action, array $target, array $all)
+  function newEntry ($action, array $target, array $all)
   {
     $type   = strtoupper(preg_replace('/^new_/', '', $action));
 
@@ -677,10 +677,10 @@ class simpleManagement
 
     // Open object
     $this->openTabObject(objects::open($this->dn, $type), $this->headpage->getBase());
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "Create new entry initiated!");
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "Create new entry initiated!");
   }
 
-  function newEntryTemplate($action, array $target, array $all)
+  function newEntryTemplate ($action, array $target, array $all)
   {
     if (static::$skipTemplates) {
       return;
@@ -690,7 +690,7 @@ class simpleManagement
     $this->tabObject->setTemplateMode('template_cn');
   }
 
-  function newEntryFromTemplate($action, array $target, array $all)
+  function newEntryFromTemplate ($action, array $target, array $all)
   {
     if (static::$skipTemplates) {
       return;
@@ -712,7 +712,7 @@ class simpleManagement
     $this->dialogObject = new templateDialog($this, $type, $dn);
   }
 
-  function applyTemplateToEntry($action, array $target, array $all)
+  function applyTemplateToEntry ($action, array $target, array $all)
   {
     global $ui;
     if (static::$skipTemplates) {
@@ -730,7 +730,7 @@ class simpleManagement
     }
 
     // Add locks
-    add_lock ($this->dns, $ui->dn);
+    add_lock($this->dns, $ui->dn);
 
     $this->dn           = array_shift($this->dns);
     $this->dialogObject = new templateDialog($this, $type, NULL, $this->dn);
@@ -751,7 +751,7 @@ class simpleManagement
       return;
     } else {
       if (!$cancel) {
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Template applied!');
+        @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Template applied!');
       }
       del_lock($this->dn);
       if (empty($this->dns)) {
@@ -771,7 +771,7 @@ class simpleManagement
    *          - Calls 'simpleTabs::save' to save back object modifications (e.g. to ldap).
    *          - Calls 'simpleManagement::closeDialogs' to return to the object listing.
    */
-  protected function saveChanges()
+  protected function saveChanges ()
   {
     if (($this->tabObject instanceOf simpleTabs) && ($this->dialogObject instanceOf templateDialog)) {
       $this->tabObject->save_object();
@@ -785,7 +785,7 @@ class simpleManagement
         msg_dialog::displayChecks($msgs);
         return;
       } else {
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, 'Entry saved!');
+        @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, 'Entry saved!');
         $this->remove_lock();
         $this->closeDialogs();
       }
@@ -797,7 +797,7 @@ class simpleManagement
         return;
       } else {
         $this->dialogObject->save();
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, 'Entry saved!');
+        @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, 'Entry saved!');
         $this->remove_lock();
         $this->closeDialogs();
       }
@@ -807,7 +807,7 @@ class simpleManagement
   /*!
    *  \brief  Save object modifications and keep dialogs opened
    */
-  protected function applyChanges()
+  protected function applyChanges ()
   {
     if ($this->tabObject instanceOf simpleTabs) {
       $this->tabObject->save_object();
@@ -815,7 +815,7 @@ class simpleManagement
       if (count($msgs)) {
         msg_dialog::displayChecks($msgs);
       } else {
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, 'Modifications applied!');
+        @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, 'Modifications applied!');
         $this->tabObject->re_init();
       }
     }
@@ -825,7 +825,7 @@ class simpleManagement
    * \brief  Editing an object was caneled.
    *          Close dialogs/tabs and remove locks.
    */
-  protected function cancelEdit()
+  protected function cancelEdit ()
   {
     if (($this->tabObject instanceOf simpleTabs) && ($this->dialogObject instanceOf templateDialog)) {
       $this->handleTemplateApply(TRUE);
@@ -844,7 +844,7 @@ class simpleManagement
    *
    * \param  Array   $all     A combination of both 'action' and 'target'.
    */
-  function editEntry($action, array $target, array $all)
+  function editEntry ($action, array $target, array $all)
   {
     global $ui;
     // Do not create a new tabObject while there is already one opened,
@@ -874,11 +874,11 @@ class simpleManagement
       if ($locks = get_locks($this->dn, TRUE)) {
         return gen_locked_message($locks, $this->dn, TRUE);
       }
-      add_lock ($this->dn, $ui->dn);
+      add_lock($this->dn, $ui->dn);
 
       // Open object
       $this->openTabObject(objects::open($this->dn, $type), $this->dn);
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "Edit entry initiated!");
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "Edit entry initiated!");
       if (isset($all['subaction']) && !$this->handleSubAction($all)) {
         trigger_error('Was not able to handle subaction: '.$all['subaction']);
       }
@@ -889,7 +889,7 @@ class simpleManagement
    * \brief  Detects actions/events send by the ui
    *           and the corresponding targets.
    */
-  function detectPostActions()
+  function detectPostActions ()
   {
     if (!is_object($this->headpage)) {
       trigger_error("No valid headpage given....!");
@@ -918,7 +918,7 @@ class simpleManagement
   /*!
    *  \brief  Calls the registered method for a given action/event.
    */
-  function handleActions($action)
+  function handleActions ($action)
   {
     // Start action
     if (isset($this->actions[$action['action']])) {
@@ -930,7 +930,7 @@ class simpleManagement
     }
   }
 
-  protected function handleSubAction($all)
+  protected function handleSubAction ($all)
   {
     if (preg_match('/^tab_/', $all['subaction'])) {
       $tab = preg_replace('/^tab_/', '', $all['subaction']);
@@ -944,7 +944,7 @@ class simpleManagement
     return FALSE;
   }
 
-  function openTabObject($object, $base)
+  function openTabObject ($object, $base)
   {
     $this->tabObject = $object;
     $this->tabObject->set_acl_base($base);
@@ -955,7 +955,7 @@ class simpleManagement
    * \brief  This method closes dialogs
    *          and cleans up the cached object info and the ui.
    */
-  public function closeDialogs()
+  public function closeDialogs ()
   {
     $this->last_dn  = $this->dn;
     $this->dn       = "";
@@ -977,7 +977,7 @@ class simpleManagement
    *         concurrent modifications.
    *         This locks will automatically removed here.
    */
-  function remove_lock()
+  function remove_lock ()
   {
     if (!empty($this->dn) && $this->dn != "new") {
       del_lock($this->dn);
@@ -987,7 +987,7 @@ class simpleManagement
     }
   }
 
-  function is_modal_dialog()
+  function is_modal_dialog ()
   {
     return (is_object($this->tabObject) || is_object($this->dialogObject));
   }
@@ -995,13 +995,13 @@ class simpleManagement
   /*! \brief    Queue selected objects to be removed.
    *            Checks ACLs, Locks and ask for confirmation.
    */
-  protected function removeEntryRequested($action, array $target, array $all)
+  protected function removeEntryRequested ($action, array $target, array $all)
   {
     global $ui;
     $disallowed = array();
     $this->dns  = array();
 
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, "Entry removal requested!");
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, "Entry removal requested!");
 
     // Check permissons for each target
     foreach ($target as $dn) {
@@ -1052,7 +1052,7 @@ class simpleManagement
           'type'  => $info['name']
         );
       }
-      add_lock ($this->dns, $ui->dn);
+      add_lock($this->dns, $ui->dn);
 
       // Display confirmation dialog.
       $smarty = get_smarty();
@@ -1062,10 +1062,10 @@ class simpleManagement
     }
   }
 
-  function removeEntryConfirmed($action, array $target, array $all)
+  function removeEntryConfirmed ($action, array $target, array $all)
   {
     global $ui;
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, "Entry removal confirmed!");
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, "Entry removal confirmed!");
 
     foreach ($this->dns as $dn) {
       $type = $this->getType($dn);
@@ -1104,10 +1104,10 @@ class simpleManagement
    *
    * \param  Array   $target  A list of object dns, which should be affected by this method.
    */
-  function createSnapshotDialog($action, array $target)
+  function createSnapshotDialog ($action, array $target)
   {
     global $config, $ui;
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, 'Snaptshot creation initiated!');
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, 'Snaptshot creation initiated!');
 
     if (count($target) == 1) {
       $this->dn = array_pop($target);
@@ -1133,7 +1133,7 @@ class simpleManagement
    *
    * \param  Array   $target  A list of object dns, which should be affected by this method.
    */
-  function restoreSnapshotDialog($action, array $target)
+  function restoreSnapshotDialog ($action, array $target)
   {
     global $config, $ui;
     // Set current restore base for snapshot handling.
@@ -1163,7 +1163,7 @@ class simpleManagement
     }
 
     if ($ui->allow_snapshot_restore($this->dn, $aclCategory, !count($target))) {
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Snaptshot restoring initiated!');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Snaptshot restoring initiated!');
       $this->dialogObject = new SnapshotRestoreDialog($this->dn, $this, !count($target), $aclCategory);
     } else {
       msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $this->dn),
@@ -1177,7 +1177,7 @@ class simpleManagement
    *  @param  array   $target  A list of object dns, which should be affected by this method.
    *  @param  array   $all     A combination of both 'action' and 'target'.
    */
-  function copyPasteHandler($action = '', array $target = array(), array $all = array())
+  function copyPasteHandler ($action = '', array $target = array(), array $all = array())
   {
     global $ui;
     // Return without any actions while copy&paste handler is disabled.
@@ -1200,11 +1200,11 @@ class simpleManagement
 
         if (($action == 'copy') && $ui->is_copyable($dn, $infos['aclCategory'])) {
           $this->cpHandler->add_to_queue($dn, 'copy', $type);
-          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Entry copied!');
+          @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Entry copied!');
         }
         if (($action == 'cut') && $ui->is_cutable($dn, $infos['aclCategory'], $infos['mainTab'])) {
           $this->cpHandler->add_to_queue($dn, 'cut', $type);
-          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Entry cut!');
+          @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Entry cut!');
         }
       }
     }
@@ -1235,7 +1235,7 @@ class simpleManagement
   /*!
    * \brief  Creates a new snapshot entry
    */
-  function createSnapshot($dn, $description)
+  function createSnapshot ($dn, $description)
   {
     global $ui;
     if ($this->dn !== $dn) {
@@ -1244,7 +1244,7 @@ class simpleManagement
     }
     if (!empty($dn) && $ui->allow_snapshot_create($dn, $this->dialogObject->aclCategory)) {
       $this->snapHandler->createSnapshot($dn, $description);
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot created!');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot created!');
     } else {
       msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $dn),
           ERROR_DIALOG);
@@ -1256,12 +1256,12 @@ class simpleManagement
    *
    * \param  String  $dn  The DN of the snapshot
    */
-  function restoreSnapshot($dn)
+  function restoreSnapshot ($dn)
   {
     global $ui;
     if (!empty($dn) && $ui->allow_snapshot_restore($dn, $this->dialogObject->aclCategory, $this->dialogObject->global)) {
       $this->snapHandler->restoreSnapshot($dn);
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot restored');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot restored');
       $this->closeDialogs();
     } else {
       msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $dn),
@@ -1269,7 +1269,7 @@ class simpleManagement
     }
   }
 
-  function getSnapshotBases()
+  function getSnapshotBases ()
   {
     $bases = array();
     foreach ($this->storagePoints as $sp) {
@@ -1287,7 +1287,7 @@ class simpleManagement
   /*!
    * \brief Get all deleted snapshots
    */
-  function getAllDeletedSnapshots()
+  function getAllDeletedSnapshots ()
   {
     $bases = $this->getSnapshotBases();
     $tmp = array();
@@ -1302,7 +1302,7 @@ class simpleManagement
    *
    * \param string $dn The DN
    */
-  function getAvailableSnapsShots($dn)
+  function getAvailableSnapsShots ($dn)
   {
     return $this->snapHandler->getAvailableSnapsShots($dn);
   }
@@ -1312,12 +1312,12 @@ class simpleManagement
    *
    * \param string $dn DN of the snapshot
    */
-  function removeSnapshot($dn)
+  function removeSnapshot ($dn)
   {
     global $ui;
     if (!empty($dn) && $ui->allow_snapshot_delete($dn, $this->dialogObject->aclCategory)) {
       $this->snapHandler->removeSnapshot($dn);
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot deleted');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot deleted');
     } else {
       msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to delete a snapshot for %s.'), $dn),
           ERROR_DIALOG);

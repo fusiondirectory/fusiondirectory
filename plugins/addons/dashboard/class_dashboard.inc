@@ -21,7 +21,7 @@
 
 class dashboard extends simplePlugin
 {
-  static function plInfo()
+  static function plInfo (): array
   {
     return array(
       'plShortName'   => _('Dashboard'),
@@ -44,7 +44,7 @@ class dashboard extends simplePlugin
     );
   }
 
-  static function getAttributesInfo()
+  static function getAttributesInfo (): array
   {
     return array(
       'stats' => array(
@@ -63,7 +63,7 @@ class dashboard extends simplePlugin
   }
 
   /* Compute some statistics */
-  function overview_stats()
+  function overview_stats ()
   {
     global $config;
     $stats = array();
@@ -116,7 +116,7 @@ class dashboard extends simplePlugin
     return $stats;
   }
 
-  static function mainInc($classname = NULL, $entry_dn = NULL, $tabs = TRUE, $edit_mode = FALSE, $objectType = FALSE)
+  static function mainInc ($classname = NULL, $entry_dn = NULL, $tabs = TRUE, $edit_mode = FALSE, $objectType = FALSE)
   {
     if ($classname === NULL) {
       $classname = get_called_class();

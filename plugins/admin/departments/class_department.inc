@@ -24,7 +24,7 @@ class department extends simplePlugin
   static protected $namingAttr  = 'ou';
   protected $structuralOC       = array('organizationalUnit');
 
-  static function plInfo()
+  static function plInfo (): array
   {
     return array(
       'plShortName'   => _('Department'),
@@ -52,11 +52,11 @@ class department extends simplePlugin
     );
   }
 
-  static function getAttributesInfo()
+  static function getAttributesInfo (): array
   {
     return static::getDepartmentAttributesInfo(_('department'));
   }
-  static function getDepartmentAttributesInfo($name)
+  static function getDepartmentAttributesInfo ($name)
   {
     $attributesInfo = array(
       'properties' => array(
@@ -102,7 +102,7 @@ class department extends simplePlugin
             _('Address'), sprintf(_('A postal address for this %s'), $name),
             'postalAddress', FALSE
           ),
-          new PhoneNumberButtonAttribute (
+          new PhoneNumberButtonAttribute(
             _('Phone'), _('Telephone number'),
             'telephoneNumber', FALSE,
             '',
@@ -161,7 +161,7 @@ class department extends simplePlugin
   }
 
   /* Check values */
-  function check()
+  function check (): array
   {
     /* Call common method to give check the hook */
     $message = parent::check();
@@ -175,7 +175,7 @@ class department extends simplePlugin
     return $message;
   }
 
-  function get_allowed_bases()
+  function get_allowed_bases (): array
   {
     /* Hide all departments, that are subtrees of this department */
     $bases = parent::get_allowed_bases();
@@ -189,7 +189,7 @@ class department extends simplePlugin
     return $bases;
   }
 
-  function prepare_save()
+  function prepare_save (): array
   {
     if (static::$namingAttr != 'ou') {
       $this->attributesAccess['ou']->setValue($this->attributesAccess[static::$namingAttr]->getValue());

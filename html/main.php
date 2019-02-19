@@ -40,14 +40,14 @@ session::start();
 reset_errors();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-  @DEBUG (DEBUG_POST, __LINE__, __FUNCTION__, __FILE__, $_POST, '_POST');
+  @DEBUG(DEBUG_POST, __LINE__, __FUNCTION__, __FILE__, $_POST, '_POST');
 }
-@DEBUG (DEBUG_SESSION, __LINE__, __FUNCTION__, __FILE__, $_SESSION, '_SESSION');
+@DEBUG(DEBUG_SESSION, __LINE__, __FUNCTION__, __FILE__, $_SESSION, '_SESSION');
 
 /* Logged in? Simple security check */
 if (!session::global_is_set('connected')) {
   logging::log('security', 'login', '', array(), 'main.php called without session - logging out');
-  header ('Location: index.php?message=nosession');
+  header('Location: index.php?message=nosession');
   exit;
 }
 
@@ -58,7 +58,7 @@ $config = session::global_get('config');
 
 /* If SSL is forced, just forward to the SSL enabled site */
 if (($config->get_cfg_value('forcessl') == 'TRUE') && ($ssl != '')) {
-  header ("Location: $ssl");
+  header("Location: $ssl");
   exit;
 }
 
@@ -79,7 +79,7 @@ if (session::global_get('_LAST_PAGE_REQUEST') != '') {
     if ($request_time > $max_life) {
       session::destroy();
       logging::log('security', 'login', '', array(), 'main.php called with expired session - logging out');
-      header ('Location: index.php?signout=1&message=expired');
+      header('Location: index.php?signout=1&message=expired');
       exit;
     }
   }
@@ -87,7 +87,7 @@ if (session::global_get('_LAST_PAGE_REQUEST') != '') {
 session::global_set('_LAST_PAGE_REQUEST', time());
 
 
-@DEBUG (DEBUG_CONFIG, __LINE__, __FUNCTION__, __FILE__, $config->data, "config");
+@DEBUG(DEBUG_CONFIG, __LINE__, __FUNCTION__, __FILE__, $config->data, "config");
 
 /* Set template compile directory */
 $smarty->compile_dir = $config->get_cfg_value("templateCompileDirectory", SPOOL_DIR);
@@ -111,14 +111,14 @@ $smarty->assign("hideMenus", FALSE);
 if ($config->get_cfg_value("handleExpiredAccounts") == "TRUE") {
   $expired = $ui->expired_status();
   if (($expired == POSIX_WARN_ABOUT_EXPIRATION) && !session::is_set('POSIX_WARN_ABOUT_EXPIRATION__DONE')) {
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $expired, 'This user account ('.$ui->uid.') is about to expire');
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $expired, 'This user account ('.$ui->uid.') is about to expire');
 
     // The users password is about to xpire soon, display a warning message.
     logging::log('security', 'fusiondirectory', '', array(), 'password for user "'.$ui->uid.'" is about to expire');
     msg_dialog::display(_('Password change'), _('Your password is about to expire, please change your password!'), INFO_DIALOG);
     session::set('POSIX_WARN_ABOUT_EXPIRATION__DONE', TRUE);
   } elseif ($expired == POSIX_FORCE_PASSWORD_CHANGE) {
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $expired, "This user account expired");
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $expired, "This user account expired");
 
     // The password is expired, we are now going to enforce a new one from the user.
 
@@ -178,11 +178,11 @@ if (isset($_GET['reset'])) {
 }
 
 /* show web frontend */
-$smarty->assign ("date", date("l, dS F Y H:i:s O"));
+$smarty->assign("date", date("l, dS F Y H:i:s O"));
 $lang = session::global_get('lang');
-$smarty->assign ('lang',  preg_replace('/_.*$/', '', $lang));
-$smarty->assign ('rtl',   Language::isRTL($lang));
-$smarty->assign ('must',  '<span class="must">*</span>');
+$smarty->assign('lang',  preg_replace('/_.*$/', '', $lang));
+$smarty->assign('rtl',   Language::isRTL($lang));
+$smarty->assign('must',  '<span class="must">*</span>');
 if (isset($plugin_index)) {
   $plug = "?plug=$plugin_index";
 } else {
@@ -190,12 +190,12 @@ if (isset($plugin_index)) {
 }
 
 if ($ui->ignore_acl_for_current_user()) {
-  $smarty->assign ('username', '<div style="color:#FF0000;">'._('User ACL checks disabled').'</div>&nbsp;'.$ui->uid);
+  $smarty->assign('username', '<div style="color:#FF0000;">'._('User ACL checks disabled').'</div>&nbsp;'.$ui->uid);
 } else {
-  $smarty->assign ('username', $ui->uid);
+  $smarty->assign('username', $ui->uid);
 }
-$smarty->assign ("menu", $plist->menu);
-$smarty->assign ("plug", "$plug");
+$smarty->assign("menu", $plist->menu);
+$smarty->assign("plug", "$plug");
 
 $smarty->assign("usePrototype", "false");
 

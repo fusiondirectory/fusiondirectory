@@ -34,7 +34,7 @@ class Language
    *
    * \param string $lang Language locale to use, defaults to self::detect()
    */
-  public static function init($lang = NULL)
+  public static function init ($lang = NULL)
   {
     global $BASE_DIR;
 
@@ -60,7 +60,7 @@ class Language
     bindtextdomain($domain, LOCALE_DIR);
     textdomain($domain);
     if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $lang, 'Setting language to');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $lang, 'Setting language to');
     }
 
     $ret = FALSE;
@@ -70,7 +70,7 @@ class Language
       $ret = TRUE;
       if (session::global_is_set('plist')) {
         if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, session::global_get('lang'), 'Plist already loaded with language');
+          @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, session::global_get('lang'), 'Plist already loaded with language');
         }
         session::global_un_set('plist');
         session::global_set('lang', $lang);
@@ -95,7 +95,7 @@ class Language
    *
    * \return string gettext locale string
    */
-  public static function detect()
+  public static function detect ()
   {
     global $config;
 
@@ -132,7 +132,7 @@ class Language
    *
    * \param boolean $ownLanguage Should language names be stated in their own language as well
    */
-  public static function getList($ownLanguage = FALSE)
+  public static function getList ($ownLanguage = FALSE)
   {
     /* locales in english */
     $tmp_english = array(
@@ -224,7 +224,7 @@ class Language
     return preg_match('/^(fa_|ar_)/', $lang);
   }
 
-  public static function setHeaders($language, $mime)
+  public static function setHeaders ($language, $mime)
   {
     list ($lang, $country, $char) = parse_gettext_lang($language);
 

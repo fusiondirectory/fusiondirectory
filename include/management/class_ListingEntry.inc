@@ -29,7 +29,7 @@ class ListingEntry implements ArrayAccess
   /* Cache where columns may store stuff */
   public $cache = array();
 
-  public function __construct(managementListing $listing, $type, $dn, array $attrs, $row = NULL)
+  public function __construct (managementListing $listing, $type, $dn, array $attrs, $row = NULL)
   {
     $this->listing  = $listing;
     $this->type     = $type;
@@ -38,47 +38,47 @@ class ListingEntry implements ArrayAccess
     $this->row      = $row;
   }
 
-  public function offsetSet($offset, $value)
+  public function offsetSet ($offset, $value)
   {
     $this->attrs[$offset] = $value;
   }
 
-  public function offsetExists($offset)
+  public function offsetExists ($offset)
   {
     return isset($this->attrs[$offset]);
   }
 
-  public function offsetUnset($offset)
+  public function offsetUnset ($offset)
   {
     unset($this->attrs[$offset]);
   }
 
-  public function offsetGet($offset)
+  public function offsetGet ($offset)
   {
     return (isset($this->attrs[$offset]) ? $this->attrs[$offset] : NULL);
   }
 
-  public function getPid()
+  public function getPid ()
   {
     return $this->listing->pid;
   }
 
-  public function isTemplate()
+  public function isTemplate ()
   {
     return preg_match('/^template_/', $this->type);
   }
 
-  public function getTemplatedType()
+  public function getTemplatedType ()
   {
     return preg_replace('/^template_/', '', $this->type);
   }
 
-  public function getTemplatedFields()
+  public function getTemplatedFields ()
   {
     return templateHandling::fieldsFromLDAP($this->attrs);
   }
 
-  public function checkAcl($acls)
+  public function checkAcl ($acls)
   {
     global $ui;
 
@@ -93,7 +93,7 @@ class ListingEntry implements ArrayAccess
     return TRUE;
   }
 
-  public function snapshotCreationAllowed()
+  public function snapshotCreationAllowed ()
   {
     global $ui;
 
@@ -101,7 +101,7 @@ class ListingEntry implements ArrayAccess
     return $ui->allow_snapshot_create($this->dn, $infos['aclCategory']);
   }
 
-  public function snapshotRestoreAllowed()
+  public function snapshotRestoreAllowed ()
   {
     global $ui;
 

@@ -74,7 +74,7 @@ class anyPhoneSelect extends phoneSelect
  */
 class phoneSelectDialog extends GenericDialog
 {
-  function __construct($simplePlugin, $attribute, $type)
+  function __construct ($simplePlugin, $attribute, $type)
   {
     $this->attribute  = $attribute;
     switch ($type) {
@@ -154,7 +154,7 @@ class PhoneNumberButtonAttribute extends PhoneNumberAttribute
     return $display;
   }
 
-  public function htmlIds()
+  public function htmlIds ()
   {
     $ids = parent::htmlIds();
     if ($this->type !== FALSE) {

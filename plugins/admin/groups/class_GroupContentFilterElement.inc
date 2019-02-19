@@ -25,7 +25,7 @@ class GroupContentFilterElement extends FilterElement
 {
   protected $types;
 
-  public function __construct(managementFilter $parent)
+  public function __construct (managementFilter $parent)
   {
     global $config;
 
@@ -46,7 +46,7 @@ class GroupContentFilterElement extends FilterElement
     }
   }
 
-  public function update()
+  public function update ()
   {
     foreach ($this->types as $type => &$infos) {
       $infos['checked'] = isset($_POST['filter_member_'.$type]);
@@ -54,7 +54,7 @@ class GroupContentFilterElement extends FilterElement
     unset($infos);
   }
 
-  public function render()
+  public function render ()
   {
     $inputs = array();
     foreach ($this->types as $type => $infos) {
@@ -71,7 +71,7 @@ class GroupContentFilterElement extends FilterElement
     return $smarty->fetch(get_template_path('management/filter-element.tpl'));
   }
 
-  public function getFilters($type, array &$filters)
+  public function getFilters ($type, array &$filters)
   {
     if (strtoupper($type) == 'OGROUP') {
       foreach ($this->types as $type => $infos) {

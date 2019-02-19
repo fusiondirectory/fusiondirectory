@@ -23,7 +23,7 @@ class locality extends department
   static protected $namingAttr  = 'l';
   protected $structuralOC       = array('locality');
 
-  static function plInfo()
+  static function plInfo (): array
   {
     return array(
       'plShortName'   => _('Locality'),
@@ -47,7 +47,7 @@ class locality extends department
     );
   }
 
-  static function getAttributesInfo ()
+  static function getAttributesInfo (): array
   {
     $attributesInfo = parent::getDepartmentAttributesInfo(_('locality'));
     unset($attributesInfo['location']);

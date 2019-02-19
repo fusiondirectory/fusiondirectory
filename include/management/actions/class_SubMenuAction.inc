@@ -26,7 +26,7 @@ class SubMenuAction extends Action
   protected $actions  = array();
   protected $handlers = array();
 
-  function __construct($name, $label, $icon, array $actions, $inmenu = TRUE)
+  function __construct (string $name, $label, $icon, array $actions, bool $inmenu = TRUE)
   {
     parent::__construct($name, $label, $icon, '0', FALSE, array(), $inmenu, FALSE);
     $this->actions = $actions;
@@ -38,7 +38,7 @@ class SubMenuAction extends Action
     }
   }
 
-  function addAction(Action $action)
+  function addAction (Action $action)
   {
     $this->actions[] = $action;
     $names = $action->listActions();
@@ -49,7 +49,7 @@ class SubMenuAction extends Action
     $this->parent->registerAction($this);
   }
 
-  function setParent(management $parent)
+  function setParent (management $parent)
   {
     parent::setParent($parent);
     foreach ($this->actions as $action) {
@@ -57,12 +57,12 @@ class SubMenuAction extends Action
     }
   }
 
-  function listActions()
+  function listActions (): array
   {
     return array_keys($this->handlers);
   }
 
-  function execute($management, $action)
+  function execute ($management, $action)
   {
     if (isset($action['subaction']) && isset($this->handlers[$action['action'].'_'.$action['subaction']])) {
       return $this->handlers[$action['action'].'_'.$action['subaction']]->execute($management, $action);
@@ -71,7 +71,7 @@ class SubMenuAction extends Action
     }
   }
 
-  function fillMenuItems(&$actions)
+  function fillMenuItems (&$actions)
   {
     if (!$this->inmenu) {
       return;
@@ -93,7 +93,8 @@ class SubMenuAction extends Action
     }
   }
 
-  function renderColumnIcons(ListingEntry $entry)
+  function renderColumnIcons (ListingEntry $entry): string
   {
+    return '';
   }
 }

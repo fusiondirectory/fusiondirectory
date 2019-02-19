@@ -39,7 +39,7 @@ class UserPasswordAttribute extends CompositeAttribute
       }
     }
 
-    parent::__construct (
+    parent::__construct(
       $description, $ldapName,
       array(
         new SelectAttribute(
@@ -71,7 +71,7 @@ class UserPasswordAttribute extends CompositeAttribute
     $this->attributes[4]->setTemplatable(FALSE);
   }
 
-  public function setParent(&$plugin)
+  public function setParent (&$plugin)
   {
     global $config;
     parent::setParent($plugin);
@@ -90,7 +90,7 @@ class UserPasswordAttribute extends CompositeAttribute
   }
 
   /* We need to handle method select disabling manually */
-  function renderAttribute(array &$attributes, $readOnly)
+  function renderAttribute (array &$attributes, $readOnly)
   {
     global $config;
     if ($this->visible) {
@@ -148,7 +148,7 @@ class UserPasswordAttribute extends CompositeAttribute
     $this->checkIfMethodNeedsPassword();
   }
 
-  function checkIfMethodNeedsPassword()
+  function checkIfMethodNeedsPassword ()
   {
     $method     = $this->attributes[0]->getValue();
     $methodInfo = $method.$this->attributes[3]->getValue();
@@ -171,12 +171,12 @@ class UserPasswordAttribute extends CompositeAttribute
     $this->previousMethodInfo = $methodInfo;
   }
 
-  function readValues($value)
+  function readValues ($value)
   {
     return $this->readUserPasswordValues($value, $this->plugin->is_template);
   }
 
-  function readUserPasswordValues($value, $istemplate)
+  function readUserPasswordValues ($value, $istemplate)
   {
     global $config;
     $pw_storage = $config->get_cfg_value('passwordDefaultHash', 'ssha');
@@ -188,7 +188,7 @@ class UserPasswordAttribute extends CompositeAttribute
       }
       list($value, $password) = explode('|', $value, 2);
     }
-    if (preg_match ('/^{[^}]+}/', $value)) {
+    if (preg_match('/^{[^}]+}/', $value)) {
       $tmp = passwordMethod::get_method($value);
       if (is_object($tmp)) {
         $pw_storage = $tmp->get_hash();
@@ -203,7 +203,7 @@ class UserPasswordAttribute extends CompositeAttribute
     return array($pw_storage, $password, $password, $value, $locked);
   }
 
-  function writeValues(array $values)
+  function writeValues (array $values)
   {
     if ($this->plugin->is_template && ($values[0] == '%askme%')) {
       return '%askme%';
@@ -225,7 +225,7 @@ class UserPasswordAttribute extends CompositeAttribute
     }
   }
 
-  function check()
+  function check ()
   {
     $error = parent::check();
     if (!empty($error)) {
@@ -236,17 +236,17 @@ class UserPasswordAttribute extends CompositeAttribute
     }
   }
 
-  function getMethod()
+  function getMethod ()
   {
     return $this->attributes[0]->getValue();
   }
 
-  function getClear()
+  function getClear ()
   {
     return $this->attributes[1]->getValue();
   }
 
-  function isLocked()
+  function isLocked ()
   {
     return $this->attributes[4]->getValue();
   }

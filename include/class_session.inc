@@ -33,7 +33,7 @@ class session {
    *
    * \param string $name The name of the session
    */
-  public static function is_set($name)
+  public static function is_set ($name)
   {
     $channel = "";
     if (isset($_POST['_channel_'])) {
@@ -60,7 +60,7 @@ class session {
    *
    * \param string $name Name of the session
    */
-  public static function global_is_set($name)
+  public static function global_is_set ($name)
   {
     return isset($_SESSION[$name]);
   }
@@ -72,7 +72,7 @@ class session {
    *
    * \param $value The new value
    */
-  public static function set($name, $value)
+  public static function set ($name, $value)
   {
     $channel = "";
     if (isset($_POST['_channel_'])) {
@@ -99,7 +99,7 @@ class session {
    *
    * \param $value The new value
    */
-  public static function global_set($name, $value)
+  public static function global_set ($name, $value)
   {
     $_SESSION[$name] = $value;
   }
@@ -109,7 +109,7 @@ class session {
    *
    * \param string $name Name of the session
    */
-  public static function &get($name)
+  public static function &get ($name)
   {
     $channel = "";
     if (isset($_POST['_channel_'])) {
@@ -135,7 +135,7 @@ class session {
    *
    * \param string $name Name of the session var
    */
-  public static function global_get($name)
+  public static function global_get ($name)
   {
     if (isset($_SESSION[$name])) {
       return $_SESSION[$name];
@@ -149,7 +149,7 @@ class session {
    *
    * \param string $name Name of the session var
    */
-  public static function &global_get_ref($name)
+  public static function &global_get_ref ($name)
   {
     return $_SESSION[$name];
   }
@@ -159,7 +159,7 @@ class session {
    *
    * \param string $name Name of the session to delete
    */
-  public static function delete($name)
+  public static function delete ($name)
   {
     $channel = "";
     if (isset($_POST['_channel_'])) {
@@ -183,7 +183,7 @@ class session {
    *
    * \param string $name Name of the session to delete
    */
-  public static function global_delete($name)
+  public static function global_delete ($name)
   {
     if (isset($_SESSION[$name])) {
       unset($_SESSION[$name]);
@@ -195,7 +195,7 @@ class session {
    *
    * \param string $name Name of the session to delete
    */
-  public static function un_set($name)
+  public static function un_set ($name)
   {
     return session::delete($name);
   }
@@ -205,7 +205,7 @@ class session {
    *
    * \param string $name Name of the session to delete
    */
-  public static function global_un_set($name)
+  public static function global_un_set ($name)
   {
     return session::global_delete($name);
   }
@@ -213,7 +213,7 @@ class session {
   /*!
    * \brief Start a session
    */
-  public static function start($id = NULL)
+  public static function start ($id = NULL)
   {
     session_name("FusionDirectory");
     /* Set cookie lifetime to one day (The parameter is in seconds ) */
@@ -252,7 +252,7 @@ class session {
   /*!
    * \brief Destroy a session
    */
-  public static function destroy()
+  public static function destroy ()
   {
     @session_destroy();
   }

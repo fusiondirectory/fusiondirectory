@@ -29,7 +29,7 @@
  */
 class acl
 {
-  static function plInfo()
+  static function plInfo ()
   {
     return array(
       'plShortName'   => _('ACL'),
@@ -51,7 +51,7 @@ class acl
    *
    *  \param Array $list Array to be sorted
    */
-  static function sort_by_priority($list)
+  static function sort_by_priority ($list)
   {
     uksort($list,
       function ($a, $b)
@@ -75,7 +75,7 @@ class acl
    *
    * \param string $role ACL role to be exploded
    */
-  static function explodeRole($role)
+  static function explodeRole ($role)
   {
     if (!is_array($role)) {
       $role = array($role);
@@ -95,7 +95,7 @@ class acl
    *
    * \param string $acl ACL to be exploded
    */
-  static function explodeACL($acl)
+  static function explodeACL ($acl)
   {
     $list = explode(':', $acl);
     if (count($list) == 5) {
@@ -128,7 +128,7 @@ class acl
    *
    * \return an array with members
    */
-  static function extractMembers($ms)
+  static function extractMembers ($ms)
   {
     global $config;
     $a = array();
@@ -182,7 +182,7 @@ class acl
    *
    * \param string $acl The acl to be extracted
    */
-  static function extractACL($acl)
+  static function extractACL ($acl)
   {
     /* Rip acl off the string, seperate by ',' and place it in an array */
     $as = preg_replace('/^[^:]+:[^:]+:[^:]*:([^:]*).*$/', '\1', $acl);

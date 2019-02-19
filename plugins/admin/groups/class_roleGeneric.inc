@@ -22,7 +22,7 @@ class RoleMembersAttribute extends UsersAttribute
 {
   protected $whitelistDns = NULL;
 
-  function getFilterWhiteList()
+  function getFilterWhiteList ()
   {
     global $config;
     if ($config->get_cfg_value('RestrictRoleMembers') == 'TRUE') {
@@ -47,7 +47,7 @@ class RoleMembersAttribute extends UsersAttribute
 
 class roleGeneric extends simplePlugin
 {
-  static function plInfo()
+  static function plInfo (): array
   {
     return array(
       'plShortName'   => _('Role'),
@@ -75,27 +75,27 @@ class roleGeneric extends simplePlugin
    /*!
    *  \brief The main function : information about attributes
    */
-  static function getAttributesInfo ()
+  static function getAttributesInfo (): array
   {
     return array(
       'main' => array(
         'name'  => _('Information'),
         'attrs' => array(
-          new BaseSelectorAttribute (get_ou('roleRDN')),
+          new BaseSelectorAttribute(get_ou('roleRDN')),
           new StringAttribute(
             _('Name'), _('Name of this group'),
             'cn', TRUE,
             '', '', (strict_uid_mode() ? '/^[a-z0-9_-]+$/i' : '/^[a-z0-9_.-]+$/i')
           ),
-          new StringAttribute (
+          new StringAttribute(
             _('Description'), _('Description of the role'),
             'description'
           ),
-          new StringAttribute (
+          new StringAttribute(
             _('Phone number'), _('Phone number'),
             'telephoneNumber'
           ),
-          new StringAttribute (
+          new StringAttribute(
             _('Fax number'), _('Fax number'),
             'facsimileTelephoneNumber'
           )
@@ -104,7 +104,7 @@ class roleGeneric extends simplePlugin
       'members' => array(
         'name'  => _('Role members'),
         'attrs' => array(
-          new RoleMembersAttribute (
+          new RoleMembersAttribute(
             '', _('Add users for the role'),
             'roleOccupant', FALSE
           )
@@ -113,7 +113,7 @@ class roleGeneric extends simplePlugin
     );
   }
 
-  function ldap_save()
+  function ldap_save (): array
   {
     global $ui;
 

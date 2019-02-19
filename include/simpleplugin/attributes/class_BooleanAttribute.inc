@@ -45,12 +45,12 @@ class BooleanAttribute extends Attribute
     $this->falseValue = $falseValue;
   }
 
-  function setTemplatable($bool)
+  function setTemplatable ($bool)
   {
     $this->templatable = $bool;
   }
 
-  protected function isTemplatable()
+  protected function isTemplatable ()
   {
     /* Allow to set to %askme% if we are not (de)activating other fields */
     return (!$this->submitForm && empty($this->managedAttributes) && $this->templatable);
@@ -90,7 +90,7 @@ class BooleanAttribute extends Attribute
     }
   }
 
-  function displayValue($value)
+  function displayValue ($value)
   {
     if ($this->isTemplate() && $this->isTemplatable() && ($value === '%askme%')) {
       return $value;

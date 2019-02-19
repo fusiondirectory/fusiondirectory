@@ -23,7 +23,7 @@ class setupStepLanguage extends setupStep
 {
   var $header_image = 'geticon.php?context=applications&icon=config-language&size=48';
 
-  static function getAttributesInfo()
+  static function getAttributesInfo (): array
   {
     return array(
       'lang' => array(
@@ -47,14 +47,14 @@ class setupStepLanguage extends setupStep
     );
   }
 
-  function __construct($parent)
+  function __construct ($parent)
   {
     parent::__construct($parent);
     $this->lang = Language::detect();
     $this->attributesAccess['lang_selected']->setSize(20);
   }
 
-  function update_strings()
+  function update_strings ()
   {
     $this->s_short_name   = _('Language setup');
     $this->s_title        = _('Language setup');
@@ -62,7 +62,7 @@ class setupStepLanguage extends setupStep
     $this->msg            = _('At this point, you can select the site wide default language. Choosing "automatic" will use the language requested by the browser. This setting can be overriden per user.');
   }
 
-  function execute()
+  function execute (): string
   {
     $languages = Language::getList(TRUE);
     asort($languages);
@@ -71,7 +71,7 @@ class setupStepLanguage extends setupStep
     return parent::execute();
   }
 
-  function save_object()
+  function save_object ()
   {
     parent::save_object();
     $this->is_completed   = TRUE;
@@ -83,5 +83,3 @@ class setupStepLanguage extends setupStep
     }
   }
 }
-
-?>

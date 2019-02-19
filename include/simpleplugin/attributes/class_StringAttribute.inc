@@ -142,7 +142,7 @@ class StringAttribute extends Attribute
     return $this->autocomplete;
   }
 
-  function checkValue($value)
+  function checkValue ($value)
   {
     if (!is_scalar($value) && (!is_object($value) || !method_exists($value, '__toString' ))) {
       throw new InvalidValueException(sprintf(_('StringAttribute "%s" was set to a non-compatible value'), $this->getLabel()));

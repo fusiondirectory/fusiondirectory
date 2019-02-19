@@ -39,7 +39,7 @@ class ldapSizeLimit
   /*! \brief Limit was exceeded */
   protected $limitExceeded;
 
-  function __construct()
+  function __construct ()
   {
     global $config;
 
@@ -47,17 +47,17 @@ class ldapSizeLimit
     $this->ignore     = preg_match('/true/i', $config->get_cfg_value('LDAPSIZEIGNORE', 'TRUE'));
   }
 
-  function getSizeLimit()
+  function getSizeLimit ()
   {
     return $this->sizeLimit;
   }
 
-  function setSizeLimit($limit)
+  function setSizeLimit ($limit)
   {
     $this->sizeLimit = $limit;
   }
 
-  function setLimitExceeded($exceeded = TRUE)
+  function setLimitExceeded ($exceeded = TRUE)
   {
     $this->limitExceeded = $exceeded;
   }
@@ -65,7 +65,7 @@ class ldapSizeLimit
   /*!
    * \brief Handle sizelimit dialog related posts
    */
-  function update()
+  function update ()
   {
     if (isset($_POST['set_size_action']) && isset($_POST['action'])) {
       switch ($_POST['action']) {
@@ -99,7 +99,7 @@ class ldapSizeLimit
    * Show sizelimit configuration dialog when number
    * of entries exceeded the sizelimit
    */
-  function check()
+  function check ()
   {
     global $config;
 
@@ -125,7 +125,7 @@ class ldapSizeLimit
    * Print a sizelimit warning when number
    * of entries exceeded the sizelimit
    */
-  function renderWarning()
+  function renderWarning ()
   {
     if (($this->sizeLimit >= 10000000) || $this->limitExceeded) {
       $config = '<input type="submit" name="edit_sizelimit" value="'._('Configure').'" formnovalidate="formnovalidate"/>';
