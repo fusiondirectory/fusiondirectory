@@ -23,7 +23,7 @@
  */
 class HiddenAction extends Action
 {
-  function __construct ($name, $callable, array $acl = array())
+  function __construct (string $name, $callable, array $acl = array())
   {
     parent::__construct($name, '', '', '0', $callable, $acl, FALSE, FALSE);
   }

@@ -23,7 +23,7 @@
  */
 class ActionsColumn extends Column
 {
-  function isSortable ()
+  function isSortable (): bool
   {
     return FALSE;
   }
@@ -33,7 +33,7 @@ class ActionsColumn extends Column
     $this->parent->parent->fillActionRowClasses($classes, $entry);
   }
 
-  function renderCell (ListingEntry $entry)
+  function renderCell (ListingEntry $entry): string
   {
     return $this->parent->parent->renderActionColumn($entry);
   }

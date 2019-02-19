@@ -73,9 +73,8 @@ class departmentManagement extends management
     $this->refreshDeps();
   }
 
-  static function getDepartmentTypes ()
+  static function getDepartmentTypes (): array
   {
     return array('DEPARTMENT','COUNTRY','DCOBJECT','DOMAIN','LOCALITY','ORGANIZATION');
   }
 }
-?>

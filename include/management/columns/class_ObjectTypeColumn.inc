@@ -23,12 +23,12 @@
  */
 class ObjectTypeColumn extends Column
 {
-  function isSortable ()
+  function isSortable (): bool
   {
     return FALSE;
   }
 
-  function renderCell (ListingEntry $entry)
+  function renderCell (ListingEntry $entry): string
   {
     if ($entry->isTemplate()) {
       $infos = objects::infos($entry->getTemplatedType());

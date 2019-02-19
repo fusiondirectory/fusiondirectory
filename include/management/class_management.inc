@@ -332,7 +332,7 @@ class management
     }
   }
 
-  public function getColumnConfiguration ()
+  public function getColumnConfiguration (): array
   {
     global $config;
 
@@ -360,7 +360,7 @@ class management
    * \brief  Detects actions/events send by the ui
    *           and the corresponding targets.
    */
-  function detectPostActions ()
+  function detectPostActions (): array
   {
     if (!is_object($this->listing)) {
       throw new FusionDirectoryException('No valid listing object');
@@ -400,7 +400,7 @@ class management
     }
   }
 
-  protected function handleSubAction (array $action)
+  protected function handleSubAction (array $action): bool
   {
     if (preg_match('/^tab_/', $action['subaction'])) {
       $tab = preg_replace('/^tab_/', '', $action['subaction']);
@@ -476,7 +476,7 @@ class management
     return $this->renderList();
   }
 
-  function renderList ()
+  function renderList (): string
   {
     global $config, $ui;
 
@@ -498,12 +498,12 @@ class management
     return $this->getHeader().$smarty->fetch(get_template_path('management/management.tpl'));
   }
 
-  protected function renderFilter ()
+  protected function renderFilter (): string
   {
     return $this->filter->render();
   }
 
-  protected function renderActionMenu ()
+  protected function renderActionMenu (): string
   {
     $menuActions = array();
     foreach ($this->actions as $action) {
@@ -520,7 +520,7 @@ class management
     return $smarty->fetch(get_template_path('management/actionmenu.tpl'));
   }
 
-  function renderActionColumn (ListingEntry $entry)
+  function renderActionColumn (ListingEntry $entry): string
   {
     // Go thru all actions
     $result = '';
@@ -554,7 +554,7 @@ class management
     }
   }
 
-  function is_modal_dialog ()
+  function is_modal_dialog (): bool
   {
     return (is_object($this->tabObject) || is_object($this->dialogObject));
   }
@@ -562,7 +562,7 @@ class management
   /*!
    * \brief  Generates the plugin header which is displayed whenever a tab object is opened.
    */
-  protected function getHeader ()
+  protected function getHeader (): string
   {
     if ($this->skipHeader) {
       return '';
@@ -597,7 +597,7 @@ class management
     set_object_info();
   }
 
-  protected function listAclCategories ()
+  protected function listAclCategories (): array
   {
     $cat = array();
     foreach ($this->objectTypes as $type) {
@@ -610,7 +610,7 @@ class management
   /*!
    * \brief  Generates the footer which is used whenever a tab object is displayed.
    */
-  protected function _getTabFooter ()
+  protected function _getTabFooter (): string
   {
     // Do not display tab footer for non tab objects
     if (!($this->tabObject instanceOf simpleTabs)) {
@@ -658,7 +658,7 @@ class management
     }
   }
 
-  function enablePaste ($action, ListingEntry $entry = NULL)
+  function enablePaste ($action, ListingEntry $entry = NULL): bool
   {
     if ($entry === NULL) {
       return $this->cpHandler->entries_queued();
@@ -1109,7 +1109,7 @@ class management
 
   /* Methods related to Snapshots */
 
-  function getSnapshotBases ()
+  function getSnapshotBases (): array
   {
     $bases = array();
     foreach ($this->objectTypes as $type) {
@@ -1128,7 +1128,7 @@ class management
   /*!
    * \brief Get all deleted snapshots
    */
-  function getAllDeletedSnapshots ()
+  function getAllDeletedSnapshots (): array
   {
     $bases = $this->getSnapshotBases();
     $tmp = array();
@@ -1143,7 +1143,7 @@ class management
    *
    * \param string $dn The DN
    */
-  function getAvailableSnapsShots ($dn)
+  function getAvailableSnapsShots (string $dn): array
   {
     return $this->snapHandler->getAvailableSnapsShots($dn);
   }
@@ -1151,7 +1151,7 @@ class management
   /*
    * \brief Whether snapshot restore action should be enabled for an entry
    */
-  function enableSnapshotRestore ($action, ListingEntry $entry = NULL)
+  function enableSnapshotRestore ($action, ListingEntry $entry = NULL): bool
   {
     if ($entry !== NULL) {
       /* For entries */
@@ -1165,7 +1165,7 @@ class management
   /*!
    * \brief  Creates a new snapshot entry
    */
-  function createSnapshot ($dn, $description)
+  function createSnapshot (string $dn, string $description)
   {
     global $ui;
     if ($this->currentDn !== $dn) {
@@ -1186,7 +1186,7 @@ class management
    *
    * \param  String  $dn  The DN of the snapshot
    */
-  function restoreSnapshot ($dn)
+  function restoreSnapshot (string $dn)
   {
     global $ui;
     if (!empty($dn) && $ui->allow_snapshot_restore($dn, $this->dialogObject->aclCategory, $this->dialogObject->global)) {
@@ -1204,7 +1204,7 @@ class management
    *
    * \param string $dn DN of the snapshot
    */
-  function removeSnapshot ($dn)
+  function removeSnapshot (string $dn)
   {
     global $ui;
     if (!empty($dn) && $ui->allow_snapshot_delete($dn, $this->dialogObject->aclCategory)) {
@@ -1249,6 +1249,4 @@ class management
       session::set($classname, $managementObject);
     }
   }
-
-
 }

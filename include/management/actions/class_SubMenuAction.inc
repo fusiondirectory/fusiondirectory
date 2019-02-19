@@ -26,7 +26,7 @@ class SubMenuAction extends Action
   protected $actions  = array();
   protected $handlers = array();
 
-  function __construct ($name, $label, $icon, array $actions, $inmenu = TRUE)
+  function __construct (string $name, $label, $icon, array $actions, bool $inmenu = TRUE)
   {
     parent::__construct($name, $label, $icon, '0', FALSE, array(), $inmenu, FALSE);
     $this->actions = $actions;
@@ -57,7 +57,7 @@ class SubMenuAction extends Action
     }
   }
 
-  function listActions ()
+  function listActions (): array
   {
     return array_keys($this->handlers);
   }
@@ -93,7 +93,8 @@ class SubMenuAction extends Action
     }
   }
 
-  function renderColumnIcons (ListingEntry $entry)
+  function renderColumnIcons (ListingEntry $entry): string
   {
+    return '';
   }
 }

@@ -34,7 +34,7 @@ class groupManagement extends management
 
   protected $siActive = FALSE;
 
-  static function plInfo ()
+  static function plInfo (): array
   {
     return array(
       'plShortName'   => _('Groups and roles'),
@@ -207,7 +207,7 @@ class groupManagement extends management
   /*! \brief  Detects actions/events send by the ui
    *           and the corresponding targets.
    */
-  function detectPostActions ()
+  function detectPostActions (): array
   {
     $action = parent::detectPostActions();
     if (isset($_POST['save_event_dialog'])) {
@@ -218,4 +218,3 @@ class groupManagement extends management
     return $action;
   }
 }
-?>

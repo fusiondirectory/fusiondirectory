@@ -49,7 +49,7 @@ class Action
 
   protected $parent;
 
-  function __construct ($name, $label, $icon, $targets, $callable, array $acls = array(), $inmenu = TRUE, $inline = TRUE, array $validTypes = array())
+  function __construct (string $name, $label, $icon, string $targets, $callable, array $acls = array(), bool $inmenu = TRUE, bool $inline = TRUE, array $validTypes = array())
   {
     if ($targets == '0') {
       $inline = FALSE;
@@ -122,7 +122,7 @@ class Action
     $this->parent = $parent;
   }
 
-  function getName ()
+  function getName (): string
   {
     return $this->name;
   }
@@ -132,7 +132,7 @@ class Action
     return $this->label;
   }
 
-  function setSeparator ($bool)
+  function setSeparator (bool $bool)
   {
     $this->separator = $bool;
   }
@@ -142,12 +142,12 @@ class Action
     $this->enabledCallable = $callable;
   }
 
-  function setInMenu ($inmenu)
+  function setInMenu (bool $inmenu)
   {
     $this->inmenu = $inmenu;
   }
 
-  function listActions ()
+  function listActions (): array
   {
     return array($this->name);
   }
@@ -193,7 +193,7 @@ class Action
   {
   }
 
-  function renderColumnIcons (ListingEntry $entry)
+  function renderColumnIcons (ListingEntry $entry): string
   {
     if (!$this->inline) {
       return '';
@@ -218,7 +218,7 @@ class Action
             ' title="'.$this->label.'" alt="'.$this->label.'" name="listing_'.$this->name.'_'.$entry->row.'"/>';
   }
 
-  function isEnabledFor (ListingEntry $entry = NULL)
+  function isEnabledFor (ListingEntry $entry = NULL): bool
   {
     if (isset($this->enabledCallable)) {
       return call_user_func($this->enabledCallable, $this->name, $entry);
@@ -226,7 +226,7 @@ class Action
     return TRUE;
   }
 
-  function hasPermission ($dn, $type = NULL, $template = FALSE)
+  function hasPermission ($dn, $type = NULL, bool $template = FALSE): bool
   {
     global $ui;
 

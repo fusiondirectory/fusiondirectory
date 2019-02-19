@@ -43,7 +43,7 @@ class Column
    * \param string $type a column class
    * \param array $data an associative array with "attributes" and "label"
    * */
-  static function build (managementListing $parent, $type, array $data)
+  static function build (managementListing $parent, $type, array $data): Column
   {
     $attributes = NULL;
     $label      = NULL;
@@ -60,14 +60,14 @@ class Column
     return new $type($parent, $attributes, $label);
   }
 
-  function __construct (managementListing $parent, array $attributes = NULL, $label = NULL)
+  function __construct (managementListing $parent, array $attributes = NULL, string $label = NULL)
   {
-    $this->parent     = $parent;
+    $this->parent = $parent;
+    $this->label  = $label;
     $this->setAttributesVar('attributes', $attributes);
-    $this->label      = $label;
   }
 
-  protected function setAttributesVar ($var, array $attributes = NULL)
+  protected function setAttributesVar (string $var, array $attributes = NULL)
   {
     if (is_array($attributes) && is_numeric(key($attributes))) {
       $val = array();
@@ -89,27 +89,27 @@ class Column
     $this->setAttributesVar('templateAttributes', $attributes);
   }
 
-  function isSortable ()
+  function isSortable (): bool
   {
     return TRUE;
   }
 
-  function isExportable ()
+  function isExportable (): bool
   {
     return !empty($this->attributes);
   }
 
-  function getHtmlProps ()
+  function getHtmlProps (): string
   {
     return '';
   }
 
-  function getHtmlCellProps ()
+  function getHtmlCellProps (): string
   {
     return '';
   }
 
-  function getLabel ()
+  function getLabel (): string
   {
     if (isset($this->label)) {
       return _($this->label);
@@ -170,7 +170,7 @@ class Column
     return '';
   }
 
-  function renderCell (ListingEntry $entry)
+  function renderCell (ListingEntry $entry): string
   {
     $value = $this->getAttributeValue($entry);
     if ($value == '') {
@@ -194,7 +194,7 @@ class Column
     return $this->getAttributeValue($entry);
   }
 
-  function compare (ListingEntry $ao, ListingEntry $bo)
+  function compare (ListingEntry $ao, ListingEntry $bo): int
   {
     $a = $this->getAttributeValue($ao);
     $b = $this->getAttributeValue($bo);

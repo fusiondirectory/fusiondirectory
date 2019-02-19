@@ -1,7 +1,8 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2017-2018  FusionDirectory
+
+  Copyright (C) 2017-2019  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -58,7 +59,7 @@ class selectManagement extends management
     $this->registerAction(new HiddenAction('configure',       'configureDialog'));
   }
 
-  function renderList ()
+  function renderList (): string
   {
     $list = parent::renderList();
 

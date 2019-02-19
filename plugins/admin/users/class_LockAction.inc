@@ -20,7 +20,7 @@
 
 class LockAction extends Action
 {
-  function __construct ($name, $targets, $callable, array $acl = array(), $inmenu = TRUE, $inline = TRUE)
+  function __construct (string $name, string $targets, $callable, array $acl = array(), $inmenu = TRUE, $inline = TRUE)
   {
     parent::__construct(
       $name,
@@ -77,7 +77,7 @@ class LockAction extends Action
     }
   }
 
-  function renderColumnIcons (ListingEntry $entry)
+  function renderColumnIcons (ListingEntry $entry): string
   {
     if (!$this->inline) {
       return '';
