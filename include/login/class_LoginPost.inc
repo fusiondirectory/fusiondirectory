@@ -24,19 +24,19 @@
 class LoginPost extends LoginMethod
 {
   /*! \brief Displayed name */
-  static function getLabel()
+  static function getLabel ()
   {
     return _('HTML form');
   }
 
   /*! \brief All login steps in the right order for standard POST login */
-  static function loginProcess()
+  static function loginProcess ()
   {
     global $smarty, $config, $message;
 
     static::init();
 
-    $smarty->assign ('focusfield', 'username');
+    $smarty->assign('focusfield', 'username');
 
     if (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['login']) && isset($_POST['username']) && isset($_POST['password'])) {
 
@@ -64,7 +64,7 @@ class LoginPost extends LoginMethod
   }
 
   /*! \brief Display the login page and exit() */
-  static protected function displayLogin()
+  static protected function displayLogin ()
   {
     global $smarty,$message,$config,$ssl,$error_collector,$error_collector_mailto;
 

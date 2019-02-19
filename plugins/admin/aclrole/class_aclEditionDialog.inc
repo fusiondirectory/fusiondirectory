@@ -28,7 +28,7 @@ class ACLEditionDialog extends GenericDialog
   protected $aclContents      = array();
   protected $savedAclContents = array();
 
-  function __construct($simplePlugin, $attribute, $acl = NULL)
+  function __construct ($simplePlugin, $attribute, $acl = NULL)
   {
     $this->attribute        = $attribute;
     $this->initialAclValue  = $acl;
@@ -55,7 +55,7 @@ class ACLEditionDialog extends GenericDialog
     return FALSE;
   }
 
-  function save_object()
+  function save_object ()
   {
     global $config;
 
@@ -233,7 +233,7 @@ class ACLEditionDialog extends GenericDialog
    *
    * \return String containing checkbox
    */
-  function mkchkbx($name, $text, $state = FALSE)
+  function mkchkbx ($name, $text, $state = FALSE)
   {
     $tname = preg_replace('/[^a-z0-9]/i', '_', $name);
     return  '<input id="acl_'.$tname.'" type="checkbox" name="acl_'.$name.'"'.($state ? ' checked="checked"' : '').'/>'."\n".
@@ -248,7 +248,7 @@ class ACLEditionDialog extends GenericDialog
    *
    * \return String containing checkbox
    */
-  function mkrwbx($name, $state = '')
+  function mkrwbx ($name, $state = '')
   {
     $rstate = (preg_match('/r/', $state) ? ' checked="checked"' : '');
     $wstate = (preg_match('/w/', $state) ? ' checked="checked"' : '');
@@ -267,7 +267,7 @@ class ACLEditionDialog extends GenericDialog
    *
    * \return the acl selector form
    */
-  function buildAclSelector($list)
+  function buildAclSelector ($list)
   {
     $display  = '<input type="hidden" name="acl_dummy_0_0_0" value="1"/>';
     $cols     = 3;

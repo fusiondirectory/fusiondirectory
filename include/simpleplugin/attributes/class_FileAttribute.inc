@@ -25,7 +25,7 @@ class FileAttribute extends Attribute
 {
   protected $binary = TRUE;
 
-  function loadPostValue()
+  function loadPostValue ()
   {
     $this->postValue = $this->value;
     if (!empty($_FILES[$this->getHtmlId()]['name']) && $this->isVisible()) {
@@ -52,7 +52,7 @@ class FileAttribute extends Attribute
    *
    *  \param filehandle $handle The handle on the opened uploaded file
    */
-  function readFile($handle)
+  function readFile ($handle)
   {
     $postValue = fread($handle, 1024);
     while (!feof($handle)) {
@@ -69,7 +69,7 @@ class FileAttribute extends Attribute
     return $this->renderAcl($display);
   }
 
-  function displayValue($value)
+  function displayValue ($value)
   {
     return sprintf(_('%s (%d bytes)'), $this->getLabel(), mb_strlen($value, '8bit'));
   }
@@ -79,7 +79,7 @@ class FileAttribute extends Attribute
    * \param array &$attributes the attributes array
    * \param boolean $form
    */
-  function serializeAttribute(array &$attributes, $form = TRUE)
+  function serializeAttribute (array &$attributes, $form = TRUE)
   {
     if (!$form || $this->visible) {
       parent::serializeAttribute($attributes, $form);
@@ -94,7 +94,7 @@ class FileAttribute extends Attribute
    *
    *  \param mixed $value the value
    */
-  function serializeValue($value = NULL)
+  function serializeValue ($value = NULL)
   {
     if ($value === NULL) {
       $value = $this->getValue();
@@ -110,7 +110,7 @@ class FileAttribute extends Attribute
    *
    *  \param mixed $value the value
    */
-  function deserializeValue($value)
+  function deserializeValue ($value)
   {
     if ($this->disabled) {
       return sprintf(_('Attribute %s is disabled, its value could not be set'), $this->getLdapName());
@@ -140,7 +140,7 @@ class FileDownloadAttribute extends FileAttribute
     $this->binary     = ($extension != '.txt');
   }
 
-  function computeFilename()
+  function computeFilename ()
   {
     return $this->getLdapName().$this->extension;
   }
@@ -188,7 +188,7 @@ class FileDownloadAttribute extends FileAttribute
     return $this->renderAcl($display);
   }
 
-  public function htmlIds()
+  public function htmlIds ()
   {
     $id   = $this->getHtmlId();
     $ids  = array();
@@ -202,7 +202,7 @@ class FileDownloadAttribute extends FileAttribute
     return $ids;
   }
 
-  function renderAttribute(array &$attributes, $readOnly)
+  function renderAttribute (array &$attributes, $readOnly)
   {
     if ($this->upload === FALSE) {
       parent::renderAttribute($attributes, FALSE);
@@ -272,7 +272,7 @@ class FileTextAreaAttribute extends FileDownloadAttribute
     return $this->renderAcl($display).parent::renderFormInput();
   }
 
-  public function htmlIds()
+  public function htmlIds ()
   {
     $id     = $this->getHtmlId();
     $ids    = parent::htmlIds();
@@ -301,7 +301,7 @@ class ImageAttribute extends FileAttribute
     $this->forceSize  = $forceSize;
   }
 
-  function setPlaceholder($placeholder)
+  function setPlaceholder ($placeholder)
   {
     $this->placeholder = $placeholder;
   }
@@ -415,7 +415,7 @@ class ImageAttribute extends FileAttribute
     return $this->renderAcl($display);
   }
 
-  public function htmlIds()
+  public function htmlIds ()
   {
     $id = $this->getHtmlId();
     return array($id.'_img',$id,'upload'.$id);

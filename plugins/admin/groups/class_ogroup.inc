@@ -94,7 +94,7 @@ class GroupMembersAttribute extends ObjectsAttribute
     }
   }
 
-  function renderOnlyFormInput()
+  function renderOnlyFormInput ()
   {
     if (($this->size < 15) && ($this->size < count($this->value))) {
       $this->size = min(15, count($this->value));
@@ -124,7 +124,7 @@ class GroupMembersAttribute extends ObjectsAttribute
     return $display;
   }
 
-  function ldapAttributesToGet()
+  function ldapAttributesToGet ()
   {
     return array(
       'objectClass',
@@ -137,7 +137,7 @@ class GroupMembersAttribute extends ObjectsAttribute
     );
   }
 
-  function listObjectTypes()
+  function listObjectTypes ()
   {
     /* Refresh types and displays */
     $this->getDisplayValues();
@@ -334,7 +334,7 @@ class ogroup extends simplePlugin
     return $errors;
   }
 
-  function reload()
+  function reload ()
   {
     $this->gosaGroupObjects = $this->attributesAccess['member']->listObjectTypes();
   }
@@ -387,7 +387,7 @@ class ogroup extends simplePlugin
     return parent::ldap_save();
   }
 
-  function getGroupObjectTypes()
+  function getGroupObjectTypes ()
   {
     $this->reload();
     return $this->gosaGroupObjects;

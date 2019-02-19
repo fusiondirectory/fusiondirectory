@@ -42,7 +42,7 @@ class csvExporter
    *
    * \param array $columns
    */
-  function __construct($headline, $header, $entries, $columns = array())
+  function __construct ($headline, $header, $entries, $columns = array())
   {
     // If no preset, render all columns
     if (!count($columns)) {
@@ -78,12 +78,12 @@ class csvExporter
   /*!
    * \brief Get the result
    */
-  function query()
+  function query ()
   {
     return $this->result;
   }
 
-  static function export(managementListing $listing)
+  static function export (managementListing $listing)
   {
     $columns  = $listing->getColumns();
     $iterator = $listing->getIterator();
@@ -113,7 +113,7 @@ class csvExporter
   /*!
    * \brief Get Informations
    */
-  static function getInfo()
+  static function getInfo ()
   {
     return array("exportCSV" => array( "label" => _("CSV"), "image" => "geticon.php?context=mimetypes&icon=text-csv&size=16", "class" => "csvExporter", "mime" => "text/x-csv", "filename" => "export.csv" ));
   }

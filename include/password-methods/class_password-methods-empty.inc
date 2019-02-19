@@ -39,7 +39,7 @@ class passwordMethodEmpty extends passwordMethod
   /*!
    * \brief passwordMethodClear Constructor
    */
-  function __construct()
+  function __construct ()
   {
   }
 
@@ -48,7 +48,7 @@ class passwordMethodEmpty extends passwordMethod
    *
    * \return TRUE
    */
-  function is_available()
+  function is_available ()
   {
     return TRUE;
   }
@@ -58,7 +58,7 @@ class passwordMethodEmpty extends passwordMethod
    *
    * \param string $pwd Password
    */
-  function generate_hash($pwd, $locked = FALSE)
+  function generate_hash ($pwd, $locked = FALSE)
   {
     return ($locked ? static::LOCKVALUE : '');
   }
@@ -66,7 +66,7 @@ class passwordMethodEmpty extends passwordMethod
   /*!
    * \brief Get the hash name
    */
-  static function get_hash_name()
+  static function get_hash_name ()
   {
     return 'empty';
   }
@@ -76,12 +76,12 @@ class passwordMethodEmpty extends passwordMethod
    *
    * \return boolean FALSE
    */
-  function need_password()
+  function need_password ()
   {
     return FALSE;
   }
 
-  static function _extract_method($password_hash)
+  static function _extract_method ($password_hash)
   {
     if (empty($password_hash) || ($password_hash == static::LOCKVALUE)) {
       return static::get_hash_name();

@@ -36,7 +36,7 @@ class EntrySortIterator implements Iterator
    *
    * \param bool $direction Direction
    */
-  public function __construct(array $entries, Column $column, $direction)
+  public function __construct (array $entries, Column $column, $direction)
   {
     // Sort for attribute
     if (is_object($column)) {
@@ -62,7 +62,7 @@ class EntrySortIterator implements Iterator
    *
    * \return the first element of the array
    */
-  function rewind()
+  function rewind ()
   {
     return reset($this->data);
   }
@@ -72,7 +72,7 @@ class EntrySortIterator implements Iterator
    *
    * \return The current element pointed by array pointer
    */
-  function current()
+  function current ()
   {
     return current($this->data);
   }
@@ -82,7 +82,7 @@ class EntrySortIterator implements Iterator
    *
    * \return the key element of the array
    */
-  function key()
+  function key ()
   {
     return key($this->data);
   }
@@ -92,7 +92,7 @@ class EntrySortIterator implements Iterator
    *
    * \return The next element pointed by array pointer
    */
-  function next()
+  function next ()
   {
     return next($this->data);
   }
@@ -102,7 +102,7 @@ class EntrySortIterator implements Iterator
    *
    * \return TRUE if the array is valid, return FALSE otherwise
    */
-  function valid()
+  function valid ()
   {
     return (key($this->data) !== NULL);
   }

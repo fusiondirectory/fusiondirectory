@@ -25,7 +25,7 @@ class UnixTimestampColumn extends LinkColumn
 {
   protected $type = 'integer';
 
-  function renderCell(ListingEntry $entry)
+  function renderCell (ListingEntry $entry)
   {
     $value = $this->getAttributeValue($entry);
     if ($value != '') {

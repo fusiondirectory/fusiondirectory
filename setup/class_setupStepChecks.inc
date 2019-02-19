@@ -58,7 +58,7 @@ class setupStepChecks extends setupStep
   }
 
   /* Execute all checks */
-  function run_checks()
+  function run_checks ()
   {
     $basic_checks   = array();
     $config_checks  = array();

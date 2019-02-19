@@ -31,7 +31,7 @@ reset_errors();
 /* Logged in? Simple security check */
 if (!session::global_is_set('ui')) {
   logging::log('security', 'unknown', '', array(), 'Error: autocomplete.php called without session');
-  header ('Location: index.php');
+  header('Location: index.php');
   exit;
 }
 

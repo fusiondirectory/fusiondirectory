@@ -29,7 +29,7 @@ class GenericDialog
   protected $post_cancel = 'add_cancel';
   protected $post_finish = 'add_finish';
 
-  function __construct($simplePlugin, $attribute)
+  function __construct ($simplePlugin, $attribute)
   {
     $this->attribute  = $attribute;
     $this->dialog     = new $this->dialogClass();
@@ -231,7 +231,7 @@ class DialogAttribute extends SetAttribute
     return $buttons;
   }
 
-  public function htmlIds()
+  public function htmlIds ()
   {
     $id = $this->getHtmlId();
     $ids = array('add'.$id.'_dialog','del'.$id,'row'.$id);
@@ -278,7 +278,7 @@ class DialogOrderedArrayAttribute extends OrderedArrayAttribute
     }
   }
 
-  protected function handleEdit($key)
+  protected function handleEdit ($key)
   {
     $this->editingValue = $this->value[$key];
     $this->delPostValue($key);
@@ -289,7 +289,7 @@ class DialogOrderedArrayAttribute extends OrderedArrayAttribute
   {
   }
 
-  function addValue($value)
+  function addValue ($value)
   {
     $this->value[] = $value;
     $this->reIndexValues();
@@ -308,14 +308,14 @@ class DialogOrderedArrayAttribute extends OrderedArrayAttribute
     );
   }
 
-  public function htmlIds()
+  public function htmlIds ()
   {
     $ids = parent::htmlIds();
     $ids[0] .= '_dialog';
     return $ids;
   }
 
-  protected function getAttributeArrayValue($key, $value)
+  protected function getAttributeArrayValue ($key, $value)
   {
     /* Convert text value to displayable array value */
     die('Pure virtual method');
@@ -434,7 +434,7 @@ class GenericDialogAttribute extends DialogAttribute
     }
   }
 
-  function foreignKeyUpdate($oldvalue, $newvalue, array $source)
+  function foreignKeyUpdate ($oldvalue, $newvalue, array $source)
   {
     foreach ($this->value as $key => &$value) {
       if (($source['FIELD'] == 'dn') && ($source['MODE'] == 'move')) {
@@ -471,7 +471,7 @@ class GenericSelectManagementDialog extends GenericSelectDialog
 {
   protected $dialogClass = 'selectManagement';
 
-  function __construct($simplePlugin, $attribute)
+  function __construct ($simplePlugin, $attribute)
   {
     $this->attribute  = $attribute;
     $this->dialog     = new $this->dialogClass(...$this->attribute->selectManagementParameters);
@@ -604,7 +604,7 @@ class GroupsAttribute extends GenericDialogAttribute
 
   function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = array(), $acl = '')
   {
-    parent::__construct ($label, $description, $ldapName, $required, $defaultValue, 'dn', 'cn', $acl);
+    parent::__construct($label, $description, $ldapName, $required, $defaultValue, 'dn', 'cn', $acl);
   }
 
   function addValue ($dn, $entry)
@@ -612,7 +612,7 @@ class GroupsAttribute extends GenericDialogAttribute
     if (!in_array($dn, $this->value)) {
       $display = $entry['cn'][0];
       if (isset($entry['description'][0]) && !empty($entry['description'][0])) {
-        $display .= ' ['.preg_replace ('/^Group of user/', _('Group of user'), $entry['description'][0]).']';
+        $display .= ' ['.preg_replace('/^Group of user/', _('Group of user'), $entry['description'][0]).']';
       }
 
       $this->value[]    = $dn;
@@ -678,7 +678,7 @@ class MailsAttribute extends DialogAttribute
     return $buttons;
   }
 
-  public function htmlIds()
+  public function htmlIds ()
   {
     $id = $this->getHtmlId();
     return array('add'.$id,'add'.$id.'_dialog','del'.$id,'row'.$id);
@@ -905,7 +905,7 @@ class ObjectAttribute extends DialogButtonAttribute
     }
   }
 
-  public function htmlIds()
+  public function htmlIds ()
   {
     $id   = $this->getHtmlId();
     $ids  = array($id.'_dialog');
@@ -926,7 +926,7 @@ class UserAttribute extends ObjectAttribute
 {
   function __construct ($label, $description, $ldapName, $required, $defaultValue = '', $acl = '')
   {
-    parent::__construct ($label, $description, $ldapName, $required, 'user', $defaultValue = '', $acl = '');
+    parent::__construct($label, $description, $ldapName, $required, 'user', $defaultValue = '', $acl = '');
   }
 }
 
@@ -937,7 +937,7 @@ class GenericSimplePluginDialog extends GenericDialog
 {
   protected $initialDialogValue = NULL;
 
-  function __construct($simplePlugin, $attribute, $value = array())
+  function __construct ($simplePlugin, $attribute, $value = array())
   {
     $this->attribute  = $attribute;
     $this->dialog     = new $this->dialogClass('new');

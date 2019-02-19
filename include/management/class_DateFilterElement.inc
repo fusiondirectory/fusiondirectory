@@ -29,7 +29,7 @@ class DateFilterElement extends FilterElement
   protected $max;
   protected $types;
 
-  public function __construct(managementFilter $parent, $attribute, $label, $types = array())
+  public function __construct (managementFilter $parent, $attribute, $label, $types = array())
   {
     global $config;
 
@@ -40,7 +40,7 @@ class DateFilterElement extends FilterElement
     $this->types      = $types;
   }
 
-  public function update()
+  public function update ()
   {
     if (!empty($_POST['nt_'.$this->attribute])) {
       $this->min = $_POST['nt_'.$this->attribute];
@@ -54,7 +54,7 @@ class DateFilterElement extends FilterElement
     }
   }
 
-  public function render()
+  public function render ()
   {
     $smarty = get_smarty();
     $smarty->assign('NAME',       $this->label);
@@ -64,7 +64,7 @@ class DateFilterElement extends FilterElement
     return $smarty->fetch(get_template_path('management/filter-element-date.tpl'));
   }
 
-  public function getFilters($type, array &$filters)
+  public function getFilters ($type, array &$filters)
   {
     if (!empty($this->types) && !in_array_ics($type, $this->types)) {
       return FALSE;

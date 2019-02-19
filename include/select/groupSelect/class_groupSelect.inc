@@ -26,7 +26,7 @@ class groupSelect extends simpleSelectManagement
   protected $objectTypes  = array('group');
   protected $autoFilter   = FALSE;
 
-  function __construct()
+  function __construct ()
   {
     $this->filterXMLPath = get_template_path('group-filter.xml', TRUE, dirname(__FILE__));
 

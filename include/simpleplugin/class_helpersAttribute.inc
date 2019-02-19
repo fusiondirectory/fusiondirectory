@@ -136,18 +136,18 @@ class CharSeparatedCompositeAttribute extends CompositeAttribute
 {
   private $sep;
 
-  function __construct($description, $ldapName, $attributes, $sep, $acl = "", $label = "Composite attribute")
+  function __construct ($description, $ldapName, $attributes, $sep, $acl = "", $label = "Composite attribute")
   {
     parent::__construct($description, $ldapName, $attributes, '', '', $acl, $label);
     $this->sep = $sep;
   }
 
-  function readValues($value)
+  function readValues ($value)
   {
     return explode($this->sep, $value);
   }
 
-  function writeValues(array $values)
+  function writeValues (array $values)
   {
     return join($this->sep, $values);
   }
@@ -158,7 +158,7 @@ class CharSeparatedCompositeAttribute extends CompositeAttribute
  */
 class PipeSeparatedCompositeAttribute extends CharSeparatedCompositeAttribute
 {
-  function __construct($description, $ldapName, $attributes, $acl = "", $label = "Composite attribute")
+  function __construct ($description, $ldapName, $attributes, $acl = "", $label = "Composite attribute")
   {
     parent::__construct($description, $ldapName, $attributes, '|', $acl, $label);
   }
@@ -171,7 +171,7 @@ class CommaListAttribute extends CompositeAttribute
 {
   private $sep = ',';
 
-  function __construct($ldapName, $attribute, $sep = ',')
+  function __construct ($ldapName, $attribute, $sep = ',')
   {
     parent::__construct(
       $attribute->getDescription(), $ldapName,
@@ -182,7 +182,7 @@ class CommaListAttribute extends CompositeAttribute
     $this->sep = $sep;
   }
 
-  function readValues($value)
+  function readValues ($value)
   {
     if ($value == '') {
       return array(array());
@@ -191,7 +191,7 @@ class CommaListAttribute extends CompositeAttribute
     }
   }
 
-  function writeValues(array $values)
+  function writeValues (array $values)
   {
     return join($this->sep, $values[0]);
   }
@@ -216,7 +216,7 @@ class UnitIntAttribute extends CompositeAttribute
     $this->setRequired($required); /* As we use linear rendering we want the asterisk in the label if required */
   }
 
-  function readValues($value)
+  function readValues ($value)
   {
     if ($value === '') {
       return array('', 0);
@@ -235,7 +235,7 @@ class UnitIntAttribute extends CompositeAttribute
     return array($value / $choices[$i], $choices[$i]);
   }
 
-  function writeValues(array $values)
+  function writeValues (array $values)
   {
     if ($values[0] === '') {
       return '';
@@ -243,7 +243,7 @@ class UnitIntAttribute extends CompositeAttribute
     return $values[0] * $values[1];
   }
 
-  function displayValue($value)
+  function displayValue ($value)
   {
     $values = $this->readValues($value);
     return $values[0].$this->attributes[1]->displayValue($values[1]);
@@ -264,7 +264,7 @@ class BytesSizeAttribute extends UnitIntAttribute
       1024 ** 3 => _('GiB'),
       1024 ** 4 => _('TiB'),
     );
-    parent::__construct ($label, $description, $ldapName, $required, $units, $min, $max, $defaultValue, $acl);
+    parent::__construct($label, $description, $ldapName, $required, $units, $min, $max, $defaultValue, $acl);
   }
 }
 
@@ -281,7 +281,7 @@ class TimeAttribute extends UnitIntAttribute
       3600  => _('hours'),
       86400 => _('days'),
     );
-    parent::__construct ($label, $description, $ldapName, $required, $units, $min, $max, $defaultValue, $acl);
+    parent::__construct($label, $description, $ldapName, $required, $units, $min, $max, $defaultValue, $acl);
   }
 }
 

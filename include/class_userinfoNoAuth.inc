@@ -29,7 +29,7 @@
  */
 class userinfoNoAuth extends userinfo
 {
-  function __construct($context = 'fake')
+  function __construct ($context = 'fake')
   {
     parent::__construct($context);
 
@@ -37,13 +37,13 @@ class userinfoNoAuth extends userinfo
     $this->ignoreACL = TRUE;
   }
 
-  function loadLDAPInfo()
+  function loadLDAPInfo ()
   {
     $this->cn   = $this->dn;
     $this->uid  = $this->dn;
   }
 
-  function getBase()
+  function getBase ()
   {
     global $config;
 

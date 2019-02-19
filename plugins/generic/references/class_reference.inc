@@ -68,7 +68,7 @@ class reference extends simplePlugin
     return parent::execute();
   }
 
-  function fillRefs()
+  function fillRefs ()
   {
     if (!isset($this->parent)) {
       $this->refs = NULL;

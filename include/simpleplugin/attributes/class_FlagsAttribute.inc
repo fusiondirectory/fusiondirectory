@@ -59,7 +59,7 @@ class FlagsAttribute extends StringAttribute
     }
   }
 
-  function getValue()
+  function getValue ()
   {
     $value = '[';
     if (is_object($this->plugin)) {

@@ -515,7 +515,7 @@ class simplePlugin
     return $attr.'='.ldap_escape_dn($this->attributesAccess[$attr]->computeLdapValue()).','.$ou.$base;
   }
 
-  protected function addAttribute(string $section, Attribute $attr)
+  protected function addAttribute (string $section, Attribute $attr)
   {
     $name = $attr->getLdapName();
     $this->attributesInfo[$section]['attrs'][$name] = $attr;
@@ -524,7 +524,7 @@ class simplePlugin
     unset($this->$name);
   }
 
-  protected function removeAttribute(string $section, string $id)
+  protected function removeAttribute (string $section, string $id)
   {
     unset($this->attributesInfo[$section]['attrs'][$id]);
     unset($this->attributesAccess[$id]);

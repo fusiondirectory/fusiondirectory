@@ -56,7 +56,7 @@ class department extends simplePlugin
   {
     return static::getDepartmentAttributesInfo(_('department'));
   }
-  static function getDepartmentAttributesInfo($name)
+  static function getDepartmentAttributesInfo ($name)
   {
     $attributesInfo = array(
       'properties' => array(

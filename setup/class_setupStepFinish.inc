@@ -42,7 +42,7 @@ class setupStepFinish extends setupStep
     $this->s_description  = _('Write configuration file');
   }
 
-  function get_conf_data()
+  function get_conf_data ()
   {
     $smarty           = get_smarty();
     $cv               = $this->parent->captured_values;
@@ -52,7 +52,7 @@ class setupStepFinish extends setupStep
     return $smarty->fetch(CONFIG_TEMPLATE_DIR.CONFIG_FILE);
   }
 
-  function insertConfigDefaults()
+  function insertConfigDefaults ()
   {
     /* Insert default config values, even for installed plugin */
     global $config, $ui, $plist, $BASE_DIR;
@@ -121,7 +121,7 @@ class setupStepFinish extends setupStep
   }
 
   /* check if given file is world readable */
-  function is_world_readable($file)
+  function is_world_readable ($file)
   {
     clearstatcache();
     $p = fileperms($file);

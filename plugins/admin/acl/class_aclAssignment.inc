@@ -107,7 +107,7 @@ class aclAssignmentDialogWindow extends simplePlugin
     return $display;
   }
 
-  function getAclEntry()
+  function getAclEntry ()
   {
     $entry = array(
       'scope'   => $this->aclMode,
@@ -180,7 +180,7 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
   protected $dialogClass  = 'ACLsAssignmentDialog';
   protected $height       = 300;
 
-  protected function getAttributeArrayValue($key, $value)
+  protected function getAttributeArrayValue ($key, $value)
   {
     /* Convert text value to displayable array value */
     sort($value['members']);
@@ -193,7 +193,7 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
     return $value;
   }
 
-  function readValue($value)
+  function readValue ($value)
   {
     $acl = explode(':', $value);
     return array($acl[0], array(
@@ -203,12 +203,12 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
     ));
   }
 
-  function writeValue($key, $value)
+  function writeValue ($key, $value)
   {
     return $key.':'.$value['scope'].':'.base64_encode($value['role']).':'.join(',', array_map('base64_encode', $value['members']));
   }
 
-  function foreignKeyUpdate($oldvalue, $newvalue, array $source)
+  function foreignKeyUpdate ($oldvalue, $newvalue, array $source)
   {
     foreach ($this->value as $key => &$value) {
       if ($source['FIELD'] == 'dn') {
@@ -243,7 +243,7 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
     unset($value);
   }
 
-  function foreignKeyCheck($oldvalue, array $source)
+  function foreignKeyCheck ($oldvalue, array $source)
   {
     foreach ($this->value as $value) {
       if (
@@ -314,7 +314,7 @@ class aclAssignment extends simplePlugin
 
   function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE)
   {
-    parent::__construct ($dn, $object, $parent, FALSE);
+    parent::__construct($dn, $object, $parent, FALSE);
     $this->attributesInfo['main']['name'] = sprintf(_('Assignments on object or subtree %s'), $this->dn);
   }
 
@@ -334,7 +334,7 @@ class aclAssignment extends simplePlugin
     }
   }
 
-  function post_remove()
+  function post_remove ()
   {
     parent::post_remove();
 

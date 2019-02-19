@@ -23,7 +23,7 @@ class ManagementColumnAttribute extends CompositeAttribute
 
   function __construct ($label, $description, $ldapName, $attributes, $acl = "")
   {
-    parent::__construct ($description, $ldapName, $attributes, FALSE, FALSE, $acl, $label);
+    parent::__construct($description, $ldapName, $attributes, FALSE, FALSE, $acl, $label);
   }
 }
 
@@ -120,7 +120,7 @@ class ManagementConfigurationDialog extends simplePlugin
     $this->attributesAccess['managementColumns']->setValue($value);
   }
 
-  function attrIsWriteable($attr): bool
+  function attrIsWriteable ($attr): bool
   {
     global $config, $ui;
 

@@ -36,29 +36,29 @@ class selectManagement extends management
     array('LinkColumn',       array('attributes' => 'description', 'label' => 'Description')),
   );
 
-  function __construct($objectTypes = FALSE, $multiSelect = TRUE, $neededAttrs = array())
+  function __construct ($objectTypes = FALSE, $multiSelect = TRUE, $neededAttrs = array())
   {
     $this->neededAttrs  = $neededAttrs;
     $this->multiSelect  = $multiSelect;
     parent::__construct($objectTypes);
   }
 
-  protected function setUpListing()
+  protected function setUpListing ()
   {
     $this->listing  = new managementListing($this, TRUE, $this->multiSelect);
   }
 
-  protected function setUpHeadline()
+  protected function setUpHeadline ()
   {
     $this->headline = _('Please select the desired entries');
   }
 
-  protected function configureActions()
+  protected function configureActions ()
   {
     $this->registerAction(new HiddenAction('configure',       'configureDialog'));
   }
 
-  function renderList()
+  function renderList ()
   {
     $list = parent::renderList();
 

@@ -27,7 +27,7 @@ class standAlonePage {
   protected $interactive;
 
   /* Constructor */
-  function __construct($interactive = TRUE)
+  function __construct ($interactive = TRUE)
   {
     global $config, $ssl, $ui;
 
@@ -53,7 +53,7 @@ class standAlonePage {
     static::init();
   }
 
-  function checkDirectoryChooser()
+  function checkDirectoryChooser ()
   {
     global $config;
 
@@ -79,7 +79,7 @@ class standAlonePage {
     }
   }
 
-  function init()
+  function init ()
   {
     global $config, $ssl, $ui;
 
@@ -108,7 +108,7 @@ class standAlonePage {
     pluglist::load();
   }
 
-  function loadConfig()
+  function loadConfig ()
   {
     global $BASE_DIR;
 
@@ -127,7 +127,7 @@ class standAlonePage {
     return $config;
   }
 
-  function setupSmarty()
+  function setupSmarty ()
   {
     global $config;
     $smarty = get_smarty();
@@ -170,7 +170,7 @@ class standAlonePage {
     }
   }
 
-  function assignSmartyVars()
+  function assignSmartyVars ()
   {
     global $error_collector, $error_collector_mailto;
     $smarty = get_smarty();
@@ -185,7 +185,7 @@ class standAlonePage {
     $smarty->assign('msg_dialogs',  msg_dialog::get_dialogs());
   }
 
-  function checkForSSL()
+  function checkForSSL ()
   {
     global $config;
     $smarty = get_smarty();
@@ -202,14 +202,14 @@ class standAlonePage {
         exit;
       } elseif ($config->get_cfg_value('warnssl') == 'TRUE') {
         /* Display SSL mode warning? */
-        $smarty->assign ('ssl', sprintf(_('Warning: <a href="%s">Session is not encrypted!</a>'), $ssl));
+        $smarty->assign('ssl', sprintf(_('Warning: <a href="%s">Session is not encrypted!</a>'), $ssl));
       }
     }
 
     return $ssl;
   }
 
-  function getPageURL()
+  function getPageURL ()
   {
     $protocol = 'http';
     if (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) {
@@ -243,7 +243,7 @@ class standAlonePage {
     return $pageURL;
   }
 
-  function encodeParams($keys)
+  function encodeParams ($keys)
   {
     $params = '';
     foreach ($keys as $key) {
@@ -252,7 +252,7 @@ class standAlonePage {
     return preg_replace('/^&amp;/', '?', $params);
   }
 
-  static function run()
+  static function run ()
   {
     session::start();
 
@@ -268,14 +268,14 @@ class standAlonePage {
     $page->execute();
   }
 
-  static function securityHeaders()
+  static function securityHeaders ()
   {
     header('X-XSS-Protection: 1; mode=block');
     header('X-Content-Type-Options: nosniff');
     header('X-Frame-Options: deny');
   }
 
-  static function generateRandomHash()
+  static function generateRandomHash ()
   {
     /* Generate a very long random value */
     $len        = 56;

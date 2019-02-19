@@ -43,7 +43,7 @@ class Column
    * \param string $type a column class
    * \param array $data an associative array with "attributes" and "label"
    * */
-  static function build(managementListing $parent, $type, array $data)
+  static function build (managementListing $parent, $type, array $data)
   {
     $attributes = NULL;
     $label      = NULL;
@@ -60,14 +60,14 @@ class Column
     return new $type($parent, $attributes, $label);
   }
 
-  function __construct(managementListing $parent, array $attributes = NULL, $label = NULL)
+  function __construct (managementListing $parent, array $attributes = NULL, $label = NULL)
   {
     $this->parent     = $parent;
     $this->setAttributesVar('attributes', $attributes);
     $this->label      = $label;
   }
 
-  protected function setAttributesVar($var, array $attributes = NULL)
+  protected function setAttributesVar ($var, array $attributes = NULL)
   {
     if (is_array($attributes) && is_numeric(key($attributes))) {
       $val = array();
@@ -84,32 +84,32 @@ class Column
     }
   }
 
-  function setTemplateAttributes(array $attributes = NULL)
+  function setTemplateAttributes (array $attributes = NULL)
   {
     $this->setAttributesVar('templateAttributes', $attributes);
   }
 
-  function isSortable()
+  function isSortable ()
   {
     return TRUE;
   }
 
-  function isExportable()
+  function isExportable ()
   {
     return !empty($this->attributes);
   }
 
-  function getHtmlProps()
+  function getHtmlProps ()
   {
     return '';
   }
 
-  function getHtmlCellProps()
+  function getHtmlCellProps ()
   {
     return '';
   }
 
-  function getLabel()
+  function getLabel ()
   {
     if (isset($this->label)) {
       return _($this->label);
@@ -118,7 +118,7 @@ class Column
     }
   }
 
-  function fillNeededAttributes(array &$attrs)
+  function fillNeededAttributes (array &$attrs)
   {
     if (isset($this->attributes)) {
       foreach ($this->attributes as $attr => $how) {
@@ -131,7 +131,7 @@ class Column
     }
   }
 
-  function fillSearchedAttributes(array &$attrs)
+  function fillSearchedAttributes (array &$attrs)
   {
     if (isset($this->attributes)) {
       foreach (array_keys($this->attributes) as $attr) {
@@ -146,11 +146,11 @@ class Column
     }
   }
 
-  function fillRowClasses(&$classes, ListingEntry $entry)
+  function fillRowClasses (&$classes, ListingEntry $entry)
   {
   }
 
-  protected function getAttributeValue(ListingEntry $entry)
+  protected function getAttributeValue (ListingEntry $entry)
   {
     $attrs = $this->attributes;
     if (isset($this->templateAttributes) && $entry->isTemplate()) {
@@ -170,7 +170,7 @@ class Column
     return '';
   }
 
-  function renderCell(ListingEntry $entry)
+  function renderCell (ListingEntry $entry)
   {
     $value = $this->getAttributeValue($entry);
     if ($value == '') {
@@ -189,12 +189,12 @@ class Column
     }
   }
 
-  function getRawExportValue(ListingEntry $entry)
+  function getRawExportValue (ListingEntry $entry)
   {
     return $this->getAttributeValue($entry);
   }
 
-  function compare(ListingEntry $ao, ListingEntry $bo)
+  function compare (ListingEntry $ao, ListingEntry $bo)
   {
     $a = $this->getAttributeValue($ao);
     $b = $this->getAttributeValue($bo);

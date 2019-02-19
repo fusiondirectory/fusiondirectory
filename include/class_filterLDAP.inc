@@ -48,7 +48,7 @@ class filterLDAP
    *
    * \param array $objectStorage
    */
-  static function query($parent, $base, $scope, $filter, $attributes, $category, $objectStorage = array(""))
+  static function query ($parent, $base, $scope, $filter, $attributes, $category, $objectStorage = array(""))
   {
     return static::get_list($parent, $base, $filter, $attributes, $category, $objectStorage, (($scope == 'sub') ? 'subtree' : 'one'), TRUE);
   }
@@ -74,7 +74,7 @@ class filterLDAP
    *
    * \param boolean $skipAcl
    */
-  static function get_list($parent, $base, $filter, $attributes, $category, $objectStorage, $scope, $sizelimit = TRUE, $skipAcl = FALSE)
+  static function get_list ($parent, $base, $filter, $attributes, $category, $objectStorage, $scope, $sizelimit = TRUE, $skipAcl = FALSE)
   {
     global $config, $ui;
 

@@ -23,17 +23,17 @@
  */
 class ActionsColumn extends Column
 {
-  function isSortable()
+  function isSortable ()
   {
     return FALSE;
   }
 
-  function fillRowClasses(&$classes, ListingEntry $entry)
+  function fillRowClasses (&$classes, ListingEntry $entry)
   {
     $this->parent->parent->fillActionRowClasses($classes, $entry);
   }
 
-  function renderCell(ListingEntry $entry)
+  function renderCell (ListingEntry $entry)
   {
     return $this->parent->parent->renderActionColumn($entry);
   }

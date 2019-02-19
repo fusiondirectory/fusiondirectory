@@ -34,7 +34,7 @@ class passwordMethodssha extends passwordMethod
   /*!
    * \brief passwordMethodssha Constructor
    */
-  function __construct()
+  function __construct ()
   {
   }
 
@@ -43,7 +43,7 @@ class passwordMethodssha extends passwordMethod
    *
    * \return TRUE if is avaibable, otherwise return false
    */
-  function is_available()
+  function is_available ()
   {
     return (function_exists('sha1') || function_exists('mhash'));
   }
@@ -53,7 +53,7 @@ class passwordMethodssha extends passwordMethod
    *
    * \param string $pwd Password
    */
-  function generate_hash($pwd, $locked = FALSE)
+  function generate_hash ($pwd, $locked = FALSE)
   {
     if (function_exists('sha1')) {
       $salt = substr(pack('h*', md5(random_int(0, PHP_INT_MAX))), 0, 8);
@@ -69,7 +69,7 @@ class passwordMethodssha extends passwordMethod
     return $pwd;
   }
 
-  function checkPassword($pwd, $hash)
+  function checkPassword ($pwd, $hash)
   {
     $hash = base64_decode(substr($hash, 6));
     $salt = substr($hash, 20);
@@ -88,7 +88,7 @@ class passwordMethodssha extends passwordMethod
   /*!
    * \brief Get the hash name
    */
-  static function get_hash_name()
+  static function get_hash_name ()
   {
     return 'ssha';
   }

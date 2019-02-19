@@ -36,7 +36,7 @@ class DebugLevelAttribute extends SetAttribute
     }
   }
 
-  function computeLdapValue()
+  function computeLdapValue ()
   {
     $value = 0;
     foreach ($this->value as $v) {
@@ -587,7 +587,7 @@ class configInLdap extends simplePlugin
     return $messages;
   }
 
-  static function get_themes()
+  static function get_themes ()
   {
     $themesdir  = '../ihtml/themes/';
     $themes     = array_keys(session::global_get(IconTheme::$session_var));
@@ -601,7 +601,7 @@ class configInLdap extends simplePlugin
     return array_unique($themes);
   }
 
-  static function mainInc($classname = NULL, $entry_dn = NULL, $tabs = TRUE, $edit_mode = TRUE, $objectType = FALSE)
+  static function mainInc ($classname = NULL, $entry_dn = NULL, $tabs = TRUE, $edit_mode = TRUE, $objectType = FALSE)
   {
     global $config;
 

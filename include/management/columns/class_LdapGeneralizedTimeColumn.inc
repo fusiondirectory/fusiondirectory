@@ -26,7 +26,7 @@ class LdapGeneralizedTimeColumn extends LinkColumn
 {
   protected $type = 'string';
 
-  function renderCell(ListingEntry $entry)
+  function renderCell (ListingEntry $entry)
   {
     $value = $this->getAttributeValue($entry);
     if ($value != '') {

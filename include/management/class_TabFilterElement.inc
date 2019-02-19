@@ -23,7 +23,7 @@ class TabFilterElement extends FilterElement
 {
   protected $tabs;
 
-  public function __construct(managementFilter $parent)
+  public function __construct (managementFilter $parent)
   {
     global $config;
 
@@ -54,7 +54,7 @@ class TabFilterElement extends FilterElement
     }
   }
 
-  public function update()
+  public function update ()
   {
     foreach ($this->tabs as $class => &$tab) {
       $tab['checked'] = isset($_POST['filter_tab_'.$class]);
@@ -62,7 +62,7 @@ class TabFilterElement extends FilterElement
     unset($tab);
   }
 
-  public function render()
+  public function render ()
   {
     if (empty($this->tabs)) {
       return '';
@@ -82,7 +82,7 @@ class TabFilterElement extends FilterElement
     return $smarty->fetch(get_template_path('management/filter-element.tpl'));
   }
 
-  public function getFilters($type, array &$filters)
+  public function getFilters ($type, array &$filters)
   {
     foreach ($this->tabs as $tab) {
       if ($tab['checked']) {

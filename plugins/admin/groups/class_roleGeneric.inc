@@ -22,7 +22,7 @@ class RoleMembersAttribute extends UsersAttribute
 {
   protected $whitelistDns = NULL;
 
-  function getFilterWhiteList()
+  function getFilterWhiteList ()
   {
     global $config;
     if ($config->get_cfg_value('RestrictRoleMembers') == 'TRUE') {

@@ -29,14 +29,14 @@ class LoginMethod
   static protected $username;
   static protected $password;
 
-  static function init()
+  static function init ()
   {
     static::$username = NULL;
     static::$password = NULL;
   }
 
   /*! \brief Runs schemaCheck if activated in configuration */
-  static function runSchemaCheck()
+  static function runSchemaCheck ()
   {
     global $config;
     if ($config->get_cfg_value('schemaCheck') != 'TRUE') {
@@ -61,7 +61,7 @@ class LoginMethod
   }
 
   /*! \brief Check if locking LDAP branch is here or create it */
-  static function checkForLockingBranch()
+  static function checkForLockingBranch ()
   {
     global $config;
     $ldap = $config->get_ldap_link();
@@ -75,7 +75,7 @@ class LoginMethod
 
   /*! \brief Check username for invalid characters and check password is not empty
    * Also trims username */
-  static function validateUserInput()
+  static function validateUserInput ()
   {
     global $message, $smarty;
     static::$username = trim(static::$username);
@@ -84,14 +84,14 @@ class LoginMethod
       return FALSE;
     } elseif (mb_strlen(static::$password, 'UTF-8') == 0) {
       $message = _('Please specify your password!');
-      $smarty->assign ('focusfield', 'password');
+      $smarty->assign('focusfield', 'password');
       return FALSE;
     }
     return TRUE;
   }
 
   /*! \brief Performs an LDAP bind with $username and $password */
-  static function ldapLoginUser()
+  static function ldapLoginUser ()
   {
     global $ui, $config, $message, $smarty;
     /* Login as user, initialize user ACL's */
@@ -103,14 +103,14 @@ class LoginMethod
         logging::log('security', 'login', '', array(), 'Authentication failed for user "'.static::$username.'"');
       }
       $message = _('Please check the username/password combination.');
-      $smarty->assign ('focusfield', 'password');
+      $smarty->assign('focusfield', 'password');
       return FALSE;
     }
     return TRUE;
   }
 
   /*! \brief Called after successful login, return FALSE if account is expired */
-  static function loginAndCheckExpired()
+  static function loginAndCheckExpired ()
   {
     global $ui, $config, $plist, $message, $smarty;
     /* Remove all locks of this user */
@@ -138,7 +138,7 @@ class LoginMethod
       if ($expired == POSIX_ACCOUNT_EXPIRED) {
         logging::log('security', 'login', '', array(), 'Account for user "'.static::$username.'" has expired');
         $message = _('Account locked. Please contact your system administrator!');
-        $smarty->assign ('focusfield', 'username');
+        $smarty->assign('focusfield', 'username');
         return FALSE;
       }
     }
@@ -146,19 +146,19 @@ class LoginMethod
   }
 
   /*! \brief Final step of successful login: redirect to main.php */
-  static function redirect()
+  static function redirect ()
   {
     global $config;
     /* Not account expired or password forced change go to main page */
     logging::log('security', 'login', '', array(), 'User "'.static::$username.'" logged in successfully.');
     session::global_set('connected', 1);
     session::global_set('DEBUGLEVEL', $config->get_cfg_value('DEBUGLEVEL'));
-    header ('Location: main.php');
+    header('Location: main.php');
     exit;
   }
 
   /*! \brief Run each step in $steps, stop on errors */
-  static function runSteps($steps)
+  static function runSteps ($steps)
   {
     foreach ($steps as $step) {
       $status = static::$step();
@@ -173,7 +173,7 @@ class LoginMethod
   }
 
   /*! \brief All login steps in the right order */
-  static function loginProcess()
+  static function loginProcess ()
   {
     global $config;
     $method = $config->get_cfg_value('LoginMethod', '');
@@ -193,12 +193,12 @@ class LoginMethod
   }
 
   /*! \brief Displayed name for each login method. Returning FALSE disables a method */
-  static function getLabel()
+  static function getLabel ()
   {
     return FALSE;
   }
 
-  static function getMethods()
+  static function getMethods ()
   {
     $methods = array(
       'LoginPost',

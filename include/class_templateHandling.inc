@@ -28,7 +28,7 @@
 class templateHandling
 {
   /*! \brief Fetch a template from LDAP and returns its attributes and dependencies information */
-  public static function fetch($dn)
+  public static function fetch ($dn)
   {
     global $config;
 
@@ -118,7 +118,7 @@ class templateHandling
   }
 
   /*! \brief Parse a mask (without surrounding %) using $attrs attributes, apply modifiers and returns an array containing possible results */
-  public static function parseMask($mask, array $attrs)
+  public static function parseMask ($mask, array $attrs)
   {
     if ($mask == '|') {
       return array('%');
@@ -157,7 +157,7 @@ class templateHandling
    *
    * \return array An array of attributes which are needed by the template
    */
-  public static function neededAttrs(array &$attrs, array $flatdepends)
+  public static function neededAttrs (array &$attrs, array $flatdepends)
   {
     $needed = array();
     foreach ($flatdepends as $attr => $depends) {
@@ -184,7 +184,7 @@ class templateHandling
    *
    * \return array An array with the final values of attributes
    */
-  public static function parseArray(array $attrs, array $specialAttrs, $target = NULL)
+  public static function parseArray (array $attrs, array $specialAttrs, $target = NULL)
   {
     foreach ($attrs as $name => &$attr) {
       if (is_array($attr)) {
@@ -211,7 +211,7 @@ class templateHandling
    *
    * \return string the string with patterns replaced by their values
    */
-  public static function parseString($string, array $attrs, $escapeMethod = NULL, $unique = NULL, $target = NULL)
+  public static function parseString ($string, array $attrs, $escapeMethod = NULL, $unique = NULL, $target = NULL)
   {
     global $config;
 
@@ -258,7 +258,7 @@ class templateHandling
    * \param array $variables        The possible values for each mask with its position and length
    * \param callable $escapeMethod  Method to call to escape mask result
    */
-  protected static function iteratePossibleValues($rule, array $variables, $escapeMethod = NULL)
+  protected static function iteratePossibleValues ($rule, array $variables, $escapeMethod = NULL)
   {
     if (!count($variables)) {
       yield $rule;
@@ -284,7 +284,7 @@ class templateHandling
    *
    * \return array An array with the names of the fields used in the string pattern
    */
-  public static function listFields($string)
+  public static function listFields ($string)
   {
     $fields = array();
     $offset = 0;
@@ -302,7 +302,7 @@ class templateHandling
     return $fields;
   }
 
-  private static function modifierRemoveAccents($str)
+  private static function modifierRemoveAccents ($str)
   {
     $str = htmlentities($str, ENT_NOQUOTES, 'UTF-8');
 
@@ -313,7 +313,7 @@ class templateHandling
     return array(preg_replace('#&[^;]+;#', '', $str));
   }
 
-  private static function modifierTranslit(array $args, $str)
+  private static function modifierTranslit (array $args, $str)
   {
     $localesaved = setlocale(LC_CTYPE, 0);
     $ret = array();
@@ -325,7 +325,7 @@ class templateHandling
     return array_unique($ret);
   }
 
-  private static function modifierPregReplace(array $args, $str)
+  private static function modifierPregReplace (array $args, $str)
   {
     $pattern = '/\s/';
     $replace = '';
@@ -339,7 +339,7 @@ class templateHandling
     return array(preg_replace($pattern.'u', $replace, $str));
   }
 
-  private static function modifierSubString(array $args, $str)
+  private static function modifierSubString (array $args, $str)
   {
     if (count($args) < 1) {
       trigger_error("Missing 's' substr modifier parameter");
@@ -358,7 +358,7 @@ class templateHandling
     }
   }
 
-  private static function modifierRandomString(array $args)
+  private static function modifierRandomString (array $args)
   {
     $length = 8;
     $chars  = 'b';
@@ -408,7 +408,7 @@ class templateHandling
     return $res;
   }
 
-  private static function modifierDate(array $args)
+  private static function modifierDate (array $args)
   {
     if (count($args) < 1) {
       $args[] = 'now';
@@ -424,7 +424,7 @@ class templateHandling
     return array($dateObject->format($args[1]));
   }
 
-  private static function modifierNumber(array $args)
+  private static function modifierNumber (array $args)
   {
     if (count($args) < 1) {
       $args[] = FALSE;
@@ -457,7 +457,7 @@ class templateHandling
    *
    * \return array an array of possible values
    * */
-  protected static function applyModifier($m, array $args, $str)
+  protected static function applyModifier ($m, array $args, $str)
   {
     mb_internal_encoding('UTF-8');
     mb_regex_encoding('UTF-8');
@@ -588,7 +588,7 @@ class templateHandling
             );
             return array();
           }
-          $deps = static::flatDepends ($cache, $errors, $depends, $a, $forbidden);
+          $deps = static::flatDepends($cache, $errors, $depends, $a, $forbidden);
           if (($askmeKey = array_search('askme', $deps)) !== FALSE) {
             /* Do not flat special askme dependency */
             unset($deps[$askmeKey]);
@@ -603,7 +603,7 @@ class templateHandling
   }
 
   /*! \brief Computes dependencies between attributes: which attributes must be filled in order to compute each attribute value */
-  protected static function attributesDependencies(array $attrs)
+  protected static function attributesDependencies (array $attrs)
   {
     /* Compute dependencies of each attr */
     $depends = array();
@@ -636,7 +636,7 @@ class templateHandling
   }
 
   /*! \brief Sort attrs depending of dependencies */
-  protected static function sortAttributes(array $attrs, array $flatdepends)
+  protected static function sortAttributes (array $attrs, array $flatdepends)
   {
     uksort($attrs, function ($k1, $k2) use ($flatdepends) {
       if (in_array($k1, $flatdepends[$k2])) {

@@ -78,7 +78,7 @@ class DateAttribute extends Attribute
     }
   }
 
-  protected function ldapToDate($ldapValue)
+  protected function ldapToDate ($ldapValue)
   {
     $date = DateTime::createFromFormat($this->format, $ldapValue, new DateTimeZone('UTC'));
     if ($date !== FALSE) {
@@ -88,12 +88,12 @@ class DateAttribute extends Attribute
     }
   }
 
-  protected function dateToLdap(DateTime $dateValue)
+  protected function dateToLdap (DateTime $dateValue)
   {
     return $dateValue->format($this->format);
   }
 
-  function getDateValue()
+  function getDateValue ()
   {
     $value = $this->value;
     if (!($value instanceof DateTime)) {
@@ -180,7 +180,7 @@ class GeneralizedTimeDateAttribute extends DateAttribute
     parent::__construct($label, $description, $ldapName, $required, '', $defaultValue, $defaultDate, $acl);
   }
 
-  protected function ldapToDate($ldapValue)
+  protected function ldapToDate ($ldapValue)
   {
     try {
       return LdapGeneralizedTime::fromString($ldapValue);
@@ -189,7 +189,7 @@ class GeneralizedTimeDateAttribute extends DateAttribute
     }
   }
 
-  protected function dateToLdap(DateTime $dateValue)
+  protected function dateToLdap (DateTime $dateValue)
   {
     return LdapGeneralizedTime::toString($dateValue);
   }
@@ -226,7 +226,7 @@ class TimeHisAttribute extends CompositeAttribute
     $this->setLinearRendering(TRUE);
   }
 
-  function readValues($value)
+  function readValues ($value)
   {
     $values = parent::readValues($value);
     if ($this->convert) {
@@ -242,7 +242,7 @@ class TimeHisAttribute extends CompositeAttribute
     return $values;
   }
 
-  function writeValues(array $values)
+  function writeValues (array $values)
   {
     if ($this->convert) {
       $datetime = new DateTime('T'.implode(':', $values), timezone::getDefaultTimeZone());
@@ -256,7 +256,7 @@ class TimeHisAttribute extends CompositeAttribute
     return parent::writeValues($values);
   }
 
-  function displayValue($value)
+  function displayValue ($value)
   {
     $values = parent::readValues($value);
     $datetime = new DateTime('T'.implode(':', $values), timezone::utc());

@@ -71,7 +71,7 @@ class SnapshotCreateDialog extends simplePlugin
    *
    * \param mixed $attr Attribute object or name (in this case it will be fetched from attributesAccess)
    */
-  function attrIsWriteable($attr): bool
+  function attrIsWriteable ($attr): bool
   {
     global $ui;
 
@@ -85,7 +85,7 @@ class SnapshotCreateDialog extends simplePlugin
     }
   }
 
-  function renderAttributes($readOnly = FALSE)
+  function renderAttributes ($readOnly = FALSE)
   {
     global $ui;
     $smarty = get_smarty();
@@ -162,7 +162,7 @@ class SnapshotsAttribute extends OrderedArrayAttribute
     }
   }
 
-  protected function handleEdit($key)
+  protected function handleEdit ($key)
   {
   }
 
@@ -170,7 +170,7 @@ class SnapshotsAttribute extends OrderedArrayAttribute
   {
   }
 
-  function addValue($value)
+  function addValue ($value)
   {
     $this->value[] = $value;
     $this->reIndexValues();
@@ -181,7 +181,7 @@ class SnapshotsAttribute extends OrderedArrayAttribute
     return '';
   }
 
-  protected function getAttributeArrayValue($key, $value)
+  protected function getAttributeArrayValue ($key, $value)
   {
     $values = array(
       date(_('Y-m-d, H:i:s'), preg_replace('/\-.*$/', '', $value['gosaSnapshotTimestamp'][0])),
@@ -193,7 +193,7 @@ class SnapshotsAttribute extends OrderedArrayAttribute
     return $values;
   }
 
-  protected function genRowIcons($key, $value)
+  protected function genRowIcons ($key, $value)
   {
     $id = $this->getHtmlId();
     list ($img, $nbicons) = parent::genRowIcons($key, $value);
@@ -211,7 +211,7 @@ class SnapshotsAttribute extends OrderedArrayAttribute
     return array ($img, $nbicons);
   }
 
-  protected function handlePostValueActions($id, $postValue)
+  protected function handlePostValueActions ($id, $postValue)
   {
     if (parent::handlePostValueActions($id, $postValue)) {
       return TRUE;
@@ -349,7 +349,7 @@ class SnapshotRestoreDialog extends simplePlugin
     return $str;
   }
 
-  function attrIsWriteable($attr): bool
+  function attrIsWriteable ($attr): bool
   {
     global $ui;
 
@@ -363,13 +363,13 @@ class SnapshotRestoreDialog extends simplePlugin
     }
   }
 
-  function triggerRestore($dn)
+  function triggerRestore ($dn)
   {
     $this->dialog = 'restore';
     $this->snapDn = $dn;
   }
 
-  function triggerDelete($dn)
+  function triggerDelete ($dn)
   {
     $this->dialog = 'delete';
     $this->snapDn = $dn;

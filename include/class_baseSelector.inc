@@ -45,7 +45,7 @@ class baseSelector
    *
    * \param String $base Empty string
    */
-  function __construct($bases, $base = "")
+  function __construct ($bases, $base = "")
   {
     // Initialize pid
     $this->pid = preg_replace("/[^0-9]/", "", microtime(TRUE));
@@ -58,7 +58,7 @@ class baseSelector
   /*!
    * \brief Returns id of the html field
    */
-  function getInputHtmlId()
+  function getInputHtmlId ()
   {
     return 'bs_input_'.$this->pid;
   }
@@ -68,7 +68,7 @@ class baseSelector
    *
    * \param Boolean $flag Flag for the submit button
    */
-  function setSubmitButton($flag)
+  function setSubmitButton ($flag)
   {
     $this->submitButton = $flag;
   }
@@ -78,7 +78,7 @@ class baseSelector
    *
    * \param Integer $value The new value of the height
    */
-  function setHeight($value)
+  function setHeight ($value)
   {
     $this->height = $value;
   }
@@ -88,7 +88,7 @@ class baseSelector
    *
    * \param String $base The new value of the base
    */
-  function setBase($base)
+  function setBase ($base)
   {
     if (isset($this->pathMapping[$base])) {
       $this->base       = $base;
@@ -105,7 +105,7 @@ class baseSelector
    *
    * \return Boolean the last state of the object
    */
-  function checkLastBaseUpdate()
+  function checkLastBaseUpdate ()
   {
     return $this->lastState;
   }
@@ -115,7 +115,7 @@ class baseSelector
    *
    * \param Array $bases The new value of the bases
    */
-  function setBases($bases)
+  function setBases ($bases)
   {
     global $config;
 
@@ -138,7 +138,7 @@ class baseSelector
    *
    * \param Boolean $force FALSE
    */
-  function update($force = FALSE)
+  function update ($force = FALSE)
   {
     if (!isset($this->base) || ($this->base == '')) {
       $this->lastState = FALSE;
@@ -187,7 +187,7 @@ class baseSelector
     return TRUE;
   }
 
-  protected function renderTree()
+  protected function renderTree ()
   {
     global $config;
     $link = "onclick=\"\$('bs_rebase_".$this->pid."').value='".base64_encode($config->current['BASE'])."';  $('submit_tree_base_".$this->pid."').click();\"";
@@ -285,7 +285,7 @@ class baseSelector
    *
    * \param String $string The string which his space will be replaced
    */
-  function escape($string)
+  function escape ($string)
   {
     return str_replace(' ', '&nbsp;', htmlentities($string, ENT_COMPAT, 'UTF-8'));
   }
@@ -295,7 +295,7 @@ class baseSelector
    *
    * \return members tree of the ACL class
    */
-  function render()
+  function render ()
   {
     return $this->tree;
   }
@@ -305,7 +305,7 @@ class baseSelector
    *
    * \return String containts the base of the object
    */
-  function getBase()
+  function getBase ()
   {
     return $this->base;
   }
@@ -315,7 +315,7 @@ class baseSelector
    *
    * \return Array containts the bases and their display text
    */
-  function getBases()
+  function getBases ()
   {
     return $this->pathMapping;
   }

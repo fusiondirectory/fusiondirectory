@@ -32,7 +32,7 @@ class SnapshotHandler
 {
   protected $enabled;
 
-  static function plInfo()
+  static function plInfo ()
   {
     return array(
       'plShortName'   => _('Snapshot'),
@@ -50,7 +50,7 @@ class SnapshotHandler
   /*!
    * \brief Create handler
    */
-  function __construct()
+  function __construct ()
   {
     global $config;
     $this->enabled = $config->snapshotEnabled();
@@ -71,14 +71,14 @@ class SnapshotHandler
    *
    * \return boolean TRUE if is enable, return FALSE otherwise
    */
-  function enabled()
+  function enabled ()
   {
     return $this->enabled;
   }
 
   /* \brief Get the snapshot dn of an object dn
    */
-  protected function snapshot_dn($dn)
+  protected function snapshot_dn ($dn)
   {
     global $config;
     return preg_replace("/".preg_quote($config->current['BASE'], '/')."$/", "", $dn)
@@ -88,7 +88,7 @@ class SnapshotHandler
   /*!
    * \brief Check if there are deleted snapshots
    */
-  function hasDeletedSnapshots($bases)
+  function hasDeletedSnapshots ($bases)
   {
     foreach ($bases as $base) {
       if (count($this->getAllDeletedSnapshots($base)) > 0) {
@@ -101,7 +101,7 @@ class SnapshotHandler
   /*!
    * \brief Cache Snapshot information for all objects in $base
    */
-  function initSnapshotCache($base)
+  function initSnapshotCache ($base)
   {
     global $config;
     if (!$this->enabled()) {
@@ -129,7 +129,7 @@ class SnapshotHandler
    *
    * \return the numbers of snapshots
    */
-  function hasSnapshots($dn)
+  function hasSnapshots ($dn)
   {
     return isset($this->snapshotsCache[$dn]);
   }
@@ -141,7 +141,7 @@ class SnapshotHandler
    *
    * \param string $raw FALSE
    */
-  function getSnapshots($dn, $raw = FALSE)
+  function getSnapshots ($dn, $raw = FALSE)
   {
     global $config;
     if (!$this->enabled()) {
@@ -192,11 +192,11 @@ class SnapshotHandler
    *
    * \param array $description Snapshot description
    */
-  function createSnapshot($dn, $description = array())
+  function createSnapshot ($dn, $description = array())
   {
     global $config;
     if (!$this->enabled()) {
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot are disabled but tried to create snapshot');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot are disabled but tried to create snapshot');
       return;
     }
 
@@ -211,7 +211,7 @@ class SnapshotHandler
 
     /* check if the dn exists */
     if (!$ldap->dn_exists($dn)) {
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Tried to snapshot non-existing dn');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Tried to snapshot non-existing dn');
       return;
     }
 
@@ -219,7 +219,7 @@ class SnapshotHandler
     list($usec, $sec) = explode(" ", microtime());
 
     /* Collect some infos */
-    $base_of_object = preg_replace ('/^[^,]+,/i', '', $dn);
+    $base_of_object = preg_replace('/^[^,]+,/i', '', $dn);
     $new_base       = $this->snapshot_dn($base_of_object);
     /* Create object */
     $data = '';
@@ -265,7 +265,7 @@ class SnapshotHandler
    *
    * \param string $dn The DN
    */
-  function removeSnapshot($dn)
+  function removeSnapshot ($dn)
   {
     global $config;
     $ldap = $config->get_ldap_link();
@@ -281,7 +281,7 @@ class SnapshotHandler
    *
    * \return available snapshots for the given base
    */
-  function getAvailableSnapsShots($dn)
+  function getAvailableSnapsShots ($dn)
   {
     global $config;
     if (!$this->enabled()) {
@@ -291,7 +291,7 @@ class SnapshotHandler
     $ldap = $config->get_ldap_link();
 
     /* Prepare bases and some other infos */
-    $base_of_object = preg_replace ('/^[^,]+,/i', '', $dn);
+    $base_of_object = preg_replace('/^[^,]+,/i', '', $dn);
     $new_base       = $this->snapshot_dn($base_of_object);
     $tmp            = array();
 
@@ -319,7 +319,7 @@ class SnapshotHandler
    *
    * \param string $base_of_object
    */
-  function getAllDeletedSnapshots($base_of_object)
+  function getAllDeletedSnapshots ($base_of_object)
   {
     global $config;
     if (!$this->enabled()) {
@@ -367,11 +367,11 @@ class SnapshotHandler
    *
    * \param string $dn The DN
    */
-  function restoreSnapshot($dn)
+  function restoreSnapshot ($dn)
   {
     global $config;
     if (!$this->enabled()) {
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot are disabled but tried to restore snapshot');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot are disabled but tried to restore snapshot');
       return array();
     }
 

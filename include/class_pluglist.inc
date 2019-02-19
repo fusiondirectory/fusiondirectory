@@ -61,7 +61,7 @@ class pluglist {
   /*!
    * \brief List the plugins
    */
-  function __construct()
+  function __construct ()
   {
     global $class_mapping;
 
@@ -237,7 +237,7 @@ class pluglist {
    *
    * \return Boolean TRUE on success FALSE otherwise
    */
-  function check_access($infos)
+  function check_access ($infos)
   {
     global $ui;
 
@@ -301,7 +301,7 @@ class pluglist {
   /*!
    * \brief Get headline, description and icon of a plugin
    */
-  function get_infos($cname)
+  function get_infos ($cname)
   {
     $plHeadline     = FALSE;
     $plIcon         = FALSE;
@@ -345,7 +345,7 @@ class pluglist {
   /*!
    * \brief Generate menu
    */
-  function gen_menu()
+  function gen_menu ()
   {
     global $config;
     if ($this->menu == "") {
@@ -408,7 +408,7 @@ class pluglist {
   /*!
    * \brief Show the menu icon
    */
-  function show_iconmenu()
+  function show_iconmenu ()
   {
     global $class_mapping, $config;
     if ($this->iconmenu == "") {
@@ -465,7 +465,7 @@ class pluglist {
    *
    * \param string $index The index which we want the path
    */
-  function get_path($index)
+  function get_path ($index)
   {
     if (!isset($this->dirlist[$index])) {
       return "";
@@ -478,7 +478,7 @@ class pluglist {
    *
    * \param string $class The name of the class
    */
-  function get_index($class)
+  function get_index ($class)
   {
     /* Search for plugin index (id), identify entry by class */
     if (isset($this->info[$class])) {
@@ -496,12 +496,12 @@ class pluglist {
    *
    * \return Boolean TRUE if we are allowed to view the plugin else FALSE
    */
-  function plugin_access_allowed($plug_id)
+  function plugin_access_allowed ($plug_id)
   {
     return isset($this->allowed_plugins[$plug_id]);
   }
 
-  static function pluginInfos($cname)
+  static function pluginInfos ($cname)
   {
     $plist = session::global_get('plist');
     if ($plist) {
@@ -517,7 +517,7 @@ class pluglist {
   /*!
    * \brief Loads plist and load it in config object
    */
-  static function load($ldap_available = TRUE)
+  static function load ($ldap_available = TRUE)
   {
     global $config, $plist;
     if (!session::global_is_set('plist')) {
@@ -538,7 +538,7 @@ class pluglist {
     return $plist;
   }
 
-  static function runMainInc($index, $forceCleanup = FALSE)
+  static function runMainInc ($index, $forceCleanup = FALSE)
   {
     global $BASE_DIR, $config, $plist, $ui, $smarty, $display, $remove_lock, $cleanup, $plug;
 

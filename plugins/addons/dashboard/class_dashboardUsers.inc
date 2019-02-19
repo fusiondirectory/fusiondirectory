@@ -218,7 +218,7 @@ class dashboardUsers extends simplePlugin
     );
   }
 
-  static function get_user_infos($attrs)
+  static function get_user_infos ($attrs)
   {
     global $config;
 

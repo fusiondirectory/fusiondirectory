@@ -47,7 +47,7 @@ class managementFilter
    *
    * \param string $parent management instance
    */
-  function __construct($parent)
+  function __construct ($parent)
   {
     global $config;
 
@@ -68,17 +68,17 @@ class managementFilter
     );
   }
 
-  function setScope($scope)
+  function setScope ($scope)
   {
     $this->scope = $scope;
   }
 
-  function addElement(FilterElement $element)
+  function addElement (FilterElement $element)
   {
     $this->filterElements[] = $element;
   }
 
-  function update($base)
+  function update ($base)
   {
     global $ui;
 
@@ -117,7 +117,7 @@ class managementFilter
   /*!
    * \brief Render
    */
-  function render()
+  function render ()
   {
     $smarty = get_smarty();
 

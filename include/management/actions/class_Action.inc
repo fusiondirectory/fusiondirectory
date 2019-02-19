@@ -49,7 +49,7 @@ class Action
 
   protected $parent;
 
-  function __construct($name, $label, $icon, $targets, $callable, array $acls = array(), $inmenu = TRUE, $inline = TRUE, array $validTypes = array())
+  function __construct ($name, $label, $icon, $targets, $callable, array $acls = array(), $inmenu = TRUE, $inline = TRUE, array $validTypes = array())
   {
     if ($targets == '0') {
       $inline = FALSE;
@@ -117,42 +117,42 @@ class Action
     }
   }
 
-  function setParent(management $parent)
+  function setParent (management $parent)
   {
     $this->parent = $parent;
   }
 
-  function getName()
+  function getName ()
   {
     return $this->name;
   }
 
-  function getLabel()
+  function getLabel ()
   {
     return $this->label;
   }
 
-  function setSeparator($bool)
+  function setSeparator ($bool)
   {
     $this->separator = $bool;
   }
 
-  function setEnableFunction(callable $callable)
+  function setEnableFunction (callable $callable)
   {
     $this->enabledCallable = $callable;
   }
 
-  function setInMenu($inmenu)
+  function setInMenu ($inmenu)
   {
     $this->inmenu = $inmenu;
   }
 
-  function listActions()
+  function listActions ()
   {
     return array($this->name);
   }
 
-  function execute($management, $action)
+  function execute ($management, $action)
   {
     if ($this->callable === FALSE) {
       return;
@@ -170,7 +170,7 @@ class Action
     return call_user_func($func, $action);
   }
 
-  function fillMenuItems(&$actions)
+  function fillMenuItems (&$actions)
   {
     if (!$this->inmenu) {
       return;
@@ -189,11 +189,11 @@ class Action
     );
   }
 
-  function fillRowClasses(&$classes, ListingEntry $entry)
+  function fillRowClasses (&$classes, ListingEntry $entry)
   {
   }
 
-  function renderColumnIcons(ListingEntry $entry)
+  function renderColumnIcons (ListingEntry $entry)
   {
     if (!$this->inline) {
       return '';
@@ -218,7 +218,7 @@ class Action
             ' title="'.$this->label.'" alt="'.$this->label.'" name="listing_'.$this->name.'_'.$entry->row.'"/>';
   }
 
-  function isEnabledFor(ListingEntry $entry = NULL)
+  function isEnabledFor (ListingEntry $entry = NULL)
   {
     if (isset($this->enabledCallable)) {
       return call_user_func($this->enabledCallable, $this->name, $entry);
@@ -226,7 +226,7 @@ class Action
     return TRUE;
   }
 
-  function hasPermission($dn, $type = NULL, $template = FALSE)
+  function hasPermission ($dn, $type = NULL, $template = FALSE)
   {
     global $ui;
 

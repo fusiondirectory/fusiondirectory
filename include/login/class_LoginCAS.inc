@@ -24,13 +24,13 @@
 class LoginCAS extends LoginMethod
 {
   /*! \brief Displayed name */
-  static function getLabel()
+  static function getLabel ()
   {
     return _('CAS');
   }
 
   /*! \brief All login steps in the right order for CAS login */
-  static function loginProcess()
+  static function loginProcess ()
   {
     global $config, $message, $ui;
 

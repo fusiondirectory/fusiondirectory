@@ -23,7 +23,7 @@
  */
 class GroupContentColumn extends Column
 {
-  function renderCell(ListingEntry $entry)
+  function renderCell (ListingEntry $entry)
   {
     global $config;
 

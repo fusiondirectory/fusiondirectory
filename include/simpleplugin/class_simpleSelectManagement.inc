@@ -33,7 +33,7 @@ class simpleSelectManagement extends simpleManagement
 
   protected $departmentRootVisible  = FALSE;
 
-  function __construct()
+  function __construct ()
   {
     if ($this->listXMLPath === NULL) {
       $this->listXMLPath = get_template_path('simple-select-list.xml', TRUE, dirname(__FILE__));
@@ -67,7 +67,7 @@ class simpleSelectManagement extends simpleManagement
     $this->filter->category = $infos['aclCategory'];
   }
 
-  static function filterSelectLink()
+  static function filterSelectLink ()
   {
     if (func_num_args() < 4) {
       return '&nbsp';

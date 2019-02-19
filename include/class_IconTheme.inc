@@ -49,7 +49,7 @@ class IconThemeDir
    * Defaults to 2 if not present. */
   private $Threshold = 2;
 
-  function __construct($infos)
+  function __construct ($infos)
   {
     $this->Size     = $infos['Size'];
     $this->MinSize  = $infos['Size'];
@@ -66,7 +66,7 @@ class IconThemeDir
     }
   }
 
-  function MatchesSize($size)
+  function MatchesSize ($size)
   {
     switch ($this->Type) {
       case 'Fixed':
@@ -78,7 +78,7 @@ class IconThemeDir
     }
   }
 
-  function SizeDistance($size)
+  function SizeDistance ($size)
   {
     switch ($this->Type) {
       case 'Fixed':
@@ -106,7 +106,7 @@ class IconTheme
   private $path;
   private $parent;
 
-  function __construct($folder, $default_parent)
+  function __construct ($folder, $default_parent)
   {
     $this->path = $folder;
     $datas  = @parse_ini_file($folder.'/index.theme', TRUE, INI_SCANNER_RAW);
@@ -127,13 +127,13 @@ class IconTheme
     }
   }
 
-  function FindIcon($context, $icon, $size)
+  function FindIcon ($context, $icon, $size)
   {
     $context = strtolower($context);
     return $this->FindIconHelper($context, $icon, $size);
   }
 
-  function FindIconHelper($context, $icon, $size)
+  function FindIconHelper ($context, $icon, $size)
   {
     $filename = $this->LookupIcon($context, $icon, $size);
     if ($filename != NULL) {
@@ -159,7 +159,7 @@ class IconTheme
     return NULL;
   }
 
-  function LookupIcon($context, $iconname, $size)
+  function LookupIcon ($context, $iconname, $size)
   {
     if (!isset($this->subdirs[$context])) {
       return NULL;
@@ -203,7 +203,7 @@ class IconTheme
   /* We store themes in the session. To do otherwise, override these methods. */
   static public $session_var    = 'IconThemes';
 
-  static public function loadThemes($path)
+  static public function loadThemes ($path)
   {
     $themes = array();
     if ($dir = opendir("$path")) {
@@ -224,7 +224,7 @@ class IconTheme
     $_SESSION[static::$session_var] = $themes;
   }
 
-  static public function findThemeIcon($theme, $context, $icon, $size)
+  static public function findThemeIcon ($theme, $context, $icon, $size)
   {
     if (!isset($_SESSION[static::$session_var])) {
       die('Error: no theme found in session');
@@ -235,7 +235,7 @@ class IconTheme
     return $_SESSION[static::$session_var][static::$default_theme]->FindIcon($context, $icon, $size);
   }
 
-  public function findTheme($theme)
+  public function findTheme ($theme)
   {
     if (isset($_SESSION[static::$session_var][$theme])) {
       return $_SESSION[static::$session_var][$theme];

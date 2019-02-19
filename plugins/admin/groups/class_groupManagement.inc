@@ -34,7 +34,7 @@ class groupManagement extends management
 
   protected $siActive = FALSE;
 
-  static function plInfo()
+  static function plInfo ()
   {
     return array(
       'plShortName'   => _('Groups and roles'),
@@ -49,7 +49,7 @@ class groupManagement extends management
     );
   }
 
-  function __construct()
+  function __construct ()
   {
     // Check if we are able to communicate with Argonaut server
     if (class_available('supportDaemon') && class_available('argonautAction')) {
@@ -63,7 +63,7 @@ class groupManagement extends management
     $this->filter->addElement(new GroupContentFilterElement($this->filter));
   }
 
-  protected function configureActions()
+  protected function configureActions ()
   {
     parent::configureActions();
 
@@ -101,7 +101,7 @@ class groupManagement extends management
   /*! \brief    Handle Argonaut events
    *            All schedules and triggered events are handled here.
    */
-  function handleEvent($action)
+  function handleEvent ($action)
   {
     global $config;
 
@@ -186,7 +186,7 @@ class groupManagement extends management
   /*! \brief  Save event dialogs.
    *          And append the new Argonaut event.
    */
-  function saveEventDialog()
+  function saveEventDialog ()
   {
     $this->dialogObject->save_object();
     $msgs = $this->dialogObject->check();
@@ -207,7 +207,7 @@ class groupManagement extends management
   /*! \brief  Detects actions/events send by the ui
    *           and the corresponding targets.
    */
-  function detectPostActions()
+  function detectPostActions ()
   {
     $action = parent::detectPostActions();
     if (isset($_POST['save_event_dialog'])) {
