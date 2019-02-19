@@ -421,16 +421,16 @@ class managementListing
   /*!
    * \brief Get action
    */
-  function getAction ()
+  function getAction (): array
   {
     global $config;
 
+    $result = array('targets' => array(), 'action' => '', 'subaction' => NULL);
+
     // Do not do anything if this is not our PID, or there's even no PID available...
     if (!isset($_REQUEST['dn']) && (!isset($_REQUEST['PID']) || $_REQUEST['PID'] != $this->pid)) {
-      return;
+      return $result;
     }
-
-    $result = array('targets' => array(), 'action' => '', 'subaction' => NULL);
 
     // Filter GET with "act" attributes
     if (isset($_GET['act'])) {

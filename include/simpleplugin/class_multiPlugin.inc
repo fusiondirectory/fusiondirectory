@@ -125,7 +125,7 @@ class multiPlugin extends simplePlugin
     return $message;
   }
 
-  function set_acl_category ($cat)
+  function set_acl_category (string $cat)
   {
     parent::set_acl_category($cat);
     foreach ($this->plugin as &$plug) {

@@ -85,7 +85,7 @@ class SnapshotCreateDialog extends simplePlugin
     }
   }
 
-  function renderAttributes ($readOnly = FALSE)
+  function renderAttributes (bool $readOnly = FALSE)
   {
     global $ui;
     $smarty = get_smarty();
