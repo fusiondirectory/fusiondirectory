@@ -1,7 +1,8 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2011-2017  FusionDirectory
+
+  Copyright (C) 2011-2019  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -106,7 +107,7 @@ class simpleService extends simplePlugin
     $this->status = $value;
   }
 
-  static function generatePlProvidedAcls ($attributesInfo): array
+  static function generatePlProvidedAcls (array $attributesInfo): array
   {
     $acls = parent::generatePlProvidedAcls($attributesInfo);
     if (static::$showActions) {
@@ -119,4 +120,3 @@ class simpleService extends simplePlugin
     return $acls;
   }
 }
-?>
