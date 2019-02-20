@@ -158,7 +158,7 @@ class setupStepConfig extends configInLdap
   }
 
   /* bypass acl system as there is no user login */
-  function acl_is_writeable ($attribute, $skip_write = FALSE): bool
+  function acl_is_writeable ($attribute, bool $skip_write = FALSE): bool
   {
     return TRUE;
   }
