@@ -1,8 +1,9 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
+
   Copyright (C) 2007 Fabian Hickert
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2019  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -166,19 +167,19 @@ class setupStepConfig extends configInLdap
   {
     return TRUE;
   }
-  function acl_is_createable ($base = ""): bool
+  function acl_is_createable (string $base = NULL): bool
   {
     return TRUE;
   }
-  function acl_is_removeable ($base = ""): bool
+  function acl_is_removeable (string $base = NULL): bool
   {
     return TRUE;
   }
-  function acl_is_moveable ($base = ""): bool
+  function acl_is_moveable (string $base = NULL): bool
   {
     return TRUE;
   }
-  function aclGetPermissions ($attribute = '0', $base = NULL, $skipWrite = FALSE): string
+  function aclGetPermissions ($attribute = '0', string $base = NULL, bool $skipWrite = FALSE): string
   {
     return 'cmdrw';
   }
@@ -189,4 +190,3 @@ class setupStepConfig extends configInLdap
     return configInLdap::isAccount($attrs);
   }
 }
-?>
