@@ -116,6 +116,7 @@ class SnapshotCreateDialog extends simplePlugin
   function save (): array
   {
     $this->parent->createSnapshot($this->object_dn, $this->description);
+    return array();
   }
 }
 
