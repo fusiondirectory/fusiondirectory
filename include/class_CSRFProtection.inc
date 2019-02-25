@@ -58,8 +58,7 @@ class CSRFProtection
       if (!empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
         /* Only take the first value, there may be several separated by commas */
         list($target) = explode(',', $_SERVER['HTTP_X_FORWARDED_HOST'], 2);
-      } else
-      if (!empty($_SERVER['HTTP_HOST'])) {
+      } elseif (!empty($_SERVER['HTTP_HOST'])) {
         $target = $_SERVER['HTTP_HOST'];
       }
       if ($target && !hash_equals($origin, $target)) {

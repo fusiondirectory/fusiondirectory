@@ -69,6 +69,4 @@ class passwordMethodClear extends passwordMethod
   {
     return "clear";
   }
-
 }
-?>

@@ -34,4 +34,3 @@ class tabs_configInLdap extends simpleTabs_noSpecial
     return $errors;
   }
 }
-?>

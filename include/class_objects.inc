@@ -488,5 +488,3 @@ class objects
     return $templates;
   }
 }
-
-?>

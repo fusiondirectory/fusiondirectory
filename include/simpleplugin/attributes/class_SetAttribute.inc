@@ -197,7 +197,7 @@ class SetAttribute extends Attribute
     }
     $attribute = $this->attribute;
     return array_map(
-      function ($value) use($attribute)
+      function ($value) use ($attribute)
       {
         return $attribute->displayValue($value);
       },

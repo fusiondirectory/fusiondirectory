@@ -206,5 +206,3 @@ class multiPlugin extends simplePlugin
     unset($plug);
   }
 }
-
-?>

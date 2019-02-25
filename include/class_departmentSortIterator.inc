@@ -27,7 +27,8 @@
 /*!
  * \brief This class contains all the function needed to sort department
  */
-class departmentSortIterator extends listingSortIterator {
+class departmentSortIterator extends listingSortIterator
+{
   /*!
    * \brief departmentSortIterator constructor
    *
@@ -40,4 +41,3 @@ class departmentSortIterator extends listingSortIterator {
     parent::__construct($data, $direction, 'sort-attribute', 'department');
   }
 }
-?>

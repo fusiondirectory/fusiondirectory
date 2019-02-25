@@ -59,4 +59,3 @@ class mainPluginsConfig extends simplePlugin
     );
   }
 }
-?>

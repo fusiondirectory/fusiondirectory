@@ -123,4 +123,3 @@ class passwordMethodsasl extends passwordMethod
     return ($config->get_cfg_value('forceSaslPasswordAsk', 'FALSE') == 'TRUE');
   }
 }
-?>

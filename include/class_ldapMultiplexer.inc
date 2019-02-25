@@ -28,7 +28,8 @@
  /*!
   * \brief This class contains all function to manage ldap multiplexer
   */
-class ldapMultiplexer {
+class ldapMultiplexer
+{
 
   /* Internal stuff */
   protected $object;
@@ -76,7 +77,4 @@ class ldapMultiplexer {
   {
     return $this->object->$memberName;
   }
-
 }
-
-?>

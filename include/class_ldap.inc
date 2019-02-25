@@ -855,7 +855,6 @@ class LDAP
               msg_dialog::display(_('Internal error'), sprintf(_('Cannot automatically create subtrees with RDN "%s": not supported'), $type), FATAL_ERROR_DIALOG);
               exit();
           }
-
         }
         $this->cd($cdn);
         $this->add($na);
@@ -981,16 +980,16 @@ class LDAP
   {
     // Ensure that limit is numeric if not skip here.
     if (!empty($limit) && !is_numeric($limit)) {
-        trigger_error(sprintf("Invalid parameter for limit '%s', a numeric value is required."), $limit);
-        return NULL;
+      trigger_error(sprintf("Invalid parameter for limit '%s', a numeric value is required."), $limit);
+      return NULL;
     }
     $limit = (!$limit) ? '' : ' -z '.$limit;
 
     // Check scope values
     $scope = trim($scope);
     if (!empty($scope) && !in_array($scope, array('base', 'one', 'sub', 'children'))) {
-        trigger_error(sprintf("Invalid parameter for scope '%s', please use 'base', 'one', 'sub' or 'children'."), $scope);
-        return NULL;
+      trigger_error(sprintf("Invalid parameter for scope '%s', please use 'base', 'one', 'sub' or 'children'."), $scope);
+      return NULL;
     }
     $scope = (!empty($scope)) ? ' -s '.$scope : '';
 
@@ -1305,7 +1304,6 @@ class LDAP
           default:  $value .= $chunk.' ';
         }
       }
-
     }
     if (class_available('session')) {
       session::global_set('LDAP_CACHE::get_objectclasses', $objectclasses);

@@ -109,4 +109,3 @@ class timezone
     return $utc;
   }
 }
-?>

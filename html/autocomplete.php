@@ -68,9 +68,7 @@ if (isset($_GET['type']) && $_GET['type'] == "base") {
       echo "<ul>$res</ul>";
     }
   }
-
 } else {
-
   $ui = session::global_get('ui');
   $config = session::global_get('config');
 
@@ -80,5 +78,3 @@ if (isset($_GET['type']) && $_GET['type'] == "base") {
     $filter->processAutocomplete();
   }
 }
-
-?>

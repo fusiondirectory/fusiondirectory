@@ -28,7 +28,8 @@
  * \brief This class contains all the function needed to manage xml
  * files
  */
-class xml {
+class xml
+{
   /*!
    * \brief Transform a xml document to an array
    *
@@ -110,7 +111,6 @@ class xml {
           $repeated_tag_index[$tag.'_'.$level] = 1;
 
           $current = &$current[$tag];
-
         } else { //There was another element with the same tag name
 
           if (isset($current[$tag][0])) {//If there is a 0th element it is already an array
@@ -128,7 +128,6 @@ class xml {
           $last_item_index  = $repeated_tag_index[$tag.'_'.$level] - 1;
           $current          = &$current[$tag][$last_item_index];
         }
-
       } elseif ($type == "complete") { //Tags that ends in 1 line '<tag />'
         //See if the key is already taken.
         if (!isset($current[$tag])) { //New Key
@@ -143,10 +142,9 @@ class xml {
             $current[$tag][$repeated_tag_index[$tag.'_'.$level]] = $result;
 
             if ($priority == 'tag' and $get_attributes and $attributes_data) {
-                $current[$tag][$repeated_tag_index[$tag.'_'.$level] . '_attr'] = $attributes_data;
+              $current[$tag][$repeated_tag_index[$tag.'_'.$level] . '_attr'] = $attributes_data;
             }
             $repeated_tag_index[$tag.'_'.$level]++;
-
           } else { //If it is not an array...
             $current[$tag] = array($current[$tag],$result); //...Make it an array using using the existing value and the new value
             $repeated_tag_index[$tag.'_'.$level] = 1;
@@ -170,5 +168,4 @@ class xml {
 
     return $xml_array;
   }
-
 }

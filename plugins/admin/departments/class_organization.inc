@@ -52,4 +52,3 @@ class organization extends department
     return parent::getDepartmentAttributesInfo(_('organization'));
   }
 }
-?>

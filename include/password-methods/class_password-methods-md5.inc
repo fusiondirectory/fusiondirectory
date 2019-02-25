@@ -56,7 +56,7 @@ class passwordMethodMd5 extends passwordMethod
    */
   function generate_hash ($pwd, $locked = FALSE)
   {
-    return  '{MD5}'.($locked ? '!' : '').base64_encode( pack('H*', md5($pwd)));
+    return  '{MD5}'.($locked ? '!' : '').base64_encode(pack('H*', md5($pwd)));
   }
 
   /*!
@@ -67,4 +67,3 @@ class passwordMethodMd5 extends passwordMethod
     return 'md5';
   }
 }
-?>

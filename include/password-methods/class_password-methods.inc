@@ -390,4 +390,3 @@ class passwordMethod
     return TRUE;
   }
 }
-?>

@@ -435,7 +435,8 @@ class templateHandling
     if (count($args) < 3) {
       $args[] = 1;
     }
-    $numberGenerator = function ($mandatory, $start, $step) {
+    $numberGenerator = function ($mandatory, $start, $step)
+    {
       if (!$mandatory) {
         yield '';
       }
@@ -609,7 +610,7 @@ class templateHandling
     $depends = array();
     foreach ($attrs as $key => $values) {
       $depends[$key] = array();
-      if (!is_array($values))  {
+      if (!is_array($values)) {
         $values = array($values);
       }
       unset ($values['count']);
@@ -638,7 +639,8 @@ class templateHandling
   /*! \brief Sort attrs depending of dependencies */
   protected static function sortAttributes (array $attrs, array $flatdepends)
   {
-    uksort($attrs, function ($k1, $k2) use ($flatdepends) {
+    uksort($attrs, function ($k1, $k2) use ($flatdepends)
+    {
       if (in_array($k1, $flatdepends[$k2])) {
         return -1;
       } elseif (in_array($k2, $flatdepends[$k1])) {
@@ -648,7 +650,7 @@ class templateHandling
         $c1 = count($flatdepends[$k1]);
         $c2 = count($flatdepends[$k2]);
         if ($c1 == $c2) {
-            return 0;
+          return 0;
         }
         return (($c1 < $c2) ? -1 : 1);
       }

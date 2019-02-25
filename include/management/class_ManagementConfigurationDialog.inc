@@ -20,7 +20,6 @@
 
 class ManagementColumnAttribute extends CompositeAttribute
 {
-
   function __construct ($label, $description, $ldapName, $attributes, $acl = "")
   {
     parent::__construct($description, $ldapName, $attributes, FALSE, FALSE, $acl, $label);

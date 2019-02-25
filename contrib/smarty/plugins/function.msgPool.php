@@ -36,4 +36,3 @@ function smarty_function_msgPool ($params)
     trigger_error('Unknown class msgPool.');
   }
 }
-?>

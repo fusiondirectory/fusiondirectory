@@ -117,4 +117,3 @@ class aclRole extends simplePlugin
     );
   }
 }
-?>

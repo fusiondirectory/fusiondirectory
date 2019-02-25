@@ -33,4 +33,3 @@ class groupSelect extends simpleSelectManagement
     parent::__construct();
   }
 }
-?>

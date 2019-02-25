@@ -401,5 +401,3 @@ class IconTheme
     ),
   );
 }
-
-?>

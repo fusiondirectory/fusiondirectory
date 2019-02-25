@@ -162,7 +162,7 @@ class msg_dialog
         </head><body>';
       if (isset($config) && is_object($config) &&
         $config->get_cfg_value('displayerrors') == 'TRUE') {
-        list($trace,) = html_trace();
+        list($trace, ) = html_trace();
         $display .= $trace;
       }
       $display .=
@@ -180,7 +180,6 @@ class msg_dialog
         </table></body></html>';
       return $display;
     } else {
-
       $smarty = get_smarty();
       $smarty->assign('s_Trace',    print_a($this->a_Trace, TRUE));
       $smarty->assign('i_TraceCnt', count($this->a_Trace));
@@ -240,4 +239,3 @@ class msg_dialog
     return $return;
   }
 }
-?>

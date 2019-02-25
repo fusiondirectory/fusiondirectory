@@ -90,4 +90,3 @@ class passwordMethodEmpty extends passwordMethod
     return '';
   }
 }
-?>

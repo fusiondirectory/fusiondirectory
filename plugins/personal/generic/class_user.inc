@@ -486,4 +486,3 @@ class user extends simplePlugin
     return FALSE;
   }
 }
-?>

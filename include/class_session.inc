@@ -27,7 +27,8 @@
 /*!
  * \brief This class contains all the function needed to manage sessions
  */
-class session {
+class session
+{
   /*!
    * \brief Check if the name of the session is set
    *
@@ -257,4 +258,3 @@ class session {
     @session_destroy();
   }
 }
-?>

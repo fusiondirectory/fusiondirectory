@@ -424,11 +424,11 @@ class listing
     foreach ($entryIterator as $row => $entry) {
       // Apply custom class to row?
       if (preg_match("/<rowClass:([a-z0-9_-]*)\/>/i", $entry['_rendered'], $matches)) {
-          $result .= "<tr class='".$matches[1]."'>\n";
-          $result .= preg_replace("/<rowClass[^>]+>/", '', $entry['_rendered']);
+        $result .= "<tr class='".$matches[1]."'>\n";
+        $result .= preg_replace("/<rowClass[^>]+>/", '', $entry['_rendered']);
       } else {
-          $result .= "<tr>\n";
-          $result .= $entry['_rendered'];
+        $result .= "<tr>\n";
+        $result .= $entry['_rendered'];
       }
 
       $result .= "</tr>\n";
@@ -510,7 +510,7 @@ class listing
       $this->baseSelector->update();
       // Check if a wrong base was supplied
       if (!$this->baseSelector->checkLastBaseUpdate()) {
-         msg_dialog::display(_("Error"), msgPool::check_base(), ERROR_DIALOG);
+        msg_dialog::display(_("Error"), msgPool::check_base(), ERROR_DIALOG);
       }
     }
 
@@ -1820,7 +1820,4 @@ class listing
     }
     return NULL;
   }
-
 }
-
-?>

@@ -156,4 +156,3 @@ class recoveryConfig extends simplePlugin
     );
   }
 }
-?>

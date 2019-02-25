@@ -221,4 +221,3 @@ class setupStepLdap extends setupStep
     }
   }
 }
-?>

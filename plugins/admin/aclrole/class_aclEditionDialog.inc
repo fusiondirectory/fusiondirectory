@@ -168,7 +168,6 @@ class ACLEditionDialog extends GenericDialog
         foreach ($infos['classes'] as $oc) {
           if (isset($this->aclContents[$oc]) && count($this->aclContents[$oc]) && isset($this->aclContents[$oc][0]) &&
               $this->aclContents[$oc][0] != '') {
-
             $summary[] = $oc;
             continue;
           }

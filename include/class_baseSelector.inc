@@ -320,4 +320,3 @@ class baseSelector
     return $this->pathMapping;
   }
 }
-?>

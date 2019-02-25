@@ -393,4 +393,3 @@ class ogroup extends simplePlugin
     return $this->gosaGroupObjects;
   }
 }
-?>

@@ -79,5 +79,3 @@ define('PHP_MIN_VERSION', '5.6.0');
  * \brief Toggle crashing on PHP error, used for test suites
  */
 define('PHP_ERROR_FATAL', 'FALSE');
-
-?>

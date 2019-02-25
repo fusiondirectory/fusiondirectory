@@ -700,7 +700,8 @@ class Attribute
   protected function changeStateJS ()
   {
     return join(array_map(
-      function ($id) {
+      function ($id)
+      {
         return 'changeState('.json_encode($id).');';
       },
       $this->htmlIds()

@@ -63,4 +63,3 @@ class country extends department
     return $attributesInfo;
   }
 }
-?>

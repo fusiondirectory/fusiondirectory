@@ -227,7 +227,7 @@ class managementListing
 
       // Check if a wrong base was supplied
       if (!$this->baseSelector->checkLastBaseUpdate()) {
-         msg_dialog::display(_('Error'), msgPool::check_base(), ERROR_DIALOG);
+        msg_dialog::display(_('Error'), msgPool::check_base(), ERROR_DIALOG);
       }
 
       // Save base

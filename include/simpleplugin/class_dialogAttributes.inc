@@ -998,4 +998,3 @@ class GenericSimplePluginDialog extends GenericDialog
     return FALSE;
   }
 }
-?>

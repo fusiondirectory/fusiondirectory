@@ -616,4 +616,3 @@ class configInLdap extends simplePlugin
     parent::mainInc($classname, $entry_dn, $tabs, $edit_mode, $objectType);
   }
 }
-?>

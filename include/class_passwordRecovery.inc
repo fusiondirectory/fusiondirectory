@@ -425,5 +425,3 @@ class passwordRecovery extends standAlonePage
     }
   }
 }
-
-?>

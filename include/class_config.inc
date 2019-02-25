@@ -101,7 +101,6 @@ class config
     session::global_set('class_location.inc:timestamp', $tmp['mtime']);
 
     if (($this->filename != '') && ((filemtime($this->filename) != $this->last_modified) || $force)) {
-
       $this->config_found     = FALSE;
       $this->tags             = array();
       $this->level            = 0;
@@ -447,7 +446,6 @@ class config
         );
       }
     }
-
   }
 
   /* Check that configuration is in LDAP, check that no plugin got installed since last configuration update */
@@ -1126,4 +1124,3 @@ class config
     );
   }
 }
-?>

@@ -86,4 +86,3 @@ class simpleSelectManagement extends simpleManagement
     return '';
   }
 }
-?>

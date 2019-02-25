@@ -197,4 +197,3 @@ class department extends simplePlugin
     return parent::prepare_save();
   }
 }
-?>

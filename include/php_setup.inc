@@ -94,7 +94,8 @@ function html_trace ($errstr = "")
       } else {
         $hideArgsIndexes = array();
       }
-      $f = function ($index, $arg) use(&$f, $hideArgsIndexes) {
+      $f = function ($index, $arg) use (&$f, $hideArgsIndexes)
+      {
         static $i = 0;
         if (($i == 0) && in_array($index, $hideArgsIndexes)) {
           return '***';
@@ -354,4 +355,3 @@ $ssl = '';
 if (!sslOn()) {
   $ssl = sslUrl();
 }
-?>

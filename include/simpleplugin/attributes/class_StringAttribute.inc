@@ -77,7 +77,7 @@ class StringAttribute extends Attribute
       $attributes['onChange'] = 'javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8');
     }
     if ($this->autocomplete !== NULL) {
-      $attributes['autocomplete'] = ($this->autocomplete ? 'on' : 'off' );
+      $attributes['autocomplete'] = ($this->autocomplete ? 'on' : 'off');
     }
     if ($this->html5pattern !== NULL) {
       $attributes['pattern'] = '{literal}'.htmlentities($this->html5pattern, ENT_COMPAT, 'UTF-8').'{/literal}';
@@ -98,7 +98,7 @@ class StringAttribute extends Attribute
       'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}'
     );
     if ($this->autocomplete !== NULL) {
-      $attributes['autocomplete'] = ($this->autocomplete ? 'on' : 'off' );
+      $attributes['autocomplete'] = ($this->autocomplete ? 'on' : 'off');
     }
     if ($this->isSubAttribute) {
       $attributes['class'] = 'subattribute';
@@ -144,7 +144,7 @@ class StringAttribute extends Attribute
 
   function checkValue ($value)
   {
-    if (!is_scalar($value) && (!is_object($value) || !method_exists($value, '__toString' ))) {
+    if (!is_scalar($value) && (!is_object($value) || !method_exists($value, '__toString'))) {
       throw new InvalidValueException(sprintf(_('StringAttribute "%s" was set to a non-compatible value'), $this->getLabel()));
     }
   }

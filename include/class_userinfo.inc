@@ -652,7 +652,7 @@ class userinfo
    *
    * \return array Return all accessible departments
    */
-  function get_module_departments ($module, $skip_self_acls = FALSE )
+  function get_module_departments ($module, $skip_self_acls = FALSE)
   {
     global $config;
     /* If we are forced to skip ACLs checks for the current user

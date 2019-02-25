@@ -408,4 +408,3 @@ class SnapshotRestoreDialog extends simplePlugin
   {
   }
 }
-?>

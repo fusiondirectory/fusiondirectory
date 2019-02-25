@@ -80,5 +80,3 @@ class setupStepWelcome extends setupStep
     }
   }
 }
-
-?>

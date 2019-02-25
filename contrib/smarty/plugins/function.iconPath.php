@@ -29,4 +29,3 @@ function smarty_function_iconPath ($params)
 
   return IconTheme::findThemeIcon($theme, $params['context'], $params['icon'], $params['size']);
 }
-?>

@@ -66,4 +66,3 @@ class dashboardConfig extends simplePlugin
     );
   }
 }
-?>

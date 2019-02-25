@@ -106,4 +106,3 @@ class dashboardPassword extends simplePlugin
     );
   }
 }
-?>

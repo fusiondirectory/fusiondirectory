@@ -195,4 +195,3 @@ class ogrouptabs extends simpleTabs_noSpecial
     }
   }
 }
-?>

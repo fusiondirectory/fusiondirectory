@@ -240,8 +240,8 @@ class setupStepChecks extends setupStep
   function save_object ()
   {
     parent::save_object();
-     /* If everything is fine, set this step to completed
-     *  and allow switching to next setup step */
+    /* If everything is fine, set this step to completed
+    *  and allow switching to next setup step */
     $failed = FALSE;
     foreach (array('basic_checks','config_checks') as $type) {
       foreach ($this->$type as $obj) {
@@ -254,5 +254,3 @@ class setupStepChecks extends setupStep
     $this->is_completed = !$failed;
   }
 }
-
-?>

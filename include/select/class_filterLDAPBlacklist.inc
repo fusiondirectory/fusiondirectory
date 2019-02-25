@@ -23,8 +23,8 @@
 /*!
  * \brief filterLDAP backend with blacklist/whitelist handling
  */
-class filterLDAPBlacklist {
-
+class filterLDAPBlacklist
+{
   static function query ($parent, $base, $scope, $filter, $attributes, $category, $objectStorage = "")
   {
     $result = filterLDAP::query($parent, $base, $scope, $filter, $attributes, $category, $objectStorage);
@@ -70,4 +70,3 @@ class filterLDAPBlacklist {
     return array_values($entries);
   }
 }
-?>

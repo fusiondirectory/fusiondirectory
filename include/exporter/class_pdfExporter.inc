@@ -106,7 +106,6 @@ class pdfExporter
       }
 
       foreach ($columns as $order => $index) {
-
         if (isset($row["_sort$index"])) {
           $this->result->Cell($width[$order], 6, utf8_decode($row["_sort$index"]), 'LR', 0, 'L', $fill);
         } else {
@@ -222,7 +221,7 @@ class pdfExporter
    */
   function query ()
   {
-     return $this->result->Output("", "S");
+    return $this->result->Output("", "S");
   }
 
   static function export (managementListing $listing)
@@ -310,7 +309,4 @@ class pdfExporter
       return NULL;
     }
   }
-
 }
-
-?>

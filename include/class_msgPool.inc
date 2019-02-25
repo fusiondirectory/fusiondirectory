@@ -35,8 +35,8 @@ define("LDAP_AUTH",   6);
 /*!
  * \brief This class contains all the messages for the various actions
  */
-class msgPool {
-
+class msgPool
+{
   public static function selectToView ($type, $o_type = "")
   {
     if ($o_type == "") {
@@ -50,7 +50,6 @@ class msgPool {
     } elseif ($o_type == "subsearch_small") {
       return _("Search in subtrees");
     }
-
   }
 
   /*!
@@ -225,15 +224,15 @@ class msgPool {
     return sprintf(_("Cannot connect to %s database!"), $name).$error;
   }
 
-   /*!
-   * \brief Display informations about database select
-   *
-   * \param string $name Name of the database
-   *
-   * \param string $error Error messsage to display
-   *
-   * \param string $dbinfo Database information
-   */
+  /*!
+  * \brief Display informations about database select
+  *
+  * \param string $name Name of the database
+  *
+  * \param string $error Error messsage to display
+  *
+  * \param string $dbinfo Database information
+  */
   public static function dbselect ($name, $error = "", $dbinfo = "")
   {
     if ($error != "") {
@@ -255,15 +254,15 @@ class msgPool {
     return sprintf(_("No %s server defined!"), $name);
   }
 
-   /*!
-   * \brief Display informations about database query
-   *
-   * \param string $name Name of the database
-   *
-   * \param string $error Error messsage to display
-   *
-   * \param string $dbinfo Database information
-   */
+  /*!
+  * \brief Display informations about database query
+  *
+  * \param string $name Name of the database
+  *
+  * \param string $error Error messsage to display
+  *
+  * \param string $dbinfo Database information
+  */
   public static function dbquery ($name, $error = "", $dbinfo = "")
   {
     if ($error != "") {
@@ -856,4 +855,3 @@ class msgPool {
     return _("The supplied base is not valid and has been reset to the previous value!");
   }
 }
-?>

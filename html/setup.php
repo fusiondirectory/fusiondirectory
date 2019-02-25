@@ -130,5 +130,3 @@ if ($error_collector != "") {
 $smarty->assign("version", FD_VERSION);
 
 echo $header.$smarty->fetch("$BASE_DIR/setup/setup_frame.tpl");
-
-?>

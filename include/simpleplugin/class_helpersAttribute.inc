@@ -284,5 +284,3 @@ class TimeAttribute extends UnitIntAttribute
     parent::__construct($label, $description, $ldapName, $required, $units, $min, $max, $defaultValue, $acl);
   }
 }
-
-?>

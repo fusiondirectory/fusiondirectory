@@ -90,7 +90,7 @@ function __fusiondirectory_autoload ($class_name)
   if ($class_mapping === NULL) {
     if (isset($config) && is_object($config) &&
         $config->get_cfg_value('displayerrors') == 'TRUE') {
-      list($trace,) = html_trace();
+      list($trace, ) = html_trace();
       echo $trace;
       echo "<br/>\n";
     }
@@ -109,7 +109,7 @@ function __fusiondirectory_autoload ($class_name)
     @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $class_name, 'Could not load');
     if (isset($config) && is_object($config) &&
         $config->get_cfg_value('displayerrors') == 'TRUE') {
-      list($trace,) = html_trace();
+      list($trace, ) = html_trace();
       echo $trace;
       echo "<br/>\n";
     }
@@ -1026,15 +1026,13 @@ function gen_locked_message (array $locks, $dn, $allow_readonly = FALSE)
   $remove = FALSE;
 
   /* Save variables from LOCK_VARS_TO_USE in session - for further editing */
-  if ( session::is_set('LOCK_VARS_TO_USE') && count(session::get('LOCK_VARS_TO_USE'))) {
-
+  if (session::is_set('LOCK_VARS_TO_USE') && count(session::get('LOCK_VARS_TO_USE'))) {
     $LOCK_VARS_USED_GET       = array();
     $LOCK_VARS_USED_POST      = array();
     $LOCK_VARS_USED_REQUEST   = array();
     $LOCK_VARS_TO_USE         = session::get('LOCK_VARS_TO_USE');
 
     foreach ($LOCK_VARS_TO_USE as $name) {
-
       if (empty($name)) {
         continue;
       }
@@ -1309,7 +1307,6 @@ function to_byte ($value)
   $value = strtolower(trim($value));
 
   if (!is_numeric(substr($value, -1))) {
-
     switch (substr($value, -1)) {
       case 'g':
         $mult = 1073741824;
@@ -2057,13 +2054,13 @@ function set_object_info ($str = "")
  */
 function isIpInNet ($ip, $net, $mask)
 {
-   // Move to long ints
-   $ip    = ip2long($ip);
-   $net   = ip2long($net);
-   $mask  = ip2long($mask);
+  // Move to long ints
+  $ip    = ip2long($ip);
+  $net   = ip2long($net);
+  $mask  = ip2long($mask);
 
-   // Mask given IP with mask. If it returns "net", we're in...
-   return (($ip & $mask) == $net);
+  // Mask given IP with mask. If it returns "net", we're in...
+  return (($ip & $mask) == $net);
 }
 
 /*!

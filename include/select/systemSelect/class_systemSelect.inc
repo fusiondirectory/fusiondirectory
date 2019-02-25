@@ -28,4 +28,3 @@ class systemSelect extends simpleSelectManagement
     'terminal', 'workstation', 'server'
   );
 }
-?>

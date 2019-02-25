@@ -163,7 +163,7 @@ class filter
                 "new Ajax.Autocompleter('$tag', 'autocomplete$tag', 'autocomplete.php', { minChars: $characters, frequency: $frequency });".
                 "</script>";
 
-       $this->autocompleters[$tag] = $element['autocomplete'];
+      $this->autocompleters[$tag] = $element['autocomplete'];
     }
     return $result;
   }
@@ -265,13 +265,13 @@ class filter
     }
   }
 
-   /*!
-   * \brief Set a converter
-   *
-   * \param string $field
-   *
-   * \param string $hook
-   */
+  /*!
+  * \brief Set a converter
+  *
+  * \param string $field
+  *
+  * \param string $hook
+  */
   function setConverter ($field, $hook)
   {
     $this->converter[$field] = $hook;
@@ -520,7 +520,6 @@ class filter
         $this->scope = (isset($_POST['SCOPE']) ? 'sub' : 'one');
       }
     }
-
   }
 
   /*!
@@ -626,5 +625,3 @@ function strlenSort ($a, $b)
   }
   return (strlen($a['tag']) < strlen($b['tag']) ? -1 : 1);
 }
-
-?>

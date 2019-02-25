@@ -167,7 +167,7 @@ if (!empty($old_plugin_index) && ($old_plugin_index != $plugin_index)) {
 $ui->getSizeLimitHandler()->update();
 
 /* Check for memory */
-if (memory_get_usage() > (to_byte(ini_get('memory_limit')) - 2048000 )) {
+if (memory_get_usage() > (to_byte(ini_get('memory_limit')) - 2048000)) {
   msg_dialog::display(_("Configuration error"), _("Running out of memory!"), WARNING_DIALOG);
 }
 

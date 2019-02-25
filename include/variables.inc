@@ -83,5 +83,3 @@ define("SUPANN_DIR", "/etc/fusiondirectory/supann/"); /* FusionDirectory supann 
  * \brief name of the class.cache file
  */
 define("CLASS_CACHE", "class.cache"); /* name of the class cache */
-
-?>

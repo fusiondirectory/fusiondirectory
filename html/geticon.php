@@ -50,4 +50,3 @@ if (isset($_GET['disabled']) && $_GET['disabled']) {
 } else {
   readfile($src);
 }
-?>

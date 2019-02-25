@@ -567,4 +567,3 @@ class simpleTabs_noSpecial extends simpleTabs
 {
   protected $specialTabs = FALSE;
 }
-?>

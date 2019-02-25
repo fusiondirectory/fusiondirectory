@@ -789,9 +789,9 @@ class simplePlugin
   function show_header (string $button_text, string $text, bool $plugin_enabled, bool $button_disabled = FALSE, string $name = 'modify_state'): string
   {
     if ($button_disabled || ((!$this->acl_is_createable() && !$plugin_enabled) || (!$this->acl_is_removeable() && $plugin_enabled))) {
-        $state = 'disabled="disabled"';
+      $state = 'disabled="disabled"';
     } else {
-        $state = '';
+      $state = '';
     }
     $display = '<div width="100%"><p><b>'.$text.'</b><br/>'."\n";
     $display .= '<input type="submit" formnovalidate="formnovalidate" value="'.$button_text.'" name="'.$name.'" '.$state.'></p></div><hr class="separator"/>';

@@ -39,7 +39,6 @@ class LoginPost extends LoginMethod
     $smarty->assign('focusfield', 'username');
 
     if (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['login']) && isset($_POST['username']) && isset($_POST['password'])) {
-
       static::$username = $_POST['username'];
       static::$password = $_POST['password'];
 

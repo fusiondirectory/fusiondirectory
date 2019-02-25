@@ -20,7 +20,8 @@
 */
 
 /* base class for passwordRecovery and such classes handling requests on their own */
-class standAlonePage {
+class standAlonePage
+{
   protected $directories;
   protected $directory;
   protected $activated;

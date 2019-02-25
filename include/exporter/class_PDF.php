@@ -61,5 +61,3 @@ class PDF extends FPDF
     $this->Cell(0, 10, _("Page")." ".$this->PageNo().'/{nb}', 0, 0, 'C');
   }
 }
-
-?>

@@ -55,4 +55,3 @@ class locality extends department
     return $attributesInfo;
   }
 }
-?>

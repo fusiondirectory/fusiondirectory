@@ -33,7 +33,8 @@
  * \version 2.6
  * \date    11.04.2007
  */
-class logging {
+class logging
+{
   static $validActions = array('modify','create','remove','copy','snapshot','view','security','debug');
 
   /*!
@@ -157,4 +158,3 @@ class logging {
     }
   }
 }
-?>

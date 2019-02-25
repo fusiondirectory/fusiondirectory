@@ -77,4 +77,3 @@ class passwordMethodsmd5 extends passwordMethod
     return 'smd5';
   }
 }
-?>

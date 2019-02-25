@@ -54,4 +54,3 @@ class domain extends department
     return $attributesInfo;
   }
 }
-?>

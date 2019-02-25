@@ -1127,7 +1127,7 @@ class setupStepMigrate extends setupStep
       /* Check if entry is not an addressbook only user
        *  and verify that he is in a valid department
        */
-      if ( !preg_match('/'.preg_quote('dc=addressbook,', '/').'/', $group_db_base) &&
+      if (!preg_match('/'.preg_quote('dc=addressbook,', '/').'/', $group_db_base) &&
           !in_array($group_db_base, $config->departments)
         ) {
         $attrs['checked'] = FALSE;
@@ -1376,4 +1376,3 @@ class setupStepMigrate extends setupStep
     }
   }
 }
-?>

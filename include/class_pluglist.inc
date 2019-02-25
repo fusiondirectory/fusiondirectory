@@ -31,7 +31,8 @@
  *
  * \see class_plugin
  */
-class pluglist {
+class pluglist
+{
   var $menu             = "";
   var $iconmenu         = "";
   var $current          = "";

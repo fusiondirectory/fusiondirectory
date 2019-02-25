@@ -172,4 +172,3 @@ class filterLDAP
     return $result;
   }
 }
-?>

@@ -55,4 +55,3 @@ function smarty_function_filePath ($params, Smarty_Internal_Template $smarty)
   }
   return $filename;
 }
-?>

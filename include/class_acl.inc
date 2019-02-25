@@ -99,11 +99,11 @@ class acl
   {
     $list = explode(':', $acl);
     if (count($list) == 5) {
-      list($index, $type,$role,$members,$filter) = $list;
+      list($index, $type, $role, $members, $filter) = $list;
       $filter = base64_decode($filter);
     } else {
       $filter = "";
-      list($index, $type,$role,$members) = $list;
+      list($index, $type, $role, $members) = $list;
     }
 
     $a = array( $index => array(
@@ -214,11 +214,9 @@ class acl
           list($field, $facl)   = explode(';', $ssacl);
           $a[$gobject][$field]  = $facl;
         }
-
       }
     }
 
     return $a;
   }
 }
-?>

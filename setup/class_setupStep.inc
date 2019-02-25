@@ -112,4 +112,3 @@ class setupStep extends simplePlugin
     }
   }
 }
-?>

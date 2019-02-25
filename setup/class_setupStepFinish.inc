@@ -128,4 +128,3 @@ class setupStepFinish extends setupStep
     return (bool) decbin($p & 4);
   }
 }
-?>

@@ -187,7 +187,7 @@ class CopyPasteHandler
         $cut_acl  = $ui->is_cutable($entry['dn'], $entry['aclCategory'], $entry['mainTab']);
 
         /* Check permissions */
-        if ( (($entry['method'] == 'copy') && !$copy_acl)
+        if ((($entry['method'] == 'copy') && !$copy_acl)
           || (($entry['method'] == 'cut') && !$cut_acl)) {
           $this->disallowed_objects[$key] = $entry;
         } else {
@@ -328,4 +328,3 @@ class CopyPasteHandler
     return $Copy_Paste;
   }
 }
-?>

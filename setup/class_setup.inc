@@ -163,7 +163,6 @@ class setup
   {
     $str = '<ul class="menu"><li><a>FusionDirectory Setup</a><ul>';
     foreach ($this->o_steps as $key => $step) {
-
       $step->update_strings();
 
       $s_short_name   = $step->get_short_name();

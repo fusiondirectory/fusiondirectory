@@ -72,9 +72,9 @@ class roleGeneric extends simplePlugin
     );
   }
 
-   /*!
-   *  \brief The main function : information about attributes
-   */
+  /*!
+  *  \brief The main function : information about attributes
+  */
   static function getAttributesInfo (): array
   {
     return array(
@@ -142,4 +142,3 @@ class roleGeneric extends simplePlugin
     return parent::ldap_save();
   }
 }
-?>

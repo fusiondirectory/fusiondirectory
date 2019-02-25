@@ -93,4 +93,3 @@ class passwordMethodssha extends passwordMethod
     return 'ssha';
   }
 }
-?>

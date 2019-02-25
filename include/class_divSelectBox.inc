@@ -217,4 +217,3 @@ class divSelectBox
     return $s_return;
   }
 }
-?>

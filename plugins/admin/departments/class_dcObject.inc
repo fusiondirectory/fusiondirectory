@@ -54,4 +54,3 @@ class dcObject extends department
     return $attributesInfo;
   }
 }
-?>
