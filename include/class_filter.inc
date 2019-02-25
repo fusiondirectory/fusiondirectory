@@ -335,7 +335,7 @@ class filter
   function render ()
   {
     /* If template is not filled, we display nothing */
-    if (!isset ($this->xmlData['definition']['template'])) {
+    if (!isset($this->xmlData['definition']['template'])) {
       return "";
     }
 

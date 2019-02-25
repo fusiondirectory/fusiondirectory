@@ -1431,7 +1431,7 @@ class listing
     global $ui;
 
     if (isset($action['acl'])) {
-      if (isset ($action['aclInfos'])) {
+      if (isset($action['aclInfos'])) {
         $aclInfos = $action['aclInfos'];
       } else {
         /* First time we check permission for this action */

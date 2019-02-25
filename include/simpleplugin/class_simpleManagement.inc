@@ -695,7 +695,7 @@ class simpleManagement
     if (static::$skipTemplates) {
       return;
     }
-    if (isset ($target[0])) {
+    if (isset($target[0])) {
       $dn = $target[0];
     } else {
       $dn = NULL;

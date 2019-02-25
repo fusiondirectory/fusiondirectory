@@ -24,7 +24,7 @@
  * \file php_setup.inc
  * Source code for php_setup
  */
-require_once ("variables.inc");
+require_once("variables.inc");
 
 function html_trace ($errstr = "")
 {
@@ -36,7 +36,7 @@ function html_trace ($errstr = "")
     'LDAP/__construct'  => array(1),
   );
   if (!function_exists('debug_backtrace')) {
-    return array ('', '');
+    return array('', '');
   }
   $trace = array_slice(debug_backtrace(), 1);
 

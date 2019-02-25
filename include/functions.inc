@@ -25,12 +25,12 @@
  */
 
 /* Define common locations and variables */
-require_once ('variables.inc');
+require_once('variables.inc');
 
 /* Include required files */
-require_once (CACHE_DIR.'/'.CLASS_CACHE);
-require_once ('functions_debug.inc');
-require_once ('accept-to-gettext.inc');
+require_once(CACHE_DIR.'/'.CLASS_CACHE);
+require_once('functions_debug.inc');
+require_once('accept-to-gettext.inc');
 
 /* Define constants for debugging */
 define('DEBUG_TRACE',    1); /*! Debug level for tracing of common actions (save, check, etc.) */
@@ -234,7 +234,7 @@ function get_template_path ($filename = '', $plugin = FALSE, $path = '')
   $default_theme = 'breezy';
 
   /* Set theme */
-  if (isset ($config)) {
+  if (isset($config)) {
     $theme = $config->get_cfg_value('theme', $default_theme);
   } else {
     $theme = $default_theme;

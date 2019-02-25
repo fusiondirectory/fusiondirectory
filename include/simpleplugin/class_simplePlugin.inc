@@ -1168,7 +1168,7 @@ class simplePlugin
       if (is_array($this->attrs[$index]) &&
           (count($this->attrs[$index]) == 0) &&
           !isset($this->saved_attributes[$index])) {
-        unset ($this->attrs[$index]);
+        unset($this->attrs[$index]);
         continue;
       }
 
@@ -1177,7 +1177,7 @@ class simplePlugin
           isset($this->saved_attributes[$index]) &&
           !is_array($this->saved_attributes[$index]) &&
           ($this->attrs[$index] == $this->saved_attributes[$index])) {
-        unset ($this->attrs[$index]);
+        unset($this->attrs[$index]);
         continue;
       }
 
@@ -1186,7 +1186,7 @@ class simplePlugin
           isset($this->saved_attributes[$index]) &&
           is_array($this->saved_attributes[$index]) &&
           !array_differs($this->attrs[$index], $this->saved_attributes[$index])) {
-        unset ($this->attrs[$index]);
+        unset($this->attrs[$index]);
         continue;
       }
     }

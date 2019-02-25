@@ -1374,7 +1374,7 @@ class LDAP
     /* Build LDAP connection */
     $ds = ldap_connect($server);
     if (!$ds) {
-      die ('Can\'t bind to LDAP. No check possible!');
+      die('Can\'t bind to LDAP. No check possible!');
     }
     ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
     ldap_bind($ds, $admin, $password);

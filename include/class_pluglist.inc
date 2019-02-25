@@ -559,7 +559,7 @@ class pluglist
       }
       if (is_file("$plugin_dir/main.inc")) {
         $display = '';
-        require ("$plugin_dir/main.inc");
+        require("$plugin_dir/main.inc");
       } elseif (is_callable(array($plugin, 'mainInc'))) {
         $plugin::mainInc();
       } else {

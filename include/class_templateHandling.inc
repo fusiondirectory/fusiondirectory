@@ -613,7 +613,7 @@ class templateHandling
       if (!is_array($values)) {
         $values = array($values);
       }
-      unset ($values['count']);
+      unset($values['count']);
       foreach ($values as $value) {
         $offset = 0;
         while (preg_match('/%([^%\|]+\|)?([^%]+)%/', $value, $m, PREG_OFFSET_CAPTURE, $offset)) {

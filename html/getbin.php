@@ -43,7 +43,7 @@ header('Pragma: no-cache');
 header('Cache-Control: post-check=0, pre-check=0');
 
 $key = 'binary';
-if (isset ($_GET['key'])) {
+if (isset($_GET['key'])) {
   $key .= $_GET['key'];
 }
 
