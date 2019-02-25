@@ -43,11 +43,11 @@ class management
 
   // The currently used object(s) (e.g. in edit, removal)
   protected $currentDn  = '';
-  protected $currentDns = array();
+  protected $currentDns = [];
 
   // The last used object(s).
   protected $previousDn   = '';
-  protected $previousDns  = array();
+  protected $previousDns  = [];
 
   // The opened object.
   protected $tabObject    = NULL;
@@ -61,22 +61,22 @@ class management
   public $title;
   public $icon;
 
-  protected $actions        = array();
-  protected $actionHandlers = array();
+  protected $actions        = [];
+  protected $actionHandlers = [];
 
-  protected $exporters = array();
+  protected $exporters = [];
 
-  public $neededAttrs = array();
+  public $neededAttrs = [];
 
   public static $skipTemplates = TRUE;
 
   /* Default columns */
-  public static $columns = array(
-    array('ObjectTypeColumn', array()),
-    array('LinkColumn',       array('attributes' => 'nameAttr',    'label' => 'Name')),
-    array('LinkColumn',       array('attributes' => 'description', 'label' => 'Description')),
-    array('ActionsColumn',    array('label' => 'Actions')),
-  );
+  public static $columns = [
+    ['ObjectTypeColumn', []],
+    ['LinkColumn',       ['attributes' => 'nameAttr',    'label' => 'Name']],
+    ['LinkColumn',       ['attributes' => 'description', 'label' => 'Description']],
+    ['ActionsColumn',    ['label' => 'Actions']],
+  ];
 
   // Whether to display a header or not.
   protected $skipHeader = FALSE;
@@ -121,7 +121,7 @@ class management
     // Load exporters
     foreach (array_keys($class_mapping) as $class) {
       if (preg_match('/Exporter$/', $class)) {
-        $info = call_user_func(array($class, 'getInfo'));
+        $info = call_user_func([$class, 'getInfo']);
         if ($info != NULL) {
           $this->exporters = array_merge($this->exporters, $info);
         }
@@ -155,11 +155,11 @@ class management
     global $config;
 
     // Register default actions
-    $createMenu = array();
+    $createMenu = [];
 
     if (!static::$skipTemplates) {
-      $templateMenu     = array();
-      $fromTemplateMenu = array();
+      $templateMenu     = [];
+      $fromTemplateMenu = [];
     }
 
     foreach ($this->objectTypes as $type) {
@@ -171,18 +171,18 @@ class management
       $createMenu[] = new Action(
         'new_'.$type, $infos['name'], $img,
         '0', 'newEntry',
-        array($infos['aclCategory'].'/'.$infos['mainTab'].'/c')
+        [$infos['aclCategory'].'/'.$infos['mainTab'].'/c']
       );
       if (!static::$skipTemplates) {
         $templateMenu[] = new Action(
           'new_template_'.$type, $infos['name'], $img,
           '0', 'newEntryTemplate',
-          array($infos['aclCategory'].'/template/c')
+          [$infos['aclCategory'].'/template/c']
         );
         $fromTemplateMenu[] = new Action(
           'template_apply_'.$type, $infos['name'], $img,
           '0', 'newEntryFromTemplate',
-          array($infos['aclCategory'].'/template/r', $infos['aclCategory'].'/'.$infos['mainTab'].'/c')
+          [$infos['aclCategory'].'/template/r', $infos['aclCategory'].'/'.$infos['mainTab'].'/c']
         );
       }
     }
@@ -190,7 +190,7 @@ class management
     if (!static::$skipTemplates) {
       $createMenu =
         array_merge(
-          array(
+          [
             new SubMenuAction(
               'template', _('Template'), 'geticon.php?context=devices&icon=template&size=16',
               $templateMenu
@@ -199,7 +199,7 @@ class management
               'fromtemplate', _('From template'), 'geticon.php?context=actions&icon=document-new&size=16',
               $fromTemplateMenu
             ),
-          ),
+          ],
           $createMenu
         );
     }
@@ -212,7 +212,7 @@ class management
     );
 
     // Add export actions
-    $exportMenu = array();
+    $exportMenu = [];
     foreach ($this->exporters as $action => $exporter) {
       $exportMenu[] = new Action(
         $action, $exporter['label'], $exporter['image'],
@@ -239,24 +239,24 @@ class management
         new Action(
           'cut', _('Cut'), 'geticon.php?context=actions&icon=edit-cut&size=16',
           '+', 'copyPasteHandler',
-          array('dr')
+          ['dr']
         )
       );
       $this->registerAction(
         new Action(
           'copy', _('Copy'), 'geticon.php?context=actions&icon=edit-copy&size=16',
           '+', 'copyPasteHandler',
-          array('r')
+          ['r']
         )
       );
       $this->registerAction(
         new Action(
           'paste', _('Paste'), 'geticon.php?context=actions&icon=edit-paste&size=16',
           '0', 'copyPasteHandler',
-          array('w')
+          ['w']
         )
       );
-      $this->actions['paste']->setEnableFunction(array($this, 'enablePaste'));
+      $this->actions['paste']->setEnableFunction([$this, 'enablePaste']);
     }
 
     if (!static::$skipTemplates) {
@@ -264,7 +264,7 @@ class management
         new Action(
           'template_apply_to', _('Apply template'), 'geticon.php?context=actions&icon=tools-wizard&size=16',
           '+', 'applyTemplateToEntry',
-          array('/template/r', 'c'),
+          ['/template/r', 'c'],
           TRUE,
           FALSE
         )
@@ -275,7 +275,7 @@ class management
       new Action(
         'remove', _('Remove'), 'geticon.php?context=actions&icon=edit-delete&size=16',
         '+', 'removeRequested',
-        array('d')
+        ['d']
       )
     );
 
@@ -284,18 +284,18 @@ class management
         new Action(
           'snapshot', _('Create snapshot'), 'geticon.php?context=actions&icon=snapshot&size=16',
           '1', 'createSnapshotDialog',
-          array('/snapshot/c')
+          ['/snapshot/c']
         )
       );
       $this->registerAction(
         new Action(
           'restore', _('Restore snapshot'), 'geticon.php?context=actions&icon=document-restore&size=16',
           '*', 'restoreSnapshotDialog',
-          array('w', '/snapshot/r')
+          ['w', '/snapshot/r']
         )
       );
       $this->actions['snapshot']->setSeparator(TRUE);
-      $this->actions['restore']->setEnableFunction(array($this, 'enableSnapshotRestore'));
+      $this->actions['restore']->setEnableFunction([$this, 'enableSnapshotRestore']);
     }
 
     if (!static::$skipTemplates) {
@@ -303,10 +303,10 @@ class management
         new Action(
           'template_apply', _('Create an object from this template'), 'geticon.php?context=actions&icon=document-new&size=16',
           '1', 'newEntryFromTemplate',
-          array('/template/r', 'c'),
+          ['/template/r', 'c'],
           FALSE,
           TRUE,
-          array('template')
+          ['template']
         )
       );
     }
@@ -365,7 +365,7 @@ class management
     if (!is_object($this->listing)) {
       throw new FusionDirectoryException('No valid listing object');
     }
-    $action = array('targets' => array(), 'action' => '', 'subaction' => NULL);
+    $action = ['targets' => [], 'action' => '', 'subaction' => NULL];
     if ($this->is_modal_dialog()) {
       if (isset($_POST['edit_cancel'])) {
         $action['action'] = 'cancel';
@@ -421,7 +421,7 @@ class management
   function execute (): string
   {
     // Ensure that html posts and gets are kept even if we see a 'Entry islocked' dialog.
-    $vars = array('/^act$/','/^listing/','/^PID$/');
+    $vars = ['/^act$/','/^listing/','/^PID$/'];
     session::set('LOCK_VARS_TO_USE', $vars);
 
     /* Display the copy & paste dialog, if it is currently open */
@@ -505,7 +505,7 @@ class management
 
   protected function renderActionMenu (): string
   {
-    $menuActions = array();
+    $menuActions = [];
     foreach ($this->actions as $action) {
       // Build ul/li list
       $action->fillMenuItems($menuActions);
@@ -587,7 +587,7 @@ class management
     $this->previousDn   = $this->currentDn;
     $this->currentDn    = '';
     $this->previousDns  = $this->currentDns;
-    $this->currentDns   = array();
+    $this->currentDns   = [];
 
     $this->last_tabObject     = $this->tabObject;
     $this->tabObject          = NULL;
@@ -599,7 +599,7 @@ class management
 
   protected function listAclCategories (): array
   {
-    $cat = array();
+    $cat = [];
     foreach ($this->objectTypes as $type) {
       $infos  = objects::infos($type);
       $cat[]  = $infos['aclCategory'];
@@ -634,7 +634,7 @@ class management
       return;
     }
     if ($cancel) {
-      $msgs = array();
+      $msgs = [];
     } else {
       $msgs = $this->tabObject->save();
     }
@@ -746,13 +746,13 @@ class management
       $entry = $this->listing->getEntry($dn);
       if ($entry === NULL) {
         trigger_error('Could not find '.$dn.', action canceled');
-        $this->currentDns = array();
+        $this->currentDns = [];
         return;
       }
 
       if ($entry->isTemplate()) {
         msg_dialog::display(_('Error'), _('Applying a template to a template is not possible'), ERROR_DIALOG);
-        $this->currentDns = array();
+        $this->currentDns = [];
         return;
       }
 
@@ -760,7 +760,7 @@ class management
         $type = $entry->type;
       } elseif ($entry->type != $type) {
         msg_dialog::display(_('Error'), _('All selected entries need to share the same type to be able to apply a template to them'), ERROR_DIALOG);
-        $this->currentDns = array();
+        $this->currentDns = [];
         return;
       }
     }
@@ -879,7 +879,7 @@ class management
         @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDns, 'Modifications applied');
         $this->tabObject->re_init();
         /* Avoid applying the POST a second time */
-        $_POST = array();
+        $_POST = [];
       }
     }
   }
@@ -890,8 +890,8 @@ class management
   function removeRequested (array $action)
   {
     global $ui;
-    $disallowed       = array();
-    $this->currentDns = array();
+    $disallowed       = [];
+    $this->currentDns = [];
 
     @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $action['targets'], 'Entry deletion requested');
 
@@ -922,19 +922,19 @@ class management
       // Add locks
       add_lock($this->currentDns, $ui->dn);
 
-      $objects = array();
+      $objects = [];
       foreach ($this->currentDns as $dn) {
         $entry  = $this->listing->getEntry($dn);
         $infos  = objects::infos($entry->getTemplatedType());
         if ($entry->isTemplate()) {
           $infos['nameAttr'] = 'cn';
         }
-        $objects[] = array(
+        $objects[] = [
           'name'  => $entry[$infos['nameAttr']],
           'dn'    => $dn,
           'icon'  => $infos['icon'],
           'type'  => $infos['name']
-        );
+        ];
       }
 
       return $this->removeConfirmationDialog($objects);
@@ -974,7 +974,7 @@ class management
         del_lock($this->currentDn);
       } else {
         msg_dialog::display(_('Permission error'), msgPool::permDelete($dn), ERROR_DIALOG);
-        logging::log('security', 'management/'.get_class($this), $dn, array(), 'Tried to trick deletion.');
+        logging::log('security', 'management/'.get_class($this), $dn, [], 'Tried to trick deletion.');
       }
     }
 
@@ -991,7 +991,7 @@ class management
   /*! \brief  This method is used to queue and process copy&paste actions.
    *          Allows to copy, cut and paste mutliple entries at once.
    */
-  function copyPasteHandler (array $action = array('action' => ''))
+  function copyPasteHandler (array $action = ['action' => ''])
   {
     global $ui;
 
@@ -1111,7 +1111,7 @@ class management
 
   function getSnapshotBases (): array
   {
-    $bases = array();
+    $bases = [];
     foreach ($this->objectTypes as $type) {
       $infos  = objects::infos($type);
       $bases[] = $infos['ou'].$this->listing->getBase();
@@ -1131,7 +1131,7 @@ class management
   function getAllDeletedSnapshots (): array
   {
     $bases = $this->getSnapshotBases();
-    $tmp = array();
+    $tmp = [];
     foreach ($bases as $base) {
       $tmp = array_merge($tmp, $this->snapHandler->getAllDeletedSnapshots($base));
     }

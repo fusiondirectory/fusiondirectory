@@ -25,14 +25,14 @@ class setupStepFinish extends setupStep
 
   static function getAttributesInfo (): array
   {
-    return array(
-      'welcome' => array(
+    return [
+      'welcome' => [
         'name'      => _('Welcome'),
         'template'  => get_template_path("setup_finish.tpl", TRUE, dirname(__FILE__)),
-        'attrs'     => array(
-        )
-      )
-    );
+        'attrs'     => [
+        ]
+      ]
+    ];
   }
 
   function update_strings ()

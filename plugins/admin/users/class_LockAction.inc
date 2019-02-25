@@ -20,15 +20,15 @@
 
 class LockAction extends Action
 {
-  function __construct (string $name, string $targets, $callable, array $acl = array(), $inmenu = TRUE, $inline = TRUE)
+  function __construct (string $name, string $targets, $callable, array $acl = [], $inmenu = TRUE, $inline = TRUE)
   {
     parent::__construct(
       $name,
-      array('lock' => _('Lock users'), 'unlock' => _('Unlock users')),
-      array(
+      ['lock' => _('Lock users'), 'unlock' => _('Unlock users')],
+      [
         'lock'    => 'geticon.php?context=status&icon=object-locked&size=16',
         'unlock'  => 'geticon.php?context=status&icon=object-unlocked&size=16',
-      ),
+      ],
       $targets, $callable, $acl, $inmenu, $inline);
   }
 
@@ -53,21 +53,21 @@ class LockAction extends Action
       return;
     }
 
-    $actions[] = array(
+    $actions[] = [
       'name'      => $this->name.'_lock',
       'icon'      => $this->icon['lock'],
       'label'     => $this->label['lock'],
       'enabled'   => $this->isEnabledFor(),
       'separator' => $this->separator,
-    );
+    ];
 
-    $actions[] = array(
+    $actions[] = [
       'name'      => $this->name.'_unlock',
       'icon'      => $this->icon['unlock'],
       'label'     => $this->label['unlock'],
       'enabled'   => $this->isEnabledFor(),
       'separator' => FALSE,
-    );
+    ];
   }
 
   function fillRowClasses (&$classes, ListingEntry $entry)

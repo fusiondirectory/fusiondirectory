@@ -82,11 +82,11 @@ class LoginHTTPHeader extends LoginMethod
 
     $ui->loadACL();
 
-    $success = static::runSteps(array(
+    $success = static::runSteps([
       'checkForLockingBranch',
       'loginAndCheckExpired',
       'runSchemaCheck',
-    ));
+    ]);
 
     if ($success) {
       /* Everything went well, redirect to main.php */

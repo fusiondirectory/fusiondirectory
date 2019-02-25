@@ -175,9 +175,9 @@ class CommaListAttribute extends CompositeAttribute
   {
     parent::__construct(
       $attribute->getDescription(), $ldapName,
-      array(
+      [
         $attribute
-      ), '', ''
+      ], '', ''
     );
     $this->sep = $sep;
   }
@@ -185,9 +185,9 @@ class CommaListAttribute extends CompositeAttribute
   function readValues ($value)
   {
     if ($value == '') {
-      return array(array());
+      return [[]];
     } else {
-      return array(explode($this->sep, $value));
+      return [explode($this->sep, $value)];
     }
   }
 
@@ -206,10 +206,10 @@ class UnitIntAttribute extends CompositeAttribute
   function __construct ($label, $description, $ldapName, $required, $units, $min = FALSE, $max = FALSE, $defaultValue = "", $acl = "")
   {
     parent::__construct($description, $ldapName,
-      array(
+      [
         new IntAttribute('', '', $ldapName.'_int', $required, $min, $max, $defaultValue),
         new SelectAttribute('', '', $ldapName.'_select', TRUE, array_keys($units), '', array_values($units)),
-      ), '', '',
+      ], '', '',
       $acl, $label
     );
     $this->setLinearRendering(TRUE);
@@ -219,12 +219,12 @@ class UnitIntAttribute extends CompositeAttribute
   function readValues ($value)
   {
     if ($value === '') {
-      return array('', 0);
+      return ['', 0];
     }
     $choices = $this->attributes[1]->getChoices();
     sort($choices);
     if ($value == 0) {
-      return array($value, $choices[0]);
+      return [$value, $choices[0]];
     }
     /* Find the appropriate unit */
     for (
@@ -232,7 +232,7 @@ class UnitIntAttribute extends CompositeAttribute
       ($value % $choices[$i] != 0) && ($i > 0);
       $i--
     );
-    return array($value / $choices[$i], $choices[$i]);
+    return [$value / $choices[$i], $choices[$i]];
   }
 
   function writeValues (array $values)
@@ -257,13 +257,13 @@ class BytesSizeAttribute extends UnitIntAttribute
 {
   function __construct ($label, $description, $ldapName, $required, $min = FALSE, $max = FALSE, $defaultValue = "", $acl = "")
   {
-    $units = array(
+    $units = [
       1         => _('B'),
       1024 ** 1 => _('KiB'),
       1024 ** 2 => _('MiB'),
       1024 ** 3 => _('GiB'),
       1024 ** 4 => _('TiB'),
-    );
+    ];
     parent::__construct($label, $description, $ldapName, $required, $units, $min, $max, $defaultValue, $acl);
   }
 }
@@ -275,12 +275,12 @@ class TimeAttribute extends UnitIntAttribute
 {
   function __construct ($label, $description, $ldapName, $required, $min = FALSE, $max = FALSE, $defaultValue = "", $acl = "")
   {
-    $units = array(
+    $units = [
       1     => _('seconds'),
       60    => _('minutes'),
       3600  => _('hours'),
       86400 => _('days'),
-    );
+    ];
     parent::__construct($label, $description, $ldapName, $required, $units, $min, $max, $defaultValue, $acl);
   }
 }

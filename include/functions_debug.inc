@@ -169,8 +169,8 @@ class printAClass
 
         case 'string':
           if ($this->look_for_leading_tabs && preg_match('/^\t/m', $value)) {
-            $search       = array('/\t/', "/\n/");
-            $replace      = array('&nbsp;&nbsp;&nbsp;','<br />');
+            $search       = ['/\t/', "/\n/"];
+            $replace      = ['&nbsp;&nbsp;&nbsp;','<br />'];
             $value        = preg_replace($search, $replace, htmlspecialchars($value));
             $value_style  = 'color:black;border:1px gray dotted;';
           } else {
@@ -319,17 +319,17 @@ function show_vars ($show_all_vars = FALSE, $show_object_vars = FALSE)
     DEBUG '.show_runtime().'
   ';
 
-  $vars_arr['script_globals'] = array('global script variables', '#7ACCC8');
+  $vars_arr['script_globals'] = ['global script variables', '#7ACCC8'];
 
-  $vars_arr['_GET']     = array('$_GET', '#7DA7D9');
-  $vars_arr['_POST']    = array('$_POST', '#F49AC1');
-  $vars_arr['_FILES']   = array('$_POST FILES', '#82CA9C');
-  $vars_arr['_SESSION'] = array('$_SESSION', '#FCDB26');
-  $vars_arr['_COOKIE']  = array('$_COOKIE', '#A67C52');
+  $vars_arr['_GET']     = ['$_GET', '#7DA7D9'];
+  $vars_arr['_POST']    = ['$_POST', '#F49AC1'];
+  $vars_arr['_FILES']   = ['$_POST FILES', '#82CA9C'];
+  $vars_arr['_SESSION'] = ['$_SESSION', '#FCDB26'];
+  $vars_arr['_COOKIE']  = ['$_COOKIE', '#A67C52'];
 
   if ($show_all_vars) {
-    $vars_arr['_SERVER']  = array('SERVER', '#A186BE');
-    $vars_arr['_ENV']     = array('ENV', '#7ACCC8');
+    $vars_arr['_SERVER']  = ['SERVER', '#A186BE'];
+    $vars_arr['_ENV']     = ['ENV', '#7ACCC8'];
   }
 
   foreach ($vars_arr as $vars_name => $vars_data) {

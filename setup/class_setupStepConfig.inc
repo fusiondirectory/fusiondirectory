@@ -43,11 +43,11 @@ class setupStepConfig extends configInLdap
   var $is_completed = FALSE;
   var $header_image;
 
-  protected $objectclasses = array('fusionDirectoryConf');
+  protected $objectclasses = ['fusionDirectoryConf'];
 
   static function plInfo (): array
   {
-    return array();
+    return [];
   }
 
   function __construct ($parent, $cv)
@@ -55,8 +55,8 @@ class setupStepConfig extends configInLdap
     global $config;
     parent::__construct(CONFIGRDN.$config->current['BASE'], NULL, $parent, TRUE);
 
-    $this->attributesInfo['miscellaneous']['class'] = array('invisible');
-    $this->attributesInfo['debug']['class'] = array('invisible');
+    $this->attributesInfo['miscellaneous']['class'] = ['invisible'];
+    $this->attributesInfo['debug']['class'] = ['invisible'];
 
     $this->fdLanguage     = $cv['lang_selected'];
   }
@@ -87,7 +87,7 @@ class setupStepConfig extends configInLdap
   /* Return attributes handled by this setup step */
   function get_attributes ()
   {
-    $tmp = array();
+    $tmp = [];
     foreach (array_keys($this->attributesAccess) as $attr) {
       $tmp[$attr] = $this->$attr;
     }

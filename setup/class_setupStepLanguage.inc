@@ -25,11 +25,11 @@ class setupStepLanguage extends setupStep
 
   static function getAttributesInfo (): array
   {
-    return array(
-      'lang' => array(
+    return [
+      'lang' => [
         'name'      => _('Preferred language'),
-        'class'     => array('fullwidth', 'setup-language'),
-        'attrs'     => array(
+        'class'     => ['fullwidth', 'setup-language'],
+        'attrs'     => [
           new DisplayAttribute(
             '', '',
             'msg', FALSE
@@ -42,9 +42,9 @@ class setupStepLanguage extends setupStep
             'lang', FALSE,
             'en_EN'
           )
-        )
-      )
-    );
+        ]
+      ]
+    ];
   }
 
   function __construct ($parent)
@@ -66,7 +66,7 @@ class setupStepLanguage extends setupStep
   {
     $languages = Language::getList(TRUE);
     asort($languages);
-    $languages = array_merge(array("" => _("Automatic")), $languages);
+    $languages = array_merge(["" => _("Automatic")], $languages);
     $this->attributesAccess['lang_selected']->setChoices(array_keys($languages), array_values($languages));
     return parent::execute();
   }

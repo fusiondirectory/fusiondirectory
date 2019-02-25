@@ -23,36 +23,36 @@ class dashboard extends simplePlugin
 {
   static function plInfo (): array
   {
-    return array(
+    return [
       'plShortName'   => _('Dashboard'),
       'plTitle'       => _('Dashboard'),
       'plDescription' => _('Statistics and various information'),
       'plIcon'        => 'geticon.php?context=applications&icon=utilities-system-monitor&size=48',
-      'plObjectType'  => array(
-        'dashboard' => array(
+      'plObjectType'  => [
+        'dashboard' => [
           'name'      => _('Dashboard'),
           'tabClass'  => 'tabs_dashboard',
           'mainAttr'  => FALSE
-        )
-      ),
-      'plSection'     => array('reporting' => array('name' => _('Reporting'), 'priority' => 30)),
+        ]
+      ],
+      'plSection'     => ['reporting' => ['name' => _('Reporting'), 'priority' => 30]],
       'plPriority'    => 0,
 
-      'plProvidedAcls'  => array(
+      'plProvidedAcls'  => [
         'dashboard' => _('See dashboard')
-      )
-    );
+      ]
+    ];
   }
 
   static function getAttributesInfo (): array
   {
-    return array(
-      'stats' => array(
+    return [
+      'stats' => [
         'name'  => _('Statistics'),
-        'attrs' => array(new FakeAttribute('stats')),
+        'attrs' => [new FakeAttribute('stats')],
         'template' => get_template_path('main_stats.tpl', TRUE, dirname(__FILE__)),
-      ),
-    );
+      ],
+    ];
   }
 
   function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE)
@@ -66,7 +66,7 @@ class dashboard extends simplePlugin
   function overview_stats ()
   {
     global $config;
-    $stats = array();
+    $stats = [];
     foreach ($config->data['OBJECTS'] as $type => $infos) {
       try {
         $nb = count(objects::ls($type, NULL, NULL, '', TRUE));
@@ -83,10 +83,10 @@ class dashboard extends simplePlugin
       if ($nb == 0) {
         continue;
       }
-      $node = array(
+      $node = [
         'name'  => $infos['name'],
         'nb'    => $nb
-      );
+      ];
       if (isset($infos['icon'])) {
         $node['img'] = $infos['icon'];
       } else {

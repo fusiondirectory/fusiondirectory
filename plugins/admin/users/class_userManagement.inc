@@ -21,32 +21,32 @@
 
 class userManagement extends management
 {
-  public $neededAttrs = array('userPassword' => '1');
+  public $neededAttrs = ['userPassword' => '1'];
 
   public static $skipTemplates = FALSE;
 
-  public static $columns = array(
-    array('ObjectTypeColumn', array()),
-    array('LinkColumn',       array('attributes' => 'sn',        'label' => 'Last name')),
-    array('LinkColumn',       array('attributes' => 'givenName', 'label' => 'First name')),
-    array('Column',           array('attributes' => 'uid',       'label' => 'Login')),
-    array('PropertiesColumn', array('label' => 'Properties')),
-    array('ActionsColumn',    array('label' => 'Actions')),
-  );
+  public static $columns = [
+    ['ObjectTypeColumn', []],
+    ['LinkColumn',       ['attributes' => 'sn',        'label' => 'Last name']],
+    ['LinkColumn',       ['attributes' => 'givenName', 'label' => 'First name']],
+    ['Column',           ['attributes' => 'uid',       'label' => 'Login']],
+    ['PropertiesColumn', ['label' => 'Properties']],
+    ['ActionsColumn',    ['label' => 'Actions']],
+  ];
 
   static function plInfo (): array
   {
-    return array(
+    return [
       'plShortName'   => _('Users'),
       'plTitle'       => _('Manage users'),
       'plDescription' => _('Manage user accounts and their properties'),
       'plIcon'        => 'geticon.php?context=types&icon=user&size=48',
       'plSection'     => 'accounts',
-      'plManages'     => array('user'),
+      'plManages'     => ['user'],
       'plPriority'    => 10,
 
-      'plProvidedAcls' => array()
-    );
+      'plProvidedAcls' => []
+    ];
   }
 
 
@@ -58,7 +58,7 @@ class userManagement extends management
       new LockAction(
         'lockUsers',
         '+', 'lockUsers',
-        array('userPassword:rw'), TRUE, TRUE
+        ['userPassword:rw'], TRUE, TRUE
       )
     );
     $this->actions['lockUsers']->setSeparator(TRUE);
@@ -72,8 +72,8 @@ class userManagement extends management
     @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $action, 'Lock');
 
     // Filter out entries we are not allowed to modify
-    $disallowed = array();
-    $allowed    = array();
+    $disallowed = [];
+    $allowed    = [];
     foreach ($action['targets'] as $dn) {
       if (strpos($ui->get_permissions($dn, 'user/user', 'userLock'), 'w') === FALSE) {
         $disallowed[] = $dn;

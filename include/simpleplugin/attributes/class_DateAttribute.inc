@@ -145,10 +145,10 @@ class DateAttribute extends Attribute
     $id = $this->getHtmlId();
     $display = $this->renderInputField(
       'text', $id,
-      array(
+      [
         'value' => '{literal}'.$this->getValue().'{/literal}',
         'class' => 'date'
-      )
+      ]
     );
     $display  .= '{if $'.$this->getAcl().'ACL|regex_replace:"/[cdmr]/":"" == "w"}'.
         '<script type="text/javascript">
@@ -205,7 +205,7 @@ class TimeHisAttribute extends CompositeAttribute
   function __construct ($label, $description, $ldapName, $required, $convert = TRUE, $acl = '')
   {
     $this->convert = $convert;
-    $attributes = array(
+    $attributes = [
       new IntAttribute(
         '',  _('Hours'),
         $ldapName.'_hours', TRUE,
@@ -221,7 +221,7 @@ class TimeHisAttribute extends CompositeAttribute
         $ldapName.'_seconds', TRUE,
         0, 59, 0
       )
-    );
+    ];
     parent::__construct($description, $ldapName, $attributes, '/^(\d\d)(\d\d)(\d\d)$/', '%02d%02d%02d', $acl, $label);
     $this->setLinearRendering(TRUE);
   }
@@ -279,7 +279,7 @@ class TimeHiAttribute extends TimeHisAttribute
   function __construct ($label, $description, $ldapName, $required, $convert = TRUE, $acl = '')
   {
     $this->convert = $convert;
-    $attributes = array(
+    $attributes = [
       new IntAttribute(
         '',  _('Hours'),
         $ldapName.'_hours', TRUE,
@@ -290,7 +290,7 @@ class TimeHiAttribute extends TimeHisAttribute
         $ldapName.'_minutes', TRUE,
         0, 59, 0
       )
-    );
+    ];
     CompositeAttribute::__construct($description, $ldapName, $attributes, '/^(\d\d)(\d\d)$/', '%02d%02d', $acl, $label);
     $this->setLinearRendering(TRUE);
   }
@@ -303,7 +303,7 @@ class DateTimeAttribute extends CompositeAttribute
 {
   function __construct ($label, $description, $ldapName, $required, $acl = '')
   {
-    $attributes = array(
+    $attributes = [
       new DateAttribute(
         _('Date'), '',
         $ldapName.'_date', $required,
@@ -315,7 +315,7 @@ class DateTimeAttribute extends CompositeAttribute
         $ldapName.'_time', $required,
         FALSE
       )
-    );
+    ];
     parent::__construct($description, $ldapName, $attributes, '/^(\d{8})(\d{6})$/', '%s%s', $acl, $label);
   }
 }

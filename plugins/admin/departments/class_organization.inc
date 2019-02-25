@@ -21,30 +21,30 @@
 class organization extends department
 {
   static protected $namingAttr  = 'o';
-  protected $structuralOC       = array('organization');
+  protected $structuralOC       = ['organization'];
 
   static function plInfo (): array
   {
-    return array(
+    return [
       'plShortName'   => _('Organization'),
       'plDescription' => _('Organization'),
-      'plObjectClass' => array('gosaDepartment'),
+      'plObjectClass' => ['gosaDepartment'],
       'plFilter'      => '(&(objectClass=organization)(objectClass=gosaDepartment))',
-      'plObjectType'  => array('organization' => array(
+      'plObjectType'  => ['organization' => [
         'aclCategory' => 'department',
         'name'        => _('Organization'),
         'ou'          => '',
         'icon'        => 'geticon.php?context=types&icon=organization&size=16',
         'tabClass'    => 'deptabs',
         'mainAttr'    => static::$namingAttr,
-      )),
-      'plForeignKeys'  => array(
-        'manager' => array('user','dn','manager=%oldvalue%','*')
-      ),
-      'plSearchAttrs' => array('description'),
+      ]],
+      'plForeignKeys'  => [
+        'manager' => ['user','dn','manager=%oldvalue%','*']
+      ],
+      'plSearchAttrs' => ['description'],
 
       'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())
-    );
+    ];
   }
 
   static function getAttributesInfo (): array

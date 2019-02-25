@@ -23,33 +23,33 @@ class reference extends simplePlugin
 {
   static function plInfo (): array
   {
-    return array(
+    return [
       'plShortName'   => _('References'),
       'plDescription' => _('References'),
-      'plCategory'    => array('acl'),
-      'plObjectType'  => array(
-        'special' => array(
+      'plCategory'    => ['acl'],
+      'plObjectType'  => [
+        'special' => [
           'name' => 'special'
-        )
-      ),
+        ]
+      ],
       'plPriority'    => 10,
 
-      'plProvidedAcls'  => array()
-    );
+      'plProvidedAcls'  => []
+    ];
   }
 
   static function getAttributesInfo (): array
   {
-    return array(
-      'main' => array(
+    return [
+      'main' => [
         'name'      => _('References'),
-        'class'     => array('fullwidth'),
-        'attrs'     => array(
+        'class'     => ['fullwidth'],
+        'attrs'     => [
           new FakeAttribute('refs')
-        ),
+        ],
         'template'  => get_template_path('contents.tpl', TRUE, dirname(__FILE__))
-      ),
-    );
+      ],
+    ];
   }
 
   function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE)
@@ -80,16 +80,16 @@ class reference extends simplePlugin
 
   function check (): array
   {
-    return array();
+    return [];
   }
 
   function save (): array
   {
-    return array();
+    return [];
   }
 
   function remove (bool $fulldelete = FALSE): array
   {
-    return array();
+    return [];
   }
 }

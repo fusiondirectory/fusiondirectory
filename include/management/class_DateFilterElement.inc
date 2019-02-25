@@ -29,7 +29,7 @@ class DateFilterElement extends FilterElement
   protected $max;
   protected $types;
 
-  public function __construct (managementFilter $parent, $attribute, $label, $types = array())
+  public function __construct (managementFilter $parent, $attribute, $label, $types = [])
   {
     global $config;
 

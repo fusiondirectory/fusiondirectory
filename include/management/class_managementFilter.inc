@@ -25,13 +25,13 @@ class managementFilter
 {
   protected $types;
 
-  protected $searchAttributes = array();
+  protected $searchAttributes = [];
   protected $scope = 'one';
   protected $showTemplates = FALSE;
 
   protected $search = '';
 
-  protected $filterElements = array();
+  protected $filterElements = [];
 
   /* The management class */
   public $parent;
@@ -56,16 +56,16 @@ class managementFilter
     $this->pid = preg_replace('/[^0-9]/', '', microtime(TRUE));
 
     foreach ($this->parent->objectTypes as $type) {
-      $this->types['filter_type_'.$type] = array(
+      $this->types['filter_type_'.$type] = [
         'show'    => TRUE,
-        'filters' => array(),
+        'filters' => [],
         'infos'   => objects::infos($type),
-      );
+      ];
     }
 
-    $this->filterElements = array(
+    $this->filterElements = [
       new TabFilterElement($this),
-    );
+    ];
   }
 
   function setScope ($scope)
@@ -103,7 +103,7 @@ class managementFilter
     foreach ($this->parent->objectTypes as $type) {
       $attrs = objects::getSearchedAttributes($type);
 
-      $this->searchAttributes[$type] = array();
+      $this->searchAttributes[$type] = [];
       $this->parent->listing->fillSearchedAttributes($type, $attrs);
       foreach ($attrs as $attr => $acl) {
         $rights = $ui->get_permissions($base, $acl);
@@ -127,7 +127,7 @@ class managementFilter
     $smarty->assign('SEARCH',     $this->search);
     $smarty->assign('TYPES',      $this->types);
 
-    $searchAttrs = array();
+    $searchAttrs = [];
     foreach ($this->searchAttributes as $type => $attrs) {
       foreach ($attrs as $attr) {
         $searchAttrs[] = strtolower($type).'/'.$attr;
@@ -139,7 +139,7 @@ class managementFilter
     if (!$parentClass::$skipTemplates) {
       $smarty->assign('TEMPLATES',  $this->showTemplates);
     }
-    $elements = array();
+    $elements = [];
     foreach ($this->filterElements as $element) {
       $elements[] = $element->render();
     }
@@ -156,8 +156,8 @@ class managementFilter
   {
     global $ui;
 
-    $objectTypeCount  = array();
-    $entries          = array();
+    $objectTypeCount  = [];
+    $entries          = [];
     $row              = 0;
     $ui->getSizeLimitHandler()->setLimitExceeded(FALSE);
     foreach ($this->parent->objectTypes as $type) {
@@ -186,7 +186,7 @@ class managementFilter
         }
       }
 
-      $elementFilters = array();
+      $elementFilters = [];
       if (!empty($this->search)) {
         if (preg_match('/^\(.+\)$/', $this->search)) {
           $elementFilters[] = $this->search;
@@ -230,6 +230,6 @@ class managementFilter
       }
     }
 
-    return array($entries, $objectTypeCount);
+    return [$entries, $objectTypeCount];
   }
 }

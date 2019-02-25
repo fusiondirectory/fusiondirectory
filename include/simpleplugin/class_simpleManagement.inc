@@ -132,14 +132,14 @@ class simpleManagement
   // The currently used object(s) (e.g. in edit, removal)
   // $dn is public due to some compatibility problems with class plugin..
   public $dn      = '';
-  protected $dns  = array();
+  protected $dns  = [];
 
   // The last used object(s).
   protected $last_dn  = '';
-  protected $last_dns = array();
+  protected $last_dns = [];
 
   // The common places the displayed objects are stored in. (e.g. array("ou=groups,",".."))
-  protected $storagePoints = array();
+  protected $storagePoints = [];
 
   // The opened object.
   protected $tabObject    = NULL;
@@ -172,14 +172,14 @@ class simpleManagement
   protected $filter   = NULL;
 
   // A list of configured actions/events
-  protected $actions = array();
+  protected $actions = [];
 
   // Some management classes are used in tab groups and needs this
   public $is_template = FALSE;
-  public $attributes  = array();
+  public $attributes  = [];
 
   /* Attributes that child classes should override */
-  protected $objectTypes  = array();
+  protected $objectTypes  = [];
 
   /* Attributes that child classes can override */
   protected $departmentBrowser      = TRUE;
@@ -193,7 +193,7 @@ class simpleManagement
   protected $autoActions      = TRUE;
   protected $skipCpHandler    = FALSE;
 
-  protected $autoFilterAttributes = array('dn', 'cn', 'description');
+  protected $autoFilterAttributes = ['dn', 'cn', 'description'];
 
   protected $headpageClass = "listing";
 
@@ -216,7 +216,7 @@ class simpleManagement
     }
     unset($object);
 
-    $this->storagePoints = array();
+    $this->storagePoints = [];
     foreach ($this->objectTypes as $key => $object) {
       try {
         $i = objects::infos($object);
@@ -287,22 +287,22 @@ class simpleManagement
   {
     if ($this->autoActions) {
       if (static::$skipTemplates) {
-        $this->headpage->xmlData['actionmenu']['action'][0]['action'] = array();
+        $this->headpage->xmlData['actionmenu']['action'][0]['action'] = [];
       } else {
-        $this->headpage->xmlData['actionmenu']['action'][0]['action'] = array(
-          array(
+        $this->headpage->xmlData['actionmenu']['action'][0]['action'] = [
+          [
             'type'    => 'sub',
             'image'   => 'geticon.php?context=devices&icon=template&size=16',
             'label'   => _('Template'),
-            'action'  => array(),
-          ),
-          array(
+            'action'  => [],
+          ],
+          [
             'type'    => 'sub',
             'image'   => 'geticon.php?context=actions&icon=document-new&size=16',
             'label'   => _('From template'),
-            'action'  => array(),
-          ),
-        );
+            'action'  => [],
+          ],
+        ];
       }
     }
     $this->configureHeadline();
@@ -316,17 +316,17 @@ class simpleManagement
 
       $filterObject = objects::getFilterObject($object);
       $this->headpage->objectTypes[$object] =
-        array(
+        [
           'label'       => $i['name'],
           'category'    => $i['aclCategory'],
           'class'       => $i['mainTab'],
           'image'       => $i['icon'],
           'filter'      => $filterObject,
           'nameAttr'    => $i['nameAttr'],
-        );
+        ];
       if (!static::$skipTemplates) {
         $this->headpage->objectTypes['template_'.$object] =
-          array(
+          [
             'label'       => sprintf(_('%s template'), $i['name']),
             'category'    => $i['aclCategory'],
             'class'       => 'template',
@@ -334,13 +334,13 @@ class simpleManagement
             'filter'      =>
               new ldapFilter(
                 '&',
-                array(
+                [
                   new ldapFilterLeaf('objectClass', '=', 'fdTemplate'),
                   fdTemplateFilter($filterObject),
-                )
+                ]
               ),
             'nameAttr'    => $i['nameAttr'],
-          );
+          ];
       }
       $this->headpage->categories[] = $i['aclCategory'];
       if ($this->autoActions) {
@@ -354,30 +354,30 @@ class simpleManagement
             $icon = $infos['plIcon'];
           }
         }
-        $this->headpage->xmlData['actionmenu']['action'][0]['action'][] = array(
+        $this->headpage->xmlData['actionmenu']['action'][0]['action'][] = [
           'name'  => 'new_'.$object,
           'type'  => 'entry',
           'image' => $icon,
           'label' => $i['name'],
           'acl'   => $i['aclCategory'].'/'.$i['mainTab'].'[c]',
-        );
+        ];
         if (!static::$skipTemplates) {
           $this->registerAction('new_template_'.$object, 'newEntryTemplate');
           $this->registerAction('template_apply_'.$object, 'newEntryFromTemplate');
-          $this->headpage->xmlData['actionmenu']['action'][0]['action'][0]['action'][] = array(
+          $this->headpage->xmlData['actionmenu']['action'][0]['action'][0]['action'][] = [
             'name'  => 'new_template_'.$object,
             'type'  => 'entry',
             'image' => $icon,
             'label' => $i['name'],
             'acl'   => $i['aclCategory'].'/template[c]',
-          );
-          $this->headpage->xmlData['actionmenu']['action'][0]['action'][1]['action'][] = array(
+          ];
+          $this->headpage->xmlData['actionmenu']['action'][0]['action'][1]['action'][] = [
             'name'  => 'template_apply_'.$object,
             'type'  => 'entry',
             'image' => $icon,
             'label' => $i['name'],
             'acl'   => $i['aclCategory'].'/'.$i['mainTab'].'[c]',
-          );
+          ];
         }
       }
     }
@@ -427,13 +427,13 @@ class simpleManagement
         $tag    = 'FILTER'.$object;
         $filter .= '$'.$tag;
         $i      = objects::infos($object);
-        $this->filter->elements[$tag] = array(
+        $this->filter->elements[$tag] = [
           'type'    => 'checkbox',
           'tag'     => $tag,
           'default' => TRUE,
-          'unset'   => array(),
+          'unset'   => [],
           'set'     => preg_replace('/\$/', '\\\$', $i['filter'])
-        );
+        ];
         $this->filter->elementValues[$tag] = TRUE;
 
         if ($i['mainAttr']) {
@@ -446,13 +446,13 @@ class simpleManagement
       if (!static::$skipTemplates) {
         $tag    = 'FILTERTEMPLATE';
         $filter .= '$'.$tag;
-        $this->filter->elements[$tag] = array(
+        $this->filter->elements[$tag] = [
           'type'    => 'checkbox',
           'tag'     => $tag,
           'default' => TRUE,
-          'unset'   => array(),
+          'unset'   => [],
           'set'     => '(objectClass=fdTemplate)'
-        );
+        ];
         $this->filter->elementValues[$tag] = TRUE;
 
         $attributes[] = 'fdTemplateField';
@@ -473,7 +473,7 @@ class simpleManagement
   {
     $contents = file_get_contents($file);
     $data     = xml::xml2array($contents, 1);
-    foreach (array('departmentBrowser','departmentRootVisible','baseMode','multiSelect') as $var) {
+    foreach (['departmentBrowser','departmentRootVisible','baseMode','multiSelect'] as $var) {
       $data['list']['definition']["$var"] = ($this->$var ? 'true' : 'false');
     }
     return $data;
@@ -520,18 +520,18 @@ class simpleManagement
   {
     global $config;
     $smarty = get_smarty();
-    $filters = array();
+    $filters = [];
     foreach ($this->objectTypes as $object) {
-      $filters[] = array(
+      $filters[] = [
         'id'    => 'FILTER'.$object,
         'label' => sprintf(_('Show %s'), $config->data['OBJECTS'][$object]['name'])
-      );
+      ];
     }
     if (!static::$skipTemplates) {
-      $filters[] = array(
+      $filters[] = [
         'id'    => 'FILTERTEMPLATE',
         'label' => sprintf(_('Show %s'), _('Template'))
-      );
+      ];
     }
     $smarty->assign('objectFilters', $filters);
     $this->headpage->update();
@@ -546,7 +546,7 @@ class simpleManagement
   function execute ()
   {
     // Ensure that html posts and gets are kept even if we see a 'Entry islocked' dialog.
-    $vars = array('/^act$/','/^listing/','/^PID$/');
+    $vars = ['/^act$/','/^listing/','/^PID$/'];
     session::set('LOCK_VARS_TO_USE', $vars);
 
     /* Display the copy & paste dialog, if it is currently open */
@@ -742,7 +742,7 @@ class simpleManagement
       return;
     }
     if ($cancel) {
-      $msgs = array();
+      $msgs = [];
     } else {
       $msgs = $this->tabObject->save();
     }
@@ -893,7 +893,7 @@ class simpleManagement
   {
     if (!is_object($this->headpage)) {
       trigger_error("No valid headpage given....!");
-      return array();
+      return [];
     }
     $action = $this->headpage->getAction();
     if (isset($_POST['edit_cancel'])) {
@@ -924,7 +924,7 @@ class simpleManagement
     if (isset($this->actions[$action['action']])) {
       $func = $this->actions[$action['action']];
       if (!isset($action['targets'])) {
-        $action['targets'] = array();
+        $action['targets'] = [];
       }
       return $this->$func($action['action'], $action['targets'], $action);
     }
@@ -960,7 +960,7 @@ class simpleManagement
     $this->last_dn  = $this->dn;
     $this->dn       = "";
     $this->last_dns = $this->dns;
-    $this->dns      = array();
+    $this->dns      = [];
 
     $this->last_tabObject     = $this->tabObject;
     $this->tabObject          = NULL;
@@ -998,8 +998,8 @@ class simpleManagement
   protected function removeEntryRequested ($action, array $target, array $all)
   {
     global $ui;
-    $disallowed = array();
-    $this->dns  = array();
+    $disallowed = [];
+    $this->dns  = [];
 
     @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, "Entry removal requested!");
 
@@ -1034,7 +1034,7 @@ class simpleManagement
       }
 
       // Add locks
-      $objects = array();
+      $objects = [];
       foreach ($this->dns as $dn) {
         $type   = $this->getType($dn);
         if (preg_match('/^template_/', $type) && !static::$skipTemplates) {
@@ -1045,12 +1045,12 @@ class simpleManagement
           $info = objects::infos($type);
         }
         $entry  = $this->getHeadpage()->getEntry($dn);
-        $objects[] = array(
+        $objects[] = [
           'name'  => $entry[$info['mainAttr']][0],
           'dn'    => $dn,
           'icon'  => $info['icon'],
           'type'  => $info['name']
-        );
+        ];
       }
       add_lock($this->dns, $ui->dn);
 
@@ -1088,7 +1088,7 @@ class simpleManagement
         del_lock($this->dn);
       } else {
         msg_dialog::display(_('Permission error'), msgPool::permDelete($dn), ERROR_DIALOG);
-        logging::log('security', 'simpleManagement/'.get_class($this), $dn, array(), 'Tried to trick deletion.');
+        logging::log('security', 'simpleManagement/'.get_class($this), $dn, [], 'Tried to trick deletion.');
       }
     }
 
@@ -1138,7 +1138,7 @@ class simpleManagement
     global $config, $ui;
     // Set current restore base for snapshot handling.
     if (is_object($this->snapHandler)) {
-      $bases = array();
+      $bases = [];
       foreach ($this->storagePoints as $sp) {
         $bases[] = $sp.$this->headpage->getBase();
       }
@@ -1177,7 +1177,7 @@ class simpleManagement
    *  @param  array   $target  A list of object dns, which should be affected by this method.
    *  @param  array   $all     A combination of both 'action' and 'target'.
    */
-  function copyPasteHandler ($action = '', array $target = array(), array $all = array())
+  function copyPasteHandler ($action = '', array $target = [], array $all = [])
   {
     global $ui;
     // Return without any actions while copy&paste handler is disabled.
@@ -1271,7 +1271,7 @@ class simpleManagement
 
   function getSnapshotBases ()
   {
-    $bases = array();
+    $bases = [];
     foreach ($this->storagePoints as $sp) {
       $bases[] = $sp.$this->headpage->getBase();
     }
@@ -1290,7 +1290,7 @@ class simpleManagement
   function getAllDeletedSnapshots ()
   {
     $bases = $this->getSnapshotBases();
-    $tmp = array();
+    $tmp = [];
     foreach ($bases as $base) {
       $tmp = array_merge($tmp, $this->snapHandler->getAllDeletedSnapshots($base));
     }

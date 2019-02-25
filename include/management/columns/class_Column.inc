@@ -70,7 +70,7 @@ class Column
   protected function setAttributesVar (string $var, array $attributes = NULL)
   {
     if (is_array($attributes) && is_numeric(key($attributes))) {
-      $val = array();
+      $val = [];
       foreach ($attributes as $attribute) {
         if ($attribute == 'dn') {
           $val[$attribute] = 'raw';

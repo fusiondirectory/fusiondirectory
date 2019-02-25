@@ -25,8 +25,8 @@ class ACLEditionDialog extends GenericDialog
   protected $initialAclValue;
   protected $dialogState      = 'create';
   protected $aclObject        = '';
-  protected $aclContents      = array();
-  protected $savedAclContents = array();
+  protected $aclContents      = [];
+  protected $savedAclContents = [];
 
   function __construct ($simplePlugin, $attribute, $acl = NULL)
   {
@@ -35,7 +35,7 @@ class ACLEditionDialog extends GenericDialog
 
     /* New entry gets presets... */
     if ($acl === NULL) {
-      $this->aclContents  = array();
+      $this->aclContents  = [];
     } else {
       $this->aclContents  = $acl;
     }
@@ -59,7 +59,7 @@ class ACLEditionDialog extends GenericDialog
   {
     global $config;
 
-    $new_acl = array();
+    $new_acl = [];
 
     foreach ($_POST as $name => $post) {
       /* Actions... */
@@ -98,7 +98,7 @@ class ACLEditionDialog extends GenericDialog
 
         /* Ordinary ACL */
         if (!isset($new_acl[$object])) {
-          $new_acl[$object] = array();
+          $new_acl[$object] = [];
         }
         if (isset($new_acl[$object][$attribute])) {
           $new_acl[$object][$attribute] .= $value;
@@ -164,7 +164,7 @@ class ACLEditionDialog extends GenericDialog
           /* Hide empty categories */
           continue;
         }
-        $summary = array();
+        $summary = [];
         foreach ($infos['classes'] as $oc) {
           if (isset($this->aclContents[$oc]) && count($this->aclContents[$oc]) && isset($this->aclContents[$oc][0]) &&
               $this->aclContents[$oc][0] != '') {
@@ -192,17 +192,17 @@ class ACLEditionDialog extends GenericDialog
                   '<input class="center" type="image" src="geticon.php?context=actions&amp;icon=edit-delete&amp;size=16"
                     alt="'._('Delete').'" name="cat_del_'.$section.'" title="'._('Reset category ACL').'"/>';
 
-        $field1 = array('html' => $infos['description'], 'attach' => 'style="width:140px"');
-        $field2 = array('html' => $summary);
-        $field3 = array('html' => $action, 'attach' => 'style="border-right:0px;width:40px"');
-        $aclList->addEntry(array($field1, $field2, $field3));
+        $field1 = ['html' => $infos['description'], 'attach' => 'style="width:140px"'];
+        $field2 = ['html' => $summary];
+        $field3 = ['html' => $action, 'attach' => 'style="border-right:0px;width:40px"'];
+        $aclList->addEntry([$field1, $field2, $field3]);
       }
 
       $smarty->assign('headline', _('List of available ACL categories'));
       $smarty->assign('aclEdition', $aclList->drawList());
     } elseif ($this->dialogState == 'edit') {
       /* Collect objects for selected category */
-      $aclObjects = array();
+      $aclObjects = [];
       foreach ($config->data['CATEGORIES'][$this->aclObject]['classes'] as $idx => $class) {
         if ($idx == 0) {
           continue;
@@ -309,7 +309,7 @@ class ACLEditionDialog extends GenericDialog
     foreach ($list as $key => $name) {
       /* Create sub acl if it does not exist */
       if (!isset($this->aclContents[$key])) {
-        $this->aclContents[$key] = array();
+        $this->aclContents[$key] = [];
       }
       if (!isset($this->aclContents[$key][0])) {
         $this->aclContents[$key][0] = '';

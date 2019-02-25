@@ -133,7 +133,7 @@ class DialogAttribute extends SetAttribute
    *  \param array $defaultValue The default value for this attribute
    *  \param string $acl The name of the acl for this attribute if he does not use its own. (Leave empty if he should use its own like most attributes do)
    */
-  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = array(), $acl = "")
+  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = [], $acl = "")
   {
     Attribute::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
     $this->attribute = FALSE;
@@ -174,7 +174,7 @@ class DialogAttribute extends SetAttribute
 
   function getFilterWhiteList ()
   {
-    return array();
+    return [];
   }
 
   function loadPostValue ()
@@ -202,31 +202,31 @@ class DialogAttribute extends SetAttribute
     if ($this->isTemplate()) {
       $buttons  .= $this->renderInputField(
         'text', $id,
-        array('value' => $this->editingValue)
+        ['value' => $this->editingValue]
       );
       $buttons  .= $this->renderInputField(
         'submit', 'add'.$id,
-        array(
+        [
           'value'           => '{msgPool type=addButton}',
           'formnovalidate'  => 'formnovalidate'
-        )
+        ]
       );
       $dialogButtonValue = _('Add (dialog)');
     }
     $buttons  .= $this->renderInputField(
       'submit', 'add'.$id.'_dialog',
-      array(
+      [
         'class'           => 'dialog',
         'value'           => $dialogButtonValue,
         'formnovalidate'  => 'formnovalidate'
-      )
+      ]
     );
     $buttons  .= $this->renderInputField(
       'submit', 'del'.$id,
-      array(
+      [
         'value'           => '{msgPool type=delButton}',
         'formnovalidate'  => 'formnovalidate'
-      )
+      ]
     );
     return $buttons;
   }
@@ -234,7 +234,7 @@ class DialogAttribute extends SetAttribute
   public function htmlIds ()
   {
     $id = $this->getHtmlId();
-    $ids = array('add'.$id.'_dialog','del'.$id,'row'.$id);
+    $ids = ['add'.$id.'_dialog','del'.$id,'row'.$id];
     if ($this->isTemplate()) {
       $ids[] = $id;
       $ids[] = 'add'.$id;
@@ -250,7 +250,7 @@ class DialogOrderedArrayAttribute extends OrderedArrayAttribute
 {
   protected $dialogClass;
 
-  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = array(), $acl = "")
+  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = [], $acl = "")
   {
     Attribute::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
     $this->edit_enabled = TRUE;
@@ -264,7 +264,7 @@ class DialogOrderedArrayAttribute extends OrderedArrayAttribute
 
   function getFilterWhiteList ()
   {
-    return array();
+    return [];
   }
 
   function loadPostValue ()
@@ -300,11 +300,11 @@ class DialogOrderedArrayAttribute extends OrderedArrayAttribute
     $id = $this->getHtmlId();
     return $this->renderInputField(
       'submit', 'add'.$id.'_dialog',
-      array(
+      [
         'class'           => 'dialog',
         'value'           => '{msgPool type=addButton}',
         'formnovalidate'  => 'formnovalidate'
-      )
+      ]
     );
   }
 
@@ -327,11 +327,11 @@ class DialogOrderedArrayAttribute extends OrderedArrayAttribute
  */
 class GenericDialogAttribute extends DialogAttribute
 {
-  protected $displays     = array();
+  protected $displays     = [];
   protected $store_attr   = 'dn';
   protected $display_attr = 'cn';
 
-  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = array(), $store_attr = 'dn', $display_attr = 'cn', $acl = '')
+  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = [], $store_attr = 'dn', $display_attr = 'cn', $acl = '')
   {
     $this->store_attr   = $store_attr;
     $this->display_attr = $display_attr;
@@ -340,7 +340,7 @@ class GenericDialogAttribute extends DialogAttribute
 
   function getFilterBlackList ()
   {
-    return array($this->store_attr => $this->getValue());
+    return [$this->store_attr => $this->getValue()];
   }
 
   function addValue ($dn, $attrs)
@@ -410,7 +410,7 @@ class GenericDialogAttribute extends DialogAttribute
 
   protected function ldapAttributesToGet ()
   {
-    return array($this->display_attr);
+    return [$this->display_attr];
   }
 
   protected function fillDisplayValueFrom ($i, $attrs)
@@ -506,18 +506,18 @@ class ObjectsAttribute extends GenericDialogAttribute
 
   public $selectManagementParameters;
 
-  function __construct ($label, $description, $ldapName, $required, array $objectTypes, $defaultValue = array(), $store_attr = 'dn', $display_attr = 'cn', $acl = '')
+  function __construct ($label, $description, $ldapName, $required, array $objectTypes, $defaultValue = [], $store_attr = 'dn', $display_attr = 'cn', $acl = '')
   {
     parent::__construct($label, $description, $ldapName, $required, $defaultValue, $store_attr, $display_attr, $acl);
-    $this->selectManagementParameters = array(
+    $this->selectManagementParameters = [
       $objectTypes,
       TRUE,
-      array(
+      [
         'objectClass' => '*',
         $store_attr   => (($store_attr == 'dn') ? 'raw' : 1),
         $display_attr => (($display_attr == 'dn') ? 'raw' : 1),
-      )
-    );
+      ]
+    ];
   }
 }
 
@@ -529,9 +529,9 @@ class ObjectsAttribute extends GenericDialogAttribute
  */
 class UsersAttribute extends ObjectsAttribute
 {
-  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = array(), $store_attr = 'dn', $display_attr = 'cn', $acl = '')
+  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = [], $store_attr = 'dn', $display_attr = 'cn', $acl = '')
   {
-    parent::__construct($label, $description, $ldapName, $required, array('user'), $defaultValue, $store_attr, $display_attr, $acl);
+    parent::__construct($label, $description, $ldapName, $required, ['user'], $defaultValue, $store_attr, $display_attr, $acl);
   }
 }
 
@@ -542,9 +542,9 @@ class UsersAttribute extends ObjectsAttribute
  */
 class UsersGroupsRolesAttribute extends ObjectsAttribute
 {
-  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = array(), $store_attr = 'dn', $display_attr = 'cn', $acl = '')
+  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = [], $store_attr = 'dn', $display_attr = 'cn', $acl = '')
   {
-    parent::__construct($label, $description, $ldapName, $required, array('user', 'group', 'role', 'ogroup'), $defaultValue, $store_attr, $display_attr, $acl);
+    parent::__construct($label, $description, $ldapName, $required, ['user', 'group', 'role', 'ogroup'], $defaultValue, $store_attr, $display_attr, $acl);
     $this->selectManagementParameters[2]['cn']          = 1;
     $this->selectManagementParameters[2]['uid']         = 1;
     $this->selectManagementParameters[2]['objectClass'] = '*';
@@ -552,7 +552,7 @@ class UsersGroupsRolesAttribute extends ObjectsAttribute
 
   protected function ldapAttributesToGet ()
   {
-    return array_unique(array($store_attr, $display_attr, 'cn', 'uid', 'objectClass'));
+    return array_unique([$store_attr, $display_attr, 'cn', 'uid', 'objectClass']);
   }
 
   protected function fillDisplayValueFrom ($i, $attrs)
@@ -602,7 +602,7 @@ class GroupsAttribute extends GenericDialogAttribute
 {
   protected $dialogClass = 'GroupSelectDialog';
 
-  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = array(), $acl = '')
+  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = [], $acl = '')
   {
     parent::__construct($label, $description, $ldapName, $required, $defaultValue, 'dn', 'cn', $acl);
   }
@@ -639,14 +639,14 @@ class MailsAttribute extends DialogAttribute
    *  \param array $defaultValue The default value for this attribute
    *  \param string $acl The name of the acl for this attribute if he does not use its own. (Leave empty if he should use its own like most attributes do)
    */
-  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = array(), $acl = "")
+  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = [], $acl = "")
   {
     SetAttribute::__construct(new MailAttribute($label, $description, $ldapName, $required, "", $acl), $defaultValue);
   }
 
   function getFilterBlackList ()
   {
-    return array('mail' => $this->getValue());
+    return ['mail' => $this->getValue()];
   }
 
   function addValue ($dn, $attrs)
@@ -662,18 +662,18 @@ class MailsAttribute extends DialogAttribute
     $id = $this->getHtmlId();
     $buttons  = $this->renderInputField(
       'submit', 'add'.$id,
-      array('value' => '{msgPool type=addButton}')
+      ['value' => '{msgPool type=addButton}']
     );
     $buttons  .= $this->renderInputField(
       'submit', 'add'.$id.'_dialog',
-      array(
+      [
         'class' => 'dialog',
         'value' => '{msgPool type=addButton} (from list)'
-      )
+      ]
     );
     $buttons  .= $this->renderInputField(
       'submit', 'del'.$id,
-      array('value' => '{msgPool type=delButton}')
+      ['value' => '{msgPool type=delButton}']
     );
     return $buttons;
   }
@@ -681,7 +681,7 @@ class MailsAttribute extends DialogAttribute
   public function htmlIds ()
   {
     $id = $this->getHtmlId();
-    return array('add'.$id,'add'.$id.'_dialog','del'.$id,'row'.$id);
+    return ['add'.$id,'add'.$id.'_dialog','del'.$id,'row'.$id];
   }
 }
 
@@ -702,7 +702,7 @@ class SystemsAttribute extends DialogAttribute
 
   function getFilterBlackList ()
   {
-    return array('cn' => $this->getValue());
+    return ['cn' => $this->getValue()];
   }
 }
 
@@ -729,7 +729,7 @@ class ButtonAttribute extends Attribute
     $id = $this->getHtmlId();
     $display = $this->renderInputField(
       'submit', $id,
-      array('value' => '{literal}'.htmlentities($this->buttonText, ENT_COMPAT, 'UTF-8').'{/literal}')
+      ['value' => '{literal}'.htmlentities($this->buttonText, ENT_COMPAT, 'UTF-8').'{/literal}']
     );
     return $this->renderAcl($display);
   }
@@ -773,12 +773,12 @@ class DialogButtonAttribute extends ButtonAttribute
 
   function getFilterBlackList ()
   {
-    return array();
+    return [];
   }
 
   function getFilterWhiteList ()
   {
-    return array();
+    return [];
   }
 }
 
@@ -796,7 +796,7 @@ class ObjectAttribute extends DialogButtonAttribute
   {
     parent::__construct($label, $description, $ldapName, '', 'GenericSingleSelectManagementDialog', $defaultValue, $acl);
     $this->setRequired($required);
-    $this->selectManagementParameters = array(array($objectType), FALSE);
+    $this->selectManagementParameters = [[$objectType], FALSE];
     $this->objectType                 = $objectType;
   }
 
@@ -825,9 +825,9 @@ class ObjectAttribute extends DialogButtonAttribute
     if ($this->isTemplate()) {
       $display = $this->renderInputField(
         'text', $id,
-        array(
+        [
           'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}'
-        )
+        ]
       );
     } else {
       $display  = '<img src="'.htmlentities($infos['icon'], ENT_COMPAT, 'UTF-8').'" alt="'.$infos['name'].'" class="center"/>';
@@ -841,22 +841,22 @@ class ObjectAttribute extends DialogButtonAttribute
     }
     $display .= $this->renderInputField(
       'image', $id.'_dialog',
-      array(
+      [
         'class' => 'center dialog',
         'src'   => 'geticon.php?context=actions&amp;icon=document-edit&amp;size=16',
         'title' => _('Edit'),
         'alt'   => _('Edit')
-      )
+      ]
     );
     if (!$this->isRequired()) {
       $display .= $this->renderInputField(
         'image', $id.'_remove',
-        array(
+        [
           'class' => 'center',
           'src'   => 'geticon.php?context=actions&amp;icon=remove&amp;size=16',
           'title' => _('Remove'),
           'alt'   => _('Remove')
-        )
+        ]
       );
     }
     return $this->renderAcl($display);
@@ -895,7 +895,7 @@ class ObjectAttribute extends DialogButtonAttribute
       $dn = $this->getValue();
       if ($dn != '') {
         $ldap = $config->get_ldap_link();
-        $ldap->cat($dn, array($this->displayAttr));
+        $ldap->cat($dn, [$this->displayAttr]);
         if ($attrs = $ldap->fetch()) {
           $this->handleDialogResult($dn, $attrs);
         } else {
@@ -908,7 +908,7 @@ class ObjectAttribute extends DialogButtonAttribute
   public function htmlIds ()
   {
     $id   = $this->getHtmlId();
-    $ids  = array($id.'_dialog');
+    $ids  = [$id.'_dialog'];
     if ($this->isTemplate()) {
       $ids[] = $id;
     }
@@ -937,7 +937,7 @@ class GenericSimplePluginDialog extends GenericDialog
 {
   protected $initialDialogValue = NULL;
 
-  function __construct ($simplePlugin, $attribute, $value = array())
+  function __construct ($simplePlugin, $attribute, $value = [])
   {
     $this->attribute  = $attribute;
     $this->dialog     = new $this->dialogClass('new');
@@ -981,7 +981,7 @@ class GenericSimplePluginDialog extends GenericDialog
       return $this->dialog->execute().$this->buttons();
     }
 
-    $value = array();
+    $value = [];
     foreach ($this->dialog->attributes as $attr) {
       $value[$attr] = $this->dialog->$attr;
     }

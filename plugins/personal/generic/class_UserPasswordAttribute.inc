@@ -29,8 +29,8 @@ class UserPasswordAttribute extends CompositeAttribute
     $temp = passwordMethod::get_available_methods();
 
     /* Create password methods array */
-    $pwd_methods = array();
-    $this->needPassword = array();
+    $pwd_methods = [];
+    $this->needPassword = [];
     foreach ($temp['name'] as $id => $name) {
       $this->needPassword[$name] = $temp[$id]['object']->need_password();
       $pwd_methods[$name] = $name;
@@ -41,7 +41,7 @@ class UserPasswordAttribute extends CompositeAttribute
 
     parent::__construct(
       $description, $ldapName,
-      array(
+      [
         new SelectAttribute(
           _('Password method'), _('Password hash method to use'),
           $ldapName.'_pwstorage', TRUE,
@@ -64,7 +64,7 @@ class UserPasswordAttribute extends CompositeAttribute
           $ldapName.'_locked', FALSE,
           FALSE
         )
-      ),
+      ],
       '', '', $acl, $label
     );
     $this->attributes[0]->setSubmitForm(TRUE);
@@ -184,7 +184,7 @@ class UserPasswordAttribute extends CompositeAttribute
     $password   = '';
     if ($istemplate && !empty($value)) {
       if ($value == '%askme%') {
-        return array('%askme%', '', '', $value, $locked);
+        return ['%askme%', '', '', $value, $locked];
       }
       list($value, $password) = explode('|', $value, 2);
     }
@@ -200,7 +200,7 @@ class UserPasswordAttribute extends CompositeAttribute
       $pw_storage = 'empty';
     }
     $locked = ($locked ? 'TRUE' : 'FALSE');
-    return array($pw_storage, $password, $password, $value, $locked);
+    return [$pw_storage, $password, $password, $value, $locked];
   }
 
   function writeValues (array $values)

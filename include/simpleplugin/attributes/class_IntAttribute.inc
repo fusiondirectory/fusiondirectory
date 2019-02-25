@@ -92,9 +92,9 @@ class IntAttribute extends Attribute
   function renderFormInput ()
   {
     $id = $this->getHtmlId();
-    $attributes = array(
+    $attributes = [
       'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}'
-    );
+    ];
     if ($this->min !== FALSE) {
       $attributes['min'] = $this->min;
     }
@@ -120,9 +120,9 @@ class IntAttribute extends Attribute
   function renderTemplateInput ()
   {
     $id = $this->getHtmlId();
-    $attributes = array(
+    $attributes = [
       'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}'
-    );
+    ];
     if ($this->isSubAttribute) {
       $attributes['class'] = 'subattribute';
     }

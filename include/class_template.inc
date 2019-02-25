@@ -35,25 +35,25 @@ class template
 
   protected $applied = FALSE;
 
-  static protected $uiSpecialAttributes = array('dn','cn','uid','sn','givenName');
+  static protected $uiSpecialAttributes = ['dn','cn','uid','sn','givenName'];
 
   static function plInfo ()
   {
-    return array(
+    return [
       'plShortName'   => _('Template'),
       'plDescription' => _('Object template, used to create several objects with similar values'),
       /* Categories for templates are computed in config class */
-      'plCategory'    => array(),
+      'plCategory'    => [],
 
-      'plProvidedAcls' => array(
+      'plProvidedAcls' => [
         'template_cn' => _('Template name')
-      )
-    );
+      ]
+    ];
   }
 
   static function getTemplatedTypes ()
   {
-    $result = array();
+    $result = [];
     $types  = objects::types();
     foreach ($types as $type) {
       if (in_array($type, departmentManagement::getDepartmentTypes())) {
@@ -82,11 +82,11 @@ class template
       $this->tabObject  = objects::open($this->dn, $this->type);
     }
     $tempTabObject    = objects::open($this->dn, $this->type); /* Used to know which tab is activated */
-    $this->attributes = array();
+    $this->attributes = [];
     $tempTabObject->setActiveTabs($this->tabObject);
     foreach ($this->tabObject->by_object as $class => $tab) {
       if ($tab->is_account || $tab->ignore_account) {
-        $this->attributes[$class] = array();
+        $this->attributes[$class] = [];
         $attrs = array_unique(array_merge($tab->getRequiredAttributes(), $this->needed));
         foreach (array_keys($tab->attributesAccess) as $attr) {
           if (!$tab->showInTemplate($attr, $this->attrs)) {
@@ -189,12 +189,12 @@ class template
    */
   function serialize ()
   {
-    $ret = array();
+    $ret = [];
     foreach ($this->tabObject->by_object as $class => $plugin) {
       if (!isset($this->attributes[$class])) {
         continue;
       }
-      $ret[$class] = array('name' => $this->tabObject->by_name[$class], 'attrs' => array());
+      $ret[$class] = ['name' => $this->tabObject->by_name[$class], 'attrs' => []];
       foreach ($this->attributes[$class] as $attr) {
         $plugin->attributesAccess[$attr]->serializeAttribute($ret[$class]['attrs'], FALSE);
       }
@@ -223,9 +223,9 @@ class template
    */
   function getValues ()
   {
-    $ret = array();
+    $ret = [];
     foreach ($this->tabObject->by_object as $class => $plugin) {
-      $ret[$class] = array();
+      $ret[$class] = [];
       foreach ($plugin->attributesAccess as $name => $attr) {
         $ret[$class][$name] = $attr->getValue();
       }
@@ -263,8 +263,8 @@ class template
   function execute ()
   {
     $smarty   = get_smarty();
-    $sections = array();
-    $posted   = array();
+    $sections = [];
+    $posted   = [];
     $smarty->assign('baseACL', 'rw');
     foreach ($this->tabObject->by_object as $class => &$plugin) {
       if (!isset($this->attributes[$class])) {
@@ -279,7 +279,7 @@ class template
           return $dialogResult;
         }
       }
-      $attributesRendered = array();
+      $attributesRendered = [];
       foreach ($this->attributes[$class] as $attr) {
         if ($plugin->attributesAccess[$attr]->getAclInfo() !== FALSE) {
           // We assign ACLs so that attributes can use them in their template code
@@ -344,7 +344,7 @@ class template
     unset($plugin);
     foreach ($this->attrs as &$array) {
       if (!is_array($array)) {
-        $array = array($array);
+        $array = [$array];
       }
       if (!isset($array['count'])) {
         $array['count'] = count($array);
@@ -353,7 +353,7 @@ class template
     unset($array);
 
     $ui           = get_userinfo();
-    $specialAttrs = array();
+    $specialAttrs = [];
     foreach (static::$uiSpecialAttributes as $attr) {
       $specialAttrs['caller'.strtoupper($attr)] = $ui->$attr;
     }

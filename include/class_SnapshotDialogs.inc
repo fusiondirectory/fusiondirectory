@@ -28,17 +28,17 @@ class SnapshotCreateDialog extends simplePlugin
 
   static function plInfo (): array
   {
-    return array(
+    return [
       'plShortName' => 'SnapshotCreateDialog',
-    );
+    ];
   }
 
   static function getAttributesInfo (): array
   {
-    return array(
-      'main' => array(
+    return [
+      'main' => [
         'name'  => _('Creating an object snapshot'),
-        'attrs' => array(
+        'attrs' => [
           new DisplayAttribute(
             _('Object'), _('DN of the object you are creating a snapshot of'),
             'object_dn', FALSE
@@ -53,9 +53,9 @@ class SnapshotCreateDialog extends simplePlugin
             '',
             'SnapshotHandler'
           ),
-        )
-      ),
-    );
+        ]
+      ],
+    ];
   }
 
   function __construct ($dn, $parent, $aclCategory)
@@ -116,7 +116,7 @@ class SnapshotCreateDialog extends simplePlugin
   function save (): array
   {
     $this->parent->createSnapshot($this->object_dn, $this->description);
-    return array();
+    return [];
   }
 }
 
@@ -125,7 +125,7 @@ class SnapshotCreateDialog extends simplePlugin
  */
 class SnapshotsAttribute extends OrderedArrayAttribute
 {
-  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = array(), $acl = '')
+  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = [], $acl = '')
   {
     Attribute::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
     $this->edit_enabled = FALSE;
@@ -139,18 +139,18 @@ class SnapshotsAttribute extends OrderedArrayAttribute
     parent::setParent($plugin);
     if (is_object($this->plugin)) {
       if ($this->plugin->global) {
-        $this->setHeaders(array(
+        $this->setHeaders([
           _('DN'),
           _('Date'),
           _('Description'),
           ''
-        ));
+        ]);
       } else {
-        $this->setHeaders(array(
+        $this->setHeaders([
           _('Date'),
           _('Description'),
           ''
-        ));
+        ]);
       }
     }
   }
@@ -184,10 +184,10 @@ class SnapshotsAttribute extends OrderedArrayAttribute
 
   protected function getAttributeArrayValue ($key, $value)
   {
-    $values = array(
+    $values = [
       date(_('Y-m-d, H:i:s'), preg_replace('/\-.*$/', '', $value['gosaSnapshotTimestamp'][0])),
       $value['description'][0]
-    );
+    ];
     if ($this->plugin->global) {
       array_unshift($values, $value['gosaSnapshotDN'][0]);
     }
@@ -200,16 +200,16 @@ class SnapshotsAttribute extends OrderedArrayAttribute
     list ($img, $nbicons) = parent::genRowIcons($key, $value);
     $img = $this->renderInputField(
       'image', $id.'_restore_'.$key,
-      array(
+      [
         'src'   => 'geticon.php?context=actions&amp;icon=document-restore&amp;size=16',
         'title' => _('Restore'),
         'alt'   => _('Restore'),
         'class' => 'center'
-      )
+      ]
     ).$img;
     $nbicons++;
 
-    return array ($img, $nbicons);
+    return  [$img, $nbicons];
   }
 
   protected function handlePostValueActions ($id, $postValue)
@@ -246,18 +246,18 @@ class SnapshotRestoreDialog extends simplePlugin
 
   static function plInfo (): array
   {
-    return array(
+    return [
       'plShortName' => 'SnapshotRestoreDialog',
-    );
+    ];
   }
 
   static function getAttributesInfo (): array
   {
-    return array(
-      'main' => array(
+    return [
+      'main' => [
         'name'  => _('Restoring snapshots'),
-        'class' => array('fullwidth'),
-        'attrs' => array(
+        'class' => ['fullwidth'],
+        'attrs' => [
           new DisplayAttribute(
             _('Object'), _('DN of the object you are creating a snapshot of'),
             'object_dn', FALSE
@@ -265,12 +265,12 @@ class SnapshotRestoreDialog extends simplePlugin
           new SnapshotsAttribute(
             _('Snapshots'), _('Existing snapshots for this object'),
             'snapshots', FALSE,
-            array(),
+            [],
             'SnapshotHandler'
           ),
-        )
-      ),
-    );
+        ]
+      ],
+    ];
   }
 
   function __construct ($dn, $parent, $global, $aclCategory)
@@ -300,28 +300,28 @@ class SnapshotRestoreDialog extends simplePlugin
   {
     global $ui;
     if ($this->dialog == 'delete') {
-      $objects = array(
-        array(
+      $objects = [
+        [
           'name'  => 'snapshot',
           'dn'    => $this->snapDn,
           'icon'  => 'geticon.php?context=actions&amp;icon=document-restore&amp;size=16',
           'type'  => 'Snapshot'
-        )
-      );
+        ]
+      ];
 
       // Display confirmation dialog.
       $smarty = get_smarty();
       $smarty->assign('objects', $objects);
       $str = $smarty->fetch(get_template_path('simple-remove.tpl'));
     } elseif ($this->dialog == 'restore') {
-      $objects = array(
-        array(
+      $objects = [
+        [
           'name'  => 'snapshot',
           'dn'    => $this->snapDn,
           'icon'  => 'geticon.php?context=actions&amp;icon=document-restore&amp;size=16',
           'type'  => 'Snapshot'
-        )
-      );
+        ]
+      ];
 
       // Display confirmation dialog.
       $smarty = get_smarty();

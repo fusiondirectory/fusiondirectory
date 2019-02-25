@@ -23,30 +23,30 @@ class groupManagement extends management
 {
   public static $skipTemplates = FALSE;
 
-  public static $columns = array(
-    array('ObjectTypeColumn',   array()),
-    array('LinkColumn',         array('attributes' => 'cn',                'label' => 'Name')),
-    array('LinkColumn',         array('attributes' => 'description',       'label' => 'Description')),
-    array('GroupContentColumn', array('attributes' => 'gosaGroupObjects',  'label' => 'Members')),
-    array('PropertiesColumn',   array('label' => 'Properties')),
-    array('ActionsColumn',      array('label' => 'Actions')),
-  );
+  public static $columns = [
+    ['ObjectTypeColumn',   []],
+    ['LinkColumn',         ['attributes' => 'cn',                'label' => 'Name']],
+    ['LinkColumn',         ['attributes' => 'description',       'label' => 'Description']],
+    ['GroupContentColumn', ['attributes' => 'gosaGroupObjects',  'label' => 'Members']],
+    ['PropertiesColumn',   ['label' => 'Properties']],
+    ['ActionsColumn',      ['label' => 'Actions']],
+  ];
 
   protected $siActive = FALSE;
 
   static function plInfo (): array
   {
-    return array(
+    return [
       'plShortName'   => _('Groups and roles'),
       'plTitle'       => _('Manage groups and roles'),
       'plDescription' => _('Allows you to manage object groups, POSIX groups and roles'),
       'plIcon'        => 'geticon.php?context=types&icon=resource-group&size=48',
       'plSection'     => 'accounts',
-      'plManages'     => array('ogroup', 'group', 'role'),
+      'plManages'     => ['ogroup', 'group', 'role'],
       'plPriority'    => 20,
 
-      'plProvidedAcls' => array()
-    );
+      'plProvidedAcls' => []
+    ];
   }
 
   function __construct ()
@@ -68,8 +68,8 @@ class groupManagement extends management
     parent::configureActions();
 
     if ($this->siActive) {
-      $triggerActions   = array();
-      $scheduleActions  = array();
+      $triggerActions   = [];
+      $scheduleActions  = [];
       $events = argonautEventTypes::get_event_types();
       foreach ($events as $name => $infos) {
         $triggerActions[] = new Action(
@@ -114,7 +114,7 @@ class groupManagement extends management
     $event      = $action['subaction'];
 
     // Now send FAI/Argonaut events here.
-    $mac = array();
+    $mac = [];
 
     // Collect target mac addresses
     $ldap = $config->get_ldap_link();
@@ -145,12 +145,12 @@ class groupManagement extends management
     /* Skip installation or update trigerred events,
      *  if this entry is currently processing.
      */
-    if ($triggered && in_array($event, array('reinstall','update'))) {
+    if ($triggered && in_array($event, ['reinstall','update'])) {
       foreach ($mac as $key => $mac_address) {
         if ($o_queue->is_currently_installing($mac_address)) {
           msg_dialog::display(_('Action canceled'), sprintf(_('System %s is currently installing'), $dn), ERROR_DIALOG);
           unset($mac[$key]);
-          logging::log('security', 'systems/'.get_class($this), '', array(), 'Skip adding "argonautAction::'.$event.'" for mac "'.$mac_address.'", there is already a job in progress.');
+          logging::log('security', 'systems/'.get_class($this), '', [], 'Skip adding "argonautAction::'.$event.'" for mac "'.$mac_address.'", there is already a job in progress.');
         }
       }
     }

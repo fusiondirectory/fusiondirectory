@@ -33,12 +33,12 @@ class setup
   var $i_previous       = 0;
 
   var $i_config         = 4;
-  var $o_steps          = array();
-  var $captured_values  = array();
+  var $o_steps          = [];
+  var $captured_values  = [];
 
   function __construct ()
   {
-    $this->o_steps = array(
+    $this->o_steps = [
       new setupStepWelcome($this),
       new setupStepLanguage($this),
       new setupStepChecks($this),
@@ -46,7 +46,7 @@ class setup
       new setupStepConfig_before_init($this),
       new setupStepMigrate($this),
       new setupStepFinish($this),
-    );
+    ];
 
     $this->i_steps = count($this->o_steps);
 

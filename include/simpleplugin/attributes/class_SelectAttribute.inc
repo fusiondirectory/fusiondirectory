@@ -43,7 +43,7 @@ class SelectAttribute extends Attribute
    *  \param array $outputs The labels corresponding to the choices, leave to NULL if you want to display the choices themselves
    *  \param string $acl The name of the acl for this attribute if he does not use its own. (Leave empty if he should use its own like most attributes do)
    */
-  function __construct ($label, $description, $ldapName, $required = FALSE, $choices = array(), $defaultValue = "", $outputs = NULL, $acl = "")
+  function __construct ($label, $description, $ldapName, $required = FALSE, $choices = [], $defaultValue = "", $outputs = NULL, $acl = "")
   {
     if (!in_array($defaultValue, $choices, TRUE) && isset($choices[0])) {
       $defaultValue = $choices[0];
@@ -90,7 +90,7 @@ class SelectAttribute extends Attribute
    */
   function setDisplayChoices (array $values)
   {
-    $this->outputs = array();
+    $this->outputs = [];
     $values = array_values($values);
     $i = 0;
     foreach ($this->choices as $choice) {
@@ -234,7 +234,7 @@ class ObjectSelectAttribute extends SelectAttribute
 
   function __construct ($label, $description, $ldapName, $required, $objectType, $objectAttrs = NULL, $objectFilter = '', $acl = "")
   {
-    parent::__construct($label, $description, $ldapName, $required, array(), "", NULL, $acl);
+    parent::__construct($label, $description, $ldapName, $required, [], "", NULL, $acl);
     $this->objectType   = $objectType;
     $this->objectAttrs  = $objectAttrs;
     $this->objectFilter = $objectFilter;

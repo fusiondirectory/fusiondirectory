@@ -28,7 +28,7 @@ class simpleService extends simplePlugin
 
   protected $status = '';
 
-  public $conflicts   = array();
+  public $conflicts   = [];
   public $DisplayName = '';
 
   /*! \brief constructor

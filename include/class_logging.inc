@@ -35,7 +35,7 @@
  */
 class logging
 {
-  static $validActions = array('modify','create','remove','copy','snapshot','view','security','debug');
+  static $validActions = ['modify','create','remove','copy','snapshot','view','security','debug'];
 
   /*!
    * \brief logging method
@@ -50,7 +50,7 @@ class logging
    *
    * \param $result         A status message, containing errors or success messages
    */
-  static function log ($action, $objecttype, $object, array $changes_array = array(), $result = '')
+  static function log ($action, $objecttype, $object, array $changes_array = [], $result = '')
   {
     global $config, $ui;
 
@@ -60,14 +60,14 @@ class logging
     }
 
     /* Create data object */
-    $entry = array(
+    $entry = [
       'timestamp'   => time(),
       'action'      => $action,
       'objecttype'  => $objecttype,
       'object'      => $object,
       'changes'     => $changes_array,
       'result'      => $result
-    );
+    ];
     if (isset($ui->dn) && !empty($ui->dn)) {
       $entry['user']  = $ui->dn;
     } else {
@@ -84,7 +84,7 @@ class logging
     } else {
       if (is_object($config) && preg_match('/true/i', $config->get_cfg_value('logging', ''))) {
         static::log_into_syslog($entry);
-        if (in_array($action, $config->get_cfg_value('auditActions', array()))) {
+        if (in_array($action, $config->get_cfg_value('auditActions', []))) {
           static::log_into_ldap($entry);
         }
       }
@@ -96,9 +96,9 @@ class logging
    *
    * \param Array $entry to be checked
    */
-  static protected function check ($entry = array())
+  static protected function check ($entry = [])
   {
-    $msgs = array();
+    $msgs = [];
 
     if (!isset($entry['action']) || !in_array($entry['action'], static::$validActions)) {
       $msgs[] = sprintf(_('Invalid option "%s" specified!'), $entry['action']);

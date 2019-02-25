@@ -39,15 +39,15 @@ class userinfo
   var $givenName    = '';
   var $gidNumber    = -1;
   var $language     = "";
-  var $subtreeACL   = array();
-  var $ACL          = array();
-  var $groups       = array();
-  var $roles        = array();
-  var $result_cache = array();
+  var $subtreeACL   = [];
+  var $ACL          = [];
+  var $groups       = [];
+  var $roles        = [];
+  var $result_cache = [];
   var $ignoreACL    = FALSE;
 
-  var $ACLperPath             = array();
-  var $ACLperPath_usesFilter  = array();
+  var $ACLperPath             = [];
+  var $ACLperPath_usesFilter  = [];
 
   /*! \brief LDAP size limit handler */
   protected $sizeLimitHandler;
@@ -76,7 +76,7 @@ class userinfo
   {
     global $config;
     $ldap = $config->get_ldap_link();
-    $ldap->cat($this->dn, array('cn', 'sn', 'givenName', 'uid', 'gidNumber', 'preferredLanguage'));
+    $ldap->cat($this->dn, ['cn', 'sn', 'givenName', 'uid', 'gidNumber', 'preferredLanguage']);
     $attrs = $ldap->fetch();
 
     $this->uid = $attrs['uid'][0];
@@ -110,7 +110,7 @@ class userinfo
   public function reset_acl_cache ()
   {
     /* Initialize ACL_CACHE */
-    session::global_set('ACL_CACHE', array());
+    session::global_set('ACL_CACHE', []);
   }
 
   /*!
@@ -119,42 +119,42 @@ class userinfo
   function loadACL ()
   {
     global $config;
-    $this->ACL          = array();
-    $this->groups       = array();
-    $this->roles        = array();
-    $this->result_cache = array();
+    $this->ACL          = [];
+    $this->groups       = [];
+    $this->roles        = [];
+    $this->result_cache = [];
     $this->reset_acl_cache();
     $ldap = $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);
 
     /* Get member groups... */
-    $ldap->search('(&(objectClass=groupOfNames)(member='.ldap_escape_f($this->dn).'))', array('dn'));
+    $ldap->search('(&(objectClass=groupOfNames)(member='.ldap_escape_f($this->dn).'))', ['dn']);
     while ($attrs = $ldap->fetch()) {
       $this->groups[$attrs['dn']] = $attrs['dn'];
     }
 
     /* Get member POSIX groups... */
-    $ldap->search('(&(objectClass=posixGroup)(memberUid='.ldap_escape_f($this->uid).'))', array('dn'));
+    $ldap->search('(&(objectClass=posixGroup)(memberUid='.ldap_escape_f($this->uid).'))', ['dn']);
     while ($attrs = $ldap->fetch()) {
       $this->groups[$attrs['dn']] = $attrs['dn'];
     }
 
     /* Get member roles... */
-    $ldap->search('(&(objectClass=organizationalRole)(roleOccupant='.ldap_escape_f($this->dn).'))', array('dn'));
+    $ldap->search('(&(objectClass=organizationalRole)(roleOccupant='.ldap_escape_f($this->dn).'))', ['dn']);
     while ($attrs = $ldap->fetch()) {
       $this->roles[$attrs['dn']] = $attrs['dn'];
     }
 
     /* Crawl through ACLs and move relevant to the tree */
-    $ldap->search("(objectClass=gosaACL)", array('dn', 'gosaAclEntry'));
-    $aclp = array();
-    $aclc = array();
+    $ldap->search("(objectClass=gosaACL)", ['dn', 'gosaAclEntry']);
+    $aclp = [];
+    $aclc = [];
     while ($attrs = $ldap->fetch()) {
 
       /* Insert links in ACL array */
       $aclp[$attrs['dn']] = substr_count($attrs['dn'], ',');
-      $aclc[$attrs['dn']] = array();
-      $ol = array();
+      $aclc[$attrs['dn']] = [];
+      $ol = [];
       for ($i = 0; $i < $attrs['gosaAclEntry']['count']; $i++) {
         $ol = array_merge($ol, acl::explodeAcl($attrs['gosaAclEntry'][$i]));
       }
@@ -166,18 +166,18 @@ class userinfo
       foreach ($data as $prio => $aclc_value) {
         unset($aclc[$dn][$prio]);
 
-        $ldap->cat($aclc_value['acl'], array("gosaAclTemplate"));
+        $ldap->cat($aclc_value['acl'], ["gosaAclTemplate"]);
         $attrs = $ldap->fetch();
 
         if (isset($attrs['gosaAclTemplate'])) {
           $roleAcls = acl::explodeRole($attrs['gosaAclTemplate']);
           foreach ($roleAcls as $roleAcl) {
-            $aclc[$dn][]  = array(
+            $aclc[$dn][]  = [
               'acl'     => $roleAcl,
               'type'    => $aclc_value['type'],
               'members' => $aclc_value['members'],
               'filter'  => $aclc_value['filter']
-            );
+            ];
           }
         }
       }
@@ -222,7 +222,7 @@ class userinfo
 
         if ($interresting) {
           if (!isset($this->ACL[$dn])) {
-            $this->ACL[$dn] = array();
+            $this->ACL[$dn] = [];
           }
           $this->ACL[$dn][$idx] = $type;
         }
@@ -243,7 +243,7 @@ class userinfo
       For object located in 'ou=dep1,ou=base' we have to both ACLs,
        for objects in 'ou=base' we only have to apply on ACL.
      */
-    $without_self_acl = $all_acl = array();
+    $without_self_acl = $all_acl = [];
     foreach ($this->ACL as $dn => $acl) {
       $sdn = $dn;
       do {
@@ -406,11 +406,11 @@ class userinfo
   function get_snapshot_permissions ($dn, $categories)
   {
     if (!is_array($categories)) {
-      $categories = array($categories);
+      $categories = [$categories];
     }
     /* Possible permissions for snapshots */
-    $objectPermissions    = array('r', 'c', 'd');
-    $attributePermissions = array('restore_over', 'restore_deleted');
+    $objectPermissions    = ['r', 'c', 'd'];
+    $attributePermissions = ['restore_over', 'restore_deleted'];
     foreach ($categories as $category) {
       $acl = $this->get_permissions($dn, $category.'/SnapshotHandler');
       foreach ($objectPermissions as $i => $perm) {
@@ -460,7 +460,7 @@ class userinfo
     if (isset($ACL_CACHE["$dn+$object+$attribute"])) {
       $ret = $ACL_CACHE["$dn+$object+$attribute"];
       if ($skip_write) {
-        $ret = str_replace(array('w','c','d','m'), '', $ret);
+        $ret = str_replace(['w','c','d','m'], '', $ret);
       }
       return $ret;
     }
@@ -490,7 +490,7 @@ class userinfo
           $ACL_CACHE["$orig_dn+$object+$attribute"] = $ret;
         }
         if ($skip_write) {
-          $ret = str_replace(array('w','c','d','m'), '', $ret);
+          $ret = str_replace(['w','c','d','m'], '', $ret);
         }
         return $ret;
       }
@@ -499,7 +499,7 @@ class userinfo
     /* Get ldap object, for later filter checks */
     $ldap = $config->get_ldap_link();
 
-    $acl = array('r' => '', 'w' => '', 'c' => '', 'd' => '', 'm' => '', 'a' => '');
+    $acl = ['r' => '', 'w' => '', 'c' => '', 'd' => '', 'm' => '', 'a' => ''];
 
     /* Build dn array */
     $path = explode(',', $dn);
@@ -635,7 +635,7 @@ class userinfo
 
     /* Remove write if needed */
     if ($skip_write) {
-      $ret = str_replace(array('w','c','d','m'), '', $ret);
+      $ret = str_replace(['w','c','d','m'], '', $ret);
     }
     return $ret;
   }
@@ -666,17 +666,17 @@ class userinfo
     $ACL_CACHE = &session::global_get_ref('ACL_CACHE');
 
     if (!is_array($module)) {
-      $module = array($module);
+      $module = [$module];
     }
 
-    $res = array();
+    $res = [];
     foreach ($module as $mod) {
       if (isset($ACL_CACHE['MODULE_DEPARTMENTS'][$mod])) {
         $res = array_merge($res, $ACL_CACHE['MODULE_DEPARTMENTS'][$mod]);
         continue;
       }
 
-      $deps = array();
+      $deps = [];
 
       /* Search for per object ACLs */
       foreach ($this->ACL as $dn => $infos) {
@@ -738,7 +738,7 @@ class userinfo
    */
   function mergeACL ($acl, $type, $newACL)
   {
-    $at = array("subtree" => "s", "one" => "1");
+    $at = ["subtree" => "s", "one" => "1"];
 
     if ((strpos($newACL, 'w') !== FALSE) && (strpos($newACL, 'r') === FALSE)) {
       $newACL .= "r";
@@ -902,8 +902,8 @@ class userinfo
     $current  = floor(date("U") / 60 / 60 / 24);
 
     // Fetch required attributes
-    foreach (array('shadowExpire','shadowLastChange','shadowMax','shadowMin',
-                'shadowInactive','shadowWarning','sambaKickoffTime') as $attr) {
+    foreach (['shadowExpire','shadowLastChange','shadowMax','shadowMin',
+                'shadowInactive','shadowWarning','sambaKickoffTime'] as $attr) {
       $$attr = (isset($attrs[$attr][0]) ? $attrs[$attr][0] : NULL);
     }
 
@@ -992,7 +992,7 @@ class userinfo
   function isBlacklisted ($plugin)
   {
     global $config;
-    $blacklist = $config->get_cfg_value('PluginsMenuBlacklist', array());
+    $blacklist = $config->get_cfg_value('PluginsMenuBlacklist', []);
     foreach ($blacklist as $item) {
       list ($group, $p) = explode('|', $item, 2);
       if (($plugin == $p) && (in_array($group, $this->groups) || in_array($group, $this->roles))) {
@@ -1011,7 +1011,7 @@ class userinfo
   {
     global $config;
 
-    if (in_array_ics($attribute, array('objectClass', 'dn'))) {
+    if (in_array_ics($attribute, ['objectClass', 'dn'])) {
       return TRUE;
     }
 

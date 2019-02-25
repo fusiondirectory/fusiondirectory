@@ -23,12 +23,12 @@
  */
 class SubMenuAction extends Action
 {
-  protected $actions  = array();
-  protected $handlers = array();
+  protected $actions  = [];
+  protected $handlers = [];
 
   function __construct (string $name, $label, $icon, array $actions, bool $inmenu = TRUE)
   {
-    parent::__construct($name, $label, $icon, '0', FALSE, array(), $inmenu, FALSE);
+    parent::__construct($name, $label, $icon, '0', FALSE, [], $inmenu, FALSE);
     $this->actions = $actions;
     foreach ($this->actions as $action) {
       $names = $action->listActions();
@@ -77,19 +77,19 @@ class SubMenuAction extends Action
       return;
     }
 
-    $subactions = array();
+    $subactions = [];
     foreach ($this->actions as $action) {
       $action->fillMenuItems($subactions);
     }
 
     if (!empty($subactions)) {
-      $actions[] = array(
+      $actions[] = [
         'name'      => $this->name,
         'icon'      => $this->icon,
         'label'     => $this->label,
         'separator' => $this->separator,
         'actions'   => $subactions
-      );
+      ];
     }
   }
 

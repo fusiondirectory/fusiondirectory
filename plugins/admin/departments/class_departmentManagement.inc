@@ -25,17 +25,17 @@ class departmentManagement extends management
 
   public static function plInfo (): array
   {
-    return array(
+    return [
       'plShortName'   => _('Departments'),
       'plTitle'       => _('Manage departments'),
       'plDescription' => _('Manage departments, countries, domain components, domains, localities and organization nodes,'),
       'plIcon'        => 'geticon.php?context=places&icon=folder&size=48',
-      'plSection'     => array('accounts' => array('name' => _('Users and groups'), 'priority' => 0)),
+      'plSection'     => ['accounts' => ['name' => _('Users and groups'), 'priority' => 0]],
       'plPriority'    => 0,
       'plManages'     => static::getDepartmentTypes(),
 
-      'plProvidedAcls' => array()
-    );
+      'plProvidedAcls' => []
+    ];
   }
 
   // Overriden save handler - We've to take care about the department tagging here.
@@ -62,7 +62,7 @@ class departmentManagement extends management
   protected function removeEntryRequested ($action, array $target, array $all)
   {
     global $config;
-    $target = array_remove_entries(array($config->current['BASE']), $target);
+    $target = array_remove_entries([$config->current['BASE']], $target);
     return parent::removeEntryRequested($action, $target, $all);
   }
 
@@ -75,6 +75,6 @@ class departmentManagement extends management
 
   static function getDepartmentTypes (): array
   {
-    return array('DEPARTMENT','COUNTRY','DCOBJECT','DOMAIN','LOCALITY','ORGANIZATION');
+    return ['DEPARTMENT','COUNTRY','DCOBJECT','DOMAIN','LOCALITY','ORGANIZATION'];
   }
 }

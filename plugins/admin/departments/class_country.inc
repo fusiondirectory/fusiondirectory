@@ -21,30 +21,30 @@
 class country extends department
 {
   static protected $namingAttr  = 'c';
-  protected $structuralOC       = array('country');
+  protected $structuralOC       = ['country'];
 
   static function plInfo (): array
   {
-    return array(
+    return [
       'plShortName'   => _('Country'),
       'plDescription' => _('Country'),
-      'plObjectClass' => array('gosaDepartment'),
+      'plObjectClass' => ['gosaDepartment'],
       'plFilter'      => '(&(objectClass=country)(objectClass=gosaDepartment))',
-      'plObjectType'  => array('country' => array(
+      'plObjectType'  => ['country' => [
         'aclCategory' => 'department',
         'name'        => _('Country'),
         'ou'          => '',
         'icon'        => 'geticon.php?context=types&icon=country&size=16',
         'tabClass'    => 'deptabs',
         'mainAttr'    => static::$namingAttr,
-      )),
-      'plForeignKeys'  => array(
-        'manager' => array('user','dn','manager=%oldvalue%','*')
-      ),
-      'plSearchAttrs' => array('description'),
+      ]],
+      'plForeignKeys'  => [
+        'manager' => ['user','dn','manager=%oldvalue%','*']
+      ],
+      'plSearchAttrs' => ['description'],
 
       'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())
-    );
+    ];
   }
 
   static function getAttributesInfo (): array

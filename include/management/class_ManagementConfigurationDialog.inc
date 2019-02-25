@@ -33,9 +33,9 @@ class ManagementConfigurationDialog extends simplePlugin
 {
   static function plInfo (): array
   {
-    return array(
+    return [
       'plShortName' => 'ManagementConfigurationDialog',
-    );
+    ];
   }
 
   static function getAttributesInfo (): array
@@ -43,7 +43,7 @@ class ManagementConfigurationDialog extends simplePlugin
     global $class_mapping;
 
     // Load column types
-    $types = array();
+    $types = [];
     foreach (array_keys($class_mapping) as $class) {
       if (preg_match('/Column$/', $class) && is_a($class, 'Column', TRUE)) {
         $types[] = $class;
@@ -51,17 +51,17 @@ class ManagementConfigurationDialog extends simplePlugin
     }
     sort($types);
 
-    return array(
-      'main' => array(
-        'class' => array('fullwidth'),
+    return [
+      'main' => [
+        'class' => ['fullwidth'],
         'name'  => _('Management configuration'),
-        'attrs' => array(
+        'attrs' => [
           new OrderedArrayAttribute(
             new ManagementColumnAttribute(
               _('Columns'),
               _('Columns displayed for this management list'),
               'managementColumns',
-              array(
+              [
                 new SelectAttribute(
                   _('Type'), _('Type of column'),
                   'columnType', TRUE,
@@ -75,11 +75,11 @@ class ManagementConfigurationDialog extends simplePlugin
                   _('Label'), _('Column title'),
                   'columnLabel', FALSE
                 ),
-              ),
+              ],
               'ManagementConfiguration'
             ),
             TRUE, // ordered
-            array(),
+            [],
             TRUE // edition
           ),
           new BooleanAttribute(
@@ -88,9 +88,9 @@ class ManagementConfigurationDialog extends simplePlugin
             FALSE,
             'fdManagementConfig'
           ),
-        )
-      ),
-    );
+        ]
+      ],
+    ];
   }
 
   function __construct ($parent)
@@ -104,7 +104,7 @@ class ManagementConfigurationDialog extends simplePlugin
     $this->attributesAccess['managementColumns']->setInLdap(FALSE);
     $this->attributesAccess['managementColumns']->setLinearRendering(FALSE);
     $columnInfos  = $this->parent->getColumnConfiguration();
-    $value        = array();
+    $value        = [];
     foreach ($columnInfos as $column) {
       if (!isset($column[1]['attributes'])) {
         $column[1]['attributes'] = '';
@@ -114,7 +114,7 @@ class ManagementConfigurationDialog extends simplePlugin
       if (!isset($column[1]['label'])) {
         $column[1]['label'] = '';
       }
-      $value[] = array($column[0], $column[1]['attributes'], $column[1]['label']);
+      $value[] = [$column[0], $column[1]['attributes'], $column[1]['label']];
     }
     $this->attributesAccess['managementColumns']->setValue($value);
   }
@@ -153,10 +153,10 @@ class ManagementConfigurationDialog extends simplePlugin
   function save (): array
   {
     global $config;
-    $columnInfos  = array();
+    $columnInfos  = [];
     $values       = $this->managementColumns;
     foreach ($values as $value) {
-      $column = array($value[0], array());
+      $column = [$value[0], []];
       if (!empty($value[1])) {
         $jsonDecoded = json_decode($value[1], TRUE);
         if ($jsonDecoded !== NULL) {

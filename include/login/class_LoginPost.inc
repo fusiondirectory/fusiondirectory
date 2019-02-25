@@ -42,13 +42,13 @@ class LoginPost extends LoginMethod
       static::$username = $_POST['username'];
       static::$password = $_POST['password'];
 
-      $success = static::runSteps(array(
+      $success = static::runSteps([
         'validateUserInput',
         'ldapLoginUser',
         'checkForLockingBranch',
         'loginAndCheckExpired',
         'runSchemaCheck',
-      ));
+      ]);
 
       if ($success) {
         /* Everything went well, redirect to main.php */
@@ -103,7 +103,7 @@ class LoginPost extends LoginMethod
     }
 
     /* Generate server list */
-    $servers = array();
+    $servers = [];
     if (isset($_POST['server'])) {
       $selected = $_POST['server'];
     } else {

@@ -27,24 +27,24 @@ class aclAssignmentCreationDialog extends simplePlugin
 
   static function plInfo (): array
   {
-    return array(
+    return [
       'plShortName'   => _('ACL assignment creation'),
       'plShortName'   => _('ACL assignment creation'),
       'plDescription' => _('Create an ACL assignment on an arbitrary dn'),
-      'plCategory'    => array('acl'),
+      'plCategory'    => ['acl'],
 
-      'plProvidedAcls' => array()
-    );
+      'plProvidedAcls' => []
+    ];
   }
 
   static function getAttributesInfo (): array
   {
     global $config;
-    return array(
-      'main' => array(
+    return [
+      'main' => [
         'name'  => _('ACL assignment creation'),
-        'class' => array('fullwidth'),
-        'attrs' => array(
+        'class' => ['fullwidth'],
+        'attrs' => [
           new StringAttribute(
             _('Dn'), _('DN you wish to add assignments for'),
             'baseDn', TRUE,
@@ -52,9 +52,9 @@ class aclAssignmentCreationDialog extends simplePlugin
             '/^([^=,]+=[^=,]+,)+'.preg_quote($config->current['BASE'], '/').'$/',
             'ou=people,'.$config->current['BASE']
           ),
-        )
-      ),
-    );
+        ]
+      ],
+    ];
   }
 
   function __construct ($parent)
@@ -107,7 +107,7 @@ class aclAssignmentCreationDialog extends simplePlugin
     try {
       $this->management->newEntryConfirmed($this->baseDn);
     } catch (NonExistingLdapNodeException $e) {
-      msg_dialog::displayChecks(array(_('The dn you entered could not be found in the LDAP')));
+      msg_dialog::displayChecks([_('The dn you entered could not be found in the LDAP')]);
       return TRUE;
     }
     return FALSE;
@@ -129,25 +129,25 @@ class aclManagement extends management
   public static $skipTemplates = TRUE;
 
   /* We cannot show anything more than DN as there are no ACLs for other fields on aclAssignment object */
-  public static $columns = array(
-    array('ObjectTypeColumn', array()),
-    array('LinkColumn',       array('attributes' => 'dn', 'label' => 'DN')),
-    array('ActionsColumn',    array('label' => 'Actions')),
-  );
+  public static $columns = [
+    ['ObjectTypeColumn', []],
+    ['LinkColumn',       ['attributes' => 'dn', 'label' => 'DN']],
+    ['ActionsColumn',    ['label' => 'Actions']],
+  ];
 
   static function plInfo (): array
   {
-    return array(
+    return [
       'plShortName'   => _('ACL assignments'),
       'plTitle'       => _('ACL assignments management'),
       'plDescription' => _('Manage ACL roles assignments to users'),
       'plIcon'        => 'geticon.php?context=categories&icon=acl&size=48',
       'plSection'     => 'accounts',
       'plPriority'    => 28,
-      'plManages'     => array('aclAssignment'),
+      'plManages'     => ['aclAssignment'],
 
-      'plProvidedAcls' => array()
-    );
+      'plProvidedAcls' => []
+    ];
   }
 
   protected function setUpListing ()

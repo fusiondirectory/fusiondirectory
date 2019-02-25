@@ -172,17 +172,17 @@ class FileDownloadAttribute extends FileAttribute
     $display = '';
     if ($this->upload) {
       $display  .= $this->renderInputField('file', $id);
-      $display  .= $this->renderInputField('submit', 'upload'.$id, array('value' => _('Upload'), 'formnovalidate' => 'formnovalidate'));
+      $display  .= $this->renderInputField('submit', 'upload'.$id, ['value' => _('Upload'), 'formnovalidate' => 'formnovalidate']);
     }
     if ($this->download) {
       $display  .= $this->renderInputField(
         'image', 'download'.$id,
-        array(
+        [
           'title' => _('Download'),
           'alt'   => _('Download'),
           'class' => 'center',
           'src'   => 'geticon.php?context=actions&amp;icon=document-save&amp;size=16',
-        )
+        ]
       );
     }
     return $this->renderAcl($display);
@@ -191,7 +191,7 @@ class FileDownloadAttribute extends FileAttribute
   public function htmlIds ()
   {
     $id   = $this->getHtmlId();
-    $ids  = array();
+    $ids  = [];
     if ($this->download) {
       $ids[] = 'download'.$id;
     }
@@ -260,7 +260,7 @@ class FileTextAreaAttribute extends FileDownloadAttribute
   function fixPostValue ($value)
   {
     /* Replace CRLF by LF, to avoid non-ASCII chars */
-    return str_replace(array("\r\n", "\r"), "\n", $value);
+    return str_replace(["\r\n", "\r"], "\n", $value);
   }
 
   function renderFormInput ()
@@ -388,22 +388,22 @@ class ImageAttribute extends FileAttribute
     $display  .= $this->renderInputField('file', $id);
     $display .= $this->renderInputField(
       'image', $id.'_upload',
-      array(
+      [
         'class' => 'center',
         'src'   => 'geticon.php?context=actions&amp;icon=upload&amp;size=16',
         'title' => _('Upload'),
         'alt'   => _('Upload')
-      )
+      ]
     );
     if (!$this->isRequired()) {
       $display .= $this->renderInputField(
         'image', $id.'_remove',
-        array(
+        [
           'class' => 'center',
           'src'   => 'geticon.php?context=actions&amp;icon=remove&amp;size=16',
           'title' => _('Remove'),
           'alt'   => _('Remove')
-        )
+        ]
       );
     }
     if (($this->getValue() == '') && ($this->placeholder != '')) {
@@ -418,7 +418,7 @@ class ImageAttribute extends FileAttribute
   public function htmlIds ()
   {
     $id = $this->getHtmlId();
-    return array($id.'_img',$id,'upload'.$id);
+    return [$id.'_img',$id,'upload'.$id];
   }
 
   /*! \brief Fill LDAP value in the attrs array
@@ -434,7 +434,7 @@ class ImageAttribute extends FileAttribute
         }
         $attrs[$this->getLdapName()] = $value;
       } else {
-        $attrs[$this->getLdapName()] = array();
+        $attrs[$this->getLdapName()] = [];
       }
     }
   }

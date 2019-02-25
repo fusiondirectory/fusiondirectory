@@ -32,7 +32,7 @@ class listing
 {
   var $xmlData;
   var $entries;
-  var $departments            = array();
+  var $departments            = [];
   var $departmentBrowser      = FALSE;
   var $departmentRootVisible  = FALSE;
   var $multiSelect            = FALSE;
@@ -45,23 +45,23 @@ class listing
   var $sortType;
   var $numColumns;
   var $baseMode = FALSE;
-  var $bases    = array();
-  var $header   = array();
-  var $colprops = array();
-  var $filters  = array();
+  var $bases    = [];
+  var $header   = [];
+  var $colprops = [];
+  var $filters  = [];
   var $filter   = NULL;
   var $pid;
-  protected $departmentTypes  = array();
-  var $objectTypes      = array();
-  var $objectTypeCount  = array();
-  protected $objectDnMapping  = array();
+  protected $departmentTypes  = [];
+  var $objectTypes      = [];
+  var $objectTypeCount  = [];
+  protected $objectDnMapping  = [];
   protected $copyPasteHandler = NULL;
   protected $snapshotHandler  = NULL;
-  var $exporters      = array();
-  var $exportColumns  = array();
+  var $exporters      = [];
+  var $exportColumns  = [];
   var $scrollPosition = 0;
   var $baseSelector;
-  protected $filterCache = array();
+  protected $filterCache = [];
   protected $parent;
 
   /*!
@@ -106,7 +106,7 @@ class listing
     // Load exporters
     foreach (array_keys($class_mapping) as $class) {
       if (preg_match('/Exporter$/', $class)) {
-        $info = call_user_func(array($class, "getInfo"));
+        $info = call_user_func([$class, "getInfo"]);
         if ($info != NULL) {
           $this->exporters = array_merge($this->exporters, $info);
         }
@@ -198,7 +198,7 @@ class listing
       $this->xmlData = xml::xml2array($contents, 1);
     }
 
-    $this->filterCache = array();
+    $this->filterCache = [];
 
     if (!isset($this->xmlData['list'])) {
       return FALSE;
@@ -207,7 +207,7 @@ class listing
     $this->xmlData = $this->xmlData["list"];
 
     // Load some definition values
-    foreach (array("departmentBrowser", "departmentRootVisible", "multiSelect", "baseMode") as $token) {
+    foreach (["departmentBrowser", "departmentRootVisible", "multiSelect", "baseMode"] as $token) {
       if (isset($this->xmlData['definition'][$token]) &&
           $this->xmlData['definition'][$token] == "true") {
         $this->$token = TRUE;
@@ -218,19 +218,19 @@ class listing
     $types = departmentManagement::getDepartmentTypes();
     foreach ($types as $type) {
       $i = objects::infos($type);
-      $this->departmentTypes[strtoupper($type)] = array(
+      $this->departmentTypes[strtoupper($type)] = [
         'label'       => $i['name'],
         'image'       => $i['icon'],
         'category'    => $i['aclCategory'],
         'class'       => $i['mainTab'],
         'filter'      => objects::getFilterObject($type),
         'nameAttr'    => $i['nameAttr'],
-      );
+      ];
     }
-    $this->categories = array();
+    $this->categories = [];
     if (isset($this->xmlData['definition']['objectType'])) {
       if (isset($this->xmlData['definition']['objectType']['label'])) {
-        $this->xmlData['definition']['objectType'] = array($this->xmlData['definition']['objectType']);
+        $this->xmlData['definition']['objectType'] = [$this->xmlData['definition']['objectType']];
       }
       foreach ($this->xmlData['definition']['objectType'] as $index => $otype) {
         $this->objectTypes[$otype['objectClass']] = $otype;
@@ -250,7 +250,7 @@ class listing
     // Assign headline/Categories
     $this->headline = _($this->xmlData['definition']['label']);
     if (!is_array($this->categories)) {
-      $this->categories = array($this->categories);
+      $this->categories = [$this->categories];
     }
 
     // Evaluate columns to be exported
@@ -263,7 +263,7 @@ class listing
     }
 
     if (isset($this->xmlData['actiontriggers']['action']['type'])) {
-      $this->xmlData['actiontriggers']['action'] = array($this->xmlData['actiontriggers']['action']);
+      $this->xmlData['actiontriggers']['action'] = [$this->xmlData['actiontriggers']['action']];
     }
 
     return TRUE;
@@ -272,8 +272,8 @@ class listing
 
   function renderHeader ()
   {
-    $this->header = array();
-    $this->plainHeader = array();
+    $this->header = [];
+    $this->plainHeader = [];
 
     // Initialize sort?
     $sortInit = FALSE;
@@ -284,7 +284,7 @@ class listing
       } else {
         $this->sortAttribute = "";
       }
-      $this->sortDirection = array();
+      $this->sortDirection = [];
       $sortInit = TRUE;
     }
 
@@ -523,8 +523,8 @@ class listing
     }
 
     // Reset object counter / DN mapping
-    $this->objectTypeCount = array();
-    $this->objectDnMapping = array();
+    $this->objectTypeCount = [];
+    $this->objectDnMapping = [];
 
     // Do not do anything if this is not our PID
     if ($refresh || !(isset($_REQUEST['PID']) && $_REQUEST['PID'] != $this->pid)) {
@@ -547,12 +547,12 @@ class listing
         $exporter = $this->exporters[$_POST['act']];
         $userinfo = ", "._("created by")." ".$ui->cn." - ".strftime('%A, %d. %B %Y, %H:%M:%S');
         $entryIterator = new listingSortIterator($this->entries, $this->sortDirection[$this->sortColumn], "_sort".$this->sortColumn, $this->sortType);
-        $sortedEntries = array();
+        $sortedEntries = [];
         foreach ($entryIterator as $entry) {
           $sortedEntries[] = $entry;
         }
         $instance = new $exporter['class']($this->headline.$userinfo, $this->plainHeader, $sortedEntries, $this->exportColumns);
-        $type = call_user_func(array($exporter['class'], "getInfo"));
+        $type = call_user_func([$exporter['class'], "getInfo"]);
         $type = $type[$_POST['act']];
         send_binary_content($instance->query(), $type['filename'], $type = $type['mime']);
       }
@@ -607,10 +607,10 @@ class listing
 
     // Fix filter if querie returns NULL
     if ($this->entries == NULL) {
-      $this->entries = array();
+      $this->entries = [];
     }
 
-    $this->dnToRow = array();
+    $this->dnToRow = [];
     foreach ($this->entries as $row => $entry) {
       $this->dnToRow[$entry['dn']] = $row;
     }
@@ -662,7 +662,7 @@ class listing
    */
   function parseLayout ($layout)
   {
-    $result = array();
+    $result = [];
     $layout = preg_replace("/^\|/", "", $layout);
     $layout = preg_replace("/\|$/", "", $layout);
     $cols   = explode("|", $layout);
@@ -756,7 +756,7 @@ class listing
     } else {
       preg_match_all('/%{filter:([^(]+)\((.*)\)}/', $data, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE);
 
-      $filtersData = array();
+      $filtersData = [];
       foreach ($matches as $match) {
         $cl     = '';
         $method = '';
@@ -771,7 +771,7 @@ class listing
         // Prepare params for function call
         preg_match_all('/"[^"]+"|[^,]+/', $match[2][0], $parts);
 
-        $filtersData[$match[0][0]] = array($cl, $method, $parts[0], $match[0][1]);
+        $filtersData[$match[0][0]] = [$cl, $method, $parts[0], $match[0][1]];
       }
 
       $this->filterCache[$type.$index] = $filtersData;
@@ -779,7 +779,7 @@ class listing
 
     foreach ($filtersData as $filterstring => $filter) {
       list ($cl, $method, $parts, $offset) = $filter;
-      $params = array();
+      $params = [];
       foreach ($parts as $param) {
         switch ($param) {
           case 'row':
@@ -821,10 +821,10 @@ class listing
       // Replace information
       if ($cl == 'listing') {
         // Non static call
-        $data = substr_replace($data, call_user_func_array(array($this, $method), $params), $offset, strlen($filterstring));
+        $data = substr_replace($data, call_user_func_array([$this, $method], $params), $offset, strlen($filterstring));
       } else {
         // Static call
-        $data = substr_replace($data, call_user_func_array(array($cl, $method), $params), $offset, strlen($filterstring));
+        $data = substr_replace($data, call_user_func_array([$cl, $method], $params), $offset, strlen($filterstring));
       }
     }
 
@@ -874,7 +874,7 @@ class listing
       }
       $ocs = $objectType['objectClass'];
       if (!is_array($ocs)) {
-        $ocs = array($ocs);
+        $ocs = [$ocs];
       }
 
       $found = TRUE;
@@ -1088,7 +1088,7 @@ class listing
    */
   function filterLink ($row, $dn, $mask, ...$vals)
   {
-    $params = array($mask);
+    $params = [$mask];
 
     // Collect sprintf params
     foreach ($vals as $val) {
@@ -1096,7 +1096,7 @@ class listing
         continue;
       }
       if (!is_array($val)) {
-        $val = array($val);
+        $val = [$val];
       }
       $val = array_map(
         function ($v)
@@ -1122,7 +1122,7 @@ class listing
 
   function renderNavigation ()
   {
-    $result = array();
+    $result = [];
     $enableBack = TRUE;
     $enableRoot = TRUE;
     $enableHome = TRUE;
@@ -1190,7 +1190,7 @@ class listing
       $this->scrollPosition = $_POST['position_'.$this->pid];
     }
 
-    $result = array("targets" => array(), "action" => "");
+    $result = ["targets" => [], "action" => ""];
 
     // Filter GET with "act" attributes
     if (isset($_GET['act'])) {
@@ -1265,7 +1265,7 @@ class listing
         $target = preg_replace('/^listing_[a-zA-Z_]+_([0-9]+)(|_x)$/', '$1', $key);
         if (isset($this->entries[$target]['dn'])) {
           $result['action']   = preg_replace('/^listing_([a-zA-Z_]+)_[0-9]+(|_x)$/', '$1', $key);
-          $result['targets']  = array($this->entries[$target]['dn']);
+          $result['targets']  = [$this->entries[$target]['dn']];
         }
         break;
       }
@@ -1304,7 +1304,7 @@ class listing
 
     // Make sure we got an array of actions
     if (isset($this->xmlData['actionmenu']['action']['type'])) {
-      $this->xmlData['actionmenu']['action'] = array($this->xmlData['actionmenu']['action']);
+      $this->xmlData['actionmenu']['action'] = [$this->xmlData['actionmenu']['action']];
     }
 
     // Load shortcut
@@ -1345,7 +1345,7 @@ class listing
 
       // Skip entry if there're missing dependencies
       if (isset($action['depends'])) {
-        $deps = is_array($action['depends']) ? $action['depends'] : array($action['depends']);
+        $deps = is_array($action['depends']) ? $action['depends'] : [$action['depends']];
         foreach ($deps as $clazz) {
           if (!isset($class_mapping[$clazz])) {
             continue 2;
@@ -1371,7 +1371,7 @@ class listing
 
         // Ensure we've an array of actions, this enables sub menus with only one action.
         if (isset($action['action']['type'])) {
-          $action['action'] = array($action['action']);
+          $action['action'] = [$action['action']];
         }
 
         $result .= $this->recurseActions($action['action'])."</li>";
@@ -1442,14 +1442,14 @@ class listing
         }
         $acls = $action['acl'];
         if (!is_array($acls)) {
-          $acls = array($acls);
+          $acls = [$acls];
         }
-        $aclInfos = array();
+        $aclInfos = [];
 
         // Every ACL has to pass
         foreach ($acls as $acl) {
           $module   = $this->categories;
-          $aclList  = array();
+          $aclList  = [];
 
           // Replace %acl if available
           if ($otype) {
@@ -1459,12 +1459,12 @@ class listing
           // Split for category and plugins if needed
           if (preg_match('/^\[([rwcdm]+)\]$/', $acl, $match)) {
             // match for "[rw]" style entries
-            $aclList = array($match[1]);
+            $aclList = [$match[1]];
           } elseif (preg_match('/^([a-zA-Z0-9]+\/?[a-zA-Z0-9]+)\[([rwcdm]+)\]$/', $acl, $match)) {
             // match for "user[rw]" style entries
             // match for "user/user[rw]" style entries
             $module   = $match[1];
-            $aclList  = array($match[2]);
+            $aclList  = [$match[2]];
           } elseif (preg_match('/^([a-zA-Z0-9]+\/[a-zA-Z0-9]+)\[([a-zA-Z0-9]+:[rwcdm]+(,[a-zA-Z0-9]+:[rwcdm]+)*)\]$/', $acl, $match)) {
             // match "user/user[userPassword:rw(,...)*]" style entries
             $module   = $match[1];
@@ -1473,10 +1473,10 @@ class listing
 
           $modules = $module;
           if (!is_array($modules)) {
-            $modules = array($modules);
+            $modules = [$modules];
           }
 
-          $aclInfos[] = array($aclList, $modules);
+          $aclInfos[] = [$aclList, $modules];
         }
         $action['aclInfos'] = $aclInfos;
       }
@@ -1525,7 +1525,7 @@ class listing
     $ui = get_userinfo();
 
     // Fill internal bases list
-    $this->bases = array();
+    $this->bases = [];
     $deps = $ui->get_module_departments($this->categories);
     foreach ($config->idepartments as $key => $dep) {
       if (in_array_ics($key, $deps)) {
@@ -1550,7 +1550,7 @@ class listing
   {
     $ui = get_userinfo();
 
-    $this->departments = array();
+    $this->departments = [];
 
     // Get list of supported department types
     $types = departmentManagement::getDepartmentTypes();
@@ -1563,12 +1563,12 @@ class listing
       $i    = objects::infos($type);
       $deps = objects::ls(
         $type,
-        array(
+        [
           'dn'            => 'raw',
           'objectClass'   => 'raw',
           'description'   => 'raw',
           $i['mainAttr']  => 'raw'
-        ),
+        ],
         $this->base,
         '',
         FALSE,

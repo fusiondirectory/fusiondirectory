@@ -22,17 +22,17 @@ class aclRoleManagement extends management
 {
   public static function plInfo (): array
   {
-    return array(
+    return [
       'plShortName'   => _('ACL roles'),
       'plTitle'       => _('ACL roles management'),
       'plDescription' => _('Manage ACL roles'),
       'plIcon'        => 'geticon.php?context=categories&icon=acl&size=48',
       'plSection'     => 'accounts',
       'plPriority'    => 27,
-      'plCategory'    => array('acl'),
-      'plManages'     => array('aclRole'),
+      'plCategory'    => ['acl'],
+      'plManages'     => ['aclRole'],
 
-      'plProvidedAcls' => array()
-    );
+      'plProvidedAcls' => []
+    ];
   }
 }

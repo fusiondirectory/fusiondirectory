@@ -597,7 +597,7 @@ class msgPool
    *
    * \param array $conflicts Tabs this tab conflicts with
    */
-  public static function featuresDisabled ($name, array $depends = array(), array $conflicts = array())
+  public static function featuresDisabled ($name, array $depends = [], array $conflicts = [])
   {
     if (empty($depends) && empty($conflicts)) {
       return sprintf(_('This account has %s settings disabled. You can enable them by clicking below.'), $name);
@@ -642,9 +642,9 @@ class msgPool
    */
   public static function months ()
   {
-    return array(_("January"), _("February"), _("March"), _("April"),
+    return [_("January"), _("February"), _("March"), _("April"),
         _("May"), _("June"), _("July"), _("August"), _("September"),
-        _("October"), _("November"), _("December"));
+        _("October"), _("November"), _("December")];
   }
 
   /*!
@@ -653,7 +653,7 @@ class msgPool
    */
   public static function weekdays ()
   {
-    return array( _("Sunday"), _("Monday"), _("Tuesday"), _("Wednesday"), _("Thursday"), _("Friday"), _("Saturday"));
+    return [ _("Sunday"), _("Monday"), _("Tuesday"), _("Wednesday"), _("Thursday"), _("Friday"), _("Saturday")];
   }
 
   /*!
@@ -670,8 +670,8 @@ class msgPool
   public static function ldaperror ($error, $dn = '', $type = 0, $plugin = '')
   {
     /* Assign headline depending on type */
-    $typemap = array(1 => _('read operation'), _('add operation'), _('modify operation'),
-        _('delete operation'), _('search operation'), _('authentication'));
+    $typemap = [1 => _('read operation'), _('add operation'), _('modify operation'),
+        _('delete operation'), _('search operation'), _('authentication')];
 
     if (isset($typemap[$type])) {
       $msg = sprintf(_('LDAP %s failed!'), $typemap[$type]);
@@ -723,7 +723,7 @@ class msgPool
    *
    * \param array $objects
    */
-  public static function stillInUse ($type, $objects = array())
+  public static function stillInUse ($type, $objects = [])
   {
     if (!is_array($objects)) {
       return sprintf(_("This '%s' is still in use by this object: %s"), $type, "<br><br>".$objects);

@@ -22,7 +22,7 @@
 class ogrouptabs extends simpleTabs_noSpecial
 {
   protected $groupObjects = NULL;
-  protected $removed_tabs = array();
+  protected $removed_tabs = [];
 
   function __construct ($type, $dn, $copied_object = NULL)
   {
@@ -40,21 +40,21 @@ class ogrouptabs extends simpleTabs_noSpecial
     $this->groupObjects = $gosaGroupObjects;
     $objects = preg_replace('/[\[\]]/', '', $gosaGroupObjects);
 
-    $tabs = array();
+    $tabs = [];
     if (strlen($objects)) {
       if (isset($config->data['TABS']['OGROUP-DYNAMICTABS'])) {
         $dtabs  = $config->data['TABS']['OGROUP-DYNAMICTABS'];
       } else {
-        $dtabs  = array();
+        $dtabs  = [];
       }
       $tabs   = FALSE;
       for ($i = 0; $i < strlen($objects); $i++) {
-        if (in_array($objects[$i], array('I','G'))) {
+        if (in_array($objects[$i], ['I','G'])) {
           /* Ignore unknown objects and groups */
           continue;
         }
         $otype = ogroup::$objectTypes[$objects[$i]];
-        $otabs = array();
+        $otabs = [];
         if (isset($config->data['TABS'][strtoupper($otype).'TABS'])) {
           $otabs = array_uintersect(
             $dtabs,

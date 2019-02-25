@@ -43,7 +43,7 @@ class standAlonePage
     session::global_set('config', $config);
 
     /* Generate server list */
-    $this->directories = array();
+    $this->directories = [];
     foreach ($config->data['LOCATIONS'] as $key => $ignored) {
       $this->directories[$key] = $key;
     }

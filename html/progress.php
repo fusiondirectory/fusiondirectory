@@ -57,7 +57,7 @@ if (!function_exists("imagecreate")) {
 } else {
   $x_matches = FALSE;
   $y_matches = FALSE;
-  foreach (array(7,6,5,4,3,2,1,0) as $font) {
+  foreach ([7,6,5,4,3,2,1,0] as $font) {
     $fx = ImageFontWidth($font) * strlen("$p%");
     $fy = ImageFontHeight($font);
 
