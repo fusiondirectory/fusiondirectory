@@ -42,7 +42,7 @@ class csvExporter
    *
    * \param array $columns
    */
-  function __construct ($headline, $header, $entries, $columns = array())
+  function __construct ($headline, $header, $entries, $columns = [])
   {
     // If no preset, render all columns
     if (!count($columns)) {
@@ -115,9 +115,6 @@ class csvExporter
    */
   static function getInfo ()
   {
-    return array("exportCSV" => array( "label" => _("CSV"), "image" => "geticon.php?context=mimetypes&icon=text-csv&size=16", "class" => "csvExporter", "mime" => "text/x-csv", "filename" => "export.csv" ));
+    return ["exportCSV" => [ "label" => _("CSV"), "image" => "geticon.php?context=mimetypes&icon=text-csv&size=16", "class" => "csvExporter", "mime" => "text/x-csv", "filename" => "export.csv" ]];
   }
-
 }
-
-?>

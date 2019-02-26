@@ -20,9 +20,9 @@
 */
 
 /* Basic setup, remove eventually registered sessions */
-require_once ("../include/php_setup.inc");
-require_once ("functions.inc");
-require_once ("variables.inc");
+require_once("../include/php_setup.inc");
+require_once("functions.inc");
+require_once("variables.inc");
 
 /* Set headers */
 header('Content-type: text/html; charset=UTF-8');
@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 /* Logged in? Simple security check */
 if (!session::global_is_set('connected')) {
-  logging::log('security', 'login', '', array(), 'main.php called without session - logging out');
+  logging::log('security', 'login', '', [], 'main.php called without session - logging out');
   header('Location: index.php?message=nosession');
   exit;
 }
@@ -78,7 +78,7 @@ if (session::global_get('_LAST_PAGE_REQUEST') != '') {
      */
     if ($request_time > $max_life) {
       session::destroy();
-      logging::log('security', 'login', '', array(), 'main.php called with expired session - logging out');
+      logging::log('security', 'login', '', [], 'main.php called with expired session - logging out');
       header('Location: index.php?signout=1&message=expired');
       exit;
     }
@@ -114,7 +114,7 @@ if ($config->get_cfg_value("handleExpiredAccounts") == "TRUE") {
     @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $expired, 'This user account ('.$ui->uid.') is about to expire');
 
     // The users password is about to xpire soon, display a warning message.
-    logging::log('security', 'fusiondirectory', '', array(), 'password for user "'.$ui->uid.'" is about to expire');
+    logging::log('security', 'fusiondirectory', '', [], 'password for user "'.$ui->uid.'" is about to expire');
     msg_dialog::display(_('Password change'), _('Your password is about to expire, please change your password!'), INFO_DIALOG);
     session::set('POSIX_WARN_ABOUT_EXPIRATION__DONE', TRUE);
   } elseif ($expired == POSIX_FORCE_PASSWORD_CHANGE) {
@@ -167,7 +167,7 @@ if (!empty($old_plugin_index) && ($old_plugin_index != $plugin_index)) {
 $ui->getSizeLimitHandler()->update();
 
 /* Check for memory */
-if (memory_get_usage() > (to_byte(ini_get('memory_limit')) - 2048000 )) {
+if (memory_get_usage() > (to_byte(ini_get('memory_limit')) - 2048000)) {
   msg_dialog::display(_("Configuration error"), _("Running out of memory!"), WARNING_DIALOG);
 }
 

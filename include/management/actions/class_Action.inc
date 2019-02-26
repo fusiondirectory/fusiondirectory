@@ -49,7 +49,7 @@ class Action
 
   protected $parent;
 
-  function __construct (string $name, $label, $icon, string $targets, $callable, array $acls = array(), bool $inmenu = TRUE, bool $inline = TRUE, array $validTypes = array())
+  function __construct (string $name, $label, $icon, string $targets, $callable, array $acls = [], bool $inmenu = TRUE, bool $inline = TRUE, array $validTypes = [])
   {
     if ($targets == '0') {
       $inline = FALSE;
@@ -63,7 +63,7 @@ class Action
     $this->inmenu     = $inmenu;
     $this->inline     = $inline;
     $this->validTypes = array_map('strtoupper', $validTypes);
-    $this->acl        = array();
+    $this->acl        = [];
     /*
      * acl may be of the form:
      * acl (ex: 'd')
@@ -83,12 +83,12 @@ class Action
       if (strpos($acl, ':') !== FALSE) {
         list($attribute, $acl) = explode(':', $acl, 2);
       }
-      $this->acl[] = array(
+      $this->acl[] = [
         'category'  => $category,
         'class'     => $class,
         'attribute' => $attribute,
         'acl'       => str_split($acl),
-      );
+      ];
     }
 
     switch ($this->targets) {
@@ -149,7 +149,7 @@ class Action
 
   function listActions (): array
   {
-    return array($this->name);
+    return [$this->name];
   }
 
   function execute ($management, $action)
@@ -165,7 +165,7 @@ class Action
     }
     $func = $this->callable;
     if (!is_array($func)) {
-      $func = array($management, $func);
+      $func = [$management, $func];
     }
     return call_user_func($func, $action);
   }
@@ -180,13 +180,13 @@ class Action
       return;
     }
 
-    $actions[] = array(
+    $actions[] = [
       'name'      => $this->name,
       'icon'      => $this->icon,
       'label'     => $this->label,
       'enabled'   => $this->isEnabledFor(),
       'separator' => $this->separator,
-    );
+    ];
   }
 
   function fillRowClasses (&$classes, ListingEntry $entry)
@@ -233,7 +233,7 @@ class Action
     if ($type === NULL) {
       $types = $this->parent->objectTypes;
     } else {
-      $types = array($type);
+      $types = [$type];
     }
     /*
      * if category is missing it’s deducted from type (all types are tested for menu actions)

@@ -31,11 +31,11 @@ class PropertiesColumn extends Column
 
     parent::__construct($parent, NULL, $label);
 
-    $this->tabs = array();
+    $this->tabs = [];
 
     foreach ($this->parent->parent->objectTypes as $type) {
       $infos = objects::infos($type);
-      $this->tabs[$type] = array();
+      $this->tabs[$type] = [];
       foreach ($config->data['TABS'][$infos['tabGroup']] as $plug) {
         if ($plug['CLASS'] == $infos['mainTab']) {
           continue;
@@ -111,15 +111,15 @@ class PropertiesColumn extends Column
     }
 
     $infos = objects::infos($entry->getTemplatedType());
-    $icons = array();
+    $icons = [];
 
     /* Main tab is always there */
     $pInfos = pluglist::pluginInfos($infos['mainTab']);
-    $icons[]  = array(
+    $icons[]  = [
       'icon'  => (isset($pInfos['plSmallIcon']) ? $pInfos['plSmallIcon'] : $infos['icon']),
       'title' => $pInfos['plShortName'],
       'tab'   => $infos['mainTab'],
-    );
+    ];
     if (!empty($entry)) {
       if ($entry->isTemplate()) {
         $attrs = $entry->getTemplatedFields();
@@ -131,18 +131,18 @@ class PropertiesColumn extends Column
         if ($status !== FALSE) {
           $pInfos = pluglist::pluginInfos($class);
           if (isset($pInfos['plSmallIcon'])) {
-            $icons[] = array(
+            $icons[] = [
               'icon'  => $pInfos['plSmallIcon'],
               'title' => $pInfos['plShortName'],
               'tab'   => $class,
-            );
+            ];
           } else {
             @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $pInfos['plShortName']." ($class)", 'No icon for');
           }
         } else {
-          $icons[] = array(
+          $icons[] = [
             'tab' => $class,
-          );
+          ];
         }
       }
     }

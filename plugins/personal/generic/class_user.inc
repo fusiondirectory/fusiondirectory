@@ -23,8 +23,8 @@ class PostalAddressAttribute extends TextAreaAttribute
   function inputValue ($ldapValue)
   {
     return str_replace(
-      array('$',  '\24','\5C'),
-      array("\n", '$',  '\\'),
+      ['$',  '\24','\5C'],
+      ["\n", '$',  '\\'],
       $ldapValue
     );
   }
@@ -32,11 +32,11 @@ class PostalAddressAttribute extends TextAreaAttribute
   function computeLdapValue ()
   {
     return str_replace(
-      array("\r\n", "\n", "\r"),
+      ["\r\n", "\n", "\r"],
       '$',
       str_replace(
-        array('\\', '$'),
-        array('\5C','\24'),
+        ['\\', '$'],
+        ['\5C','\24'],
         $this->getValue()
       )
     );
@@ -49,32 +49,32 @@ class user extends simplePlugin
 
   static function plInfo (): array
   {
-    return array(
+    return [
       'plShortName'   => _('User'),
       'plDescription' => _('User account information'),
       'plIcon'        => 'geticon.php?context=applications&icon=user-info&size=48',
       'plSmallIcon'   => 'geticon.php?context=applications&icon=user-info&size=16',
       'plSelfModify'  => TRUE,
-      'plObjectClass' => array('inetOrgPerson','organizationalPerson','person'),
+      'plObjectClass' => ['inetOrgPerson','organizationalPerson','person'],
       'plFilter'      => '(objectClass=inetOrgPerson)',
-      'plObjectType'  => array('user' => array(
+      'plObjectType'  => ['user' => [
         'name'        => _('User'),
         'description' => _('User account'),
         'mainAttr'    => 'uid',
         'nameAttr'    => 'cn',
         'icon'        => 'geticon.php?context=types&icon=user&size=16',
         'ou'          => get_ou('userRDN'),
-      )),
-      'plForeignKeys'  => array(
-        'manager' => array('user','dn','manager=%oldvalue%','*')
-      ),
-      'plSearchAttrs' => array('uid','description'),
+      ]],
+      'plForeignKeys'  => [
+        'manager' => ['user','dn','manager=%oldvalue%','*']
+      ],
+      'plSearchAttrs' => ['uid','description'],
 
       'plProvidedAcls' => array_merge(
         parent::generatePlProvidedAcls(static::getAttributesInfo()),
-        array('userLock' => _('User lock status'))
+        ['userLock' => _('User lock status')]
       )
-    );
+    ];
   }
 
   static function getAttributesInfo (): array
@@ -82,12 +82,12 @@ class user extends simplePlugin
     global $config;
     $languages = Language::getList(TRUE);
     asort($languages);
-    $languages = array_merge(array('' => ''), $languages);
-    $attributesInfo = array(
-      'perso' => array(
+    $languages = array_merge(['' => ''], $languages);
+    $attributesInfo = [
+      'perso' => [
         'name'  => _('Personal information'),
         'icon'  => 'geticon.php?context=types&icon=user&size=16',
-        'attrs' => array(
+        'attrs' => [
           new HiddenAttribute('cn'),
           new StringAttribute(
             _('Last name'), _('Last name of this user'),
@@ -108,12 +108,12 @@ class user extends simplePlugin
             'jpegPhoto', FALSE,
             150, 200, 'jpeg'
           ),
-        )
-      ),
-      'contact' => array(
+        ]
+      ],
+      'contact' => [
         'name'  => _('Organizational contact information'),
         'icon'  => 'geticon.php?context=types&icon=contact&size=16',
-        'attrs' => array(
+        'attrs' => [
           new StringAttribute(
             _('Location'), _('Location'),
             'l', FALSE
@@ -154,12 +154,12 @@ class user extends simplePlugin
             _('Homepage'), _('Personal homepage'),
             'labeledURI', FALSE
           ),
-        )
-      ),
-      'account' => array(
+        ]
+      ],
+      'account' => [
         'name'  => _('Account information'),
         'icon'  => 'geticon.php?context=applications&icon=ldap&size=16',
-        'attrs' => array(
+        'attrs' => [
           new BaseSelectorAttribute(get_ou("userRDN")),
           new UidAttribute(
             _('Login'), _('Login of this user'),
@@ -174,12 +174,12 @@ class user extends simplePlugin
             _('Password'), _('Password of the user'),
             'userPassword', FALSE
           ),
-        )
-      ),
-      'homecontact' => array(
+        ]
+      ],
+      'homecontact' => [
         'name'  => _('Personal contact information'),
         'icon'  => 'geticon.php?context=types&icon=contact&size=16',
-        'attrs' => array(
+        'attrs' => [
           new StringAttribute(
             _('Display name'), _('Name this user should appear as. Used by Exchange.'),
             'displayName', FALSE
@@ -192,12 +192,12 @@ class user extends simplePlugin
             _('Private phone'), _('Home phone number'),
             'homePhone', FALSE
           ),
-        )
-      ),
-      'organization' => array(
+        ]
+      ],
+      'organization' => [
         'name'  => _('Organizational information'),
         'icon'  => 'geticon.php?context=places&icon=folder&size=16',
-        'attrs' => array(
+        'attrs' => [
           new SetAttribute(
             new StringAttribute(
               _('Title'), _('Title of a person in their organizational context. Each title is one value of this multi-valued attribute'),
@@ -228,12 +228,12 @@ class user extends simplePlugin
             _('Manager'), _('Manager'),
             'manager', FALSE
           ),
-        )
-      ),
-    );
+        ]
+      ],
+    ];
     if ($config->get_cfg_value('SplitPostalAddress') == 'TRUE') {
       $attributesInfo['contact']['attrs'][2]->setVisible(FALSE);
-      array_splice($attributesInfo['contact']['attrs'], 3, 0, array(
+      array_splice($attributesInfo['contact']['attrs'], 3, 0, [
         new StringAttribute(
           _('Street'), _('Street part of the address'),
           'street', FALSE
@@ -247,7 +247,7 @@ class user extends simplePlugin
           'postalCode', FALSE,
           0, FALSE
         ),
-      ));
+      ]);
     }
     return $attributesInfo;
   }
@@ -283,7 +283,7 @@ class user extends simplePlugin
   private function applyPattern ($pattern)
   {
     $fields   = templateHandling::listFields($pattern);
-    $attrs    = array();
+    $attrs    = [];
     foreach ($fields as $field) {
       if (in_array($field, $this->attributes)) {
         $attrs[$field] = $this->$field;
@@ -378,18 +378,18 @@ class user extends simplePlugin
     return parent::post_save();
   }
 
-  function adapt_from_template (array $attrs, array $skip = array())
+  function adapt_from_template (array $attrs, array $skip = [])
   {
     if ($this->uid != '') {
       $skip[] = 'uid';
     }
-    parent::adapt_from_template($attrs, array_merge($skip, array('userPassword')));
+    parent::adapt_from_template($attrs, array_merge($skip, ['userPassword']));
     if (isset($this->attrs['userPassword']) && !in_array('userPassword', $skip)) {
       $this->userPassword = $this->attributesAccess['userPassword']->readUserPasswordValues($this->attrs['userPassword'][0], TRUE);
     }
   }
 
-  function callHook ($cmd, array $addAttrs = array(), &$returnOutput = array(), &$returnCode = NULL): array
+  function callHook ($cmd, array $addAttrs = [], &$returnOutput = [], &$returnCode = NULL): array
   {
     $addAttrs['passwordMethod'] = $this->attributesAccess['userPassword']->getMethod();
     $addAttrs['userLocked']     = (int)($this->attributesAccess['userPassword']->isLocked());
@@ -413,7 +413,7 @@ class user extends simplePlugin
     $length       = $config->get_cfg_value('passwordMinLength', 0);
 
     $ldap = $config->get_ldap_link();
-    $ldap->cat($user, array('pwdPolicySubentry', 'pwdHistory', 'pwdChangedTime', 'userPassword'));
+    $ldap->cat($user, ['pwdPolicySubentry', 'pwdHistory', 'pwdChangedTime', 'userPassword']);
     $attrs = $ldap->fetch();
     $ppolicydn = '';
     if (isset($attrs['pwdPolicySubentry'][0])) {
@@ -425,7 +425,7 @@ class user extends simplePlugin
       }
     }
     if (!empty($ppolicydn)) {
-      $ldap->cat($ppolicydn, array('pwdAllowUserChange', 'pwdMinLength', 'pwdMinAge', 'pwdSafeModify'));
+      $ldap->cat($ppolicydn, ['pwdAllowUserChange', 'pwdMinLength', 'pwdMinAge', 'pwdSafeModify']);
       $policy = $ldap->fetch();
       if (!$policy) {
         return sprintf(_('Ppolicy "%s" could not be found in the LDAP!'), $ppolicydn);
@@ -486,4 +486,3 @@ class user extends simplePlugin
     return FALSE;
   }
 }
-?>

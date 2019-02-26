@@ -33,4 +33,3 @@ class deptabs extends simpleTabs
     return $errors;
   }
 }
-?>

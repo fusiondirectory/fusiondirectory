@@ -57,7 +57,7 @@ class passwordMethodsasl extends passwordMethod
     } else {
       $ldap = $config->get_ldap_link();
       $ldap->cd($config->current['BASE']);
-      $ldap->cat($dn, array($attr));
+      $ldap->cat($dn, [$attr]);
       if ($ldap->count() == 1) {
         $attrs = $ldap->fetch();
         $this->uid = $attrs[$attr][0];
@@ -123,4 +123,3 @@ class passwordMethodsasl extends passwordMethod
     return ($config->get_cfg_value('forceSaslPasswordAsk', 'FALSE') == 'TRUE');
   }
 }
-?>

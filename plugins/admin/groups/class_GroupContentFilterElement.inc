@@ -31,15 +31,15 @@ class GroupContentFilterElement extends FilterElement
 
     parent::__construct($parent);
 
-    $this->types = array();
+    $this->types = [];
     foreach (ogroup::$objectTypes as $key => $type) {
       try {
         $infos = objects::infos($type);
-        $this->types[$type] = array(
+        $this->types[$type] = [
           'filter'  => '(gosaGroupObjects=*'.$key.'*)',
           'infos'   => $infos,
           'checked' => FALSE,
-        );
+        ];
       } catch (NonExistingObjectTypeException $e) {
         continue;
       }
@@ -56,14 +56,14 @@ class GroupContentFilterElement extends FilterElement
 
   public function render ()
   {
-    $inputs = array();
+    $inputs = [];
     foreach ($this->types as $type => $infos) {
-      $inputs['filter_member_'.$type] = array(
+      $inputs['filter_member_'.$type] = [
         'name'    => $infos['infos']['name'],
         'desc'    => (isset($infos['infos']['description']) ? $infos['infos']['description'] : $infos['infos']['name']).' '.$infos['filter'],
         'icon'    => (isset($infos['infos']['icon']) ? $infos['infos']['icon'] : NULL),
         'checked' => $infos['checked'],
-      );
+      ];
     }
     $smarty = get_smarty();
     $smarty->assign('NAME',   _('Members'));

@@ -102,7 +102,7 @@ class BooleanAttribute extends Attribute
   function renderFormInput ()
   {
     $id = $this->getHtmlId();
-    $attributes = ($this->value ? array('checked' => 'checked') : array());
+    $attributes = ($this->value ? ['checked' => 'checked'] : []);
     if ($this->submitForm) {
       $js       = 'document.mainform.submit();';
       $attributes['onChange'] = 'javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8');
@@ -183,7 +183,7 @@ class ObjectClassBooleanAttribute extends BooleanAttribute
     if (is_array($objectclasses)) {
       $this->objectclasses = $objectclasses;
     } else {
-      $this->objectclasses = array($objectclasses);
+      $this->objectclasses = [$objectclasses];
     }
     parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
     $this->setInLdap(FALSE);
@@ -209,4 +209,3 @@ class ObjectClassBooleanAttribute extends BooleanAttribute
     }
   }
 }
-

@@ -42,7 +42,7 @@ class LoginMethod
     if ($config->get_cfg_value('schemaCheck') != 'TRUE') {
       return TRUE;
     }
-    $cfg = array();
+    $cfg = [];
     $cfg['admin']       = $config->current['ADMINDN'];
     $cfg['password']    = $config->current['ADMINPASSWORD'];
     $cfg['connection']  = $config->current['SERVER'];
@@ -65,7 +65,7 @@ class LoginMethod
   {
     global $config;
     $ldap = $config->get_ldap_link();
-    $ldap->cat(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'], array('dn'));
+    $ldap->cat(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'], ['dn']);
     $attrs = $ldap->fetch();
     if (!count($attrs)) {
       $ldap->cd($config->current['BASE']);
@@ -98,9 +98,9 @@ class LoginMethod
     $ui = ldap_login_user(static::$username, static::$password);
     if ($ui === NULL) {
       if (isset($_SERVER['REMOTE_ADDR'])) {
-        logging::log('security', 'login', '', array(), 'Authentication failed for user "'.static::$username.'" [from '.$_SERVER['REMOTE_ADDR'].']');
+        logging::log('security', 'login', '', [], 'Authentication failed for user "'.static::$username.'" [from '.$_SERVER['REMOTE_ADDR'].']');
       } else {
-        logging::log('security', 'login', '', array(), 'Authentication failed for user "'.static::$username.'"');
+        logging::log('security', 'login', '', [], 'Authentication failed for user "'.static::$username.'"');
       }
       $message = _('Please check the username/password combination.');
       $smarty->assign('focusfield', 'password');
@@ -136,7 +136,7 @@ class LoginMethod
       $expired = $ui->expired_status();
 
       if ($expired == POSIX_ACCOUNT_EXPIRED) {
-        logging::log('security', 'login', '', array(), 'Account for user "'.static::$username.'" has expired');
+        logging::log('security', 'login', '', [], 'Account for user "'.static::$username.'" has expired');
         $message = _('Account locked. Please contact your system administrator!');
         $smarty->assign('focusfield', 'username');
         return FALSE;
@@ -150,7 +150,7 @@ class LoginMethod
   {
     global $config;
     /* Not account expired or password forced change go to main page */
-    logging::log('security', 'login', '', array(), 'User "'.static::$username.'" logged in successfully.');
+    logging::log('security', 'login', '', [], 'User "'.static::$username.'" logged in successfully.');
     session::global_set('connected', 1);
     session::global_set('DEBUGLEVEL', $config->get_cfg_value('DEBUGLEVEL'));
     header('Location: main.php');
@@ -200,13 +200,13 @@ class LoginMethod
 
   static function getMethods ()
   {
-    $methods = array(
+    $methods = [
       'LoginPost',
       'LoginCAS',
       'LoginHTTPAuth',
       'LoginHTTPHeader',
-    );
-    $return = array();
+    ];
+    $return = [];
     foreach ($methods as $method) {
       $label = $method::getLabel();
       if ($label) {

@@ -20,10 +20,10 @@
 */
 
 /* Load required includes */
-require_once ("../include/php_setup.inc");
-require_once ("functions.inc");
-require_once ("variables.inc");
-require_once ("class_logging.inc");
+require_once("../include/php_setup.inc");
+require_once("functions.inc");
+require_once("variables.inc");
+require_once("class_logging.inc");
 
 /* Set headers */
 header('Content-type: text/html; charset=UTF-8');
@@ -123,7 +123,7 @@ if (
   ($config->get_cfg_value('casActivated') == 'TRUE') ||
   ($config->get_cfg_value('httpAuthActivated') == 'TRUE') ||
   ($config->get_cfg_value('httpHeaderAuthActivated') == 'TRUE') ||
-  in_array($config->get_cfg_value('LoginMethod'), array('LoginCas', 'LoginHTTPAuth', 'LoginHTTPHeader'))) {
+  in_array($config->get_cfg_value('LoginMethod'), ['LoginCas', 'LoginHTTPAuth', 'LoginHTTPHeader'])) {
   session::global_set('DEBUGLEVEL', 0);
 }
 

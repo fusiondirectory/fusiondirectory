@@ -31,13 +31,13 @@ class selectManagement extends management
   protected $multiSelect = TRUE;
 
   /* Default columns */
-  public static $columns = array(
-    array('ObjectTypeColumn', array()),
-    array('LinkColumn',       array('attributes' => 'nameAttr',    'label' => 'Name')),
-    array('LinkColumn',       array('attributes' => 'description', 'label' => 'Description')),
-  );
+  public static $columns = [
+    ['ObjectTypeColumn', []],
+    ['LinkColumn',       ['attributes' => 'nameAttr',    'label' => 'Name']],
+    ['LinkColumn',       ['attributes' => 'description', 'label' => 'Description']],
+  ];
 
-  function __construct ($objectTypes = FALSE, $multiSelect = TRUE, $neededAttrs = array())
+  function __construct ($objectTypes = FALSE, $multiSelect = TRUE, $neededAttrs = [])
   {
     $this->neededAttrs  = $neededAttrs;
     $this->multiSelect  = $multiSelect;

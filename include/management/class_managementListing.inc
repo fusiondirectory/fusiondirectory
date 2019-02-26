@@ -31,8 +31,8 @@ class managementListing
 {
   public $pid;
 
-  protected $entries      = array();
-  protected $entriesIndex = array();
+  protected $entries      = [];
+  protected $entriesIndex = [];
   protected $base;
 
   protected $sortDirection  = NULL;
@@ -40,9 +40,9 @@ class managementListing
 
   protected $baseMode         = TRUE;
   protected $multiSelect      = TRUE;
-  protected $bases            = array();
-  protected $header           = array();
-  protected $objectTypeCount  = array();
+  protected $bases            = [];
+  protected $header           = [];
+  protected $objectTypeCount  = [];
   protected $baseSelector;
 
   /* The management class */
@@ -94,12 +94,12 @@ class managementListing
   {
     $columnInfos = $this->parent->getColumnConfiguration();
 
-    $this->columns = array();
+    $this->columns = [];
     foreach ($columnInfos as $columnInfo) {
       $this->columns[] = Column::build($this, $columnInfo[0], $columnInfo[1]);
     }
 
-    $this->columns[1]->setTemplateAttributes(array('cn'));
+    $this->columns[1]->setTemplateAttributes(['cn']);
   }
 
   function getColumns ()
@@ -109,13 +109,13 @@ class managementListing
 
   function renderHeader ()
   {
-    $this->header = array();
+    $this->header = [];
 
     // Initialize sort?
     $sortInit = FALSE;
     if (!$this->sortDirection) {
       $this->sortColumn = 0;
-      $this->sortDirection = array();
+      $this->sortDirection = [];
       $sortInit = TRUE;
     }
 
@@ -125,11 +125,11 @@ class managementListing
         $this->sortDirection[$index] = FALSE;
       }
 
-      $this->header[$index] = array(
+      $this->header[$index] = [
         'props'     => $column->getHtmlProps(),
         'sortable'  => $column->isSortable(),
         'label'     => $column->getLabel(),
-      );
+      ];
       if (($index == $this->sortColumn) && $column->isSortable()) {
         $this->header[$index]['sortdirection'] = $this->sortDirection[$index];
       }
@@ -162,17 +162,17 @@ class managementListing
     // Complete list by sorting entries and appending them to the output
     $entryIterator = $this->getIterator();
 
-    $rows = array();
+    $rows = [];
     foreach ($entryIterator as $entry) {
-      $row = array(
-        'cells'   => array(),
-        'classes' => array(),
-      );
+      $row = [
+        'cells'   => [],
+        'classes' => [],
+      ];
       foreach ($this->columns as $column) {
-        $row['cells'][] = array(
+        $row['cells'][] = [
           'props'   => $column->getHtmlCellProps(),
           'render'  => $column->renderCell($entry)
-        );
+        ];
         $column->fillRowClasses($row['classes'], $entry);
       }
 
@@ -184,23 +184,23 @@ class managementListing
 
     // Add the footer if requested
     if ($this->showFooter) {
-      $types = array();
+      $types = [];
       foreach ($this->parent->objectTypes as $type) {
         if (isset($this->objectTypeCount[$type])) {
           $infos = objects::infos($type);
-          $types[] = array(
+          $types[] = [
             'name'      => $infos['name'],
             'icon'      => $infos['icon'],
             'count'     => $this->objectTypeCount[$type],
-          );
+          ];
         }
         if (isset($this->objectTypeCount['template_'.$type])) {
           $infos = objects::infos($type);
-          $types[] = array(
+          $types[] = [
             'name'      => sprintf(_('%s template'), $infos['name']),
             'icon'      => 'geticon.php?context=devices&icon=template&size=16',
             'count'     => $this->objectTypeCount['template_'.$type],
-          );
+          ];
         }
       }
       $smarty->assign('objectCounts', $types);
@@ -227,7 +227,7 @@ class managementListing
 
       // Check if a wrong base was supplied
       if (!$this->baseSelector->checkLastBaseUpdate()) {
-         msg_dialog::display(_('Error'), msgPool::check_base(), ERROR_DIALOG);
+        msg_dialog::display(_('Error'), msgPool::check_base(), ERROR_DIALOG);
       }
 
       // Save base
@@ -369,51 +369,51 @@ class managementListing
     }
 
     if ($this->baseMode) {
-      $actions = array(
-        array(
+      $actions = [
+        [
           'id'      => 'ROOT',
           'desc'    => _('Go to root department'),
           'name'    => _('Root'),
           'icon'    => 'geticon.php?context=actions&icon=go-first&size=16',
           'enabled' => $enableRoot,
           'class'   => '',
-        ),
-        array(
+        ],
+        [
           'id'      => 'BACK',
           'desc'    => _('Go up one department'),
           'name'    => _('Up'),
           'icon'    => 'geticon.php?context=actions&icon=go-up&size=16',
           'enabled' => $enableBack,
           'class'   => '',
-        ),
-        array(
+        ],
+        [
           'id'      => 'HOME',
           'desc'    => _('Go to user\'s department'),
           'name'    => _('Home'),
           'icon'    => 'geticon.php?context=actions&icon=go-home&size=16',
           'enabled' => $enableHome,
           'class'   => '',
-        ),
-      );
+        ],
+      ];
     } else {
-      $actions = array();
+      $actions = [];
     }
-    $actions[] = array(
+    $actions[] = [
       'id'      => 'REFRESH',
       'desc'    => _('Reload list'),
       'name'    => _('Reload'),
       'icon'    => 'geticon.php?context=actions&icon=view-refresh&size=16',
       'enabled' => TRUE,
       'class'   => 'optional',
-    );
-    $actions[] = array(
+    ];
+    $actions[] = [
       'id'      => 'listing_configure',
       'desc'    => _('Configure this management list'),
       'name'    => _('Configure'),
       'icon'    => 'geticon.php?context=categories&icon=settings&size=16',
       'enabled' => TRUE,
       'class'   => '',
-    );
+    ];
 
     return $actions;
   }
@@ -425,7 +425,7 @@ class managementListing
   {
     global $config;
 
-    $result = array('targets' => array(), 'action' => '', 'subaction' => NULL);
+    $result = ['targets' => [], 'action' => '', 'subaction' => NULL];
 
     // Do not do anything if this is not our PID, or there's even no PID available...
     if (!isset($_REQUEST['dn']) && (!isset($_REQUEST['PID']) || $_REQUEST['PID'] != $this->pid)) {
@@ -487,7 +487,7 @@ class managementListing
         $target = preg_replace('/^listing_[a-zA-Z_]+_([0-9]+)(|_x)$/', '$1', $key);
         if (isset($this->entriesIndex[$target])) {
           $result['action']   = preg_replace('/^listing_([a-zA-Z_]+)_[0-9]+(|_x)$/', '$1', $key);
-          $result['targets']  = array($this->entriesIndex[$target]);
+          $result['targets']  = [$this->entriesIndex[$target]];
         }
         break;
       }
@@ -520,9 +520,9 @@ class managementListing
     $ui = get_userinfo();
 
     // Fill internal bases list
-    $this->bases = array();
+    $this->bases = [];
 
-    $categories = array();
+    $categories = [];
     foreach ($this->parent->objectTypes as $otype) {
       $i = objects::infos($otype);
       $categories[$i['aclCategory']] = $i['aclCategory'];
@@ -569,7 +569,7 @@ class managementListing
   {
     global $ui;
 
-    $searchedAttributes = array();
+    $searchedAttributes = [];
     foreach ($this->columns as $column) {
       $column->fillSearchedAttributes($searchedAttributes);
     }

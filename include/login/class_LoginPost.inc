@@ -39,17 +39,16 @@ class LoginPost extends LoginMethod
     $smarty->assign('focusfield', 'username');
 
     if (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['login']) && isset($_POST['username']) && isset($_POST['password'])) {
-
       static::$username = $_POST['username'];
       static::$password = $_POST['password'];
 
-      $success = static::runSteps(array(
+      $success = static::runSteps([
         'validateUserInput',
         'ldapLoginUser',
         'checkForLockingBranch',
         'loginAndCheckExpired',
         'runSchemaCheck',
-      ));
+      ]);
 
       if ($success) {
         /* Everything went well, redirect to main.php */
@@ -104,7 +103,7 @@ class LoginPost extends LoginMethod
     }
 
     /* Generate server list */
-    $servers = array();
+    $servers = [];
     if (isset($_POST['server'])) {
       $selected = $_POST['server'];
     } else {

@@ -33,5 +33,3 @@ class tabs_dashboard extends simpleTabs_noSpecial
   {
   }
 }
-
-?>

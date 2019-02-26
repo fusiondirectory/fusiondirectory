@@ -75,4 +75,3 @@ class passwordMethodsha extends passwordMethod
     return 'sha';
   }
 }
-?>

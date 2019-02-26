@@ -163,7 +163,7 @@ class passwordMethod
 
     // Call pre hooks
     $userClass = new user($dn);
-    $errors = $userClass->callHook('PRE'.$mode, array(), $ret);
+    $errors = $userClass->callHook('PRE'.$mode, [], $ret);
     if (!empty($errors)) {
       msg_dialog::displayChecks($errors);
       return FALSE;
@@ -192,7 +192,7 @@ class passwordMethod
     // Call the password post-lock hook, if defined.
     if ($ldap->success()) {
       $userClass = new user($dn);
-      $errors = $userClass->callHook('POST'.$mode, array(), $ret);
+      $errors = $userClass->callHook('POST'.$mode, [], $ret);
       if (!empty($errors)) {
         msg_dialog::displayChecks($errors);
       }
@@ -220,7 +220,7 @@ class passwordMethod
           if ($test->is_available()) {
             $plugs = $test->get_hash_name();
             if (!is_array($plugs)) {
-              $plugs = array($plugs);
+              $plugs = [$plugs];
             }
 
             foreach ($plugs as $plugname) {
@@ -390,4 +390,3 @@ class passwordMethod
     return TRUE;
   }
 }
-?>

@@ -54,7 +54,7 @@ class IconThemeDir
     $this->Size     = $infos['Size'];
     $this->MinSize  = $infos['Size'];
     $this->MaxSize  = $infos['Size'];
-    foreach (array('Type', 'MaxSize', 'MinSize', 'Threshold') as $key) {
+    foreach (['Type', 'MaxSize', 'MinSize', 'Threshold'] as $key) {
       if (isset($infos[$key])) {
         $this->$key = $infos[$key];
       }
@@ -102,7 +102,7 @@ class IconThemeDir
  */
 class IconTheme
 {
-  private $subdirs = array();
+  private $subdirs = [];
   private $path;
   private $parent;
 
@@ -197,7 +197,7 @@ class IconTheme
   }
 
   static public $default_theme  = 'breezy';
-  static public $extensions     = array('png', 'xpm', 'svg');
+  static public $extensions     = ['png', 'xpm', 'svg'];
   static public $find_closest   = FALSE;
 
   /* We store themes in the session. To do otherwise, override these methods. */
@@ -205,7 +205,7 @@ class IconTheme
 
   static public function loadThemes ($path)
   {
-    $themes = array();
+    $themes = [];
     if ($dir = opendir("$path")) {
       while (($file = readdir($dir)) !== FALSE) {
         if (file_exists("$path/$file/index.theme") && !preg_match("/^\./", $file)) {
@@ -244,162 +244,160 @@ class IconTheme
   }
 
   /* Fallback system */
-  static public $fallbacks = array(
-    'types/user-group'              => array(
-      array('applications','system-users')
-    ),
-    'types/resource-group'          => array(
-      array('actions','resource-group')
-    ),
-    'types/user'                    => array(
-      array('places','user-identity'),
-      array('status','avatar-default'),
-    ),
-    'types/contact'                 => array(
-      array('mimetypes','x-office-contact'),
-    ),
-    'types/certificate'             => array(
-      array('mimetypes','stock_certificate'),
-      array('mimetypes','application-certificate'),
-      array('actions','view-certificate'),
-    ),
-    'applications/user-info'        => array(
-      array('actions','user-properties'),
-      array('types','contact'),
-      array('mimetypes','x-office-contact'),
-      array('types','user'),
-      array('places','user-identity'),
-      array('status','avatar-default'),
-    ),
-    'applications/office-calendar'  => array(
-      array('mimetypes','x-office-calendar'),
-    ),
-    'applications/os-linux'         => array(
-      array('applications','linux'),
-    ),
-    'applications/os-windows'       => array(
-      array('applications','windows'),
-    ),
-    'applications/samba'            => array(
-      array('applications','os-windows'),
-      array('applications','windows'),
-    ),
-    'applications/config-language'  => array(
-      array('applications','locale'),
-      array('applications','preferences-desktop-locale'),
-    ),
-    'mimetypes/text-csv'            => array(
-      array('mimetypes','x-office-spreadsheet'),
-      array('mimetypes','text-x-generic'),
-    ),
-    'mimetypes/application-pdf'     => array(
-      array('mimetypes','x-office-document'),
-    ),
-    'actions/application-exit'      => array(
-      array('actions','system-log-out'),
-    ),
-    'actions/document-export'       => array(
-      array('actions','document-send'),
-    ),
-    'actions/download'              => array(
-      array('actions','document-save'),
-    ),
-    'actions/document-restore'      => array(
-      array('actions','document-import'),
-      array('actions','document-open'),
-    ),
-    'actions/document-edit'         => array(
-      array('actions','edit'),
-      array('applications','text-editor'),
-      array('applications','accessories-text-editor'),
-      array('actions','document-open'),
-    ),
-    'actions/snapshot'              => array(
-      array('actions','document-save'),
-    ),
-    'actions/system-reboot'         => array(
-      array('actions','view-refresh'),
-    ),
-    'actions/system-update'         => array(
-      array('applications','system-software-update'),
-    ),
-    'actions/system-reinstall'      => array(
-      array('applications','system-installer'),
-    ),
-    'actions/task-start'            => array(
-      array('actions','media-playback-start'),
-    ),
-    'actions/task-stop'             => array(
-      array('actions','media-playback-stop'),
-    ),
-    'actions/task-schedule'         => array(
-      array('actions','chronometer'),
-      array('actions','smallclock'),
-    ),
-    'actions/up'                    => array(
-      array('actions','go-up'),
-      array('actions','arrow-up'),
-    ),
-    'actions/upload'                => array(
-      array('actions','document-import'),
-      array('actions','up'),
-    ),
-    'actions/down'                  => array(
-      array('actions','go-down'),
-      array('actions','arrow-down'),
-    ),
-    'actions/previous'              => array(
-      array('actions','go-previous'),
-      array('actions','arrow-left'),
-    ),
-    'actions/next'                  => array(
-      array('actions','go-next'),
-      array('actions','arrow-right'),
-    ),
-    'actions/submit'                => array(
-      array('actions','go-jump'),
-    ),
-    'categories/settings'           => array(
-      array('categories','gnome-settings'),
-      array('categories','preferences-other'),
-      array('categories','preferences-system'),
-    ),
-    'categories/checks'             => array(
-      array('actions','view-task'),
-      array('actions','view-calendar-tasks'),
-      array('actions','checkbox'),
-      array('status','task-complete'),
-    ),
-    'devices/server'                => array(
-      array('places','server'),
-      array('places','network-server'),
-    ),
-    'devices/media-cdrom'           => array(
-      array('devices','media-optical'),
-    ),
-    'devices/terminal'              => array(
-      array('applications','utilities-terminal'),
-    ),
-    'devices/computer-windows'      => array(
-      array('applications','os-windows'),
-      array('applications','windows'),
-    ),
-    'devices/template'              => array(
-      array('actions','document-new'),
-    ),
-    'status/object-locked'          => array(
-      array('status','changes-prevent'),
-    ),
-    'status/object-unlocked'        => array(
-      array('status','changes-allow'),
-    ),
-    'status/task-waiting'        => array(
-      array('actions','task-schedule'),
-    ),
-    'places/folder-network'        => array(
-      array('places','folder-remote'),
-    ),
-  );
+  static public $fallbacks = [
+    'types/user-group'              => [
+      ['applications','system-users']
+    ],
+    'types/resource-group'          => [
+      ['actions','resource-group']
+    ],
+    'types/user'                    => [
+      ['places','user-identity'],
+      ['status','avatar-default'],
+    ],
+    'types/contact'                 => [
+      ['mimetypes','x-office-contact'],
+    ],
+    'types/certificate'             => [
+      ['mimetypes','stock_certificate'],
+      ['mimetypes','application-certificate'],
+      ['actions','view-certificate'],
+    ],
+    'applications/user-info'        => [
+      ['actions','user-properties'],
+      ['types','contact'],
+      ['mimetypes','x-office-contact'],
+      ['types','user'],
+      ['places','user-identity'],
+      ['status','avatar-default'],
+    ],
+    'applications/office-calendar'  => [
+      ['mimetypes','x-office-calendar'],
+    ],
+    'applications/os-linux'         => [
+      ['applications','linux'],
+    ],
+    'applications/os-windows'       => [
+      ['applications','windows'],
+    ],
+    'applications/samba'            => [
+      ['applications','os-windows'],
+      ['applications','windows'],
+    ],
+    'applications/config-language'  => [
+      ['applications','locale'],
+      ['applications','preferences-desktop-locale'],
+    ],
+    'mimetypes/text-csv'            => [
+      ['mimetypes','x-office-spreadsheet'],
+      ['mimetypes','text-x-generic'],
+    ],
+    'mimetypes/application-pdf'     => [
+      ['mimetypes','x-office-document'],
+    ],
+    'actions/application-exit'      => [
+      ['actions','system-log-out'],
+    ],
+    'actions/document-export'       => [
+      ['actions','document-send'],
+    ],
+    'actions/download'              => [
+      ['actions','document-save'],
+    ],
+    'actions/document-restore'      => [
+      ['actions','document-import'],
+      ['actions','document-open'],
+    ],
+    'actions/document-edit'         => [
+      ['actions','edit'],
+      ['applications','text-editor'],
+      ['applications','accessories-text-editor'],
+      ['actions','document-open'],
+    ],
+    'actions/snapshot'              => [
+      ['actions','document-save'],
+    ],
+    'actions/system-reboot'         => [
+      ['actions','view-refresh'],
+    ],
+    'actions/system-update'         => [
+      ['applications','system-software-update'],
+    ],
+    'actions/system-reinstall'      => [
+      ['applications','system-installer'],
+    ],
+    'actions/task-start'            => [
+      ['actions','media-playback-start'],
+    ],
+    'actions/task-stop'             => [
+      ['actions','media-playback-stop'],
+    ],
+    'actions/task-schedule'         => [
+      ['actions','chronometer'],
+      ['actions','smallclock'],
+    ],
+    'actions/up'                    => [
+      ['actions','go-up'],
+      ['actions','arrow-up'],
+    ],
+    'actions/upload'                => [
+      ['actions','document-import'],
+      ['actions','up'],
+    ],
+    'actions/down'                  => [
+      ['actions','go-down'],
+      ['actions','arrow-down'],
+    ],
+    'actions/previous'              => [
+      ['actions','go-previous'],
+      ['actions','arrow-left'],
+    ],
+    'actions/next'                  => [
+      ['actions','go-next'],
+      ['actions','arrow-right'],
+    ],
+    'actions/submit'                => [
+      ['actions','go-jump'],
+    ],
+    'categories/settings'           => [
+      ['categories','gnome-settings'],
+      ['categories','preferences-other'],
+      ['categories','preferences-system'],
+    ],
+    'categories/checks'             => [
+      ['actions','view-task'],
+      ['actions','view-calendar-tasks'],
+      ['actions','checkbox'],
+      ['status','task-complete'],
+    ],
+    'devices/server'                => [
+      ['places','server'],
+      ['places','network-server'],
+    ],
+    'devices/media-cdrom'           => [
+      ['devices','media-optical'],
+    ],
+    'devices/terminal'              => [
+      ['applications','utilities-terminal'],
+    ],
+    'devices/computer-windows'      => [
+      ['applications','os-windows'],
+      ['applications','windows'],
+    ],
+    'devices/template'              => [
+      ['actions','document-new'],
+    ],
+    'status/object-locked'          => [
+      ['status','changes-prevent'],
+    ],
+    'status/object-unlocked'        => [
+      ['status','changes-allow'],
+    ],
+    'status/task-waiting'        => [
+      ['actions','task-schedule'],
+    ],
+    'places/folder-network'        => [
+      ['places','folder-remote'],
+    ],
+  ];
 }
-
-?>

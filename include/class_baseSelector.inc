@@ -119,7 +119,7 @@ class baseSelector
   {
     global $config;
 
-    $this->pathMapping = array();
+    $this->pathMapping = [];
 
     foreach ($bases as $base => $dummy) {
       // Build path style display
@@ -320,4 +320,3 @@ class baseSelector
     return $this->pathMapping;
   }
 }
-?>

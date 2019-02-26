@@ -28,7 +28,8 @@
  * \brief This class contains all the function needed to sort list
  * go up, go down , back , next. etc...
  */
-class listingSortIterator implements Iterator {
+class listingSortIterator implements Iterator
+{
   protected $data;
 
   /*!
@@ -172,4 +173,3 @@ class listingSortIterator implements Iterator {
     return (key($this->data) !== NULL);
   }
 }
-?>

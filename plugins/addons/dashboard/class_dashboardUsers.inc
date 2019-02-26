@@ -23,54 +23,54 @@ class dashboardUsers extends simplePlugin
 {
   static function plInfo (): array
   {
-    return array(
+    return [
       'plShortName'   => _('Users'),
       'plDescription' => _('Statistics about users'),
-      'plObjectType'  => array('dashboard'),
+      'plObjectType'  => ['dashboard'],
       'plPriority'    => 10,
 
-      'plProvidedAcls'    => array()
-    );
+      'plProvidedAcls'    => []
+    ];
   }
 
   static function getAttributesInfo (): array
   {
-    return array(
-      'userstats' => array(
+    return [
+      'userstats' => [
         'name'  => _('Users statistics'),
-        'attrs' => array(new FakeAttribute('users_stats')),
+        'attrs' => [new FakeAttribute('users_stats')],
         'template' => get_template_path('users_stats.tpl', TRUE, dirname(__FILE__)),
-      ),
-      'groupstats' => array(
+      ],
+      'groupstats' => [
         'name'  => _('Groups statistics'),
-        'attrs' => array(new FakeAttribute('groups_stats')),
+        'attrs' => [new FakeAttribute('groups_stats')],
         'template' => get_template_path('groups_stats.tpl', TRUE, dirname(__FILE__)),
-      ),
-      'expired_accounts' => array(
+      ],
+      'expired_accounts' => [
         'name'  => _('Expired accounts'),
-        'attrs' => array(new FakeAttribute('expired')),
+        'attrs' => [new FakeAttribute('expired')],
         'template' => get_template_path('users_accounts.tpl', TRUE, dirname(__FILE__)),
-      ),
-    );
+      ],
+    ];
   }
 
   function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE)
   {
     parent::__construct($dn, $object, $parent, $mainTab);
 
-    $this->expiredAccountsColumns = array(
-      'user' => array(
+    $this->expiredAccountsColumns = [
+      'user' => [
         'uid'             => _('Login'),
         'cn'              => _('Name'),
         'telephoneNumber' => _('Phone number'),
         'expirationDate'  => _('Expiration date'),
-      ),
-      'manager' => array(
+      ],
+      'manager' => [
         'manager_cn'      => _('Name'),
         'manager_mail'    => _('Email'),
         'manager_phone'   => _('Phone number'),
-      )
-    );
+      ]
+    ];
     $this->users_stats  = $this->computeUsersStats();
     $this->groups_stats = $this->computeGroupsStats();
     $this->expired      = $this->expired_accounts_info();
@@ -97,15 +97,15 @@ class dashboardUsers extends simplePlugin
       $nb_samba_accounts  = 0;
     }
 
-    return array(
-      'accounts' => array(
-        array('name' => 'mail',   'nb' => $nb_mail_accounts,  'img' => 'geticon.php?context=applications&icon=internet-mail&size=16'),
-        array('name' => 'posix',  'nb' => $nb_posix_accounts, 'img' => 'geticon.php?context=applications&icon=os-linux&size=16'),
-        array('name' => 'samba',  'nb' => $nb_samba_accounts, 'img' => 'geticon.php?context=applications&icon=os-windows&size=16')
-      ),
+    return [
+      'accounts' => [
+        ['name' => 'mail',   'nb' => $nb_mail_accounts,  'img' => 'geticon.php?context=applications&icon=internet-mail&size=16'],
+        ['name' => 'posix',  'nb' => $nb_posix_accounts, 'img' => 'geticon.php?context=applications&icon=os-linux&size=16'],
+        ['name' => 'samba',  'nb' => $nb_samba_accounts, 'img' => 'geticon.php?context=applications&icon=os-windows&size=16']
+      ],
       'nb'  => $nb_accounts,
       'img' => 'geticon.php?context=types&icon=user&size=16',
-    );
+    ];
   }
 
   function computeGroupsStats ()
@@ -132,14 +132,14 @@ class dashboardUsers extends simplePlugin
       $nb_samba_groups  = 0;
     }
 
-    return array(
-      'groups' => array(
-        array('name' => 'mail',   'nb' => $nb_mail_groups,  'img' => 'geticon.php?context=applications&icon=internet-mail&size=16'),
-        array('name' => 'samba',  'nb' => $nb_samba_groups, 'img' => 'geticon.php?context=applications&icon=os-windows&size=16')
-      ),
+    return [
+      'groups' => [
+        ['name' => 'mail',   'nb' => $nb_mail_groups,  'img' => 'geticon.php?context=applications&icon=internet-mail&size=16'],
+        ['name' => 'samba',  'nb' => $nb_samba_groups, 'img' => 'geticon.php?context=applications&icon=os-windows&size=16']
+      ],
       'nb'  => $nb_groups,
       'img' => 'geticon.php?context=types&icon=user-group&size=16',
-    );
+    ];
   }
 
   function expired_accounts_info ()
@@ -158,24 +158,24 @@ class dashboardUsers extends simplePlugin
 
     if (!class_available('posixAccount')) {
       /* if shadowExpire is not available no way to check expiration */
-      return array(
+      return [
         'columns'             => $this->expiredAccountsColumns,
-        'accounts'            => array(),
-        'accounts_next_days'  => array(),
+        'accounts'            => [],
+        'accounts_next_days'  => [],
         'next_days'           => $next_expired_days,
-      );
+      ];
     }
 
     /* search all account with all date, mail, telephone */
     try {
-      $attributes = array(
+      $attributes = [
         'dn'                    => 'raw',
         'uid'                   => 'raw',
         'cn'                    => 'raw',
         'telephoneNumber'       => 'raw',
         'manager'               => 'raw',
         'shadowExpire'          => 1,
-      );
+      ];
       if (class_available('mailAccount')) {
         $attributes['mail'] = 'raw';
       }
@@ -186,18 +186,18 @@ class dashboardUsers extends simplePlugin
         sprintf(_('Expired user information could not be computed because of the following LDAP error: %s'), $e->getMessage()),
         ERROR_DIALOG
       );
-      $users = array();
+      $users = [];
     } catch (FusionDirectoryException $e) {
       msg_dialog::display(
         _('Error'),
         sprintf(_('Expired user information could not be computed because of the following error: %s'), $e->getMessage()),
         ERROR_DIALOG
       );
-      $users = array();
+      $users = [];
     }
 
-    $expired_accounts       = array();
-    $next_expired_accounts  = array();
+    $expired_accounts       = [];
+    $next_expired_accounts  = [];
     foreach ($users as $user) {
       // Test if account is expired now
       if ($user['shadowExpire'] <= $today) {
@@ -207,15 +207,15 @@ class dashboardUsers extends simplePlugin
       }
     }
 
-    uasort($expired_accounts,       array('dashboardUsers','compareUsers'));
-    uasort($next_expired_accounts,  array('dashboardUsers','compareUsers'));
+    uasort($expired_accounts,       ['dashboardUsers','compareUsers']);
+    uasort($next_expired_accounts,  ['dashboardUsers','compareUsers']);
 
-    return array(
+    return [
       'columns'             => $this->expiredAccountsColumns,
       'accounts'            => $expired_accounts,
       'accounts_next_days'  => $next_expired_accounts,
       'next_days'           => $next_expired_days,
-    );
+    ];
   }
 
   static function get_user_infos ($attrs)
@@ -224,7 +224,7 @@ class dashboardUsers extends simplePlugin
 
     if (isset($attrs['manager'][0])) {
       $ldap = $config->get_ldap_link();
-      $ldap->cat($attrs['manager'][0], array('cn', 'mail', 'telephoneNumber'));
+      $ldap->cat($attrs['manager'][0], ['cn', 'mail', 'telephoneNumber']);
       if ($manager_attrs = $ldap->fetch()) {
         $manager_cn     = (isset($manager_attrs['cn'][0]) ? $manager_attrs['cn'][0] : '');
         $manager_mail   = (isset($manager_attrs['mail'][0]) ? $manager_attrs['mail'][0] : '');
@@ -247,7 +247,7 @@ class dashboardUsers extends simplePlugin
       $human_shadowExpire = '';
     }
 
-    return array(
+    return [
       'uid'             => $attrs['uid'][0],
       'cn'              => $attrs['cn'][0],
       'telephoneNumber' => (isset($attrs['telephoneNumber'][0]) ? $attrs['telephoneNumber'][0] : ''),
@@ -256,7 +256,7 @@ class dashboardUsers extends simplePlugin
       'manager_mail'    => $manager_mail,
       'manager_phone'   => $manager_phone,
       'expirationDate'  => $human_shadowExpire,
-    );
+    ];
   }
 
   static function compareUsers ($a, $b)
@@ -274,4 +274,3 @@ class dashboardUsers extends simplePlugin
     }
   }
 }
-?>

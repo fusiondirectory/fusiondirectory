@@ -28,10 +28,10 @@ class setupStepLdap extends setupStep
 
   static function getAttributesInfo (): array
   {
-    return array(
-      'connection' => array(
+    return [
+      'connection' => [
         'name'      => _('LDAP connection'),
-        'attrs'     => array(
+        'attrs'     => [
           new StringAttribute(
             _('Location name'), _('Name of this connexion to show in the LDAP server list'),
             'location', TRUE,
@@ -50,15 +50,15 @@ class setupStepLdap extends setupStep
             _('Base'), _('The LDAP directory base'),
             'base', TRUE
           )
-        )
-      ),
-      'auth' => array(
+        ]
+      ],
+      'auth' => [
         'name'      => _('Authentication'),
-        'attrs'     => array(
+        'attrs'     => [
           new CompositeAttribute(
             _('DN of the admin account to use for binding to the LDAP. Base is automatically appended.'),
             'admin',
-            array(
+            [
               new StringAttribute(
                 '', '',
                 'admin_given', TRUE,
@@ -67,7 +67,7 @@ class setupStepLdap extends setupStep
               new DisplayAttribute(
                 '', '', 'base_append'
               )
-            ),
+            ],
             '^(.+)(.*)$',
             '%s%s',
             '',
@@ -77,18 +77,18 @@ class setupStepLdap extends setupStep
             _('Admin password'), _('Password for the admin account to use for binding to the LDAP'),
             'password', TRUE
           ),
-        )
-      ),
-      'status' => array(
+        ]
+      ],
+      'status' => [
         'name'      => _('Status'),
-        'attrs'     => array(
+        'attrs'     => [
           new DisplayAttribute(
             _('Current status'), _('Result of last attempt at checking LDAP binding and basic schemas'),
             'status', FALSE
           ),
-        )
-      )
-    );
+        ]
+      ]
+    ];
   }
 
   function __construct ($parent)
@@ -204,7 +204,7 @@ class setupStepLdap extends setupStep
       return $error;
     } elseif ($this->is_completed) {
       $checked  = check_schema($this->parent->captured_values);
-      $error    = array();
+      $error    = [];
       foreach ($checked as $check) {
         if (!$check['STATUS']) {
           if ($check['IS_MUST_HAVE']) {
@@ -221,4 +221,3 @@ class setupStepLdap extends setupStep
     }
   }
 }
-?>

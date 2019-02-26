@@ -21,29 +21,29 @@
 class domain extends department
 {
   static protected $namingAttr  = 'dc';
-  protected $structuralOC       = array('domain');
+  protected $structuralOC       = ['domain'];
 
   static function plInfo (): array
   {
-    return array(
+    return [
       'plShortName'   => _('Domain'),
       'plDescription' => _('Domain'),
-      'plObjectClass' => array('domain', 'gosaDepartment'),
-      'plObjectType'  => array('domain' => array(
+      'plObjectClass' => ['domain', 'gosaDepartment'],
+      'plObjectType'  => ['domain' => [
         'aclCategory' => 'department',
         'name'        => _('Domain'),
         'ou'          => '',
         'icon'        => 'geticon.php?context=types&icon=domain&size=16',
         'tabClass'    => 'deptabs',
         'mainAttr'    => static::$namingAttr,
-      )),
-      'plForeignKeys'  => array(
-        'manager' => array('user','dn','manager=%oldvalue%','*')
-      ),
-      'plSearchAttrs' => array('description'),
+      ]],
+      'plForeignKeys'  => [
+        'manager' => ['user','dn','manager=%oldvalue%','*']
+      ],
+      'plSearchAttrs' => ['description'],
 
       'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())
-    );
+    ];
   }
 
   static function getAttributesInfo (): array
@@ -54,4 +54,3 @@ class domain extends department
     return $attributesInfo;
   }
 }
-?>

@@ -25,12 +25,12 @@
  */
 
 /* Define common locations and variables */
-require_once ('variables.inc');
+require_once('variables.inc');
 
 /* Include required files */
-require_once (CACHE_DIR.'/'.CLASS_CACHE);
-require_once ('functions_debug.inc');
-require_once ('accept-to-gettext.inc');
+require_once(CACHE_DIR.'/'.CLASS_CACHE);
+require_once('functions_debug.inc');
+require_once('accept-to-gettext.inc');
 
 /* Define constants for debugging */
 define('DEBUG_TRACE',    1); /*! Debug level for tracing of common actions (save, check, etc.) */
@@ -53,7 +53,7 @@ define('POSIX_DISALLOW_PASSWORD_CHANGE', 8);
 
 /* Rewrite german 'umlauts' and spanish 'accents'
    to get better results */
-$REWRITE = array( "ä" => "ae",
+$REWRITE = [ "ä" => "ae",
     "ö" => "oe",
     "ü" => "ue",
     "Ä" => "Ae",
@@ -71,7 +71,7 @@ $REWRITE = array( "ä" => "ae",
     "Ó" => "O",
     "Ú" => "U",
     "ñ" => "ny",
-    "Ñ" => "Ny" );
+    "Ñ" => "Ny" ];
 
 
 /*!
@@ -90,7 +90,7 @@ function __fusiondirectory_autoload ($class_name)
   if ($class_mapping === NULL) {
     if (isset($config) && is_object($config) &&
         $config->get_cfg_value('displayerrors') == 'TRUE') {
-      list($trace,) = html_trace();
+      list($trace, ) = html_trace();
       echo $trace;
       echo "<br/>\n";
     }
@@ -109,7 +109,7 @@ function __fusiondirectory_autoload ($class_name)
     @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $class_name, 'Could not load');
     if (isset($config) && is_object($config) &&
         $config->get_cfg_value('displayerrors') == 'TRUE') {
-      list($trace,) = html_trace();
+      list($trace, ) = html_trace();
       echo $trace;
       echo "<br/>\n";
     }
@@ -234,7 +234,7 @@ function get_template_path ($filename = '', $plugin = FALSE, $path = '')
   $default_theme = 'breezy';
 
   /* Set theme */
-  if (isset ($config)) {
+  if (isset($config)) {
     $theme = $config->get_cfg_value('theme', $default_theme);
   } else {
     $theme = $default_theme;
@@ -253,14 +253,14 @@ function get_template_path ($filename = '', $plugin = FALSE, $path = '')
     } else {
       $nf = preg_replace('!^'.$BASE_DIR.'/!', '', $path);
     }
-    $paths = array(
+    $paths = [
       "$BASE_DIR/ihtml/themes/$theme/$nf/$filename",
       "$BASE_DIR/ihtml/themes/$default_theme/$nf/$filename",
       "$BASE_DIR/ihtml/themes/default/$nf/$filename",
       $path."/$filename"
-    );
+    ];
   } else {
-    $paths = array(
+    $paths = [
       "themes/$theme/$filename",
       "$BASE_DIR/ihtml/themes/$theme/$filename",
       "themes/$default_theme/$filename",
@@ -268,7 +268,7 @@ function get_template_path ($filename = '', $plugin = FALSE, $path = '')
       "themes/default/$filename",
       "$BASE_DIR/ihtml/themes/default/$filename",
       $filename
-    );
+    ];
   }
 
   foreach ($paths as $path) {
@@ -416,8 +416,8 @@ function ldap_get_user ($username)
     exit();
   }
 
-  $allowed_attributes = array('uid','mail');
-  $verify_attr = array();
+  $allowed_attributes = ['uid','mail'];
+  $verify_attr = [];
   $tmp = explode(',', $config->get_cfg_value('loginAttribute'));
   foreach ($tmp as $attr) {
     if (in_array($attr, $allowed_attributes)) {
@@ -426,7 +426,7 @@ function ldap_get_user ($username)
   }
 
   if (count($verify_attr) == 0) {
-    $verify_attr = array('uid');
+    $verify_attr = ['uid'];
   }
   $tmp    = $verify_attr;
   $tmp[]  = 'uid';
@@ -501,7 +501,7 @@ function ldap_login_user ($username, $password)
   }
   if (class_available('ppolicyAccount')) {
     $ldap->cd($config->current['BASE']);
-    $ldap->search('(objectClass=*)', array(), 'one');
+    $ldap->search('(objectClass=*)', [], 'one');
     if (!$ldap->success()) {
       msg_dialog::display(
         _('Authentication error'),
@@ -536,7 +536,7 @@ function add_lock ($object, $user)
       don't need to remove any locks for them later.
    */
   if (!session::global_is_set('LOCK_CACHE')) {
-    session::global_set('LOCK_CACHE', array(''));
+    session::global_set('LOCK_CACHE', ['']);
   }
   if (is_array($object)) {
     foreach ($object as $obj) {
@@ -564,7 +564,7 @@ function add_lock ($object, $user)
   $ldap = $config->get_ldap_link();
   $ldap->cd(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
   $ldap->search('(&(objectClass=fdLockEntry)(fdUserDn='.ldap_escape_f($user).')(fdObjectDn='.base64_encode($object).'))',
-      array('fdUserDn'));
+      ['fdUserDn']);
   if (!$ldap->success()) {
     msg_dialog::display(_('Configuration error'), sprintf(_('Cannot create locking information in LDAP tree. Please contact your administrator!').'<br><br>'._('LDAP server returned: %s'), '<br><br><i>'.$ldap->get_error().'</i>'), ERROR_DIALOG);
     return;
@@ -572,16 +572,16 @@ function add_lock ($object, $user)
 
   /* Add lock if none present */
   if ($ldap->count() == 0) {
-    $attrs  = array();
+    $attrs  = [];
     $name   = md5($object);
     $ldap->cd('cn='.$name.','.get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
-    $attrs = array(
+    $attrs = [
       'objectClass'     => 'fdLockEntry',
       'fdUserDn'        => $user,
       'fdObjectDn'      => base64_encode($object),
       'cn'              => $name,
       'fdLockTimestamp' => LdapGeneralizedTime::toString(new DateTime('now')),
-    );
+    ];
     $ldap->add($attrs);
     if (!$ldap->success()) {
       msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), "cn=$name,".get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'], 0), LDAP_ERROR);
@@ -628,7 +628,7 @@ function del_lock ($object)
   /* Check for existance and remove the entry */
   $ldap = $config->get_ldap_link();
   $ldap->cd(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
-  $ldap->search('(&(objectClass=fdLockEntry)(fdObjectDn='.base64_encode($object).'))', array('fdObjectDn'));
+  $ldap->search('(&(objectClass=fdLockEntry)(fdObjectDn='.base64_encode($object).'))', ['fdObjectDn']);
   $attrs = $ldap->fetch();
   if (!$ldap->success()) {
     msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), $ldap->getDN(), LDAP_DEL, ERROR_DIALOG));
@@ -656,7 +656,7 @@ function del_user_locks ($userdn)
   $ldap->cd(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
 
   /* Remove all objects of this user, drop errors silently in this case. */
-  $ldap->search('(&(objectClass=fdLockEntry)(fdUserDn='.ldap_escape_f($userdn).'))', array('fdUserDn'));
+  $ldap->search('(&(objectClass=fdLockEntry)(fdUserDn='.ldap_escape_f($userdn).'))', ['fdUserDn']);
   while ($attrs = $ldap->fetch()) {
     $ldap->rmdir($attrs['dn']);
   }
@@ -729,7 +729,7 @@ function get_locks ($objects, $allow_readonly = FALSE)
   } else {
     if ($allow_readonly && isset($_POST['open_readonly'])) {
       /* If readonly is allowed and asked and there is only one object, bypass lock detection */
-      return array();
+      return [];
     }
     $filter = '(&(objectClass=fdLockEntry)(fdObjectDn='.base64_encode($objects).'))';
   }
@@ -737,20 +737,20 @@ function get_locks ($objects, $allow_readonly = FALSE)
   /* Get LDAP link, check for presence of the lock entry */
   $ldap = $config->get_ldap_link();
   $ldap->cd(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
-  $ldap->search($filter, array('fdUserDn','fdObjectDn', 'fdLockTimestamp'));
+  $ldap->search($filter, ['fdUserDn','fdObjectDn', 'fdLockTimestamp']);
   if (!$ldap->success()) {
     msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), '', LDAP_SEARCH), LDAP_ERROR);
     return FALSE;
   }
 
-  $locks = array();
+  $locks = [];
   while ($attrs = $ldap->fetch()) {
-    $locks[] = array(
+    $locks[] = [
       'dn'        => $attrs['dn'],
       'object'    => base64_decode($attrs['fdObjectDn'][0]),
       'user'      => $attrs['fdUserDn'][0],
       'timestamp' => LdapGeneralizedTime::fromString($attrs['fdLockTimestamp'][0]),
-    );
+    ];
   }
 
   if (!is_array($objects) && (count($locks) > 1)) {
@@ -856,7 +856,7 @@ function get_ou ($name)
 {
   global $config;
 
-  $map = array(
+  $map = [
     'fusiondirectoryRDN'      => 'ou=fusiondirectory,',
     'lockRDN'                 => 'ou=locks,',
     'recoveryTokenRDN'        => 'ou=recovery,',
@@ -906,7 +906,7 @@ function get_ou ($name)
     'dsaRDN'    => 'ou=dsa,',
 
     'mimetypeRDN' => 'ou=mime,'
-  );
+  ];
 
   /* Preset ou... */
   if ($config->get_cfg_value($name, '_not_set_') != '_not_set_') {
@@ -1026,15 +1026,13 @@ function gen_locked_message (array $locks, $dn, $allow_readonly = FALSE)
   $remove = FALSE;
 
   /* Save variables from LOCK_VARS_TO_USE in session - for further editing */
-  if ( session::is_set('LOCK_VARS_TO_USE') && count(session::get('LOCK_VARS_TO_USE'))) {
-
-    $LOCK_VARS_USED_GET       = array();
-    $LOCK_VARS_USED_POST      = array();
-    $LOCK_VARS_USED_REQUEST   = array();
+  if (session::is_set('LOCK_VARS_TO_USE') && count(session::get('LOCK_VARS_TO_USE'))) {
+    $LOCK_VARS_USED_GET       = [];
+    $LOCK_VARS_USED_POST      = [];
+    $LOCK_VARS_USED_REQUEST   = [];
     $LOCK_VARS_TO_USE         = session::get('LOCK_VARS_TO_USE');
 
     foreach ($LOCK_VARS_TO_USE as $name) {
-
       if (empty($name)) {
         continue;
       }
@@ -1057,7 +1055,7 @@ function gen_locked_message (array $locks, $dn, $allow_readonly = FALSE)
         }
       }
     }
-    session::set('LOCK_VARS_TO_USE',        array());
+    session::set('LOCK_VARS_TO_USE',        []);
     session::set('LOCK_VARS_USED_GET',      $LOCK_VARS_USED_GET);
     session::set('LOCK_VARS_USED_POST',     $LOCK_VARS_USED_POST);
     session::set('LOCK_VARS_USED_REQUEST',  $LOCK_VARS_USED_REQUEST);
@@ -1309,7 +1307,6 @@ function to_byte ($value)
   $value = strtolower(trim($value));
 
   if (!is_numeric(substr($value, -1))) {
-
     switch (substr($value, -1)) {
       case 'g':
         $mult = 1073741824;
@@ -1341,7 +1338,7 @@ function to_byte ($value)
  */
 function humanReadableSize ($bytes, $precision = 2)
 {
-  $format = array(
+  $format = [
     _('%sB'),
     _('%sKiB'),
     _('%sMiB'),
@@ -1351,7 +1348,7 @@ function humanReadableSize ($bytes, $precision = 2)
     _('%sEiB'),
     _('%sZiB'),
     _('%sYiB')
-  );
+  ];
   if ($bytes == 0) {
     return sprintf($format[0], '0');
   }
@@ -1436,7 +1433,7 @@ function scan_directory ($path, $sort_desc = FALSE)
   /* is this path a readable one */
   if (is_dir($path) && is_readable($path)) {
     /* Get contents and write it into an array */
-    $ret = array();
+    $ret = [];
 
     $dir = opendir($path);
 
@@ -1657,7 +1654,7 @@ function normalizeLdap ($input)
  */
 function check_schema (array $cfg)
 {
-  $checks = array();
+  $checks = [];
 
   /* Get objectclasses */
   $ldapObj = new LDAP($cfg['admin'], $cfg['password'], $cfg['connection'], FALSE, $cfg['tls']);
@@ -1671,14 +1668,14 @@ function check_schema (array $cfg)
   /* This is the default block used for each entry.
    *  to avoid unset indexes.
    */
-  $def_check = array(
+  $def_check = [
     'SCHEMA_FILE'       => '',
-    'CLASSES_REQUIRED'  => array(),
+    'CLASSES_REQUIRED'  => [],
     'STATUS'            => FALSE,
     'IS_MUST_HAVE'      => FALSE,
     'MSG'               => '',
     'INFO'              => ''
-  );
+  ];
 
   /* FusionDirectory core schemas */
 
@@ -1686,7 +1683,7 @@ function check_schema (array $cfg)
   $checks['core-fd'] = $def_check;
 
   $checks['core-fd']['SCHEMA_FILE']       = 'core-fd.schema';
-  $checks['core-fd']['CLASSES_REQUIRED']  = array('fdLockEntry');
+  $checks['core-fd']['CLASSES_REQUIRED']  = ['fdLockEntry'];
   $checks['core-fd']['IS_MUST_HAVE']      = TRUE;
   $checks['core-fd']['INFO']              = _('Main FusionDirectory schema');
 
@@ -1694,7 +1691,7 @@ function check_schema (array $cfg)
   $checks['core-fd-conf'] = $def_check;
 
   $checks['core-fd-conf']['SCHEMA_FILE']      = 'core-fd-conf.schema';
-  $checks['core-fd-conf']['CLASSES_REQUIRED'] = array('fusionDirectoryConf');
+  $checks['core-fd-conf']['CLASSES_REQUIRED'] = ['fusionDirectoryConf'];
   $checks['core-fd-conf']['IS_MUST_HAVE']     = TRUE;
   $checks['core-fd-conf']['INFO']             = _('Schema used to store FusionDirectory configuration');
 
@@ -1702,7 +1699,7 @@ function check_schema (array $cfg)
   $checks['ldapns'] = $def_check;
 
   $checks['ldapns']['SCHEMA_FILE']      = 'ldapns.schema';
-  $checks['ldapns']['CLASSES_REQUIRED'] = array('hostObject');
+  $checks['ldapns']['CLASSES_REQUIRED'] = ['hostObject'];
   $checks['ldapns']['IS_MUST_HAVE']     = FALSE;
   $checks['ldapns']['INFO']             = _('Used to store trust mode information in users or groups.');
 
@@ -1710,7 +1707,7 @@ function check_schema (array $cfg)
   $checks['template-fd'] = $def_check;
 
   $checks['template-fd']['SCHEMA_FILE']      = 'template-fd.schema';
-  $checks['template-fd']['CLASSES_REQUIRED'] = array('fdTemplate');
+  $checks['template-fd']['CLASSES_REQUIRED'] = ['fdTemplate'];
   $checks['template-fd']['IS_MUST_HAVE']     = FALSE;
   $checks['template-fd']['INFO']             = _('Used to store templates.');
 
@@ -1719,7 +1716,7 @@ function check_schema (array $cfg)
     $checks['nis'] = $def_check;
 
     $checks['nis']['SCHEMA_FILE']       = 'nis.schema';
-    $checks['nis']['CLASSES_REQUIRED']  = array('posixAccount');
+    $checks['nis']['CLASSES_REQUIRED']  = ['posixAccount'];
     $checks['nis']['IS_MUST_HAVE']      = FALSE;
     $checks['nis']['INFO']              = _('Used to store POSIX information.');
   }
@@ -1743,7 +1740,7 @@ function check_schema (array $cfg)
   $checks['posixGroup'] = $def_check;
 
   $checks['posixGroup']['SCHEMA_FILE']      = 'nis.schema';
-  $checks['posixGroup']['CLASSES_REQUIRED'] = array('posixGroup');
+  $checks['posixGroup']['CLASSES_REQUIRED'] = ['posixGroup'];
   $checks['posixGroup']['STATUS']           = TRUE;
   $checks['posixGroup']['MSG']              = '';
   $checks['posixGroup']['INFO']             = '';
@@ -1822,13 +1819,13 @@ function change_password ($dn, $password, $hash = "")
 {
   $userTabs = objects::open($dn, 'user');
   $userTab  = $userTabs->getBaseObject();
-  $userTab->userPassword = array(
+  $userTab->userPassword = [
     $hash,
     $password,
     $password,
     $userTab->userPassword,
     $userTab->attributesAccess['userPassword']->isLocked()
-  );
+  ];
   $userTabs->save_object();
   $error = $userTabs->save();
   if (!empty($error)) {
@@ -1843,13 +1840,13 @@ function lock_samba_account ($mode, array $attrs)
 {
   global $config;
   if (!isset($attrs['sambaNTPassword'][0])) {
-    return array();
+    return [];
   }
-  $modify = array('sambaNTPassword' => $attrs['sambaNTPassword'][0]);
+  $modify = ['sambaNTPassword' => $attrs['sambaNTPassword'][0]];
   if ($config->get_cfg_value("sambaGenLMPassword", "FALSE") == "TRUE") {
     $modify['sambaLMPassword'] = $attrs['sambaLMPassword'][0];
   } else {
-    $modify['sambaLMPassword'] = array();
+    $modify['sambaLMPassword'] = [];
   }
   foreach ($modify as &$pwd) {
     if (is_array($pwd)) {
@@ -1875,7 +1872,7 @@ function lock_ssh_account ($mode, array $attrs, &$modify)
   if (!isset($attrs['sshPublicKey'])) {
     return;
   }
-  $modify['sshPublicKey'] = array();
+  $modify['sshPublicKey'] = [];
   for ($i = 0; $i < $attrs['sshPublicKey']['count']; ++$i) {
     if ($mode == 'LOCK') {
       $modify['sshPublicKey'][] = preg_replace('/^/', 'disabled-', $attrs['sshPublicKey'][$i]);
@@ -1909,7 +1906,7 @@ function getEntryCSN ($dn)
   $attr = $config->get_cfg_value('modificationDetectionAttribute');
   if ($attr != '') {
     $ldap = $config->get_ldap_link();
-    $ldap->cat($dn, array($attr));
+    $ldap->cat($dn, [$attr]);
     $csn = $ldap->fetch();
     if (isset($csn[$attr][0])) {
       return $csn[$attr][0];
@@ -2057,13 +2054,13 @@ function set_object_info ($str = "")
  */
 function isIpInNet ($ip, $net, $mask)
 {
-   // Move to long ints
-   $ip    = ip2long($ip);
-   $net   = ip2long($net);
-   $mask  = ip2long($mask);
+  // Move to long ints
+  $ip    = ip2long($ip);
+  $net   = ip2long($net);
+  $mask  = ip2long($mask);
 
-   // Mask given IP with mask. If it returns "net", we're in...
-   return (($ip & $mask) == $net);
+  // Mask given IP with mask. If it returns "net", we're in...
+  return (($ip & $mask) == $net);
 }
 
 /*!
@@ -2090,7 +2087,7 @@ function mark ($needle, $haystack)
 
 function reset_errors ()
 {
-  session::set('errorsAlreadyPosted', array());
+  session::set('errorsAlreadyPosted', []);
 }
 
 function load_all_classes ()
@@ -2193,7 +2190,7 @@ function mail_utf8 ($to, $from_user, $from_email, $subject, $message, $replyto_u
 /* Calls fopen, gives errors as an array if any, file handle if successful */
 function fopenWithErrorHandling (...$args)
 {
-  $errors = array();
+  $errors = [];
   set_error_handler(
     function ($errno, $errstr, $errfile, $errline, $errcontext) use (&$errors)
     {

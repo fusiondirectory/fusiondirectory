@@ -22,23 +22,23 @@ class dashboardConfig extends simplePlugin
 {
   static function plInfo (): array
   {
-    return array(
+    return [
       'plShortName'     => _('Dashboard configuration'),
       'plDescription'   => _('FusionDirectory dashboard plugin configuration'),
-      'plCategory'      => array('configuration'),
-      'plObjectClass'   => array('fdDashboardPluginConf'),
-      'plObjectType'    => array('smallConfig'),
+      'plCategory'      => ['configuration'],
+      'plObjectClass'   => ['fdDashboardPluginConf'],
+      'plObjectType'    => ['smallConfig'],
 
       'plProvidedAcls'  => parent::generatePlProvidedAcls(static::getAttributesInfo())
-    );
+    ];
   }
 
   static function getAttributesInfo (): array
   {
-    return array(
-      'systems' => array(
+    return [
+      'systems' => [
         'name'  => _('Dashboard name schema'),
-        'attrs' => array(
+        'attrs' => [
           new IntAttribute(
             _('Number of digits'), _('Number of digits to use after prefix'),
             'fdDashboardNumberOfDigit', FALSE,
@@ -49,21 +49,20 @@ class dashboardConfig extends simplePlugin
               _('Prefixes'), _('Prefixes to be used for computer ids'),
               'fdDashboardPrefix', TRUE
             ),
-            array("PC")
+            ["PC"]
           )
-        )
-      ),
-      'users' => array(
+        ]
+      ],
+      'users' => [
         'name'  => _('Dashboard expired users'),
-        'attrs' => array(
+        'attrs' => [
           new IntAttribute(
             _('Number of days'), _('Number of days before expiration needed for an account to show in the dashboard next expired accounts list'),
             'fdDashboardExpiredAccountsDays', FALSE,
             1, FALSE, 15
           ),
-        )
-      ),
-    );
+        ]
+      ],
+    ];
   }
 }
-?>

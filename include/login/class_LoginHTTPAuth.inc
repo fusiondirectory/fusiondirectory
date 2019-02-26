@@ -43,13 +43,13 @@ class LoginHTTPAuth extends LoginMethod
     static::$username = $_SERVER['PHP_AUTH_USER'];
     static::$password = $_SERVER['PHP_AUTH_PW'];
 
-    $success = static::runSteps(array(
+    $success = static::runSteps([
       'validateUserInput',
       'ldapLoginUser',
       'checkForLockingBranch',
       'loginAndCheckExpired',
       'runSchemaCheck',
-    ));
+    ]);
 
     if ($success) {
       /* Everything went well, redirect to main.php */

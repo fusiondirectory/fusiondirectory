@@ -33,7 +33,7 @@ function smarty_block_render ($params, $text)
   }
 
   /* Debug output */
-  if (session::is_set('DEBUGLEVEL') && session::get('DEBUGLEVEL') & DEBUG_ACL ) {
+  if (session::is_set('DEBUGLEVEL') && session::get('DEBUGLEVEL') & DEBUG_ACL) {
     echo '<div style="color:blue;">'.$acl.(isset($params['aclName']) ? ' ['.$params['aclName'].']' : '').'</div>';
   }
 
@@ -61,18 +61,17 @@ function smarty_block_render ($params, $text)
   }
 
   /* Remove select options */
-  $from = array(
+  $from = [
     "#<option.*<\/option>#is",
     "/(<textarea.*>).*(<\/textarea>)/is",
     "/^(.*<input.*)checked(.*>.*)$/isD"
-  );
+  ];
 
-  $to = array(
+  $to = [
     " ",
     "\\1\\2",
     "\\1 \\2"
-  );
+  ];
 
   return preg_replace($from, $to, $text);
 }
-?>

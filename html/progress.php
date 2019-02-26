@@ -24,10 +24,10 @@ session_cache_limiter("private");
 
 /* Check for parameter completenes */
 if (!isset($_GET['x']) || !isset($_GET['y']) || !isset($_GET['p'])) {
-  die ("Missing parameters!");
+  die("Missing parameters!");
 }
 if (!is_numeric($_GET['x']) || !is_numeric($_GET['y'])) {
-  die ("Parameters must be numeric!");
+  die("Parameters must be numeric!");
 }
 
 $p = (int)($_GET['p']);
@@ -55,10 +55,9 @@ if (!function_exists("imagecreate")) {
   echo "Please install the php5-gd library, FusionDirectory can't create images without it.";
   exit();
 } else {
-
   $x_matches = FALSE;
   $y_matches = FALSE;
-  foreach (array(7,6,5,4,3,2,1,0) as $font) {
+  foreach ([7,6,5,4,3,2,1,0] as $font) {
     $fx = ImageFontWidth($font) * strlen("$p%");
     $fy = ImageFontHeight($font);
 
@@ -77,7 +76,7 @@ if (!function_exists("imagecreate")) {
   /* Draw image in GD image stream */
   $im = imagecreate($x, $y);
   if (!$im) {
-    die ('Cannot Initialize new GD image stream');
+    die('Cannot Initialize new GD image stream');
   }
 
   /* Set colors */

@@ -36,7 +36,7 @@ class simplePlugin
    *
    * associative array that stores attributeLdapName => reference on object
    */
-  public $attributesAccess = array();
+  public $attributesAccess = [];
 
   /*!
     \brief Mark plugin as account
@@ -88,13 +88,13 @@ class simplePlugin
 
     This should only be used internally.
    */
-  public $attrs = array();
+  public $attrs = [];
 
   /*! \brief The objectClasses set by this tab */
-  protected $objectclasses = array();
+  protected $objectclasses = [];
 
   /*! \brief The state of the attributes when we opened the object */
-  protected $saved_attributes = array();
+  protected $saved_attributes = [];
 
   /*! \brief Do we want a header allowing to able/disable this plugin */
   protected $displayHeader = FALSE;
@@ -113,14 +113,14 @@ class simplePlugin
   protected $needEditMode = FALSE;
 
   /*! \brief Attributes that needs to be initialized before the others */
-  protected $preInitAttributes = array();
+  protected $preInitAttributes = [];
 
   /*! \brief FALSE to disable inheritance. Array like array ('objectClass' => 'attribute') to specify oc of the groups it might be inherited from
    */
   protected $inheritance      = FALSE;
   protected $member_of_group  = FALSE;
   protected $editing_group    = NULL;
-  protected $group_attrs      = array();
+  protected $group_attrs      = [];
 
   /*! \brief Used when the entry is opened as "readonly" due to locks */
   protected $read_only = FALSE;
@@ -160,7 +160,7 @@ class simplePlugin
       $plInfo = pluglist::pluginInfos(get_class($this));
     } catch (UnknownClassException $e) {
       /* May happen in special cases like setup */
-      $plInfo = array();
+      $plInfo = [];
     }
 
     if (empty($this->objectclasses) && isset($plInfo['plObjectClass'])) {
@@ -175,9 +175,9 @@ class simplePlugin
       $this->ignore_account = TRUE;
     }
 
-    $this->attributesInfo = array();
+    $this->attributesInfo = [];
     foreach ($attributesInfo as $section => $sectionInfo) {
-      $attrs = array();
+      $attrs = [];
       foreach ($sectionInfo['attrs'] as $attr) {
         $name = $attr->getLdapName();
         if (isset($attrs[$name])) {
@@ -353,24 +353,24 @@ class simplePlugin
     if ($this->is_template && $this->mainTab) {
       /* Unshift special section for template infos */
       $this->attributesInfo = array_merge(
-        array(
-          '_template' => array(
-            'class' => array('fullwidth'),
+        [
+          '_template' => [
+            'class' => ['fullwidth'],
             'name'  => _('Template settings'),
-            'attrs' => array(
+            'attrs' => [
               '_template_cn' => new StringAttribute(
                 _('Template name'), _('This is the name of the template'),
                 '_template_cn', TRUE,
                 '', 'template_cn'
               )
-            )
-          ),
-          '_template_dummy' => array(
-            'class' => array('invisible'),
+            ]
+          ],
+          '_template_dummy' => [
+            'class' => ['invisible'],
             'name'  => '_template_dummy',
-            'attrs' => array()
-          )
-        ),
+            'attrs' => []
+          ]
+        ],
         $this->attributesInfo
       );
       $this->attributesAccess['_template_cn'] =& $this->attributesInfo['_template']['attrs']['_template_cn'];
@@ -399,10 +399,10 @@ class simplePlugin
       if (!$this->mainTab) {
         trigger_error('It seems main tab has not been saved.');
       }
-      $template_attrs = array(
-        'objectClass'     => array('fdTemplate'),
-        'fdTemplateField' => array()
-      );
+      $template_attrs = [
+        'objectClass'     => ['fdTemplate'],
+        'fdTemplateField' => []
+      ];
     }
     $template_attrs = templateHandling::fieldsToLDAP($template_attrs, $this->attrs);
     if ($this->mainTab) {
@@ -542,7 +542,7 @@ class simplePlugin
   function get_allowed_bases (): array
   {
     global $config;
-    $deps = array();
+    $deps = [];
 
     /* Is this a new object ? Or just an edited existing object */
     foreach ($config->idepartments as $dn => $name) {
@@ -607,7 +607,7 @@ class simplePlugin
     $ldap->create_missing_trees(preg_replace('/^[^,]+,/', '', $dst_dn));
     if (!$ldap->rename_dn($src_dn, $dst_dn)) {
       logging::log('debug', 'Ldap Protocol v3 implementation error, ldap_rename failed.',
-        "FROM: $src_dn  -- TO: $dst_dn", array(), $ldap->get_error());
+        "FROM: $src_dn  -- TO: $dst_dn", [], $ldap->get_error());
       @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, "Rename failed FROM: $src_dn  -- TO:  $dst_dn",
         'Ldap Protocol v3 implementation error. Error:'.$ldap->get_error());
       return $ldap->get_error();
@@ -616,13 +616,13 @@ class simplePlugin
     /* Update userinfo if necessary */
     if (preg_match('/'.preg_quote($src_dn, '/').'$/i', $ui->dn)) {
       $ui_dn = preg_replace('/'.preg_quote($src_dn, '/').'$/i', $dst_dn, $ui->dn);
-      logging::log('view', 'acl/'.get_class($this), $this->dn, array(), 'Updated userinfo dn from "'.$ui->dn.'" to "'.$ui_dn.'"');
+      logging::log('view', 'acl/'.get_class($this), $this->dn, [], 'Updated userinfo dn from "'.$ui->dn.'" to "'.$ui_dn.'"');
       $ui->dn = $ui_dn;
     }
 
     /* Check if departments were moved. If so, force the reload of config->departments */
     $ldap->cd($dst_dn);
-    $ldap->search('(objectClass=gosaDepartment)', array('dn'));
+    $ldap->search('(objectClass=gosaDepartment)', ['dn']);
     if ($ldap->count()) {
       $config->get_departments();
       $config->make_idepartments();
@@ -635,7 +635,7 @@ class simplePlugin
 
   function getRequiredAttributes (): array
   {
-    $tmp = array();
+    $tmp = [];
     foreach ($this->attributesAccess as $attr) {
       if ($attr->isRequired()) {
         $tmp[] = $attr->getLdapName();
@@ -669,10 +669,10 @@ class simplePlugin
     @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "execute");
 
     /* Reset Lock message POST/GET check array, to prevent preg_match errors */
-    session::set('LOCK_VARS_TO_USE', array());
-    session::set('LOCK_VARS_USED_GET', array());
-    session::set('LOCK_VARS_USED_POST', array());
-    session::set('LOCK_VARS_USED_REQUEST', array());
+    session::set('LOCK_VARS_TO_USE', []);
+    session::set('LOCK_VARS_USED_GET', []);
+    session::set('LOCK_VARS_USED_POST', []);
+    session::set('LOCK_VARS_USED_REQUEST', []);
 
     $this->displayPlugin  = TRUE;
     $this->header         = "";
@@ -731,7 +731,7 @@ class simplePlugin
     $plInfo   = pluglist::pluginInfos(get_class($this));
     $disabled = $this->acl_skip_write();
     if ($this->is_account) {
-      $depends = array();
+      $depends = [];
       if (isset($plInfo['plDepending'])) {
         foreach ($plInfo['plDepending'] as $plugin) {
           if (isset($this->parent->by_object[$plugin]) &&
@@ -745,8 +745,8 @@ class simplePlugin
       $buttonText = msgPool::removeFeaturesButton($plInfo['plShortName']);
       $text       = msgPool::featuresEnabled($plInfo['plShortName'], $depends);
     } else {
-      $depends    = array();
-      $conflicts  = array();
+      $depends    = [];
+      $conflicts  = [];
       if (isset($plInfo['plDepends'])) {
         foreach ($plInfo['plDepends'] as $plugin) {
           if (isset($this->parent->by_object[$plugin]) &&
@@ -770,7 +770,7 @@ class simplePlugin
       $buttonText = msgPool::addFeaturesButton($plInfo['plShortName']);
       $text       = msgPool::featuresDisabled($plInfo['plShortName'], $depends, $conflicts);
     }
-    return array($disabled,$buttonText,$text);
+    return [$disabled,$buttonText,$text];
   }
 
   /*!
@@ -789,9 +789,9 @@ class simplePlugin
   function show_header (string $button_text, string $text, bool $plugin_enabled, bool $button_disabled = FALSE, string $name = 'modify_state'): string
   {
     if ($button_disabled || ((!$this->acl_is_createable() && !$plugin_enabled) || (!$this->acl_is_removeable() && $plugin_enabled))) {
-        $state = 'disabled="disabled"';
+      $state = 'disabled="disabled"';
     } else {
-        $state = '';
+      $state = '';
     }
     $display = '<div width="100%"><p><b>'.$text.'</b><br/>'."\n";
     $display .= '<input type="submit" formnovalidate="formnovalidate" value="'.$button_text.'" name="'.$name.'" '.$state.'></p></div><hr class="separator"/>';
@@ -835,7 +835,7 @@ class simplePlugin
       }
     }
 
-    $sections = array();
+    $sections = [];
     foreach ($this->attributesInfo as $section => $sectionInfo) {
       $legend = $sectionInfo['name'];
       if (isset($sectionInfo['icon'])) {
@@ -851,7 +851,7 @@ class simplePlugin
       } else {
         $smarty->assign("sectionClasses", '');
       }
-      $attributes = array();
+      $attributes = [];
       foreach ($sectionInfo['attrs'] as $attr) {
         if ($attr->getAclInfo() !== FALSE) {
           // We assign ACLs so that attributes can use them in their template code
@@ -979,18 +979,18 @@ class simplePlugin
   function remove (bool $fulldelete = FALSE): array
   {
     if (!$this->initially_was_account) {
-      return array();
+      return [];
     }
 
     if (!$fulldelete && !$this->acl_is_removeable()) {
       trigger_error('remove was called on a tab without enough ACL rights');
-      return array();
+      return [];
     }
 
     $this->prepare_remove();
     if ($this->is_template && (!defined('_OLD_TEMPLATES_') || !_OLD_TEMPLATES_)) {
       $this->attrs = $this->templateSaveAttrs();
-      $this->saved_attributes = array();
+      $this->saved_attributes = [];
     }
     /* Pre hooks */
     $errors = $this->pre_remove();
@@ -1002,14 +1002,14 @@ class simplePlugin
       return $errors;
     }
     $this->post_remove();
-    return array();
+    return [];
   }
 
   /* Remove FusionDirectory attributes */
   protected function prepare_remove ()
   {
     global $config;
-    $this->attrs = array();
+    $this->attrs = [];
 
     if (!$this->mainTab) {
       /* include global link_info */
@@ -1018,7 +1018,7 @@ class simplePlugin
       /* Get current objectClasses in order to add the required ones */
       $ldap->cat($this->dn);
       $tmp  = $ldap->fetch();
-      $oc   = array();
+      $oc   = [];
       if ($this->is_template) {
         if (isset($tmp['fdTemplateField'])) {
           foreach ($tmp['fdTemplateField'] as $tpl_field) {
@@ -1039,7 +1039,7 @@ class simplePlugin
 
       /* Unset attributes from entry */
       foreach ($this->attributes as $val) {
-        $this->attrs["$val"] = array();
+        $this->attrs["$val"] = [];
       }
     }
   }
@@ -1047,7 +1047,7 @@ class simplePlugin
   protected function pre_remove ()
   {
     if ($this->initially_was_account) {
-      return $this->handle_pre_events('remove', array('modifiedLdapAttrs' => array_keys($this->attrs)));
+      return $this->handle_pre_events('remove', ['modifiedLdapAttrs' => array_keys($this->attrs)]);
     }
   }
 
@@ -1065,9 +1065,9 @@ class simplePlugin
     $this->ldap_error = $ldap->get_error();
 
     if ($ldap->success()) {
-      return array();
+      return [];
     } else {
-      return array(msgPool::ldaperror($this->ldap_error, $this->dn, LDAP_MOD, get_class()));
+      return [msgPool::ldaperror($this->ldap_error, $this->dn, LDAP_MOD, get_class())];
     }
   }
 
@@ -1076,7 +1076,7 @@ class simplePlugin
     logging::log('remove', 'plugin/'.get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
 
     /* Optionally execute a command after we're done */
-    $errors = $this->handle_post_events('remove', array('modifiedLdapAttrs' => array_keys($this->attrs)));
+    $errors = $this->handle_post_events('remove', ['modifiedLdapAttrs' => array_keys($this->attrs)]);
     if (!empty($errors)) {
       msg_dialog::displayChecks($errors);
     }
@@ -1168,7 +1168,7 @@ class simplePlugin
       if (is_array($this->attrs[$index]) &&
           (count($this->attrs[$index]) == 0) &&
           !isset($this->saved_attributes[$index])) {
-        unset ($this->attrs[$index]);
+        unset($this->attrs[$index]);
         continue;
       }
 
@@ -1177,7 +1177,7 @@ class simplePlugin
           isset($this->saved_attributes[$index]) &&
           !is_array($this->saved_attributes[$index]) &&
           ($this->attrs[$index] == $this->saved_attributes[$index])) {
-        unset ($this->attrs[$index]);
+        unset($this->attrs[$index]);
         continue;
       }
 
@@ -1186,7 +1186,7 @@ class simplePlugin
           isset($this->saved_attributes[$index]) &&
           is_array($this->saved_attributes[$index]) &&
           !array_differs($this->attrs[$index], $this->saved_attributes[$index])) {
-        unset ($this->attrs[$index]);
+        unset($this->attrs[$index]);
         continue;
       }
     }
@@ -1215,11 +1215,11 @@ class simplePlugin
         return $errors;
       }
       $this->attrs = $this->templateSaveAttrs();
-      $this->saved_attributes = array();
+      $this->saved_attributes = [];
     }
     $this->cleanup();
     if (!$this->shouldSave()) {
-      return array(); /* Nothing to do here */
+      return []; /* Nothing to do here */
     }
     /* Pre hooks */
     $errors = $this->pre_save();
@@ -1234,7 +1234,7 @@ class simplePlugin
     $this->prepareNextCleanup();
     /* Post hooks and logging */
     $this->post_save();
-    return array();
+    return [];
   }
 
   protected function shouldSave (): bool
@@ -1260,13 +1260,13 @@ class simplePlugin
     $this->entryCSN = '';
 
     /* Start with empty array */
-    $this->attrs = array();
+    $this->attrs = [];
 
     /* Get current objectClasses in order to add the required ones */
-    $ldap->cat($this->dn, array('fdTemplateField', 'objectClass'));
+    $ldap->cat($this->dn, ['fdTemplateField', 'objectClass']);
 
     $tmp  = $ldap->fetch();
-    $oc   = array();
+    $oc   = [];
 
     if ($this->is_template) {
       if (isset($tmp['fdTemplateField'])) {
@@ -1298,15 +1298,15 @@ class simplePlugin
       }
     }
 
-    return array();
+    return [];
   }
 
   protected function pre_save ()
   {
     if ($this->initially_was_account) {
-      return $this->handle_pre_events('modify', array('modifiedLdapAttrs' => array_keys($this->attrs)));
+      return $this->handle_pre_events('modify', ['modifiedLdapAttrs' => array_keys($this->attrs)]);
     } else {
-      return $this->handle_pre_events('add', array('modifiedLdapAttrs' => array_keys($this->attrs)));
+      return $this->handle_pre_events('add', ['modifiedLdapAttrs' => array_keys($this->attrs)]);
     }
   }
 
@@ -1317,17 +1317,17 @@ class simplePlugin
 
     /* Check if this is a new entry ... add/modify */
     $ldap = $config->get_ldap_link();
-    $ldap->cat($this->dn, array("objectClass"));
+    $ldap->cat($this->dn, ["objectClass"]);
     if ($this->mainTab && !$this->initially_was_account) {
       if ($ldap->count()) {
-        return array(sprintf(_('There is already an entry with the same dn : %s'), $this->dn));
+        return [sprintf(_('There is already an entry with the same dn : %s'), $this->dn)];
       }
       $ldap->cd($config->current['BASE']);
       $ldap->create_missing_trees(preg_replace('/^[^,]+,/', '', $this->dn));
       $action = "add";
     } else {
       if (!$ldap->count()) {
-        return array(sprintf(_('The entry %s is not existing'), $this->dn));
+        return [sprintf(_('The entry %s is not existing'), $this->dn)];
       }
       $action = "modify";
     }
@@ -1338,9 +1338,9 @@ class simplePlugin
 
     /* Check for errors */
     if (!$ldap->success()) {
-      return array(msgPool::ldaperror($this->ldap_error, $this->dn, 0, get_class()));
+      return [msgPool::ldaperror($this->ldap_error, $this->dn, 0, get_class())];
     }
-    return array();
+    return [];
   }
 
   /*! \brief This function is called after LDAP save to do some post operations and logging
@@ -1351,10 +1351,10 @@ class simplePlugin
   {
     /* Propagate and log the event */
     if ($this->initially_was_account) {
-      $errors = $this->handle_post_events('modify', array('modifiedLdapAttrs' => array_keys($this->attrs)));
+      $errors = $this->handle_post_events('modify', ['modifiedLdapAttrs' => array_keys($this->attrs)]);
       logging::log('modify', 'plugin/'.get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
     } else {
-      $errors = $this->handle_post_events('add', array('modifiedLdapAttrs' => array_keys($this->attrs)));
+      $errors = $this->handle_post_events('add', ['modifiedLdapAttrs' => array_keys($this->attrs)]);
       logging::log('create', 'plugin/'.get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
     }
     if (!empty($errors)) {
@@ -1371,7 +1371,7 @@ class simplePlugin
    *
    * \param  array  $addAttrs
    */
-  protected function handle_hooks (string $when, string $mode, array $addAttrs = array())
+  protected function handle_hooks (string $when, string $mode, array $addAttrs = [])
   {
     switch ($mode) {
       case 'add':
@@ -1392,7 +1392,7 @@ class simplePlugin
   /*! \brief Forward command execution requests
    *         to the post hook execution method.
    */
-  function handle_post_events (string $mode, array $addAttrs = array())
+  function handle_post_events (string $mode, array $addAttrs = [])
   {
     /* Update foreign keys */
     if ($mode == 'remove') {
@@ -1407,7 +1407,7 @@ class simplePlugin
    *  \brief Forward command execution requests
    *         to the pre hook execution method.
    */
-  function handle_pre_events (string $mode, array $addAttrs = array())
+  function handle_pre_events (string $mode, array $addAttrs = [])
   {
     global $config;
 
@@ -1416,7 +1416,7 @@ class simplePlugin
       /* Store information if there was subobjects before deletion */
       $ldap = $config->get_ldap_link();
       $ldap->cd($this->dn);
-      $ldap->search('(objectClass=*)', array('dn'), 'one');
+      $ldap->search('(objectClass=*)', ['dn'], 'one');
       $this->hadSubobjects = ($ldap->count() > 0);
     }
     return $this->handle_hooks('PRE', $mode, $addAttrs);
@@ -1427,15 +1427,15 @@ class simplePlugin
    *           Replaces placeholder by class values of this plugin instance.
    *       Allows to a add special replacements.
    */
-  function callHook ($cmd, array $addAttrs = array(), &$returnOutput = array(), &$returnCode = NULL): array
+  function callHook ($cmd, array $addAttrs = [], &$returnOutput = [], &$returnCode = NULL): array
   {
     if ($this->is_template) {
-      return array();
+      return [];
     }
     global $config;
 
     $commands = $config->searchHooks(get_class($this), $cmd);
-    $messages = array();
+    $messages = [];
 
     foreach ($commands as $command) {
       // Walk trough attributes list and add the plugins attributes.
@@ -1498,7 +1498,7 @@ class simplePlugin
   function check (): array
   {
     @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'check');
-    $messages = array();
+    $messages = [];
 
     foreach ($this->attributesInfo as $sectionInfo) {
       foreach ($sectionInfo['attrs'] as $attr) {
@@ -1513,7 +1513,7 @@ class simplePlugin
       }
     }
 
-    $error = $this->callHook('CHECK', array('nbCheckErrors' => count($messages)), $returnOutput);
+    $error = $this->callHook('CHECK', ['nbCheckErrors' => count($messages)], $returnOutput);
     if (!empty($error)) {
       $messages = array_merge($messages, $error);
     }
@@ -1556,14 +1556,14 @@ class simplePlugin
     if (preg_match('/^handle_/', $mode)) {
       $olddn    = $param1;
       $newdn    = $param2;
-      $classes  = array(get_class($this));
+      $classes  = [get_class($this)];
       if (($olddn != $newdn) && $this->mainTab) {
         if ($newdn === NULL) {
           $subobjects = $this->hadSubobjects;
         } else {
           $ldap = $config->get_ldap_link();
           $ldap->cd($newdn);
-          $ldap->search('(objectClass=*)', array('dn'), 'one');
+          $ldap->search('(objectClass=*)', ['dn'], 'one');
           $subobjects = ($ldap->count() > 0);
         }
       }
@@ -1571,7 +1571,7 @@ class simplePlugin
       $classes = array_keys($this->parent->by_object);
     }
     // We group by objectType concerned
-    $foreignRefs = array();
+    $foreignRefs = [];
     if ($subobjects) {
       $field = 'dn';
       /* Special treatment for foreign keys on DN when moving an object
@@ -1590,11 +1590,11 @@ class simplePlugin
         }
         if ($class == 'aclAssignment') {
           /* Special case: aclAssignment foreignKey is ignored on department types as it’s handled by the aclAssignment objectType */
-          $objectTypes = array('ACLASSIGNMENT');
+          $objectTypes = ['ACLASSIGNMENT'];
         } elseif (is_subclass_of($class, 'simpleService')) {
-          $objectTypes = array('SERVER');
+          $objectTypes = ['SERVER'];
         } else {
-          $objectTypes = array();
+          $objectTypes = [];
           $cinfos = pluglist::pluginInfos($class);
           foreach ($cinfos['plObjectType'] as $key => $objectType) {
             if (!is_numeric($key)) {
@@ -1612,13 +1612,13 @@ class simplePlugin
           $newvalue = $newdn;
 
           $foreignRefs[$objectType]['refs'][$class][$ofield][$field] =
-            array(
+            [
               'tab'       => $classes[0],
               'field'     => $field,
               'oldvalue'  => $oldvalue,
               'newvalue'  => $newvalue,
-            );
-          $filter = templateHandling::parseString($filtersub, array('oldvalue' => $oldvalue, 'newvalue' => $newvalue), 'ldap_escape_f');
+            ];
+          $filter = templateHandling::parseString($filtersub, ['oldvalue' => $oldvalue, 'newvalue' => $newvalue], 'ldap_escape_f');
           if (!preg_match('/^\(.*\)$/', $filter)) {
             $filter = '('.$filter.')';
           }
@@ -1648,11 +1648,11 @@ class simplePlugin
             $cinfos = pluglist::pluginInfos($class);
             if ($class == 'aclAssignment') {
               /* Special case: aclAssignment foreignKey is ignored on department types as it’s handled by the aclAssignment objectType */
-              $objectTypes = array('ACLASSIGNMENT');
+              $objectTypes = ['ACLASSIGNMENT'];
             } elseif (is_subclass_of($class, 'simpleService')) {
-              $objectTypes = array('SERVER');
+              $objectTypes = ['SERVER'];
             } else {
-              $objectTypes = array();
+              $objectTypes = [];
               foreach ($cinfos['plObjectType'] as $key => $objectType) {
                 if (!is_numeric($key)) {
                   $objectType = $key;
@@ -1677,24 +1677,24 @@ class simplePlugin
                   $newvalue = $this->attributeValue($field);
                 }
                 $foreignRefs[$objectType]['refs'][$class][$ofield][$field] =
-                  array(
+                  [
                     'tab'       => $tabclass,
                     'field'     => $field,
                     'oldvalue'  => $oldvalue,
                     'newvalue'  => $newvalue,
-                  );
-                $filter = templateHandling::parseString($filter, array('oldvalue' => $oldvalue, 'newvalue' => $newvalue), 'ldap_escape_f');
+                  ];
+                $filter = templateHandling::parseString($filter, ['oldvalue' => $oldvalue, 'newvalue' => $newvalue], 'ldap_escape_f');
               } elseif ($mode == 'references') {
                 $foreignRefs[$objectType]['refs'][$class]['name'] = $cinfos['plShortName'];
 
                 $foreignRefs[$objectType]['refs'][$class]['fields'][$ofield][$field] =
-                  array(
+                  [
                     'tab'     => $tabclass,
                     'field'   => $field,
                     'tabname' => $this->parent->by_name[$tabclass],
                     'value'   => $this->parent->by_object[$tabclass]->$field,
-                  );
-                $filter = templateHandling::parseString($filter, array('oldvalue' => $this->parent->by_object[$tabclass]->$field), 'ldap_escape_f');
+                  ];
+                $filter = templateHandling::parseString($filter, ['oldvalue' => $this->parent->by_object[$tabclass]->$field], 'ldap_escape_f');
               }
               if (!preg_match('/^\(.*\)$/', $filter)) {
                 $filter = '('.$filter.')';
@@ -1711,7 +1711,7 @@ class simplePlugin
 
     /* Back up POST content */
     $SAVED_POST = $_POST;
-    $refs = array();
+    $refs = [];
     // For each concerned objectType
     foreach ($foreignRefs as $objectType => $tabRefs) {
       // Compute filter
@@ -1719,7 +1719,7 @@ class simplePlugin
       $filter = '(|'.join($filters).')';
       // Search objects
       try {
-        $objects = objects::ls($objectType, array('dn' => 'raw'), NULL, $filter);
+        $objects = objects::ls($objectType, ['dn' => 'raw'], NULL, $filter);
       } catch (NonExistingObjectTypeException $e) {
         continue;
       } catch (EmptyFilterException $e) {
@@ -1728,7 +1728,7 @@ class simplePlugin
       // For each object of this type
       foreach (array_keys($objects) as $dn) {
         /* Avoid sending POST to opened objects */
-        $_POST = array();
+        $_POST = [];
         // Build the object
         $tabobject = objects::open($dn, $objectType);
         if (preg_match('/^handle_/', $mode)) {
@@ -1745,12 +1745,12 @@ class simplePlugin
                     $ofield,
                     $field['oldvalue'],
                     $field['newvalue'],
-                    array(
+                    [
                       'CLASS' => $field['tab'],
                       'FIELD' => $field['field'],
                       'MODE'  => preg_replace('/^handle_/', '', $mode),
                       'DN'    => $this->dn,
-                    )
+                    ]
                   );
                 }
               }
@@ -1771,17 +1771,17 @@ class simplePlugin
                   if ($pluginobject->foreignKeyCheck(
                         $ofield,
                         $field['value'],
-                        array(
+                        [
                           'CLASS' => $field['tab'],
                           'FIELD' => $field['field'],
                           'DN'    => $this->dn,
-                        )
+                        ]
                       )) {
                     if (!isset($refs[$dn])) {
-                      $refs[$dn] = array(
+                      $refs[$dn] = [
                         'link'  => '',
-                        'tabs'  => array(),
-                      );
+                        'tabs'  => [],
+                      ];
                       try {
                         $refs[$dn]['link'] = objects::link($dn, $objectType);
                       } catch (FusionDirectoryException $e) {
@@ -1790,10 +1790,10 @@ class simplePlugin
                       }
                     }
                     if (!isset($refs[$dn]['tabs'][$tab])) {
-                      $refs[$dn]['tabs'][$tab] = array(
+                      $refs[$dn]['tabs'][$tab] = [
                         'link'    => '',
-                        'fields'  => array(),
-                      );
+                        'fields'  => [],
+                      ];
                       try {
                         if (is_subclass_of($tab, 'simpleService')) {
                           $refs[$dn]['tabs'][$tab]['link'] = objects::link($dn, $objectType, "service_$tab", sprintf(_('Service "%s"'), $tab_infos['name']));
@@ -1841,7 +1841,7 @@ class simplePlugin
     }
 
     /* Build DN with multiple attributes */
-    $usableAttributes = array();
+    $usableAttributes = [];
     foreach ($this->attributes as $attr) {
       if (($attr != $attribute) && is_string($this->$attr) && ($this->$attr != '')) {
         $usableAttributes[] = $attr;
@@ -1867,7 +1867,7 @@ class simplePlugin
   /*
    * \brief Adapt from template
    */
-  function adapt_from_template (array $attrs, array $skip = array())
+  function adapt_from_template (array $attrs, array $skip = [])
   {
     $this->attrs = $attrs;
 
@@ -1894,7 +1894,7 @@ class simplePlugin
     $this->dn       = 'new';
     $this->orig_dn  = $this->dn;
 
-    $this->saved_attributes       = array();
+    $this->saved_attributes       = [];
     $this->initially_was_account  = FALSE;
   }
 
@@ -2016,7 +2016,7 @@ class simplePlugin
    */
   static function plInfo (): array
   {
-    return array();
+    return [];
   }
 
   /*! \brief This function generate the needed ACLs for a given attribtues array
@@ -2025,7 +2025,7 @@ class simplePlugin
    */
   static function generatePlProvidedAcls (array $attributesInfo): array
   {
-    $plProvidedAcls = array();
+    $plProvidedAcls = [];
     foreach ($attributesInfo as $sectionInfo) {
       foreach ($sectionInfo['attrs'] as $attr) {
         $aclInfo = $attr->getAclInfo();
@@ -2073,7 +2073,7 @@ class simplePlugin
       }
       $objectType = $key;
     }
-    $plCategory = (isset($plInfo['plCategory']) ? $plInfo['plCategory'] : array('user'));
+    $plCategory = (isset($plInfo['plCategory']) ? $plInfo['plCategory'] : ['user']);
     $key = key($plCategory);
     if (is_numeric($key)) {
       $plCategory = $plCategory[$key];
@@ -2132,7 +2132,7 @@ class simplePlugin
         if ((isset($_POST['edit'])) && (!session::is_set('edit'))) {
           /* Check locking */
           if ($locks = get_locks($entry_dn)) {
-            session::set('LOCK_VARS_TO_USE', array("/^edit$/", "/^plug$/"));
+            session::set('LOCK_VARS_TO_USE', ["/^edit$/", "/^plug$/"]);
             $lock_msg = gen_locked_message($locks, $entry_dn);
           } else {
             /* Lock the current entry */

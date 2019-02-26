@@ -75,12 +75,12 @@ class Attribute
   protected $plugin;
   /* \brief Array of attributes to manage (prefix => value => attribute)
    * Prefix should be 'erase' or 'disable' */
-  protected $managedAttributes = array();
+  protected $managedAttributes = [];
   /* \brief Array of multiple values groups for managed attributes */
-  protected $managedAttributesMultipleValues = array();
+  protected $managedAttributesMultipleValues = [];
 
   /* \bried Array of booleans telling for each managing attributes if he's disabling us */
-  protected $managingAttributesOrders = array();
+  protected $managingAttributesOrders = [];
 
   /* \bried If this is TRUE it means this attribute is not directly submitted with the form
    * but is part of a multivalue attribute.
@@ -213,7 +213,7 @@ class Attribute
   /* Return the value as an array of values to be displayed in a table columns */
   function getArrayValue ()
   {
-    return array($this->displayValue($this->getValue()));
+    return [$this->displayValue($this->getValue())];
   }
 
   function getLdapName ()
@@ -364,7 +364,7 @@ class Attribute
       $this->managedAttributesMultipleValues = $mAttributes['multiplevalues'];
       unset($mAttributes['multiplevalues']);
     } else {
-      $this->managedAttributesMultipleValues = array();
+      $this->managedAttributesMultipleValues = [];
     }
     $this->managedAttributes = $mAttributes;
     $this->manageAttributes($this->getValue());
@@ -432,7 +432,7 @@ class Attribute
       if ($ldapValue !== '') {
         $attrs[$this->getLdapName()] = $ldapValue;
       } else {
-        $attrs[$this->getLdapName()] = array();
+        $attrs[$this->getLdapName()] = [];
       }
     }
   }
@@ -452,7 +452,7 @@ class Attribute
           continue;
         }
         foreach ($attributes as $attribute) {
-          $attrs[$attribute] = array();
+          $attrs[$attribute] = [];
         }
       }
     }
@@ -464,11 +464,11 @@ class Attribute
   {
     global $config;
     $value = $this->getValue();
-    if ($this->isRequired() && !$this->disabled && (($value === "") || ($value === array()))) {
+    if ($this->isRequired() && !$this->disabled && (($value === "") || ($value === []))) {
       return msgPool::required($this->getLabel());
     } elseif (($this->unique !== FALSE) && !$this->disabled) {
       $value = $this->computeLdapValue();
-      if (($value === "") || ($value === array())) {
+      if (($value === "") || ($value === [])) {
         return;
       }
       $ldap = $config->get_ldap_link();
@@ -504,19 +504,19 @@ class Attribute
           array_keys($infos['plObjectType']),
           array_values($infos['plObjectType'])
         );
-        $filters = array();
+        $filters = [];
         if (!empty($objectTypeFilters)) {
           $filters[] = '(|'.implode($objectTypeFilters).')';
         }
-        $pluginFilter = call_user_func(array(get_class($this->plugin), 'getLdapFilter'));
+        $pluginFilter = call_user_func([get_class($this->plugin), 'getLdapFilter']);
         if (!empty($pluginFilter)) {
           $filters[] = $pluginFilter;
         }
       } else {
-        $filters = array($this->uniqueFilter);
+        $filters = [$this->uniqueFilter];
       }
       $filter = '(&'.$filter.implode($filters).')';
-      $ldap->search($filter, array($this->getLdapName()));
+      $ldap->search($filter, [$this->getLdapName()]);
       $branches = array_filter(
         array_map(
           function ($key, $ot)
@@ -604,14 +604,14 @@ class Attribute
       } else {
         $input = $this->renderFormInput();
       }
-      $attributes[$this->getLdapName()] = array(
+      $attributes[$this->getLdapName()] = [
         'htmlid'        => $this->getForHtmlId(),
         'label'         => '{literal}'.$this->getLabel().'{/literal}'.($this->isRequired() ? '{$must}' : ''),
         'description'   => ($this->isRequired() ? sprintf(_("%s (required)"), $this->getDescription()) : $this->getDescription()),
         'input'         => $input,
         'subattribute'  => $this->isSubAttribute,
         'required'      => $this->isRequired(),
-      );
+      ];
     }
   }
 
@@ -630,7 +630,7 @@ class Attribute
       }
       /* Avoid empty array */
       $type[] = 'Attribute';
-      $infos = array(
+      $infos = [
         'htmlid'      => $this->getHtmlId(),
         'label'       => $this->getLabel(),
         'required'    => $this->isRequired(),
@@ -639,7 +639,7 @@ class Attribute
         'value'       => $this->serializeValue(),
         'default'     => $this->serializeValue($this->defaultValue),
         'type'        => $type,
-      );
+      ];
       if (!$form) {
         $infos['inldap']   = $this->isInLdap();
         $infos['visible']  = $this->visible;
@@ -687,10 +687,10 @@ class Attribute
   function getAclInfo ()
   {
     if (empty($this->acl)) {
-      return array(
+      return [
         'name' => $this->getHtmlId(),
         'desc' => $this->getDescription()
-      );
+      ];
     } else {
       /* If acl is not empty, we use an acl that is not ours, we have no acl to create */
       return FALSE;
@@ -700,7 +700,8 @@ class Attribute
   protected function changeStateJS ()
   {
     return join(array_map(
-      function ($id) {
+      function ($id)
+      {
         return 'changeState('.json_encode($id).');';
       },
       $this->htmlIds()
@@ -709,7 +710,7 @@ class Attribute
 
   public function htmlIds ()
   {
-    return array($this->getHtmlId());
+    return [$this->getHtmlId()];
   }
 
   protected function managedAttributesJS ()
@@ -758,7 +759,7 @@ class Attribute
     return ($this->getValue() == $value);
   }
 
-  protected function renderInputField ($type, $name, array $attributes = array())
+  protected function renderInputField ($type, $name, array $attributes = [])
   {
     $input  = '<input type="'.$type.'" '.
               'name="'.$name.'" id="'.$name.'"'.
@@ -803,7 +804,7 @@ class HiddenArrayAttribute extends HiddenAttribute
   protected function loadAttrValue (array $attrs)
   {
     if (isset($attrs[$this->getLdapName()]['count'])) {
-      $this->value = array();
+      $this->value = [];
       for ($i = 0; $i < $attrs[$this->getLdapName()]['count']; $i++) {
         $this->value[] = $attrs[$this->getLdapName()][$i];
       }
@@ -883,7 +884,7 @@ class DisplayLDAPArrayAttribute extends Attribute
   protected function loadAttrValue (array $attrs)
   {
     if (isset($attrs[$this->getLdapName()]['count'])) {
-      $this->value = array();
+      $this->value = [];
       for ($i = 0; $i < $attrs[$this->getLdapName()]['count']; $i++) {
         $this->value[] = $attrs[$this->getLdapName()][$i];
       }

@@ -23,10 +23,9 @@ function smarty_function_iconPath ($params)
 
   /* Set theme */
   $theme = IconTheme::$default_theme;
-  if (isset ($config)) {
+  if (isset($config)) {
     $theme = $config->get_cfg_value("theme");
   }
 
   return IconTheme::findThemeIcon($theme, $params['context'], $params['icon'], $params['size']);
 }
-?>

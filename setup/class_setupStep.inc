@@ -33,7 +33,7 @@ class setupStep extends simplePlugin
 
   static function getAttributesInfo (): array
   {
-    return array();
+    return [];
   }
 
   function __construct ($parent)
@@ -95,7 +95,7 @@ class setupStep extends simplePlugin
   /* Return attributes handled by this setup step */
   function get_attributes ()
   {
-    $tmp = array();
+    $tmp = [];
     foreach (array_keys($this->attributesAccess) as $attr) {
       $tmp[$attr] = $this->$attr;
     }
@@ -112,4 +112,3 @@ class setupStep extends simplePlugin
     }
   }
 }
-?>

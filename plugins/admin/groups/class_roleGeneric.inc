@@ -28,19 +28,19 @@ class RoleMembersAttribute extends UsersAttribute
     if ($config->get_cfg_value('RestrictRoleMembers') == 'TRUE') {
       if ($this->whitelistDns === NULL) {
         /* Computes a list of members of all groups within our branch */
-        $groups = objects::ls('ogroup', array('member' => '*'), $this->plugin->base);
+        $groups = objects::ls('ogroup', ['member' => '*'], $this->plugin->base);
         if (empty($groups)) {
-          $this->whitelistDns = array();
+          $this->whitelistDns = [];
         } else {
           $this->whitelistDns = array_merge_recursive(...array_values($groups))['member'];
         }
       }
-      return array(
-        'branches'  => array($this->plugin->base),
+      return [
+        'branches'  => [$this->plugin->base],
         'dn'        => $this->whitelistDns,
-      );
+      ];
     } else {
-      return array();
+      return [];
     }
   }
 }
@@ -49,38 +49,38 @@ class roleGeneric extends simplePlugin
 {
   static function plInfo (): array
   {
-    return array(
+    return [
       'plShortName'   => _('Role'),
       'plDescription' => _('Role information'),
-      'plObjectClass' => array('organizationalRole'),
+      'plObjectClass' => ['organizationalRole'],
       'plFilter'      => '(&(objectClass=organizationalRole)(!(objectClass=simpleSecurityObject)))',
-      'plObjectType'  => array('role' =>
-        array(
+      'plObjectType'  => ['role' =>
+        [
           'name'        => _('Role'),
           'description' => _('Organizational role'),
           'ou'          => get_ou('roleRDN'),
           'icon'        => 'geticon.php?context=types&icon=role&size=16',
           'mainAttr'    => 'cn',
-        )
-      ),
-      'plForeignKeys'  => array(
-        'roleOccupant' => array('user','dn','roleOccupant=%oldvalue%','*')
-      ),
-      'plSearchAttrs' => array('description'),
+        ]
+      ],
+      'plForeignKeys'  => [
+        'roleOccupant' => ['user','dn','roleOccupant=%oldvalue%','*']
+      ],
+      'plSearchAttrs' => ['description'],
 
       'plProvidedAcls'  => parent::generatePlProvidedAcls(static::getAttributesInfo())
-    );
+    ];
   }
 
-   /*!
-   *  \brief The main function : information about attributes
-   */
+  /*!
+  *  \brief The main function : information about attributes
+  */
   static function getAttributesInfo (): array
   {
-    return array(
-      'main' => array(
+    return [
+      'main' => [
         'name'  => _('Information'),
-        'attrs' => array(
+        'attrs' => [
           new BaseSelectorAttribute(get_ou('roleRDN')),
           new StringAttribute(
             _('Name'), _('Name of this group'),
@@ -99,25 +99,25 @@ class roleGeneric extends simplePlugin
             _('Fax number'), _('Fax number'),
             'facsimileTelephoneNumber'
           )
-        )
-      ),
-      'members' => array(
+        ]
+      ],
+      'members' => [
         'name'  => _('Role members'),
-        'attrs' => array(
+        'attrs' => [
           new RoleMembersAttribute(
             '', _('Add users for the role'),
             'roleOccupant', FALSE
           )
-        )
-      )
-    );
+        ]
+      ]
+    ];
   }
 
   function ldap_save (): array
   {
     global $ui;
 
-    $errors = array();
+    $errors = [];
 
     if (isset($this->attrs['roleOccupant'])) {
       $savedOccupants     = $this->attributesAccess['roleOccupant']->getInitialValue();
@@ -142,4 +142,3 @@ class roleGeneric extends simplePlugin
     return parent::ldap_save();
   }
 }
-?>

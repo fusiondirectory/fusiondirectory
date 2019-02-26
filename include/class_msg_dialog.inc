@@ -41,7 +41,7 @@ class msg_dialog
   private $s_Message  = 'Undefined';
   private $i_Type     = INFO_DIALOG;
   private $i_ID       = 0;
-  private $a_Trace    = array();
+  private $a_Trace    = [];
 
   /*!
    * \brief Message dialog constructor
@@ -54,7 +54,7 @@ class msg_dialog
    */
   public function __construct ($s_title, $s_message, $i_type)
   {
-    if (!in_array($i_type, array(INFO_DIALOG,WARNING_DIALOG,ERROR_DIALOG,CONFIRM_DIALOG,FATAL_ERROR_DIALOG))) {
+    if (!in_array($i_type, [INFO_DIALOG,WARNING_DIALOG,ERROR_DIALOG,CONFIRM_DIALOG,FATAL_ERROR_DIALOG])) {
       trigger_error('Invalid msg_dialog type.');
       $i_type = INFO_DIALOG;
     }
@@ -74,7 +74,7 @@ class msg_dialog
     }
 
     if ((!session::is_set('errorsAlreadyPosted')) || !is_array(session::get('errorsAlreadyPosted'))) {
-      session::set('errorsAlreadyPosted', array());
+      session::set('errorsAlreadyPosted', []);
     }
 
     $errorsAlreadyPosted = session::get('errorsAlreadyPosted');
@@ -103,7 +103,7 @@ class msg_dialog
       if (session::is_set('msg_dialogs')) {
         $msg_dialogs = session::get('msg_dialogs');
       } else {
-        $msg_dialogs = array();
+        $msg_dialogs = [];
       }
       $msg_dialogs[] = $this;
       session::set('msg_dialogs', $msg_dialogs);
@@ -162,7 +162,7 @@ class msg_dialog
         </head><body>';
       if (isset($config) && is_object($config) &&
         $config->get_cfg_value('displayerrors') == 'TRUE') {
-        list($trace,) = html_trace();
+        list($trace, ) = html_trace();
         $display .= $trace;
       }
       $display .=
@@ -180,7 +180,6 @@ class msg_dialog
         </table></body></html>';
       return $display;
     } else {
-
       $smarty = get_smarty();
       $smarty->assign('s_Trace',    print_a($this->a_Trace, TRUE));
       $smarty->assign('i_TraceCnt', count($this->a_Trace));
@@ -240,4 +239,3 @@ class msg_dialog
     return $return;
   }
 }
-?>

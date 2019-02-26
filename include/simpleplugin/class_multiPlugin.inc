@@ -26,15 +26,15 @@
 class multiPlugin extends simplePlugin
 {
   /* attribute list for save action */
-  var $objectclasses  = array();
+  var $objectclasses  = [];
   var $ignore_account = TRUE;
-  var $plugin         = array();
+  var $plugin         = [];
 
   var $tabClass = '';
 
   static function getAttributesInfo (): array
   {
-    return array();
+    return [];
   }
 
   function __construct ($dn = NULL, $object = NULL, $parent = NULL)
@@ -155,7 +155,7 @@ class multiPlugin extends simplePlugin
   /* Save to LDAP */
   function save (): array
   {
-    $errors = array();
+    $errors = [];
     /* Save objects */
     foreach ($this->plugin as &$plug) {
       $plug->dn = $this->dn;
@@ -174,7 +174,7 @@ class multiPlugin extends simplePlugin
 
   function remove (bool $fulldelete = FALSE): array
   {
-    $errors = array();
+    $errors = [];
     /* Remove objects */
     foreach ($this->plugin as &$plug) {
       $plug->dn = $this->dn;
@@ -187,7 +187,7 @@ class multiPlugin extends simplePlugin
     return $errors;
   }
 
-  function adapt_from_template (array $attrs, array $skip = array())
+  function adapt_from_template (array $attrs, array $skip = [])
   {
     /* Adapt objects */
     foreach ($this->plugin as &$plug) {
@@ -206,5 +206,3 @@ class multiPlugin extends simplePlugin
     unset($plug);
   }
 }
-
-?>

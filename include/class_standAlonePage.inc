@@ -20,7 +20,8 @@
 */
 
 /* base class for passwordRecovery and such classes handling requests on their own */
-class standAlonePage {
+class standAlonePage
+{
   protected $directories;
   protected $directory;
   protected $activated;
@@ -42,7 +43,7 @@ class standAlonePage {
     session::global_set('config', $config);
 
     /* Generate server list */
-    $this->directories = array();
+    $this->directories = [];
     foreach ($config->data['LOCATIONS'] as $key => $ignored) {
       $this->directories[$key] = $key;
     }

@@ -23,7 +23,7 @@ function smarty_function_filePath ($params, Smarty_Internal_Template $smarty)
   $default_theme = 'breezy';
 
   /* Set theme */
-  if (isset ($config)) {
+  if (isset($config)) {
     $theme = $config->get_cfg_value('theme', $default_theme);
   } else {
     $theme = $default_theme;
@@ -55,4 +55,3 @@ function smarty_function_filePath ($params, Smarty_Internal_Template $smarty)
   }
   return $filename;
 }
-?>

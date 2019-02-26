@@ -20,9 +20,9 @@
 */
 
 /* Basic setup, remove eventually registered sessions */
-@require_once ("../include/php_setup.inc");
-@require_once ("functions.inc");
-@require_once ("variables.inc");
+@require_once("../include/php_setup.inc");
+@require_once("functions.inc");
+@require_once("variables.inc");
 
 session_cache_limiter("private");
 session::start();
@@ -30,7 +30,7 @@ reset_errors();
 
 /* Logged in? Simple security check */
 if (!session::global_is_set('ui')) {
-  logging::log('security', 'unknown', '', array(), 'Error: autocomplete.php called without session');
+  logging::log('security', 'unknown', '', [], 'Error: autocomplete.php called without session');
   header('Location: index.php');
   exit;
 }
@@ -68,9 +68,7 @@ if (isset($_GET['type']) && $_GET['type'] == "base") {
       echo "<ul>$res</ul>";
     }
   }
-
 } else {
-
   $ui = session::global_get('ui');
   $config = session::global_get('config');
 
@@ -80,5 +78,3 @@ if (isset($_GET['type']) && $_GET['type'] == "base") {
     $filter->processAutocomplete();
   }
 }
-
-?>

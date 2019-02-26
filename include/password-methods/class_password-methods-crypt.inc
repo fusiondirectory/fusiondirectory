@@ -59,21 +59,21 @@ class passwordMethodCrypt extends passwordMethod
     if ($this->hash == "crypt/standard-des") {
       $salt = "";
       for ($i = 0; $i < 2; $i++) {
-          $salt .= get_random_char();
+        $salt .= get_random_char();
       }
     }
 
     if ($this->hash == "crypt/enhanced-des") {
       $salt = "_";
       for ($i = 0; $i < 8; $i++) {
-          $salt .= get_random_char();
+        $salt .= get_random_char();
       }
     }
 
     if ($this->hash == "crypt/md5") {
       $salt = "\$1\$";
       for ($i = 0; $i < 8; $i++) {
-          $salt .= get_random_char();
+        $salt .= get_random_char();
       }
       $salt .= "\$";
     }
@@ -81,7 +81,7 @@ class passwordMethodCrypt extends passwordMethod
     if ($this->hash == "crypt/blowfish") {
       $salt = "\$2a\$07\$";
       for ($i = 0; $i < CRYPT_SALT_LENGTH; $i++) {
-          $salt .= get_random_char();
+        $salt .= get_random_char();
       }
       $salt .= "\$";
     }
@@ -89,7 +89,7 @@ class passwordMethodCrypt extends passwordMethod
     if ($this->hash == "crypt/sha-256") {
       $salt = "\$5\$";
       for ($i = 0; $i < 16; $i++) {
-          $salt .= get_random_char();
+        $salt .= get_random_char();
       }
       $salt .= "\$";
     }
@@ -97,7 +97,7 @@ class passwordMethodCrypt extends passwordMethod
     if ($this->hash == "crypt/sha-512") {
       $salt = "\$6\$";
       for ($i = 0; $i < 16; $i++) {
-          $salt .= get_random_char();
+        $salt .= get_random_char();
       }
       $salt .= "\$";
     }
@@ -116,7 +116,7 @@ class passwordMethodCrypt extends passwordMethod
    */
   static function get_hash_name ()
   {
-    $hashes = array();
+    $hashes = [];
     if (CRYPT_STD_DES == 1) {
       $hashes[] = "crypt/standard-des";
     }
@@ -186,4 +186,3 @@ class passwordMethodCrypt extends passwordMethod
     return "";
   }
 }
-?>

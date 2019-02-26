@@ -31,19 +31,19 @@ class acl
 {
   static function plInfo ()
   {
-    return array(
+    return [
       'plShortName'   => _('ACL'),
       'plDescription' => _('Manage access control lists'),
-      'plCategory'    => array(
-        'acl' => array(
+      'plCategory'    => [
+        'acl' => [
           'description'  => _('ACL').'&nbsp;&amp;&nbsp;'._('ACL roles'),
-          'objectClass'  => array('gosaAcl','gosaRole')
-        )
-      ),
-      'plObjectType'  => array(),
+          'objectClass'  => ['gosaAcl','gosaRole']
+        ]
+      ],
+      'plObjectType'  => [],
 
-      'plProvidedAcls'  => array()
-    );
+      'plProvidedAcls'  => []
+    ];
   }
 
   /*!
@@ -78,10 +78,10 @@ class acl
   static function explodeRole ($role)
   {
     if (!is_array($role)) {
-      $role = array($role);
+      $role = [$role];
     }
     unset($role['count']);
-    $result = array();
+    $result = [];
     foreach ($role as $aclTemplate) {
       $list = explode(':', $aclTemplate, 2);
       $result[$list[0]] = static::extractACL($list[1]);
@@ -99,24 +99,24 @@ class acl
   {
     $list = explode(':', $acl);
     if (count($list) == 5) {
-      list($index, $type,$role,$members,$filter) = $list;
+      list($index, $type, $role, $members, $filter) = $list;
       $filter = base64_decode($filter);
     } else {
       $filter = "";
-      list($index, $type,$role,$members) = $list;
+      list($index, $type, $role, $members) = $list;
     }
 
-    $a = array( $index => array(
+    $a = [ $index => [
       'type'    => $type,
       'filter'  => $filter,
       'members' => acl::extractMembers($members),
       'acl'     => base64_decode($role),
-    ));
+    ]];
 
     /* Handle unknown types */
-    if (!in_array($type, array('subtree', 'base'))) {
+    if (!in_array($type, ['subtree', 'base'])) {
       msg_dialog::display(_("Internal error"), sprintf(_("Unkown ACL type '%s'!\nYou might need to run \"fusiondirectory-setup --migrate-acls\" to migrate your acls to the new format."), $type), ERROR_DIALOG);
-      $a = array();
+      $a = [];
     }
     return $a;
   }
@@ -131,7 +131,7 @@ class acl
   static function extractMembers ($ms)
   {
     global $config;
-    $a = array();
+    $a = [];
 
     /* Seperate by ',' and place it in an array */
     $ma = explode(',', $ms);
@@ -147,7 +147,7 @@ class acl
           continue;
         }
 
-        $ldap->cat($dn, array('cn', 'objectClass', 'description', 'uid'));
+        $ldap->cat($dn, ['cn', 'objectClass', 'description', 'uid']);
 
         /* Found entry... */
         if ($ldap->count()) {
@@ -187,7 +187,7 @@ class acl
     /* Rip acl off the string, seperate by ',' and place it in an array */
     $as = preg_replace('/^[^:]+:[^:]+:[^:]*:([^:]*).*$/', '\1', $acl);
     $aa = explode(',', $as);
-    $a  = array();
+    $a  = [];
 
     /* Dis-assemble single ACLs */
     foreach ($aa as $sacl) {
@@ -203,22 +203,20 @@ class acl
         if ($idx == 0) {
           /* Create hash for this object */
           $gobject      = $object;
-          $a[$gobject]  = array();
+          $a[$gobject]  = [];
 
           /* Append ACL if set */
           if ($gacl != "") {
-            $a[$gobject] = array($gacl);
+            $a[$gobject] = [$gacl];
           }
         } else {
           /* All other entries get appended... */
           list($field, $facl)   = explode(';', $ssacl);
           $a[$gobject][$field]  = $facl;
         }
-
       }
     }
 
     return $a;
   }
 }
-?>

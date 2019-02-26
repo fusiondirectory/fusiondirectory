@@ -51,7 +51,7 @@ class objects
     }
 
     if (!is_array($types)) {
-      $types = array($types);
+      $types = [$types];
     }
 
     if ($checkAcl) {
@@ -63,9 +63,9 @@ class objects
       $tplAcl = $infos['aclCategory'].'/template';
     }
 
-    $attrsAcls = array();
+    $attrsAcls = [];
     if ($attrs === NULL) {
-      $attrs = array();
+      $attrs = [];
       foreach ($types as $type) {
         $infos = static::infos($type);
         if ($infos['mainAttr']) {
@@ -76,13 +76,13 @@ class objects
       if (count($attrs) == 1) {
         $attrs = $attrs[0];
       } elseif (count($attrs) == 0) {
-        $attrs = array('dn' => 'raw');
+        $attrs = ['dn' => 'raw'];
       }
     } elseif ($checkAcl) {
       if (is_array($attrs)) {
         $search_attrs = array_keys($attrs);
       } else {
-        $search_attrs = array($attrs);
+        $search_attrs = [$attrs];
       }
       foreach ($search_attrs as $search_attr) {
         $category = $ui->getAttributeCategory($types[0], $search_attr);
@@ -93,7 +93,7 @@ class objects
           continue;
         }
         if (strpos($ui->get_permissions($ou, $category, $search_attr), 'r') === FALSE) {
-          $attrsAcls[$search_attr] = array($category, $search_attr);
+          $attrsAcls[$search_attr] = [$category, $search_attr];
         }
       }
     }
@@ -105,15 +105,15 @@ class objects
         $search_attrs[] = 'cn';
       }
     } else {
-      $search_attrs = array($attrs);
+      $search_attrs = [$attrs];
     }
 
     try {
       $ldap = static::search($types, $search_attrs, $ou, $filter, $checkAcl, $scope, $templateSearch, $partialFilterAcls, $sizeLimit);
     } catch (NonExistingBranchException $e) {
-      return array();
+      return [];
     }
-    $result = array();
+    $result = [];
     while ($fetched_attrs = $ldap->fetch()) {
       $key = $fetched_attrs['dn'];
       if ($checkAcl) {
@@ -127,7 +127,7 @@ class objects
         }
       }
       if (is_array($attrs)) {
-        $result[$key] = array();
+        $result[$key] = [];
         foreach ($attrs as $attr => $mode) {
           if (isset($fetched_attrs[$attr])) {
             if (isset($attrsAcls[$attr]) &&
@@ -153,7 +153,7 @@ class objects
             ) {
             $result[$key]['cn'] = $fetched_attrs['cn'][0];
           }
-          $result[$key]['fdTemplateField'] = array();
+          $result[$key]['fdTemplateField'] = [];
           foreach ($fetched_attrs['fdTemplateField'] as $templateField) {
             $attr = explode(':', $templateField, 2)[0];
             if (isset($attrs[$attr])) {
@@ -195,7 +195,7 @@ class objects
   static function count ($types, $ou = NULL, $filter = '', $checkAcl = FALSE, $templateSearch = FALSE)
   {
     try {
-      $ldap = static::search($types, array('dn'), $ou, $filter, $checkAcl, 'subtree', $templateSearch, $partialFilterAcls);
+      $ldap = static::search($types, ['dn'], $ou, $filter, $checkAcl, 'subtree', $templateSearch, $partialFilterAcls);
       if (!empty($partialFilterAcls)) {
         throw new FusionDirectoryException('Not enough rights to use "'.$partialFilterAcls[0][1].'" in filter');
       }
@@ -207,21 +207,21 @@ class objects
     return $ldap->count();
   }
 
-  private static function search ($types, $search_attrs, $ou = NULL, $filter = '', $checkAcl = FALSE, $scope = 'subtree', $templateSearch = FALSE, &$partialFilterAcls = array(), $sizeLimit = FALSE)
+  private static function search ($types, $search_attrs, $ou = NULL, $filter = '', $checkAcl = FALSE, $scope = 'subtree', $templateSearch = FALSE, &$partialFilterAcls = [], $sizeLimit = FALSE)
   {
     global $config, $ui;
 
-    $partialFilterAcls = array();
+    $partialFilterAcls = [];
 
     if (!is_array($types)) {
-      $types = array($types);
+      $types = [$types];
     }
 
     if ($ou === NULL) {
       $ou = $config->current['BASE'];
     }
 
-    $typeFilters = array();
+    $typeFilters = [];
     foreach ($types as $type) {
       $infos = static::infos($type);
 
@@ -263,7 +263,7 @@ class objects
             continue;
           }
           if (strpos($ui->get_permissions($ou, $category, $acl), 'r') === FALSE) {
-            $partialFilterAcls[] = array($category, $acl);
+            $partialFilterAcls[] = [$category, $acl];
           }
         }
       }
@@ -275,10 +275,10 @@ class objects
     if ($templateSearch) {
       $templateFilterObject = new ldapFilter(
         '&',
-        array(
+        [
           new ldapFilterLeaf('objectClass', '=', 'fdTemplate'),
           fdTemplateFilter(ldapFilter::parse($filter)),
-        )
+        ]
       );
       $filter = "$templateFilterObject";
     }
@@ -335,7 +335,7 @@ class objects
 
     if ($text === NULL) {
       $ldap = $config->get_ldap_link();
-      $ldap->cat($dn, array($infos['nameAttr']));
+      $ldap->cat($dn, [$infos['nameAttr']]);
       if ($attrs = $ldap->fetch()) {
         if (isset($attrs[$infos['nameAttr']][0])) {
           $text = $attrs[$infos['nameAttr']][0];
@@ -383,7 +383,7 @@ class objects
       } else {
         $parts = ldap_explode_dn(preg_replace('/,$/', '', $infos['ou']), 0);
         unset($parts['count']);
-        $dnFilter = array();
+        $dnFilter = [];
         foreach ($parts as $part) {
           preg_match('/([^=]+)=(.*)$/', $part, $m);
           $dnFilter[] = '('.$m[1].':dn:='.$m[2].')';
@@ -426,7 +426,7 @@ class objects
     $infos =& static::infos($type);
 
     if (!isset($infos['searchAttributes'])) {
-      $searchAttrs = array();
+      $searchAttrs = [];
       if (!empty($infos['mainAttr'])) {
         $searchAttrs[$infos['mainAttr']] = $infos['aclCategory'].'/'.$infos['mainTab'];
       }
@@ -464,11 +464,11 @@ class objects
 
     $infos = static::infos($type);
 
-    $templates = array();
+    $templates = [];
     foreach ($config->departments as $key => $value) {
       // Search all templates from the current dn.
       try {
-        $ldap = static::search($type, array('cn'), $infos['ou'].$value, $filter, FALSE, 'subtree', TRUE);
+        $ldap = static::search($type, ['cn'], $infos['ou'].$value, $filter, FALSE, 'subtree', TRUE);
       } catch (NonExistingBranchException $e) {
         continue;
       }
@@ -488,5 +488,3 @@ class objects
     return $templates;
   }
 }
-
-?>

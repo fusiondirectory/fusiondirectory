@@ -27,7 +27,7 @@ class ListingEntry implements ArrayAccess
   protected $listing;
 
   /* Cache where columns may store stuff */
-  public $cache = array();
+  public $cache = [];
 
   public function __construct (managementListing $listing, $type, $dn, array $attrs, $row = NULL)
   {

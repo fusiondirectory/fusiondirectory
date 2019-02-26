@@ -29,7 +29,7 @@ class TabFilterElement extends FilterElement
 
     parent::__construct($parent);
 
-    $this->tabs = array();
+    $this->tabs = [];
     foreach ($this->parent->parent->objectTypes as $type) {
       $infos = objects::infos($type);
       foreach ($config->data['TABS'][$infos['tabGroup']] as $plug) {
@@ -43,11 +43,11 @@ class TabFilterElement extends FilterElement
         if (class_available($class)) {
           $classInfos = pluglist::pluginInfos($class);
           if (isset($classInfos['plFilterObject'])) {
-            $this->tabs[$class] = array(
+            $this->tabs[$class] = [
               'filter'  => $classInfos['plFilterObject'],
               'infos'   => $classInfos,
               'checked' => FALSE,
-            );
+            ];
           }
         }
       }
@@ -67,14 +67,14 @@ class TabFilterElement extends FilterElement
     if (empty($this->tabs)) {
       return '';
     }
-    $inputs = array();
+    $inputs = [];
     foreach ($this->tabs as $class => $tab) {
-      $inputs['filter_tab_'.$class] = array(
+      $inputs['filter_tab_'.$class] = [
         'name'    => $tab['infos']['plShortName'],
         'desc'    => $tab['infos']['plShortName'].' '.$tab['filter'],
         'icon'    => (isset($tab['infos']['plSmallIcon']) ? $tab['infos']['plSmallIcon'] : NULL),
         'checked' => $tab['checked'],
-      );
+      ];
     }
     $smarty = get_smarty();
     $smarty->assign('NAME',   _('Tabs'));
