@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2019-01-29 22:10+0000\n"
+"POT-Creation-Date: 2019-02-18 11:05+0000\n"
 "PO-Revision-Date: 2016-08-29 14:52+0000\n"
 "Last-Translator: Benoit Mortier <benoit.mortier@opensides.be>, 2019\n"
 "Language-Team: French (https://www.transifex.com/fusiondirectory/teams/12202/fr/)\n"
@@ -83,7 +83,7 @@ msgstr ""
 #: include/functions.inc:438 include/functions.inc:612
 #: include/functions.inc:659 include/functions.inc:767
 #: include/simpleplugin/attributes/class_SetAttribute.inc:743
-#: include/class_ldap.inc:856 include/class_ldap.inc:1182
+#: include/class_ldap.inc:856 include/class_ldap.inc:1207
 #: plugins/config/class_recoveryConfig.inc:137
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:90
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:121
@@ -1656,7 +1656,7 @@ msgstr "Le déplacement de \"%s\" à \"%s\" a échoué: %s"
 #: include/simpleplugin/class_Attribute.inc:907
 #, php-format
 msgid "Invalid: %s"
-msgstr ""
+msgstr "Valeur invalide pour %s"
 
 #: include/simpleplugin/class_helpersAttribute.inc:268
 msgid "B"
@@ -1855,40 +1855,40 @@ msgstr "lors de l'opération sur '%s' en utilisant le serveur LDAP '%s'"
 msgid "while operating on LDAP server %s"
 msgstr "lors de l'opération sur le serveur LDAP %s"
 
-#: include/class_ldap.inc:987
+#: include/class_ldap.inc:1012
 msgid "proc_open failed to execute ldapsearch"
 msgstr "proc_open a échoué lors de l’exécution de ldapsearch"
 
-#: include/class_ldap.inc:1033
+#: include/class_ldap.inc:1058
 #, php-format
 msgid "Error line %s, first line of an entry cannot start with a space"
 msgstr ""
 "Erreur ligne %s, la première ligne d'une entrée ne peut pas commencer par un"
 " espace"
 
-#: include/class_ldap.inc:1051
+#: include/class_ldap.inc:1076
 #, php-format
 msgid "Error line %s, references to an external file are not supported"
 msgstr ""
 "Erreur ligne %s, les références à un fichier externe ne sont pas prises en "
 "charge."
 
-#: include/class_ldap.inc:1054
+#: include/class_ldap.inc:1079
 #, php-format
 msgid "Error line %s, attribute \"%s\" has no value"
 msgstr "Erreur ligne %s, l'attribut «%s» n'a pas de valeur"
 
-#: include/class_ldap.inc:1058
+#: include/class_ldap.inc:1083
 #, php-format
 msgid "Error line %s, an entry bloc can only have one dn"
 msgstr "Erreur ligne %s, une entrée ne peut avoir qu'un seul dn"
 
-#: include/class_ldap.inc:1063
+#: include/class_ldap.inc:1088
 #, php-format
 msgid "Error line %s, an entry bloc should start with the dn"
 msgstr "Erreur ligne %s, une entrée doit commencer par le dn"
 
-#: include/class_ldap.inc:1095
+#: include/class_ldap.inc:1120
 #, php-format
 msgid "Error while importing dn: \"%s\", please check your LDIF from line %s on!"
 msgstr ""
@@ -3821,11 +3821,11 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:436
 msgid "Unit"
-msgstr ""
+msgstr "Unité"
 
 #: plugins/personal/generic/class_user.inc:436
 msgid "Organizational unit this user belongs to"
-msgstr ""
+msgstr "Unité organisationnelle à laquelle cet utilisateur appartient"
 
 #: plugins/personal/generic/class_user.inc:440
 msgid "Department No."

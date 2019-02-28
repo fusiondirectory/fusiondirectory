@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2019-01-29 22:10+0000\n"
+"POT-Creation-Date: 2019-02-18 11:05+0000\n"
 "PO-Revision-Date: 2016-08-29 14:52+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>, 2016\n"
 "Language-Team: Hungarian (Hungary) (https://www.transifex.com/fusiondirectory/teams/12202/hu_HU/)\n"
@@ -79,7 +79,7 @@ msgstr ""
 #: include/functions.inc:438 include/functions.inc:612
 #: include/functions.inc:659 include/functions.inc:767
 #: include/simpleplugin/attributes/class_SetAttribute.inc:743
-#: include/class_ldap.inc:856 include/class_ldap.inc:1182
+#: include/class_ldap.inc:856 include/class_ldap.inc:1207
 #: plugins/config/class_recoveryConfig.inc:137
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:90
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:121
@@ -1761,36 +1761,36 @@ msgstr ""
 msgid "while operating on LDAP server %s"
 msgstr ""
 
-#: include/class_ldap.inc:987
+#: include/class_ldap.inc:1012
 msgid "proc_open failed to execute ldapsearch"
-msgstr ""
-
-#: include/class_ldap.inc:1033
-#, php-format
-msgid "Error line %s, first line of an entry cannot start with a space"
-msgstr ""
-
-#: include/class_ldap.inc:1051
-#, php-format
-msgid "Error line %s, references to an external file are not supported"
-msgstr ""
-
-#: include/class_ldap.inc:1054
-#, php-format
-msgid "Error line %s, attribute \"%s\" has no value"
 msgstr ""
 
 #: include/class_ldap.inc:1058
 #, php-format
+msgid "Error line %s, first line of an entry cannot start with a space"
+msgstr ""
+
+#: include/class_ldap.inc:1076
+#, php-format
+msgid "Error line %s, references to an external file are not supported"
+msgstr ""
+
+#: include/class_ldap.inc:1079
+#, php-format
+msgid "Error line %s, attribute \"%s\" has no value"
+msgstr ""
+
+#: include/class_ldap.inc:1083
+#, php-format
 msgid "Error line %s, an entry bloc can only have one dn"
 msgstr ""
 
-#: include/class_ldap.inc:1063
+#: include/class_ldap.inc:1088
 #, php-format
 msgid "Error line %s, an entry bloc should start with the dn"
 msgstr ""
 
-#: include/class_ldap.inc:1095
+#: include/class_ldap.inc:1120
 #, php-format
 msgid "Error while importing dn: \"%s\", please check your LDIF from line %s on!"
 msgstr ""
