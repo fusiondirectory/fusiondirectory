@@ -78,7 +78,7 @@ create_perlcritic_rapport:
 create_php_code_sniffer_rapport_13:
   stage: codestyle
   only:
-    - branch
+    - branches
   before_script:
     - apt-get update -qq
     - apt-get install -y -qq  git php-cli php-codesniffer
