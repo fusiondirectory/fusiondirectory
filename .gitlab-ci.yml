@@ -75,15 +75,15 @@ create_perlcritic_rapport:
     - perlcritic --quiet --verbose "%f~|~%s~|~%l~|~%c~|~%m~|~%e~|~%p~||~%n" contrib/bin
 
 # PHP codesniffer
-create_php_code_sniffer_rapport:
+create_php_code_sniffer_rapport_13:
   stage: codestyle
   only:
-    - branches
+    - branch
   before_script:
     - apt-get update -qq
     - apt-get install -y -qq  git php-cli php-codesniffer
   script:
-    - git clone https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
+    - git clone https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git -b 1.3 ../dev-tools
     - find . -type f -name '*.php' -o -name '*.inc' > ./filelist
     - phpcs --standard=../dev-tools/php-codesniffer-rules/FDStandard/ruleset.xml --file-list=./filelist
 
