@@ -3121,6 +3121,102 @@ apt-get install fusiondirectory-schema
 ```
 
 
+## Migrate FusionDirectory from 1.2.3 to 1.3
+
+### Upgrade FusionDirectory first
+
+Upgrade FusionDirectory core package before other ones to avoid
+dependencies errors:
+
+``` {.sourceCode .shell}
+apt-get install fusiondirectory
+```
+
+Upgrade FusionDirectory schema package too.
+
+``` {.sourceCode .shell}
+apt-get install fusiondirectory-schema
+```
+
+### Upgrade of LDAP directory
+
+
+Upgrade core schema of FusionDirectory
+
+``` {.sourceCode .shell}
+fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/core-fd-conf.schema
+```
+
+if you are using the audit plugin you have to update is schema
+
+``` {.sourceCode .shell}
+fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/audit-fd.schema
+```
+
+if you are using the argonaut plugin you have to update is schema
+
+``` {.sourceCode .shell}
+fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/argonaut-fd.schema
+```
+
+if you are using the community plugin you have to update is schema
+
+``` {.sourceCode .shell}
+fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/community-fd.schema
+```
+
+if you are using the dhcp plugin you have to update is schema
+
+``` {.sourceCode .shell}
+fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/dhcp-fd.schema
+```
+
+if you are using the ejbca plugin you have to update is schema
+
+``` {.sourceCode .shell}
+fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/ejbca-fd.schema
+```
+
+if you are using the opsi plugin you have to update is schema
+
+``` {.sourceCode .shell}
+fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/opsi-fd.schema
+```
+
+if you are using the postfix plugin you have to update is schema
+
+``` {.sourceCode .shell}
+fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/postfix-fd.schema
+```
+
+if you are using the supann plugin you have to update is schema
+
+``` {.sourceCode .shell}
+fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/supann-fd-conf.schema
+```
+
+if you are using the systems plugin you have to update is schema
+
+``` {.sourceCode .shell}
+fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/systems-fd.schema
+
+fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/systems-fd-conf.schema
+```
+
+if you are using the user reminder plugin you have to update is schema
+
+``` {.sourceCode .shell}
+fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/user-reminder-fd-conf.schema
+```
+
+if you are using the weblink plugin you have to update is schema
+
+``` {.sourceCode .shell}
+fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/weblink-fd.schema
+```
+
+
+
 [php-cas]: http://packages.ubuntu.com/trusty/all/php-cas/download
 
 [repo-urls]: https://documentation.fusiondirectory.org/en/dl_install
