@@ -291,3 +291,68 @@ class DateTimeAttribute extends CompositeAttribute
     parent::__construct($description, $ldapName, $attributes, '/^(\d{8})(\d{6})$/', '%s%s', $acl, $label);
   }
 }
+
+/*!
+ * \brief Read-only GeneralizedTimeDateAttribute. Used by audit plugin
+ */
+class GeneralizedTimeDisplayAttribute extends GeneralizedTimeDateAttribute
+{
+  function getValue ()
+  {
+    return $this->computeLdapValue();
+  }
+
+  function renderFormInput ()
+  {
+    $date = $this->getDateValue();
+    $date->setTimezone(timezone::getDefaultTimeZone());
+    return htmlentities($date->format('Y-m-d, H:i:s'), ENT_COMPAT, 'UTF-8');
+  }
+}
+
+/*!
+ * \brief Date stored as days since Unix epoch. Used by posix plugin.
+ */
+class EpochDaysDateAttribute extends DateAttribute
+{
+  /* 24 * 60 * 60 = 86400 */
+  public static $secondsPerDay = 86400;
+
+  function __construct ($label, $description, $ldapName, $required, $defaultValue = 'now', $defaultDate = NULL, $acl = '')
+  {
+    parent::__construct($label, $description, $ldapName, $required, '', $defaultValue, $defaultDate, $acl);
+  }
+
+  protected function ldapToDate ($ldapValue)
+  {
+    $date = DateTime::createFromFormat('U', $ldapValue * static::$secondsPerDay, timezone::utc());
+    if ($date !== FALSE) {
+      return $date;
+    } else {
+      trigger_error('LDAP value for '.$this->getLdapName().' was not in the right date format.');
+      return new DateTime($ldapValue, timezone::utc());
+    }
+  }
+
+  protected function dateToLdap (DateTime $dateValue)
+  {
+    return floor($dateValue->format('U') / static::$secondsPerDay);
+  }
+
+  function getEpochDays ()
+  {
+    if (empty($this->value)) {
+      return 0;
+    } else {
+      try {
+        return $this->dateToLdap($this->getDateValue());
+      } catch (Exception $e) {
+        if (is_object($this->plugin) && $this->plugin->is_template) {
+          return $this->value;
+        } else {
+          throw $e;
+        }
+      }
+    }
+  }
+}
