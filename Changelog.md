@@ -1,4 +1,4 @@
-## %"FusionDirectory 1.3" - 2018-09-24
+## %"FusionDirectory 1.3" - 2019-03-04
 
 ### Added
 
@@ -20,6 +20,10 @@
 - fd#5834 We cannot use "askme" in BooleanAttribute and SelectAttribute
 - fd#5863 adapt fusiondirectory-setup to migrate the supannTypeEntite attribute to contain {SUPANN} prefix
 - fd#5885 Add the language Afrikaans (South Africa) (af_ZA) Chinese (Taiwan) (zh_TW)
+- fd#5896 Add a generic ObjectLinkAttribute
+- fd#5913 Add option to remove download button from FileTextAreaAttribute
+- fd#5914 html tag should have a lang attribute
+- fd#5926 From and Reply-To headers may have different value in mail_utf8
 
 #### fusiondirectory-plugins
 - fd-plugins#1311 Show in system list which system are on/off
@@ -50,16 +54,21 @@
 - fd-plugins#5761 Add catchall table to postfix plugin
 - fd-plugins#5763 Add template selection into opsi import
 - fd-plugins#5764 When importing OPSI hosts, have an option to import the packages associated
+- fd-plugins#5775 Possibility to add/remove values from an attribute through webservice
 - fd-plugins#5787 Add an option to inherit profile from group when OPSI tab is activated
 - fd-plugins#5789 Posix plugin should prevent save when automatic group cannot be created
 - fd-plugins#5791 Add an option to inherit localboots from group
 - fd-plugins#5801 Add other source capabilities for supannTypeEntiteAffectation
 - fd-plugins#5816 Audit plugin should have a way to select a range of date to show entries
+- fd-plugins#5829 Create a SINAPS plugin
 - fd-plugins#5830 Add domain alias table in postfix plugin
 - fd-plugins#5831 Create a new plugin for adding more information related to Supann Structure
 - fd-plugins#5845 Add support for FAI 5 to argonaut-fuse
 - fd-plugins#5846 Add vfat as filesystem for FAI partition
 - fd-plugins#5847 Add a workaround for dracut that use FQDN for hostname
+- fd-plugins#5857 Add an option for multiple release mode in argonaut-fuse service configuration
+- fd-plugins#5892 sinaps plugin tab should contain some text
+- fd-plugins#5894 Support for SSH ed25519 keys
 
 ### Changed
 
@@ -78,8 +87,19 @@
 - fd#5752 Allow to define multiple LDAP servers for one location
 - fd#5761 The language list in user is not sorted
 - fd#5802 FileAttribute through webservice should base64 encode binary data to avoid crashes
+- fd#5809 Small weirdness in foreignKey handling
 - fd#5838 Change /location by /Directory in contrib/apache/fusiondirectory-apache.conf
 - fd#5883 Update the whole copyright to 2018
+- fd#5898 Enhance HTML title handling
+- fd#5902 User tabs with plSelfModify=FALSE should not show in user menu
+- fd#5909 homePhone is not a PhoneNumberAttribute
+- fd#5915 "ou" should be labeled "Unit" in user edition
+- fd#5917 Remove useless alt attribute on img
+- fd#5935 Fatal error due to CRSF security
+- fd#5943 Backport LDAP size limit refactor
+- fd#5944 It looks like directory does not work on /fusiondirectory in fusiondirectory-apache.conf
+- fd#5946 remove no longer needed if section an the php option from fusiondirectory-apache.conf
+- fd#5950 Adapt fusiondirectory-setup --encrypt-passwords output to new recommendations
 
 #### fusiondirectory-plugins
 - fd-plugins#5658 Plugins folder should be reorganized to ease packaging
@@ -102,6 +122,10 @@
 - fd-plugins#5849 fusiondirectory-plugin-renater-partage : gosaMailAlternateAddress domain suffix domain must be checked
 - fd-plugins#5855 Change the partage icon to be the new one
 - fd-plugins#5861 Update the whole copyright to 2018
+- fd-plugins#5872 Supann labels and attribute type review
+- fd-plugins#5885 supannCodeEntiteParent should allow multiple values
+- fd-plugins#5893 sinaps plugin should have a main.inc
+- fd-plugins#5908 Double check usages of count()
 
 ### Removed
 
@@ -135,6 +159,12 @@
 - fd#5855 dashboard crash if we have system plugin but not argonaut plugin in FD 1.3
 - fd#5857 Template cannot fill SetAttributes
 - fd#5861 We cannot do a snapshot from an element in locality
+- fd#5888 Plugin configuration options are not available through webservice
+- fd#5889 Ldap filter parsing issue
+- fd#5897 Support for %askme% in BooleanAttribute is broken
+- fd#5921 When having ACL rights on subbranches the tree looks funny
+- fd#5938 Setup Fatal Error Uncaught UnknownClassException: setupStepConfig
+- fd#5940 Error when we open dashboard
 
 #### fusiondirectory-plugins
 - fd-plugins#5344 We should find a way to translate description of sudo options
@@ -162,7 +192,15 @@
 - fd-plugins#5822 Add a check in the renater partage service class, to check that the class of service is correctly written
 - fd-plugins#5825 LDAP error in audit plugin
 - fd-plugins#5839 dashboard crash if we have system plugin but not argonaut plugin in FD 1.3
+- fd-plugins#5841 Error in etablissement::ldap_remove
 - fd-plugins#5842 Invalid call to strpos in debconfProfileGeneric
+- fd-plugins#5843 In supann-ext plugin there is no check than startDate comes before endDate
+- fd-plugins#5881 Audit event creation fails if there is unicode in the dn
+- fd-plugins#5883 Deserialization errors are not showed during CSV import
+- fd-plugins#5900 Next ID hook feature is broken
+- fd-plugins#5898 Correct the missing explanation on  _('Entity assignment'), _('supannEntiteAffectation') in the supann plugin
+- fd-plugins#5902 In CSV import, importing a new file should not check fields from right part
+- fd-plugins#5903 Acquisition to sinaps is not sent if end contract date is empty
 
 ## %"FusionDirectory 1.2.3" - 2018-11-15
 
