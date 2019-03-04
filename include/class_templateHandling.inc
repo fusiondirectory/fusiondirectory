@@ -414,7 +414,7 @@ class templateHandling
       $args[] = 'now';
     }
     if (count($args) < 2) {
-      $args[] = 'd.m.Y';
+      $args[] = 'Y-m-d';
     }
     $dateObject = new DateTime($args[0], new DateTimeZone('UTC'));
     if ($args[1] == 'epoch') {

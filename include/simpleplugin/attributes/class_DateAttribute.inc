@@ -1,7 +1,8 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2018  FusionDirectory
+
+  Copyright (C) 2012-2019  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -25,7 +26,6 @@
 class DateAttribute extends Attribute
 {
   protected $format;
-  protected $defaultDate;
 
   /*! \brief The constructor of DateAttribute
    *
@@ -35,22 +35,13 @@ class DateAttribute extends Attribute
    *  \param boolean $required Is this attribute mandatory or not
    *  \param string $format The date format. It can be any format recognized by DateTime::format. see http://www.php.net/manual/fr/function.date.php
    *  \param mixed $defaultValue The default value for this attribute
-   *  \param mixed $defaultDate The default date for the date picker when attribute is empty
+   *  \param mixed $defaultDate Deprecated
    *  \param string $acl The name of the acl for this attribute if he does not use its own. (Leave empty if he should use its own like most attributes do)
    */
   function __construct ($label, $description, $ldapName, $required, $format, $defaultValue = 'now', $defaultDate = NULL, $acl = '')
   {
     parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
     $this->format = $format;
-    if ($defaultDate !== NULL) {
-      try {
-        $date = new DateTime($defaultDate, new DateTimeZone('UTC'));
-        $defaultDate = $date->format('d.m.Y');
-      } catch (Exception $e) {
-        $defaultDate = NULL;
-      }
-    }
-    $this->defaultDate = $defaultDate;
   }
 
   function inputValue ($value)
@@ -71,7 +62,7 @@ class DateAttribute extends Attribute
       return $this->value;
     } else {
       try {
-        return $this->getDateValue()->format('d.m.Y');
+        return $this->getDateValue()->format('Y-m-d');
       } catch (Exception $e) {
         return $this->value;
       }
@@ -140,32 +131,13 @@ class DateAttribute extends Attribute
 
   function renderFormInput ()
   {
-    $smarty = get_smarty();
-    $smarty->assign('usePrototype', 'true');
-    $id = $this->getHtmlId();
     $display = $this->renderInputField(
-      'text', $id,
+      'date', $this->getHtmlId(),
       [
-        'value' => '{literal}'.$this->getValue().'{/literal}',
-        'class' => 'date'
+        'value'   => '{literal}'.$this->getValue().'{/literal}',
+        'pattern' => '{literal}[0-9]{4}-[0-9]{2}-[0-9]{2}{/literal}',
       ]
     );
-    $display  .= '{if $'.$this->getAcl().'ACL|regex_replace:"/[cdmr]/":"" == "w"}'.
-        '<script type="text/javascript">
-          {literal}
-          var datepicker  = new DatePicker('.
-            '{ '.
-              'relative : \''.$id.'\', '.
-              (($this->defaultDate !== NULL) ? 'defaultDate : \''.$this->defaultDate.'\', ' : '').
-              'language : \'{/literal}{$lang}{literal}\', '.
-              'keepFieldEmpty : true, '.
-              'enableCloseEffect : false, '.
-              'enableShowEffect : false '.
-            '}'.
-          ');
-          {/literal}
-        </script>
-        {/if}';
     return $this->renderAcl($display);
   }
 }
