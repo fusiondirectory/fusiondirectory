@@ -3225,7 +3225,7 @@ fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/weblink-fd.sch
 * Further information
 
 To improve this piece of software, please report all kind of errors using the bug tracker
-on https://forge.fusiondirectory.org
+on https://gitlab.fusiondirectory.org
 
 Documentation: https://documentation.fusiondirectory.org/
 Mailinglist:   https://lists.fusiondirectory.org/
