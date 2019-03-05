@@ -1,7 +1,8 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2018  FusionDirectory
+
+  Copyright (C) 2012-2019  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -25,7 +26,8 @@
 class DateAttribute extends Attribute
 {
   protected $format;
-  protected $defaultDate;
+  protected $minDate = NULL;
+  protected $maxDate = NULL;
 
   /*! \brief The constructor of DateAttribute
    *
@@ -35,22 +37,26 @@ class DateAttribute extends Attribute
    *  \param boolean $required Is this attribute mandatory or not
    *  \param string $format The date format. It can be any format recognized by DateTime::format. see http://www.php.net/manual/fr/function.date.php
    *  \param mixed $defaultValue The default value for this attribute
-   *  \param mixed $defaultDate The default date for the date picker when attribute is empty
+   *  \param mixed $min Minimum valid value
+   *  \param mixed $max Maximum valid value
    *  \param string $acl The name of the acl for this attribute if he does not use its own. (Leave empty if he should use its own like most attributes do)
    */
-  function __construct ($label, $description, $ldapName, $required, $format, $defaultValue = 'now', $defaultDate = NULL, $acl = '')
+  function __construct (string $label, string $description, string $ldapName, bool $required, string $format, $defaultValue = 'now', $min = NULL, $max = NULL, string $acl = '')
   {
     parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
     $this->format = $format;
-    if ($defaultDate !== NULL) {
+    if ($min !== NULL) {
       try {
-        $date = new DateTime($defaultDate, new DateTimeZone('UTC'));
-        $defaultDate = $date->format('d.m.Y');
+        $this->minDate = new DateTime($min, new DateTimeZone('UTC'));
       } catch (Exception $e) {
-        $defaultDate = NULL;
       }
     }
-    $this->defaultDate = $defaultDate;
+    if ($max !== NULL) {
+      try {
+        $this->maxDate = new DateTime($max, new DateTimeZone('UTC'));
+      } catch (Exception $e) {
+      }
+    }
   }
 
   function inputValue ($value)
@@ -71,7 +77,7 @@ class DateAttribute extends Attribute
       return $this->value;
     } else {
       try {
-        return $this->getDateValue()->format('d.m.Y');
+        return $this->getDateValue()->format('Y-m-d');
       } catch (Exception $e) {
         return $this->value;
       }
@@ -122,50 +128,41 @@ class DateAttribute extends Attribute
     if (!empty($error)) {
       return $error;
     } else {
-      if ($this->value instanceof DateTime) {
-        return;
-      } else {
-        try {
-          $this->getDateValue();
-        } catch (Exception $e) {
-          if ($this->isTemplate() && preg_match('/%/', $this->value)) {
-            return;
-          } else {
-            return sprintf(_('Error, incorrect date: %s'), $e->getMessage());
-          }
+      if (empty($this->value)) {
+        return '';
+      }
+      try {
+        $dateValue = $this->getDateValue();
+        if (($this->minDate !== NULL) && ($dateValue < $this->minDate)) {
+          return sprintf(_('Invalid date in %s, should be newer than: %s'), $this->getLabel(), $this->minDate->format('Y-m-d'));
+        }
+        if (($this->maxDate !== NULL) && ($dateValue > $this->maxDate)) {
+          return sprintf(_('Invalid date in %s, should be older than: %s'), $this->getLabel(), $this->maxDate->format('Y-m-d'));
+        }
+      } catch (Exception $e) {
+        if ($this->isTemplate() && preg_match('/%/', $this->value)) {
+          return '';
+        } else {
+          return sprintf(_('Error, incorrect date: %s'), $e->getMessage());
         }
       }
+      return '';
     }
   }
 
   function renderFormInput ()
   {
-    $smarty = get_smarty();
-    $smarty->assign('usePrototype', 'true');
-    $id = $this->getHtmlId();
-    $display = $this->renderInputField(
-      'text', $id,
-      [
-        'value' => '{literal}'.$this->getValue().'{/literal}',
-        'class' => 'date'
-      ]
-    );
-    $display  .= '{if $'.$this->getAcl().'ACL|regex_replace:"/[cdmr]/":"" == "w"}'.
-        '<script type="text/javascript">
-          {literal}
-          var datepicker  = new DatePicker('.
-            '{ '.
-              'relative : \''.$id.'\', '.
-              (($this->defaultDate !== NULL) ? 'defaultDate : \''.$this->defaultDate.'\', ' : '').
-              'language : \'{/literal}{$lang}{literal}\', '.
-              'keepFieldEmpty : true, '.
-              'enableCloseEffect : false, '.
-              'enableShowEffect : false '.
-            '}'.
-          ');
-          {/literal}
-        </script>
-        {/if}';
+    $attributes = [
+      'value'   => '{literal}'.$this->getValue().'{/literal}',
+      'pattern' => '{literal}[0-9]{4}-[0-9]{2}-[0-9]{2}{/literal}',
+    ];
+    if ($this->minDate !== NULL) {
+      $attributes['min'] = $this->minDate->format('Y-m-d');
+    }
+    if ($this->maxDate !== NULL) {
+      $attributes['max'] = $this->maxDate->format('Y-m-d');
+    }
+    $display = $this->renderInputField('date', $this->getHtmlId(), $attributes);
     return $this->renderAcl($display);
   }
 }
@@ -175,9 +172,9 @@ class DateAttribute extends Attribute
  */
 class GeneralizedTimeDateAttribute extends DateAttribute
 {
-  function __construct ($label, $description, $ldapName, $required, $defaultValue = 'now', $defaultDate = NULL, $acl = '')
+  function __construct (string $label, string $description, string $ldapName, bool $required, $defaultValue = 'now', $min = NULL, $max = NULL, string $acl = '')
   {
-    parent::__construct($label, $description, $ldapName, $required, '', $defaultValue, $defaultDate, $acl);
+    parent::__construct($label, $description, $ldapName, $required, '', $defaultValue, $min, $max, $acl);
   }
 
   protected function ldapToDate ($ldapValue)
@@ -317,5 +314,70 @@ class DateTimeAttribute extends CompositeAttribute
       )
     ];
     parent::__construct($description, $ldapName, $attributes, '/^(\d{8})(\d{6})$/', '%s%s', $acl, $label);
+  }
+}
+
+/*!
+ * \brief Read-only GeneralizedTimeDateAttribute. Used by audit plugin
+ */
+class GeneralizedTimeDisplayAttribute extends GeneralizedTimeDateAttribute
+{
+  function getValue ()
+  {
+    return $this->computeLdapValue();
+  }
+
+  function renderFormInput ()
+  {
+    $date = $this->getDateValue();
+    $date->setTimezone(timezone::getDefaultTimeZone());
+    return htmlentities($date->format('Y-m-d, H:i:s'), ENT_COMPAT, 'UTF-8');
+  }
+}
+
+/*!
+ * \brief Date stored as days since Unix epoch. Used by posix plugin.
+ */
+class EpochDaysDateAttribute extends DateAttribute
+{
+  /* 24 * 60 * 60 = 86400 */
+  public static $secondsPerDay = 86400;
+
+  function __construct (string $label, string $description, string $ldapName, bool $required, $defaultValue = 'now', $min = NULL, $max = NULL, string $acl = '')
+  {
+    parent::__construct($label, $description, $ldapName, $required, '', $defaultValue, $min, $max, $acl);
+  }
+
+  protected function ldapToDate ($ldapValue)
+  {
+    $date = DateTime::createFromFormat('U', $ldapValue * static::$secondsPerDay, timezone::utc());
+    if ($date !== FALSE) {
+      return $date;
+    } else {
+      trigger_error('LDAP value for '.$this->getLdapName().' was not in the right date format.');
+      return new DateTime($ldapValue, timezone::utc());
+    }
+  }
+
+  protected function dateToLdap (DateTime $dateValue)
+  {
+    return floor($dateValue->format('U') / static::$secondsPerDay);
+  }
+
+  function getEpochDays ()
+  {
+    if (empty($this->value)) {
+      return 0;
+    } else {
+      try {
+        return $this->dateToLdap($this->getDateValue());
+      } catch (Exception $e) {
+        if (is_object($this->plugin) && $this->plugin->is_template) {
+          return $this->value;
+        } else {
+          throw $e;
+        }
+      }
+    }
   }
 }
