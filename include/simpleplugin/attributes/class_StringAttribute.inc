@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2016  FusionDirectory
+  Copyright (C) 2012-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ class StringAttribute extends Attribute
   protected $pattern;
   protected $example;
   protected $autocomplete = NULL;
-  protected $trim = FALSE;
+  protected $trim         = FALSE;
 
   /*! \brief The constructor of StringAttribute
    *
@@ -37,6 +37,7 @@ class StringAttribute extends Attribute
    *  \param mixed $defaultValue The default value for this attribute
    *  \param string $acl The name of the acl for this attribute if he does not use its own. (Leave empty if he should use its own like most attributes do)
    *  \param string $regexp A regular expression that should be matched by the value of this attribute in order for it to be considered valid. Will be used as a PHP regexp and as an html5 input pattern.
+   *  \param string $example An example of a valid value
    */
   function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = "", $acl = "", $regexp = "", $example = NULL)
   {

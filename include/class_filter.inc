@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -230,6 +230,32 @@ class filter
     return $result;
   }
 
+
+  /*!
+   * \brief Get the date picker
+   *
+   * \param array $element
+   */
+  function getDatePicker($element)
+  {
+    global $lang;
+    $tag    = $element['tag'];
+    $value  = '';
+    if (!empty($this->elementValues[$tag])) {
+      try {
+        $value = LdapGeneralizedTime::fromString($this->elementValues[$tag])->format('d.m.Y');
+      } catch (Exception $e) {
+        $value = $this->elementValues[$tag];
+      }
+    }
+    return  '<input type="text" name="'.$tag.'" id="'.$tag.'"'.
+              ' value="'.$value.'"'.
+              ' class="date" />'.
+            '<script type="text/javascript">
+              var datepicker  = new DatePicker({ relative : \''.$tag.'\', language : \''.preg_replace('/_.*$/', '', $lang).'\', keepFieldEmpty : true, enableCloseEffect : false, enableShowEffect : false });
+            </script>';
+  }
+
   /*!
    * \brief Set the combobox options
    *
@@ -375,6 +401,7 @@ class filter
       switch ($element['type']) {
         case "textfield":
           $htmlCode = $this->getTextfield($element);
+          $smarty->assign($tag.'DESC', sprintf(_('Searches in %s'), implode(', ', $element['autocomplete']['attribute'])));
           break;
 
         case "checkbox":
@@ -383,6 +410,10 @@ class filter
 
         case "combobox":
           $htmlCode = $this->getCombobox($element);
+          break;
+
+        case 'date':
+          $htmlCode = $this->getDatePicker($element);
           break;
 
         default:
@@ -476,9 +507,17 @@ class filter
       $objectStorage = $this->objectStorage;
 
       if (isset($this->elements['FILTERTEMPLATE']) && $this->elementValues['FILTERTEMPLATE']) {
-        $objectStorage = array_merge($objectStorage, array_map(function ($oc) { return 'ou=templates,'.$oc; }, $objectStorage));
+        $objectStorage = array_merge(
+          $objectStorage,
+          array_map(
+            function ($oc)
+            {
+              return 'ou=templates,'.$oc;
+            },
+            $objectStorage
+          )
+        );
       }
-
       // Now call filter method and merge resulting entries.
       $result = array_merge($result, call_user_func(array($backend, 'query'),
             $this, $this->base, $this->scope, $filter, $attributes, $this->category, $objectStorage));
@@ -521,10 +560,19 @@ class filter
       // Load post values and adapt filter, base and scope accordingly - but
       // only if we didn't get a _GET
       foreach ($this->elements as $tag => $element) {
-        if (isset($_POST[$tag])) {
-          $this->elementValues[$tag] = validate($_POST[$tag]);
+        if (!empty($_POST[$tag])) {
+          if ($element['type'] == 'date') {
+            try {
+              $date = new DateTime($_POST[$tag], new DateTimeZone('UTC'));
+              $this->elementValues[$tag] = LdapGeneralizedTime::toString($date);
+            } catch (Exception $e) {
+              $this->elementValues[$tag] = validate($_POST[$tag]);
+            }
+          } else {
+            $this->elementValues[$tag] = validate($_POST[$tag]);
+          }
         } else {
-          $this->elementValues[$tag] = "";
+          $this->elementValues[$tag] = '';
         }
       }
 
@@ -539,7 +587,7 @@ class filter
   /*!
    * \brief Get competition list
    *
-   * \param string $config
+   * \param string $cfg
    *
    * \param string $tag
    *

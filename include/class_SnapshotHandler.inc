@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -34,10 +34,23 @@ class SnapshotHandler
 
   protected $enabled;
 
+  static function plInfo()
+  {
+    return array(
+      'plShortName'   => _('Snapshot'),
+      'plDescription' => _('Snapshot handler'),
+      /* Categories for snapshots are computed in config class */
+      'plCategory'    => array(),
+
+      'plProvidedAcls' => array(
+        'restore_over'    => _('Restore over an existing object'),
+        'restore_deleted' => _('Restore a deleted object'),
+      )
+    );
+  }
+
   /*!
    * \brief Create handler
-   *
-   * \param config $config
    */
   function __construct()
   {
@@ -140,7 +153,7 @@ class SnapshotHandler
    */
   function hasSnapshots($dn)
   {
-    return (isset($this->snapshotsCache[$dn]));
+    return isset($this->snapshotsCache[$dn]);
   }
 
   /*!
@@ -327,8 +340,6 @@ class SnapshotHandler
    * \brief Get all deleted snapshots
    *
    * \param string $base_of_object
-   *
-   * \param boolean $raw FALSE
    */
   function getAllDeletedSnapshots($base_of_object)
   {
@@ -389,13 +400,17 @@ class SnapshotHandler
     $ldap = $config->get_ldap_link();
 
     /* Get the snapshot */
-    $ldap->cat($dn);
-    $ldap->fetch();
-
-    /* Prepare import string */
-    $data = gzuncompress($ldap->get_attribute($dn, 'gosaSnapshotData'));
-    if ($data === FALSE) {
-      msg_dialog::display(_('Error'), _('There was a problem uncompressing snapshot data'), ERROR_DIALOG);
+    $ldap->cat($dn, array('gosaSnapshotData'), '(gosaSnapshotData=*)');
+    if ($attrs = $ldap->fetch()) {
+      /* Prepare import string */
+      $data = gzuncompress($attrs['gosaSnapshotData'][0]);
+      if ($data === FALSE) {
+        msg_dialog::display(_('Error'), _('There was a problem uncompressing snapshot data'), ERROR_DIALOG);
+        return array();
+      }
+    } else {
+      msg_dialog::display(_('Error'), _('Snapshot data could not be fetched'), ERROR_DIALOG);
+      return array();
     }
 
     /* Import the given data */

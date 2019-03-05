@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2016  FusionDirectory
+  Copyright (C) 2012-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -86,16 +86,6 @@ class URLAttribute extends TestValidateAttribute
   protected $testFunc = 'is_url';
 }
 
-/*! \brief This class allow to handle easily a String LDAP attribute that contains a path
- *
- */
-class PhoneNumberAttribute extends TestValidateAttribute
-{
-  protected $trim = TRUE;
-
-  protected $testFunc = 'is_phone_nr';
-}
-
 /*! \brief This class allow to handle easily a String LDAP attribute that contains an IP (v4 or v6)
  *
  */
@@ -146,6 +136,9 @@ class MacAddressAttribute extends StringAttribute
   }
 }
 
+/*! \brief CompositeAttribute of which values are joined using a character as separator
+ *
+ */
 class CharSeparatedCompositeAttribute extends CompositeAttribute
 {
   private $sep;
@@ -167,6 +160,9 @@ class CharSeparatedCompositeAttribute extends CompositeAttribute
   }
 }
 
+/*! \brief CharSeparatedCompositeAttribute where the separator is the pipe character
+ *
+ */
 class PipeSeparatedCompositeAttribute extends CharSeparatedCompositeAttribute
 {
   function __construct($description, $ldapName, $attributes, $acl = "", $label = "Composite attribute")
@@ -175,6 +171,9 @@ class PipeSeparatedCompositeAttribute extends CharSeparatedCompositeAttribute
   }
 }
 
+/*!
+ * \brief Attribute storing its values as a comma-separated list
+ */
 class CommaListAttribute extends CompositeAttribute
 {
   private $sep = ',';
@@ -205,6 +204,9 @@ class CommaListAttribute extends CompositeAttribute
   }
 }
 
+/*!
+ * \brief Generic attribute for storing an integer allowing to chose between units
+ */
 class UnitIntAttribute extends CompositeAttribute
 {
   /* $units should contains 1 in its keys as a fallback unit */
@@ -255,6 +257,9 @@ class UnitIntAttribute extends CompositeAttribute
   }
 }
 
+/*!
+ * \brief Attribute for storing a size in bytes
+ */
 class BytesSizeAttribute extends UnitIntAttribute
 {
   function __construct ($label, $description, $ldapName, $required, $min = FALSE, $max = FALSE, $defaultValue = "", $acl = "")
@@ -270,6 +275,9 @@ class BytesSizeAttribute extends UnitIntAttribute
   }
 }
 
+/*!
+ * \brief Attribute storing a time duration as seconds
+ */
 class TimeAttribute extends UnitIntAttribute
 {
   function __construct ($label, $description, $ldapName, $required, $min = FALSE, $max = FALSE, $defaultValue = "", $acl = "")

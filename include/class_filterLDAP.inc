@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -72,7 +72,7 @@ class filterLDAP
    *
    * \param boolean $sizelimit
    *
-   * \param boolean $checkAcl
+   * \param boolean $skipAcl
    */
   static function get_list($parent, $base, $filter, $attributes, $category, $objectStorage, $scope, $sizelimit = TRUE, $skipAcl = FALSE)
   {
@@ -122,6 +122,7 @@ class filterLDAP
     // Do search for every base
     $result = array();
     $limit_exceeded = FALSE;
+    $ui->getSizeLimitHandler()->setLimitExceeded(FALSE);
 
     foreach ($bases as $base => $dnFilters) {
       // Break if the size limit is exceeded
@@ -140,8 +141,8 @@ class filterLDAP
       $ldap->search('(&'.$filter.$dnFilter.')', $attributes, $scope);
 
       // Check for size limit exceeded messages for GUI feedback
-      if (preg_match("/size limit/i", $ldap->get_error())) {
-        session::set('limit_exceeded', TRUE);
+      if ($ldap->hitSizeLimit()) {
+        $ui->getSizeLimitHandler()->setLimitExceeded();
         $limit_exceeded = TRUE;
       }
 

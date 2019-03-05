@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2016  FusionDirectory
+  Copyright (C) 2012-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -66,6 +66,12 @@ class SelectAttribute extends Attribute
         array_unshift($outputs, _('None'));
       }
     }
+    if ($this->isTemplate() && !in_array('%askme%', $choices)) {
+      $choices[] = '%askme%';
+      if (is_array($outputs)) {
+        $outputs[] = '%askme%';
+      }
+    }
     $this->choices = $choices;
     if (!in_array($this->defaultValue, $this->choices, TRUE) && isset($this->choices[0])) {
       $this->defaultValue = $this->choices[0];
@@ -80,7 +86,7 @@ class SelectAttribute extends Attribute
 
   /*! \brief Set the display options of the select attribute
    *
-   *  \param array $outputs The labels corresponding to the choices, in the same order as the choices
+   *  \param array $values The labels corresponding to the choices, in the same order as the choices
    */
   function setDisplayChoices ($values)
   {
@@ -112,11 +118,13 @@ class SelectAttribute extends Attribute
     $key = array_search("", $this->choices, TRUE);
     if ($this->isRequired() && ($key !== FALSE)) {
       unset($this->choices[$key]);
-      unset($this->outputs[""]);
+      if ($this->outputs !== NULL) {
+        unset($this->outputs['']);
+      }
     } elseif (!$this->isRequired() && !in_array("", $this->choices, TRUE)) {
       $this->choices[] = "";
-      if (!isset($this->output[""])) {
-        $this->output[""] = _("None");
+      if (($this->outputs !== NULL) && !isset($this->output[''])) {
+        $this->output[''] = _('None');
       }
     }
   }
@@ -201,6 +209,17 @@ class SelectAttribute extends Attribute
   function setSize($size)
   {
     $this->size = $size;
+  }
+
+  function setParent (&$plugin)
+  {
+    parent::setParent($plugin);
+    if ($this->isTemplate() && !in_array('%askme%', $this->choices)) {
+      $this->choices[]          = '%askme%';
+      if ($this->outputs !== NULL) {
+        $this->outputs['%askme%'] = '%askme%';
+      }
+    }
   }
 }
 

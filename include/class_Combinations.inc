@@ -28,7 +28,7 @@ class Combinations implements Iterator
   protected $size     = 0;
   protected $pos      = 0;
 
-  function __construct($input, $size)
+  function __construct(array $input, $size)
   {
     $this->input = array_values($input);
     $this->n = count($this->input);

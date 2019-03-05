@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -309,7 +309,7 @@ class listing
             isset($cfg['sortType'])) {
           $this->sortAttribute  = $cfg['sortAttribute'];
           $this->sortType       = $cfg['sortType'];
-          $sorter = "&nbsp;<img class='center' title='".($this->sortDirection[$index]?_("Up"):_("Down"))."' src='geticon.php?context=actions&amp;size=16&amp;icon=view-sort-".($this->sortDirection[$index]?"descending":"ascending")."' alt='".($this->sortDirection[$index]?_('Sort up'):_('Sort down'))."'>";
+          $sorter = "&nbsp;<img class='center' title='".($this->sortDirection[$index] ? _("Up") : _("Down"))."' src='geticon.php?context=actions&amp;size=16&amp;icon=view-sort-".($this->sortDirection[$index] ? "descending" : "ascending")."' alt='".($this->sortDirection[$index] ? _('Sort up') : _('Sort down'))."'>";
         }
         $sortable = (isset($cfg['sortAttribute']));
 
@@ -338,8 +338,10 @@ class listing
    */
   function render()
   {
+    global $ui;
+
     // Check for exeeded sizelimit
-    if (($message = check_sizelimit()) != '') {
+    if (($message = $ui->getSizeLimitHandler()->check()) != '') {
       return $message;
     }
 
@@ -482,7 +484,7 @@ class listing
     $smarty = get_smarty();
     $smarty->assign("usePrototype", "true");
     $smarty->assign("FILTER", $this->filter->render());
-    $smarty->assign("SIZELIMIT", print_sizelimit_warning());
+    $smarty->assign("SIZELIMIT", $ui->getSizeLimitHandler()->renderWarning());
     $smarty->assign("LIST", $result);
     $smarty->assign("MULTISELECT", $this->multiSelect);
 
@@ -553,11 +555,7 @@ class listing
       if ($this->departmentBrowser && isset($_GET['act'])) {
         if (preg_match('/^department_([0-9]+)$/', validate($_GET['act']), $match)) {
           if (isset($this->departments[$match[1]])) {
-            $this->base = $this->departments[$match[1]]['dn'];
-            if ($this->baseMode) {
-              $this->baseSelector->setBase($this->base);
-            }
-            session::global_set("CurrentMainBase", $this->base);
+            $this->setBase($this->departments[$match[1]]['dn']);
           }
         }
       }
@@ -610,7 +608,6 @@ class listing
         if ($action == 'ROOT') {
           $deps = $ui->get_module_departments($this->categories);
           $this->setBase($deps[0]);
-          session::global_set('CurrentMainBase', $this->base);
         } elseif ($action == 'BACK') {
           $base = preg_replace('/^[^,]+,/', '', $this->base);
           $this->tryAndSetBase($base);
@@ -655,6 +652,7 @@ class listing
     $this->base = $base;
     if ($this->baseMode) {
       $this->baseSelector->setBase($this->base);
+      session::global_set('CurrentMainBase', $this->base);
     }
   }
 
@@ -664,7 +662,6 @@ class listing
     $deps = $ui->get_module_departments($this->categories);
     if (in_array_ics($base, $deps)) {
       $this->setBase($base);
-      session::global_set("CurrentMainBase", $this->base);
     }
   }
 
@@ -860,7 +857,8 @@ class listing
   /*!
    * \brief Get the object type
    *
-   * \param string $classes
+   * \param string $dn dn of the object
+   * \param string $attrs LDAP attributes of the object
    */
   function getObjectType($dn, $attrs)
   {
@@ -869,6 +867,9 @@ class listing
 
   /*!
    * \brief Get the department type
+   *
+   * \param string $dn dn of the object
+   * \param string $attrs LDAP attributes of the object
    */
   function getDepartmentType($dn, $attrs)
   {
@@ -996,8 +997,8 @@ class listing
       // If there's an objectclass definition and we don't have it
       // add an empty picture here.
       if (isset($action['objectclass'])) {
-        $objectclass = $action['objectclass'];
-        $skip = FALSE;
+        $objectclass  = $action['objectclass'];
+        $skip         = FALSE;
         if (preg_match('/^!(.*)$/', $objectclass, $m)) {
           $objectclass = $m[1];
           if (in_array($objectclass, $classes)) {
@@ -1060,8 +1061,8 @@ class listing
         }
 
         if ($action['type'] == 'copypaste') {
-          $copy = (!isset($action['copy'])  || ($action['copy'] == 'true'));
-          $cut  = (!isset($action['cut'])   || ($action['cut'] == 'true'));
+          $copy = (!isset($action['copy']) || ($action['copy'] == 'true'));
+          $cut  = (!isset($action['cut']) || ($action['cut'] == 'true'));
           $result .= $this->renderCopyPasteActions($row, $this->entries[$row]['dn'], $category, $class, $copy, $cut);
         } else {
           $result .= $this->renderSnapshotActions($row, $this->entries[$row]['dn'], $category);
@@ -1194,7 +1195,7 @@ class listing
 
     /* Draw reload button, this button is enabled everytime */
     $result["RELOAD"] = "<input class='center optional' type='image' src='geticon.php?context=actions&amp;icon=view-refresh&amp;size=16' ".
-                       "title='"._("Reload list")."' name='REFRESH' alt='"._("Submit")."'>";
+                       "title='"._("Reload list")."' name='REFRESH' alt='"._("Reload list")."'>";
 
     return $result;
   }
@@ -1204,7 +1205,7 @@ class listing
    */
   function getAction()
   {
-    global $config;
+    global $config, $ui;
 
     // Do not do anything if this is not our PID, or there's even no PID available...
     if (!isset($_REQUEST['dn']) && (!isset($_REQUEST['PID']) || $_REQUEST['PID'] != $this->pid)) {
@@ -1230,13 +1231,36 @@ class listing
         }
       } elseif (isset($_REQUEST['dn']) && preg_match('/^listing_([a-zA-Z_]+)$/', $key, $m)) {
         /* Pre-render list to init things if a dn is gonna be opened on first load */
-        $this->setBase($config->current['BASE']);
-        $this->filter->setCurrentScope('sub');
+        $dn         = urldecode($_REQUEST['dn']);
+        $action     = $m[1];
+        if ($this->baseMode) {
+          /* Detect the longer base valid for this dn */
+          $longerBase = '';
+          foreach (array_keys($this->bases) as $base) {
+            if (preg_match('/'.preg_quote($base, '/').'$/i', $dn)) {
+              if (strlen($base) > strlen($longerBase)) {
+                $longerBase = $base;
+              }
+            }
+          }
+          $this->setBase($longerBase);
+          /* Search for its main attr value */
+          if (isset($this->filter->elementValues['NAME']) && preg_match('/^[^=]+=([^,]+)/', $dn, $m)) {
+            $this->filter->elementValues['NAME'] = $m[1];
+          }
+          $this->filter->setCurrentScope('one');
+        }
+        /* Bypass size limit just to be sure */
+        $oldsizelimit = $ui->getSizeLimitHandler()->getSizeLimit();
+        $ui->getSizeLimitHandler()->setSizeLimit(0);
         $this->update();
         $this->render();
-        $dn                   = urldecode($_REQUEST['dn']);
-        $result['action']     = $m[1];
+        $ui->getSizeLimitHandler()->setSizeLimit($oldsizelimit);
+        $this->filter->elementValues['NAME'] = '';
+
+        $result['action']     = $action;
         $result['targets'][]  = $dn;
+
         // Make sure no other management class intercept the same dn
         unset($_REQUEST['dn']);
       }
@@ -1316,7 +1340,7 @@ class listing
     $result   = '<input type="hidden" name="act" id="actionmenu" value="">'.
                 '<div style="display:none"><input type="submit" name="exec_act" id="exec_act" value=""/></div>'.
                 '<ul class="level1" id="root"><li><a href="#">'._('Actions').
-                '&nbsp;<img class="center optional" src="images/down-arrow.png" alt="down arrow"/></a>';
+                '&nbsp;<img class="center optional" src="images/down-arrow.png" alt=""/></a>';
 
     // Build ul/li list
     $result .= $this->recurseActions($this->xmlData['actionmenu']['action']);
@@ -1330,7 +1354,7 @@ class listing
                   .'<a href="#" onClick="'
                     ."document.getElementById('actionmenu').value='$action';document.getElementById('exec_act').click();"
                   .'">'
-                  .'<img src="'.htmlentities($icon, ENT_COMPAT, 'UTF-8').'" alt="'.$action.'" class="center">&nbsp;'.$name.'</a>'
+                  .'<img src="'.htmlentities($icon, ENT_COMPAT, 'UTF-8').'" alt="" class="center"/>&nbsp;'.$name.'</a>'
                   .'</li>';
   }
 
@@ -1350,7 +1374,7 @@ class listing
 
       // Skip entry if there're missing dependencies
       if (isset($action['depends'])) {
-        $deps = is_array($action['depends'])?$action['depends']:array($action['depends']);
+        $deps = is_array($action['depends']) ? $action['depends'] : array($action['depends']);
         foreach ($deps as $clazz) {
           if (!isset($class_mapping[$clazz])) {
             continue 2;
@@ -1369,7 +1393,7 @@ class listing
         if (isset($action['label'])) {
           $img = "";
           if (isset($action['image'])) {
-            $img = "<img class='center' src='".htmlentities($action['image'], ENT_COMPAT, 'UTF-8')."' alt='".$action['label']."'/>&nbsp;";
+            $img = "<img class='center' src='".htmlentities($action['image'], ENT_COMPAT, 'UTF-8')."' alt=''/>&nbsp;";
           }
           $result .= "<li id='actionmenu_".strtolower($action['label'])."'$separator><a href='#'>$img"._($action['label'])."&nbsp;<img src='images/forward-arrow.png' alt='forward arrow'/></a>";
         }
@@ -1644,7 +1668,7 @@ class listing
       if ($this->copyPasteHandler->entries_queued()) {
         $result .= $this->renderActionMenuActionLink($separator, 'paste', _('Paste'), 'geticon.php?context=actions&icon=edit-paste&size=16');
       } else {
-        $result .= "<li$separator>".'<a href="#"><img src="geticon.php?context=actions&amp;icon=edit-paste&amp;size=16&amp;disabled=1" alt="paste" class="center">&nbsp;'._('Paste').'</a></li>';
+        $result .= "<li$separator>".'<a href="#"><img src="geticon.php?context=actions&amp;icon=edit-paste&amp;size=16&amp;disabled=1" alt="" class="center"/>&nbsp;'._('Paste').'</a></li>';
       }
     }
 
@@ -1703,12 +1727,12 @@ class listing
     $result = "";
     $ui     = get_userinfo();
 
-    if ($ui->allow_snapshot_restore($this->base, $this->categories)) {
+    if ($ui->allow_snapshot_restore($this->base, $this->categories, TRUE)) {
       // Draw icons according to the restore flag
       if ($this->snapshotHandler->hasDeletedSnapshots()) {
         $result .= $this->renderActionMenuActionLink($separator, 'restore', _('Restore snapshots'), 'geticon.php?context=actions&icon=document-restore&size=16');
       } else {
-        $result .= "<li$separator><a href='#'><img src='geticon.php?context=actions&amp;icon=document-restore&amp;size=16&amp;disabled=1' alt='restore' class='center'>&nbsp;"._("Restore snapshots")."</a></li>";
+        $result .= "<li$separator><a href='#'><img src='geticon.php?context=actions&amp;icon=document-restore&amp;size=16&amp;disabled=1' alt='' class='center'>&nbsp;"._("Restore snapshots")."</a></li>";
       }
     }
 
@@ -1722,7 +1746,7 @@ class listing
     $result = "";
 
     // Draw entries
-    $result .= "<li$separator id='actionmenu_exportList'><a href='#'><img class='center' src='geticon.php?context=actions&amp;icon=document-export&amp;size=16' alt='export'>&nbsp;"._("Export list")."&nbsp;<img src='images/forward-arrow.png' alt='arrow'></a><ul class='level3'>";
+    $result .= "<li$separator id='actionmenu_exportList'><a href='#'><img class='center' src='geticon.php?context=actions&amp;icon=document-export&amp;size=16' alt=''>&nbsp;"._("Export list")."&nbsp;<img src='images/forward-arrow.png' alt='arrow'></a><ul class='level3'>";
 
     // Export CVS as build in exporter
     foreach ($this->exporter as $action => $exporter) {
@@ -1747,7 +1771,7 @@ class listing
     $result = '';
     $ui = get_userinfo();
 
-    if ($ui->allow_snapshot_restore($dn, $category)) {
+    if ($ui->allow_snapshot_restore($dn, $category, FALSE)) {
       /* Draw restore button */
 
       if ($this->snapshotHandler->hasSnapshots($dn)) {
@@ -1759,7 +1783,7 @@ class listing
       } else {
         $result .= '<img class="center"'.
                     ' src="geticon.php?context=actions&amp;icon=document-restore&amp;size=16&amp;disabled=1"'.
-                    ' alt="restore"/>';
+                    ' alt="'._('Restore snapshot').'"/>';
       }
     }
 

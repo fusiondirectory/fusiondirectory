@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2016  FusionDirectory
+  Copyright (C) 2016-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -44,8 +44,8 @@ class LdapGeneralizedTime
 
   /*!
     \brief Convert from LDAP GeneralizedTime formatted string to DateTime object
-    \param string GeneralizedTime formatted string to convert
-    \param useException Whether or not to throw a LdapGeneralizedTimeBadFormatException on failure. Defaults to TRUE.
+    \param string $string GeneralizedTime formatted string to convert
+    \param boolean $useException Whether or not to throw a LdapGeneralizedTimeBadFormatException on failure. Defaults to TRUE.
   */
   public static function fromString ($string, $useException = TRUE)
   {
@@ -108,8 +108,8 @@ class LdapGeneralizedTime
 
   /*!
     \brief Convert from DateTime object to LDAP GeneralizedTime formatted string
-    \param date DateTime object to convert
-    \param useException Whether or not to set the date timezone to UTC. Defaults to TRUE.
+    \param DateTime $date DateTime object to convert
+    \param boolean $setToUTC Whether or not to set the date timezone to UTC. Defaults to TRUE.
   */
   public static function toString ($date, $setToUTC = TRUE)
   {

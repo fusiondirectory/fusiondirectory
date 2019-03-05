@@ -4,16 +4,16 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# fusiondirectory <contact@fusiondirectory.org>, 2017
+# fusiondirectory <contact@fusiondirectory.org>, 2018
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2018-11-15 11:33+0000\n"
-"PO-Revision-Date: 2017-11-03 10:16+0000\n"
-"Last-Translator: fusiondirectory <contact@fusiondirectory.org>, 2017\n"
+"POT-Creation-Date: 2019-02-18 11:05+0000\n"
+"PO-Revision-Date: 2016-08-29 14:52+0000\n"
+"Last-Translator: fusiondirectory <contact@fusiondirectory.org>, 2018\n"
 "Language-Team: Russian (https://www.transifex.com/fusiondirectory/teams/12202/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,21 +22,24 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
 #: include/class_msg_dialog.inc:136 include/class_msg_dialog.inc:172
-#: include/class_config.inc:347 include/class_listing.inc:528
-#: include/class_SnapshotHandler.inc:398
+#: include/class_config.inc:354 include/class_listing.inc:530
+#: include/class_SnapshotHandler.inc:408 include/class_SnapshotHandler.inc:412
 #: include/password-methods/class_password-methods-sasl.inc:65
 #: include/password-methods/class_password-methods-sasl.inc:92
 #: include/class_msgPool.inc:220 include/class_msgPool.inc:240
-#: include/class_msgPool.inc:270 include/class_msgPool.inc:694
-#: include/class_msgPool.inc:723
-#: include/simpleplugin/attributes/class_BaseSelectorAttribute.inc:87
+#: include/class_msgPool.inc:270 include/class_msgPool.inc:688
+#: include/class_msgPool.inc:717
 #: include/simpleplugin/attributes/class_BaseSelectorAttribute.inc:89
-#: include/simpleplugin/attributes/class_FileAttribute.inc:31
-#: include/simpleplugin/attributes/class_FileAttribute.inc:34
-#: include/simpleplugin/attributes/class_FileAttribute.inc:37
-#: include/simpleplugin/attributes/class_FileAttribute.inc:300
-#: include/simpleplugin/class_simpleTabs.inc:73 html/index.php:459
-#: html/index.php:473 html/index.php:483 html/index.php:540 html/index.php:550
+#: include/simpleplugin/attributes/class_BaseSelectorAttribute.inc:91
+#: include/simpleplugin/attributes/class_FileAttribute.inc:33
+#: include/simpleplugin/attributes/class_FileAttribute.inc:36
+#: include/simpleplugin/attributes/class_FileAttribute.inc:39
+#: include/simpleplugin/attributes/class_FileAttribute.inc:356
+#: include/simpleplugin/class_simplePlugin.inc:697
+#: include/simpleplugin/class_simpleTabs.inc:73
+#: include/simpleplugin/class_multiPlugin.inc:78
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:192 html/index.php:461
+#: html/index.php:475 html/index.php:485 html/index.php:542 html/index.php:552
 #: setup/setup_checks.tpl.c:5 ihtml/themes/breezy/msg_dialog.tpl.c:2
 msgid "Error"
 msgstr "Ошибка"
@@ -50,72 +53,74 @@ msgstr "Пожалуйста исправьте ошибку выше и обн�
 msgid "XML error in fusiondirectory.conf: %s at line %d"
 msgstr "Ошибка XML в fusiondirectory.conf: %s в строке %d"
 
-#: include/class_config.inc:154 include/class_config.inc:276
-#: include/class_config.inc:791 include/class_config.inc:803
+#: include/class_config.inc:154 include/class_config.inc:287
+#: include/class_config.inc:775 include/class_config.inc:787
 #: include/class_timezone.inc:51
 #: include/password-methods/class_password-methods-sha.inc:63
 #: include/password-methods/class_password-methods-ssha.inc:67
 #: include/password-methods/class_password-methods-ssha.inc:83
-#: include/functions.inc:638 html/class_passwordRecovery.inc:141
+#: include/functions.inc:594 html/class_passwordRecovery.inc:141
 #: html/main.php:206 html/index.php:153
 msgid "Configuration error"
 msgstr "Ошибка конфигурации"
 
-#: include/class_config.inc:272
+#: include/class_config.inc:283
 #, php-format
 msgid ""
 "It seems you are trying to decode something which is not encoded : %s<br/>\n"
 "Please check you are not using a fusiondirectory.secrets file while your passwords are not encrypted."
 msgstr ""
 
-#: include/class_config.inc:313 include/class_SnapshotHandler.inc:53
-#: include/class_SnapshotHandler.inc:238 include/class_SnapshotHandler.inc:268
-#: include/class_SnapshotHandler.inc:284 include/class_SnapshotHandler.inc:405
-#: include/class_SnapshotHandler.inc:408
-#: include/password-methods/class_password-methods.inc:189
-#: include/functions.inc:482 include/functions.inc:656
-#: include/functions.inc:703 include/functions.inc:811
-#: include/simpleplugin/attributes/class_SetAttribute.inc:733
-#: include/class_ldap.inc:847 include/class_ldap.inc:1211
+#: include/class_config.inc:325 include/class_SnapshotHandler.inc:66
+#: include/class_SnapshotHandler.inc:251 include/class_SnapshotHandler.inc:281
+#: include/class_SnapshotHandler.inc:297 include/class_SnapshotHandler.inc:420
+#: include/class_SnapshotHandler.inc:423
+#: include/password-methods/class_password-methods.inc:199
+#: include/functions.inc:438 include/functions.inc:612
+#: include/functions.inc:659 include/functions.inc:767
+#: include/simpleplugin/attributes/class_SetAttribute.inc:743
+#: include/class_ldap.inc:856 include/class_ldap.inc:1207
 #: plugins/config/class_recoveryConfig.inc:137
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:87
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:90
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:121
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:185
 #: plugins/addons/dashboard/class_dashBoardPasswords.inc:63
-#: plugins/addons/dashboard/class_dashBoard.inc:74
+#: plugins/addons/dashboard/class_dashBoard.inc:78
 #: setup/class_setupStepConfig.inc:108 setup/class_setupStepMigrate.inc:452
-#: setup/class_setupStepMigrate.inc:1051 html/index.php:377
+#: setup/class_setupStepMigrate.inc:1068 html/index.php:379
 msgid "LDAP error"
 msgstr "Ошибка LDAP"
 
-#: include/class_config.inc:313
+#: include/class_config.inc:325
 msgid "Cannot bind to LDAP. Please contact the system administrator."
 msgstr ""
 "Не могу привязаться к LDAP. Пожалуйста свяжитесь с системным "
 "администратором."
 
-#: include/class_config.inc:347
+#: include/class_config.inc:354
 #, php-format
 msgid "Location \"%s\" could not be found in the configuration file"
 msgstr ""
 
-#: include/class_config.inc:792
+#: include/class_config.inc:776
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required variable \"%s\" is "
 "not set."
 msgstr ""
 
-#: include/class_config.inc:804
+#: include/class_config.inc:788
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required compression module "
 "is missing. Please install \"%s\"."
 msgstr ""
 
-#: include/class_config.inc:912
+#: include/class_config.inc:900
 msgid "All categories"
 msgstr "Все категории"
 
-#: include/class_config.inc:1047
+#: include/class_config.inc:1042
 msgid "My account"
 msgstr "Моя учетная запись"
 
@@ -192,8 +197,8 @@ msgstr "Отправить отчет об ошибке"
 msgid "Toggle information"
 msgstr ""
 
-#: include/class_listing.inc:312 include/class_listing.inc:1182
-#: include/class_listing.inc:1184
+#: include/class_listing.inc:312 include/class_listing.inc:1183
+#: include/class_listing.inc:1185
 msgid "Up"
 msgstr "По убыванию"
 
@@ -202,98 +207,95 @@ msgid "Down"
 msgstr "Вниз"
 
 #: include/class_listing.inc:312
-#: include/simpleplugin/attributes/class_SetAttribute.inc:470
-#: include/simpleplugin/attributes/class_SetAttribute.inc:471
+#: include/simpleplugin/attributes/class_SetAttribute.inc:479
+#: include/simpleplugin/attributes/class_SetAttribute.inc:480
 msgid "Sort up"
 msgstr "Сортировать по возврастанию"
 
 #: include/class_listing.inc:312
-#: include/simpleplugin/attributes/class_SetAttribute.inc:483
-#: include/simpleplugin/attributes/class_SetAttribute.inc:484
+#: include/simpleplugin/attributes/class_SetAttribute.inc:492
+#: include/simpleplugin/attributes/class_SetAttribute.inc:493
 msgid "Sort down"
 msgstr "Сортировать по убыванию"
 
-#: include/class_listing.inc:362 setup/setup_migrate_accounts.tpl.c:23
+#: include/class_listing.inc:364 setup/setup_migrate_accounts.tpl.c:23
 msgid "Select all"
 msgstr "Выбрать все"
 
-#: include/class_listing.inc:569
+#: include/class_listing.inc:567
 msgid "created by"
 msgstr "создано"
 
-#: include/class_listing.inc:1174
+#: include/class_listing.inc:1175
 msgid "Go to root department"
 msgstr "Перейти в корень подразделений"
 
-#: include/class_listing.inc:1174 include/class_listing.inc:1176
+#: include/class_listing.inc:1175 include/class_listing.inc:1177
 #: include/class_baseSelector.inc:212
 msgid "Root"
 msgstr ""
 
-#: include/class_listing.inc:1182
+#: include/class_listing.inc:1183
 msgid "Go up one department"
 msgstr "Перейти вверх на одно подразделение"
 
-#: include/class_listing.inc:1190
+#: include/class_listing.inc:1191
 msgid "Go to user's department"
 msgstr "Перейти к подразделению пользователя"
 
-#: include/class_listing.inc:1190 include/class_listing.inc:1192
+#: include/class_listing.inc:1191 include/class_listing.inc:1193
 msgid "Home"
 msgstr ""
 
-#: include/class_listing.inc:1197
+#: include/class_listing.inc:1198
 msgid "Reload list"
 msgstr "Обновить список"
 
-#: include/class_listing.inc:1197 include/class_baseSelector.inc:261
-msgid "Submit"
-msgstr "Отправить"
-
-#: include/class_listing.inc:1318 include/simpleplugin/simple-list.xml:48
+#: include/class_listing.inc:1342 include/simpleplugin/simple-list.xml:48
 #: plugins/admin/departments/dep-list.xml:37
 #: plugins/admin/groups/group-list.xml:54 plugins/admin/users/user-list.xml:62
 msgid "Actions"
 msgstr "Действия"
 
-#: include/class_listing.inc:1631 include/class_listing.inc:1684
+#: include/class_listing.inc:1655 include/class_listing.inc:1708
 msgid "Copy"
 msgstr "Копировать"
 
-#: include/class_listing.inc:1637 include/class_listing.inc:1672
+#: include/class_listing.inc:1661 include/class_listing.inc:1696
 msgid "Cut"
 msgstr "Вырезать"
 
-#: include/class_listing.inc:1645 include/class_listing.inc:1647
-#: include/class_CopyPasteHandler.inc:332
+#: include/class_listing.inc:1669 include/class_listing.inc:1671
+#: include/class_CopyPasteHandler.inc:330
 msgid "Paste"
 msgstr "Вставить"
 
-#: include/class_listing.inc:1672
+#: include/class_listing.inc:1696
 msgid "Cut this entry"
 msgstr "Вырезать эту запись"
 
-#: include/class_listing.inc:1684
+#: include/class_listing.inc:1708
 msgid "Copy this entry"
 msgstr "Копировать эту запись"
 
-#: include/class_listing.inc:1709 include/class_listing.inc:1711
+#: include/class_listing.inc:1733 include/class_listing.inc:1735
 msgid "Restore snapshots"
 msgstr "Восстановить снапшоты"
 
-#: include/class_listing.inc:1725
+#: include/class_listing.inc:1749
 msgid "Export list"
 msgstr "Экспортировать список"
 
-#: include/class_listing.inc:1757 include/class_listing.inc:1758
+#: include/class_listing.inc:1781 include/class_listing.inc:1782
+#: include/class_listing.inc:1786
 msgid "Restore snapshot"
 msgstr "Восстановить снапшот"
 
-#: include/class_listing.inc:1770
+#: include/class_listing.inc:1794
 msgid "Create snapshot"
 msgstr "Создать снапшот"
 
-#: include/class_listing.inc:1771
+#: include/class_listing.inc:1795
 msgid "Create a new snapshot from this object"
 msgstr "Создать новый снапшот из объекта"
 
@@ -302,34 +304,54 @@ msgstr "Создать новый снапшот из объекта"
 msgid "The timezone setting \"%s\" in your configuration is not valid."
 msgstr "Настройка часового пояса '%s' в вашей конфигурации не правильная."
 
-#: include/class_SnapshotHandler.inc:398
+#: include/class_SnapshotHandler.inc:40
+msgid "Snapshot"
+msgstr ""
+
+#: include/class_SnapshotHandler.inc:41
+msgid "Snapshot handler"
+msgstr ""
+
+#: include/class_SnapshotHandler.inc:46
+msgid "Restore over an existing object"
+msgstr ""
+
+#: include/class_SnapshotHandler.inc:47
+msgid "Restore a deleted object"
+msgstr ""
+
+#: include/class_SnapshotHandler.inc:408
 msgid "There was a problem uncompressing snapshot data"
 msgstr "Были проблемы при распаковке данных снапшота"
 
-#: include/class_template.inc:41
-#: include/simpleplugin/class_simpleManagement.inc:284
-#: include/simpleplugin/class_simpleManagement.inc:520
-#: plugins/admin/groups/class_groupManagement.inc:351
+#: include/class_SnapshotHandler.inc:412
+msgid "Snapshot data could not be fetched"
+msgstr ""
+
+#: include/class_template.inc:43
+#: include/simpleplugin/class_simpleManagement.inc:295
+#: include/simpleplugin/class_simpleManagement.inc:532
+#: plugins/admin/groups/class_groupManagement.inc:355
 #: plugins/admin/users/user-list.xml:95 ihtml/themes/breezy/template.tpl.c:5
 msgid "Template"
 msgstr "Шаблон"
 
-#: include/class_template.inc:42
+#: include/class_template.inc:44
 msgid "Object template, used to create several objects with similar values"
 msgstr ""
 
-#: include/class_template.inc:47
-#: include/simpleplugin/class_simplePlugin.inc:346
+#: include/class_template.inc:49
+#: include/simpleplugin/class_simplePlugin.inc:348
 msgid "Template name"
 msgstr "Название шаблона"
 
-#: include/class_logging.inc:81 include/functions.inc:556
-#: include/functions.inc:628 include/functions.inc:749
-#: include/functions.inc:1804 include/functions.inc:1843
-#: include/functions.inc:1874 include/class_acl.inc:118
+#: include/class_logging.inc:81 include/functions.inc:512
+#: include/functions.inc:584 include/functions.inc:705
+#: include/functions.inc:1683 include/functions.inc:1722
+#: include/functions.inc:1753 include/class_acl.inc:118
 #: include/class_session.inc:50 include/class_session.inc:88
-#: include/class_session.inc:127 include/class_ldap.inc:796
-#: include/class_ldap.inc:834
+#: include/class_session.inc:127 include/class_ldap.inc:797
+#: include/class_ldap.inc:822
 msgid "Internal error"
 msgstr "Внутренняя ошибка"
 
@@ -353,23 +375,54 @@ msgid "Cannot change password, unknown user \"%s\""
 msgstr ""
 
 #: include/password-methods/class_password-methods-sasl.inc:92
-#: plugins/config/class_configInLdap.inc:579
+#: plugins/config/class_configInLdap.inc:584
 msgid ""
 "You need to fill saslRealm or saslExop in the configuration screen in order "
 "to use SASL"
 msgstr ""
 
-#: include/class_filter.inc:305 include/functions.inc:1666
+#: include/class_baseSelector.inc:275
+msgid "Submit"
+msgstr "Отправить"
+
+#: include/class_filter.inc:331 include/functions.inc:1545
 msgid "*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 msgstr "*АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЫЭЮЯ0123456789"
 
-#: include/class_filter.inc:343
+#: include/class_filter.inc:369
 msgid "Apply filter"
 msgstr "Применить фильтр"
 
-#: include/class_filter.inc:354 include/class_msgPool.inc:51
+#: include/class_filter.inc:380 include/class_msgPool.inc:51
 msgid "Search in subtrees"
 msgstr "Искать в поддеревьях"
+
+#: include/class_filter.inc:404
+#, php-format
+msgid "Searches in %s"
+msgstr ""
+
+#: include/class_ldapSizeLimit.inc:114
+#, php-format
+msgid "The size limit of %d entries is exceed!"
+msgstr "Найдено более %d объектов."
+
+#: include/class_ldapSizeLimit.inc:115
+#, php-format
+msgid ""
+"Set the new size limit to %s and show me this message if the limit still "
+"exceeds"
+msgstr ""
+"Установить новое значение лимита в %s и показать мне это сообщение если "
+"лимит будет исчерпан."
+
+#: include/class_ldapSizeLimit.inc:131
+msgid "Configure"
+msgstr "Настроить"
+
+#: include/class_ldapSizeLimit.inc:136
+msgid "incomplete"
+msgstr "не полный"
 
 #: include/functions.inc:97
 #, php-format
@@ -384,20 +437,20 @@ msgstr ""
 "Критическая ошибка: не могу создать экземпляр класса '%s' - попробуйте "
 "запустить '%s' чтобы исправить это"
 
-#: include/functions.inc:455 include/functions.inc:2521
-#: include/simpleplugin/class_simplePlugin.inc:466
-#: include/simpleplugin/class_simplePlugin.inc:471
-#: include/simpleplugin/class_simplePlugin.inc:483
+#: include/functions.inc:411 include/functions.inc:2310
+#: include/simpleplugin/class_simplePlugin.inc:468
+#: include/simpleplugin/class_simplePlugin.inc:473
+#: include/simpleplugin/class_simplePlugin.inc:485
 #: html/class_passwordRecovery.inc:118
 msgid "Fatal error"
 msgstr "Фатальная ошибка"
 
-#: include/functions.inc:456
+#: include/functions.inc:412
 #, php-format
 msgid "FATAL: Error when connecting the LDAP. Server said '%s'."
 msgstr "FATAL: Ошибка при подключении к LDAP. Сервер сообщил '%s'."
 
-#: include/functions.inc:516
+#: include/functions.inc:472
 msgid ""
 "Login (uid) is not unique inside the LDAP tree. Please contact your "
 "administrator."
@@ -405,21 +458,21 @@ msgstr ""
 "Логин (uid) не уникальный внутри LDAP дерева! Пожалуйста свяжитесь с вашим "
 "администратором."
 
-#: include/functions.inc:576
+#: include/functions.inc:532
 msgid "Authentication error"
 msgstr "Ошибка аутентификации"
 
-#: include/functions.inc:577
+#: include/functions.inc:533
 msgid ""
 "It seems your user password has expired. Please use <a "
 "href=\"recovery.php\">password recovery</a> to change it."
 msgstr ""
 
-#: include/functions.inc:628 include/functions.inc:749
+#: include/functions.inc:584 include/functions.inc:705
 msgid "Error while adding a lock. Contact the developers!"
 msgstr "Ошибка при добавлении блокировки. Свяжитесь с разработчиками!"
 
-#: include/functions.inc:638
+#: include/functions.inc:594
 #, php-format
 msgid ""
 "Cannot create locking information in LDAP tree. Please contact your "
@@ -428,21 +481,21 @@ msgstr ""
 "Невозможно создать информацию о блокировки в LDAP дереве. Пожалуйста "
 "свяжитесь с вашим администратором!"
 
-#: include/functions.inc:638
+#: include/functions.inc:594
 #, php-format
 msgid "LDAP server returned: %s"
 msgstr "LDAP сервер вернул: %s"
 
-#: include/functions.inc:827 setup/class_setupStepLdap.inc:212
-#: setup/class_setupStepMigrate.inc:573 setup/class_setupStepMigrate.inc:1004
-#: setup/class_setupStepMigrate.inc:1123 setup/class_setupStepMigrate.inc:1234
-#: setup/class_setupStepMigrate.inc:1297 setup/class_setupStepMigrate.inc:1341
-#: html/main.php:156 html/index.php:592 setup/setup_checks.tpl.c:8
+#: include/functions.inc:783 setup/class_setupStepLdap.inc:212
+#: setup/class_setupStepMigrate.inc:573 setup/class_setupStepMigrate.inc:1021
+#: setup/class_setupStepMigrate.inc:1140 setup/class_setupStepMigrate.inc:1251
+#: setup/class_setupStepMigrate.inc:1326 setup/class_setupStepMigrate.inc:1370
+#: html/main.php:156 html/index.php:594 setup/setup_checks.tpl.c:8
 #: ihtml/themes/breezy/msg_dialog.tpl.c:5 ihtml/themes/breezy/islocked.tpl.c:5
 msgid "Warning"
 msgstr "Предупреждение"
 
-#: include/functions.inc:827
+#: include/functions.inc:783
 msgid ""
 "Found multiple locks for object to be locked. This should not happen - "
 "cleaning up multiple references."
@@ -450,87 +503,65 @@ msgstr ""
 "Найдены множественные блокировки для заблокированного объекта. Это не должно"
 " было случиться - очистите их."
 
-#: include/functions.inc:856
-#, php-format
-msgid "The size limit of %d entries is exceed!"
-msgstr "Найдено более %d объектов."
-
-#: include/functions.inc:858
-#, php-format
-msgid ""
-"Set the new size limit to %s and show me this message if the limit still "
-"exceeds"
-msgstr ""
-"Установить новое значение лимита в %s и показать мне это сообщение если "
-"лимит будет исчерпан."
-
-#: include/functions.inc:875
-msgid "Configure"
-msgstr "Настроить"
-
-#: include/functions.inc:880
-msgid "incomplete"
-msgstr "не полный"
-
-#: include/functions.inc:1228
+#: include/functions.inc:1107
 msgid "Continue anyway"
 msgstr "Продолжить в любом случае"
 
-#: include/functions.inc:1230
+#: include/functions.inc:1109
 msgid "Edit anyway"
 msgstr "Редактировать в любом случае"
 
-#: include/functions.inc:1232
+#: include/functions.inc:1111
 #, php-format
 msgid "You're going to edit the LDAP entry/entries %s"
 msgstr "Вы собираетесь редактировать LDAP запись/записи %s"
 
-#: include/functions.inc:1626
+#: include/functions.inc:1505
 #, php-format
 msgid "%sB"
 msgstr "%sB"
 
-#: include/functions.inc:1627
+#: include/functions.inc:1506
 #, php-format
 msgid "%sKiB"
 msgstr "%sKiB"
 
-#: include/functions.inc:1628
+#: include/functions.inc:1507
 #, php-format
 msgid "%sMiB"
 msgstr "%sMiB"
 
-#: include/functions.inc:1629
+#: include/functions.inc:1508
 #, php-format
 msgid "%sGiB"
 msgstr "%sGiB"
 
-#: include/functions.inc:1630
+#: include/functions.inc:1509
 #, php-format
 msgid "%sTiB"
 msgstr "%sTiB"
 
-#: include/functions.inc:1631
+#: include/functions.inc:1510
 #, php-format
 msgid "%sPiB"
 msgstr "%sPiB"
 
-#: include/functions.inc:1632
+#: include/functions.inc:1511
 #, php-format
 msgid "%sEiB"
 msgstr "%sEiB"
 
-#: include/functions.inc:1633
+#: include/functions.inc:1512
 #, php-format
 msgid "%sZiB"
 msgstr "%sZiB"
 
-#: include/functions.inc:1634
+#: include/functions.inc:1513
 #, php-format
 msgid "%sYiB"
 msgstr "%sYiB"
 
-#: include/functions.inc:1804
+#: include/functions.inc:1683
 #, php-format
 msgid ""
 "File '%s' could not be deleted. Try fusiondirectory-setup --check-"
@@ -539,114 +570,115 @@ msgstr ""
 "Файл '%s' не может быть удален. Попробуйте fusiondirectory-setup --check-"
 "directories чтобы исправить права."
 
-#: include/functions.inc:1843
+#: include/functions.inc:1722
 msgid "Cannot write to revision file!"
 msgstr "Не могу записать файл проверки!"
 
-#: include/functions.inc:1874
+#: include/functions.inc:1753
 msgid "Cannot read revision file!"
 msgstr ""
 
-#: include/functions.inc:1988
+#: include/functions.inc:1867
 msgid "LDAP warning"
 msgstr "Предупреждение LDAP"
 
-#: include/functions.inc:1988
+#: include/functions.inc:1867
 msgid "Cannot get schema information from server. No schema check possible!"
 msgstr ""
 "Не могу получить информацию о схемах с сервера. Проверить схемы невозможно!"
 
-#: include/functions.inc:2011
+#: include/functions.inc:1891
 msgid "Main FusionDirectory schema"
 msgstr ""
 
-#: include/functions.inc:2018
+#: include/functions.inc:1899
 msgid "Schema used to store FusionDirectory configuration"
 msgstr ""
 
-#: include/functions.inc:2025
+#: include/functions.inc:1907
 msgid "Used to store trust mode information in users or groups."
 msgstr ""
 
-#: include/functions.inc:2032
+#: include/functions.inc:1915
 msgid "Used to store templates."
 msgstr ""
 
-#: include/functions.inc:2040
+#: include/functions.inc:1924
 msgid "Used to store POSIX information."
 msgstr ""
 
-#: include/functions.inc:2048
+#: include/functions.inc:1932
 #, php-format
 msgid "Missing required object class \"%s\"!"
 msgstr ""
 
-#: include/functions.inc:2050
+#: include/functions.inc:1934
 #, php-format
 msgid "Missing optional object class \"%s\"!"
 msgstr ""
 
-#: include/functions.inc:2054
+#: include/functions.inc:1938
 #, php-format
 msgid "Class(es) available"
 msgstr "Доступные класс(ы)"
 
-#: include/functions.inc:2072
+#: include/functions.inc:1957
 msgid ""
 "You have installed the mixed groups plugin, but your schema configuration "
 "does not support this."
 msgstr ""
 
-#: include/functions.inc:2073
+#: include/functions.inc:1958
 msgid ""
 "In order to use mixed groups the objectClass \"posixGroup\" must be "
 "AUXILIARY"
 msgstr ""
 
-#: include/functions.inc:2076
+#: include/functions.inc:1961
 msgid ""
 "Your schema is configured to support mixed groups, but this plugin is not "
 "present."
 msgstr ""
 
-#: include/functions.inc:2077
+#: include/functions.inc:1962
 msgid "The objectClass \"posixGroup\" must be STRUCTURAL"
 msgstr ""
 
-#: include/functions.inc:2522
+#: include/functions.inc:2311
 #, php-format
 msgid "Cannot locate file '%s' - please run '%s' to fix this"
 msgstr ""
 "Не могу обнаружить файл '%s' - пожалуйста запустите '%s', чтобы исправить "
 "это."
 
-#: include/class_pluglist.inc:185
+#: include/class_pluglist.inc:196
 msgid "All objects in this category"
 msgstr "Все объекты в этой категории"
 
-#: include/select/userSelect/class_userSelect.inc:32
+#: include/select/userSelect/class_userSelect.inc:35
 #: plugins/admin/users/user-list.xml:49
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:63
-#: plugins/personal/generic/class_user.inc:383
-#: ihtml/themes/breezy/recovery.tpl.c:26
+#: plugins/personal/generic/class_user.inc:389
 msgid "Login"
 msgstr "Имя пользователя"
 
-#: include/class_CopyPasteHandler.inc:208
-#: include/simpleplugin/class_simpleManagement.inc:1025
-#: include/simpleplugin/class_simpleManagement.inc:1124
-#: include/simpleplugin/class_simpleManagement.inc:1175
-#: include/simpleplugin/class_simpleManagement.inc:1255
-#: include/simpleplugin/class_simpleManagement.inc:1273
+#: include/class_CopyPasteHandler.inc:206
+#: include/simpleplugin/class_simpleTabs.inc:316
+#: include/simpleplugin/class_simpleManagement.inc:1041
+#: include/simpleplugin/class_simpleManagement.inc:1138
+#: include/simpleplugin/class_simpleManagement.inc:1187
+#: include/simpleplugin/class_simpleManagement.inc:1267
+#: include/simpleplugin/class_simpleManagement.inc:1285
+#: include/simpleplugin/class_simpleManagement.inc:1329
 #: plugins/admin/users/class_userManagement.inc:153
 msgid "Permission"
 msgstr "Права"
 
-#: include/class_CopyPasteHandler.inc:268
+#: include/class_CopyPasteHandler.inc:266
 msgid "Cancel all"
 msgstr "Отменить все"
 
-#: include/class_CopyPasteHandler.inc:334
+#: include/class_CopyPasteHandler.inc:332
 msgid "Cannot paste"
 msgstr "Не могу вставить"
 
@@ -874,109 +906,109 @@ msgstr "'%s' должен быть %d или больше!"
 msgid "'%s' depends on '%s' - please provide both values!"
 msgstr "'%s' зависит от '%s' - пожалуйста предоставьте оба значения!"
 
-#: include/class_msgPool.inc:404
+#: include/class_msgPool.inc:405
 #, php-format
 msgid "There is already an entry with this '%s' attribute in the system!"
 msgstr "Запись с '%s' атрибутом уже есть в системе!"
 
-#: include/class_msgPool.inc:406
+#: include/class_msgPool.inc:407
 #, php-format
 msgid "The entry '%s' already use this '%s' attribute!"
 msgstr "Запись '%s' уже имеет атрибут '%s'!"
 
-#: include/class_msgPool.inc:417
+#: include/class_msgPool.inc:418
 #, php-format
 msgid "The required field '%s' is empty!"
 msgstr "Обязательное поле '%s' пусто!"
 
-#: include/class_msgPool.inc:435
+#: include/class_msgPool.inc:436
 msgid "Example:"
 msgstr "Пример:"
 
-#: include/class_msgPool.inc:455 include/class_msgPool.inc:459
+#: include/class_msgPool.inc:456 include/class_msgPool.inc:460
 #, php-format
 msgid "The field '%s' contains invalid characters"
 msgstr "Поле '%s' содержит недопустимые символы."
 
-#: include/class_msgPool.inc:456
+#: include/class_msgPool.inc:457
 #, php-format
 msgid "'%s' is not allowed:"
 msgstr ""
 
-#: include/class_msgPool.inc:456
+#: include/class_msgPool.inc:457
 #, php-format
 msgid "'%s' are not allowed!"
 msgstr ""
 
-#: include/class_msgPool.inc:470
+#: include/class_msgPool.inc:471
 #, php-format
 msgid "Missing %s PHP extension!"
 msgstr "Пропущено %s PHP расширение!"
 
-#: include/class_msgPool.inc:478 setup/setup_migrate_adminAccount.tpl.c:23
+#: include/class_msgPool.inc:479 setup/setup_migrate_adminAccount.tpl.c:23
 #: setup/setup_migrate_accounts.tpl.c:32
 #: ihtml/themes/breezy/msg_dialog.tpl.c:17
 #: ihtml/themes/breezy/islocked.tpl.c:17
 msgid "Cancel"
 msgstr "Отмена"
 
-#: include/class_msgPool.inc:486 setup/class_setupStepMigrate.inc:133
+#: include/class_msgPool.inc:487 setup/class_setupStepMigrate.inc:133
 #: setup/setup_checks.tpl.c:2 ihtml/themes/breezy/msg_dialog.tpl.c:14
 msgid "Ok"
 msgstr "Ok"
 
-#: include/class_msgPool.inc:494 setup/setup_migrate_adminAccount.tpl.c:20
+#: include/class_msgPool.inc:495 setup/setup_migrate_adminAccount.tpl.c:20
 #: setup/setup_migrate_accounts.tpl.c:29
 msgid "Apply"
 msgstr "Применить"
 
-#: include/class_msgPool.inc:502
+#: include/class_msgPool.inc:503
 msgid "Save"
 msgstr "Сохранить"
 
-#: include/class_msgPool.inc:512
+#: include/class_msgPool.inc:513
 #, php-format
 msgid "Add"
 msgstr "Добавить"
 
-#: include/class_msgPool.inc:512
+#: include/class_msgPool.inc:513
 #, php-format
 msgid "Add %s"
 msgstr "Добавить %s"
 
-#: include/class_msgPool.inc:522
-#: include/simpleplugin/attributes/class_SetAttribute.inc:508
-#: include/simpleplugin/attributes/class_SetAttribute.inc:509
+#: include/class_msgPool.inc:523
+#: include/simpleplugin/attributes/class_SetAttribute.inc:517
+#: include/simpleplugin/attributes/class_SetAttribute.inc:518
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:194
 #, php-format
 msgid "Delete"
 msgstr "Удалить"
 
-#: include/class_msgPool.inc:522
+#: include/class_msgPool.inc:523
 #, php-format
 msgid "Delete %s"
 msgstr "Удалить %s"
 
-#: include/class_msgPool.inc:532
+#: include/class_msgPool.inc:533
 #, php-format
 msgid "Edit..."
 msgstr "Изменить..."
 
-#: include/class_msgPool.inc:532
+#: include/class_msgPool.inc:533
 #, php-format
 msgid "Edit %s..."
 msgstr "Изменить %s..."
 
-#: include/class_msgPool.inc:540
+#: include/class_msgPool.inc:541
 msgid "Back"
 msgstr "Назад"
 
-#: include/class_msgPool.inc:569
+#: include/class_msgPool.inc:570
 #, php-format
 msgid "This account has no valid %s extensions!"
 msgstr "Для этой учетной записи нет корректных расширений %s!"
 
-#: include/class_msgPool.inc:582
+#: include/class_msgPool.inc:583
 #, php-format
 msgid ""
 "This account has %s settings enabled. You can disable them by clicking "
@@ -985,7 +1017,7 @@ msgstr ""
 "В этой учетной записи включены %s настройки. Вы можете отключить их, щелкнув"
 " ниже."
 
-#: include/class_msgPool.inc:588 include/class_msgPool.inc:595
+#: include/class_msgPool.inc:588
 #, php-format
 msgid ""
 "This account has %s settings enabled. To disable them, you'll need to remove"
@@ -994,7 +1026,7 @@ msgstr ""
 "В этой учетной записи настройки %s включены. Чтобы отключить еë, вам нужно "
 "вначале удалить настройки %s!"
 
-#: include/class_msgPool.inc:610
+#: include/class_msgPool.inc:604
 #, php-format
 msgid ""
 "This account has %s settings disabled. You can enable them by clicking "
@@ -1003,7 +1035,7 @@ msgstr ""
 "В этой учетной записи отключены %s настройки. Вы можете включить их, щелкнув"
 " ниже."
 
-#: include/class_msgPool.inc:612
+#: include/class_msgPool.inc:606
 #, php-format
 msgid ""
 "This account has %s settings disabled. To enable them, you'll need to add "
@@ -1012,191 +1044,191 @@ msgstr ""
 "В этой учетной записи настройки %s отключены. Чтобы включить её, вам нужно "
 "вначале добавить настройки для %s."
 
-#: include/class_msgPool.inc:614
+#: include/class_msgPool.inc:608
 #, php-format
 msgid ""
 "This account has %s settings disabled. To enable them, you'll need to "
 "disable the %s settings first!"
 msgstr ""
 
-#: include/class_msgPool.inc:625
+#: include/class_msgPool.inc:619
 #, php-format
 msgid "Add %s settings"
 msgstr "Добавить параметры %s"
 
-#: include/class_msgPool.inc:636
+#: include/class_msgPool.inc:630
 #, php-format
 msgid "Remove %s settings"
 msgstr "Удалить параметры %s"
 
-#: include/class_msgPool.inc:644
+#: include/class_msgPool.inc:638
 msgid "Click the 'Edit' button below to change information in this dialog"
 msgstr ""
 
-#: include/class_msgPool.inc:652
+#: include/class_msgPool.inc:646
 msgid "January"
 msgstr "Январь"
 
-#: include/class_msgPool.inc:652
+#: include/class_msgPool.inc:646
 msgid "February"
 msgstr "Февраль"
 
-#: include/class_msgPool.inc:652
+#: include/class_msgPool.inc:646
 msgid "March"
 msgstr "Март"
 
-#: include/class_msgPool.inc:652
+#: include/class_msgPool.inc:646
 msgid "April"
 msgstr "Апрель"
 
-#: include/class_msgPool.inc:653
+#: include/class_msgPool.inc:647
 msgid "May"
 msgstr "Май"
 
-#: include/class_msgPool.inc:653
+#: include/class_msgPool.inc:647
 msgid "June"
 msgstr "Июнь"
 
-#: include/class_msgPool.inc:653
+#: include/class_msgPool.inc:647
 msgid "July"
 msgstr "Июль"
 
-#: include/class_msgPool.inc:653
+#: include/class_msgPool.inc:647
 msgid "August"
 msgstr "Август"
 
-#: include/class_msgPool.inc:653
+#: include/class_msgPool.inc:647
 msgid "September"
 msgstr "Сентябрь"
 
-#: include/class_msgPool.inc:654
+#: include/class_msgPool.inc:648
 msgid "October"
 msgstr "Октябрь"
 
-#: include/class_msgPool.inc:654
+#: include/class_msgPool.inc:648
 msgid "November"
 msgstr "Ноябрь"
 
-#: include/class_msgPool.inc:654
+#: include/class_msgPool.inc:648
 msgid "December"
 msgstr "Декабрь"
 
-#: include/class_msgPool.inc:663
+#: include/class_msgPool.inc:657
 msgid "Sunday"
 msgstr "Воскресенье"
 
-#: include/class_msgPool.inc:663
+#: include/class_msgPool.inc:657
 msgid "Monday"
 msgstr "Понедельник"
 
-#: include/class_msgPool.inc:663
+#: include/class_msgPool.inc:657
 msgid "Tuesday"
 msgstr "Вторник"
 
-#: include/class_msgPool.inc:663
+#: include/class_msgPool.inc:657
 msgid "Wednesday"
 msgstr "Среда"
 
-#: include/class_msgPool.inc:663
+#: include/class_msgPool.inc:657
 msgid "Thursday"
 msgstr "Четверг"
 
-#: include/class_msgPool.inc:663
+#: include/class_msgPool.inc:657
 msgid "Friday"
 msgstr "Пятница"
 
-#: include/class_msgPool.inc:663
+#: include/class_msgPool.inc:657
 msgid "Saturday"
 msgstr "Суббота"
 
-#: include/class_msgPool.inc:680
+#: include/class_msgPool.inc:674
 msgid "read operation"
 msgstr "операция чтения"
 
-#: include/class_msgPool.inc:680
+#: include/class_msgPool.inc:674
 msgid "add operation"
 msgstr "операция добавления"
 
-#: include/class_msgPool.inc:680
+#: include/class_msgPool.inc:674
 msgid "modify operation"
 msgstr "операция изменения"
 
-#: include/class_msgPool.inc:681
+#: include/class_msgPool.inc:675
 msgid "delete operation"
 msgstr "операция удаления"
 
-#: include/class_msgPool.inc:681
+#: include/class_msgPool.inc:675
 msgid "search operation"
 msgstr "операция поиска"
 
-#: include/class_msgPool.inc:681
+#: include/class_msgPool.inc:675
 msgid "authentication"
 msgstr "аутентификация"
 
-#: include/class_msgPool.inc:684
+#: include/class_msgPool.inc:678
 #, php-format
 msgid "LDAP %s failed!"
 msgstr ""
 
-#: include/class_msgPool.inc:686
+#: include/class_msgPool.inc:680
 msgid "LDAP operation failed!"
 msgstr "Сбой при выполнении операции в LDAP!"
 
-#: include/class_msgPool.inc:691 include/class_SnapshotDialogs.inc:33
-#: include/class_SnapshotDialogs.inc:182
-#: plugins/admin/aclrole/class_aclEditionDialog.inc:341
+#: include/class_msgPool.inc:685 include/class_SnapshotDialogs.inc:43
+#: include/class_SnapshotDialogs.inc:261
+#: plugins/admin/aclrole/class_aclEditionDialog.inc:342
 msgid "Object"
 msgstr "Объект"
 
-#: include/class_msgPool.inc:707
+#: include/class_msgPool.inc:701
 msgid "Upload failed!"
 msgstr "Сбой при загрузке!"
 
-#: include/class_msgPool.inc:710
+#: include/class_msgPool.inc:704
 #, php-format
 msgid "Upload failed: %s"
 msgstr "Сбой при загрузке: %s"
 
-#: include/class_msgPool.inc:721
+#: include/class_msgPool.inc:715
 msgid "Communication failure with the infrastructure service!"
 msgstr ""
 
-#: include/class_msgPool.inc:723
+#: include/class_msgPool.inc:717
 #, php-format
 msgid "Communication failure with the infrastructure service: %s"
 msgstr ""
 
-#: include/class_msgPool.inc:736 include/class_msgPool.inc:739
+#: include/class_msgPool.inc:730 include/class_msgPool.inc:733
 #, php-format
 msgid "This '%s' is still in use by this object: %s"
 msgstr "'%s' по-прежнему используется этим объектом: %s"
 
-#: include/class_msgPool.inc:742
+#: include/class_msgPool.inc:736
 #, php-format
 msgid "This '%s' is still in use."
 msgstr "'%s' по-прежнему используется."
 
-#: include/class_msgPool.inc:744
+#: include/class_msgPool.inc:738
 #, php-format
 msgid "This '%s' is still in use by these objects: %s"
 msgstr "'%s' по-прежнему используется этими объектами: %s"
 
-#: include/class_msgPool.inc:754
+#: include/class_msgPool.inc:748
 #, php-format
 msgid "File '%s' does not exist!"
 msgstr "Файл '%s' не существует!"
 
-#: include/class_msgPool.inc:764
+#: include/class_msgPool.inc:758
 #, php-format
 msgid "Cannot open file '%s' for reading!"
 msgstr "Не могу открыть файл '%s' для чтения!"
 
-#: include/class_msgPool.inc:774
+#: include/class_msgPool.inc:768
 #, php-format
 msgid "Cannot open file '%s' for writing!"
 msgstr "Не могу открыть файл '%s' для записи!"
 
-#: include/class_msgPool.inc:784
+#: include/class_msgPool.inc:778
 #, php-format
 msgid ""
 "The value for '%s' is currently unconfigured or invalid, please check your "
@@ -1205,37 +1237,37 @@ msgstr ""
 "Значение для '%s' до сих пор не настроено или неверно, пожалуйста проверьте "
 "ваш конфигурационный файл!"
 
-#: include/class_msgPool.inc:794
+#: include/class_msgPool.inc:788
 #, php-format
 msgid "Cannot delete file '%s'!"
 msgstr "Не могу удалить файл '%s'!"
 
-#: include/class_msgPool.inc:804
+#: include/class_msgPool.inc:798
 #, php-format
 msgid "Cannot create folder '%s'!"
 msgstr "Не могу создать папку '%s'!"
 
-#: include/class_msgPool.inc:814
+#: include/class_msgPool.inc:808
 #, php-format
 msgid "Cannot delete folder '%s'!"
 msgstr "Не могу удалить папку '%s'!"
 
-#: include/class_msgPool.inc:824
+#: include/class_msgPool.inc:818
 #, php-format
 msgid "Checking for %s support"
 msgstr "Проверка поддержки %s"
 
-#: include/class_msgPool.inc:834
+#: include/class_msgPool.inc:828
 #, php-format
 msgid "Install and activate the %s PHP module."
 msgstr "Установите и активируйте %s PHP модуль."
 
-#: include/class_msgPool.inc:844
+#: include/class_msgPool.inc:838
 #, php-format
 msgid "Install and activate the %s Pear module."
 msgstr "Установите и активируйте %s Pear модуль."
 
-#: include/class_msgPool.inc:854
+#: include/class_msgPool.inc:848
 #, php-format
 msgid ""
 "Cannot initialize class '%s'! Maybe there is a plugin missing in your "
@@ -1244,12 +1276,12 @@ msgstr ""
 "Не могу инициализировать класс '%s'! Может быть какой то плагин пропущен в "
 "настройках FusionDirectory?"
 
-#: include/class_msgPool.inc:862
+#: include/class_msgPool.inc:856
 msgid ""
 "The supplied base is not valid and has been reset to the previous value!"
 msgstr ""
 
-#: include/class_templateHandling.inc:494
+#: include/class_templateHandling.inc:500
 #, php-format
 msgid ""
 "Recursive dependency in the template fields: \"%1$s\" cannot depend on "
@@ -1262,8 +1294,8 @@ msgstr "Пожалуйста выберете нужные записи"
 
 #: include/simpleplugin/simple-select-list.xml:32
 #: include/simpleplugin/simple-list.xml:32
-#: plugins/admin/departments/class_department.inc:171
-#: plugins/admin/groups/class_ogroup.inc:191
+#: plugins/admin/departments/class_department.inc:173
+#: plugins/admin/groups/class_ogroup.inc:215
 #: plugins/admin/groups/group-list.xml:33
 #: plugins/admin/groups/class_roleGeneric.inc:86
 #: plugins/admin/aclrole/class_aclRole.inc:99
@@ -1275,27 +1307,44 @@ msgstr "Название"
 
 #: include/simpleplugin/simple-select-list.xml:40
 #: include/simpleplugin/simple-list.xml:40
+#: include/class_SnapshotDialogs.inc:144 include/class_SnapshotDialogs.inc:150
 #: plugins/admin/departments/dep-list.xml:29
 #: plugins/admin/departments/class_department.inc:72
-#: plugins/admin/groups/class_ogroup.inc:196
+#: plugins/admin/groups/class_ogroup.inc:220
 #: plugins/admin/groups/group-list.xml:41
 #: plugins/admin/groups/class_roleGeneric.inc:91
 #: plugins/admin/aclrole/class_aclRole.inc:103
-#: plugins/personal/generic/class_user.inc:325
+#: plugins/personal/generic/class_user.inc:327
 msgid "Description"
 msgstr "Описание"
 
-#: include/simpleplugin/attributes/class_BaseSelectorAttribute.inc:37
+#: include/simpleplugin/class_simpleService.inc:113
+msgid "Get service status"
+msgstr ""
+
+#: include/simpleplugin/class_simpleService.inc:114
+msgid "Start service"
+msgstr "Запустить службу"
+
+#: include/simpleplugin/class_simpleService.inc:115
+msgid "Stop service"
+msgstr "Остановить службу"
+
+#: include/simpleplugin/class_simpleService.inc:116
+msgid "Restart service"
+msgstr "Перезапустить службу"
+
+#: include/simpleplugin/attributes/class_BaseSelectorAttribute.inc:39
 #: setup/class_setupStepLdap.inc:50 setup/class_setupStepLdap.inc:119
 #: setup/class_setupStepLdap.inc:127 ihtml/themes/breezy/simple-list.tpl.c:2
 msgid "Base"
 msgstr "Ветка"
 
-#: include/simpleplugin/attributes/class_BaseSelectorAttribute.inc:40
+#: include/simpleplugin/attributes/class_BaseSelectorAttribute.inc:42
 msgid "Object base"
 msgstr ""
 
-#: include/simpleplugin/attributes/class_BaseSelectorAttribute.inc:124
+#: include/simpleplugin/attributes/class_BaseSelectorAttribute.inc:126
 msgid "Base field value should always be a string"
 msgstr ""
 
@@ -1304,51 +1353,80 @@ msgstr ""
 msgid "Error, incorrect date: %s"
 msgstr ""
 
-#: include/simpleplugin/attributes/class_FileAttribute.inc:31
-#: include/simpleplugin/attributes/class_FileAttribute.inc:34
-#: include/simpleplugin/attributes/class_FileAttribute.inc:37
+#: include/simpleplugin/attributes/class_DateAttribute.inc:199
+#: include/simpleplugin/attributes/class_DateAttribute.inc:273
+msgid "Hours"
+msgstr ""
+
+#: include/simpleplugin/attributes/class_DateAttribute.inc:204
+#: include/simpleplugin/attributes/class_DateAttribute.inc:278
+msgid "Minutes"
+msgstr "Минуты"
+
+#: include/simpleplugin/attributes/class_DateAttribute.inc:209
+msgid "Seconds"
+msgstr "Секунды"
+
+#: include/simpleplugin/attributes/class_DateAttribute.inc:297
+#: include/class_SnapshotDialogs.inc:143 include/class_SnapshotDialogs.inc:149
+msgid "Date"
+msgstr "Дата"
+
+#: include/simpleplugin/attributes/class_DateAttribute.inc:303
+msgid "Time"
+msgstr ""
+
+#: include/simpleplugin/attributes/class_FileAttribute.inc:33
+#: include/simpleplugin/attributes/class_FileAttribute.inc:36
+#: include/simpleplugin/attributes/class_FileAttribute.inc:39
 #, php-format
 msgid "Cannot read uploaded file: %s"
 msgstr "Не могу прочесть загруженный файл: %s"
 
-#: include/simpleplugin/attributes/class_FileAttribute.inc:31
+#: include/simpleplugin/attributes/class_FileAttribute.inc:33
 msgid "file is empty"
 msgstr "файл пустой"
 
-#: include/simpleplugin/attributes/class_FileAttribute.inc:34
+#: include/simpleplugin/attributes/class_FileAttribute.inc:36
 msgid "file not found"
 msgstr "файл не найден"
 
-#: include/simpleplugin/attributes/class_FileAttribute.inc:37
+#: include/simpleplugin/attributes/class_FileAttribute.inc:39
 msgid "file not readable"
 msgstr "файл не читаем"
 
-#: include/simpleplugin/attributes/class_FileAttribute.inc:72
+#: include/simpleplugin/attributes/class_FileAttribute.inc:74
 #, php-format
 msgid "%s (%d bytes)"
 msgstr "%s (%d байт)"
 
-#: include/simpleplugin/attributes/class_FileAttribute.inc:119
-#: include/simpleplugin/attributes/class_FileAttribute.inc:326
-#: include/simpleplugin/attributes/class_FileAttribute.inc:327
+#: include/simpleplugin/attributes/class_FileAttribute.inc:102
+#: include/simpleplugin/class_Attribute.inc:641
+#, php-format
+msgid "Attribute %s is disabled, its value could not be set"
+msgstr ""
+
+#: include/simpleplugin/attributes/class_FileAttribute.inc:161
+#: include/simpleplugin/attributes/class_FileAttribute.inc:382
+#: include/simpleplugin/attributes/class_FileAttribute.inc:383
 msgid "Upload"
 msgstr "Загрузить"
 
-#: include/simpleplugin/attributes/class_FileAttribute.inc:124
-#: include/simpleplugin/attributes/class_FileAttribute.inc:125
+#: include/simpleplugin/attributes/class_FileAttribute.inc:167
+#: include/simpleplugin/attributes/class_FileAttribute.inc:168
 msgid "Download"
 msgstr "Скачать"
 
-#: include/simpleplugin/attributes/class_FileAttribute.inc:301
+#: include/simpleplugin/attributes/class_FileAttribute.inc:357
 msgid ""
 "Cannot save user picture, FusionDirectory requires the PHP module "
 "\"imagick\" to be installed!"
 msgstr ""
 
-#: include/simpleplugin/attributes/class_FileAttribute.inc:336
-#: include/simpleplugin/attributes/class_FileAttribute.inc:337
-#: include/simpleplugin/class_dialogAttributes.inc:690
-#: include/simpleplugin/class_dialogAttributes.inc:691
+#: include/simpleplugin/attributes/class_FileAttribute.inc:392
+#: include/simpleplugin/attributes/class_FileAttribute.inc:393
+#: include/simpleplugin/class_dialogAttributes.inc:780
+#: include/simpleplugin/class_dialogAttributes.inc:781
 #: include/simpleplugin/simple-list.xml:75
 #: include/simpleplugin/simple-list.xml:125
 #: plugins/admin/departments/dep-list.xml:67
@@ -1358,6 +1436,26 @@ msgstr ""
 #: plugins/admin/users/user-list.xml:115
 msgid "Remove"
 msgstr "Удалить"
+
+#: include/simpleplugin/attributes/class_PhoneNumberAttribute.inc:37
+msgid "Number"
+msgstr ""
+
+#: include/simpleplugin/attributes/class_PhoneNumberAttribute.inc:144
+#: include/simpleplugin/attributes/class_PhoneNumberAttribute.inc:145
+#: include/simpleplugin/attributes/class_SetAttribute.inc:507
+#: include/simpleplugin/attributes/class_SetAttribute.inc:508
+#: include/simpleplugin/class_dialogAttributes.inc:770
+#: include/simpleplugin/class_dialogAttributes.inc:771
+#: include/simpleplugin/simple-list.xml:67
+#: include/simpleplugin/simple-list.xml:112
+#: plugins/admin/departments/dep-list.xml:79
+#: plugins/admin/groups/group-list.xml:74
+#: plugins/admin/groups/group-list.xml:137
+#: plugins/admin/users/user-list.xml:108
+#: plugins/admin/aclrole/class_aclEditionDialog.inc:192
+msgid "Edit"
+msgstr "Изменить"
 
 #: include/simpleplugin/attributes/class_IntAttribute.inc:50
 #, php-format
@@ -1389,111 +1487,97 @@ msgstr "Вещественно число больше %f"
 msgid "A float smaller than %f"
 msgstr "Вещественное число меньше %f"
 
-#: include/simpleplugin/attributes/class_SetAttribute.inc:136
+#: include/simpleplugin/attributes/class_SetAttribute.inc:134
 #, php-format
 msgid "The value for multivaluated field \"%s\" is not an array"
 msgstr ""
 
-#: include/simpleplugin/attributes/class_SetAttribute.inc:230
-#: include/simpleplugin/class_Attribute.inc:589
+#: include/simpleplugin/attributes/class_SetAttribute.inc:228
+#: include/simpleplugin/class_Attribute.inc:594
 #, php-format
 msgid "%s (required)"
 msgstr "%s (обязательный)"
 
-#: include/simpleplugin/attributes/class_SetAttribute.inc:346
+#: include/simpleplugin/attributes/class_SetAttribute.inc:352
 #, php-format
 msgid "SetAttribute \"%s\" was set to a non-compatible value"
 msgstr ""
 
-#: include/simpleplugin/attributes/class_SetAttribute.inc:498
-#: include/simpleplugin/attributes/class_SetAttribute.inc:499
-#: include/simpleplugin/class_dialogAttributes.inc:680
-#: include/simpleplugin/class_dialogAttributes.inc:681
-#: include/simpleplugin/simple-list.xml:67
-#: include/simpleplugin/simple-list.xml:112
-#: plugins/admin/departments/dep-list.xml:79
-#: plugins/admin/groups/group-list.xml:74
-#: plugins/admin/groups/group-list.xml:137
-#: plugins/admin/users/user-list.xml:108
-#: plugins/admin/aclrole/class_aclEditionDialog.inc:192
-msgid "Edit"
-msgstr "Изменить"
-
-#: include/simpleplugin/attributes/class_SetAttribute.inc:592
+#: include/simpleplugin/attributes/class_SetAttribute.inc:601
 #, php-format
 msgid "Invalid value for %s"
 msgstr "Неверное значение для %s"
 
 #: include/simpleplugin/attributes/class_SelectAttribute.inc:66
-#: include/simpleplugin/attributes/class_SelectAttribute.inc:119
-#: include/simpleplugin/class_dialogAttributes.inc:669
+#: include/simpleplugin/attributes/class_SelectAttribute.inc:127
+#: include/simpleplugin/class_dialogAttributes.inc:758
 msgid "None"
 msgstr ""
 
-#: include/simpleplugin/attributes/class_SelectAttribute.inc:145
+#: include/simpleplugin/attributes/class_SelectAttribute.inc:153
 #, php-format
 msgid "The value \"%s\" for field \"%s\" is not in the list of possible choices"
 msgstr ""
 
-#: include/simpleplugin/attributes/class_StringAttribute.inc:113
+#: include/simpleplugin/attributes/class_StringAttribute.inc:114
 #, php-format
 msgid "StringAttribute \"%s\" was set to a non-compatible value"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:343
+#: include/simpleplugin/class_simplePlugin.inc:345
 msgid "Template settings"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:346
+#: include/simpleplugin/class_simplePlugin.inc:348
 msgid "This is the name of the template"
 msgstr "Это название шаблона"
 
-#: include/simpleplugin/class_simplePlugin.inc:466
+#: include/simpleplugin/class_simplePlugin.inc:468
 msgid "Only main tab can compute dn"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:473
+#: include/simpleplugin/class_simplePlugin.inc:475
 #, php-format
 msgid "Could not compute dn: no parent tab class for \"%s\""
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:485
+#: include/simpleplugin/class_simplePlugin.inc:487
 #, php-format
 msgid ""
 "Could not compute dn: could not find objectType infos from tab class \"%s\""
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:1305
+#: include/simpleplugin/class_simplePlugin.inc:1319
 #, php-format
 msgid "There is already an entry with the same dn : %s"
 msgstr "Уже есть запись с таким dn: %s"
 
-#: include/simpleplugin/class_simplePlugin.inc:1312
+#: include/simpleplugin/class_simplePlugin.inc:1326
 #, php-format
 msgid "The entry %s is not existing"
 msgstr "Запись %s не существует"
 
-#: include/simpleplugin/class_simplePlugin.inc:1502
+#: include/simpleplugin/class_simplePlugin.inc:1525
 msgid ""
 "The object has changed since opened in FusionDirectory. All changes that may"
 " be done by others will get lost if you save this entry!"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:1694
+#: include/simpleplugin/class_simplePlugin.inc:1789
 #, php-format
 msgid "Service \"%s\""
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:1696
+#: include/simpleplugin/class_simplePlugin.inc:1791
 #, php-format
 msgid "Tab \"%s\""
 msgstr "Вкладка \"%s\""
 
-#: include/simpleplugin/class_simplePlugin.inc:1759
+#: include/simpleplugin/class_simplePlugin.inc:1854
 msgid "Failed to create a unique DN"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:1848
+#: include/simpleplugin/class_simplePlugin.inc:1946
 #, php-format
 msgid "Unknown field \"%s\""
 msgstr "Неизвестное поле \"%s\""
@@ -1505,117 +1589,131 @@ msgid ""
 "configuration file."
 msgstr ""
 
-#: include/simpleplugin/class_simpleTabs.inc:382
+#: include/simpleplugin/class_simpleTabs.inc:396
 #, php-format
 msgid "Failed to compute DN for object: %s"
 msgstr ""
 
-#: include/simpleplugin/class_simpleTabs.inc:399
+#: include/simpleplugin/class_simpleTabs.inc:413
 #, php-format
 msgid "Move from \"%s\" to \"%s\" failed: %s"
 msgstr ""
 
-#: include/simpleplugin/class_helpersAttribute.inc:263
+#: include/simpleplugin/class_Attribute.inc:907
+#, php-format
+msgid "Invalid: %s"
+msgstr ""
+
+#: include/simpleplugin/class_helpersAttribute.inc:268
 msgid "B"
 msgstr "B"
 
-#: include/simpleplugin/class_helpersAttribute.inc:264
+#: include/simpleplugin/class_helpersAttribute.inc:269
 msgid "KiB"
 msgstr "KiB"
 
-#: include/simpleplugin/class_helpersAttribute.inc:265
+#: include/simpleplugin/class_helpersAttribute.inc:270
 msgid "MiB"
 msgstr "MiB"
 
-#: include/simpleplugin/class_helpersAttribute.inc:266
+#: include/simpleplugin/class_helpersAttribute.inc:271
 msgid "GiB"
 msgstr "GiB"
 
-#: include/simpleplugin/class_helpersAttribute.inc:267
+#: include/simpleplugin/class_helpersAttribute.inc:272
 msgid "TiB"
 msgstr "TiB"
 
-#: include/simpleplugin/class_helpersAttribute.inc:278
+#: include/simpleplugin/class_helpersAttribute.inc:286
 msgid "seconds"
 msgstr "секунды"
 
-#: include/simpleplugin/class_helpersAttribute.inc:279
+#: include/simpleplugin/class_helpersAttribute.inc:287
 msgid "minutes"
 msgstr "минуты"
 
-#: include/simpleplugin/class_helpersAttribute.inc:280
+#: include/simpleplugin/class_helpersAttribute.inc:288
 msgid "hours"
 msgstr "часы"
 
-#: include/simpleplugin/class_helpersAttribute.inc:281
+#: include/simpleplugin/class_helpersAttribute.inc:289
 msgid "days"
 msgstr "дни"
 
-#: include/simpleplugin/class_dialogAttributes.inc:451
+#: include/simpleplugin/class_dialogAttributes.inc:254
+msgid "Add (dialog)"
+msgstr ""
+
+#: include/simpleplugin/class_dialogAttributes.inc:517
 #, php-format
 msgid "POSIX group %s"
 msgstr "POSIX группа %s"
 
-#: include/simpleplugin/class_dialogAttributes.inc:453
-#: plugins/config/class_configInLdap.inc:474
+#: include/simpleplugin/class_dialogAttributes.inc:519
+#: plugins/config/class_configInLdap.inc:479
 #, php-format
 msgid "Role %s"
 msgstr "Роль %s"
 
-#: include/simpleplugin/class_dialogAttributes.inc:455
-#: plugins/config/class_configInLdap.inc:467
+#: include/simpleplugin/class_dialogAttributes.inc:521
+#: plugins/config/class_configInLdap.inc:472
 #, php-format
 msgid "Group %s"
 msgstr "Группа %s"
 
-#: include/simpleplugin/class_dialogAttributes.inc:490
+#: include/simpleplugin/class_dialogAttributes.inc:559
 msgid "Group of user"
 msgstr "Группа пользователя"
 
-#: include/simpleplugin/class_dialogAttributes.inc:671
+#: include/simpleplugin/class_dialogAttributes.inc:760
 msgid "Unknown"
 msgstr "Неизвестно"
 
-#: include/simpleplugin/class_simpleManagement.inc:290
+#: include/simpleplugin/class_simpleManagement.inc:301
 #: plugins/admin/users/user-list.xml:87
 msgid "From template"
 msgstr "Из шаблона"
 
-#: include/simpleplugin/class_simpleManagement.inc:318
+#: include/simpleplugin/class_simpleManagement.inc:329
 #, php-format
 msgid "%s template"
 msgstr "шаблон %s "
 
-#: include/simpleplugin/class_simpleManagement.inc:514
-#: include/simpleplugin/class_simpleManagement.inc:520
-#: plugins/admin/groups/class_groupManagement.inc:351
+#: include/simpleplugin/class_simpleManagement.inc:526
+#: include/simpleplugin/class_simpleManagement.inc:532
+#: plugins/admin/groups/class_groupManagement.inc:355
 #, php-format
 msgid "Show %s"
 msgstr "Показать %s"
 
-#: include/simpleplugin/class_simpleManagement.inc:551
+#: include/simpleplugin/class_simpleManagement.inc:563
 msgid "Filter error"
 msgstr "Ошибка фильтра"
 
-#: include/simpleplugin/class_simpleManagement.inc:551
+#: include/simpleplugin/class_simpleManagement.inc:563
 msgid "The filter is incomplete!"
 msgstr "Фильтр неполный!"
 
-#: include/simpleplugin/class_simpleManagement.inc:1090
+#: include/simpleplugin/class_simpleManagement.inc:1106
 msgid "Permission error"
 msgstr "Ошибка доступа"
 
-#: include/simpleplugin/class_simpleManagement.inc:1124
+#: include/simpleplugin/class_simpleManagement.inc:1138
 #, php-format
 msgid "You are not allowed to create a snapshot for %s."
 msgstr "Вам не разрешено создавать снапшот для %s."
 
-#: include/simpleplugin/class_simpleManagement.inc:1175
-#: include/simpleplugin/class_simpleManagement.inc:1255
-#: include/simpleplugin/class_simpleManagement.inc:1273
+#: include/simpleplugin/class_simpleManagement.inc:1187
+#: include/simpleplugin/class_simpleManagement.inc:1267
+#: include/simpleplugin/class_simpleManagement.inc:1285
 #, php-format
 msgid "You are not allowed to restore a snapshot for %s."
 msgstr "Вам не разрешено восстанавливать снапшот для %s."
+
+#: include/simpleplugin/class_simpleManagement.inc:1329
+#, php-format
+msgid "You are not allowed to delete a snapshot for %s."
+msgstr ""
 
 #: include/simpleplugin/simple-list.xml:11
 msgid "NO LABEL"
@@ -1624,7 +1722,7 @@ msgstr ""
 #: include/simpleplugin/simple-list.xml:59
 #: plugins/admin/departments/dep-list.xml:48
 #: plugins/admin/groups/group-list.xml:66 plugins/admin/users/user-list.xml:73
-#: setup/class_setupStepMigrate.inc:805
+#: setup/class_setupStepMigrate.inc:822
 msgid "Create"
 msgstr "Создать"
 
@@ -1667,111 +1765,115 @@ msgstr ""
 "Запрашиваемый канал не существует! Пожалуйста свяжитесь с вашим системным "
 "администратором."
 
-#: include/class_ldap.inc:274
+#: include/class_ldap.inc:277
 msgid "Performance warning"
 msgstr "Предупреждение о производительности"
 
-#: include/class_ldap.inc:274
+#: include/class_ldap.inc:277
 #, php-format
 msgid "LDAP performance is poor: last query took about %.2fs!"
 msgstr "Низкая производительность LDAP: последний запрос занял около %.2fs!"
 
-#: include/class_ldap.inc:796
+#: include/class_ldap.inc:797
+#, php-format
+msgid "Cannot automatically create subtrees with RDN \"%s\": not supported"
+msgstr ""
+
+#: include/class_ldap.inc:822
 #, php-format
 msgid ""
 "Cannot automatically create subtrees with RDN \"%s\": no object class found!"
 msgstr ""
 
-#: include/class_ldap.inc:834
-#, php-format
-msgid "Cannot automatically create subtrees with RDN \"%s\": not supported"
-msgstr ""
-
-#: include/class_ldap.inc:922
+#: include/class_ldap.inc:897
 #, php-format
 msgid "while operating on '%s' using LDAP server '%s'"
 msgstr "во время операции на '%s' использовался LDAP сервер '%s'"
 
-#: include/class_ldap.inc:924
+#: include/class_ldap.inc:899
 #, php-format
 msgid "while operating on LDAP server %s"
 msgstr "во время операции на LDAP сервер %s"
 
-#: include/class_ldap.inc:1014
+#: include/class_ldap.inc:1012
 msgid "proc_open failed to execute ldapsearch"
 msgstr ""
 
-#: include/class_ldap.inc:1062
+#: include/class_ldap.inc:1058
 #, php-format
 msgid "Error line %s, first line of an entry cannot start with a space"
 msgstr ""
 
-#: include/class_ldap.inc:1080
+#: include/class_ldap.inc:1076
 #, php-format
 msgid "Error line %s, references to an external file are not supported"
 msgstr ""
 
-#: include/class_ldap.inc:1083
+#: include/class_ldap.inc:1079
 #, php-format
 msgid "Error line %s, attribute \"%s\" has no value"
 msgstr ""
 
-#: include/class_ldap.inc:1087
+#: include/class_ldap.inc:1083
 #, php-format
 msgid "Error line %s, an entry bloc can only have one dn"
 msgstr ""
 
-#: include/class_ldap.inc:1092
+#: include/class_ldap.inc:1088
 #, php-format
 msgid "Error line %s, an entry bloc should start with the dn"
 msgstr ""
 
-#: include/class_ldap.inc:1124
+#: include/class_ldap.inc:1120
 #, php-format
 msgid "Error while importing dn: \"%s\", please check your LDIF from line %s on!"
 msgstr ""
 
-#: include/class_SnapshotDialogs.inc:30
+#: include/class_SnapshotDialogs.inc:40
 msgid "Creating an object snapshot"
 msgstr ""
 
-#: include/class_SnapshotDialogs.inc:33 include/class_SnapshotDialogs.inc:182
+#: include/class_SnapshotDialogs.inc:43 include/class_SnapshotDialogs.inc:261
 msgid "DN of the object you are creating a snapshot of"
 msgstr ""
 
-#: include/class_SnapshotDialogs.inc:37
+#: include/class_SnapshotDialogs.inc:47
 msgid "Timestamp"
 msgstr "Дата"
 
-#: include/class_SnapshotDialogs.inc:37
+#: include/class_SnapshotDialogs.inc:47
 msgid "Timestamp of this snapshot creation"
 msgstr ""
 
-#: include/class_SnapshotDialogs.inc:41
+#: include/class_SnapshotDialogs.inc:51
 msgid "Reason"
 msgstr ""
 
-#: include/class_SnapshotDialogs.inc:41
+#: include/class_SnapshotDialogs.inc:51
 msgid "Reason for creating this snapshot"
 msgstr ""
 
-#: include/class_SnapshotDialogs.inc:60 include/class_SnapshotDialogs.inc:118
+#: include/class_SnapshotDialogs.inc:105 include/class_SnapshotDialogs.inc:187
 msgid "Y-m-d, H:i:s"
 msgstr "Y-m-d, H:i:s"
 
-#: include/class_SnapshotDialogs.inc:135 include/class_SnapshotDialogs.inc:136
+#: include/class_SnapshotDialogs.inc:142
+msgid "DN"
+msgstr ""
+
+#: include/class_SnapshotDialogs.inc:204 include/class_SnapshotDialogs.inc:205
 msgid "Restore"
 msgstr ""
 
-#: include/class_SnapshotDialogs.inc:178
+#: include/class_SnapshotDialogs.inc:257
 msgid "Restoring snapshots"
 msgstr ""
 
-#: include/class_SnapshotDialogs.inc:186
+#: include/class_SnapshotDialogs.inc:265
 msgid "Snapshots"
 msgstr "Снапшоты"
 
-#: include/class_SnapshotDialogs.inc:186
+#: include/class_SnapshotDialogs.inc:265
 msgid "Existing snapshots for this object"
 msgstr ""
 
@@ -1782,7 +1884,6 @@ msgstr "Список подразделений"
 #: plugins/admin/departments/dep-list.xml:21
 #: plugins/admin/departments/class_department.inc:33
 #: plugins/admin/departments/class_department.inc:39
-#: plugins/personal/generic/class_user.inc:430
 msgid "Department"
 msgstr "Подразделение"
 
@@ -1799,7 +1900,7 @@ msgstr "домен"
 #: plugins/admin/departments/class_organization.inc:30
 #: plugins/admin/departments/class_organization.inc:31
 #: plugins/admin/departments/class_organization.inc:34
-#: plugins/personal/generic/class_user.inc:426
+#: plugins/personal/generic/class_user.inc:432
 msgid "Organization"
 msgstr "Организация"
 
@@ -1809,7 +1910,7 @@ msgstr "организация"
 
 #: plugins/admin/departments/class_department.inc:34
 #: plugins/admin/departments/class_department.inc:35
-#: plugins/admin/departments/class_departmentManagement.inc:34
+#: plugins/admin/departments/class_departmentManagement.inc:33
 msgid "Departments"
 msgstr "Подразделения"
 
@@ -1818,7 +1919,7 @@ msgid "department"
 msgstr "отдел"
 
 #: plugins/admin/departments/class_department.inc:63
-#: plugins/admin/groups/class_ogroup.inc:187
+#: plugins/admin/groups/class_ogroup.inc:211
 #: plugins/admin/groups/group-list.xml:49
 #: plugins/admin/acl/class_aclAssignment.inc:38
 #: plugins/admin/users/user-list.xml:57
@@ -1860,7 +1961,7 @@ msgid "Website of this %s"
 msgstr "Сайт %s"
 
 #: plugins/admin/departments/class_department.inc:84
-#: plugins/personal/generic/class_user.inc:446
+#: plugins/personal/generic/class_user.inc:452
 msgid "Manager"
 msgstr "Руководитель"
 
@@ -1871,12 +1972,12 @@ msgstr "Руководитель этого %s"
 
 #: plugins/admin/departments/class_department.inc:90
 #: plugins/admin/departments/class_department.inc:96
-#: plugins/personal/generic/class_user.inc:340
+#: plugins/personal/generic/class_user.inc:342
 msgid "Location"
 msgstr "Местоположение"
 
 #: plugins/admin/departments/class_department.inc:93
-#: plugins/personal/generic/class_user.inc:344
+#: plugins/personal/generic/class_user.inc:346
 msgid "State"
 msgstr "Адм. единица"
 
@@ -1888,7 +1989,7 @@ msgid "Country"
 msgstr "Страна"
 
 #: plugins/admin/departments/class_department.inc:102
-#: plugins/personal/generic/class_user.inc:348
+#: plugins/personal/generic/class_user.inc:350
 msgid "Address"
 msgstr "Адрес"
 
@@ -1898,7 +1999,7 @@ msgid "A postal address for this %s"
 msgstr "Почтовый адрес для %s"
 
 #: plugins/admin/departments/class_department.inc:106
-#: plugins/personal/generic/class_user.inc:356
+#: plugins/personal/generic/class_user.inc:358
 msgid "Phone"
 msgstr "Телефон"
 
@@ -1906,12 +2007,12 @@ msgstr "Телефон"
 msgid "Telephone number"
 msgstr "Номер телефона"
 
-#: plugins/admin/departments/class_department.inc:110
-#: plugins/personal/generic/class_user.inc:368
+#: plugins/admin/departments/class_department.inc:112
+#: plugins/personal/generic/class_user.inc:374
 msgid "Fax"
 msgstr "Факс"
 
-#: plugins/admin/departments/class_department.inc:110
+#: plugins/admin/departments/class_department.inc:112
 msgid "Facsimile telephone number"
 msgstr "Номер факса"
 
@@ -1947,11 +2048,11 @@ msgstr "Местоположение"
 msgid "locality"
 msgstr "Местоположения"
 
-#: plugins/admin/departments/class_departmentManagement.inc:35
+#: plugins/admin/departments/class_departmentManagement.inc:34
 msgid "Manage departments"
 msgstr "Управление подразделениями"
 
-#: plugins/admin/departments/class_departmentManagement.inc:36
+#: plugins/admin/departments/class_departmentManagement.inc:35
 msgid ""
 "Manage departments, countries, domain components, domains, localities and "
 "organization nodes,"
@@ -1959,7 +2060,7 @@ msgstr ""
 "Управление подразделениями, странами, доменными компонентами, доменами, "
 "местоположениями и организационными удиницами"
 
-#: plugins/admin/departments/class_departmentManagement.inc:38
+#: plugins/admin/departments/class_departmentManagement.inc:37
 msgid "Users and groups"
 msgstr "Пользователи и группы"
 
@@ -1997,21 +2098,27 @@ msgstr ""
 msgid "System %s is currently installing"
 msgstr ""
 
-#: plugins/admin/groups/class_groupManagement.inc:196
-#: plugins/admin/groups/class_groupManagement.inc:222
+#: plugins/admin/groups/class_groupManagement.inc:195
+#: plugins/admin/groups/class_groupManagement.inc:226
 msgid "Infrastructure service"
 msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:198
+#: plugins/admin/groups/class_groupManagement.inc:203
 msgid "Action triggered"
 msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:198
 #, php-format
+msgid "Action called without error (results were \"%s\")"
+msgstr ""
+
+#: plugins/admin/groups/class_groupManagement.inc:203
+#, php-format
 msgid "Action called without error (result was \"%s\")"
 msgstr ""
 
-#: plugins/admin/groups/class_groupManagement.inc:259
+#: plugins/admin/groups/class_groupManagement.inc:263
 #: plugins/admin/groups/class_roleGeneric.inc:55
 #: plugins/admin/groups/class_roleGeneric.inc:59
 #: plugins/admin/acl/class_aclAssignment.inc:47
@@ -2019,74 +2126,74 @@ msgstr ""
 msgid "Role"
 msgstr "Роль"
 
-#: plugins/admin/groups/class_groupManagement.inc:259
+#: plugins/admin/groups/class_groupManagement.inc:263
 msgid "Edit role properties"
 msgstr "Редактировать свойства роли"
 
-#: plugins/admin/groups/class_groupManagement.inc:275
+#: plugins/admin/groups/class_groupManagement.inc:279
 msgid "Posix"
 msgstr "Posix"
 
-#: plugins/admin/groups/class_groupManagement.inc:275
+#: plugins/admin/groups/class_groupManagement.inc:279
 msgid "Edit posix properties"
 msgstr "Редактировать posix свойства"
 
-#: plugins/admin/groups/class_groupManagement.inc:318
+#: plugins/admin/groups/class_groupManagement.inc:322
 msgid "Show user groups"
 msgstr "Показать группы пользователей"
 
-#: plugins/admin/groups/class_groupManagement.inc:319
+#: plugins/admin/groups/class_groupManagement.inc:323
 msgid "Show organizational roles"
 msgstr "Показать организационные роли"
 
-#: plugins/admin/groups/class_groupManagement.inc:320
+#: plugins/admin/groups/class_groupManagement.inc:324
 msgid "Show application groups"
 msgstr "Показать группы приложений"
 
-#: plugins/admin/groups/class_groupManagement.inc:321
+#: plugins/admin/groups/class_groupManagement.inc:325
 msgid "Show groups of groups"
 msgstr ""
 
-#: plugins/admin/groups/class_groupManagement.inc:322
+#: plugins/admin/groups/class_groupManagement.inc:326
 msgid "Show unidentified groups"
 msgstr "Показать неопознанные группы"
 
-#: plugins/admin/groups/class_groupManagement.inc:325
+#: plugins/admin/groups/class_groupManagement.inc:329
 #: include/select/groupSelect/group-filter.tpl.c:5
 msgid "Show primary groups"
 msgstr "Показать основные группы"
 
-#: plugins/admin/groups/class_groupManagement.inc:327
+#: plugins/admin/groups/class_groupManagement.inc:331
 #: include/select/groupSelect/group-filter.tpl.c:11
 msgid "Show mail groups"
 msgstr "Показывать группы mail"
 
-#: plugins/admin/groups/class_groupManagement.inc:330
+#: plugins/admin/groups/class_groupManagement.inc:334
 #: include/select/groupSelect/group-filter.tpl.c:8
 msgid "Show samba groups"
 msgstr "Показать группы samba"
 
-#: plugins/admin/groups/class_groupManagement.inc:334
+#: plugins/admin/groups/class_groupManagement.inc:338
 msgid "Show DSA entries"
 msgstr ""
 
-#: plugins/admin/groups/class_groupManagement.inc:340
+#: plugins/admin/groups/class_groupManagement.inc:344
 msgid "Show server groups"
 msgstr "Показать группы серверов"
 
-#: plugins/admin/groups/class_groupManagement.inc:341
+#: plugins/admin/groups/class_groupManagement.inc:345
 msgid "Show workstation groups"
 msgstr "Показать группы рабочих станций"
 
-#: plugins/admin/groups/class_groupManagement.inc:342
+#: plugins/admin/groups/class_groupManagement.inc:346
 msgid "Show terminal groups"
 msgstr "Показать группы терминалов"
 
-#: plugins/admin/groups/class_groupManagement.inc:343
+#: plugins/admin/groups/class_groupManagement.inc:347
 msgid "Show printer groups"
 msgstr "Показать группы принтеров"
 
-#: plugins/admin/groups/class_groupManagement.inc:344
+#: plugins/admin/groups/class_groupManagement.inc:348
 msgid "Show phone groups"
 msgstr "Показать группы телефонов"
 
@@ -2095,70 +2202,74 @@ msgstr "Показать группы телефонов"
 msgid "Unknown type : %s"
 msgstr "Неизвестный тип: %s"
 
-#: plugins/admin/groups/class_ogroup.inc:65
+#: plugins/admin/groups/class_ogroup.inc:69
 #, php-format
 msgid "Non existing dn: %s"
 msgstr "Не существующий dn: %s"
 
-#: plugins/admin/groups/class_ogroup.inc:154
+#: plugins/admin/groups/class_ogroup.inc:175
 msgid "Object group"
 msgstr "Объект группы"
 
-#: plugins/admin/groups/class_ogroup.inc:155
+#: plugins/admin/groups/class_ogroup.inc:176
 msgid "Object group information"
 msgstr "Информация об объекте группы"
 
-#: plugins/admin/groups/class_ogroup.inc:159
-#: plugins/admin/groups/class_ogroup.inc:160
+#: plugins/admin/groups/class_ogroup.inc:180
+#: plugins/admin/groups/class_ogroup.inc:181
 msgid "Group"
 msgstr "Группа"
 
-#: plugins/admin/groups/class_ogroup.inc:191
+#: plugins/admin/groups/class_ogroup.inc:215
 #: plugins/admin/groups/class_roleGeneric.inc:86
 msgid "Name of this group"
 msgstr "Название этой группы"
 
-#: plugins/admin/groups/class_ogroup.inc:196
+#: plugins/admin/groups/class_ogroup.inc:220
 msgid "Short description of this group"
 msgstr "Краткое описание группы"
 
-#: plugins/admin/groups/class_ogroup.inc:203
+#: plugins/admin/groups/class_ogroup.inc:225
+msgid "Owner"
+msgstr ""
+
+#: plugins/admin/groups/class_ogroup.inc:231
 msgid "Member objects"
 msgstr "Включаемые объекты"
 
-#: plugins/admin/groups/class_ogroup.inc:206
+#: plugins/admin/groups/class_ogroup.inc:234
 msgid "Objects member of this group"
 msgstr "Объекты, члены этой группы"
 
-#: plugins/admin/groups/class_ogroup.inc:213
+#: plugins/admin/groups/class_ogroup.inc:241
 msgid "System trust"
 msgstr "Системные доверия"
 
-#: plugins/admin/groups/class_ogroup.inc:217
+#: plugins/admin/groups/class_ogroup.inc:245
 msgid "Trust mode"
 msgstr "Режим доверия"
 
-#: plugins/admin/groups/class_ogroup.inc:217
+#: plugins/admin/groups/class_ogroup.inc:245
 msgid "Type of authorization for those hosts"
 msgstr "Тип авторизации для этих хостов"
 
-#: plugins/admin/groups/class_ogroup.inc:221
+#: plugins/admin/groups/class_ogroup.inc:249
 msgid "disabled"
 msgstr "отключен"
 
-#: plugins/admin/groups/class_ogroup.inc:221
+#: plugins/admin/groups/class_ogroup.inc:249
 msgid "full access"
 msgstr "полный доступ"
 
-#: plugins/admin/groups/class_ogroup.inc:221
+#: plugins/admin/groups/class_ogroup.inc:249
 msgid "allow access to these hosts"
 msgstr "разрешить доступ только на эти хосты"
 
-#: plugins/admin/groups/class_ogroup.inc:224
+#: plugins/admin/groups/class_ogroup.inc:252
 msgid "Only allow this group to connect to this list of hosts"
 msgstr "Позволить подключаться этой группе только к хостам из списка"
 
-#: plugins/admin/groups/class_ogroup.inc:315
+#: plugins/admin/groups/class_ogroup.inc:346
 msgid ""
 "Putting both workstations and terminals in the same group is not allowed"
 msgstr ""
@@ -2219,7 +2330,7 @@ msgid "Access control roles assignment dialog"
 msgstr "Диалог назначения ролей управления доступом"
 
 #: plugins/admin/acl/class_aclAssignment.inc:41
-#: plugins/config/class_configInLdap.inc:414
+#: plugins/config/class_configInLdap.inc:419
 msgid "Mode"
 msgstr "Режим"
 
@@ -2260,28 +2371,28 @@ msgstr "Пользователи или группы, которым будет 
 msgid ", and %d others"
 msgstr ""
 
-#: plugins/admin/acl/class_aclAssignment.inc:259
+#: plugins/admin/acl/class_aclAssignment.inc:270
 msgid "ACL assignment"
 msgstr "Назначение  ACL"
 
-#: plugins/admin/acl/class_aclAssignment.inc:273
-#: plugins/admin/acl/class_aclManagement.inc:225
+#: plugins/admin/acl/class_aclAssignment.inc:284
+#: plugins/admin/acl/class_aclManagement.inc:226
 msgid "ACL Assignment"
 msgstr "Назначение ACL"
 
-#: plugins/admin/acl/class_aclAssignment.inc:274
+#: plugins/admin/acl/class_aclAssignment.inc:285
 msgid "Access control roles assignment"
 msgstr "Назначения ролей управления доступом"
 
-#: plugins/admin/acl/class_aclAssignment.inc:293
+#: plugins/admin/acl/class_aclAssignment.inc:304
 msgid "Assignments"
 msgstr "Назначения"
 
-#: plugins/admin/acl/class_aclAssignment.inc:297
+#: plugins/admin/acl/class_aclAssignment.inc:308
 msgid "ACL role assignments for this base"
 msgstr "Назначенные роли ACL для этой корневой записи"
 
-#: plugins/admin/acl/class_aclAssignment.inc:308
+#: plugins/admin/acl/class_aclAssignment.inc:319
 #, php-format
 msgid "Assignments on object or subtree %s"
 msgstr "Назначения на объекты или поддеревья %s"
@@ -2308,15 +2419,15 @@ msgstr ""
 msgid "The dn you entered could not be found in the LDAP"
 msgstr ""
 
-#: plugins/admin/acl/class_aclManagement.inc:139
+#: plugins/admin/acl/class_aclManagement.inc:140
 msgid "ACL assignments"
 msgstr "Назначения ACL"
 
-#: plugins/admin/acl/class_aclManagement.inc:140
+#: plugins/admin/acl/class_aclManagement.inc:141
 msgid "ACL assignments management"
 msgstr ""
 
-#: plugins/admin/acl/class_aclManagement.inc:141
+#: plugins/admin/acl/class_aclManagement.inc:142
 msgid "Manage ACL roles assignments to users"
 msgstr "Управление назначением ACL ролей пользователям"
 
@@ -2368,7 +2479,7 @@ msgstr "Удалить пользователя"
 
 #: plugins/admin/users/class_userManagement.inc:42
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:27
-#: setup/class_setupStepMigrate.inc:792
+#: setup/class_setupStepMigrate.inc:809
 msgid "Users"
 msgstr "Пользователи"
 
@@ -2380,11 +2491,12 @@ msgstr "Управление пользователями"
 msgid "Manage user accounts and their properties"
 msgstr "Управление аккаунтами пользователей и их свойствами"
 
-#: plugins/admin/users/class_userManagement.inc:191
+#: plugins/admin/users/class_userManagement.inc:178
+#: plugins/admin/users/class_userManagement.inc:201
 msgid "Account locking"
 msgstr "Блокировка учётной записи"
 
-#: plugins/admin/users/class_userManagement.inc:192
+#: plugins/admin/users/class_userManagement.inc:179
 #, php-format
 msgid ""
 "Password method \"%s\" does not support locking. Account \"%s\" has not been"
@@ -2393,20 +2505,27 @@ msgstr ""
 "Парольный метод \"%s\" не поддерживает блокирование. Аккаунт \"%s\" не будет"
 " заблокирован!"
 
-#: plugins/admin/users/class_userManagement.inc:218
+#: plugins/admin/users/class_userManagement.inc:202
+#, php-format
+msgid ""
+"Locking failed using password method \"%s\". Account \"%s\" has not been "
+"locked!"
+msgstr ""
+
+#: plugins/admin/users/class_userManagement.inc:228
 msgid "Unlock account"
 msgstr "Разблокировать акаунт"
 
-#: plugins/admin/users/class_userManagement.inc:220
+#: plugins/admin/users/class_userManagement.inc:230
 msgid "Lock account"
 msgstr "Заблокировать акаунт"
 
-#: plugins/admin/users/class_userManagement.inc:245
+#: plugins/admin/users/class_userManagement.inc:255
 #: plugins/personal/generic/class_user.inc:285
 msgid "User account"
 msgstr "Учетная запись пользователя"
 
-#: plugins/admin/users/class_userManagement.inc:245
+#: plugins/admin/users/class_userManagement.inc:255
 #: plugins/personal/generic/class_user.inc:279
 msgid "User account information"
 msgstr "Информация об учетной записи пользователя"
@@ -2471,36 +2590,36 @@ msgid "Edit ACL for \"%s\""
 msgstr "Редактировать ACL для \"%s\""
 
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:258
-#: plugins/admin/aclrole/class_aclEditionDialog.inc:357
+#: plugins/admin/aclrole/class_aclEditionDialog.inc:358
 msgid "read"
 msgstr "чтение"
 
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:260
-#: plugins/admin/aclrole/class_aclEditionDialog.inc:358
+#: plugins/admin/aclrole/class_aclEditionDialog.inc:359
 msgid "write"
 msgstr "запись"
 
-#: plugins/admin/aclrole/class_aclEditionDialog.inc:344
+#: plugins/admin/aclrole/class_aclEditionDialog.inc:345
 msgid "Show/hide advanced settings"
 msgstr "Показать/скрыть дополнительные настройки"
 
-#: plugins/admin/aclrole/class_aclEditionDialog.inc:349
+#: plugins/admin/aclrole/class_aclEditionDialog.inc:350
 msgid "Create objects"
 msgstr "Создать объекты"
 
-#: plugins/admin/aclrole/class_aclEditionDialog.inc:350
+#: plugins/admin/aclrole/class_aclEditionDialog.inc:351
 msgid "Move objects"
 msgstr "Переместить объекты"
 
-#: plugins/admin/aclrole/class_aclEditionDialog.inc:351
+#: plugins/admin/aclrole/class_aclEditionDialog.inc:352
 msgid "Remove objects"
 msgstr "Удалить объекты"
 
-#: plugins/admin/aclrole/class_aclEditionDialog.inc:353
+#: plugins/admin/aclrole/class_aclEditionDialog.inc:354
 msgid "Grant permission to owner"
 msgstr "Наделить правами доступа владельца"
 
-#: plugins/admin/aclrole/class_aclEditionDialog.inc:362
+#: plugins/admin/aclrole/class_aclEditionDialog.inc:363
 msgid "Complete object"
 msgstr "Объект целиком"
 
@@ -2589,15 +2708,16 @@ msgid ""
 "dashboard next expired accounts list"
 msgstr ""
 
-#: plugins/config/class_pluginsConfigInLdap.inc:29
+#: plugins/config/class_pluginsConfigInLdap.inc:28
 msgid "Plugins"
 msgstr "Плагины"
 
-#: plugins/config/class_pluginsConfigInLdap.inc:30
+#: plugins/config/class_pluginsConfigInLdap.inc:29
 msgid "Configuration for plugins"
 msgstr "Настройки плагинов"
 
 #: plugins/config/class_recoveryConfig.inc:28
+#: html/class_passwordRecovery.inc:357
 msgid "Password recovery"
 msgstr "Восстановление пароля"
 
@@ -2659,7 +2779,7 @@ msgstr ""
 "восстановления пароля"
 
 #: plugins/config/class_recoveryConfig.inc:78
-#: plugins/config/class_configInLdap.inc:188
+#: plugins/config/class_configInLdap.inc:193
 msgid "Login attribute"
 msgstr "Атрибут для входа"
 
@@ -2858,79 +2978,90 @@ msgstr "Базовая запись снапшотов"
 msgid "The base where snapshots should be stored inside of the LDAP."
 msgstr "Базовая запись, где снапшоты должны будут храниться внутри LDAP."
 
-#: plugins/config/class_configInLdap.inc:148
+#: plugins/config/class_configInLdap.inc:146
+msgid "Wildcard foreign keys"
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:146
+msgid ""
+"Enables wildcard searches like member=* when moving a whole departement. "
+"This will open all existing groups and roles to make sure foreign keys are "
+"respected. Slow on big trees."
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:153
 msgid "Password settings"
 msgstr "Настройки пароля"
 
-#: plugins/config/class_configInLdap.inc:151
+#: plugins/config/class_configInLdap.inc:156
 msgid "Password default hash"
 msgstr "Метод хеширования пароля по умолчанию"
 
-#: plugins/config/class_configInLdap.inc:151
+#: plugins/config/class_configInLdap.inc:156
 msgid "Default hash to be used"
 msgstr "Используемый по умолчанию метод хеширования пароля"
 
-#: plugins/config/class_configInLdap.inc:156
+#: plugins/config/class_configInLdap.inc:161
 msgid "Force default hash"
 msgstr "Заставлять использовать хеш по умолчанию"
 
-#: plugins/config/class_configInLdap.inc:156
+#: plugins/config/class_configInLdap.inc:161
 msgid "Force the use of the default password hash"
 msgstr "Принуждать использовать метод хеширования пароля по умолчанию"
 
-#: plugins/config/class_configInLdap.inc:160
+#: plugins/config/class_configInLdap.inc:165
 msgid "Password minimum length"
 msgstr "Минимальная длина пароля"
 
-#: plugins/config/class_configInLdap.inc:160
+#: plugins/config/class_configInLdap.inc:165
 msgid "Minimum length of user passwords"
 msgstr "Минимальная длинна пароля пользователя"
 
-#: plugins/config/class_configInLdap.inc:165
+#: plugins/config/class_configInLdap.inc:170
 msgid "Password minimum differs"
 msgstr "Минимальная разница в паролях"
 
-#: plugins/config/class_configInLdap.inc:165
+#: plugins/config/class_configInLdap.inc:170
 msgid "Minimum number of different characters from last password"
 msgstr "Минимальное количество отличных символов от последнего пароля"
 
-#: plugins/config/class_configInLdap.inc:170
+#: plugins/config/class_configInLdap.inc:175
 msgid "Use account expiration"
 msgstr "Использовать учетные записи с истекающим сроком действия"
 
-#: plugins/config/class_configInLdap.inc:171
+#: plugins/config/class_configInLdap.inc:176
 msgid ""
 "Enables shadow attribute tests during the login to FusionDirectory and "
 "forces password renewal or account locking"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:175
+#: plugins/config/class_configInLdap.inc:180
 msgid "SASL Realm"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:179
+#: plugins/config/class_configInLdap.inc:184
 msgid "SASL Exop"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:179
+#: plugins/config/class_configInLdap.inc:184
 msgid "Attribute to be stored in the userPassword attribute"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:185
+#: plugins/config/class_configInLdap.inc:190
 msgid "Login and session"
 msgstr "Вход в систему и сессии"
 
-#: plugins/config/class_configInLdap.inc:189
+#: plugins/config/class_configInLdap.inc:194
 msgid "Which LDAP attribute should be used as the login name during login."
 msgstr ""
 "Какой LDAP атрибут необходимо использовать в качестве логина при входе в "
 "систему."
 
-#: plugins/config/class_configInLdap.inc:195
+#: plugins/config/class_configInLdap.inc:200
 msgid "Enforce encrypted connections"
 msgstr "Принудительно шифровать соединения"
 
-#: plugins/config/class_configInLdap.inc:196
+#: plugins/config/class_configInLdap.inc:201
 msgid ""
 "Enables PHP security checks to force encrypted access (https) to the web "
 "interface."
@@ -2938,199 +3069,199 @@ msgstr ""
 "Принудительно использовать шифрованный доступ (https) к веб интерфейсу, "
 "включив проверку безопасности PHP."
 
-#: plugins/config/class_configInLdap.inc:200
+#: plugins/config/class_configInLdap.inc:205
 msgid "Warn if session is not encrypted"
 msgstr "Предупреждать если сеанс не зашифрован"
 
-#: plugins/config/class_configInLdap.inc:201
+#: plugins/config/class_configInLdap.inc:206
 msgid "will display a warning to the user when http is used instead of https."
 msgstr ""
 "будут отображаться предупреждения для пользователя, когда http будет "
 "использоваться вместо https."
 
-#: plugins/config/class_configInLdap.inc:206
+#: plugins/config/class_configInLdap.inc:211
 msgid "Session lifetime"
 msgstr "Время жизни сессии"
 
-#: plugins/config/class_configInLdap.inc:206
+#: plugins/config/class_configInLdap.inc:211
 msgid "Defines when a session will expire in seconds (0 to disable)."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:211
+#: plugins/config/class_configInLdap.inc:216
 msgid "HTTP Basic authentication"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:211
+#: plugins/config/class_configInLdap.inc:216
 msgid "Use HTTP Basic authentication protocol instead of the login form."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:216
+#: plugins/config/class_configInLdap.inc:221
 msgid "HTTP Header authentication"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:216
+#: plugins/config/class_configInLdap.inc:221
 msgid "Use HTTP Header authentication instead of the login form."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:221
+#: plugins/config/class_configInLdap.inc:226
 msgid "Header name"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:221
+#: plugins/config/class_configInLdap.inc:226
 msgid "Name of the header containing user identifier."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:228
+#: plugins/config/class_configInLdap.inc:233
 msgid "SSL"
 msgstr "SSL"
 
-#: plugins/config/class_configInLdap.inc:231
+#: plugins/config/class_configInLdap.inc:236
 msgid "Key path"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:231
+#: plugins/config/class_configInLdap.inc:236
 msgid "Path to FusionDirectory private key. Unused for now."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:236
+#: plugins/config/class_configInLdap.inc:241
 msgid "Certificate path"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:236
+#: plugins/config/class_configInLdap.inc:241
 msgid "Path to FusionDirectory certificate. Unused for now."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:241
-#: plugins/config/class_configInLdap.inc:256
+#: plugins/config/class_configInLdap.inc:246
+#: plugins/config/class_configInLdap.inc:261
 msgid "CA certificate path"
 msgstr "Путь к сертификату CA"
 
-#: plugins/config/class_configInLdap.inc:241
+#: plugins/config/class_configInLdap.inc:246
 msgid "Path to the CA certificate. Used for validating Argonaut Server host."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:248
+#: plugins/config/class_configInLdap.inc:253
 msgid "CAS"
 msgstr "CAS"
 
-#: plugins/config/class_configInLdap.inc:251
+#: plugins/config/class_configInLdap.inc:256
 msgid "Enable CAS"
 msgstr "Включить CAS"
 
-#: plugins/config/class_configInLdap.inc:251
+#: plugins/config/class_configInLdap.inc:256
 msgid "CAS login will be used instead of LDAP bind"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:256
+#: plugins/config/class_configInLdap.inc:261
 msgid "Path to the CA certificate of the CAS server"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:261
+#: plugins/config/class_configInLdap.inc:266
 msgid "Host"
 msgstr "Хост"
 
-#: plugins/config/class_configInLdap.inc:261
+#: plugins/config/class_configInLdap.inc:266
 msgid "Host of the CAS server"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:266
+#: plugins/config/class_configInLdap.inc:271
 msgid "Port"
 msgstr "Порт"
 
-#: plugins/config/class_configInLdap.inc:266
+#: plugins/config/class_configInLdap.inc:271
 msgid "Port the CAS server is listening on"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:271
+#: plugins/config/class_configInLdap.inc:276
 msgid "CAS context"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:271
+#: plugins/config/class_configInLdap.inc:276
 msgid "CAS context to be used"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:278
+#: plugins/config/class_configInLdap.inc:283
 msgid "People and group storage"
 msgstr "Местоположение пользователей и групп"
 
-#: plugins/config/class_configInLdap.inc:282
+#: plugins/config/class_configInLdap.inc:287
 msgid "People DN attribute"
 msgstr "DN атрибут пользователя"
 
-#: plugins/config/class_configInLdap.inc:282
+#: plugins/config/class_configInLdap.inc:287
 msgid "Attribute to use at the beginning of users dn"
 msgstr "Атрибут используемый у пользователей в начале dn"
 
-#: plugins/config/class_configInLdap.inc:287
+#: plugins/config/class_configInLdap.inc:292
 msgid "CN pattern"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:287
+#: plugins/config/class_configInLdap.inc:292
 msgid "The pattern to use to build the common name field"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:292
+#: plugins/config/class_configInLdap.inc:297
 msgid "Strict naming policy"
 msgstr "Политика строго присваивания имен"
 
-#: plugins/config/class_configInLdap.inc:293
+#: plugins/config/class_configInLdap.inc:298
 msgid "Enables strict checking of user and group names"
 msgstr "Включить строгую проверку имен для пользователей и групп"
 
-#: plugins/config/class_configInLdap.inc:298
+#: plugins/config/class_configInLdap.inc:303
 msgid "Users RDN"
 msgstr " RDN пользователей"
 
-#: plugins/config/class_configInLdap.inc:298
+#: plugins/config/class_configInLdap.inc:303
 msgid "The branch where users are stored."
 msgstr "Ветка где пользователели хранятся."
 
-#: plugins/config/class_configInLdap.inc:303
+#: plugins/config/class_configInLdap.inc:308
 msgid "ACL role RDN"
 msgstr "RDN для ACL ролей"
 
-#: plugins/config/class_configInLdap.inc:303
+#: plugins/config/class_configInLdap.inc:308
 msgid "The branch where ACL roles are stored."
 msgstr "Ветка в которой хранятся ACL ролей."
 
-#: plugins/config/class_configInLdap.inc:308
+#: plugins/config/class_configInLdap.inc:313
 msgid "Restrict role members"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:308
+#: plugins/config/class_configInLdap.inc:313
 msgid ""
 "When enabled only users from the same branch or members of groups from the "
 "same branch can be added to a role."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:312
+#: plugins/config/class_configInLdap.inc:317
 msgid "Separate address fields"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:312
+#: plugins/config/class_configInLdap.inc:317
 msgid ""
 "Expose street, postOfficeBox and postalCode fields instead of postalAddress."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:316
+#: plugins/config/class_configInLdap.inc:321
 msgid "Postal address pattern"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:316
+#: plugins/config/class_configInLdap.inc:321
 msgid ""
 "When using separate address fields, you can use a pattern to fill "
 "postalAddress field."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:322
+#: plugins/config/class_configInLdap.inc:327
 msgid "Debugging"
 msgstr "Отладка"
 
-#: plugins/config/class_configInLdap.inc:325
+#: plugins/config/class_configInLdap.inc:330
 msgid "Display errors"
 msgstr "Отображение ошибок"
 
-#: plugins/config/class_configInLdap.inc:326
+#: plugins/config/class_configInLdap.inc:331
 msgid ""
 "Shows PHP errors in the upper part of the screen. This should be disabled in"
 " productive deployments, because there might be some passwords in it."
@@ -3138,22 +3269,22 @@ msgstr ""
 "Показывать PHP ошибки в верхней части экрана. Следует отключить при рабочем "
 "использовании, потому что там могут быть отображены пароли."
 
-#: plugins/config/class_configInLdap.inc:330
+#: plugins/config/class_configInLdap.inc:335
 msgid "Maximum LDAP query time"
 msgstr "Максимальное время LDAP запроса"
 
-#: plugins/config/class_configInLdap.inc:330
+#: plugins/config/class_configInLdap.inc:335
 msgid ""
 "Stop LDAP actions if there is no answer within the specified number of "
 "seconds."
 msgstr ""
 "Остановить работу с LDAP если нет ответа за определенное количество секунд."
 
-#: plugins/config/class_configInLdap.inc:335
+#: plugins/config/class_configInLdap.inc:340
 msgid "Log LDAP statistics"
 msgstr "Лог статистики обращений к LDAP"
 
-#: plugins/config/class_configInLdap.inc:336
+#: plugins/config/class_configInLdap.inc:341
 msgid ""
 "Track LDAP timing statistics to the syslog. This may help to find indexing "
 "problems or bad search filters."
@@ -3161,23 +3292,23 @@ msgstr ""
 "Отслеживать продолжительность обращений к LDAP в syslog. Это может помочь "
 "найти проблемы в индексировании и плохих фильтров поиска."
 
-#: plugins/config/class_configInLdap.inc:341
+#: plugins/config/class_configInLdap.inc:346
 msgid "Debug level"
 msgstr "Уровень отладки"
 
-#: plugins/config/class_configInLdap.inc:342
+#: plugins/config/class_configInLdap.inc:347
 msgid "Display certain information on each page load."
 msgstr "Отображать следующую информацию при каждой загрузке странице."
 
-#: plugins/config/class_configInLdap.inc:354
+#: plugins/config/class_configInLdap.inc:359
 msgid "Miscellaneous"
 msgstr "Разное"
 
-#: plugins/config/class_configInLdap.inc:357
+#: plugins/config/class_configInLdap.inc:362
 msgid "Display summary in listings"
 msgstr "Показать краткую информацию о списках"
 
-#: plugins/config/class_configInLdap.inc:358
+#: plugins/config/class_configInLdap.inc:363
 msgid ""
 "Determines whether a status bar will be shown on the bottom of lists, "
 "displaying a short summary of type and number of elements in the list."
@@ -3185,80 +3316,80 @@ msgstr ""
 "Определяет, будет ли внизу каждого списка отображена строка состояния с "
 "краткой информацией о типе и количестве элементов списка."
 
-#: plugins/config/class_configInLdap.inc:363
+#: plugins/config/class_configInLdap.inc:368
 msgid "Show ACL tab on all objects"
 msgstr "Показать вкладку ACL для всех объектов."
 
-#: plugins/config/class_configInLdap.inc:364
+#: plugins/config/class_configInLdap.inc:369
 msgid ""
 "For very specific ACL rights setting where you might need to give right on a"
 " single object."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:369
+#: plugins/config/class_configInLdap.inc:374
 msgid "Available department categories"
 msgstr "Доступные категории подразделений"
 
-#: plugins/config/class_configInLdap.inc:369
+#: plugins/config/class_configInLdap.inc:374
 msgid "Available categories in the departments dropdown"
 msgstr "Доступные категории подразделений в раскрывающемся списке"
 
-#: plugins/config/class_configInLdap.inc:376
+#: plugins/config/class_configInLdap.inc:381
 msgid "Use this to hide some menu entry to specific groups of users"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:380
+#: plugins/config/class_configInLdap.inc:385
 msgid "Group or role"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:385
+#: plugins/config/class_configInLdap.inc:390
 msgid "Plugin to blacklist"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:391
+#: plugins/config/class_configInLdap.inc:396
 msgid "Plugin menu blacklist"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:400
-#: plugins/config/class_configInLdap.inc:428
+#: plugins/config/class_configInLdap.inc:405
+#: plugins/config/class_configInLdap.inc:433
 msgid "Hooks"
 msgstr "Хуки"
 
-#: plugins/config/class_configInLdap.inc:405
+#: plugins/config/class_configInLdap.inc:410
 msgid "Hooks that are called when specific actions happens"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:409
+#: plugins/config/class_configInLdap.inc:414
 msgid "Tab"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:409
+#: plugins/config/class_configInLdap.inc:414
 msgid "The tab that this hook concerns"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:414
+#: plugins/config/class_configInLdap.inc:419
 msgid "When to call this command"
 msgstr "Когда вызывать эту команду"
 
-#: plugins/config/class_configInLdap.inc:421
+#: plugins/config/class_configInLdap.inc:426
 msgid "Command"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:421
+#: plugins/config/class_configInLdap.inc:426
 msgid "The command that will be called"
 msgstr "Команда, которая будет вызвана"
 
-#: plugins/config/class_configInLdap.inc:435
+#: plugins/config/class_configInLdap.inc:440
 msgid "Display hook output"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:436
+#: plugins/config/class_configInLdap.inc:441
 msgid ""
 "When enabled successful hook execution output is displayed to the user using"
 " a dialog."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:451
+#: plugins/config/class_configInLdap.inc:456
 #: setup/class_setupStepLanguage.inc:69
 msgid "Automatic"
 msgstr "Автоматически"
@@ -3285,15 +3416,41 @@ msgid "Expiration date"
 msgstr "Дата окончания действия"
 
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:70
-#: ihtml/themes/breezy/recovery.tpl.c:74
+#: ihtml/themes/legacy/recovery.tpl.c:83 ihtml/themes/breezy/recovery.tpl.c:83
 msgid "Email"
 msgstr "Email"
 
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:88
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:91
 #, php-format
 msgid ""
-"Total user number could not be computed because of the following LDAP error:"
-" %s"
+"User statistics could not be computed because of the following LDAP error: "
+"%s"
+msgstr ""
+
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:122
+#, php-format
+msgid ""
+"Group statistics could not be computed because of the following LDAP error: "
+"%s"
+msgstr ""
+
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:186
+#, php-format
+msgid ""
+"Expired user information could not be computed because of the following LDAP"
+" error: %s"
+msgstr ""
+
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:193
+#, php-format
+msgid ""
+"Expired user information could not be computed because of the following "
+"error: %s"
+msgstr ""
+
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:233
+#, php-format
+msgid "Not found (%s)"
 msgstr ""
 
 #: plugins/addons/dashboard/class_dashBoardPasswords.inc:26
@@ -3329,12 +3486,16 @@ msgstr ""
 msgid "Reporting"
 msgstr "Отчеты"
 
-#: plugins/addons/dashboard/class_dashBoard.inc:49
+#: plugins/addons/dashboard/class_dashBoard.inc:42
+msgid "See dashboard"
+msgstr ""
+
+#: plugins/addons/dashboard/class_dashBoard.inc:51
 #: plugins/addons/dashboard/main_stats.tpl.c:2
 msgid "Statistics"
 msgstr "Статистика"
 
-#: plugins/addons/dashboard/class_dashBoard.inc:75
+#: plugins/addons/dashboard/class_dashBoard.inc:79
 #, php-format
 msgid ""
 "Statistics for type \"%s\" could not be computed because of the following "
@@ -3364,11 +3525,11 @@ msgid "Password hash method to use"
 msgstr "Применяемый метод для хэша пароля"
 
 #: plugins/personal/generic/class_user.inc:51
-#: plugins/personal/generic/class_user.inc:392
+#: plugins/personal/generic/class_user.inc:398
 #: setup/setup_migrate_adminAccount.tpl.c:14
-#: ihtml/themes/breezy/recovery.tpl.c:2 ihtml/themes/breezy/recovery.tpl.c:5
-#: ihtml/themes/breezy/login.tpl.c:17 ihtml/themes/breezy/login.tpl.c:20
-#: ihtml/themes/breezy/login.tpl.c:23
+#: ihtml/themes/legacy/login.tpl.c:17 ihtml/themes/legacy/login.tpl.c:20
+#: ihtml/themes/legacy/login.tpl.c:23 ihtml/themes/breezy/login.tpl.c:17
+#: ihtml/themes/breezy/login.tpl.c:20 ihtml/themes/breezy/login.tpl.c:23
 msgid "Password"
 msgstr "Пароль"
 
@@ -3388,232 +3549,238 @@ msgstr ""
 msgid "User lock status"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:310
+#: plugins/personal/generic/class_user.inc:312
 msgid "Personal information"
 msgstr "Личная информация"
 
-#: plugins/personal/generic/class_user.inc:315
+#: plugins/personal/generic/class_user.inc:317
 msgid "Last name"
 msgstr "Фамилия"
 
-#: plugins/personal/generic/class_user.inc:315
+#: plugins/personal/generic/class_user.inc:317
 msgid "Last name of this user"
 msgstr "Фамилия пользователя"
 
-#: plugins/personal/generic/class_user.inc:320
+#: plugins/personal/generic/class_user.inc:322
 msgid "First name"
 msgstr "Имя"
 
-#: plugins/personal/generic/class_user.inc:320
+#: plugins/personal/generic/class_user.inc:322
 msgid "First name of this user"
 msgstr "Имя пользователя"
 
-#: plugins/personal/generic/class_user.inc:325
+#: plugins/personal/generic/class_user.inc:327
 msgid "Short description of the user"
 msgstr "Краткое описание пользователя"
 
-#: plugins/personal/generic/class_user.inc:329
+#: plugins/personal/generic/class_user.inc:331
 msgid "Picture"
 msgstr "Фотография"
 
-#: plugins/personal/generic/class_user.inc:329
+#: plugins/personal/generic/class_user.inc:331
 msgid "The avatar for this user"
 msgstr "Аватар пользователя"
 
-#: plugins/personal/generic/class_user.inc:336
+#: plugins/personal/generic/class_user.inc:338
 msgid "Organizational contact information"
 msgstr "Рабочая контактная информация"
 
-#: plugins/personal/generic/class_user.inc:348
+#: plugins/personal/generic/class_user.inc:350
 msgid "Business postal address"
 msgstr "Рабочий почтовый адрес"
 
-#: plugins/personal/generic/class_user.inc:352
+#: plugins/personal/generic/class_user.inc:354
 msgid "Room No."
 msgstr "Номер комнаты"
 
-#: plugins/personal/generic/class_user.inc:352
+#: plugins/personal/generic/class_user.inc:354
 msgid "Room number"
 msgstr "Номер комнаты"
 
-#: plugins/personal/generic/class_user.inc:356
+#: plugins/personal/generic/class_user.inc:358
 msgid "Business phone number"
 msgstr "Рабочий номер телефона"
 
-#: plugins/personal/generic/class_user.inc:360
+#: plugins/personal/generic/class_user.inc:364
 msgid "Mobile"
 msgstr "Мобильный"
 
-#: plugins/personal/generic/class_user.inc:360
+#: plugins/personal/generic/class_user.inc:364
 msgid "Business mobile number"
 msgstr "Рабочий номер мобильного телефона"
 
-#: plugins/personal/generic/class_user.inc:364
+#: plugins/personal/generic/class_user.inc:370
 msgid "Pager"
 msgstr "Пейджер"
 
-#: plugins/personal/generic/class_user.inc:364
+#: plugins/personal/generic/class_user.inc:370
 msgid "Business pager number"
 msgstr "Рабочий номер пейджера"
 
-#: plugins/personal/generic/class_user.inc:368
+#: plugins/personal/generic/class_user.inc:374
 msgid "Business fax number"
 msgstr "Рабочий номер факса"
 
-#: plugins/personal/generic/class_user.inc:372
+#: plugins/personal/generic/class_user.inc:378
 msgid "Homepage"
 msgstr "Домашняя страница"
 
-#: plugins/personal/generic/class_user.inc:372
+#: plugins/personal/generic/class_user.inc:378
 msgid "Personal homepage"
 msgstr "Персональная домашняя страница"
 
-#: plugins/personal/generic/class_user.inc:378
+#: plugins/personal/generic/class_user.inc:384
 msgid "Account information"
 msgstr "Информация об учетной записи"
 
-#: plugins/personal/generic/class_user.inc:383
+#: plugins/personal/generic/class_user.inc:389
 msgid "Login of this user"
 msgstr "Логин этого пользователя"
 
-#: plugins/personal/generic/class_user.inc:387
+#: plugins/personal/generic/class_user.inc:393
 #: setup/class_setupStepLanguage.inc:30
 msgid "Preferred language"
 msgstr "Предпочитаемый язык"
 
-#: plugins/personal/generic/class_user.inc:392
+#: plugins/personal/generic/class_user.inc:398
 msgid "Password of the user"
 msgstr "Пароль пользователя"
 
-#: plugins/personal/generic/class_user.inc:398
+#: plugins/personal/generic/class_user.inc:404
 msgid "Personal contact information"
 msgstr "Личная контактная информация"
 
-#: plugins/personal/generic/class_user.inc:402
+#: plugins/personal/generic/class_user.inc:408
 msgid "Display name"
 msgstr "Отображаемое имя"
 
-#: plugins/personal/generic/class_user.inc:402
+#: plugins/personal/generic/class_user.inc:408
 msgid "Name this user should appear as. Used by Exchange."
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:406
+#: plugins/personal/generic/class_user.inc:412
 msgid "Home address"
 msgstr "Домашний адрес"
 
-#: plugins/personal/generic/class_user.inc:406
+#: plugins/personal/generic/class_user.inc:412
 msgid "Home postal address"
 msgstr "Домашний почтовый адрес"
 
-#: plugins/personal/generic/class_user.inc:410
+#: plugins/personal/generic/class_user.inc:416
 msgid "Private phone"
 msgstr "Личный телефон"
 
-#: plugins/personal/generic/class_user.inc:410
+#: plugins/personal/generic/class_user.inc:416
 msgid "Home phone number"
 msgstr "Домашний телефон"
 
-#: plugins/personal/generic/class_user.inc:416
+#: plugins/personal/generic/class_user.inc:422
 msgid "Organizational information"
 msgstr "Информация об организации"
 
-#: plugins/personal/generic/class_user.inc:421
+#: plugins/personal/generic/class_user.inc:427
 msgid "Title"
 msgstr "Заголовок"
 
-#: plugins/personal/generic/class_user.inc:421
+#: plugins/personal/generic/class_user.inc:427
 msgid ""
 "Title of a person in their organizational context. Each title is one value "
 "of this multi-valued attribute"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:430
-msgid "Department to which the user belongs"
+#: plugins/personal/generic/class_user.inc:436
+msgid "Unit"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:434
+#: plugins/personal/generic/class_user.inc:436
+msgid "Organizational unit this user belongs to"
+msgstr ""
+
+#: plugins/personal/generic/class_user.inc:440
 msgid "Department No."
 msgstr "Номер подразделения"
 
-#: plugins/personal/generic/class_user.inc:434
+#: plugins/personal/generic/class_user.inc:440
 msgid "Department number"
 msgstr "Номер отдела"
 
-#: plugins/personal/generic/class_user.inc:438
+#: plugins/personal/generic/class_user.inc:444
 msgid "Employee No."
 msgstr "Номер работника"
 
-#: plugins/personal/generic/class_user.inc:438
+#: plugins/personal/generic/class_user.inc:444
 msgid "Employee number"
 msgstr "Номер работника"
 
-#: plugins/personal/generic/class_user.inc:442
+#: plugins/personal/generic/class_user.inc:448
 msgid "Employee type"
 msgstr "Форма трудоустройства"
 
-#: plugins/personal/generic/class_user.inc:456
+#: plugins/personal/generic/class_user.inc:462
 msgid "Street"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:456
+#: plugins/personal/generic/class_user.inc:462
 msgid "Street part of the address"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:460
+#: plugins/personal/generic/class_user.inc:466
 msgid "Post office box"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:464
+#: plugins/personal/generic/class_user.inc:470
 msgid "Postal code"
 msgstr "Почтовый индекс"
 
-#: plugins/personal/generic/class_user.inc:668
+#: plugins/personal/generic/class_user.inc:674
 #, php-format
 msgid "Ppolicy \"%s\" could not be found in the LDAP!"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:671
+#: plugins/personal/generic/class_user.inc:677
 msgid "You are not allowed to change your own password"
 msgstr "Вам не разрешено изменять свой пароль"
 
-#: plugins/personal/generic/class_user.inc:682
+#: plugins/personal/generic/class_user.inc:688
 #, php-format
 msgid "You must wait %d seconds before changing your password again"
 msgstr "Вы должны подождать %d секунд перед повторным изменением пароля"
 
-#: plugins/personal/generic/class_user.inc:696
+#: plugins/personal/generic/class_user.inc:702
 msgid "Password is in history of old passwords"
 msgstr "Пароль присутствует в истории старых паролей"
 
-#: plugins/personal/generic/class_user.inc:701
-#: plugins/personal/generic/class_user.inc:705
+#: plugins/personal/generic/class_user.inc:707
+#: plugins/personal/generic/class_user.inc:711
 msgid "Password is not being changed from existing value"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:712
+#: plugins/personal/generic/class_user.inc:718
 msgid "You need to specify your current password in order to proceed."
 msgstr "Для продолжения укажите свой текущий пароль."
 
-#: plugins/personal/generic/class_user.inc:714
+#: plugins/personal/generic/class_user.inc:720
 msgid ""
 "The passwords you've entered as \"New password\" and \"Repeated new "
 "password\" do not match."
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:716
-#: ihtml/themes/breezy/recovery.tpl.c:29 ihtml/themes/breezy/recovery.tpl.c:32
+#: plugins/personal/generic/class_user.inc:722
+#: ihtml/themes/legacy/recovery.tpl.c:23 ihtml/themes/legacy/recovery.tpl.c:26
+#: ihtml/themes/legacy/recovery.tpl.c:29 ihtml/themes/breezy/recovery.tpl.c:23
+#: ihtml/themes/breezy/recovery.tpl.c:26 ihtml/themes/breezy/recovery.tpl.c:29
 msgid "New password"
 msgstr "Новый пароль"
 
-#: plugins/personal/generic/class_user.inc:718
+#: plugins/personal/generic/class_user.inc:724
 msgid "The password used as new and current are too similar."
 msgstr "Новый и текущий пароли слишком похожи."
 
-#: plugins/personal/generic/class_user.inc:720
+#: plugins/personal/generic/class_user.inc:726
 msgid "The password used as new is too short."
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:722
+#: plugins/personal/generic/class_user.inc:728
 msgid "The password contains possibly problematic Unicode characters!"
 msgstr "Пароль содержит символы Unicode, которые могут проблемы!"
 
@@ -4063,24 +4230,24 @@ msgid "Checking for duplicated GID numbers"
 msgstr ""
 
 #: setup/class_setupStepMigrate.inc:329 setup/class_setupStepMigrate.inc:488
-#: setup/class_setupStepMigrate.inc:565 setup/class_setupStepMigrate.inc:700
-#: setup/class_setupStepMigrate.inc:901 setup/class_setupStepMigrate.inc:977
-#: setup/class_setupStepMigrate.inc:1100 setup/class_setupStepMigrate.inc:1193
-#: setup/class_setupStepMigrate.inc:1271 setup/class_setupStepMigrate.inc:1315
+#: setup/class_setupStepMigrate.inc:565 setup/class_setupStepMigrate.inc:713
+#: setup/class_setupStepMigrate.inc:918 setup/class_setupStepMigrate.inc:994
+#: setup/class_setupStepMigrate.inc:1117 setup/class_setupStepMigrate.inc:1210
+#: setup/class_setupStepMigrate.inc:1300 setup/class_setupStepMigrate.inc:1344
 msgid "LDAP query failed"
 msgstr "LDAP запрос не удался"
 
 #: setup/class_setupStepMigrate.inc:330 setup/class_setupStepMigrate.inc:489
-#: setup/class_setupStepMigrate.inc:566 setup/class_setupStepMigrate.inc:701
-#: setup/class_setupStepMigrate.inc:902 setup/class_setupStepMigrate.inc:978
-#: setup/class_setupStepMigrate.inc:1101 setup/class_setupStepMigrate.inc:1194
-#: setup/class_setupStepMigrate.inc:1272 setup/class_setupStepMigrate.inc:1316
+#: setup/class_setupStepMigrate.inc:566 setup/class_setupStepMigrate.inc:714
+#: setup/class_setupStepMigrate.inc:919 setup/class_setupStepMigrate.inc:995
+#: setup/class_setupStepMigrate.inc:1118 setup/class_setupStepMigrate.inc:1211
+#: setup/class_setupStepMigrate.inc:1301 setup/class_setupStepMigrate.inc:1345
 msgid "Possibly the \"root object\" is missing."
 msgstr ""
 
 #: setup/class_setupStepMigrate.inc:346 setup/class_setupStepMigrate.inc:369
 #: setup/class_setupStepMigrate.inc:420 setup/class_setupStepMigrate.inc:500
-#: setup/class_setupStepMigrate.inc:511 setup/class_setupStepMigrate.inc:803
+#: setup/class_setupStepMigrate.inc:511 setup/class_setupStepMigrate.inc:820
 msgid "Failed"
 msgstr "Ошибка"
 
@@ -4119,102 +4286,102 @@ msgstr ""
 "Найден пользователь(и) %s, которые будут не видны в FusionDirectory или "
 "которые не полные."
 
-#: setup/class_setupStepMigrate.inc:584 setup/class_setupStepMigrate.inc:589
+#: setup/class_setupStepMigrate.inc:587 setup/class_setupStepMigrate.inc:598
 msgid "User migration"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:672 setup/class_setupStepMigrate.inc:948
+#: setup/class_setupStepMigrate.inc:685 setup/class_setupStepMigrate.inc:965
 msgid "Migration error"
 msgstr "Ошибка перемещения"
 
-#: setup/class_setupStepMigrate.inc:674
+#: setup/class_setupStepMigrate.inc:687
 #, php-format
 msgid "Cannot migrate entry \"%s\":"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:795
+#: setup/class_setupStepMigrate.inc:812
 msgid "Groups"
 msgstr "Группы"
 
-#: setup/class_setupStepMigrate.inc:798
+#: setup/class_setupStepMigrate.inc:815
 msgid "Roles"
 msgstr "Роли"
 
-#: setup/class_setupStepMigrate.inc:804
+#: setup/class_setupStepMigrate.inc:821
 msgid "There is no FusionDirectory administrator account inside your LDAP."
 msgstr "Нет учетной записи администратора FusionDirectory в вашем LDAP."
 
-#: setup/class_setupStepMigrate.inc:842
+#: setup/class_setupStepMigrate.inc:859
 msgid "Gives all rights on all objects"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:916
+#: setup/class_setupStepMigrate.inc:933
 msgid "Default ACL roles have not been inserted"
 msgstr "ACL ролей по умолчанию не вставлены"
 
-#: setup/class_setupStepMigrate.inc:918
+#: setup/class_setupStepMigrate.inc:935
 msgid "Some default ACL roles are missing"
 msgstr "Некоторые ACL ролей по умолчанию пропущены"
 
-#: setup/class_setupStepMigrate.inc:920
+#: setup/class_setupStepMigrate.inc:937
 msgid "Default ACL roles have been inserted"
 msgstr "ACL ролей по умолчанию вставлен"
 
-#: setup/class_setupStepMigrate.inc:950
+#: setup/class_setupStepMigrate.inc:967
 #, php-format
 msgid "Cannot add ACL role \"%s\":"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:1005
+#: setup/class_setupStepMigrate.inc:1022
 #, php-format
 msgid "Found %s user(s) outside the configured tree \"%s\"."
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:1019 setup/class_setupStepMigrate.inc:1033
+#: setup/class_setupStepMigrate.inc:1036 setup/class_setupStepMigrate.inc:1050
 msgid "Move users into configured user tree"
 msgstr "Переместить пользователей в настроенное дерево пользователей"
 
-#: setup/class_setupStepMigrate.inc:1051
+#: setup/class_setupStepMigrate.inc:1068
 msgid "Cannot move entries to the requested department!"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:1063
+#: setup/class_setupStepMigrate.inc:1080
 msgid "Entry will be moved from"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:1063
+#: setup/class_setupStepMigrate.inc:1080
 msgid "to"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:1073
+#: setup/class_setupStepMigrate.inc:1090
 msgid "The following references will be updated"
 msgstr "Следующие ссылки будут обновлены"
 
-#: setup/class_setupStepMigrate.inc:1124
+#: setup/class_setupStepMigrate.inc:1141
 #, php-format
 msgid "Found %s groups outside the configured tree '%s'."
 msgstr "Найдены группы %s, выходящие за пределы настроенного дерева '%s'."
 
-#: setup/class_setupStepMigrate.inc:1138 setup/class_setupStepMigrate.inc:1152
+#: setup/class_setupStepMigrate.inc:1155 setup/class_setupStepMigrate.inc:1169
 msgid "Move groups into configured groups tree"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:1235
+#: setup/class_setupStepMigrate.inc:1252
 #, php-format
 msgid "Found %s department(s) that will not be visible in FusionDirectory."
 msgstr ""
 "Найдены подразделение(я) %s, которые будет не видны в FusionDirectory."
 
-#: setup/class_setupStepMigrate.inc:1243 setup/class_setupStepMigrate.inc:1248
+#: setup/class_setupStepMigrate.inc:1263 setup/class_setupStepMigrate.inc:1274
 msgid "Department migration"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:1298
+#: setup/class_setupStepMigrate.inc:1327
 #, php-format
 msgid "Found %s duplicate values for attribute \"uidNumber\":%s"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:1342
+#: setup/class_setupStepMigrate.inc:1371
 #, php-format
 msgid "Found %s duplicate values for attribute \"gidNumber\":%s"
 msgstr ""
@@ -4286,51 +4453,53 @@ msgstr ""
 msgid "FusionDirectory configuration %s/%s is not readable. Aborted."
 msgstr "Конфигурация FusionDirectory %s/%s не читаема. Прервано."
 
-#: html/class_passwordRecovery.inc:175 html/index.php:61
+#: html/class_passwordRecovery.inc:176 html/index.php:61
 #, php-format
 msgid "Warning: <a href=\"%s\">Session is not encrypted!</a>"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:310 ihtml/themes/breezy/recovery.tpl.c:71
+#: html/class_passwordRecovery.inc:311 ihtml/themes/legacy/recovery.tpl.c:77
+#: ihtml/themes/legacy/recovery.tpl.c:80 ihtml/themes/breezy/recovery.tpl.c:77
+#: ihtml/themes/breezy/recovery.tpl.c:80
 msgid "Email address"
 msgstr "Адрес электронной почты"
 
-#: html/class_passwordRecovery.inc:479
+#: html/class_passwordRecovery.inc:481
 #, php-format
 msgid "Did not find an account with login \"%s\""
 msgstr "Не найден аккаунт с логином \"%s\""
 
-#: html/class_passwordRecovery.inc:482
+#: html/class_passwordRecovery.inc:484
 #, php-format
 msgid "Found multiple accounts with login \"%s\""
 msgstr "Найдено множество учетных записей с логином \"%s\""
 
-#: html/class_passwordRecovery.inc:515
+#: html/class_passwordRecovery.inc:517
 #, php-format
 msgid "There is no account using email \"%s\""
 msgstr ""
 
-#: html/class_passwordRecovery.inc:518
+#: html/class_passwordRecovery.inc:520
 #, php-format
 msgid "There are several accounts using email \"%s\""
 msgstr ""
 
-#: html/class_passwordRecovery.inc:526
+#: html/class_passwordRecovery.inc:528
 #, php-format
 msgid "The user using email \"%s\" is locked. Please contact your administrator."
 msgstr ""
 
-#: html/class_passwordRecovery.inc:581
+#: html/class_passwordRecovery.inc:583
 msgid "Contact your administrator, there was a problem with mail server"
 msgstr ""
 "Свяжитесь с вашим системным администратором, были проблемы с почтовым "
 "сервером"
 
-#: html/class_passwordRecovery.inc:594
+#: html/class_passwordRecovery.inc:596
 msgid "This token is invalid"
 msgstr ""
 
-#: html/class_passwordRecovery.inc:658
+#: html/class_passwordRecovery.inc:660
 msgid "There was a problem with mail server, confirmation email not sent"
 msgstr "Были проблемы с почтовым сервером, имэйл подтверждения не отправлены"
 
@@ -4391,6 +4560,12 @@ msgstr ""
 "Критическая ошибка: не все POST переменные переданы в PHP - пожалуйста "
 "сообщите вашему системному администратору!"
 
+#: html/index.php:51 ihtml/themes/legacy/login.tpl.c:2
+#: ihtml/themes/legacy/login.tpl.c:38 ihtml/themes/breezy/login.tpl.c:2
+#: ihtml/themes/breezy/login.tpl.c:38
+msgid "Sign in"
+msgstr "Войти"
+
 #: html/index.php:67
 msgid ""
 "Warning: The session lifetime configured in your fusiondirectory.conf will "
@@ -4448,33 +4623,33 @@ msgstr "Введите свой пароль!"
 msgid "Please check the username/password combination."
 msgstr "Проверьте, правильно ли вы ввели имя пользователя и пароль."
 
-#: html/index.php:342
+#: html/index.php:344
 msgid "Account locked. Please contact your system administrator!"
 msgstr ""
 "Учетная запись заблокирована. Пожалуйста свяжитесь с вашим системным "
 "администратором."
 
-#: html/index.php:461
+#: html/index.php:463
 #, php-format
 msgid "No value found in HTTP header \"%s\""
 msgstr ""
 
-#: html/index.php:475
+#: html/index.php:477
 #, php-format
 msgid "Header user \"%s\" could not be found in the LDAP"
 msgstr ""
 
-#: html/index.php:485 html/index.php:552
+#: html/index.php:487 html/index.php:554
 #, php-format
 msgid "Login with user \"%s\" triggered error: %s"
 msgstr ""
 
-#: html/index.php:542
+#: html/index.php:544
 #, php-format
 msgid "CAS user \"%s\" could not be found in the LDAP"
 msgstr "CAS пользователь \"%s\" не может быть найден в LDAP"
 
-#: html/index.php:592
+#: html/index.php:594
 msgid ""
 "Your browser has cookies disabled. Please enable cookies and reload this "
 "page before logging in!"
@@ -4566,6 +4741,10 @@ msgstr[2] ""
 msgstr[3] ""
 
 #: plugins/addons/dashboard/groups_stats.tpl.c:5
+msgid "There are no groups"
+msgstr ""
+
+#: plugins/addons/dashboard/groups_stats.tpl.c:8
 msgid "One of them is a %1 group"
 msgid_plural "%2 are %1 groups"
 msgstr[0] ""
@@ -4573,7 +4752,7 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: plugins/addons/dashboard/groups_stats.tpl.c:8
+#: plugins/addons/dashboard/groups_stats.tpl.c:11
 msgid "There is no %1 group"
 msgstr "Ни у кого нету %1 группы"
 
@@ -4607,6 +4786,10 @@ msgid "None of them is locked"
 msgstr "Ни один из них не заблокирован"
 
 #: plugins/addons/dashboard/users_stats.tpl.c:5
+msgid "There are no users"
+msgstr ""
+
+#: plugins/addons/dashboard/users_stats.tpl.c:8
 msgid "One of them have a %1 account"
 msgid_plural "%2 of them have a %1 account"
 msgstr[0] ""
@@ -4614,7 +4797,7 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: plugins/addons/dashboard/users_stats.tpl.c:8
+#: plugins/addons/dashboard/users_stats.tpl.c:11
 msgid "None of them have a %1 account"
 msgstr "Ни у одногр из них нету %1 аккаунта"
 
@@ -4631,10 +4814,6 @@ msgstr ""
 #: plugins/generic/references/contents.tpl.c:8
 msgid "This object has no relationship to other objects."
 msgstr "Данный объект не имеет ссылок на другие объекты"
-
-#: plugins/generic/welcome/welcome.tpl.c:2
-msgid "The FusionDirectory team"
-msgstr ""
 
 #: setup/setup_migrate_adminAccount.tpl.c:2
 msgid "Create a new FusionDirectory administrator account"
@@ -4814,6 +4993,120 @@ msgstr ""
 msgid "Show changes"
 msgstr "Показать изменения"
 
+#: ihtml/themes/legacy/recovery.tpl.c:2 ihtml/themes/breezy/recovery.tpl.c:2
+msgid "Lost password"
+msgstr "Забыли пароль"
+
+#: ihtml/themes/legacy/recovery.tpl.c:5 ihtml/themes/breezy/recovery.tpl.c:5
+msgid "Information to reset password for %1 has been sent to email address %2"
+msgstr ""
+
+#: ihtml/themes/legacy/recovery.tpl.c:8 ihtml/themes/breezy/recovery.tpl.c:8
+msgid "Warning : this email is only valid for %1 minutes."
+msgstr ""
+
+#: ihtml/themes/legacy/recovery.tpl.c:11 ihtml/themes/breezy/recovery.tpl.c:11
+msgid ""
+"This dialog provides a simple way to change your password.<br/> Enter the "
+"new password (twice) in the fields below and press the 'Change' button."
+msgstr ""
+
+#: ihtml/themes/legacy/recovery.tpl.c:14 ihtml/themes/legacy/recovery.tpl.c:17
+#: ihtml/themes/legacy/recovery.tpl.c:20 ihtml/themes/legacy/login.tpl.c:8
+#: ihtml/themes/legacy/login.tpl.c:11 ihtml/themes/legacy/login.tpl.c:14
+#: ihtml/themes/breezy/recovery.tpl.c:14 ihtml/themes/breezy/recovery.tpl.c:17
+#: ihtml/themes/breezy/recovery.tpl.c:20 ihtml/themes/breezy/login.tpl.c:8
+#: ihtml/themes/breezy/login.tpl.c:11 ihtml/themes/breezy/login.tpl.c:14
+msgid "Username"
+msgstr "Имя пользователя"
+
+#: ihtml/themes/legacy/recovery.tpl.c:32 ihtml/themes/legacy/recovery.tpl.c:35
+#: ihtml/themes/legacy/recovery.tpl.c:38 ihtml/themes/breezy/recovery.tpl.c:32
+#: ihtml/themes/breezy/recovery.tpl.c:35 ihtml/themes/breezy/recovery.tpl.c:38
+msgid "New password repeated"
+msgstr ""
+
+#: ihtml/themes/legacy/recovery.tpl.c:41 ihtml/themes/breezy/recovery.tpl.c:41
+msgid "Password strength"
+msgstr "Надежность пароля"
+
+#: ihtml/themes/legacy/recovery.tpl.c:44 ihtml/themes/legacy/recovery.tpl.c:47
+#: ihtml/themes/legacy/recovery.tpl.c:50 ihtml/themes/legacy/recovery.tpl.c:86
+#: ihtml/themes/legacy/recovery.tpl.c:89 ihtml/themes/legacy/recovery.tpl.c:92
+#: ihtml/themes/legacy/login.tpl.c:29 ihtml/themes/legacy/login.tpl.c:32
+#: ihtml/themes/legacy/login.tpl.c:35 ihtml/themes/breezy/recovery.tpl.c:44
+#: ihtml/themes/breezy/recovery.tpl.c:47 ihtml/themes/breezy/recovery.tpl.c:50
+#: ihtml/themes/breezy/recovery.tpl.c:86 ihtml/themes/breezy/recovery.tpl.c:89
+#: ihtml/themes/breezy/recovery.tpl.c:92 ihtml/themes/breezy/login.tpl.c:29
+#: ihtml/themes/breezy/login.tpl.c:32 ihtml/themes/breezy/login.tpl.c:35
+msgid "Directory"
+msgstr "Каталог"
+
+#: ihtml/themes/legacy/recovery.tpl.c:53 ihtml/themes/legacy/recovery.tpl.c:98
+#: ihtml/themes/breezy/recovery.tpl.c:53 ihtml/themes/breezy/recovery.tpl.c:98
+msgid "Change"
+msgstr "Изменить"
+
+#: ihtml/themes/legacy/recovery.tpl.c:56
+#: ihtml/themes/legacy/recovery.tpl.c:101
+#: ihtml/themes/breezy/recovery.tpl.c:56
+#: ihtml/themes/breezy/recovery.tpl.c:101
+msgid "Click here to change your password"
+msgstr "Нажмите, чтобы сменить пароль"
+
+#: ihtml/themes/legacy/recovery.tpl.c:59 ihtml/themes/legacy/recovery.tpl.c:62
+#: ihtml/themes/breezy/recovery.tpl.c:59 ihtml/themes/breezy/recovery.tpl.c:62
+msgid "Success"
+msgstr "Успешно"
+
+#: ihtml/themes/legacy/recovery.tpl.c:65 ihtml/themes/breezy/recovery.tpl.c:65
+msgid "Your password has been changed successfully."
+msgstr "Ваш пароль был успешно изменен."
+
+#: ihtml/themes/legacy/recovery.tpl.c:68 ihtml/themes/legacy/recovery.tpl.c:95
+#: ihtml/themes/breezy/recovery.tpl.c:68 ihtml/themes/breezy/recovery.tpl.c:95
+msgid "Return to login screen"
+msgstr ""
+
+#: ihtml/themes/legacy/recovery.tpl.c:71 ihtml/themes/breezy/recovery.tpl.c:71
+msgid ""
+"Enter your current e-mail address in the field below and press the 'Change' "
+"button."
+msgstr ""
+"Введите ваш текущий адрес электронной почты в нижние поле и нажмите кнопку "
+"'Изменить'."
+
+#: ihtml/themes/legacy/recovery.tpl.c:74 ihtml/themes/breezy/recovery.tpl.c:74
+msgid ""
+"=> Use your e-mail in the long format, e.g : John Doe => "
+"john.doe@example.com"
+msgstr ""
+
+#: ihtml/themes/legacy/recovery.tpl.c:104
+#: ihtml/themes/breezy/recovery.tpl.c:104
+msgid ""
+"Password recovery is not activated. If you have lost your password, please "
+"contact your administrator"
+msgstr ""
+"Функция восстановления пароля не активирована. Если вы потеряли пароль, "
+"обратитесь к системному администратору."
+
+#: ihtml/themes/legacy/login.tpl.c:5 ihtml/themes/breezy/login.tpl.c:5
+msgid ""
+"Please use your username and your password to log into the site "
+"administration system."
+msgstr ""
+"Пожалуйста используйте свое имя и пароль что бы войти в систему "
+"администрирования сайтом."
+
+#: ihtml/themes/legacy/login.tpl.c:26 ihtml/themes/breezy/login.tpl.c:26
+msgid "I forgot my password"
+msgstr "Не помню пароль"
+
+#: ihtml/themes/legacy/login.tpl.c:41 ihtml/themes/breezy/login.tpl.c:41
+msgid "Click here to log in"
+msgstr "Нажмите на эту кнопку, чтобы войти в систему"
+
 #: ihtml/themes/breezy/simple-remove.tpl.c:2
 msgid "Warning: you are about to delete the following objects"
 msgstr "Предупреждение: вы собираетесь удалить следующие объекты"
@@ -4840,78 +5133,11 @@ msgstr "Создание нового объекта используя шабл
 msgid "Continue"
 msgstr "Продолжить"
 
-#: ihtml/themes/breezy/recovery.tpl.c:8
-msgid "Lost password"
-msgstr "Забыли пароль"
-
-#: ihtml/themes/breezy/recovery.tpl.c:11
-msgid "Information to reset password for %1 has been sent to email address %2"
-msgstr ""
-
-#: ihtml/themes/breezy/recovery.tpl.c:14
-msgid "Warning : this email is only valid for %1 minutes."
-msgstr ""
-
-#: ihtml/themes/breezy/recovery.tpl.c:17
+#: ihtml/themes/breezy/copynotice.tpl.c:2
 msgid ""
-"This dialog provides a simple way to change your password. Enter the new "
-"password (twice) in the fields below and press the 'Change' button."
+"&copy; 2002-%1 <a href=\"http://www.fusiondirectory.org\">The "
+"FusionDirectory team, %2</a>"
 msgstr ""
-"Этот диалог предназначен для смены пароля. Введите новый пароль дважды в "
-"доступные ниже поля и нажмите кнопку \"Изменить\"."
-
-#: ihtml/themes/breezy/recovery.tpl.c:20 ihtml/themes/breezy/recovery.tpl.c:23
-#: ihtml/themes/breezy/recovery.tpl.c:65 ihtml/themes/breezy/recovery.tpl.c:68
-#: ihtml/themes/breezy/login.tpl.c:29 ihtml/themes/breezy/login.tpl.c:32
-#: ihtml/themes/breezy/login.tpl.c:35
-msgid "Directory"
-msgstr "Каталог"
-
-#: ihtml/themes/breezy/recovery.tpl.c:35 ihtml/themes/breezy/recovery.tpl.c:38
-msgid "New password repeated"
-msgstr ""
-
-#: ihtml/themes/breezy/recovery.tpl.c:41
-msgid "Password strength"
-msgstr "Надежность пароля"
-
-#: ihtml/themes/breezy/recovery.tpl.c:44 ihtml/themes/breezy/recovery.tpl.c:77
-msgid "Change"
-msgstr "Изменить"
-
-#: ihtml/themes/breezy/recovery.tpl.c:47 ihtml/themes/breezy/recovery.tpl.c:80
-msgid "Click here to change your password"
-msgstr "Нажмите, чтобы сменить пароль"
-
-#: ihtml/themes/breezy/recovery.tpl.c:50 ihtml/themes/breezy/recovery.tpl.c:53
-msgid "Success"
-msgstr "Успешно"
-
-#: ihtml/themes/breezy/recovery.tpl.c:56
-msgid "Your password has been changed successfully."
-msgstr "Ваш пароль был успешно изменен."
-
-#: ihtml/themes/breezy/recovery.tpl.c:59
-msgid ""
-"Enter your current e-mail address in the field below and press the 'Change' "
-"button."
-msgstr ""
-"Введите ваш текущий адрес электронной почты в нижние поле и нажмите кнопку "
-"'Изменить'."
-
-#: ihtml/themes/breezy/recovery.tpl.c:62
-msgid ""
-"=> Use your e-mail in the long format, e.g : John Doe => "
-"john.doe@example.com"
-msgstr ""
-
-#: ihtml/themes/breezy/recovery.tpl.c:83
-msgid ""
-"Password recovery is not activated. If you have lost your password, please "
-"contact your administrator"
-msgstr ""
-"Функция восстановления пароля не активирована. Если вы потеряли пароль, "
-"обратитесь к системному администратору."
 
 #: ihtml/themes/breezy/islocked.tpl.c:2
 msgid "Locking conflict detected"
@@ -4931,35 +5157,6 @@ msgstr ""
 #: ihtml/themes/breezy/islocked.tpl.c:14
 msgid "Read only"
 msgstr "Только для чтения"
-
-#: ihtml/themes/breezy/login.tpl.c:2
-msgid "Login screen"
-msgstr ""
-
-#: ihtml/themes/breezy/login.tpl.c:5
-msgid ""
-"Please use your username and your password to log into the site "
-"administration system."
-msgstr ""
-"Пожалуйста используйте свое имя и пароль что бы войти в систему "
-"администрирования сайтом."
-
-#: ihtml/themes/breezy/login.tpl.c:8 ihtml/themes/breezy/login.tpl.c:11
-#: ihtml/themes/breezy/login.tpl.c:14
-msgid "Username"
-msgstr "Имя пользователя"
-
-#: ihtml/themes/breezy/login.tpl.c:26
-msgid "I forgot my password"
-msgstr "Не помню пароль"
-
-#: ihtml/themes/breezy/login.tpl.c:38
-msgid "Sign in"
-msgstr "Войти"
-
-#: ihtml/themes/breezy/login.tpl.c:41
-msgid "Click here to log in"
-msgstr "Нажмите на эту кнопку, чтобы войти в систему"
 
 #: ihtml/themes/breezy/restore-confirm.tpl.c:2
 msgid "Warning: you are about to restore the following snapshot"

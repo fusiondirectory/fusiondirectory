@@ -278,24 +278,18 @@ sub encrypt_passwords {
 
   # Print reminder
   print "
-Please adapt your http fusiondirectory location declaration to include the newly
+Please adapt your http fusiondirectory declaration to include the newly
 created $fd_secrets.
 
 Example:
 
-Alias /fusiondirectory /usr/share/fusiondirectory/html
+# Include FusionDirectory to your web service
+Alias /fusiondirectory $vars{fd_home}
 
-<Location /fusiondirectory>
-  php_admin_flag engine on
-  php_admin_flag register_globals off
-  php_admin_flag allow_call_time_pass_reference off
-  php_admin_flag expose_php off
-  php_admin_flag zend.ze1_compatibility_mode off
-  php_admin_flag register_long_arrays off
-  php_admin_value upload_tmp_dir /var/spool/fusiondirectory/
-  php_admin_value session.cookie_lifetime 0
-  include /etc/fusiondirectory/fusiondirectory.secrets
-</Location>
+<Directory $vars{fd_home}>
+  # Include the secrects file
+  include $fd_secrets
+</Directory>
 
 
 Please reload your httpd configuration after you've modified anything.\n";
@@ -739,14 +733,18 @@ sub get_ldap_connexion {
     my @locs = $twig->root->first_child('main')->children('location');
     my %locations = ();
     foreach my $loc (@locs) {
+      $loc->lc_attnames();
       my $ref = $loc->first_child('referral');
+      # Ignore case
+      $ref->lc_attnames();
       $locations{$loc->{'att'}->{'name'}} = {
         'tls'       => 0,
-        'uri'       => $ref->{'att'}->{'URI'},
-        'bind_dn'   => $ref->{'att'}->{'adminDn'},
-        'bind_pwd'  => $ref->{'att'}->{'adminPassword'}
+        'uri'       => $ref->{'att'}->{'uri'},
+        'base'      => ($ref->{'att'}->{'base'} or $loc->{'att'}->{'base'} or ''),
+        'bind_dn'   => $ref->{'att'}->{'admindn'},
+        'bind_pwd'  => $ref->{'att'}->{'adminpassword'}
       };
-      if (defined $loc->{'att'}->{'ldapTLS'} and $loc->{'att'}->{'ldapTLS'} =~ m/true/i) {
+      if (defined $loc->{'att'}->{'ldaptls'} and $loc->{'att'}->{'ldaptls'} =~ m/true/i) {
         $locations{$loc->{'att'}->{'name'}}->{'tls'} = 1
       }
     }
@@ -761,7 +759,11 @@ sub get_ldap_connexion {
       $location = $answer;
     }
 
-    if ($locations{$location}->{'uri'} =~ qr|^(.*)/([^/]+)$|) {
+    if ($locations{$location}->{'base'} ne '') {
+      $uri  = $locations{$location}->{'uri'};
+      $base = $locations{$location}->{'base'};
+    } elsif ($locations{$location}->{'uri'} =~ qr|^(.*)/([^/]+)$|) {
+      # Format from FD<1.3
       $uri  = $1;
       $base = $2;
     } else {
@@ -1602,6 +1604,47 @@ sub migrate_phones {
   $unbind->code && warn "! Unable to unbind from LDAP server: ", $unbind->error."\n";
 }
 
+# function that migrates supannTypeEntite from FD<1.3 to FD>=1.3
+sub migrate_supanntypeentite {
+  # initiate the LDAP connexion
+  my %hash_ldap_param = get_ldap_connexion();
+
+  # LDAP's connection's parameters
+  my $base = $hash_ldap_param{base};
+  my $ldap = $hash_ldap_param{ldap};
+
+  my $mesg = $ldap->search(
+    filter => '(&(supannTypeEntite=*)(!(supannTypeEntite={*}*)))',
+    base   => $base
+  );
+  $mesg->code && die $mesg->error;
+
+  if ($mesg->count > 0) {
+    print ("The following entries are missing prefix in supannTypeEntite value:\n");
+
+    my @entries = $mesg->entries;
+
+    foreach my $entry (@entries) {
+      print $entry->dn().": ".$entry->get_value("supannTypeEntite")."\n";
+    }
+
+    if (ask_yn_question("Migrate these entries to add the {SUPANN} prefix?")) {
+      foreach my $entry (@entries) {
+        $entry->replace("supannTypeEntite" => "{SUPANN}".$entry->get_value("supannTypeEntite"));
+        $mesg = $entry->update($ldap);
+        if ($mesg->code) {
+          print $entry->dn().": ".$mesg->error."\n";
+          next;
+        }
+      }
+    }
+  }
+
+  # unbind to the LDAP server
+  my $unbind = $ldap->unbind;
+  $unbind->code && warn "! Unable to unbind from LDAP server: ", $unbind->error."\n";
+}
+
 # List LDAP attributes which have been deprecated
 sub list_deprecated {
   my ($obsolete_attrs, $obsolete_classes) = get_deprecated();
@@ -1844,6 +1887,7 @@ die ("! You have to run this script as root\n") if ($<!=0);
   $commands{"--migrate-systems"}      = ["Migrating your systems from FD < 1.1",          \&migrate_systems, 1];
   $commands{"--migrate-winstations"}  = ["Migrating your winstations from FD < 1.1",      \&migrate_winstations, 1];
   $commands{"--migrate-dhcp"}         = ["Migrating DHCP configurations for FD >= 1.0.17",\&migrate_dhcp, 1];
+  $commands{"--migrate-supannentite"} = ["Fixing supannTypeEntite from FD < 1.3",         \&migrate_supanntypeentite];
   $commands{"--delete-gosa-locks"}    = ["Delete lock tokens using old gosaLockEntry class", \&delete_gosa_locks];
   $commands{"--install-plugins"}      = ["Installing FusionDirectory's plugins",          \&install_plugins];
   $commands{"--encrypt-passwords"}    = ["Encrypt passwords in fusiondirectory.conf",     \&encrypt_passwords];
@@ -1959,6 +2003,10 @@ This option replace old winstations objectClasses by new objectClasses from FD 1
 =item --migrate-dhcp
 
 This option moves DHCP configurations from systems branch to DHCP branch, which is necessary for FusionDirectory 1.0.17 and above.
+
+=item --migrate-supannentite
+
+This option adds the {SUPANN} prefix that was missing in supannTypeEntite values before FD 1.3.
 
 =item --delete-gosa-locks
 

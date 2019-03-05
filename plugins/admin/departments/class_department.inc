@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -45,7 +45,7 @@ class department extends simplePlugin
           )
         ),
       'plForeignKeys'  => array(
-        'manager' => 'user'
+        'manager' => array('user','dn','manager=%oldvalue%','*')
       ),
 
       'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())
@@ -102,9 +102,11 @@ class department extends simplePlugin
             _('Address'), sprintf(_('A postal address for this %s'), $name),
             'postalAddress', FALSE
           ),
-          new PhoneNumberAttribute(
+          new PhoneNumberButtonAttribute (
             _('Phone'), _('Telephone number'),
-            'telephoneNumber', FALSE
+            'telephoneNumber', FALSE,
+            '',
+            'any'
           ),
           new PhoneNumberAttribute(
             _('Fax'), _('Facsimile telephone number'),

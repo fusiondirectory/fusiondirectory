@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org)
   Copyright (C)  2010 Antoine Gallavardin
-  Copyright (C)  2011-2016 FusionDirectory project
+  Copyright (C)  2011-2018 FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -38,7 +38,9 @@ class dashboard extends simplePlugin
       'plSection'     => array('reporting' => array('name' => _('Reporting'), 'priority' => 30)),
       'plPriority'    => 0,
 
-      'plProvidedAcls'  => array()
+      'plProvidedAcls'  => array(
+        'dashboard' => _('See dashboard')
+      )
     );
   }
 
@@ -67,7 +69,9 @@ class dashboard extends simplePlugin
     $stats = array();
     foreach ($config->data['OBJECTS'] as $type => $infos) {
       try {
-        $nb = objects::count($type);
+        $nb = count(objects::ls($type, NULL, NULL, '', TRUE));
+      } catch (EmptyFilterException $e) {
+        $nb = 0;
       } catch (FusionDirectoryException $e) {
         $nb = 0;
         msg_dialog::display(

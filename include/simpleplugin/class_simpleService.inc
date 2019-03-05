@@ -1,8 +1,7 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -22,16 +21,14 @@
 /*! \brief This class is made for easy service creation for editing LDAP attributes
  *
  */
-class simpleService extends simplePlugin {
+class simpleService extends simplePlugin
+{
+  protected static $showActions = TRUE;
 
-  var $status = "";
+  protected $status = '';
 
-  var $conflicts            = array();
-  var $dn                   = NULL;
-  var $cn                   = "";
-  var $DisplayName          = "";
-  var $view_logged          = FALSE;
-  var $showActions          = TRUE;
+  public $conflicts   = array();
+  public $DisplayName = '';
 
   /*! \brief constructor
    *
@@ -52,11 +49,6 @@ class simpleService extends simplePlugin {
    */
   function execute()
   {
-    if ($this->is_account && !$this->view_logged) {
-      $this->view_logged = TRUE;
-      logging::log('view', 'server/'.get_class($this), $this->dn);
-    }
-
     $str = parent::execute();
 
     if (!$this->dialog) {
@@ -83,12 +75,12 @@ class simpleService extends simplePlugin {
     /* Name displayed in service overview */
     $fields['Message']      = $this->DisplayName;
 
-    if ($this->showActions && is_object($this->parent->parent) && isset($this->parent->parent->by_object['argonautClient']) && $this->parent->parent->by_object['argonautClient']->is_account) {
+    if (static::$showActions && is_object($this->parent->parent) && isset($this->parent->parent->by_object['argonautClient']) && $this->parent->parent->by_object['argonautClient']->is_account) {
       /* Allow/disallow some functions */
-      $fields['AllowStatus']  = ($this->status == "") && $this->acl_is_writeable("start");
-      $fields['AllowStart']   = ($this->status == "stopped") && $this->acl_is_writeable("start");
-      $fields['AllowStop']    = ($this->status == "running") && $this->acl_is_writeable("stop");
-      $fields['AllowRestart'] = ($this->status == "running") && $this->acl_is_writeable("restart");
+      $fields['AllowStatus']  = ($this->status == '') && $this->acl_is_writeable('simpleServiceStatus');
+      $fields['AllowStart']   = ($this->status == 'stopped') && $this->acl_is_writeable('simpleServiceStart');
+      $fields['AllowStop']    = ($this->status == 'running') && $this->acl_is_writeable('simpleServiceStop');
+      $fields['AllowRestart'] = ($this->status == 'running') && $this->acl_is_writeable('simpleServiceRestart');
     } else {
       /* Disable some functions */
       $fields['AllowStatus']  = FALSE;
@@ -98,7 +90,7 @@ class simpleService extends simplePlugin {
     }
 
     $fields['AllowRemove']  = $this->acl_is_removeable();
-    $fields['AllowEdit']    = $this->acl_is_readable("");
+    $fields['AllowEdit']    = $this->acl_is_readable('');
 
     return $fields;
   }
@@ -112,6 +104,19 @@ class simpleService extends simplePlugin {
     }
 
     $this->status = $value;
+  }
+
+  static function generatePlProvidedAcls ($attributesInfo)
+  {
+    $acls = parent::generatePlProvidedAcls($attributesInfo);
+    if (static::$showActions) {
+      $acls ['simpleServiceStatus']   = _('Get service status');
+      $acls ['simpleServiceStart']    = _('Start service');
+      $acls ['simpleServiceStop']     = _('Stop service');
+      $acls ['simpleServiceRestart']  = _('Restart service');
+    }
+
+    return $acls;
   }
 }
 ?>

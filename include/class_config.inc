@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2017  FusionDirectory
+  Copyright (C) 2011-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -208,7 +208,18 @@ class config
       /* Handle referral tags */
       case 'REFERRAL':
         if ($this->tags[$this->level - 2] == 'LOCATION') {
-          $server = preg_replace('!^([^:]+://[^/]+)/.*$!', '\\1', $attrs['URI']);
+          if (isset($attrs['BASE'])) {
+            $server = $attrs['URI'];
+          } elseif (isset($this->data['LOCATIONS'][$this->currentLocation]['BASE'])) {
+            /* Fallback on location base */
+            $server         = $attrs['URI'];
+            $attrs['BASE']  = $this->data['LOCATIONS'][$this->currentLocation]['BASE'];
+          } else {
+            /* Format from FD<1.3 */
+            $server         = preg_replace('!^([^:]+://[^/]+)/.*$!', '\\1', $attrs['URI']);
+            $attrs['BASE']  = preg_replace('!^[^:]+://[^/]+/(.*)$!', '\\1', $attrs['URI']);
+            $attrs['URI']   = $server;
+          }
 
           /* Add location elements */
           if (!isset($this->data['LOCATIONS'][$this->currentLocation]['REFERRAL'])) {
@@ -302,8 +313,9 @@ class config
    */
   function get_ldap_link($sizelimit = FALSE)
   {
-    if ($this->ldap === NULL || !is_resource($this->ldap->cid)) {
+    global $ui;
 
+    if ($this->ldap === NULL || !is_resource($this->ldap->cid)) {
       /* Build new connection */
       $this->ldap = ldap_init ($this->current['SERVER'], $this->current['BASE'],
           $this->current['ADMINDN'], $this->get_credentials($this->current['ADMINPASSWORD']));
@@ -320,16 +332,11 @@ class config
       } else {
         $this->ldap->referrals = $this->current['REFERRAL'];
       }
-
-      if (!session::global_is_set('size_limit')) {
-        session::global_set('size_limit',   $this->current['LDAPSIZELIMIT']);
-        session::global_set('size_ignore',  preg_match('/true/i', $this->current['LDAPSIZEIGNORE']));
-      }
     }
 
     $obj  = new ldapMultiplexer($this->ldap);
     if ($sizelimit) {
-      $obj->set_size_limit(session::global_get('size_limit'));
+      $obj->set_size_limit($ui->getSizeLimitHandler()->getSizeLimit());
     } else {
       $obj->set_size_limit(0);
     }
@@ -355,51 +362,28 @@ class config
 
     /* Sort referrals, if present */
     if (isset($this->current['REFERRAL'])) {
-      $bases    = array();
       $servers  = array();
-      foreach ($this->current['REFERRAL'] as $ref) {
-        $server = preg_replace('%^(.*://[^/]+)/.*$%', '\\1', $ref['URI']);
-        $base   = preg_replace('%^.*://[^/]+/(.*)$%', '\\1', $ref['URI']);
-
-        $bases[$base]   = strlen($base);
-        $servers[$base] = $server;
+      foreach ($this->current['REFERRAL'] as $server => $ref) {
+        $servers[$server] = strlen($ref['BASE']);
       }
-      asort($bases);
-      reset($bases);
+      asort($servers);
+      reset($servers);
     }
 
     /* SERVER not defined? Load the one with the shortest base */
     if (!isset($this->current['SERVER'])) {
-      $this->current['SERVER'] = $servers[key($bases)];
-    }
-
-    /* BASE not defined? Load the one with the shortest base */
-    if (!isset($this->current['BASE'])) {
-      $this->current['BASE'] = key($bases);
+      $this->current['SERVER'] = key($servers);
     }
 
     /* Parse LDAP referral informations */
     if (!isset($this->current['ADMINDN']) || !isset($this->current['ADMINPASSWORD'])) {
-      $url      = $this->current['SERVER'];
-      $referral = $this->current['REFERRAL'][$url];
-
-      $this->current['ADMINDN']       = $referral['ADMINDN'];
-      $this->current['ADMINPASSWORD'] = $referral['ADMINPASSWORD'];
-    }
-
-    /* We need LDAPSIZELIMIT and LDAPSIZEIGNORE set before we connect to the ldap */
-    if (!isset($this->current['LDAPSIZELIMIT'])) {
-      $this->current['LDAPSIZELIMIT'] = 200;
-    }
-    if (!isset($this->current['LDAPSIZEIGNORE'])) {
-      $this->current['LDAPSIZEIGNORE'] = "TRUE";
+      $this->current['BASE']          = $this->current['REFERRAL'][$this->current['SERVER']]['BASE'];
+      $this->current['ADMINDN']       = $this->current['REFERRAL'][$this->current['SERVER']]['ADMINDN'];
+      $this->current['ADMINPASSWORD'] = $this->current['REFERRAL'][$this->current['SERVER']]['ADMINPASSWORD'];
     }
 
     /* Load in-ldap configuration */
     $this->load_inldap_config();
-
-    /* We update LDAPSIZELIMIT as it may have been changed by ldap config */
-    session::global_set('size_limit', $this->current['LDAPSIZELIMIT']);
 
     if (class_available('systemManagement')) {
       /* Load server informations */
@@ -420,7 +404,7 @@ class config
 
     timezone::setDefaultTimezoneFromConfig();
 
-    initLanguage();
+    Language::init();
   }
 
   /*!
@@ -818,10 +802,13 @@ class config
     foreach ($plist->info as $class => &$plInfo) {
       if (isset($plInfo['plObjectType'])) {
         $entry = array('CLASS' => $class,'NAME' => $plInfo['plShortName']);
+        if (isset($plInfo['plSubTabs'])) {
+          $entry['SUBTABS'] = strtoupper($plInfo['plSubTabs']).'TABS';
+        }
         foreach ($plInfo['plObjectType'] as $key => $value) {
           if (is_numeric($key)) {
             /* This is not the main tab */
-            $tabclass = strtoupper($value)."TABS";
+            $tabclass = strtoupper($value).'TABS';
             if (($tabclass == 'GROUPTABS') && class_available('mixedGroup')) {
               $tabclass = 'OGROUP-USERTABS';
             }
@@ -839,6 +826,7 @@ class config
             $value['tabGroup']        = $tabclass;
             $value['mainTab']         = $class;
             $value['templateActive']  = FALSE;
+            $value['snapshotActive']  = FALSE;
             foreach (array('ou', 'tabClass') as $i) {
               if (!isset($value[$i])) {
                 $value[$i] = NULL;
@@ -945,6 +933,9 @@ class config
             /* This is the main tab */
             $obj = strtoupper($key);
           }
+          if (strpos($obj, 'OGROUP-') === 0) {
+            $obj = 'OGROUP';
+          }
           /* if this is an existing objectType, not just a tab group */
           if (isset($this->data['OBJECTS'][$obj])) {
             $cat    = $this->data['OBJECTS'][$obj]['aclCategory'];
@@ -979,8 +970,12 @@ class config
           if (isset($this->data['OBJECTS'][$obj])) {
             $this->data['OBJECTS'][$obj]['management'] = $class;
             if (isset($class::$skipTemplates) && ($class::$skipTemplates == FALSE)) {
-              $this->data['OBJECTS'][$obj]['templateActive'] = TRUE;
-              $this->data['CATEGORIES'][$cat]['classes'][] = 'template';
+              $this->data['OBJECTS'][$obj]['templateActive']  = TRUE;
+              $this->data['CATEGORIES'][$cat]['classes'][]    = 'template';
+            }
+            if (isset($class::$skipSnapshots) && ($class::$skipSnapshots == FALSE)) {
+              $this->data['OBJECTS'][$obj]['snapshotActive']  = TRUE;
+              $this->data['CATEGORIES'][$cat]['classes'][]    = 'SnapshotHandler';
             }
           }
         }
@@ -1047,7 +1042,9 @@ class config
     $this->data['SECTIONS']['personal'] = array('NAME' => _('My account'), 'PRIORITY' => 40);
     $personal = array();
     foreach ($this->data['TABS']['USERTABS'] as $tab) {
-      $personal[] = array('CLASS' => $tab['CLASS'], 'ACL' => 'user/'.$tab['CLASS'].':self');
+      if ($plist->info[$tab['CLASS']]['plSelfModify']) {
+        $personal[] = array('CLASS' => $tab['CLASS'], 'ACL' => 'user/'.$tab['CLASS'].':self');
+      }
     }
     if (!isset($this->data['MENU']['personal'])) {
       $this->data['MENU']['personal'] = $personal;

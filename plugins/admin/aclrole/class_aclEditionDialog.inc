@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -277,6 +277,7 @@ class ACLEditionDialog extends GenericDialog
 
     /* Add select all/none buttons */
     $style = 'style="width:100px;"';
+
     $display .= '<input '.$style.' type="button" name="toggle_all_create" onClick="acl_toggle_all(\'_0_c$\');" value="Toggle C"/>';
     $display .= '<input '.$style.' type="button" name="toggle_all_move"   onClick="acl_toggle_all(\'_0_m$\');" value="Toggle M"/>';
     $display .= '<input '.$style.' type="button" name="toggle_all_remove" onClick="acl_toggle_all(\'_0_d$\');" value="Toggle D"/> - ';
@@ -346,16 +347,16 @@ class ACLEditionDialog extends GenericDialog
 
       /* Generate options */
       $spc      = '&nbsp;&nbsp;';
-      $options  =   $this->mkchkbx($key.'_0_c', _('Create objects'),  preg_match('/c/', $overall_acl)).$spc;
-      $options  .=  $this->mkchkbx($key.'_0_m', _('Move objects'),    preg_match('/m/', $overall_acl)).$spc;
-      $options  .=  $this->mkchkbx($key.'_0_d', _('Remove objects'),  preg_match('/d/', $overall_acl)).$spc;
+      $options   = $this->mkchkbx($key.'_0_c', _('Create objects'),  preg_match('/c/', $overall_acl)).$spc;
+      $options  .= $this->mkchkbx($key.'_0_m', _('Move objects'),    preg_match('/m/', $overall_acl)).$spc;
+      $options  .= $this->mkchkbx($key.'_0_d', _('Remove objects'),  preg_match('/d/', $overall_acl)).$spc;
       if ($plist[preg_replace('%^.*/%', '', $key)]['plSelfModify']) {
         $options .= $this->mkchkbx($key.'_0_s', _('Grant permission to owner'), preg_match('/s/', $overall_acl)).$spc;
       }
 
       /* Global options */
-      $more_options =   $this->mkchkbx($key.'_0_r',  _('read'), preg_match('/r/', $overall_acl)).$spc;
-      $more_options .=  $this->mkchkbx($key.'_0_w', _('write'), preg_match('/w/', $overall_acl));
+      $more_options  = $this->mkchkbx($key.'_0_r', _('read'),  preg_match('/r/', $overall_acl)).$spc;
+      $more_options .= $this->mkchkbx($key.'_0_w', _('write'), preg_match('/w/', $overall_acl));
 
       $display .= '  <tr>'."\n".
                   '    <td style="background-color:#E0E0E0" colspan="'.($cols - 1).'">'.$options.'</td>'."\n".

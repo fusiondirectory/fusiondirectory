@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2017  FusionDirectory
+  Copyright (C) 2011-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -212,6 +212,7 @@ class baseSelector
     $this->tree   .= "<div class='treeList' style='display:none;max-height:".$this->height."px' id='bs_".$this->pid."' onmouseover=\"window.clearTimeout(rtimer);\" onmouseout=\"rtimer= Element.hide.delay(0.25, 'bs_".$this->pid."')\"><a class='treeList$selected' $link>/&nbsp;["._("Root")."]</a><ul class='treeList'>\n";
     $first        = TRUE;
     $last_indent  = 2;
+    $last_base    = '';
 
     foreach ($this->pathMapping as $base => $dummy) {
       // Skip root for tree
@@ -226,6 +227,18 @@ class baseSelector
       if (!$first && ($indent == $last_indent)) {
         $this->tree .= "</li>\n";
       } elseif ($indent > $last_indent) {
+        $parent_base = implode(',', array_slice($elements, 1)).$config->current['BASE'];
+        if (!$first && ($parent_base != $last_base)) {
+          /* Our parent is missing, add it but without link */
+          $this->tree .= "</li>\n";
+          $this->tree .= '<li><a title="'.$parent_base.'">'.
+                        '<img class="center" '.
+                        'src="'.htmlentities($config->department_info[$parent_base]['img'], ENT_COMPAT, 'UTF-8').'" '.
+                        'alt=""/>&nbsp;'.
+                        $this->escape($config->department_info[$parent_base]['name']).
+                        (($config->department_info[$parent_base]['description'] == '') ? '' : '&nbsp;<span class="informal">['.$this->escape($config->department_info[$parent_base]['description']).']</span>').
+                        '</a>';
+        }
         $this->tree .= "<ul>\n";
       } elseif ($indent < $last_indent) {
         for ($i = 0; $i < ($last_indent - $indent); $i++) {
@@ -238,12 +251,13 @@ class baseSelector
       $this->tree .= "<li><a$selected $link>".
                     '<img class="center" '.
                     'src="'.htmlentities($config->department_info[$base]['img'], ENT_COMPAT, 'UTF-8').'" '.
-                    'alt="'.htmlentities($config->department_info[$base]['name'], ENT_COMPAT, 'UTF-8').'"/>&nbsp;'.
+                    'alt=""/>&nbsp;'.
                     $this->escape($config->department_info[$base]['name']).
                     (($config->department_info[$base]['description'] == '') ? '' : '&nbsp;<span class="informal">['.$this->escape($config->department_info[$base]['description']).']</span>').
                     '</a>';
 
       $last_indent  = $indent;
+      $last_base    = $base;
       $first        = FALSE;
     }
 

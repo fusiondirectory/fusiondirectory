@@ -1,8 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -49,7 +48,8 @@ class ogrouptabs extends simpleTabs_noSpecial
       }
       $tabs   = FALSE;
       for ($i = 0; $i < strlen($objects); $i++) {
-        if ($objects[$i] == 'I') {
+        if (in_array($objects[$i], array('I','G'))) {
+          /* Ignore unknown objects and groups */
           continue;
         }
         $otype = ogroup::$objectTypes[$objects[$i]];
@@ -135,6 +135,19 @@ class ogrouptabs extends simpleTabs_noSpecial
     return parent::gen_tabs($disabled);
   }
 
+  /*!
+   * \brief Sets the active tabs from this instance to an other one. Used by templates
+   */
+  function setActiveTabs(&$tabObject)
+  {
+    $tabObject->loadtabs($this->groupObjects);
+    foreach ($this->by_object as $class => $plugin) {
+      if ($plugin->is_account || $plugin->ignore_account) {
+        $tabObject->by_object[$class]->is_account = $plugin->is_account;
+      }
+    }
+  }
+
   function check($ignore_account = FALSE)
   {
     return parent::check(FALSE);
@@ -142,21 +155,23 @@ class ogrouptabs extends simpleTabs_noSpecial
 
   function save()
   {
+    $errors = parent::save();
+
     foreach ($this->removed_tabs as $key => &$obj) {
       if (isset($this->by_object[$key])) {
         continue;
       }
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, "Removing");
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, 'Removing');
 
       $obj->dn = $this->dn;
-      $errors = $obj->remove_from_parent();
-      if (!empty($errors)) {
-        msg_dialog::displayChecks($errors);
+      $tabErrors = $obj->remove(FALSE);
+      if (!empty($tabErrors)) {
+        $errors = array_merge($errors, $tabErrors);
       }
     }
     unset($obj);
 
-    return parent::save();
+    return $errors;
   }
 
   function save_object($save_current = FALSE)

@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -62,7 +62,7 @@ function html_trace($errstr = "")
       $loc .= _("class")." ".$ct['class'];
       $func .= $ct['class'];
       if (isset($ct['function'])) {
-        $loc .= ' / ';
+        $loc  .= ' / ';
         $func .= '/';
       }
     }
@@ -127,7 +127,7 @@ function html_trace($errstr = "")
     } else {
       $line = "";
     }
-    $color = ($index & 1)?'#404040':'606060';
+    $color = ($index & 1) ? '#404040' : '606060';
     $return_html .= "<tr style='background-color:$color'><td style='padding-left:20px' width=\"30%\">"._("Trace")."[$index]: $loc</td>";
     $return_html .= "<td>"._("File").": $file ("._('Line')." $line)</td><td width=\"10%\">"._("Type").": $type</td></tr>";
     $return_html .= "<tr style='background-color:$color'><td colspan=3 style='padding-left:20px;'>"._("Arguments").": $args</td></tr>";

@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ class simpleTabs
   var $acl;
   var $is_template;
 
-  public    $objectType   = FALSE;
+  public $objectType      = FALSE;
   protected $specialTabs  = TRUE;
   protected $plNotify     = array();
 
@@ -114,7 +114,6 @@ class simpleTabs
     }
   }
 
-
   /*!
    * \brief Reinitializes the tab classes with fresh ldap values.
    *
@@ -135,6 +134,18 @@ class simpleTabs
         $this->by_object[$name] = new $class($this->dn, $baseobject, $this, FALSE);
       }
       $this->by_object[$name]->set_acl_category($this->acl_category);
+    }
+  }
+
+  /*!
+   * \brief Sets the active tabs from this instance to an other one. Used by templates
+   */
+  function setActiveTabs(&$tabObject)
+  {
+    foreach ($this->by_object as $class => $plugin) {
+      if ($plugin->is_account || $plugin->ignore_account) {
+        $tabObject->by_object[$class]->is_account = $plugin->is_account;
+      }
     }
   }
 
@@ -208,8 +219,6 @@ class simpleTabs
 
   /*!
    * \brief Save a tabs object
-   *
-   * \param boolean $save_current false
    */
   function save_object()
   {
@@ -299,23 +308,28 @@ class simpleTabs
   }
 
   /*!
-   * \brief Remove object from parent
+   * \brief Remove object from LDAP
    */
   function delete()
   {
-    /* Delete for all plugins */
+    if (!$this->getBaseObject()->acl_is_removeable()) {
+      msg_dialog::display(_('Permission'), msgPool::permDelete($this->getBaseObject()->dn), ERROR_DIALOG);
+      return FALSE;
+    }
+
+    /* Delete all tabs in reverse order */
     foreach (array_reverse($this->by_object) as $obj) {
-      $errors = $obj->remove_from_parent();
+      $errors = $obj->remove(TRUE);
       if (!empty($errors)) {
         msg_dialog::displayChecks($errors);
+        return FALSE;
       }
     }
+    return TRUE;
   }
 
   /*!
    * \brief Check
-   *
-   * \param boolean $ignore_account false
    */
   protected function check()
   {
@@ -415,11 +429,11 @@ class simpleTabs
         if ($obj->is_account || $obj->ignore_account) {
           $result = $obj->save();
         } else {
-          $result = $obj->remove_from_parent();
+          $result = $obj->remove(FALSE);
         }
         if (!empty($result)) {
           if ($creation && $first) {
-            /* If the fail of main tab fails for a creation, cancel the save of other tabs */
+            /* If the save of main tab fails for a creation, cancel the save of other tabs */
             $this->dn = $old_dn;
             $obj->dn  = $this->dn;
             return $result;
@@ -450,9 +464,8 @@ class simpleTabs
   /*!
    * \brief Adapt from template
    *
-   * \param string $dn The DN
-   *
-   * \param array $skip
+   * \param array $attrs an LDAP-like values array
+   * \param array $skip Attributes to skip
    */
   function adapt_from_template($attrs, $skip = array())
   {
@@ -552,6 +565,9 @@ class simpleTabs
   }
 }
 
+/*!
+ * \brief For objects which does not support special tabs such as LDAP and references
+ */
 class simpleTabs_noSpecial extends simpleTabs
 {
   protected $specialTabs = FALSE;

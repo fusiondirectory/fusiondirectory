@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2013-2016  FusionDirectory
+  Copyright (C) 2013-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -18,7 +18,9 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/* We extend userSelect to have the login column */
+/*!
+ * \brief Object selection
+ */
 class objectSelect extends userSelect
 {
   protected $objectTypes = array(
@@ -27,6 +29,6 @@ class objectSelect extends userSelect
     'terminal', 'workstation', 'server', 'printer', 'phone',
     'simpleSecurityObject'
   );
-  protected $autoFilterAttributes = array('dn', 'cn', 'uid', 'description');
+  protected $autoFilterAttributes = array('dn', 'cn', 'uid', 'description', 'mail');
 }
 ?>

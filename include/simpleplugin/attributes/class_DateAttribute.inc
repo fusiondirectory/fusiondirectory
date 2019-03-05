@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2016  FusionDirectory
+  Copyright (C) 2012-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ class DateAttribute extends Attribute
   {
     if ($value === "" && !$this->isRequired()) {
       return $value;
-    } elseif (is_object($this->plugin) && $this->plugin->is_template && preg_match('/%/', $value)) {
+    } elseif ($this->isTemplate() && preg_match('/%/', $value)) {
       return $value;
     } else {
       return $this->ldapToDate($value);
@@ -61,7 +61,7 @@ class DateAttribute extends Attribute
       try {
         return $this->getDateValue()->format('d.m.Y');
       } catch (Exception $e) {
-        if (is_object($this->plugin) && $this->plugin->is_template && preg_match('/%/', $this->value)) {
+        if ($this->isTemplate() && preg_match('/%/', $this->value)) {
           return $this->value;
         } else {
           return '';
@@ -103,7 +103,7 @@ class DateAttribute extends Attribute
       try {
         $this->setValue($this->getDateValue());
       } catch (Exception $e) {
-        if (is_object($this->plugin) && $this->plugin->is_template && preg_match('/%/', $this->value)) {
+        if ($this->isTemplate() && preg_match('/%/', $this->value)) {
           return $this->value;
         } else {
           throw $e;
@@ -125,7 +125,7 @@ class DateAttribute extends Attribute
         try {
           $this->getDateValue();
         } catch (Exception $e) {
-          if (is_object($this->plugin) && $this->plugin->is_template && preg_match('/%/', $this->value)) {
+          if ($this->isTemplate() && preg_match('/%/', $this->value)) {
             return;
           } else {
             return sprintf(_('Error, incorrect date: %s'), $e->getMessage());
@@ -158,6 +158,9 @@ class DateAttribute extends Attribute
   }
 }
 
+/*!
+ * \brief Date attribute storing standard LDAP GeneralizedTime format
+ */
 class GeneralizedTimeDateAttribute extends DateAttribute
 {
   function __construct ($label, $description, $ldapName, $required, $defaultValue = 'now', $acl = "")
@@ -178,5 +181,130 @@ class GeneralizedTimeDateAttribute extends DateAttribute
   protected function dateToLdap($dateValue)
   {
     return LdapGeneralizedTime::toString($dateValue);
+  }
+}
+
+/*!
+ * \brief Attribute storing time as His format
+ */
+class TimeHisAttribute extends CompositeAttribute
+{
+  protected $convert;
+
+  function __construct($label, $description, $ldapName, $required, $convert = TRUE, $acl = '')
+  {
+    $this->convert = $convert;
+    $attributes = array(
+      new IntAttribute (
+        '',  _('Hours'),
+        $ldapName.'_hours', TRUE,
+        0, 23, 1
+      ),
+      new IntAttribute (
+        ':', _('Minutes'),
+        $ldapName.'_minutes', TRUE,
+        0, 59, 0
+      ),
+      new IntAttribute (
+        ':', _('Seconds'),
+        $ldapName.'_seconds', TRUE,
+        0, 59, 0
+      )
+    );
+    parent::__construct($description, $ldapName, $attributes, '/^(\d\d)(\d\d)(\d\d)$/', '%02d%02d%02d', $acl, $label);
+    $this->setLinearRendering(TRUE);
+  }
+
+  function readValues($value)
+  {
+    $values = parent::readValues($value);
+    if ($this->convert) {
+      $datetime = new DateTime('T'.implode(':', $values), timezone::utc());
+
+      $datetime->setTimeZone(timezone::getDefaultTimeZone());
+      if (count($values) < 3) {
+        $values = explode(':', $datetime->format('H:i'));
+      } else {
+        $values = explode(':', $datetime->format('H:i:s'));
+      }
+    }
+    return $values;
+  }
+
+  function writeValues($values)
+  {
+    if ($this->convert) {
+      $datetime = new DateTime('T'.implode(':', $values), timezone::getDefaultTimeZone());
+      $datetime->setTimeZone(timezone::utc());
+      if (count($values) < 3) {
+        $values = explode(':', $datetime->format('H:i'));
+      } else {
+        $values = explode(':', $datetime->format('H:i:s'));
+      }
+    }
+    return parent::writeValues($values);
+  }
+
+  function displayValue($value)
+  {
+    $values = parent::readValues($value);
+    $datetime = new DateTime('T'.implode(':', $values), timezone::utc());
+    if ($this->convert) {
+      $datetime->setTimeZone(timezone::getDefaultTimeZone());
+    }
+    if (count($values) < 3) {
+      return $datetime->format('H:i');
+    } else {
+      return $datetime->format('H:i:s');
+    }
+  }
+}
+
+/*!
+ * \brief Attribute storing time as Hi format
+ */
+class TimeHiAttribute extends TimeHisAttribute
+{
+  function __construct($label, $description, $ldapName, $required, $convert = TRUE, $acl = '')
+  {
+    $this->convert = $convert;
+    $attributes = array(
+      new IntAttribute (
+        '',  _('Hours'),
+        $ldapName.'_hours', TRUE,
+        0, 23, 1
+      ),
+      new IntAttribute (
+        ':', _('Minutes'),
+        $ldapName.'_minutes', TRUE,
+        0, 59, 0
+      )
+    );
+    CompositeAttribute::__construct($description, $ldapName, $attributes, '/^(\d\d)(\d\d)$/', '%02d%02d', $acl, $label);
+    $this->setLinearRendering(TRUE);
+  }
+}
+
+/*!
+ * \brief Attribute storing both Date and Time
+ */
+class DateTimeAttribute extends CompositeAttribute
+{
+  function __construct($label, $description, $ldapName, $required, $acl = '')
+  {
+    $attributes = array(
+      new DateAttribute(
+        _('Date'), '',
+        $ldapName.'_date', $required,
+        'Ymd'
+      ),
+      /* Disabling conversion as it needs to be done on the date+time level (see argonautAction for an example) */
+      new TimeHisAttribute(
+        _('Time'), '',
+        $ldapName.'_time', $required,
+        FALSE
+      )
+    );
+    parent::__construct($description, $ldapName, $attributes, '/^(\d{8})(\d{6})$/', '%s%s', $acl, $label);
   }
 }

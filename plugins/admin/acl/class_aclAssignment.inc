@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2013-2016  FusionDirectory
+  Copyright (C) 2013-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -211,22 +211,33 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
   function foreignKeyUpdate($oldvalue, $newvalue, $source)
   {
     foreach ($this->value as $key => &$value) {
-      if (($source['CLASS'] == 'aclRole') && ($value['role'] == $oldvalue) && ($source['MODE'] != 'copy')) {
+      if ($source['FIELD'] == 'dn') {
         if ($newvalue === NULL) {
-          unset($this->value[$key]);
-        } else {
-          $value['role'] = $newvalue;
-        }
-      } elseif (in_array($source['CLASS'], array('user','posixGroup','roleGeneric')) && (($member_key = array_search($oldvalue, $value['members'])) !== FALSE)) {
-        if ($newvalue === NULL) {
-          unset($value['members'][$member_key]);
+          if (preg_match('/'.preg_quote($oldvalue, '/').'$/', $value['role'])) {
+            unset($this->value[$key]);
+          }
+          foreach ($value['members'] as $member_key => $member) {
+            if (preg_match('/'.preg_quote($oldvalue, '/').'$/', $member)) {
+              unset($value['members'][$member_key]);
+            }
+          }
+          unset($member);
         } elseif ($source['MODE'] == 'move') {
-          $value['members'][$member_key] = $newvalue;
+          $value['role'] = preg_replace('/'.preg_quote($oldvalue, '/').'$/', $newvalue, $value['role']);
+          foreach ($value['members'] as &$member) {
+            $member = preg_replace('/'.preg_quote($oldvalue, '/').'$/', $newvalue, $member);
+          }
+          unset($member);
         } elseif ($source['MODE'] == 'copy') {
-          $value['members'][] = $newvalue;
+          /* Copied members are added */
+          foreach ($value['members'] as $member) {
+            if (preg_match('/'.preg_quote($oldvalue, '/').'$/', $member)) {
+              $value['members'][] = preg_replace('/'.preg_quote($oldvalue, '/').'$/', $newvalue, $member);
+            }
+          }
         }
-      } elseif (!in_array($source['CLASS'], array('aclRole','user','posixGroup','roleGeneric'))) {
-        trigger_error('unknown source '.$source['CLASS']);
+      } else {
+        trigger_error('unknown source "'.$source['CLASS'].'" with field "'.$source['FIELD'].'"');
       }
     }
     unset($value);
@@ -275,10 +286,10 @@ class aclAssignment extends simplePlugin
       'plObjectType'  => $oc,
       'plForeignKeys'  => array(
         'gosaAclEntry' => array(
-          array('aclRole',      'dn', 'gosaAclEntry=*:*:%b|oldvalue%:*'),
-          array('user',         'dn', 'gosaAclEntry=*:*:*:*%b|oldvalue%*'),
-          array('posixGroup',   'dn', 'gosaAclEntry=*:*:*:*%b|oldvalue%*'),
-          array('roleGeneric',  'dn', 'gosaAclEntry=*:*:*:*%b|oldvalue%*'),
+          array('aclRole',      'dn', 'gosaAclEntry=*:*:%b|oldvalue%:*',    'gosaAclEntry=*'),
+          array('user',         'dn', 'gosaAclEntry=*:*:*:*%b|oldvalue%*',  'gosaAclEntry=*'),
+          array('posixGroup',   'dn', 'gosaAclEntry=*:*:*:*%b|oldvalue%*',  'gosaAclEntry=*'),
+          array('roleGeneric',  'dn', 'gosaAclEntry=*:*:*:*%b|oldvalue%*',  'gosaAclEntry=*'),
         )
       ),
 
@@ -320,7 +331,7 @@ class aclAssignment extends simplePlugin
     if ($this->is_account) {
       return parent::save();
     } else {
-      return $this->remove_from_parent();
+      return $this->remove(FALSE);
     }
   }
 

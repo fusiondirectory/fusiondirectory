@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -79,7 +79,7 @@ class divSelectBox
   /*!
    * \brief Set column headers
    *
-   * \param array $a_entriedata
+   * \param array $headers
    */
   function SetHeaders($headers)
   {
@@ -105,6 +105,12 @@ class divSelectBox
                   ">\n";
     $s_return .= $this->_generatePage();
     $s_return .= '</table></div></div>';
+    if ($this->headers !== FALSE) {
+      $s_return .=
+        '<script type="text/javascript">
+          var sorter'.$this->id.' = tsorter.create(\''.$this->id.'\');
+        </script>';
+    }
     return $s_return;
   }
 

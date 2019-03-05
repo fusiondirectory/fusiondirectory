@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -130,8 +130,9 @@ class aclManagement extends simpleManagement
   protected $departmentRootVisible  = FALSE;
   protected $baseMode               = FALSE;
   protected $skipCpHandler          = TRUE;
-  protected $skipSnapHandler        = TRUE;
   protected $autoActions            = FALSE;
+
+  public static $skipSnapshots = TRUE;
 
   static function plInfo()
   {

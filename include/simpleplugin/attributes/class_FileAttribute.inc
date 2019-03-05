@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2016  FusionDirectory
+  Copyright (C) 2012-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -23,6 +23,8 @@
  */
 class FileAttribute extends Attribute
 {
+  protected $binary = TRUE;
+
   function loadPostValue()
   {
     $this->postValue = $this->value;
@@ -71,19 +73,57 @@ class FileAttribute extends Attribute
   {
     return sprintf(_('%s (%d bytes)'), $this->getLabel(), mb_strlen($value, '8bit'));
   }
+
+  /*! \brief Serialize this attribute for RPC requests
+   *
+   * \param array &$attributes the attributes array
+   * \param boolean $form
+   */
+  function serializeAttribute(&$attributes, $form = TRUE)
+  {
+    if (!$form || $this->visible) {
+      parent::serializeAttribute($attributes, $form);
+
+      if ($this->binary) {
+        $attributes[$this->getLdapName()]['value']    = base64_encode($attributes[$this->getLdapName()]['value']);
+        $attributes[$this->getLdapName()]['default']  = base64_encode($attributes[$this->getLdapName()]['default']);
+        $attributes[$this->getLdapName()]['binary']   = TRUE;
+      }
+    }
+  }
+
+  /*! \brief Apply value from RPC requests
+   *
+   *  \param mixed $value the value
+   */
+  function deserializeValue($value)
+  {
+    if ($this->disabled) {
+      return sprintf(_('Attribute %s is disabled, its value could not be set'), $this->getLdapName());
+    }
+    if ($this->binary) {
+      $this->setValue(base64_decode($value));
+    } else {
+      $this->setValue($value);
+    }
+  }
 }
 
-/* FileAttribue with download button */
+/*!
+ * \brief FileAttribue with a download button
+ */
 class FileDownloadAttribute extends FileAttribute
 {
   protected $extension;
   protected $upload;
+  protected $download = TRUE;
 
   function __construct ($label, $description, $ldapName, $required = FALSE, $extension = '', $upload = FALSE, $defaultValue = "", $acl = "")
   {
     parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
     $this->extension  = $extension;
     $this->upload     = $upload;
+    $this->binary     = ($extension != '.txt');
   }
 
   function computeFilename()
@@ -95,13 +135,15 @@ class FileDownloadAttribute extends FileAttribute
   {
     if ($this->isVisible()) {
       $this->postValue = $this->value;
-      foreach (array_keys($_POST) as $name) {
-        if (preg_match('/^download'.$this->getHtmlId().'/', $name)) {
-          session::set('binary', $this->value);
-          session::set('binarytype', 'octet-stream');
-          session::set('binaryfile', $this->computeFilename());
-          header('location: getbin.php');
-          exit();
+      if ($this->download) {
+        foreach (array_keys($_POST) as $name) {
+          if (preg_match('/^download'.$this->getHtmlId().'/', $name)) {
+            session::set('binary', $this->value);
+            session::set('binarytype', 'octet-stream');
+            session::set('binaryfile', $this->computeFilename());
+            header('location: getbin.php');
+            exit();
+          }
         }
       }
       if ($this->upload && isset($_POST['upload'.$this->getHtmlId()])) {
@@ -118,25 +160,30 @@ class FileDownloadAttribute extends FileAttribute
       $display  .= $this->renderInputField('file', $id);
       $display  .= $this->renderInputField('submit', 'upload'.$id, array('value' => _('Upload')));
     }
-    $display  .= $this->renderInputField(
-      'image', 'download'.$id,
-      array(
-        'title' => _('Download'),
-        'alt'   => _('Download'),
-        'class' => 'center',
-        'src'   => 'geticon.php?context=actions&amp;icon=document-save&amp;size=16',
-      )
-    );
+    if ($this->download) {
+      $display  .= $this->renderInputField(
+        'image', 'download'.$id,
+        array(
+          'title' => _('Download'),
+          'alt'   => _('Download'),
+          'class' => 'center',
+          'src'   => 'geticon.php?context=actions&amp;icon=document-save&amp;size=16',
+        )
+      );
+    }
     return $this->renderAcl($display);
   }
 
   public function htmlIds()
   {
     $id   = $this->getHtmlId();
-    $ids  = array('download'.$id);
+    $ids  = array();
+    if ($this->download) {
+      $ids[] = 'download'.$id;
+    }
     if ($this->upload) {
-      $ids[] =  $id;
-      $ids[] =  'upload'.$id;
+      $ids[] = $id;
+      $ids[] = 'upload'.$id;
     }
     return $ids;
   }
@@ -151,15 +198,19 @@ class FileDownloadAttribute extends FileAttribute
   }
 }
 
+/*!
+ * \brief A FileDownloadAttribute which displays a text area to edit the value
+ */
 class FileTextAreaAttribute extends FileDownloadAttribute
 {
   /* Default values are not the same that for FileDownloadAttribute */
-  function __construct ($label, $description, $ldapName, $required = FALSE, $extension = '.txt', $upload = TRUE, $defaultValue = '', $acl = '')
+  function __construct ($label, $description, $ldapName, $required = FALSE, $extension = '.txt', $upload = TRUE, $download = TRUE, $defaultValue = '', $acl = '')
   {
     parent::__construct(
       $label, $description, $ldapName, $required,
       $extension, $upload, $defaultValue, $acl
     );
+    $this->download = $download;
   }
 
   /*! \brief Update this attributes postValue depending of the $_POST values
@@ -168,13 +219,15 @@ class FileTextAreaAttribute extends FileDownloadAttribute
   {
     if ($this->isVisible()) {
       $this->postValue = $this->value;
-      foreach (array_keys($_POST) as $name) {
-        if (preg_match('/^download'.$this->getHtmlId().'/', $name)) {
-          session::set('binary', $this->value);
-          session::set('binarytype', 'octet-stream');
-          session::set('binaryfile', $this->computeFilename());
-          header('location: getbin.php');
-          exit();
+      if ($this->download) {
+        foreach (array_keys($_POST) as $name) {
+          if (preg_match('/^download'.$this->getHtmlId().'/', $name)) {
+            session::set('binary', $this->value);
+            session::set('binarytype', 'octet-stream');
+            session::set('binaryfile', $this->computeFilename());
+            header('location: getbin.php');
+            exit();
+          }
         }
       }
       if ($this->upload) {
@@ -200,7 +253,7 @@ class FileTextAreaAttribute extends FileDownloadAttribute
   {
     $id = $this->getHtmlId();
     $display  = '<textarea name="'.$id.'_text" id="'.$id.'_text"'.
-                ($this->disabled? 'disabled="disabled"':'').'>'.
+                ($this->disabled ? 'disabled="disabled"' : '').'>'.
                 '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}</textarea><br/>';
     return $this->renderAcl($display).parent::renderFormInput();
   }
@@ -214,6 +267,9 @@ class FileTextAreaAttribute extends FileDownloadAttribute
   }
 }
 
+/*!
+ * \brief Attribute for storing an image
+ */
 class ImageAttribute extends FileAttribute
 {
   protected $width;
@@ -360,7 +416,7 @@ class ImageAttribute extends FileAttribute
     if ($this->isInLdap()) {
       $value = $this->computeLdapValue();
       if ($value !== '') {
-        if (isset($this->plugin) && $this->plugin->is_template) {
+        if ($this->isTemplate()) {
           /* Add %% to provide template from parsing binary string */
           $value = '%%'.$value;
         }

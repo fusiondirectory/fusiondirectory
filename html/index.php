@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -43,12 +43,12 @@ function displayLogin()
   if (isset($_POST['username'])) {
     $username = trim($_POST['username']);
   }
-  $smarty->assign ('date', gmdate("D, d M Y H:i:s"));
-  $smarty->assign ('username', $username);
-  $smarty->assign ('personal_img', "geticon.php?context=types&icon=user&size=48");
-  $smarty->assign ('password_img', "geticon.php?context=status&icon=dialog-password&size=48");
-  $smarty->assign ('directory_img', "geticon.php?context=places&icon=network-server&size=48");
-  $smarty->append ('css_files',  get_template_path('login.css'));
+  $smarty->assign ('date',      gmdate('D, d M Y H:i:s'));
+  $smarty->assign ('username',  $username);
+  $smarty->assign ('revision',  FD_VERSION);
+  $smarty->assign ('year',      date('Y'));
+  $smarty->append ('css_files', get_template_path('login.css'));
+  $smarty->assign('title',      _('Sign in'));
 
   /* Some error to display? */
   if (!isset($message)) {
@@ -56,7 +56,7 @@ function displayLogin()
   }
   $smarty->assign ("message", $message);
 
-  /* Displasy SSL mode warning? */
+  /* Display SSL mode warning? */
   if (($ssl != '') && ($config->get_cfg_value('warnSSL') == 'TRUE')) {
     $smarty->assign ('ssl', sprintf(_('Warning: <a href="%s">Session is not encrypted!</a>'), $ssl));
   } else {
@@ -96,7 +96,7 @@ function displayLogin()
   $smarty->assign("usePrototype", "false");
   $smarty->assign("date", date("l, dS F Y H:i:s O"));
   $smarty->assign("lang", preg_replace('/_.*$/', '', $lang));
-  $smarty->assign("rtl", language_is_rtl($lang));
+  $smarty->assign("rtl",  Language::isRTL($lang));
 
   $smarty->display (get_template_path('headers.tpl'));
   $smarty->assign("version", FD_VERSION);
@@ -186,7 +186,7 @@ if (!(is_dir($smarty->compile_dir) && is_writable($smarty->compile_dir))) {
 /* Check for old files in compile directory */
 clean_smarty_compile_dir($smarty->compile_dir);
 
-initLanguage();
+Language::init();
 
 $smarty->assign ('focusfield', 'username');
 
@@ -211,7 +211,7 @@ if (($config->get_cfg_value('forcessl') == 'TRUE') && ($ssl != '')) {
 }
 
 if (isset($_REQUEST['message'])) {
-  switch($_REQUEST['message']) {
+  switch ($_REQUEST['message']) {
     case 'expired':
       $message = _('Your FusionDirectory session has expired!');
       break;
@@ -324,10 +324,12 @@ class Index {
     session::global_set('ui', $ui);
 
     /* User might have its own language, re-run initLanguage */
-    initLanguage();
+    $plistReloaded = Language::init();
 
     /* We need a fully loaded plist and config to test account expiration */
-    session::global_un_set('plist');
+    if (!$plistReloaded) {
+      session::global_un_set('plist');
+    }
     $plist = load_plist();
 
     /* Check that newly installed plugins have their configuration in the LDAP (will reload plist if needed) */
@@ -371,7 +373,7 @@ class Index {
   /* Run each step in $steps, stop on errors */
   static function runSteps($steps)
   {
-    foreach($steps as $step) {
+    foreach ($steps as $step) {
       $status = static::$step();
       if (is_string($status)) {
         msg_dialog::display(_('LDAP error'), $status, LDAP_ERROR);

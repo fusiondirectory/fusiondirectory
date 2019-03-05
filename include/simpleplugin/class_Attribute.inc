@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2016  FusionDirectory
+  Copyright (C) 2012-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -88,8 +88,8 @@ class Attribute
    *  \param string $description A more detailed description for the attribute
    *  \param string $ldapName The name of the attribute in the LDAP (If it's not in the ldap, still provide a unique name)
    *  \param boolean $required Is this attribute mandatory or not
-   *  \param mixed defaultValue The default value for this attribute
-   *  \param string acl The name of the acl for this attribute if he does not use its own. (Leave empty if he should use its own like most attributes do)
+   *  \param mixed $defaultValue The default value for this attribute
+   *  \param string $acl The name of the acl for this attribute if he does not use its own. (Leave empty if he should use its own like most attributes do)
    */
   function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = "", $acl = "")
   {
@@ -127,6 +127,11 @@ class Attribute
   function isVisible ()
   {
     return $this->visible;
+  }
+
+  function isTemplate ()
+  {
+    return (is_object($this->plugin) && $this->plugin->is_template);
   }
 
   function setUnique ($unique, $filter = NULL)
@@ -558,9 +563,9 @@ class Attribute
 
   /*! \brief Render this attribute form input(s)
    *
-   *  \param array& attributes the attributes array
+   *  \param array &$attributes the attributes array
    *
-   *  \param bool readOnly should we show text or input
+   *  \param bool $readOnly should we show text or input
    */
   function renderAttribute(&$attributes, $readOnly)
   {
@@ -578,7 +583,7 @@ class Attribute
         } else {
           $input = '{literal}'.htmlentities($value, ENT_COMPAT, 'UTF-8').'{/literal}';
         }
-      } elseif (is_object($this->plugin) && $this->plugin->is_template) {
+      } elseif ($this->isTemplate()) {
         $input = $this->renderTemplateInput();
       } else {
         $input = $this->renderFormInput();
@@ -594,7 +599,8 @@ class Attribute
 
   /*! \brief Serialize this attribute for RPC requests
    *
-   *  \param array& attributes the attributes array
+   * \param array &$attributes the attributes array
+   * \param boolean $form
    */
   function serializeAttribute(&$attributes, $form = TRUE)
   {
@@ -627,13 +633,14 @@ class Attribute
 
   /*! \brief Apply value from RPC requests
    *
-   *  \param array values the values array
+   *  \param mixed $value the value
    */
-  function deserializeValue($values)
+  function deserializeValue($value)
   {
-    if (isset($values[$this->getLdapName()])) {
-      $this->setValue($values[$this->getLdapName()]);
+    if ($this->disabled) {
+      return sprintf(_('Attribute %s is disabled, its value could not be set'), $this->getLdapName());
     }
+    $this->setValue($value);
   }
 
   /*! \brief Add ACL information around display
@@ -704,7 +711,13 @@ class Attribute
   function foreignKeyUpdate($oldvalue, $newvalue, $source)
   {
     if ($source['MODE'] == 'move') {
-      if ($this->getValue() == $oldvalue) {
+      if ($source['FIELD'] == 'dn') {
+        $value = $this->getInitialValue();
+        $value = preg_replace('/'.preg_quote($oldvalue, '/').'$/', $newvalue, $value, -1, $count);
+        if ($count > 0) {
+          $this->setValue($value);
+        }
+      } elseif ($this->getInitialValue() == $oldvalue) {
         $this->setValue($newvalue);
       }
     }
@@ -728,6 +741,9 @@ class Attribute
   }
 }
 
+/*!
+ * \brief Attribute hidden from the user
+ */
 class HiddenAttribute extends Attribute
 {
   /*! \brief The constructor of HiddenAttribute
@@ -749,6 +765,9 @@ class HiddenAttribute extends Attribute
   }
 }
 
+/*!
+ * \brief HiddenAttribute with several values
+ */
 class HiddenArrayAttribute extends HiddenAttribute
 {
   protected function loadAttrValue ($attrs)
@@ -758,13 +777,13 @@ class HiddenArrayAttribute extends HiddenAttribute
       for ($i = 0; $i < $attrs[$this->getLdapName()]['count']; $i++) {
         $this->value[] = $attrs[$this->getLdapName()][$i];
       }
-    } else {
-      $this->resetToDefault();
     }
   }
 }
 
-/* Dummy attribute class in order to give stats information to the template */
+/*!
+ * \brief Dummy attribute class in order to give stats information to the template
+ */
 class FakeAttribute extends Attribute
 {
   function __construct ($ldapName)
@@ -838,8 +857,6 @@ class DisplayLDAPArrayAttribute extends Attribute
       for ($i = 0; $i < $attrs[$this->getLdapName()]['count']; $i++) {
         $this->value[] = $attrs[$this->getLdapName()][$i];
       }
-    } else {
-      $this->resetToDefault();
     }
   }
 
@@ -865,4 +882,29 @@ class DisplayAttribute extends DisplayLDAPAttribute
     $this->setInLdap(FALSE);
   }
 }
-?>
+
+/*! \brief This class allow to display a link to an object which dn is stored in the attribute
+ */
+class ObjectLinkAttribute extends DisplayLDAPAttribute
+{
+  protected $type;
+
+  function __construct ($label, $description, $ldapName, $required, $type, $defaultValue = "", $acl = "")
+  {
+    parent::__construct ($label, $description, $ldapName, $required, $defaultValue, $acl);
+    $this->type = $type;
+  }
+
+  function renderFormInput ()
+  {
+    if (empty($this->value)) {
+      return '';
+    }
+
+    try {
+      return objects::link($this->value, $this->type);
+    } catch (NonExistingLdapNodeException $e) {
+      return '<a><img src="geticon.php?context=status&amp;icon=dialog-warning&amp;size=16" alt="warning" class="center"/>&nbsp;'.sprintf(_('Invalid: %s'), $this->value).'</a>';
+    }
+  }
+}

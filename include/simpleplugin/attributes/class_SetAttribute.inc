@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2016  FusionDirectory
+  Copyright (C) 2012-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ class SetAttribute extends Attribute
   protected $valueUnicity     = TRUE;
   protected $editingValue     = FALSE;
   protected $linearRendering  = TRUE;
-  protected $size = 4;
+  protected $size             = 4;
 
   /*! \brief The constructor of SetAttribute
    *
@@ -64,8 +64,6 @@ class SetAttribute extends Attribute
       for ($i = 0; $i < $attrs[$this->getLdapName()]["count"]; $i++) {
         $this->value[] = $attrs[$this->getLdapName()][$i];
       }
-    } else {
-      $this->resetToDefault();
     }
   }
 
@@ -170,7 +168,7 @@ class SetAttribute extends Attribute
     $smarty = get_smarty();
     $smarty->assign($id.'_values', $this->getDisplayValues());
     $display = '<select multiple="multiple"  name="row'.$id.'[]" id="row'.$id.'" size="'.$this->size.'"'.
-                ($this->disabled? ' disabled="disabled"':'').
+                ($this->disabled ? ' disabled="disabled"' : '').
                 ' >'."\n";
     $display .= '{html_options options=$'.$id.'_values}';
     $display .= '</select><br/>'."\n";
@@ -226,9 +224,9 @@ class SetAttribute extends Attribute
       } else {
         $attributes[$this->getLdapName()] = array(
           'htmlid'      => $this->getForHtmlId(),
-          'label'       => '{literal}'.$this->getLabel().'{/literal}'.($this->isRequired()?'{$must}':''),
-          'description' => ($this->isRequired()?sprintf(_("%s (required)"), $this->getDescription()):$this->getDescription()),
-          'input'       => $this->renderOnlyFormInput(),
+          'label'       => '{literal}'.$this->getLabel().'{/literal}'.($this->isRequired() ? '{$must}' : ''),
+          'description' => ($this->isRequired() ? sprintf(_("%s (required)"), $this->getDescription()) : $this->getDescription()),
+          'input'       => $this->renderAcl($this->renderOnlyFormInput()),
         );
         $this->handleEditingValue();
         $this->attribute->renderAttribute($attributes, $readOnly);
@@ -236,7 +234,7 @@ class SetAttribute extends Attribute
           'htmlid'      => 'add'.$this->getHtmlId(),
           'label'       => '',
           'description' => '',
-          'input'       => $this->renderButtons(),
+          'input'       => $this->renderAcl($this->renderButtons()),
         );
       }
     }
@@ -317,7 +315,15 @@ class SetAttribute extends Attribute
   function foreignKeyUpdate($oldvalue, $newvalue, $source)
   {
     foreach ($this->value as $key => &$value) {
-      if ($value == $oldvalue) {
+      if (($source['FIELD'] == 'dn') && ($source['MODE'] == 'move')) {
+        if ($newvalue === NULL) {
+          if (preg_match('/'.preg_quote($oldvalue, '/').'$/', $value)) {
+            unset($this->value[$key]);
+          }
+        } else {
+          $value = preg_replace('/'.preg_quote($oldvalue, '/').'$/', $newvalue, $value);
+        }
+      } elseif ($value == $oldvalue) {
         if ($newvalue === NULL) {
           unset($this->value[$key]);
         } elseif ($source['MODE'] == 'copy') {
@@ -348,6 +354,9 @@ class SetAttribute extends Attribute
   }
 }
 
+/*!
+ * \brief Multivalued attribute displayed as a columned table. May allow ordering and/or editing
+ */
 class OrderedArrayAttribute extends SetAttribute
 {
   protected $order;
@@ -358,7 +367,9 @@ class OrderedArrayAttribute extends SetAttribute
   /*! \brief The constructor of OrderedArrayAttribute
    *
    *  \param Attribute $attribute The composite attribute you want to see multi-valuated
+   *  \param boolean $order Can the values be ordered
    *  \param array $values The default values
+   *  \param boolean $edit_enabled Can the values be edited
    */
   function __construct ($attribute, $order = TRUE, $values = array(), $edit_enabled = FALSE)
   {
@@ -416,8 +427,6 @@ class OrderedArrayAttribute extends SetAttribute
           $this->value[] = $value;
         }
       }
-    } else {
-      $this->resetToDefault();
     }
     if ($this->order) {
       $this->reIndexValues();
@@ -457,8 +466,8 @@ class OrderedArrayAttribute extends SetAttribute
   {
     $id = $this->getHtmlId();
 
-    $img = '';
-    $nbicons = 1;
+    $img      = '';
+    $nbicons  = 1;
 
     if ($this->order) {
       $nbicons += 2;
@@ -645,6 +654,9 @@ class OrderedArrayAttribute extends SetAttribute
   }
 }
 
+/*!
+ * \brief An OrderedArrayAttribute which stores its values in LDAP subnodes
+ */
 class SubNodesAttribute extends OrderedArrayAttribute
 {
   protected $objectClass;
@@ -690,8 +702,6 @@ class SubNodesAttribute extends OrderedArrayAttribute
         unset($attribute);
         $this->value[] = $this->attribute->getValue();
       }
-    } else {
-      $this->resetToDefault();
     }
   }
 

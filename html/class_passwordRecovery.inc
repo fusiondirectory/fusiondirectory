@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -95,7 +95,7 @@ class standAlonePage {
     }
 
     if ($this->interactive) {
-      initLanguage();
+      Language::init();
 
       if (session::global_is_set('plist')) {
         session::global_un_set('plist');
@@ -148,11 +148,12 @@ class standAlonePage {
     /* Check for old files in compile directory */
     clean_smarty_compile_dir($smarty->compile_dir);
 
-    $smarty->assign('password_img', 'geticon.php?context=status&icon=dialog-password&size=48');
-    $smarty->assign('date', gmdate("D, d M Y H:i:s"));
-    $smarty->assign('params', "");
-    $smarty->assign('message', "");
-    $smarty->assign('changed', FALSE);
+    $smarty->assign('date',     gmdate('D, d M Y H:i:s'));
+    $smarty->assign('params',   '');
+    $smarty->assign('message',  '');
+    $smarty->assign('changed',  FALSE);
+    $smarty->assign('revision', FD_VERSION);
+    $smarty->assign('year',     date('Y'));
   }
 
   function checkForSSL()
@@ -352,7 +353,8 @@ class passwordRecovery extends standAlonePage {
     $smarty->append('css_files',    get_template_path('login.css'));
     $lang = session::global_get('lang');
     $smarty->assign('lang', preg_replace('/_.*$/', '', $lang));
-    $smarty->assign('rtl', language_is_rtl($lang));
+    $smarty->assign('rtl', Language::isRTL($lang));
+    $smarty->assign('title',        _('Password recovery'));
     $smarty->display(get_template_path('headers.tpl'));
 
     $smarty->assign('version',        FD_VERSION);
@@ -526,8 +528,8 @@ class passwordRecovery extends standAlonePage {
       $this->message[] = sprintf(_('The user using email "%s" is locked. Please contact your administrator.'), htmlentities($this->email_address, ENT_COMPAT, 'UTF-8'));
       return;
     }
-    $this->login = $attrs[$this->loginAttribute][0];
-    $this->step = 2;
+    $this->login  = $attrs[$this->loginAttribute][0];
+    $this->step   = 2;
 
     if ($this->interactive) {
       $smarty = get_smarty();

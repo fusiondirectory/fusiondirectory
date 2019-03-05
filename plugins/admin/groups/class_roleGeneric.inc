@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -65,7 +65,7 @@ class roleGeneric extends simplePlugin
         )
       ),
       'plForeignKeys'  => array(
-        'roleOccupant' => 'user'
+        'roleOccupant' => array('user','dn','roleOccupant=%oldvalue%','*')
       ),
 
       'plProvidedAcls'  => parent::generatePlProvidedAcls(static::getAttributesInfo())
@@ -111,6 +111,35 @@ class roleGeneric extends simplePlugin
         )
       )
     );
+  }
+
+  function ldap_save()
+  {
+    global $ui;
+
+    $errors = array();
+
+    if (isset($this->attrs['roleOccupant'])) {
+      $savedOccupants     = $this->attributesAccess['roleOccupant']->getInitialValue();
+      $addingOccupants    = array_diff($this->roleOccupant, $savedOccupants);
+      $removingOccupants  = array_diff($savedOccupants, $this->roleOccupant);
+      foreach ($addingOccupants as $dn) {
+        if (strpos($ui->get_permissions($dn, 'user/user', 'rolesMembership', $this->acl_skip_write()), 'w') === FALSE) {
+          $errors[] = msgPool::permModify($dn, 'rolesMembership');
+        }
+      }
+      foreach ($removingOccupants as $dn) {
+        if (strpos($ui->get_permissions($dn, 'user/user', 'rolesMembership', $this->acl_skip_write()), 'w') === FALSE) {
+          $errors[] = msgPool::permModify($dn, 'rolesMembership');
+        }
+      }
+    }
+
+    if (!empty($errors)) {
+      return $errors;
+    }
+
+    return parent::ldap_save();
   }
 }
 ?>

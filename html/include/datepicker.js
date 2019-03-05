@@ -31,8 +31,8 @@ DatePickerFormatter.prototype = {
    *   df.current_date();
    *   df.match("7/7/2007");
    */
-  initialize: function(format, separator) {
-
+  initialize: function(format, separator)
+  {
     if (Object.isUndefined(format))
       format = ["yyyy", "mm", "dd"];
     if (Object.isUndefined(separator))
@@ -41,9 +41,9 @@ DatePickerFormatter.prototype = {
     this._format        = format;
     this.separator        = separator;
 
-    this._format_year_index = format.indexOf("yyyy");
-    this._format_month_index= format.indexOf("mm");
-    this._format_day_index  = format.indexOf("dd");
+    this._format_year_index  = format.indexOf("yyyy");
+    this._format_month_index = format.indexOf("mm");
+    this._format_day_index   = format.indexOf("dd");
 
     this._year_regexp     = /^\d{4}$/;
     this._month_regexp    = /^0\d|1[012]|\d$/;
@@ -54,8 +54,8 @@ DatePickerFormatter.prototype = {
   * Match a string against date format.
   * Returns: [year, month, day]
   */
-  match: function(str) {
-
+  match: function(str)
+  {
     var d = str.split(this.separator);
 
     if (d.length < 3) {
@@ -99,14 +99,14 @@ DatePickerFormatter.prototype = {
   /**
    * Return a stringified date accordint to format.
    */
-  date_to_string: function(year, month, day, separator) {
-
+  date_to_string: function(year, month, day, separator)
+  {
     if (Object.isUndefined(separator))
       separator = this.separator;
 
     var a = [0, 0, 0];
     a[this._format_year_index]  = year;
-    a[this._format_month_index]= month.toPaddedString(2);
+    a[this._format_month_index] = month.toPaddedString(2);
     a[this._format_day_index]   = day.toPaddedString(2);
 
     return a.join(separator);
@@ -170,6 +170,7 @@ DatePicker.prototype  = {
     'zh'  : [ '&#21608;&#19968;', '&#21608;&#20108;', '&#21608;&#19977;', '&#21608;&#22235;', '&#21608;&#20116;', '&#21608;&#20845;', '&#21608;&#26085;' ],
     'sv'  : [ 'M&#229;n', 'Tis', 'Ons', 'Tor', 'Fre', 'L&#246;r', 'S&#246;n' ]
   }),
+
   _language_close : $H({
     'fr'  : 'fermer',
     'en'  : 'close',
@@ -229,8 +230,8 @@ DatePicker.prototype  = {
   getLocaleClose      : function () {
     return this._language_close.get(this._language);
   },
-  _initCurrentDate : function () {
-
+  _initCurrentDate : function ()
+  {
     /* Create the DateFormatter */
     this._df = new DatePickerFormatter(this._dateFormat[0], this._dateFormat[1]);
 
@@ -252,8 +253,8 @@ DatePicker.prototype  = {
   },
 
   /* init */
-  initialize  : function ( h_p ) {
-
+  initialize  : function ( h_p )
+  {
     /* arguments */
     this._relative = h_p["relative"];
     if (h_p["language"]) {
@@ -302,27 +303,27 @@ DatePicker.prototype  = {
     this._setPositionTop  = ( h_p["setPositionTop"] ) ? parseInt(Number(h_p["setPositionTop"])) : 0;
     this._setPositionLeft = ( h_p["setPositionLeft"] ) ? parseInt(Number(h_p["setPositionLeft"])) : 0;
 
-    this._id_datepicker           = 'datepicker-'+ this._relative;
-    this._id_datepicker_prev      = this._id_datepicker +'-prev';
-    this._id_datepicker_prev_year = this._id_datepicker +'-prev-year';
-    this._id_datepicker_next      = this._id_datepicker +'-next';
-    this._id_datepicker_next_year = this._id_datepicker +'-next-year';
-    this._id_datepicker_hdr       = this._id_datepicker +'-header';
-    this._id_datepicker_ftr       = this._id_datepicker +'-footer';
+    this._id_datepicker           = 'datepicker-' + this._relative;
+    this._id_datepicker_prev      = this._id_datepicker + '-prev';
+    this._id_datepicker_prev_year = this._id_datepicker + '-prev-year';
+    this._id_datepicker_next      = this._id_datepicker + '-next';
+    this._id_datepicker_next_year = this._id_datepicker + '-next-year';
+    this._id_datepicker_hdr       = this._id_datepicker + '-header';
+    this._id_datepicker_ftr       = this._id_datepicker + '-footer';
 
     /* build up calendar skel */
     this._div = new Element('div', {
       id      : this._id_datepicker,
       className   : 'datepicker',
-      style     : 'display: none; z-index:'+ this._zindex
+      style     : 'display: none; z-index:' + this._zindex
     });
 
-    this._div.innerHTML = '<div class="datepicker-header"><table class="header"><tr><td id="'+ this._id_datepicker_prev_year +'" class="prev-year"> << </td><td id="'+ this._id_datepicker_prev +'" class="prev"> < </td><td id="'+ this._id_datepicker_hdr +'" class="header"></td><td id="'+ this._id_datepicker_next +'" class="next"> > </td><td id="'+ this._id_datepicker_next_year +'" class="next-year"> >> </td></tr></table></div><div class="datepicker-calendar"><table class="body"><tbody id="'+ this._id_datepicker +'-tbody"></tbody></table></div><div id="'+ this._id_datepicker_ftr +'" class="datepicker-footer"></div>';
+    this._div.innerHTML = '<div class="datepicker-header"><table class="header"><tr><td id="' + this._id_datepicker_prev_year + '" class="prev-year"> << </td><td id="' + this._id_datepicker_prev + '" class="prev"> < </td><td id="' + this._id_datepicker_hdr + '" class="header"></td><td id="' + this._id_datepicker_next + '" class="next"> > </td><td id="' + this._id_datepicker_next_year + '" class="next-year"> >> </td></tr></table></div><div class="datepicker-calendar"><table class="body"><tbody id="' + this._id_datepicker + '-tbody"></tbody></table></div><div id="' + this._id_datepicker_ftr + '" class="datepicker-footer"></div>';
 
     /* Build the datepicker icon */
     var datepickeropener = Builder.node('table',{className : "datepicker-opener-table", id: this._id_datepicker + '_image'});
     var con = Builder.node('tr',{},[
-      Builder.node('td',{className : "datepicker-opener", id : "datepicker-opener-"+ this._relative})
+      Builder.node('td',{className : "datepicker-opener", id : "datepicker-opener-" + this._relative})
     ]);
     // insert into TBODY
     if (datepickeropener.childNodes[0] !== undefined) {
@@ -357,8 +358,8 @@ DatePicker.prototype  = {
    * load : called when document is fully-loaded to append datepicker
    *      to main object.
    */
-  load : function () {
-
+  load : function ()
+  {
     /* if externalControl defined set the observer on it */
     if (this._externalControl)
       Event.observe(this._externalControl, 'click', this.click.bindAsEventListener(this), false);
@@ -421,8 +422,8 @@ DatePicker.prototype  = {
   /**
    * click  : called when input element is clicked
    */
-  click : function () {
-
+  click : function ()
+  {
     /* init the datepicker if it doesn't exists */
     if ($(this._id_datepicker) == null)
       this.load();
@@ -432,8 +433,8 @@ DatePicker.prototype  = {
       /* position the datepicker relatively to element */
       var a_lt = Element.positionedOffset($(this._relative));
       $(this._id_datepicker).setStyle({
-        'left'  : Number(a_lt[0]+this._leftOffset)+'px',
-        'top' : Number(a_lt[1]+this._topOffset)+'px'
+        'left' : Number(a_lt[0] + this._leftOffset) + 'px',
+        'top' : Number(a_lt[1] + this._topOffset) + 'px'
       });
       this._isPositionned = true;
     }
@@ -507,9 +508,9 @@ DatePicker.prototype  = {
   setPosition : function ( t, l ) {
     var h_pos = { 'top' : '0px', 'left' : '0px' };
     if (!Object.isUndefined(t))
-      h_pos['top'] = Number(t) + this._topOffset +'px';
+      h_pos['top'] = Number(t) + this._topOffset + 'px';
     if (!Object.isUndefined(l))
-      h_pos['left']= Number(l) + this._leftOffset +'px';
+      h_pos['left'] = Number(l) + this._leftOffset + 'px';
     $(this._id_datepicker).setStyle(h_pos);
     this._isPositionned = true;
   },
@@ -518,7 +519,7 @@ DatePicker.prototype  = {
    * _getMonthDays : given the year and month find the number of days.
    */
   _getMonthDays : function ( year, month ) {
-    if ((((year%4) === 0) && (((year%100) !== 0) || ((year%400) !== 0))) && (month === 1))
+    if ((((year % 4) === 0) && (((year % 100) !== 0) || ((year % 400) !== 0))) && (month === 1))
       return 29;
     return this._daysInMonth[month];
   },
@@ -526,9 +527,9 @@ DatePicker.prototype  = {
   /**
    * _buildCalendar : draw the days array for current date
    */
-  _buildCalendar : function () {
-
-    var tbody = $(this._id_datepicker +'-tbody');
+  _buildCalendar : function ()
+  {
+    var tbody = $(this._id_datepicker + '-tbody');
     try {
       while ( tbody.hasChildNodes() )
       tbody.removeChild(tbody.childNodes[0]);
@@ -592,7 +593,7 @@ DatePicker.prototype  = {
           d : daysIndex,
           m : currentMonth,
           y : currentYear,
-          c : (switchNextMonth ? 'outbound' : (((daysIndex === this._todayDate.getDate()) && (this._current_mon  === this._todayDate.getMonth()) && (this._current_year === this._todayDate.getFullYear())) ? 'today' : null))
+          c : (switchNextMonth ? 'outbound' : (((daysIndex === this._todayDate.getDate()) && (this._current_mon === this._todayDate.getMonth()) && (this._current_year === this._todayDate.getFullYear())) ? 'today' : null))
         };
         daysIndex++;
 
@@ -621,7 +622,7 @@ DatePicker.prototype  = {
         /* don't forget to add 1 on month for proper formmatting */
         var id = $A([
           this._relative,
-          this._df.date_to_string(h_ij["y"], h_ij["m"]+1, h_ij["d"], '-')
+          this._df.date_to_string(h_ij["y"], h_ij["m"] + 1, h_ij["d"], '-')
         ]).join('-');
 
         /* set id and classname for cell if exists */
@@ -646,7 +647,7 @@ DatePicker.prototype  = {
         } else {
           this._bindCellOnClick( td, false );
         }
-        td.innerHTML= h_ij["d"];
+        td.innerHTML = h_ij["d"];
         tr.appendChild( td );
       }
       tbody.appendChild( tr );
@@ -663,7 +664,7 @@ DatePicker.prototype  = {
       if ( compareresult ) {
         doBind  = true;
       } else {
-        td.className= ( h_ij_c ) ? 'nclick-outbound' : 'nclick';
+        td.className = ( h_ij_c ) ? 'nclick-outbound' : 'nclick';
       }
     } else {
       doBind = true;
@@ -671,12 +672,12 @@ DatePicker.prototype  = {
     if ( doBind ) {
       var _self = this;
       td.onclick = function () {
-      $(_self._relative).value = String($(this).readAttribute('id')).replace(_self._relative+'-','').replace(/-/g, _self._df.separator);
+        $(_self._relative).value = String($(this).readAttribute('id')).replace(_self._relative + '-','').replace(/-/g, _self._df.separator);
 
-      /* if we have a cellCallback defined call it and pass it the cell */
-      if (_self._cellCallback)
-        _self._cellCallback(this);
-      _self.close();
+        /* if we have a cellCallback defined call it and pass it the cell */
+        if (_self._cellCallback)
+          _self._cellCallback(this);
+        _self.close();
       };
     }
   },
@@ -772,26 +773,26 @@ DatePicker.prototype  = {
     this._buildCalendar();
   },
 
-  _setLocaleHdr : function () {
-
+  _setLocaleHdr : function ()
+  {
     /* prev year link */
     var a_prevy = this._prevYear();
-    $(this._id_datepicker_prev_year).setAttribute('title', this.getMonthLocale(a_prevy[0]) +' '+ a_prevy[1]);
+    $(this._id_datepicker_prev_year).setAttribute('title', this.getMonthLocale(a_prevy[0]) + ' ' + a_prevy[1]);
 
     /* prev link */
     var a_prev = this._prevMonthYear();
-    $(this._id_datepicker_prev).setAttribute('title', this.getMonthLocale(a_prev[0]) +' '+ a_prev[1]);
+    $(this._id_datepicker_prev).setAttribute('title', this.getMonthLocale(a_prev[0]) + ' ' + a_prev[1]);
 
     /* next link */
     var a_next = this._nextMonthYear();
-    $(this._id_datepicker_next).setAttribute('title', this.getMonthLocale(a_next[0]) +' '+ a_next[1]);
+    $(this._id_datepicker_next).setAttribute('title', this.getMonthLocale(a_next[0]) + ' ' + a_next[1]);
 
     /* next year link */
     var a_nexty = this._nextYear();
-    $(this._id_datepicker_next_year).setAttribute('title', this.getMonthLocale(a_nexty[0]) +' '+ a_nexty[1]);
+    $(this._id_datepicker_next_year).setAttribute('title', this.getMonthLocale(a_nexty[0]) + ' ' + a_nexty[1]);
 
     /* header */
-    $(this._id_datepicker_hdr).update('&nbsp;&nbsp;&nbsp;'+ this.getMonthLocale(this._current_mon) +'&nbsp;'+ this._current_year +'&nbsp;&nbsp;&nbsp;');
+    $(this._id_datepicker_hdr).update('&nbsp;&nbsp;&nbsp;' + this.getMonthLocale(this._current_mon) + '&nbsp;' + this._current_year + '&nbsp;&nbsp;&nbsp;');
   }
 };
 
@@ -801,8 +802,7 @@ function msieversion()
    var ua = window.navigator.userAgent
    var msie = ua.indexOf ( "MSIE " )
    if ( msie > 0 )      // If Internet Explorer, return version number
-      return parseInt (ua.substring (msie+5, ua.indexOf (".", msie )))
+      return parseInt (ua.substring (msie + 5, ua.indexOf (".", msie )))
    else                 // If another browser, return 0
       return 0
 }
-

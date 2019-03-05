@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org)
-  Copyright (C) 2016-2017 FusionDirectory project
+  Copyright (C) 2016-2018 FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -57,7 +57,7 @@ class dashboardPassword extends simplePlugin
     $defaultMethod = $config->get_cfg_value('passwordDefaultHash', 'ssha');
     $forceDefault = ($config->get_cfg_value('forcePasswordDefaultHash', 'FALSE') == 'TRUE');
     try {
-      $users = objects::ls('user', 'userPassword');
+      $users = objects::ls('user', 'userPassword', NULL, '', TRUE);
     } catch (LDAPFailureException $e) {
       msg_dialog::display(
         _('LDAP error'),

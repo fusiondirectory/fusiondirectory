@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2016  FusionDirectory
+  Copyright (C) 2012-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -18,6 +18,8 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*! \brief Generic dialog base class
+ */
 class GenericDialog
 {
   protected $dialogClass = "";
@@ -61,6 +63,8 @@ class GenericDialog
   }
 }
 
+/*! \brief Generic dialog for selection using a simpleSelectManagement based class
+ */
 class GenericSelectDialog extends GenericDialog
 {
   function dialog_execute ()
@@ -85,11 +89,15 @@ class GenericSelectDialog extends GenericDialog
   }
 }
 
+/*! \brief User selection dialog
+ */
 class UserSelectDialog extends GenericSelectDialog
 {
   protected $dialogClass = 'userSelect';
 }
 
+/*! \brief User selection dialog allowing only one user to get selected
+ */
 class SingleUserSelectDialog extends GenericDialog
 {
   protected $dialogClass = 'singleUserSelect';
@@ -114,26 +122,36 @@ class SingleUserSelectDialog extends GenericDialog
   }
 }
 
+/*! \brief System selection dialog
+ */
 class SystemSelectDialog extends GenericSelectDialog
 {
   protected $dialogClass = 'systemSelect';
 }
 
+/*! \brief User group selection dialog
+ */
 class UserGroupSelectDialog extends GenericSelectDialog
 {
   protected $dialogClass = 'userGroupSelect';
 }
 
+/*! \brief User group or/and role selection dialog
+ */
 class UserGroupRoleSelectDialog extends GenericSelectDialog
 {
   protected $dialogClass = 'userGroupRoleSelect';
 }
 
+/*! \brief Group selection dialog
+ */
 class GroupSelectDialog extends GenericSelectDialog
 {
   protected $dialogClass = 'groupSelect';
 }
 
+/*! \brief Mail address selection dialog
+ */
 class MailSelectDialog extends GenericSelectDialog
 {
   protected $dialogClass = 'mailAddressSelect';
@@ -206,8 +224,11 @@ class DialogAttribute extends SetAttribute
   {
     parent::loadPostValue();
     if ($this->isVisible()) {
-      if (isset($_POST['add'.$this->getHtmlId().'_dialog'])) {
+      $id = $this->getHtmlId();
+      if (isset($_POST['add'.$id.'_dialog'])) {
         $this->plugin->openDialog(new $this->dialogClass($this->plugin, $this));
+      } elseif (isset($_POST['add'.$id]) && isset($_POST[$id]) && $this->isTemplate()) {
+        $this->addPostValue($_POST[$id]);
       }
     }
   }
@@ -219,9 +240,22 @@ class DialogAttribute extends SetAttribute
   function renderButtons ()
   {
     $id = $this->getHtmlId();
-    $buttons  = $this->renderInputField(
+    $buttons            = '';
+    $dialogButtonValue  = '{msgPool type=addButton}';
+    if ($this->isTemplate()) {
+      $buttons  .= $this->renderInputField(
+        'text', $id,
+        array('value' => $this->editingValue)
+      );
+      $buttons  .= $this->renderInputField(
+        'submit', 'add'.$id,
+        array('value' => '{msgPool type=addButton}')
+      );
+      $dialogButtonValue = _('Add (dialog)');
+    }
+    $buttons  .= $this->renderInputField(
       'submit', 'add'.$id.'_dialog',
-      array('value' => '{msgPool type=addButton}')
+      array('value' => $dialogButtonValue)
     );
     $buttons  .= $this->renderInputField(
       'submit', 'del'.$id,
@@ -233,10 +267,18 @@ class DialogAttribute extends SetAttribute
   public function htmlIds()
   {
     $id = $this->getHtmlId();
-    return array('add'.$id.'_dialog','del'.$id,'row'.$id);
+    $ids = array('add'.$id.'_dialog','del'.$id,'row'.$id);
+    if ($this->isTemplate()) {
+      $ids[] = $id;
+      $ids[] = 'add'.$id;
+    }
+    return $ids;
   }
 }
 
+/*!
+ * \brief An OrderedArrayAttribute which uses a dialog to create/edit values
+ */
 class DialogOrderedArrayAttribute extends OrderedArrayAttribute
 {
   protected $dialogClass;
@@ -309,6 +351,9 @@ class DialogOrderedArrayAttribute extends OrderedArrayAttribute
   }
 }
 
+/*!
+ * \brief Base class for DialogAttribute using a GenericDialog derived dialog
+ */
 class GenericDialogAttribute extends DialogAttribute
 {
   protected $displays     = array();
@@ -329,7 +374,9 @@ class GenericDialogAttribute extends DialogAttribute
 
   function addValue ($dn, $attrs)
   {
-    if ($this->store_attr == 'dn') {
+    if ($this->isTemplate() && ($attrs === NULL)) {
+      $value = $dn;
+    } elseif ($this->store_attr == 'dn') {
       $value = $dn;
     } else {
       $value = $attrs[$this->store_attr][0];
@@ -375,7 +422,12 @@ class GenericDialogAttribute extends DialogAttribute
       $ldap->cd($config->current['BASE']);
       $ldap->search('('.$this->store_attr.'='.ldap_escape_f($value).')', $this->ldapAttributesToGet());
     }
-    $this->fillDisplayValueFrom($i, $ldap->fetch());
+    $attrs = $ldap->fetch();
+    if (empty($attrs) && $this->isTemplate()) {
+      $this->fillDisplayValueFrom($i, NULL);
+    } else {
+      $this->fillDisplayValueFrom($i, $attrs);
+    }
   }
 
   protected function ldapAttributesToGet ()
@@ -385,7 +437,9 @@ class GenericDialogAttribute extends DialogAttribute
 
   protected function fillDisplayValueFrom ($i, $attrs)
   {
-    if (!isset($attrs[$this->display_attr])) {
+    if ($this->isTemplate() && ($attrs === NULL)) {
+      $this->displays[$i] = $this->value[$i];
+    } elseif (!isset($attrs[$this->display_attr])) {
       unset($this->value[$i]);
     } else {
       if ($this->display_attr == 'dn') {
@@ -399,7 +453,19 @@ class GenericDialogAttribute extends DialogAttribute
   function foreignKeyUpdate($oldvalue, $newvalue, $source)
   {
     foreach ($this->value as $key => &$value) {
-      if ($value == $oldvalue) {
+      if (($source['FIELD'] == 'dn') && ($source['MODE'] == 'move')) {
+        if ($newvalue === NULL) {
+          if (preg_match('/'.preg_quote($oldvalue, '/').'$/', $value)) {
+            $this->removeValue($key);
+          }
+        } else {
+          $value = preg_replace('/'.preg_quote($oldvalue, '/').'$/', $newvalue, $value, -1, $count);
+          if ($count > 0) {
+            /* Update display */
+            $this->fillDisplayValue($key);
+          }
+        }
+      } elseif ($value == $oldvalue) {
         if ($newvalue === NULL) {
           $this->removeValue($key);
         } elseif ($source['MODE'] == 'copy') {
@@ -462,6 +528,9 @@ class UsersGroupsAttribute extends GenericDialogAttribute
   }
 }
 
+/*!
+ * \brief This class allows to handle an attribute for selecting users, groups or roles
+ */
 class UsersGroupsRolesAttribute extends UsersGroupsAttribute
 {
   protected $dialogClass = 'UserGroupRoleSelectDialog';
@@ -526,7 +595,7 @@ class MailsAttribute extends DialogAttribute
 
   function addValue ($dn, $attrs)
   {
-    $value = ($attrs != NULL?$attrs['mail'][0]:$dn);
+    $value = (($attrs != NULL) ? $attrs['mail'][0] : $dn);
     if (!in_array($value, $this->value)) {
       $this->value[]    = $value;
     }
@@ -557,6 +626,9 @@ class MailsAttribute extends DialogAttribute
   }
 }
 
+/*!
+ * \brief Attribute storing a system list
+ */
 class SystemsAttribute extends DialogAttribute
 {
   protected $dialogClass = 'SystemSelectDialog';
@@ -575,6 +647,9 @@ class SystemsAttribute extends DialogAttribute
   }
 }
 
+/*!
+ * \brief Attribute showing a button
+ */
 class ButtonAttribute extends Attribute
 {
   protected $buttonText = NULL;
@@ -619,6 +694,9 @@ class ButtonAttribute extends Attribute
   }
 }
 
+/*!
+ * \brief Attribute showing a button which triggers a dialog
+ */
 class DialogButtonAttribute extends ButtonAttribute
 {
   protected $dialogClass  = NULL;
@@ -647,6 +725,9 @@ class DialogButtonAttribute extends ButtonAttribute
   }
 }
 
+/*!
+ * \brief Attribute storing the dn of a user which can be selected through a dialog
+ */
 class UserAttribute extends DialogButtonAttribute
 {
   function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = "", $acl = "")
@@ -664,16 +745,25 @@ class UserAttribute extends DialogButtonAttribute
   function renderFormInput ()
   {
     $id = $this->getHtmlId();
-    $display  = '<img src="geticon.php?context=types&amp;icon=user&amp;size=16" alt="user icon" class="center"/>';
-    if ($this->getValue() == '') {
-      $display  .= '<b>'._('None').'</b>';
-    } elseif ($this->buttonText === NULL) {
-      $display  .= '<b>'._('Unknown').'</b>';
+    if ($this->isTemplate()) {
+      $display = $this->renderInputField(
+        'text', $id,
+        array(
+          'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}'
+        )
+      );
     } else {
-      $display  .= '<a>'.$this->buttonText.'</a>';
+      $display  = '<img src="geticon.php?context=types&amp;icon=user&amp;size=16" alt="user icon" class="center"/>';
+      if ($this->getValue() == '') {
+        $display  .= '<b>'._('None').'</b>';
+      } elseif ($this->buttonText === NULL) {
+        $display  .= '<b>'._('Unknown').'</b>';
+      } else {
+        $display  .= '<a>'.$this->buttonText.'</a>';
+      }
     }
     $display .= $this->renderInputField(
-      'image', $id,
+      'image', $id.'_dialog',
       array(
         'class' => 'center',
         'src'   => 'geticon.php?context=actions&amp;icon=document-edit&amp;size=16',
@@ -704,43 +794,59 @@ class UserAttribute extends DialogButtonAttribute
           if (preg_match('/^'.$id.'_remove_/', $name)) {
             $this->setValue('');
             $this->buttonText = NULL;
-            break;
+            return;
           }
         }
-        if (preg_match('/^'.$id.'_/', $name)) {
+        if (preg_match('/^'.$id.'_dialog_/', $name)) {
           $this->plugin->openDialog(new $this->dialogClass($this->plugin, $this));
-          break;
+          return;
         }
       }
+      if ($this->isTemplate() && isset($_POST[$id])) {
+        $this->setValue($_POST[$id]);
+      }
     }
+  }
+
+  function applyPostValue ()
+  {
   }
 
   protected function loadAttrValue ($attrs)
   {
     global $config;
     parent::loadAttrValue($attrs);
-    $dn = $this->getValue();
-    if ($dn != '') {
-      $ldap = $config->get_ldap_link();
-      $ldap->cat($dn);
-      if ($attrs = $ldap->fetch()) {
-        $this->handleDialogResult($dn, $attrs);
-      } else {
-        $this->buttonText = NULL;
+    if (!$this->isTemplate()) {
+      $dn = $this->getValue();
+      if ($dn != '') {
+        $ldap = $config->get_ldap_link();
+        $ldap->cat($dn);
+        if ($attrs = $ldap->fetch()) {
+          $this->handleDialogResult($dn, $attrs);
+        } else {
+          $this->buttonText = NULL;
+        }
       }
     }
   }
 
   public function htmlIds()
   {
-    $ids = array($this->getHtmlId());
+    $id   = $this->getHtmlId();
+    $ids  = array($id.'_dialog');
+    if ($this->isTemplate()) {
+      $ids[] = $id;
+    }
     if (!$this->isRequired()) {
-      $ids[] = $ids[0].'_remove';
+      $ids[] = $id.'_remove';
     }
     return $ids;
   }
 }
 
+/*!
+ * \brief GenericDialog using a simplePlugin based class as dialog
+ */
 class GenericSimplePluginDialog extends GenericDialog
 {
   protected $initialDialogValue = NULL;

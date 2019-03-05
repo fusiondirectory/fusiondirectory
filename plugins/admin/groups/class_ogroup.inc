@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -62,8 +62,13 @@ class ObjectsAttribute extends GenericDialogAttribute
         $this->types[$i]    = 'I';
       }
     } else {
-      $this->displays[$i] = sprintf(_('Non existing dn: %s'), $this->value[$i]);
-      $this->types[$i]    = 'I';
+      if (($attrs === NULL) && $this->isTemplate()) {
+        $this->displays[$i] = $this->value[$i];
+        $this->types[$i]    = 'I';
+      } else {
+        $this->displays[$i] = sprintf(_('Non existing dn: %s'), $this->value[$i]);
+        $this->types[$i]    = 'I';
+      }
     }
   }
 
@@ -74,7 +79,7 @@ class ObjectsAttribute extends GenericDialogAttribute
     }
     $id       = $this->getHtmlId();
     $display  = '<select multiple="multiple"  name="row'.$id.'[]" id="row'.$id.'" size="'.$this->size.'"'.
-                ($this->disabled? ' disabled="disabled"':'').
+                ($this->disabled ? ' disabled="disabled"' : '').
                 ' >'."\n";
     foreach ($this->getDisplayValues() as $key => $value) {
       try {
@@ -118,6 +123,20 @@ class ObjectsAttribute extends GenericDialogAttribute
     return '['.join(array_unique($this->types)).']';
   }
 
+  function getTypedValues ()
+  {
+    $values = $this->getValue();
+    $ret    = array();
+    foreach ($values as $i => $v) {
+      if (!isset($ret[$this->types[$i]])) {
+        $ret[$this->types[$i]] = array();
+      }
+      $ret[$this->types[$i]][] = $v;
+    }
+
+    return $ret;
+  }
+
   protected function removeValue ($row)
   {
     parent::removeValue($row);
@@ -135,6 +154,8 @@ class ogroup extends simplePlugin
   var $objectclasses  = array('groupOfNames', 'gosaGroupOfNames');
 
   var $used_workstations = array();
+
+  protected $savedTypedMembers;
 
   static $objectTypes = array(
     'U' => 'user',
@@ -165,14 +186,17 @@ class ogroup extends simplePlugin
       )),
       'plForeignKeys'  => array(
         'member' => array(
-          array('user'),
-          array('ogroup'),
-          array('application'),
-          array('serverGeneric'),
-          array('workstationGeneric'),
-          array('terminalGeneric'),
-          array('phoneGeneric'),
-          array('printGeneric'),
+          array('user',               'dn','member=%oldvalue%','*'),
+          array('ogroup',             'dn','member=%oldvalue%','*'),
+          array('application',        'dn','member=%oldvalue%','*'),
+          array('serverGeneric',      'dn','member=%oldvalue%','*'),
+          array('workstationGeneric', 'dn','member=%oldvalue%','*'),
+          array('terminalGeneric',    'dn','member=%oldvalue%','*'),
+          array('phoneGeneric',       'dn','member=%oldvalue%','*'),
+          array('printGeneric',       'dn','member=%oldvalue%','*'),
+        ),
+        'owner' => array(
+          array('user','dn','owner=%oldvalue%','*')
         )
       ),
 
@@ -196,7 +220,11 @@ class ogroup extends simplePlugin
             _('Description'), _('Short description of this group'),
             'description', FALSE
           ),
-          new HiddenAttribute('gosaGroupObjects')
+          new HiddenAttribute('gosaGroupObjects'),
+          new UserAttribute(
+            _('Owner'), _('Owner'),
+            'owner', FALSE
+          ),
         )
       ),
       'members' => array(
@@ -268,6 +296,7 @@ class ogroup extends simplePlugin
     }
 
     $this->reload();
+    $this->savedTypedMembers = $this->attributesAccess['member']->getTypedValues();
   }
 
   /*! \brief This function returns an LDAP filter for this plugin object classes
@@ -288,7 +317,7 @@ class ogroup extends simplePlugin
   function prepare_save()
   {
     $this->reload();
-    parent::prepare_save();
+    $errors = parent::prepare_save();
 
     if ($this->trustMode == 'fullaccess') {
       $this->attrs['host'] = array('*');
@@ -300,6 +329,8 @@ class ogroup extends simplePlugin
     } elseif (($this->trustMode == "") && (($key = array_search('hostObject', $this->attrs['objectClass'])) !== FALSE)) {
       unset($this->attrs['objectClass'][$key]);
     }
+
+    return $errors;
   }
 
   function reload()
@@ -318,11 +349,47 @@ class ogroup extends simplePlugin
     return $message;
   }
 
+  function ldap_save()
+  {
+    global $ui;
+
+    $errors = array();
+
+    if (isset($this->attrs['member'])) {
+      $userMembers  = array();
+      $savedMembers = array();
+      $members      = $this->attributesAccess['member']->getTypedValues();
+      if (isset($members['U'])) {
+        $userMembers = $members['U'];
+      }
+      if (isset($this->savedTypedMembers['U'])) {
+        $savedMembers = $this->savedTypedMembers['U'];
+      }
+      $addingMembers    = array_diff($userMembers, $savedMembers);
+      $removingMembers  = array_diff($savedMembers, $userMembers);
+      foreach ($addingMembers as $dn) {
+        if (strpos($ui->get_permissions($dn, 'user/user', 'groupsMembership', $this->acl_skip_write()), 'w') === FALSE) {
+          $errors[] = msgPool::permModify($dn, 'groupsMembership');
+        }
+      }
+      foreach ($removingMembers as $dn) {
+        if (strpos($ui->get_permissions($dn, 'user/user', 'groupsMembership', $this->acl_skip_write()), 'w') === FALSE) {
+          $errors[] = msgPool::permModify($dn, 'groupsMembership');
+        }
+      }
+    }
+
+    if (!empty($errors)) {
+      return $errors;
+    }
+
+    return parent::ldap_save();
+  }
+
   function getGroupObjectTypes()
   {
     $this->reload();
     return $this->gosaGroupObjects;
-
   }
 }
 ?>

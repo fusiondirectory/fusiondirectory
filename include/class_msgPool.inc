@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -138,7 +138,7 @@ class msgPool {
    * \brief Display that we have no permission to modify an object
    *
    * \param string $name Name of the object which cannot be modified (or array of objects names)
-   * \param string $fields Name of the field of the object which cannot be modified
+   * \param string $field Name of the field of the object which cannot be modified
    */
   public static function permModify($name = '', $field = '')
   {
@@ -396,7 +396,8 @@ class msgPool {
   /*!
    * \brief Display error about existing entry in the system
    *
-   * \param string $name The entry duplicated
+   * \param string $name The attribute name
+   * \param string $dn The existing entry dn
    */
   public static function duplicated($name, $dn = NULL)
   {
@@ -576,33 +577,26 @@ class msgPool {
    *
    * \param array $depends Contains all the settings enabled
    */
-  public static function featuresEnabled($name, $depends = "")
+  public static function featuresEnabled($name, $depends = '')
   {
-    if (($depends == "") || (is_array($depends) && count($depends) == 0)) {
+    if (($depends == "") || (is_array($depends) && (count($depends) == 0))) {
       return sprintf(_("This account has %s settings enabled. You can disable them by clicking below."), $name);
     } else {
-      if (count($depends) == 1) {
-        if (is_array($depends)) {
-          $depends = $depends[0];
-        }
-        return sprintf(_("This account has %s settings enabled. To disable them, you'll need to remove the %s settings first!"), $name, $depends);
-      } else {
-        $deps = "";
-        foreach ($depends as $dep) {
-          $deps .= "$dep / ";
-        }
-        $deps = preg_replace("/ \/ $/", "", $deps);
-        return sprintf(_("This account has %s settings enabled. To disable them, you'll need to remove the %s settings first!"), $name, $deps);
+      if (is_array($depends)) {
+        $depends = implode(' / ', $depends);
       }
+      return sprintf(_("This account has %s settings enabled. To disable them, you'll need to remove the %s settings first!"), $name, $depends);
     }
   }
 
   /*!
    * \brief List the features settings disabled
    *
-   * \param string $name Name of the setting
+   * \param string $name Name of the tab
    *
-   * \param array $depends Contains all the settings disabled
+   * \param array $depends Tabs this tab depends upon
+   *
+   * \param array $conflicts Tabs this tab conflicts with
    */
   public static function featuresDisabled($name, array $depends = array(), array $conflicts = array())
   {

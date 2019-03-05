@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2013-2016  FusionDirectory
+  Copyright (C) 2013-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -18,14 +18,18 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*!
+ * \brief Management base class for selection dialogs
+ */
 class simpleSelectManagement extends simpleManagement
 {
   protected $skipFooter = TRUE;
   protected $skipHeader = TRUE;
 
   protected $skipCpHandler    = TRUE;
-  protected $skipSnapHandler  = TRUE;
   protected $autoActions      = FALSE;
+
+  public static $skipSnapshots = TRUE;
 
   protected $departmentRootVisible  = FALSE;
 

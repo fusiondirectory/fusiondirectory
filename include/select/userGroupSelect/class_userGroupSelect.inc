@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2013-2016  FusionDirectory
+  Copyright (C) 2013-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -18,10 +18,13 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*!
+ * \brief User and/or POSIX group selection
+ */
 class userGroupSelect extends userSelect
 {
   protected $objectTypes = array('user', 'group');
-  protected $autoFilterAttributes = array('dn', 'cn', 'uid', 'description');
+  protected $autoFilterAttributes = array('dn', 'cn', 'uid', 'description', 'mail');
 
   function __construct()
   {
@@ -32,6 +35,9 @@ class userGroupSelect extends userSelect
   }
 }
 
+/*!
+ * \brief User, user group and/or role selection
+ */
 class userGroupRoleSelect extends userGroupSelect
 {
   protected $objectTypes = array('user', 'group', 'role', 'ogroup');

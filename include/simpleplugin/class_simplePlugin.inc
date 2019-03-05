@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2016  FusionDirectory
+  Copyright (C) 2012-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -136,6 +136,8 @@ class simplePlugin
    */
   protected $entryCSN = '';
 
+  private $hadSubobjects = FALSE;
+
   /*! \brief constructor
    *
    *  \param string $dn The dn of this instance
@@ -254,24 +256,6 @@ class simplePlugin
       }
     }
 
-    /* Save initial account state */
-    $this->initially_was_account = $this->is_account;
-
-    $this->loadAttributes();
-
-    $this->prepareSavedAttributes();
-
-    $this->orig_dn = $dn;
-
-    if ($this->mainTab) {
-      $this->is_account = TRUE;
-      $this->entryCSN = getEntryCSN($this->dn);
-    }
-
-    if (!isset($this->templatePath)) {
-      $this->templatePath = get_template_path('simpleplugin.tpl');
-    }
-
     if (is_array($this->inheritance)) {
       /* Check group membership */
       $ldap = $config->get_ldap_link();
@@ -290,6 +274,24 @@ class simplePlugin
           break;
         }
       }
+    }
+
+    /* Save initial account state */
+    $this->initially_was_account = $this->is_account;
+
+    $this->loadAttributes();
+
+    $this->prepareSavedAttributes();
+
+    $this->orig_dn = $dn;
+
+    if ($this->mainTab) {
+      $this->is_account = TRUE;
+      $this->entryCSN = getEntryCSN($this->dn);
+    }
+
+    if (!isset($this->templatePath)) {
+      $this->templatePath = get_template_path('simpleplugin.tpl');
     }
   }
 
@@ -692,7 +694,7 @@ class simplePlugin
         }
       } elseif (!$this->is_account) {
         $plInfo = pluglist::pluginInfos(get_class($this));
-        $this->header = '<img alt="" src="geticon.php?context=status&amp;icon=dialog-error&amp;size=16" align="middle"/>&nbsp;<b>'.
+        $this->header = '<img alt="'._('Error').'" src="geticon.php?context=status&amp;icon=dialog-error&amp;size=16" align="middle"/>&nbsp;<b>'.
                         msgPool::noValidExtension($plInfo['plShortName'])."</b>";
         $this->header .= back_to_main();
         $this->displayPlugin = FALSE;
@@ -768,9 +770,11 @@ class simplePlugin
    *
    * \param string $text The text
    *
-   * \param boolean $plugin_enabled
+   * \param boolean $plugin_enabled Is the plugin/tab activated
    *
-   * \param boolean $button_disabled FALSE
+   * \param boolean $button_disabled Is the button disabled
+   *
+   * \param string $name The html name of the input, defaults to modify_state
    */
   function show_header($button_text, $text, $plugin_enabled, $button_disabled = FALSE, $name = 'modify_state')
   {
@@ -828,8 +832,7 @@ class simplePlugin
       if (isset($sectionInfo['icon'])) {
         $legend = '<img '.
                   'src="'.htmlentities($sectionInfo['icon'], ENT_COMPAT, 'UTF-8').'" '.
-                  'alt="section '.$sectionInfo['name'].' icon" '.
-                  'title="section '.$sectionInfo['name'].' icon" '.
+                  'alt="" '.
                   '/>'.$legend;
       }
       $smarty->assign("section", $legend);
@@ -964,11 +967,17 @@ class simplePlugin
 
   /*! \brief This function removes the object from LDAP
    */
-  function remove_from_parent()
+  function remove($fulldelete = FALSE)
   {
-    if (!$this->initially_was_account || !$this->acl_is_removeable()) {
-      return;
+    if (!$this->initially_was_account) {
+      return array();
     }
+
+    if (!$fulldelete && !$this->acl_is_removeable()) {
+      trigger_error('remove was called on a tab without enough ACL rights');
+      return array();
+    }
+
     $this->prepare_remove();
     if ($this->is_template && (!defined('_OLD_TEMPLATES_') || !_OLD_TEMPLATES_)) {
       $this->attrs = $this->templateSaveAttrs();
@@ -984,7 +993,7 @@ class simplePlugin
       return $errors;
     }
     $this->post_remove();
-    return;
+    return array();
   }
 
   /* Remove FusionDirectory attributes */
@@ -1144,7 +1153,7 @@ class simplePlugin
       /* Convert arrays with one element to non arrays, if the saved
          attributes are no array, too */
       if (is_array($this->attrs[$index]) &&
-          count ($this->attrs[$index]) == 1 &&
+          (count($this->attrs[$index]) == 1) &&
           isset($this->saved_attributes[$index]) &&
           !is_array($this->saved_attributes[$index])) {
         $this->attrs[$index] = $this->attrs[$index][0];
@@ -1152,7 +1161,7 @@ class simplePlugin
 
       /* Remove emtpy arrays if they do not differ */
       if (is_array($this->attrs[$index]) &&
-          count($this->attrs[$index]) == 0 &&
+          (count($this->attrs[$index]) == 0) &&
           !isset($this->saved_attributes[$index])) {
         unset ($this->attrs[$index]);
         continue;
@@ -1162,7 +1171,7 @@ class simplePlugin
       if (!is_array($this->attrs[$index]) &&
           isset($this->saved_attributes[$index]) &&
           !is_array($this->saved_attributes[$index]) &&
-          $this->attrs[$index] == $this->saved_attributes[$index]) {
+          ($this->attrs[$index] == $this->saved_attributes[$index])) {
         unset ($this->attrs[$index]);
         continue;
       }
@@ -1192,7 +1201,10 @@ class simplePlugin
   function save ()
   {
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "save");
-    $this->prepare_save();
+    $errors = $this->prepare_save();
+    if (!empty($errors)) {
+      return $errors;
+    }
     if ($this->is_template && (!defined('_OLD_TEMPLATES_') || !_OLD_TEMPLATES_)) {
       $errors = templateHandling::checkFields($this->attrs);
       if (!empty($errors)) {
@@ -1203,7 +1215,7 @@ class simplePlugin
     }
     $this->cleanup();
     if (!$this->shouldSave()) {
-      return; /* Nothing to do here */
+      return array(); /* Nothing to do here */
     }
     /* Pre hooks */
     $errors = $this->pre_save();
@@ -1218,7 +1230,7 @@ class simplePlugin
     $this->prepareNextCleanup();
     /* Post hooks and logging */
     $this->post_save();
-    return;
+    return array();
   }
 
   protected function shouldSave()
@@ -1281,6 +1293,8 @@ class simplePlugin
         $attr->fillLdapValueHook($this->attrs);
       }
     }
+
+    return array();
   }
 
   protected function pre_save ()
@@ -1391,7 +1405,16 @@ class simplePlugin
    */
   function handle_pre_events($mode, array $addAttrs = array())
   {
+    global $config;
+
     $this->ldap_error = '';
+    if ($this->mainTab && ($mode == 'remove')) {
+      /* Store information if there was subobjects before deletion */
+      $ldap = $config->get_ldap_link();
+      $ldap->cd($this->dn);
+      $ldap->search('(objectClass=*)', array('dn'), 'one');
+      $this->hadSubobjects = ($ldap->count() > 0);
+    }
     return $this->handle_hooks('PRE', $mode, $addAttrs);
   }
 
@@ -1523,15 +1546,82 @@ class simplePlugin
 
   function browseForeignKeys($mode, $param1 = NULL, $param2 = NULL)
   {
+    global $config, $plist;
+
+    $subobjects = FALSE;
     if (preg_match('/^handle_/', $mode)) {
       $olddn    = $param1;
       $newdn    = $param2;
       $classes  = array(get_class($this));
+      if (($olddn != $newdn) && $this->mainTab) {
+        if ($newdn === NULL) {
+          $subobjects = $this->hadSubobjects;
+        } else {
+          $ldap = $config->get_ldap_link();
+          $ldap->cd($newdn);
+          $ldap->search('(objectClass=*)', array('dn'), 'one');
+          $subobjects = ($ldap->count() > 0);
+        }
+      }
     } elseif ($mode == 'references') {
       $classes = array_keys($this->parent->by_object);
     }
-    // We group by objetType concerned
+    // We group by objectType concerned
     $foreignRefs = array();
+    if ($subobjects) {
+      $field = 'dn';
+      /* Special treatment for foreign keys on DN when moving an object
+       * All references on DN are treated on subobjects */
+      foreach ($plist->dnForeignRefs as $ref) {
+        $class      = $ref[0];
+        $ofield     = $ref[1];
+        $filter     = $ref[2];
+        $filtersub  = $ref[3];
+        if ($filtersub == '*') {
+          if ($config->get_cfg_value('wildcardForeignKeys', 'TRUE') == 'TRUE') {
+            $filtersub = $ofield.'=*';
+          } else {
+            continue;
+          }
+        }
+        if ($class == 'aclAssignment') {
+          /* Special case: aclAssignment foreignKey is ignored on department types as it’s handled by the aclAssignment objectType */
+          $objectTypes = array('ACLASSIGNMENT');
+        } elseif (is_subclass_of($class, 'simpleService')) {
+          $objectTypes = array('SERVER');
+        } else {
+          $objectTypes = array();
+          $cinfos = pluglist::pluginInfos($class);
+          foreach ($cinfos['plObjectType'] as $key => $objectType) {
+            if (!is_numeric($key)) {
+              $objectType = $key;
+            }
+            if (preg_match('/^ogroup-/i', $objectType)) {
+              $objectType = 'OGROUP';
+            }
+            $objectTypes[] = strtoupper($objectType);
+          }
+          $objectTypes = array_unique($objectTypes);
+        }
+        foreach ($objectTypes as $objectType) {
+          $oldvalue = $olddn;
+          $newvalue = $newdn;
+
+          $foreignRefs[$objectType]['refs'][$class][$ofield][$field] =
+            array(
+              'tab'       => $classes[0],
+              'field'     => $field,
+              'oldvalue'  => $oldvalue,
+              'newvalue'  => $newvalue,
+            );
+          $filter = templateHandling::parseString($filtersub, array('oldvalue' => $oldvalue, 'newvalue' => $newvalue), 'ldap_escape_f');
+          if (!preg_match('/^\(.*\)$/', $filter)) {
+            $filter = '('.$filter.')';
+          }
+          $foreignRefs[$objectType]['filters'][$filter] = $filter;
+        }
+      }
+    }
     foreach ($classes as $tabclass) {
       $infos = pluglist::pluginInfos($tabclass);
       foreach ($infos['plForeignRefs'] as $field => $refs) {
@@ -1550,8 +1640,11 @@ class simplePlugin
           $ofield = $ref[1];
           $filter = $ref[2];
           $cinfos = pluglist::pluginInfos($class);
-          if (is_subclass_of($class, 'simpleService')) {
-            $objectTypes = array('server');
+          if ($class == 'aclAssignment') {
+            /* Special case: aclAssignment foreignKey is ignored on department types as it’s handled by the aclAssignment objectType */
+            $objectTypes = array('ACLASSIGNMENT');
+          } elseif (is_subclass_of($class, 'simpleService')) {
+            $objectTypes = array('SERVER');
           } else {
             $objectTypes = array();
             foreach ($cinfos['plObjectType'] as $key => $objectType) {
@@ -1559,7 +1652,7 @@ class simplePlugin
                 $objectType = $key;
               }
               if (preg_match('/^ogroup-/i', $objectType)) {
-                $objectType = 'ogroup';
+                $objectType = 'OGROUP';
               }
               $objectTypes[] = $objectType;
             }
@@ -1587,6 +1680,7 @@ class simplePlugin
               $filter = templateHandling::parseString($filter, array('oldvalue' => $oldvalue, 'newvalue' => $newvalue), 'ldap_escape_f');
             } elseif ($mode == 'references') {
               $foreignRefs[$objectType]['refs'][$class]['name'] = $cinfos['plShortName'];
+
               $foreignRefs[$objectType]['refs'][$class]['fields'][$ofield][$field] =
                 array(
                   'tab'     => $tabclass,
@@ -1653,7 +1747,8 @@ class simplePlugin
               $pluginobject->save_object();
             }
           }
-          $tabobject->save();
+          $errors = $tabobject->save();
+          msg_dialog::displayChecks($errors);
         } elseif ($mode == 'references') {
           // For each tab concerned
           foreach ($tabRefs['refs'] as $tab => $tab_infos) {
@@ -1840,7 +1935,10 @@ class simplePlugin
     foreach ($values as $name => $value) {
       if (isset($this->attributesAccess[$name])) {
         if (!$checkAcl || $this->attrIsWriteable($name)) {
-          $this->attributesAccess[$name]->setValue($value);
+          $error = $this->attributesAccess[$name]->deserializeValue($value);
+          if (!empty($error)) {
+            return $error;
+          }
         } else {
           return msgPool::permModify($this->dn, $name);
         }

@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -83,12 +83,12 @@ if (isset($_POST['lang_selected']) && $_POST['lang_selected'] != '') {
     $lang .= '.UTF-8';
   }
 } else {
-  $lang = get_browser_language();
+  $lang = Language::detect();
 }
 
-initLanguage($lang);
+Language::init($lang);
 
-$smarty->assign("rtl", language_is_rtl($lang));
+$smarty->assign("rtl",  Language::isRTL($lang));
 $smarty->assign("must", '<span class="must">*</span>');
 
 /* Minimal config */
@@ -104,30 +104,20 @@ $ui = new fake_userinfo();
 $display = "";
 require_once("../setup/main.inc");
 
-$smarty->assign("rtl", language_is_rtl($lang));
-$smarty->assign("date", date("l, dS F Y H:i:s O"));
-$header = $smarty->fetch(get_template_path('headers.tpl'));
-
-
-
-/* Set focus to the error button if we've an error message */
-$focus = "";
-if (session::is_set('errors') && session::get('errors') != "") {
-  $focus = '<script type="text/javascript">';
-  $focus .= 'document.forms[0].error_accept.focus();';
-  $focus .= '</script>';
-}
-
 $focus = '<script type="text/javascript">';
 $focus .= 'next_msg_dialog();';
 $focus .= '</script>';
 
 /* show web frontend */
 $setup = session::global_get('setup');
+
+$smarty->assign('date',           date('l, dS F Y H:i:s O'));
+$smarty->assign('headline',       $setup->get_header_text());
+$header = $smarty->fetch(get_template_path('headers.tpl'));
+
 $smarty->assign("contents",       $display.$setup->get_bottom_html());
 $smarty->assign("navigation",     $setup->get_navigation_html());
 $smarty->assign("headline_image", $setup->get_header_image());
-$smarty->assign("headline",       $setup->get_header_text());
 $smarty->assign("focus",          $focus);
 $smarty->assign('CSRFtoken',      CSRFProtection::getToken());
 $smarty->assign("msg_dialogs",    msg_dialog::get_dialogs());

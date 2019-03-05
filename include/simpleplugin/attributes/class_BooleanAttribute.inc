@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2016  FusionDirectory
+  Copyright (C) 2012-2019  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@ class BooleanAttribute extends Attribute
 {
   public $trueValue;
   public $falseValue;
+  protected $templatable = TRUE;
 
   /*! \brief The constructor of BooleanAttribute
    *
@@ -44,27 +45,55 @@ class BooleanAttribute extends Attribute
     $this->falseValue = $falseValue;
   }
 
+  function setTemplatable($bool)
+  {
+    $this->templatable = $bool;
+  }
+
+  protected function isTemplatable()
+  {
+    /* Allow to set to %askme% if we are not (de)activating other fields */
+    return (!$this->submitForm && empty($this->managedAttributes) && $this->templatable);
+  }
+
   function inputValue ($value)
   {
+    if ($this->isTemplate() && $this->isTemplatable() && ($value === '%askme%')) {
+      return $value;
+    }
     return ($value == $this->trueValue);
   }
 
   function loadPostValue ()
   {
     if ($this->isVisible()) {
-      $this->setPostValue(isset($_POST[$this->getHtmlId()]));
+      if ($this->isTemplate() && $this->isTemplatable()) {
+        if (!isset($_POST[$this->getHtmlId()])) {
+          $this->setPostValue(FALSE);
+        } elseif ($_POST[$this->getHtmlId()] === '%askme%') {
+          $this->setPostValue('%askme%');
+        } else {
+          $this->setPostValue($_POST[$this->getHtmlId()] == 'TRUE');
+        }
+      } else {
+        $this->setPostValue(isset($_POST[$this->getHtmlId()]));
+      }
     }
   }
 
   function computeLdapValue ()
   {
-    return ($this->value?$this->trueValue:$this->falseValue);
+    if ($this->isTemplate() && $this->isTemplatable() && ($this->value === '%askme%')) {
+      return $this->value;
+    } else {
+      return ($this->value ? $this->trueValue : $this->falseValue);
+    }
   }
 
   function renderFormInput ()
   {
     $id = $this->getHtmlId();
-    $attributes = ($this->value?array('checked' => 'checked'): array());
+    $attributes = ($this->value ? array('checked' => 'checked') : array());
     if ($this->submitForm) {
       $js       = 'document.mainform.submit();';
       $attributes['onChange'] = 'javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8');
@@ -76,6 +105,30 @@ class BooleanAttribute extends Attribute
     return $this->renderAcl($display);
   }
 
+  function renderTemplateInput ()
+  {
+    if ($this->isTemplatable()) {
+      $id = $this->getHtmlId();
+      if ($this->getValue() === '%askme%') {
+        $selected = '%askme%';
+      } elseif ($this->getValue()) {
+        $selected = 'TRUE';
+      } else {
+        $selected = 'FALSE';
+      }
+      $display  = '<select name="'.$id.'" id="'.$id.'" ';
+      if ($this->disabled) {
+        $display .= 'disabled="disabled" ';
+      }
+      $display .= '>';
+      $display .= '{html_options values=array("FALSE","TRUE","%askme%") output=array("FALSE","TRUE","%askme%") selected="'.$selected.'"}';
+      $display .= '</select>';
+      return $this->renderAcl($display);
+    } else {
+      return $this->renderFormInput();
+    }
+  }
+
   protected function managedAttributesJS ()
   {
     $js = '';
@@ -85,7 +138,7 @@ class BooleanAttribute extends Attribute
         if (isset($this->managedAttributesMultipleValues[$value])) {
           trigger_error('Multiple values are not available for boolean attributes');
         } else {
-          $js .= 'disableAttributes = (document.getElementById('.json_encode($id).').checked == '.($value?'true':'false').');'."\n";
+          $js .= 'disableAttributes = (document.getElementById('.json_encode($id).').checked == '.($value ? 'true' : 'false').');'."\n";
         }
         foreach ($attributes as $attribute) {
           foreach ($this->plugin->attributesAccess[$attribute]->htmlIds() as $htmlId) {

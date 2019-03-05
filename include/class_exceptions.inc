@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2015-2016  FusionDirectory
+  Copyright (C) 2015-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -26,17 +26,23 @@
 /*! \class FusionDirectoryException
     \brief Parent class for all exceptions thrown in FusionDirectory
 */
-class FusionDirectoryException extends Exception {}
+class FusionDirectoryException extends Exception
+{
+}
 
 /*! \class LDIFImportException
     \brief Exception class which can be thrown by LDAP if the LDIF format is broken
 */
-class LDIFImportException extends FusionDirectoryException {}
+class LDIFImportException extends FusionDirectoryException
+{
+}
 
 /*! \class LdapGeneralizedTimeBadFormatException
     \brief Exception class which can be thrown by LdapGeneralizedTime if the format does not match
 */
-class LdapGeneralizedTimeBadFormatException extends FusionDirectoryException {}
+class LdapGeneralizedTimeBadFormatException extends FusionDirectoryException
+{
+}
 
 /*! \class InvalidValueException
     \brief Exception class which can be thrown if an attribute is set to a value with a non-compatible type
@@ -45,9 +51,26 @@ class InvalidValueException extends FusionDirectoryException
 {
 }
 
-class NonExistingObjectTypeException extends FusionDirectoryException {}
-class NonExistingBranchException extends FusionDirectoryException {}
-class NonExistingLdapNodeException extends FusionDirectoryException {}
-class EmptyFilterException extends FusionDirectoryException {}
-class NoManagementClassException extends FusionDirectoryException {}
-class LDAPFailureException extends FusionDirectoryException {}
+class NonExistingObjectTypeException extends FusionDirectoryException
+{
+}
+
+class NonExistingBranchException extends FusionDirectoryException
+{
+}
+
+class NonExistingLdapNodeException extends FusionDirectoryException
+{
+}
+
+class EmptyFilterException extends FusionDirectoryException
+{
+}
+
+class NoManagementClassException extends FusionDirectoryException
+{
+}
+
+class LDAPFailureException extends FusionDirectoryException
+{
+}

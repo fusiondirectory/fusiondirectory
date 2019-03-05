@@ -2,7 +2,7 @@
 
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2013-2016  FusionDirectory
+  Copyright (C) 2013-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,6 +19,11 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*!
+ * \brief Class for handling objects and their types
+ *
+ * Allows to list, open, create and delete objects
+ */
 class objects
 {
   /*!
@@ -69,8 +74,7 @@ class objects
       $attrs = array_unique($attrs);
       if (count($attrs) == 1) {
         $attrs = $attrs[0];
-      }
-      if (count($attrs) == 0) {
+      } elseif (count($attrs) == 0) {
         $attrs = array('dn' => 'raw');
       }
     } elseif ($checkAcl) {
@@ -83,6 +87,9 @@ class objects
         $category = $ui->getAttributeCategory($types[0], $search_attr);
         if ($category === FALSE) {
           throw new FusionDirectoryException('Could not find ACL for attribute "'.$search_attr.'"');
+        }
+        if ($category === TRUE) {
+          continue;
         }
         if (strpos($ui->get_permissions($ou, $category, $search_attr), 'r') === FALSE) {
           $attrsAcls[$search_attr] = array($category, $search_attr);
@@ -97,15 +104,22 @@ class objects
     }
 
     try {
-      $ldap = static::search($types, $search_attrs, $ou, $filter, $checkAcl, $scope);
+      $ldap = static::search($types, $search_attrs, $ou, $filter, $checkAcl, $scope, FALSE, $partialFilterAcls);
     } catch (NonExistingBranchException $e) {
       return array();
     }
     $result = array();
     while ($fetched_attrs = $ldap->fetch()) {
       $key = $fetched_attrs['dn'];
-      if ($checkAcl && !preg_match('/r/', $ui->get_permissions($key, $acl))) {
-        continue;
+      if ($checkAcl) {
+        if (strpos($ui->get_permissions($key, $acl), 'r') === FALSE) {
+          continue;
+        }
+        foreach ($partialFilterAcls as $partialFilterAcl) {
+          if (strpos($ui->get_permissions($key, $partialFilterAcl[0], $partialFilterAcl[1]), 'r') === FALSE) {
+            continue 2;
+          }
+        }
       }
       if (is_array($attrs)) {
         $result[$key] = array();
@@ -147,13 +161,17 @@ class objects
    * \param array   $types the objectTypes to list
    * \param string  $ou the LDAP branch to search in, base will be used if it is NULL
    * \param string  $filter an additional filter to use in the LDAP search.
+   * \param boolean $checkAcl Should ACL be checked on the filtered attributes.
    *
    * \return The number of objects of type $type in $ou
    */
   static function count ($types, $ou = NULL, $filter = '', $checkAcl = FALSE)
   {
     try {
-      $ldap = static::search($types, array('dn'), $ou, $filter, $checkAcl);
+      $ldap = static::search($types, array('dn'), $ou, $filter, $checkAcl, 'subtree', FALSE, $partialFilterAcls);
+      if (!empty($partialFilterAcls)) {
+        throw new FusionDirectoryException('Not enough rights to use "'.$partialFilterAcls[0][1].'" in filter');
+      }
     } catch (EmptyFilterException $e) {
       return 0;
     } catch (NonExistingBranchException $e) {
@@ -162,9 +180,11 @@ class objects
     return $ldap->count();
   }
 
-  private static function search ($types, $search_attrs, $ou = NULL, $filter = '', $checkAcl = FALSE, $scope = 'subtree', $templateSearch = FALSE)
+  private static function search ($types, $search_attrs, $ou = NULL, $filter = '', $checkAcl = FALSE, $scope = 'subtree', $templateSearch = FALSE, &$partialFilterAcls = array())
   {
     global $config, $ui;
+
+    $partialFilterAcls = array();
 
     if (!is_array($types)) {
       $types = array($types);
@@ -179,9 +199,16 @@ class objects
       $infos = static::infos($type);
 
       if ($infos['filter'] == '') {
-        continue;
+        if ($infos['filterRDN'] == '') {
+          continue;
+        } else {
+          $typeFilters[] = $infos['filterRDN'];
+        }
+      } elseif ($infos['filterRDN'] == '') {
+        $typeFilters[] = $infos['filter'];
+      } else {
+        $typeFilters[] = '(&'.$infos['filter'].$infos['filterRDN'].')';
       }
-      $typeFilters[] = $infos['filter'];
     }
     if (empty($typeFilters)) {
       throw new EmptyFilterException();
@@ -205,8 +232,11 @@ class objects
           if ($category === FALSE) {
             throw new FusionDirectoryException('Could not find ACL for attribute "'.$acl.'"');
           }
+          if ($category === TRUE) {
+            continue;
+          }
           if (strpos($ui->get_permissions($ou, $category, $acl), 'r') === FALSE) {
-            throw new FusionDirectoryException('Not enough rights to use "'.$acl.'" in filter');
+            $partialFilterAcls[] = array($category, $acl);
           }
         }
       }
@@ -305,7 +335,28 @@ class objects
       throw new NonExistingObjectTypeException('Non-existing type "'.$type.'"');
     }
 
-    return $config->data['OBJECTS'][strtoupper($type)];
+    $infos =& $config->data['OBJECTS'][strtoupper($type)];
+
+    if (!isset($infos['filterRDN'])) {
+      if (empty($infos['ou'])) {
+        $infos['filterRDN'] = '';
+      } else {
+        $parts = ldap_explode_dn(preg_replace('/,$/', '', $infos['ou']), 0);
+        unset($parts['count']);
+        $dnFilter = array();
+        foreach ($parts as $part) {
+          preg_match('/([^=]+)=(.*)$/', $part, $m);
+          $dnFilter[] = '('.$m[1].':dn:='.$m[2].')';
+        }
+        if (count($dnFilter) > 1) {
+          $infos['filterRDN'] = '(&'.implode('', $dnFilter).')';
+        } else {
+          $infos['filterRDN'] = $dnFilter[0];
+        }
+      }
+    }
+
+    return $infos;
   }
 
   static function isOfType ($attrs, $type)
@@ -346,7 +397,6 @@ class objects
     $infos = static::infos($type);
 
     $templates = array();
-    $ldap = $config->get_ldap_link();
     foreach ($config->departments as $key => $value) {
       // Search all templates from the current dn.
       try {

@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -82,21 +82,21 @@ class userManagement extends simpleManagement
 
     $classes = array();
     if (class_available('posixAccount')) {
-      $classes[]= 'posixAccount';
+      $classes[] = 'posixAccount';
     } else {
       /* If posix plugin is not installed, ignore posix filter */
       $this->filter->elements['POSIX']['unset']  = '';
       $this->filter->elements['POSIX']['set']    = '';
     }
     if (class_available('mailAccount')) {
-      $classes[]= 'gosaMailAccount';
+      $classes[] = 'gosaMailAccount';
     } else {
       /* If mail plugin is not installed, ignore mail filter */
       $this->filter->elements['MAIL']['unset']  = '';
       $this->filter->elements['MAIL']['set']    = '';
     }
     if (class_available('sambaAccount')) {
-      $classes[]= 'sambaSamAccount';
+      $classes[] = 'sambaSamAccount';
     } else {
       /* If samba plugin is not installed, ignore samba filter */
       $this->filter->elements['SAMBA']['unset'] = '';
@@ -170,6 +170,16 @@ class userManagement extends simpleManagement
         $method   = passwordMethod::get_method($pwd, $val['dn']);
         $success  = TRUE;
         if ($method instanceOf passwordMethod) {
+          if (!$method->is_lockable()) {
+            $hn = $method->get_hash_name();
+            if (is_array($hn)) {
+              $hn = $hn[0];
+            }
+            msg_dialog::display(_('Account locking'),
+                sprintf(_('Password method "%s" does not support locking. Account "%s" has not been locked!'),
+                  $hn, $dn), ERROR_DIALOG);
+            return;
+          }
           if ($type == 'toggle') {
             if ($method->is_locked($val['dn'])) {
               $success = $method->unlock_account($val['dn']);
@@ -189,8 +199,8 @@ class userManagement extends simpleManagement
               $hn = $hn[0];
             }
             msg_dialog::display(_('Account locking'),
-                sprintf(_('Password method "%s" does not support locking. Account "%s" has not been locked!'),
-                  $hn, $dn), WARNING_DIALOG);
+                sprintf(_('Locking failed using password method "%s". Account "%s" has not been locked!'),
+                  $hn, $dn), ERROR_DIALOG);
           }
         }
       }

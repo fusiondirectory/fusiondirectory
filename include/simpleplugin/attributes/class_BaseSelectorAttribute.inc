@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2016  FusionDirectory
+  Copyright (C) 2012-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -30,6 +30,8 @@ class BaseSelectorAttribute extends Attribute
   /*! \brief The constructor of BaseSelectorAttribute
    *
    *  \param string $ou The ou your objects are into. It will be used in order to detect the base they are in.
+   *  \param string $label The label to show for this attribute, defaults to "Base"
+   *  \param string $desc Description, defaults to "Object base"
    */
   function __construct ($ou, $label = NULL, $desc = NULL)
   {
@@ -59,7 +61,7 @@ class BaseSelectorAttribute extends Attribute
       }
       if ($this->plugin->dn == "new") {
         $ui = get_userinfo();
-        $this->setValue(dn2base(session::global_is_set("CurrentMainBase")?"cn=dummy,".session::global_get("CurrentMainBase"):$ui->dn));
+        $this->setValue(dn2base(session::global_is_set("CurrentMainBase") ? "cn=dummy,".session::global_get("CurrentMainBase") : $ui->dn));
       } else {
         $this->setValue(dn2base($this->plugin->dn, $this->ou));
       }

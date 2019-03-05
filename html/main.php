@@ -102,7 +102,7 @@ if (!session::global_is_set('CurrentMainBase')) {
   session::global_set('CurrentMainBase', get_base_from_people($ui->dn));
 }
 
-initLanguage();
+Language::init();
 
 /* Prepare plugin list */
 $plist = load_plist();
@@ -198,7 +198,7 @@ if ($old_plugin_dir != $plugin_dir && $old_plugin_dir != "") {
 }
 
 /* Check for sizelimits */
-eval_sizelimit();
+$ui->getSizeLimitHandler()->update();
 
 /* Check for memory */
 if (function_exists("memory_get_usage")) {
@@ -236,9 +236,9 @@ if (isset($_GET['reset'])) {
 /* show web frontend */
 $smarty->assign ("date", date("l, dS F Y H:i:s O"));
 $lang = session::global_get('lang');
-$smarty->assign ("lang", preg_replace('/_.*$/', '', $lang));
-$smarty->assign ("rtl", language_is_rtl($lang));
-$smarty->assign ("must", '<span class="must">*</span>');
+$smarty->assign ('lang',  preg_replace('/_.*$/', '', $lang));
+$smarty->assign ('rtl',   Language::isRTL($lang));
+$smarty->assign ('must',  '<span class="must">*</span>');
 if (isset($plug)) {
   $plug = "?plug=$plug";
 } else {
@@ -347,7 +347,6 @@ if (isset($_POST['_channel_'])) {
 } else {
   $smarty->assign("channel", "");
 }
-$smarty->assign ("title", "FusionDirectory");
 
 if (class_available('Game')) {
   $smarty->assign('game_screen', Game::run());

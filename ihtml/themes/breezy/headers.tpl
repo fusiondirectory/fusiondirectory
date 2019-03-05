@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" {if $rtl}dir="rtl" class="rtl"{else}class="ltr"{/if}>
+<html xmlns="http://www.w3.org/1999/xhtml" {if $lang}lang="{$lang}" xml:lang="{$lang}"{/if} {if $rtl}dir="rtl" class="rtl"{else}class="ltr"{/if}>
 
 <head>
-  <title>{if isset($title)}{$title}{else}FusionDirectory{/if}</title>
+  <title>FusionDirectory{if isset($title)} - {$title|escape}{elseif isset($headline)} - {$headline|escape}{/if}</title>
 
   <meta charset="utf-8"/>
 
-  <meta name="description" content="FusionDirectory - Login"/>
+  <meta name="description" content="FusionDirectory - Your Infrastructure Manager"/>
   <meta name="author" lang="en" content="FusionDirectory Project"/>
   <meta name="viewport" content="width=device-width"/>
 
@@ -26,6 +26,7 @@
   <script src="include/pulldown.js" type="text/javascript"></script>
   <script src="include/datepicker.js" type="text/javascript"></script>
 {/if}
+  <script src="include/tsorter.js" type="text/javascript"></script>
 {foreach from=$js_files item=file}
   <script src="{$file}" type="text/javascript"></script>
 {/foreach}

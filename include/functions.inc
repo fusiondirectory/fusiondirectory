@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -206,7 +206,7 @@ function DEBUG($level, $line, $function, $file, $data, $info = '')
   if (session::global_get('DEBUGLEVEL') & $level) {
     if ($first) {
       echo '<div id="debug-handling" class="notice">'.
-            '<img src="geticon.php?context=status&amp;icon=dialog-information&amp;size=22" alt="info icon" style="vertical-align:middle;margin-right:.2em;"/>'.
+            '<img src="geticon.php?context=status&amp;icon=dialog-information&amp;size=22" alt="Information" style="vertical-align:middle;margin-right:.2em;"/>'.
             'There is some debug output '.
             '<button onClick="javascript:$$(\'div.debug_div\').each(function (a) { a.toggle(); });">Toggle</button>'.
           '</div>';
@@ -227,50 +227,6 @@ function DEBUG($level, $line, $function, $file, $data, $info = '')
     }
     echo "</div>\n";
   }
-}
-
-
-/*!
- * \brief Determine which language to show to the user
- *
- * Determines which language should be used to present fusiondirectory content
- * to the user. It does so by looking at several possibilites and returning
- * the first setting that can be found.
- *
- * -# Language configured by the user
- * -# Global configured language
- * -# Language as returned by al2gt (as configured in the browser)
- *
- * \return string gettext locale string
- */
-function get_browser_language()
-{
-  /* Try to use users primary language */
-  global $config;
-  $ui = get_userinfo();
-  if (isset($ui) && ($ui !== NULL) && ($ui->language != '')) {
-    return $ui->language.'.UTF-8';
-  }
-
-  /* Check for global language settings in configuration */
-  if (isset($config) && ($config->get_cfg_value('language') != '')) {
-    $lang = $config->get_cfg_value('language');
-    if (!preg_match('/utf/i', $lang)) {
-      $lang .= '.UTF-8';
-    }
-    return $lang;
-  }
-
-  /* Load supported languages */
-  $gosa_languages = get_languages();
-
-  /* Move supported languages to flat list */
-  $langs = array();
-  foreach (array_keys($gosa_languages) as $lang) {
-    $langs[] = $lang.'.UTF-8';
-  }
-  /* Return gettext based string */
-  return al2gt($langs, 'text/html');
 }
 
 /*!
@@ -783,7 +739,7 @@ function get_locks($objects, $allow_readonly = FALSE)
 {
   global $config;
 
-  if (is_array($objects) && count($objects == 1)) {
+  if (is_array($objects) && (count($objects) == 1)) {
     $objects = reset($objects);
   }
   if (is_array($objects)) {
@@ -835,83 +791,6 @@ function get_locks($objects, $allow_readonly = FALSE)
   }
 
   return $locks;
-}
-
-/*!
- * \brief Show sizelimit configuration dialog
- *
- * Show sizelimit configuration dialog when number
- * of entries exceeded the sizelimit
- */
-function check_sizelimit()
-{
-  /* Ignore dialog? */
-  if (session::global_is_set('size_ignore') && session::global_get('size_ignore')) {
-    return '';
-  }
-
-  /* Eventually show dialog */
-  if (session::is_set('limit_exceeded') && session::get('limit_exceeded')) {
-    $smarty = get_smarty();
-    $smarty->assign('warning', sprintf(_('The size limit of %d entries is exceed!'),
-          session::global_get('size_limit')));
-    $smarty->assign('limit_message', sprintf(_('Set the new size limit to %s and show me this message if the limit still exceeds'), '<input type="text" name="new_limit" maxlength="10" size="5" value="'.(session::global_get('size_limit') + 100).'"/>'));
-    return $smarty->fetch(get_template_path('sizelimit.tpl'));
-  }
-
-  return '';
-}
-
-/*!
- * \brief Print a sizelimit warning
- *
- * Print a sizelimit warning when number
- * of entries exceeded the sizelimit
- */
-function print_sizelimit_warning()
-{
-  if (session::global_is_set('size_limit') && session::global_get('size_limit') >= 10000000 ||
-      (session::is_set('limit_exceeded') && session::get('limit_exceeded'))) {
-    $config = '<input type="submit" name="edit_sizelimit" value="'._('Configure').'"/>';
-  } else {
-    $config = '';
-  }
-  if (session::is_set('limit_exceeded') && session::get('limit_exceeded')) {
-    return '('._('incomplete').") $config";
-  }
-  return '';
-}
-
-
-/*!
- * \brief Handle sizelimit dialog related posts
- */
-function eval_sizelimit()
-{
-  if (isset($_POST['set_size_action']) && isset($_POST['action'])) {
-    switch($_POST['action']) {
-      case 'newlimit':
-        if (isset($_POST['new_limit']) && tests::is_id($_POST['new_limit'])) {
-          session::global_set('size_limit', validate($_POST['new_limit']));
-          session::set('size_ignore', FALSE);
-        }
-      break;
-      case 'ignore':
-        session::global_set('size_limit', 0);
-        session::global_set('size_ignore', TRUE);
-      break;
-      case 'limited':
-        session::global_set('size_ignore', TRUE);
-      break;
-      default:
-      break;
-    }
-  }
-
-  /* Allow fallback to dialog */
-  if (isset($_POST['edit_sizelimit'])) {
-    session::global_set('size_ignore', FALSE);
-  }
 }
 
 /*!
@@ -1158,7 +1037,7 @@ function strict_uid_mode()
  * }
  * \endcode
  *
- * \param string $user the user who holds the lock
+ * \param string $locks the locks as returned by get_locks
  *
  * \param string $dn the locked DN
  *
@@ -1454,7 +1333,7 @@ function netmask_to_bits($netmask)
 /*!
  * \brief Recursion helper for gen_uids()
  */
-function _recurse_gen_uids($rule, $variables)
+function _recurse_gen_uids($rule, array $variables)
 {
   $result = array();
 
@@ -2005,6 +1884,7 @@ function check_schema($cfg)
 
   /* core-fd */
   $checks['core-fd'] = $def_check;
+
   $checks['core-fd']['SCHEMA_FILE']       = 'core-fd.schema';
   $checks['core-fd']['CLASSES_REQUIRED']  = array('fdLockEntry');
   $checks['core-fd']['IS_MUST_HAVE']      = TRUE;
@@ -2012,6 +1892,7 @@ function check_schema($cfg)
 
   /* core-fd-conf */
   $checks['core-fd-conf'] = $def_check;
+
   $checks['core-fd-conf']['SCHEMA_FILE']      = 'core-fd-conf.schema';
   $checks['core-fd-conf']['CLASSES_REQUIRED'] = array('fusionDirectoryConf');
   $checks['core-fd-conf']['IS_MUST_HAVE']     = TRUE;
@@ -2019,6 +1900,7 @@ function check_schema($cfg)
 
   /* ldapns */
   $checks['ldapns'] = $def_check;
+
   $checks['ldapns']['SCHEMA_FILE']      = 'ldapns.schema';
   $checks['ldapns']['CLASSES_REQUIRED'] = array('hostObject');
   $checks['ldapns']['IS_MUST_HAVE']     = FALSE;
@@ -2026,6 +1908,7 @@ function check_schema($cfg)
 
   /* template-fd */
   $checks['template-fd'] = $def_check;
+
   $checks['template-fd']['SCHEMA_FILE']      = 'template-fd.schema';
   $checks['template-fd']['CLASSES_REQUIRED'] = array('fdTemplate');
   $checks['template-fd']['IS_MUST_HAVE']     = FALSE;
@@ -2034,6 +1917,7 @@ function check_schema($cfg)
   if (class_available('posixAccount')) {
     /* nis */
     $checks['nis'] = $def_check;
+
     $checks['nis']['SCHEMA_FILE']       = 'nis.schema';
     $checks['nis']['CLASSES_REQUIRED']  = array('posixAccount');
     $checks['nis']['IS_MUST_HAVE']      = FALSE;
@@ -2057,6 +1941,7 @@ function check_schema($cfg)
   }
 
   $checks['posixGroup'] = $def_check;
+
   $checks['posixGroup']['SCHEMA_FILE']      = 'nis.schema';
   $checks['posixGroup']['CLASSES_REQUIRED'] = array('posixGroup');
   $checks['posixGroup']['STATUS']           = TRUE;
@@ -2079,102 +1964,6 @@ function check_schema($cfg)
   }
 
   return $checks;
-}
-
-/*!
- * \brief Get the language for the user connecting
- *
- * \param boolean $languages_in_own_language FALSE
- *
- * \param boolean $strip_region_tag FALSE
- */
-function get_languages($languages_in_own_language = FALSE, $strip_region_tag = FALSE)
-{
-  /* locales in english */
-  $tmp_english = array(
-    "ar"    => "Arabic",
-    "ca_ES" => "Catalan",
-    "cs_CZ" => "Czech",
-    "de_DE" => "German",
-    "el_GR" => "Greek",
-    "en_US" => "English",
-    "es_CO" => "Colombian Spanish",
-    "es_ES" => "Spanish",
-    "es_VE" => "Venezuelan",
-    "fa_IR" => "Persian",
-    "fi_FI" => "Finnish",
-    "fr_FR" => "French",
-    "it_IT" => "Italian",
-    "nb"    => "Norwegian Bokmål",
-    "nl_NL" => "Dutch",
-    "pl_PL" => "Polish",
-    "pt"    => "Portuguese",
-    "pt_BR" => "Brazilian",
-    "ru_RU" => "Russian",
-    "vi_VN" => "Vietnamese",
-    "sv_SE" => "Swedish",
-    "zh_CN" => "Chinese",
-  );
-
-  $ret = array();
-  if ($languages_in_own_language) {
-    /* locales in their own language */
-    $tmp_ownlang = array(
-      "ar"    => "عربية",
-      "ca_ES" => "Català",
-      "cs_CZ" => "Česky",
-      "de_DE" => "Deutsch",
-      "el_GR" => "ελληνικά",
-      "en_US" => "English",
-      "es_CO" => "Español Colombiano",
-      "es_ES" => "Español",
-      "es_VE" => "Castellano",
-      "fa_IR" => "پارسی",
-      "fi_FI" => "Suomi",
-      "fr_FR" => "Français",
-      "it_IT" => "Italiano",
-      "nb"    => "Norsk bokmål",
-      "nl_NL" => "Nederlands",
-      "pl_PL" => "Polski",
-      "pt"    => "Portuguese",
-      "pt_BR" => "Portuguese (Brazil)",
-      "ru_RU" => "русский язык",
-      "vi_VN" => "Tiếng Việt",
-      "sv_SE" => "Svenska",
-      "zh_CN" => "中文, 汉语, 漢語",
-    );
-
-    foreach ($tmp_english as $key => $name) {
-      $label = _($name)." (".$tmp_ownlang[$key].")";
-      if ($strip_region_tag) {
-        $ret[preg_replace("/^([^_]*).*$/", "\\1", $key)] = $label;
-      } else {
-        $ret[$key] = $label;
-      }
-    }
-  } else {
-    foreach ($tmp_english as $key => $name) {
-      if ($strip_region_tag) {
-        $ret[preg_replace("/^([^_]*).*/", "\\1", $key)] = _($name);
-      } else {
-        $ret[$key] = _($name);
-      }
-    }
-  }
-  return $ret;
-}
-
-/*!
- * \brief Returns TRUE if $lang is a right to left language ($lang should match /.._..(\.UTF-8)?/)
- */
-function language_is_rtl ($lang)
-{
-  $lang = preg_replace('/\.UTF-8$/', '', $lang);
-
-  if (preg_match('/^fa_/', $lang)) {
-    return TRUE;
-  }
-  return FALSE;
 }
 
 
@@ -2527,58 +2316,12 @@ function load_all_classes()
   }
 }
 
-function initLanguage($lang = NULL)
-{
-  global $BASE_DIR;
-  if ($lang === NULL) {
-    $lang = get_browser_language();
-  }
-
-  putenv('LANGUAGE=');
-  putenv("LANG=$lang");
-  setlocale(LC_ALL, $lang);
-  $GLOBALS['t_language']            = $lang;
-  $GLOBALS['t_gettext_message_dir'] = $BASE_DIR.'/locale/';
-
-  /* Set the text domain as 'fusiondirectory' */
-  $domain = 'fusiondirectory';
-  bindtextdomain($domain, LOCALE_DIR);
-  textdomain($domain);
-  if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $lang, 'Setting language to');
-  }
-
-  $ret = FALSE;
-
-  /* Reset plist cache if language changed */
-  if ((!session::global_is_set('lang')) || (session::global_get('lang') != $lang)) {
-    $ret = TRUE;
-    if (session::global_is_set('plist')) {
-      if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, session::global_get('lang'), 'Plist already loaded with language');
-      }
-      session::global_un_set('plist');
-      session::global_set('lang', $lang);
-      load_plist();
-    }
-  }
-
-  session::global_set('lang', $lang);
-  return $ret;
-}
-
 if (!function_exists('ldap_escape')) {
   /* This bloc is for PHP<5.6 */
   define('LDAP_ESCAPE_FILTER', 0x01);
   define('LDAP_ESCAPE_DN',     0x02);
 
-  /**
-   * @param string $subject The subject string
-   * @param string $ignore Set of characters to leave untouched
-   * @param int $flags Any combination of LDAP_ESCAPE_* flags to indicate the
-   *                   set(s) of characters to escape.
-   * @return string
-   */
+  /* PHP version of ldap_escape for PHP<5.6 */
   function ldap_escape($subject, $ignore = '', $flags = 0)
   {
     static $charMaps = array(
@@ -2674,47 +2417,6 @@ if (!function_exists('random_int')) {
   }
 }
 
-if (!function_exists('hash_equals')) {
-  /**
-   * Timing attack safe string comparison
-   *
-   * Fallback for PHP<5.6
-   *
-   * Compares two strings using the same time whether they're equal or not.
-   * This function should be used to mitigate timing attacks; for instance, when testing crypt() password hashes.
-   *
-   * @param string $known_string The string of known length to compare against
-   * @param string $user_string The user-supplied string
-   * @return boolean Returns TRUE when the two strings are equal, FALSE otherwise.
-   */
-  function hash_equals($known_string, $user_string)
-  {
-    if (func_num_args() !== 2) {
-      trigger_error('hash_equals() expects exactly 2 parameters, '.func_num_args().' given', E_USER_WARNING);
-      return NULL;
-    }
-    if (!is_string($known_string) || !is_string($user_string)) {
-      trigger_error('hash_equals(): Expected both parameters to be a string, '.gettype($known_string).' and '.gettype($user_string).' given', E_USER_WARNING);
-      return FALSE;
-    }
-    $known_string_len = strlen($known_string);
-    $user_string_len  = strlen($user_string);
-    if ($known_string_len !== $user_string_len) {
-      // use $known_string instead of $user_string to handle strings of different length.
-      $res = $known_string ^ $known_string;
-      // set $ret to 1 to make sure false is returned
-      $ret = 1;
-    } else {
-      $res = $known_string ^ $user_string;
-      $ret = 0;
-    }
-    for ($i = strlen($res) - 1; $i >= 0; $i--) {
-      $ret |= ord($res[$i]);
-    }
-    return ($ret === 0);
-  }
-}
-
 function ldap_escape_f($str, $ignore = '')
 {
   return ldap_escape($str, $ignore, LDAP_ESCAPE_FILTER);
@@ -2725,17 +2427,34 @@ function ldap_escape_dn($str, $ignore = '')
   return ldap_escape($str, $ignore, LDAP_ESCAPE_DN);
 }
 
-function mail_utf8($to, $from_user, $from_email, $subject, $message, $type = 'plain')
+function mail_utf8($to, $from_user, $from_email, $subject, $message, $replyto_user = NULL, $replyto_email = NULL, $type = 'plain')
 {
   $subject = "=?UTF-8?B?".base64_encode($subject)."?=";
+
+  if ($replyto_user === NULL) {
+    $replyto_user = $from_user;
+  }
+
+  if ($replyto_email === NULL) {
+    $replyto_email = $from_email;
+  }
+
   if ($from_user) {
     $from_user = "=?UTF-8?B?".base64_encode($from_user)."?=";
     $headers = "From: $from_user <$from_email>\r\n";
-    $headers .= "Reply-To: $from_user <$from_email>\r\n";
   } else {
     $headers = "From: <$from_email>\r\n";
-    $headers .= "Reply-To: <$from_email>\r\n";
   }
+
+  if ($replyto_email) {
+    if ($replyto_user) {
+      $replyto_user = "=?UTF-8?B?".base64_encode($replyto_user)."?=";
+      $headers .= "Reply-To: $replyto_user <$replyto_email>\r\n";
+    } else {
+      $headers .= "Reply-To: <$replyto_email>\r\n";
+    }
+  }
+
   $headers .= "MIME-Version: 1.0" . "\r\n" .
               "Content-type: text/$type; charset=UTF-8" . "\r\n";
 

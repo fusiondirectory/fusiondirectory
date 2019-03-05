@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -187,7 +187,7 @@ class templateHandling
    *
    * \return array An array with the final values of attributes
    */
-  public static function parseArray(array $attrs)
+  public static function parseArray(array $attrs, array $specialAttrs)
   {
     foreach ($attrs as &$attr) {
       if (is_array($attr)) {
@@ -195,7 +195,7 @@ class templateHandling
           if (!is_numeric($key)) {
             continue;
           }
-          $string = static::parseString($string, $attrs);
+          $string = static::parseString($string, array_merge($attrs, $specialAttrs));
         }
         unset($string);
       }
@@ -415,7 +415,13 @@ class templateHandling
           trigger_error('Missing "M" match modifier parameter');
           $args[] = '/.*/';
         }
-        $result = array(array_filter($str, function ($s) use ($args) { return preg_match($args[0], $s); }));
+        $result = array(array_filter(
+          $str,
+          function ($s) use ($args)
+          {
+            return preg_match($args[0], $s);
+          }
+        ));
         break;
       case '4':
         // IPv4

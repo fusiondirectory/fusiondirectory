@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2016  FusionDirectory
+  Copyright (C) 2012-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -66,7 +66,7 @@ class IntAttribute extends Attribute
       // value is "" or array()
       return "";
     }
-    if (is_object($this->plugin) && $this->plugin->is_template) {
+    if ($this->isTemplate()) {
       return $value;
     } else {
       return intval($value);
@@ -167,7 +167,7 @@ class FloatAttribute extends IntAttribute
       // value is "" or array()
       return "";
     }
-    if (is_object($this->plugin) && $this->plugin->is_template) {
+    if ($this->isTemplate()) {
       return $value;
     } else {
       return floatval($value);

@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,9 +19,19 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*!
+ * \brief Snapshot creation dialog
+ */
 class SnapshotCreateDialog extends simplePlugin
 {
   public $aclCategory;
+
+  static function plInfo()
+  {
+    return array(
+      'plShortName' => 'SnapshotCreateDialog',
+    );
+  }
 
   static function getAttributesInfo ()
   {
@@ -39,7 +49,9 @@ class SnapshotCreateDialog extends simplePlugin
           ),
           new TextAreaAttribute (
             _('Reason'), _('Reason for creating this snapshot'),
-            'description', TRUE
+            'description', TRUE,
+            '',
+            'SnapshotHandler'
           ),
         )
       ),
@@ -53,6 +65,39 @@ class SnapshotCreateDialog extends simplePlugin
     $this->object_dn    = $dn;
     $this->parent       = $parent;
     $this->aclCategory  = $aclCategory;
+  }
+
+  /*! \brief Check if logged in user have enough right to write this attribute value
+   *
+   * \param mixed $attr Attribute object or name (in this case it will be fetched from attributesAccess)
+   */
+  function attrIsWriteable($attr)
+  {
+    global $ui;
+
+    if (!is_object($attr)) {
+      $attr = $this->attributesAccess[$attr];
+    }
+    if ($attr->getLdapName() == 'description') {
+      return in_array('c', $ui->get_snapshot_permissions($this->acl_base, $this->aclCategory));
+    } else {
+      return parent::attrIsWriteable($attr);
+    }
+  }
+
+  function renderAttributes($readOnly = FALSE)
+  {
+    global $ui;
+    $smarty = get_smarty();
+
+    $permissions = $ui->get_snapshot_permissions($this->acl_base, $this->aclCategory);
+    $acl = '';
+    if (in_array('c', $permissions)) {
+      $acl .= 'crw';
+    }
+    $smarty->assign('SnapshotHandlerACL', $acl);
+
+    return parent::renderAttributes($readOnly);
   }
 
   function execute ()
@@ -74,6 +119,9 @@ class SnapshotCreateDialog extends simplePlugin
   }
 }
 
+/*!
+ * \brief Attribute which list the snapshots
+ */
 class SnapshotsAttribute extends OrderedArrayAttribute
 {
   function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = array(), $acl = '')
@@ -83,6 +131,27 @@ class SnapshotsAttribute extends OrderedArrayAttribute
     $this->order        = FALSE;
     $this->attribute    = FALSE;
     $this->setInLdap(FALSE);
+  }
+
+  function setParent (&$plugin)
+  {
+    parent::setParent($plugin);
+    if (is_object($this->plugin)) {
+      if ($this->plugin->global) {
+        $this->setHeaders(array(
+          _('DN'),
+          _('Date'),
+          _('Description'),
+          ''
+        ));
+      } else {
+        $this->setHeaders(array(
+          _('Date'),
+          _('Description'),
+          ''
+        ));
+      }
+    }
   }
 
   function loadPostValue ()
@@ -163,6 +232,9 @@ class SnapshotsAttribute extends OrderedArrayAttribute
   }
 }
 
+/*!
+ * \brief Snapshot restoration dialog
+ */
 class SnapshotRestoreDialog extends simplePlugin
 {
   public $global;
@@ -170,6 +242,13 @@ class SnapshotRestoreDialog extends simplePlugin
 
   protected $snapDn;
   protected $snapAction;
+
+  static function plInfo()
+  {
+    return array(
+      'plShortName' => 'SnapshotRestoreDialog',
+    );
+  }
 
   static function getAttributesInfo ()
   {
@@ -184,7 +263,9 @@ class SnapshotRestoreDialog extends simplePlugin
           ),
           new SnapshotsAttribute (
             _('Snapshots'), _('Existing snapshots for this object'),
-            'snapshots', FALSE
+            'snapshots', FALSE,
+            array(),
+            'SnapshotHandler'
           ),
         )
       ),
@@ -193,10 +274,10 @@ class SnapshotRestoreDialog extends simplePlugin
 
   function __construct ($dn, $parent, $global, $aclCategory)
   {
+    $this->global       = $global;
     parent::__construct();
     $this->object_dn    = $dn;
     $this->parent       = $parent;
-    $this->global       = $global;
     $this->aclCategory  = $aclCategory;
     if ($this->global) {
       $this->attributesAccess['object_dn']->setVisible(FALSE);
@@ -215,6 +296,7 @@ class SnapshotRestoreDialog extends simplePlugin
 
   function execute ()
   {
+    global $ui;
     if ($this->dialog == 'delete') {
       $objects = array(
         array(
@@ -244,6 +326,19 @@ class SnapshotRestoreDialog extends simplePlugin
       $smarty->assign('objects', $objects);
       $str = $smarty->fetch(get_template_path('restore-confirm.tpl'));
     } else {
+      $smarty = get_smarty();
+      $permissions = $ui->get_snapshot_permissions($this->acl_base, $this->aclCategory);
+      $acl = '';
+      if (in_array('r', $permissions)) {
+        $acl .= 'r';
+      }
+      if (in_array(($this->global ? 'restore_deleted' : 'restore_over'), $permissions)) {
+        $acl .= 'w';
+      }
+      if (in_array('d', $permissions)) {
+        $acl .= 'd';
+      }
+      $smarty->assign('SnapshotHandlerACL', $acl);
       $str = parent::execute();
       $str .= '<p class="plugbottom">'.
              '  <input type="submit" name="edit_cancel" value="'.msgPool::backButton().'"/>'.
@@ -251,6 +346,20 @@ class SnapshotRestoreDialog extends simplePlugin
     }
 
     return $str;
+  }
+
+  function attrIsWriteable($attr)
+  {
+    global $ui;
+
+    if (!is_object($attr)) {
+      $attr = $this->attributesAccess[$attr];
+    }
+    if ($attr->getLdapName() == 'snapshots') {
+      return in_array(($this->global ? 'restore_deleted' : 'restore_over'), $ui->get_snapshot_permissions($this->acl_base, $this->aclCategory));
+    } else {
+      return parent::attrIsWriteable($attr);
+    }
   }
 
   function triggerRestore($dn)

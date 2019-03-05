@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2013-2016  FusionDirectory
+  Copyright (C) 2013-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -18,6 +18,9 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/*!
+ * \brief Template dialog handling
+ */
 class templateDialog
 {
   protected $simpleManagement;
@@ -93,7 +96,12 @@ class templateDialog
   {
     $smarty = get_smarty();
     if (is_object($this->template)) {
-      $smarty->assign('template_dialog', $this->template->execute());
+      $templateOutput = $this->template->execute();
+      if ($this->template->dialogOpened()) {
+        return $templateOutput;
+      } else {
+        $smarty->assign('template_dialog', $templateOutput);
+      }
     } else {
       $smarty->assign('templates', $this->templates);
     }
@@ -116,6 +124,9 @@ class templateDialog
   }
 }
 
+/*!
+ * \brief Management base class
+ */
 class simpleManagement
 {
   // The currently used object(s) (e.g. in edit, removal)
@@ -181,13 +192,13 @@ class simpleManagement
   protected $autoFilter       = TRUE;
   protected $autoActions      = TRUE;
   protected $skipCpHandler    = FALSE;
-  protected $skipSnapHandler  = FALSE;
 
   protected $autoFilterAttributes = array('dn', 'cn', 'description');
 
   protected $headpageClass = "listing";
 
   public static $skipTemplates = TRUE;
+  public static $skipSnapshots = FALSE;
 
   function __construct()
   {
@@ -244,7 +255,7 @@ class simpleManagement
       $this->registerAction('cut',    'copyPasteHandler');
       $this->registerAction('paste',  'copyPasteHandler');
     }
-    if (!$this->skipSnapHandler && ($config->get_cfg_value('enableSnapshots') == 'TRUE')) {
+    if (!self::$skipSnapshots && ($config->get_cfg_value('enableSnapshots') == 'TRUE')) {
       $this->snapHandler = new SnapshotHandler();
       $this->headpage->setSnapshotHandler($this->snapHandler);
       $this->registerAction('snapshot', 'createSnapshotDialog');
@@ -442,6 +453,7 @@ class simpleManagement
           'set'     => '(objectClass=fdTemplate)'
         );
         $this->filter->elementValues[$tag] = TRUE;
+
         $attributes[] = 'fdTemplateField';
       }
       $filter .= ')';
@@ -860,6 +872,10 @@ class simpleManagement
     // Single edit - we only got one object dn.
     if (count($target) == 1) {
       $type = $this->getType($target[0]);
+      if ($type === NULL) {
+        trigger_error('Could not find type for '.$target[0].', open canceled');
+        return;
+      }
       if (preg_match('/^template_/', $type) && !static::$skipTemplates) {
         $type = preg_replace('/^template_/', '', $type);
       }
@@ -1087,7 +1103,7 @@ class simpleManagement
         // Remove the lock for the current object.
         del_lock($this->dn);
       } else {
-        msg_dialog::display(_('Permission error'), msgPool::permDelete(), ERROR_DIALOG);
+        msg_dialog::display(_('Permission error'), msgPool::permDelete($dn), ERROR_DIALOG);
         logging::log('security', 'simpleManagement/'.get_class($this), $dn, array(), 'Tried to trick deletion.');
       }
     }
@@ -1103,8 +1119,6 @@ class simpleManagement
    * \param  String  $action  The name of the action which was the used as trigger.
    *
    * \param  Array   $target  A list of object dns, which should be affected by this method.
-   *
-   * \param  Array   $all     A combination of both 'action' and 'target'.
    */
   function createSnapshotDialog($action, array $target)
   {
@@ -1134,8 +1148,6 @@ class simpleManagement
    * \param  String  $action  The name of the action which was the used as trigger.
    *
    * \param  Array   $target  A list of object dns, which should be affected by this method.
-   *
-   * \param  Array   $all'     A combination of both 'action' and 'target'.
    */
   function restoreSnapshotDialog($action, array $target)
   {
@@ -1163,10 +1175,10 @@ class simpleManagement
       if (empty($this->dn)) {
         return;
       }
-      $aclCategory = $config->data['OBJECTS'][$this->getType($this->dn)]['aclCategory'];
+      $aclCategory  = $config->data['OBJECTS'][$this->getType($this->dn)]['aclCategory'];
     }
 
-    if ($ui->allow_snapshot_restore($this->dn, $aclCategory)) {
+    if ($ui->allow_snapshot_restore($this->dn, $aclCategory, !count($target))) {
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Snaptshot restoring initiated!');
       $this->snapHandler->setSnapshotBases($bases);
       $this->dialogObject = new SnapshotRestoreDialog($this->dn, $this, !count($target), $aclCategory);
@@ -1179,9 +1191,9 @@ class simpleManagement
 
   /*! \brief  This method is used to queue and process copy&paste actions.
    *          Allows to copy, cut and paste mutliple entries at once.
-   *  @param  String  'action'  The name of the action which was the used as trigger.
-   *  @param  Array   'target'  A list of object dns, which should be affected by this method.
-   *  @param  Array   'all'     A combination of both 'action' and 'target'.
+   *  @param  string  $action  The name of the action which was the used as trigger.
+   *  @param  array   $target  A list of object dns, which should be affected by this method.
+   *  @param  array   $all     A combination of both 'action' and 'target'.
    */
   function copyPasteHandler($action = '', array $target = array(), array $all = array())
   {
@@ -1265,7 +1277,7 @@ class simpleManagement
   function restoreSnapshot($dn)
   {
     global $ui;
-    if (!empty($dn) && $ui->allow_snapshot_restore($dn, $this->dialogObject->aclCategory)) {
+    if (!empty($dn) && $ui->allow_snapshot_restore($dn, $this->dialogObject->aclCategory, $this->dialogObject->global)) {
       $this->snapHandler->restoreSnapshot($dn);
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot restored');
       $this->closeDialogs();
@@ -1277,8 +1289,6 @@ class simpleManagement
 
   /*!
    * \brief Get all deleted snapshots
-   *
-   * \param string $base The base
    */
   function getAllDeletedSnapshots()
   {
@@ -1311,7 +1321,14 @@ class simpleManagement
    */
   function removeSnapshot($dn)
   {
-    $this->snapHandler->removeSnapshot($dn);
+    global $ui;
+    if (!empty($dn) && $ui->allow_snapshot_delete($dn, $this->dialogObject->aclCategory)) {
+      $this->snapHandler->removeSnapshot($dn);
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot deleted');
+    } else {
+      msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to delete a snapshot for %s.'), $dn),
+          ERROR_DIALOG);
+    }
   }
 
   static function mainInc ($classname)

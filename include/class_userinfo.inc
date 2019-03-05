@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -49,6 +49,9 @@ class userinfo
   var $ACLperPath             = array();
   var $ACLperPath_usesFilter  = array();
 
+  /*! \brief LDAP size limit handler */
+  protected $sizeLimitHandler;
+
   /* get acl's an put them into the userinfo object
      attr subtreeACL (userdn:components, userdn:component1#sub1#sub2,component2,...) */
   function __construct($userdn)
@@ -61,6 +64,8 @@ class userinfo
 
     /* Initialize ACL_CACHE */
     $this->reset_acl_cache();
+
+    $this->sizeLimitHandler = new ldapSizeLimit();
   }
 
   /*! \brief Loads user information from LDAP */
@@ -351,21 +356,16 @@ class userinfo
    *
    * \param string $dn     The destination dn
    *
-   * \param string $object The acl  category (e.g. user)
+   * \param string $categories The acl  category (e.g. user)
+   *
+   * \param boolean $deleted Is it a deleted or existing object
    *
    * \return boolean TRUE if we are allowed to restore a snapshot.
    */
-  function allow_snapshot_restore($dn, $object)
+  function allow_snapshot_restore($dn, $categories, $deleted)
   {
-    if (!is_array($object)) {
-      $object = array($object);
-    }
-    $r = $w = TRUE;
-    foreach ($object as $category) {
-      $w &= (strpos($this->get_complete_category_acls($dn, $category), 'w') !== FALSE);
-      $r &= (strpos($this->get_complete_category_acls($dn, $category), 'r') !== FALSE);
-    }
-    return ($r && $w);
+    $permissions = $this->get_snapshot_permissions($dn, $categories);
+    return in_array(($deleted ? 'restore_deleted' : 'restore_over'), $permissions);
   }
 
 
@@ -374,21 +374,55 @@ class userinfo
    *
    * \param string $dn     The source dn
    *
-   * \param string $object The acl category (e.g. user)
+   * \param string $categories The acl category (e.g. user)
    *
-   * \return boolean TRUE if we are allowed to restore a snapshot.
+   * \return boolean TRUE if we are allowed to create a snapshot.
    */
-  function allow_snapshot_create($dn, $object)
+  function allow_snapshot_create($dn, $categories)
   {
-    if (!is_array($object)) {
-      $object = array($object);
+    $permissions = $this->get_snapshot_permissions($dn, $categories);
+    return in_array('c', $permissions);
+  }
+
+
+  /*!
+   * \brief Checks if we are allowed to delete a snapshot of the given dn.
+   *
+   * \param string $dn     The source dn
+   *
+   * \param string $categories The acl category (e.g. user)
+   *
+   * \return boolean TRUE if we are allowed to delete a snapshot.
+   */
+  function allow_snapshot_delete($dn, $categories)
+  {
+    $permissions = $this->get_snapshot_permissions($dn, $categories);
+    return in_array('d', $permissions);
+  }
+
+  function get_snapshot_permissions($dn, $categories)
+  {
+    if (!is_array($categories)) {
+      $categories = array($categories);
     }
-    foreach ($object as $category) {
-      if (strpos($this->get_complete_category_acls($dn, $category), 'r') === FALSE) {
-        return FALSE;
+    /* Possible permissions for snapshots */
+    $objectPermissions    = array('r', 'c', 'd');
+    $attributePermissions = array('restore_over', 'restore_deleted');
+    foreach ($categories as $category) {
+      $acl = $this->get_permissions($dn, $category.'/SnapshotHandler');
+      foreach ($objectPermissions as $i => $perm) {
+        if (strpos($acl, $perm) === FALSE) {
+          unset($objectPermissions[$i]);
+        }
+      }
+      foreach ($attributePermissions as $i => $attribute) {
+        $acl = $this->get_permissions($dn, $category.'/SnapshotHandler', $attribute);
+        if (strpos($acl, 'w') === FALSE) {
+          unset($attributePermissions[$i]);
+        }
       }
     }
-    return TRUE;
+    return array_merge($objectPermissions, $attributePermissions);
   }
 
   /*!
@@ -830,8 +864,6 @@ class userinfo
   /*!
   * \brief Checks the posixAccount status by comparing the shadow attributes.
   *
-  * \param object $config   The FusionDirectory configuration object.
-  *
   * \return const
   *                  POSIX_ACCOUNT_EXPIRED           - If the account is expired.
   *                  POSIX_WARN_ABOUT_EXPIRATION     - If the account is going to expire.
@@ -985,23 +1017,42 @@ class userinfo
 
   /* \brief Search which ACL category should be used for this attribute and this object type, if any
    *
-   * \return The ACL catogory or FALSE if not found
+   * \return The ACL category, or FALSE if not found, or TRUE if acl check should be bypassed
    */
   function getAttributeCategory($type, $attribute)
   {
     global $config;
-    $infos    = objects::infos($type);
-    $classes  = $config->data['CATEGORIES'][$infos['aclCategory']]['classes'];
-    foreach ($classes as $class) {
-      if ($class == '0') {
-        continue;
-      }
-      $acls = pluglist::pluginInfos($class)['plProvidedAcls'];
+
+    if (in_array_ics($attribute, array('objectClass', 'dn'))) {
+      return TRUE;
+    }
+
+    if (is_array($type)) {
+      /* Used for recursion through subtabs */
+      $tabs = $type;
+    } else {
+      /* Usual workflow */
+      $infos  = objects::infos($type);
+      $tabs   = $config->data['TABS'][$infos['tabGroup']];
+    }
+    foreach ($tabs as $tab) {
+      $acls = pluglist::pluginInfos($tab['CLASS'])['plProvidedAcls'];
       if (isset($acls[$attribute])) {
-        return $infos['aclCategory'].'/'.$class;
+        return $infos['aclCategory'].'/'.$tab['CLASS'];
+      }
+      if (isset($tab['SUBTABS'])) {
+        $acl = $this->getAttributeCategory($config->data['TABS'][$tab['SUBTABS']], $attribute);
+        if ($acl !== FALSE) {
+          return $acl;
+        }
       }
     }
     return FALSE;
+  }
+
+  function getSizeLimitHandler()
+  {
+    return $this->sizeLimitHandler;
   }
 }
 ?>

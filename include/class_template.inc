@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2014-2016  FusionDirectory
+  Copyright (C) 2014-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -34,6 +34,8 @@ class template
   protected $attributes;
 
   protected $applied = FALSE;
+
+  static protected $uiSpecialAttributes = array('dn','cn','uid','sn','givenName');
 
   static function plInfo()
   {
@@ -81,13 +83,13 @@ class template
     }
     $tempTabObject    = objects::open($this->dn, $this->type); /* Used to know which tab is activated */
     $this->attributes = array();
-    foreach ($tempTabObject->by_object as $class => &$plugin) {
-      if ($plugin->is_account || $plugin->ignore_account) {
-        $this->tabObject->by_object[$class]->is_account = $plugin->is_account;
+    $tempTabObject->setActiveTabs($this->tabObject);
+    foreach ($this->tabObject->by_object as $class => $tab) {
+      if ($tab->is_account || $tab->ignore_account) {
         $this->attributes[$class] = array();
-        $attrs = array_unique(array_merge($this->tabObject->by_object[$class]->getRequiredAttributes(), $this->needed));
-        foreach (array_keys($this->tabObject->by_object[$class]->attributesAccess) as $attr) {
-          if (!$plugin->showInTemplate($attr, $this->attrs)) {
+        $attrs = array_unique(array_merge($tab->getRequiredAttributes(), $this->needed));
+        foreach (array_keys($tab->attributesAccess) as $attr) {
+          if (!$tab->showInTemplate($attr, $this->attrs)) {
             continue;
           }
           if (in_array($attr, $attrs)) {
@@ -108,7 +110,7 @@ class template
     $this->tabObject  = objects::create($this->type);
     /* Used to know which tab is activated */
     $tempTabObject    = objects::open($this->dn, $this->type);
-    foreach ($tempTabObject->by_object as $class => &$plugin) {
+    foreach ($tempTabObject->by_object as $class => $plugin) {
       if ($plugin->is_account || $plugin->ignore_account) {
         $this->tabObject->by_object[$class]->is_account = $plugin->is_account;
       }
@@ -139,7 +141,7 @@ class template
   function serialize()
   {
     $attributes = array();
-    foreach ($this->tabObject->by_object as $class => &$plugin) {
+    foreach ($this->tabObject->by_object as $class => $plugin) {
       if (!isset($this->attributes[$class])) {
         continue;
       }
@@ -171,6 +173,11 @@ class template
     }
   }
 
+  public function dialogOpened ()
+  {
+    return $this->tabObject->dialogOpened();
+  }
+
   function execute()
   {
     $smarty   = get_smarty();
@@ -180,6 +187,15 @@ class template
     foreach ($this->tabObject->by_object as $class => &$plugin) {
       if (!isset($this->attributes[$class])) {
         continue;
+      }
+      if ($plugin->is_modal_dialog()) {
+        $dialogResult = $plugin->dialog->execute();
+        if ($dialogResult === FALSE) {
+          $plugin->closeDialog();
+        } else {
+          $this->tabObject->current = $class;
+          return $dialogResult;
+        }
       }
       $attributes = array();
       foreach ($this->attributes[$class] as $attr) {
@@ -219,7 +235,7 @@ class template
     if ($targetdn !== NULL) {
       $this->tabObject = objects::open($targetdn, $this->type);
       unset($this->attrs['objectClass']['count']);
-      foreach ($this->tabObject->by_object as $class => &$plugin) {
+      foreach ($this->tabObject->by_object as $class => $plugin) {
         if ($plugin->is_account || $plugin->ignore_account) {
           $this->attrs['objectClass'] = $plugin->mergeObjectClasses($this->attrs['objectClass']);
         }
@@ -254,7 +270,12 @@ class template
     }
     unset($array);
 
-    $this->attrs = templateHandling::parseArray($this->attrs);
+    $ui           = get_userinfo();
+    $specialAttrs = array();
+    foreach (static::$uiSpecialAttributes as $attr) {
+      $specialAttrs['caller'.strtoupper($attr)] = $ui->$attr;
+    }
+    $this->attrs = templateHandling::parseArray($this->attrs, $specialAttrs);
     $this->tabObject->adapt_from_template($this->attrs, call_user_func_array('array_merge', $this->attributes));
 
     $this->applied = TRUE;

@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -43,6 +43,11 @@ class pluglist {
   var $info             = array();
 
   /*!
+   * \brief Foreign references on DNs
+   */
+  var $dnForeignRefs = array();
+
+  /*!
    * \brief Using the plugin index as a key, the class of the plugin.
    */
   var $dirlist          = array();
@@ -73,6 +78,9 @@ class pluglist {
       $cmethods = get_class_methods($cname);
       if (in_array_ics('plInfo', $cmethods)) {
         $infos = call_user_func(array($cname, 'plInfo'));
+        if (empty($infos)) {
+          continue;
+        }
         if (is_subclass_of($cname, 'simpleService')) {
           $infos['plSelfModify']  = FALSE;
           /* services are not part of any objectType */
@@ -123,6 +131,9 @@ class pluglist {
                 $foreign_refs[$class][$field] = array();
               }
               $foreign_refs[$class][$field][] = array($cname, $ofield, $filter);
+              if ($field == 'dn') {
+                $this->dnForeignRefs[] = array($cname, $ofield, $filter, (isset($pfk[3]) ? $pfk[3] : "$ofield=*%oldvalue%"));
+              }
             }
             unset($pfk);
           }
@@ -212,7 +223,7 @@ class pluglist {
    *
    * This function is used to check which plugins are visible.
    *
-   * \param string $aclname The acl tag to test, eg.  "user/user:self", "systems",...
+   * \param array $infos The acl infos, may contain keys CLASS and/or ACL
    *
    * \return Boolean TRUE on success FALSE otherwise
    */
@@ -372,7 +383,7 @@ class pluglist {
     }
     $lines  = preg_split("/\n/", $this->menu);
     foreach ($lines as &$line) {
-      if (preg_match('/'.preg_quote("main.php?plug=$plug&amp;reset=1",'/').'/', $line)) {
+      if (preg_match('/'.preg_quote("main.php?plug=$plug&amp;reset=1", '/').'/', $line)) {
         $line = preg_replace('/class="menuitem"/', 'class="menuitem menucurrent"', $line);
       } elseif (preg_match('/class="menuitem menucurrent"/', $line)) {
         $line = preg_replace('/class="menuitem menucurrent"/', 'class="menuitem"', $line);
@@ -425,8 +436,8 @@ class pluglist {
           }
 
           $entries  .= '<div class="iconmenu" id="menuitem_icon_'.$id.'" onClick=\'location.href="'.$href.'"\' title="'.$plDescription.'">';
-          $item     = '<div class="imgcontainer"><img src="'.$image.'" alt="'.$plHeadline.' icon"/></div><span>&nbsp;'.$plHeadline.'</span>';
-          $entries .= $item."</div>\n";
+          $item     = '<div class="imgcontainer"><img src="'.$image.'" alt=""/></div><span>&nbsp;'.$plHeadline.'</span>';
+          $entries  .= $item."</div>\n";
         }
 
         /* Append to menu */

@@ -31,7 +31,6 @@ var MenuItem = Class.create();
 Menu.prototype = {
 
   initialize: function(idOrElement, name, customConfigFunction) {
-
     this.name = name;
     this.type = "menu";
     this.closeDelayTimer = null;
@@ -121,11 +120,11 @@ MenuContainer.prototype = {
     var value;
     for (var i = 0; i < ltrb.length; ++i) {
       if (this.element.currentStyle) {
-        value = parseInt(this.element.currentStyle["border"+ltrb[i]+"Width"]);
+        value = parseInt(this.element.currentStyle["border" + ltrb[i] + "Width"]);
       } else if (window.getComputedStyle) {
-        value = parseInt(window.getComputedStyle(this.element, "").getPropertyValue("border-"+ltrb[i].toLowerCase()+"-width"));
+        value = parseInt(window.getComputedStyle(this.element, "").getPropertyValue("border-" + ltrb[i].toLowerCase() + "-width"));
       } else {
-        value = parseInt(this.element.style["border"+ltrb[i]]);
+        value = parseInt(this.element.style["border" + ltrb[i]]);
       }
       result[ltrb[i].toLowerCase()] = isNaN(value) ? 0 : value;
     }
@@ -151,11 +150,11 @@ MenuContainer.prototype = {
         (window.innerWidth ? window.innerWidth : document.body.offsetWidth)
       ) {
         Element.setStyle(this.element,{
-          left: (- this.element.offsetWidth - (this.root.collapseBorders ?  0 : parentMenuBorders["left"])) + "px"
+          left: (- this.element.offsetWidth - (this.root.collapseBorders ? 0 : parentMenuBorders["left"])) + "px"
         });
       } else {
         Element.setStyle(this.element,{
-          left: (this.parentMenu.element.offsetWidth - parentMenuBorders["left"] - (this.root.collapseBorders ?  Math.min(parentMenuBorders["right"], thisBorders["left"]) : 0)) + "px"
+          left: (this.parentMenu.element.offsetWidth - parentMenuBorders["left"] - (this.root.collapseBorders ? Math.min(parentMenuBorders["right"], thisBorders["left"]) : 0)) + "px"
         });
       }
       Element.setStyle(this.element,{
@@ -198,9 +197,9 @@ Object.extend(Object.extend(MenuItem.prototype, MenuContainer.prototype), {
     }
     var linkTag = this.element.getElementsByTagName("A")[0];
     if (linkTag) {
-     linkTag.onfocus = this.element.onmouseover;
-     this.link = linkTag;
-     this.text = linkTag.text;
+      linkTag.onfocus = this.element.onmouseover;
+      this.link = linkTag;
+      this.text = linkTag.text;
     }
     if (this.subMenu) {
       this.element.onmouseout = function() {

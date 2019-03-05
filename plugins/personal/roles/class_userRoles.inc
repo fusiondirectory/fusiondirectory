@@ -167,10 +167,10 @@ class userRoles extends simplePlugin
     return FALSE;
   }
 
-  function remove_from_parent()
+  protected function ldap_remove()
   {
     if ($this->is_template) {
-      parent::remove_from_parent();
+      return parent::ldap_remove();
     } elseif (($this->dn != '') && ($this->dn != 'new')) {
       /* Remove all groups */
       foreach ($this->savedGroupsMembership as $ogroupdn) {
@@ -191,6 +191,7 @@ class userRoles extends simplePlugin
         }
       }
     }
+    return array();
   }
 
   function save_object()
@@ -215,11 +216,12 @@ class userRoles extends simplePlugin
 
   function prepare_save()
   {
-    parent::prepare_save();
+    $errors = parent::prepare_save();
     if ($this->is_template) {
       $this->attrs['userGroups']  = $this->groupsMembership;
       $this->attrs['userRoles']   = $this->rolesMembership;
     }
+    return $errors;
   }
 
   function prepare_remove()

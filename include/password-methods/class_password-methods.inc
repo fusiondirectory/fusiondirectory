@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2017  FusionDirectory
+  Copyright (C) 2011-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -32,7 +32,8 @@ class passwordMethod
   var $attrs    = array();
   var $display  = FALSE;
   var $hash     = '';
-  var $lockable = TRUE;
+
+  protected $lockable = TRUE;
 
   /*!
    * \brief Password method contructor
@@ -60,6 +61,16 @@ class passwordMethod
   function need_password()
   {
     return TRUE;
+  }
+
+  /*!
+   * \brief If we can lock the password
+   *
+   * \return boolean
+   */
+  function is_lockable()
+  {
+    return $this->lockable;
   }
 
   /*!
@@ -123,7 +134,7 @@ class passwordMethod
       return FALSE;
     }
     if ($mode != 'LOCK' && $mode != 'UNLOCK') {
-      die('Invalid mode "'.$mode.'"');
+      throw new FusionDirectoryException('Invalid mode "'.$mode.'"');
     }
 
     /* Get current password hash */
@@ -142,7 +153,6 @@ class passwordMethod
 
     /* We can only lock/unlock non-empty passwords */
     if (!empty($pwd)) {
-
       /* Check if this entry is already locked. */
       if (!preg_match("/^[^\}]*+\}!/", $pwd)) {
         if ($mode == 'UNLOCK') {
@@ -246,15 +256,6 @@ class passwordMethod
     return "";
   }
 
-
-  /*!
-   * \brief Method to let password backends remove additional information besides
-   * the userPassword attribute
-   */
-  function remove_from_parent()
-  {
-  }
-
   /*!
    * \brief Method to check if a password matches a hash
    */
@@ -318,6 +319,8 @@ class passwordMethod
 
   /*!
    * \brief Extract a method
+   *
+   * \param string $classname The password method class name
    *
    * \param string $password_hash
    */

@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2013-2016  FusionDirectory
+  Copyright (C) 2013-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -290,7 +290,7 @@ class user extends simplePlugin
         'ou'          => get_ou('userRDN'),
       )),
       'plForeignKeys'  => array(
-        'manager' => array('user','dn')
+        'manager' => array('user','dn','manager=%oldvalue%','*')
       ),
 
       'plProvidedAcls' => array_merge(
@@ -304,7 +304,9 @@ class user extends simplePlugin
   static function getAttributesInfo ()
   {
     global $config;
-    $languages = array_merge(array('' => ''), get_languages(TRUE));
+    $languages = Language::getList(TRUE);
+    asort($languages);
+    $languages = array_merge(array('' => ''), $languages);
     $attributesInfo = array(
       'perso' => array(
         'name'  => _('Personal information'),
@@ -352,13 +354,17 @@ class user extends simplePlugin
             _('Room No.'), _('Room number'),
             'roomNumber', FALSE
           ),
-          new PhoneNumberAttribute (
+          new PhoneNumberButtonAttribute (
             _('Phone'), _('Business phone number'),
-            'telephoneNumber', FALSE
+            'telephoneNumber', FALSE,
+            '',
+            'phone'
           ),
-          new PhoneNumberAttribute (
+          new PhoneNumberButtonAttribute (
             _('Mobile'), _('Business mobile number'),
-            'mobile', FALSE
+            'mobile', FALSE,
+            '',
+            'mobile'
           ),
           new PhoneNumberAttribute (
             _('Pager'), _('Business pager number'),
@@ -406,7 +412,7 @@ class user extends simplePlugin
             _('Home address'), _('Home postal address'),
             'homePostalAddress', FALSE
           ),
-          new StringAttribute (
+          new PhoneNumberAttribute (
             _('Private phone'), _('Home phone number'),
             'homePhone', FALSE
           ),
@@ -427,7 +433,7 @@ class user extends simplePlugin
             'o', FALSE
           ),
           new StringAttribute (
-            _('Department'), _('Department to which the user belongs'),
+            _('Unit'), _('Organizational unit this user belongs to'),
             'ou', FALSE
           ),
           new StringAttribute (

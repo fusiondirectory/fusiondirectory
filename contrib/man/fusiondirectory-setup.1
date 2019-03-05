@@ -129,7 +129,7 @@
 .\" ========================================================================
 .\"
 .IX Title "FUSIONDIRECTORY-SETUP 1"
-.TH FUSIONDIRECTORY-SETUP 1 "2018-11-23" "FusionDirectory 1.2.3" "FusionDirectory Documentation"
+.TH FUSIONDIRECTORY-SETUP 1 "2019-03-04" "FusionDirectory 1.3" "FusionDirectory Documentation"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
@@ -176,6 +176,9 @@ This option replace old winstations objectClasses by new objectClasses from \s-1
 .IP "\-\-migrate\-dhcp" 4
 .IX Item "--migrate-dhcp"
 This option moves \s-1DHCP\s0 configurations from systems branch to \s-1DHCP\s0 branch, which is necessary for FusionDirectory 1.0.17 and above.
+.IP "\-\-migrate\-supannentite" 4
+.IX Item "--migrate-supannentite"
+This option adds the {\s-1SUPANN\s0} prefix that was missing in supannTypeEntite values before \s-1FD 1.3.\s0
 .IP "\-\-delete\-gosa\-locks" 4
 .IX Item "--delete-gosa-locks"
 This option will delete old GOsa style lock tokens from 1.0.15 or older

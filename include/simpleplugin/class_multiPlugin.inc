@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -75,7 +75,7 @@ class multiPlugin extends simplePlugin
       }
       unset($plug);
       if (!$enabled) {
-        $display = '<img alt="" src="geticon.php?context=status&amp;icon=dialog-error&amp;size=16" align="middle"/>&nbsp;<b>'.
+        $display = '<img alt="'._('Error').'" src="geticon.php?context=status&amp;icon=dialog-error&amp;size=16" align="middle"/>&nbsp;<b>'.
                     msgPool::noValidExtension()."</b>";
         $display .= back_to_main();
         return $display;
@@ -163,7 +163,7 @@ class multiPlugin extends simplePlugin
       if ($plug->is_account || $plug->ignore_account) {
         $result = $plug->save();
       } else {
-        $result = $plug->remove_from_parent();
+        $result = $plug->remove(FALSE);
       }
       if (!empty($result)) {
         $errors = array_merge($errors, $result);
@@ -173,13 +173,13 @@ class multiPlugin extends simplePlugin
     return $errors;
   }
 
-  function remove_from_parent()
+  function remove($fulldelete = FALSE)
   {
     $errors = array();
     /* Remove objects */
     foreach ($this->plugin as &$plug) {
       $plug->dn = $this->dn;
-      $result = $plug->remove_from_parent();
+      $result = $plug->remove($fulldelete);
       if (!empty($result)) {
         $errors = array_merge($errors, $result);
       }

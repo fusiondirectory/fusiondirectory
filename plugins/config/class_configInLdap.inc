@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2016 FusionDirectory
+  Copyright (C) 2012-2018 FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -141,6 +141,11 @@ class configInLdap extends simplePlugin
             _('Snapshot base'), _('The base where snapshots should be stored inside of the LDAP.'),
             'fdSnapshotBase', FALSE,
             'ou=snapshots,'.$config->current['BASE']
+          ),
+          new BooleanAttribute (
+            _('Wildcard foreign keys'), _('Enables wildcard searches like member=* when moving a whole departement. This will open all existing groups and roles to make sure foreign keys are respected. Slow on big trees.'),
+            'fdWildcardForeignKeys', FALSE,
+            TRUE
           ),
         )
       ),
@@ -446,7 +451,7 @@ class configInLdap extends simplePlugin
     global $config;
     $attributesInfo = static::getAttributesInfo();
     /* Languages */
-    $languages = get_languages(TRUE);
+    $languages = Language::getList(TRUE);
     asort($languages);
     $languages = array_merge(array("" => _("Automatic")), $languages);
     $attributesInfo['look_n_feel']['attrs'][0]->setChoices(array_keys($languages), array_values($languages));

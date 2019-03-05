@@ -1,5 +1,5 @@
 /* Login screen */
-p.gosaLoginWarning {
+p.fusiondirectoryLoginWarning {
 text-align: center;
 color: red;
 font-weight: bold;
@@ -26,11 +26,21 @@ background-color: #f3f4f4;
 display: inline-block;
 }
 
+div#window-div > form {
+margin:0;
+}
+
 div#window-titlebar {
 text-align: center;
 border-bottom: 1px solid #c0c2c3;
 padding: 8px;
 background-color: #eff0f1;
+min-height: 30px;
+}
+
+div#window-titlebar > img {
+float: left;
+height: 30px;
 }
 
 div#window-titlebar > p {
@@ -79,6 +89,17 @@ span.warning, p.warning {
 color: red;
 }
 
+div.copynotice {
+position: fixed;
+bottom: 0;
+right: 5px;
+border: none;
+}
+
+div.copynotice a {
+color: #31363b;
+}
+
 /* On small screens */
 @media (max-width: 640px) {
   div#window-div {
@@ -94,9 +115,8 @@ color: red;
   div#window-footer.plugbottom > div:nth-child(2) > input[type=submit] {
   width: 100% !important;
   }
-  p.gosaLoginWarning {
+  p.fusiondirectoryLoginWarning {
   margin-top: 0;
   margin-bottom: 0;
   }
 }
-

@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2016  FusionDirectory
+  Copyright (C) 2012-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -22,17 +22,16 @@ class pluginsConfigInLdap extends multiPlugin
 {
   var $tabClass = 'SMALLCONFIGTABS';
 
-  /* Return plugin informations for acl handling */
   static function plInfo()
   {
     return array(
-      "plShortName"   => _("Plugins"),
-      "plDescription" => _("Configuration for plugins"),
-      "plPriority"    => 20,
-      "plObjectType"  => array("configuration"),
+      'plShortName'   => _('Plugins'),
+      'plDescription' => _('Configuration for plugins'),
+      'plPriority'    => 20,
+      'plObjectType'  => array('configuration'),
+      'plSubTabs'     => 'smallConfig',
 
-      "plProvidedAcls"  => array()
+      'plProvidedAcls'  => array()
     );
   }
 }
-?>

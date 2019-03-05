@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2016  FusionDirectory
+  Copyright (C) 2012-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -258,17 +258,6 @@ class CompositeAttribute extends Attribute
       unset($attribute);
       $attributes[$this->getLdapName()]['attributes']       = $subattributes;
       $attributes[$this->getLdapName()]['attributes_order'] = array_keys($subattributes);
-    }
-  }
-
-  function deserializeValue($values)
-  {
-    if ($this->visible) {
-      foreach ($this->attributes as &$attribute) {
-        $attribute->setDisabled($this->disabled);
-        $attribute->deserializeValue($values);
-      }
-      unset($attribute);
     }
   }
 

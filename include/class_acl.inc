@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2018  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -58,8 +58,8 @@ class acl
       {
         $infos_a = pluglist::pluginInfos(preg_replace('|^[^/]*/|', '', $a));
         $infos_b = pluglist::pluginInfos(preg_replace('|^[^/]*/|', '', $b));
-        $pa = (isset($infos_a['plPriority'])?$infos_a['plPriority']:0);
-        $pb = (isset($infos_b['plPriority'])?$infos_b['plPriority']:0);
+        $pa = (isset($infos_a['plPriority']) ? $infos_a['plPriority'] : 0);
+        $pb = (isset($infos_b['plPriority']) ? $infos_b['plPriority'] : 0);
         if ($pa == $pb) {
           return 0;
         }
@@ -73,7 +73,7 @@ class acl
   /*!
    * \brief Explode a role
    *
-   * \param string $acl ACL to be exploded
+   * \param string $role ACL role to be exploded
    */
   static function explodeRole($role)
   {
@@ -124,7 +124,7 @@ class acl
   /*!
    * \brief Extract members of an acl
    *
-   * \param $acl The acl to be extracted members part
+   * \param $ms The members part of the ACL
    *
    * \return an array with members
    */

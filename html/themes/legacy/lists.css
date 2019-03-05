@@ -1,4 +1,3 @@
-
 /********************************
  *           L i s t s          *
  ********************************/
@@ -30,6 +29,14 @@ border-right: 1px solid #aaa;
 }
 html.rtl table.listingTable > thead > tr > th {
 border-left: 1px solid #aaa;
+}
+
+/* Up and Down Arrows */
+.listingTable > thead > tr > th.descend:after {
+content: "\25B2";
+}
+.listingTable > thead > tr > th.ascend:after {
+content: "\25BC";
 }
 
 table.listingTable > tbody {

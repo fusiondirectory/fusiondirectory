@@ -114,8 +114,8 @@ function focus_field()
 
   while (focus_field.arguments[i] && !found) {
     var tmp = document.getElementsByName(focus_field.arguments[i]);
-    for (var e = 0 ; e < tmp.length ; e++) {
-      if ((tmp[e].disabled !== true) &&  (tmp[e].type !== "none") && (tmp[e].type !== "hidden")) {
+    for (var e = 0; e < tmp.length; e++) {
+      if ((tmp[e].disabled !== true) && (tmp[e].type !== "none") && (tmp[e].type !== "hidden")) {
         found = true;
         element = tmp[e];
         break;
@@ -167,15 +167,15 @@ function next_msg_dialog()
     a_pending = s_pending.split(",");
     if (a_pending.length) {
       i_id = a_pending.pop();
-      for (var i = 0 ; i < a_pending.length; ++i) {
+      for (var i = 0; i < a_pending.length; ++i) {
         tmp = tmp + a_pending[i] + ',';
       }
       tmp = tmp.replace(/,$/g,"");
       if (i_id !== "") {
         ele = document.getElementById('e_layer' + i_id);
-        ele2 = document.getElementById('e_layer2') ;
+        ele2 = document.getElementById('e_layer2');
         ele3 = document.getElementById('e_layerTitle' + i_id);
-        ele.style.display = 'block'  ;
+        ele.style.display = 'block';
         document.getElementById('pending_msg_dialogs').value = tmp;
         document.getElementById('current_msg_dialogs').value = i_id;
         ele3.onmousedown  = start_move_div_by_cursor;
@@ -230,15 +230,15 @@ function start_move_div_by_cursor(e)
   if (window.event) {
     event = window.event;
     if (event.offsetX) {
-      div_offset_x   = event.clientX -x;
-      div_offset_y   = event.clientY -y;
+      div_offset_x   = event.clientX - x;
+      div_offset_y   = event.clientY - y;
       enable_move_div_by_cursor = true;
     }
   } else if(e) {
     event = e;
     if (event.layerX) {
-      div_offset_x  = event.screenX -x;
-      div_offset_y  = event.screenY -y;
+      div_offset_x  = event.screenX - x;
+      div_offset_y  = event.screenY - y;
       enable_move_div_by_cursor = true;
     }
   }
@@ -331,18 +331,18 @@ function setProgressPie(context, percent)
     b = "15";
   }
 
-  context.strokeStyle = "#" + r  + g + b
+  context.strokeStyle = "#" + r + g + b
   context.fillStyle   = context.strokeStyle;
 
   context.beginPath();
   context.moveTo(11,11)
-  context.arc(11,11,8,-Math.PI/2,-Math.PI/2 + Math.PI*percent/50,true);
+  context.arc(11,11,8,-Math.PI / 2,-Math.PI / 2 + Math.PI * percent / 50,true);
   context.closePath();
   context.fill();
 
   context.moveTo(11,11)
   context.beginPath();
-  context.arc(11,11,8,0,Math.PI*2,false);
+  context.arc(11,11,8,0,Math.PI * 2,false);
   context.closePath();
   context.stroke();
 }
@@ -371,8 +371,8 @@ function initProgressPie() {
         time += interval;
 
         // Generate title
-        var minutes = parseInt((timeout-time) / 60 );
-        var seconds = '' + parseInt((timeout-time) % 60);
+        var minutes = parseInt((timeout - time) / 60 );
+        var seconds = '' + parseInt((timeout - time) % 60);
         if (seconds.length === 1) {
           seconds = '0' + seconds;
         }
