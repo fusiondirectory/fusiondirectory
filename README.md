@@ -87,7 +87,7 @@ If you like [FusionDirectory][FusionDirectory] and would like to [donate][donate
 
 [FusionDirectory]: https://www.fusiondirectory.org/
 
-[fusiondirectory-install]: http://documentation.fusiondirectory.org/en/documentation_admin
+[fusiondirectory-install]: https://fusiondirectory-user-manual.readthedocs.io/en/1.3/install/index.html
 
 [get help]: https://www.fusiondirectory.org/contact-us/
 
