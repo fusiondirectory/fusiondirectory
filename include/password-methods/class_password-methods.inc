@@ -133,41 +133,36 @@ class passwordMethod
       throw new FusionDirectoryException('Invalid mode "'.$mode.'"');
     }
 
-    /* Get current password hash */
-    $pwd    = '';
-    $ldap   = $config->get_ldap_link();
-    $ldap->cd($config->current['BASE']);
-    if (!empty($dn)) {
-      $ldap->cat($dn);
-      $attrs = $ldap->fetch();
-      if (isset($attrs['userPassword'][0])) {
-        $pwd = $attrs['userPassword'][0];
-        $dn  = $attrs['dn'];
-      }
-    }
+    /* Open the user */
+    $userObject   = objects::open($dn, 'user');
+    $userMainTab  = $userObject->getBaseObject();
 
-    /* Check if this entry is already locked. */
-    if (!preg_match("/^[^\}]*+\}!/", $pwd)) {
-      if ($mode == 'UNLOCK') {
+    /* Check if this entry is already (un)locked. */
+    if ($userMainTab->attributesAccess['userPassword']->isLocked()) {
+      if ($mode == 'LOCK') {
         return TRUE;
       }
-    } elseif ($mode == 'LOCK') {
+    } elseif ($mode == 'UNLOCK') {
       return TRUE;
     }
 
-    // (Un)lock the samba account
-    $modify = lock_samba_account($mode, $attrs);
-
-    // (Un)lock SSH keys
-    lock_ssh_account($mode, $attrs, $modify);
+    /* Fill modification array */
+    $modify = [];
+    foreach ($userObject->by_object as $tab) {
+      if ($tab instanceof userTabLockingAction) {
+        $tab->fillLockingLDAPAttrs($mode, $modify);
+      }
+    }
 
     // Call pre hooks
-    $userClass = new user($dn);
-    $errors = $userClass->callHook('PRE'.$mode, [], $ret);
+    $errors = $userMainTab->callHook('PRE'.$mode, [], $ret);
     if (!empty($errors)) {
       msg_dialog::displayChecks($errors);
       return FALSE;
     }
+
+    /* Get current password hash */
+    $pwd = $userMainTab->attributesAccess['userPassword']->computeLdapValue();
 
     // (Un)lock the account by modifying the password hash.
     if ($mode == 'LOCK') {

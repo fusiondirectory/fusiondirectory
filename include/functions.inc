@@ -1835,54 +1835,6 @@ function change_password ($dn, $password, $hash = "")
   return TRUE;
 }
 
-/* Lock or unlock samba account */
-function lock_samba_account ($mode, array $attrs)
-{
-  global $config;
-  if (!isset($attrs['sambaNTPassword'][0])) {
-    return [];
-  }
-  $modify = ['sambaNTPassword' => $attrs['sambaNTPassword'][0]];
-  if ($config->get_cfg_value("sambaGenLMPassword", "FALSE") == "TRUE") {
-    $modify['sambaLMPassword'] = $attrs['sambaLMPassword'][0];
-  } else {
-    $modify['sambaLMPassword'] = [];
-  }
-  foreach ($modify as &$pwd) {
-    if (is_array($pwd)) {
-      continue;
-    }
-    if ($mode == 'LOCK') {
-      /* Lock entry */
-      if (!preg_match('/^\!/', $pwd)) {
-        $pwd = '!'.$pwd;
-      }
-    } else {
-      /* Unlock entry */
-      $pwd = preg_replace("/^\!/",  "",   $pwd);
-    }
-  }
-  unset($pwd);
-  return $modify;
-}
-
-/* Lock or unlock ssh account */
-function lock_ssh_account ($mode, array $attrs, &$modify)
-{
-  if (!isset($attrs['sshPublicKey'])) {
-    return;
-  }
-  $modify['sshPublicKey'] = [];
-  for ($i = 0; $i < $attrs['sshPublicKey']['count']; ++$i) {
-    if ($mode == 'LOCK') {
-      $modify['sshPublicKey'][] = preg_replace('/^/', 'disabled-', $attrs['sshPublicKey'][$i]);
-    } else {
-      $modify['sshPublicKey'][] = preg_replace('/^disabled-/', '', $attrs['sshPublicKey'][$i]);
-    }
-  }
-}
-
-
 /*!
  * \brief Get the Change Sequence Number of a certain DN
  *
