@@ -181,6 +181,8 @@ class passwordMethod
       }
     }
     $modify['userPassword'] = $pwd;
+
+    $ldap = $config->get_ldap_link();
     $ldap->cd($dn);
     $ldap->modify($modify);
 
