@@ -20,13 +20,13 @@
 */
 
 /*!
- * \file interface_userTabLockingAction.inc
+ * \file interface_UserTabLockingAction.inc
  * Source code for the interface userTabLockingAction
  */
 
 /*! \brief This interface is implemented when a user tabs needs to alter the locking LDAP modification for users
  */
-interface userTabLockingAction
+interface UserTabLockingAction
 {
   /*! \brief Fills the $modify array with needed modifications for (un)locking this user
    *
