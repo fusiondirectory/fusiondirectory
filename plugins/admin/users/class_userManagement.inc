@@ -91,36 +91,47 @@ class userManagement extends management
       $entry = $this->listing->getEntry($dn);
 
       // Detect the password method and try to lock/unlock.
-      $pwd      = $entry['userPassword'];
-      $method   = passwordMethod::get_method($pwd, $dn);
-      $success  = TRUE;
-      if ($method instanceOf passwordMethod) {
-        if (!$method->is_lockable()) {
-          $hn = $method->get_hash_name();
-          if (is_array($hn)) {
-            $hn = $hn[0];
-          }
-          msg_dialog::display(_('Account locking'),
-              sprintf(_('Password method "%s" does not support locking. Account "%s" has not been locked!'),
-                $hn, $dn), ERROR_DIALOG);
-          return;
-        }
-        if (($action['subaction'] == 'lock') && !$method->is_locked($dn)) {
-          $success = $method->lock_account($dn);
-        } elseif (($action['subaction'] == 'unlock') && $method->is_locked($dn)) {
-          $success = $method->unlock_account($dn);
-        }
+      static::lockUser($action['subaction'], $entry['userPassword'], $dn);
+    }
+  }
 
-        // Check if everything went fine.
-        if (!$success) {
-          $hn = $method->get_hash_name();
-          if (is_array($hn)) {
-            $hn = $hn[0];
-          }
-          msg_dialog::display(_('Account locking'),
-              sprintf(_('Locking failed using password method "%s". Account "%s" has not been locked!'),
-                $hn, $dn), ERROR_DIALOG);
+  /* !\brief  Lock/unlock a user
+   *
+   * \param string $action  'lock' or 'unlock'
+   * \param string $pwd     userPassword value
+   * \param string $dn      dn of the LDAP node
+   */
+  static function lockUser (string $action, string $pwd, string $dn)
+  {
+    $method = passwordMethod::get_method($pwd, $dn);
+    if ($method instanceOf passwordMethod) {
+      if (!$method->is_lockable()) {
+        $hn = $method->get_hash_name();
+        if (is_array($hn)) {
+          $hn = $hn[0];
         }
+        msg_dialog::display(_('Account locking'),
+            sprintf(_('Password method "%s" does not support locking. Account "%s" has not been locked!'),
+              $hn, $dn), ERROR_DIALOG);
+        return;
+      }
+
+      $success = TRUE;
+      if (($action == 'lock') && !$method->is_locked($dn)) {
+        $success = $method->lock_account($dn);
+      } elseif (($action == 'unlock') && $method->is_locked($dn)) {
+        $success = $method->unlock_account($dn);
+      }
+
+      // Check if everything went fine.
+      if (!$success) {
+        $hn = $method->get_hash_name();
+        if (is_array($hn)) {
+          $hn = $hn[0];
+        }
+        msg_dialog::display(_('Account locking'),
+            sprintf(_('Locking failed using password method "%s". Account "%s" has not been locked!'),
+              $hn, $dn), ERROR_DIALOG);
       }
     }
   }
