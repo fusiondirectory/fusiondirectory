@@ -25,11 +25,10 @@ class Column
 {
   /*! \brief Array of attributes to look for, ordered by priority
    * The first non-empty attribute will be displayed
-   * The array is organized as the one passed to objects::ls
    * */
-  private $attributes;
+  protected $attributes;
   /*! \brief Same thing for templates, if it differs */
-  private $templateAttributes = NULL;
+  protected $templateAttributes = NULL;
   protected $label;
   protected $type = 'string';
 
@@ -69,19 +68,7 @@ class Column
 
   protected function setAttributesVar (string $var, array $attributes = NULL)
   {
-    if (is_array($attributes) && is_numeric(key($attributes))) {
-      $val = [];
-      foreach ($attributes as $attribute) {
-        if ($attribute == 'dn') {
-          $val[$attribute] = 'raw';
-        } else {
-          $val[$attribute] = 1;
-        }
-      }
-      $this->$var = $val;
-    } else {
-      $this->$var = $attributes;
-    }
+    $this->$var = $attributes;
   }
 
   function setTemplateAttributes (array $attributes = NULL)
@@ -121,12 +108,17 @@ class Column
   function fillNeededAttributes (array &$attrs)
   {
     if (isset($this->attributes)) {
-      foreach ($this->attributes as $attr => $how) {
+      foreach ($this->attributes as $attr) {
         if (($attr == 'mainAttr') || ($attr == 'nameAttr')) {
           /* nameAttr and mainAttr as always set as needed in managementFilter */
           continue;
+        } elseif ($attr == 'dn') {
+          /* Handle special case of dn */
+          $attrs[$attr] = 'raw';
+        } else {
+          /* Get all values from other attributes */
+          $attrs[$attr] = '*';
         }
-        $attrs[$attr] = $how;
       }
     }
   }
@@ -134,7 +126,7 @@ class Column
   function fillSearchedAttributes (array &$attrs)
   {
     if (isset($this->attributes)) {
-      foreach (array_keys($this->attributes) as $attr) {
+      foreach ($this->attributes as $attr) {
         if (($attr == 'mainAttr') || ($attr == 'nameAttr')) {
           /* nameAttr and mainAttr as always searched for */
           continue;
@@ -150,60 +142,63 @@ class Column
   {
   }
 
-  protected function getAttributeValue (ListingEntry $entry)
+  protected function getAttributeValues (ListingEntry $entry): array
   {
     $attrs = $this->attributes;
     if (isset($this->templateAttributes) && $entry->isTemplate()) {
       $attrs = $this->templateAttributes;
     }
     if (isset($attrs)) {
-      foreach (array_keys($attrs) as $attr) {
+      foreach ($attrs as $attr) {
         if (($attr == 'mainAttr') || ($attr == 'nameAttr')) {
           $infos  = objects::infos($entry->getTemplatedType());
           $attr   = $infos[$attr];
         }
         if (isset($entry[$attr])) {
-          return $entry[$attr];
+          if (is_array($entry[$attr])) {
+            return $entry[$attr];
+          } else {
+            /* Should only happen for dn */
+            return [$entry[$attr]];
+          }
         }
       }
     }
-    return '';
+    return [];
   }
 
   function renderCell (ListingEntry $entry): string
   {
-    $value = $this->getAttributeValue($entry);
-    if ($value == '') {
+    $values = $this->getAttributeValues($entry);
+    if (empty($values)) {
       return '&nbsp;';
-    } elseif (is_array($value)) {
-      $value = array_map(
-        function ($v)
-        {
-          return htmlentities($v, ENT_COMPAT, 'UTF-8');
-        },
-        $value
-      );
-      return implode("<br/>\n", $value);
     } else {
-      return htmlentities($value, ENT_COMPAT, 'UTF-8');
+      return implode("<br/>\n",
+        array_map(
+          function ($value) use ($entry)
+          {
+            return $this->renderSingleValue($entry, $value);
+          },
+          $values
+        )
+      );
     }
   }
 
-  function getRawExportValue (ListingEntry $entry)
+  protected function renderSingleValue (ListingEntry $entry, string $value): string
   {
-    return $this->getAttributeValue($entry);
+    return htmlentities($value, ENT_COMPAT, 'UTF-8');
+  }
+
+  function getRawExportValues (ListingEntry $entry): array
+  {
+    return $this->getAttributeValues($entry);
   }
 
   function compare (ListingEntry $ao, ListingEntry $bo): int
   {
-    $a = $this->getAttributeValue($ao);
-    $b = $this->getAttributeValue($bo);
-    if (is_array($a)) {
-      $a = $a[0];
-    }
-    if (is_array($b)) {
-      $b = $b[0];
-    }
+    $a = $this->getAttributeValues($ao)[0] ?? '';
+    $b = $this->getAttributeValues($bo)[0] ?? '';
 
     // Take a look at the several types
     switch ($this->type) {

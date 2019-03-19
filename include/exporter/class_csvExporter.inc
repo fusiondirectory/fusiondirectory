@@ -101,7 +101,7 @@ class csvExporter
     foreach ($iterator as $entry) {
       foreach ($columns as $column) {
         if ($column->isExportable()) {
-          $result .= $column->getRawExportValue($entry).';';
+          $result .= implode(',', $column->getRawExportValues($entry)).';';
         }
       }
       $result = preg_replace('/;$/', '', $result)."\n";

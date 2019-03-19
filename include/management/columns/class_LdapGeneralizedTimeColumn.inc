@@ -26,9 +26,8 @@ class LdapGeneralizedTimeColumn extends LinkColumn
 {
   protected $type = 'string';
 
-  function renderCell (ListingEntry $entry): string
+  protected function renderSingleValue (ListingEntry $entry, string $value): string
   {
-    $value = $this->getAttributeValue($entry);
     if ($value != '') {
       $dateObject = LdapGeneralizedTime::fromString($value);
       if (is_object($dateObject)) {

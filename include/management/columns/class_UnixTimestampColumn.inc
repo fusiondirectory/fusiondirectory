@@ -1,6 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
+
   Copyright (C) 2018-2019  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
@@ -25,9 +26,8 @@ class UnixTimestampColumn extends LinkColumn
 {
   protected $type = 'integer';
 
-  function renderCell (ListingEntry $entry): string
+  protected function renderSingleValue (ListingEntry $entry, string $value): string
   {
-    $value = $this->getAttributeValue($entry);
     if ($value != '') {
       $dateObject = DateTime::createFromFormat('U', $value, new DateTimeZone('UTC'));
       if (is_object($dateObject)) {
