@@ -23,9 +23,11 @@ class recoveryConfig extends simplePlugin
   static function plInfo (): array
   {
     return [
-      'plShortName'     => _('Password recovery'),
+      'plShortName'     => _('Recovery'),
+      'plTitle'         => _('Password recovery'),
       'plDescription'   => _('Settings for the password recovery feature'),
       'plObjectClass'   => ['fdPasswordRecoveryConf'],
+      'plPriority'      => 14,
       'plObjectType'    => ['configuration'],
 
       'plProvidedAcls'  => parent::generatePlProvidedAcls(static::getAttributesInfo())
