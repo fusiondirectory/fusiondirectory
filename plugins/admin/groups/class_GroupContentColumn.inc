@@ -1,7 +1,8 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2017-2018  FusionDirectory
+
+  Copyright (C) 2017-2019  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -28,7 +29,7 @@ class GroupContentColumn extends Column
     global $config;
 
     if (strtolower($entry->getTemplatedType()) == 'ogroup') {
-      $types = preg_replace('/[^a-z]/i', '', $this->getAttributeValue($entry));
+      $types = preg_replace('/[^a-z]/i', '', implode('', $this->getAttributeValues($entry)));
     } else {
       $types = 'U';
     }

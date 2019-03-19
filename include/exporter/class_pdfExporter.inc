@@ -196,7 +196,7 @@ class pdfExporter
       }
 
       foreach ($iterator as $entry) {
-        $len = $result->GetStringWidth($column->getRawExportValue($entry));
+        $len = $result->GetStringWidth(implode(',', $column->getRawExportValues($entry)));
         if ($len > $max) {
           $max = $len;
         }
@@ -282,7 +282,21 @@ class pdfExporter
 
       foreach ($columns as $index => $column) {
         if ($column->isExportable()) {
-          $result->Cell($width[$index], 6, utf8_decode($column->getRawExportValue($entry)), 'LR', 0, 'L', $fill);
+          $result->Cell(
+            $width[$index],
+            6,
+            implode(
+              ',',
+              array_map(
+                'utf8_decode',
+                $column->getRawExportValues($entry)
+              )
+            ),
+            'LR',
+            0,
+            'L',
+            $fill
+          );
         }
       }
 
