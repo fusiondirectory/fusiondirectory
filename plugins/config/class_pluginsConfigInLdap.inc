@@ -27,7 +27,7 @@ class pluginsConfigInLdap extends multiPlugin
     return [
       'plShortName'   => _('Plugins'),
       'plDescription' => _('Configuration for plugins'),
-      'plPriority'    => 20,
+      'plPriority'    => 2,
       'plObjectType'  => ['configuration'],
       'plSubTabs'     => 'smallConfig',
 
