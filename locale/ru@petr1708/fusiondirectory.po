@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2019-03-05 09:36+0000\n"
+"POT-Creation-Date: 2019-03-19 11:23+0000\n"
 "PO-Revision-Date: 2018-08-13 19:47+0000\n"
 "Language-Team: Russian Petrine orthography (https://www.transifex.com/fusiondirectory/teams/12202/ru@petr1708/)\n"
 "MIME-Version: 1.0\n"
@@ -349,12 +349,12 @@ msgstr ""
 #: include/class_SnapshotHandler.inc:275 include/class_SnapshotHandler.inc:398
 #: include/class_SnapshotHandler.inc:401
 #: include/login/class_LoginMethod.inc:166
-#: include/password-methods/class_password-methods.inc:200
+#: include/password-methods/class_password-methods.inc:197
 #: include/functions.inc:413 include/functions.inc:587
 #: include/functions.inc:634 include/functions.inc:742
 #: include/simpleplugin/attributes/class_SetAttribute.inc:761
 #: include/class_ldap.inc:867 include/class_ldap.inc:1224
-#: plugins/config/class_recoveryConfig.inc:136
+#: plugins/config/class_recoveryConfig.inc:138
 #: plugins/addons/dashboard/class_dashboard.inc:78
 #: plugins/addons/dashboard/class_dashboardUsers.inc:90
 #: plugins/addons/dashboard/class_dashboardUsers.inc:121
@@ -409,7 +409,7 @@ msgstr ""
 msgid "created by"
 msgstr ""
 
-#: include/exporter/class_pdfExporter.inc:307
+#: include/exporter/class_pdfExporter.inc:321
 msgid "PDF"
 msgstr ""
 
@@ -679,7 +679,7 @@ msgid "Email address"
 msgstr ""
 
 #: include/class_passwordRecovery.inc:121
-#: plugins/config/class_recoveryConfig.inc:26
+#: plugins/config/class_recoveryConfig.inc:27
 msgid "Password recovery"
 msgstr ""
 
@@ -737,7 +737,7 @@ msgid "Submit"
 msgstr ""
 
 #: include/class_standAlonePage.inc:118 include/functions.inc:386
-#: include/functions.inc:2103 include/simpleplugin/class_simplePlugin.inc:479
+#: include/functions.inc:2055 include/simpleplugin/class_simplePlugin.inc:479
 #: include/simpleplugin/class_simplePlugin.inc:484
 #: include/simpleplugin/class_simplePlugin.inc:496
 msgid "Fatal error"
@@ -970,7 +970,7 @@ msgstr ""
 msgid "The objectClass \"posixGroup\" must be STRUCTURAL"
 msgstr ""
 
-#: include/functions.inc:2104
+#: include/functions.inc:2056
 #, php-format
 msgid "Cannot locate file '%s' - please run '%s' to fix this"
 msgstr ""
@@ -2626,19 +2626,19 @@ msgstr ""
 msgid "Manage user accounts and their properties"
 msgstr ""
 
-#: plugins/admin/users/class_userManagement.inc:103
-#: plugins/admin/users/class_userManagement.inc:120
+#: plugins/admin/users/class_userManagement.inc:113
+#: plugins/admin/users/class_userManagement.inc:132
 msgid "Account locking"
 msgstr ""
 
-#: plugins/admin/users/class_userManagement.inc:104
+#: plugins/admin/users/class_userManagement.inc:114
 #, php-format
 msgid ""
 "Password method \"%s\" does not support locking. Account \"%s\" has not been"
 " locked!"
 msgstr ""
 
-#: plugins/admin/users/class_userManagement.inc:121
+#: plugins/admin/users/class_userManagement.inc:133
 #, php-format
 msgid ""
 "Locking failed using password method \"%s\". Account \"%s\" has not been "
@@ -2830,98 +2830,102 @@ msgstr ""
 msgid "Configuration for plugins"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:27
+#: plugins/config/class_recoveryConfig.inc:26
+msgid "Recovery"
+msgstr ""
+
+#: plugins/config/class_recoveryConfig.inc:28
 msgid "Settings for the password recovery feature"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:39
+#: plugins/config/class_recoveryConfig.inc:41
 msgid "Password recovery settings"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:44
+#: plugins/config/class_recoveryConfig.inc:46
 msgid "Activate password recovery"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:45
+#: plugins/config/class_recoveryConfig.inc:47
 msgid "Whether to activate or not password recovery feature"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:50
+#: plugins/config/class_recoveryConfig.inc:52
 msgid "Sender email address"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:51
+#: plugins/config/class_recoveryConfig.inc:53
 msgid "Email address from which mails will be sent"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:57
+#: plugins/config/class_recoveryConfig.inc:59
 msgid "Link validity (minutes)"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:58
+#: plugins/config/class_recoveryConfig.inc:60
 msgid "Number of minutes before a recovery link expires"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:64
+#: plugins/config/class_recoveryConfig.inc:66
 msgid "Salt for tokens"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:65
+#: plugins/config/class_recoveryConfig.inc:67
 msgid ""
 "Just a security measure, you can put anything in there, even random "
 "characters"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:71
+#: plugins/config/class_recoveryConfig.inc:73
 msgid "Allow the use of alternate addresses"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:72
+#: plugins/config/class_recoveryConfig.inc:74
 msgid ""
 "Users will also be able to enter one of theirs alternate addresses to "
 "recover their password"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:77
+#: plugins/config/class_recoveryConfig.inc:79
 #: plugins/config/class_configInLdap.inc:192
 msgid "Login attribute"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:77
+#: plugins/config/class_recoveryConfig.inc:79
 msgid ""
 "Usually uid, but you can use something else for instance in case of SSO"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:84
+#: plugins/config/class_recoveryConfig.inc:86
 msgid "First email"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:87
-#: plugins/config/class_recoveryConfig.inc:106
+#: plugins/config/class_recoveryConfig.inc:89
+#: plugins/config/class_recoveryConfig.inc:108
 msgid "Subject"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:88
+#: plugins/config/class_recoveryConfig.inc:90
 msgid "Subject of the first email"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:91
+#: plugins/config/class_recoveryConfig.inc:93
 msgid "[FusionDirectory] Password recovery link"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:94
+#: plugins/config/class_recoveryConfig.inc:96
 #, php-format
 msgid "Body (first %s is login, second is link)"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:95
+#: plugins/config/class_recoveryConfig.inc:97
 #, php-format
 msgid ""
 "Body of the first email, sent when the user ask for a new password. Use %s "
 "for the login and the recovery link."
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:98
+#: plugins/config/class_recoveryConfig.inc:100
 #, php-format
 msgid ""
 "Hello,\n"
@@ -2933,31 +2937,31 @@ msgid ""
 "This link is only valid for 10 minutes."
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:103
+#: plugins/config/class_recoveryConfig.inc:105
 msgid "Second email"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:107
+#: plugins/config/class_recoveryConfig.inc:109
 msgid "Subject of the second email"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:110
+#: plugins/config/class_recoveryConfig.inc:112
 msgid "[FusionDirectory] Password recovery successful"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:113
+#: plugins/config/class_recoveryConfig.inc:115
 #, php-format
 msgid "Body (%s is login)"
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:114
+#: plugins/config/class_recoveryConfig.inc:116
 #, php-format
 msgid ""
 "Body of the second email, sent to confirm the password has been changed. Use"
 " %s for the user login."
 msgstr ""
 
-#: plugins/config/class_recoveryConfig.inc:117
+#: plugins/config/class_recoveryConfig.inc:119
 #, php-format
 msgid ""
 "Hello,\n"
