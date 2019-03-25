@@ -552,7 +552,7 @@ class UsersGroupsRolesAttribute extends ObjectsAttribute
 
   protected function ldapAttributesToGet ()
   {
-    return array_unique([$store_attr, $display_attr, 'cn', 'uid', 'objectClass']);
+    return array_unique([$this->store_attr, $this->display_attr, 'cn', 'uid', 'objectClass']);
   }
 
   protected function fillDisplayValueFrom ($i, $attrs)
