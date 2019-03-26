@@ -35,7 +35,7 @@ class SetAttribute extends Attribute
    *  \param array $values The default values
    *  \param boolean $valueUnicity Should the value unicity be checked
    */
-  function __construct ($attribute, $values = [], $valueUnicity = TRUE)
+  function __construct (Attribute $attribute, array $values = [], bool $valueUnicity = TRUE)
   {
     parent::__construct(
       $attribute->getLabel(),     $attribute->getDescription(),
@@ -48,7 +48,7 @@ class SetAttribute extends Attribute
     $this->valueUnicity = $valueUnicity;
   }
 
-  function setIsSubAttribute ($bool)
+  function setIsSubAttribute (bool $bool)
   {
     parent::setIsSubAttribute($bool);
     $this->attribute->setIsSubAttribute($this->isSubAttribute);
@@ -59,7 +59,7 @@ class SetAttribute extends Attribute
     trigger_error('method setManagedAttributes is not supported for SetAttributes');
   }
 
-  function setLinearRendering ($bool)
+  function setLinearRendering (bool $bool)
   {
     $this->linearRendering = $bool;
   }
@@ -74,7 +74,7 @@ class SetAttribute extends Attribute
     }
   }
 
-  function getAcl ()
+  function getAcl (): string
   {
     if ($this->attribute === FALSE) {
       return parent::getAcl();
@@ -90,7 +90,7 @@ class SetAttribute extends Attribute
     return $this->attribute->getAclInfo();
   }
 
-  function setAcl ($acl)
+  function setAcl (string $acl)
   {
     if ($this->attribute === FALSE) {
       return parent::setAcl($acl);
@@ -158,7 +158,7 @@ class SetAttribute extends Attribute
     }
   }
 
-  function renderFormInput ()
+  function renderFormInput (): string
   {
     $display      = $this->renderOnlyFormInput();
     $attr_display = $this->renderAttributeInput(FALSE);
@@ -166,7 +166,7 @@ class SetAttribute extends Attribute
     return $this->renderAcl($display).$attr_display.$this->renderAcl($buttons);
   }
 
-  function renderTemplateInput ()
+  function renderTemplateInput (): string
   {
     $display      = $this->renderOnlyFormInput();
     $attr_display = $this->renderAttributeInput(TRUE);
@@ -174,7 +174,7 @@ class SetAttribute extends Attribute
     return $this->renderAcl($display).$attr_display.$this->renderAcl($buttons);
   }
 
-  function renderOnlyFormInput ()
+  function renderOnlyFormInput (): string
   {
     if (($this->size < 15) && ($this->size < count($this->value))) {
       $this->size = min(15, count($this->value));
@@ -227,7 +227,7 @@ class SetAttribute extends Attribute
     }
   }
 
-  function renderAttribute (array &$attributes, $readOnly)
+  function renderAttribute (array &$attributes, bool $readOnly)
   {
     if ($this->attribute === FALSE) {
       return parent::renderAttribute($attributes, $readOnly);
@@ -259,7 +259,7 @@ class SetAttribute extends Attribute
     }
   }
 
-  function serializeAttribute (array &$attributes, $form = TRUE)
+  function serializeAttribute (array &$attributes, bool $form = TRUE)
   {
     parent::serializeAttribute($attributes, $form);
     if ($this->attribute === FALSE) {
@@ -276,7 +276,7 @@ class SetAttribute extends Attribute
     }
   }
 
-  function getForHtmlId ()
+  function getForHtmlId (): string
   {
     // Label should point to the attribute
     if (is_object($this->attribute)) {
@@ -299,7 +299,7 @@ class SetAttribute extends Attribute
     return array_values($this->value);
   }
 
-  public function htmlIds ()
+  public function htmlIds (): array
   {
     $id = $this->getHtmlId();
     return array_merge(['add'.$id,'del'.$id,'row'.$id], $this->attribute->htmlIds());
@@ -309,7 +309,7 @@ class SetAttribute extends Attribute
    *
    *  \param simplePlugin &$plugin The parent plugin
    */
-  function setParent (&$plugin)
+  function setParent (simplePlugin &$plugin)
   {
     parent::setParent($plugin);
     if ($this->attribute !== FALSE) {
@@ -355,7 +355,7 @@ class SetAttribute extends Attribute
     unset($value);
   }
 
-  function foreignKeyCheck ($value, array $source)
+  function foreignKeyCheck ($value, array $source): bool
   {
     return in_array($value, $this->value);
   }
@@ -446,7 +446,7 @@ class OrderedArrayAttribute extends SetAttribute
     }
   }
 
-  function renderOnlyFormInput ()
+  function renderOnlyFormInput (): string
   {
     if (($this->size < 15) && ($this->size < count($this->value))) {
       $this->size = min(15, count($this->value));
@@ -642,7 +642,7 @@ class OrderedArrayAttribute extends SetAttribute
     }
   }
 
-  public function htmlIds ()
+  public function htmlIds (): array
   {
     $id   = $this->getHtmlId();
     $ids  = ['add'.$id];

@@ -142,7 +142,7 @@ class CharSeparatedCompositeAttribute extends CompositeAttribute
     $this->sep = $sep;
   }
 
-  function readValues ($value)
+  function readValues (string $value): array
   {
     return explode($this->sep, $value);
   }
@@ -182,7 +182,7 @@ class CommaListAttribute extends CompositeAttribute
     $this->sep = $sep;
   }
 
-  function readValues ($value)
+  function readValues (string $value): array
   {
     if ($value == '') {
       return [[]];
@@ -216,7 +216,7 @@ class UnitIntAttribute extends CompositeAttribute
     $this->setRequired($required); /* As we use linear rendering we want the asterisk in the label if required */
   }
 
-  function readValues ($value)
+  function readValues (string $value): array
   {
     if ($value === '') {
       return ['', 0];
@@ -243,7 +243,7 @@ class UnitIntAttribute extends CompositeAttribute
     return $values[0] * $values[1];
   }
 
-  function displayValue ($value)
+  function displayValue ($value): string
   {
     $values = $this->readValues($value);
     return $values[0].$this->attributes[1]->displayValue($values[1]);

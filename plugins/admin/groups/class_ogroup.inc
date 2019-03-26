@@ -94,7 +94,7 @@ class GroupMembersAttribute extends ObjectsAttribute
     }
   }
 
-  function renderOnlyFormInput ()
+  function renderOnlyFormInput (): string
   {
     if (($this->size < 15) && ($this->size < count($this->value))) {
       $this->size = min(15, count($this->value));

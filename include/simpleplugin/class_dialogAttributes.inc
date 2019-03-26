@@ -231,7 +231,7 @@ class DialogAttribute extends SetAttribute
     return $buttons;
   }
 
-  public function htmlIds ()
+  public function htmlIds (): array
   {
     $id = $this->getHtmlId();
     $ids = ['add'.$id.'_dialog','del'.$id,'row'.$id];
@@ -308,7 +308,7 @@ class DialogOrderedArrayAttribute extends OrderedArrayAttribute
     );
   }
 
-  public function htmlIds ()
+  public function htmlIds (): array
   {
     $ids = parent::htmlIds();
     $ids[0] .= '_dialog';
@@ -678,7 +678,7 @@ class MailsAttribute extends DialogAttribute
     return $buttons;
   }
 
-  public function htmlIds ()
+  public function htmlIds (): array
   {
     $id = $this->getHtmlId();
     return ['add'.$id,'add'.$id.'_dialog','del'.$id,'row'.$id];
@@ -724,7 +724,7 @@ class ButtonAttribute extends Attribute
     $this->action = $action;
   }
 
-  function renderFormInput ()
+  function renderFormInput (): string
   {
     $id = $this->getHtmlId();
     $display = $this->renderInputField(
@@ -800,7 +800,7 @@ class ObjectAttribute extends DialogButtonAttribute
     $this->objectType                 = $objectType;
   }
 
-  function setParent (&$plugin)
+  function setParent (simplePlugin &$plugin)
   {
     parent::setParent($plugin);
     $infos = objects::infos($this->objectType);
@@ -817,7 +817,7 @@ class ObjectAttribute extends DialogButtonAttribute
     }
   }
 
-  function renderFormInput ()
+  function renderFormInput (): string
   {
     $infos = objects::infos($this->objectType);
 
@@ -905,7 +905,7 @@ class ObjectAttribute extends DialogButtonAttribute
     }
   }
 
-  public function htmlIds ()
+  public function htmlIds (): array
   {
     $id   = $this->getHtmlId();
     $ids  = [$id.'_dialog'];

@@ -243,7 +243,7 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
     unset($value);
   }
 
-  function foreignKeyCheck ($oldvalue, array $source)
+  function foreignKeyCheck ($oldvalue, array $source): bool
   {
     foreach ($this->value as $value) {
       if (
@@ -255,6 +255,7 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
         trigger_error('unknown source '.$source['CLASS']);
       }
     }
+    return FALSE;
   }
 }
 

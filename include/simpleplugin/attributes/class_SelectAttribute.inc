@@ -112,7 +112,7 @@ class SelectAttribute extends Attribute
     return $this->outputs;
   }
 
-  function setRequired ($bool)
+  function setRequired (bool $bool)
   {
     parent::setRequired($bool);
     $key = array_search("", $this->choices, TRUE);
@@ -129,7 +129,7 @@ class SelectAttribute extends Attribute
     }
   }
 
-  function displayValue ($value)
+  function displayValue ($value): string
   {
     if ($this->outputs !== NULL) {
       if (isset($this->outputs[$value])) {
@@ -155,7 +155,7 @@ class SelectAttribute extends Attribute
     }
   }
 
-  function renderFormInput ()
+  function renderFormInput (): string
   {
     $smarty = get_smarty();
     $id = $this->getHtmlId();
@@ -191,7 +191,7 @@ class SelectAttribute extends Attribute
     return $this->renderAcl($display);
   }
 
-  function serializeAttribute (array &$attributes, $form = TRUE)
+  function serializeAttribute (array &$attributes, bool $form = TRUE)
   {
     if (!$form || $this->visible) {
       parent::serializeAttribute($attributes, $form);
@@ -211,7 +211,7 @@ class SelectAttribute extends Attribute
     $this->size = $size;
   }
 
-  function setParent (&$plugin)
+  function setParent (simplePlugin &$plugin)
   {
     parent::setParent($plugin);
     if ($this->isTemplate() && !in_array('%askme%', $this->choices)) {
@@ -240,7 +240,7 @@ class ObjectSelectAttribute extends SelectAttribute
     $this->objectFilter = $objectFilter;
   }
 
-  function setParent (&$plugin)
+  function setParent (simplePlugin &$plugin)
   {
     parent::setParent($plugin);
     if (is_object($this->plugin)) {

@@ -89,7 +89,7 @@ class IntAttribute extends Attribute
     }
   }
 
-  function renderFormInput ()
+  function renderFormInput (): string
   {
     $id = $this->getHtmlId();
     $attributes = [
@@ -117,7 +117,7 @@ class IntAttribute extends Attribute
     return $this->renderAcl($display);
   }
 
-  function renderTemplateInput ()
+  function renderTemplateInput (): string
   {
     $id = $this->getHtmlId();
     $attributes = [
