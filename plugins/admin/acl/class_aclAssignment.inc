@@ -282,6 +282,7 @@ class aclAssignment extends simplePlugin
     return [
       'plShortName'   => _('ACL Assignment'),
       'plDescription' => _('Access control roles assignment'),
+      'plSmallIcon'   => 'geticon.php?context=categories&icon=acl&size=16',
       'plObjectClass' => ['gosaAcl'],
       'plObjectType'  => $oc,
       'plForeignKeys'  => [
