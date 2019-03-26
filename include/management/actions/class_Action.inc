@@ -152,7 +152,7 @@ class Action
     return [$this->name];
   }
 
-  function execute ($management, $action)
+  function execute (management $management, array $action)
   {
     if ($this->callable === FALSE) {
       return;
@@ -170,7 +170,7 @@ class Action
     return call_user_func($func, $action);
   }
 
-  function fillMenuItems (&$actions)
+  function fillMenuItems (array &$actions)
   {
     if (!$this->inmenu) {
       return;
@@ -189,7 +189,7 @@ class Action
     ];
   }
 
-  function fillRowClasses (&$classes, ListingEntry $entry)
+  function fillRowClasses (array &$classes, ListingEntry $entry)
   {
   }
 
@@ -226,7 +226,7 @@ class Action
     return TRUE;
   }
 
-  function hasPermission ($dn, $type = NULL, bool $template = FALSE): bool
+  function hasPermission (string $dn, string $type = NULL, bool $template = FALSE): bool
   {
     global $ui;
 

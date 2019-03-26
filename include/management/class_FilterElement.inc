@@ -36,12 +36,13 @@ class FilterElement
   {
   }
 
-  public function render ()
+  public function render (): string
   {
+    return '';
   }
 
   /* Fills LDAP filters for the given type. Returns TRUE if type should be skipped altogether. */
-  public function getFilters ($type, array &$filters)
+  public function getFilters (string $type, array &$filters): bool
   {
     return FALSE;
   }

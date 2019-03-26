@@ -66,7 +66,7 @@ class StringAttribute extends Attribute
     }
   }
 
-  function renderFormInput ()
+  function renderFormInput (): string
   {
     $id = $this->getHtmlId();
     $attributes = [
@@ -91,7 +91,7 @@ class StringAttribute extends Attribute
     return $this->renderAcl($display);
   }
 
-  function renderTemplateInput ()
+  function renderTemplateInput (): string
   {
     $id = $this->getHtmlId();
     $attributes = [
@@ -172,7 +172,7 @@ class TrimmedStringAttribute extends StringAttribute
  */
 class TextAreaAttribute extends StringAttribute
 {
-  function renderFormInput ()
+  function renderFormInput (): string
   {
     $id = $this->getHtmlId();
     $display  = '<textarea name="'.$id.'" id="'.$id.'"'.
@@ -183,7 +183,7 @@ class TextAreaAttribute extends StringAttribute
     return $this->renderAcl($display);
   }
 
-  function renderTemplateInput ()
+  function renderTemplateInput (): string
   {
     $id = $this->getHtmlId();
     $display  = '<textarea name="'.$id.'" id="'.$id.'"'.
@@ -203,7 +203,7 @@ class PasswordAttribute extends StringAttribute
   protected $autocomplete = FALSE;
   protected $inputType    = 'password';
 
-  function renderFormInput ()
+  function renderFormInput (): string
   {
     $display = parent::renderFormInput();
     if ($this->autocomplete === FALSE) {

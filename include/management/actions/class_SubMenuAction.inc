@@ -62,7 +62,7 @@ class SubMenuAction extends Action
     return array_keys($this->handlers);
   }
 
-  function execute ($management, $action)
+  function execute (management $management, array $action)
   {
     if (isset($action['subaction']) && isset($this->handlers[$action['action'].'_'.$action['subaction']])) {
       return $this->handlers[$action['action'].'_'.$action['subaction']]->execute($management, $action);
@@ -71,7 +71,7 @@ class SubMenuAction extends Action
     }
   }
 
-  function fillMenuItems (&$actions)
+  function fillMenuItems (array &$actions)
   {
     if (!$this->inmenu) {
       return;

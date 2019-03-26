@@ -150,7 +150,7 @@ class DateAttribute extends Attribute
     }
   }
 
-  function renderFormInput ()
+  function renderFormInput (): string
   {
     $attributes = [
       'value'   => '{literal}'.$this->getValue().'{/literal}',
@@ -223,7 +223,7 @@ class TimeHisAttribute extends CompositeAttribute
     $this->setLinearRendering(TRUE);
   }
 
-  function readValues ($value)
+  function readValues (string $value): array
   {
     $values = parent::readValues($value);
     if ($this->convert) {
@@ -253,7 +253,7 @@ class TimeHisAttribute extends CompositeAttribute
     return parent::writeValues($values);
   }
 
-  function displayValue ($value)
+  function displayValue ($value): string
   {
     $values = parent::readValues($value);
     $datetime = new DateTime('T'.implode(':', $values), timezone::utc());
@@ -327,7 +327,7 @@ class GeneralizedTimeDisplayAttribute extends GeneralizedTimeDateAttribute
     return $this->computeLdapValue();
   }
 
-  function renderFormInput ()
+  function renderFormInput (): string
   {
     $date = $this->getDateValue();
     $date->setTimezone(timezone::getDefaultTimeZone());

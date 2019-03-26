@@ -51,7 +51,7 @@ class BaseSelectorAttribute extends Attribute
     trigger_error('method setManagedAttributes is not supported for BaseSelectorAttribute');
   }
 
-  function setParent (&$plugin)
+  function setParent (simplePlugin &$plugin)
   {
     parent::setParent($plugin);
     if (is_object($this->plugin)) {
@@ -147,7 +147,7 @@ class BaseSelectorAttribute extends Attribute
     return $this->value;
   }
 
-  function renderFormInput ()
+  function renderFormInput (): string
   {
     $smarty = get_smarty();
     $smarty->assign('usePrototype', 'true');
@@ -164,7 +164,7 @@ class BaseSelectorAttribute extends Attribute
     return $this->renderAcl($display);
   }
 
-  function getHtmlId ()
+  function getHtmlId (): string
   {
     if (isset($this->baseSelector)) {
       return $this->baseSelector->getInputHtmlId();
@@ -173,7 +173,7 @@ class BaseSelectorAttribute extends Attribute
     }
   }
 
-  function serializeAttribute (array &$attributes, $form = TRUE)
+  function serializeAttribute (array &$attributes, bool $form = TRUE)
   {
     if (!$form || $this->visible) {
       parent::serializeAttribute($attributes, $form);

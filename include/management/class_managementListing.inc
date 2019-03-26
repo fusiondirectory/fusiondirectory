@@ -57,7 +57,7 @@ class managementListing
    *
    * \param string $parent management instance
    */
-  function __construct ($parent, $baseMode = TRUE, $multiSelect = TRUE)
+  function __construct (management $parent, bool $baseMode = TRUE, bool $multiSelect = TRUE)
   {
     global $config, $ui;
 
@@ -85,9 +85,14 @@ class managementListing
     $this->reloadColumns();
   }
 
-  function getBaseMode ()
+  function getBaseMode (): bool
   {
     return $this->baseMode;
+  }
+
+  function getMultiSelect (): bool
+  {
+    return $this->multiSelect;
   }
 
   function reloadColumns ()
@@ -102,7 +107,7 @@ class managementListing
     $this->columns[1]->setTemplateAttributes(['cn']);
   }
 
-  function getColumns ()
+  function getColumns (): array
   {
     return $this->columns;
   }
@@ -139,7 +144,7 @@ class managementListing
   /*!
    * \brief Render
    */
-  function render ()
+  function render (): string
   {
     global $ui;
 
@@ -209,7 +214,7 @@ class managementListing
     return $smarty->fetch(get_template_path('management/list.tpl'));
   }
 
-  function getIterator ()
+  function getIterator (): Iterator
   {
     return new EntrySortIterator($this->entries, $this->columns[$this->sortColumn], $this->sortDirection[$this->sortColumn]);
   }
@@ -281,7 +286,7 @@ class managementListing
   /*!
    * \brief Update a listing
    */
-  function update ($dn = NULL)
+  function update (string $dn = NULL)
   {
     if ($dn === NULL) {
       $this->updateBase();
@@ -333,21 +338,21 @@ class managementListing
    *
    * \return the base
    */
-  function getBase ()
+  function getBase (): string
   {
     return $this->base;
   }
 
-  function renderBase ()
+  function renderBase (): string
   {
     if (!$this->baseMode) {
-      return;
+      return '';
     }
 
     return $this->baseSelector->render();
   }
 
-  function renderNavigation ()
+  function renderNavigation (): array
   {
     $enableBack = TRUE;
     $enableRoot = TRUE;
@@ -552,7 +557,7 @@ class managementListing
    *
    * \param string $dn The DN
    */
-  function getEntry ($dn)
+  function getEntry (string $dn)
   {
     if (isset($this->entries[$dn])) {
       return $this->entries[$dn];
@@ -560,12 +565,7 @@ class managementListing
     return NULL;
   }
 
-  function getMultiSelect ()
-  {
-    return $this->multiSelect;
-  }
-
-  function fillSearchedAttributes ($type, array &$attrs)
+  function fillSearchedAttributes (string $type, array &$attrs)
   {
     global $ui;
 

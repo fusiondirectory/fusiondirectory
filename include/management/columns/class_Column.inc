@@ -39,10 +39,11 @@ class Column
   /*!
    * \brief Builds a column object from given data
    *
+   * \param managementListing $parent the managementListing instance
    * \param string $type a column class
    * \param array $data an associative array with "attributes" and "label"
    * */
-  static function build (managementListing $parent, $type, array $data): Column
+  static function build (managementListing $parent, string $type, array $data): Column
   {
     $attributes = NULL;
     $label      = NULL;
@@ -138,7 +139,7 @@ class Column
     }
   }
 
-  function fillRowClasses (&$classes, ListingEntry $entry)
+  function fillRowClasses (array &$classes, ListingEntry $entry)
   {
   }
 

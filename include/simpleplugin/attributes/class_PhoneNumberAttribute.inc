@@ -136,7 +136,7 @@ class PhoneNumberButtonAttribute extends PhoneNumberAttribute
     }
   }
 
-  function renderFormInput ()
+  function renderFormInput (): string
   {
     $id = $this->getHtmlId();
     $display = parent::renderFormInput();
@@ -154,7 +154,7 @@ class PhoneNumberButtonAttribute extends PhoneNumberAttribute
     return $display;
   }
 
-  public function htmlIds ()
+  public function htmlIds (): array
   {
     $ids = parent::htmlIds();
     if ($this->type !== FALSE) {

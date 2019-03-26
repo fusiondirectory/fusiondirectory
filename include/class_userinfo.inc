@@ -314,7 +314,7 @@ class userinfo
    *
    * \return boolean TRUE if the given object is copyable else FALSE
   */
-  function is_copyable ($dn, $object)
+  function is_copyable ($dn, $object): bool
   {
     return (strpos($this->get_complete_category_acls($dn, $object), 'r') !== FALSE);
   }
@@ -331,7 +331,7 @@ class userinfo
    *
    * \return boolean TRUE if the given object is cutable else FALSE
    */
-  function is_cutable ($dn, $object, $class)
+  function is_cutable ($dn, $object, $class): bool
   {
     $remove = (strpos($this->get_permissions($dn, $object.'/'.$class), 'd') !== FALSE);
     $read   = (strpos($this->get_complete_category_acls($dn, $object), 'r') !== FALSE);
@@ -348,7 +348,7 @@ class userinfo
    *
    * \return Boolean TRUE if we are allowed to paste an object.
    */
-  function is_pasteable ($dn, $object)
+  function is_pasteable ($dn, $object): bool
   {
     return (strpos($this->get_complete_category_acls($dn, $object), 'w') !== FALSE);
   }
@@ -365,7 +365,7 @@ class userinfo
    *
    * \return boolean TRUE if we are allowed to restore a snapshot.
    */
-  function allow_snapshot_restore ($dn, $categories, $deleted)
+  function allow_snapshot_restore ($dn, $categories, $deleted): bool
   {
     $permissions = $this->get_snapshot_permissions($dn, $categories);
     return in_array(($deleted ? 'restore_deleted' : 'restore_over'), $permissions);
@@ -381,7 +381,7 @@ class userinfo
    *
    * \return boolean TRUE if we are allowed to create a snapshot.
    */
-  function allow_snapshot_create ($dn, $categories)
+  function allow_snapshot_create ($dn, $categories): bool
   {
     $permissions = $this->get_snapshot_permissions($dn, $categories);
     return in_array('c', $permissions);
@@ -397,7 +397,7 @@ class userinfo
    *
    * \return boolean TRUE if we are allowed to delete a snapshot.
    */
-  function allow_snapshot_delete ($dn, $categories)
+  function allow_snapshot_delete ($dn, $categories): bool
   {
     $permissions = $this->get_snapshot_permissions($dn, $categories);
     return in_array('d', $permissions);

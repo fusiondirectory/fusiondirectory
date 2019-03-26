@@ -62,14 +62,14 @@ class FileAttribute extends Attribute
     @fclose($handle);
   }
 
-  function renderFormInput ()
+  function renderFormInput (): string
   {
     $id = $this->getHtmlId();
     $display = $this->renderInputField('file', $id);
     return $this->renderAcl($display);
   }
 
-  function displayValue ($value)
+  function displayValue ($value): string
   {
     return sprintf(_('%s (%d bytes)'), $this->getLabel(), mb_strlen($value, '8bit'));
   }
@@ -79,7 +79,7 @@ class FileAttribute extends Attribute
    * \param array &$attributes the attributes array
    * \param boolean $form
    */
-  function serializeAttribute (array &$attributes, $form = TRUE)
+  function serializeAttribute (array &$attributes, bool $form = TRUE)
   {
     if (!$form || $this->visible) {
       parent::serializeAttribute($attributes, $form);
@@ -166,7 +166,7 @@ class FileDownloadAttribute extends FileAttribute
     }
   }
 
-  function renderFormInput ()
+  function renderFormInput (): string
   {
     $id = $this->getHtmlId();
     $display = '';
@@ -188,7 +188,7 @@ class FileDownloadAttribute extends FileAttribute
     return $this->renderAcl($display);
   }
 
-  public function htmlIds ()
+  public function htmlIds (): array
   {
     $id   = $this->getHtmlId();
     $ids  = [];
@@ -202,7 +202,7 @@ class FileDownloadAttribute extends FileAttribute
     return $ids;
   }
 
-  function renderAttribute (array &$attributes, $readOnly)
+  function renderAttribute (array &$attributes, bool $readOnly)
   {
     if ($this->upload === FALSE) {
       parent::renderAttribute($attributes, FALSE);
@@ -263,7 +263,7 @@ class FileTextAreaAttribute extends FileDownloadAttribute
     return str_replace(["\r\n", "\r"], "\n", $value);
   }
 
-  function renderFormInput ()
+  function renderFormInput (): string
   {
     $id = $this->getHtmlId();
     $display  = '<textarea name="'.$id.'_text" id="'.$id.'_text"'.
@@ -272,7 +272,7 @@ class FileTextAreaAttribute extends FileDownloadAttribute
     return $this->renderAcl($display).parent::renderFormInput();
   }
 
-  public function htmlIds ()
+  public function htmlIds (): array
   {
     $id     = $this->getHtmlId();
     $ids    = parent::htmlIds();
@@ -372,7 +372,7 @@ class ImageAttribute extends FileAttribute
     }
   }
 
-  function renderFormInput ()
+  function renderFormInput (): string
   {
     $this->setValue($this->inputValue($this->getValue()));
     $id = $this->getHtmlId();
@@ -415,7 +415,7 @@ class ImageAttribute extends FileAttribute
     return $this->renderAcl($display);
   }
 
-  public function htmlIds ()
+  public function htmlIds (): array
   {
     $id = $this->getHtmlId();
     return [$id.'_img',$id,'upload'.$id];

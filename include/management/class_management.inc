@@ -436,7 +436,7 @@ class management
       @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $action, 'Action');
       try {
         $str = $this->handleAction($action);
-        if ($str) {
+        if (!empty($str)) {
           return $this->getHeader().$str;
         }
       } catch (FusionDirectoryException $e) {

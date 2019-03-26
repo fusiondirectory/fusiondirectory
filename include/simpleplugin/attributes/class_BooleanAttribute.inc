@@ -90,7 +90,7 @@ class BooleanAttribute extends Attribute
     }
   }
 
-  function displayValue ($value)
+  function displayValue ($value): string
   {
     if ($this->isTemplate() && $this->isTemplatable() && ($value === '%askme%')) {
       return $value;
@@ -99,7 +99,7 @@ class BooleanAttribute extends Attribute
     }
   }
 
-  function renderFormInput ()
+  function renderFormInput (): string
   {
     $id = $this->getHtmlId();
     $attributes = ($this->value ? ['checked' => 'checked'] : []);
@@ -114,7 +114,7 @@ class BooleanAttribute extends Attribute
     return $this->renderAcl($display);
   }
 
-  function renderTemplateInput ()
+  function renderTemplateInput (): string
   {
     if ($this->isTemplatable()) {
       $id = $this->getHtmlId();
@@ -138,7 +138,7 @@ class BooleanAttribute extends Attribute
     }
   }
 
-  protected function managedAttributesJS ()
+  protected function managedAttributesJS (): string
   {
     $js = '';
     $id = $this->getHtmlId();

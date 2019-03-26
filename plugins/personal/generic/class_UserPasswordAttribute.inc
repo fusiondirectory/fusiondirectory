@@ -71,7 +71,7 @@ class UserPasswordAttribute extends CompositeAttribute
     $this->attributes[4]->setTemplatable(FALSE);
   }
 
-  public function setParent (&$plugin)
+  public function setParent (simplePlugin &$plugin)
   {
     global $config;
     parent::setParent($plugin);
@@ -90,7 +90,7 @@ class UserPasswordAttribute extends CompositeAttribute
   }
 
   /* We need to handle method select disabling manually */
-  function renderAttribute (array &$attributes, $readOnly)
+  function renderAttribute (array &$attributes, bool $readOnly)
   {
     global $config;
     if ($this->visible) {
@@ -171,7 +171,7 @@ class UserPasswordAttribute extends CompositeAttribute
     $this->previousMethodInfo = $methodInfo;
   }
 
-  function readValues ($value)
+  function readValues (string $value): array
   {
     return $this->readUserPasswordValues($value, $this->plugin->is_template);
   }
