@@ -20,7 +20,7 @@
 
 class LockAction extends Action
 {
-  function __construct (string $name, string $targets, $callable, array $acl = [], $inmenu = TRUE, $inline = TRUE)
+  function __construct (string $name, string $targets, $callable, array $acl = [], bool $inmenu = TRUE, bool $inline = TRUE)
   {
     parent::__construct(
       $name,
@@ -43,7 +43,7 @@ class LockAction extends Action
     return NULL;
   }
 
-  function fillMenuItems (&$actions)
+  function fillMenuItems (array &$actions)
   {
     if (!$this->inmenu) {
       return;
@@ -70,7 +70,7 @@ class LockAction extends Action
     ];
   }
 
-  function fillRowClasses (&$classes, ListingEntry $entry)
+  function fillRowClasses (array &$classes, ListingEntry $entry)
   {
     if ($this->isLocked($entry) === TRUE) {
       $classes[] = 'entry-locked';

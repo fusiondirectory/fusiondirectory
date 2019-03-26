@@ -62,7 +62,7 @@ class TabFilterElement extends FilterElement
     unset($tab);
   }
 
-  public function render ()
+  public function render (): string
   {
     if (empty($this->tabs)) {
       return '';
@@ -82,7 +82,7 @@ class TabFilterElement extends FilterElement
     return $smarty->fetch(get_template_path('management/filter-element.tpl'));
   }
 
-  public function getFilters ($type, array &$filters)
+  public function getFilters (string $type, array &$filters): bool
   {
     foreach ($this->tabs as $tab) {
       if ($tab['checked']) {

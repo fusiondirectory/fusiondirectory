@@ -37,7 +37,7 @@ class selectManagement extends management
     ['LinkColumn',       ['attributes' => 'description', 'label' => 'Description']],
   ];
 
-  function __construct ($objectTypes = FALSE, $multiSelect = TRUE, $neededAttrs = [])
+  function __construct ($objectTypes = FALSE, bool $multiSelect = TRUE, array $neededAttrs = [])
   {
     $this->neededAttrs  = $neededAttrs;
     $this->multiSelect  = $multiSelect;

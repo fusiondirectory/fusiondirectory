@@ -1,7 +1,8 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2017-2018  FusionDirectory
+
+  Copyright (C) 2017-2019 FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -29,7 +30,7 @@ class ListingEntry implements ArrayAccess
   /* Cache where columns may store stuff */
   public $cache = [];
 
-  public function __construct (managementListing $listing, $type, $dn, array $attrs, $row = NULL)
+  public function __construct (managementListing $listing, string $type, string $dn, array $attrs, int $row = NULL)
   {
     $this->listing  = $listing;
     $this->type     = $type;
@@ -58,27 +59,27 @@ class ListingEntry implements ArrayAccess
     return (isset($this->attrs[$offset]) ? $this->attrs[$offset] : NULL);
   }
 
-  public function getPid ()
+  public function getPid (): string
   {
     return $this->listing->pid;
   }
 
-  public function isTemplate ()
+  public function isTemplate (): bool
   {
     return preg_match('/^template_/', $this->type);
   }
 
-  public function getTemplatedType ()
+  public function getTemplatedType (): string
   {
     return preg_replace('/^template_/', '', $this->type);
   }
 
-  public function getTemplatedFields ()
+  public function getTemplatedFields (): array
   {
     return templateHandling::fieldsFromLDAP($this->attrs);
   }
 
-  public function checkAcl ($acls)
+  public function checkAcl (string $acls): bool
   {
     global $ui;
 
@@ -93,7 +94,7 @@ class ListingEntry implements ArrayAccess
     return TRUE;
   }
 
-  public function snapshotCreationAllowed ()
+  public function snapshotCreationAllowed (): bool
   {
     global $ui;
 
@@ -101,7 +102,7 @@ class ListingEntry implements ArrayAccess
     return $ui->allow_snapshot_create($this->dn, $infos['aclCategory']);
   }
 
-  public function snapshotRestoreAllowed ()
+  public function snapshotRestoreAllowed (): bool
   {
     global $ui;
 

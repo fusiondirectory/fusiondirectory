@@ -1,7 +1,8 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2017-2018  FusionDirectory
+
+  Copyright (C) 2017-2019  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -29,7 +30,7 @@ class DateFilterElement extends FilterElement
   protected $max;
   protected $types;
 
-  public function __construct (managementFilter $parent, $attribute, $label, $types = [])
+  public function __construct (managementFilter $parent, string $attribute, string $label, array $types = [])
   {
     global $config;
 
@@ -54,7 +55,7 @@ class DateFilterElement extends FilterElement
     }
   }
 
-  public function render ()
+  public function render (): string
   {
     $smarty = get_smarty();
     $smarty->assign('NAME',       $this->label);
@@ -64,7 +65,7 @@ class DateFilterElement extends FilterElement
     return $smarty->fetch(get_template_path('management/filter-element-date.tpl'));
   }
 
-  public function getFilters ($type, array &$filters)
+  public function getFilters (string $type, array &$filters): bool
   {
     if (!empty($this->types) && !in_array_ics($type, $this->types)) {
       return FALSE;
