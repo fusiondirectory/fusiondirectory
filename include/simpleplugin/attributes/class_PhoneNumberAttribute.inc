@@ -76,7 +76,6 @@ class PhoneNumberButtonAttribute extends PhoneNumberAttribute
         break;
       default:
         throw new FusionDirectoryException('Invalid type "'.$type.'" for PhoneNumberButtonAttribute');
-        break;
     }
 
     $this->selectManagementParameters = [
