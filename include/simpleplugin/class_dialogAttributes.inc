@@ -416,7 +416,7 @@ class GenericDialogAttribute extends DialogAttribute
       if ($this->display_attr == 'dn') {
         $this->displays[$i] = $attrs['dn'];
       } else {
-        if (is_array($attrs)) {
+        if (is_array($attrs[$this->display_attr])) {
           // simpleSelectManagement or LDAP data
           $this->displays[$i] = $attrs[$this->display_attr][0];
         } else {
