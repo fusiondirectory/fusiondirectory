@@ -100,13 +100,6 @@ class SystemSelectDialog extends GenericSelectDialog
   protected $dialogClass = 'systemSelect';
 }
 
-/*! \brief Group selection dialog
- */
-class GroupSelectDialog extends GenericSelectDialog
-{
-  protected $dialogClass = 'groupSelect';
-}
-
 /*! \brief Mail address selection dialog
  */
 class MailSelectDialog extends GenericSelectDialog
@@ -588,35 +581,6 @@ class UsersGroupsRolesAttribute extends ObjectsAttribute
         }
         $this->displays[$i] = $display;
       }
-    }
-  }
-}
-
-/*! \brief This class allows to handle an attribute for selecting groups
- *
- * It looks like a SetAttribute, but clicking "Add" will open a dialog that allow to select one or more groups.
- * It stores their dn as values, but displays the cn.
- *
- */
-class GroupsAttribute extends GenericDialogAttribute
-{
-  protected $dialogClass = 'GroupSelectDialog';
-
-  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = [], $acl = '')
-  {
-    parent::__construct($label, $description, $ldapName, $required, $defaultValue, 'dn', 'cn', $acl);
-  }
-
-  function addValue ($dn, $entry)
-  {
-    if (!in_array($dn, $this->value)) {
-      $display = $entry['cn'][0];
-      if (isset($entry['description'][0]) && !empty($entry['description'][0])) {
-        $display .= ' ['.preg_replace('/^Group of user/', _('Group of user'), $entry['description'][0]).']';
-      }
-
-      $this->value[]    = $dn;
-      $this->displays[] = $display;
     }
   }
 }
