@@ -173,8 +173,9 @@ class ManagementConfigurationDialog extends simplePlugin
     $this->parent->setColumnConfiguration($columnInfos);
 
     if ($this->saveInLdap) {
-      $errors = $config->updateManagementConfig(get_class($this->parent), $columnInfos);
-      msg_dialog::displayChecks($errors);
+      return $config->updateManagementConfig(get_class($this->parent), $columnInfos);
     }
+
+    return [];
   }
 }

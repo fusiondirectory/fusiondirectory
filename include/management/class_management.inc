@@ -857,10 +857,15 @@ class management
         msg_dialog::displayChecks($msgs);
         return;
       } else {
-        $this->dialogObject->save();
-        @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDns, 'Dialog saved');
-        $this->remove_lock();
-        $this->closeDialogs();
+        $errors = $this->dialogObject->save();
+        if (count($errors)) {
+          msg_dialog::displayChecks($errors);
+          return;
+        } else {
+          @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDns, 'Dialog saved');
+          $this->remove_lock();
+          $this->closeDialogs();
+        }
       }
     }
   }
