@@ -93,9 +93,24 @@ class GenericSelectDialog extends GenericDialog
   }
 }
 
-/*! \brief System selection dialog
+/*!
+ * \brief System selection
  */
-class SystemSelectDialog extends GenericSelectDialog
+class systemSelect extends selectManagement
+{
+  /* Default columns */
+  public static $columns = [
+    ['ObjectTypeColumn',  []],
+    ['LinkColumn',        ['attributes' => 'nameAttr',      'label' => 'Name']],
+    ['IpColumn',          ['attributes' => 'ipHostNumber',  'label' => 'IP']],
+    ['Column',            ['attributes' => 'macAddress',    'label' => 'Mac']],
+    ['LinkColumn',        ['attributes' => 'description',   'label' => 'Description']],
+  ];
+}
+
+/*! \brief System selection dialog
+*/
+class SystemSelectDialog extends GenericSelectManagementDialog
 {
   protected $dialogClass = 'systemSelect';
 }
@@ -652,21 +667,13 @@ class MailsAttribute extends DialogAttribute
 /*!
  * \brief Attribute storing a system list
  */
-class SystemsAttribute extends DialogAttribute
+class SystemsAttribute extends ObjectsAttribute
 {
-  protected $dialogClass = 'SystemSelectDialog';
+  protected $dialogClass  = 'SystemSelectDialog';
 
-  function addValue ($dn, $entry)
+  function __construct (string $label, string $description, string $ldapName, bool $required, array $objectTypes = ['terminal', 'workstation', 'server'], array $defaultValue = [], string $store_attr = 'cn', string $display_attr = 'cn', string $acl = '')
   {
-    $value = $entry['cn'][0];
-    if (!in_array($value, $this->value)) {
-      $this->value[]    = $value;
-    }
-  }
-
-  function getFilterBlackList ()
-  {
-    return ['cn' => $this->getValue()];
+    parent::__construct($label, $description, $ldapName, $required, $objectTypes, $defaultValue, $store_attr, $display_attr, $acl);
   }
 }
 
