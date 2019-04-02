@@ -30,6 +30,12 @@ class phoneSelect extends selectManagement
     ['LinkColumn',       ['attributes' => 'nameAttr',         'label' => 'Name']],
     ['LinkColumn',       ['attributes' => 'telephoneNumber',  'label' => 'Number']],
   ];
+
+  protected function setUpFilter ()
+  {
+    parent::setUpFilter();
+    $this->filter->addElement(new FixedFilterElement($this->filter, '(telephoneNumber=*)'));
+  }
 }
 
 /*!
@@ -141,12 +147,24 @@ class PhoneNumberButtonAttribute extends PhoneNumberAttribute
     }
   }
 
-  function handleDialogResult ($dn, array $attrs)
+  function handleDialogResult ($dn, $entry)
   {
-    if (isset($attrs['telephoneNumber'][0])) {
-      $this->setValue($attrs['telephoneNumber'][0]);
+    if (isset($entry['telephoneNumber'][0])) {
+      $this->setValue($entry['telephoneNumber'][0]);
+    } elseif (isset($entry['telephoneNumber'])) {
+      $this->setValue($entry['telephoneNumber']);
     } else {
       $this->setValue('');
     }
+  }
+
+  function getFilterBlackList ()
+  {
+    return [];
+  }
+
+  function getFilterWhiteList ()
+  {
+    return [];
   }
 }
