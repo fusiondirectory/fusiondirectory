@@ -495,7 +495,7 @@ class ObjectsAttribute extends GenericDialogAttribute
 
   public $selectManagementParameters;
 
-  function __construct ($label, $description, $ldapName, $required, array $objectTypes, $defaultValue = [], $store_attr = 'dn', $display_attr = 'cn', $acl = '')
+  function __construct (string $label, string $description, string $ldapName, bool $required, array $objectTypes, array $defaultValue = [], string $store_attr = 'dn', string $display_attr = 'cn', string $acl = '')
   {
     parent::__construct($label, $description, $ldapName, $required, $defaultValue, $store_attr, $display_attr, $acl);
     $this->selectManagementParameters = [
