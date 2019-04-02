@@ -1,7 +1,8 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2013-2016  FusionDirectory
+
+  Copyright (C) 2018-2019  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -18,18 +19,34 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/*!
- * \brief POSIX group selection
- */
-class groupSelect extends simpleSelectManagement
+class FixedFilterElement extends FilterElement
 {
-  protected $objectTypes  = ['group'];
-  protected $autoFilter   = FALSE;
+  protected $filter;
 
-  function __construct ()
+  public function __construct (managementFilter $parent, string $filter)
   {
-    $this->filterXMLPath = get_template_path('group-filter.xml', TRUE, dirname(__FILE__));
+    parent::__construct($parent);
 
-    parent::__construct();
+    $this->filter = $filter;
+  }
+
+  public function render (): string
+  {
+    $inputs = [
+      [
+        'name'  => $this->filter,
+        'desc'  => $this->filter,
+      ]
+    ];
+    $smarty = get_smarty();
+    $smarty->assign('NAME',   _('Fixed'));
+    $smarty->assign('INPUTS', $inputs);
+    return $smarty->fetch(get_template_path('management/filter-element-fixed.tpl'));
+  }
+
+  public function getFilters (string $type, array &$filters): bool
+  {
+    $filters[] = $this->filter;
+    return FALSE;
   }
 }

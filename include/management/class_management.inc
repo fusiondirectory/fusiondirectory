@@ -366,7 +366,7 @@ class management
       throw new FusionDirectoryException('No valid listing object');
     }
     $action = ['targets' => [], 'action' => '', 'subaction' => NULL];
-    if ($this->is_modal_dialog()) {
+    if ($this->showTabFooter()) {
       if (isset($_POST['edit_cancel'])) {
         $action['action'] = 'cancel';
       } elseif (isset($_POST['edit_finish'])) {
@@ -374,7 +374,7 @@ class management
       } elseif (isset($_POST['edit_apply'])) {
         $action['action'] = 'apply';
       }
-    } else {
+    } elseif (!$this->dialogOpened()) {
       if (isset($_POST['delete_confirmed'])) {
         $action['action'] = 'removeConfirmed';
       } elseif (isset($_POST['delete_cancel'])) {
@@ -451,7 +451,7 @@ class management
       }
       if (method_exists($this->dialogObject, 'execute')) {
         $display = $this->dialogObject->execute();
-        $display .= $this->_getTabFooter();
+        $display .= $this->getTabFooter();
         return $this->getHeader().$display;
       }
     }
@@ -460,7 +460,7 @@ class management
     if ($this->tabObject instanceOf simpleTabs) {
       $this->tabObject->save_object();
       $display = $this->tabObject->execute();
-      $display .= $this->_getTabFooter();
+      $display .= $this->getTabFooter();
       return $this->getHeader().$display;
     }
 
@@ -554,7 +554,7 @@ class management
     }
   }
 
-  function is_modal_dialog (): bool
+  function dialogOpened (): bool
   {
     return (is_object($this->tabObject) || is_object($this->dialogObject));
   }
@@ -608,17 +608,30 @@ class management
   }
 
   /*!
-   * \brief  Generates the footer which is used whenever a tab object is displayed.
+   * \brief Whether footer buttons should appear
    */
-  protected function _getTabFooter (): string
+  protected function showTabFooter (): bool
   {
     // Do not display tab footer for non tab objects
     if (!($this->tabObject instanceOf simpleTabs)) {
-      return '';
+      return FALSE;
     }
 
     // Check if there is a dialog opened - We don't need any buttons in this case.
     if ($this->tabObject->dialogOpened()) {
+      return FALSE;
+    }
+
+    return TRUE;
+  }
+
+  /*!
+   * \brief  Generates the footer which is used whenever a tab object is displayed.
+   */
+  protected function getTabFooter (): string
+  {
+    // Do not display tab footer for non tab objects
+    if (!$this->showTabFooter()) {
       return '';
     }
 
@@ -814,7 +827,7 @@ class management
   }
 
   /*!
-   * \brief  Editing an object was caneled.
+   * \brief  Editing an object was canceled.
    *          Close dialogs/tabs and remove locks.
    */
   function cancelEdit ()
@@ -847,18 +860,6 @@ class management
         return;
       } else {
         @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDns, 'Entry saved');
-        $this->remove_lock();
-        $this->closeDialogs();
-      }
-    } elseif ($this->dialogObject instanceOf simplePlugin) {
-      $this->dialogObject->save_object();
-      $msgs = $this->dialogObject->check();
-      if (count($msgs)) {
-        msg_dialog::displayChecks($msgs);
-        return;
-      } else {
-        $this->dialogObject->save();
-        @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDns, 'Dialog saved');
         $this->remove_lock();
         $this->closeDialogs();
       }

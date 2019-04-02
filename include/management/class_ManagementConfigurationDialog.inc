@@ -133,6 +133,40 @@ class ManagementConfigurationDialog extends simplePlugin
     }
   }
 
+  function save_object ()
+  {
+    parent::save_object();
+    if (isset($_POST['edit_cancel'])) {
+      $this->handle_cancel();
+    } elseif (isset($_POST['edit_finish'])) {
+      $this->handle_finish();
+    }
+  }
+
+  protected function handle_finish ()
+  {
+    $msgs = $this->check();
+    if (count($msgs)) {
+      msg_dialog::displayChecks($msgs);
+      return;
+    } else {
+      $errors = $this->save();
+      if (count($errors)) {
+        msg_dialog::displayChecks($errors);
+        return;
+      } else {
+        $this->parent->remove_lock();
+        $this->parent->closeDialogs();
+      }
+    }
+  }
+
+  protected function handle_cancel ()
+  {
+    $this->parent->remove_lock();
+    $this->parent->closeDialogs();
+  }
+
   function execute (): string
   {
     global $config, $ui;
@@ -173,8 +207,9 @@ class ManagementConfigurationDialog extends simplePlugin
     $this->parent->setColumnConfiguration($columnInfos);
 
     if ($this->saveInLdap) {
-      $errors = $config->updateManagementConfig(get_class($this->parent), $columnInfos);
-      msg_dialog::displayChecks($errors);
+      return $config->updateManagementConfig(get_class($this->parent), $columnInfos);
     }
+
+    return [];
   }
 }

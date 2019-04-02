@@ -171,11 +171,11 @@ class managementFilter
       $attrsAsked = $attrs;
       if (!empty($infos['mainAttr']) && !isset($attrsAsked[$infos['mainAttr']])) {
         /* Ask for mainAttr */
-        $attrsAsked[$infos['mainAttr']] = '1';
+        $attrsAsked[$infos['mainAttr']] = '*';
       }
       if (!empty($infos['nameAttr']) && !isset($attrsAsked[$infos['nameAttr']])) {
         /* Ask for nameAttr */
-        $attrsAsked[$infos['nameAttr']] = '1';
+        $attrsAsked[$infos['nameAttr']] = '*';
       }
 
       foreach ($attrsAsked as $attr => $data) {

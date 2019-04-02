@@ -93,25 +93,26 @@ class GenericSelectDialog extends GenericDialog
   }
 }
 
-/*! \brief System selection dialog
+/*!
+ * \brief System selection
  */
-class SystemSelectDialog extends GenericSelectDialog
+class systemSelect extends selectManagement
+{
+  /* Default columns */
+  public static $columns = [
+    ['ObjectTypeColumn',  []],
+    ['LinkColumn',        ['attributes' => 'nameAttr',      'label' => 'Name']],
+    ['IpColumn',          ['attributes' => 'ipHostNumber',  'label' => 'IP']],
+    ['Column',            ['attributes' => 'macAddress',    'label' => 'Mac']],
+    ['LinkColumn',        ['attributes' => 'description',   'label' => 'Description']],
+  ];
+}
+
+/*! \brief System selection dialog
+*/
+class SystemSelectDialog extends GenericSelectManagementDialog
 {
   protected $dialogClass = 'systemSelect';
-}
-
-/*! \brief Group selection dialog
- */
-class GroupSelectDialog extends GenericSelectDialog
-{
-  protected $dialogClass = 'groupSelect';
-}
-
-/*! \brief Mail address selection dialog
- */
-class MailSelectDialog extends GenericSelectDialog
-{
-  protected $dialogClass = 'mailAddressSelect';
 }
 
 /*! \brief This class allows to handle an attribute with a popup for selection
@@ -351,13 +352,7 @@ class GenericDialogAttribute extends DialogAttribute
       ) {
       $value = $dn;
     } else {
-      if (is_array($attrs)) {
-        // simpleSelectManagement
-        $value = $attrs[$this->store_attr][0];
-      } else {
-        // selectManagement
-        $value = $attrs[$this->store_attr];
-      }
+      $value = $attrs[$this->store_attr][0];
     }
     if (!in_array($value, $this->value)) {
       end($this->value);
@@ -423,13 +418,7 @@ class GenericDialogAttribute extends DialogAttribute
       if ($this->display_attr == 'dn') {
         $this->displays[$i] = $attrs['dn'];
       } else {
-        if (is_array($attrs)) {
-          // simpleSelectManagement or LDAP data
-          $this->displays[$i] = $attrs[$this->display_attr][0];
-        } else {
-          // selectManagement
-          $this->displays[$i] = $attrs[$this->display_attr];
-        }
+        $this->displays[$i] = $attrs[$this->display_attr][0];
       }
     }
   }
@@ -506,7 +495,7 @@ class ObjectsAttribute extends GenericDialogAttribute
 
   public $selectManagementParameters;
 
-  function __construct ($label, $description, $ldapName, $required, array $objectTypes, $defaultValue = [], $store_attr = 'dn', $display_attr = 'cn', $acl = '')
+  function __construct (string $label, string $description, string $ldapName, bool $required, array $objectTypes, array $defaultValue = [], string $store_attr = 'dn', string $display_attr = 'cn', string $acl = '')
   {
     parent::__construct($label, $description, $ldapName, $required, $defaultValue, $store_attr, $display_attr, $acl);
     $this->selectManagementParameters = [
@@ -514,8 +503,8 @@ class ObjectsAttribute extends GenericDialogAttribute
       TRUE,
       [
         'objectClass' => '*',
-        $store_attr   => (($store_attr == 'dn') ? 'raw' : 1),
-        $display_attr => (($display_attr == 'dn') ? 'raw' : 1),
+        $store_attr   => (($store_attr == 'dn') ? 'raw' : '*'),
+        $display_attr => (($display_attr == 'dn') ? 'raw' : '*'),
       ]
     ];
   }
@@ -545,8 +534,8 @@ class UsersGroupsRolesAttribute extends ObjectsAttribute
   function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = [], $store_attr = 'dn', $display_attr = 'cn', $acl = '')
   {
     parent::__construct($label, $description, $ldapName, $required, ['user', 'group', 'role', 'ogroup'], $defaultValue, $store_attr, $display_attr, $acl);
-    $this->selectManagementParameters[2]['cn']          = 1;
-    $this->selectManagementParameters[2]['uid']         = 1;
+    $this->selectManagementParameters[2]['cn']          = '*';
+    $this->selectManagementParameters[2]['uid']         = '*';
     $this->selectManagementParameters[2]['objectClass'] = '*';
   }
 
@@ -560,11 +549,7 @@ class UsersGroupsRolesAttribute extends ObjectsAttribute
     if (!isset($attrs[$this->display_attr])) {
       unset($this->value[$i]);
     } else {
-      if (is_array($attrs['cn'])) {
-        $cn = $attrs['cn'][0];
-      } else {
-        $cn = $attrs['cn'];
-      }
+      $cn = $attrs['cn'][0];
       if ($this->display_attr == 'dn') {
         $this->displays[$i] = $attrs['dn'];
       } elseif (in_array('posixGroup', $attrs['objectClass'])) {
@@ -574,135 +559,24 @@ class UsersGroupsRolesAttribute extends ObjectsAttribute
       } elseif (in_array('groupOfNames', $attrs['objectClass'])) {
         $this->displays[$i] = sprintf(_('Group %s'), trim($cn));
       } elseif (isset($attrs['uid'])) {
-        if (is_array($attrs['uid'])) {
-          $uid = $attrs['uid'][0];
-        } else {
-          $uid = $attrs['uid'];
-        }
-        $this->displays[$i] = trim($uid);
+        $this->displays[$i] = trim($attrs['uid'][0]);
       } else {
-        if (is_array($attrs[$this->display_attr])) {
-          $display = $attrs[$this->display_attr][0];
-        } else {
-          $display = $attrs[$this->display_attr];
-        }
-        $this->displays[$i] = $display;
+        $this->displays[$i] = $attrs[$this->display_attr][0];
       }
     }
-  }
-}
-
-/*! \brief This class allows to handle an attribute for selecting groups
- *
- * It looks like a SetAttribute, but clicking "Add" will open a dialog that allow to select one or more groups.
- * It stores their dn as values, but displays the cn.
- *
- */
-class GroupsAttribute extends GenericDialogAttribute
-{
-  protected $dialogClass = 'GroupSelectDialog';
-
-  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = [], $acl = '')
-  {
-    parent::__construct($label, $description, $ldapName, $required, $defaultValue, 'dn', 'cn', $acl);
-  }
-
-  function addValue ($dn, $entry)
-  {
-    if (!in_array($dn, $this->value)) {
-      $display = $entry['cn'][0];
-      if (isset($entry['description'][0]) && !empty($entry['description'][0])) {
-        $display .= ' ['.preg_replace('/^Group of user/', _('Group of user'), $entry['description'][0]).']';
-      }
-
-      $this->value[]    = $dn;
-      $this->displays[] = $display;
-    }
-  }
-}
-
-/*! \brief This class allows to handle an attribute for selecting an mail address
- *
- * It looks like a SetAttribute, but clicking "Add" will open a dialog that allow to select one or more users.
- *
- */
-class MailsAttribute extends DialogAttribute
-{
-  protected $dialogClass = 'MailSelectDialog';
-
-  /*! \brief The constructor of MailsAttribute
-   *
-   *  \param string $label The label to show for this attribute
-   *  \param string $description A more detailed description for the attribute
-   *  \param string $ldapName The name of the attribute in the LDAP (If it's not in the ldap, still provide a unique name)
-   *  \param boolean $required Is this attribute mandatory or not
-   *  \param array $defaultValue The default value for this attribute
-   *  \param string $acl The name of the acl for this attribute if he does not use its own. (Leave empty if he should use its own like most attributes do)
-   */
-  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = [], $acl = "")
-  {
-    SetAttribute::__construct(new MailAttribute($label, $description, $ldapName, $required, "", $acl), $defaultValue);
-  }
-
-  function getFilterBlackList ()
-  {
-    return ['mail' => $this->getValue()];
-  }
-
-  function addValue ($dn, $attrs)
-  {
-    $value = (($attrs != NULL) ? $attrs['mail'][0] : $dn);
-    if (!in_array($value, $this->value)) {
-      $this->value[]    = $value;
-    }
-  }
-
-  function renderButtons ()
-  {
-    $id = $this->getHtmlId();
-    $buttons  = $this->renderInputField(
-      'submit', 'add'.$id,
-      ['value' => '{msgPool type=addButton}']
-    );
-    $buttons  .= $this->renderInputField(
-      'submit', 'add'.$id.'_dialog',
-      [
-        'class' => 'dialog',
-        'value' => '{msgPool type=addButton} (from list)'
-      ]
-    );
-    $buttons  .= $this->renderInputField(
-      'submit', 'del'.$id,
-      ['value' => '{msgPool type=delButton}']
-    );
-    return $buttons;
-  }
-
-  public function htmlIds (): array
-  {
-    $id = $this->getHtmlId();
-    return ['add'.$id,'add'.$id.'_dialog','del'.$id,'row'.$id];
   }
 }
 
 /*!
  * \brief Attribute storing a system list
  */
-class SystemsAttribute extends DialogAttribute
+class SystemsAttribute extends ObjectsAttribute
 {
-  protected $dialogClass = 'SystemSelectDialog';
+  protected $dialogClass  = 'SystemSelectDialog';
 
-  function addValue ($dn, $entry)
+  function __construct (string $label, string $description, string $ldapName, bool $required, array $objectTypes = ['terminal', 'workstation', 'server'], array $defaultValue = [], string $store_attr = 'cn', string $display_attr = 'cn', string $acl = '')
   {
-    $value = $entry['cn'][0];
-    if (!in_array($value, $this->value)) {
-      $this->value[]    = $value;
-    }
-  }
-
-  function getFilterBlackList ()
-  {
-    return ['cn' => $this->getValue()];
+    parent::__construct($label, $description, $ldapName, $required, $objectTypes, $defaultValue, $store_attr, $display_attr, $acl);
   }
 }
 

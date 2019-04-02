@@ -1,8 +1,9 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
+
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2019  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -21,7 +22,7 @@
 
 class GroupMembersAttribute extends ObjectsAttribute
 {
-  protected $types        = [];
+  protected $types = [];
 
   function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = [], $store_attr = 'dn', $display_attr = 'cn', $acl = '')
   {
@@ -66,15 +67,15 @@ class GroupMembersAttribute extends ObjectsAttribute
         if ($code !== FALSE) {
           $infos              = objects::infos($objectType);
           $this->types[$i]    = $code;
-          $this->displays[$i] = $attrs[$infos['nameAttr']];
+          $this->displays[$i] = $attrs[$infos['nameAttr']][0];
           if (strtolower($objectType) == 'user') {
-            if (isset($attrs['description'])) {
-              $this->displays[$i] .= ' ['.$attrs['uid'].' - '.$attrs['description'].']';
+            if (isset($attrs['description'][0])) {
+              $this->displays[$i] .= ' ['.$attrs['uid'][0].' - '.$attrs['description'][0].']';
             } else {
-              $this->displays[$i] .= ' ['.$attrs['uid'].']';
+              $this->displays[$i] .= ' ['.$attrs['uid'][0].']';
             }
           } elseif (isset($attrs['description'][0])) {
-            $this->displays[$i] .= ' ['.$attrs['description'].']';
+            $this->displays[$i] .= ' ['.$attrs['description'][0].']';
           }
         }
       }
