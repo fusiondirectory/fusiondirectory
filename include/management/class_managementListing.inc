@@ -59,7 +59,7 @@ class managementListing
    */
   function __construct (management $parent, bool $baseMode = TRUE, bool $multiSelect = TRUE)
   {
-    global $config, $ui;
+    global $config;
 
     $this->parent       = $parent;
     $this->baseMode     = $baseMode;
@@ -67,6 +67,18 @@ class managementListing
 
     // Initialize pid
     $this->pid = preg_replace('/[^0-9]/', '', microtime(TRUE));
+
+    $this->setUpBaseSelector();
+
+    // Move footer information
+    $this->showFooter = ($config->get_cfg_value('listSummary') == 'TRUE');
+
+    $this->reloadColumns();
+  }
+
+  function setUpBaseSelector ()
+  {
+    global $config, $ui;
 
     // Set base for filter
     if ($this->baseMode) {
@@ -78,11 +90,6 @@ class managementListing
     } else {
       $this->base = $config->current['BASE'];
     }
-
-    // Move footer information
-    $this->showFooter = ($config->get_cfg_value('listSummary') == 'TRUE');
-
-    $this->reloadColumns();
   }
 
   function getBaseMode (): bool
