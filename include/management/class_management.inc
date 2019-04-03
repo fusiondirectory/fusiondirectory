@@ -931,7 +931,7 @@ class management
           $infos['nameAttr'] = 'cn';
         }
         $objects[] = [
-          'name'  => $entry[$infos['nameAttr']],
+          'name'  => $entry[$infos['nameAttr']][0],
           'dn'    => $dn,
           'icon'  => $infos['icon'],
           'type'  => $infos['name']
