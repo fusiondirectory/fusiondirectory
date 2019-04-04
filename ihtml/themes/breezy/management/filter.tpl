@@ -29,7 +29,7 @@
 
   <hr/>
 
-  {if $BASEMODE}
+  {if $SHOWSCOPE}
   <label for="SCOPE">
     <input type="checkbox" id="SCOPE" name="SCOPE" value="1"
     {if ($SCOPE == 'sub')}checked="checked"{/if}/>
