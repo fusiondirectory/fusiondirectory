@@ -1,7 +1,8 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2017-2018  FusionDirectory
+
+  Copyright (C) 2017-2019  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -33,21 +34,19 @@ class managementFilter
 
   protected $filterElements = [];
 
+  protected $fixedScope;
+
   /* The management class */
   public $parent;
 
   public $pid;
-
-  /*
-   * Each objectType has its filters
-   * */
 
   /*!
    * \brief Create a management filter
    *
    * \param string $parent management instance
    */
-  function __construct (management $parent)
+  function __construct (management $parent, bool $fixedScope = NULL)
   {
     global $config;
 
@@ -66,11 +65,21 @@ class managementFilter
     $this->filterElements = [
       new TabFilterElement($this),
     ];
+
+    $this->fixedScope = $fixedScope;
   }
 
   function setScope (string $scope)
   {
     $this->scope = $scope;
+  }
+
+  protected function showScope (): bool
+  {
+    if ($this->fixedScope !== NULL) {
+      return !$this->fixedScope;
+    }
+    return $this->parent->listing->getBaseMode();
   }
 
   function addElement (FilterElement $element)
@@ -91,7 +100,9 @@ class managementFilter
 
       $this->showTemplates = isset($_POST['filter_type_TEMPLATE']);
 
-      $this->scope = (isset($_POST['SCOPE']) ? 'sub' : 'one');
+      if ($this->showScope()) {
+        $this->scope = (isset($_POST['SCOPE']) ? 'sub' : 'one');
+      }
 
       $this->search = (isset($_POST['SEARCH']) ? $_POST['SEARCH'] : '');
 
@@ -122,7 +133,7 @@ class managementFilter
     $smarty = get_smarty();
 
     $smarty->assign('SCOPE',      $this->scope);
-    $smarty->assign('BASEMODE',   $this->parent->listing->getBaseMode());
+    $smarty->assign('SHOWSCOPE',  $this->showScope());
     $smarty->assign('FILTER_PID', $this->pid);
     $smarty->assign('SEARCH',     $this->search);
     $smarty->assign('TYPES',      $this->types);
