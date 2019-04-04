@@ -531,7 +531,7 @@ class UsersAttribute extends ObjectsAttribute
  */
 class UsersGroupsRolesAttribute extends ObjectsAttribute
 {
-  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = [], $store_attr = 'dn', $display_attr = 'cn', $acl = '')
+  function __construct (string $label, string $description, string $ldapName, bool $required = FALSE, array $defaultValue = [], string $store_attr = 'dn', string $display_attr = 'cn', string $acl = '')
   {
     parent::__construct($label, $description, $ldapName, $required, ['user', 'group', 'role', 'ogroup'], $defaultValue, $store_attr, $display_attr, $acl);
     $this->selectManagementParameters[2]['cn']          = '*';
@@ -541,7 +541,7 @@ class UsersGroupsRolesAttribute extends ObjectsAttribute
 
   protected function ldapAttributesToGet ()
   {
-    return array_unique([$this->store_attr, $this->display_attr, 'cn', 'uid', 'objectClass']);
+    return array_values(array_unique([$this->store_attr, $this->display_attr, 'cn', 'uid', 'objectClass']));
   }
 
   protected function fillDisplayValueFrom ($i, $attrs)
