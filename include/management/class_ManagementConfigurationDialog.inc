@@ -29,7 +29,7 @@ class ManagementColumnAttribute extends CompositeAttribute
 /*!
  * \brief Management configuration dialog
  */
-class ManagementConfigurationDialog extends simplePlugin
+class ManagementConfigurationDialog extends ManagementDialog
 {
   static function plInfo (): array
   {
@@ -93,10 +93,10 @@ class ManagementConfigurationDialog extends simplePlugin
     ];
   }
 
-  function __construct ($parent)
+  function __construct (management $parent)
   {
-    parent::__construct();
-    $this->parent       = $parent;
+    parent::__construct(NULL, NULL, $parent);
+
     $this->attributesAccess['saveInLdap']->setInLdap(FALSE);
     if (!$this->attrIsWriteable('saveInLdap')) {
       $this->attributesAccess['saveInLdap']->setVisible(FALSE);
@@ -133,40 +133,6 @@ class ManagementConfigurationDialog extends simplePlugin
     }
   }
 
-  function save_object ()
-  {
-    parent::save_object();
-    if (isset($_POST['edit_cancel'])) {
-      $this->handle_cancel();
-    } elseif (isset($_POST['edit_finish'])) {
-      $this->handle_finish();
-    }
-  }
-
-  protected function handle_finish ()
-  {
-    $msgs = $this->check();
-    if (count($msgs)) {
-      msg_dialog::displayChecks($msgs);
-      return;
-    } else {
-      $errors = $this->save();
-      if (count($errors)) {
-        msg_dialog::displayChecks($errors);
-        return;
-      } else {
-        $this->parent->remove_lock();
-        $this->parent->closeDialogs();
-      }
-    }
-  }
-
-  protected function handle_cancel ()
-  {
-    $this->parent->remove_lock();
-    $this->parent->closeDialogs();
-  }
-
   function execute (): string
   {
     global $config, $ui;
@@ -174,14 +140,7 @@ class ManagementConfigurationDialog extends simplePlugin
     $smarty = get_smarty();
     $smarty->assign('ManagementConfigurationACL', 'rw');
     $smarty->assign('fdManagementConfigACL', $ui->get_permissions(CONFIGRDN.$config->current['BASE'], 'configuration/configInLdap', 'fdManagementConfig', $this->readOnly()));
-    $str = parent::execute();
-
-    $str .= '<p class="plugbottom">'.
-           '  <input type="submit" name="edit_finish" value="'.msgPool::saveButton().'"/>&nbsp;'.
-           '  <input type="submit" formnovalidate="formnovalidate" name="edit_cancel" value="'.msgPool::cancelButton().'"/>'.
-           '</p>';
-
-    return $str;
+    return parent::execute();
   }
 
   function save (): array
