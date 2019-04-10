@@ -54,13 +54,9 @@ class simpleTabs
   /*!
    * \brief Tabs classes constructor
    * */
-  function __construct ($type, $dn, $attrs_object = NULL)
+  function __construct (string $type, $dn, $attrs_object = NULL)
   {
     global $config;
-
-    if (!is_string($type)) {
-      die('deprecated call to old tabclass constructor');
-    }
 
     $infos              = objects::infos($type);
     $data               = $config->data['TABS'][$infos['tabGroup']];
@@ -79,6 +75,9 @@ class simpleTabs
     foreach ($data as $tab) {
       if (!plugin_available($tab['CLASS'])) {
         continue;
+      }
+      if (!is_a($tab['CLASS'], 'simpleTab', TRUE)) {
+        throw new FusionDirectoryException('Invalid class '.$tab['CLASS'].' found in '.$type.' tab list');
       }
 
       $this->by_name[$tab['CLASS']]   = $tab['NAME'];
@@ -165,10 +164,6 @@ class simpleTabs
     if (isset($baseobject->base)) {
       @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $baseobject->base, 'Fixing base');
       $baseobject->base = $ui->getCurrentBase();
-      if (!($baseobject instanceOf simplePlugin) && is_object($baseobject->baseSelector)) {
-        /* For some plugins not yet migrated to simple plugin. */
-        $baseobject->baseSelector->setBase($baseobject->base);
-      }
       @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $baseobject->base, 'Fixed base');
     } else {
       @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, '', 'no base');
@@ -418,23 +413,19 @@ class simpleTabs
 
       $obj->dn = $this->dn;
 
-      if (!($obj instanceof simplePlugin) && !($obj instanceOf simpleManagement)) {
-        trigger_error('Something went wrong while saving '.$obj->dn.'. Class "'.get_class($obj).'".');
+      if ($obj->is_account || $obj->ignore_account) {
+        $result = $obj->save();
       } else {
-        if ($obj->is_account || $obj->ignore_account) {
-          $result = $obj->save();
-        } else {
-          $result = $obj->remove(FALSE);
+        $result = $obj->remove(FALSE);
+      }
+      if (!empty($result)) {
+        if ($creation && $first) {
+          /* If the save of main tab fails for a creation, cancel the save of other tabs */
+          $this->dn = $old_dn;
+          $obj->dn  = $this->dn;
+          return $result;
         }
-        if (!empty($result)) {
-          if ($creation && $first) {
-            /* If the save of main tab fails for a creation, cancel the save of other tabs */
-            $this->dn = $old_dn;
-            $obj->dn  = $this->dn;
-            return $result;
-          }
-          $errors = array_merge($errors, $result);
-        }
+        $errors = array_merge($errors, $result);
       }
       if ($first) {
         $first = FALSE;

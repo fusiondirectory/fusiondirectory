@@ -787,9 +787,9 @@ class management
   /*!
    * \brief  This method opens an existing object to be edited.
    *
-   * \param  array  $action A combination of both 'action' and 'target':
+   * \param  array  $action A combination of both 'action' and 'targets':
    *                        action: The name of the action which was the used as trigger.
-   *                        target: A list of object dns, which should be affected by this method.
+   *                        targets: A list of object dns, which should be affected by this method.
    */
   function editEntry (array $action)
   {
