@@ -49,7 +49,7 @@ class LockAction extends Action
       return;
     }
 
-    if (!$this->hasPermission($this->parent->listing->getBase())) {
+    if (!$this->hasPermission()) {
       return;
     }
 
@@ -84,7 +84,7 @@ class LockAction extends Action
     }
 
     // Skip the entry completely if there's no permission to execute it
-    if (!$this->hasPermission($entry->dn, $entry->getTemplatedType(), $entry->isTemplate())) {
+    if (!$this->hasPermission($entry)) {
       return '<img src="images/empty.png" alt=" " class="center optional"/>';
     }
 
