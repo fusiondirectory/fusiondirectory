@@ -359,28 +359,28 @@ class managementListing
     return $this->baseSelector->render();
   }
 
-  function renderNavigation (): array
+  function renderNavigation (bool $skipConfiguration = FALSE): array
   {
-    $enableBack = TRUE;
-    $enableRoot = TRUE;
-    $enableHome = TRUE;
-
-    $ui = get_userinfo();
-
-    /* Check if base = first available base */
-    $deps = array_keys($this->bases);
-
-    if (!count($deps) || $deps[0] == $this->base) {
-      $enableBack = FALSE;
-      $enableRoot = FALSE;
-    }
-
-    /* Check if we are in users home  department */
-    if (!count($deps) || ($this->base == $ui->getBase()) || !in_array_ics($ui->getBase(), $deps)) {
-      $enableHome = FALSE;
-    }
+    global $ui;
 
     if ($this->baseMode) {
+      $enableBack = TRUE;
+      $enableRoot = TRUE;
+      $enableHome = TRUE;
+
+      /* Check if base = first available base */
+      $deps = array_keys($this->bases);
+
+      if (!count($deps) || $deps[0] == $this->base) {
+        $enableBack = FALSE;
+        $enableRoot = FALSE;
+      }
+
+      /* Check if we are in users home  department */
+      if (!count($deps) || ($this->base == $ui->getBase()) || !in_array_ics($ui->getBase(), $deps)) {
+        $enableHome = FALSE;
+      }
+
       $actions = [
         [
           'id'      => 'ROOT',
@@ -410,6 +410,7 @@ class managementListing
     } else {
       $actions = [];
     }
+
     $actions[] = [
       'id'      => 'REFRESH',
       'desc'    => _('Reload list'),
@@ -418,14 +419,17 @@ class managementListing
       'enabled' => TRUE,
       'class'   => 'optional',
     ];
-    $actions[] = [
-      'id'      => 'listing_configure',
-      'desc'    => _('Configure this management list'),
-      'name'    => _('Configure'),
-      'icon'    => 'geticon.php?context=categories&icon=settings&size=16',
-      'enabled' => TRUE,
-      'class'   => '',
-    ];
+
+    if (!$skipConfiguration) {
+      $actions[] = [
+        'id'      => 'listing_configure',
+        'desc'    => _('Configure this management list'),
+        'name'    => _('Configure'),
+        'icon'    => 'geticon.php?context=categories&icon=settings&size=16',
+        'enabled' => TRUE,
+        'class'   => '',
+      ];
+    }
 
     return $actions;
   }

@@ -70,6 +70,9 @@ class management
 
   public static $skipTemplates = TRUE;
 
+  /* Disable and hide configuration system */
+  protected $skipConfiguration = FALSE;
+
   /* Default columns */
   public static $columns = [
     ['ObjectTypeColumn', []],
@@ -317,7 +320,9 @@ class management
     $this->registerAction(new HiddenAction('cancel',          'cancelEdit'));
     $this->registerAction(new HiddenAction('cancelDelete',    'cancelEdit'));
     $this->registerAction(new HiddenAction('removeConfirmed', 'removeConfirmed'));
-    $this->registerAction(new HiddenAction('configure',       'configureDialog'));
+    if (!$this->skipConfiguration) {
+      $this->registerAction(new HiddenAction('configure',       'configureDialog'));
+    }
   }
 
   /*!
@@ -491,7 +496,7 @@ class management
     $smarty->assign('FILTER',       $filterRender);
     $smarty->assign('ACTIONS',      $actionMenu);
     $smarty->assign('SIZELIMIT',    $ui->getSizeLimitHandler()->renderWarning());
-    $smarty->assign('NAVIGATION',   $this->listing->renderNavigation());
+    $smarty->assign('NAVIGATION',   $this->listing->renderNavigation($this->skipConfiguration));
     $smarty->assign('BASE',         $this->listing->renderBase());
     $smarty->assign('HEADLINE',     $this->headline);
 
@@ -787,9 +792,9 @@ class management
   /*!
    * \brief  This method opens an existing object to be edited.
    *
-   * \param  array  $action A combination of both 'action' and 'target':
+   * \param  array  $action A combination of both 'action' and 'targets':
    *                        action: The name of the action which was the used as trigger.
-   *                        target: A list of object dns, which should be affected by this method.
+   *                        targets: A list of object dns, which should be affected by this method.
    */
   function editEntry (array $action)
   {
@@ -986,7 +991,9 @@ class management
 
   function configureDialog (array $action)
   {
-    $this->dialogObject = new ManagementConfigurationDialog($this);
+    if (!$this->skipConfiguration) {
+      $this->dialogObject = new ManagementConfigurationDialog($this);
+    }
   }
 
   /*! \brief  This method is used to queue and process copy&paste actions.

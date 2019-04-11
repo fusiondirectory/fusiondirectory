@@ -134,7 +134,7 @@ class multiPlugin extends simplePlugin
     unset($plug);
   }
 
-  function set_acl_base ($base)
+  function set_acl_base (string $base)
   {
     parent::set_acl_base($base);
     foreach ($this->plugin as &$plug) {
@@ -143,7 +143,7 @@ class multiPlugin extends simplePlugin
     unset($plug);
   }
 
-  public function setNeedEditMode ($bool)
+  public function setNeedEditMode (bool $bool)
   {
     parent::setNeedEditMode($bool);
     foreach ($this->plugin as &$plug) {

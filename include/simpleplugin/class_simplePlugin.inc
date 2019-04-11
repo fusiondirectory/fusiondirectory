@@ -27,7 +27,7 @@
 /*! \brief This class is made for easy plugin creation for editing LDAP attributes
  *
  */
-class simplePlugin
+class simplePlugin implements SimpleTab
 {
   /*! \brief This attribute store all information about attributes */
   public $attributesInfo;
@@ -568,7 +568,7 @@ class simplePlugin
    *
    * \param string $base
    */
-  function set_acl_base ($base)
+  function set_acl_base (string $base)
   {
     $this->acl_base = $base;
   }
@@ -904,7 +904,7 @@ class simplePlugin
     $this->dialog = NULL;
   }
 
-  public function setNeedEditMode ($bool)
+  public function setNeedEditMode (bool $bool)
   {
     $this->needEditMode = $bool;
   }

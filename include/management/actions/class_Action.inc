@@ -176,7 +176,7 @@ class Action
       return;
     }
 
-    if (!$this->hasPermission($this->parent->listing->getBase())) {
+    if (!$this->hasPermission()) {
       return;
     }
 
@@ -204,7 +204,7 @@ class Action
     }
 
     // Skip the entry completely if there's no permission to execute it
-    if (!$this->hasPermission($entry->dn, $entry->getTemplatedType(), $entry->isTemplate())) {
+    if (!$this->hasPermission($entry)) {
       return '<img src="images/empty.png" alt=" " class="optional"/>';
     }
 
@@ -226,14 +226,18 @@ class Action
     return TRUE;
   }
 
-  function hasPermission (string $dn, string $type = NULL, bool $template = FALSE): bool
+  function hasPermission (ListingEntry $entry = NULL): bool
   {
     global $ui;
 
-    if ($type === NULL) {
-      $types = $this->parent->objectTypes;
+    if ($entry === NULL) {
+      $dn       = $this->parent->listing->getBase();
+      $types    = $this->parent->objectTypes;
+      $template = FALSE;
     } else {
-      $types = [$type];
+      $dn       = $entry->dn;
+      $types    = [$entry->getTemplatedType()];
+      $template = $entry->isTemplate();
     }
     /*
      * if category is missing it’s deducted from type (all types are tested for menu actions)
