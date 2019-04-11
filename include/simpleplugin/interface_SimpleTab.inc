@@ -20,14 +20,14 @@
 */
 
 /*!
- * \file interface_simpleTab.inc
- * Source code for the interface simpleTab
+ * \file interface_SimpleTab.inc
+ * Source code for the interface SimpleTab
  */
 
 /*! \brief This interface is implemented by classes intended to be used as tabs, mainly simplePlugin itself.
  */
 
-interface simpleTab
+interface SimpleTab
 {
   /*
    * Public vars expected as well by classes implementing this interface:

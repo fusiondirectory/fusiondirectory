@@ -27,7 +27,7 @@
 /*! \brief This class is made for easy plugin creation for editing LDAP attributes
  *
  */
-class simplePlugin implements simpleTab
+class simplePlugin implements SimpleTab
 {
   /*! \brief This attribute store all information about attributes */
   public $attributesInfo;

@@ -76,7 +76,7 @@ class simpleTabs
       if (!plugin_available($tab['CLASS'])) {
         continue;
       }
-      if (!is_a($tab['CLASS'], 'simpleTab', TRUE)) {
+      if (!is_a($tab['CLASS'], 'SimpleTab', TRUE)) {
         throw new FusionDirectoryException('Invalid class '.$tab['CLASS'].' found in '.$type.' tab list');
       }
 
