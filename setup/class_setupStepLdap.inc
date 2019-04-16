@@ -198,26 +198,25 @@ class setupStepLdap extends setupStep
 
   function check (): array
   {
-    $error = parent::check();
-    if (!empty($error)) {
+    $errors = parent::check();
+    if (!empty($errors)) {
       $this->update_base_choices();
-      return $error;
     } elseif ($this->is_completed) {
       $checked  = check_schema($this->parent->captured_values);
-      $error    = [];
+      $errors   = [];
       foreach ($checked as $check) {
         if (!$check['STATUS']) {
           if ($check['IS_MUST_HAVE']) {
-            $error[] = sprintf(_("%s\nSchema \"%s\": %s"), $check['MSG'], $check['SCHEMA_FILE'], $check['INFO']);
+            $errors[] = sprintf(_("%s\nSchema \"%s\": %s"), $check['MSG'], $check['SCHEMA_FILE'], $check['INFO']);
           } else {
             msg_dialog::display(_('Warning'), sprintf(_("%s\nSchema \"%s\": %s"), $check['MSG'], $check['SCHEMA_FILE'], $check['INFO']), WARNING_DIALOG);
           }
         }
       }
-      if (!empty($error)) {
+      if (!empty($errors)) {
         $this->is_completed = FALSE;
       }
-      return $error;
     }
+    return $errors;
   }
 }
