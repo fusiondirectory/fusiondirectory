@@ -83,7 +83,13 @@ class ManagementConfigurationDialog extends ManagementDialog
             TRUE // edition
           ),
           new BooleanAttribute(
-            _('Persitent'), _('Should this configuration be saved in the LDAP as the default configuration for this management page'),
+            _('Persitent'), _('Should this configuration be saved in the LDAP as your default configuration for this management page'),
+            'saveInLdapUser', FALSE,
+            FALSE,
+            'ManagementConfiguration'
+          ),
+          new BooleanAttribute(
+            _('Global default'), _('Should this configuration be saved in the LDAP as the default configuration for this management page for all users'),
             'saveInLdap', FALSE,
             FALSE,
             'fdManagementConfig'
@@ -123,7 +129,9 @@ class ManagementConfigurationDialog extends ManagementDialog
   {
     global $config, $ui;
 
-    if (($attr === 'managementColumns') || (is_object($attr) && ($attr->getLdapName() == 'managementColumns'))) {
+    $noAclAttrs = ['managementColumns', 'saveInLdapUser'];
+
+    if ((is_object($attr) && in_array($attr->getLdapName(), $noAclAttrs)) || in_array($attr, $noAclAttrs)) {
       return TRUE;
     } elseif (($attr === 'saveInLdap') || (is_object($attr) && ($attr->getLdapName() == 'saveInLdap'))) {
       $acl = $ui->get_permissions(CONFIGRDN.$config->current['BASE'], 'configuration/configInLdap', 'fdManagementConfig', $this->readOnly());
@@ -164,6 +172,10 @@ class ManagementConfigurationDialog extends ManagementDialog
       $columnInfos[] = $column;
     }
     $this->parent->setColumnConfiguration($columnInfos);
+
+    if ($this->saveInLdapUser) {
+      return $config->updateManagementConfig(get_class($this->parent), $columnInfos, TRUE);
+    }
 
     if ($this->saveInLdap) {
       return $config->updateManagementConfig(get_class($this->parent), $columnInfos);
