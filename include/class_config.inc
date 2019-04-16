@@ -521,39 +521,67 @@ class config
       }
       $this->current['MANAGEMENTCONFIG'] = $value;
     }
+    if (isset($this->current['MANAGEMENTUSERCONFIG'])) {
+      if (!is_array($this->current['MANAGEMENTUSERCONFIG'])) {
+        $this->current['MANAGEMENTUSERCONFIG'] = [$this->current['MANAGEMENTUSERCONFIG']];
+      }
+      $value = [];
+      foreach ($this->current['MANAGEMENTUSERCONFIG'] as $config) {
+        list($user, $class, $json) = explode(':', $config, 3);
+        $value[$user][$class] = $json;
+      }
+      $this->current['MANAGEMENTUSERCONFIG'] = $value;
+    }
   }
 
   /*!
    * \brief Update the management config in the LDAP and the cache
    */
-  public function updateManagementConfig ($managementClass, $managementConfig)
+  public function updateManagementConfig (string $managementClass, array $managementConfig, bool $userConfig = FALSE): array
   {
+    global $ui;
+
     $managementConfig = json_encode($managementConfig);
     $changes = [];
-    if (isset($this->current['MANAGEMENTCONFIG'][$managementClass])) {
+    if ($userConfig) {
+      if (!isset($this->current['MANAGEMENTUSERCONFIG'][$ui->dn])) {
+        $this->current['MANAGEMENTUSERCONFIG'][$ui->dn] = [];
+      }
+      $currentConfig  =& $this->current['MANAGEMENTUSERCONFIG'][$ui->dn];
+      $attrib         = 'fdManagementUserConfig';
+      $prefix         = $ui->dn.':'.$managementClass;
+    } else {
+      if (!isset($this->current['MANAGEMENTCONFIG'])) {
+        $this->current['MANAGEMENTCONFIG'] = [];
+      }
+      $currentConfig  =& $this->current['MANAGEMENTCONFIG'];
+      $attrib         = 'fdManagementConfig';
+      $prefix         = $managementClass;
+    }
+    if (isset($currentConfig[$managementClass])) {
       /* If there already was a config for this class, remove it */
-      if ($this->current['MANAGEMENTCONFIG'][$managementClass] == $managementConfig) {
+      if ($currentConfig[$managementClass] == $managementConfig) {
         /* Unless it's the same one and we've got nothing to do */
         return [];
       }
       $changes[] = [
-        'attrib'  => 'fdManagementConfig',
+        'attrib'  => $attrib,
         'modtype' => LDAP_MODIFY_BATCH_REMOVE,
-        'values'  => [$managementClass.':'.$this->current['MANAGEMENTCONFIG'][$managementClass]],
+        'values'  => [$prefix.':'.$currentConfig[$managementClass]],
       ];
     }
     /* Add the new one */
     $changes[] = [
-      'attrib'  => 'fdManagementConfig',
+      'attrib'  => $attrib,
       'modtype' => LDAP_MODIFY_BATCH_ADD,
-      'values'  => [$managementClass.':'.$managementConfig],
+      'values'  => [$prefix.':'.$managementConfig],
     ];
     $ldap = $this->get_ldap_link();
     $ldap->cd(CONFIGRDN.$this->current['BASE']);
     if (!$ldap->modify_batch($changes)) {
       return [$ldap->get_error()];
     }
-    $this->current['MANAGEMENTCONFIG'][$managementClass] = $managementConfig;
+    $currentConfig[$managementClass] = $managementConfig;
     return [];
   }
 
@@ -562,7 +590,11 @@ class config
    */
   public function getManagementConfig ($managementClass)
   {
-    if (isset($this->current['MANAGEMENTCONFIG'][$managementClass])) {
+    global $ui;
+
+    if (isset($this->current['MANAGEMENTUSERCONFIG'][$ui->dn][$managementClass])) {
+      return json_decode($this->current['MANAGEMENTUSERCONFIG'][$ui->dn][$managementClass], TRUE);
+    } elseif (isset($this->current['MANAGEMENTCONFIG'][$managementClass])) {
       return json_decode($this->current['MANAGEMENTCONFIG'][$managementClass], TRUE);
     } else {
       return NULL;
