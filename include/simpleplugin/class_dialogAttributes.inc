@@ -121,7 +121,7 @@ class SystemSelectDialog extends GenericSelectManagementDialog
  * It stores their dn as values, but displays the cn.
  *
  */
-class DialogAttribute extends SetAttribute
+abstract class DialogAttribute extends SetAttribute
 {
   protected $dialogClass = NULL;
 
@@ -168,10 +168,7 @@ class DialogAttribute extends SetAttribute
     unset($this->value[$row]);
   }
 
-  function getFilterBlackList ()
-  {
-    trigger_error("abstract method");
-  }
+  abstract function getFilterBlackList ();
 
   function getFilterWhiteList ()
   {
@@ -247,7 +244,7 @@ class DialogAttribute extends SetAttribute
 /*!
  * \brief An OrderedArrayAttribute which uses a dialog to create/edit values
  */
-class DialogOrderedArrayAttribute extends OrderedArrayAttribute
+abstract class DialogOrderedArrayAttribute extends OrderedArrayAttribute
 {
   protected $dialogClass;
 
@@ -258,10 +255,7 @@ class DialogOrderedArrayAttribute extends OrderedArrayAttribute
     $this->attribute    = FALSE;
   }
 
-  function getFilterBlackList ()
-  {
-    trigger_error("abstract method");
-  }
+  abstract function getFilterBlackList ();
 
   function getFilterWhiteList ()
   {
@@ -463,7 +457,7 @@ class GenericSelectManagementDialog extends GenericSelectDialog
   function __construct ($simplePlugin, $attribute)
   {
     $this->attribute  = $attribute;
-    $this->dialog     = new $this->dialogClass(...$this->attribute->selectManagementParameters);
+    $this->dialog     = new $this->dialogClass(...$this->attribute->getSelectManagementParameters());
   }
 }
 
@@ -493,7 +487,7 @@ class ObjectsAttribute extends GenericDialogAttribute
 {
   protected $dialogClass  = 'GenericSelectManagementDialog';
 
-  public $selectManagementParameters;
+  protected $selectManagementParameters;
 
   function __construct (string $label, string $description, string $ldapName, bool $required, array $objectTypes, array $defaultValue = [], string $store_attr = 'dn', string $display_attr = 'cn', string $acl = '')
   {
@@ -507,6 +501,17 @@ class ObjectsAttribute extends GenericDialogAttribute
         $display_attr => (($display_attr == 'dn') ? 'raw' : '*'),
       ]
     ];
+  }
+
+  public function getSelectManagementParameters (): array
+  {
+    return array_merge(
+      $this->selectManagementParameters,
+      [
+        $this->getFilterBlackList(),
+        $this->getFilterWhiteList(),
+      ]
+    );
   }
 }
 
@@ -661,8 +666,6 @@ class DialogButtonAttribute extends ButtonAttribute
  */
 class ObjectAttribute extends DialogButtonAttribute
 {
-  public $selectManagementParameters;
-
   protected $objectType;
   protected $displayAttr;
 
@@ -670,8 +673,12 @@ class ObjectAttribute extends DialogButtonAttribute
   {
     parent::__construct($label, $description, $ldapName, '', 'GenericSingleSelectManagementDialog', $defaultValue, $acl);
     $this->setRequired($required);
-    $this->selectManagementParameters = [[$objectType], FALSE];
     $this->objectType                 = $objectType;
+  }
+
+  public function getSelectManagementParameters (): array
+  {
+    return [[$this->objectType], FALSE];
   }
 
   function setParent (simplePlugin &$plugin)

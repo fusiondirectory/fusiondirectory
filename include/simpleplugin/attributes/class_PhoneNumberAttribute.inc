@@ -70,7 +70,16 @@ class PhoneNumberButtonAttribute extends PhoneNumberAttribute
   {
     parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
 
-    switch ($type) {
+    if (class_available('phoneGeneric')) {
+      $this->type = $type;
+    } else {
+      $this->type = FALSE;
+    }
+  }
+
+  public function getSelectManagementParameters (): array
+  {
+    switch ($this->type) {
       case 'phone':
         $objectTypes = ['phone'];
         break;
@@ -81,10 +90,10 @@ class PhoneNumberButtonAttribute extends PhoneNumberAttribute
         $objectTypes = ['phone','mobilePhone'];
         break;
       default:
-        throw new FusionDirectoryException('Invalid type "'.$type.'" for PhoneNumberButtonAttribute');
+        throw new FusionDirectoryException('Invalid type "'.$this->type.'" for PhoneNumberButtonAttribute');
     }
 
-    $this->selectManagementParameters = [
+    return [
       $objectTypes,
       FALSE,
       [
@@ -94,14 +103,8 @@ class PhoneNumberButtonAttribute extends PhoneNumberAttribute
         'ipHostNumber'    => '*',
         'macAddress'      => '*',
         'telephoneNumber' => '*',
-      ]
+      ],
     ];
-
-    if (class_available('phoneGeneric')) {
-      $this->type = $type;
-    } else {
-      $this->type = FALSE;
-    }
   }
 
   function renderFormInput (): string
@@ -156,15 +159,5 @@ class PhoneNumberButtonAttribute extends PhoneNumberAttribute
     } else {
       $this->setValue('');
     }
-  }
-
-  function getFilterBlackList ()
-  {
-    return [];
-  }
-
-  function getFilterWhiteList ()
-  {
-    return [];
   }
 }

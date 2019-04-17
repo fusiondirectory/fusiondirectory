@@ -234,6 +234,8 @@ class managementFilter
 
       $ldapEntries = objects::ls($type, $attrsAsked, $searchBase, $filter, TRUE, $this->scope, FALSE, TRUE);
 
+      $ldapEntries = $this->filterEntries($ldapEntries);
+
       $objectTypeCount[$type] = count($ldapEntries);
       foreach ($ldapEntries as $dn => $entry) {
         // TODO: check collisions?
@@ -242,5 +244,41 @@ class managementFilter
     }
 
     return [$entries, $objectTypeCount];
+  }
+
+  protected function filterEntries (array $ldapEntries): array
+  {
+    if (!empty($this->parent->whiteList)) {
+      foreach ($ldapEntries as $dn => $entry) {
+        if (in_array($dn, $this->parent->whiteList['dn'])) {
+          continue;
+        }
+        foreach ($this->parent->whiteList['branches'] as $branch) {
+          if (preg_match('/'.preg_quote($branch, '/').'$/', $dn)) {
+            continue 2;
+          }
+        }
+        unset($ldapEntries[$dn]);
+      }
+    }
+    if (isset($this->parent->blackList)) {
+      foreach ($this->parent->blackList as $attr_name => $attr_values) {
+        foreach ($attr_values as $match) {
+          foreach ($ldapEntries as $dn => $entry) {
+            if (isset($entry[$attr_name])) {
+              $test = $entry[$attr_name];
+              if (!is_array($test)) {
+                $test = [$test];
+              }
+              if (in_array($match, $test)) {
+                unset($ldapEntries[$dn]);
+              }
+            }
+          }
+        }
+      }
+    }
+
+    return $ldapEntries;
   }
 }
