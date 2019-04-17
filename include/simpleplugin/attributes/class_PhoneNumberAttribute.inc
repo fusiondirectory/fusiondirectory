@@ -90,7 +90,7 @@ class PhoneNumberButtonAttribute extends PhoneNumberAttribute
         $objectTypes = ['phone','mobilePhone'];
         break;
       default:
-        throw new FusionDirectoryException('Invalid type "'.$type.'" for PhoneNumberButtonAttribute');
+        throw new FusionDirectoryException('Invalid type "'.$this->type.'" for PhoneNumberButtonAttribute');
     }
 
     return [
