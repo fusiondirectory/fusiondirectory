@@ -246,8 +246,21 @@ class managementFilter
     return [$entries, $objectTypeCount];
   }
 
-  protected function filterEntries(array $ldapEntries): array
+  protected function filterEntries (array $ldapEntries): array
   {
+    if (!empty($this->parent->whiteList)) {
+      foreach ($ldapEntries as $dn => $entry) {
+        if (in_array($dn, $this->parent->whiteList['dn'])) {
+          continue;
+        }
+        foreach ($this->parent->whiteList['branches'] as $branch) {
+          if (preg_match('/'.preg_quote($branch, '/').'$/', $dn)) {
+            continue 2;
+          }
+        }
+        unset($entries[$dn]);
+      }
+    }
     if (isset($this->parent->blackList)) {
       foreach ($this->parent->blackList as $attr_name => $attr_values) {
         foreach ($attr_values as $match) {
