@@ -63,8 +63,11 @@ class MailsAttribute extends DialogAttribute
   function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = [], $acl = '')
   {
     SetAttribute::__construct(new MailAttribute($label, $description, $ldapName, $required, '', $acl), $defaultValue);
+  }
 
-    $this->selectManagementParameters = [
+  public function getSelectManagementParameters (): array
+  {
+    return [
       ['user','group'],
       TRUE,
       [
@@ -72,7 +75,8 @@ class MailsAttribute extends DialogAttribute
         'dn'          => 'raw',
         'cn'          => '*',
         'mail'        => '*',
-      ]
+      ],
+      $this->getFilterBlackList(),
     ];
   }
 

@@ -29,6 +29,8 @@ class selectManagement extends management
   public static $skipSnapshots  = TRUE;
 
   protected $multiSelect = TRUE;
+  public $blackList;
+  public $whiteList;
 
   /* Default columns */
   public static $columns = [
@@ -37,10 +39,12 @@ class selectManagement extends management
     ['LinkColumn',       ['attributes' => 'description', 'label' => 'Description']],
   ];
 
-  function __construct ($objectTypes = FALSE, bool $multiSelect = TRUE, array $neededAttrs = [])
+  function __construct ($objectTypes = FALSE, bool $multiSelect = TRUE, array $neededAttrs = [], array $blackList = [], array $whiteList = [])
   {
     $this->neededAttrs  = $neededAttrs;
     $this->multiSelect  = $multiSelect;
+    $this->blackList    = $blackList;
+    $this->whiteList    = $whiteList;
     parent::__construct($objectTypes);
   }
 
