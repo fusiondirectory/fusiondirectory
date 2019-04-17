@@ -258,7 +258,7 @@ class managementFilter
             continue 2;
           }
         }
-        unset($entries[$dn]);
+        unset($ldapEntries[$dn]);
       }
     }
     if (isset($this->parent->blackList)) {
