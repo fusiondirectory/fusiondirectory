@@ -255,8 +255,6 @@ abstract class DialogOrderedArrayAttribute extends OrderedArrayAttribute
     $this->attribute    = FALSE;
   }
 
-  abstract function getFilterBlackList ();
-
   function getFilterWhiteList ()
   {
     return [];
