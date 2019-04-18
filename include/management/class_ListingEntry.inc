@@ -21,9 +21,26 @@
 
 class ListingEntry implements ArrayAccess
 {
+  /*!
+   * \brief LDAP dn if any, unique id otherwise
+   */
   public $dn;
+
+  /*!
+   * \brief DN to use for ACL checks, usually the same as $dn
+   */
+  public $aclBase;
+
+  /*!
+   * \brief Row number
+   */
   public $row;
+
+  /*!
+   * \brief Object type
+   */
   public $type;
+
   private $attrs;
   protected $listing;
 
@@ -35,6 +52,7 @@ class ListingEntry implements ArrayAccess
     $this->listing  = $listing;
     $this->type     = $type;
     $this->dn       = $dn;
+    $this->aclBase  = $dn;
     $this->attrs    = $attrs;
     $this->row      = $row;
   }
@@ -84,7 +102,7 @@ class ListingEntry implements ArrayAccess
     global $ui;
 
     $infos  = objects::infos($this->getTemplatedType());
-    $rights = $ui->get_permissions($this->dn, $infos['aclCategory'].'/'.($this->isTemplate() ? 'template' : $infos['mainTab']));
+    $rights = $ui->get_permissions($this->aclBase, $infos['aclCategory'].'/'.($this->isTemplate() ? 'template' : $infos['mainTab']));
     foreach (str_split($acls) as $acl) {
       if (strpos($rights, $acl) === FALSE) {
         return FALSE;
@@ -99,7 +117,7 @@ class ListingEntry implements ArrayAccess
     global $ui;
 
     $infos  = objects::infos($this->getTemplatedType());
-    return $ui->allow_snapshot_create($this->dn, $infos['aclCategory']);
+    return $ui->allow_snapshot_create($this->aclBase, $infos['aclCategory']);
   }
 
   public function snapshotRestoreAllowed (): bool
@@ -107,6 +125,6 @@ class ListingEntry implements ArrayAccess
     global $ui;
 
     $infos  = objects::infos($this->getTemplatedType());
-    return $ui->allow_snapshot_restore($this->dn, $infos['aclCategory'], FALSE);
+    return $ui->allow_snapshot_restore($this->aclBase, $infos['aclCategory'], FALSE);
   }
 }
