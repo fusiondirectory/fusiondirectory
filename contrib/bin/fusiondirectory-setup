@@ -337,9 +337,9 @@ sub get_classes {
             chomp $line;
 
             # process for lines beginning with "class", and extracting the 2nd word (the class name)
-            if ( $line =~ /^class\s*(\w+).*/ ) {
+            if ( $line =~ /^(abstract )?class\s*(\w+).*/ ) {
               # adding the values (class name and file path) to the hash
-              $classes_hash_result{$1} = $file;
+              $classes_hash_result{$2} = $file;
             }
 
             # process for lines beginning with "interface", and extracting the 2nd word (the interface name)
