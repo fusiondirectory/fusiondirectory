@@ -34,13 +34,13 @@ class simpleService extends simplePlugin
   /*! \brief constructor
    *
    *  \param string $dn The dn of this instance
-   *  \param Object $parent The serverService instance
+   *  \param Object $parent The servicesManagement instance
    *  \param array $attributesInfo An attributesInfo array, if NULL, getAttributesInfo will be used.
    *
    */
   function __construct ($dn = NULL, $parent = NULL, $attributesInfo = NULL)
   {
-    /* $parent is the instance of serverService in this case, we set it as parent */
+    /* $parent is the instance of servicesManagement in this case, we set it as parent */
     parent::__construct($dn, $parent, $parent, FALSE, $attributesInfo);
     $plInfos = pluglist::pluginInfos(get_class($this));
     $this->DisplayName  = $plInfos['plShortName'];
@@ -67,7 +67,7 @@ class simpleService extends simplePlugin
     return FALSE;
   }
 
-  /*! \brief Get service information for serverService plugin */
+  /*! \brief Get service information for servicesManagement plugin */
   function getListEntry ()
   {
     /* Assign status flag */
