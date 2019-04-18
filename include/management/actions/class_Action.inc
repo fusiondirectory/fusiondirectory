@@ -235,7 +235,7 @@ class Action
       $types    = $this->parent->objectTypes;
       $template = FALSE;
     } else {
-      $dn       = $entry->dn;
+      $dn       = $entry->aclBase;
       $types    = [$entry->getTemplatedType()];
       $template = $entry->isTemplate();
     }
