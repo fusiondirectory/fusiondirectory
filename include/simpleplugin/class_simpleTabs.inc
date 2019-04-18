@@ -543,8 +543,8 @@ class simpleTabs
   {
     if (isset($this->by_object[$tab]) && ($this->by_object[$tab]->is_account || $this->by_object[$tab]->ignore_account)) {
       return $this->by_object[$tab];
-    } elseif (is_subclass_of($tab, 'simpleService') && isset($this->by_object['ServerService']->plugins[$tab]) && $this->by_object['ServerService']->plugins[$tab]->is_account) {
-      return $this->by_object['ServerService']->plugins[$tab];
+    } elseif (is_subclass_of($tab, 'simpleService') && isset($this->by_object['servicesManagement']->plugins[$tab]) && $this->by_object['servicesManagement']->plugins[$tab]->is_account) {
+      return $this->by_object['servicesManagement']->plugins[$tab];
     } else {
       return FALSE;
     }
