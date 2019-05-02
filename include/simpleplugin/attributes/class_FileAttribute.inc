@@ -102,7 +102,11 @@ class FileAttribute extends Attribute
       return sprintf(_('Attribute %s is disabled, its value could not be set'), $this->getLdapName());
     }
     if ($this->binary) {
-      $this->setValue(base64_decode($value));
+      $data = base64_decode($value);
+      if ($data === FALSE) {
+        return sprintf(_('Invalid base64 data for attribute %s'), $this->getLdapName());
+      }
+      $this->setValue($data);
     } else {
       $this->setValue($value);
     }
@@ -278,6 +282,8 @@ class ImageAttribute extends FileAttribute
   protected $forceSize;
   protected $placeholder;
 
+  protected $imagickException;
+
   function __construct ($label, $description, $ldapName, $required = FALSE, $width = 48, $height = 48, $format = 'png', $forceSize = FALSE, $defaultValue = "", $acl = "")
   {
     parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
@@ -316,40 +322,55 @@ class ImageAttribute extends FileAttribute
 
   function setValue ($value)
   {
-    if ($value == "") {
-      $this->value = "";
+    $this->imagickException = NULL;
+    if ($value == '') {
+      $this->value = '';
       return;
     }
     if (class_exists('Imagick')) {
-      $im     = new Imagick();
-      $modify = FALSE;
-      $im->readImageBlob($value);
+      try {
+        $im     = new Imagick();
+        $modify = FALSE;
+        $im->readImageBlob($value);
 
-      $size = $im->getImageGeometry();
+        $size = $im->getImageGeometry();
 
-      if (
-          ($size['width'] > 0 && $size['height'] > 0) &&
-          (
-            ($size['width'] < $this->width && $size['height'] < $this->height) ||
-            ($size['width'] > $this->width) ||
-            ($size['height'] > $this->height)
-          )
-        ) {
-        $modify = TRUE;
-        $im->resizeImage($this->width, $this->height, Imagick::FILTER_GAUSSIAN, 1, !$this->forceSize);
-      }
-
-      if ($modify || !preg_match('/^'.$this->format.'$/i', $im->getImageFormat())) {
-        if ($this->format == 'jpeg') {
-          $im->setImageCompression(Imagick::COMPRESSION_JPEG);
-          $im->setImageCompressionQuality(90);
+        if (
+            ($size['width'] > 0 && $size['height'] > 0) &&
+            (
+              ($size['width'] < $this->width && $size['height'] < $this->height) ||
+              ($size['width'] > $this->width) ||
+              ($size['height'] > $this->height)
+            )
+          ) {
+          $modify = TRUE;
+          $im->resizeImage($this->width, $this->height, Imagick::FILTER_GAUSSIAN, 1, !$this->forceSize);
         }
-        $im->setImageFormat($this->format);
 
-        /* Save attribute */
-        $this->value = $im->getImageBlob();
-      } else {
-        $this->value = $value;
+        if ($modify || !preg_match('/^'.$this->format.'$/i', $im->getImageFormat())) {
+          if ($this->format == 'jpeg') {
+            $im->setImageCompression(Imagick::COMPRESSION_JPEG);
+            $im->setImageCompressionQuality(90);
+          }
+          $im->setImageFormat($this->format);
+
+          /* Save attribute */
+          $this->value = $im->getImageBlob();
+        } else {
+          $this->value = $value;
+        }
+      } catch (ImagickException $e) {
+        /* Store the exception to return it in deserializeValue() */
+        $this->imagickException = $e;
+        msg_dialog::display(
+          _('Error'),
+          sprintf(
+            _('Cannot set "%s" value, it contains invalid data: %s'),
+            ($this->getLabel() != '' ? $this->getLabel() : $this->getLdapName()),
+            $e->getMessage()
+          ),
+          ERROR_DIALOG
+        );
       }
     } else {
       msg_dialog::display(
@@ -357,6 +378,21 @@ class ImageAttribute extends FileAttribute
         _('Cannot save user picture, FusionDirectory requires the PHP module "imagick" to be installed!'),
         ERROR_DIALOG
       );
+    }
+  }
+
+  /*! \brief Apply value from RPC requests
+   *
+   *  \param mixed $value the value
+   */
+  function deserializeValue ($value)
+  {
+    $error = parent::deserializeValue($value);
+    if (!empty($error)) {
+      return $error;
+    }
+    if ($this->imagickException !== NULL) {
+      return sprintf(_('Invalid data, Imagick error: "%s"'), $this->imagickException->getMessage());
     }
   }
 
