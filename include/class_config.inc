@@ -895,7 +895,7 @@ class config
       if (isset($plInfo['plObjectType'])) {
         $entry = ['CLASS' => $class,'NAME' => $plInfo['plShortName']];
         if (isset($plInfo['plSubTabs'])) {
-          $entry['SUBTABS'] = strtoupper($plInfo['plSubTabs']).'TABS';
+          $entry['SUBTABS'] = strtoupper($plInfo['plSubTabs']);
         }
         foreach ($plInfo['plObjectType'] as $key => $value) {
           if (is_numeric($key)) {
