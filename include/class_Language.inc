@@ -230,8 +230,10 @@ class Language
 
     if (!headers_sent()) {
       header("Content-Language: $lang".(empty($country) ? '' : "-$country"));
-      if (!empty($char)) {
+      if (!empty($char) && preg_match('|^text/|', $mime)) {
         header("Content-Type: $mime; charset=$char");
+      } else {
+        header("Content-Type: $mime");
       }
     } else {
       trigger_error('Could not set language '.$lang.' header, headers already sent');
