@@ -44,7 +44,7 @@ class passwordMethodCrypt extends passwordMethod
    *
    * \return TRUE if is avaibable, otherwise return false
    */
-  function is_available ()
+  public function is_available (): bool
   {
     return function_exists('crypt');
   }
@@ -53,8 +53,11 @@ class passwordMethodCrypt extends passwordMethod
    * \brief Generate template hash
    *
    * \param string $pwd Password
+   * \param bool $locked Should the password be locked
+   *
+   * \return string the password hash
    */
-  function generate_hash ($pwd, $locked = FALSE)
+  public function generate_hash (string $pwd, bool $locked = FALSE): string
   {
     if ($this->hash == "crypt/standard-des") {
       $salt = "";
@@ -105,7 +108,7 @@ class passwordMethodCrypt extends passwordMethod
     return '{CRYPT}'.($locked ? '!' : '').crypt($pwd, $salt);
   }
 
-  function checkPassword ($pwd, $hash)
+  function checkPassword ($pwd, $hash): bool
   {
     // Not implemented
     return FALSE;
@@ -151,7 +154,7 @@ class passwordMethodCrypt extends passwordMethod
    *
    * \param string $password_hash
    */
-  static function _extract_method ($password_hash)
+  static function _extract_method ($password_hash): string
   {
     if (!preg_match('/^{crypt}/i', $password_hash)) {
       return "";

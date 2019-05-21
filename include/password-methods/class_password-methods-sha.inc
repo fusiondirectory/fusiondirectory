@@ -43,7 +43,7 @@ class passwordMethodsha extends passwordMethod
    *
    * \return TRUE if is avaibable, otherwise return false
    */
-  function is_available ()
+  public function is_available (): bool
   {
     return (function_exists('sha1') || function_exists('mhash'));
   }
@@ -51,17 +51,19 @@ class passwordMethodsha extends passwordMethod
   /*!
    * \brief Generate template hash
    *
-   * \param string $password Password
+   * \param string $pwd Password
+   * \param bool $locked Should the password be locked
+   *
+   * \return string the password hash
    */
-  function generate_hash ($password, $locked = FALSE)
+  public function generate_hash (string $pwd, bool $locked = FALSE): string
   {
     if (function_exists('sha1')) {
-      $hash = '{SHA}'.($locked ? '!' : '').base64_encode(pack('H*', sha1($password)));
+      $hash = '{SHA}'.($locked ? '!' : '').base64_encode(pack('H*', sha1($pwd)));
     } elseif (function_exists('mhash')) {
-      $hash = '{SHA}'.($locked ? '!' : '').base64_encode(mHash(MHASH_SHA1, $password));
+      $hash = '{SHA}'.($locked ? '!' : '').base64_encode(mHash(MHASH_SHA1, $pwd));
     } else {
-      msg_dialog::display(_('Configuration error'), msgPool::missingext('mhash'), ERROR_DIALOG);
-      return FALSE;
+      throw new FusionDirectoryException(msgPool::missingext('mhash'));
     }
 
     return $hash;

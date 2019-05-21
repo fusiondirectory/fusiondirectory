@@ -43,7 +43,7 @@ class passwordMethodsmd5 extends passwordMethod
    *
    * \return TRUE if is avaibable, otherwise return false
    */
-  function is_available ()
+  public function is_available (): bool
   {
     return function_exists('md5');
   }
@@ -52,15 +52,18 @@ class passwordMethodsmd5 extends passwordMethod
    * \brief Generate template hash
    *
    * \param string $pwd Password
+   * \param bool $locked Should the password be locked
+   *
+   * \return string the password hash
    */
-  function generate_hash ($pwd, $locked = FALSE)
+  public function generate_hash (string $pwd, bool $locked = FALSE): string
   {
     $salt0  = substr(pack('h*', md5(random_int(0, PHP_INT_MAX))), 0, 8);
     $salt   = substr(pack('H*', md5($salt0 . $pwd)), 0, 4);
     return '{SMD5}'.($locked ? '!' : '').base64_encode(pack('H*', md5($pwd . $salt)) . $salt);
   }
 
-  function checkPassword ($pwd, $hash)
+  function checkPassword ($pwd, $hash): bool
   {
     $hash = base64_decode(substr($hash, 6));
     $salt = substr($hash, 16);

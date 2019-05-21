@@ -219,7 +219,7 @@ class UserPasswordAttribute extends CompositeAttribute
     $test = new $temp[$values[0]]($this->plugin->dn, $this->plugin);
     $test->set_hash($values[0]);
     if ($this->plugin->is_template) {
-      return $test->generate_hash($values[1], $values[4]).'|'.$values[1];
+      return $test->generate_hash($values[1], ($values[4] == 'TRUE')).'|'.$values[1];
     } else {
       return $test->generate_hash($values[1]);
     }

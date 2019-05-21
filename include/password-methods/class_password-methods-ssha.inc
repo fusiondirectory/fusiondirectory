@@ -43,7 +43,7 @@ class passwordMethodssha extends passwordMethod
    *
    * \return TRUE if is avaibable, otherwise return false
    */
-  function is_available ()
+  public function is_available (): bool
   {
     return (function_exists('sha1') || function_exists('mhash'));
   }
@@ -52,8 +52,11 @@ class passwordMethodssha extends passwordMethod
    * \brief Generate template hash
    *
    * \param string $pwd Password
+   * \param bool $locked Should the password be locked
+   *
+   * \return string the password hash
    */
-  function generate_hash ($pwd, $locked = FALSE)
+  public function generate_hash (string $pwd, bool $locked = FALSE): string
   {
     if (function_exists('sha1')) {
       $salt = substr(pack('h*', md5(random_int(0, PHP_INT_MAX))), 0, 8);
@@ -63,13 +66,12 @@ class passwordMethodssha extends passwordMethod
       $salt = mhash_keygen_s2k(MHASH_SHA1, $pwd, substr(pack('h*', md5(random_int(0, PHP_INT_MAX))), 0, 8), 4);
       $pwd  = '{SSHA}'.($locked ? '!' : '').base64_encode(mhash(MHASH_SHA1, $pwd.$salt).$salt);
     } else {
-      msg_dialog::display(_('Configuration error'), msgPool::missingext('mhash'), ERROR_DIALOG);
-      return FALSE;
+      throw new FusionDirectoryException(msgPool::missingext('mhash'));
     }
     return $pwd;
   }
 
-  function checkPassword ($pwd, $hash)
+  function checkPassword ($pwd, $hash): bool
   {
     $hash = base64_decode(substr($hash, 6));
     $salt = substr($hash, 20);
