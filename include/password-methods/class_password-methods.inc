@@ -27,7 +27,7 @@
 /*!
  * \brief This class contains all the basic function for password methods
  */
-class passwordMethod
+abstract class passwordMethod
 {
   var $display  = FALSE;
   var $hash     = '';
@@ -47,9 +47,26 @@ class passwordMethod
   /*!
    * \brief Get the Hash name
    */
-  static function get_hash_name ()
+  abstract static function get_hash_name ();
+
+  /*!
+   * \brief Generate template hash
+   *
+   * \param string $pwd Password
+   * \param bool $locked Should the password be locked
+   *
+   * \return string the password hash
+   */
+  abstract public function generate_hash (string $pwd, bool $locked = FALSE): string;
+
+  /*!
+   * \brief Is available
+   *
+   * \return TRUE
+   */
+  public function is_available (): bool
   {
-    trigger_error("get_hash_name can't be called on main class");
+    return TRUE;
   }
 
   /*!
@@ -57,7 +74,7 @@ class passwordMethod
    *
    * \return boolean TRUE
    */
-  function need_password ()
+  public function need_password (): bool
   {
     return TRUE;
   }
@@ -67,7 +84,7 @@ class passwordMethod
    *
    * \return boolean
    */
-  function is_lockable ()
+  public function is_lockable (): bool
   {
     return $this->lockable;
   }
@@ -77,7 +94,7 @@ class passwordMethod
    *
    * \param string $dn The DN
    */
-  function is_locked ($dn = '', $pwd = '')
+  function is_locked ($dn = '', $pwd = ''): bool
   {
     global $config;
     if (!$this->lockable) {
@@ -105,7 +122,7 @@ class passwordMethod
    *
    * \param string $dn
    */
-  function lock_account ($dn = "")
+  function lock_account ($dn = '')
   {
     return $this->generic_modify_account($dn, 'LOCK');
   }
@@ -114,7 +131,7 @@ class passwordMethod
    * \brief Unlocks an account which was locked by 'lock_account()'.
    *        For details about the locking mechanism see 'lock_account()'.
    */
-  function unlock_account ($dn = "")
+  function unlock_account ($dn = '')
   {
     return $this->generic_modify_account($dn, 'UNLOCK');
   }
@@ -123,7 +140,7 @@ class passwordMethod
    * \brief Unlocks an account which was locked by 'lock_account()'.
    *        For details about the locking mechanism see 'lock_account()'.
    */
-  private function generic_modify_account ($dn, $mode)
+  private function generic_modify_account ($dn, string $mode)
   {
     global $config;
     if (!$this->lockable) {
@@ -203,7 +220,7 @@ class passwordMethod
   /*!
    * \brief This function returns all loaded classes for password encryption
    */
-  static function get_available_methods ()
+  static function get_available_methods (): array
   {
     global $class_mapping;
     $ret  = FALSE;
@@ -247,15 +264,15 @@ class passwordMethod
   /*!
    * \brief Get desciption
    */
-  function get_description ()
+  function get_description (): string
   {
-    return "";
+    return '';
   }
 
   /*!
    * \brief Method to check if a password matches a hash
    */
-  function checkPassword ($pwd, $hash)
+  function checkPassword ($pwd, $hash): bool
   {
     return ($hash == $this->generate_hash($pwd));
   }
@@ -264,7 +281,7 @@ class passwordMethod
   /*!
    * \brief Return true if this password method provides a configuration dialog
    */
-  function is_configurable ()
+  function is_configurable (): bool
   {
     return FALSE;
   }
@@ -272,9 +289,9 @@ class passwordMethod
   /*!
    * \brief Provide a subdialog to configure a password method
    */
-  function configure ()
+  function configure (): string
   {
-    return "";
+    return '';
   }
 
 
@@ -295,7 +312,7 @@ class passwordMethod
    *
    * \param string $dn The DN
    */
-  static function get_method ($password_hash, $dn = "")
+  static function get_method ($password_hash, $dn = ''): passwordMethod
   {
     $methods = passwordMethod::get_available_methods();
 
@@ -325,14 +342,14 @@ class passwordMethod
    *
    * \param string $password_hash
    */
-  static function _extract_method ($password_hash)
+  static function _extract_method ($password_hash): string
   {
     $hash = static::get_hash_name();
     if (preg_match("/^\{$hash\}/i", $password_hash)) {
       return $hash;
     }
 
-    return "";
+    return '';
   }
 
   /*!
@@ -342,7 +359,7 @@ class passwordMethod
    *
    * \param string $hash
    */
-  static function make_hash ($password, $hash)
+  static function make_hash ($password, $hash): string
   {
     $methods  = passwordMethod::get_available_methods();
     $tmp      = new $methods[$hash]();
@@ -376,10 +393,10 @@ class passwordMethod
    *
    * \param string $password The password
    */
-  static function is_harmless ($password)
+  static function is_harmless ($password): bool
   {
     global $config;
-    if ($config->get_cfg_value("strictPasswordRules") == "TRUE") {
+    if ($config->get_cfg_value('strictPasswordRules') == 'TRUE') {
       // Do we have UTF8 characters in the password?
       return ($password == utf8_decode($password));
     }

@@ -43,21 +43,14 @@ class passwordMethodClear extends passwordMethod
   }
 
   /*!
-   * \brief Is available
-   *
-   * \return TRUE
-   */
-  function is_available ()
-  {
-    return TRUE;
-  }
-
-  /*!
    * \brief Generate template hash
    *
    * \param string $pwd Password
+   * \param bool $locked Should the password be locked
+   *
+   * \return string the password hash
    */
-  function generate_hash ($pwd, $locked = FALSE)
+  public function generate_hash (string $pwd, bool $locked = FALSE): string
   {
     return $pwd;
   }

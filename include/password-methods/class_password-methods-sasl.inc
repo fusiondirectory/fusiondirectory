@@ -72,7 +72,7 @@ class passwordMethodsasl extends passwordMethod
    *
    * \return TRUE if is avaibable
    */
-  function is_available ()
+  public function is_available (): bool
   {
     if (empty($this->realm) && empty($this->exop)) {
       return FALSE;
@@ -84,8 +84,11 @@ class passwordMethodsasl extends passwordMethod
    * \brief Generate template hash
    *
    * \param string $pwd Password
+   * \param bool $locked Should the password be locked
+   *
+   * \return string the password hash
    */
-  function generate_hash ($pwd, $locked = FALSE)
+  public function generate_hash (string $pwd, bool $locked = FALSE): string
   {
     if (empty($this->exop)) {
       if (empty($this->realm)) {
@@ -98,7 +101,7 @@ class passwordMethodsasl extends passwordMethod
     }
   }
 
-  function checkPassword ($pwd, $hash)
+  function checkPassword ($pwd, $hash): bool
   {
     // We do not store passwords, can’t know if they’re the same
     return FALSE;
@@ -115,9 +118,9 @@ class passwordMethodsasl extends passwordMethod
   /*!
    * \brief Password needed
    *
-   * \return boolean FALSE
+   * \return boolean
    */
-  function need_password ()
+  function need_password (): bool
   {
     global $config;
     return ($config->get_cfg_value('forceSaslPasswordAsk', 'FALSE') == 'TRUE');

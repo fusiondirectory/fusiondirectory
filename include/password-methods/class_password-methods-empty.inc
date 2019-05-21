@@ -44,21 +44,14 @@ class passwordMethodEmpty extends passwordMethod
   }
 
   /*!
-   * \brief Is available
-   *
-   * \return TRUE
-   */
-  function is_available ()
-  {
-    return TRUE;
-  }
-
-  /*!
    * \brief Generate template hash
    *
    * \param string $pwd Password
+   * \param bool $locked Should the password be locked
+   *
+   * \return string the password hash
    */
-  function generate_hash ($pwd, $locked = FALSE)
+  public function generate_hash (string $pwd, bool $locked = FALSE): string
   {
     return ($locked ? static::LOCKVALUE : '');
   }
@@ -76,12 +69,12 @@ class passwordMethodEmpty extends passwordMethod
    *
    * \return boolean FALSE
    */
-  function need_password ()
+  function need_password (): bool
   {
     return FALSE;
   }
 
-  static function _extract_method ($password_hash)
+  static function _extract_method ($password_hash): string
   {
     if (empty($password_hash) || ($password_hash == static::LOCKVALUE)) {
       return static::get_hash_name();
