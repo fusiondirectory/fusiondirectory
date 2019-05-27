@@ -222,32 +222,6 @@ class filter
     return $result;
   }
 
-
-  /*!
-   * \brief Get the date picker
-   *
-   * \param array $element
-   */
-  function getDatePicker ($element)
-  {
-    global $lang;
-    $tag    = $element['tag'];
-    $value  = '';
-    if (!empty($this->elementValues[$tag])) {
-      try {
-        $value = LdapGeneralizedTime::fromString($this->elementValues[$tag])->format('d.m.Y');
-      } catch (Exception $e) {
-        $value = $this->elementValues[$tag];
-      }
-    }
-    return  '<input type="text" name="'.$tag.'" id="'.$tag.'"'.
-              ' value="'.$value.'"'.
-              ' class="date" />'.
-            '<script type="text/javascript">
-              var datepicker  = new DatePicker({ relative : \''.$tag.'\', language : \''.preg_replace('/_.*$/', '', $lang).'\', keepFieldEmpty : true, enableCloseEffect : false, enableShowEffect : false });
-            </script>';
-  }
-
   /*!
    * \brief Set the combobox options
    *
@@ -358,10 +332,6 @@ class filter
 
         case "combobox":
           $htmlCode = $this->getCombobox($element);
-          break;
-
-        case 'date':
-          $htmlCode = $this->getDatePicker($element);
           break;
 
         default:
@@ -500,16 +470,7 @@ class filter
       // only if we didn't get a _GET
       foreach ($this->elements as $tag => $element) {
         if (!empty($_POST[$tag])) {
-          if ($element['type'] == 'date') {
-            try {
-              $date = new DateTime($_POST[$tag], new DateTimeZone('UTC'));
-              $this->elementValues[$tag] = LdapGeneralizedTime::toString($date);
-            } catch (Exception $e) {
-              $this->elementValues[$tag] = validate($_POST[$tag]);
-            }
-          } else {
-            $this->elementValues[$tag] = validate($_POST[$tag]);
-          }
+          $this->elementValues[$tag] = validate($_POST[$tag]);
         } else {
           $this->elementValues[$tag] = '';
         }

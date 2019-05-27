@@ -49,12 +49,14 @@ class DateAttribute extends Attribute
       try {
         $this->minDate = new DateTime($min, new DateTimeZone('UTC'));
       } catch (Exception $e) {
+        // Failed to parse min date, ignore
       }
     }
     if ($max !== NULL) {
       try {
         $this->maxDate = new DateTime($max, new DateTimeZone('UTC'));
       } catch (Exception $e) {
+        // Failed to parse max date, ignore
       }
     }
   }
