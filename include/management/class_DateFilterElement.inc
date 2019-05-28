@@ -30,7 +30,7 @@ class DateFilterElement extends FilterElement
   protected $max;
   protected $types;
 
-  public function __construct (managementFilter $parent, string $attribute, string $label, array $types = [])
+  public function __construct (managementFilter $parent, string $attribute, string $label, string $defaultMin = NULL, string $defaultMax = NULL, array $types = [])
   {
     global $config;
 
@@ -39,6 +39,8 @@ class DateFilterElement extends FilterElement
     $this->attribute  = $attribute;
     $this->label      = $label;
     $this->types      = $types;
+    $this->min        = $defaultMin;
+    $this->max        = $defaultMax;
   }
 
   public function update ()
