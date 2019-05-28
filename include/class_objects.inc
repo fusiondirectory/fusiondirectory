@@ -65,18 +65,22 @@ class objects
 
     $attrsAcls = [];
     if ($attrs === NULL) {
-      $attrs = [];
-      foreach ($types as $type) {
-        $infos = static::infos($type);
-        if ($infos['mainAttr']) {
-          $attrs[] = $infos['mainAttr'];
+      if ($templateSearch) {
+        $attrs = 'cn';
+      } else {
+        $attrs = [];
+        foreach ($types as $type) {
+          $infos = static::infos($type);
+          if ($infos['mainAttr']) {
+            $attrs[] = $infos['mainAttr'];
+          }
         }
-      }
-      $attrs = array_unique($attrs);
-      if (count($attrs) == 1) {
-        $attrs = $attrs[0];
-      } elseif (count($attrs) == 0) {
-        $attrs = ['dn' => 'raw'];
+        $attrs = array_unique($attrs);
+        if (count($attrs) == 1) {
+          $attrs = $attrs[0];
+        } elseif (count($attrs) == 0) {
+          $attrs = ['dn' => 'raw'];
+        }
       }
     } elseif ($checkAcl) {
       if (is_array($attrs)) {
@@ -100,12 +104,12 @@ class objects
 
     if (is_array($attrs)) {
       $search_attrs = array_keys($attrs);
-      if ($templateSearch) {
-        $search_attrs[] = 'fdTemplateField';
-        $search_attrs[] = 'cn';
-      }
     } else {
       $search_attrs = [$attrs];
+    }
+    if ($templateSearch) {
+      $search_attrs[] = 'fdTemplateField';
+      $search_attrs[] = 'cn';
     }
 
     try {
@@ -170,6 +174,27 @@ class objects
         }
         if (count($result[$key]) === 0) {
           unset($result[$key]);
+        }
+      } elseif ($templateSearch) {
+        if ($attrs == 'cn') {
+          if (
+              isset($fetched_attrs['cn']) &&
+              (!$checkAcl || (strpos($ui->get_permissions($key, $tplAcl, 'template_cn'), 'r') !== FALSE))
+            ) {
+            $result[$key] = $fetched_attrs['cn'][0];
+          }
+        } else {
+          if (isset($attrsAcls[$attrs]) &&
+              (strpos($ui->get_permissions($key, $attrsAcls[$attrs][0], $attrsAcls[$attrs][1]), 'r') === FALSE)) {
+            continue;
+          }
+          foreach ($fetched_attrs['fdTemplateField'] as $templateField) {
+            list($attr, $value) = explode(':', $templateField, 2);
+            if ($attrs == $attr) {
+              $result[$key] = $value;
+              break;
+            }
+          }
         }
       } elseif (isset($fetched_attrs[$attrs])) {
         if (isset($attrsAcls[$attrs]) &&
