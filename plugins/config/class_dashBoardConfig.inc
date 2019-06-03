@@ -28,6 +28,7 @@ class dashboardConfig extends simplePlugin
       'plCategory'      => ['configuration'],
       'plObjectClass'   => ['fdDashboardPluginConf'],
       'plObjectType'    => ['smallConfig'],
+      'plPriority'      => 2,
 
       'plProvidedAcls'  => parent::generatePlProvidedAcls(static::getAttributesInfo())
     ];
