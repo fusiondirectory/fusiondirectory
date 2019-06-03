@@ -1,7 +1,8 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2016 FusionDirectory
+
+  Copyright (C) 2012-2019 FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -17,34 +18,6 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
-
-/* Debug level is an OR combination of several values */
-class DebugLevelAttribute extends SetAttribute
-{
-  protected function loadAttrValue (array $attrs)
-  {
-    if (isset($attrs[$this->getLdapName()])) {
-      $value = $attrs[$this->getLdapName()][0];
-      $this->value = [];
-      foreach ($this->attribute->getChoices() as $choice) {
-        if ($value & $choice) {
-          $this->value[] = $choice;
-        }
-      }
-    } else {
-      $this->resetToDefault();
-    }
-  }
-
-  function computeLdapValue ()
-  {
-    $value = 0;
-    foreach ($this->value as $v) {
-      $value |= $v;
-    }
-    return $value;
-  }
-}
 
 class configInLdap extends simplePlugin
 {
@@ -77,11 +50,7 @@ class configInLdap extends simplePlugin
   static function getAttributesInfo (): array
   {
     global $config;
-    $plugins = [];
-    if (session::global_is_set('plist')) {
-      $plugins = array_keys(session::global_get('plist')->info);
-    }
-    sort($plugins);
+
     return [
       'look_n_feel' => [
         'name'  => _('Look and feel'),
@@ -392,48 +361,6 @@ class configInLdap extends simplePlugin
           new HiddenAttribute('fdManagementConfig'),
         ]
       ],
-      'hooks' => [
-        'name'  => _('Hooks'),
-        'class' => ['fullwidth'],
-        'attrs' => [
-          new OrderedArrayAttribute(
-            new CompositeAttribute(
-              _('Hooks that are called when specific actions happens'),
-              'fdTabHook',
-              [
-                new SelectAttribute(
-                  _('Tab'), _('The tab that this hook concerns'),
-                  'hookTab', TRUE,
-                  $plugins
-                ),
-                new SelectAttribute(
-                  _('Mode'), _('When to call this command'),
-                  'hookMode', TRUE,
-                  ['postcreate', 'postremove', 'postmodify',
-                        'precreate', 'preremove', 'premodify', 'check',
-                        'prelock', 'postlock', 'preunlock', 'postunlock']
-                ),
-                new TextAreaAttribute(
-                  _('Command'), _('The command that will be called'),
-                  'hookCmd', TRUE
-                )
-              ],
-              '/^([^\\|]+)\\|([^\\|]+)\\|(.*)$/',
-              '%s|%s|%s',
-              '', // acl
-              _('Hooks')
-            ),
-            FALSE, // non-ordered
-            [],
-            TRUE // edition
-          ),
-          new BooleanAttribute(
-            _('Display hook output'),
-            _('When enabled successful hook execution output is displayed to the user using a dialog.'),
-            'fdDisplayHookOutput'
-          ),
-        ]
-      ],
     ];
   }
 
@@ -513,8 +440,6 @@ class configInLdap extends simplePlugin
         ]
       ]
     );
-
-    $this->attributesAccess['fdTabHook']->setLinearRendering(FALSE);
 
     $this->attributesAccess['fdForceSSL']->setManagedAttributes(
       [

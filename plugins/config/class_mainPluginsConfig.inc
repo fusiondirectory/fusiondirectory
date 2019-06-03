@@ -28,6 +28,7 @@ class mainPluginsConfig extends simplePlugin
       'plCategory'      => ['configuration'],
       'plObjectClass'   => ['fusionDirectoryPluginsConf'],
       'plObjectType'    => ['smallConfig'],
+      'plPriority'      => 1,
 
       'plProvidedAcls'  => parent::generatePlProvidedAcls(static::getAttributesInfo())
     ];
