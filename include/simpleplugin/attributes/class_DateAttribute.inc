@@ -41,7 +41,7 @@ class DateAttribute extends Attribute
    *  \param mixed $max Maximum valid value
    *  \param string $acl The name of the acl for this attribute if he does not use its own. (Leave empty if he should use its own like most attributes do)
    */
-  function __construct (string $label, string $description, string $ldapName, bool $required, string $format, $defaultValue = 'now', $min = NULL, $max = NULL, string $acl = '')
+  function __construct (string $label, string $description, string $ldapName, bool $required, string $format, $defaultValue = 'today', $min = NULL, $max = NULL, string $acl = '')
   {
     parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
     $this->format = $format;
@@ -88,7 +88,7 @@ class DateAttribute extends Attribute
 
   protected function ldapToDate ($ldapValue)
   {
-    $date = DateTime::createFromFormat($this->format, $ldapValue, new DateTimeZone('UTC'));
+    $date = DateTime::createFromFormat('!'.$this->format, $ldapValue, new DateTimeZone('UTC'));
     if ($date !== FALSE) {
       return $date;
     } else {
@@ -174,7 +174,7 @@ class DateAttribute extends Attribute
  */
 class GeneralizedTimeDateAttribute extends DateAttribute
 {
-  function __construct (string $label, string $description, string $ldapName, bool $required, $defaultValue = 'now', $min = NULL, $max = NULL, string $acl = '')
+  function __construct (string $label, string $description, string $ldapName, bool $required, $defaultValue = 'today', $min = NULL, $max = NULL, string $acl = '')
   {
     parent::__construct($label, $description, $ldapName, $required, '', $defaultValue, $min, $max, $acl);
   }
@@ -345,7 +345,7 @@ class EpochDaysDateAttribute extends DateAttribute
   /* 24 * 60 * 60 = 86400 */
   public static $secondsPerDay = 86400;
 
-  function __construct (string $label, string $description, string $ldapName, bool $required, $defaultValue = 'now', $min = NULL, $max = NULL, string $acl = '')
+  function __construct (string $label, string $description, string $ldapName, bool $required, $defaultValue = 'today', $min = NULL, $max = NULL, string $acl = '')
   {
     parent::__construct($label, $description, $ldapName, $required, '', $defaultValue, $min, $max, $acl);
   }
