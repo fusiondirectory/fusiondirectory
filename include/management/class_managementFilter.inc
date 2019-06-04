@@ -220,11 +220,22 @@ class managementFilter
 
       $parentClass = get_class($this->parent);
       if (!$parentClass::$skipTemplates && $this->showTemplates) {
-        $ldapEntries = objects::ls($type, $attrsAsked, (($this->scope == 'one') ? 'ou=templates,'.$searchBase : $searchBase), $filter, TRUE, $this->scope, TRUE);
+        try {
+          $ldapEntries = objects::ls($type, $attrsAsked, (($this->scope == 'one') ? 'ou=templates,'.$searchBase : $searchBase), $filter, TRUE, $this->scope, TRUE);
 
-        $objectTypeCount['template_'.$type] = count($ldapEntries);
-        foreach ($ldapEntries as $dn => $entry) {
-          $entries[$dn] = new ListingEntry($this->parent->listing, 'template_'.$type, $dn, $entry, $row++);
+          $objectTypeCount['template_'.$type] = count($ldapEntries);
+          foreach ($ldapEntries as $dn => $entry) {
+            $entries[$dn] = new ListingEntry($this->parent->listing, 'template_'.$type, $dn, $entry, $row++);
+          }
+        } catch (FusionDirectoryException $e) {
+          msg_dialog::display(
+            sprintf(
+              _('Could not search for "%s" templates'),
+              $this->types['filter_type_'.$type]['infos']['name']
+            ),
+            $e->getMessage(),
+            WARNING_DIALOG
+          );
         }
       }
 
@@ -232,9 +243,22 @@ class managementFilter
         continue;
       }
 
-      $ldapEntries = objects::ls($type, $attrsAsked, $searchBase, $filter, TRUE, $this->scope, FALSE, TRUE);
+      try {
+        $ldapEntries = objects::ls($type, $attrsAsked, $searchBase, $filter, TRUE, $this->scope, FALSE, TRUE);
 
-      $ldapEntries = $this->filterEntries($ldapEntries);
+        $ldapEntries = $this->filterEntries($ldapEntries);
+      } catch (FusionDirectoryException $e) {
+        msg_dialog::display(
+          sprintf(
+            _('Could not search for "%s"'),
+            $this->types['filter_type_'.$type]['infos']['name']
+          ),
+          $e->getMessage(),
+          WARNING_DIALOG
+        );
+        $this->types['filter_type_'.$type]['show'] = FALSE;
+        continue;
+      }
 
       $objectTypeCount[$type] = count($ldapEntries);
       foreach ($ldapEntries as $dn => $entry) {
