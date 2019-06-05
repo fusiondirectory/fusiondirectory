@@ -1037,27 +1037,8 @@ class LDAP
     return @ldap_read($this->cid, $dn, "(objectClass=*)", ["objectClass"]);
   }
 
-  /*!
-   * \brief Function to imports ldifs
-   *
-   * If DeleteOldEntries is TRUE, the destination entry will be deleted first.
-   * If JustModify is TRUE the destination entry will only be touched by the attributes specified in the ldif.
-   * if JustMofify is FALSE the destination dn will be overwritten by the new ldif.
-   *
-   * \param integer $srp
-   *
-   * \param string $str_attr
-   *
-   * \param boolean $JustModify
-   *
-   * \param boolean $DeleteOldEntries
-   */
-  function import_complete_ldif ($srp, $str_attr, $JustModify, $DeleteOldEntries)
+  function parseLdif (string $str_attr): array
   {
-    if ($this->reconnect) {
-      $this->connect();
-    }
-
     /* First we split the string into lines */
     $fileLines = preg_split("/\n/", $str_attr);
     if (end($fileLines) != '') {
@@ -1124,6 +1105,32 @@ class LDAP
           $line       = NULL;
         }
       }
+    }
+
+    return $entries;
+  }
+
+  /*!
+   * \brief Function to imports ldifs
+   *
+   * If DeleteOldEntries is TRUE, the destination entry will be deleted first.
+   * If JustModify is TRUE the destination entry will only be touched by the attributes specified in the ldif.
+   * if JustMofify is FALSE the destination dn will be overwritten by the new ldif.
+   *
+   * \param integer $srp
+   *
+   * \param string $str_attr
+   *
+   * \param boolean $JustModify
+   *
+   * \param boolean $DeleteOldEntries
+   */
+  function import_complete_ldif ($srp, $str_attr, $JustModify, $DeleteOldEntries)
+  {
+    $entries = $this->parseLdif($str_attr);
+
+    if ($this->reconnect) {
+      $this->connect();
     }
 
     foreach ($entries as $startLine => $entry) {

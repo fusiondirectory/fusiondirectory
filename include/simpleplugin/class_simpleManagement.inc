@@ -1107,7 +1107,7 @@ class simpleManagement
   function createSnapshotDialog ($action, array $target)
   {
     global $config, $ui;
-    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, 'Snaptshot creation initiated!');
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $target, 'Snapshot creation initiated!');
 
     if (count($target) == 1) {
       $this->dn = array_pop($target);
@@ -1163,7 +1163,7 @@ class simpleManagement
     }
 
     if ($ui->allow_snapshot_restore($this->dn, $aclCategory, !count($target))) {
-      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Snaptshot restoring initiated!');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Snapshot restoring initiated!');
       $this->dialogObject = new SnapshotRestoreDialog($this->dn, $this, !count($target), $aclCategory);
     } else {
       msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $this->dn),
@@ -1244,7 +1244,7 @@ class simpleManagement
     }
     if (!empty($dn) && $ui->allow_snapshot_create($dn, $this->dialogObject->aclCategory)) {
       $this->snapHandler->createSnapshot($dn, $description);
-      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot created!');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snapshot created!');
     } else {
       msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $dn),
           ERROR_DIALOG);
@@ -1261,7 +1261,7 @@ class simpleManagement
     global $ui;
     if (!empty($dn) && $ui->allow_snapshot_restore($dn, $this->dialogObject->aclCategory, $this->dialogObject->global)) {
       $this->snapHandler->restoreSnapshot($dn);
-      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot restored');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snapshot restored');
       $this->closeDialogs();
     } else {
       msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $dn),
@@ -1317,7 +1317,7 @@ class simpleManagement
     global $ui;
     if (!empty($dn) && $ui->allow_snapshot_delete($dn, $this->dialogObject->aclCategory)) {
       $this->snapHandler->removeSnapshot($dn);
-      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot deleted');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snapshot deleted');
     } else {
       msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to delete a snapshot for %s.'), $dn),
           ERROR_DIALOG);
