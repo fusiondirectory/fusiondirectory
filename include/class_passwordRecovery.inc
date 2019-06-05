@@ -255,9 +255,14 @@ class passwordRecovery extends standAlonePage
   }
 
   /* Find the login of for the given email address */
-  function step2 ()
+  function step2 ($email = NULL)
   {
     global $config;
+
+    if ($email !== NULL) {
+      /* Special case when recovery is called from webservice */
+      $this->email_address = $email;
+    }
 
     /* Search login corresponding to the mail */
     $address_escaped = ldap_escape_f($this->email_address);
@@ -279,10 +284,10 @@ class passwordRecovery extends standAlonePage
     /* Only one ldap node should be found */
     if ($ldap->count() < 1) {
       $this->message[] = sprintf(_('There is no account using email "%s"'), htmlentities($this->email_address, ENT_COMPAT, 'UTF-8'));
-      return;
+      return FALSE;
     } elseif ($ldap->count() > 1) {
       $this->message[] = sprintf(_('There are several accounts using email "%s"'), htmlentities($this->email_address, ENT_COMPAT, 'UTF-8'));
-      return;
+      return FALSE;
     }
 
     $attrs = $ldap->fetch();
@@ -290,7 +295,7 @@ class passwordRecovery extends standAlonePage
     $method = passwordMethod::get_method($attrs['userPassword'][0], $attrs['dn']);
     if (is_object($method) && $method->is_locked($attrs['dn'])) {
       $this->message[] = sprintf(_('The user using email "%s" is locked. Please contact your administrator.'), htmlentities($this->email_address, ENT_COMPAT, 'UTF-8'));
-      return;
+      return FALSE;
     }
     $this->login  = $attrs[$this->loginAttribute][0];
     $this->step   = 2;
@@ -423,5 +428,20 @@ class passwordRecovery extends standAlonePage
     } else {
       $this->message[] = msgPool::invalid(_("There was a problem with mail server, confirmation email not sent"));
     }
+  }
+
+  function getErrorMessages (): array
+  {
+    return $this->message;
+  }
+
+  function setLogin (string $login)
+  {
+    $this->login = $login;
+  }
+
+  function getLogin ()
+  {
+    return $this->login;
   }
 }

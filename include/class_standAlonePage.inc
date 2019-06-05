@@ -34,22 +34,24 @@ class standAlonePage
 
     $this->interactive = $interactive;
 
-    /* Destroy old session if exists.
-        Else you will get your old session back, if you not logged out correctly. */
-    session::destroy();
-    session::start();
+    if ($this->interactive) {
+      /* Destroy old session if exists.
+          Else you will get your old session back, if you not logged out correctly. */
+      session::destroy();
+      session::start();
 
-    $config = $this->loadConfig();
-    session::global_set('config', $config);
+      $config = $this->loadConfig();
+      session::global_set('config', $config);
 
-    /* Generate server list */
-    $this->directories = [];
-    foreach ($config->data['LOCATIONS'] as $key => $ignored) {
-      $this->directories[$key] = $key;
+      /* Generate server list */
+      $this->directories = [];
+      foreach ($config->data['LOCATIONS'] as $key => $ignored) {
+        $this->directories[$key] = $key;
+      }
+
+      $ui = new userinfoNoAuth(get_class($this));
+      session::global_set('ui', $ui);
     }
-
-    $ui = new userinfoNoAuth(get_class($this));
-    session::global_set('ui', $ui);
 
     static::init();
   }
@@ -84,6 +86,10 @@ class standAlonePage
   {
     global $config, $ssl, $ui;
 
+    if (!$this->interactive) {
+      return;
+    }
+
     static::checkDirectoryChooser();
 
     reset_errors();
@@ -95,13 +101,11 @@ class standAlonePage
     $ui     = session::global_get('ui');
     $config = session::global_get('config');
 
-    if ($this->interactive) {
-      timezone::setDefaultTimezoneFromConfig();
+    timezone::setDefaultTimezoneFromConfig();
 
-      Language::init();
+    Language::init();
 
-      $this->setupSmarty();
-    }
+    $this->setupSmarty();
 
     $ssl = $this->checkForSSL();
 
