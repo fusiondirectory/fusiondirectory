@@ -462,16 +462,7 @@ class managementListing
         /* Pre-render list to init things if a dn is gonna be opened on first load */
         $dn         = urldecode($_REQUEST['dn']);
         $action     = $m[1];
-        /* Detect the longer base valid for this dn */
-        $longerBase = '';
-        foreach (array_keys($this->bases) as $base) {
-          if (preg_match('/'.preg_quote($base, '/').'$/i', $dn)
-            && (strlen($base) > strlen($longerBase))) {
-            $longerBase = $base;
-          }
-        }
-        $this->setBase($longerBase);
-        $this->update($dn);
+        $this->focusDn($dn);
         $this->render();
 
         $result['action']     = $action;
@@ -525,6 +516,23 @@ class managementListing
       $result['subaction']  = $m[2];
     }
     return $result;
+  }
+
+  /*!
+   * \brief Set base close to this dn and load only him
+   */
+  function focusDn (string $dn)
+  {
+    /* Detect the longer base valid for this dn */
+    $longerBase = '';
+    foreach (array_keys($this->bases) as $base) {
+      if (preg_match('/'.preg_quote($base, '/').'$/i', $dn)
+        && (strlen($base) > strlen($longerBase))) {
+        $longerBase = $base;
+      }
+    }
+    $this->setBase($longerBase);
+    $this->update($dn);
   }
 
   /*!

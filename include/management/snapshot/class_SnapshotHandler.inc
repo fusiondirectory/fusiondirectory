@@ -1,8 +1,9 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
+
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2019  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -190,13 +191,15 @@ class SnapshotHandler
    *
    * \param string $dn The DN
    *
-   * \param array $description Snapshot description
+   * \param string $description Snapshot description
+   *
+   * \param string $objectType Type of snapshotted object
    */
-  function createSnapshot ($dn, $description = [])
+  function createSnapshot ($dn, string $description, string $objectType)
   {
     global $config;
     if (!$this->enabled()) {
-      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot are disabled but tried to create snapshot');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snapshot are disabled but tried to create snapshot');
       return;
     }
 
@@ -230,12 +233,13 @@ class SnapshotHandler
       }
     }
 
-    $target   = [];
+    $target = [];
 
-    $target['objectClass']            = ['top', 'gosaSnapshotObject'];
-    $target['gosaSnapshotData']       = gzcompress($data, 6);
-    $target['gosaSnapshotDN']         = $dn;
-    $target['description']            = $description;
+    $target['objectClass']          = ['top', 'gosaSnapshotObject'];
+    $target['gosaSnapshotData']     = gzcompress($data, 6);
+    $target['gosaSnapshotDN']       = $dn;
+    $target['description']          = $description;
+    $target['fdSnapshotObjectType'] = $objectType;
 
     /* Insert the new snapshot
        But we have to check first, if the given gosaSnapshotTimestamp
@@ -299,7 +303,7 @@ class SnapshotHandler
     $ldap->cd($new_base);
     $ldap->search(
       '(&(objectClass=gosaSnapshotObject)(gosaSnapshotDN='.ldap_escape_f($dn).'))',
-      ['gosaSnapshotTimestamp','gosaSnapshotDN','description'],
+      ['gosaSnapshotTimestamp','gosaSnapshotDN','description','fdSnapshotObjectType'],
       'one'
     );
 
@@ -335,7 +339,7 @@ class SnapshotHandler
     $ldap->cd($new_base);
     $ldap->search(
       '(objectClass=gosaSnapshotObject)',
-      ['gosaSnapshotTimestamp','gosaSnapshotDN','description'],
+      ['gosaSnapshotTimestamp','gosaSnapshotDN','description','fdSnapshotObjectType'],
       'one'
     );
     while ($entry = $ldap->fetch()) {
@@ -371,34 +375,37 @@ class SnapshotHandler
   {
     global $config;
     if (!$this->enabled()) {
-      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot are disabled but tried to restore snapshot');
-      return [];
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snapshot are disabled but tried to restore snapshot');
+      return FALSE;
     }
 
     $ldap = $config->get_ldap_link();
 
     /* Get the snapshot */
-    $ldap->cat($dn, ['gosaSnapshotData'], '(gosaSnapshotData=*)');
+    $ldap->cat($dn, ['gosaSnapshotData','gosaSnapshotDN','fdSnapshotObjectType'], '(gosaSnapshotData=*)');
     if ($attrs = $ldap->fetch()) {
       /* Prepare import string */
       $data = gzuncompress($attrs['gosaSnapshotData'][0]);
       if ($data === FALSE) {
         msg_dialog::display(_('Error'), _('There was a problem uncompressing snapshot data'), ERROR_DIALOG);
-        return [];
+        return FALSE;
       }
     } else {
       msg_dialog::display(_('Error'), _('Snapshot data could not be fetched'), ERROR_DIALOG);
-      return [];
+      return FALSE;
     }
 
     /* Import the given data */
     try {
       $ldap->import_complete_ldif($data, FALSE, FALSE);
       if (!$ldap->success()) {
-        msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $dn, "", get_class()), LDAP_ERROR);
+        msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), $dn, '', get_class()), LDAP_ERROR);
+        return FALSE;
       }
+      return $attrs['gosaSnapshotDN'][0];
     } catch (LDIFImportException $e) {
       msg_dialog::display(_('LDAP error'), $e->getMessage(), ERROR_DIALOG);
+      return FALSE;
     }
   }
 }

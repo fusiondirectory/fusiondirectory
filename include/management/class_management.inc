@@ -1055,7 +1055,7 @@ class management
   function createSnapshotDialog (array $action)
   {
     global $config, $ui;
-    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $action['targets'], 'Snaptshot creation initiated!');
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $action['targets'], 'Snapshot creation initiated!');
 
     $this->currentDn = array_pop($action['targets']);
     if (empty($this->currentDn)) {
@@ -1093,7 +1093,7 @@ class management
     }
 
     if ($ui->allow_snapshot_restore($this->currentDn, $aclCategory, empty($action['targets']))) {
-      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDn, 'Snaptshot restoring initiated!');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDn, 'Snapshot restoring initiated!');
       $this->dialogObject = new SnapshotRestoreDialog($this->currentDn, $this, empty($action['targets']), $aclCategory);
     } else {
       msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $this->currentDn),
@@ -1176,13 +1176,14 @@ class management
   function createSnapshot (string $dn, string $description)
   {
     global $ui;
-    if ($this->currentDn !== $dn) {
+    if (empty($dn) || ($this->currentDn !== $dn)) {
       trigger_error('There was a problem with the snapshot workflow');
       return;
     }
-    if (!empty($dn) && $ui->allow_snapshot_create($dn, $this->dialogObject->aclCategory)) {
-      $this->snapHandler->createSnapshot($dn, $description);
-      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot created!');
+    $entry = $this->listing->getEntry($dn);
+    if ($entry->snapshotCreationAllowed()) {
+      $this->snapHandler->createSnapshot($dn, $description, $entry->type);
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snapshot created!');
     } else {
       msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $dn),
           ERROR_DIALOG);
@@ -1198,9 +1199,20 @@ class management
   {
     global $ui;
     if (!empty($dn) && $ui->allow_snapshot_restore($dn, $this->dialogObject->aclCategory, $this->dialogObject->global)) {
-      $this->snapHandler->restoreSnapshot($dn);
-      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot restored');
+      $dn = $this->snapHandler->restoreSnapshot($dn);
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snapshot restored');
       $this->closeDialogs();
+      if ($dn !== FALSE) {
+        $this->listing->focusDn($dn);
+        $entry = $this->listing->getEntry($dn);
+        $this->currentDn = $dn;
+        set_object_info($this->currentDn);
+        add_lock($this->currentDn, $ui->dn);
+
+        // Open object
+        $this->openTabObject(objects::open($this->currentDn, $entry->getTemplatedType()), $this->currentDn);
+        $this->saveChanges();
+      }
     } else {
       msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $dn),
           ERROR_DIALOG);
@@ -1217,7 +1229,7 @@ class management
     global $ui;
     if (!empty($dn) && $ui->allow_snapshot_delete($dn, $this->dialogObject->aclCategory)) {
       $this->snapHandler->removeSnapshot($dn);
-      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot deleted');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snapshot deleted');
     } else {
       msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to delete a snapshot for %s.'), $dn),
           ERROR_DIALOG);
