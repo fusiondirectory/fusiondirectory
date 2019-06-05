@@ -1843,8 +1843,8 @@ class simplePlugin implements SimpleTab
     /* Build DN with multiple attributes */
     $usableAttributes = [];
     foreach ($this->attributes as $attr) {
-      if (($attr != $attribute) && is_string($this->$attr) && ($this->$attr != '')) {
-        $usableAttributes[] = $attr;
+      if (($attr != $attribute) && is_scalar($this->$attr) && ($this->$attr != '')) {
+        $usableAttributes[] = (string)$attr;
       }
     }
     for ($i = 1; $i < count($usableAttributes); $i++) {
