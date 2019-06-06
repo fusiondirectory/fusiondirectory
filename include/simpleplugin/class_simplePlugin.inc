@@ -1422,6 +1422,16 @@ class simplePlugin implements SimpleTab
     return $this->handle_hooks('PRE', $mode, $addAttrs);
   }
 
+  function fillHookAttrs (array &$addAttrs)
+  {
+    // Walk trough attributes list and add the plugins attributes.
+    foreach ($this->attributes as $attr) {
+      if (!isset($addAttrs[$attr])) {
+        $addAttrs[$attr] = $this->$attr;
+      }
+    }
+  }
+
   /*!
    * \brief    Calls external hooks which are defined for this plugin (fusiondirectory.conf)
    *           Replaces placeholder by class values of this plugin instance.
@@ -1438,10 +1448,7 @@ class simplePlugin implements SimpleTab
     $messages = [];
 
     foreach ($commands as $command) {
-      // Walk trough attributes list and add the plugins attributes.
-      foreach ($this->attributes as $attr) {
-        $addAttrs[$attr] = $this->$attr;
-      }
+      $this->fillHookAttrs($addAttrs);
 
       $ui = get_userinfo();
 
@@ -1455,11 +1462,9 @@ class simplePlugin implements SimpleTab
       $addAttrs['location']   = $config->current['NAME'];
 
       if (isset($this->parent->by_object)) {
-        foreach ($this->parent->by_object as $object) {
-          foreach ($object->attributes as $attr) {
-            if (!isset($addAttrs[$attr])) {
-              $addAttrs[$attr] = $object->$attr;
-            }
+        foreach ($this->parent->by_object as $class => $object) {
+          if ($class != get_class($this)) {
+            $object->fillHookAttrs($addAttrs);
           }
         }
       }

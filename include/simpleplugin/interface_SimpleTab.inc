@@ -142,4 +142,11 @@ interface SimpleTab
    *  Used by prepare_save and template::apply
    */
   public function mergeObjectClasses (array $oc): array;
+
+  /*!
+   * \brief Fill attributes which may be used in hooks
+   *
+   *  Used by simplePlugin::callHook
+   */
+  public function fillHookAttrs (array &$addAttrs);
 }
