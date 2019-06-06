@@ -389,12 +389,12 @@ class user extends simplePlugin
     }
   }
 
-  function callHook ($cmd, array $addAttrs = [], &$returnOutput = [], &$returnCode = NULL): array
+  function fillHookAttrs (array &$addAttrs)
   {
+    parent::fillHookAttrs($addAttrs);
     $addAttrs['passwordMethod'] = $this->attributesAccess['userPassword']->getMethod();
     $addAttrs['userLocked']     = (int)($this->attributesAccess['userPassword']->isLocked());
     $addAttrs['passwordClear']  = $this->attributesAccess['userPassword']->getClear();
-    return parent::callHook($cmd, $addAttrs, $returnOutput, $returnCode);
   }
 
   static function reportPasswordProblems ($user, $new_password, $repeated_password, $current_password = NULL)
