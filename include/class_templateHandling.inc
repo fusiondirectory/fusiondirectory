@@ -450,6 +450,11 @@ class templateHandling
     return $numberGenerator($args[0], $args[1], $args[2]);
   }
 
+  private static function modifierTitleCase ($str)
+  {
+    return [mb_convert_case($str, MB_CASE_TITLE, 'UTF-8')];
+  }
+
   /*! \brief Apply a modifier
    *
    * \param string $m the modifier
@@ -559,6 +564,10 @@ class templateHandling
       case 'n':
         // number
         $result = static::modifierNumber($args);
+        break;
+      case 'i':
+        // title case
+        $result = static::modifierTitleCase($str);
         break;
       default:
         trigger_error("Unkown modifier '$m'");
