@@ -87,6 +87,7 @@ class standAlonePage
     global $config, $ssl, $ui;
 
     if (!$this->interactive) {
+      $this->activated = $this->readLdapConfig();
       return;
     }
 
@@ -255,6 +256,11 @@ class standAlonePage
       $params .= "&amp;$key=".urlencode($this->$key);
     }
     return preg_replace('/^&amp;/', '?', $params);
+  }
+
+  public function isActivated ()
+  {
+    return $this->activated;
   }
 
   static function run ()
