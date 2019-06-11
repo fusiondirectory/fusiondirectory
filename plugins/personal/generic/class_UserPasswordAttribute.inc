@@ -208,7 +208,7 @@ class UserPasswordAttribute extends CompositeAttribute
     if ($this->plugin->is_template && ($values[0] == '%askme%')) {
       return '%askme%';
     }
-    if (!$this->plugin->is_template && ($this->needPassword[$values[0]] || ($values[0] == 'empty')) && ($values[1] == '')) {
+    if (!$this->plugin->is_template && (!$this->attributes[0]->hasChanged()) && ($this->needPassword[$values[0]] || ($values[0] == 'empty')) && ($values[1] == '')) {
       return $values[3];
     }
     $temp = passwordMethod::get_available_methods();
