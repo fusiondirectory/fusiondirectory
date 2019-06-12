@@ -182,7 +182,7 @@ class UserPasswordAttribute extends CompositeAttribute
     $pw_storage = $config->get_cfg_value('passwordDefaultHash', 'ssha');
     $locked     = FALSE;
     $password   = '';
-    if (!empty($value)) {
+    if (!empty($value) || ($this->plugin->initially_was_account && !$istemplate)) {
       if ($istemplate) {
         if ($value == '%askme%') {
           return ['%askme%', '', '', $value, ($locked ? 'TRUE' : 'FALSE')];
