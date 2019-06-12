@@ -88,10 +88,22 @@ class ManagementConfigurationDialog extends ManagementDialog
             FALSE,
             'ManagementConfiguration'
           ),
+          new ButtonAttribute(
+            _('Forget my persistent configuration'), _('Delete the persistent configuration for this management page so that the default one is used'),
+            'resetInLdapUser', _('Forget'),
+            NULL, '',
+            'ManagementConfiguration'
+          ),
           new BooleanAttribute(
             _('Global default'), _('Should this configuration be saved in the LDAP as the default configuration for this management page for all users'),
             'saveInLdap', FALSE,
             FALSE,
+            'fdManagementConfig'
+          ),
+          new ButtonAttribute(
+            _('Forget global default'), _('Delete the global default configuration for this management page so that the default one is used'),
+            'resetInLdap', _('Forget'),
+            NULL, '',
             'fdManagementConfig'
           ),
         ]
@@ -101,12 +113,28 @@ class ManagementConfigurationDialog extends ManagementDialog
 
   function __construct (management $parent)
   {
+    global $config;
+
     parent::__construct(NULL, NULL, $parent);
 
     $this->attributesAccess['saveInLdap']->setInLdap(FALSE);
+    $this->attributesAccess['saveInLdapUser']->setInLdap(FALSE);
     if (!$this->attrIsWriteable('saveInLdap')) {
       $this->attributesAccess['saveInLdap']->setVisible(FALSE);
     }
+    $this->attributesAccess['resetInLdap']->setInLdap(FALSE);
+    $this->attributesAccess['resetInLdapUser']->setInLdap(FALSE);
+    if (!$this->attrIsWriteable('resetInLdap')) {
+      $this->attributesAccess['resetInLdap']->setVisible(FALSE);
+    }
+
+    if (!$config->hasManagementConfig(get_class($this->parent), TRUE)) {
+      $this->attributesAccess['resetInLdapUser']->setVisible(FALSE);
+    }
+    if (!$config->hasManagementConfig(get_class($this->parent), FALSE)) {
+      $this->attributesAccess['resetInLdap']->setVisible(FALSE);
+    }
+
     $this->attributesAccess['managementColumns']->setInLdap(FALSE);
     $this->attributesAccess['managementColumns']->setLinearRendering(FALSE);
     $columnInfos  = $this->parent->getColumnConfiguration();
@@ -129,15 +157,36 @@ class ManagementConfigurationDialog extends ManagementDialog
   {
     global $config, $ui;
 
-    $noAclAttrs = ['managementColumns', 'saveInLdapUser'];
+    $noAclAttrs   = ['managementColumns', 'saveInLdapUser', 'resetInLdapUser'];
+    $configAttrs  = ['saveInLdap', 'resetInLdap'];
 
     if ((is_object($attr) && in_array($attr->getLdapName(), $noAclAttrs)) || in_array($attr, $noAclAttrs)) {
       return TRUE;
-    } elseif (($attr === 'saveInLdap') || (is_object($attr) && ($attr->getLdapName() == 'saveInLdap'))) {
+    } elseif ((is_object($attr) && in_array($attr->getLdapName(), $configAttrs)) || in_array($attr, $configAttrs)) {
       $acl = $ui->get_permissions(CONFIGRDN.$config->current['BASE'], 'configuration/configInLdap', 'fdManagementConfig', $this->readOnly());
       return (strpos($acl, 'w') !== FALSE);
     } else {
       return parent::attrIsWriteable($attr);
+    }
+  }
+
+  function handle_resetInLdapUser ()
+  {
+    global $config;
+    $errors = $config->updateManagementConfig(get_class($this->parent), NULL, TRUE);
+    msg_dialog::displayChecks($errors);
+    if (empty($errors)) {
+      $this->attributesAccess['resetInLdapUser']->setVisible(FALSE);
+    }
+  }
+
+  function handle_resetInLdap ()
+  {
+    global $config;
+    $errors = $config->updateManagementConfig(get_class($this->parent), NULL, FALSE);
+    msg_dialog::displayChecks($errors);
+    if (empty($errors)) {
+      $this->attributesAccess['resetInLdap']->setVisible(FALSE);
     }
   }
 

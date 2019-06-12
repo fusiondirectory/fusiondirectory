@@ -537,11 +537,10 @@ class config
   /*!
    * \brief Update the management config in the LDAP and the cache
    */
-  public function updateManagementConfig (string $managementClass, array $managementConfig, bool $userConfig = FALSE): array
+  public function updateManagementConfig (string $managementClass, $managementConfig, bool $userConfig = FALSE): array
   {
     global $ui;
 
-    $managementConfig = json_encode($managementConfig);
     $changes = [];
     if ($userConfig) {
       if (!isset($this->current['MANAGEMENTUSERCONFIG'][$ui->dn])) {
@@ -558,9 +557,14 @@ class config
       $attrib         = 'fdManagementConfig';
       $prefix         = $managementClass;
     }
+
+    if ($managementConfig !== NULL) {
+      $managementConfig = json_encode($managementConfig);
+    }
+
     if (isset($currentConfig[$managementClass])) {
       /* If there already was a config for this class, remove it */
-      if ($currentConfig[$managementClass] == $managementConfig) {
+      if ($currentConfig[$managementClass] === $managementConfig) {
         /* Unless it's the same one and we've got nothing to do */
         return [];
       }
@@ -570,19 +574,42 @@ class config
         'values'  => [$prefix.':'.$currentConfig[$managementClass]],
       ];
     }
-    /* Add the new one */
-    $changes[] = [
-      'attrib'  => $attrib,
-      'modtype' => LDAP_MODIFY_BATCH_ADD,
-      'values'  => [$prefix.':'.$managementConfig],
-    ];
+
+    if ($managementConfig !== NULL) {
+      /* Add the new one, if any */
+      $changes[] = [
+        'attrib'  => $attrib,
+        'modtype' => LDAP_MODIFY_BATCH_ADD,
+        'values'  => [$prefix.':'.$managementConfig],
+      ];
+    }
     $ldap = $this->get_ldap_link();
     $ldap->cd(CONFIGRDN.$this->current['BASE']);
     if (!$ldap->modify_batch($changes)) {
       return [$ldap->get_error()];
     }
-    $currentConfig[$managementClass] = $managementConfig;
+
+    if ($managementConfig !== NULL) {
+      $currentConfig[$managementClass] = $managementConfig;
+    } else {
+      unset($currentConfig[$managementClass]);
+    }
+
     return [];
+  }
+
+  /*!
+   * \brief Test if there is a stored management config
+   */
+  public function hasManagementConfig (string $managementClass, bool $userConfig = FALSE): bool
+  {
+    global $ui;
+
+    if ($userConfig) {
+      return isset($this->current['MANAGEMENTUSERCONFIG'][$ui->dn][$managementClass]);
+    } else {
+      return isset($this->current['MANAGEMENTCONFIG'][$managementClass]);
+    }
   }
 
   /*!
