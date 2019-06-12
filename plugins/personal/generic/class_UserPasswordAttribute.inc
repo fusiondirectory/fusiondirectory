@@ -182,25 +182,20 @@ class UserPasswordAttribute extends CompositeAttribute
     $pw_storage = $config->get_cfg_value('passwordDefaultHash', 'ssha');
     $locked     = FALSE;
     $password   = '';
-    if ($istemplate && !empty($value)) {
-      if ($value == '%askme%') {
-        return ['%askme%', '', '', $value, $locked];
+    if (!empty($value)) {
+      if ($istemplate) {
+        if ($value == '%askme%') {
+          return ['%askme%', '', '', $value, ($locked ? 'TRUE' : 'FALSE')];
+        }
+        list($value, $password) = explode('|', $value, 2);
       }
-      list($value, $password) = explode('|', $value, 2);
-    }
-    if (preg_match('/^{[^}]+}/', $value)) {
       $tmp = passwordMethod::get_method($value);
       if (is_object($tmp)) {
         $pw_storage = $tmp->get_hash();
         $locked     = $tmp->is_locked('', $value);
       }
-    } elseif ($value != '') {
-      $pw_storage = 'clear';
-    } elseif ($this->plugin->initially_was_account) {
-      $pw_storage = 'empty';
     }
-    $locked = ($locked ? 'TRUE' : 'FALSE');
-    return [$pw_storage, $password, $password, $value, $locked];
+    return [$pw_storage, $password, $password, $value, ($locked ? 'TRUE' : 'FALSE')];
   }
 
   function writeValues (array $values)
