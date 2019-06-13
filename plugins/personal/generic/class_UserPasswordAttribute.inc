@@ -31,7 +31,7 @@ class UserPasswordAttribute extends CompositeAttribute
     $temp = passwordMethod::get_available_methods();
 
     /* Create password methods array */
-    $pwd_methods        = $config->get_cfg_value('PasswordAllowedHashes', $temp['name']);
+    $pwd_methods        = $config->get_cfg_value('passwordAllowedHashes', $temp['name']);
     $this->needPassword = [];
     foreach ($temp['name'] as $id => $name) {
       $this->needPassword[$name] = $temp[$id]['object']->need_password();

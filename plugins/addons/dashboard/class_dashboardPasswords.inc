@@ -54,10 +54,13 @@ class dashboardPassword extends simplePlugin
   {
     global $config;
 
-    $defaultMethod = $config->get_cfg_value('passwordDefaultHash', 'ssha');
-    $forceDefault = ($config->get_cfg_value('forcePasswordDefaultHash', 'FALSE') == 'TRUE');
+    $temp = passwordMethod::get_available_methods();
+
+    $allowedMethods = $config->get_cfg_value('passwordAllowedHashes', $temp['name']);
+    $defaultMethod  = $config->get_cfg_value('passwordDefaultHash', 'ssha');
+    $forceDefault   = ($config->get_cfg_value('forcePasswordDefaultHash', 'FALSE') == 'TRUE');
     try {
-      $users = objects::ls('user', 'userPassword', NULL, '', TRUE);
+      $users = objects::ls('user', ['userPassword' => '1', 'dn' => 'raw'], NULL, '', TRUE);
     } catch (LDAPFailureException $e) {
       msg_dialog::display(
         _('LDAP error'),
@@ -69,30 +72,32 @@ class dashboardPassword extends simplePlugin
     $nb_accounts = count($users);
     $nb_locked_accounts = 0;
     $methods_stats = [];
-    foreach ($users as $userPassword) {
-      if (!empty($userPassword)) {
-        if (preg_match("/^\{[^\}]+\}!/", $userPassword)) {
-          $nb_locked_accounts++;
-        }
-        $method = passwordMethod::get_method($userPassword);
-        $methodClass = get_class($method);
-        if (!isset($methods_stats[$methodClass])) {
-          $methods_stats[$methodClass] = [
-            'nb' => 0,
-            'name' => $method->get_hash()
-          ];
-          if ($method->get_hash() == $defaultMethod) {
-            $methods_stats[$methodClass]['style'] = 'default';
-          } elseif ($method->get_hash() == 'clear') {
-            $methods_stats[$methodClass]['style'] = 'clear';
-          } elseif ($forceDefault) {
-            $methods_stats[$methodClass]['style'] = 'forbidden';
-          } else {
-            $methods_stats[$methodClass]['style'] = 'none';
-          }
-        }
-        $methods_stats[$methodClass]['nb']++;
+    foreach ($users as $attrs) {
+      $userPassword = '';
+      if (isset($attrs['userPassword'])) {
+        $userPassword = $attrs['userPassword'];
       }
+      $method       = passwordMethod::get_method($userPassword);
+      $methodName   = $method->get_hash();
+      if ($method->is_locked('', $userPassword)) {
+        $nb_locked_accounts++;
+      }
+      if (!isset($methods_stats[$methodName])) {
+        $methods_stats[$methodName] = [
+          'nb'    => 0,
+          'name'  => $methodName,
+        ];
+        if ($methodName == $defaultMethod) {
+          $methods_stats[$methodName]['style'] = 'default';
+        } elseif ($methodName == 'clear') {
+          $methods_stats[$methodName]['style'] = 'clear';
+        } elseif ($forceDefault || !in_array($methodName, $allowedMethods)) {
+          $methods_stats[$methodName]['style'] = 'forbidden';
+        } else {
+          $methods_stats[$methodName]['style'] = 'none';
+        }
+      }
+      $methods_stats[$methodName]['nb']++;
     }
 
     return [
