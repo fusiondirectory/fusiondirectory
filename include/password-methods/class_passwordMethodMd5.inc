@@ -1,9 +1,9 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
+
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2019  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -21,12 +21,12 @@
 */
 
 /*!
- * \file class_password-methods-md5.inc
+ * \file class_passwordMethodMd5.inc
  * Source code for class passwordMethodMd5
  */
 
 /*!
- * \brief This class contains all the functions for md5 password methods
+ * \brief This class contains all the functions for md5 password method
  * \see passwordMethod
  */
 class passwordMethodMd5 extends passwordMethod

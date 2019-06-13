@@ -643,7 +643,7 @@
 #### fusiondirectory
 - fd#5098 Exception should be reorganized
 - fd#5267 Incompatibility between recovery password and user-reminder
-- fd#5280 rewrote the pasword recovery with new RDN
+- fd#5280 rewrote the password recovery with new RDN
 
 #### fusiondirectory-plugins
 - fd-plugins#5070 FAI packageSelect class should use simpleSelectManagement
@@ -1031,21 +1031,21 @@
 
 ### Changed
 
-#### fusiondirectory-plugins                                                                                                                                                                                                     
-- fd-plugins#4657 community organization membership type                                                                                                                                                                         
-                                                                                                                                                                                                                                 
-### Removed                                                                                                                                                                                                                      
-                                                                                                                                                                                                                                 
-#### fusiondirectory                                                                                                                                                                                                             
-- fd#4621 Use of mcrypt should be removed                                                                                                                                                                                        
-- fd#4652 The weird _copy fallback should be removed                                                                                                                                                                             
-                                                                                                                                                                                                                                 
-#### fusiondirectory-plugins                                                                                                                                                                                                     
-- fd-plugins#4654 DHCP seems to use inexistant method getCn                                                                                                                                                                      
-                                                                                                                                                                                                                                 
-### Fixed                                                                                                                                                                                                                        
-                                                                                                                                                                                                                                 
-#### fusiondirectory                                                                                                                                                                                                             
+#### fusiondirectory-plugins
+- fd-plugins#4657 community organization membership type
+
+### Removed
+
+#### fusiondirectory
+- fd#4621 Use of mcrypt should be removed
+- fd#4652 The weird _copy fallback should be removed
+
+#### fusiondirectory-plugins
+- fd-plugins#4654 DHCP seems to use inexistant method getCn
+
+### Fixed
+
+#### fusiondirectory
 - fd#4633 change requirement to php 5.4 for centos
 - fd#4634 DNS PTR migration does not work
 - fd#4638 UI issue, entry disappear in 'Base' dropdown

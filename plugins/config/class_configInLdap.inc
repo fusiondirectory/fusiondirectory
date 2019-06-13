@@ -120,6 +120,13 @@ class configInLdap extends simplePlugin
       'password' => [
         'name'  => _('Password settings'),
         'attrs' => [
+          new SetAttribute(
+            new SelectAttribute(
+              _('Allowed password hashes'), _('Password hashes which may be used for user passwords'),
+              'fdPasswordAllowedHashes', TRUE,
+              ['ssha']
+            )
+          ),
           new SelectAttribute(
             _('Password default hash'), _('Default hash to be used'),
             'fdPasswordDefaultHash', TRUE,
@@ -381,7 +388,10 @@ class configInLdap extends simplePlugin
     if (!in_array('sasl', $methods)) {
       $methods[] = 'sasl';
     }
-    $attributesInfo['password']['attrs'][0]->setChoices($methods);
+    $attributesInfo['password']['attrs'][0]->attribute->setChoices($methods);
+    $attributesInfo['password']['attrs'][0]->setDefaultValue($methods);
+    $attributesInfo['password']['attrs'][0]->resetToDefault();
+    $attributesInfo['password']['attrs'][1]->setChoices($methods);
     /* Login methods */
     $methods = LoginMethod::getMethods();
     $attributesInfo['login']['attrs'][4]->setChoices(array_keys($methods), array_values($methods));
@@ -496,6 +506,10 @@ class configInLdap extends simplePlugin
         $this->fdLoginMethod = 'LoginHTTPHeader';
       }
     }
+
+    $this->attributesAccess['fdPasswordDefaultHash']->setChoices(
+      $this->attributesAccess['fdPasswordAllowedHashes']->getValue()
+    );
   }
 
   function compute_dn (): string
@@ -510,6 +524,15 @@ class configInLdap extends simplePlugin
       $messages[] = _('You need to fill saslRealm or saslExop in the configuration screen in order to use SASL');
     }
     return $messages;
+  }
+
+  function save_object ()
+  {
+    parent::save_object();
+
+    $this->attributesAccess['fdPasswordDefaultHash']->setChoices(
+      $this->attributesAccess['fdPasswordAllowedHashes']->getValue()
+    );
   }
 
   static function get_themes ()

@@ -1,8 +1,9 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
+
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2017  FusionDirectory
+  Copyright (C) 2011-2019  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -20,8 +21,8 @@
 */
 
 /*
- * \file class_pasword-methods.inc
- * Source code for class password-methods
+ * \file class_passwordMethod.inc
+ * Source code for class passwordMethod
  */
 
 /*!
@@ -226,47 +227,38 @@ abstract class passwordMethod
     $ret  = FALSE;
     $i    = 0;
 
-    /* Only */
-    if (!session::is_set("passwordMethod::get_available_methods")) {
+    if (!session::is_set('passwordMethod::get_available_methods')) {
       foreach (array_keys($class_mapping) as $class) {
-        if (preg_match('/passwordMethod/i', $class) && !preg_match("/^passwordMethod$/i", $class)) {
-          $test = new $class("");
+        if (preg_match('/^passwordMethod.+/i', $class)) {
+          $test = new $class('');
           if ($test->is_available()) {
             $plugs = $test->get_hash_name();
             if (!is_array($plugs)) {
               $plugs = [$plugs];
             }
 
-            foreach ($plugs as $plugname) {
-              $cfg = $test->is_configurable();
+            $cfg  = $test->is_configurable();
 
+            foreach ($plugs as $plugname) {
               $ret['name'][$i]            = $plugname;
               $ret['class'][$i]           = $class;
               $ret['is_configurable'][$i] = $cfg;
               $ret['object'][$i]          = $test;
-              $ret['desc'][$i]            = $test->get_description();
+
               $ret[$i]['name']            = $plugname;
               $ret[$i]['class']           = $class;
               $ret[$i]['object']          = $test;
               $ret[$i]['is_configurable'] = $cfg;
-              $ret[$i]['desc']            = $test->get_description();
+
               $ret[$plugname]             = $class;
               $i++;
             }
           }
         }
       }
-      session::set("passwordMethod::get_available_methods", $ret);
+      session::set('passwordMethod::get_available_methods', $ret);
     }
-    return session::get("passwordMethod::get_available_methods");
-  }
-
-  /*!
-   * \brief Get desciption
-   */
-  function get_description (): string
-  {
-    return '';
+    return session::get('passwordMethod::get_available_methods');
   }
 
   /*!

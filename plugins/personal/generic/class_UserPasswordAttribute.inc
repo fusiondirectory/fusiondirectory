@@ -26,17 +26,15 @@ class UserPasswordAttribute extends CompositeAttribute
 
   function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = "", $acl = "")
   {
+    global $config;
+
     $temp = passwordMethod::get_available_methods();
 
     /* Create password methods array */
-    $pwd_methods = [];
+    $pwd_methods        = $config->get_cfg_value('passwordAllowedHashes', $temp['name']);
     $this->needPassword = [];
     foreach ($temp['name'] as $id => $name) {
       $this->needPassword[$name] = $temp[$id]['object']->need_password();
-      $pwd_methods[$name] = $name;
-      if (!empty($temp[$id]['desc'])) {
-        $pwd_methods[$name] .= " (".$temp[$id]['desc'].")";
-      }
     }
 
     parent::__construct(
@@ -45,7 +43,7 @@ class UserPasswordAttribute extends CompositeAttribute
         new SelectAttribute(
           _('Password method'), _('Password hash method to use'),
           $ldapName.'_pwstorage', TRUE,
-          array_keys($pwd_methods), '', array_values($pwd_methods)
+          $pwd_methods
         ),
         new PasswordAttribute(
           _('Password'), _('Password (Leave empty if you do not wish to change it)'),
