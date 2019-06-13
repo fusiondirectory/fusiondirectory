@@ -238,20 +238,17 @@ abstract class passwordMethod
             }
 
             $cfg  = $test->is_configurable();
-            $desc = $test->get_description();
 
             foreach ($plugs as $plugname) {
               $ret['name'][$i]            = $plugname;
               $ret['class'][$i]           = $class;
               $ret['is_configurable'][$i] = $cfg;
               $ret['object'][$i]          = $test;
-              $ret['desc'][$i]            = $desc;
 
               $ret[$i]['name']            = $plugname;
               $ret[$i]['class']           = $class;
               $ret[$i]['object']          = $test;
               $ret[$i]['is_configurable'] = $cfg;
-              $ret[$i]['desc']            = $desc;
 
               $ret[$plugname]             = $class;
               $i++;
@@ -262,14 +259,6 @@ abstract class passwordMethod
       session::set('passwordMethod::get_available_methods', $ret);
     }
     return session::get('passwordMethod::get_available_methods');
-  }
-
-  /*!
-   * \brief Get desciption
-   */
-  function get_description (): string
-  {
-    return '';
   }
 
   /*!
