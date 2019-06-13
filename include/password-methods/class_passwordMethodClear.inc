@@ -1,8 +1,9 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
+
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2018  FusionDirectory
+  Copyright (C) 2011-2019  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -20,21 +21,19 @@
 */
 
 /*!
- * \file class_password-methods-empty.inc
- * Source code for class passwordMethodEmpty
+ * \file class_passwordMethodClear.inc
+ * Source code for class passwordMethodClear
  */
 
 /*!
- * \brief This class contains all the functions for empty password method
+ * \brief This class contains all the functions for clear password method
  * \see passwordMethod
  */
-class passwordMethodEmpty extends passwordMethod
+class passwordMethodClear extends passwordMethod
 {
-  protected $lockable   = TRUE;
+  protected $lockable = FALSE;
 
-  public $hash = 'empty';
-
-  const LOCKVALUE  = '{CRYPT}!';
+  public $hash = 'clear';
 
   /*!
    * \brief passwordMethodClear Constructor
@@ -53,7 +52,7 @@ class passwordMethodEmpty extends passwordMethod
    */
   public function generate_hash (string $pwd, bool $locked = FALSE): string
   {
-    return ($locked ? static::LOCKVALUE : '');
+    return $pwd;
   }
 
   /*!
@@ -61,25 +60,6 @@ class passwordMethodEmpty extends passwordMethod
    */
   static function get_hash_name ()
   {
-    return 'empty';
-  }
-
-  /*!
-   * \brief Password needed
-   *
-   * \return boolean FALSE
-   */
-  function need_password (): bool
-  {
-    return FALSE;
-  }
-
-  static function _extract_method ($password_hash): string
-  {
-    if (empty($password_hash) || ($password_hash == static::LOCKVALUE)) {
-      return static::get_hash_name();
-    }
-
-    return '';
+    return 'clear';
   }
 }

@@ -1,7 +1,8 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2011-2017  FusionDirectory
+
+  Copyright (C) 2011-2019  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,15 +20,15 @@
 */
 
 /*!
- * \file class_password-methods-sasl.inc
- * Source code for class passwordMethodsasl
+ * \file class_passwordMethodSasl.inc
+ * Source code for class passwordMethodSasl
  */
 
 /*!
- * \brief This class contains all the functions for sasl password methods
+ * \brief This class contains all the functions for sasl password method
  * \see passwordMethod
  */
-class passwordMethodsasl extends passwordMethod
+class passwordMethodSasl extends passwordMethod
 {
   // uid, or exop specified field value
   var $uid    = '';
@@ -35,7 +36,7 @@ class passwordMethodsasl extends passwordMethod
   var $exop   = '';
 
   /*!
-   * \brief passwordMethodsasl Constructor
+   * \brief passwordMethodSasl Constructor
    *
    * \param string $dn The DN
    * \param object $userTab The user main tab object

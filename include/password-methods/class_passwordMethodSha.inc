@@ -1,9 +1,9 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
+
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2019  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -21,18 +21,18 @@
 */
 
 /*
- * \file class_pasword-methods-sha.inc
- * Source code for class passwordMethodsha
+ * \file class_passwordMethodSha.inc
+ * Source code for class passwordMethodSha
  */
 
 /*!
- * \brief This class contains all the functions for sha password methods
+ * \brief This class contains all the functions for sha password method
  * \see passwordMethod
  */
-class passwordMethodsha extends passwordMethod
+class passwordMethodSha extends passwordMethod
 {
   /*!
-   * \brief passwordMethodsha Constructor
+   * \brief passwordMethodSha Constructor
    */
   function __construct ()
   {

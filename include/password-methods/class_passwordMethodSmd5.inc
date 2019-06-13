@@ -1,9 +1,9 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
+
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2019  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -21,18 +21,18 @@
 */
 
 /*!
- * \file class_password-methods-ssha.inc
- * Source code for class passwordMethodssha
+ * \file class_passwordMethodSmd5.inc
+ * Source code for class passwordMethodSmd5
  */
 
 /*!
- * \brief This class contains all the functions for ssha password methods
+ * \brief This class contains all the functions for sdm5 password method
  * \see passwordMethod
  */
-class passwordMethodssha extends passwordMethod
+class passwordMethodSmd5 extends passwordMethod
 {
   /*!
-   * \brief passwordMethodssha Constructor
+   * \brief passwordMethodSmd5 Constructor
    */
   function __construct ()
   {
@@ -45,7 +45,7 @@ class passwordMethodssha extends passwordMethod
    */
   public function is_available (): bool
   {
-    return (function_exists('sha1') || function_exists('mhash'));
+    return function_exists('md5');
   }
 
   /*!
@@ -58,32 +58,17 @@ class passwordMethodssha extends passwordMethod
    */
   public function generate_hash (string $pwd, bool $locked = FALSE): string
   {
-    if (function_exists('sha1')) {
-      $salt = substr(pack('h*', md5(random_int(0, PHP_INT_MAX))), 0, 8);
-      $salt = substr(pack('H*', sha1($salt.$pwd)), 0, 4);
-      $pwd  = '{SSHA}'.($locked ? '!' : '').base64_encode(pack('H*', sha1($pwd.$salt)).$salt);
-    } elseif (function_exists('mhash')) {
-      $salt = mhash_keygen_s2k(MHASH_SHA1, $pwd, substr(pack('h*', md5(random_int(0, PHP_INT_MAX))), 0, 8), 4);
-      $pwd  = '{SSHA}'.($locked ? '!' : '').base64_encode(mhash(MHASH_SHA1, $pwd.$salt).$salt);
-    } else {
-      throw new FusionDirectoryException(msgPool::missingext('mhash'));
-    }
-    return $pwd;
+    $salt0  = substr(pack('h*', md5(random_int(0, PHP_INT_MAX))), 0, 8);
+    $salt   = substr(pack('H*', md5($salt0 . $pwd)), 0, 4);
+    return '{SMD5}'.($locked ? '!' : '').base64_encode(pack('H*', md5($pwd . $salt)) . $salt);
   }
 
   function checkPassword ($pwd, $hash): bool
   {
     $hash = base64_decode(substr($hash, 6));
-    $salt = substr($hash, 20);
-    $hash = substr($hash, 0, 20);
-    if (function_exists('sha1')) {
-      $nhash = pack('H*', sha1($pwd . $salt));
-    } elseif (function_exists('mhash')) {
-      $nhash = mhash(MHASH_SHA1, $pwd.$salt);
-    } else {
-      msg_dialog::display(_('Configuration error'), msgPool::missingext('mhash'), ERROR_DIALOG);
-      return FALSE;
-    }
+    $salt = substr($hash, 16);
+    $hash = substr($hash, 0, 16);
+    $nhash = pack('H*', md5($pwd . $salt));
     return ($nhash == $hash);
   }
 
@@ -92,6 +77,6 @@ class passwordMethodssha extends passwordMethod
    */
   static function get_hash_name ()
   {
-    return 'ssha';
+    return 'smd5';
   }
 }
