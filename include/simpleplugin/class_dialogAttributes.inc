@@ -457,6 +457,11 @@ class GenericSelectManagementDialog extends GenericSelectDialog
     $this->attribute  = $attribute;
     $this->dialog     = new $this->dialogClass(...$this->attribute->getSelectManagementParameters());
   }
+
+  function dialog_execute ()
+  {
+    return GenericDialog::dialog_execute();
+  }
 }
 
 /*! \brief Object selection dialog allowing only one object to get selected
@@ -486,8 +491,9 @@ class ObjectsAttribute extends GenericDialogAttribute
   protected $dialogClass  = 'GenericSelectManagementDialog';
 
   protected $selectManagementParameters;
+  protected $filterElementDefinitions;
 
-  function __construct (string $label, string $description, string $ldapName, bool $required, array $objectTypes, array $defaultValue = [], string $store_attr = 'dn', string $display_attr = 'cn', string $acl = '')
+  function __construct (string $label, string $description, string $ldapName, bool $required, array $objectTypes, array $defaultValue = [], string $store_attr = 'dn', string $display_attr = 'cn', array $filterElementDefinitions = NULL, string $acl = '')
   {
     parent::__construct($label, $description, $ldapName, $required, $defaultValue, $store_attr, $display_attr, $acl);
     $this->selectManagementParameters = [
@@ -499,17 +505,22 @@ class ObjectsAttribute extends GenericDialogAttribute
         $display_attr => (($display_attr == 'dn') ? 'raw' : '*'),
       ]
     ];
+    $this->filterElementDefinitions = $filterElementDefinitions;
   }
 
   public function getSelectManagementParameters (): array
   {
-    return array_merge(
+    $parameters = array_merge(
       $this->selectManagementParameters,
       [
         $this->getFilterBlackList(),
         $this->getFilterWhiteList(),
       ]
     );
+    if (isset($this->filterElementDefinitions)) {
+      $parameters[] = $this->filterElementDefinitions;
+    }
+    return $parameters;
   }
 }
 
@@ -521,9 +532,9 @@ class ObjectsAttribute extends GenericDialogAttribute
  */
 class UsersAttribute extends ObjectsAttribute
 {
-  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = [], $store_attr = 'dn', $display_attr = 'cn', $acl = '')
+  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = [], $store_attr = 'dn', $display_attr = 'cn', array $filterElementDefinitions = NULL, $acl = '')
   {
-    parent::__construct($label, $description, $ldapName, $required, ['user'], $defaultValue, $store_attr, $display_attr, $acl);
+    parent::__construct($label, $description, $ldapName, $required, ['user'], $defaultValue, $store_attr, $display_attr, $filterElementDefinitions, $acl);
   }
 }
 
@@ -534,9 +545,9 @@ class UsersAttribute extends ObjectsAttribute
  */
 class UsersGroupsRolesAttribute extends ObjectsAttribute
 {
-  function __construct (string $label, string $description, string $ldapName, bool $required = FALSE, array $defaultValue = [], string $store_attr = 'dn', string $display_attr = 'cn', string $acl = '')
+  function __construct (string $label, string $description, string $ldapName, bool $required = FALSE, array $defaultValue = [], string $store_attr = 'dn', string $display_attr = 'cn', array $filterElementDefinitions = NULL, string $acl = '')
   {
-    parent::__construct($label, $description, $ldapName, $required, ['user', 'group', 'role', 'ogroup'], $defaultValue, $store_attr, $display_attr, $acl);
+    parent::__construct($label, $description, $ldapName, $required, ['user', 'group', 'role', 'ogroup'], $defaultValue, $store_attr, $display_attr, $filterElementDefinitions, $acl);
     $this->selectManagementParameters[2]['cn']          = '*';
     $this->selectManagementParameters[2]['uid']         = '*';
     $this->selectManagementParameters[2]['objectClass'] = '*';
@@ -577,9 +588,9 @@ class SystemsAttribute extends ObjectsAttribute
 {
   protected $dialogClass  = 'SystemSelectDialog';
 
-  function __construct (string $label, string $description, string $ldapName, bool $required, array $objectTypes = ['terminal', 'workstation', 'server'], array $defaultValue = [], string $store_attr = 'cn', string $display_attr = 'cn', string $acl = '')
+  function __construct (string $label, string $description, string $ldapName, bool $required, array $objectTypes = ['terminal', 'workstation', 'server'], array $defaultValue = [], string $store_attr = 'cn', string $display_attr = 'cn', array $filterElementDefinitions = NULL, string $acl = '')
   {
-    parent::__construct($label, $description, $ldapName, $required, $objectTypes, $defaultValue, $store_attr, $display_attr, $acl);
+    parent::__construct($label, $description, $ldapName, $required, $objectTypes, $defaultValue, $store_attr, $display_attr, $filterElementDefinitions, $acl);
   }
 }
 

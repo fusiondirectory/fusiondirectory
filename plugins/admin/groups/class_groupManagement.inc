@@ -1,8 +1,9 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
+
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011-2018  FusionDirectory
+  Copyright (C) 2011-2019  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -57,10 +58,13 @@ class groupManagement extends management
       $this->siActive = $o->is_available();
     }
 
-    parent::__construct();
-
-    // TODO enable sort by properties and member types
-    $this->filter->addElement(new GroupContentFilterElement($this->filter));
+    parent::__construct(
+      FALSE,
+      [
+        ['TabFilterElement',          []],
+        ['GroupContentFilterElement', []],
+      ]
+    );
   }
 
   protected function configureActions ()

@@ -84,7 +84,12 @@ class management
   // Whether to display a header or not.
   protected $skipHeader = FALSE;
 
-  function __construct ($objectTypes = FALSE)
+  function __construct (
+    $objectTypes = FALSE,
+    array $filterElementDefinitions = [
+      ['TabFilterElement',  []],
+    ]
+  )
   {
     global $config, $class_mapping;
 
@@ -111,7 +116,7 @@ class management
 
     $this->setUpHeadline();
     $this->setUpListing();
-    $this->setUpFilter();
+    $this->setUpFilter($filterElementDefinitions);
 
     // Add copy&paste and snapshot handler.
     if (!$this->skipCpHandler) {
@@ -139,9 +144,9 @@ class management
     $this->listing  = new managementListing($this);
   }
 
-  protected function setUpFilter ()
+  protected function setUpFilter (array $filterElementDefinitions)
   {
-    $this->filter   = new managementFilter($this);
+    $this->filter   = new managementFilter($this, NULL, $filterElementDefinitions);
   }
 
   protected function setUpHeadline ()
