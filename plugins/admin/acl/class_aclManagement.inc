@@ -156,10 +156,10 @@ class aclManagement extends management
     $this->listing  = new managementListing($this, FALSE);
   }
 
-  protected function setUpFilter ()
+  protected function setUpFilter (array $filterElementDefinitions)
   {
+    parent::setUpFilter($filterElementDefinitions);
     /* Set scope to sub */
-    parent::setUpFilter();
     $this->filter->setScope('sub');
   }
 

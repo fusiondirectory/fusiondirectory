@@ -46,7 +46,7 @@ class managementFilter
    *
    * \param string $parent management instance
    */
-  function __construct (management $parent, bool $fixedScope = NULL)
+  function __construct (management $parent, bool $fixedScope = NULL, array $filterElementDefinitions = [])
   {
     global $config;
 
@@ -62,9 +62,11 @@ class managementFilter
       ];
     }
 
-    $this->filterElements = [
-      new TabFilterElement($this),
-    ];
+    $this->filterElements = [];
+    foreach ($filterElementDefinitions as $filterElementDefinition) {
+      list($class, $args) = $filterElementDefinition;
+      $this->filterElements[] = new $class($this, ...$args);
+    }
 
     $this->fixedScope = $fixedScope;
   }

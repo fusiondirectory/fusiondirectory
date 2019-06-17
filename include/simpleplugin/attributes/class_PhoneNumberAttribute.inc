@@ -30,12 +30,6 @@ class phoneSelect extends selectManagement
     ['LinkColumn',       ['attributes' => 'nameAttr',         'label' => 'Name']],
     ['LinkColumn',       ['attributes' => 'telephoneNumber',  'label' => 'Number']],
   ];
-
-  protected function setUpFilter ()
-  {
-    parent::setUpFilter();
-    $this->filter->addElement(new FixedFilterElement($this->filter, '(telephoneNumber=*)'));
-  }
 }
 
 /*!
@@ -104,6 +98,12 @@ class PhoneNumberButtonAttribute extends PhoneNumberAttribute
         'macAddress'      => '*',
         'telephoneNumber' => '*',
       ],
+      [],
+      [],
+      [
+        ['TabFilterElement',    []],
+        ['FixedFilterElement',  ['(telephoneNumber=*)']],
+      ]
     ];
   }
 

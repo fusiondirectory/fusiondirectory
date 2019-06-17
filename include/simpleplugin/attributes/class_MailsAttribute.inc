@@ -27,12 +27,6 @@ class mailAddressSelect extends selectManagement
     ['LinkColumn',       ['attributes' => 'mail',     'label' => 'Email']],
     ['LinkColumn',       ['attributes' => 'nameAttr', 'label' => 'Name']],
   ];
-
-  protected function setUpFilter ()
-  {
-    parent::setUpFilter();
-    $this->filter->addElement(new FixedFilterElement($this->filter, '(mail=*)'));
-  }
 }
 
 /*! \brief Mail address selection dialog
@@ -77,6 +71,11 @@ class MailsAttribute extends DialogAttribute
         'mail'        => '*',
       ],
       $this->getFilterBlackList(),
+      [],
+      [
+        ['TabFilterElement',    []],
+        ['FixedFilterElement',  ['(mail=*)']],
+      ]
     ];
   }
 

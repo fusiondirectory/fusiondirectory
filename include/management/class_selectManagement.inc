@@ -39,13 +39,21 @@ class selectManagement extends management
     ['LinkColumn',       ['attributes' => 'description', 'label' => 'Description']],
   ];
 
-  function __construct ($objectTypes = FALSE, bool $multiSelect = TRUE, array $neededAttrs = [], array $blackList = [], array $whiteList = [])
+  function __construct (
+    $objectTypes        = FALSE,
+    bool $multiSelect   = TRUE,
+    array $neededAttrs  = [],
+    array $blackList    = [],
+    array $whiteList    = [],
+    array $filterElementDefinitions = [
+      ['TabFilterElement',  []],
+    ])
   {
     $this->neededAttrs  = $neededAttrs;
     $this->multiSelect  = $multiSelect;
     $this->blackList    = $blackList;
     $this->whiteList    = $whiteList;
-    parent::__construct($objectTypes);
+    parent::__construct($objectTypes, $filterElementDefinitions);
   }
 
   protected function setUpListing ()
