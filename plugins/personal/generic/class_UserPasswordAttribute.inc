@@ -112,6 +112,14 @@ class UserPasswordAttribute extends CompositeAttribute
     }
   }
 
+  function loadValue (array $attrs)
+  {
+    parent::loadValue($attrs);
+    /* Needs to reset previousMethodInfo to force check, because initialValue of attribute 0 changed */
+    $this->previousMethodInfo = NULL;
+    $this->checkIfMethodNeedsPassword();
+  }
+
   /*! \brief Loads this attribute value from the attrs array
    */
   protected function loadAttrValue (array $attrs)
@@ -122,7 +130,6 @@ class UserPasswordAttribute extends CompositeAttribute
       $this->setValue($this->inputValue(''));
     } else {
       $this->attributes[0]->resetToDefault();
-      $this->checkIfMethodNeedsPassword();
     }
   }
 
@@ -152,11 +159,11 @@ class UserPasswordAttribute extends CompositeAttribute
     $methodInfo = $method.$this->attributes[3]->getValue();
     if ($methodInfo != $this->previousMethodInfo) {
       if (isset($this->needPassword[$method]) && $this->needPassword[$method]) {
-        $hashEmpty = ($this->attributes[3]->getValue() == '');
+        $hashEmptyOrMethodChange = (($this->attributes[3]->getValue() == '') || $this->attributes[0]->hasChanged());
         $this->attributes[1]->setVisible(TRUE);
-        $this->attributes[1]->setRequired($hashEmpty);
+        $this->attributes[1]->setRequired($hashEmptyOrMethodChange);
         $this->attributes[2]->setVisible(TRUE);
-        $this->attributes[2]->setRequired($hashEmpty);
+        $this->attributes[2]->setRequired($hashEmptyOrMethodChange);
       } else {
         $this->attributes[1]->setRequired(FALSE);
         $this->attributes[1]->setVisible(FALSE);
