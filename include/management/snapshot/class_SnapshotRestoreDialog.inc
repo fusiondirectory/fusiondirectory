@@ -60,13 +60,13 @@ class SnapshotRestoreDialog extends ManagementDialog
     ];
   }
 
-  function __construct (string $dn, management $parent, bool $global, string $aclCategory)
+  function __construct (string $dn, management $parent, bool $global, array $aclCategories)
   {
     $this->global       = $global;
     parent::__construct(NULL, NULL, $parent);
     $this->object_dn    = $dn;
     $this->acl_base     = $dn;
-    $this->aclCategory  = $aclCategory;
+    $this->aclCategory  = $aclCategories;
     if ($this->global) {
       $this->attributesAccess['object_dn']->setVisible(FALSE);
     }

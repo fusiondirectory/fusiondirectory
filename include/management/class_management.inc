@@ -1087,19 +1087,19 @@ class management
     if (empty($action['targets'])) {
       // No target, open the restore removed object dialog.
       $this->currentDn  = $this->listing->getBase();
-      $aclCategory      = $this->listAclCategories();
+      $aclCategories    = $this->listAclCategories();
     } else {
       // Display the restore points for a given object.
       $this->currentDn = $action['targets'][0];
       if (empty($this->currentDn)) {
         return;
       }
-      $aclCategory = objects::infos($this->listing->getEntry($this->currentDn)->getTemplatedType())['aclCategory'];
+      $aclCategories = [objects::infos($this->listing->getEntry($this->currentDn)->getTemplatedType())['aclCategory']];
     }
 
-    if ($ui->allow_snapshot_restore($this->currentDn, $aclCategory, empty($action['targets']))) {
+    if ($ui->allow_snapshot_restore($this->currentDn, $aclCategories, empty($action['targets']))) {
       @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDn, 'Snapshot restoring initiated!');
-      $this->dialogObject = new SnapshotRestoreDialog($this->currentDn, $this, empty($action['targets']), $aclCategory);
+      $this->dialogObject = new SnapshotRestoreDialog($this->currentDn, $this, empty($action['targets']), $aclCategories);
     } else {
       msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $this->currentDn),
           ERROR_DIALOG);
