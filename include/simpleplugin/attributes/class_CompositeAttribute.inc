@@ -99,6 +99,14 @@ class CompositeAttribute extends Attribute
     $this->linearRendering = $bool;
   }
 
+  function loadValue (array $attrs)
+  {
+    parent::loadValue($attrs);
+    foreach ($this->attributes as $attribute) {
+      $attribute->setInitialValue($attribute->getValue());
+    }
+  }
+
   function readValues (string $value): array
   {
     $res = preg_match($this->readFormat, $value, $m);

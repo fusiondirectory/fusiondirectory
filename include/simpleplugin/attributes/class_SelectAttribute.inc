@@ -157,20 +157,28 @@ class SelectAttribute extends Attribute
 
   function renderFormInput (): string
   {
-    $smarty = get_smarty();
-    $id = $this->getHtmlId();
-    $smarty->assign($id."_choices", $this->choices);
+    $smarty         = get_smarty();
+    $id             = $this->getHtmlId();
+    $smartyChoices  = $this->choices;
+    $currentValue   = $this->getValue();
     if ($this->outputs !== NULL) {
       $smartyOutputs = array_values($this->outputs);
     } else {
       $smartyOutputs = $this->choices;
     }
+
+    if (!in_array($currentValue, $smartyChoices)) {
+      $smartyChoices[] = $currentValue;
+      $smartyOutputs[] = $currentValue;
+    }
+
     $key = array_search('', $smartyOutputs, TRUE);
     if ($key !== FALSE) {
       $smartyOutputs[$key] = '&nbsp;';
     }
-    $smarty->assign($id."_outputs", $smartyOutputs);
-    $smarty->assign($id."_selected", $this->getValue());
+    $smarty->assign($id.'_choices',   $smartyChoices);
+    $smarty->assign($id.'_outputs',   $smartyOutputs);
+    $smarty->assign($id.'_selected',  $currentValue);
     $display  = '<select name="'.$id.'" id="'.$id.'" ';
     if ($this->disabled || (count($this->choices) == 0)) {
       $display .= 'disabled="disabled" ';
