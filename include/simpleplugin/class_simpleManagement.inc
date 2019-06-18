@@ -1152,19 +1152,19 @@ class simpleManagement
     if (!count($target)) {
       // No target, open the restore removed object dialog.
       $this->dn     = $this->headpage->getBase();
-      $aclCategory  = $this->headpage->categories;
+      $aclCategories  = $this->headpage->categories;
     } else {
       // Display the restore points for a given object.
       $this->dn = $target[0];
       if (empty($this->dn)) {
         return;
       }
-      $aclCategory  = $config->data['OBJECTS'][$this->getType($this->dn)]['aclCategory'];
+      $aclCategories  = [$config->data['OBJECTS'][$this->getType($this->dn)]['aclCategory']];
     }
 
-    if ($ui->allow_snapshot_restore($this->dn, $aclCategory, !count($target))) {
+    if ($ui->allow_snapshot_restore($this->dn, $aclCategories, !count($target))) {
       @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Snapshot restoring initiated!');
-      $this->dialogObject = new SnapshotRestoreDialog($this->dn, $this, !count($target), $aclCategory);
+      $this->dialogObject = new SnapshotRestoreDialog($this->dn, $this, !count($target), $aclCategories);
     } else {
       msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $this->dn),
           ERROR_DIALOG);
