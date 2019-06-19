@@ -912,6 +912,28 @@ class userinfo
       if (!$ldap->success()) {
         return PPOLICY_ACCOUNT_EXPIRED;
       }
+
+      try {
+        list($policy, $attrs) = user::fetchPpolicy($this->dn);
+        if (
+          isset($policy['pwdExpireWarning'][0]) &&
+          isset($policy['pwdMaxAge'][0]) &&
+          isset($attrs['pwdChangedTime'][0])
+        ) {
+          $now                      = new DateTime('now', timezone::utc());
+          $pwdExpireWarningSeconds  = intval($policy['pwdExpireWarning'][0]);
+          $maxAge                   = $policy['pwdMaxAge'][0];
+          /* Build expiration date from pwdChangedTime and max age */
+          $expDate = LdapGeneralizedTime::fromString($attrs['pwdChangedTime'][0]);
+          $expDate->setTimezone(timezone::utc());
+          $expDate->add(new DateInterval('PT'.$maxAge.'S'));
+          if ($expDate->getTimeStamp() < ($now->getTimeStamp() + $pwdExpireWarningSeconds)) {
+            return POSIX_WARN_ABOUT_EXPIRATION;
+          }
+        }
+      } catch (NonExistingLdapNodeException $e) {
+        /* ppolicy not found in the LDAP */
+      }
     }
 
     if ($config->get_cfg_value('handleExpiredAccounts') != 'TRUE') {
