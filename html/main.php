@@ -106,35 +106,33 @@ if (session::global_is_set('plugin_index')) {
 
 $plist->gen_menu();
 
-/* check if we are using account expiration */
-$smarty->assign("hideMenus", FALSE);
-if ($config->get_cfg_value("handleExpiredAccounts") == "TRUE") {
-  $expired = $ui->expired_status();
-  if (($expired == POSIX_WARN_ABOUT_EXPIRATION) && !session::is_set('POSIX_WARN_ABOUT_EXPIRATION__DONE')) {
-    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $expired, 'This user account ('.$ui->uid.') is about to expire');
+$smarty->assign('hideMenus', FALSE);
+/* check user expiration status */
+$expired = $ui->expired_status();
+if (($expired == POSIX_WARN_ABOUT_EXPIRATION) && !session::is_set('POSIX_WARN_ABOUT_EXPIRATION__DONE')) {
+  @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $expired, 'This user account ('.$ui->uid.') is about to expire');
 
-    // The users password is about to xpire soon, display a warning message.
-    logging::log('security', 'fusiondirectory', '', [], 'password for user "'.$ui->uid.'" is about to expire');
-    msg_dialog::display(_('Password change'), _('Your password is about to expire, please change your password!'), INFO_DIALOG);
-    session::set('POSIX_WARN_ABOUT_EXPIRATION__DONE', TRUE);
-  } elseif ($expired == POSIX_FORCE_PASSWORD_CHANGE) {
-    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $expired, "This user account expired");
+  // The users password is about to expire soon, display a warning message.
+  logging::log('security', 'fusiondirectory', '', [], 'password for user "'.$ui->uid.'" is about to expire');
+  msg_dialog::display(_('Password change'), _('Your password is about to expire, please change your password!'), INFO_DIALOG);
+  session::set('POSIX_WARN_ABOUT_EXPIRATION__DONE', TRUE);
+} elseif ($expired == POSIX_FORCE_PASSWORD_CHANGE) {
+  @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $expired, 'This user account expired');
 
-    // The password is expired, we are now going to enforce a new one from the user.
+  // The password is expired, we are now going to enforce a new one from the user.
 
-    // Hide the FusionDirectory menus to avoid leaving the enforced password change dialog.
-    $smarty->assign("hideMenus", TRUE);
-    $plug = (isset($_GET['plug'])) ? $_GET['plug'] : NULL;
+  // Hide the FusionDirectory menus to avoid leaving the enforced password change dialog.
+  $smarty->assign('hideMenus', TRUE);
+  $plug = (isset($_GET['plug'])) ? $_GET['plug'] : NULL;
 
-    // Search for the 'user' class and set its id as active plug.
-    foreach ($plist->dirlist as $key => $value) {
-      if ($value == 'user') {
-        if (!isset($_GET['plug']) || ($_GET['plug'] != $key)) {
-          $_GET['plug'] = $key;
-          msg_dialog::display(_('Warning'), _('Your password has expired, please set a new one.'), WARNING_DIALOG);
-        }
-        break;
+  // Search for the 'user' class and set its id as active plug.
+  foreach ($plist->dirlist as $key => $value) {
+    if ($value == 'user') {
+      if (!isset($_GET['plug']) || ($_GET['plug'] != $key)) {
+        $_GET['plug'] = $key;
+        msg_dialog::display(_('Warning'), _('Your password has expired, please set a new one.'), WARNING_DIALOG);
       }
+      break;
     }
   }
 }

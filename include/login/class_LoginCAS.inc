@@ -59,7 +59,7 @@ class LoginCAS extends LoginMethod
     phpCAS::forceAuthentication();
     static::$username = phpCAS::getUser();
 
-    $ui = ldap_get_user(static::$username);
+    $ui = userinfo::getLdapUser(static::$username);
 
     if ($ui === FALSE) {
       msg_dialog::display(

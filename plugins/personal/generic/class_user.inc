@@ -397,6 +397,35 @@ class user extends simplePlugin
     $addAttrs['passwordClear']  = $this->attributesAccess['userPassword']->getClear();
   }
 
+  static function fetchPpolicy (string $userdn): array
+  {
+    global $config;
+
+    $ldap = $config->get_ldap_link();
+    $ldap->cat($userdn, ['pwdPolicySubentry', 'pwdHistory', 'pwdChangedTime', 'userPassword']);
+    $attrs = $ldap->fetch();
+    $ppolicydn = '';
+    if (isset($attrs['pwdPolicySubentry'][0])) {
+      $ppolicydn = $attrs['pwdPolicySubentry'][0];
+    } else {
+      $ppolicydn = $config->get_cfg_value('ppolicyDefaultCn', '');
+      if (!empty($ppolicydn)) {
+        $ppolicydn = 'cn='.$ppolicydn.','.get_ou('ppolicyRDN').$config->current['BASE'];
+      }
+    }
+
+    $policy = NULL;
+    if (!empty($ppolicydn)) {
+      $ldap->cat($ppolicydn, ['pwdAllowUserChange', 'pwdMinLength', 'pwdMinAge', 'pwdSafeModify', 'pwdExpireWarning', 'pwdMaxAge']);
+      $policy = $ldap->fetch();
+      if (!$policy) {
+        throw new NonExistingLdapNodeException(sprintf(_('Ppolicy "%s" could not be found in the LDAP!'), $ppolicydn));
+      }
+    }
+
+    return [$policy, $attrs];
+  }
+
   static function reportPasswordProblems ($user, $new_password, $repeated_password, $current_password = NULL)
   {
     global $config, $ui;
@@ -412,24 +441,13 @@ class user extends simplePlugin
     $check_length = ($config->get_cfg_value('passwordMinLength') != '');
     $length       = $config->get_cfg_value('passwordMinLength', 0);
 
-    $ldap = $config->get_ldap_link();
-    $ldap->cat($user, ['pwdPolicySubentry', 'pwdHistory', 'pwdChangedTime', 'userPassword']);
-    $attrs = $ldap->fetch();
-    $ppolicydn = '';
-    if (isset($attrs['pwdPolicySubentry'][0])) {
-      $ppolicydn = $attrs['pwdPolicySubentry'][0];
-    } else {
-      $ppolicydn = $config->get_cfg_value('ppolicyDefaultCn', '');
-      if (!empty($ppolicydn)) {
-        $ppolicydn = 'cn='.$ppolicydn.','.get_ou('ppolicyRDN').$config->current['BASE'];
-      }
+    try {
+      list($policy, $attrs) = static::fetchPpolicy($user);
+    } catch (NonExistingLdapNodeException $e) {
+      return $e->getMessage();
     }
-    if (!empty($ppolicydn)) {
-      $ldap->cat($ppolicydn, ['pwdAllowUserChange', 'pwdMinLength', 'pwdMinAge', 'pwdSafeModify']);
-      $policy = $ldap->fetch();
-      if (!$policy) {
-        return sprintf(_('Ppolicy "%s" could not be found in the LDAP!'), $ppolicydn);
-      }
+
+    if (isset($policy)) {
       if (isset($policy['pwdAllowUserChange'][0]) && ($policy['pwdAllowUserChange'][0] == 'FALSE') && ($ui->dn == $user)) {
         return _('You are not allowed to change your own password');
       }

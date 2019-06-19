@@ -95,7 +95,7 @@ class LoginMethod
   {
     global $ui, $config, $message, $smarty;
     /* Login as user, initialize user ACL's */
-    $ui = ldap_login_user(static::$username, static::$password);
+    $ui = userinfo::loginUser(static::$username, static::$password);
     if ($ui === NULL) {
       if (isset($_SERVER['REMOTE_ADDR'])) {
         logging::log('security', 'login', '', [], 'Authentication failed for user "'.static::$username.'" [from '.$_SERVER['REMOTE_ADDR'].']');
@@ -132,16 +132,26 @@ class LoginMethod
     $config->checkLdapConfig();
 
     /* Check account expiration */
-    if ($config->get_cfg_value('handleExpiredAccounts') == 'TRUE') {
-      $expired = $ui->expired_status();
-
-      if ($expired == POSIX_ACCOUNT_EXPIRED) {
-        logging::log('security', 'login', '', [], 'Account for user "'.static::$username.'" has expired');
-        $message = _('Account locked. Please contact your system administrator!');
-        $smarty->assign('focusfield', 'username');
-        return FALSE;
-      }
+    $expired = $ui->expired_status();
+    if ($expired == PPOLICY_ACCOUNT_EXPIRED) {
+      msg_dialog::display(
+        _('Authentication error'),
+        _('It seems your user password has expired. Please use <a href="recovery.php">password recovery</a> to change it.'),
+        ERROR_DIALOG
+      );
+      logging::log('security', 'login', '', [], 'Account for user "'.static::$username.'" has expired (ppolicy)');
+      $message = _('Password expired');
+      $smarty->assign('focusfield', 'username');
+      return FALSE;
     }
+
+    if ($expired == POSIX_ACCOUNT_EXPIRED) {
+      logging::log('security', 'login', '', [], 'Account for user "'.static::$username.'" has expired');
+      $message = _('Account locked. Please contact your system administrator!');
+      $smarty->assign('focusfield', 'username');
+      return FALSE;
+    }
+
     return TRUE;
   }
 

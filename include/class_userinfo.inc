@@ -1,8 +1,9 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
+
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2019  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -23,6 +24,13 @@
  * \file class_userinfo.inc
  * Source code for the class userinfo
  */
+
+/* Define shadow states */
+define('POSIX_ACCOUNT_EXPIRED',           1);
+define('POSIX_WARN_ABOUT_EXPIRATION',     2);
+define('POSIX_FORCE_PASSWORD_CHANGE',     4);
+define('POSIX_DISALLOW_PASSWORD_CHANGE',  8);
+define('PPOLICY_ACCOUNT_EXPIRED',         16);
 
 /*!
  * \brief Class userinfo
@@ -890,12 +898,48 @@ class userinfo
   function expired_status ()
   {
     global $config;
+
     // Skip this for the admin account, we do not want to lock him out.
     if ($this->is_user_admin()) {
       return 0;
     }
 
     $ldap = $config->get_ldap_link();
+
+    if (class_available('ppolicyAccount')) {
+      $ldap->cd($config->current['BASE']);
+      $ldap->search('(objectClass=*)', [], 'one');
+      if (!$ldap->success()) {
+        return PPOLICY_ACCOUNT_EXPIRED;
+      }
+
+      try {
+        list($policy, $attrs) = user::fetchPpolicy($this->dn);
+        if (
+          isset($policy['pwdExpireWarning'][0]) &&
+          isset($policy['pwdMaxAge'][0]) &&
+          isset($attrs['pwdChangedTime'][0])
+        ) {
+          $now                      = new DateTime('now', timezone::utc());
+          $pwdExpireWarningSeconds  = intval($policy['pwdExpireWarning'][0]);
+          $maxAge                   = $policy['pwdMaxAge'][0];
+          /* Build expiration date from pwdChangedTime and max age */
+          $expDate = LdapGeneralizedTime::fromString($attrs['pwdChangedTime'][0]);
+          $expDate->setTimezone(timezone::utc());
+          $expDate->add(new DateInterval('PT'.$maxAge.'S'));
+          if ($expDate->getTimeStamp() < ($now->getTimeStamp() + $pwdExpireWarningSeconds)) {
+            return POSIX_WARN_ABOUT_EXPIRATION;
+          }
+        }
+      } catch (NonExistingLdapNodeException $e) {
+        /* ppolicy not found in the LDAP */
+      }
+    }
+
+    if ($config->get_cfg_value('handleExpiredAccounts') != 'TRUE') {
+      return 0;
+    }
+
     $ldap->cd($config->current['BASE']);
     $ldap->cat($this->dn);
     $attrs    = $ldap->fetch();
@@ -1077,5 +1121,115 @@ class userinfo
   public static function sanitizeAttributeName ($name)
   {
     return preg_replace('/[\/\-,.#:;]/', '_', $name);
+  }
+
+  /*!
+   * \brief Get user from LDAP directory
+   *
+   * Search the user by login or other fields authorized by the configuration
+   *
+   * \param string $username The username or email to check
+   *
+   * \return userinfo instance on SUCCESS, FALSE if not found, string error on error
+   */
+  public static function getLdapUser (string $username)
+  {
+    global $config;
+
+    /* look through the entire ldap */
+    $ldap = $config->get_ldap_link();
+    if (!$ldap->success()) {
+      msg_dialog::display(_('LDAP error'),
+          msgPool::ldaperror($ldap->get_error(), '', LDAP_AUTH),
+          FATAL_ERROR_DIALOG);
+      exit();
+    }
+
+    $allowed_attributes = ['uid','mail'];
+    $verify_attr = [];
+    $tmp = explode(',', $config->get_cfg_value('loginAttribute'));
+    foreach ($tmp as $attr) {
+      if (in_array($attr, $allowed_attributes)) {
+        $verify_attr[] = $attr;
+      }
+    }
+
+    if (count($verify_attr) == 0) {
+      $verify_attr = ['uid'];
+    }
+    $tmp    = $verify_attr;
+    $tmp[]  = 'uid';
+    $filter = '';
+    foreach ($verify_attr as $attr) {
+      $filter .= '('.$attr.'='.$username.')';
+    }
+    $filter = '(&(|'.$filter.')(objectClass=inetOrgPerson))';
+    $ldap->cd($config->current['BASE']);
+    $ldap->search($filter, $tmp);
+
+    /* get results, only a count of 1 is valid */
+    if ($ldap->count() == 0) {
+      /* user not found */
+      return FALSE;
+    } elseif ($ldap->count() != 1) {
+      /* found more than one matching id */
+      return _('Login (uid) is not unique inside the LDAP tree. Please contact your administrator.');
+    }
+
+    /* LDAP schema is not case sensitive. Perform additional check. */
+    $attrs = $ldap->fetch();
+    $success = FALSE;
+    foreach ($verify_attr as $attr) {
+      if (isset($attrs[$attr][0]) && $attrs[$attr][0] == $username) {
+        $success = TRUE;
+      }
+    }
+    $ldap->disconnect();
+    if (!$success) {
+      return FALSE;
+    }
+
+    return new userinfo($attrs['dn']);
+  }
+
+  /*!
+   * \brief Verify user login against LDAP directory
+   *
+   * Checks if the specified username is in the LDAP and verifies if the
+   * password is correct by binding to the LDAP with the given credentials.
+   *
+   * \param string $username The username to check
+   *
+   * \param string $password The password to check
+   *
+   * \return TRUE on SUCCESS, NULL or FALSE on error
+   */
+  public static function loginUser (string $username, string $password)
+  {
+    global $config;
+
+    $ui = static::getLdapUser($username);
+
+    if ($ui === FALSE) {
+      return NULL;
+    } elseif (is_string($ui)) {
+      msg_dialog::display(_('Internal error'), $ui, FATAL_ERROR_DIALOG);
+      return NULL;
+    }
+
+    /* password check, bind as user with supplied password  */
+    $ldapObj = new LDAP($ui->dn, $password, $config->current['SERVER'],
+      isset($config->current['LDAPFOLLOWREFERRALS']) && ($config->current['LDAPFOLLOWREFERRALS'] == 'TRUE'),
+      isset($config->current['LDAPTLS']) && ($config->current['LDAPTLS'] == 'TRUE')
+    );
+    $ldap = new ldapMultiplexer($ldapObj);
+    if (!$ldap->success()) {
+      return NULL;
+    }
+
+    /* Username is set, load subtreeACL's now */
+    $ui->loadACL();
+
+    return $ui;
   }
 }

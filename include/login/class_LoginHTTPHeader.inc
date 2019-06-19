@@ -55,7 +55,7 @@ class LoginHTTPHeader extends LoginMethod
       exit();
     }
 
-    $ui = ldap_get_user(static::$username);
+    $ui = userinfo::getLdapUser(static::$username);
 
     if ($ui === FALSE) {
       msg_dialog::display(
