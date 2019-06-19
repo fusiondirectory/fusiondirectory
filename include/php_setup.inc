@@ -29,11 +29,11 @@ require_once("variables.inc");
 function html_trace ($errstr = "")
 {
   static $hideArgs = [
-    'ldap_init'         => [3],
-    'ldap_login_user'   => [1],
-    'change_password'   => [1],
-    'cred_decrypt'      => [0,1],
-    'LDAP/__construct'  => [1],
+    'ldap_init'           => [3],
+    'userinfo/loginUser'  => [1],
+    'change_password'     => [1],
+    'cred_decrypt'        => [0,1],
+    'LDAP/__construct'    => [1],
   ];
   if (!function_exists('debug_backtrace')) {
     return ['', ''];
