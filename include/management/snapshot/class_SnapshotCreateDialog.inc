@@ -111,4 +111,14 @@ class SnapshotCreateDialog extends ManagementDialog
     $this->parent->createSnapshot($this->object_dn, $this->description);
     return [];
   }
+
+  function fillHookAttrs (array &$addAttrs)
+  {
+    parent::fillHookAttrs($addAttrs);
+    foreach (array_keys($this->attributesAccess) as $attr) {
+      if (!isset($addAttrs[$attr])) {
+        $addAttrs[$attr] = $this->$attr;
+      }
+    }
+  }
 }
