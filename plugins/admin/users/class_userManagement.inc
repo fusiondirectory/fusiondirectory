@@ -21,7 +21,7 @@
 
 class userManagement extends management
 {
-  public $neededAttrs = ['userPassword' => '1'];
+  public $neededAttrs = ['userPassword' => '*'];
 
   public static $skipTemplates = FALSE;
 
@@ -91,7 +91,7 @@ class userManagement extends management
       $entry = $this->listing->getEntry($dn);
 
       // Detect the password method and try to lock/unlock.
-      static::lockUser($action['subaction'], $entry['userPassword'], $dn);
+      static::lockUser($action['subaction'], ($entry['userPassword'][0] ?? ''), $dn);
     }
   }
 
