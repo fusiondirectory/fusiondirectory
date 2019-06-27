@@ -1931,38 +1931,6 @@ function load_all_classes ()
   }
 }
 
-if (!function_exists('random_int')) {
-  // PHP<7, we fallback on openssl_random_pseudo_bytes
-  function random_int ($min, $max)
-  {
-    $range = $max - $min;
-    if ($range <= 0) {
-      throw new Exception('Invalid range passed to random_int');
-    }
-
-    $log      = log($range, 2);
-    // length in bytes
-    $nbBytes  = (int) ($log / 8) + 1;
-    // length in bits
-    $nbBits   = (int) $log + 1;
-    // set all lower bits to 1
-    $filter   = pow(2, $nbBits) - 1;
-    if ($filter >= PHP_INT_MAX) {
-      $filter = PHP_INT_MAX;
-    }
-    do {
-      $randomBytes = openssl_random_pseudo_bytes($nbBytes, $strong);
-      if (!$strong || ($randomBytes === FALSE)) {
-        throw new Exception('Failed to get random bytes');
-      }
-      $rnd = hexdec(bin2hex($randomBytes));
-      // discard irrelevant bits
-      $rnd = $rnd & $filter;
-    } while ($rnd > $range);
-    return $min + $rnd;
-  }
-}
-
 function ldap_escape_f ($str, $ignore = '')
 {
   return ldap_escape($str, $ignore, LDAP_ESCAPE_FILTER);
