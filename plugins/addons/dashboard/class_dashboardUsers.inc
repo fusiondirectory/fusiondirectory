@@ -170,11 +170,11 @@ class dashboardUsers extends simplePlugin
     try {
       $attributes = [
         'dn'                    => 'raw',
-        'uid'                   => 'raw',
-        'cn'                    => 'raw',
-        'telephoneNumber'       => 'raw',
-        'manager'               => 'raw',
-        'shadowExpire'          => 1,
+        'uid'                   => '*',
+        'cn'                    => '*',
+        'telephoneNumber'       => '*',
+        'manager'               => '*',
+        'shadowExpire'          => '*',
       ];
       if (class_available('mailAccount')) {
         $attributes['mail'] = 'raw';
@@ -200,9 +200,9 @@ class dashboardUsers extends simplePlugin
     $next_expired_accounts  = [];
     foreach ($users as $user) {
       // Test if account is expired now
-      if ($user['shadowExpire'] <= $today) {
+      if ($user['shadowExpire'][0] <= $today) {
         $expired_accounts[] = static::get_user_infos($user);
-      } elseif ($user['shadowExpire'] <= $next_expired_date) {
+      } elseif ($user['shadowExpire'][0] <= $next_expired_date) {
         $next_expired_accounts[] = static::get_user_infos($user);
       }
     }
