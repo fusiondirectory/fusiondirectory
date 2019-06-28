@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2019-02-18 11:05+0000\n"
+"POT-Creation-Date: 2019-06-27 14:00+0000\n"
 "PO-Revision-Date: 2016-08-29 14:52+0000\n"
 "Last-Translator: Choi Chris <chulwon.choi@gmail.com>, 2018\n"
 "Language-Team: Korean (https://www.transifex.com/fusiondirectory/teams/12202/ko/)\n"
@@ -34,7 +34,8 @@ msgstr ""
 #: include/simpleplugin/attributes/class_FileAttribute.inc:33
 #: include/simpleplugin/attributes/class_FileAttribute.inc:36
 #: include/simpleplugin/attributes/class_FileAttribute.inc:39
-#: include/simpleplugin/attributes/class_FileAttribute.inc:356
+#: include/simpleplugin/attributes/class_FileAttribute.inc:366
+#: include/simpleplugin/attributes/class_FileAttribute.inc:377
 #: include/simpleplugin/class_simplePlugin.inc:697
 #: include/simpleplugin/class_simpleTabs.inc:73
 #: include/simpleplugin/class_multiPlugin.inc:78
@@ -1376,25 +1377,40 @@ msgstr ""
 msgid "Attribute %s is disabled, its value could not be set"
 msgstr ""
 
-#: include/simpleplugin/attributes/class_FileAttribute.inc:161
-#: include/simpleplugin/attributes/class_FileAttribute.inc:382
-#: include/simpleplugin/attributes/class_FileAttribute.inc:383
+#: include/simpleplugin/attributes/class_FileAttribute.inc:107
+#, php-format
+msgid "Invalid base64 data for attribute %s"
+msgstr ""
+
+#: include/simpleplugin/attributes/class_FileAttribute.inc:165
+#: include/simpleplugin/attributes/class_FileAttribute.inc:418
+#: include/simpleplugin/attributes/class_FileAttribute.inc:419
 msgid "Upload"
 msgstr "업로"
 
-#: include/simpleplugin/attributes/class_FileAttribute.inc:167
-#: include/simpleplugin/attributes/class_FileAttribute.inc:168
+#: include/simpleplugin/attributes/class_FileAttribute.inc:171
+#: include/simpleplugin/attributes/class_FileAttribute.inc:172
 msgid "Download"
 msgstr "다운로드"
 
-#: include/simpleplugin/attributes/class_FileAttribute.inc:357
+#: include/simpleplugin/attributes/class_FileAttribute.inc:368
+#, php-format
+msgid "Cannot set \"%s\" value, it contains invalid data: %s"
+msgstr ""
+
+#: include/simpleplugin/attributes/class_FileAttribute.inc:378
 msgid ""
 "Cannot save user picture, FusionDirectory requires the PHP module "
 "\"imagick\" to be installed!"
 msgstr ""
 
-#: include/simpleplugin/attributes/class_FileAttribute.inc:392
-#: include/simpleplugin/attributes/class_FileAttribute.inc:393
+#: include/simpleplugin/attributes/class_FileAttribute.inc:395
+#, php-format
+msgid "Invalid data, Imagick error: \"%s\""
+msgstr ""
+
+#: include/simpleplugin/attributes/class_FileAttribute.inc:428
+#: include/simpleplugin/attributes/class_FileAttribute.inc:429
 #: include/simpleplugin/class_dialogAttributes.inc:780
 #: include/simpleplugin/class_dialogAttributes.inc:781
 #: include/simpleplugin/simple-list.xml:75
