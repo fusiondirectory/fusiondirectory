@@ -3215,6 +3215,52 @@ if you are using the weblink plugin you have to update is schema
 fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/weblink-fd.schema
 ```
 
+Migrate FusionDirectory from 1.3 to 1.3.1
+=========================================
+
+**The gpg keys for FusionDirectory and Argonaut have been renewed so you
+need to install the new keys for the packages to install correctly**
+
+Upgrade FusionDirectory first
+-----------------------------
+
+Upgrade FusionDirectory core package before other ones to avoid
+dependencies errors:
+
+``` {.sourceCode .shell}
+apt-get install fusiondirectory
+```
+
+Upgrade FusionDirectory schema package too.
+
+``` {.sourceCode .shell}
+apt-get install fusiondirectory-schema
+```
+
+Upgrade of LDAP directory
+-------------------------
+
+if you are using the sinaps plugin you have to update is schema
+
+``` {.sourceCode .shell}
+fusiondirectory-insert-schema -m /etc/ldap/schema/fusiondirectory/sinaps-fd-conf.schema
+```
+
+Fonctionality Added
+-------------------
+
+-   The macro **%passwordClear%** is now available in the sambaAccount
+    so that in can be used in hooks for AD sync.
+-   The ldapdump fonctionality is now available on the configuration
+-   The supann etablissment objects is now equal to entite objects
+    except for the attribute ou
+
+Fonctionality removed
+---------------------
+
+-   The google+ account storage has been removed from personal social
+    accounts tab
+
 
 
 [php-cas]: http://packages.ubuntu.com/trusty/all/php-cas/download
