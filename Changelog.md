@@ -1,3 +1,50 @@
+## %"FusionDirectory 1.3.1" - 2019-07-04
+
+### Added
+
+#### fusiondirectory
+- fd#5985 We don't have LDAP tab on FusionDirectory configuration
+
+#### fusiondirectory-plugins
+- fd-plugins#5911 supannRefId field is missing for "etablissement"
+- fd-plugins#5938 Make %passwordClear% available to sambaAccount hooks
+- fd-plugins#5939 create icons for ipmi and weblink
+- fd-plugins#5940 We don't have LDAP tab on FusionDirectory configuration
+- fd-plugins#5957 creating icons for the sinaps plugin
+
+### Changed
+
+#### fusiondirectory-plugins
+- fd-plugins#5913 Avoid mass acquistion when editing group gidNumber
+- fd-plugins#5948 description of a user should'nt be updated from SINAPS
+
+### Removed
+
+#### fusiondirectory-plugins
+- fd-plugins#5901 Remove Google+ from personal social accounts tab
+
+### Fixed
+
+#### fusiondirectory
+- fd#5942 PHP >= 7.2 triggering error when count() is called with invalid countable
+- fd#5967 Systems dashboard crashes
+- fd#5978 when renaming branch aka department roles are not updated correctly
+- fd#5983 Write ACL on user/userRoles/groupsMembership not working when not having full user/user read right
+- fd#5987 ImagickException are not catched when showing an ImageAttribute
+- fd#5997 Incorrect error message when the mail cannot be sent by recovery
+- fd#6006 expiration date in dashboard is 02.01.1970
+
+#### fusiondirectory-plugins
+- fd-plugins#5917 flag_ownmailbox cannot be used with partage mail method
+- fd-plugins#5918 SINAPS : acquisition couldn't be sent because primary affectation isn't set
+- fd-plugins#5923 cname record appear on another domain when they contain the machine cn
+- fd-plugins#5935 Crash when I try to create a server with argonaut plugin and without dns plugin
+- fd-plugins#5941 Error when identity is spread from SINAPS  "Cannot delete non-existing user {LDAPUUID}"
+- fd-plugins#5942 Error for user-reminder about smarty
+- fd-plugins#5944 add addvalues/delvalues documentation
+- fd-plugins#5945 unable to add SINAPS Structure
+- fd-plugins#5949 Systems dashboard crashes
+
 ## %"FusionDirectory 1.3" - 2019-03-04
 
 ### Added
@@ -643,7 +690,7 @@
 #### fusiondirectory
 - fd#5098 Exception should be reorganized
 - fd#5267 Incompatibility between recovery password and user-reminder
-- fd#5280 rewrote the password recovery with new RDN
+- fd#5280 rewrote the pasword recovery with new RDN
 
 #### fusiondirectory-plugins
 - fd-plugins#5070 FAI packageSelect class should use simpleSelectManagement
@@ -1031,21 +1078,21 @@
 
 ### Changed
 
-#### fusiondirectory-plugins
-- fd-plugins#4657 community organization membership type
-
-### Removed
-
-#### fusiondirectory
-- fd#4621 Use of mcrypt should be removed
-- fd#4652 The weird _copy fallback should be removed
-
-#### fusiondirectory-plugins
-- fd-plugins#4654 DHCP seems to use inexistant method getCn
-
-### Fixed
-
-#### fusiondirectory
+#### fusiondirectory-plugins                                                                                                                                                                                                     
+- fd-plugins#4657 community organization membership type                                                                                                                                                                         
+                                                                                                                                                                                                                                 
+### Removed                                                                                                                                                                                                                      
+                                                                                                                                                                                                                                 
+#### fusiondirectory                                                                                                                                                                                                             
+- fd#4621 Use of mcrypt should be removed                                                                                                                                                                                        
+- fd#4652 The weird _copy fallback should be removed                                                                                                                                                                             
+                                                                                                                                                                                                                                 
+#### fusiondirectory-plugins                                                                                                                                                                                                     
+- fd-plugins#4654 DHCP seems to use inexistant method getCn                                                                                                                                                                      
+                                                                                                                                                                                                                                 
+### Fixed                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                 
+#### fusiondirectory                                                                                                                                                                                                             
 - fd#4633 change requirement to php 5.4 for centos
 - fd#4634 DNS PTR migration does not work
 - fd#4638 UI issue, entry disappear in 'Base' dropdown
