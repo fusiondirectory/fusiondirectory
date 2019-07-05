@@ -580,7 +580,7 @@ class passwordRecovery extends standAlonePage {
     if (mail_utf8($this->email_address, FALSE, $this->from_mail, $this->mail_subject, $mail_body)) {
       $this->step = 3;
     } else {
-      $this->message[] = msgPool::invalid(_("Contact your administrator, there was a problem with mail server"));
+      $this->message[] = _('Contact your administrator, there was a problem with mail server');
     }
     $smarty = get_smarty();
 
@@ -657,7 +657,7 @@ class passwordRecovery extends standAlonePage {
       $this->step = 5;
       $smarty->assign('changed', TRUE);
     } else {
-      $this->message[] = msgPool::invalid(_("There was a problem with mail server, confirmation email not sent"));
+      $this->message[] = _('There was a problem with mail server, confirmation email not sent');
     }
   }
 }

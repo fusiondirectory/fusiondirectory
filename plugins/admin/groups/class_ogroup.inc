@@ -368,12 +368,12 @@ class ogroup extends simplePlugin
       $addingMembers    = array_diff($userMembers, $savedMembers);
       $removingMembers  = array_diff($savedMembers, $userMembers);
       foreach ($addingMembers as $dn) {
-        if (strpos($ui->get_permissions($dn, 'user/user', 'groupsMembership', $this->acl_skip_write()), 'w') === FALSE) {
+        if (strpos($ui->get_permissions($dn, 'user/userRoles', 'groupsMembership', $this->acl_skip_write()), 'w') === FALSE) {
           $errors[] = msgPool::permModify($dn, 'groupsMembership');
         }
       }
       foreach ($removingMembers as $dn) {
-        if (strpos($ui->get_permissions($dn, 'user/user', 'groupsMembership', $this->acl_skip_write()), 'w') === FALSE) {
+        if (strpos($ui->get_permissions($dn, 'user/userRoles', 'groupsMembership', $this->acl_skip_write()), 'w') === FALSE) {
           $errors[] = msgPool::permModify($dn, 'groupsMembership');
         }
       }
