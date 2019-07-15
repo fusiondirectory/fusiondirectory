@@ -106,12 +106,16 @@ class managementListing
   {
     $columnInfos = $this->parent->getColumnConfiguration();
 
-    $this->columns = [];
+    $this->columns  = [];
+    $first          = TRUE;
     foreach ($columnInfos as $columnInfo) {
-      $this->columns[] = Column::build($this, $columnInfo[0], $columnInfo[1]);
+      $column = Column::build($this, $columnInfo[0], $columnInfo[1]);
+      if ($first && !empty($columnInfo[1]['attributes'])) {
+        $column->setTemplateAttributes(['cn']);
+        $first = FALSE;
+      }
+      $this->columns[] = $column;
     }
-
-    $this->columns[1]->setTemplateAttributes(['cn']);
   }
 
   function getColumns (): array
