@@ -557,7 +557,8 @@ class managementListing
     }
 
     $deps = $ui->get_module_departments(array_values($categories));
-    foreach ($config->idepartments as $key => $dep) {
+    $departmentTree = $config->getDepartmentTree();
+    foreach ($departmentTree as $key => $dep) {
       if (in_array_ics($key, $deps)) {
         $this->bases[$key] = $dep;
       }

@@ -214,6 +214,8 @@ class baseSelector
     $last_indent  = 2;
     $last_base    = '';
 
+    $departmentInfo = $config->getDepartmentInfo();
+
     foreach ($this->pathMapping as $base => $dummy) {
       // Skip root for tree
       if ($base == $config->current['BASE']) {
@@ -233,10 +235,10 @@ class baseSelector
           $this->tree .= "</li>\n";
           $this->tree .= '<li><a title="'.$parent_base.'">'.
                         '<img class="center" '.
-                        'src="'.htmlentities($config->department_info[$parent_base]['img'], ENT_COMPAT, 'UTF-8').'" '.
+                        'src="'.htmlentities($departmentInfo[$parent_base]['img'], ENT_COMPAT, 'UTF-8').'" '.
                         'alt=""/>&nbsp;'.
-                        $this->escape($config->department_info[$parent_base]['name']).
-                        (($config->department_info[$parent_base]['description'] == '') ? '' : '&nbsp;<span class="informal">['.$this->escape($config->department_info[$parent_base]['description']).']</span>').
+                        $this->escape($departmentInfo[$parent_base]['name']).
+                        (($departmentInfo[$parent_base]['description'] == '') ? '' : '&nbsp;<span class="informal">['.$this->escape($departmentInfo[$parent_base]['description']).']</span>').
                         '</a>';
         }
         $this->tree .= "<ul>\n";
@@ -250,10 +252,10 @@ class baseSelector
       $link       = "onclick=\"\$('bs_rebase_".$this->pid."').value='".base64_encode($base)."';$('submit_tree_base_".$this->pid."').click();\"";
       $this->tree .= '<li><a'.$selected.' '.$link.' title="'.$base.'">'.
                     '<img class="center" '.
-                    'src="'.htmlentities($config->department_info[$base]['img'], ENT_COMPAT, 'UTF-8').'" '.
+                    'src="'.htmlentities($departmentInfo[$base]['img'], ENT_COMPAT, 'UTF-8').'" '.
                     'alt=""/>&nbsp;'.
-                    $this->escape($config->department_info[$base]['name']).
-                    (($config->department_info[$base]['description'] == '') ? '' : '&nbsp;<span class="informal">['.$this->escape($config->department_info[$base]['description']).']</span>').
+                    $this->escape($departmentInfo[$base]['name']).
+                    (($departmentInfo[$base]['description'] == '') ? '' : '&nbsp;<span class="informal">['.$this->escape($departmentInfo[$base]['description']).']</span>').
                     '</a>';
 
       $last_indent  = $indent;

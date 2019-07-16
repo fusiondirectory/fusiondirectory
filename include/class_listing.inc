@@ -1525,9 +1525,10 @@ class listing
     $ui = get_userinfo();
 
     // Fill internal bases list
-    $this->bases = [];
-    $deps = $ui->get_module_departments($this->categories);
-    foreach ($config->idepartments as $key => $dep) {
+    $this->bases    = [];
+    $deps           = $ui->get_module_departments($this->categories);
+    $departmentTree = $config->getDepartmentTree();
+    foreach ($departmentTree as $key => $dep) {
       if (in_array_ics($key, $deps)) {
         $this->bases[$key] = $dep;
       }

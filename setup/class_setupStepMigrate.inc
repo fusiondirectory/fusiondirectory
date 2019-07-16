@@ -252,7 +252,7 @@ class setupStepMigrate extends setupStep
   function initialize_checks ()
   {
     global $config;
-    $config->get_departments();
+    $config->resetDepartmentCache();
 
     $checks = [
       'baseOC'        => new StepMigrateCheck($this, 'baseOC',        _('Inspecting object classes in root object')),
@@ -1010,7 +1010,7 @@ class setupStepMigrate extends setupStep
        *  and verify that he is in a valid department
        */
       if (!preg_match('/dc=addressbook,/', $people_db_base) &&
-          !in_array($people_db_base, $config->departments)) {
+          !in_array($people_db_base, $config->getDepartmentList())) {
         $attrs['checked'] = FALSE;
         $attrs['ldif']    = '';
         $this->outsideUsers_toMigrate[base64_encode($attrs['dn'])] = $attrs;
@@ -1036,7 +1036,7 @@ class setupStepMigrate extends setupStep
       [
         'title'       => _('Move users into configured user tree'),
         'outside'     => TRUE,
-        'ous'         => $config->departments,
+        'ous'         => $config->getDepartmentList(),
         'destination' => (isset($_POST['destination']) ? $_POST['destination'] : ''),
       ]
     );
@@ -1050,7 +1050,7 @@ class setupStepMigrate extends setupStep
       [
         'title'       => _('Move users into configured user tree'),
         'outside'     => TRUE,
-        'ous'         => $config->departments,
+        'ous'         => $config->getDepartmentList(),
         'destination' => (isset($_POST['destination']) ? $_POST['destination'] : ''),
       ]
     );
@@ -1128,7 +1128,7 @@ class setupStepMigrate extends setupStep
        *  and verify that he is in a valid department
        */
       if (!preg_match('/'.preg_quote('dc=addressbook,', '/').'/', $group_db_base) &&
-          !in_array($group_db_base, $config->departments)
+          !in_array($group_db_base, $config->getDepartmentList())
         ) {
         $attrs['checked'] = FALSE;
         $attrs['ldif']    = '';
@@ -1155,7 +1155,7 @@ class setupStepMigrate extends setupStep
       [
         'title'       => _('Move groups into configured groups tree'),
         'outside'     => TRUE,
-        'ous'         => $config->departments,
+        'ous'         => $config->getDepartmentList(),
         'destination' => (isset($_POST['destination']) ? $_POST['destination'] : ''),
       ]
     );
@@ -1169,7 +1169,7 @@ class setupStepMigrate extends setupStep
       [
         'title'       => _('Move groups into configured groups tree'),
         'outside'     => TRUE,
-        'ous'         => $config->departments,
+        'ous'         => $config->getDepartmentList(),
         'destination' => (isset($_POST['destination']) ? $_POST['destination'] : ''),
       ]
     );

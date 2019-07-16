@@ -44,8 +44,9 @@ if (isset($_GET['type']) && $_GET['type'] == "base") {
     $pathMapping  = session::get("pathMapping");
     $search       = preg_replace('/&quot;/', '"', current($_POST));
 
-    $config = session::global_get('config');
-    foreach ($config->department_info as $dn => $info) {
+    $config         = session::global_get('config');
+    $departmentInfo = $config->getDepartmentInfo();
+    foreach ($departmentInfo as $dn => $info) {
       if (!isset($pathMapping[$dn])) {
         continue;
       }

@@ -839,7 +839,8 @@ function get_base_from_people ($dn)
   $base     = preg_replace($pattern, '', $dn);
 
   /* Set to base, if we're not on a correct subtree */
-  if (!isset($config->idepartments[$base])) {
+  $departmentInfo = $config->getDepartmentInfo();
+  if (!isset($departmentInfo[$base])) {
     $base = $config->current['BASE'];
   }
 

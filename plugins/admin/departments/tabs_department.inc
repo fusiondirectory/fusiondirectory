@@ -27,8 +27,7 @@ class deptabs extends simpleTabs
 
     /* Update department cache */
     global $config;
-    $config->get_departments();
-    $config->make_idepartments();
+    $config->resetDepartmentCache();
 
     return $errors;
   }
