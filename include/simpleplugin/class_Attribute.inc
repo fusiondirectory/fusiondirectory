@@ -562,7 +562,7 @@ class Attribute
                 break;
               }
             }
-            if (!in_array($dn_base, $config->departments)) {
+            if (!in_array($dn_base, $config->getDepartmentList())) {
               continue;
             }
           } else {

@@ -545,7 +545,8 @@ class simplePlugin implements SimpleTab
     $deps = [];
 
     /* Is this a new object ? Or just an edited existing object */
-    foreach ($config->idepartments as $dn => $name) {
+    $departmentTree = $config->getDepartmentTree();
+    foreach ($departmentTree as $dn => $name) {
       if (
           (!$this->initially_was_account && $this->acl_is_createable($dn)) ||
           ($this->initially_was_account && $this->acl_is_moveable($dn))
@@ -555,8 +556,8 @@ class simplePlugin implements SimpleTab
     }
 
     /* Add current base */
-    if (isset($this->base) && isset($config->idepartments[$this->base])) {
-      $deps[$this->base] = $config->idepartments[$this->base];
+    if (isset($this->base) && isset($departmentTree[$this->base])) {
+      $deps[$this->base] = $departmentTree[$this->base];
     } elseif (strtolower($this->dn) != strtolower($config->current['BASE'])) {
       trigger_error('Cannot return list of departments, no default base found in class '.get_class($this).'. (base is "'.$this->base.'")');
     }
@@ -620,12 +621,11 @@ class simplePlugin implements SimpleTab
       $ui->dn = $ui_dn;
     }
 
-    /* Check if departments were moved. If so, force the reload of config->departments */
+    /* Check if departments were moved. If so, force the reload of $config departments cache */
     $ldap->cd($dst_dn);
     $ldap->search('(objectClass=gosaDepartment)', ['dn']);
     if ($ldap->count()) {
-      $config->get_departments();
-      $config->make_idepartments();
+      $config->resetDepartmentCache();
       $ui->reset_acl_cache();
     }
 

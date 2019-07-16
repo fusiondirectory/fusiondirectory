@@ -518,7 +518,7 @@ class pluglist
   /*!
    * \brief Loads plist and load it in config object
    */
-  static function load ($ldap_available = TRUE)
+  static function load ()
   {
     global $config, $plist;
     if (!session::global_is_set('plist')) {
@@ -528,10 +528,7 @@ class pluglist
       $plist = new pluglist();
       session::global_set('plist', $plist);
       $config->loadPlist($plist);
-      if ($ldap_available) {
-        $config->get_departments();
-        $config->make_idepartments();
-      }
+      $config->resetDepartmentCache();
     } else {
       $plist = session::global_get('plist');
     }

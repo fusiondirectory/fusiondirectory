@@ -513,12 +513,14 @@ class userinfo
     $path = explode(',', $dn);
     $path = array_reverse($path);
 
+    $departmentInfo = $config->getDepartmentInfo();
+
     /* Walk along the path to evaluate the acl */
     $cpath = '';
     foreach ($path as $element) {
 
       /* Clean potential ACLs for each level */
-      if (isset($config->idepartments[$cpath])) {
+      if (isset($departmentInfo[$cpath])) {
         $acl = $this->cleanACL($acl);
       }
 
@@ -626,7 +628,7 @@ class userinfo
     /* If the requested ACL is for a container object, then alter
         ACLs by applying cleanACL a last time.
      */
-    if (isset($config->idepartments[$dn])) {
+    if (isset($departmentInfo[$dn])) {
       $acl = $this->cleanACL($acl);
     }
 
@@ -667,7 +669,7 @@ class userinfo
         then return all departments as valid.
      */
     if ($this->ignore_acl_for_current_user()) {
-      return array_keys($config->idepartments);
+      return array_values($config->getDepartmentList());
     }
 
     /* Use cached results if possilbe */
@@ -676,6 +678,8 @@ class userinfo
     if (!is_array($module)) {
       $module = [$module];
     }
+
+    $departmentInfo = $config->getDepartmentInfo();
 
     $res = [];
     foreach ($module as $mod) {
@@ -701,19 +705,20 @@ class userinfo
             }
           }
 
-          if ($found && !isset($config->idepartments[$dn])) {
-            while (!isset($config->idepartments[$dn]) && strpos($dn, ",")) {
+          if ($found && !isset($departmentInfo[$dn])) {
+            while (!isset($departmentInfo[$dn]) && strpos($dn, ',')) {
               $dn = preg_replace("/^[^,]+,/", "", $dn);
             }
-            if (isset($config->idepartments[$dn])) {
+            if (isset($departmentInfo[$dn])) {
               $deps[$dn] = $dn;
             }
           }
         }
       }
 
-      /* For all gosaDepartments */
-      foreach ($config->departments as $dn) {
+      /* For all departments */
+      $departments = $config->getDepartmentList();
+      foreach ($departments as $dn) {
         if (isset($deps[$dn])) {
           continue;
         }

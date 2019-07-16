@@ -489,8 +489,9 @@ class objects
 
     $infos = static::infos($type);
 
-    $templates = [];
-    foreach ($config->departments as $key => $value) {
+    $templates    = [];
+    $departments  = $config->getDepartmentList();
+    foreach ($departments as $key => $value) {
       // Search all templates from the current dn.
       try {
         $ldap = static::search($type, ['cn'], $infos['ou'].$value, $filter, FALSE, 'subtree', TRUE);

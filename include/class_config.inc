@@ -59,9 +59,10 @@ class config
   var $basedir        = '';
 
   /* Keep a copy of the current department list */
-  var $departments      = [];
-  var $idepartments     = [];
-  var $department_info  = [];
+  protected $departmentList;
+  protected $departmentTree;
+  protected $departmentInfo;
+
   var $filename         = '';
   var $last_modified    = 0;
 
@@ -628,15 +629,46 @@ class config
     }
   }
 
+  function getDepartmentList (): array
+  {
+    if (!isset($this->departmentList)) {
+      $this->storeDepartmentList();
+    }
+    return $this->departmentList;
+  }
+
+  function getDepartmentTree (): array
+  {
+    if (!isset($this->departmentTree)) {
+      $this->storeDepartmentTree();
+    }
+    return $this->departmentTree;
+  }
+
+  function getDepartmentInfo (): array
+  {
+    if (!isset($this->departmentInfo)) {
+      $this->storeDepartmentList();
+    }
+    return $this->departmentInfo;
+  }
+
+  function resetDepartmentCache ()
+  {
+    unset($this->departmentList);
+    unset($this->departmentTree);
+    unset($this->departmentInfo);
+  }
+
   /*!
-   * \brief Store the departments from ldap in $this->departments
+   * \brief Store the departments from ldap in $this->departmentList
    */
-  function get_departments ()
+  protected function storeDepartmentList ()
   {
     /* Initialize result hash */
-    $result = [];
+    $result = ['/' => $this->current['BASE']];
 
-    $result['/'] = $this->current['BASE'];
+    $this->departmentInfo = [];
 
     /* Get all department types from department Management, to be able detect the department type.
         -It is possible that different department types have the same name,
@@ -678,7 +710,7 @@ class config
 
       $dn     = $attrs['dn'];
       $infos  = objects::infos($oc);
-      $this->department_info[$dn] = [
+      $this->departmentInfo[$dn] = [
         'img'         => $infos['icon'],
         'description' => (isset($attrs['description'][0]) ? $attrs['description'][0] : ''),
         'name'        => $attrs[$infos['mainAttr']][0]
@@ -691,20 +723,25 @@ class config
       }
     }
 
-    $this->departments = $result;
+    $this->departmentList = $result;
   }
 
-  function make_idepartments ($max_size = 28)
+  /*!
+   * \brief Store the tree render for departments in $this->departmentTree
+   */
+  protected function storeDepartmentTree ()
   {
+    if (!isset($this->departmentList)) {
+      $this->storeDepartmentList();
+    }
+
     $base   = $this->current['BASE'];
     $qbase  = preg_quote($base, '/');
 
     $arr  = [];
 
-    $this->idepartments = [];
-
     /* Create multidimensional array, with all departments. */
-    foreach ($this->departments as $key => $val) {
+    foreach ($this->departmentList as $val) {
 
       /* Split dn into single department pieces */
       $elements = array_reverse(explode(',', preg_replace("/$qbase$/", '', $val)));
@@ -737,9 +774,13 @@ class config
     }
 
     /* Add base entry */
-    $ret['/']['ENTRY']  = $base;
-    $ret['/']['SUB']    = $arr;
-    $this->idepartments = $this->generateDepartmentArray($ret, -1, $max_size);
+    $ret = [
+      '/' => [
+        'ENTRY' => $base,
+        'SUB'   => $arr,
+      ]
+    ];
+    $this->departmentTree = $this->generateDepartmentArray($ret, -1, 28);
   }
 
   /*
@@ -751,7 +792,7 @@ class config
    *
    * \param int $max_size initialized at 256
    */
-  function generateDepartmentArray ($arr, $depth = -1, $max_size = 256)
+  protected function generateDepartmentArray ($arr, $depth, $max_size)
   {
     $ret = [];
     $depth++;
