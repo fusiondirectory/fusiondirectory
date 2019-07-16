@@ -36,7 +36,7 @@ class EntrySortIterator implements Iterator
    *
    * \param bool $direction Direction
    */
-  public function __construct (array $entries, Column $column, $direction)
+  public function __construct (array $entries, Column $column = NULL, bool $direction = FALSE)
   {
     // Sort for attribute
     if (is_object($column)) {

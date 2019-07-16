@@ -129,10 +129,10 @@ class managementListing
 
     // Initialize sort?
     $sortInit = FALSE;
-    if (!$this->sortDirection) {
-      $this->sortColumn = 0;
-      $this->sortDirection = [];
-      $sortInit = TRUE;
+    if (!isset($this->sortDirection)) {
+      $this->sortColumn     = 0;
+      $this->sortDirection  = [];
+      $sortInit             = TRUE;
     }
 
     foreach ($this->columns as $index => $column) {
@@ -227,7 +227,7 @@ class managementListing
 
   function getIterator (): Iterator
   {
-    return new EntrySortIterator($this->entries, $this->columns[$this->sortColumn], $this->sortDirection[$this->sortColumn]);
+    return new EntrySortIterator($this->entries, $this->columns[$this->sortColumn] ?? NULL, $this->sortDirection[$this->sortColumn] ?? FALSE);
   }
 
   /*!
