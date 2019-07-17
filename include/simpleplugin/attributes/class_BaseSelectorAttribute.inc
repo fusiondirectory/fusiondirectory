@@ -129,10 +129,11 @@ class BaseSelectorAttribute extends Attribute
   function setValue ($value)
   {
     parent::setValue($value);
-    if (is_object($this->plugin)) {
-      if (($this->baseSelector !== NULL) && ($this->baseSelector->getBase() !== $this->value)) {
-        $this->baseSelector->setBase($this->value);
-      }
+    if (is_object($this->plugin) &&
+        ($this->baseSelector !== NULL) &&
+        ($this->baseSelector->getBase() !== $this->value)
+      ) {
+      $this->baseSelector->setBase($this->value);
     }
   }
 

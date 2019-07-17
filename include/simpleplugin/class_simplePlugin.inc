@@ -210,14 +210,14 @@ class simplePlugin implements SimpleTab
       }
     }
 
-    /* Handle read only */
-    if ($this->dn != 'new') {
-      /* Check if this entry was opened in read only mode */
-      if (isset($_POST['open_readonly']) && session::global_is_set('LOCK_CACHE')) {
-        $cache = session::get('LOCK_CACHE');
-        if (isset($cache['READ_ONLY'][$this->dn])) {
-          $this->read_only = TRUE;
-        }
+    /* Check if this entry was opened in read only mode */
+    if (($this->dn != 'new') &&
+        isset($_POST['open_readonly']) &&
+        session::global_is_set('LOCK_CACHE')
+      ) {
+      $cache = session::get('LOCK_CACHE');
+      if (isset($cache['READ_ONLY'][$this->dn])) {
+        $this->read_only = TRUE;
       }
     }
 
