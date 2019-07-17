@@ -485,7 +485,7 @@ class simpleTabs
   /*!
    * \brief Get LDAP base to use for ACL checks
    */
-  function getAclBase(): string
+  function getAclBase (): string
   {
     return $this->getBaseObject()->getAclBase();
   }

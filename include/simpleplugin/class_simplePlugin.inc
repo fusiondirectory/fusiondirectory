@@ -806,7 +806,7 @@ class simplePlugin implements SimpleTab
   /*!
    * \brief Get LDAP base to use for ACL checks
    */
-  function getAclBase(): string
+  function getAclBase (): string
   {
     global $config;
 

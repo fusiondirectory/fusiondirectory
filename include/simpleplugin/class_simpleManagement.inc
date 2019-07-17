@@ -946,8 +946,8 @@ class simpleManagement
 
   function openTabObject ($object)
   {
-    $this->tabObject = $object;
-    $this->tabObject->parent = &$this;
+    $this->tabObject          = $object;
+    $this->tabObject->parent  = &$this;
   }
 
   /*!
