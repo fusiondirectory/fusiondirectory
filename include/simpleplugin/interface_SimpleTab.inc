@@ -38,13 +38,13 @@ interface SimpleTab
    * string $_template_cn (only for main tab of templates)
    * array $attributesAccess (only for main tab of templates)
    * simpleTabs $parent
-   * string $acl_base
    */
 
   /*
    * Public methods needed in some cases:
    * compute_dn (): string (only for main tab)
    * move (string $src_dn, string $dst_dn): TRUE|string (only for main tab)
+   * getAclBase (): string (only for main tab)
    */
 
   public static function plInfo (): array;
@@ -72,10 +72,6 @@ interface SimpleTab
   /*! \brief Reset information after a copy/paste
    */
   public function resetCopyInfos ();
-
-  /*! \brief    Forward plugin acls
-   */
-  public function set_acl_base (string $base);
 
   /*! \brief Sets ACL category provided by simpleTabs
    */

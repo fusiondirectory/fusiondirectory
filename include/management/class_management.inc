@@ -581,10 +581,9 @@ class management
     return print_header($this->icon, $this->title, get_object_info());
   }
 
-  function openTabObject ($object, $base)
+  function openTabObject ($object)
   {
     $this->tabObject = $object;
-    $this->tabObject->set_acl_base($base);
     $this->tabObject->parent = &$this;
   }
 
@@ -708,7 +707,7 @@ class management
     set_object_info($this->currentDn);
 
     // Open object
-    $this->openTabObject(objects::create($type), $this->listing->getBase());
+    $this->openTabObject(objects::create($type));
     @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDn, 'Create entry initiated');
   }
 
@@ -828,7 +827,7 @@ class management
     add_lock($this->currentDn, $ui->dn);
 
     // Open object
-    $this->openTabObject(objects::open($this->currentDn, $entry->getTemplatedType()), $this->currentDn);
+    $this->openTabObject(objects::open($this->currentDn, $entry->getTemplatedType()));
     @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDn, 'Edit entry initiated');
     if (isset($action['subaction'])
       && ($this->handleSubAction($action) === FALSE)) {
@@ -978,7 +977,7 @@ class management
       if ($entry->checkAcl('d')) {
         // Delete the object
         $this->currentDn = $dn;
-        $this->openTabObject(objects::open($this->currentDn, $entry->getTemplatedType()), $this->currentDn);
+        $this->openTabObject(objects::open($this->currentDn, $entry->getTemplatedType()));
         $this->tabObject->delete();
 
         // Remove the lock for the current object.
@@ -1039,7 +1038,7 @@ class management
 
     // Display any c&p dialogs, eg. object modifications required before pasting.
     if ($this->cpPastingStarted && $this->cpHandler->entries_queued()) {
-      $data = $this->cpHandler->execute($this->listing->getBase());
+      $data = $this->cpHandler->execute();
       if (!empty($data)) {
         return $data;
       }
@@ -1069,7 +1068,6 @@ class management
     $entry = $this->listing->getEntry($this->currentDn);
     if ($entry->snapshotCreationAllowed()) {
       $this->dialogObject = new SnapshotCreateDialog($this->currentDn, $this, '');
-      $this->dialogObject->set_acl_base($this->currentDn);
     } else {
       msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to create a snapshot for %s.'), $this->currentDn),
           ERROR_DIALOG);
@@ -1215,7 +1213,7 @@ class management
         add_lock($this->currentDn, $ui->dn);
 
         // Open object
-        $this->openTabObject(objects::open($this->currentDn, $entry->getTemplatedType()), $this->currentDn);
+        $this->openTabObject(objects::open($this->currentDn, $entry->getTemplatedType()));
         $this->saveChanges();
       }
     } else {

@@ -130,12 +130,6 @@ class BaseSelectorAttribute extends Attribute
   {
     parent::setValue($value);
     if (is_object($this->plugin)) {
-      /* Set the new acl base */
-      if ($this->plugin->dn == 'new') {
-        $this->plugin->set_acl_base($this->value);
-        $this->plugin->parent->set_acl_base();
-      }
-
       if (($this->baseSelector !== NULL) && ($this->baseSelector->getBase() !== $this->value)) {
         $this->baseSelector->setBase($this->value);
       }

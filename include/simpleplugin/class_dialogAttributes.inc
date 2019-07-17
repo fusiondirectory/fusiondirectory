@@ -836,7 +836,7 @@ class GenericSimplePluginDialog extends GenericDialog
     if ($base == 'new') {
       $base = $simplePlugin->base;
     }
-    $this->dialog->set_acl_base($base);
+    $this->dialog->base = $base;
     $this->dialog->set_acl_category($simplePlugin->acl_category);
     if (!empty($value)) {
       $this->initialDialogValue = $value;

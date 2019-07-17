@@ -56,7 +56,6 @@ class multiPlugin extends simplePlugin
           these settings will be overloaded in main.inc,
           if we are editing ourself */
       $this->plugin[$name]->set_acl_category($plInfos['plCategory'][0]);
-      $this->plugin[$name]->set_acl_base($this->dn);
     }
   }
 
@@ -130,15 +129,6 @@ class multiPlugin extends simplePlugin
     parent::set_acl_category($cat);
     foreach ($this->plugin as &$plug) {
       $plug->set_acl_category($cat);
-    }
-    unset($plug);
-  }
-
-  function set_acl_base (string $base)
-  {
-    parent::set_acl_base($base);
-    foreach ($this->plugin as &$plug) {
-      $plug->set_acl_base($base);
     }
     unset($plug);
   }
