@@ -52,7 +52,7 @@ class departmentManagement extends management
   function refreshDeps ()
   {
     global $config, $ui;
-    $config->resetDepartmentsCache();
+    $config->resetDepartmentCache();
     $ui->reset_acl_cache();
     $this->listing->refreshBasesList();
   }
