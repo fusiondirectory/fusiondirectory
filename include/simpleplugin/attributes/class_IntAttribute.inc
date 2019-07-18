@@ -78,8 +78,8 @@ class IntAttribute extends Attribute
     $error = parent::check();
     if (!empty($error)) {
       return $error;
-    } else {
-      if (!is_numeric($this->value) && (!empty($this->value) || $this->isRequired())) {
+    } elseif ($this->value !== '') {
+      if (!is_numeric($this->value)) {
         return msgPool::invalid($this->getLabel(), $this->value, "/./", $this->example);
       }
       if ((($this->min !== FALSE) && ($this->value < $this->min))
