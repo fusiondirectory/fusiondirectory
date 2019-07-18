@@ -487,7 +487,7 @@ class simpleTabs
    */
   function getAclBase (): string
   {
-    return $this->getBaseObject()->getAclBase();
+    return $this->getBaseObject()->getAclBase(FALSE);
   }
 
   function setTemplateMode ($cn)

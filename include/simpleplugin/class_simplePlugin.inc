@@ -806,19 +806,15 @@ class simplePlugin implements SimpleTab
   /*!
    * \brief Get LDAP base to use for ACL checks
    */
-  function getAclBase (): string
+  function getAclBase (bool $callParent = TRUE): string
   {
     global $config;
 
-    if ($this->mainTab) {
-      if (isset($this->dn) && ($this->dn != 'new')) {
-        return $this->dn;
-      }
-      if (isset($this->base)) {
-        return 'new,'.$this->base;
-      }
-    } elseif ($this->parent instanceof simpleTabs) {
+    if (($this->parent instanceof simpleTabs) && $callParent) {
       return $this->parent->getAclBase();
+    }
+    if (isset($this->dn) && ($this->dn != 'new')) {
+      return $this->dn;
     }
     if (isset($this->base)) {
       return 'new,'.$this->base;

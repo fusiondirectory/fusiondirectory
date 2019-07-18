@@ -143,7 +143,7 @@ class ACLsAssignmentDialog extends GenericDialog
     }
     $this->attribute        = $attribute;
     $this->dialog           = new $this->dialogClass($acl, $isContainer);
-    $this->dialog->base     = $simplePlugin->getAclBase();
+    $this->dialog->dn       = $simplePlugin->dn;
     $this->initialAclValue  = $acl;
   }
 

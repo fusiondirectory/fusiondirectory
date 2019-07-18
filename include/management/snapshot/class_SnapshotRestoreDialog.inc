@@ -72,7 +72,7 @@ class SnapshotRestoreDialog extends ManagementDialog
     $this->updateList();
   }
 
-  function getAclBase (): string
+  function getAclBase (bool $callParent = TRUE): string
   {
     return $this->object_dn;
   }
