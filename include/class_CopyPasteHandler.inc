@@ -134,7 +134,7 @@ class CopyPasteHandler
   /*!
    * \brief Paste one entry from LDAP
    */
-  protected function load_entry_from_ldap ($entry, $base)
+  protected function load_entry_from_ldap ($entry)
   {
     @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $entry['dn'], 'load_entry_from_ldap');
     if (!isset($entry['tab_class']) && !isset($entry['type'])) {
@@ -143,7 +143,6 @@ class CopyPasteHandler
 
     $entry['object'] = objects::open($entry['dn'], $entry['type']);
 
-    $entry['object']->set_acl_base($base);
     if ($entry['parent'] !== NULL) {
       $entry['object']->parent = $entry['parent'];
     }
@@ -161,7 +160,7 @@ class CopyPasteHandler
    * \brief Displays a dialog which allows the user to fix all dependencies of this object.
    *      Create unique names, ids, or what ever
    */
-  function execute ($base)
+  function execute ()
   {
     $ui = get_userinfo();
 
@@ -178,7 +177,7 @@ class CopyPasteHandler
 
         /* Update entries on demand */
         if (!isset($entry['object'])) {
-          $entry = $this->load_entry_from_ldap($entry, $base);
+          $entry = $this->load_entry_from_ldap($entry);
           $this->queue[$key] = $entry;
         }
 

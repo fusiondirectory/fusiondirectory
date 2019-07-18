@@ -65,12 +65,16 @@ class SnapshotRestoreDialog extends ManagementDialog
     $this->global       = $global;
     parent::__construct(NULL, NULL, $parent);
     $this->object_dn    = $dn;
-    $this->acl_base     = $dn;
     $this->aclCategory  = $aclCategories;
     if ($this->global) {
       $this->attributesAccess['object_dn']->setVisible(FALSE);
     }
     $this->updateList();
+  }
+
+  function getAclBase (): string
+  {
+    return $this->object_dn;
   }
 
   function updateList ()
@@ -115,7 +119,7 @@ class SnapshotRestoreDialog extends ManagementDialog
       $str = $smarty->fetch(get_template_path('restore-confirm.tpl'));
     } else {
       $smarty = get_smarty();
-      $permissions = $ui->get_snapshot_permissions($this->acl_base, $this->aclCategory);
+      $permissions = $ui->get_snapshot_permissions($this->getAclBase(), $this->aclCategory);
       $acl = '';
       if (in_array('r', $permissions)) {
         $acl .= 'r';
@@ -144,7 +148,7 @@ class SnapshotRestoreDialog extends ManagementDialog
       $attr = $this->attributesAccess[$attr];
     }
     if ($attr->getLdapName() == 'snapshots') {
-      return in_array(($this->global ? 'restore_deleted' : 'restore_over'), $ui->get_snapshot_permissions($this->acl_base, $this->aclCategory));
+      return in_array(($this->global ? 'restore_deleted' : 'restore_over'), $ui->get_snapshot_permissions($this->getAclBase(), $this->aclCategory));
     } else {
       return parent::attrIsWriteable($attr);
     }

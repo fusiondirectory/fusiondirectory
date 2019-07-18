@@ -483,23 +483,11 @@ class simpleTabs
   }
 
   /*!
-   * \brief Set acl base
-   *
-   * \param string $base The new acl base
+   * \brief Get LDAP base to use for ACL checks
    */
-  function set_acl_base ($base = "")
+  function getAclBase (): string
   {
-    /* Update reference, transfer variables */
-    $first = ($base == "");
-    foreach ($this->by_object as &$obj) {
-      if ($first) {
-        $first  = FALSE;
-        $base   = $obj->acl_base;
-      } else {
-        $obj->set_acl_base($base);
-      }
-    }
-    unset($obj);
+    return $this->getBaseObject()->getAclBase();
   }
 
   function setTemplateMode ($cn)

@@ -67,6 +67,14 @@ class SnapshotCreateDialog extends ManagementDialog
     $this->aclCategory  = $aclCategory;
   }
 
+  /*!
+   * \brief Get LDAP base to use for ACL checks
+   */
+  function getAclBase (): string
+  {
+    return $this->object_dn;
+  }
+
   /*! \brief Check if logged in user have enough right to write this attribute value
    *
    * \param mixed $attr Attribute object or name (in this case it will be fetched from attributesAccess)
@@ -79,7 +87,7 @@ class SnapshotCreateDialog extends ManagementDialog
       $attr = $this->attributesAccess[$attr];
     }
     if ($attr->getLdapName() == 'description') {
-      return in_array('c', $ui->get_snapshot_permissions($this->acl_base, $this->aclCategory));
+      return in_array('c', $ui->get_snapshot_permissions($this->object_dn, $this->aclCategory));
     } else {
       return parent::attrIsWriteable($attr);
     }
@@ -90,7 +98,7 @@ class SnapshotCreateDialog extends ManagementDialog
     global $ui;
     $smarty = get_smarty();
 
-    $permissions = $ui->get_snapshot_permissions($this->acl_base, $this->aclCategory);
+    $permissions = $ui->get_snapshot_permissions($this->object_dn, $this->aclCategory);
     $acl = '';
     if (in_array('c', $permissions)) {
       $acl .= 'crw';

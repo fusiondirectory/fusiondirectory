@@ -75,7 +75,7 @@ class templateDialog
     }
     if (is_object($this->template)) {
       if ($this->target !== NULL) {
-        $this->simpleManagement->openTabObject($this->template->apply($this->target), $this->template->getBase());
+        $this->simpleManagement->openTabObject($this->template->apply($this->target));
         $this->simpleManagement->handleTemplateApply();
         return FALSE;
       } else {
@@ -112,7 +112,7 @@ class templateDialog
   function handle_finish ()
   {
     $this->simpleManagement->closeDialogs();
-    $this->simpleManagement->openTabObject($this->template->apply(), $this->template->getBase());
+    $this->simpleManagement->openTabObject($this->template->apply());
     return FALSE;
   }
 
@@ -676,7 +676,7 @@ class simpleManagement
     set_object_info($this->dn);
 
     // Open object
-    $this->openTabObject(objects::open($this->dn, $type), $this->headpage->getBase());
+    $this->openTabObject(objects::open($this->dn, $type));
     @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "Create new entry initiated!");
   }
 
@@ -877,7 +877,7 @@ class simpleManagement
       add_lock($this->dn, $ui->dn);
 
       // Open object
-      $this->openTabObject(objects::open($this->dn, $type), $this->dn);
+      $this->openTabObject(objects::open($this->dn, $type));
       @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "Edit entry initiated!");
       if (isset($all['subaction']) && !$this->handleSubAction($all)) {
         trigger_error('Was not able to handle subaction: '.$all['subaction']);
@@ -944,11 +944,10 @@ class simpleManagement
     return FALSE;
   }
 
-  function openTabObject ($object, $base)
+  function openTabObject ($object)
   {
-    $this->tabObject = $object;
-    $this->tabObject->set_acl_base($base);
-    $this->tabObject->parent = &$this;
+    $this->tabObject          = $object;
+    $this->tabObject->parent  = &$this;
   }
 
   /*!
@@ -1081,7 +1080,7 @@ class simpleManagement
       if (preg_match("/d/", $acl)) {
         // Delete the object
         $this->dn = $dn;
-        $this->openTabObject(objects::open($this->dn, $type), $this->dn);
+        $this->openTabObject(objects::open($this->dn, $type));
         $this->tabObject->delete();
 
         // Remove the lock for the current object.
@@ -1117,7 +1116,6 @@ class simpleManagement
       $aclCategory = $config->data['OBJECTS'][$this->getType($this->dn)]['aclCategory'];
       if ($ui->allow_snapshot_create($this->dn, $aclCategory)) {
         $this->dialogObject = new SnapshotCreateDialog($this->dn, $this, $aclCategory);
-        $this->dialogObject->set_acl_base($this->dn);
       } else {
         msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to create a snapshot for %s.'), $this->dn),
             ERROR_DIALOG);
@@ -1216,7 +1214,7 @@ class simpleManagement
 
     // Display any c&p dialogs, eg. object modifications required before pasting.
     if ($this->cpPastingStarted && $this->cpHandler->entries_queued()) {
-      $data = $this->cpHandler->execute($this->headpage->getBase());
+      $data = $this->cpHandler->execute();
       if (!empty($data)) {
         return $data;
       }

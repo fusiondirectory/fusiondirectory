@@ -53,7 +53,6 @@ class simplePlugin implements SimpleTab
   public $initially_was_account = FALSE;
   public $ignore_account        = FALSE;
 
-  public $acl_base      = '';
   public $acl_category  = '';
 
   /*! \brief dn of the opened object */
@@ -211,18 +210,15 @@ class simplePlugin implements SimpleTab
       }
     }
 
-    /* Handle read only */
-    if ($this->dn != 'new') {
-      /* Check if this entry was opened in read only mode */
-      if (isset($_POST['open_readonly']) && session::global_is_set('LOCK_CACHE')) {
-        $cache = session::get('LOCK_CACHE');
-        if (isset($cache['READ_ONLY'][$this->dn])) {
-          $this->read_only = TRUE;
-        }
+    /* Check if this entry was opened in read only mode */
+    if (($this->dn != 'new') &&
+        isset($_POST['open_readonly']) &&
+        session::global_is_set('LOCK_CACHE')
+      ) {
+      $cache = session::get('LOCK_CACHE');
+      if (isset($cache['READ_ONLY'][$this->dn])) {
+        $this->read_only = TRUE;
       }
-
-      /* Save current dn as acl_base */
-      $this->acl_base = $this->dn;
     }
 
     /* Load LDAP data */
@@ -565,16 +561,6 @@ class simplePlugin implements SimpleTab
   }
 
   /*!
-   * \brief Set acl base
-   *
-   * \param string $base
-   */
-  function set_acl_base (string $base)
-  {
-    $this->acl_base = $base;
-  }
-
-  /*!
    * \brief Set acl category
    *
    * \param string $category
@@ -817,13 +803,37 @@ class simplePlugin implements SimpleTab
     return $this->acl_is_writeable($attr->getAcl(), $this->acl_skip_write());
   }
 
+  /*!
+   * \brief Get LDAP base to use for ACL checks
+   */
+  function getAclBase (): string
+  {
+    global $config;
+
+    if ($this->mainTab) {
+      if (isset($this->dn) && ($this->dn != 'new')) {
+        return $this->dn;
+      }
+      if (isset($this->base)) {
+        return 'new,'.$this->base;
+      }
+    } elseif ($this->parent instanceof simpleTabs) {
+      return $this->parent->getAclBase();
+    }
+    if (isset($this->base)) {
+      return 'new,'.$this->base;
+    }
+
+    return $config->current['BASE'];
+  }
+
   function renderAttributes (bool $readOnly = FALSE)
   {
     global $ui;
     $smarty = get_smarty();
 
     if ($this->is_template) {
-      $smarty->assign('template_cnACL', $ui->get_permissions($this->acl_base, $this->acl_category.'template', 'template_cn', $this->acl_skip_write()));
+      $smarty->assign('template_cnACL', $ui->get_permissions($this->getAclBase(), $this->acl_category.'template', 'template_cn', $this->acl_skip_write()));
     }
 
     /* Handle rights to modify the base */
@@ -969,7 +979,7 @@ class simplePlugin implements SimpleTab
     $ui         = get_userinfo();
     $skipWrite  |= $this->readOnly();
     if ($base === NULL) {
-      $base = $this->acl_base;
+      $base = $this->getAclBase();
     }
     return $ui->get_permissions($base, $this->acl_category.get_class($this), $attribute, $skipWrite);
   }
@@ -2117,11 +2127,6 @@ class simplePlugin implements SimpleTab
         }
         if (!$tabs) {
           $tabObject->current = $classname;
-        }
-        if (($entry_dn != '') && ($entry_dn != 'new')) {
-          $tabObject->set_acl_base($entry_dn);
-        } else {
-          $tabObject->set_acl_base($config->current['BASE']);
         }
         session::set($classname, $tabObject);
       }
