@@ -70,7 +70,7 @@ class SnapshotCreateDialog extends ManagementDialog
   /*!
    * \brief Get LDAP base to use for ACL checks
    */
-  function getAclBase (): string
+  function getAclBase (bool $callParent = TRUE): string
   {
     return $this->object_dn;
   }
