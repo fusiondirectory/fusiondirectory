@@ -95,13 +95,21 @@ class LoginMethod
   {
     global $ui, $config, $message, $smarty;
     /* Login as user, initialize user ACL's */
-    $ui = userinfo::loginUser(static::$username, static::$password);
-    if ($ui === NULL) {
+    try {
+      $ui = userinfo::loginUser(static::$username, static::$password);
+    } catch (LoginFailurePpolicyException $e) {
+      msg_dialog::display(_('Authentication error'), $e->getMessage(), ERROR_DIALOG);
+      logging::log('security', 'login', '', [], 'Account for user "'.static::$username.'" has expired (ppolicy)');
+      $message = _('Password expired');
+      $smarty->assign('focusfield', 'username');
+      return FALSE;
+    } catch (LoginFailureException $e) {
       if (isset($_SERVER['REMOTE_ADDR'])) {
-        logging::log('security', 'login', '', [], 'Authentication failed for user "'.static::$username.'" [from '.$_SERVER['REMOTE_ADDR'].']');
+        logging::log('security', 'login', '', [], 'Authentication failed for user "'.static::$username.'" [from '.$_SERVER['REMOTE_ADDR'].']: '.$e->getMessage());
       } else {
-        logging::log('security', 'login', '', [], 'Authentication failed for user "'.static::$username.'"');
+        logging::log('security', 'login', '', [], 'Authentication failed for user "'.static::$username.'": '.$e->getMessage());
       }
+      /* Show the same message whether the user exists or not to avoid information leak */
       $message = _('Please check the username/password combination.');
       $smarty->assign('focusfield', 'password');
       return FALSE;
@@ -133,17 +141,6 @@ class LoginMethod
 
     /* Check account expiration */
     $expired = $ui->expired_status();
-    if ($expired == PPOLICY_ACCOUNT_EXPIRED) {
-      msg_dialog::display(
-        _('Authentication error'),
-        _('It seems your user password has expired. Please use <a href="recovery.php">password recovery</a> to change it.'),
-        ERROR_DIALOG
-      );
-      logging::log('security', 'login', '', [], 'Account for user "'.static::$username.'" has expired (ppolicy)');
-      $message = _('Password expired');
-      $smarty->assign('focusfield', 'username');
-      return FALSE;
-    }
 
     if ($expired == POSIX_ACCOUNT_EXPIRED) {
       logging::log('security', 'login', '', [], 'Account for user "'.static::$username.'" has expired');

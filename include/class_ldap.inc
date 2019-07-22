@@ -132,29 +132,54 @@ class LDAP
     $this->reconnect  = FALSE;
     if ($this->cid = @ldap_connect($this->hostname)) {
       @ldap_set_option($this->cid, LDAP_OPT_PROTOCOL_VERSION, 3);
-      if (function_exists("ldap_set_rebind_proc") && $this->follow_referral) {
+      if ($this->follow_referral) {
         @ldap_set_option($this->cid, LDAP_OPT_REFERRALS, 1);
-        @ldap_set_rebind_proc($this->cid, [&$this, "rebind"]);
+        @ldap_set_rebind_proc($this->cid, [&$this, 'rebind']);
       }
-      if (function_exists("ldap_start_tls") && $this->tls) {
+      if ($this->tls) {
         @ldap_start_tls($this->cid);
       }
 
-      $this->error = "No Error";
-      if (@ldap_bind($this->cid, $this->binddn, $this->bindpw)) {
-        $this->error  = "Success";
+      $this->error = 'No Error';
+      if (function_exists('ldap_bind_ext')) {
+        /* PHP>=7.3 */
+        $result = ldap_bind_ext();
+        $serverctrls = [];
+        if (class_available('ppolicyAccount')) {
+          $serverctrls = [['oid' => LDAP_CONTROL_PASSWORDPOLICYREQUEST]];
+        }
+        $result = @ldap_bind_ext($this->cid, $this->binddn, $this->bindpw, $serverctrls);
+        if (@ldap_parse_result($this->cid, $result, $errcode, $matcheddn, $errmsg, $referrals, $ctrls)) {
+          if (isset($ctrls[LDAP_CONTROL_PASSWORDPOLICYRESPONSE]['value']['error'])) {
+            $this->hascon = FALSE;
+            $this->error  = $ctrls[LDAP_CONTROL_PASSWORDPOLICYRESPONSE]['value']['error'];
+            // Note: Also available: expire, grace
+          } else {
+            $this->hascon = ($errcode == 0);
+            if (empty($errmsg)) {
+              $this->error = ldap_err2str($errcode);
+            } else {
+              $this->error = $errmsg;
+            }
+          }
+        } else {
+          $this->error  = 'Parsing of LDAP result from bind failed';
+          $this->hascon = FALSE;
+        }
+      } elseif (@ldap_bind($this->cid, $this->binddn, $this->bindpw)) {
+        $this->error  = 'Success';
         $this->hascon = TRUE;
       } else {
         if ($this->reconnect) {
-          if ($this->error != "Success") {
-            $this->error = "Could not rebind to " . $this->binddn;
+          if ($this->error != 'Success') {
+            $this->error = 'Could not rebind to ' . $this->binddn;
           }
         } else {
-          $this->error = "Could not bind to " . $this->binddn;
+          $this->error = 'Could not bind to ' . $this->binddn;
         }
       }
     } else {
-      $this->error = "Could not connect to LDAP server";
+      $this->error = 'Could not connect to LDAP server';
     }
   }
 
