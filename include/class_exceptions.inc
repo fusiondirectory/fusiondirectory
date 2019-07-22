@@ -78,3 +78,11 @@ class UnknownClassException extends FusionDirectoryException
 class LDAPFailureException extends FusionDirectoryException
 {
 }
+
+class LoginFailureException extends FusionDirectoryException
+{
+}
+
+class LoginFailurePpolicyException extends LoginFailureException
+{
+}

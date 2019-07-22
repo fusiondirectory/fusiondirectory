@@ -30,7 +30,6 @@ define('POSIX_ACCOUNT_EXPIRED',           1);
 define('POSIX_WARN_ABOUT_EXPIRATION',     2);
 define('POSIX_FORCE_PASSWORD_CHANGE',     4);
 define('POSIX_DISALLOW_PASSWORD_CHANGE',  8);
-define('PPOLICY_ACCOUNT_EXPIRED',         16);
 
 /*!
  * \brief Class userinfo
@@ -912,12 +911,6 @@ class userinfo
     $ldap = $config->get_ldap_link();
 
     if (class_available('ppolicyAccount')) {
-      $ldap->cd($config->current['BASE']);
-      $ldap->search('(objectClass=*)', [], 'one');
-      if (!$ldap->success()) {
-        return PPOLICY_ACCOUNT_EXPIRED;
-      }
-
       try {
         list($policy, $attrs) = user::fetchPpolicy($this->dn);
         if (
@@ -1209,17 +1202,17 @@ class userinfo
    *
    * \return TRUE on SUCCESS, NULL or FALSE on error
    */
-  public static function loginUser (string $username, string $password)
+  public static function loginUser (string $username, string $password): userinfo
   {
     global $config;
 
     $ui = static::getLdapUser($username);
 
     if ($ui === FALSE) {
-      return NULL;
+      throw new LoginFailureException('User not found');
     } elseif (is_string($ui)) {
       msg_dialog::display(_('Internal error'), $ui, FATAL_ERROR_DIALOG);
-      return NULL;
+      exit();
     }
 
     /* password check, bind as user with supplied password  */
@@ -1229,7 +1222,15 @@ class userinfo
     );
     $ldap = new ldapMultiplexer($ldapObj);
     if (!$ldap->success()) {
-      return NULL;
+      throw new LoginFailureException($ldap->get_error());
+    }
+
+    if (class_available('ppolicyAccount')) {
+      $ldap->cd($config->current['BASE']);
+      $ldap->search('(objectClass=*)', [], 'one');
+      if (!$ldap->success()) {
+        throw new LoginFailurePpolicyException(_('It seems your user password has expired. Please use <a href="recovery.php">password recovery</a> to change it.'));
+      }
     }
 
     /* Username is set, load subtreeACL's now */
