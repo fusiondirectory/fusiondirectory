@@ -454,7 +454,15 @@ class management
       }
     }
 
-    // Open single dialog objects
+    /* Display tab object */
+    if ($this->tabObject instanceOf simpleTabs) {
+      $this->tabObject->save_object();
+      $display = $this->tabObject->execute();
+      $display .= $this->getTabFooter();
+      return $this->getHeader().$display;
+    }
+
+    /* Display dialog objects */
     if (is_object($this->dialogObject)) {
       if (method_exists($this->dialogObject, 'save_object')) {
         $this->dialogObject->save_object();
@@ -464,14 +472,6 @@ class management
         $display .= $this->getTabFooter();
         return $this->getHeader().$display;
       }
-    }
-
-    // Display tab object.
-    if ($this->tabObject instanceOf simpleTabs) {
-      $this->tabObject->save_object();
-      $display = $this->tabObject->execute();
-      $display .= $this->getTabFooter();
-      return $this->getHeader().$display;
     }
 
     // Update list
