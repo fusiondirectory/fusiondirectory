@@ -143,7 +143,6 @@ class LDAP
       $this->error = 'No Error';
       if (function_exists('ldap_bind_ext')) {
         /* PHP>=7.3 */
-        $result = ldap_bind_ext();
         $serverctrls = [];
         if (class_available('ppolicyAccount')) {
           $serverctrls = [['oid' => LDAP_CONTROL_PASSWORDPOLICYREQUEST]];
