@@ -62,6 +62,9 @@ class userinfo
   /*! \brief Current management base */
   protected $currentBase;
 
+  /*! \brief Password change should be forced */
+  protected $forcePasswordChange = FALSE;
+
   /* get acl's an put them into the userinfo object
      attr subtreeACL (userdn:components, userdn:component1#sub1#sub2,component2,...) */
   function __construct ($userdn)
@@ -903,6 +906,10 @@ class userinfo
   {
     global $config;
 
+    if ($this->forcePasswordChange) {
+      return POSIX_FORCE_PASSWORD_CHANGE;
+    }
+
     // Skip this for the admin account, we do not want to lock him out.
     if ($this->is_user_admin()) {
       return 0;
@@ -1209,7 +1216,7 @@ class userinfo
     $ui = static::getLdapUser($username);
 
     if ($ui === FALSE) {
-      throw new LoginFailureException('User not found');
+      throw new LoginFailureException(ldap::invalidCredentialsError());
     } elseif (is_string($ui)) {
       msg_dialog::display(_('Internal error'), $ui, FATAL_ERROR_DIALOG);
       exit();
@@ -1222,14 +1229,18 @@ class userinfo
     );
     $ldap = new ldapMultiplexer($ldapObj);
     if (!$ldap->success()) {
-      throw new LoginFailureException($ldap->get_error());
+      if ($ldap->get_error() == 'changeAfterReset') {
+        $ui->forcePasswordChange = TRUE;
+      } else {
+        throw new LoginFailureException($ldap->get_error());
+      }
     }
 
-    if (class_available('ppolicyAccount')) {
+    if (class_available('ppolicyAccount') && !function_exists('ldap_bind_ext')) {
       $ldap->cd($config->current['BASE']);
       $ldap->search('(objectClass=*)', [], 'one');
       if (!$ldap->success()) {
-        throw new LoginFailurePpolicyException(_('It seems your user password has expired. Please use <a href="recovery.php">password recovery</a> to change it.'));
+        $ui->forcePasswordChange = TRUE;
       }
     }
 
