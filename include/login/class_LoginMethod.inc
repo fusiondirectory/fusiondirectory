@@ -97,12 +97,6 @@ class LoginMethod
     /* Login as user, initialize user ACL's */
     try {
       $ui = userinfo::loginUser(static::$username, static::$password);
-    } catch (LoginFailurePpolicyException $e) {
-      msg_dialog::display(_('Authentication error'), $e->getMessage(), ERROR_DIALOG);
-      logging::log('security', 'login', '', [], 'Account for user "'.static::$username.'" has expired (ppolicy)');
-      $message = _('Password expired');
-      $smarty->assign('focusfield', 'username');
-      return FALSE;
     } catch (LoginFailureException $e) {
       if (isset($_SERVER['REMOTE_ADDR'])) {
         logging::log('security', 'login', '', [], 'Authentication failed for user "'.static::$username.'" [from '.$_SERVER['REMOTE_ADDR'].']: '.$e->getMessage());
@@ -110,7 +104,7 @@ class LoginMethod
         logging::log('security', 'login', '', [], 'Authentication failed for user "'.static::$username.'": '.$e->getMessage());
       }
       /* Show the same message whether the user exists or not to avoid information leak */
-      $message = _('Please check the username/password combination.');
+      $message = $e->getMessage();
       $smarty->assign('focusfield', 'password');
       return FALSE;
     }

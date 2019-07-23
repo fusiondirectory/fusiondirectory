@@ -122,6 +122,16 @@ class LDAP
   }
 
   /*!
+   *  \brief Error text that must be returned for invalid user or password
+   *
+   *  This is useful to make sure the same error text is shown whether a user exists or not, when the password is not correct.
+   */
+  static function invalidCredentialsError (): string
+  {
+    return _(ldap_err2str(49));
+  }
+
+  /*!
    *  \brief Create a connection to LDAP server
    *
    *  The string $error containts result of the connection
@@ -151,11 +161,41 @@ class LDAP
         if (@ldap_parse_result($this->cid, $result, $errcode, $matcheddn, $errmsg, $referrals, $ctrls)) {
           if (isset($ctrls[LDAP_CONTROL_PASSWORDPOLICYRESPONSE]['value']['error'])) {
             $this->hascon = FALSE;
-            $this->error  = $ctrls[LDAP_CONTROL_PASSWORDPOLICYRESPONSE]['value']['error'];
+            switch ($ctrls[LDAP_CONTROL_PASSWORDPOLICYRESPONSE]['value']['error']) {
+              case 0:
+                /* passwordExpired - password has expired and must be reset */
+                $this->error = _('It seems your user password has expired. Please use <a href="recovery.php">password recovery</a> to change it.');
+                break;
+              case 1:
+                /* accountLocked */
+                $this->error = _('Account locked. Please contact your system administrator!');
+                break;
+              case 2:
+                /* changeAfterReset - password must be changed before the user will be allowed to perform any other operation */
+                $this->error = 'changeAfterReset';
+                break;
+              case 3:
+                /* passwordModNotAllowed */
+              case 4:
+                /* mustSupplyOldPassword */
+              case 5:
+                /* insufficientPasswordQuality */
+              case 6:
+                /* passwordTooShort */
+              case 7:
+                /* passwordTooYoung */
+              case 8:
+                /* passwordInHistory */
+              default:
+                $this->error = sprintf(_('Unexpected ppolicy error "%s", please contact the administrator'), $ctrls[LDAP_CONTROL_PASSWORDPOLICYRESPONSE]['value']['error']);
+                break;
+            }
             // Note: Also available: expire, grace
           } else {
             $this->hascon = ($errcode == 0);
-            if (empty($errmsg)) {
+            if ($errcode == 49) {
+              $this->error = static::invalidCredentialsError();
+            } elseif (empty($errmsg)) {
               $this->error = ldap_err2str($errcode);
             } else {
               $this->error = $errmsg;
@@ -171,10 +211,10 @@ class LDAP
       } else {
         if ($this->reconnect) {
           if ($this->error != 'Success') {
-            $this->error = 'Could not rebind to ' . $this->binddn;
+            $this->error = static::invalidCredentialsError();
           }
         } else {
-          $this->error = 'Could not bind to ' . $this->binddn;
+          $this->error = static::invalidCredentialsError();
         }
       }
     } else {
