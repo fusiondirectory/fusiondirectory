@@ -454,24 +454,25 @@ class management
       }
     }
 
-    /* Display tab object */
+    /* Save tab or dialog object */
     if ($this->tabObject instanceOf simpleTabs) {
       $this->tabObject->save_object();
+    } elseif (is_object($this->dialogObject) && method_exists($this->dialogObject, 'save_object')) {
+      $this->dialogObject->save_object();
+    }
+
+    /* Display tab object */
+    if ($this->tabObject instanceOf simpleTabs) {
       $display = $this->tabObject->execute();
       $display .= $this->getTabFooter();
       return $this->getHeader().$display;
     }
 
-    /* Display dialog objects */
-    if (is_object($this->dialogObject)) {
-      if (method_exists($this->dialogObject, 'save_object')) {
-        $this->dialogObject->save_object();
-      }
-      if (method_exists($this->dialogObject, 'execute')) {
-        $display = $this->dialogObject->execute();
-        $display .= $this->getTabFooter();
-        return $this->getHeader().$display;
-      }
+    /* Display dialog object */
+    if (is_object($this->dialogObject) && method_exists($this->dialogObject, 'execute')) {
+      $display = $this->dialogObject->execute();
+      $display .= $this->getTabFooter();
+      return $this->getHeader().$display;
     }
 
     // Update list

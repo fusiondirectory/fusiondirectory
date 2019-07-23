@@ -571,24 +571,25 @@ class simpleManagement
       return $this->getHeader().$str;
     }
 
-    /* Display tab object */
+    /* Save tab or dialog object */
     if ($this->tabObject instanceOf simpleTabs) {
       $this->tabObject->save_object();
+    } elseif (is_object($this->dialogObject) && method_exists($this->dialogObject, 'save_object')) {
+      $this->dialogObject->save_object();
+    }
+
+    /* Display tab object */
+    if ($this->tabObject instanceOf simpleTabs) {
       $display = $this->tabObject->execute();
-      $display .= $this->_getTabFooter();
+      $display .= $this->getTabFooter();
       return $this->getHeader().$display;
     }
 
-    /* Open single dialog objects */
-    if (is_object($this->dialogObject)) {
-      if (method_exists($this->dialogObject, 'save_object')) {
-        $this->dialogObject->save_object();
-      }
-      if (method_exists($this->dialogObject, 'execute')) {
-        $display = $this->dialogObject->execute();
-        $display .= $this->_getTabFooter();
-        return $this->getHeader().$display;
-      }
+    /* Display dialog object */
+    if (is_object($this->dialogObject) && method_exists($this->dialogObject, 'execute')) {
+      $display = $this->dialogObject->execute();
+      $display .= $this->getTabFooter();
+      return $this->getHeader().$display;
     }
 
     // Display list
