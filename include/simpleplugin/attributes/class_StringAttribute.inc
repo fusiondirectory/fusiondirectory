@@ -77,7 +77,7 @@ class StringAttribute extends Attribute
       $attributes['onChange'] = 'javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8');
     }
     if ($this->autocomplete !== NULL) {
-      $attributes['autocomplete'] = ($this->autocomplete ? 'on' : 'off');
+      $attributes['autocomplete'] = $this->autocomplete;
     }
     if ($this->html5pattern !== NULL) {
       $attributes['pattern'] = '{literal}'.htmlentities($this->html5pattern, ENT_COMPAT, 'UTF-8').'{/literal}';
@@ -98,7 +98,7 @@ class StringAttribute extends Attribute
       'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}'
     ];
     if ($this->autocomplete !== NULL) {
-      $attributes['autocomplete'] = ($this->autocomplete ? 'on' : 'off');
+      $attributes['autocomplete'] = $this->autocomplete;
     }
     if ($this->isSubAttribute) {
       $attributes['class'] = 'subattribute';
@@ -132,9 +132,13 @@ class StringAttribute extends Attribute
     }
   }
 
-  function setAutocomplete ($bool)
+  function setAutocomplete ($autocomplete)
   {
-    $this->autocomplete = $bool;
+    if (is_bool($autocomplete)) {
+      $this->autocomplete = ($autocomplete ? 'on' : 'off');
+    } else {
+      $this->autocomplete = $autocomplete;
+    }
   }
 
   function getAutocomplete ()
@@ -200,15 +204,6 @@ class TextAreaAttribute extends StringAttribute
  */
 class PasswordAttribute extends StringAttribute
 {
-  protected $autocomplete = FALSE;
+  protected $autocomplete = 'new-password';
   protected $inputType    = 'password';
-
-  function renderFormInput (): string
-  {
-    $display = parent::renderFormInput();
-    if ($this->autocomplete === FALSE) {
-      $display = '{literal}<input autocomplete="off" value="foolautocompleteworkaround" type="text" style="display:none;"/>{/literal}'.$display;
-    }
-    return $display;
-  }
 }
