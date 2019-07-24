@@ -1145,7 +1145,7 @@ class userinfo
     $ldap = $config->get_ldap_link();
     if (!$ldap->success()) {
       msg_dialog::display(_('LDAP error'),
-          msgPool::ldaperror($ldap->get_error(), '', LDAP_AUTH),
+          msgPool::ldaperror($ldap->get_error(FALSE), '', LDAP_AUTH),
           FATAL_ERROR_DIALOG);
       exit();
     }
@@ -1229,10 +1229,10 @@ class userinfo
     );
     $ldap = new ldapMultiplexer($ldapObj);
     if (!$ldap->success()) {
-      if ($ldap->get_error() == 'changeAfterReset') {
+      if ($ldap->get_error(FALSE) == 'changeAfterReset') {
         $ui->forcePasswordChange = TRUE;
       } else {
-        throw new LoginFailureException($ldap->get_error());
+        throw new LoginFailureException($ldap->get_error(FALSE));
       }
     }
 

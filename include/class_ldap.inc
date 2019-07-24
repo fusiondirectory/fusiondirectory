@@ -963,9 +963,9 @@ class LDAP
   /*!
    * \brief Get the error
    */
-  function get_error ()
+  function get_error ($details = TRUE)
   {
-    if ($this->error == 'Success') {
+    if (($this->error == 'Success') || !$details) {
       return $this->error;
     } else {
       $adderror = $this->get_additional_error();
