@@ -69,6 +69,7 @@ create_perlcritic_rapport:
 
 # PHP codesniffer
 create_php_code_sniffer_rapport_13:
+  image: phpcodesniffer-cli:stretch
   stage: codestyle
   only:
     - branches
