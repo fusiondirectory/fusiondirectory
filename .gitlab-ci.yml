@@ -15,13 +15,10 @@ stages:
 
 # Perl lint
 create_perl_lint_rapport:
+  image: perlcodestyle:stretch
   stage: lint
   only:
     - branches
-  before_script:
-    - apt-get update -qq
-    - apt-get install -y -qq libarchive-extract-perl libcrypt-cbc-perl libdigest-sha-perl libfile-copy-recursive-perl
-    - apt-get install -y -qq libnet-ldap-perl libpath-class-perl libterm-readkey-perl libxml-twig-perl
   script:
     - perl -cW contrib/bin/fusiondirectory-setup contrib/bin/fusiondirectory-insert-schema
 
@@ -36,12 +33,10 @@ create_php_lint_rapport_stretch:
 
 # generate man pages to test validity
 create_manpages_lint_report:
+  image: perlcodestyle:stretch
   stage: lint
   only:
     - branches
-  before_script:
-  - apt-get update -qq
-  - apt-get install -y -qq perl man-db
   script:
     - pod2man -c "FusionDirectory Documentation" -r "FusionDirectory 1.3" contrib/bin/fusiondirectory-insert-schema contrib/man/fusiondirectory-insert-schema.1
     - pod2man -c "FusionDirectory Documentation" -r "FusionDirectory 1.3" contrib/bin/fusiondirectory-setup contrib/man/fusiondirectory-setup.1
@@ -54,12 +49,10 @@ create_manpages_lint_report:
 
 # Generate perlcritic rapport
 create_perlcritic_rapport:
+  image: perlcodestyle:stretch
   stage: codestyle
   only:
     - branches
-  before_script:
-  - apt-get update -qq
-  - apt-get install -y -qq libperl-critic-perl
   script:
     - cp contrib/bin/fusiondirectory-setup contrib/bin/fusiondirectory-setup.pl
     - cp contrib/bin/fusiondirectory-insert-schema contrib/bin/fusiondirectory-insert-schema.pl
@@ -155,7 +148,7 @@ build-release:
   stage: tarballs
   only:
     - tags
-  script: 
+  script:
     - tar -cvzf fusiondirectory-core-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"').tar.gz *
   artifacts:
     paths:
