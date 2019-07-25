@@ -239,11 +239,14 @@ class templateHandling
       foreach ($generator as $value) {
         $filter = '('.ldap_escape_f($unique).'='.ldap_escape_f($value).')';
         $ldap->search($filter, ['dn']);
-        if (
-          ($ldap->count() == 0) ||
-          (($target !== NULL) && ($ldap->count() == 1) && ($ldap->getDN() == $target))
-          ) {
+        if ($ldap->count() == 0) {
           return $value;
+        }
+        if (($target !== NULL) && ($ldap->count() == 1)) {
+          $attrs = $ldap->fetch();
+          if ($attrs['dn'] == $target) {
+            return $value;
+          }
         }
       }
     }
