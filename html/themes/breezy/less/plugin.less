@@ -229,8 +229,10 @@ html.rtl .plugin-section {
     &.nonwritable .subattribute {
       display: none;
     }
-    &.nonwritable input:disabled {
-      color: @text-color;
+    &.nonwritable {
+      input:disabled, select:disabled, textarea:disabled {
+        color: @text-color;
+      }
     }
     &.required > td > label::after {
       content: "*";

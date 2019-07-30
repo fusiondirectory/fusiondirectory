@@ -214,7 +214,11 @@ html.rtl .plugin-section > div > table > tbody > tr.nonwritable .subattribute {
   display: none;
 }
 html.ltr .plugin-section > div > table > tbody > tr.nonwritable input:disabled,
-html.rtl .plugin-section > div > table > tbody > tr.nonwritable input:disabled {
+html.rtl .plugin-section > div > table > tbody > tr.nonwritable input:disabled,
+html.ltr .plugin-section > div > table > tbody > tr.nonwritable select:disabled,
+html.rtl .plugin-section > div > table > tbody > tr.nonwritable select:disabled,
+html.ltr .plugin-section > div > table > tbody > tr.nonwritable textarea:disabled,
+html.rtl .plugin-section > div > table > tbody > tr.nonwritable textarea:disabled {
   color: #31363b;
 }
 html.ltr .plugin-section > div > table > tbody > tr.required > td > label::after,
