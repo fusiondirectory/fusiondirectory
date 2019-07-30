@@ -785,6 +785,21 @@ class simplePlugin implements SimpleTab
     return $display;
   }
 
+  /*! \brief Check if logged in user have enough right to read this attribute value
+   *
+   * \param mixed $attr Attribute object or name (in this case it will be fetched from attributesAccess)
+   */
+  function attrIsReadable ($attr): bool
+  {
+    if (!is_object($attr)) {
+      $attr = $this->attributesAccess[$attr];
+    }
+    if ($attr->getLdapName() == 'base') {
+      return TRUE;
+    }
+    return $this->acl_is_readable($attr->getAcl());
+  }
+
   /*! \brief Check if logged in user have enough right to write this attribute value
    *
    * \param mixed $attr Attribute object or name (in this case it will be fetched from attributesAccess)
@@ -852,20 +867,29 @@ class simplePlugin implements SimpleTab
       }
       $smarty->assign("section", $legend);
       $smarty->assign("sectionId", $section);
+      $sectionClasses = '';
       if (isset($sectionInfo['class'])) {
-        $smarty->assign("sectionClasses", ' '.join(' ', $sectionInfo['class']));
-      } else {
-        $smarty->assign("sectionClasses", '');
+        $sectionClasses .= ' '.join(' ', $sectionInfo['class']);
       }
-      $attributes = [];
+      $attributes       = [];
+      $readableSection  = FALSE;
       foreach ($sectionInfo['attrs'] as $attr) {
         if ($attr->getAclInfo() !== FALSE) {
           // We assign ACLs so that attributes can use them in their template code
-          $smarty->assign($attr->getAcl()."ACL", $this->aclGetPermissions($attr->getAcl(), NULL, $this->acl_skip_write()));
+          $smarty->assign($attr->getAcl().'ACL', $this->aclGetPermissions($attr->getAcl(), NULL, $this->acl_skip_write()));
         }
-        $attr->renderAttribute($attributes, $readOnly);
+        $readable = $this->attrIsReadable($attr);
+        $writable = $this->attrIsWriteable($attr);
+        if (!$readableSection && ($readable || $writable)) {
+          $readableSection = TRUE;
+        }
+        $attr->renderAttribute($attributes, $readOnly, $readable, $writable);
       }
-      $smarty->assign("attributes", $attributes);
+      $smarty->assign('attributes', $attributes);
+      if (!$readableSection) {
+        $sectionClasses .= ' nonreadable';
+      }
+      $smarty->assign('sectionClasses', $sectionClasses);
       // We fetch each section with the section template
       if (isset($sectionInfo['template'])) {
         $displaySection = $smarty->fetch($sectionInfo['template']);
@@ -923,7 +947,7 @@ class simplePlugin implements SimpleTab
   /*! \brief Can we write the attribute */
   function acl_is_writeable ($attribute, bool $skipWrite = FALSE): bool
   {
-    return preg_match('/w/', $this->aclGetPermissions($attribute, NULL, $skipWrite));
+    return (strpos($this->aclGetPermissions($attribute, NULL, $skipWrite), 'w') !== FALSE);
   }
 
   /*!
@@ -933,7 +957,7 @@ class simplePlugin implements SimpleTab
    */
   function acl_is_readable ($attribute): bool
   {
-    return preg_match('/r/', $this->aclGetPermissions($attribute));
+    return (strpos($this->aclGetPermissions($attribute), 'r') !== FALSE);
   }
 
   /*!
@@ -943,7 +967,7 @@ class simplePlugin implements SimpleTab
    */
   function acl_is_createable (string $base = NULL): bool
   {
-    return preg_match('/c/', $this->aclGetPermissions('0', $base));
+    return (strpos($this->aclGetPermissions('0', $base), 'c') !== FALSE);
   }
 
   /*!
@@ -953,7 +977,7 @@ class simplePlugin implements SimpleTab
    */
   function acl_is_removeable (string $base = NULL): bool
   {
-    return preg_match('/d/', $this->aclGetPermissions('0', $base));
+    return (strpos($this->aclGetPermissions('0', $base), 'd') !== FALSE);
   }
 
   /*!
@@ -963,7 +987,7 @@ class simplePlugin implements SimpleTab
    */
   function acl_is_moveable (string $base = NULL): bool
   {
-    return preg_match('/m/', $this->aclGetPermissions('0', $base));
+    return (strpos($this->aclGetPermissions('0', $base), 'm') !== FALSE);
   }
 
   /*! \brief Get the acl permissions for an attribute or the plugin itself */

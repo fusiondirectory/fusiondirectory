@@ -193,6 +193,9 @@ class SelectAttribute extends Attribute
       $js       = $this->managedAttributesJS();
       $display  .= 'onChange="javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8').'"';
     }
+    if ($this->isSubAttribute) {
+      $display .= 'class="subattribute" ';
+    }
     $display .= '>';
     $display .= '{html_options values=$'.$id.'_choices output=$'.$id.'_outputs selected=$'.$id.'_selected}';
     $display .= '</select>';

@@ -227,26 +227,28 @@ class SetAttribute extends Attribute
     }
   }
 
-  function renderAttribute (array &$attributes, bool $readOnly)
+  function renderAttribute (array &$attributes, bool $readOnly, bool $readable, bool $writable)
   {
     if ($this->attribute === FALSE) {
-      return parent::renderAttribute($attributes, $readOnly);
+      return parent::renderAttribute($attributes, $readOnly, $readable, $writable);
     }
     if ($this->visible) {
       $this->attribute->setDisabled($this->disabled);
       if ($this->linearRendering || $readOnly) {
-        parent::renderAttribute($attributes, $readOnly);
+        parent::renderAttribute($attributes, $readOnly, $readable, $writable);
       } else {
         $attributes[$this->getLdapName()] = [
           'htmlid'        => $this->getForHtmlId(),
-          'label'         => '{literal}'.$this->getLabel().'{/literal}'.($this->isRequired() ? '{$must}' : ''),
+          'label'         => '{literal}'.$this->getLabel().'{/literal}',
           'description'   => ($this->isRequired() ? sprintf(_("%s (required)"), $this->getDescription()) : $this->getDescription()),
           'input'         => $this->renderAcl($this->renderOnlyFormInput()),
           'subattribute'  => $this->isSubAttribute,
           'required'      => $this->isRequired(),
+          'readable'      => $readable,
+          'writable'      => $writable,
         ];
         $this->handleEditingValue();
-        $this->attribute->renderAttribute($attributes, $readOnly);
+        $this->attribute->renderAttribute($attributes, $readOnly, $acl);
         $attributes[$this->getLdapName().'_buttons'] = [
           'htmlid'        => 'add'.$this->getHtmlId(),
           'label'         => '',
@@ -254,6 +256,8 @@ class SetAttribute extends Attribute
           'input'         => $this->renderAcl($this->renderButtons()),
           'subattribute'  => TRUE,
           'required'      => FALSE,
+          'readable'      => $readable,
+          'writable'      => $writable,
         ];
       }
     }
@@ -289,8 +293,8 @@ class SetAttribute extends Attribute
   function renderButtons ()
   {
     $id = $this->getHtmlId();
-    $buttons  = $this->renderInputField('submit', 'add'.$id, ['value' => '{msgPool type=addButton}', 'formnovalidate' => 'formnovalidate']);
-    $buttons .= $this->renderInputField('submit', 'del'.$id, ['value' => '{msgPool type=delButton}', 'formnovalidate' => 'formnovalidate']);
+    $buttons  = $this->renderInputField('submit', 'add'.$id, ['value' => '{msgPool type=addButton}', 'formnovalidate' => 'formnovalidate', 'class' => 'subattribute']);
+    $buttons .= $this->renderInputField('submit', 'del'.$id, ['value' => '{msgPool type=delButton}', 'formnovalidate' => 'formnovalidate', 'class' => 'subattribute']);
     return $buttons;
   }
 
@@ -667,7 +671,7 @@ class OrderedArrayAttribute extends SetAttribute
   function renderButtons ()
   {
     $id = $this->getHtmlId();
-    $buttons = $this->renderInputField('submit', 'add'.$id, ['value' => '{msgPool type=addButton}', 'formnovalidate' => 'formnovalidate']);
+    $buttons = $this->renderInputField('submit', 'add'.$id, ['value' => '{msgPool type=addButton}', 'formnovalidate' => 'formnovalidate', 'class' => 'subattribute']);
     return $buttons;
   }
 }

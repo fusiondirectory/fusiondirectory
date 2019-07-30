@@ -180,7 +180,6 @@ $smarty->assign("date", date("l, dS F Y H:i:s O"));
 $lang = session::global_get('lang');
 $smarty->assign('lang',  preg_replace('/_.*$/', '', $lang));
 $smarty->assign('rtl',   Language::isRTL($lang));
-$smarty->assign('must',  '<span class="must">*</span>');
 if (isset($plugin_index)) {
   $plug = "?plug=$plugin_index";
 } else {

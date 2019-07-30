@@ -163,7 +163,6 @@ class standAlonePage
     $lang = session::global_get('lang');
     $smarty->assign('lang',         preg_replace('/_.*$/', '', $lang));
     $smarty->assign('rtl',          Language::isRTL($lang));
-    $smarty->assign('must',         '<span class="must">*</span>');
     $smarty->assign('usePrototype', 'FALSE');
     $smarty->assign('CSRFtoken',    CSRFProtection::getToken());
 

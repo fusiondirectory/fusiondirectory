@@ -88,12 +88,12 @@ class UserPasswordAttribute extends CompositeAttribute
   }
 
   /* We need to handle method select disabling manually */
-  function renderAttribute (array &$attributes, bool $readOnly)
+  function renderAttribute (array &$attributes, bool $readOnly, bool $readable, bool $writable)
   {
     global $config;
     if ($this->visible) {
       if ($this->linearRendering) {
-        parent::renderAttribute($attributes, $readOnly);
+        parent::renderAttribute($attributes, $readOnly, $readable, $writable);
       } else {
         foreach ($this->attributes as $key => &$attribute) {
           if (is_object($this->plugin) && $this->plugin->is_template && ($key == 2)) {
@@ -105,7 +105,7 @@ class UserPasswordAttribute extends CompositeAttribute
           } else {
             $attribute->setDisabled($this->disabled);
           }
-          $attribute->renderAttribute($attributes, $readOnly);
+          $attribute->renderAttribute($attributes, $readOnly, $readable, $writable);
         }
         unset($attribute);
       }

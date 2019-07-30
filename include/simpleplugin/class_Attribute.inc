@@ -583,8 +583,12 @@ class Attribute
    *  \param array &$attributes the attributes array
    *
    *  \param bool $readOnly should we show text or input
+   *
+   *  \param bool $readable ACL read
+   *
+   *  \param bool $writable ACL write
    */
-  function renderAttribute (array &$attributes, bool $readOnly)
+  function renderAttribute (array &$attributes, bool $readOnly, bool $readable, bool $writable)
   {
     if ($this->visible) {
       if ($readOnly) {
@@ -607,11 +611,13 @@ class Attribute
       }
       $attributes[$this->getLdapName()] = [
         'htmlid'        => $this->getForHtmlId(),
-        'label'         => '{literal}'.$this->getLabel().'{/literal}'.($this->isRequired() ? '{$must}' : ''),
+        'label'         => '{literal}'.$this->getLabel().'{/literal}',
         'description'   => ($this->isRequired() ? sprintf(_("%s (required)"), $this->getDescription()) : $this->getDescription()),
         'input'         => $input,
         'subattribute'  => $this->isSubAttribute,
         'required'      => $this->isRequired(),
+        'readable'      => $readable,
+        'writable'      => $writable,
       ];
     }
   }
@@ -824,7 +830,7 @@ class FakeAttribute extends Attribute
     $this->setInLdap(FALSE);
   }
 
-  function renderAttribute (array &$attributes, bool $readOnly)
+  function renderAttribute (array &$attributes, bool $readOnly, bool $readable, bool $writable)
   {
     $attributes[$this->getLdapName()] = $this->getValue();
   }

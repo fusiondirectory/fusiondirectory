@@ -200,13 +200,14 @@ abstract class DialogAttribute extends SetAttribute
     if ($this->isTemplate()) {
       $buttons  .= $this->renderInputField(
         'text', $id,
-        ['value' => $this->editingValue]
+        ['value' => $this->editingValue, 'class' => 'subattribute']
       );
       $buttons  .= $this->renderInputField(
         'submit', 'add'.$id,
         [
           'value'           => '{msgPool type=addButton}',
-          'formnovalidate'  => 'formnovalidate'
+          'formnovalidate'  => 'formnovalidate',
+          'class'           => 'subattribute',
         ]
       );
       $dialogButtonValue = _('Add (dialog)');
@@ -214,16 +215,17 @@ abstract class DialogAttribute extends SetAttribute
     $buttons  .= $this->renderInputField(
       'submit', 'add'.$id.'_dialog',
       [
-        'class'           => 'dialog',
+        'class'           => 'dialog subattribute',
         'value'           => $dialogButtonValue,
-        'formnovalidate'  => 'formnovalidate'
+        'formnovalidate'  => 'formnovalidate',
       ]
     );
     $buttons  .= $this->renderInputField(
       'submit', 'del'.$id,
       [
         'value'           => '{msgPool type=delButton}',
-        'formnovalidate'  => 'formnovalidate'
+        'formnovalidate'  => 'formnovalidate',
+        'class'           => 'subattribute',
       ]
     );
     return $buttons;
@@ -294,7 +296,7 @@ abstract class DialogOrderedArrayAttribute extends OrderedArrayAttribute
     return $this->renderInputField(
       'submit', 'add'.$id.'_dialog',
       [
-        'class'           => 'dialog',
+        'class'           => 'dialog subattribute',
         'value'           => '{msgPool type=addButton}',
         'formnovalidate'  => 'formnovalidate'
       ]

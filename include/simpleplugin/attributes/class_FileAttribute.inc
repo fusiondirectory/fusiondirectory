@@ -206,12 +206,12 @@ class FileDownloadAttribute extends FileAttribute
     return $ids;
   }
 
-  function renderAttribute (array &$attributes, bool $readOnly)
+  function renderAttribute (array &$attributes, bool $readOnly, bool $readable, bool $writable)
   {
     if ($this->upload === FALSE) {
-      parent::renderAttribute($attributes, FALSE);
+      parent::renderAttribute($attributes, FALSE, $readable, $writable);
     } else {
-      parent::renderAttribute($attributes, $readOnly);
+      parent::renderAttribute($attributes, $readOnly, $readable, $writable);
     }
   }
 }
