@@ -106,6 +106,8 @@ class PropertiesColumn extends Column
 
   protected function computeIcons (ListingEntry $entry): array
   {
+    global $ui;
+
     if (isset($entry->cache[__CLASS__]['icons'])) {
       return $entry->cache[__CLASS__]['icons'];
     }
@@ -127,6 +129,11 @@ class PropertiesColumn extends Column
         $attrs = $entry;
       }
       foreach ($this->tabs[$entry->getTemplatedType()] as $class) {
+        if (empty($ui->get_permissions($entry->dn, $infos['aclCategory'].'/'.$class))) {
+          /* Skip tabs we have no ACL rights on */
+          continue;
+        }
+
         $status = $class::isAccount($attrs);
         if ($status !== FALSE) {
           $pInfos = pluglist::pluginInfos($class);
