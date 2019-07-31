@@ -254,7 +254,7 @@ class simpleTabs
       }
 
       /* Paint tab */
-      if (empty($obj->aclGetPermissions(''))) {
+      if ($obj->aclHasPermissions() && empty($obj->aclGetPermissions(''))) {
         $display .= '<td class="nonreadable">';
       } else {
         $display .= '<td>';

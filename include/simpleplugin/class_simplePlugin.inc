@@ -797,6 +797,9 @@ class simplePlugin implements SimpleTab
     if ($attr->getLdapName() == 'base') {
       return TRUE;
     }
+    if ($attr->getAcl() == 'noacl') {
+      return TRUE;
+    }
     return $this->acl_is_readable($attr->getAcl());
   }
 
@@ -814,6 +817,9 @@ class simplePlugin implements SimpleTab
         !$this->acl_skip_write() &&
         (!$this->initially_was_account || $this->acl_is_moveable() || $this->acl_is_removeable())
       );
+    }
+    if ($attr->getAcl() == 'noacl') {
+      return FALSE;
     }
     return $this->acl_is_writeable($attr->getAcl(), $this->acl_skip_write());
   }
@@ -988,6 +994,14 @@ class simplePlugin implements SimpleTab
   function acl_is_moveable (string $base = NULL): bool
   {
     return (strpos($this->aclGetPermissions('0', $base), 'm') !== FALSE);
+  }
+
+  /*! \brief Test if there are ACLs for this plugin */
+  function aclHasPermissions (): bool
+  {
+    global $config;
+
+    return in_array(get_class($this), $config->data['CATEGORIES'][rtrim($this->acl_category, '/')]['classes']);
   }
 
   /*! \brief Get the acl permissions for an attribute or the plugin itself */
