@@ -59,6 +59,37 @@ class multiPlugin extends simplePlugin
     }
   }
 
+  function aclHasPermissions (): bool
+  {
+    foreach ($this->plugin as $plug) {
+      if (!$plug->aclHasPermissions()) {
+        /* If one of our plugins has no permission handling (always shown), we do not either */
+        return FALSE;
+      }
+    }
+
+    return TRUE;
+  }
+
+  function aclGetPermissions ($attribute = '0', string $base = NULL, bool $skipWrite = FALSE): string
+  {
+    if (isset($this->parent) && isset($this->parent->ignoreAcls) && $this->parent->ignoreAcls) {
+      return 'cdmr'.($skipWrite ? '' : 'w');
+    }
+
+    $skipWrite |= $this->readOnly();
+    if ($base === NULL) {
+      $base = $this->getAclBase();
+    }
+
+    $acl = '';
+    foreach ($this->plugin as $plug) {
+      $acl .= $plug->aclGetPermissions($attribute, $base, $skipWrite);
+    }
+
+    return implode('', array_unique(str_split($acl)));
+  }
+
   function execute (): string
   {
     $display = "";
@@ -80,21 +111,13 @@ class multiPlugin extends simplePlugin
       }
     }
 
-    /* Execude  objects */
-    $is_first = TRUE;
-
+    /* Display plugins */
     $readOnly = $this->readOnly();
 
-    foreach ($this->plugin as &$plug) {
+    foreach ($this->plugin as $plug) {
       $plug->read_only = $readOnly;
-      if (!$is_first) {
-        $display .= '<p class="plugbottom">&nbsp;</p>';
-      } else {
-        $is_first = FALSE;
-      }
       $display .= $plug->execute();
     }
-    unset($plug);
 
     return $display;
   }

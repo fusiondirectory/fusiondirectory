@@ -62,7 +62,7 @@ class reference extends simplePlugin
   function aclGetPermissions ($attribute = '0', string $base = NULL, bool $skipWrite = FALSE): string
   {
     /* Everyone can see this tab and its attribute */
-    return 'r'.($skipWrite ? '' : 'wcdm');
+    return 'r';
   }
 
   function execute (): string

@@ -2089,7 +2089,7 @@ class simplePlugin implements SimpleTab
 
   /*! \brief This function is the needed main.inc for plugins that are not used inside a management class
    *
-   *  \param array $classname the class name to read plInfo from. (plIcon, plShortname and plCategory are gonna be used)
+   *  \param array $classname the class name to read plInfo from. (plIcon, plTitle, plShortname and plObjectType may be used)
    *
    *  \param string $entry_dn the dn of the object to show/edit
    *
@@ -2121,13 +2121,6 @@ class simplePlugin implements SimpleTab
         $key = $plInfo['plObjectType'][$key];
       }
       $objectType = $key;
-    }
-    $plCategory = (isset($plInfo['plCategory']) ? $plInfo['plCategory'] : ['user']);
-    $key = key($plCategory);
-    if (is_numeric($key)) {
-      $plCategory = $plCategory[$key];
-    } else {
-      $plCategory = $key;
     }
 
     $lock_msg = "";
@@ -2226,25 +2219,22 @@ class simplePlugin implements SimpleTab
       /* Show page footer depending on the mode */
       $info = $entry_dn.'&nbsp;';
       if ($edit_mode && (!$tabObject->dialogOpened()) && empty($lock_msg)) {
-        $display .= '<p class="plugbottom">';
-
         /* Are we in edit mode? */
         if (session::is_set('edit')) {
+          $display .= '<p class="plugbottom">'."\n";
           $display .= '<input type="submit" name="edit_finish" style="width:80px" value="'.msgPool::okButton().'"/>'."\n";
           $display .= '&nbsp;';
           $display .= '<input type="submit" formnovalidate="formnovalidate" name="edit_cancel" value="'.msgPool::cancelButton().'"/>'."\n";
-        } else {
-          /* Only display edit button if there is at least one attribute editable */
-          if (preg_match('/r/', $ui->get_permissions($entry_dn, $plCategory.'/'.$tabObject->current))) {
-            $info .= '<div style="display:inline-block" class="optional"><img class="center" alt="information" '.
-                      'src="geticon.php?context=status&amp;icon=dialog-information&amp;size=16"> '.
-                      msgPool::clickEditToChange().'</div>';
-
-            $display .= '<input type="submit" name="edit" value="'.msgPool::editButton().'"/>'."\n";
-          }
-          $display .= '<input type="hidden" name="ignore"/>'."\n";
+          $display .= "</p>\n";
+        } elseif (strpos($tabObject->by_object[$tabObject->current]->aclGetPermissions(''), 'w') !== FALSE) {
+          /* Only display edit button if there is at least one attribute writable */
+          $display  .= '<p class="plugbottom">'."\n";
+          $info     .= '<div style="display:inline-block" class="optional"><img class="center" alt="information" '.
+                    'src="geticon.php?context=status&amp;icon=dialog-information&amp;size=16"> '.
+                    msgPool::clickEditToChange().'</div>';
+          $display  .= '<input type="submit" name="edit" value="'.msgPool::editButton().'"/>'."\n";
+          $display  .= "</p>\n";
         }
-        $display .= "</p>\n";
       }
 
       /* Page header */
