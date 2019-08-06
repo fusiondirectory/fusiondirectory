@@ -248,7 +248,7 @@ class SetAttribute extends Attribute
           'writable'      => $writable,
         ];
         $this->handleEditingValue();
-        $this->attribute->renderAttribute($attributes, $readOnly, $acl);
+        $this->attribute->renderAttribute($attributes, $readOnly, $readable, $writable);
         $attributes[$this->getLdapName().'_buttons'] = [
           'htmlid'        => 'add'.$this->getHtmlId(),
           'label'         => '',
