@@ -197,6 +197,35 @@ html.ltr .plugin-section.invisible,
 html.rtl .plugin-section.invisible {
   display: none;
 }
+html.ltr .plugin-section.nonreadable,
+html.rtl .plugin-section.nonreadable {
+  display: none;
+}
+html.ltr .plugin-section > div > table > tbody > tr.nonreadable,
+html.rtl .plugin-section > div > table > tbody > tr.nonreadable {
+  display: none;
+}
+html.ltr .plugin-section > div > table > tbody > tr.nonwritable.subattribute,
+html.rtl .plugin-section > div > table > tbody > tr.nonwritable.subattribute {
+  display: none;
+}
+html.ltr .plugin-section > div > table > tbody > tr.nonwritable .subattribute,
+html.rtl .plugin-section > div > table > tbody > tr.nonwritable .subattribute {
+  display: none;
+}
+html.ltr .plugin-section > div > table > tbody > tr.nonwritable input:disabled,
+html.rtl .plugin-section > div > table > tbody > tr.nonwritable input:disabled,
+html.ltr .plugin-section > div > table > tbody > tr.nonwritable select:disabled,
+html.rtl .plugin-section > div > table > tbody > tr.nonwritable select:disabled,
+html.ltr .plugin-section > div > table > tbody > tr.nonwritable textarea:disabled,
+html.rtl .plugin-section > div > table > tbody > tr.nonwritable textarea:disabled {
+  color: #31363b;
+}
+html.ltr .plugin-section > div > table > tbody > tr.required > td > label::after,
+html.rtl .plugin-section > div > table > tbody > tr.required > td > label::after {
+  content: "*";
+  color: #dd0000;
+}
 fieldset.plugin-section.critical legend span,
 .plugin-section.critical > span.legend {
   font-weight: bold;

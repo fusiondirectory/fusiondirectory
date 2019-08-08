@@ -245,6 +245,7 @@ class simpleTabs
     $index    = 0;
     $style    = ['tab-left', 'tab-active', 'tab-right'];
     foreach ($this->by_name as $class => $name) {
+      $obj = $this->by_object[$class];
 
       /* Activate right tabs with style "tab-right"
        * Activate current tab with style "tab-active " */
@@ -253,7 +254,11 @@ class simpleTabs
       }
 
       /* Paint tab */
-      $display .= '<td>';
+      if ($obj->aclHasPermissions() && empty($obj->aclGetPermissions(''))) {
+        $display .= '<td class="nonreadable">';
+      } else {
+        $display .= '<td>';
+      }
 
       /* Shorten string if its too long for the tab headers*/
       $title = _($name);
@@ -267,7 +272,6 @@ class simpleTabs
       $cssClasses = $style[$index];
 
       /* Take care about notifications */
-      $obj = $this->by_object[$class];
       if ($this->plNotify[$class] && ($obj->is_account || $obj->ignore_account)) {
         $cssClasses .= ' tab-notify';
       }

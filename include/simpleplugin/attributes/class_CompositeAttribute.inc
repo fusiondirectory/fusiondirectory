@@ -229,15 +229,15 @@ class CompositeAttribute extends Attribute
     unset($attribute);
   }
 
-  function renderAttribute (array &$attributes, bool $readOnly)
+  function renderAttribute (array &$attributes, bool $readOnly, bool $readable, bool $writable)
   {
     if ($this->visible) {
       if ($this->linearRendering) {
-        parent::renderAttribute($attributes, $readOnly);
+        parent::renderAttribute($attributes, $readOnly, $readable, $writable);
       } else {
         foreach ($this->attributes as &$attribute) {
           $attribute->setDisabled($this->disabled);
-          $attribute->renderAttribute($attributes, $readOnly);
+          $attribute->renderAttribute($attributes, $readOnly, $readable, $writable);
         }
         unset($attribute);
       }

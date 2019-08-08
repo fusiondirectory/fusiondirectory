@@ -128,6 +128,13 @@ interface SimpleTab
   public function deserializeValues (array $values, bool $checkAcl = TRUE);
 
   /*!
+   * \brief Test if the plugins have ACLs declared
+   *
+   * If FALSE tab is always shown, if TRUE aclGetPermissions('') is called
+   */
+  public function aclHasPermissions (): bool;
+
+  /*!
    * \brief Get the acl permissions for an attribute or the plugin itself
    */
   public function aclGetPermissions ($attribute = '0', string $base = NULL, bool $skipWrite = FALSE): string;

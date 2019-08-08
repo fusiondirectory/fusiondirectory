@@ -285,7 +285,9 @@ class template
           // We assign ACLs so that attributes can use them in their template code
           $smarty->assign($plugin->attributesAccess[$attr]->getAcl().'ACL', $plugin->aclGetPermissions($plugin->attributesAccess[$attr]->getAcl()));
         }
-        $plugin->attributesAccess[$attr]->renderAttribute($attributesRendered, FALSE);
+        $readable = $plugin->attrIsReadable($attr);
+        $writable = $plugin->attrIsWriteable($attr);
+        $plugin->attributesAccess[$attr]->renderAttribute($attributesRendered, FALSE, $readable, $writable);
       }
 
       $smarty->assign('section', $this->tabObject->by_name[$class]);

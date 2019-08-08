@@ -16,6 +16,9 @@ table.tabs-header > tbody > tr > td {
 table.tabs-header > tbody > tr > td:last-child {
   width: auto;
 }
+table.tabs-header > tbody > tr > td.nonreadable {
+  display: none;
+}
 table.tabs-header > tbody > tr > td > div > a {
   display: inline-block;
   border-radius: 5px 5px 0 0;

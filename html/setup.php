@@ -89,7 +89,6 @@ Language::init($lang);
 
 $smarty->assign('lang', preg_replace('/_.*$/', '', $lang));
 $smarty->assign('rtl',  Language::isRTL($lang));
-$smarty->assign('must', '<span class="must">*</span>');
 
 /* Minimal config */
 if (!session::global_is_set('config')) {

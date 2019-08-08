@@ -118,12 +118,14 @@ class dashboard extends simplePlugin
 
   static function mainInc ($classname = NULL, $entry_dn = NULL, $tabs = TRUE, $edit_mode = FALSE, $objectType = FALSE)
   {
+    global $config;
+
     if ($classname === NULL) {
       $classname = get_called_class();
     }
 
     if ($entry_dn === NULL) {
-      $entry_dn = '';
+      $entry_dn = $config->current['BASE'];
     }
 
     parent::mainInc($classname, $entry_dn, $tabs, $edit_mode, $objectType);

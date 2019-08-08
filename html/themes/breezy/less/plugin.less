@@ -214,6 +214,33 @@ html.rtl .plugin-section.invisible {
   display: none;
 }
 
+html.ltr .plugin-section,
+html.rtl .plugin-section {
+  &.nonreadable {
+    display: none;
+  }
+  > div > table > tbody > tr {
+    &.nonreadable {
+      display: none;
+    }
+    &.nonwritable.subattribute {
+      display: none;
+    }
+    &.nonwritable .subattribute {
+      display: none;
+    }
+    &.nonwritable {
+      input:disabled, select:disabled, textarea:disabled {
+        color: @text-color;
+      }
+    }
+    &.required > td > label::after {
+      content: "*";
+      color: @warning-red-color;
+    }
+  }
+}
+
 fieldset.plugin-section.critical legend span,
 .plugin-section.critical > span.legend {
   font-weight: bold;

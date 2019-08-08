@@ -112,7 +112,9 @@ background-color: #aaa;
 height: 1px;
 }
 
-.must {
+html.ltr .plugin-section > div > table > tbody > tr.required > td > label::after,
+html.rtl .plugin-section > div > table > tbody > tr.required > td > label::after {
+content: "*";
 color: red;
 font-family: arial,helvetica,sans-serif;
 }

@@ -37,7 +37,7 @@ function smarty_block_render ($params, $text)
     echo '<div style="color:blue;">'.$acl.(isset($params['aclName']) ? ' ['.$params['aclName'].']' : '').'</div>';
   }
 
-  /* Read / Write*/
+  /* Read / Write */
   if (preg_match('/w/i', $acl)) {
     return $text;
   }
