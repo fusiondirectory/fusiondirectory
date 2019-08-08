@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2007  Fabian Hickert
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2019  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -190,13 +190,16 @@ class setupStepMigrate extends setupStep
   var $outsideGroups_toMigrate  = [];
 
   /* check for multiple use of same uidNumber */
-  var $check_uidNumbers = [];
+  var $check_uidNumber = [];
 
   /* check for multiple use of same gidNumber */
-  var $check_gidNumbers = [];
+  var $check_gidNumber = [];
 
   /* Defaults ACL roles */
   var $defaultRoles;
+
+  /* Limit of objects to check/migrate at once to avoid timeouts or memory overflow */
+  static protected $objectNumberLimit = 5000;
 
   static function getAttributesInfo (): array
   {
@@ -524,6 +527,7 @@ class setupStepMigrate extends setupStep
   {
     global $config;
     $ldap = $config->get_ldap_link();
+    $ldap->set_size_limit(static::$objectNumberLimit);
 
     /* Remember old list of invisible users, to be able to set
      *  the 'html checked' status for the checkboxes again
@@ -545,6 +549,13 @@ class setupStepMigrate extends setupStep
       ')',
       ['sn','givenName','cn','uid']
     );
+    if (!$res) {
+      throw new CheckFailedException(
+        _('LDAP query failed'),
+        _('Possibly the "root object" is missing.')
+      );
+    }
+    $sizeLimitHit = $ldap->hitSizeLimit();
 
     while ($attrs = $ldap->fetch()) {
       if (!preg_match('/,dc=addressbook,/', $attrs['dn'])) {
@@ -560,21 +571,24 @@ class setupStepMigrate extends setupStep
       }
     }
 
-    if (!$res) {
-      throw new CheckFailedException(
-        _('LDAP query failed'),
-        _('Possibly the "root object" is missing.')
-      );
-    } elseif (count($this->accounts_toMigrate) == 0) {
+    if (count($this->accounts_toMigrate) == 0) {
       /* No invisible */
       return '';
     } else {
+      if ($sizeLimitHit) {
+        $message = sprintf(
+          _('Found more than %d user(s) that will not be visible in FusionDirectory or which are incomplete.'),
+          static::$objectNumberLimit
+        );
+      } else {
+        $message = sprintf(
+          _('Found %d user(s) that will not be visible in FusionDirectory or which are incomplete.'),
+          count($this->accounts_toMigrate)
+        );
+      }
       throw new CheckFailedException(
         "<div style='color:#F0A500'>"._("Warning")."</div>",
-        sprintf(
-          _('Found %s user(s) that will not be visible in FusionDirectory or which are incomplete.'),
-          count($this->accounts_toMigrate)
-        ).$checkobj->submit()
+        $message.$checkobj->submit()
       );
     }
   }
@@ -613,12 +627,9 @@ class setupStepMigrate extends setupStep
 
   function check_multipleGeneric_migrate (&$checkobj, $infos)
   {
-    $var = $checkobj->name.'_toMigrate';
-    /* Fix displayed dn syntax */
+    $var              = $checkobj->name.'_toMigrate';
     $infos['entries'] = $this->$var;
-    foreach ($infos['entries'] as $key => $data) {
-      $infos['entries'][$key]['dn'] = $data['dn'];
-    }
+
     $this->openDialog(new StepMigrateDialog($checkobj, 'setup_migrate_accounts.tpl', $infos));
   }
 
@@ -632,13 +643,10 @@ class setupStepMigrate extends setupStep
       /* Hide changes */
       $checkobj->run();
     }
-    /* Fix displayed dn syntax */
-    $var = $checkobj->name.'_toMigrate';
 
+    $var              = $checkobj->name.'_toMigrate';
     $infos['entries'] = $this->$var;
-    foreach ($infos['entries'] as $key => $data) {
-      $infos['entries'][$key]['dn'] = $data['dn'];
-    }
+
     return $infos;
   }
 
@@ -996,6 +1004,7 @@ class setupStepMigrate extends setupStep
         _('Possibly the "root object" is missing.')
       );
     }
+    $sizeLimitHit = FALSE;
 
     /***********
      * Check if returned users are within a valid department. (peopleou,gosaDepartment,base)
@@ -1014,17 +1023,26 @@ class setupStepMigrate extends setupStep
         $attrs['checked'] = FALSE;
         $attrs['ldif']    = '';
         $this->outsideUsers_toMigrate[base64_encode($attrs['dn'])] = $attrs;
+        if (count($this->outsideUsers_toMigrate) >= static::$objectNumberLimit) {
+          $sizeLimitHit = TRUE;
+          break;
+        }
       }
     }
 
-    if (count($this->outsideUsers_toMigrate)) {
+    if (count($this->outsideUsers_toMigrate) == 0) {
+      return '';
+    } else {
+      if ($sizeLimitHit) {
+        $message = sprintf(_('Found more than %d user(s) outside the configured tree "%s".'), static::$objectNumberLimit, $people_ou);
+      } else {
+        $message = sprintf(_('Found %d user(s) outside the configured tree "%s".'), count($this->outsideUsers_toMigrate), $people_ou);
+      }
       throw new CheckFailedException(
         "<div style='color:#F0A500'>"._("Warning")."</div>",
-        sprintf(_('Found %s user(s) outside the configured tree "%s".'), count($this->outsideUsers_toMigrate), $people_ou).
+        $message.
         $checkobj->submit()
       );
-    } else {
-      return '';
     }
   }
 
@@ -1119,6 +1137,7 @@ class setupStepMigrate extends setupStep
         _('Possibly the "root object" is missing.')
       );
     }
+    $sizeLimitHit = FALSE;
 
     $this->outsideGroups_toMigrate = [];
     while ($attrs = $ldap->fetch()) {
@@ -1133,17 +1152,26 @@ class setupStepMigrate extends setupStep
         $attrs['checked'] = FALSE;
         $attrs['ldif']    = '';
         $this->outsideGroups_toMigrate[base64_encode($attrs['dn'])] = $attrs;
+        if (count($this->outsideGroups_toMigrate) >= static::$objectNumberLimit) {
+          $sizeLimitHit = TRUE;
+          break;
+        }
       }
     }
 
-    if (count($this->outsideGroups_toMigrate)) {
+    if (count($this->outsideGroups_toMigrate) == 0) {
+      return '';
+    } else {
+      if ($sizeLimitHit) {
+        $message = sprintf(_('Found more than %d groups outside the configured tree "%s".'), static::$objectNumberLimit, $group_ou);
+      } else {
+        $message = sprintf(_('Found %d groups outside the configured tree "%s".'), count($this->outsideGroups_toMigrate), $group_ou);
+      }
       throw new CheckFailedException(
         "<div style='color:#F0A500'>"._("Warning")."</div>",
-        sprintf(_("Found %s groups outside the configured tree '%s'."), count($this->outsideGroups_toMigrate), $group_ou).
-        '&nbsp;'.$checkobj->submit()
+        $message.
+        $checkobj->submit()
       );
-    } else {
-      return '';
     }
   }
 
@@ -1212,7 +1240,16 @@ class setupStepMigrate extends setupStep
         _('Possibly the "root object" is missing.')
       );
     }
+    $sizeLimitHit = FALSE;
+
     while ($attrs = $ldap->fetch()) {
+      foreach ($skip_dns as $skip_dn) {
+        /* Filter out FusionDirectory internal departments */
+        if (preg_match($skip_dn, $attrs['dn'])) {
+          continue 2;
+        }
+      }
+
       $attrs['checked'] = FALSE;
       $attrs['before']  = '';
       $attrs['after']   = '';
@@ -1222,23 +1259,9 @@ class setupStepMigrate extends setupStep
         $attrs['checked'] = $old[base64_encode($attrs['dn'])]['checked'];
       }
       $this->orgUnits_toMigrate[base64_encode($attrs['dn'])] = $attrs;
-    }
-
-    /* Filter returned list of departments and ensure that
-     *  FusionDirectory internal departments will not be listed
-     */
-    foreach ($this->orgUnits_toMigrate as $key => $attrs) {
-      $dn   = $attrs['dn'];
-      $skip = FALSE;
-
-      foreach ($skip_dns as $skip_dn) {
-        if (preg_match($skip_dn, $dn)) {
-          $skip = TRUE;
-          break;
-        }
-      }
-      if ($skip) {
-        unset($this->orgUnits_toMigrate[$key]);
+      if (count($this->orgUnits_toMigrate) >= static::$objectNumberLimit) {
+        $sizeLimitHit = TRUE;
+        break;
       }
     }
 
@@ -1248,10 +1271,15 @@ class setupStepMigrate extends setupStep
     if (count($this->orgUnits_toMigrate) == 0) {
       return '';
     } else {
+      if ($sizeLimitHit) {
+        $message = sprintf(_('Found more than %d department(s) that will not be visible in FusionDirectory.'), static::$objectNumberLimit);
+      } else {
+        $message = sprintf(_('Found %d department(s) that will not be visible in FusionDirectory.'), count($this->orgUnits_toMigrate));
+      }
       throw new CheckFailedException(
-        '<font style="color:#FFA500">'._("Warning").'</font>',
-        sprintf(_('Found %s department(s) that will not be visible in FusionDirectory.'), count($this->orgUnits_toMigrate)).
-        '&nbsp;'.$checkobj->submit()
+        '<font style="color:#FFA500">'._('Warning').'</font>',
+        $message.
+        $checkobj->submit()
       );
     }
   }
@@ -1291,55 +1319,26 @@ class setupStepMigrate extends setupStep
   /* Check if there are uidNumbers which are used more than once */
   function check_uidNumber (&$checkobj)
   {
-    global $config;
-    $ldap = $config->get_ldap_link();
-
-    $ldap->cd($config->current['BASE']);
-    $res = $ldap->search("(&(objectClass=posixAccount)(uidNumber=*))", ["dn","uidNumber"]);
-    if (!$res) {
-      throw new CheckFailedException(
-        _('LDAP query failed'),
-        _('Possibly the "root object" is missing.')
-      );
-    }
-
-    $this->check_uidNumbers = [];
-    $tmp = [];
-    while ($attrs = $ldap->fetch()) {
-      $tmp[$attrs['uidNumber'][0]][] = $attrs;
-    }
-
-    foreach ($tmp as $entries) {
-      if (count($entries) > 1) {
-        foreach ($entries as $entry) {
-          $this->check_uidNumbers[$entry['dn']] = $entry;
-        }
-      }
-    }
-
-    if ($this->check_uidNumbers) {
-      $list = '<ul>';
-      foreach ($this->check_uidNumbers as $dn => $entry) {
-        $list .= '<li>'.$dn.' ('.$entry['uidNumber'][0].')</li>';
-      }
-      $list .= '</ul>';
-      throw new CheckFailedException(
-        "<div style='color:#F0A500'>"._("Warning")."</div>",
-        sprintf(_('Found %s duplicate values for attribute "uidNumber":%s'), count($this->check_uidNumbers), $list)
-      );
-    } else {
-      return '';
-    }
+    $this->check_duplicatesGeneric($checkobj, 'posixAccount');
   }
 
   /* Check if there are duplicated gidNumbers present in ldap */
   function check_gidNumber (&$checkobj)
   {
+    $this->check_duplicatesGeneric($checkobj, 'posixAccount');
+  }
+
+  /* Generic function to check duplicated values */
+  function check_duplicatesGeneric (&$checkobj, $oc)
+  {
     global $config;
     $ldap = $config->get_ldap_link();
 
+    $attribute  = $checkobj->name;
+    $duplicates = 'check_'.$checkobj->name;
+
     $ldap->cd($config->current['BASE']);
-    $res = $ldap->search("(&(objectClass=posixGroup)(gidNumber=*))", ["dn","gidNumber"]);
+    $res = $ldap->search('(&(objectClass='.$oc.')('.$attribute.'=*))', ['dn',$attribute]);
     if (!$res) {
       throw new CheckFailedException(
         _('LDAP query failed'),
@@ -1347,32 +1346,32 @@ class setupStepMigrate extends setupStep
       );
     }
 
-    $this->check_gidNumbers = [];
+    $this->$duplicates = [];
     $tmp = [];
     while ($attrs = $ldap->fetch()) {
-      $tmp[$attrs['gidNumber'][0]][] = $attrs;
+      $tmp[$attrs[$attribute][0]][] = $attrs['dn'];
     }
 
-    foreach ($tmp as $entries) {
-      if (count($entries) > 1) {
-        foreach ($entries as $entry) {
-          $this->check_gidNumbers[$entry['dn']] = $entry;
+    foreach ($tmp as $value => $dns) {
+      if (count($dns) > 1) {
+        foreach ($dns as $dn) {
+          $this->$duplicates[$dn] = $value;
         }
       }
     }
 
-    if ($this->check_gidNumbers) {
+    if (count($this->$duplicates) == 0) {
+      return '';
+    } else {
       $list = '<ul>';
-      foreach ($this->check_gidNumbers as $dn => $entry) {
-        $list .= '<li>'.$dn.' ('.$entry['gidNumber'][0].')</li>';
+      foreach ($this->$duplicates as $dn => $value) {
+        $list .= '<li>'.$dn.' ('.$value.')</li>';
       }
       $list .= '</ul>';
       throw new CheckFailedException(
-        "<div style='color:#F0A500'>"._("Warning")."</div>",
-        sprintf(_('Found %s duplicate values for attribute "gidNumber":%s'), count($this->check_gidNumbers), $list)
+        '<div style="color:#F0A500">'._('Warning').'</div>',
+        sprintf(_('Found %d duplicate values for attribute "'.$attribute.'":%s'), count($this->$duplicates), $list)
       );
-    } else {
-      return '';
     }
   }
 }
