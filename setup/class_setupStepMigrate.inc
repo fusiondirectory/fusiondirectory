@@ -190,10 +190,10 @@ class setupStepMigrate extends setupStep
   var $outsideGroups_toMigrate  = [];
 
   /* check for multiple use of same uidNumber */
-  var $check_uidNumbers = [];
+  var $check_uidNumber = [];
 
   /* check for multiple use of same gidNumber */
-  var $check_gidNumbers = [];
+  var $check_gidNumber = [];
 
   /* Defaults ACL roles */
   var $defaultRoles;
@@ -1319,55 +1319,26 @@ class setupStepMigrate extends setupStep
   /* Check if there are uidNumbers which are used more than once */
   function check_uidNumber (&$checkobj)
   {
-    global $config;
-    $ldap = $config->get_ldap_link();
-
-    $ldap->cd($config->current['BASE']);
-    $res = $ldap->search('(&(objectClass=posixAccount)(uidNumber=*))', ['dn','uidNumber']);
-    if (!$res) {
-      throw new CheckFailedException(
-        _('LDAP query failed'),
-        _('Possibly the "root object" is missing.')
-      );
-    }
-
-    $this->check_uidNumbers = [];
-    $tmp = [];
-    while ($attrs = $ldap->fetch()) {
-      $tmp[$attrs['uidNumber'][0]][] = $attrs;
-    }
-
-    foreach ($tmp as $entries) {
-      if (count($entries) > 1) {
-        foreach ($entries as $entry) {
-          $this->check_uidNumbers[$entry['dn']] = $entry;
-        }
-      }
-    }
-
-    if (count($this->check_uidNumbers) == 0) {
-      return '';
-    } else {
-      $list = '<ul>';
-      foreach ($this->check_uidNumbers as $dn => $entry) {
-        $list .= '<li>'.$dn.' ('.$entry['uidNumber'][0].')</li>';
-      }
-      $list .= '</ul>';
-      throw new CheckFailedException(
-        '<div style="color:#F0A500">'._('Warning').'</div>',
-        sprintf(_('Found %d duplicate values for attribute "uidNumber":%s'), count($this->check_uidNumbers), $list)
-      );
-    }
+    $this->check_duplicatesGeneric($checkobj, 'posixAccount');
   }
 
   /* Check if there are duplicated gidNumbers present in ldap */
   function check_gidNumber (&$checkobj)
   {
+    $this->check_duplicatesGeneric($checkobj, 'posixAccount');
+  }
+
+  /* Generic function to check duplicated values */
+  function check_duplicatesGeneric (&$checkobj, $oc)
+  {
     global $config;
     $ldap = $config->get_ldap_link();
 
+    $attribute  = $checkobj->name;
+    $duplicates = 'check_'.$checkobj->name;
+
     $ldap->cd($config->current['BASE']);
-    $res = $ldap->search("(&(objectClass=posixGroup)(gidNumber=*))", ["dn","gidNumber"]);
+    $res = $ldap->search('(&(objectClass='.$oc.')('.$attribute.'=*))', ['dn',$attribute]);
     if (!$res) {
       throw new CheckFailedException(
         _('LDAP query failed'),
@@ -1375,31 +1346,31 @@ class setupStepMigrate extends setupStep
       );
     }
 
-    $this->check_gidNumbers = [];
+    $this->$duplicates = [];
     $tmp = [];
     while ($attrs = $ldap->fetch()) {
-      $tmp[$attrs['gidNumber'][0]][] = $attrs;
+      $tmp[$attrs[$attribute][0]][] = $attrs['dn'];
     }
 
-    foreach ($tmp as $entries) {
-      if (count($entries) > 1) {
-        foreach ($entries as $entry) {
-          $this->check_gidNumbers[$entry['dn']] = $entry;
+    foreach ($tmp as $value => $dns) {
+      if (count($dns) > 1) {
+        foreach ($dns as $dn) {
+          $this->$duplicates[$dn] = $value;
         }
       }
     }
 
-    if (count($this->check_gidNumbers) == 0) {
+    if (count($this->$duplicates) == 0) {
       return '';
     } else {
       $list = '<ul>';
-      foreach ($this->check_gidNumbers as $dn => $entry) {
-        $list .= '<li>'.$dn.' ('.$entry['gidNumber'][0].')</li>';
+      foreach ($this->$duplicates as $dn => $value) {
+        $list .= '<li>'.$dn.' ('.$value.')</li>';
       }
       $list .= '</ul>';
       throw new CheckFailedException(
         '<div style="color:#F0A500">'._('Warning').'</div>',
-        sprintf(_('Found %d duplicate values for attribute "gidNumber":%s'), count($this->check_gidNumbers), $list)
+        sprintf(_('Found %d duplicate values for attribute "'.$attribute.'":%s'), count($this->$duplicates), $list)
       );
     }
   }
