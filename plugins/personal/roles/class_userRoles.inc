@@ -109,6 +109,8 @@ class userRoles extends simplePlugin
     }
     /* We might be in some groups we have no read ACL on, so merge them in the choices */
     $groups = array_merge($myGroups, $groups);
+    asort($groups);
+    asort($myGroups);
     $this->attributesAccess['groupsMembership']->attribute->setChoices(array_keys($groups), array_values($groups));
     $this->attributesAccess['groupsMembership']->setValue(array_keys($myGroups));
 
@@ -146,6 +148,8 @@ class userRoles extends simplePlugin
     }
     /* We might be in some roles we have no read ACL on, so merge them in the choices */
     $roles = array_merge($myRoles, $roles);
+    asort($roles);
+    asort($myRoles);
     $this->attributesAccess['rolesMembership']->attribute->setChoices(array_keys($roles), array_values($roles));
     $this->attributesAccess['rolesMembership']->setValue(array_keys($myRoles));
 
@@ -354,6 +358,8 @@ class userRoles extends simplePlugin
       $myGroups = array_combine($this->attrs['userGroups'], $this->attrs['userGroups']);
       $groups   = $this->attributesAccess['groupsMembership']->attribute->getDisplayChoices();
       $groups   = array_merge($myGroups, $groups);
+      asort($groups);
+      asort($myGroups);
       $this->attributesAccess['groupsMembership']->attribute->setChoices(array_keys($groups), array_values($groups));
       $this->attributesAccess['groupsMembership']->setValue(array_keys($myGroups));
       $this->templateGroups = array_keys($myGroups);
@@ -367,6 +373,8 @@ class userRoles extends simplePlugin
       $myRoles = array_combine($this->attrs['userRoles'], $this->attrs['userRoles']);
       $roles   = $this->attributesAccess['rolesMembership']->attribute->getDisplayChoices();
       $roles   = array_merge($myRoles, $roles);
+      asort($roles);
+      asort($myRoles);
       $this->attributesAccess['rolesMembership']->attribute->setChoices(array_keys($roles), array_values($roles));
       $this->attributesAccess['rolesMembership']->setValue(array_keys($myRoles));
       $this->templateRoles = array_keys($myRoles);
