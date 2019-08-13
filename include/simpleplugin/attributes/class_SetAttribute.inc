@@ -66,11 +66,12 @@ class SetAttribute extends Attribute
 
   protected function loadAttrValue (array $attrs)
   {
-    if (isset($attrs[$this->getLdapName()]["count"])) {
+    if (isset($attrs[$this->getLdapName()]['count'])) {
       $this->value = [];
-      for ($i = 0; $i < $attrs[$this->getLdapName()]["count"]; $i++) {
+      for ($i = 0; $i < $attrs[$this->getLdapName()]['count']; $i++) {
         $this->value[] = $attrs[$this->getLdapName()][$i];
       }
+      sort($this->value);
     }
   }
 
@@ -300,6 +301,7 @@ class SetAttribute extends Attribute
 
   function computeLdapValue ()
   {
+    sort($this->value);
     return array_values($this->value);
   }
 
@@ -425,6 +427,9 @@ class OrderedArrayAttribute extends SetAttribute
 
   function computeLdapValue ()
   {
+    if (!$this->order) {
+      sort($this->value);
+    }
     $ldapValue = [];
     foreach ($this->value as $key => $value) {
       $ldapValue[] = $this->writeValue($key, $value);
@@ -727,6 +732,7 @@ class SubNodesAttribute extends OrderedArrayAttribute
         unset($attribute);
         $this->value[] = $this->attribute->getValue();
       }
+      sort($this->value);
     }
   }
 
