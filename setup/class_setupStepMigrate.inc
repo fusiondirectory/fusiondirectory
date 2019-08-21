@@ -984,32 +984,44 @@ class setupStepMigrate extends setupStep
     $cookie = '';
 
     do {
-      $res = $ldap->search('(&(objectClass=inetOrgPerson)(!(uid=*$)))', ['dn'], 0, 0, 0, LDAP_DEREF_NEVER,
-        [['oid' => LDAP_CONTROL_PAGEDRESULTS, 'value' => ['size' => 500, 'cookie' => $cookie]]]
-      );
-      if (!$res) {
-        throw new CheckFailedException(
-          _('LDAP query failed'),
-          _('Possibly the "root object" is missing.')
+      if (version_compare(PHP_VERSION, '7.3.0') >= 0) {
+        /* 7.3 and newer, use pagination control */
+        $res = $ldap->search('(&(objectClass=inetOrgPerson)(!(uid=*$)))', ['dn'], 0, 0, 0, LDAP_DEREF_NEVER,
+          [['oid' => LDAP_CONTROL_PAGEDRESULTS, 'value' => ['size' => 500, 'cookie' => $cookie]]]
         );
-      }
-      if (!$ldap->parse_result($errcode, $matcheddn, $errmsg, $referrals, $controls)) {
-        throw new CheckFailedException(
-          _('LDAP result parsing failed'),
-          _('LDAP result parsing failed')
-        );
-      }
-      if ($errcode !== 0) {
-        throw new CheckFailedException(
-          _('LDAP error'),
-          $errmsg
-        );
-      }
-      if (isset($controls[LDAP_CONTROL_PAGEDRESULTS]['value']['cookie'])) {
-        // You need to pass the cookie from the last call to the next one
-        $cookie = $controls[LDAP_CONTROL_PAGEDRESULTS]['value']['cookie'];
+        if (!$res) {
+          throw new CheckFailedException(
+            _('LDAP query failed'),
+            _('Possibly the "root object" is missing.')
+          );
+        }
+        if (!$ldap->parse_result($errcode, $matcheddn, $errmsg, $referrals, $controls)) {
+          throw new CheckFailedException(
+            _('LDAP result parsing failed'),
+            _('LDAP result parsing failed')
+          );
+        }
+        if ($errcode !== 0) {
+          throw new CheckFailedException(
+            _('LDAP error'),
+            $errmsg
+          );
+        }
+        if (isset($controls[LDAP_CONTROL_PAGEDRESULTS]['value']['cookie'])) {
+          // You need to pass the cookie from the last call to the next one
+          $cookie = $controls[LDAP_CONTROL_PAGEDRESULTS]['value']['cookie'];
+        } else {
+          $cookie = '';
+        }
       } else {
-        $cookie = '';
+        /* fallback to search without pagination */
+        $res = $ldap->search('(&(objectClass=inetOrgPerson)(!(uid=*$)))', ['dn']);
+        if (!$res) {
+          throw new CheckFailedException(
+            _('LDAP query failed'),
+            _('Possibly the "root object" is missing.')
+          );
+        }
       }
 
       while ($attrs = $ldap->fetch()) {
