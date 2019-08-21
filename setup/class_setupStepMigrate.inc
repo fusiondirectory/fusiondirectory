@@ -726,34 +726,12 @@ class setupStepMigrate extends setupStep
 
       $attrs = $ldap->fetch();
 
-      /* Collect a list of available FusionDirectory users and groups */
-      $users = [];
-      $ldap->search('(objectClass=inetOrgPerson)', ['uid','dn']);
-      while ($user_attrs = $ldap->fetch()) {
-        if (isset($user_attrs['uid'][0])) {
-          $users[$user_attrs['dn']]       = $user_attrs['uid'][0];
-          $rusers[$user_attrs['uid'][0]]  = $user_attrs['dn'];
-        } else {
-          $users[$user_attrs['dn']] = $user_attrs['dn'];
-        }
-      }
-      $groups = [];
-      $ldap->search('(objectClass=posixGroup)', ['cn','dn']);
-      while ($group_attrs = $ldap->fetch()) {
-        $groups[$group_attrs['dn']] = $group_attrs['cn'][0];
-      }
-      $roles = [];
-      $ldap->search('(objectClass=organizationalRole)', ['cn','dn']);
-      while ($role_attrs = $ldap->fetch()) {
-        $roles[$role_attrs['dn']] = $role_attrs['cn'][0];
-      }
-
       /* Check if a valid FusionDirectory admin exists
           -> gosaAclEntry for an existing and accessible user.
        */
-      $valid_users  = '';
-      $valid_groups = '';
-      $valid_roles  = '';
+      $valid_users  = [];
+      $valid_groups = [];
+      $valid_roles  = [];
       if (isset($attrs['gosaAclEntry'])) {
         $acls = $attrs['gosaAclEntry'];
         for ($i = 0; $i < $acls['count']; $i++) {
@@ -768,40 +746,39 @@ class setupStepMigrate extends setupStep
               foreach ($members as $member) {
                 $member = base64_decode($member);
 
-                if (isset($users[$member])) {
-                  $valid_users    .= $users[$member].', ';
-                  $FD_admin_found = TRUE;
-                }
-                if (isset($groups[$member])) {
-                  $ldap->cat($member);
-                  $group_attrs = $ldap->fetch();
-                  $val_users = '';
-                  if (isset($group_attrs['memberUid'])) {
-                    for ($e = 0; $e < $group_attrs['memberUid']['count']; $e ++) {
-                      if (isset($rusers[$group_attrs['memberUid'][$e]])) {
-                        $val_users .= $group_attrs['memberUid'][$e].', ';
+                $ldap->cat($member, ['dn','uid','cn','memberUid','roleOccupant']);
+                if ($member_attrs = $ldap->fetch()) {
+                  if (in_array('inetOrgPerson', $member_attrs['objectClass'])) {
+                    $valid_users[]  = htmlentities(($member_attrs['uid'][0] ?? $members_attrs['dn']), ENT_COMPAT, 'UTF-8');
+                    $FD_admin_found = TRUE;
+                  } elseif (in_array('posixGroup', $member_attrs['objectClass'])) {
+                    $val_users = [];
+                    if (isset($member_attrs['memberUid'])) {
+                      for ($e = 0; $e < $member_attrs['memberUid']['count']; $e++) {
+                        $ldap->search('(&(objectClass=inetOrgPerson)(uid='.ldap_escape_f($member_attrs['memberUid'][$e]).'))', ['uid','dn']);
+                        if ($user_attrs = $ldap->fetch()) {
+                          $val_users[] = htmlentities(($user_attrs['uid'][0] ?? $user_attrs['dn']), ENT_COMPAT, 'UTF-8');
+                        }
                       }
                     }
-                  }
-                  if (!empty($val_users)) {
-                    $valid_groups .= $groups[$member].'(<i>'.trim($val_users, ', ').'</i>), ';
-                    $FD_admin_found  = TRUE;
-                  }
-                }
-                if (isset($roles[$member])) {
-                  $ldap->cat($member);
-                  $role_attrs = $ldap->fetch();
-                  $val_users = '';
-                  if (isset($role_attrs['roleOccupant'])) {
-                    for ($e = 0; $e < $role_attrs['roleOccupant']['count']; $e ++) {
-                      if (isset($users[$role_attrs['roleOccupant'][$e]])) {
-                        $val_users .= $users[$role_attrs['roleOccupant'][$e]].', ';
+                    if (!empty($val_users)) {
+                      $valid_groups[] = htmlentities($member_attrs['cn'][0], ENT_COMPAT, 'UTF-8').'(<i>'.implode(', ', $val_users).'</i>)';
+                      $FD_admin_found = TRUE;
+                    }
+                  } elseif (in_array('organizationalRole', $member_attrs['objectClass'])) {
+                    $val_users = [];
+                    if (isset($member_attrs['roleOccupant'])) {
+                      for ($e = 0; $e < $member_attrs['roleOccupant']['count']; $e ++) {
+                        $ldap->cat($member_attrs['roleOccupant'][$e], ['uid','dn'], '(objectClass=inetOrgPerson)');
+                        if ($user_attrs = $ldap->fetch()) {
+                          $val_users[] = htmlentities(($user_attrs['uid'][0] ?? $user_attrs['dn']), ENT_COMPAT, 'UTF-8');
+                        }
                       }
                     }
-                  }
-                  if (!empty($val_users)) {
-                    $valid_roles .= $roles[$member].'(<i>'.trim($val_users, ', ').'</i>), ';
-                    $FD_admin_found  = TRUE;
+                    if (!empty($val_users)) {
+                      $valid_roles[]  = htmlentities($member_attrs['cn'][0], ENT_COMPAT, 'UTF-8').'(<i>'.implode(', ', $val_users).'</i>)';
+                      $FD_admin_found = TRUE;
+                    }
                   }
                 }
               }
@@ -814,13 +791,13 @@ class setupStepMigrate extends setupStep
       if ($FD_admin_found) {
         $str = '';
         if (!empty($valid_users)) {
-          $str .= '<b>'._('Users').'</b>:&nbsp;'.trim($valid_users, ', ').'<br/>';
+          $str .= '<b>'._('Users').'</b>:&nbsp;'.implode(', ', $valid_users).'<br/>';
         }
         if (!empty($valid_groups)) {
-          $str .= '<b>'._('Groups').'</b>:&nbsp;'.trim($valid_groups, ', ').'<br/>';
+          $str .= '<b>'._('Groups').'</b>:&nbsp;'.implode(', ', $valid_groups).'<br/>';
         }
         if (!empty($valid_roles)) {
-          $str .= '<b>'._('Roles').'</b>:&nbsp;'.trim($valid_roles, ', ').'<br/>';
+          $str .= '<b>'._('Roles').'</b>:&nbsp;'.implode(', ', $valid_roles).'<br/>';
         }
         return $str;
       } else {
