@@ -966,27 +966,42 @@ class setupStepMigrate extends setupStep
   /* Search for users outside the people ou */
   function check_outsideUsers (&$checkobj)
   {
+    $sizeLimitHit = $this->check_outsideObjects_generic($checkobj, '(&(objectClass=inetOrgPerson)(!(uid=*$)))', 'userRDN');
+
+    if (count($this->outsideUsers_toMigrate) !== 0) {
+      if ($sizeLimitHit) {
+        $message = sprintf(_('Found more than %d user(s) outside the configured tree "%s".'), static::$objectNumberLimit, trim(get_ou('userRDN')));
+      } else {
+        $message = sprintf(_('Found %d user(s) outside the configured tree "%s".'), count($this->outsideUsers_toMigrate), trim(get_ou('userRDN')));
+      }
+      throw new CheckFailedException(
+        "<div style='color:#F0A500'>"._("Warning")."</div>",
+        $message.
+        $checkobj->submit()
+      );
+    }
+  }
+
+  function check_outsideObjects_generic (&$checkobj, $filter, $ou)
+  {
     global $config;
     $ldap = $config->get_ldap_link();
 
     $ldap->cd($config->current['BASE']);
 
     /***********
-     * Search for all users
+     * Check if objects are within a valid department. (peopleou,gosaDepartment,base)
      ***********/
     $sizeLimitHit = FALSE;
-
-    /***********
-     * Check if returned users are within a valid department. (peopleou,gosaDepartment,base)
-     ***********/
-    $this->outsideUsers_toMigrate = [];
-    $people_ou = trim(get_ou('userRDN'));
-    $cookie = '';
+    $var          = $checkobj->name.'_toMigrate';
+    $this->$var   = [];
+    $objects_ou   = trim(get_ou($ou));
+    $cookie       = '';
 
     do {
       if (version_compare(PHP_VERSION, '7.3.0') >= 0) {
         /* 7.3 and newer, use pagination control */
-        $res = $ldap->search('(&(objectClass=inetOrgPerson)(!(uid=*$)))', ['dn'], 0, 0, 0, LDAP_DEREF_NEVER,
+        $res = $ldap->search($filter, ['dn'], 0, 0, 0, LDAP_DEREF_NEVER,
           [['oid' => LDAP_CONTROL_PAGEDRESULTS, 'value' => ['size' => 500, 'cookie' => $cookie]]]
         );
         if (!$res) {
@@ -1015,7 +1030,7 @@ class setupStepMigrate extends setupStep
         }
       } else {
         /* fallback to search without pagination */
-        $res = $ldap->search('(&(objectClass=inetOrgPerson)(!(uid=*$)))', ['dn']);
+        $res = $ldap->search($filter, ['dn']);
         if (!$res) {
           throw new CheckFailedException(
             _('LDAP query failed'),
@@ -1025,17 +1040,17 @@ class setupStepMigrate extends setupStep
       }
 
       while ($attrs = $ldap->fetch()) {
-        $people_db_base = preg_replace('/^[^,]+,'.preg_quote($people_ou, '/').'/i', '', $attrs['dn']);
+        $object_base = preg_replace('/^[^,]+,'.preg_quote($objects_ou, '/').'/i', '', $attrs['dn']);
 
-        /* Check if entry is not an addressbook only user
+        /* Check if entry is not an addressbook only object
          *  and verify that he is in a valid department
          */
-        if (!preg_match('/dc=addressbook,/', $people_db_base) &&
-            !in_array($people_db_base, $config->getDepartmentList())) {
+        if (!preg_match('/dc=addressbook,/', $object_base) &&
+            !in_array($object_base, $config->getDepartmentList())) {
           $attrs['checked'] = FALSE;
           $attrs['ldif']    = '';
-          $this->outsideUsers_toMigrate[base64_encode($attrs['dn'])] = $attrs;
-          if (count($this->outsideUsers_toMigrate) >= static::$objectNumberLimit) {
+          $this->$var[base64_encode($attrs['dn'])] = $attrs;
+          if (count($this->$var) >= static::$objectNumberLimit) {
             $sizeLimitHit = TRUE;
             break 2;
           }
@@ -1044,20 +1059,7 @@ class setupStepMigrate extends setupStep
       // Empty cookie means last page
     } while (!empty($cookie));
 
-    if (count($this->outsideUsers_toMigrate) == 0) {
-      return '';
-    } else {
-      if ($sizeLimitHit) {
-        $message = sprintf(_('Found more than %d user(s) outside the configured tree "%s".'), static::$objectNumberLimit, $people_ou);
-      } else {
-        $message = sprintf(_('Found %d user(s) outside the configured tree "%s".'), count($this->outsideUsers_toMigrate), $people_ou);
-      }
-      throw new CheckFailedException(
-        "<div style='color:#F0A500'>"._("Warning")."</div>",
-        $message.
-        $checkobj->submit()
-      );
-    }
+    return $sizeLimitHit;
   }
 
   function check_outsideUsers_migrate (&$checkobj)
@@ -1135,51 +1137,13 @@ class setupStepMigrate extends setupStep
   /* Search for groups outside the group ou */
   function check_outsideGroups (&$checkobj)
   {
-    global $config;
-    $ldap = $config->get_ldap_link();
+    $sizeLimitHit = $this->check_outsideObjects_generic($checkobj, '(objectClass=posixGroup)', 'groupRDN');
 
-    $group_ou = get_ou('groupRDN');
-    $ldap->cd($config->current['BASE']);
-
-    /***********
-     * Get all groups
-     ***********/
-    $res = $ldap->search('(objectClass=posixGroup)', ['dn']);
-    if (!$res) {
-      throw new CheckFailedException(
-        _('LDAP query failed'),
-        _('Possibly the "root object" is missing.')
-      );
-    }
-    $sizeLimitHit = FALSE;
-
-    $this->outsideGroups_toMigrate = [];
-    while ($attrs = $ldap->fetch()) {
-      $group_db_base = preg_replace('/^[^,]+,'.preg_quote($group_ou, '/').'/i', '', $attrs['dn']);
-
-      /* Check if entry is not an addressbook only user
-       *  and verify that he is in a valid department
-       */
-      if (!preg_match('/'.preg_quote('dc=addressbook,', '/').'/', $group_db_base) &&
-          !in_array($group_db_base, $config->getDepartmentList())
-        ) {
-        $attrs['checked'] = FALSE;
-        $attrs['ldif']    = '';
-        $this->outsideGroups_toMigrate[base64_encode($attrs['dn'])] = $attrs;
-        if (count($this->outsideGroups_toMigrate) >= static::$objectNumberLimit) {
-          $sizeLimitHit = TRUE;
-          break;
-        }
-      }
-    }
-
-    if (count($this->outsideGroups_toMigrate) == 0) {
-      return '';
-    } else {
+    if (count($this->outsideGroups_toMigrate) !== 0) {
       if ($sizeLimitHit) {
-        $message = sprintf(_('Found more than %d groups outside the configured tree "%s".'), static::$objectNumberLimit, $group_ou);
+        $message = sprintf(_('Found more than %d groups outside the configured tree "%s".'), static::$objectNumberLimit, trim(get_ou('groupRDN')));
       } else {
-        $message = sprintf(_('Found %d groups outside the configured tree "%s".'), count($this->outsideGroups_toMigrate), $group_ou);
+        $message = sprintf(_('Found %d groups outside the configured tree "%s".'), count($this->outsideGroups_toMigrate), trim(get_ou('groupRDN')));
       }
       throw new CheckFailedException(
         "<div style='color:#F0A500'>"._("Warning")."</div>",
