@@ -974,13 +974,6 @@ class setupStepMigrate extends setupStep
     /***********
      * Search for all users
      ***********/
-    $res = $ldap->search('(&(objectClass=inetOrgPerson)(!(uid=*$)))', ['dn']);
-    if (!$res) {
-      throw new CheckFailedException(
-        _('LDAP query failed'),
-        _('Possibly the "root object" is missing.')
-      );
-    }
     $sizeLimitHit = FALSE;
 
     /***********
@@ -988,24 +981,56 @@ class setupStepMigrate extends setupStep
      ***********/
     $this->outsideUsers_toMigrate = [];
     $people_ou = trim(get_ou('userRDN'));
+    $cookie = '';
 
-    while ($attrs = $ldap->fetch()) {
-      $people_db_base = preg_replace('/^[^,]+,'.preg_quote($people_ou, '/').'/i', '', $attrs['dn']);
+    do {
+      $res = $ldap->search('(&(objectClass=inetOrgPerson)(!(uid=*$)))', ['dn'], 0, 0, 0, LDAP_DEREF_NEVER,
+        [['oid' => LDAP_CONTROL_PAGEDRESULTS, 'value' => ['size' => 500, 'cookie' => $cookie]]]
+      );
+      if (!$res) {
+        throw new CheckFailedException(
+          _('LDAP query failed'),
+          _('Possibly the "root object" is missing.')
+        );
+      }
+      if (!$ldap->parse_result($errcode, $matcheddn, $errmsg, $referrals, $controls)) {
+        throw new CheckFailedException(
+          _('LDAP result parsing failed'),
+          _('LDAP result parsing failed')
+        );
+      }
+      if ($errcode !== 0) {
+        throw new CheckFailedException(
+          _('LDAP error'),
+          $errmsg
+        );
+      }
+      if (isset($controls[LDAP_CONTROL_PAGEDRESULTS]['value']['cookie'])) {
+        // You need to pass the cookie from the last call to the next one
+        $cookie = $controls[LDAP_CONTROL_PAGEDRESULTS]['value']['cookie'];
+      } else {
+        $cookie = '';
+      }
 
-      /* Check if entry is not an addressbook only user
-       *  and verify that he is in a valid department
-       */
-      if (!preg_match('/dc=addressbook,/', $people_db_base) &&
-          !in_array($people_db_base, $config->getDepartmentList())) {
-        $attrs['checked'] = FALSE;
-        $attrs['ldif']    = '';
-        $this->outsideUsers_toMigrate[base64_encode($attrs['dn'])] = $attrs;
-        if (count($this->outsideUsers_toMigrate) >= static::$objectNumberLimit) {
-          $sizeLimitHit = TRUE;
-          break;
+      while ($attrs = $ldap->fetch()) {
+        $people_db_base = preg_replace('/^[^,]+,'.preg_quote($people_ou, '/').'/i', '', $attrs['dn']);
+
+        /* Check if entry is not an addressbook only user
+         *  and verify that he is in a valid department
+         */
+        if (!preg_match('/dc=addressbook,/', $people_db_base) &&
+            !in_array($people_db_base, $config->getDepartmentList())) {
+          $attrs['checked'] = FALSE;
+          $attrs['ldif']    = '';
+          $this->outsideUsers_toMigrate[base64_encode($attrs['dn'])] = $attrs;
+          if (count($this->outsideUsers_toMigrate) >= static::$objectNumberLimit) {
+            $sizeLimitHit = TRUE;
+            break 2;
+          }
         }
       }
-    }
+      // Empty cookie means last page
+    } while (!empty($cookie));
 
     if (count($this->outsideUsers_toMigrate) == 0) {
       return '';
