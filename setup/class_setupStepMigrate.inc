@@ -749,7 +749,7 @@ class setupStepMigrate extends setupStep
                 $ldap->cat($member, ['dn','uid','cn','memberUid','roleOccupant']);
                 if ($member_attrs = $ldap->fetch()) {
                   if (in_array('inetOrgPerson', $member_attrs['objectClass'])) {
-                    $valid_users[]  = htmlentities(($member_attrs['uid'][0] ?? $members_attrs['dn']), ENT_COMPAT, 'UTF-8');
+                    $valid_users[]  = htmlentities(($member_attrs['uid'][0] ?? $member_attrs['dn']), ENT_COMPAT, 'UTF-8');
                     $FD_admin_found = TRUE;
                   } elseif (in_array('posixGroup', $member_attrs['objectClass'])) {
                     $val_users = [];
