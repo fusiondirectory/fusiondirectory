@@ -1001,7 +1001,7 @@ class setupStepMigrate extends setupStep
     do {
       if (version_compare(PHP_VERSION, '7.3.0') >= 0) {
         /* 7.3 and newer, use pagination control */
-        $res = $ldap->search($filter, ['dn'], 0, 0, 0, LDAP_DEREF_NEVER,
+        $res = $ldap->search($filter, ['dn'], 'subtree',
           [['oid' => LDAP_CONTROL_PAGEDRESULTS, 'value' => ['size' => 500, 'cookie' => $cookie]]]
         );
         if (!$res) {
