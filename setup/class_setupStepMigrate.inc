@@ -1120,7 +1120,7 @@ class setupStepMigrate extends setupStep
         $dn = base64_decode($b_dn);
         $d_dn = preg_replace('/,.*$/', ','.$destination_dep, $dn);
         if ($only_ldif) {
-          $entry['ldif'] = _('Entry will be moved from').":<br/>\t".($ldap->fix($dn)).'<br/>'._('to').":<br/>\t".($ldap->fix($d_dn));
+          $entry['ldif'] = _('Entry will be moved from').":<br/>\t".htmlentities($dn, ENT_COMPAT, 'UTF-8').'<br/>'._('to').":<br/>\t".htmlentities($d_dn, ENT_COMPAT, 'UTF-8');
 
           /* Check if there are references to this object */
           $ldap->search('(&(member='.ldap_escape_f($dn).')(|(objectClass=gosaGroupOfNames)(objectClass=groupOfNames)))', ['dn']);
