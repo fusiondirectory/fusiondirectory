@@ -41,7 +41,7 @@ dn: {$entry.dn}
 </pre>
             </div>
           </div>
-        {elseif $entry.ldif != ""}
+        {elseif !empty($entry.ldif)}
           <div class="step2-entry-container-info">
             <div style="padding-left:20px;">
               <pre>{$entry.ldif}</pre>
