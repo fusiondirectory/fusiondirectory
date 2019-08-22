@@ -309,7 +309,7 @@ class LDAP
    *
    * \param string $scope Scope of the search: subtree/base/one
    */
-  function search ($srp, $filter, $attrs = [], $scope = 'subtree')
+  function search ($srp, $filter, $attrs = [], $scope = 'subtree', array $controls = NULL)
   {
     if ($this->hascon) {
       if ($this->reconnect) {
@@ -320,14 +320,26 @@ class LDAP
       $this->clearResult($srp);
       switch (strtolower($scope)) {
         case 'base':
-          $this->sr[$srp] = @ldap_read($this->cid, $this->basedn, $filter, $attrs);
+          if (isset($controls)) {
+            $this->sr[$srp] = @ldap_read($this->cid, $this->basedn, $filter, $attrs, 0, 0, 0, LDAP_DEREF_NEVER, $controls);
+          } else {
+            $this->sr[$srp] = @ldap_read($this->cid, $this->basedn, $filter, $attrs);
+          }
           break;
         case 'one':
-          $this->sr[$srp] = @ldap_list($this->cid, $this->basedn, $filter, $attrs);
+          if (isset($controls)) {
+            $this->sr[$srp] = @ldap_list($this->cid, $this->basedn, $filter, $attrs, 0, 0, 0, LDAP_DEREF_NEVER, $controls);
+          } else {
+            $this->sr[$srp] = @ldap_list($this->cid, $this->basedn, $filter, $attrs);
+          }
           break;
         case 'subtree':
         default:
-          $this->sr[$srp] = @ldap_search($this->cid, $this->basedn, $filter, $attrs);
+          if (isset($controls)) {
+            $this->sr[$srp] = @ldap_search($this->cid, $this->basedn, $filter, $attrs, 0, 0, 0, LDAP_DEREF_NEVER, $controls);
+          } else {
+            $this->sr[$srp] = @ldap_search($this->cid, $this->basedn, $filter, $attrs);
+          }
           break;
       }
       $this->error = @ldap_error($this->cid);
@@ -346,6 +358,21 @@ class LDAP
       $this->error = "Could not connect to LDAP server";
       return "";
     }
+  }
+
+  /*!
+   * \brief Parse last result
+   *
+   * \param integer $srp srp
+   *
+   */
+  function parse_result ($srp, &$errcode, &$matcheddn, &$errmsg, &$referrals, &$controls): bool
+  {
+    if ($this->hascon && $this->hasres[$srp]) {
+      return @ldap_parse_result($this->cid, $this->sr[$srp], $errcode, $matcheddn, $errmsg, $referrals, $controls);
+    }
+
+    return FALSE;
   }
 
   /*

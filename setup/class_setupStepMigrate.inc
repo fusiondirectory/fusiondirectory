@@ -546,6 +546,7 @@ class setupStepMigrate extends setupStep
         ')'.
         '(!(objectClass=inetOrgPerson))'.
         '(uid=*)'.
+        '(!(uid=*$))'.
       ')',
       ['sn','givenName','cn','uid']
     );
@@ -726,34 +727,12 @@ class setupStepMigrate extends setupStep
 
       $attrs = $ldap->fetch();
 
-      /* Collect a list of available FusionDirectory users and groups */
-      $users = [];
-      $ldap->search('(objectClass=inetOrgPerson)', ['uid','dn']);
-      while ($user_attrs = $ldap->fetch()) {
-        if (isset($user_attrs['uid'][0])) {
-          $users[$user_attrs['dn']]       = $user_attrs['uid'][0];
-          $rusers[$user_attrs['uid'][0]]  = $user_attrs['dn'];
-        } else {
-          $users[$user_attrs['dn']] = $user_attrs['dn'];
-        }
-      }
-      $groups = [];
-      $ldap->search('(objectClass=posixGroup)', ['cn','dn']);
-      while ($group_attrs = $ldap->fetch()) {
-        $groups[$group_attrs['dn']] = $group_attrs['cn'][0];
-      }
-      $roles = [];
-      $ldap->search('(objectClass=organizationalRole)', ['cn','dn']);
-      while ($role_attrs = $ldap->fetch()) {
-        $roles[$role_attrs['dn']] = $role_attrs['cn'][0];
-      }
-
       /* Check if a valid FusionDirectory admin exists
           -> gosaAclEntry for an existing and accessible user.
        */
-      $valid_users  = '';
-      $valid_groups = '';
-      $valid_roles  = '';
+      $valid_users  = [];
+      $valid_groups = [];
+      $valid_roles  = [];
       if (isset($attrs['gosaAclEntry'])) {
         $acls = $attrs['gosaAclEntry'];
         for ($i = 0; $i < $acls['count']; $i++) {
@@ -768,40 +747,39 @@ class setupStepMigrate extends setupStep
               foreach ($members as $member) {
                 $member = base64_decode($member);
 
-                if (isset($users[$member])) {
-                  $valid_users    .= $users[$member].', ';
-                  $FD_admin_found = TRUE;
-                }
-                if (isset($groups[$member])) {
-                  $ldap->cat($member);
-                  $group_attrs = $ldap->fetch();
-                  $val_users = '';
-                  if (isset($group_attrs['memberUid'])) {
-                    for ($e = 0; $e < $group_attrs['memberUid']['count']; $e ++) {
-                      if (isset($rusers[$group_attrs['memberUid'][$e]])) {
-                        $val_users .= $group_attrs['memberUid'][$e].', ';
+                $ldap->cat($member, ['dn','uid','cn','memberUid','roleOccupant','objectClass']);
+                if ($member_attrs = $ldap->fetch()) {
+                  if (in_array('inetOrgPerson', $member_attrs['objectClass'])) {
+                    $valid_users[]  = htmlentities(($member_attrs['uid'][0] ?? $member_attrs['dn']), ENT_COMPAT, 'UTF-8');
+                    $FD_admin_found = TRUE;
+                  } elseif (in_array('posixGroup', $member_attrs['objectClass'])) {
+                    $val_users = [];
+                    if (isset($member_attrs['memberUid'])) {
+                      for ($e = 0; $e < $member_attrs['memberUid']['count']; $e++) {
+                        $ldap->search('(&(objectClass=inetOrgPerson)(uid='.ldap_escape_f($member_attrs['memberUid'][$e]).'))', ['uid','dn']);
+                        if ($user_attrs = $ldap->fetch()) {
+                          $val_users[] = htmlentities(($user_attrs['uid'][0] ?? $user_attrs['dn']), ENT_COMPAT, 'UTF-8');
+                        }
                       }
                     }
-                  }
-                  if (!empty($val_users)) {
-                    $valid_groups .= $groups[$member].'(<i>'.trim($val_users, ', ').'</i>), ';
-                    $FD_admin_found  = TRUE;
-                  }
-                }
-                if (isset($roles[$member])) {
-                  $ldap->cat($member);
-                  $role_attrs = $ldap->fetch();
-                  $val_users = '';
-                  if (isset($role_attrs['roleOccupant'])) {
-                    for ($e = 0; $e < $role_attrs['roleOccupant']['count']; $e ++) {
-                      if (isset($users[$role_attrs['roleOccupant'][$e]])) {
-                        $val_users .= $users[$role_attrs['roleOccupant'][$e]].', ';
+                    if (!empty($val_users)) {
+                      $valid_groups[] = htmlentities($member_attrs['cn'][0], ENT_COMPAT, 'UTF-8').'(<i>'.implode(', ', $val_users).'</i>)';
+                      $FD_admin_found = TRUE;
+                    }
+                  } elseif (in_array('organizationalRole', $member_attrs['objectClass'])) {
+                    $val_users = [];
+                    if (isset($member_attrs['roleOccupant'])) {
+                      for ($e = 0; $e < $member_attrs['roleOccupant']['count']; $e ++) {
+                        $ldap->cat($member_attrs['roleOccupant'][$e], ['uid','dn'], '(objectClass=inetOrgPerson)');
+                        if ($user_attrs = $ldap->fetch()) {
+                          $val_users[] = htmlentities(($user_attrs['uid'][0] ?? $user_attrs['dn']), ENT_COMPAT, 'UTF-8');
+                        }
                       }
                     }
-                  }
-                  if (!empty($val_users)) {
-                    $valid_roles .= $roles[$member].'(<i>'.trim($val_users, ', ').'</i>), ';
-                    $FD_admin_found  = TRUE;
+                    if (!empty($val_users)) {
+                      $valid_roles[]  = htmlentities($member_attrs['cn'][0], ENT_COMPAT, 'UTF-8').'(<i>'.implode(', ', $val_users).'</i>)';
+                      $FD_admin_found = TRUE;
+                    }
                   }
                 }
               }
@@ -814,13 +792,13 @@ class setupStepMigrate extends setupStep
       if ($FD_admin_found) {
         $str = '';
         if (!empty($valid_users)) {
-          $str .= '<b>'._('Users').'</b>:&nbsp;'.trim($valid_users, ', ').'<br/>';
+          $str .= '<b>'._('Users').'</b>:&nbsp;'.implode(', ', $valid_users).'<br/>';
         }
         if (!empty($valid_groups)) {
-          $str .= '<b>'._('Groups').'</b>:&nbsp;'.trim($valid_groups, ', ').'<br/>';
+          $str .= '<b>'._('Groups').'</b>:&nbsp;'.implode(', ', $valid_groups).'<br/>';
         }
         if (!empty($valid_roles)) {
-          $str .= '<b>'._('Roles').'</b>:&nbsp;'.trim($valid_roles, ', ').'<br/>';
+          $str .= '<b>'._('Roles').'</b>:&nbsp;'.implode(', ', $valid_roles).'<br/>';
         }
         return $str;
       } else {
@@ -989,54 +967,13 @@ class setupStepMigrate extends setupStep
   /* Search for users outside the people ou */
   function check_outsideUsers (&$checkobj)
   {
-    global $config;
-    $ldap = $config->get_ldap_link();
+    $sizeLimitHit = $this->check_outsideObjects_generic($checkobj, '(&(objectClass=inetOrgPerson)(!(uid=*$)))', 'userRDN');
 
-    $ldap->cd($config->current['BASE']);
-
-    /***********
-     * Search for all users
-     ***********/
-    $res = $ldap->search('(&(objectClass=inetOrgPerson)(!(uid=*$)))', ['dn']);
-    if (!$res) {
-      throw new CheckFailedException(
-        _('LDAP query failed'),
-        _('Possibly the "root object" is missing.')
-      );
-    }
-    $sizeLimitHit = FALSE;
-
-    /***********
-     * Check if returned users are within a valid department. (peopleou,gosaDepartment,base)
-     ***********/
-    $this->outsideUsers_toMigrate = [];
-    $people_ou = trim(get_ou('userRDN'));
-
-    while ($attrs = $ldap->fetch()) {
-      $people_db_base = preg_replace('/^[^,]+,'.preg_quote($people_ou, '/').'/i', '', $attrs['dn']);
-
-      /* Check if entry is not an addressbook only user
-       *  and verify that he is in a valid department
-       */
-      if (!preg_match('/dc=addressbook,/', $people_db_base) &&
-          !in_array($people_db_base, $config->getDepartmentList())) {
-        $attrs['checked'] = FALSE;
-        $attrs['ldif']    = '';
-        $this->outsideUsers_toMigrate[base64_encode($attrs['dn'])] = $attrs;
-        if (count($this->outsideUsers_toMigrate) >= static::$objectNumberLimit) {
-          $sizeLimitHit = TRUE;
-          break;
-        }
-      }
-    }
-
-    if (count($this->outsideUsers_toMigrate) == 0) {
-      return '';
-    } else {
+    if (count($this->outsideUsers_toMigrate) !== 0) {
       if ($sizeLimitHit) {
-        $message = sprintf(_('Found more than %d user(s) outside the configured tree "%s".'), static::$objectNumberLimit, $people_ou);
+        $message = sprintf(_('Found more than %d user(s) outside the configured tree "%s".'), static::$objectNumberLimit, trim(get_ou('userRDN')));
       } else {
-        $message = sprintf(_('Found %d user(s) outside the configured tree "%s".'), count($this->outsideUsers_toMigrate), $people_ou);
+        $message = sprintf(_('Found %d user(s) outside the configured tree "%s".'), count($this->outsideUsers_toMigrate), trim(get_ou('userRDN')));
       }
       throw new CheckFailedException(
         "<div style='color:#F0A500'>"._("Warning")."</div>",
@@ -1044,6 +981,93 @@ class setupStepMigrate extends setupStep
         $checkobj->submit()
       );
     }
+  }
+
+  function check_outsideObjects_generic (&$checkobj, $filter, $ou)
+  {
+    global $config;
+    $ldap = $config->get_ldap_link();
+
+    $ldap->cd($config->current['BASE']);
+
+    /***********
+     * Check if objects are within a valid department. (peopleou,gosaDepartment,base)
+     ***********/
+    $sizeLimitHit = FALSE;
+    $var          = $checkobj->name.'_toMigrate';
+    $this->$var   = [];
+    $objects_ou   = trim(get_ou($ou));
+    $cookie       = '';
+
+    do {
+      if (version_compare(PHP_VERSION, '7.3.0') >= 0) {
+        /* 7.3 and newer, use pagination control */
+        $res = $ldap->search($filter, ['dn'], 'subtree',
+          [['oid' => LDAP_CONTROL_PAGEDRESULTS, 'value' => ['size' => 500, 'cookie' => $cookie]]]
+        );
+        if (!$res) {
+          throw new CheckFailedException(
+            _('LDAP query failed'),
+            _('Possibly the "root object" is missing.')
+          );
+        }
+        if (!$ldap->parse_result($errcode, $matcheddn, $errmsg, $referrals, $controls)) {
+          throw new CheckFailedException(
+            _('LDAP result parsing failed'),
+            _('LDAP result parsing failed')
+          );
+        }
+        if ($errcode !== 0) {
+          throw new CheckFailedException(
+            _('LDAP error'),
+            $errcode.' - '.ldap_err2str($errcode).(!empty($errmsg) ? ' ('.$errmsg.')' : '')
+          );
+        }
+        if (isset($controls[LDAP_CONTROL_PAGEDRESULTS]['value']['cookie'])) {
+          // You need to pass the cookie from the last call to the next one
+          $cookie = $controls[LDAP_CONTROL_PAGEDRESULTS]['value']['cookie'];
+        } else {
+          $cookie = '';
+        }
+      } else {
+        /* fallback to search without pagination */
+        $ldap->set_size_limit(static::$objectNumberLimit);
+        $res = $ldap->search($filter, ['dn']);
+        if (!$res) {
+          throw new CheckFailedException(
+            _('LDAP query failed'),
+            _('Possibly the "root object" is missing.')
+          );
+        }
+        if ($ldap->hitSizeLimit()) {
+          throw new CheckFailedException(
+            _('Sizelimit hit'),
+            sprintf(_('Sizelimit of %d hit. Please check this manually'), static::$objectNumberLimit)
+          );
+        }
+      }
+
+      while ($attrs = $ldap->fetch()) {
+        $object_base = preg_replace('/^[^,]+,'.preg_quote($objects_ou, '/').'/i', '', $attrs['dn']);
+
+        /* Check if entry is not an addressbook only object
+         *  and verify that he is in a valid department
+         */
+        if (!preg_match('/dc=addressbook,/', $object_base) &&
+            !in_array($object_base, $config->getDepartmentList())) {
+          $attrs['checked'] = FALSE;
+          $attrs['ldif']    = '';
+          $this->$var[base64_encode($attrs['dn'])] = $attrs;
+          if (count($this->$var) >= static::$objectNumberLimit) {
+            $sizeLimitHit = TRUE;
+            break 2;
+          }
+        }
+      }
+      // Empty cookie means last page
+    } while (!empty($cookie));
+
+    return $sizeLimitHit;
   }
 
   function check_outsideUsers_migrate (&$checkobj)
@@ -1096,7 +1120,7 @@ class setupStepMigrate extends setupStep
         $dn = base64_decode($b_dn);
         $d_dn = preg_replace('/,.*$/', ','.$destination_dep, $dn);
         if ($only_ldif) {
-          $entry['ldif'] = _('Entry will be moved from').":<br/>\t".($ldap->fix($dn)).'<br/>'._('to').":<br/>\t".($ldap->fix($d_dn));
+          $entry['ldif'] = _('Entry will be moved from').":<br/>\t".htmlentities($dn, ENT_COMPAT, 'UTF-8').'<br/>'._('to').":<br/>\t".htmlentities($d_dn, ENT_COMPAT, 'UTF-8');
 
           /* Check if there are references to this object */
           $ldap->search('(&(member='.ldap_escape_f($dn).')(|(objectClass=gosaGroupOfNames)(objectClass=groupOfNames)))', ['dn']);
@@ -1121,51 +1145,13 @@ class setupStepMigrate extends setupStep
   /* Search for groups outside the group ou */
   function check_outsideGroups (&$checkobj)
   {
-    global $config;
-    $ldap = $config->get_ldap_link();
+    $sizeLimitHit = $this->check_outsideObjects_generic($checkobj, '(objectClass=posixGroup)', 'groupRDN');
 
-    $group_ou = get_ou('groupRDN');
-    $ldap->cd($config->current['BASE']);
-
-    /***********
-     * Get all groups
-     ***********/
-    $res = $ldap->search('(objectClass=posixGroup)', ['dn']);
-    if (!$res) {
-      throw new CheckFailedException(
-        _('LDAP query failed'),
-        _('Possibly the "root object" is missing.')
-      );
-    }
-    $sizeLimitHit = FALSE;
-
-    $this->outsideGroups_toMigrate = [];
-    while ($attrs = $ldap->fetch()) {
-      $group_db_base = preg_replace('/^[^,]+,'.preg_quote($group_ou, '/').'/i', '', $attrs['dn']);
-
-      /* Check if entry is not an addressbook only user
-       *  and verify that he is in a valid department
-       */
-      if (!preg_match('/'.preg_quote('dc=addressbook,', '/').'/', $group_db_base) &&
-          !in_array($group_db_base, $config->getDepartmentList())
-        ) {
-        $attrs['checked'] = FALSE;
-        $attrs['ldif']    = '';
-        $this->outsideGroups_toMigrate[base64_encode($attrs['dn'])] = $attrs;
-        if (count($this->outsideGroups_toMigrate) >= static::$objectNumberLimit) {
-          $sizeLimitHit = TRUE;
-          break;
-        }
-      }
-    }
-
-    if (count($this->outsideGroups_toMigrate) == 0) {
-      return '';
-    } else {
+    if (count($this->outsideGroups_toMigrate) !== 0) {
       if ($sizeLimitHit) {
-        $message = sprintf(_('Found more than %d groups outside the configured tree "%s".'), static::$objectNumberLimit, $group_ou);
+        $message = sprintf(_('Found more than %d groups outside the configured tree "%s".'), static::$objectNumberLimit, trim(get_ou('groupRDN')));
       } else {
-        $message = sprintf(_('Found %d groups outside the configured tree "%s".'), count($this->outsideGroups_toMigrate), $group_ou);
+        $message = sprintf(_('Found %d groups outside the configured tree "%s".'), count($this->outsideGroups_toMigrate), trim(get_ou('groupRDN')));
       }
       throw new CheckFailedException(
         "<div style='color:#F0A500'>"._("Warning")."</div>",
@@ -1213,6 +1199,7 @@ class setupStepMigrate extends setupStep
   {
     global $config;
     $ldap = $config->get_ldap_link();
+    $ldap->set_size_limit(static::$objectNumberLimit);
 
     $old                      = $this->orgUnits_toMigrate;
     $this->orgUnits_toMigrate = [];
@@ -1221,7 +1208,7 @@ class setupStepMigrate extends setupStep
     $skip_dns = [
       '/ou=fusiondirectory,'.preg_quote($config->current['BASE']).'$/',
       '/dc=addressbook,/',
-      '/ou=systems,'.preg_quote($config->current['BASE']).'$/',
+      '/^ou=systems,/',
       '/ou=snapshots,/'
     ];
     foreach (objects::types() as $type) {
@@ -1238,6 +1225,12 @@ class setupStepMigrate extends setupStep
       throw new CheckFailedException(
         _('LDAP query failed'),
         _('Possibly the "root object" is missing.')
+      );
+    }
+    if ($ldap->hitSizeLimit()) {
+      throw new CheckFailedException(
+        _('Sizelimit hit'),
+        sprintf(_('Sizelimit of %d hit. Please check this manually'), static::$objectNumberLimit)
       );
     }
     $sizeLimitHit = FALSE;
@@ -1325,7 +1318,7 @@ class setupStepMigrate extends setupStep
   /* Check if there are duplicated gidNumbers present in ldap */
   function check_gidNumber (&$checkobj)
   {
-    $this->check_duplicatesGeneric($checkobj, 'posixAccount');
+    $this->check_duplicatesGeneric($checkobj, 'posixGroup');
   }
 
   /* Generic function to check duplicated values */

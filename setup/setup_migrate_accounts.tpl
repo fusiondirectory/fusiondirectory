@@ -24,7 +24,7 @@
       {if $entry.checked}
         <input type="checkbox" name="migrate_{$key}" checked="checked" id="migrate_{$key}"/>
         <label for="migrate_{$key}">{$entry.dn}</label>
-        {if $entry.after != ""}
+        {if !empty($entry.after)}
           <div class="step2-entry-container-info">
             {t}Current{/t}
             <div style="padding-left:20px;">
@@ -41,7 +41,7 @@ dn: {$entry.dn}
 </pre>
             </div>
           </div>
-        {elseif $entry.ldif != ""}
+        {elseif !empty($entry.ldif)}
           <div class="step2-entry-container-info">
             <div style="padding-left:20px;">
               <pre>{$entry.ldif}</pre>
