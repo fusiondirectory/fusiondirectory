@@ -546,6 +546,7 @@ class setupStepMigrate extends setupStep
         ')'.
         '(!(objectClass=inetOrgPerson))'.
         '(uid=*)'.
+        '(!(uid=*$))'.
       ')',
       ['sn','givenName','cn','uid']
     );
