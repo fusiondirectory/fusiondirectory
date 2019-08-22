@@ -1311,7 +1311,7 @@ class setupStepMigrate extends setupStep
   /* Check if there are duplicated gidNumbers present in ldap */
   function check_gidNumber (&$checkobj)
   {
-    $this->check_duplicatesGeneric($checkobj, 'posixAccount');
+    $this->check_duplicatesGeneric($checkobj, 'posixGroup');
   }
 
   /* Generic function to check duplicated values */
