@@ -366,13 +366,17 @@ class LDAP
    * \param integer $srp srp
    *
    */
-  function parse_result ($srp, &$errcode, &$matcheddn, &$errmsg, &$referrals, &$controls): bool
+  function parse_result ($srp): array
   {
     if ($this->hascon && $this->hasres[$srp]) {
-      return @ldap_parse_result($this->cid, $this->sr[$srp], $errcode, $matcheddn, $errmsg, $referrals, $controls);
+      if (ldap_parse_result($this->cid, $this->sr[$srp], $errcode, $matcheddn, $errmsg, $referrals, $controls)) {
+        return [$errcode, $matcheddn, $errmsg, $referrals, $controls];
+      } else {
+        throw new FusionDirectoryException(_('Parsing LDAP result failed'));
+      }
+    } else {
+      throw new FusionDirectoryException(_('No LDAP result to parse'));
     }
-
-    return FALSE;
   }
 
   /*
