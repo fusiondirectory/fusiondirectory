@@ -746,7 +746,7 @@ class setupStepMigrate extends setupStep
               foreach ($members as $member) {
                 $member = base64_decode($member);
 
-                $ldap->cat($member, ['dn','uid','cn','memberUid','roleOccupant']);
+                $ldap->cat($member, ['dn','uid','cn','memberUid','roleOccupant','objectClass']);
                 if ($member_attrs = $ldap->fetch()) {
                   if (in_array('inetOrgPerson', $member_attrs['objectClass'])) {
                     $valid_users[]  = htmlentities(($member_attrs['uid'][0] ?? $member_attrs['dn']), ENT_COMPAT, 'UTF-8');
