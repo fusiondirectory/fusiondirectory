@@ -1199,6 +1199,7 @@ class setupStepMigrate extends setupStep
   {
     global $config;
     $ldap = $config->get_ldap_link();
+    $ldap->set_size_limit(static::$objectNumberLimit);
 
     $old                      = $this->orgUnits_toMigrate;
     $this->orgUnits_toMigrate = [];
@@ -1224,6 +1225,12 @@ class setupStepMigrate extends setupStep
       throw new CheckFailedException(
         _('LDAP query failed'),
         _('Possibly the "root object" is missing.')
+      );
+    }
+    if ($ldap->hitSizeLimit()) {
+      throw new CheckFailedException(
+        _('Sizelimit hit'),
+        sprintf(_('Sizelimit of %d hit. Please check this manually'), static::$objectNumberLimit)
       );
     }
     $sizeLimitHit = FALSE;
