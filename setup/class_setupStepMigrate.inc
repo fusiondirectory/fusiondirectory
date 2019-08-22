@@ -1011,10 +1011,12 @@ class setupStepMigrate extends setupStep
             _('Possibly the "root object" is missing.')
           );
         }
-        if (!$ldap->parse_result($errcode, $matcheddn, $errmsg, $referrals, $controls)) {
+        try {
+          list($errcode, $matcheddn, $errmsg, $referrals, $controls) = $ldap->parse_result();
+        } catch (FusionDirectoryException $e) {
           throw new CheckFailedException(
             _('LDAP result parsing failed'),
-            _('LDAP result parsing failed')
+            $e->getMessage()
           );
         }
         if ($errcode !== 0) {
@@ -1299,7 +1301,7 @@ class setupStepMigrate extends setupStep
     );
   }
 
-  function check_orgUnits_migrate_confirm (&$checkobj, $only_ldif)
+  function check_orgUnits_migrate_confirm (&$checkobj, $only_ldif = FALSE)
   {
     return $this->check_multipleGeneric_migrate_confirm(
       $checkobj,
