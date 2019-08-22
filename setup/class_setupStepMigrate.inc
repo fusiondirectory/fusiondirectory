@@ -1020,7 +1020,7 @@ class setupStepMigrate extends setupStep
         if ($errcode !== 0) {
           throw new CheckFailedException(
             _('LDAP error'),
-            $errmsg
+            $errcode.' - '.ldap_err2str($errcode).(!empty($errmsg) ? ' ('.$errmsg.')' : '')
           );
         }
         if (isset($controls[LDAP_CONTROL_PAGEDRESULTS]['value']['cookie'])) {
