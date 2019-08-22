@@ -1207,7 +1207,7 @@ class setupStepMigrate extends setupStep
     $skip_dns = [
       '/ou=fusiondirectory,'.preg_quote($config->current['BASE']).'$/',
       '/dc=addressbook,/',
-      '/ou=systems,'.preg_quote($config->current['BASE']).'$/',
+      '/^ou=systems,/',
       '/ou=snapshots,/'
     ];
     foreach (objects::types() as $type) {
