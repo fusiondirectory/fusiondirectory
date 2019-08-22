@@ -1299,7 +1299,7 @@ class setupStepMigrate extends setupStep
     );
   }
 
-  function check_orgUnits_migrate_confirm (&$checkobj, $only_ldif)
+  function check_orgUnits_migrate_confirm (&$checkobj, $only_ldif = FALSE)
   {
     return $this->check_multipleGeneric_migrate_confirm(
       $checkobj,
