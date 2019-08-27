@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2017-2018 FusionDirectory
+  Copyright (C) 2017-2019 FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -30,6 +30,10 @@ class CSRFProtection
     }
 
     static::checkHeaders();
+
+    if (!session::is_set('CSRFtoken')) {
+      throw new FusionDirectoryException('Unexpected CSRF protection token');
+    }
 
     if ($_POST['CSRFtoken'] !== static::getToken()) {
       throw new FusionDirectoryException('CSRF protection token invalid');
