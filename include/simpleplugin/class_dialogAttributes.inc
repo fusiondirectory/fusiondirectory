@@ -362,6 +362,11 @@ class GenericDialogAttribute extends DialogAttribute
     unset($this->value[$row]);
   }
 
+  protected function sortValues ()
+  {
+    asort($this->value);
+  }
+
   function getDisplayValues ()
   {
     foreach (array_keys($this->value) as $i) {
