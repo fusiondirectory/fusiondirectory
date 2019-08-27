@@ -301,8 +301,13 @@ class SetAttribute extends Attribute
 
   function computeLdapValue ()
   {
-    sort($this->value);
+    $this->sortValues();
     return array_values($this->value);
+  }
+
+  protected function sortValues ()
+  {
+    sort($this->value);
   }
 
   public function htmlIds (): array
@@ -427,14 +432,19 @@ class OrderedArrayAttribute extends SetAttribute
 
   function computeLdapValue ()
   {
-    if (!$this->order) {
-      sort($this->value);
-    }
+    $this->sortValues();
     $ldapValue = [];
     foreach ($this->value as $key => $value) {
       $ldapValue[] = $this->writeValue($key, $value);
     }
     return $ldapValue;
+  }
+
+  protected function sortValues ()
+  {
+    if (!$this->order) {
+      sort($this->value);
+    }
   }
 
   protected function loadAttrValue (array $attrs)
