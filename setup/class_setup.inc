@@ -293,7 +293,7 @@ class setup
     $xml = $smarty->fetch(CONFIG_TEMPLATE_DIR.CONFIG_FILE);
     $config->parse_data($xml);
     $config->set_current($config->data['MAIN']['DEFAULT']);
-    session::global_un_set('plist');
+    session::un_set('plist');
     load_plist();
     $this->reBuildConfigStep();
   }
@@ -311,4 +311,3 @@ class setup
     }
   }
 }
-?>

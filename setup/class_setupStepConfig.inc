@@ -119,7 +119,7 @@ class setupStepConfig extends configInLdap
       }
       /* Reload config from LDAP */
       $config->set_current($config->current['NAME']);
-      session::global_un_set('plist');
+      session::un_set('plist');
       load_plist();
       $this->is_completed = TRUE;
       $this->parent->reBuildConfigStep(TRUE);

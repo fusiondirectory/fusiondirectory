@@ -160,19 +160,19 @@ function plugin_available($plugin)
 function load_plist ($ldap_available = TRUE)
 {
   global $config, $plist;
-  if (!session::global_is_set('plist')) {
+  if (!session::is_set('plist')) {
     /* Initially load all classes */
     load_all_classes();
 
     $plist = new pluglist();
-    session::global_set('plist', $plist);
+    session::set('plist', $plist);
     $config->loadPlist($plist);
     if ($ldap_available) {
       $config->get_departments();
       $config->make_idepartments();
     }
   }
-  return session::global_get('plist');
+  return session::get('plist');
 }
 
 /*!
@@ -203,7 +203,7 @@ function DEBUG($level, $line, $function, $file, $data, $info = '')
   if (($_SERVER['REQUEST_METHOD'] == 'POST') && preg_match('/index.php$/', $_SERVER['REQUEST_URI'])) {
     return;
   }
-  if (session::global_get('DEBUGLEVEL') & $level) {
+  if (session::get('DEBUGLEVEL') & $level) {
     if ($first) {
       echo '<div id="debug-handling" class="notice">'.
             '<img src="geticon.php?context=status&amp;icon=dialog-information&amp;size=22" alt="Information" style="vertical-align:middle;margin-right:.2em;"/>'.
@@ -269,7 +269,7 @@ function get_template_path($filename = '', $plugin = FALSE, $path = '')
   /* Return plugin dir or root directory? */
   if ($plugin) {
     if ($path == '') {
-      $path = session::global_get('plugin_dir');
+      $path = session::get('plugin_dir');
       $nf   = preg_replace('!^'.$BASE_DIR.'/!', '', preg_replace('/^\.\.\//', '', $path));
     } else {
       $nf = preg_replace('!^'.$BASE_DIR.'/!', '', $path);
@@ -560,8 +560,8 @@ function add_lock($object, $user)
   /* Remember which entries were opened as read only, because we
       don't need to remove any locks for them later.
    */
-  if (!session::global_is_set('LOCK_CACHE')) {
-    session::global_set('LOCK_CACHE', array(''));
+  if (!session::is_set('LOCK_CACHE')) {
+    session::set('LOCK_CACHE', array(''));
   }
   if (is_array($object)) {
     foreach ($object as $obj) {
@@ -570,7 +570,7 @@ function add_lock($object, $user)
     return;
   }
 
-  $cache = &session::global_get_ref('LOCK_CACHE');
+  $cache = &session::get_ref('LOCK_CACHE');
   if (isset($_POST['open_readonly'])) {
     $cache['READ_ONLY'][$object] = TRUE;
     return;
@@ -642,8 +642,8 @@ function del_lock ($object)
   /* If this object was opened in read only mode then
       skip removing the lock entry, there wasn't any lock created.
     */
-  if (session::global_is_set('LOCK_CACHE')) {
-    $cache = &session::global_get_ref('LOCK_CACHE');
+  if (session::is_set('LOCK_CACHE')) {
+    $cache = &session::get_ref('LOCK_CACHE');
     if (isset($cache['READ_ONLY'][$object])) {
       unset($cache['READ_ONLY'][$object]);
       return;

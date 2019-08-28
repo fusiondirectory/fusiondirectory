@@ -41,7 +41,7 @@ textdomain($domain);
 /* Remember everything we did after the last click */
 session::start();
 session::set('errorsAlreadyPosted', array());
-session::global_set('runtime_cache', array());
+session::set('runtime_cache', array());
 session::set('limit_exceeded', FALSE);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 @DEBUG (DEBUG_SESSION, __LINE__, __FUNCTION__, __FILE__, session::get_all(), "_SESSION");
 
 /* Logged in? Simple security check */
-if (!session::global_is_set('connected')) {
+if (!session::is_set('connected')) {
   logging::log('security', 'login', '', array(), 'main.php called without session - logging out');
   header ('Location: index.php?message=nosession');
   exit;
@@ -58,8 +58,8 @@ if (!session::global_is_set('connected')) {
 
 CSRFProtection::check();
 
-$ui     = session::global_get('ui');
-$config = session::global_get('config');
+$ui     = session::get('ui');
+$config = session::get('config');
 
 /* If SSL is forced, just forward to the SSL enabled site */
 if (($config->get_cfg_value('forcessl') == 'TRUE') && ($ssl != '')) {
@@ -70,13 +70,13 @@ if (($config->get_cfg_value('forcessl') == 'TRUE') && ($ssl != '')) {
 timezone::setDefaultTimezoneFromConfig();
 
 /* Check for invalid sessions */
-if (session::global_get('_LAST_PAGE_REQUEST') != '') {
+if (session::get('_LAST_PAGE_REQUEST') != '') {
   /* check FusionDirectory.conf for defined session lifetime */
   $max_life = $config->get_cfg_value('sessionLifetime', 60 * 60 * 2);
 
   if ($max_life > 0) {
     /* get time difference between last page reload */
-    $request_time = (time() - session::global_get('_LAST_PAGE_REQUEST'));
+    $request_time = (time() - session::get('_LAST_PAGE_REQUEST'));
 
     /* If page wasn't reloaded for more than max_life seconds
      * kill session
@@ -89,7 +89,7 @@ if (session::global_get('_LAST_PAGE_REQUEST') != '') {
     }
   }
 }
-session::global_set('_LAST_PAGE_REQUEST', time());
+session::set('_LAST_PAGE_REQUEST', time());
 
 
 @DEBUG (DEBUG_CONFIG, __LINE__, __FUNCTION__, __FILE__, $config->data, "config");
@@ -98,8 +98,8 @@ session::global_set('_LAST_PAGE_REQUEST', time());
 $smarty->compile_dir = $config->get_cfg_value("templateCompileDirectory", SPOOL_DIR);
 
 /* Preset current main base */
-if (!session::global_is_set('CurrentMainBase')) {
-  session::global_set('CurrentMainBase', get_base_from_people($ui->dn));
+if (!session::is_set('CurrentMainBase')) {
+  session::set('CurrentMainBase', get_base_from_people($ui->dn));
 }
 
 Language::init();
@@ -120,8 +120,8 @@ if (isset($global_check) && $config->get_cfg_value("forceglobals") == "TRUE") {
 }
 
 /* Check Plugin variable */
-if (session::global_is_set('plugin_dir')) {
-  $old_plugin_dir = session::global_get('plugin_dir');
+if (session::is_set('plugin_dir')) {
+  $old_plugin_dir = session::get('plugin_dir');
 } else {
   $old_plugin_dir = "";
 }
@@ -164,7 +164,7 @@ if ($config->get_cfg_value("handleExpiredAccounts") == "TRUE") {
 if (isset($_GET['plug']) && $plist->plugin_access_allowed($_GET['plug'])) {
   $plug       = validate($_GET['plug']);
   $plugin_dir = $plist->get_path($plug);
-  session::global_set('plugin_dir', $plugin_dir);
+  session::set('plugin_dir', $plugin_dir);
   if ($plugin_dir == '') {
     logging::log('security', 'fusiondirectory', '', array(), "main.php called with invalid plug parameter \"$plug\"");
     header ('Location: index.php?signout=1&message=invalidparameter&plug='.$plug);
@@ -172,7 +172,7 @@ if (isset($_GET['plug']) && $plist->plugin_access_allowed($_GET['plug'])) {
   }
 } else {
   /* set to welcome page as default plugin */
-  session::global_set('plugin_dir', 'welcome');
+  session::set('plugin_dir', 'welcome');
   $plugin_dir = "$BASE_DIR/plugins/generic/welcome";
 }
 
@@ -235,7 +235,7 @@ if (isset($_GET['reset'])) {
 
 /* show web frontend */
 $smarty->assign ("date", date("l, dS F Y H:i:s O"));
-$lang = session::global_get('lang');
+$lang = session::get('lang');
 $smarty->assign ('lang',  preg_replace('/_.*$/', '', $lang));
 $smarty->assign ('rtl',   Language::isRTL($lang));
 $smarty->assign ('must',  '<span class="must">*</span>');
@@ -260,18 +260,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if (isset($_POST['delete_lock']) || isset($_POST['open_readonly'])) {
 
     /* Set old Post data */
-    if (session::global_is_set('LOCK_VARS_USED_GET')) {
-      foreach (session::global_get('LOCK_VARS_USED_GET') as $name => $value) {
+    if (session::is_set('LOCK_VARS_USED_GET')) {
+      foreach (session::get('LOCK_VARS_USED_GET') as $name => $value) {
         $_GET[$name]  = $value;
       }
     }
-    if (session::global_is_set('LOCK_VARS_USED_POST')) {
-      foreach (session::global_get('LOCK_VARS_USED_POST') as $name => $value) {
+    if (session::is_set('LOCK_VARS_USED_POST')) {
+      foreach (session::get('LOCK_VARS_USED_POST') as $name => $value) {
         $_POST[$name] = $value;
       }
     }
-    if (session::global_is_set('LOCK_VARS_USED_REQUEST')) {
-      foreach (session::global_get('LOCK_VARS_USED_REQUEST') as $name => $value) {
+    if (session::is_set('LOCK_VARS_USED_REQUEST')) {
+      foreach (session::get('LOCK_VARS_USED_REQUEST') as $name => $value) {
         $_REQUEST[$name] = $value;
       }
     }
@@ -331,23 +331,6 @@ $focus .= '</script>';
 $smarty->assign('focus',      $focus);
 $smarty->assign('CSRFtoken',  CSRFProtection::getToken());
 
-/* Set channel if needed */
-//TODO: * move all global session calls to global_
-//      * create a new channel where needed (mostly management dialogues)
-//      * remove regulary created channels when not needed anymore
-//      * take a look at external php calls (i.e. get fax, ldif, etc.)
-//      * handle aborted sessions (by pressing anachors i.e. Main, Menu, etc.)
-//      * check lock removals, is "dn" global or not in this case?
-//      * last page request -> global or not?
-//      * check that filters are still global
-//      * maxC global?
-if (isset($_POST['_channel_'])) {
-  echo "DEBUG - current channel: ".$_POST['_channel_'];
-  $smarty->assign("channel", $_POST['_channel_']);
-} else {
-  $smarty->assign("channel", "");
-}
-
 if (class_available('Game')) {
   $smarty->assign('game_screen', Game::run());
 } else {
@@ -361,8 +344,6 @@ $display  = $smarty->fetch(get_template_path('headers.tpl')).
 echo $display;
 
 /* Save plist and config */
-session::global_set('plist', $plist);
-session::global_set('config', $config);
+session::set('plist', $plist);
+session::set('config', $config);
 session::set('errorsAlreadyPosted', array());
-
-?>

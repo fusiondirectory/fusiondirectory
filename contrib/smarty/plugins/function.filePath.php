@@ -19,7 +19,7 @@
 */
 function smarty_function_filePath($params, &$smarty)
 {
-  $config = session::global_get('config');
+  $config = session::get('config');
   $default_theme = 'breezy';
 
   /* Set theme */

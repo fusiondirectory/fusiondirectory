@@ -235,8 +235,8 @@ class simpleManagement
     }
 
     // Build filter
-    if (session::global_is_set(get_class($this).'_filter')) {
-      $filter = session::global_get(get_class($this).'_filter');
+    if (session::is_set(get_class($this).'_filter')) {
+      $filter = session::get(get_class($this).'_filter');
     } else {
       $filter = new filter($this->filterXMLPath);
       $filter->setObjectStorage($this->storagePoints);
@@ -557,7 +557,7 @@ class simpleManagement
     // Update filter
     if ($this->filter) {
       $this->filter->update();
-      session::global_set(get_class($this).'_filter', $this->filter);
+      session::set(get_class($this).'_filter', $this->filter);
       session::set('autocomplete', $this->filter);
       if (!$this->filter->isValid()) {
         msg_dialog::display(_('Filter error'), _('The filter is incomplete!'), ERROR_DIALOG);
