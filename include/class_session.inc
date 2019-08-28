@@ -95,7 +95,7 @@ class session {
    *
    * \param string $name Name of the session var
    */
-  public static function &global_get_ref($name)
+  public static function &get_ref ($name)
   {
     $ret = &$_SESSION[$name];
     return $ret;
