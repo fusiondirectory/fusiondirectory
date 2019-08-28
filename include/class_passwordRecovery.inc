@@ -76,8 +76,8 @@ class passwordRecovery extends standAlonePage
 
     /* Got a formular answer, validate and try to log in */
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-      if (session::global_is_set('_LAST_PAGE_REQUEST')) {
-        session::global_set('_LAST_PAGE_REQUEST', time());
+      if (session::is_set('_LAST_PAGE_REQUEST')) {
+        session::set('_LAST_PAGE_REQUEST', time());
       }
 
       if (isset($_POST['change'])) {

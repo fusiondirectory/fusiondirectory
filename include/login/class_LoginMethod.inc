@@ -119,14 +119,14 @@ class LoginMethod
     del_user_locks($ui->dn);
 
     /* Save userinfo and plugin structure */
-    session::global_set('ui', $ui);
+    session::set('ui', $ui);
 
     /* User might have its own language, re-run initLanguage */
     $plistReloaded = Language::init();
 
     /* We need a fully loaded plist and config to test account expiration */
     if (!$plistReloaded) {
-      session::global_un_set('plist');
+      session::un_set('plist');
     }
     pluglist::load();
 
@@ -152,8 +152,8 @@ class LoginMethod
     global $config;
     /* Not account expired or password forced change go to main page */
     logging::log('security', 'login', '', [], 'User "'.static::$username.'" logged in successfully.');
-    session::global_set('connected', 1);
-    session::global_set('DEBUGLEVEL', $config->get_cfg_value('DEBUGLEVEL'));
+    session::set('connected', 1);
+    session::set('DEBUGLEVEL', $config->get_cfg_value('DEBUGLEVEL'));
     header('Location: main.php');
     exit;
   }

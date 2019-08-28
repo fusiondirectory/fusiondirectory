@@ -30,7 +30,7 @@ session::start();
 reset_errors();
 
 /* Logged in? Simple security check */
-if (!session::global_is_set('ui')) {
+if (!session::is_set('ui')) {
   logging::log('security', 'unknown', '', [], 'Error: getbin.php called without session');
   header('Location: index.php');
   exit;

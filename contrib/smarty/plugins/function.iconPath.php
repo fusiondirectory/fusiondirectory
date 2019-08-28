@@ -19,7 +19,7 @@
 */
 function smarty_function_iconPath ($params)
 {
-  $config = session::global_get('config');
+  $config = session::get('config');
 
   /* Set theme */
   $theme = IconTheme::$default_theme;

@@ -49,7 +49,7 @@ ini_set("session.gc_maxlifetime", 24 * 60 * 60);
 
 /* Start session */
 session::start();
-session::global_set('DEBUGLEVEL', 0);
+session::set('DEBUGLEVEL', 0);
 
 CSRFProtection::check();
 
@@ -74,8 +74,8 @@ if (isset($_POST['lang_selected']) && $_POST['lang_selected'] != '') {
   if (!preg_match('/utf(-)?8$/i', $lang)) {
     $lang .= '.UTF-8';
   }
-} elseif (session::global_is_set('lang')) {
-  $lang = session::global_get('lang');
+} elseif (session::is_set('lang')) {
+  $lang = session::get('lang');
 
   /* Append .UTF-8 to language string if necessary */
   if (!preg_match('/utf(-)?8$/i', $lang)) {
@@ -91,11 +91,11 @@ $smarty->assign('lang', preg_replace('/_.*$/', '', $lang));
 $smarty->assign('rtl',  Language::isRTL($lang));
 
 /* Minimal config */
-if (!session::global_is_set('config')) {
+if (!session::is_set('config')) {
   $config = new config('');
-  session::global_set('config', $config);
+  session::set('config', $config);
 }
-$config = session::global_get('config');
+$config = session::get('config');
 IconTheme::loadThemes('themes');
 /* Fake user bypassing acl system */
 $ui = new userinfoNoAuth('setup');
@@ -107,7 +107,7 @@ $focus .= 'next_msg_dialog();';
 $focus .= '</script>';
 
 /* show web frontend */
-$setup = session::global_get('setup');
+$setup = session::get('setup');
 
 $smarty->assign('date',           date('l, dS F Y H:i:s O'));
 $smarty->assign('headline',       $setup->get_header_text());

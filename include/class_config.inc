@@ -95,11 +95,11 @@ class config
     /* Check if class_location.inc has changed, this is the case
         if we have installed or removed plugins. */
     $tmp = stat(CACHE_DIR.'/'.CLASS_CACHE);
-    if (session::global_is_set('class_location.inc:timestamp')
-      && ($tmp['mtime'] != session::global_get('class_location.inc:timestamp'))) {
-      session::global_un_set('plist');
+    if (session::is_set('class_location.inc:timestamp')
+      && ($tmp['mtime'] != session::get('class_location.inc:timestamp'))) {
+      session::un_set('plist');
     }
-    session::global_set('class_location.inc:timestamp', $tmp['mtime']);
+    session::set('class_location.inc:timestamp', $tmp['mtime']);
 
     if (($this->filename != '') && ((filemtime($this->filename) != $this->last_modified) || $force)) {
       $this->config_found     = FALSE;
@@ -265,14 +265,14 @@ class config
   function get_credentials ($creds)
   {
     if (isset($_SERVER['HTTP_FDKEY'])) {
-      if (!session::global_is_set('HTTP_FDKEY_CACHE')) {
-        session::global_set('HTTP_FDKEY_CACHE', []);
+      if (!session::is_set('HTTP_FDKEY_CACHE')) {
+        session::set('HTTP_FDKEY_CACHE', []);
       }
-      $cache = session::global_get('HTTP_FDKEY_CACHE');
+      $cache = session::get('HTTP_FDKEY_CACHE');
       if (!isset($cache[$creds])) {
         try {
           $cache[$creds] = cred_decrypt($creds, $_SERVER['HTTP_FDKEY']);
-          session::global_set('HTTP_FDKEY_CACHE', $cache);
+          session::set('HTTP_FDKEY_CACHE', $cache);
         } catch (FusionDirectoryException $e) {
           $msg = sprintf(
             _('It seems you are trying to decode something which is not encoded : %s<br/>'."\n".
@@ -398,7 +398,7 @@ class config
     if (isset($this->data['MAIN']['DEBUGLEVEL'])) {
       $debugLevel |= $this->data['MAIN']['DEBUGLEVEL'];
     }
-    session::global_set('DEBUGLEVEL', $debugLevel);
+    session::set('DEBUGLEVEL', $debugLevel);
 
     IconTheme::loadThemes('themes');
 

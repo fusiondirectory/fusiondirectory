@@ -41,7 +41,7 @@ class standAlonePage
       session::start();
 
       $config = $this->loadConfig();
-      session::global_set('config', $config);
+      session::set('config', $config);
 
       /* Generate server list */
       $this->directories = [];
@@ -50,7 +50,7 @@ class standAlonePage
       }
 
       $ui = new userinfoNoAuth(get_class($this));
-      session::global_set('ui', $ui);
+      session::set('ui', $ui);
     }
 
     static::init();
@@ -99,8 +99,8 @@ class standAlonePage
 
     CSRFProtection::check();
 
-    $ui     = session::global_get('ui');
-    $config = session::global_get('config');
+    $ui     = session::get('ui');
+    $config = session::get('config');
 
     timezone::setDefaultTimezoneFromConfig();
 
@@ -128,7 +128,7 @@ class standAlonePage
 
     /* Parse configuration file */
     $config = new config(CONFIG_DIR.'/'.CONFIG_FILE, $BASE_DIR);
-    session::global_set('DEBUGLEVEL', $config->get_cfg_value('debuglevel'));
+    session::set('DEBUGLEVEL', $config->get_cfg_value('debuglevel'));
     @DEBUG(DEBUG_CONFIG, __LINE__, __FUNCTION__, __FILE__, $config->data, 'config');
     return $config;
   }
@@ -160,7 +160,7 @@ class standAlonePage
     $smarty->assign('revision', FD_VERSION);
     $smarty->assign('year',     date('Y'));
 
-    $lang = session::global_get('lang');
+    $lang = session::get('lang');
     $smarty->assign('lang',         preg_replace('/_.*$/', '', $lang));
     $smarty->assign('rtl',          Language::isRTL($lang));
     $smarty->assign('usePrototype', 'FALSE');
