@@ -126,7 +126,7 @@ class LoginMethod
 
     /* We need a fully loaded plist and config to test account expiration */
     if (!$plistReloaded) {
-      session::global_un_set('plist');
+      session::un_set('plist');
     }
     pluglist::load();
 
