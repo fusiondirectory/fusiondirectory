@@ -41,7 +41,7 @@ session::start();
 
 if (isset($_REQUEST['signout']) && $_REQUEST['signout']) {
   if (session::is_set('connected')) {
-    $config = session::global_get('config');
+    $config = session::get('config');
     if ($config->get_cfg_value('casActivated') == 'TRUE') {
       require_once('CAS.php');
       /* Move FD autoload after CAS autoload */

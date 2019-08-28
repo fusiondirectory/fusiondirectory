@@ -29,7 +29,7 @@ reset_errors();
 
 $theme = '';
 if (session::is_set('config')) {
-  $config = session::global_get('config');
+  $config = session::get('config');
   $theme  = $config->get_cfg_value('theme');
 } else {
   header("cache-control: no-cache");

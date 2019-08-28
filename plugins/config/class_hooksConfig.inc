@@ -39,7 +39,7 @@ class hooksConfig extends simplePlugin
 
     $plugins = [];
     if (session::is_set('plist')) {
-      $plugins = array_keys(session::global_get('plist')->info);
+      $plugins = array_keys(session::get('plist')->info);
     }
     sort($plugins);
 

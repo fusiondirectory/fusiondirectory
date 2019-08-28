@@ -504,7 +504,7 @@ class pluglist
 
   static function pluginInfos ($cname)
   {
-    $plist = session::global_get('plist');
+    $plist = session::get('plist');
     if ($plist) {
       if (!isset($plist->info[$cname])) {
         throw new UnknownClassException($cname);
@@ -530,7 +530,7 @@ class pluglist
       $config->loadPlist($plist);
       $config->resetDepartmentCache();
     } else {
-      $plist = session::global_get('plist');
+      $plist = session::get('plist');
     }
 
     return $plist;

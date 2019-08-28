@@ -417,7 +417,7 @@ class configInLdap extends simplePlugin
       array_values($groupsAndRoles)
     );
     $menuPlugins = [];
-    $plist = session::global_get('plist');
+    $plist = session::get('plist');
     foreach ($config->data['SECTIONS'] as $section => $section_infos) {
       foreach ($config->data['MENU'][$section] as $info) {
         if (isset($info['CLASS'])) {
@@ -538,7 +538,7 @@ class configInLdap extends simplePlugin
   static function get_themes ()
   {
     $themesdir  = '../ihtml/themes/';
-    $themes     = array_keys(session::global_get(IconTheme::$session_var));
+    $themes     = array_keys(session::get(IconTheme::$session_var));
     if ($dir = opendir("$themesdir")) {
       while (($file = readdir($dir)) !== FALSE) {
         if (is_dir("$themesdir/$file") && !preg_match("/^\./", $file)) {

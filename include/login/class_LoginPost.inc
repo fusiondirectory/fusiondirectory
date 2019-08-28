@@ -67,7 +67,7 @@ class LoginPost extends LoginMethod
   {
     global $smarty,$message,$config,$ssl,$error_collector,$error_collector_mailto;
 
-    $lang = session::global_get('lang');
+    $lang = session::get('lang');
 
     error_reporting(E_ALL | E_STRICT);
 

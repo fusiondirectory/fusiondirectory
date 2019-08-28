@@ -99,8 +99,8 @@ class standAlonePage
 
     CSRFProtection::check();
 
-    $ui     = session::global_get('ui');
-    $config = session::global_get('config');
+    $ui     = session::get('ui');
+    $config = session::get('config');
 
     timezone::setDefaultTimezoneFromConfig();
 
@@ -160,7 +160,7 @@ class standAlonePage
     $smarty->assign('revision', FD_VERSION);
     $smarty->assign('year',     date('Y'));
 
-    $lang = session::global_get('lang');
+    $lang = session::get('lang');
     $smarty->assign('lang',         preg_replace('/_.*$/', '', $lang));
     $smarty->assign('rtl',          Language::isRTL($lang));
     $smarty->assign('usePrototype', 'FALSE');

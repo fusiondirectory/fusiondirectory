@@ -176,7 +176,7 @@ function DEBUG ($level, $line, $function, $file, $data, $info = '')
   if (($_SERVER['REQUEST_METHOD'] == 'POST') && preg_match('/index.php$/', $_SERVER['REQUEST_URI'])) {
     return;
   }
-  if (session::global_get('DEBUGLEVEL') & $level) {
+  if (session::get('DEBUGLEVEL') & $level) {
     if ($first) {
       echo '<div id="debug-handling" class="notice">'.
             '<img src="geticon.php?context=status&amp;icon=dialog-information&amp;size=22" alt="Information" style="vertical-align:middle;margin-right:.2em;"/>'.
@@ -242,7 +242,7 @@ function get_template_path ($filename = '', $plugin = FALSE, $path = '')
   /* Return plugin dir or root directory? */
   if ($plugin) {
     if ($path == '') {
-      $path = session::global_get('plugin_dir');
+      $path = session::get('plugin_dir');
       $nf   = preg_replace('!^'.$BASE_DIR.'/!', '', preg_replace('/^\.\.\//', '', $path));
     } else {
       $nf = preg_replace('!^'.$BASE_DIR.'/!', '', $path);

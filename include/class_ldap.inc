@@ -1338,7 +1338,7 @@ class LDAP
   {
     /* Return the cached results. */
     if (class_available('session') && session::is_set('LDAP_CACHE::get_objectclasses') && !$force_reload) {
-      return session::global_get('LDAP_CACHE::get_objectclasses');
+      return session::get('LDAP_CACHE::get_objectclasses');
     }
 
     // Get base to look for schema
@@ -1444,7 +1444,7 @@ class LDAP
   function log ($string)
   {
     if (session::is_set('config')) {
-      $cfg = session::global_get('config');
+      $cfg = session::get('config');
       if (isset($cfg->current['LDAPSTATS']) && preg_match('/true/i', $cfg->current['LDAPSTATS'])) {
         syslog(LOG_INFO, $string);
       }
