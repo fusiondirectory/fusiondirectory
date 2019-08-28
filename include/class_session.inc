@@ -67,27 +67,25 @@ class session {
   }
 
   /*!
-   * \brief Accessor of a session
-   *
-   * \param string $name Name of the session
-   */
-  public static function get ($name)
-  {
-    return $_SESSION[$name];
-  }
-
-  /*!
    * \brief Accessor of a session var
    *
    * \param string $name Name of the session var
    */
-  public static function global_get($name)
+  public static function get ($name)
   {
     if (isset($_SESSION[$name])) {
       return $_SESSION[$name];
     } else {
       return NULL;
     }
+  }
+
+  /*!
+   * \brief Deprecated
+   */
+  public static function global_get ($name)
+  {
+    return static::get($name);
   }
 
   /*!
