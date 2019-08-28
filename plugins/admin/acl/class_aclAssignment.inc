@@ -342,7 +342,7 @@ class aclAssignment extends simplePlugin
     /* Refresh users ACLs */
     $ui = get_userinfo();
     $ui->loadACL();
-    session::global_set('ui', $ui);
+    session::set('ui', $ui);
   }
 
   function post_save()
@@ -352,7 +352,7 @@ class aclAssignment extends simplePlugin
     /* Refresh users ACLs */
     $ui = get_userinfo();
     $ui->loadACL();
-    session::global_set('ui', $ui);
+    session::set('ui', $ui);
   }
 
   function foreignKeyUpdate ($field, $oldvalue, $newvalue, $source)

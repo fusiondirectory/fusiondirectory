@@ -86,7 +86,7 @@ class standAlonePage {
 
       /* Set config to selected one */
       $config->set_current($this->directory);
-      session::global_set('config', $config);
+      session::set('config', $config);
     }
 
     $this->activated = $this->readLdapConfig();
@@ -97,7 +97,7 @@ class standAlonePage {
     if ($this->interactive) {
       Language::init();
 
-      if (session::global_is_set('plist')) {
+      if (session::is_set('plist')) {
         session::global_un_set('plist');
       }
       $ui = new fake_userinfo();
@@ -123,7 +123,7 @@ class standAlonePage {
 
     /* Parse configuration file */
     $config = new config(CONFIG_DIR."/".CONFIG_FILE, $BASE_DIR);
-    session::global_set('DEBUGLEVEL', $config->get_cfg_value("debuglevel"));
+    session::set('DEBUGLEVEL', $config->get_cfg_value("debuglevel"));
     @DEBUG(DEBUG_CONFIG, __LINE__, __FUNCTION__, __FILE__, $config->data, "config");
     return $config;
   }
@@ -300,8 +300,8 @@ class passwordRecovery extends standAlonePage {
 
     /* Got a formular answer, validate and try to log in */
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-      if (session::global_is_set('_LAST_PAGE_REQUEST')) {
-        session::global_set('_LAST_PAGE_REQUEST', time());
+      if (session::is_set('_LAST_PAGE_REQUEST')) {
+        session::set('_LAST_PAGE_REQUEST', time());
       }
 
       if (isset($_POST['change'])) {

@@ -535,7 +535,7 @@ class listing
     $refresh = FALSE;
     if ($this->baseMode) {
       $this->base = $this->baseSelector->getBase();
-      session::global_set("CurrentMainBase", $this->base);
+      session::set("CurrentMainBase", $this->base);
       $refresh = TRUE;
     }
 
@@ -652,7 +652,7 @@ class listing
     $this->base = $base;
     if ($this->baseMode) {
       $this->baseSelector->setBase($this->base);
-      session::global_set('CurrentMainBase', $this->base);
+      session::set('CurrentMainBase', $this->base);
     }
   }
 

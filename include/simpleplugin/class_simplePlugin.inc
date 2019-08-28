@@ -204,7 +204,7 @@ class simplePlugin
     if ($this->dn != 'new') {
       /* Check if this entry was opened in read only mode */
       if (isset($_POST['open_readonly'])) {
-        if (session::global_is_set('LOCK_CACHE')) {
+        if (session::is_set('LOCK_CACHE')) {
           $cache = session::get('LOCK_CACHE');
           if (isset($cache['READ_ONLY'][$this->dn])) {
             $this->read_only = TRUE;

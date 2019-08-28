@@ -107,7 +107,7 @@ class userinfo
   public function reset_acl_cache()
   {
     /* Initialize ACL_CACHE */
-    session::global_set('ACL_CACHE', array());
+    session::set('ACL_CACHE', array());
   }
 
   /*!

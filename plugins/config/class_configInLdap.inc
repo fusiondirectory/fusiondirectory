@@ -79,7 +79,7 @@ class configInLdap extends simplePlugin
   {
     global $config;
     $plugins = array();
-    if (session::global_is_set('plist')) {
+    if (session::is_set('plist')) {
       $plugins = array_keys(session::global_get('plist')->info);
     }
     sort($plugins);

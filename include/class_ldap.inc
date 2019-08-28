@@ -1220,7 +1220,7 @@ class LDAP
     $objectclasses = array();
 
     /* Return the cached results. */
-    if (class_available('session') && session::global_is_set('LDAP_CACHE::get_objectclasses') && !$force_reload) {
+    if (class_available('session') && session::is_set('LDAP_CACHE::get_objectclasses') && !$force_reload) {
       $objectclasses = session::global_get('LDAP_CACHE::get_objectclasses');
       return $objectclasses;
     }
@@ -1293,7 +1293,7 @@ class LDAP
 
     }
     if (class_available('session')) {
-      session::global_set('LDAP_CACHE::get_objectclasses', $objectclasses);
+      session::set('LDAP_CACHE::get_objectclasses', $objectclasses);
     }
 
     return $objectclasses;
@@ -1328,7 +1328,7 @@ class LDAP
    */
   function log($string)
   {
-    if (session::global_is_set('config')) {
+    if (session::is_set('config')) {
       $cfg = session::global_get('config');
       if (isset($cfg->current['LDAPSTATS']) && preg_match('/true/i', $cfg->current['LDAPSTATS'])) {
         syslog (LOG_INFO, $string);

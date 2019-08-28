@@ -114,7 +114,7 @@ function displayLogin()
 session::start();
 
 if (isset($_REQUEST['signout']) && $_REQUEST['signout']) {
-  if (session::global_is_set('connected')) {
+  if (session::is_set('connected')) {
     $config = session::global_get('config');
     if ($config->get_cfg_value('casActivated') == 'TRUE') {
       require_once('CAS.php');
@@ -163,8 +163,8 @@ if (!is_readable(CONFIG_DIR.'/'.CONFIG_FILE)) {
 
 /* Parse configuration file */
 $config = new config(CONFIG_DIR.'/'.CONFIG_FILE, $BASE_DIR);
-session::global_set('config', $config);
-session::global_set('DEBUGLEVEL', $config->get_cfg_value('DEBUGLEVEL'));
+session::set('config', $config);
+session::set('DEBUGLEVEL', $config->get_cfg_value('DEBUGLEVEL'));
 @DEBUG (DEBUG_CONFIG, __LINE__, __FUNCTION__, __FILE__, $config->data, 'config');
 
 /* Set template compile directory */
@@ -201,7 +201,7 @@ if (
   ($config->get_cfg_value('casActivated') == 'TRUE') ||
   ($config->get_cfg_value('httpAuthActivated') == 'TRUE') ||
   ($config->get_cfg_value('httpHeaderAuthActivated') == 'TRUE')) {
-  session::global_set('DEBUGLEVEL', 0);
+  session::set('DEBUGLEVEL', 0);
 }
 
 /* If SSL is forced, just forward to the SSL enabled site */
@@ -321,7 +321,7 @@ class Index {
     del_user_locks($ui->dn);
 
     /* Save userinfo and plugin structure */
-    session::global_set('ui', $ui);
+    session::set('ui', $ui);
 
     /* User might have its own language, re-run initLanguage */
     $plistReloaded = Language::init();
@@ -355,8 +355,8 @@ class Index {
     global $config;
     /* Not account expired or password forced change go to main page */
     logging::log('security', 'login', '', array(), 'User "'.static::$username.'" logged in successfully.');
-    session::global_set('connected', 1);
-    session::global_set('DEBUGLEVEL', $config->get_cfg_value('DEBUGLEVEL'));
+    session::set('connected', 1);
+    session::set('DEBUGLEVEL', $config->get_cfg_value('DEBUGLEVEL'));
     header ('Location: main.php?global_check=1');
     exit;
   }
