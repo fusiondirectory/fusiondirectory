@@ -87,7 +87,7 @@ class listing
 
     // Set base for filter
     if ($this->baseMode) {
-      $this->base = session::global_get("CurrentMainBase");
+      $this->base = session::get("CurrentMainBase");
       if ($this->base == NULL) {
         $this->base = $config->current['BASE'];
       }

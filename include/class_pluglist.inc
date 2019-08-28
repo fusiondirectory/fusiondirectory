@@ -494,7 +494,7 @@ class pluglist {
 
   static function pluginInfos($cname)
   {
-    $plist = session::global_get('plist');
+    $plist = session::get('plist');
     if ($plist) {
       return $plist->info[$cname];
     } else {
@@ -502,4 +502,3 @@ class pluglist {
     }
   }
 }
-?>

@@ -58,8 +58,8 @@ if (!session::is_set('connected')) {
 
 CSRFProtection::check();
 
-$ui     = session::global_get('ui');
-$config = session::global_get('config');
+$ui     = session::get('ui');
+$config = session::get('config');
 
 /* If SSL is forced, just forward to the SSL enabled site */
 if (($config->get_cfg_value('forcessl') == 'TRUE') && ($ssl != '')) {
@@ -70,13 +70,13 @@ if (($config->get_cfg_value('forcessl') == 'TRUE') && ($ssl != '')) {
 timezone::setDefaultTimezoneFromConfig();
 
 /* Check for invalid sessions */
-if (session::global_get('_LAST_PAGE_REQUEST') != '') {
+if (session::get('_LAST_PAGE_REQUEST') != '') {
   /* check FusionDirectory.conf for defined session lifetime */
   $max_life = $config->get_cfg_value('sessionLifetime', 60 * 60 * 2);
 
   if ($max_life > 0) {
     /* get time difference between last page reload */
-    $request_time = (time() - session::global_get('_LAST_PAGE_REQUEST'));
+    $request_time = (time() - session::get('_LAST_PAGE_REQUEST'));
 
     /* If page wasn't reloaded for more than max_life seconds
      * kill session
@@ -121,7 +121,7 @@ if (isset($global_check) && $config->get_cfg_value("forceglobals") == "TRUE") {
 
 /* Check Plugin variable */
 if (session::is_set('plugin_dir')) {
-  $old_plugin_dir = session::global_get('plugin_dir');
+  $old_plugin_dir = session::get('plugin_dir');
 } else {
   $old_plugin_dir = "";
 }
@@ -235,7 +235,7 @@ if (isset($_GET['reset'])) {
 
 /* show web frontend */
 $smarty->assign ("date", date("l, dS F Y H:i:s O"));
-$lang = session::global_get('lang');
+$lang = session::get('lang');
 $smarty->assign ('lang',  preg_replace('/_.*$/', '', $lang));
 $smarty->assign ('rtl',   Language::isRTL($lang));
 $smarty->assign ('must',  '<span class="must">*</span>');
@@ -261,17 +261,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     /* Set old Post data */
     if (session::is_set('LOCK_VARS_USED_GET')) {
-      foreach (session::global_get('LOCK_VARS_USED_GET') as $name => $value) {
+      foreach (session::get('LOCK_VARS_USED_GET') as $name => $value) {
         $_GET[$name]  = $value;
       }
     }
     if (session::is_set('LOCK_VARS_USED_POST')) {
-      foreach (session::global_get('LOCK_VARS_USED_POST') as $name => $value) {
+      foreach (session::get('LOCK_VARS_USED_POST') as $name => $value) {
         $_POST[$name] = $value;
       }
     }
     if (session::is_set('LOCK_VARS_USED_REQUEST')) {
-      foreach (session::global_get('LOCK_VARS_USED_REQUEST') as $name => $value) {
+      foreach (session::get('LOCK_VARS_USED_REQUEST') as $name => $value) {
         $_REQUEST[$name] = $value;
       }
     }

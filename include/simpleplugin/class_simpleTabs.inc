@@ -164,7 +164,7 @@ class simpleTabs
     if (isset($baseobject->base)) {
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $baseobject->base, 'Fixing base');
       if (session::is_set('CurrentMainBase')) {
-        $baseobject->base = dn2base('cn=dummy,'.session::global_get('CurrentMainBase'));
+        $baseobject->base = dn2base('cn=dummy,'.session::get('CurrentMainBase'));
       } else {
         $baseobject->base = dn2base(get_userinfo()->dn);
       }

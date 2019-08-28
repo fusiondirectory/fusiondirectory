@@ -35,7 +35,7 @@ header('X-Frame-Options: deny');
 function displayLogin()
 {
   global $smarty,$message,$config,$ssl,$error_collector,$error_collector_mailto;
-  $lang = session::global_get('lang');
+  $lang = session::get('lang');
 
   error_reporting(E_ALL | E_STRICT);
   /* Fill template with required values */
@@ -115,7 +115,7 @@ session::start();
 
 if (isset($_REQUEST['signout']) && $_REQUEST['signout']) {
   if (session::is_set('connected')) {
-    $config = session::global_get('config');
+    $config = session::get('config');
     if ($config->get_cfg_value('casActivated') == 'TRUE') {
       require_once('CAS.php');
       /* Move FD autoload after CAS autoload */

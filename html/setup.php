@@ -76,7 +76,7 @@ if (isset($_POST['lang_selected']) && $_POST['lang_selected'] != '') {
     $lang .= '.UTF-8';
   }
 } elseif (session::is_set('lang')) {
-  $lang = session::global_get('lang');
+  $lang = session::get('lang');
 
   /* Append .UTF-8 to language string if necessary */
   if (!preg_match('/utf(-)?8$/i', $lang)) {
@@ -96,7 +96,7 @@ if (!session::is_set('config')) {
   $config = new config('');
   session::set('config', $config);
 }
-$config = session::global_get('config');
+$config = session::get('config');
 IconTheme::loadThemes('themes');
 /* Fake user bypassing acl system */
 $ui = new fake_userinfo();
@@ -109,7 +109,7 @@ $focus .= 'next_msg_dialog();';
 $focus .= '</script>';
 
 /* show web frontend */
-$setup = session::global_get('setup');
+$setup = session::get('setup');
 
 $smarty->assign('date',           date('l, dS F Y H:i:s O'));
 $smarty->assign('headline',       $setup->get_header_text());

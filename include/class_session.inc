@@ -71,7 +71,7 @@ class session {
    *
    * \param string $name Name of the session
    */
-  public static function &get($name)
+  public static function get ($name)
   {
     return $_SESSION[$name];
   }

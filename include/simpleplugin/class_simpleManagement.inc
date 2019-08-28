@@ -236,7 +236,7 @@ class simpleManagement
 
     // Build filter
     if (session::is_set(get_class($this).'_filter')) {
-      $filter = session::global_get(get_class($this).'_filter');
+      $filter = session::get(get_class($this).'_filter');
     } else {
       $filter = new filter($this->filterXMLPath);
       $filter->setObjectStorage($this->storagePoints);

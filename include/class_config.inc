@@ -97,7 +97,7 @@ class config
         if we have installed or removed plugins. */
     $tmp = stat(CACHE_DIR.'/'.CLASS_CACHE);
     if (session::is_set('class_location.inc:timestamp')) {
-      if ($tmp['mtime'] != session::global_get('class_location.inc:timestamp')) {
+      if ($tmp['mtime'] != session::get('class_location.inc:timestamp')) {
         session::global_un_set('plist');
       }
     }
@@ -273,7 +273,7 @@ class config
       if (!session::is_set('HTTP_FDKEY_CACHE')) {
         session::set('HTTP_FDKEY_CACHE', array());
       }
-      $cache = session::global_get('HTTP_FDKEY_CACHE');
+      $cache = session::get('HTTP_FDKEY_CACHE');
       if (!isset($cache[$creds])) {
         try {
           $cache[$creds] = cred_decrypt($creds, $_SERVER['HTTP_FDKEY']);

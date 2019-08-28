@@ -351,7 +351,7 @@ class passwordRecovery extends standAlonePage {
     $smarty->assign('usePrototype', 'FALSE');
     $smarty->append('js_files',     'include/pwdStrength.js');
     $smarty->append('css_files',    get_template_path('login.css'));
-    $lang = session::global_get('lang');
+    $lang = session::get('lang');
     $smarty->assign('lang', preg_replace('/_.*$/', '', $lang));
     $smarty->assign('rtl', Language::isRTL($lang));
     $smarty->assign('title',        _('Password recovery'));

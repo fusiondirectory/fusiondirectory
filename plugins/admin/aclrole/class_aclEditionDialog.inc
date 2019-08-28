@@ -271,7 +271,7 @@ class ACLEditionDialog extends GenericDialog
   {
     $display  = '<input type="hidden" name="acl_dummy_0_0_0" value="1"/>';
     $cols     = 3;
-    $tmp      = session::global_get('plist');
+    $tmp      = session::get('plist');
     $plist    = $tmp->info;
     asort($plist);
 
