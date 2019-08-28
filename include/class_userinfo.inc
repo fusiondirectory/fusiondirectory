@@ -466,7 +466,7 @@ class userinfo
     $attribute = static::sanitizeAttributeName($attribute);
 
     /* Push cache answer? */
-    $ACL_CACHE = &session::global_get_ref('ACL_CACHE');
+    $ACL_CACHE = &session::get_ref('ACL_CACHE');
     if (isset($ACL_CACHE["$dn+$object+$attribute"])) {
       $ret = $ACL_CACHE["$dn+$object+$attribute"];
       if ($skip_write) {
@@ -675,7 +675,7 @@ class userinfo
     }
 
     /* Use cached results if possilbe */
-    $ACL_CACHE = &session::global_get_ref('ACL_CACHE');
+    $ACL_CACHE = &session::get_ref('ACL_CACHE');
 
     if (!is_array($module)) {
       $module = [$module];

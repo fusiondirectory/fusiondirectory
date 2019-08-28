@@ -415,7 +415,7 @@ function add_lock ($object, $user)
     return;
   }
 
-  $cache = &session::global_get_ref('LOCK_CACHE');
+  $cache = &session::get_ref('LOCK_CACHE');
   if (isset($_POST['open_readonly'])) {
     $cache['READ_ONLY'][$object] = TRUE;
     return;
@@ -488,7 +488,7 @@ function del_lock ($object)
       skip removing the lock entry, there wasn't any lock created.
     */
   if (session::is_set('LOCK_CACHE')) {
-    $cache = &session::global_get_ref('LOCK_CACHE');
+    $cache = &session::get_ref('LOCK_CACHE');
     if (isset($cache['READ_ONLY'][$object])) {
       unset($cache['READ_ONLY'][$object]);
       return;
