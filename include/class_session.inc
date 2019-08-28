@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2018  FusionDirectory
+  Copyright (C) 2011-2019  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -35,34 +35,15 @@ class session {
    */
   public static function is_set($name)
   {
-    $channel = "";
-    if (isset($_POST['_channel_'])) {
-      $channel = $_POST['_channel_'];
-    }
-
-    /* Global fallback if not set */
-    if ($channel == "") {
-      return isset($_SESSION[$name]);
-    }
-
-    /* Sanity check */
-    if (!session::channel_exists($channel)) {
-      msg_dialog::display(_("Internal error"), _("Requested channel does not exist! Please contact your Administrator."), FATAL_ERROR_DIALOG);
-      exit;
-    }
-
-    $channel = "gch_".$channel;
-    return isset($_SESSION[$channel][$name]);
+    return isset($_SESSION[$name]);
   }
 
   /*!
-   * \brief Check if a session is defined
-   *
-   * \param string $name Name of the session
+   * \brief Deprecated
    */
   public static function global_is_set($name)
   {
-    return isset($_SESSION[$name]);
+    return static::is_set($name);
   }
 
   /*!
@@ -74,34 +55,15 @@ class session {
    */
   public static function set($name, $value)
   {
-    $channel = "";
-    if (isset($_POST['_channel_'])) {
-      $channel = $_POST['_channel_'];
-    }
-
-    /* Global fallback if not set */
-    if ($channel == "") {
-      $_SESSION[$name] = $value;
-    } else {
-      /* Sanity check */
-      if (!session::channel_exists($channel)) {
-        msg_dialog::display(_("Internal error"), _("Requested channel does not exist! Please contact your Administrator."), FATAL_ERROR_DIALOG);
-        exit;
-      }
-      $_SESSION[$channel][$name] = $value;
-    }
+    $_SESSION[$name] = $value;
   }
 
   /*!
-   * \brief Set a value in a session
-   *
-   * \param string $name Name of the session
-   *
-   * \param $value The new value
+   * \brief Deprecated
    */
   public static function global_set($name, $value)
   {
-    $_SESSION[$name] = $value;
+    static::set($name, $value);
   }
 
   /*!
@@ -111,26 +73,7 @@ class session {
    */
   public static function &get($name)
   {
-    $channel = "";
-    if (isset($_POST['_channel_'])) {
-      $channel = $_POST['_channel_'];
-    }
-
-    /* Global fallback if not set */
-    if ($channel == "") {
-      $ret = &$_SESSION[$name];
-      return $ret;
-    }
-
-    /* Sanity check */
-    if (!session::channel_exists($channel)) {
-      msg_dialog::display(_("Internal error"), _("Requested channel does not exist! Please contact your Administrator."), FATAL_ERROR_DIALOG);
-      exit;
-    }
-
-    $channel  = "gch_".$channel;
-    $ret      = &$_SESSION[$channel][$name];
-    return $ret;
+    return $_SESSION[$name];
   }
 
   /*!
@@ -165,33 +108,17 @@ class session {
    */
   public static function delete($name)
   {
-    $channel = "";
-    if (isset($_POST['_channel_'])) {
-      $channel = $_POST['_channel_'];
-    }
-
-    /* Global fallback if not set */
-    if ($channel == "") {
-      if (isset($_SESSION[$name])) {
-        unset($_SESSION[$name]);
-      }
-    } else {
-      if (isset($_SESSION[$channel][$name])) {
-        unset($_SESSION[$channel][$name]);
-      }
+    if (isset($_SESSION[$name])) {
+      unset($_SESSION[$name]);
     }
   }
 
   /*!
-   * \brief Delete a session
-   *
-   * \param string $name Name of the session to delete
+   * \brief Deprecated
    */
   public static function global_delete($name)
   {
-    if (isset($_SESSION[$name])) {
-      unset($_SESSION[$name]);
-    }
+    static::delete($name);
   }
 
   /*!
@@ -201,7 +128,7 @@ class session {
    */
   public static function un_set($name)
   {
-    return session::delete($name);
+    return static::delete($name);
   }
 
   /*!
@@ -211,7 +138,7 @@ class session {
    */
   public static function global_un_set($name)
   {
-    return session::global_delete($name);
+    return static::global_delete($name);
   }
 
   /*!

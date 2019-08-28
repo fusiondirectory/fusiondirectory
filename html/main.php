@@ -331,23 +331,6 @@ $focus .= '</script>';
 $smarty->assign('focus',      $focus);
 $smarty->assign('CSRFtoken',  CSRFProtection::getToken());
 
-/* Set channel if needed */
-//TODO: * move all global session calls to global_
-//      * create a new channel where needed (mostly management dialogues)
-//      * remove regulary created channels when not needed anymore
-//      * take a look at external php calls (i.e. get fax, ldif, etc.)
-//      * handle aborted sessions (by pressing anachors i.e. Main, Menu, etc.)
-//      * check lock removals, is "dn" global or not in this case?
-//      * last page request -> global or not?
-//      * check that filters are still global
-//      * maxC global?
-if (isset($_POST['_channel_'])) {
-  echo "DEBUG - current channel: ".$_POST['_channel_'];
-  $smarty->assign("channel", $_POST['_channel_']);
-} else {
-  $smarty->assign("channel", "");
-}
-
 if (class_available('Game')) {
   $smarty->assign('game_screen', Game::run());
 } else {
