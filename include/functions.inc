@@ -405,8 +405,8 @@ function add_lock ($object, $user)
   /* Remember which entries were opened as read only, because we
       don't need to remove any locks for them later.
    */
-  if (!session::global_is_set('LOCK_CACHE')) {
-    session::global_set('LOCK_CACHE', ['']);
+  if (!session::is_set('LOCK_CACHE')) {
+    session::set('LOCK_CACHE', ['']);
   }
   if (is_array($object)) {
     foreach ($object as $obj) {
@@ -487,7 +487,7 @@ function del_lock ($object)
   /* If this object was opened in read only mode then
       skip removing the lock entry, there wasn't any lock created.
     */
-  if (session::global_is_set('LOCK_CACHE')) {
+  if (session::is_set('LOCK_CACHE')) {
     $cache = &session::global_get_ref('LOCK_CACHE');
     if (isset($cache['READ_ONLY'][$object])) {
       unset($cache['READ_ONLY'][$object]);

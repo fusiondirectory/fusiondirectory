@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 @DEBUG(DEBUG_SESSION, __LINE__, __FUNCTION__, __FILE__, $_SESSION, '_SESSION');
 
 /* Logged in? Simple security check */
-if (!session::global_is_set('connected')) {
+if (!session::is_set('connected')) {
   logging::log('security', 'login', '', [], 'main.php called without session - logging out');
   header('Location: index.php?message=nosession');
   exit;
@@ -84,7 +84,7 @@ if (session::global_get('_LAST_PAGE_REQUEST') != '') {
     }
   }
 }
-session::global_set('_LAST_PAGE_REQUEST', time());
+session::set('_LAST_PAGE_REQUEST', time());
 
 
 @DEBUG(DEBUG_CONFIG, __LINE__, __FUNCTION__, __FILE__, $config->data, "config");
@@ -98,7 +98,7 @@ Language::init();
 pluglist::load();
 
 /* Check previous plugin index */
-if (session::global_is_set('plugin_index')) {
+if (session::is_set('plugin_index')) {
   $old_plugin_index = session::global_get('plugin_index');
 } else {
   $old_plugin_index = '';
@@ -143,7 +143,7 @@ if (isset($_GET['plug']) && $plist->plugin_access_allowed($_GET['plug'])) {
   /* set to welcome page as default plugin */
   $plugin_index = 'welcome';
 }
-session::global_set('plugin_index', $plugin_index);
+session::set('plugin_index', $plugin_index);
 
 /* Handle plugin locks.
     - Remove the plugin from session if we switched to another. (cleanup)
@@ -201,17 +201,17 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST')
   && (isset($_POST['delete_lock']) || isset($_POST['open_readonly']))) {
 
   /* Set old Post data */
-  if (session::global_is_set('LOCK_VARS_USED_GET')) {
+  if (session::is_set('LOCK_VARS_USED_GET')) {
     foreach (session::global_get('LOCK_VARS_USED_GET') as $name => $value) {
       $_GET[$name]  = $value;
     }
   }
-  if (session::global_is_set('LOCK_VARS_USED_POST')) {
+  if (session::is_set('LOCK_VARS_USED_POST')) {
     foreach (session::global_get('LOCK_VARS_USED_POST') as $name => $value) {
       $_POST[$name] = $value;
     }
   }
-  if (session::global_is_set('LOCK_VARS_USED_REQUEST')) {
+  if (session::is_set('LOCK_VARS_USED_REQUEST')) {
     foreach (session::global_get('LOCK_VARS_USED_REQUEST') as $name => $value) {
       $_REQUEST[$name] = $value;
     }
@@ -262,6 +262,6 @@ $display  = $smarty->fetch(get_template_path('headers.tpl')).
 echo $display;
 
 /* Save plist and config */
-session::global_set('plist', $plist);
-session::global_set('config', $config);
+session::set('plist', $plist);
+session::set('config', $config);
 reset_errors();

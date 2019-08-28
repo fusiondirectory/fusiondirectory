@@ -40,7 +40,7 @@ header('X-Frame-Options: deny');
 session::start();
 
 if (isset($_REQUEST['signout']) && $_REQUEST['signout']) {
-  if (session::global_is_set('connected')) {
+  if (session::is_set('connected')) {
     $config = session::global_get('config');
     if ($config->get_cfg_value('casActivated') == 'TRUE') {
       require_once('CAS.php');
@@ -87,8 +87,8 @@ if (!is_readable(CONFIG_DIR.'/'.CONFIG_FILE)) {
 
 /* Parse configuration file */
 $config = new config(CONFIG_DIR.'/'.CONFIG_FILE, $BASE_DIR);
-session::global_set('config', $config);
-session::global_set('DEBUGLEVEL', $config->get_cfg_value('DEBUGLEVEL'));
+session::set('config', $config);
+session::set('DEBUGLEVEL', $config->get_cfg_value('DEBUGLEVEL'));
 @DEBUG(DEBUG_CONFIG, __LINE__, __FUNCTION__, __FILE__, $config->data, 'config');
 
 /* Set template compile directory */
@@ -124,7 +124,7 @@ if (
   ($config->get_cfg_value('httpAuthActivated') == 'TRUE') ||
   ($config->get_cfg_value('httpHeaderAuthActivated') == 'TRUE') ||
   in_array($config->get_cfg_value('LoginMethod'), ['LoginCas', 'LoginHTTPAuth', 'LoginHTTPHeader'])) {
-  session::global_set('DEBUGLEVEL', 0);
+  session::set('DEBUGLEVEL', 0);
 }
 
 /* If SSL is forced, just forward to the SSL enabled site */

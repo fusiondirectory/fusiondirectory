@@ -49,7 +49,7 @@ ini_set("session.gc_maxlifetime", 24 * 60 * 60);
 
 /* Start session */
 session::start();
-session::global_set('DEBUGLEVEL', 0);
+session::set('DEBUGLEVEL', 0);
 
 CSRFProtection::check();
 
@@ -74,7 +74,7 @@ if (isset($_POST['lang_selected']) && $_POST['lang_selected'] != '') {
   if (!preg_match('/utf(-)?8$/i', $lang)) {
     $lang .= '.UTF-8';
   }
-} elseif (session::global_is_set('lang')) {
+} elseif (session::is_set('lang')) {
   $lang = session::global_get('lang');
 
   /* Append .UTF-8 to language string if necessary */
@@ -91,9 +91,9 @@ $smarty->assign('lang', preg_replace('/_.*$/', '', $lang));
 $smarty->assign('rtl',  Language::isRTL($lang));
 
 /* Minimal config */
-if (!session::global_is_set('config')) {
+if (!session::is_set('config')) {
   $config = new config('');
-  session::global_set('config', $config);
+  session::set('config', $config);
 }
 $config = session::global_get('config');
 IconTheme::loadThemes('themes');

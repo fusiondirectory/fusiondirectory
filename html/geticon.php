@@ -28,7 +28,7 @@ session::start();
 reset_errors();
 
 $theme = '';
-if (session::global_is_set('config')) {
+if (session::is_set('config')) {
   $config = session::global_get('config');
   $theme  = $config->get_cfg_value('theme');
 } else {

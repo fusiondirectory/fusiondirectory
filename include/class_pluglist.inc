@@ -521,12 +521,12 @@ class pluglist
   static function load ()
   {
     global $config, $plist;
-    if (!session::global_is_set('plist')) {
+    if (!session::is_set('plist')) {
       /* Initially load all classes */
       load_all_classes();
 
       $plist = new pluglist();
-      session::global_set('plist', $plist);
+      session::set('plist', $plist);
       $config->loadPlist($plist);
       $config->resetDepartmentCache();
     } else {

@@ -130,7 +130,7 @@ class baseSelector
     }
 
     // Save bases to session for autocompletion
-    session::global_set('pathMapping', $this->pathMapping);
+    session::set('pathMapping', $this->pathMapping);
   }
 
   /*!
