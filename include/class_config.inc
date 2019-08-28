@@ -98,7 +98,7 @@ class config
     $tmp = stat(CACHE_DIR.'/'.CLASS_CACHE);
     if (session::is_set('class_location.inc:timestamp')) {
       if ($tmp['mtime'] != session::get('class_location.inc:timestamp')) {
-        session::global_un_set('plist');
+        session::un_set('plist');
       }
     }
     session::set('class_location.inc:timestamp', $tmp['mtime']);

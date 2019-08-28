@@ -98,7 +98,7 @@ class standAlonePage {
       Language::init();
 
       if (session::is_set('plist')) {
-        session::global_un_set('plist');
+        session::un_set('plist');
       }
       $ui = new fake_userinfo();
       load_plist();

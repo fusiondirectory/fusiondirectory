@@ -102,15 +102,11 @@ class session {
   }
 
   /*!
-   * \brief Delete a session
-   *
-   * \param string $name Name of the session to delete
+   * \brief Deprecated
    */
   public static function delete($name)
   {
-    if (isset($_SESSION[$name])) {
-      unset($_SESSION[$name]);
-    }
+    return static::un_set($name);
   }
 
   /*!
@@ -118,7 +114,7 @@ class session {
    */
   public static function global_delete($name)
   {
-    static::delete($name);
+    return static::un_set($name);
   }
 
   /*!
@@ -128,17 +124,17 @@ class session {
    */
   public static function un_set($name)
   {
-    return static::delete($name);
+    if (isset($_SESSION[$name])) {
+      unset($_SESSION[$name]);
+    }
   }
 
   /*!
-   * \brief Unset a session
-   *
-   * \param string $name Name of the session to delete
+   * \brief Deprecated
    */
   public static function global_un_set($name)
   {
-    return static::global_delete($name);
+    return static::un_set($name);
   }
 
   /*!

@@ -72,7 +72,7 @@ class Language
         if ($_SERVER['REQUEST_METHOD'] != 'POST') {
           @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, session::get('lang'), 'Plist already loaded with language');
         }
-        session::global_un_set('plist');
+        session::un_set('plist');
         session::set('lang', $lang);
         load_plist();
       }
