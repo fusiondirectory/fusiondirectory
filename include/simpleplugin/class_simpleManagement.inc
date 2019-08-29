@@ -632,7 +632,7 @@ class simpleManagement
   /*!
    * \brief  Generates the footer which is used whenever a tab object is displayed.
    */
-  protected function _getTabFooter()
+  protected function getTabFooter()
   {
     // Do not display tab footer for non tab objects
     if (!($this->tabObject instanceOf simpleTabs)) {
