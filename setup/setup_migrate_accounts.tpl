@@ -21,7 +21,42 @@
     {/if}
 
     {foreach from=$infos.entries item=entry key=key}
-      {if $entry.checked}
+      {if isset($entry.objects)}
+        <input type="checkbox" name="migrate_{$key}" id="migrate_{$key}"
+          {if $entry.checked}checked="checked"{/if} />
+        <label for="migrate_{$key}">{$entry.base}</label>
+        <ul>
+          {foreach from=$entry.objects item=object}
+            <li>{$object.dn}</li>
+            {if $entry.checked}
+              {if !empty($object.after)}
+                <div class="step2-entry-container-info">
+                  {t}Current{/t}
+                  <div style="padding-left:20px;">
+<pre>
+dn: {$object.dn}
+{$object.before}
+</pre>
+                  </div>
+                  {t}After migration{/t}
+                  <div style="padding-left:20px;">
+<pre>
+dn: {$object.dn}
+{$object.after}
+</pre>
+                  </div>
+                </div>
+              {elseif !empty($object.ldif)}
+                <div class="step2-entry-container-info">
+                  <div style="padding-left:20px;">
+                    <pre>{$object.ldif}</pre>
+                  </div>
+                </div>
+              {/if}
+            {/if}
+          {/foreach}
+        </ul>
+      {elseif $entry.checked}
         <input type="checkbox" name="migrate_{$key}" checked="checked" id="migrate_{$key}"/>
         <label for="migrate_{$key}">{$entry.dn}</label>
         {if !empty($entry.after)}
