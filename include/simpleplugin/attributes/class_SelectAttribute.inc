@@ -32,6 +32,11 @@ class SelectAttribute extends Attribute
   protected $outputs  = NULL;
   protected $size     = 1;
 
+  /*! \brief Valid values which should be hidden from rendered input
+   *
+   * Used by SetAttribute to hide used values */
+  protected $hiddenChoices;
+
   /*! \brief The constructor of SelectAttribute
    *
    *  \param string $label The label to show for this attribute
@@ -112,6 +117,11 @@ class SelectAttribute extends Attribute
     return $this->outputs;
   }
 
+  function setHiddenChoices (array $choices)
+  {
+    $this->hiddenChoices = $choices;
+  }
+
   function setRequired (bool $bool)
   {
     parent::setRequired($bool);
@@ -159,10 +169,17 @@ class SelectAttribute extends Attribute
   {
     $smarty         = get_smarty();
     $id             = $this->getHtmlId();
-    $smartyChoices  = $this->choices;
+    $smartyChoices  = array_values(array_diff($this->choices, $this->hiddenChoices));
     $currentValue   = $this->getValue();
+    if (in_array($currentValue, $this->hiddenChoices)) {
+      $currentValue = '';
+    }
     if ($this->outputs !== NULL) {
-      $smartyOutputs = array_values($this->outputs);
+      /* Make sure choices and outputs are in the same order */
+      $smartyOutputs = [];
+      foreach ($smartyChoices as $choice) {
+        $smartyOutputs[] = $this->outputs[$choice];
+      }
     } else {
       $smartyOutputs = $this->choices;
     }
