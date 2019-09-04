@@ -1168,6 +1168,7 @@ class setupStepMigrate extends setupStep
             $this->move($dn, $d_dn);
           }
         }
+        unset($object);
       }
     }
     unset($entry);
