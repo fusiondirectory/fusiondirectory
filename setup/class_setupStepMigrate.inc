@@ -547,7 +547,6 @@ class setupStepMigrate extends setupStep
         '(!(objectClass=inetOrgPerson))'.
         '(uid=*)'.
         '(!(uid=*$))'.
-        '(!(dc:dn:=addressbook))'.
       ')',
       ['objectClass','sn','givenName','cn','uid']
     );
@@ -1073,11 +1072,9 @@ class setupStepMigrate extends setupStep
         $object_base  = preg_replace('/^[^,]+,'.preg_quote($objects_ou, '/').'/i', '', $attrs['dn']);
         $base         = preg_replace('/^[^,]+,/', '', $attrs['dn']);
 
-        /* Check if entry is not an addressbook only object
-         *  and verify that he is in a valid department
+        /* Check if entry is in a valid department
          */
-        if (!preg_match('/dc=addressbook,/', $object_base) &&
-            !in_array($object_base, $config->getDepartmentList())) {
+        if (!in_array($object_base, $config->getDepartmentList())) {
           /* Build groupid depending on base and objectClasses */
           $groupid = md5($base.implode('', $attrs['objectClass']));
 
@@ -1243,7 +1240,6 @@ class setupStepMigrate extends setupStep
     /* Skip FusionDirectory internal departments */
     $skip_dns = [
       '/ou=fusiondirectory,'.preg_quote($config->current['BASE']).'$/',
-      '/dc=addressbook,/',
       '/^ou=systems,/',
       '/ou=snapshots,/'
     ];
