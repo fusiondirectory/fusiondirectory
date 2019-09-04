@@ -221,6 +221,9 @@ class SetAttribute extends Attribute
       return;
     }
     $this->handleEditingValue();
+    if ($this->valueUnicity && ($this->attribute instanceOf SelectAttribute)) {
+      $this->attribute->setHiddenChoices($this->getValue());
+    }
     if ($template) {
       return $this->attribute->renderTemplateInput();
     } else {
@@ -238,6 +241,9 @@ class SetAttribute extends Attribute
       if ($this->linearRendering || $readOnly) {
         parent::renderAttribute($attributes, $readOnly, $readable, $writable);
       } else {
+        if ($this->valueUnicity && ($this->attribute instanceOf SelectAttribute)) {
+          $this->attribute->setHiddenChoices($this->getValue());
+        }
         $attributes[$this->getLdapName()] = [
           'htmlid'        => $this->getForHtmlId(),
           'label'         => '{literal}'.$this->getLabel().'{/literal}',
