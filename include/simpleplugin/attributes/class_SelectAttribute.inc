@@ -35,7 +35,7 @@ class SelectAttribute extends Attribute
   /*! \brief Valid values which should be hidden from rendered input
    *
    * Used by SetAttribute to hide used values */
-  protected $hiddenChoices;
+  protected $hiddenChoices = [];
 
   /*! \brief The constructor of SelectAttribute
    *
