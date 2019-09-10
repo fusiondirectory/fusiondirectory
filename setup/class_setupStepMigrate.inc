@@ -1069,12 +1069,11 @@ class setupStepMigrate extends setupStep
       }
 
       while ($attrs = $ldap->fetch()) {
-        $object_base  = preg_replace('/^[^,]+,'.preg_quote($objects_ou, '/').'/i', '', $attrs['dn']);
+        $object_base  = preg_replace('/^[^,]+,'.preg_quote($objects_ou, '/').'/i', '', $attrs['dn'], 1, $pregCount);
         $base         = preg_replace('/^[^,]+,/', '', $attrs['dn']);
 
-        /* Check if entry is in a valid department
-         */
-        if (!in_array($object_base, $config->getDepartmentList())) {
+        /* Check if entry is in a valid department */
+        if (($pregCount === 0) || !in_array($object_base, $config->getDepartmentList())) {
           /* Build groupid depending on base and objectClasses */
           $groupid = md5($base.implode('', $attrs['objectClass']));
 
