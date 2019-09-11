@@ -96,7 +96,7 @@ class setupStepConfig extends configInLdap
 
   function save_object ()
   {
-    global $config;
+    global $config, $plist;
     parent::save_object();
     $this->is_completed = FALSE;
     $tmp = $this->check();
@@ -123,6 +123,10 @@ class setupStepConfig extends configInLdap
       $config->set_current($config->current['NAME']);
       session::un_set('plist');
       pluglist::load();
+      /* Insert default config values, even for installed plugin */
+      $config->loadPlist($plist);
+      $config->checkLdapConfig(TRUE);
+      /* Set as completed and reload step */
       $this->is_completed = TRUE;
       $this->parent->reBuildConfigStep(TRUE);
     }
