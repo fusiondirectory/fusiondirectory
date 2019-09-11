@@ -800,13 +800,6 @@ class config
     /* Walk through array */
     ksort($arr);
     foreach ($arr as $name => $entries) {
-
-      /* If this department is the last in the current tree position
-       * remove it, to avoid generating output for it */
-      if (count($entries['SUB']) == 0) {
-        unset($entries['SUB']);
-      }
-
       /* Fix name, if it contains a replace tag */
       $name = preg_replace('/\\\\,/', ',', $name);
 
@@ -825,7 +818,7 @@ class config
       }
 
       /* recursive add of subdepartments */
-      if (isset($entries['SUB'])) {
+      if (!empty($entries['SUB'])) {
         $ret = array_merge($ret, $this->generateDepartmentArray($entries['SUB'], $depth, $max_size));
       }
     }
