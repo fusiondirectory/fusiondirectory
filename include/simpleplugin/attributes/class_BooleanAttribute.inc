@@ -158,6 +158,44 @@ class BooleanAttribute extends Attribute
     }
     return $js;
   }
+
+  /*! \brief Apply value from RPC requests
+   *
+   *  \param mixed $value the value
+   */
+  function deserializeValue ($value)
+  {
+    if ($this->disabled) {
+      return sprintf(_('Attribute %s is disabled, its value could not be set'), $this->getLdapName());
+    }
+    if ($value === $this->trueValue) {
+      $this->setValue(TRUE);
+    } elseif ($value === $this->falseValue) {
+      $this->setValue(FALSE);
+    } elseif (is_bool($value)) {
+      $this->setValue($value);
+    } elseif ($value === 1) {
+      $this->setValue(TRUE);
+    } elseif ($value === 0) {
+      $this->setValue(FALSE);
+    } else {
+      return sprintf(_('"%s" is not a valid value for attribute "%s" should be "%s" or "%s"'), $value, $this->getLdapName(), $this->trueValue, $this->falseValue);
+    }
+
+    /* No error */
+    return '';
+  }
+
+  function serializeAttribute (array &$attributes, bool $form = TRUE)
+  {
+    if (!$form || $this->visible) {
+      parent::serializeAttribute($attributes, $form);
+      $attributes[$this->getLdapName()]['choices'] = [
+        $this->trueValue  => 'True',
+        $this->falseValue => 'False',
+      ];
+    }
+  }
 }
 
 /*! \brief This class allow to handle easily a Boolean LDAP attribute that triggers a set of objectclasses
