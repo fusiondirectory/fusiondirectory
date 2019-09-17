@@ -435,6 +435,14 @@ function add_lock ($object, $user)
   $ldap->cd(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
   $ldap->search('(&(objectClass=fdLockEntry)(fdUserDn='.ldap_escape_f($user).')(fdObjectDn='.base64_encode($object).'))',
       ['fdUserDn']);
+  if ($ldap->get_errno() == 32) {
+    /* No such object, means the locking branch is missing, create it */
+    $ldap->cd($config->current['BASE']);
+    $ldap->create_missing_trees(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
+    $ldap->cd(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
+    $ldap->search('(&(objectClass=fdLockEntry)(fdUserDn='.ldap_escape_f($user).')(fdObjectDn='.base64_encode($object).'))',
+      ['fdUserDn']);
+  }
   if (!$ldap->success()) {
     msg_dialog::display(_('Configuration error'), sprintf(_('Cannot create locking information in LDAP tree. Please contact your administrator!').'<br><br>'._('LDAP server returned: %s'), '<br><br><i>'.$ldap->get_error().'</i>'), ERROR_DIALOG);
     return;
