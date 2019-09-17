@@ -2077,6 +2077,11 @@ class simplePlugin implements SimpleTab
     $plProvidedAcls = [];
     foreach ($attributesInfo as $sectionInfo) {
       foreach ($sectionInfo['attrs'] as $attr) {
+        if ($attr->getLdapName() === 'base') {
+          /* If we handle base, we also handle LDAP operational attributes */
+          $plProvidedAcls['createTimestamp'] = _('The time the entry was added');
+          $plProvidedAcls['modifyTimestamp'] = _('The time the entry was last modified');
+        }
         $aclInfo = $attr->getAclInfo();
         if ($aclInfo !== FALSE) {
           $plProvidedAcls[$aclInfo['name']] = $aclInfo['desc'];
