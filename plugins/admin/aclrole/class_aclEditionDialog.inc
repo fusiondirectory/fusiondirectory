@@ -272,7 +272,6 @@ class ACLEditionDialog extends GenericDialog
     $cols     = 3;
     $tmp      = session::get('plist');
     $plist    = $tmp->info;
-    asort($plist);
 
     /* Add select all/none buttons */
     $style = 'style="width:100px;"';
@@ -305,7 +304,6 @@ class ACLEditionDialog extends GenericDialog
     $display .= '<input '.$style.' type="button" name="set_true_all_write"  onClick="acl_set_all(\'[^0]_w$\',true);"  value="W+"/>';
     $display .= '<input '.$style.' type="button" name="set_false_all_write" onClick="acl_set_all(\'[^0]_w$\',false);" value="W-"/>';
 
-    $list = acl::sort_by_priority($list);
     foreach ($list as $key => $name) {
       /* Create sub acl if it does not exist */
       if (!isset($this->aclContents[$key])) {

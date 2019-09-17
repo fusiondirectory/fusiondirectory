@@ -161,6 +161,10 @@ class pluglist
         if (isset($infos['plFilter'])) {
           $infos['plFilterObject'] = ldapFilter::parse($infos['plFilter']);
         }
+        if (isset($infos['plObjectType']) && !isset($infos['plPriority']) && !is_numeric(key($infos['plObjectType']))) {
+          /* Set main tab priority to 0 */
+          $infos['plPriority'] = 0;
+        }
         $infos['plForeignRefs']         = [];
         $infos['INDEX']                 = $index;
         $this->info[$cname]             = $infos;

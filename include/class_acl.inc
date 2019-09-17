@@ -47,30 +47,6 @@ class acl
   }
 
   /*!
-   *  \brief Function sort an array by elements priority
-   *
-   *  \param Array $list Array to be sorted
-   */
-  static function sort_by_priority ($list)
-  {
-    uksort($list,
-      function ($a, $b)
-      {
-        $infos_a = pluglist::pluginInfos(preg_replace('|^[^/]*/|', '', $a));
-        $infos_b = pluglist::pluginInfos(preg_replace('|^[^/]*/|', '', $b));
-        $pa = (isset($infos_a['plPriority']) ? $infos_a['plPriority'] : 0);
-        $pb = (isset($infos_b['plPriority']) ? $infos_b['plPriority'] : 0);
-        if ($pa == $pb) {
-          return 0;
-        }
-        return ($pa < $pb ? -1 : 1);
-      }
-    );
-
-    return $list;
-  }
-
-  /*!
    * \brief Explode a role
    *
    * \param string $role ACL role to be exploded
