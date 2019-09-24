@@ -52,33 +52,6 @@ class setupStepFinish extends setupStep
     return $smarty->fetch(CONFIG_TEMPLATE_DIR.CONFIG_FILE);
   }
 
-  function insertConfigDefaults ()
-  {
-    /* Insert default config values, even for installed plugin */
-    global $config, $ui, $plist, $BASE_DIR;
-    $cv = $this->parent->captured_values;
-
-    /* Create config object */
-
-    $config = new config(CONFIG_DIR."/".CONFIG_FILE, $BASE_DIR);
-    $config->set_current($config->data['MAIN']['DEFAULT']);
-
-    /* Create ui object */
-
-    /* got user dn, fill acl's */
-    $ui = new userinfo($cv['valid_admin']);
-    /* Username is set, load subtreeACL's now */
-    $ui->loadACL();
-
-    /* We need the pluglist object */
-    load_all_classes();
-    $plist = new pluglist();
-
-    /* Now we can save LDAP config */
-    $config->loadPlist($plist);
-    $config->checkLdapConfig(TRUE);
-  }
-
   function execute (): string
   {
     /* Check if there is currently an active fusiondirectory.conf */
@@ -108,7 +81,6 @@ class setupStepFinish extends setupStep
      *   - Permisssion are set correctly
      */
     if (isset($_POST['next']) && $exists && !$this->is_world_readable(CONFIG_DIR.'/'.CONFIG_FILE)) {
-      $this->insertConfigDefaults();
       session::destroy();
       header('Location: index.php');
       exit();
