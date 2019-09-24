@@ -2071,22 +2071,27 @@ class simplePlugin implements SimpleTab
   /*! \brief This function generate the needed ACLs for a given attribtues array
    *
    *  \param array $attributesInfo the attribute array
+   *
+   *  \param bool? $operationalAttributes Whether to add ACLs for operational attributes. Use NULL for autodetection (default)
    */
-  static function generatePlProvidedAcls (array $attributesInfo): array
+  static function generatePlProvidedAcls (array $attributesInfo, bool $operationalAttributes = NULL): array
   {
     $plProvidedAcls = [];
     foreach ($attributesInfo as $sectionInfo) {
       foreach ($sectionInfo['attrs'] as $attr) {
-        if ($attr->getLdapName() === 'base') {
+        if (($attr->getLdapName() === 'base') && ($operationalAttributes === NULL)) {
           /* If we handle base, we also handle LDAP operational attributes */
-          $plProvidedAcls['createTimestamp'] = _('The time the entry was added');
-          $plProvidedAcls['modifyTimestamp'] = _('The time the entry was last modified');
+          $operationalAttributes = TRUE;
         }
         $aclInfo = $attr->getAclInfo();
         if ($aclInfo !== FALSE) {
           $plProvidedAcls[$aclInfo['name']] = $aclInfo['desc'];
         }
       }
+    }
+    if ($operationalAttributes) {
+      $plProvidedAcls['createTimestamp'] = _('The time the entry was added');
+      $plProvidedAcls['modifyTimestamp'] = _('The time the entry was last modified');
     }
 
     return $plProvidedAcls;
