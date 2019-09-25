@@ -107,7 +107,7 @@ class simpleService extends simplePlugin
     $this->status = $value;
   }
 
-  static function generatePlProvidedAcls (array $attributesInfo): array
+  static function generatePlProvidedAcls (array $attributesInfo, bool $operationalAttributes = NULL): array
   {
     $acls = parent::generatePlProvidedAcls($attributesInfo);
     if (static::$showActions) {
