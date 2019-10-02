@@ -53,8 +53,7 @@ class userinfo
   var $result_cache = [];
   var $ignoreACL    = FALSE;
 
-  var $ACLperPath             = [];
-  var $ACLperPath_usesFilter  = [];
+  var $ACLperPath   = [];
 
   /*! \brief LDAP size limit handler */
   protected $sizeLimitHandler;
@@ -263,15 +262,9 @@ class userinfo
           $all_acl[$sdn][$dn]           = $this->ACL[$dn];
           $without_self_acl[$sdn][$dn]  = $this->ACL[$dn];
           foreach ($without_self_acl[$sdn][$dn] as $acl_id => $acl_set) {
-
-            /* Remember which ACL set has special user filter */
-            if (!empty($acl_set['filter'])) {
-              $this->ACLperPath_usesFilter[$sdn] = TRUE;
-            }
-
             /* Remove all acl entries which are especially for the current user (self acl) */
             foreach ($acl_set['acl'] as $object => $object_acls) {
-              if (isset($object_acls[0]) && (strpos($object_acls[0], "s") !== FALSE)) {
+              if (isset($object_acls[0]) && (strpos($object_acls[0], 's') !== FALSE)) {
                 unset($without_self_acl[$sdn][$dn][$acl_id]['acl'][$object]);
                 if (empty($without_self_acl[$sdn][$dn][$acl_id]['acl'])) {
                   unset($without_self_acl[$sdn][$dn][$acl_id]);
@@ -497,18 +490,16 @@ class userinfo
         we can skip the per object ACL checks.
      */
     $orig_dn = $dn;
-    if (!isset($this->ACLperPath_usesFilter[$adn])) {
-      $dn = $adn;
-      if (isset($ACL_CACHE["$dn+$object+$attribute"])) {
-        $ret = $ACL_CACHE["$dn+$object+$attribute"];
-        if (!isset($ACL_CACHE["$orig_dn+$object+$attribute"])) {
-          $ACL_CACHE["$orig_dn+$object+$attribute"] = $ret;
-        }
-        if ($skip_write) {
-          $ret = str_replace(['w','c','d','m'], '', $ret);
-        }
-        return $ret;
+    $dn = $adn;
+    if (isset($ACL_CACHE["$dn+$object+$attribute"])) {
+      $ret = $ACL_CACHE["$dn+$object+$attribute"];
+      if (!isset($ACL_CACHE["$orig_dn+$object+$attribute"])) {
+        $ACL_CACHE["$orig_dn+$object+$attribute"] = $ret;
       }
+      if ($skip_write) {
+        $ret = str_replace(['w','c','d','m'], '', $ret);
+      }
+      return $ret;
     }
 
     /* Get ldap object, for later filter checks */
