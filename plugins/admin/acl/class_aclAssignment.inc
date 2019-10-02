@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2013-2016  FusionDirectory
+  Copyright (C) 2013-2019  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -55,7 +55,16 @@ class aclAssignmentDialogWindow extends simplePlugin
           new UsersGroupsRolesAttribute(
             _('Members'), _('Users or groups to assign this role to.'),
             'aclMembers', TRUE
-          )
+          ),
+        ]
+      ],
+      'advanced' => [
+        'name'  => _('Advanced'),
+        'attrs' => [
+          new StringAttribute(
+            _('Restrict users with filter'), _('LDAP filter which a member must match to actually get the rights'),
+            'aclUserFilter', FALSE
+          ),
         ]
       ],
     ];
@@ -89,6 +98,7 @@ class aclAssignmentDialogWindow extends simplePlugin
       if ($value['members'][0] == '*') {
         $this->allUsers = TRUE;
       }
+      $this->aclUserFilter = $value['userfilter'];
     }
   }
 
@@ -110,9 +120,10 @@ class aclAssignmentDialogWindow extends simplePlugin
   function getAclEntry ()
   {
     $entry = [
-      'scope'   => $this->aclMode,
-      'role'    => $this->aclRole,
-      'members' => $this->aclMembers,
+      'scope'       => $this->aclMode,
+      'role'        => $this->aclRole,
+      'members'     => $this->aclMembers,
+      'userfilter'  => $this->aclUserFilter,
     ];
     if ($this->allUsers) {
       $entry['members'] = ['*'];
@@ -197,15 +208,20 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
   {
     $acl = explode(':', $value);
     return [$acl[0], [
-      'scope'   => $acl[1],
-      'role'    => base64_decode($acl[2]),
-      'members' => array_map('base64_decode', explode(',', $acl[3])),
+      'scope'       => $acl[1],
+      'role'        => base64_decode($acl[2]),
+      'members'     => array_map('base64_decode', explode(',', $acl[3])),
+      'userfilter'  => (isset($acl[4]) ? base64_decode($acl[4]) : ''),
     ]];
   }
 
   function writeValue ($key, $value)
   {
-    return $key.':'.$value['scope'].':'.base64_encode($value['role']).':'.join(',', array_map('base64_encode', $value['members']));
+    return $key.
+            ':'.$value['scope'].
+            ':'.base64_encode($value['role']).
+            ':'.join(',', array_map('base64_encode', $value['members'])).
+            ':'.base64_encode($value['userfilter']);
   }
 
   function foreignKeyUpdate ($oldvalue, $newvalue, array $source)
