@@ -489,8 +489,8 @@ class userinfo
     /* If we do not need to respect any user-filter settings
         we can skip the per object ACL checks.
      */
-    $orig_dn = $dn;
-    $dn = $adn;
+    $orig_dn  = $dn;
+    $dn       = $adn;
     if (isset($ACL_CACHE["$dn+$object+$attribute"])) {
       $ret = $ACL_CACHE["$dn+$object+$attribute"];
       if (!isset($ACL_CACHE["$orig_dn+$object+$attribute"])) {
