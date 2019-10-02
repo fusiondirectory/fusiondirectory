@@ -163,13 +163,13 @@ class userinfo
 
       /* Insert links in ACL array */
       $aclp[$attrs['dn']] = substr_count($attrs['dn'], ',');
-      $aclc[$attrs['dn']] = [];
       $ol = [];
       for ($i = 0; $i < $attrs['gosaAclEntry']['count']; $i++) {
         $ol = array_merge($ol, acl::explodeAcl($attrs['gosaAclEntry'][$i]));
       }
       $aclc[$attrs['dn']] = $ol;
     }
+
 
     /* Resolve roles here */
     foreach ($aclc as $dn => $data) {
@@ -200,37 +200,39 @@ class userinfo
     foreach ($aclp as $dn => $acl) {
       /* Check if we need to keep this ACL */
       foreach ($aclc[$dn] as $idx => $type) {
-        $interresting = FALSE;
+        $interesting = FALSE;
 
         /* No members? This ACL rule is deactivated ... */
-        if (!count($type['members'])) {
-          $interresting = FALSE;
-        } else {
+        if (count($type['members'])) {
           /* Inspect members... */
           foreach (array_keys($type['members']) as $grp) {
             /* Some group inside the members that is relevant for us? */
             if (in_array_ics(preg_replace('/^G:/', '', $grp), $this->groups)) {
-              $interresting = TRUE;
+              $interesting = TRUE;
+              break;
             }
 
             /* Some role inside the members that is relevant for us? */
             if (in_array_ics(preg_replace('/^R:/', '', $grp), $this->roles)) {
-              $interresting = TRUE;
+              $interesting = TRUE;
+              break;
             }
 
             /* User inside the members? */
             if (mb_strtoupper(preg_replace('/^U:/', '', $grp)) == mb_strtoupper($this->dn)) {
-              $interresting = TRUE;
+              $interesting = TRUE;
+              break;
             }
 
             /* Wildcard? */
             if (preg_match('/^G:\*/',  $grp)) {
-              $interresting = TRUE;
+              $interesting = TRUE;
+              break;
             }
           }
         }
 
-        if ($interresting) {
+        if ($interesting) {
           if (!isset($this->ACL[$dn])) {
             $this->ACL[$dn] = [];
           }
@@ -250,8 +252,8 @@ class userinfo
       .                        ['ou=base']          = array(ACLs);
 
 
-      For object located in 'ou=dep1,ou=base' we have to both ACLs,
-       for objects in 'ou=base' we only have to apply on ACL.
+      For objects located in 'ou=dep1,ou=base' we have to apply both ACLs,
+       for objects in 'ou=base' we only have to apply one ACL.
      */
     $without_self_acl = $all_acl = [];
     foreach ($this->ACL as $dn => $acl) {
@@ -262,8 +264,8 @@ class userinfo
           $without_self_acl[$sdn][$dn]  = $this->ACL[$dn];
           foreach ($without_self_acl[$sdn][$dn] as $acl_id => $acl_set) {
 
-            /* Remember which ACL set has speicial user filter */
-            if (isset($acl_set['filter']{1})) {
+            /* Remember which ACL set has special user filter */
+            if (!empty($acl_set['filter'])) {
               $this->ACLperPath_usesFilter[$sdn] = TRUE;
             }
 
@@ -271,6 +273,9 @@ class userinfo
             foreach ($acl_set['acl'] as $object => $object_acls) {
               if (isset($object_acls[0]) && (strpos($object_acls[0], "s") !== FALSE)) {
                 unset($without_self_acl[$sdn][$dn][$acl_id]['acl'][$object]);
+                if (empty($without_self_acl[$sdn][$dn][$acl_id]['acl'])) {
+                  unset($without_self_acl[$sdn][$dn][$acl_id]);
+                }
               }
             }
           }
@@ -544,7 +549,7 @@ class userinfo
           }
 
           /* With user filter */
-          if (isset($subacl['filter']) && !empty($subacl['filter'])) {
+          if (!empty($subacl['filter'])) {
             $id = $dn."-".$subacl['filter'];
             if (!isset($ACL_CACHE['FILTER'][$id])) {
               $ACL_CACHE['FILTER'][$id] = $ldap->object_match_filter($dn, $subacl['filter']);
