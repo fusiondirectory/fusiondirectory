@@ -74,20 +74,29 @@ class acl
   static function explodeACL ($acl)
   {
     $list = explode(':', $acl);
-    if (count($list) == 5) {
-      list($index, $type, $role, $members, $filter) = $list;
-      $filter = base64_decode($filter);
+    if (count($list) == 6) {
+      list($index, $type, $role, $members, $userfilter, $targetfilter) = $list;
+      $userfilter   = base64_decode($userfilter);
+      $targetfilter = base64_decode($targetfilter);
+    } elseif (count($list) == 5) {
+      list($index, $type, $role, $members, $userfilter) = $list;
+      $userfilter   = base64_decode($userfilter);
+      $targetfilter = '';
     } else {
-      $filter = "";
       list($index, $type, $role, $members) = $list;
+      $userfilter   = '';
+      $targetfilter = '';
     }
 
-    $a = [ $index => [
-      'type'    => $type,
-      'filter'  => $filter,
-      'members' => acl::extractMembers($members),
-      'acl'     => base64_decode($role),
-    ]];
+    $a = [
+      $index => [
+        'type'          => $type,
+        'userfilter'    => $userfilter,
+        'targetfilter'  => $targetfilter,
+        'members'       => acl::extractMembers($members),
+        'acl'           => base64_decode($role),
+      ]
+    ];
 
     /* Handle unknown types */
     if (!in_array($type, ['subtree', 'base'])) {
@@ -104,7 +113,7 @@ class acl
    *
    * \return an array with members
    */
-  static function extractMembers ($ms)
+  static function extractMembers (string $ms)
   {
     global $config;
     $a = [];
@@ -158,7 +167,7 @@ class acl
    *
    * \param string $acl The acl to be extracted
    */
-  static function extractACL ($acl)
+  static function extractACL (string $acl)
   {
     /* Rip acl off the string, seperate by ',' and place it in an array */
     $as = preg_replace('/^[^:]+:[^:]+:[^:]*:([^:]*).*$/', '\1', $acl);
