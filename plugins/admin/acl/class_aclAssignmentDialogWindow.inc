@@ -65,6 +65,10 @@ class aclAssignmentDialogWindow extends simplePlugin
             _('Restrict users with filter'), _('LDAP filter which a member must match to actually get the rights'),
             'aclUserFilter', FALSE
           ),
+          new StringAttribute(
+            _('Restrict targets with filter'), _('LDAP filter which a dn must match to actually be concerned. May use %dn% mask for user dn. Example: (manager=%dn%).'),
+            'aclTargetFilter', FALSE
+          ),
         ]
       ],
     ];
@@ -98,7 +102,8 @@ class aclAssignmentDialogWindow extends simplePlugin
       if ($value['members'][0] == '*') {
         $this->allUsers = TRUE;
       }
-      $this->aclUserFilter = $value['userfilter'];
+      $this->aclUserFilter    = $value['userfilter'];
+      $this->aclTargetFilter  = $value['targetfilter'];
     }
   }
 
@@ -120,10 +125,11 @@ class aclAssignmentDialogWindow extends simplePlugin
   function getAclEntry ()
   {
     $entry = [
-      'scope'       => $this->aclMode,
-      'role'        => $this->aclRole,
-      'members'     => $this->aclMembers,
-      'userfilter'  => $this->aclUserFilter,
+      'scope'         => $this->aclMode,
+      'role'          => $this->aclRole,
+      'members'       => $this->aclMembers,
+      'userfilter'    => $this->aclUserFilter,
+      'targetfilter'  => $this->aclTargetFilter,
     ];
     if ($this->allUsers) {
       $entry['members'] = ['*'];

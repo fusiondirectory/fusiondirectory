@@ -41,10 +41,11 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
   {
     $acl = explode(':', $value);
     return [$acl[0], [
-      'scope'       => $acl[1],
-      'role'        => base64_decode($acl[2]),
-      'members'     => array_map('base64_decode', explode(',', $acl[3])),
-      'userfilter'  => (isset($acl[4]) ? base64_decode($acl[4]) : ''),
+      'scope'         => $acl[1],
+      'role'          => base64_decode($acl[2]),
+      'members'       => array_map('base64_decode', explode(',', $acl[3])),
+      'userfilter'    => (isset($acl[4]) ? base64_decode($acl[4]) : ''),
+      'targetfilter'  => (isset($acl[5]) ? base64_decode($acl[5]) : ''),
     ]];
   }
 
@@ -54,7 +55,8 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
             ':'.$value['scope'].
             ':'.base64_encode($value['role']).
             ':'.join(',', array_map('base64_encode', $value['members'])).
-            ':'.base64_encode($value['userfilter']);
+            ':'.base64_encode($value['userfilter']).
+            ':'.base64_encode($value['targetfilter']);
   }
 
   function foreignKeyUpdate ($oldvalue, $newvalue, array $source)

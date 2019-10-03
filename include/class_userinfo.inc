@@ -46,14 +46,16 @@ class userinfo
   var $givenName    = '';
   var $gidNumber    = -1;
   var $language     = "";
-  var $subtreeACL   = [];
-  var $ACL          = [];
   var $groups       = [];
   var $roles        = [];
-  var $result_cache = [];
-  var $ignoreACL    = FALSE;
 
-  var $ACLperPath   = [];
+  /*! \brief LDAP attributes of this user at login */
+  protected $cachedAttrs  = [];
+
+  protected $result_cache = [];
+  protected $ignoreACL    = FALSE;
+  protected $ACL          = [];
+  protected $ACLperPath   = [];
 
   /*! \brief LDAP size limit handler */
   protected $sizeLimitHandler;
@@ -64,8 +66,6 @@ class userinfo
   /*! \brief Password change should be forced */
   protected $forcePasswordChange = FALSE;
 
-  /* get acl's an put them into the userinfo object
-     attr subtreeACL (userdn:components, userdn:component1#sub1#sub2,component2,...) */
   function __construct ($userdn)
   {
     global $config;
@@ -85,7 +85,7 @@ class userinfo
   {
     global $config;
     $ldap = $config->get_ldap_link();
-    $ldap->cat($this->dn, ['cn', 'sn', 'givenName', 'uid', 'gidNumber', 'preferredLanguage']);
+    $ldap->cat($this->dn, ['*']);
     $attrs = $ldap->fetch();
 
     $this->uid = $attrs['uid'][0];
@@ -111,6 +111,8 @@ class userinfo
     if (isset($attrs['preferredLanguage'][0])) {
       $this->language = $attrs['preferredLanguage'][0];
     }
+
+    $this->cachedAttrs = $attrs;
   }
 
   /*!
@@ -155,88 +157,117 @@ class userinfo
     }
 
     /* Crawl through ACLs and move relevant to the tree */
-    $ldap->search("(objectClass=gosaACL)", ['dn', 'gosaAclEntry']);
-    $aclp = [];
-    $aclc = [];
+    $ldap->search('(objectClass=gosaACL)', ['dn', 'gosaAclEntry']);
+    $ACLsContent = [];
     while ($attrs = $ldap->fetch()) {
 
       /* Insert links in ACL array */
-      $aclp[$attrs['dn']] = substr_count($attrs['dn'], ',');
-      $ol = [];
+      $mergedAcls = [];
       for ($i = 0; $i < $attrs['gosaAclEntry']['count']; $i++) {
-        $ol = array_merge($ol, acl::explodeAcl($attrs['gosaAclEntry'][$i]));
+        $mergedAcls = array_merge($mergedAcls, acl::explodeACL($attrs['gosaAclEntry'][$i]));
       }
-      $aclc[$attrs['dn']] = $ol;
+      $ACLsContent[$attrs['dn']] = $mergedAcls;
     }
 
+    $ACLsContentResolved = [];
 
     /* Resolve roles here */
-    foreach ($aclc as $dn => $data) {
-      foreach ($data as $prio => $aclc_value) {
-        unset($aclc[$dn][$prio]);
-
-        $ldap->cat($aclc_value['acl'], ["gosaAclTemplate"]);
+    foreach ($ACLsContent as $dn => $ACLRules) {
+      foreach ($ACLRules as $ACLRule) {
+        $ldap->cat($ACLRule['acl'], ['gosaAclTemplate']);
         $attrs = $ldap->fetch();
 
-        if (isset($attrs['gosaAclTemplate'])) {
-          $roleAcls = acl::explodeRole($attrs['gosaAclTemplate']);
-          foreach ($roleAcls as $roleAcl) {
-            $aclc[$dn][]  = [
-              'acl'     => $roleAcl,
-              'type'    => $aclc_value['type'],
-              'members' => $aclc_value['members'],
-              'filter'  => $aclc_value['filter']
+        if (!isset($attrs['gosaAclTemplate'])) {
+          continue;
+        }
+
+        $interesting = FALSE;
+
+        /* Inspect members... */
+        foreach (array_keys($ACLRule['members']) as $member) {
+          /* Wildcard? */
+          if ($member === 'G:*') {
+            $interesting = TRUE;
+            break;
+          }
+
+          list($memberType, $memberDn) = explode(':', $member, 2);
+          switch ($memberType) {
+            case 'G':
+              if (in_array_ics($memberDn, $this->groups)) {
+                $interesting = TRUE;
+                break 2;
+              }
+              break;
+            case 'R':
+              if (in_array_ics($memberDn, $this->roles)) {
+                $interesting = TRUE;
+                break 2;
+              }
+              break;
+            case 'U':
+              if (mb_strtolower($memberDn) === mb_strtolower($this->dn)) {
+                $interesting = TRUE;
+                break 2;
+              }
+              break;
+            default:
+              throw FusionDirectoryException('Unknown ACL member type '.$memberType);
+          }
+        }
+
+        if (!$interesting) {
+          continue;
+        }
+
+        if (!empty($ACLRule['userfilter'])) {
+          /* Check if we match the user filter */
+          if (!$ldap->object_match_filter($this->dn, $ACLRule['userfilter'])) {
+            continue;
+          }
+        }
+
+        if (!empty($ACLRule['targetfilter'])) {
+          $ldap->cd($dn);
+          $targetFilter = templateHandling::parseString($ACLRule['targetfilter'], $this->cachedAttrs, 'ldap_escape_f');
+          $ldap->search($targetFilter, ['dn']);
+          $targetDns = [];
+          while ($targetAttrs = $ldap->fetch()) {
+            $targetDns[] = $targetAttrs['dn'];
+          }
+        } else {
+          $targetDns = [$dn];
+        }
+
+        $roleAcls = acl::explodeRole($attrs['gosaAclTemplate']);
+        foreach ($roleAcls as $roleAcl) {
+          foreach ($targetDns as $targetDn) {
+            $ACLsContentResolved[$targetDn][]  = [
+              'acl'           => $roleAcl,
+              'type'          => $ACLRule['type'],
+              'members'       => $ACLRule['members'],
             ];
           }
         }
       }
     }
 
-    /* ACL's read, sort for tree depth */
-    asort($aclp);
+    /* Sort by tree depth */
+    uksort(
+      $ACLsContentResolved,
+      function ($dn1, $dn2)
+      {
+        return substr_count($dn1, ',') <=> substr_count($dn2, ',');
+      }
+    );
 
-    /* Sort in tree order */
-    foreach ($aclp as $dn => $acl) {
-      /* Check if we need to keep this ACL */
-      foreach ($aclc[$dn] as $idx => $type) {
-        $interesting = FALSE;
-
-        /* No members? This ACL rule is deactivated ... */
-        if (count($type['members'])) {
-          /* Inspect members... */
-          foreach (array_keys($type['members']) as $grp) {
-            /* Some group inside the members that is relevant for us? */
-            if (in_array_ics(preg_replace('/^G:/', '', $grp), $this->groups)) {
-              $interesting = TRUE;
-              break;
-            }
-
-            /* Some role inside the members that is relevant for us? */
-            if (in_array_ics(preg_replace('/^R:/', '', $grp), $this->roles)) {
-              $interesting = TRUE;
-              break;
-            }
-
-            /* User inside the members? */
-            if (mb_strtoupper(preg_replace('/^U:/', '', $grp)) == mb_strtoupper($this->dn)) {
-              $interesting = TRUE;
-              break;
-            }
-
-            /* Wildcard? */
-            if (preg_match('/^G:\*/',  $grp)) {
-              $interesting = TRUE;
-              break;
-            }
-          }
+    /* Insert in $this->ACL */
+    foreach ($ACLsContentResolved as $dn => $ACLRules) {
+      foreach ($ACLRules as $idx => $ACLRule) {
+        if (!isset($this->ACL[$dn])) {
+          $this->ACL[$dn] = [];
         }
-
-        if ($interesting) {
-          if (!isset($this->ACL[$dn])) {
-            $this->ACL[$dn] = [];
-          }
-          $this->ACL[$dn][$idx] = $type;
-        }
+        $this->ACL[$dn][$idx] = $ACLRule;
       }
     }
 
@@ -539,17 +570,6 @@ class userinfo
             continue;
           }
 
-          /* With user filter */
-          if (!empty($subacl['filter'])) {
-            $id = $dn."-".$subacl['filter'];
-            if (!isset($ACL_CACHE['FILTER'][$id])) {
-              $ACL_CACHE['FILTER'][$id] = $ldap->object_match_filter($dn, $subacl['filter']);
-            }
-            if (!$ACL_CACHE['FILTER'][$id]) {
-              continue;
-            }
-          }
-
           /* Self ACLs? */
           if (($dn != $this->dn) && isset($subacl['acl'][$object][0]) && (strpos($subacl['acl'][$object][0], "s") !== FALSE)) {
             continue;
@@ -747,7 +767,7 @@ class userinfo
    *
    * \param $newACL The new ACL
    */
-  function mergeACL ($acl, $type, $newACL)
+  function mergeACL (array $acl, $type, $newACL)
   {
     $at = ["subtree" => "s", "one" => "1"];
 
@@ -1240,7 +1260,7 @@ class userinfo
       }
     }
 
-    /* Username is set, load subtreeACL's now */
+    /* Username is set, load ACLs now */
     $ui->loadACL();
 
     return $ui;
