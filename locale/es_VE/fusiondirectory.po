@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2019-06-27 14:00+0000\n"
+"POT-Creation-Date: 2019-10-01 16:03+0000\n"
 "PO-Revision-Date: 2016-08-29 14:52+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>, 2018\n"
 "Language-Team: Spanish (Venezuela) (https://www.transifex.com/fusiondirectory/teams/12202/es_VE/)\n"
@@ -350,9 +350,7 @@ msgstr "Nombre de la plantilla"
 #: include/functions.inc:584 include/functions.inc:705
 #: include/functions.inc:1683 include/functions.inc:1722
 #: include/functions.inc:1753 include/class_acl.inc:118
-#: include/class_session.inc:50 include/class_session.inc:88
-#: include/class_session.inc:127 include/class_ldap.inc:797
-#: include/class_ldap.inc:822
+#: include/class_ldap.inc:797 include/class_ldap.inc:822
 msgid "Internal error"
 msgstr "error interno"
 
@@ -667,12 +665,12 @@ msgstr "Inicio"
 
 #: include/class_CopyPasteHandler.inc:206
 #: include/simpleplugin/class_simpleTabs.inc:316
-#: include/simpleplugin/class_simpleManagement.inc:1041
-#: include/simpleplugin/class_simpleManagement.inc:1138
-#: include/simpleplugin/class_simpleManagement.inc:1187
-#: include/simpleplugin/class_simpleManagement.inc:1267
-#: include/simpleplugin/class_simpleManagement.inc:1285
-#: include/simpleplugin/class_simpleManagement.inc:1329
+#: include/simpleplugin/class_simpleManagement.inc:1042
+#: include/simpleplugin/class_simpleManagement.inc:1139
+#: include/simpleplugin/class_simpleManagement.inc:1188
+#: include/simpleplugin/class_simpleManagement.inc:1268
+#: include/simpleplugin/class_simpleManagement.inc:1286
+#: include/simpleplugin/class_simpleManagement.inc:1330
 #: plugins/admin/users/class_userManagement.inc:153
 msgid "Permission"
 msgstr "Permisos"
@@ -1713,23 +1711,23 @@ msgstr "Error del filtro"
 msgid "The filter is incomplete!"
 msgstr "¡El filtro está incompleto!"
 
-#: include/simpleplugin/class_simpleManagement.inc:1106
+#: include/simpleplugin/class_simpleManagement.inc:1107
 msgid "Permission error"
 msgstr "Error de permisos"
 
-#: include/simpleplugin/class_simpleManagement.inc:1138
+#: include/simpleplugin/class_simpleManagement.inc:1139
 #, php-format
 msgid "You are not allowed to create a snapshot for %s."
 msgstr "No tiene permisos para crear una instantanea para %s."
 
-#: include/simpleplugin/class_simpleManagement.inc:1187
-#: include/simpleplugin/class_simpleManagement.inc:1267
-#: include/simpleplugin/class_simpleManagement.inc:1285
+#: include/simpleplugin/class_simpleManagement.inc:1188
+#: include/simpleplugin/class_simpleManagement.inc:1268
+#: include/simpleplugin/class_simpleManagement.inc:1286
 #, php-format
 msgid "You are not allowed to restore a snapshot for %s."
 msgstr "No tiene permisos para recuperar una instantanea para %s."
 
-#: include/simpleplugin/class_simpleManagement.inc:1329
+#: include/simpleplugin/class_simpleManagement.inc:1330
 #, php-format
 msgid "You are not allowed to delete a snapshot for %s."
 msgstr ""
@@ -1774,12 +1772,6 @@ msgstr "¡Entrada desconocida '%s'!"
 #, php-format
 msgid "All users"
 msgstr "Todos los usuarios"
-
-#: include/class_session.inc:50 include/class_session.inc:88
-#: include/class_session.inc:127
-msgid "Requested channel does not exist! Please contact your Administrator."
-msgstr ""
-"¡El canal requerido no existe!. Por favor  contacte con su Administrador."
 
 #: include/class_ldap.inc:277
 msgid "Performance warning"
