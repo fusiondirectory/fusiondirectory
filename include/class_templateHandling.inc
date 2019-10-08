@@ -118,7 +118,7 @@ class templateHandling
   }
 
   /*! \brief Parse a mask (without surrounding %) using $attrs attributes, apply modifiers and returns an array containing possible results */
-  public static function parseMask ($mask, array $attrs)
+  public static function parseMask (string $mask, array $attrs): array
   {
     if ($mask == '|') {
       return ['%'];
@@ -137,7 +137,7 @@ class templateHandling
         $result = [$result];
       }
     } elseif (($mask != '') && !preg_match('/c/', $modifiers)) {
-      trigger_error("'$mask' was not found in attributes");
+      throw new FusionDirectoryException(sprintf(_('"%s" was not found in attributes'), $mask));
     }
     $len    = strlen($modifiers);
     for ($i = 0; $i < $len; ++$i) {
@@ -211,7 +211,7 @@ class templateHandling
    *
    * \return string the string with patterns replaced by their values
    */
-  public static function parseString ($string, array $attrs, $escapeMethod = NULL, $unique = NULL, $target = NULL)
+  public static function parseString (string $string, array $attrs, $escapeMethod = NULL, string $unique = NULL, string $target = NULL): string
   {
     global $config;
 
@@ -261,7 +261,7 @@ class templateHandling
    * \param array $variables        The possible values for each mask with its position and length
    * \param callable $escapeMethod  Method to call to escape mask result
    */
-  protected static function iteratePossibleValues ($rule, array $variables, $escapeMethod = NULL)
+  protected static function iteratePossibleValues (string $rule, array $variables, $escapeMethod = NULL)
   {
     if (!count($variables)) {
       yield $rule;
@@ -466,7 +466,7 @@ class templateHandling
    *
    * \return array an array of possible values
    * */
-  protected static function applyModifier ($m, array $args, $str)
+  protected static function applyModifier (string $m, array $args, $str): array
   {
     mb_internal_encoding('UTF-8');
     mb_regex_encoding('UTF-8');

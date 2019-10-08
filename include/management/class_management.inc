@@ -458,7 +458,12 @@ class management
     if ($this->tabObject instanceOf simpleTabs) {
       $this->tabObject->save_object();
     } elseif (is_object($this->dialogObject) && method_exists($this->dialogObject, 'save_object')) {
-      $this->dialogObject->save_object();
+      try {
+        $this->dialogObject->save_object();
+      } catch (FusionDirectoryException $e) {
+        msg_dialog::display(_('Error'), $e->getMessage(), ERROR_DIALOG);
+        $this->closeDialogs();
+      }
     }
 
     /* Display tab object */
