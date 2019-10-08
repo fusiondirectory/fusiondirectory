@@ -1915,10 +1915,16 @@ class simplePlugin implements SimpleTab
 
   /*
    * \brief Adapt from template
+   *
+   * Adapts fields to the values from a template.
+   * Should not empty any fields, only take values for the ones provided by the caller.
+   *
+   * \param array $attrs LDAP attributes values for template-modified attributes
+   * \param array $skip attributes to leave untouched
    */
   function adapt_from_template (array $attrs, array $skip = [])
   {
-    $this->attrs = $attrs;
+    $this->attrs = array_merge($this->attrs, $attrs);
 
     /* Walk through attributes */
     foreach ($this->attributesAccess as $ldapName => &$attr) {
@@ -1927,7 +1933,7 @@ class simplePlugin implements SimpleTab
         continue;
       }
       /* Load values */
-      $attr->loadValue($this->attrs);
+      $attr->loadValue($attrs);
     }
     unset($attr);
 
