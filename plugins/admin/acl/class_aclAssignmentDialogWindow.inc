@@ -61,12 +61,17 @@ class aclAssignmentDialogWindow extends simplePlugin
       'advanced' => [
         'name'  => _('Advanced'),
         'attrs' => [
+          new DisplayAttribute(
+            '', _('Warning message'),
+            'advancedWarning', FALSE,
+            _('These options allow you to restrict members or targets by LDAP filter. The member filter cannot use masks, and is safe to return any number of results as it will only be applied to the logged in user. For target filter, please avoid using a filter returning too many results, and if using template masks, avoid doing so on user-editable fields.')
+          ),
           new StringAttribute(
-            _('Restrict users with filter'), _('LDAP filter which a member must match to actually get the rights'),
+            _('Member filter'), _('LDAP filter which a member must match to actually get the rights'),
             'aclUserFilter', FALSE
           ),
           new StringAttribute(
-            _('Restrict targets with filter'), _('LDAP filter which a dn must match to actually be concerned. May use %dn% mask for user dn. Example: (manager=%dn%).'),
+            _('Target filter'), _('LDAP filter which a dn must match to actually be concerned. May use template masks for user fields. Example: (manager=%dn%).'),
             'aclTargetFilter', FALSE
           ),
         ]
