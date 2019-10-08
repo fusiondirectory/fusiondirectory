@@ -137,6 +137,7 @@ class userinfo
     $this->reset_acl_cache();
     $ldap = $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);
+    $targetFilterLimit  = 100;
 
     /* Get member groups... */
     $ldap->search('(&(objectClass=groupOfNames)(member='.ldap_escape_f($this->dn).'))', ['dn']);
@@ -229,12 +230,24 @@ class userinfo
 
         if (!empty($ACLRule['targetfilter'])) {
           $ldap->cd($dn);
+          $ldap->set_size_limit($targetFilterLimit);
           $targetFilter = templateHandling::parseString($ACLRule['targetfilter'], $this->cachedAttrs, 'ldap_escape_f');
           $ldap->search($targetFilter, ['dn']);
+          if ($ldap->hitSizeLimit()) {
+            msg_dialog::display(
+              _('Error'),
+              sprintf(
+                _('An ACL assignment for the connected user matched more than than the %d objects limit. This user will not have the ACL rights he should.'),
+                $targetFilterLimit
+              ),
+              ERROR_DIALOG
+            );
+          }
           $targetDns = [];
           while ($targetAttrs = $ldap->fetch()) {
             $targetDns[] = $targetAttrs['dn'];
           }
+          $ldap->set_size_limit(0);
         } else {
           $targetDns = [$dn];
         }
