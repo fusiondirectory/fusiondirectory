@@ -313,7 +313,11 @@ class Attribute
     $this->initialValue = $this->getValue();
   }
 
-  /*! \brief Loads this attribute value from the attrs array
+  /*! \brief Loads this attribute value from the attrs array if present
+   *
+   * If the attribute is not present in $attrs, does not change value
+   *
+   * \param array $attrs The attributes array as fetch from the LDAP
    */
   protected function loadAttrValue (array $attrs)
   {
