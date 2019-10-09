@@ -464,9 +464,9 @@ class templateHandling
    * \param array $args the parameters
    * \param mixed $str the string or array to apply the modifier on
    *
-   * \return array an array of possible values
+   * \return iterable an array or iterable object of possible values
    * */
-  protected static function applyModifier (string $m, array $args, $str): array
+  protected static function applyModifier (string $m, array $args, $str)
   {
     mb_internal_encoding('UTF-8');
     mb_regex_encoding('UTF-8');
