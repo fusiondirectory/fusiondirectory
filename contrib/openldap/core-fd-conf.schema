@@ -596,7 +596,7 @@ objectclass ( 1.3.6.1.4.1.38414.8.2.1 NAME 'fusionDirectoryConf'
     fdEnableSnapshots $ fdSnapshotBase $
     fdTabHook $ fdShells $ fdDefaultShell $ fdDisplayHookOutput $
     fdPluginsMenuBlacklist $ fdManagementConfig $ fdManagementUserConfig $
-    fdAclTabOnObjects $ fdDepartmentCategories $
+    fdAclTabOnObjects $ fdDepartmentCategories $ fdAclTargetFilterLimit $
     fdSslCaCertPath $ fdSslKeyPath $ fdSslCertPath $
     fdCasActivated $ fdCasServerCaCertPath $ fdCasHost $ fdCasPort $ fdCasContext $
     fdLoginMethod
