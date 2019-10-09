@@ -137,7 +137,7 @@ class userinfo
     $this->reset_acl_cache();
     $ldap = $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);
-    $targetFilterLimit  = 100;
+    $targetFilterLimit  = $config->get_cfg_value('AclTargetFilterLimit', 100);
 
     /* Get member groups... */
     $ldap->search('(&(objectClass=groupOfNames)(member='.ldap_escape_f($this->dn).'))', ['dn']);
