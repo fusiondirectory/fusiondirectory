@@ -117,8 +117,11 @@ class templateHandling
     return $errors;
   }
 
-  /*! \brief Parse a mask (without surrounding %) using $attrs attributes, apply modifiers and returns an array containing possible results */
-  public static function parseMask (string $mask, array $attrs): array
+  /*! \brief Parse a mask (without surrounding %) using $attrs attributes and apply modifiers
+   *
+   * \return iterable an array or iterable object of possible results
+   */
+  public static function parseMask (string $mask, array $attrs)
   {
     if ($mask == '|') {
       return ['%'];
