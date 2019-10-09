@@ -366,6 +366,11 @@ class configInLdap extends simplePlugin
           ),
           // Needed here for ACLs
           new HiddenAttribute('fdManagementConfig'),
+          new IntAttribute(
+            _('ACL target filter limit'), _('Defines the maximum number of entries an ACL target filter is allowed to return'),
+            'fdAclTargetFilterLimit', FALSE,
+            0 /*min*/, FALSE /*no max*/, 100
+          ),
         ]
       ],
     ];
