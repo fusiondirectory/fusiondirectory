@@ -383,9 +383,11 @@ class user extends simplePlugin
     if ($this->uid != '') {
       $skip[] = 'uid';
     }
+
     parent::adapt_from_template($attrs, array_merge($skip, ['userPassword']));
-    if (isset($this->attrs['userPassword']) && !in_array('userPassword', $skip)) {
-      $this->userPassword = $this->attributesAccess['userPassword']->readUserPasswordValues($this->attrs['userPassword'][0], TRUE);
+
+    if (isset($attrs['userPassword']) && !in_array('userPassword', $skip)) {
+      $this->userPassword = $this->attributesAccess['userPassword']->readUserPasswordValues($attrs['userPassword'][0], TRUE);
     }
   }
 
