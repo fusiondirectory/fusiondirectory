@@ -1913,7 +1913,7 @@ class simplePlugin implements SimpleTab
     throw new FusionDirectoryException(_('Failed to create a unique DN'));
   }
 
-  /*
+  /*!
    * \brief Adapt from template
    *
    * Adapts fields to the values from a template.
@@ -2010,7 +2010,10 @@ class simplePlugin implements SimpleTab
     return TRUE;
   }
 
-  /* Returns TRUE if this attribute should be asked in the creation by template dialog */
+  /*! \brief Returns TRUE if this attribute should be asked in the creation by template dialog
+   *
+   * \return bool whether this attribute should be asked
+   */
   function showInTemplate (string $attr, array $templateAttrs): bool
   {
     if (isset($templateAttrs[$attr])) {

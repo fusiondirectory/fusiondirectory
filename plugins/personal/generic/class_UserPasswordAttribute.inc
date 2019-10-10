@@ -199,6 +199,11 @@ class UserPasswordAttribute extends CompositeAttribute
         $pw_storage = $tmp->get_hash();
         $locked     = $tmp->is_locked('', $value);
       }
+      if ($istemplate && empty($password)) {
+        /* Do not store hash for templates,
+         * we have the password anyway, and this avoids problems with empty passwords */
+        $value = $this->attributes[3]->getValue();
+      }
     }
     return [$pw_storage, $password, $password, $value, ($locked ? 'TRUE' : 'FALSE')];
   }
