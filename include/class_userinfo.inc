@@ -687,13 +687,13 @@ class userinfo
    * Extract all departments that are accessible (direct or 'on the way' to an
    * accessible department)
    *
-   * \param string $module The module
+   * \param string|array $module The module
    *
    * \param bool $skip_self_acls FALSE
    *
    * \return array Return all accessible departments
    */
-  function get_module_departments ($module, $skip_self_acls = FALSE)
+  function get_module_departments ($module, bool $skip_self_acls = FALSE): array
   {
     global $config;
     /* If we are forced to skip ACLs checks for the current user
@@ -730,7 +730,8 @@ class userinfo
             if ($skip_self_acls && isset($data['0']) && (strpos($data['0'], "s") !== FALSE)) {
               continue;
             }
-            if (preg_match("/^".preg_quote($mod, '/')."/", $cat)) {
+            if (preg_match('/^'.preg_quote($mod, '/').'/', $cat) || ($cat === 'all')) {
+              /* $cat starts with $mod (example: cat=user/user and mod=user) or cat is 'all' */
               $found = TRUE;
               break;
             }
