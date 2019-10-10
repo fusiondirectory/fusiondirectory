@@ -327,7 +327,7 @@ class managementListing
    *
    * \param string $base
    */
-  function setBase ($base)
+  function setBase (string $base)
   {
     global $ui;
     $this->base = $base;

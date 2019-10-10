@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2017  FusionDirectory
+  Copyright (C) 2011-2019  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -29,13 +29,13 @@
  */
 class baseSelector
 {
-  private $base;
+  private $base           = '';
   protected $pid;
   private $action;
-  private $height       = 500;
-  private $submitButton = TRUE;
-  protected $tree;
-  protected $pathMapping;
+  private $height         = 500;
+  private $submitButton   = TRUE;
+  protected $tree         = '';
+  protected $pathMapping  = [];
   protected $lastState;
 
   /*!
@@ -45,7 +45,7 @@ class baseSelector
    *
    * \param String $base Empty string
    */
-  function __construct ($bases, $base = "")
+  function __construct (array $bases, string $base = '')
   {
     // Initialize pid
     $this->pid = preg_replace("/[^0-9]/", "", microtime(TRUE));
@@ -58,7 +58,7 @@ class baseSelector
   /*!
    * \brief Returns id of the html field
    */
-  function getInputHtmlId ()
+  function getInputHtmlId (): string
   {
     return 'bs_input_'.$this->pid;
   }
@@ -88,7 +88,7 @@ class baseSelector
    *
    * \param String $base The new value of the base
    */
-  function setBase ($base)
+  function setBase (string $base): bool
   {
     if (isset($this->pathMapping[$base])) {
       $this->base       = $base;
@@ -105,7 +105,7 @@ class baseSelector
    *
    * \return Boolean the last state of the object
    */
-  function checkLastBaseUpdate ()
+  function checkLastBaseUpdate (): bool
   {
     return $this->lastState;
   }
@@ -115,7 +115,7 @@ class baseSelector
    *
    * \param Array $bases The new value of the bases
    */
-  function setBases ($bases)
+  function setBases (array $bases)
   {
     global $config;
 
@@ -138,7 +138,7 @@ class baseSelector
    *
    * \param Boolean $force FALSE
    */
-  function update ($force = FALSE)
+  function update (bool $force = FALSE): bool
   {
     if (!isset($this->base) || ($this->base == '')) {
       $this->lastState = FALSE;
@@ -281,13 +281,12 @@ class baseSelector
     $this->tree .= '<input type="hidden" name="BPID" id="BPID" value="'.$this->pid.'"/>';
   }
 
-
   /*!
    * \brief Replace all space of the string by non-breaking space and escapes HTML
    *
    * \param String $string The string which his space will be replaced
    */
-  function escape ($string)
+  function escape (string $string): string
   {
     return str_replace(' ', '&nbsp;', htmlentities($string, ENT_COMPAT, 'UTF-8'));
   }
@@ -297,7 +296,7 @@ class baseSelector
    *
    * \return members tree of the ACL class
    */
-  function render ()
+  function render (): string
   {
     return $this->tree;
   }
@@ -307,7 +306,7 @@ class baseSelector
    *
    * \return String containts the base of the object
    */
-  function getBase ()
+  function getBase (): string
   {
     return $this->base;
   }
@@ -317,7 +316,7 @@ class baseSelector
    *
    * \return Array containts the bases and their display text
    */
-  function getBases ()
+  function getBases (): array
   {
     return $this->pathMapping;
   }
