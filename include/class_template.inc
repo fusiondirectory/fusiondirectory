@@ -68,22 +68,18 @@ class template
     return $result;
   }
 
-  function __construct ($type, $dn, $targetdn = NULL)
+  function __construct ($type, $dn)
   {
     $this->type = $type;
     $this->dn   = $dn;
     list($this->attrs, $depends) = templateHandling::fetch($this->dn);
     $this->needed     = templateHandling::neededAttrs($this->attrs, $depends);
     $this->needed[]   = 'base';
-    if ($targetdn === NULL) {
-      $this->tabObject  = objects::create($this->type);
-    } else {
-      trigger_error("This should not be used for now");
-      $this->tabObject  = objects::open($this->dn, $this->type);
-    }
-    $tempTabObject    = objects::open($this->dn, $this->type); /* Used to know which tab is activated */
-    $this->attributes = [];
+    $this->tabObject  = objects::create($this->type);
+    /* Used to know which tab is activated */
+    $tempTabObject    = objects::open($this->dn, $this->type);
     $tempTabObject->setActiveTabs($this->tabObject);
+    $this->attributes = [];
     foreach ($this->tabObject->by_object as $class => $tab) {
       if ($tab->is_account || $tab->ignore_account) {
         $this->attributes[$class] = [];
@@ -114,11 +110,7 @@ class template
     $this->tabObject  = objects::create($this->type);
     /* Used to know which tab is activated */
     $tempTabObject    = objects::open($this->dn, $this->type);
-    foreach ($tempTabObject->by_object as $class => $plugin) {
-      if ($plugin->is_account || $plugin->ignore_account) {
-        $this->tabObject->by_object[$class]->is_account = $plugin->is_account;
-      }
-    }
+    $tempTabObject->setActiveTabs($this->tabObject);
     $this->applied = FALSE;
   }
 
