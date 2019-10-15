@@ -119,13 +119,13 @@ class setupStepConfig extends configInLdap
         msg_dialog::displayChecks($errors);
         return;
       }
-      /* Reload config from LDAP */
-      $config->set_current($config->current['NAME']);
+      /* Insert default config values, even for installed plugin */
       session::un_set('plist');
       pluglist::load();
-      /* Insert default config values, even for installed plugin */
       $config->loadPlist($plist);
       $config->checkLdapConfig(TRUE);
+      /* Reload config from LDAP */
+      $config->set_current($config->current['NAME']);
       /* Set as completed and reload step */
       $this->is_completed = TRUE;
       $this->parent->reBuildConfigStep(TRUE);
