@@ -293,7 +293,7 @@ class msgPool
    */
   public static function cmdnotfound ($type, $plugin)
   {
-    return sprintf(_("Command specified as %s hook for plugin '%s' does not exist!"), $type, $plugin);
+    return sprintf(_('Command specified as %s trigger for plugin "%s" does not exist!'), $type, $plugin);
   }
 
   /*!

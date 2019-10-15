@@ -51,7 +51,7 @@ class mainPluginsConfig extends simplePlugin
         'name'  => _('SASL'),
         'attrs' => [
           new BooleanAttribute(
-            _('Force to ask for password'), _('Useful if you add a hook using password value when SASL user passwords are edited'),
+            _('Force to ask for password'), _('Useful if you add a trigger using password value when SASL user passwords are edited'),
             'fdForceSaslPasswordAsk', TRUE,
             FALSE
           ),

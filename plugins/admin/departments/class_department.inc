@@ -162,7 +162,6 @@ class department extends simplePlugin
   /* Check values */
   function check (): array
   {
-    /* Call common method to give check the hook */
     $message = parent::check();
 
     $namingAttr = static::$namingAttr;
