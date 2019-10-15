@@ -297,6 +297,9 @@ class setupStepMigrate extends setupStep
 
   function execute (): string
   {
+    if (ini_get('max_execution_time') < 180) {
+      set_time_limit(180);
+    }
     if (empty($this->checks) || isset($_POST['reload'])) {
       $this->initialize_checks();
       foreach ($this->checks as $check) {
@@ -308,6 +311,9 @@ class setupStepMigrate extends setupStep
 
   function save_object ()
   {
+    if (ini_get('max_execution_time') < 180) {
+      set_time_limit(180);
+    }
     $this->is_completed = TRUE;
     parent::save_object();
     foreach ($this->checks as $check) {
