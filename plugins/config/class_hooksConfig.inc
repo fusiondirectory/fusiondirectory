@@ -24,8 +24,8 @@ class hooksConfig extends simplePlugin
   static function plInfo (): array
   {
     return [
-      'plShortName'     => _('Hooks'),
-      'plTitle'         => _('Hooks configuration'),
+      'plShortName'     => _('Triggers'),
+      'plTitle'         => _('Triggers configuration'),
       'plPriority'      => 1,
       'plObjectType'    => ['configuration'],
 
@@ -44,41 +44,41 @@ class hooksConfig extends simplePlugin
     sort($plugins);
 
     return [
-      'hooks' => [
-        'name'  => _('Hooks'),
+      'triggers' => [
+        'name'  => _('Triggers'),
         'class' => ['fullwidth'],
         'attrs' => [
           new BooleanAttribute(
-            _('Display hook output'),
-            _('When enabled successful hook execution output is displayed to the user using a dialog.'),
+            _('Display trigger output'),
+            _('When enabled successful trigger execution output is displayed to the user using a dialog.'),
             'fdDisplayHookOutput'
           ),
           new OrderedArrayAttribute(
             new CompositeAttribute(
-              _('Hooks that are called when specific actions happens'),
+              _('Triggers that are called when specific actions happens'),
               'fdTabHook',
               [
                 new SelectAttribute(
-                  _('Tab'), _('The tab that this hook concerns'),
-                  'hookTab', TRUE,
+                  _('Tab'), _('The tab that this trigger concerns'),
+                  'triggerTab', TRUE,
                   $plugins
                 ),
                 new SelectAttribute(
                   _('Mode'), _('When to call this command'),
-                  'hookMode', TRUE,
+                  'triggerMode', TRUE,
                   ['postcreate', 'postremove', 'postmodify',
                         'precreate', 'preremove', 'premodify', 'check',
                         'prelock', 'postlock', 'preunlock', 'postunlock']
                 ),
                 new TextAreaAttribute(
                   _('Command'), _('The command that will be called'),
-                  'hookCmd', TRUE
+                  'triggerCmd', TRUE
                 )
               ],
               '/^([^\\|]+)\\|([^\\|]+)\\|(.*)$/',
               '%s|%s|%s',
               '', // acl
-              _('Hooks')
+              _('Triggers')
             ),
             FALSE, // non-ordered
             [],
