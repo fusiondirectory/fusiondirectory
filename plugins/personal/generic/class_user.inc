@@ -256,6 +256,10 @@ class user extends simplePlugin
   {
     parent::__construct($dn, $object, $parent, $mainTab);
 
+    if ($this->is_template && !$this->initially_was_account) {
+      $this->attributesAccess['userPassword']->setValue('%askme%');
+    }
+
     $this->attributesAccess['uid']->setUnique('whole');
     $this->attributesAccess['uid']->setAutocomplete(FALSE);
     $this->attributesAccess['uid']->setDisabled($this->initially_was_account && !$this->is_template);
