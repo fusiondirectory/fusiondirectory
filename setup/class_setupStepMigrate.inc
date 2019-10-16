@@ -184,10 +184,11 @@ class setupStepMigrate extends setupStep
   var $rootOC_details = [];
 
   /* Entries needing migration */
-  protected $orgUnits_toMigrate       = [];
-  protected $accounts_toMigrate       = [];
-  protected $outsideUsers_toMigrate   = [];
-  protected $outsideGroups_toMigrate  = [];
+  protected $orgUnits_toMigrate           = [];
+  protected $accounts_toMigrate           = [];
+  protected $outsideUsers_toMigrate       = [];
+  protected $outsideOGroups_toMigrate     = [];
+  protected $outsidePosixGroups_toMigrate = [];
 
   /* check for multiple use of same uidNumber */
   var $check_uidNumber = [];
@@ -258,17 +259,21 @@ class setupStepMigrate extends setupStep
     $config->resetDepartmentCache();
 
     $checks = [
-      'baseOC'        => new StepMigrateCheck($this, 'baseOC',        _('Inspecting object classes in root object')),
-      'permissions'   => new StepMigrateCheck($this, 'permissions',   _('Checking permission for LDAP database')),
-      'accounts'      => new StepMigrateCheck($this, 'accounts',      _('Checking for invisible users')),
-      'adminAccount'  => new StepMigrateCheck($this, 'adminAccount',  _('Checking for super administrator')),
-      'defaultACLs'   => new StepMigrateCheck($this, 'defaultACLs',   _('Checking for default ACL roles and groups')),
-      'outsideUsers'  => new StepMigrateCheck($this, 'outsideUsers',  _('Checking for users outside the people tree')),
-      'outsideGroups' => new StepMigrateCheck($this, 'outsideGroups', _('Checking for groups outside the groups tree')),
-      'orgUnits'      => new StepMigrateCheck($this, 'orgUnits',      _('Checking for invisible departments')),
-      'uidNumber'     => new StepMigrateCheck($this, 'uidNumber',     _('Checking for duplicated UID numbers')),
-      'gidNumber'     => new StepMigrateCheck($this, 'gidNumber',     _('Checking for duplicated GID numbers')),
+      'baseOC'          => new StepMigrateCheck($this, 'baseOC',          _('Inspecting object classes in root object')),
+      'permissions'     => new StepMigrateCheck($this, 'permissions',     _('Checking permission for LDAP database')),
+      'accounts'        => new StepMigrateCheck($this, 'accounts',        _('Checking for invisible users')),
+      'adminAccount'    => new StepMigrateCheck($this, 'adminAccount',    _('Checking for super administrator')),
+      'defaultACLs'     => new StepMigrateCheck($this, 'defaultACLs',     _('Checking for default ACL roles and groups')),
+      'outsideUsers'    => new StepMigrateCheck($this, 'outsideUsers',    _('Checking for users outside the people tree')),
+      'outsideOGroups'  => new StepMigrateCheck($this, 'outsideOGroups',  _('Checking for groups outside the groups tree')),
+      'orgUnits'        => new StepMigrateCheck($this, 'orgUnits',        _('Checking for invisible departments')),
     ];
+
+    if (class_available('posixAccount')) {
+      $checks['outsidePosixGroups'] = new StepMigrateCheck($this, 'outsidePosixGroups', _('Checking for POSIX groups outside the groups tree'));
+      $checks['uidNumber']          = new StepMigrateCheck($this, 'uidNumber',          _('Checking for duplicated UID numbers'));
+      $checks['gidNumber']          = new StepMigrateCheck($this, 'gidNumber',          _('Checking for duplicated GID numbers'));
+    }
 
     $this->checks = $checks;
   }
@@ -1182,25 +1187,25 @@ class setupStepMigrate extends setupStep
   }
 
   /* Search for groups outside the group ou */
-  function check_outsideGroups (&$checkobj)
+  function check_outsideOGroups (&$checkobj)
   {
-    list($sizeLimitHit,$count) = $this->check_outsideObjects_generic($checkobj, '(objectClass=posixGroup)', 'groupRDN');
+    list($sizeLimitHit,$count) = $this->check_outsideObjects_generic($checkobj, '(objectClass=groupOfNames)', 'ogroupRDN');
 
     if ($count > 0) {
       if ($sizeLimitHit) {
-        $message = sprintf(_('Found more than %d groups outside the configured tree "%s".'), static::$objectNumberLimit, trim(get_ou('groupRDN')));
+        $message = sprintf(_('Found more than %d groups outside the configured tree "%s".'), static::$objectNumberLimit, trim(get_ou('ogroupRDN')));
       } else {
-        $message = sprintf(_('Found %d groups outside the configured tree "%s".'), $count, trim(get_ou('groupRDN')));
+        $message = sprintf(_('Found %d groups outside the configured tree "%s".'), $count, trim(get_ou('ogroupRDN')));
       }
       throw new CheckFailedException(
-        "<div style='color:#F0A500'>"._("Warning")."</div>",
+        '<div style="color:#F0A500">'._('Warning').'</div>',
         $message.
         $checkobj->submit()
       );
     }
   }
 
-  function check_outsideGroups_migrate (&$checkobj)
+  function check_outsideOGroups_migrate (&$checkobj)
   {
     global $config;
     $this->check_multipleGeneric_migrate(
@@ -1214,7 +1219,7 @@ class setupStepMigrate extends setupStep
     );
   }
 
-  function check_outsideGroups_migrate_refresh (&$checkobj)
+  function check_outsideOGroups_migrate_refresh (&$checkobj)
   {
     global $config;
     return $this->check_multipleGeneric_migrate_refresh(
@@ -1228,7 +1233,59 @@ class setupStepMigrate extends setupStep
     );
   }
 
-  function check_outsideGroups_migrate_confirm (&$checkobj, $only_ldif = FALSE)
+  function check_outsideOGroups_migrate_confirm (&$checkobj, $only_ldif = FALSE)
+  {
+    return $this->check_outsideUsers_migrate_confirm($checkobj, $only_ldif, 'ogroupRDN');
+  }
+
+  /* Search for POSIX groups outside the group ou */
+  function check_outsidePosixGroups (&$checkobj)
+  {
+    list($sizeLimitHit,$count) = $this->check_outsideObjects_generic($checkobj, '(objectClass=posixGroup)', 'groupRDN');
+
+    if ($count > 0) {
+      if ($sizeLimitHit) {
+        $message = sprintf(_('Found more than %d POSIX groups outside the configured tree "%s".'), static::$objectNumberLimit, trim(get_ou('groupRDN')));
+      } else {
+        $message = sprintf(_('Found %d POSIX groups outside the configured tree "%s".'), $count, trim(get_ou('groupRDN')));
+      }
+      throw new CheckFailedException(
+        '<div style="color:#F0A500">'._('Warning').'</div>',
+        $message.
+        $checkobj->submit()
+      );
+    }
+  }
+
+  function check_outsidePosixGroups_migrate (&$checkobj)
+  {
+    global $config;
+    $this->check_multipleGeneric_migrate(
+      $checkobj,
+      [
+        'title'       => _('Move POSIX groups into configured groups tree'),
+        'outside'     => TRUE,
+        'ous'         => $config->getDepartmentList(),
+        'destination' => (isset($_POST['destination']) ? $_POST['destination'] : ''),
+      ]
+    );
+  }
+
+  function check_outsidePosixGroups_migrate_refresh (&$checkobj)
+  {
+    global $config;
+    return $this->check_multipleGeneric_migrate_refresh(
+      $checkobj,
+      [
+        'title'       => _('Move POSIX groups into configured groups tree'),
+        'outside'     => TRUE,
+        'ous'         => $config->getDepartmentList(),
+        'destination' => (isset($_POST['destination']) ? $_POST['destination'] : ''),
+      ]
+    );
+  }
+
+  function check_outsidePosixGroups_migrate_confirm (&$checkobj, $only_ldif = FALSE)
   {
     return $this->check_outsideUsers_migrate_confirm($checkobj, $only_ldif, 'groupRDN');
   }
