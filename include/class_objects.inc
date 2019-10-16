@@ -391,6 +391,22 @@ class objects
     return static::open('new', $type);
   }
 
+  static function createTemplate ($type)
+  {
+    $infos    = static::infos($type);
+    $tabClass = $infos['tabClass'];
+
+    /* Pass fake attrs object to force template mode */
+    $attrsObject  = new stdClass();
+    $attrsObject->attrs = [];
+    $attrsObject->is_template = TRUE;
+
+    $tabObject = new $tabClass($type, 'new', $attrsObject);
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "Create template of $type");
+
+    return $tabObject;
+  }
+
   static function &infos ($type)
   {
     global $config;

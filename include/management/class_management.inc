@@ -722,9 +722,15 @@ class management
     if (static::$skipTemplates) {
       return;
     }
-    $action['subaction'] = preg_replace('/^template_/', '', $action['subaction']);
-    $this->newEntry($action);
-    $this->tabObject->setTemplateMode('template_cn');
+    $type = preg_replace('/^template_/', '', $action['subaction']);
+
+    $this->currentDn = 'new';
+
+    set_object_info($this->currentDn);
+
+    // Open object
+    $this->openTabObject(objects::createTemplate($type));
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDn, 'Create template entry initiated');
   }
 
   function newEntryFromTemplate (array $action)
