@@ -129,7 +129,8 @@ class userinfo
    */
   function loadACL ()
   {
-    global $config;
+    global $config, $plist;
+
     $this->ACL          = [];
     $this->groups       = [];
     $this->roles        = [];
@@ -329,6 +330,11 @@ class userinfo
     }
     if (isset($all_acl[$dn])) {
       $this->ACLperPath[$this->dn] = $all_acl[$dn];
+    }
+
+    /* Reset plist menu and ACL cache if needed */
+    if (is_object($plist)) {
+      $plist->resetCache();
     }
   }
 

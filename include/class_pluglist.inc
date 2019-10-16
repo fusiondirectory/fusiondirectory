@@ -1,9 +1,8 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2019  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -33,9 +32,8 @@
  */
 class pluglist
 {
-  var $menu             = "";
-  var $iconmenu         = "";
-  var $current          = "";
+  var $menu           = '';
+  protected $iconmenu = '';
 
   /*!
    * \brief The plInfo result for all plugin, using class as key.
@@ -56,8 +54,8 @@ class pluglist
   /*!
    * \brief List plugin indexes of all plugin that the user have acl for
    */
-  var $allowed_plugins  = [];
-  var $silly_cache      = [];
+  protected $allowed_plugins  = [];
+  protected $silly_cache      = [];
 
   /*!
    * \brief List the plugins
@@ -504,6 +502,19 @@ class pluglist
   function plugin_access_allowed ($plug_id)
   {
     return isset($this->allowed_plugins[$plug_id]);
+  }
+
+  /*!
+   * \brief Resets menu and ACL cache
+   *
+   * Called when user ACL rights may have changed
+   */
+  public function resetCache ()
+  {
+    $this->menu             = '';
+    $this->iconmenu         = '';
+    $this->silly_cache      = [];
+    $this->allowed_plugins  = [];
   }
 
   static function pluginInfos ($cname)
