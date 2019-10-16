@@ -96,5 +96,11 @@ class hooksConfig extends simplePlugin
     parent::__construct($dn, $object, $parent, $mainTab);
 
     $this->attributesAccess['fdTabHook']->setLinearRendering(FALSE);
+    $this->attributesAccess['fdTabHook']->setHeaders([
+      _('Tab'),
+      _('Mode'),
+      _('Command'),
+      '',
+    ]);
   }
 }
