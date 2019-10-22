@@ -495,6 +495,8 @@ class simpleManagement
    */
   protected function getHeader ()
   {
+    global $smarty;
+
     if ($this->skipHeader) {
       return '';
     }
@@ -506,7 +508,14 @@ class simpleManagement
     if (!preg_match('/^geticon/', $plIcon)) {
       $plIcon = get_template_path($plIcon);
     }
-    return print_header($plIcon, $plTitle, get_object_info());
+    $smarty->assign('headline', $plTitle);
+    $smarty->assign('headline_image', $plIcon);
+
+    $info = get_object_info();
+    if ($info != '') {
+      return '<div class="pluginfo">'.$info."</div>\n";
+    }
+    return '';
   }
 
   /*!

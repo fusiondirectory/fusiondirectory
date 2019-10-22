@@ -1066,33 +1066,6 @@ function check_command ($cmdline)
 }
 
 /*!
- * \brief Print plugin HTML header
- *
- * \param string $image the path of the image to be used next to the headline
- *
- * \param string $headline the headline
- *
- * \param string $info additional information to print
- *
- * \return the $display variable
- */
-function print_header ($image, $headline, $info = '')
-{
-  $smarty = get_smarty();
-  $smarty->assign('headline', $headline);
-  $smarty->assign('headline_image', $image);
-  $display = '';
-
-  if ($info != '') {
-    $display .= '<div class="pluginfo">'."\n";
-    $display .= "$info";
-    $display .= "</div>\n";
-    $display .= "<div></div>\n";
-  }
-  return $display;
-}
-
-/*!
  * \brief Put netmask in n.n.n.n format
  *
  * \param string $netmask The netmask

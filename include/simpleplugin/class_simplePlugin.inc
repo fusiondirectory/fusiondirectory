@@ -2121,7 +2121,7 @@ class simplePlugin implements SimpleTab
    */
   static function mainInc ($classname = NULL, $entry_dn = NULL, $tabs = FALSE, $edit_mode = TRUE, $objectType = FALSE)
   {
-    global $remove_lock, $cleanup, $display, $config, $plug, $ui;
+    global $remove_lock, $cleanup, $display, $config, $plug, $ui, $smarty;
 
     if ($classname === NULL) {
       $classname = get_called_class();
@@ -2198,7 +2198,6 @@ class simplePlugin implements SimpleTab
         }
 
         /* save changes to LDAP and disable edit mode */
-        $info = "";
         if (isset($_POST['edit_finish'])) {
           /* Perform checks */
           $message = $tabObject->save();
@@ -2215,8 +2214,6 @@ class simplePlugin implements SimpleTab
             msg_dialog::displayChecks($message);
           }
         }
-      } else {
-        $info = "";
       }
 
       /* Execute formular */
@@ -2248,7 +2245,7 @@ class simplePlugin implements SimpleTab
         } elseif (strpos($tabObject->by_object[$tabObject->current]->aclGetPermissions(''), 'w') !== FALSE) {
           /* Only display edit button if there is at least one attribute writable */
           $display  .= '<p class="plugbottom">'."\n";
-          $info     .= '<div style="display:inline-block" class="optional"><img class="center" alt="information" '.
+          $info     .= '<div style="float:left;" class="optional"><img class="center" alt="information" '.
                     'src="geticon.php?context=status&amp;icon=dialog-information&amp;size=16"> '.
                     msgPool::clickEditToChange().'</div>';
           $display  .= '<input type="submit" name="edit" value="'.msgPool::editButton().'"/>'."\n";
@@ -2260,7 +2257,9 @@ class simplePlugin implements SimpleTab
       if (!preg_match('/^geticon/', $plIcon)) {
         $plIcon = get_template_path($plIcon);
       }
-      $display = print_header($plIcon, $plHeadline, $info).$display;
+      $smarty->assign('headline', $plHeadline);
+      $smarty->assign('headline_image', $plIcon);
+      $display = '<div class="pluginfo">'.$info."</div>\n".$display;
     }
   }
 }

@@ -586,7 +586,8 @@ class pluglist
         $cleanup = $remove_lock = FALSE;
       }
     } catch (Exception $e) {
-      $smarty->assign('header', print_header('geticon.php?context=status&icon=dialog-error&size=32', _('Fatal error!')));
+      $smarty->assign('headline', _('Fatal error!'));
+      $smarty->assign('headline_image', 'geticon.php?context=status&icon=dialog-error&size=32');
       $display = '<h1>'._('An unrecoverable error occurred. Please contact your administator.').'</h1><p>';
       if (ini_get('display_errors') == 1) {
         $display .= nl2br(htmlentities((string)$e, ENT_COMPAT, 'UTF-8'));

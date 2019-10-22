@@ -580,11 +580,20 @@ class management
    */
   protected function getHeader (): string
   {
+    global $smarty;
+
     if ($this->skipHeader) {
       return '';
     }
 
-    return print_header($this->icon, $this->title, get_object_info());
+    $smarty->assign('headline', $this->title);
+    $smarty->assign('headline_image', $this->icon);
+
+    $info = get_object_info();
+    if ($info != '') {
+      return '<div class="pluginfo">'.$info."</div>\n";
+    }
+    return '';
   }
 
   function openTabObject ($object)
