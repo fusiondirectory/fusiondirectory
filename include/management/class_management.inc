@@ -81,9 +81,6 @@ class management
     ['ActionsColumn',    ['label' => 'Actions']],
   ];
 
-  // Whether to display a header or not.
-  protected $skipHeader = FALSE;
-
   function __construct (
     $objectTypes = FALSE,
     array $filterElementDefinitions = [
@@ -576,15 +573,11 @@ class management
   }
 
   /*!
-   * \brief  Generates the plugin header which is displayed whenever a tab object is opened.
+   * \brief Sets smarty headline and returns the plugin header which is displayed whenever a tab object is opened.
    */
   protected function getHeader (): string
   {
     global $smarty;
-
-    if ($this->skipHeader) {
-      return '';
-    }
 
     $smarty->assign('headline', $this->title);
     $smarty->assign('headline_image', $this->icon);
