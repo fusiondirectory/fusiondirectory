@@ -589,9 +589,8 @@ class management
     $smarty->assign('headline', $this->title);
     $smarty->assign('headline_image', $this->icon);
 
-    $info = get_object_info();
-    if ($info != '') {
-      return '<div class="pluginfo">'.$info."</div>\n";
+    if (is_object($this->tabObject) && ($this->currentDn != '')) {
+      return '<div class="pluginfo">'.$this->currentDn."</div>\n";
     }
     return '';
   }
@@ -617,8 +616,6 @@ class management
     $this->tabObject          = NULL;
     $this->last_dialogObject  = $this->dialogObject;
     $this->dialogObject       = NULL;
-
-    set_object_info();
   }
 
   protected function listAclCategories (): array
@@ -719,8 +716,6 @@ class management
 
     $this->currentDn = 'new';
 
-    set_object_info($this->currentDn);
-
     // Open object
     $this->openTabObject(objects::create($type));
     @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDn, 'Create entry initiated');
@@ -734,8 +729,6 @@ class management
     $type = preg_replace('/^template_/', '', $action['subaction']);
 
     $this->currentDn = 'new';
-
-    set_object_info($this->currentDn);
 
     // Open object
     $this->openTabObject(objects::createTemplate($type));
@@ -841,7 +834,6 @@ class management
 
     // Get the dn of the object and create lock
     $this->currentDn = $target;
-    set_object_info($this->currentDn);
     if ($locks = get_locks($this->currentDn, TRUE)) {
       return gen_locked_message($locks, $this->currentDn, TRUE);
     }
@@ -1230,7 +1222,6 @@ class management
         $this->listing->focusDn($dn);
         $entry = $this->listing->getEntry($dn);
         $this->currentDn = $dn;
-        set_object_info($this->currentDn);
         add_lock($this->currentDn, $ui->dn);
 
         // Open object

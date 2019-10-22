@@ -1835,18 +1835,6 @@ function cred_decrypt ($input, $password)
   return openssl_decrypt($input, 'aes-256-cbc', $key, OPENSSL_RAW_DATA, $iv);
 }
 
-
-function get_object_info ()
-{
-  return session::get('objectinfo');
-}
-
-
-function set_object_info ($str = "")
-{
-  session::set('objectinfo', $str);
-}
-
 /*!
  * \brief Test if an ip is the network range
  *

@@ -511,9 +511,8 @@ class simpleManagement
     $smarty->assign('headline', $plTitle);
     $smarty->assign('headline_image', $plIcon);
 
-    $info = get_object_info();
-    if ($info != '') {
-      return '<div class="pluginfo">'.$info."</div>\n";
+    if (is_object($this->tabObject) && ($this->dn != '')) {
+      return '<div class="pluginfo">'.$this->dn."</div>\n";
     }
     return '';
   }
@@ -576,8 +575,6 @@ class simpleManagement
     $this->displayApplyBtn  = FALSE;
     $this->dn               = 'new';
     $this->is_single_edit   = FALSE;
-
-    set_object_info($this->dn);
 
     // Open object
     $this->openTabObject(objects::open($this->dn, $type));
@@ -774,7 +771,6 @@ class simpleManagement
 
       // Get the dn of the object and creates lock
       $this->dn = array_pop($target);
-      set_object_info($this->dn);
       if ($locks = get_locks($this->dn, TRUE)) {
         return gen_locked_message($locks, $this->dn, TRUE);
       }
@@ -871,7 +867,6 @@ class simpleManagement
     $this->dialogObject       = NULL;
 
     $this->skipFooter   = FALSE;
-    set_object_info();
   }
 
   /*!
