@@ -169,12 +169,6 @@ if (memory_get_usage() > (to_byte(ini_get('memory_limit')) - 2048000)) {
   msg_dialog::display(_("Configuration error"), _("Running out of memory!"), WARNING_DIALOG);
 }
 
-/* Load department list when plugin has changed. That is some kind of
-   compromise between speed and beeing up to date */
-if (isset($_GET['reset'])) {
-  set_object_info();
-}
-
 /* show web frontend */
 $smarty->assign("date", date("l, dS F Y H:i:s O"));
 $lang = session::get('lang');

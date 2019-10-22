@@ -21,7 +21,8 @@
 
 if (!$cleanup) {
   $smarty->assign('iconmenu', $plist->show_iconmenu());
-  $smarty->assign('header', print_header('geticon.php?context=applications&icon=config-welcome&size=48', sprintf(_('Welcome %s!'), $ui->cn)));
+  $smarty->assign('headline', sprintf(_('Welcome %s!'), $ui->cn));
+  $smarty->assign('headline_image', 'geticon.php?context=applications&icon=config-welcome&size=48');
   $smarty->assign('year', date('Y'));
   $smarty->assign('revision', FD_VERSION);
 

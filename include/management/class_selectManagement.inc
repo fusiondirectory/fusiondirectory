@@ -24,7 +24,6 @@
  */
 class selectManagement extends management
 {
-  protected $skipHeader         = TRUE;
   protected $skipCpHandler      = TRUE;
   public static $skipSnapshots  = TRUE;
 
@@ -79,5 +78,13 @@ class selectManagement extends management
     $smarty->assign('MULTISELECT',  $this->multiSelect);
 
     return $list.$smarty->fetch(get_template_path('management/select-footer.tpl'));
+  }
+
+  /*!
+   * \brief Let header handling to parent
+   */
+  protected function getHeader (): string
+  {
+    return '';
   }
 }

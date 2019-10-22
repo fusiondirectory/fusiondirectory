@@ -187,8 +187,6 @@ class aclManagement extends management
 
     $this->currentDn        = $dn;
 
-    set_object_info($this->currentDn);
-
     $this->openTabObject($tabObject);
     @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDn, 'Creating new ACL assignment');
   }
