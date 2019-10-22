@@ -3,6 +3,7 @@
   {$game_screen}
   {$php_errors}
   <form action="main.php{$plug}" name="mainform" id="mainform" method="post" enctype="multipart/form-data">
+    <div style="width: 0; height: 0; overflow: hidden;"><input type="submit" name="default_submit_hidden_button"/></div>
     <div class="setup-header">
       <div id="header-left">
         <img id="fd-logo" class="optional" src="geticon.php?context=applications&amp;icon=fusiondirectory&amp;size=48" alt="FusionDirectory logo"/>
