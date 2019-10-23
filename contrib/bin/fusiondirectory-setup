@@ -1142,16 +1142,35 @@ sub install_plugins {
     $dir = dir ($tmp_plugins_dir."/".$name);
   }
 
-  my @plugins = $dir->children(no_hidden => 1);
+  # List non-hidden children, grep directories, and sort by name
+  my @plugins =
+    sort {$a->basename cmp $b->basename}
+    grep {$_->is_dir}
+    $dir->children(no_hidden => 1);
+
+  print "Available plugins:\n";
+
+  my $i = 1;
+  foreach my $plugin_path (@plugins) {
+    print $i++.":".$plugin_path->basename."\n";
+  }
+
+  my $user_input = ask_user_input("Which plugins do you want to install (use \"all\" to install all plugins)?");
+  my @plugins_to_install = split(/\s/, $user_input);
 
   chdir ($dir) or die ("! Unable to move to $dir\n");
 
+  $i = 0;
   foreach my $plugin_path (@plugins) {
-    if (!$plugin_path->is_dir) {
-      next;
-    }
+    $i++;
 
     my $plugin = $plugin_path->basename;
+
+    if (grep {($_ eq "all") or ($_ eq $i) or ($_ eq $plugin)} @plugins_to_install) {
+      print "Installing plugin $plugin\n";
+    } else {
+      next;
+    }
 
     # copy addons into plugins
     create_and_copy_plugin_dir($plugin_path."/addons/", $vars{fd_home}."/plugins/addons/");
