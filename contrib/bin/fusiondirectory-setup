@@ -1119,31 +1119,39 @@ sub create_and_copy_plugin_dir {
 # function that install all the FD's plugins from a directory
 sub install_plugins {
   # ask for the plugins archive
-  my $plugins_archive = ask_user_input ("Where is your plugins archive ?");
+  my $plugins_archive = ask_user_input ("Where is your plugins archive or folder?");
   die ("! ".$plugins_archive." doesn't exists") if (!-e $plugins_archive);
 
-  # check the archive format
-  $plugins_archive =~ /^.*\/(.*).tar.gz$/;
-  my $name = $1 or die ("! Unkwnow archive $plugins_archive");
+  my $dir;
+  if (-d $plugins_archive) {
+    $dir = dir ($plugins_archive);
+  } else {
+    # check the archive format
+    $plugins_archive =~ /^.*\/(.*).tar.gz$/;
+    my $name = $1 or die ("! Unkwnow archive $plugins_archive");
 
-  # where the extract files will go
-  my $tmp_plugins_dir = "/tmp";
+    # where the extract files will go
+    my $tmp_plugins_dir = "/tmp";
 
-  print ("Installing plugins into $vars{fd_home}, please wait...\n");
+    print ("Installing plugins into $vars{fd_home}, please wait...\n");
 
-  my $dir = dir ($tmp_plugins_dir."/".$name);
+    # extract the plugins archive
+    my $archive = Archive::Extract->new (archive => $plugins_archive);
+    my $extract = $archive->extract( to => "$tmp_plugins_dir" ) or die ("! Unable to extract $plugins_archive\n");
 
-  # extract the plugins archive
-  my $archive = Archive::Extract->new (archive => $plugins_archive);
-  my $extract = $archive->extract( to => "$tmp_plugins_dir" ) or die ("! Unable to extract $plugins_archive\n");
+    $dir = dir ($tmp_plugins_dir."/".$name);
+  }
 
-  my @plugins = $dir->children;
+  my @plugins = $dir->children(no_hidden => 1);
 
   chdir ($dir) or die ("! Unable to move to $dir\n");
 
   foreach my $plugin_path (@plugins) {
-    $plugin_path =~ /^$tmp_plugins_dir\/$name\/(.*)$/;
-    my $plugin = $1;
+    if (!$plugin_path->is_dir) {
+      next;
+    }
+
+    my $plugin = $plugin_path->basename;
 
     # copy addons into plugins
     create_and_copy_plugin_dir($plugin_path."/addons/", $vars{fd_home}."/plugins/addons/");
