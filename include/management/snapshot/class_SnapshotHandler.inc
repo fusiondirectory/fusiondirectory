@@ -356,8 +356,7 @@ class SnapshotHandler
 
     /* Check if entry still exists */
     foreach ($tmp as $key => $entry) {
-      $ldap->cat($entry['gosaSnapshotDN'][0]);
-      if ($ldap->count()) {
+      if ($ldap->dn_exists($entry['gosaSnapshotDN'][0])) {
         unset($tmp[$key]);
       }
     }
