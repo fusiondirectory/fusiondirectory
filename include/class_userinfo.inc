@@ -552,9 +552,6 @@ class userinfo
       return $ret;
     }
 
-    /* Get ldap object, for later filter checks */
-    $ldap = $config->get_ldap_link();
-
     $acl = ['r' => '', 'w' => '', 'c' => '', 'd' => '', 'm' => '', 'a' => ''];
 
     /* Build dn array */
