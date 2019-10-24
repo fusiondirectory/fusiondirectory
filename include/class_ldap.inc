@@ -659,11 +659,11 @@ class LDAP
       }
       $r = @ldap_delete($this->cid, $deletedn);
       $this->error = @ldap_error($this->cid);
-      @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'rmdir('.$dn.')');
+      @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'rmdir('.$deletedn.')');
       return ($r ? $r : 0);
     } else {
       $this->error = "Could not connect to LDAP server";
-      @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'rmdir('.$dn.')');
+      @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'rmdir('.$deletedn.')');
       return "";
     }
   }
