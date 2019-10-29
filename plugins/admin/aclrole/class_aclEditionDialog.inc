@@ -43,14 +43,14 @@ class ACLEditionDialog extends GenericDialog
 
   function handle_finish ()
   {
-    $this->attribute->addValue($this->aclContents);
+    $this->attribute->addValue('', $this->aclContents);
     return FALSE;
   }
 
   function handle_cancel ()
   {
     if ($this->initialAclValue !== NULL) {
-      $this->attribute->addValue($this->initialAclValue);
+      $this->attribute->addValue('', $this->initialAclValue);
     }
     return FALSE;
   }
