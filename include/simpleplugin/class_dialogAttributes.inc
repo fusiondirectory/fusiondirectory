@@ -63,15 +63,16 @@ class GenericDialog
   }
 }
 
-/*! \brief Generic dialog for selection using a simpleSelectManagement based class
+/*! \brief Generic dialog for selection using a selectManagement class
  */
-class GenericSelectDialog extends GenericDialog
+class GenericSelectManagementDialog extends GenericDialog
 {
-  function dialog_execute ()
+  protected $dialogClass = 'selectManagement';
+
+  function __construct ($simplePlugin, $attribute)
   {
-    session::set('filterBlacklist', $this->attribute->getFilterBlackList());
-    session::set('filterWhitelist', $this->attribute->getFilterWhiteList());
-    return parent::dialog_execute();
+    $this->attribute  = $attribute;
+    $this->dialog     = new $this->dialogClass(...$this->attribute->getSelectManagementParameters());
   }
 
   function handle_finish ()
@@ -449,24 +450,6 @@ class GenericDialogAttribute extends DialogAttribute
       }
     }
     unset($value);
-  }
-}
-
-/*! \brief Generic dialog for selection using a selectManagement class
- */
-class GenericSelectManagementDialog extends GenericSelectDialog
-{
-  protected $dialogClass = 'selectManagement';
-
-  function __construct ($simplePlugin, $attribute)
-  {
-    $this->attribute  = $attribute;
-    $this->dialog     = new $this->dialogClass(...$this->attribute->getSelectManagementParameters());
-  }
-
-  function dialog_execute ()
-  {
-    return GenericDialog::dialog_execute();
   }
 }
 

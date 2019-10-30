@@ -23,7 +23,7 @@
  */
 class templateDialog
 {
-  protected $simpleManagement;
+  protected $management;
   protected $type;
   protected $template = NULL;
   protected $templates;
@@ -34,9 +34,9 @@ class templateDialog
   protected $post_finish = 'template_continue';
   protected $post_cancel = 'template_cancel';
 
-  function __construct ($simpleManagement, $type, $dn = NULL, $target = NULL)
+  function __construct ($management, $type, $dn = NULL, $target = NULL)
   {
-    $this->simpleManagement = $simpleManagement;
+    $this->management       = $management;
     $this->type             = $type;
     $this->templates        = objects::getTemplates($this->type);
     if ($dn !== NULL) {
@@ -75,8 +75,8 @@ class templateDialog
     }
     if (is_object($this->template)) {
       if ($this->target !== NULL) {
-        $this->simpleManagement->openTabObject($this->template->apply($this->target));
-        $this->simpleManagement->handleTemplateApply();
+        $this->management->openTabObject($this->template->apply($this->target));
+        $this->management->handleTemplateApply();
         return FALSE;
       } else {
         $this->template->save_object();
@@ -111,15 +111,15 @@ class templateDialog
 
   function handle_finish ()
   {
-    $this->simpleManagement->closeDialogs();
-    $this->simpleManagement->openTabObject($this->template->apply());
+    $this->management->closeDialogs();
+    $this->management->openTabObject($this->template->apply());
     return FALSE;
   }
 
   function handle_cancel ()
   {
-    $this->simpleManagement->remove_lock();
-    $this->simpleManagement->closeDialogs();
+    $this->management->remove_lock();
+    $this->management->closeDialogs();
     return FALSE;
   }
 }
