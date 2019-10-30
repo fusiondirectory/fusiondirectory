@@ -523,10 +523,11 @@ class OrderedArrayAttribute extends SetAttribute
         $img .= $this->renderInputField(
           'image', $id.'_up_'.$key,
           [
-            'src'   => 'geticon.php?context=actions&amp;icon=view-sort-descending&amp;size=16',
-            'title' => _('Sort up'),
-            'alt'   => _('Sort up'),
-            'class' => 'center'
+            'src'             => 'geticon.php?context=actions&amp;icon=view-sort-descending&amp;size=16',
+            'title'           => _('Sort up'),
+            'alt'             => _('Sort up'),
+            'class'           => 'center',
+            'formnovalidate'  => 'formnovalidate',
           ]
         );
       } else {
@@ -536,10 +537,11 @@ class OrderedArrayAttribute extends SetAttribute
         $img .= $this->renderInputField(
           'image', $id.'_down_'.$key,
           [
-            'src'   => 'geticon.php?context=actions&amp;icon=view-sort-ascending&amp;size=16',
-            'title' => _('Sort down'),
-            'alt'   => _('Sort down'),
-            'class' => 'center'
+            'src'             => 'geticon.php?context=actions&amp;icon=view-sort-ascending&amp;size=16',
+            'title'           => _('Sort down'),
+            'alt'             => _('Sort down'),
+            'class'           => 'center',
+            'formnovalidate'  => 'formnovalidate',
           ]
         );
       } else {
@@ -551,20 +553,22 @@ class OrderedArrayAttribute extends SetAttribute
       $img .= $this->renderInputField(
         'image', $id.'_edit_'.$key,
         [
-          'src'   => 'geticon.php?context=actions&amp;icon=document-edit&amp;size=16',
-          'title' => _('Edit'),
-          'alt'   => _('Edit'),
-          'class' => 'center'
+          'src'             => 'geticon.php?context=actions&amp;icon=document-edit&amp;size=16',
+          'title'           => _('Edit'),
+          'alt'             => _('Edit'),
+          'class'           => 'center',
+          'formnovalidate'  => 'formnovalidate',
         ]
       );
     }
     $img .= $this->renderInputField(
       'image', $id.'_del_'.$key,
       [
-        'src'   => 'geticon.php?context=actions&amp;icon=edit-delete&amp;size=16',
-        'title' => _('Delete'),
-        'alt'   => _('Delete'),
-        'class' => 'center'
+        'src'             => 'geticon.php?context=actions&amp;icon=edit-delete&amp;size=16',
+        'title'           => _('Delete'),
+        'alt'             => _('Delete'),
+        'class'           => 'center',
+        'formnovalidate'  => 'formnovalidate',
       ]
     );
 
