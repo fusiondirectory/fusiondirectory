@@ -58,14 +58,14 @@ class ACLsAssignmentDialog extends GenericDialog
       msg_dialog::displayChecks($messages);
       return $this->dialog->execute();
     }
-    $this->attribute->addValue($this->dialog->getAclEntry());
+    $this->attribute->addValue('', $this->dialog->getAclEntry());
     return FALSE;
   }
 
   function handle_cancel ()
   {
     if ($this->initialAclValue !== NULL) {
-      $this->attribute->addValue($this->initialAclValue);
+      $this->attribute->addValue('', $this->initialAclValue);
     }
     return FALSE;
   }

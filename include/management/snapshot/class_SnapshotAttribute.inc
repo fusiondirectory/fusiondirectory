@@ -71,10 +71,12 @@ class SnapshotsAttribute extends OrderedArrayAttribute
   {
   }
 
-  function addValue ($value)
+  function addValue (string $dn, $entry = NULL)
   {
-    $this->value[] = $value;
-    $this->reIndexValues();
+    if ($entry !== NULL) {
+      $this->value[] = $entry;
+      $this->reIndexValues();
+    }
   }
 
   function renderButtons ()

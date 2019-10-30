@@ -150,10 +150,7 @@ abstract class DialogAttribute extends SetAttribute
     $this->removeValue($key);
   }
 
-  function addValue ($value, $attrs)
-  {
-    trigger_error("abstract method");
-  }
+  abstract function addValue (string $dn, $attrs = NULL);
 
   function searchAndRemove ($value)
   {
@@ -284,10 +281,12 @@ abstract class DialogOrderedArrayAttribute extends OrderedArrayAttribute
   {
   }
 
-  function addValue ($value)
+  function addValue (string $dn, $attrs = NULL)
   {
-    $this->value[] = $value;
-    $this->reIndexValues();
+    if ($attrs !== NULL) {
+      $this->value[] = $attrs;
+      $this->reIndexValues();
+    }
   }
 
   function renderButtons ()
@@ -338,7 +337,7 @@ class GenericDialogAttribute extends DialogAttribute
     return [$this->store_attr => $this->getValue()];
   }
 
-  function addValue ($dn, $attrs)
+  function addValue (string $dn, $attrs = NULL)
   {
     if (
         ($this->isTemplate() && ($attrs === NULL)) ||
@@ -883,14 +882,14 @@ class GenericSimplePluginDialog extends GenericDialog
       $value[$attr] = $this->dialog->$attr;
     }
 
-    $this->attribute->addValue($value);
+    $this->attribute->addValue('', $value);
     return FALSE;
   }
 
   function handle_cancel ()
   {
     if ($this->initialDialogValue !== NULL) {
-      $this->attribute->addValue($this->initialDialogValue);
+      $this->attribute->addValue('', $this->initialDialogValue);
     }
     return FALSE;
   }
