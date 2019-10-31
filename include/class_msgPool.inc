@@ -418,46 +418,25 @@ class msgPool
   }
 
   /*!
-   * \brief Display error about invalid characters
+   * \brief Return error about invalid value
    *
    * \param string $name The field name
    *
    * \param string $data The submited data
    *
-   * \param string $regex
-   *
    * \param string $example Example of a right submited data
    */
-  public static function invalid ($name, $data = "", $regex = "", $example = "")
+  public static function invalid (string $name, string $data = '', string $example = ''): string
   {
+    $error = sprintf(_('The field "%s" contains an invalid value.'), htmlentities($name, ENT_COMPAT, 'UTF-8'));
+    $error .= '<br/><br/> "'.htmlentities($data, ENT_COMPAT, 'UTF-8').'"';
+
     /* Stylize example */
-    if ($example != "") {
-      $example = "<br><br><i>"._("Example:")."</i> ".$example;
+    if ($example !== '') {
+      $error .= '<br/><br/><i>'.sprintf(_('Example: %s'), htmlentities($example, ENT_COMPAT, 'UTF-8')).'</i> ';
     }
 
-    /* If validChars are posted, take data and paint all invalid
-       characters... */
-    if ($regex) {
-      $result   = "";
-      $mismatch = "";
-
-      mb_internal_encoding('UTF-8');
-      for ($i = 0; $i <= mb_strlen($data); $i++) {
-        $currentChar = mb_substr($data, $i, 1);
-        if (preg_match("$regex", $currentChar)) {
-          $result .= $currentChar;
-        } else {
-          $result   .= '<span style="color:red;text-decoration:underline;">'.($currentChar).'</span>';
-          $mismatch .= $currentChar;
-        }
-      }
-
-      return sprintf(_("The field '%s' contains invalid characters"), $name).". ".
-        ((strlen($mismatch) == 1) ? sprintf(_("'%s' is not allowed:"), $mismatch) : sprintf(_("'%s' are not allowed!"), $mismatch)).
-        "<br><br> \"$result\"$example";
-    } else {
-      return sprintf(_("The field '%s' contains invalid characters"), $name)."!$example";
-    }
+    return $error;
   }
 
   /*!

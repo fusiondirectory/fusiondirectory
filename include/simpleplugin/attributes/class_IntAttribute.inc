@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2016  FusionDirectory
+  Copyright (C) 2012-2019  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -44,14 +44,14 @@ class IntAttribute extends Attribute
     parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
     $this->min      = ($min === FALSE ? FALSE : $this->inputValue($min));
     $this->max      = ($max === FALSE ? FALSE : $this->inputValue($max));
-    $this->example  = "";
+    $this->example  = '';
 
     if (($min !== FALSE) && ($max !== FALSE)) {
-      $this->example = sprintf(_("An integer between %d and %d"), $min, $max);
+      $this->example = sprintf(_('An integer between %d and %d'), $min, $max);
     } elseif ($min !== FALSE) {
-      $this->example = sprintf(_("An integer larger than %d"),    $min);
+      $this->example = sprintf(_('An integer larger than %d'),    $min);
     } elseif ($max !== FALSE) {
-      $this->example = sprintf(_("An integer smaller than %d"),   $max);
+      $this->example = sprintf(_('An integer smaller than %d'),   $max);
     }
   }
 
@@ -80,11 +80,11 @@ class IntAttribute extends Attribute
       return $error;
     } elseif ($this->value !== '') {
       if (!is_numeric($this->value)) {
-        return msgPool::invalid($this->getLabel(), $this->value, "/./", $this->example);
+        return msgPool::invalid($this->getLabel(), $this->value, $this->example);
       }
       if ((($this->min !== FALSE) && ($this->value < $this->min))
       || (($this->max !== FALSE) && ($this->value > $this->max))) {
-        return msgPool::invalid($this->getLabel(), $this->value, "/./", $this->example);
+        return msgPool::invalid($this->getLabel(), $this->value, $this->example);
       }
     }
   }
@@ -157,13 +157,13 @@ class FloatAttribute extends IntAttribute
 
     $this->step = 0.01;
 
-    $this->example  = "";
+    $this->example  = '';
     if (($min !== FALSE) && ($max !== FALSE)) {
-      $this->example = sprintf(_("A float between %f and %f"), $min, $max);
+      $this->example = sprintf(_('A float between %f and %f'), $min, $max);
     } elseif ($min !== FALSE) {
-      $this->example = sprintf(_("A float larger than %f"),    $min);
+      $this->example = sprintf(_('A float larger than %f'),    $min);
     } elseif ($max !== FALSE) {
-      $this->example = sprintf(_("A float smaller than %f"),   $max);
+      $this->example = sprintf(_('A float smaller than %f'),   $max);
     }
   }
 
