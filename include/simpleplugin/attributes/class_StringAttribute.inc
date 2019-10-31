@@ -127,8 +127,8 @@ class StringAttribute extends Attribute
 
   function validate ()
   {
-    if (($this->pattern !== "") && !preg_match($this->pattern, $this->value)) {
-      return msgPool::invalid($this->getLabel(), $this->value, $this->pattern, htmlentities($this->example));
+    if (($this->pattern !== '') && !preg_match($this->pattern, $this->value)) {
+      return msgPool::invalid($this->getLabel(), $this->value, $this->example);
     }
   }
 
