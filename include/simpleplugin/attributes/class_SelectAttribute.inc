@@ -181,7 +181,7 @@ class SelectAttribute extends Attribute
         $smartyOutputs[] = $this->outputs[$choice];
       }
     } else {
-      $smartyOutputs = $this->choices;
+      $smartyOutputs = $smartyChoices;
     }
 
     if (!empty($currentValue) && !in_array($currentValue, $smartyChoices)) {
