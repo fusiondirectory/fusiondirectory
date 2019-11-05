@@ -286,6 +286,11 @@ class configInLdap extends simplePlugin
             _('Postal address pattern'), _('When using separate address fields, you can use a pattern to fill postalAddress field.'),
             'fdPostalAddressPattern'
           ),
+          new IntAttribute(
+            _('Avatar max size'), _('Maximum user picture width and height in pixels. Bigger uploaded pictures will be resized.'),
+            'fdMaxAvatarSize', FALSE,
+            1, FALSE, 200
+          ),
         ]
       ],
       'debug' => [

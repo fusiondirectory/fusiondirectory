@@ -106,7 +106,7 @@ class user extends simplePlugin
           new ImageAttribute(
             _('Picture'), _('The avatar for this user'),
             'jpegPhoto', FALSE,
-            150, 200, 'jpeg'
+            $config->get_cfg_value('MaxAvatarSize', 200), $config->get_cfg_value('MaxAvatarSize', 200), 'jpeg'
           ),
         ]
       ],

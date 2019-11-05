@@ -155,6 +155,12 @@ attributetype ( 1.3.6.1.4.1.38414.8.12.21 NAME 'fdPostalAddressPattern'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
   SINGLE-VALUE)
 
+attributetype ( 1.3.6.1.4.1.38414.8.12.22 NAME 'fdMaxAvatarSize'
+  DESC 'FusionDirectory - Maximum user picture width and height in pixels'
+  EQUALITY integerMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
+  SINGLE-VALUE)
+
 # Password
 
 attributetype ( 1.3.6.1.4.1.38414.8.13.1 NAME 'fdPasswordDefaultHash'
@@ -584,7 +590,8 @@ objectclass ( 1.3.6.1.4.1.38414.8.2.1 NAME 'fusionDirectoryConf'
     fdStrictNamingRules $ fdMinId $ fdUidNumberBase $
     fdGidNumberBase $ fdUserRDN $ fdGroupRDN $ fdIdAllocationMethod $
     fdGidNumberPoolMin $ fdUidNumberPoolMin $ fdGidNumberPoolMax $ fdUidNumberPoolMax $
-    fdAclRoleRDN $ fdCnPattern $ fdRestrictRoleMembers $ fdSplitPostalAddress $ fdPostalAddressPattern $
+    fdAclRoleRDN $ fdCnPattern $ fdRestrictRoleMembers $
+    fdSplitPostalAddress $ fdPostalAddressPattern $ fdMaxAvatarSize $
     fdPasswordDefaultHash $ fdPasswordMinLength $ fdPasswordMinDiffer $
     fdHandleExpiredAccounts $ fdSaslRealm $ fdSaslExop $
     fdForcePasswordDefaultHash $ fdPasswordAllowedHashes $
