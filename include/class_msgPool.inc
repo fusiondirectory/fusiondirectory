@@ -426,8 +426,11 @@ class msgPool
    *
    * \param string $example Example of a right submited data
    */
-  public static function invalid (string $name, string $data = '', string $example = ''): string
+  public static function invalid (string $name, $data = '', string $example = ''): string
   {
+    if (!is_string($data)) {
+      $data = var_export($data, TRUE);
+    }
     $error = sprintf(_('The field "%s" contains an invalid value.'), htmlentities($name, ENT_COMPAT, 'UTF-8'));
     $error .= '<br/><br/> "'.htmlentities($data, ENT_COMPAT, 'UTF-8').'"';
 
