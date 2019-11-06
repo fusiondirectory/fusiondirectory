@@ -44,8 +44,8 @@ class LoginPost extends LoginMethod
 
       $success = static::runSteps([
         'validateUserInput',
-        'ldapLoginUser',
         'checkForLockingBranch',
+        'ldapLoginUser',
         'loginAndCheckExpired',
         'runSchemaCheck',
       ]);

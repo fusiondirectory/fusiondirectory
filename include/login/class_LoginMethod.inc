@@ -98,6 +98,8 @@ class LoginMethod
     try {
       $ui = userinfo::loginUser(static::$username, static::$password);
     } catch (LoginFailureException $e) {
+      /* Load plist to be able to log */
+      pluglist::load();
       if (isset($_SERVER['REMOTE_ADDR'])) {
         logging::log('security', 'login', '', [], 'Authentication failed for user "'.static::$username.'" [from '.$_SERVER['REMOTE_ADDR'].']: '.$e->getMessage());
       } else {
@@ -115,6 +117,7 @@ class LoginMethod
   static function loginAndCheckExpired ()
   {
     global $ui, $config, $plist, $message, $smarty;
+
     /* Remove all locks of this user */
     del_user_locks($ui->dn);
 
@@ -176,7 +179,8 @@ class LoginMethod
   /*! \brief All login steps in the right order */
   static function loginProcess ()
   {
-    global $config;
+    global $config, $smarty;
+
     $method = $config->get_cfg_value('LoginMethod', '');
     if (empty($method)) {
       // Try to detect configurations from FD<1.4
@@ -190,7 +194,27 @@ class LoginMethod
         $method = 'LoginPost';
       }
     }
-    $method::loginProcess();
+    try {
+      $method::loginProcess();
+    } catch (Exception $e) {
+      $display = '<h1>'._('An unrecoverable error occurred. Please contact your administator.').'</h1><p>';
+      if (ini_get('display_errors') == 1) {
+        $display .= nl2br(htmlentities((string)$e, ENT_COMPAT, 'UTF-8'));
+      } else {
+        $display .= 'Error detail display is turned off.';
+      }
+      $display .= '</p>'."\n";
+      $smarty->assign('headline', _('Fatal error!'));
+      $smarty->assign('headline_image', 'geticon.php?context=status&icon=dialog-error&size=32');
+      $smarty->assign('usePrototype', 'false');
+      $smarty->assign('date',         date('l, dS F Y H:i:s O'));
+      $smarty->assign('lang',         preg_replace('/_.*$/', '', $lang));
+      $smarty->assign('rtl',          Language::isRTL($lang));
+
+      $smarty->display(get_template_path('headers.tpl'));
+      echo $display;
+      exit();
+    }
   }
 
   /*! \brief Displayed name for each login method. Returning FALSE disables a method */

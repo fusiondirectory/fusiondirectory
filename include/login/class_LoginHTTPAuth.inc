@@ -45,8 +45,8 @@ class LoginHTTPAuth extends LoginMethod
 
     $success = static::runSteps([
       'validateUserInput',
-      'ldapLoginUser',
       'checkForLockingBranch',
+      'ldapLoginUser',
       'loginAndCheckExpired',
       'runSchemaCheck',
     ]);
