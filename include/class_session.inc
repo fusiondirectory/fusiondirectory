@@ -177,8 +177,35 @@ class session
   /*!
    * \brief Destroy a session
    */
-  public static function destroy ()
+  public static function destroy (string $reason = '')
   {
+    global $ui;
+
+    if (!isset($ui)) {
+      $ui = static::get('ui');
+    }
+
+    try {
+      if (isset($ui)) {
+        logging::log(
+          'security',
+          'logout',
+          $ui->uid,
+          [],
+          sprintf('Logged out (%s)', $reason)
+        );
+      } elseif (!empty($reason)) {
+        logging::log(
+          'security',
+          'session',
+          '',
+          [],
+          sprintf('Session destroyed (%s)', $reason)
+        );
+      }
+    } catch (Exception $e) {
+      /* Ignore exceptions here */
+    }
     @session_destroy();
   }
 }

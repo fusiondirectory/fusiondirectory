@@ -436,7 +436,7 @@ class simpleTabs
       }
     }
 
-    if (empty($errors) && ($this->dn == $ui->dn)) {
+    if (empty($errors) && isset($ui->dn) && ($this->dn == $ui->dn)) {
       /* If the logged in user was edited, update his information */
       $ui->loadLDAPInfo();
     }

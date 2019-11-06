@@ -502,8 +502,9 @@ class OrderedArrayAttribute extends SetAttribute
       }
 
       list ($img, $nbicons) = $this->genRowIcons($key, $value);
-
-      $fields[] = ["html" => $img, "attach" => 'style="border:0px;width:'.($nbicons * 20).'px;"'];
+      if ($nbicons > 0) {
+        $fields[] = ['html' => $img, 'attach' => 'style="border:0px;width:'.($nbicons * 20).'px;"'];
+      }
       $div->addEntry($fields);
     }
     $smarty->assign("div_$id", $div->drawList());

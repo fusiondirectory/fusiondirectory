@@ -51,9 +51,9 @@ class setup
     $this->i_steps = count($this->o_steps);
 
     /* Ensure that setup is not reachable if fusiondirectory.conf exist (CONFIG_FILE) */
-    if (file_exists(CONFIG_DIR."/".CONFIG_FILE)) {
-      session::destroy();
-      header("Location: index.php");
+    if (file_exists(CONFIG_DIR.'/'.CONFIG_FILE)) {
+      session::destroy('Invalid setup.php call');
+      header('Location: index.php');
       exit();
     }
   }

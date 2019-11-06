@@ -70,6 +70,8 @@ class logging
     ];
     if (isset($ui->dn) && !empty($ui->dn)) {
       $entry['user']  = $ui->dn;
+    } elseif (isset($_SERVER['REMOTE_ADDR'])) {
+      $entry['user'] = $_SERVER['REMOTE_ADDR'];
     } else {
       $entry['user'] = 'unknown';
     }

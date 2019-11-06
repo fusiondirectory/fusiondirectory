@@ -146,8 +146,13 @@ class managementListing
         'sortable'  => $column->isSortable(),
         'label'     => $column->getLabel(),
       ];
-      if (($index == $this->sortColumn) && $column->isSortable()) {
-        $this->header[$index]['sortdirection'] = $this->sortDirection[$index];
+      if ($index == $this->sortColumn) {
+        if ($column->isSortable()) {
+          $this->header[$index]['sortdirection'] = $this->sortDirection[$index];
+        } elseif ($sortInit) {
+          /* sortColumn is not sortable, try next one */
+          $this->sortColumn++;
+        }
       }
     }
   }
@@ -257,13 +262,7 @@ class managementListing
       if (isset($_GET['act'])) {
         $key = validate($_GET['act']);
         if (preg_match('/^SORT_([0-9]+)$/', $key, $match)) {
-          // Switch to new column or invert search order?
-          $column = $match[1];
-          if ($this->sortColumn != $column) {
-            $this->sortColumn = $column;
-          } else {
-            $this->sortDirection[$column] = !$this->sortDirection[$column];
-          }
+          $this->setSortColumn($match[1]);
 
           // Allow header to update itself according to the new sort settings
           $this->renderHeader();
@@ -587,6 +586,22 @@ class managementListing
       return $this->entries[$dn];
     }
     return NULL;
+  }
+
+  /*!
+   * \brief Set sort column
+   *
+   * \param int $column Index of column to sort by
+   * \param bool $direction Whether to sort up or down
+   */
+  public function setSortColumn (int $column, bool $direction = NULL)
+  {
+    if ($direction === NULL) {
+      // Switch to new column or invert search order?
+      $direction = (($this->sortColumn == $column) && !$this->sortDirection[$column]);
+    }
+    $this->sortColumn             = $column;
+    $this->sortDirection[$column] = $direction;
   }
 
   function fillSearchedAttributes (string $type, array &$attrs)
