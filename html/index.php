@@ -40,6 +40,7 @@ header('X-Frame-Options: deny');
 session::start();
 
 if (isset($_REQUEST['signout']) && $_REQUEST['signout']) {
+  $reason = '';
   if (session::is_set('connected')) {
     $config = session::get('config');
     if ($config->get_cfg_value('casActivated') == 'TRUE') {
@@ -57,8 +58,23 @@ if (isset($_REQUEST['signout']) && $_REQUEST['signout']) {
       phpCAS::setCasServerCACert($config->get_cfg_value('casServerCaCertPath'));
       phpCas::logout();
     }
+    $reason = 'Sign out';
+    if (isset($_REQUEST['message'])) {
+      switch ($_REQUEST['message']) {
+        case 'expired':
+          $reason = 'Session expired';
+          break;
+        case 'invalidparameter':
+          $reason = sprintf('Invalid plugin parameter "%s"!', $_REQUEST['plug']);
+          break;
+        case 'nosession':
+          $reason = 'No session found';
+          break;
+        default:
+      }
+    }
   }
-  session::destroy('Sign out');
+  session::destroy($reason);
   session::start();
 }
 
