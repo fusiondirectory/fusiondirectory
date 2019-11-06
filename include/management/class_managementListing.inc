@@ -146,8 +146,13 @@ class managementListing
         'sortable'  => $column->isSortable(),
         'label'     => $column->getLabel(),
       ];
-      if (($index == $this->sortColumn) && $column->isSortable()) {
-        $this->header[$index]['sortdirection'] = $this->sortDirection[$index];
+      if ($index == $this->sortColumn) {
+        if ($column->isSortable()) {
+          $this->header[$index]['sortdirection'] = $this->sortDirection[$index];
+        } elseif ($sortInit) {
+          /* sortColumn is not sortable, try next one */
+          $this->sortColumn++;
+        }
       }
     }
   }
