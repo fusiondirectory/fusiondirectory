@@ -190,26 +190,17 @@ class session
         logging::log(
           'security',
           'logout',
-          $ui->dn,
+          $ui->uid,
           [],
-          sprintf(
-            '%s (%s) logged out (%s)',
-            $ui->uid,
-            ($_SERVER['REMOTE_ADDR'] ?? 'Unknown IP'),
-            $reason
-          )
+          sprintf('Logged out (%s)', $reason)
         );
       } elseif (!empty($reason)) {
         logging::log(
           'security',
           'session',
-          ($_SERVER['REMOTE_ADDR'] ?? ''),
+          '',
           [],
-          sprintf(
-            'Session for %s destroyed (%s)',
-            ($_SERVER['REMOTE_ADDR'] ?? 'unknown'),
-            $reason
-          )
+          sprintf('Session destroyed (%s)', $reason)
         );
       }
     } catch (Exception $e) {

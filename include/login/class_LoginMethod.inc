@@ -100,7 +100,7 @@ class LoginMethod
     } catch (LoginFailureException $e) {
       /* Load plist to be able to log */
       pluglist::load();
-      logging::log('security', 'login failure', static::$username, [], 'Authentication failed for user "'.static::$username.'": '.$e->getMessage());
+      logging::log('security', 'login failure', static::$username, [], 'Authentication failed: '.$e->getMessage());
       /* Show the same message whether the user exists or not to avoid information leak */
       $message = $e->getMessage();
       $smarty->assign('focusfield', 'password');
@@ -151,10 +151,7 @@ class LoginMethod
     global $config, $ui;
 
     /* Not account expired or password forced change go to main page */
-    logging::log(
-      'security', 'login', $ui->dn, [],
-      sprintf('User "%s" logged in successfully (from %s).', static::$username, ($_SERVER['REMOTE_ADDR'] ?? 'Unknown IP'))
-    );
+    logging::log('security', 'login', static::$username, [], 'Logged in successfully');
     session::set('connected', 1);
     session::set('DEBUGLEVEL', $config->get_cfg_value('DEBUGLEVEL'));
     header('Location: main.php');
