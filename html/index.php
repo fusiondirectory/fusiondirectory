@@ -58,7 +58,7 @@ if (isset($_REQUEST['signout']) && $_REQUEST['signout']) {
       phpCas::logout();
     }
   }
-  session::destroy();
+  session::destroy('Sign out');
   session::start();
 }
 

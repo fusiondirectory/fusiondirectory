@@ -77,8 +77,7 @@ if (session::get('_LAST_PAGE_REQUEST') != '') {
      * kill session
      */
     if ($request_time > $max_life) {
-      session::destroy();
-      logging::log('security', 'login', '', [], 'main.php called with expired session - logging out');
+      session::destroy('main.php called with expired session');
       header('Location: index.php?signout=1&message=expired');
       exit;
     }
