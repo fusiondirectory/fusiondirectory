@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 /* Logged in? Simple security check */
 if (!session::is_set('connected')) {
-  logging::log('security', 'login', '', [], 'main.php called without session - logging out');
+  session::destroy('main.php called without session');
   header('Location: index.php?message=nosession');
   exit;
 }
