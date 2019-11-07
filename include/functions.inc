@@ -1699,7 +1699,7 @@ function change_password ($dn, $password, $hash = "")
  *
  * \return either the result or "" in any other case
  */
-function getEntryCSN ($dn)
+function getEntryCSN (string $dn): string
 {
   global $config;
   if (empty($dn) || !is_object($config)) {
@@ -1711,9 +1711,9 @@ function getEntryCSN ($dn)
   if ($attr != '') {
     $ldap = $config->get_ldap_link();
     $ldap->cat($dn, [$attr]);
-    $csn = $ldap->fetch();
-    if (isset($csn[$attr][0])) {
-      return $csn[$attr][0];
+    $attrs = $ldap->fetch();
+    if (isset($attrs[$attr][0])) {
+      return $attrs[$attr][0];
     }
   }
   return '';
