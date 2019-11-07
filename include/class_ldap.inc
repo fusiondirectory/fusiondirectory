@@ -911,11 +911,8 @@ class LDAP
         }
       }
 
-      $this->cat($srp, $cdn);
-      $attrs = $this->fetch($srp);
-
       /* Create missing entry? */
-      if (!count($attrs)) {
+      if (!$this->dn_exists($cdn)) {
         $type   = preg_replace('/^([^=]+)=.*$/', '\\1', $cdn);
         $param  = preg_replace('/^[^=]+=([^,]+).*$/', '\\1', $cdn);
         $param  = preg_replace(['/\\\\,/','/\\\\"/'], [',','"'], $param);

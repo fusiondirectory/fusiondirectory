@@ -239,6 +239,7 @@ class simplePlugin implements SimpleTab
           throw new NonExistingLdapNodeException('Could not open dn '.$this->dn);
         }
         if ($this->mainTab) {
+          $this->entryCSN = getEntryCSN($this->dn);
           /* Make sure that initially_was_account is TRUE if we loaded an LDAP node,
            *  even if it’s missing an objectClass */
           $this->is_account = TRUE;
@@ -290,7 +291,6 @@ class simplePlugin implements SimpleTab
 
     if ($this->mainTab) {
       $this->is_account = TRUE;
-      $this->entryCSN = getEntryCSN($this->dn);
     }
 
     if (!isset($this->templatePath)) {
@@ -1295,35 +1295,37 @@ class simplePlugin implements SimpleTab
     return array_merge_unique($oc, $this->objectclasses);
   }
 
+  /* \!brief Prepare $this->attrs */
   protected function prepare_save (): array
   {
     global $config;
-    /* prepare $this->attrs */
-    $ldap = $config->get_ldap_link();
 
     $this->entryCSN = '';
 
     /* Start with empty array */
-    $this->attrs = [];
+    $this->attrs  = [];
+    $oc           = [];
 
-    /* Get current objectClasses in order to add the required ones */
-    $ldap->cat($this->dn, ['fdTemplateField', 'objectClass']);
+    if (!$this->mainTab || $this->initially_was_account) {
+      /* Get current objectClasses in order to add the required ones */
+      $ldap = $config->get_ldap_link();
+      $ldap->cat($this->dn, ['fdTemplateField', 'objectClass']);
 
-    $tmp  = $ldap->fetch();
-    $oc   = [];
+      $tmp  = $ldap->fetch();
 
-    if ($this->is_template) {
-      if (isset($tmp['fdTemplateField'])) {
-        foreach ($tmp['fdTemplateField'] as $tpl_field) {
-          if (preg_match('/^objectClass:(.+)$/', $tpl_field, $m)) {
-            $oc[] = $m[1];
+      if ($this->is_template) {
+        if (isset($tmp['fdTemplateField'])) {
+          foreach ($tmp['fdTemplateField'] as $tpl_field) {
+            if (preg_match('/^objectClass:(.+)$/', $tpl_field, $m)) {
+              $oc[] = $m[1];
+            }
           }
         }
-      }
-    } else {
-      if (isset($tmp['objectClass'])) {
-        $oc = $tmp['objectClass'];
-        unset($oc['count']);
+      } else {
+        if (isset($tmp['objectClass'])) {
+          $oc = $tmp['objectClass'];
+          unset($oc['count']);
+        }
       }
     }
 
@@ -1361,19 +1363,18 @@ class simplePlugin implements SimpleTab
 
     /* Check if this is a new entry ... add/modify */
     $ldap = $config->get_ldap_link();
-    $ldap->cat($this->dn, ["objectClass"]);
     if ($this->mainTab && !$this->initially_was_account) {
-      if ($ldap->count()) {
+      if ($ldap->dn_exists($this->dn)) {
         return [sprintf(_('There is already an entry with the same dn : %s'), $this->dn)];
       }
       $ldap->cd($config->current['BASE']);
       $ldap->create_missing_trees(preg_replace('/^[^,]+,/', '', $this->dn));
-      $action = "add";
+      $action = 'add';
     } else {
-      if (!$ldap->count()) {
+      if (!$ldap->dn_exists($this->dn)) {
         return [sprintf(_('The entry %s is not existing'), $this->dn)];
       }
-      $action = "modify";
+      $action = 'modify';
     }
 
     $ldap->cd($this->dn);
