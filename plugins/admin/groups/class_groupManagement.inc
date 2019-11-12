@@ -154,7 +154,6 @@ class groupManagement extends management
         if ($o_queue->is_currently_installing($mac_address)) {
           msg_dialog::display(_('Action canceled'), sprintf(_('System %s is currently installing'), $dn), ERROR_DIALOG);
           unset($mac[$key]);
-          logging::log('security', 'systems/'.get_class($this), '', [], 'Skip adding "argonautAction::'.$event.'" for mac "'.$mac_address.'", there is already a job in progress.');
         }
       }
     }

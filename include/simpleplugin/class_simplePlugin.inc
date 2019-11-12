@@ -593,8 +593,7 @@ class simplePlugin implements SimpleTab
     $ldap->cd($config->current['BASE']);
     $ldap->create_missing_trees(preg_replace('/^[^,]+,/', '', $dst_dn));
     if (!$ldap->rename_dn($src_dn, $dst_dn)) {
-      logging::log('debug', 'Ldap Protocol v3 implementation error, ldap_rename failed.',
-        "FROM: $src_dn  -- TO: $dst_dn", [], $ldap->get_error());
+      logging::log('error', 'ldap', "FROM: $src_dn -- TO: $dst_dn", [], 'Ldap Protocol v3 implementation error, ldap_rename failed: '.$ldap->get_error());
       @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, "Rename failed FROM: $src_dn  -- TO:  $dst_dn",
         'Ldap Protocol v3 implementation error. Error:'.$ldap->get_error());
       return $ldap->get_error();
@@ -602,9 +601,7 @@ class simplePlugin implements SimpleTab
 
     /* Update userinfo if necessary */
     if (preg_match('/'.preg_quote($src_dn, '/').'$/i', $ui->dn)) {
-      $ui_dn = preg_replace('/'.preg_quote($src_dn, '/').'$/i', $dst_dn, $ui->dn);
-      logging::log('view', 'acl/'.get_class($this), $this->dn, [], 'Updated userinfo dn from "'.$ui->dn.'" to "'.$ui_dn.'"');
-      $ui->dn = $ui_dn;
+      $ui->dn = preg_replace('/'.preg_quote($src_dn, '/').'$/i', $dst_dn, $ui->dn);
     }
 
     /* Check if departments were moved. If so, force the reload of $config departments cache */

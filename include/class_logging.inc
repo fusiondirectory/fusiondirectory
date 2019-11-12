@@ -35,16 +35,16 @@
  */
 class logging
 {
-  static $validActions = ['modify','create','remove','copy','snapshot','view','security','debug'];
+  static $validActions = ['modify','create','remove','copy','snapshot','security','error'];
 
   /*!
    * \brief logging method
    *
-   * \param $action         One of these values (modify|create|remove|snapshot|copy|view|security|debug)
+   * \param $action         One of these values (modify|create|remove|copy|snapshot|security|error)
    *
-   * \param $objecttype     represents the current edited objecttype, like user/user
+   * \param $objecttype     represents the current edited objecttype, like user/user, or the event, like logout
    *
-   * \param $object         represents the current edited object dn
+   * \param $object         represents the current edited object dn, or the target of the operation
    *
    * \param $changes_array  An array containing names of all touched attributes
    *
