@@ -262,6 +262,7 @@ class SnapshotHandler
     if (!$ldap->success()) {
       msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), $new_base, '', get_class()), LDAP_ERROR);
     }
+    logging::log('snapshot', 'create', $new_dn, array_keys($target), $ldap->get_error());
   }
 
   /*!
@@ -278,6 +279,7 @@ class SnapshotHandler
     if (!$ldap->success()) {
       msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $dn), LDAP_ERROR);
     }
+    logging::log('snapshot', 'delete', $dn, [], $ldap->get_error());
   }
 
   /*!
@@ -397,6 +399,7 @@ class SnapshotHandler
     /* Import the given data */
     try {
       $ldap->import_complete_ldif($data, FALSE, FALSE);
+      logging::log('snapshot', 'restore', $dn, [], $ldap->get_error());
       if (!$ldap->success()) {
         msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), $dn, '', get_class()), LDAP_ERROR);
         return FALSE;
@@ -404,6 +407,7 @@ class SnapshotHandler
       return $attrs['gosaSnapshotDN'][0];
     } catch (LDIFImportException $e) {
       msg_dialog::display(_('LDAP error'), $e->getMessage(), ERROR_DIALOG);
+      logging::log('snapshot', 'restore', $dn, [], $e->getMessage());
       return FALSE;
     }
   }
