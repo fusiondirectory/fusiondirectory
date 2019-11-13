@@ -40,24 +40,19 @@ class logging
   /*!
    * \brief logging method
    *
-   * \param $action         One of these values (modify|create|remove|copy|snapshot|security|error)
+   * \param string $action      One of these values (modify|create|remove|copy|snapshot|security|error)
    *
-   * \param $objecttype     represents the current edited objecttype, like user/user, or the event, like logout
+   * \param string $objecttype  represents the current edited objecttype, like user/user, or the event, like logout
    *
-   * \param $object         represents the current edited object dn, or the target of the operation
+   * \param string $object      represents the current edited object dn, or the target of the operation
    *
-   * \param $changes_array  An array containing names of all touched attributes
+   * \param array $changes      An array containing names of all touched attributes
    *
-   * \param $result         A status message, containing errors or success messages
+   * \param string $result      A status message, containing errors or success messages
    */
-  static function log ($action, $objecttype, $object, array $changes_array = [], $result = '')
+  static function log (string $action, string $objecttype, string $object, array $changes = [], string $result = '')
   {
     global $config, $ui;
-
-    if ($result === NULL) {
-      trigger_error('"Result" parameter should not be NULL');
-      $result = '';
-    }
 
     /* Create data object */
     $entry = [
@@ -65,7 +60,7 @@ class logging
       'action'      => $action,
       'objecttype'  => $objecttype,
       'object'      => $object,
-      'changes'     => $changes_array,
+      'changes'     => $changes,
       'result'      => $result
     ];
     if (isset($ui->dn) && !empty($ui->dn)) {

@@ -211,7 +211,6 @@ class CopyPasteHandler
       foreach ($this->clean_objects as $key => $entry) {
         $this->current = $entry;
         $errors = $this->current['object']->save();
-        logging::log('copy', 'paste', $this->current['object']->dn, [], reset($errors));
 
         if (empty($errors)) {
           $this->current_saved();
@@ -231,7 +230,6 @@ class CopyPasteHandler
       /* Save current object if edition is finished */
       if (isset($_POST['edit_finish'])) {
         $errors = $this->current['object']->save();
-        logging::log('copy', 'paste', $this->current['object']->dn, [], reset($errors));
 
         if (empty($errors)) {
           $this->current_saved();
@@ -272,6 +270,7 @@ class CopyPasteHandler
   private function current_saved ()
   {
     $this->lastdn   = $this->current['object']->dn;
+    logging::log('copy', 'paste', $this->lastdn);
     $this->handleReferences();
     $this->current  = FALSE;
   }
