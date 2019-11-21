@@ -139,19 +139,23 @@ class logging
     if (empty($entry['object'])) {
       $entry['object'] = 'none';
     }
-    $tabObject = objects::create('auditEvent');
-    $baseObject = $tabObject->getBaseObject();
-    $baseObject->fdAuditDateTime    = DateTime::createFromFormat('U.u', number_format($entry['timestamp'], 6, '.', ''));
-    $baseObject->fdAuditAction      = $entry['action'];
-    $baseObject->fdAuditAuthorDN    = $entry['user'];
-    $baseObject->fdAuditObjectType  = $entry['objecttype'];
-    $baseObject->fdAuditObject      = $entry['object'];
-    $baseObject->fdAuditAttributes  = $entry['changes'];
-    $baseObject->fdAuditResult      = $entry['result'];
-    $baseObject->base               = $config->current['BASE'];
-    $message = $tabObject->save();
-    if (!empty($message)) {
-      msg_dialog::displayChecks($message);
+    try {
+      $tabObject = objects::create('auditEvent');
+      $baseObject = $tabObject->getBaseObject();
+      $baseObject->fdAuditDateTime    = DateTime::createFromFormat('U.u', number_format($entry['timestamp'], 6, '.', ''));
+      $baseObject->fdAuditAction      = $entry['action'];
+      $baseObject->fdAuditAuthorDN    = $entry['user'];
+      $baseObject->fdAuditObjectType  = $entry['objecttype'];
+      $baseObject->fdAuditObject      = $entry['object'];
+      $baseObject->fdAuditAttributes  = $entry['changes'];
+      $baseObject->fdAuditResult      = $entry['result'];
+      $baseObject->base               = $config->current['BASE'];
+      $message = $tabObject->save();
+      if (!empty($message)) {
+        msg_dialog::displayChecks($message);
+      }
+    } catch (FusionDirectoryException $e) {
+      msg_dialog::display(_('Error'), sprintf(_('Failed to log event (%s - %s): %s'), $entry['action'], $entry['objecttype'], $e->getMessage()), ERROR_DIALOG);
     }
   }
 }
