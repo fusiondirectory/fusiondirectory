@@ -128,6 +128,26 @@ class Language
   }
 
   /*!
+   * \brief Checks if a locale is available
+   *
+   * \param string $lang Language locale to use
+   */
+  public static function isAvailable (string $lang): bool
+  {
+    /* Store current locale */
+    $locale = setlocale(LC_ALL, 0);
+
+    /* Try to switch */
+    list ($language, , $char) = parse_gettext_lang($lang);
+    $langset = setlocale(LC_ALL, $lang, $language.'.'.$char);
+
+    /* Set current locale back */
+    setlocale(LC_ALL, $locale);
+
+    return ($langset !== FALSE);
+  }
+
+  /*!
    * \brief Get the language for the user connecting
    *
    * \param boolean $ownLanguage Should language names be stated in their own language as well
