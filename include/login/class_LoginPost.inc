@@ -23,10 +23,26 @@
  */
 class LoginPost extends LoginMethod
 {
+  /*! \brief List of second factor methods, may be dynamic later */
+  static $secondFactorMethods = ['SecondFactorWebAuthn'];
+
   /*! \brief Displayed name */
   static function getLabel ()
   {
     return _('HTML form');
+  }
+
+  static function init ()
+  {
+    parent::init();
+
+    /* Init second factor methods if needed */
+    foreach (static::$secondFactorMethods as $secondFactorMethod) {
+      if (!class_available($secondFactorMethod)) {
+        continue;
+      }
+      $secondFactorMethod::init();
+    }
   }
 
   /*! \brief All login steps in the right order for standard POST login */
@@ -50,6 +66,16 @@ class LoginPost extends LoginMethod
         'runSchemaCheck',
       ]);
 
+      /* If needed redirect to second factor page */
+      foreach (static::$secondFactorMethods as $secondFactorMethod) {
+        if (!class_available($secondFactorMethod)) {
+          continue;
+        }
+        if ($secondFactorMethod::hasSecondFactor()) {
+          static::redirectSecondFactorPage();
+        }
+      }
+
       if ($success) {
         /* Everything went well, redirect to main.php */
         static::redirect();
@@ -60,6 +86,14 @@ class LoginPost extends LoginMethod
     $smarty->assign('cookies', '<b>'._('Warning').':</b> '._('Your browser has cookies disabled. Please enable cookies and reload this page before logging in!'));
 
     static::displayLogin();
+  }
+
+  /*! \brief Redirect to the second factor page */
+  static protected function redirectSecondFactorPage ()
+  {
+    session::un_set('connected');
+    header('Location: secondfactor.php');
+    exit;
   }
 
   /*! \brief Display the login page and exit() */
@@ -132,6 +166,68 @@ class LoginPost extends LoginMethod
     $smarty->assign('version', FD_VERSION);
 
     $smarty->display(get_template_path('login.tpl'));
+    exit();
+  }
+
+  /*! \brief Display the second factor page and exit() */
+  static function displaySecondFactorPage ()
+  {
+    global $smarty,$message,$config,$ssl,$error_collector,$error_collector_mailto;
+
+    $lang = session::get('lang');
+
+    error_reporting(E_ALL | E_STRICT);
+
+    /* Fill template with required values */
+    $username = '';
+    if (isset($_POST['username'])) {
+      $username = trim($_POST['username']);
+    }
+    $smarty->assign('date',       gmdate('D, d M Y H:i:s'));
+    $smarty->assign('username',   $username);
+    $smarty->assign('revision',   FD_VERSION);
+    $smarty->assign('year',       date('Y'));
+    $smarty->append('css_files',  get_template_path('login.css'));
+    $smarty->assign('title',      _('Second factor'));
+
+    /* Some error to display? */
+    if (!isset($message)) {
+      $message = '';
+    }
+    $smarty->assign('message', $message);
+
+    /* show login screen */
+    $smarty->assign('PHPSESSID', session_id());
+    if ($error_collector != '') {
+      $smarty->assign('php_errors', preg_replace('/%BUGBODY%/', $error_collector_mailto, $error_collector).'</div>');
+    } else {
+      $smarty->assign('php_errors', '');
+    }
+    $smarty->assign('msg_dialogs',  msg_dialog::get_dialogs());
+    $smarty->assign('usePrototype', 'false');
+    $smarty->assign('date',         date('l, dS F Y H:i:s O'));
+    $smarty->assign('lang',         preg_replace('/_.*$/', '', $lang));
+    $smarty->assign('rtl',          Language::isRTL($lang));
+
+    $methodOutputs = [];
+
+    /* Run second factor methods */
+    foreach (static::$secondFactorMethods as $secondFactorMethod) {
+      if (!class_available($secondFactorMethod)) {
+        continue;
+      }
+      $methodOutput = $secondFactorMethod::execute();
+      if ($methodOutput !== NULL) {
+        $methodOutputs[$secondFactorMethod] = $methodOutput;
+      }
+    }
+
+    $smarty->assign('methodOutputs', $methodOutputs);
+
+    $smarty->display(get_template_path('headers.tpl'));
+    $smarty->assign('version', FD_VERSION);
+
+    $smarty->display(get_template_path('secondfactor.tpl'));
     exit();
   }
 }

@@ -145,15 +145,23 @@ class LoginMethod
     return TRUE;
   }
 
-  /*! \brief Final step of successful login: redirect to main.php */
-  static function redirect ()
+  /*! \brief Connect user */
+  static function connect ()
   {
     global $config, $ui;
 
+    $ui = session::get('ui');
+
     /* Not account expired or password forced change go to main page */
-    logging::log('security', 'login', static::$username, [], 'Logged in successfully');
+    logging::log('security', 'login', $ui->uid, [], 'Logged in successfully');
     session::set('connected', 1);
     session::set('DEBUGLEVEL', $config->get_cfg_value('DEBUGLEVEL'));
+  }
+
+  /*! \brief Final step of successful login: redirect to main.php */
+  static function redirect ()
+  {
+    static::connect();
     header('Location: main.php');
     exit;
   }
