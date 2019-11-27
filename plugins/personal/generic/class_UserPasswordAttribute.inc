@@ -255,4 +255,29 @@ class UserPasswordAttribute extends CompositeAttribute
   {
     return $this->attributes[4]->getValue();
   }
+
+  /*! \brief Apply value from RPC requests
+   *
+   *  \param mixed $value the value
+   */
+  function deserializeValue ($value)
+  {
+    if ($this->disabled) {
+      return parent::deserializeValue($value);
+    }
+    if (is_array($value)) {
+      if (count($value) > 5) {
+        return sprintf(_('Too many elements in array value for password field %s: %d instead of %d'), $this->getLdapName(), count($value), 5);
+      } elseif (count($value) < 5) {
+        return sprintf(_('Not enough elements in array value for password field %s: %d instead of %d'), $this->getLdapName(), count($value), 5);
+      } elseif (!isset($value[0])) {
+        return sprintf(_('Array value for password field %s must have numeric keys'), $this->getLdapName());
+      }
+      $this->setValue($value);
+    } elseif (is_string($value)) {
+      $this->setValue(['', $value, $value, '', FALSE]);
+    } else {
+      return sprintf(_('Invalid value type for password field %s, must be array or string'), $this->getLdapName());
+    }
+  }
 }
