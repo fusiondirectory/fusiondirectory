@@ -99,6 +99,11 @@ class user extends simplePlugin
             'givenName', TRUE,
             '', '', '/^[^,+"?()=<>;\\\\]+$/'
           ),
+          new StringAttribute(
+            _('Initials'), _('The initials of some or all of the individual\'s names, but not the surname(s)'),
+            'initials', FALSE,
+            '', '', '/^[^,+"?()=<>;\\\\]+$/'
+          ),
           new TextAreaAttribute(
             _('Description'), _('Short description of the user'),
             'description', FALSE
