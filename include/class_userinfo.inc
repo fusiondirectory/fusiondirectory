@@ -222,11 +222,9 @@ class userinfo
           continue;
         }
 
-        if (!empty($ACLRule['userfilter'])) {
-          /* Check if we match the user filter */
-          if (!$ldap->object_match_filter($this->dn, $ACLRule['userfilter'])) {
-            continue;
-          }
+        if (!empty($ACLRule['userfilter']) && !$ldap->object_match_filter($this->dn, $ACLRule['userfilter'])) {
+          /* We do not match the user filter */
+          continue;
         }
 
         if (!empty($ACLRule['targetfilter'])) {
