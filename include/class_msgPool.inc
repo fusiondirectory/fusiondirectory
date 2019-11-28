@@ -37,58 +37,6 @@ define("LDAP_AUTH",   6);
  */
 class msgPool
 {
-  public static function selectToView ($type, $o_type = "")
-  {
-    if ($o_type == "") {
-      return sprintf(_("Select to list objects of type '%s'."), $type);
-    } elseif ($o_type == "contains") {
-      return sprintf(_("Select to list objects containig '%s'."), $type);
-    } elseif ($o_type == "enabled") {
-      return sprintf(_("Select to list objects that have '%s' enabled"), $type);
-    } elseif ($o_type == "subsearch") {
-      return _("Select to search within subtrees");
-    } elseif ($o_type == "subsearch_small") {
-      return _("Search in subtrees");
-    }
-  }
-
-  /*!
-   * \brief Display the deleted informations
-   *
-   * \param string $name Name of the object which will be deleted
-   *
-   * \param string $type Type of the object which will be deleted
-   */
-  public static function deleteInfo ($name = "", $type = "")
-  {
-    if ($name == "") {
-      if ($type == "") {
-        return _("This object will be deleted!");
-      } else {
-        return sprintf(_("This '%s' object will be deleted!"), $type);
-      }
-    }
-    if (!is_array($name)) {
-      if ($type == "") {
-        return sprintf(_("This object will be deleted: %s"), "<br><br><i>$name</i>");
-      } else {
-        return sprintf(_("This '%s' object will be deleted: %s"), $type, "<br><br><i>$name</i>");
-      }
-    }
-    if (count($name) == 1) {
-      if ($type == "") {
-        return _("This object will be deleted:")."<br>".msgPool::buildList($name);
-      } else {
-        return sprintf(_("This '%s' object will be deleted:"), $type). "<br>".msgPool::buildList($name);
-      }
-    }
-    if ($type == "") {
-      return sprintf(_("These objects will be deleted: %s"), "<br>".msgPool::buildList($name));
-    } else {
-      return sprintf(_("These '%s' objects will be deleted: %s"), $type, "<br>".msgPool::buildList($name));
-    }
-  }
-
   /*!
    * \brief Display that we have no permission to delete an object
    *
@@ -205,76 +153,6 @@ class msgPool
   }
 
   /*!
-   * \brief Display informations about database connection
-   *
-   * \param string $name Name of the database
-   *
-   * \param string $error Error messsage to display
-   *
-   * \param string $dbinfo Database information
-   */
-  public static function dbconnect ($name, $error = "", $dbinfo = "")
-  {
-    if ($error != "") {
-      $error = "<br><br><i>"._("Error").":</i> ".$error;
-    }
-    if ($dbinfo != "") {
-      $error .= "<br><br><i>"._("Connection information").":</i> ".$dbinfo;
-    }
-    return sprintf(_("Cannot connect to %s database!"), $name).$error;
-  }
-
-  /*!
-  * \brief Display informations about database select
-  *
-  * \param string $name Name of the database
-  *
-  * \param string $error Error messsage to display
-  *
-  * \param string $dbinfo Database information
-  */
-  public static function dbselect ($name, $error = "", $dbinfo = "")
-  {
-    if ($error != "") {
-      $error = "<br><br><i>"._("Error").":</i> ".$error;
-    }
-    if ($dbinfo != "") {
-      $error .= "<br><br><i>"._("Connection information").":</i> ".$dbinfo;
-    }
-    return sprintf(_("Cannot select %s database!"), $name).$error;
-  }
-
-  /*!
-   * \brief Display error about no server found
-   *
-   * \param string $name Name of the server
-   */
-  public static function noserver ($name)
-  {
-    return sprintf(_("No %s server defined!"), $name);
-  }
-
-  /*!
-  * \brief Display informations about database query
-  *
-  * \param string $name Name of the database
-  *
-  * \param string $error Error messsage to display
-  *
-  * \param string $dbinfo Database information
-  */
-  public static function dbquery ($name, $error = "", $dbinfo = "")
-  {
-    if ($error != "") {
-      $error = "<br><br><i>"._("Error").":</i> ".$error;
-    }
-    if ($dbinfo != "") {
-      $error .= "<br><br><i>"._("Connection information").":</i> ".$dbinfo;
-    }
-    return sprintf(_("Cannot query %s database!"), $name).$error;
-  }
-
-  /*!
    * \brief Display field contains reserved keyword
    *
    * \param string $name The field which contains reserved keyword
@@ -282,44 +160,6 @@ class msgPool
   public static function reserved ($name)
   {
     return sprintf(_("The field '%s' contains a reserved keyword!"), $name);
-  }
-
-  /*!
-   * \brief Display that a command doesn't exist in this plugin
-   *
-   * \param string $type Command type
-   *
-   * \param string $plugin Name of the plugin
-   */
-  public static function cmdnotfound ($type, $plugin)
-  {
-    return sprintf(_('Command specified as %s trigger for plugin "%s" does not exist!'), $type, $plugin);
-  }
-
-  /*!
-   * \brief Display that a command doesn't valid in this plugin
-   *
-   * \param string $type Command type
-   *
-   * \param string $command Command name
-   *
-   * \param string $plugin Name of the plugin
-   */
-  public static function cmdinvalid ($type, $command = "", $plugin = "")
-  {
-    if ($command == "") {
-      if ($plugin == "") {
-        return sprintf(_("'%s' command is invalid!"), $type);
-      } else {
-        return sprintf(_("'%s' command for plugin %s is invalid!"), $type, $plugin);
-      }
-    } else {
-      if ($plugin == "") {
-        return sprintf(_("'%s' command (%s) is invalid!"), $type, $command);
-      } else {
-        return sprintf(_("'%s' command (%s) for plugin %s is invalid!"), $type, $command, $plugin);
-      }
-    }
   }
 
   /*!
@@ -699,97 +539,6 @@ class msgPool
   }
 
   /*!
-   * \brief Display which it still in use
-   *
-   * \param $type Type
-   *
-   * \param array $objects
-   */
-  public static function stillInUse ($type, $objects = [])
-  {
-    if (!is_array($objects)) {
-      return sprintf(_("This '%s' is still in use by this object: %s"), $type, "<br><br>".$objects);
-    }
-    if (count($objects) == 1) {
-      return sprintf(_("This '%s' is still in use by this object: %s"), $type, "<br>".msgPool::buildList($objects));
-    }
-    if (count($objects) == 0) {
-      return sprintf(_("This '%s' is still in use."), $type);
-    }
-    return sprintf(_("This '%s' is still in use by these objects: %s"), $type, "<br>".msgPool::buildList($objects));
-  }
-
-  /*!
-   * \brief Display file doesn't exist
-   *
-   * \param string $file Name of the file not found
-   */
-  public static function fileDoesNotExist ($file)
-  {
-    return sprintf(_("File '%s' does not exist!"), $file);
-  }
-
-  /*!
-   * \brief Display file isn't readable
-   *
-   * \param string $file Name of the file not readable
-   */
-  public static function cannotReadFile ($file)
-  {
-    return sprintf(_("Cannot open file '%s' for reading!"), $file);
-  }
-
-  /*!
-   * \brief Display file isn't writable
-   *
-   * \param string $file Name of the file not writable
-   */
-  public static function cannotWriteFile ($file)
-  {
-    return sprintf(_("Cannot open file '%s' for writing!"), $file);
-  }
-
-  /*!
-   * \brief Display error in the configuration
-   *
-   * \param string $attr Name of the invalide attribute
-   */
-  public static function invalidConfigurationAttribute ($attr)
-  {
-    return sprintf(_("The value for '%s' is currently unconfigured or invalid, please check your configuration file!"), $attr);
-  }
-
-  /*!
-   * \brief Display error when cannot delete a file
-   *
-   * \param string $file Filename which can't be deleted
-   */
-  public static function cannotDeleteFile ($file)
-  {
-    return sprintf(_("Cannot delete file '%s'!"), $file);
-  }
-
-  /*!
-   * \brief Display error when cannot create a folder
-   *
-   * \param string $path Name of folder which can't be created
-   */
-  public static function cannotCreateFolder ($path)
-  {
-    return sprintf(_("Cannot create folder '%s'!"), $path);
-  }
-
-  /*!
-   * \brief Display error when cannot delete a folder
-   *
-   * \param string $path Name of folder which can't be deleted
-   */
-  public static function cannotDeleteFolder ($path)
-  {
-    return sprintf(_("Cannot delete folder '%s'!"), $path);
-  }
-
-  /*!
    * \brief Display checking for a support
    *
    * \param string $what Name of the support
@@ -807,26 +556,6 @@ class msgPool
   public static function installPhpModule ($what)
   {
     return sprintf(_("Install and activate the %s PHP module."), $what);
-  }
-
-  /*!
-   * \brief Display install or activate a PEAR module
-   *
-   * \param string $what Name of the module
-   */
-  public static function installPearModule ($what)
-  {
-    return sprintf(_("Install and activate the %s Pear module."), $what);
-  }
-
-  /*!
-   * \brief Display error when a class is not found
-   *
-   * \param string $plugin Name of the class which can'b be initialized
-   */
-  public static function class_not_found ($plugin)
-  {
-    return sprintf(_("Cannot initialize class '%s'! Maybe there is a plugin missing in your FusionDirectory setup?"), $plugin);
   }
 
   /*!
