@@ -111,6 +111,7 @@ class GroupMembersAttribute extends ObjectsAttribute
           $infos = objects::infos(ogroup::$objectTypes[$this->types[$key]]);
         }
       } catch (NonExistingObjectTypeException $e) {
+        /* Ignore non-existing types, plugins may have been removed */
       }
       if (isset($infos['icon'])) {
         $img = $infos['icon'];

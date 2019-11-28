@@ -183,6 +183,7 @@ class userRoles extends simplePlugin
           $g->getBaseObject()->attributesAccess['member']->searchAndRemove($this->dn);
           $g->save();
         } catch (NonExistingLdapNodeException $e) {
+          /* Ignore deleted groups */
         }
       }
       /* Remove all roles */
@@ -192,6 +193,7 @@ class userRoles extends simplePlugin
           $r->getBaseObject()->attributesAccess['roleOccupant']->searchAndRemove($this->dn);
           $r->save();
         } catch (NonExistingLdapNodeException $e) {
+          /* Ignore deleted roles */
         }
       }
     }

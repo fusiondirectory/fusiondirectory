@@ -58,15 +58,15 @@ class PropertiesColumn extends Column
 
   function renderCell (ListingEntry $entry): string
   {
-    $tabs   = $this->computeIcons($entry);
-    $result = '';
-    foreach ($tabs as $tab) {
-      if (empty($tab['icon'])) {
-        $result .= '<img src="images/empty.png" alt="" class="optional '.$tab['tab'].'"/>';
+    $tabInfos = $this->computeIcons($entry);
+    $result   = '';
+    foreach ($tabInfos as $tabInfo) {
+      if (empty($tabInfo['icon'])) {
+        $result .= '<img src="images/empty.png" alt="" class="optional '.$tabInfo['tab'].'"/>';
       } else {
-        $result .= '<input type="image" src="'.htmlentities($tab['icon'], ENT_COMPAT, 'UTF-8').'" '.
-                    'alt="'.htmlentities($tab['title'], ENT_COMPAT, 'UTF-8').'" title="'.htmlentities($tab['title'], ENT_COMPAT, 'UTF-8').'" '.
-                    'name="listing_edit_tab_'.$tab['tab'].'_'.$entry->row.'"/>';
+        $result .= '<input type="image" src="'.htmlentities($tabInfo['icon'], ENT_COMPAT, 'UTF-8').'" '.
+                    'alt="'.htmlentities($tabInfo['title'], ENT_COMPAT, 'UTF-8').'" title="'.htmlentities($tabInfo['title'], ENT_COMPAT, 'UTF-8').'" '.
+                    'name="listing_edit_tab_'.$tabInfo['tab'].'_'.$entry->row.'"/>';
       }
     }
 

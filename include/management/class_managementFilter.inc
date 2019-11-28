@@ -264,7 +264,9 @@ class managementFilter
 
       $objectTypeCount[$type] = count($ldapEntries);
       foreach ($ldapEntries as $dn => $entry) {
-        // TODO: check collisions?
+        if (isset($entries[$dn])) {
+          trigger_error('Same dn '.$dn.' found as several object types');
+        }
         $entries[$dn] = new ListingEntry($this->parent->listing, $type, $dn, $entry, $row++);
       }
     }

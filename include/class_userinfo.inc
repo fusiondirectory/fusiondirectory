@@ -222,11 +222,9 @@ class userinfo
           continue;
         }
 
-        if (!empty($ACLRule['userfilter'])) {
-          /* Check if we match the user filter */
-          if (!$ldap->object_match_filter($this->dn, $ACLRule['userfilter'])) {
-            continue;
-          }
+        if (!empty($ACLRule['userfilter']) && !$ldap->object_match_filter($this->dn, $ACLRule['userfilter'])) {
+          /* We do not match the user filter */
+          continue;
         }
 
         if (!empty($ACLRule['targetfilter'])) {
@@ -530,7 +528,7 @@ class userinfo
       $adn = preg_replace("/^[^,]*+,/", "", $adn);
     }
     if (isset($this->ACLperPath[$adn])) {
-      $ACL = $this->ACLperPath[$adn];
+      $ACLs = $this->ACLperPath[$adn];
     } else {
       $ACL_CACHE["$dn+$object+$attribute"] = '';
       return '';
@@ -575,10 +573,10 @@ class userinfo
         $cpath = $element.','.$cpath;
       }
 
-      if (isset($ACL[$cpath])) {
+      if (isset($ACLs[$cpath])) {
 
         /* Inspect this ACL, place the result into ACL */
-        foreach ($ACL[$cpath] as $subacl) {
+        foreach ($ACLs[$cpath] as $subacl) {
 
           /* Reset? Just clean the ACL and turn over to the next one... */
           if ($subacl['type'] == 'reset') {
