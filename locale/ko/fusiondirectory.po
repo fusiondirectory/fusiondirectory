@@ -4,16 +4,16 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Choi Chris <chulwon.choi@gmail.com>, 2018
+# Choi Chris <chulwon.choi@gmail.com>, 2019
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2019-10-01 16:03+0000\n"
+"POT-Creation-Date: 2019-10-07 20:22+0000\n"
 "PO-Revision-Date: 2016-08-29 14:52+0000\n"
-"Last-Translator: Choi Chris <chulwon.choi@gmail.com>, 2018\n"
+"Last-Translator: Choi Chris <chulwon.choi@gmail.com>, 2019\n"
 "Language-Team: Korean (https://www.transifex.com/fusiondirectory/teams/12202/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -47,12 +47,12 @@ msgstr "오류"
 
 #: include/class_msg_dialog.inc:177
 msgid "Please fix the above error and reload the page."
-msgstr ""
+msgstr "위의 오류를 수정하고 페이지를 다시 로드하십시오."
 
 #: include/class_config.inc:151
 #, php-format
 msgid "XML error in fusiondirectory.conf: %s at line %d"
-msgstr ""
+msgstr "fusiondirectory.conf의 XML 오류 : %d 줄에 %s"
 
 #: include/class_config.inc:154 include/class_config.inc:287
 #: include/class_config.inc:775 include/class_config.inc:787
@@ -71,6 +71,8 @@ msgid ""
 "It seems you are trying to decode something which is not encoded : %s<br/>\n"
 "Please check you are not using a fusiondirectory.secrets file while your passwords are not encrypted."
 msgstr ""
+"인코딩되지 않은 것을 디코딩하려고하는 것 같습니다 : %s 1\n"
+"비밀번호가 암호화되지 않은 상태에서 fusiondirectory.secrets 파일을 사용하고 있지 않은지 확인하십시오."
 
 #: include/class_config.inc:325 include/class_SnapshotHandler.inc:66
 #: include/class_SnapshotHandler.inc:251 include/class_SnapshotHandler.inc:281
@@ -90,86 +92,86 @@ msgstr ""
 #: setup/class_setupStepConfig.inc:108 setup/class_setupStepMigrate.inc:452
 #: setup/class_setupStepMigrate.inc:1068 html/index.php:379
 msgid "LDAP error"
-msgstr "lDAP 오류"
+msgstr "LDAP 오류"
 
 #: include/class_config.inc:325
 msgid "Cannot bind to LDAP. Please contact the system administrator."
-msgstr ""
+msgstr "LDAP에 바인딩 할 수 없습니다. 시스템 관리자에게 문의하십시오."
 
 #: include/class_config.inc:354
 #, php-format
 msgid "Location \"%s\" could not be found in the configuration file"
-msgstr ""
+msgstr "구성 파일에서 \"%s\" 위치를 찾을 수 없습니다"
 
 #: include/class_config.inc:776
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required variable \"%s\" is "
 "not set."
-msgstr ""
+msgstr "스냅 샷 기능이 사용 가능하지만 필수 변수 \"%s\"가 설정되지 않았습니다."
 
 #: include/class_config.inc:788
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required compression module "
 "is missing. Please install \"%s\"."
-msgstr ""
+msgstr "스냅 샷 기능이 활성화되었지만 필요한 압축 모듈이 없습니다. \"%s\"를 설치하십시오."
 
 #: include/class_config.inc:900
 msgid "All categories"
-msgstr ""
+msgstr "모든 카테고리"
 
 #: include/class_config.inc:1042
 msgid "My account"
-msgstr ""
+msgstr "내 계정"
 
 #: include/exporter/class_PDF.php:61
 msgid "Page"
-msgstr ""
+msgstr "페이지"
 
 #: include/exporter/class_pdfExporter.inc:58
 msgid "No PDF export possible: there is no FPDF library installed."
-msgstr ""
+msgstr "PDF로 내보낼 수 없음 : FPDF 라이브러리가 설치되어 있지 않습니다."
 
 #: include/exporter/class_pdfExporter.inc:196
 msgid "PDF"
-msgstr ""
+msgstr "PDF"
 
 #: include/exporter/class_cvsExporter.inc:93
 msgid "CSV"
-msgstr ""
+msgstr "CSV"
 
 #: include/php_setup.inc:45 include/php_setup.inc:132
 msgid "File"
-msgstr ""
+msgstr "파일"
 
 #: include/php_setup.inc:47 include/php_setup.inc:132
 msgid "Line"
-msgstr ""
+msgstr "라인"
 
 #: include/php_setup.inc:53
 msgid "PHP error"
-msgstr ""
+msgstr "PHP 오류"
 
 #: include/php_setup.inc:62
 msgid "class"
-msgstr ""
+msgstr "클래스"
 
 #: include/php_setup.inc:70
 msgid "function"
-msgstr ""
+msgstr "함수"
 
 #: include/php_setup.inc:76
 msgid "static"
-msgstr ""
+msgstr "정적"
 
 #: include/php_setup.inc:80
 msgid "method"
-msgstr ""
+msgstr "메소드"
 
 #: include/php_setup.inc:131 ihtml/themes/breezy/msg_dialog.tpl.c:11
 msgid "Trace"
-msgstr ""
+msgstr "Trace"
 
 #: include/php_setup.inc:132
 msgid "Type"
@@ -177,23 +179,23 @@ msgstr "타입"
 
 #: include/php_setup.inc:133
 msgid "Arguments"
-msgstr ""
+msgstr "인수"
 
 #: include/php_setup.inc:231
 msgid "Generating this page caused the PHP interpreter to raise some errors!"
-msgstr ""
+msgstr "이 페이지를 생성하면 PHP 인터프리터에서 오류가 발생됩니다!"
 
 #: include/php_setup.inc:236
 msgid "Send bug report to the FusionDirectory Team"
-msgstr ""
+msgstr "FusionDirectory 팀에 버그 보고서 보내기"
 
 #: include/php_setup.inc:237
 msgid "Send bugreport"
-msgstr ""
+msgstr "버그 리포트 보내기"
 
 #: include/php_setup.inc:242
 msgid "Toggle information"
-msgstr ""
+msgstr "정보 토글"
 
 #: include/class_listing.inc:312 include/class_listing.inc:1183
 #: include/class_listing.inc:1185
@@ -202,52 +204,52 @@ msgstr "위"
 
 #: include/class_listing.inc:312
 msgid "Down"
-msgstr ""
+msgstr "아래"
 
 #: include/class_listing.inc:312
 #: include/simpleplugin/attributes/class_SetAttribute.inc:479
 #: include/simpleplugin/attributes/class_SetAttribute.inc:480
 msgid "Sort up"
-msgstr ""
+msgstr "오름차순"
 
 #: include/class_listing.inc:312
 #: include/simpleplugin/attributes/class_SetAttribute.inc:492
 #: include/simpleplugin/attributes/class_SetAttribute.inc:493
 msgid "Sort down"
-msgstr ""
+msgstr "차순"
 
 #: include/class_listing.inc:364 setup/setup_migrate_accounts.tpl.c:23
 msgid "Select all"
-msgstr ""
+msgstr "전체선택"
 
 #: include/class_listing.inc:567
 msgid "created by"
-msgstr ""
+msgstr "만든 사람"
 
 #: include/class_listing.inc:1175
 msgid "Go to root department"
-msgstr ""
+msgstr "root 부서로 이동"
 
 #: include/class_listing.inc:1175 include/class_listing.inc:1177
 #: include/class_baseSelector.inc:212
 msgid "Root"
-msgstr ""
+msgstr "Root"
 
 #: include/class_listing.inc:1183
 msgid "Go up one department"
-msgstr ""
+msgstr "한 부서 위로 올라가"
 
 #: include/class_listing.inc:1191
 msgid "Go to user's department"
-msgstr ""
+msgstr "사용자 부서로 이동"
 
 #: include/class_listing.inc:1191 include/class_listing.inc:1193
 msgid "Home"
-msgstr ""
+msgstr "홈"
 
 #: include/class_listing.inc:1198
 msgid "Reload list"
-msgstr ""
+msgstr "새로 고침 목록"
 
 #: include/class_listing.inc:1342 include/simpleplugin/simple-list.xml:48
 #: plugins/admin/departments/dep-list.xml:37
@@ -257,50 +259,50 @@ msgstr "작업"
 
 #: include/class_listing.inc:1655 include/class_listing.inc:1708
 msgid "Copy"
-msgstr ""
+msgstr "복사"
 
 #: include/class_listing.inc:1661 include/class_listing.inc:1696
 msgid "Cut"
-msgstr ""
+msgstr "잘라내기"
 
 #: include/class_listing.inc:1669 include/class_listing.inc:1671
 #: include/class_CopyPasteHandler.inc:330
 msgid "Paste"
-msgstr ""
+msgstr "붙여넣기"
 
 #: include/class_listing.inc:1696
 msgid "Cut this entry"
-msgstr ""
+msgstr "항목 잘라내기"
 
 #: include/class_listing.inc:1708
 msgid "Copy this entry"
-msgstr ""
+msgstr "항목 복사하기"
 
 #: include/class_listing.inc:1733 include/class_listing.inc:1735
 msgid "Restore snapshots"
-msgstr ""
+msgstr "스냅샷 복구"
 
 #: include/class_listing.inc:1749
 msgid "Export list"
-msgstr ""
+msgstr "목록 내보내기"
 
 #: include/class_listing.inc:1781 include/class_listing.inc:1782
 #: include/class_listing.inc:1786
 msgid "Restore snapshot"
-msgstr ""
+msgstr "스냅샷 복구"
 
 #: include/class_listing.inc:1794
 msgid "Create snapshot"
-msgstr ""
+msgstr "스냅샷 생성"
 
 #: include/class_listing.inc:1795
 msgid "Create a new snapshot from this object"
-msgstr ""
+msgstr "이 객체에서 새 스냅샷 생성"
 
 #: include/class_timezone.inc:52
 #, php-format
 msgid "The timezone setting \"%s\" in your configuration is not valid."
-msgstr ""
+msgstr "구성에서 \"%s\"시간대 설정이 유효하지 않습니다."
 
 #: include/class_SnapshotHandler.inc:40
 msgid "Snapshot"
@@ -320,7 +322,7 @@ msgstr ""
 
 #: include/class_SnapshotHandler.inc:408
 msgid "There was a problem uncompressing snapshot data"
-msgstr ""
+msgstr "스냅샷 데이터를 압축 해제하는 중에 문제가 발생했습니다"
 
 #: include/class_SnapshotHandler.inc:412
 msgid "Snapshot data could not be fetched"
@@ -336,12 +338,12 @@ msgstr "템플릿"
 
 #: include/class_template.inc:44
 msgid "Object template, used to create several objects with similar values"
-msgstr ""
+msgstr "비슷한 값을 가진 여러 개체를 만드는 데 사용되는 개체 템플릿"
 
 #: include/class_template.inc:49
 #: include/simpleplugin/class_simplePlugin.inc:348
 msgid "Template name"
-msgstr ""
+msgstr "템플릿"
 
 #: include/class_logging.inc:81 include/functions.inc:512
 #: include/functions.inc:584 include/functions.inc:705
@@ -349,49 +351,49 @@ msgstr ""
 #: include/functions.inc:1753 include/class_acl.inc:118
 #: include/class_ldap.inc:797 include/class_ldap.inc:822
 msgid "Internal error"
-msgstr ""
+msgstr "내부 오"
 
 #: include/class_logging.inc:81
 #, php-format
 msgid "Logging failed: %s"
-msgstr ""
+msgstr "로깅 실패: %s"
 
 #: include/class_logging.inc:103
 #, php-format
 msgid "Invalid option \"%s\" specified!"
-msgstr ""
+msgstr "\"%s\" 옵션이 잘못되었습니다!"
 
 #: include/class_logging.inc:107
 msgid "Specified objectType is empty or invalid!"
-msgstr ""
+msgstr "지정된 objectType이 비어 있거나 유효하지 않습니다!"
 
 #: include/password-methods/class_password-methods-sasl.inc:65
 #, php-format
 msgid "Cannot change password, unknown user \"%s\""
-msgstr ""
+msgstr "패스워드를 변경할 수 없습니다, 사용자를 알 수 없습니다. \"%s\""
 
 #: include/password-methods/class_password-methods-sasl.inc:92
 #: plugins/config/class_configInLdap.inc:584
 msgid ""
 "You need to fill saslRealm or saslExop in the configuration screen in order "
 "to use SASL"
-msgstr ""
+msgstr "SASL을 사용하려면 구성 화면에서 saslRealm 또는 saslExop를 채워야 합니다."
 
 #: include/class_baseSelector.inc:275
 msgid "Submit"
-msgstr ""
+msgstr "제출"
 
 #: include/class_filter.inc:331 include/functions.inc:1545
 msgid "*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-msgstr ""
+msgstr "*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
 #: include/class_filter.inc:369
 msgid "Apply filter"
-msgstr ""
+msgstr "필터 적"
 
 #: include/class_filter.inc:380 include/class_msgPool.inc:51
 msgid "Search in subtrees"
-msgstr ""
+msgstr "하위 트리에서 검색"
 
 #: include/class_filter.inc:404
 #, php-format
@@ -1334,12 +1336,12 @@ msgstr "분"
 
 #: include/simpleplugin/attributes/class_DateAttribute.inc:209
 msgid "Seconds"
-msgstr ""
+msgstr "초"
 
 #: include/simpleplugin/attributes/class_DateAttribute.inc:297
 #: include/class_SnapshotDialogs.inc:143 include/class_SnapshotDialogs.inc:149
 msgid "Date"
-msgstr ""
+msgstr "일자"
 
 #: include/simpleplugin/attributes/class_DateAttribute.inc:303
 msgid "Time"
@@ -1985,7 +1987,7 @@ msgstr ""
 #: plugins/admin/departments/class_department.inc:112
 #: plugins/personal/generic/class_user.inc:374
 msgid "Fax"
-msgstr ""
+msgstr "팩스"
 
 #: plugins/admin/departments/class_department.inc:112
 msgid "Facsimile telephone number"
@@ -5046,4 +5048,4 @@ msgstr ""
 
 #: ihtml/themes/breezy/sizelimit.tpl.c:14
 msgid "Set"
-msgstr ""
+msgstr "설정"

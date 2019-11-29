@@ -6,16 +6,16 @@
 # Translators:
 # fusiondirectory <contact@fusiondirectory.org>, 2018
 # Paola Penati <paola.penati@opensides.be>, 2019
-# Paola PENATI <paola.penati@fusiondirectory.org>, 2019
+# Paola <paola.penati@fusiondirectory.org>, 2019
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2019-10-01 16:03+0000\n"
+"POT-Creation-Date: 2019-10-07 20:22+0000\n"
 "PO-Revision-Date: 2016-08-29 14:52+0000\n"
-"Last-Translator: Paola PENATI <paola.penati@fusiondirectory.org>, 2019\n"
+"Last-Translator: Paola <paola.penati@fusiondirectory.org>, 2019\n"
 "Language-Team: Italian (Italy) (https://www.transifex.com/fusiondirectory/teams/12202/it_IT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
