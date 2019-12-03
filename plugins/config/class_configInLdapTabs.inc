@@ -19,7 +19,7 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class tabs_configInLdap extends simpleTabs
+class configInLdapTabs extends simpleTabs
 {
   function save ()
   {

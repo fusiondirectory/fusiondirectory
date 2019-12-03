@@ -31,7 +31,7 @@ class dashboard extends simplePlugin
       'plObjectType'  => [
         'dashboard' => [
           'name'      => _('Dashboard'),
-          'tabClass'  => 'tabs_dashboard',
+          'tabClass'  => 'dashboardTabs',
           'mainAttr'  => FALSE
         ]
       ],
