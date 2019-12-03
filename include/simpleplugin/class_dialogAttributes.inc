@@ -549,7 +549,9 @@ class UsersGroupsRolesAttribute extends ObjectsAttribute
 
   protected function fillDisplayValueFrom ($i, $attrs)
   {
-    if (!isset($attrs[$this->display_attr])) {
+    if ($this->isTemplate() && ($attrs === NULL)) {
+      $this->displays[$i] = $this->value[$i];
+    } elseif (!isset($attrs[$this->display_attr])) {
       unset($this->value[$i]);
     } else {
       $cn = $attrs['cn'][0];
