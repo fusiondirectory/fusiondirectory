@@ -468,12 +468,12 @@ class Attribute
   function check ()
   {
     global $config;
-    $value = $this->getValue();
-    if ($this->isRequired() && !$this->disabled && (($value === "") || ($value === []))) {
+    $currentValue = $this->getValue();
+    if ($this->isRequired() && !$this->disabled && (($currentValue === "") || ($currentValue === []))) {
       return msgPool::required($this->getLabel());
     } elseif (($this->unique !== FALSE) && !$this->disabled) {
-      $value = $this->computeLdapValue();
-      if (($value === "") || ($value === [])) {
+      $ldapValue = $this->computeLdapValue();
+      if (($ldapValue === "") || ($ldapValue === [])) {
         return;
       }
       $ldap = $config->get_ldap_link();
@@ -486,10 +486,10 @@ class Attribute
         }
       }
       $ldap->cd($base);
-      if (is_array($value)) {
-        $filter = '(|('.$this->getLdapName().'='.join(')('.$this->getLdapName().'=', array_map('ldap_escape_f', $value)).'))';
+      if (is_array($ldapValue)) {
+        $filter = '(|('.$this->getLdapName().'='.join(')('.$this->getLdapName().'=', array_map('ldap_escape_f', $ldapValue)).'))';
       } else {
-        $filter = '('.$this->getLdapName().'='.ldap_escape_f($value).')';
+        $filter = '('.$this->getLdapName().'='.ldap_escape_f($ldapValue).')';
       }
       $infos = pluglist::pluginInfos(get_class($this->plugin));
       if ($this->uniqueFilter === NULL) {
@@ -596,17 +596,17 @@ class Attribute
   {
     if ($this->visible) {
       if ($readOnly) {
-        $value = $this->getValue();
-        if (is_array($value)) {
+        $currentValue = $this->getValue();
+        if (is_array($currentValue)) {
           $input = '{literal}'.implode('<br/>', array_map(
             function ($v)
             {
               return htmlentities($v, ENT_COMPAT, 'UTF-8');
             },
-            $value
+            $currentValue
           )).'{/literal}';
         } else {
-          $input = '{literal}'.htmlentities($value, ENT_COMPAT, 'UTF-8').'{/literal}';
+          $input = '{literal}'.htmlentities($currentValue, ENT_COMPAT, 'UTF-8').'{/literal}';
         }
       } elseif ($this->isTemplate()) {
         $input = $this->renderTemplateInput();
@@ -756,10 +756,10 @@ class Attribute
       if ($newvalue === NULL) {
         $this->resetToDefault();
       } elseif ($source['FIELD'] == 'dn') {
-        $value = $this->getInitialValue();
-        $value = preg_replace('/'.preg_quote($oldvalue, '/').'$/', $newvalue, $value, -1, $count);
+        $initialValue = $this->getInitialValue();
+        $initialValue = preg_replace('/'.preg_quote($oldvalue, '/').'$/', $newvalue, $initialValue, -1, $count);
         if ($count > 0) {
-          $this->setValue($value);
+          $this->setValue($initialValue);
         }
       } elseif ($this->getInitialValue() == $oldvalue) {
         $this->setValue($newvalue);
