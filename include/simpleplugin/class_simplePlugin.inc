@@ -200,14 +200,12 @@ class simplePlugin implements SimpleTab
     }
 
     /* Ensure that we've a valid acl_category set */
-    if (empty($this->acl_category)) {
-      if (isset($plInfo['plCategory'])) {
-        $c = key($plInfo['plCategory']);
-        if (is_numeric($c)) {
-          $c = $plInfo['plCategory'][0];
-        }
-        $this->acl_category = $c.'/';
+    if (empty($this->acl_category) && isset($plInfo['plCategory'])) {
+      $c = key($plInfo['plCategory']);
+      if (is_numeric($c)) {
+        $c = $plInfo['plCategory'][0];
       }
+      $this->acl_category = $c.'/';
     }
 
     /* Check if this entry was opened in read only mode */
@@ -1335,7 +1333,7 @@ class simplePlugin implements SimpleTab
       }
     }
     /* Some of them have post-filling hook */
-    foreach ($this->attributesInfo as $section => $sectionInfo) {
+    foreach ($this->attributesInfo as $sectionInfo) {
       foreach ($sectionInfo['attrs'] as $attr) {
         $attr->fillLdapValueHook($this->attrs);
       }
