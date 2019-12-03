@@ -167,6 +167,19 @@ class DateAttribute extends Attribute
     $display = $this->renderInputField('date', $this->getHtmlId(), $attributes);
     return $this->renderAcl($display);
   }
+
+  function renderTemplateInput (): string
+  {
+    $id = $this->getHtmlId();
+    $attributes = [
+      'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}'
+    ];
+    if ($this->isSubAttribute) {
+      $attributes['class'] = 'subattribute';
+    }
+    $display = $this->renderInputField('text', $id, $attributes);
+    return $this->renderAcl($display);
+  }
 }
 
 /*!
