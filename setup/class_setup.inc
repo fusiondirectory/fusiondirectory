@@ -43,7 +43,7 @@ class setup
       new setupStepLanguage($this),
       new setupStepChecks($this),
       new setupStepLdap($this),
-      new setupStepConfig_before_init($this),
+      new setupStepConfigBeforeInit($this),
       new setupStepMigrate($this),
       new setupStepFinish($this),
     ];
