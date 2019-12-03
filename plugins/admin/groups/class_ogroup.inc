@@ -39,23 +39,14 @@ class GroupMembersAttribute extends ObjectsAttribute
   protected function fillDisplayValueFrom ($i, $attrs)
   {
     if ($attrs) {
+      $code       = FALSE;
+      $objectType = '';
       if (is_array($attrs)) {
-        foreach (ogroup::$objectTypes as $code => $objectType) {
+        foreach (ogroup::$objectTypes as $key => $value) {
           try {
-            if (objects::isOfType($attrs, $objectType)) {
-              $infos = objects::infos($objectType);
-              $this->types[$i]    = $code;
-              $this->displays[$i] = $attrs[$infos['nameAttr']][0];
-              if (strtolower($objectType) == 'user') {
-                if (isset($attrs['description'][0])) {
-                  $this->displays[$i] .= ' ['.$attrs['uid'][0].' - '.$attrs['description'][0].']';
-                } else {
-                  $this->displays[$i] .= ' ['.$attrs['uid'][0].']';
-                }
-              } elseif (isset($attrs['description'][0])) {
-                $this->displays[$i] .= ' ['.$attrs['description'][0].']';
-              }
-              break;
+            if (objects::isOfType($attrs, $value)) {
+              $code       = $key;
+              $objectType = $value;
             }
           } catch (NonExistingObjectTypeException $e) {
             continue;
@@ -64,19 +55,19 @@ class GroupMembersAttribute extends ObjectsAttribute
       } else {
         $objectType = $attrs->getTemplatedType();
         $code       = array_search(strtolower($objectType), array_map('strtolower', ogroup::$objectTypes));
-        if ($code !== FALSE) {
-          $infos              = objects::infos($objectType);
-          $this->types[$i]    = $code;
-          $this->displays[$i] = $attrs[$infos['nameAttr']][0];
-          if (strtolower($objectType) == 'user') {
-            if (isset($attrs['description'][0])) {
-              $this->displays[$i] .= ' ['.$attrs['uid'][0].' - '.$attrs['description'][0].']';
-            } else {
-              $this->displays[$i] .= ' ['.$attrs['uid'][0].']';
-            }
-          } elseif (isset($attrs['description'][0])) {
-            $this->displays[$i] .= ' ['.$attrs['description'][0].']';
+      }
+      if ($code !== FALSE) {
+        $infos = objects::infos($objectType);
+        $this->types[$i]    = $code;
+        $this->displays[$i] = $attrs[$infos['nameAttr']][0];
+        if (strtolower($objectType) == 'user') {
+          if (isset($attrs['description'][0])) {
+            $this->displays[$i] .= ' ['.$attrs['uid'][0].' - '.$attrs['description'][0].']';
+          } else {
+            $this->displays[$i] .= ' ['.$attrs['uid'][0].']';
           }
+        } elseif (isset($attrs['description'][0])) {
+          $this->displays[$i] .= ' ['.$attrs['description'][0].']';
         }
       }
       if (!isset($this->displays[$i])) {

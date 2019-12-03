@@ -20,7 +20,7 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class setupStepConfig_before_init extends setupStep
+class setupStepConfigBeforeInit extends setupStep
 {
   function update_strings ()
   {
