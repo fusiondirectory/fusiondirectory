@@ -33,7 +33,7 @@ class configInLdap extends simplePlugin
         'configuration' => [
           'name'      => _('FusionDirectory configuration'),
           'filter'    => 'objectClass=fusionDirectoryConf',
-          'tabClass'  => 'tabs_configInLdap',
+          'tabClass'  => 'configInLdapTabs',
           'icon'      => 'geticon.php?context=categories&icon=settings&size=16',
           'mainAttr'  => FALSE,
           'ou'        => preg_replace('/^[^,]+,/', '', CONFIGRDN)
