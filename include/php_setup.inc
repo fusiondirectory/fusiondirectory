@@ -275,37 +275,6 @@ function dummy_error_handler ()
 {
 }
 
-/*! \brief Returns TRUE if SSL was used to contact FD, whether directly or through a proxy
- */
-function sslOn ()
-{
-  if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
-    return (strcasecmp($_SERVER['HTTP_X_FORWARDED_PROTO'], 'https') == 0);
-  }
-  if (isset($_SERVER['HTTPS'])) {
-    return (strcasecmp($_SERVER['HTTPS'], 'on') == 0);
-  }
-  return FALSE;
-}
-
-/*! \brief Returns SSL URL to redirect to
- */
-function sslUrl ()
-{
-  $ssl = 'https://';
-  if (empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
-    $ssl .= $_SERVER['HTTP_HOST'];
-  } else {
-    $ssl .= $_SERVER['HTTP_X_FORWARDED_HOST'];
-  }
-  if (empty($_SERVER['REQUEST_URI'])) {
-    $ssl .= $_SERVER['PATH_INFO'];
-  } else {
-    $ssl .= $_SERVER['REQUEST_URI'];
-  }
-  return $ssl;
-}
-
 /* Bail out for incompatible/old PHP versions */
 if (!version_compare(phpversion(), PHP_MIN_VERSION, ">=")) {
   echo "PHP version needs to be ".PHP_MIN_VERSION." or above to run FusionDirectory. Aborted.";
@@ -346,6 +315,6 @@ $smarty->php_handling = Smarty::PHP_REMOVE;
 
 /* Check for SSL connection */
 $ssl = '';
-if (!sslOn()) {
-  $ssl = sslUrl();
+if (!URL::sslOn()) {
+  $ssl = URL::getSslUrl();
 }

@@ -336,7 +336,7 @@ class passwordRecovery extends standAlonePage
       return;
     }
 
-    $reinit_link = $this->getPageURL();
+    $reinit_link = URL::getPageURL();
     $reinit_link .= '?uniq='.urlencode($token);
     $reinit_link .= '&login='.urlencode($this->login);
     $reinit_link .= '&email_address='.urlencode($this->email_address);

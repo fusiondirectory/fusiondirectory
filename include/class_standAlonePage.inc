@@ -198,8 +198,8 @@ class standAlonePage
     /* Check for SSL connection */
     $ssl = '';
     $smarty->assign('ssl', '');
-    if (!sslOn()) {
-      $ssl = sslUrl();
+    if (!URL::sslOn()) {
+      $ssl = URL::getSslUrl();
 
       /* If SSL is forced, just forward to the SSL enabled site */
       if ($config->get_cfg_value('forcessl') == 'TRUE') {
@@ -212,40 +212,6 @@ class standAlonePage
     }
 
     return $ssl;
-  }
-
-  function getPageURL ()
-  {
-    $protocol = 'http';
-    if (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) {
-      $protocol .= 's';
-    }
-    $port = '80';
-    if (!empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
-      $host = $_SERVER['HTTP_X_FORWARDED_HOST'];
-      if (isset($_SERVER['HTTP_X_FORWARDED_PORT'])) {
-        $port = $_SERVER['HTTP_X_FORWARDED_PORT'];
-      }
-      if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
-        $protocol = $_SERVER['HTTP_X_FORWARDED_PROTO'];
-      }
-    } else {
-      $host = $_SERVER['SERVER_NAME'];
-      $port = $_SERVER['SERVER_PORT'];
-    }
-
-    $pageURL = $protocol.'://';
-    $pageURL .= $host;
-    if ((($protocol == 'http') && ($port != '80')) || (($protocol == 'https') && ($port != '443'))) {
-      $pageURL .= ':'.$port;
-    }
-    if (empty($_SERVER['PATH_INFO'])) {
-      $pageURL .= $_SERVER['PHP_SELF'];
-    } else {
-      $pageURL .= $_SERVER['PATH_INFO'];
-    }
-
-    return $pageURL;
   }
 
   function encodeParams ($keys)
