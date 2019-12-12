@@ -25,6 +25,7 @@
  * Source code for php_setup
  */
 require_once("variables.inc");
+require_once('class_URL.inc');
 
 function html_trace ($errstr = "")
 {
