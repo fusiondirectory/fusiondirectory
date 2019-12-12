@@ -24,7 +24,7 @@
 class LoginPost extends LoginMethod
 {
   /*! \brief List of second factor methods, may be dynamic later */
-  static $secondFactorMethods = ['SecondFactorWebAuthn'];
+  static $secondFactorMethods = ['SecondFactorWebAuthn','SecondFactorTotp'];
 
   /*! \brief Displayed name */
   static function getLabel ()
@@ -67,13 +67,15 @@ class LoginPost extends LoginMethod
       ]);
 
       /* If needed redirect to second factor page */
+      $secondFactor = FALSE;
       foreach (static::$secondFactorMethods as $secondFactorMethod) {
         if (!class_available($secondFactorMethod)) {
           continue;
         }
-        if ($secondFactorMethod::hasSecondFactor()) {
-          static::redirectSecondFactorPage();
-        }
+        $secondFactor = ($secondFactorMethod::hasSecondFactor() || $secondFactor);
+      }
+      if ($secondFactor) {
+        static::redirectSecondFactorPage();
       }
 
       if ($success) {
@@ -208,6 +210,7 @@ class LoginPost extends LoginMethod
     $smarty->assign('date',         date('l, dS F Y H:i:s O'));
     $smarty->assign('lang',         preg_replace('/_.*$/', '', $lang));
     $smarty->assign('rtl',          Language::isRTL($lang));
+    $smarty->assign('CSRFtoken',    CSRFProtection::getToken());
 
     $methodOutputs = [];
 

@@ -7,7 +7,7 @@
 <div id="window-container">
 
 <div id="window-div">
-<form action="index.php" method="post" id="loginform" name="loginform">
+<form action="" method="post" id="loginform" name="loginform">
 
 {$msg_dialogs}
   <div id="window-titlebar">
@@ -31,7 +31,7 @@
     <div>
     </div>
   </div>
-
+  <input type="hidden" name="CSRFtoken" value="{$CSRFtoken}"/>
 </form>
 </div>
 
