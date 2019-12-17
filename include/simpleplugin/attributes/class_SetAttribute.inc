@@ -470,7 +470,7 @@ class OrderedArrayAttribute extends SetAttribute
       ksort($this->value);
       $this->reIndexValues();
     } else {
-      sort($this->value);
+      $this->sortValues();
     }
   }
 
