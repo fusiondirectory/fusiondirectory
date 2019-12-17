@@ -32,9 +32,9 @@ class objects
    * \param array   $types the objectTypes to list
    * \param mixed   $attrs The attributes to fetch.
    * If this is a single value, the resulting associative array will have for each dn the value of this attribute.
-   * If this is an array, the keys must be the wanted attributes, and the values can be either 1, '*' or 'raw'
+   * If this is an array, the keys must be the wanted attributes, and the values can be either 1, '*', 'b64' or 'raw'
    *  depending if you want a single value or an array of values. 'raw' means untouched LDAP value and is only useful for dns.
-   *  Other values are considered to be 1.
+   *  Other values are considered to be 1. 'b64' means an array of base64 encoded values and is mainly useful through webservice for binary attributes.
    * \param string  $ou the LDAP branch to search in, base will be used if it is NULL
    * \param string  $filter an additional filter to use in the LDAP search.
    * \param boolean $checkAcl should ACL be ignored or checked? Defaults to FALSE.
@@ -143,6 +143,10 @@ class objects
                 unset($fetched_attrs[$attr]['count']);
               case 'raw':
                 $result[$key][$attr] = $fetched_attrs[$attr];
+                break;
+              case 'b64':
+                unset($fetched_attrs[$attr]['count']);
+                $result[$key][$attr] = array_map('base64_encode', $fetched_attrs[$attr]);
                 break;
               case 1:
               default:
