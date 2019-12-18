@@ -8,6 +8,7 @@
 
 <div id="window-div">
 <form action="" method="post" id="loginform" name="loginform">
+  <div style="width: 0; height: 0; overflow: hidden;"><input type="submit" name="default_submit_hidden_button"/></div>
 
 {$msg_dialogs}
   <div id="window-titlebar">
