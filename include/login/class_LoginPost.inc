@@ -24,7 +24,7 @@
 class LoginPost extends LoginMethod
 {
   /*! \brief List of second factor methods, may be dynamic later */
-  static $secondFactorMethods = ['SecondFactorWebAuthn','SecondFactorTotp'];
+  static $secondFactorMethods = ['SecondFactorWebAuthn','SecondFactorTotp','SecondFactorRecoveryCode'];
 
   /*! \brief Displayed name */
   static function getLabel ()
