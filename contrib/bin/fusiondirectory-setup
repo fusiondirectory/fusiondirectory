@@ -1637,6 +1637,53 @@ sub migrate_phones {
   $unbind->code && warn "! Unable to unbind from LDAP server: ", $unbind->error."\n";
 }
 
+# function that removes SupAnn root information from FD<1.4
+sub remove_supann_root {
+  # initiate the LDAP connexion
+  my %hash_ldap_param = get_ldap_connexion();
+
+  # LDAP's connection's parameters
+  my $base = $hash_ldap_param{base};
+  my $ldap = $hash_ldap_param{ldap};
+
+  my $mesg = $ldap->search(
+    filter  => '(&(objectClass=supannOrg)(objectClass=eduOrg))',
+    base    => $base,
+    scope   => 'one'
+  );
+  $mesg->code && die $mesg->error;
+
+  if ($mesg->count > 0) {
+    print ("There is an outdated SupAnn establishement stored under root node:\n");
+
+    my @entries = $mesg->entries;
+
+    foreach my $entry (@entries) {
+      print $entry->dn()."\n";
+    }
+
+    print ("You should remove this entry and check the 'Root establishment' checkbox\n");
+    print (" in FusionDirectory to save it in the root node instead.\n");
+
+    if (ask_yn_question("Remove this entry?")) {
+      foreach my $entry (@entries) {
+        $mesg = $ldap->delete($entry);
+        if ($mesg->code) {
+          print "Failed to delete entry '".$entry->dn."': ".$mesg->error."\n";
+        } else {
+          print "Deleted entry '".$entry->dn."'\n";
+        }
+      }
+    }
+  } else {
+    print ("There is no outdated SupAnn establishement stored under root node.\n");
+  }
+
+  # unbind to the LDAP server
+  my $unbind = $ldap->unbind;
+  $unbind->code && warn "! Unable to unbind from LDAP server: ", $unbind->error."\n";
+}
+
 # List LDAP attributes which have been deprecated
 sub list_deprecated {
   my ($obsolete_attrs, $obsolete_classes) = get_deprecated();
@@ -1879,6 +1926,7 @@ die ("! You have to run this script as root\n") if ($<!=0);
   $commands{"--migrate-systems"}      = ["Migrating your systems from FD < 1.1",          \&migrate_systems, 1];
   $commands{"--migrate-winstations"}  = ["Migrating your winstations from FD < 1.1",      \&migrate_winstations, 1];
   $commands{"--migrate-dhcp"}         = ["Migrating DHCP configurations for FD >= 1.0.17",\&migrate_dhcp, 1];
+  $commands{"--remove-supann-root"}   = ["Remove SupAnn root establishment from FD < 1.4",\&remove_supann_root, 1];
   $commands{"--delete-gosa-locks"}    = ["Delete lock tokens using old gosaLockEntry class", \&delete_gosa_locks];
   $commands{"--install-plugins"}      = ["Installing FusionDirectory's plugins",          \&install_plugins];
   $commands{"--encrypt-passwords"}    = ["Encrypt passwords in fusiondirectory.conf",     \&encrypt_passwords];
