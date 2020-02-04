@@ -411,7 +411,7 @@ class templateHandling
       }
     }
 
-    return $res;
+    return [$res];
   }
 
   private static function modifierDate (array $args)
@@ -561,11 +561,11 @@ class templateHandling
         break;
       case 'r':
         // random string
-        $result = [static::modifierRandomString($args)];
+        $result = static::modifierRandomString($args);
         break;
       case 'd':
         // date
-        $result = [static::modifierDate($args)];
+        $result = static::modifierDate($args);
         break;
       case 'n':
         // number

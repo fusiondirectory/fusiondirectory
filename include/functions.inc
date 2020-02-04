@@ -1968,18 +1968,18 @@ function fopenWithErrorHandling (...$args)
 // Check to see if it exists in case PHP has this function later
 if (!function_exists('mb_substr_replace')) {
   // Same parameters as substr_replace with the extra encoding parameter
-  function mb_substr_replace ($string, $replacement, $start, $length = NULL, $encoding = NULL)
+  function mb_substr_replace (string $string, string $replacement, $start, $length = NULL, $encoding = NULL)
   {
-    if ($encoding == NULL) {
+    if ($encoding === NULL) {
       $encoding = mb_internal_encoding();
     }
-    if ($length == NULL) {
+    if ($length === NULL) {
       return  mb_substr($string, 0, $start, $encoding).
               $replacement;
     } else {
       return  mb_substr($string, 0, $start, $encoding).
               $replacement.
-              mb_substr($string, $start + $length, mb_strlen($string, $encoding), $encoding);
+              mb_substr($string, $start + $length, NULL, $encoding);
     }
   }
 }
