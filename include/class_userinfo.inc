@@ -3,7 +3,7 @@
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
 
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2019  FusionDirectory
+  Copyright (C) 2011-2020  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -297,37 +297,41 @@ class userinfo
       For objects located in 'ou=dep1,ou=base' we have to apply both ACLs,
        for objects in 'ou=base' we only have to apply one ACL.
      */
-    $without_self_acl = $all_acl = [];
+    $all_acl = [];
     foreach ($this->ACL as $dn => $acl) {
+      $all_acl[$dn][$dn] = $acl;
       $sdn = $dn;
-      do {
+      while (strpos($dn, ',') !== FALSE) {
+        $dn = preg_replace('/^[^,]*+,/', '', $dn);
         if (isset($this->ACL[$dn])) {
-          $all_acl[$sdn][$dn]           = $this->ACL[$dn];
-          $without_self_acl[$sdn][$dn]  = $this->ACL[$dn];
-          foreach ($without_self_acl[$sdn][$dn] as $acl_id => $acl_set) {
-            /* Remove all acl entries which are especially for the current user (self acl) */
-            foreach ($acl_set['acl'] as $object => $object_acls) {
-              if (isset($object_acls[0]) && (strpos($object_acls[0], 's') !== FALSE)) {
-                unset($without_self_acl[$sdn][$dn][$acl_id]['acl'][$object]);
-                if (empty($without_self_acl[$sdn][$dn][$acl_id]['acl'])) {
-                  unset($without_self_acl[$sdn][$dn][$acl_id]);
-                }
-              }
+          $all_acl[$sdn][$dn] = array_filter(
+            $this->ACL[$dn],
+            function ($ACLInfos)
+            {
+              return ($ACLInfos['type'] === 'subtree');
             }
-          }
+          );
         }
-        $dn = preg_replace("/^[^,]*+,/", "", $dn);
-      } while (strpos($dn, ',') !== FALSE);
+      }
     }
-    $this->ACLperPath = $without_self_acl;
+    $this->ACLperPath = $all_acl;
 
     /* Append Self entry */
     $dn = $this->dn;
-    while (strpos($dn, ",") && !isset($all_acl[$dn])) {
-      $dn = preg_replace("/^[^,]*+,/", "", $dn);
+    while (strpos($dn, ',') && !isset($all_acl[$dn])) {
+      $dn = preg_replace('/^[^,]*+,/', '', $dn);
     }
     if (isset($all_acl[$dn])) {
       $this->ACLperPath[$this->dn] = $all_acl[$dn];
+      if ($dn !== $this->dn) {
+        $this->ACLperPath[$this->dn][$dn] = array_filter(
+          $this->ACLperPath[$this->dn][$dn],
+          function ($ACLInfos)
+          {
+            return ($ACLInfos['type'] === 'subtree');
+          }
+        );
+      }
     }
 
     /* Reset plist menu and ACL cache if needed */
@@ -357,7 +361,7 @@ class userinfo
    */
   function get_category_permissions ($dn, $category)
   {
-    return @$this->get_permissions($dn, $category.'/0', '');
+    return $this->get_permissions($dn, $category.'/0', '');
   }
 
 
@@ -496,7 +500,7 @@ class userinfo
    * \param bool $skip_write   Remove the write acl for this dn
    *
    */
-  function get_permissions ($dn, $object, $attribute = "", $skip_write = FALSE)
+  function get_permissions ($dn, $object, $attribute = '', $skip_write = FALSE)
   {
     global $config;
     /* If we are forced to skip ACLs checks for the current user
@@ -521,71 +525,65 @@ class userinfo
       return $ret;
     }
 
-    /* Detect the set of ACLs we have to check for this object
-     */
-    $adn = $dn;
-    while (!isset($this->ACLperPath[$adn]) && (strpos($adn, ',') !== FALSE)) {
-      $adn = preg_replace("/^[^,]*+,/", "", $adn);
+    /* Detect the set of ACLs we have to check for this object */
+    $parentACLdn = $dn;
+    while (!isset($this->ACLperPath[$parentACLdn]) && (strpos($parentACLdn, ',') !== FALSE)) {
+      $parentACLdn = preg_replace('/^[^,]*+,/', '', $parentACLdn);
     }
-    if (isset($this->ACLperPath[$adn])) {
-      $ACLs = $this->ACLperPath[$adn];
-    } else {
+    if (!isset($this->ACLperPath[$parentACLdn])) {
       $ACL_CACHE["$dn+$object+$attribute"] = '';
       return '';
     }
 
-    /* If we do not need to respect any user-filter settings
-        we can skip the per object ACL checks.
-     */
-    $orig_dn  = $dn;
-    $dn       = $adn;
-    if (isset($ACL_CACHE["$dn+$object+$attribute"])) {
-      $ret = $ACL_CACHE["$dn+$object+$attribute"];
-      if (!isset($ACL_CACHE["$orig_dn+$object+$attribute"])) {
-        $ACL_CACHE["$orig_dn+$object+$attribute"] = $ret;
-      }
-      if ($skip_write) {
-        $ret = str_replace(['w','c','d','m'], '', $ret);
-      }
-      return $ret;
-    }
+    if (($parentACLdn !== $dn) && isset($ACL_CACHE["sub:$parentACLdn+$object+$attribute"])) {
+      /* Load parent subtree ACLs from cache */
+      $permissions = $ACL_CACHE["sub:$parentACLdn+$object+$attribute"];
+    } else {
+      $permissions = new ACLPermissions();
 
-    $acl = ['r' => '', 'w' => '', 'c' => '', 'd' => '', 'm' => '', 'a' => ''];
+      /* Merge relevent permissions from parent ACLs */
+      foreach ($this->ACLperPath[$parentACLdn] as $parentdn => $ACLs) {
+        /* Inspect this ACL, place the result into permissions */
+        foreach ($ACLs as $subacl) {
+          if ($permissions->isFull()) {
+            /* Stop merging if we have all rights already */
+            break 2;
+          }
 
-    /* Build dn array */
-    $path = explode(',', $dn);
-    $path = array_reverse($path);
-
-    $departmentInfo = $config->getDepartmentInfo();
-
-    /* Walk along the path to evaluate the acl */
-    $cpath = '';
-    foreach ($path as $element) {
-
-      /* Clean potential ACLs for each level */
-      if (isset($departmentInfo[$cpath])) {
-        $acl = $this->cleanACL($acl);
-      }
-
-      if ($cpath == "") {
-        $cpath = $element;
-      } else {
-        $cpath = $element.','.$cpath;
-      }
-
-      if (isset($ACLs[$cpath])) {
-
-        /* Inspect this ACL, place the result into ACL */
-        foreach ($ACLs[$cpath] as $subacl) {
-
-          /* Reset? Just clean the ACL and turn over to the next one... */
-          if ($subacl['type'] == 'reset') {
-            $acl = $this->cleanACL($acl, TRUE);
+          if (($dn != $this->dn) && isset($subacl['acl'][$object][0]) && ($subacl['acl'][$object][0]->isSelf())) {
+            /* Self ACL */
             continue;
           }
 
-          /* Self ACLs? */
-          if (($dn != $this->dn) && isset($subacl['acl'][$object][0]) && (strpos($subacl['acl'][$object][0], "s") !== FALSE)) {
+          if (($subacl['type'] === 'base') && ($parentdn !== $dn)) {
+            /* Base assignment on another dn */
+            continue;
+          }
+
+          /* Special global ACL */
+          if (isset($subacl['acl']['all'][0])) {
+            $permissions->merge($subacl['acl']['all'][0]);
+          }
+
+          /* Category ACLs (e.g. $object = "user/0") */
+          if (strstr($object, '/0')) {
+            $ocs = preg_replace("/\/0$/", '', $object);
+            if (isset($config->data['CATEGORIES'][$ocs]) && ($attribute == '')) {
+              foreach ($config->data['CATEGORIES'][$ocs]['classes'] as $oc) {
+                if (isset($subacl['acl'][$ocs.'/'.$oc])) {
+                  if (($dn != $this->dn) &&
+                      isset($subacl['acl'][$ocs.'/'.$oc][0]) &&
+                      ($subacl['acl'][$ocs.'/'.$oc][0]->isSelf())) {
+                    /* Skip self ACL */
+                    continue;
+                  }
+
+                  foreach ($subacl['acl'][$ocs.'/'.$oc] as $anyPermissions) {
+                    $permissions->merge($anyPermissions);
+                  }
+                }
+              }
+            }
             continue;
           }
 
@@ -593,93 +591,32 @@ class userinfo
               Merge global class ACLs [0] with attributes specific ACLs [attribute].
            */
           if (($attribute == '') && isset($subacl['acl'][$object])) {
-            foreach ($subacl['acl'][$object] as $attr => $dummy) {
-              $acl = $this->mergeACL($acl, $subacl['type'], $subacl['acl'][$object][$attr]);
+            foreach ($subacl['acl'][$object] as $anyPermissions) {
+              $permissions->merge($anyPermissions);
             }
             continue;
           }
 
           /* Per attribute ACL? */
           if (isset($subacl['acl'][$object][$attribute])) {
-            $acl = $this->mergeACL($acl, $subacl['type'], $subacl['acl'][$object][$attribute]);
-            continue;
+            $permissions->merge($subacl['acl'][$object][$attribute]);
           }
 
           /* Per object ACL? */
           if (isset($subacl['acl'][$object][0])) {
-            $acl = $this->mergeACL($acl, $subacl['type'], $subacl['acl'][$object][0]);
-            continue;
-          }
-
-          /* Global ACL? */
-          if (isset($subacl['acl']['all'][0])) {
-            $acl = $this->mergeACL($acl, $subacl['type'], $subacl['acl']['all'][0]);
-            continue;
-          }
-
-          /* Category ACLs    (e.g. $object = "user/0")
-           */
-          if (strstr($object, '/0')) {
-            $ocs = preg_replace("/\/0$/", "", $object);
-            if (isset($config->data['CATEGORIES'][$ocs])) {
-
-              /* if $attribute is "", then check every single attribute for this object.
-                 if it is 0, then just check the object category ACL.
-               */
-              if ($attribute == "") {
-                foreach ($config->data['CATEGORIES'][$ocs]['classes'] as $oc) {
-                  if (isset($subacl['acl'][$ocs.'/'.$oc])) {
-                    // Skip ACLs which are defined for ourselfs only - if not checking against ($ui->dn)
-                    if (isset($subacl['acl'][$ocs.'/'.$oc][0]) &&
-                        ($dn != $this->dn) &&
-                        (strpos($subacl['acl'][$ocs.'/'.$oc][0], "s") !== FALSE)) {
-                      continue;
-                    }
-
-                    foreach ($subacl['acl'][$ocs.'/'.$oc] as $attr => $dummy) {
-                      $acl = $this->mergeACL($acl, $subacl['type'], $subacl['acl'][$ocs.'/'.$oc][$attr]);
-                    }
-                    continue;
-                  }
-                }
-              } else {
-                if (isset($subacl['acl'][$ocs.'/'.$oc][0])) {
-                  if (($dn != $this->dn) && (strpos($subacl['acl'][$ocs.'/'.$oc][0], "s") !== FALSE)) {
-                    continue;
-                  }
-                  $acl = $this->mergeACL($acl, $subacl['type'], $subacl['acl'][$ocs.'/'.$oc][0]);
-                }
-              }
-            }
-            continue;
+            $permissions->merge($subacl['acl'][$object][0]);
           }
         }
       }
     }
 
-    /* If the requested ACL is for a container object, then alter
-        ACLs by applying cleanACL a last time.
-     */
-    if (isset($departmentInfo[$dn])) {
-      $acl = $this->cleanACL($acl);
+    if ($parentACLdn !== $dn) {
+      $ACL_CACHE["sub:$parentACLdn+$object+$attribute"] = $permissions;
     }
-
-    /* Assemble string */
-    $ret = "";
-    foreach ($acl as $key => $value) {
-      if ($value !== "") {
-        $ret .= $key;
-      }
-    }
-
-    $ACL_CACHE["$dn+$object+$attribute"]      = $ret;
-    $ACL_CACHE["$orig_dn+$object+$attribute"] = $ret;
+    $ACL_CACHE["$dn+$object+$attribute"] = $permissions;
 
     /* Remove write if needed */
-    if ($skip_write) {
-      $ret = str_replace(['w','c','d','m'], '', $ret);
-    }
-    return $ret;
+    return $permissions->toString($skip_write);
   }
 
   /*!
@@ -728,7 +665,7 @@ class userinfo
           $found = FALSE;
           foreach ($info['acl'] as $cat => $data) {
             /* Skip self acls? */
-            if ($skip_self_acls && isset($data['0']) && (strpos($data['0'], "s") !== FALSE)) {
+            if ($skip_self_acls && isset($data[0]) && $data[0]->isSelf()) {
               continue;
             }
             if (preg_match('/^'.preg_quote($mod, '/').'/', $cat) || ($cat === 'all')) {
@@ -771,83 +708,6 @@ class userinfo
     }
 
     return array_values($res);
-  }
-
-  /*!
-   * \brief Merge acls
-   *
-   * \param $acl The ACL
-   *
-   * \param $type The type
-   *
-   * \param $newACL The new ACL
-   */
-  function mergeACL (array $acl, $type, $newACL)
-  {
-    $at = ["subtree" => "s", "one" => "1"];
-
-    if ((strpos($newACL, 'w') !== FALSE) && (strpos($newACL, 'r') === FALSE)) {
-      $newACL .= "r";
-    }
-
-    /* Ignore invalid characters */
-    $newACL = preg_replace('/[^rwcdm]/', '', $newACL);
-
-    foreach (str_split($newACL) as $char) {
-      /* Skip "self" ACLs without combination of rwcdm, they have no effect.
-         -self flag without read/write/create/...
-       */
-      if (empty($char)) {
-        continue;
-      }
-
-      /* Skip subtree entries */
-      if ($acl[$char] == 's') {
-        continue;
-      }
-
-      if ($type == "base" && $acl[$char] != 1) {
-        $acl[$char] = 0;
-      } else {
-        $acl[$char] = $at[$type];
-      }
-    }
-
-    return $acl;
-  }
-
-  /*!
-   * \brief Clean acls
-   *
-   * \param $acl ACL to be cleaned
-   *
-   * \param boolean $reset FALSE
-   */
-  function cleanACL ($acl, $reset = FALSE)
-  {
-    foreach ($acl as $key => $value) {
-      /* Continue, if value is empty or subtree */
-      if (($value == "") || ($value == "s")) {
-        continue;
-      }
-
-      /* Reset removes everything but 'p' */
-      if ($reset && $value != 'p') {
-        $acl[$key] = "";
-        continue;
-      }
-
-      /* Decrease tree level */
-      if (is_int($value)) {
-        if ($value) {
-          $acl[$key]--;
-        } else {
-          $acl[$key] = "";
-        }
-      }
-    }
-
-    return $acl;
   }
 
   /*!
