@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2020  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -192,12 +192,12 @@ class acl
 
           /* Append ACL if set */
           if ($gacl != "") {
-            $a[$gobject] = [$gacl];
+            $a[$gobject] = [new ACLPermissions($gacl)];
           }
         } else {
           /* All other entries get appended... */
           list($field, $facl)   = explode(';', $ssacl);
-          $a[$gobject][$field]  = $facl;
+          $a[$gobject][$field]  = new ACLPermissions($facl);
         }
       }
     }
