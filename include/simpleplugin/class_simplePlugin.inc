@@ -1515,22 +1515,23 @@ class simplePlugin implements SimpleTab
 
       $command = templateHandling::parseString($command, $addAttrs, 'escapeshellarg');
 
-      @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execute");
+      @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, 'Execute');
       exec($command, $arr, $returnCode);
       $returnOutput = $arr;
 
       if ($returnCode != 0) {
         $str = implode("\n", $arr);
-        @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execution failed code: ".$returnCode);
-        $message = msgPool::cmdexecfailed($cmd, $command, get_class($this));
+        @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, 'Execution failed code: '.$returnCode);
+        @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, 'Output: '.$str);
+        $message = msgPool::cmdexecfailed($cmd, '', get_class($this));
         if (!empty($str)) {
-          $message .= "Result: ".$str;
+          $message .= 'Result: '.$str;
         }
         $messages[] = $message;
       } elseif (is_array($arr)) {
         $str = implode("\n", $arr);
-        @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Result: ".$str);
-        if (!empty($str) && $config->get_cfg_value("displayHookOutput", "FALSE") == "TRUE") {
+        @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, 'Output: '.$str);
+        if (!empty($str) && $config->get_cfg_value('displayHookOutput', 'FALSE') == 'TRUE') {
           msg_dialog::display('['.get_class($this).' '.strtolower($cmd).'trigger] '.$command, $str, INFO_DIALOG);
         }
       }
