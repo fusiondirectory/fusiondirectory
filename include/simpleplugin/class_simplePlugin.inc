@@ -1524,8 +1524,10 @@ class simplePlugin implements SimpleTab
         @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, 'Execution failed code: '.$returnCode);
         @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, 'Output: '.$str);
         $message = msgPool::cmdexecfailed($cmd, '', get_class($this));
+        $message .= '<br/><br/>'."\n";
+        $message .= 'Exit code: '.$returnCode.'<br/>'."\n";
         if (!empty($str)) {
-          $message .= 'Result: '.$str;
+          $message .= 'Result: '.$str."\n";
         }
         $messages[] = $message;
       } elseif (is_array($arr)) {
