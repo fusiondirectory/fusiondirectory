@@ -1561,8 +1561,7 @@ class simplePlugin implements SimpleTab
     $error = $this->callHook('CHECK', ['nbCheckErrors' => count($messages)], $returnOutput);
     if (!empty($error)) {
       $messages = array_merge($messages, $error);
-    }
-    if (!empty($returnOutput)) {
+    } elseif (!empty($returnOutput)) {
       $messages[] = join("\n", $returnOutput);
     }
 
