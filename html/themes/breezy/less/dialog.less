@@ -1,5 +1,23 @@
 @import "colors";
 
+div.msgbackground {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  z-index: 100;
+  overflow: hidden;
+  background-image: url(../../images/opacity_black.png);
+}
+
+div.msgtrace {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+}
+
 div.msgtitle {
   width: auto;
   background-color: @background-header-color;
@@ -11,6 +29,10 @@ div.msgtitle {
 }
 
 div.msgdialog {
+  div.msgcontent {
+    z-index: 250;
+    width: 100%;
+  }
   width: 60%;
   z-index: 150;
   position: relative;
@@ -29,5 +51,43 @@ div.msgdialog {
     /* Small screens (i.e. phones) */
     top: auto;
     width: auto;
+  }
+}
+
+.error, .notice, .success, .info {
+  border: 2px solid @border-color-1;
+  margin: .2em;
+  padding: .3em;
+}
+.error {
+  background: @error-background-color;
+  color: @error-text-color;
+  border-color: @error-border-color;
+  h1,h2,h3,h4,h5,h6 {
+    color: @error-title-color;
+  }
+}
+.notice {
+  background: @notice-background-color;
+  color: @notice-text-color;
+  border-color: @notice-border-color;
+  h1,h2,h3,h4,h5,h6 {
+    color: @notice-title-color;
+  }
+}
+.success {
+  background: @success-background-color;
+  color: @success-text-color;
+  border-color: @success-border-color;
+  h1,h2,h3,h4,h5,h6 {
+    color: @success-title-color;
+  }
+}
+.info {
+  background: @info-background-color;
+  color: @info-text-color;
+  border-color: @info-border-color;
+  h1,h2,h3,h4,h5,h6 {
+    color: @info-title-color;
   }
 }
