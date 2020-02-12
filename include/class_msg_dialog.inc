@@ -218,7 +218,7 @@ class msg_dialog
       $msg_dialogs  = session::get('msg_dialogs');
       $dialogInfos  = [];
       $dialogIds    = [];
-      foreach ($msg_dialogs as $key => $dialog) {
+      foreach ($msg_dialogs as $dialog) {
         $dialogInfos[]  = $dialog->getDialogInfos();
         $dialogIds[]    = $dialog->getId();
       }
