@@ -1,5 +1,5 @@
 div.msgbackground {
-  position: absolute;
+  position: fixed;
   left: 0px;
   top: 0px;
   right: 0px;
@@ -13,15 +13,26 @@ div.msgtrace {
   left: 0px;
   top: 0px;
   right: 0px;
+  bottom: 0px;
+  overflow-y: auto;
 }
 div.msgtitle {
   width: auto;
-  background-color: #f0f0f0;
-  border: solid 1px #c0c2c3;
-  margin-bottom: 7px;
+  text-align: center;
+  border-bottom: 1px solid #c0c2c3;
+  padding: 8px;
+  background-color: #eff0f1;
+  min-height: 30px;
 }
-div.msgtitle h2 {
-  margin: 10px;
+div.msgtitle > img {
+  float: left;
+  height: 30px;
+}
+div.msgtitle > p {
+  margin: 0;
+  padding: 0;
+  font-size: 24px;
+  font-weight: bold;
 }
 div.msgdialog {
   width: 60%;
@@ -29,11 +40,17 @@ div.msgdialog {
   position: relative;
   display: none;
   margin: auto;
+  padding: 0;
   top: 200px;
+  border: 1px solid #c0c2c3;
+  background-color: #f3f4f4;
 }
 div.msgdialog div.msgcontent {
-  z-index: 250;
   width: 100%;
+  z-index: 250;
+}
+div.msgdialog div.msgcontent p {
+  padding: 10px;
 }
 div.msgdialog .description {
   font-style: italic;
@@ -48,6 +65,19 @@ div.msgdialog .description {
     /* Small screens (i.e. phones) */
     top: auto;
     width: auto;
+  }
+}
+div.msgfooter {
+  width: auto;
+  padding: 1%;
+}
+@media (max-width: 640px) {
+  div.msgfooter {
+    padding: 5px;
+    text-align: center !important;
+  }
+  div.msgfooter.plugbottom > input[type=submit] {
+    width: 100% !important;
   }
 }
 .error,

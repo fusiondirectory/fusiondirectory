@@ -1,7 +1,7 @@
 @import "colors";
 
 div.msgbackground {
-  position: absolute;
+  position: fixed;
   left: 0px;
   top: 0px;
   right: 0px;
@@ -16,29 +16,46 @@ div.msgtrace {
   left: 0px;
   top: 0px;
   right: 0px;
+  bottom: 0px;
+  overflow-y: auto;
 }
 
 div.msgtitle {
   width: auto;
-  background-color: @background-header-color;
-  border: solid 1px @border-color-1;
-  margin-bottom: 7px;
-  h2 {
-    margin: 10px;
+  text-align: center;
+  border-bottom: 1px solid @border-color-1;
+  padding: 8px;
+  background-color: @background-color;
+  min-height: 30px;
+  > img {
+    float: left;
+    height: 30px;
+  }
+  > p {
+    margin: 0;
+    padding: 0;
+    font-size: @titlebar-font-size;
+    font-weight: bold;
   }
 }
 
 div.msgdialog {
   div.msgcontent {
-    z-index: 250;
     width: 100%;
+    z-index: 250;
+    p {
+      padding: 10px;
+    }
   }
   width: 60%;
   z-index: 150;
   position: relative;
   display: none;
   margin: auto;
+  padding: 0;
   top: 200px;
+  border: 1px solid @border-color-1;
+  background-color: @background-second-color;
   .description {
     font-style: italic;
   }
@@ -51,6 +68,18 @@ div.msgdialog {
     /* Small screens (i.e. phones) */
     top: auto;
     width: auto;
+  }
+}
+
+div.msgfooter {
+  width: auto;
+  padding: 1%;
+  @media (max-width: 640px) {
+    padding: 5px;
+    text-align: center !important;
+    &.plugbottom > input[type=submit] {
+      width: 100% !important;
+    }
   }
 }
 

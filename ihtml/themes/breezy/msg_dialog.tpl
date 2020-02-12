@@ -12,31 +12,27 @@
     </div>
     {/if}
 
-    {if $dialog.type == $smarty.const.INFO_DIALOG || $dialog.type == $smarty.const.CONFIRM_DIALOG}
-    <div id="e_layer{$dialog.id}" class="info msgdialog">
-    {elseif $dialog.type == $smarty.const.WARNING_DIALOG}
-    <div id="e_layer{$dialog.id}" class="notice msgdialog">
-    {else}
-    <div id="e_layer{$dialog.id}" class="error msgdialog">
-    {/if}
+    <div id="e_layer{$dialog.id}" class="msgdialog">
 
       <div id="e_layerTitle{$dialog.id}" class="msgtitle">
-        <h2>
-        {if $dialog.type == $smarty.const.ERROR_DIALOG}
-          <img src="geticon.php?context=status&amp;icon=dialog-error&amp;size=32" class="center" alt="{t}Error{/t}"/>
-        {elseif $dialog.type == $smarty.const.WARNING_DIALOG}
-          <img src="geticon.php?context=status&amp;icon=dialog-warning&amp;size=32" class="center"  alt="{t}Warning{/t}"/>
-        {elseif $dialog.type == $smarty.const.INFO_DIALOG || $dialog.type == $smarty.const.CONFIRM_DIALOG}
-          <img src="geticon.php?context=status&amp;icon=dialog-information&amp;size=32" class="center" alt="{t}Information{/t}"/>
-        {/if}
+        <p>
+          {if $dialog.type == $smarty.const.ERROR_DIALOG}
+            <img src="geticon.php?context=status&amp;icon=dialog-error&amp;size=32" class="center" alt="{t}Error{/t}"/>
+          {elseif $dialog.type == $smarty.const.WARNING_DIALOG}
+            <img src="geticon.php?context=status&amp;icon=dialog-warning&amp;size=32" class="center"  alt="{t}Warning{/t}"/>
+          {elseif $dialog.type == $smarty.const.INFO_DIALOG || $dialog.type == $smarty.const.CONFIRM_DIALOG}
+            <img src="geticon.php?context=status&amp;icon=dialog-information&amp;size=32" class="center" alt="{t}Information{/t}"/>
+          {/if}
           {$dialog.title}
-        </h2>
+        </p>
       </div>
 
       <div class="msgcontent">
-        {$dialog.message}
+        <p>
+          {$dialog.message}
+        </p>
       </div>
-      <div class="plugbottom">
+      <div class="plugbottom msgfooter">
         {if ($dialog.trace != "")}
           <input type="button" id="Trace" name="Trace"
             onClick="$('trace_{$dialog.id}').toggle();" value="{t}Trace{/t}"/>
