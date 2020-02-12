@@ -31,8 +31,7 @@ div.msgtitle > img {
 div.msgtitle > p {
   margin: 0;
   padding: 0;
-  font-size: 24px;
-  font-weight: bold;
+  font-size: 18px;
 }
 div.msgdialog {
   width: 60%;
@@ -50,6 +49,7 @@ div.msgdialog div.msgcontent {
   z-index: 250;
 }
 div.msgdialog div.msgcontent p {
+  font-size: 14px;
   padding: 10px;
 }
 div.msgdialog .description {
