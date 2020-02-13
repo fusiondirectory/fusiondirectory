@@ -1,9 +1,8 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2020  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -25,12 +24,12 @@
  * Source code for class msgPool
  */
 
-define("LDAP_READ",   1);
-define("LDAP_ADD",    2);
-define("LDAP_MOD",    3);
-define("LDAP_DEL",    4);
-define("LDAP_SEARCH", 5);
-define("LDAP_AUTH",   6);
+define('LDAP_READ',   1);
+define('LDAP_ADD',    2);
+define('LDAP_MOD',    3);
+define('LDAP_DEL',    4);
+define('LDAP_SEARCH', 5);
+define('LDAP_AUTH',   6);
 
 /*!
  * \brief This class contains all the messages for the various actions
@@ -42,21 +41,21 @@ class msgPool
    *
    * \param string $name Name of the object which will be deleted
    */
-  public static function permDelete ($name = "")
+  public static function permDelete ($name = '')
   {
-    if ($name == "") {
-      return _("You have no permission to delete this object!");
+    if ($name == '') {
+      return _('You have no permission to delete this object!');
     }
 
     if (!is_array($name)) {
-      return _("You have no permission to delete the object:")."<br><br><i>$name</i>";
+      return _('You have no permission to delete the object:')."<br/><br/><i>$name</i>";
     }
 
     if (count($name) == 1) {
-      return _("You have no permission to delete the object:")."<br>".msgPool::buildList($name);
+      return _('You have no permission to delete the object:').'<br/>'.msgPool::buildList($name);
     }
 
-    return _("You have no permission to delete these objects:")."<br>".msgPool::buildList($name);
+    return _('You have no permission to delete these objects:').'<br/>'.msgPool::buildList($name);
   }
 
   /*!
@@ -64,21 +63,21 @@ class msgPool
    *
    * \param string $name Name of the object which will be created
    */
-  public static function permCreate ($name = "")
+  public static function permCreate ($name = '')
   {
-    if ($name == "") {
-      return _("You have no permission to create this object!");
+    if ($name == '') {
+      return _('You have no permission to create this object!');
     }
 
     if (!is_array($name)) {
-      return _("You have no permission to create the object:")."<br><br><i>$name</i>";
+      return _('You have no permission to create the object:')."<br/><br/><i>$name</i>";
     }
 
     if (count($name) == 1) {
-      return _("You have no permission to create the object:")."<br>".msgPool::buildList($name);
+      return _('You have no permission to create the object:').'<br/>'.msgPool::buildList($name);
     }
 
-    return _("You have no permission to create these objects:")."<br>".msgPool::buildList($name);
+    return _('You have no permission to create these objects:').'<br/>'.msgPool::buildList($name);
   }
 
   /*!
@@ -113,21 +112,21 @@ class msgPool
    *
    * \param string $name Name of the object which will be viewed
    */
-  public static function permView ($name = "")
+  public static function permView ($name = '')
   {
-    if ($name == "") {
-      return _("You have no permission to view this object!");
+    if ($name == '') {
+      return _('You have no permission to view this object!');
     }
 
     if (!is_array($name)) {
-      return _("You have no permission to view the object:")."<br><br><i>$name</i>";
+      return _('You have no permission to view the object:')."<br/><br/><i>$name</i>";
     }
 
     if (count($name) == 1) {
-      return _("You have no permission to view the object:")."<br>".msgPool::buildList($name);
+      return _('You have no permission to view the object:').'<br/>'.msgPool::buildList($name);
     }
 
-    return _("You have no permission to view these objects:")."<br>".msgPool::buildList($name);
+    return _('You have no permission to view these objects:').'<br/>'.msgPool::buildList($name);
   }
 
   /*!
@@ -135,21 +134,21 @@ class msgPool
    *
    * \param string $name Name of the object which will be moved
    */
-  public static function permMove ($name = "")
+  public static function permMove ($name = '')
   {
-    if ($name == "") {
-      return _("You have no permission to move this object!");
+    if ($name == '') {
+      return _('You have no permission to move this object!');
     }
 
     if (!is_array($name)) {
-      return _("You have no permission to move the object:")."<br><br><i>$name</i>";
+      return _('You have no permission to move the object:')."<br/><br/><i>$name</i>";
     }
 
     if (count($name) == 1) {
-      return _("You have no permission to move the object:")."<br>".msgPool::buildList($name);
+      return _('You have no permission to move the object:').'<br/>'.msgPool::buildList($name);
     }
 
-    return _("You have no permission to move these objects:")."<br>".msgPool::buildList($name);
+    return _('You have no permission to move these objects:').'<br/>'.msgPool::buildList($name);
   }
 
   /*!
@@ -159,7 +158,7 @@ class msgPool
    */
   public static function reserved ($name)
   {
-    return sprintf(_("The field '%s' contains a reserved keyword!"), $name);
+    return sprintf(_('The field "%s" contains a reserved keyword!'), $name);
   }
 
   /*!
@@ -171,19 +170,19 @@ class msgPool
    *
    * \param string $plugin Name of the plugin
    */
-  public static function cmdexecfailed ($type, $command = "", $plugin = "")
+  public static function cmdexecfailed ($type, $command = '', $plugin = '')
   {
-    if ($command == "") {
-      if ($plugin == "") {
-        return sprintf(_("Cannot execute '%s' command!"), $type);
+    if ($command == '') {
+      if ($plugin == '') {
+        return sprintf(_('Cannot execute "%s" command!'), $type);
       } else {
-        return sprintf(_("Cannot execute '%s' command for plugin %s!"), $type, $plugin);
+        return sprintf(_('Cannot execute "%s" command for plugin %s!'), $type, $plugin);
       }
     } else {
-      if ($plugin == "") {
-        return sprintf(_("Cannot execute '%s' command (%s)!"), $type, $command);
+      if ($plugin == '') {
+        return sprintf(_('Cannot execute "%s" command (%s)!'), $type, $command);
       } else {
-        return sprintf(_("Cannot execute '%s' command (%s) for plugin %s!"), $type, $command, $plugin);
+        return sprintf(_('Cannot execute "%s" command (%s) for plugin %s!'), $type, $command, $plugin);
       }
     }
   }
@@ -195,12 +194,12 @@ class msgPool
    *
    * \param string $min The largest value
    */
-  public static function toobig ($name, $min = "")
+  public static function toobig ($name, $min = '')
   {
-    if ($min == "") {
-      return sprintf(_("Value for '%s' is too large!"), $name);
+    if ($min == '') {
+      return sprintf(_('Value for "%s" is too large!'), $name);
     } else {
-      return sprintf(_("'%s' must be smaller than %s!"), $name, $min);
+      return sprintf(_('"%s" must be smaller than %s!'), $name, $min);
     }
   }
 
@@ -211,12 +210,12 @@ class msgPool
    *
    * \param string $min The smallest value
    */
-  public static function toosmall ($name, $min = "")
+  public static function toosmall ($name, $min = '')
   {
-    if ($min == "") {
-      return sprintf(_("Value for '%s' is too small!"), $name);
+    if ($min == '') {
+      return sprintf(_('Value for "%s" is too small!'), $name);
     } else {
-      return sprintf(_("'%s' must be %d or above!"), $name, $min);
+      return sprintf(_('"%s" must be %d or above!'), $name, $min);
     }
   }
 
@@ -229,7 +228,7 @@ class msgPool
    */
   public static function depends ($name1, $name2)
   {
-    return sprintf(_("'%s' depends on '%s' - please provide both values!"), $name1, $name2);
+    return sprintf(_('"%s" depends on "%s" - please provide both values!'), $name1, $name2);
   }
 
   /*!
@@ -241,9 +240,9 @@ class msgPool
   public static function duplicated ($name, $dn = NULL)
   {
     if ($dn == NULL) {
-      return sprintf(_("There is already an entry with this '%s' attribute in the system!"), $name);
+      return sprintf(_('There is already an entry with this "%s" attribute in the system!'), $name);
     } else {
-      return sprintf(_("The entry '%s' already use this '%s' attribute!"), $dn, $name);
+      return sprintf(_('The entry "%s" already use this "%s" attribute!'), $dn, $name);
     }
   }
 
@@ -254,7 +253,7 @@ class msgPool
    */
   public static function required ($name)
   {
-    return sprintf(_("The required field '%s' is empty!"), $name);
+    return sprintf(_('The required field "%s" is empty!'), $name);
   }
 
   /*!
@@ -289,7 +288,7 @@ class msgPool
    */
   public static function missingext ($name)
   {
-    return sprintf(_("Missing %s PHP extension!"), $name);
+    return sprintf(_('Missing %s PHP extension!'), $name);
   }
 
   /*!
@@ -297,7 +296,7 @@ class msgPool
    */
   public static function cancelButton ()
   {
-    return _("Cancel");
+    return _('Cancel');
   }
 
   /*!
@@ -305,7 +304,7 @@ class msgPool
    */
   public static function okButton ()
   {
-    return _("Ok");
+    return _('Ok');
   }
 
   /*!
@@ -313,7 +312,7 @@ class msgPool
    */
   public static function applyButton ()
   {
-    return _("Apply");
+    return _('Apply');
   }
 
   /*!
@@ -321,7 +320,7 @@ class msgPool
    */
   public static function saveButton ()
   {
-    return _("Save");
+    return _('Save');
   }
 
   /*!
@@ -369,7 +368,7 @@ class msgPool
    */
   public static function buildList ($data)
   {
-    $objects = "<ul>";
+    $objects = '<ul>';
     foreach ($data as $key => $value) {
       if (is_numeric($key)) {
         $objects .= "<li>\n<i>$value</i></li>";
@@ -377,7 +376,7 @@ class msgPool
         $objects .= "<li>\n$value (<i>$key</i>)</li>";
       }
     }
-    $objects .= "</ul>";
+    $objects .= '</ul>';
     return $objects;
   }
 
@@ -388,7 +387,7 @@ class msgPool
    */
   public static function noValidExtension ($name)
   {
-    return sprintf(_("This account has no valid %s extensions!"), $name);
+    return sprintf(_('This account has no valid %s extensions!'), $name);
   }
 
   /*!
@@ -400,13 +399,13 @@ class msgPool
    */
   public static function featuresEnabled ($name, $depends = '')
   {
-    if (($depends == "") || (is_array($depends) && (count($depends) == 0))) {
-      return sprintf(_("This account has %s settings enabled. You can disable them by clicking below."), $name);
+    if (($depends == '') || (is_array($depends) && (count($depends) == 0))) {
+      return sprintf(_('This account has %s settings enabled. You can disable them by clicking below.'), $name);
     } else {
       if (is_array($depends)) {
         $depends = implode(' / ', $depends);
       }
-      return sprintf(_("This account has %s settings enabled. To disable them, you'll need to remove the %s settings first!"), $name, $depends);
+      return sprintf(_('This account has %s settings enabled. To disable them, you\'ll need to remove the %s settings first!'), $name, $depends);
     }
   }
 
@@ -437,7 +436,7 @@ class msgPool
    */
   public static function addFeaturesButton ($name)
   {
-    return sprintf(_("Add %s settings"), $name);
+    return sprintf(_('Add %s settings'), $name);
   }
 
   /*!
@@ -448,7 +447,7 @@ class msgPool
 
   public static function removeFeaturesButton ($name)
   {
-    return sprintf(_("Remove %s settings"), $name);
+    return sprintf(_('Remove %s settings'), $name);
   }
 
   /*!
@@ -464,9 +463,9 @@ class msgPool
    */
   public static function months ()
   {
-    return [_("January"), _("February"), _("March"), _("April"),
-        _("May"), _("June"), _("July"), _("August"), _("September"),
-        _("October"), _("November"), _("December")];
+    return [_('January'), _('February'), _('March'), _('April'),
+        _('May'), _('June'), _('July'), _('August'), _('September'),
+        _('October'), _('November'), _('December')];
   }
 
   /*!
@@ -475,7 +474,7 @@ class msgPool
    */
   public static function weekdays ()
   {
-    return [ _("Sunday"), _("Monday"), _("Tuesday"), _("Wednesday"), _("Thursday"), _("Friday"), _("Saturday")];
+    return [ _('Sunday'), _('Monday'), _('Tuesday'), _('Wednesday'), _('Thursday'), _('Friday'), _('Saturday')];
   }
 
   /*!
@@ -516,13 +515,13 @@ class msgPool
    *
    * \param string $reason The reason of the upload failed
    */
-  public static function incorrectUpload ($reason = "")
+  public static function incorrectUpload ($reason = '')
   {
-    if ($reason == "") {
-      return _("Upload failed!");
+    if ($reason == '') {
+      return _('Upload failed!');
     }
 
-    return sprintf(_("Upload failed: %s"), "<br><br><i>$reason</i>");
+    return sprintf(_('Upload failed: %s'), "<br/><br/><i>$reason</i>");
   }
 
   /*!
@@ -530,12 +529,12 @@ class msgPool
    *
    * \param string $error The error of the communication failure
    */
-  public static function siError ($error = "")
+  public static function siError ($error = '')
   {
-    if ($error == "") {
-      return _("Communication failure with the infrastructure service!");
+    if ($error == '') {
+      return _('Communication failure with the infrastructure service!');
     }
-    return sprintf(_("Communication failure with the infrastructure service: %s"), "<br><br>"._("Error").": ".$error);
+    return sprintf(_('Communication failure with the infrastructure service: %s'), '<br/><br/>'.sprintf(_('Error: %s'), $error));
   }
 
   /*!
@@ -545,7 +544,7 @@ class msgPool
    */
   public static function checkingFor ($what)
   {
-    return sprintf(_("Checking for %s support"), $what);
+    return sprintf(_('Checking for %s support'), $what);
   }
 
   /*!
@@ -555,7 +554,7 @@ class msgPool
    */
   public static function installPhpModule ($what)
   {
-    return sprintf(_("Install and activate the %s PHP module."), $what);
+    return sprintf(_('Install and activate the %s PHP module.'), $what);
   }
 
   /*!
@@ -563,6 +562,6 @@ class msgPool
    */
   public static function check_base ()
   {
-    return _("The supplied base is not valid and has been reset to the previous value!");
+    return _('The supplied base is not valid and has been reset to the previous value!');
   }
 }
