@@ -338,7 +338,7 @@ class objects
     $tabClass = $infos['tabClass'];
 
     $tabObject = new $tabClass($type, $dn);
-    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "Openned as $type object");
+    logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "Openned as $type object");
 
     return $tabObject;
   }
@@ -406,7 +406,7 @@ class objects
     $attrsObject->is_template = TRUE;
 
     $tabObject = new $tabClass($type, 'new', $attrsObject);
-    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "Create template of $type");
+    logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "Create template of $type");
 
     return $tabObject;
   }

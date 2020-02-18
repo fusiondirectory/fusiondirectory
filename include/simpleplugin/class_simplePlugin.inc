@@ -246,7 +246,7 @@ class simplePlugin implements SimpleTab
 
       /* Set the template flag according to the existence of objectClass fdTemplate */
       if (isset($this->attrs['objectClass']) && in_array_ics('fdTemplate', $this->attrs['objectClass'])) {
-        @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, 'found', 'Template check');
+        logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, 'found', 'Template check');
         $this->setTemplate(TRUE);
         $this->templateLoadAttrs($this->attrs);
       }
@@ -254,7 +254,7 @@ class simplePlugin implements SimpleTab
       /* Is Account? */
       if ($this->is_this_account($this->attrs)) {
         $this->is_account = TRUE;
-        @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, get_class($this), 'Tab active');
+        logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, get_class($this), 'Tab active');
       }
     }
 
@@ -592,7 +592,7 @@ class simplePlugin implements SimpleTab
     $ldap->create_missing_trees(preg_replace('/^[^,]+,/', '', $dst_dn));
     if (!$ldap->rename_dn($src_dn, $dst_dn)) {
       logging::log('error', 'ldap', "FROM: $src_dn -- TO: $dst_dn", [], 'Ldap Protocol v3 implementation error, ldap_rename failed: '.$ldap->get_error());
-      @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, "Rename failed FROM: $src_dn  -- TO:  $dst_dn",
+      logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, "Rename failed FROM: $src_dn  -- TO:  $dst_dn",
         'Ldap Protocol v3 implementation error. Error:'.$ldap->get_error());
       return $ldap->get_error();
     }
@@ -647,7 +647,7 @@ class simplePlugin implements SimpleTab
    */
   function execute (): string
   {
-    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "execute");
+    logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "execute");
 
     /* Reset Lock message POST/GET check array, to prevent preg_match errors */
     session::set('LOCK_VARS_TO_USE', []);
@@ -1125,7 +1125,7 @@ class simplePlugin implements SimpleTab
    */
   function save_object ()
   {
-    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'save_object');
+    logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'save_object');
     if ($this->displayHeader && isset($_POST[get_class($this).'_modify_state'])) {
       if ($this->is_account && $this->acl_is_removeable()) {
         $this->is_account = FALSE;
@@ -1243,7 +1243,7 @@ class simplePlugin implements SimpleTab
    */
   function save (): array
   {
-    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "save");
+    logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "save");
     $errors = $this->prepare_save();
     if (!empty($errors)) {
       return $errors;
@@ -1515,14 +1515,14 @@ class simplePlugin implements SimpleTab
 
       $command = templateHandling::parseString($command, $addAttrs, 'escapeshellarg');
 
-      @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, 'Execute');
+      logging::debug(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, 'Execute');
       exec($command, $arr, $returnCode);
       $returnOutput = $arr;
 
       if ($returnCode != 0) {
         $str = implode("\n", $arr);
-        @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, 'Execution failed code: '.$returnCode);
-        @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, 'Output: '.$str);
+        logging::debug(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, 'Execution failed code: '.$returnCode);
+        logging::debug(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, 'Output: '.$str);
         $message = msgPool::cmdexecfailed($cmd, '', get_class($this));
         $message .= '<br/><br/>'."\n";
         $message .= 'Exit code: '.$returnCode.'<br/>'."\n";
@@ -1532,7 +1532,7 @@ class simplePlugin implements SimpleTab
         $messages[] = $message;
       } elseif (is_array($arr)) {
         $str = implode("\n", $arr);
-        @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, 'Output: '.$str);
+        logging::debug(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, 'Output: '.$str);
         if (!empty($str) && $config->get_cfg_value('displayHookOutput', 'FALSE') == 'TRUE') {
           msg_dialog::display('['.get_class($this).' '.strtolower($cmd).'trigger] '.$command, $str, INFO_DIALOG);
         }
@@ -1545,7 +1545,7 @@ class simplePlugin implements SimpleTab
    */
   function check (): array
   {
-    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'check');
+    logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'check');
     $messages = [];
 
     foreach ($this->attributesInfo as $sectionInfo) {

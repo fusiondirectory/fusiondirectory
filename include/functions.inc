@@ -100,7 +100,7 @@ function __fusiondirectory_autoload ($class_name)
   if (isset($class_mapping["$class_name"])) {
     require_once($BASE_DIR.'/'.$class_mapping["$class_name"]);
   } else {
-    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $class_name, 'Could not load');
+    logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $class_name, 'Could not load');
     if (isset($config) && is_object($config) &&
         $config->get_cfg_value('displayerrors') == 'TRUE') {
       list($trace, ) = html_trace();
