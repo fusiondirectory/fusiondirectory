@@ -323,6 +323,11 @@ class configInLdap extends simplePlugin
                     'SESSION',      'ACL',      'SI',     'Mail']
             )
           ),
+          new BooleanAttribute(
+            _('Log debug messages'),
+            _('Sends debug output to syslog as well'),
+            'fdDebugLogging'
+          ),
         ]
       ],
       'miscellaneous' => [

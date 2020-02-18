@@ -221,7 +221,7 @@ class LDAP
       $this->error = 'Could not connect to LDAP server';
     }
 
-    @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'connect');
+    logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'connect');
   }
 
   /*!
@@ -234,11 +234,11 @@ class LDAP
       $this->error      = "Success";
       $this->hascon     = TRUE;
       $this->reconnect  = TRUE;
-      @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'rebind');
+      logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'rebind');
       return 0;
     } else {
       $this->error = "Could not bind to " . $credentials['ADMINDN'];
-      @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'rebind');
+      logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'rebind');
       return NULL;
     }
   }
@@ -260,7 +260,7 @@ class LDAP
   {
     @ldap_unbind($this->cid);
     $this->cid = NULL;
-    @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, '', 'unbind');
+    logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, '', 'unbind');
   }
 
   /*!
@@ -272,7 +272,7 @@ class LDAP
       @ldap_close($this->cid);
       $this->hascon = FALSE;
     }
-    @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, '', 'disconnect');
+    logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, '', 'disconnect');
   }
 
   /*!
@@ -359,11 +359,11 @@ class LDAP
       }
 
       $this->log("LDAP operation: time=".$diff." operation=search('".$this->basedn."', '$filter')");
-      @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'search(base="'.$this->basedn.'",scope="'.$scope.'",filter="'.$filter.'")');
+      logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'search(base="'.$this->basedn.'",scope="'.$scope.'",filter="'.$filter.'")');
       return $this->sr[$srp];
     } else {
       $this->error = "Could not connect to LDAP server";
-      @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'search(base="'.$this->basedn.'",scope="'.$scope.'",filter="'.$filter.'")');
+      logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'search(base="'.$this->basedn.'",scope="'.$scope.'",filter="'.$filter.'")');
       return "";
     }
   }
@@ -428,11 +428,11 @@ class LDAP
       $this->error    = @ldap_error($this->cid);
       $this->resetResult($srp);
       $this->hasres[$srp] = TRUE;
-      @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'cat(dn="'.$dn.'",filter="'.$filter.'")');
+      logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'cat(dn="'.$dn.'",filter="'.$filter.'")');
       return $this->sr[$srp];
     } else {
       $this->error = "Could not connect to LDAP server";
-      @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'cat(dn="'.$dn.'",filter="'.$filter.'")');
+      logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'cat(dn="'.$dn.'",filter="'.$filter.'")');
       return "";
     }
   }
@@ -451,11 +451,11 @@ class LDAP
         $this->connect();
       }
       $res  = @ldap_read($this->cid, $dn, $filter, ["objectClass"]);
-      @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'object_match_filter(dn="'.$dn.'",filter="'.$filter.'")');
+      logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'object_match_filter(dn="'.$dn.'",filter="'.$filter.'")');
       return @ldap_count_entries($this->cid, $res);
     } else {
       $this->error = "Could not connect to LDAP server";
-      @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'object_match_filter(dn="'.$dn.'",filter="'.$filter.'")');
+      logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'object_match_filter(dn="'.$dn.'",filter="'.$filter.'")');
       return FALSE;
     }
   }
@@ -476,7 +476,7 @@ class LDAP
     } else {
       $this->error = "Could not connect to LDAP server";
     }
-    @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $size, 'set_size_limit');
+    logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $size, 'set_size_limit');
   }
 
   /*!
@@ -507,16 +507,16 @@ class LDAP
         if (!isset($att)) {
           $att = [];
         }
-        @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'fetch()');
+        logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'fetch()');
         return $att;
       } else {
         $this->error = "Perform a fetch with no search";
-        @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'fetch()');
+        logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'fetch()');
         return "";
       }
     } else {
       $this->error = "Could not connect to LDAP server";
-      @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'fetch()');
+      logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'fetch()');
       return "";
     }
   }
@@ -582,16 +582,16 @@ class LDAP
       if ($this->hasres[$srp]) {
         $rv = @ldap_count_entries($this->cid, $this->sr[$srp]);
         $this->error = @ldap_error($this->cid);
-        @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'count()');
+        logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'count()');
         return $rv;
       } else {
         $this->error = "Perform a Fetch with no Search";
-        @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'count()');
+        logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'count()');
         return "";
       }
     } else {
       $this->error = "Could not connect to LDAP server";
-      @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'count()');
+      logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'count()');
       return "";
     }
   }
@@ -616,11 +616,11 @@ class LDAP
 
       $r = ldap_mod_del($this->cid, $dn, $attrs);
       $this->error = @ldap_error($this->cid);
-      @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'rm('.$dn.')');
+      logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'rm('.$dn.')');
       return $r;
     } else {
       $this->error = 'Could not connect to LDAP server';
-      @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'rm('.$dn.')');
+      logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'rm('.$dn.')');
       return '';
     }
   }
@@ -637,11 +637,11 @@ class LDAP
 
       $r = @ldap_mod_add($this->cid, $dn, $attrs);
       $this->error = @ldap_error($this->cid);
-      @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'mod_add('.$dn.')');
+      logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'mod_add('.$dn.')');
       return $r;
     } else {
       $this->error = "Could not connect to LDAP server";
-      @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'mod_add('.$dn.')');
+      logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'mod_add('.$dn.')');
       return "";
     }
   }
@@ -659,11 +659,11 @@ class LDAP
       }
       $r = @ldap_delete($this->cid, $deletedn);
       $this->error = @ldap_error($this->cid);
-      @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'rmdir('.$deletedn.')');
+      logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'rmdir('.$deletedn.')');
       return ($r ? $r : 0);
     } else {
       $this->error = "Could not connect to LDAP server";
-      @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'rmdir('.$deletedn.')');
+      logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'rmdir('.$deletedn.')');
       return "";
     }
   }
@@ -713,11 +713,11 @@ class LDAP
       /* Check if destination dn exists, if not the
           server may not support this operation */
       $r &= is_resource($this->dn_exists($dest));
-      @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'rename("'.$source.'","'.$dest.'")');
+      logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'rename("'.$source.'","'.$dest.'")');
       return $r;
     } else {
       $this->error = "Could not connect to LDAP server";
-      @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'rename("'.$source.'","'.$dest.'")');
+      logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'rename("'.$source.'","'.$dest.'")');
       return FALSE;
     }
   }
@@ -759,11 +759,11 @@ class LDAP
         }
       }
       $this->error = @ldap_error($this->cid);
-      @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'rmdir_recursive("'.$deletedn.'")');
+      logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'rmdir_recursive("'.$deletedn.'")');
       return ($r ? $r : 0);
     } else {
       $this->error = "Could not connect to LDAP server";
-      @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'rmdir_recursive("'.$deletedn.'")');
+      logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'rmdir_recursive("'.$deletedn.'")');
       return "";
     }
   }
@@ -789,7 +789,7 @@ class LDAP
       $str = " - <b>attribute: ".preg_replace("/:.*$/", "", $this->get_additional_error())."</b>";
     }
 
-    @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $attrs, "Erroneous data");
+    logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $attrs, "Erroneous data");
 
     return $str;
   }
@@ -813,11 +813,11 @@ class LDAP
       if (!$this->success()) {
         $this->error .= $this->makeReadableErrors($this->error, $attrs);
       }
-      @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'modify('.$this->basedn.')');
+      logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'modify('.$this->basedn.')');
       return ($r ? $r : 0);
     } else {
       $this->error = "Could not connect to LDAP server";
-      @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'modify('.$this->basedn.')');
+      logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'modify('.$this->basedn.')');
       return "";
     }
   }
@@ -838,11 +838,11 @@ class LDAP
       }
       $r            = @ldap_modify_batch($this->cid, $this->basedn, $changes);
       $this->error  = @ldap_error($this->cid);
-      @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'modify_batch('.$this->basedn.')');
+      logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'modify_batch('.$this->basedn.')');
       return $r;
     } else {
       $this->error = 'Could not connect to LDAP server';
-      @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'modify_batch('.$this->basedn.')');
+      logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'modify_batch('.$this->basedn.')');
       return FALSE;
     }
   }
@@ -863,11 +863,11 @@ class LDAP
       if (!$this->success()) {
         $this->error .= $this->makeReadableErrors($this->error, $attrs);
       }
-      @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'add('.$this->basedn.')');
+      logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'add('.$this->basedn.')');
       return ($r ? $r : 0);
     } else {
       $this->error = "Could not connect to LDAP server";
-      @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'add('.$this->basedn.')');
+      logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'add('.$this->basedn.')');
       return "";
     }
   }
@@ -987,9 +987,9 @@ class LDAP
         $this->add($na);
 
         if (!$this->success()) {
-          @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $cdn, 'dn');
-          @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $na, 'Content');
-          @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->get_error(), 'LDAP error');
+          logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $cdn, 'dn');
+          logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $na, 'Content');
+          logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->get_error(), 'LDAP error');
 
           msg_dialog::display(_('LDAP error'), msgPool::ldaperror($this->get_error(), $cdn, LDAP_ADD, get_class()), LDAP_ERROR);
           return FALSE;
@@ -1161,7 +1161,7 @@ class LDAP
 
   function dn_exists ($dn)
   {
-    @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, '', 'dn_exists('.$dn.')');
+    logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, '', 'dn_exists('.$dn.')');
     return @ldap_read($this->cid, $dn, "(objectClass=*)", ["objectClass"]);
   }
 
@@ -1518,7 +1518,7 @@ class LDAP
     $res    = @ldap_read($ds, '', 'objectClass=*', ['namingContexts']);
     $attrs  = @ldap_get_entries($ds, $res);
 
-    @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $attrs[0]['namingcontexts'], 'get_naming_contexts');
+    logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $attrs[0]['namingcontexts'], 'get_naming_contexts');
     return $attrs[0]['namingcontexts'];
   }
 }

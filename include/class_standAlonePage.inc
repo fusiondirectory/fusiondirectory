@@ -129,7 +129,7 @@ class standAlonePage
     /* Parse configuration file */
     $config = new config(CONFIG_DIR.'/'.CONFIG_FILE, $BASE_DIR);
     session::set('DEBUGLEVEL', $config->get_cfg_value('debuglevel'));
-    @DEBUG(DEBUG_CONFIG, __LINE__, __FUNCTION__, __FILE__, $config->data, 'config');
+    logging::debug(DEBUG_CONFIG, __LINE__, __FUNCTION__, __FILE__, $config->data, 'config');
     return $config;
   }
 

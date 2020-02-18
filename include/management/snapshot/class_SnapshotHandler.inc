@@ -199,7 +199,7 @@ class SnapshotHandler
   {
     global $config;
     if (!$this->enabled()) {
-      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snapshot are disabled but tried to create snapshot');
+      logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snapshot are disabled but tried to create snapshot');
       return;
     }
 
@@ -214,7 +214,7 @@ class SnapshotHandler
 
     /* check if the dn exists */
     if (!$ldap->dn_exists($dn)) {
-      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Tried to snapshot non-existing dn');
+      logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Tried to snapshot non-existing dn');
       return;
     }
 
@@ -376,7 +376,7 @@ class SnapshotHandler
   {
     global $config;
     if (!$this->enabled()) {
-      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snapshot are disabled but tried to restore snapshot');
+      logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snapshot are disabled but tried to restore snapshot');
       return FALSE;
     }
 

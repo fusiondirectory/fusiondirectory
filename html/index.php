@@ -105,7 +105,7 @@ if (!is_readable(CONFIG_DIR.'/'.CONFIG_FILE)) {
 $config = new config(CONFIG_DIR.'/'.CONFIG_FILE, $BASE_DIR);
 session::set('config', $config);
 session::set('DEBUGLEVEL', $config->get_cfg_value('DEBUGLEVEL'));
-@DEBUG(DEBUG_CONFIG, __LINE__, __FUNCTION__, __FILE__, $config->data, 'config');
+logging::debug(DEBUG_CONFIG, __LINE__, __FUNCTION__, __FILE__, $config->data, 'config');
 /* Configuration was reloaded, so plist needs to be as well */
 session::un_set('plist');
 unset($plist);

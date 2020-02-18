@@ -144,7 +144,7 @@ class PropertiesColumn extends Column
               'tab'   => $class,
             ];
           } else {
-            @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $pInfos['plShortName']." ($class)", 'No icon for');
+            logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $pInfos['plShortName']." ($class)", 'No icon for');
           }
         } else {
           $icons[] = [

@@ -69,7 +69,7 @@ class userManagement extends management
   function lockUsers (array $action)
   {
     global $config, $ui;
-    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $action, 'Lock');
+    logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $action, 'Lock');
 
     // Filter out entries we are not allowed to modify
     $disallowed = [];

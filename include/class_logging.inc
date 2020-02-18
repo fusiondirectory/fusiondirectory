@@ -89,6 +89,66 @@ class logging
   }
 
   /*!
+   * \brief Debug output method
+   *
+   * Print a DEBUG level if specified debug level of the level matches the
+   * the configured debug level.
+   *
+   * \param int $level        The log level of the message (one of the DEBUG_* constants)
+   *
+   * \param int $line         Line of origin (using __LINE__ is common)
+   *
+   * \param string $function  Function of origin (using __FUNCTION__ is common)
+   *
+   * \param string $file      File of origin (using __FILE__ is common)
+   *
+   * \param mixed $data       Operation result. Can be a message or an array, which is printed with print_a.
+   *
+   * \param string $info      Operation description
+   */
+  static function debug (int $level, int $line, string $function, string $file, $data, string $info = '')
+  {
+    global $config;
+
+    static $first = TRUE;
+    if (($_SERVER['REQUEST_METHOD'] == 'POST') && preg_match('/index.php$/', $_SERVER['REQUEST_URI'])) {
+      return;
+    }
+
+    if (session::get('DEBUGLEVEL') & $level) {
+      if ($first) {
+        echo '<div id="debug-handling" class="notice">'.
+              '<img src="geticon.php?context=status&amp;icon=dialog-information&amp;size=22" alt="Information" style="vertical-align:middle;margin-right:.2em;"/>'.
+              'There is some debug output '.
+              '<button onClick="javascript:$$(\'div.debug_div\').each(function (a) { a.toggle(); });">Toggle</button>'.
+            '</div>';
+        $first = FALSE;
+      }
+      $output = "DEBUG[$level] ";
+      if ($function != '') {
+        $output .= "($file:$function():$line) - $info: ";
+      } else {
+        $output .= "($file:$line) - $info: ";
+      }
+      echo '<div class="debug_div">';
+      echo $output;
+      $logline = $output;
+      if (is_array($data)) {
+        print_a($data);
+        $logline .= print_r($data, TRUE);
+      } else {
+        echo "'$data'";
+        $logline .= "'$data'";
+      }
+      echo "</div>\n";
+
+      if (is_object($config) && preg_match('/true/i', $config->get_cfg_value('debugLogging', ''))) {
+        fusiondirectory_log($logline);
+      }
+    }
+  }
+
+  /*!
    * \brief Check the options
    *
    * \param Array $entry to be checked

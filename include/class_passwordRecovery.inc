@@ -110,7 +110,7 @@ class passwordRecovery extends standAlonePage
       msg_dialog::displayChecks($this->message);
     }
 
-    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->step, "Step");
+    logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->step, "Step");
 
     $smarty = get_smarty();
 
@@ -149,7 +149,7 @@ class passwordRecovery extends standAlonePage
 
     $this->loginAttribute = $config->get_cfg_value('passwordRecoveryLoginAttribute', 'uid');
 
-    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $config->get_cfg_value('passwordRecoveryActivated'), "passwordRecoveryActivated");
+    logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $config->get_cfg_value('passwordRecoveryActivated'), "passwordRecoveryActivated");
     return ($config->get_cfg_value('passwordRecoveryActivated') == "TRUE");
   }
 
@@ -341,7 +341,7 @@ class passwordRecovery extends standAlonePage
     $reinit_link .= '&login='.urlencode($this->login);
     $reinit_link .= '&email_address='.urlencode($this->email_address);
 
-    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $reinit_link, 'Setting link to');
+    logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $reinit_link, 'Setting link to');
 
     /* Send the mail */
     $body = sprintf($this->mail_body, $this->login, $reinit_link);

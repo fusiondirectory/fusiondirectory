@@ -965,7 +965,7 @@ class config
             if (($tabclass == 'GROUPTABS') && class_available('mixedGroup')) {
               $tabclass = 'OGROUP-USERTABS';
             }
-            @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $tabclass, "Adding $class to tab list");
+            logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $tabclass, "Adding $class to tab list");
             if (!isset($this->data['TABS'][$tabclass])) {
               $this->data['TABS'][$tabclass] = [];
             }
@@ -1007,7 +1007,7 @@ class config
               $value['tabClass'] = 'simpleTabs';
             }
             $this->data['OBJECTS'][strtoupper($key)] = $value;
-            @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $tabclass, "Adding $class as main tab of");
+            logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $tabclass, "Adding $class as main tab of");
             if (!isset($this->data['TABS'][$tabclass])) {
               $this->data['TABS'][$tabclass] = [];
             }
@@ -1015,7 +1015,7 @@ class config
           }
         }
       } elseif (class_available($class) && is_subclass_of($class, 'simpleService')) {
-        @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $class, "Adding service");
+        logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $class, "Adding service");
         if (!isset($this->data['TABS']['SERVERSERVICE'])) {
           $this->data['TABS']['SERVERSERVICE'] = [];
         }
@@ -1057,7 +1057,7 @@ class config
     ];
     /* Extract categories definitions from object types */
     foreach ($this->data['OBJECTS'] as $key => $infos) {
-      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $infos['aclCategory'], "ObjectType $key category");
+      logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $infos['aclCategory'], "ObjectType $key category");
       if (strtoupper($infos['aclCategory']) == $key) {
         $cat = $infos['aclCategory'];
         if (!isset($this->data['CATEGORIES'][$cat])) {
@@ -1135,7 +1135,7 @@ class config
           }
         }
       }
-      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, join(',', array_unique($acl)), "Class $class categories");
+      logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, join(',', array_unique($acl)), "Class $class categories");
       /* Feed menu */
       if (isset($plInfo['plSection'])) {
         $section = $plInfo['plSection'];

@@ -40,9 +40,9 @@ session::start();
 reset_errors();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-  @DEBUG(DEBUG_POST, __LINE__, __FUNCTION__, __FILE__, $_POST, '_POST');
+  logging::debug(DEBUG_POST, __LINE__, __FUNCTION__, __FILE__, $_POST, '_POST');
 }
-@DEBUG(DEBUG_SESSION, __LINE__, __FUNCTION__, __FILE__, $_SESSION, '_SESSION');
+logging::debug(DEBUG_SESSION, __LINE__, __FUNCTION__, __FILE__, $_SESSION, '_SESSION');
 
 /* Logged in? Simple security check */
 if (!session::is_set('connected')) {
@@ -86,7 +86,7 @@ if (session::get('_LAST_PAGE_REQUEST') != '') {
 session::set('_LAST_PAGE_REQUEST', time());
 
 
-@DEBUG(DEBUG_CONFIG, __LINE__, __FUNCTION__, __FILE__, $config->data, "config");
+logging::debug(DEBUG_CONFIG, __LINE__, __FUNCTION__, __FILE__, $config->data, "config");
 
 /* Set template compile directory */
 $smarty->compile_dir = $config->get_cfg_value("templateCompileDirectory", SPOOL_DIR);
@@ -109,14 +109,14 @@ $smarty->assign('hideMenus', FALSE);
 /* check user expiration status */
 $expired = $ui->expired_status();
 if (($expired == POSIX_WARN_ABOUT_EXPIRATION) && !session::is_set('POSIX_WARN_ABOUT_EXPIRATION__DONE')) {
-  @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $expired, 'This user account ('.$ui->uid.') is about to expire');
+  logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $expired, 'This user account ('.$ui->uid.') is about to expire');
 
   // The users password is about to expire soon, display a warning message.
   logging::log('security', 'fusiondirectory', '', [], 'password for user "'.$ui->uid.'" is about to expire');
   msg_dialog::display(_('Password change'), _('Your password is about to expire, please change your password!'), INFO_DIALOG);
   session::set('POSIX_WARN_ABOUT_EXPIRATION__DONE', TRUE);
 } elseif ($expired == POSIX_FORCE_PASSWORD_CHANGE) {
-  @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $expired, 'This user account expired');
+  logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $expired, 'This user account expired');
 
   // The password is expired, we are now going to enforce a new one from the user.
 
