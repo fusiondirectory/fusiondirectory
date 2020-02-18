@@ -172,34 +172,7 @@ function plugin_available ($plugin)
  */
 function DEBUG ($level, $line, $function, $file, $data, $info = '')
 {
-  static $first = TRUE;
-  if (($_SERVER['REQUEST_METHOD'] == 'POST') && preg_match('/index.php$/', $_SERVER['REQUEST_URI'])) {
-    return;
-  }
-  if (session::get('DEBUGLEVEL') & $level) {
-    if ($first) {
-      echo '<div id="debug-handling" class="notice">'.
-            '<img src="geticon.php?context=status&amp;icon=dialog-information&amp;size=22" alt="Information" style="vertical-align:middle;margin-right:.2em;"/>'.
-            'There is some debug output '.
-            '<button onClick="javascript:$$(\'div.debug_div\').each(function (a) { a.toggle(); });">Toggle</button>'.
-          '</div>';
-      $first = FALSE;
-    }
-    $output = "DEBUG[$level] ";
-    if ($function != '') {
-      $output .= "($file:$function():$line) - $info: ";
-    } else {
-      $output .= "($file:$line) - $info: ";
-    }
-    echo '<div class="debug_div">';
-    echo $output;
-    if (is_array($data)) {
-      print_a($data);
-    } else {
-      echo "'$data'";
-    }
-    echo "</div>\n";
-  }
+  logging::debug($level, $line, $function, $file, $data, $info);
 }
 
 /*!
