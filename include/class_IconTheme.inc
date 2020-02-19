@@ -227,6 +227,7 @@ class IconTheme
   static public function findThemeIcon ($theme, $context, $icon, $size)
   {
     if (!isset($_SESSION[static::$session_var])) {
+      trigger_error('Error: no theme found in session');
       die('Error: no theme found in session');
     }
     if (isset($_SESSION[static::$session_var][$theme])) {
