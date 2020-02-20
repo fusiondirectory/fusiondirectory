@@ -30,6 +30,7 @@
       {$message}
     </div>
     <div>
+      <input type="submit" name="login" value="{t}Sign in{/t}" title="{t}Click here to log in{/t}"/>
     </div>
   </div>
   <input type="hidden" name="CSRFtoken" value="{$CSRFtoken}"/>
