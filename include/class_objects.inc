@@ -406,7 +406,7 @@ class objects
     $attrsObject->is_template = TRUE;
 
     $tabObject = new $tabClass($type, 'new', $attrsObject);
-    logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "Create template of $type");
+    logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $type, 'Create template of type');
 
     return $tabObject;
   }
