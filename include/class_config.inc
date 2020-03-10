@@ -484,6 +484,10 @@ class config
             $class  = strtoupper($parts[0]);
             $mode   = strtoupper($parts[1]);
             $cmd    = $parts[2];
+            if (!isset($cmd[0]) || ($cmd[0] == '#')) {
+              /* Ignore commented out and empty triggers */
+              continue;
+            }
             if (!isset($this->data['HOOKS'][$class])) {
               $this->data['HOOKS'][$class] = ['CLASS' => $parts[0]];
             }

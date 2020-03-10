@@ -70,13 +70,19 @@ class hooksConfig extends simplePlugin
                         'precreate', 'preremove', 'premodify', 'check',
                         'prelock', 'postlock', 'preunlock', 'postunlock']
                 ),
+                new BooleanAttribute(
+                  _('Deactivated'), _('Use this to temporarily deactivate a trigger'),
+                  'triggerDecativate', TRUE,
+                  FALSE, '',
+                  '#', ''
+                ),
                 new TextAreaAttribute(
                   _('Command'), _('The command that will be called'),
                   'triggerCmd', TRUE
                 )
               ],
-              '/^([^\\|]+)\\|([^\\|]+)\\|(.*)$/',
-              '%s|%s|%s',
+              '/^([^\\|]+)\\|([^\\|]+)\\|(#?)(.*)$/',
+              '%s|%s|%s%s',
               '', // acl
               _('Triggers')
             ),
@@ -99,6 +105,7 @@ class hooksConfig extends simplePlugin
     $this->attributesAccess['fdTabHook']->setHeaders([
       _('Tab'),
       _('Mode'),
+      _('Deactivated'),
       _('Command'),
       '',
     ]);
