@@ -137,6 +137,24 @@ class ogrouptabs extends simpleTabs_noSpecial
   }
 
   /*!
+   * \brief Returns the list of tabs which may appear for a given object type
+   */
+  public static function getPotentialTabList (string $type, array $infos): array
+  {
+    global $config;
+
+    /* prefix will be OGROUP- for ogroup */
+    $tabList  = parent::getPotentialTabList($type, $infos);
+    $prefix   = strtoupper($type).'-';
+    foreach ($config->data['TABS'] as $tabgroup => $tabs) {
+      if (strpos($tabgroup, $prefix) === 0) {
+        $tabList = array_merge($tabList, $tabs);
+      }
+    }
+    return $tabList;
+  }
+
+  /*!
    * \brief Sets the active tabs from this instance to an other one. Used by templates
    */
   function setActiveTabs (&$tabObject)

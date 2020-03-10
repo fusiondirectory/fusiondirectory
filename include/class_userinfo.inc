@@ -965,7 +965,7 @@ class userinfo
       /* Usual workflow */
       $infos  = objects::infos($type);
       $prefix = $infos['aclCategory'].'/';
-      $tabs   = $config->data['TABS'][$infos['tabGroup']];
+      $tabs   = $infos['tabClass']::getPotentialTabList($type, $infos);
     }
     foreach ($tabs as $tab) {
       $acls = pluglist::pluginInfos($tab['CLASS'])['plProvidedAcls'];
