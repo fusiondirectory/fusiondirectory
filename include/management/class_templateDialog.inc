@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2013-2019  FusionDirectory
+  Copyright (C) 2013-2020  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -56,8 +56,9 @@ class templateDialog
     }
 
     if (($this->target === NULL) &&
-        (isset($_POST[$this->post_finish]) || isset($_GET[$this->post_finish])) &&
-        is_object($this->template)) {
+        is_object($this->template) &&
+        (isset($_POST[$this->post_finish]) || isset($_GET[$this->post_finish]) || empty($this->template->getNeeded()))
+        ) {
       $this->template->save_object();
       return $this->handle_finish();
     }
