@@ -137,6 +137,16 @@ class simpleTabs
   }
 
   /*!
+   * \brief Returns the list of tabs which may appear for a given object type
+   */
+  public static function getPotentialTabList (string $type, array $infos): array
+  {
+    global $config;
+
+    return $config->data['TABS'][$infos['tabGroup']];
+  }
+
+  /*!
    * \brief Sets the active tabs from this instance to an other one. Used by templates
    */
   function setActiveTabs (&$tabObject)
