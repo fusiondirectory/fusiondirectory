@@ -457,7 +457,7 @@ class simpleTabs
    * \param array $attrs an LDAP-like values array
    * \param array $skip Attributes to skip
    */
-  function adapt_from_template ($attrs, $skip = [])
+  function adapt_from_template (array $attrs, array $skip = [])
   {
     foreach ($this->by_object as $key => &$obj) {
       logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, "Adapting");
