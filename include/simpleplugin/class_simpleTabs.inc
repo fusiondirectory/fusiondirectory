@@ -209,7 +209,7 @@ class simpleTabs
     $tabContent = $this->by_object[$this->current]->execute();
 
     /* Build tab line */
-    $display = $this->gen_tabs($this->dialogOpened());
+    $display = $this->renderTabList($this->dialogOpened());
 
     /* Show object */
     $display .= '<div class="tab-content">'."\n";
@@ -241,11 +241,18 @@ class simpleTabs
   }
 
   /*!
+   * \brief Load tab list if needed
+   */
+  public function loadTabs ()
+  {
+  }
+
+  /*!
    * \brief Generate the tab classes
    *
    * \param boolean $disabled false
    */
-  function gen_tabs ($disabled = FALSE)
+  protected function renderTabList (bool $disabled = FALSE): string
   {
     $display = "";
     if (!$disabled) {
@@ -527,7 +534,7 @@ class simpleTabs
     $this->ignoreAcls = $bool;
   }
 
-  public function dialogOpened ()
+  public function dialogOpened (): bool
   {
     return $this->by_object[$this->current]->is_modal_dialog();
   }
