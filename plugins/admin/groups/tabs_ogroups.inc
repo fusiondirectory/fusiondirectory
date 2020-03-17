@@ -28,12 +28,17 @@ class ogrouptabs extends simpleTabs_noSpecial
   {
     parent::__construct($type, $dn, $copied_object);
 
-    $this->loadtabs($this->getBaseObject()->gosaGroupObjects);
+    $this->loadTabs($this->getBaseObject()->gosaGroupObjects);
   }
 
-  function loadtabs ($gosaGroupObjects)
+  public function loadTabs (string $gosaGroupObjects = NULL)
   {
     global $config;
+
+    if ($gosaGroupObjects === NULL) {
+      $gosaGroupObjects = $this->getBaseObject()->getGroupObjectTypes();
+    }
+
     if ($this->groupObjects == $gosaGroupObjects) {
       return;
     }
@@ -130,10 +135,10 @@ class ogrouptabs extends simpleTabs_noSpecial
     unset($this->plNotify["$class"]);
   }
 
-  function gen_tabs ($disabled = FALSE)
+  protected function renderTabList (bool $disabled = FALSE): string
   {
-    $this->loadtabs($this->getBaseObject()->getGroupObjectTypes());
-    return parent::gen_tabs($disabled);
+    $this->loadtabs();
+    return parent::renderTabList($disabled);
   }
 
   /*!
@@ -157,9 +162,9 @@ class ogrouptabs extends simpleTabs_noSpecial
   /*!
    * \brief Sets the active tabs from this instance to an other one. Used by templates
    */
-  function setActiveTabs (&$tabObject)
+  public function setActiveTabs (&$tabObject)
   {
-    $tabObject->loadtabs($this->groupObjects);
+    $tabObject->loadTabs($this->groupObjects);
     foreach ($this->by_object as $class => $plugin) {
       if ($plugin->is_account || $plugin->ignore_account) {
         $tabObject->by_object[$class]->is_account = $plugin->is_account;
