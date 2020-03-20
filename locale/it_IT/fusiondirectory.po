@@ -6,16 +6,16 @@
 # Translators:
 # Paola Penati <paola.penati@opensides.be>, 2019
 # fusiondirectory <contact@fusiondirectory.org>, 2019
-# Paola <paola.penati@fusiondirectory.org>, 2019
+# Paola <paola.penati@fusiondirectory.org>, 2020
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2019-11-28 11:00+0000\n"
+"POT-Creation-Date: 2020-03-17 10:11+0000\n"
 "PO-Revision-Date: 2018-08-13 19:47+0000\n"
-"Last-Translator: Paola <paola.penati@fusiondirectory.org>, 2019\n"
+"Last-Translator: Paola <paola.penati@fusiondirectory.org>, 2020\n"
 "Language-Team: Italian (Italy) (https://www.transifex.com/fusiondirectory/teams/12202/it_IT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,7 +31,7 @@ msgstr ""
 #: include/management/class_management.inc:783
 #: include/management/class_management.inc:791
 #: include/management/class_managementListing.inc:251
-#: include/class_config.inc:351 include/class_logging.inc:158
+#: include/class_config.inc:351 include/class_logging.inc:218
 #: include/login/class_LoginCAS.inc:66 include/login/class_LoginCAS.inc:76
 #: include/login/class_LoginCAS.inc:102
 #: include/login/class_LoginHTTPHeader.inc:48
@@ -40,7 +40,7 @@ msgstr ""
 #: include/login/class_LoginHTTPHeader.inc:98
 #: include/password-methods/class_passwordMethodSasl.inc:66
 #: include/password-methods/class_passwordMethodSasl.inc:96
-#: include/class_msgPool.inc:509 include/class_msgPool.inc:538
+#: include/class_msgPool.inc:508
 #: include/simpleplugin/attributes/class_BaseSelectorAttribute.inc:89
 #: include/simpleplugin/attributes/class_BaseSelectorAttribute.inc:91
 #: include/simpleplugin/attributes/class_FileAttribute.inc:33
@@ -48,7 +48,7 @@ msgstr ""
 #: include/simpleplugin/attributes/class_FileAttribute.inc:39
 #: include/simpleplugin/attributes/class_FileAttribute.inc:378
 #: include/simpleplugin/attributes/class_FileAttribute.inc:389
-#: include/simpleplugin/class_simplePlugin.inc:691
+#: include/simpleplugin/class_simplePlugin.inc:689
 #: include/simpleplugin/class_simpleTabs.inc:69
 #: include/simpleplugin/class_multiPlugin.inc:108
 #: include/class_userinfo.inc:237
@@ -74,7 +74,7 @@ msgid "Columns displayed for this management list"
 msgstr "Colonne visualizzate per questo elenco di gestione"
 
 #: include/management/class_ManagementConfigurationDialog.inc:66
-#: include/php_setup.inc:137
+#: include/php_setup.inc:138
 msgid "Type"
 msgstr "Tipo"
 
@@ -171,14 +171,14 @@ msgstr "DN"
 
 #: include/management/snapshot/class_SnapshotAttribute.inc:44
 #: include/management/snapshot/class_SnapshotAttribute.inc:50
-#: include/simpleplugin/attributes/class_DateAttribute.inc:307
+#: include/simpleplugin/attributes/class_DateAttribute.inc:320
 msgid "Date"
 msgstr "Data"
 
 #: include/management/snapshot/class_SnapshotAttribute.inc:45
 #: include/management/snapshot/class_SnapshotAttribute.inc:51
 #: plugins/admin/departments/class_department.inc:71
-#: plugins/admin/groups/class_ogroup.inc:238
+#: plugins/admin/groups/class_ogroup.inc:229
 #: plugins/admin/groups/class_roleGeneric.inc:91
 #: plugins/admin/aclrole/class_aclRole.inc:102
 #: plugins/personal/generic/class_user.inc:108
@@ -219,10 +219,10 @@ msgstr "Ripristina un oggetto eliminato"
 #: include/management/snapshot/class_SnapshotHandler.inc:409
 #: include/class_config.inc:320 include/login/class_LoginMethod.inc:175
 #: include/password-methods/class_passwordMethod.inc:215
-#: include/functions.inc:465 include/functions.inc:512
-#: include/functions.inc:620
+#: include/functions.inc:438 include/functions.inc:485
+#: include/functions.inc:593
 #: include/simpleplugin/attributes/class_SetAttribute.inc:795
-#: include/class_userinfo.inc:1178 include/class_ldap.inc:994
+#: include/class_userinfo.inc:1038 include/class_ldap.inc:994
 #: include/class_ldap.inc:1359 plugins/config/class_recoveryConfig.inc:138
 #: plugins/addons/dashboard/class_dashboard.inc:78
 #: plugins/addons/dashboard/class_dashboardUsers.inc:90
@@ -248,7 +248,7 @@ msgstr "Ripristinare snapshots"
 
 #: include/management/snapshot/class_SnapshotRestoreDialog.inc:49
 #: include/management/snapshot/class_SnapshotCreateDialog.inc:44
-#: include/class_msgPool.inc:506
+#: include/class_msgPool.inc:505
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:339
 msgid "Object"
 msgstr "Oggetto"
@@ -343,8 +343,8 @@ msgstr "Lista d'esportazione"
 #: include/simpleplugin/attributes/class_PhoneNumberAttribute.inc:121
 #: include/simpleplugin/attributes/class_SetAttribute.inc:558
 #: include/simpleplugin/attributes/class_SetAttribute.inc:559
-#: include/simpleplugin/class_dialogAttributes.inc:726
-#: include/simpleplugin/class_dialogAttributes.inc:727
+#: include/simpleplugin/class_dialogAttributes.inc:728
+#: include/simpleplugin/class_dialogAttributes.inc:729
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:191
 msgid "Edit"
 msgstr "Modifica"
@@ -369,8 +369,8 @@ msgstr "Applica il modello"
 #: include/management/class_management.inc:281
 #: include/simpleplugin/attributes/class_FileAttribute.inc:440
 #: include/simpleplugin/attributes/class_FileAttribute.inc:441
-#: include/simpleplugin/class_dialogAttributes.inc:736
-#: include/simpleplugin/class_dialogAttributes.inc:737
+#: include/simpleplugin/class_dialogAttributes.inc:738
+#: include/simpleplugin/class_dialogAttributes.inc:739
 msgid "Remove"
 msgstr "Elimina"
 
@@ -405,7 +405,7 @@ msgstr ""
 #: include/management/class_management.inc:1225
 #: include/management/class_management.inc:1242
 #: include/class_CopyPasteHandler.inc:203
-#: include/simpleplugin/class_simpleTabs.inc:310
+#: include/simpleplugin/class_simpleTabs.inc:327
 #: plugins/admin/users/class_userManagement.inc:85
 msgid "Permission"
 msgstr "Autorizzazioni"
@@ -480,10 +480,10 @@ msgid "XML error in fusiondirectory.conf: %s at line %d"
 msgstr "Errore XML nel file fusiondirectory.conf: %s alla linea %d"
 
 #: include/class_config.inc:149 include/class_config.inc:282
-#: include/class_config.inc:928 include/class_config.inc:940
+#: include/class_config.inc:932 include/class_config.inc:944
 #: include/class_timezone.inc:51
 #: include/password-methods/class_passwordMethodSsha.inc:84
-#: include/class_standAlonePage.inc:146 include/functions.inc:447
+#: include/class_standAlonePage.inc:146 include/functions.inc:420
 #: html/main.php:168 html/index.php:93
 msgid "Configuration error"
 msgstr "Errore di configurazione"
@@ -507,7 +507,7 @@ msgstr ""
 msgid "Location \"%s\" could not be found in the configuration file"
 msgstr "Location \" %s\" non è stata trovata nel file di configurazione"
 
-#: include/class_config.inc:929
+#: include/class_config.inc:933
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required variable \"%s\" is "
@@ -516,7 +516,7 @@ msgstr ""
 "La funzionalità snapshot è attivata, ma la variabile \"%s\" richiesta non è "
 "impostata."
 
-#: include/class_config.inc:941
+#: include/class_config.inc:945
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required compression module "
@@ -525,11 +525,11 @@ msgstr ""
 "La funzionalità snapshot è abilitata, ma manca il modulo di compressione "
 "richiesto. Si prega di installare \"%s\"."
 
-#: include/class_config.inc:1055
+#: include/class_config.inc:1059
 msgid "All categories"
 msgstr "Tutte le categorie"
 
-#: include/class_config.inc:1197
+#: include/class_config.inc:1201
 msgid "My account"
 msgstr "Identità personale"
 
@@ -555,58 +555,58 @@ msgstr "PDF"
 msgid "CSV"
 msgstr "CSV"
 
-#: include/php_setup.inc:45 include/php_setup.inc:137
+#: include/php_setup.inc:46 include/php_setup.inc:138
 msgid "File"
 msgstr "File"
 
-#: include/php_setup.inc:47 include/php_setup.inc:137
+#: include/php_setup.inc:48 include/php_setup.inc:138
 msgid "Line"
 msgstr "Linea"
 
-#: include/php_setup.inc:53
+#: include/php_setup.inc:54
 msgid "PHP error"
 msgstr "Errore PHP"
 
-#: include/php_setup.inc:62
+#: include/php_setup.inc:63
 msgid "class"
 msgstr "classe"
 
-#: include/php_setup.inc:70
+#: include/php_setup.inc:71
 msgid "function"
 msgstr "funzione"
 
-#: include/php_setup.inc:76
+#: include/php_setup.inc:77
 msgid "static"
 msgstr "statico"
 
-#: include/php_setup.inc:80
+#: include/php_setup.inc:81
 msgid "method"
 msgstr "metodo"
 
-#: include/php_setup.inc:136 ihtml/themes/breezy/msg_dialog.tpl.c:11
+#: include/php_setup.inc:137 ihtml/themes/breezy/msg_dialog.tpl.c:11
 msgid "Trace"
 msgstr "Traccia"
 
-#: include/php_setup.inc:138
+#: include/php_setup.inc:139
 msgid "Arguments"
 msgstr "Argomenti"
 
-#: include/php_setup.inc:228
+#: include/php_setup.inc:229
 msgid "Generating this page caused the PHP interpreter to raise some errors!"
 msgstr ""
 "La creazione di questa pagina, secondo l'interprete PHP, ha generato degli "
 "errori ! "
 
-#: include/php_setup.inc:233
+#: include/php_setup.inc:234
 msgid "Send bug report to the FusionDirectory Team"
 msgstr ""
 "Invia i tuoi commenti a proposito di un bug al Team di FusionDirectory"
 
-#: include/php_setup.inc:234
+#: include/php_setup.inc:235
 msgid "Send bugreport"
 msgstr "Invia un rapporto di bug"
 
-#: include/php_setup.inc:239
+#: include/php_setup.inc:240
 msgid "Toggle information"
 msgstr "Mostra/Nascondi l'informazione"
 
@@ -623,14 +623,14 @@ msgstr ""
 "Modello di oggetti, utilizzato per creare diversi oggetti con valori simili"
 
 #: include/class_template.inc:49
-#: include/simpleplugin/class_simplePlugin.inc:358
+#: include/simpleplugin/class_simplePlugin.inc:356
 msgid "Template name"
 msgstr "Nome del modello"
 
-#: include/class_logging.inc:79 include/functions.inc:429
-#: include/functions.inc:558 include/functions.inc:1333
-#: include/functions.inc:1371 include/functions.inc:1402
-#: include/class_acl.inc:103 include/class_userinfo.inc:1252
+#: include/class_logging.inc:79 include/functions.inc:402
+#: include/functions.inc:531 include/functions.inc:1306
+#: include/functions.inc:1344 include/functions.inc:1375
+#: include/class_acl.inc:103 include/class_userinfo.inc:1112
 #: include/class_ldap.inc:944 include/class_ldap.inc:982
 msgid "Internal error"
 msgstr "Errore interno"
@@ -640,16 +640,16 @@ msgstr "Errore interno"
 msgid "Logging failed: %s"
 msgstr "Registrazione nel giornale di sistema non riuscita : %s"
 
-#: include/class_logging.inc:101
+#: include/class_logging.inc:161
 #, php-format
 msgid "Invalid option \"%s\" specified!"
 msgstr "Opzione '%s' non valida!"
 
-#: include/class_logging.inc:105
+#: include/class_logging.inc:165
 msgid "Specified objectType is empty or invalid!"
 msgstr "Il tipo d'oggetto specificato è vuoto oppure non è valido !"
 
-#: include/class_logging.inc:158
+#: include/class_logging.inc:218
 #, php-format
 msgid "Failed to log event (%s - %s): %s"
 msgstr "Impossibile registrare l'evento (%s - %s): %s"
@@ -675,7 +675,7 @@ msgstr "L'accesso con utente \"%s\" ha innescato l'errore: %s"
 msgid "HTML form"
 msgstr "Modulo HTML"
 
-#: include/login/class_LoginPost.inc:86 include/functions.inc:636
+#: include/login/class_LoginPost.inc:88 include/functions.inc:609
 #: setup/class_setupStepLdap.inc:212 setup/class_setupStepMigrate.inc:611
 #: setup/class_setupStepMigrate.inc:1008 setup/class_setupStepMigrate.inc:1201
 #: setup/class_setupStepMigrate.inc:1253 setup/class_setupStepMigrate.inc:1368
@@ -685,7 +685,7 @@ msgstr "Modulo HTML"
 msgid "Warning"
 msgstr "Avvertimento"
 
-#: include/login/class_LoginPost.inc:86
+#: include/login/class_LoginPost.inc:88
 msgid ""
 "Your browser has cookies disabled. Please enable cookies and reload this "
 "page before logging in!"
@@ -693,18 +693,18 @@ msgstr ""
 "Il tuo navigatore web ha i cookies disattivati. Attiva i cookies e ricarica "
 "la pagina prima di connetterti !"
 
-#: include/login/class_LoginPost.inc:118 ihtml/themes/legacy/login.tpl.c:2
-#: ihtml/themes/legacy/login.tpl.c:38 ihtml/themes/breezy/login.tpl.c:2
-#: ihtml/themes/breezy/login.tpl.c:38
+#: include/login/class_LoginPost.inc:120 ihtml/themes/legacy/login.tpl.c:2
+#: ihtml/themes/legacy/login.tpl.c:38 ihtml/themes/breezy/secondfactor.tpl.c:5
+#: ihtml/themes/breezy/login.tpl.c:2 ihtml/themes/breezy/login.tpl.c:38
 msgid "Sign in"
 msgstr "Accedi"
 
-#: include/login/class_LoginPost.inc:128 include/class_standAlonePage.inc:210
+#: include/login/class_LoginPost.inc:130 include/class_standAlonePage.inc:210
 #, php-format
 msgid "Warning: <a href=\"%s\">Session is not encrypted!</a>"
 msgstr "Attenzione: la sessione  <a href=\"%s\"> non é crittografata!</a>"
 
-#: include/login/class_LoginPost.inc:134
+#: include/login/class_LoginPost.inc:136
 msgid ""
 "Warning: The session lifetime configured in your fusiondirectory.conf will "
 "be overridden by php.ini settings."
@@ -712,7 +712,7 @@ msgstr ""
 "Attenzione: la durata della sessione configurata nel fusiondirectory.conf "
 "verrà sostituita dalle impostazioni di php.ini."
 
-#: include/login/class_LoginPost.inc:191
+#: include/login/class_LoginPost.inc:193
 msgid "Second factor"
 msgstr "Secondo fattore"
 
@@ -824,7 +824,7 @@ msgid "Cannot change password, unknown user \"%s\""
 msgstr "Impossibile modificare la password, utente \"%s\" sconosciuto "
 
 #: include/password-methods/class_passwordMethodSasl.inc:96
-#: plugins/config/class_configInLdap.inc:534
+#: plugins/config/class_configInLdap.inc:539
 msgid ""
 "You need to fill saslRealm or saslExop in the configuration screen in order "
 "to use SASL"
@@ -836,10 +836,10 @@ msgstr ""
 msgid "Submit"
 msgstr "Invia"
 
-#: include/class_standAlonePage.inc:123 include/functions.inc:380
-#: include/functions.inc:1895 include/simpleplugin/class_simplePlugin.inc:475
-#: include/simpleplugin/class_simplePlugin.inc:480
-#: include/simpleplugin/class_simplePlugin.inc:492
+#: include/class_standAlonePage.inc:123 include/functions.inc:353
+#: include/functions.inc:1868 include/simpleplugin/class_simplePlugin.inc:473
+#: include/simpleplugin/class_simplePlugin.inc:478
+#: include/simpleplugin/class_simplePlugin.inc:490
 msgid "Fatal error"
 msgstr "Errore fatale"
 
@@ -888,17 +888,17 @@ msgstr ""
 "Errore fatale: impossibile inizializzare la classe '%s' - esegui '%s' per "
 "porre rimedio al problema"
 
-#: include/functions.inc:381
+#: include/functions.inc:354
 #, php-format
 msgid "FATAL: Error when connecting the LDAP. Server said '%s'."
 msgstr ""
 "Fatale: Errore durante la connessione al server LDAP. Il server dice: '%s'"
 
-#: include/functions.inc:429 include/functions.inc:558
+#: include/functions.inc:402 include/functions.inc:531
 msgid "Error while adding a lock. Contact the developers!"
 msgstr "Errore all'aggiunta di un bloccaggio. Contatta i programmatori !"
 
-#: include/functions.inc:447
+#: include/functions.inc:420
 #, php-format
 msgid ""
 "Cannot create locking information in LDAP tree. Please contact your "
@@ -907,12 +907,12 @@ msgstr ""
 "Impossibile creare i dati per il bloccaggio nell'annuario LDAP. Contatta "
 "l'amministratore del sistema !"
 
-#: include/functions.inc:447
+#: include/functions.inc:420
 #, php-format
 msgid "LDAP server returned: %s"
 msgstr "Il server LDAP ha risposto: %s"
 
-#: include/functions.inc:636
+#: include/functions.inc:609
 msgid ""
 "Found multiple locks for object to be locked. This should not happen - "
 "cleaning up multiple references."
@@ -920,65 +920,65 @@ msgstr ""
 "Sono stati trovati molteplici bloccaggi per lo stesso oggetto da bloccare. "
 "Questo non dovrebbe mai succedere. Ripulire le referenze multiple."
 
-#: include/functions.inc:958
+#: include/functions.inc:931
 msgid "Continue anyway"
 msgstr "Prosegui comunque"
 
-#: include/functions.inc:960
+#: include/functions.inc:933
 msgid "Edit anyway"
 msgstr "Modifica malgrado l'avvertimento"
 
-#: include/functions.inc:962
+#: include/functions.inc:935
 #, php-format
 msgid "You're going to edit the LDAP entry/entries %s"
 msgstr "Sei sul punto di modificare la/le voce/voci %s"
 
-#: include/functions.inc:1194
+#: include/functions.inc:1167
 #, php-format
 msgid "%sB"
 msgstr "%sB"
 
-#: include/functions.inc:1195
+#: include/functions.inc:1168
 #, php-format
 msgid "%sKiB"
 msgstr "%sKiB"
 
-#: include/functions.inc:1196
+#: include/functions.inc:1169
 #, php-format
 msgid "%sMiB"
 msgstr "%sMiB"
 
-#: include/functions.inc:1197
+#: include/functions.inc:1170
 #, php-format
 msgid "%sGiB"
 msgstr "%sGiB"
 
-#: include/functions.inc:1198
+#: include/functions.inc:1171
 #, php-format
 msgid "%sTiB"
 msgstr "%sTiB"
 
-#: include/functions.inc:1199
+#: include/functions.inc:1172
 #, php-format
 msgid "%sPiB"
 msgstr "%sPiB"
 
-#: include/functions.inc:1200
+#: include/functions.inc:1173
 #, php-format
 msgid "%sEiB"
 msgstr "%sPiB"
 
-#: include/functions.inc:1201
+#: include/functions.inc:1174
 #, php-format
 msgid "%sZiB"
 msgstr "%sZiB"
 
-#: include/functions.inc:1202
+#: include/functions.inc:1175
 #, php-format
 msgid "%sYiB"
 msgstr "%sYiB"
 
-#: include/functions.inc:1333
+#: include/functions.inc:1306
 #, php-format
 msgid ""
 "File '%s' could not be deleted. Try fusiondirectory-setup --check-"
@@ -987,63 +987,63 @@ msgstr ""
 "Il file '%s' non puó essere rimosso. Prova ad usare fusiondirectory-setup "
 "--check-directories per correggerne i privilegi di accesso."
 
-#: include/functions.inc:1371
+#: include/functions.inc:1344
 msgid "Cannot write to revision file!"
 msgstr "Impossibile scrivere il file di revisione !"
 
-#: include/functions.inc:1402
+#: include/functions.inc:1375
 msgid "Cannot read revision file!"
 msgstr "Impossibile leggere il file di revisione!"
 
-#: include/functions.inc:1516
+#: include/functions.inc:1489
 msgid "LDAP warning"
 msgstr "Avvertimento LDAP"
 
-#: include/functions.inc:1516
+#: include/functions.inc:1489
 msgid "Cannot get schema information from server. No schema check possible!"
 msgstr ""
 "Impossibile trovare informazioni sugli schemi a partire dal server. Nessuna "
 "verifica degli schemi è stata effettuata !"
 
-#: include/functions.inc:1540
+#: include/functions.inc:1513
 msgid "Main FusionDirectory schema"
 msgstr "Schema principale di FusionDirectory"
 
-#: include/functions.inc:1548
+#: include/functions.inc:1521
 msgid "Schema used to store FusionDirectory configuration"
 msgstr ""
 "Schema utilizzato per memorizzare la configurazione di FusionDirectory"
 
-#: include/functions.inc:1556
+#: include/functions.inc:1529
 msgid "Used to store trust mode information in users or groups."
 msgstr ""
 "Utilizzato per memorizzare le informazioni in modalità fiducia in utenti o "
 "gruppi."
 
-#: include/functions.inc:1564
+#: include/functions.inc:1537
 msgid "Used to store templates."
 msgstr "Usato per memorizzare i modelli."
 
-#: include/functions.inc:1573
+#: include/functions.inc:1546
 msgid "Used to store POSIX information."
 msgstr "Usato per memorizzare le informazioni POSIX."
 
-#: include/functions.inc:1581
+#: include/functions.inc:1554
 #, php-format
 msgid "Missing required object class \"%s\"!"
 msgstr "Manca la classe di oggetti necessaria \"%s\"!"
 
-#: include/functions.inc:1583
+#: include/functions.inc:1556
 #, php-format
 msgid "Missing optional object class \"%s\"!"
 msgstr "Manca classe di oggetti optional \"%s\"!"
 
-#: include/functions.inc:1587
+#: include/functions.inc:1560
 #, php-format
 msgid "Class(es) available"
 msgstr "Classe(i) disponibile(i)"
 
-#: include/functions.inc:1606
+#: include/functions.inc:1579
 msgid ""
 "You have installed the mixed groups plugin, but your schema configuration "
 "does not support this."
@@ -1051,13 +1051,13 @@ msgstr ""
 "Avete installato il plugin di gruppi misti, ma la configurazione dello "
 "schema non supporta questo."
 
-#: include/functions.inc:1607
+#: include/functions.inc:1580
 msgid ""
 "In order to use mixed groups the objectClass \"posixGroup\" must be "
 "AUXILIARY"
 msgstr "Per usare gruppi misti l'objetClass \"posixGroup\" deve essere AUSILIARIO"
 
-#: include/functions.inc:1610
+#: include/functions.inc:1583
 msgid ""
 "Your schema is configured to support mixed groups, but this plugin is not "
 "present."
@@ -1065,11 +1065,11 @@ msgstr ""
 "Il vostro schema é configurato per supportare gruppi misti, ma manca il "
 "plugin."
 
-#: include/functions.inc:1611
+#: include/functions.inc:1584
 msgid "The objectClass \"posixGroup\" must be STRUCTURAL"
 msgstr "L'objectClass \"posixGroup\" deve essere STRUTTURALE"
 
-#: include/functions.inc:1896
+#: include/functions.inc:1869
 #, php-format
 msgid "Cannot locate file '%s' - please run '%s' to fix this"
 msgstr ""
@@ -1100,186 +1100,185 @@ msgstr "Annulla tutto"
 msgid "Cannot paste"
 msgstr "Impossibile incollare"
 
-#: include/class_msgPool.inc:48
+#: include/class_msgPool.inc:47
 msgid "You have no permission to delete this object!"
 msgstr "Non hai il permesso di cancellare questo oggetto !"
 
-#: include/class_msgPool.inc:52 include/class_msgPool.inc:56
+#: include/class_msgPool.inc:51 include/class_msgPool.inc:55
 msgid "You have no permission to delete the object:"
 msgstr "Non hai il permesso di cancellare l'oggetto:"
 
-#: include/class_msgPool.inc:59
+#: include/class_msgPool.inc:58
 msgid "You have no permission to delete these objects:"
 msgstr "Non hai il permesso di cancellare questi oggetti:"
 
-#: include/class_msgPool.inc:70
+#: include/class_msgPool.inc:69
 msgid "You have no permission to create this object!"
 msgstr "Non hai il permesso di creare questo oggetto !"
 
-#: include/class_msgPool.inc:74 include/class_msgPool.inc:78
+#: include/class_msgPool.inc:73 include/class_msgPool.inc:77
 msgid "You have no permission to create the object:"
 msgstr "Non hai il permesso di creare l'oggetto:"
 
-#: include/class_msgPool.inc:81
+#: include/class_msgPool.inc:80
 msgid "You have no permission to create these objects:"
 msgstr "Non hai il permesso di creare lquesti oggetti:"
 
-#: include/class_msgPool.inc:93
+#: include/class_msgPool.inc:92
 msgid "You have no permission to modify this object!"
 msgstr "Non hai il permesso di modificare questo oggetto !"
 
-#: include/class_msgPool.inc:98
+#: include/class_msgPool.inc:97
 #, php-format
 msgid "You have no permission to modify the field \"%s\" of object \"%s\""
 msgstr "Non hai il permesso di modificare i campi \"%s\" di oggetto \"%s\""
 
-#: include/class_msgPool.inc:100 include/class_msgPool.inc:105
+#: include/class_msgPool.inc:99 include/class_msgPool.inc:104
 #, php-format
 msgid "You have no permission to modify the object:<br/>%s"
 msgstr "Non ha il permesso di modificare l'oggetto:<br/>%s"
 
-#: include/class_msgPool.inc:108
+#: include/class_msgPool.inc:107
 #, php-format
 msgid "You have no permission to modify these objects:<br/>%s"
 msgstr "Non hai il permesso di modificare questi oggetti:<br/>%s"
 
-#: include/class_msgPool.inc:119
+#: include/class_msgPool.inc:118
 msgid "You have no permission to view this object!"
 msgstr "Non hai il permesso di visualizzare questo oggetto !"
 
-#: include/class_msgPool.inc:123 include/class_msgPool.inc:127
+#: include/class_msgPool.inc:122 include/class_msgPool.inc:126
 msgid "You have no permission to view the object:"
 msgstr "Non hai il permesso di visualizzare l'oggetto:"
 
-#: include/class_msgPool.inc:130
+#: include/class_msgPool.inc:129
 msgid "You have no permission to view these objects:"
 msgstr "Non hai il permesso di visualizzare questi oggetti:"
 
-#: include/class_msgPool.inc:141
+#: include/class_msgPool.inc:140
 msgid "You have no permission to move this object!"
 msgstr "Non hai il permesso di spostare questo oggetto !"
 
-#: include/class_msgPool.inc:145 include/class_msgPool.inc:149
+#: include/class_msgPool.inc:144 include/class_msgPool.inc:148
 msgid "You have no permission to move the object:"
 msgstr "Non hai il permesso di spostare l'oggetto:"
 
-#: include/class_msgPool.inc:152
+#: include/class_msgPool.inc:151
 msgid "You have no permission to move these objects:"
 msgstr "Non hai il permesso di spostare questi oggetti:"
 
-#: include/class_msgPool.inc:162
+#: include/class_msgPool.inc:161
 #, php-format
-msgid "The field '%s' contains a reserved keyword!"
-msgstr "Il campo '%s' contiene una parola chiave riservata !"
+msgid "The field \"%s\" contains a reserved keyword!"
+msgstr "Il campo \"%s\" contiene una parola chiave riservata!"
 
-#: include/class_msgPool.inc:178
+#: include/class_msgPool.inc:177
 #, php-format
-msgid "Cannot execute '%s' command!"
-msgstr "Impossibile eseguire il comando '%s' !"
+msgid "Cannot execute \"%s\" command!"
+msgstr "Impossibile eseguire il comando \"%s\"!"
 
-#: include/class_msgPool.inc:180
+#: include/class_msgPool.inc:179
 #, php-format
-msgid "Cannot execute '%s' command for plugin %s!"
-msgstr "Impossibile eseguire l'opzione '%s' del comando per l'estensione %s !"
+msgid "Cannot execute \"%s\" command for plugin %s!"
+msgstr "Impossibile eseguire il comando \"%s\" per il plugin %s!"
 
-#: include/class_msgPool.inc:184
+#: include/class_msgPool.inc:183
 #, php-format
-msgid "Cannot execute '%s' command (%s)!"
-msgstr "Impossibile eseguire l'opzione '%s' del comando (%s) !"
+msgid "Cannot execute \"%s\" command (%s)!"
+msgstr "Impossibile eseguire il comando \"%s\" (%s)!"
 
-#: include/class_msgPool.inc:186
+#: include/class_msgPool.inc:185
 #, php-format
-msgid "Cannot execute '%s' command (%s) for plugin %s!"
-msgstr ""
-"Impossibile eseguire l'opzione '%s' del comando (%s) per l'estensione %s !"
+msgid "Cannot execute \"%s\" command (%s) for plugin %s!"
+msgstr "Impossibile eseguire il comando \"%s\" (%s) per il plugin %s!"
 
-#: include/class_msgPool.inc:201
+#: include/class_msgPool.inc:200
 #, php-format
-msgid "Value for '%s' is too large!"
-msgstr "Il valore specificato per '%s' è troppo grande !"
+msgid "Value for \"%s\" is too large!"
+msgstr "Il valore per \"%s\" è troppo grande!"
 
-#: include/class_msgPool.inc:203
+#: include/class_msgPool.inc:202
 #, php-format
-msgid "'%s' must be smaller than %s!"
-msgstr "'%s' deve essere più piccolo di %s !"
+msgid "\"%s\" must be smaller than %s!"
+msgstr "\"%s\" deve essere più piccolo di %s!"
 
-#: include/class_msgPool.inc:217
+#: include/class_msgPool.inc:216
 #, php-format
-msgid "Value for '%s' is too small!"
-msgstr "Il valore specificato per '%s' è troppo piccolo !"
+msgid "Value for \"%s\" is too small!"
+msgstr "Il valore per \"%s\" è troppo piccolo!"
 
-#: include/class_msgPool.inc:219
+#: include/class_msgPool.inc:218
 #, php-format
-msgid "'%s' must be %d or above!"
-msgstr "'%s' deve essere %d o un valore più grande !"
+msgid "\"%s\" must be %d or above!"
+msgstr "\"%s\" deve essere %d o superiore!"
 
-#: include/class_msgPool.inc:232
+#: include/class_msgPool.inc:231
 #, php-format
-msgid "'%s' depends on '%s' - please provide both values!"
-msgstr "'%s' dipende da '%s' - indica entrambi i valori !"
+msgid "\"%s\" depends on \"%s\" - please provide both values!"
+msgstr "\"%s\" dipende da \"%s\" - si prega di fornire entrambi i valori!"
 
-#: include/class_msgPool.inc:244
+#: include/class_msgPool.inc:243
 #, php-format
-msgid "There is already an entry with this '%s' attribute in the system!"
-msgstr "C'è un'altra entry con l'attributo '%s' nel sistema !"
+msgid "There is already an entry with this \"%s\" attribute in the system!"
+msgstr "C'è già una voce con questo attributo \"%s\" nel sistema!"
 
-#: include/class_msgPool.inc:246
+#: include/class_msgPool.inc:245
 #, php-format
-msgid "The entry '%s' already use this '%s' attribute!"
-msgstr "La entry '%s' usa già l'attributo '%s'!"
+msgid "The entry \"%s\" already use this \"%s\" attribute!"
+msgstr "La voce \"%s\" usa già questo attributo \"%s\"!"
 
-#: include/class_msgPool.inc:257
+#: include/class_msgPool.inc:256
 #, php-format
-msgid "The required field '%s' is empty!"
-msgstr "Il campo necessario '%s' è vuoto !"
+msgid "The required field \"%s\" is empty!"
+msgstr "Il campo richiesto \"%s\" è vuoto!"
 
-#: include/class_msgPool.inc:274
+#: include/class_msgPool.inc:273
 #, php-format
 msgid "The field \"%s\" contains an invalid value."
 msgstr "Il campo \"%s\" contiene un valore non valido."
 
-#: include/class_msgPool.inc:279
+#: include/class_msgPool.inc:278
 #, php-format
 msgid "Example: %s"
 msgstr "Esempio: %s"
 
-#: include/class_msgPool.inc:292
+#: include/class_msgPool.inc:291
 #, php-format
 msgid "Missing %s PHP extension!"
 msgstr "Estensione PHP %s  mancante !"
 
-#: include/class_msgPool.inc:300 setup/setup_migrate_adminAccount.tpl.c:23
+#: include/class_msgPool.inc:299 setup/setup_migrate_adminAccount.tpl.c:23
 #: setup/setup_migrate_accounts.tpl.c:38
 #: ihtml/themes/breezy/msg_dialog.tpl.c:17
 #: ihtml/themes/breezy/islocked.tpl.c:17
 msgid "Cancel"
 msgstr "Annulla"
 
-#: include/class_msgPool.inc:308 setup/class_setupStepMigrate.inc:133
+#: include/class_msgPool.inc:307 setup/class_setupStepMigrate.inc:133
 #: setup/setup_checks.tpl.c:2 ihtml/themes/breezy/msg_dialog.tpl.c:14
 msgid "Ok"
 msgstr "Ok"
 
-#: include/class_msgPool.inc:316 setup/setup_migrate_adminAccount.tpl.c:20
+#: include/class_msgPool.inc:315 setup/setup_migrate_adminAccount.tpl.c:20
 #: setup/setup_migrate_accounts.tpl.c:35
 msgid "Apply"
 msgstr "Applica"
 
-#: include/class_msgPool.inc:324
+#: include/class_msgPool.inc:323
 msgid "Save"
 msgstr "Registra"
 
-#: include/class_msgPool.inc:334
+#: include/class_msgPool.inc:333
 #, php-format
 msgid "Add"
 msgstr "Aggiungi"
 
-#: include/class_msgPool.inc:334
+#: include/class_msgPool.inc:333
 #, php-format
 msgid "Add %s"
 msgstr "Aggiungi %s"
 
-#: include/class_msgPool.inc:344
+#: include/class_msgPool.inc:343
 #: include/simpleplugin/attributes/class_SetAttribute.inc:569
 #: include/simpleplugin/attributes/class_SetAttribute.inc:570
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:193
@@ -1287,31 +1286,31 @@ msgstr "Aggiungi %s"
 msgid "Delete"
 msgstr "Elimina"
 
-#: include/class_msgPool.inc:344
+#: include/class_msgPool.inc:343
 #, php-format
 msgid "Delete %s"
 msgstr "Rimuovi %s"
 
-#: include/class_msgPool.inc:354
+#: include/class_msgPool.inc:353
 #, php-format
 msgid "Edit..."
 msgstr "Modifica..."
 
-#: include/class_msgPool.inc:354
+#: include/class_msgPool.inc:353
 #, php-format
 msgid "Edit %s..."
 msgstr "Modifica %s..."
 
-#: include/class_msgPool.inc:362
+#: include/class_msgPool.inc:361
 msgid "Back"
 msgstr "Indietro"
 
-#: include/class_msgPool.inc:391
+#: include/class_msgPool.inc:390
 #, php-format
 msgid "This account has no valid %s extensions!"
 msgstr "Questa identità non possiede valide estensioni %s !"
 
-#: include/class_msgPool.inc:404
+#: include/class_msgPool.inc:403
 #, php-format
 msgid ""
 "This account has %s settings enabled. You can disable them by clicking "
@@ -1320,7 +1319,7 @@ msgstr ""
 "Questa identità ha i parametri %s attivati. Puoi disattivarli cliccando sul "
 "bottone qui sotto."
 
-#: include/class_msgPool.inc:409
+#: include/class_msgPool.inc:408
 #, php-format
 msgid ""
 "This account has %s settings enabled. To disable them, you'll need to remove"
@@ -1329,7 +1328,7 @@ msgstr ""
 "Questa identità ha i parametri %s attivati. Per disattivarla hai bisogno di "
 "rimuovere prima di tutto i parametri %s !"
 
-#: include/class_msgPool.inc:425
+#: include/class_msgPool.inc:424
 #, php-format
 msgid ""
 "This account has %s settings disabled. You can enable them by clicking "
@@ -1338,7 +1337,7 @@ msgstr ""
 "Questa identità ha i parametri %s disattivati. Puoi attivarli cliccando sul "
 "bottone qui sotto."
 
-#: include/class_msgPool.inc:427
+#: include/class_msgPool.inc:426
 #, php-format
 msgid ""
 "This account has %s settings disabled. To enable them, you'll need to add "
@@ -1347,7 +1346,7 @@ msgstr ""
 "Questa identità ha i parametri %s disattivati. Per attivarli devi prima di "
 "tutto impostare i parametri %s !"
 
-#: include/class_msgPool.inc:429
+#: include/class_msgPool.inc:428
 #, php-format
 msgid ""
 "This account has %s settings disabled. To enable them, you'll need to "
@@ -1356,160 +1355,167 @@ msgstr ""
 "Questo account ha disattivato le impostazioni %s. Per abilitarle, devi prima"
 " disabilitare le impostazioni %s!"
 
-#: include/class_msgPool.inc:440
+#: include/class_msgPool.inc:439
 #, php-format
 msgid "Add %s settings"
 msgstr "Imposta i parametri %s"
 
-#: include/class_msgPool.inc:451
+#: include/class_msgPool.inc:450
 #, php-format
 msgid "Remove %s settings"
 msgstr "Rimuovi i parametri %s"
 
-#: include/class_msgPool.inc:459
-msgid "Click the 'Edit' button below to change information in this dialog"
+#: include/class_msgPool.inc:458
+msgid ""
+"Click the \"Edit\" button on the bottom right corner of the page to edit the"
+" fields"
 msgstr ""
-"Clicka sul bottone 'Modifica' qui sotto per cambiare le informazioni in "
-"questa finestra"
+"Clicka su \"Modifica\" nell'angolo in basso a destra della pagina per "
+"modificare i campi"
 
-#: include/class_msgPool.inc:467
+#: include/class_msgPool.inc:466
 msgid "January"
 msgstr "Gennaio"
 
-#: include/class_msgPool.inc:467
+#: include/class_msgPool.inc:466
 msgid "February"
 msgstr "Febbraio"
 
-#: include/class_msgPool.inc:467
+#: include/class_msgPool.inc:466
 msgid "March"
 msgstr "Marzo"
 
-#: include/class_msgPool.inc:467
+#: include/class_msgPool.inc:466
 msgid "April"
 msgstr "Aprile"
 
-#: include/class_msgPool.inc:468
+#: include/class_msgPool.inc:467
 msgid "May"
 msgstr "Maggio"
 
-#: include/class_msgPool.inc:468
+#: include/class_msgPool.inc:467
 msgid "June"
 msgstr "Giugno"
 
-#: include/class_msgPool.inc:468
+#: include/class_msgPool.inc:467
 msgid "July"
 msgstr "Luglio"
 
-#: include/class_msgPool.inc:468
+#: include/class_msgPool.inc:467
 msgid "August"
 msgstr "Agosto"
 
-#: include/class_msgPool.inc:468
+#: include/class_msgPool.inc:467
 msgid "September"
 msgstr "Settembre"
 
-#: include/class_msgPool.inc:469
+#: include/class_msgPool.inc:468
 msgid "October"
 msgstr "Ottobre"
 
-#: include/class_msgPool.inc:469
+#: include/class_msgPool.inc:468
 msgid "November"
 msgstr "Novembre"
 
-#: include/class_msgPool.inc:469
+#: include/class_msgPool.inc:468
 msgid "December"
 msgstr "Dicembre"
 
-#: include/class_msgPool.inc:478
+#: include/class_msgPool.inc:477
 msgid "Sunday"
 msgstr "Domenica"
 
-#: include/class_msgPool.inc:478
+#: include/class_msgPool.inc:477
 msgid "Monday"
 msgstr "Lunedi"
 
-#: include/class_msgPool.inc:478
+#: include/class_msgPool.inc:477
 msgid "Tuesday"
 msgstr "Martedi"
 
-#: include/class_msgPool.inc:478
+#: include/class_msgPool.inc:477
 msgid "Wednesday"
 msgstr "Mercoledi"
 
-#: include/class_msgPool.inc:478
+#: include/class_msgPool.inc:477
 msgid "Thursday"
 msgstr "Giovedi"
 
-#: include/class_msgPool.inc:478
+#: include/class_msgPool.inc:477
 msgid "Friday"
 msgstr "Venerdi"
 
-#: include/class_msgPool.inc:478
+#: include/class_msgPool.inc:477
 msgid "Saturday"
 msgstr "Sabato"
 
-#: include/class_msgPool.inc:495
+#: include/class_msgPool.inc:494
 msgid "read operation"
 msgstr "operazione di lettura"
 
-#: include/class_msgPool.inc:495
+#: include/class_msgPool.inc:494
 msgid "add operation"
 msgstr "operazione di aggiunta"
 
-#: include/class_msgPool.inc:495
+#: include/class_msgPool.inc:494
 msgid "modify operation"
 msgstr "operazione di modifica"
 
-#: include/class_msgPool.inc:496
+#: include/class_msgPool.inc:495
 msgid "delete operation"
 msgstr "operazione di rimozione"
 
-#: include/class_msgPool.inc:496
+#: include/class_msgPool.inc:495
 msgid "search operation"
 msgstr "operazione di ricerca"
 
-#: include/class_msgPool.inc:496
+#: include/class_msgPool.inc:495
 msgid "authentication"
 msgstr "autentificazione"
 
-#: include/class_msgPool.inc:499
+#: include/class_msgPool.inc:498
 #, php-format
 msgid "LDAP %s failed!"
 msgstr "La richiesta inoltrata all'annuario LDAP %s è fallita!"
 
-#: include/class_msgPool.inc:501
+#: include/class_msgPool.inc:500
 msgid "LDAP operation failed!"
 msgstr "La richiesta inoltrata all'annuario LDAP è fallita!"
 
-#: include/class_msgPool.inc:522
+#: include/class_msgPool.inc:521
 msgid "Upload failed!"
 msgstr "L'invio è fallito !"
 
-#: include/class_msgPool.inc:525
+#: include/class_msgPool.inc:524
 #, php-format
 msgid "Upload failed: %s"
 msgstr "Invio fallito: %s"
 
-#: include/class_msgPool.inc:536
+#: include/class_msgPool.inc:535
 msgid "Communication failure with the infrastructure service!"
 msgstr "Errore di comunicazione con il servizio d'infrastruttura !"
 
-#: include/class_msgPool.inc:538
+#: include/class_msgPool.inc:537
 #, php-format
 msgid "Communication failure with the infrastructure service: %s"
 msgstr "Errore di comunicazione con il servizio d'infrastruttura: %s"
 
-#: include/class_msgPool.inc:548
+#: include/class_msgPool.inc:537
+#, php-format
+msgid "Error: %s"
+msgstr "Errore: %s"
+
+#: include/class_msgPool.inc:547
 #, php-format
 msgid "Checking for %s support"
 msgstr "Verificazione del supporto per %s"
 
-#: include/class_msgPool.inc:558
+#: include/class_msgPool.inc:557
 #, php-format
 msgid "Install and activate the %s PHP module."
 msgstr "Istalla e attiva il modulo PHP %s."
 
-#: include/class_msgPool.inc:566
+#: include/class_msgPool.inc:565
 msgid ""
 "The supplied base is not valid and has been reset to the previous value!"
 msgstr ""
@@ -1598,21 +1604,21 @@ msgstr "Data non valida in %s, deve essere più vecchia di: %s"
 msgid "Error, incorrect date: %s"
 msgstr "Errore, la data non é corretta: %s"
 
-#: include/simpleplugin/attributes/class_DateAttribute.inc:209
-#: include/simpleplugin/attributes/class_DateAttribute.inc:283
+#: include/simpleplugin/attributes/class_DateAttribute.inc:222
+#: include/simpleplugin/attributes/class_DateAttribute.inc:296
 msgid "Hours"
 msgstr "Ore"
 
-#: include/simpleplugin/attributes/class_DateAttribute.inc:214
-#: include/simpleplugin/attributes/class_DateAttribute.inc:288
+#: include/simpleplugin/attributes/class_DateAttribute.inc:227
+#: include/simpleplugin/attributes/class_DateAttribute.inc:301
 msgid "Minutes"
 msgstr "Minuti"
 
-#: include/simpleplugin/attributes/class_DateAttribute.inc:219
+#: include/simpleplugin/attributes/class_DateAttribute.inc:232
 msgid "Seconds"
 msgstr "Secondi"
 
-#: include/simpleplugin/attributes/class_DateAttribute.inc:313
+#: include/simpleplugin/attributes/class_DateAttribute.inc:326
 msgid "Time"
 msgstr "Tempo"
 
@@ -1739,7 +1745,7 @@ msgstr "Valore non valido per %s"
 
 #: include/simpleplugin/attributes/class_SelectAttribute.inc:71
 #: include/simpleplugin/attributes/class_SelectAttribute.inc:137
-#: include/simpleplugin/class_dialogAttributes.inc:714
+#: include/simpleplugin/class_dialogAttributes.inc:716
 msgid "None"
 msgstr "Nessuno"
 
@@ -1755,24 +1761,24 @@ msgstr ""
 msgid "StringAttribute \"%s\" was set to a non-compatible value"
 msgstr "StringAttribute \"%s\" è stato impostato su un valore non compatibile"
 
-#: include/simpleplugin/class_simplePlugin.inc:355
+#: include/simpleplugin/class_simplePlugin.inc:353
 msgid "Template settings"
 msgstr "Impostazioni del template"
 
-#: include/simpleplugin/class_simplePlugin.inc:358
+#: include/simpleplugin/class_simplePlugin.inc:356
 msgid "This is the name of the template"
 msgstr "Questo è il nome del template"
 
-#: include/simpleplugin/class_simplePlugin.inc:475
+#: include/simpleplugin/class_simplePlugin.inc:473
 msgid "Only main tab can compute dn"
 msgstr "Solo la scheda principale puo' calcolare il dn"
 
-#: include/simpleplugin/class_simplePlugin.inc:482
+#: include/simpleplugin/class_simplePlugin.inc:480
 #, php-format
 msgid "Could not compute dn: no parent tab class for \"%s\""
 msgstr "Non puo' calcolare il dn: nessuna scheda di classe parente per \"%s\""
 
-#: include/simpleplugin/class_simplePlugin.inc:494
+#: include/simpleplugin/class_simplePlugin.inc:492
 #, php-format
 msgid ""
 "Could not compute dn: could not find objectType infos from tab class \"%s\""
@@ -1780,12 +1786,12 @@ msgstr ""
 "Impossibile calcolare il dn: impossibile trovare le informazioni di "
 "objectType in questa  classe scheda \"%s\""
 
-#: include/simpleplugin/class_simplePlugin.inc:1365
+#: include/simpleplugin/class_simplePlugin.inc:1363
 #, php-format
 msgid "There is already an entry with the same dn : %s"
 msgstr "C'é già un'altra entry con il medesimo dn: %s"
 
-#: include/simpleplugin/class_simplePlugin.inc:1372
+#: include/simpleplugin/class_simplePlugin.inc:1370
 #, php-format
 msgid "The entry %s is not existing"
 msgstr "La voce %s non esiste"
@@ -1835,12 +1841,12 @@ msgstr ""
 "Nessuna definizione di plugin trovato per inizializzare \"%s\", si prega di "
 "consultare il file di configurazione."
 
-#: include/simpleplugin/class_simpleTabs.inc:390
+#: include/simpleplugin/class_simpleTabs.inc:407
 #, php-format
 msgid "Failed to compute DN for object: %s"
 msgstr "Impossibile calcolare DN per oggetto: %s"
 
-#: include/simpleplugin/class_simpleTabs.inc:407
+#: include/simpleplugin/class_simpleTabs.inc:424
 #, php-format
 msgid "Move from \"%s\" to \"%s\" failed: %s"
 msgstr "Spostamento da \"%s\" a \"%s\" non riuscito: %s"
@@ -1890,24 +1896,24 @@ msgstr "giorni"
 msgid "Add (dialog)"
 msgstr "Aggiungi  (dialog)"
 
-#: include/simpleplugin/class_dialogAttributes.inc:559
+#: include/simpleplugin/class_dialogAttributes.inc:561
 #, php-format
 msgid "POSIX group %s"
 msgstr "Gruppo POSIX %s"
 
-#: include/simpleplugin/class_dialogAttributes.inc:561
-#: plugins/config/class_configInLdap.inc:420
+#: include/simpleplugin/class_dialogAttributes.inc:563
+#: plugins/config/class_configInLdap.inc:425
 #, php-format
 msgid "Role %s"
 msgstr "Ruolo %s"
 
-#: include/simpleplugin/class_dialogAttributes.inc:563
-#: plugins/config/class_configInLdap.inc:413
+#: include/simpleplugin/class_dialogAttributes.inc:565
+#: plugins/config/class_configInLdap.inc:418
 #, php-format
 msgid "Group %s"
 msgstr "Raggruppa %s"
 
-#: include/simpleplugin/class_dialogAttributes.inc:716
+#: include/simpleplugin/class_dialogAttributes.inc:718
 msgid "Unknown"
 msgstr "Sconosciuto"
 
@@ -1954,7 +1960,7 @@ msgstr ""
 "superiore al limite %d degli oggetti. Questo utente non avrà i diritti ACL "
 "che dovrebbe."
 
-#: include/class_userinfo.inc:1212
+#: include/class_userinfo.inc:1072
 msgid ""
 "Login (uid) is not unique inside the LDAP tree. Please contact your "
 "administrator."
@@ -2096,7 +2102,7 @@ msgid "department"
 msgstr "dipartimento"
 
 #: plugins/admin/departments/class_department.inc:62
-#: plugins/admin/groups/class_ogroup.inc:229
+#: plugins/admin/groups/class_ogroup.inc:220
 #: plugins/admin/acl/class_aclAssignmentDialogWindow.inc:38
 #: plugins/admin/aclrole/class_aclRole.inc:94
 msgid "Properties"
@@ -2192,7 +2198,7 @@ msgid "Facsimile telephone number"
 msgstr "Facsimile di numero di telefono"
 
 #: plugins/admin/departments/class_department.inc:170
-#: plugins/admin/groups/class_ogroup.inc:233
+#: plugins/admin/groups/class_ogroup.inc:224
 #: plugins/admin/groups/class_roleGeneric.inc:86
 #: plugins/admin/aclrole/class_aclRole.inc:98
 #: plugins/addons/dashboard/class_dashboardUsers.inc:64
@@ -2313,79 +2319,79 @@ msgstr "Azione chiamata senza errori (i risultati erano \"%s\")"
 msgid "Action called without error (result was \"%s\")"
 msgstr "Azione chiamata senza errori (il risultato è stato \"%s\")"
 
-#: plugins/admin/groups/class_ogroup.inc:84
+#: plugins/admin/groups/class_ogroup.inc:75
 #, php-format
 msgid "Unknown type : %s"
 msgstr "Tipo sconosciuto : %s"
 
-#: plugins/admin/groups/class_ogroup.inc:92
+#: plugins/admin/groups/class_ogroup.inc:83
 #, php-format
 msgid "Non existing dn: %s"
 msgstr "Non esiste il dn: %s"
 
-#: plugins/admin/groups/class_ogroup.inc:191
+#: plugins/admin/groups/class_ogroup.inc:182
 msgid "Object group"
 msgstr "Gruppo di oggetti"
 
-#: plugins/admin/groups/class_ogroup.inc:192
+#: plugins/admin/groups/class_ogroup.inc:183
 msgid "Object group information"
 msgstr "Informazioni gruppo di oggetti"
 
-#: plugins/admin/groups/class_ogroup.inc:198
-#: plugins/admin/groups/class_ogroup.inc:199
+#: plugins/admin/groups/class_ogroup.inc:189
+#: plugins/admin/groups/class_ogroup.inc:190
 msgid "Group"
 msgstr "Gruppo"
 
-#: plugins/admin/groups/class_ogroup.inc:233
+#: plugins/admin/groups/class_ogroup.inc:224
 #: plugins/admin/groups/class_roleGeneric.inc:86
 msgid "Name of this group"
 msgstr "Nome del gruppo"
 
-#: plugins/admin/groups/class_ogroup.inc:238
+#: plugins/admin/groups/class_ogroup.inc:229
 msgid "Short description of this group"
 msgstr "Breve descrizione del gruppo"
 
-#: plugins/admin/groups/class_ogroup.inc:243
+#: plugins/admin/groups/class_ogroup.inc:234
 msgid "Owner"
 msgstr "Propietario"
 
-#: plugins/admin/groups/class_ogroup.inc:249
+#: plugins/admin/groups/class_ogroup.inc:240
 msgid "Member objects"
 msgstr "Oggetti membri"
 
-#: plugins/admin/groups/class_ogroup.inc:252
+#: plugins/admin/groups/class_ogroup.inc:243
 msgid "Objects member of this group"
 msgstr "Oggetti membro di questo gruppo"
 
-#: plugins/admin/groups/class_ogroup.inc:259
+#: plugins/admin/groups/class_ogroup.inc:250
 msgid "System trust"
 msgstr "Sistema di fiducia"
 
-#: plugins/admin/groups/class_ogroup.inc:263
+#: plugins/admin/groups/class_ogroup.inc:254
 msgid "Trust mode"
 msgstr "Modalità di fiducia"
 
-#: plugins/admin/groups/class_ogroup.inc:263
+#: plugins/admin/groups/class_ogroup.inc:254
 msgid "Type of authorization for those hosts"
 msgstr "Tipo di autorizzazione per questi host"
 
-#: plugins/admin/groups/class_ogroup.inc:267
+#: plugins/admin/groups/class_ogroup.inc:258
 msgid "disabled"
 msgstr "disattivato"
 
-#: plugins/admin/groups/class_ogroup.inc:267
+#: plugins/admin/groups/class_ogroup.inc:258
 msgid "full access"
 msgstr "accesso completo"
 
-#: plugins/admin/groups/class_ogroup.inc:267
+#: plugins/admin/groups/class_ogroup.inc:258
 msgid "allow access to these hosts"
 msgstr "autorizza l'accesso a questi host"
 
-#: plugins/admin/groups/class_ogroup.inc:270
+#: plugins/admin/groups/class_ogroup.inc:261
 msgid "Only allow this group to connect to this list of hosts"
 msgstr "Consenti all'utente di connettersi solo a questo elenco di host "
 
-#: plugins/admin/groups/class_ogroup.inc:349
+#: plugins/admin/groups/class_ogroup.inc:340
 msgid ""
 "Putting both workstations and terminals in the same group is not allowed"
 msgstr "Non é consentito mettre workstations e terminali nello stesso gruppo"
@@ -2477,7 +2483,7 @@ msgstr "Gestione della lista di controllo degli accessi"
 
 #: plugins/admin/acl/class_aclAssignmentDialogWindow.inc:41
 #: plugins/config/class_hooksConfig.inc:67
-#: plugins/config/class_hooksConfig.inc:101
+#: plugins/config/class_hooksConfig.inc:107
 msgid "Mode"
 msgstr "Modalità"
 
@@ -2987,7 +2993,7 @@ msgstr ""
 
 #: plugins/config/class_hooksConfig.inc:27
 #: plugins/config/class_hooksConfig.inc:48
-#: plugins/config/class_hooksConfig.inc:81
+#: plugins/config/class_hooksConfig.inc:87
 msgid "Triggers"
 msgstr "Trigger"
 
@@ -3012,7 +3018,7 @@ msgid "Triggers that are called when specific actions happens"
 msgstr "Trigger che vengono chiamati quando si verificano azioni specifich"
 
 #: plugins/config/class_hooksConfig.inc:62
-#: plugins/config/class_hooksConfig.inc:100
+#: plugins/config/class_hooksConfig.inc:106
 msgid "Tab"
 msgstr "Tab"
 
@@ -3025,11 +3031,20 @@ msgid "When to call this command"
 msgstr "Quando chiamare questo comando"
 
 #: plugins/config/class_hooksConfig.inc:74
-#: plugins/config/class_hooksConfig.inc:102
+#: plugins/config/class_hooksConfig.inc:108
+msgid "Deactivated"
+msgstr "Disattivato"
+
+#: plugins/config/class_hooksConfig.inc:74
+msgid "Use this to temporarily deactivate a trigger"
+msgstr "Usalo per disattivare temporaneamente un trigger"
+
+#: plugins/config/class_hooksConfig.inc:80
+#: plugins/config/class_hooksConfig.inc:109
 msgid "Command"
 msgstr "Comando"
 
-#: plugins/config/class_hooksConfig.inc:74
+#: plugins/config/class_hooksConfig.inc:80
 msgid "The command that will be called"
 msgstr "Il comando che sarà chiamato"
 
@@ -3485,15 +3500,23 @@ msgstr "Livello per il debug"
 msgid "Display certain information on each page load."
 msgstr "Mostra alcune informazioni su ogni caricamento della pagina."
 
-#: plugins/config/class_configInLdap.inc:329
+#: plugins/config/class_configInLdap.inc:327
+msgid "Log debug messages"
+msgstr "Registra i messaggi di debug"
+
+#: plugins/config/class_configInLdap.inc:328
+msgid "Sends debug output to syslog as well"
+msgstr "Invia anche l'output di debug a syslog"
+
+#: plugins/config/class_configInLdap.inc:334
 msgid "Miscellaneous"
 msgstr "Altro"
 
-#: plugins/config/class_configInLdap.inc:332
+#: plugins/config/class_configInLdap.inc:337
 msgid "Display summary in listings"
 msgstr "Mostra il riepilogo negli elenchi"
 
-#: plugins/config/class_configInLdap.inc:333
+#: plugins/config/class_configInLdap.inc:338
 msgid ""
 "Determines whether a status bar will be shown on the bottom of lists, "
 "displaying a short summary of type and number of elements in the list."
@@ -3502,11 +3525,11 @@ msgstr ""
 "delle liste, visualizzando una breve sintesi del tipo e del numero di "
 "elementi nella lista."
 
-#: plugins/config/class_configInLdap.inc:338
+#: plugins/config/class_configInLdap.inc:343
 msgid "Show ACL tab on all objects"
 msgstr "Mostra tab ACL su tutti gli oggetti"
 
-#: plugins/config/class_configInLdap.inc:339
+#: plugins/config/class_configInLdap.inc:344
 msgid ""
 "For very specific ACL rights setting where you might need to give right on a"
 " single object."
@@ -3514,49 +3537,49 @@ msgstr ""
 "Per l'impostazione di diritti ACL molto specifici potreste aver bisogno di "
 "dare accesso ad un singolo oggetto."
 
-#: plugins/config/class_configInLdap.inc:344
+#: plugins/config/class_configInLdap.inc:349
 msgid "Available department categories"
 msgstr "Categorie di reparto disponibili"
 
-#: plugins/config/class_configInLdap.inc:344
+#: plugins/config/class_configInLdap.inc:349
 msgid "Available categories in the departments dropdown"
 msgstr "Categorie disponibili nel menu a discesa"
 
-#: plugins/config/class_configInLdap.inc:351
+#: plugins/config/class_configInLdap.inc:356
 msgid "Use this to hide some menu entry to specific groups of users"
 msgstr ""
 "Utilizza questa funzione per nascondere alcune voci di menu a determinati "
 "gruppi di utenti"
 
-#: plugins/config/class_configInLdap.inc:355
+#: plugins/config/class_configInLdap.inc:360
 msgid "Group or role"
 msgstr "Gruppo o ruolo"
 
-#: plugins/config/class_configInLdap.inc:360
+#: plugins/config/class_configInLdap.inc:365
 msgid "Plugin to blacklist"
 msgstr "PLugin per la lista nera"
 
-#: plugins/config/class_configInLdap.inc:366
+#: plugins/config/class_configInLdap.inc:371
 msgid "Plugin menu blacklist"
 msgstr "Lista nera del menu Plugin"
 
-#: plugins/config/class_configInLdap.inc:375
+#: plugins/config/class_configInLdap.inc:380
 msgid "ACL target filter limit"
 msgstr "Limite filtro target ACL"
 
-#: plugins/config/class_configInLdap.inc:375
+#: plugins/config/class_configInLdap.inc:380
 msgid ""
 "Defines the maximum number of entries an ACL target filter is allowed to "
 "return"
 msgstr ""
 "Definisce il numero massimo di voci che un filtro target ACL può restituire"
 
-#: plugins/config/class_configInLdap.inc:391
+#: plugins/config/class_configInLdap.inc:396
 #: setup/class_setupStepLanguage.inc:69
 msgid "Automatic"
 msgstr "Automatico"
 
-#: plugins/config/class_configInLdap.inc:537
+#: plugins/config/class_configInLdap.inc:542
 #, php-format
 msgid ""
 "It seems the selected language \"%s\" is not installed on the system. Please"
@@ -3746,22 +3769,30 @@ msgstr "Se gli account creati con questo modello saranno bloccati"
 msgid ""
 "Too many elements in array value for password field %s: %d instead of %d"
 msgstr ""
+"Troppi elementi nel valore dell'array per il campo password %s: %d anziché "
+"%d"
 
 #: plugins/personal/generic/class_UserPasswordAttribute.inc:272
 #, php-format
 msgid ""
 "Not enough elements in array value for password field %s: %d instead of %d"
 msgstr ""
+"Elementi insufficienti nel valore dell'array per il campo password %s:  %d "
+"anziché %d"
 
 #: plugins/personal/generic/class_UserPasswordAttribute.inc:274
 #, php-format
 msgid "Array value for password field %s must have numeric keys"
 msgstr ""
+"Il valore dell'array per il campo %s della password deve avere tasti "
+"numerici"
 
 #: plugins/personal/generic/class_UserPasswordAttribute.inc:280
 #, php-format
 msgid "Invalid value type for password field %s, must be array or string"
 msgstr ""
+"Tipo di valore non valido per il campo password %s, deve essere matrice o "
+"stringa"
 
 #: plugins/personal/generic/class_user.inc:53
 #: plugins/personal/generic/class_user.inc:61
@@ -3802,13 +3833,14 @@ msgstr "Nme utente"
 
 #: plugins/personal/generic/class_user.inc:103
 msgid "Initials"
-msgstr ""
+msgstr "Iniziali"
 
 #: plugins/personal/generic/class_user.inc:103
 msgid ""
 "The initials of some or all of the individual's names, but not the "
 "surname(s)"
 msgstr ""
+"Le iniziali di alcuni o di tutti i nomi dell'individuo, ma non il cognome(i)"
 
 #: plugins/personal/generic/class_user.inc:108
 msgid "Short description of the user"
@@ -5263,7 +5295,8 @@ msgstr ""
 msgid "I forgot my password"
 msgstr "Ho dimenticato la mia password"
 
-#: ihtml/themes/legacy/login.tpl.c:41 ihtml/themes/breezy/login.tpl.c:41
+#: ihtml/themes/legacy/login.tpl.c:41 ihtml/themes/breezy/secondfactor.tpl.c:8
+#: ihtml/themes/breezy/login.tpl.c:41
 msgid "Click here to log in"
 msgstr "Clicca qui per connetterti"
 
