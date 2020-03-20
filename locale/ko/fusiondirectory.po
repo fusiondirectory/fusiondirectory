@@ -5,16 +5,16 @@
 # 
 # Translators:
 # fusiondirectory <contact@fusiondirectory.org>, 2018
-# Choi Chris <chulwon.choi@gmail.com>, 2019
+# Choi Chris <chulwon.choi@gmail.com>, 2020
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2019-11-28 11:00+0000\n"
+"POT-Creation-Date: 2020-03-17 10:11+0000\n"
 "PO-Revision-Date: 2018-08-13 19:47+0000\n"
-"Last-Translator: Choi Chris <chulwon.choi@gmail.com>, 2019\n"
+"Last-Translator: Choi Chris <chulwon.choi@gmail.com>, 2020\n"
 "Language-Team: Korean (https://www.transifex.com/fusiondirectory/teams/12202/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,7 +30,7 @@ msgstr ""
 #: include/management/class_management.inc:783
 #: include/management/class_management.inc:791
 #: include/management/class_managementListing.inc:251
-#: include/class_config.inc:351 include/class_logging.inc:158
+#: include/class_config.inc:351 include/class_logging.inc:218
 #: include/login/class_LoginCAS.inc:66 include/login/class_LoginCAS.inc:76
 #: include/login/class_LoginCAS.inc:102
 #: include/login/class_LoginHTTPHeader.inc:48
@@ -39,7 +39,7 @@ msgstr ""
 #: include/login/class_LoginHTTPHeader.inc:98
 #: include/password-methods/class_passwordMethodSasl.inc:66
 #: include/password-methods/class_passwordMethodSasl.inc:96
-#: include/class_msgPool.inc:509 include/class_msgPool.inc:538
+#: include/class_msgPool.inc:508
 #: include/simpleplugin/attributes/class_BaseSelectorAttribute.inc:89
 #: include/simpleplugin/attributes/class_BaseSelectorAttribute.inc:91
 #: include/simpleplugin/attributes/class_FileAttribute.inc:33
@@ -47,7 +47,7 @@ msgstr ""
 #: include/simpleplugin/attributes/class_FileAttribute.inc:39
 #: include/simpleplugin/attributes/class_FileAttribute.inc:378
 #: include/simpleplugin/attributes/class_FileAttribute.inc:389
-#: include/simpleplugin/class_simplePlugin.inc:691
+#: include/simpleplugin/class_simplePlugin.inc:689
 #: include/simpleplugin/class_simpleTabs.inc:69
 #: include/simpleplugin/class_multiPlugin.inc:108
 #: include/class_userinfo.inc:237
@@ -73,7 +73,7 @@ msgid "Columns displayed for this management list"
 msgstr ""
 
 #: include/management/class_ManagementConfigurationDialog.inc:66
-#: include/php_setup.inc:137
+#: include/php_setup.inc:138
 msgid "Type"
 msgstr "타입"
 
@@ -160,14 +160,14 @@ msgstr ""
 
 #: include/management/snapshot/class_SnapshotAttribute.inc:44
 #: include/management/snapshot/class_SnapshotAttribute.inc:50
-#: include/simpleplugin/attributes/class_DateAttribute.inc:307
+#: include/simpleplugin/attributes/class_DateAttribute.inc:320
 msgid "Date"
 msgstr "일자"
 
 #: include/management/snapshot/class_SnapshotAttribute.inc:45
 #: include/management/snapshot/class_SnapshotAttribute.inc:51
 #: plugins/admin/departments/class_department.inc:71
-#: plugins/admin/groups/class_ogroup.inc:238
+#: plugins/admin/groups/class_ogroup.inc:229
 #: plugins/admin/groups/class_roleGeneric.inc:91
 #: plugins/admin/aclrole/class_aclRole.inc:102
 #: plugins/personal/generic/class_user.inc:108
@@ -208,10 +208,10 @@ msgstr ""
 #: include/management/snapshot/class_SnapshotHandler.inc:409
 #: include/class_config.inc:320 include/login/class_LoginMethod.inc:175
 #: include/password-methods/class_passwordMethod.inc:215
-#: include/functions.inc:465 include/functions.inc:512
-#: include/functions.inc:620
+#: include/functions.inc:438 include/functions.inc:485
+#: include/functions.inc:593
 #: include/simpleplugin/attributes/class_SetAttribute.inc:795
-#: include/class_userinfo.inc:1178 include/class_ldap.inc:994
+#: include/class_userinfo.inc:1038 include/class_ldap.inc:994
 #: include/class_ldap.inc:1359 plugins/config/class_recoveryConfig.inc:138
 #: plugins/addons/dashboard/class_dashboard.inc:78
 #: plugins/addons/dashboard/class_dashboardUsers.inc:90
@@ -237,7 +237,7 @@ msgstr ""
 
 #: include/management/snapshot/class_SnapshotRestoreDialog.inc:49
 #: include/management/snapshot/class_SnapshotCreateDialog.inc:44
-#: include/class_msgPool.inc:506
+#: include/class_msgPool.inc:505
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:339
 msgid "Object"
 msgstr "오브젝트"
@@ -269,7 +269,7 @@ msgstr ""
 
 #: include/management/snapshot/class_SnapshotCreateDialog.inc:52
 msgid "Reason"
-msgstr ""
+msgstr "사유"
 
 #: include/management/snapshot/class_SnapshotCreateDialog.inc:52
 msgid "Reason for creating this snapshot"
@@ -332,8 +332,8 @@ msgstr "목록 내보내기"
 #: include/simpleplugin/attributes/class_PhoneNumberAttribute.inc:121
 #: include/simpleplugin/attributes/class_SetAttribute.inc:558
 #: include/simpleplugin/attributes/class_SetAttribute.inc:559
-#: include/simpleplugin/class_dialogAttributes.inc:726
-#: include/simpleplugin/class_dialogAttributes.inc:727
+#: include/simpleplugin/class_dialogAttributes.inc:728
+#: include/simpleplugin/class_dialogAttributes.inc:729
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:191
 msgid "Edit"
 msgstr ""
@@ -353,13 +353,13 @@ msgstr "붙여넣기"
 
 #: include/management/class_management.inc:270
 msgid "Apply template"
-msgstr ""
+msgstr "템플릿 적용"
 
 #: include/management/class_management.inc:281
 #: include/simpleplugin/attributes/class_FileAttribute.inc:440
 #: include/simpleplugin/attributes/class_FileAttribute.inc:441
-#: include/simpleplugin/class_dialogAttributes.inc:736
-#: include/simpleplugin/class_dialogAttributes.inc:737
+#: include/simpleplugin/class_dialogAttributes.inc:738
+#: include/simpleplugin/class_dialogAttributes.inc:739
 msgid "Remove"
 msgstr "제거"
 
@@ -392,7 +392,7 @@ msgstr ""
 #: include/management/class_management.inc:1225
 #: include/management/class_management.inc:1242
 #: include/class_CopyPasteHandler.inc:203
-#: include/simpleplugin/class_simpleTabs.inc:310
+#: include/simpleplugin/class_simpleTabs.inc:327
 #: plugins/admin/users/class_userManagement.inc:85
 msgid "Permission"
 msgstr "허가"
@@ -459,7 +459,7 @@ msgstr ""
 #: include/management/class_managementListing.inc:430
 #: include/class_ldapSizeLimit.inc:131
 msgid "Configure"
-msgstr ""
+msgstr "구성"
 
 #: include/class_config.inc:146
 #, php-format
@@ -467,10 +467,10 @@ msgid "XML error in fusiondirectory.conf: %s at line %d"
 msgstr "fusiondirectory.conf의 XML 오류 : %d 줄에 %s"
 
 #: include/class_config.inc:149 include/class_config.inc:282
-#: include/class_config.inc:928 include/class_config.inc:940
+#: include/class_config.inc:932 include/class_config.inc:944
 #: include/class_timezone.inc:51
 #: include/password-methods/class_passwordMethodSsha.inc:84
-#: include/class_standAlonePage.inc:146 include/functions.inc:447
+#: include/class_standAlonePage.inc:146 include/functions.inc:420
 #: html/main.php:168 html/index.php:93
 msgid "Configuration error"
 msgstr "설정 에러"
@@ -493,25 +493,25 @@ msgstr "LDAP에 바인딩 할 수 없습니다. 시스템 관리자에게 문의
 msgid "Location \"%s\" could not be found in the configuration file"
 msgstr "구성 파일에서 \"%s\"위치를 찾을 수 없습니다"
 
-#: include/class_config.inc:929
+#: include/class_config.inc:933
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required variable \"%s\" is "
 "not set."
 msgstr "스냅 샷 기능이 사용 가능하지만 필수 변수 \"%s\"가 설정되지 않았습니다."
 
-#: include/class_config.inc:941
+#: include/class_config.inc:945
 #, php-format
 msgid ""
 "The snapshot functionality is enabled, but the required compression module "
 "is missing. Please install \"%s\"."
 msgstr "스냅 샷 기능이 활성화되었지만 필요한 압축 모듈이 없습니다. \"%s\"를 설치하십시오."
 
-#: include/class_config.inc:1055
+#: include/class_config.inc:1059
 msgid "All categories"
 msgstr "모든 카테고리"
 
-#: include/class_config.inc:1197
+#: include/class_config.inc:1201
 msgid "My account"
 msgstr "내 계정"
 
@@ -536,55 +536,55 @@ msgstr "PDF"
 msgid "CSV"
 msgstr "CSV"
 
-#: include/php_setup.inc:45 include/php_setup.inc:137
+#: include/php_setup.inc:46 include/php_setup.inc:138
 msgid "File"
 msgstr "파일"
 
-#: include/php_setup.inc:47 include/php_setup.inc:137
+#: include/php_setup.inc:48 include/php_setup.inc:138
 msgid "Line"
 msgstr "라인"
 
-#: include/php_setup.inc:53
+#: include/php_setup.inc:54
 msgid "PHP error"
 msgstr "PHP 오류"
 
-#: include/php_setup.inc:62
+#: include/php_setup.inc:63
 msgid "class"
 msgstr "클래스"
 
-#: include/php_setup.inc:70
+#: include/php_setup.inc:71
 msgid "function"
 msgstr "함수"
 
-#: include/php_setup.inc:76
+#: include/php_setup.inc:77
 msgid "static"
 msgstr "정적"
 
-#: include/php_setup.inc:80
+#: include/php_setup.inc:81
 msgid "method"
 msgstr "메소드"
 
-#: include/php_setup.inc:136 ihtml/themes/breezy/msg_dialog.tpl.c:11
+#: include/php_setup.inc:137 ihtml/themes/breezy/msg_dialog.tpl.c:11
 msgid "Trace"
 msgstr "Trace"
 
-#: include/php_setup.inc:138
+#: include/php_setup.inc:139
 msgid "Arguments"
 msgstr "인수"
 
-#: include/php_setup.inc:228
+#: include/php_setup.inc:229
 msgid "Generating this page caused the PHP interpreter to raise some errors!"
 msgstr "이 페이지를 생성하면 PHP 인터프리터에서 오류가 발생됩니다!"
 
-#: include/php_setup.inc:233
+#: include/php_setup.inc:234
 msgid "Send bug report to the FusionDirectory Team"
 msgstr "FusionDirectory 팀에 버그 보고서 보내기"
 
-#: include/php_setup.inc:234
+#: include/php_setup.inc:235
 msgid "Send bugreport"
 msgstr "버그 리포트 보내기"
 
-#: include/php_setup.inc:239
+#: include/php_setup.inc:240
 msgid "Toggle information"
 msgstr "정보 토글"
 
@@ -598,14 +598,14 @@ msgid "Object template, used to create several objects with similar values"
 msgstr "비슷한 값을 가진 여러 개체를 만드는 데 사용되는 개체 템플릿"
 
 #: include/class_template.inc:49
-#: include/simpleplugin/class_simplePlugin.inc:358
+#: include/simpleplugin/class_simplePlugin.inc:356
 msgid "Template name"
 msgstr "템플릿"
 
-#: include/class_logging.inc:79 include/functions.inc:429
-#: include/functions.inc:558 include/functions.inc:1333
-#: include/functions.inc:1371 include/functions.inc:1402
-#: include/class_acl.inc:103 include/class_userinfo.inc:1252
+#: include/class_logging.inc:79 include/functions.inc:402
+#: include/functions.inc:531 include/functions.inc:1306
+#: include/functions.inc:1344 include/functions.inc:1375
+#: include/class_acl.inc:103 include/class_userinfo.inc:1112
 #: include/class_ldap.inc:944 include/class_ldap.inc:982
 msgid "Internal error"
 msgstr "내부 오"
@@ -615,16 +615,16 @@ msgstr "내부 오"
 msgid "Logging failed: %s"
 msgstr "로깅 실패: %s"
 
-#: include/class_logging.inc:101
+#: include/class_logging.inc:161
 #, php-format
 msgid "Invalid option \"%s\" specified!"
 msgstr "\"%s\" 옵션이 잘못되었습니다!"
 
-#: include/class_logging.inc:105
+#: include/class_logging.inc:165
 msgid "Specified objectType is empty or invalid!"
 msgstr "지정된 objectType이 비어 있거나 유효하지 않습니다!"
 
-#: include/class_logging.inc:158
+#: include/class_logging.inc:218
 #, php-format
 msgid "Failed to log event (%s - %s): %s"
 msgstr ""
@@ -650,7 +650,7 @@ msgstr ""
 msgid "HTML form"
 msgstr ""
 
-#: include/login/class_LoginPost.inc:86 include/functions.inc:636
+#: include/login/class_LoginPost.inc:88 include/functions.inc:609
 #: setup/class_setupStepLdap.inc:212 setup/class_setupStepMigrate.inc:611
 #: setup/class_setupStepMigrate.inc:1008 setup/class_setupStepMigrate.inc:1201
 #: setup/class_setupStepMigrate.inc:1253 setup/class_setupStepMigrate.inc:1368
@@ -660,30 +660,30 @@ msgstr ""
 msgid "Warning"
 msgstr "ㅗ"
 
-#: include/login/class_LoginPost.inc:86
+#: include/login/class_LoginPost.inc:88
 msgid ""
 "Your browser has cookies disabled. Please enable cookies and reload this "
 "page before logging in!"
 msgstr ""
 
-#: include/login/class_LoginPost.inc:118 ihtml/themes/legacy/login.tpl.c:2
-#: ihtml/themes/legacy/login.tpl.c:38 ihtml/themes/breezy/login.tpl.c:2
-#: ihtml/themes/breezy/login.tpl.c:38
+#: include/login/class_LoginPost.inc:120 ihtml/themes/legacy/login.tpl.c:2
+#: ihtml/themes/legacy/login.tpl.c:38 ihtml/themes/breezy/secondfactor.tpl.c:5
+#: ihtml/themes/breezy/login.tpl.c:2 ihtml/themes/breezy/login.tpl.c:38
 msgid "Sign in"
-msgstr ""
+msgstr "로그인"
 
-#: include/login/class_LoginPost.inc:128 include/class_standAlonePage.inc:210
+#: include/login/class_LoginPost.inc:130 include/class_standAlonePage.inc:210
 #, php-format
 msgid "Warning: <a href=\"%s\">Session is not encrypted!</a>"
 msgstr ""
 
-#: include/login/class_LoginPost.inc:134
+#: include/login/class_LoginPost.inc:136
 msgid ""
 "Warning: The session lifetime configured in your fusiondirectory.conf will "
 "be overridden by php.ini settings."
 msgstr ""
 
-#: include/login/class_LoginPost.inc:191
+#: include/login/class_LoginPost.inc:193
 msgid "Second factor"
 msgstr ""
 
@@ -787,7 +787,7 @@ msgid "Cannot change password, unknown user \"%s\""
 msgstr "패스워드를 변경할 수 없습니다, 사용자를 알 수 없습니다. \"%s\""
 
 #: include/password-methods/class_passwordMethodSasl.inc:96
-#: plugins/config/class_configInLdap.inc:534
+#: plugins/config/class_configInLdap.inc:539
 msgid ""
 "You need to fill saslRealm or saslExop in the configuration screen in order "
 "to use SASL"
@@ -797,12 +797,12 @@ msgstr "SASL을 사용하려면 구성 화면에서 saslRealm 또는 saslExop를
 msgid "Submit"
 msgstr "제출"
 
-#: include/class_standAlonePage.inc:123 include/functions.inc:380
-#: include/functions.inc:1895 include/simpleplugin/class_simplePlugin.inc:475
-#: include/simpleplugin/class_simplePlugin.inc:480
-#: include/simpleplugin/class_simplePlugin.inc:492
+#: include/class_standAlonePage.inc:123 include/functions.inc:353
+#: include/functions.inc:1868 include/simpleplugin/class_simplePlugin.inc:473
+#: include/simpleplugin/class_simplePlugin.inc:478
+#: include/simpleplugin/class_simplePlugin.inc:490
 msgid "Fatal error"
-msgstr ""
+msgstr "치명적 오류"
 
 #: include/class_standAlonePage.inc:124
 #, php-format
@@ -817,203 +817,203 @@ msgstr ""
 #: include/class_ldapSizeLimit.inc:114
 #, php-format
 msgid "The size limit of %d entries is exceed!"
-msgstr ""
+msgstr "%d 항목의 크기 제한이 초과되었습니다!"
 
 #: include/class_ldapSizeLimit.inc:115
 #, php-format
 msgid ""
 "Set the new size limit to %s and show me this message if the limit still "
 "exceeds"
-msgstr ""
+msgstr "새 크기 제한을 %s 으로 설정하고 제한이 여전히 초과하면 이 메시지를 표시하십시오"
 
 #: include/class_ldapSizeLimit.inc:136
 msgid "incomplete"
-msgstr ""
+msgstr "불완전한"
 
 #: include/functions.inc:91
 #, php-format
 msgid "Fatal error: no class locations defined - please run '%s' to fix this"
-msgstr ""
+msgstr "치명적인 오류 : 클래스 위치가 정의되지 않았습니다.이 문제를 해결하려면 '1%s'을 (를) 실행하십시오."
 
 #: include/functions.inc:110
 #, php-format
 msgid ""
 "Fatal error: cannot instantiate class '%s' - try running '%s' to fix this"
-msgstr ""
+msgstr "치명적인 오류 : 클래스 '1%s'을 (를) 인스턴스화 할 수 없습니다. '1%s'을(를) 실행하여이 문제를 해결하십시오."
 
-#: include/functions.inc:381
+#: include/functions.inc:354
 #, php-format
 msgid "FATAL: Error when connecting the LDAP. Server said '%s'."
-msgstr ""
+msgstr "치명적 : LDAP 연결시 오류가 발생했습니다. 서버 오류 '%s'."
 
-#: include/functions.inc:429 include/functions.inc:558
+#: include/functions.inc:402 include/functions.inc:531
 msgid "Error while adding a lock. Contact the developers!"
-msgstr ""
+msgstr "잠금을 추가하는 중 오류가 발생했습니다. 개발자에게 문의하십시오!"
 
-#: include/functions.inc:447
+#: include/functions.inc:420
 #, php-format
 msgid ""
 "Cannot create locking information in LDAP tree. Please contact your "
 "administrator!"
-msgstr ""
+msgstr "LDAP 트리에서 잠금 정보를 작성할 수 없습니다. 관리자에게 문의하십시오!"
 
-#: include/functions.inc:447
+#: include/functions.inc:420
 #, php-format
 msgid "LDAP server returned: %s"
-msgstr ""
+msgstr "LDAP 서버에서 반환 : %s"
 
-#: include/functions.inc:636
+#: include/functions.inc:609
 msgid ""
 "Found multiple locks for object to be locked. This should not happen - "
 "cleaning up multiple references."
-msgstr ""
+msgstr "오브젝트를 잠글 여러 잠금을 찾았습니다. 여러 참조를 정리하지 마십시오."
 
-#: include/functions.inc:958
+#: include/functions.inc:931
 msgid "Continue anyway"
-msgstr ""
+msgstr "어쨌든 계속"
 
-#: include/functions.inc:960
+#: include/functions.inc:933
 msgid "Edit anyway"
-msgstr ""
+msgstr "어쨌든 편집"
 
-#: include/functions.inc:962
+#: include/functions.inc:935
 #, php-format
 msgid "You're going to edit the LDAP entry/entries %s"
-msgstr ""
+msgstr "LDAP 항목 %s을 편집하려고 합니다."
 
-#: include/functions.inc:1194
+#: include/functions.inc:1167
 #, php-format
 msgid "%sB"
-msgstr ""
+msgstr "%sB"
 
-#: include/functions.inc:1195
+#: include/functions.inc:1168
 #, php-format
 msgid "%sKiB"
-msgstr ""
+msgstr "%sKiB"
 
-#: include/functions.inc:1196
+#: include/functions.inc:1169
 #, php-format
 msgid "%sMiB"
-msgstr ""
+msgstr "%sMiB"
 
-#: include/functions.inc:1197
+#: include/functions.inc:1170
 #, php-format
 msgid "%sGiB"
-msgstr ""
+msgstr "%sGiB"
 
-#: include/functions.inc:1198
+#: include/functions.inc:1171
 #, php-format
 msgid "%sTiB"
-msgstr ""
+msgstr "%sTiB"
 
-#: include/functions.inc:1199
+#: include/functions.inc:1172
 #, php-format
 msgid "%sPiB"
-msgstr ""
+msgstr "%sPiB"
 
-#: include/functions.inc:1200
+#: include/functions.inc:1173
 #, php-format
 msgid "%sEiB"
-msgstr ""
+msgstr "%sEiB"
 
-#: include/functions.inc:1201
+#: include/functions.inc:1174
 #, php-format
 msgid "%sZiB"
-msgstr ""
+msgstr "%sZiB"
 
-#: include/functions.inc:1202
+#: include/functions.inc:1175
 #, php-format
 msgid "%sYiB"
-msgstr ""
+msgstr "%sYiB"
 
-#: include/functions.inc:1333
+#: include/functions.inc:1306
 #, php-format
 msgid ""
 "File '%s' could not be deleted. Try fusiondirectory-setup --check-"
 "directories to fix permissions."
 msgstr ""
 
-#: include/functions.inc:1371
+#: include/functions.inc:1344
 msgid "Cannot write to revision file!"
-msgstr ""
+msgstr "수정본 파일에 쓸 수 없습니다!"
 
-#: include/functions.inc:1402
+#: include/functions.inc:1375
 msgid "Cannot read revision file!"
-msgstr ""
+msgstr "개정판 파일을 읽을 수 없습니다!"
 
-#: include/functions.inc:1516
+#: include/functions.inc:1489
 msgid "LDAP warning"
-msgstr ""
+msgstr "LDAP 경고"
 
-#: include/functions.inc:1516
+#: include/functions.inc:1489
 msgid "Cannot get schema information from server. No schema check possible!"
 msgstr ""
 
-#: include/functions.inc:1540
+#: include/functions.inc:1513
 msgid "Main FusionDirectory schema"
-msgstr ""
+msgstr "기본 FusionDirectory 스키마"
 
-#: include/functions.inc:1548
+#: include/functions.inc:1521
 msgid "Schema used to store FusionDirectory configuration"
-msgstr ""
+msgstr "FusionDirectory 구성을 저장하는 데 사용되는 스키마"
 
-#: include/functions.inc:1556
+#: include/functions.inc:1529
 msgid "Used to store trust mode information in users or groups."
-msgstr ""
+msgstr "트러스트 모드 정보를 사용자 또는 그룹에 저장하는데 사용됩니다."
 
-#: include/functions.inc:1564
+#: include/functions.inc:1537
 msgid "Used to store templates."
-msgstr ""
+msgstr "템플릿을 저장하는데 사용됩니다."
 
-#: include/functions.inc:1573
+#: include/functions.inc:1546
 msgid "Used to store POSIX information."
-msgstr ""
+msgstr "POSIX 정보를 저장하는데 사용됩니다."
 
-#: include/functions.inc:1581
+#: include/functions.inc:1554
 #, php-format
 msgid "Missing required object class \"%s\"!"
-msgstr ""
+msgstr "필수 개체 클래스 \"%s\"가 없습니다!"
 
-#: include/functions.inc:1583
+#: include/functions.inc:1556
 #, php-format
 msgid "Missing optional object class \"%s\"!"
-msgstr ""
+msgstr "선택적 객체 클래스 \"%s\"가 없습니다!"
 
-#: include/functions.inc:1587
+#: include/functions.inc:1560
 #, php-format
 msgid "Class(es) available"
-msgstr ""
+msgstr "이용 가능한 클래스"
 
-#: include/functions.inc:1606
+#: include/functions.inc:1579
 msgid ""
 "You have installed the mixed groups plugin, but your schema configuration "
 "does not support this."
-msgstr ""
+msgstr "혼합 그룹 플러그인을 설치했지만 스키마 구성에서 이를 지원하지 않습니다."
 
-#: include/functions.inc:1607
+#: include/functions.inc:1580
 msgid ""
 "In order to use mixed groups the objectClass \"posixGroup\" must be "
 "AUXILIARY"
-msgstr ""
+msgstr "혼합 그룹을 사용하려면 objectClass \"posixGroup\"이 AUXILIARY여야 합니다."
 
-#: include/functions.inc:1610
+#: include/functions.inc:1583
 msgid ""
 "Your schema is configured to support mixed groups, but this plugin is not "
 "present."
-msgstr ""
+msgstr "스키마가 혼합 그룹을 지원하도록 구성되었지만 이 플러그인이 없습니다."
 
-#: include/functions.inc:1611
+#: include/functions.inc:1584
 msgid "The objectClass \"posixGroup\" must be STRUCTURAL"
-msgstr ""
+msgstr "objectClass \"posixGroup\"은 STRUCTURAL이어야 합니다."
 
-#: include/functions.inc:1896
+#: include/functions.inc:1869
 #, php-format
 msgid "Cannot locate file '%s' - please run '%s' to fix this"
 msgstr "'%s' 파일을 사용할 수 없습니다.  '%s' 를 실행해 주세요."
 
 #: include/class_pluglist.inc:209
 msgid "All objects in this category"
-msgstr ""
+msgstr "이 카테고리의 모든 객체"
 
 #: include/class_pluglist.inc:579
 msgid "Plugin"
@@ -1028,191 +1028,191 @@ msgstr ""
 
 #: include/class_CopyPasteHandler.inc:261
 msgid "Cancel all"
-msgstr ""
+msgstr "모두 취"
 
 #: include/class_CopyPasteHandler.inc:328
 msgid "Cannot paste"
-msgstr ""
+msgstr "붙여 넣을 수 없습니다"
 
-#: include/class_msgPool.inc:48
+#: include/class_msgPool.inc:47
 msgid "You have no permission to delete this object!"
 msgstr ""
 
-#: include/class_msgPool.inc:52 include/class_msgPool.inc:56
+#: include/class_msgPool.inc:51 include/class_msgPool.inc:55
 msgid "You have no permission to delete the object:"
 msgstr ""
 
-#: include/class_msgPool.inc:59
+#: include/class_msgPool.inc:58
 msgid "You have no permission to delete these objects:"
 msgstr ""
 
-#: include/class_msgPool.inc:70
+#: include/class_msgPool.inc:69
 msgid "You have no permission to create this object!"
 msgstr ""
 
-#: include/class_msgPool.inc:74 include/class_msgPool.inc:78
+#: include/class_msgPool.inc:73 include/class_msgPool.inc:77
 msgid "You have no permission to create the object:"
 msgstr ""
 
-#: include/class_msgPool.inc:81
+#: include/class_msgPool.inc:80
 msgid "You have no permission to create these objects:"
 msgstr ""
 
-#: include/class_msgPool.inc:93
+#: include/class_msgPool.inc:92
 msgid "You have no permission to modify this object!"
 msgstr ""
 
-#: include/class_msgPool.inc:98
+#: include/class_msgPool.inc:97
 #, php-format
 msgid "You have no permission to modify the field \"%s\" of object \"%s\""
 msgstr ""
 
-#: include/class_msgPool.inc:100 include/class_msgPool.inc:105
+#: include/class_msgPool.inc:99 include/class_msgPool.inc:104
 #, php-format
 msgid "You have no permission to modify the object:<br/>%s"
 msgstr ""
 
-#: include/class_msgPool.inc:108
+#: include/class_msgPool.inc:107
 #, php-format
 msgid "You have no permission to modify these objects:<br/>%s"
 msgstr ""
 
-#: include/class_msgPool.inc:119
+#: include/class_msgPool.inc:118
 msgid "You have no permission to view this object!"
 msgstr ""
 
-#: include/class_msgPool.inc:123 include/class_msgPool.inc:127
+#: include/class_msgPool.inc:122 include/class_msgPool.inc:126
 msgid "You have no permission to view the object:"
 msgstr ""
 
-#: include/class_msgPool.inc:130
+#: include/class_msgPool.inc:129
 msgid "You have no permission to view these objects:"
 msgstr ""
 
-#: include/class_msgPool.inc:141
+#: include/class_msgPool.inc:140
 msgid "You have no permission to move this object!"
 msgstr ""
 
-#: include/class_msgPool.inc:145 include/class_msgPool.inc:149
+#: include/class_msgPool.inc:144 include/class_msgPool.inc:148
 msgid "You have no permission to move the object:"
 msgstr ""
 
-#: include/class_msgPool.inc:152
+#: include/class_msgPool.inc:151
 msgid "You have no permission to move these objects:"
-msgstr ""
+msgstr "이러한 개체를 이동할 권한이 없습니다:"
 
-#: include/class_msgPool.inc:162
+#: include/class_msgPool.inc:161
 #, php-format
-msgid "The field '%s' contains a reserved keyword!"
+msgid "The field \"%s\" contains a reserved keyword!"
 msgstr ""
 
-#: include/class_msgPool.inc:178
+#: include/class_msgPool.inc:177
 #, php-format
-msgid "Cannot execute '%s' command!"
+msgid "Cannot execute \"%s\" command!"
 msgstr ""
 
-#: include/class_msgPool.inc:180
+#: include/class_msgPool.inc:179
 #, php-format
-msgid "Cannot execute '%s' command for plugin %s!"
+msgid "Cannot execute \"%s\" command for plugin %s!"
 msgstr ""
 
-#: include/class_msgPool.inc:184
+#: include/class_msgPool.inc:183
 #, php-format
-msgid "Cannot execute '%s' command (%s)!"
+msgid "Cannot execute \"%s\" command (%s)!"
 msgstr ""
 
-#: include/class_msgPool.inc:186
+#: include/class_msgPool.inc:185
 #, php-format
-msgid "Cannot execute '%s' command (%s) for plugin %s!"
+msgid "Cannot execute \"%s\" command (%s) for plugin %s!"
 msgstr ""
 
-#: include/class_msgPool.inc:201
+#: include/class_msgPool.inc:200
 #, php-format
-msgid "Value for '%s' is too large!"
+msgid "Value for \"%s\" is too large!"
 msgstr ""
 
-#: include/class_msgPool.inc:203
+#: include/class_msgPool.inc:202
 #, php-format
-msgid "'%s' must be smaller than %s!"
+msgid "\"%s\" must be smaller than %s!"
 msgstr ""
 
-#: include/class_msgPool.inc:217
+#: include/class_msgPool.inc:216
 #, php-format
-msgid "Value for '%s' is too small!"
+msgid "Value for \"%s\" is too small!"
 msgstr ""
 
-#: include/class_msgPool.inc:219
+#: include/class_msgPool.inc:218
 #, php-format
-msgid "'%s' must be %d or above!"
+msgid "\"%s\" must be %d or above!"
 msgstr ""
 
-#: include/class_msgPool.inc:232
+#: include/class_msgPool.inc:231
 #, php-format
-msgid "'%s' depends on '%s' - please provide both values!"
+msgid "\"%s\" depends on \"%s\" - please provide both values!"
 msgstr ""
 
-#: include/class_msgPool.inc:244
+#: include/class_msgPool.inc:243
 #, php-format
-msgid "There is already an entry with this '%s' attribute in the system!"
+msgid "There is already an entry with this \"%s\" attribute in the system!"
 msgstr ""
 
-#: include/class_msgPool.inc:246
+#: include/class_msgPool.inc:245
 #, php-format
-msgid "The entry '%s' already use this '%s' attribute!"
+msgid "The entry \"%s\" already use this \"%s\" attribute!"
 msgstr ""
 
-#: include/class_msgPool.inc:257
+#: include/class_msgPool.inc:256
 #, php-format
-msgid "The required field '%s' is empty!"
+msgid "The required field \"%s\" is empty!"
 msgstr ""
 
-#: include/class_msgPool.inc:274
+#: include/class_msgPool.inc:273
 #, php-format
 msgid "The field \"%s\" contains an invalid value."
 msgstr ""
 
-#: include/class_msgPool.inc:279
+#: include/class_msgPool.inc:278
 #, php-format
 msgid "Example: %s"
 msgstr ""
 
-#: include/class_msgPool.inc:292
+#: include/class_msgPool.inc:291
 #, php-format
 msgid "Missing %s PHP extension!"
 msgstr ""
 
-#: include/class_msgPool.inc:300 setup/setup_migrate_adminAccount.tpl.c:23
+#: include/class_msgPool.inc:299 setup/setup_migrate_adminAccount.tpl.c:23
 #: setup/setup_migrate_accounts.tpl.c:38
 #: ihtml/themes/breezy/msg_dialog.tpl.c:17
 #: ihtml/themes/breezy/islocked.tpl.c:17
 msgid "Cancel"
-msgstr ""
+msgstr "취소"
 
-#: include/class_msgPool.inc:308 setup/class_setupStepMigrate.inc:133
+#: include/class_msgPool.inc:307 setup/class_setupStepMigrate.inc:133
 #: setup/setup_checks.tpl.c:2 ihtml/themes/breezy/msg_dialog.tpl.c:14
 msgid "Ok"
 msgstr ""
 
-#: include/class_msgPool.inc:316 setup/setup_migrate_adminAccount.tpl.c:20
+#: include/class_msgPool.inc:315 setup/setup_migrate_adminAccount.tpl.c:20
 #: setup/setup_migrate_accounts.tpl.c:35
 msgid "Apply"
-msgstr ""
+msgstr "적용"
 
-#: include/class_msgPool.inc:324
+#: include/class_msgPool.inc:323
 msgid "Save"
 msgstr ""
 
-#: include/class_msgPool.inc:334
+#: include/class_msgPool.inc:333
 #, php-format
 msgid "Add"
 msgstr ""
 
-#: include/class_msgPool.inc:334
+#: include/class_msgPool.inc:333
 #, php-format
 msgid "Add %s"
 msgstr ""
 
-#: include/class_msgPool.inc:344
+#: include/class_msgPool.inc:343
 #: include/simpleplugin/attributes/class_SetAttribute.inc:569
 #: include/simpleplugin/attributes/class_SetAttribute.inc:570
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:193
@@ -1220,220 +1220,227 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: include/class_msgPool.inc:344
+#: include/class_msgPool.inc:343
 #, php-format
 msgid "Delete %s"
-msgstr ""
+msgstr "%s를 삭"
 
-#: include/class_msgPool.inc:354
+#: include/class_msgPool.inc:353
 #, php-format
 msgid "Edit..."
 msgstr ""
 
-#: include/class_msgPool.inc:354
+#: include/class_msgPool.inc:353
 #, php-format
 msgid "Edit %s..."
 msgstr ""
 
-#: include/class_msgPool.inc:362
+#: include/class_msgPool.inc:361
 msgid "Back"
 msgstr ""
 
-#: include/class_msgPool.inc:391
+#: include/class_msgPool.inc:390
 #, php-format
 msgid "This account has no valid %s extensions!"
 msgstr ""
 
-#: include/class_msgPool.inc:404
+#: include/class_msgPool.inc:403
 #, php-format
 msgid ""
 "This account has %s settings enabled. You can disable them by clicking "
 "below."
 msgstr ""
 
-#: include/class_msgPool.inc:409
+#: include/class_msgPool.inc:408
 #, php-format
 msgid ""
 "This account has %s settings enabled. To disable them, you'll need to remove"
 " the %s settings first!"
 msgstr ""
 
-#: include/class_msgPool.inc:425
+#: include/class_msgPool.inc:424
 #, php-format
 msgid ""
 "This account has %s settings disabled. You can enable them by clicking "
 "below."
 msgstr ""
 
-#: include/class_msgPool.inc:427
+#: include/class_msgPool.inc:426
 #, php-format
 msgid ""
 "This account has %s settings disabled. To enable them, you'll need to add "
 "the %s settings first!"
 msgstr ""
 
-#: include/class_msgPool.inc:429
+#: include/class_msgPool.inc:428
 #, php-format
 msgid ""
 "This account has %s settings disabled. To enable them, you'll need to "
 "disable the %s settings first!"
 msgstr ""
 
-#: include/class_msgPool.inc:440
+#: include/class_msgPool.inc:439
 #, php-format
 msgid "Add %s settings"
 msgstr ""
 
-#: include/class_msgPool.inc:451
+#: include/class_msgPool.inc:450
 #, php-format
 msgid "Remove %s settings"
 msgstr ""
 
-#: include/class_msgPool.inc:459
-msgid "Click the 'Edit' button below to change information in this dialog"
+#: include/class_msgPool.inc:458
+msgid ""
+"Click the \"Edit\" button on the bottom right corner of the page to edit the"
+" fields"
 msgstr ""
 
-#: include/class_msgPool.inc:467
+#: include/class_msgPool.inc:466
 msgid "January"
 msgstr ""
 
-#: include/class_msgPool.inc:467
+#: include/class_msgPool.inc:466
 msgid "February"
 msgstr ""
 
-#: include/class_msgPool.inc:467
+#: include/class_msgPool.inc:466
 msgid "March"
 msgstr ""
 
-#: include/class_msgPool.inc:467
+#: include/class_msgPool.inc:466
 msgid "April"
-msgstr ""
+msgstr "4"
 
-#: include/class_msgPool.inc:468
+#: include/class_msgPool.inc:467
 msgid "May"
 msgstr ""
 
-#: include/class_msgPool.inc:468
+#: include/class_msgPool.inc:467
 msgid "June"
 msgstr ""
 
-#: include/class_msgPool.inc:468
+#: include/class_msgPool.inc:467
 msgid "July"
 msgstr ""
 
-#: include/class_msgPool.inc:468
+#: include/class_msgPool.inc:467
 msgid "August"
 msgstr ""
 
-#: include/class_msgPool.inc:468
+#: include/class_msgPool.inc:467
 msgid "September"
 msgstr ""
 
-#: include/class_msgPool.inc:469
+#: include/class_msgPool.inc:468
 msgid "October"
-msgstr ""
+msgstr "10"
 
-#: include/class_msgPool.inc:469
+#: include/class_msgPool.inc:468
 msgid "November"
 msgstr ""
 
-#: include/class_msgPool.inc:469
+#: include/class_msgPool.inc:468
 msgid "December"
-msgstr ""
+msgstr "12월"
 
-#: include/class_msgPool.inc:478
+#: include/class_msgPool.inc:477
 msgid "Sunday"
 msgstr ""
 
-#: include/class_msgPool.inc:478
+#: include/class_msgPool.inc:477
 msgid "Monday"
 msgstr ""
 
-#: include/class_msgPool.inc:478
+#: include/class_msgPool.inc:477
 msgid "Tuesday"
 msgstr ""
 
-#: include/class_msgPool.inc:478
+#: include/class_msgPool.inc:477
 msgid "Wednesday"
-msgstr ""
+msgstr "수요일"
 
-#: include/class_msgPool.inc:478
+#: include/class_msgPool.inc:477
 msgid "Thursday"
 msgstr ""
 
-#: include/class_msgPool.inc:478
+#: include/class_msgPool.inc:477
 msgid "Friday"
 msgstr ""
 
-#: include/class_msgPool.inc:478
+#: include/class_msgPool.inc:477
 msgid "Saturday"
 msgstr ""
 
-#: include/class_msgPool.inc:495
+#: include/class_msgPool.inc:494
 msgid "read operation"
-msgstr ""
+msgstr "읽기 조작"
 
-#: include/class_msgPool.inc:495
+#: include/class_msgPool.inc:494
 msgid "add operation"
 msgstr ""
 
-#: include/class_msgPool.inc:495
+#: include/class_msgPool.inc:494
 msgid "modify operation"
 msgstr ""
 
-#: include/class_msgPool.inc:496
+#: include/class_msgPool.inc:495
 msgid "delete operation"
 msgstr ""
 
-#: include/class_msgPool.inc:496
+#: include/class_msgPool.inc:495
 msgid "search operation"
 msgstr ""
 
-#: include/class_msgPool.inc:496
+#: include/class_msgPool.inc:495
 msgid "authentication"
 msgstr ""
 
-#: include/class_msgPool.inc:499
+#: include/class_msgPool.inc:498
 #, php-format
 msgid "LDAP %s failed!"
 msgstr ""
 
-#: include/class_msgPool.inc:501
+#: include/class_msgPool.inc:500
 msgid "LDAP operation failed!"
-msgstr ""
+msgstr "LDAP 작업이 실패했습니다!"
 
-#: include/class_msgPool.inc:522
+#: include/class_msgPool.inc:521
 msgid "Upload failed!"
 msgstr ""
 
-#: include/class_msgPool.inc:525
+#: include/class_msgPool.inc:524
 #, php-format
 msgid "Upload failed: %s"
 msgstr ""
 
-#: include/class_msgPool.inc:536
+#: include/class_msgPool.inc:535
 msgid "Communication failure with the infrastructure service!"
 msgstr ""
 
-#: include/class_msgPool.inc:538
+#: include/class_msgPool.inc:537
 #, php-format
 msgid "Communication failure with the infrastructure service: %s"
 msgstr ""
 
-#: include/class_msgPool.inc:548
+#: include/class_msgPool.inc:537
+#, php-format
+msgid "Error: %s"
+msgstr ""
+
+#: include/class_msgPool.inc:547
 #, php-format
 msgid "Checking for %s support"
 msgstr ""
 
-#: include/class_msgPool.inc:558
+#: include/class_msgPool.inc:557
 #, php-format
 msgid "Install and activate the %s PHP module."
 msgstr ""
 
-#: include/class_msgPool.inc:566
+#: include/class_msgPool.inc:565
 msgid ""
 "The supplied base is not valid and has been reset to the previous value!"
-msgstr ""
+msgstr "제공된 베이스가 유효하지 않으며 이전 값으로 재설정되었습니다!"
 
 #: include/class_templateHandling.inc:143
 #, php-format
@@ -1511,23 +1518,23 @@ msgstr ""
 #: include/simpleplugin/attributes/class_DateAttribute.inc:148
 #, php-format
 msgid "Error, incorrect date: %s"
-msgstr ""
+msgstr "오류, 잘못된 날짜: %s"
 
-#: include/simpleplugin/attributes/class_DateAttribute.inc:209
-#: include/simpleplugin/attributes/class_DateAttribute.inc:283
+#: include/simpleplugin/attributes/class_DateAttribute.inc:222
+#: include/simpleplugin/attributes/class_DateAttribute.inc:296
 msgid "Hours"
 msgstr "시간"
 
-#: include/simpleplugin/attributes/class_DateAttribute.inc:214
-#: include/simpleplugin/attributes/class_DateAttribute.inc:288
+#: include/simpleplugin/attributes/class_DateAttribute.inc:227
+#: include/simpleplugin/attributes/class_DateAttribute.inc:301
 msgid "Minutes"
 msgstr "분"
 
-#: include/simpleplugin/attributes/class_DateAttribute.inc:219
+#: include/simpleplugin/attributes/class_DateAttribute.inc:232
 msgid "Seconds"
 msgstr "초"
 
-#: include/simpleplugin/attributes/class_DateAttribute.inc:313
+#: include/simpleplugin/attributes/class_DateAttribute.inc:326
 msgid "Time"
 msgstr "시간"
 
@@ -1548,12 +1555,12 @@ msgstr ""
 
 #: include/simpleplugin/attributes/class_FileAttribute.inc:39
 msgid "file not readable"
-msgstr ""
+msgstr "읽을 수 없는 파일"
 
 #: include/simpleplugin/attributes/class_FileAttribute.inc:74
 #, php-format
 msgid "%s (%d bytes)"
-msgstr ""
+msgstr " %s (%d bytes)"
 
 #: include/simpleplugin/attributes/class_FileAttribute.inc:121
 #, php-format
@@ -1652,7 +1659,7 @@ msgstr ""
 
 #: include/simpleplugin/attributes/class_SelectAttribute.inc:71
 #: include/simpleplugin/attributes/class_SelectAttribute.inc:137
-#: include/simpleplugin/class_dialogAttributes.inc:714
+#: include/simpleplugin/class_dialogAttributes.inc:716
 msgid "None"
 msgstr "없음"
 
@@ -1666,35 +1673,35 @@ msgstr ""
 msgid "StringAttribute \"%s\" was set to a non-compatible value"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:355
+#: include/simpleplugin/class_simplePlugin.inc:353
 msgid "Template settings"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:358
+#: include/simpleplugin/class_simplePlugin.inc:356
 msgid "This is the name of the template"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:475
+#: include/simpleplugin/class_simplePlugin.inc:473
 msgid "Only main tab can compute dn"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:482
+#: include/simpleplugin/class_simplePlugin.inc:480
 #, php-format
 msgid "Could not compute dn: no parent tab class for \"%s\""
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:494
+#: include/simpleplugin/class_simplePlugin.inc:492
 #, php-format
 msgid ""
 "Could not compute dn: could not find objectType infos from tab class \"%s\""
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:1365
+#: include/simpleplugin/class_simplePlugin.inc:1363
 #, php-format
 msgid "There is already an entry with the same dn : %s"
 msgstr ""
 
-#: include/simpleplugin/class_simplePlugin.inc:1372
+#: include/simpleplugin/class_simplePlugin.inc:1370
 #, php-format
 msgid "The entry %s is not existing"
 msgstr ""
@@ -1739,12 +1746,12 @@ msgid ""
 "configuration file."
 msgstr ""
 
-#: include/simpleplugin/class_simpleTabs.inc:390
+#: include/simpleplugin/class_simpleTabs.inc:407
 #, php-format
 msgid "Failed to compute DN for object: %s"
 msgstr ""
 
-#: include/simpleplugin/class_simpleTabs.inc:407
+#: include/simpleplugin/class_simpleTabs.inc:424
 #, php-format
 msgid "Move from \"%s\" to \"%s\" failed: %s"
 msgstr ""
@@ -1760,7 +1767,7 @@ msgstr ""
 
 #: include/simpleplugin/class_helpersAttribute.inc:262
 msgid "KiB"
-msgstr ""
+msgstr "KiB"
 
 #: include/simpleplugin/class_helpersAttribute.inc:263
 msgid "MiB"
@@ -1794,30 +1801,30 @@ msgstr ""
 msgid "Add (dialog)"
 msgstr ""
 
-#: include/simpleplugin/class_dialogAttributes.inc:559
+#: include/simpleplugin/class_dialogAttributes.inc:561
 #, php-format
 msgid "POSIX group %s"
-msgstr ""
+msgstr "POSIX 그룹 %s"
 
-#: include/simpleplugin/class_dialogAttributes.inc:561
-#: plugins/config/class_configInLdap.inc:420
+#: include/simpleplugin/class_dialogAttributes.inc:563
+#: plugins/config/class_configInLdap.inc:425
 #, php-format
 msgid "Role %s"
 msgstr ""
 
-#: include/simpleplugin/class_dialogAttributes.inc:563
-#: plugins/config/class_configInLdap.inc:413
+#: include/simpleplugin/class_dialogAttributes.inc:565
+#: plugins/config/class_configInLdap.inc:418
 #, php-format
 msgid "Group %s"
 msgstr ""
 
-#: include/simpleplugin/class_dialogAttributes.inc:716
+#: include/simpleplugin/class_dialogAttributes.inc:718
 msgid "Unknown"
 msgstr "알 수 없음"
 
 #: include/class_acl.inc:35 include/class_acl.inc:39
 msgid "ACL"
-msgstr ""
+msgstr "ACL"
 
 #: include/class_acl.inc:36
 msgid "Manage access control lists"
@@ -1826,7 +1833,7 @@ msgstr ""
 #: include/class_acl.inc:39
 #: plugins/admin/aclrole/class_aclRoleManagement.inc:26
 msgid "ACL roles"
-msgstr ""
+msgstr "ACL 역할"
 
 #: include/class_acl.inc:103
 #, php-format
@@ -1852,17 +1859,17 @@ msgid ""
 "objects limit. This user will not have the ACL rights he should."
 msgstr ""
 
-#: include/class_userinfo.inc:1212
+#: include/class_userinfo.inc:1072
 msgid ""
 "Login (uid) is not unique inside the LDAP tree. Please contact your "
 "administrator."
-msgstr ""
+msgstr "로그인 (uid)은 LDAP 트리 내에서 고유하지 않습니다. 관리자에게 문의하십시오."
 
 #: include/class_ldap.inc:167
 msgid ""
 "It seems your user password has expired. Please use <a "
 "href=\"recovery.php\">password recovery</a> to change it."
-msgstr ""
+msgstr "사용자 비밀번호가 만료 된 것 같습니다. <a href=\"recovery.php\">비밀번호 복구</a>를 사용하여 변경하십시오."
 
 #: include/class_ldap.inc:190
 #, php-format
@@ -1965,7 +1972,7 @@ msgstr ""
 #: plugins/admin/departments/class_department.inc:30
 #: plugins/admin/departments/class_department.inc:38
 msgid "Department"
-msgstr ""
+msgstr "부서"
 
 #: plugins/admin/departments/class_department.inc:31
 #: plugins/admin/departments/class_department.inc:35
@@ -1978,7 +1985,7 @@ msgid "department"
 msgstr ""
 
 #: plugins/admin/departments/class_department.inc:62
-#: plugins/admin/groups/class_ogroup.inc:229
+#: plugins/admin/groups/class_ogroup.inc:220
 #: plugins/admin/acl/class_aclAssignmentDialogWindow.inc:38
 #: plugins/admin/aclrole/class_aclRole.inc:94
 msgid "Properties"
@@ -2015,7 +2022,7 @@ msgstr ""
 #: plugins/admin/departments/class_department.inc:79
 #, php-format
 msgid "Website of this %s"
-msgstr ""
+msgstr "이 %s의 웹 사이트"
 
 #: plugins/admin/departments/class_department.inc:83
 #: plugins/personal/generic/class_user.inc:233
@@ -2074,7 +2081,7 @@ msgid "Facsimile telephone number"
 msgstr ""
 
 #: plugins/admin/departments/class_department.inc:170
-#: plugins/admin/groups/class_ogroup.inc:233
+#: plugins/admin/groups/class_ogroup.inc:224
 #: plugins/admin/groups/class_roleGeneric.inc:86
 #: plugins/admin/aclrole/class_aclRole.inc:98
 #: plugins/addons/dashboard/class_dashboardUsers.inc:64
@@ -2140,7 +2147,7 @@ msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:43
 msgid "Allows you to manage object groups, POSIX groups and roles"
-msgstr ""
+msgstr "객체 그룹, POSIX 그룹 및 역할을 관리할 수 ​​있습니다"
 
 #: plugins/admin/groups/class_groupManagement.inc:90
 msgid "Trigger action"
@@ -2191,79 +2198,79 @@ msgstr "오류없이 호출된 작업 (결과는 \"%s\")"
 msgid "Action called without error (result was \"%s\")"
 msgstr "오류없이 호출된 작업 (결과는 \"%s\")"
 
-#: plugins/admin/groups/class_ogroup.inc:84
+#: plugins/admin/groups/class_ogroup.inc:75
 #, php-format
 msgid "Unknown type : %s"
-msgstr ""
+msgstr "알 수없는 유형 : %s"
 
-#: plugins/admin/groups/class_ogroup.inc:92
+#: plugins/admin/groups/class_ogroup.inc:83
 #, php-format
 msgid "Non existing dn: %s"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:191
+#: plugins/admin/groups/class_ogroup.inc:182
 msgid "Object group"
 msgstr "객체 그룹"
 
-#: plugins/admin/groups/class_ogroup.inc:192
+#: plugins/admin/groups/class_ogroup.inc:183
 msgid "Object group information"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:198
-#: plugins/admin/groups/class_ogroup.inc:199
+#: plugins/admin/groups/class_ogroup.inc:189
+#: plugins/admin/groups/class_ogroup.inc:190
 msgid "Group"
 msgstr "그룹"
 
-#: plugins/admin/groups/class_ogroup.inc:233
+#: plugins/admin/groups/class_ogroup.inc:224
 #: plugins/admin/groups/class_roleGeneric.inc:86
 msgid "Name of this group"
 msgstr "그룹 명칭"
 
-#: plugins/admin/groups/class_ogroup.inc:238
+#: plugins/admin/groups/class_ogroup.inc:229
 msgid "Short description of this group"
 msgstr "그룹 요약"
 
-#: plugins/admin/groups/class_ogroup.inc:243
+#: plugins/admin/groups/class_ogroup.inc:234
 msgid "Owner"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:249
+#: plugins/admin/groups/class_ogroup.inc:240
 msgid "Member objects"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:252
+#: plugins/admin/groups/class_ogroup.inc:243
 msgid "Objects member of this group"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:259
+#: plugins/admin/groups/class_ogroup.inc:250
 msgid "System trust"
 msgstr "시스템 신뢰"
 
-#: plugins/admin/groups/class_ogroup.inc:263
+#: plugins/admin/groups/class_ogroup.inc:254
 msgid "Trust mode"
 msgstr "트러스트 노드"
 
-#: plugins/admin/groups/class_ogroup.inc:263
+#: plugins/admin/groups/class_ogroup.inc:254
 msgid "Type of authorization for those hosts"
 msgstr "호스트에 대한 인증 타입"
 
-#: plugins/admin/groups/class_ogroup.inc:267
+#: plugins/admin/groups/class_ogroup.inc:258
 msgid "disabled"
 msgstr "미사용"
 
-#: plugins/admin/groups/class_ogroup.inc:267
+#: plugins/admin/groups/class_ogroup.inc:258
 msgid "full access"
 msgstr "전체 접근"
 
-#: plugins/admin/groups/class_ogroup.inc:267
+#: plugins/admin/groups/class_ogroup.inc:258
 msgid "allow access to these hosts"
 msgstr "호스트에 접근 허용"
 
-#: plugins/admin/groups/class_ogroup.inc:270
+#: plugins/admin/groups/class_ogroup.inc:261
 msgid "Only allow this group to connect to this list of hosts"
 msgstr "호스트 리스트에 접근 가능 그룹"
 
-#: plugins/admin/groups/class_ogroup.inc:349
+#: plugins/admin/groups/class_ogroup.inc:340
 msgid ""
 "Putting both workstations and terminals in the same group is not allowed"
 msgstr ""
@@ -2271,7 +2278,7 @@ msgstr ""
 #: plugins/admin/groups/class_GroupContentFilterElement.inc:69
 #: plugins/admin/acl/class_aclAssignmentDialogWindow.inc:56
 msgid "Members"
-msgstr ""
+msgstr "멤"
 
 #: plugins/admin/groups/class_roleGeneric.inc:53
 #: plugins/admin/groups/class_roleGeneric.inc:59
@@ -2317,7 +2324,7 @@ msgstr ""
 
 #: plugins/admin/acl/class_aclAssignment.inc:29
 msgid "ACL assignment"
-msgstr ""
+msgstr "ACL 할당"
 
 #: plugins/admin/acl/class_aclAssignment.inc:42
 msgid "ACL Assignment"
@@ -2325,7 +2332,7 @@ msgstr ""
 
 #: plugins/admin/acl/class_aclAssignment.inc:43
 msgid "Access control roles assignment"
-msgstr ""
+msgstr "액세스 제어 역할 할당"
 
 #: plugins/admin/acl/class_aclAssignment.inc:64
 msgid "Assignments"
@@ -2355,7 +2362,7 @@ msgstr ""
 
 #: plugins/admin/acl/class_aclAssignmentDialogWindow.inc:41
 #: plugins/config/class_hooksConfig.inc:67
-#: plugins/config/class_hooksConfig.inc:101
+#: plugins/config/class_hooksConfig.inc:107
 msgid "Mode"
 msgstr ""
 
@@ -2365,7 +2372,7 @@ msgstr ""
 
 #: plugins/admin/acl/class_aclAssignmentDialogWindow.inc:44
 msgid "Subtree"
-msgstr ""
+msgstr "서브 트리"
 
 #: plugins/admin/acl/class_aclAssignmentDialogWindow.inc:44
 msgid "Base only"
@@ -2426,7 +2433,7 @@ msgstr ""
 #: plugins/admin/acl/class_aclManagement.inc:32
 #: plugins/admin/acl/class_aclManagement.inc:45
 msgid "ACL assignment creation"
-msgstr ""
+msgstr "ACL 할당 생성"
 
 #: plugins/admin/acl/class_aclManagement.inc:33
 msgid "Create an ACL assignment on an arbitrary dn"
@@ -2468,7 +2475,7 @@ msgstr ""
 #: plugins/addons/dashboard/class_dashboardUsers.inc:27
 #: setup/class_setupStepMigrate.inc:824
 msgid "Users"
-msgstr ""
+msgstr "사용자"
 
 #: plugins/admin/users/class_userManagement.inc:41
 msgid "Manage users"
@@ -2520,7 +2527,7 @@ msgstr ""
 
 #: plugins/admin/aclrole/class_aclRole.inc:108
 msgid "ACLs"
-msgstr ""
+msgstr "ACLs"
 
 #: plugins/admin/aclrole/class_aclRole.inc:112
 msgid "ACLs which are part of this group"
@@ -2596,7 +2603,7 @@ msgstr ""
 
 #: plugins/admin/aclrole/class_aclRoleManagement.inc:28
 msgid "Manage ACL roles"
-msgstr ""
+msgstr "ACL 역할 관리"
 
 #: plugins/config/class_mainPluginsConfig.inc:26
 msgid "Plugins configuration"
@@ -2604,7 +2611,7 @@ msgstr ""
 
 #: plugins/config/class_mainPluginsConfig.inc:27
 msgid "FusionDirectory plugins configuration"
-msgstr ""
+msgstr "FusionDirectory 플러그인 구성"
 
 #: plugins/config/class_mainPluginsConfig.inc:41
 msgid "Object groups"
@@ -2634,7 +2641,7 @@ msgstr ""
 
 #: plugins/config/class_dashBoardConfig.inc:26
 msgid "Dashboard configuration"
-msgstr ""
+msgstr "대시보드 설정"
 
 #: plugins/config/class_dashBoardConfig.inc:27
 msgid "FusionDirectory dashboard plugin configuration"
@@ -2662,7 +2669,7 @@ msgstr ""
 
 #: plugins/config/class_dashBoardConfig.inc:58
 msgid "Dashboard expired users"
-msgstr ""
+msgstr "대시보드 만료된 사용자"
 
 #: plugins/config/class_dashBoardConfig.inc:61
 msgid "Number of days"
@@ -2696,7 +2703,7 @@ msgstr ""
 
 #: plugins/config/class_recoveryConfig.inc:46
 msgid "Activate password recovery"
-msgstr ""
+msgstr "비밀번호 복구 활성화"
 
 #: plugins/config/class_recoveryConfig.inc:47
 msgid "Whether to activate or not password recovery feature"
@@ -2824,7 +2831,7 @@ msgstr ""
 
 #: plugins/config/class_hooksConfig.inc:27
 #: plugins/config/class_hooksConfig.inc:48
-#: plugins/config/class_hooksConfig.inc:81
+#: plugins/config/class_hooksConfig.inc:87
 msgid "Triggers"
 msgstr ""
 
@@ -2847,7 +2854,7 @@ msgid "Triggers that are called when specific actions happens"
 msgstr ""
 
 #: plugins/config/class_hooksConfig.inc:62
-#: plugins/config/class_hooksConfig.inc:100
+#: plugins/config/class_hooksConfig.inc:106
 msgid "Tab"
 msgstr ""
 
@@ -2860,11 +2867,20 @@ msgid "When to call this command"
 msgstr ""
 
 #: plugins/config/class_hooksConfig.inc:74
-#: plugins/config/class_hooksConfig.inc:102
-msgid "Command"
+#: plugins/config/class_hooksConfig.inc:108
+msgid "Deactivated"
 msgstr ""
 
 #: plugins/config/class_hooksConfig.inc:74
+msgid "Use this to temporarily deactivate a trigger"
+msgstr ""
+
+#: plugins/config/class_hooksConfig.inc:80
+#: plugins/config/class_hooksConfig.inc:109
+msgid "Command"
+msgstr ""
+
+#: plugins/config/class_hooksConfig.inc:80
 msgid "The command that will be called"
 msgstr ""
 
@@ -2898,7 +2914,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:64
 msgid "Theme"
-msgstr ""
+msgstr "테마"
 
 #: plugins/config/class_configInLdap.inc:64
 msgid "Theme to be used"
@@ -2944,7 +2960,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:98
 msgid "Schema validation"
-msgstr ""
+msgstr "스키마 검증"
 
 #: plugins/config/class_configInLdap.inc:99
 msgid "Enables schema checking during login."
@@ -2962,7 +2978,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:109
 msgid "Snapshot base"
-msgstr ""
+msgstr "스냅샷 베이스"
 
 #: plugins/config/class_configInLdap.inc:109
 msgid "The base where snapshots should be stored inside of the LDAP."
@@ -3035,7 +3051,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:155
 msgid "SASL Realm"
-msgstr ""
+msgstr "SASL 영역"
 
 #: plugins/config/class_configInLdap.inc:159
 msgid "SASL Exop"
@@ -3118,7 +3134,7 @@ msgstr ""
 #: plugins/config/class_configInLdap.inc:216
 #: plugins/config/class_configInLdap.inc:226
 msgid "CA certificate path"
-msgstr ""
+msgstr "CA 인증서 경로"
 
 #: plugins/config/class_configInLdap.inc:216
 msgid "Path to the CA certificate. Used for validating Argonaut Server host."
@@ -3126,7 +3142,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:226
 msgid "Path to the CA certificate of the CAS server"
-msgstr ""
+msgstr "CAS 서버의 CA 인증서 경로"
 
 #: plugins/config/class_configInLdap.inc:231
 msgid "Host"
@@ -3170,7 +3186,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:257
 msgid "The pattern to use to build the common name field"
-msgstr ""
+msgstr "공통 이름 필드를 빌드하는 데 사용할 패턴"
 
 #: plugins/config/class_configInLdap.inc:262
 msgid "Strict naming policy"
@@ -3186,7 +3202,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:268
 msgid "The branch where users are stored."
-msgstr ""
+msgstr "사용자가 저장된 브랜치."
 
 #: plugins/config/class_configInLdap.inc:273
 msgid "ACL role RDN"
@@ -3277,70 +3293,78 @@ msgstr ""
 msgid "Display certain information on each page load."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:329
+#: plugins/config/class_configInLdap.inc:327
+msgid "Log debug messages"
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:328
+msgid "Sends debug output to syslog as well"
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:334
 msgid "Miscellaneous"
 msgstr "기타"
 
-#: plugins/config/class_configInLdap.inc:332
+#: plugins/config/class_configInLdap.inc:337
 msgid "Display summary in listings"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:333
+#: plugins/config/class_configInLdap.inc:338
 msgid ""
 "Determines whether a status bar will be shown on the bottom of lists, "
 "displaying a short summary of type and number of elements in the list."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:338
+#: plugins/config/class_configInLdap.inc:343
 msgid "Show ACL tab on all objects"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:339
+#: plugins/config/class_configInLdap.inc:344
 msgid ""
 "For very specific ACL rights setting where you might need to give right on a"
 " single object."
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:344
+#: plugins/config/class_configInLdap.inc:349
 msgid "Available department categories"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:344
+#: plugins/config/class_configInLdap.inc:349
 msgid "Available categories in the departments dropdown"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:351
+#: plugins/config/class_configInLdap.inc:356
 msgid "Use this to hide some menu entry to specific groups of users"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:355
+#: plugins/config/class_configInLdap.inc:360
 msgid "Group or role"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:360
+#: plugins/config/class_configInLdap.inc:365
 msgid "Plugin to blacklist"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:366
+#: plugins/config/class_configInLdap.inc:371
 msgid "Plugin menu blacklist"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:375
+#: plugins/config/class_configInLdap.inc:380
 msgid "ACL target filter limit"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:375
+#: plugins/config/class_configInLdap.inc:380
 msgid ""
 "Defines the maximum number of entries an ACL target filter is allowed to "
 "return"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:391
+#: plugins/config/class_configInLdap.inc:396
 #: setup/class_setupStepLanguage.inc:69
 msgid "Automatic"
 msgstr ""
 
-#: plugins/config/class_configInLdap.inc:537
+#: plugins/config/class_configInLdap.inc:542
 #, php-format
 msgid ""
 "It seems the selected language \"%s\" is not installed on the system. Please"
@@ -3351,7 +3375,7 @@ msgstr ""
 #: plugins/addons/dashboard/class_dashboard.inc:28
 #: plugins/addons/dashboard/class_dashboard.inc:33
 msgid "Dashboard"
-msgstr ""
+msgstr "대시보"
 
 #: plugins/addons/dashboard/class_dashboard.inc:29
 msgid "Statistics and various information"
@@ -3359,7 +3383,7 @@ msgstr "통계 및 각종 정보"
 
 #: plugins/addons/dashboard/class_dashboard.inc:38
 msgid "Reporting"
-msgstr ""
+msgstr "보고"
 
 #: plugins/addons/dashboard/class_dashboard.inc:42
 msgid "See dashboard"
@@ -3397,7 +3421,7 @@ msgstr ""
 #: plugins/addons/dashboard/class_dashboardUsers.inc:63
 #: plugins/personal/generic/class_user.inc:170
 msgid "Login"
-msgstr ""
+msgstr "로그인"
 
 #: plugins/addons/dashboard/class_dashboardUsers.inc:66
 msgid "Expiration date"
@@ -3443,7 +3467,7 @@ msgstr ""
 
 #: plugins/addons/dashboard/class_dashboardPasswords.inc:26
 msgid "Passwords"
-msgstr ""
+msgstr "비밀번호"
 
 #: plugins/addons/dashboard/class_dashboardPasswords.inc:27
 msgid "Statistics about passwords"
@@ -3472,11 +3496,11 @@ msgstr ""
 #: plugins/personal/roles/class_userRoles.inc:60
 #: plugins/personal/roles/class_userRoles.inc:64
 msgid "Roles membership"
-msgstr ""
+msgstr "역할 멤버십"
 
 #: plugins/personal/generic/class_UserPasswordAttribute.inc:44
 msgid "Password method"
-msgstr ""
+msgstr "비밀번호 방법"
 
 #: plugins/personal/generic/class_UserPasswordAttribute.inc:44
 msgid "Password hash method to use"
@@ -3493,7 +3517,7 @@ msgstr "패스워드"
 
 #: plugins/personal/generic/class_UserPasswordAttribute.inc:49
 msgid "Password (Leave empty if you do not wish to change it)"
-msgstr ""
+msgstr "비밀번호 (변경하지 않으려면 비워 두십시오)"
 
 #: plugins/personal/generic/class_UserPasswordAttribute.inc:53
 msgid "Password again"
@@ -3544,7 +3568,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:62
 msgid "User account"
-msgstr ""
+msgstr "사용자 계정"
 
 #: plugins/personal/generic/class_user.inc:75
 msgid "User lock status"
@@ -3568,7 +3592,7 @@ msgstr "이름"
 
 #: plugins/personal/generic/class_user.inc:98
 msgid "First name of this user"
-msgstr ""
+msgstr "이 사용자의 이름"
 
 #: plugins/personal/generic/class_user.inc:103
 msgid "Initials"
@@ -3582,7 +3606,7 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:108
 msgid "Short description of the user"
-msgstr ""
+msgstr "사용자에 대한 간단한 설명"
 
 #: plugins/personal/generic/class_user.inc:112
 msgid "Picture"
@@ -3626,7 +3650,7 @@ msgstr "호출기"
 
 #: plugins/personal/generic/class_user.inc:151
 msgid "Business pager number"
-msgstr ""
+msgstr "사업자 호출기 번호"
 
 #: plugins/personal/generic/class_user.inc:155
 msgid "Business fax number"
@@ -3638,11 +3662,11 @@ msgstr ""
 
 #: plugins/personal/generic/class_user.inc:159
 msgid "Personal homepage"
-msgstr ""
+msgstr "개인 홈페이지"
 
 #: plugins/personal/generic/class_user.inc:165
 msgid "Account information"
-msgstr ""
+msgstr "계정 정보"
 
 #: plugins/personal/generic/class_user.inc:170
 msgid "Login of this user"
@@ -3808,7 +3832,7 @@ msgstr ""
 
 #: setup/class_setup.inc:175
 msgid "Completed"
-msgstr ""
+msgstr "완료"
 
 #: setup/class_setup.inc:218
 msgid "Next"
@@ -3837,7 +3861,7 @@ msgstr ""
 
 #: setup/class_setupStepLdap.inc:36
 msgid "Name of this connexion to show in the LDAP server list"
-msgstr ""
+msgstr "LDAP 서버 목록에 표시할 연결의 이름"
 
 #: setup/class_setupStepLdap.inc:41
 msgid "Connection URI"
@@ -3845,7 +3869,7 @@ msgstr ""
 
 #: setup/class_setupStepLdap.inc:41
 msgid "URI to contact the LDAP server. Usually starts with ldap://"
-msgstr ""
+msgstr "LDAP 서버에 접속하기 위한 URI. 일반적으로 ldap://로 시작합니다"
 
 #: setup/class_setupStepLdap.inc:46
 msgid "TLS connection"
@@ -3872,7 +3896,7 @@ msgstr ""
 
 #: setup/class_setupStepLdap.inc:74
 msgid "Admin DN"
-msgstr ""
+msgstr "관리자 DN"
 
 #: setup/class_setupStepLdap.inc:77
 msgid "Admin password"
@@ -3929,7 +3953,7 @@ msgstr ""
 
 #: setup/class_setupStepLdap.inc:189 setup/class_setupStepLdap.inc:193
 msgid "Refresh"
-msgstr ""
+msgstr "리프레시"
 
 #: setup/class_setupStepLdap.inc:190
 msgid "Please specify user and password!"
@@ -3967,7 +3991,7 @@ msgstr ""
 
 #: setup/class_setupStepChecks.inc:67
 msgid "Checking PHP version"
-msgstr ""
+msgstr "PHP 버전 확인"
 
 #: setup/class_setupStepChecks.inc:68
 #, php-format
@@ -4072,7 +4096,7 @@ msgstr ""
 #: setup/class_setupStepChecks.inc:181 setup/class_setupStepChecks.inc:197
 #: setup/class_setupStepChecks.inc:213 setup/class_setupStepChecks.inc:221
 msgid "Off"
-msgstr ""
+msgstr "끄"
 
 #: setup/class_setupStepChecks.inc:182
 msgid ""
@@ -4225,7 +4249,7 @@ msgstr ""
 #: setup/class_setupStepMigrate.inc:434 setup/class_setupStepMigrate.inc:514
 #: setup/class_setupStepMigrate.inc:525 setup/class_setupStepMigrate.inc:835
 msgid "Failed"
-msgstr ""
+msgstr "실패"
 
 #: setup/class_setupStepMigrate.inc:361
 #, php-format
@@ -4234,7 +4258,7 @@ msgstr ""
 
 #: setup/class_setupStepMigrate.inc:362
 msgid "Please check your installation."
-msgstr ""
+msgstr "설치를 확인하십시오."
 
 #: setup/class_setupStepMigrate.inc:384
 #, php-format
@@ -4286,7 +4310,7 @@ msgstr "그룹"
 
 #: setup/class_setupStepMigrate.inc:830
 msgid "Roles"
-msgstr ""
+msgstr "역할"
 
 #: setup/class_setupStepMigrate.inc:836
 msgid "There is no FusionDirectory administrator account inside your LDAP."
@@ -4453,7 +4477,7 @@ msgstr ""
 
 #: html/main.php:116
 msgid "Password change"
-msgstr ""
+msgstr "비빌번호 변경"
 
 #: html/main.php:116
 msgid "Your password is about to expire, please change your password!"
@@ -4461,7 +4485,7 @@ msgstr ""
 
 #: html/main.php:132
 msgid "Your password has expired, please set a new one."
-msgstr ""
+msgstr "비밀번호가 만료되었습니다. 새 비밀번호를 설정하십시오."
 
 #: html/main.php:168
 msgid "Running out of memory!"
@@ -4469,11 +4493,11 @@ msgstr ""
 
 #: html/main.php:183
 msgid "User ACL checks disabled"
-msgstr ""
+msgstr "사용자 ACL 검사 비활성화"
 
 #: html/main.php:225
 msgid "Configuration Error"
-msgstr ""
+msgstr "설정 오류"
 
 #: html/main.php:226
 #, php-format
@@ -4505,11 +4529,11 @@ msgstr ""
 #: html/index.php:161
 #, php-format
 msgid "Invalid plugin parameter \"%s\"!"
-msgstr ""
+msgstr "잘못된 플러그인 매개 변수 \"%s\"!"
 
 #: html/index.php:164
 msgid "No session found!"
-msgstr ""
+msgstr "세션이 없습니다!"
 
 #: plugins/admin/acl/remove.tpl.c:2
 msgid ""
@@ -4539,7 +4563,7 @@ msgstr ""
 #: plugins/addons/dashboard/users_accounts.tpl.c:11
 #: plugins/addons/dashboard/users_accounts.tpl.c:23
 msgid "Manager concerned"
-msgstr ""
+msgstr "관심있는 관리자"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:14
 msgid "There is one account expiring in the next %1 days"
@@ -4808,17 +4832,17 @@ msgstr ""
 #: ihtml/themes/breezy/recovery.tpl.c:20 ihtml/themes/breezy/login.tpl.c:8
 #: ihtml/themes/breezy/login.tpl.c:11 ihtml/themes/breezy/login.tpl.c:14
 msgid "Username"
-msgstr ""
+msgstr "사용자 이름"
 
 #: ihtml/themes/legacy/recovery.tpl.c:32 ihtml/themes/legacy/recovery.tpl.c:35
 #: ihtml/themes/legacy/recovery.tpl.c:38 ihtml/themes/breezy/recovery.tpl.c:32
 #: ihtml/themes/breezy/recovery.tpl.c:35 ihtml/themes/breezy/recovery.tpl.c:38
 msgid "New password repeated"
-msgstr ""
+msgstr "새 비밀번호 반복"
 
 #: ihtml/themes/legacy/recovery.tpl.c:41 ihtml/themes/breezy/recovery.tpl.c:41
 msgid "Password strength"
-msgstr ""
+msgstr "비밀번호 강도"
 
 #: ihtml/themes/legacy/recovery.tpl.c:44 ihtml/themes/legacy/recovery.tpl.c:47
 #: ihtml/themes/legacy/recovery.tpl.c:50 ihtml/themes/legacy/recovery.tpl.c:86
@@ -4835,14 +4859,14 @@ msgstr "디렉토리"
 #: ihtml/themes/legacy/recovery.tpl.c:53 ihtml/themes/legacy/recovery.tpl.c:98
 #: ihtml/themes/breezy/recovery.tpl.c:53 ihtml/themes/breezy/recovery.tpl.c:98
 msgid "Change"
-msgstr ""
+msgstr "변경"
 
 #: ihtml/themes/legacy/recovery.tpl.c:56
 #: ihtml/themes/legacy/recovery.tpl.c:101
 #: ihtml/themes/breezy/recovery.tpl.c:56
 #: ihtml/themes/breezy/recovery.tpl.c:101
 msgid "Click here to change your password"
-msgstr ""
+msgstr "비밀번호를 변경하려면 여기를 클릭하십시오"
 
 #: ihtml/themes/legacy/recovery.tpl.c:59 ihtml/themes/legacy/recovery.tpl.c:62
 #: ihtml/themes/breezy/recovery.tpl.c:59 ihtml/themes/breezy/recovery.tpl.c:62
@@ -4851,7 +4875,7 @@ msgstr "성공"
 
 #: ihtml/themes/legacy/recovery.tpl.c:65 ihtml/themes/breezy/recovery.tpl.c:65
 msgid "Your password has been changed successfully."
-msgstr ""
+msgstr "비밀번호가 성공적으로 변경되었습니다."
 
 #: ihtml/themes/legacy/recovery.tpl.c:68 ihtml/themes/legacy/recovery.tpl.c:95
 #: ihtml/themes/breezy/recovery.tpl.c:68 ihtml/themes/breezy/recovery.tpl.c:95
@@ -4881,15 +4905,16 @@ msgstr ""
 msgid ""
 "Please use your username and your password to log into the site "
 "administration system."
-msgstr ""
+msgstr "사이트 관리 시스템에 로그인하려면 사용자 이름과 비밀번호를 사용하십시오."
 
 #: ihtml/themes/legacy/login.tpl.c:26 ihtml/themes/breezy/login.tpl.c:26
 msgid "I forgot my password"
-msgstr ""
+msgstr "비밀번호를 잊었습니다"
 
-#: ihtml/themes/legacy/login.tpl.c:41 ihtml/themes/breezy/login.tpl.c:41
+#: ihtml/themes/legacy/login.tpl.c:41 ihtml/themes/breezy/secondfactor.tpl.c:8
+#: ihtml/themes/breezy/login.tpl.c:41
 msgid "Click here to log in"
-msgstr ""
+msgstr "로그인하려면 여기를 클릭하십시오"
 
 #: ihtml/themes/breezy/secondfactor.tpl.c:2
 msgid "Two factor authentication"
@@ -4908,7 +4933,7 @@ msgstr ""
 
 #: ihtml/themes/breezy/simple-remove.tpl.c:8
 msgid "So - if you're sure - press 'Delete' to continue or 'Cancel' to abort."
-msgstr ""
+msgstr "따라서 확실하다면 '삭제'를 눌러 계속하거나 '취소'를 눌러 중단하십시오."
 
 #: ihtml/themes/breezy/management/list.tpl.c:8
 msgid "Down"
@@ -4967,7 +4992,7 @@ msgstr ""
 
 #: ihtml/themes/breezy/islocked.tpl.c:2
 msgid "Locking conflict detected"
-msgstr ""
+msgstr "잠금 충돌 감지"
 
 #: ihtml/themes/breezy/islocked.tpl.c:8
 msgid "\"%1\" has been locked by \"%2\" since %3"
@@ -4982,37 +5007,37 @@ msgstr ""
 
 #: ihtml/themes/breezy/islocked.tpl.c:14
 msgid "Read only"
-msgstr ""
+msgstr "읽기 전용"
 
 #: ihtml/themes/breezy/restore-confirm.tpl.c:2
 msgid "Warning: you are about to restore the following snapshot"
-msgstr ""
+msgstr "경고 : 다음 스냅샷을 복원하려고합니다"
 
 #: ihtml/themes/breezy/restore-confirm.tpl.c:5
 msgid "Any modification made to the object since this snapshot will be lost."
-msgstr ""
+msgstr "이 스냅샷 이후 개체에 대한 수정 내용은 손실됩니다."
 
 #: ihtml/themes/breezy/restore-confirm.tpl.c:11
 msgid ""
 "So - if you're sure - press 'Continue' to continue or 'Cancel' to abort."
-msgstr ""
+msgstr "따라서 확실하다면 '계속'을 눌러 계속하거나 '취소'를 눌러 중단하십시오."
 
 #: ihtml/themes/breezy/framework.tpl.c:2
 msgid "Main"
-msgstr ""
+msgstr "메인"
 
 #: ihtml/themes/breezy/framework.tpl.c:5
 msgid "Sign out"
-msgstr ""
+msgstr "로그아웃"
 
 #: ihtml/themes/breezy/framework.tpl.c:8
 msgid "Signed in:"
-msgstr ""
+msgstr "로그인:"
 
 #: ihtml/themes/breezy/framework.tpl.c:11
 #, c-format
 msgid "Session expires in %d!"
-msgstr ""
+msgstr "%d에서 세션이 만료됩니다!"
 
 #: ihtml/themes/breezy/sizelimit.tpl.c:2
 msgid ""
@@ -5024,17 +5049,17 @@ msgstr ""
 
 #: ihtml/themes/breezy/sizelimit.tpl.c:5
 msgid "Please choose the way to react for this session"
-msgstr ""
+msgstr "이 세션에 대응할 방법을 선택하십시오"
 
 #: ihtml/themes/breezy/sizelimit.tpl.c:8
 msgid "ignore this error and show all entries the LDAP server returns"
-msgstr ""
+msgstr "이 오류를 무시하고 LDAP 서버가 리턴하는 모든 항목을 표시하십시오."
 
 #: ihtml/themes/breezy/sizelimit.tpl.c:11
 msgid ""
 "ignore this error and show all entries that fit into the defined sizelimit "
 "and let me use filters instead"
-msgstr ""
+msgstr "이 오류를 무시하고 정의 된 크기 제한에 맞는 모든 항목을 표시하고 대신 필터를 사용하겠습니다"
 
 #: ihtml/themes/breezy/sizelimit.tpl.c:14
 msgid "Set"
