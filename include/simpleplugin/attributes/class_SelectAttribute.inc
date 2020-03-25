@@ -50,9 +50,6 @@ class SelectAttribute extends Attribute
    */
   function __construct ($label, $description, $ldapName, $required = FALSE, $choices = [], $defaultValue = "", $outputs = NULL, $acl = "")
   {
-    if (!in_array($defaultValue, $choices, TRUE) && isset($choices[0])) {
-      $defaultValue = $choices[0];
-    }
     parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
     $this->setChoices($choices, $outputs);
   }
