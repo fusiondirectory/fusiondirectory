@@ -1166,7 +1166,8 @@ class simplePlugin implements SimpleTab
         continue;
       }
 
-      if (!in_array_ics($index, $this->attributes) && strcasecmp('objectClass', $index)) {
+      list($attribute, ) = explode(';', $index, 2);
+      if (!in_array_ics($index, $this->attributes) && !in_array_ics($attribute, $this->attributes) && strcasecmp('objectClass', $attribute)) {
         unset($this->saved_attributes[$index]);
         continue;
       }
@@ -1193,7 +1194,6 @@ class simplePlugin implements SimpleTab
   function cleanup ()
   {
     foreach ($this->attrs as $index => $value) {
-
       /* Convert arrays with one element to non arrays, if the saved
          attributes are no array, too */
       if (is_array($this->attrs[$index]) &&
