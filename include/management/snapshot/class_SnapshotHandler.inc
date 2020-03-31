@@ -383,7 +383,7 @@ class SnapshotHandler
     $ldap = $config->get_ldap_link();
 
     /* Get the snapshot */
-    $ldap->cat($dn, ['gosaSnapshotData'], '(gosaSnapshotData=*)');
+    $ldap->cat($dn, ['gosaSnapshotData','gosaSnapshotDN'], '(gosaSnapshotData=*)');
     if ($attrs = $ldap->fetch()) {
       /* Prepare import string */
       $data = gzuncompress($attrs['gosaSnapshotData'][0]);
