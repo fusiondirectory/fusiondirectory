@@ -394,7 +394,7 @@ class GenericDialogAttribute extends DialogAttribute
       $ldap->cd($config->current['BASE']);
       $ldap->search('('.$this->store_attr.'='.ldap_escape_f($value).')', $this->ldapAttributesToGet());
     }
-    $attrs = $ldap->fetch();
+    $attrs = $ldap->fetch(TRUE);
     if (empty($attrs) && $this->isTemplate()) {
       $this->fillDisplayValueFrom($i, NULL);
     } else {
@@ -777,7 +777,7 @@ class ObjectAttribute extends DialogButtonAttribute
       if ($dn != '') {
         $ldap = $config->get_ldap_link();
         $ldap->cat($dn, [$this->displayAttr]);
-        if ($attrs = $ldap->fetch()) {
+        if ($attrs = $ldap->fetch(TRUE)) {
           $this->handleDialogResult($dn, $attrs);
         } else {
           $this->buttonText = NULL;

@@ -745,7 +745,7 @@ class SubNodesAttribute extends OrderedArrayAttribute
       $ldap->cd($attrs['dn']);
       $ldap->search('objectClass='.$this->objectClass, ['*'], 'one');
       $this->value = [];
-      while ($subattrs = $ldap->fetch()) {
+      while ($subattrs = $ldap->fetch(TRUE)) {
         $this->attribute->resetToDefault();
         foreach ($this->attribute->attributes as &$attribute) {
           $attribute->loadAttrValue($subattrs);

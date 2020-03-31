@@ -86,7 +86,7 @@ class userinfo
     global $config;
     $ldap = $config->get_ldap_link();
     $ldap->cat($this->dn, ['*']);
-    $attrs = $ldap->fetch();
+    $attrs = $ldap->fetch(TRUE);
 
     $this->uid = $attrs['uid'][0];
 

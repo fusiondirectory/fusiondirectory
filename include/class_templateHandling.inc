@@ -34,7 +34,7 @@ class templateHandling
 
     $ldap = $config->get_ldap_link();
     $ldap->cat($dn);
-    $attrs    = $ldap->fetch();
+    $attrs    = $ldap->fetch(TRUE);
     $attrs    = static::fieldsFromLDAP($attrs);
     list($depends, $errors) = static::attributesDependencies($attrs);
     msg_dialog::displayChecks($errors);
@@ -50,7 +50,9 @@ class templateHandling
       unset($template_attrs['fdTemplateField']['count']);
       sort($template_attrs['fdTemplateField']);
       foreach ($template_attrs['fdTemplateField'] as $field) {
-        preg_match('/^([^:]+):(.*)$/s', $field, $m);
+        if (!preg_match('/^([^:]+):(.*)$/s', $field, $m)) {
+          throw new FusionDirectoryException('Template field does not match format');
+        }
         if (isset($attrs[$m[1]])) {
           $attrs[$m[1]][] = $m[2];
           $attrs[$m[1]]['count']++;
