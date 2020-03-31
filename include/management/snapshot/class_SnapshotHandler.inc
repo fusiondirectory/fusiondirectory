@@ -166,7 +166,7 @@ class SnapshotHandler
 
     /* Put results into a list and add description if missing */
     $objects = [];
-    while ($entry = $ldap->fetch()) {
+    while ($entry = $ldap->fetch(TRUE)) {
       if (!isset($entry['description'][0])) {
         $entry['description'][0]  = "";
       }
@@ -310,7 +310,7 @@ class SnapshotHandler
     );
 
     /* Put results into a list and add description if missing */
-    while ($entry = $ldap->fetch()) {
+    while ($entry = $ldap->fetch(TRUE)) {
       if (!isset($entry['description'][0])) {
         $entry['description'][0]  = "";
       }
@@ -344,7 +344,7 @@ class SnapshotHandler
       ['gosaSnapshotTimestamp','gosaSnapshotDN','description','fdSnapshotObjectType'],
       'one'
     );
-    while ($entry = $ldap->fetch()) {
+    while ($entry = $ldap->fetch(TRUE)) {
       $chk = str_replace($new_base, "", $entry['dn']);
       if (preg_match("/,ou=/", $chk)) {
         continue;
@@ -383,7 +383,7 @@ class SnapshotHandler
     $ldap = $config->get_ldap_link();
 
     /* Get the snapshot */
-    $ldap->cat($dn, ['gosaSnapshotData','gosaSnapshotDN','fdSnapshotObjectType'], '(gosaSnapshotData=*)');
+    $ldap->cat($dn, ['gosaSnapshotData'], '(gosaSnapshotData=*)');
     if ($attrs = $ldap->fetch()) {
       /* Prepare import string */
       $data = gzuncompress($attrs['gosaSnapshotData'][0]);

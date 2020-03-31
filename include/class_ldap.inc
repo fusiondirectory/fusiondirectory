@@ -483,8 +483,9 @@ class LDAP
    * \brief Fetch
    *
    * \param integer $srp
+   * \param bool    $cleanUpNumericIndices whether to remove numeric indices and "count" index at top level ("count" index in each attribute value is kept)
    */
-  function fetch ($srp)
+  function fetch ($srp, bool $cleanUpNumericIndices = FALSE)
   {
     $att = [];
     if ($this->hascon) {
@@ -502,6 +503,13 @@ class LDAP
         if ($this->re[$srp]) {
           $att        = @ldap_get_attributes($this->cid, $this->re[$srp]);
           $att['dn']  = trim(@ldap_get_dn($this->cid, $this->re[$srp]));
+          if ($cleanUpNumericIndices && isset($att['count'])) {
+            for ($i = 0; $i < $att['count']; ++$i) {
+              /* Remove numeric keys */
+              unset($att[$i]);
+            }
+            unset($att['count']);
+          }
         }
         $this->error = @ldap_error($this->cid);
         if (!isset($att)) {

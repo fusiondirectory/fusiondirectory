@@ -414,7 +414,7 @@ class user extends simplePlugin
 
     $ldap = $config->get_ldap_link();
     $ldap->cat($userdn, ['pwdPolicySubentry', 'pwdHistory', 'pwdChangedTime', 'userPassword']);
-    $attrs = $ldap->fetch();
+    $attrs = $ldap->fetch(TRUE);
     $ppolicydn = '';
     if (isset($attrs['pwdPolicySubentry'][0])) {
       $ppolicydn = $attrs['pwdPolicySubentry'][0];
@@ -428,7 +428,7 @@ class user extends simplePlugin
     $policy = NULL;
     if (!empty($ppolicydn)) {
       $ldap->cat($ppolicydn, ['pwdAllowUserChange', 'pwdMinLength', 'pwdMinAge', 'pwdSafeModify', 'pwdExpireWarning', 'pwdMaxAge']);
-      $policy = $ldap->fetch();
+      $policy = $ldap->fetch(TRUE);
       if (!$policy) {
         throw new NonExistingLdapNodeException(sprintf(_('Ppolicy "%s" could not be found in the LDAP!'), $ppolicydn));
       }

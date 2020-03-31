@@ -345,7 +345,7 @@ class setupStepMigrate extends setupStep
       );
     }
 
-    $attrs = $ldap->fetch();
+    $attrs = $ldap->fetch(TRUE);
 
     /* Root object doesn't exists */
     if (!in_array("gosaDepartment", $attrs['objectClass'])) {
@@ -570,7 +570,7 @@ class setupStepMigrate extends setupStep
     $sizeLimitHit   = $ldap->hitSizeLimit();
     $accountsCount  = $ldap->count();
 
-    while ($attrs = $ldap->fetch()) {
+    while ($attrs = $ldap->fetch(TRUE)) {
       $base = preg_replace('/^[^,]+,/', '', $attrs['dn']);
 
       /* Build groupid depending on base and objectClasses */
@@ -689,7 +689,7 @@ class setupStepMigrate extends setupStep
         foreach ($objects as &$object) {
           /* Get old objectClasses */
           $ldap->cat($object['dn'], array_merge(['objectClass'], array_keys($mandatory)));
-          $attrs = $ldap->fetch();
+          $attrs = $ldap->fetch(TRUE);
 
           /* Create new objectClass array */
           $new_attrs  = [];
@@ -744,7 +744,7 @@ class setupStepMigrate extends setupStep
     /* Establish ldap connection */
     $ldap = $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);
-    $res = $ldap->cat($config->current['BASE']);
+    $res = $ldap->cat($config->current['BASE'], ['gosaAclEntry']);
 
     if (!$res) {
       throw new CheckFailedException(
@@ -1079,7 +1079,7 @@ class setupStepMigrate extends setupStep
         }
       }
 
-      while ($attrs = $ldap->fetch()) {
+      while ($attrs = $ldap->fetch(TRUE)) {
         $object_base  = preg_replace('/^[^,]+,'.preg_quote($objects_ou, '/').'/i', '', $attrs['dn'], 1, $pregCount);
         $base         = preg_replace('/^[^,]+,/', '', $attrs['dn']);
 
@@ -1330,7 +1330,7 @@ class setupStepMigrate extends setupStep
     }
     $sizeLimitHit = FALSE;
 
-    while ($attrs = $ldap->fetch()) {
+    while ($attrs = $ldap->fetch(TRUE)) {
       foreach ($skip_dns as $skip_dn) {
         /* Filter out FusionDirectory internal departments */
         if (preg_match($skip_dn, $attrs['dn'])) {

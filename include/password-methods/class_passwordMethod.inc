@@ -106,7 +106,7 @@ abstract class passwordMethod
     if (!empty($dn)) {
       $ldap = $config->get_ldap_link();
       $ldap->cd($config->current['BASE']);
-      $ldap->cat($dn);
+      $ldap->cat($dn, ['userPassword']);
       $attrs = $ldap->fetch();
       if (isset($attrs['userPassword'][0])) {
         $pwd = $attrs['userPassword'][0];

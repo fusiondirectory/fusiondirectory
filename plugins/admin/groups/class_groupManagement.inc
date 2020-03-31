@@ -126,7 +126,7 @@ class groupManagement extends management
       $obj = $this->listing->getEntry($dn);
       if (isset($obj['member'])) {
         foreach ($obj['member'] as $member) {
-          $ldap->cat($member);
+          $ldap->cat($member, ['macAddress']);
           if ($attrs = $ldap->fetch()) {
             if (isset($attrs['macAddress'][0])) {
               $mac[] = $attrs['macAddress'][0];

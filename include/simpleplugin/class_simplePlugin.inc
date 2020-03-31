@@ -232,7 +232,7 @@ class simplePlugin implements SimpleTab
         /* From LDAP */
         $ldap = $config->get_ldap_link();
         $ldap->cat($this->dn);
-        $this->attrs = $ldap->fetch();
+        $this->attrs = $ldap->fetch(TRUE);
         if (empty($this->attrs)) {
           throw new NonExistingLdapNodeException('Could not open dn '.$this->dn);
         }
@@ -388,7 +388,7 @@ class simplePlugin implements SimpleTab
     global $config;
     $ldap = $config->get_ldap_link();
     $ldap->cat($this->dn);
-    $template_attrs = $ldap->fetch();
+    $template_attrs = $ldap->fetch(TRUE);
     if (!$template_attrs) {
       if (!$this->mainTab) {
         trigger_error('It seems main tab has not been saved.');
@@ -1055,7 +1055,7 @@ class simplePlugin implements SimpleTab
       $ldap = $config->get_ldap_link();
 
       /* Get current objectClasses in order to add the required ones */
-      $ldap->cat($this->dn);
+      $ldap->cat($this->dn, ['fdTemplateField','objectClass']);
       $tmp  = $ldap->fetch();
       $oc   = [];
       if ($this->is_template) {
