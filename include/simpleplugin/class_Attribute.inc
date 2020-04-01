@@ -823,6 +823,15 @@ class HiddenArrayAttribute extends HiddenAttribute
       }
     }
   }
+
+  public function computeLdapValue ()
+  {
+    if (is_array($this->value)) {
+      return array_values($this->value);
+    } else {
+      return parent::computeLdapValue();
+    }
+  }
 }
 
 /*!
