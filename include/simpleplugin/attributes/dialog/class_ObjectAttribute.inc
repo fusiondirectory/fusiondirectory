@@ -26,17 +26,15 @@ class ObjectAttribute extends DialogButtonAttribute
   protected $objectType;
   protected $storeAttr;
   protected $displayAttr;
+  protected $selectManagementParameters;
 
   function __construct (string $label, string $description, string $ldapName, bool $required, string $objectType, string $storeAttr = 'dn', string $displayAttr = 'nameAttr', $defaultValue = '', $acl = '')
   {
     parent::__construct($label, $description, $ldapName, '', 'GenericSingleSelectManagementDialog', $defaultValue, $acl);
     $this->setRequired($required);
-    $this->objectType = $objectType;
-  }
-
-  public function getSelectManagementParameters (): array
-  {
-    return [[$this->objectType], FALSE];
+    $this->storeAttr    = $storeAttr;
+    $this->displayAttr  = $displayAttr;
+    $this->objectType   = $objectType;
   }
 
   function setParent (simplePlugin &$plugin)
@@ -49,6 +47,22 @@ class ObjectAttribute extends DialogButtonAttribute
     if (in_array($this->displayAttr, ['nameAttr','mainAttr'])) {
       $this->displayAttr = $infos[$this->displayAttr];
     }
+    $attributes = [
+      'objectClass' => '*',
+      'dn'          => 'raw',
+    ];
+    if ($this->storeAttr != 'dn') {
+      $attributes[$this->storeAttr] = '*';
+    }
+    if ($this->displayAttr != 'dn') {
+      $attributes[$this->displayAttr] = '*';
+    }
+    $this->selectManagementParameters = [[$this->objectType],FALSE,$attributes];
+  }
+
+  public function getSelectManagementParameters (): array
+  {
+    return $this->selectManagementParameters;
   }
 
   function handleDialogResult ($dn, $entry)
@@ -137,15 +151,17 @@ class ObjectAttribute extends DialogButtonAttribute
 
   protected function loadAttrValue (array $attrs)
   {
-    global $config;
     parent::loadAttrValue($attrs);
     if (!$this->isTemplate()) {
-      $dn = $this->getValue();
-      if ($dn != '') {
-        $ldap = $config->get_ldap_link();
-        $ldap->cat($dn, [$this->displayAttr]);
-        if ($attrs = $ldap->fetch(TRUE)) {
-          $this->handleDialogResult($dn, $attrs);
+      $value = $this->getValue();
+      if ($value != '') {
+        if ($this->storeAttr == 'dn') {
+          $objects = objects::ls($this->objectType, $this->selectManagementParameters[2], $value, '', FALSE, 'base');
+        } else {
+          $objects = objects::ls($this->objectType, $this->selectManagementParameters[2], NULL, '('.$this->storeAttr.'='.ldap_escape_f($value).')');
+        }
+        if (!empty($objects)) {
+          $this->handleDialogResult(key($objects), reset($objects));
         } else {
           $this->buttonText = NULL;
         }
