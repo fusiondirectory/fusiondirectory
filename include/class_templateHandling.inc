@@ -138,6 +138,10 @@ class templateHandling
       $result = $attrs[$mask];
       if (is_array($result)) {
         unset($result['count']);
+        if (empty($result)) {
+          /* No value and empty value is the same in LDAP so we have to treat them the same */
+          $result = [''];
+        }
       } else {
         $result = [$result];
       }
