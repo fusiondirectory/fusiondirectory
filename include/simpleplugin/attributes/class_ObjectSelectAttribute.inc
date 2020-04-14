@@ -30,14 +30,16 @@
 class ObjectSelectAttribute extends SelectAttribute
 {
   protected $objectType;
-  protected $objectAttrs  = NULL;
+  protected $storeAttr;
+  protected $displayAttr;
   protected $objectFilter = '';
 
-  function __construct ($label, $description, $ldapName, $required, $objectType, $objectAttrs = NULL, $objectFilter = '', $acl = "")
+  function __construct (string $label, string $description, string $ldapName, bool $required, array $objectTypes, string $storeAttr = 'dn', string $displayAttr = 'nameAttr', $objectFilter = '', $acl = '')
   {
-    parent::__construct($label, $description, $ldapName, $required, [], "", NULL, $acl);
-    $this->objectType   = $objectType;
-    $this->objectAttrs  = $objectAttrs;
+    parent::__construct($label, $description, $ldapName, $required, [], '', NULL, $acl);
+    $this->objectTypes  = $objectTypes;
+    $this->storeAttr    = $storeAttr;
+    $this->displayAttr  = $displayAttr;
     $this->objectFilter = $objectFilter;
   }
 
@@ -51,7 +53,30 @@ class ObjectSelectAttribute extends SelectAttribute
 
   function updateChoices ()
   {
-    $objects = objects::ls($this->objectType, $this->objectAttrs, NULL, $this->objectFilter);
-    $this->setChoices(array_keys($objects), array_values($objects));
+    $choices = [];
+    $outputs = [];
+    foreach ($this->objectTypes as $objectType) {
+      try {
+        $infos = objects::infos($this->objectType);
+        $realStoreAttr = $this->storeAttr;
+        if (in_array($this->storeAttr, ['nameAttr','mainAttr'])) {
+          $realStoreAttr = $infos[$this->storeAttr];
+        }
+        $realDisplayAttr = $this->displayAttr;
+        if (in_array($this->displayAttr, ['nameAttr','mainAttr'])) {
+          $realDisplayAttr = $infos[$this->displayAttr];
+        }
+        $attributes = [
+          $realStoreAttr    => (($realStoreAttr == 'dn') ? 'raw' : '1'),
+          $realDisplayAttr  => (($realDisplayAttr == 'dn') ? 'raw' : '1'),
+        ];
+        $objects = objects::ls($objectType, $attributes, NULL, $this->objectFilter);
+        array_push($choices, ...array_column($objects, $realStoreAttr));
+        array_push($outputs, ...array_column($objects, $realDisplayAttr));
+      } catch (NonExistingObjectTypeException $e) {
+        continue;
+      }
+    }
+    $this->setChoices($choices, $outputs);
   }
 }

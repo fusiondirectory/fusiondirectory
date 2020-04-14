@@ -24,13 +24,14 @@
 class ObjectAttribute extends DialogButtonAttribute
 {
   protected $objectType;
+  protected $storeAttr;
   protected $displayAttr;
 
-  function __construct ($label, $description, $ldapName, $required, $objectType, $defaultValue = '', $acl = '')
+  function __construct (string $label, string $description, string $ldapName, bool $required, string $objectType, string $storeAttr = 'dn', string $displayAttr = 'nameAttr', $defaultValue = '', $acl = '')
   {
     parent::__construct($label, $description, $ldapName, '', 'GenericSingleSelectManagementDialog', $defaultValue, $acl);
     $this->setRequired($required);
-    $this->objectType                 = $objectType;
+    $this->objectType = $objectType;
   }
 
   public function getSelectManagementParameters (): array
@@ -42,12 +43,21 @@ class ObjectAttribute extends DialogButtonAttribute
   {
     parent::setParent($plugin);
     $infos = objects::infos($this->objectType);
-    $this->displayAttr = $infos['nameAttr'];
+    if (in_array($this->storeAttr, ['nameAttr','mainAttr'])) {
+      $this->storeAttr = $infos[$this->storeAttr];
+    }
+    if (in_array($this->displayAttr, ['nameAttr','mainAttr'])) {
+      $this->displayAttr = $infos[$this->displayAttr];
+    }
   }
 
   function handleDialogResult ($dn, $entry)
   {
-    $this->setValue($dn);
+    $value = $entry[$this->storeAttr];
+    if (is_array($value)) {
+      $value = $value[0];
+    }
+    $this->setValue($value);
 
     $this->buttonText = $entry[$this->displayAttr];
     if (is_array($this->buttonText)) {

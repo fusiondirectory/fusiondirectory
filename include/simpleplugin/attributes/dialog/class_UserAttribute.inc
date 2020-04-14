@@ -23,8 +23,8 @@
  */
 class UserAttribute extends ObjectAttribute
 {
-  function __construct ($label, $description, $ldapName, $required, $defaultValue = '', $acl = '')
+  function __construct (string $label, string $description, string $ldapName, bool $required, string $storeAttr = 'dn', string $displayAttr = 'nameAttr', $defaultValue = '', $acl = '')
   {
-    parent::__construct($label, $description, $ldapName, $required, 'user', $defaultValue = '', $acl = '');
+    parent::__construct($label, $description, $ldapName, $required, 'user', $storeAttr, $displayAttr, $defaultValue, $acl);
   }
 }
