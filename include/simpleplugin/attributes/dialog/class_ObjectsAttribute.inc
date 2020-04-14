@@ -31,19 +31,45 @@ class ObjectsAttribute extends GenericDialogAttribute
   protected $selectManagementParameters;
   protected $filterElementDefinitions;
 
-  function __construct (string $label, string $description, string $ldapName, bool $required, array $objectTypes, array $defaultValue = [], string $store_attr = 'dn', string $display_attr = 'cn', array $filterElementDefinitions = NULL, string $acl = '')
+  function __construct (string $label, string $description, string $ldapName, bool $required, array $objectTypes, array $defaultValue = [], string $store_attr = 'dn', string $display_attr = 'nameAttr', array $filterElementDefinitions = NULL, string $acl = '')
   {
     parent::__construct($label, $description, $ldapName, $required, $defaultValue, $store_attr, $display_attr, $acl);
-    $this->selectManagementParameters = [
-      $objectTypes,
-      TRUE,
-      [
-        'objectClass' => '*',
-        $store_attr   => (($store_attr == 'dn') ? 'raw' : '*'),
-        $display_attr => (($display_attr == 'dn') ? 'raw' : '*'),
-      ]
+    $attributes = [
+      'objectClass' => '*',
+      'dn'          => 'raw',
     ];
-    $this->filterElementDefinitions = $filterElementDefinitions;
+    if (!in_array($store_attr, ['dn','nameAttr','mainAttr'])) {
+      $attributes[$store_attr] = '*';
+    }
+    if (!in_array($display_attr, ['dn','nameAttr','mainAttr'])) {
+      $attributes[$display_attr] = '*';
+    }
+    $specialAttributes = array_intersect([$store_attr,$display_attr], ['nameAttr','mainAttr']);
+    foreach ($objectTypes as $type) {
+      try {
+        if (!empty($specialAttributes)) {
+          $infos = objects::infos($type);
+          foreach ($specialAttributes as $attribute) {
+            $attributes[$infos[$attribute]] = '*';
+          }
+        }
+        $filterAttributes = objects::getFilterObject($type)->listUsedAttributes();
+        foreach ($filterAttributes as $attribute) {
+          if ($attribute != 'dn') {
+            $attributes[$attribute] = '*';
+          }
+        }
+      } catch (NonExistingObjectTypeException $e) {
+        continue;
+      }
+    }
+    $this->selectManagementParameters = [$objectTypes,TRUE,$attributes];
+    $this->filterElementDefinitions   = $filterElementDefinitions;
+  }
+
+  protected function ldapAttributesToGet (): array
+  {
+    return array_keys($this->selectManagementParameters[2]);
   }
 
   public function getSelectManagementParameters (): array
@@ -59,5 +85,42 @@ class ObjectsAttribute extends GenericDialogAttribute
       $parameters[] = $this->filterElementDefinitions;
     }
     return $parameters;
+  }
+
+  protected function fillDisplayValueFrom ($i, $attrs)
+  {
+    if ($attrs) {
+      $objectType = NULL;
+      if (is_array($attrs)) {
+        foreach ($this->selectManagementParameters[0] as $type) {
+          try {
+            if (objects::isOfType($attrs, $type)) {
+              $objectType = $type;
+            }
+          } catch (NonExistingObjectTypeException $e) {
+            continue;
+          }
+        }
+      } else {
+        $objectType = $attrs->getTemplatedType();
+      }
+      if ($objectType !== NULL) {
+        $infos = objects::infos($objectType);
+        if (in_array($this->display_attr, ['nameAttr','mainAttr'])) {
+          $display = $attrs[$infos[$this->display_attr]][0];
+        } else {
+          $display = $attrs[$this->display_attr][0];
+        }
+        $this->displays[$i] = sprintf(_('%s (%s)'), trim($display), $infos['name']);
+      }
+      if (!isset($this->displays[$i])) {
+        trigger_error('Unkown type for "'.$this->value[$i].'"');
+        $this->displays[$i] = sprintf(_('Unknown type : %s'), $this->value[$i]);
+      }
+    } elseif (($attrs === NULL) && $this->isTemplate()) {
+      $this->displays[$i] = $this->value[$i];
+    } else {
+      $this->displays[$i] = sprintf(_('Non existing dn: %s'), $this->value[$i]);
+    }
   }
 }

@@ -3,7 +3,7 @@
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
 
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011-2019  FusionDirectory
+  Copyright (C) 2011-2020  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -40,13 +40,13 @@ class GroupMembersAttribute extends ObjectsAttribute
   {
     if ($attrs) {
       $code       = FALSE;
-      $objectType = '';
+      $objectType = NULL;
       if (is_array($attrs)) {
-        foreach (ogroup::$objectTypes as $key => $value) {
+        foreach (ogroup::$objectTypes as $key => $type) {
           try {
-            if (objects::isOfType($attrs, $value)) {
+            if (objects::isOfType($attrs, $type)) {
               $code       = $key;
-              $objectType = $value;
+              $objectType = $type;
             }
           } catch (NonExistingObjectTypeException $e) {
             continue;
@@ -58,31 +58,25 @@ class GroupMembersAttribute extends ObjectsAttribute
       }
       if ($code !== FALSE) {
         $infos = objects::infos($objectType);
-        $this->types[$i]    = $code;
-        $this->displays[$i] = $attrs[$infos['nameAttr']][0];
-        if (strtolower($objectType) == 'user') {
-          if (isset($attrs['description'][0])) {
-            $this->displays[$i] .= ' ['.$attrs['uid'][0].' - '.$attrs['description'][0].']';
-          } else {
-            $this->displays[$i] .= ' ['.$attrs['uid'][0].']';
-          }
-        } elseif (isset($attrs['description'][0])) {
-          $this->displays[$i] .= ' ['.$attrs['description'][0].']';
+        if (in_array($this->display_attr, ['nameAttr','mainAttr'])) {
+          $display = $attrs[$infos[$this->display_attr]][0];
+        } else {
+          $display = $attrs[$this->display_attr][0];
         }
+        $this->displays[$i] = sprintf(_('%s (%s)'), trim($display), $infos['name']);
+        $this->types[$i]    = $code;
       }
       if (!isset($this->displays[$i])) {
         trigger_error('Unkown type for "'.$this->value[$i].'"');
         $this->displays[$i] = sprintf(_('Unknown type : %s'), $this->value[$i]);
         $this->types[$i]    = 'I';
       }
+    } elseif (($attrs === NULL) && $this->isTemplate()) {
+      $this->displays[$i] = $this->value[$i];
+        $this->types[$i]  = 'I';
     } else {
-      if (($attrs === NULL) && $this->isTemplate()) {
-        $this->displays[$i] = $this->value[$i];
-        $this->types[$i]    = 'I';
-      } else {
-        $this->displays[$i] = sprintf(_('Non existing dn: %s'), $this->value[$i]);
-        $this->types[$i]    = 'I';
-      }
+      $this->displays[$i] = sprintf(_('Non existing dn: %s'), $this->value[$i]);
+        $this->types[$i]  = 'I';
     }
   }
 
@@ -115,19 +109,6 @@ class GroupMembersAttribute extends ObjectsAttribute
     }
     $display .= '</select><br/>'."\n";
     return $display;
-  }
-
-  function ldapAttributesToGet ()
-  {
-    return [
-      'objectClass',
-      'cn',
-      'sn',
-      'ou',
-      'uid',
-      'givenName',
-      'description',
-    ];
   }
 
   function listObjectTypes ()

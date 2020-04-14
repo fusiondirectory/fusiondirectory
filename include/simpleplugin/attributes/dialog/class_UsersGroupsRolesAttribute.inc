@@ -25,40 +25,8 @@
  */
 class UsersGroupsRolesAttribute extends ObjectsAttribute
 {
-  function __construct (string $label, string $description, string $ldapName, bool $required = FALSE, array $defaultValue = [], string $store_attr = 'dn', string $display_attr = 'cn', array $filterElementDefinitions = NULL, string $acl = '')
+  function __construct (string $label, string $description, string $ldapName, bool $required = FALSE, array $defaultValue = [], string $store_attr = 'dn', string $display_attr = 'nameAttr', array $filterElementDefinitions = NULL, string $acl = '')
   {
     parent::__construct($label, $description, $ldapName, $required, ['user', 'group', 'role', 'ogroup'], $defaultValue, $store_attr, $display_attr, $filterElementDefinitions, $acl);
-    $this->selectManagementParameters[2]['cn']          = '*';
-    $this->selectManagementParameters[2]['uid']         = '*';
-    $this->selectManagementParameters[2]['objectClass'] = '*';
-  }
-
-  protected function ldapAttributesToGet ()
-  {
-    return array_values(array_unique([$this->store_attr, $this->display_attr, 'cn', 'uid', 'objectClass']));
-  }
-
-  protected function fillDisplayValueFrom ($i, $attrs)
-  {
-    if ($this->isTemplate() && ($attrs === NULL)) {
-      $this->displays[$i] = $this->value[$i];
-    } elseif (!isset($attrs[$this->display_attr])) {
-      unset($this->value[$i]);
-    } else {
-      $cn = $attrs['cn'][0];
-      if ($this->display_attr == 'dn') {
-        $this->displays[$i] = $attrs['dn'];
-      } elseif (in_array('posixGroup', $attrs['objectClass'])) {
-        $this->displays[$i] = sprintf(_('POSIX group %s'), trim($cn));
-      } elseif (in_array('organizationalRole', $attrs['objectClass'])) {
-        $this->displays[$i] = sprintf(_('Role %s'), trim($cn));
-      } elseif (in_array('groupOfNames', $attrs['objectClass'])) {
-        $this->displays[$i] = sprintf(_('Group %s'), trim($cn));
-      } elseif (isset($attrs['uid'])) {
-        $this->displays[$i] = trim($attrs['uid'][0]);
-      } else {
-        $this->displays[$i] = $attrs[$this->display_attr][0];
-      }
-    }
   }
 }
