@@ -1,7 +1,8 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2016  FusionDirectory
+
+  Copyright (C) 2012-2020  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -20,7 +21,7 @@
 
 /*!
  * \file class_SelectAttribute.inc
- * Source code for the Select attributes
+ * Source code for SelectAttribute
  */
 
 /*! \brief This class allow to handle easily a Select LDAP attribute with a set of choices
@@ -245,37 +246,5 @@ class SelectAttribute extends Attribute
         $this->outputs['%askme%'] = '%askme%';
       }
     }
-  }
-}
-
-/*! \brief This class allows to handle a select attribute which allow to choose an object
- *
- */
-class ObjectSelectAttribute extends SelectAttribute
-{
-  protected $objectType;
-  protected $objectAttrs  = NULL;
-  protected $objectFilter = '';
-
-  function __construct ($label, $description, $ldapName, $required, $objectType, $objectAttrs = NULL, $objectFilter = '', $acl = "")
-  {
-    parent::__construct($label, $description, $ldapName, $required, [], "", NULL, $acl);
-    $this->objectType   = $objectType;
-    $this->objectAttrs  = $objectAttrs;
-    $this->objectFilter = $objectFilter;
-  }
-
-  function setParent (simplePlugin &$plugin)
-  {
-    parent::setParent($plugin);
-    if (is_object($this->plugin)) {
-      $this->updateChoices();
-    }
-  }
-
-  function updateChoices ()
-  {
-    $objects = objects::ls($this->objectType, $this->objectAttrs, NULL, $this->objectFilter);
-    $this->setChoices(array_keys($objects), array_values($objects));
   }
 }
