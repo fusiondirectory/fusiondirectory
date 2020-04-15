@@ -22,11 +22,12 @@
 
 class GroupMembersAttribute extends ObjectsAttribute
 {
-  protected $types = [];
+  protected $typeToCodeMap;
 
   function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = [], $store_attr = 'dn', $display_attr = 'cn', array $filterElementDefinitions = NULL, $acl = '')
   {
     parent::__construct($label, $description, $ldapName, $required, array_values(ogroup::$objectTypes), $defaultValue, $store_attr, $display_attr, $filterElementDefinitions, $acl);
+    $this->typeToCodeMap = array_flip(array_map('strtolower', ogroup::$objectTypes));
   }
 
   function getFilterBlackList ()
@@ -36,86 +37,20 @@ class GroupMembersAttribute extends ObjectsAttribute
     ];
   }
 
-  protected function fillDisplayValueFrom ($i, $attrs)
+  protected function typeToCode ($type): string
   {
-    if ($attrs) {
-      $code       = FALSE;
-      $objectType = NULL;
-      if (is_array($attrs)) {
-        foreach (ogroup::$objectTypes as $key => $type) {
-          try {
-            if (objects::isOfType($attrs, $type)) {
-              $code       = $key;
-              $objectType = $type;
-            }
-          } catch (NonExistingObjectTypeException $e) {
-            continue;
-          }
-        }
-      } else {
-        $objectType = $attrs->getTemplatedType();
-        $code       = array_search(strtolower($objectType), array_map('strtolower', ogroup::$objectTypes));
-      }
-      if ($code !== FALSE) {
-        $infos = objects::infos($objectType);
-        if (in_array($this->display_attr, ['nameAttr','mainAttr'])) {
-          $display = $attrs[$infos[$this->display_attr]][0];
-        } else {
-          $display = $attrs[$this->display_attr][0];
-        }
-        $this->displays[$i] = sprintf(_('%s (%s)'), trim($display), $infos['name']);
-        $this->types[$i]    = $code;
-      }
-      if (!isset($this->displays[$i])) {
-        trigger_error('Unkown type for "'.$this->value[$i].'"');
-        $this->displays[$i] = sprintf(_('Unknown type : %s'), $this->value[$i]);
-        $this->types[$i]    = 'I';
-      }
-    } elseif (($attrs === NULL) && $this->isTemplate()) {
-      $this->displays[$i] = $this->value[$i];
-        $this->types[$i]  = 'I';
+    if ($type === FALSE) {
+      return 'I';
     } else {
-      $this->displays[$i] = sprintf(_('Non existing dn: %s'), $this->value[$i]);
-        $this->types[$i]  = 'I';
+      return $this->typeToCodeMap[strtolower($type)];
     }
-  }
-
-  function renderOnlyFormInput (): string
-  {
-    if (($this->size < 15) && ($this->size < count($this->value))) {
-      $this->size = min(15, count($this->value));
-    }
-    $id       = $this->getHtmlId();
-    $display  = '<select multiple="multiple"  name="row'.$id.'[]" id="row'.$id.'" size="'.$this->size.'"'.
-                ($this->disabled ? ' disabled="disabled"' : '').
-                ' >'."\n";
-    foreach ($this->getDisplayValues() as $key => $value) {
-      $infos = [];
-      try {
-        if ($this->types[$key] !== 'I') {
-          $infos = objects::infos(ogroup::$objectTypes[$this->types[$key]]);
-        }
-      } catch (NonExistingObjectTypeException $e) {
-        /* Ignore non-existing types, plugins may have been removed */
-      }
-      if (isset($infos['icon'])) {
-        $img = $infos['icon'];
-      } else {
-        $img = 'images/empty.png';
-      }
-      $display .= '<option value="'.$key.'" class="select"'.
-                  ' style="background-image:url(\''.get_template_path($img).'\');"'.
-                  '>'.$value."</option>\n";
-    }
-    $display .= '</select><br/>'."\n";
-    return $display;
   }
 
   function listObjectTypes ()
   {
     /* Refresh types and displays */
     $this->getDisplayValues();
-    return '['.join(array_unique($this->types)).']';
+    return '['.implode('', array_map([$this, 'typeToCode'], array_unique($this->types))).']';
   }
 
   function getTypedValues ()
@@ -123,19 +58,14 @@ class GroupMembersAttribute extends ObjectsAttribute
     $values = $this->getValue();
     $ret    = [];
     foreach ($values as $i => $v) {
-      if (!isset($ret[$this->types[$i]])) {
-        $ret[$this->types[$i]] = [];
+      $code = $this->typeToCode($this->types[$i]);
+      if (!isset($ret[$code])) {
+        $ret[$code] = [];
       }
-      $ret[$this->types[$i]][] = $v;
+      $ret[$code][] = $v;
     }
 
     return $ret;
-  }
-
-  protected function removeValue ($row)
-  {
-    parent::removeValue($row);
-    unset($this->types[$row]);
   }
 }
 
