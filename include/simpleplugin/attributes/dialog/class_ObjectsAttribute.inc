@@ -30,6 +30,7 @@ class ObjectsAttribute extends GenericDialogAttribute
 
   protected $selectManagementParameters;
   protected $filterElementDefinitions;
+  protected $types = [];
 
   function __construct (string $label, string $description, string $ldapName, bool $required, array $objectTypes, array $defaultValue = [], string $store_attr = 'dn', string $display_attr = 'nameAttr', array $filterElementDefinitions = NULL, string $acl = '')
   {
@@ -105,22 +106,63 @@ class ObjectsAttribute extends GenericDialogAttribute
         $objectType = $attrs->getTemplatedType();
       }
       if ($objectType !== NULL) {
-        $infos = objects::infos($objectType);
         if (in_array($this->display_attr, ['nameAttr','mainAttr'])) {
+          $infos = objects::infos($objectType);
           $display = $attrs[$infos[$this->display_attr]][0];
         } else {
           $display = $attrs[$this->display_attr][0];
         }
-        $this->displays[$i] = sprintf(_('%s (%s)'), trim($display), $infos['name']);
+        $this->displays[$i] = trim($display);
+        $this->types[$i]    = $objectType;
       }
       if (!isset($this->displays[$i])) {
         trigger_error('Unkown type for "'.$this->value[$i].'"');
         $this->displays[$i] = sprintf(_('Unknown type : %s'), $this->value[$i]);
+        $this->types[$i]    = FALSE;
       }
     } elseif (($attrs === NULL) && $this->isTemplate()) {
       $this->displays[$i] = $this->value[$i];
+      $this->types[$i]    = FALSE;
     } else {
       $this->displays[$i] = sprintf(_('Non existing dn: %s'), $this->value[$i]);
+      $this->types[$i]    = FALSE;
     }
+  }
+
+  function renderOnlyFormInput (): string
+  {
+    if (($this->size < 15) && ($this->size < count($this->value))) {
+      $this->size = min(15, count($this->value));
+    }
+    $id       = $this->getHtmlId();
+    $display  = '<select multiple="multiple" name="row'.$id.'[]" id="row'.$id.'" size="'.$this->size.'"'.
+                ($this->disabled ? ' disabled="disabled"' : '').
+                ' >'."\n";
+    foreach ($this->getDisplayValues() as $key => $value) {
+      $infos = [];
+      try {
+        if ($this->types[$key] !== FALSE) {
+          $infos = objects::infos($this->types[$key]);
+        }
+      } catch (NonExistingObjectTypeException $e) {
+        /* Ignore non-existing types, plugins may have been removed */
+      }
+      if (isset($infos['icon'])) {
+        $img = $infos['icon'];
+      } else {
+        $img = 'images/empty.png';
+      }
+      $display .= '<option value="'.$key.'" class="select"'.
+                  ' style="background-image:url(\''.get_template_path($img).'\');"'.
+                  '>'.$value."</option>\n";
+    }
+    $display .= '</select><br/>'."\n";
+    return $display;
+  }
+
+  protected function removeValue ($row)
+  {
+    parent::removeValue($row);
+    unset($this->types[$row]);
   }
 }
