@@ -175,6 +175,12 @@ class ObjectsAttribute extends GenericDialogAttribute
     return $display;
   }
 
+  function setValue ($value)
+  {
+    $this->types = [];
+    parent::setValue($value);
+  }
+
   protected function removeValue ($row)
   {
     parent::removeValue($row);

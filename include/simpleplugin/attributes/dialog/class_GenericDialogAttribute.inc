@@ -63,6 +63,13 @@ class GenericDialogAttribute extends DialogAttribute
     unset($this->value[$row]);
   }
 
+  function setValue ($value)
+  {
+    parent::setValue($value);
+    $this->displays = [];
+    $this->getDisplayValues();
+  }
+
   protected function sortValues ()
   {
     asort($this->value);
@@ -113,7 +120,7 @@ class GenericDialogAttribute extends DialogAttribute
     if ($this->isTemplate() && ($attrs === NULL)) {
       $this->displays[$i] = $this->value[$i];
     } elseif (!isset($attrs[$this->display_attr])) {
-      unset($this->value[$i]);
+      $this->removeValue($i);
     } else {
       if ($this->display_attr == 'dn') {
         $this->displays[$i] = $attrs['dn'];
