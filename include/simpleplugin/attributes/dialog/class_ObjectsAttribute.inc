@@ -46,7 +46,7 @@ class ObjectsAttribute extends GenericDialogAttribute
       $attributes[$display_attr] = '*';
     }
     $specialAttributes = array_intersect([$store_attr,$display_attr], ['nameAttr','mainAttr']);
-    foreach ($objectTypes as $type) {
+    foreach ($objectTypes as $i => $type) {
       try {
         if (!empty($specialAttributes)) {
           $infos = objects::infos($type);
@@ -61,10 +61,10 @@ class ObjectsAttribute extends GenericDialogAttribute
           }
         }
       } catch (NonExistingObjectTypeException $e) {
-        continue;
+        unset($objectTypes[$i]);
       }
     }
-    $this->selectManagementParameters = [$objectTypes,TRUE,$attributes];
+    $this->selectManagementParameters = [array_values($objectTypes),TRUE,$attributes];
     $this->filterElementDefinitions   = $filterElementDefinitions;
   }
 
