@@ -49,7 +49,7 @@ class IconThemeDir
    * Defaults to 2 if not present. */
   private $Threshold = 2;
 
-  function __construct($infos)
+  public function __construct ($infos)
   {
     $this->Size     = $infos['Size'];
     $this->MinSize  = $infos['Size'];
@@ -66,7 +66,7 @@ class IconThemeDir
     }
   }
 
-  function MatchesSize($size)
+  public function MatchesSize ($size)
   {
     switch ($this->Type) {
       case 'Fixed':
@@ -78,7 +78,7 @@ class IconThemeDir
     }
   }
 
-  function SizeDistance($size)
+  public function SizeDistance ($size)
   {
     switch ($this->Type) {
       case 'Fixed':
@@ -106,7 +106,7 @@ class IconTheme
   private $path;
   private $parent;
 
-  function __construct($folder, $default_parent)
+  public function __construct ($folder, $default_parent)
   {
     $this->path = $folder;
     $datas  = @parse_ini_file($folder.'/index.theme', TRUE, INI_SCANNER_RAW);
@@ -127,13 +127,16 @@ class IconTheme
     }
   }
 
-  function FindIcon($context, $icon, $size)
+  public function FindIcon ($context, $icon, $size)
   {
     $context = strtolower($context);
+    if (strpos($icon, '/') !== FALSE) {
+      return NULL;
+    }
     return $this->FindIconHelper($context, $icon, $size);
   }
 
-  function FindIconHelper($context, $icon, $size)
+  protected function FindIconHelper ($context, $icon, $size)
   {
     $filename = $this->LookupIcon($context, $icon, $size);
     if ($filename != NULL) {
@@ -159,7 +162,7 @@ class IconTheme
     return NULL;
   }
 
-  function LookupIcon($context, $iconname, $size)
+  protected function LookupIcon ($context, $iconname, $size)
   {
     if (!isset($this->subdirs[$context])) {
       return NULL;
@@ -222,7 +225,8 @@ class IconTheme
     }
     $_SESSION[static::$session_var] = $themes;
   }
-  static public function findThemeIcon($theme, $context, $icon, $size)
+
+  static public function findThemeIcon ($theme, $context, $icon, $size)
   {
     if (!isset($_SESSION[static::$session_var])) {
       die('Error: no theme found in session');
