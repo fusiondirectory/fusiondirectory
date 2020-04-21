@@ -342,7 +342,7 @@ class simpleTabs
   /*!
    * \brief Check
    */
-  protected function check ()
+  public function check ()
   {
     global $config;
     $messages = [];
