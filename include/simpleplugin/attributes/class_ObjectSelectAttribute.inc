@@ -29,7 +29,7 @@
  */
 class ObjectSelectAttribute extends SelectAttribute
 {
-  protected $objectType;
+  protected $objectTypes;
   protected $storeAttr;
   protected $displayAttr;
   protected $objectFilter = '';
@@ -57,7 +57,7 @@ class ObjectSelectAttribute extends SelectAttribute
     $outputs = [];
     foreach ($this->objectTypes as $objectType) {
       try {
-        $infos = objects::infos($this->objectType);
+        $infos = objects::infos($objectType);
         $realStoreAttr = $this->storeAttr;
         if (in_array($this->storeAttr, ['nameAttr','mainAttr'])) {
           $realStoreAttr = $infos[$this->storeAttr];
