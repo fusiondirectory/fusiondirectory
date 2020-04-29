@@ -71,8 +71,12 @@ class ObjectSelectAttribute extends SelectAttribute
           $realDisplayAttr  => (($realDisplayAttr == 'dn') ? 'raw' : '1'),
         ];
         $objects = objects::ls($objectType, $attributes, NULL, $this->objectFilter);
-        array_push($choices, ...array_column($objects, $realStoreAttr));
-        array_push($outputs, ...array_column($objects, $realDisplayAttr));
+        foreach (array_column($objects, $realStoreAttr) as $choice) {
+          $choices[] = $choice;
+        }
+        foreach (array_column($objects, $realDisplayAttr) as $output) {
+          $outputs[] = $output;
+        }
       } catch (NonExistingObjectTypeException $e) {
         continue;
       }

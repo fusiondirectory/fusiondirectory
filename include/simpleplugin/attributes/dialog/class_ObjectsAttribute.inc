@@ -91,10 +91,14 @@ class ObjectsAttribute extends GenericDialogAttribute
   protected function fillDisplayValue ($i)
   {
     $value = $this->value[$i];
-    if ($this->store_attr == 'dn') {
-      $objects = objects::ls($this->selectManagementParameters[0], $this->selectManagementParameters[2], $value, '', FALSE, 'base');
-    } else {
-      $objects = objects::ls($this->selectManagementParameters[0], $this->selectManagementParameters[2], NULL, '('.$this->store_attr.'='.ldap_escape_f($value).')');
+    try {
+      if ($this->store_attr == 'dn') {
+        $objects = objects::ls($this->selectManagementParameters[0], $this->selectManagementParameters[2], $value, '', FALSE, 'base');
+      } else {
+        $objects = objects::ls($this->selectManagementParameters[0], $this->selectManagementParameters[2], NULL, '('.$this->store_attr.'='.ldap_escape_f($value).')');
+      }
+    } catch (EmptyFilterException $e) {
+      $objects = [];
     }
     if (empty($objects) && $this->isTemplate()) {
       $this->fillDisplayValueFrom($i, NULL);
