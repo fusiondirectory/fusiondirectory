@@ -57,7 +57,7 @@ class templateDialog
 
     if (($this->target === NULL) &&
         is_object($this->template) &&
-        (isset($_POST[$this->post_finish]) || isset($_GET[$this->post_finish]) || empty($this->template->getNeeded()))
+        (isset($_POST[$this->post_finish]) || isset($_GET[$this->post_finish]))
         ) {
       $this->template->save_object();
       return $this->handle_finish();
@@ -81,6 +81,9 @@ class templateDialog
         return FALSE;
       } else {
         $this->template->save_object();
+        if (empty($this->template->getNeeded())) {
+          return $this->handle_finish();
+        }
       }
     }
 
