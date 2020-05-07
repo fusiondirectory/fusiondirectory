@@ -419,10 +419,7 @@ class user extends simplePlugin
     if (isset($attrs['pwdPolicySubentry'][0])) {
       $ppolicydn = $attrs['pwdPolicySubentry'][0];
     } else {
-      $ppolicydn = $config->get_cfg_value('ppolicyDefaultCn', '');
-      if (!empty($ppolicydn)) {
-        $ppolicydn = 'cn='.$ppolicydn.','.get_ou('ppolicyRDN').$config->current['BASE'];
-      }
+      $ppolicydn = $config->get_cfg_value('ppolicyDefaultDn', '');
     }
 
     $policy = NULL;
