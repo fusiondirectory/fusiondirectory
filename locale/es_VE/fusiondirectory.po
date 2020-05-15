@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2020-03-17 10:11+0000\n"
+"POT-Creation-Date: 2020-05-15 08:34+0000\n"
 "PO-Revision-Date: 2018-08-13 19:47+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>, 2019\n"
 "Language-Team: Spanish (Venezuela) (https://www.transifex.com/fusiondirectory/teams/12202/es_VE/)\n"
@@ -166,7 +166,7 @@ msgstr "Fecha"
 #: include/management/snapshot/class_SnapshotAttribute.inc:45
 #: include/management/snapshot/class_SnapshotAttribute.inc:51
 #: plugins/admin/departments/class_department.inc:71
-#: plugins/admin/groups/class_ogroup.inc:229
+#: plugins/admin/groups/class_ogroup.inc:140
 #: plugins/admin/groups/class_roleGeneric.inc:91
 #: plugins/admin/aclrole/class_aclRole.inc:102
 #: plugins/personal/generic/class_user.inc:108
@@ -210,8 +210,8 @@ msgstr ""
 #: include/functions.inc:438 include/functions.inc:485
 #: include/functions.inc:593
 #: include/simpleplugin/attributes/class_SetAttribute.inc:795
-#: include/class_userinfo.inc:1038 include/class_ldap.inc:994
-#: include/class_ldap.inc:1359 plugins/config/class_recoveryConfig.inc:138
+#: include/class_userinfo.inc:1038 include/class_ldap.inc:1002
+#: include/class_ldap.inc:1367 plugins/config/class_recoveryConfig.inc:138
 #: plugins/addons/dashboard/class_dashboard.inc:78
 #: plugins/addons/dashboard/class_dashboardUsers.inc:90
 #: plugins/addons/dashboard/class_dashboardUsers.inc:121
@@ -327,12 +327,12 @@ msgid "Export list"
 msgstr "Exportar lista"
 
 #: include/management/class_management.inc:236
+#: include/simpleplugin/attributes/dialog/class_ObjectAttribute.inc:109
+#: include/simpleplugin/attributes/dialog/class_ObjectAttribute.inc:110
 #: include/simpleplugin/attributes/class_PhoneNumberAttribute.inc:120
 #: include/simpleplugin/attributes/class_PhoneNumberAttribute.inc:121
 #: include/simpleplugin/attributes/class_SetAttribute.inc:558
 #: include/simpleplugin/attributes/class_SetAttribute.inc:559
-#: include/simpleplugin/class_dialogAttributes.inc:728
-#: include/simpleplugin/class_dialogAttributes.inc:729
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:191
 msgid "Edit"
 msgstr "Editar"
@@ -355,10 +355,10 @@ msgid "Apply template"
 msgstr "Aplicar plantilla"
 
 #: include/management/class_management.inc:281
+#: include/simpleplugin/attributes/dialog/class_ObjectAttribute.inc:119
+#: include/simpleplugin/attributes/dialog/class_ObjectAttribute.inc:120
 #: include/simpleplugin/attributes/class_FileAttribute.inc:440
 #: include/simpleplugin/attributes/class_FileAttribute.inc:441
-#: include/simpleplugin/class_dialogAttributes.inc:738
-#: include/simpleplugin/class_dialogAttributes.inc:739
 msgid "Remove"
 msgstr "Eliminar"
 
@@ -606,7 +606,7 @@ msgstr "Nombre de la plantilla"
 #: include/functions.inc:531 include/functions.inc:1306
 #: include/functions.inc:1344 include/functions.inc:1375
 #: include/class_acl.inc:103 include/class_userinfo.inc:1112
-#: include/class_ldap.inc:944 include/class_ldap.inc:982
+#: include/class_ldap.inc:952 include/class_ldap.inc:990
 msgid "Internal error"
 msgstr "error interno"
 
@@ -1472,12 +1472,12 @@ msgid ""
 "The supplied base is not valid and has been reset to the previous value!"
 msgstr "¡La base introducida no es válida, se ha dejado el valor anterior!"
 
-#: include/class_templateHandling.inc:143
+#: include/class_templateHandling.inc:149
 #, php-format
 msgid "\"%s\" was not found in attributes"
 msgstr ""
 
-#: include/class_templateHandling.inc:601
+#: include/class_templateHandling.inc:607
 #, php-format
 msgid ""
 "Recursive dependency in the template fields: \"%1$s\" cannot depend on "
@@ -1533,6 +1533,30 @@ msgstr ""
 #: include/simpleplugin/attributes/class_BooleanAttribute.inc:182
 #, php-format
 msgid "\"%s\" is not a valid value for attribute \"%s\" should be \"%s\" or \"%s\""
+msgstr ""
+
+#: include/simpleplugin/attributes/dialog/class_ObjectsAttribute.inc:139
+#, php-format
+msgid "Unknown type : %s"
+msgstr ""
+
+#: include/simpleplugin/attributes/dialog/class_ObjectsAttribute.inc:146
+#, php-format
+msgid "Non existing dn: %s"
+msgstr ""
+
+#: include/simpleplugin/attributes/dialog/class_ObjectAttribute.inc:97
+#: include/simpleplugin/attributes/class_SelectAttribute.inc:69
+#: include/simpleplugin/attributes/class_SelectAttribute.inc:135
+msgid "None"
+msgstr "Ninguno"
+
+#: include/simpleplugin/attributes/dialog/class_ObjectAttribute.inc:99
+msgid "Unknown"
+msgstr "Desconocido"
+
+#: include/simpleplugin/attributes/dialog/class_DialogAttribute.inc:113
+msgid "Add (dialog)"
 msgstr ""
 
 #: include/simpleplugin/attributes/class_DateAttribute.inc:139
@@ -1687,13 +1711,7 @@ msgstr ""
 msgid "Invalid value for %s"
 msgstr ""
 
-#: include/simpleplugin/attributes/class_SelectAttribute.inc:71
-#: include/simpleplugin/attributes/class_SelectAttribute.inc:137
-#: include/simpleplugin/class_dialogAttributes.inc:716
-msgid "None"
-msgstr "Ninguno"
-
-#: include/simpleplugin/attributes/class_SelectAttribute.inc:163
+#: include/simpleplugin/attributes/class_SelectAttribute.inc:161
 #, php-format
 msgid "The value \"%s\" for field \"%s\" is not in the list of possible choices"
 msgstr ""
@@ -1786,7 +1804,7 @@ msgstr ""
 msgid "Move from \"%s\" to \"%s\" failed: %s"
 msgstr ""
 
-#: include/simpleplugin/class_Attribute.inc:951
+#: include/simpleplugin/class_Attribute.inc:960
 #, php-format
 msgid "Invalid: %s"
 msgstr ""
@@ -1826,31 +1844,6 @@ msgstr "horas"
 #: include/simpleplugin/class_helpersAttribute.inc:282
 msgid "days"
 msgstr "días"
-
-#: include/simpleplugin/class_dialogAttributes.inc:211
-msgid "Add (dialog)"
-msgstr ""
-
-#: include/simpleplugin/class_dialogAttributes.inc:561
-#, php-format
-msgid "POSIX group %s"
-msgstr ""
-
-#: include/simpleplugin/class_dialogAttributes.inc:563
-#: plugins/config/class_configInLdap.inc:425
-#, php-format
-msgid "Role %s"
-msgstr ""
-
-#: include/simpleplugin/class_dialogAttributes.inc:565
-#: plugins/config/class_configInLdap.inc:418
-#, php-format
-msgid "Group %s"
-msgstr ""
-
-#: include/simpleplugin/class_dialogAttributes.inc:718
-msgid "Unknown"
-msgstr "Desconocido"
 
 #: include/class_acl.inc:35 include/class_acl.inc:39
 msgid "ACL"
@@ -1923,57 +1916,57 @@ msgstr ""
 msgid "No LDAP result to parse"
 msgstr ""
 
-#: include/class_ldap.inc:944
+#: include/class_ldap.inc:952
 #, php-format
 msgid ""
 "Cannot automatically create subtrees with RDN \"%s\": no object class found!"
 msgstr ""
 
-#: include/class_ldap.inc:982
+#: include/class_ldap.inc:990
 #, php-format
 msgid "Cannot automatically create subtrees with RDN \"%s\": not supported"
 msgstr ""
 
-#: include/class_ldap.inc:1037
+#: include/class_ldap.inc:1045
 #, php-format
 msgid "%s (%s, while operating on \"%s\" using LDAP server \"%s\")"
 msgstr ""
 
-#: include/class_ldap.inc:1042
+#: include/class_ldap.inc:1050
 #, php-format
 msgid "%s (while operating on LDAP server \"%s\")"
 msgstr ""
 
-#: include/class_ldap.inc:1156
+#: include/class_ldap.inc:1164
 msgid "proc_open failed to execute ldapsearch"
 msgstr ""
 
-#: include/class_ldap.inc:1184
+#: include/class_ldap.inc:1192
 #, php-format
 msgid "Error line %s, first line of an entry cannot start with a space"
 msgstr ""
 
-#: include/class_ldap.inc:1202
+#: include/class_ldap.inc:1210
 #, php-format
 msgid "Error line %s, references to an external file are not supported"
 msgstr ""
 
-#: include/class_ldap.inc:1205
+#: include/class_ldap.inc:1213
 #, php-format
 msgid "Error line %s, attribute \"%s\" has no value"
 msgstr ""
 
-#: include/class_ldap.inc:1209
+#: include/class_ldap.inc:1217
 #, php-format
 msgid "Error line %s, an entry bloc can only have one dn"
 msgstr ""
 
-#: include/class_ldap.inc:1214
+#: include/class_ldap.inc:1222
 #, php-format
 msgid "Error line %s, an entry bloc should start with the dn"
 msgstr ""
 
-#: include/class_ldap.inc:1272
+#: include/class_ldap.inc:1280
 #, php-format
 msgid "Error while importing dn: \"%s\", please check your LDIF from line %s on!"
 msgstr ""
@@ -2015,7 +2008,7 @@ msgid "department"
 msgstr "departamento"
 
 #: plugins/admin/departments/class_department.inc:62
-#: plugins/admin/groups/class_ogroup.inc:220
+#: plugins/admin/groups/class_ogroup.inc:131
 #: plugins/admin/acl/class_aclAssignmentDialogWindow.inc:38
 #: plugins/admin/aclrole/class_aclRole.inc:94
 msgid "Properties"
@@ -2111,7 +2104,7 @@ msgid "Facsimile telephone number"
 msgstr ""
 
 #: plugins/admin/departments/class_department.inc:170
-#: plugins/admin/groups/class_ogroup.inc:224
+#: plugins/admin/groups/class_ogroup.inc:135
 #: plugins/admin/groups/class_roleGeneric.inc:86
 #: plugins/admin/aclrole/class_aclRole.inc:98
 #: plugins/addons/dashboard/class_dashboardUsers.inc:64
@@ -2228,79 +2221,69 @@ msgstr ""
 msgid "Action called without error (result was \"%s\")"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:75
-#, php-format
-msgid "Unknown type : %s"
-msgstr ""
-
-#: plugins/admin/groups/class_ogroup.inc:83
-#, php-format
-msgid "Non existing dn: %s"
-msgstr ""
-
-#: plugins/admin/groups/class_ogroup.inc:182
+#: plugins/admin/groups/class_ogroup.inc:93
 msgid "Object group"
 msgstr "Grupo de objetos"
 
-#: plugins/admin/groups/class_ogroup.inc:183
+#: plugins/admin/groups/class_ogroup.inc:94
 msgid "Object group information"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:189
-#: plugins/admin/groups/class_ogroup.inc:190
+#: plugins/admin/groups/class_ogroup.inc:100
+#: plugins/admin/groups/class_ogroup.inc:101
 msgid "Group"
 msgstr "Grupo"
 
-#: plugins/admin/groups/class_ogroup.inc:224
+#: plugins/admin/groups/class_ogroup.inc:135
 #: plugins/admin/groups/class_roleGeneric.inc:86
 msgid "Name of this group"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:229
+#: plugins/admin/groups/class_ogroup.inc:140
 msgid "Short description of this group"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:234
+#: plugins/admin/groups/class_ogroup.inc:145
 msgid "Owner"
 msgstr "Propietario"
 
-#: plugins/admin/groups/class_ogroup.inc:240
+#: plugins/admin/groups/class_ogroup.inc:151
 msgid "Member objects"
 msgstr "Objetos miembros"
 
-#: plugins/admin/groups/class_ogroup.inc:243
+#: plugins/admin/groups/class_ogroup.inc:154
 msgid "Objects member of this group"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:250
+#: plugins/admin/groups/class_ogroup.inc:161
 msgid "System trust"
 msgstr "Sistema de seguridad"
 
-#: plugins/admin/groups/class_ogroup.inc:254
+#: plugins/admin/groups/class_ogroup.inc:165
 msgid "Trust mode"
 msgstr "Modo seguro"
 
-#: plugins/admin/groups/class_ogroup.inc:254
+#: plugins/admin/groups/class_ogroup.inc:165
 msgid "Type of authorization for those hosts"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:258
+#: plugins/admin/groups/class_ogroup.inc:169
 msgid "disabled"
 msgstr "desactivado"
 
-#: plugins/admin/groups/class_ogroup.inc:258
+#: plugins/admin/groups/class_ogroup.inc:169
 msgid "full access"
 msgstr "Acceso sin restricciones"
 
-#: plugins/admin/groups/class_ogroup.inc:258
+#: plugins/admin/groups/class_ogroup.inc:169
 msgid "allow access to these hosts"
 msgstr "Permitir el acceso a estos equipos"
 
-#: plugins/admin/groups/class_ogroup.inc:261
+#: plugins/admin/groups/class_ogroup.inc:172
 msgid "Only allow this group to connect to this list of hosts"
 msgstr ""
 
-#: plugins/admin/groups/class_ogroup.inc:340
+#: plugins/admin/groups/class_ogroup.inc:251
 msgid ""
 "Putting both workstations and terminals in the same group is not allowed"
 msgstr ""
@@ -3398,6 +3381,16 @@ msgstr ""
 msgid "Automatic"
 msgstr "Automatico"
 
+#: plugins/config/class_configInLdap.inc:418
+#, php-format
+msgid "Group %s"
+msgstr ""
+
+#: plugins/config/class_configInLdap.inc:425
+#, php-format
+msgid "Role %s"
+msgstr ""
+
 #: plugins/config/class_configInLdap.inc:542
 #, php-format
 msgid ""
@@ -3801,56 +3794,56 @@ msgstr ""
 msgid "Postal code"
 msgstr "Código Postal"
 
-#: plugins/personal/generic/class_user.inc:433
+#: plugins/personal/generic/class_user.inc:430
 #, php-format
 msgid "Ppolicy \"%s\" could not be found in the LDAP!"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:463
+#: plugins/personal/generic/class_user.inc:460
 msgid "You are not allowed to change your own password"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:474
+#: plugins/personal/generic/class_user.inc:471
 #, php-format
 msgid "You must wait %d seconds before changing your password again"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:486
+#: plugins/personal/generic/class_user.inc:483
 msgid "Password is in history of old passwords"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:491
-#: plugins/personal/generic/class_user.inc:495
+#: plugins/personal/generic/class_user.inc:488
+#: plugins/personal/generic/class_user.inc:492
 msgid "Password is not being changed from existing value"
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:502
+#: plugins/personal/generic/class_user.inc:499
 msgid "You need to specify your current password in order to proceed."
 msgstr "Necesita introducir su contraseña actual para continuar."
 
-#: plugins/personal/generic/class_user.inc:504
+#: plugins/personal/generic/class_user.inc:501
 msgid ""
 "The passwords you've entered as \"New password\" and \"Repeated new "
 "password\" do not match."
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:506
+#: plugins/personal/generic/class_user.inc:503
 #: ihtml/themes/legacy/recovery.tpl.c:23 ihtml/themes/legacy/recovery.tpl.c:26
 #: ihtml/themes/legacy/recovery.tpl.c:29 ihtml/themes/breezy/recovery.tpl.c:23
 #: ihtml/themes/breezy/recovery.tpl.c:26 ihtml/themes/breezy/recovery.tpl.c:29
 msgid "New password"
 msgstr "Nueva contraseña"
 
-#: plugins/personal/generic/class_user.inc:508
+#: plugins/personal/generic/class_user.inc:505
 msgid "The password used as new and current are too similar."
 msgstr ""
 "La contraseña actual y la introducida como nueva son demasiado parecidas."
 
-#: plugins/personal/generic/class_user.inc:510
+#: plugins/personal/generic/class_user.inc:507
 msgid "The password used as new is too short."
 msgstr ""
 
-#: plugins/personal/generic/class_user.inc:512
+#: plugins/personal/generic/class_user.inc:509
 msgid "The password contains possibly problematic Unicode characters!"
 msgstr "La clave contiene caracteres unicode posiblemente problemáticos!"
 
