@@ -166,7 +166,7 @@ class ogrouptabs extends simpleTabs_noSpecial
   {
     $tabObject->loadTabs($this->groupObjects);
     foreach ($this->by_object as $class => $plugin) {
-      if ($plugin->is_account || $plugin->ignore_account) {
+      if ($plugin->isActive()) {
         $tabObject->by_object[$class]->is_account = $plugin->is_account;
       }
     }

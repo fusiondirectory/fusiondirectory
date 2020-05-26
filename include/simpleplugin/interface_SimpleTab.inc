@@ -32,7 +32,6 @@ interface SimpleTab
   /*
    * Public vars expected as well by classes implementing this interface:
    * bool $is_account
-   * bool $ignore_account
    * string $dn
    * bool $is_template
    * string $_template_cn (only for main tab of templates)
@@ -152,4 +151,14 @@ interface SimpleTab
    *  Used by simplePlugin::callHook
    */
   public function fillHookAttrs (array &$addAttrs);
+
+  /*!
+   * \brief Test whether a tab is active
+   */
+  public function isActive (): bool;
+
+  /*!
+   * \brief Test whether a tab can be deactivated
+   */
+  public function isActivatable (): bool;
 }

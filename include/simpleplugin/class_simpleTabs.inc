@@ -152,7 +152,7 @@ class simpleTabs
   function setActiveTabs (&$tabObject)
   {
     foreach ($this->by_object as $class => $plugin) {
-      if ($plugin->is_account || $plugin->ignore_account) {
+      if ($plugin->isActive()) {
         $tabObject->by_object[$class]->is_account = $plugin->is_account;
       }
     }
@@ -289,13 +289,13 @@ class simpleTabs
       $cssClasses = $style[$index];
 
       /* Take care about notifications */
-      if ($this->plNotify[$class] && ($obj->is_account || $obj->ignore_account)) {
+      if ($this->plNotify[$class] && $obj->isActive()) {
         $cssClasses .= ' tab-notify';
       }
       if ($disabled) {
         $cssClasses .= ' tab-disabled';
       }
-      if (!$obj->is_account && !$obj->ignore_account) {
+      if (!$obj->isActive()) {
         $cssClasses .= ' tab-inactive';
       }
 
@@ -365,7 +365,7 @@ class simpleTabs
     /* Check all plugins */
     foreach ($this->by_object as $key => $obj) {
       $this->plNotify[$key] = FALSE;
-      if (($obj->is_account || $obj->ignore_account) && (!$obj->is_template)) {
+      if ($obj->isActive() && (!$obj->is_template)) {
         logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, "Checking");
 
         $msg = $obj->check();
@@ -386,8 +386,6 @@ class simpleTabs
 
   /*
    * \brief Save object in the tab
-   *
-   * \param boolean $ignore_account false
    */
   function save ()
   {
@@ -434,7 +432,7 @@ class simpleTabs
 
       $obj->dn = $this->dn;
 
-      if ($obj->is_account || $obj->ignore_account) {
+      if ($obj->isActive()) {
         $result = $obj->save();
       } else {
         $result = $obj->remove(FALSE);
@@ -550,7 +548,7 @@ class simpleTabs
   /* Return tab or service if activated, FALSE otherwise */
   function getTabOrServiceObject ($tab)
   {
-    if (isset($this->by_object[$tab]) && ($this->by_object[$tab]->is_account || $this->by_object[$tab]->ignore_account)) {
+    if (isset($this->by_object[$tab]) && $this->by_object[$tab]->isActive()) {
       return $this->by_object[$tab];
     } elseif (is_subclass_of($tab, 'simpleService') && isset($this->by_object['servicesManagement'])) {
       return $this->by_object['servicesManagement']->getServiceObject($tab);
