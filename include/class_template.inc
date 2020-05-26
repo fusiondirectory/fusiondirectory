@@ -81,7 +81,7 @@ class template
     $tempTabObject->setActiveTabs($this->tabObject);
     $this->attributes = [];
     foreach ($this->tabObject->by_object as $class => $tab) {
-      if ($tab->is_account || $tab->ignore_account) {
+      if ($tab->isActive()) {
         $this->attributes[$class] = [];
         $attrs = array_unique(array_merge($tab->getRequiredAttributes(), $this->needed));
         foreach (array_keys($tab->attributesAccess) as $attr) {
@@ -312,7 +312,7 @@ class template
       $this->tabObject = objects::open($targetdn, $this->type);
       unset($this->attrs['objectClass']['count']);
       foreach ($this->tabObject->by_object as $class => $plugin) {
-        if ($plugin->is_account || $plugin->ignore_account) {
+        if ($plugin->isActive()) {
           $this->attrs['objectClass'] = $plugin->mergeObjectClasses($this->attrs['objectClass']);
         }
       }

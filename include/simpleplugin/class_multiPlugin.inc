@@ -26,9 +26,9 @@
 class multiPlugin extends simplePlugin
 {
   /* attribute list for save action */
-  var $objectclasses  = [];
-  var $ignore_account = TRUE;
-  var $plugin         = [];
+  var $objectclasses        = [];
+  protected $ignore_account = TRUE;
+  var $plugin               = [];
 
   var $tabClass = '';
 
@@ -137,7 +137,7 @@ class multiPlugin extends simplePlugin
     $message = parent::check();
 
     foreach ($this->plugin as &$plug) {
-      if ($plug->is_account || $plug->ignore_account) {
+      if ($plug->isActive()) {
         $tmp      = $plug->check();
         $message  = array_merge($message, $tmp);
       }
@@ -172,7 +172,7 @@ class multiPlugin extends simplePlugin
     /* Save objects */
     foreach ($this->plugin as &$plug) {
       $plug->dn = $this->dn;
-      if ($plug->is_account || $plug->ignore_account) {
+      if ($plug->isActive()) {
         $result = $plug->save();
       } else {
         $result = $plug->remove(FALSE);

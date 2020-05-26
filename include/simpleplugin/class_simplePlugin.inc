@@ -51,7 +51,7 @@ class simplePlugin implements SimpleTab
    */
   public $is_account            = FALSE;
   public $initially_was_account = FALSE;
-  public $ignore_account        = FALSE;
+  protected $ignore_account     = FALSE;
 
   public $acl_category  = '';
 
@@ -778,6 +778,22 @@ class simplePlugin implements SimpleTab
     $display .= '<input type="submit" formnovalidate="formnovalidate" value="'.$button_text.'" name="'.$name.'" '.$state.'></p></div><hr class="separator"/>';
 
     return $display;
+  }
+
+  /*!
+   * \brief Test whether a tab is active
+   */
+  public function isActive (): bool
+  {
+    return ($this->is_account || $this->ignore_account);
+  }
+
+  /*!
+   * \brief Test whether a tab can be deactivated
+   */
+  public function isActivatable (): bool
+  {
+    return $this->displayHeader;
   }
 
   /*! \brief Check if logged in user have enough right to read this attribute value
