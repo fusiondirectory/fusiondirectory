@@ -1043,7 +1043,7 @@ class simplePlugin implements SimpleTab
     }
 
     $this->prepare_remove();
-    if ($this->is_template && (!defined('_OLD_TEMPLATES_') || !_OLD_TEMPLATES_)) {
+    if ($this->is_template) {
       $this->attrs = $this->templateSaveAttrs();
       $this->saved_attributes = [];
     }
@@ -1264,7 +1264,7 @@ class simplePlugin implements SimpleTab
     if (!empty($errors)) {
       return $errors;
     }
-    if ($this->is_template && (!defined('_OLD_TEMPLATES_') || !_OLD_TEMPLATES_)) {
+    if ($this->is_template) {
       $errors = templateHandling::checkFields($this->attrs);
       if (!empty($errors)) {
         return $errors;
