@@ -171,27 +171,66 @@ class userRoles extends simplePlugin
     return FALSE;
   }
 
+  /*! \brief This function removes the object from LDAP
+   */
+  function remove (bool $fulldelete = FALSE): array
+  {
+    if (!$fulldelete) {
+      /* We are not deleting the object it's just that there are no groups left
+       * Make sure memberships are empty to avoid surprises and call save. */
+      $this->rolesMembership  = [];
+      $this->groupsMembership = [];
+      return $this->save();
+    } else {
+      return parent::remove($fulldelete);
+    }
+  }
+
   protected function ldap_remove (): array
   {
     if ($this->is_template) {
       return parent::ldap_remove();
     } elseif (($this->dn != '') && ($this->dn != 'new')) {
       /* Remove all groups */
-      foreach ($this->savedGroupsMembership as $ogroupdn) {
+      foreach ($this->savedGroupsMembership as $key => $ogroupdn) {
         try {
           $g = objects::open($ogroupdn, 'ogroup');
           $g->getBaseObject()->attributesAccess['member']->searchAndRemove($this->dn);
-          $g->save();
+          $msg = $g->save();
+          if (empty($msg)) {
+            unset($this->savedGroupsMembership[$key]);
+          } else {
+            /* We do not prevent user deletion on error, but still warn the user */
+            foreach ($msg as $error) {
+              msg_dialog::display(
+                _('Warning'),
+                sprintf(_('Could not remove membership to group %s: %s'), $ogroupdn, $error),
+                WARNING_DIALOG
+              );
+            }
+          }
         } catch (NonExistingLdapNodeException $e) {
           /* Ignore deleted groups */
         }
       }
       /* Remove all roles */
-      foreach ($this->savedRolesMembership as $roledn) {
+      foreach ($this->savedRolesMembership as $key => $roledn) {
         try {
           $r = objects::open($roledn, 'role');
           $r->getBaseObject()->attributesAccess['roleOccupant']->searchAndRemove($this->dn);
-          $r->save();
+          $msg = $r->save();
+          if (empty($msg)) {
+            unset($this->savedRolesMembership[$key]);
+          } else {
+            /* We do not prevent user deletion on error, but still warn the user */
+            foreach ($msg as $error) {
+              msg_dialog::display(
+                _('Warning'),
+                sprintf(_('Could not remove membership to role %s: %s'), $roledn, $error),
+                WARNING_DIALOG
+              );
+            }
+          }
         } catch (NonExistingLdapNodeException $e) {
           /* Ignore deleted roles */
         }
@@ -271,7 +310,9 @@ class userRoles extends simplePlugin
             if (empty($msg)) {
               $this->savedGroupsMembership[] = $ogroupdn;
             } else {
-              $errors = array_merge($errors, $msg);
+              foreach ($msg as $error) {
+                $errors[] = sprintf(_('Could not add membership to group %s: %s'), $ogroupdn, $error);
+              }
             }
           } catch (NonExistingLdapNodeException $e) {
             $errors[] = $e->getMessage();
@@ -293,7 +334,9 @@ class userRoles extends simplePlugin
             if (empty($msg)) {
               unset($this->savedGroupsMembership[$key]);
             } else {
-              $errors = array_merge($errors, $msg);
+              foreach ($msg as $error) {
+                $errors[] = sprintf(_('Could not remove membership to group %s: %s'), $ogroupdn, $error);
+              }
             }
           } catch (NonExistingLdapNodeException $e) {
             $errors[] = $e->getMessage();
@@ -316,7 +359,9 @@ class userRoles extends simplePlugin
             if (empty($msg)) {
               $this->savedRolesMembership[] = $roledn;
             } else {
-              $errors = array_merge($errors, $msg);
+              foreach ($msg as $error) {
+                $errors[] = sprintf(_('Could not add membership to role %s: %s'), $roledn, $error);
+              }
             }
           } catch (NonExistingLdapNodeException $e) {
             $errors[] = $e->getMessage();
@@ -338,7 +383,9 @@ class userRoles extends simplePlugin
             if (empty($msg)) {
               unset($this->savedRolesMembership[$key]);
             } else {
-              $errors = array_merge($errors, $msg);
+              foreach ($msg as $error) {
+                $errors[] = sprintf(_('Could not remove membership to role %s: %s'), $roledn, $error);
+              }
             }
           } catch (NonExistingLdapNodeException $e) {
             $errors[] = $e->getMessage();
