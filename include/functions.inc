@@ -1722,19 +1722,21 @@ function send_binary_content ($data, $name, $type = "application/octet-stream")
   exit();
 }
 
-
-function reverse_html_entities ($str, $type = ENT_QUOTES, $charset = "UTF-8")
+/*!
+ * \brief Escape string for HTML output
+ */
+function htmlescape (string $str): string
 {
-  if (is_string($str)) {
-    return htmlentities($str, $type, $charset);
-  } elseif (is_array($str)) {
-    foreach ($str as $name => $value) {
-      $str[$name] = reverse_html_entities($value, $type, $charset);
-    }
-  }
-  return $str;
+  return htmlentities($str, ENT_COMPAT | ENT_HTML5, 'UTF-8');
 }
 
+/*!
+ * \brief Unescape string for HTML output, reverse of htmlescape
+ */
+function htmlunescape (string $html): string
+{
+  return html_entity_decode($html, ENT_COMPAT | ENT_HTML5, 'UTF-8');
+}
 
 /*!
  * \brief Encode special string characters

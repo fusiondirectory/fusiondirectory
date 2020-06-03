@@ -121,6 +121,11 @@ class Attribute
     $this->manageAttributes($this->getValue());
   }
 
+  function getParent(): ?simplePlugin
+  {
+    return $this->plugin;
+  }
+
   function setIsSubAttribute (bool $bool)
   {
     $this->isSubAttribute = $bool;
@@ -165,6 +170,11 @@ class Attribute
   function isInLdap (): bool
   {
     return $this->inLdap;
+  }
+
+  public function getExample (): ?string
+  {
+    return NULL;
   }
 
   function checkValue ($value)

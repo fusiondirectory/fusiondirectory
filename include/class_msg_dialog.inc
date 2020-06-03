@@ -133,7 +133,11 @@ class msg_dialog
   public static function displayChecks ($messages)
   {
     foreach ($messages as $error) {
-      static::display(_('Error'), $error, ERROR_DIALOG);
+      if ($error instanceof FusionDirectoryError) {
+        static::display(...$error->computeMsgDialogParameters());
+      } else {
+        static::display(_('Error'), $error, ERROR_DIALOG);
+      }
     }
   }
 

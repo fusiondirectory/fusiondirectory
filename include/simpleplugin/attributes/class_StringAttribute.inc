@@ -53,6 +53,11 @@ class StringAttribute extends Attribute
     $this->example = $example;
   }
 
+  public function getExample (): ?string
+  {
+    return $this->example;
+  }
+
   function setPattern ($pattern)
   {
     $this->pattern = $pattern;

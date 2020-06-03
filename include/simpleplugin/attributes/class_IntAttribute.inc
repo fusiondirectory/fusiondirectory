@@ -26,7 +26,6 @@ class IntAttribute extends Attribute
   protected $min;
   protected $max;
   protected $step = 1;
-  protected $example;
 
   /*! \brief The constructor of IntAttribute
    *
@@ -44,14 +43,16 @@ class IntAttribute extends Attribute
     parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
     $this->min      = ($min === FALSE ? FALSE : $this->inputValue($min));
     $this->max      = ($max === FALSE ? FALSE : $this->inputValue($max));
-    $this->example  = '';
+  }
 
-    if (($min !== FALSE) && ($max !== FALSE)) {
-      $this->example = sprintf(_('An integer between %d and %d'), $min, $max);
-    } elseif ($min !== FALSE) {
-      $this->example = sprintf(_('An integer larger than %d'),    $min);
-    } elseif ($max !== FALSE) {
-      $this->example = sprintf(_('An integer smaller than %d'),   $max);
+  public function getExample (): ?string
+  {
+    if (($this->min !== FALSE) && ($this->max !== FALSE)) {
+      return sprintf(_('An integer between %d and %d'), $this->min, $this->max);
+    } elseif ($this->min !== FALSE) {
+      return sprintf(_('An integer larger than %d'),    $this->min);
+    } elseif ($this->max !== FALSE) {
+      return sprintf(_('An integer smaller than %d'),   $this->max);
     }
   }
 
@@ -80,11 +81,13 @@ class IntAttribute extends Attribute
       return $error;
     } elseif ($this->value !== '') {
       if (!is_numeric($this->value)) {
-        return msgPool::invalid($this->getLabel(), $this->value, $this->example);
+        return new SimplePluginCheckError($this, sprintf(_('"%s" is not an number'), $this->getValue()));
       }
-      if ((($this->min !== FALSE) && ($this->value < $this->min))
-      || (($this->max !== FALSE) && ($this->value > $this->max))) {
-        return msgPool::invalid($this->getLabel(), $this->value, $this->example);
+      if (($this->min !== FALSE) && ($this->value < $this->min)) {
+        return new SimplePluginCheckError($this, sprintf(_('%s is smaller than %s'), $this->getValue(), $this->min));
+      }
+      if (($this->max !== FALSE) && ($this->value > $this->max)) {
+        return new SimplePluginCheckError($this, sprintf(_('%s is larger than %s'), $this->getValue(), $this->max));
       }
     }
   }
@@ -156,14 +159,16 @@ class FloatAttribute extends IntAttribute
     parent::__construct($label, $description, $ldapName, $required, $min, $max, $defaultValue, $acl);
 
     $this->step = 0.01;
+  }
 
-    $this->example  = '';
-    if (($min !== FALSE) && ($max !== FALSE)) {
-      $this->example = sprintf(_('A float between %f and %f'), $min, $max);
-    } elseif ($min !== FALSE) {
-      $this->example = sprintf(_('A float larger than %f'),    $min);
-    } elseif ($max !== FALSE) {
-      $this->example = sprintf(_('A float smaller than %f'),   $max);
+  public function getExample (): ?string
+  {
+    if (($this->min !== FALSE) && ($this->max !== FALSE)) {
+      return sprintf(_('A float between %f and %f'),  $this->min, $this->max);
+    } elseif ($this->min !== FALSE) {
+      return sprintf(_('A float larger than %f'),     $this->min);
+    } elseif ($this->max !== FALSE) {
+      return sprintf(_('A float smaller than %f'),    $this->max);
     }
   }
 
