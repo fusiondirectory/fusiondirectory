@@ -37,35 +37,40 @@ class SubNodeColumn extends LinkColumn
   {
     global $config;
 
-    if (isset($entry->cache[__CLASS__]['values'])) {
-      return $entry->cache[__CLASS__]['values'];
-    }
-
-    $values = [];
-
     $attrs = $this->attributes;
     if (isset($this->templateAttributes) && $entry->isTemplate()) {
       $attrs = $this->templateAttributes;
     }
-    if (isset($attrs)) {
-      $ldap = $config->get_ldap_link();
-      $ldap->cd($entry->dn);
-      $ldap->search('(objectClass=*)', $attrs, 'subtree');
-      while ($node = $ldap->fetch(TRUE)) {
-        if ($node['dn'] === $entry->dn) {
-          continue;
-        }
-        foreach ($attrs as $attr) {
-          if (isset($node[$attr])) {
-            for ($i = 0; $i < $node[$attr]['count']; ++$i) {
-              $values[] = $node[$attr][$i];
-            }
+
+    if (!isset($attrs)) {
+      return [];
+    }
+
+    $cacheentry = implode('', $attrs);
+
+    if (isset($entry->cache[__CLASS__][$cacheentry]['values'])) {
+      return $entry->cache[__CLASS__][$cacheentry]['values'];
+    }
+
+    $values = [];
+
+    $ldap = $config->get_ldap_link();
+    $ldap->cd($entry->dn);
+    $ldap->search('(objectClass=*)', $attrs, 'subtree');
+    while ($node = $ldap->fetch(TRUE)) {
+      if ($node['dn'] === $entry->dn) {
+        continue;
+      }
+      foreach ($attrs as $attr) {
+        if (isset($node[$attr])) {
+          for ($i = 0; $i < $node[$attr]['count']; ++$i) {
+            $values[] = $node[$attr][$i];
           }
         }
       }
     }
 
-    $entry->cache[__CLASS__]['values'] = $values;
+    $entry->cache[__CLASS__][$cacheentry]['values'] = $values;
 
     return $values;
   }
