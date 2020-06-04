@@ -71,7 +71,16 @@ class SimplePluginCheckError extends FusionDirectoryError
       $html .= '<br/><br/><i>'.sprintf(_('Example: %s'), htmlescape($example)).'</i> ';
     }
 
+    $trace = $this->getTrace();
 
-    return [_('Error'), $html, ERROR_DIALOG];
+    array_unshift(
+      $trace,
+      [
+        'file' => $this->getFile(),
+        'line' => $this->getLine(),
+      ]
+    );
+
+    return [_('Error'), $html, ERROR_DIALOG, $trace];
   }
 }

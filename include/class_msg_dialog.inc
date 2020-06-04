@@ -41,7 +41,7 @@ class msg_dialog
   private $s_Message;
   private $i_Type;
   private $i_ID;
-  private $a_Trace    = [];
+  private $a_Trace;
 
   /*!
    * \brief Message dialog constructor
@@ -50,9 +50,11 @@ class msg_dialog
    *
    * \param string $message The message of the message dialog
    *
-   * \param string $type The type of the message dialog, by default = INFO_DIALOG
+   * \param int $type The type of the message dialog, by default = INFO_DIALOG
+   *
+   * \param array $trace The trace from where the message was built
    */
-  public function __construct ($title, $message, $type = INFO_DIALOG)
+  public function __construct (string $title, string $message, int $type = INFO_DIALOG, array $trace = [])
   {
     if (!in_array($type, [INFO_DIALOG,WARNING_DIALOG,ERROR_DIALOG,CONFIRM_DIALOG,FATAL_ERROR_DIALOG])) {
       trigger_error('Invalid msg_dialog type.');
@@ -63,6 +65,7 @@ class msg_dialog
     $this->s_Title    = $title;
     $this->s_Message  = $message;
     $this->i_Type     = $type;
+    $this->a_Trace    = $trace;
   }
 
   protected function show ()
@@ -93,7 +96,11 @@ class msg_dialog
     /* Append trace information, only if error messages are enabled */
     if (isset($config) && is_object($config) &&
       $config->get_cfg_value('displayerrors') == 'TRUE') {
-      $this->a_Trace = debug_backtrace();
+      if (empty($this->a_Trace)) {
+        $this->a_Trace = debug_backtrace();
+      }
+    } else {
+      $this->a_Trace = [];
     }
     if ($this->i_Type == FATAL_ERROR_DIALOG) {
       restore_error_handler();
@@ -117,11 +124,13 @@ class msg_dialog
    *
    * \param string $message The message of the message dialog
    *
-   * \param string $type The type of the message dialog, by default = INFO_DIALOG
+   * \param int $type The type of the message dialog, by default = INFO_DIALOG
+   *
+   * \param array $trace The trace from where the message was built
    */
-  public static function display ($title, $message, $type = INFO_DIALOG)
+  public static function display (string $title, string $message, int $type = INFO_DIALOG, array $trace = [])
   {
-    $dialog = new msg_dialog($title, $message, $type);
+    $dialog = new msg_dialog($title, $message, $type, $trace);
     $dialog->show();
   }
 
