@@ -83,4 +83,20 @@ class SimplePluginCheckError extends FusionDirectoryError
 
     return [_('Error'), $html, ERROR_DIALOG, $trace];
   }
+
+  /*!
+   * \brief Format error message for invalid value
+   *
+   * \param string $error The unescaped text error
+   *
+   * \return HTML string
+   */
+  static public function invalidValue(string $error): string
+  {
+    return sprintf(
+      '<b>%s</b> %s',
+      htmlescape(_('Invalid value:')),
+      htmlescape($error)
+    );
+  }
 }

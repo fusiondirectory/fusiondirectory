@@ -81,13 +81,22 @@ class IntAttribute extends Attribute
       return $error;
     } elseif ($this->value !== '') {
       if (!is_numeric($this->value)) {
-        return new SimplePluginCheckError($this, sprintf(_('"%s" is not an number'), $this->getValue()));
+        return new SimplePluginCheckError(
+          $this,
+          SimplePluginCheckError::invalidValue(sprintf(_('"%s" is not an number'), $this->getValue()))
+        );
       }
       if (($this->min !== FALSE) && ($this->value < $this->min)) {
-        return new SimplePluginCheckError($this, sprintf(_('%s is smaller than %s'), $this->getValue(), $this->min));
+        return new SimplePluginCheckError(
+          $this,
+          SimplePluginCheckError::invalidValue(sprintf(_('%s is smaller than %s'), $this->getValue(), $this->min))
+        );
       }
       if (($this->max !== FALSE) && ($this->value > $this->max)) {
-        return new SimplePluginCheckError($this, sprintf(_('%s is larger than %s'), $this->getValue(), $this->max));
+        return new SimplePluginCheckError(
+          $this,
+          SimplePluginCheckError::invalidValue(sprintf(_('%s is larger than %s'), $this->getValue(), $this->max))
+        );
       }
     }
   }
