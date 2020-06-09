@@ -1468,7 +1468,6 @@ class simplePlugin implements SimpleTab
       default:
         trigger_error(sprintf('Invalid %s event type given: "%s"! Valid types are: add, modify, remove.', strtolower($when), $mode));
         return [];
-        break;
     }
   }
 

@@ -30,7 +30,7 @@ class SimplePluginCheckError extends SimplePluginError
    *
    * \return HTML string
    */
-  static public function invalidValue(string $error): string
+  static public function invalidValue (string $error): string
   {
     return sprintf(
       '<b>%s</b> %s',

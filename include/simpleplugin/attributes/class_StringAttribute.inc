@@ -53,7 +53,7 @@ class StringAttribute extends Attribute
     $this->example = $example;
   }
 
-  public function getExample (): ?string
+  public function getExample ()
   {
     return $this->example;
   }

@@ -121,7 +121,11 @@ class Attribute
     $this->manageAttributes($this->getValue());
   }
 
-  function getParent(): ?simplePlugin
+  /*! \brief Get parent plugin instance, if any
+   *
+   * \return simplePlugin|null
+   */
+  function getParent ()
   {
     return $this->plugin;
   }
@@ -172,7 +176,11 @@ class Attribute
     return $this->inLdap;
   }
 
-  public function getExample (): ?string
+  /*! \brief Get an example value
+   *
+   * \return string|null
+   */
+  public function getExample ()
   {
     return NULL;
   }

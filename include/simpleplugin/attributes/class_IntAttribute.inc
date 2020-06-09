@@ -45,7 +45,7 @@ class IntAttribute extends Attribute
     $this->max      = ($max === FALSE ? FALSE : $this->inputValue($max));
   }
 
-  public function getExample (): ?string
+  public function getExample ()
   {
     if (($this->min !== FALSE) && ($this->max !== FALSE)) {
       return sprintf(_('An integer between %d and %d'), $this->min, $this->max);
@@ -170,7 +170,7 @@ class FloatAttribute extends IntAttribute
     $this->step = 0.01;
   }
 
-  public function getExample (): ?string
+  public function getExample ()
   {
     if (($this->min !== FALSE) && ($this->max !== FALSE)) {
       return sprintf(_('A float between %f and %f'),  $this->min, $this->max);
