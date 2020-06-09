@@ -237,7 +237,13 @@ class UserPasswordAttribute extends CompositeAttribute
       return $error;
     }
     if (($this->attributes[1]->getValue() != '') || ($this->attributes[2]->getValue() != '')) {
-      return user::reportPasswordProblems($this->plugin->dn, $this->attributes[1]->getValue(), $this->attributes[2]->getValue());
+      $error = user::reportPasswordProblems($this->plugin->dn, $this->attributes[1]->getValue(), $this->attributes[2]->getValue());
+      if ($error !== FALSE) {
+        return new SimplePluginCheckError(
+          $this,
+          htmlescape($error)
+        );
+      }
     }
   }
 

@@ -167,7 +167,10 @@ class department extends simplePlugin
     $namingAttr = static::$namingAttr;
 
     if (($namingAttr == 'ou') && tests::is_department_name_reserved($this->$namingAttr)) {
-      $message[] = msgPool::reserved(_('Name'));
+      $message[] = new SimplePluginCheckError(
+        $this,
+        htmlescape(msgPool::reserved(_('Name')))
+      );
     }
 
     return $message;

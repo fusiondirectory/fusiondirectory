@@ -147,7 +147,10 @@ class SetAttribute extends Attribute
       return $error;
     } else {
       if (!is_array($this->value)) {
-        return sprintf(_('The value for multivaluated field "%s" is not an array'), $this->getLabel());
+        return new SimplePluginCheckError(
+          $this,
+          SimplePluginCheckError::invalidValue(_('Value is not an array'))
+        );
       }
       foreach ($this->value as $value) {
         $this->attribute->setValue($value);

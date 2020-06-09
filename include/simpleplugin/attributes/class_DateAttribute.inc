@@ -136,16 +136,27 @@ class DateAttribute extends Attribute
       try {
         $dateValue = $this->getDateValue();
         if (($this->minDate !== NULL) && ($dateValue < $this->minDate)) {
-          return sprintf(_('Invalid date in %s, should be newer than: %s'), $this->getLabel(), $this->minDate->format('Y-m-d'));
+          return new SimplePluginCheckError(
+            $this,
+            SimplePluginCheckError::invalidValue(sprintf(_('%s is older than %s'), $dateValue->format('Y-m-d'), $this->minDate->format('Y-m-d')))
+          );
         }
         if (($this->maxDate !== NULL) && ($dateValue > $this->maxDate)) {
-          return sprintf(_('Invalid date in %s, should be older than: %s'), $this->getLabel(), $this->maxDate->format('Y-m-d'));
+          return new SimplePluginCheckError(
+            $this,
+            SimplePluginCheckError::invalidValue(sprintf(_('%s is newer than %s'), $dateValue->format('Y-m-d'), $this->maxDate->format('Y-m-d')))
+          );
         }
       } catch (Exception $e) {
         if ($this->isTemplate() && preg_match('/%/', $this->value)) {
           return '';
         } else {
-          return sprintf(_('Error, incorrect date: %s'), $e->getMessage());
+          return new SimplePluginCheckError(
+            $this,
+            SimplePluginCheckError::invalidValue(sprintf(_('Incorrect date: %s'), $e->getMessage())),
+            0,
+            $e
+          );
         }
       }
       return '';

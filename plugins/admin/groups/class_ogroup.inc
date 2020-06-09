@@ -248,7 +248,10 @@ class ogroup extends simplePlugin
     $message = parent::check();
     $this->reload();
     if (preg_match('/W/', $this->gosaGroupObjects) && preg_match('/T/', $this->gosaGroupObjects)) {
-      $message[] = _('Putting both workstations and terminals in the same group is not allowed');
+      $message[] = new SimplePluginCheckError(
+        $this,
+        htmlescape(_('Putting both workstations and terminals in the same group is not allowed'))
+      );
     }
 
     return $message;

@@ -30,7 +30,10 @@ class TestValidateAttribute extends StringAttribute
   {
     $func = $this->testFunc;
     if (!tests::$func($this->value)) {
-      return msgPool::invalid($this->getLabel(), $this->value, $this->example);
+      return new SimplePluginCheckError(
+        $this,
+        SimplePluginCheckError::invalidValue(sprintf('"%s"', $this->value))
+      );
     }
   }
 }

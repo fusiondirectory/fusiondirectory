@@ -158,7 +158,10 @@ class SelectAttribute extends Attribute
       return $error;
     } else {
       if (!$this->disabled && !in_array($this->value, $this->choices)) {
-        return sprintf(_('The value "%s" for field "%s" is not in the list of possible choices'), $this->value, $this->getLabel());
+        return new SimplePluginCheckError(
+          $this,
+          SimplePluginCheckError::invalidValue(sprintf(_('"%s" is not in the list of possible choices'), $this->value))
+        );
       }
     }
   }

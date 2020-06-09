@@ -133,7 +133,10 @@ class StringAttribute extends Attribute
   function validate ()
   {
     if (($this->pattern !== '') && !preg_match($this->pattern, $this->value)) {
-      return msgPool::invalid($this->getLabel(), $this->value, $this->example);
+      return new SimplePluginCheckError(
+        $this,
+        SimplePluginCheckError::invalidValue(sprintf('"%s"', $this->getValue()))
+      );
     }
   }
 
