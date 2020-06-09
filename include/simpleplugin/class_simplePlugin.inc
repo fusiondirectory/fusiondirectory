@@ -1122,7 +1122,15 @@ class simplePlugin implements SimpleTab
     if ($ldap->success()) {
       return [];
     } else {
-      return [msgPool::ldaperror($this->ldap_error, $this->dn, LDAP_MOD, get_class())];
+      return [
+        new SimplePluginLdapError(
+          $this,
+          $this->dn,
+          ($this->mainTab ? LDAP_DEL : LDAP_MOD),
+          $ldap->get_error(),
+          $ldap->get_errno()
+        )
+      ];
     }
   }
 
