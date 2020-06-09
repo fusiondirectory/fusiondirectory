@@ -27,7 +27,7 @@ class SimplePluginError extends FusionDirectoryError
   protected $tab;
   protected $attribute;
 
-  public function __construct (?object $origin, string $htmlMessage = '', int $code = 0, Throwable $previous = NULL)
+  public function __construct ($origin, string $htmlMessage = '', int $code = 0, Throwable $previous = NULL)
   {
     if ($origin instanceof Attribute) {
       $this->attribute  = $origin;
