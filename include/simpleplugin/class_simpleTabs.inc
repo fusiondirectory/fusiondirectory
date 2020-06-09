@@ -342,7 +342,7 @@ class simpleTabs
   /*!
    * \brief Check
    */
-  public function check ()
+  public function check (): array
   {
     global $config;
     $messages = [];
@@ -354,7 +354,10 @@ class simpleTabs
       $ldap->search($filter, ['dn']);
       while ($attrs = $ldap->fetch()) {
         if ($attrs['dn'] != $this->getBaseObject()->dn) {
-          $messages[] = msgPool::duplicated($this->getBaseObject()->attributesAccess['_template_cn']->getLabel(), $attrs['dn']);
+          $messages[] = new SimplePluginCheckError(
+            $this->getBaseObject()->attributesAccess['_template_cn'],
+            htmlescape(msgPool::duplicated($this->getBaseObject()->attributesAccess['_template_cn']->getLabel(), $attrs['dn']))
+          );
         }
       }
       return $messages;
@@ -402,7 +405,12 @@ class simpleTabs
       logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $new_dn, 'Saving');
     } catch (FusionDirectoryException $e) {
       return [
-        sprintf(_('Failed to compute DN for object: %s'), $e->getMessage())
+        new SimplePluginError(
+          $baseobject,
+          htmlescape(sprintf(_('Failed to compute DN for object: %s'), $e->getMessage())),
+          0,
+          $e
+        )
       ];
     }
 
@@ -419,7 +427,10 @@ class simpleTabs
         if (($error = $baseobject->move($this->dn, $new_dn)) === TRUE) {
           $this->dn = $new_dn;
         } else {
-          $errors[] = sprintf(_('Move from "%s" to "%s" failed: %s'), $this->dn, $new_dn, $error);
+          $errors[] = new SimplePluginError(
+            $baseobject,
+            htmlescape(sprintf(_('Move from "%s" to "%s" failed: %s'), $this->dn, $new_dn, $error))
+          );
           return $errors;
         }
       }

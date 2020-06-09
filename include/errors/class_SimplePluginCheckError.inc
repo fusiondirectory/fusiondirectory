@@ -21,85 +21,8 @@
 /*! \class SimplePluginCheckError
     \brief Error returned by check method of SimplePlugin
 */
-class SimplePluginCheckError extends FusionDirectoryError
+class SimplePluginCheckError extends SimplePluginError
 {
-  protected $tab;
-  protected $attribute;
-
-  public function __construct (?object $origin, string $htmlMessage = '', int $code = 0, Throwable $previous = NULL)
-  {
-    if ($origin instanceof Attribute) {
-      $this->attribute  = $origin;
-      $this->tab        = $origin->getParent();
-    } else {
-      $this->attribute = NULL;
-      if ($origin instanceof SimpleTab) {
-        $this->tab = $origin;
-      } else {
-        $this->tab = NULL;
-      }
-    }
-
-    parent::__construct($htmlMessage, $code, $previous);
-  }
-
-  public function toArray (): array
-  {
-    $array = parent::toArray();
-
-    if (isset($this->tab)) {
-      $array['dn']  = $this->tab->parent->getBaseObject()->dn;
-      $array['tab'] = get_class($this->tab);
-    }
-
-    if (isset($this->attribute)) {
-      $array['attribute'] = $this->attribute->getLdapName();
-    }
-
-    return $array;
-  }
-
-  public function computeMsgDialogParameters (): array
-  {
-    $html = '';
-
-    if (isset($this->tab)) {
-      $html .= htmlescape($this->tab->parent->getBaseObject()->dn.' > ');
-      $html .= htmlescape($this->tab->parent->by_name[get_class($this->tab)].' > ');
-    }
-
-    if (isset($this->attribute)) {
-      $label = $this->attribute->getLabel();
-      if (empty($label)) {
-        $html .= '<i>'.htmlescape($this->attribute->getLdapName()).'</i>';
-      } else {
-        $html .= htmlescape($label);
-      }
-      $example = $this->attribute->getExample();
-    }
-
-    $html .= '<br/><br/>';
-
-    $html .= $this->htmlMessage;
-
-    /* Stylize example */
-    if (!empty($example)) {
-      $html .= '<br/><br/><i>'.sprintf(_('Example: %s'), htmlescape($example)).'</i> ';
-    }
-
-    $trace = $this->getTrace();
-
-    array_unshift(
-      $trace,
-      [
-        'file' => $this->getFile(),
-        'line' => $this->getLine(),
-      ]
-    );
-
-    return [_('Error'), $html, ERROR_DIALOG, $trace];
-  }
-
   /*!
    * \brief Format error message for invalid value
    *

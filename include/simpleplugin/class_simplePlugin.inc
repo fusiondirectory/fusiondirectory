@@ -1376,14 +1376,24 @@ class simplePlugin implements SimpleTab
     $ldap = $config->get_ldap_link();
     if ($this->mainTab && !$this->initially_was_account) {
       if ($ldap->dn_exists($this->dn)) {
-        return [sprintf(_('There is already an entry with the same dn : %s'), $this->dn)];
+        return [
+          new SimplePluginError(
+            $this,
+            htmlescape(sprintf(_('There is already an entry with the same dn: %s'), $this->dn))
+          )
+        ];
       }
       $ldap->cd($config->current['BASE']);
       $ldap->create_missing_trees(preg_replace('/^[^,]+,/', '', $this->dn));
       $action = 'add';
     } else {
       if (!$ldap->dn_exists($this->dn)) {
-        return [sprintf(_('The entry %s is not existing'), $this->dn)];
+        return [
+          new SimplePluginError(
+            $this,
+            htmlescape(sprintf(_('The entry %s is not existing'), $this->dn))
+          )
+        ];
       }
       $action = 'modify';
     }
@@ -1394,7 +1404,15 @@ class simplePlugin implements SimpleTab
 
     /* Check for errors */
     if (!$ldap->success()) {
-      return [msgPool::ldaperror($this->ldap_error, $this->dn, 0, get_class())];
+      return [
+        new SimplePluginLdapError(
+          $this,
+          $this->dn,
+          ($action == 'modify' ? LDAP_MOD : LDAP_ADD),
+          $ldap->get_error(),
+          $ldap->get_errno()
+        )
+      ];
     }
     return [];
   }
