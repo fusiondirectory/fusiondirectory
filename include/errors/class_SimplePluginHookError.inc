@@ -18,33 +18,26 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/*! \class SimplePluginLdapError
-    \brief Error returned by an LDAP operation called from SimplePlugin
+/*! \class SimplePluginHookError
+    \brief Error returned by a hook called from SimplePlugin
 */
-class SimplePluginLdapError extends SimplePluginError
+class SimplePluginHookError extends SimplePluginError
 {
-  protected $dn;
-  protected $operation;
+  protected $hookType;
 
-  public function __construct ($origin, string $dn = NULL, int $operation = NULL, string $ldapError = '', int $code = 0, Throwable $previous = NULL)
+  public function __construct ($origin, string $type, string $output = '', int $code = 0, Throwable $previous = NULL)
   {
-    $this->dn         = $dn;
-    $this->operation  = $operation;
+    $this->hookType = $type;
 
-    parent::__construct($origin, htmlescape($ldapError), $code, $previous);
+    parent::__construct($origin, htmlescape($output), $code, $previous);
   }
 
   public function toArray (): array
   {
     $array = parent::toArray();
 
-    $typemap = [1 => 'read','add','modify','delete','search','authentication'];
-
-    $array['dn'] = $this->dn;
-    if (isset($this->operation)) {
-      $array['operation'] = $typemap[$this->operation];
-    }
-    $array['errno'] = $this->getCode();
+    $array['hookType']  = $this->hookType;
+    $array['hookCode']  = $this->getCode();
 
     return $array;
   }
@@ -72,21 +65,13 @@ class SimplePluginLdapError extends SimplePluginError
 
     $html .= '<br/><br/>';
 
-    /* Assign headline depending on type */
-    $typemap = [1 => _('read operation'), _('add operation'), _('modify operation'),
-        _('delete operation'), _('search operation'), _('authentication')];
+    $html .= htmlescape(sprintf(_('Trigger "%s" returned an error!'), $this->hookType));
 
-    if (isset($this->operation)) {
-      $html .= htmlescape(sprintf(_('LDAP %s failed!'), $typemap[$this->operation]));
-    } else {
-      $html .= htmlescape(_('LDAP operation failed!'));
+    $html .= '<br/><br/>'."\n";
+    $html .= htmlescape(sprintf(_('Exit code: %d'), $this->getCode())).'<br/>'."\n";
+    if (!empty($this->htmlMessage)) {
+      $html .= 'Result: '.$this->htmlMessage."\n";
     }
-
-    if (!empty($this->dn)) {
-      $html .= '<br/><br/><i>'.htmlescape(_('Object:')).'</i> '.htmlescape($this->dn);
-    }
-
-    $html .= '<br/><br/><i>'.htmlescape(_('Error:')).'</i> '.$this->htmlMessage;
 
     $trace = $this->getTrace();
 

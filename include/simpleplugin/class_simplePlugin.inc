@@ -1366,7 +1366,7 @@ class simplePlugin implements SimpleTab
     return [];
   }
 
-  protected function pre_save ()
+  protected function pre_save (): array
   {
     if ($this->initially_was_account) {
       return $this->handle_pre_events('modify', ['modifiedLdapAttrs' => array_keys($this->attrs)]);
@@ -1453,7 +1453,7 @@ class simplePlugin implements SimpleTab
    *
    * \param  array  $addAttrs
    */
-  protected function handle_hooks (string $when, string $mode, array $addAttrs = [])
+  protected function handle_hooks (string $when, string $mode, array $addAttrs = []): array
   {
     switch ($mode) {
       case 'add':
@@ -1467,6 +1467,7 @@ class simplePlugin implements SimpleTab
 
       default:
         trigger_error(sprintf('Invalid %s event type given: "%s"! Valid types are: add, modify, remove.', strtolower($when), $mode));
+        return [];
         break;
     }
   }
@@ -1489,7 +1490,7 @@ class simplePlugin implements SimpleTab
    *  \brief Forward command execution requests
    *         to the pre hook execution method.
    */
-  function handle_pre_events (string $mode, array $addAttrs = [])
+  function handle_pre_events (string $mode, array $addAttrs = []): array
   {
     global $config;
 
@@ -1565,13 +1566,12 @@ class simplePlugin implements SimpleTab
         $str = implode("\n", $arr);
         logging::debug(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, 'Execution failed code: '.$returnCode);
         logging::debug(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, 'Output: '.$str);
-        $message = msgPool::cmdexecfailed($cmd, '', get_class($this));
-        $message .= '<br/><br/>'."\n";
-        $message .= 'Exit code: '.$returnCode.'<br/>'."\n";
-        if (!empty($str)) {
-          $message .= 'Result: '.$str."\n";
-        }
-        $messages[] = $message;
+        $messages[] = new SimplePluginHookError(
+          $this,
+          $cmd,
+          $str,
+          $returnCode
+        );
       } elseif (is_array($arr)) {
         $str = implode("\n", $arr);
         logging::debug(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, 'Output: '.$str);
