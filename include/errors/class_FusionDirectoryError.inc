@@ -30,4 +30,13 @@ class FusionDirectoryError extends Error
     $this->htmlMessage = $htmlMessage;
     parent::__construct(htmlunescape(strip_tags($htmlMessage)), $code, $previous);
   }
+
+  public function toArray (): array
+  {
+    return [
+      'message' => $this->getMessage(),
+      'line'    => $this->getLine(),
+      'file'    => $this->getFile(),
+    ];
+  }
 }

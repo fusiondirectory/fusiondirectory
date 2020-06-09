@@ -43,6 +43,22 @@ class SimplePluginCheckError extends FusionDirectoryError
     parent::__construct($htmlMessage, $code, $previous);
   }
 
+  public function toArray (): array
+  {
+    $array = parent::toArray();
+
+    if (isset($this->tab)) {
+      $array['dn']  = $this->tab->parent->getBaseObject()->dn;
+      $array['tab'] = get_class($this->tab);
+    }
+
+    if (isset($this->attribute)) {
+      $array['attribute'] = $this->attribute->getLdapName();
+    }
+
+    return $array;
+  }
+
   public function computeMsgDialogParameters (): array
   {
     $html = '';
