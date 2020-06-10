@@ -1723,22 +1723,6 @@ function send_binary_content ($data, $name, $type = "application/octet-stream")
 }
 
 /*!
- * \brief Escape string for HTML output
- */
-function htmlescape (string $str): string
-{
-  return htmlentities($str, ENT_COMPAT | ENT_HTML5, 'UTF-8');
-}
-
-/*!
- * \brief Unescape string for HTML output, reverse of htmlescape
- */
-function htmlunescape (string $html): string
-{
-  return html_entity_decode($html, ENT_COMPAT | ENT_HTML5, 'UTF-8');
-}
-
-/*!
  * \brief Encode special string characters
  *
  * Encode the special caracters so we can use the string in
