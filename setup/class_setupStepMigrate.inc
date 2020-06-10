@@ -779,7 +779,7 @@ class setupStepMigrate extends setupStep
                 $ldap->cat($member, ['dn','uid','cn','memberUid','roleOccupant','objectClass']);
                 if ($member_attrs = $ldap->fetch()) {
                   if (in_array('inetOrgPerson', $member_attrs['objectClass'])) {
-                    $valid_users[]  = htmlentities(($member_attrs['uid'][0] ?? $member_attrs['dn']), ENT_COMPAT, 'UTF-8');
+                    $valid_users[]  = htmlescape(($member_attrs['uid'][0] ?? $member_attrs['dn']));
                     $FD_admin_found = TRUE;
                   } elseif (in_array('posixGroup', $member_attrs['objectClass'])) {
                     $val_users = [];
@@ -787,12 +787,12 @@ class setupStepMigrate extends setupStep
                       for ($e = 0; $e < $member_attrs['memberUid']['count']; $e++) {
                         $ldap->search('(&(objectClass=inetOrgPerson)(uid='.ldap_escape_f($member_attrs['memberUid'][$e]).'))', ['uid','dn']);
                         if ($user_attrs = $ldap->fetch()) {
-                          $val_users[] = htmlentities(($user_attrs['uid'][0] ?? $user_attrs['dn']), ENT_COMPAT, 'UTF-8');
+                          $val_users[] = htmlescape(($user_attrs['uid'][0] ?? $user_attrs['dn']));
                         }
                       }
                     }
                     if (!empty($val_users)) {
-                      $valid_groups[] = htmlentities($member_attrs['cn'][0], ENT_COMPAT, 'UTF-8').'(<i>'.implode(', ', $val_users).'</i>)';
+                      $valid_groups[] = htmlescape($member_attrs['cn'][0]).'(<i>'.implode(', ', $val_users).'</i>)';
                       $FD_admin_found = TRUE;
                     }
                   } elseif (in_array('organizationalRole', $member_attrs['objectClass'])) {
@@ -801,12 +801,12 @@ class setupStepMigrate extends setupStep
                       for ($e = 0; $e < $member_attrs['roleOccupant']['count']; $e ++) {
                         $ldap->cat($member_attrs['roleOccupant'][$e], ['uid','dn'], '(objectClass=inetOrgPerson)');
                         if ($user_attrs = $ldap->fetch()) {
-                          $val_users[] = htmlentities(($user_attrs['uid'][0] ?? $user_attrs['dn']), ENT_COMPAT, 'UTF-8');
+                          $val_users[] = htmlescape(($user_attrs['uid'][0] ?? $user_attrs['dn']));
                         }
                       }
                     }
                     if (!empty($val_users)) {
-                      $valid_roles[]  = htmlentities($member_attrs['cn'][0], ENT_COMPAT, 'UTF-8').'(<i>'.implode(', ', $val_users).'</i>)';
+                      $valid_roles[]  = htmlescape($member_attrs['cn'][0]).'(<i>'.implode(', ', $val_users).'</i>)';
                       $FD_admin_found = TRUE;
                     }
                   }
@@ -1161,7 +1161,7 @@ class setupStepMigrate extends setupStep
           $dn   = $object['dn'];
           $d_dn = preg_replace('/,.*$/', ','.$destination_dep, $dn);
           if ($only_ldif) {
-            $object['ldif'] = sprintf(_("Entry will be moved from:<br/>\t%s<br/>to:<br/>\t%s"), htmlentities($dn, ENT_COMPAT, 'UTF-8'), htmlentities($d_dn, ENT_COMPAT, 'UTF-8'));
+            $object['ldif'] = nl2br(htmlescape(sprintf(_("Entry will be moved from:\n\t%s\nto:\n\t%s"), $dn, $d_dn)));
 
             /* Check if there are references to this object */
             $ldap->search('(&(member='.ldap_escape_f($dn).')(|(objectClass=gosaGroupOfNames)(objectClass=groupOfNames)))', ['dn']);

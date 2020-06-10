@@ -166,7 +166,7 @@ class DateAttribute extends Attribute
   function renderFormInput (): string
   {
     $attributes = [
-      'value'   => '{literal}'.$this->getValue().'{/literal}',
+      'value'   => '{literal}'.htmlescape($this->getValue()).'{/literal}',
       'pattern' => '{literal}[0-9]{4}-[0-9]{2}-[0-9]{2}{/literal}',
     ];
     if ($this->minDate !== NULL) {
@@ -183,7 +183,7 @@ class DateAttribute extends Attribute
   {
     $id = $this->getHtmlId();
     $attributes = [
-      'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}'
+      'value' => '{literal}'.htmlescape($this->getValue()).'{/literal}'
     ];
     if ($this->isSubAttribute) {
       $attributes['class'] = 'subattribute';
@@ -357,7 +357,7 @@ class GeneralizedTimeDisplayAttribute extends GeneralizedTimeDateAttribute
   {
     $date = $this->getDateValue();
     $date->setTimezone(timezone::getDefaultTimeZone());
-    return htmlentities($date->format('Y-m-d, H:i:s'), ENT_COMPAT, 'UTF-8');
+    return htmlescape($date->format('Y-m-d, H:i:s'));
   }
 }
 

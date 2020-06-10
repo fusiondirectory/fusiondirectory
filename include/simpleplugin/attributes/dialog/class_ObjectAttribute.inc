@@ -88,11 +88,11 @@ class ObjectAttribute extends DialogButtonAttribute
       $display = $this->renderInputField(
         'text', $id,
         [
-          'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}'
+          'value' => '{literal}'.htmlescape($this->getValue()).'{/literal}'
         ]
       );
     } else {
-      $display  = '<img src="'.htmlentities($infos['icon'], ENT_COMPAT, 'UTF-8').'" alt="'.$infos['name'].'" class="center"/>';
+      $display  = '<img src="'.htmlescape($infos['icon']).'" alt="'.$infos['name'].'" class="center"/>';
       if ($this->getValue() == '') {
         $display  .= '<b>'._('None').'</b>';
       } elseif ($this->buttonText === NULL) {

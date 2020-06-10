@@ -75,17 +75,17 @@ class StringAttribute extends Attribute
   {
     $id = $this->getHtmlId();
     $attributes = [
-      'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}'
+      'value' => '{literal}'.htmlescape($this->getValue()).'{/literal}'
     ];
     if (!empty($this->managedAttributes)) {
       $js       = $this->managedAttributesJS();
-      $attributes['onChange'] = 'javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8');
+      $attributes['onChange'] = 'javascript:'.htmlescape($js);
     }
     if ($this->autocomplete !== NULL) {
       $attributes['autocomplete'] = $this->autocomplete;
     }
     if ($this->html5pattern !== NULL) {
-      $attributes['pattern'] = '{literal}'.htmlentities($this->html5pattern, ENT_COMPAT, 'UTF-8').'{/literal}';
+      $attributes['pattern'] = '{literal}'.htmlescape($this->html5pattern).'{/literal}';
     }
     if ($this->isSubAttribute) {
       $attributes['class'] = 'subattribute';
@@ -100,7 +100,7 @@ class StringAttribute extends Attribute
   {
     $id = $this->getHtmlId();
     $attributes = [
-      'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}'
+      'value' => '{literal}'.htmlescape($this->getValue()).'{/literal}'
     ];
     if ($this->autocomplete !== NULL) {
       $attributes['autocomplete'] = $this->autocomplete;
@@ -191,7 +191,7 @@ class TextAreaAttribute extends StringAttribute
                 ($this->disabled ? ' disabled="disabled"' : '').
                 ($this->isSubAttribute ? ' class="subattribute"' : ($this->isRequired() ? ' required="required"' : '')).
                 '>'.
-                '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}</textarea>';
+                '{literal}'.htmlescape($this->getValue()).'{/literal}</textarea>';
     return $this->renderAcl($display);
   }
 
@@ -202,7 +202,7 @@ class TextAreaAttribute extends StringAttribute
                 ($this->disabled ? ' disabled="disabled"' : '').
                 ($this->isSubAttribute ? ' class="subattribute"' : '').
                 '>'.
-                '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}</textarea>';
+                '{literal}'.htmlescape($this->getValue()).'{/literal}</textarea>';
     return $this->renderAcl($display);
   }
 }

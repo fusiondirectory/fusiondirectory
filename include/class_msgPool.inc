@@ -270,12 +270,12 @@ class msgPool
     if (!is_string($data)) {
       $data = var_export($data, TRUE);
     }
-    $error = sprintf(_('The field "%s" contains an invalid value.'), htmlentities($name, ENT_COMPAT, 'UTF-8'));
-    $error .= '<br/><br/> "'.htmlentities($data, ENT_COMPAT, 'UTF-8').'"';
+    $error = htmlescape(sprintf(_('The field "%s" contains an invalid value.'), $name));
+    $error .= '<br/><br/> "'.htmlescape($data).'"';
 
     /* Stylize example */
     if ($example !== '') {
-      $error .= '<br/><br/><i>'.sprintf(_('Example: %s'), htmlentities($example, ENT_COMPAT, 'UTF-8')).'</i> ';
+      $error .= '<br/><br/><i>'.htmlescape(sprintf(_('Example: %s'), $example)).'</i> ';
     }
 
     return $error;

@@ -41,9 +41,9 @@ class GroupContentColumn extends Column
       }
       try {
         $infos  = objects::infos(ogroup::$objectTypes[$types[$i]]);
-        $result .= '<img src="'.htmlentities($infos['icon'], ENT_COMPAT, 'UTF-8').'"'.
-                    ' alt="'.htmlentities($infos['name'], ENT_COMPAT, 'UTF-8').'"'.
-                    ' title="'.htmlentities($infos['name'], ENT_COMPAT, 'UTF-8').'"/>';
+        $result .= '<img src="'.htmlescape($infos['icon']).'"'.
+                    ' alt="'.htmlescape($infos['name']).'"'.
+                    ' title="'.htmlescape($infos['name']).'"/>';
       } catch (NonExistingObjectTypeException $e) {
         continue;
       }

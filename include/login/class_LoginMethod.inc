@@ -204,7 +204,7 @@ class LoginMethod
     } catch (Exception $e) {
       $display = '<h1>'._('An unrecoverable error occurred. Please contact your administator.').'</h1><p>';
       if (ini_get('display_errors') == 1) {
-        $display .= nl2br(htmlentities((string)$e, ENT_COMPAT, 'UTF-8'));
+        $display .= nl2br(htmlescape((string)$e));
       } else {
         $display .= 'Error detail display is turned off.';
       }

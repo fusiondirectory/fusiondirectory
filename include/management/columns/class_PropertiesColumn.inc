@@ -64,8 +64,8 @@ class PropertiesColumn extends Column
       if (empty($tabInfo['icon'])) {
         $result .= '<img src="images/empty.png" alt="" class="optional '.$tabInfo['tab'].'"/>';
       } else {
-        $result .= '<input type="image" src="'.htmlentities($tabInfo['icon'], ENT_COMPAT, 'UTF-8').'" '.
-                    'alt="'.htmlentities($tabInfo['title'], ENT_COMPAT, 'UTF-8').'" title="'.htmlentities($tabInfo['title'], ENT_COMPAT, 'UTF-8').'" '.
+        $result .= '<input type="image" src="'.htmlescape($tabInfo['icon']).'" '.
+                    'alt="'.htmlescape($tabInfo['title']).'" title="'.htmlescape($tabInfo['title']).'" '.
                     'name="listing_edit_tab_'.$tabInfo['tab'].'_'.$entry->row.'"/>';
       }
     }

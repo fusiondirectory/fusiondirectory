@@ -206,10 +206,10 @@ class SelectAttribute extends Attribute
     }
     if ($this->submitForm) {
       $js       = 'document.mainform.submit();';
-      $display  .= 'onChange="javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8').'"';
+      $display  .= 'onChange="javascript:'.htmlescape($js).'"';
     } elseif (!empty($this->managedAttributes)) {
       $js       = $this->managedAttributesJS();
-      $display  .= 'onChange="javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8').'"';
+      $display  .= 'onChange="javascript:'.htmlescape($js).'"';
     }
     if ($this->isSubAttribute) {
       $display .= 'class="subattribute" ';

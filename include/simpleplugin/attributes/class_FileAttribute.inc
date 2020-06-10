@@ -272,7 +272,7 @@ class FileTextAreaAttribute extends FileDownloadAttribute
     $id = $this->getHtmlId();
     $display  = '<textarea name="'.$id.'_text" id="'.$id.'_text"'.
                 ($this->disabled ? 'disabled="disabled"' : '').'>'.
-                '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}</textarea><br/>';
+                '{literal}'.htmlescape($this->getValue()).'{/literal}</textarea><br/>';
     return $this->renderAcl($display).parent::renderFormInput();
   }
 

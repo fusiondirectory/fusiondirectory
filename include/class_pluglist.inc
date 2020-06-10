@@ -442,13 +442,13 @@ class pluglist
 
           /* Load icon */
           if (isset($info['CLASS']) && !preg_match("/\//", $plIcon) && !preg_match("/^geticon/", $plIcon)) {
-            $image = get_template_path("plugins/".preg_replace('%^.*/([^/]+)/[^/]+$%', '\1', $class_mapping[$info['CLASS']])."/images/$plIcon");
+            $image = get_template_path('plugins/'.preg_replace('%^.*/([^/]+)/[^/]+$%', '\1', $class_mapping[$info['CLASS']]).'/images/'.$plIcon);
           } else {
-            $image = htmlentities($plIcon, ENT_COMPAT, 'UTF-8');
+            $image = $plIcon;
           }
 
-          $entries  .= '<div class="iconmenu" id="menuitem_icon_'.$id.'" onClick=\'location.href="'.$href.'"\' title="'.$plDescription.'">';
-          $item     = '<div class="imgcontainer"><img src="'.$image.'" alt=""/></div><span>&nbsp;'.$plHeadline.'</span>';
+          $entries  .= '<div class="iconmenu" id="menuitem_icon_'.$id.'" onClick=\'location.href="'.$href.'"\' title="'.htmlescape($plDescription).'">';
+          $item     = '<div class="imgcontainer"><img src="'.htmlescape($image).'" alt=""/></div><span>&nbsp;'.htmlescape($plHeadline).'</span>';
           $entries  .= $item."</div>\n";
         }
 
@@ -588,9 +588,9 @@ class pluglist
     } catch (Exception $e) {
       $smarty->assign('headline', _('Fatal error!'));
       $smarty->assign('headline_image', 'geticon.php?context=status&icon=dialog-error&size=32');
-      $display = '<h1>'._('An unrecoverable error occurred. Please contact your administator.').'</h1><p>';
+      $display = '<h1>'.htmlescape(_('An unrecoverable error occurred. Please contact your administator.')).'</h1><p>';
       if (ini_get('display_errors') == 1) {
-        $display .= nl2br(htmlentities((string)$e, ENT_COMPAT, 'UTF-8'));
+        $display .= nl2br(htmlescape((string)$e));
       } else {
         $display .= 'Error detail display is turned off.';
       }

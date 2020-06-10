@@ -619,15 +619,9 @@ class Attribute
       if ($readOnly) {
         $currentValue = $this->getValue();
         if (is_array($currentValue)) {
-          $input = '{literal}'.implode('<br/>', array_map(
-            function ($v)
-            {
-              return htmlentities($v, ENT_COMPAT, 'UTF-8');
-            },
-            $currentValue
-          )).'{/literal}';
+          $input = '{literal}'.implode('<br/>', array_map('htmlescape', $currentValue)).'{/literal}';
         } else {
-          $input = '{literal}'.htmlentities($currentValue, ENT_COMPAT, 'UTF-8').'{/literal}';
+          $input = '{literal}'.htmlescape($currentValue).'{/literal}';
         }
       } elseif ($this->isTemplate()) {
         $input = $this->renderTemplateInput();
@@ -887,7 +881,7 @@ class DisplayLDAPAttribute extends Attribute
     if ($this->allowHTML) {
       $value = $this->getValue();
     } else {
-      $value = htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8');
+      $value = htmlescape($this->getValue());
     }
     if ($this->allowSmarty) {
       return $value;
@@ -940,7 +934,7 @@ class DisplayLDAPArrayAttribute extends Attribute
     if (is_array($value)) {
       $value = join(', ', $value);
     }
-    return '{literal}'.htmlentities($value, ENT_COMPAT, 'UTF-8').'{/literal}';
+    return '{literal}'.htmlescape($value).'{/literal}';
   }
 }
 

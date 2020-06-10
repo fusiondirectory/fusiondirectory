@@ -878,7 +878,7 @@ class simplePlugin implements SimpleTab
       $legend = $sectionInfo['name'];
       if (isset($sectionInfo['icon'])) {
         $legend = '<img '.
-                  'src="'.htmlentities($sectionInfo['icon'], ENT_COMPAT, 'UTF-8').'" '.
+                  'src="'.htmlescape($sectionInfo['icon']).'" '.
                   'alt="" '.
                   '/>'.$legend;
       }

@@ -32,10 +32,10 @@ class ObjectTypeColumn extends Column
   {
     if ($entry->isTemplate()) {
       $infos = objects::infos($entry->getTemplatedType());
-      return '<img title="'.$entry->dn.'" src="'.htmlentities('geticon.php?context=devices&icon=template&size=16', ENT_COMPAT, 'UTF-8').'" alt="'.sprintf(_('%s template'), $infos['name']).'"/>';
+      return '<img title="'.htmlescape($entry->dn).'" src="'.htmlescape('geticon.php?context=devices&icon=template&size=16').'" alt="'.htmlescape(sprintf(_('%s template'), $infos['name'])).'"/>';
     } elseif ($entry->type) {
       $infos = objects::infos($entry->type);
-      return '<img title="'.$entry->dn.'" src="'.htmlentities($infos['icon'], ENT_COMPAT, 'UTF-8').'" alt="'.$infos['name'].'"/>';
+      return '<img title="'.htmlescape($entry->dn).'" src="'.htmlescape($infos['icon']).'" alt="'.htmlescape($infos['name']).'"/>';
     } else {
       return '&nbsp;';
     }

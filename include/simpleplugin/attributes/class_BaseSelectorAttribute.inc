@@ -150,7 +150,7 @@ class BaseSelectorAttribute extends Attribute
       $display = $this->renderInputField(
         'text', '',
         [
-          'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}'
+          'value' => '{literal}'.htmlescape($this->getValue()).'{/literal}'
         ]
       );
     } else {

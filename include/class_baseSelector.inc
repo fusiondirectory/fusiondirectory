@@ -197,7 +197,7 @@ class baseSelector
                   ' onfocus="$(\'bs_'.$this->pid.'\').hide()"'.
                   ' onmouseover="Element.clonePosition($(\'bs_'.$this->pid.'\'), \''.$this->getInputHtmlId().'\', {setHeight: false, setWidth: false, offsetTop:(Element.getHeight(\''.$this->getInputHtmlId().'\'))});$(\'bs_'.$this->pid.'\').show();"'.
                   ' onmouseout="rtimer= Element.hide.delay(0.25, \'bs_'.$this->pid.'\')"'.
-                  ' value="'.htmlentities($this->pathMapping[$this->base], ENT_COMPAT, 'UTF-8').'"/>';
+                  ' value="'.htmlescape($this->pathMapping[$this->base]).'"/>';
 
     // Autocompleter
     $this->tree .= "<div id='autocomplete_".$this->pid."' class='autocomplete'></div>".
@@ -235,7 +235,7 @@ class baseSelector
           $this->tree .= "</li>\n";
           $this->tree .= '<li><a title="'.$parent_base.'">'.
                         '<img class="center" '.
-                        'src="'.htmlentities($departmentInfo[$parent_base]['img'], ENT_COMPAT, 'UTF-8').'" '.
+                        'src="'.htmlescape($departmentInfo[$parent_base]['img']).'" '.
                         'alt=""/>&nbsp;'.
                         $this->escape($departmentInfo[$parent_base]['name']).
                         (($departmentInfo[$parent_base]['description'] == '') ? '' : '&nbsp;<span class="informal">['.$this->escape($departmentInfo[$parent_base]['description']).']</span>').
@@ -252,7 +252,7 @@ class baseSelector
       $link       = "onclick=\"\$('bs_rebase_".$this->pid."').value='".base64_encode($base)."';$('submit_tree_base_".$this->pid."').click();\"";
       $this->tree .= '<li><a'.$selected.' '.$link.' title="'.$base.'">'.
                     '<img class="center" '.
-                    'src="'.htmlentities($departmentInfo[$base]['img'], ENT_COMPAT, 'UTF-8').'" '.
+                    'src="'.htmlescape($departmentInfo[$base]['img']).'" '.
                     'alt=""/>&nbsp;'.
                     $this->escape($departmentInfo[$base]['name']).
                     (($departmentInfo[$base]['description'] == '') ? '' : '&nbsp;<span class="informal">['.$this->escape($departmentInfo[$base]['description']).']</span>').
@@ -288,7 +288,7 @@ class baseSelector
    */
   function escape (string $string): string
   {
-    return str_replace(' ', '&nbsp;', htmlentities($string, ENT_COMPAT, 'UTF-8'));
+    return str_replace(' ', '&nbsp;', htmlescape($string));
   }
 
   /*!

@@ -209,13 +209,13 @@ class Action
     }
 
     if (!$this->isEnabledFor($entry)) {
-      return '<img src="'.htmlentities($this->icon.'&disabled=1', ENT_COMPAT, 'UTF-8').'"'.
-              ' title="'.$this->label.'" alt="'.$this->label.'"/>';
+      return '<img src="'.htmlescape($this->icon.'&disabled=1').'"'.
+              ' title="'.htmlescape($this->label).'" alt="'.htmlescape($this->label).'"/>';
     }
 
     // Render
-    return '<input type="image" src="'.htmlentities($this->icon, ENT_COMPAT, 'UTF-8').'"'.
-            ' title="'.$this->label.'" alt="'.$this->label.'" name="listing_'.$this->name.'_'.$entry->row.'"/>';
+    return '<input type="image" src="'.htmlescape($this->icon).'"'.
+            ' title="'.htmlescape($this->label).'" alt="'.htmlescape($this->label).'" name="listing_'.$this->name.'_'.$entry->row.'"/>';
   }
 
   function isEnabledFor (ListingEntry $entry = NULL): bool
