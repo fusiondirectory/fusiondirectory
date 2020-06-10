@@ -170,8 +170,13 @@ class passwordRecovery extends standAlonePage
       $ldap->cd($config->current['BASE']);
       $ldap->create_missing_trees($token);
       if (!$ldap->success()) {
-        return msgPool::ldaperror($ldap->get_error(),
-                                  $token, LDAP_MOD, get_class());
+        return new SimplePluginLdapError(
+          NULL,
+          $token,
+          NULL,
+          $ldap->get_error(),
+          $ldap->get_errno()
+        );
       }
       fusiondirectory_log("Created token branch ".$token);
     }
@@ -194,12 +199,17 @@ class passwordRecovery extends standAlonePage
     }
 
     if (!$ldap->success()) {
-      return msgPool::ldaperror($ldap->get_error(),
-                                $dn, LDAP_ADD, get_class());
+      return new SimplePluginLdapError(
+        NULL,
+        $dn,
+        ($add ? LDAP_ADD : LDAP_MOD),
+        $ldap->get_error(),
+        $ldap->get_errno()
+      );
     }
 
     /* Everything went well */
-    return '';
+    return NULL;
   }
 
   function checkToken ($token)
@@ -242,10 +252,10 @@ class passwordRecovery extends standAlonePage
     $ldap->search($filter, ['dn']);
 
     if ($ldap->count() < 1) {
-      $this->message[] = sprintf(_('Did not find an account with login "%s"'), htmlentities($this->login, ENT_COMPAT, 'UTF-8'));
+      $this->message[] = new FusionDirectoryError(htmlescape(sprintf(_('Did not find an account with login "%s"'), $this->login)));
       return;
     } elseif ($ldap->count() > 1) {
-      $this->message[] = sprintf(_('Found multiple accounts with login "%s"'), htmlentities($this->login, ENT_COMPAT, 'UTF-8'));
+      $this->message[] = new FusionDirectoryError(htmlescape(sprintf(_('Found multiple accounts with login "%s"'), $this->login)));
       return;
     }
 
@@ -283,10 +293,10 @@ class passwordRecovery extends standAlonePage
 
     /* Only one ldap node should be found */
     if ($ldap->count() < 1) {
-      $this->message[] = sprintf(_('There is no account using email "%s"'), htmlentities($this->email_address, ENT_COMPAT, 'UTF-8'));
+      $this->message[] = new FusionDirectoryError(htmlescape(sprintf(_('There is no account using email "%s"'), $this->email_address)));
       return FALSE;
     } elseif ($ldap->count() > 1) {
-      $this->message[] = sprintf(_('There are several accounts using email "%s"'), htmlentities($this->email_address, ENT_COMPAT, 'UTF-8'));
+      $this->message[] = new FusionDirectoryError(htmlescape(sprintf(_('There are several accounts using email "%s"'), $this->email_address)));
       return FALSE;
     }
 
@@ -294,7 +304,7 @@ class passwordRecovery extends standAlonePage
 
     $method = passwordMethod::get_method($attrs['userPassword'][0], $attrs['dn']);
     if (is_object($method) && $method->is_locked($attrs['dn'])) {
-      $this->message[] = sprintf(_('The user using email "%s" is locked. Please contact your administrator.'), htmlentities($this->email_address, ENT_COMPAT, 'UTF-8'));
+      $this->message[] = new FusionDirectoryError(htmlescape(sprintf(_('The user using email "%s" is locked. Please contact your administrator.'), $this->email_address)));
       return FALSE;
     }
     $this->login  = $attrs[$this->loginAttribute][0];
@@ -349,7 +359,7 @@ class passwordRecovery extends standAlonePage
     if (mail_utf8($this->email_address, FALSE, $this->from_mail, $this->mail_subject, $body)) {
       $this->step = 3;
     } else {
-      $this->message[] = _('Contact your administrator, there was a problem with mail server');
+      $this->message[] = new FusionDirectoryError(htmlescape(_('Contact your administrator, there was a problem with mail server')));
     }
     $smarty = get_smarty();
 
@@ -362,7 +372,7 @@ class passwordRecovery extends standAlonePage
     $uniq_id_from_mail = validate($_GET['uniq']);
 
     if (!$this->checkToken($uniq_id_from_mail)) {
-      $this->message[] = _("This token is invalid");
+      $this->message[] = new FusionDirectoryError(htmlescape(_('This token is invalid')));
       return;
     }
 
@@ -426,7 +436,7 @@ class passwordRecovery extends standAlonePage
       $this->step = 5;
       $smarty->assign('changed', TRUE);
     } else {
-      $this->message[] = _('There was a problem with mail server, confirmation email not sent');
+      $this->message[] = new FusionDirectoryError(htmlescape(_('There was a problem with mail server, confirmation email not sent')));
     }
   }
 
