@@ -215,7 +215,11 @@ class logging
         msg_dialog::displayChecks($errors);
       }
     } catch (FusionDirectoryException $e) {
-      msg_dialog::display(_('Error'), sprintf(_('Failed to log event (%s - %s): %s'), $entry['action'], $entry['objecttype'], $e->getMessage()), ERROR_DIALOG);
+      msg_dialog::display(
+        _('Error'),
+        htmlescape(sprintf(_('Failed to log event (%s - %s): %s'), $entry['action'], $entry['objecttype'], $e->getMessage())),
+        ERROR_DIALOG
+      );
     }
   }
 }

@@ -202,19 +202,19 @@ class LoginMethod
     try {
       $method::loginProcess();
     } catch (Exception $e) {
-      $display = '<h1>'._('An unrecoverable error occurred. Please contact your administator.').'</h1><p>';
+      $display = '<h1>'.htmlescape(_('An unrecoverable error occurred. Please contact your administator.')).'</h1><p>';
       if (ini_get('display_errors') == 1) {
         $display .= nl2br(htmlescape((string)$e));
       } else {
         $display .= 'Error detail display is turned off.';
       }
       $display .= '</p>'."\n";
-      $smarty->assign('headline', _('Fatal error!'));
+      $smarty->assign('headline',       _('Fatal error!'));
       $smarty->assign('headline_image', 'geticon.php?context=status&icon=dialog-error&size=32');
-      $smarty->assign('usePrototype', 'false');
-      $smarty->assign('date',         date('l, dS F Y H:i:s O'));
-      $smarty->assign('lang',         preg_replace('/_.*$/', '', $lang));
-      $smarty->assign('rtl',          Language::isRTL($lang));
+      $smarty->assign('usePrototype',   'false');
+      $smarty->assign('date',           date('l, dS F Y H:i:s O'));
+      $smarty->assign('lang',           preg_replace('/_.*$/', '', $lang));
+      $smarty->assign('rtl',            Language::isRTL($lang));
 
       $smarty->display(get_template_path('headers.tpl'));
       echo $display;

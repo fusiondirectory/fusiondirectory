@@ -31,7 +31,7 @@ require_once('class_URL.inc');
  */
 function htmlescape (string $str): string
 {
-  return htmlentities($str, ENT_COMPAT | ENT_HTML5, 'UTF-8');
+  return htmlspecialchars($str, ENT_QUOTES | ENT_HTML5, 'UTF-8');
 }
 
 /*!
@@ -39,7 +39,7 @@ function htmlescape (string $str): string
  */
 function htmlunescape (string $html): string
 {
-  return html_entity_decode($html, ENT_COMPAT | ENT_HTML5, 'UTF-8');
+  return html_entity_decode($html, ENT_QUOTES | ENT_HTML5, 'UTF-8');
 }
 
 function html_trace ($errstr = "")

@@ -114,8 +114,7 @@ class LoginPost extends LoginMethod
     }
     $smarty->assign('date',       gmdate('D, d M Y H:i:s'));
     $smarty->assign('username',   $username);
-    $smarty->assign('revision',   FD_VERSION);
-    $smarty->assign('year',       date('Y'));
+    $smarty->assign('copynotice', copynotice());
     $smarty->append('css_files',  get_template_path('login.css'));
     $smarty->assign('title',      _('Sign in'));
 
@@ -127,7 +126,7 @@ class LoginPost extends LoginMethod
 
     /* Display SSL mode warning? */
     if (($ssl != '') && ($config->get_cfg_value('warnSSL') == 'TRUE')) {
-      $smarty->assign('ssl', sprintf(_('Warning: <a href="%s">Session is not encrypted!</a>'), $ssl));
+      $smarty->assign('ssl', sprintf(htmlescape(_('Warning: %sSession is not encrypted!%s')), '<a href="'.$ssl.'">', '</a>'));
     } else {
       $smarty->assign('ssl', '');
     }
@@ -187,8 +186,7 @@ class LoginPost extends LoginMethod
     }
     $smarty->assign('date',       gmdate('D, d M Y H:i:s'));
     $smarty->assign('username',   $username);
-    $smarty->assign('revision',   FD_VERSION);
-    $smarty->assign('year',       date('Y'));
+    $smarty->assign('copynotice', copynotice());
     $smarty->append('css_files',  get_template_path('login.css'));
     $smarty->assign('title',      _('Second factor'));
 

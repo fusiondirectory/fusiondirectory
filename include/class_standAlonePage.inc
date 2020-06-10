@@ -153,12 +153,11 @@ class standAlonePage
     /* Check for old files in compile directory */
     clean_smarty_compile_dir($smarty->compile_dir);
 
-    $smarty->assign('date',     gmdate('D, d M Y H:i:s'));
-    $smarty->assign('params',   '');
-    $smarty->assign('message',  '');
-    $smarty->assign('changed',  FALSE);
-    $smarty->assign('revision', FD_VERSION);
-    $smarty->assign('year',     date('Y'));
+    $smarty->assign('date',       gmdate('D, d M Y H:i:s'));
+    $smarty->assign('params',     '');
+    $smarty->assign('message',    '');
+    $smarty->assign('changed',    FALSE);
+    $smarty->assign('copynotice', copynotice());
 
     $lang = session::get('lang');
     $smarty->assign('lang',         preg_replace('/_.*$/', '', $lang));
@@ -207,7 +206,7 @@ class standAlonePage
         exit;
       } elseif ($config->get_cfg_value('warnssl') == 'TRUE') {
         /* Display SSL mode warning? */
-        $smarty->assign('ssl', sprintf(_('Warning: <a href="%s">Session is not encrypted!</a>'), $ssl));
+        $smarty->assign('ssl', sprintf(htmlescape(_('Warning: %sSession is not encrypted!%s')), '<a href="'.$ssl.'">', '</a>'));
       }
     }
 

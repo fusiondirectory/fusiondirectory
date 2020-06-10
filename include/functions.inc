@@ -176,6 +176,14 @@ function DEBUG ($level, $line, $function, $file, $data, $info = '')
 }
 
 /*!
+ * \brief Return HTML safe copyright notice
+ */
+function copynotice ()
+{
+  return sprintf(htmlescape(_('%s 2002-%d %sThe FusionDirectory team, %s%s')), '&copy;', date('Y'), '<a href="http://www.fusiondirectory.org">', FD_VERSION,'</a>');
+}
+
+/*!
  * \brief Return themed path for specified base file
  *
  *  Depending on its parameters, this function returns the full

@@ -84,7 +84,7 @@ class passwordRecovery extends standAlonePage
         $this->step4();
       } elseif (isset($_POST['apply'])) {
         if ($_POST['email_address'] == '') {
-          $this->message[] = msgPool::required(_('Email address'));
+          $this->message[] = new FusionDirectoryError(msgPool::required(_('Email address')));
           return;
         }
         $this->email_address = $_POST['email_address'];

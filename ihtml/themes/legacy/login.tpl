@@ -21,7 +21,7 @@
     <div class="optional">
       {t}Please use your username and your password to log into the site administration system.{/t}<br />
       {if $ssl}<span class="warning">{$ssl}</span>{/if}
-      {if $lifetime}<span class="warning">{$lifetime}</span>{/if}
+      {if $lifetime}<span class="warning">{$lifetime|escape}</span>{/if}
     </div>
 
     <div>
