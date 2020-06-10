@@ -1,4 +1,4 @@
-<fieldset><legend>{$NAME}</legend>
+<fieldset><legend>{$NAME|escape}</legend>
   {foreach from=$INPUTS key="key" item="input"}
     <label for="{$key}" title="{$input.desc|escape}">
       <input type="checkbox" id="{$key}" name="{$key}" value="1"

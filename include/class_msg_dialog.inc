@@ -46,9 +46,9 @@ class msg_dialog
   /*!
    * \brief Message dialog constructor
    *
-   * \param string $title The title of the message dialog
+   * \param string $title The title of the message dialog (plain string)
    *
-   * \param string $message The message of the message dialog
+   * \param string $message The message of the message dialog (HTML)
    *
    * \param int $type The type of the message dialog, by default = INFO_DIALOG
    *
@@ -168,8 +168,7 @@ class msg_dialog
     global $config;
 
     $display =
-      '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-      "http://www.w3.org/TR/html4/transitional.dtd">
+      '<!DOCTYPE html>
       <html><head>
       <title>FusionDirectory startup failed</title>
       </head><body>';
@@ -182,12 +181,12 @@ class msg_dialog
       '<table style="width:100%; border:2px solid red;">
         <tr>
           <td style="vertical-align:top;padding:10px">
-            <img src="geticon.php?context=status&amp;icon=dialog-error&amp;size=32" alt="'._('Error').'"/>
+            <img src="geticon.php?context=status&amp;icon=dialog-error&amp;size=32" alt="'.htmlescape(_('Error')).'"/>
           </td>
           <td style="width:100%">
-            <b>'.$this->s_Title.'</b><br/>
-            '.$this->s_Message.'<br><br/>
-            '._('Please fix the above error and reload the page.').'
+            <b>'.htmlescape($this->s_Title).'</b><br/>
+            '.$this->s_Message.'<br/><br/>
+            '.htmlescape(_('Please fix the above error and reload the page.')).'
           </td>
         </tr>
       </table></body></html>';

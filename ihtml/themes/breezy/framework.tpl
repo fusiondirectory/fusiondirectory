@@ -15,7 +15,7 @@
           <img src="geticon.php?context=actions&amp;icon=application-exit&amp;size=22" alt=""/>&nbsp;{t}Sign out{/t}
         </a>
         <a class="plugtop">
-          <img src="{$headline_image|escape}" alt=""/>{t}{$headline|escape}{/t}
+          <img src="{$headline_image|escape}" alt=""/>{$headline|escape}
         </a>
       </div>
       <div id="header-right">

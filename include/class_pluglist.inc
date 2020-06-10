@@ -377,12 +377,12 @@ class pluglist
           }
 
           $entries .= '<li class="menuitem" id="menuitem_'.$id.'">';
-          $entries .= '<a href="'.$href.'" title="'.$plDescription.'">'.$plHeadline.'</a></li>'."\n";
+          $entries .= '<a href="'.$href.'" title="'.htmlescape($plDescription).'">'.htmlescape($plHeadline).'</a></li>'."\n";
         }
 
         /* Append to menu */
         if ($entries != "") {
-          $this->menu .= '<li><a>'.$section_infos['NAME']."</a>\n<ul>\n".$entries."\n</ul></li>\n";
+          $this->menu .= '<li><a>'.htmlescape($section_infos['NAME'])."</a>\n<ul>\n".$entries."\n</ul></li>\n";
         }
       }
       $this->menu .= '</ul>'."\n";
@@ -420,7 +420,7 @@ class pluglist
       foreach ($config->data['SECTIONS'] as $section => $section_infos) {
         $entries      = '';
         $sectionMenu  = '<div class="iconmenu-section"><h1 class="menuheader">';
-        $sectionMenu  .= $section_infos['NAME']."</h1>\n";
+        $sectionMenu  .= htmlescape($section_infos['NAME'])."</h1>\n";
 
         foreach ($config->data['MENU'][$section] as $info) {
           if (!$this->check_access($info)) {

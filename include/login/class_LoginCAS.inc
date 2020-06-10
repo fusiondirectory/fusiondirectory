@@ -100,11 +100,11 @@ class LoginCAS extends LoginMethod
       if (!empty($message)) {
         msg_dialog::display(
           _('Error'),
-          sprintf(
+          htmlescape(sprintf(
             _('Login with user "%s" triggered error: %s'),
             static::$username,
             $message
-          ),
+          )),
           FATAL_ERROR_DIALOG
         );
       }

@@ -210,9 +210,9 @@ class logging
       $baseObject->fdAuditAttributes  = $entry['changes'];
       $baseObject->fdAuditResult      = $entry['result'];
       $baseObject->base               = $config->current['BASE'];
-      $message = $tabObject->save();
-      if (!empty($message)) {
-        msg_dialog::displayChecks($message);
+      $errors = $tabObject->save();
+      if (!empty($errors)) {
+        msg_dialog::displayChecks($errors);
       }
     } catch (FusionDirectoryException $e) {
       msg_dialog::display(_('Error'), sprintf(_('Failed to log event (%s - %s): %s'), $entry['action'], $entry['objecttype'], $e->getMessage()), ERROR_DIALOG);

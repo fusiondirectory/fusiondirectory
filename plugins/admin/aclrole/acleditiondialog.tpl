@@ -1,4 +1,4 @@
-  <h1>{$headline}</h1>
+  <h1>{$headline|escape}</h1>
   {$aclEdition}
 
 {if $dialogState eq 'create'}

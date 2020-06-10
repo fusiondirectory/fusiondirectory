@@ -61,7 +61,7 @@
   <div id="window-footer" class="plugbottom">
     <div>
       <!-- Display error message on demand -->
-      {$message}
+      {$message|escape}
     </div>
     <div>
       <input type="submit" name="login" value="{t}Sign in{/t}" title="{t}Click here to log in{/t}"/>

@@ -2239,18 +2239,18 @@ class simplePlugin implements SimpleTab
         /* save changes to LDAP and disable edit mode */
         if (isset($_POST['edit_finish'])) {
           /* Perform checks */
-          $message = $tabObject->save();
+          $errors = $tabObject->save();
 
           /* No errors, save object */
-          if (count($message) == 0) {
+          if (count($errors) == 0) {
             del_lock($entry_dn);
             session::un_set('edit');
 
             /* Remove from session */
             session::un_set($classname);
           } else {
-            /* Errors found, show message */
-            msg_dialog::displayChecks($message);
+            /* Errors found, show errors */
+            msg_dialog::displayChecks($errors);
           }
         }
       }

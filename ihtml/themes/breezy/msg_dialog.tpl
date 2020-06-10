@@ -23,7 +23,7 @@
           {elseif $dialog.type == $smarty.const.INFO_DIALOG || $dialog.type == $smarty.const.CONFIRM_DIALOG}
             <img src="geticon.php?context=status&amp;icon=dialog-information&amp;size=32" class="center" alt="{t}Information{/t}"/>
           {/if}
-          {$dialog.title}
+          {$dialog.title|escape}
         </p>
       </div>
 

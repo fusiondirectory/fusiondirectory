@@ -1,4 +1,4 @@
-<fieldset><legend>{$NAME}</legend>
+<fieldset><legend>{$NAME|escape}</legend>
   <label for="nt_{$attribute}" title="{t 1=$NAME}Minimum date for %1{/t}">
     {t}Newer than{/t}
     <input type="date" id="nt_{$attribute}" name="nt_{$attribute}" value="{$nt_value}"/>

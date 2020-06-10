@@ -245,16 +245,16 @@ class ogroup extends simplePlugin
 
   function check (): array
   {
-    $message = parent::check();
+    $errors = parent::check();
     $this->reload();
     if (preg_match('/W/', $this->gosaGroupObjects) && preg_match('/T/', $this->gosaGroupObjects)) {
-      $message[] = new SimplePluginCheckError(
+      $errors[] = new SimplePluginCheckError(
         $this,
         htmlescape(_('Putting both workstations and terminals in the same group is not allowed'))
       );
     }
 
-    return $message;
+    return $errors;
   }
 
   function ldap_save (): array
