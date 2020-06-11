@@ -84,9 +84,6 @@ class LoginPost extends LoginMethod
       }
     }
 
-    /* Translation of cookie-warning. Whether to display it, is determined by JavaScript */
-    $smarty->assign('cookies', '<b>'._('Warning').':</b> '._('Your browser has cookies disabled. Please enable cookies and reload this page before logging in!'));
-
     static::displayLogin();
   }
 
