@@ -180,7 +180,7 @@ function DEBUG ($level, $line, $function, $file, $data, $info = '')
  */
 function copynotice ()
 {
-  return sprintf(htmlescape(_('%s 2002-%d %sThe FusionDirectory team, %s%s')), '&copy;', date('Y'), '<a href="http://www.fusiondirectory.org">', FD_VERSION,'</a>');
+  return sprintf(htmlescape(_('%s 2002-%d %sThe FusionDirectory team, %s%s')), '&copy;', date('Y'), '<a href="http://www.fusiondirectory.org">', FD_VERSION, '</a>');
 }
 
 /*!
