@@ -1,6 +1,6 @@
 <div id="{$sectionId}" class="plugin-section{$sectionClasses}">
   <span class="legend">
-    {$section}
+    {$section|escape}
   </span>
   <div>
     {if $attributes.refs}

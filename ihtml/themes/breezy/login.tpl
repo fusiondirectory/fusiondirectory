@@ -79,7 +79,7 @@
 <script type="text/javascript">
 <!--
   enable_keyPress = false;
-  focus_field("{$focusfield}");
+  focus_field("{$focusfield|escape}");
   next_msg_dialog();
 -->
 </script>

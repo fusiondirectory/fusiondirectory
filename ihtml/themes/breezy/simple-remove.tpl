@@ -8,8 +8,8 @@
     <p>
       <ul>
         {foreach from=$objects item=object}
-          <li style="list-style-image:url('{$object.icon}');" title="{$object.type}">
-            {$object.name}&nbsp;(<i>{$object.dn}</i>)
+          <li style="list-style-image:url('{$object.icon|escape}');" title="{$object.type|escape}">
+            {$object.name|escape}&nbsp;(<i>{$object.dn|escape}</i>)
           </li>
         {/foreach}
       </ul>

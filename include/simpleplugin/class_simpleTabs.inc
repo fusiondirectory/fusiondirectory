@@ -309,7 +309,7 @@ class simpleTabs
           'onclick="return true;" '.
           'href="'."javascript:document.mainform.arg.value='$class';document.mainform.submit();".'">';
       }
-      $display .= $title.'</a></div></td>';
+      $display .= htmlescape($title).'</a></div></td>';
     }
 
     $display .= "<td>\n";

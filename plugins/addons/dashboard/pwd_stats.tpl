@@ -1,6 +1,6 @@
 <div id="{$sectionId}"  class="plugin-section">
   <span class="legend">
-    {$section}
+    {$section|escape}
   </span>
   <div>
     <img src="{$attributes.pwds_stats.img|escape}" alt="user icon"/>

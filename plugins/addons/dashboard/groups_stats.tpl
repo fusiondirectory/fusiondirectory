@@ -1,6 +1,6 @@
 <div id="{$sectionId}"  class="plugin-section">
   <span class="legend">
-    {$section}
+    {$section|escape}
   </span>
   <div>
     <img src="{$attributes.groups_stats.img|escape}" alt="group icon"/>

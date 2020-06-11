@@ -1,5 +1,5 @@
 <fieldset id="{$sectionId}" class="plugin-section{$sectionClasses}">
-  <legend><span>{$section}</span></legend>
+  <legend><span>{$section|escape}</span></legend>
   <div>
   <table>
     {foreach from=$attributes item=attribute key=id}
