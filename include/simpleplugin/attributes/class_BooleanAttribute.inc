@@ -104,7 +104,7 @@ class BooleanAttribute extends Attribute
     $id = $this->getHtmlId();
     $attributes = ($this->value ? ['checked' => 'checked'] : []);
     if ($this->submitForm) {
-      $js       = 'document.mainform.submit();';
+      $js                     = 'document.mainform.submit();';
       $attributes['onChange'] = 'javascript:'.$js;
     } elseif (!empty($this->managedAttributes)) {
       $js       = $this->managedAttributesJS();
