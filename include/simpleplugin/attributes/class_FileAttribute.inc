@@ -185,7 +185,7 @@ class FileDownloadAttribute extends FileAttribute
           'title' => _('Download'),
           'alt'   => _('Download'),
           'class' => 'center',
-          'src'   => 'geticon.php?context=actions&amp;icon=document-save&amp;size=16',
+          'src'   => 'geticon.php?context=actions&icon=document-save&size=16',
         ]
       );
     }
@@ -418,15 +418,15 @@ class ImageAttribute extends FileAttribute
                 ($this->disabled ? 'disabled="disabled"' : '').
                 ' src="getbin.php?key='.$key.'"'.
                 ' style="border:1px solid black;"'.
-                ' alt="'.$this->getDescription().'"'.
-                ' title="'.$this->getDescription().'"'.
+                ' alt="'.htmlescape($this->getDescription()).'"'.
+                ' title="'.htmlescape($this->getDescription()).'"'.
                 ' /><br/>';
     $display  .= $this->renderInputField('file', $id);
     $display .= $this->renderInputField(
       'image', $id.'_upload',
       [
         'class' => 'center',
-        'src'   => 'geticon.php?context=actions&amp;icon=upload&amp;size=16',
+        'src'   => 'geticon.php?context=actions&icon=upload&size=16',
         'title' => _('Upload'),
         'alt'   => _('Upload')
       ]
@@ -436,7 +436,7 @@ class ImageAttribute extends FileAttribute
         'image', $id.'_remove',
         [
           'class' => 'center',
-          'src'   => 'geticon.php?context=actions&amp;icon=remove&amp;size=16',
+          'src'   => 'geticon.php?context=actions&icon=remove&size=16',
           'title' => _('Remove'),
           'alt'   => _('Remove')
         ]

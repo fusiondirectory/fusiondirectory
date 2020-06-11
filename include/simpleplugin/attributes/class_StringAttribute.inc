@@ -75,17 +75,17 @@ class StringAttribute extends Attribute
   {
     $id = $this->getHtmlId();
     $attributes = [
-      'value' => '{literal}'.htmlescape($this->getValue()).'{/literal}'
+      'value' => $this->getValue()
     ];
     if (!empty($this->managedAttributes)) {
       $js       = $this->managedAttributesJS();
-      $attributes['onChange'] = 'javascript:'.htmlescape($js);
+      $attributes['onChange'] = 'javascript:'.$js;
     }
     if ($this->autocomplete !== NULL) {
       $attributes['autocomplete'] = $this->autocomplete;
     }
     if ($this->html5pattern !== NULL) {
-      $attributes['pattern'] = '{literal}'.htmlescape($this->html5pattern).'{/literal}';
+      $attributes['pattern'] = $this->html5pattern;
     }
     if ($this->isSubAttribute) {
       $attributes['class'] = 'subattribute';
@@ -100,7 +100,7 @@ class StringAttribute extends Attribute
   {
     $id = $this->getHtmlId();
     $attributes = [
-      'value' => '{literal}'.htmlescape($this->getValue()).'{/literal}'
+      'value' => $this->getValue()
     ];
     if ($this->autocomplete !== NULL) {
       $attributes['autocomplete'] = $this->autocomplete;

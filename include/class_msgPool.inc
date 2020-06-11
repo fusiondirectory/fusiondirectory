@@ -293,72 +293,114 @@ class msgPool
 
   /*!
    * \brief Text for a cancel button
+   *
+   * \param bool $escape Whether to escape the result
    */
-  public static function cancelButton ()
+  public static function cancelButton ($escape = TRUE)
   {
-    return htmlescape(_('Cancel'));
+    if ($escape) {
+      return htmlescape(_('Cancel'));
+    } else {
+      return _('Cancel');
+    }
   }
 
   /*!
    * \brief Text for a ok button
+   *
+   * \param bool $escape Whether to escape the result
    */
-  public static function okButton ()
+  public static function okButton ($escape = TRUE)
   {
-    return htmlescape(_('Ok'));
+    if ($escape) {
+      return htmlescape(_('Ok'));
+    } else {
+      return _('Ok');
+    }
   }
 
   /*!
    * \brief Text for an apply button
+   *
+   * \param bool $escape Whether to escape the result
    */
-  public static function applyButton ()
+  public static function applyButton ($escape = TRUE)
   {
-    return htmlescape(_('Apply'));
+    if ($escape) {
+      return htmlescape(_('Apply'));
+    } else {
+      return _('Apply');
+    }
   }
 
   /*!
    * \brief Text for a save button
+   *
+   * \param bool $escape Whether to escape the result
    */
-  public static function saveButton ()
+  public static function saveButton ($escape = TRUE)
   {
-    return htmlescape(_('Save'));
+    if ($escape) {
+      return htmlescape(_('Save'));
+    } else {
+      return _('Save');
+    }
   }
 
   /*!
    * \brief Text for an add button
    *
-   * \param string $what Text for the button
+   * \param bool $escape Whether to escape the result
    */
-  public static function addButton ($what = '')
+  public static function addButton ($escape = TRUE)
   {
-    return htmlescape(($what == '') ? sprintf(_('Add')) : sprintf(_('Add %s'), $what));
+    if ($escape) {
+      return htmlescape(_('Add'));
+    } else {
+      return _('Add');
+    }
   }
 
   /*!
    * \brief Text for an delete button
    *
-   * \param string $what Text for the button
+   * \param bool $escape Whether to escape the result
    */
-  public static function delButton ($what = '')
+  public static function delButton ($escape = TRUE)
   {
-    return htmlescape(($what == '') ? sprintf(_('Delete')) : sprintf(_('Delete %s'), $what));
+    if ($escape) {
+      return htmlescape(_('Delete'));
+    } else {
+      return _('Delete');
+    }
   }
 
   /*!
    * \brief Text for an edit button
    *
-   * \param string $what Text for the button
+   * \param bool $escape Whether to escape the result
    */
-  public static function editButton ($what = '')
+  public static function editButton ($escape = TRUE)
   {
-    return htmlescape(($what == '') ? sprintf(_('Edit...')) : sprintf(_('Edit %s...'), $what));
+    if ($escape) {
+      return htmlescape(_('Edit...'));
+    } else {
+      return _('Edit...');
+    }
   }
 
   /*!
    * \brief Text for a back button
+   *
+   * \param bool $escape Whether to escape the result
    */
-  public static function backButton ()
+  public static function backButton ($escape = TRUE)
   {
-    return htmlescape(_('Back'));
+    if ($escape) {
+      return htmlescape(_('Back'));
+    } else {
+      return _('Back');
+    }
   }
 
   /*!

@@ -249,7 +249,7 @@ class SetAttribute extends Attribute
         }
         $attributes[$this->getLdapName()] = [
           'htmlid'        => $this->getForHtmlId(),
-          'label'         => '{literal}'.$this->getLabel().'{/literal}',
+          'label'         => '{literal}'.htmlescape($this->getLabel()).'{/literal}',
           'description'   => ($this->isRequired() ? sprintf(_("%s (required)"), $this->getDescription()) : $this->getDescription()),
           'input'         => $this->renderAcl($this->renderOnlyFormInput()),
           'subattribute'  => $this->isSubAttribute,
@@ -303,8 +303,22 @@ class SetAttribute extends Attribute
   function renderButtons ()
   {
     $id = $this->getHtmlId();
-    $buttons  = $this->renderInputField('submit', 'add'.$id, ['value' => '{msgPool type=addButton}', 'formnovalidate' => 'formnovalidate', 'class' => 'subattribute']);
-    $buttons .= $this->renderInputField('submit', 'del'.$id, ['value' => '{msgPool type=delButton}', 'formnovalidate' => 'formnovalidate', 'class' => 'subattribute']);
+    $buttons  = $this->renderInputField(
+      'submit', 'add'.$id,
+      [
+        'value'           => msgPool::addButton(FALSE),
+        'formnovalidate'  => 'formnovalidate',
+        'class'           => 'subattribute',
+      ]
+    );
+    $buttons .= $this->renderInputField(
+      'submit', 'del'.$id,
+      [
+        'value'           => msgPool::addButton(FALSE),
+        'formnovalidate'  => 'formnovalidate',
+        'class'           => 'subattribute',
+      ]
+    );
     return $buttons;
   }
 
@@ -527,7 +541,7 @@ class OrderedArrayAttribute extends SetAttribute
         $img .= $this->renderInputField(
           'image', $id.'_up_'.$key,
           [
-            'src'             => 'geticon.php?context=actions&amp;icon=view-sort-descending&amp;size=16',
+            'src'             => 'geticon.php?context=actions&icon=view-sort-descending&size=16',
             'title'           => _('Sort up'),
             'alt'             => _('Sort up'),
             'class'           => 'center',
@@ -541,7 +555,7 @@ class OrderedArrayAttribute extends SetAttribute
         $img .= $this->renderInputField(
           'image', $id.'_down_'.$key,
           [
-            'src'             => 'geticon.php?context=actions&amp;icon=view-sort-ascending&amp;size=16',
+            'src'             => 'geticon.php?context=actions&icon=view-sort-ascending&size=16',
             'title'           => _('Sort down'),
             'alt'             => _('Sort down'),
             'class'           => 'center',
@@ -557,7 +571,7 @@ class OrderedArrayAttribute extends SetAttribute
       $img .= $this->renderInputField(
         'image', $id.'_edit_'.$key,
         [
-          'src'             => 'geticon.php?context=actions&amp;icon=document-edit&amp;size=16',
+          'src'             => 'geticon.php?context=actions&icon=document-edit&size=16',
           'title'           => _('Edit'),
           'alt'             => _('Edit'),
           'class'           => 'center',
@@ -568,7 +582,7 @@ class OrderedArrayAttribute extends SetAttribute
     $img .= $this->renderInputField(
       'image', $id.'_del_'.$key,
       [
-        'src'             => 'geticon.php?context=actions&amp;icon=edit-delete&amp;size=16',
+        'src'             => 'geticon.php?context=actions&icon=edit-delete&size=16',
         'title'           => _('Delete'),
         'alt'             => _('Delete'),
         'class'           => 'center',
@@ -703,7 +717,14 @@ class OrderedArrayAttribute extends SetAttribute
   function renderButtons ()
   {
     $id = $this->getHtmlId();
-    $buttons = $this->renderInputField('submit', 'add'.$id, ['value' => '{msgPool type=addButton}', 'formnovalidate' => 'formnovalidate', 'class' => 'subattribute']);
+    $buttons = $this->renderInputField(
+      'submit', 'add'.$id,
+      [
+        'value'           => msgPool::addButton(FALSE),
+        'formnovalidate'  => 'formnovalidate',
+        'class'           => 'subattribute',
+      ]
+    );
     return $buttons;
   }
 }

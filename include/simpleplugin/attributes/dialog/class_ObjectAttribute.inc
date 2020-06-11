@@ -88,24 +88,24 @@ class ObjectAttribute extends DialogButtonAttribute
       $display = $this->renderInputField(
         'text', $id,
         [
-          'value' => '{literal}'.htmlescape($this->getValue()).'{/literal}'
+          'value' => $this->getValue()
         ]
       );
     } else {
-      $display  = '<img src="'.htmlescape($infos['icon']).'" alt="'.$infos['name'].'" class="center"/>';
+      $display  = '<img src="'.htmlescape($infos['icon']).'" alt="'.htmlescape($infos['name']).'" class="center"/>';
       if ($this->getValue() == '') {
-        $display  .= '<b>'._('None').'</b>';
+        $display  .= '<b>'.htmlescape(_('None')).'</b>';
       } elseif ($this->buttonText === NULL) {
-        $display  .= '<b>'._('Unknown').'</b>';
+        $display  .= '<b>'.htmlescape(_('Unknown')).'</b>';
       } else {
-        $display  .= '<a>'.$this->buttonText.'</a>';
+        $display  .= '<a>'.htmlescape($this->buttonText).'</a>';
       }
     }
     $display .= $this->renderInputField(
       'image', $id.'_dialog',
       [
         'class' => 'center dialog',
-        'src'   => 'geticon.php?context=actions&amp;icon=document-edit&amp;size=16',
+        'src'   => 'geticon.php?context=actions&icon=document-edit&size=16',
         'title' => _('Edit'),
         'alt'   => _('Edit')
       ]
@@ -115,7 +115,7 @@ class ObjectAttribute extends DialogButtonAttribute
         'image', $id.'_remove',
         [
           'class' => 'center',
-          'src'   => 'geticon.php?context=actions&amp;icon=remove&amp;size=16',
+          'src'   => 'geticon.php?context=actions&icon=remove&size=16',
           'title' => _('Remove'),
           'alt'   => _('Remove')
         ]

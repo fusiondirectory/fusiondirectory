@@ -103,7 +103,7 @@ class SnapshotsAttribute extends OrderedArrayAttribute
     $img = $this->renderInputField(
       'image', $id.'_restore_'.$key,
       [
-        'src'   => 'geticon.php?context=actions&amp;icon=document-restore&amp;size=16',
+        'src'   => 'geticon.php?context=actions&icon=document-restore&size=16',
         'title' => _('Restore'),
         'alt'   => _('Restore'),
         'class' => 'center'

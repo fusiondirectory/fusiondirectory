@@ -41,7 +41,7 @@ class ButtonAttribute extends Attribute
     $id = $this->getHtmlId();
     $display = $this->renderInputField(
       'submit', $id,
-      ['value' => '{literal}'.htmlescape($this->buttonText).'{/literal}']
+      ['value' => $this->buttonText]
     );
     return $this->renderAcl($display);
   }

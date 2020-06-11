@@ -630,7 +630,7 @@ class Attribute
       }
       $attributes[$this->getLdapName()] = [
         'htmlid'        => $this->getForHtmlId(),
-        'label'         => '{literal}'.$this->getLabel().'{/literal}',
+        'label'         => '{literal}'.htmlescape($this->getLabel()).'{/literal}',
         'description'   => ($this->isRequired() ? sprintf(_("%s (required)"), $this->getDescription()) : $this->getDescription()),
         'input'         => $input,
         'subattribute'  => $this->isSubAttribute,
@@ -789,13 +789,13 @@ class Attribute
 
   protected function renderInputField (string $type, string $name, array $attributes = []): string
   {
-    $input  = '<input type="'.$type.'" '.
-              'name="'.$name.'" id="'.$name.'"'.
+    $input  = '{literal}<input type="'.htmlescape($type).'" '.
+              'name="'.htmlescape($name).'" id="'.htmlescape($name).'"'.
               ($this->disabled ? ' disabled="disabled"' : '');
     foreach ($attributes as $label => $value) {
-      $input .= ' '.$label.'="'.$value.'"';
+      $input .= ' '.$label.'="'.htmlescape($value).'"';
     }
-    $input .= '/>';
+    $input .= '/>{/literal}';
     return $input;
   }
 }

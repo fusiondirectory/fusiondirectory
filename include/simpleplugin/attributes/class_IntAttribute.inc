@@ -105,7 +105,7 @@ class IntAttribute extends Attribute
   {
     $id = $this->getHtmlId();
     $attributes = [
-      'value' => '{literal}'.htmlescape($this->getValue()).'{/literal}'
+      'value' => $this->getValue()
     ];
     if ($this->min !== FALSE) {
       $attributes['min'] = $this->min;
@@ -118,7 +118,7 @@ class IntAttribute extends Attribute
     }
     if (!empty($this->managedAttributes)) {
       $js       = $this->managedAttributesJS();
-      $attributes['onChange'] = 'javascript:'.htmlescape($js);
+      $attributes['onChange'] = 'javascript:'.$js;
     }
     if ($this->isSubAttribute) {
       $attributes['class'] = 'subattribute';
@@ -133,7 +133,7 @@ class IntAttribute extends Attribute
   {
     $id = $this->getHtmlId();
     $attributes = [
-      'value' => '{literal}'.htmlescape($this->getValue()).'{/literal}'
+      'value' => $this->getValue()
     ];
     if ($this->isSubAttribute) {
       $attributes['class'] = 'subattribute';

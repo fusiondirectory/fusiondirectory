@@ -116,7 +116,7 @@ class PhoneNumberButtonAttribute extends PhoneNumberAttribute
         'image', $id.'_edit',
         [
           'class' => 'center dialog',
-          'src'   => 'geticon.php?context=actions&amp;icon=document-edit&amp;size=16',
+          'src'   => 'geticon.php?context=actions&icon=document-edit&size=16',
           'title' => _('Edit'),
           'alt'   => _('Edit')
         ]

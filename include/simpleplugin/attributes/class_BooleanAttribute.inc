@@ -105,10 +105,10 @@ class BooleanAttribute extends Attribute
     $attributes = ($this->value ? ['checked' => 'checked'] : []);
     if ($this->submitForm) {
       $js       = 'document.mainform.submit();';
-      $attributes['onChange'] = 'javascript:'.htmlescape($js);
+      $attributes['onChange'] = 'javascript:'.$js;
     } elseif (!empty($this->managedAttributes)) {
       $js       = $this->managedAttributesJS();
-      $attributes['onChange'] = 'javascript:'.htmlescape($js);
+      $attributes['onChange'] = 'javascript:'.$js;
     }
     $display  = $this->renderInputField('checkbox', $id, $attributes);
     return $this->renderAcl($display);

@@ -166,8 +166,8 @@ class DateAttribute extends Attribute
   function renderFormInput (): string
   {
     $attributes = [
-      'value'   => '{literal}'.htmlescape($this->getValue()).'{/literal}',
-      'pattern' => '{literal}[0-9]{4}-[0-9]{2}-[0-9]{2}{/literal}',
+      'value'   => $this->getValue(),
+      'pattern' => '[0-9]{4}-[0-9]{2}-[0-9]{2}',
     ];
     if ($this->minDate !== NULL) {
       $attributes['min'] = $this->minDate->format('Y-m-d');
@@ -183,7 +183,7 @@ class DateAttribute extends Attribute
   {
     $id = $this->getHtmlId();
     $attributes = [
-      'value' => '{literal}'.htmlescape($this->getValue()).'{/literal}'
+      'value' => $this->getValue()
     ];
     if ($this->isSubAttribute) {
       $attributes['class'] = 'subattribute';
