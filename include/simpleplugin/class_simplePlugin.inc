@@ -686,7 +686,7 @@ class simplePlugin implements SimpleTab
         }
       } elseif (!$this->is_account) {
         $plInfo = pluglist::pluginInfos(get_class($this));
-        $this->header = '<img alt="'._('Error').'" src="geticon.php?context=status&amp;icon=dialog-error&amp;size=16" align="middle"/>&nbsp;<b>'.
+        $this->header = '<img alt="'.htmlescape(_('Error')).'" src="geticon.php?context=status&amp;icon=dialog-error&amp;size=16" align="middle"/>&nbsp;<b>'.
                         msgPool::noValidExtension($plInfo['plShortName'])."</b>";
         $this->displayPlugin = FALSE;
         return $this->header.$this->inheritanceDisplay();
@@ -875,15 +875,9 @@ class simplePlugin implements SimpleTab
 
     $sections = [];
     foreach ($this->attributesInfo as $section => $sectionInfo) {
-      $legend = $sectionInfo['name'];
-      if (isset($sectionInfo['icon'])) {
-        $legend = '<img '.
-                  'src="'.htmlescape($sectionInfo['icon']).'" '.
-                  'alt="" '.
-                  '/>'.$legend;
-      }
-      $smarty->assign("section", $legend);
-      $smarty->assign("sectionId", $section);
+      $smarty->assign('section',      $sectionInfo['name']);
+      $smarty->assign('sectionIcon',  ($sectionInfo['icon'] ?? NULL));
+      $smarty->assign('sectionId',    $section);
       $sectionClasses = '';
       if (isset($sectionInfo['class'])) {
         $sectionClasses .= ' '.join(' ', $sectionInfo['class']);

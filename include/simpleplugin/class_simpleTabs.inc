@@ -283,9 +283,6 @@ class simpleTabs
         $title = mb_substr($title, 0, 25, 'UTF-8')."...";
       }
 
-      /* nobr causes w3c warnings so we use &nbsp; to keep the tab name in one line */
-      $title = str_replace(' ', '&nbsp;', $title);
-
       $cssClasses = $style[$index];
 
       /* Take care about notifications */

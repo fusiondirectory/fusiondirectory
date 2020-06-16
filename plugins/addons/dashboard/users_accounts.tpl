@@ -1,6 +1,6 @@
 <div id="{$sectionId}"  class="plugin-section fullwidth">
   <span class="legend">
-    {$section|escape}
+    {if $sectionIcon}<img src="{$sectionIcon|escape}" alt=""/>{/if}{$section|escape}
   </span>
   <div>
     <h1>
