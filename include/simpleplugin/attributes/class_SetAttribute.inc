@@ -314,7 +314,7 @@ class SetAttribute extends Attribute
     $buttons .= $this->renderInputField(
       'submit', 'del'.$id,
       [
-        'value'           => msgPool::addButton(FALSE),
+        'value'           => msgPool::delButton(FALSE),
         'formnovalidate'  => 'formnovalidate',
         'class'           => 'subattribute',
       ]
