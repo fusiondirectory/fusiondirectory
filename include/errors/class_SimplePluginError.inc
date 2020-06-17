@@ -94,7 +94,7 @@ class SimplePluginError extends FusionDirectoryError
 
     /* Stylize example */
     if (!empty($example)) {
-      $html .= '<br/><br/><i>'.sprintf(_('Example: %s'), htmlescape($example)).'</i> ';
+      $html .= '<br/><br/><i>'.htmlescape(sprintf(_('Example: %s'), $example)).'</i> ';
     }
 
     $trace = $this->getTrace();
