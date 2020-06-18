@@ -98,6 +98,6 @@ class SimplePluginLdapError extends SimplePluginError
       ]
     );
 
-    return [_('Error'), $html, ERROR_DIALOG, $trace];
+    return [_('LDAP error'), $html, LDAP_ERROR, $trace];
   }
 }

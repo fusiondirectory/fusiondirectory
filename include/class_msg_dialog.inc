@@ -120,7 +120,7 @@ class msg_dialog
   /*!
    * \brief Display a message dialog
    *
-   * \param string $title The title of the message dialog
+   * \param string|object $title The title of the message dialog, or the error object
    *
    * \param string $message The message of the message dialog
    *
@@ -128,8 +128,12 @@ class msg_dialog
    *
    * \param array $trace The trace from where the message was built
    */
-  public static function display (string $title, string $message, int $type = INFO_DIALOG, array $trace = [])
+  public static function display ($title, string $message, int $type = INFO_DIALOG, array $trace = [])
   {
+    if ($title instanceof FusionDirectoryError) {
+      static::display(...$title->computeMsgDialogParameters());
+      return;
+    }
     $dialog = new msg_dialog($title, $message, $type, $trace);
     $dialog->show();
   }
