@@ -29,6 +29,13 @@ class SimplePluginError extends FusionDirectoryError
 
   public function __construct ($origin, string $htmlMessage = '', int $code = 0, Throwable $previous = NULL)
   {
+    $this->setOrigin($origin);
+
+    parent::__construct($htmlMessage, $code, $previous);
+  }
+
+  public function setOrigin ($origin)
+  {
     if ($origin instanceof Attribute) {
       $this->attribute  = $origin;
       $this->tab        = $origin->getParent();
@@ -43,8 +50,6 @@ class SimplePluginError extends FusionDirectoryError
         $this->object = $origin;
       }
     }
-
-    parent::__construct($htmlMessage, $code, $previous);
   }
 
   public function toArray (): array
@@ -108,5 +113,15 @@ class SimplePluginError extends FusionDirectoryError
     );
 
     return [_('Error'), $html, ERROR_DIALOG, $trace];
+  }
+
+  public static function relocate ($origin, FusionDirectoryError $error)
+  {
+    if ($error instanceof SimplePluginError) {
+      $error->setOrigin($origin);
+      return $error;
+    } else {
+      return new SimplePluginError($origin, $error->getHtmlMessage(), $error->getCode(), $error);
+    }
   }
 }

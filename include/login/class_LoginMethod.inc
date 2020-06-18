@@ -69,7 +69,11 @@ class LoginMethod
     $attrs = $ldap->fetch();
     if (!count($attrs)) {
       $ldap->cd($config->current['BASE']);
-      $ldap->create_missing_trees(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
+      try {
+        $ldap->create_missing_trees(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
+      } catch (FusionDirectoryError $error) {
+        $error->display();
+      }
     }
   }
 

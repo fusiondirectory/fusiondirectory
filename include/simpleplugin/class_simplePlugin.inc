@@ -589,7 +589,11 @@ class simplePlugin implements SimpleTab
     /* Try to move with ldap routines */
     $ldap = $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);
-    $ldap->create_missing_trees(preg_replace('/^[^,]+,/', '', $dst_dn));
+    try {
+      $ldap->create_missing_trees(preg_replace('/^[^,]+,/', '', $dst_dn));
+    } catch (FusionDirectoryError $error) {
+      $error->display();
+    }
     if (!$ldap->rename_dn($src_dn, $dst_dn)) {
       logging::log('error', 'ldap', "FROM: $src_dn -- TO: $dst_dn", [], 'Ldap Protocol v3 implementation error, ldap_rename failed: '.$ldap->get_error());
       logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, "Rename failed FROM: $src_dn  -- TO:  $dst_dn",
@@ -1386,7 +1390,11 @@ class simplePlugin implements SimpleTab
         ];
       }
       $ldap->cd($config->current['BASE']);
-      $ldap->create_missing_trees(preg_replace('/^[^,]+,/', '', $this->dn));
+      try {
+        $ldap->create_missing_trees(preg_replace('/^[^,]+,/', '', $this->dn));
+      } catch (FusionDirectoryError $error) {
+        return [$error];
+      }
       $action = 'add';
     } else {
       if (!$ldap->dn_exists($this->dn)) {

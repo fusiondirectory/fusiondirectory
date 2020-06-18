@@ -669,7 +669,7 @@ class OrderedArrayAttribute extends SetAttribute
         if (is_string($error)) {
           msg_dialog::display(sprintf(_('Invalid value for %s'), $this->getLabel()), $error);
         } else {
-          msg_dialog::display($error);
+          $error->display();
         }
       } else {
         $this->addPostValue($this->attribute->getValue());

@@ -168,15 +168,10 @@ class passwordRecovery extends standAlonePage
     if (!$ldap->count()) {
       /* It's not, let's create it */
       $ldap->cd($config->current['BASE']);
-      $ldap->create_missing_trees($token);
-      if (!$ldap->success()) {
-        return new SimplePluginLdapError(
-          NULL,
-          $token,
-          NULL,
-          $ldap->get_error(),
-          $ldap->get_errno()
-        );
+      try {
+        $ldap->create_missing_trees($token);
+      } catch (FusionDirectoryError $error) {
+        return $error;
       }
       fusiondirectory_log("Created token branch ".$token);
     }

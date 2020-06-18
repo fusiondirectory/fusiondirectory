@@ -31,6 +31,11 @@ class FusionDirectoryError extends Error
     parent::__construct(htmlunescape(strip_tags($htmlMessage)), $code, $previous);
   }
 
+  public function getHtmlMessage ()
+  {
+    return $this->htmlMessage;
+  }
+
   public function toArray (): array
   {
     return [
@@ -38,5 +43,25 @@ class FusionDirectoryError extends Error
       'line'    => $this->getLine(),
       'file'    => $this->getFile(),
     ];
+  }
+
+  public function computeMsgDialogParameters (): array
+  {
+    $trace = $this->getTrace();
+
+    array_unshift(
+      $trace,
+      [
+        'file' => $this->getFile(),
+        'line' => $this->getLine(),
+      ]
+    );
+
+    return [_('Error'), $this->htmlMessage, ERROR_DIALOG, $trace];
+  }
+
+  public function display ()
+  {
+    msg_dialog::display(...$this->computeMsgDialogParameters());
   }
 }

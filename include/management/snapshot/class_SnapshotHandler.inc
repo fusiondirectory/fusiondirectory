@@ -60,9 +60,10 @@ class SnapshotHandler
       $this->snapshotRDN = $config->get_cfg_value('snapshotBase');
       $ldap = $config->get_ldap_link();
       $ldap->cd($config->current['BASE']);
-      $ldap->create_missing_trees($this->snapshotRDN);
-      if (!$ldap->success()) {
-        msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), $this->snapshotRDN, '', get_class()), LDAP_ERROR);
+      try {
+        $ldap->create_missing_trees($this->snapshotRDN);
+      } catch (FusionDirectoryError $error) {
+        $error->display();
       }
     }
   }
@@ -254,8 +255,12 @@ class SnapshotHandler
 
     /* Insert this new snapshot */
     $ldap->cd($this->snapshotRDN);
-    $ldap->create_missing_trees($this->snapshotRDN);
-    $ldap->create_missing_trees($new_base);
+    try {
+      $ldap->create_missing_trees($this->snapshotRDN);
+      $ldap->create_missing_trees($new_base);
+    } catch (FusionDirectoryError $error) {
+      $error->display();
+    }
     $ldap->cd($new_dn);
     $ldap->add($target);
 

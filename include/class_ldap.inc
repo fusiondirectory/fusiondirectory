@@ -949,8 +949,7 @@ class LDAP
 
           /* Bail out, if we've nothing to do... */
           if ($ocname == '') {
-            msg_dialog::display(_('Internal error'), sprintf(_('Cannot automatically create subtrees with RDN "%s": no object class found!'), $type), FATAL_ERROR_DIALOG);
-            exit();
+            throw new FusionDirectoryError(htmlescape(sprintf(_('Cannot automatically create subtrees with RDN "%s": no object class found!'), $type)));
           }
 
           /* Assemble_entry */
@@ -987,8 +986,7 @@ class LDAP
               $na['o']            = $param;
               break;
             default:
-              msg_dialog::display(_('Internal error'), sprintf(_('Cannot automatically create subtrees with RDN "%s": not supported'), $type), FATAL_ERROR_DIALOG);
-              exit();
+              throw new FusionDirectoryError(htmlescape(sprintf(_('Cannot automatically create subtrees with RDN "%s": not supported'), $type)));
           }
         }
         $this->cd($cdn);
@@ -999,13 +997,10 @@ class LDAP
           logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $na, 'Content');
           logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->get_error(), 'LDAP error');
 
-          msg_dialog::display(_('LDAP error'), msgPool::ldaperror($this->get_error(), $cdn, LDAP_ADD, get_class()), LDAP_ERROR);
-          return FALSE;
+          throw new SimplePluginLdapError(NULL, $cdn, LDAP_ADD, $this->get_error(), $this->get_errno());
         }
       }
     }
-
-    return TRUE;
   }
 
 
@@ -1334,7 +1329,11 @@ class LDAP
 
       /* Create missing trees */
       $this->cd($config->current['BASE']);
-      $this->create_missing_trees($srp, preg_replace('/^[^,]+,/', '', $dn));
+      try {
+        $this->create_missing_trees($srp, preg_replace('/^[^,]+,/', '', $dn));
+      } catch (FusionDirectoryError $error) {
+        $error->display();
+      }
       $this->cd($dn);
 
       if (!$modify) {
