@@ -470,31 +470,24 @@ class simplePlugin implements SimpleTab
   {
     global $config;
     if (!$this->mainTab) {
-      msg_dialog::display(_('Fatal error'), _('Only main tab can compute dn'), FATAL_ERROR_DIALOG);
-      exit;
+      throw new FatalError(htmlescape(_('Only main tab can compute dn')));
     }
     if (!isset($this->parent) || !($this->parent instanceof simpleTabs)) {
-      msg_dialog::display(
-        _('Fatal error'),
-        sprintf(
+      throw new FatalError(
+        htmlescape(sprintf(
           _('Could not compute dn: no parent tab class for "%s"'),
           get_class($this)
-        ),
-        FATAL_ERROR_DIALOG
+        ))
       );
-      exit;
     }
     $infos = $this->parent->objectInfos();
     if ($infos === FALSE) {
-      msg_dialog::display(
-        _('Fatal error'),
-        sprintf(
+      throw new FatalError(
+        htmlescape(sprintf(
           _('Could not compute dn: could not find objectType infos from tab class "%s"'),
           get_class($this->parent)
-        ),
-        FATAL_ERROR_DIALOG
+        ))
       );
-      exit;
     }
     $attr = $infos['mainAttr'];
     $ou   = $infos['ou'];

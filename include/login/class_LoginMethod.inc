@@ -51,9 +51,9 @@ class LoginMethod
     foreach ($str as $tr) {
       if (!$tr['STATUS']) {
         if ($tr['IS_MUST_HAVE']) {
-          return _('LDAP schema check reported errors:').'<br/><br/><i>'.$tr['MSG'].'</i>';
+          return htmlescape(_('LDAP schema check reported errors:')).'<br/><br/><i>'.htmlescape($tr['MSG']).'</i>';
         } else {
-          msg_dialog::display(_('LDAP schema error'), $tr['MSG'], WARNING_DIALOG);
+          msg_dialog::display(_('LDAP schema error'), htmlescape($tr['MSG']), WARNING_DIALOG);
         }
       }
     }
@@ -61,7 +61,7 @@ class LoginMethod
   }
 
   /*! \brief Check if locking LDAP branch is here or create it */
-  static function checkForLockingBranch ()
+  static function checkForLockingBranch (): bool
   {
     global $config;
     $ldap = $config->get_ldap_link();
@@ -75,6 +75,8 @@ class LoginMethod
         $error->display();
       }
     }
+
+    return TRUE;
   }
 
   /*! \brief Check username for invalid characters and check password is not empty
@@ -173,14 +175,20 @@ class LoginMethod
   /*! \brief Run each step in $steps, stop on errors */
   static function runSteps ($steps)
   {
-    foreach ($steps as $step) {
-      $status = static::$step();
-      if (is_string($status)) {
-        msg_dialog::display(_('LDAP error'), $status, LDAP_ERROR);
-        return FALSE;
-      } elseif ($status === FALSE) {
-        return FALSE;
+    try {
+      foreach ($steps as $step) {
+        $status = static::$step();
+        if (is_string($status)) {
+          /* Deprecated */
+          msg_dialog::display(_('LDAP error'), $status, LDAP_ERROR);
+          return FALSE;
+        } elseif ($status === FALSE) {
+          return FALSE;
+        }
       }
+    } catch (FusionDirectoryError $e) {
+      $e->display();
+      return FALSE;
     }
     return TRUE;
   }

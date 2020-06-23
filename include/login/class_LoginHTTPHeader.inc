@@ -44,40 +44,31 @@ class LoginHTTPHeader extends LoginMethod
     static::$username = $_SERVER['HTTP_'.$header];
 
     if (!static::$username) {
-      msg_dialog::display(
-        _('Error'),
-        sprintf(
+      throw new FatalError(
+        htmlescape(sprintf(
           _('No value found in HTTP header "%s"'),
           $header
-        ),
-        FATAL_ERROR_DIALOG
+        ))
       );
-      exit();
     }
 
     $ui = userinfo::getLdapUser(static::$username);
 
     if ($ui === FALSE) {
-      msg_dialog::display(
-        _('Error'),
-        sprintf(
+      throw new FatalError(
+        htmlescape(sprintf(
           _('Header user "%s" could not be found in the LDAP'),
           static::$username
-        ),
-        FATAL_ERROR_DIALOG
+        ))
       );
-      exit();
     } elseif (is_string($ui)) {
-      msg_dialog::display(
-        _('Error'),
-        sprintf(
+      throw new FatalError(
+        htmlescape(sprintf(
           _('Login with user "%s" triggered error: %s'),
           static::$username,
           $ui
-        ),
-        FATAL_ERROR_DIALOG
+        ))
       );
-      exit();
     }
 
     $ui->loadACL();
@@ -94,14 +85,12 @@ class LoginHTTPHeader extends LoginMethod
     } else {
       echo msg_dialog::get_dialogs();
       if (!empty($message)) {
-        msg_dialog::display(
-          _('Error'),
+        throw new FatalError(
           htmlescape(sprintf(
             _('Login with user "%s" triggered error: %s'),
             static::$username,
             $message
-          )),
-          FATAL_ERROR_DIALOG
+          ))
         );
       }
       exit();

@@ -88,16 +88,6 @@ class SimplePluginLdapError extends SimplePluginError
 
     $html .= '<br/><br/><i>'.htmlescape(_('Error:')).'</i> '.$this->htmlMessage;
 
-    $trace = $this->getTrace();
-
-    array_unshift(
-      $trace,
-      [
-        'file' => $this->getFile(),
-        'line' => $this->getLine(),
-      ]
-    );
-
-    return [_('LDAP error'), $html, LDAP_ERROR, $trace];
+    return [_('LDAP error'), $html, LDAP_ERROR, FusionDirectoryError::formatTrace($this)];
   }
 }

@@ -575,12 +575,13 @@ class pluglist
       } elseif (is_callable([$plugin, 'mainInc'])) {
         $plugin::mainInc();
       } else {
-        msg_dialog::display(
-          _('Plugin'),
-          sprintf(_("Fatal error: Cannot find any plugin definitions for plugin '%s' ('%s' is not a file)!"), $plugin, "$plugin_dir/main.inc"),
-          FATAL_ERROR_DIALOG
+        throw new FatalError(
+          htmlescape(sprintf(
+            _('Fatal error: Cannot find any plugin definitions for plugin "%s" ("%s" is not a file)!'),
+            $plugin,
+            "$plugin_dir/main.inc"
+          ))
         );
-        exit();
       }
       if ($forceCleanup) {
         $cleanup = $remove_lock = FALSE;

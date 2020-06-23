@@ -285,6 +285,34 @@ function gosaRaiseError ($errno, $errstr, $errfile, $errline)
 }
 
 /*!
+ * \brief Catches throwables that no one catched
+ *
+ * \param Throwable $throwable
+ */
+function fusiondirectoryExceptionHandler (Throwable $throwable)
+{
+  try {
+    logging::log('error', 'fatal', '', [], 'Uncaught '.get_class($throwable).': '.$throwable->getMessage());
+  } catch (Throwable $t) {
+    /* Ignore exceptions/errors here */
+  }
+
+  try {
+    if ($throwable instanceof FatalError) {
+      $throwable->display();
+    } else {
+      $error = new FatalError(htmlescape(sprintf(_('Uncaught %s: %s'), get_class($throwable), $throwable->getMessage())), 0, $throwable);
+      $error->display();
+    }
+  } catch (Throwable $t) {
+    /* Minimal display if exceptions happens when building the pretty one */
+    echo 'Uncaught '.get_class($throwable).': '.$throwable->getMessage();
+  }
+
+  exit(255);
+}
+
+/*!
  * \brief Dummy error handler
  */
 function dummy_error_handler ()
@@ -310,6 +338,7 @@ $error_collector        = "";
 $error_collector_mailto = "";
 
 set_error_handler('gosaRaiseError', E_WARNING | E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT);
+set_exception_handler('fusiondirectoryExceptionHandler');
 
 $variables_order = "ES";
 ini_set("track_vars", 1);

@@ -1,6 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
+
   Copyright (C) 2019-2020  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
@@ -18,10 +19,10 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/*! \class FusionDirectoryError
-    \brief Parent class for all errors in FusionDirectory
+/*! \class FatalError
+    \brief Fatal error class. Does not extend FusionDirectoryError.
 */
-class FusionDirectoryError extends Error
+class FatalError extends Error
 {
   protected $htmlMessage;
 
@@ -42,40 +43,51 @@ class FusionDirectoryError extends Error
       'message' => $this->getMessage(),
       'line'    => $this->getLine(),
       'file'    => $this->getFile(),
+      'fatal'   => TRUE,
     ];
-  }
-
-  public function computeMsgDialogParameters (): array
-  {
-    return [_('Error'), $this->htmlMessage, ERROR_DIALOG, static::formatTrace($this)];
   }
 
   public function display ()
   {
-    msg_dialog::display(...$this->computeMsgDialogParameters());
+    restore_error_handler();
+    error_reporting(E_ALL);
+    echo $this->renderFatalErrorDialog();
   }
 
-  public static function formatTrace(Throwable $throwable): array
+  /*!
+   * \brief Render fatal error screen
+   */
+  protected function renderFatalErrorDialog ()
   {
-    $trace = $throwable->getTrace();
+    global $config;
 
-    foreach ($trace as &$traceStep) {
-      if (isset($traceStep['function']) && isset($traceStep['class']) && isset($traceStep['type'])) {
-        $traceStep['function'] = $traceStep['class'].$traceStep['type'].$traceStep['function'];
-        unset($traceStep['class']);
-        unset($traceStep['type']);
-      }
+    $display =
+      '<!DOCTYPE html>
+      <html><head>
+      <title>'.htmlescape(_('FusionDirectory Fatal Error')).'</title>
+      </head><body>';
+
+    $display .=
+      '<table style="width:100%; border:2px solid red;">
+        <tr>
+          <td style="vertical-align:top;padding:10px">
+            <img src="geticon.php?context=status&amp;icon=dialog-error&amp;size=32" alt="'.htmlescape(_('Error')).'"/>
+          </td>
+          <td style="width:100%">
+            <h3>'.htmlescape(_('Fatal Error')).'</h3>
+            '.$this->getHtmlMessage().'
+          </td>
+        </tr>
+      </table>';
+
+    if (isset($config) && is_object($config) &&
+      $config->get_cfg_value('displayerrors') == 'TRUE') {
+      $trace    = FusionDirectoryError::formatTrace($this);
+      $display  .= print_a($trace, TRUE);
     }
-    unset($traceStep);
 
-    array_unshift(
-      $trace,
-      [
-        'file'  => $throwable->getFile(),
-        'line'  => $throwable->getLine(),
-      ]
-    );
+    $display .= '</body></html>';
 
-    return $trace;
+    return $display;
   }
 }

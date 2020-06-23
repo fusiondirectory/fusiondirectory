@@ -102,17 +102,7 @@ class SimplePluginError extends FusionDirectoryError
       $html .= '<br/><br/><i>'.htmlescape(sprintf(_('Example: %s'), $example)).'</i> ';
     }
 
-    $trace = $this->getTrace();
-
-    array_unshift(
-      $trace,
-      [
-        'file' => $this->getFile(),
-        'line' => $this->getLine(),
-      ]
-    );
-
-    return [_('Error'), $html, ERROR_DIALOG, $trace];
+    return [_('Error'), $html, ERROR_DIALOG, FusionDirectoryError::formatTrace($this)];
   }
 
   public static function relocate ($origin, FusionDirectoryError $error)

@@ -233,14 +233,13 @@ class userinfo
           $targetFilter = templateHandling::parseString($ACLRule['targetfilter'], $this->cachedAttrs, 'ldap_escape_f');
           $ldap->search($targetFilter, ['dn']);
           if ($ldap->hitSizeLimit()) {
-            msg_dialog::display(
-              _('Error'),
-              sprintf(
+            $error = new FusionDirectoryError(
+              htmlescape(sprintf(
                 _('An ACL assignment for the connected user matched more than than the %d objects limit. This user will not have the ACL rights he should.'),
                 $targetFilterLimit
-              ),
-              ERROR_DIALOG
+              ))
             );
+            $error->display();
           }
           $targetDns = [];
           while ($targetAttrs = $ldap->fetch()) {
@@ -1035,10 +1034,7 @@ class userinfo
     /* look through the entire ldap */
     $ldap = $config->get_ldap_link();
     if (!$ldap->success()) {
-      msg_dialog::display(_('LDAP error'),
-          msgPool::ldaperror($ldap->get_error(FALSE), '', LDAP_AUTH),
-          FATAL_ERROR_DIALOG);
-      exit();
+      throw new FatalError(msgPool::ldaperror($ldap->get_error(FALSE), '', LDAP_AUTH));
     }
 
     $allowed_attributes = ['uid','mail'];
@@ -1109,8 +1105,7 @@ class userinfo
     if ($ui === FALSE) {
       throw new LoginFailureException(ldap::invalidCredentialsError());
     } elseif (is_string($ui)) {
-      msg_dialog::display(_('Internal error'), $ui, FATAL_ERROR_DIALOG);
-      exit();
+      throw new LoginFailureException($ui);
     }
 
     /* password check, bind as user with supplied password  */

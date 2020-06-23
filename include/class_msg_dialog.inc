@@ -102,19 +102,13 @@ class msg_dialog
     } else {
       $this->a_Trace = [];
     }
-    if ($this->i_Type == FATAL_ERROR_DIALOG) {
-      restore_error_handler();
-      error_reporting(E_ALL);
-      echo $this->renderFatalErrorDialog();
+    if (session::is_set('msg_dialogs')) {
+      $msg_dialogs = session::get('msg_dialogs');
     } else {
-      if (session::is_set('msg_dialogs')) {
-        $msg_dialogs = session::get('msg_dialogs');
-      } else {
-        $msg_dialogs = [];
-      }
-      $msg_dialogs[] = $this;
-      session::set('msg_dialogs', $msg_dialogs);
+      $msg_dialogs = [];
     }
+    $msg_dialogs[] = $this;
+    session::set('msg_dialogs', $msg_dialogs);
   }
 
   /*!
@@ -130,6 +124,10 @@ class msg_dialog
    */
   public static function display ($title, string $message, int $type = INFO_DIALOG, array $trace = [])
   {
+    if ($type === FATAL_ERROR_DIALOG) {
+      /* Deprecated */
+      throw new FatalError($message);
+    }
     if ($title instanceof FusionDirectoryError) {
       static::display(...$title->computeMsgDialogParameters());
       return;
@@ -162,39 +160,6 @@ class msg_dialog
   public function getId (): int
   {
     return $this->i_ID;
-  }
-
-  /*!
-   * \brief Run the message dialog
-   */
-  protected function renderFatalErrorDialog ()
-  {
-    global $config;
-
-    $display =
-      '<!DOCTYPE html>
-      <html><head>
-      <title>FusionDirectory startup failed</title>
-      </head><body>';
-    if (isset($config) && is_object($config) &&
-      $config->get_cfg_value('displayerrors') == 'TRUE') {
-      list($trace, ) = html_trace();
-      $display .= $trace;
-    }
-    $display .=
-      '<table style="width:100%; border:2px solid red;">
-        <tr>
-          <td style="vertical-align:top;padding:10px">
-            <img src="geticon.php?context=status&amp;icon=dialog-error&amp;size=32" alt="'.htmlescape(_('Error')).'"/>
-          </td>
-          <td style="width:100%">
-            <b>'.htmlescape($this->s_Title).'</b><br/>
-            '.$this->s_Message.'<br/><br/>
-            '.htmlescape(_('Please fix the above error and reload the page.')).'
-          </td>
-        </tr>
-      </table></body></html>';
-    return $display;
   }
 
   /*!

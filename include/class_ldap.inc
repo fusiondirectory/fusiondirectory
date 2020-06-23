@@ -1336,6 +1336,7 @@ class LDAP
       }
       $this->cd($dn);
 
+      $operation = LDAP_MOD;
       if (!$modify) {
         $this->cat($srp, $dn);
         if ($this->count($srp)) {
@@ -1354,6 +1355,7 @@ class LDAP
           $ret = $this->modify($data);
         } else {
           /* The destination entry doesn't exists, create it */
+          $operation = LDAP_ADD;
           $ret = $this->add($data);
         }
       } else {
@@ -1363,7 +1365,8 @@ class LDAP
     }
 
     if (!$this->success()) {
-      msg_dialog::display(_('LDAP error'), msgPool::ldaperror($this->get_error(), $dn, '', get_class()), LDAP_ERROR);
+      $error = new SimplePluginLdapError(NULL, $dn, $operation, $this->get_error(), $this->get_errno());
+      $error->display();
     }
 
     return $ret;

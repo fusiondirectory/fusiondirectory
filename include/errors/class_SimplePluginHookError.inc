@@ -73,16 +73,6 @@ class SimplePluginHookError extends SimplePluginError
       $html .= 'Result: '.$this->htmlMessage."\n";
     }
 
-    $trace = $this->getTrace();
-
-    array_unshift(
-      $trace,
-      [
-        'file' => $this->getFile(),
-        'line' => $this->getLine(),
-      ]
-    );
-
-    return [_('Error'), $html, ERROR_DIALOG, $trace];
+    return [_('Error'), $html, ERROR_DIALOG, FusionDirectoryError::formatTrace($this)];
   }
 }

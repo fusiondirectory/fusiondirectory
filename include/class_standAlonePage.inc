@@ -120,10 +120,13 @@ class standAlonePage
 
     /* Check if CONFIG_FILE is accessible */
     if (!is_readable(CONFIG_DIR.'/'.CONFIG_FILE)) {
-      msg_dialog::display(_('Fatal error'),
-                          sprintf(_('FusionDirectory configuration %s/%s is not readable. Aborted.'),
-                                  CONFIG_DIR, CONFIG_FILE), FATAL_ERROR_DIALOG);
-      exit();
+      throw new FatalError(
+        htmlescape(sprintf(
+          _('FusionDirectory configuration %s/%s is not readable. Aborted.'),
+          CONFIG_DIR,
+          CONFIG_FILE
+        ))
+      );
     }
 
     /* Parse configuration file */
@@ -143,11 +146,12 @@ class standAlonePage
 
     /* Check for compile directory */
     if (!(is_dir($smarty->compile_dir) && is_writable($smarty->compile_dir))) {
-      msg_dialog::display(_('Configuration error'),
-                          sprintf(_("Directory '%s' specified as compile directory is not accessible!"),
-                                  $smarty->compile_dir),
-                          FATAL_ERROR_DIALOG);
-      exit();
+      throw new FatalError(
+        htmlescape(sprintf(
+          _('Directory "%s" specified as compile directory is not accessible!'),
+          $smarty->compile_dir
+        ))
+      );
     }
 
     /* Check for old files in compile directory */

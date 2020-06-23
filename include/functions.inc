@@ -358,10 +358,7 @@ function ldap_init ($server, $base, $binddn = '', $pass = '')
 
   /* Sadly we've no proper return values here. Use the error message instead. */
   if (!$ldap->success()) {
-    msg_dialog::display(_('Fatal error'),
-        sprintf(_("FATAL: Error when connecting the LDAP. Server said '%s'."), $ldap->get_error()),
-        FATAL_ERROR_DIALOG);
-    exit();
+    throw new FatalError(htmlescape(sprintf(_('FATAL: Error when connecting the LDAP. Server said "%s".'), $ldap->get_error())));
   }
 
   /* Preset connection base to $base and return to caller */
@@ -1863,10 +1860,13 @@ function load_all_classes ()
       if (is_readable("$BASE_DIR/$path")) {
         require_once("$BASE_DIR/$path");
       } else {
-        msg_dialog::display(_('Fatal error'),
-            sprintf(_("Cannot locate file '%s' - please run '%s' to fix this"),
-              "$BASE_DIR/$path", '<b>fusiondirectory-setup</b>'), FATAL_ERROR_DIALOG);
-        exit;
+        throw new FatalError(
+          sprintf(
+            htmlescape(_('Cannot locate file "%s" - please run "%s" to fix this')),
+            htmlescape("$BASE_DIR/$path"),
+            '<b>fusiondirectory-setup --update-cache</b>'
+          )
+        );
       }
     }
   }

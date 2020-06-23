@@ -89,16 +89,13 @@ if (!file_exists(CONFIG_DIR.'/'.CONFIG_FILE)) {
 
 /* Check if fusiondirectory.conf (.CONFIG_FILE) is accessible */
 if (!is_readable(CONFIG_DIR.'/'.CONFIG_FILE)) {
-  msg_dialog::display(
-    _('Configuration error'),
-    sprintf(
+  throw new FatalError(
+    htmlescape(sprintf(
       _('FusionDirectory configuration %s/%s is not readable. Please run fusiondirectory-setup --check-config to fix this.'),
       CONFIG_DIR,
       CONFIG_FILE
-    ),
-    FATAL_ERROR_DIALOG
+    ))
   );
-  exit();
 }
 
 /* Parse configuration file */
@@ -115,15 +112,12 @@ $smarty->compile_dir = $config->get_cfg_value('templateCompileDirectory', SPOOL_
 
 /* Check for compile directory */
 if (!(is_dir($smarty->compile_dir) && is_writable($smarty->compile_dir))) {
-  msg_dialog::display(
-    _('Smarty error'),
-    sprintf(
+  throw new FatalError(
+    htmlescape(sprintf(
       _('Directory "%s" specified as compile directory is not accessible!'),
       $smarty->compile_dir
-    ),
-    FATAL_ERROR_DIALOG
+    ))
   );
-  exit();
 }
 
 /* Check for old files in compile directory */
