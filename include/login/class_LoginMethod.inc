@@ -36,7 +36,7 @@ class LoginMethod
   }
 
   /*! \brief Runs schemaCheck if activated in configuration */
-  static function runSchemaCheck ()
+  static function runSchemaCheck (): bool
   {
     global $config;
     if ($config->get_cfg_value('schemaCheck') != 'TRUE') {
@@ -51,9 +51,10 @@ class LoginMethod
     foreach ($str as $tr) {
       if (!$tr['STATUS']) {
         if ($tr['IS_MUST_HAVE']) {
-          return htmlescape(_('LDAP schema check reported errors:')).'<br/><br/><i>'.htmlescape($tr['MSG']).'</i>';
+          throw new FusionDirectoryError(htmlescape(_('LDAP schema check reported errors:')).'<br/><br/><i>'.htmlescape($tr['MSG']).'</i>');
         } else {
-          msg_dialog::display(_('LDAP schema error'), htmlescape($tr['MSG']), WARNING_DIALOG);
+          $warning = new FusionDirectoryWarning(nl2br(htmlescape(sprintf(_("LDAP schema error:\n%s"), $tr['MSG']))));
+          $warning->display();
         }
       }
     }
@@ -81,7 +82,7 @@ class LoginMethod
 
   /*! \brief Check username for invalid characters and check password is not empty
    * Also trims username */
-  static function validateUserInput ()
+  static function validateUserInput (): bool
   {
     global $message, $smarty;
     static::$username = trim(static::$username);
@@ -97,7 +98,7 @@ class LoginMethod
   }
 
   /*! \brief Performs an LDAP bind with $username and $password */
-  static function ldapLoginUser ()
+  static function ldapLoginUser (): bool
   {
     global $ui, $config, $message, $smarty;
     /* Login as user, initialize user ACL's */
@@ -116,7 +117,7 @@ class LoginMethod
   }
 
   /*! \brief Called after successful login, return FALSE if account is expired */
-  static function loginAndCheckExpired ()
+  static function loginAndCheckExpired (): bool
   {
     global $ui, $config, $plist, $message, $smarty;
 
