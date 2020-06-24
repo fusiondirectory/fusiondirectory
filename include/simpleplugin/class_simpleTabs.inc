@@ -65,10 +65,12 @@ class simpleTabs
     $this->dn           = $dn;
 
     if (!count($data)) {
-      $data[] = ['CLASS' => 'plugin','NAME' => 'Error'];
-      msg_dialog::display(_('Error'),
-        sprintf(_('No plugin definitions found to initialize "%s", please check your configuration file.'), get_class($this)),
-        ERROR_DIALOG);
+      throw new FusionDirectoryException(
+        sprintf(
+          _('No plugin definitions found to initialize "%s", please check your configuration file.'),
+          get_class($this)
+        )
+      );
     }
 
     $baseobject         = NULL;
@@ -321,7 +323,8 @@ class simpleTabs
   function delete ()
   {
     if (!$this->getBaseObject()->acl_is_removeable()) {
-      msg_dialog::display(_('Permission'), msgPool::permDelete($this->getBaseObject()->dn), ERROR_DIALOG);
+      $error = new SimplePluginPermissionError($this, msgPool::permDelete($this->getBaseObject()->dn));
+      $error->display();
       return FALSE;
     }
 

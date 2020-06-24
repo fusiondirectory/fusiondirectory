@@ -355,7 +355,8 @@ class LDAP
       /* Check if query took longer as specified in max_ldap_query_time */
       $diff = microtime(TRUE) - $startTime;
       if ($this->max_ldap_query_time && ($diff > $this->max_ldap_query_time)) {
-        msg_dialog::display(_("Performance warning"), sprintf(_("LDAP performance is poor: last query took about %.2fs!"), $diff), WARNING_DIALOG);
+        $warning = new FusionDirectoryWarning(htmlescape(sprintf(_('LDAP performance is poor: last query took about %.2fs!'), $diff)));
+        $warning->display();
       }
 
       $this->log("LDAP operation: time=".$diff." operation=search('".$this->basedn."', '$filter')");
@@ -1098,30 +1099,24 @@ class LDAP
   /*!
    * \brief  Generates an ldif for all entries matching the filter settings, scope and limit.
    *
-   * \param  $dn           The entry to export.
+   * \param  string $dn       The entry to export.
    *
-   * \param  $filter       Limit the exported object to those maching this filter.
+   * \param  string $filter   Limit the exported object to those maching this filter.
    *
-   * \param  $scope        'base', 'sub' .. see manpage for 'ldapmodify' for details.
+   * \param  string $scope    'base', 'sub' .. see manpage for 'ldapmodify' for details.
    *
-   * \param  $limit        Limits the result.
+   * \param  int $limit       Limits the result.
    */
-  function generateLdif ($dn, $filter = "(objectClass=*)", $scope = 'sub', $limit = 0)
+  function generateLdif (string $dn, string $filter = '(objectClass=*)', string $scope = 'sub', int $limit = 0): string
   {
-    // Ensure that limit is numeric if not skip here.
-    if (!empty($limit) && !is_numeric($limit)) {
-      trigger_error(sprintf("Invalid parameter for limit '%s', a numeric value is required."), $limit);
-      return NULL;
-    }
-    $limit = (!$limit) ? '' : ' -z '.$limit;
+    $limit = (($limit == 0) ? '' : ' -z '.$limit);
 
     // Check scope values
     $scope = trim($scope);
     if (!empty($scope) && !in_array($scope, ['base', 'one', 'sub', 'children'])) {
-      trigger_error(sprintf("Invalid parameter for scope '%s', please use 'base', 'one', 'sub' or 'children'."), $scope);
-      return NULL;
+      throw new LDIFExportException(sprintf('Invalid parameter for scope "%s", please use "base", "one", "sub" or "children".'), $scope);
     }
-    $scope = (!empty($scope)) ? ' -s '.$scope : '';
+    $scope = (empty($scope) ? '' : ' -s '.$scope);
 
     // Prepare parameters to be valid for shell execution
     $dn     = escapeshellarg($dn);
@@ -1152,12 +1147,10 @@ class LDAP
 
       // Close the process and check its return value
       if (proc_close($process) != 0) {
-        $this->error = $err;
-        return NULL;
+        throw new LDIFExportException($err);
       }
     } else {
-      $this->error = _("proc_open failed to execute ldapsearch");
-      return NULL;
+      throw new LDIFExportException(_('proc_open failed to execute ldapsearch'));
     }
     return $res;
   }

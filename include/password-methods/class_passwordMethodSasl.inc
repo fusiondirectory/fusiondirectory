@@ -63,7 +63,8 @@ class passwordMethodSasl extends passwordMethod
         $attrs = $ldap->fetch();
         $this->uid = $attrs[$attr][0];
       } else {
-        msg_dialog::display(_('Error'), sprintf(_('Cannot change password, unknown user "%s"'), $dn), ERROR_DIALOG);
+        $error = new FusionDirectoryError(htmlescape(sprintf(_('Cannot change password, unknown user "%s"'), $dn)));
+        $error->display();
       }
     }
   }
@@ -93,7 +94,8 @@ class passwordMethodSasl extends passwordMethod
   {
     if (empty($this->exop)) {
       if (empty($this->realm)) {
-        msg_dialog::display(_('Error'), _('You need to fill saslRealm or saslExop in the configuration screen in order to use SASL'), ERROR_DIALOG);
+        $error = new FusionDirectoryError(htmlescape(_('You need to fill saslRealm or saslExop in the configuration screen in order to use SASL')));
+        $error->display();
       }
       return '{SASL}'.($locked ? '!' : '').$this->uid.'@'.$this->realm;
     } else {

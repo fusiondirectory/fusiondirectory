@@ -82,7 +82,8 @@ class userManagement extends management
       }
     }
     if (count($disallowed)) {
-      msg_dialog::display(_('Permission'), msgPool::permModify($disallowed), INFO_DIALOG);
+      $error = new FusionDirectoryPermissionError(msgPool::permModify($disallowed));
+      $error->display();
     }
 
     // Try to lock/unlock the rest of the entries.
@@ -110,9 +111,14 @@ class userManagement extends management
         if (is_array($hn)) {
           $hn = $hn[0];
         }
-        msg_dialog::display(_('Account locking'),
-            sprintf(_('Password method "%s" does not support locking. Account "%s" has not been locked!'),
-              $hn, $dn), ERROR_DIALOG);
+        $error = new FusionDirectoryError(
+          htmlescape(sprintf(
+            _('Password method "%s" does not support locking. Account "%s" has not been locked!'),
+            $hn,
+            $dn
+          ))
+        );
+        $error->display();
         return;
       }
 
@@ -129,9 +135,14 @@ class userManagement extends management
         if (is_array($hn)) {
           $hn = $hn[0];
         }
-        msg_dialog::display(_('Account locking'),
-            sprintf(_('Locking failed using password method "%s". Account "%s" has not been locked!'),
-              $hn, $dn), ERROR_DIALOG);
+        $error = new FusionDirectoryError(
+          htmlescape(sprintf(
+            _('Locking failed using password method "%s". Account "%s" has not been locked!'),
+            $hn,
+            $dn
+          ))
+        );
+        $error->display();
       }
     }
   }

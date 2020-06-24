@@ -30,13 +30,34 @@ class FileAttribute extends Attribute
     $this->postValue = $this->value;
     if (!empty($_FILES[$this->getHtmlId()]['name']) && $this->isVisible()) {
       if ($_FILES[$this->getHtmlId()]['size'] <= 0) {
-        msg_dialog::display(_("Error"), sprintf(_("Cannot read uploaded file: %s"), _("file is empty")), ERROR_DIALOG);
+        $error = new SimplePluginError(
+          $this,
+          htmlescape(sprintf(
+            _('Cannot read uploaded file: %s'),
+            _('file is empty')
+          ))
+        );
+        $error->display();
       } elseif (!file_exists($_FILES[$this->getHtmlId()]['tmp_name'])) {
         // Is there a tmp file, which we can use ?
-        msg_dialog::display(_("Error"), sprintf(_("Cannot read uploaded file: %s"), _("file not found")), ERROR_DIALOG);
-      } elseif (!$handle = @fopen($_FILES[$this->getHtmlId()]['tmp_name'], "r")) {
+        $error = new SimplePluginError(
+          $this,
+          htmlescape(sprintf(
+            _('Cannot read uploaded file: %s'),
+            _('file not found')
+          ))
+        );
+        $error->display();
+      } elseif (!$handle = @fopen($_FILES[$this->getHtmlId()]['tmp_name'], 'r')) {
         // Can we open the tmp file, for reading
-        msg_dialog::display(_("Error"), sprintf(_("Cannot read uploaded file: %s"), _("file not readable")), ERROR_DIALOG);
+        $error = new SimplePluginError(
+          $this,
+          htmlescape(sprintf(
+            _('Cannot read uploaded file: %s'),
+            _('file not readable')
+          ))
+        );
+        $error->display();
       } else {
         // Everything just fine :)
 
@@ -374,22 +395,20 @@ class ImageAttribute extends FileAttribute
       } catch (ImagickException $e) {
         /* Store the exception to return it in deserializeValue() */
         $this->imagickException = $e;
-        msg_dialog::display(
-          _('Error'),
-          sprintf(
-            _('Cannot set "%s" value, it contains invalid data: %s'),
-            ($this->getLabel() != '' ? $this->getLabel() : $this->getLdapName()),
-            $e->getMessage()
-          ),
-          ERROR_DIALOG
+        $error = new SimplePluginError(
+          $this,
+          SimplePluginCheckError::invalidValue($e->getMessage()),
+          0,
+          $e
         );
+        $error->display();
       }
     } else {
-      msg_dialog::display(
-        _('Error'),
-        _('Cannot save user picture, FusionDirectory requires the PHP module "imagick" to be installed!'),
-        ERROR_DIALOG
+      $error = new SimplePluginError(
+        $this,
+        htmlescape(_('Cannot save user picture, FusionDirectory requires the PHP module "imagick" to be installed!'))
       );
+      $error->display();
     }
   }
 

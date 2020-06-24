@@ -129,7 +129,8 @@ if (($expired == POSIX_WARN_ABOUT_EXPIRATION) && !session::is_set('POSIX_WARN_AB
     if ($value == 'user') {
       if (!isset($_GET['plug']) || ($_GET['plug'] != $key)) {
         $_GET['plug'] = $key;
-        msg_dialog::display(_('Warning'), _('Your password has expired, please set a new one.'), WARNING_DIALOG);
+        $warning = new FusionDirectoryWarning(htmlescape(_('Your password has expired, please set a new one.')));
+        $warning->display();
       }
       break;
     }
@@ -165,7 +166,8 @@ $ui->getSizeLimitHandler()->update();
 
 /* Check for memory */
 if (memory_get_usage() > (to_byte(ini_get('memory_limit')) - 2048000)) {
-  msg_dialog::display(_("Configuration error"), _("Running out of memory!"), WARNING_DIALOG);
+  $warning = new FusionDirectoryWarning(htmlescape(_('Running out of memory!')));
+  $warning->display();
 }
 
 /* show web frontend */

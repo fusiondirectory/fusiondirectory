@@ -925,9 +925,13 @@ class config
       /* Send message if not done already */
       if (!session::is_set('snapshotFailMessageSend')) {
         session::set('snapshotFailMessageSend', TRUE);
-        msg_dialog::display(_('Configuration error'),
-            sprintf(_('The snapshot functionality is enabled, but the required variable "%s" is not set.'),
-                    'snapshotBase'), ERROR_DIALOG);
+        $error = new FusionDirectoryError(
+          htmlescape(sprintf(
+            _('The snapshot functionality is enabled, but the required variable "%s" is not set.'),
+            'snapshotBase'
+          ))
+        );
+        $error->display();
       }
       return FALSE;
     }
@@ -937,8 +941,13 @@ class config
       /* Send message if not done already */
       if (!session::is_set('snapshotFailMessageSend')) {
         session::set('snapshotFailMessageSend', TRUE);
-        msg_dialog::display(_('Configuration error'),
-            sprintf(_('The snapshot functionality is enabled, but the required compression module is missing. Please install "%s".'), 'php5-zip / php5-gzip'), ERROR_DIALOG);
+        $error = new FusionDirectoryError(
+          htmlescape(sprintf(
+            _('The snapshot functionality is enabled, but the required compression module is missing. Please install "%s".'),
+            'php-zip / php-gzip'
+          ))
+        );
+        $error->display();
       }
       return FALSE;
     }

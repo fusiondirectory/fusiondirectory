@@ -86,10 +86,11 @@ class BaseSelectorAttribute extends Attribute
       /* Refresh base */
       if (!$this->baseSelector->update()) {
         if ($this->plugin->dn == 'new') {
-          msg_dialog::display(_('Error'), msgPool::permCreate(), ERROR_DIALOG);
+          $error = new SimplePluginPermissionError($this, msgPool::permCreate());
         } else {
-          msg_dialog::display(_('Error'), msgPool::permMove($this->plugin->dn), ERROR_DIALOG);
+          $error = new SimplePluginPermissionError($this, msgPool::permMove($this->plugin->dn));
         }
+        $error->display();
       }
       if ($this->value != $this->baseSelector->getBase()) {
         $this->setValue($this->baseSelector->getBase());
@@ -105,16 +106,16 @@ class BaseSelectorAttribute extends Attribute
     } else {
       /* Check if we are allowed to create/move this user */
       if (($this->orig_dn == 'new') && !$this->plugin->acl_is_createable($this->value)) {
-        return msgPool::permCreate();
+        return new SimplePluginPermissionError($this, msgPool::permCreate());
       } elseif (
         ($this->orig_dn != 'new') &&
         ($this->plugin->dn != $this->orig_dn) &&
         !$this->plugin->acl_is_moveable($this->value)) {
-        return msgPool::permMove($this->plugin->dn);
+        return new SimplePluginPermissionError($this, msgPool::permMove($this->plugin->dn));
       }
       // Check if a wrong base was supplied
       if (!$this->baseSelector->checkLastBaseUpdate()) {
-        return msgPool::check_base();
+        return new SimplePluginCheckError($this, msgPool::check_base());
       }
     }
   }

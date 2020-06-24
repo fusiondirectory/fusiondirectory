@@ -200,7 +200,8 @@ class CopyPasteHandler
         foreach ($this->disallowed_objects as $entry) {
           $dns[] = $entry['dn'];
         }
-        msg_dialog::display(_('Permission'), msgPool::permCreate($dns), INFO_DIALOG);
+        $error = new FusionDirectoryPermissionError(msgPool::permCreate($dns));
+        $error->display();
       }
       $this->require_update = FALSE;
     }

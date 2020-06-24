@@ -248,7 +248,8 @@ class managementListing
 
       // Check if a wrong base was supplied
       if (!$this->baseSelector->checkLastBaseUpdate()) {
-        msg_dialog::display(_('Error'), msgPool::check_base(), ERROR_DIALOG);
+        $error = new FusionDirectoryError(msgPool::check_base());
+        $error->display();
       }
 
       // Save base

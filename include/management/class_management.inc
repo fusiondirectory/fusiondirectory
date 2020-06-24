@@ -447,7 +447,8 @@ class management
           return $this->getHeader().$str;
         }
       } catch (FusionDirectoryException $e) {
-        msg_dialog::display(_('Error'), $e->getMessage(), ERROR_DIALOG);
+        $error = new FusionDirectoryError(htmlescape($e->getMessage()), 0, $e);
+        $error->display();
       }
     }
 
@@ -458,7 +459,8 @@ class management
       try {
         $this->dialogObject->save_object();
       } catch (FusionDirectoryException $e) {
-        msg_dialog::display(_('Error'), $e->getMessage(), ERROR_DIALOG);
+        $error = new FusionDirectoryError(htmlescape($e->getMessage()), 0, $e);
+        $error->display();
         $this->closeDialogs();
       }
     }
@@ -780,7 +782,8 @@ class management
       }
 
       if ($entry->isTemplate()) {
-        msg_dialog::display(_('Error'), _('Applying a template to a template is not possible'), ERROR_DIALOG);
+        $error = new FusionDirectoryError(htmlescape(_('Applying a template to a template is not possible')));
+        $error->display();
         $this->currentDns = [];
         return;
       }
@@ -788,7 +791,8 @@ class management
       if (!isset($type)) {
         $type = $entry->type;
       } elseif ($entry->type != $type) {
-        msg_dialog::display(_('Error'), _('All selected entries need to share the same type to be able to apply a template to them'), ERROR_DIALOG);
+        $error = new FusionDirectoryError(htmlescape(_('All selected entries need to share the same type to be able to apply a template to them')));
+        $error->display();
         $this->currentDns = [];
         return;
       }
@@ -925,7 +929,8 @@ class management
       }
     }
     if (count($disallowed)) {
-      msg_dialog::display(_('Permission'), msgPool::permDelete($disallowed), INFO_DIALOG);
+      $error = new FusionDirectoryPermissionError(msgPool::permDelete($disallowed));
+      $error->display();
     }
 
     // We've at least one entry to delete.
@@ -989,7 +994,8 @@ class management
         // Remove the lock for the current object.
         del_lock($this->currentDn);
       } else {
-        msg_dialog::display(_('Permission error'), msgPool::permDelete($dn), ERROR_DIALOG);
+        $error = new FusionDirectoryPermissionError(msgPool::permDelete($dn));
+        $error->display();
         logging::log('security', 'management/'.get_class($this), $dn, [], 'Tried to trick deletion.');
       }
     }
@@ -1075,8 +1081,13 @@ class management
     if ($entry->snapshotCreationAllowed()) {
       $this->dialogObject = new SnapshotCreateDialog($this->currentDn, $this, '');
     } else {
-      msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to create a snapshot for %s.'), $this->currentDn),
-          ERROR_DIALOG);
+      $error = new FusionDirectoryError(
+        htmlescape(sprintf(
+          _('You are not allowed to create a snapshot for %s.'),
+          $this->currentDn
+        ))
+      );
+      $error->display();
     }
   }
 
@@ -1105,8 +1116,13 @@ class management
       logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDn, 'Snapshot restoring initiated!');
       $this->dialogObject = new SnapshotRestoreDialog($this->currentDn, $this, empty($action['targets']), $aclCategories);
     } else {
-      msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $this->currentDn),
-          ERROR_DIALOG);
+      $error = new FusionDirectoryError(
+        htmlescape(sprintf(
+          _('You are not allowed to restore a snapshot for %s.'),
+          $this->currentDn
+        ))
+      );
+      $error->display();
     }
   }
 
@@ -1194,8 +1210,8 @@ class management
       $this->snapHandler->createSnapshot($dn, $description, $entry->type);
       logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snapshot created!');
     } else {
-      msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $dn),
-          ERROR_DIALOG);
+      $error = new FusionDirectoryPermissionError(htmlescape(sprintf(_('You are not allowed to restore a snapshot for %s.'), $dn)));
+      $error->display();
     }
   }
 
@@ -1222,8 +1238,8 @@ class management
         $this->saveChanges();
       }
     } else {
-      msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to restore a snapshot for %s.'), $dn),
-          ERROR_DIALOG);
+      $error = new FusionDirectoryPermissionError(htmlescape(sprintf(_('You are not allowed to restore a snapshot for %s.'), $dn)));
+      $error->display();
     }
   }
 
@@ -1239,8 +1255,8 @@ class management
       $this->snapHandler->removeSnapshot($dn);
       logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snapshot deleted');
     } else {
-      msg_dialog::display(_('Permission'), sprintf(_('You are not allowed to delete a snapshot for %s.'), $dn),
-          ERROR_DIALOG);
+      $error = new FusionDirectoryPermissionError(htmlescape(sprintf(_('You are not allowed to delete a snapshot for %s.'), $dn)));
+      $error->display();
     }
   }
 

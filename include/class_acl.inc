@@ -100,7 +100,13 @@ class acl
 
     /* Handle unknown types */
     if (!in_array($type, ['subtree', 'base'])) {
-      msg_dialog::display(_("Internal error"), sprintf(_("Unkown ACL type '%s'!\nYou might need to run \"fusiondirectory-setup --migrate-acls\" to migrate your acls to the new format."), $type), ERROR_DIALOG);
+      $error = new FusionDirectoryError(
+        nl2br(htmlescape(sprintf(
+          _("Unkown ACL type \"%s\"!\nYou might need to run \"fusiondirectory-setup --migrate-acls\" to migrate your acls to the new format."),
+          $type
+        )))
+      );
+      $error->display();
       $a = [];
     }
     return $a;

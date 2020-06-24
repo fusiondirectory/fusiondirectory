@@ -463,7 +463,8 @@ class setupStepMigrate extends setupStep
       if (isset($this->rootOC_details['mods'])) {
         $res = $ldap->modify($this->rootOC_details['mods']);
         if (!$res) {
-          msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), $config->current['BASE'], LDAP_MOD, get_class()), LDAP_ERROR);
+          $error = new FusionDirectoryLdapError($config->current['BASE'], LDAP_MOD, $ldap->get_error(), $ldap->get_errno());
+          $error->display();
         }
         $this->checks['adminAccount']->run();
         return $res;
@@ -716,14 +717,13 @@ class setupStepMigrate extends setupStep
           } else {
             $ldap->cd($attrs['dn']);
             if (!$ldap->modify($new_attrs)) {
-              msg_dialog::display(
-                _('Migration error'),
-                sprintf(
-                  _('Cannot migrate entry "%s":').'<br/><br/><i>%s</i>',
-                  $attrs['dn'], $ldap->get_error()
-                ),
-                ERROR_DIALOG
+              $error = new FusionDirectoryError(
+                nl2br(sprintf(
+                  htmlescape(_("Cannot migrate entry \"%s\":\n\n%s")),
+                  htmlescape($attrs['dn']), '<i>'.htmlescape($ldap->get_error()).'</i>'
+                ))
               );
+              $error->display();
               return FALSE;
             }
           }
@@ -981,14 +981,13 @@ class setupStepMigrate extends setupStep
         $ldap->cd($dn);
         $ldap->add($role);
         if (!$ldap->success()) {
-          msg_dialog::display(
-            _('Migration error'),
-            sprintf(
-              _('Cannot add ACL role "%s":').'<br/><br/><i>%s</i>',
-              $dn, $ldap->get_error()
-            ),
-            ERROR_DIALOG
+          $error = new FusionDirectoryError(
+            nl2br(sprintf(
+              htmlescape(_("Cannot add ACL role \"%s\":\n\n%s")),
+              htmlescape($dn), '<i>'.htmlescape($ldap->get_error()).'</i>'
+            ))
           );
+          $error->display();
           return FALSE;
         }
       }
@@ -1153,7 +1152,8 @@ class setupStepMigrate extends setupStep
     if (isset($_POST['destination'])) {
       $destination_dep = get_ou($ou).$_POST['destination'];
     } else {
-      msg_dialog::display(_('LDAP error'), _('Cannot move entries to the requested department!'), ERROR_DIALOG);
+      $error = new FusionDirectoryError(htmlescape(_('Cannot move entries to the requested department!')));
+      $error->display();
       return FALSE;
     }
 

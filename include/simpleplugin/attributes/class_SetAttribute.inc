@@ -667,10 +667,9 @@ class OrderedArrayAttribute extends SetAttribute
       $this->attribute->applyPostValue();
       if ($error = $this->attribute->check()) {
         if (is_string($error)) {
-          msg_dialog::display(sprintf(_('Invalid value for %s'), $this->getLabel()), $error);
-        } else {
-          $error->display();
+          $error = new SimplePluginCheckError($this, $error);
         }
+        $error->display();
       } else {
         $this->addPostValue($this->attribute->getValue());
       }
@@ -820,7 +819,8 @@ class SubNodesAttribute extends OrderedArrayAttribute
       }
       $ldap->add($attrs);
       if (!$ldap->success()) {
-        msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $dn, LDAP_ADD, get_class()), LDAP_ERROR);
+        $error = new SimplePluginLdapError($this, $dn, LDAP_ADD, $ldap->get_error(), $ldap->get_errno());
+        $error->display();
       }
     }
   }

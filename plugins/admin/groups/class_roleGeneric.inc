@@ -125,12 +125,12 @@ class roleGeneric extends simplePlugin
       $removingOccupants  = array_diff($savedOccupants, $this->roleOccupant);
       foreach ($addingOccupants as $dn) {
         if (strpos($ui->get_permissions($dn, 'user/userRoles', 'rolesMembership', $this->acl_skip_write()), 'w') === FALSE) {
-          $errors[] = msgPool::permModify($dn, 'rolesMembership');
+          $errors[] = new SimplePluginPermissionError($this, msgPool::permModify($dn, 'rolesMembership'));
         }
       }
       foreach ($removingOccupants as $dn) {
         if (strpos($ui->get_permissions($dn, 'user/userRoles', 'rolesMembership', $this->acl_skip_write()), 'w') === FALSE) {
-          $errors[] = msgPool::permModify($dn, 'rolesMembership');
+          $errors[] = new SimplePluginPermissionError($this, msgPool::permModify($dn, 'rolesMembership'));
         }
       }
     }
