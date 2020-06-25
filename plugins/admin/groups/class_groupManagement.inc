@@ -192,12 +192,12 @@ class groupManagement extends management
           $error->display();
         } else {
           if (is_array($res) && count($res) > 1) {
-            msg_dialog::display(_('Action triggered'), sprintf(_('Action called without error (results were "%s")'), implode(', ', $res)), INFO_DIALOG);
+            msg_dialog::display(_('Action triggered'), htmlescape(sprintf(_('Action called without error (results were "%s")'), implode(', ', $res))), INFO_DIALOG);
           } else {
             if (is_array($res)) {
               $res = $res[0];
             }
-            msg_dialog::display(_('Action triggered'), sprintf(_('Action called without error (result was "%s")'), $res), INFO_DIALOG);
+            msg_dialog::display(_('Action triggered'), htmlescape(sprintf(_('Action called without error (result was "%s")'), $res)), INFO_DIALOG);
           }
         }
         $this->closeDialogs();

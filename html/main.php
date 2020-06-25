@@ -113,7 +113,7 @@ if (($expired == POSIX_WARN_ABOUT_EXPIRATION) && !session::is_set('POSIX_WARN_AB
 
   // The users password is about to expire soon, display a warning message.
   logging::log('security', 'fusiondirectory', '', [], 'password for user "'.$ui->uid.'" is about to expire');
-  msg_dialog::display(_('Password change'), _('Your password is about to expire, please change your password!'), INFO_DIALOG);
+  msg_dialog::display(_('Password change'), htmlescape(_('Your password is about to expire, please change your password!')), INFO_DIALOG);
   session::set('POSIX_WARN_ABOUT_EXPIRATION__DONE', TRUE);
 } elseif ($expired == POSIX_FORCE_PASSWORD_CHANGE) {
   logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $expired, 'This user account expired');

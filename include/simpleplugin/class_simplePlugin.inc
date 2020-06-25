@@ -1570,7 +1570,7 @@ class simplePlugin implements SimpleTab
         $str = implode("\n", $arr);
         logging::debug(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, 'Output: '.$str);
         if (!empty($str) && $config->get_cfg_value('displayHookOutput', 'FALSE') == 'TRUE') {
-          msg_dialog::display('['.get_class($this).' '.strtolower($cmd).'trigger] '.$command, $str, INFO_DIALOG);
+          msg_dialog::display('['.get_class($this).' '.strtolower($cmd).'trigger] '.$command, htmlescape($str), INFO_DIALOG);
         }
       }
     }
