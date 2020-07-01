@@ -1,5 +1,5 @@
 <fieldset id="{$sectionId}" class="plugin-section{$sectionClasses}">
-  <legend><span>{if $sectionIcon}<img src="{$sectionIcon|escape}" alt=""/>{/if}{$section|escape}</span></legend>
+  <legend><span>{if !empty($sectionIcon)}<img src="{$sectionIcon|escape}" alt=""/>{/if}{$section|escape}</span></legend>
   <div>
   <table>
     {foreach from=$attributes item=attribute key=id}
