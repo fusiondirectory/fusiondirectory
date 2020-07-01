@@ -45,6 +45,14 @@ define('DEBUG_SI',       256); /*! Debug level for communication with Argonaut *
 define('DEBUG_MAIL',     512); /*! Debug level for all about mail (mailAccounts, imap, sieve etc.) */
 define('DEBUG_FAI',      1024); /* FAI (incomplete) */
 
+/* Define constants for LDAP operations */
+define('LDAP_READ',   1);
+define('LDAP_ADD',    2);
+define('LDAP_MOD',    3);
+define('LDAP_DEL',    4);
+define('LDAP_SEARCH', 5);
+define('LDAP_AUTH',   6);
+
 /* Rewrite german 'umlauts' and spanish 'accents'
    to get better results */
 $REWRITE = [ "ä" => "ae",
