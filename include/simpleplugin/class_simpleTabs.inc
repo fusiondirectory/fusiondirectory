@@ -356,7 +356,7 @@ class simpleTabs
         if ($attrs['dn'] != $this->getBaseObject()->dn) {
           $messages[] = new SimplePluginCheckError(
             $this->getBaseObject()->attributesAccess['_template_cn'],
-            htmlescape(msgPool::duplicated($this->getBaseObject()->attributesAccess['_template_cn']->getLabel(), $attrs['dn']))
+            msgPool::duplicated($this->getBaseObject()->attributesAccess['_template_cn']->getLabel(), $attrs['dn'])
           );
         }
       }

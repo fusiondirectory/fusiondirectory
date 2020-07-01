@@ -596,7 +596,7 @@ class Attribute
 
           return new SimplePluginCheckError(
             $this,
-            htmlescape(msgPool::duplicated($this->getLabel(), $attrs['dn']))
+            msgPool::duplicated($this->getLabel(), $attrs['dn'])
           );
         }
       }
