@@ -998,7 +998,7 @@ class LDAP
           logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $na, 'Content');
           logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->get_error(), 'LDAP error');
 
-          throw new SimplePluginLdapError(NULL, $cdn, LDAP_ADD, $this->get_error(), $this->get_errno());
+          throw new FusionDirectoryLdapError($cdn, LDAP_ADD, $this->get_error(), $this->get_errno());
         }
       }
     }
@@ -1358,7 +1358,7 @@ class LDAP
     }
 
     if (!$this->success()) {
-      $error = new SimplePluginLdapError(NULL, $dn, $operation, $this->get_error(), $this->get_errno());
+      $error = new FusionDirectoryLdapError($dn, $operation, $this->get_error(), $this->get_errno());
       $error->display();
     }
 
