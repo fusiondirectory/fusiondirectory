@@ -29,7 +29,7 @@ class SimplePluginHookError extends SimplePluginError
   {
     $this->hookType = $type;
 
-    parent::__construct($origin, htmlescape($output), $code, $previous);
+    parent::__construct($origin, '<pre><samp>'.htmlescape($output).'</samp></pre>', $code, $previous);
   }
 
   public function toArray (): array
@@ -61,11 +61,13 @@ class SimplePluginHookError extends SimplePluginError
       } else {
         $html .= htmlescape($label);
       }
+      $html .= htmlescape(' > ');
     }
+    $html .= htmlescape($this->hookType);
 
-    $html .= '<br/><br/>';
+    $html .= '<br/><br/>'."\n";
 
-    $html .= htmlescape(sprintf(_('Trigger "%s" returned an error!'), $this->hookType));
+    $html .= htmlescape(_('Trigger returned an error!'));
 
     $html .= '<br/><br/>'."\n";
     $html .= htmlescape(sprintf(_('Exit code: %d'), $this->getCode())).'<br/>'."\n";
