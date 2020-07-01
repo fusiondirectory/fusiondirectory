@@ -546,7 +546,8 @@ class OrderedArrayAttribute extends SetAttribute
             'alt'             => _('Sort up'),
             'class'           => 'center',
             'formnovalidate'  => 'formnovalidate',
-          ]
+          ],
+          FALSE
         );
       } else {
         $img .= '<img src="images/empty.png" alt="" style="width:16px;"/>';
@@ -560,7 +561,8 @@ class OrderedArrayAttribute extends SetAttribute
             'alt'             => _('Sort down'),
             'class'           => 'center',
             'formnovalidate'  => 'formnovalidate',
-          ]
+          ],
+          FALSE
         );
       } else {
         $img .= '<img src="images/empty.png" alt="" style="width:16px;"/>';
@@ -576,7 +578,8 @@ class OrderedArrayAttribute extends SetAttribute
           'alt'             => _('Edit'),
           'class'           => 'center',
           'formnovalidate'  => 'formnovalidate',
-        ]
+        ],
+        FALSE
       );
     }
     $img .= $this->renderInputField(
@@ -587,7 +590,8 @@ class OrderedArrayAttribute extends SetAttribute
         'alt'             => _('Delete'),
         'class'           => 'center',
         'formnovalidate'  => 'formnovalidate',
-      ]
+      ],
+      FALSE
     );
 
     return  [$img, $nbicons];

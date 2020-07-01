@@ -107,7 +107,8 @@ class SnapshotsAttribute extends OrderedArrayAttribute
         'title' => _('Restore'),
         'alt'   => _('Restore'),
         'class' => 'center'
-      ]
+      ],
+      FALSE
     ).$img;
     $nbicons++;
 

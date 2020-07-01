@@ -787,16 +787,16 @@ class Attribute
     return ($this->getValue() == $value);
   }
 
-  protected function renderInputField (string $type, string $name, array $attributes = []): string
+  protected function renderInputField (string $type, string $name, array $attributes = [], bool $smartyEscape = TRUE): string
   {
-    $input  = '{literal}<input type="'.htmlescape($type).'" '.
+    $input  = '<input type="'.htmlescape($type).'" '.
               'name="'.htmlescape($name).'" id="'.htmlescape($name).'"'.
               ($this->disabled ? ' disabled="disabled"' : '');
     foreach ($attributes as $label => $value) {
       $input .= ' '.$label.'="'.htmlescape($value).'"';
     }
-    $input .= '/>{/literal}';
-    return $input;
+    $input .= '/>';
+    return ($smartyEscape ? '{literal}'.$input.'{/literal}' : $input);
   }
 }
 
