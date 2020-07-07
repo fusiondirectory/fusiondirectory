@@ -930,20 +930,24 @@ class LDAP
 
         /* Automatic or traditional? */
         if (count($classes)) {
-          /* Get name of first matching objectClass */
-          $ocname = "";
-          foreach ($classes as $class) {
-            if (isset($class['MUST']) && in_array($type, $class['MUST'])) {
+          if ($type == 'l') {
+            /* Locality has l as MAY so autodetection fails */
+            $ocname = 'locality';
+          } else {
+            /* Get name of first matching objectClass */
+            $ocname = '';
+            foreach ($classes as $class) {
+              if (isset($class['MUST']) && in_array($type, $class['MUST'])) {
+                /* Look for first classes that is structural... */
+                if (isset($class['STRUCTURAL'])) {
+                  $ocname = $class['NAME'];
+                  break;
+                }
 
-              /* Look for first classes that is structural... */
-              if (isset($class['STRUCTURAL'])) {
-                $ocname = $class['NAME'];
-                break;
-              }
-
-              /* Look for classes that are auxiliary... */
-              if (isset($class['AUXILIARY'])) {
-                $ocname = $class['NAME'];
+                /* Look for classes that are auxiliary... */
+                if (isset($class['AUXILIARY'])) {
+                  $ocname = $class['NAME'];
+                }
               }
             }
           }
@@ -966,14 +970,18 @@ class LDAP
           $na[$type] = $param;
 
           // Fill in MUST values - but do not overwrite existing ones.
-          if (is_array($classes[$ocname]['MUST'])) {
-            foreach ($classes[$ocname]['MUST'] as $attr) {
-              if (isset($na[$attr]) && !empty($na[$attr])) {
-                continue;
+          $oc = $ocname;
+          do {
+            if (isset($classes[$oc]['MUST']) && is_array($classes[$oc]['MUST'])) {
+              foreach ($classes[$oc]['MUST'] as $attr) {
+                if (isset($na[$attr]) && !empty($na[$attr])) {
+                  continue;
+                }
+                $na[$attr] = 'filled';
               }
-              $na[$attr] = 'filled';
             }
-          }
+            $oc = ($classes[$oc]['SUP'] ?? NULL);
+          } while ($oc);
         } else {
           /* Use alternative add... */
           switch ($type) {
