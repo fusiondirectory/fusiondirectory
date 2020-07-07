@@ -139,6 +139,7 @@ class standAlonePage
   function setupSmarty ()
   {
     global $config;
+
     $smarty = get_smarty();
 
     /* Set template compile directory */

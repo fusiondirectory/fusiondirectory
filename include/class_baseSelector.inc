@@ -1,8 +1,9 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
+
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2019  FusionDirectory
+  Copyright (C) 2011-2020  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -34,7 +35,7 @@ class baseSelector
   private $action;
   private $height         = 500;
   private $submitButton   = TRUE;
-  protected $tree         = '';
+  protected $tree         = NULL;
   protected $pathMapping  = [];
   protected $lastState;
 
@@ -181,7 +182,8 @@ class baseSelector
       return TRUE;
     }
 
-    $this->renderTree();
+    /* Force tree render next time render() is called */
+    $this->tree = NULL;
 
     $this->lastState = TRUE;
     return TRUE;
@@ -255,6 +257,10 @@ class baseSelector
    */
   function render (): string
   {
+    if (!isset($this->tree)) {
+      $this->renderTree();
+    }
+
     return $this->tree;
   }
 
