@@ -52,6 +52,9 @@ class SimplePluginError extends FusionDirectoryError
         trigger_error('Invalid origin of class '.get_class($origin));
       }
     }
+    if (!$this->object instanceof simpleTabs) {
+      $this->object = NULL;
+    }
   }
 
   public function toArray (): array
@@ -81,7 +84,7 @@ class SimplePluginError extends FusionDirectoryError
       $html .= htmlescape($this->object->getBaseObject()->dn.' > ');
     }
 
-    if (isset($this->tab)) {
+    if (isset($this->tab) && isset($this->tab->parent->by_name[get_class($this->tab)])) {
       $html .= htmlescape($this->tab->parent->by_name[get_class($this->tab)].' > ');
     }
 
