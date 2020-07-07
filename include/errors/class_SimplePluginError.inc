@@ -48,7 +48,7 @@ class SimplePluginError extends FusionDirectoryError
       } elseif ($origin instanceof simpleTabs) {
         $this->tab    = NULL;
         $this->object = $origin;
-      } else {
+      } elseif ($origin !== NULL) {
         trigger_error('Invalid origin of class '.get_class($origin));
       }
     }

@@ -29,7 +29,7 @@ class SimplePluginHookError extends SimplePluginError
   {
     $this->hookType = $type;
 
-    parent::__construct($origin, '<pre><samp>'.htmlescape($output).'</samp></pre>', $code, $previous);
+    parent::__construct($origin, nl2br('<samp>'.htmlescape($output).'</samp>'), $code, $previous);
   }
 
   public function toArray (): array
