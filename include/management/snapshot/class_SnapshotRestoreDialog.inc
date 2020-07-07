@@ -94,7 +94,7 @@ class SnapshotRestoreDialog extends ManagementDialog
         [
           'name'  => 'snapshot',
           'dn'    => $this->snapDn,
-          'icon'  => 'geticon.php?context=actions&amp;icon=document-restore&amp;size=16',
+          'icon'  => 'geticon.php?context=actions&icon=document-restore&size=16',
           'type'  => 'Snapshot'
         ]
       ];
@@ -108,7 +108,7 @@ class SnapshotRestoreDialog extends ManagementDialog
         [
           'name'  => 'snapshot',
           'dn'    => $this->snapDn,
-          'icon'  => 'geticon.php?context=actions&amp;icon=document-restore&amp;size=16',
+          'icon'  => 'geticon.php?context=actions&icon=document-restore&size=16',
           'type'  => 'Snapshot'
         ]
       ];
