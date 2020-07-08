@@ -669,10 +669,10 @@ class simplePlugin implements SimpleTab
     if ($this->displayHeader) {
       /* Show tab dialog headers */
       if ($this->parent !== NULL) {
-        list($disabled, $buttonText, $text) = $this->getDisplayHeaderInfos();
+        list($disabled, $buttonHtmlText, $htmlText) = $this->getDisplayHeaderInfos();
         $this->header = $this->show_header(
-          $buttonText,
-          $text,
+          $buttonHtmlText,
+          $htmlText,
           $this->is_account,
           $disabled,
           get_class($this).'_modify_state'
@@ -720,8 +720,8 @@ class simplePlugin implements SimpleTab
           }
         }
       }
-      $buttonText = msgPool::removeFeaturesButton($plInfo['plShortName']);
-      $text       = msgPool::featuresEnabled($plInfo['plShortName'], $depends);
+      $buttonHtmlText = msgPool::removeFeaturesButton($plInfo['plShortName']);
+      $htmlText       = msgPool::featuresEnabled($plInfo['plShortName'], $depends);
     } else {
       $depends    = [];
       $conflicts  = [];
@@ -745,18 +745,18 @@ class simplePlugin implements SimpleTab
           }
         }
       }
-      $buttonText = msgPool::addFeaturesButton($plInfo['plShortName']);
-      $text       = msgPool::featuresDisabled($plInfo['plShortName'], $depends, $conflicts);
+      $buttonHtmlText = msgPool::addFeaturesButton($plInfo['plShortName']);
+      $htmlText       = msgPool::featuresDisabled($plInfo['plShortName'], $depends, $conflicts);
     }
-    return [$disabled,$buttonText,$text];
+    return [$disabled,$buttonHtmlText,$htmlText];
   }
 
   /*!
    * \brief Show header message for tab dialogs
    *
-   * \param string $button_text The button text
+   * \param string $buttonHtmlText The button text, escaped for HTML output
    *
-   * \param string $text The text
+   * \param string $htmlText The text to show, as HTML code
    *
    * \param boolean $plugin_enabled Is the plugin/tab activated
    *
@@ -764,15 +764,15 @@ class simplePlugin implements SimpleTab
    *
    * \param string $name The html name of the input, defaults to modify_state
    */
-  function show_header (string $button_text, string $text, bool $plugin_enabled, bool $button_disabled = FALSE, string $name = 'modify_state'): string
+  function show_header (string $buttonHtmlText, string $htmlText, bool $plugin_enabled, bool $button_disabled = FALSE, string $name = 'modify_state'): string
   {
     if ($button_disabled || ((!$this->acl_is_createable() && !$plugin_enabled) || (!$this->acl_is_removeable() && $plugin_enabled))) {
       $state = 'disabled="disabled"';
     } else {
       $state = '';
     }
-    $display = '<div width="100%"><p><b>'.$text.'</b><br/>'."\n";
-    $display .= '<input type="submit" formnovalidate="formnovalidate" value="'.$button_text.'" name="'.$name.'" '.$state.'></p></div><hr class="separator"/>';
+    $display = '<div width="100%"><p><b>'.$htmlText.'</b><br/>'."\n";
+    $display .= '<input type="submit" formnovalidate="formnovalidate" value="'.$buttonHtmlText.'" name="'.$name.'" '.$state.'></p></div><hr class="separator"/>';
 
     return $display;
   }
