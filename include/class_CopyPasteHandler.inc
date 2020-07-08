@@ -228,7 +228,7 @@ class CopyPasteHandler
     if (isset($this->current['object'])) {
       $this->current['object']->save_object();
       /* Save current object if edition is finished */
-      if (isset($_POST['edit_finish'])) {
+      if (!$this->current['object']->dialogOpened() && isset($_POST['edit_finish'])) {
         $errors = $this->current['object']->save();
 
         if (empty($errors)) {
