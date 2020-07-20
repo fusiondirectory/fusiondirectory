@@ -43,7 +43,7 @@ class groupManagement extends management
       'plDescription' => _('Allows you to manage object groups, POSIX groups and roles'),
       'plIcon'        => 'geticon.php?context=types&icon=resource-group&size=48',
       'plSection'     => 'accounts',
-      'plManages'     => ['ogroup', 'group', 'role'],
+      'plManages'     => ['ogroup', 'group', 'role', 'dyngroup'],
       'plPriority'    => 20,
 
       'plProvidedAcls' => []
