@@ -202,11 +202,16 @@ class userRoles extends simplePlugin
           } else {
             /* We do not prevent user deletion on error, but still warn the user */
             foreach ($msg as $error) {
-              msg_dialog::display(
-                _('Warning'),
-                sprintf(_('Could not remove membership to group %s: %s'), $ogroupdn, $error),
-                WARNING_DIALOG
+              $warning = new FusionDirectoryWarning(
+                htmlescape(sprintf(
+                  _('Could not remove membership to group %s: %s'),
+                  $ogroupdn,
+                  $error
+                )),
+                0,
+                ($error instanceof Throwable ? $error : NULL)
               );
+              $warning->display();
             }
           }
         } catch (NonExistingLdapNodeException $e) {
@@ -224,11 +229,16 @@ class userRoles extends simplePlugin
           } else {
             /* We do not prevent user deletion on error, but still warn the user */
             foreach ($msg as $error) {
-              msg_dialog::display(
-                _('Warning'),
-                sprintf(_('Could not remove membership to role %s: %s'), $roledn, $error),
-                WARNING_DIALOG
+              $warning = new FusionDirectoryWarning(
+                htmlescape(sprintf(
+                  _('Could not remove membership to role %s: %s'),
+                  $roledn,
+                  $error
+                )),
+                0,
+                ($error instanceof Throwable ? $error : NULL)
               );
+              $warning->display();
             }
           }
         } catch (NonExistingLdapNodeException $e) {
@@ -302,7 +312,7 @@ class userRoles extends simplePlugin
           try {
             $g = objects::open($ogroupdn, 'ogroup');
             if (!in_array($ogroupdn, $this->templateGroups) && !$g->getBaseObject()->attrIsWriteable('member')) {
-              $errors[] = msgPool::permModify($ogroupdn, 'member');
+              $errors[] = new SimplePluginPermissionError($this, msgPool::permModify($ogroupdn, 'member'));
               continue;
             }
             $g->getBaseObject()->attributesAccess['member']->addValue($this->dn, $fake_attrs);
@@ -311,11 +321,11 @@ class userRoles extends simplePlugin
               $this->savedGroupsMembership[] = $ogroupdn;
             } else {
               foreach ($msg as $error) {
-                $errors[] = sprintf(_('Could not add membership to group %s: %s'), $ogroupdn, $error);
+                $errors[] = new SimplePluginError($this, htmlescape(sprintf(_('Could not add membership to group %s: %s'), $ogroupdn, $error)));
               }
             }
           } catch (NonExistingLdapNodeException $e) {
-            $errors[] = $e->getMessage();
+            $errors[] = new SimplePluginError($this, htmlescape($e->getMessage()), 0, $e);
           }
         }
       }
@@ -326,7 +336,7 @@ class userRoles extends simplePlugin
           try {
             $g = objects::open($ogroupdn, 'ogroup');
             if (!$g->getBaseObject()->attrIsWriteable('member')) {
-              $errors[] = msgPool::permModify($ogroupdn, 'member');
+              $errors[] = new SimplePluginPermissionError($this, msgPool::permModify($ogroupdn, 'member'));
               continue;
             }
             $g->getBaseObject()->attributesAccess['member']->searchAndRemove($this->dn);
@@ -335,11 +345,11 @@ class userRoles extends simplePlugin
               unset($this->savedGroupsMembership[$key]);
             } else {
               foreach ($msg as $error) {
-                $errors[] = sprintf(_('Could not remove membership to group %s: %s'), $ogroupdn, $error);
+                $errors[] = new SimplePluginError($this, htmlescape(sprintf(_('Could not remove membership to group %s: %s'), $ogroupdn, $error)));
               }
             }
           } catch (NonExistingLdapNodeException $e) {
-            $errors[] = $e->getMessage();
+            $errors[] = new SimplePluginError($this, htmlescape($e->getMessage()), 0, $e);
           }
         }
       }
@@ -351,7 +361,7 @@ class userRoles extends simplePlugin
           try {
             $r = objects::open($roledn, 'role');
             if (!in_array($roledn, $this->templateRoles) && !$r->getBaseObject()->attrIsWriteable('roleOccupant')) {
-              $errors[] = msgPool::permModify($roledn, 'roleOccupant');
+              $errors[] = new SimplePluginPermissionError($this, msgPool::permModify($roledn, 'roleOccupant'));
               continue;
             }
             $r->getBaseObject()->attributesAccess['roleOccupant']->addValue($this->dn, $fake_attrs);
@@ -360,11 +370,11 @@ class userRoles extends simplePlugin
               $this->savedRolesMembership[] = $roledn;
             } else {
               foreach ($msg as $error) {
-                $errors[] = sprintf(_('Could not add membership to role %s: %s'), $roledn, $error);
+                $errors[] = new SimplePluginError($this, htmlescape(sprintf(_('Could not add membership to role %s: %s'), $roledn, $error)));
               }
             }
           } catch (NonExistingLdapNodeException $e) {
-            $errors[] = $e->getMessage();
+            $errors[] = new SimplePluginError($this, htmlescape($e->getMessage()), 0, $e);
           }
         }
       }
@@ -375,7 +385,7 @@ class userRoles extends simplePlugin
           try {
             $r = objects::open($roledn, 'role');
             if (!$r->getBaseObject()->attrIsWriteable('roleOccupant')) {
-              $errors[] = msgPool::permModify($roledn, 'roleOccupant');
+              $errors[] = new SimplePluginPermissionError($this, msgPool::permModify($roledn, 'roleOccupant'));
               continue;
             }
             $r->getBaseObject()->attributesAccess['roleOccupant']->searchAndRemove($this->dn);
@@ -384,11 +394,11 @@ class userRoles extends simplePlugin
               unset($this->savedRolesMembership[$key]);
             } else {
               foreach ($msg as $error) {
-                $errors[] = sprintf(_('Could not remove membership to role %s: %s'), $roledn, $error);
+                $errors[] = new SimplePluginError($this, htmlescape(sprintf(_('Could not remove membership to role %s: %s'), $roledn, $error)));
               }
             }
           } catch (NonExistingLdapNodeException $e) {
-            $errors[] = $e->getMessage();
+            $errors[] = new SimplePluginError($this, htmlescape($e->getMessage()), 0, $e);
           }
         }
       }

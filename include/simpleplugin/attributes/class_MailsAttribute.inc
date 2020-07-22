@@ -97,18 +97,24 @@ class MailsAttribute extends DialogAttribute
     $id = $this->getHtmlId();
     $buttons  = $this->renderInputField(
       'submit', 'add'.$id,
-      ['value' => '{msgPool type=addButton}', 'class' => 'subattribute']
+      [
+        'class' => 'subattribute',
+        'value' => msgPool::addButton(FALSE),
+      ]
     );
     $buttons  .= $this->renderInputField(
       'submit', 'add'.$id.'_dialog',
       [
         'class' => 'dialog subattribute',
-        'value' => '{msgPool type=addButton} (from list)'
+        'value' => sprintf(_('%s (from list)'), msgPool::addButton(FALSE)),
       ]
     );
     $buttons  .= $this->renderInputField(
       'submit', 'del'.$id,
-      ['value' => '{msgPool type=delButton}', 'class' => 'subattribute']
+      [
+        'class' => 'subattribute',
+        'value' => msgPool::delButton(FALSE),
+      ]
     );
     return $buttons;
   }

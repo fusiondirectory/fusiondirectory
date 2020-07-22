@@ -24,13 +24,6 @@
  * Source code for class msgPool
  */
 
-define('LDAP_READ',   1);
-define('LDAP_ADD',    2);
-define('LDAP_MOD',    3);
-define('LDAP_DEL',    4);
-define('LDAP_SEARCH', 5);
-define('LDAP_AUTH',   6);
-
 /*!
  * \brief This class contains all the messages for the various actions
  */
@@ -44,18 +37,18 @@ class msgPool
   public static function permDelete ($name = '')
   {
     if ($name == '') {
-      return _('You have no permission to delete this object!');
+      return htmlescape(_('You have no permission to delete this object!'));
     }
 
     if (!is_array($name)) {
-      return _('You have no permission to delete the object:')."<br/><br/><i>$name</i>";
+      return htmlescape(_('You have no permission to delete the object:'))."<br/><br/><i>$name</i>";
     }
 
     if (count($name) == 1) {
-      return _('You have no permission to delete the object:').'<br/>'.msgPool::buildList($name);
+      return htmlescape(_('You have no permission to delete the object:')).'<br/>'.msgPool::buildList($name);
     }
 
-    return _('You have no permission to delete these objects:').'<br/>'.msgPool::buildList($name);
+    return htmlescape(_('You have no permission to delete these objects:')).'<br/>'.msgPool::buildList($name);
   }
 
   /*!
@@ -66,18 +59,18 @@ class msgPool
   public static function permCreate ($name = '')
   {
     if ($name == '') {
-      return _('You have no permission to create this object!');
+      return htmlescape(_('You have no permission to create this object!'));
     }
 
     if (!is_array($name)) {
-      return _('You have no permission to create the object:')."<br/><br/><i>$name</i>";
+      return htmlescape(_('You have no permission to create the object:')).'<br/><br/><i>'.htmlescape($name).'</i>';
     }
 
     if (count($name) == 1) {
-      return _('You have no permission to create the object:').'<br/>'.msgPool::buildList($name);
+      return htmlescape(_('You have no permission to create the object:')).'<br/>'.msgPool::buildList($name);
     }
 
-    return _('You have no permission to create these objects:').'<br/>'.msgPool::buildList($name);
+    return htmlescape(_('You have no permission to create these objects:')).'<br/>'.msgPool::buildList($name);
   }
 
   /*!
@@ -89,22 +82,22 @@ class msgPool
   public static function permModify ($name = '', $field = '')
   {
     if ($name == '') {
-      return _('You have no permission to modify this object!');
+      return htmlescape(_('You have no permission to modify this object!'));
     }
 
     if (!is_array($name)) {
       if ($field != '') {
-        return sprintf(_('You have no permission to modify the field "%s" of object "%s"'), $field, $name);
+        return htmlescape(sprintf(_('You have no permission to modify the field "%s" of object "%s"'), $field, $name));
       } else {
-        return sprintf(_('You have no permission to modify the object:<br/>%s'), '<br/><i>'.$name.'</i>');
+        return sprintf(htmlescape(_('You have no permission to modify the object:%s')), '<br/><br/><i>'.htmlescape($name).'</i>');
       }
     }
 
     if (count($name) == 1) {
-      return sprintf(_('You have no permission to modify the object:<br/>%s'), msgPool::buildList($name));
+      return sprintf(htmlescape(_('You have no permission to modify the object:%s')), '<br/>'.msgPool::buildList($name));
     }
 
-    return sprintf(_('You have no permission to modify these objects:<br/>%s'), msgPool::buildList($name));
+    return sprintf(htmlescape(_('You have no permission to modify these objects:%s')), '<br/>'.msgPool::buildList($name));
   }
 
   /*!
@@ -115,18 +108,18 @@ class msgPool
   public static function permView ($name = '')
   {
     if ($name == '') {
-      return _('You have no permission to view this object!');
+      return htmlescape(_('You have no permission to view this object!'));
     }
 
     if (!is_array($name)) {
-      return _('You have no permission to view the object:')."<br/><br/><i>$name</i>";
+      return htmlescape(_('You have no permission to view the object:'))."<br/><br/><i>".htmlescape($name)."</i>";
     }
 
     if (count($name) == 1) {
-      return _('You have no permission to view the object:').'<br/>'.msgPool::buildList($name);
+      return htmlescape(_('You have no permission to view the object:')).'<br/>'.msgPool::buildList($name);
     }
 
-    return _('You have no permission to view these objects:').'<br/>'.msgPool::buildList($name);
+    return htmlescape(_('You have no permission to view these objects:')).'<br/>'.msgPool::buildList($name);
   }
 
   /*!
@@ -137,18 +130,18 @@ class msgPool
   public static function permMove ($name = '')
   {
     if ($name == '') {
-      return _('You have no permission to move this object!');
+      return htmlescape(_('You have no permission to move this object!'));
     }
 
     if (!is_array($name)) {
-      return _('You have no permission to move the object:')."<br/><br/><i>$name</i>";
+      return htmlescape(_('You have no permission to move the object:'))."<br/><br/><i>".htmlescape($name)."</i>";
     }
 
     if (count($name) == 1) {
-      return _('You have no permission to move the object:').'<br/>'.msgPool::buildList($name);
+      return htmlescape(_('You have no permission to move the object:')).'<br/>'.msgPool::buildList($name);
     }
 
-    return _('You have no permission to move these objects:').'<br/>'.msgPool::buildList($name);
+    return htmlescape(_('You have no permission to move these objects:')).'<br/>'.msgPool::buildList($name);
   }
 
   /*!
@@ -158,7 +151,7 @@ class msgPool
    */
   public static function reserved ($name)
   {
-    return sprintf(_('The field "%s" contains a reserved keyword!'), $name);
+    return htmlescape(sprintf(_('The field "%s" contains a reserved keyword!'), $name));
   }
 
   /*!
@@ -174,15 +167,15 @@ class msgPool
   {
     if ($command == '') {
       if ($plugin == '') {
-        return sprintf(_('Cannot execute "%s" command!'), $type);
+        return htmlescape(sprintf(_('Cannot execute "%s" command!'), $type));
       } else {
-        return sprintf(_('Cannot execute "%s" command for plugin %s!'), $type, $plugin);
+        return htmlescape(sprintf(_('Cannot execute "%s" command for plugin %s!'), $type, $plugin));
       }
     } else {
       if ($plugin == '') {
-        return sprintf(_('Cannot execute "%s" command (%s)!'), $type, $command);
+        return htmlescape(sprintf(_('Cannot execute "%s" command (%s)!'), $type, $command));
       } else {
-        return sprintf(_('Cannot execute "%s" command (%s) for plugin %s!'), $type, $command, $plugin);
+        return htmlescape(sprintf(_('Cannot execute "%s" command (%s) for plugin %s!'), $type, $command, $plugin));
       }
     }
   }
@@ -197,9 +190,9 @@ class msgPool
   public static function toobig ($name, $min = '')
   {
     if ($min == '') {
-      return sprintf(_('Value for "%s" is too large!'), $name);
+      return htmlescape(sprintf(_('Value for "%s" is too large!'), $name));
     } else {
-      return sprintf(_('"%s" must be smaller than %s!'), $name, $min);
+      return htmlescape(sprintf(_('"%s" must be smaller than %s!'), $name, $min));
     }
   }
 
@@ -213,9 +206,9 @@ class msgPool
   public static function toosmall ($name, $min = '')
   {
     if ($min == '') {
-      return sprintf(_('Value for "%s" is too small!'), $name);
+      return htmlescape(sprintf(_('Value for "%s" is too small!'), $name));
     } else {
-      return sprintf(_('"%s" must be %d or above!'), $name, $min);
+      return htmlescape(sprintf(_('"%s" must be %d or above!'), $name, $min));
     }
   }
 
@@ -228,7 +221,7 @@ class msgPool
    */
   public static function depends ($name1, $name2)
   {
-    return sprintf(_('"%s" depends on "%s" - please provide both values!'), $name1, $name2);
+    return htmlescape(sprintf(_('"%s" depends on "%s" - please provide both values!'), $name1, $name2));
   }
 
   /*!
@@ -240,9 +233,9 @@ class msgPool
   public static function duplicated ($name, $dn = NULL)
   {
     if ($dn == NULL) {
-      return sprintf(_('There is already an entry with this "%s" attribute in the system!'), $name);
+      return htmlescape(sprintf(_('There is already an entry with this "%s" attribute in the system!'), $name));
     } else {
-      return sprintf(_('The entry "%s" already use this "%s" attribute!'), $dn, $name);
+      return htmlescape(sprintf(_('The entry "%s" already use this "%s" attribute!'), $dn, $name));
     }
   }
 
@@ -253,7 +246,7 @@ class msgPool
    */
   public static function required ($name)
   {
-    return sprintf(_('The required field "%s" is empty!'), $name);
+    return htmlescape(sprintf(_('The required field "%s" is empty!'), $name));
   }
 
   /*!
@@ -270,12 +263,12 @@ class msgPool
     if (!is_string($data)) {
       $data = var_export($data, TRUE);
     }
-    $error = sprintf(_('The field "%s" contains an invalid value.'), htmlentities($name, ENT_COMPAT, 'UTF-8'));
-    $error .= '<br/><br/> "'.htmlentities($data, ENT_COMPAT, 'UTF-8').'"';
+    $error = htmlescape(sprintf(_('The field "%s" contains an invalid value.'), $name));
+    $error .= '<br/><br/> "'.htmlescape($data).'"';
 
     /* Stylize example */
     if ($example !== '') {
-      $error .= '<br/><br/><i>'.sprintf(_('Example: %s'), htmlentities($example, ENT_COMPAT, 'UTF-8')).'</i> ';
+      $error .= '<br/><br/><i>'.htmlescape(sprintf(_('Example: %s'), $example)).'</i> ';
     }
 
     return $error;
@@ -288,77 +281,119 @@ class msgPool
    */
   public static function missingext ($name)
   {
-    return sprintf(_('Missing %s PHP extension!'), $name);
+    return htmlescape(sprintf(_('Missing %s PHP extension!'), $name));
   }
 
   /*!
    * \brief Text for a cancel button
+   *
+   * \param bool $escape Whether to escape the result
    */
-  public static function cancelButton ()
+  public static function cancelButton ($escape = TRUE)
   {
-    return _('Cancel');
+    if ($escape) {
+      return htmlescape(_('Cancel'));
+    } else {
+      return _('Cancel');
+    }
   }
 
   /*!
    * \brief Text for a ok button
+   *
+   * \param bool $escape Whether to escape the result
    */
-  public static function okButton ()
+  public static function okButton ($escape = TRUE)
   {
-    return _('Ok');
+    if ($escape) {
+      return htmlescape(_('Ok'));
+    } else {
+      return _('Ok');
+    }
   }
 
   /*!
    * \brief Text for an apply button
+   *
+   * \param bool $escape Whether to escape the result
    */
-  public static function applyButton ()
+  public static function applyButton ($escape = TRUE)
   {
-    return _('Apply');
+    if ($escape) {
+      return htmlescape(_('Apply'));
+    } else {
+      return _('Apply');
+    }
   }
 
   /*!
    * \brief Text for a save button
+   *
+   * \param bool $escape Whether to escape the result
    */
-  public static function saveButton ()
+  public static function saveButton ($escape = TRUE)
   {
-    return _('Save');
+    if ($escape) {
+      return htmlescape(_('Save'));
+    } else {
+      return _('Save');
+    }
   }
 
   /*!
    * \brief Text for an add button
    *
-   * \param string $what Text for the button
+   * \param bool $escape Whether to escape the result
    */
-  public static function addButton ($what = '')
+  public static function addButton ($escape = TRUE)
   {
-    return (($what == '') ? sprintf(_('Add')) : sprintf(_('Add %s'), $what));
+    if ($escape) {
+      return htmlescape(_('Add'));
+    } else {
+      return _('Add');
+    }
   }
 
   /*!
    * \brief Text for an delete button
    *
-   * \param string $what Text for the button
+   * \param bool $escape Whether to escape the result
    */
-  public static function delButton ($what = '')
+  public static function delButton ($escape = TRUE)
   {
-    return (($what == '') ? sprintf(_('Delete')) : sprintf(_('Delete %s'), $what));
+    if ($escape) {
+      return htmlescape(_('Delete'));
+    } else {
+      return _('Delete');
+    }
   }
 
   /*!
    * \brief Text for an edit button
    *
-   * \param string $what Text for the button
+   * \param bool $escape Whether to escape the result
    */
-  public static function editButton ($what = '')
+  public static function editButton ($escape = TRUE)
   {
-    return (($what == '') ? sprintf(_('Edit...')) : sprintf(_('Edit %s...'), $what));
+    if ($escape) {
+      return htmlescape(_('Edit...'));
+    } else {
+      return _('Edit...');
+    }
   }
 
   /*!
    * \brief Text for a back button
+   *
+   * \param bool $escape Whether to escape the result
    */
-  public static function backButton ()
+  public static function backButton ($escape = TRUE)
   {
-    return _('Back');
+    if ($escape) {
+      return htmlescape(_('Back'));
+    } else {
+      return _('Back');
+    }
   }
 
   /*!
@@ -371,9 +406,9 @@ class msgPool
     $objects = '<ul>';
     foreach ($data as $key => $value) {
       if (is_numeric($key)) {
-        $objects .= "<li>\n<i>$value</i></li>";
+        $objects .= "<li>\n<i>".htmlescape($value)."</i></li>";
       } else {
-        $objects .= "<li>\n$value (<i>$key</i>)</li>";
+        $objects .= "<li>\n".htmlescape($value)." (<i>".htmlescape($key)."</i>)</li>";
       }
     }
     $objects .= '</ul>';
@@ -387,7 +422,7 @@ class msgPool
    */
   public static function noValidExtension ($name)
   {
-    return sprintf(_('This account has no valid %s extensions!'), $name);
+    return htmlescape(sprintf(_('This account has no valid %s extensions!'), $name));
   }
 
   /*!
@@ -400,12 +435,12 @@ class msgPool
   public static function featuresEnabled ($name, $depends = '')
   {
     if (($depends == '') || (is_array($depends) && (count($depends) == 0))) {
-      return sprintf(_('This account has %s settings enabled. You can disable them by clicking below.'), $name);
+      return htmlescape(sprintf(_('This account has %s settings enabled. You can disable them by clicking below.'), $name));
     } else {
       if (is_array($depends)) {
         $depends = implode(' / ', $depends);
       }
-      return sprintf(_('This account has %s settings enabled. To disable them, you\'ll need to remove the %s settings first!'), $name, $depends);
+      return htmlescape(sprintf(_('This account has %s settings enabled. To disable them, you\'ll need to remove the %s settings first!'), $name, $depends));
     }
   }
 
@@ -421,11 +456,11 @@ class msgPool
   public static function featuresDisabled ($name, array $depends = [], array $conflicts = [])
   {
     if (empty($depends) && empty($conflicts)) {
-      return sprintf(_('This account has %s settings disabled. You can enable them by clicking below.'), $name);
+      return htmlescape(sprintf(_('This account has %s settings disabled. You can enable them by clicking below.'), $name));
     } elseif (!empty($depends)) {
-      return sprintf(_('This account has %s settings disabled. To enable them, you\'ll need to add the %s settings first!'), $name, implode(' / ', $depends));
+      return htmlescape(sprintf(_('This account has %s settings disabled. To enable them, you\'ll need to add the %s settings first!'), $name, implode(' / ', $depends)));
     } else {
-      return sprintf(_('This account has %s settings disabled. To enable them, you\'ll need to disable the %s settings first!'), $name, implode(' / ', $conflicts));
+      return htmlescape(sprintf(_('This account has %s settings disabled. To enable them, you\'ll need to disable the %s settings first!'), $name, implode(' / ', $conflicts)));
     }
   }
 
@@ -436,7 +471,7 @@ class msgPool
    */
   public static function addFeaturesButton ($name)
   {
-    return sprintf(_('Add %s settings'), $name);
+    return htmlescape(sprintf(_('Add %s settings'), $name));
   }
 
   /*!
@@ -447,7 +482,7 @@ class msgPool
 
   public static function removeFeaturesButton ($name)
   {
-    return sprintf(_('Remove %s settings'), $name);
+    return htmlescape(sprintf(_('Remove %s settings'), $name));
   }
 
   /*!
@@ -455,7 +490,7 @@ class msgPool
    */
   public static function clickEditToChange ()
   {
-    return _('Click the "Edit" button on the bottom right corner of the page to edit the fields');
+    return htmlescape(_('Click the "Edit" button on the bottom right corner of the page to edit the fields'));
   }
 
   /*!
@@ -495,17 +530,17 @@ class msgPool
         _('delete operation'), _('search operation'), _('authentication')];
 
     if (isset($typemap[$type])) {
-      $msg = sprintf(_('LDAP %s failed!'), $typemap[$type]);
+      $msg = htmlescape(sprintf(_('LDAP %s failed!'), $typemap[$type]));
     } else {
-      $msg = _('LDAP operation failed!');
+      $msg = htmlescape(_('LDAP operation failed!'));
     }
 
     /* Fill DN information */
     if ($dn != '') {
-      $msg .= '<br/><br/><i>'._('Object').':</i> '.$dn;
+      $msg .= '<br/><br/><i>'.htmlescape(_('Object')).':</i> '.htmlescape($dn);
     }
 
-    $msg .= '<br/><br/><i>'._('Error').':</i> '.$error;
+    $msg .= '<br/><br/><i>'.htmlescape(_('Error')).':</i> '.htmlescape($error);
 
     return $msg;
   }
@@ -518,10 +553,10 @@ class msgPool
   public static function incorrectUpload ($reason = '')
   {
     if ($reason == '') {
-      return _('Upload failed!');
+      return htmlescape(_('Upload failed!'));
     }
 
-    return sprintf(_('Upload failed: %s'), "<br/><br/><i>$reason</i>");
+    return sprintf(htmlescape(_('Upload failed: %s')), '<br/><br/><i>'.htmlescape($reason).'</i>');
   }
 
   /*!
@@ -532,9 +567,9 @@ class msgPool
   public static function siError ($error = '')
   {
     if ($error == '') {
-      return _('Communication failure with the infrastructure service!');
+      return htmlescape(_('Communication failure with the infrastructure service!'));
     }
-    return sprintf(_('Communication failure with the infrastructure service: %s'), '<br/><br/>'.sprintf(_('Error: %s'), $error));
+    return sprintf(htmlescape(_('Communication failure with the infrastructure service: %s')), '<br/><br/>'.htmlescape(sprintf(_('Error: %s'), $error)));
   }
 
   /*!
@@ -544,7 +579,7 @@ class msgPool
    */
   public static function checkingFor ($what)
   {
-    return sprintf(_('Checking for %s support'), $what);
+    return htmlescape(sprintf(_('Checking for %s support'), $what));
   }
 
   /*!
@@ -554,7 +589,7 @@ class msgPool
    */
   public static function installPhpModule ($what)
   {
-    return sprintf(_('Install and activate the %s PHP module.'), $what);
+    return htmlescape(sprintf(_('Install and activate the %s PHP module.'), $what));
   }
 
   /*!
@@ -562,6 +597,6 @@ class msgPool
    */
   public static function check_base ()
   {
-    return _('The supplied base is not valid and has been reset to the previous value!');
+    return htmlescape(_('The supplied base is not valid and has been reset to the previous value!'));
   }
 }

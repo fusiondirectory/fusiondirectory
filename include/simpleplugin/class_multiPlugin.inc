@@ -134,17 +134,17 @@ class multiPlugin extends simplePlugin
 
   function check (): array
   {
-    $message = parent::check();
+    $errors = parent::check();
 
     foreach ($this->plugin as &$plug) {
       if ($plug->isActive()) {
-        $tmp      = $plug->check();
-        $message  = array_merge($message, $tmp);
+        $tmp    = $plug->check();
+        $errors = array_merge($errors, $tmp);
       }
     }
     unset($plug);
 
-    return $message;
+    return $errors;
   }
 
   function set_acl_category (string $cat)

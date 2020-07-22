@@ -143,11 +143,10 @@ class config
     xml_set_element_handler($this->parser, "tag_open", "tag_close");
 
     if (!xml_parse($this->parser, chop($xmldata))) {
-      $msg = sprintf(_("XML error in fusiondirectory.conf: %s at line %d"),
+      $msg = sprintf(_('XML error in fusiondirectory.conf: %s at line %d'),
             xml_error_string(xml_get_error_code($this->parser)),
             xml_get_current_line_number($this->parser));
-      msg_dialog::display(_("Configuration error"), $msg, FATAL_ERROR_DIALOG);
-      exit;
+      throw new FatalError(htmlescape($msg));
     }
     xml_parser_free($this->parser);
   }
@@ -274,13 +273,12 @@ class config
           $cache[$creds] = cred_decrypt($creds, $_SERVER['HTTP_FDKEY']);
           session::set('HTTP_FDKEY_CACHE', $cache);
         } catch (FusionDirectoryException $e) {
-          $msg = sprintf(
-            _('It seems you are trying to decode something which is not encoded : %s<br/>'."\n".
+          $msg = nl2br(htmlescape(sprintf(
+            _('It seems you are trying to decode something which is not encoded : %s'."\n".
               'Please check you are not using a fusiondirectory.secrets file while your passwords are not encrypted.'),
             $e->getMessage()
-          );
-          msg_dialog::display(_('Configuration error'), $msg, FATAL_ERROR_DIALOG);
-          exit;
+          )));
+          throw new FatalError($msg);
         }
       }
       return $cache[$creds];
@@ -317,8 +315,7 @@ class config
 
       /* Check for connection */
       if (is_null($this->ldapLink) || (is_int($this->ldapLink) && $this->ldapLink == 0)) {
-        msg_dialog::display(_("LDAP error"), _("Cannot bind to LDAP. Please contact the system administrator."), FATAL_ERROR_DIALOG);
-        exit();
+        throw new FatalError(htmlescape(_('Cannot bind to LDAP. Please contact the system administrator.')));
       }
 
       /* Move referrals */
@@ -348,8 +345,7 @@ class config
     global $ui;
 
     if (!isset($this->data['LOCATIONS'][$name])) {
-      msg_dialog::display(_('Error'), sprintf(_('Location "%s" could not be found in the configuration file'), $name), FATAL_ERROR_DIALOG);
-      exit;
+      throw new FatalError(htmlescape(sprintf(_('Location "%s" could not be found in the configuration file'), $name)));
     }
     $this->current = $this->data['LOCATIONS'][$name];
 
@@ -929,9 +925,13 @@ class config
       /* Send message if not done already */
       if (!session::is_set('snapshotFailMessageSend')) {
         session::set('snapshotFailMessageSend', TRUE);
-        msg_dialog::display(_('Configuration error'),
-            sprintf(_('The snapshot functionality is enabled, but the required variable "%s" is not set.'),
-                    'snapshotBase'), ERROR_DIALOG);
+        $error = new FusionDirectoryError(
+          htmlescape(sprintf(
+            _('The snapshot functionality is enabled, but the required variable "%s" is not set.'),
+            'snapshotBase'
+          ))
+        );
+        $error->display();
       }
       return FALSE;
     }
@@ -941,8 +941,13 @@ class config
       /* Send message if not done already */
       if (!session::is_set('snapshotFailMessageSend')) {
         session::set('snapshotFailMessageSend', TRUE);
-        msg_dialog::display(_('Configuration error'),
-            sprintf(_('The snapshot functionality is enabled, but the required compression module is missing. Please install "%s".'), 'php5-zip / php5-gzip'), ERROR_DIALOG);
+        $error = new FusionDirectoryError(
+          htmlescape(sprintf(
+            _('The snapshot functionality is enabled, but the required compression module is missing. Please install "%s".'),
+            'php-zip / php-gzip'
+          ))
+        );
+        $error->display();
       }
       return FALSE;
     }

@@ -158,7 +158,10 @@ class SelectAttribute extends Attribute
       return $error;
     } else {
       if (!$this->disabled && !in_array($this->value, $this->choices)) {
-        return sprintf(_('The value "%s" for field "%s" is not in the list of possible choices'), $this->value, $this->getLabel());
+        return new SimplePluginCheckError(
+          $this,
+          SimplePluginCheckError::invalidValue(sprintf(_('"%s" is not in the list of possible choices'), $this->value))
+        );
       }
     }
   }
@@ -203,10 +206,10 @@ class SelectAttribute extends Attribute
     }
     if ($this->submitForm) {
       $js       = 'document.mainform.submit();';
-      $display  .= 'onChange="javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8').'"';
+      $display  .= 'onChange="javascript:'.htmlescape($js).'"';
     } elseif (!empty($this->managedAttributes)) {
       $js       = $this->managedAttributesJS();
-      $display  .= 'onChange="javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8').'"';
+      $display  .= 'onChange="javascript:'.htmlescape($js).'"';
     }
     if ($this->isSubAttribute) {
       $display .= 'class="subattribute" ';

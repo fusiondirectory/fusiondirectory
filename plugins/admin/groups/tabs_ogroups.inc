@@ -172,11 +172,6 @@ class ogrouptabs extends simpleTabs_noSpecial
     }
   }
 
-  function check ($ignore_account = FALSE)
-  {
-    return parent::check(FALSE);
-  }
-
   function save ()
   {
     $errors = parent::save();

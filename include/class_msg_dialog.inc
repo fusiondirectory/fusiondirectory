@@ -41,18 +41,20 @@ class msg_dialog
   private $s_Message;
   private $i_Type;
   private $i_ID;
-  private $a_Trace    = [];
+  private $a_Trace;
 
   /*!
    * \brief Message dialog constructor
    *
-   * \param string $title The title of the message dialog
+   * \param string $title The title of the message dialog (plain string)
    *
-   * \param string $message The message of the message dialog
+   * \param string $message The message of the message dialog (HTML)
    *
-   * \param string $type The type of the message dialog, by default = INFO_DIALOG
+   * \param int $type The type of the message dialog, by default = INFO_DIALOG
+   *
+   * \param array $trace The trace from where the message was built
    */
-  public function __construct ($title, $message, $type = INFO_DIALOG)
+  public function __construct (string $title, string $message, int $type = INFO_DIALOG, array $trace = [])
   {
     if (!in_array($type, [INFO_DIALOG,WARNING_DIALOG,ERROR_DIALOG,CONFIRM_DIALOG,FATAL_ERROR_DIALOG])) {
       trigger_error('Invalid msg_dialog type.');
@@ -63,6 +65,7 @@ class msg_dialog
     $this->s_Title    = $title;
     $this->s_Message  = $message;
     $this->i_Type     = $type;
+    $this->a_Trace    = $trace;
   }
 
   protected function show ()
@@ -93,35 +96,43 @@ class msg_dialog
     /* Append trace information, only if error messages are enabled */
     if (isset($config) && is_object($config) &&
       $config->get_cfg_value('displayerrors') == 'TRUE') {
-      $this->a_Trace = debug_backtrace();
-    }
-    if ($this->i_Type == FATAL_ERROR_DIALOG) {
-      restore_error_handler();
-      error_reporting(E_ALL);
-      echo $this->renderFatalErrorDialog();
-    } else {
-      if (session::is_set('msg_dialogs')) {
-        $msg_dialogs = session::get('msg_dialogs');
-      } else {
-        $msg_dialogs = [];
+      if (empty($this->a_Trace)) {
+        $this->a_Trace = debug_backtrace();
       }
-      $msg_dialogs[] = $this;
-      session::set('msg_dialogs', $msg_dialogs);
+    } else {
+      $this->a_Trace = [];
     }
+    if (session::is_set('msg_dialogs')) {
+      $msg_dialogs = session::get('msg_dialogs');
+    } else {
+      $msg_dialogs = [];
+    }
+    $msg_dialogs[] = $this;
+    session::set('msg_dialogs', $msg_dialogs);
   }
 
   /*!
    * \brief Display a message dialog
    *
-   * \param string $title The title of the message dialog
+   * \param string|object $title The title of the message dialog, or the error object
    *
    * \param string $message The message of the message dialog
    *
-   * \param string $type The type of the message dialog, by default = INFO_DIALOG
+   * \param int $type The type of the message dialog, by default = INFO_DIALOG
+   *
+   * \param array $trace The trace from where the message was built
    */
-  public static function display ($title, $message, $type = INFO_DIALOG)
+  public static function display ($title, string $message, int $type = INFO_DIALOG, array $trace = [])
   {
-    $dialog = new msg_dialog($title, $message, $type);
+    if ($type === FATAL_ERROR_DIALOG) {
+      /* Deprecated */
+      throw new FatalError($message);
+    }
+    if ($title instanceof FusionDirectoryError) {
+      static::display(...$title->computeMsgDialogParameters());
+      return;
+    }
+    $dialog = new msg_dialog($title, $message, $type, $trace);
     $dialog->show();
   }
 
@@ -133,7 +144,11 @@ class msg_dialog
   public static function displayChecks ($messages)
   {
     foreach ($messages as $error) {
-      static::display(_('Error'), $error, ERROR_DIALOG);
+      if ($error instanceof FusionDirectoryError) {
+        static::display(...$error->computeMsgDialogParameters());
+      } else {
+        static::display(_('Error'), $error, ERROR_DIALOG);
+      }
     }
   }
 
@@ -145,40 +160,6 @@ class msg_dialog
   public function getId (): int
   {
     return $this->i_ID;
-  }
-
-  /*!
-   * \brief Run the message dialog
-   */
-  protected function renderFatalErrorDialog ()
-  {
-    global $config;
-
-    $display =
-      '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-      "http://www.w3.org/TR/html4/transitional.dtd">
-      <html><head>
-      <title>FusionDirectory startup failed</title>
-      </head><body>';
-    if (isset($config) && is_object($config) &&
-      $config->get_cfg_value('displayerrors') == 'TRUE') {
-      list($trace, ) = html_trace();
-      $display .= $trace;
-    }
-    $display .=
-      '<table style="width:100%; border:2px solid red;">
-        <tr>
-          <td style="vertical-align:top;padding:10px">
-            <img src="geticon.php?context=status&amp;icon=dialog-error&amp;size=32" alt="'._('Error').'"/>
-          </td>
-          <td style="width:100%">
-            <b>'.$this->s_Title.'</b><br/>
-            '.$this->s_Message.'<br><br/>
-            '._('Please fix the above error and reload the page.').'
-          </td>
-        </tr>
-      </table></body></html>';
-    return $display;
   }
 
   /*!

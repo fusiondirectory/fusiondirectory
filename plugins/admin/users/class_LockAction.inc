@@ -93,11 +93,11 @@ class LockAction extends Action
       return '<img src="images/empty.png" alt=" " class="center optional"/>';
     } elseif ($lockStatus) {
       // Render
-      return '<input type="image" src="'.htmlentities($this->icon['lock'], ENT_COMPAT, 'UTF-8').'"'.
-              ' title="'.$this->label['unlock'].'" alt="'.$this->label['unlock'].'" name="listing_'.$this->name.'_unlock_'.$entry->row.'"/>';
+      return '<input type="image" src="'.htmlescape($this->icon['lock']).'"'.
+              ' title="'.htmlescape($this->label['unlock']).'" alt="'.htmlescape($this->label['unlock']).'" name="listing_'.$this->name.'_unlock_'.$entry->row.'"/>';
     } else {
-      return '<input type="image" src="'.htmlentities($this->icon['unlock'], ENT_COMPAT, 'UTF-8').'"'.
-              ' title="'.$this->label['lock'].'" alt="'.$this->label['lock'].'" name="listing_'.$this->name.'_lock_'.$entry->row.'"/>';
+      return '<input type="image" src="'.htmlescape($this->icon['unlock']).'"'.
+              ' title="'.htmlescape($this->label['lock']).'" alt="'.htmlescape($this->label['lock']).'" name="listing_'.$this->name.'_lock_'.$entry->row.'"/>';
     }
   }
 }

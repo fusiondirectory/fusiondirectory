@@ -76,7 +76,8 @@ class logging
     if (count($msgs)) {
       foreach ($msgs as $msg) {
         trigger_error('Logging failed, reason was: '.$msg);
-        msg_dialog::display(_('Internal error'), sprintf(_('Logging failed: %s'), $msg), ERROR_DIALOG);
+        $error = new FusionDirectoryError(htmlescape(sprintf(_('Logging failed: %s'), $msg)));
+        $error->display();
       }
     } else {
       if (is_object($config) && preg_match('/true/i', $config->get_cfg_value('logging', ''))) {
@@ -210,12 +211,22 @@ class logging
       $baseObject->fdAuditAttributes  = $entry['changes'];
       $baseObject->fdAuditResult      = $entry['result'];
       $baseObject->base               = $config->current['BASE'];
-      $message = $tabObject->save();
-      if (!empty($message)) {
-        msg_dialog::displayChecks($message);
+      $errors = $tabObject->save();
+      if (!empty($errors)) {
+        msg_dialog::displayChecks($errors);
       }
     } catch (FusionDirectoryException $e) {
-      msg_dialog::display(_('Error'), sprintf(_('Failed to log event (%s - %s): %s'), $entry['action'], $entry['objecttype'], $e->getMessage()), ERROR_DIALOG);
+      $error = new FusionDirectoryError(
+        htmlescape(sprintf(
+          _('Failed to log event (%s - %s): %s'),
+          $entry['action'],
+          $entry['objecttype'],
+          $e->getMessage()
+        )),
+        0,
+        $e
+      );
+      $error->display();
     }
   }
 }

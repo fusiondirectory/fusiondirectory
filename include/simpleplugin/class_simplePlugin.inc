@@ -470,31 +470,24 @@ class simplePlugin implements SimpleTab
   {
     global $config;
     if (!$this->mainTab) {
-      msg_dialog::display(_('Fatal error'), _('Only main tab can compute dn'), FATAL_ERROR_DIALOG);
-      exit;
+      throw new FatalError(htmlescape(_('Only main tab can compute dn')));
     }
     if (!isset($this->parent) || !($this->parent instanceof simpleTabs)) {
-      msg_dialog::display(
-        _('Fatal error'),
-        sprintf(
+      throw new FatalError(
+        htmlescape(sprintf(
           _('Could not compute dn: no parent tab class for "%s"'),
           get_class($this)
-        ),
-        FATAL_ERROR_DIALOG
+        ))
       );
-      exit;
     }
     $infos = $this->parent->objectInfos();
     if ($infos === FALSE) {
-      msg_dialog::display(
-        _('Fatal error'),
-        sprintf(
+      throw new FatalError(
+        htmlescape(sprintf(
           _('Could not compute dn: could not find objectType infos from tab class "%s"'),
           get_class($this->parent)
-        ),
-        FATAL_ERROR_DIALOG
+        ))
       );
-      exit;
     }
     $attr = $infos['mainAttr'];
     $ou   = $infos['ou'];
@@ -589,7 +582,11 @@ class simplePlugin implements SimpleTab
     /* Try to move with ldap routines */
     $ldap = $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);
-    $ldap->create_missing_trees(preg_replace('/^[^,]+,/', '', $dst_dn));
+    try {
+      $ldap->create_missing_trees(preg_replace('/^[^,]+,/', '', $dst_dn));
+    } catch (FusionDirectoryError $error) {
+      $error->display();
+    }
     if (!$ldap->rename_dn($src_dn, $dst_dn)) {
       logging::log('error', 'ldap', "FROM: $src_dn -- TO: $dst_dn", [], 'Ldap Protocol v3 implementation error, ldap_rename failed: '.$ldap->get_error());
       logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, "Rename failed FROM: $src_dn  -- TO:  $dst_dn",
@@ -672,10 +669,10 @@ class simplePlugin implements SimpleTab
     if ($this->displayHeader) {
       /* Show tab dialog headers */
       if ($this->parent !== NULL) {
-        list($disabled, $buttonText, $text) = $this->getDisplayHeaderInfos();
+        list($disabled, $buttonHtmlText, $htmlText) = $this->getDisplayHeaderInfos();
         $this->header = $this->show_header(
-          $buttonText,
-          $text,
+          $buttonHtmlText,
+          $htmlText,
           $this->is_account,
           $disabled,
           get_class($this).'_modify_state'
@@ -686,7 +683,7 @@ class simplePlugin implements SimpleTab
         }
       } elseif (!$this->is_account) {
         $plInfo = pluglist::pluginInfos(get_class($this));
-        $this->header = '<img alt="'._('Error').'" src="geticon.php?context=status&amp;icon=dialog-error&amp;size=16" align="middle"/>&nbsp;<b>'.
+        $this->header = '<img alt="'.htmlescape(_('Error')).'" src="geticon.php?context=status&amp;icon=dialog-error&amp;size=16" align="middle"/>&nbsp;<b>'.
                         msgPool::noValidExtension($plInfo['plShortName'])."</b>";
         $this->displayPlugin = FALSE;
         return $this->header.$this->inheritanceDisplay();
@@ -723,8 +720,8 @@ class simplePlugin implements SimpleTab
           }
         }
       }
-      $buttonText = msgPool::removeFeaturesButton($plInfo['plShortName']);
-      $text       = msgPool::featuresEnabled($plInfo['plShortName'], $depends);
+      $buttonHtmlText = msgPool::removeFeaturesButton($plInfo['plShortName']);
+      $htmlText       = msgPool::featuresEnabled($plInfo['plShortName'], $depends);
     } else {
       $depends    = [];
       $conflicts  = [];
@@ -748,18 +745,18 @@ class simplePlugin implements SimpleTab
           }
         }
       }
-      $buttonText = msgPool::addFeaturesButton($plInfo['plShortName']);
-      $text       = msgPool::featuresDisabled($plInfo['plShortName'], $depends, $conflicts);
+      $buttonHtmlText = msgPool::addFeaturesButton($plInfo['plShortName']);
+      $htmlText       = msgPool::featuresDisabled($plInfo['plShortName'], $depends, $conflicts);
     }
-    return [$disabled,$buttonText,$text];
+    return [$disabled,$buttonHtmlText,$htmlText];
   }
 
   /*!
    * \brief Show header message for tab dialogs
    *
-   * \param string $button_text The button text
+   * \param string $buttonHtmlText The button text, escaped for HTML output
    *
-   * \param string $text The text
+   * \param string $htmlText The text to show, as HTML code
    *
    * \param boolean $plugin_enabled Is the plugin/tab activated
    *
@@ -767,15 +764,15 @@ class simplePlugin implements SimpleTab
    *
    * \param string $name The html name of the input, defaults to modify_state
    */
-  function show_header (string $button_text, string $text, bool $plugin_enabled, bool $button_disabled = FALSE, string $name = 'modify_state'): string
+  function show_header (string $buttonHtmlText, string $htmlText, bool $plugin_enabled, bool $button_disabled = FALSE, string $name = 'modify_state'): string
   {
     if ($button_disabled || ((!$this->acl_is_createable() && !$plugin_enabled) || (!$this->acl_is_removeable() && $plugin_enabled))) {
       $state = 'disabled="disabled"';
     } else {
       $state = '';
     }
-    $display = '<div width="100%"><p><b>'.$text.'</b><br/>'."\n";
-    $display .= '<input type="submit" formnovalidate="formnovalidate" value="'.$button_text.'" name="'.$name.'" '.$state.'></p></div><hr class="separator"/>';
+    $display = '<div width="100%"><p><b>'.$htmlText.'</b><br/>'."\n";
+    $display .= '<input type="submit" formnovalidate="formnovalidate" value="'.$buttonHtmlText.'" name="'.$name.'" '.$state.'></p></div><hr class="separator"/>';
 
     return $display;
   }
@@ -875,15 +872,9 @@ class simplePlugin implements SimpleTab
 
     $sections = [];
     foreach ($this->attributesInfo as $section => $sectionInfo) {
-      $legend = $sectionInfo['name'];
-      if (isset($sectionInfo['icon'])) {
-        $legend = '<img '.
-                  'src="'.htmlentities($sectionInfo['icon'], ENT_COMPAT, 'UTF-8').'" '.
-                  'alt="" '.
-                  '/>'.$legend;
-      }
-      $smarty->assign("section", $legend);
-      $smarty->assign("sectionId", $section);
+      $smarty->assign('section',      $sectionInfo['name']);
+      $smarty->assign('sectionIcon',  ($sectionInfo['icon'] ?? NULL));
+      $smarty->assign('sectionId',    $section);
       $sectionClasses = '';
       if (isset($sectionInfo['class'])) {
         $sectionClasses .= ' '.join(' ', $sectionInfo['class']);
@@ -1122,7 +1113,15 @@ class simplePlugin implements SimpleTab
     if ($ldap->success()) {
       return [];
     } else {
-      return [msgPool::ldaperror($this->ldap_error, $this->dn, LDAP_MOD, get_class())];
+      return [
+        new SimplePluginLdapError(
+          $this,
+          $this->dn,
+          ($this->mainTab ? LDAP_DEL : LDAP_MOD),
+          $ldap->get_error(),
+          $ldap->get_errno()
+        )
+      ];
     }
   }
 
@@ -1358,7 +1357,7 @@ class simplePlugin implements SimpleTab
     return [];
   }
 
-  protected function pre_save ()
+  protected function pre_save (): array
   {
     if ($this->initially_was_account) {
       return $this->handle_pre_events('modify', ['modifiedLdapAttrs' => array_keys($this->attrs)]);
@@ -1376,14 +1375,28 @@ class simplePlugin implements SimpleTab
     $ldap = $config->get_ldap_link();
     if ($this->mainTab && !$this->initially_was_account) {
       if ($ldap->dn_exists($this->dn)) {
-        return [sprintf(_('There is already an entry with the same dn : %s'), $this->dn)];
+        return [
+          new SimplePluginError(
+            $this,
+            htmlescape(sprintf(_('There is already an entry with the same dn: %s'), $this->dn))
+          )
+        ];
       }
       $ldap->cd($config->current['BASE']);
-      $ldap->create_missing_trees(preg_replace('/^[^,]+,/', '', $this->dn));
+      try {
+        $ldap->create_missing_trees(preg_replace('/^[^,]+,/', '', $this->dn));
+      } catch (FusionDirectoryError $error) {
+        return [$error];
+      }
       $action = 'add';
     } else {
       if (!$ldap->dn_exists($this->dn)) {
-        return [sprintf(_('The entry %s is not existing'), $this->dn)];
+        return [
+          new SimplePluginError(
+            $this,
+            htmlescape(sprintf(_('The entry %s is not existing'), $this->dn))
+          )
+        ];
       }
       $action = 'modify';
     }
@@ -1394,7 +1407,15 @@ class simplePlugin implements SimpleTab
 
     /* Check for errors */
     if (!$ldap->success()) {
-      return [msgPool::ldaperror($this->ldap_error, $this->dn, 0, get_class())];
+      return [
+        new SimplePluginLdapError(
+          $this,
+          $this->dn,
+          ($action == 'modify' ? LDAP_MOD : LDAP_ADD),
+          $ldap->get_error(),
+          $ldap->get_errno()
+        )
+      ];
     }
     return [];
   }
@@ -1427,7 +1448,7 @@ class simplePlugin implements SimpleTab
    *
    * \param  array  $addAttrs
    */
-  protected function handle_hooks (string $when, string $mode, array $addAttrs = [])
+  protected function handle_hooks (string $when, string $mode, array $addAttrs = []): array
   {
     switch ($mode) {
       case 'add':
@@ -1441,7 +1462,7 @@ class simplePlugin implements SimpleTab
 
       default:
         trigger_error(sprintf('Invalid %s event type given: "%s"! Valid types are: add, modify, remove.', strtolower($when), $mode));
-        break;
+        return [];
     }
   }
 
@@ -1463,7 +1484,7 @@ class simplePlugin implements SimpleTab
    *  \brief Forward command execution requests
    *         to the pre hook execution method.
    */
-  function handle_pre_events (string $mode, array $addAttrs = [])
+  function handle_pre_events (string $mode, array $addAttrs = []): array
   {
     global $config;
 
@@ -1539,18 +1560,17 @@ class simplePlugin implements SimpleTab
         $str = implode("\n", $arr);
         logging::debug(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, 'Execution failed code: '.$returnCode);
         logging::debug(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, 'Output: '.$str);
-        $message = msgPool::cmdexecfailed($cmd, '', get_class($this));
-        $message .= '<br/><br/>'."\n";
-        $message .= 'Exit code: '.$returnCode.'<br/>'."\n";
-        if (!empty($str)) {
-          $message .= 'Result: '.$str."\n";
-        }
-        $messages[] = $message;
+        $messages[] = new SimplePluginHookError(
+          $this,
+          $cmd,
+          $str,
+          $returnCode
+        );
       } elseif (is_array($arr)) {
         $str = implode("\n", $arr);
         logging::debug(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, 'Output: '.$str);
         if (!empty($str) && $config->get_cfg_value('displayHookOutput', 'FALSE') == 'TRUE') {
-          msg_dialog::display('['.get_class($this).' '.strtolower($cmd).'trigger] '.$command, $str, INFO_DIALOG);
+          msg_dialog::display('['.get_class($this).' '.strtolower($cmd).'trigger] '.$command, htmlescape($str), INFO_DIALOG);
         }
       }
     }
@@ -2214,18 +2234,18 @@ class simplePlugin implements SimpleTab
         /* save changes to LDAP and disable edit mode */
         if (isset($_POST['edit_finish'])) {
           /* Perform checks */
-          $message = $tabObject->save();
+          $errors = $tabObject->save();
 
           /* No errors, save object */
-          if (count($message) == 0) {
+          if (count($errors) == 0) {
             del_lock($entry_dn);
             session::un_set('edit');
 
             /* Remove from session */
             session::un_set($classname);
           } else {
-            /* Errors found, show message */
-            msg_dialog::displayChecks($message);
+            /* Errors found, show errors */
+            msg_dialog::displayChecks($errors);
           }
         }
       }

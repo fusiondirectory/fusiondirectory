@@ -81,7 +81,8 @@ class passwordMethodSsha extends passwordMethod
     } elseif (function_exists('mhash')) {
       $nhash = mhash(MHASH_SHA1, $pwd.$salt);
     } else {
-      msg_dialog::display(_('Configuration error'), msgPool::missingext('mhash'), ERROR_DIALOG);
+      $error = new FusionDirectoryError(msgPool::missingext('mhash'));
+      $error->display();
       return FALSE;
     }
     return ($nhash == $hash);

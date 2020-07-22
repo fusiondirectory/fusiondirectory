@@ -37,6 +37,13 @@ class LDIFImportException extends FusionDirectoryException
 {
 }
 
+/*! \class LDIFExportException
+    \brief Exception class which can be thrown by LDAP class if LDIF export fails
+*/
+class LDIFExportException extends FusionDirectoryException
+{
+}
+
 /*! \class LdapGeneralizedTimeBadFormatException
     \brief Exception class which can be thrown by LdapGeneralizedTime if the format does not match
 */

@@ -1,6 +1,6 @@
 <div id="{$sectionId}"  class="plugin-section fullwidth">
   <span class="legend">
-    {$section}
+    {if !empty($sectionIcon)}<img src="{$sectionIcon|escape}" alt=""/>{/if}{$section|escape}
   </span>
   <div>
     <h1>
@@ -25,10 +25,10 @@
 
           <tr>
           {foreach from=$attributes.expired.columns.user item=colname}
-            <th>{$colname}</th>
+            <th>{$colname|escape}</th>
           {/foreach}
           {foreach from=$attributes.expired.columns.manager item=colname}
-            <th>{$colname}</th>
+            <th>{$colname|escape}</th>
           {/foreach}
           </tr>
         </thead>
@@ -36,13 +36,13 @@
           {foreach from=$attributes.expired.accounts item=account}
             <tr>
               {foreach from=$attributes.expired.columns.user key=colkey item=colname}
-                <td>{$account.$colkey}&nbsp;</td>
+                <td>{$account.$colkey|escape}&nbsp;</td>
               {/foreach}
               {foreach from=$attributes.expired.columns.manager key=colkey item=colname}
                 {if $colkey==manager_mail}
-                  <td><a href="mailto:{$account.$colkey}">{$account.$colkey}</a></td>
+                  <td><a href="mailto:{$account.$colkey|escape}">{$account.$colkey|escape}</a></td>
                 {else}
-                  <td>{$account.$colkey}&nbsp;</td>
+                  <td>{$account.$colkey|escape}&nbsp;</td>
                 {/if}
               {/foreach}
             </tr>
@@ -73,10 +73,10 @@
 
           <tr>
           {foreach from=$attributes.expired.columns.user item=colname}
-            <th>{$colname}</th>
+            <th>{$colname|escape}</th>
           {/foreach}
           {foreach from=$attributes.expired.columns.manager item=colname}
-            <th>{$colname}</th>
+            <th>{$colname|escape}</th>
           {/foreach}
           </tr>
         </thead>
@@ -84,13 +84,13 @@
           {foreach from=$attributes.expired.accounts_next_days item=account}
             <tr>
               {foreach from=$attributes.expired.columns.user key=colkey item=colname}
-                <td>&nbsp;{$account.$colkey}</td>
+                <td>&nbsp;{$account.$colkey|escape}</td>
               {/foreach}
               {foreach from=$attributes.expired.columns.manager key=colkey item=colname}
                 {if $colkey==manager_mail}
-                  <td><a href="mailto:{$account.$colkey}">{$account.$colkey}</a></td>
+                  <td><a href="mailto:{$account.$colkey|escape}">{$account.$colkey|escape}</a></td>
                 {else}
-                  <td>&nbsp;{$account.$colkey}</td>
+                  <td>&nbsp;{$account.$colkey|escape}</td>
                 {/if}
               {/foreach}
             </tr>

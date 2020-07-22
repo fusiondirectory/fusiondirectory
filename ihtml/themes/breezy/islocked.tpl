@@ -6,7 +6,7 @@
   </div>
   <div>
     <p>
-      <b>{t}Warning{/t}:</b> {$message}
+      <b>{t}Warning{/t}:</b> {$message|escape}
       <ul>
         {foreach from=$locks item=lock}
           <li>{t 1=$lock.object 2=$lock.user 3=$lock.timestamp|date_format:"%Y-%m-%d, %H:%M:%S"}"%1" has been locked by "%2" since %3{/t}</li>
@@ -18,7 +18,7 @@
     </p>
 
     <p class="plugbottom">
-      <input type="submit" name="delete_lock" value="{$action}"/>
+      <input type="submit" name="delete_lock" value="{$action|escape}"/>
       {if $allow_readonly}
       &nbsp;
       <input type="submit" name="open_readonly" value="{t}Read only{/t}"/>
@@ -27,7 +27,7 @@
       <input type="submit" formnovalidate="formnovalidate" name="cancel_lock" value="{t}Cancel{/t}"/>
     </p>
 
-    <input type="hidden" name="dn" value="{$dn}"/>
+    <input type="hidden" name="dn" value="{$dn|escape}"/>
   </div>
 </div>
 

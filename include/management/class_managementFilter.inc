@@ -230,14 +230,16 @@ class managementFilter
             $entries[$dn] = new ListingEntry($this->parent->listing, 'template_'.$type, $dn, $entry, $row++);
           }
         } catch (FusionDirectoryException $e) {
-          msg_dialog::display(
-            sprintf(
-              _('Could not search for "%s" templates'),
-              $this->types['filter_type_'.$type]['infos']['name']
-            ),
-            $e->getMessage(),
-            WARNING_DIALOG
+          $warning = new FusionDirectoryWarning(
+            nl2br(htmlescape(sprintf(
+              _("Could not search for \"%s\" templates:\n%s"),
+              $this->types['filter_type_'.$type]['infos']['name'],
+              $e->getMessage()
+            ))),
+            0,
+            $e
           );
+          $warning->display();
         }
       }
 
@@ -250,14 +252,16 @@ class managementFilter
 
         $ldapEntries = $this->filterEntries($ldapEntries);
       } catch (FusionDirectoryException $e) {
-        msg_dialog::display(
-          sprintf(
-            _('Could not search for "%s"'),
-            $this->types['filter_type_'.$type]['infos']['name']
-          ),
-          $e->getMessage(),
-          WARNING_DIALOG
+        $warning = new FusionDirectoryWarning(
+          nl2br(htmlescape(sprintf(
+            _("Could not search for \"%s\":\n%s"),
+            $this->types['filter_type_'.$type]['infos']['name'],
+            $e->getMessage()
+          ))),
+          0,
+          $e
         );
+        $warning->display();
         $this->types['filter_type_'.$type]['show'] = FALSE;
         continue;
       }

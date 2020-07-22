@@ -536,10 +536,16 @@ class configInLdap extends simplePlugin
   {
     $messages = parent::check();
     if (($this->fdPasswordDefaultHash == 'sasl') && ($this->fdSaslRealm == '') && ($this->fdSaslExop == '')) {
-      $messages[] = _('You need to fill saslRealm or saslExop in the configuration screen in order to use SASL');
+      $messages[] = new SimplePluginCheckError(
+        $this,
+        htmlescape(_('You need to fill saslRealm or saslExop in the configuration screen in order to use SASL'))
+      );
     }
     if ($this->attributesAccess['fdLanguage']->hasChanged() && ($this->fdLanguage != '') && !Language::isAvailable($this->fdLanguage)) {
-      $messages[] = sprintf(_('It seems the selected language "%s" is not installed on the system. Please install it or select an other one.'), $this->fdLanguage);
+      $messages[] = new SimplePluginCheckError(
+        $this,
+        htmlescape(sprintf(_('It seems the selected language "%s" is not installed on the system. Please install it or select an other one.'), $this->fdLanguage))
+      );
     }
     return $messages;
   }

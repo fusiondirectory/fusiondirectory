@@ -3,7 +3,7 @@
     <tr>
       <td class="list">
         <div class="contentboxh">
-          <p class="contentboxh">&nbsp;{$HEADLINE}&nbsp;{$SIZELIMIT}</p>
+          <p class="contentboxh">&nbsp;{$HEADLINE|escape}&nbsp;{$SIZELIMIT}</p>
         </div>
 
         <div class="contentboxb">
@@ -14,9 +14,9 @@
                   <td class="{$action.class}">
                   {if $action.enabled}
                     <input type="image" src="{$action.icon|escape}"
-                      name="{$action.id}" title="{$action.desc}" alt="{$action.name}"/>
+                      name="{$action.id}" title="{$action.desc|escape}" alt="{$action.name|escape}"/>
                   {else}
-                    <img src="{$action.icon|escape}&amp;disabled=1" alt="{$action.name}"/>
+                    <img src="{$action.icon|escape}&amp;disabled=1" alt="{$action.name|escape}"/>
                   {/if}
                   &nbsp;</td>
                 {/foreach}

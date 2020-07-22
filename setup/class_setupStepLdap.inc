@@ -209,7 +209,15 @@ class setupStepLdap extends setupStep
           if ($check['IS_MUST_HAVE']) {
             $errors[] = sprintf(_("%s\nSchema \"%s\": %s"), $check['MSG'], $check['SCHEMA_FILE'], $check['INFO']);
           } else {
-            msg_dialog::display(_('Warning'), sprintf(_("%s\nSchema \"%s\": %s"), $check['MSG'], $check['SCHEMA_FILE'], $check['INFO']), WARNING_DIALOG);
+            $warning = new FusionDirectoryWarning(
+              nl2br(htmlescape(sprintf(
+                _("%s\nSchema \"%s\": %s"),
+                $check['MSG'],
+                $check['SCHEMA_FILE'],
+                $check['INFO']
+              )))
+            );
+            $warning->display();
           }
         }
       }

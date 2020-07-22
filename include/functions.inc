@@ -45,6 +45,14 @@ define('DEBUG_SI',       256); /*! Debug level for communication with Argonaut *
 define('DEBUG_MAIL',     512); /*! Debug level for all about mail (mailAccounts, imap, sieve etc.) */
 define('DEBUG_FAI',      1024); /* FAI (incomplete) */
 
+/* Define constants for LDAP operations */
+define('LDAP_READ',   1);
+define('LDAP_ADD',    2);
+define('LDAP_MOD',    3);
+define('LDAP_DEL',    4);
+define('LDAP_SEARCH', 5);
+define('LDAP_AUTH',   6);
+
 /* Rewrite german 'umlauts' and spanish 'accents'
    to get better results */
 $REWRITE = [ "ä" => "ae",
@@ -173,6 +181,14 @@ function plugin_available ($plugin)
 function DEBUG ($level, $line, $function, $file, $data, $info = '')
 {
   logging::debug($level, $line, $function, $file, $data, $info);
+}
+
+/*!
+ * \brief Return HTML safe copyright notice
+ */
+function copynotice ()
+{
+  return sprintf(htmlescape(_('%s 2002-%d %sThe FusionDirectory team, %s%s')), '&copy;', date('Y'), '<a href="http://www.fusiondirectory.org">', FD_VERSION, '</a>');
 }
 
 /*!
@@ -350,10 +366,7 @@ function ldap_init ($server, $base, $binddn = '', $pass = '')
 
   /* Sadly we've no proper return values here. Use the error message instead. */
   if (!$ldap->success()) {
-    msg_dialog::display(_('Fatal error'),
-        sprintf(_("FATAL: Error when connecting the LDAP. Server said '%s'."), $ldap->get_error()),
-        FATAL_ERROR_DIALOG);
-    exit();
+    throw new FatalError(htmlescape(sprintf(_('FATAL: Error when connecting the LDAP. Server said "%s".'), $ldap->get_error())));
   }
 
   /* Preset connection base to $base and return to caller */
@@ -398,8 +411,9 @@ function add_lock ($object, $user)
   }
 
   /* Just a sanity check... */
-  if ($object == '' || $user == '') {
-    msg_dialog::display(_('Internal error'), _('Error while adding a lock. Contact the developers!'), ERROR_DIALOG);
+  if (empty($object) || empty($user)) {
+    $error = new FusionDirectoryError(htmlescape(_('Error while adding a lock. Contact the developers!')));
+    $error->display();
     return;
   }
 
@@ -411,13 +425,24 @@ function add_lock ($object, $user)
   if ($ldap->get_errno() == 32) {
     /* No such object, means the locking branch is missing, create it */
     $ldap->cd($config->current['BASE']);
-    $ldap->create_missing_trees(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
+    try {
+      $ldap->create_missing_trees(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
+    } catch (FusionDirectoryError $error) {
+      $error->display();
+    }
     $ldap->cd(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
     $ldap->search('(&(objectClass=fdLockEntry)(fdUserDn='.ldap_escape_f($user).')(fdObjectDn='.base64_encode($object).'))',
       ['fdUserDn']);
   }
   if (!$ldap->success()) {
-    msg_dialog::display(_('Configuration error'), sprintf(_('Cannot create locking information in LDAP tree. Please contact your administrator!').'<br><br>'._('LDAP server returned: %s'), '<br><br><i>'.$ldap->get_error().'</i>'), ERROR_DIALOG);
+    $error = new FusionDirectoryError(
+      sprintf(
+        htmlescape(_('Cannot create locking information in LDAP tree. Please contact your administrator!')).
+          '<br><br>'.htmlescape(_('LDAP server returned: %s')),
+        '<br><br><i>'.htmlescape($ldap->get_error()).'</i>'
+      )
+    );
+    $error->display();
     return;
   }
 
@@ -425,7 +450,8 @@ function add_lock ($object, $user)
   if ($ldap->count() == 0) {
     $attrs  = [];
     $name   = md5($object);
-    $ldap->cd('cn='.$name.','.get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
+    $dn     = 'cn='.$name.','.get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'];
+    $ldap->cd($dn);
     $attrs = [
       'objectClass'     => 'fdLockEntry',
       'fdUserDn'        => $user,
@@ -435,7 +461,8 @@ function add_lock ($object, $user)
     ];
     $ldap->add($attrs);
     if (!$ldap->success()) {
-      msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), "cn=$name,".get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'], 0), LDAP_ERROR);
+      $error = new FusionDirectoryLdapError($dn, LDAP_ADD, $ldap->get_error(), $ldap->get_errno());
+      $error->display();
       return;
     }
   }
@@ -478,11 +505,13 @@ function del_lock ($object)
 
   /* Check for existance and remove the entry */
   $ldap = $config->get_ldap_link();
-  $ldap->cd(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
+  $dn   = get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'];
+  $ldap->cd($dn);
   $ldap->search('(&(objectClass=fdLockEntry)(fdObjectDn='.base64_encode($object).'))', ['fdObjectDn']);
   $attrs = $ldap->fetch();
   if (!$ldap->success()) {
-    msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), $ldap->getDN(), LDAP_DEL, ERROR_DIALOG));
+    $error = new FusionDirectoryLdapError($dn, LDAP_SEARCH, $ldap->get_error(), $ldap->get_errno());
+    $error->display();
     return;
   } elseif (!empty($attrs['dn'])) {
     $ldap->rmdir($attrs['dn']);
@@ -528,7 +557,8 @@ function get_lock ($object)
 {
   /* Sanity check */
   if ($object == '') {
-    msg_dialog::display(_('Internal error'), _('Error while adding a lock. Contact the developers!'), ERROR_DIALOG);
+    $error = new FusionDirectoryError(htmlescape(_('Error while adding a lock. Contact the developers!')));
+    $error->display();
     return FALSE;
   }
 
@@ -587,10 +617,12 @@ function get_locks ($objects, $allow_readonly = FALSE)
 
   /* Get LDAP link, check for presence of the lock entry */
   $ldap = $config->get_ldap_link();
-  $ldap->cd(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
+  $dn   = get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'];
+  $ldap->cd($dn);
   $ldap->search($filter, ['fdUserDn','fdObjectDn', 'fdLockTimestamp']);
   if (!$ldap->success()) {
-    msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), '', LDAP_SEARCH), LDAP_ERROR);
+    $error = new FusionDirectoryLdapError($dn, LDAP_SEARCH, $ldap->get_error(), $ldap->get_errno());
+    $error->display();
     return FALSE;
   }
 
@@ -606,7 +638,8 @@ function get_locks ($objects, $allow_readonly = FALSE)
 
   if (!is_array($objects) && (count($locks) > 1)) {
     /* Hmm. We're removing broken LDAP information here and issue a warning. */
-    msg_dialog::display(_('Warning'), _('Found multiple locks for object to be locked. This should not happen - cleaning up multiple references.'), WARNING_DIALOG);
+    $warning = new FusionDirectoryWarning(htmlescape(_('Found multiple locks for object to be locked. This should not happen - cleaning up multiple references.')));
+    $warning->display();
 
     /* Clean up these references now... */
     foreach ($locks as $lock) {
@@ -1303,7 +1336,13 @@ function clean_smarty_compile_dir ($directory)
             continue;
           }
           if (is_file($directory.'/'.$file) && !unlink($directory.'/'.$file)) {
-            msg_dialog::display(_("Internal error"), sprintf(_("File '%s' could not be deleted. Try fusiondirectory-setup --check-directories to fix permissions."), $directory."/".$file), ERROR_DIALOG);
+            $error = new FusionDirectoryError(
+              htmlescape(sprintf(
+                _('File "%s" could not be deleted. Try "fusiondirectory-setup --check-directories" to fix permissions.'),
+                $directory."/".$file
+              ))
+            );
+            $error->display();
           }
         }
       } else {
@@ -1334,14 +1373,28 @@ function create_revision ($revision_file, $revision)
   $result = FALSE;
 
   if (is_dir(dirname($revision_file)) && is_writable(dirname($revision_file))) {
-    if ($fh = fopen($revision_file, 'w')) {
+    $fh = fopenWithErrorHandling($revision_file, 'w');
+    if (is_array($fh)) {
+      $error = new FusionDirectoryError(
+        htmlescape(_('Cannot write to revision file:')).'<br/>'.
+        implode(
+          '<br/>',
+          array_map('htmlescape', $fh)
+        )
+      );
+      $error->display();
+      return $result;
+    } else {
       if (fwrite($fh, $revision)) {
         $result = TRUE;
       }
       fclose($fh);
     }
-  } else {
-    msg_dialog::display(_('Internal error'), _('Cannot write to revision file!'), ERROR_DIALOG);
+  }
+
+  if (!$result) {
+    $error = new FusionDirectoryError(htmlescape(_('Cannot write to revision file!')));
+    $error->display();
   }
 
   return $result;
@@ -1364,15 +1417,23 @@ function compare_revision ($revision_file, $revision)
 
   if (file_exists($revision_file) && is_readable($revision_file)) {
     // Open file
-    if ($fh = fopen($revision_file, "r")) {
+    $fh = fopenWithErrorHandling($revision_file, 'r');
+    if (is_array($fh)) {
+      $error = new FusionDirectoryError(
+        htmlescape(_('Cannot read revision file:')).'<br/>'.
+        implode(
+          '<br/>',
+          array_map('htmlescape', $fh)
+        )
+      );
+      $error->display();
+    } else {
       // Compare File contents with current revision
       if ($revision == fread($fh, filesize($revision_file))) {
         $result = TRUE;
       }
       // Close file
       fclose($fh);
-    } else {
-      msg_dialog::display(_('Internal error'), _('Cannot read revision file!'), ERROR_DIALOG);
     }
   }
 
@@ -1486,7 +1547,8 @@ function check_schema (array $cfg)
   $ldap = new ldapMultiplexer($ldapObj);
   $objectclasses = $ldap->get_objectclasses(TRUE);
   if (count($objectclasses) == 0) {
-    msg_dialog::display(_('LDAP warning'), _('Cannot get schema information from server. No schema check possible!'), WARNING_DIALOG);
+    $warning = new FusionDirectoryWarning(htmlescape(_('Cannot get schema information from server. No schema check possible!')));
+    $warning->display();
     return $checks;
   }
 
@@ -1722,20 +1784,6 @@ function send_binary_content ($data, $name, $type = "application/octet-stream")
   exit();
 }
 
-
-function reverse_html_entities ($str, $type = ENT_QUOTES, $charset = "UTF-8")
-{
-  if (is_string($str)) {
-    return htmlentities($str, $type, $charset);
-  } elseif (is_array($str)) {
-    foreach ($str as $name => $value) {
-      $str[$name] = reverse_html_entities($value, $type, $charset);
-    }
-  }
-  return $str;
-}
-
-
 /*!
  * \brief Encode special string characters
  *
@@ -1865,10 +1913,13 @@ function load_all_classes ()
       if (is_readable("$BASE_DIR/$path")) {
         require_once("$BASE_DIR/$path");
       } else {
-        msg_dialog::display(_('Fatal error'),
-            sprintf(_("Cannot locate file '%s' - please run '%s' to fix this"),
-              "$BASE_DIR/$path", '<b>fusiondirectory-setup</b>'), FATAL_ERROR_DIALOG);
-        exit;
+        throw new FatalError(
+          sprintf(
+            htmlescape(_('Cannot locate file "%s" - please run "%s" to fix this')),
+            htmlescape("$BASE_DIR/$path"),
+            '<b>fusiondirectory-setup --update-cache</b>'
+          )
+        );
       }
     }
   }

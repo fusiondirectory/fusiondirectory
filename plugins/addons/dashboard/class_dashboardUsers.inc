@@ -86,11 +86,15 @@ class dashboardUsers extends simplePlugin
       $nb_posix_accounts  = count(objects::ls('user', NULL, NULL, '(objectClass=posixAccount)',     TRUE));
       $nb_samba_accounts  = count(objects::ls('user', NULL, NULL, '(objectClass=sambaSamAccount)',  TRUE));
     } catch (LDAPFailureException $e) {
-      msg_dialog::display(
-        _('LDAP error'),
-        sprintf(_('User statistics could not be computed because of the following LDAP error: %s'), $e->getMessage()),
-        ERROR_DIALOG
+      $error = new FusionDirectoryError(
+        htmlescape(sprintf(
+          _('User statistics could not be computed because of the following LDAP error: %s'),
+          $e->getMessage()
+        )),
+        0,
+        $e
       );
+      $error->display();
       $nb_accounts        = 0;
       $nb_mail_accounts   = 0;
       $nb_posix_accounts  = 0;
@@ -117,11 +121,15 @@ class dashboardUsers extends simplePlugin
       $nb_mail_groups   = count(objects::ls('group', NULL, NULL, '(objectClass=fdGroupMail)',     TRUE));
       $nb_samba_groups  = count(objects::ls('group', NULL, NULL, '(objectClass=sambaGroupMapping)', TRUE));
     } catch (LDAPFailureException $e) {
-      msg_dialog::display(
-        _('LDAP error'),
-        sprintf(_('Group statistics could not be computed because of the following LDAP error: %s'), $e->getMessage()),
-        ERROR_DIALOG
+      $error = new FusionDirectoryError(
+        htmlescape(sprintf(
+          _('Group statistics could not be computed because of the following LDAP error: %s'),
+          $e->getMessage()
+        )),
+        0,
+        $e
       );
+      $error->display();
       $nb_groups        = 0;
       $nb_mail_groups   = 0;
       $nb_samba_groups  = 0;
@@ -181,18 +189,26 @@ class dashboardUsers extends simplePlugin
       }
       $users = objects::ls('user', $attributes, NULL, '(shadowExpire=*)', TRUE);
     } catch (LDAPFailureException $e) {
-      msg_dialog::display(
-        _('LDAP error'),
-        sprintf(_('Expired user information could not be computed because of the following LDAP error: %s'), $e->getMessage()),
-        ERROR_DIALOG
+      $error = new FusionDirectoryError(
+        htmlescape(sprintf(
+          _('Expired user information could not be computed because of the following LDAP error: %s'),
+          $e->getMessage()
+        )),
+        0,
+        $e
       );
+      $error->display();
       $users = [];
     } catch (FusionDirectoryException $e) {
-      msg_dialog::display(
-        _('Error'),
-        sprintf(_('Expired user information could not be computed because of the following error: %s'), $e->getMessage()),
-        ERROR_DIALOG
+      $error = new FusionDirectoryError(
+        htmlescape(sprintf(
+          _('Expired user information could not be computed because of the following error: %s'),
+          $e->getMessage()
+        )),
+        0,
+        $e
       );
+      $error->display();
       $users = [];
     }
 

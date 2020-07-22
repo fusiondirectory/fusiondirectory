@@ -104,13 +104,10 @@ class setupStepConfig extends configInLdap
       /* Create root object if missing */
       $ldap = $config->get_ldap_link();
       $ldap->cd($config->current['BASE']);
-      $ldap->create_missing_trees($config->current['BASE'], FALSE);
-      if (!$ldap->success()) {
-        msg_dialog::display(
-          _('LDAP error'),
-          msgPool::ldaperror($ldap->get_error(), $config->current['BASE'], 'create_missing_trees', get_class()),
-          LDAP_ERROR
-        );
+      try {
+        $ldap->create_missing_trees($config->current['BASE'], FALSE);
+      } catch (FusionDirectoryError $error) {
+        $error->display();
         return;
       }
       /* Save in LDAP */

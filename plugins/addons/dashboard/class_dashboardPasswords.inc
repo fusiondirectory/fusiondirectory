@@ -62,11 +62,15 @@ class dashboardPassword extends simplePlugin
     try {
       $users = objects::ls('user', ['userPassword' => '1', 'dn' => 'raw'], NULL, '', TRUE);
     } catch (LDAPFailureException $e) {
-      msg_dialog::display(
-        _('LDAP error'),
-        sprintf(_('Password statistics could not be computed because of the following LDAP error: %s'), $e->getMessage()),
-        ERROR_DIALOG
+      $error = new FusionDirectoryError(
+        htmlescape(sprintf(
+          _('Password statistics could not be computed because of the following LDAP error: %s'),
+          $e->getMessage()
+        )),
+        0,
+        $e
       );
+      $error->display();
       $users = [];
     }
     $nb_accounts = count($users);

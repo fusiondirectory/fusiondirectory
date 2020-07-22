@@ -1,4 +1,4 @@
-<fieldset><legend>{$NAME}</legend>
+<fieldset><legend>{$NAME|escape}</legend>
   {foreach from=$INPUTS key="key" item="input"}
     <label title="{$input.desc|escape}">
       {if isset($input.icon)}

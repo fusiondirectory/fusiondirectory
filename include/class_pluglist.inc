@@ -377,12 +377,12 @@ class pluglist
           }
 
           $entries .= '<li class="menuitem" id="menuitem_'.$id.'">';
-          $entries .= '<a href="'.$href.'" title="'.$plDescription.'">'.$plHeadline.'</a></li>'."\n";
+          $entries .= '<a href="'.$href.'" title="'.htmlescape($plDescription).'">'.htmlescape($plHeadline).'</a></li>'."\n";
         }
 
         /* Append to menu */
         if ($entries != "") {
-          $this->menu .= '<li><a>'.$section_infos['NAME']."</a>\n<ul>\n".$entries."\n</ul></li>\n";
+          $this->menu .= '<li><a>'.htmlescape($section_infos['NAME'])."</a>\n<ul>\n".$entries."\n</ul></li>\n";
         }
       }
       $this->menu .= '</ul>'."\n";
@@ -420,7 +420,7 @@ class pluglist
       foreach ($config->data['SECTIONS'] as $section => $section_infos) {
         $entries      = '';
         $sectionMenu  = '<div class="iconmenu-section"><h1 class="menuheader">';
-        $sectionMenu  .= $section_infos['NAME']."</h1>\n";
+        $sectionMenu  .= htmlescape($section_infos['NAME'])."</h1>\n";
 
         foreach ($config->data['MENU'][$section] as $info) {
           if (!$this->check_access($info)) {
@@ -442,13 +442,13 @@ class pluglist
 
           /* Load icon */
           if (isset($info['CLASS']) && !preg_match("/\//", $plIcon) && !preg_match("/^geticon/", $plIcon)) {
-            $image = get_template_path("plugins/".preg_replace('%^.*/([^/]+)/[^/]+$%', '\1', $class_mapping[$info['CLASS']])."/images/$plIcon");
+            $image = get_template_path('plugins/'.preg_replace('%^.*/([^/]+)/[^/]+$%', '\1', $class_mapping[$info['CLASS']]).'/images/'.$plIcon);
           } else {
-            $image = htmlentities($plIcon, ENT_COMPAT, 'UTF-8');
+            $image = $plIcon;
           }
 
-          $entries  .= '<div class="iconmenu" id="menuitem_icon_'.$id.'" onClick=\'location.href="'.$href.'"\' title="'.$plDescription.'">';
-          $item     = '<div class="imgcontainer"><img src="'.$image.'" alt=""/></div><span>&nbsp;'.$plHeadline.'</span>';
+          $entries  .= '<div class="iconmenu" id="menuitem_icon_'.$id.'" onClick=\'location.href="'.$href.'"\' title="'.htmlescape($plDescription).'">';
+          $item     = '<div class="imgcontainer"><img src="'.htmlescape($image).'" alt=""/></div><span>&nbsp;'.htmlescape($plHeadline).'</span>';
           $entries  .= $item."</div>\n";
         }
 
@@ -575,22 +575,23 @@ class pluglist
       } elseif (is_callable([$plugin, 'mainInc'])) {
         $plugin::mainInc();
       } else {
-        msg_dialog::display(
-          _('Plugin'),
-          sprintf(_("Fatal error: Cannot find any plugin definitions for plugin '%s' ('%s' is not a file)!"), $plugin, "$plugin_dir/main.inc"),
-          FATAL_ERROR_DIALOG
+        throw new FatalError(
+          htmlescape(sprintf(
+            _('Fatal error: Cannot find any plugin definitions for plugin "%s" ("%s" is not a file)!'),
+            $plugin,
+            "$plugin_dir/main.inc"
+          ))
         );
-        exit();
       }
       if ($forceCleanup) {
         $cleanup = $remove_lock = FALSE;
       }
     } catch (Exception $e) {
-      $smarty->assign('headline', _('Fatal error!'));
+      $smarty->assign('headline',       _('Fatal error!'));
       $smarty->assign('headline_image', 'geticon.php?context=status&icon=dialog-error&size=32');
-      $display = '<h1>'._('An unrecoverable error occurred. Please contact your administator.').'</h1><p>';
+      $display = '<h1>'.htmlescape(_('An unrecoverable error occurred. Please contact your administator.')).'</h1><p>';
       if (ini_get('display_errors') == 1) {
-        $display .= nl2br(htmlentities((string)$e, ENT_COMPAT, 'UTF-8'));
+        $display .= nl2br(htmlescape((string)$e));
       } else {
         $display .= 'Error detail display is turned off.';
       }

@@ -377,10 +377,10 @@ class objects
       $text = $text[$infos['nameAttr']][0];
     }
 
-    $text = htmlentities($text, ENT_COMPAT, 'UTF-8');
+    $text = htmlescape($text);
 
     if ($icon && isset($infos['icon'])) {
-      $text = '<img alt="'.$infos['name'].'" title="'.$dn.'" src="'.htmlentities($infos['icon'], ENT_COMPAT, 'UTF-8').'" class="center"/>&nbsp;'.$text;
+      $text = '<img alt="'.htmlescape($infos['name']).'" title="'.htmlescape($dn).'" src="'.htmlescape($infos['icon']).'" class="center"/>&nbsp;'.$text;
     }
 
     if ($link) {

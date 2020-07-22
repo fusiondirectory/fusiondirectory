@@ -147,7 +147,10 @@ class SetAttribute extends Attribute
       return $error;
     } else {
       if (!is_array($this->value)) {
-        return sprintf(_('The value for multivaluated field "%s" is not an array'), $this->getLabel());
+        return new SimplePluginCheckError(
+          $this,
+          SimplePluginCheckError::invalidValue(_('Value is not an array'))
+        );
       }
       foreach ($this->value as $value) {
         $this->attribute->setValue($value);
@@ -246,7 +249,7 @@ class SetAttribute extends Attribute
         }
         $attributes[$this->getLdapName()] = [
           'htmlid'        => $this->getForHtmlId(),
-          'label'         => '{literal}'.$this->getLabel().'{/literal}',
+          'label'         => '{literal}'.htmlescape($this->getLabel()).'{/literal}',
           'description'   => ($this->isRequired() ? sprintf(_("%s (required)"), $this->getDescription()) : $this->getDescription()),
           'input'         => $this->renderAcl($this->renderOnlyFormInput()),
           'subattribute'  => $this->isSubAttribute,
@@ -300,8 +303,22 @@ class SetAttribute extends Attribute
   function renderButtons ()
   {
     $id = $this->getHtmlId();
-    $buttons  = $this->renderInputField('submit', 'add'.$id, ['value' => '{msgPool type=addButton}', 'formnovalidate' => 'formnovalidate', 'class' => 'subattribute']);
-    $buttons .= $this->renderInputField('submit', 'del'.$id, ['value' => '{msgPool type=delButton}', 'formnovalidate' => 'formnovalidate', 'class' => 'subattribute']);
+    $buttons  = $this->renderInputField(
+      'submit', 'add'.$id,
+      [
+        'value'           => msgPool::addButton(FALSE),
+        'formnovalidate'  => 'formnovalidate',
+        'class'           => 'subattribute',
+      ]
+    );
+    $buttons .= $this->renderInputField(
+      'submit', 'del'.$id,
+      [
+        'value'           => msgPool::delButton(FALSE),
+        'formnovalidate'  => 'formnovalidate',
+        'class'           => 'subattribute',
+      ]
+    );
     return $buttons;
   }
 
@@ -524,12 +541,13 @@ class OrderedArrayAttribute extends SetAttribute
         $img .= $this->renderInputField(
           'image', $id.'_up_'.$key,
           [
-            'src'             => 'geticon.php?context=actions&amp;icon=view-sort-descending&amp;size=16',
+            'src'             => 'geticon.php?context=actions&icon=view-sort-descending&size=16',
             'title'           => _('Sort up'),
             'alt'             => _('Sort up'),
             'class'           => 'center',
             'formnovalidate'  => 'formnovalidate',
-          ]
+          ],
+          FALSE
         );
       } else {
         $img .= '<img src="images/empty.png" alt="" style="width:16px;"/>';
@@ -538,12 +556,13 @@ class OrderedArrayAttribute extends SetAttribute
         $img .= $this->renderInputField(
           'image', $id.'_down_'.$key,
           [
-            'src'             => 'geticon.php?context=actions&amp;icon=view-sort-ascending&amp;size=16',
+            'src'             => 'geticon.php?context=actions&icon=view-sort-ascending&size=16',
             'title'           => _('Sort down'),
             'alt'             => _('Sort down'),
             'class'           => 'center',
             'formnovalidate'  => 'formnovalidate',
-          ]
+          ],
+          FALSE
         );
       } else {
         $img .= '<img src="images/empty.png" alt="" style="width:16px;"/>';
@@ -554,23 +573,25 @@ class OrderedArrayAttribute extends SetAttribute
       $img .= $this->renderInputField(
         'image', $id.'_edit_'.$key,
         [
-          'src'             => 'geticon.php?context=actions&amp;icon=document-edit&amp;size=16',
+          'src'             => 'geticon.php?context=actions&icon=document-edit&size=16',
           'title'           => _('Edit'),
           'alt'             => _('Edit'),
           'class'           => 'center',
           'formnovalidate'  => 'formnovalidate',
-        ]
+        ],
+        FALSE
       );
     }
     $img .= $this->renderInputField(
       'image', $id.'_del_'.$key,
       [
-        'src'             => 'geticon.php?context=actions&amp;icon=edit-delete&amp;size=16',
+        'src'             => 'geticon.php?context=actions&icon=edit-delete&size=16',
         'title'           => _('Delete'),
         'alt'             => _('Delete'),
         'class'           => 'center',
         'formnovalidate'  => 'formnovalidate',
-      ]
+      ],
+      FALSE
     );
 
     return  [$img, $nbicons];
@@ -649,7 +670,10 @@ class OrderedArrayAttribute extends SetAttribute
       $this->attribute->loadPostValue();
       $this->attribute->applyPostValue();
       if ($error = $this->attribute->check()) {
-        msg_dialog::display(sprintf(_('Invalid value for %s'), $this->getLabel()), $error);
+        if (is_string($error)) {
+          $error = new SimplePluginCheckError($this, $error);
+        }
+        $error->display();
       } else {
         $this->addPostValue($this->attribute->getValue());
       }
@@ -700,7 +724,14 @@ class OrderedArrayAttribute extends SetAttribute
   function renderButtons ()
   {
     $id = $this->getHtmlId();
-    $buttons = $this->renderInputField('submit', 'add'.$id, ['value' => '{msgPool type=addButton}', 'formnovalidate' => 'formnovalidate', 'class' => 'subattribute']);
+    $buttons = $this->renderInputField(
+      'submit', 'add'.$id,
+      [
+        'value'           => msgPool::addButton(FALSE),
+        'formnovalidate'  => 'formnovalidate',
+        'class'           => 'subattribute',
+      ]
+    );
     return $buttons;
   }
 }
@@ -792,7 +823,8 @@ class SubNodesAttribute extends OrderedArrayAttribute
       }
       $ldap->add($attrs);
       if (!$ldap->success()) {
-        msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $dn, LDAP_ADD, get_class()), LDAP_ERROR);
+        $error = new SimplePluginLdapError($this, $dn, LDAP_ADD, $ldap->get_error(), $ldap->get_errno());
+        $error->display();
       }
     }
   }

@@ -245,13 +245,16 @@ class ogroup extends simplePlugin
 
   function check (): array
   {
-    $message = parent::check();
+    $errors = parent::check();
     $this->reload();
     if (preg_match('/W/', $this->gosaGroupObjects) && preg_match('/T/', $this->gosaGroupObjects)) {
-      $message[] = _('Putting both workstations and terminals in the same group is not allowed');
+      $errors[] = new SimplePluginCheckError(
+        $this,
+        htmlescape(_('Putting both workstations and terminals in the same group is not allowed'))
+      );
     }
 
-    return $message;
+    return $errors;
   }
 
   function ldap_save (): array
@@ -274,12 +277,12 @@ class ogroup extends simplePlugin
       $removingMembers  = array_diff($savedMembers, $userMembers);
       foreach ($addingMembers as $dn) {
         if (strpos($ui->get_permissions($dn, 'user/userRoles', 'groupsMembership', $this->acl_skip_write()), 'w') === FALSE) {
-          $errors[] = msgPool::permModify($dn, 'groupsMembership');
+          $errors[] = new SimplePluginPermissionError($this, msgPool::permModify($dn, 'groupsMembership'));
         }
       }
       foreach ($removingMembers as $dn) {
         if (strpos($ui->get_permissions($dn, 'user/userRoles', 'groupsMembership', $this->acl_skip_write()), 'w') === FALSE) {
-          $errors[] = msgPool::permModify($dn, 'groupsMembership');
+          $errors[] = new SimplePluginPermissionError($this, msgPool::permModify($dn, 'groupsMembership'));
         }
       }
     }

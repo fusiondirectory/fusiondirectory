@@ -30,13 +30,34 @@ class FileAttribute extends Attribute
     $this->postValue = $this->value;
     if (!empty($_FILES[$this->getHtmlId()]['name']) && $this->isVisible()) {
       if ($_FILES[$this->getHtmlId()]['size'] <= 0) {
-        msg_dialog::display(_("Error"), sprintf(_("Cannot read uploaded file: %s"), _("file is empty")), ERROR_DIALOG);
+        $error = new SimplePluginError(
+          $this,
+          htmlescape(sprintf(
+            _('Cannot read uploaded file: %s'),
+            _('file is empty')
+          ))
+        );
+        $error->display();
       } elseif (!file_exists($_FILES[$this->getHtmlId()]['tmp_name'])) {
         // Is there a tmp file, which we can use ?
-        msg_dialog::display(_("Error"), sprintf(_("Cannot read uploaded file: %s"), _("file not found")), ERROR_DIALOG);
-      } elseif (!$handle = @fopen($_FILES[$this->getHtmlId()]['tmp_name'], "r")) {
+        $error = new SimplePluginError(
+          $this,
+          htmlescape(sprintf(
+            _('Cannot read uploaded file: %s'),
+            _('file not found')
+          ))
+        );
+        $error->display();
+      } elseif (!$handle = @fopen($_FILES[$this->getHtmlId()]['tmp_name'], 'r')) {
         // Can we open the tmp file, for reading
-        msg_dialog::display(_("Error"), sprintf(_("Cannot read uploaded file: %s"), _("file not readable")), ERROR_DIALOG);
+        $error = new SimplePluginError(
+          $this,
+          htmlescape(sprintf(
+            _('Cannot read uploaded file: %s'),
+            _('file not readable')
+          ))
+        );
+        $error->display();
       } else {
         // Everything just fine :)
 
@@ -185,7 +206,7 @@ class FileDownloadAttribute extends FileAttribute
           'title' => _('Download'),
           'alt'   => _('Download'),
           'class' => 'center',
-          'src'   => 'geticon.php?context=actions&amp;icon=document-save&amp;size=16',
+          'src'   => 'geticon.php?context=actions&icon=document-save&size=16',
         ]
       );
     }
@@ -272,7 +293,7 @@ class FileTextAreaAttribute extends FileDownloadAttribute
     $id = $this->getHtmlId();
     $display  = '<textarea name="'.$id.'_text" id="'.$id.'_text"'.
                 ($this->disabled ? 'disabled="disabled"' : '').'>'.
-                '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}</textarea><br/>';
+                '{literal}'.htmlescape($this->getValue()).'{/literal}</textarea><br/>';
     return $this->renderAcl($display).parent::renderFormInput();
   }
 
@@ -374,22 +395,20 @@ class ImageAttribute extends FileAttribute
       } catch (ImagickException $e) {
         /* Store the exception to return it in deserializeValue() */
         $this->imagickException = $e;
-        msg_dialog::display(
-          _('Error'),
-          sprintf(
-            _('Cannot set "%s" value, it contains invalid data: %s'),
-            ($this->getLabel() != '' ? $this->getLabel() : $this->getLdapName()),
-            $e->getMessage()
-          ),
-          ERROR_DIALOG
+        $error = new SimplePluginError(
+          $this,
+          SimplePluginCheckError::invalidValue($e->getMessage()),
+          0,
+          $e
         );
+        $error->display();
       }
     } else {
-      msg_dialog::display(
-        _('Error'),
-        _('Cannot save user picture, FusionDirectory requires the PHP module "imagick" to be installed!'),
-        ERROR_DIALOG
+      $error = new SimplePluginError(
+        $this,
+        htmlescape(_('Cannot save user picture, FusionDirectory requires the PHP module "imagick" to be installed!'))
       );
+      $error->display();
     }
   }
 
@@ -418,15 +437,15 @@ class ImageAttribute extends FileAttribute
                 ($this->disabled ? 'disabled="disabled"' : '').
                 ' src="getbin.php?key='.$key.'"'.
                 ' style="border:1px solid black;"'.
-                ' alt="'.$this->getDescription().'"'.
-                ' title="'.$this->getDescription().'"'.
+                ' alt="'.htmlescape($this->getDescription()).'"'.
+                ' title="'.htmlescape($this->getDescription()).'"'.
                 ' /><br/>';
     $display  .= $this->renderInputField('file', $id);
     $display .= $this->renderInputField(
       'image', $id.'_upload',
       [
         'class' => 'center',
-        'src'   => 'geticon.php?context=actions&amp;icon=upload&amp;size=16',
+        'src'   => 'geticon.php?context=actions&icon=upload&size=16',
         'title' => _('Upload'),
         'alt'   => _('Upload')
       ]
@@ -436,7 +455,7 @@ class ImageAttribute extends FileAttribute
         'image', $id.'_remove',
         [
           'class' => 'center',
-          'src'   => 'geticon.php?context=actions&amp;icon=remove&amp;size=16',
+          'src'   => 'geticon.php?context=actions&icon=remove&size=16',
           'title' => _('Remove'),
           'alt'   => _('Remove')
         ]

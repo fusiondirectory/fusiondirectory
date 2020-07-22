@@ -212,7 +212,8 @@ abstract class passwordMethod
         msg_dialog::displayChecks($errors);
       }
     } else {
-      msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), $dn, LDAP_MOD), LDAP_ERROR);
+      $error = new FusionDirectoryLdapError($dn, LDAP_MOD, $ldap->get_error(), $ldap->get_errno());
+      $error->display();
     }
     return $ldap->success();
   }

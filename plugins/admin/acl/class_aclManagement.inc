@@ -107,7 +107,8 @@ class aclAssignmentCreationDialog extends simplePlugin
     try {
       $this->management->newEntryConfirmed($this->baseDn);
     } catch (NonExistingLdapNodeException $e) {
-      msg_dialog::displayChecks([_('The dn you entered could not be found in the LDAP')]);
+      $error = new FusionDirectoryError(htmlescape(_('The dn you entered could not be found in the LDAP')), 0, $e);
+      $error->display();
       return TRUE;
     }
     return FALSE;

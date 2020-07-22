@@ -23,7 +23,7 @@
       <span class="warning"> {$ssl} </span>
 
       <!-- Display error message on demand -->
-      <span class="warning"> {$message} </span>
+      <span class="warning"> {$message|escape} </span>
 
 {if $step==3}
     <p class="infotext">
@@ -93,7 +93,7 @@
       <label for="email_address">
          <img class="center" src="geticon.php?context=applications&amp;icon=internet-mail&amp;size=48" alt="{t}Email address{/t}" title="{t}Email address{/t}" />&nbsp;
       </label>
-      <input type="text" name="email_address" id="email_address" value="{$email_address}" title="{t}Email{/t}" onFocus=""/>
+      <input type="text" name="email_address" id="email_address" value="{$email_address|escape}" title="{t}Email{/t}" onFocus=""/>
     </div>
     {if $show_directory_chooser}
     <div>
@@ -117,7 +117,7 @@
 {/if}
 {else}
     <!-- Display error message on demand -->
-    <p class="warning"> {$message} </p>
+    <p class="warning"> {$message|escape} </p>
     <p>{t}Password recovery is not activated. If you have lost your password, please contact your administrator{/t}</p>
   </div>
   </div>

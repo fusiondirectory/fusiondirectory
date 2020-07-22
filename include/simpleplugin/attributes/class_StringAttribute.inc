@@ -53,6 +53,11 @@ class StringAttribute extends Attribute
     $this->example = $example;
   }
 
+  public function getExample ()
+  {
+    return $this->example;
+  }
+
   function setPattern ($pattern)
   {
     $this->pattern = $pattern;
@@ -70,17 +75,17 @@ class StringAttribute extends Attribute
   {
     $id = $this->getHtmlId();
     $attributes = [
-      'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}'
+      'value' => $this->getValue()
     ];
     if (!empty($this->managedAttributes)) {
       $js       = $this->managedAttributesJS();
-      $attributes['onChange'] = 'javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8');
+      $attributes['onChange'] = 'javascript:'.$js;
     }
     if ($this->autocomplete !== NULL) {
       $attributes['autocomplete'] = $this->autocomplete;
     }
     if ($this->html5pattern !== NULL) {
-      $attributes['pattern'] = '{literal}'.htmlentities($this->html5pattern, ENT_COMPAT, 'UTF-8').'{/literal}';
+      $attributes['pattern'] = $this->html5pattern;
     }
     if ($this->isSubAttribute) {
       $attributes['class'] = 'subattribute';
@@ -95,7 +100,7 @@ class StringAttribute extends Attribute
   {
     $id = $this->getHtmlId();
     $attributes = [
-      'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}'
+      'value' => $this->getValue()
     ];
     if ($this->autocomplete !== NULL) {
       $attributes['autocomplete'] = $this->autocomplete;
@@ -128,7 +133,10 @@ class StringAttribute extends Attribute
   function validate ()
   {
     if (($this->pattern !== '') && !preg_match($this->pattern, $this->value)) {
-      return msgPool::invalid($this->getLabel(), $this->value, $this->example);
+      return new SimplePluginCheckError(
+        $this,
+        SimplePluginCheckError::invalidValue(sprintf('"%s"', $this->getValue()))
+      );
     }
   }
 
@@ -183,7 +191,7 @@ class TextAreaAttribute extends StringAttribute
                 ($this->disabled ? ' disabled="disabled"' : '').
                 ($this->isSubAttribute ? ' class="subattribute"' : ($this->isRequired() ? ' required="required"' : '')).
                 '>'.
-                '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}</textarea>';
+                '{literal}'.htmlescape($this->getValue()).'{/literal}</textarea>';
     return $this->renderAcl($display);
   }
 
@@ -194,7 +202,7 @@ class TextAreaAttribute extends StringAttribute
                 ($this->disabled ? ' disabled="disabled"' : '').
                 ($this->isSubAttribute ? ' class="subattribute"' : '').
                 '>'.
-                '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}</textarea>';
+                '{literal}'.htmlescape($this->getValue()).'{/literal}</textarea>';
     return $this->renderAcl($display);
   }
 }

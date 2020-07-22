@@ -355,7 +355,8 @@ class LDAP
       /* Check if query took longer as specified in max_ldap_query_time */
       $diff = microtime(TRUE) - $startTime;
       if ($this->max_ldap_query_time && ($diff > $this->max_ldap_query_time)) {
-        msg_dialog::display(_("Performance warning"), sprintf(_("LDAP performance is poor: last query took about %.2fs!"), $diff), WARNING_DIALOG);
+        $warning = new FusionDirectoryWarning(htmlescape(sprintf(_('LDAP performance is poor: last query took about %.2fs!'), $diff)));
+        $warning->display();
       }
 
       $this->log("LDAP operation: time=".$diff." operation=search('".$this->basedn."', '$filter')");
@@ -929,28 +930,31 @@ class LDAP
 
         /* Automatic or traditional? */
         if (count($classes)) {
-          /* Get name of first matching objectClass */
-          $ocname = "";
-          foreach ($classes as $class) {
-            if (isset($class['MUST']) && in_array($type, $class['MUST'])) {
+          if ($type == 'l') {
+            /* Locality has l as MAY so autodetection fails */
+            $ocname = 'locality';
+          } else {
+            /* Get name of first matching objectClass */
+            $ocname = '';
+            foreach ($classes as $class) {
+              if (isset($class['MUST']) && in_array($type, $class['MUST'])) {
+                /* Look for first classes that is structural... */
+                if (isset($class['STRUCTURAL'])) {
+                  $ocname = $class['NAME'];
+                  break;
+                }
 
-              /* Look for first classes that is structural... */
-              if (isset($class['STRUCTURAL'])) {
-                $ocname = $class['NAME'];
-                break;
-              }
-
-              /* Look for classes that are auxiliary... */
-              if (isset($class['AUXILIARY'])) {
-                $ocname = $class['NAME'];
+                /* Look for classes that are auxiliary... */
+                if (isset($class['AUXILIARY'])) {
+                  $ocname = $class['NAME'];
+                }
               }
             }
           }
 
           /* Bail out, if we've nothing to do... */
           if ($ocname == '') {
-            msg_dialog::display(_('Internal error'), sprintf(_('Cannot automatically create subtrees with RDN "%s": no object class found!'), $type), FATAL_ERROR_DIALOG);
-            exit();
+            throw new FusionDirectoryError(htmlescape(sprintf(_('Cannot automatically create subtrees with RDN "%s": no object class found!'), $type)));
           }
 
           /* Assemble_entry */
@@ -966,14 +970,18 @@ class LDAP
           $na[$type] = $param;
 
           // Fill in MUST values - but do not overwrite existing ones.
-          if (is_array($classes[$ocname]['MUST'])) {
-            foreach ($classes[$ocname]['MUST'] as $attr) {
-              if (isset($na[$attr]) && !empty($na[$attr])) {
-                continue;
+          $oc = $ocname;
+          do {
+            if (isset($classes[$oc]['MUST']) && is_array($classes[$oc]['MUST'])) {
+              foreach ($classes[$oc]['MUST'] as $attr) {
+                if (isset($na[$attr]) && !empty($na[$attr])) {
+                  continue;
+                }
+                $na[$attr] = 'filled';
               }
-              $na[$attr] = 'filled';
             }
-          }
+            $oc = ($classes[$oc]['SUP'] ?? NULL);
+          } while ($oc);
         } else {
           /* Use alternative add... */
           switch ($type) {
@@ -987,8 +995,7 @@ class LDAP
               $na['o']            = $param;
               break;
             default:
-              msg_dialog::display(_('Internal error'), sprintf(_('Cannot automatically create subtrees with RDN "%s": not supported'), $type), FATAL_ERROR_DIALOG);
-              exit();
+              throw new FusionDirectoryError(htmlescape(sprintf(_('Cannot automatically create subtrees with RDN "%s": not supported'), $type)));
           }
         }
         $this->cd($cdn);
@@ -999,13 +1006,10 @@ class LDAP
           logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $na, 'Content');
           logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->get_error(), 'LDAP error');
 
-          msg_dialog::display(_('LDAP error'), msgPool::ldaperror($this->get_error(), $cdn, LDAP_ADD, get_class()), LDAP_ERROR);
-          return FALSE;
+          throw new FusionDirectoryLdapError($cdn, LDAP_ADD, $this->get_error(), $this->get_errno());
         }
       }
     }
-
-    return TRUE;
   }
 
 
@@ -1103,30 +1107,24 @@ class LDAP
   /*!
    * \brief  Generates an ldif for all entries matching the filter settings, scope and limit.
    *
-   * \param  $dn           The entry to export.
+   * \param  string $dn       The entry to export.
    *
-   * \param  $filter       Limit the exported object to those maching this filter.
+   * \param  string $filter   Limit the exported object to those maching this filter.
    *
-   * \param  $scope        'base', 'sub' .. see manpage for 'ldapmodify' for details.
+   * \param  string $scope    'base', 'sub' .. see manpage for 'ldapmodify' for details.
    *
-   * \param  $limit        Limits the result.
+   * \param  int $limit       Limits the result.
    */
-  function generateLdif ($dn, $filter = "(objectClass=*)", $scope = 'sub', $limit = 0)
+  function generateLdif (string $dn, string $filter = '(objectClass=*)', string $scope = 'sub', int $limit = 0): string
   {
-    // Ensure that limit is numeric if not skip here.
-    if (!empty($limit) && !is_numeric($limit)) {
-      trigger_error(sprintf("Invalid parameter for limit '%s', a numeric value is required."), $limit);
-      return NULL;
-    }
-    $limit = (!$limit) ? '' : ' -z '.$limit;
+    $limit = (($limit == 0) ? '' : ' -z '.$limit);
 
     // Check scope values
     $scope = trim($scope);
     if (!empty($scope) && !in_array($scope, ['base', 'one', 'sub', 'children'])) {
-      trigger_error(sprintf("Invalid parameter for scope '%s', please use 'base', 'one', 'sub' or 'children'."), $scope);
-      return NULL;
+      throw new LDIFExportException(sprintf('Invalid parameter for scope "%s", please use "base", "one", "sub" or "children".'), $scope);
     }
-    $scope = (!empty($scope)) ? ' -s '.$scope : '';
+    $scope = (empty($scope) ? '' : ' -s '.$scope);
 
     // Prepare parameters to be valid for shell execution
     $dn     = escapeshellarg($dn);
@@ -1157,12 +1155,10 @@ class LDAP
 
       // Close the process and check its return value
       if (proc_close($process) != 0) {
-        $this->error = $err;
-        return NULL;
+        throw new LDIFExportException($err);
       }
     } else {
-      $this->error = _("proc_open failed to execute ldapsearch");
-      return NULL;
+      throw new LDIFExportException(_('proc_open failed to execute ldapsearch'));
     }
     return $res;
   }
@@ -1334,9 +1330,14 @@ class LDAP
 
       /* Create missing trees */
       $this->cd($config->current['BASE']);
-      $this->create_missing_trees($srp, preg_replace('/^[^,]+,/', '', $dn));
+      try {
+        $this->create_missing_trees($srp, preg_replace('/^[^,]+,/', '', $dn));
+      } catch (FusionDirectoryError $error) {
+        $error->display();
+      }
       $this->cd($dn);
 
+      $operation = LDAP_MOD;
       if (!$modify) {
         $this->cat($srp, $dn);
         if ($this->count($srp)) {
@@ -1355,6 +1356,7 @@ class LDAP
           $ret = $this->modify($data);
         } else {
           /* The destination entry doesn't exists, create it */
+          $operation = LDAP_ADD;
           $ret = $this->add($data);
         }
       } else {
@@ -1364,7 +1366,8 @@ class LDAP
     }
 
     if (!$this->success()) {
-      msg_dialog::display(_('LDAP error'), msgPool::ldaperror($this->get_error(), $dn, '', get_class()), LDAP_ERROR);
+      $error = new FusionDirectoryLdapError($dn, $operation, $this->get_error(), $this->get_errno());
+      $error->display();
     }
 
     return $ret;

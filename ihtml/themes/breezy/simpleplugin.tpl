@@ -6,17 +6,17 @@
 
 {if is_array($hiddenPostedInput)}
   {foreach from=$hiddenPostedInput item=hiddenPostedInput_item}
-    <input name="{$hiddenPostedInput_item}" value="1" type="hidden"/>
+    <input name="{$hiddenPostedInput_item|escape}" value="1" type="hidden"/>
   {/foreach}
 {else}
-  <input name="{$hiddenPostedInput}" value="1" type="hidden"/>
+  <input name="{$hiddenPostedInput|escape}" value="1" type="hidden"/>
 {/if}
 
 {if isset($focusedField)}
   <!-- Place cursor -->
   <script type="text/javascript">
     <!-- // First input field on page
-      focus_field('{$focusedField}');
+      focus_field('{$focusedField|escape}');
     -->
   </script>
 {/if}

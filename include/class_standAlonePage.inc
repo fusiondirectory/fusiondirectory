@@ -120,10 +120,13 @@ class standAlonePage
 
     /* Check if CONFIG_FILE is accessible */
     if (!is_readable(CONFIG_DIR.'/'.CONFIG_FILE)) {
-      msg_dialog::display(_('Fatal error'),
-                          sprintf(_('FusionDirectory configuration %s/%s is not readable. Aborted.'),
-                                  CONFIG_DIR, CONFIG_FILE), FATAL_ERROR_DIALOG);
-      exit();
+      throw new FatalError(
+        htmlescape(sprintf(
+          _('FusionDirectory configuration %s/%s is not readable. Aborted.'),
+          CONFIG_DIR,
+          CONFIG_FILE
+        ))
+      );
     }
 
     /* Parse configuration file */
@@ -136,6 +139,7 @@ class standAlonePage
   function setupSmarty ()
   {
     global $config;
+
     $smarty = get_smarty();
 
     /* Set template compile directory */
@@ -143,22 +147,22 @@ class standAlonePage
 
     /* Check for compile directory */
     if (!(is_dir($smarty->compile_dir) && is_writable($smarty->compile_dir))) {
-      msg_dialog::display(_('Configuration error'),
-                          sprintf(_("Directory '%s' specified as compile directory is not accessible!"),
-                                  $smarty->compile_dir),
-                          FATAL_ERROR_DIALOG);
-      exit();
+      throw new FatalError(
+        htmlescape(sprintf(
+          _('Directory "%s" specified as compile directory is not accessible!'),
+          $smarty->compile_dir
+        ))
+      );
     }
 
     /* Check for old files in compile directory */
     clean_smarty_compile_dir($smarty->compile_dir);
 
-    $smarty->assign('date',     gmdate('D, d M Y H:i:s'));
-    $smarty->assign('params',   '');
-    $smarty->assign('message',  '');
-    $smarty->assign('changed',  FALSE);
-    $smarty->assign('revision', FD_VERSION);
-    $smarty->assign('year',     date('Y'));
+    $smarty->assign('date',       gmdate('D, d M Y H:i:s'));
+    $smarty->assign('params',     '');
+    $smarty->assign('message',    '');
+    $smarty->assign('changed',    FALSE);
+    $smarty->assign('copynotice', copynotice());
 
     $lang = session::get('lang');
     $smarty->assign('lang',         preg_replace('/_.*$/', '', $lang));
@@ -207,7 +211,7 @@ class standAlonePage
         exit;
       } elseif ($config->get_cfg_value('warnssl') == 'TRUE') {
         /* Display SSL mode warning? */
-        $smarty->assign('ssl', sprintf(_('Warning: <a href="%s">Session is not encrypted!</a>'), $ssl));
+        $smarty->assign('ssl', sprintf(htmlescape(_('Warning: %sSession is not encrypted!%s')), '<a href="'.$ssl.'">', '</a>'));
       }
     }
 

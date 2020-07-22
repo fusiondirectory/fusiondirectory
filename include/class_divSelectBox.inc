@@ -196,7 +196,7 @@ class divSelectBox
           if ($s_value2['string'] === '') {
             $s_return .= '&nbsp;';
           } else {
-            $s_return .= htmlentities($s_value2['string'], ENT_COMPAT, 'UTF-8');
+            $s_return .= htmlescape($s_value2['string']);
           }
         } else {
           $s_return .= $s_value2['html'];

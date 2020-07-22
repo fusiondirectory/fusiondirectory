@@ -96,7 +96,7 @@ abstract class DialogAttribute extends SetAttribute
   {
     $id = $this->getHtmlId();
     $buttons            = '';
-    $dialogButtonValue  = '{msgPool type=addButton}';
+    $dialogButtonValue  = msgPool::addButton(FALSE);
     if ($this->isTemplate()) {
       $buttons  .= $this->renderInputField(
         'text', $id,
@@ -105,7 +105,7 @@ abstract class DialogAttribute extends SetAttribute
       $buttons  .= $this->renderInputField(
         'submit', 'add'.$id,
         [
-          'value'           => '{msgPool type=addButton}',
+          'value'           => msgPool::addButton(FALSE),
           'formnovalidate'  => 'formnovalidate',
           'class'           => 'subattribute',
         ]
@@ -123,7 +123,7 @@ abstract class DialogAttribute extends SetAttribute
     $buttons  .= $this->renderInputField(
       'submit', 'del'.$id,
       [
-        'value'           => '{msgPool type=delButton}',
+        'value'           => msgPool::delButton(FALSE),
         'formnovalidate'  => 'formnovalidate',
         'class'           => 'subattribute',
       ]

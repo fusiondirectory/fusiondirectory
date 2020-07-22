@@ -1,8 +1,9 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
+
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2019  FusionDirectory
+  Copyright (C) 2011-2020  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -34,7 +35,7 @@ class baseSelector
   private $action;
   private $height         = 500;
   private $submitButton   = TRUE;
-  protected $tree         = '';
+  protected $tree         = NULL;
   protected $pathMapping  = [];
   protected $lastState;
 
@@ -181,7 +182,8 @@ class baseSelector
       return TRUE;
     }
 
-    $this->renderTree();
+    /* Force tree render next time render() is called */
+    $this->tree = NULL;
 
     $this->lastState = TRUE;
     return TRUE;
@@ -190,105 +192,62 @@ class baseSelector
   protected function renderTree ()
   {
     global $config;
-    $link = "onclick=\"\$('bs_rebase_".$this->pid."').value='".base64_encode($config->current['BASE'])."';  $('submit_tree_base_".$this->pid."').click();\"";
-    $this->tree = '<input class="base-selector" type="text" name="'.$this->getInputHtmlId().'"'.
-                  ' id="'.$this->getInputHtmlId().'"'.
-                  ' onkeydown="$(\'bs_'.$this->pid.'\').hide()"'.
-                  ' onfocus="$(\'bs_'.$this->pid.'\').hide()"'.
-                  ' onmouseover="Element.clonePosition($(\'bs_'.$this->pid.'\'), \''.$this->getInputHtmlId().'\', {setHeight: false, setWidth: false, offsetTop:(Element.getHeight(\''.$this->getInputHtmlId().'\'))});$(\'bs_'.$this->pid.'\').show();"'.
-                  ' onmouseout="rtimer= Element.hide.delay(0.25, \'bs_'.$this->pid.'\')"'.
-                  ' value="'.htmlentities($this->pathMapping[$this->base], ENT_COMPAT, 'UTF-8').'"/>';
 
-    // Autocompleter
-    $this->tree .= "<div id='autocomplete_".$this->pid."' class='autocomplete'></div>".
-                  "<script type='text/javascript'>".
-                  "new Ajax.Autocompleter('".$this->getInputHtmlId()."', 'autocomplete_".$this->pid."', 'autocomplete.php?type=base', { minChars: 3, frequency: 0.5 });";
-    if ($this->submitButton) {
-      $this->tree .= "$('".$this->getInputHtmlId()."').observe('keypress', function(event) { if(event.keyCode == Event.KEY_RETURN) { $('submit_base_".$this->pid."').click(); } });";
-    }
-    $this->tree .= "</script>";
-
-    $selected     = ($this->base == $config->current['BASE'] ? 'Selected' : '');
-    $this->tree   .= "<div class='treeList' style='display:none;max-height:".$this->height."px' id='bs_".$this->pid."' onmouseover=\"window.clearTimeout(rtimer);\" onmouseout=\"rtimer= Element.hide.delay(0.25, 'bs_".$this->pid."')\"><a class='treeList$selected' $link>/&nbsp;["._("Root")."]</a><ul class='treeList'>\n";
-    $first        = TRUE;
-    $last_indent  = 2;
-    $last_base    = '';
-
+    /* Build tree */
     $departmentInfo = $config->getDepartmentInfo();
-
-    foreach ($this->pathMapping as $base => $dummy) {
-      // Skip root for tree
+    $tree           = [];
+    foreach (array_keys($this->pathMapping) as $base) {
       if ($base == $config->current['BASE']) {
+        /* Skip root */
         continue;
       }
 
-      // Build path style display
-      $elements = explode(',', substr($base, 0, strlen($base) - strlen($config->current['BASE'])));
+      $elements     = explode(',', substr($base, 0, strlen($base) - strlen($config->current['BASE'])));
+      /* Remove last one */
+      array_pop($elements);
+      /* Remove first one */
+      array_shift($elements);
 
-      $indent = count($elements);
-      if (!$first && ($indent == $last_indent)) {
-        $this->tree .= "</li>\n";
-      } elseif ($indent > $last_indent) {
-        $parent_base = implode(',', array_slice($elements, 1)).$config->current['BASE'];
-        if (!$first && ($parent_base != $last_base)) {
+      $array        =& $tree;
+      $elementBase  = $config->current['BASE'];
+      foreach (array_reverse($elements) as $element) {
+        $elementBase = $element.','.$elementBase;
+        if (!isset($array[$elementBase])) {
           /* Our parent is missing, add it but without link */
-          $this->tree .= "</li>\n";
-          $this->tree .= '<li><a title="'.$parent_base.'">'.
-                        '<img class="center" '.
-                        'src="'.htmlentities($departmentInfo[$parent_base]['img'], ENT_COMPAT, 'UTF-8').'" '.
-                        'alt=""/>&nbsp;'.
-                        $this->escape($departmentInfo[$parent_base]['name']).
-                        (($departmentInfo[$parent_base]['description'] == '') ? '' : '&nbsp;<span class="informal">['.$this->escape($departmentInfo[$parent_base]['description']).']</span>').
-                        '</a>';
+          $array[$elementBase] = [
+            'tree'        => [],
+            'selected'    => FALSE,
+            'link'        => FALSE,
+            'img'         => $departmentInfo[$elementBase]['img'],
+            'name'        => $departmentInfo[$elementBase]['name'],
+            'description' => $departmentInfo[$elementBase]['description'],
+          ];
         }
-        $this->tree .= "<ul>\n";
-      } elseif ($indent < $last_indent) {
-        for ($i = 0; $i < ($last_indent - $indent); $i++) {
-          $this->tree .= "</li></ul>\n";
-        }
-        $this->tree .= "</li>\n";
+        /* Go down one level */
+        $array =& $array[$elementBase]['tree'];
       }
-      $selected   = ($this->base == $base ? ' class="treeListSelected"' : '');
-      $link       = "onclick=\"\$('bs_rebase_".$this->pid."').value='".base64_encode($base)."';$('submit_tree_base_".$this->pid."').click();\"";
-      $this->tree .= '<li><a'.$selected.' '.$link.' title="'.$base.'">'.
-                    '<img class="center" '.
-                    'src="'.htmlentities($departmentInfo[$base]['img'], ENT_COMPAT, 'UTF-8').'" '.
-                    'alt=""/>&nbsp;'.
-                    $this->escape($departmentInfo[$base]['name']).
-                    (($departmentInfo[$base]['description'] == '') ? '' : '&nbsp;<span class="informal">['.$this->escape($departmentInfo[$base]['description']).']</span>').
-                    '</a>';
 
-      $last_indent  = $indent;
-      $last_base    = $base;
-      $first        = FALSE;
+      $array[$base] = [
+        'tree'        => [],
+        'selected'    => ($this->base == $base),
+        'link'        => TRUE,
+        'img'         => $departmentInfo[$base]['img'],
+        'name'        => $departmentInfo[$base]['name'],
+        'description' => $departmentInfo[$base]['description'],
+      ];
     }
 
-    // Close tree
-    for ($i = 1; $i < $last_indent; $i++) {
-      if (($i > 1) || (!$first)) {
-        $this->tree .= "</li>";
-      }
-      $this->tree .= "</ul>\n";
-    }
-    $this->tree .= "</div>\n";
+    $smarty = get_smarty();
+    $smarty->assign('htmlid',       $this->getInputHtmlId());
+    $smarty->assign('pid',          $this->pid);
+    $smarty->assign('currentValue', $this->pathMapping[$this->base]);
+    $smarty->assign('submitButton', $this->submitButton);
+    $smarty->assign('height',       $this->height);
+    $smarty->assign('selected',     ($this->base == $config->current['BASE']));
+    $smarty->assign('rootBase',     $config->current['BASE']);
+    $smarty->assign('tree',         $tree);
 
-    // Draw submitter if required
-    if ($this->submitButton) {
-      $this->tree .= "&nbsp;<input class='center' type='image' src='geticon.php?context=actions&amp;icon=submit&amp;size=16' title='"._("Submit")."' name='submit_base_".$this->pid."' id='submit_base_".$this->pid."' alt='"._("Submit")."'>";
-    }
-    $this->tree .= '<input type="submit" formnovalidate="formnovalidate" style="display:none" name="submit_tree_base_'.$this->pid.'" id="submit_tree_base_'.$this->pid.'"/>';
-    $this->tree .= '<input type="hidden" name="bs_rebase_'.$this->pid.'" id="bs_rebase_'.$this->pid.'"/>';
-    $this->tree .= '<input type="hidden" name="BPID" id="BPID" value="'.$this->pid.'"/>';
-  }
-
-  /*!
-   * \brief Replace all space of the string by non-breaking space and escapes HTML
-   *
-   * \param String $string The string which his space will be replaced
-   */
-  function escape (string $string): string
-  {
-    return str_replace(' ', '&nbsp;', htmlentities($string, ENT_COMPAT, 'UTF-8'));
+    $this->tree = $smarty->fetch(get_template_path('baseselector.tpl'));
   }
 
   /*!
@@ -298,6 +257,10 @@ class baseSelector
    */
   function render (): string
   {
+    if (!isset($this->tree)) {
+      $this->renderTree();
+    }
+
     return $this->tree;
   }
 

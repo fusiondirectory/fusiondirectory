@@ -131,10 +131,22 @@ class groupManagement extends management
             if (isset($attrs['macAddress'][0])) {
               $mac[] = $attrs['macAddress'][0];
             } else {
-              msg_dialog::display(_('Action canceled'), sprintf(_('System %s has no mac address defined, cannot trigger action'), $member), ERROR_DIALOG);
+              $error = new FusionDirectoryError(
+                htmlescape(sprintf(
+                  _('System %s has no mac address defined, cannot trigger action'),
+                  $member
+                ))
+              );
+              $error->display();
             }
           } else {
-            msg_dialog::display(_('Action canceled'), sprintf(_('Could not find system %s, cannot trigger action'), $member), ERROR_DIALOG);
+            $error = new FusionDirectoryError(
+              htmlescape(sprintf(
+                _('Could not find system %s, cannot trigger action'),
+                $member
+              ))
+            );
+            $error->display();
           }
         }
       }
@@ -152,7 +164,13 @@ class groupManagement extends management
     if ($triggered && in_array($event, ['reinstall','update'])) {
       foreach ($mac as $key => $mac_address) {
         if ($o_queue->is_currently_installing($mac_address)) {
-          msg_dialog::display(_('Action canceled'), sprintf(_('System %s is currently installing'), $dn), ERROR_DIALOG);
+          $error = new FusionDirectoryError(
+            htmlescape(sprintf(
+              _('System %s is currently installing, cannot trigger action'),
+              $dn
+            ))
+          );
+          $error->display();
           unset($mac[$key]);
         }
       }
@@ -170,15 +188,16 @@ class groupManagement extends management
       if ($triggered) {
         $res = $o_queue->append($this->dialogObject);
         if ($o_queue->is_error()) {
-          msg_dialog::display(_('Infrastructure service'), msgPool::siError($o_queue->get_error()), ERROR_DIALOG);
+          $error = new FusionDirectoryError(msgPool::siError($o_queue->get_error()));
+          $error->display();
         } else {
           if (is_array($res) && count($res) > 1) {
-            msg_dialog::display(_('Action triggered'), sprintf(_('Action called without error (results were "%s")'), implode(', ', $res)), INFO_DIALOG);
+            msg_dialog::display(_('Action triggered'), htmlescape(sprintf(_('Action called without error (results were "%s")'), implode(', ', $res))), INFO_DIALOG);
           } else {
             if (is_array($res)) {
               $res = $res[0];
             }
-            msg_dialog::display(_('Action triggered'), sprintf(_('Action called without error (result was "%s")'), $res), INFO_DIALOG);
+            msg_dialog::display(_('Action triggered'), htmlescape(sprintf(_('Action called without error (result was "%s")'), $res)), INFO_DIALOG);
           }
         }
         $this->closeDialogs();
@@ -201,7 +220,8 @@ class groupManagement extends management
       $o_queue = new supportDaemon();
       $o_queue->append($this->dialogObject);
       if ($o_queue->is_error()) {
-        msg_dialog::display(_('Infrastructure service'), msgPool::siError($o_queue->get_error()), ERROR_DIALOG);
+        $error = new FusionDirectoryError(msgPool::siError($o_queue->get_error()));
+        $error->display();
       }
       $this->closeDialogs();
     }

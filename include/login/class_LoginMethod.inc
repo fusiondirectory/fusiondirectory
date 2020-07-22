@@ -36,7 +36,7 @@ class LoginMethod
   }
 
   /*! \brief Runs schemaCheck if activated in configuration */
-  static function runSchemaCheck ()
+  static function runSchemaCheck (): bool
   {
     global $config;
     if ($config->get_cfg_value('schemaCheck') != 'TRUE') {
@@ -51,9 +51,10 @@ class LoginMethod
     foreach ($str as $tr) {
       if (!$tr['STATUS']) {
         if ($tr['IS_MUST_HAVE']) {
-          return _('LDAP schema check reported errors:').'<br/><br/><i>'.$tr['MSG'].'</i>';
+          throw new FusionDirectoryError(htmlescape(_('LDAP schema check reported errors:')).'<br/><br/><i>'.htmlescape($tr['MSG']).'</i>');
         } else {
-          msg_dialog::display(_('LDAP schema error'), $tr['MSG'], WARNING_DIALOG);
+          $warning = new FusionDirectoryWarning(nl2br(htmlescape(sprintf(_("LDAP schema error:\n%s"), $tr['MSG']))));
+          $warning->display();
         }
       }
     }
@@ -61,7 +62,7 @@ class LoginMethod
   }
 
   /*! \brief Check if locking LDAP branch is here or create it */
-  static function checkForLockingBranch ()
+  static function checkForLockingBranch (): bool
   {
     global $config;
     $ldap = $config->get_ldap_link();
@@ -69,13 +70,19 @@ class LoginMethod
     $attrs = $ldap->fetch();
     if (!count($attrs)) {
       $ldap->cd($config->current['BASE']);
-      $ldap->create_missing_trees(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
+      try {
+        $ldap->create_missing_trees(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
+      } catch (FusionDirectoryError $error) {
+        $error->display();
+      }
     }
+
+    return TRUE;
   }
 
   /*! \brief Check username for invalid characters and check password is not empty
    * Also trims username */
-  static function validateUserInput ()
+  static function validateUserInput (): bool
   {
     global $message, $smarty;
     static::$username = trim(static::$username);
@@ -91,7 +98,7 @@ class LoginMethod
   }
 
   /*! \brief Performs an LDAP bind with $username and $password */
-  static function ldapLoginUser ()
+  static function ldapLoginUser (): bool
   {
     global $ui, $config, $message, $smarty;
     /* Login as user, initialize user ACL's */
@@ -110,7 +117,7 @@ class LoginMethod
   }
 
   /*! \brief Called after successful login, return FALSE if account is expired */
-  static function loginAndCheckExpired ()
+  static function loginAndCheckExpired (): bool
   {
     global $ui, $config, $plist, $message, $smarty;
 
@@ -169,14 +176,20 @@ class LoginMethod
   /*! \brief Run each step in $steps, stop on errors */
   static function runSteps ($steps)
   {
-    foreach ($steps as $step) {
-      $status = static::$step();
-      if (is_string($status)) {
-        msg_dialog::display(_('LDAP error'), $status, LDAP_ERROR);
-        return FALSE;
-      } elseif ($status === FALSE) {
-        return FALSE;
+    try {
+      foreach ($steps as $step) {
+        $status = static::$step();
+        if (is_string($status)) {
+          /* Deprecated */
+          msg_dialog::display(_('LDAP error'), $status, LDAP_ERROR);
+          return FALSE;
+        } elseif ($status === FALSE) {
+          return FALSE;
+        }
       }
+    } catch (FusionDirectoryError $e) {
+      $e->display();
+      return FALSE;
     }
     return TRUE;
   }
@@ -202,19 +215,19 @@ class LoginMethod
     try {
       $method::loginProcess();
     } catch (Exception $e) {
-      $display = '<h1>'._('An unrecoverable error occurred. Please contact your administator.').'</h1><p>';
+      $display = '<h1>'.htmlescape(_('An unrecoverable error occurred. Please contact your administator.')).'</h1><p>';
       if (ini_get('display_errors') == 1) {
-        $display .= nl2br(htmlentities((string)$e, ENT_COMPAT, 'UTF-8'));
+        $display .= nl2br(htmlescape((string)$e));
       } else {
         $display .= 'Error detail display is turned off.';
       }
       $display .= '</p>'."\n";
-      $smarty->assign('headline', _('Fatal error!'));
+      $smarty->assign('headline',       _('Fatal error!'));
       $smarty->assign('headline_image', 'geticon.php?context=status&icon=dialog-error&size=32');
-      $smarty->assign('usePrototype', 'false');
-      $smarty->assign('date',         date('l, dS F Y H:i:s O'));
-      $smarty->assign('lang',         preg_replace('/_.*$/', '', $lang));
-      $smarty->assign('rtl',          Language::isRTL($lang));
+      $smarty->assign('usePrototype',   'false');
+      $smarty->assign('date',           date('l, dS F Y H:i:s O'));
+      $smarty->assign('lang',           preg_replace('/_.*$/', '', $lang));
+      $smarty->assign('rtl',            Language::isRTL($lang));
 
       $smarty->display(get_template_path('headers.tpl'));
       echo $display;

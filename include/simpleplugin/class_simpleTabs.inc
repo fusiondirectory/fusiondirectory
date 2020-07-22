@@ -65,10 +65,12 @@ class simpleTabs
     $this->dn           = $dn;
 
     if (!count($data)) {
-      $data[] = ['CLASS' => 'plugin','NAME' => 'Error'];
-      msg_dialog::display(_('Error'),
-        sprintf(_('No plugin definitions found to initialize "%s", please check your configuration file.'), get_class($this)),
-        ERROR_DIALOG);
+      throw new FusionDirectoryException(
+        sprintf(
+          _('No plugin definitions found to initialize "%s", please check your configuration file.'),
+          get_class($this)
+        )
+      );
     }
 
     $baseobject         = NULL;
@@ -283,9 +285,6 @@ class simpleTabs
         $title = mb_substr($title, 0, 25, 'UTF-8')."...";
       }
 
-      /* nobr causes w3c warnings so we use &nbsp; to keep the tab name in one line */
-      $title = str_replace(' ', '&nbsp;', $title);
-
       $cssClasses = $style[$index];
 
       /* Take care about notifications */
@@ -309,7 +308,7 @@ class simpleTabs
           'onclick="return true;" '.
           'href="'."javascript:document.mainform.arg.value='$class';document.mainform.submit();".'">';
       }
-      $display .= $title.'</a></div></td>';
+      $display .= htmlescape($title).'</a></div></td>';
     }
 
     $display .= "<td>\n";
@@ -324,7 +323,8 @@ class simpleTabs
   function delete ()
   {
     if (!$this->getBaseObject()->acl_is_removeable()) {
-      msg_dialog::display(_('Permission'), msgPool::permDelete($this->getBaseObject()->dn), ERROR_DIALOG);
+      $error = new SimplePluginPermissionError($this, msgPool::permDelete($this->getBaseObject()->dn));
+      $error->display();
       return FALSE;
     }
 
@@ -342,7 +342,7 @@ class simpleTabs
   /*!
    * \brief Check
    */
-  public function check ()
+  public function check (): array
   {
     global $config;
     $messages = [];
@@ -354,7 +354,10 @@ class simpleTabs
       $ldap->search($filter, ['dn']);
       while ($attrs = $ldap->fetch()) {
         if ($attrs['dn'] != $this->getBaseObject()->dn) {
-          $messages[] = msgPool::duplicated($this->getBaseObject()->attributesAccess['_template_cn']->getLabel(), $attrs['dn']);
+          $messages[] = new SimplePluginCheckError(
+            $this->getBaseObject()->attributesAccess['_template_cn'],
+            msgPool::duplicated($this->getBaseObject()->attributesAccess['_template_cn']->getLabel(), $attrs['dn'])
+          );
         }
       }
       return $messages;
@@ -402,7 +405,12 @@ class simpleTabs
       logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $new_dn, 'Saving');
     } catch (FusionDirectoryException $e) {
       return [
-        sprintf(_('Failed to compute DN for object: %s'), $e->getMessage())
+        new SimplePluginError(
+          $baseobject,
+          htmlescape(sprintf(_('Failed to compute DN for object: %s'), $e->getMessage())),
+          0,
+          $e
+        )
       ];
     }
 
@@ -419,7 +427,10 @@ class simpleTabs
         if (($error = $baseobject->move($this->dn, $new_dn)) === TRUE) {
           $this->dn = $new_dn;
         } else {
-          $errors[] = sprintf(_('Move from "%s" to "%s" failed: %s'), $this->dn, $new_dn, $error);
+          $errors[] = new SimplePluginError(
+            $baseobject,
+            htmlescape(sprintf(_('Move from "%s" to "%s" failed: %s'), $this->dn, $new_dn, $error))
+          );
           return $errors;
         }
       }

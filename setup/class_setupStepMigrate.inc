@@ -463,7 +463,8 @@ class setupStepMigrate extends setupStep
       if (isset($this->rootOC_details['mods'])) {
         $res = $ldap->modify($this->rootOC_details['mods']);
         if (!$res) {
-          msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), $config->current['BASE'], LDAP_MOD, get_class()), LDAP_ERROR);
+          $error = new FusionDirectoryLdapError($config->current['BASE'], LDAP_MOD, $ldap->get_error(), $ldap->get_errno());
+          $error->display();
         }
         $this->checks['adminAccount']->run();
         return $res;
@@ -716,14 +717,13 @@ class setupStepMigrate extends setupStep
           } else {
             $ldap->cd($attrs['dn']);
             if (!$ldap->modify($new_attrs)) {
-              msg_dialog::display(
-                _('Migration error'),
-                sprintf(
-                  _('Cannot migrate entry "%s":').'<br/><br/><i>%s</i>',
-                  $attrs['dn'], $ldap->get_error()
-                ),
-                ERROR_DIALOG
+              $error = new FusionDirectoryError(
+                nl2br(sprintf(
+                  htmlescape(_("Cannot migrate entry \"%s\":\n\n%s")),
+                  htmlescape($attrs['dn']), '<i>'.htmlescape($ldap->get_error()).'</i>'
+                ))
               );
+              $error->display();
               return FALSE;
             }
           }
@@ -779,7 +779,7 @@ class setupStepMigrate extends setupStep
                 $ldap->cat($member, ['dn','uid','cn','memberUid','roleOccupant','objectClass']);
                 if ($member_attrs = $ldap->fetch()) {
                   if (in_array('inetOrgPerson', $member_attrs['objectClass'])) {
-                    $valid_users[]  = htmlentities(($member_attrs['uid'][0] ?? $member_attrs['dn']), ENT_COMPAT, 'UTF-8');
+                    $valid_users[]  = htmlescape(($member_attrs['uid'][0] ?? $member_attrs['dn']));
                     $FD_admin_found = TRUE;
                   } elseif (in_array('posixGroup', $member_attrs['objectClass'])) {
                     $val_users = [];
@@ -787,12 +787,12 @@ class setupStepMigrate extends setupStep
                       for ($e = 0; $e < $member_attrs['memberUid']['count']; $e++) {
                         $ldap->search('(&(objectClass=inetOrgPerson)(uid='.ldap_escape_f($member_attrs['memberUid'][$e]).'))', ['uid','dn']);
                         if ($user_attrs = $ldap->fetch()) {
-                          $val_users[] = htmlentities(($user_attrs['uid'][0] ?? $user_attrs['dn']), ENT_COMPAT, 'UTF-8');
+                          $val_users[] = htmlescape(($user_attrs['uid'][0] ?? $user_attrs['dn']));
                         }
                       }
                     }
                     if (!empty($val_users)) {
-                      $valid_groups[] = htmlentities($member_attrs['cn'][0], ENT_COMPAT, 'UTF-8').'(<i>'.implode(', ', $val_users).'</i>)';
+                      $valid_groups[] = htmlescape($member_attrs['cn'][0]).'(<i>'.implode(', ', $val_users).'</i>)';
                       $FD_admin_found = TRUE;
                     }
                   } elseif (in_array('organizationalRole', $member_attrs['objectClass'])) {
@@ -801,12 +801,12 @@ class setupStepMigrate extends setupStep
                       for ($e = 0; $e < $member_attrs['roleOccupant']['count']; $e ++) {
                         $ldap->cat($member_attrs['roleOccupant'][$e], ['uid','dn'], '(objectClass=inetOrgPerson)');
                         if ($user_attrs = $ldap->fetch()) {
-                          $val_users[] = htmlentities(($user_attrs['uid'][0] ?? $user_attrs['dn']), ENT_COMPAT, 'UTF-8');
+                          $val_users[] = htmlescape(($user_attrs['uid'][0] ?? $user_attrs['dn']));
                         }
                       }
                     }
                     if (!empty($val_users)) {
-                      $valid_roles[]  = htmlentities($member_attrs['cn'][0], ENT_COMPAT, 'UTF-8').'(<i>'.implode(', ', $val_users).'</i>)';
+                      $valid_roles[]  = htmlescape($member_attrs['cn'][0]).'(<i>'.implode(', ', $val_users).'</i>)';
                       $FD_admin_found = TRUE;
                     }
                   }
@@ -973,18 +973,21 @@ class setupStepMigrate extends setupStep
       $ldap->cat($dn);
       if ($ldap->count() == 0) {
         $ldap->cd($config->current['BASE']);
-        $ldap->create_missing_trees(get_ou('aclRoleRDN').$config->current['BASE']);
+        try {
+          $ldap->create_missing_trees(get_ou('aclRoleRDN').$config->current['BASE']);
+        } catch (FusionDirectoryError $error) {
+          $error->display();
+        }
         $ldap->cd($dn);
         $ldap->add($role);
         if (!$ldap->success()) {
-          msg_dialog::display(
-            _('Migration error'),
-            sprintf(
-              _('Cannot add ACL role "%s":').'<br/><br/><i>%s</i>',
-              $dn, $ldap->get_error()
-            ),
-            ERROR_DIALOG
+          $error = new FusionDirectoryError(
+            nl2br(sprintf(
+              htmlescape(_("Cannot add ACL role \"%s\":\n\n%s")),
+              htmlescape($dn), '<i>'.htmlescape($ldap->get_error()).'</i>'
+            ))
           );
+          $error->display();
           return FALSE;
         }
       }
@@ -1149,7 +1152,8 @@ class setupStepMigrate extends setupStep
     if (isset($_POST['destination'])) {
       $destination_dep = get_ou($ou).$_POST['destination'];
     } else {
-      msg_dialog::display(_('LDAP error'), _('Cannot move entries to the requested department!'), ERROR_DIALOG);
+      $error = new FusionDirectoryError(htmlescape(_('Cannot move entries to the requested department!')));
+      $error->display();
       return FALSE;
     }
 
@@ -1161,7 +1165,7 @@ class setupStepMigrate extends setupStep
           $dn   = $object['dn'];
           $d_dn = preg_replace('/,.*$/', ','.$destination_dep, $dn);
           if ($only_ldif) {
-            $object['ldif'] = sprintf(_("Entry will be moved from:<br/>\t%s<br/>to:<br/>\t%s"), htmlentities($dn, ENT_COMPAT, 'UTF-8'), htmlentities($d_dn, ENT_COMPAT, 'UTF-8'));
+            $object['ldif'] = nl2br(htmlescape(sprintf(_("Entry will be moved from:\n\t%s\nto:\n\t%s"), $dn, $d_dn)));
 
             /* Check if there are references to this object */
             $ldap->search('(&(member='.ldap_escape_f($dn).')(|(objectClass=gosaGroupOfNames)(objectClass=groupOfNames)))', ['dn']);

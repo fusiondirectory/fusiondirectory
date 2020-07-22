@@ -60,9 +60,10 @@ class SnapshotHandler
       $this->snapshotRDN = $config->get_cfg_value('snapshotBase');
       $ldap = $config->get_ldap_link();
       $ldap->cd($config->current['BASE']);
-      $ldap->create_missing_trees($this->snapshotRDN);
-      if (!$ldap->success()) {
-        msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), $this->snapshotRDN, '', get_class()), LDAP_ERROR);
+      try {
+        $ldap->create_missing_trees($this->snapshotRDN);
+      } catch (FusionDirectoryError $error) {
+        $error->display();
       }
     }
   }
@@ -227,9 +228,17 @@ class SnapshotHandler
     /* Create object */
     $data = '';
     foreach ($dns as $tmp_dn) {
-      $data .= $ldap->generateLdif($tmp_dn, '(!(objectClass=gosaDepartment))', 'sub');
-      if (!$ldap->success()) {
-        msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), $tmp_dn, '', get_class()), LDAP_ERROR);
+      try {
+        $data .= $ldap->generateLdif($tmp_dn, '(!(objectClass=gosaDepartment))', 'sub');
+      } catch (LDIFExportException $e) {
+        $error = new FusionDirectoryError(
+          htmlescape(sprintf(
+            _('Failed to create snapshot: %s'),
+            $e->getMessage()
+          ))
+        );
+        $error->display();
+        return;
       }
     }
 
@@ -254,13 +263,18 @@ class SnapshotHandler
 
     /* Insert this new snapshot */
     $ldap->cd($this->snapshotRDN);
-    $ldap->create_missing_trees($this->snapshotRDN);
-    $ldap->create_missing_trees($new_base);
+    try {
+      $ldap->create_missing_trees($this->snapshotRDN);
+      $ldap->create_missing_trees($new_base);
+    } catch (FusionDirectoryError $error) {
+      $error->display();
+    }
     $ldap->cd($new_dn);
     $ldap->add($target);
 
     if (!$ldap->success()) {
-      msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), $new_base, '', get_class()), LDAP_ERROR);
+      $error = new FusionDirectoryLdapError($new_dn, LDAP_ADD, $ldap->get_error(), $ldap->get_errno());
+      $error->display();
     }
     logging::log('snapshot', 'create', $new_dn, array_keys($target), $ldap->get_error());
   }
@@ -277,7 +291,8 @@ class SnapshotHandler
     $ldap->cd($config->current['BASE']);
     $ldap->rmdir_recursive($dn);
     if (!$ldap->success()) {
-      msg_dialog::display(_("LDAP error"), msgPool::ldaperror($ldap->get_error(), $dn), LDAP_ERROR);
+      $error = new FusionDirectoryLdapError($dn, LDAP_DEL, $ldap->get_error(), $ldap->get_errno());
+      $error->display();
     }
     logging::log('snapshot', 'delete', $dn, [], $ldap->get_error());
   }
@@ -388,11 +403,13 @@ class SnapshotHandler
       /* Prepare import string */
       $data = gzuncompress($attrs['gosaSnapshotData'][0]);
       if ($data === FALSE) {
-        msg_dialog::display(_('Error'), _('There was a problem uncompressing snapshot data'), ERROR_DIALOG);
+        $error = new FusionDirectoryError(htmlescape(_('There was a problem uncompressing snapshot data')));
+        $error->display();
         return FALSE;
       }
     } else {
-      msg_dialog::display(_('Error'), _('Snapshot data could not be fetched'), ERROR_DIALOG);
+      $error = new FusionDirectoryError(htmlescape(_('Snapshot data could not be fetched')));
+      $error->display();
       return FALSE;
     }
 
@@ -401,12 +418,14 @@ class SnapshotHandler
       $ldap->import_complete_ldif($data, FALSE, FALSE);
       logging::log('snapshot', 'restore', $dn, [], $ldap->get_error());
       if (!$ldap->success()) {
-        msg_dialog::display(_('LDAP error'), msgPool::ldaperror($ldap->get_error(), $dn, '', get_class()), LDAP_ERROR);
+        $error = new FusionDirectoryLdapError($dn, NULL, $ldap->get_error(), $ldap->get_errno());
+        $error->display();
         return FALSE;
       }
       return $attrs['gosaSnapshotDN'][0];
     } catch (LDIFImportException $e) {
-      msg_dialog::display(_('LDAP error'), $e->getMessage(), ERROR_DIALOG);
+      $error = new FusionDirectoryError($e->getMessage(), 0, $e);
+      $error->display();
       logging::log('snapshot', 'restore', $dn, [], $e->getMessage());
       return FALSE;
     }

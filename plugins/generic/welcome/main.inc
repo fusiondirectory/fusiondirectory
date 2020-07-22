@@ -20,11 +20,10 @@
 */
 
 if (!$cleanup) {
-  $smarty->assign('iconmenu', $plist->show_iconmenu());
-  $smarty->assign('headline', sprintf(_('Welcome %s!'), $ui->cn));
+  $smarty->assign('iconmenu',       $plist->show_iconmenu());
+  $smarty->assign('headline',       sprintf(_('Welcome %s!'), $ui->cn));
   $smarty->assign('headline_image', 'geticon.php?context=applications&icon=config-welcome&size=48');
-  $smarty->assign('year', date('Y'));
-  $smarty->assign('revision', FD_VERSION);
+  $smarty->assign('copynotice',     copynotice());
 
   $display = $smarty->fetch(get_template_path('welcome.tpl', TRUE));
 }

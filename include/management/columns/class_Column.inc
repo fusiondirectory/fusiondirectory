@@ -188,7 +188,7 @@ class Column
 
   protected function renderSingleValue (ListingEntry $entry, string $value): string
   {
-    return htmlentities($value, ENT_COMPAT, 'UTF-8');
+    return htmlescape($value);
   }
 
   function getRawExportValues (ListingEntry $entry): array

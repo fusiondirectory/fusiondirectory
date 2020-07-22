@@ -74,7 +74,7 @@ abstract class DialogOrderedArrayAttribute extends OrderedArrayAttribute
       'submit', 'add'.$id.'_dialog',
       [
         'class'           => 'dialog subattribute',
-        'value'           => '{msgPool type=addButton}',
+        'value'           => msgPool::addButton(FALSE),
         'formnovalidate'  => 'formnovalidate'
       ]
     );

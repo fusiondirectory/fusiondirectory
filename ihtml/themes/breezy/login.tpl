@@ -21,7 +21,7 @@
     <div class="optional">
       {t}Please use your username and your password to log into the site administration system.{/t}<br />
       {if $ssl}<span class="warning">{$ssl}</span>{/if}
-      {if $lifetime}<span class="warning">{$lifetime}</span>{/if}
+      {if $lifetime}<span class="warning">{$lifetime|escape}</span>{/if}
     </div>
 
     <div>
@@ -53,7 +53,7 @@
         if (document.cookie.indexOf( "fdtest=") > -1 )
           document.cookie = "fdtest=empty;path=/;expires=Thu, 01-Jan-1970 00:00:01 GMT";
         else
-          document.write("{$cookies}");
+          document.write("<b>{t}Warning{/t}</b> {t}Your browser has cookies disabled. Please enable cookies and reload this page before logging in!{/t}");
         -->
        </script>
       </p>
@@ -61,7 +61,7 @@
   <div id="window-footer" class="plugbottom">
     <div>
       <!-- Display error message on demand -->
-      {$message}
+      {$message|escape}
     </div>
     <div>
       <input type="submit" name="login" value="{t}Sign in{/t}" title="{t}Click here to log in{/t}"/>
@@ -79,7 +79,7 @@
 <script type="text/javascript">
 <!--
   enable_keyPress = false;
-  focus_field("{$focusfield}");
+  focus_field("{$focusfield|escape}");
   next_msg_dialog();
 -->
 </script>

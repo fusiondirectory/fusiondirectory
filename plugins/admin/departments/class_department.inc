@@ -162,15 +162,18 @@ class department extends simplePlugin
   /* Check values */
   function check (): array
   {
-    $message = parent::check();
+    $errors = parent::check();
 
     $namingAttr = static::$namingAttr;
 
     if (($namingAttr == 'ou') && tests::is_department_name_reserved($this->$namingAttr)) {
-      $message[] = msgPool::reserved(_('Name'));
+      $errors[] = new SimplePluginCheckError(
+        $this,
+        msgPool::reserved(_('Name'))
+      );
     }
 
-    return $message;
+    return $errors;
   }
 
   function get_allowed_bases (): array

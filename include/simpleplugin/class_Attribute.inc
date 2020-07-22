@@ -121,6 +121,15 @@ class Attribute
     $this->manageAttributes($this->getValue());
   }
 
+  /*! \brief Get parent plugin instance, if any
+   *
+   * \return simplePlugin|null
+   */
+  function getParent ()
+  {
+    return $this->plugin;
+  }
+
   function setIsSubAttribute (bool $bool)
   {
     $this->isSubAttribute = $bool;
@@ -165,6 +174,15 @@ class Attribute
   function isInLdap (): bool
   {
     return $this->inLdap;
+  }
+
+  /*! \brief Get an example value
+   *
+   * \return string|null
+   */
+  public function getExample ()
+  {
+    return NULL;
   }
 
   function checkValue ($value)
@@ -576,7 +594,10 @@ class Attribute
             continue;
           }
 
-          return msgPool::duplicated($this->getLabel(), $attrs['dn']);
+          return new SimplePluginCheckError(
+            $this,
+            msgPool::duplicated($this->getLabel(), $attrs['dn'])
+          );
         }
       }
     }
@@ -598,15 +619,9 @@ class Attribute
       if ($readOnly) {
         $currentValue = $this->getValue();
         if (is_array($currentValue)) {
-          $input = '{literal}'.implode('<br/>', array_map(
-            function ($v)
-            {
-              return htmlentities($v, ENT_COMPAT, 'UTF-8');
-            },
-            $currentValue
-          )).'{/literal}';
+          $input = '{literal}'.implode('<br/>', array_map('htmlescape', $currentValue)).'{/literal}';
         } else {
-          $input = '{literal}'.htmlentities($currentValue, ENT_COMPAT, 'UTF-8').'{/literal}';
+          $input = '{literal}'.htmlescape($currentValue).'{/literal}';
         }
       } elseif ($this->isTemplate()) {
         $input = $this->renderTemplateInput();
@@ -615,7 +630,7 @@ class Attribute
       }
       $attributes[$this->getLdapName()] = [
         'htmlid'        => $this->getForHtmlId(),
-        'label'         => '{literal}'.$this->getLabel().'{/literal}',
+        'label'         => '{literal}'.htmlescape($this->getLabel()).'{/literal}',
         'description'   => ($this->isRequired() ? sprintf(_("%s (required)"), $this->getDescription()) : $this->getDescription()),
         'input'         => $input,
         'subattribute'  => $this->isSubAttribute,
@@ -772,16 +787,16 @@ class Attribute
     return ($this->getValue() == $value);
   }
 
-  protected function renderInputField (string $type, string $name, array $attributes = []): string
+  protected function renderInputField (string $type, string $name, array $attributes = [], bool $smartyEscape = TRUE): string
   {
-    $input  = '<input type="'.$type.'" '.
-              'name="'.$name.'" id="'.$name.'"'.
+    $input  = '<input type="'.htmlescape($type).'" '.
+              'name="'.htmlescape($name).'" id="'.htmlescape($name).'"'.
               ($this->disabled ? ' disabled="disabled"' : '');
     foreach ($attributes as $label => $value) {
-      $input .= ' '.$label.'="'.$value.'"';
+      $input .= ' '.$label.'="'.htmlescape($value).'"';
     }
     $input .= '/>';
-    return $input;
+    return ($smartyEscape ? '{literal}'.$input.'{/literal}' : $input);
   }
 }
 
@@ -866,7 +881,7 @@ class DisplayLDAPAttribute extends Attribute
     if ($this->allowHTML) {
       $value = $this->getValue();
     } else {
-      $value = htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8');
+      $value = htmlescape($this->getValue());
     }
     if ($this->allowSmarty) {
       return $value;
@@ -919,7 +934,7 @@ class DisplayLDAPArrayAttribute extends Attribute
     if (is_array($value)) {
       $value = join(', ', $value);
     }
-    return '{literal}'.htmlentities($value, ENT_COMPAT, 'UTF-8').'{/literal}';
+    return '{literal}'.htmlescape($value).'{/literal}';
   }
 }
 
