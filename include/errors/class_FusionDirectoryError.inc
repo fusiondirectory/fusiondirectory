@@ -76,6 +76,10 @@ class FusionDirectoryError extends Error
       ]
     );
 
+    if ($previous = $throwable->getPrevious()) {
+      $trace[] = static::formatTrace($previous);
+    }
+
     return $trace;
   }
 }

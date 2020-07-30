@@ -84,10 +84,6 @@ class FatalError extends Error
       $config->get_cfg_value('displayerrors') == 'TRUE') {
       $trace    = FusionDirectoryError::formatTrace($this);
       $display  .= print_a($trace, TRUE);
-      $previous = $this;
-      while ($previous = $previous->getPrevious()) {
-        $display .= print_a(FusionDirectoryError::formatTrace($previous), TRUE);
-      }
     }
 
     $display .= '</body></html>';
