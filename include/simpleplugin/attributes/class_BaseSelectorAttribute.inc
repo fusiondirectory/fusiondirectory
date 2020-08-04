@@ -51,7 +51,7 @@ class BaseSelectorAttribute extends Attribute
     trigger_error('method setManagedAttributes is not supported for BaseSelectorAttribute');
   }
 
-  function setParent (simplePlugin &$plugin)
+  function setParent (&$plugin)
   {
     parent::setParent($plugin);
     if (is_object($this->plugin)) {

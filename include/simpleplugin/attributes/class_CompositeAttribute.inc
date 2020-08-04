@@ -80,7 +80,7 @@ class CompositeAttribute extends Attribute
     unset($attribute);
   }
 
-  function setParent (simplePlugin &$plugin)
+  function setParent (&$plugin)
   {
     parent::setParent($plugin);
     foreach ($this->attributes as &$attribute) {

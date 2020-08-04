@@ -115,7 +115,7 @@ class Attribute
    *
    *  \param SimpleTab &$plugin The parent plugin
    */
-  function setParent (SimpleTab &$plugin)
+  function setParent (&$plugin)
   {
     $this->plugin = $plugin;
     $this->manageAttributes($this->getValue());

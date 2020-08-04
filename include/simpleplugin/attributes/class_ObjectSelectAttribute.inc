@@ -43,7 +43,7 @@ class ObjectSelectAttribute extends SelectAttribute
     $this->objectFilter = $objectFilter;
   }
 
-  function setParent (simplePlugin &$plugin)
+  function setParent (&$plugin)
   {
     parent::setParent($plugin);
     if (is_object($this->plugin)) {

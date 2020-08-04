@@ -38,7 +38,7 @@ class FlagsAttribute extends StringAttribute
     $this->flags = $flags;
   }
 
-  function setParent (simplePlugin &$plugin)
+  function setParent (&$plugin)
   {
     parent::setParent($plugin);
     if (is_object($this->plugin)) {

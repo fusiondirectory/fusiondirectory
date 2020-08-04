@@ -349,7 +349,7 @@ class SetAttribute extends Attribute
    *
    *  \param simplePlugin &$plugin The parent plugin
    */
-  function setParent (simplePlugin &$plugin)
+  function setParent (&$plugin)
   {
     parent::setParent($plugin);
     if ($this->attribute !== FALSE) {

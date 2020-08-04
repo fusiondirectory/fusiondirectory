@@ -37,7 +37,7 @@ class ObjectAttribute extends DialogButtonAttribute
     $this->objectType   = $objectType;
   }
 
-  function setParent (simplePlugin &$plugin)
+  function setParent (&$plugin)
   {
     parent::setParent($plugin);
     $infos = objects::infos($this->objectType);

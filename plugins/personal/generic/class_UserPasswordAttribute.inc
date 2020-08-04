@@ -69,7 +69,7 @@ class UserPasswordAttribute extends CompositeAttribute
     $this->attributes[4]->setTemplatable(FALSE);
   }
 
-  public function setParent (simplePlugin &$plugin)
+  public function setParent (&$plugin)
   {
     global $config;
     parent::setParent($plugin);
