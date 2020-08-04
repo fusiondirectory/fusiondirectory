@@ -48,6 +48,11 @@ class SetAttribute extends Attribute
     $this->valueUnicity = $valueUnicity;
   }
 
+  protected function getValueCount ()
+  {
+    return count($this->getValue());
+  }
+
   function setIsSubAttribute (bool $bool)
   {
     parent::setIsSubAttribute($bool);
@@ -146,13 +151,14 @@ class SetAttribute extends Attribute
     if (!empty($error) || ($this->attribute === FALSE)) {
       return $error;
     } else {
-      if (!is_array($this->value)) {
+      $values = $this->getValue();
+      if (!is_array($values)) {
         return new SimplePluginCheckError(
           $this,
           SimplePluginCheckError::invalidValue(_('Value is not an array'))
         );
       }
-      foreach ($this->value as $value) {
+      foreach ($values as $value) {
         $this->attribute->setValue($value);
         $error = $this->attribute->check();
         if (!empty($error)) {
@@ -180,8 +186,8 @@ class SetAttribute extends Attribute
 
   function renderOnlyFormInput (): string
   {
-    if (($this->size < 15) && ($this->size < count($this->value))) {
-      $this->size = min(15, count($this->value));
+    if (($this->size < 15) && ($this->size < $this->getValueCount())) {
+      $this->size = min(15, $this->getValueCount());
     }
     $id = $this->getHtmlId();
     $smarty = get_smarty();
@@ -197,7 +203,7 @@ class SetAttribute extends Attribute
   function getDisplayValues ()
   {
     if ($this->attribute === FALSE) {
-      return $this->value;
+      return $this->getValue();
     }
     $attribute = $this->attribute;
     return array_map(
@@ -205,7 +211,7 @@ class SetAttribute extends Attribute
       {
         return $attribute->displayValue($value);
       },
-      $this->value
+      $this->getValue()
     );
   }
 
@@ -325,7 +331,7 @@ class SetAttribute extends Attribute
   function computeLdapValue ()
   {
     $this->sortValues();
-    return array_values($this->value);
+    return array_values($this->getValue());
   }
 
   protected function sortValues ()
@@ -354,7 +360,7 @@ class SetAttribute extends Attribute
   function getArrayValues ()
   {
     $result = [];
-    foreach ($this->value as $value) {
+    foreach ($this->getValue() as $value) {
       $this->attribute->setValue($value);
       $row = [];
       foreach ($this->attribute->getArrayValue() as $val) {
@@ -391,7 +397,7 @@ class SetAttribute extends Attribute
 
   function foreignKeyCheck ($value, array $source): bool
   {
-    return in_array($value, $this->value);
+    return in_array($value, $this->getValue());
   }
 
   function setSize ($size)
@@ -457,7 +463,7 @@ class OrderedArrayAttribute extends SetAttribute
   {
     $this->sortValues();
     $ldapValue = [];
-    foreach ($this->value as $key => $value) {
+    foreach ($this->getValue() as $key => $value) {
       $ldapValue[] = $this->writeValue($key, $value);
     }
     return $ldapValue;
@@ -493,8 +499,8 @@ class OrderedArrayAttribute extends SetAttribute
 
   function renderOnlyFormInput (): string
   {
-    if (($this->size < 15) && ($this->size < count($this->value))) {
-      $this->size = min(15, count($this->value));
+    if (($this->size < 15) && ($this->size < $this->getValueCount())) {
+      $this->size = min(15, $this->getValueCount());
     }
     $id = $this->getHtmlId();
     $div = new divSelectBox('rows'.$id);
@@ -505,7 +511,7 @@ class OrderedArrayAttribute extends SetAttribute
     }
     $div->setHeight($height);
     $div->setHeaders($this->headers);
-    foreach ($this->value as $key => $value) {
+    foreach ($this->getValue() as $key => $value) {
       $fields = [];
       foreach ($this->getAttributeArrayValue($key, $value) as $field) {
         if (is_array($field)) {
@@ -552,7 +558,7 @@ class OrderedArrayAttribute extends SetAttribute
       } else {
         $img .= '<img src="images/empty.png" alt="" style="width:16px;"/>';
       }
-      if (($key + 1) < count($this->value)) {
+      if (($key + 1) < $this->getValueCount()) {
         $img .= $this->renderInputField(
           'image', $id.'_down_'.$key,
           [
@@ -706,7 +712,7 @@ class OrderedArrayAttribute extends SetAttribute
     if ($this->attribute !== FALSE) {
       $ids  = array_merge($ids, $this->attribute->htmlIds());
     }
-    $nb_values = count($this->value);
+    $nb_values = $this->getValueCount();
     for ($i = 0; $i < $nb_values; ++$i) {
       if ($this->order) {
         if ($i > 0) {

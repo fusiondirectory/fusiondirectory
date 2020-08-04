@@ -116,6 +116,18 @@ interface SimpleTab
    */
   public function showInTemplate (string $attr, array $templateAttrs): bool;
 
+  /*! \brief Check if logged in user have enough right to read this attribute value
+   *
+   * \param mixed $attr Attribute object or name (in this case it will be fetched from attributesAccess)
+   */
+  public function attrIsReadable ($attr): bool;
+
+  /*! \brief Check if logged in user have enough right to write this attribute value
+   *
+   * \param mixed $attr Attribute object or name (in this case it will be fetched from attributesAccess)
+   */
+  public function attrIsWriteable ($attr): bool;
+
   /*!
    * \brief Adapt from template
    */
