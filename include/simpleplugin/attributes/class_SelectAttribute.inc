@@ -240,7 +240,7 @@ class SelectAttribute extends Attribute
     $this->size = $size;
   }
 
-  function setParent (simplePlugin &$plugin)
+  function setParent (&$plugin)
   {
     parent::setParent($plugin);
     if ($this->isTemplate() && !in_array('%askme%', $this->choices)) {
