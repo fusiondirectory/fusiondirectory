@@ -113,9 +113,9 @@ class Attribute
 
   /*! \brief Set the parent plugin for this attribute
    *
-   *  \param simplePlugin &$plugin The parent plugin
+   *  \param SimpleTab &$plugin The parent plugin
    */
-  function setParent (simplePlugin &$plugin)
+  function setParent (SimpleTab &$plugin)
   {
     $this->plugin = $plugin;
     $this->manageAttributes($this->getValue());
@@ -123,7 +123,7 @@ class Attribute
 
   /*! \brief Get parent plugin instance, if any
    *
-   * \return simplePlugin|null
+   * \return SimpleTab|null
    */
   function getParent ()
   {
