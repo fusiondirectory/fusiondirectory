@@ -46,14 +46,15 @@ class URL
       $protocol .= 's';
     }
 
-    $port = '80';
     if (!empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
       $host = $_SERVER['HTTP_X_FORWARDED_HOST'];
-      if (isset($_SERVER['HTTP_X_FORWARDED_PORT'])) {
-        $port = $_SERVER['HTTP_X_FORWARDED_PORT'];
-      }
       if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
         $protocol = $_SERVER['HTTP_X_FORWARDED_PROTO'];
+      }
+      if (isset($_SERVER['HTTP_X_FORWARDED_PORT'])) {
+        $port = $_SERVER['HTTP_X_FORWARDED_PORT'];
+      } else {
+        $port = ($protocol === 'http' ? 80 : 443);
       }
     } else {
       if (!empty($_SERVER['HTTP_HOST'])) {
