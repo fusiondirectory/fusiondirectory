@@ -488,7 +488,10 @@ class Attribute
     global $config;
     $currentValue = $this->getValue();
     if ($this->isRequired() && !$this->disabled && (($currentValue === "") || ($currentValue === []))) {
-      return msgPool::required($this->getLabel());
+      return new SimplePluginCheckError(
+        $this,
+        msgPool::required($this->getLabel())
+      );
     } elseif (($this->unique !== FALSE) && !$this->disabled) {
       $ldapValue = $this->computeLdapValue();
       if (($ldapValue === "") || ($ldapValue === [])) {
