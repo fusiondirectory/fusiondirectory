@@ -263,12 +263,20 @@ class template
         continue;
       }
       if ($plugin->is_modal_dialog()) {
-        $dialogResult = $plugin->dialog->execute();
-        if ($dialogResult === FALSE) {
-          $plugin->closeDialog();
+        if ($plugin instanceof simplePlugin) {
+          $dialogResult = $plugin->dialog->execute();
+          if ($dialogResult === FALSE) {
+            $plugin->closeDialog();
+          } else {
+            $this->tabObject->current = $class;
+            return $dialogResult;
+          }
         } else {
-          $this->tabObject->current = $class;
-          return $dialogResult;
+          $dialogResult = $plugin->execute();
+          if ($plugin->is_modal_dialog()) {
+            $this->tabObject->current = $class;
+            return $dialogResult;
+          }
         }
       }
       $attributesRendered = [];
