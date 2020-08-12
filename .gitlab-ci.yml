@@ -129,6 +129,8 @@ update-transifex:
 
 build-tarballs:
   stage: tarballs
+  only:
+    - 1.4-dev
   script:
     - mkdir ../fusiondirectory-1.4/
     - mv ./* ../fusiondirectory-1.4/
