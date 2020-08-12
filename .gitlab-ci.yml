@@ -130,12 +130,15 @@ update-transifex:
 build-tarballs:
   stage: tarballs
   only:
-    - tags
+    - 1.4-dev
   script:
-    - tar -cvzf fusiondirectory-core.tar.gz *
+    - mkdir ../fusiondirectory-1.4/
+    - mv ./* ../fusiondirectory-1.4/
+    - mv  ../fusiondirectory-1.4/ ./
+    - tar -cvzf fusiondirectory-1.4.tar.gz *
   artifacts:
     paths:
-    - fusiondirectory-core.tar.gz
+      - fusiondirectory-1.4.tar.gz
     expire_in: 1h
 
 build-release:
@@ -143,7 +146,10 @@ build-release:
   only:
     - tags
   script:
-    - tar -cvzf fusiondirectory-core-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"').tar.gz *
+    - mkdir ../fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')/
+    - mv ./* ../fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')/
+    - mv  ../fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')/ ./
+    - tar -cvzf fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"').tar.gz *
   artifacts:
     paths:
-      - fusiondirectory-core-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"').tar.gz
+      - fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"').tar.gz
