@@ -130,13 +130,13 @@ update-transifex:
 build-tarballs:
   stage: tarballs
   script:
-    - mkdir ../fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')/
-    - mv ./* ../fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')/
-    - mv  ../fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')/ ./
-    - tar -cvzf fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"').tar.gz *
+    - mkdir ../fusiondirectory-1.4/
+    - mv ./* ../fusiondirectory-1.4/
+    - mv  ../fusiondirectory-1.4/ ./
+    - tar -cvzf fusiondirectory-1.4.tar.gz *
   artifacts:
     paths:
-      - fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"').tar.gz
+      - fusiondirectory-1.4.tar.gz
     expire_in: 1h
 
 build-release:
