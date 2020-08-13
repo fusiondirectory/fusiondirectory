@@ -135,6 +135,8 @@ interface SimpleTab
 
   /*!
    * \brief Deserialize values
+   *
+   * Returns TRUE or error
    */
   public function deserializeValues (array $values, bool $checkAcl = TRUE);
 

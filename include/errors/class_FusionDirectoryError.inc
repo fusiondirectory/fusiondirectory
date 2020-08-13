@@ -45,6 +45,11 @@ class FusionDirectoryError extends Error
     ];
   }
 
+  public function __toString ()
+  {
+    return $this->getMessage();
+  }
+
   public function computeMsgDialogParameters (): array
   {
     return [_('Error'), $this->htmlMessage, ERROR_DIALOG, static::formatTrace($this)];
