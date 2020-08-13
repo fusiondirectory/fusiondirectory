@@ -76,6 +76,30 @@ class SimplePluginError extends FusionDirectoryError
     return $array;
   }
 
+  public function __toString ()
+  {
+    $msg = '';
+
+    if (isset($this->object)) {
+      $msg .= $this->object->getBaseObject()->dn.' > ';
+    }
+
+    if (isset($this->tab) && isset($this->tab->parent->by_name[get_class($this->tab)])) {
+      $msg .= $this->tab->parent->by_name[get_class($this->tab)].' > ';
+    }
+
+    if (isset($this->attribute)) {
+      $label = $this->attribute->getLabel();
+      if (empty($label)) {
+        $msg .= $this->attribute->getLdapName();
+      } else {
+        $msg .= $label;
+      }
+    }
+
+    return $msg.': '.$this->getMessage();
+  }
+
   public function computeMsgDialogParameters (): array
   {
     $html = '';
