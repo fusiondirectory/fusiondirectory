@@ -10,6 +10,7 @@ stages:
   - codestyle
   - transifex
   - tarballs
+  - trigger
 
 ## Stage lint
 
@@ -129,9 +130,6 @@ update-transifex:
 
 build-tarballs:
   stage: tarballs
-  trigger:
-    project: fusiondirectory/fd-plugins
-    branch: 1.4-dev
   only:
     - 1.4-dev
   script:
@@ -156,3 +154,11 @@ build-release:
   artifacts:
     paths:
       - fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"').tar.gz
+
+trigger-ci:
+  stage: trigger
+  only:
+    - 1.4-dev
+  trigger:
+    project: fusiondirectory/fd-plugins
+    branch: 1.4-dev
