@@ -1646,57 +1646,110 @@ sub migrate_interfaces {
   my $base = $hash_ldap_param{base};
   my $ldap = $hash_ldap_param{ldap};
 
-  my $interface_cn = ask_user_input ("Please enter the name for interfaces created by this migration", "eth0");
+  my @entriesToMigrate  = ();
+  my @entriesToIgnore   = ();
 
   my @systemOCs = ('fdWorkstation', 'fdServer', 'fdTerminal', 'fdPrinter', 'fdPhone', 'fdMobilePhone', 'device');
-  foreach my $i (0 .. $#systemOCs) {
-    my $systemOC = $systemOCs[$i];
 
-    my $mesg = $ldap->search(
-      filter  => "(&(objectClass=$systemOC)(|(ipHostNumber=*)(macAddress=*)))",
-      base    => $base
+  my $mesg = $ldap->search(
+    filter  => "(&(|(objectClass=".join(')(objectClass=', @systemOCs)."))(|(ipHostNumber=*)(macAddress=*)))",
+    base    => $base
+  );
+  $mesg->code && die $mesg->error;
+
+  my @entries = $mesg->entries;
+
+  foreach my $entry (@entries) {
+    my $mesg2 = $ldap->search(
+      filter  => "(objectClass=fdNetworkInterface)",
+      base    => $entry->dn,
+      scope   => "one"
     );
-    $mesg->code && die $mesg->error;
-
-    my @entries = $mesg->entries;
-
-    foreach my $entry (@entries) {
-      my $mesg2 = $ldap->search(
-        filter  => "(objectClass=fdNetworkInterface)",
-        base    => $entry->dn,
-        scope   => "one"
-      );
-      $mesg2->code && die $mesg2->error;
-      if ($mesg2->count == 0) {
-        print $entry->dn." is missing interfaces nodes\n";
-        my @macs  = $entry->get_value('macAddress');
-        my @ips   = $entry->get_value('ipHostNumber');
-        if (scalar(@macs) > 1) {
-          print "Cannot migrate ".$entry->dn." as it has more than one MAC address: ".join(',', @macs)."\n";
-          next;
-        }
-        if (ask_yn_question("Add an interface node with MAC ".join(',', @macs)." and IP ".join(',', @ips))) {
-          my %interface = (
-            'cn'            => $interface_cn,
-            'objectClass'   => 'fdNetworkInterface',
-          );
-
-          if (scalar(@macs) > 0) {
-            $interface{'macAddress'} = \@macs;
-          }
-
-          if (scalar(@ips) > 0) {
-            $interface{'ipHostNumber'} = \@ips;
-          }
-
-          my @options = %interface;
-          my $interface_add = $ldap->add( "cn=$interface_cn,".$entry->dn, attr => \@options );
-
-          $interface_add->code && die "! failed to add interface: ".$interface_add->error."\n";
-        }
+    $mesg2->code && die $mesg2->error;
+    if ($mesg2->count == 0) {
+      my @macs  = $entry->get_value('macAddress');
+      if (scalar(@macs) > 1) {
+        push @entriesToIgnore, $entry;
+        next;
       }
+      push @entriesToMigrate, $entry;
     }
   }
+
+  if (scalar(@entriesToMigrate) > 0) {
+    print "\nThe following systems are missing an interface node and can be migrated automatically:\n\n";
+    foreach my $entry (@entriesToMigrate) {
+      my @macs  = $entry->get_value('macAddress');
+      my @ips   = $entry->get_value('ipHostNumber');
+      print $entry->dn;
+      if (scalar(@macs) > 0) {
+        print " with MAC ".join(', ', @macs);
+      } else {
+        print " with no MAC";
+      }
+      if (scalar(@ips) > 0) {
+        print " and IP ".join(', ', @ips)."\n";
+      } else {
+        print " and no IP\n";
+      }
+    }
+    print "\n";
+
+    if (ask_yn_question("Migrate these systems by adding an interface node")) {
+      my $interface_cn = ask_user_input ("Please enter the name for interfaces created by this migration", "eth0");
+      my $count = 0;
+      foreach my $entry (@entriesToMigrate) {
+        my @macs  = $entry->get_value('macAddress');
+        my @ips   = $entry->get_value('ipHostNumber');
+        my %interface = (
+          'cn'            => $interface_cn,
+          'objectClass'   => 'fdNetworkInterface',
+        );
+
+        if (scalar(@macs) > 0) {
+          $interface{'macAddress'} = \@macs;
+        }
+
+        if (scalar(@ips) > 0) {
+          $interface{'ipHostNumber'} = \@ips;
+        }
+
+        my @options = %interface;
+        my $interface_add = $ldap->add( "cn=$interface_cn,".$entry->dn, attr => \@options );
+
+        $interface_add->code && die "! failed to add interface: ".$interface_add->error."\n";
+        $count++;
+      }
+      print $count." entries migrated\n";
+    }
+  }
+
+  if (scalar(@entriesToIgnore) > 0) {
+    print "\nThe following systems are missing interfaces nodes but cannot be migrated because they have several MAC addresses:\n\n";
+    foreach my $entry (@entriesToIgnore) {
+      my @macs  = $entry->get_value('macAddress');
+      my @ips   = $entry->get_value('ipHostNumber');
+      print $entry->dn;
+      if (scalar(@macs) > 0) {
+        print " with MAC ".join(', ', @macs);
+      } else {
+        print " with no MAC";
+      }
+      if (scalar(@ips) > 0) {
+        print " and IP ".join(', ', @ips)."\n";
+      } else {
+        print " and no IP\n";
+      }
+    }
+    print "\n";
+    print "Please edit them by hand in FusionDirectory to add interfaces\n";
+  }
+
+  if ((scalar(@entriesToMigrate) == 0) and (scalar(@entriesToIgnore) == 0)) {
+    print "\nNo systems are missing interfaces, nothing to do\n"
+  }
+
+  print "\n";
 
   # unbind to the LDAP server
   my $unbind = $ldap->unbind;
