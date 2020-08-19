@@ -129,6 +129,9 @@ update-transifex:
 
 build-tarballs:
   stage: tarballs
+  trigger:
+    project: fusiondirectory/fd-plugins
+    branch: 1.4-dev
   only:
     - 1.4-dev
   script:
@@ -140,10 +143,6 @@ build-tarballs:
     paths:
       - fusiondirectory-1.4.tar.gz
     expire_in: 30d
-  trigger:
-    project: fusiondirectory/fd-plugins
-    branch: 1.4-dev
-
 
 build-release:
   stage: tarballs
