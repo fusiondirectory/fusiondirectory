@@ -10,6 +10,7 @@ stages:
   - codestyle
   - transifex
   - tarballs
+  - trigger
 
 ## Stage lint
 
@@ -139,7 +140,7 @@ build-tarballs:
   artifacts:
     paths:
       - fusiondirectory-1.4.tar.gz
-    expire_in: 1h
+    expire_in: 30d
 
 build-release:
   stage: tarballs
@@ -153,3 +154,11 @@ build-release:
   artifacts:
     paths:
       - fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"').tar.gz
+
+trigger-ci:
+  stage: trigger
+  only:
+    - 1.4-dev
+  trigger:
+    project: fusiondirectory/fd-plugins
+    branch: 1.4-dev
