@@ -204,7 +204,11 @@ class managementFilter
         if (preg_match('/^\(.+\)$/', $this->search)) {
           $elementFilters[] = $this->search;
         } else {
-          $elementFilters[] = '(|('.implode('=*'.$this->search.'*)(', $this->searchAttributes[$type]).'=*'.$this->search.'*))';
+          $searchAttributesTmp    = $this->searchAttributes[$type];
+          if ($this->showTemplates) {
+            $searchAttributesTmp[]  = '_template_cn';
+          }
+          $elementFilters[] = '(|('.implode('=*'.ldap_escape_f($this->search).'*)(', $searchAttributesTmp).'=*'.ldap_escape_f($this->search).'*))';
         }
       }
 

@@ -232,14 +232,19 @@ class ldapFilterLeaf extends ldapFilter
   }
 }
 
-function fdTemplateFilter ($filter)
+/* Converts a filter object to search for templates */
+function fdTemplateFilter (ldapFilter $filter)
 {
   if ($filter instanceof ldapFilterLeaf) {
     if ($filter->isDnFilter()) {
       return $filter;
     } elseif ($filter->getOperator() == '=') {
       $subparts = $filter->getSubparts();
-      return new ldapFilterLeaf('fdTemplateField', '=', $subparts[0].':'.$subparts[1]);
+      if ($subparts[0] == '_template_cn') {
+        return new ldapFilterLeaf('cn', '=', $subparts[1]);
+      } else {
+        return new ldapFilterLeaf('fdTemplateField', '=', $subparts[0].':'.$subparts[1]);
+      }
     } else {
       trigger_error('Not able to adapt this filter for templates');
     }
@@ -250,6 +255,27 @@ function fdTemplateFilter ($filter)
     }
     unset($subpart);
     return new ldapFilter($filter->getOperator(), $subparts);
+  }
+  return $filter;
+}
+
+/* Removes parts specific to templates from a search filter */
+function fdNoTemplateFilter (ldapFilter $filter)
+{
+  if ($filter instanceof ldapFilterLeaf) {
+    if (!$filter->isDnFilter()) {
+      $subparts = $filter->getSubparts();
+      if ($subparts[0] == '_template_cn') {
+        return FALSE;
+      }
+    }
+  } else {
+    $subparts = $filter->getSubparts();
+    foreach ($subparts as &$subpart) {
+      $subpart = fdNoTemplateFilter($subpart);
+    }
+    unset($subpart);
+    return new ldapFilter($filter->getOperator(), array_filter($subparts));
   }
   return $filter;
 }

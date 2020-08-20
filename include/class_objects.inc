@@ -36,9 +36,10 @@ class objects
    *  depending if you want a single value or an array of values. 'raw' means untouched LDAP value and is only useful for dns.
    *  Other values are considered to be 1. 'b64' means an array of base64 encoded values and is mainly useful through webservice for binary attributes.
    * \param string  $ou the LDAP branch to search in, base will be used if it is NULL
-   * \param string  $filter an additional filter to use in the LDAP search.
+   * \param string  $filter an additional filter to use in the LDAP search. (Might use special _template_cn field to search in template cn).
    * \param boolean $checkAcl should ACL be ignored or checked? Defaults to FALSE.
    * \param string  $scope scope, defaults to subtree. When using one, be careful what you put in $ou.
+   * \param boolean $templateSearch Whether to search for templates or normal objects.
    *
    * \return The list of objects as an associative array (keys are dns)
    */
@@ -283,6 +284,7 @@ class objects
         }
         $filterObject     = ldapFilter::parse($filter);
         $filterAttributes = $filterObject->listUsedAttributes();
+        unset($filterAttributes['_template_cn']);
         foreach ($filterAttributes as $acl) {
           $category = $ui->getAttributeCategory($types[0], $acl);
           if ($category === FALSE) {
@@ -310,6 +312,9 @@ class objects
         ]
       );
       $filter = "$templateFilterObject";
+    } else {
+      $filterObject = fdNoTemplateFilter(ldapFilter::parse($filter));
+      $filter       = "$filterObject";
     }
     $ldap->cd($ou);
     $ldap->search($filter, $search_attrs, $scope);
