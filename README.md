@@ -82,6 +82,10 @@ You can [register on our system][register] and enter issues [FusionDirectory][is
 * You should treat IRC as what it is: asynchronous chat.  Sure the messages can
   be instant but in most channels people are in different time zones.  At times
   chat replies can be in excess of 24hrs.
+
+### Best practice badge
+
+[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/351/badge)](https://bestpractices.coreinfrastructure.org/projects/351)
   
 ## Donate
 
