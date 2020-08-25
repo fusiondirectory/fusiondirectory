@@ -64,7 +64,7 @@ my %vars = (
  fd_home          => "/var/www/fusiondirectory",
  fd_cache         => "/var/cache/fusiondirectory",
  fd_config_dir    => "/etc/fusiondirectory",
- fd_smarty_dir    => "/usr/share/php/smarty3",
+ fd_smarty_path   => "/usr/share/php/smarty3/Smarty.class.php",
  fd_spool_dir     => "/var/spool/fusiondirectory",
  ldap_conf        => "/etc/ldap/ldap.conf",
  config_file      => "fusiondirectory.conf",
@@ -552,7 +552,7 @@ if (!defined("CONFIG_FILE")) {
 }
 
 /* Path for smarty3 libraries */
-define("SMARTY", "$vars{fd_smarty_dir}");
+define("SMARTY", "$vars{fd_smarty_path}");
 
 /* Smarty compile dir */
 define ("SPOOL_DIR", "$vars{fd_spool_dir}/"); /* FusionDirectory spool directory */
@@ -2074,16 +2074,16 @@ This flag will answer "yes" to every yes/no question asked by the script
 locale_cache_dir	[locale]
 config_file     	[fusiondirectory.conf]
 fd_cache        	[/var/cache/fusiondirectory]
-fd_smarty_dir   	[/usr/share/php/smarty3]
+fd_smarty_path  	[/usr/share/php/smarty3/Smarty.class.php]
 fd_spool_dir    	[/var/spool/fusiondirectory]
 fai_log_dir     	[fai]
-tmp_dir		        [tmp]
+tmp_dir         	[tmp]
 secrets_file    	[fusiondirectory.secrets]
 template_dir    	[template]
 locale_dir      	[locale]
 class_cache     	[class.cache]
 fd_config_dir   	[/etc/fusiondirectory]
-fd_home [/var/www/fusiondirectory]
+fd_home         	[/var/www/fusiondirectory]
 
 
  benoit@catbert$ fusiondirectory-setup --set-class_cache=class.cache --write-vars
