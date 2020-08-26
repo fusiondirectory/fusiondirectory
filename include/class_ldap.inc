@@ -1114,10 +1114,17 @@ class LDAP
    * \param  string $scope    'base', 'sub' .. see manpage for 'ldapmodify' for details.
    *
    * \param  int $limit       Limits the result.
+   *
+   * \param  ?int $wrap       Wraps line around this length (0 to disable).
    */
-  function generateLdif (string $dn, string $filter = '(objectClass=*)', string $scope = 'sub', int $limit = 0): string
+  function generateLdif (string $dn, string $filter = '(objectClass=*)', string $scope = 'sub', int $limit = 0, int $wrap = NULL): string
   {
-    $limit = (($limit == 0) ? '' : ' -z '.$limit);
+    $limit  = (($limit == 0) ? '' : ' -z '.$limit);
+    if ($wrap === NULL) {
+      $wrap = '';
+    } else {
+      $wrap = ' -o ldif-wrap='.($wrap ? $wrap : 'no');
+    }
 
     // Check scope values
     $scope = trim($scope);
@@ -1133,7 +1140,7 @@ class LDAP
     $admin  = escapeshellarg($this->binddn);
     $filter = escapeshellarg($filter);
 
-    $cmd = 'ldapsearch'.($this->tls ? ' -ZZ' : '')." -x -LLLL -D {$admin} {$filter} {$limit} {$scope} -H {$host} -b {$dn} -w {$pwd} ";
+    $cmd = 'ldapsearch'.($this->tls ? ' -ZZ' : '')." -x -LLLL -D {$admin} {$filter} {$limit} {$wrap} {$scope} -H {$host} -b {$dn} -w {$pwd} ";
 
     // Create list of process pipes
     $descriptorspec = [
