@@ -158,7 +158,7 @@ class CopyPasteHandler implements FusionDirectoryDialog
     return $entry;
   }
 
-  public function update(): bool
+  public function update (): bool
   {
     $ui = get_userinfo();
 

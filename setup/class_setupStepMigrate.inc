@@ -93,14 +93,14 @@ class StepMigrateDialog implements FusionDirectoryDialog
     }
   }
 
-  public function update(): bool
+  public function update (): bool
   {
     if (!isset($this->check)) {
       return FALSE;
     }
   }
 
-  public function render(): string
+  public function render (): string
   {
     $smarty = get_smarty();
     $smarty->assign('infos', $this->infos);

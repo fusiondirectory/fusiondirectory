@@ -45,7 +45,7 @@ abstract class GenericDialog implements FusionDirectoryDialog
     }
   }
 
-  public function update(): bool
+  public function update (): bool
   {
     if (isset($this->dialog)) {
       return $this->dialog->update();
@@ -54,7 +54,7 @@ abstract class GenericDialog implements FusionDirectoryDialog
     }
   }
 
-  public function render(): string
+  public function render (): string
   {
     return $this->dialog->render();
   }

@@ -138,7 +138,7 @@ class ACLEditionDialog implements FusionDirectoryDialog
     }
   }
 
-  public function update(): bool
+  public function update (): bool
   {
     if ($this->dialogState === 'closed') {
       return FALSE;
@@ -159,7 +159,7 @@ class ACLEditionDialog implements FusionDirectoryDialog
     $this->dialogState = 'closed';
   }
 
-  public function render(): string
+  public function render (): string
   {
     global $config;
 

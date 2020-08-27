@@ -80,7 +80,7 @@ class aclAssignmentCreationDialog extends simplePlugin
     }
   }
 
-  public function update(): bool
+  public function update (): bool
   {
     parent::update();
     return !$this->closed;

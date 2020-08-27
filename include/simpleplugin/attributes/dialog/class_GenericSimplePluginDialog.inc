@@ -46,7 +46,7 @@ class GenericSimplePluginDialog extends GenericDialog
     }
   }
 
-  public function render(): string
+  public function render (): string
   {
     return parent::render().$this->buttons();
   }
