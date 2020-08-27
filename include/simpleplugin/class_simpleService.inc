@@ -48,9 +48,9 @@ class simpleService extends simplePlugin
 
   /*! \brief This function display the service and return the html code
    */
-  function execute (): string
+  public function render (): string
   {
-    $str = parent::execute();
+    $str = parent::render();
 
     if (!$this->dialog) {
       $str .= '<p class="plugbottom servicebottom">'.

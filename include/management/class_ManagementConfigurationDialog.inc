@@ -190,17 +190,17 @@ class ManagementConfigurationDialog extends ManagementDialog
     }
   }
 
-  function execute (): string
+  public function render (): string
   {
     global $config, $ui;
 
     $smarty = get_smarty();
     $smarty->assign('ManagementConfigurationACL', 'rw');
     $smarty->assign('fdManagementConfigACL', $ui->get_permissions(CONFIGRDN.$config->current['BASE'], 'configuration/configInLdap', 'fdManagementConfig', $this->readOnly()));
-    return parent::execute();
+    return parent::render();
   }
 
-  function save (): array
+  public function save (): array
   {
     global $config;
     $columnInfos  = [];

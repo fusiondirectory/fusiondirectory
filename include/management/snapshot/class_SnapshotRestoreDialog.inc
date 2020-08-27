@@ -86,7 +86,7 @@ class SnapshotRestoreDialog extends ManagementDialog
     }
   }
 
-  function execute (): string
+  function render (): string
   {
     global $ui;
     if ($this->dialog == 'delete') {
@@ -131,7 +131,7 @@ class SnapshotRestoreDialog extends ManagementDialog
         $acl .= 'd';
       }
       $smarty->assign('SnapshotHandlerACL', $acl);
-      $str = parent::execute();
+      $str = parent::render();
       $str .= '<p class="plugbottom">'.
              '  <input type="submit" formnovalidate="formnovalidate" name="'.$this->post_cancel.'" value="'.msgPool::backButton().'"/>'.
              '</p>';
@@ -166,7 +166,7 @@ class SnapshotRestoreDialog extends ManagementDialog
     $this->snapDn = $dn;
   }
 
-  function save_object ()
+  function readPost ()
   {
     if ($this->dialog == 'delete') {
       if (isset($_POST['delete_confirmed'])) {
@@ -183,7 +183,7 @@ class SnapshotRestoreDialog extends ManagementDialog
         $this->closeDialog();
       }
     } else {
-      parent::save_object();
+      parent::readPost();
     }
   }
 

@@ -193,9 +193,9 @@ class ogrouptabs extends simpleTabs_noSpecial
     return $errors;
   }
 
-  function save_object ($save_current = FALSE)
+  public function update (): bool
   {
-    parent::save_object($save_current);
+    parent::update();
 
     /* Update reference, transfer variables */
     $baseobject = $this->getBaseObject();
@@ -211,5 +211,7 @@ class ogrouptabs extends simpleTabs_noSpecial
         $this->by_object[$name] = $obj;
       }
     }
+
+    return TRUE;
   }
 }

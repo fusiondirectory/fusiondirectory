@@ -1712,7 +1712,7 @@ function change_password ($dn, $password, $hash = "")
     $userTab->userPassword,
     $userTab->attributesAccess['userPassword']->isLocked()
   ];
-  $userTabs->save_object();
+  $userTabs->update();
   $error = $userTabs->save();
   if (!empty($error)) {
     return $error;

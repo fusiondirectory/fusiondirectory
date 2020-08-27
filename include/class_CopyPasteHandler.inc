@@ -27,7 +27,7 @@
 /*!
  * \brief This class contains all function to copy and paste
  */
-class CopyPasteHandler
+class CopyPasteHandler implements FusionDirectoryDialog
 {
   var $current = FALSE;
 
@@ -158,11 +158,7 @@ class CopyPasteHandler
     return $entry;
   }
 
-  /*!
-   * \brief Displays a dialog which allows the user to fix all dependencies of this object.
-   *      Create unique names, ids, or what ever
-   */
-  function execute ()
+  public function update(): bool
   {
     $ui = get_userinfo();
 
@@ -208,7 +204,6 @@ class CopyPasteHandler
 
     /* Save objects that can be pasted directly */
     if (count($this->clean_objects)) {
-      $this->save_object();
       foreach ($this->clean_objects as $key => $entry) {
         $this->current = $entry;
         $errors = $this->current['object']->save();
@@ -227,7 +222,8 @@ class CopyPasteHandler
 
     /* Save edited entry and force loading new one */
     if (isset($this->current['object'])) {
-      $this->current['object']->save_object();
+      $this->current['object']->readPost();
+      $this->current['object']->update();
       /* Save current object if edition is finished */
       if (!$this->current['object']->dialogOpened() && isset($_POST['edit_finish'])) {
         $errors = $this->current['object']->save();
@@ -240,9 +236,17 @@ class CopyPasteHandler
       }
     }
 
+    return TRUE;
+  }
+
+  /*!
+   * \brief Displays a dialog which allows the user to fix all dependencies of this object.
+   *      Create unique names, ids, or what ever
+   */
+  public function render (): string
+  {
     /* Display a list of all pastable entries */
     if ($this->current || count($this->objects_to_fix)) {
-      $this->save_object();
       if (!$this->current) {
         $key = key($this->objects_to_fix);
         if ($key !== NULL) {
@@ -252,7 +256,7 @@ class CopyPasteHandler
         }
       }
       if ($this->current) {
-        $display = $this->current['object']->execute();
+        $display = $this->current['object']->render();
         if (!$this->current['object']->dialogOpened()) {
           // Display ok, (apply) and cancel buttons
           $display .= '<p class="plugbottom">'."\n";
@@ -286,11 +290,10 @@ class CopyPasteHandler
     return $this->lastdn;
   }
 
-
   /*!
    * \brief Save new values posted by copy & paste dialog
    */
-  function save_object ()
+  public function readPost ()
   {
     if (isset($_POST['abort_current_cut-copy_operation'])) {
       $this->current = FALSE;

@@ -112,10 +112,10 @@ class aclAssignmentDialogWindow extends simplePlugin
     }
   }
 
-  function execute (): string
+  public function render (): string
   {
     $smarty = get_smarty();
-    $display = parent::execute();
+    $display = parent::render();
     if (!is_object($this->dialog)) {
       $display .= $smarty->fetch('string:'.
         '<p class="plugbottom">'.

@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
 
-  Copyright (C) 2012-2020  FusionDirectory
+  Copyright (C) 2019-2020  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,18 +19,24 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/*! \brief Object selection dialog allowing only one object to get selected
+/*!
+ * \file interface_FusionDirectoryDialog.inc
+ * Source code for the interface FusionDirectoryDialog
  */
-class GenericSingleSelectManagementDialog extends GenericSelectManagementDialog
+
+/*! \brief This interface should be implemented by all dialog classes in FusionDirectory
+ */
+interface FusionDirectoryDialog
 {
-  protected function handleFinish ()
-  {
-    $result = $this->dialog->detectPostActions();
-    if (isset($result['targets']) && count($result['targets'])) {
-      $dn     = $result['targets'][0];
-      $entry  = $this->dialog->listing->getEntry($dn);
-      $this->attribute->handleDialogResult($dn, $entry);
-    }
-    unset($this->dialog);
-  }
+  /*! \brief Interpret POST content
+   */
+  public function readPost ();
+
+  /*! \brief Update state and return FALSE if the dialog was closed
+   */
+  public function update (): bool;
+
+  /*! \brief Render the dialog and returns the HTML code
+   */
+  public function render (): string;
 }

@@ -21,7 +21,7 @@
 /*!
  * \brief Management base class
  */
-class management
+class management implements FusionDirectoryDialog
 {
   /* Object types we are currently managing */
   public $objectTypes;
@@ -56,6 +56,8 @@ class management
   // The last opened object.
   protected $last_tabObject     = NULL;
   protected $last_dialogObject  = NULL;
+
+  protected $renderCache;
 
   public $headline;
   public $title;
@@ -423,11 +425,54 @@ class management
     return FALSE;
   }
 
+  /* For management we have to render directly in readPost in some cases */
+  public function readPost ()
+  {
+    $this->renderCache = $this->execute();
+  }
+
+  public function update (): bool
+  {
+    if ($this->renderCache === NULL) {
+      if (!$this->dialogOpened()) {
+        // Update list
+        $this->listing->update();
+
+        // Init snapshot list for renderSnapshotActions
+        if (is_object($this->snapHandler)) {
+          $this->snapHandler->initSnapshotCache($this->listing->getBase());
+        }
+      }
+    }
+    return TRUE;
+  }
+
+  public function render (): string
+  {
+    if ($this->renderCache === NULL) {
+      if ($this->tabObject instanceOf simpleTabs) {
+        /* Display tab object */
+        $display = $this->tabObject->render();
+        $display .= $this->getTabFooter();
+        $this->renderCache = $this->getHeader().$display;
+      } elseif (is_object($this->dialogObject)) {
+        /* Display dialog object */
+        $display = $this->dialogObject->render();
+        $display .= $this->getTabFooter();
+        $this->renderCache = $this->getHeader().$display;
+      } else {
+        /* Display list */
+        $this->renderCache = $this->renderList();
+      }
+    }
+    return $this->renderCache;
+  }
+
   /*!
    * \brief  Execute this plugin
    *          Handle actions/events, locking, snapshots, dialogs, tabs,...
    */
-  function execute (): string
+  protected function execute ()
   {
     // Ensure that html posts and gets are kept even if we see a 'Entry islocked' dialog.
     $vars = ['/^act$/','/^listing/','/^PID$/'];
@@ -456,10 +501,12 @@ class management
 
     /* Save tab or dialog object */
     if ($this->tabObject instanceOf simpleTabs) {
-      $this->tabObject->save_object();
-    } elseif (is_object($this->dialogObject) && method_exists($this->dialogObject, 'save_object')) {
+      $this->tabObject->readPost();
+      $this->tabObject->update();
+    } elseif (is_object($this->dialogObject)) {
       try {
-        $this->dialogObject->save_object();
+        $this->dialogObject->readPost();
+        $this->dialogObject->update();
       } catch (FusionDirectoryException $e) {
         $error = new FusionDirectoryError(htmlescape($e->getMessage()), 0, $e);
         $error->display();
@@ -467,30 +514,7 @@ class management
       }
     }
 
-    /* Display tab object */
-    if ($this->tabObject instanceOf simpleTabs) {
-      $display = $this->tabObject->execute();
-      $display .= $this->getTabFooter();
-      return $this->getHeader().$display;
-    }
-
-    /* Display dialog object */
-    if (is_object($this->dialogObject) && method_exists($this->dialogObject, 'execute')) {
-      $display = $this->dialogObject->execute();
-      $display .= $this->getTabFooter();
-      return $this->getHeader().$display;
-    }
-
-    // Update list
-    $this->listing->update();
-
-    // Init snapshot list for renderSnapshotActions
-    if (is_object($this->snapHandler)) {
-      $this->snapHandler->initSnapshotCache($this->listing->getBase());
-    }
-
-    // Display list
-    return $this->renderList();
+    return NULL;
   }
 
   function renderList (): string
@@ -684,7 +708,7 @@ class management
         $this->tabObject      = NULL;
         $this->currentDn      = array_shift($this->currentDns);
         $this->dialogObject->setNextTarget($this->currentDn);
-        $this->dialogObject->save_object();
+        $this->dialogObject->readPost();
       }
     }
   }
@@ -868,21 +892,20 @@ class management
    */
   function saveChanges ()
   {
-    if (($this->tabObject instanceOf simpleTabs) && ($this->dialogObject instanceOf templateDialog)) {
-      $this->tabObject->save_object();
-      $this->handleTemplateApply();
-      return;
-    }
     if ($this->tabObject instanceOf simpleTabs) {
-      $this->tabObject->save_object();
-      $msgs = $this->tabObject->save();
-      if (count($msgs)) {
-        msg_dialog::displayChecks($msgs);
-        return;
+      $this->tabObject->readPost();
+      $this->tabObject->update();
+      if ($this->dialogObject instanceOf templateDialog) {
+        $this->handleTemplateApply();
       } else {
-        logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDns, 'Entry saved');
-        $this->remove_lock();
-        $this->closeDialogs();
+        $msgs = $this->tabObject->save();
+        if (count($msgs)) {
+          msg_dialog::displayChecks($msgs);
+        } else {
+          logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDns, 'Entry saved');
+          $this->remove_lock();
+          $this->closeDialogs();
+        }
       }
     }
   }
@@ -893,7 +916,8 @@ class management
   function applyChanges ()
   {
     if ($this->tabObject instanceOf simpleTabs) {
-      $this->tabObject->save_object();
+      $this->tabObject->readPost();
+      $this->tabObject->update();
       $msgs = $this->tabObject->save();
       if (count($msgs)) {
         msg_dialog::displayChecks($msgs);
@@ -1027,7 +1051,7 @@ class management
     }
 
     // Save user input
-    $this->cpHandler->save_object();
+    $this->cpHandler->readPost();
 
     // Add entries to queue
     if (($action['action'] == 'copy') || ($action['action'] == 'cut')) {
@@ -1052,7 +1076,8 @@ class management
 
     // Display any c&p dialogs, eg. object modifications required before pasting.
     if ($this->cpPastingStarted && $this->cpHandler->entries_queued()) {
-      $data = $this->cpHandler->execute();
+      $this->cpHandler->update();
+      $data = $this->cpHandler->render();
       if (!empty($data)) {
         return $data;
       }
@@ -1289,7 +1314,9 @@ class management
         $managementObject = session::get($classname);
       }
       /* Execute and display */
-      $display = $managementObject->execute();
+      $managementObject->readPost();
+      $managementObject->update();
+      $display = $managementObject->render();
 
       /* Store the object in the session */
       session::set($classname, $managementObject);

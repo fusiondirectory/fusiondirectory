@@ -25,7 +25,7 @@ class GenericSimplePluginDialog extends GenericDialog
 {
   protected $initialDialogValue = NULL;
 
-  function __construct ($simplePlugin, $attribute, $value = [])
+  public function __construct ($simplePlugin, $attribute, $value = [])
   {
     $this->attribute  = $attribute;
     $this->dialog     = new $this->dialogClass('new');
@@ -46,7 +46,12 @@ class GenericSimplePluginDialog extends GenericDialog
     }
   }
 
-  function buttons ()
+  public function render(): string
+  {
+    return parent::render().$this->buttons();
+  }
+
+  protected function buttons ()
   {
     return '<div style="width:100%; text-align:right; clear:both; float:none;">'.
            '  <input type="submit" name="'.$this->post_finish.'" value="'.msgPool::saveButton().'"/>&nbsp;'.
@@ -54,19 +59,14 @@ class GenericSimplePluginDialog extends GenericDialog
            '</div>';
   }
 
-  function dialog_execute ()
+  protected function handleFinish ()
   {
-    $this->dialog->save_object();
-    return $this->dialog->execute().$this->buttons();
-  }
-
-  function handle_finish ()
-  {
-    $this->dialog->save_object();
+    $this->dialog->readPost();
+    $this->dialog->update();
     $msgs = $this->dialog->check();
     if (count($msgs)) {
       msg_dialog::displayChecks($msgs);
-      return $this->dialog->execute().$this->buttons();
+      return;
     }
 
     $value = [];
@@ -75,14 +75,14 @@ class GenericSimplePluginDialog extends GenericDialog
     }
 
     $this->attribute->addValue('', $value);
-    return FALSE;
+    unset($this->dialog);
   }
 
-  function handle_cancel ()
+  protected function handleCancel ()
   {
     if ($this->initialDialogValue !== NULL) {
       $this->attribute->addValue('', $this->initialDialogValue);
     }
-    return FALSE;
+    unset($this->dialog);
   }
 }

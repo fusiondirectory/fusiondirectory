@@ -210,7 +210,8 @@ class groupManagement extends management
    */
   function saveEventDialog ()
   {
-    $this->dialogObject->save_object();
+    $this->dialogObject->readPost();
+    $this->dialogObject->update();
     $msgs = $this->dialogObject->check();
     if (count($msgs)) {
       msg_dialog::displayChecks($msgs);

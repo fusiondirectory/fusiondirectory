@@ -52,19 +52,11 @@ class setupStepWelcome extends setupStep
     $this->s_description  = _('The welcome message');
   }
 
-  function execute (): string
+  public function update (): bool
   {
-    $smarty = get_smarty();
-    $smarty->assign('auth_id', session_id());
+    parent::update();
 
-    $smarty->assign('path', $this->authPath);
-    return parent::execute();
-  }
-
-  function save_object ()
-  {
-    parent::save_object();
-    $id = "";
+    $id = '';
 
     /* Get auth ID from file */
     if (file_exists($this->authPath) && is_readable($this->authPath)) {
@@ -78,5 +70,16 @@ class setupStepWelcome extends setupStep
     } else {
       $this->is_completed = FALSE;
     }
+
+    return TRUE;
+  }
+
+  public function render (): string
+  {
+    $smarty = get_smarty();
+    $smarty->assign('auth_id', session_id());
+
+    $smarty->assign('path', $this->authPath);
+    return parent::render();
   }
 }

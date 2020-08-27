@@ -94,10 +94,10 @@ class setupStepConfig extends configInLdap
     return $tmp;
   }
 
-  function save_object ()
+  function update ()
   {
     global $config, $plist;
-    parent::save_object();
+    parent::update();
     $this->is_completed = FALSE;
     $tmp = $this->check();
     if (count($tmp) == 0) {

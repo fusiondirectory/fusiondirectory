@@ -1,7 +1,8 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2013-2019  FusionDirectory
+
+  Copyright (C) 2013-2020  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -44,29 +45,24 @@ class ACLsAssignmentDialog extends GenericDialog
     $this->initialAclValue  = $acl;
   }
 
-  function dialog_execute ()
+  function handleFinish ()
   {
-    $this->dialog->save_object();
-    return $this->dialog->execute();
-  }
-
-  function handle_finish ()
-  {
-    $this->dialog->save_object();
+    $this->dialog->readPost();
+    $this->dialog->update();
     $messages = $this->dialog->check();
     if (!empty($messages)) {
       msg_dialog::displayChecks($messages);
-      return $this->dialog->execute();
+      return;
     }
     $this->attribute->addValue('', $this->dialog->getAclEntry());
-    return FALSE;
+    unset($this->dialog);
   }
 
-  function handle_cancel ()
+  function handleCancel ()
   {
     if ($this->initialAclValue !== NULL) {
       $this->attribute->addValue('', $this->initialAclValue);
     }
-    return FALSE;
+    unset($this->dialog);
   }
 }

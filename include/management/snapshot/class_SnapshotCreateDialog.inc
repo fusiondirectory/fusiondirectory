@@ -108,10 +108,10 @@ class SnapshotCreateDialog extends ManagementDialog
     return parent::renderAttributes($readOnly);
   }
 
-  function execute (): string
+  public function update (): bool
   {
     $this->timestamp  = date(_('Y-m-d, H:i:s'));
-    return parent::execute();
+    return parent::update();
   }
 
   function save (): array

@@ -1,6 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
+
   Copyright (C) 2012-2020  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
@@ -20,9 +21,9 @@
 
 /*! \brief Generic dialog base class
  */
-class GenericDialog
+abstract class GenericDialog implements FusionDirectoryDialog
 {
-  protected $dialogClass = "";
+  protected $dialogClass = '';
   protected $dialog;
   protected $attribute;
 
@@ -35,30 +36,33 @@ class GenericDialog
     $this->dialog     = new $this->dialogClass();
   }
 
-  function execute ()
+  public function readPost ()
   {
     if (isset($_POST[$this->post_cancel])) {
-      return $this->handle_cancel();
+      $this->handleCancel();
+    } elseif (isset($_POST[$this->post_finish]) || isset($_GET[$this->post_finish])) {
+      $this->handleFinish();
     }
-    if (isset($_POST[$this->post_finish]) || isset($_GET[$this->post_finish])) {
-      return $this->handle_finish();
+  }
+
+  public function update(): bool
+  {
+    if (isset($this->dialog)) {
+      return $this->dialog->update();
+    } else {
+      return FALSE;
     }
-    return $this->dialog_execute();
   }
 
-  function dialog_execute ()
+  public function render(): string
   {
-    return $this->dialog->execute();
+    return $this->dialog->render();
   }
 
-  function handle_finish ()
-  {
-    trigger_error('empty function');
-    return FALSE;
-  }
+  abstract protected function handleFinish ();
 
-  function handle_cancel ()
+  protected function handleCancel ()
   {
-    return FALSE;
+    unset($this->dialog);
   }
 }

@@ -24,13 +24,13 @@ class GenericSelectManagementDialog extends GenericDialog
 {
   protected $dialogClass = 'selectManagement';
 
-  function __construct ($simplePlugin, $attribute)
+  public function __construct ($simplePlugin, $attribute)
   {
     $this->attribute  = $attribute;
     $this->dialog     = new $this->dialogClass(...$this->attribute->getSelectManagementParameters());
   }
 
-  function handle_finish ()
+  protected function handleFinish ()
   {
     $result = $this->dialog->detectPostActions();
     if (isset($result['targets'])) {
@@ -45,6 +45,6 @@ class GenericSelectManagementDialog extends GenericDialog
         $this->attribute->addValue($dn, $entry);
       }
     }
-    return FALSE;
+    unset($this->dialog);
   }
 }

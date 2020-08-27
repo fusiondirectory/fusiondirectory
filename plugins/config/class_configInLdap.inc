@@ -550,13 +550,15 @@ class configInLdap extends simplePlugin
     return $messages;
   }
 
-  function save_object ()
+  public function update (): bool
   {
-    parent::save_object();
+    $res = parent::update();
 
     $this->attributesAccess['fdPasswordDefaultHash']->setChoices(
       $this->attributesAccess['fdPasswordAllowedHashes']->getValue()
     );
+
+    return $res;
   }
 
   static function get_themes ()
