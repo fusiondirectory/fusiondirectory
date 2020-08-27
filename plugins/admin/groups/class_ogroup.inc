@@ -245,6 +245,26 @@ class ogroup extends simplePlugin
     return parent::ldap_save();
   }
 
+  function handleForeignKeys (string $olddn = NULL, string $newdn = NULL, string $mode = 'move')
+  {
+    if (($olddn !== NULL) && ($olddn == $newdn)) {
+      return;
+    }
+    if ($this->is_template) {
+      return;
+    }
+    parent::handleForeignKeys($olddn, $newdn, $mode);
+    if ($this->attributeHaveChanged('gosaGroupObjects')) {
+      /* Propagate member type changes to parent groups */
+      $parents = objects::ls('ogroup', ['dn' => 'raw'], NULL, '(member='.ldap_escape_f($this->dn).')');
+      foreach (array_keys($parents) as $dn) {
+        $tabobject = objects::open($dn, 'ogroup');
+        $errors = $tabobject->save();
+        msg_dialog::displayChecks($errors);
+      }
+    }
+  }
+
   function getGroupObjectTypes ()
   {
     $this->reload();
