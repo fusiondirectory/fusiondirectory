@@ -87,9 +87,17 @@ You can [register on our system][register] and enter issues [FusionDirectory][is
 
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/351/badge)](https://bestpractices.coreinfrastructure.org/projects/351)
   
-## Donate
+## Crowfunding
 
-If you like [FusionDirectory][FusionDirectory] and would like to [donate][donate-liberapay] even a small amount you can go to our Liberapay account
+If you like us and want to send us a small contribution you can use the following crowfunding services
+
+* [liberapay] [donate-liberapay]: https://liberapay.com/fusiondirectory/donate
+
+* [kofi][donate-kofi]: https://ko-fi.com/fusiondirectory
+
+* [opencollective][donate-opencollective]: https://opencollective.com/fusiondirectory
+
+* [communitybridge][donate-communitybridge]: https://funding.communitybridge.org/projects/fusiondirectory
   
 ## License
 
@@ -110,3 +118,9 @@ If you like [FusionDirectory][FusionDirectory] and would like to [donate][donate
 [issues-plugins]: https://gitlab.fusiondirectory.org/fusiondirectory/fd-plugins/issues
 
 [donate-liberapay]: https://liberapay.com/fusiondirectory/donate
+
+[donate-kofi]: https://ko-fi.com/fusiondirectory
+
+[donate-opencollective]: https://opencollective.com/fusiondirectory
+
+[donate-communitybridge]: https://funding.communitybridge.org/projects/fusiondirectory
