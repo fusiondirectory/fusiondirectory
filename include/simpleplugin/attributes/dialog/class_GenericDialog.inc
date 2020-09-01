@@ -40,8 +40,11 @@ abstract class GenericDialog implements FusionDirectoryDialog
   {
     if (isset($_POST[$this->post_cancel])) {
       $this->handleCancel();
-    } elseif (isset($_POST[$this->post_finish]) || isset($_GET[$this->post_finish])) {
-      $this->handleFinish();
+    } else {
+      $this->dialog->readPost();
+      if (isset($_POST[$this->post_finish]) || isset($_GET[$this->post_finish])) {
+        $this->handleFinish();
+      }
     }
   }
 

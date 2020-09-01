@@ -61,7 +61,6 @@ class GenericSimplePluginDialog extends GenericDialog
 
   protected function handleFinish ()
   {
-    $this->dialog->readPost();
     $this->dialog->update();
     $msgs = $this->dialog->check();
     if (count($msgs)) {
