@@ -27,7 +27,7 @@
 /*! \brief This class is made for easy plugin creation for editing LDAP attributes
  *
  */
-class simplePlugin implements SimpleTab, FusionDirectoryDialog
+class simplePlugin implements SimpleTab
 {
   /*! \brief This attribute store all information about attributes */
   public $attributesInfo;
@@ -1170,6 +1170,9 @@ class simplePlugin implements SimpleTab, FusionDirectoryDialog
       } elseif (!$this->is_account && $this->acl_is_createable()) {
         $this->is_account = TRUE;
       }
+    }
+    if (is_object($this->dialog)) {
+      $this->dialog->readPost();
     }
     if (isset($_POST[get_class($this).'_posted'])) {
       // If our form has been posted

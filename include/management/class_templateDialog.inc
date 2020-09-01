@@ -94,6 +94,11 @@ class templateDialog implements FusionDirectoryDialog
     }
   }
 
+  public function update(): bool
+  {
+    return TRUE;
+  }
+
   function setNextTarget ($target)
   {
     $this->target = $target;

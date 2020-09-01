@@ -97,7 +97,7 @@ class multiPlugin extends simplePlugin
     }
   }
 
-  public function update (): boolean
+  public function update (): bool
   {
     foreach ($this->plugin as $plug) {
       $plug->update();

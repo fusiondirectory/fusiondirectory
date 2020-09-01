@@ -237,7 +237,7 @@ class simpleTabs implements FusionDirectoryDialog
 
   public function update (): bool
   {
-    if ($this->last != $this->current) {
+    if (($this->last != $this->current) && ($this->last != '')) {
       $this->by_object[$this->last]->update();
     }
 
