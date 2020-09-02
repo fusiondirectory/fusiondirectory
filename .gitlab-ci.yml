@@ -10,6 +10,7 @@ stages:
   - codestyle
   - transifex
   - tarballs
+  - trigger
 
 ## Stage lint
 
@@ -139,16 +140,16 @@ update-transifex:
 build-tarballs:
   stage: tarballs
   only:
-    - /^1.*$/
+    - 1.3-fixes
   script:
-    - mkdir ../fusiondirectory-$(cut -d '-' -f1 <<< $CI_COMMIT_REF_NAME)
-    - cp -a ./* ../fusiondirectory-$(cut -d '-' -f1 <<< $CI_COMMIT_REF_NAME)
-    - mv ../fusiondirectory-$(cut -d '-' -f1 <<< $CI_COMMIT_REF_NAME) ./
+    - mkdir ../fusiondirectory-1.3.1/
+    - mv ./* ../fusiondirectory-1.3.1/
+    - mv  ../fusiondirectory-1.3.1/ ./
+    - tar -cvzf fusiondirectory-1.3.1.tar.gz *
   artifacts:
-    name: fusiondirectory-$(cut -d '-' -f1 <<< $CI_COMMIT_REF_NAME)
     paths:
-    - ./fusiondirectory-$(cut -d '-' -f1 <<< $CI_COMMIT_REF_NAME)
-    expire_in: 1h
+      - fusiondirectory-1.3.1.tar.gz
+    expire_in: 30d
 
 build-release:
   stage: tarballs
@@ -162,3 +163,11 @@ build-release:
     name: fusiondirectory-"$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')"
     paths:
     - ./fusiondirectory-"$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')"
+
+trigger-ci:
+  stage: trigger
+  only:
+    - 1.3-fixes
+  trigger:
+    project: fusiondirectory/fd-plugins
+    branch: 1.3-fixes
