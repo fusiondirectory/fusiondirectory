@@ -140,9 +140,7 @@ class ACLEditionDialog implements FusionDirectoryDialog
 
   public function update (): bool
   {
-    if ($this->dialogState === 'closed') {
-      return FALSE;
-    }
+    return ($this->dialogState !== 'closed');
   }
 
   protected function handleFinish ()
