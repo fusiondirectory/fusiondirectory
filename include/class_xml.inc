@@ -137,7 +137,7 @@ class xml
         // See if the key is already taken.
         if (!isset($current[$data['tag']])) {
           // New Key
-          $current[$data['tag']]                        = $result;
+          $current[$data['tag']]                                = $result;
           $repeated_tag_index[$data['tag'].'_'.$data['level']]  = 1;
           if ($priority == 'tag' and $attributes_data) {
             $current[$data['tag']. '_attr'] = $attributes_data;
