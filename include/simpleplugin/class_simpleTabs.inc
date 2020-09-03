@@ -202,7 +202,18 @@ class simpleTabs implements FusionDirectoryDialog
     $this->readPost();
   }
 
-  function readPost ()
+  public function readPostTabChange ()
+  {
+    /* Look for pressed tab button */
+    foreach (array_keys($this->by_object) as $class) {
+      if (isset($_POST[$class]) || (isset($_POST['arg']) && ($_POST['arg'] == $class))) {
+        $this->current = $class;
+        break;
+      }
+    }
+  }
+
+  public function readPost ()
   {
     /* Ensure that the currently selected tab is valid. */
     if (!isset($this->by_name[$this->current])) {
@@ -219,13 +230,7 @@ class simpleTabs implements FusionDirectoryDialog
       $this->by_object[$this->last]->readPost();
     }
 
-    /* Look for pressed tab button */
-    foreach (array_keys($this->by_object) as $class) {
-      if (isset($_POST[$class]) || (isset($_POST['arg']) && ($_POST['arg'] == $class))) {
-        $this->current = $class;
-        break;
-      }
-    }
+    $this->readPostTabChange();
   }
 
   function execute ()

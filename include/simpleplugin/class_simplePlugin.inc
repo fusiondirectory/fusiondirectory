@@ -2236,10 +2236,13 @@ class simplePlugin implements SimpleTab
       }
       $tabObject = session::get($classname);
 
-      /* save changes back to object */
       if (!$edit_mode || session::is_set('edit')) {
+        /* Save changes back to object */
         $tabObject->readPost();
         $tabObject->update();
+      } else {
+        /* Allow changing tab before going into edit mode */
+        $tabObject->readPostTabChange();
       }
 
       if ($edit_mode) {
