@@ -43,7 +43,6 @@ class ogroup extends simplePlugin
     return [
       'plShortName'   => _('Object group'),
       'plDescription' => _('Object group information'),
-      'plFilter'      => '(objectClass=groupOfNames)',
       'plPriority'    => 1,
       'plObjectClass' => ['groupOfNames', 'gosaGroupOfNames'],
       'plFilter'      => '(objectClass=groupOfNames)',
