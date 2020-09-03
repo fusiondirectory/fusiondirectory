@@ -23,6 +23,11 @@
 /* ACL categories list */
 class ACLEditionDialog implements FusionDirectoryDialog
 {
+  protected $attribute;
+
+  protected $post_cancel = 'add_cancel';
+  protected $post_finish = 'add_finish';
+
   protected $initialAclValue;
   protected $dialogState      = 'create';
   protected $aclObject        = '';
