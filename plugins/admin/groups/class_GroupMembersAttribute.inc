@@ -23,7 +23,7 @@
 class GroupMembersAttribute extends ObjectsAttribute
 {
   protected $typeToCodeMap;
-  protected $childTypes;
+  protected $childTypes = [];
 
   function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = [], $store_attr = 'dn', $display_attr = 'cn', array $filterElementDefinitions = NULL, $acl = '')
   {
