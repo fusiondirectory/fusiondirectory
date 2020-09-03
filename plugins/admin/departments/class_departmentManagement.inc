@@ -58,17 +58,17 @@ class departmentManagement extends management
   }
 
   // Overridden remove request method - Avoid removal of the ldap base.
-  protected function removeEntryRequested ($action, array $target, array $all)
+  public function removeRequested (array $action)
   {
     global $config;
-    $target = array_remove_entries([$config->current['BASE']], $target);
-    return parent::removeEntryRequested($action, $target, $all);
+    $action['targets'] = array_remove_entries([$config->current['BASE']], $action['targets']);
+    return parent::removeRequested($action);
   }
 
   // Finally remove departments and update department browsers
-  function removeEntryConfirmed ($action, array $target, array $all)
+  public function removeConfirmed (array $action)
   {
-    parent::removeEntryConfirmed($action, $target, $all);
+    parent::removeConfirmed($action);
     $this->refreshDeps();
   }
 
