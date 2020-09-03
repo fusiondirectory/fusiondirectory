@@ -48,14 +48,6 @@ interface SimpleTab extends FusionDirectoryDialog
 
   public static function plInfo (): array;
 
-  /*! \brief This function returns the html code to display for this tab
-   */
-  public function execute (): string;
-
-  /*! \brief Save information from POST if needed
-   */
-  public function save_object ();
-
   /*! \brief Checks data and return errors
    */
   public function check (): array;
