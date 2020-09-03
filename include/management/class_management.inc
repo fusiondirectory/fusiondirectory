@@ -506,7 +506,12 @@ class management implements FusionDirectoryDialog
     } elseif (is_object($this->dialogObject)) {
       try {
         $this->dialogObject->readPost();
-        $this->dialogObject->update();
+        if (is_object($this->dialogObject)) {
+          /* Check again as readPost might close it */
+          if (!$this->dialogObject->update()) {
+            $this->closeDialogs();
+          }
+        }
       } catch (FusionDirectoryException $e) {
         $error = new FusionDirectoryError(htmlescape($e->getMessage()), 0, $e);
         $error->display();

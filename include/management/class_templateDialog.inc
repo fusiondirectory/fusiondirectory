@@ -96,7 +96,7 @@ class templateDialog implements FusionDirectoryDialog
 
   public function update(): bool
   {
-    return TRUE;
+    return !$this->closed;
   }
 
   function setNextTarget ($target)
@@ -131,6 +131,6 @@ class templateDialog implements FusionDirectoryDialog
   protected function handleCancel ()
   {
     $this->management->remove_lock();
-    $this->management->closeDialogs();
+    $this->closed = TRUE;
   }
 }
