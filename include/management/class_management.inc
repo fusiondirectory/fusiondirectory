@@ -73,6 +73,8 @@ class management
   /* Disable and hide configuration system */
   protected $skipConfiguration = FALSE;
 
+  protected $columnConfiguration;
+
   /* Default columns */
   public static $columns = [
     ['ObjectTypeColumn', []],

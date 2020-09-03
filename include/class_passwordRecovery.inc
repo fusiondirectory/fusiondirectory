@@ -31,6 +31,9 @@ class passwordRecovery extends standAlonePage
   /* Salt needed to mask the uniq id in the ldap */
   protected $salt;
 
+  /* Uniq ID recovered from email */
+  protected $uniq;
+
   /* Delay allowed for the user to change his password (minutes) */
   protected $delay_allowed;
 
@@ -132,7 +135,7 @@ class passwordRecovery extends standAlonePage
   /* Check that password recovery is activated, read config in ldap
    * Returns a boolean saying if password recovery is activated
    */
-  function readLdapConfig ()
+  protected function readLdapConfig (): bool
   {
     global $config;
     $this->salt           = $config->get_cfg_value('passwordRecoverySalt');

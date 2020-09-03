@@ -215,6 +215,8 @@ class LoginMethod
     try {
       $method::loginProcess();
     } catch (Exception $e) {
+      $lang = session::get('lang');
+
       $display = '<h1>'.htmlescape(_('An unrecoverable error occurred. Please contact your administator.')).'</h1><p>';
       if (ini_get('display_errors') == 1) {
         $display .= nl2br(htmlescape((string)$e));

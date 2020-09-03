@@ -129,10 +129,10 @@ class SelectAttribute extends Attribute
       if ($this->outputs !== NULL) {
         unset($this->outputs['']);
       }
-    } elseif (!$this->isRequired() && !in_array("", $this->choices, TRUE)) {
-      $this->choices[] = "";
-      if (($this->outputs !== NULL) && !isset($this->output[''])) {
-        $this->output[''] = _('None');
+    } elseif (!$this->isRequired() && !in_array('', $this->choices, TRUE)) {
+      $this->choices[] = '';
+      if (($this->outputs !== NULL) && !isset($this->outputs[''])) {
+        $this->outputs[''] = _('None');
       }
     }
   }

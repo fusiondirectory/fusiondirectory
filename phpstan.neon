@@ -1,0 +1,9 @@
+parameters:
+  bootstrapFiles:
+    - include/php_setup.inc
+    - include/class_msg_dialog.inc
+  scanDirectories:
+    - /usr/share/php
+  fileExtensions:
+    - php
+    - inc

@@ -100,7 +100,7 @@ class ldapFilter
       $filter .= ')';
       $offset = 0;
       $level  = 0;
-      $open;
+      $open   = 0;
       while (preg_match('/[^\\\\](\\(|\\))/', $filter, $m, PREG_OFFSET_CAPTURE, $offset)) {
         $offset = $m[0][1] + 1;
         if ($m[1][0] == '(') {

@@ -20,7 +20,7 @@
 */
 
 /* base class for passwordRecovery and such classes handling requests on their own */
-class standAlonePage
+abstract class standAlonePage
 {
   protected $directories;
   protected $directory;
@@ -55,6 +55,8 @@ class standAlonePage
 
     static::init();
   }
+
+  abstract protected function readLdapConfig (): bool;
 
   function checkDirectoryChooser ()
   {

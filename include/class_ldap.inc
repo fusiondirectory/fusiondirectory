@@ -1129,7 +1129,7 @@ class LDAP
     // Check scope values
     $scope = trim($scope);
     if (!empty($scope) && !in_array($scope, ['base', 'one', 'sub', 'children'])) {
-      throw new LDIFExportException(sprintf('Invalid parameter for scope "%s", please use "base", "one", "sub" or "children".'), $scope);
+      throw new LDIFExportException(sprintf('Invalid parameter for scope "%s", please use "base", "one", "sub" or "children".', $scope));
     }
     $scope = (empty($scope) ? '' : ' -s '.$scope);
 
@@ -1522,7 +1522,7 @@ class LDAP
     }
   }
 
-  function get_naming_contexts ($server, $admin = '', $password = '')
+  public static function get_naming_contexts ($server, $admin = '', $password = '')
   {
     /* Build LDAP connection */
     $ds = ldap_connect($server);

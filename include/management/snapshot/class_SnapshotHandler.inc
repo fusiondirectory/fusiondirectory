@@ -32,6 +32,8 @@
 class SnapshotHandler
 {
   protected $enabled;
+  protected $snapshotRDN;
+  protected $snapshotsCache;
 
   static function plInfo ()
   {

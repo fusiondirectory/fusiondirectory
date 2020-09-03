@@ -32,7 +32,7 @@ class divSelectBox
 {
   protected $headers = FALSE;
   protected $a_entries;
-  protected $summary;
+  protected $s_summary;
   protected $cols;
 
   protected $id;

@@ -56,7 +56,7 @@ if (isset($_REQUEST['signout']) && $_REQUEST['signout']) {
       );
       // Set the CA certificate that is the issuer of the cert
       phpCAS::setCasServerCACert($config->get_cfg_value('casServerCaCertPath'));
-      phpCas::logout();
+      phpCAS::logout();
     }
     $reason = 'Sign out';
     if (isset($_REQUEST['message'])) {

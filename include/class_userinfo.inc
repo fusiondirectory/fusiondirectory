@@ -214,7 +214,7 @@ class userinfo
               }
               break;
             default:
-              throw FusionDirectoryException('Unknown ACL member type '.$memberType);
+              throw new FusionDirectoryException('Unknown ACL member type '.$memberType);
           }
         }
 
@@ -1103,7 +1103,7 @@ class userinfo
     $ui = static::getLdapUser($username);
 
     if ($ui === FALSE) {
-      throw new LoginFailureException(ldap::invalidCredentialsError());
+      throw new LoginFailureException(LDAP::invalidCredentialsError());
     } elseif (is_string($ui)) {
       throw new LoginFailureException($ui);
     }
