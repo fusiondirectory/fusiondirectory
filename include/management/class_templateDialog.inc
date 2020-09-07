@@ -94,7 +94,7 @@ class templateDialog implements FusionDirectoryDialog
     }
   }
 
-  public function update(): bool
+  public function update (): bool
   {
     return !$this->closed;
   }

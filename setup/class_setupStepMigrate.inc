@@ -72,8 +72,6 @@ class StepMigrateDialog implements FusionDirectoryDialog
 
   public function __construct (&$check, $tpl, $infos)
   {
-    $this->attribute  = NULL;
-    $this->dialog     = NULL;
     $this->infos      = $infos;
     $this->tplfile    = $tpl;
     $this->check      = $check;
@@ -95,9 +93,7 @@ class StepMigrateDialog implements FusionDirectoryDialog
 
   public function update (): bool
   {
-    if (!isset($this->check)) {
-      return FALSE;
-    }
+    return isset($this->check);
   }
 
   public function render (): string
