@@ -53,29 +53,6 @@ define('LDAP_DEL',    4);
 define('LDAP_SEARCH', 5);
 define('LDAP_AUTH',   6);
 
-/* Rewrite german 'umlauts' and spanish 'accents'
-   to get better results */
-$REWRITE = [ "ä" => "ae",
-    "ö" => "oe",
-    "ü" => "ue",
-    "Ä" => "Ae",
-    "Ö" => "Oe",
-    "Ü" => "Ue",
-    "ß" => "ss",
-    "á" => "a",
-    "é" => "e",
-    "í" => "i",
-    "ó" => "o",
-    "ú" => "u",
-    "Á" => "A",
-    "É" => "E",
-    "Í" => "I",
-    "Ó" => "O",
-    "Ú" => "U",
-    "ñ" => "ny",
-    "Ñ" => "Ny" ];
-
-
 /*!
  * \brief Does autoloading for classes used in FusionDirectory.
  *
@@ -1010,10 +987,32 @@ function to_string ($value)
  */
 function rewrite ($s)
 {
-  global $REWRITE;
+  /* Rewrite german 'umlauts' and spanish 'accents'
+   to get better results */
+  static $REWRITE = [
+    'ä' => 'ae',
+    'ö' => 'oe',
+    'ü' => 'ue',
+    'Ä' => 'Ae',
+    'Ö' => 'Oe',
+    'Ü' => 'Ue',
+    'ß' => 'ss',
+    'á' => 'a',
+    'é' => 'e',
+    'í' => 'i',
+    'ó' => 'o',
+    'ú' => 'u',
+    'Á' => 'A',
+    'É' => 'E',
+    'Í' => 'I',
+    'Ó' => 'O',
+    'Ú' => 'U',
+    'ñ' => 'ny',
+    'Ñ' => 'Ny',
+  ];
 
   foreach ($REWRITE as $key => $val) {
-    $s = str_replace("$key", "$val", $s);
+    $s = str_replace($key, $val, $s);
   }
 
   return $s;

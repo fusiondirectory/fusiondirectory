@@ -222,7 +222,7 @@ $smarty->assign("contents", $display);
 $smarty->assign("sessionLifetime", $config->get_cfg_value("sessionLifetime", 60 * 60 * 2));
 
 /* If there's some post, take a look if everything is there... */
-if (isset($_POST) && count($_POST) && !isset($_POST['php_c_check'])) {
+if (count($_POST) && !isset($_POST['php_c_check'])) {
   throw new FatalError(
     htmlescape(_('Fatal error: not all POST variables have been transfered by PHP - please inform your administrator!'))
   );

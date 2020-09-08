@@ -59,45 +59,37 @@ class passwordMethodCrypt extends passwordMethod
    */
   public function generate_hash (string $pwd, bool $locked = FALSE): string
   {
+    $salt = '';
+
     if ($this->hash == "crypt/standard-des") {
       $salt = "";
       for ($i = 0; $i < 2; $i++) {
         $salt .= get_random_char();
       }
-    }
-
-    if ($this->hash == "crypt/enhanced-des") {
+    } elseif ($this->hash == "crypt/enhanced-des") {
       $salt = "_";
       for ($i = 0; $i < 8; $i++) {
         $salt .= get_random_char();
       }
-    }
-
-    if ($this->hash == "crypt/md5") {
+    } elseif ($this->hash == "crypt/md5") {
       $salt = "\$1\$";
       for ($i = 0; $i < 8; $i++) {
         $salt .= get_random_char();
       }
       $salt .= "\$";
-    }
-
-    if ($this->hash == "crypt/blowfish") {
+    } elseif ($this->hash == "crypt/blowfish") {
       $salt = "\$2a\$07\$";
       for ($i = 0; $i < CRYPT_SALT_LENGTH; $i++) {
         $salt .= get_random_char();
       }
       $salt .= "\$";
-    }
-
-    if ($this->hash == "crypt/sha-256") {
+    } elseif ($this->hash == "crypt/sha-256") {
       $salt = "\$5\$";
       for ($i = 0; $i < 16; $i++) {
         $salt .= get_random_char();
       }
       $salt .= "\$";
-    }
-
-    if ($this->hash == "crypt/sha-512") {
+    } elseif ($this->hash == "crypt/sha-512") {
       $salt = "\$6\$";
       for ($i = 0; $i < 16; $i++) {
         $salt .= get_random_char();
