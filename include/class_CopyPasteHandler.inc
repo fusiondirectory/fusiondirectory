@@ -222,10 +222,11 @@ class CopyPasteHandler implements FusionDirectoryDialog
 
     /* Save edited entry and force loading new one */
     if (isset($this->current['object'])) {
+      $dialogWasOpened = $this->current['object']->dialogOpened();
       $this->current['object']->readPost();
       $this->current['object']->update();
       /* Save current object if edition is finished */
-      if (!$this->current['object']->dialogOpened() && isset($_POST['edit_finish'])) {
+      if (!$dialogWasOpened && !$this->current['object']->dialogOpened() && isset($_POST['edit_finish'])) {
         $errors = $this->current['object']->save();
 
         if (empty($errors)) {
