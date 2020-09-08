@@ -488,7 +488,6 @@ class LDAP
    */
   function fetch ($srp, bool $cleanUpNumericIndices = FALSE)
   {
-    $att = [];
     if ($this->hascon) {
       if ($this->hasres[$srp]) {
         if ($this->start[$srp] == 0) {
@@ -501,6 +500,7 @@ class LDAP
         } else {
           $this->re[$srp] = @ldap_next_entry($this->cid, $this->re[$srp]);
         }
+        $att = [];
         if ($this->re[$srp]) {
           $att        = @ldap_get_attributes($this->cid, $this->re[$srp]);
           $att['dn']  = trim(@ldap_get_dn($this->cid, $this->re[$srp]));
@@ -513,9 +513,6 @@ class LDAP
           }
         }
         $this->error = @ldap_error($this->cid);
-        if (!isset($att)) {
-          $att = [];
-        }
         logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'fetch()');
         return $att;
       } else {
@@ -761,6 +758,7 @@ class LDAP
       reset($delarray);
 
       /* Really Delete ALL dn's in subtree */
+      $r = TRUE;
       foreach (array_keys($delarray) as $key) {
         $r = @ldap_delete($this->cid, $key);
         if ($r === FALSE) {
@@ -1313,7 +1311,9 @@ class LDAP
       $this->connect();
     }
 
-    $ret  = FALSE;
+    $ret        = FALSE;
+    $dn         = NULL;
+    $operation  = NULL;
 
     /* If dn is an index of data, we should try to insert the data */
     if (isset($data['dn'])) {
@@ -1377,6 +1377,7 @@ class LDAP
       $error->display();
     }
 
+
     return $ret;
   }
 
@@ -1411,11 +1412,12 @@ class LDAP
       if (preg_match('/^[0-9]+$/', $val)) {
         continue;
       }
-      $name = "OID";
-      $pattern = explode(' ', $val);
-      $ocname = preg_replace("/^.* NAME\s+\(*\s*'([^']+)'\s*\)*.*$/", '\\1', $val);
+      $name     = 'OID';
+      $pattern  = explode(' ', $val);
+      $ocname   = preg_replace("/^.* NAME\s+\(*\s*'([^']+)'\s*\)*.*$/", '\\1', $val);
       $objectclasses[$ocname] = [];
 
+      $value = '';
       foreach ($pattern as $chunk) {
         switch ($chunk) {
 

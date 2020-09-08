@@ -311,7 +311,7 @@ abstract class passwordMethod
 
     if (isset($methods['class']['passwordMethodEmpty']) && (passwordMethodEmpty::_extract_method($password_hash) != '')) {
       /* Test empty method first as it gets priority */
-      $method = new passwordMethodEmpty($dn);
+      $method = new passwordMethodEmpty();
       return $method;
     }
 
@@ -324,7 +324,7 @@ abstract class passwordMethod
       }
     }
 
-    $method = new passwordMethodClear($dn);
+    $method = new passwordMethodClear();
     return $method;
   }
 

@@ -336,6 +336,8 @@ class tests
     $ad = explode('.', $address);
 
     /* Generate inverted netmask */
+    $ni = [];
+    $la = [];
     for ($i = 0; $i < 4; $i++) {
       $ni[$i] = 255 - $nm[$i];
       $la[$i] = $nw[$i] | $ni[$i];

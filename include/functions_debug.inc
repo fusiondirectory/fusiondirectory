@@ -123,15 +123,13 @@ class printAClass
 
     // lighten up the background color for the key td's =)
     if ($iteration) {
+      $tmp_key_bg_color = '';
       for ($i = 0; $i < 6; $i += 2) {
         $c = substr($key_bg_color, $i, 2);
         $c = hexdec($c);
         $c += 15;
         if ($c > 255) {
           $c = 255;
-        }
-        if (!isset($tmp_key_bg_color)) {
-          $tmp_key_bg_color = '';
         }
         $tmp_key_bg_color .= sprintf("%02X", $c);
       }

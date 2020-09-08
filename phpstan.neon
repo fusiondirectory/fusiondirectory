@@ -2,8 +2,13 @@ parameters:
   bootstrapFiles:
     - include/php_setup.inc
     - include/class_msg_dialog.inc
+    - include/class_userinfo.inc
   scanDirectories:
     - /usr/share/php
   fileExtensions:
     - php
     - inc
+  universalObjectCratesClasses:
+    - simplePlugin
+  excludes_analyse:
+    - */class_sieve*.inc
