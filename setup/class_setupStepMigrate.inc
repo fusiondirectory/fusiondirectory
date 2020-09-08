@@ -851,10 +851,6 @@ class setupStepMigrate extends setupStep
         );
       }
     }
-
-    // Reload base OC
-    $this->checks['baseOC']->run();
-    return '';
   }
 
   function check_adminAccount_create (&$checkobj)

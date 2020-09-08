@@ -167,7 +167,7 @@ abstract class passwordMethod
     /* Fill modification array */
     $modify = [];
     foreach ($userObject->by_object as $tab) {
-      if ($tab instanceof userTabLockingAction) {
+      if ($tab instanceof UserTabLockingAction) {
         $tab->fillLockingLDAPAttrs($mode, $modify);
       }
     }

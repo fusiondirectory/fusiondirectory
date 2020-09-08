@@ -340,11 +340,11 @@ $error_collector_mailto = "";
 set_error_handler('gosaRaiseError', E_WARNING | E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT);
 set_exception_handler('fusiondirectoryExceptionHandler');
 
-$variables_order = "ES";
-ini_set("track_vars", 1);
-ini_set("display_errors", 1);
-ini_set("report_memleaks", 1);
-ini_set("include_path", ".:$BASE_DIR/include:".PHP_DIR.":".PEAR_DIR);
+$variables_order = 'ES';
+ini_set('track_vars',       '1');
+ini_set('display_errors',   '1');
+ini_set('report_memleaks',  '1');
+ini_set('include_path',     ".:$BASE_DIR/include:".PHP_DIR.':'.PEAR_DIR);
 
 /* Do smarty setup */
 require(SMARTY);

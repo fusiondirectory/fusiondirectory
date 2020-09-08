@@ -1,3 +1,6 @@
+includes:
+  - phpstan-baseline.neon
+
 parameters:
   bootstrapFiles:
     - include/php_setup.inc
@@ -12,3 +15,6 @@ parameters:
     - simplePlugin
   excludes_analyse:
     - */class_sieve*.inc
+    - */localfiles/*
+    - */vendor/*
+    - */test/*
