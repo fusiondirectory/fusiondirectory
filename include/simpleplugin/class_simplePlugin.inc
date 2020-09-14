@@ -640,11 +640,30 @@ class simplePlugin implements SimpleTab
     return $this->read_only;
   }
 
-  /*! \brief This function display the plugin and return the html code
-   */
   function execute (): string
   {
-    logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "execute");
+    trigger_error('obsolete');
+    $this->update();
+    return $this->render();
+  }
+
+  public function update (): bool
+  {
+    if (is_object($this->dialog)) {
+      $dialogState = $this->dialog->update();
+      if ($dialogState === FALSE) {
+        $this->closeDialog();
+      }
+    }
+
+    return TRUE;
+  }
+
+  /*! \brief This function display the plugin and return the html code
+   */
+  public function render (): string
+  {
+    logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'render');
 
     /* Reset Lock message POST/GET check array, to prevent preg_match errors */
     session::set('LOCK_VARS_TO_USE', []);
@@ -653,17 +672,12 @@ class simplePlugin implements SimpleTab
     session::set('LOCK_VARS_USED_REQUEST', []);
 
     $this->displayPlugin  = TRUE;
-    $this->header         = "";
+    $this->header         = '';
 
     if (is_object($this->dialog)) {
-      $dialogResult = $this->dialog->execute();
-      if ($dialogResult === FALSE) {
-        $this->closeDialog();
-      } else {
-        $this->header         = $dialogResult;
-        $this->displayPlugin  = FALSE;
-        return $this->header;
-      }
+      $this->header         = $this->dialog->render();
+      $this->displayPlugin  = FALSE;
+      return $this->header;
     }
 
     if ($this->displayHeader) {
@@ -928,9 +942,9 @@ class simplePlugin implements SimpleTab
 
   /*! \brief This function allows you to open a dialog
    *
-   *  \param mixed $dialog The dialog object
+   *  \param FusionDirectoryDialog $dialog The dialog object
    */
-  function openDialog ($dialog)
+  function openDialog (FusionDirectoryDialog $dialog)
   {
     $this->dialog = $dialog;
   }
@@ -1140,13 +1154,25 @@ class simplePlugin implements SimpleTab
    */
   function save_object ()
   {
-    logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'save_object');
+    trigger_error('obsolete');
+    $this->readPost();
+  }
+
+  /*! \brief This function handle $_POST informations
+   */
+  function readPost ()
+  {
+    logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'readPost');
+
     if ($this->displayHeader && isset($_POST[get_class($this).'_modify_state'])) {
       if ($this->is_account && $this->acl_is_removeable()) {
         $this->is_account = FALSE;
       } elseif (!$this->is_account && $this->acl_is_createable()) {
         $this->is_account = TRUE;
       }
+    }
+    if (is_object($this->dialog)) {
+      $this->dialog->readPost();
     }
     if (isset($_POST[get_class($this).'_posted'])) {
       // If our form has been posted
@@ -1810,8 +1836,6 @@ class simplePlugin implements SimpleTab
       }
       // For each object of this type
       foreach (array_keys($objects) as $dn) {
-        /* Avoid sending POST to opened objects */
-        $_POST = [];
         // Build the object
         $tabobject = objects::open($dn, $objectType);
         if (preg_match('/^handle_/', $mode)) {
@@ -1837,7 +1861,7 @@ class simplePlugin implements SimpleTab
                   );
                 }
               }
-              $pluginobject->save_object();
+              $pluginobject->update();
             }
           }
           $errors = $tabobject->save();
@@ -2212,9 +2236,13 @@ class simplePlugin implements SimpleTab
       }
       $tabObject = session::get($classname);
 
-      /* save changes back to object */
       if (!$edit_mode || session::is_set('edit')) {
-        $tabObject->save_object();
+        /* Save changes back to object */
+        $tabObject->readPost();
+        $tabObject->update();
+      } else {
+        /* Allow changing tab before going into edit mode */
+        $tabObject->readPostTabChange();
       }
 
       if ($edit_mode) {
@@ -2255,9 +2283,9 @@ class simplePlugin implements SimpleTab
         $display = $lock_msg;
       } else {
         if ($tabs) {
-          $display .= $tabObject->execute();
+          $display .= $tabObject->render();
         } else {
-          $display .= $tabObject->by_object[$classname]->execute();
+          $display .= $tabObject->by_object[$classname]->render();
         }
       }
 

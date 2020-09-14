@@ -50,13 +50,6 @@ class setupStepChecks extends setupStep
     $this->s_description  = _('Basic checks for PHP compatibility and extensions');
   }
 
-  /* Execute and display template */
-  function execute (): string
-  {
-    $this->run_checks();
-    return parent::execute();
-  }
-
   /* Execute all checks */
   function run_checks ()
   {
@@ -229,9 +222,12 @@ class setupStepChecks extends setupStep
     $this->config_checks  = $config_checks;
   }
 
-  function save_object ()
+  public function update (): bool
   {
-    parent::save_object();
+    parent::update();
+
+    $this->run_checks();
+
     /* If everything is fine, set this step to completed
     *  and allow switching to next setup step */
     $failed = FALSE;
@@ -244,5 +240,7 @@ class setupStepChecks extends setupStep
       }
     }
     $this->is_completed = !$failed;
+
+    return TRUE;
   }
 }

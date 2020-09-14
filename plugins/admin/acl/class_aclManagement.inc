@@ -1,8 +1,9 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
+
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011-2018  FusionDirectory
+  Copyright (C) 2011-2020  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -24,6 +25,7 @@ class aclAssignmentCreationDialog extends simplePlugin
   protected $post_finish = 'add_finish';
   protected $post_cancel = 'add_cancel';
   protected $management;
+  protected $closed = FALSE;
 
   static function plInfo (): array
   {
@@ -68,56 +70,58 @@ class aclAssignmentCreationDialog extends simplePlugin
     $this->attributesAccess['baseDn']->setInLdap(FALSE);
   }
 
-  function save_object ()
+  public function readPost ()
   {
-    parent::save_object();
+    parent::readPost();
     if (isset($_POST[$this->post_cancel])) {
-      return $this->handle_cancel();
+      $this->handleCancel();
+    } elseif (isset($_POST[$this->post_finish])) {
+      $this->handleFinish();
     }
-    if (isset($_POST[$this->post_finish])) {
-      return $this->handle_finish();
-    }
-    return TRUE;
   }
 
-  function save (): array
+  public function update (): bool
   {
+    parent::update();
+    return !$this->closed;
   }
 
-  function execute (): string
+  public function render (): string
   {
-    if ($this->save_object()) {
-      $smarty = get_smarty();
-      $smarty->assign($this->attributesAccess['baseDn']->getAcl().'ACL', 'rwcdm');
-      return parent::execute()."\n".
-      '<p class="plugbottom">'."\n".
-      '  <input type="submit" name="'.$this->post_finish.'" value="'.msgPool::addButton().'"/>&nbsp;'."\n".
-      '  <input type="submit" formnovalidate="formnovalidate" name="'.$this->post_cancel.'" value="'.msgPool::cancelButton().'"/>'."\n".
-      '</p>';
-    }
+    $smarty = get_smarty();
+    $smarty->assign($this->attributesAccess['baseDn']->getAcl().'ACL', 'rwcdm');
+    return parent::render()."\n".
+    '<p class="plugbottom">'."\n".
+    '  <input type="submit" name="'.$this->post_finish.'" value="'.msgPool::addButton().'"/>&nbsp;'."\n".
+    '  <input type="submit" formnovalidate="formnovalidate" name="'.$this->post_cancel.'" value="'.msgPool::cancelButton().'"/>'."\n".
+    '</p>';
   }
 
-  function handle_finish ()
+  public function handleFinish ()
   {
     $msgs = $this->check();
     if (count($msgs)) {
       msg_dialog::displayChecks($msgs);
-      return TRUE;
+      return;
     }
     try {
       $this->management->newEntryConfirmed($this->baseDn);
     } catch (NonExistingLdapNodeException $e) {
       $error = new FusionDirectoryError(htmlescape(_('The dn you entered could not be found in the LDAP')), 0, $e);
       $error->display();
-      return TRUE;
+      return;
     }
-    return FALSE;
+    $this->closed = TRUE;
   }
 
-  function handle_cancel ()
+  function handleCancel ()
   {
     $this->management->closeDialogs();
-    return FALSE;
+  }
+
+  function save (): array
+  {
+    return [];
   }
 }
 

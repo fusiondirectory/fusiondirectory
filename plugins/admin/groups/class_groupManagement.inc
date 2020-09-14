@@ -183,7 +183,7 @@ class groupManagement extends management
     // Prepare event to be added
     $events   = argonautEventTypes::get_event_types();
     if (isset($events[$event])) {
-      $this->dialogObject = new argonautAction($event, $mac, !$triggered);
+      $this->dialogObject = new argonautAction($this, $event, $mac, !$triggered);
 
       if ($triggered) {
         $res = $o_queue->append($this->dialogObject);
@@ -210,7 +210,8 @@ class groupManagement extends management
    */
   function saveEventDialog ()
   {
-    $this->dialogObject->save_object();
+    $this->dialogObject->readPost();
+    $this->dialogObject->update();
     $msgs = $this->dialogObject->check();
     if (count($msgs)) {
       msg_dialog::displayChecks($msgs);

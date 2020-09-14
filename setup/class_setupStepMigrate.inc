@@ -38,8 +38,9 @@ get_user_list               - Get list of available users
 create_admin
 create_admin_user
 
-execute                     - Generate html output of this plugin
-save_object                 - Save posts
+readPost                    - Save posts
+update                      - Update state
+render                      - Generate html output of this plugin
 array_to_ldif               - Create ldif output of an ldap result array
 
  ****************/
@@ -60,7 +61,7 @@ class CheckFailedException extends FusionDirectoryException
   }
 }
 
-class StepMigrateDialog extends GenericDialog
+class StepMigrateDialog implements FusionDirectoryDialog
 {
   protected $post_cancel = 'dialog_cancel';
   protected $post_finish = 'dialog_confirm';
@@ -71,38 +72,47 @@ class StepMigrateDialog extends GenericDialog
 
   public function __construct (&$check, $tpl, $infos)
   {
-    $this->attribute  = NULL;
-    $this->dialog     = NULL;
     $this->infos      = $infos;
     $this->tplfile    = $tpl;
     $this->check      = $check;
   }
 
-  public function dialog_execute ()
+  public function readPost ()
   {
-    if (
+    if (isset($_POST[$this->post_cancel])) {
+      $this->handleCancel();
+    } elseif (isset($_POST[$this->post_finish]) || isset($_GET[$this->post_finish])) {
+      $this->handleFinish();
+    } elseif (
       isset($_POST['dialog_showchanges']) ||
       isset($_POST['dialog_hidechanges']) ||
       isset($_POST['dialog_refresh'])) {
       $this->infos = $this->check->dialog_refresh();
     }
+  }
+
+  public function update (): bool
+  {
+    return isset($this->check);
+  }
+
+  public function render (): string
+  {
     $smarty = get_smarty();
     $smarty->assign('infos', $this->infos);
     return $smarty->fetch(get_template_path($this->tplfile, TRUE, dirname(__FILE__)));
   }
 
-  function handle_finish ()
+  protected function handleFinish ()
   {
     if ($this->check->migrate_confirm()) {
-      return FALSE;
-    } else {
-      return $this->dialog_execute();
+      unset($this->check);
     }
   }
 
-  function handle_cancel ()
+  protected function handleCancel ()
   {
-    return FALSE;
+    unset($this->check);
   }
 }
 
@@ -140,7 +150,7 @@ class StepMigrateCheck
     }
   }
 
-  public function save_object ()
+  public function readPost ()
   {
     if (isset($_POST[$this->name.'_create'])) {
       $createFnc = $this->fnc.'_create';
@@ -300,30 +310,33 @@ class setupStepMigrate extends setupStep
     return preg_replace("/\n$/", '', $ret);
   }
 
-  function execute (): string
-  {
-    if (ini_get('max_execution_time') < 180) {
-      set_time_limit(180);
-    }
-    if (empty($this->checks) || isset($_POST['reload'])) {
-      $this->initialize_checks();
-      foreach ($this->checks as $check) {
-        $check->run();
-      }
-    }
-    return parent::execute();
-  }
-
-  function save_object ()
+  public function readPost ()
   {
     if (ini_get('max_execution_time') < 180) {
       set_time_limit(180);
     }
     $this->is_completed = TRUE;
-    parent::save_object();
-    foreach ($this->checks as $check) {
-      $check->save_object();
+    parent::readPost();
+    if (isset($_POST['reload'])) {
+      $this->checks = [];
     }
+    foreach ($this->checks as $check) {
+      $check->readPost();
+    }
+  }
+
+  public function update (): bool
+  {
+    if (ini_get('max_execution_time') < 180) {
+      set_time_limit(180);
+    }
+    if (empty($this->checks)) {
+      $this->initialize_checks();
+      foreach ($this->checks as $check) {
+        $check->run();
+      }
+    }
+    return parent::update();
   }
 
   /* Check if the root object includes the required object classes, e.g. gosaDepartment is required for ACLs.
@@ -838,10 +851,6 @@ class setupStepMigrate extends setupStep
         );
       }
     }
-
-    // Reload base OC
-    $this->checks['baseOC']->run();
-    return '';
   }
 
   function check_adminAccount_create (&$checkobj)
@@ -879,13 +888,13 @@ class setupStepMigrate extends setupStep
       $roledn = $tabObject->dn;
     }
 
+    $_POST['dialog_refresh'] = TRUE;
+
     /* Creating user */
     $tabObject = objects::create('user');
-    $_POST['givenName']                   = 'System';
-    $_POST['sn']                          = 'Administrator';
-    $_POST[$tabObject->current.'_posted'] = TRUE;
-    $_POST['dialog_refresh']              = TRUE;
-    $tabObject->save_object();
+    $tabObject->givenName                 = 'System';
+    $tabObject->sn                        = 'Administrator';
+    $tabObject->update();
     $errors = $tabObject->save();
     if (!empty($errors)) {
       msg_dialog::displayChecks($errors);

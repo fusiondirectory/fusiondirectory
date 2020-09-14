@@ -130,11 +130,11 @@ class setupStepLdap extends setupStep
     }
   }
 
-  function save_object ()
+  public function update (): bool
   {
     $base       = $this->base;
     $connection = $this->connection;
-    parent::save_object();
+    parent::update();
     $this->connection = preg_replace("/\/$/", "", $this->connection);
     if (($this->base != $base) || ($this->connection != $connection)) {
       $this->parent->disable_steps_from(($this->parent->step_name_to_id(get_class($this))) + 1);
@@ -152,6 +152,8 @@ class setupStepLdap extends setupStep
     } else {
       $this->is_completed = FALSE;
     }
+
+    return TRUE;
   }
 
   function get_connection_status ()

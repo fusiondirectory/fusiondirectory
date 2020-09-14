@@ -462,7 +462,7 @@ class config
 
     add_lock($dn, $ui->dn);
     $config_plugin = objects::open($dn, 'configuration');
-    $config_plugin->save_object();
+    $config_plugin->update();
     $config_plugin->save();
     del_lock($dn);
   }

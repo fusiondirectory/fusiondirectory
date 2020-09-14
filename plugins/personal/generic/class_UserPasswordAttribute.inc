@@ -190,7 +190,7 @@ class UserPasswordAttribute extends CompositeAttribute
     if (!empty($value) || ($this->plugin->initially_was_account && !$istemplate)) {
       if ($istemplate) {
         if ($value == '%askme%') {
-          return ['%askme%', '', '', $value, ($locked ? 'TRUE' : 'FALSE')];
+          return ['%askme%', '', '', $value, 'FALSE'];
         }
         list($value, $password) = explode('|', $value, 2);
       }

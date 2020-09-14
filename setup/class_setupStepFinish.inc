@@ -52,28 +52,10 @@ class setupStepFinish extends setupStep
     return $smarty->fetch(CONFIG_TEMPLATE_DIR.CONFIG_FILE);
   }
 
-  function execute (): string
+  public function readPost ()
   {
-    /* Check if there is currently an active fusiondirectory.conf */
-    $exists   = file_exists(CONFIG_DIR."/".CONFIG_FILE);
-    $err_msg  = '';
+    parent::readPost();
 
-    if ($exists && $this->is_world_readable(CONFIG_DIR.'/'.CONFIG_FILE)) {
-      $err_msg = _('Your configuration file is currently world readable. Please update the file permissions!');
-    } elseif (!$exists) {
-      $err_msg = _('The configuration is currently not readable or it does not exists.');
-    }
-
-    $smarty = get_smarty();
-    $smarty->assign('err_msg',  $err_msg);
-    $smarty->assign('msg2',     sprintf(_('After downloading and placing the file under %s, please make sure that the user the webserver is running with is able to read %s, while other users shouldn\'t.'), CONFIG_DIR, CONFIG_FILE));
-
-    return parent::execute();
-  }
-
-  function save_object ()
-  {
-    parent::save_object();
     $exists = file_exists(CONFIG_DIR.'/'.CONFIG_FILE);
 
     /* Redirect to FusionDirectory login, if :
@@ -90,6 +72,25 @@ class setupStepFinish extends setupStep
     if (isset($_POST['getconf'])) {
       send_binary_content($this->get_conf_data(), CONFIG_FILE, 'text/plain');
     }
+  }
+
+  public function render (): string
+  {
+    /* Check if there is currently an active fusiondirectory.conf */
+    $exists   = file_exists(CONFIG_DIR."/".CONFIG_FILE);
+    $err_msg  = '';
+
+    if ($exists && $this->is_world_readable(CONFIG_DIR.'/'.CONFIG_FILE)) {
+      $err_msg = _('Your configuration file is currently world readable. Please update the file permissions!');
+    } elseif (!$exists) {
+      $err_msg = _('The configuration is currently not readable or it does not exists.');
+    }
+
+    $smarty = get_smarty();
+    $smarty->assign('err_msg',  $err_msg);
+    $smarty->assign('msg2',     sprintf(_('After downloading and placing the file under %s, please make sure that the user the webserver is running with is able to read %s, while other users shouldn\'t.'), CONFIG_DIR, CONFIG_FILE));
+
+    return parent::render();
   }
 
   /* check if given file is world readable */

@@ -137,7 +137,7 @@ class FileAttribute extends Attribute
       return sprintf(_('Attribute %s is disabled, its value could not be set'), $this->getLdapName());
     }
     if ($this->binary) {
-      $data = base64_decode($value);
+      $data = base64_decode($value, TRUE);
       if ($data === FALSE) {
         return sprintf(_('Invalid base64 data for attribute %s'), $this->getLdapName());
       }

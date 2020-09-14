@@ -249,10 +249,13 @@ class userRoles extends simplePlugin
     return [];
   }
 
-  function save_object ()
+  public function update (): bool
   {
-    parent::save_object();
+    $res = parent::update();
+
     $this->is_account = ((count($this->rolesMembership) > 0) || (count($this->groupsMembership) > 0));
+
+    return $res;
   }
 
   protected function shouldSave (): bool

@@ -21,13 +21,14 @@
 /*!
  * \brief Template dialog handling
  */
-class templateDialog
+class templateDialog implements FusionDirectoryDialog
 {
   protected $management;
   protected $type;
   protected $template = NULL;
   protected $templates;
   protected $target = NULL;
+  protected $closed = FALSE;
 
   protected $tabObject;
 
@@ -49,18 +50,21 @@ class templateDialog
     $this->target = $target;
   }
 
-  function save_object ()
+  function readPost ()
   {
     if (isset($_POST[$this->post_cancel])) {
-      return $this->handle_cancel();
+      $this->handleCancel();
+      return;
     }
 
     if (($this->target === NULL) &&
         is_object($this->template) &&
         (isset($_POST[$this->post_finish]) || isset($_GET[$this->post_finish]))
         ) {
-      $this->template->save_object();
-      return $this->handle_finish();
+      $this->template->readPost();
+      $this->template->update();
+      $this->handleFinish();
+      return;
     }
 
     if (
@@ -75,19 +79,24 @@ class templateDialog
       unset($_POST['template']);
     }
     if (is_object($this->template)) {
+      $this->template->readPost();
+      $this->template->update();
       if ($this->target !== NULL) {
         $this->management->openTabObject($this->template->apply($this->target));
         $this->management->handleTemplateApply();
-        return FALSE;
+        return;
       } else {
-        $this->template->save_object();
         if (empty($this->template->getNeeded())) {
-          return $this->handle_finish();
+          $this->handleFinish();
+          return;
         }
       }
     }
+  }
 
-    return TRUE;
+  public function update (): bool
+  {
+    return !$this->closed;
   }
 
   function setNextTarget ($target)
@@ -96,11 +105,11 @@ class templateDialog
     $this->template->reset();
   }
 
-  function execute ()
+  public function render (): string
   {
     $smarty = get_smarty();
     if (is_object($this->template)) {
-      $templateOutput = $this->template->execute();
+      $templateOutput = $this->template->render();
       if ($this->template->dialogOpened()) {
         return $templateOutput;
       } else {
@@ -113,17 +122,15 @@ class templateDialog
     return $display;
   }
 
-  function handle_finish ()
+  protected function handleFinish ()
   {
     $this->management->closeDialogs();
     $this->management->openTabObject($this->template->apply());
-    return FALSE;
   }
 
-  function handle_cancel ()
+  protected function handleCancel ()
   {
     $this->management->remove_lock();
-    $this->management->closeDialogs();
-    return FALSE;
+    $this->closed = TRUE;
   }
 }

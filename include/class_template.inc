@@ -24,7 +24,7 @@
  */
 
 /*! \brief Class for applying a template */
-class template
+class template implements FusionDirectoryDialog
 {
   protected $type;
   protected $dn;
@@ -240,11 +240,19 @@ class template
     }
   }
 
-  function save_object ()
+  public function readPost ()
   {
     foreach ($this->tabObject->by_object as $plugin) {
-      $plugin->save_object();
+      $plugin->readPost();
     }
+  }
+
+  public function update (): bool
+  {
+    foreach ($this->tabObject->by_object as $plugin) {
+      $plugin->update();
+    }
+    return TRUE;
   }
 
   public function dialogOpened ()
@@ -252,7 +260,7 @@ class template
     return $this->tabObject->dialogOpened();
   }
 
-  function execute ()
+  public function render (): string
   {
     $smarty   = get_smarty();
     $sections = [];
@@ -263,21 +271,8 @@ class template
         continue;
       }
       if ($plugin->is_modal_dialog()) {
-        if ($plugin instanceof simplePlugin) {
-          $dialogResult = $plugin->dialog->execute();
-          if ($dialogResult === FALSE) {
-            $plugin->closeDialog();
-          } else {
-            $this->tabObject->current = $class;
-            return $dialogResult;
-          }
-        } else {
-          $dialogResult = $plugin->execute();
-          if ($plugin->is_modal_dialog()) {
-            $this->tabObject->current = $class;
-            return $dialogResult;
-          }
-        }
+        $this->tabObject->current = $class;
+        return $plugin->render();
       }
       $attributesRendered = [];
       foreach ($this->attributes[$class] as $attr) {

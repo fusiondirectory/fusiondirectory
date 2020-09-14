@@ -27,7 +27,7 @@
 /*!
  * \brief This class contains all function to manage tabs classes
  */
-class simpleTabs
+class simpleTabs implements FusionDirectoryDialog
 {
   var $dn;
   var $acl;
@@ -194,37 +194,26 @@ class simpleTabs
   }
 
   /*!
-   * \brief Save the tab(s) contents
+   * \brief Save a tabs object
    */
-  function execute ()
+  function save_object ()
   {
-    /* Look for pressed tab button first */
-    foreach ($this->by_object as $class => &$obj) {
-      if (isset($_POST[$class]) || (isset($_POST['arg']) && $_POST['arg'] == "$class")) {
+    trigger_error('obsolete');
+    $this->readPost();
+  }
+
+  public function readPostTabChange ()
+  {
+    /* Look for pressed tab button */
+    foreach (array_keys($this->by_object) as $class) {
+      if (isset($_POST[$class]) || (isset($_POST['arg']) && ($_POST['arg'] == $class))) {
         $this->current = $class;
         break;
       }
     }
-    unset($obj);
-
-    /* Compute tab content */
-    $tabContent = $this->by_object[$this->current]->execute();
-
-    /* Build tab line */
-    $display = $this->renderTabList($this->dialogOpened());
-
-    /* Show object */
-    $display .= '<div class="tab-content">'."\n";
-    $display .= $tabContent;
-    $display .= '</div>';
-
-    return $display;
   }
 
-  /*!
-   * \brief Save a tabs object
-   */
-  function save_object ()
+  public function readPost ()
   {
     /* Ensure that the currently selected tab is valid. */
     if (!isset($this->by_name[$this->current])) {
@@ -235,11 +224,49 @@ class simpleTabs
     $this->last = $this->current;
 
     /* Save last tab */
-    if ($this->last != "") {
-      logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->last, "Saving");
+    if ($this->last != '') {
+      logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->last, 'Reading POST');
 
-      $this->by_object[$this->last]->save_object();
+      $this->by_object[$this->last]->readPost();
     }
+
+    $this->readPostTabChange();
+  }
+
+  function execute ()
+  {
+    trigger_error('obsolete');
+    $this->update();
+    return $this->render();
+  }
+
+  public function update (): bool
+  {
+    if (($this->last != $this->current) && ($this->last != '')) {
+      $this->by_object[$this->last]->update();
+    }
+
+    $this->by_object[$this->current]->update();
+
+    return TRUE;
+  }
+
+  /*! \brief This function display the plugin and return the html code
+   */
+  public function render (): string
+  {
+    /* Compute tab content */
+    $tabContent = $this->by_object[$this->current]->render();
+
+    /* Build tab line */
+    $display = $this->renderTabList($this->dialogOpened());
+
+    /* Show object */
+    $display .= '<div class="tab-content">'."\n";
+    $display .= $tabContent;
+    $display .= '</div>';
+
+    return $display;
   }
 
   /*!
@@ -256,7 +283,7 @@ class simpleTabs
    */
   protected function renderTabList (bool $disabled = FALSE): string
   {
-    $display = "";
+    $display = '';
     if (!$disabled) {
       $display .= '<input type="hidden" name="arg" value=""/>';
     }

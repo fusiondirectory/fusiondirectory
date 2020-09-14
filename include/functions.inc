@@ -885,7 +885,6 @@ function strict_uid_mode ()
 function gen_locked_message (array $locks, $dn, $allow_readonly = FALSE)
 {
   session::set('dn', $dn);
-  $remove = FALSE;
 
   /* Save variables from LOCK_VARS_TO_USE in session - for further editing */
   if (session::is_set('LOCK_VARS_TO_USE') && count(session::get('LOCK_VARS_TO_USE'))) {
@@ -937,11 +936,7 @@ function gen_locked_message (array $locks, $dn, $allow_readonly = FALSE)
   }
 
   $smarty->assign('dn', $msg);
-  if ($remove) {
-    $smarty->assign('action', _('Continue anyway'));
-  } else {
-    $smarty->assign('action', _('Edit anyway'));
-  }
+  $smarty->assign('action', _('Edit anyway'));
   $smarty->assign('message', sprintf(_("You're going to edit the LDAP entry/entries %s"), "<b>".$msg."</b>", ""));
   $smarty->assign('locks', $locks);
 
@@ -1712,7 +1707,7 @@ function change_password ($dn, $password, $hash = "")
     $userTab->userPassword,
     $userTab->attributesAccess['userPassword']->isLocked()
   ];
-  $userTabs->save_object();
+  $userTabs->update();
   $error = $userTabs->save();
   if (!empty($error)) {
     return $error;

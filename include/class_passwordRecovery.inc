@@ -71,7 +71,7 @@ class passwordRecovery extends standAlonePage
     }
   }
 
-  function save_object ()
+  function readPost ()
   {
     if (!$this->activated) {
       return;
@@ -105,7 +105,7 @@ class passwordRecovery extends standAlonePage
 
   function execute ()
   {
-    $this->save_object();
+    $this->readPost();
 
     /* Do we need to show error messages? */
     if (count($this->message) != 0) {
@@ -406,7 +406,7 @@ class passwordRecovery extends standAlonePage
     ];
 
     /* Is there any problem with entered passwords? */
-    $userTabs->save_object();
+    $userTabs->update();
     $errors = $userTabs->save();
     if (!empty($errors)) {
       $this->message = $errors;

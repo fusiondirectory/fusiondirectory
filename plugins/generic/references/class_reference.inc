@@ -65,14 +65,14 @@ class reference extends simplePlugin
     return 'r';
   }
 
-  function execute (): string
+  public function render (): string
   {
     if ($this->refs === NULL) {
       $this->fillRefs();
     }
     $smarty = get_smarty();
     $smarty->assign('usePrototype', 'true');
-    return parent::execute();
+    return parent::render();
   }
 
   function fillRefs ()

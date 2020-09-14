@@ -1,8 +1,9 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
+
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2020  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -20,8 +21,13 @@
 */
 
 /* ACL categories list */
-class ACLEditionDialog extends GenericDialog
+class ACLEditionDialog implements FusionDirectoryDialog
 {
+  protected $attribute;
+
+  protected $post_cancel = 'add_cancel';
+  protected $post_finish = 'add_finish';
+
   protected $initialAclValue;
   protected $dialogState      = 'create';
   protected $aclObject        = '';
@@ -41,23 +47,17 @@ class ACLEditionDialog extends GenericDialog
     }
   }
 
-  function handle_finish ()
-  {
-    $this->attribute->addValue('', $this->aclContents);
-    return FALSE;
-  }
-
-  function handle_cancel ()
-  {
-    if ($this->initialAclValue !== NULL) {
-      $this->attribute->addValue('', $this->initialAclValue);
-    }
-    return FALSE;
-  }
-
-  function save_object ()
+  public function readPost ()
   {
     global $config;
+
+    if (isset($_POST[$this->post_cancel])) {
+      $this->handleCancel();
+      return;
+    } elseif (isset($_POST[$this->post_finish]) || isset($_GET[$this->post_finish])) {
+      $this->handleFinish();
+      return;
+    }
 
     $new_acl = [];
 
@@ -143,11 +143,28 @@ class ACLEditionDialog extends GenericDialog
     }
   }
 
-  function dialog_execute ()
+  public function update (): bool
+  {
+    return ($this->dialogState !== 'closed');
+  }
+
+  protected function handleFinish ()
+  {
+    $this->attribute->addValue('', $this->aclContents);
+    $this->dialogState = 'closed';
+  }
+
+  protected function handleCancel ()
+  {
+    if ($this->initialAclValue !== NULL) {
+      $this->attribute->addValue('', $this->initialAclValue);
+    }
+    $this->dialogState = 'closed';
+  }
+
+  public function render (): string
   {
     global $config;
-
-    $this->save_object();
 
     /* Create templating instance */
     $smarty = get_smarty();
@@ -232,7 +249,7 @@ class ACLEditionDialog extends GenericDialog
    *
    * \return String containing checkbox
    */
-  function mkchkbx ($name, $text, $state = FALSE)
+  protected function mkchkbx ($name, $text, $state = FALSE)
   {
     $tname = preg_replace('/[^a-z0-9]/i', '_', $name);
     return  '<input id="acl_'.$tname.'" type="checkbox" name="acl_'.$name.'"'.($state ? ' checked="checked"' : '').'/>'."\n".
@@ -247,7 +264,7 @@ class ACLEditionDialog extends GenericDialog
    *
    * \return String containing checkbox
    */
-  function mkrwbx ($name, $state = '')
+  protected function mkrwbx ($name, $state = '')
   {
     $rstate = (preg_match('/r/', $state) ? ' checked="checked"' : '');
     $wstate = (preg_match('/w/', $state) ? ' checked="checked"' : '');
@@ -266,7 +283,7 @@ class ACLEditionDialog extends GenericDialog
    *
    * \return the acl selector form
    */
-  function buildAclSelector ($list)
+  protected function buildAclSelector ($list)
   {
     $display  = '<input type="hidden" name="acl_dummy_0_0_0" value="1"/>';
     $cols     = 3;

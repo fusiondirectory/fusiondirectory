@@ -327,11 +327,11 @@ class user extends simplePlugin
     return $this->create_unique_dn($attribute, get_ou('userRDN').$this->base);
   }
 
-  function execute (): string
+  public function render (): string
   {
     $smarty = get_smarty();
     $smarty->append('css_files', 'plugins/users/style/user_tab.css');
-    return parent::execute();
+    return parent::render();
   }
 
   protected function shouldSave (): bool

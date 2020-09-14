@@ -21,7 +21,7 @@
 
 require_once("class_setupStep.inc");
 
-class setup
+class setup implements FusionDirectoryDialog
 {
   /* Number of setup steps */
   var $i_steps;
@@ -58,7 +58,7 @@ class setup
     }
   }
 
-  function execute ()
+  public function render (): string
   {
     /* Display phpinfo() dialog when $_GET['info'] is set,
      *  but only do this, if user is allowed to use the setup.
@@ -73,15 +73,16 @@ class setup
     $smarty->assign('usePrototype', 'true');
     $this->o_steps[$this->i_previous]->set_active(FALSE);
     $this->o_steps[$this->i_current]->set_active();
-    return $this->o_steps[$this->i_current]->execute();
+    return $this->o_steps[$this->i_current]->render();
   }
 
 
   /* Save posted attributes  */
-  function save_object ()
+  public function readPost ()
   {
-    /* Call save_object for current setup step */
-    $this->o_steps[$this->i_current]->save_object();
+    /* Call readPost and update for current setup step */
+    $this->o_steps[$this->i_current]->readPost();
+    $this->o_steps[$this->i_current]->update();
 
     /* Get attributes from setup step */
     $tmp = $this->o_steps[$this->i_current]->get_attributes();
@@ -146,6 +147,11 @@ class setup
       $this->i_previous = $this->i_current;
       $this->i_current  = $step;
     }
+  }
+
+  public function update (): bool
+  {
+    return TRUE;
   }
 
 
@@ -305,8 +311,9 @@ class setup
     $setup = session::get('setup');
 
     /* Execute formular */
-    $setup->save_object();
-    $display = $setup->execute();
+    $setup->readPost();
+    $setup->update();
+    $display = $setup->render();
 
     /* Store changes  in session */
     session::set('setup', $setup);

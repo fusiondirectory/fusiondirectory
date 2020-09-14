@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
 
-  Copyright (C) 2018-2019  FusionDirectory
+  Copyright (C) 2018-2020  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@
 /*! \brief This interface is implemented by classes intended to be used as tabs, mainly simplePlugin itself.
  */
 
-interface SimpleTab
+interface SimpleTab extends FusionDirectoryDialog
 {
   /*
    * Public vars expected as well by classes implementing this interface:
@@ -47,14 +47,6 @@ interface SimpleTab
    */
 
   public static function plInfo (): array;
-
-  /*! \brief This function returns the html code to display for this tab
-   */
-  public function execute (): string;
-
-  /*! \brief Save information from POST if needed
-   */
-  public function save_object ();
 
   /*! \brief Checks data and return errors
    */

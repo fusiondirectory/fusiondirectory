@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
 
-  Copyright (C) 2017-2019  FusionDirectory
+  Copyright (C) 2017-2020  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -32,17 +32,17 @@ class ManagementDialog extends simplePlugin
     parent::__construct($dn, $object, $parent, $mainTab, $attributesInfo);
   }
 
-  function save_object ()
+  public function readPost ()
   {
-    parent::save_object();
+    parent::readPost();
     if (isset($_POST[$this->post_cancel])) {
-      $this->handle_cancel();
+      $this->handleCancel();
     } elseif (isset($_POST[$this->post_finish])) {
-      $this->handle_finish();
+      $this->handleFinish();
     }
   }
 
-  protected function handle_finish ()
+  protected function handleFinish ()
   {
     $msgs = $this->check();
     if (count($msgs)) {
@@ -60,15 +60,15 @@ class ManagementDialog extends simplePlugin
     }
   }
 
-  protected function handle_cancel ()
+  protected function handleCancel ()
   {
     $this->parent->remove_lock();
     $this->parent->closeDialogs();
   }
 
-  function execute (): string
+  public function render (): string
   {
-    return parent::execute().$this->getFooter();
+    return parent::render().$this->getFooter();
   }
 
   /*! \brief  Returns the plugin footer (save cancel), displayed in the template.

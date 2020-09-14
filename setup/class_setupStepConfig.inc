@@ -94,10 +94,10 @@ class setupStepConfig extends configInLdap
     return $tmp;
   }
 
-  function save_object ()
+  function update (): bool
   {
     global $config, $plist;
-    parent::save_object();
+    parent::update();
     $this->is_completed = FALSE;
     $tmp = $this->check();
     if (count($tmp) == 0) {
@@ -108,13 +108,13 @@ class setupStepConfig extends configInLdap
         $ldap->create_missing_trees($config->current['BASE'], FALSE);
       } catch (FusionDirectoryError $error) {
         $error->display();
-        return;
+        return TRUE;
       }
       /* Save in LDAP */
       $errors = $this->save();
       if (!empty($errors)) {
         msg_dialog::displayChecks($errors);
-        return;
+        return TRUE;
       }
       /* Insert default config values, even for installed plugin */
       session::un_set('plist');
@@ -127,6 +127,7 @@ class setupStepConfig extends configInLdap
       $this->is_completed = TRUE;
       $this->parent->reBuildConfigStep(TRUE);
     }
+    return TRUE;
   }
 
   function is_active ()

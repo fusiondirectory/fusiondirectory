@@ -90,20 +90,34 @@ class multiPlugin extends simplePlugin
     return implode('', array_unique(str_split($acl)));
   }
 
-  function execute (): string
+  public function readPost ()
   {
-    $display = "";
+    foreach ($this->plugin as $plug) {
+      $plug->readPost();
+    }
+  }
+
+  public function update (): bool
+  {
+    foreach ($this->plugin as $plug) {
+      $plug->update();
+    }
+    return TRUE;
+  }
+
+  public function render (): string
+  {
+    $display = '';
 
     /* Do we represent a valid account? */
     if ($this->parent === NULL) {
       $enabled = FALSE;
-      foreach ($this->plugin as &$plug) {
+      foreach ($this->plugin as $plug) {
         if ($plug->is_account) {
           $enabled = TRUE;
           break;
         }
       }
-      unset($plug);
       if (!$enabled) {
         $display = '<img alt="'._('Error').'" src="geticon.php?context=status&amp;icon=dialog-error&amp;size=16" align="middle"/>&nbsp;<b>'.
                     msgPool::noValidExtension('').'</b>';
@@ -116,20 +130,10 @@ class multiPlugin extends simplePlugin
 
     foreach ($this->plugin as $plug) {
       $plug->read_only = $readOnly;
-      $display .= $plug->execute();
+      $display .= $plug->render();
     }
 
     return $display;
-  }
-
-
-  /* Save data to object */
-  function save_object ()
-  {
-    foreach ($this->plugin as &$plug) {
-      $plug->save_object();
-    }
-    unset($plug);
   }
 
   function check (): array
