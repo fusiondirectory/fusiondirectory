@@ -16,7 +16,7 @@ stages:
 
 # Perl lint
 create_perl_lint_rapport:
-  image: perlcodestyle:stretch
+  image: registry.fusiondirectory.org/fusiondirectory/fd/perlcodestyle:stretch
   stage: lint
   only:
     - branches
@@ -34,7 +34,7 @@ create_php_lint_rapport_stretch:
 
 # generate man pages to test validity
 create_manpages_lint_report:
-  image: perlcodestyle:stretch
+  image: registry.fusiondirectory.org/fusiondirectory/fd/perlcodestyle:stretch
   stage: lint
   only:
     - branches
@@ -50,7 +50,7 @@ create_manpages_lint_report:
 
 # Generate perlcritic rapport
 create_perlcritic_rapport:
-  image: perlcodestyle:stretch
+  image: registry.fusiondirectory.org/fusiondirectory/fd/perlcodestyle:stretch
   stage: codestyle
   only:
     - branches
@@ -61,7 +61,7 @@ create_perlcritic_rapport:
 
 # PHP codesniffer
 create_php_code_sniffer_rapport:
-  image: phpcodesniffer-cli:stretch
+  image: registry.fusiondirectory.org/fusiondirectory/fd/phpcodesniffer-cli:stretch
   stage: codestyle
   only:
     - branches
@@ -72,7 +72,7 @@ create_php_code_sniffer_rapport:
 
 # Sonar publishing
 sonar_publish:
-  image: sonar-cli:3.1.0.1141
+  image: registry.fusiondirectory.org/fusiondirectory/fd/sonar-cli:3.1.0.1141
   stage: codestyle
   only:
     - 1.4-dev
@@ -89,7 +89,7 @@ sonar_publish:
 
 # Sonar preview
 sonar_preview:
-  image: sonar-cli:3.1.0.1141
+  image: registry.fusiondirectory.org/fusiondirectory/fd/sonar-cli:3.1.0.1141
   stage: codestyle
   except:
     - 1.4-dev
@@ -107,7 +107,7 @@ sonar_preview:
 
 # fusiondirectory-update-locale
 fusiondirectory-update-locale:
-  image: transifex-cli:stretch
+  image: registry.fusiondirectory.org/fusiondirectory/fd/transifex-cli:stretch
   stage: transifex
   only:
     - branches
@@ -117,7 +117,7 @@ fusiondirectory-update-locale:
 
 # Update transifex
 update-transifex:
-  image: transifex-cli:stretch
+  image: registry.fusiondirectory.org/fusiondirectory/fd/transifex-cli:stretch
   stage: transifex
   only:
     - /^1.*$/
