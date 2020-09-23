@@ -91,7 +91,7 @@ sonar_publish:
       -D sonar.projectName=FusionDirectory-Dev
       -D sonar.projectVersion=1.3
       -D sonar.sourceEncoding=UTF-8
-      -D sonar.exclusions='html/themes/legacy/**/*,html/themes/breezy/**/*,include/class_xml.inc'
+      -D sonar.exclusions='html/themes/legacy/**/*,html/themes/breezy/**/*,html/images/*,include/class_xml.inc'
       -D sonar.gitlab.project_id="$CI_PROJECT_PATH"
       -D sonar.gitlab.commit_sha="$CI_COMMIT_SHA"
       -D sonar.gitlab.ref_name="$CI_COMMIT_REF_NAME"
@@ -108,7 +108,7 @@ sonar_preview:
       -D sonar.projectName=FusionDirectory-Dev
       -D sonar.projectVersion=1.3
       -D sonar.sourceEncoding=UTF-8
-      -D sonar.exclusions='html/themes/legacy/**/*,html/themes/breezy/**/*,include/class_xml.inc'
+      -D sonar.exclusions='html/themes/legacy/**/*,html/themes/breezy/**/*,html/images/*,include/class_xml.inc'
       -D sonar.gitlab.project_id="$CI_PROJECT_PATH"
       -D sonar.gitlab.commit_sha="$CI_COMMIT_SHA"
       -D sonar.gitlab.ref_name="$CI_COMMIT_REF_NAME"
