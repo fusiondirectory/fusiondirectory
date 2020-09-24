@@ -265,7 +265,7 @@ abstract class standAlonePage
     $max        = strlen($base) - 1;
     $randomhash = '';
     while (strlen($randomhash) < $len + 1) {
-      $randomhash .= $base{random_int(0, $max)};
+      $randomhash .= $base[random_int(0, $max)];
     }
     return $randomhash;
   }
