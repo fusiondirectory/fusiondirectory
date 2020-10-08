@@ -304,13 +304,13 @@ class config
    *
    * \return ldapMultiplexer object
    */
-  function get_ldap_link ($sizelimit = FALSE)
+  function get_ldap_link (bool $sizelimit = FALSE): ldapMultiplexer
   {
     global $ui;
 
     if ($this->ldapLink === NULL || !is_resource($this->ldapLink->cid)) {
       /* Build new connection */
-      $this->ldapLink = ldap_init($this->current['SERVER'], $this->current['BASE'],
+      $this->ldapLink = LDAP::init($this->current['SERVER'], $this->current['BASE'],
           $this->current['ADMINDN'], $this->get_credentials($this->current['ADMINPASSWORD']));
 
       /* Check for connection */

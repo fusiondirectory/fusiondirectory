@@ -317,40 +317,6 @@ function fusiondirectory_log ($message)
   syslog(LOG_INFO, "FusionDirectory $username: $message");
 }
 
-
-/*!
- * \brief Initialize a LDAP connection
- *
- * Initializes a LDAP connection.
- *
- * \param string $server The server we are connecting to
- *
- * \param string $base The base of our ldap tree
- *
- * \param string $binddn Default: empty
- *
- * \param string $pass Default: empty
- *
- * \return LDAP object
- */
-function ldap_init ($server, $base, $binddn = '', $pass = '')
-{
-  global $config;
-
-  $ldap = new LDAP($binddn, $pass, $server,
-      isset($config->current['LDAPFOLLOWREFERRALS']) && $config->current['LDAPFOLLOWREFERRALS'] == 'TRUE',
-      isset($config->current['LDAPTLS']) && $config->current['LDAPTLS'] == 'TRUE');
-
-  /* Sadly we've no proper return values here. Use the error message instead. */
-  if (!$ldap->success()) {
-    throw new FatalError(htmlescape(sprintf(_('FATAL: Error when connecting the LDAP. Server said "%s".'), $ldap->get_error())));
-  }
-
-  /* Preset connection base to $base and return to caller */
-  $ldap->cd($base);
-  return $ldap;
-}
-
 /*!
  *  \brief Add a lock for object(s)
  *

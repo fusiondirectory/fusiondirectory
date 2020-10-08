@@ -43,7 +43,7 @@ class objects
    *
    * \return The list of objects as an associative array (keys are dns)
    */
-  static function ls ($types, $attrs = NULL, $ou = NULL, $filter = '', $checkAcl = FALSE, $scope = 'subtree', $templateSearch = FALSE, $sizeLimit = FALSE)
+  static function ls ($types, $attrs = NULL, string $ou = NULL, string $filter = '', bool $checkAcl = FALSE, string $scope = 'subtree', bool $templateSearch = FALSE, bool $sizeLimit = FALSE): array
   {
     global $ui, $config;
 
@@ -222,7 +222,7 @@ class objects
    *
    * \return The number of objects of type $type in $ou
    */
-  static function count ($types, $ou = NULL, $filter = '', $checkAcl = FALSE, $templateSearch = FALSE)
+  static function count ($types, string $ou = NULL, string $filter = '', bool $checkAcl = FALSE, bool $templateSearch = FALSE): int
   {
     try {
       $ldap = static::search($types, ['dn'], $ou, $filter, $checkAcl, 'subtree', $templateSearch, $partialFilterAcls);
@@ -237,7 +237,7 @@ class objects
     return $ldap->count();
   }
 
-  private static function search ($types, $search_attrs, $ou = NULL, $filter = '', $checkAcl = FALSE, $scope = 'subtree', $templateSearch = FALSE, &$partialFilterAcls = [], $sizeLimit = FALSE)
+  private static function search ($types, $search_attrs, string $ou = NULL, string $filter = '', bool $checkAcl = FALSE, string $scope = 'subtree', bool $templateSearch = FALSE, &$partialFilterAcls = [], bool $sizeLimit = FALSE): ldapMultiplexer
   {
     global $config, $ui;
 
@@ -337,7 +337,7 @@ class objects
    *
    * \return The created tab object
    */
-  static function open ($dn, $type)
+  static function open (string $dn, string $type): simpleTabs
   {
     $infos    = static::infos($type);
     $tabClass = $infos['tabClass'];
@@ -348,7 +348,7 @@ class objects
     return $tabObject;
   }
 
-  static function link ($dn, $type, $subaction = '', $text = NULL, $icon = TRUE, $link = TRUE)
+  static function link (string $dn, string $type, string $subaction = '', string $text = NULL, bool $icon = TRUE, bool $link = TRUE): string
   {
     global $config;
 
@@ -395,12 +395,12 @@ class objects
     return $text;
   }
 
-  static function create ($type)
+  static function create (string $type): simpleTabs
   {
     return static::open('new', $type);
   }
 
-  static function createTemplate ($type)
+  static function createTemplate (string $type): simpleTabs
   {
     $infos    = static::infos($type);
     $tabClass = $infos['tabClass'];
@@ -416,7 +416,7 @@ class objects
     return $tabObject;
   }
 
-  static function &infos ($type)
+  static function &infos (string $type): array
   {
     global $config;
 
@@ -448,14 +448,14 @@ class objects
     return $infos;
   }
 
-  static function isOfType ($attrs, $type)
+  static function isOfType ($attrs, string $type): bool
   {
     $filter = static::getFilterObject($type);
     return $filter($attrs);
   }
 
   /* This method allows to cache parsed filter in filterObject key in objectTypes */
-  static function getFilterObject ($type)
+  static function getFilterObject (string $type): ldapFilter
   {
     global $config;
 
@@ -468,7 +468,7 @@ class objects
   }
 
   /* This method allows to cache searched attributes list in objectTypes */
-  static function getSearchedAttributes ($type)
+  static function getSearchedAttributes (string $type): array
   {
     global $config;
 
@@ -499,7 +499,7 @@ class objects
     return $infos['searchAttributes'];
   }
 
-  static function types ()
+  static function types (): array
   {
     global $config;
     return array_keys($config->data['OBJECTS']);
@@ -507,7 +507,7 @@ class objects
 
   /* !\brief  This method returns a list of all available templates for the given type
    */
-  static function getTemplates ($type, $requiredPermissions = 'r', $filter = '')
+  static function getTemplates (string $type, string $requiredPermissions = 'r', string $filter = ''): array
   {
     global $config, $ui;
 
