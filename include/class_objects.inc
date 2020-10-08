@@ -400,6 +400,12 @@ class objects
     return static::open('new', $type);
   }
 
+  static function delete (string $dn, string $type, bool $checkAcl = TRUE)
+  {
+    $tabObject = static::open($dn, $type);
+    $tabObject->delete($checkAcl);
+  }
+
   static function createTemplate (string $type): simpleTabs
   {
     $infos    = static::infos($type);

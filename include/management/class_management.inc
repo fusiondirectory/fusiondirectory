@@ -1020,7 +1020,8 @@ class management implements FusionDirectoryDialog
         // Delete the object
         $this->currentDn = $dn;
         $this->openTabObject(objects::open($this->currentDn, $entry->getTemplatedType()));
-        $this->tabObject->delete();
+        $errors = $this->tabObject->delete();
+        msg_dialog::displayChecks($errors);
 
         // Remove the lock for the current object.
         del_lock($this->currentDn);

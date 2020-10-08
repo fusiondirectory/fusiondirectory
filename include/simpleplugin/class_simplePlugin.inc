@@ -203,7 +203,7 @@ class simplePlugin implements SimpleTab
     if (empty($this->acl_category) && isset($plInfo['plCategory'])) {
       $c = key($plInfo['plCategory']);
       if (is_numeric($c)) {
-        $c = $plInfo['plCategory'][0];
+        $c = $plInfo['plCategory'][$c];
       }
       $this->acl_category = $c.'/';
     }
