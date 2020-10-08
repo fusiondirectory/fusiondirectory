@@ -30,12 +30,28 @@ class ObjectTypeColumn extends Column
 
   function renderCell (ListingEntry $entry): string
   {
-    if ($entry->isTemplate()) {
+    if (isset($this->attributes)) {
+      $isTemplate = FALSE;
+      $types      = $this->getAttributeValues($entry);
+    } else {
+      $isTemplate = $entry->isTemplate();
+      if ($entry->type) {
+        $types = [$entry->type];
+      } else {
+        $types = [];
+      }
+    }
+    if ($isTemplate) {
       $infos = objects::infos($entry->getTemplatedType());
       return '<img title="'.htmlescape($entry->dn).'" src="'.htmlescape('geticon.php?context=devices&icon=template&size=16').'" alt="'.htmlescape(sprintf(_('%s template'), $infos['name'])).'"/>';
-    } elseif ($entry->type) {
-      $infos = objects::infos($entry->type);
-      return '<img title="'.htmlescape($entry->dn).'" src="'.htmlescape($infos['icon']).'" alt="'.htmlescape($infos['name']).'"/>';
+    } elseif (!empty($types)) {
+      $cell = '';
+      foreach ($types as $type) {
+        $infos = objects::infos($type);
+        $title = (isset($this->attributes) ? $infos['name'] : $entry->dn);
+        $cell .= '<img title="'.htmlescape($title).'" src="'.htmlescape($infos['icon']).'" alt="'.htmlescape($infos['name']).'"/>';
+      }
+      return $cell;
     } else {
       return '&nbsp;';
     }
