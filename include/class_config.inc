@@ -1141,6 +1141,10 @@ class config
               $this->data['OBJECTS'][$obj]['snapshotActive']  = TRUE;
               $this->data['CATEGORIES'][$cat]['classes'][]    = 'SnapshotHandler';
             }
+            if (class_available('archivedObject') && archivedObject::isArchiveActive($obj)) {
+              $this->data['OBJECTS'][$obj]['archiveActive']   = TRUE;
+              $this->data['CATEGORIES'][$cat]['classes'][]    = 'archive';
+            }
           }
         }
       }

@@ -280,6 +280,13 @@ class management implements FusionDirectoryDialog
       );
     }
 
+    if (class_available('archivedObject')) {
+      $action = archivedObject::getManagementAction($this->objectTypes, 'archiveEntry');
+      if ($action !== NULL) {
+        $this->registerAction($action);
+      }
+    }
+
     $this->registerAction(
       new Action(
         'remove', _('Remove'), 'geticon.php?context=actions&icon=edit-delete&size=16',
@@ -832,6 +839,63 @@ class management implements FusionDirectoryDialog
     $this->currentDn = array_shift($this->currentDns);
 
     $this->dialogObject = new templateDialog($this, $type, NULL, $this->currentDn);
+  }
+
+  public function archiveEntry (array $action)
+  {
+    global $ui;
+
+    if (empty($action['targets'])) {
+      return;
+    }
+    $this->currentDns = $action['targets'];
+
+    logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDns, 'Archiving');
+
+    // check locks
+    if ($locks = get_locks($this->currentDns)) {
+      return gen_locked_message($locks, $this->currentDns);
+    }
+
+    // Add locks
+    add_lock($this->currentDns, $ui->dn);
+
+    $success = 0;
+    foreach ($this->currentDns as $dn) {
+      $entry = $this->listing->getEntry($dn);
+      if ($entry === NULL) {
+        trigger_error('Could not find '.$dn.', action canceled');
+        $this->remove_lock();
+        $this->currentDns = [];
+        return;
+      }
+
+      if ($entry->isTemplate()) {
+        $error = new FusionDirectoryError(htmlescape(_('Archiving a template is not possible')));
+        $error->display();
+        $this->remove_lock();
+        $this->currentDns = [];
+        return;
+      }
+
+      $errors = archivedObject::archiveObject($entry->type, $dn);
+      if (empty($errors)) {
+        $success++;
+      } else {
+        msg_dialog::displayChecks($errors);
+      }
+      del_lock($dn);
+    }
+
+    if ($success > 0) {
+      msg_dialog::display(
+        _('Archive success'),
+        htmlescape(sprintf(_('%d entries were successfully archived'), $success)),
+        INFO_DIALOG
+      );
+    }
+
+    $this->currentDns = [];
   }
 
 
