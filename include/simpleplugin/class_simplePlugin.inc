@@ -2251,7 +2251,7 @@ class simplePlugin implements SimpleTab
           /* Check locking */
           if ($locks = get_locks($entry_dn)) {
             session::set('LOCK_VARS_TO_USE', ["/^edit$/", "/^plug$/"]);
-            $lock_msg = gen_locked_message($locks, $entry_dn);
+            $lock_msg = management::genLockedMessage($locks);
           } else {
             /* Lock the current entry */
             add_lock($entry_dn, $ui->dn);

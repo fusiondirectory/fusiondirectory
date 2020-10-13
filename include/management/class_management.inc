@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2017-2018  FusionDirectory
+  Copyright (C) 2017-2020  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -281,9 +281,11 @@ class management implements FusionDirectoryDialog
     }
 
     if (class_available('archivedObject')) {
-      $action = archivedObject::getManagementAction($this->objectTypes, 'archiveEntry');
+      $action = archivedObject::getManagementAction($this->objectTypes, 'archiveRequested');
       if ($action !== NULL) {
         $this->registerAction($action);
+        $this->registerAction(new HiddenAction('archiveConfirmed',  'archiveConfirmed'));
+        $this->registerAction(new HiddenAction('archiveCancel',     'cancelEdit'));
       }
     }
 
@@ -397,6 +399,10 @@ class management implements FusionDirectoryDialog
         $action['action'] = 'removeConfirmed';
       } elseif (isset($_POST['delete_cancel'])) {
         $action['action'] = 'cancelDelete';
+      } elseif (isset($_POST['archive_confirmed'])) {
+        $action['action'] = 'archiveConfirmed';
+      } elseif (isset($_POST['archive_cancel'])) {
+        $action['action'] = 'archiveCancel';
       } else {
         $action = $this->listing->getAction();
       }
@@ -597,7 +603,7 @@ class management implements FusionDirectoryDialog
    *         concurrent modifications.
    *         This locks will automatically removed here.
    */
-  function remove_lock ()
+  public function removeLocks ()
   {
     if (!empty($this->currentDn) && ($this->currentDn != 'new')) {
       del_lock($this->currentDn);
@@ -802,7 +808,7 @@ class management implements FusionDirectoryDialog
 
     // check locks
     if ($locks = get_locks($this->currentDns)) {
-      return gen_locked_message($locks, $this->currentDns);
+      return static::genLockedMessage($locks, FALSE, _('Apply anyway'));
     }
 
     // Add locks
@@ -841,7 +847,10 @@ class management implements FusionDirectoryDialog
     $this->dialogObject = new templateDialog($this, $type, NULL, $this->currentDn);
   }
 
-  public function archiveEntry (array $action)
+  /*! \brief  Queue selected objects to be archived.
+   *          Checks Locks and ask for confirmation.
+   */
+  public function archiveRequested (array $action)
   {
     global $ui;
 
@@ -850,33 +859,47 @@ class management implements FusionDirectoryDialog
     }
     $this->currentDns = $action['targets'];
 
-    logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDns, 'Archiving');
+    logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $action['targets'], 'Entry archive requested');
 
-    // check locks
+    // Check locks
     if ($locks = get_locks($this->currentDns)) {
-      return gen_locked_message($locks, $this->currentDns);
+      return static::genLockedMessage($locks, FALSE, _('Archive anyway'));
     }
 
     // Add locks
     add_lock($this->currentDns, $ui->dn);
 
-    $success = 0;
+    $objects = [];
     foreach ($this->currentDns as $dn) {
-      $entry = $this->listing->getEntry($dn);
-      if ($entry === NULL) {
-        trigger_error('Could not find '.$dn.', action canceled');
-        $this->remove_lock();
-        $this->currentDns = [];
-        return;
-      }
-
+      $entry  = $this->listing->getEntry($dn);
       if ($entry->isTemplate()) {
         $error = new FusionDirectoryError(htmlescape(_('Archiving a template is not possible')));
         $error->display();
-        $this->remove_lock();
+        $this->removeLocks();
         $this->currentDns = [];
         return;
       }
+      $infos  = objects::infos($entry->getTemplatedType());
+      $objects[] = [
+        'name'  => $entry[$infos['nameAttr']][0],
+        'dn'    => $dn,
+        'icon'  => $infos['icon'],
+        'type'  => $infos['name']
+      ];
+    }
+
+    $smarty = get_smarty();
+    $smarty->assign('objects', $objects);
+    return $smarty->fetch(get_template_path('simple-archive.tpl'));
+  }
+
+  public function archiveConfirmed (array $action)
+  {
+    logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDns, 'Archiving');
+
+    $success = 0;
+    foreach ($this->currentDns as $dn) {
+      $entry = $this->listing->getEntry($dn);
 
       $errors = archivedObject::archiveObject($entry->type, $dn);
       if (empty($errors)) {
@@ -897,7 +920,6 @@ class management implements FusionDirectoryDialog
 
     $this->currentDns = [];
   }
-
 
   /*!
    * \brief  This method opens an existing object to be edited.
@@ -927,7 +949,7 @@ class management implements FusionDirectoryDialog
     // Get the dn of the object and create lock
     $this->currentDn = $target;
     if ($locks = get_locks($this->currentDn, TRUE)) {
-      return gen_locked_message($locks, $this->currentDn, TRUE);
+      return static::genLockedMessage($locks, TRUE);
     }
     add_lock($this->currentDn, $ui->dn);
 
@@ -950,7 +972,7 @@ class management implements FusionDirectoryDialog
       $this->handleTemplateApply(TRUE);
       return;
     }
-    $this->remove_lock();
+    $this->removeLocks();
     $this->closeDialogs();
   }
 
@@ -972,7 +994,7 @@ class management implements FusionDirectoryDialog
           msg_dialog::displayChecks($msgs);
         } else {
           logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDns, 'Entry saved');
-          $this->remove_lock();
+          $this->removeLocks();
           $this->closeDialogs();
         }
       }
@@ -1032,7 +1054,7 @@ class management implements FusionDirectoryDialog
     if (count($this->currentDns)) {
       // Check locks
       if ($locks = get_locks($this->currentDns)) {
-        return gen_locked_message($locks, $this->currentDns);
+        return static::genLockedMessage($locks, FALSE, _('Delete anyway'));
       }
 
       // Add locks
@@ -1097,7 +1119,7 @@ class management implements FusionDirectoryDialog
     }
 
     // Cleanup
-    $this->remove_lock();
+    $this->removeLocks();
     $this->closeDialogs();
   }
 
@@ -1357,6 +1379,75 @@ class management implements FusionDirectoryDialog
     }
   }
 
+  /*!
+   * \brief Generate a lock message
+   *
+   * This message shows a warning to the user, that a certain object is locked
+   * and presents some choices how the user can proceed. By default this
+   * is 'Cancel' or 'Edit anyway', but depending on the function call
+   * its possible to allow readonly access, too.
+   *
+   * Example usage:
+   * \code
+   * if ($locks = get_locks($this->dn)) {
+   *   return management::genLockedMessage($locks, TRUE);
+   * }
+   * \endcode
+   *
+   * \param string $locks the locks as returned by get_locks
+   *
+   * \param boolean $allowReadonly TRUE if readonly access should be permitted,
+   * FALSE if not (default).
+   *
+   * \param string $action Label of the action button, "Edit anyway" by default. Will be escaped.
+   *
+   */
+  function genLockedMessage (array $locks, bool $allowReadonly = FALSE, string $action = NULL): string
+  {
+    /* Save variables from LOCK_VARS_TO_USE in session - for further editing */
+    if (session::is_set('LOCK_VARS_TO_USE') && count(session::get('LOCK_VARS_TO_USE'))) {
+      $LOCK_VARS_USED_GET       = [];
+      $LOCK_VARS_USED_POST      = [];
+      $LOCK_VARS_USED_REQUEST   = [];
+      $LOCK_VARS_TO_USE         = session::get('LOCK_VARS_TO_USE');
+
+      foreach ($LOCK_VARS_TO_USE as $name) {
+        if (empty($name)) {
+          continue;
+        }
+
+        foreach ($_POST as $Pname => $Pvalue) {
+          if (preg_match($name, $Pname)) {
+            $LOCK_VARS_USED_POST[$Pname] = $_POST[$Pname];
+          }
+        }
+
+        foreach ($_GET as $Pname => $Pvalue) {
+          if (preg_match($name, $Pname)) {
+            $LOCK_VARS_USED_GET[$Pname] = $_GET[$Pname];
+          }
+        }
+
+        foreach ($_REQUEST as $Pname => $Pvalue) {
+          if (preg_match($name, $Pname)) {
+            $LOCK_VARS_USED_REQUEST[$Pname] = $_REQUEST[$Pname];
+          }
+        }
+      }
+      session::set('LOCK_VARS_TO_USE',        []);
+      session::set('LOCK_VARS_USED_GET',      $LOCK_VARS_USED_GET);
+      session::set('LOCK_VARS_USED_POST',     $LOCK_VARS_USED_POST);
+      session::set('LOCK_VARS_USED_REQUEST',  $LOCK_VARS_USED_REQUEST);
+    }
+
+    /* Prepare and show template */
+    $smarty = get_smarty();
+    $smarty->assign('allow_readonly', $allowReadonly);
+    $smarty->assign('action',         ($action ?? _('Edit anyway')));
+    $smarty->assign('locks',          $locks);
+
+    return $smarty->fetch(get_template_path('islocked.tpl'));
+  }
 
   static function mainInc ($classname = NULL, $objectTypes = FALSE)
   {
@@ -1369,7 +1460,7 @@ class management implements FusionDirectoryDialog
     /* Remove locks */
     if ($remove_lock && session::is_set($classname)) {
       $macl = session::get($classname);
-      $macl->remove_lock();
+      $macl->removeLocks();
     }
 
     if ($cleanup) {
