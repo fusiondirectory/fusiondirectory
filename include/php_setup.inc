@@ -45,7 +45,7 @@ function htmlunescape (string $html): string
 function html_trace ($errstr = "")
 {
   static $hideArgs = [
-    'ldap_init'           => [3],
+    'LDAP/init'           => [3],
     'userinfo/loginUser'  => [1],
     'change_password'     => [1],
     'cred_decrypt'        => [0,1],

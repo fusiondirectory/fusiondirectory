@@ -54,7 +54,7 @@ class ManagementDialog extends simplePlugin
         msg_dialog::displayChecks($errors);
         return;
       } else {
-        $this->parent->remove_lock();
+        $this->parent->removeLocks();
         $this->parent->closeDialogs();
       }
     }
@@ -62,7 +62,7 @@ class ManagementDialog extends simplePlugin
 
   protected function handleCancel ()
   {
-    $this->parent->remove_lock();
+    $this->parent->removeLocks();
     $this->parent->closeDialogs();
   }
 

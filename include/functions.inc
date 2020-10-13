@@ -317,40 +317,6 @@ function fusiondirectory_log ($message)
   syslog(LOG_INFO, "FusionDirectory $username: $message");
 }
 
-
-/*!
- * \brief Initialize a LDAP connection
- *
- * Initializes a LDAP connection.
- *
- * \param string $server The server we are connecting to
- *
- * \param string $base The base of our ldap tree
- *
- * \param string $binddn Default: empty
- *
- * \param string $pass Default: empty
- *
- * \return LDAP object
- */
-function ldap_init ($server, $base, $binddn = '', $pass = '')
-{
-  global $config;
-
-  $ldap = new LDAP($binddn, $pass, $server,
-      isset($config->current['LDAPFOLLOWREFERRALS']) && $config->current['LDAPFOLLOWREFERRALS'] == 'TRUE',
-      isset($config->current['LDAPTLS']) && $config->current['LDAPTLS'] == 'TRUE');
-
-  /* Sadly we've no proper return values here. Use the error message instead. */
-  if (!$ldap->success()) {
-    throw new FatalError(htmlescape(sprintf(_('FATAL: Error when connecting the LDAP. Server said "%s".'), $ldap->get_error())));
-  }
-
-  /* Preset connection base to $base and return to caller */
-  $ldap->cd($base);
-  return $ldap;
-}
-
 /*!
  *  \brief Add a lock for object(s)
  *
@@ -857,92 +823,6 @@ function strict_uid_mode ()
   }
   return TRUE;
 }
-
-/*!
- * \brief Generate a lock message
- *
- * This message shows a warning to the user, that a certain object is locked
- * and presents some choices how the user can proceed. By default this
- * is 'Cancel' or 'Edit anyway', but depending on the function call
- * its possible to allow readonly access, too.
- *
- * Example usage:
- * \code
- * if ($locks = get_locks($this->dn)) {
- *   return gen_locked_message($locks, $this->dn, TRUE);
- * }
- * \endcode
- *
- * \param string $locks the locks as returned by get_locks
- *
- * \param string $dn the locked DN
- *
- * \param boolean $allow_readonly TRUE if readonly access should be permitted,
- * FALSE if not (default).
- *
- *
- */
-function gen_locked_message (array $locks, $dn, $allow_readonly = FALSE)
-{
-  session::set('dn', $dn);
-
-  /* Save variables from LOCK_VARS_TO_USE in session - for further editing */
-  if (session::is_set('LOCK_VARS_TO_USE') && count(session::get('LOCK_VARS_TO_USE'))) {
-    $LOCK_VARS_USED_GET       = [];
-    $LOCK_VARS_USED_POST      = [];
-    $LOCK_VARS_USED_REQUEST   = [];
-    $LOCK_VARS_TO_USE         = session::get('LOCK_VARS_TO_USE');
-
-    foreach ($LOCK_VARS_TO_USE as $name) {
-      if (empty($name)) {
-        continue;
-      }
-
-      foreach ($_POST as $Pname => $Pvalue) {
-        if (preg_match($name, $Pname)) {
-          $LOCK_VARS_USED_POST[$Pname] = $_POST[$Pname];
-        }
-      }
-
-      foreach ($_GET as $Pname => $Pvalue) {
-        if (preg_match($name, $Pname)) {
-          $LOCK_VARS_USED_GET[$Pname] = $_GET[$Pname];
-        }
-      }
-
-      foreach ($_REQUEST as $Pname => $Pvalue) {
-        if (preg_match($name, $Pname)) {
-          $LOCK_VARS_USED_REQUEST[$Pname] = $_REQUEST[$Pname];
-        }
-      }
-    }
-    session::set('LOCK_VARS_TO_USE',        []);
-    session::set('LOCK_VARS_USED_GET',      $LOCK_VARS_USED_GET);
-    session::set('LOCK_VARS_USED_POST',     $LOCK_VARS_USED_POST);
-    session::set('LOCK_VARS_USED_REQUEST',  $LOCK_VARS_USED_REQUEST);
-  }
-
-  /* Prepare and show template */
-  $smarty = get_smarty();
-  $smarty->assign('allow_readonly', $allow_readonly);
-  if (is_array($dn)) {
-    $msg = '<pre>';
-    foreach ($dn as $sub_dn) {
-      $msg .= "\n".$sub_dn.', ';
-    }
-    $msg = preg_replace("/, $/", "</pre>", $msg);
-  } else {
-    $msg = $dn;
-  }
-
-  $smarty->assign('dn', $msg);
-  $smarty->assign('action', _('Edit anyway'));
-  $smarty->assign('message', sprintf(_("You're going to edit the LDAP entry/entries %s"), "<b>".$msg."</b>", ""));
-  $smarty->assign('locks', $locks);
-
-  return $smarty->fetch(get_template_path('islocked.tpl'));
-}
-
 
 /*!
  * \brief Return a string/HTML representation of an array

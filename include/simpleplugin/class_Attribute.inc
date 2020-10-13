@@ -506,7 +506,6 @@ class Attribute
           $base = dn2base($this->plugin->dn);
         }
       }
-      $ldap->cd($base);
       if (is_array($ldapValue)) {
         $filter = '(|('.$this->getLdapName().'='.join(')('.$this->getLdapName().'=', array_map('ldap_escape_f', $ldapValue)).'))';
       } else {
@@ -542,7 +541,6 @@ class Attribute
         $filters = [$this->uniqueFilter];
       }
       $filter = '(&'.$filter.implode($filters).')';
-      $ldap->search($filter, [$this->getLdapName()]);
       $branches = array_filter(
         array_map(
           function ($key, $ot)
@@ -565,6 +563,8 @@ class Attribute
           return ($ou !== FALSE);
         }
       );
+      $ldap->cd($base);
+      $ldap->search($filter, [$this->getLdapName()]);
       while ($attrs = $ldap->fetch()) {
         if ($attrs['dn'] != $this->plugin->dn) {
           $dn_base  = preg_replace('/^[^,]+,/', '', $attrs['dn']);
@@ -597,6 +597,16 @@ class Attribute
             continue;
           }
 
+          return new SimplePluginCheckError(
+            $this,
+            msgPool::duplicated($this->getLabel(), $attrs['dn'])
+          );
+        }
+      }
+      if (class_available('archivedObject')) {
+        $filter = archivedObject::buildUniqueSearchFilter($this->getLdapName(), $ldapValue);
+        $ldap->search($filter, [$this->getLdapName()]);
+        if ($attrs = $ldap->fetch()) {
           return new SimplePluginCheckError(
             $this,
             msgPool::duplicated($this->getLabel(), $attrs['dn'])

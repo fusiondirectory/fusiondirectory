@@ -346,24 +346,24 @@ class simpleTabs implements FusionDirectoryDialog
 
   /*!
    * \brief Remove object from LDAP
+   *
+   * Returns errors
    */
-  function delete ()
+  public function delete (bool $checkAcl = TRUE): array
   {
-    if (!$this->getBaseObject()->acl_is_removeable()) {
-      $error = new SimplePluginPermissionError($this, msgPool::permDelete($this->getBaseObject()->dn));
-      $error->display();
-      return FALSE;
+    if ($checkAcl && !$this->getBaseObject()->acl_is_removeable()) {
+      return [new SimplePluginPermissionError($this, msgPool::permDelete($this->getBaseObject()->dn))];
     }
 
     /* Delete all tabs in reverse order */
     foreach (array_reverse($this->by_object) as $obj) {
       $errors = $obj->remove(TRUE);
       if (!empty($errors)) {
-        msg_dialog::displayChecks($errors);
-        return FALSE;
+        return $errors;
       }
     }
-    return TRUE;
+
+    return [];
   }
 
   /*!

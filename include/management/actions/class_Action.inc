@@ -157,6 +157,11 @@ class Action
     if ($this->callable === FALSE) {
       return;
     }
+    foreach ($action['targets'] as $targetDn) {
+      if (!$this->hasPermission($management->listing->getEntry($targetDn))) {
+        throw new FusionDirectoryException(sprintf(_('You are not allowed to execute action "%s" on target "%s"'), $this->name, $targetDn));
+      }
+    }
     if (count($action['targets']) < $this->minTargets) {
       throw new FusionDirectoryException(sprintf(_('Not enough targets (%d) passed for action "%s"'), count($action['targets']), $this->name));
     }

@@ -130,7 +130,7 @@ class templateDialog implements FusionDirectoryDialog
 
   protected function handleCancel ()
   {
-    $this->management->remove_lock();
+    $this->management->removeLocks();
     $this->closed = TRUE;
   }
 }
