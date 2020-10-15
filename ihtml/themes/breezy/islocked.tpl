@@ -9,7 +9,7 @@
       <b>{t}Warning{/t}:</b> {t}The following entries are locked:{/t}
       <ul>
         {foreach from=$locks item=lock}
-          <li>{t 1=$lock.object 2=$lock.user 3=$lock.timestamp|date_format:"%Y-%m-%d, %H:%M:%S"}"%1" has been locked by "%2" since %3{/t}</li>
+          <li>{t 1=$lock->objectDn 2=$lock->userDn 3=$lock->timestamp|date_format:"%Y-%m-%d, %H:%M:%S"}"%1" has been locked by "%2" since %3{/t}</li>
         {/foreach}
       </ul>
     </p>

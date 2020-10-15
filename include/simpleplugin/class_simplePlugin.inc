@@ -2205,7 +2205,7 @@ class simplePlugin implements SimpleTab
       && ($remove_lock || (isset($_POST['edit_cancel']) && session::is_set('edit')))
       && session::is_set($classname)) {
       /* Remove locks created by this plugin */
-      del_lock($entry_dn);
+      Lock::deleteByObject($entry_dn);
     }
 
     /* Remove this plugin from session */
@@ -2249,12 +2249,12 @@ class simplePlugin implements SimpleTab
         /* Enter edit mode? */
         if ((isset($_POST['edit'])) && (!session::is_set('edit'))) {
           /* Check locking */
-          if ($locks = get_locks($entry_dn)) {
-            session::set('LOCK_VARS_TO_USE', ["/^edit$/", "/^plug$/"]);
-            $lock_msg = management::genLockedMessage($locks);
+          if ($locks = Lock::get($entry_dn)) {
+            session::set('LOCK_VARS_TO_USE', ['/^edit$/', '/^plug$/']);
+            $lock_msg = Lock::genLockedMessage($locks);
           } else {
             /* Lock the current entry */
-            add_lock($entry_dn, $ui->dn);
+            Lock::add($entry_dn);
             session::set('edit', TRUE);
           }
         }
@@ -2266,7 +2266,7 @@ class simplePlugin implements SimpleTab
 
           /* No errors, save object */
           if (count($errors) == 0) {
-            del_lock($entry_dn);
+            Lock::deleteByObject($entry_dn);
             session::un_set('edit');
 
             /* Remove from session */
