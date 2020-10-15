@@ -460,11 +460,11 @@ class config
       }
     }
 
-    add_lock($dn, $ui->dn);
+    Lock::add($dn);
     $config_plugin = objects::open($dn, 'configuration');
     $config_plugin->update();
     $config_plugin->save();
-    del_lock($dn);
+    Lock::deleteByObject($dn);
   }
 
   function load_inldap_config ()

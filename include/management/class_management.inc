@@ -488,8 +488,7 @@ class management implements FusionDirectoryDialog
   protected function execute ()
   {
     // Ensure that html posts and gets are kept even if we see a 'Entry islocked' dialog.
-    $vars = ['/^act$/','/^listing/','/^PID$/'];
-    session::set('LOCK_VARS_TO_USE', $vars);
+    session::set('LOCK_VARS_TO_USE', ['/^act$/','/^listing/','/^PID$/']);
 
     /* Display the copy & paste dialog, if it is currently open */
     $ret = $this->copyPasteHandler();
@@ -606,10 +605,10 @@ class management implements FusionDirectoryDialog
   public function removeLocks ()
   {
     if (!empty($this->currentDn) && ($this->currentDn != 'new')) {
-      del_lock($this->currentDn);
+      Lock::deleteByObject($this->currentDn);
     }
     if (count($this->currentDns)) {
-      del_lock($this->currentDns);
+      Lock::deleteByObject($this->currentDns);
     }
   }
 
@@ -718,7 +717,7 @@ class management implements FusionDirectoryDialog
       if (!$cancel) {
         logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDn, 'Template applied!');
       }
-      del_lock($this->currentDn);
+      Lock::deleteByObject($this->currentDn);
       if (empty($this->currentDns)) {
         $this->closeDialogs();
       } else {
@@ -807,12 +806,12 @@ class management implements FusionDirectoryDialog
     $this->currentDns = $action['targets'];
 
     // check locks
-    if ($locks = get_locks($this->currentDns)) {
-      return static::genLockedMessage($locks, FALSE, _('Apply anyway'));
+    if ($locks = Lock::get($this->currentDns)) {
+      return Lock::genLockedMessage($locks, FALSE, _('Apply anyway'));
     }
 
     // Add locks
-    add_lock($this->currentDns, $ui->dn);
+    Lock::add($this->currentDns);
 
     // Detect type and check that all targets share the same type
     $type = NULL;
@@ -862,12 +861,12 @@ class management implements FusionDirectoryDialog
     logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $action['targets'], 'Entry archive requested');
 
     // Check locks
-    if ($locks = get_locks($this->currentDns)) {
-      return static::genLockedMessage($locks, FALSE, _('Archive anyway'));
+    if ($locks = Lock::get($this->currentDns)) {
+      return Lock::genLockedMessage($locks, FALSE, _('Archive anyway'));
     }
 
     // Add locks
-    add_lock($this->currentDns, $ui->dn);
+    Lock::add($this->currentDns);
 
     $objects = [];
     foreach ($this->currentDns as $dn) {
@@ -907,7 +906,7 @@ class management implements FusionDirectoryDialog
       } else {
         msg_dialog::displayChecks($errors);
       }
-      del_lock($dn);
+      Lock::deleteByObject($dn);
     }
 
     if ($success > 0) {
@@ -948,10 +947,10 @@ class management implements FusionDirectoryDialog
 
     // Get the dn of the object and create lock
     $this->currentDn = $target;
-    if ($locks = get_locks($this->currentDn, TRUE)) {
-      return static::genLockedMessage($locks, TRUE);
+    if ($locks = Lock::get($this->currentDn, TRUE)) {
+      return Lock::genLockedMessage($locks, TRUE);
     }
-    add_lock($this->currentDn, $ui->dn);
+    Lock::add($this->currentDn);
 
     // Open object
     $this->openTabObject(objects::open($this->currentDn, $entry->getTemplatedType()));
@@ -1053,12 +1052,12 @@ class management implements FusionDirectoryDialog
     // We've at least one entry to delete.
     if (count($this->currentDns)) {
       // Check locks
-      if ($locks = get_locks($this->currentDns)) {
-        return static::genLockedMessage($locks, FALSE, _('Delete anyway'));
+      if ($locks = Lock::get($this->currentDns)) {
+        return Lock::genLockedMessage($locks, FALSE, _('Delete anyway'));
       }
 
       // Add locks
-      add_lock($this->currentDns, $ui->dn);
+      Lock::add($this->currentDns);
 
       $objects = [];
       foreach ($this->currentDns as $dn) {
@@ -1110,7 +1109,7 @@ class management implements FusionDirectoryDialog
         msg_dialog::displayChecks($errors);
 
         // Remove the lock for the current object.
-        del_lock($this->currentDn);
+        Lock::deleteByObject($this->currentDn);
       } else {
         $error = new FusionDirectoryPermissionError(msgPool::permDelete($dn));
         $error->display();
@@ -1350,7 +1349,7 @@ class management implements FusionDirectoryDialog
         $this->listing->focusDn($dn);
         $entry = $this->listing->getEntry($dn);
         $this->currentDn = $dn;
-        add_lock($this->currentDn, $ui->dn);
+        Lock::add($this->currentDn);
 
         // Open object
         $this->openTabObject(objects::open($this->currentDn, $entry->getTemplatedType()));
@@ -1377,76 +1376,6 @@ class management implements FusionDirectoryDialog
       $error = new FusionDirectoryPermissionError(htmlescape(sprintf(_('You are not allowed to delete a snapshot for %s.'), $dn)));
       $error->display();
     }
-  }
-
-  /*!
-   * \brief Generate a lock message
-   *
-   * This message shows a warning to the user, that a certain object is locked
-   * and presents some choices how the user can proceed. By default this
-   * is 'Cancel' or 'Edit anyway', but depending on the function call
-   * its possible to allow readonly access, too.
-   *
-   * Example usage:
-   * \code
-   * if ($locks = get_locks($this->dn)) {
-   *   return management::genLockedMessage($locks, TRUE);
-   * }
-   * \endcode
-   *
-   * \param string $locks the locks as returned by get_locks
-   *
-   * \param boolean $allowReadonly TRUE if readonly access should be permitted,
-   * FALSE if not (default).
-   *
-   * \param string $action Label of the action button, "Edit anyway" by default. Will be escaped.
-   *
-   */
-  function genLockedMessage (array $locks, bool $allowReadonly = FALSE, string $action = NULL): string
-  {
-    /* Save variables from LOCK_VARS_TO_USE in session - for further editing */
-    if (session::is_set('LOCK_VARS_TO_USE') && count(session::get('LOCK_VARS_TO_USE'))) {
-      $LOCK_VARS_USED_GET       = [];
-      $LOCK_VARS_USED_POST      = [];
-      $LOCK_VARS_USED_REQUEST   = [];
-      $LOCK_VARS_TO_USE         = session::get('LOCK_VARS_TO_USE');
-
-      foreach ($LOCK_VARS_TO_USE as $name) {
-        if (empty($name)) {
-          continue;
-        }
-
-        foreach ($_POST as $Pname => $Pvalue) {
-          if (preg_match($name, $Pname)) {
-            $LOCK_VARS_USED_POST[$Pname] = $_POST[$Pname];
-          }
-        }
-
-        foreach ($_GET as $Pname => $Pvalue) {
-          if (preg_match($name, $Pname)) {
-            $LOCK_VARS_USED_GET[$Pname] = $_GET[$Pname];
-          }
-        }
-
-        foreach ($_REQUEST as $Pname => $Pvalue) {
-          if (preg_match($name, $Pname)) {
-            $LOCK_VARS_USED_REQUEST[$Pname] = $_REQUEST[$Pname];
-          }
-        }
-      }
-      session::set('LOCK_VARS_TO_USE',        []);
-      session::set('LOCK_VARS_USED_GET',      $LOCK_VARS_USED_GET);
-      session::set('LOCK_VARS_USED_POST',     $LOCK_VARS_USED_POST);
-      session::set('LOCK_VARS_USED_REQUEST',  $LOCK_VARS_USED_REQUEST);
-    }
-
-    /* Prepare and show template */
-    $smarty = get_smarty();
-    $smarty->assign('allow_readonly', $allowReadonly);
-    $smarty->assign('action',         ($action ?? _('Edit anyway')));
-    $smarty->assign('locks',          $locks);
-
-    return $smarty->fetch(get_template_path('islocked.tpl'));
   }
 
   static function mainInc ($classname = NULL, $objectTypes = FALSE)

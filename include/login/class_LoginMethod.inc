@@ -122,7 +122,7 @@ class LoginMethod
     global $ui, $config, $plist, $message, $smarty;
 
     /* Remove all locks of this user */
-    del_user_locks($ui->dn);
+    Lock::deleteByUser($ui->dn);
 
     /* Save userinfo and plugin structure */
     session::set('ui', $ui);
