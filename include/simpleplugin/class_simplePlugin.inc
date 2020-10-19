@@ -2141,7 +2141,7 @@ class simplePlugin
         } else {
           /* Only display edit button if there is at least one attribute editable */
           if (preg_match('/r/', $ui->get_permissions($entry_dn, $plCategory.'/'.$tabObject->current))) {
-            $info .= '<div style="display:inline-block" class="optional"><img class="center" alt="information" '.
+            $info .= '<div style="float:left;" class="optional"><img class="center" alt="information" '.
                       'src="geticon.php?context=status&amp;icon=dialog-information&amp;size=16"> '.
                       msgPool::clickEditToChange().'</div>';
 

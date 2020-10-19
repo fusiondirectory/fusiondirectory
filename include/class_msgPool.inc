@@ -631,11 +631,11 @@ class msgPool {
   }
 
   /*!
-   * \brief Display : Click the 'Edit' button below to change information in this dialog
+   * \brief Display : Click the "Edit" button below to change information in this dialog
    */
   public static function clickEditToChange()
   {
-    return _("Click the 'Edit' button below to change information in this dialog");
+    return _('Click the "Edit" button on the bottom right corner of the page to edit the fields');
   }
 
   /*!
