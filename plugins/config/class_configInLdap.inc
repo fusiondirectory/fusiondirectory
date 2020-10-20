@@ -543,7 +543,7 @@ class configInLdap extends simplePlugin
     }
     if ($this->attributesAccess['fdLanguage']->hasChanged() && ($this->fdLanguage != '') && !Language::isAvailable($this->fdLanguage)) {
       $messages[] = new SimplePluginCheckError(
-        $this,
+        $this->attributesAccess['fdLanguage'],
         htmlescape(sprintf(_('It seems the selected language "%s" is not installed on the system. Please install it or select an other one.'), $this->fdLanguage))
       );
     }
