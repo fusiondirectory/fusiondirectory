@@ -134,6 +134,10 @@ class Language
    */
   public static function isAvailable (string $lang): bool
   {
+    if (strpos($lang, '.') === FALSE) {
+      $lang = $lang.'.UTF-8';
+    }
+
     /* Store current locale */
     $locale = setlocale(LC_ALL, 0);
 

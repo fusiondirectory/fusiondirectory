@@ -104,22 +104,28 @@ class SimplePluginError extends FusionDirectoryError
   {
     $html = '';
 
+    $breadcrumbs = [];
+
     if (isset($this->object)) {
-      $html .= htmlescape($this->object->getBaseObject()->dn.' > ');
+      $breadcrumbs[] = htmlescape($this->object->getBaseObject()->dn);
     }
 
     if (isset($this->tab) && isset($this->tab->parent->by_name[get_class($this->tab)])) {
-      $html .= htmlescape($this->tab->parent->by_name[get_class($this->tab)].' > ');
+      $breadcrumbs[] = htmlescape($this->tab->parent->by_name[get_class($this->tab)]);
     }
 
     if (isset($this->attribute)) {
       $label = $this->attribute->getLabel();
       if (empty($label)) {
-        $html .= '<i>'.htmlescape($this->attribute->getLdapName()).'</i>';
+        $breadcrumbs[] = '<i>'.htmlescape($this->attribute->getLdapName()).'</i>';
       } else {
-        $html .= htmlescape($label);
+        $breadcrumbs[] = htmlescape($label);
       }
       $example = $this->attribute->getExample();
+    }
+
+    if (!empty($breadcrumbs)) {
+      $html .= implode(htmlescape(' > '), $breadcrumbs);
     }
 
     $html .= '<br/><br/>';
