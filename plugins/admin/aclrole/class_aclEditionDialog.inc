@@ -226,7 +226,6 @@ class ACLEditionDialog implements FusionDirectoryDialog
         }
         $pInfos = pluglist::pluginInfos($class);
         $key = $this->aclObject.'/'.$class;
-        $aclObjects[$key] = $pInfos['plShortName'];
         /* Create sub acl if it does not exist */
         if (!isset($this->aclContents[$key])) {
           $this->aclContents[$key] = [];
@@ -234,9 +233,17 @@ class ACLEditionDialog implements FusionDirectoryDialog
         if (!isset($this->aclContents[$key][0])) {
           $this->aclContents[$key][0] = '';
         }
+        $aclObjects[$key] = [
+          'name'      => $pInfos['plShortName'],
+          'tname'     => preg_replace('/[^a-z0-9]/i', '_', $key),
+          'acl'       => $this->aclContents[$key],
+          'globalAcl' => $this->aclContents[$key][0],
+          'expand'    => ((count($this->aclContents[$key]) > 1) || !empty($this->aclContents[$key][0])),
+          'self'      => $pInfos['plSelfModify'],
+          'attrs'     => $pInfos['plProvidedAcls'],
+        ];
       }
       if ($this->aclObject == 'all') {
-        $aclObjects['all'] = _('All objects in current subtree');
         /* Create sub acl if it does not exist */
         $key = 'all';
         if (!isset($this->aclContents[$key])) {
@@ -245,12 +252,18 @@ class ACLEditionDialog implements FusionDirectoryDialog
         if (!isset($this->aclContents[$key][0])) {
           $this->aclContents[$key][0] = '';
         }
+        $aclObjects['all'] = [
+          'name'      => _('All objects in current subtree'),
+          'tname'     => preg_replace('/[^a-z0-9]/i', '_', $key),
+          'acl'       => $this->aclContents[$key],
+          'globalAcl' => $this->aclContents[$key][0],
+          'expand'    => ((count($this->aclContents[$key]) > 1) || !empty($this->aclContents[$key][0])),
+          'self'      => FALSE,
+          'attrs'     => [],
+        ];
       }
       $smarty->assign('headline', sprintf(_('Edit ACL for "%s"'), $config->data['CATEGORIES'][$this->aclObject]['description']));
       $smarty->assign('aclObjects', $aclObjects);
-      $smarty->assign('aclContents', $this->aclContents);
-      $tmp      = session::get('plist');
-      $smarty->assign('plist', $tmp->info);
     }
 
     /* Show main page */
