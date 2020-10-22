@@ -1143,7 +1143,7 @@ class config
             }
             if (class_available('archivedObject') && archivedObject::isArchiveActive($obj)) {
               $this->data['OBJECTS'][$obj]['archiveActive']   = TRUE;
-              $this->data['CATEGORIES'][$cat]['classes'][]    = 'archive';
+              $this->data['CATEGORIES'][$cat]['classes'][]    = 'archivedObject';
             }
           }
         }

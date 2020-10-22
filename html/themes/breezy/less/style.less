@@ -448,6 +448,65 @@ div.setup-header {
   color: @text-color;
 }
 
+/*** ACL edition ***/
+div.acledition {
+  div.togglebuttons input {
+    width:100px;
+  }
+  div.setbuttons input {
+    width:50px;
+  }
+  > table {
+    width:100%;
+    border:1px solid @border-color-1;
+    border-spacing:0;
+    border-collapse:collapse;
+    margin-top:10px;
+    input[type=checkbox] {
+      vertical-align:middle;
+    }
+    > tbody > tr:nth-child(1) > td {
+      background-color:@background-dark-color;
+      border-bottom: 1px solid @border-color-1;
+    }
+    > tbody > tr:nth-child(1) > td:nth-child(1) {
+      padding-top: 5px;
+      padding-bottom: 5px;
+      html.ltr & {
+        padding-left: 5px;
+      }
+      html.rtl & {
+        padding-right: 5px;
+      }
+    }
+    &.expand > tbody > tr:nth-child(1) > td {
+      background-color: @critical-section-legend-background-color;
+    }
+    > tbody > tr:nth-child(2) {
+      > td:nth-child(1) {
+      }
+      > td:nth-child(2) {
+      }
+    }
+    > tbody > tr:nth-child(3) {
+      vertical-align:top;
+      height:0px;
+      > td > div {
+        width:100%;
+        > table {
+          width:100%;
+          border-collapse: collapse;
+          border:1px solid;
+          > tbody > tr > td {
+           border:1px solid @border-color-1;
+           width:33%;
+          }
+        }
+      }
+    }
+  }
+}
+
 /* On small screens */
 @media (max-width: 640px) {
   div.setup-header {

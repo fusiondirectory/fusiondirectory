@@ -225,208 +225,90 @@ class ACLEditionDialog implements FusionDirectoryDialog
           continue;
         }
         $pInfos = pluglist::pluginInfos($class);
-        $aclObjects[$this->aclObject.'/'.$class] = $pInfos['plShortName'];
+        $key = $this->aclObject.'/'.$class;
+        /* Create sub acl if it does not exist */
+        if (!isset($this->aclContents[$key])) {
+          $this->aclContents[$key] = [];
+        }
+        if (!isset($this->aclContents[$key][0])) {
+          $this->aclContents[$key][0] = '';
+        }
+        if ((strtolower($class) === 'archivedobject') && (strtolower($this->aclObject) !== 'archivedobject')) {
+          $attrs = [];
+          $rights = [
+            'create'  => TRUE,
+            'move'    => FALSE,
+            'remove'  => FALSE,
+            'read'    => FALSE,
+            'write'   => FALSE,
+            'self'    => FALSE,
+          ];
+        } else {
+          $attrs = $pInfos['plProvidedAcls'];
+          $rights = [
+            'create'  => TRUE,
+            'move'    => TRUE,
+            'remove'  => TRUE,
+            'read'    => TRUE,
+            'write'   => TRUE,
+            'self'    => $pInfos['plSelfModify'],
+          ];
+        }
+        $aclObjects[$key] = [
+          'name'      => $pInfos['plShortName'],
+          'tname'     => preg_replace('/[^a-z0-9]/i', '_', $key),
+          'acl'       => $this->aclContents[$key],
+          'globalAcl' => $this->aclContents[$key][0],
+          'expand'    => ((count($this->aclContents[$key]) > 1) || !empty($this->aclContents[$key][0])),
+          'attrs'     => $attrs,
+          'rights'    => $rights,
+        ];
       }
       if ($this->aclObject == 'all') {
-        $aclObjects['all'] = _('All objects in current subtree');
+        /* Create sub acl if it does not exist */
+        $key = 'all';
+        if (!isset($this->aclContents[$key])) {
+          $this->aclContents[$key] = [];
+        }
+        if (!isset($this->aclContents[$key][0])) {
+          $this->aclContents[$key][0] = '';
+        }
+        $aclObjects['all'] = [
+          'name'      => _('All objects in current subtree'),
+          'tname'     => preg_replace('/[^a-z0-9]/i', '_', $key),
+          'acl'       => $this->aclContents[$key],
+          'globalAcl' => $this->aclContents[$key][0],
+          'expand'    => ((count($this->aclContents[$key]) > 1) || !empty($this->aclContents[$key][0])),
+          'attrs'     => [],
+          'rights'    => [
+            'create'  => TRUE,
+            'move'    => TRUE,
+            'remove'  => TRUE,
+            'read'    => TRUE,
+            'write'   => TRUE,
+            'self'    => FALSE,
+          ],
+        ];
+      }
+      if (isset($aclObjects[$this->aclObject.'/template'])) {
+        /* Move template to the end */
+        $data = $aclObjects[$this->aclObject.'/template'];
+        unset($aclObjects[$this->aclObject.'/template']);
+        $aclObjects[$this->aclObject.'/template'] = $data;
+      }
+      if (isset($aclObjects[$this->aclObject.'/archivedObject'])) {
+        /* Move archivedObject to the end */
+        $data = $aclObjects[$this->aclObject.'/archivedObject'];
+        unset($aclObjects[$this->aclObject.'/archivedObject']);
+        $aclObjects[$this->aclObject.'/archivedObject'] = $data;
       }
       $smarty->assign('headline', sprintf(_('Edit ACL for "%s"'), $config->data['CATEGORIES'][$this->aclObject]['description']));
-      $smarty->assign('aclEdition', $this->buildAclSelector($aclObjects));
+      $smarty->assign('aclObjects', $aclObjects);
     }
 
     /* Show main page */
     $smarty->assign('dialogState', $this->dialogState);
 
     return $smarty->fetch(get_template_path('acleditiondialog.tpl', dirname(__FILE__)));
-  }
-
-  /*!
-   * \brief Create a checkbox
-   *
-   * \param String $name Name of the acl checkbox
-   * \param String $text Label for the checkbox
-   * \param boolean $state
-   *
-   * \return String containing checkbox
-   */
-  protected function mkchkbx ($name, $text, $state = FALSE)
-  {
-    $tname = preg_replace('/[^a-z0-9]/i', '_', $name);
-    return  '<input id="acl_'.$tname.'" type="checkbox" name="acl_'.$name.'"'.($state ? ' checked="checked"' : '').'/>'."\n".
-            '<label for="acl_'.$tname.'">'.$text.'</label>'."\n";
-  }
-
-  /*!
-   * \brief Make a read and write box
-   *
-   * \param String $name Name of the box
-   * \param String $state
-   *
-   * \return String containing checkbox
-   */
-  protected function mkrwbx ($name, $state = '')
-  {
-    $rstate = (preg_match('/r/', $state) ? ' checked="checked"' : '');
-    $wstate = (preg_match('/w/', $state) ? ' checked="checked"' : '');
-    $tname  = preg_replace('/[^a-z0-9]/i', '_', $name);
-
-    return  '<input id="acl_'.$tname.'_r" type="checkbox" name="acl_'.$name.'_r"'.$rstate.'/>'."\n".
-            '<label for="acl_'.$tname.'_r">'._('read').'</label>'."\n".
-            '<input id="acl_'.$tname.'_w" type="checkbox" name="acl_'.$name.'_w"'.$wstate.'/>'."\n".
-            '<label for="acl_'.$tname.'_w">'._('write').'</label>'."\n";
-  }
-
-  /*!
-   * \brief Build an acl selector form
-   *
-   * \param Array $list
-   *
-   * \return the acl selector form
-   */
-  protected function buildAclSelector ($list)
-  {
-    $display  = '<input type="hidden" name="acl_dummy_0_0_0" value="1"/>';
-    $cols     = 3;
-    $tmp      = session::get('plist');
-    $plist    = $tmp->info;
-
-    /* Add select all/none buttons */
-    $style = 'style="width:100px;"';
-
-    $display .= '<input '.$style.' type="button" name="toggle_all_create" onClick="acl_toggle_all(\'_0_c$\');" value="Toggle C"/>';
-    $display .= '<input '.$style.' type="button" name="toggle_all_move"   onClick="acl_toggle_all(\'_0_m$\');" value="Toggle M"/>';
-    $display .= '<input '.$style.' type="button" name="toggle_all_remove" onClick="acl_toggle_all(\'_0_d$\');" value="Toggle D"/> - ';
-    $display .= '<input '.$style.' type="button" name="toggle_all_read"   onClick="acl_toggle_all(\'_0_r$\');" value="Toggle R"/>';
-    $display .= '<input '.$style.' type="button" name="toggle_all_write"  onClick="acl_toggle_all(\'_0_w$\');" value="Toggle W"/> - ';
-
-    $display .= '<input '.$style.' type="button" name="toggle_all_sub_read"  onClick="acl_toggle_all(\'[^0]_r$\');" value="R+"/>';
-    $display .= '<input '.$style.' type="button" name="toggle_all_sub_write"  onClick="acl_toggle_all(\'[^0]_w$\');" value="W+"/>';
-
-    $display .= '<br/>';
-
-    $style    = 'style="width:50px;"';
-    $display  .= '<input '.$style.' type="button" name="set_true_all_create"  onClick="acl_set_all(\'_0_c$\',true);"  value="C+"/>';
-    $display  .= '<input '.$style.' type="button" name="set_false_all_create" onClick="acl_set_all(\'_0_c$\',false);" value="C-"/>';
-    $display  .= '<input '.$style.' type="button" name="set_true_all_move"    onClick="acl_set_all(\'_0_m$\',true);"  value="M+"/>';
-    $display  .= '<input '.$style.' type="button" name="set_false_all_move"   onClick="acl_set_all(\'_0_m$\',false);" value="M-"/>';
-    $display  .= '<input '.$style.' type="button" name="set_true_all_remove"  onClick="acl_set_all(\'_0_d$\',true);"  value="D+"/>';
-    $display  .= '<input '.$style.' type="button" name="set_false_all_remove" onClick="acl_set_all(\'_0_d$\',false);" value="D-"/> - ';
-    $display  .= '<input '.$style.' type="button" name="set_true_all_read"    onClick="acl_set_all(\'_0_r$\',true);"  value="R+"/>';
-    $display  .= '<input '.$style.' type="button" name="set_false_all_read"   onClick="acl_set_all(\'_0_r$\',false);" value="R-"/>';
-    $display  .= '<input '.$style.' type="button" name="set_true_all_write"   onClick="acl_set_all(\'_0_w$\',true);"  value="W+"/>';
-    $display  .= '<input '.$style.' type="button" name="set_false_all_write"  onClick="acl_set_all(\'_0_w$\',false);" value="W-"/> - ';
-
-    $display .= '<input '.$style.' type="button" name="set_true_all_read"   onClick="acl_set_all(\'[^0]_r$\',true);"  value="R+"/>';
-    $display .= '<input '.$style.' type="button" name="set_false_all_read"  onClick="acl_set_all(\'[^0]_r$\',false);" value="R-"/>';
-    $display .= '<input '.$style.' type="button" name="set_true_all_write"  onClick="acl_set_all(\'[^0]_w$\',true);"  value="W+"/>';
-    $display .= '<input '.$style.' type="button" name="set_false_all_write" onClick="acl_set_all(\'[^0]_w$\',false);" value="W-"/>';
-
-    foreach ($list as $key => $name) {
-      /* Create sub acl if it does not exist */
-      if (!isset($this->aclContents[$key])) {
-        $this->aclContents[$key] = [];
-      }
-      if (!isset($this->aclContents[$key][0])) {
-        $this->aclContents[$key][0] = '';
-      }
-
-      $currentAcl = $this->aclContents[$key];
-
-      /* Get the overall plugin acls */
-      $overall_acl = '';
-      if (isset($currentAcl[0])) {
-        $overall_acl = $currentAcl[0];
-      }
-
-      // Detect configured plugins
-      $expand = ((count($currentAcl) > 1) || ($currentAcl[0] != ''));
-
-      /* Object header */
-      $tname = preg_replace('/[^a-z0-9]/i', '_', $key);
-
-      if ($expand) {
-        $back_color = '#C8C8FF';
-      } else {
-        $back_color = '#C8C8C8';
-      }
-
-      $display .= '<table style="width:100%;border:1px solid #A0A0A0;border-spacing:0;border-collapse:collapse;">'."\n".
-                  '  <tr>'."\n".
-                  '    <td style="background-color:'.$back_color.';height:1.8em;" colspan='.($cols - 1).'>'.
-                        '<b>'._('Object').': '.$name.'</b>'.
-                      '</td>'."\n".
-                  '    <td align="right" style="background-color:'.$back_color.';height:1.8em;">'."\n".
-                  '    <input id="show'.$tname.'" type="button" onclick="$(\''.$tname.'\').toggle();" value="'._('Show/hide advanced settings').'"/></td>'."\n".
-                  '  </tr>'."\n";
-
-      /* Generate options */
-      $spc      = '&nbsp;&nbsp;';
-      $options   = $this->mkchkbx($key.'_0_c', _('Create objects'),  preg_match('/c/', $overall_acl)).$spc;
-      $options  .= $this->mkchkbx($key.'_0_m', _('Move objects'),    preg_match('/m/', $overall_acl)).$spc;
-      $options  .= $this->mkchkbx($key.'_0_d', _('Remove objects'),  preg_match('/d/', $overall_acl)).$spc;
-      if ($plist[preg_replace('%^.*/%', '', $key)]['plSelfModify']) {
-        $options .= $this->mkchkbx($key.'_0_s', _('Grant permission to owner'), preg_match('/s/', $overall_acl)).$spc;
-      }
-
-      /* Global options */
-      $more_options  = $this->mkchkbx($key.'_0_r', _('read'),  preg_match('/r/', $overall_acl)).$spc;
-      $more_options .= $this->mkchkbx($key.'_0_w', _('write'), preg_match('/w/', $overall_acl));
-
-      $display .= '  <tr>'."\n".
-                  '    <td style="background-color:#E0E0E0" colspan="'.($cols - 1).'">'.$options.'</td>'."\n".
-                  '    <td style="background-color:#D4D4D4">&nbsp;'._('Complete object').': '.$more_options.'</td>'."\n".
-                  '  </tr>'."\n";
-
-      /* Walk through the list of attributes */
-      $cnt    = 1;
-      $splist = $plist[preg_replace('%^.*/%', '', $key)]['plProvidedAcls'];
-      $display .= '  <tr id="tr_'.$tname.'" style="vertical-align:top;height:0px;">'."\n".
-                  '    <td colspan="'.$cols.'">'."\n".
-                  '      <div id="'.$tname.'" style="overflow:hidden; display:none;vertical-align:top;width:100%;">'."\n".
-                  '        <table style="width:100%;border-collapse: collapse;" border="1">'."\n";
-
-      foreach ($splist as $attr => $dsc) {
-        /* Skip pl* attributes, they are internal... */
-        if (preg_match('/^pl[A-Z]+.*$/', $attr)) {
-          continue;
-        }
-
-        /* Open table row */
-        if ($cnt == 1) {
-          $display .= '  <tr>'."\n";
-        }
-
-        /* Close table row */
-        if ($cnt == $cols) {
-          $cnt  = 1;
-          $end  = '  </tr>'."\n";
-        } else {
-          $cnt++;
-          $end  = '';
-        }
-
-        /* Collect list of attributes */
-        $state = '';
-        if (isset($currentAcl[$attr])) {
-          $state = $currentAcl[$attr];
-        }
-        $display .= '    <td style="border:1px solid #A0A0A0;width:'.(int)(100 / $cols).'%">'."\n".
-                    '      <b>'.$dsc.'</b> ('.$attr.')<br/>'.$this->mkrwbx($key.'_'.$attr, $state).'</td>'.$end."\n";
-      }
-
-      /* Fill missing td's if needed */
-      if ((--$cnt != $cols) && ($cnt != 0)) {
-        $display .= str_repeat('    <td style="border:1px solid #A0A0A0;width:'.(int)(100 / $cols).'%">&nbsp;</td>'."\n", $cols - $cnt);
-      }
-
-      $display .= '        </table>'."\n".
-                  '      </div>'."\n".
-                  '    </td>'."\n".
-                  '  </tr>'."\n";
-
-      $display .= '</table><br/>'."\n";
-    }
-
-    return $display;
   }
 }

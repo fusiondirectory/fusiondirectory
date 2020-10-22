@@ -299,6 +299,9 @@ class IconTheme
     'actions/application-exit'      => [
       ['actions','system-log-out'],
     ],
+    'actions/archive'      => [
+      ['mimetypes','application-x-archive'],
+    ],
     'actions/document-export'       => [
       ['actions','document-send'],
     ],
