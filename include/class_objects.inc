@@ -400,10 +400,10 @@ class objects
     return static::open('new', $type);
   }
 
-  static function delete (string $dn, string $type, bool $checkAcl = TRUE)
+  static function delete (string $dn, string $type, bool $checkAcl = TRUE): array
   {
     $tabObject = static::open($dn, $type);
-    $tabObject->delete($checkAcl);
+    return $tabObject->delete($checkAcl);
   }
 
   static function createTemplate (string $type): simpleTabs
