@@ -290,6 +290,18 @@ class ACLEditionDialog implements FusionDirectoryDialog
           ],
         ];
       }
+      if (isset($aclObjects[$this->aclObject.'/template'])) {
+        /* Move template to the end */
+        $data = $aclObjects[$this->aclObject.'/template'];
+        unset($aclObjects[$this->aclObject.'/template']);
+        $aclObjects[$this->aclObject.'/template'] = $data;
+      }
+      if (isset($aclObjects[$this->aclObject.'/archivedObject'])) {
+        /* Move archivedObject to the end */
+        $data = $aclObjects[$this->aclObject.'/archivedObject'];
+        unset($aclObjects[$this->aclObject.'/archivedObject']);
+        $aclObjects[$this->aclObject.'/archivedObject'] = $data;
+      }
       $smarty->assign('headline', sprintf(_('Edit ACL for "%s"'), $config->data['CATEGORIES'][$this->aclObject]['description']));
       $smarty->assign('aclObjects', $aclObjects);
     }

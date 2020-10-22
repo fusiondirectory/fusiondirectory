@@ -132,7 +132,7 @@
             </td>
           </tr>
         </tbody>
-      </table><br/>
+      </table>
     {/foreach}
 
   </div>
