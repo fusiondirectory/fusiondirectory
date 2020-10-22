@@ -47,22 +47,36 @@
              <b>{t}Object{/t}: {$infos.name}</b>
             </td>
             <td align="right">
-              <input id="show{$infos.tname}" type="button" onclick="$('{$infos.tname}').toggle();" value="{t}Show/hide advanced settings{/t}"/>
+              {if !empty($infos.attrs)}
+                <input id="show{$infos.tname}" type="button" onclick="$('{$infos.tname}').toggle();" value="{t}Show/hide advanced settings{/t}"/>
+              {/if}
             </td>
           </tr>
           <tr>
             <td colspan="2">
-              {makeCheckbox id={$infos.tname|cat:'_0_c'} label=_("Create objects")  checked=preg_match('/c/', $infos.globalAcl)}&nbsp;&nbsp;
-              {makeCheckbox id={$infos.tname|cat:'_0_m'} label=_("Move objects")    checked=preg_match('/m/', $infos.globalAcl)}&nbsp;&nbsp;
-              {makeCheckbox id={$infos.tname|cat:'_0_d'} label=_("Remove objects")  checked=preg_match('/d/', $infos.globalAcl)}&nbsp;&nbsp;
-              {if $infos.self}
+              {if $infos.rights.create}
+                {makeCheckbox id={$infos.tname|cat:'_0_c'} label=_("Create objects")  checked=preg_match('/c/', $infos.globalAcl)}&nbsp;&nbsp;
+              {/if}
+              {if $infos.rights.move}
+                {makeCheckbox id={$infos.tname|cat:'_0_m'} label=_("Move objects")    checked=preg_match('/m/', $infos.globalAcl)}&nbsp;&nbsp;
+              {/if}
+              {if $infos.rights.remove}
+                {makeCheckbox id={$infos.tname|cat:'_0_d'} label=_("Remove objects")  checked=preg_match('/d/', $infos.globalAcl)}&nbsp;&nbsp;
+              {/if}
+              {if $infos.rights.self}
                 {makeCheckbox id={$infos.tname|cat:'_0_s'} label=_("Grant permission to owner")  checked=preg_match('/s/', $infos.globalAcl)}&nbsp;&nbsp;
               {/if}
             </td>
             <td>
-              &nbsp;{t}Complete object{/t}:
-              {makeCheckbox id={$infos.tname|cat:'_0_r'} label=_("read")  checked=preg_match('/r/', $infos.globalAcl)}&nbsp;&nbsp;
-              {makeCheckbox id={$infos.tname|cat:'_0_w'} label=_("write") checked=preg_match('/w/', $infos.globalAcl)}
+              {if ($infos.rights.read||$infos.rights.write)}
+                &nbsp;{t}Complete object{/t}:
+                {if $infos.rights.read}
+                  {makeCheckbox id={$infos.tname|cat:'_0_r'} label=_("read")  checked=preg_match('/r/', $infos.globalAcl)}&nbsp;&nbsp;
+                {/if}
+                {if $infos.rights.write}
+                  {makeCheckbox id={$infos.tname|cat:'_0_w'} label=_("write") checked=preg_match('/w/', $infos.globalAcl)}
+                {/if}
+              {/if}
             </td>
           </tr>
           <tr id="tr_{$infos.tname}">

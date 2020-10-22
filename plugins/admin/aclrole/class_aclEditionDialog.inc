@@ -233,14 +233,35 @@ class ACLEditionDialog implements FusionDirectoryDialog
         if (!isset($this->aclContents[$key][0])) {
           $this->aclContents[$key][0] = '';
         }
+        if ((strtolower($class) === 'archivedobject') && (strtolower($this->aclObject) !== 'archivedobject')) {
+          $attrs = [];
+          $rights = [
+            'create'  => TRUE,
+            'move'    => FALSE,
+            'remove'  => FALSE,
+            'read'    => FALSE,
+            'write'   => FALSE,
+            'self'    => FALSE,
+          ];
+        } else {
+          $attrs = $pInfos['plProvidedAcls'];
+          $rights = [
+            'create'  => TRUE,
+            'move'    => TRUE,
+            'remove'  => TRUE,
+            'read'    => TRUE,
+            'write'   => TRUE,
+            'self'    => $pInfos['plSelfModify'],
+          ];
+        }
         $aclObjects[$key] = [
           'name'      => $pInfos['plShortName'],
           'tname'     => preg_replace('/[^a-z0-9]/i', '_', $key),
           'acl'       => $this->aclContents[$key],
           'globalAcl' => $this->aclContents[$key][0],
           'expand'    => ((count($this->aclContents[$key]) > 1) || !empty($this->aclContents[$key][0])),
-          'self'      => $pInfos['plSelfModify'],
-          'attrs'     => $pInfos['plProvidedAcls'],
+          'attrs'     => $attrs,
+          'rights'    => $rights,
         ];
       }
       if ($this->aclObject == 'all') {
@@ -258,8 +279,15 @@ class ACLEditionDialog implements FusionDirectoryDialog
           'acl'       => $this->aclContents[$key],
           'globalAcl' => $this->aclContents[$key][0],
           'expand'    => ((count($this->aclContents[$key]) > 1) || !empty($this->aclContents[$key][0])),
-          'self'      => FALSE,
           'attrs'     => [],
+          'rights'    => [
+            'create'  => TRUE,
+            'move'    => TRUE,
+            'remove'  => TRUE,
+            'read'    => TRUE,
+            'write'   => TRUE,
+            'self'    => FALSE,
+          ],
         ];
       }
       $smarty->assign('headline', sprintf(_('Edit ACL for "%s"'), $config->data['CATEGORIES'][$this->aclObject]['description']));
