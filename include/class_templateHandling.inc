@@ -436,6 +436,11 @@ class templateHandling
     return [$dateObject->format($args[1])];
   }
 
+  /*
+    First parameter is whether the number should always be there or only in case of duplicates (1 or 0, defaults to 0).
+    Second parameter is starting number, defaults to 1.
+    Third parameter is step, defaults to 1.
+  */
   private static function modifierNumber (array $args)
   {
     if (count($args) < 1) {
@@ -460,6 +465,53 @@ class templateHandling
     };
 
     return $numberGenerator($args[0], $args[1], $args[2]);
+  }
+
+  /*
+    Modifier parameters:
+    * id
+    * starting number, defaults to 1.
+    * step, defaults to 1.
+  */
+  private static function modifierIncremental (array $args): array
+  {
+    global $config;
+
+    if (count($args) < 1) {
+      throw new FusionDirectoryException(_('Missing id parameter for incremental modifier'));
+    }
+    if (count($args) < 2) {
+      $args[] = 1;
+    }
+    if (count($args) < 3) {
+      $args[] = 1;
+    }
+    $configDn = CONFIGRDN.$config->current['BASE'];
+    Lock::addOrFail($configDn);
+    $tabObject = objects::open($configDn, 'configuration');
+    $json = $tabObject->getBaseObject()->fdIncrementalModifierStates;
+    if (empty($json)) {
+      $modifierStates = [];
+    } else {
+      $modifierStates = json_decode($json, TRUE);
+    }
+    if (isset($modifierStates[$args[0]])) {
+      $value = $modifierStates[$args[0]]['value'] + $args[2];
+    } else {
+      $value = $args[1];
+    }
+    $modifierStates[$args[0]] = [
+      'value' => $value,
+      'date'  => date('Y-m-d'),
+    ];
+    $tabObject->getBaseObject()->fdIncrementalModifierStates = json_encode($modifierStates);
+    $errors = $tabObject->save();
+    Lock::deleteByObject($configDn);
+    if (!empty($errors)) {
+      throw $errors[0];
+    }
+
+    return [$value];
   }
 
   private static function modifierTitleCase ($str)
@@ -580,6 +632,10 @@ class templateHandling
       case 'i':
         // title case
         $result = static::modifierTitleCase($str);
+        break;
+      case 'e':
+        // incremental number
+        $result = static::modifierIncremental($args);
         break;
       default:
         trigger_error("Unkown modifier '$m'");

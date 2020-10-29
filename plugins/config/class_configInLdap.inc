@@ -72,6 +72,7 @@ class configInLdap extends simplePlugin
             ['America/New_York']
           ),
           new HiddenAttribute('fusionConfigMd5'),
+          new HiddenAttribute('fdIncrementalModifierStates'),
         ]
       ],
       'core_settings' => [
