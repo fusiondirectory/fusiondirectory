@@ -310,10 +310,10 @@ class tests
     if (!tests::is_ipv4($ip1) || !tests::is_ipv4($ip2)) {
       return FALSE;
     } else {
-      $ar1  = explode(".", $ip1);
+      $ar1  = array_map('intval', explode('.', $ip1));
       $var1 = $ar1[0] * (16777216) + $ar1[1] * (65536) + $ar1[2] * (256) + $ar1[3];
 
-      $ar2  = explode(".", $ip2);
+      $ar2  = array_map('intval', explode('.', $ip2));
       $var2 = $ar2[0] * (16777216) + $ar2[1] * (65536) + $ar2[2] * (256) + $ar2[3];
       return ($var1 < $var2);
     }
@@ -325,15 +325,15 @@ class tests
    *
    * \param string $network Name of the network
    *
-   * \param string $netmask The netmask of the IP address
+   * \param string $netmask The netmask of the IPv4 address
    *
-   * \param string $address The IP address
+   * \param string $address The IPv4 address
    */
   public static function is_in_network ($network, $netmask, $address)
   {
-    $nw = explode('.', $network);
-    $nm = explode('.', $netmask);
-    $ad = explode('.', $address);
+    $nw = array_map('intval', explode('.', $network));
+    $nm = array_map('intval', explode('.', $netmask));
+    $ad = array_map('intval', explode('.', $address));
 
     /* Generate inverted netmask */
     $ni = [];
@@ -351,12 +351,12 @@ class tests
     return ($first < $curr && $last > $curr);
   }
 
-  /* \brief Check if the specified IP address $address is inside the given network */
+  /* \brief Check if the specified IPv4 address $address is inside the given network */
   public static function is_in_ip_range ($from, $to, $address)
   {
-    $from = explode('.', $from);
-    $to   = explode('.', $to);
-    $ad   = explode('.', $address);
+    $from = array_map('intval', explode('.', $from));
+    $to   = array_map('intval', explode('.', $to));
+    $ad   = array_map('intval', explode('.', $address));
 
     /* Transform to integer */
     $from = $from[0] * (16777216) + $from[1] * (65536) + $from[2] * (256) + $from[3];

@@ -892,8 +892,8 @@ class setupStepMigrate extends setupStep
 
     /* Creating user */
     $tabObject = objects::create('user');
-    $tabObject->givenName                 = 'System';
-    $tabObject->sn                        = 'Administrator';
+    $tabObject->getBaseObject()->givenName  = 'System';
+    $tabObject->getBaseObject()->sn         = 'Administrator';
     $tabObject->update();
     $errors = $tabObject->save();
     if (!empty($errors)) {
