@@ -112,14 +112,6 @@ class setupStepChecks extends setupStep
     $M = TRUE;
     $basic_checks[] = ["NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M ];
 
-    /* Check for installed mhash module */
-    $N = msgPool::checkingFor("hash method");
-    $D = _("FusionDirectory requires either 'mhash' or the 'sha1' module to make use of SSHA encryption.");
-    $S = msgPool::installPhpModule("mhash/sha1");
-    $R = is_callable('mhash') || is_callable('sha1');
-    $M = FALSE;
-    $basic_checks[] = ["NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M ];
-
     /* Check if imap module is available */
     $N = msgPool::checkingFor("IMAP");
     $D = _("FusionDirectory requires this module to talk to an IMAP server.");

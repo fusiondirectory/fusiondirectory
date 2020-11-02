@@ -59,12 +59,10 @@ class EntrySortIterator implements Iterator
 
   /*!
    * \brief Put the array pointer to the first element
-   *
-   * \return the first element of the array
    */
   function rewind ()
   {
-    return reset($this->data);
+    reset($this->data);
   }
 
   /*!
@@ -89,12 +87,10 @@ class EntrySortIterator implements Iterator
 
   /*!
    * \brief Get the next data element
-   *
-   * \return The next element pointed by array pointer
    */
   function next ()
   {
-    return next($this->data);
+    next($this->data);
   }
 
   /*!

@@ -634,7 +634,7 @@ class OrderedArrayAttribute extends SetAttribute
     if ($this->order) {
       if (preg_match('/^'.$id.'_up_/', $postValue)) {
         $key = preg_replace('/^'.$id.'_up_/', '', $postValue);
-        $key = preg_replace('/_[xy]$/', '', $key);
+        $key = (int)preg_replace('/_[xy]$/', '', $key);
 
         $tmp                        = $this->postValue[$key];
         $this->postValue[$key]      = $this->postValue[$key - 1];
@@ -643,7 +643,7 @@ class OrderedArrayAttribute extends SetAttribute
       }
       if (preg_match('/^'.$id.'_down_/', $postValue)) {
         $key = preg_replace('/^'.$id.'_down_/', '', $postValue);
-        $key = preg_replace('/_[xy]$/', '', $key);
+        $key = (int)preg_replace('/_[xy]$/', '', $key);
 
         $tmp                        = $this->postValue[$key];
         $this->postValue[$key]      = $this->postValue[$key + 1];

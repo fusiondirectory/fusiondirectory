@@ -348,7 +348,10 @@ class objects
     return $tabObject;
   }
 
-  static function link (string $dn, string $type, string $subaction = '', string $text = NULL, bool $icon = TRUE, bool $link = TRUE): string
+  /**
+   * @param string|array|null $text
+   */
+  static function link (string $dn, string $type, string $subaction = '', $text = NULL, bool $icon = TRUE, bool $link = TRUE): string
   {
     global $config;
 
