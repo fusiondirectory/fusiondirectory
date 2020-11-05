@@ -104,6 +104,11 @@ class StepMigrateDialog extends GenericDialog
   {
     return FALSE;
   }
+
+  public function getInfos ()
+  {
+    return $this->infos;
+  }
 }
 
 class StepMigrateCheck
