@@ -26,6 +26,9 @@ class setupStepLdap extends setupStep
   var $connect_id = FALSE;
   var $bind_id    = FALSE;
 
+  private $lastBase       = '';
+  private $lastConnection = '';
+
   static function getAttributesInfo (): array
   {
     return [
@@ -128,17 +131,18 @@ class setupStepLdap extends setupStep
         'base', TRUE
       );
     }
+    $this->lastConnection = $this->connection;
+    $this->lastBase       = $this->base;
   }
 
   public function update (): bool
   {
-    $base       = $this->base;
-    $connection = $this->connection;
     parent::update();
-    $this->connection = preg_replace("/\/$/", "", $this->connection);
-    if (($this->base != $base) || ($this->connection != $connection)) {
+    $this->connection = preg_replace('/\/$/', '', $this->connection);
+    if (($this->base != $this->lastBase) || ($this->connection != $this->lastConnection)) {
       $this->parent->disable_steps_from(($this->parent->step_name_to_id(get_class($this))) + 1);
-      if ($this->connection != $connection) {
+      $this->lastBase       = $this->base;
+      if ($this->connection != $this->lastConnection) {
         $this->update_base_choices();
       }
     }

@@ -114,6 +114,11 @@ class StepMigrateDialog implements FusionDirectoryDialog
   {
     unset($this->check);
   }
+
+  public function getInfos (): array
+  {
+    return $this->infos;
+  }
 }
 
 class StepMigrateCheck
@@ -888,12 +893,20 @@ class setupStepMigrate extends setupStep
       $roledn = $tabObject->dn;
     }
 
-    $_POST['dialog_refresh'] = TRUE;
-
     /* Creating user */
-    $tabObject = objects::create('user');
-    $tabObject->getBaseObject()->givenName  = 'System';
-    $tabObject->getBaseObject()->sn         = 'Administrator';
+    $infos      = $checkobj->getInfos();
+    $tabObject  = objects::create('user');
+    $baseObject = $tabObject->getBaseObject();
+    $baseObject->givenName    = 'System';
+    $baseObject->sn           = 'Administrator';
+    $baseObject->uid          = $infos['uid'];
+    $baseObject->userPassword = [
+      '',
+      $infos['password'],
+      $infos['password2'],
+      '',
+      FALSE
+    ];
     $tabObject->update();
     $errors = $tabObject->save();
     if (!empty($errors)) {
