@@ -58,6 +58,7 @@ class CompositeAttribute extends Attribute
     $this->attributes   = $attributes;
     foreach ($this->attributes as &$attribute) {
       $attribute->setAcl($this->getAcl());
+      $attribute->setParent($this->plugin);
     }
     unset($attribute);
   }
