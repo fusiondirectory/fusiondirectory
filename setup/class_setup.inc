@@ -80,48 +80,20 @@ class setup implements FusionDirectoryDialog
   /* Save posted attributes  */
   public function readPost ()
   {
-    /* Call readPost and update for current setup step */
+    /* Call readPost for current setup step */
     $this->o_steps[$this->i_current]->readPost();
-    $this->o_steps[$this->i_current]->update();
-
-    /* Get attributes from setup step */
-    $tmp = $this->o_steps[$this->i_current]->get_attributes();
-    foreach ($tmp as $name => $value) {
-      $this->captured_values[$name] = $value;
-    }
-
-    /* Set parent */
-    foreach ($this->o_steps as $key => $value) {
-      $this->o_steps[$key]->parent = $this;
-    }
 
     /* Check if image button requests next page */
     foreach ($_POST as $name => $value) {
-      if (preg_match("/^next_(x|y)/", $name)) {
+      if (preg_match('/^next_(x|y)/', $name)) {
         $_POST['next'] = TRUE;
       }
-      if (preg_match("/^last_(x|y)/", $name)) {
+      if (preg_match('/^last_(x|y)/', $name)) {
         $_POST['last'] = TRUE;
       }
     }
 
-    /* Display step error messages */
-    $msgs = $this->o_steps[$this->i_current]->check();
-    msg_dialog::displayChecks($msgs);
-
-    for ($i = 0; $i < $this->i_steps; $i++) {
-      if ($this->o_steps[$i]->is_completed()) {
-        /* If step is completed, activate the next step if possible */
-        if (isset($this->o_steps[($i + 1)])) {
-          $this->o_steps[($i + 1)]->set_enabled();
-        }
-      } else {
-        /* Disable all following steps, if one step isn't completed right now */
-        $this->disable_steps_from($i + 1);
-        break;
-      }
-    }
-
+    /* Detect target step */
     $step = -1;
 
     if (isset($_POST['setup_goto_step'])) {
@@ -143,14 +115,49 @@ class setup implements FusionDirectoryDialog
       }
     }
 
-    if ($this->selectable_step($step)) {
-      $this->i_previous = $this->i_current;
-      $this->i_current  = $step;
-    }
+    $this->i_previous = $this->i_current;
+    $this->i_current  = $step;
   }
 
   public function update (): bool
   {
+    if (!$this->selectable_step($this->i_current)) {
+      $this->i_current = $this->i_previous;
+    }
+
+    $this->o_steps[$this->i_previous]->update();
+
+    /* Get attributes from setup step */
+    $tmp = $this->o_steps[$this->i_previous]->get_attributes();
+    foreach ($tmp as $name => $value) {
+      $this->captured_values[$name] = $value;
+    }
+
+    /* Set parent */
+    foreach ($this->o_steps as $key => $value) {
+      $this->o_steps[$key]->parent = $this;
+    }
+
+    /* Display step error messages */
+    $msgs = $this->o_steps[$this->i_previous]->check();
+    msg_dialog::displayChecks($msgs);
+
+    for ($i = 0; $i < $this->i_steps; $i++) {
+      if ($this->o_steps[$i]->is_completed()) {
+        /* If step is completed, activate the next step if possible */
+        if (isset($this->o_steps[($i + 1)])) {
+          $this->o_steps[($i + 1)]->set_enabled();
+        }
+      } else {
+        /* Disable all following steps, if one step isn't completed right now */
+        $this->disable_steps_from($i + 1);
+        break;
+      }
+    }
+
+    if ($this->i_current != $this->i_previous) {
+      $this->o_steps[$this->i_current]->update();
+    }
     return TRUE;
   }
 
@@ -241,7 +248,7 @@ class setup implements FusionDirectoryDialog
 
 
   /* Check if the given step id is valid and selectable */
-  function selectable_step ($id)
+  protected function selectable_step ($id): bool
   {
     if (isset($this->o_steps[$id]) && $this->o_steps[$id]->is_enabled()) {
       return TRUE;
