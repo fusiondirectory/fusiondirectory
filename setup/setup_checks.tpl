@@ -1,6 +1,8 @@
 <div id="{$sectionId}" class="plugin-section">
   <span class="legend">
     {if !empty($sectionIcon)}<img src="{$sectionIcon|escape}" alt=""/>{/if}{$section|escape}
+    -
+    <a href="?info" target="_blank">{t}show information{/t}</a>
   </span>
   <div>
     {foreach from=$attributes item=infos}
