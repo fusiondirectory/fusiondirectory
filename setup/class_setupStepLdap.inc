@@ -152,7 +152,7 @@ class setupStepLdap extends setupStep
     $this->status = $this->get_connection_status();
     if ($this->bind_id && !empty($this->admin) && !empty($this->base)) {
       $this->is_completed = TRUE;
-      $this->parent->read_ldap_config();
+      $this->parent->read_ldap_config($this->get_attributes());
     } else {
       $this->is_completed = FALSE;
     }
