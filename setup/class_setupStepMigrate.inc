@@ -407,7 +407,7 @@ class setupStepMigrate extends setupStep
         $mods['ou'] = $val;
       }
 
-      /*Append description, it is required by gosaDepartment too */
+      /* Append description, it is required by gosaDepartment too */
       if (!isset($attrs['description'])) {
         $val = "GOsa";
         if (isset($attrs[$dep_infos['mainAttr']][0])) {
@@ -420,7 +420,7 @@ class setupStepMigrate extends setupStep
       $this->rootOC_details['target'] = $str;
       $this->rootOC_details['mods']   = $mods;
 
-      /*  Add button that allows to open the migration details */
+      /* Add button that allows to open the migration details */
       throw new CheckFailedException(
         _('Failed'),
         '&nbsp;'.$checkobj->submit()
@@ -433,6 +433,8 @@ class setupStepMigrate extends setupStep
 
   function check_baseOC_migrate (&$checkobj)
   {
+    /* Refresh $this->rootOC_details */
+    $checkobj->run();
     $this->openDialog(new StepMigrateDialog($checkobj, 'setup_migrate_baseOC.tpl', $this->rootOC_details));
   }
 
