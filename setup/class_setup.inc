@@ -121,10 +121,6 @@ class setup implements FusionDirectoryDialog
 
   public function update (): bool
   {
-    if (!$this->selectable_step($this->i_current)) {
-      $this->i_current = $this->i_previous;
-    }
-
     $this->o_steps[$this->i_previous]->update();
 
     /* Get attributes from setup step */
@@ -155,9 +151,14 @@ class setup implements FusionDirectoryDialog
       }
     }
 
+    if (!$this->selectable_step($this->i_current)) {
+      $this->i_current = $this->i_previous;
+    }
+
     if ($this->i_current != $this->i_previous) {
       $this->o_steps[$this->i_current]->update();
     }
+
     return TRUE;
   }
 
@@ -267,12 +268,11 @@ class setup implements FusionDirectoryDialog
   }
 
   /* Called when LDAP is configured */
-  function read_ldap_config ()
+  public function read_ldap_config (array $captured_values)
   {
     global $config;
-    /* Get attributes from current ldap step */
-    $tmp = $this->o_steps[$this->i_current]->get_attributes();
-    foreach ($tmp as $name => $value) {
+    /* Get attributes from ldap step */
+    foreach ($captured_values as $name => $value) {
       $this->captured_values[$name] = $value;
     }
     $smarty = get_smarty();

@@ -93,7 +93,7 @@ class setupStep extends simplePlugin
   }
 
   /* Return attributes handled by this setup step */
-  function get_attributes ()
+  public function get_attributes (): array
   {
     $tmp = [];
     foreach (array_keys($this->attributesAccess) as $attr) {
