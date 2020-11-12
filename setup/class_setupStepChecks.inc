@@ -34,7 +34,7 @@ class setupStepChecks extends setupStep
         ]
       ],
       'setup' => [
-        'name'      => _('PHP setup configuration (<a href="?info" target="_blank">show information</a>)'),
+        'name'      => _('PHP setup configuration'),
         'template'  => get_template_path("setup_checks.tpl", TRUE, dirname(__FILE__)),
         'attrs'     => [
           new FakeAttribute('config_checks')
