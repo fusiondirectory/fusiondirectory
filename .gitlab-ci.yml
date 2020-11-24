@@ -4,7 +4,7 @@ image: debian:stretch
 # Define variable to disable SSL verification of GIT
 variables:
   GIT_SSL_NO_VERIFY: "true"
-  BRANCH_PLUGIN: "1.4-dev"
+  BRANCH_PLUGIN: "$BRANCH_PLUGIN_DEV"
 
 stages:
   - lint
@@ -155,11 +155,6 @@ build-release:
   artifacts:
     paths:
       - fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"').tar.gz
-
-test_variabe:
-  stage: trigger
-  script:
-    - echo "$BRANCH_PLUGIN"
 
 trigger-ci:
   stage: trigger
