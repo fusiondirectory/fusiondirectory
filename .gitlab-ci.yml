@@ -4,6 +4,7 @@ image: debian:stretch
 # Define variable to disable SSL verification of GIT
 variables:
   GIT_SSL_NO_VERIFY: "true"
+  BRANCH_PLUGIN: "1.4-dev"
 
 stages:
   - lint
@@ -159,6 +160,12 @@ trigger-ci:
   stage: trigger
   only:
     - 1.4-dev
+  variables:
+    GROUP: "$GROUP"
+    BRANCH_CORE: "$CI_COMMIT_REF_NAME"
+    BRANCH_PLUGIN: "$BRANCH_PLUGIN"
+    BRANCH_BUILD_DEBIAN_STRETCH: "$BRANCH_BUILD_DEBIAN_STRETCH"
+    BRANCH_BUILD_CENTOS_7: "$BRANCH_BUILD_CENTOS_7"
   trigger:
     project: fusiondirectory/fd-plugins
-    branch: 1.4-dev
+    branch: "$BRANCH_PLUGIN"
