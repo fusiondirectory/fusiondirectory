@@ -156,6 +156,11 @@ build-release:
     paths:
       - fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"').tar.gz
 
+test_variabe:
+  stage: trigger
+  script:
+    - echo "$BRANCH_PLUGIN"
+
 trigger-ci:
   stage: trigger
   only:
