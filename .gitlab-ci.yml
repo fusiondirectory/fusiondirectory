@@ -165,7 +165,7 @@ trigger-plugins:
     BRANCH_BUILD_CENTOS_7: $BRANCH_BUILD_CENTOS_7
   stage: trigger
   only:
-    - 1.4-dev
+    - branches
   trigger:
     project: fusiondirectory/fd-plugins
     branch: $BRANCH_PLUGIN
