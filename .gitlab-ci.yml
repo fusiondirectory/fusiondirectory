@@ -159,7 +159,7 @@ trigger-plugins:
   variables:
     GROUP: $GROUP
     BRANCH_CORE: $CI_COMMIT_REF_NAME
-    BRANCH_PLUGIN: $BRANCH_PLUGIN
+    BRANCH_PLUGIN: $CI_COMMIT_REF_NAME
     BRANCH_BUILD_DEBIAN_STRETCH: $BRANCH_BUILD_DEBIAN_STRETCH
     BRANCH_BUILD_DEBIAN_BUSTER: $BRANCH_BUILD_DEBIAN_BUSTER
     BRANCH_BUILD_CENTOS_7: $BRANCH_BUILD_CENTOS_7
@@ -168,4 +168,4 @@ trigger-plugins:
     - branches
   trigger:
     project: fusiondirectory/fd-plugins
-    branch: $BRANCH_PLUGIN
+    branch: $CI_COMMIT_REF_NAME
