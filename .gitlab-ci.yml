@@ -103,7 +103,7 @@ fusiondirectory-update-locale:
   image: registry.fusiondirectory.org/fusiondirectory/fd/transifex-cli:stretch
   stage: transifex
   only:
-    - branches
+    - /^1.*$/
   script:
     - git clone --depth 1 https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
     - ../dev-tools/locale-scripts/fusiondirectory-update-locale -g
