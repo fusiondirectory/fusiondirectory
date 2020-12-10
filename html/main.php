@@ -19,6 +19,14 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/**
+ * @var Smarty $smarty                  Defined in php_setup.inc
+ * @var string $BASE_DIR                Defined in php_setup.inc
+ * @var string $ssl                     Defined in php_setup.inc
+ * @var string $error_collector         Defined in php_setup.inc
+ * @var string $error_collector_mailto  Defined in php_setup.inc
+ */
+
 /* Basic setup, remove eventually registered sessions */
 require_once("../include/php_setup.inc");
 require_once("functions.inc");
@@ -89,12 +97,15 @@ session::set('_LAST_PAGE_REQUEST', time());
 logging::debug(DEBUG_CONFIG, __LINE__, __FUNCTION__, __FILE__, $config->data, "config");
 
 /* Set template compile directory */
-$smarty->compile_dir = $config->get_cfg_value("templateCompileDirectory", SPOOL_DIR);
+$smarty->setCompileDir($config->get_cfg_value('templateCompileDirectory', SPOOL_DIR));
 
 Language::init();
 
 /* Prepare plugin list */
 pluglist::load();
+/**
+ * @var pluglist $plist built by pluglist::load
+ */
 
 /* Check previous plugin index */
 if (session::is_set('plugin_index')) {
@@ -215,6 +226,9 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST')
 
 /* Load plugin */
 pluglist::runMainInc($plugin_index);
+/**
+ * @var string $display Filled by pluglist::runMainInc
+ */
 
 /* Print_out last ErrorMessage repeated string. */
 $smarty->assign("msg_dialogs", msg_dialog::get_dialogs());

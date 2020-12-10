@@ -41,6 +41,14 @@ header('X-XSS-Protection: 1; mode=block');
 header('X-Content-Type-Options: nosniff');
 header('X-Frame-Options: deny');
 
+/**
+ * @var Smarty $smarty                  Defined in php_setup.inc
+ * @var string $BASE_DIR                Defined in php_setup.inc
+ * @var string $ssl                     Defined in php_setup.inc
+ * @var string $error_collector         Defined in php_setup.inc
+ * @var string $error_collector_mailto  Defined in php_setup.inc
+ */
+
 /* Set cookie lifetime to one day (The parameter is in seconds ) */
 session_set_cookie_params(24 * 60 * 60);
 // default cache_expire is 180
@@ -57,14 +65,14 @@ CSRFProtection::check();
 reset_errors();
 
 /* Set template compile directory */
-$smarty->compile_dir = SPOOL_DIR;
+$smarty->setCompileDir(SPOOL_DIR);
 
 /* Check for compile directory */
-if (!(is_dir($smarty->compile_dir) && is_writable($smarty->compile_dir))) {
+if (!(is_dir($smarty->getCompileDir()) && is_writable($smarty->getCompileDir()))) {
   throw new FatalError(
     htmlescape(sprintf(
       _('Directory "%s" specified as compile directory is not accessible!'),
-      $smarty->compile_dir
+      $smarty->getCompileDir()
     ))
   );
 }
@@ -104,6 +112,9 @@ IconTheme::loadThemes('themes');
 $ui = new userinfoNoAuth('setup');
 /* Call setup */
 setup::mainInc();
+/**
+ * @var string $display filled by setup::mainInc
+ */
 
 $focus = '<script type="text/javascript">';
 $focus .= 'next_msg_dialog();';

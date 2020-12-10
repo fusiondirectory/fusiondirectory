@@ -351,8 +351,8 @@ require(SMARTY);
 
 $smarty = new Smarty;
 
-$smarty->template_dir = $BASE_DIR.'/ihtml/';
-$smarty->caching      = FALSE;
+$smarty->setTemplateDir($BASE_DIR.'/ihtml/');
+$smarty->caching      = Smarty::CACHING_OFF;
 $smarty->assign('css_files', []);
 $smarty->assign('js_files', []);
 
