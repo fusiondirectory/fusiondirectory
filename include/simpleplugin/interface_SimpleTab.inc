@@ -27,18 +27,16 @@
 /*! \brief This interface is implemented by classes intended to be used as tabs, mainly simplePlugin itself.
  */
 
+/**
+ * @property bool $is_account
+ * @property string $dn
+ * @property bool $is_template
+ * @property string $_template_cn (only for main tab of templates)
+ * @property array $attributesAccess (only for main tab of templates)
+ * @property simpleTabs $parent
+ */
 interface SimpleTab extends FusionDirectoryDialog
 {
-  /*
-   * Public vars expected as well by classes implementing this interface:
-   * bool $is_account
-   * string $dn
-   * bool $is_template
-   * string $_template_cn (only for main tab of templates)
-   * array $attributesAccess (only for main tab of templates)
-   * simpleTabs $parent
-   */
-
   /*
    * Public methods needed in some cases:
    * compute_dn (): string (only for main tab)

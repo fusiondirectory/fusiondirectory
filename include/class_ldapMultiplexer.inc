@@ -25,8 +25,18 @@
  * Source code for class ldapMultiplexer
  */
 
- /*!
-  * \brief This class contains all function to manage ldap multiplexer
+ /**
+  * This class contains all function to manage ldap multiplexer
+  * @method void set_size_limit ($size)
+  * @method void cd ($dir)
+  * @method boolean|resource modify_batch (array $changes)
+  * @method string get_error ($details = TRUE)
+  * @method array get_objectclasses ($force_reload = FALSE)
+  * @method string|array fetch (bool $cleanUpNumericIndices = FALSE)
+  * @method string|resource search ($filter, $attrs = [], $scope = 'subtree', array $controls = NULL)
+  * @method string|resource cat ($dn, $attrs = ["*"], $filter = "(objectclass=*)")
+  * @method int count ()
+  * @method bool success ()
   */
 class ldapMultiplexer
 {

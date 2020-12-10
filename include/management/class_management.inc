@@ -50,6 +50,9 @@ class management implements FusionDirectoryDialog
   protected $previousDns  = [];
 
   // The opened object.
+  /**
+   * @var ?simpleTabs
+   */
   protected $tabObject    = NULL;
   protected $dialogObject = NULL;
 

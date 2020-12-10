@@ -19,6 +19,13 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/**
+ * @var Smarty $smarty
+ * @var pluglist $plist
+ * @var userinfo $ui
+ * @var bool $cleanup
+ */
+
 if (!$cleanup) {
   $smarty->assign('iconmenu',       $plist->show_iconmenu());
   $smarty->assign('headline',       sprintf(_('Welcome %s!'), $ui->cn));

@@ -19,6 +19,14 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+/**
+ * @var Smarty $smarty                  Defined in php_setup.inc
+ * @var string $BASE_DIR                Defined in php_setup.inc
+ * @var string $ssl                     Defined in php_setup.inc
+ * @var string $error_collector         Defined in php_setup.inc
+ * @var string $error_collector_mailto  Defined in php_setup.inc
+ */
+
 /* Basic setup, remove eventually registered sessions */
 require_once("../include/php_setup.inc");
 require_once("functions.inc");
@@ -96,7 +104,7 @@ foreach (LoginPost::$secondFactorMethods as $secondFactorMethod) {
 session::set('DEBUGLEVEL', $config->get_cfg_value('DEBUGLEVEL'));
 
 /* Set template compile directory */
-$smarty->compile_dir = $config->get_cfg_value('templateCompileDirectory', SPOOL_DIR);
+$smarty->setCompileDir($config->get_cfg_value('templateCompileDirectory', SPOOL_DIR));
 
 Language::init();
 

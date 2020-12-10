@@ -31,6 +31,12 @@ header('X-XSS-Protection: 1; mode=block');
 header('X-Content-Type-Options: nosniff');
 header('X-Frame-Options: deny');
 
+/**
+ * @var Smarty $smarty    Defined in php_setup.inc
+ * @var string $BASE_DIR  Defined in php_setup.inc
+ * @var string $ssl       Defined in php_setup.inc
+ */
+
 /*****************************************************************************
  *                               M   A   I   N                               *
  *****************************************************************************/
@@ -51,7 +57,7 @@ if (isset($_REQUEST['signout']) && $_REQUEST['signout']) {
       phpCAS::client(
         CAS_VERSION_2_0,
         $config->get_cfg_value('casHost', 'localhost'),
-        (int)($config->get_cfg_value('casPort', 443)),
+        $config->get_cfg_value('casPort', '443'),
         $config->get_cfg_value('casContext', '')
       );
       // Set the CA certificate that is the issuer of the cert
@@ -108,20 +114,20 @@ session::un_set('plist');
 unset($plist);
 
 /* Set template compile directory */
-$smarty->compile_dir = $config->get_cfg_value('templateCompileDirectory', SPOOL_DIR);
+$smarty->setCompileDir($config->get_cfg_value('templateCompileDirectory', SPOOL_DIR));
 
 /* Check for compile directory */
-if (!(is_dir($smarty->compile_dir) && is_writable($smarty->compile_dir))) {
+if (!(is_dir($smarty->getCompileDir()) && is_writable($smarty->getCompileDir()))) {
   throw new FatalError(
     htmlescape(sprintf(
       _('Directory "%s" specified as compile directory is not accessible!'),
-      $smarty->compile_dir
+      $smarty->getCompileDir()
     ))
   );
 }
 
 /* Check for old files in compile directory */
-clean_smarty_compile_dir($smarty->compile_dir);
+clean_smarty_compile_dir($smarty->getCompileDir());
 
 Language::init();
 

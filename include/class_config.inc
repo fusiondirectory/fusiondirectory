@@ -361,12 +361,13 @@ class config
       }
       asort($servers);
       reset($servers);
+
+      /* SERVER not defined? Load the one with the shortest base */
+      if (!isset($this->current['SERVER'])) {
+        $this->current['SERVER'] = key($servers);
+      }
     }
 
-    /* SERVER not defined? Load the one with the shortest base */
-    if (!isset($this->current['SERVER'])) {
-      $this->current['SERVER'] = key($servers);
-    }
 
     /* Parse LDAP referral informations */
     if (!isset($this->current['ADMINDN']) || !isset($this->current['ADMINPASSWORD'])) {
