@@ -80,11 +80,11 @@ sonar_publish:
   image: registry.fusiondirectory.org/fusiondirectory/fd/sonar-cli:4.4.0.2170
   stage: codestyle
   only:
-    - 1.3-dev
+    - 1.3-fixes
   script:
     - /home/sonar/*/bin/sonar-scanner
-      -D sonar.projectKey=fusiondirectory-dev
-      -D sonar.projectName=FusionDirectory-Dev
+      -D sonar.projectKey=FusionDirectory-13
+      -D sonar.projectName=FusionDirectory-1.3
       -D sonar.projectVersion=1.3
       -D sonar.sourceEncoding=UTF-8
       -D sonar.exclusions='html/themes/legacy/**/*,html/themes/breezy/**/*,html/images/**,contrib/**,html/plugins/users/images/**,html/favicon.ico,include/class_xml.inc'
@@ -97,11 +97,11 @@ sonar_preview:
   image: registry.fusiondirectory.org/fusiondirectory/fd/sonar-cli:4.4.0.2170
   stage: codestyle
   except:
-    - 1.3-dev
+    - 1.3-fixes
   script:
     - /home/sonar/*/bin/sonar-scanner
-      -D sonar.projectKey=fusiondirectory-dev
-      -D sonar.projectName=FusionDirectory-Dev
+      -D sonar.projectKey=FusionDirectory-13
+      -D sonar.projectName=FusionDirectory-1.3
       -D sonar.projectVersion=1.3
       -D sonar.sourceEncoding=UTF-8
       -D sonar.exclusions='html/themes/legacy/**/*,html/themes/breezy/**/*,html/images/**,contrib/**,html/plugins/users/images/**,html/favicon.ico,include/class_xml.inc'
