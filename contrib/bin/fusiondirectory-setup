@@ -44,6 +44,7 @@ use MIME::Base64;
 # used to generate {SSHA} password (for LDAP)
 use Digest::SHA;
 use Crypt::CBC;
+use Bytes::Random::Secure qw(random_string_from);
 
 # used to uncompress tar.gz
 use Archive::Extract;
@@ -229,9 +230,7 @@ sub get_random_string {
   my ($size) = @_;
   $size = 32 if !$size;
   my @chars = ("A".."Z", "a".."z", '.', '/', 0..9);
-  my $string;
-  $string .= $chars[rand @chars] for 1..$size;
-  return $string;
+  return random_string_from(join('', @chars), $size);
 }
 
 sub encrypt_passwords {
