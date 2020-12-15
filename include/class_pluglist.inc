@@ -572,7 +572,7 @@ class pluglist
       if (is_file("$plugin_dir/main.inc")) {
         $display = '';
         require("$plugin_dir/main.inc");
-      } elseif (is_callable([get_class($plugin), 'mainInc'])) {
+      } elseif (is_callable([$plugin, 'mainInc'])) {
         $plugin::mainInc();
       } else {
         throw new FatalError(
