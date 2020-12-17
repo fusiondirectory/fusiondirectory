@@ -166,7 +166,10 @@ class BooleanAttribute extends Attribute
   function deserializeValue ($value)
   {
     if ($this->disabled) {
-      return sprintf(_('Attribute %s is disabled, its value could not be set'), $this->getLdapName());
+      return new SimplePluginError(
+        $this,
+        htmlescape(sprintf(_('Attribute %s is disabled, its value could not be set'), $this->getLdapName()))
+      );
     }
     if ($value === $this->trueValue) {
       $this->setValue(TRUE);
@@ -179,7 +182,10 @@ class BooleanAttribute extends Attribute
     } elseif ($value === 0) {
       $this->setValue(FALSE);
     } else {
-      return sprintf(_('"%s" is not a valid value for attribute "%s" should be "%s" or "%s"'), $value, $this->getLdapName(), $this->trueValue, $this->falseValue);
+      return new SimplePluginError(
+        $this,
+        htmlescape(sprintf(_('"%s" is not a valid value, should be "%s" or "%s"'), $value, $this->getLdapName(), $this->trueValue, $this->falseValue))
+      );
     }
 
     /* No error */

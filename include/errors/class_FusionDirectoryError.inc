@@ -39,6 +39,7 @@ class FusionDirectoryError extends Error
   public function toArray (): array
   {
     return [
+      'class'   => get_class($this),
       'message' => $this->getMessage(),
       'line'    => $this->getLine(),
       'file'    => $this->getFile(),
