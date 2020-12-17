@@ -28,6 +28,15 @@
 */
 class FusionDirectoryException extends Exception
 {
+  public function toArray (): array
+  {
+    return [
+      'class'   => get_class($this),
+      'message' => $this->getMessage(),
+      'line'    => $this->getLine(),
+      'file'    => $this->getFile(),
+    ];
+  }
 }
 
 /*! \class LDIFImportException

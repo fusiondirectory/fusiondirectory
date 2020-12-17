@@ -695,7 +695,10 @@ class Attribute
   function deserializeValue ($value)
   {
     if ($this->disabled) {
-      return sprintf(_('Attribute %s is disabled, its value could not be set'), $this->getLdapName());
+      return new SimplePluginError(
+        $this,
+        htmlescape(sprintf(_('Attribute %s is disabled, its value could not be set'), $this->getLdapName()))
+      );
     }
     $this->setValue($value);
   }

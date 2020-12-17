@@ -134,12 +134,18 @@ class FileAttribute extends Attribute
   function deserializeValue ($value)
   {
     if ($this->disabled) {
-      return sprintf(_('Attribute %s is disabled, its value could not be set'), $this->getLdapName());
+      return new SimplePluginError(
+        $this,
+        htmlescape(sprintf(_('Attribute %s is disabled, its value could not be set'), $this->getLdapName()))
+      );
     }
     if ($this->binary) {
       $data = base64_decode($value, TRUE);
       if ($data === FALSE) {
-        return sprintf(_('Invalid base64 data for attribute %s'), $this->getLdapName());
+        return new SimplePluginError(
+          $this,
+          htmlescape(_('Invalid base64 data'))
+        );
       }
       $this->setValue($data);
     } else {
@@ -394,14 +400,13 @@ class ImageAttribute extends FileAttribute
         }
       } catch (ImagickException $e) {
         /* Store the exception to return it in deserializeValue() */
-        $this->imagickException = $e;
-        $error = new SimplePluginError(
+        $this->imagickException = new SimplePluginError(
           $this,
           SimplePluginCheckError::invalidValue($e->getMessage()),
           0,
           $e
         );
-        $error->display();
+        $this->imagickException->display();
       }
     } else {
       $error = new SimplePluginError(
@@ -423,7 +428,7 @@ class ImageAttribute extends FileAttribute
       return $error;
     }
     if ($this->imagickException !== NULL) {
-      return sprintf(_('Invalid data, Imagick error: "%s"'), $this->imagickException->getMessage());
+      return $this->imagickException;
     }
   }
 

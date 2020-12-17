@@ -2059,10 +2059,13 @@ class simplePlugin implements SimpleTab
             return $error;
           }
         } else {
-          return msgPool::permModify($this->dn, $name);
+          return new SimplePluginPermissionError($this, msgPool::permModify($this->dn, $name));
         }
       } else {
-        return sprintf(_('Unknown field "%s"'), $name);
+        return new SimplePluginError(
+          $this,
+          htmlescape(sprintf(_('Unknown field "%s"'), $name))
+        );
       }
     }
     return TRUE;
