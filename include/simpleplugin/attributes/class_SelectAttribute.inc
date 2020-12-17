@@ -76,14 +76,22 @@ class SelectAttribute extends Attribute
       }
     }
     $this->choices = $choices;
-    if (!in_array($this->defaultValue, $this->choices, TRUE) && isset($this->choices[0])) {
-      $this->defaultValue = $this->choices[0];
+    if (!in_array($this->defaultValue, $this->choices, TRUE)) {
+      if (isset($this->choices[0])) {
+        $this->defaultValue = $this->choices[0];
+      } else {
+        $this->defaultValue = '';
+      }
     }
     if (is_array($outputs)) {
       $this->setDisplayChoices($outputs);
     }
     if (!in_array($this->value, $this->choices)) {
       $this->resetToDefault();
+    }
+    if (!in_array($this->postValue, $this->choices)) {
+      /* We may be called between readPostValue and applyPostValue */
+      $this->postValue = $this->defaultValue;
     }
   }
 
