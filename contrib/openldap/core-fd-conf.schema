@@ -425,6 +425,13 @@ attributetype ( 1.3.6.1.4.1.38414.8.18.12 NAME 'fdAclTargetFilterLimit'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
   SINGLE-VALUE )
 
+attributetype ( 1.3.6.1.4.1.38414.8.18.13 NAME 'fdIncrementalModifierStates'
+  DESC 'FusionDirectory - States of the incremental modifier intances, with keys value and date, encoded as JSON'
+  EQUALITY caseExactMatch
+  SUBSTR caseExactSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
+
 # Plugins
 
 attributetype ( 1.3.6.1.4.1.38414.8.19.1 NAME 'fdOGroupRDN'
@@ -610,6 +617,7 @@ objectclass ( 1.3.6.1.4.1.38414.8.2.1 NAME 'fusionDirectoryConf'
     fdTabHook $ fdShells $ fdDefaultShell $ fdDisplayHookOutput $
     fdPluginsMenuBlacklist $ fdManagementConfig $ fdManagementUserConfig $
     fdAclTabOnObjects $ fdDepartmentCategories $ fdAclTargetFilterLimit $
+    fdIncrementalModifierStates $
     fdSslCaCertPath $ fdSslKeyPath $ fdSslCertPath $
     fdCasActivated $ fdCasServerCaCertPath $ fdCasHost $ fdCasPort $ fdCasContext $
     fdLoginMethod

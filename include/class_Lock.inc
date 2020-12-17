@@ -38,7 +38,7 @@ class Lock
    *  \brief Add a lock for object(s)
    *
    * Adds a lock by the specified user for one ore multiple objects.
-   * If the lock for that object already exists, an error is triggered.
+   * If a lock for that object already exists from another user, an error is triggered.
    *
    * \param array $object The object or array of objects to lock
    *
@@ -265,6 +265,34 @@ class Lock
     }
 
     return $locks;
+  }
+
+
+  /*!
+   *  \brief Add a lock for object(s) or fail
+   *
+   * Adds a lock by the specified user for one ore multiple objects.
+   * If the lock for that object already exists, waits a bit and retry.
+   * If a lock cannot be set, throws.
+   *
+   * \param array|string $object The object or array of objects to lock
+   *
+   * \param string $user  The user who shall own the lock
+   *
+   * \param int $retries  how many times we can retry (waiting a second each time)
+   */
+  public static function addOrFail ($object, string $user = NULL, int $retries = 10)
+  {
+    $wait = $retries;
+    while (!empty($locks = Lock::get($object))) {
+      sleep(1);
+
+      /* Oups - timed out */
+      if ($wait-- == 0) {
+        throw new FusionDirectoryException(_('Timeout while waiting for lock!'));
+      }
+    }
+    Lock::add($object, $user);
   }
 
   /*!
