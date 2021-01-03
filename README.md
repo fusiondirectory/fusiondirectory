@@ -91,13 +91,13 @@ You can [register on our system][register] and enter issues [FusionDirectory][is
 
 If you like us and want to send us a small contribution you can use the following crowfunding services
 
-* [liberapay] [donate-liberapay]: https://liberapay.com/fusiondirectory/donate
+* [donate-liberapay]
 
-* [kofi][donate-kofi]: https://ko-fi.com/fusiondirectory
+* [donate-kofi]
 
-* [opencollective][donate-opencollective]: https://opencollective.com/fusiondirectory
+* [donate-opencollective]
 
-* [communitybridge][donate-communitybridge]: https://funding.communitybridge.org/projects/fusiondirectory
+* [donate-communitybridge]
   
 ## License
 
