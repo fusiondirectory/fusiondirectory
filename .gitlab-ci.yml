@@ -163,10 +163,17 @@ build-release:
     paths:
     - ./fusiondirectory-"$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')"
 
-trigger-ci:
+trigger-plugins:
+  variables:
+    GROUP: $GROUP
+    BRANCH_CORE: $CI_COMMIT_REF_NAME
+    BRANCH_PLUGIN: $CI_COMMIT_REF_NAME
+    BRANCH_BUILD_DEBIAN_STRETCH: $BRANCH_BUILD_DEBIAN_STRETCH
+    BRANCH_BUILD_DEBIAN_BUSTER: $BRANCH_BUILD_DEBIAN_BUSTER
+    BRANCH_BUILD_CENTOS_7: $BRANCH_BUILD_CENTOS_7
   stage: trigger
   only:
     - 1.3-fixes
   trigger:
     project: fusiondirectory/fd-plugins
-    branch: 1.3-fixes
+    branch: $CI_COMMIT_REF_NAME
