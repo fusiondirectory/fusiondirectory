@@ -1,5 +1,11 @@
+  include:
+  - template: Security/SAST.gitlab-ci.yml
+
 # Specify docker image
 image: debian:stretch
+
+include:
+  - template: Security/SAST.gitlab-ci.yml
 
 stages:
   - lint
