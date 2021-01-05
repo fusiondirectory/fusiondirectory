@@ -221,12 +221,9 @@ class UnitIntAttribute extends CompositeAttribute
 
   function readValues (string $value): array
   {
-    if ($value === '') {
-      return ['', 0];
-    }
     $choices = $this->attributes[1]->getChoices();
     sort($choices);
-    if ($value == 0) {
+    if (($value === '') || ($value == 0)) {
       return [$value, $choices[0]];
     }
     /* Find the appropriate unit */
