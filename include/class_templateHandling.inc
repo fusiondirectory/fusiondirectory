@@ -246,6 +246,13 @@ class templateHandling
       $ldap->cd($config->current['BASE']);
       /* Return the first found unique value */
       foreach ($generator as $value) {
+        if (class_available('archivedObject')) {
+          $filter = archivedObject::buildUniqueSearchFilter($unique, $value);
+          $ldap->search($filter, ['dn']);
+          if ($ldap->count() > 0) {
+            continue;
+          }
+        }
         $filter = '('.ldap_escape_f($unique).'='.ldap_escape_f($value).')';
         $ldap->search($filter, ['dn']);
         if ($ldap->count() == 0) {
