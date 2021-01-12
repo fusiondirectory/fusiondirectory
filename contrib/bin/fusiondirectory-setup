@@ -595,8 +595,9 @@ sub add_ldap_admin {
 
   # Get the configuration to know which attribute must be used in the dn
   my $mesg = $ldap->search(
-    base => "$base",
-    filter => "(&(objectClass=fusionDirectoryConf)(cn=fusiondirectory))",
+    base => "$configrdn,$base",
+    filter => '(objectClass=fusionDirectoryConf)',
+    scope => 'base',
     attrs => ['fdAccountPrimaryAttribute', 'fdForcePasswordDefaultHash', 'fdPasswordDefaultHash']
   );
   $mesg->code && die $mesg->error;
