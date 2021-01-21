@@ -242,13 +242,23 @@ class Lock
     }
 
     $locks = [];
+    $sessionLifetime = $config->get_cfg_value('sessionLifetime', 1800);
+    if ($sessionLifetime > 0) {
+      $expirationDate = (new DateTime())->sub(new DateInterval('PT'.$sessionLifetime.'S'));
+    }
     while ($attrs = $ldap->fetch()) {
-      $locks[] = new Lock(
-        $attrs['dn'],
-        base64_decode($attrs['fdObjectDn'][0]),
-        $attrs['fdUserDn'][0],
-        LdapGeneralizedTime::fromString($attrs['fdLockTimestamp'][0])
-      );
+      $date = LdapGeneralizedTime::fromString($attrs['fdLockTimestamp'][0]);
+      if (isset($expirationDate) && ($date < $expirationDate)) {
+        /* Delete expired locks */
+        $ldap->rmdir($attrs['dn']);
+      } else {
+        $locks[] = new Lock(
+          $attrs['dn'],
+          base64_decode($attrs['fdObjectDn'][0]),
+          $attrs['fdUserDn'][0],
+          $date
+        );
+      }
     }
 
     if (!is_array($objects) && (count($locks) > 1)) {
