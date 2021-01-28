@@ -7,9 +7,10 @@
     <input type="submit" formnovalidate="formnovalidate" name="add_cancel" value="{msgPool type=cancelButton}"/>
   </p>
 {elseif $dialogState eq 'edit'}
-  {function makeCheckbox id='' label='' checked=false}
-    <input id="acl_{$id}" type="checkbox" name="acl_{$id}"{if $checked} checked="checked"{/if}/>
-    <label for="acl_{$id}">{$label}</label>
+  {function makeCheckbox key='' infos='' attr='' acl='' rights=''}
+    {$checked = (strpos($rights, $acl) !== FALSE)}
+    <input id="acl_{$infos.tname}_{$attr}_{$acl}" type="checkbox" name="acl_{$key}_{$attr}_{$acl}"{if $checked} checked="checked"{/if}/>
+    <label for="acl_{$infos.tname}_{$attr}_{$acl}">{$label}</label>
   {/function}
 
   <input type="hidden" name="acl_dummy_0_0_0" value="1"/>
@@ -55,26 +56,26 @@
           <tr>
             <td colspan="2">
               {if $infos.rights.create}
-                {makeCheckbox id={$infos.tname|cat:'_0_c'} label=_("Create objects")  checked=preg_match('/c/', $infos.globalAcl)}&nbsp;&nbsp;
+                {makeCheckbox key=$key infos=$infos attr=0 acl=c label=_("Create objects") rights=$infos.globalAcl}&nbsp;&nbsp;
               {/if}
               {if $infos.rights.move}
-                {makeCheckbox id={$infos.tname|cat:'_0_m'} label=_("Move objects")    checked=preg_match('/m/', $infos.globalAcl)}&nbsp;&nbsp;
+                {makeCheckbox key=$key infos=$infos attr=0 acl=m label=_("Move objects") rights=$infos.globalAcl}&nbsp;&nbsp;
               {/if}
               {if $infos.rights.remove}
-                {makeCheckbox id={$infos.tname|cat:'_0_d'} label=_("Remove objects")  checked=preg_match('/d/', $infos.globalAcl)}&nbsp;&nbsp;
+                {makeCheckbox key=$key infos=$infos attr=0 acl=d label=_("Remove objects") rights=$infos.globalAcl}&nbsp;&nbsp;
               {/if}
               {if $infos.rights.self}
-                {makeCheckbox id={$infos.tname|cat:'_0_s'} label=_("Grant permission to owner")  checked=preg_match('/s/', $infos.globalAcl)}&nbsp;&nbsp;
+                {makeCheckbox key=$key infos=$infos attr=0 acl=s label=_("Grant permission to owner") rights=$infos.globalAcl}&nbsp;&nbsp;
               {/if}
             </td>
             <td>
               {if ($infos.rights.read||$infos.rights.write)}
                 &nbsp;{t}Complete object{/t}:
                 {if $infos.rights.read}
-                  {makeCheckbox id={$infos.tname|cat:'_0_r'} label=_("read")  checked=preg_match('/r/', $infos.globalAcl)}&nbsp;&nbsp;
+                  {makeCheckbox key=$key infos=$infos attr=0 acl=r label=_("read") rights=$infos.globalAcl}&nbsp;&nbsp;
                 {/if}
                 {if $infos.rights.write}
-                  {makeCheckbox id={$infos.tname|cat:'_0_w'} label=_("write") checked=preg_match('/w/', $infos.globalAcl)}
+                  {makeCheckbox key=$key infos=$infos attr=0 acl=w label=_("write") rights=$infos.globalAcl}
                 {/if}
               {/if}
             </td>
@@ -104,13 +105,8 @@
                       {/if}
                       <td>
                         <b>{$dsc}</b> ({$attr})<br/>
-                        {$rchecked = preg_match('/r/', $state)}
-                        {$wchecked = preg_match('/w/', $state)}
-
-                        <input id="acl_{$infos.tname}_{$attr}_r" type="checkbox" name="acl_{$key}_{$attr}_r"{if $rchecked} checked="checked"{/if}/>
-                        <label for="acl_{$infos.tname}_{$attr}_r">{t}read{/t}</label>
-                        <input id="acl_{$infos.tname}_{$attr}_w" type="checkbox" name="acl_{$key}_{$attr}_w"{if $wchecked} checked="checked"{/if}/>
-                        <label for="acl_{$infos.tname}_{$attr}_w">{t}write{/t}</label>
+                        {makeCheckbox key=$key infos=$infos attr=$attr acl=r label=_("read") rights=$state}
+                        {makeCheckbox key=$key infos=$infos attr=$attr acl=w label=_("write") rights=$state}
                       </td>
 
                       {* Close table row *}
