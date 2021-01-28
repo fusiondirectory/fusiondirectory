@@ -73,7 +73,7 @@ class simpleTabs implements FusionDirectoryDialog
       );
     }
 
-    $baseobject         = NULL;
+    $this->baseclass = NULL;
     foreach ($data as $tab) {
       if (!plugin_available($tab['CLASS'])) {
         continue;
@@ -85,12 +85,11 @@ class simpleTabs implements FusionDirectoryDialog
       $this->by_name[$tab['CLASS']]   = $tab['NAME'];
       $this->plNotify[$tab['CLASS']]  = FALSE;
 
-      if ($baseobject === NULL) {
-        $baseobject = new $tab['CLASS']($this->dn, $attrs_object, $this, TRUE);
-        $this->by_object[$tab['CLASS']] = $baseobject;
+      if ($this->baseclass === NULL) {
+        $this->by_object[$tab['CLASS']] = new $tab['CLASS']($this->dn, $attrs_object, $this, TRUE);
         $this->baseclass                = $tab['CLASS'];
       } else {
-        $this->by_object[$tab['CLASS']] = new $tab['CLASS']($this->dn, $baseobject, $this, FALSE);
+        $this->by_object[$tab['CLASS']] = new $tab['CLASS']($this->dn, $this->by_object[$this->baseclass], $this, FALSE);
       }
 
       $this->by_object[$tab['CLASS']]->set_acl_category($this->acl_category);

@@ -61,8 +61,8 @@ class SimplePluginError extends FusionDirectoryError
   {
     $array = parent::toArray();
 
-    if (isset($this->object)) {
-      $array['dn']  = $this->object->getBaseObject()->dn;
+    if (isset($this->object->dn)) {
+      $array['dn']  = $this->object->dn;
     }
 
     if (isset($this->tab)) {
@@ -80,8 +80,8 @@ class SimplePluginError extends FusionDirectoryError
   {
     $msg = '';
 
-    if (isset($this->object)) {
-      $msg .= $this->object->getBaseObject()->dn.' > ';
+    if (isset($this->object->dn)) {
+      $msg .= $this->object->dn.' > ';
     }
 
     if (isset($this->tab) && isset($this->tab->parent->by_name[get_class($this->tab)])) {
@@ -106,8 +106,8 @@ class SimplePluginError extends FusionDirectoryError
 
     $breadcrumbs = [];
 
-    if (isset($this->object)) {
-      $breadcrumbs[] = htmlescape($this->object->getBaseObject()->dn);
+    if (isset($this->object->dn)) {
+      $breadcrumbs[] = htmlescape($this->object->dn);
     }
 
     if (isset($this->tab) && isset($this->tab->parent->by_name[get_class($this->tab)])) {
