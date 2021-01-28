@@ -46,11 +46,11 @@ class SimplePluginHookError extends SimplePluginError
   {
     $html = '';
 
-    if (isset($this->object)) {
-      $html .= htmlescape($this->object->getBaseObject()->dn.' > ');
+    if (isset($this->object->dn)) {
+      $html .= htmlescape($this->object->dn.' > ');
     }
 
-    if (isset($this->tab)) {
+    if (isset($this->tab) && isset($this->tab->parent->by_name[get_class($this->tab)])) {
       $html .= htmlescape($this->tab->parent->by_name[get_class($this->tab)].' > ');
     }
 
