@@ -60,7 +60,7 @@ class logging {
 
     /* Create data object */
     $entry = array(
-      'timestamp'   => time(),
+      'timestamp'   => microtime(TRUE),
       'action'      => $action,
       'objecttype'  => $objecttype,
       'object'      => $object,
@@ -143,7 +143,7 @@ class logging {
     }
     $tabObject = objects::create('auditEvent');
     $baseObject = $tabObject->getBaseObject();
-    $baseObject->fdAuditDateTime    = new DateTime('@'.$entry['timestamp']);
+    $baseObject->fdAuditDateTime    = DateTime::createFromFormat('U.u', number_format($entry['timestamp'], 6, '.', ''));
     $baseObject->fdAuditAction      = $entry['action'];
     $baseObject->fdAuditAuthorDN    = $entry['user'];
     $baseObject->fdAuditObjectType  = $entry['objecttype'];
