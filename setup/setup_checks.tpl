@@ -1,6 +1,8 @@
 <div id="{$sectionId}" class="plugin-section">
   <span class="legend">
     {$section}
+    -
+    <a href="?info" target="_blank">{t}show information{/t}</a>
   </span>
   <div>
     {foreach from=$attributes item=infos}
