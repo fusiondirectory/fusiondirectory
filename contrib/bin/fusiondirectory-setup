@@ -294,6 +294,49 @@ Alias /fusiondirectory $vars{fd_home}
 Please reload your httpd configuration after you've modified anything.\n";
 }
 
+sub show_passwords {
+  if (!-e $fd_config) {
+    die "Cannot find a valid configuration file ($fd_config)!\n";
+  }
+  my $secret;
+  if (-e $fd_secrets) {
+    open(my $secrets, q{<}, $fd_secrets) || die ("Could not open $fd_secrets");
+    while(<$secrets>) {
+      if ($_ =~ m/RequestHeader set FDKEY ([^ \n]+)\n/) {
+        $secret = $1;
+        last;
+      }
+    }
+    close($secrets);
+  }
+
+  my $locations = get_locations_from_config_file();
+
+  while ( my($key,$location) = each %$locations ) {
+    my ($uri,$base);
+    if ($location->{'base'} ne '') {
+      $uri  = $location->{'uri'};
+      $base = $location->{'base'};
+    } elsif ($location->{'uri'} =~ qr|^(.*)/([^/]+)$|) {
+      # Format from FD<1.3
+      $uri  = $1;
+      $base = $2;
+    } else {
+      die '"'.$location->{'uri'}.'" does not contain any base!';
+    }
+    my $bind_pwd = $location->{'bind_pwd'};
+    if (defined $secret) {
+      $bind_pwd = cred_decrypt($bind_pwd, $secret);
+    }
+    printf("Location \"%s\":\n", $key);
+    printf(" %-15s%s\n", 'URI',           $uri);
+    printf(" %-15s%s\n", 'Base',          $base);
+    printf(" %-15s%s\n", 'Bind DN',       $location->{'bind_dn'});
+    printf(" %-15s%s\n", 'Bind password', $bind_pwd);
+    printf(" %-15s%s\n", 'TLS',           $location->{'tls'});
+  }
+}
+
 ####################################################### class.cache update #########################################################################
 
 # function that scan recursivly a directory to find .inc and . php
@@ -723,6 +766,31 @@ sub add_ldap_admin {
   $result->code && warn "\n! failed to add ACL for admin on '$base' - ".$result->error_name.": ".$result->error_text;
 }
 
+sub get_locations_from_config_file
+{
+  my $twig = XML::Twig->new();
+  $twig->safe_parsefile($fd_config) or die("There is an error in $fd_config XML code: ".(split /\n/, $@)[1]."\n");
+  my @locs = $twig->root->first_child('main')->children('location');
+  my %locations = ();
+  foreach my $loc (@locs) {
+    $loc->lc_attnames();
+    my $ref = $loc->first_child('referral');
+    # Ignore case
+    $ref->lc_attnames();
+    $locations{$loc->{'att'}->{'name'}} = {
+      'tls'       => 0,
+      'uri'       => $ref->{'att'}->{'uri'},
+      'base'      => ($ref->{'att'}->{'base'} or $loc->{'att'}->{'base'} or ''),
+      'bind_dn'   => $ref->{'att'}->{'admindn'},
+      'bind_pwd'  => $ref->{'att'}->{'adminpassword'}
+    };
+    if (defined $loc->{'att'}->{'ldaptls'} and $loc->{'att'}->{'ldaptls'} =~ m/true/i) {
+      $locations{$loc->{'att'}->{'name'}}->{'tls'} = 1
+    }
+  }
+  return \%locations;
+}
+
 # function that initiate the ldap connexion, and bind as the ldap's admin
 sub get_ldap_connexion {
   my %hash_result = ();
@@ -734,50 +802,31 @@ sub get_ldap_connexion {
 
   # read ldap's server's info from /etc/fusiondirectory/fusiondirectory.conf
   if (-e $fd_config) {
-    my $twig = XML::Twig->new();    # create the twig
-    $twig->safe_parsefile($fd_config) or die("There is an error in $fd_config XML code: ".(split /\n/, $@)[1]."\n");
-    my @locs = $twig->root->first_child('main')->children('location');
-    my %locations = ();
-    foreach my $loc (@locs) {
-      $loc->lc_attnames();
-      my $ref = $loc->first_child('referral');
-      # Ignore case
-      $ref->lc_attnames();
-      $locations{$loc->{'att'}->{'name'}} = {
-        'tls'       => 0,
-        'uri'       => $ref->{'att'}->{'uri'},
-        'base'      => ($ref->{'att'}->{'base'} or $loc->{'att'}->{'base'} or ''),
-        'bind_dn'   => $ref->{'att'}->{'admindn'},
-        'bind_pwd'  => $ref->{'att'}->{'adminpassword'}
-      };
-      if (defined $loc->{'att'}->{'ldaptls'} and $loc->{'att'}->{'ldaptls'} =~ m/true/i) {
-        $locations{$loc->{'att'}->{'name'}}->{'tls'} = 1
-      }
-    }
+    my $locations = get_locations_from_config_file();
 
-    my ($location) = keys(%locations);
-    if (scalar(keys(%locations)) > 1) {
-      my $question = "There are several locations in your config file, which one should be used : (".join(',',keys(%locations)).")";
+    my ($location) = keys(%$locations);
+    if (scalar(keys(%$locations)) > 1) {
+      my $question = "There are several locations in your config file, which one should be used : (".join(',',keys(%$locations)).")";
       my $answer;
       do {
         $answer = ask_user_input ($question, $location);
-      } while (not exists($locations{$answer}));
+      } while (not exists($locations->{$answer}));
       $location = $answer;
     }
 
-    if ($locations{$location}->{'base'} ne '') {
-      $uri  = $locations{$location}->{'uri'};
-      $base = $locations{$location}->{'base'};
-    } elsif ($locations{$location}->{'uri'} =~ qr|^(.*)/([^/]+)$|) {
+    if ($locations->{$location}->{'base'} ne '') {
+      $uri  = $locations->{$location}->{'uri'};
+      $base = $locations->{$location}->{'base'};
+    } elsif ($locations->{$location}->{'uri'} =~ qr|^(.*)/([^/]+)$|) {
       # Format from FD<1.3
       $uri  = $1;
       $base = $2;
     } else {
-      die '"'.$locations{$location}->{'uri'}.'" does not contain any base!';
+      die '"'.$locations->{$location}->{'uri'}.'" does not contain any base!';
     }
-    $bind_dn  = $locations{$location}->{'bind_dn'};
-    $bind_pwd = $locations{$location}->{'bind_pwd'};
-    $tls      = $locations{$location}->{'tls'};
+    $bind_dn  = $locations->{$location}->{'bind_dn'};
+    $bind_pwd = $locations->{$location}->{'bind_pwd'};
+    $tls      = $locations->{$location}->{'tls'};
 
   # if can't find fusiondirectory.conf
   } else {
@@ -2050,6 +2099,7 @@ die ("! You have to run this script as root\n") if ($<!=0);
   $commands{"--delete-gosa-locks"}    = ["Delete lock tokens using old gosaLockEntry class", \&delete_gosa_locks];
   $commands{"--install-plugins"}      = ["Installing FusionDirectory's plugins",          \&install_plugins];
   $commands{"--encrypt-passwords"}    = ["Encrypt passwords in fusiondirectory.conf",     \&encrypt_passwords];
+  $commands{"--show-passwords"}       = ["Show passwords from fusiondirectory.conf",      \&show_passwords];
   $commands{"--show-version"}         = ["Show FusionDirectory version from variables_common.inc", \&show_version];
   $commands{"--list-vars"}            = ["List possible vars to give --set",              \&list_vars];
   $commands{"--write-vars"}           = ["Choose FusionDirectory Directories",            \&write_vars];
@@ -2178,6 +2228,10 @@ This option will install the plugin from a tar.gz of the plugin. This option is 
 =item --encrypt-passwords
 
 This option will encrypt the password inside your fusiondirectory.conf file, it need the headers module to be activated in your apache to work.
+
+=item --show-passwords
+
+This option will show the passwords inside your fusiondirectory.conf file as clear text (even if they are encrypted).
 
 =item --show-version
 
