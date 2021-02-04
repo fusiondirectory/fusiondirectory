@@ -321,15 +321,33 @@ class templateHandling
     return $fields;
   }
 
-  private static function modifierRemoveAccents ($str)
+  private static function modifierRemoveAccents (array $args, $str)
   {
+    $mode = 'ascii';
+    if (count($args) >= 1) {
+      $mode = $args[0];
+    }
+
     $str = htmlentities($str, ENT_NOQUOTES, 'UTF-8');
 
     $str = preg_replace('#&([A-za-z])(?:acute|cedil|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $str);
     // handle ligatures
     $str = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $str);
     // delete unhandled characters
-    return [preg_replace('#&[^;]+;#', '', $str)];
+    $str = preg_replace('#&[^;]+;#', '', $str);
+
+    if ($mode === 'ascii') {
+      return [$str];
+    } elseif ($mode === 'uid') {
+      if (strict_uid_mode()) {
+        $str = preg_replace('/[^a-z0-9_-]/', '', mb_strtolower($str, 'UTF-8'));
+      } else {
+        $str = preg_replace('/[^a-zA-Z0-9 _.-]/', '', $str);
+      }
+      return [$str];
+    } else {
+      throw new FusionDirectoryException(_('Invalid mode for "a" modifier, supported modes are "uid" and "ascii"'));
+    }
   }
 
   private static function modifierTranslit (array $args, $str)
@@ -610,7 +628,7 @@ class templateHandling
         break;
       case 'a':
         // remove accent
-        $result = static::modifierRemoveAccents($str);
+        $result = static::modifierRemoveAccents($args, $str);
         break;
       case 't':
         // translit
