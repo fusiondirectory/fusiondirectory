@@ -66,19 +66,19 @@ class LoginPost extends LoginMethod
         'runSchemaCheck',
       ]);
 
-      /* If needed redirect to second factor page */
-      $secondFactor = FALSE;
-      foreach (static::$secondFactorMethods as $secondFactorMethod) {
-        if (!class_available($secondFactorMethod)) {
-          continue;
-        }
-        $secondFactor = ($secondFactorMethod::hasSecondFactor() || $secondFactor);
-      }
-      if ($secondFactor) {
-        static::redirectSecondFactorPage();
-      }
-
       if ($success) {
+        /* If needed redirect to second factor page */
+        $secondFactor = FALSE;
+        foreach (static::$secondFactorMethods as $secondFactorMethod) {
+          if (!class_available($secondFactorMethod)) {
+            continue;
+          }
+          $secondFactor = ($secondFactorMethod::hasSecondFactor() || $secondFactor);
+        }
+        if ($secondFactor) {
+          static::redirectSecondFactorPage();
+        }
+
         /* Everything went well, redirect to main.php */
         static::redirect();
       }
