@@ -284,7 +284,7 @@ class CompositeAttribute extends Attribute
     foreach ($this->attributes as &$attribute) {
       $attribute->setDisabled($this->disabled);
       if ($attribute->isVisible()) {
-        $display .= '<label for="'.$attribute->getForHtmlId().'">'.$attribute->getLabel().'</label>'." ".$attribute->renderFormInput()." ";
+        $display .= '<label for="'.$attribute->getForHtmlId().'" class="subattribute">'.$attribute->getLabel().'</label>'." ".$attribute->renderFormInput()." ";
       }
     }
     unset($attribute);
