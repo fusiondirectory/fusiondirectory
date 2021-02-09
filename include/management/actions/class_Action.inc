@@ -70,7 +70,7 @@ class Action
      * attribute:acl (ex: 'userPassword:r')
      * category/class/acl (ex: 'user/template/r')
      * category/class/attribute:acl (ex: 'user/user/userPassword:r')
-     * /class/acl (ex: '/snapshot/c')
+     * /class/acl (ex: '/SnapshotHandler/c')
      * /class/attribute:acl (ex: '/template/template_cn:w')
      * */
     foreach ($acls as $acl) {
@@ -262,7 +262,7 @@ class Action
         foreach ($types as $type) {
           $infos = objects::infos($type);
           if (!empty($acl['class'])) {
-            /* Class with empty category may be used in special cases like '/snapshot/c'*/
+            /* Class with empty category may be used in special cases like '/SnapshotHandler/c'*/
             $module = $infos['aclCategory'].'/'.$acl['class'];
           } elseif ($template) {
             $module = $infos['aclCategory'].'/template';

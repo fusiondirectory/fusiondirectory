@@ -305,14 +305,14 @@ class management implements FusionDirectoryDialog
         new Action(
           'snapshot', _('Create snapshot'), 'geticon.php?context=actions&icon=snapshot&size=16',
           '1', 'createSnapshotDialog',
-          ['/snapshot/c']
+          ['/SnapshotHandler/c']
         )
       );
       $this->registerAction(
         new Action(
           'restore', _('Restore snapshot'), 'geticon.php?context=actions&icon=document-restore&size=16',
           '*', 'restoreSnapshotDialog',
-          ['w', '/snapshot/r']
+          ['w', '/SnapshotHandler/r']
         )
       );
       $this->actions['snapshot']->setSeparator(TRUE);
