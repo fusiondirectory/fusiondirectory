@@ -57,7 +57,7 @@ if (isset($_REQUEST['signout']) && $_REQUEST['signout']) {
       phpCAS::client(
         CAS_VERSION_2_0,
         $config->get_cfg_value('casHost', 'localhost'),
-        $config->get_cfg_value('casPort', '443'),
+        (int) $config->get_cfg_value('casPort', '443'),
         $config->get_cfg_value('casContext', '')
       );
       // Set the CA certificate that is the issuer of the cert
