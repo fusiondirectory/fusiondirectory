@@ -29,31 +29,43 @@ class LoginCAS extends LoginMethod
     return _('CAS');
   }
 
-  /*! \brief All login steps in the right order for CAS login */
-  static function loginProcess ()
+  /*! \brief Initialize phpCAS library */
+  static function initCAS ()
   {
-    global $config, $message, $ui;
+    global $config;
 
     require_once('CAS.php');
     /* Move FD autoload after CAS autoload */
     spl_autoload_unregister('__fusiondirectory_autoload');
     spl_autoload_register('__fusiondirectory_autoload');
 
-    static::init();
-
-    /* Reset error messages */
-    $message = '';
+    if ($config->get_cfg_value('casVerbose') == 'TRUE') {
+      phpCAS::setVerbose(TRUE);
+    }
 
     // Initialize phpCAS
     phpCAS::client(
       CAS_VERSION_2_0,
       $config->get_cfg_value('casHost', 'localhost'),
-      (int)($config->get_cfg_value('casPort', 443)),
+      (int) ($config->get_cfg_value('casPort', 443)),
       $config->get_cfg_value('casContext', '')
     );
 
     // Set the CA certificate that is the issuer of the cert
     phpCAS::setCasServerCACert($config->get_cfg_value('casServerCaCertPath'));
+  }
+
+  /*! \brief All login steps in the right order for CAS login */
+  static function loginProcess ()
+  {
+    global $config, $message, $ui;
+
+    static::init();
+
+    static::initCAS();
+
+    /* Reset error messages */
+    $message = '';
 
     // force CAS authentication
     phpCAS::forceAuthentication();

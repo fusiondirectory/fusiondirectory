@@ -243,6 +243,10 @@ class configInLdap extends simplePlugin
             'fdCasContext', FALSE,
             '/cas'
           ),
+          new BooleanAttribute(
+            _('Verbose error'), _('Activate verbose errors in phpCAS. Avoid in production.'),
+            'fdCasVerbose', FALSE
+          ),
         ]
       ],
       'people_and_group' => [
@@ -505,6 +509,7 @@ class configInLdap extends simplePlugin
             'fdCasHost',
             'fdCasPort',
             'fdCasContext',
+            'fdCasVerbose',
           ],
           'nonheader' => [
             'fdHttpHeaderAuthHeaderName',
