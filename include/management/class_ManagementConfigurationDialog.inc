@@ -153,6 +153,11 @@ class ManagementConfigurationDialog extends ManagementDialog
     $this->attributesAccess['managementColumns']->setValue($value);
   }
 
+  function attrIsReadable ($attr): bool
+  {
+    return $this->attrIsWriteable($attr);
+  }
+
   function attrIsWriteable ($attr): bool
   {
     global $config, $ui;
