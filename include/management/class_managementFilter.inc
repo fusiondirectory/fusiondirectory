@@ -119,7 +119,7 @@ class managementFilter
       $this->searchAttributes[$type] = [];
       $this->parent->listing->fillSearchedAttributes($type, $attrs);
       foreach ($attrs as $attr => $acl) {
-        $rights = $ui->get_permissions($base, $acl);
+        $rights = $ui->get_permissions($base, $acl, $attr);
         if (strpos($rights, 'r') !== FALSE) {
           $this->searchAttributes[$type][] = $attr;
         }
