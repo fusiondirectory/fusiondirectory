@@ -382,11 +382,6 @@ class config
     /* Parse management config */
     $this->loadManagementConfig();
 
-    if (class_available('systemManagement')) {
-      /* Load server informations */
-      $this->load_servers();
-    }
-
     $debugLevel = $this->get_cfg_value('DEBUGLEVEL');
     if ($debugLevel & DEBUG_CONFIG) {
       /* Value from LDAP can't activate DEBUG_CONFIG */
@@ -402,48 +397,6 @@ class config
     timezone::setDefaultTimezoneFromConfig();
 
     Language::init();
-  }
-
-  /*!
-   * \brief Load server information from config/LDAP
-   *
-   * This function searches the LDAP for servers (e.g. goImapServer, goMailServer etc.)
-   * and stores information about them $this->data['SERVERS']. In the case of mailservers
-   * the main section of the configuration file is searched, too.
-   */
-  function load_servers ()
-  {
-    /* Only perform actions if current is set */
-    if ($this->current === NULL) {
-      return;
-    }
-
-    $ldap = $this->get_ldap_link();
-
-    /* Get samba servers from LDAP */
-    $this->data['SERVERS']['SAMBA'] = [];
-    if (class_available('sambaAccount')) {
-      $ldap->cd($this->current['BASE']);
-      $ldap->search('(objectClass=sambaDomain)');
-      while ($attrs = $ldap->fetch()) {
-        $this->data['SERVERS']['SAMBA'][$attrs['sambaDomainName'][0]] = [ 'SID' => '','RIDBASE' => ''];
-        if (isset($attrs['sambaSID'][0])) {
-          $this->data['SERVERS']['SAMBA'][$attrs['sambaDomainName'][0]]['SID'] = $attrs['sambaSID'][0];
-        }
-        if (isset($attrs['sambaAlgorithmicRidBase'][0])) {
-          $this->data['SERVERS']['SAMBA'][$attrs['sambaDomainName'][0]]['RIDBASE'] = $attrs['sambaAlgorithmicRidBase'][0];
-        }
-      }
-
-      /* If no samba servers are found, look for configured sid/ridbase */
-      if ((count($this->data['SERVERS']['SAMBA']) == 0)
-        && isset($this->current['SAMBASID']) && isset($this->current['SAMBARIDBASE'])) {
-        $this->data['SERVERS']['SAMBA']['DEFAULT'] = [
-          'SID'     => $this->get_cfg_value('SAMBASID'),
-          'RIDBASE' => $this->get_cfg_value('SAMBARIDBASE')
-        ];
-      }
-    }
   }
 
   /* Check that configuration is in LDAP, check that no plugin got installed since last configuration update */
