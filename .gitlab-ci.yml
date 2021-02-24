@@ -10,6 +10,7 @@ stages:
   - codestyle
   - transifex
   - tarballs
+  - trigger
 
 ## Stage lint
 
@@ -177,3 +178,18 @@ build-release:
     name: fusiondirectory-"$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')"
     paths:
     - ./fusiondirectory-"$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')"
+
+trigger-plugins:
+  variables:
+    GROUP: $GROUP
+    BRANCH_CORE: $CI_COMMIT_REF_NAME
+    BRANCH_PLUGIN: $CI_COMMIT_REF_NAME
+    BRANCH_BUILD_DEBIAN_STRETCH: $BRANCH_BUILD_DEBIAN_STRETCH
+    BRANCH_BUILD_DEBIAN_BUSTER: $BRANCH_BUILD_DEBIAN_BUSTER
+    BRANCH_BUILD_CENTOS_7: $BRANCH_BUILD_CENTOS_7
+  stage: trigger
+  only:
+    - master
+  trigger:
+    project: fusiondirectory/fd-plugins
+    branch: $CI_COMMIT_REF_NAME
