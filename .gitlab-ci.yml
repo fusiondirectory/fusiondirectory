@@ -15,13 +15,13 @@ build-release:
 #    - tags
     - master
   script:
-    - mkdir "../fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')"
-    - cp -a ./* "../fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')"
-    - mv "../fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')" ./       
+    - mkdir ../fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')/
+    - mv ./* ../fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')/
+    - mv  ../fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')/ ./
+    - tar -cvzf fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"').tar.gz *
   artifacts:
-    name: fusiondirectory-"$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')"
     paths:
-    - ./fusiondirectory-"$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')"
+      - fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"').tar.gz
 
 trigger-plugins:
   variables:
