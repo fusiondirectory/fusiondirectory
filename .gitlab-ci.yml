@@ -19,7 +19,7 @@ build-release:
     - tar -cvzf fusiondirectory-$release.tar.gz *
   artifacts:
     paths:
-    - fusiondirectory-$release.tar.gz
+    - fusiondirectory-*.tar.gz
 
 trigger-plugins:
   variables:
