@@ -15,7 +15,7 @@ build-release:
 #    - tags
     - master
   script:
-    - release = grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"'
+    - release=$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')
     - echo release
     - mkdir ../fusiondirectory-$release/
     - mv ./* ../fusiondirectory-$release/
