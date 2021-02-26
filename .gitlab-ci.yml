@@ -15,13 +15,15 @@ build-release:
 #    - tags
     - master
   script:
-    - mkdir ../fusiondirectory-"$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')"/
-    - mv ./* ../fusiondirectory-"$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')"/
-    - mv  ../fusiondirectory-"$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')"/ ./
-    - tar -cvzf fusiondirectory-"$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')"".tar.gz *
+    - release = grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"'
+    - echo release
+    - mkdir ../fusiondirectory-$release/
+    - mv ./* ../fusiondirectory-$release/
+    - mv  ../fusiondirectory-"$release/ ./
+    - tar -cvzf fusiondirectory-$release.tar.gz *
   artifacts:
     paths:
-    - ./fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')
+    - ./fusiondirectory-$release
 
 trigger-plugins:
   variables:
