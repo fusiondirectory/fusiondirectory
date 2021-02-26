@@ -19,7 +19,7 @@ build-release:
     - echo $release
     - mkdir ../fusiondirectory-$release/
     - mv ./* ../fusiondirectory-$release/
-    - mv  ../fusiondirectory-"$release/ ./
+    - mv  ../fusiondirectory-$release/ ./
     - tar -cvzf fusiondirectory-$release.tar.gz *
   artifacts:
     paths:
