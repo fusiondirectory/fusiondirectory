@@ -987,30 +987,6 @@ class config
           'NAME' => $plInfo['plShortName']
         ];
       }
-      /* Feed categories */
-      if (isset($plInfo['plCategory'])) {
-        /* Walk through supplied list and feed only translated categories */
-        $cats = [];
-        foreach ($plInfo['plCategory'] as $idx => $infos) {
-          $cat    = (is_numeric($idx) ? $infos : $idx);
-          $cats[] = $cat;
-          if (!isset($this->data['CATEGORIES'][$cat])) {
-            $this->data['CATEGORIES'][$cat] = [ 'classes' => ['0'] ];
-          }
-          if (!empty($plInfo['plProvidedAcls'])) {
-            $this->data['CATEGORIES'][$cat]['classes'][] = $class;
-          }
-          if (!is_numeric($idx)) {
-            /* Non numeric index means -> base object containing more informations */
-            $this->data['CATEGORIES'][$cat]['description'] = $infos['description'];
-            if (!is_array($infos['objectClass'])) {
-              $infos['objectClass'] = [$infos['objectClass']];
-            }
-            $this->data['CATEGORIES'][$cat]['objectClass'] = $infos['objectClass'];
-          }
-        }
-        $plInfo['plCategory'] = $cats;
-      }
     }
     unset($plInfo);
     $this->data['CATEGORIES']['all'] = [
@@ -1036,11 +1012,29 @@ class config
     /* Now that OBJECTS are filled, place tabs in categories */
     foreach ($plist->info as $class => &$plInfo) {
       $acl = [];
+      /* Feed categories */
       if (isset($plInfo['plCategory'])) {
-        $acl = $plInfo['plCategory'];
-        if (!is_array($acl)) {
-          $acl = [$acl];
+        /* Walk through supplied list and feed only translated categories */
+        $acl = [];
+        foreach ($plInfo['plCategory'] as $idx => $infos) {
+          $cat    = (is_numeric($idx) ? $infos : $idx);
+          $acl[] = $cat;
+          if (!isset($this->data['CATEGORIES'][$cat])) {
+            $this->data['CATEGORIES'][$cat] = [ 'classes' => ['0'] ];
+          }
+          if (!empty($plInfo['plProvidedAcls'])) {
+            $this->data['CATEGORIES'][$cat]['classes'][] = $class;
+          }
+          if (!is_numeric($idx)) {
+            /* Non numeric index means -> base object containing more informations */
+            $this->data['CATEGORIES'][$cat]['description'] = $infos['description'];
+            if (!is_array($infos['objectClass'])) {
+              $infos['objectClass'] = [$infos['objectClass']];
+            }
+            $this->data['CATEGORIES'][$cat]['objectClass'] = $infos['objectClass'];
+          }
         }
+        $plInfo['plCategory'] = $acl;
       }
       if (isset($plInfo['plObjectType'])) {
         foreach ($plInfo['plObjectType'] as $key => $value) {
