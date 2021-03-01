@@ -111,8 +111,7 @@ class ldapSizeLimit
     /* Eventually show dialog */
     if ($this->limitExceeded) {
       $smarty = get_smarty();
-      $smarty->assign('warning', sprintf(_('The size limit of %d entries is exceed!'), $this->sizeLimit));
-      $smarty->assign('limit_message', sprintf(_('Set the new size limit to %s and show me this message if the limit still exceeds'), '<input type="text" name="new_limit" maxlength="10" size="5" value="'.($this->sizeLimit + 100).'"/>'));
+      $smarty->assign('sizelimit', $this->sizeLimit);
       return $smarty->fetch(get_template_path('sizelimit.tpl'));
     }
 
