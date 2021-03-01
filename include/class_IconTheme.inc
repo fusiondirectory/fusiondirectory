@@ -116,7 +116,9 @@ class IconTheme
     if (isset($datas['Icon Theme']['Directories']) && !empty($datas['Icon Theme']['Directories'])) {
       $dirs   = preg_split('/,/', $datas['Icon Theme']['Directories']);
       foreach ($dirs as $name) {
-        $this->subdirs[strtolower($datas[$name]['Context'])][$name] = new IconThemeDir($datas[$name]);
+        if (isset($datas[$name])) {
+          $this->subdirs[strtolower($datas[$name]['Context'])][$name] = new IconThemeDir($datas[$name]);
+        }
       }
     }
 
