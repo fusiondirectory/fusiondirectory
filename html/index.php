@@ -49,7 +49,10 @@ if (isset($_REQUEST['signout']) && $_REQUEST['signout']) {
   $reason = '';
   if (session::is_set('connected')) {
     $config = session::get('config');
-    if ($config->get_cfg_value('casActivated') == 'TRUE') {
+    if (
+      ($config->get_cfg_value('casActivated') == 'TRUE') ||
+      ($config->get_cfg_value('LoginMethod') === 'LoginCAS')
+    ) {
       LoginCAS::initCAS();
       phpCAS::logout();
     }
