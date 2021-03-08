@@ -27,7 +27,7 @@ class subscriptionInfo extends simplePlugin
     return [
       'plShortName'   => _('Subscription'),
       'plTitle'       => _('Subscription information'),
-      'plDescription' => _('Information about your subscription to FusionDirectory, if any'),
+      'plDescription' => _('Information about your FusionDirectory subscription'),
       'plIcon'        => 'geticon.php?context=applications&icon=fusiondirectory&size=48',
       'plObjectClass' => ['fdSubscriptionInfo'],
       'plObjectType'  => [
@@ -56,7 +56,7 @@ class subscriptionInfo extends simplePlugin
             'fdSubscriptionType', TRUE
           ),
           new DisplayLDAPAttribute(
-            _('Contract'), _('Contract identifier from Dolibarr'),
+            _('Contract'), _('Contract reference'),
             'fdSubscriptionContractId', TRUE
           ),
           new GeneralizedTimeDisplayAttribute(
