@@ -63,6 +63,36 @@ attributetype ( 1.3.6.1.4.1.38414.62.1.4 NAME 'fdSnapshotObjectType'
   SUBSTR caseIgnoreSubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE )
 
+# Subscriptions
+
+attributetype ( 1.3.6.1.4.1.38414.62.11.1 NAME 'fdSubscriptionStartDate'
+  DESC 'FusionDirectory - Subscription Starting Date'
+  EQUALITY generalizedTimeMatch
+  ORDERING generalizedTimeOrderingMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.24 SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.62.11.2 NAME 'fdSubscriptionEndDate'
+  DESC 'FusionDirectory - Subscription End Date'
+  EQUALITY generalizedTimeMatch
+  ORDERING generalizedTimeOrderingMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.24 SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.62.11.3 NAME 'fdSubscriptionType'
+  DESC 'FusionDirectory - Subscription type'
+  EQUALITY caseIgnoreMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.62.11.4 NAME 'fdSubscriptionContractId'
+  DESC 'FusionDirectory - Subscription contract ID'
+  EQUALITY caseIgnoreMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.62.11.5 NAME 'fdSubscriptionName'
+  DESC 'FusionDirectory - Subscription client name'
+  SUP name )
+
 # Classes
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.4 NAME 'gosaDepartment' SUP top AUXILIARY
@@ -95,3 +125,8 @@ objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.19 NAME 'gosaSnapshotObject'
 objectclass ( 1.3.6.1.4.1.38414.62.2.1 NAME 'fdLockEntry' SUP top STRUCTURAL
   DESC 'FusionDirectory - Class for FD locking'
   MUST ( fdUserDn $ fdObjectDn $ cn $ fdLockTimestamp ))
+
+objectclass ( 1.3.6.1.4.1.38414.62.2.2 NAME 'fdSubscriptionInformation' SUP top STRUCTURAL
+  DESC 'FusionDirectory - Information about current subscription'
+  MUST ( cn )
+  MAY ( fdSubscriptionStartDate $ fdSubscriptionEndDate $ fdSubscriptionType $ fdSubscriptionContractId $ fdSubscriptionName ))
