@@ -20,7 +20,14 @@
 
 class subscriptionInfo extends simplePlugin
 {
-  public static $subscriptionAttributes = ['fdSubscriptionType', 'fdSubscriptionContractId', 'fdSubscriptionStartDate', 'fdSubscriptionEndDate'];
+  /* ldap attribute => ini variable */
+  public static $subscriptionAttributes = [
+    'fdSubscriptionName'        => 'Name',
+    'fdSubscriptionType'        => 'Type',
+    'fdSubscriptionContractId'  => 'Contract',
+    'fdSubscriptionStartDate'   => 'StartDate',
+    'fdSubscriptionEndDate'     => 'EndDate',
+  ];
 
   public static function plInfo (): array
   {
@@ -29,7 +36,7 @@ class subscriptionInfo extends simplePlugin
       'plTitle'       => _('Subscription information'),
       'plDescription' => _('Information about your FusionDirectory subscription'),
       'plIcon'        => 'geticon.php?context=applications&icon=fusiondirectory&size=48',
-      'plObjectClass' => ['fdSubscriptionInfo'],
+      'plObjectClass' => ['fdSubscriptionInformation'],
       'plObjectType'  => [
         'subscriptionInfo' => [
           'name'      => _('Subscription information'),
@@ -50,6 +57,10 @@ class subscriptionInfo extends simplePlugin
         'attrs' => [
           new HiddenAttribute(
             'cn', TRUE, 'subscription'
+          ),
+          new DisplayLDAPAttribute(
+            _('Name'), _('Subscription name'),
+            'fdSubscriptionName', TRUE
           ),
           new DisplayLDAPAttribute(
             _('Type'), _('Subscription type'),
@@ -112,8 +123,8 @@ class subscriptionInfo extends simplePlugin
       $error->display();
     } else {
       /* Import data and save it to the LDAP */
-      foreach (static::$subscriptionAttributes as $attr) {
-        $this->attributesAccess[$attr]->setValue($data[$attr] ?? '');
+      foreach (static::$subscriptionAttributes as $attr => $iniVar) {
+        $this->attributesAccess[$attr]->setValue($data[$iniVar] ?? '');
       }
       $errors = $this->parent->save();
       msg_dialog::displayChecks($errors);
