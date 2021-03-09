@@ -64,7 +64,7 @@ class DateAttribute extends Attribute
   function inputValue ($value)
   {
     if (
-        (($value === '') && !$this->isRequired()) ||
+        ($value === '') ||
         ($this->isTemplate() && preg_match('/%/', $value))
       ) {
       return $value;
@@ -75,7 +75,7 @@ class DateAttribute extends Attribute
 
   function getValue ()
   {
-    if ($this->value === "" && !$this->isRequired()) {
+    if ($this->value === '') {
       return $this->value;
     } else {
       try {
@@ -112,7 +112,7 @@ class DateAttribute extends Attribute
 
   function computeLdapValue ()
   {
-    if ($this->value === "" && !$this->isRequired()) {
+    if ($this->value === '') {
       return $this->value;
     } elseif (!($this->value instanceof DateTime)) {
       try {
@@ -348,6 +348,14 @@ class DateTimeAttribute extends CompositeAttribute
  */
 class GeneralizedTimeDisplayAttribute extends GeneralizedTimeDateAttribute
 {
+  protected $displayFormat;
+
+  function __construct (string $label, string $description, string $ldapName, bool $required, $defaultValue = '', $format = 'Y-m-d, H:i:s', $min = NULL, $max = NULL, string $acl = '')
+  {
+    parent::__construct($label, $description, $ldapName, $required, $defaultValue, $min, $max, $acl);
+    $this->displayFormat = $format;
+  }
+
   function getValue ()
   {
     return $this->computeLdapValue();
@@ -355,9 +363,12 @@ class GeneralizedTimeDisplayAttribute extends GeneralizedTimeDateAttribute
 
   function renderFormInput (): string
   {
+    if (empty($this->value)) {
+      return '';
+    }
     $date = $this->getDateValue();
     $date->setTimezone(timezone::getDefaultTimeZone());
-    return htmlescape($date->format('Y-m-d, H:i:s'));
+    return htmlescape($date->format($this->displayFormat));
   }
 }
 
