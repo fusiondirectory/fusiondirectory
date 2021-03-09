@@ -348,9 +348,12 @@ class DateTimeAttribute extends CompositeAttribute
  */
 class GeneralizedTimeDisplayAttribute extends GeneralizedTimeDateAttribute
 {
-  function __construct (string $label, string $description, string $ldapName, bool $required, $defaultValue = '', $min = NULL, $max = NULL, string $acl = '')
+  protected $displayFormat;
+
+  function __construct (string $label, string $description, string $ldapName, bool $required, $defaultValue = '', $format = 'Y-m-d, H:i:s', $min = NULL, $max = NULL, string $acl = '')
   {
     parent::__construct($label, $description, $ldapName, $required, $defaultValue, $min, $max, $acl);
+    $this->displayFormat = $format;
   }
 
   function getValue ()
@@ -365,7 +368,7 @@ class GeneralizedTimeDisplayAttribute extends GeneralizedTimeDateAttribute
     }
     $date = $this->getDateValue();
     $date->setTimezone(timezone::getDefaultTimeZone());
-    return htmlescape($date->format('Y-m-d, H:i:s'));
+    return htmlescape($date->format($this->displayFormat));
   }
 }
 

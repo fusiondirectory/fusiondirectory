@@ -79,12 +79,12 @@ class subscriptionInfo extends simplePlugin
           new GeneralizedTimeDisplayAttribute(
             _('Start date'), _('Start date of this subscription'),
             'fdSubscriptionStartDate', TRUE,
-            ''
+            '', 'Y-m-d'
           ),
           new GeneralizedTimeDisplayAttribute(
             _('End date'), _('End date of this subscription'),
             'fdSubscriptionEndDate', TRUE,
-            ''
+            '', 'Y-m-d'
           ),
           new FileAttribute(
             _('Import'), _('Import subscription'),
