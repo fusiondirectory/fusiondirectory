@@ -23,6 +23,7 @@ class subscriptionInfo extends simplePlugin
   /* ldap attribute => ini variable */
   public static $subscriptionAttributes = [
     'fdSubscriptionName'        => 'Name',
+    'uid'                       => 'Id',
     'fdSubscriptionType'        => 'Type',
     'fdSubscriptionContractId'  => 'Contract',
     'fdSubscriptionStartDate'   => 'StartDate',
@@ -40,6 +41,7 @@ class subscriptionInfo extends simplePlugin
       'plObjectType'  => [
         'subscriptionInfo' => [
           'name'      => _('Subscription information'),
+          'ou'        => get_ou('fusiondirectoryRDN'),
         ]
       ],
       'plSection'     => 'conf',
@@ -61,6 +63,10 @@ class subscriptionInfo extends simplePlugin
           new DisplayLDAPAttribute(
             _('Name'), _('Subscription name'),
             'fdSubscriptionName', TRUE
+          ),
+          new DisplayLDAPAttribute(
+            _('Id'), _('Subscription id'),
+            'uid', TRUE
           ),
           new DisplayLDAPAttribute(
             _('Type'), _('Subscription type'),
