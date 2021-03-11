@@ -95,6 +95,10 @@ class subscriptionInfo extends simplePlugin
       'import' => [
         'name'  => _('Import your subscription'),
         'attrs' => [
+          new DisplayAttribute(
+            '', _('Information text for expired subscription'),
+            'fdSubscriptionTextExpired', FALSE
+          ),
           new FileAttribute(
             '', _('Import subscription'),
             'import_file', FALSE
@@ -118,11 +122,16 @@ class subscriptionInfo extends simplePlugin
     $this->attributesAccess['import_file']->setInLdap(FALSE);
     $this->attributesAccess['import']->setInLdap(FALSE);
 
-    $this->fdSubscriptionText = sprintf(
-      htmlescape(_('You do not have a valid subscription for this instance of FusionDirectory. Please visit %s for a list of available options')),
-      '<a href="https://www.fusiondirectory.org/support/" target="_blank">https://www.fusiondirectory.org/support/</a>'
-    );
+    $this->fdSubscriptionText = '<p>'.nl2br(sprintf(
+      htmlescape(_("You do not have a valid subscription for this instance of FusionDirectory.\nPlease visit %s for a list of available options.")),
+      '<a href="https://www.fusiondirectory.org/support/" target="_blank"><strong>https://www.fusiondirectory.org/support/</strong></a>'
+    )).'</p>';
     $this->attributesAccess['fdSubscriptionText']->setAllowHTML(TRUE);
+    $this->fdSubscriptionTextExpired = '<p>'.nl2br(sprintf(
+      htmlescape(_("Your subscription is expired for this instance of FusionDirectory.\nPlease visit %s to renew it.")),
+      '<a href="https://www.fusiondirectory.org/support/" target="_blank"><strong>https://www.fusiondirectory.org/support/</strong></a>'
+    )).'</p>';
+    $this->attributesAccess['fdSubscriptionTextExpired']->setAllowHTML(TRUE);
   }
 
   public function update (): bool
@@ -137,6 +146,11 @@ class subscriptionInfo extends simplePlugin
       $this->attributesAccess['fdSubscriptionContractId']->setVisible(TRUE);
       $this->attributesAccess['fdSubscriptionStartDate']->setVisible(TRUE);
       $this->attributesAccess['fdSubscriptionEndDate']->setVisible(TRUE);
+      if ($this->attributesAccess['fdSubscriptionEndDate']->getDateValue() < new DateTime()) {
+        $this->attributesAccess['fdSubscriptionTextExpired']->setVisible(TRUE);
+      } else {
+        $this->attributesAccess['fdSubscriptionTextExpired']->setVisible(FALSE);
+      }
     } else {
       $this->attributesAccess['fdSubscriptionText']->setVisible(TRUE);
       $this->attributesAccess['fdSubscriptionName']->setVisible(FALSE);
@@ -145,6 +159,7 @@ class subscriptionInfo extends simplePlugin
       $this->attributesAccess['fdSubscriptionContractId']->setVisible(FALSE);
       $this->attributesAccess['fdSubscriptionStartDate']->setVisible(FALSE);
       $this->attributesAccess['fdSubscriptionEndDate']->setVisible(FALSE);
+      $this->attributesAccess['fdSubscriptionTextExpired']->setVisible(FALSE);
     }
 
     return TRUE;
