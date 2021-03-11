@@ -54,11 +54,15 @@ class subscriptionInfo extends simplePlugin
   public static function getAttributesInfo (): array
   {
     return [
-      'stats' => [
+      'info' => [
         'name'  => _('Subscription information'),
         'attrs' => [
           new HiddenAttribute(
             'cn', TRUE, 'subscription'
+          ),
+          new DisplayAttribute(
+            '', _('Information text for subscription'),
+            'fdSubscriptionText', FALSE
           ),
           new DisplayLDAPAttribute(
             _('Name'), _('Subscription name'),
@@ -86,8 +90,13 @@ class subscriptionInfo extends simplePlugin
             'fdSubscriptionEndDate', TRUE,
             '', 'Y-m-d'
           ),
+        ],
+      ],
+      'import' => [
+        'name'  => _('Import your subscription'),
+        'attrs' => [
           new FileAttribute(
-            _('Import'), _('Import subscription'),
+            '', _('Import subscription'),
             'import_file', FALSE
           ),
           new ButtonAttribute(
@@ -108,6 +117,37 @@ class subscriptionInfo extends simplePlugin
 
     $this->attributesAccess['import_file']->setInLdap(FALSE);
     $this->attributesAccess['import']->setInLdap(FALSE);
+
+    $this->fdSubscriptionText = sprintf(
+      htmlescape(_('You do not have a valid subscription for this instance of FusionDirectory. Please visit %s for a list of available options')),
+      '<a href="https://www.fusiondirectory.org/support/" target="_blank">https://www.fusiondirectory.org/support/</a>'
+    );
+    $this->attributesAccess['fdSubscriptionText']->setAllowHTML(TRUE);
+  }
+
+  public function update (): bool
+  {
+    parent::update();
+
+    if ($this->uid !== '') {
+      $this->attributesAccess['fdSubscriptionText']->setVisible(FALSE);
+      $this->attributesAccess['fdSubscriptionName']->setVisible(TRUE);
+      $this->attributesAccess['uid']->setVisible(TRUE);
+      $this->attributesAccess['fdSubscriptionType']->setVisible(TRUE);
+      $this->attributesAccess['fdSubscriptionContractId']->setVisible(TRUE);
+      $this->attributesAccess['fdSubscriptionStartDate']->setVisible(TRUE);
+      $this->attributesAccess['fdSubscriptionEndDate']->setVisible(TRUE);
+    } else {
+      $this->attributesAccess['fdSubscriptionText']->setVisible(TRUE);
+      $this->attributesAccess['fdSubscriptionName']->setVisible(FALSE);
+      $this->attributesAccess['uid']->setVisible(FALSE);
+      $this->attributesAccess['fdSubscriptionType']->setVisible(FALSE);
+      $this->attributesAccess['fdSubscriptionContractId']->setVisible(FALSE);
+      $this->attributesAccess['fdSubscriptionStartDate']->setVisible(FALSE);
+      $this->attributesAccess['fdSubscriptionEndDate']->setVisible(FALSE);
+    }
+
+    return TRUE;
   }
 
   public function handle_import ()
