@@ -482,6 +482,11 @@ class managementListing
       return $result;
     }
 
+    // Filter POST with "act" attributes -> posted from action menu
+    if (isset($_POST['act']) && ($_POST['act'] != '')) {
+      $result['action'] = validate($_POST['act']);
+    }
+
     // Filter POST with "listing_" attributes
     foreach (array_keys($_POST) as $key) {
       // Capture selections
@@ -508,11 +513,6 @@ class managementListing
         $result['action'] = preg_replace('/^listing_([a-zA-Z_]+)(|_x)$/', '$1', $key);
         continue;
       }
-    }
-
-    // Filter POST with "act" attributes -> posted from action menu
-    if (isset($_POST['act']) && ($_POST['act'] != '')) {
-      $result['action'] = validate($_POST['act']);
     }
 
     if (preg_match('/^([a-zA-Z\.]+)_([a-zA-Z_\.]+)$/', $result['action'], $m)) {
