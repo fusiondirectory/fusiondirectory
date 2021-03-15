@@ -9,7 +9,7 @@
         </a>
         {menu data=$entry.actions level=$level+1}
       {elseif $entry.enabled}
-        <a href="#" onClick="document.getElementById('actionmenu').value='{$entry.name|escape}';document.getElementById('exec_act').click();">
+        <a href="#" onClick="document.getElementById('actionmenu').value='{$entry.name|escape}';document.getElementById('exec_act').click();document.getElementById('actionmenu').value='';">
           <img src="{$entry.icon|escape}" alt=""/>&nbsp;{$entry.label|escape}
         </a>
       {else}
