@@ -44,9 +44,10 @@ class DateAttribute extends Attribute
 
   function inputValue ($value)
   {
-    if ($value === "" && !$this->isRequired()) {
-      return $value;
-    } elseif ($this->isTemplate() && preg_match('/%/', $value)) {
+    if (
+        ($value === '') ||
+        ($this->isTemplate() && preg_match('/%/', $value))
+      ) {
       return $value;
     } else {
       return $this->ldapToDate($value);
@@ -55,7 +56,7 @@ class DateAttribute extends Attribute
 
   function getValue ()
   {
-    if ($this->value === "" && !$this->isRequired()) {
+    if ($this->value === '') {
       return $this->value;
     } else {
       try {
@@ -97,7 +98,7 @@ class DateAttribute extends Attribute
 
   function computeLdapValue ()
   {
-    if ($this->value === "" && !$this->isRequired()) {
+    if ($this->value === '') {
       return $this->value;
     } elseif (!($this->value instanceof DateTime)) {
       try {
@@ -306,5 +307,31 @@ class DateTimeAttribute extends CompositeAttribute
       )
     );
     parent::__construct($description, $ldapName, $attributes, '/^(\d{8})(\d{6})$/', '%s%s', $acl, $label);
+  }
+}
+
+/*!
+ * \brief Read-only GeneralizedTimeDateAttribute. Used by audit plugin
+ */
+class GeneralizedTimeDisplayAttribute extends GeneralizedTimeDateAttribute
+{
+  protected $displayFormat;
+
+  function __construct ($label, $description, $ldapName, $required, $defaultValue = '', $format = 'Y-m-d, H:i:s', $acl = '')
+  {
+    parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
+    $this->displayFormat = $format;
+  }
+
+  function getValue ()
+  {
+    return $this->computeLdapValue();
+  }
+
+  function renderFormInput ()
+  {
+    $date = $this->getDateValue();
+    $date->setTimezone(timezone::getDefaultTimeZone());
+    return htmlentities($date->format($this->displayFormat), ENT_COMPAT, 'UTF-8');
   }
 }
