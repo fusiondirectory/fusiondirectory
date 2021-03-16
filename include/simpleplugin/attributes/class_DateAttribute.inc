@@ -309,3 +309,21 @@ class DateTimeAttribute extends CompositeAttribute
     parent::__construct($description, $ldapName, $attributes, '/^(\d{8})(\d{6})$/', '%s%s', $acl, $label);
   }
 }
+
+/*!
+ * \brief Read-only GeneralizedTimeDateAttribute. Used by audit plugin
+ */
+class GeneralizedTimeDisplayAttribute extends GeneralizedTimeDateAttribute
+{
+  function getValue ()
+  {
+    return $this->computeLdapValue();
+  }
+
+  function renderFormInput ()
+  {
+    $date = $this->getDateValue();
+    $date->setTimezone(timezone::getDefaultTimeZone());
+    return htmlentities($date->format('Y-m-d, H:i:s'), ENT_COMPAT, 'UTF-8');
+  }
+}
