@@ -22,12 +22,12 @@ class subscriptionInfo extends simplePlugin
 {
   /* ldap attribute => ini variable */
   public static $subscriptionAttributes = [
-    'fdSubscriptionName'        => 'Name',
-    'uid'                       => 'Id',
-    'fdSubscriptionType'        => 'Type',
-    'fdSubscriptionContractId'  => 'Contract',
-    'fdSubscriptionStartDate'   => 'StartDate',
-    'fdSubscriptionEndDate'     => 'EndDate',
+    'fdSubscriptionName'                => 'Name',
+    'uid'                               => 'Id',
+    'fdSubscriptionType'                => 'Type',
+    'fdSubscriptionContractId'          => 'Contract',
+    'fdSubscriptionStartDate'           => 'StartDate',
+    'fdSubscriptionEndDate'             => 'EndDate',
   ];
 
   public static function plInfo ()
