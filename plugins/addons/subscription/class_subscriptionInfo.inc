@@ -30,7 +30,7 @@ class subscriptionInfo extends simplePlugin
     'fdSubscriptionEndDate'     => 'EndDate',
   ];
 
-  public static function plInfo (): array
+  public static function plInfo ()
   {
     return [
       'plShortName'   => _('Subscription'),
@@ -51,7 +51,7 @@ class subscriptionInfo extends simplePlugin
     ];
   }
 
-  public static function getAttributesInfo (): array
+  public static function getAttributesInfo ()
   {
     return [
       'info' => [
@@ -134,7 +134,7 @@ class subscriptionInfo extends simplePlugin
     $this->attributesAccess['fdSubscriptionTextExpired']->setAllowHTML(TRUE);
   }
 
-  public function update (): bool
+  public function update ()
   {
     parent::update();
 
@@ -185,7 +185,7 @@ class subscriptionInfo extends simplePlugin
     } else {
       /* Import data and save it to the LDAP */
       foreach (static::$subscriptionAttributes as $attr => $iniVar) {
-        $this->attributesAccess[$attr]->setValue($data[$iniVar] ?? '');
+        $this->attributesAccess[$attr]->setValue(isset($data[$iniVar]) ? $data[$iniVar] : '');
       }
       $errors = $this->parent->save();
       msg_dialog::displayChecks($errors);
