@@ -198,6 +198,10 @@ class subscriptionInfo extends simplePlugin
   {
     global $config;
 
+    if ($classname === NULL) {
+      $classname = get_called_class();
+    }
+
     if ($entry_dn === NULL) {
       $entry_dn = 'cn=subscription,'.get_ou('fusiondirectoryRDN').$config->current['BASE'];
     }
