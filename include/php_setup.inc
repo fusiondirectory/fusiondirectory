@@ -26,6 +26,22 @@
  */
 require_once ("variables.inc");
 
+/*!
+ * \brief Escape string for HTML output
+ */
+function htmlescape ($str)
+{
+  return htmlspecialchars($str, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+}
+
+/*!
+ * \brief Unescape string for HTML output, reverse of htmlescape
+ */
+function htmlunescape ($html)
+{
+  return html_entity_decode($html, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+}
+
 function html_trace($errstr = "")
 {
   static $hideArgs = array(
