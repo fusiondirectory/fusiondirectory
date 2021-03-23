@@ -20,6 +20,8 @@
 
 class subscriptionInfo extends simplePlugin
 {
+  public $objectclasses = ['fdSubscriptionInformation'];
+
   /* ldap attribute => ini variable */
   public static $subscriptionAttributes = [
     'fdSubscriptionName'                => 'Name',
@@ -42,6 +44,7 @@ class subscriptionInfo extends simplePlugin
         'subscriptionInfo' => [
           'name'      => _('Subscription information'),
           'ou'        => get_ou('fusiondirectoryRDN'),
+          'filter'    => 'objectClass=fdSubscriptionInformation',
         ]
       ],
       'plSection'     => 'conf',
