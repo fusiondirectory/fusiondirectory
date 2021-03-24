@@ -189,7 +189,13 @@ class subscriptionInfo extends simplePlugin
         $this->attributesAccess[$attr]->setValue(isset($data[$iniVar]) ? $data[$iniVar] : '');
       }
       $errors = $this->parent->save();
-      msg_dialog::displayChecks($errors);
+      if (empty($errors)) {
+        /* The object will stay open so it needs to appear as loaded from LDAP */
+        $this->is_account             = TRUE;
+        $this->initially_was_account  = TRUE;
+      } else {
+        msg_dialog::displayChecks($errors);
+      }
     }
     /* Avoid double import */
     $this->import_file = '';
