@@ -137,10 +137,8 @@ class subscriptionInfo extends simplePlugin
     $this->attributesAccess['fdSubscriptionTextExpired']->setAllowHTML(TRUE);
   }
 
-  public function update ()
+  function execute ()
   {
-    parent::update();
-
     if ($this->uid !== '') {
       $this->attributesAccess['fdSubscriptionText']->setVisible(FALSE);
       $this->attributesAccess['fdSubscriptionName']->setVisible(TRUE);
@@ -165,7 +163,7 @@ class subscriptionInfo extends simplePlugin
       $this->attributesAccess['fdSubscriptionTextExpired']->setVisible(FALSE);
     }
 
-    return TRUE;
+    return parent::execute();
   }
 
   public function handle_import ()
