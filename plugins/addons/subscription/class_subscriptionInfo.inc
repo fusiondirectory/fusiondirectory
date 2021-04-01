@@ -171,18 +171,18 @@ class subscriptionInfo extends simplePlugin
     $data = $this->import_file;
     if (empty($data)) {
       /* No file or empty file */
-      $error = new SimplePluginError(
-        $this->attributesAccess['import_file'],
-        htmlescape(_('No data. Did you forgot to upload a file?'))
+      msg_dialog::display(
+        _('Import error'),
+        htmlescape(_('No data. Did you forgot to upload a file?')),
+        ERROR_DIALOG
       );
-      $error->display();
     } elseif (($data = parse_ini_string($data)) === FALSE) {
       /* Import of INI failed */
-      $error = new SimplePluginError(
-        $this->attributesAccess['import_file'],
-        htmlescape(_('Failed to parse imported file'))
+      msg_dialog::display(
+        _('Import error'),
+        htmlescape(_('Failed to parse imported file')),
+        ERROR_DIALOG
       );
-      $error->display();
     } else {
       /* Import data and save it to the LDAP */
       foreach (static::$subscriptionAttributes as $attr => $iniVar) {
