@@ -32,6 +32,8 @@ class subscriptionInfo extends simplePlugin
     'fdSubscriptionEndDate'             => 'EndDate',
   ];
 
+  public static $sectionName = 'FusionDirectory Subscription';
+
   public static function plInfo ()
   {
     return [
@@ -176,7 +178,7 @@ class subscriptionInfo extends simplePlugin
         htmlescape(_('No data. Did you forgot to upload a file?')),
         ERROR_DIALOG
       );
-    } elseif (($data = parse_ini_string($data)) === FALSE) {
+    } elseif (($data = parse_ini_string($data, TRUE)) === FALSE) {
       /* Import of INI failed */
       msg_dialog::display(
         _('Import error'),
@@ -184,17 +186,42 @@ class subscriptionInfo extends simplePlugin
         ERROR_DIALOG
       );
     } else {
-      /* Import data and save it to the LDAP */
-      foreach (static::$subscriptionAttributes as $attr => $iniVar) {
-        $this->attributesAccess[$attr]->setValue(isset($data[$iniVar]) ? $data[$iniVar] : '');
-      }
-      $errors = $this->parent->save();
-      if (empty($errors)) {
-        /* The object will stay open so it needs to appear as loaded from LDAP */
-        $this->is_account             = TRUE;
-        $this->initially_was_account  = TRUE;
+      /* Check content of ini file */
+      $errorText = NULL;
+      if (!isset($data[static::$sectionName])) {
+        $errorText = sprintf(_('Missing section "%s" in imported file'), static::$sectionName);
       } else {
-        msg_dialog::displayChecks($errors);
+        $data = $data[static::$sectionName];
+        foreach (static::$subscriptionAttributes as $attr => $iniVar) {
+          if ($this->attributesAccess[$attr]->isRequired() && (!isset($data[$iniVar]) || ($data[$iniVar] === ''))) {
+            $errorText = sprintf(_('Missing attribute "%s" in imported file'), $iniVar);
+            break;
+          }
+        }
+      }
+      if ($errorText !== NULL) {
+        msg_dialog::display(
+          _('Import error'),
+          htmlescape($errorText),
+          ERROR_DIALOG
+        );
+      } else {
+        /* Import data and save it to the LDAP */
+        foreach (static::$subscriptionAttributes as $attr => $iniVar) {
+          $this->attributesAccess[$attr]->setValue(isset($data[$iniVar]) ? $data[$iniVar] : '');
+        }
+        $errors = $this->parent->save();
+        if (empty($errors)) {
+          /* The object will stay open so it needs to appear as loaded from LDAP */
+          $this->is_account             = TRUE;
+          $this->initially_was_account  = TRUE;
+        } else {
+          msg_dialog::displayChecks($errors);
+          /* Reset fields to LDAP value */
+          foreach (array_keys(static::$subscriptionAttributes) as $attr) {
+            $this->attributesAccess[$attr]->setValue($this->attributesAccess[$attr]->getInitialValue());
+          }
+        }
       }
     }
     /* Avoid double import */
