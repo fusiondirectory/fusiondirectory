@@ -216,6 +216,10 @@ class subscriptionInfo extends simplePlugin
           foreach (array_keys(static::$subscriptionAttributes) as $attr) {
             $this->attributesAccess[$attr]->setValue($this->attributesAccess[$attr]->getInitialValue());
           }
+        } else {
+          /* The object will stay open so it needs to appear as loaded from LDAP */
+          $this->is_account             = TRUE;
+          $this->initially_was_account  = TRUE;
         }
       }
     }
