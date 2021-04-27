@@ -241,11 +241,10 @@ class simpleTabs implements FusionDirectoryDialog
 
   public function update (): bool
   {
-    if (($this->last != $this->current) && ($this->last != '')) {
-      $this->by_object[$this->last]->update();
+    /* Call update on all tabs as they may react to changes in other tabs */
+    foreach ($this->by_object as $key => $obj) {
+      $obj->update();
     }
-
-    $this->by_object[$this->current]->update();
 
     return TRUE;
   }
