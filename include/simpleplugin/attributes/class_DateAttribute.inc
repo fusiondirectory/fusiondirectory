@@ -105,7 +105,16 @@ class DateAttribute extends Attribute
   {
     $value = $this->value;
     if (!($value instanceof DateTime)) {
-      $value = new DateTime($value, new DateTimeZone('UTC'));
+      try {
+        $value = new DateTime($value, new DateTimeZone('UTC'));
+      } catch (Exception $e) {
+        /* Fallback to LdapGeneralizedTime to accept LDAP format */
+        try {
+          $value = LdapGeneralizedTime::fromString($value);
+        } catch (LdapGeneralizedTimeBadFormatException $e2) {
+          throw $e;
+        }
+      }
     }
     return $value;
   }
