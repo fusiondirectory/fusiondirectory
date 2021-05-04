@@ -67,7 +67,10 @@ class LoginCAS extends LoginMethod
     /* Reset error messages */
     $message = '';
 
-    // force CAS authentication
+    /* Remove query string from redirection URL to avoid signout loops */
+    phpCAS::setFixedServiceURL(preg_replace('/\?.*$/', '', phpCAS::getServiceURL()));
+
+    /* Force CAS authentication */
     phpCAS::forceAuthentication();
     static::$username = phpCAS::getUser();
 
