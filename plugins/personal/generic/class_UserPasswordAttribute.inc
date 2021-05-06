@@ -192,7 +192,14 @@ class UserPasswordAttribute extends CompositeAttribute
         if ($value == '%askme%') {
           return ['%askme%', '', '', $value, 'FALSE'];
         }
-        list($value, $password) = explode('|', $value, 2);
+        $parts = explode('|', $value, 3);
+        if ((count($parts) < 3) || !in_array($parts[1], ['TRUE','FALSE'])) {
+          /* Old format from FD<1.4 */
+          list($value, $password) = $parts;
+        } else {
+          list($pw_storage, $locked, $password) = $parts;
+          return [$pw_storage, $password, $password, $this->attributes[3]->getValue(), $locked];
+        }
       }
       $tmp = passwordMethod::get_method($value);
       if (is_object($tmp)) {
@@ -221,11 +228,11 @@ class UserPasswordAttribute extends CompositeAttribute
       trigger_error('Unknown password method '.$values[0]);
       return $values[3];
     }
-    $test = new $temp[$values[0]]($this->plugin->dn, $this->plugin);
-    $test->set_hash($values[0]);
     if ($this->plugin->is_template) {
-      return $test->generate_hash($values[1], ($values[4] == 'TRUE')).'|'.$values[1];
+      return $values[0].'|'.$values[4].'|'.$values[1];
     } else {
+      $test = new $temp[$values[0]]($this->plugin->dn, $this->plugin);
+      $test->set_hash($values[0]);
       return $test->generate_hash($values[1]);
     }
   }
