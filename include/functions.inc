@@ -232,7 +232,7 @@ function get_template_path ($filename = '', $plugin = FALSE, $path = '')
  */
 function array_remove_entries (array $needles, array $haystack)
 {
-  return array_values(array_diff($haystack, $needles));
+  return array_values(array_udiff($haystack, $needles, 'array_cmp_recursive'));
 }
 
 
@@ -241,6 +241,7 @@ function array_remove_entries (array $needles, array $haystack)
  *
  * Removes every element that is in $needles from the
  * array given as $haystack but case insensitive
+ * Only works on array of stringable
  *
  * \param array $needles array of the entries to remove
  *
@@ -1076,24 +1077,38 @@ function array_differs (array $src, array $dst)
  */
 function array_differs_recursive ($src, $dst)
 {
+  return (array_cmp_recursive($src, $dst) !== 0);
+}
+
+/*!
+ * \brief Determine if two arrays are different using recursion for sublevels
+ *
+ * \param array $src The source
+ *
+ * \param array $dst The destination
+ *
+ * \return <0, 0 or >0 if $src is <, = or > $dst
+ */
+function array_cmp_recursive ($src, $dst): int
+{
   if (is_array($src)) {
     if (!is_array($dst)) {
-      return TRUE;
+      return 1;
     }
     if (count($src) != count($dst)) {
-      return TRUE;
+      return count($src) - count($dst);
     }
     foreach ($src as $key => $value) {
       if (!isset($dst[$key])) {
-        return TRUE;
+        return 1;
       }
-      if (array_differs_recursive($dst[$key], $value)) {
-        return TRUE;
+      if (($cmp = array_cmp_recursive($dst[$key], $value)) !== 0) {
+        return $cmp;
       }
     }
-    return FALSE;
+    return 0;
   }
-  return ((string)$src != (string)$dst);
+  return strcmp($src, $dst);
 }
 
 /*!
