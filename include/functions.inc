@@ -220,51 +220,55 @@ function get_template_path ($filename = '', $plugin = FALSE, $path = '')
 }
 
 
-/*!
- * \brief Remove multiple entries from an array
+/**
+ * Remove multiple entries from an array
  *
  * Removes every element that is in $needles from the
  * array given as $haystack
  *
- * \param array $needles array of the entries to remove
+ * @param array $needles array of the entries to remove
  *
- * \param array $haystack original array to remove the entries from
+ * @param array $haystack original array to remove the entries from
+ *
+ * @return array<int,mixed>
  */
-function array_remove_entries (array $needles, array $haystack)
+function array_remove_entries (array $needles, array $haystack): array
 {
-  return array_values(array_diff($haystack, $needles));
+  return array_values(array_udiff($haystack, $needles, 'array_cmp_recursive'));
 }
 
 
-/*!
- * \brief Remove multiple entries from an array (case-insensitive)
+/**
+ * Remove multiple entries from an array (case-insensitive)
  *
  * Removes every element that is in $needles from the
  * array given as $haystack but case insensitive
  *
- * \param array $needles array of the entries to remove
+ * @param array<int|string|bool|null|float|double|Stringable> $needles array of the entries to remove
  *
- * \param array $haystack original array to remove the entries from
+ * @param array<int|string|bool|null|float|double|Stringable> $haystack original array to remove the entries from
+ *
+ * @return array<int,int|string|bool|null|float|double|Stringable>
  */
-function array_remove_entries_ics (array $needles, array $haystack)
+function array_remove_entries_ics (array $needles, array $haystack): array
 {
   // strcasecmp will work, because we only compare ASCII values here
   return array_values(array_udiff($haystack, $needles, 'strcasecmp'));
 }
 
-/*!
- * \brief Merge to array but remove duplicate entries (case-insensitive)
+/**
+ * Merge to array but remove duplicate entries (case-insensitive)
  *
  * Merges two arrays and removes duplicate entries. Triggers
  * an error if first or second parametre is not an array.
  *
- * \param array $ar1 first array
+ * @param array<int|string|bool|null|float|double|Stringable> $ar1 first array
  *
- * \param array $ar2 second array
+ * @param array<int|string|bool|null|float|double|Stringable> $ar2 second array
  *
- * \return array
+ * @return array<int,int|string|bool|null|float|double|Stringable>
  */
-function array_merge_unique (array $ar1, array $ar2)
+function array_merge_unique (array $ar1, array $ar2): array
 {
   return array_values(array_unique(array_merge($ar1, $ar2)));
 }
@@ -1046,16 +1050,16 @@ function array_key_ics ($ikey, array $items)
 }
 
 
-/*!
- * \brief Determine if two arrays are different
+/**
+ * Determine if two arrays are different
  *
- * \param array $src The source
+ * @param array<int|string|bool|null|float|double|Stringable> $src The source
  *
- * \param array $dst The destination
+ * @param array<int|string|bool|null|float|double|Stringable> $dst The destination
  *
- * \return boolean TRUE or FALSE
+ * @return bool TRUE or FALSE
  */
-function array_differs (array $src, array $dst)
+function array_differs (array $src, array $dst): bool
 {
   /* If the count is differing, the arrays differ */
   if (count($src) != count($dst)) {
@@ -1065,35 +1069,49 @@ function array_differs (array $src, array $dst)
   return (count(array_diff($src, $dst)) != 0);
 }
 
-/*!
- * \brief Determine if two arrays are different using recursion for sublevels
+/**
+ * Determine if two arrays are different using recursion for sublevels
  *
- * \param array $src The source
+ * @param mixed $src The source
  *
- * \param array $dst The destination
+ * @param mixed $dst The destination
  *
- * \return boolean TRUE or FALSE
+ * @return bool TRUE or FALSE
  */
-function array_differs_recursive ($src, $dst)
+function array_differs_recursive ($src, $dst): bool
+{
+  return (array_cmp_recursive($src, $dst) !== 0);
+}
+
+/**
+ * Determine if two arrays are different using recursion for sublevels
+ *
+ * @param mixed $src The source
+ *
+ * @param mixed $dst The destination
+ *
+ * @return int negative, 0 or positive if $src is <, = or > $dst
+ */
+function array_cmp_recursive ($src, $dst): int
 {
   if (is_array($src)) {
     if (!is_array($dst)) {
-      return TRUE;
+      return 1;
     }
     if (count($src) != count($dst)) {
-      return TRUE;
+      return count($src) - count($dst);
     }
     foreach ($src as $key => $value) {
       if (!isset($dst[$key])) {
-        return TRUE;
+        return 1;
       }
-      if (array_differs_recursive($dst[$key], $value)) {
-        return TRUE;
+      if (($cmp = array_cmp_recursive($dst[$key], $value)) !== 0) {
+        return $cmp;
       }
     }
-    return FALSE;
+    return 0;
   }
-  return ((string)$src != (string)$dst);
+  return strcmp($src, $dst);
 }
 
 /*!
