@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2018  FusionDirectory
+  Copyright (C) 2021-2021  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -18,23 +18,27 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class pluginsConfigInLdap extends multiPlugin
+/**
+ * Base class for multiPlugin sections
+ */
+abstract class multiPluginSection
 {
-  protected static $tabClass = 'SMALLCONFIGTABS';
-
   static function plInfo (): array
   {
-    return [
-      'plShortName'   => _('Plugins'),
-      'plDescription' => _('Configuration for plugins'),
-      'plPriority'    => 2,
-      'plObjectType'  => ['configuration'],
-      'plSubTabs'     => 'SMALLCONFIGTABS',
+    return [];
+  }
 
-      /* This is incomplete because of dynamic loading, but is enough to generate a filter for this tab */
-      'plObjectClass'   => ['fusionDirectoryPluginsConf'],
+  static abstract function getAttributesInfo (): array;
 
-      'plProvidedAcls'  => []
-    ];
+  static function generatePlProvidedAcls (array $attributesInfo, bool $operationalAttributes = NULL): array
+  {
+    return simplePlugin::generatePlProvidedAcls($attributesInfo, $operationalAttributes);
+  }
+
+  /**
+   * If the section needs to initialize something after LDAP load
+   */
+  static function fixAttributesOnLoad (multiPlugin $multiPlugin)
+  {
   }
 }
