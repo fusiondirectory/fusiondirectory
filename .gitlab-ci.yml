@@ -76,6 +76,19 @@ create_php_code_sniffer_rapport:
     - find . -type f -name '*.php' -o -name '*.inc' > ./filelist
     - phpcs --standard=../dev-tools/php-codesniffer-rules/FDStandard/ruleset.xml --file-list=./filelist
 
+create_php_compatibility_rapport:
+  image: registry.fusiondirectory.org/fusiondirectory/fd/phpcodesniffer-cli:buster
+  stage: codestyle
+  only:
+    - branches
+  script:
+    - find . -type f -name '*.php' -o -name '*.inc' > ./filelist
+    - git clone --depth 1 https://github.com/PHPCompatibility/PHPCompatibility.git ../PHPCompatibility
+    - git clone --depth 1 https://github.com/PHPCSStandards/PHPCSUtils.git ../PHPCSUtils
+    - phpcs --config-set installed_paths /builds/fusiondirectory/PHPCompatibility,/builds/fusiondirectory/PHPCSUtils
+    - PHP_MIN_VERSION=$(grep PHP_MIN_VERSION include/variables_common.inc| cut -d\' -f4| cut -d"." -f 1-2)
+    - phpcs --standard=PHPCompatibility --runtime-set testVersion $PHP_MIN_VERSION- --file-list=./filelist
+
 # Sonar publishing
 sonar_publish:
   image: registry.fusiondirectory.org/fusiondirectory/fd/sonar-cli:4.4.0.2170
