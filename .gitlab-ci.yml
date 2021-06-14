@@ -63,6 +63,11 @@ create_php_code_sniffer_rapport:
     - git clone --depth 1 https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
     - find . -type f -name '*.php' -o -name '*.inc' > ./filelist
     - phpcs --standard=../dev-tools/php-codesniffer-rules/FDStandard/ruleset.xml --file-list=./filelist
+    - git clone --depth 1 https://github.com/PHPCompatibility/PHPCompatibility.git ../PHPCompatibility
+    - git clone --depth 1 https://github.com/PHPCSStandards/PHPCSUtils.git ../PHPCSUtils
+    - phpcs --config-set installed_paths /builds/fusiondirectory/PHPCompatibility,/builds/fusiondirectory/PHPCSUtils
+    - PHP_MIN_VERSION=$(grep PHP_MIN_VERSION include/variables_common.inc| cut -d\' -f4| cut -d"." -f 1-2)
+    - phpcs --standard=PHPCompatibility --runtime-set testVersion $PHP_MIN_VERSION- --file-list=./filelist
 
 # Sonar publishing
 sonar_publish:
@@ -122,7 +127,7 @@ update-transifex:
     - echo $'[https://www.transifex.com]\nhostname = https://www.transifex.com\nusername = '"$TRANSIFEX_USER"$'\npassword = '"$TRANSIFEX_PASSWORD"$'\ntoken = '"$TRANSIFEX_API_TOKEN"$'\n' > ~/.transifexrc
     - tx pull -a -f
     - ../dev-tools/locale-scripts/fusiondirectory-update-locale -g
-    - tx push -s -t --skip --no-interactive 
+    - tx push -s -t --skip --no-interactive
 
 build-tarballs:
   stage: tarballs
