@@ -1116,8 +1116,8 @@ class setupStepMigrate extends setupStep
           /* Build groupid depending on base and objectClasses */
           $groupid = md5($base.implode('', $attrs['objectClass']));
 
-          if (!isset($this->$var[$groupid])) {
-            $this->$var[$groupid] = [
+          if (!isset($this->{$var}[$groupid])) {
+            $this->{$var}[$groupid] = [
               'checked' => FALSE,
               'objects' => [],
               'base'    => $base,
@@ -1126,7 +1126,7 @@ class setupStepMigrate extends setupStep
           }
 
           $attrs['ldif'] = '';
-          $this->$var[$groupid]['objects'][base64_encode($attrs['dn'])] = $attrs;
+          $this->{$var}[$groupid]['objects'][base64_encode($attrs['dn'])] = $attrs;
           if (++$count >= static::$objectNumberLimit) {
             $sizeLimitHit = TRUE;
             break 2;
@@ -1472,7 +1472,7 @@ class setupStepMigrate extends setupStep
     foreach ($tmp as $value => $dns) {
       if (count($dns) > 1) {
         foreach ($dns as $dn) {
-          $this->$duplicates[$dn] = $value;
+          $this->{$duplicates}[$dn] = $value;
         }
       }
     }
