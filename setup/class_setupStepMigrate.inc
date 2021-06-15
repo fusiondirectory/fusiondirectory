@@ -1058,6 +1058,7 @@ class setupStepMigrate extends setupStep
     do {
       if (version_compare(PHP_VERSION, '7.3.0') >= 0) {
         /* 7.3 and newer, use pagination control */
+        // phpcs:disable PHPCompatibility.Constants.NewConstants
         $res = $ldap->search($filter, ['dn','objectClass'], 'subtree',
           [['oid' => LDAP_CONTROL_PAGEDRESULTS, 'value' => ['size' => 500, 'cookie' => $cookie]]]
         );
@@ -1087,6 +1088,7 @@ class setupStepMigrate extends setupStep
         } else {
           $cookie = '';
         }
+        // phpcs:enable
       } else {
         /* fallback to search without pagination */
         $ldap->set_size_limit(static::$objectNumberLimit);
