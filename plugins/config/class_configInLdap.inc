@@ -553,6 +553,19 @@ class configInLdap extends simplePlugin
         htmlescape(sprintf(_('It seems the selected language "%s" is not installed on the system. Please install it or select an other one.'), $this->fdLanguage))
       );
     }
+
+    if (($this->fdLdapSizeLimit !== '') && ($this->fdLdapSizeLimit > 0)) {
+      $error = ldapSizeLimit::checkMaxInputVars($this->fdLdapSizeLimit);
+      if ($error !== FALSE) {
+        $messages[] = new SimplePluginCheckError(
+          $this->attributesAccess['fdLdapSizeLimit'],
+          $error->getHtmlMessage(),
+          $error->getCode(),
+          $error
+        );
+      }
+    }
+
     return $messages;
   }
 
