@@ -273,7 +273,7 @@ class objects
 
     $ldap = $config->get_ldap_link($sizeLimit);
     if (!$ldap->dn_exists($ou)) {
-      throw new NonExistingBranchException();
+      throw new NonExistingBranchException($ou);
     }
     if (empty($filter)) {
       $filter = '(|'.implode($typeFilters).')';
@@ -379,7 +379,7 @@ class objects
           $text = $dn;
         }
       } else {
-        throw new NonExistingLdapNodeException('Dn '.$dn.' not found in LDAP');
+        throw new NonExistingLdapNodeException($dn);
       }
     } elseif (is_array($text)) {
       $text = $text[$infos['nameAttr']][0];
@@ -430,7 +430,7 @@ class objects
     global $config;
 
     if (!isset($config->data['OBJECTS'][strtoupper($type)])) {
-      throw new NonExistingObjectTypeException('Non-existing type "'.$type.'"');
+      throw new NonExistingObjectTypeException($type);
     }
 
     $infos =& $config->data['OBJECTS'][strtoupper($type)];
