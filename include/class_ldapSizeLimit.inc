@@ -71,8 +71,12 @@ class ldapSizeLimit
       switch ($_POST['action']) {
         case 'newlimit':
           if (isset($_POST['new_limit']) && tests::is_id($_POST['new_limit'])) {
-            $this->sizeLimit  = intval($_POST['new_limit']);
-            $this->ignore     = FALSE;
+            if (($error = static::checkMaxInputVars($_POST['new_limit'])) !== FALSE) {
+              $error->display();
+            } else {
+              $this->sizeLimit  = intval($_POST['new_limit']);
+              $this->ignore     = FALSE;
+            }
           }
           break;
         case 'ignore':
@@ -131,5 +135,27 @@ class ldapSizeLimit
       return '('.htmlescape(_('incomplete')).') '.$config;
     }
     return '';
+  }
+
+  /**
+   * Checks if a new limit or a number of entries is too high regarding to max_input_vars.
+   *
+   * If there are more items in $_POST than max_input_vars, PHP will discard some of them and will cause a CSRF error.
+   */
+  static public function checkMaxInputVars (int $newLimit, string $messageTemplate = NULL)
+  {
+    $maxInputVars = ini_get('max_input_vars');
+
+    if (($maxInputVars != '') && (($newLimit + 10) >= intval($maxInputVars))) {
+      return new FusionDirectoryError(
+        htmlescape(sprintf(
+          $messageTemplate ?? _('Limit %d is greater than or too close to configured max_input_vars PHP ini setting of %d. Please change max_input_vars ini setting to a higher value if you wish to set the limit higher.'),
+          $newLimit,
+          $maxInputVars
+        ))
+      );
+    }
+
+    return FALSE;
   }
 }

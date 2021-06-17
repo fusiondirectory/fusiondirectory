@@ -227,6 +227,15 @@ class managementListing
       $smarty->assign('objectCounts', $types);
     }
 
+    /* If the user ignored the sizelimit warning he may get more entries than what PHP can handle */
+    $error = ldapSizeLimit::checkMaxInputVars(
+      count($this->entries),
+      _('The number of listed entries (%d) is greater than or too close to configured max_input_vars PHP ini setting (%d). Please change max_input_vars ini setting to a higher value.')
+    );
+    if ($error !== FALSE) {
+      $error->display();
+    }
+
     return $smarty->fetch(get_template_path('management/list.tpl'));
   }
 
