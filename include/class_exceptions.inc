@@ -69,18 +69,79 @@ class InvalidValueException extends FusionDirectoryException
 
 class NonExistingObjectTypeException extends FusionDirectoryException
 {
+  protected $type;
+
+  public function __construct (string $type, int $code = 0, Throwable $previous = NULL)
+  {
+    $this->type = $type;
+
+    parent::__construct(sprintf(_('Non-existing type "%s"!'), $this->type), $code, $previous);
+  }
+
+  public function toArray (): array
+  {
+    $array = parent::toArray();
+
+    $array['type'] = $this->type;
+
+    return $array;
+  }
 }
 
 class NonExistingBranchException extends FusionDirectoryException
 {
+  protected $branch;
+
+  public function __construct (string $branch, int $code = 0, Throwable $previous = NULL)
+  {
+    $this->branch = $branch;
+
+    parent::__construct(sprintf(_('Non-existing branch "%s"!'), $this->branch), $code, $previous);
+  }
+
+  public function toArray (): array
+  {
+    $array = parent::toArray();
+
+    $array['branch'] = $this->branch;
+
+    return $array;
+  }
 }
 
 class NonExistingLdapNodeException extends FusionDirectoryException
 {
+  protected $dn;
+
+  public function __construct (string $dn, string $message = NULL, int $code = 0, Throwable $previous = NULL)
+  {
+    $this->dn = $dn;
+    if ($message === NULL) {
+      $message = sprintf(_('Non-existing dn "%s"!'), $this->dn);
+    }
+
+    parent::__construct($message, $code, $previous);
+  }
+
+  public function toArray (): array
+  {
+    $array = parent::toArray();
+
+    $array['dn'] = $this->dn;
+
+    return $array;
+  }
 }
 
 class EmptyFilterException extends FusionDirectoryException
 {
+  public function __construct (string $message = "", int $code = 0, Throwable $previous = NULL)
+  {
+    if ($message === '') {
+      $message = _('Filter is empty');
+    }
+    parent::__construct($message, $code, $previous);
+  }
 }
 
 class NoManagementClassException extends FusionDirectoryException
@@ -89,6 +150,23 @@ class NoManagementClassException extends FusionDirectoryException
 
 class UnknownClassException extends FusionDirectoryException
 {
+  protected $class;
+
+  public function __construct (string $class, int $code = 0, Throwable $previous = NULL)
+  {
+    $this->class = $class;
+
+    parent::__construct(sprintf(_('Unknown class "%s"!'), $this->class), $code, $previous);
+  }
+
+  public function toArray (): array
+  {
+    $array = parent::toArray();
+
+    $array['unknownclass'] = $this->class;
+
+    return $array;
+  }
 }
 
 class LDAPFailureException extends FusionDirectoryException

@@ -234,7 +234,7 @@ class simplePlugin implements SimpleTab
         $ldap->cat($this->dn);
         $this->attrs = $ldap->fetch(TRUE);
         if (empty($this->attrs)) {
-          throw new NonExistingLdapNodeException('Could not open dn '.$this->dn);
+          throw new NonExistingLdapNodeException($this->dn);
         }
         if ($this->mainTab) {
           $this->entryCSN = getEntryCSN($this->dn);
