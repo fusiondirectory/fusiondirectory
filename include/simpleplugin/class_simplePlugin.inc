@@ -502,7 +502,7 @@ class simplePlugin implements SimpleTab
     return $attr.'='.ldap_escape_dn($this->attributesAccess[$attr]->computeLdapValue()).','.$ou.$base;
   }
 
-  protected function addAttribute (string $section, Attribute $attr)
+  protected function addAttribute (string $section, \FusionDirectory\Core\SimplePlugin\Attribute $attr)
   {
     $name = $attr->getLdapName();
     $this->attributesInfo[$section]['attrs'][$name] = $attr;

@@ -27,7 +27,7 @@
 /*! \brief This class allow to handle easily a Select LDAP attribute with a set of choices
  *
  */
-class SelectAttribute extends Attribute
+class SelectAttribute extends \FusionDirectory\Core\SimplePlugin\Attribute
 {
   protected $choices;
   protected $outputs  = NULL;

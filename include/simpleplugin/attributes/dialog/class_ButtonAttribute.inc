@@ -21,7 +21,7 @@
 /*!
  * \brief Attribute showing a button
  */
-class ButtonAttribute extends Attribute
+class ButtonAttribute extends \FusionDirectory\Core\SimplePlugin\Attribute
 {
   protected $buttonText = NULL;
   protected $action;

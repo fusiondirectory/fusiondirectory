@@ -23,7 +23,7 @@
  *
  * We are using UTC timezone because we don't care about time, we just want date.
  */
-class DateAttribute extends Attribute
+class DateAttribute extends \FusionDirectory\Core\SimplePlugin\Attribute
 {
   protected $format;
   protected $minDate = NULL;

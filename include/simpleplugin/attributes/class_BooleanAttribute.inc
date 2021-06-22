@@ -21,7 +21,7 @@
 /*! \brief This class allow to handle easily a Boolean LDAP attribute
  *
  */
-class BooleanAttribute extends Attribute
+class BooleanAttribute extends \FusionDirectory\Core\SimplePlugin\Attribute
 {
   public $trueValue;
   public $falseValue;
