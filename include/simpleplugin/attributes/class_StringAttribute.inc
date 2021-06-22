@@ -21,7 +21,7 @@
 /*! \brief This class allow to handle easily a String LDAP attribute
  *
  */
-class StringAttribute extends Attribute
+class StringAttribute extends \FusionDirectory\Core\SimplePlugin\Attribute
 {
   protected $pattern;
   protected $example;

@@ -21,7 +21,7 @@
 /*! \brief This class allow to handle easily an Integer LDAP attribute
  *
  */
-class IntAttribute extends Attribute
+class IntAttribute extends \FusionDirectory\Core\SimplePlugin\Attribute
 {
   protected $min;
   protected $max;

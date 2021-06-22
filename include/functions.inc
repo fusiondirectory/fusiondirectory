@@ -61,6 +61,10 @@ function __fusiondirectory_autoload ($class_name)
     return;
   }
 
+  if (strpos($class_name, 'FusionDirectory\\') === 0) {
+    $class_name = preg_replace('/^.+\\\\([^\\\\]+)$/', '\\1', "$class_name");
+  }
+
   if (isset($class_mapping["$class_name"])) {
     require_once($BASE_DIR.'/'.$class_mapping["$class_name"]);
   } else {

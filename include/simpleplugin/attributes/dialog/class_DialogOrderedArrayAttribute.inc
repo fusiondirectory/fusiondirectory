@@ -27,7 +27,7 @@ abstract class DialogOrderedArrayAttribute extends OrderedArrayAttribute
 
   function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = [], $acl = "")
   {
-    Attribute::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
+    \FusionDirectory\Core\SimplePlugin\Attribute::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
     $this->edit_enabled = TRUE;
     $this->attribute    = FALSE;
   }

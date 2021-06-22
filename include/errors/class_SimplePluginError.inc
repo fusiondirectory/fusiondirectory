@@ -36,7 +36,7 @@ class SimplePluginError extends FusionDirectoryError
 
   public function setOrigin ($origin)
   {
-    if ($origin instanceof Attribute) {
+    if ($origin instanceof \FusionDirectory\Core\SimplePlugin\Attribute) {
       $this->attribute  = $origin;
       $this->tab        = $origin->getParent();
       $this->object     = $this->tab->parent;

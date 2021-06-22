@@ -21,7 +21,7 @@
 /*! \brief This class allow to handle easily an Base selector attribute
  *
  */
-class BaseSelectorAttribute extends Attribute
+class BaseSelectorAttribute extends \FusionDirectory\Core\SimplePlugin\Attribute
 {
   private $baseSelector = NULL;
   private $orig_dn      = NULL;

@@ -21,7 +21,7 @@
 /*! \brief This class allow to handle easily a multi-valuated attribute
  *
  */
-class SetAttribute extends Attribute
+class SetAttribute extends \FusionDirectory\Core\SimplePlugin\Attribute
 {
   public $attribute;
   protected $valueUnicity     = TRUE;
@@ -35,7 +35,7 @@ class SetAttribute extends Attribute
    *  \param array $values The default values
    *  \param boolean $valueUnicity Should the value unicity be checked
    */
-  function __construct (Attribute $attribute, array $values = [], bool $valueUnicity = TRUE)
+  function __construct (\FusionDirectory\Core\SimplePlugin\Attribute $attribute, array $values = [], bool $valueUnicity = TRUE)
   {
     parent::__construct(
       $attribute->getLabel(),     $attribute->getDescription(),

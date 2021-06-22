@@ -25,7 +25,7 @@
  * you should inherit this class and write your own readValues and writeValues method
  *
  */
-class CompositeAttribute extends Attribute
+class CompositeAttribute extends \FusionDirectory\Core\SimplePlugin\Attribute
 {
   public $attributes;
   protected $readFormat;

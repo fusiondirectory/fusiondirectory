@@ -21,7 +21,7 @@
 /*! \brief This class allow to handle easily an File LDAP attribute
  *
  */
-class FileAttribute extends Attribute
+class FileAttribute extends \FusionDirectory\Core\SimplePlugin\Attribute
 {
   protected $binary = TRUE;
 

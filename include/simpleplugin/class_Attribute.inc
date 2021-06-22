@@ -19,6 +19,8 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
+namespace FusionDirectory\Core\SimplePlugin;
+
 /*!
  * \file class_Attribute.inc
  * Source code for the main Attribute class
@@ -819,7 +821,7 @@ class Attribute
 /*!
  * \brief Attribute hidden from the user
  */
-class HiddenAttribute extends Attribute
+class HiddenAttribute extends \FusionDirectory\Core\SimplePlugin\Attribute
 {
   /*! \brief The constructor of HiddenAttribute
    *
@@ -868,7 +870,7 @@ class HiddenArrayAttribute extends HiddenAttribute
 /*!
  * \brief Dummy attribute class in order to give stats information to the template
  */
-class FakeAttribute extends Attribute
+class FakeAttribute extends \FusionDirectory\Core\SimplePlugin\Attribute
 {
   function __construct (string $ldapName)
   {
@@ -887,7 +889,7 @@ class FakeAttribute extends Attribute
  * It can be used to display an attribute value the user is never allowed to modify.
  * (But FD might edit it)
  */
-class DisplayLDAPAttribute extends Attribute
+class DisplayLDAPAttribute extends \FusionDirectory\Core\SimplePlugin\Attribute
 {
   protected $allowHTML    = FALSE;
   protected $allowSmarty  = FALSE;
@@ -932,7 +934,7 @@ class ReadOnlyLDAPAttribute extends DisplayLDAPAttribute
  *
  * It can be used to display an attribute value the user is never allowed to modify.
  */
-class DisplayLDAPArrayAttribute extends Attribute
+class DisplayLDAPArrayAttribute extends \FusionDirectory\Core\SimplePlugin\Attribute
 {
   protected function loadAttrValue (array $attrs)
   {
