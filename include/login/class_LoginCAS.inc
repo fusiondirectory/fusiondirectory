@@ -36,8 +36,8 @@ class LoginCAS extends LoginMethod
 
     require_once('CAS.php');
     /* Move FD autoload after CAS autoload */
-    spl_autoload_unregister('__fusiondirectory_autoload');
-    spl_autoload_register('__fusiondirectory_autoload');
+    spl_autoload_unregister('fusiondirectory_autoload');
+    spl_autoload_register('fusiondirectory_autoload');
 
     if ($config->get_cfg_value('casVerbose') == 'TRUE') {
       phpCAS::setVerbose(TRUE);
