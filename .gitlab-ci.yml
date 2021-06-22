@@ -87,7 +87,7 @@ create_php_compatibility_rapport:
     - git clone --depth 1 https://github.com/PHPCSStandards/PHPCSUtils.git ../PHPCSUtils
     - phpcs --config-set installed_paths /builds/fusiondirectory/PHPCompatibility,/builds/fusiondirectory/PHPCSUtils
     - PHP_MIN_VERSION=$(grep PHP_MIN_VERSION include/variables_common.inc| cut -d\' -f4| cut -d"." -f 1-2)
-    - phpcs --standard=PHPCompatibility --runtime-set testVersion $PHP_MIN_VERSION- --file-list=./filelist
+    - phpcs --standard=PHPCompatibility --runtime-set testVersion $PHP_MIN_VERSION-7.4 --file-list=./filelist
 
 # Sonar publishing
 sonar_publish:
