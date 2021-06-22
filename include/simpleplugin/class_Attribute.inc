@@ -244,7 +244,7 @@ class Attribute
 
   function getHtmlId (): string
   {
-    return $this->htmlid_prefix.userinfo::sanitizeAttributeName($this->getLdapName());
+    return $this->htmlid_prefix.\userinfo::sanitizeAttributeName($this->getLdapName());
   }
 
   /* html id to put in the "for" attribute of our "label" tag */
@@ -490,9 +490,9 @@ class Attribute
     global $config;
     $currentValue = $this->getValue();
     if ($this->isRequired() && !$this->disabled && (($currentValue === "") || ($currentValue === []))) {
-      return new SimplePluginCheckError(
+      return new \SimplePluginCheckError(
         $this,
-        msgPool::required($this->getLabel())
+        \msgPool::required($this->getLabel())
       );
     } elseif (($this->unique !== FALSE) && !$this->disabled) {
       $ldapValue = $this->computeLdapValue();
@@ -513,7 +513,7 @@ class Attribute
       } else {
         $filter = '('.$this->getLdapName().'='.ldap_escape_f($ldapValue).')';
       }
-      $infos = pluglist::pluginInfos(get_class($this->plugin));
+      $infos = \pluglist::pluginInfos(get_class($this->plugin));
       if ($this->uniqueFilter === NULL) {
         $objectTypeFilters = array_map(
           function ($key, $ot)
@@ -522,9 +522,9 @@ class Attribute
               $ot = $key;
             }
             try {
-              $oinfos = objects::infos($ot);
+              $oinfos = \objects::infos($ot);
               return $oinfos['filter'];
-            } catch (NonExistingObjectTypeException $e) {
+            } catch (\NonExistingObjectTypeException $e) {
               return '';
             }
           },
@@ -551,9 +551,9 @@ class Attribute
               $ot = $key;
             }
             try {
-              $oinfos = objects::infos($ot);
+              $oinfos = \objects::infos($ot);
               return $oinfos['ou'];
-            } catch (NonExistingObjectTypeException $e) {
+            } catch (\NonExistingObjectTypeException $e) {
               return FALSE;
             }
           },
@@ -599,19 +599,19 @@ class Attribute
             continue;
           }
 
-          return new SimplePluginCheckError(
+          return new \SimplePluginCheckError(
             $this,
-            msgPool::duplicated($this->getLabel(), $attrs['dn'])
+            \msgPool::duplicated($this->getLabel(), $attrs['dn'])
           );
         }
       }
       if (class_available('archivedObject')) {
-        $filter = archivedObject::buildUniqueSearchFilter($this->getLdapName(), $ldapValue);
+        $filter = \archivedObject::buildUniqueSearchFilter($this->getLdapName(), $ldapValue);
         $ldap->search($filter, [$this->getLdapName()]);
         if ($attrs = $ldap->fetch()) {
-          return new SimplePluginCheckError(
+          return new \SimplePluginCheckError(
             $this,
-            msgPool::duplicated($this->getLabel(), $attrs['dn'])
+            \msgPool::duplicated($this->getLabel(), $attrs['dn'])
           );
         }
       }
@@ -697,7 +697,7 @@ class Attribute
   function deserializeValue ($value)
   {
     if ($this->disabled) {
-      return new SimplePluginError(
+      return new \SimplePluginError(
         $this,
         htmlescape(sprintf(_('Attribute %s is disabled, its value could not be set'), $this->getLdapName()))
       );
@@ -815,182 +815,5 @@ class Attribute
     }
     $input .= '/>';
     return ($smartyEscape ? '{literal}'.$input.'{/literal}' : $input);
-  }
-}
-
-/*!
- * \brief Attribute hidden from the user
- */
-class HiddenAttribute extends \FusionDirectory\Core\SimplePlugin\Attribute
-{
-  /*! \brief The constructor of HiddenAttribute
-   *
-   *  \param string $ldapName The name of the attribute in the LDAP (If it's not in the ldap, still provide a unique name)
-   *  \param boolean $required Is this attribute mandatory or not
-   *  \param mixed $defaultValue The default value for this attribute
-   *  \param string $acl The name of the acl for this attribute if he does not use its own. (Leave empty if he should use its own like most attributes do)
-   *  \param string $label The label to show for this attribute
-   *  \param string $description A more detailed description for the attribute
-   */
-  function __construct (string $ldapName, bool $required = FALSE, $defaultValue = '', string $acl = '', string $label = NULL, string $description = 'hidden')
-  {
-    if ($label === NULL) {
-      $label = $ldapName;
-    }
-    parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
-    $this->setVisible(FALSE);
-  }
-}
-
-/*!
- * \brief HiddenAttribute with several values
- */
-class HiddenArrayAttribute extends HiddenAttribute
-{
-  protected function loadAttrValue (array $attrs)
-  {
-    if (isset($attrs[$this->getLdapName()]['count'])) {
-      $this->value = [];
-      for ($i = 0; $i < $attrs[$this->getLdapName()]['count']; $i++) {
-        $this->value[] = $attrs[$this->getLdapName()][$i];
-      }
-    }
-  }
-
-  public function computeLdapValue ()
-  {
-    if (is_array($this->value)) {
-      return array_values($this->value);
-    } else {
-      return parent::computeLdapValue();
-    }
-  }
-}
-
-/*!
- * \brief Dummy attribute class in order to give stats information to the template
- */
-class FakeAttribute extends \FusionDirectory\Core\SimplePlugin\Attribute
-{
-  function __construct (string $ldapName)
-  {
-    parent::__construct('Fake one', '', $ldapName, FALSE, '', 'noacl');
-    $this->setInLdap(FALSE);
-  }
-
-  function renderAttribute (array &$attributes, bool $readOnly, bool $readable, bool $writable)
-  {
-    $attributes[$this->getLdapName()] = $this->getValue();
-  }
-}
-
-/*! \brief This class allow to display an attribute.
- *
- * It can be used to display an attribute value the user is never allowed to modify.
- * (But FD might edit it)
- */
-class DisplayLDAPAttribute extends \FusionDirectory\Core\SimplePlugin\Attribute
-{
-  protected $allowHTML    = FALSE;
-  protected $allowSmarty  = FALSE;
-
-  function renderFormInput (): string
-  {
-    if ($this->allowHTML) {
-      $value = $this->getValue();
-    } else {
-      $value = htmlescape($this->getValue());
-    }
-    if ($this->allowSmarty) {
-      return $value;
-    } else {
-      return '{literal}'.$value.'{/literal}';
-    }
-  }
-
-  function setAllowHTML (bool $allowHTML)
-  {
-    $this->allowHTML = $allowHTML;
-  }
-
-  function setAllowSmarty (bool $allowSmarty)
-  {
-    $this->allowSmarty = $allowSmarty;
-  }
-}
-
-/*! \brief This class allow to display an attribute.
- *
- * It can be used to display an attribute value the user and FD are never allowed to modify.
- */
-class ReadOnlyLDAPAttribute extends DisplayLDAPAttribute
-{
-  function fillLdapValue (array &$attrs)
-  {
-  }
-}
-
-/*! \brief This class allow to display an attribute.
- *
- * It can be used to display an attribute value the user is never allowed to modify.
- */
-class DisplayLDAPArrayAttribute extends \FusionDirectory\Core\SimplePlugin\Attribute
-{
-  protected function loadAttrValue (array $attrs)
-  {
-    if (isset($attrs[$this->getLdapName()]['count'])) {
-      $this->value = [];
-      for ($i = 0; $i < $attrs[$this->getLdapName()]['count']; $i++) {
-        $this->value[] = $attrs[$this->getLdapName()][$i];
-      }
-    }
-  }
-
-  function renderFormInput (): string
-  {
-    $value = $this->getValue();
-    if (is_array($value)) {
-      $value = join(', ', $value);
-    }
-    return '{literal}'.htmlescape($value).'{/literal}';
-  }
-}
-
-/*! \brief This class allow to display a text in front of an attribute.
- *
- * For instance, it can be used to display a link.
- */
-class DisplayAttribute extends DisplayLDAPAttribute
-{
-  function __construct (string $label, string $description, string $ldapName, bool $required = FALSE, $defaultValue = '', string $acl = '')
-  {
-    parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
-    $this->setInLdap(FALSE);
-  }
-}
-
-/*! \brief This class allow to display a link to an object which dn is stored in the attribute
- */
-class ObjectLinkAttribute extends DisplayLDAPAttribute
-{
-  protected $type;
-
-  function __construct (string $label, string $description, string $ldapName, bool $required, string $type, $defaultValue = '', string $acl = '')
-  {
-    parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
-    $this->type = $type;
-  }
-
-  function renderFormInput (): string
-  {
-    if (empty($this->value)) {
-      return '';
-    }
-
-    try {
-      return objects::link($this->value, $this->type);
-    } catch (NonExistingLdapNodeException $e) {
-      return '<a><img src="geticon.php?context=status&amp;icon=dialog-warning&amp;size=16" alt="warning" class="center"/>&nbsp;'.sprintf(_('Invalid: %s'), $this->value).'</a>';
-    }
   }
 }
