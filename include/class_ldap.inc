@@ -186,6 +186,7 @@ class LDAP
       $this->error = 'No Error';
       if (function_exists('ldap_bind_ext')) {
         /* PHP>=7.3 */
+        // phpcs:disable PHPCompatibility.Constants.NewConstants, PHPCompatibility.FunctionUse.NewFunctionParameters, PHPCompatibility.FunctionUse.NewFunctions
         $serverctrls = [];
         if (class_available('ppolicyAccount')) {
           $serverctrls = [['oid' => LDAP_CONTROL_PASSWORDPOLICYREQUEST]];
@@ -238,6 +239,7 @@ class LDAP
           $this->error  = 'Parsing of LDAP result from bind failed';
           $this->hascon = FALSE;
         }
+        // phpcs:enable
       } elseif (@ldap_bind($this->cid, $this->binddn, $this->bindpw)) {
         $this->error  = 'Success';
         $this->hascon = TRUE;
@@ -359,23 +361,32 @@ class LDAP
       $this->clearResult($srp);
       switch (strtolower($scope)) {
         case 'base':
-          if (isset($controls)) {
+          if (isset($controls) && version_compare(PHP_VERSION, '7.3.0', '>=')) {
+            /* 7.3 and newer */
+            // phpcs:disable PHPCompatibility.FunctionUse.NewFunctionParameters
             $this->sr[$srp] = @ldap_read($this->cid, $this->basedn, $filter, $attrs, 0, 0, 0, LDAP_DEREF_NEVER, $controls);
+            // phpcs:enable
           } else {
             $this->sr[$srp] = @ldap_read($this->cid, $this->basedn, $filter, $attrs);
           }
           break;
         case 'one':
-          if (isset($controls)) {
+          if (isset($controls) && version_compare(PHP_VERSION, '7.3.0', '>=')) {
+            /* 7.3 and newer */
+            // phpcs:disable PHPCompatibility.FunctionUse.NewFunctionParameters
             $this->sr[$srp] = @ldap_list($this->cid, $this->basedn, $filter, $attrs, 0, 0, 0, LDAP_DEREF_NEVER, $controls);
+            // phpcs:enable
           } else {
             $this->sr[$srp] = @ldap_list($this->cid, $this->basedn, $filter, $attrs);
           }
           break;
         case 'subtree':
         default:
-          if (isset($controls)) {
+          if (isset($controls) && version_compare(PHP_VERSION, '7.3.0', '>=')) {
+            /* 7.3 and newer */
+            // phpcs:disable PHPCompatibility.FunctionUse.NewFunctionParameters
             $this->sr[$srp] = @ldap_search($this->cid, $this->basedn, $filter, $attrs, 0, 0, 0, LDAP_DEREF_NEVER, $controls);
+            // phpcs:enable
           } else {
             $this->sr[$srp] = @ldap_search($this->cid, $this->basedn, $filter, $attrs);
           }
@@ -411,11 +422,20 @@ class LDAP
   function parse_result ($srp): array
   {
     if ($this->hascon && $this->hasres[$srp]) {
-      if (ldap_parse_result($this->cid, $this->sr[$srp], $errcode, $matcheddn, $errmsg, $referrals, $controls)) {
-        return [$errcode, $matcheddn, $errmsg, $referrals, $controls];
+      if (version_compare(PHP_VERSION, '7.3.0', '>=')) {
+        /* 7.3 and newer */
+        // phpcs:disable PHPCompatibility.FunctionUse.NewFunctionParameters
+        if (ldap_parse_result($this->cid, $this->sr[$srp], $errcode, $matcheddn, $errmsg, $referrals, $controls)) {
+          return [$errcode, $matcheddn, $errmsg, $referrals, $controls];
+        }
+        // phpcs:enable
       } else {
-        throw new FusionDirectoryException(_('Parsing LDAP result failed'));
+        /* PHP <= 7.2 */
+        if (ldap_parse_result($this->cid, $this->sr[$srp], $errcode, $matcheddn, $errmsg, $referrals)) {
+          return [$errcode, $matcheddn, $errmsg, $referrals];
+        }
       }
+      throw new FusionDirectoryException(_('Parsing LDAP result failed'));
     } else {
       throw new FusionDirectoryException(_('No LDAP result to parse'));
     }

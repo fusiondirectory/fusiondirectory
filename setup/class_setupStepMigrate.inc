@@ -1058,6 +1058,7 @@ class setupStepMigrate extends setupStep
     do {
       if (version_compare(PHP_VERSION, '7.3.0') >= 0) {
         /* 7.3 and newer, use pagination control */
+        // phpcs:disable PHPCompatibility.Constants.NewConstants
         $res = $ldap->search($filter, ['dn','objectClass'], 'subtree',
           [['oid' => LDAP_CONTROL_PAGEDRESULTS, 'value' => ['size' => 500, 'cookie' => $cookie]]]
         );
@@ -1087,6 +1088,7 @@ class setupStepMigrate extends setupStep
         } else {
           $cookie = '';
         }
+        // phpcs:enable
       } else {
         /* fallback to search without pagination */
         $ldap->set_size_limit(static::$objectNumberLimit);
@@ -1114,8 +1116,8 @@ class setupStepMigrate extends setupStep
           /* Build groupid depending on base and objectClasses */
           $groupid = md5($base.implode('', $attrs['objectClass']));
 
-          if (!isset($this->$var[$groupid])) {
-            $this->$var[$groupid] = [
+          if (!isset($this->{$var}[$groupid])) {
+            $this->{$var}[$groupid] = [
               'checked' => FALSE,
               'objects' => [],
               'base'    => $base,
@@ -1124,7 +1126,7 @@ class setupStepMigrate extends setupStep
           }
 
           $attrs['ldif'] = '';
-          $this->$var[$groupid]['objects'][base64_encode($attrs['dn'])] = $attrs;
+          $this->{$var}[$groupid]['objects'][base64_encode($attrs['dn'])] = $attrs;
           if (++$count >= static::$objectNumberLimit) {
             $sizeLimitHit = TRUE;
             break 2;
@@ -1470,7 +1472,7 @@ class setupStepMigrate extends setupStep
     foreach ($tmp as $value => $dns) {
       if (count($dns) > 1) {
         foreach ($dns as $dn) {
-          $this->$duplicates[$dn] = $value;
+          $this->{$duplicates}[$dn] = $value;
         }
       }
     }

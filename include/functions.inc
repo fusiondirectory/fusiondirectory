@@ -41,7 +41,7 @@ require_once('accept-to-gettext.inc');
  *  \param array $class_name list of class name
  */
 
-function __fusiondirectory_autoload ($class_name)
+function fusiondirectory_autoload ($class_name)
 {
   global $class_mapping, $BASE_DIR, $config;
 
@@ -79,7 +79,7 @@ function __fusiondirectory_autoload ($class_name)
     exit;
   }
 }
-spl_autoload_register('__fusiondirectory_autoload');
+spl_autoload_register('fusiondirectory_autoload');
 
 
 /*!
