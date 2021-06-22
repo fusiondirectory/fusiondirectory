@@ -167,14 +167,6 @@ class setupStepChecks extends setupStep
 
     /* PHP Configuration checks */
 
-    /* Register_globals off */
-    $N = "register_globals = <b>off</b>";
-    $D = _("register_globals is a PHP mechanism to register all global variables to be accessible from scripts without changing the scope. This may be a security risk.");
-    $S = _("Search for 'register_globals' in your php.ini and switch it to 'Off'.");
-    $R = ini_get("register_globals") == 0;
-    $M = FALSE;
-    $config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
-
     /* session lifetime set to >=86400 seconds ? */
     $N = "session.gc_maxlifetime &gt;= <b>86400</b>";
     $D = _("PHP uses this value for the garbage collector to delete old sessions.")." ".
@@ -222,14 +214,6 @@ class setupStepChecks extends setupStep
     $D = _("Increase the server security by setting expose_php to 'off'. PHP won't send any information about the server you are running in this case.");
     $S = _("Search for 'expose_php' in your php.ini and set if to 'Off'.");
     $R = !ini_get("expose_php");
-    $M = FALSE;
-    $config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
-
-    /* Emulating old stuff? */
-    $N = "zend.ze1_compatibility_mode = <b>"._("Off")."</b>";
-    $D = _("Increase your server performance by setting magic_quotes_gpc to 'off'.");
-    $S = _("Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to 'Off'.");
-    $R = !ini_get('zend.ze1_compatibility_mode');
     $M = FALSE;
     $config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
