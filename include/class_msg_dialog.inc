@@ -116,7 +116,7 @@ class msg_dialog
    *
    * \param string|object $title The title of the message dialog, or the error object
    *
-   * \param string $message The message of the message dialog
+   * \param string $message The message of the message dialog (HTML)
    *
    * \param int $type The type of the message dialog, by default = INFO_DIALOG
    *
