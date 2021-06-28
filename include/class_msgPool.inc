@@ -569,7 +569,7 @@ class msgPool
     if ($error == '') {
       return htmlescape(_('Communication failure with the infrastructure service!'));
     }
-    return nl2br(htmlescape(sprintf(_("Communication failure with the infrastructure service: %s\n\nError: %s"), $error)));
+    return nl2br(htmlescape(sprintf(_("Communication failure with the infrastructure service:\n\nError: %s"), $error)));
   }
 
   /*!
