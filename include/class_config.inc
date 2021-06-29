@@ -308,7 +308,7 @@ class config
   {
     global $ui;
 
-    if ($this->ldapLink === NULL || !is_resource($this->ldapLink->cid)) {
+    if (($this->ldapLink === NULL) || ($this->ldapLink->cid === FALSE)) {
       /* Build new connection */
       $this->ldapLink = LDAP::init($this->current['SERVER'], $this->current['BASE'],
           $this->current['ADMINDN'], $this->get_credentials($this->current['ADMINPASSWORD']));
