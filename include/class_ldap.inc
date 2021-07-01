@@ -310,6 +310,7 @@ class LDAP
     if ($this->hascon) {
       @ldap_close($this->cid);
       $this->hascon = FALSE;
+      $this->cid    = FALSE;
     }
     logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, '', 'disconnect');
   }
