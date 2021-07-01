@@ -87,6 +87,9 @@ class userinfo
     $ldap = $config->get_ldap_link();
     $ldap->cat($this->dn, ['*']);
     $attrs = $ldap->fetch(TRUE);
+    if (!$ldap->success()) {
+      throw new FusionDirectoryLdapError($this->dn, LDAP_SEARCH, $ldap->get_error(), $ldap->get_errno());
+    }
 
     $this->uid = $attrs['uid'][0];
 
