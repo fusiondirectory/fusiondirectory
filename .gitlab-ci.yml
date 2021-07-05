@@ -20,8 +20,8 @@ create_perl_lint_rapport:
     - perl -cW contrib/bin/fusiondirectory-setup
 
 # PHP lint (stretch)
-create_php_lint_rapport_stretch:
-  image: php:cli-stretch
+create_php_lint_rapport:
+  image: registry.fusiondirectory.org/fusiondirectory/fd/phpcodesniffer-cli:buster
   stage: lint
   only:
     - branches
