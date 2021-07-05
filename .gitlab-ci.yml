@@ -1,6 +1,3 @@
-# Specify docker image
-image: debian:stretch
-
 stages:
   - lint
   - codestyle
