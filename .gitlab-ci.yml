@@ -66,41 +66,6 @@ create_php_code_sniffer_rapport:
     - PHP_MIN_VERSION=$(grep PHP_MIN_VERSION include/variables_common.inc| cut -d\' -f4| cut -d"." -f 1-2)
     - phpcs --standard=PHPCompatibility --runtime-set testVersion $PHP_MIN_VERSION- --file-list=./filelist
 
-# Sonar publishing
-sonar_publish:
-  image: registry.fusiondirectory.org/fusiondirectory/fd/sonar-cli:4.4.0.2170
-  stage: codestyle
-  only:
-    - 1.4-dev
-  script:
-    - /home/sonar/*/bin/sonar-scanner
-      -D sonar.projectKey=fusiondirectory-1.4-dev
-      -D sonar.projectName=FusionDirectory-1.4-Dev
-      -D sonar.projectVersion=1.4
-      -D sonar.sourceEncoding=UTF-8
-      -D sonar.exclusions='html/themes/legacy/**/*,html/themes/breezy/**/*,html/images/**,contrib/**,html/plugins/users/images/**,html/favicon.ico,include/class_xml.inc'
-      -D sonar.gitlab.project_id="$CI_PROJECT_PATH"
-      -D sonar.gitlab.commit_sha="$CI_COMMIT_SHA"
-      -D sonar.gitlab.ref_name="$CI_COMMIT_REF_NAME"
-
-# Sonar preview
-sonar_preview:
-  image: registry.fusiondirectory.org/fusiondirectory/fd/sonar-cli:4.4.0.2170
-  stage: codestyle
-  except:
-    - 1.4-dev
-  script:
-    - /home/sonar/*/bin/sonar-scanner
-      -D sonar.projectKey=fusiondirectory-1.4-dev
-      -D sonar.projectName=FusionDirectory-1.4-Dev
-      -D sonar.projectVersion=1.4
-      -D sonar.sourceEncoding=UTF-8
-      -D sonar.exclusions='html/themes/legacy/**/*,html/themes/breezy/**/*,html/images/**,contrib/**,html/plugins/users/images/**,html/favicon.ico,include/class_xml.inc'
-      -D sonar.gitlab.project_id="$CI_PROJECT_PATH"
-      -D sonar.gitlab.commit_sha="$CI_COMMIT_SHA"
-      -D sonar.gitlab.ref_name="$CI_COMMIT_REF_NAME"
-      -D sonar.analysis.mode=preview
-
 # fusiondirectory-update-locale
 fusiondirectory-update-locale:
   image: registry.fusiondirectory.org/fusiondirectory/fd/transifex-cli:stretch
