@@ -664,13 +664,12 @@ class Attribute
   function serializeAttribute (array &$attributes, bool $form = TRUE)
   {
     if (!$form || $this->visible) {
-      $class = get_class($this);
-      while ($class != 'Attribute') {
+      $class  = get_class($this);
+      $type   = [];
+      while ($class != FALSE) {
         $type[] = $class;
         $class  = get_parent_class($class);
       }
-      /* Avoid empty array */
-      $type[] = 'Attribute';
       $infos = [
         'htmlid'      => $this->getHtmlId(),
         'label'       => $this->getLabel(),
