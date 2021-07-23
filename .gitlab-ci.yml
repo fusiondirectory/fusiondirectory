@@ -78,8 +78,8 @@ create_phpstan_rapport:
     - cp ../dev-tools/phpstan/fusiondirectory/1.4-dev/*.neon .
     - /root/.composer/vendor/bin/phpstan analyse -c phpstan.neon
 
-# phpstan (non blocking showing info in MR)
-create_phpstan_showing_codestyle_in_mr:
+# phpstan (codequality non blocking showing info in MR)
+codequality:
   allow_failure: true
   image: registry.fusiondirectory.org/fusiondirectory/fd/phpstan:buster
   stage: codestyle
