@@ -73,14 +73,10 @@ create_phpstan_rapport:
   only:
     - branches
   script:
-    - rm -Rf ../dev-tools/
+    - test -d ../dev-tools/ && rm -Rf ../dev-tools/
     - git clone --depth 1 https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
     - cp ../dev-tools/phpstan/fusiondirectory/1.4-dev/*.neon .
-    - /root/.composer/vendor/bin/phpstan analyse -c phpstan.neon --error-format gitlab > phpstan.json
-  artifacts:
-    when: always
-    reports:
-      codequality: phpstan.json
+    - /root/.composer/vendor/bin/phpstan analyse -c phpstan.neon
 
 # fusiondirectory-update-locale
 fusiondirectory-update-locale:
