@@ -484,9 +484,8 @@ class managementListing
         unset($_REQUEST['dn']);
       }
 
-      if (preg_match('/^([a-zA-Z]+)_([a-zA-Z_]+)$/', $result['action'], $m)) {
-        $result['action']     = $m[1];
-        $result['subaction']  = $m[2];
+      if (strpos($result['action'], '_') !== FALSE) {
+        list($result['action'], $result['subaction']) = explode('_', $result['action'], 2);
       }
       return $result;
     }
@@ -524,9 +523,8 @@ class managementListing
       }
     }
 
-    if (preg_match('/^([a-zA-Z\.]+)_([a-zA-Z_\.]+)$/', $result['action'], $m)) {
-      $result['action']     = $m[1];
-      $result['subaction']  = $m[2];
+    if (strpos($result['action'], '_') !== FALSE) {
+      list($result['action'], $result['subaction']) = explode('_', $result['action'], 2);
     }
     return $result;
   }
