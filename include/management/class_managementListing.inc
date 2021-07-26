@@ -461,65 +461,58 @@ class managementListing
       return $result;
     }
 
-    // Filter GET with "act" attributes
     if (isset($_GET['act'])) {
+      // Filter GET with "act" attributes
       $key = validate($_GET['act']);
-      if (preg_match('/^listing_([a-zA-Z_]+)_([0-9]+)$/', $key, $m)) {
-        $action = $m[1];
+      if (preg_match('/^listing_([[:alnum:]_\.]+)_([0-9]+)$/', $key, $m)) {
         $target = $m[2];
         if (isset($this->entriesIndex[$target])) {
-          $result['action']     = $action;
+          $result['action']     = $m[1];
           $result['targets'][]  = $this->entriesIndex[$target];
         }
-      } elseif (isset($_REQUEST['dn']) && preg_match('/^listing_([a-zA-Z_]+)$/', $key, $m)) {
+      } elseif (isset($_REQUEST['dn']) && preg_match('/^listing_([[:alnum:]_\.]+)$/', $key, $m)) {
         /* Pre-render list to init things if a dn is gonna be opened on first load */
-        $dn         = urldecode($_REQUEST['dn']);
-        $action     = $m[1];
+        $dn = urldecode($_REQUEST['dn']);
         $this->focusDn($dn);
         $this->render();
 
-        $result['action']     = $action;
+        $result['action']     = $m[1];
         $result['targets'][]  = $dn;
         // Make sure no other management class intercept the same dn
         unset($_REQUEST['dn']);
       }
-
-      if (strpos($result['action'], '_') !== FALSE) {
-        list($result['action'], $result['subaction']) = explode('_', $result['action'], 2);
+    } else {
+      // Filter POST with "act" attributes -> posted from action menu
+      if (isset($_POST['act']) && ($_POST['act'] != '')) {
+        $result['action'] = validate($_POST['act']);
       }
-      return $result;
-    }
 
-    // Filter POST with "act" attributes -> posted from action menu
-    if (isset($_POST['act']) && ($_POST['act'] != '')) {
-      $result['action'] = validate($_POST['act']);
-    }
-
-    // Filter POST with "listing_" attributes
-    foreach (array_keys($_POST) as $key) {
-      // Capture selections
-      if (preg_match('/^listing_selected_[0-9]+$/', $key)) {
-        $target = preg_replace('/^listing_selected_([0-9]+)$/', '$1', $key);
-        if (isset($this->entriesIndex[$target])) {
-          $result['targets'][] = $this->entriesIndex[$target];
+      // Filter POST with "listing_" attributes
+      foreach (array_keys($_POST) as $key) {
+        // Capture selections
+        if (preg_match('/^listing_selected_([0-9]+)$/', $key, $m)) {
+          $target = $m[1];
+          if (isset($this->entriesIndex[$target])) {
+            $result['targets'][] = $this->entriesIndex[$target];
+          }
+          continue;
         }
-        continue;
-      }
 
-      // Capture action with target - this is a one shot
-      if (preg_match('/^listing_[a-zA-Z_]+_[0-9]+(|_x)$/', $key)) {
-        $target = preg_replace('/^listing_[a-zA-Z_]+_([0-9]+)(|_x)$/', '$1', $key);
-        if (isset($this->entriesIndex[$target])) {
-          $result['action']   = preg_replace('/^listing_([a-zA-Z_]+)_[0-9]+(|_x)$/', '$1', $key);
-          $result['targets']  = [$this->entriesIndex[$target]];
+        // Capture action with target - this is a one shot
+        if (preg_match('/^listing_([[:alnum:]_\.]+)_([0-9]+)(|_x)$/', $key, $m)) {
+          $target = $m[2];
+          if (isset($this->entriesIndex[$target])) {
+            $result['action']   = $m[1];
+            $result['targets']  = [$this->entriesIndex[$target]];
+          }
+          break;
         }
-        break;
-      }
 
-      // Capture action without target
-      if (preg_match('/^listing_[a-zA-Z_]+(|_x)$/', $key)) {
-        $result['action'] = preg_replace('/^listing_([a-zA-Z_]+)(|_x)$/', '$1', $key);
-        continue;
+        // Capture action without target
+        if (preg_match('/^listing_([[:alnum:]_\.]+)(|_x)$/', $key, $m)) {
+          $result['action'] = $m[1];
+          continue;
+        }
       }
     }
 
