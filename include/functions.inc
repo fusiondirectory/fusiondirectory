@@ -1573,9 +1573,11 @@ function fopenWithErrorHandling (...$args)
 {
   $errors = [];
   set_error_handler(
-    function ($errno, $errstr, $errfile, $errline, $errcontext) use (&$errors)
+    function (int $errno, string $errstr, string $errfile, int $errline, array $errcontext) use (&$errors): bool
     {
       $errors[] = $errstr;
+
+      return TRUE;
     }
   );
   $fh = @fopen(...$args);
