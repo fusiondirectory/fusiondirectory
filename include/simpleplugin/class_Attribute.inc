@@ -778,6 +778,11 @@ class Attribute
     return $js;
   }
 
+  function renderFormInput (): string
+  {
+    throw new \FusionDirectoryException('Not implemented in base class (abstract method)');
+  }
+
   function renderTemplateInput (): string
   {
     return $this->renderFormInput();

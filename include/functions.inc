@@ -248,11 +248,11 @@ function array_remove_entries (array $needles, array $haystack): array
  * Removes every element that is in $needles from the
  * array given as $haystack but case insensitive
  *
- * @param array<int|string|bool|null|float|double|Stringable> $needles array of the entries to remove
+ * @param array<int|string|bool|null|float|double|object> $needles array of the entries to remove
  *
- * @param array<int|string|bool|null|float|double|Stringable> $haystack original array to remove the entries from
+ * @param array<int|string|bool|null|float|double|object> $haystack original array to remove the entries from
  *
- * @return array<int,int|string|bool|null|float|double|Stringable>
+ * @return array<int,int|string|bool|null|float|double|object>
  */
 function array_remove_entries_ics (array $needles, array $haystack): array
 {
@@ -266,11 +266,11 @@ function array_remove_entries_ics (array $needles, array $haystack): array
  * Merges two arrays and removes duplicate entries. Triggers
  * an error if first or second parametre is not an array.
  *
- * @param array<int|string|bool|null|float|double|Stringable> $ar1 first array
+ * @param array<int|string|bool|null|float|double|object> $ar1 first array
  *
- * @param array<int|string|bool|null|float|double|Stringable> $ar2 second array
+ * @param array<int|string|bool|null|float|double|object> $ar2 second array
  *
- * @return array<int,int|string|bool|null|float|double|Stringable>
+ * @return array<int,int|string|bool|null|float|double|object>
  */
 function array_merge_unique (array $ar1, array $ar2): array
 {
@@ -1057,9 +1057,9 @@ function array_key_ics ($ikey, array $items)
 /**
  * Determine if two arrays are different
  *
- * @param array<int|string|bool|null|float|double|Stringable> $src The source
+ * @param array<int|string|bool|null|float|double|object> $src The source
  *
- * @param array<int|string|bool|null|float|double|Stringable> $dst The destination
+ * @param array<int|string|bool|null|float|double|object> $dst The destination
  *
  * @return bool TRUE or FALSE
  */
@@ -1573,9 +1573,11 @@ function fopenWithErrorHandling (...$args)
 {
   $errors = [];
   set_error_handler(
-    function ($errno, $errstr, $errfile, $errline, $errcontext) use (&$errors)
+    function (int $errno, string $errstr, string $errfile, int $errline, array $errcontext) use (&$errors): bool
     {
       $errors[] = $errstr;
+
+      return TRUE;
     }
   );
   $fh = @fopen(...$args);

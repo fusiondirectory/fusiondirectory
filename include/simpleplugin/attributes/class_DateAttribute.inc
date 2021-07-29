@@ -396,7 +396,7 @@ class EpochDaysDateAttribute extends DateAttribute
 
   protected function ldapToDate ($ldapValue)
   {
-    $date = DateTime::createFromFormat('U', $ldapValue * static::$secondsPerDay, timezone::utc());
+    $date = DateTime::createFromFormat('U', (string)($ldapValue * static::$secondsPerDay), timezone::utc());
     if ($date !== FALSE) {
       return $date;
     } else {

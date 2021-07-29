@@ -66,6 +66,18 @@ create_php_code_sniffer_rapport:
     - PHP_MIN_VERSION=$(grep PHP_MIN_VERSION include/variables_common.inc| cut -d\' -f4| cut -d"." -f 1-2)
     - phpcs --standard=PHPCompatibility --runtime-set testVersion $PHP_MIN_VERSION- --file-list=./filelist
 
+# phpstan
+create_phpstan_rapport:
+  image: registry.fusiondirectory.org/fusiondirectory/fd/phpstan:buster
+  stage: codestyle
+  only:
+    - branches
+  script:
+    - test -d ../dev-tools/ && rm -Rf ../dev-tools/
+    - git clone --depth 1 https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
+    - cp ../dev-tools/phpstan/fusiondirectory/1.4-dev/*.neon .
+    - /root/.composer/vendor/bin/phpstan analyse -c phpstan.neon
+
 # fusiondirectory-update-locale
 fusiondirectory-update-locale:
   image: registry.fusiondirectory.org/fusiondirectory/fd/transifex-cli:stretch
