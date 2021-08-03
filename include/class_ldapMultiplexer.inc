@@ -37,6 +37,9 @@
   * @method string|resource cat ($dn, $attrs = ["*"], $filter = "(objectclass=*)")
   * @method int count ()
   * @method bool success ()
+  * @method true|0|"" rmdir_recursive (string $deletedn)
+  * @method void create_missing_trees (string $target, bool $ignoreReferralBases = TRUE)
+  * @method mixed add ($attrs)
   */
 class ldapMultiplexer
 {

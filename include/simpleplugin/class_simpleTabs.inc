@@ -41,6 +41,9 @@ class simpleTabs implements FusionDirectoryDialog
   var $current    = "";
   var $disabled   = "";
   var $by_name    = [];
+  /**
+   * @var array<string,SimpleTab>
+   */
   var $by_object  = [];
   var $acl_category;
 
@@ -181,7 +184,7 @@ class simpleTabs implements FusionDirectoryDialog
     }
   }
 
-  function getBaseObject ()
+  function getBaseObject (): SimpleTab
   {
     return $this->by_object[$this->baseclass];
   }
