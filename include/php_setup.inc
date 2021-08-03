@@ -229,8 +229,7 @@ function gosaRaiseError ($errno, $errstr, $errfile, $errline)
                               "*** FusionDirectory bug report ***".
                               "\nFusionDirectory Version: $version".
                               "\n\n".
-                              "Please describe what you did to produce this error as detailed as possible. Can you ".
-                              "reproduce this bug using the demo on http://demo.FusionDirectory.org ?".
+                              "Please describe what you did to produce this error as detailed as possible.".
                               "\n\n".
                               "*** PHP error information ***\n\n");
 
