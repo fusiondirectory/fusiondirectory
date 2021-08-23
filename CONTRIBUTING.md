@@ -114,8 +114,8 @@ Fill out the **Contribution** template to create thoses issues, the information 
 * **Provide a step-by-step description of the contribution** in as many details as possible.
 * **Include screenshots and animated GIFs** which help you demonstrate what this contribution is about. You can use [this tool](http://www.cockos.com/licecap/) to record GIFs on macOS and Windows, and [this tool](https://github.com/colinkeenan/silentcast) or [this tool](https://github.com/GNOME/byzanz) on Linux.
 * **Explain why this contribution would be useful** to most FusionDirectory users.
-* **Follow the** [Coding style](https://fusiondirectory-developer-documentation.readthedocs.io/en/latest/coding/codingstandards.html)
-* **Use our** `PHP CodeSniffer <http://pear.php.net/package/PHP_CodeSniffer>`_ rules to check code compliance [CodeSniffer](https://fusiondirectory-developer-documentation.readthedocs.io/en/latest/coding/codingstandards.html#checking-standards)
+* **Follow the** [Coding style](https://fusiondirectory-developer-documentation.readthedocs.io/en/1.4/fusiondirectory/coding/codingstandards.html)
+* **Use our** `PHP CodeSniffer <http://pear.php.net/package/PHP_CodeSniffer>`_ rules to check code compliance [CodeSniffer](https://fusiondirectory-developer-documentation.readthedocs.io/en/1.4/fusiondirectory/coding/codingstandards.html)
 
 ## Coding with style
 
@@ -174,7 +174,7 @@ close #5685
 
 ### PHP style Guide
 
-To be sure to respect our guidelines, read [Coding standards](https://fusiondirectory-developer-documentation.readthedocs.io/en/latest/coding/index.html)
+To be sure to respect our guidelines, read [Coding standards](https://fusiondirectory-developer-documentation.readthedocs.io/en/1.4/fusiondirectory/coding/codingstandards.html)
 
 ## Licensing
 

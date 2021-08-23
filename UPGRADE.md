@@ -3265,7 +3265,7 @@ Fonctionality removed
 
 [php-cas]: http://packages.ubuntu.com/trusty/all/php-cas/download
 
-[repo-urls]: https://fusiondirectory-user-manual.readthedocs.io/en/1.3/fusiondirectory/install/index.html
+[repo-urls]: https://fusiondirectory-user-manual.readthedocs.io/en/1.4/fusiondirectory/install/index.html
 
 ---
 * Further information
