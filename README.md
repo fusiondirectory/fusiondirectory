@@ -68,7 +68,19 @@ There are a couple ways you can try [to get help][get help].You can also join th
 
 ### Professional support
 
-If you need professional support you can [get support][get support] and chose one of the options available. 
+Professional support is provided through of subscription.
+
+We have two type of subscription :
+
+* [FusionDirectory][subscription-fusiondirectory] : Global subscription for FusionDirectory and all the plugins
+* [FusionDirectory Plus][subscription-fusiondirectory-plus] : Expert Support on Education, Deployement and Infrastructure plugins
+
+The subscription provides access to FusionDirectory's stable enterprise repository, providing reliable software updates and security enhancements,
+as well as technical help and support.
+
+Choose the plan that's right for you. Our subscriptions are flexible and scalable according to your needs
+
+The subscription period is one year from the date of purchase and gives you access to the extensive infrastructure of enterprise-class software and services.
 
 You can [register on our system][register] and enter issues [FusionDirectory][issues-core] for the core program, and 
 [FusionDirectory Plugins][issues-plugins] for plugins.
@@ -109,7 +121,9 @@ If you like us and want to send us a small contribution you can use the followin
 
 [get help]: https://www.fusiondirectory.org/en/communaute/
 
-[get support]: https://www.fusiondirectory.org/en/support/
+[subscription-fusiondirectory]: https://www.fusiondirectory.org/en/subscription-fusiondirectory/
+
+[subscription-fusiondirectory-plus]: https://www.fusiondirectory.org/en/subscriptions-fusiondirectory-plus/
 
 [register]: https://register.fusiondirectory.org
 
