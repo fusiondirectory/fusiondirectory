@@ -34,7 +34,7 @@ All projects and everyone participating in it is governed by [FusionDirectory Co
 
 We have an various channel of communications
 
-*  [#fusiondirectory, the irc channel of FusionDirectory on freenode](https://webchat.freenode.net/), channel #fusiondirectory
+*  [#fusiondirectory, the irc channel of FusionDirectory on Libera](https://web.libera.chat/), channel #fusiondirectory
 *  [FusionDirectory Users mailing list](https://lists.fusiondirectory.org/wws/info/users)
 *  [FusionDirectory dev mailing list](https://lists.fusiondirectory.org/wws/info/developpers)
 
