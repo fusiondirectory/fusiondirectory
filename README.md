@@ -64,7 +64,7 @@ Be aware that if your naming policy of user cn's differs from the way FusionDire
 
 ### Community support
 
-There are a couple ways you can try [to get help][get help].You can also join the `#fusiondirectory` IRC channel at freenode.net.
+There are a couple ways you can try [to get help][get help].You can also join the `#fusiondirectory` IRC channel at libera.chat.
 
 ### Professional support
 
