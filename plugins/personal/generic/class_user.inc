@@ -96,7 +96,7 @@ class user extends simplePlugin
           ),
           new StringAttribute(
             _('First name'), _('First name of this user'),
-            'givenName', TRUE,
+            'givenName', ($config->get_cfg_value('GivenNameRequired', 'TRUE') === 'TRUE'),
             '', '', '/^[^,+"?()=<>;\\\\]+$/'
           ),
           new StringAttribute(

@@ -264,6 +264,12 @@ class configInLdap extends simplePlugin
             '%givenName% %sn%'
           ),
           new BooleanAttribute(
+            _('Mandatory first name'),
+            _('Whether first name (givenName) should be a mandatory field on users'),
+            'fdGivenNameRequired', FALSE,
+            TRUE
+          ),
+          new BooleanAttribute(
             _('Strict naming policy'),
             _('Enables strict checking of user and group names'),
             'fdStrictNamingRules', FALSE,
