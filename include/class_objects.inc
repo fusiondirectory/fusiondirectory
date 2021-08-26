@@ -440,16 +440,18 @@ class objects
         $infos['filterRDN'] = '';
       } else {
         $parts = ldap_explode_dn(preg_replace('/,$/', '', $infos['ou']), 0);
-        unset($parts['count']);
-        $dnFilter = [];
-        foreach ($parts as $part) {
-          preg_match('/([^=]+)=(.*)$/', $part, $m);
-          $dnFilter[] = '('.$m[1].':dn:='.$m[2].')';
-        }
-        if (count($dnFilter) > 1) {
-          $infos['filterRDN'] = '(&'.implode('', $dnFilter).')';
-        } else {
-          $infos['filterRDN'] = $dnFilter[0];
+        if ($parts !== FALSE) {
+          unset($parts['count']);
+          $dnFilter = [];
+          foreach ($parts as $part) {
+            preg_match('/([^=]+)=(.*)$/', $part, $m);
+            $dnFilter[] = '('.$m[1].':dn:='.$m[2].')';
+          }
+          if (count($dnFilter) > 1) {
+            $infos['filterRDN'] = '(&'.implode('', $dnFilter).')';
+          } else {
+            $infos['filterRDN'] = $dnFilter[0];
+          }
         }
       }
     }
