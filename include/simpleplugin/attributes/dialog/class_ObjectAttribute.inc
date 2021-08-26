@@ -169,6 +169,16 @@ class ObjectAttribute extends DialogButtonAttribute
     }
   }
 
+  public function getForHtmlId (): string
+  {
+    $id = $this->getHtmlId();
+    if ($this->isTemplate()) {
+      return $id;
+    } else {
+      return $id.'_dialog';
+    }
+  }
+
   public function htmlIds (): array
   {
     $id   = $this->getHtmlId();
