@@ -129,7 +129,7 @@
 {include file={filePath file="copynotice.tpl"}}
 
   <!-- Place cursor in email field -->
-  <script type="text/javascript">
+  <script>
     <!-- // First input field on page
     focus_field('error_accept','login','directory','username','current_password','email_address');
     next_msg_dialog();

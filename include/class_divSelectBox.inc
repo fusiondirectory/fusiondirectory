@@ -105,7 +105,7 @@ class divSelectBox
     $s_return .= '</table></div></div>';
     if ($this->headers !== FALSE) {
       $s_return .=
-        '<script type="text/javascript">
+        '<script>
           var sorter'.$this->id.' = tsorter.create(\''.$this->id.'\');
         </script>';
     }

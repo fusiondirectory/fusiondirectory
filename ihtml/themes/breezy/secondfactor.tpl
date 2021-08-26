@@ -41,7 +41,7 @@
 
 {include file={filePath file="copynotice.tpl"}}
 
-<script type="text/javascript">
+<script>
 <!--
   next_msg_dialog();
 -->

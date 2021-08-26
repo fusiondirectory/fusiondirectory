@@ -14,7 +14,7 @@
 
 {if isset($focusedField)}
   <!-- Place cursor -->
-  <script type="text/javascript">
+  <script>
     <!-- // First input field on page
       focus_field('{$focusedField|escape}');
     -->
