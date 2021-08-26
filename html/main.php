@@ -249,7 +249,7 @@ if ($error_collector != "") {
   $smarty->assign("php_errors", "");
 }
 
-$focus = '<script type="text/javascript">';
+$focus = '<script>';
 $focus .= 'next_msg_dialog();';
 $focus .= '</script>';
 $smarty->assign('focus',      $focus);

@@ -45,7 +45,7 @@
         {/if}
       </div>
     </div>
-    <script type="text/javascript">
+    <script>
       focus_field('MSG_OK{$dialog.id}');
     </script>
   {/foreach}

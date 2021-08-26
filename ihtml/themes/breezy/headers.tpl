@@ -15,19 +15,19 @@
 
   <link rel="shortcut icon" href="favicon.ico"/>
 
-  <script src="include/prototype.js" type="text/javascript"></script>
-  <script src="include/fusiondirectory.js" type="text/javascript"></script>
+  <script src="include/prototype.js"></script>
+  <script src="include/fusiondirectory.js"></script>
 {if $usePrototype == 'true'}
-  <script src="include/scriptaculous.js" type="text/javascript"></script>
-  <script src="include/builder.js" type="text/javascript"></script>
-  <script src="include/effects.js" type="text/javascript"></script>
-  <script src="include/dragdrop.js" type="text/javascript"></script>
-  <script src="include/controls.js" type="text/javascript"></script>
-  <script src="include/pulldown.js" type="text/javascript"></script>
+  <script src="include/scriptaculous.js"></script>
+  <script src="include/builder.js"></script>
+  <script src="include/effects.js"></script>
+  <script src="include/dragdrop.js"></script>
+  <script src="include/controls.js"></script>
+  <script src="include/pulldown.js"></script>
 {/if}
-  <script src="include/tsorter.js" type="text/javascript"></script>
+  <script src="include/tsorter.js"></script>
 {foreach from=$js_files item=file}
-  <script src="{$file}" type="text/javascript"></script>
+  <script src="{$file}"></script>
 {/foreach}
 </head>
 

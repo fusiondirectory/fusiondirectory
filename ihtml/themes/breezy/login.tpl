@@ -47,7 +47,7 @@
 
       <!-- check, if cookies are enabled -->
       <p class="fusiondirectoryLoginWarning">
-       <script type="text/javascript">
+       <script>
         <!--
         document.cookie = "fdtest=empty;path=/";
         if (document.cookie.indexOf( "fdtest=") > -1 )
@@ -76,7 +76,7 @@
 
 {include file={filePath file="copynotice.tpl"}}
 
-<script type="text/javascript">
+<script>
 <!--
   enable_keyPress = false;
   focus_field("{$focusfield|escape}");

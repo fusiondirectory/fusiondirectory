@@ -10,7 +10,7 @@
   value="{$currentValue|escape}"/>
 
 <div id="autocomplete_{$pid}" class="autocomplete"></div>
-<script type="text/javascript">
+<script>
   new Ajax.Autocompleter('{$htmlid}', 'autocomplete_{$pid}', 'autocomplete.php?type=base', { minChars: 3, frequency: 0.5 });
   {if $submitButton}
     $('{$htmlid}').observe(

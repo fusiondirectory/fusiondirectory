@@ -57,7 +57,7 @@
 
 
   <!-- Automatic logout when session is expired -->
-  <script type="text/javascript">
+  <script>
   {literal}
    function logout()
    {

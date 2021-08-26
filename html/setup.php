@@ -116,7 +116,7 @@ setup::mainInc();
  * @var string $display filled by setup::mainInc
  */
 
-$focus = '<script type="text/javascript">';
+$focus = '<script>';
 $focus .= 'next_msg_dialog();';
 $focus .= '</script>';
 
