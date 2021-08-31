@@ -112,40 +112,43 @@ class logging
     global $config;
 
     static $first = TRUE;
-    if (($_SERVER['REQUEST_METHOD'] == 'POST') && preg_match('/index.php$/', $_SERVER['REQUEST_URI'])) {
-      return;
-    }
 
     if (session::get('DEBUGLEVEL') & $level) {
+      $output = '';
       if ($first) {
-        echo '<div id="debug-handling" class="notice">'.
+        $output .= '<div id="debug-handling" class="notice">'.
               '<img src="geticon.php?context=status&amp;icon=dialog-information&amp;size=22" alt="Information" style="vertical-align:middle;margin-right:.2em;"/>'.
               'There is some debug output '.
               '<button onClick="javascript:$$(\'div.debug_div\').each(function (a) { a.toggle(); });">Toggle</button>'.
             '</div>';
         $first = FALSE;
       }
-      $output = "DEBUG[$level] ";
+      $logline = "DEBUG[$level] ";
       if ($function != '') {
-        $output .= "($file:$function():$line) - $info: ";
+        $logline .= "($file:$function():$line) - $info: ";
       } else {
-        $output .= "($file:$line) - $info: ";
+        $logline .= "($file:$line) - $info: ";
       }
-      echo '<div class="debug_div">';
-      echo $output;
-      $logline = $output;
+      $output .= '<div class="debug_div">';
+      $output .= $logline;
       if (is_array($data)) {
-        print_a($data);
+        $output .= print_a($data, TRUE);
         $logline .= print_r($data, TRUE);
       } else {
-        echo "'$data'";
-        $logline .= "'$data'";
+        $output   .= "'$data'";
+        $logline  .= "'$data'";
       }
-      echo "</div>\n";
+      $output .= "</div>\n";
 
       if (is_object($config) && preg_match('/true/i', $config->get_cfg_value('debugLogging', ''))) {
         fusiondirectory_log($logline);
       }
+
+      if (($_SERVER['REQUEST_METHOD'] == 'POST') && preg_match('/index.php$/', $_SERVER['REQUEST_URI'])) {
+        return;
+      }
+
+      echo $output;
     }
   }
 

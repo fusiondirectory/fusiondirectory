@@ -37,8 +37,12 @@ class LDAP
   var $reconnect      = FALSE;
   var $tls            = FALSE;
 
-  /* connection identifier */
-  var $cid;
+  /**
+   * Connection identifier
+   *
+   * @var resource|object|false
+   */
+  var $cid            = FALSE;
 
   var $hasres         = [];
   var $sr             = [];
@@ -294,7 +298,7 @@ class LDAP
   function unbind ()
   {
     @ldap_unbind($this->cid);
-    $this->cid = NULL;
+    $this->cid = FALSE;
     logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, '', 'unbind');
   }
 
@@ -306,6 +310,7 @@ class LDAP
     if ($this->hascon) {
       @ldap_close($this->cid);
       $this->hascon = FALSE;
+      $this->cid    = FALSE;
     }
     logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, '', 'disconnect');
   }
@@ -769,9 +774,8 @@ class LDAP
       $r = ldap_rename($this->cid, $source, $dest_rdn, $parent, TRUE);
       $this->error = ldap_error($this->cid);
 
-      /* Check if destination dn exists, if not the
-          server may not support this operation */
-      $r &= is_resource($this->dn_exists($dest));
+      /* Check if destination dn exists, if not the server may not support this operation */
+      $r &= $this->dn_exists($dest);
       logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'rename("'.$source.'","'.$dest.'")');
       return $r;
     } else {
@@ -1119,7 +1123,7 @@ class LDAP
     if ($this->error == 'Success') {
       return 0;
     } else {
-      return ldap_errno($this->cid);
+      return @ldap_errno($this->cid);
     }
   }
 
@@ -1202,7 +1206,7 @@ class LDAP
 
     // Try to open the process
     $process = proc_open($cmd, $descriptorspec, $pipes);
-    if (is_resource($process)) {
+    if ($process !== FALSE) {
       // Write the password to stdin
       fclose($pipes[0]);
 
@@ -1221,10 +1225,10 @@ class LDAP
     return $res;
   }
 
-  function dn_exists ($dn)
+  function dn_exists ($dn): bool
   {
     logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, '', 'dn_exists('.$dn.')');
-    return @ldap_read($this->cid, $dn, "(objectClass=*)", ["objectClass"]);
+    return (@ldap_read($this->cid, $dn, '(objectClass=*)', ['objectClass']) !== FALSE);
   }
 
   function parseLdif (string $str_attr): array
