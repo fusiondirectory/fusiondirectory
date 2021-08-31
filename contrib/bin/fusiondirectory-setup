@@ -283,9 +283,9 @@ created $fd_secrets.
 Example:
 
 # Include FusionDirectory to your web service
-Alias /fusiondirectory $vars{fd_home}
+Alias /fusiondirectory $vars{fd_home}/html
 
-<Directory $vars{fd_home}>
+<Directory $vars{fd_home}/html>
   # Include the secrects file
   include $fd_secrets
 </Directory>
