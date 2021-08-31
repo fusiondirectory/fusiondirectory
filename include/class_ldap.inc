@@ -101,6 +101,14 @@ class LDAP
     $this->connect();
   }
 
+  /*! \brief Remove bogus resources after unserialize
+   */
+  public function __wakeup ()
+  {
+    $this->cid    = FALSE;
+    $this->hascon = FALSE;
+  }
+
   /*!
    * \brief Initialize a LDAP connection
    *
@@ -1085,7 +1093,7 @@ class LDAP
    *
    * \return boolean TRUE if Success is found in $error, else return FALSE
    */
-  function success ()
+  function success (): bool
   {
     return (trim($this->error) === 'Success');
   }
@@ -1093,7 +1101,7 @@ class LDAP
   /*!
    * \brief Get the error
    */
-  function get_error ($details = TRUE)
+  function get_error ($details = TRUE): string
   {
     if (($this->error == 'Success') || !$details) {
       return $this->error;
@@ -1118,12 +1126,12 @@ class LDAP
    *
    * Must be run right after the ldap request
    */
-  function get_errno ()
+  function get_errno (): int
   {
     if ($this->error == 'Success') {
       return 0;
     } else {
-      return @ldap_errno($this->cid);
+      return @ldap_errno($this->cid) ?? -1;
     }
   }
 
@@ -1132,7 +1140,7 @@ class LDAP
    *
    * Must be run right after the search
    */
-  function hitSizeLimit ()
+  function hitSizeLimit (): bool
   {
     /* LDAP_SIZELIMIT_EXCEEDED 0x04 */
     return ($this->get_errno() == 0x04);
