@@ -42,6 +42,10 @@ class simpleService extends simplePlugin
   {
     /* $parent is the instance of servicesManagement in this case, we set it as parent */
     parent::__construct($dn, $parent, $parent, FALSE, $attributesInfo);
+
+    /* Services do not have the activation header, but can still be disabled */
+    $this->ignore_account = FALSE;
+
     $plInfos = pluglist::pluginInfos(get_class($this));
     $this->DisplayName  = $plInfos['plShortName'];
   }
