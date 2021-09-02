@@ -3275,7 +3275,7 @@ on https://gitlab.fusiondirectory.org
 
 Documentation: https://fusiondirectory-user-manual.readthedocs.io/en/1.3/index.html
 Mailinglist:   https://lists.fusiondirectory.org/
-Irc:           #fusiondirectory on freenode
+Irc:           #fusiondirectory on libera.chat
 
 ---
 The FusionDirectory project https://www.fusiondirectory.org/
