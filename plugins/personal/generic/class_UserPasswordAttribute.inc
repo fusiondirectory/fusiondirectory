@@ -195,7 +195,7 @@ class UserPasswordAttribute extends CompositeAttribute
         $parts = explode('|', $value, 3);
         if ((count($parts) < 3) || !in_array($parts[1], ['TRUE','FALSE'])) {
           /* Old format from FD<1.4 */
-          list($value, $password) = $parts;
+          list($value, $password) = explode('|', $value, 2);
         } else {
           list($pw_storage, $locked, $password) = $parts;
           return [$pw_storage, $password, $password, $this->attributes[3]->getValue(), $locked];
