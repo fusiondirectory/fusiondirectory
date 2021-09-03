@@ -4,9 +4,9 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Paola Penati <paola.penati@opensides.be>, 2019
+# Paola Penati <paola.penati@fusiondirectory.org>, 2019
 # fusiondirectory <contact@fusiondirectory.org>, 2019
-# Paola <paola.penati@fusiondirectory.org>, 2020
+# Paola Penati <paola.penati@fusiondirectory.org>, 2020
 # 
 #, fuzzy
 msgid ""
