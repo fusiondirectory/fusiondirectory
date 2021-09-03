@@ -489,7 +489,7 @@ Modify your LDIF like below:
   * Before
 
 ```ldif
-cn=namePhone,ou=phones,ou=systems,dc=labo,dc=opensides,dc=be
+cn=namePhone,ou=phones,ou=systems,dc=fusiondirectory,dc=org
 cn: namePhone
 goFonType: friend
 goFonDmtfMode: inband
