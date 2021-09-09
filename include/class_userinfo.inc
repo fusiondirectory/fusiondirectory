@@ -1125,14 +1125,6 @@ class userinfo
       }
     }
 
-    if (class_available('ppolicyAccount') && !function_exists('ldap_bind_ext')) {
-      $ldap->cd($config->current['BASE']);
-      $ldap->search('(objectClass=*)', [], 'one');
-      if (!$ldap->success()) {
-        $ui->forcePasswordChange = TRUE;
-      }
-    }
-
     /* Username is set, load ACLs now */
     $ui->loadACL();
 

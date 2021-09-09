@@ -196,73 +196,57 @@ class LDAP
       }
 
       $this->error = 'No Error';
-      if (function_exists('ldap_bind_ext')) {
-        /* PHP>=7.3 */
-        // phpcs:disable PHPCompatibility.Constants.NewConstants, PHPCompatibility.FunctionUse.NewFunctionParameters, PHPCompatibility.FunctionUse.NewFunctions
-        $serverctrls = [];
-        if (class_available('ppolicyAccount')) {
-          $serverctrls = [['oid' => LDAP_CONTROL_PASSWORDPOLICYREQUEST]];
-        }
-        $result = @ldap_bind_ext($this->cid, $this->binddn, $this->bindpw, $serverctrls);
-        if (@ldap_parse_result($this->cid, $result, $errcode, $matcheddn, $errmsg, $referrals, $ctrls)) {
-          if (isset($ctrls[LDAP_CONTROL_PASSWORDPOLICYRESPONSE]['value']['error'])) {
-            $this->hascon = FALSE;
-            switch ($ctrls[LDAP_CONTROL_PASSWORDPOLICYRESPONSE]['value']['error']) {
-              case 0:
-                /* passwordExpired - password has expired and must be reset */
-                $this->error = _('It seems your user password has expired. Please use <a href="recovery.php">password recovery</a> to change it.');
-                break;
-              case 1:
-                /* accountLocked */
-                $this->error = _('Account locked. Please contact your system administrator!');
-                break;
-              case 2:
-                /* changeAfterReset - password must be changed before the user will be allowed to perform any other operation */
-                $this->error = 'changeAfterReset';
-                break;
-              case 3:
-                /* passwordModNotAllowed */
-              case 4:
-                /* mustSupplyOldPassword */
-              case 5:
-                /* insufficientPasswordQuality */
-              case 6:
-                /* passwordTooShort */
-              case 7:
-                /* passwordTooYoung */
-              case 8:
-                /* passwordInHistory */
-              default:
-                $this->error = sprintf(_('Unexpected ppolicy error "%s", please contact the administrator'), $ctrls[LDAP_CONTROL_PASSWORDPOLICYRESPONSE]['value']['error']);
-                break;
-            }
-            // Note: Also available: expire, grace
-          } else {
-            $this->hascon = ($errcode == 0);
-            if ($errcode == 49) {
-              $this->error = static::invalidCredentialsError();
-            } elseif (empty($errmsg)) {
-              $this->error = ldap_err2str($errcode);
-            } else {
-              $this->error = $errmsg;
-            }
-          }
-        } else {
-          $this->error  = 'Parsing of LDAP result from bind failed';
+      $serverctrls = [];
+      if (class_available('ppolicyAccount')) {
+        $serverctrls = [['oid' => LDAP_CONTROL_PASSWORDPOLICYREQUEST]];
+      }
+      $result = @ldap_bind_ext($this->cid, $this->binddn, $this->bindpw, $serverctrls);
+      if (@ldap_parse_result($this->cid, $result, $errcode, $matcheddn, $errmsg, $referrals, $ctrls)) {
+        if (isset($ctrls[LDAP_CONTROL_PASSWORDPOLICYRESPONSE]['value']['error'])) {
           $this->hascon = FALSE;
-        }
-        // phpcs:enable
-      } elseif (@ldap_bind($this->cid, $this->binddn, $this->bindpw)) {
-        $this->error  = 'Success';
-        $this->hascon = TRUE;
-      } else {
-        if ($this->reconnect) {
-          if ($this->error != 'Success') {
-            $this->error = static::invalidCredentialsError();
+          switch ($ctrls[LDAP_CONTROL_PASSWORDPOLICYRESPONSE]['value']['error']) {
+            case 0:
+              /* passwordExpired - password has expired and must be reset */
+              $this->error = _('It seems your user password has expired. Please use <a href="recovery.php">password recovery</a> to change it.');
+              break;
+            case 1:
+              /* accountLocked */
+              $this->error = _('Account locked. Please contact your system administrator!');
+              break;
+            case 2:
+              /* changeAfterReset - password must be changed before the user will be allowed to perform any other operation */
+              $this->error = 'changeAfterReset';
+              break;
+            case 3:
+              /* passwordModNotAllowed */
+            case 4:
+              /* mustSupplyOldPassword */
+            case 5:
+              /* insufficientPasswordQuality */
+            case 6:
+              /* passwordTooShort */
+            case 7:
+              /* passwordTooYoung */
+            case 8:
+              /* passwordInHistory */
+            default:
+              $this->error = sprintf(_('Unexpected ppolicy error "%s", please contact the administrator'), $ctrls[LDAP_CONTROL_PASSWORDPOLICYRESPONSE]['value']['error']);
+              break;
           }
+          // Note: Also available: expire, grace
         } else {
-          $this->error = static::invalidCredentialsError();
+          $this->hascon = ($errcode == 0);
+          if ($errcode == 49) {
+            $this->error = static::invalidCredentialsError();
+          } elseif (empty($errmsg)) {
+            $this->error = ldap_err2str($errcode);
+          } else {
+            $this->error = $errmsg;
+          }
         }
+      } else {
+        $this->error  = 'Parsing of LDAP result from bind failed';
+        $this->hascon = FALSE;
       }
     } else {
       $this->error = 'Could not connect to LDAP server';
@@ -374,32 +358,23 @@ class LDAP
       $this->clearResult($srp);
       switch (strtolower($scope)) {
         case 'base':
-          if (isset($controls) && version_compare(PHP_VERSION, '7.3.0', '>=')) {
-            /* 7.3 and newer */
-            // phpcs:disable PHPCompatibility.FunctionUse.NewFunctionParameters
+          if (isset($controls)) {
             $this->sr[$srp] = @ldap_read($this->cid, $this->basedn, $filter, $attrs, 0, 0, 0, LDAP_DEREF_NEVER, $controls);
-            // phpcs:enable
           } else {
             $this->sr[$srp] = @ldap_read($this->cid, $this->basedn, $filter, $attrs);
           }
           break;
         case 'one':
-          if (isset($controls) && version_compare(PHP_VERSION, '7.3.0', '>=')) {
-            /* 7.3 and newer */
-            // phpcs:disable PHPCompatibility.FunctionUse.NewFunctionParameters
+          if (isset($controls)) {
             $this->sr[$srp] = @ldap_list($this->cid, $this->basedn, $filter, $attrs, 0, 0, 0, LDAP_DEREF_NEVER, $controls);
-            // phpcs:enable
           } else {
             $this->sr[$srp] = @ldap_list($this->cid, $this->basedn, $filter, $attrs);
           }
           break;
         case 'subtree':
         default:
-          if (isset($controls) && version_compare(PHP_VERSION, '7.3.0', '>=')) {
-            /* 7.3 and newer */
-            // phpcs:disable PHPCompatibility.FunctionUse.NewFunctionParameters
+          if (isset($controls)) {
             $this->sr[$srp] = @ldap_search($this->cid, $this->basedn, $filter, $attrs, 0, 0, 0, LDAP_DEREF_NEVER, $controls);
-            // phpcs:enable
           } else {
             $this->sr[$srp] = @ldap_search($this->cid, $this->basedn, $filter, $attrs);
           }
@@ -435,18 +410,8 @@ class LDAP
   function parse_result ($srp): array
   {
     if ($this->hascon && $this->hasres[$srp]) {
-      if (version_compare(PHP_VERSION, '7.3.0', '>=')) {
-        /* 7.3 and newer */
-        // phpcs:disable PHPCompatibility.FunctionUse.NewFunctionParameters
-        if (ldap_parse_result($this->cid, $this->sr[$srp], $errcode, $matcheddn, $errmsg, $referrals, $controls)) {
-          return [$errcode, $matcheddn, $errmsg, $referrals, $controls];
-        }
-        // phpcs:enable
-      } else {
-        /* PHP <= 7.2 */
-        if (ldap_parse_result($this->cid, $this->sr[$srp], $errcode, $matcheddn, $errmsg, $referrals)) {
-          return [$errcode, $matcheddn, $errmsg, $referrals];
-        }
+      if (ldap_parse_result($this->cid, $this->sr[$srp], $errcode, $matcheddn, $errmsg, $referrals, $controls)) {
+        return [$errcode, $matcheddn, $errmsg, $referrals, $controls];
       }
       throw new FusionDirectoryException(_('Parsing LDAP result failed'));
     } else {
