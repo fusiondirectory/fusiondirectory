@@ -1056,55 +1056,34 @@ class setupStepMigrate extends setupStep
     $count        = 0;
 
     do {
-      if (version_compare(PHP_VERSION, '7.3.0') >= 0) {
-        /* 7.3 and newer, use pagination control */
-        // phpcs:disable PHPCompatibility.Constants.NewConstants
-        $res = $ldap->search($filter, ['dn','objectClass'], 'subtree',
-          [['oid' => LDAP_CONTROL_PAGEDRESULTS, 'value' => ['size' => 500, 'cookie' => $cookie]]]
+      $res = $ldap->search($filter, ['dn','objectClass'], 'subtree',
+        [['oid' => LDAP_CONTROL_PAGEDRESULTS, 'value' => ['size' => 500, 'cookie' => $cookie]]]
+      );
+      if (!$res) {
+        throw new CheckFailedException(
+          _('LDAP query failed'),
+          _('Possibly the "root object" is missing.')
         );
-        if (!$res) {
-          throw new CheckFailedException(
-            _('LDAP query failed'),
-            _('Possibly the "root object" is missing.')
-          );
-        }
-        try {
-          list($errcode, $matcheddn, $errmsg, $referrals, $controls) = $ldap->parse_result();
-        } catch (FusionDirectoryException $e) {
-          throw new CheckFailedException(
-            _('LDAP result parsing failed'),
-            $e->getMessage()
-          );
-        }
-        if ($errcode !== 0) {
-          throw new CheckFailedException(
-            _('LDAP error'),
-            $errcode.' - '.ldap_err2str($errcode).(!empty($errmsg) ? ' ('.$errmsg.')' : '')
-          );
-        }
-        if (isset($controls[LDAP_CONTROL_PAGEDRESULTS]['value']['cookie'])) {
-          // You need to pass the cookie from the last call to the next one
-          $cookie = $controls[LDAP_CONTROL_PAGEDRESULTS]['value']['cookie'];
-        } else {
-          $cookie = '';
-        }
-        // phpcs:enable
+      }
+      try {
+        list($errcode, $matcheddn, $errmsg, $referrals, $controls) = $ldap->parse_result();
+      } catch (FusionDirectoryException $e) {
+        throw new CheckFailedException(
+          _('LDAP result parsing failed'),
+          $e->getMessage()
+        );
+      }
+      if ($errcode !== 0) {
+        throw new CheckFailedException(
+          _('LDAP error'),
+          $errcode.' - '.ldap_err2str($errcode).(!empty($errmsg) ? ' ('.$errmsg.')' : '')
+        );
+      }
+      if (isset($controls[LDAP_CONTROL_PAGEDRESULTS]['value']['cookie'])) {
+        // You need to pass the cookie from the last call to the next one
+        $cookie = $controls[LDAP_CONTROL_PAGEDRESULTS]['value']['cookie'];
       } else {
-        /* fallback to search without pagination */
-        $ldap->set_size_limit(static::$objectNumberLimit);
-        $res = $ldap->search($filter, ['dn','objectClass']);
-        if (!$res) {
-          throw new CheckFailedException(
-            _('LDAP query failed'),
-            _('Possibly the "root object" is missing.')
-          );
-        }
-        if ($ldap->hitSizeLimit()) {
-          throw new CheckFailedException(
-            _('Sizelimit hit'),
-            sprintf(_('Sizelimit of %d hit. Please check this manually'), static::$objectNumberLimit)
-          );
-        }
+        $cookie = '';
       }
 
       while ($attrs = $ldap->fetch(TRUE)) {
