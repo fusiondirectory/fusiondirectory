@@ -63,8 +63,7 @@ create_php_code_sniffer_rapport:
     - git clone --depth 1 https://github.com/PHPCompatibility/PHPCompatibility.git ../PHPCompatibility
     - git clone --depth 1 https://github.com/PHPCSStandards/PHPCSUtils.git ../PHPCSUtils
     - phpcs --config-set installed_paths /builds/fusiondirectory/PHPCompatibility,/builds/fusiondirectory/PHPCSUtils
-    - PHP_MIN_VERSION=$(grep PHP_MIN_VERSION include/variables_common.inc| cut -d\' -f4| cut -d"." -f 1-2)
-    - phpcs --standard=PHPCompatibility --runtime-set testVersion $PHP_MIN_VERSION- --file-list=./filelist
+    - phpcs --standard=PHPCompatibility --runtime-set testVersion 7.3-7.4 --file-list=./filelist
 
 # phpstan
 create_phpstan_rapport:
