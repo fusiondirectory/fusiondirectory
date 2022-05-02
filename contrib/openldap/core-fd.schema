@@ -93,6 +93,45 @@ attributetype ( 1.3.6.1.4.1.38414.62.11.5 NAME 'fdSubscriptionName'
   DESC 'FusionDirectory - Subscription client name'
   SUP name )
 
+### Mail Template Related Attributes ###
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.1 NAME 'fdMailTemplateBody'
+  DESC 'FusionDirectory - template mail field'
+  EQUALITY octetStringMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.40)
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.2 NAME 'fdMailTemplateRDN'
+  DESC 'FusionDirectory - template Mail RDN'
+  EQUALITY caseExactIA5Match
+  SUBSTR caseExactIA5SubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE)
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.3 NAME 'fdMailTemplateSignature'
+  DESC 'FusionDirectory - template mail field'
+  EQUALITY octetStringMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.40)
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.4 NAME 'fdMailTemplateAttachment'
+  DESC 'FusionDirectory - template mail field'
+  EQUALITY octetStringMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.40)
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.5 NAME 'fdMailTemplateReadReceipt'
+  DESC 'FusionDirectory - template mail field'
+  EQUALITY octetStringMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.40)
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.6 NAME 'fdMailTemplateSubject'
+  DESC 'FusionDirectory - template mail field'
+  EQUALITY octetStringMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.40)
+
 # Classes
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.4 NAME 'gosaDepartment' SUP top AUXILIARY
@@ -130,3 +169,16 @@ objectclass ( 1.3.6.1.4.1.38414.62.2.2 NAME 'fdSubscriptionInformation' SUP top 
   DESC 'FusionDirectory - Information about current subscription'
   MUST ( cn )
   MAY ( uid $ fdSubscriptionStartDate $ fdSubscriptionEndDate $ fdSubscriptionType $ fdSubscriptionContractId $ fdSubscriptionName ))
+
+### Mail Template Related Object Class ###
+
+objectclass (1.3.6.1.4.1.38414.88.2.1 NAME 'fdMailTemplate'
+  DESC 'FusionDirectory - template mail object'
+  MUST ( cn $ fdMailTemplateBody $ fdMailTemplateSubject )
+  MAY ( fdMailTemplateSignature $ fdMailTemplateReadReceipt $ fdMailTemplateAttachment  ) )
+
+objectclass ( 1.3.6.1.4.1.38414.88.2.2 NAME 'fdMailTemplateConf'
+  DESC 'FusionDirectory Mail Template Configuration'
+  SUP top AUXILIARY
+  MUST ( cn )
+  MAY ( fdMailTemplateRDN ) )
