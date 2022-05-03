@@ -63,9 +63,9 @@ class mailTemplate extends simplePlugin
           _('Mail Signature'), _('Mail Signature'),
           'fdMailTemplateSignature', FALSE
         ),
-        new FileAttribute(
+        new FileDownloadAttribute(
           _('Attachment'), _('Import a file for this e-mail'),
-          'fdMailTemplateAttachment', FALSE
+          'fdMailTemplateAttachment', FALSE, '', TRUE
         ),
         new BooleanAttribute(
           _('Read Receipt'),
