@@ -108,25 +108,51 @@ attributetype ( 1.3.6.1.4.1.38414.88.1.2 NAME 'fdMailTemplateRDN'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
   SINGLE-VALUE)
 
-attributetype ( 1.3.6.1.4.1.38414.88.1.3 NAME 'fdMailTemplateSignature'
+attributetype ( 1.3.6.1.4.1.38414.88.1.3 NAME 'fdMTPasswordRecoveryMailSubject'
+  DESC 'FusionDirectory - template mail field'
+  EQUALITY octetStringMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.40)
+  
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.4 NAME 'fdMTPasswordRecoveryMailBody'
   DESC 'FusionDirectory - template mail field'
   EQUALITY octetStringMatch
   SUBSTR caseIgnoreSubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.40)
 
-attributetype ( 1.3.6.1.4.1.38414.88.1.4 NAME 'fdMailTemplateAttachment'
+attributetype ( 1.3.6.1.4.1.38414.88.1.5 NAME 'fdMTPasswordRecoveryMail2Subject'
   DESC 'FusionDirectory - template mail field'
   EQUALITY octetStringMatch
   SUBSTR caseIgnoreSubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.40)
 
-attributetype ( 1.3.6.1.4.1.38414.88.1.5 NAME 'fdMailTemplateReadReceipt'
+attributetype ( 1.3.6.1.4.1.38414.88.1.6 NAME 'fdMTPasswordRecoveryMail2Body'
   DESC 'FusionDirectory - template mail field'
   EQUALITY octetStringMatch
   SUBSTR caseIgnoreSubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.40)
 
-attributetype ( 1.3.6.1.4.1.38414.88.1.6 NAME 'fdMailTemplateSubject'
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.8 NAME 'fdMailTemplateSignature'
+  DESC 'FusionDirectory - template mail field'
+  EQUALITY octetStringMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.40)
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.9 NAME 'fdMailTemplateAttachment'
+  DESC 'FusionDirectory - template mail field'
+  EQUALITY octetStringMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.40)
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.10 NAME 'fdMailTemplateReadReceipt'
+  DESC 'FusionDirectory - template mail field'
+  EQUALITY octetStringMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.40)
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.11 NAME 'fdMailTemplateSubject'
   DESC 'FusionDirectory - template mail field'
   EQUALITY octetStringMatch
   SUBSTR caseIgnoreSubstringsMatch
@@ -177,7 +203,14 @@ objectclass (1.3.6.1.4.1.38414.88.2.1 NAME 'fdMailTemplate'
   MUST ( cn $ fdMailTemplateBody $ fdMailTemplateSubject )
   MAY ( fdMailTemplateSignature $ fdMailTemplateReadReceipt $ fdMailTemplateAttachment  ) )
 
-objectclass ( 1.3.6.1.4.1.38414.88.2.2 NAME 'fdMailTemplateConf'
+
+objectclass (1.3.6.1.4.1.38414.88.2.2 NAME 'fdMailTemplateUserRecovery'
+  DESC 'FusionDirectory - template mail object Recovery'
+  SUP top AUXILIARY
+  MUST ( cn )
+  MAY ( fdMTPasswordRecoveryMailSubject $ fdMTPasswordRecoveryMailBody $ fdMTPasswordRecoveryMail2Subject $ fdMTPasswordRecoveryMail2Body) )
+
+objectclass ( 1.3.6.1.4.1.38414.88.2.3 NAME 'fdMailTemplateConf'
   DESC 'FusionDirectory Mail Template Configuration'
   SUP top AUXILIARY
   MUST ( cn )
