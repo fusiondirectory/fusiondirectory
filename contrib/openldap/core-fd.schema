@@ -158,6 +158,81 @@ attributetype ( 1.3.6.1.4.1.38414.88.1.11 NAME 'fdMailTemplateSubject'
   SUBSTR caseIgnoreSubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.40)
 
+# Attributes for mail template user reminder
+
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.12 NAME 'fdMTUserReminderForwardAlert'
+  DESC 'FusionDirectory - Forward alerts to manager'
+  EQUALITY booleanMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.13 NAME 'fdMTUserReminderForwardConfirmation'
+  DESC 'FusionDirectory - Forward postpone confirmations to manager'
+  EQUALITY booleanMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.14 NAME 'fdMTUserReminderAlertSubject'
+  DESC 'Fusion Directory - User reminder alert email subject'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.15 NAME 'fdMTUserReminderAlertBody'
+  DESC 'Fusion Directory - User reminder alert email body'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.16 NAME 'fdMTUserReminderConfirmationSubject'
+  DESC 'Fusion Directory - User reminder confirmation email subject'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.17 NAME 'fdMTUserReminderConfirmationBody'
+  DESC 'Fusion Directory - User reminder confirmation email body'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.18 NAME 'fdMTUserReminderForwardPpolicyAlert'
+  DESC 'FusionDirectory - Forward ppolicy alerts to manager'
+  EQUALITY booleanMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.19 NAME 'fdMTUserReminderPpolicyAlertSubject'
+  DESC 'Fusion Directory - User reminder ppolicy alert email subject'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.20 NAME 'fdMTUserReminderPpolicyAlertBody'
+  DESC 'Fusion Directory - User reminder ppolicy alert email body'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.21 NAME 'fdMTUserReminderExpirationSubject'
+  DESC 'Fusion Directory - User reminder expired email subject'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.22 NAME 'fdMTUserReminderExpirationBody'
+  DESC 'Fusion Directory - User reminder expired email body'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.23 NAME 'fdMTUserReminderForwardExpiration'
+  DESC 'FusionDirectory - User reminder, forward expiration emails to manager'
+  EQUALITY booleanMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+  SINGLE-VALUE )
+
 # Classes
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.4 NAME 'gosaDepartment' SUP top AUXILIARY
@@ -203,7 +278,6 @@ objectclass (1.3.6.1.4.1.38414.88.2.1 NAME 'fdMailTemplate'
   MUST ( cn $ fdMailTemplateBody $ fdMailTemplateSubject )
   MAY ( fdMailTemplateSignature $ fdMailTemplateReadReceipt $ fdMailTemplateAttachment  ) )
 
-
 objectclass (1.3.6.1.4.1.38414.88.2.2 NAME 'fdMailTemplateUserRecovery'
   DESC 'FusionDirectory - template mail object Recovery'
   SUP top AUXILIARY
@@ -215,3 +289,14 @@ objectclass ( 1.3.6.1.4.1.38414.88.2.3 NAME 'fdMailTemplateConf'
   SUP top AUXILIARY
   MUST ( cn )
   MAY ( fdMailTemplateRDN ) )
+
+objectclass ( 1.3.6.1.4.1.38414.88.2.4 NAME 'fdMailTemplateUserReminder'
+  DESC 'FusionDirectory mail template user-reminder'
+  SUP top AUXILIARY
+  MUST ( cn $ fdMTUserReminderForwardConfirmation $ fdMTUserReminderForwardAlert)
+  MAY (
+  fdMTUserReminderConfirmationSubject $ fdMTUserReminderConfirmationBody $
+  fdMTUserReminderAlertSubject        $ fdMTUserReminderAlertBody $
+  fdMTUserReminderPpolicyAlertSubject $ fdMTUserReminderPpolicyAlertBody $
+  fdMTUserReminderForwardPpolicyAlert $ fdMTUserReminderExpirationSubject $ 
+  fdMTUserReminderExpirationBody $ fdMTUserReminderForwardExpiration) )

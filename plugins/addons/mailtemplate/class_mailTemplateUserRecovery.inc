@@ -34,6 +34,7 @@ class mailTemplateUserRecovery extends simplePlugin
       'plObjectClass' => ['fdMailTemplateUserRecovery'],
       'plFilter'      => '(objectClass=fdMailTemplateUserRecovery)',
       'plObjectType'  => ['mailTemplate'],
+      'plConflicts'   => ['mailTemplateUserReminder'],
       'plProvidedAcls'  => parent::generatePlProvidedAcls(static::getAttributesInfo())
     ];
   }
@@ -97,7 +98,7 @@ class mailTemplateUserRecovery extends simplePlugin
     $ldap->search('(&(objectClass=fdMailTemplateUserRecovery))', ['cn','fdMTPasswordRecoveryMailSubject']);
     while ($attrs = $ldap->fetch()) {
       if (isset($this->attrs['fdMTPasswordRecoveryMailSubject'])) {
-        $error = new FusionDirectoryError(htmlescape(sprintf(_('User Reminder Template Is Already Existing!'))));
+        $error = new FusionDirectoryError(htmlescape(sprintf(_('User Recovery Mail Template Is Already Existing!'))));
         $error->display();
 
         return FALSE;
