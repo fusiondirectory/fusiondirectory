@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org)
 
-  Copyright (C) 2018-2019 FusionDirectory
+  Copyright (C) 2018-2022 FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ class mailTemplateUserRecovery extends simplePlugin
       'plObjectClass' => ['fdMailTemplateUserRecovery'],
       'plFilter'      => '(objectClass=fdMailTemplateUserRecovery)',
       'plObjectType'  => ['mailTemplate'],
-      'plConflicts'   => ['mailTemplateUserReminder'],
+      'plConflicts'   => ['mailTemplateUserReminder', 'mailTemplateInvitations'],
       'plProvidedAcls'  => parent::generatePlProvidedAcls(static::getAttributesInfo())
     ];
   }
