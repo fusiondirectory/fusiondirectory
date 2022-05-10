@@ -42,7 +42,34 @@ class mailTemplateInvitations extends simplePlugin
   static function getAttributesInfo (): array
   {
     return  [
-
+      'main' => [
+        'name'  => _('Invitation'),
+        'attrs' => [
+          new StringAttribute(
+            _('Email subject'), _('Subject of the email sent for this invitation'),
+            'fdMTInvitationEmailSubject', TRUE
+          ),
+          new TextAreaAttribute(
+            _('Email content'), _('Content of the email sent for this invitation'),
+            'fdMTInvitationEmailContent', TRUE,
+            'A default Email here - was previously fetched by default configuration'
+          ),
+        ]
+      ],
+      'emails' => [
+        'name'  => _('Emails'),
+        'attrs' => [
+          new StringAttribute(
+            _('Reply to'), _('Email address set as "Reply to" in the sent emails'),
+            'fdMTInvitationReplyTo', FALSE
+          ),
+          new FileTextAreaAttribute(
+            _('Emails'), _('List of email adresses of people to invite - one per line'),
+            'fdMTInvitationEmailList', FALSE,
+            '.txt', TRUE, FALSE
+          ),
+        ]
+      ]
     ];
   }
 
@@ -52,23 +79,24 @@ class mailTemplateInvitations extends simplePlugin
     parent::__construct($dn, $object, $parent, $mainTab);
   }
 
-  protected function shouldSave (): bool
+  /*
+   *  Used to verify if the list of emails imported by the mails_file are correct emails format.
+   *
+   */
+  function check (): array
   {
-    global $config;
+    $errors = parent::check();
 
-    $ldap = $config->get_ldap_link();
-    $ldap->cd($config->current['BASE']);
-    $ldap->search('(&(objectClass=fdMailTemplateInvitations))', ['cn','fdMailTemplateInvitations']);
-    while ($attrs = $ldap->fetch()) {
-      if (isset($this->attrs['fdMailTemplateInvitations'])) {
-        $error = new FusionDirectoryError(htmlescape(sprintf(_('Invitations Mail Template Is Already Existing!'))));
-        $error->display();
-
-        return FALSE;
+    $emails = explode("\n", $this->fdMTInvitationEmailList);
+    foreach ($emails as $email) {
+      if (!tests::is_email($email)) {
+        $errors[] = new SimplePluginCheckError(
+          $this->attributesAccess['fdMTInvitationEmailList'],
+          htmlescape(sprintf(_('"%s" is not a valid email address'), $email))
+        );
       }
     }
 
-    return TRUE;
+    return $errors;
   }
-
 }

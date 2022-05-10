@@ -160,7 +160,6 @@ attributetype ( 1.3.6.1.4.1.38414.88.1.11 NAME 'fdMailTemplateSubject'
 
 # Attributes for mail template user reminder
 
-
 attributetype ( 1.3.6.1.4.1.38414.88.1.12 NAME 'fdMTUserReminderForwardAlert'
   DESC 'FusionDirectory - Forward alerts to manager'
   EQUALITY booleanMatch
@@ -233,6 +232,31 @@ attributetype ( 1.3.6.1.4.1.38414.88.1.23 NAME 'fdMTUserReminderForwardExpiratio
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
   SINGLE-VALUE )
 
+# Attributes for mail template invitations
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.24 NAME 'fdMTInvitationEmailSubject'
+  DESC 'FusionDirectory - Email Subject - Invitations'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.25 NAME 'fdMTInvitationEmailContent'
+  DESC 'FusionDirectory - Email Content - Invitation'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.26 NAME 'fdMTInvitationReplyTo'
+  DESC 'FusionDirectory - Email Address - Whom to Reply to invitations'
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.27 NAME 'fdMTInvitationEmailList'
+  DESC 'FusionDirectory - Lists of emails registered - received'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
+
 # Classes
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.4 NAME 'gosaDepartment' SUP top AUXILIARY
@@ -300,3 +324,9 @@ objectclass ( 1.3.6.1.4.1.38414.88.2.4 NAME 'fdMailTemplateUserReminder'
   fdMTUserReminderPpolicyAlertSubject $ fdMTUserReminderPpolicyAlertBody $
   fdMTUserReminderForwardPpolicyAlert $ fdMTUserReminderExpirationSubject $ 
   fdMTUserReminderExpirationBody $ fdMTUserReminderForwardExpiration) )
+
+objectclass ( 1.3.6.1.4.1.38414.88.2.5 NAME 'fdMailTemplateInvitations'
+  DESC 'FusionDirectory mail template Invitations'
+  SUP top AUXILIARY
+  MUST ( cn $ fdMTInvitationEmailSubject $ fdMTInvitationEmailContent)
+  MAY ( fdMTInvitationReplyTo $ fdMTInvitationEmailList ) )
