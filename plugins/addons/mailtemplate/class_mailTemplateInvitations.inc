@@ -52,24 +52,14 @@ class mailTemplateInvitations extends simplePlugin
           new TextAreaAttribute(
             _('Email content'), _('Content of the email sent for this invitation'),
             'fdMTInvitationEmailContent', TRUE,
-            'A default Email here - was previously fetched by default configuration'
+            'A default Email here - was previously fetched by default configuration - %token%'
           ),
-        ]
-      ],
-      'emails' => [
-        'name'  => _('Emails'),
-        'attrs' => [
-          new StringAttribute(
+         new StringAttribute(
             _('Reply to'), _('Email address set as "Reply to" in the sent emails'),
             'fdMTInvitationReplyTo', FALSE
           ),
-          new FileTextAreaAttribute(
-            _('Emails'), _('List of email adresses of people to invite - one per line'),
-            'fdMTInvitationEmailList', FALSE,
-            '.txt', TRUE, FALSE
-          ),
         ]
-      ]
+      ],
     ];
   }
 
@@ -79,24 +69,4 @@ class mailTemplateInvitations extends simplePlugin
     parent::__construct($dn, $object, $parent, $mainTab);
   }
 
-  /*
-   *  Used to verify if the list of emails imported by the mails_file are correct emails format.
-   *
-   */
-  function check (): array
-  {
-    $errors = parent::check();
-
-    $emails = explode("\n", $this->fdMTInvitationEmailList);
-    foreach ($emails as $email) {
-      if (!tests::is_email($email)) {
-        $errors[] = new SimplePluginCheckError(
-          $this->attributesAccess['fdMTInvitationEmailList'],
-          htmlescape(sprintf(_('"%s" is not a valid email address'), $email))
-        );
-      }
-    }
-
-    return $errors;
-  }
 }
