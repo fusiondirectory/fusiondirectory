@@ -18,16 +18,15 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class macrosConfig extends multiPluginSection
+class macrosConfig extends simplePlugin
 {
   static function plInfo (): array
   {
     return [
-      'plShortName'     => _('macrosConfiguration'),
+      'plShortName'     => _('Macro'),
       'plDescription'   => _('FusionDirectory macro configuration tool'),
-      'plObjectClass'   => ['fdMacrosConf'],
-      'plCategory'      => ['configuration'],
-      'plObjectType'    => ['smallConfig'],
+      'plObjectClass'   => ['fdMacroConf'],
+      'plObjectType'    => ['configuration'],
 
       'plProvidedAcls'  => parent::generatePlProvidedAcls(static::getAttributesInfo())
     ];
@@ -47,21 +46,55 @@ class macrosConfig extends multiPluginSection
         ]
       ],
       'Macro' => [
-        'name'  => _('Linked Object'),
+        'name'  => _('Mail Object'),
         'attrs' => [
-          new SelectAttribute(
-            _('Primary affiliation'), _('eduPersonPrimaryAffiliation - Main status of the person'),
-            'mailTemplate', FALSE
-          ),
-          new SetAttribute(
-            new SelectAttribute(
-              _('Macro'), _('List Of Available Macro'),
-              'fdMacroMail', FALSE
+         new SetAttribute(
+            new CompositeAttribute(
+              _('Macro definitions'),
+              'fdMacroMail',
+              [
+                new SelectAttribute(
+                  '', _('Macro type'),
+                  'fdMacroTypes', TRUE
+                ),
+               new StringAttribute(
+                  _('Macros User Definition'), _('Macro that will be used'),
+                  'fdMacroOption', TRUE, ''
+                ),
+              ],
+              '/^{(.+)}(.*)$/',
+              '{%s}%s',
+              '',
+              _('Macro settings (wrap the macro with % sign)')
             )
           ),
         ]
       ],
     ];
   }
+
+  function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE)
+  {
+    global $config;
+
+    parent::__construct($dn, $object, $parent, $mainTab);
+
+    /* supannTelephonePrive */
+    $MacroTypes = [
+      'LOGIN'    => _('Login'),
+      'UID'   => _('UID'),
+      'TOKEN'     => _('Token'),
+    ];
+    foreach ($config->get_cfg_value('MacroTypes', []) as $line) {
+      list($type,$label) = explode(':', $line, 2);
+      $MacroTypes[$type] = $label;
+    }
+    $this->attributesAccess['fdMacroMail']->attribute->attributes[0]->setChoices(
+      array_keys($MacroTypes),
+      array_values($MacroTypes)
+    );
+
+  }
+
 }
 
