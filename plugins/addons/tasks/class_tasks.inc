@@ -48,7 +48,7 @@ class tasks extends simplePlugin
         'name'  => _('Tasks Generic'),
         'attrs' => [
         new StringAttribute(
-          _('Task Name'), _('Mail Template Name'),
+          _('Task Name'), _('Name for this task'),
           'cn', TRUE
         ),
         ]

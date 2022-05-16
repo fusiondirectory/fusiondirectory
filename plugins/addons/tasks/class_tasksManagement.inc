@@ -21,12 +21,16 @@
 class tasksManagement extends management
 {
 
-  /* Default columns */
-
+  /*
+  *  LinkColun exists by class collumn
+  *  TasksColumn is a new class for Tasks bassed on argonaut column definition
+  */
   public static $columns = [
-    ['ObjectTypeColumn', []],
-    ['LinkColumn',       ['attributes' => 'cn', 'label' => 'Tasks']],
-    ['ActionsColumn',    ['label' => 'Actions']],
+    ['LinkColumn',  ['attributes' => 'cn', 'label' => 'Tasks']],
+    ['tasksColumn', ['attributes' => 'TYPE',   'label' => 'Types']],
+    ['tasksColumn', ['attributes' => 'TIMESTAMP', 'label' => 'Schedule']],
+    ['tasksColumn', ['attributes' => 'STATUS', 'label' => 'Status']],
+    ['ActionsColumn', ['label' => 'Actions']],
   ];
 
   static function plInfo ()
