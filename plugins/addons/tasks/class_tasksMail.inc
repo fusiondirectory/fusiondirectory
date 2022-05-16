@@ -50,6 +50,10 @@ class tasksMail extends simplePlugin
           _('Task Mail Template Name'), _('Mail Template Name'),
           'cn', TRUE
         ),
+        new SelectAttribute(
+          _('Mail Template'), _('Mail Template Object Selection'),
+          'fdTasksMailObject', FALSE
+        ),
         ]
       ],
     ];
@@ -59,6 +63,17 @@ class tasksMail extends simplePlugin
   {
     global $config;
     parent::__construct($dn, $object, $parent, $mainTab);
+
+    //Search within LDAP and retrieve all mail objects
+    $ldap = $config->get_ldap_link();
+    $ldap->cd($config->current['BASE']);
+    $ldap->search('(&(objectClass=fdMailTemplate))', ['cn']);
+    $tmpSearch = [];
+    while ($attrs = $ldap->fetch()) {
+      $tmpSearch[$attrs['cn'][0]] = $attrs['cn'][0];
+    }
+    asort($tmpSearch);
+    $this->attributesAccess['fdTasksMailObject']->setChoices(array_keys($tmpSearch), array_values($tmpSearch));
   }
 
 }
