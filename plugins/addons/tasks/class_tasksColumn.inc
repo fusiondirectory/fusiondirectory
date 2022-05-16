@@ -21,6 +21,7 @@
 
 /*!
  * \brief Column rendering Tasks
+ * Important that a "query method" must be defined in order to have the listing
  */
 class tasksColumn extends Column
 
@@ -33,7 +34,7 @@ class tasksColumn extends Column
     } else {
       switch ($this->attributes[0]) {
         case 'TYPE':
-          return static::filterTypes($value, $entry['PROGRESS']);
+          return static::filterTypes();
         case 'TIMESTAMP':
           return static::filterSchedule($value);
         case 'STATUS':
@@ -44,17 +45,10 @@ class tasksColumn extends Column
     }
   }
 
-  static function filterTypes (string $name, string $targetdn, string $targettype): string
+  static function filterTypes (): string
   {
-    $text = '';
-    if (!empty($name) && ($name != 'none')) {
-      $text = $name;
-    }
-    if (!empty($targetdn) && !empty($targettype)) {
-      return objects::link($targetdn, $targettype, '', $text, TRUE);
-    } else {
-      return htmlescape($text);
-    }
+    //A method retriving the type of the tasks.
+    return '';
   }
 
   static function filterSchedule (string $stamp): string
