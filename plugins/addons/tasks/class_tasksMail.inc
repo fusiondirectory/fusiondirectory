@@ -46,10 +46,6 @@ class tasksMail extends simplePlugin
       'taskMail' => [
         'name'  => _('Task Mail Object'),
         'attrs' => [
-        new StringAttribute(
-          _('Task Mail Template Name'), _('Mail Template Name'),
-          'cn', TRUE
-        ),
         new SelectAttribute(
           _('Mail Template'), _('Mail Template Object Selection'),
           'fdTasksMailObject', FALSE
