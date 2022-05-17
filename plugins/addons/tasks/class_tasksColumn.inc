@@ -25,7 +25,6 @@
  */
 class tasksColumn extends Column
 
-
 {
   protected function renderSingleValue (ListingEntry $entry, string $value): string
   {
@@ -36,52 +35,28 @@ class tasksColumn extends Column
         case 'TYPE':
           return static::filterTypes();
         case 'TIMESTAMP':
-          return static::filterSchedule($value);
+          return static::filterSchedule();
         case 'STATUS':
-          return static::filterStatus($entry->row, $value, $entry['SUBSTATUS']);
+          return static::filterStatus();
         default:
-          return parent::renderSingleValue($entry, $value);
+          return parent::renderSingleValue();
       }
     }
   }
 
   static function filterTypes (): string
   {
-    //A method retriving the type of the tasks.
+    //A method retrieving the type of the tasks.
     return '';
   }
 
-  static function filterSchedule (string $stamp): string
+  static function filterSchedule (): string
   {
-    if ($stamp == '19700101000000') {
-      return htmlescape(_('immediately'));
-    } else {
-      return htmlescape(date('d.m.Y H:i:s', strtotime($stamp)));
-    }
+    //A method retrieving the time set by the task
   }
 
-  static function filterStatus (int $row, string $status, string $substatus): string
+  static function filterStatus (): string
   {
-    if ($status == 'waiting') {
-      $status = '<img class="center" src="geticon.php?context=status&amp;icon=task-waiting&amp;size=16" alt="clock"/>&nbsp;'.htmlescape(_('Waiting'));
-    }
-    if ($status == 'error') {
-      $status = '<input class="center" type="image" src="geticon.php?context=status&amp;icon=task-failure&amp;size=16" title="'.htmlescape(_('Show error')).'" '.
-                'name="listing_showError_'.$row.'" style="padding:1px"/>'.htmlescape(_('Error'));
-    }
-    if ($status == 'processed') {
-      $status = '<img class="center" src="geticon.php?context=status&amp;icon=task-complete&amp;size=16" alt=""/>&nbsp;'.htmlescape(_('Processed'));
-    }
-
-    /* Special handling for all entries that have
-       STATUS == "processing" && PROGRESS == NUMERIC
-     */
-    if ($status == 'processing' && $substatus) {
-      $status = $substatus;
-    } elseif ($status == 'processing') {
-      $status = preg_replace('/ /', '&nbsp;', htmlescape(_('in progress')));
-    }
-
-    return $status;
+    //A method retrieving the status of the task
   }
 }

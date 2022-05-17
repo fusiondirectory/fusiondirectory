@@ -47,4 +47,11 @@ class tasksManagement extends management
     ];
   }
 
+  protected function setUpListing ()
+  {
+    /* Set baseMode to FALSE */
+    $this->listing  = new managementListing($this, FALSE);
+
+  }
+
 }
