@@ -51,6 +51,11 @@ class tasks extends simplePlugin
           _('Task Name'), _('Name for this task'),
           'cn', TRUE
         ),
+        new GeneralizedTimeDateAttribute(
+          _('Task Schedule'), _('Date when this task is required to be processed'),
+          'fdTasksSchedule', FALSE,
+          ''
+        ),
         ]
       ],
     ];

@@ -56,6 +56,16 @@ class tasksMail extends simplePlugin
         ),
         ]
       ],
+      'UserGroupSelection' => [
+        'name'  => _('Users and/or Groups'),
+        'attrs' => [
+          new GroupMembersAttribute(
+            '', _('Select Users/Groups'),
+            'fdTasksMailUsers', TRUE,
+            [], 'cn'
+          )
+        ]
+        ],
     ];
   }
 
@@ -64,7 +74,7 @@ class tasksMail extends simplePlugin
     global $config;
     parent::__construct($dn, $object, $parent, $mainTab);
 
-    //Search within LDAP and retrieve all mail objects
+    //Search within LDAP and retrieve all mail objects for current base.
     $ldap = $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);
     $ldap->search('(&(objectClass=fdMailTemplate))', ['cn']);
