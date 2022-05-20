@@ -1578,9 +1578,9 @@ class simplePlugin implements SimpleTab
 
       $command = templateHandling::parseString($command, $addAttrs, 'escapeshellarg');
       logging::debug(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, 'Execute');
-            exec($command, $arr, $returnCode);
+      exec($command, $arr, $returnCode);
 
-            $command = static::passwordProtect($command);
+      $command = static::passwordProtect($command);
 
       $returnOutput = $arr;
 
@@ -1597,7 +1597,7 @@ class simplePlugin implements SimpleTab
         );
       } elseif (is_array($arr)) {
         $str = implode("\n", $arr);
-                $str = static::passwordProtect($str);
+        $str = static::passwordProtect($str);
         logging::debug(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, 'Output: '.$str);
         if (!empty($str) && $config->get_cfg_value('displayHookOutput', 'FALSE') == 'TRUE') {
           msg_dialog::display('['.get_class($this).' '.strtolower($cmd).'trigger] '.$command, htmlescape($str), INFO_DIALOG);
@@ -1611,9 +1611,9 @@ class simplePlugin implements SimpleTab
    */
   protected static function passwordProtect (string $hookCommand = NULL): string
   {
-    if (isset($_POST["userPassword_password"])) {
+    if (isset($_POST["userPassword_password"]) && !empty($_POST["userPassword_password"])) {
       if (strpos($hookCommand, $_POST["userPassword_password"]) !== FALSE) {
-                $hookCommand = str_replace($_POST["userPassword_password"], '*******', $hookCommand);
+        $hookCommand = str_replace($_POST["userPassword_password"], '*******', $hookCommand);
       }
     }
       return $hookCommand;
