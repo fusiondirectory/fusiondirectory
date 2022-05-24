@@ -1603,6 +1603,7 @@ class simplePlugin implements SimpleTab
           msg_dialog::display('['.get_class($this).' '.strtolower($cmd).'trigger] '.$command, htmlescape($str), INFO_DIALOG);
         }
       }
+      unset($arr, $command, $returnCode);
     }
     return $messages;
   }
