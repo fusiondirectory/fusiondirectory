@@ -90,6 +90,8 @@ class objects
         $search_attrs = [$attrs];
       }
       foreach ($search_attrs as $search_attr) {
+        //Below str_replace allows us to remove the options, resulting in proper ACL inspection. (ACLs do not take options).
+        $search_attr = preg_replace('/;x-.*/', '', $search_attr);
         $category = $ui->getAttributeCategory($types[0], $search_attr);
         if ($category === FALSE) {
           throw new FusionDirectoryException('Could not find ACL for attribute "'.$search_attr.'" for type "'.$types[0].'"');
