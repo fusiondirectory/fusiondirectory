@@ -159,6 +159,9 @@ class LoginMethod
 
     $ui = session::get('ui');
 
+    //Create new session ID to avoir session_fixation security issues after sucess login
+    session_regenerate_id();
+
     /* Not account expired or password forced change go to main page */
     logging::log('security', 'login', $ui->uid, [], 'Logged in successfully');
     session::set('connected', 1);
