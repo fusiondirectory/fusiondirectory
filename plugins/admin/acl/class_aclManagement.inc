@@ -27,24 +27,24 @@ class aclAssignmentCreationDialog extends simplePlugin
 
   static function plInfo()
   {
-    return array(
+    return [
       'plShortName'   => _('ACL assignment creation'),
       'plShortName'   => _('ACL assignment creation'),
       'plDescription' => _('Create an ACL assignment on an arbitrary dn'),
-      'plCategory'    => array('acl'),
+      'plCategory'    => ['acl'],
 
-      'plProvidedAcls' => array()
-    );
+      'plProvidedAcls' => []
+    ];
   }
 
   static function getAttributesInfo ()
   {
     global $config;
-    return array(
-      'main' => array(
+    return [
+      'main' => [
         'name'  => _('ACL assignment creation'),
-        'class' => array('fullwidth'),
-        'attrs' => array(
+        'class' => ['fullwidth'],
+        'attrs' => [
           new StringAttribute (
             _('Dn'), _('DN you wish to add assignments for'),
             'baseDn', TRUE,
@@ -52,9 +52,9 @@ class aclAssignmentCreationDialog extends simplePlugin
             '/^([^=,]+=[^=,]+,)+'.preg_quote($config->current['BASE'], '/').'$/',
             'ou=people,'.$config->current['BASE']
           ),
-        )
-      ),
-    );
+        ]
+      ],
+    ];
   }
 
   function __construct ($parent)
@@ -107,7 +107,7 @@ class aclAssignmentCreationDialog extends simplePlugin
     try {
       $this->simpleManagement->newEntryConfirmed($this->baseDn);
     } catch (NonExistingLdapNodeException $e) {
-      msg_dialog::displayChecks(array(_('The dn you entered could not be found in the LDAP')));
+      msg_dialog::displayChecks([_('The dn you entered could not be found in the LDAP')]);
       return TRUE;
     }
     return FALSE;
@@ -122,9 +122,9 @@ class aclAssignmentCreationDialog extends simplePlugin
 
 class aclManagement extends simpleManagement
 {
-  protected $objectTypes  = array('aclAssignment');
+  protected $objectTypes  = ['aclAssignment'];
 
-  protected $autoFilterAttributes = array('dn', 'cn', 'description', 'ou', 'dc');
+  protected $autoFilterAttributes = ['dn', 'cn', 'description', 'ou', 'dc'];
 
   protected $departmentBrowser      = FALSE;
   protected $departmentRootVisible  = FALSE;
@@ -136,17 +136,17 @@ class aclManagement extends simpleManagement
 
   static function plInfo()
   {
-    return array(
+    return [
       'plShortName'   => _('ACL assignments'),
       'plTitle'       => _('ACL assignments management'),
       'plDescription' => _('Manage ACL roles assignments to users'),
       'plIcon'        => 'geticon.php?context=categories&icon=acl&size=48',
       'plSection'     => 'accounts',
       'plPriority'    => 28,
-      'plManages'     => array('aclAssignment'),
+      'plManages'     => ['aclAssignment'],
 
-      'plProvidedAcls' => array()
-    );
+      'plProvidedAcls' => []
+    ];
   }
 
   function configureFilter()
@@ -168,7 +168,7 @@ class aclManagement extends simpleManagement
   function configureHeadpage ()
   {
     /* Remove department types so that we don't mistake assignments with them */
-    $this->headpage->objectTypes = array();
+    $this->headpage->objectTypes = [];
     $this->headpage->registerElementFilter('filterLabel', 'aclManagement::filterLabel');
     parent::configureHeadpage();
   }
@@ -213,7 +213,7 @@ class aclManagement extends simpleManagement
           continue;
         }
         if (!is_array($val)) {
-          $val = array($val);
+          $val = [$val];
         }
         $ou = htmlentities(reset($val), ENT_COMPAT, 'UTF-8');
       }

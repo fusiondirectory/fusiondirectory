@@ -27,11 +27,11 @@
 error_reporting (0);
 session_cache_limiter('private');
 session::start();
-session::set('errorsAlreadyPosted', array());
+session::set('errorsAlreadyPosted', []);
 
 /* Logged in? Simple security check */
 if (!session::is_set('ui')) {
-  logging::log('security', 'unknown', '', array(), 'Error: getbin.php called without session');
+  logging::log('security', 'unknown', '', [], 'Error: getbin.php called without session');
   header ('Location: index.php');
   exit;
 }

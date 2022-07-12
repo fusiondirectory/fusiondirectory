@@ -48,7 +48,7 @@ class filterLDAP
    *
    * \param array $objectStorage
    */
-  static function query($parent, $base, $scope, $filter, $attributes, $category, $objectStorage = array(""))
+  static function query($parent, $base, $scope, $filter, $attributes, $category, $objectStorage = [""])
   {
     return static::get_list($parent, $base, $filter, $attributes, $category, $objectStorage, (($scope == 'sub') ? 'subtree' : 'one'), TRUE);
   }
@@ -80,11 +80,11 @@ class filterLDAP
 
     // Move to arrays for category and objectStorage
     if (!is_array($category)) {
-      $category = array($category);
+      $category = [$category];
     }
 
     // Initialize search bases
-    $bases = array();
+    $bases = [];
 
     foreach ($objectStorage as $oc) {
       $oc = preg_replace('/,$/', '', $oc);
@@ -103,7 +103,7 @@ class filterLDAP
         }
         $parts    = ldap_explode_dn($oc, 0);
         unset($parts['count']);
-        $dnFilter = array();
+        $dnFilter = [];
         foreach ($parts as $part) {
           preg_match('/([^=]+)=(.*)$/', $part, $m);
           $dnFilter[] = '('.$m[1].':dn:='.$m[2].')';
@@ -120,7 +120,7 @@ class filterLDAP
     $ldap = $config->get_ldap_link($sizelimit);
 
     // Do search for every base
-    $result = array();
+    $result = [];
     $limit_exceeded = FALSE;
     $ui->getSizeLimitHandler()->setLimitExceeded(FALSE);
 

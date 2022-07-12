@@ -154,8 +154,8 @@ class printAClass {
 
         case 'string':
           if ($this->look_for_leading_tabs && preg_match('/^\t/m', $value)) {
-            $search       = array('/\t/', "/\n/");
-            $replace      = array('&nbsp;&nbsp;&nbsp;','<br />');
+            $search       = ['/\t/', "/\n/"];
+            $replace      = ['&nbsp;&nbsp;&nbsp;','<br />'];
             $value        = preg_replace( $search, $replace, htmlspecialchars($value));
             $value_style  = 'color:black;border:1px gray dotted;';
           } else {

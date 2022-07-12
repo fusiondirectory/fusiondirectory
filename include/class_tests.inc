@@ -179,7 +179,7 @@ class tests
   public static function is_ip_with_subnetmask($ip)
   {
     /* Generate list of valid submasks */
-    $res = array();
+    $res = [];
     for ($e = 0; $e <= 32; $e++) {
       $res[$e] = $e;
     }
@@ -291,7 +291,7 @@ class tests
   public static function is_department_name_reserved($name)
   {
     global $config;
-    $reservedNames = array();
+    $reservedNames = [];
     foreach ($config->data['OBJECTS'] as $infos) {
       if (isset($infos['ou'])) {
         if ($infos['ou'] != '') {
