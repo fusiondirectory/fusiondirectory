@@ -408,6 +408,10 @@ class Index {
 
     if ($success) {
       /* Everything went well, redirect to main.php */
+
+      //Regenerate after login in order to avoid session fixation issues (vuln),
+      session_regenerate_id();
+
       static::redirect();
     }
   }
