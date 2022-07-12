@@ -23,12 +23,12 @@
  */
 class objectSelect extends userSelect
 {
-  protected $objectTypes = array(
+  protected $objectTypes = [
     'user', 'ogroup',
     'application',
     'terminal', 'workstation', 'server', 'printer', 'phone',
     'simpleSecurityObject'
-  );
-  protected $autoFilterAttributes = array('dn', 'cn', 'uid', 'description', 'mail');
+  ];
+  protected $autoFilterAttributes = ['dn', 'cn', 'uid', 'description', 'mail'];
 }
 ?>

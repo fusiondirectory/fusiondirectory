@@ -95,7 +95,7 @@ class CompositeAttribute extends Attribute
     $res = preg_match($this->readFormat, $value, $m);
     if ($res === 1) {
       $m = array_slice($m, 1);
-      $values = array();
+      $values = [];
       foreach (array_keys($this->attributes) as $name) {
         if (isset($m[$name])) {
           $values[] = $m[$name];
@@ -250,7 +250,7 @@ class CompositeAttribute extends Attribute
       }
     } else {
       parent::serializeAttribute($attributes, $form);
-      $subattributes = array();
+      $subattributes = [];
       foreach ($this->attributes as &$attribute) {
         $attribute->setDisabled($this->disabled);
         $attribute->serializeAttribute($subattributes, $form);
@@ -276,7 +276,7 @@ class CompositeAttribute extends Attribute
 
   public function htmlIds()
   {
-    $ret = array();
+    $ret = [];
     foreach ($this->attributes as &$attribute) {
       $ret = array_merge($ret, $attribute->htmlIds());
     }

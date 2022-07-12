@@ -155,9 +155,9 @@ class BaseSelectorAttribute extends Attribute
     if ($this->disabled) {
       $display = $this->renderInputField(
         'text', '',
-        array(
+        [
           'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}'
-        )
+        ]
       );
     } else {
       $display = '{literal}'.$this->baseSelector->render().'{/literal}';

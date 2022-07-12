@@ -21,7 +21,7 @@
 
 class setupStepConfig_before_init extends setupStep
 {
-  function update_strings()
+  function update_strings ()
   {
     global $config;
     if (!isset($config->current['BASE'])) {
@@ -42,57 +42,57 @@ class setupStepConfig extends configInLdap
   var $is_completed = FALSE;
   var $header_image;
 
-  static function plInfo()
+  static function plInfo ()
   {
-    return array();
+    return [];
   }
 
-  function __construct($parent, $cv)
+  function __construct ($parent, $cv)
   {
     global $config;
     parent::__construct(CONFIGRDN.$config->current['BASE'], NULL, $parent, TRUE);
 
-    $this->attributesInfo['miscellaneous']['class'] = array('invisible');
-    $this->attributesInfo['debug']['class'] = array('invisible');
+    $this->attributesInfo['miscellaneous']['class'] = ['invisible'];
+    $this->attributesInfo['debug']['class'] = ['invisible'];
 
     $this->fdLanguage     = $cv['lang_selected'];
   }
 
-  function update_strings()
+  function update_strings ()
   {
     $infos = parent::plInfo();
     $this->header_image = $infos['plIcon'];
   }
 
-  function get_short_name()
+  function get_short_name ()
   {
     $infos = parent::plInfo();
     return $infos['plTitle'];
   }
 
-  function get_title()
+  function get_title ()
   {
     $infos = parent::plInfo();
     return $infos['plDescription'];
   }
 
-  function get_description()
+  function get_description ()
   {
     $infos = parent::plInfo();
     return $infos['plDescription'];
   }
 
   /* Return attributes handled by this setup step */
-  function get_attributes()
+  function get_attributes ()
   {
-    $tmp = array();
+    $tmp = [];
     foreach (array_keys($this->attributesAccess) as $attr) {
       $tmp[$attr] = $this->$attr;
     }
     return $tmp;
   }
 
-  function save_object()
+  function save_object ()
   {
     global $config;
     parent::save_object();
@@ -126,58 +126,58 @@ class setupStepConfig extends configInLdap
     }
   }
 
-  function is_active()
+  function is_active ()
   {
     return $this->is_active;
   }
 
-  function is_enabled()
+  function is_enabled ()
   {
     return $this->is_enabled;
   }
 
-  function is_completed()
+  function is_completed ()
   {
     return $this->is_completed;
   }
 
-  function set_active($value = TRUE)
+  function set_active ($value = TRUE)
   {
     $this->is_active = ($value == TRUE);
   }
 
-  function set_enabled($value = TRUE)
+  function set_enabled ($value = TRUE)
   {
     $this->is_enabled = ($value == TRUE);
   }
 
-  function set_completed($value = TRUE)
+  function set_completed ($value = TRUE)
   {
     $this->is_completed = ($value == TRUE);
   }
 
   /* bypass acl system as there is no user login */
-  function acl_is_writeable($attribute, $skip_write = FALSE)
+  function acl_is_writeable ($attribute, $skip_write = FALSE)
   {
     return TRUE;
   }
-  function acl_is_readable($attribute)
+  function acl_is_readable ($attribute)
   {
     return TRUE;
   }
-  function acl_is_createable($base = "")
+  function acl_is_createable ($base = "")
   {
     return TRUE;
   }
-  function acl_is_removeable($base = "")
+  function acl_is_removeable ($base = "")
   {
     return TRUE;
   }
-  function acl_is_moveable($base = "")
+  function acl_is_moveable ($base = "")
   {
     return TRUE;
   }
-  function aclGetPermissions($attribute = '0', $base = NULL, $skipWrite = FALSE)
+  function aclGetPermissions ($attribute = '0', $base = NULL, $skipWrite = FALSE)
   {
     return 'cmdrw';
   }

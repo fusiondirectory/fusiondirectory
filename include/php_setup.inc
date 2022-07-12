@@ -44,15 +44,15 @@ function htmlunescape ($html)
 
 function html_trace($errstr = "")
 {
-  static $hideArgs = array(
-    'ldap_init'         => array(3),
-    'ldap_login_user'   => array(1),
-    'change_password'   => array(1),
-    'cred_decrypt'      => array(0,1),
-    'LDAP/__construct'  => array(1),
-  );
+  static $hideArgs = [
+    'ldap_init'         => [3],
+    'ldap_login_user'   => [1],
+    'change_password'   => [1],
+    'cred_decrypt'      => [0,1],
+    'LDAP/__construct'  => [1],
+  ];
   if (!function_exists('debug_backtrace')) {
-    return array ('', '');
+    return  ['', ''];
   }
   $trace = array_slice(debug_backtrace(), 1);
 
@@ -104,7 +104,7 @@ function html_trace($errstr = "")
       if (isset($hideArgs[$func])) {
         $hideArgsIndexes = $hideArgs[$func];
       } else {
-        $hideArgsIndexes = array();
+        $hideArgsIndexes = [];
       }
       $f = function ($index, $arg) use(&$f, $hideArgsIndexes) {
         static $i = 0;
@@ -161,7 +161,7 @@ function html_trace($errstr = "")
   $return_html    .= "</table>";
   $return_mailto  .= rawurlencode("=== /Trace ===");
 
-  return array($return_html, $return_mailto);
+  return [$return_html, $return_mailto];
 }
 
 /*!
@@ -207,7 +207,7 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
 
     /* Write to syslog */
     if (class_exists('logging') && !preg_match('/No such object/', $errstr)) {
-      logging::log('view', 'error', '', array(), "PHP error: $errstr ($errfile, line $errline)");
+      logging::log('view', 'error', '', [], "PHP error: $errstr ($errfile, line $errline)");
     }
 
     set_error_handler('gosaRaiseError', E_WARNING | E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT);
@@ -216,7 +216,7 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
 
   /* Send all errors to logging class, except "Ldap : No such object" messages*/
   if (class_exists('logging') && !preg_match('/No such object/', $errstr)) {
-    logging::log('debug', 'all', $errfile, array(), 'Type:'.$errno.', Message:'.$errstr.', File:'.$errfile.', Line: '.$errline);
+    logging::log('debug', 'all', $errfile, [], 'Type:'.$errno.', Message:'.$errstr.', File:'.$errfile.', Line: '.$errline);
   }
 
   /* Create header as needed */
@@ -358,8 +358,8 @@ $smarty = new Smarty;
 
 $smarty->template_dir = $BASE_DIR.'/ihtml/';
 $smarty->caching      = FALSE;
-$smarty->assign('css_files', array());
-$smarty->assign('js_files', array());
+$smarty->assign('css_files', []);
+$smarty->assign('js_files', []);
 
 $smarty->php_handling = Smarty::PHP_REMOVE;
 

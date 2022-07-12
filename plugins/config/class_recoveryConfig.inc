@@ -20,27 +20,27 @@
 
 class recoveryConfig extends simplePlugin
 {
-  var $objectclasses  = array('fdPasswordRecoveryConf');
+  var $objectclasses  = ['fdPasswordRecoveryConf'];
 
-  static function plInfo()
+  static function plInfo ()
   {
-    return array(
+    return [
       'plShortName'     => _('Password recovery'),
       'plDescription'   => _('Settings for the password recovery feature'),
-      'plObjectType'    => array('configuration'),
+      'plObjectType'    => ['configuration'],
 
       'plProvidedAcls'  => parent::generatePlProvidedAcls(static::getAttributesInfo())
-    );
+    ];
   }
 
   static function getAttributesInfo ()
   {
-    return array (
-      'settings' => array (
+    return  [
+      'settings' => [
         'name'      => _('Password recovery settings'),
-        'class'     => array ('alone'),
+        'class'     => ['alone'],
         'template'  => get_template_path('simpleplugin_section_alone.tpl'),
-        'attrs'     => array (
+        'attrs'     => [
           new BooleanAttribute (
             _('Activate password recovery'),
             _('Whether to activate or not password recovery feature'),
@@ -79,11 +79,11 @@ class recoveryConfig extends simplePlugin
             'fdPasswordRecoveryLoginAttribute', TRUE,
             'uid'
           ),
-        )
-      ),
-      'first_email' => array (
+        ]
+      ],
+      'first_email' => [
         'name' => _('First email'),
-        'attrs' => array (
+        'attrs' => [
           new StringAttribute (
             _('Subject'),
             _('Subject of the first email'),
@@ -98,11 +98,11 @@ class recoveryConfig extends simplePlugin
             TRUE,
             _("Hello,\n\nHere is your information: \n - Login : %s\n - Link : %s\n\nThis link is only valid for 10 minutes.")
           )
-        )
-      ),
-      'second_email' => array (
+        ]
+      ],
+      'second_email' => [
         'name' => _('Second email'),
-        'attrs' => array (
+        'attrs' => [
           new StringAttribute (
             _('Subject'),
             _('Subject of the second email'),
@@ -117,9 +117,9 @@ class recoveryConfig extends simplePlugin
             TRUE,
            _("Hello,\n\nYour password has been changed.\nYour login is still %s.")
           )
-        )
-      )
-    );
+        ]
+      ]
+    ];
   }
 
   function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE)
@@ -128,7 +128,7 @@ class recoveryConfig extends simplePlugin
     // Check if token branch is here
     $ldap = $config->get_ldap_link();
     $tokenBranch = get_ou('recoveryTokenRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'];
-    $ldap->cat($tokenBranch, array('dn'));
+    $ldap->cat($tokenBranch, ['dn']);
     if (!$ldap->count()) {
       $ldap->cd($config->current['BASE']);
       $ldap->create_missing_trees($tokenBranch);
@@ -145,15 +145,15 @@ class recoveryConfig extends simplePlugin
     parent::__construct($dn, $object, $parent, $mainTab);
 
     $this->attributesAccess['fdPasswordRecoveryActivated']->setManagedAttributes(
-      array(
-        'disable' => array(
-          FALSE => array(
+      [
+        'disable' => [
+          FALSE => [
             'fdPasswordRecoveryEmail','fdPasswordRecoveryValidity','fdPasswordRecoverySalt',
             'fdPasswordRecoveryMailSubject','fdPasswordRecoveryMailBody',
             'fdPasswordRecoveryMail2Subject','fdPasswordRecoveryMail2Body'
-          )
-        )
-      )
+          ]
+        ]
+      ]
     );
   }
 }

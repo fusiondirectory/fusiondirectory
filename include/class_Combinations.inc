@@ -43,7 +43,7 @@ class Combinations implements Iterator
 
   function current()
   {
-    $r = array();
+    $r = [];
     for ($i = 0; $i < $this->size; $i++) {
       $r[] = $this->input[$this->current[$i]];
     }

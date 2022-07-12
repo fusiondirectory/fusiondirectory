@@ -116,7 +116,7 @@ class passwordMethodCrypt extends passwordMethod
    */
   static function get_hash_name()
   {
-    $hashes = array();
+    $hashes = [];
     if (CRYPT_STD_DES == 1) {
       $hashes[] = "crypt/standard-des";
     }
