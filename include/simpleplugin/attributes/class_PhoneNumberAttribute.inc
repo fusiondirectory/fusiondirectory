@@ -24,23 +24,23 @@
 class phoneSelect extends simpleSelectManagement
 {
   protected $multiSelect          = FALSE;
-  protected $autoFilterAttributes = ['dn','cn','ipHostNumber','macAddress','telephoneNumber'];
-  protected $objectTypes          = ['phone'];
+  protected $autoFilterAttributes = array('dn','cn','ipHostNumber','macAddress','telephoneNumber');
+  protected $objectTypes          = array('phone');
 
   function parseXML ($file)
   {
     $data = parent::parseXML($file);
     /* Add column for phone number */
     $data['list']['table']['layout'] .= '|';
-    $columns = [
-       [
+    $columns = array (
+      array (
         'label'         => _('Number'),
         'sortAttribute' => 'telephoneNumber',
         'sortType'      => 'string',
         'value'         => '%{filter:selectLink(pid,row,dn,telephoneNumber)}',
         'export'        => 'true',
-       ],
-    ];
+      ),
+    );
     array_splice($data['list']['table']['column'], 2, 0, $columns);
     return $data;
   }
@@ -58,7 +58,7 @@ class phoneSelect extends simpleSelectManagement
  */
 class mobilePhoneSelect extends phoneSelect
 {
-  protected $objectTypes = ['mobilePhone'];
+  protected $objectTypes = array('mobilePhone');
 }
 
 /*!
@@ -66,7 +66,7 @@ class mobilePhoneSelect extends phoneSelect
  */
 class anyPhoneSelect extends phoneSelect
 {
-  protected $objectTypes = ['phone','mobilePhone'];
+  protected $objectTypes = array('phone','mobilePhone');
 }
 
 /*!
@@ -138,12 +138,12 @@ class PhoneNumberButtonAttribute extends PhoneNumberAttribute
     if ($this->type !== FALSE) {
       $display .= $this->renderAcl($this->renderInputField(
         'image', $id.'_edit',
-        [
+        array(
           'class' => 'center',
           'src'   => 'geticon.php?context=actions&amp;icon=document-edit&amp;size=16',
           'title' => _('Edit'),
           'alt'   => _('Edit')
-        ]
+        )
       ));
     }
     return $display;

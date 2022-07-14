@@ -34,20 +34,20 @@ class CopyPasteHandler
   /*!
    * \brief This array contains all dns of the currently copied objects
    */
-  protected $objectList = [];
+  protected $objectList = array();
   /*!
    * \brief This array contains all remaining objects to paste
    */
-  protected $queue = [];
+  protected $queue = array();
 
   /*!
    *  \brief The dn of the last edited object
    */
   var $lastdn = "";
 
-  var $disallowed_objects = [];
-  var $objects_to_fix     = [];
-  var $clean_objects      = [];
+  var $disallowed_objects = array();
+  var $objects_to_fix     = array();
+  var $clean_objects      = array();
   var $require_update     = FALSE;
 
   /*!
@@ -56,7 +56,7 @@ class CopyPasteHandler
   function __construct()
   {
     $this->current  = NULL;
-    $this->queue    = [];
+    $this->queue    = array();
   }
 
 
@@ -77,12 +77,12 @@ class CopyPasteHandler
   {
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'add_to_queue');
 
-    if (!in_array($action, ['cut','copy'])) {
+    if (!in_array($action, array('cut','copy'))) {
       trigger_error(sprintf('Specified action "%s" does not exists for copy & paste.', $action));
       return FALSE;
     }
 
-    $tmp = [];
+    $tmp = array();
 
     $tmp['method']  = $action;
     $tmp['dn']      = $dn;
@@ -112,8 +112,8 @@ class CopyPasteHandler
   {
     $this->current        = FALSE;
     $this->require_update = TRUE;
-    $this->queue          = [];
-    $this->objectList     = [];
+    $this->queue          = array();
+    $this->objectList     = array();
   }
 
   /*!
@@ -141,7 +141,7 @@ class CopyPasteHandler
   {
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $entry['dn'], 'load_entry_from_ldap');
     if (!isset($entry['tab_class']) && !isset($entry['type'])) {
-      return [];
+      return array();
     }
 
     $entry['object'] = objects::open($entry['dn'], $entry['type']);
@@ -172,9 +172,9 @@ class CopyPasteHandler
      * Create a list of all entries that can be pasted directly.
      */
     if ($this->require_update) {
-      $this->clean_objects      = [];
-      $this->objects_to_fix     = [];
-      $this->disallowed_objects = [];
+      $this->clean_objects      = array();
+      $this->objects_to_fix     = array();
+      $this->disallowed_objects = array();
 
       /* Put each queued object in one of the above arrays */
       foreach ($this->queue as $key => $entry) {
@@ -199,7 +199,7 @@ class CopyPasteHandler
         }
       }
       if (count($this->disallowed_objects)) {
-        $dns = [];
+        $dns = array();
         foreach ($this->disallowed_objects as $entry) {
           $dns[] = $entry['dn'];
         }

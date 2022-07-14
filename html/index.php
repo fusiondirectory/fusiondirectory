@@ -70,7 +70,7 @@ function displayLogin()
   }
 
   /* Generate server list */
-  $servers = [];
+  $servers = array();
   if (isset($_POST['server'])) {
     $selected = $_POST['server'];
   } else {
@@ -246,7 +246,7 @@ class Index {
     if ($config->get_cfg_value('schemaCheck') != 'TRUE') {
       return TRUE;
     }
-    $cfg = [];
+    $cfg = array();
     $cfg['admin']       = $config->current['ADMINDN'];
     $cfg['password']    = $config->current['ADMINPASSWORD'];
     $cfg['connection']  = $config->current['SERVER'];
@@ -269,7 +269,7 @@ class Index {
   {
     global $config;
     $ldap = $config->get_ldap_link();
-    $ldap->cat(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'], ['dn']);
+    $ldap->cat(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'], array('dn'));
     $attrs = $ldap->fetch();
     if (!count($attrs)) {
       $ldap->cd($config->current['BASE']);
@@ -302,9 +302,9 @@ class Index {
     $ui = ldap_login_user(static::$username, static::$password);
     if ($ui === NULL) {
       if (isset($_SERVER['REMOTE_ADDR'])) {
-        logging::log('security', 'login', '', [], 'Authentication failed for user "'.static::$username.'" [from '.$_SERVER['REMOTE_ADDR'].']');
+        logging::log('security', 'login', '', array(), 'Authentication failed for user "'.static::$username.'" [from '.$_SERVER['REMOTE_ADDR'].']');
       } else {
-        logging::log('security', 'login', '', [], 'Authentication failed for user "'.static::$username.'"');
+        logging::log('security', 'login', '', array(), 'Authentication failed for user "'.static::$username.'"');
       }
       $message = _('Please check the username/password combination.');
       $smarty->assign ('focusfield', 'password');
@@ -340,7 +340,7 @@ class Index {
       $expired = $ui->expired_status();
 
       if ($expired == POSIX_ACCOUNT_EXPIRED) {
-        logging::log('security', 'login', '', [], 'Account for user "'.static::$username.'" has expired');
+        logging::log('security', 'login', '', array(), 'Account for user "'.static::$username.'" has expired');
         $message = _('Account locked. Please contact your system administrator!');
         $smarty->assign ('focusfield', 'username');
         return FALSE;
@@ -354,7 +354,7 @@ class Index {
   {
     global $config;
     /* Not account expired or password forced change go to main page */
-    logging::log('security', 'login', '', [], 'User "'.static::$username.'" logged in successfully.');
+    logging::log('security', 'login', '', array(), 'User "'.static::$username.'" logged in successfully.');
     session::set('connected', 1);
     session::set('DEBUGLEVEL', $config->get_cfg_value('DEBUGLEVEL'));
     header ('Location: main.php?global_check=1');
@@ -398,13 +398,13 @@ class Index {
     static::$username = $_POST['username'];
     static::$password = $_POST['password'];
 
-    $success = static::runSteps([
+    $success = static::runSteps(array(
       'validateUserInput',
       'ldapLoginUser',
       'checkForLockingBranch',
       'loginAndCheckExpired',
       'runSchemaCheck',
-    ]);
+    ));
 
     if ($success) {
       /* Everything went well, redirect to main.php */
@@ -430,13 +430,13 @@ class Index {
     static::$username = $_SERVER['PHP_AUTH_USER'];
     static::$password = $_SERVER['PHP_AUTH_PW'];
 
-    $success = static::runSteps([
+    $success = static::runSteps(array(
       'validateUserInput',
       'ldapLoginUser',
       'checkForLockingBranch',
       'loginAndCheckExpired',
       'runSchemaCheck',
-    ]);
+    ));
 
     if ($success) {
       /* Everything went well, redirect to main.php */
@@ -499,11 +499,11 @@ class Index {
 
     $ui->loadACL();
 
-    $success = static::runSteps([
+    $success = static::runSteps(array(
       'checkForLockingBranch',
       'loginAndCheckExpired',
       'runSchemaCheck',
-    ]);
+    ));
 
     if ($success) {
       /* Everything went well, redirect to main.php */
@@ -566,11 +566,11 @@ class Index {
 
     $ui->loadACL();
 
-    $success = static::runSteps([
+    $success = static::runSteps(array(
       'checkForLockingBranch',
       'loginAndCheckExpired',
       'runSchemaCheck',
-    ]);
+    ));
 
     if ($success) {
       /* Everything went well, redirect to main.php */

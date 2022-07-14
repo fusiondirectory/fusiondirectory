@@ -50,7 +50,7 @@ ini_set("session.gc_maxlifetime", 24 * 60 * 60);
 /* Start session */
 session::start();
 session::set('DEBUGLEVEL', 0);
-session::set('errorsAlreadyPosted', []);
+session::set('errorsAlreadyPosted', array());
 
 CSRFProtection::check();
 

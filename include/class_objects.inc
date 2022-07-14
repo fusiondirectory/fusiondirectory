@@ -51,7 +51,7 @@ class objects
     }
 
     if (!is_array($types)) {
-      $types = [$types];
+      $types = array($types);
     }
 
     if ($checkAcl) {
@@ -62,9 +62,9 @@ class objects
       $acl = $infos['aclCategory'].'/'.$infos['mainTab'];
     }
 
-    $attrsAcls = [];
+    $attrsAcls = array();
     if ($attrs === NULL) {
-      $attrs = [];
+      $attrs = array();
       foreach ($types as $type) {
         $infos = static::infos($type);
         if ($infos['mainAttr']) {
@@ -75,13 +75,13 @@ class objects
       if (count($attrs) == 1) {
         $attrs = $attrs[0];
       } elseif (count($attrs) == 0) {
-        $attrs = ['dn' => 'raw'];
+        $attrs = array('dn' => 'raw');
       }
     } elseif ($checkAcl) {
       if (is_array($attrs)) {
         $search_attrs = array_keys($attrs);
       } else {
-        $search_attrs = [$attrs];
+        $search_attrs = array($attrs);
       }
       foreach ($search_attrs as $search_attr) {
         $category = $ui->getAttributeCategory($types[0], $search_attr);
@@ -92,7 +92,7 @@ class objects
           continue;
         }
         if (strpos($ui->get_permissions($ou, $category, $search_attr), 'r') === FALSE) {
-          $attrsAcls[$search_attr] = [$category, $search_attr];
+          $attrsAcls[$search_attr] = array($category, $search_attr);
         }
       }
     }
@@ -100,15 +100,15 @@ class objects
     if (is_array($attrs)) {
       $search_attrs = array_keys($attrs);
     } else {
-      $search_attrs = [$attrs];
+      $search_attrs = array($attrs);
     }
 
     try {
       $ldap = static::search($types, $search_attrs, $ou, $filter, $checkAcl, $scope, FALSE, $partialFilterAcls);
     } catch (NonExistingBranchException $e) {
-      return [];
+      return array();
     }
-    $result = [];
+    $result = array();
     while ($fetched_attrs = $ldap->fetch()) {
       $key = $fetched_attrs['dn'];
       if ($checkAcl) {
@@ -122,7 +122,7 @@ class objects
         }
       }
       if (is_array($attrs)) {
-        $result[$key] = [];
+        $result[$key] = array();
         foreach ($attrs as $attr => $mode) {
           if (isset($fetched_attrs[$attr])) {
             if (isset($attrsAcls[$attr]) &&
@@ -168,7 +168,7 @@ class objects
   static function count ($types, $ou = NULL, $filter = '', $checkAcl = FALSE)
   {
     try {
-      $ldap = static::search($types, ['dn'], $ou, $filter, $checkAcl, 'subtree', FALSE, $partialFilterAcls);
+      $ldap = static::search($types, array('dn'), $ou, $filter, $checkAcl, 'subtree', FALSE, $partialFilterAcls);
       if (!empty($partialFilterAcls)) {
         throw new FusionDirectoryException('Not enough rights to use "'.$partialFilterAcls[0][1].'" in filter');
       }
@@ -180,21 +180,21 @@ class objects
     return $ldap->count();
   }
 
-  private static function search ($types, $search_attrs, $ou = NULL, $filter = '', $checkAcl = FALSE, $scope = 'subtree', $templateSearch = FALSE, &$partialFilterAcls = [])
+  private static function search ($types, $search_attrs, $ou = NULL, $filter = '', $checkAcl = FALSE, $scope = 'subtree', $templateSearch = FALSE, &$partialFilterAcls = array())
   {
     global $config, $ui;
 
-    $partialFilterAcls = [];
+    $partialFilterAcls = array();
 
     if (!is_array($types)) {
-      $types = [$types];
+      $types = array($types);
     }
 
     if ($ou === NULL) {
       $ou = $config->current['BASE'];
     }
 
-    $typeFilters = [];
+    $typeFilters = array();
     foreach ($types as $type) {
       $infos = static::infos($type);
 
@@ -236,7 +236,7 @@ class objects
             continue;
           }
           if (strpos($ui->get_permissions($ou, $category, $acl), 'r') === FALSE) {
-            $partialFilterAcls[] = [$category, $acl];
+            $partialFilterAcls[] = array($category, $acl);
           }
         }
       }
@@ -248,10 +248,10 @@ class objects
     if ($templateSearch) {
       $templateFilterObject = new ldapFilter(
         '&',
-        [
+        array(
           new ldapFilterLeaf('objectClass', '=', 'fdTemplate'),
           fdTemplateFilter(ldapFilter::parse($filter)),
-        ]
+        )
       );
       $filter = "$templateFilterObject";
     }
@@ -301,7 +301,7 @@ class objects
 
     if ($text === NULL) {
       $ldap = $config->get_ldap_link();
-      $ldap->cat($dn, [$infos['nameAttr']]);
+      $ldap->cat($dn, array($infos['nameAttr']));
       if ($attrs = $ldap->fetch()) {
         if (isset($attrs[$infos['nameAttr']][0])) {
           $text = $attrs[$infos['nameAttr']][0];
@@ -343,7 +343,7 @@ class objects
       } else {
         $parts = ldap_explode_dn(preg_replace('/,$/', '', $infos['ou']), 0);
         unset($parts['count']);
-        $dnFilter = [];
+        $dnFilter = array();
         foreach ($parts as $part) {
           preg_match('/([^=]+)=(.*)$/', $part, $m);
           $dnFilter[] = '('.$m[1].':dn:='.$m[2].')';
@@ -396,11 +396,11 @@ class objects
 
     $infos = static::infos($type);
 
-    $templates = [];
+    $templates = array();
     foreach ($config->departments as $key => $value) {
       // Search all templates from the current dn.
       try {
-        $ldap = static::search($type, ['cn'], $infos['ou'].$value, $filter, FALSE, 'subtree', TRUE);
+        $ldap = static::search($type, array('cn'), $infos['ou'].$value, $filter, FALSE, 'subtree', TRUE);
       } catch (NonExistingBranchException $e) {
         continue;
       }

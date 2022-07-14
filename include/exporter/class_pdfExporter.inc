@@ -51,7 +51,7 @@ class pdfExporter
    *
    * \param array $columns
    */
-  function __construct($headline, $header, $entries, $columns = [])
+  function __construct($headline, $header, $entries, $columns = array())
   {
     // Bail out if no FPDF available
     if (!class_exists('FPDF')) {
@@ -141,7 +141,7 @@ class pdfExporter
    */
   function calcWidth($header, $entries, $columns)
   {
-    $width = [];
+    $width = array();
 
     // Locate longest value for each column
     foreach ($columns as $index) {
@@ -193,7 +193,7 @@ class pdfExporter
     // Check if class defined
     $classes = get_declared_classes();
     if (in_array('FPDF', $classes)) {
-      return ["exportPDF" => [ "label" => _("PDF"), "image" => "geticon.php?context=mimetypes&icon=application-pdf&size=16", "class" => "pdfExporter", "mime" => "application/pdf", "filename" => "export.pdf" ]];
+      return array("exportPDF" => array( "label" => _("PDF"), "image" => "geticon.php?context=mimetypes&icon=application-pdf&size=16", "class" => "pdfExporter", "mime" => "application/pdf", "filename" => "export.pdf" ));
     } else {
       return NULL;
     }

@@ -25,7 +25,7 @@ class DebugLevelAttribute extends SetAttribute
   {
     if (isset($attrs[$this->getLdapName()])) {
       $value = $attrs[$this->getLdapName()][0];
-      $this->value = [];
+      $this->value = array();
       foreach ($this->attribute->getChoices() as $choice) {
         if ($value & $choice) {
           $this->value[] = $choice;
@@ -36,7 +36,7 @@ class DebugLevelAttribute extends SetAttribute
     }
   }
 
-  function computeLdapValue ()
+  function computeLdapValue()
   {
     $value = 0;
     foreach ($this->value as $v) {
@@ -48,49 +48,49 @@ class DebugLevelAttribute extends SetAttribute
 
 class configInLdap extends simplePlugin
 {
-  var $objectclasses  = ["fusionDirectoryConf"];
+  var $objectclasses  = array("fusionDirectoryConf");
 
-  static function plInfo ()
+  static function plInfo()
   {
-    return [
+    return array(
       'plShortName'     => _('Configuration'),
       'plTitle'         => _('FusionDirectory configuration'),
       'plDescription'   => _('Configuration screen of FusionDirectory'),
       'plIcon'          => 'geticon.php?context=categories&icon=settings&size=48',
-      'plObjectType'    => [
-        'configuration' => [
+      'plObjectType'    => array(
+        'configuration' => array(
           'name'      => _('FusionDirectory configuration'),
           'filter'    => 'objectClass=fusionDirectoryConf',
           'tabClass'  => 'tabs_configInLdap',
           'icon'      => 'geticon.php?context=categories&icon=settings&size=16',
           'mainAttr'  => FALSE,
           'ou'        => preg_replace('/^[^,]+,/', '', CONFIGRDN)
-        ]
-      ],
-      'plSection'       => ['conf' => ['name' => _('Configuration'), 'priority' => 20]],
-      'plManages'       => ['configuration'],
+        )
+      ),
+      'plSection'       => array('conf' => array('name' => _('Configuration'), 'priority' => 20)),
+      'plManages'       => array('configuration'),
       'plPriority'      => 0,
 
       'plProvidedAcls'  => parent::generatePlProvidedAcls(static::getAttributesInfo())
-    ];
+    );
   }
 
   static function getAttributesInfo ()
   {
     global $config;
-    $plugins = [];
+    $plugins = array();
     if (session::is_set('plist')) {
       $plugins = array_keys(session::get('plist')->info);
     }
     sort($plugins);
-    return [
-      'look_n_feel' => [
+    return array(
+      'look_n_feel' => array(
         'name'  => _('Look and feel'),
-        'attrs' => [
+        'attrs' => array(
           new SelectAttribute (
             _('Language'), _('Language of the application. If \'automatic\' or not available, the one asked by the browser will be used. This setting can be overriden per user.'),
             'fdLanguage', FALSE,
-            ['']
+            array('')
           ),
           new SelectAttribute (
             _('Theme'), _('Theme to be used'),
@@ -101,14 +101,14 @@ class configInLdap extends simplePlugin
           new SelectAttribute (
             _('Timezone'), _('Timezone to be used'),
             'fdTimezone', TRUE,
-            ['America/New_York']
+            array('America/New_York')
           ),
           new HiddenAttribute ('fusionConfigMd5'),
-        ]
-      ],
-      'core_settings' => [
+        )
+      ),
+      'core_settings' => array(
         'name'  => _('Core settings'),
-        'attrs' => [
+        'attrs' => array(
           new IntAttribute (
             _('LDAP size limit'), _('Defines the number of entries to get from LDAP by default.'),
             'fdLdapSizeLimit', FALSE,
@@ -118,7 +118,7 @@ class configInLdap extends simplePlugin
             _('Edit locking'),
             _('Check if a entry currently being edited has been modified outside of FusionDirectory in the meantime.'),
             'fdModificationDetectionAttribute', FALSE,
-            ['', 'entryCSN', 'contextCSN'], 'entryCSN'
+            array('', 'entryCSN', 'contextCSN'), 'entryCSN'
           ),
           new BooleanAttribute (
             _('Enable logging'),
@@ -147,15 +147,15 @@ class configInLdap extends simplePlugin
             'fdWildcardForeignKeys', FALSE,
             TRUE
           ),
-        ]
-      ],
-      'password' => [
+        )
+      ),
+      'password' => array(
         'name'  => _('Password settings'),
-        'attrs' => [
+        'attrs' => array(
           new SelectAttribute (
             _('Password default hash'), _('Default hash to be used'),
             'fdPasswordDefaultHash', TRUE,
-            ['ssha']
+            array('ssha')
           ),
           new BooleanAttribute (
             _('Force default hash'), _('Force the use of the default password hash'),
@@ -184,17 +184,17 @@ class configInLdap extends simplePlugin
             _('SASL Exop'), _('Attribute to be stored in the userPassword attribute'),
             'fdSaslExop'
           ),
-        ]
-      ],
-      'login' => [
+        )
+      ),
+      'login' => array(
         'name'  => _('Login and session'),
-        'attrs' => [
+        'attrs' => array(
           new SelectAttribute (
             _('Login attribute'),
             _('Which LDAP attribute should be used as the login name during login.'),
             'fdLoginAttribute', TRUE,
-            ['uid', 'mail', 'uid,mail'], 'uid',
-            ['uid', 'mail', 'both']
+            array('uid', 'mail', 'uid,mail'), 'uid',
+            array('uid', 'mail', 'both')
           ),
           new BooleanAttribute (
             _('Enforce encrypted connections'),
@@ -227,11 +227,11 @@ class configInLdap extends simplePlugin
             'fdHttpHeaderAuthHeaderName', FALSE,
             'AUTH_USER'
           ),
-        ]
-      ],
-      'ssl' => [
+        )
+      ),
+      'ssl' => array(
         'name'  => _('SSL'),
-        'attrs' => [
+        'attrs' => array(
           new TrimmedStringAttribute (
             _('Key path'), _('Path to FusionDirectory private key. Unused for now.'),
             'fdSslKeyPath', FALSE,
@@ -247,11 +247,11 @@ class configInLdap extends simplePlugin
             'fdSslCaCertPath', FALSE,
             '/etc/ssl/certs/ca.cert'
           ),
-        ]
-      ],
-      'cas' => [
+        )
+      ),
+      'cas' => array(
         'name'  => _('CAS'),
-        'attrs' => [
+        'attrs' => array(
           new BooleanAttribute (
             _('Enable CAS'), _('CAS login will be used instead of LDAP bind'),
             'fdCasActivated', FALSE,
@@ -277,16 +277,16 @@ class configInLdap extends simplePlugin
             'fdCasContext', FALSE,
             '/cas'
           ),
-        ]
-      ],
-      'people_and_group' => [
+        )
+      ),
+      'people_and_group' => array(
         'name'  => _('People and group storage'),
-        'class' => ['critical'],
-        'attrs' => [
+        'class' => array('critical'),
+        'attrs' => array(
           new SelectAttribute (
             _('People DN attribute'), _('Attribute to use at the beginning of users dn'),
             'fdAccountPrimaryAttribute', TRUE,
-            ['uid', 'cn']
+            array('uid', 'cn')
           ),
           new StringAttribute (
             _('CN pattern'), _('The pattern to use to build the common name field'),
@@ -321,11 +321,11 @@ class configInLdap extends simplePlugin
             _('Postal address pattern'), _('When using separate address fields, you can use a pattern to fill postalAddress field.'),
             'fdPostalAddressPattern'
           ),
-        ]
-      ],
-      'debug' => [
+        )
+      ),
+      'debug' => array(
         'name'  => _('Debugging'),
-        'attrs' => [
+        'attrs' => array(
           new BooleanAttribute (
             _('Display errors'),
             _('Shows PHP errors in the upper part of the screen. This should be disabled in productive deployments, because there might be some passwords in it.'),
@@ -346,18 +346,18 @@ class configInLdap extends simplePlugin
               _('Debug level'),
               _('Display certain information on each page load.'),
               'fdDebugLevel', FALSE,
-              [DEBUG_TRACE,  DEBUG_LDAP, DEBUG_DB,   DEBUG_SHELL,  DEBUG_POST,
-                    DEBUG_SESSION,  DEBUG_ACL,  DEBUG_SI, DEBUG_MAIL],
+              array(DEBUG_TRACE,  DEBUG_LDAP, DEBUG_DB,   DEBUG_SHELL,  DEBUG_POST,
+                    DEBUG_SESSION,  DEBUG_ACL,  DEBUG_SI, DEBUG_MAIL),
                     DEBUG_TRACE,
-              ['Trace',      'LDAP',     'Database', 'Shell',      'POST',
-                    'SESSION',      'ACL',      'SI',     'Mail']
+              array('Trace',      'LDAP',     'Database', 'Shell',      'POST',
+                    'SESSION',      'ACL',      'SI',     'Mail')
             )
           ),
-        ]
-      ],
-      'miscellaneous' => [
+        )
+      ),
+      'miscellaneous' => array(
         'name'  => _('Miscellaneous'),
-        'attrs' => [
+        'attrs' => array(
           new BooleanAttribute (
             _('Display summary in listings'),
             _('Determines whether a status bar will be shown on the bottom of lists, displaying a short summary of type and number of elements in the list.'),
@@ -374,42 +374,42 @@ class configInLdap extends simplePlugin
               _('Available department categories'), _('Available categories in the departments dropdown'),
               'fdDepartmentCategories', FALSE
             ),
-            []
+            array()
           ),
           new OrderedArrayAttribute(
             new PipeSeparatedCompositeAttribute(
               _('Use this to hide some menu entry to specific groups of users'),
               'fdPluginsMenuBlacklist',
-              [
+              array(
                 new SelectAttribute(
                   '', _('Group or role'),
                   'blacklistGroup', TRUE,
-                  []
+                  array()
                 ),
                 new SelectAttribute(
                   '', _('Plugin to blacklist'),
                   'blacklistPlugin', TRUE,
-                  []
+                  array()
                 ),
-              ],
+              ),
               '',
               _('Plugin menu blacklist')
             ),
             // no order
             FALSE,
-            []
+            array()
           )
-        ]
-      ],
-      'hooks' => [
+        )
+      ),
+      'hooks' => array(
         'name'  => _('Hooks'),
-        'class' => ['fullwidth'],
-        'attrs' => [
+        'class' => array('fullwidth'),
+        'attrs' => array(
           new OrderedArrayAttribute (
             new CompositeAttribute (
               _('Hooks that are called when specific actions happens'),
               'fdTabHook',
-              [
+              array(
                 new SelectAttribute(
                   _('Tab'), _('The tab that this hook concerns'),
                   'hookTab', TRUE,
@@ -418,22 +418,22 @@ class configInLdap extends simplePlugin
                 new SelectAttribute(
                   _('Mode'), _('When to call this command'),
                   'hookMode', TRUE,
-                  ['postcreate', 'postremove', 'postmodify',
+                  array('postcreate', 'postremove', 'postmodify',
                         'precreate', 'preremove', 'premodify', 'check',
-                        'prelock', 'postlock', 'preunlock', 'postunlock']
+                        'prelock', 'postlock', 'preunlock', 'postunlock')
                 ),
                 new TextAreaAttribute(
                   _('Command'), _('The command that will be called'),
                   'hookCmd', TRUE
                 )
-              ],
+              ),
               '/^([^\\|]+)\\|([^\\|]+)\\|(.*)$/',
               '%s|%s|%s',
               '', // acl
               _('Hooks')
             ),
             FALSE, // non-ordered
-            [],
+            array(),
             TRUE // edition
           ),
           new BooleanAttribute (
@@ -441,9 +441,9 @@ class configInLdap extends simplePlugin
             _('When enabled successful hook execution output is displayed to the user using a dialog.'),
             'fdDisplayHookOutput'
           ),
-        ]
-      ],
-    ];
+        )
+      ),
+    );
   }
 
   function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE, $attributesInfo = NULL)
@@ -453,7 +453,7 @@ class configInLdap extends simplePlugin
     /* Languages */
     $languages = Language::getList(TRUE);
     asort($languages);
-    $languages = array_merge(["" => _("Automatic")], $languages);
+    $languages = array_merge(array("" => _("Automatic")), $languages);
     $attributesInfo['look_n_feel']['attrs'][0]->setChoices(array_keys($languages), array_values($languages));
     /* Timezones */
     $attributesInfo['look_n_feel']['attrs'][2]->setChoices(timezone::_get_tz_zones());
@@ -485,7 +485,7 @@ class configInLdap extends simplePlugin
       array_keys($groupsAndRoles),
       array_values($groupsAndRoles)
     );
-    $menuPlugins = [];
+    $menuPlugins = array();
     $plist = session::get('plist');
     foreach ($config->data['SECTIONS'] as $section => $section_infos) {
       foreach ($config->data['MENU'][$section] as $info) {
@@ -511,73 +511,73 @@ class configInLdap extends simplePlugin
     $this->fusionConfigMd5 = md5_file(CACHE_DIR."/".CLASS_CACHE);
 
     $this->attributesAccess['fdHttpAuthActivated']->setManagedAttributes(
-      [
-        'erase' => [
-          TRUE => [
+      array(
+        'erase' => array (
+          TRUE => array (
             'fdCasActivated',
-          ]
-        ]
-      ]
+          )
+        )
+      )
     );
     $this->attributesAccess['fdEnableSnapshots']->setManagedAttributes(
-      [
-        'disable' => [
-          FALSE => [
+      array(
+        'disable' => array (
+          FALSE => array (
             'fdSnapshotBase',
-          ]
-        ]
-      ]
+          )
+        )
+      )
     );
 
     $this->attributesAccess['fdTabHook']->setLinearRendering(FALSE);
 
     $this->attributesAccess['fdForceSSL']->setManagedAttributes(
-      [
-        'disable' => [
-          TRUE => [
+      array(
+        'disable' => array (
+          TRUE => array (
             'fdWarnSSL',
-          ]
-        ]
-      ]
+          )
+        )
+      )
     );
     $this->attributesAccess['fdCasActivated']->setManagedAttributes(
-      [
-        'disable' => [
-          FALSE => [
+      array(
+        'disable' => array (
+          FALSE => array (
             'fdCasServerCaCertPath',
             'fdCasHost',
             'fdCasPort',
             'fdCasContext',
-          ]
-        ]
-      ]
+          )
+        )
+      )
     );
     $this->attributesAccess['fdHttpHeaderAuthActivated']->setManagedAttributes(
-      [
-        'disable' => [
-          FALSE => [
+      array(
+        'disable' => array (
+          FALSE => array (
             'fdHttpHeaderAuthHeaderName',
-          ]
-        ]
-      ]
+          )
+        )
+      )
     );
     $this->attributesAccess['fdSplitPostalAddress']->setManagedAttributes(
-      [
-        'disable' => [
-          FALSE => [
+      array(
+        'disable' => array (
+          FALSE => array (
             'fdPostalAddressPattern',
-          ]
-        ]
-      ]
+          )
+        )
+      )
     );
   }
 
-  function compute_dn ()
+  function compute_dn()
   {
     return $this->dn;
   }
 
-  function check ()
+  function check()
   {
     $messages = parent::check();
     if (($this->fdPasswordDefaultHash == 'sasl') && ($this->fdSaslRealm == '') && ($this->fdSaslExop == '')) {
@@ -586,7 +586,7 @@ class configInLdap extends simplePlugin
     return $messages;
   }
 
-  static function get_themes ()
+  static function get_themes()
   {
     $themesdir  = '../ihtml/themes/';
     $themes     = array_keys(session::get(IconTheme::$session_var));

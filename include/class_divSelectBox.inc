@@ -47,7 +47,7 @@ class divSelectBox
   function __construct($id)
   {
     $this->s_summary  = '';
-    $this->a_entries  = [];
+    $this->a_entries  = array();
     $this->cols       = 0;
     $this->id         = $id;
   }

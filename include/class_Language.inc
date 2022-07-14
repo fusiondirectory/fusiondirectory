@@ -118,7 +118,7 @@ class Language
     $languages = static::getList();
 
     /* Move supported languages to flat list */
-    $langs = [];
+    $langs = array();
     foreach (array_keys($languages) as $lang) {
       $langs[] = $lang.'.UTF-8';
     }
@@ -135,7 +135,7 @@ class Language
   public static function getList($ownLanguage = FALSE)
   {
     /* locales in english */
-    $tmp_english = [
+    $tmp_english = array(
       'en_US' => 'English',
       'af_ZA' => 'Afrikaans',
       'ar_EG' => 'Arabic',
@@ -166,12 +166,12 @@ class Language
       'vi_VN' => 'Vietnamese',
       'zh_TW' => 'Taiwanese',
       'zh_CN' => 'Chinese',
-    ];
+    );
 
-    $ret = [];
+    $ret = array();
     if ($ownLanguage) {
       /* locales in their own language */
-      $tmp_ownlang = [
+      $tmp_ownlang = array(
         'en_US' => 'English',
         'ar_EG' => 'عربية',
         'af_ZA' => 'Afrikaans',
@@ -202,7 +202,7 @@ class Language
         'vi_VN' => 'Tiếng Việt',
         'zh_TW' => 'Taiwanese',
         'zh_CN' => '中文, 汉语, 漢語',
-      ];
+      );
 
       foreach ($tmp_english as $key => $name) {
         $ret[$key] = _($name).' ('.$tmp_ownlang[$key].')';

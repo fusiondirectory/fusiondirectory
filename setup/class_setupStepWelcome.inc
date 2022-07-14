@@ -23,19 +23,19 @@ class setupStepWelcome extends setupStep
 {
   var $header_image = 'geticon.php?context=applications&icon=config-welcome&size=48';
 
-  static function getAttributesInfo ()
+  static function getAttributesInfo()
   {
-    return [
-      'welcome' => [
+    return array(
+      'welcome' => array(
         'name'      => _('Welcome'),
         'template'  => get_template_path("setup_welcome.tpl", TRUE, dirname(__FILE__)),
-        'attrs'     => [
-        ]
-      ]
-    ];
+        'attrs'     => array(
+        )
+      )
+    );
   }
 
-  function __construct ($parent)
+  function __construct($parent)
   {
     parent::__construct($parent);
 
@@ -45,14 +45,14 @@ class setupStepWelcome extends setupStep
   }
 
   /* We need to init them with a method to be able to use _() */
-  function update_strings ()
+  function update_strings()
   {
     $this->s_short_name   = _('Welcome');
     $this->s_title        = _('Welcome to FusionDirectory setup wizard');
     $this->s_description  = _('The welcome message');
   }
 
-  function execute ()
+  function execute()
   {
     $smarty = get_smarty();
     $smarty->assign('auth_id', session_id());
@@ -61,7 +61,7 @@ class setupStepWelcome extends setupStep
     return parent::execute();
   }
 
-  function save_object ()
+  function save_object()
   {
     parent::save_object();
     $id = "";

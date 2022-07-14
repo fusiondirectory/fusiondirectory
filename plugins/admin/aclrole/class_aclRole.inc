@@ -36,13 +36,13 @@ class ACLsAttribute extends DialogOrderedArrayAttribute
       }
     }
     $summary = sprintf(_('Contains settings for these objects: %s'), preg_replace('/, $/', '', $summary));
-    return [$summary];
+    return array($summary);
   }
 
   function readValue($value)
   {
     $acl = explode(':', $value, 2);
-    return [$acl[0], acl::extractACL($acl[1])];
+    return array($acl[0], acl::extractACL($acl[1]));
   }
 
   function writeValue($key, $value)
@@ -69,31 +69,31 @@ class ACLsAttribute extends DialogOrderedArrayAttribute
 
 class aclRole extends simplePlugin
 {
-  var $objectclasses  = ['top','gosaRole'];
+  var $objectclasses  = array('top','gosaRole');
 
   static function plInfo()
   {
-    return [
+    return array(
       'plShortName'   => _('Role'),
       'plDescription' => _('Access control roles'),
-      'plObjectType'  => ['aclRole' => [
+      'plObjectType'  => array('aclRole' => array(
         'aclCategory' => 'acl',
         'name'        => _('ACL role'),
         'filter'      => 'objectClass=gosaRole',
         'ou'          => get_ou('aclRoleRDN'),
         'icon'        => 'geticon.php?context=categories&icon=acl&size=16',
-      ]],
+      )),
 
       'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())
-    ];
+    );
   }
 
   static function getAttributesInfo()
   {
-    return [
-      'properties' => [
+    return array(
+      'properties' => array(
         'name'  => _('Properties'),
-        'attrs' => [
+        'attrs' => array(
           new BaseSelectorAttribute(get_ou('aclRoleRDN')),
           new HostNameAttribute(
             _('Name'), _('A name for this role'),
@@ -103,19 +103,19 @@ class aclRole extends simplePlugin
             _('Description'), _('Short description of this role'),
             'description', FALSE
           ),
-        ]
-      ],
-      'acls' => [
+        )
+      ),
+      'acls' => array(
         'name'  => _('ACLs'),
-        'class' => ['fullwidth'],
-        'attrs' => [
+        'class' => array('fullwidth'),
+        'attrs' => array(
           new ACLsAttribute(
             '', _('ACLs which are part of this group'),
             'gosaAclTemplate', TRUE
           ),
-        ]
-      ],
-    ];
+        )
+      ),
+    );
   }
 }
 ?>

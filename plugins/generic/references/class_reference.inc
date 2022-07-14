@@ -20,35 +20,35 @@
 
 class reference extends simplePlugin
 {
-  static function plInfo ()
+  static function plInfo()
   {
-    return [
+    return array(
       'plShortName'   => _('References'),
       'plDescription' => _('References'),
-      'plCategory'    => ['acl'],
-      'plObjectType'  => [
-        'special' => [
+      'plCategory'    => array('acl'),
+      'plObjectType'  => array(
+        'special' => array(
           'name' => 'special'
-        ]
-      ],
+        )
+      ),
       'plPriority'    => 10,
 
-      'plProvidedAcls'  => []
-    ];
+      'plProvidedAcls'  => array()
+    );
   }
 
   static function getAttributesInfo ()
   {
-    return [
-      'main' => [
+    return array(
+      'main' => array(
         'name'      => _('References'),
-        'class'     => ['fullwidth'],
-        'attrs'     => [
+        'class'     => array('fullwidth'),
+        'attrs'     => array(
           new FakeAttribute('refs')
-        ],
+        ),
         'template'  => get_template_path('contents.tpl', TRUE, dirname(__FILE__))
-      ],
-    ];
+      ),
+    );
   }
 
   function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE)
@@ -58,7 +58,7 @@ class reference extends simplePlugin
     $this->refs = NULL;
   }
 
-  function execute ()
+  function execute()
   {
     if ($this->refs === NULL) {
       $this->fillRefs();
@@ -68,7 +68,7 @@ class reference extends simplePlugin
     return parent::execute();
   }
 
-  function fillRefs ()
+  function fillRefs()
   {
     if (!isset($this->parent)) {
       $this->refs = NULL;
@@ -77,18 +77,18 @@ class reference extends simplePlugin
     $this->refs = $this->browseForeignKeys('references');
   }
 
-  function check ()
+  function check()
   {
   }
 
-  function save ()
+  function save()
   {
-    return [];
+    return array();
   }
 
-  function remove ($fulldelete = FALSE)
+  function remove($fulldelete = FALSE)
   {
-    return [];
+    return array();
   }
 }
 

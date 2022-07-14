@@ -31,19 +31,19 @@ class acl
 {
   static function plInfo()
   {
-    return [
+    return array(
       'plShortName'   => _('ACL'),
       'plDescription' => _('Manage access control lists'),
-      'plCategory'    => [
-        'acl' => [
+      'plCategory'    => array(
+        'acl' => array(
           'description'  => _('ACL').'&nbsp;&amp;&nbsp;'._('ACL roles'),
-          'objectClass'  => ['gosaAcl','gosaRole']
-        ]
-      ],
-      'plObjectType'  => [],
+          'objectClass'  => array('gosaAcl','gosaRole')
+        )
+      ),
+      'plObjectType'  => array(),
 
-      'plProvidedAcls'  => []
-    ];
+      'plProvidedAcls'  => array()
+    );
   }
 
   /*!
@@ -78,10 +78,10 @@ class acl
   static function explodeRole($role)
   {
     if (!is_array($role)) {
-      $role = [$role];
+      $role = array($role);
     }
     unset($role['count']);
-    $result = [];
+    $result = array();
     foreach ($role as $aclTemplate) {
       $list = explode(':', $aclTemplate, 2);
       $result[$list[0]] = static::extractACL($list[1]);
@@ -106,17 +106,17 @@ class acl
       list($index, $type,$role,$members) = $list;
     }
 
-    $a = [ $index => [
+    $a = array( $index => array(
       'type'    => $type,
       'filter'  => $filter,
       'members' => acl::extractMembers($members),
       'acl'     => base64_decode($role),
-    ]];
+    ));
 
     /* Handle unknown types */
-    if (!in_array($type, ['subtree', 'base'])) {
+    if (!in_array($type, array('subtree', 'base'))) {
       msg_dialog::display(_("Internal error"), sprintf(_("Unkown ACL type '%s'!\nYou might need to run \"fusiondirectory-setup --migrate-acls\" to migrate your acls to the new format."), $type), ERROR_DIALOG);
-      $a = [];
+      $a = array();
     }
     return $a;
   }
@@ -131,7 +131,7 @@ class acl
   static function extractMembers($ms)
   {
     global $config;
-    $a = [];
+    $a = array();
 
     /* Seperate by ',' and place it in an array */
     $ma = explode(',', $ms);
@@ -147,7 +147,7 @@ class acl
           continue;
         }
 
-        $ldap->cat($dn, ['cn', 'objectClass', 'description', 'uid']);
+        $ldap->cat($dn, array('cn', 'objectClass', 'description', 'uid'));
 
         /* Found entry... */
         if ($ldap->count()) {
@@ -187,7 +187,7 @@ class acl
     /* Rip acl off the string, seperate by ',' and place it in an array */
     $as = preg_replace('/^[^:]+:[^:]+:[^:]*:([^:]*).*$/', '\1', $acl);
     $aa = explode(',', $as);
-    $a  = [];
+    $a  = array();
 
     /* Dis-assemble single ACLs */
     foreach ($aa as $sacl) {
@@ -203,11 +203,11 @@ class acl
         if ($idx == 0) {
           /* Create hash for this object */
           $gobject      = $object;
-          $a[$gobject]  = [];
+          $a[$gobject]  = array();
 
           /* Append ACL if set */
           if ($gacl != "") {
-            $a[$gobject] = [$gacl];
+            $a[$gobject] = array($gacl);
           }
         } else {
           /* All other entries get appended... */

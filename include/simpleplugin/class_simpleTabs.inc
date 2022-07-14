@@ -35,13 +35,13 @@ class simpleTabs
 
   public $objectType      = FALSE;
   protected $specialTabs  = TRUE;
-  protected $plNotify     = [];
+  protected $plNotify     = array();
 
   var $last       = "";
   var $current    = "";
   var $disabled   = "";
-  var $by_name    = [];
-  var $by_object  = [];
+  var $by_name    = array();
+  var $by_object  = array();
   var $acl_category;
 
   /* A parent object if available, e.g. a management class. */
@@ -69,7 +69,7 @@ class simpleTabs
     $this->dn           = $dn;
 
     if (!count($data)) {
-      $data[] = ['CLASS' => 'plugin','NAME' => 'Error'];
+      $data[] = array('CLASS' => 'plugin','NAME' => 'Error');
       msg_dialog::display(_('Error'),
         sprintf(_('No plugin definitions found to initialize "%s", please check your configuration file.'), get_class($this)),
         ERROR_DIALOG);
@@ -124,7 +124,7 @@ class simpleTabs
     $baseobject = NULL;
     foreach ($this->by_object as $name => $object) {
       $class = get_class($object);
-      if (in_array($class, ["reference","acl"])) {
+      if (in_array($class, array("reference","acl"))) {
         continue;
       }
       if ($baseobject === NULL) {
@@ -251,7 +251,7 @@ class simpleTabs
     }
     $display  .= '<table class="tabs-header"><tbody><tr>';
     $index    = 0;
-    $style    = ['tab-left', 'tab-active', 'tab-right'];
+    $style    = array('tab-left', 'tab-active', 'tab-right');
     foreach ($this->by_name as $class => $name) {
 
       /* Activate right tabs with style "tab-right" */
@@ -334,13 +334,13 @@ class simpleTabs
   protected function check()
   {
     global $config;
-    $messages = [];
+    $messages = array();
 
     if ($this->getBaseObject()->is_template) {
       $ldap = $config->get_ldap_link();
       $ldap->cd($config->current['BASE']);
       $filter = '(&(objectClass=fdTemplate)(cn='.ldap_escape_f($this->getBaseObject()->_template_cn).'))';
-      $ldap->search($filter, ['dn']);
+      $ldap->search($filter, array('dn'));
       while ($attrs = $ldap->fetch()) {
         if ($attrs['dn'] != $this->getBaseObject()->dn) {
           $messages[] = msgPool::duplicated($this->getBaseObject()->attributesAccess['_template_cn']->getLabel(), $attrs['dn']);
@@ -392,12 +392,12 @@ class simpleTabs
       $new_dn     = $baseobject->compute_dn();
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $new_dn, 'Saving');
     } catch (FusionDirectoryException $e) {
-      return [
+      return array(
         sprintf(_('Failed to compute DN for object: %s'), $e->getMessage())
-      ];
+      );
     }
 
-    $errors   = [];
+    $errors   = array();
     $creation = ($this->dn == 'new');
 
     /* Move ? */
@@ -467,7 +467,7 @@ class simpleTabs
    * \param array $attrs an LDAP-like values array
    * \param array $skip Attributes to skip
    */
-  function adapt_from_template($attrs, $skip = [])
+  function adapt_from_template($attrs, $skip = array())
   {
     foreach ($this->by_object as $key => &$obj) {
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, "Adapting");

@@ -21,7 +21,7 @@
 class aclRoleManagement extends simpleManagement
 {
   // Tab definition
-  protected $objectTypes  = ['aclRole'];
+  protected $objectTypes  = array('aclRole');
 
   protected $departmentBrowser      = TRUE;
   protected $departmentRootVisible  = TRUE;
@@ -30,18 +30,18 @@ class aclRoleManagement extends simpleManagement
   /* Return plugin informations for acl handling  */
   public static function plInfo()
   {
-    return [
+    return array(
       'plShortName'   => _('ACL roles'),
       'plTitle'       => _('ACL roles management'),
       'plDescription' => _('Manage ACL roles'),
       'plIcon'        => 'geticon.php?context=categories&icon=acl&size=48',
       'plSection'     => 'accounts',
       'plPriority'    => 27,
-      'plCategory'    => ['acl'],
-      'plManages'     => ['aclRole'],
+      'plCategory'    => array('acl'),
+      'plManages'     => array('aclRole'),
 
-      'plProvidedAcls' => []
-    ];
+      'plProvidedAcls' => array()
+    );
   }
 }
 ?>

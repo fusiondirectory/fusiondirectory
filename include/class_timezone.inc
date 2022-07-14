@@ -77,9 +77,9 @@ class timezone
       $tz       = $config->get_cfg_value('timezone');
       $tz_delta = date('Z', $stamp);
       $tz_delta = $tz_delta / 3600;
-      return ['name' => $tz, 'value' => $tz_delta];
+      return array('name' => $tz, 'value' => $tz_delta);
     } else {
-      return ['name' => 'unconfigured', 'value' => 0];
+      return array('name' => 'unconfigured', 'value' => 0);
     }
   }
 

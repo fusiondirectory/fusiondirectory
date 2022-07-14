@@ -39,7 +39,7 @@ class templateHandling
     list($depends, $errors) = static::attributesDependencies($attrs);
     msg_dialog::displayChecks($errors);
     $attrs    = static::sortAttributes($attrs, $depends);
-    return [$attrs, $depends];
+    return array($attrs, $depends);
   }
 
   /*! \brief Translate template attrs into $attrs as if taken from LDAP */
@@ -47,14 +47,14 @@ class templateHandling
   {
     unset($template_attrs['fdTemplateField']['count']);
     sort($template_attrs['fdTemplateField']);
-    $attrs = [];
+    $attrs = array();
     foreach ($template_attrs['fdTemplateField'] as $field) {
       preg_match('/^([^:]+):(.*)$/s', $field, $m);
       if (isset($attrs[$m[1]])) {
         $attrs[$m[1]][] = $m[2];
         $attrs[$m[1]]['count']++;
       } else {
-        $attrs[$m[1]]           = [$m[2]];
+        $attrs[$m[1]]           = array($m[2]);
         $attrs[$m[1]]['count']  = 1;
       }
     }
@@ -119,16 +119,16 @@ class templateHandling
   public static function parseMask($mask, array $attrs)
   {
     if ($mask == '|') {
-      return ['%'];
+      return array('%');
     }
     $modifiers = '';
     if (preg_match('/^([^|]+)\|/', $mask, $m)) {
       $modifiers = $m[1];
       $mask = substr($mask, strlen($m[0]));
     }
-    $result = [''];
+    $result = array('');
     if (isset($attrs[$mask])) {
-      $result = [$attrs[$mask]];
+      $result = array($attrs[$mask]);
       if (is_array($result[0])) {
         unset($result[0]['count']);
       }
@@ -137,14 +137,14 @@ class templateHandling
     }
     $len    = strlen($modifiers);
     for ($i = 0; $i < $len; ++$i) {
-      $args     = [];
+      $args     = array();
       $modifier = $modifiers[$i];
       if (preg_match('/^\[([^\]]+)\].*$/', substr($modifiers, $i + 1), $m)) {
         /* get modifier args */
         $args = explode(',', $m[1]);
         $i += strlen($m[1]) + 2;
       }
-      $result_tmp = [];
+      $result_tmp = array();
       foreach ($result as $r) {
         $result_tmp = array_merge($result_tmp, static::applyModifier($modifier, $args, $r));
       }
@@ -166,7 +166,7 @@ class templateHandling
    */
   public static function neededAttrs(array &$attrs, array $flatdepends)
   {
-    $needed = [];
+    $needed = array();
     foreach ($flatdepends as $attr => $depends) {
       if ((isset($depends[0])) && ($depends[0] == 'askme')) {
         $needed[] = $attr;
@@ -233,7 +233,7 @@ class templateHandling
    */
   public static function listFields($string)
   {
-    $fields = [];
+    $fields = array();
     $offset = 0;
     while (preg_match('/%([^%]+)%/', $string, $m, PREG_OFFSET_CAPTURE, $offset)) {
       $mask   = $m[1][0];
@@ -257,15 +257,15 @@ class templateHandling
     // handle ligatures
     $str = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $str);
     // delete unhandled characters
-    return [preg_replace('#&[^;]+;#', '', $str)];
+    return array(preg_replace('#&[^;]+;#', '', $str));
   }
 
   private static function modifierTranslit(array $args, $str)
   {
     $localesaved = setlocale(LC_CTYPE, 0);
-    $ret = [];
+    $ret = array();
     foreach ($args as $arg) {
-      setlocale(LC_CTYPE, [$arg,"$arg.UTF8"]);
+      setlocale(LC_CTYPE, array($arg,"$arg.UTF8"));
       $ret[] = iconv('UTF8', 'ASCII//TRANSLIT', $str);
     }
     setlocale(LC_CTYPE, $localesaved);
@@ -283,7 +283,7 @@ class templateHandling
       }
     }
 
-    return [preg_replace($pattern.'u', $replace, $str)];
+    return array(preg_replace($pattern.'u', $replace, $str));
   }
 
   private static function modifierSubString(array $args, $str)
@@ -295,13 +295,13 @@ class templateHandling
       array_unshift($args, 0);
     }
     if (preg_match('/^(\d+)-(\d+)$/', $args[1], $m)) {
-      $res = [];
+      $res = array();
       for ($i = $m[1];$i < $m[2]; ++$i) {
         $res[] = mb_substr($str, $args[0], $i);
       }
       return array_unique($res);
     } else {
-      return [mb_substr($str, $args[0], $args[1])];
+      return array(mb_substr($str, $args[0], $args[1]));
     }
   }
 
@@ -366,9 +366,9 @@ class templateHandling
     $dateObject = new DateTime($args[0], new DateTimeZone('UTC'));
     if ($args[1] == 'epoch') {
       /* Special handling for shadowExpire: days since epoch */
-      return [floor($dateObject->format('U') / 86400)];
+      return array(floor($dateObject->format('U') / 86400));
     }
-    return [$dateObject->format($args[1])];
+    return array($dateObject->format($args[1]));
   }
 
   /*! \brief Apply a modifier
@@ -387,27 +387,27 @@ class templateHandling
       /* $str is an array and $m is lowercase, so it's a string modifier */
       $str = reset($str);
     }
-    $result = [$str];
+    $result = array($str);
     switch ($m) {
       case 'F':
         // First
-        $result = [reset($str)];
+        $result = array(reset($str));
         break;
       case 'L':
         // Last
-        $result = [end($str)];
+        $result = array(end($str));
         break;
       case 'J':
         // Join
         if (isset($args[0])) {
-          $result = [join($args[0], $str)];
+          $result = array(join($args[0], $str));
         } else {
-          $result = [join($str)];
+          $result = array(join($str));
         }
         break;
       case 'C':
         // Count
-        $result = [count($str)];
+        $result = array(count($str));
         break;
       case 'M':
         // Match
@@ -415,40 +415,40 @@ class templateHandling
           trigger_error('Missing "M" match modifier parameter');
           $args[] = '/.*/';
         }
-        $result = [array_filter(
+        $result = array(array_filter(
           $str,
           function ($s) use ($args)
           {
             return preg_match($args[0], $s);
           }
-        )];
+        ));
         break;
       case '4':
         // IPv4
-        $result = [array_filter($str, 'tests::is_ipv4')];
+        $result = array(array_filter($str, 'tests::is_ipv4'));
         break;
       case '6':
         // IPv6
-        $result = [array_filter($str, 'tests::is_ipv6')];
+        $result = array(array_filter($str, 'tests::is_ipv6'));
         break;
       case 'c':
         // comment
-        $result = [''];
+        $result = array('');
         break;
       case 'b':
         // base64
         if (isset($args[0]) && ($args[0] == 'd')) {
-          $result = [base64_decode($str)];
+          $result = array(base64_decode($str));
         }
-        $result = [base64_encode($str)];
+        $result = array(base64_encode($str));
         break;
       case 'u':
         // uppercase
-        $result = [mb_strtoupper($str, 'UTF-8')];
+        $result = array(mb_strtoupper($str, 'UTF-8'));
         break;
       case 'l':
         // lowercase
-        $result = [mb_strtolower($str, 'UTF-8')];
+        $result = array(mb_strtolower($str, 'UTF-8'));
         break;
       case 'a':
         // remove accent
@@ -468,22 +468,22 @@ class templateHandling
         break;
       case 'r':
         // random string
-        $result = [static::modifierRandomString($args)];
+        $result = array(static::modifierRandomString($args));
         break;
       case 'd':
         // date
-        $result = [static::modifierDate($args)];
+        $result = array(static::modifierDate($args));
         break;
       default:
         trigger_error("Unkown modifier '$m'");
-        $result = [$str];
+        $result = array($str);
         break;
     }
     return $result;
   }
 
   /*! \brief Flattens dependencies (if a depends of b which depends of c then a depends of c) */
-  protected static function flatDepends (&$cache, &$errors, $depends, $key, array $forbidden = [])
+  protected static function flatDepends (&$cache, &$errors, $depends, $key, array $forbidden = array())
   {
     if (isset($cache[$key])) {
       return $cache[$key];
@@ -501,7 +501,7 @@ class templateHandling
               $key,
               $a
             );
-            return [];
+            return array();
           }
           $deps = static::flatDepends ($cache, $errors, $depends, $a, $forbidden);
           if (($askmeKey = array_search('askme', $deps)) !== FALSE) {
@@ -521,11 +521,11 @@ class templateHandling
   protected static function attributesDependencies(array $attrs)
   {
     /* Compute dependencies of each attr */
-    $depends = [];
+    $depends = array();
     foreach ($attrs as $key => $values) {
-      $depends[$key] = [];
+      $depends[$key] = array();
       if (!is_array($values))  {
-        $values = [$values];
+        $values = array($values);
       }
       unset ($values['count']);
       foreach ($values as $value) {
@@ -535,19 +535,19 @@ class templateHandling
           $depends[$key][] = $m[2][0];
           if (!isset($attrs[$m[2][0]])) {
             /* Dependency which has no value might be missing */
-            $attrs[$m[2][0]]    = [];
-            $depends[$m[2][0]]  = [];
+            $attrs[$m[2][0]]    = array();
+            $depends[$m[2][0]]  = array();
           }
         }
       }
     }
     /* Flattens dependencies */
-    $flatdepends  = [];
-    $errors       = [];
+    $flatdepends  = array();
+    $errors       = array();
     foreach ($depends as $key => $value) {
       static::flatDepends($flatdepends, $errors, $depends, $key);
     }
-    return [$flatdepends, $errors];
+    return array($flatdepends, $errors);
   }
 
   /*! \brief Sort attrs depending of dependencies */

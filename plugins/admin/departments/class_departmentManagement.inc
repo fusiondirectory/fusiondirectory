@@ -29,17 +29,17 @@ class departmentManagement extends simpleManagement
   /* Return plugin information for acl handling */
   static function plInfo()
   {
-    return [
+    return array(
       'plShortName'   => _('Departments'),
       'plTitle'       => _('Manage departments'),
       'plDescription' => _('Manage departments, countries, domain components, domains, localities and organization nodes,'),
       'plIcon'        => 'geticon.php?context=places&icon=folder&size=48',
-      'plSection'     => ['accounts' => ['name' => _('Users and groups'), 'priority' => 0]],
+      'plSection'     => array('accounts' => array('name' => _('Users and groups'), 'priority' => 0)),
       'plPriority'    => 0,
       'plManages'     => static::getDepartmentTypes(),
 
-      'plProvidedAcls' => []
-    ];
+      'plProvidedAcls' => array()
+    );
   }
 
   function __construct()
@@ -83,7 +83,7 @@ class departmentManagement extends simpleManagement
   protected function removeEntryRequested($action, array $target, array $all)
   {
     global $config;
-    $target = array_remove_entries([$config->current['BASE']], $target);
+    $target = array_remove_entries(array($config->current['BASE']), $target);
     return parent::removeEntryRequested($action, $target, $all);
   }
 
@@ -106,7 +106,7 @@ class departmentManagement extends simpleManagement
 
   static function getDepartmentTypes()
   {
-    return ['DEPARTMENT','COUNTRY','DCOBJECT','DOMAIN','LOCALITY','ORGANIZATION'];
+    return array('DEPARTMENT','COUNTRY','DCOBJECT','DOMAIN','LOCALITY','ORGANIZATION');
   }
 }
 ?>

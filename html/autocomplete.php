@@ -26,11 +26,11 @@
 
 session_cache_limiter("private");
 session::start();
-session::set('errorsAlreadyPosted', []);
+session::set('errorsAlreadyPosted', array());
 
 /* Logged in? Simple security check */
 if (!session::is_set('ui')) {
-  logging::log('security', 'unknown', '', [], 'Error: autocomplete.php called without session');
+  logging::log('security', 'unknown', '', array(), 'Error: autocomplete.php called without session');
   header ('Location: index.php');
   exit;
 }

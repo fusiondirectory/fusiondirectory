@@ -23,9 +23,9 @@
  */
 class systemSelect extends simpleSelectManagement
 {
-  protected $autoFilterAttributes = ['dn', 'cn', 'ipHostNumber', 'macAddress'];
-  protected $objectTypes = [
+  protected $autoFilterAttributes = array('dn', 'cn', 'ipHostNumber', 'macAddress');
+  protected $objectTypes = array(
     'terminal', 'workstation', 'server'
-  ];
+  );
 }
 ?>

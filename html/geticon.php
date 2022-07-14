@@ -25,7 +25,7 @@
 
 session_cache_limiter("private");
 session::start();
-session::set('errorsAlreadyPosted', []);
+session::set('errorsAlreadyPosted', array());
 
 $theme = '';
 if (session::is_set('config')) {
@@ -34,7 +34,7 @@ if (session::is_set('config')) {
 } else {
   header("cache-control: no-cache");
 }
-IconTheme::$extensions    = ['png'];
+IconTheme::$extensions    = array('png');
 if (!isset($_GET['context']) || !isset($_GET['icon']) || !isset($_GET['size'])) {
   trigger_error('Missing information in query string: '.$_SERVER['QUERY_STRING']);
   exit;

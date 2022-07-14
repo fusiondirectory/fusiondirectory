@@ -31,10 +31,10 @@ class setupStepLdap extends setupStep
 
   static function getAttributesInfo ()
   {
-    return [
-      'connection' => [
+    return array(
+      'connection' => array(
         'name'      => _('LDAP connection'),
-        'attrs'     => [
+        'attrs'     => array(
           new StringAttribute(
             _('Location name'), _('Name of this connexion to show in the LDAP server list'),
             'location', TRUE,
@@ -53,15 +53,15 @@ class setupStepLdap extends setupStep
             _('Base'), _('The LDAP directory base'),
             'base', TRUE
           )
-        ]
-      ],
-      'auth' => [
+        )
+      ),
+      'auth' => array(
         'name'      => _('Authentication'),
-        'attrs'     => [
+        'attrs'     => array(
           new CompositeAttribute(
             _('DN of the admin account to use for binding to the LDAP. Base is automatically appended.'),
             'admin',
-            [
+            array(
               new StringAttribute(
                 '', '',
                 'admin_given', TRUE,
@@ -70,7 +70,7 @@ class setupStepLdap extends setupStep
               new DisplayAttribute(
                 '', '', 'base_append'
               )
-            ],
+            ),
             '^(.+)(.*)$',
             '%s%s',
             '',
@@ -80,21 +80,21 @@ class setupStepLdap extends setupStep
             _('Admin password'), _('Password for the admin account to use for binding to the LDAP'),
             'password', TRUE
           ),
-        ]
-      ],
-      'status' => [
+        )
+      ),
+      'status' => array(
         'name'      => _('Status'),
-        'attrs'     => [
+        'attrs'     => array(
           new DisplayAttribute(
             _('Current status'), _('Result of last attempt at checking LDAP binding and basic schemas'),
             'status', FALSE
           ),
-        ]
-      ]
-    ];
+        )
+      )
+    );
   }
 
-  function __construct ($parent)
+  function __construct($parent)
   {
     parent::__construct($parent);
     $this->update_strings();
@@ -105,14 +105,14 @@ class setupStepLdap extends setupStep
     $this->status = $this->get_connection_status();
   }
 
-  function update_strings ()
+  function update_strings()
   {
     $this->s_short_name   = _('LDAP setup');
     $this->s_title        = _('LDAP connection setup');
     $this->s_description  = _('This dialog performs the basic configuration of the LDAP connectivity for FusionDirectory.');
   }
 
-  function update_base_choices ()
+  function update_base_choices()
   {
     $attr = @LDAP::get_naming_contexts($this->connection);
     unset($attr['count']);
@@ -135,7 +135,7 @@ class setupStepLdap extends setupStep
     $this->lastBase       = $this->base;
   }
 
-  function save_object ()
+  function save_object()
   {
     parent::save_object();
     $this->connection = preg_replace('/\/$/', '', $this->connection);
@@ -158,7 +158,7 @@ class setupStepLdap extends setupStep
     }
   }
 
-  function get_connection_status ()
+  function get_connection_status()
   {
     $this->connect_id = FALSE;
     $this->bind_id    = FALSE;
@@ -199,7 +199,7 @@ class setupStepLdap extends setupStep
     }
   }
 
-  function check ()
+  function check()
   {
     $error = parent::check();
     if (!empty($error)) {
@@ -207,7 +207,7 @@ class setupStepLdap extends setupStep
       return $error;
     } elseif ($this->is_completed) {
       $checked  = check_schema($this->parent->captured_values);
-      $error    = [];
+      $error    = array();
       foreach ($checked as $check) {
         if (!$check['STATUS']) {
           if ($check['IS_MUST_HAVE']) {

@@ -22,25 +22,25 @@ class dashboardPassword extends simplePlugin
 {
   static function plInfo()
   {
-    return [
+    return array(
       'plShortName'   => _('Passwords'),
       'plDescription' => _('Statistics about passwords'),
-      'plObjectType'  => ['dashboard'],
+      'plObjectType'  => array('dashboard'),
       'plPriority'    => 12,
 
-      'plProvidedAcls'  => []
-    ];
+      'plProvidedAcls'  => array()
+    );
   }
 
   static function getAttributesInfo()
   {
-    return [
-      'pwds' => [
+    return array(
+      'pwds' => array(
         'name'  => _('Passwords statistics'),
-        'attrs' => [new FakeAttribute('pwds_stats')],
+        'attrs' => array(new FakeAttribute('pwds_stats')),
         'template' => get_template_path('pwd_stats.tpl', TRUE, dirname(__FILE__)),
-      ],
-    ];
+      ),
+    );
   }
 
   function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE)
@@ -64,11 +64,11 @@ class dashboardPassword extends simplePlugin
         sprintf(_('Password statistics could not be computed because of the following LDAP error: %s'), $e->getMessage()),
         ERROR_DIALOG
       );
-      $users = [];
+      $users = array();
     }
     $nb_accounts = count($users);
     $nb_locked_accounts = 0;
-    $methods_stats = [];
+    $methods_stats = array();
     foreach ($users as $userPassword) {
       if (!empty($userPassword)) {
         if (preg_match("/^\{[^\}]+\}!/", $userPassword)) {
@@ -77,10 +77,10 @@ class dashboardPassword extends simplePlugin
         $method = passwordMethod::get_method($userPassword);
         $methodClass = get_class($method);
         if (!isset($methods_stats[$methodClass])) {
-          $methods_stats[$methodClass] = [
+          $methods_stats[$methodClass] = array(
             'nb' => 0,
             'name' => $method->get_hash()
-          ];
+          );
           if ($method->get_hash() == $defaultMethod) {
             $methods_stats[$methodClass]['style'] = 'default';
           } elseif ($method->get_hash() == 'clear') {
@@ -95,15 +95,15 @@ class dashboardPassword extends simplePlugin
       }
     }
 
-    return [
+    return array(
       'methods'         => $methods_stats,
       'nb'              => $nb_accounts,
       'img'             => 'geticon.php?context=types&icon=user&size=16',
-      'locked_accounts' => [
+      'locked_accounts' => array(
         'nb'  => $nb_locked_accounts,
         'img' => 'geticon.php?context=status&icon=object-locked&size=16'
-      ],
-    ];
+      ),
+    );
   }
 }
 ?>

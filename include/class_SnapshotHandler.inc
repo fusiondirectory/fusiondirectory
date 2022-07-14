@@ -30,23 +30,23 @@
  */
 class SnapshotHandler
 {
-  var $snapshotBases  = [];
+  var $snapshotBases  = array();
 
   protected $enabled;
 
   static function plInfo()
   {
-    return [
+    return array(
       'plShortName'   => _('Snapshot'),
       'plDescription' => _('Snapshot handler'),
       /* Categories for snapshots are computed in config class */
-      'plCategory'    => [],
+      'plCategory'    => array(),
 
-      'plProvidedAcls' => [
+      'plProvidedAcls' => array(
         'restore_over'    => _('Restore over an existing object'),
         'restore_deleted' => _('Restore a deleted object'),
-      ]
-    ];
+      )
+    );
   }
 
   /*!
@@ -137,10 +137,10 @@ class SnapshotHandler
 
     /* Fetch all objects with */
     $ldap->cd($base);
-    $ldap->search('(&(objectClass=gosaSnapshotObject)(gosaSnapshotDN=*))', ['gosaSnapshotDN']);
+    $ldap->search('(&(objectClass=gosaSnapshotObject)(gosaSnapshotDN=*))', array('gosaSnapshotDN'));
 
     /* Store for which object we have snapshots */
-    $this->snapshotsCache = [];
+    $this->snapshotsCache = array();
     while ($entry = $ldap->fetch()) {
       $this->snapshotsCache[$entry['gosaSnapshotDN'][0]] = TRUE;
     }
@@ -167,7 +167,7 @@ class SnapshotHandler
   {
     global $config;
     if (!$this->enabled()) {
-      return [];
+      return array();
     }
 
     $ldap = $config->get_ldap_link();
@@ -181,12 +181,12 @@ class SnapshotHandler
     $ldap->cd($base);
     $ldap->search(
       '(&(objectClass=gosaSnapshotObject)(gosaSnapshotDN='.ldap_escape_f($dn).'))',
-      ['gosaSnapshotTimestamp','gosaSnapshotDN','description'],
+      array('gosaSnapshotTimestamp','gosaSnapshotDN','description'),
       'one'
     );
 
     /* Put results into a list and add description if missing */
-    $objects = [];
+    $objects = array();
     while ($entry = $ldap->fetch()) {
       if (!isset($entry['description'][0])) {
         $entry['description'][0]  = "";
@@ -198,7 +198,7 @@ class SnapshotHandler
     if ($raw) {
       return $objects;
     } else {
-      $tmp = [];
+      $tmp = array();
       foreach ($objects as $entry) {
         $tmp[base64_encode($entry['dn'])] = $entry['description'][0];
       }
@@ -214,7 +214,7 @@ class SnapshotHandler
    *
    * \param array $description Snapshot description
    */
-  function createSnapshot($dn, $description = [])
+  function createSnapshot($dn, $description = array())
   {
     global $config;
     if (!$this->enabled()) {
@@ -226,7 +226,7 @@ class SnapshotHandler
       $dns  = $dn;
       $dn   = $dns[0];
     } else {
-      $dns = [$dn];
+      $dns = array($dn);
     }
 
     $ldap = $config->get_ldap_link();
@@ -252,9 +252,9 @@ class SnapshotHandler
       }
     }
 
-    $target   = [];
+    $target   = array();
 
-    $target['objectClass']            = ['top', 'gosaSnapshotObject'];
+    $target['objectClass']            = array('top', 'gosaSnapshotObject');
     $target['gosaSnapshotData']       = gzcompress($data, 6);
     $target['gosaSnapshotDN']         = $dn;
     $target['description']            = $description;
@@ -307,7 +307,7 @@ class SnapshotHandler
   {
     global $config;
     if (!$this->enabled()) {
-      return [];
+      return array();
     }
 
     $ldap = $config->get_ldap_link();
@@ -315,13 +315,13 @@ class SnapshotHandler
     /* Prepare bases and some other infos */
     $base_of_object = preg_replace ('/^[^,]+,/i', '', $dn);
     $new_base       = $this->snapshot_dn($base_of_object);
-    $tmp            = [];
+    $tmp            = array();
 
     /* Fetch all objects with  gosaSnapshotDN=$dn */
     $ldap->cd($new_base);
     $ldap->search(
       '(&(objectClass=gosaSnapshotObject)(gosaSnapshotDN='.ldap_escape_f($dn).'))',
-      ['gosaSnapshotTimestamp','gosaSnapshotDN','description'],
+      array('gosaSnapshotTimestamp','gosaSnapshotDN','description'),
       'one'
     );
 
@@ -345,7 +345,7 @@ class SnapshotHandler
   {
     global $config;
     if (!$this->enabled()) {
-      return [];
+      return array();
     }
 
     $ldap = $config->get_ldap_link();
@@ -353,11 +353,11 @@ class SnapshotHandler
     /* Prepare bases */
     $new_base       = $this->snapshot_dn($base_of_object);
     /* Fetch all objects and check if they do not exist anymore */
-    $tmp  = [];
+    $tmp  = array();
     $ldap->cd($new_base);
     $ldap->search(
       '(objectClass=gosaSnapshotObject)',
-      ['gosaSnapshotTimestamp','gosaSnapshotDN','description'],
+      array('gosaSnapshotTimestamp','gosaSnapshotDN','description'),
       'one'
     );
     while ($entry = $ldap->fetch()) {
@@ -394,23 +394,23 @@ class SnapshotHandler
     global $config;
     if (!$this->enabled()) {
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot are disabled but tried to restore snapshot');
-      return [];
+      return array();
     }
 
     $ldap = $config->get_ldap_link();
 
     /* Get the snapshot */
-    $ldap->cat($dn, ['gosaSnapshotData'], '(gosaSnapshotData=*)');
+    $ldap->cat($dn, array('gosaSnapshotData'), '(gosaSnapshotData=*)');
     if ($attrs = $ldap->fetch()) {
       /* Prepare import string */
       $data = gzuncompress($attrs['gosaSnapshotData'][0]);
       if ($data === FALSE) {
         msg_dialog::display(_('Error'), _('There was a problem uncompressing snapshot data'), ERROR_DIALOG);
-        return [];
+        return array();
       }
     } else {
       msg_dialog::display(_('Error'), _('Snapshot data could not be fetched'), ERROR_DIALOG);
-      return [];
+      return array();
     }
 
     /* Import the given data */

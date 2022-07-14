@@ -40,13 +40,13 @@ class LDAP
   /* connection identifier */
   var $cid;
 
-  var $hasres         = [];
-  var $sr             = [];
-  var $re             = [];
+  var $hasres         = array();
+  var $sr             = array();
+  var $re             = array();
   var $basedn         = "";
 
   /* 0 if we are fetching the first entry, otherwise 1 */
-  var $start          = [];
+  var $start          = array();
 
   /* Any error messages to be returned can be put here */
   var $error          = "";
@@ -54,14 +54,14 @@ class LDAP
   var $srp            = 0;
 
   /* Information read from slapd.oc.conf */
-  var $objectClasses    = [];
+  var $objectClasses    = array();
   /* the dn for the bind */
   var $binddn           = "";
   /* the dn's password for the bind */
   var $bindpw           = "";
   var $hostname         = "";
   var $follow_referral  = FALSE;
-  var $referrals        = [];
+  var $referrals        = array();
 
   /* 0, empty or negative values will disable this check */
   var $max_ldap_query_time  = 0;
@@ -134,7 +134,7 @@ class LDAP
       @ldap_set_option($this->cid, LDAP_OPT_PROTOCOL_VERSION, 3);
       if (function_exists("ldap_set_rebind_proc") && $this->follow_referral) {
         @ldap_set_option($this->cid, LDAP_OPT_REFERRALS, 1);
-        @ldap_set_rebind_proc($this->cid, [&$this, "rebind"]);
+        @ldap_set_rebind_proc($this->cid, array(&$this, "rebind"));
       }
       if (function_exists("ldap_start_tls") && $this->tls) {
         @ldap_start_tls($this->cid);
@@ -245,7 +245,7 @@ class LDAP
    *
    * \param string $scope Scope of the search: subtree/base/one
    */
-  function search($srp, $filter, $attrs = [], $scope = 'subtree')
+  function search($srp, $filter, $attrs = array(), $scope = 'subtree')
   {
     if ($this->hascon) {
       if ($this->reconnect) {
@@ -297,7 +297,7 @@ class LDAP
    *
    * \param array $attrs
    */
-  function ls($srp, $filter = "(objectclass=*)", $basedn = "", $attrs = ["*"])
+  function ls($srp, $filter = "(objectclass=*)", $basedn = "", $attrs = array("*"))
   {
     trigger_error('deprecated');
     $this->cd($basedn);
@@ -315,7 +315,7 @@ class LDAP
    *
    * \param string $filter Initialized at "(objectclass=*)"
    */
-  function cat($srp, $dn, $attrs = ["*"], $filter = "(objectclass=*)")
+  function cat($srp, $dn, $attrs = array("*"), $filter = "(objectclass=*)")
   {
     if ($this->hascon) {
       if ($this->reconnect) {
@@ -347,7 +347,7 @@ class LDAP
       if ($this->reconnect) {
         $this->connect();
       }
-      $res  = @ldap_read($this->cid, $dn, $filter, ["objectClass"]);
+      $res  = @ldap_read($this->cid, $dn, $filter, array("objectClass"));
       $rv   = @ldap_count_entries($this->cid, $res);
       return $rv;
     } else {
@@ -381,7 +381,7 @@ class LDAP
    */
   function fetch($srp)
   {
-    $att = [];
+    $att = array();
     if ($this->hascon) {
       if ($this->hasres[$srp]) {
         if ($this->start[$srp] == 0) {
@@ -389,7 +389,7 @@ class LDAP
             $this->start[$srp]  = 1;
             $this->re[$srp]     = @ldap_first_entry($this->cid, $this->sr[$srp]);
           } else {
-            return [];
+            return array();
           }
         } else {
           $this->re[$srp] = @ldap_next_entry($this->cid, $this->re[$srp]);
@@ -400,7 +400,7 @@ class LDAP
         }
         $this->error = @ldap_error($this->cid);
         if (!isset($att)) {
-          $att = [];
+          $att = array();
         }
         return $att;
       } else {
@@ -621,11 +621,11 @@ class LDAP
       if ($this->reconnect) {
         $this->connect();
       }
-      $delarray = [];
+      $delarray = array();
 
       /* Get sorted list of dn's to delete */
       $this->cd($deletedn);
-      $this->search($srp, '(objectClass=*)', ['dn']);
+      $this->search($srp, '(objectClass=*)', array('dn'));
       while ($attrs = $this->fetch($srp)) {
         $delarray[$attrs['dn']] = strlen($attrs['dn']);
       }
@@ -658,7 +658,7 @@ class LDAP
       if (isset($attrs['objectClass'])) {
         $ocs = $attrs['objectClass'];
         if (!is_array($ocs)) {
-          $ocs = [$ocs];
+          $ocs = array($ocs);
         }
         if (isset($ocs[$m[1]])) {
           $str .= " - <b>objectClass: ".$ocs[$m[1]]."</b>";
@@ -733,7 +733,7 @@ class LDAP
     $real_path = substr($target, 0, strlen($target) - strlen($this->basedn) - 1);
 
     if ($target == $this->basedn) {
-      $l = ['dummy'];
+      $l = array('dummy');
     } else {
       $l = array_reverse(ldap_explode_dn($real_path, 0));
     }
@@ -767,29 +767,29 @@ class LDAP
 
       $type   = preg_replace('/^([^=]+)=.*$/', '\\1', $cdn);
       $param  = preg_replace('/^[^=]+=([^,]+).*$/', '\\1', $cdn);
-      $param  = preg_replace(['/\\\\,/','/\\\\"/'], [',','"'], $param);
+      $param  = preg_replace(array('/\\\\,/','/\\\\"/'), array(',','"'), $param);
 
-      $attrs = [$type => $param];
+      $attrs = array($type => $param);
 
       /* Hardcoded classes */
       switch ($type) {
         case 'ou':
-          $attrs['objectClass']  = ['organizationalUnit'];
+          $attrs['objectClass']  = array('organizationalUnit');
           break;
         case 'd':
-          $attrs['objectClass']  = ['domain'];
+          $attrs['objectClass']  = array('domain');
           break;
         case 'dc':
-          $attrs['objectClass']  = ['dcObject'];
+          $attrs['objectClass']  = array('dcObject');
           break;
         case 'o':
-          $attrs['objectClass']  = ['organization'];
+          $attrs['objectClass']  = array('organization');
           break;
         case 'l':
-          $attrs['objectClass']  = ['locality'];
+          $attrs['objectClass']  = array('locality');
           break;
         case 'c':
-          $attrs['objectClass']  = ['country'];
+          $attrs['objectClass']  = array('country');
           break;
         default:
           /* Fallback to autodetection of objectClass */
@@ -798,22 +798,22 @@ class LDAP
             exit();
           }
           /* Get name of first matching objectClass */
-          $attrs['objectClass']  = [];
+          $attrs['objectClass']  = array();
           foreach ($classes as $class) {
             if (isset($class['MUST']) && in_array($type, $class['MUST'])) {
               /* Look for first class that is structural... */
               if (isset($class['STRUCTURAL'])) {
-                $attrs['objectClass'] = [$class['NAME']];
+                $attrs['objectClass'] = array($class['NAME']);
                 break;
               }
 
               /* Look for class that is auxiliary... */
               if (empty($attrs['objectClass']) && isset($class['AUXILIARY'])) {
-                $attrs['objectClass'] = [$class['NAME']];
+                $attrs['objectClass'] = array($class['NAME']);
               }
             } elseif (empty($attrs['objectClass']) && isset($class['MAY']) && in_array($type, $class['MAY'])) {
               /* Better than nothing */
-              $attrs['objectClass'] = [$class['NAME']];
+              $attrs['objectClass'] = array($class['NAME']);
             }
           }
 
@@ -929,7 +929,7 @@ class LDAP
 
   function get_credentials($url, $referrals = NULL)
   {
-    $ret    = [];
+    $ret    = array();
     $url    = preg_replace('!\?\?.*$!', '', $url);
     $server = preg_replace('!^([^:]+://[^/]+)/.*$!', '\\1', $url);
 
@@ -970,7 +970,7 @@ class LDAP
 
     // Check scope values
     $scope = trim($scope);
-    if (!empty($scope) && !in_array($scope, ['base', 'one', 'sub', 'children'])) {
+    if (!empty($scope) && !in_array($scope, array('base', 'one', 'sub', 'children'))) {
         trigger_error(sprintf("Invalid parameter for scope '%s', please use 'base', 'one', 'sub' or 'children'."), $scope);
         return NULL;
     }
@@ -986,11 +986,11 @@ class LDAP
     $cmd = 'ldapsearch'.($this->tls ? ' -ZZ' : '')." -x -LLLL -D {$admin} {$filter} {$limit} {$scope} -H {$host} -b {$dn} -w {$pwd} ";
 
     // Create list of process pipes
-    $descriptorspec = [
-      0 => ["pipe", "r"],  // stdin
-      1 => ["pipe", "w"],  // stdout
-      2 => ["pipe", "w"]   // stderr
-    ];
+    $descriptorspec = array(
+      0 => array("pipe", "r"),  // stdin
+      1 => array("pipe", "w"),  // stdout
+      2 => array("pipe", "w")   // stderr
+    );
 
     // Try to open the process
     $process = proc_open($cmd, $descriptorspec, $pipes);
@@ -1017,7 +1017,7 @@ class LDAP
 
   function dn_exists($dn)
   {
-    return @ldap_read($this->cid, $dn, "(objectClass=*)", ["objectClass"]);
+    return @ldap_read($this->cid, $dn, "(objectClass=*)", array("objectClass"));
   }
 
   /*!
@@ -1049,8 +1049,8 @@ class LDAP
 
     /* Joining lines */
     $line       = NULL;
-    $entry      = [];
-    $entries    = [];
+    $entry      = array();
+    $entries    = array();
     $entryStart = -1;
     foreach ($fileLines as $lineNumber => $fileLine) {
       if (preg_match('/^ /', $fileLine)) {
@@ -1088,7 +1088,7 @@ class LDAP
               throw new LDIFImportException(sprintf(_('Error line %s, an entry bloc should start with the dn'), $lineNumber));
             } else {
               if (!isset($entry[$key])) {
-                $entry[$key] = [];
+                $entry[$key] = array();
               }
               $entry[$key][] = $value;
             }
@@ -1102,7 +1102,7 @@ class LDAP
             $entries[$entryStart] = $entry;
           }
           /* Start a new entry */
-          $entry      = [];
+          $entry      = array();
           $entryStart = -1;
           $line       = NULL;
         }
@@ -1184,11 +1184,11 @@ class LDAP
           $attrs = $this->fetch($srp);
           foreach (array_keys($attrs) as $name) {
             if (!is_numeric($name)) {
-              if (in_array($name, ['dn','count'])) {
+              if (in_array($name, array('dn','count'))) {
                 continue;
               }
               if (!isset($data[$name])) {
-                $data[$name] = [];
+                $data[$name] = array();
               }
             }
           }
@@ -1217,7 +1217,7 @@ class LDAP
    */
   function get_objectclasses($force_reload = FALSE)
   {
-    $objectclasses = [];
+    $objectclasses = array();
 
     /* Return the cached results. */
     if (class_available('session') && session::is_set('LDAP_CACHE::get_objectclasses') && !$force_reload) {
@@ -1226,19 +1226,19 @@ class LDAP
     }
 
     // Get base to look for schema
-    $sr   = @ldap_read($this->cid, '', 'objectClass=*', ['subschemaSubentry']);
+    $sr   = @ldap_read($this->cid, '', 'objectClass=*', array('subschemaSubentry'));
     $attr = @ldap_get_entries($this->cid, $sr);
     if (!isset($attr[0]['subschemasubentry'][0])) {
-      return [];
+      return array();
     }
 
     /* Get list of objectclasses and fill array */
     $nb = $attr[0]['subschemasubentry'][0];
-    $objectclasses = [];
-    $sr = ldap_read ($this->cid, $nb, 'objectClass=*', ['objectclasses']);
+    $objectclasses = array();
+    $sr = ldap_read ($this->cid, $nb, 'objectClass=*', array('objectclasses'));
     $attrs = ldap_get_entries($this->cid, $sr);
     if (!isset($attrs[0])) {
-      return [];
+      return array();
     }
     foreach ($attrs[0]['objectclasses'] as $val) {
       if (preg_match('/^[0-9]+$/', $val)) {
@@ -1247,7 +1247,7 @@ class LDAP
       $name = "OID";
       $pattern = explode(' ', $val);
       $ocname = preg_replace("/^.* NAME\s+\(*\s*'([^']+)'\s*\)*.*$/", '\\1', $val);
-      $objectclasses[$ocname] = [];
+      $objectclasses[$ocname] = array();
 
       foreach ($pattern as $chunk) {
         switch ($chunk) {
@@ -1259,8 +1259,8 @@ class LDAP
           case ')':
             if ($name != '') {
               $v = $this->value2container($value);
-              if (in_array($name, ['MUST', 'MAY']) && !is_array($v)) {
-                $v = [$v];
+              if (in_array($name, array('MUST', 'MAY')) && !is_array($v)) {
+                $v = array($v);
               }
               $objectclasses[$ocname][$name] = $v;
             }
@@ -1278,8 +1278,8 @@ class LDAP
           case 'MAY':
             if ($name != '') {
               $v = $this->value2container($value);
-              if (in_array($name, ['MUST','MAY']) && !is_array($v)) {
-                $v = [$v];
+              if (in_array($name, array('MUST','MAY')) && !is_array($v)) {
+                $v = array($v);
               }
               $objectclasses[$ocname][$name] = $v;
             }
@@ -1367,7 +1367,7 @@ class LDAP
     ldap_bind ($ds, $admin, $password);
 
     /* Get base to look for naming contexts */
-    $sr   = @ldap_read ($ds, '', 'objectClass=*', ['namingContexts']);
+    $sr   = @ldap_read ($ds, '', 'objectClass=*', array('namingContexts'));
     $attr = @ldap_get_entries($ds, $sr);
 
     return $attr[0]['namingcontexts'];

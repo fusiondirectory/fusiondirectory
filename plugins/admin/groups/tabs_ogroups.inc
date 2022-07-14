@@ -21,16 +21,16 @@
 class ogrouptabs extends simpleTabs_noSpecial
 {
   protected $groupObjects = NULL;
-  protected $removed_tabs = [];
+  protected $removed_tabs = array();
 
-  function __construct ($type, $dn, $copied_object = NULL)
+  function __construct($type, $dn, $copied_object = NULL)
   {
     parent::__construct($type, $dn, $copied_object);
 
     $this->loadtabs($this->getBaseObject()->gosaGroupObjects);
   }
 
-  function loadtabs ($gosaGroupObjects)
+  function loadtabs($gosaGroupObjects)
   {
     global $config;
     if ($this->groupObjects == $gosaGroupObjects) {
@@ -39,21 +39,21 @@ class ogrouptabs extends simpleTabs_noSpecial
     $this->groupObjects = $gosaGroupObjects;
     $objects = preg_replace('/[\[\]]/', '', $gosaGroupObjects);
 
-    $tabs = [];
+    $tabs = array();
     if (strlen($objects)) {
       if (isset($config->data['TABS']['OGROUP-DYNAMICTABS'])) {
         $dtabs  = $config->data['TABS']['OGROUP-DYNAMICTABS'];
       } else {
-        $dtabs  = [];
+        $dtabs  = array();
       }
       $tabs   = FALSE;
       for ($i = 0; $i < strlen($objects); $i++) {
-        if (in_array($objects[$i], ['I','G'])) {
+        if (in_array($objects[$i], array('I','G'))) {
           /* Ignore unknown objects and groups */
           continue;
         }
         $otype = ogroup::$objectTypes[$objects[$i]];
-        $otabs = [];
+        $otabs = array();
         if (isset($config->data['TABS'][strtoupper($otype).'TABS'])) {
           $otabs = array_uintersect(
             $dtabs,
@@ -129,7 +129,7 @@ class ogrouptabs extends simpleTabs_noSpecial
     unset($this->plNotify["$class"]);
   }
 
-  function gen_tabs ($disabled = FALSE)
+  function gen_tabs($disabled = FALSE)
   {
     $this->loadtabs($this->getBaseObject()->getGroupObjectTypes());
     return parent::gen_tabs($disabled);
@@ -138,7 +138,7 @@ class ogrouptabs extends simpleTabs_noSpecial
   /*!
    * \brief Sets the active tabs from this instance to an other one. Used by templates
    */
-  function setActiveTabs (&$tabObject)
+  function setActiveTabs(&$tabObject)
   {
     $tabObject->loadtabs($this->groupObjects);
     foreach ($this->by_object as $class => $plugin) {
@@ -148,12 +148,12 @@ class ogrouptabs extends simpleTabs_noSpecial
     }
   }
 
-  function check ($ignore_account = FALSE)
+  function check($ignore_account = FALSE)
   {
     return parent::check(FALSE);
   }
 
-  function save ()
+  function save()
   {
     $errors = parent::save();
 
@@ -174,7 +174,7 @@ class ogrouptabs extends simpleTabs_noSpecial
     return $errors;
   }
 
-  function save_object ($save_current = FALSE)
+  function save_object($save_current = FALSE)
   {
     parent::save_object($save_current);
 

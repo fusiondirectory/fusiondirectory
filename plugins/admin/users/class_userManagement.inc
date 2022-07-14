@@ -22,7 +22,7 @@
 
 class userManagement extends simpleManagement
 {
-  protected $objectTypes  = ['user'];
+  protected $objectTypes  = array('user');
 
   protected $departmentBrowser      = TRUE;
   protected $departmentRootVisible  = FALSE;
@@ -36,22 +36,22 @@ class userManagement extends simpleManagement
 
   public static $skipTemplates = FALSE;
 
-  static function plInfo ()
+  static function plInfo()
   {
-    return [
+    return array(
       'plShortName'   => _('Users'),
       'plTitle'       => _('Manage users'),
       'plDescription' => _('Manage user accounts and their properties'),
       'plIcon'        => 'geticon.php?context=types&icon=user&size=48',
       'plSection'     => 'accounts',
-      'plManages'     => ['user'],
+      'plManages'     => array('user'),
       'plPriority'    => 10,
 
-      'plProvidedAcls' => []
-    ];
+      'plProvidedAcls' => array()
+    );
   }
 
-  function __construct ()
+  function __construct()
   {
     $this->filterXMLPath  = get_template_path('user-filter.xml',  TRUE, dirname(__FILE__));
     $this->listXMLPath    = get_template_path('user-list.xml',    TRUE, dirname(__FILE__));
@@ -80,7 +80,7 @@ class userManagement extends simpleManagement
   {
     parent::configureFilter();
 
-    $classes = [];
+    $classes = array();
     if (class_available('posixAccount')) {
       $classes[] = 'posixAccount';
     } else {
@@ -121,7 +121,7 @@ class userManagement extends simpleManagement
 
   /* !\brief  Lock/unlock multiple users.
    */
-  function lockUsers ($action, array $target, array $all)
+  function lockUsers($action, array $target, array $all)
   {
     if (!count($target)) {
       return;
@@ -136,12 +136,12 @@ class userManagement extends simpleManagement
 
   /* !\brief  Locks/unlocks the given user(s).
    */
-  function lockEntry ($action, $entry, $all, $type = 'toggle')
+  function lockEntry($action, $entry, $all, $type = 'toggle')
   {
     global $config, $ui;
     // Filter out entries we are not allowed to modify
-    $disallowed = [];
-    $allowed    = [];
+    $disallowed = array();
+    $allowed    = array();
     foreach ($entry as $dn) {
       if (!preg_match('/w/', $ui->get_permissions($dn, 'user/user', 'userLock'))) {
         $disallowed[] = $dn;
@@ -156,7 +156,7 @@ class userManagement extends simpleManagement
     // Try to lock/unlock the rest of the entries.
     $ldap = $config->get_ldap_link();
     foreach ($allowed as $dn) {
-      $ldap->cat($dn, ['userPassword']);
+      $ldap->cat($dn, array('userPassword'));
       if ($ldap->count() == 1) {
 
         // We can't lock empty passwords.
@@ -207,7 +207,7 @@ class userManagement extends simpleManagement
     }
   }
 
-  static function filterLockImage ($userPassword)
+  static function filterLockImage($userPassword)
   {
     $image = 'images/empty.png';
     if (isset($userPassword[0]) && preg_match('/^\{[^\}]/', $userPassword[0])) {
@@ -220,7 +220,7 @@ class userManagement extends simpleManagement
     return $image;
   }
 
-  static function filterLockLabel ($userPassword)
+  static function filterLockLabel($userPassword)
   {
     $label = '';
     if (isset($userPassword[0]) && preg_match('/^\{[^\}]/', $userPassword[0])) {
@@ -233,10 +233,10 @@ class userManagement extends simpleManagement
     return $label;
   }
 
-  static function filterProperties ($row, $dn, $attrs)
+  static function filterProperties($row, $dn, $attrs)
   {
     global $config;
-    static $usertabs = [];
+    static $usertabs = array();
     if (empty($usertabs)) {
       foreach ($config->data['TABS']['USERTABS'] as $plug) {
         if ($plug['CLASS'] == 'user') {

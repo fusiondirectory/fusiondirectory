@@ -30,19 +30,19 @@
 class filter
 {
   var $xmlData;
-  var $elements         = [];
-  var $elementValues    = [];
-  var $alphabetElements = [];
-  var $autocompleter    = [];
+  var $elements         = array();
+  var $elementValues    = array();
+  var $alphabetElements = array();
+  var $autocompleter    = array();
   var $category         = '';
-  var $objectStorage    = [];
+  var $objectStorage    = array();
   var $base             = '';
   var $scope            = '';
   var $query;
   var $initial          = FALSE;
   var $scopeMode        = 'auto';
   var $alphabet         = NULL;
-  var $converter        = [];
+  var $converter        = array();
   var $pid;
   var $headpage;
 
@@ -79,7 +79,7 @@ class filter
 
     // Load filter
     if (!isset($this->xmlData['search']['query'][0])) {
-      $this->xmlData['search']['query'] = [$this->xmlData['search']['query']];
+      $this->xmlData['search']['query'] = array($this->xmlData['search']['query']);
     }
 
     // Move information
@@ -101,7 +101,7 @@ class filter
     // Generate formular data
     if (isset($this->xmlData['element'])) {
       if (!isset($this->xmlData['element'][0])) {
-        $this->xmlData['element'] = [$this->xmlData['element']];
+        $this->xmlData['element'] = array($this->xmlData['element']);
       }
       foreach ($this->xmlData['element'] as $element) {
         // Ignore elements without type
@@ -113,7 +113,7 @@ class filter
 
         // Fix arrays
         if (isset($element['value']) && !isset($element['value'][0])) {
-          $element['value'] = [$element['value']];
+          $element['value'] = array($element['value']);
         }
 
         // Store element for quick access
@@ -266,9 +266,9 @@ class filter
   function setComboBoxOptions($tag, $options)
   {
     if (isset($this->elements[$tag]) && ($this->elements[$tag]['type'] == "combobox")) {
-      $this->elements[$tag]['value'] = [];
+      $this->elements[$tag]['value'] = array();
       foreach ($options as $key => $label) {
-        $this->elements[$tag]['value'][] = ['label' => $label, 'key' => $key];
+        $this->elements[$tag]['value'][] = array('label' => $label, 'key' => $key);
       }
     }
   }
@@ -440,7 +440,7 @@ class filter
   function query()
   {
     global $class_mapping;
-    $result = [];
+    $result = array();
 
     // Return empty list if initial is not set
     if (!$this->initial) {
@@ -465,10 +465,10 @@ class filter
       $attributes = $query['attribute'];
 
       if ($attributes === '*') {
-        $attributes = [$attributes];
+        $attributes = array($attributes);
       } else {
         if (!is_array($attributes)) {
-          $attributes = [$attributes];
+          $attributes = array($attributes);
         }
         // ObjectClass is required to check permissions later.
         if (!in_array('objectClass', $attributes)) {
@@ -485,8 +485,8 @@ class filter
         // Handle converters if present
         if (isset($this->converter[$tag])) {
           preg_match('/([^:]+)::(.*)$/', $this->converter[$tag], $m);
-          $e_set    = call_user_func([$m[1], $m[2]], preg_replace('/\$/', $this->elementValues[$tag], is_array($element['set']) ? '' : $element['set']));
-          $e_unset  = call_user_func([$m[1], $m[2]], preg_replace('/\$/', $this->elementValues[$tag], is_array($element['unset']) ? '' : $element['unset']));
+          $e_set    = call_user_func(array($m[1], $m[2]), preg_replace('/\$/', $this->elementValues[$tag], is_array($element['set']) ? '' : $element['set']));
+          $e_unset  = call_user_func(array($m[1], $m[2]), preg_replace('/\$/', $this->elementValues[$tag], is_array($element['unset']) ? '' : $element['unset']));
         } else {
           $e_set    = (is_array($element['set']) ? '' : $element['set']);
           $e_unset  = (is_array($element['unset']) ? '' : $element['unset']);
@@ -519,7 +519,7 @@ class filter
         );
       }
       // Now call filter method and merge resulting entries.
-      $result = array_merge($result, call_user_func([$backend, 'query'],
+      $result = array_merge($result, call_user_func(array($backend, 'query'),
             $this, $this->base, $this->scope, $filter, $attributes, $this->category, $objectStorage));
     }
 
@@ -596,7 +596,7 @@ class filter
   function getCompletitionList($cfg, $tag, $value = "*")
   {
     global $class_mapping;
-    $res = [];
+    $res = array();
 
     // Is backend available?
     $backend = "filter".$cfg['backend'];
@@ -608,7 +608,7 @@ class filter
     $filter     = $cfg['filter'];
     $attributes = $cfg['attribute'];
     if (!is_array($attributes)) {
-      $attributes = [$attributes];
+      $attributes = array($attributes);
     }
 
     // ObjectClass is required to check permissions later.
@@ -619,10 +619,10 @@ class filter
     // Make filter
     $filter = preg_replace("/\\$$tag/", ldap_escape_f($value), $filter);
     if (isset($cfg['base']) && isset($cfg['scope']) && isset($cfg['category'])) {
-      $result = call_user_func([$backend, 'query'], $this, $cfg['base'], $cfg['scope'], $filter, $attributes,
+      $result = call_user_func(array($backend, 'query'), $this, $cfg['base'], $cfg['scope'], $filter, $attributes,
                            $cfg["category"], $cfg["objectStorage"]);
     } else {
-      $result = call_user_func([$backend, 'query'], $this, $this->base, $this->scope, $filter, $attributes,
+      $result = call_user_func(array($backend, 'query'), $this, $this->base, $this->scope, $filter, $attributes,
                            $this->category, $this->objectStorage);
     }
 
@@ -648,7 +648,7 @@ class filter
    */
   function processAutocomplete()
   {
-    $result = [];
+    $result = array();
 
     // Introduce maximum number of entries
     $max = 25;

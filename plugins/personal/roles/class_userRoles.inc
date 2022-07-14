@@ -20,54 +20,54 @@
 
 class userRoles extends simplePlugin
 {
-  var $objectclasses = [];
+  var $objectclasses = array();
 
-  protected $savedGroupsMembership  = [];
-  protected $savedRolesMembership   = [];
-  protected $templateGroups         = [];
-  protected $templateRoles          = [];
+  protected $savedGroupsMembership  = array();
+  protected $savedRolesMembership   = array();
+  protected $templateGroups         = array();
+  protected $templateRoles          = array();
 
-  static function plInfo ()
+  static function plInfo()
   {
-    return [
+    return array(
       'plShortName'     => _('Groups and roles'),
       'plDescription'   => _('Edit user\'s groups and roles'),
       'plIcon'          => 'geticon.php?context=types&icon=role&size=48',
       'plSmallIcon'     => 'geticon.php?context=types&icon=role&size=16',
       'plSelfModify'    => FALSE,
-      'plObjectType'    => ['user'],
+      'plObjectType'    => array('user'),
       'plPriority'      => 5,
 
       'plProvidedAcls'  => parent::generatePlProvidedAcls(static::getAttributesInfo())
-    ];
+    );
   }
 
   static function getAttributesInfo ()
   {
-    return [
-      'groups' => [
+    return array(
+      'groups' => array(
         'name'  => _('Groups membership'),
-        'attrs' => [
+        'attrs' => array(
           new SetAttribute(
             new SelectAttribute(
               '', _('Groups membership'),
               'groupsMembership', FALSE
             )
           )
-        ]
-      ],
-      'roles' => [
+        )
+      ),
+      'roles' => array(
         'name'  => _('Roles membership'),
-        'attrs' => [
+        'attrs' => array(
           new SetAttribute(
             new SelectAttribute(
               '', _('Roles membership'),
               'rolesMembership', FALSE
             )
           )
-        ]
-      ],
-    ];
+        )
+      ),
+    );
   }
 
   function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE)
@@ -76,8 +76,8 @@ class userRoles extends simplePlugin
     $this->ignore_account = FALSE;
 
     /* Groups handling */
-    $groups      = [];
-    $groupsattrs = objects::ls('ogroup', ['cn' => 1,  'description' => 1], NULL, '', TRUE);
+    $groups      = array();
+    $groupsattrs = objects::ls('ogroup', array('cn' => 1,  'description' => 1), NULL, '', TRUE);
     foreach ($groupsattrs as $dn => $groupattr) {
       $groupDisplay = $groupattr['cn'];
       if (isset($groupattr['description'])) {
@@ -94,7 +94,7 @@ class userRoles extends simplePlugin
         unset($this->attrs['userGroups']['count']);
         $myGroups = array_combine($this->attrs['userGroups'], $this->attrs['userGroups']);
       } else {
-        $myGroups = [];
+        $myGroups = array();
       }
     } else {
       if (($this->dn != '') && ($this->dn != 'new')) {
@@ -103,7 +103,7 @@ class userRoles extends simplePlugin
           '(member='.$this->dn.')'
         );
       } else {
-        $myGroups = [];
+        $myGroups = array();
       }
       $this->savedGroupsMembership = array_keys($myGroups);
     }
@@ -113,8 +113,8 @@ class userRoles extends simplePlugin
     $this->attributesAccess['groupsMembership']->setValue(array_keys($myGroups));
 
     /* Roles handling */
-    $roles        = [];
-    $rolesattrs  = objects::ls('role', ['cn' => 1,  'description' => 1], NULL, '', TRUE);
+    $roles        = array();
+    $rolesattrs  = objects::ls('role', array('cn' => 1,  'description' => 1), NULL, '', TRUE);
     foreach ($rolesattrs as $dn => $roleattr) {
       $roleDisplay = $roleattr['cn'];
       if (isset($roleattr['description'])) {
@@ -131,7 +131,7 @@ class userRoles extends simplePlugin
         unset($this->attrs['userRoles']['count']);
         $myRoles = array_combine($this->attrs['userRoles'], $this->attrs['userRoles']);
       } else {
-        $myRoles = [];
+        $myRoles = array();
       }
     } else {
       if (($this->dn != '') && ($this->dn != 'new')) {
@@ -140,7 +140,7 @@ class userRoles extends simplePlugin
           '(roleOccupant='.$this->dn.')'
         );
       } else {
-        $myRoles = [];
+        $myRoles = array();
       }
       $this->savedRolesMembership = array_keys($myRoles);
     }
@@ -153,7 +153,7 @@ class userRoles extends simplePlugin
     $this->initially_was_account = $this->is_account;
   }
 
-  function is_this_account ($attrs)
+  function is_this_account($attrs)
   {
     if (!isset($attrs['dn'])) {
       if (isset($attrs['userGroups'])) { /* Template groups field */
@@ -167,7 +167,7 @@ class userRoles extends simplePlugin
     return FALSE;
   }
 
-  protected function ldap_remove ()
+  protected function ldap_remove()
   {
     if ($this->is_template) {
       return parent::ldap_remove();
@@ -191,16 +191,16 @@ class userRoles extends simplePlugin
         }
       }
     }
-    return [];
+    return array();
   }
 
-  function save_object ()
+  function save_object()
   {
     parent::save_object();
     $this->is_account = ((count($this->rolesMembership) > 0) || (count($this->groupsMembership) > 0));
   }
 
-  protected function shouldSave ()
+  protected function shouldSave()
   {
     if (parent::shouldSave()) {
       return TRUE;
@@ -214,7 +214,7 @@ class userRoles extends simplePlugin
     return FALSE;
   }
 
-  function prepare_save ()
+  function prepare_save()
   {
     $errors = parent::prepare_save();
     if ($this->is_template) {
@@ -224,16 +224,16 @@ class userRoles extends simplePlugin
     return $errors;
   }
 
-  function prepare_remove ()
+  function prepare_remove()
   {
     parent::prepare_remove();
     if ($this->is_template) {
-      $this->attrs['userGroups']  = [];
-      $this->attrs['userRoles']   = [];
+      $this->attrs['userGroups']  = array();
+      $this->attrs['userRoles']   = array();
     }
   }
 
-  function ldap_save ()
+  function ldap_save()
   {
     $errors = parent::ldap_save();
 
@@ -243,12 +243,12 @@ class userRoles extends simplePlugin
 
     if (!$this->is_template) {
       /* We need to give an array which looks like an ldap fetch and match user filter */
-      $fake_attrs = [
-        'objectClass' => ['inetOrgPerson','organizationalPerson','person'],
-        'cn'          => [$this->dn],
-        'uid'         => [$this->dn],
+      $fake_attrs = array(
+        'objectClass' => array('inetOrgPerson','organizationalPerson','person'),
+        'cn'          => array($this->dn),
+        'uid'         => array($this->dn),
         'dn'          => $this->dn
-      ];
+      );
 
       /* Take care about groupsMembership values: add to groups */
       $groupsMembership = $this->attributesAccess['groupsMembership']->getValue();
@@ -344,7 +344,7 @@ class userRoles extends simplePlugin
     return $errors;
   }
 
-  function adapt_from_template ($attrs, $skip = [])
+  function adapt_from_template($attrs, $skip = array())
   {
     parent::adapt_from_template($attrs, $skip);
 
@@ -358,7 +358,7 @@ class userRoles extends simplePlugin
       $this->attributesAccess['groupsMembership']->setValue(array_keys($myGroups));
       $this->templateGroups = array_keys($myGroups);
     } else {
-      $this->templateGroups = [];
+      $this->templateGroups = array();
     }
 
     $this->savedRolesMembership = $this->rolesMembership;
@@ -371,7 +371,7 @@ class userRoles extends simplePlugin
       $this->attributesAccess['rolesMembership']->setValue(array_keys($myRoles));
       $this->templateRoles = array_keys($myRoles);
     } else {
-      $this->templateRoles = [];
+      $this->templateRoles = array();
     }
 
     $this->is_account = ((count($this->rolesMembership) > 0) || (count($this->groupsMembership) > 0));

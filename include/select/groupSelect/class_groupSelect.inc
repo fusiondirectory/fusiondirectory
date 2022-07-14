@@ -23,7 +23,7 @@
  */
 class groupSelect extends simpleSelectManagement
 {
-  protected $objectTypes  = ['group'];
+  protected $objectTypes  = array('group');
   protected $autoFilter   = FALSE;
 
   function __construct()
