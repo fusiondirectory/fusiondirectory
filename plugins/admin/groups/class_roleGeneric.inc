@@ -22,7 +22,7 @@ class RoleMembersAttribute extends UsersAttribute
 {
   protected $whitelistDns = NULL;
 
-  function getFilterWhiteList()
+  function getFilterWhiteList ()
   {
     global $config;
     if ($config->get_cfg_value('RestrictRoleMembers') == 'TRUE') {
@@ -49,7 +49,7 @@ class roleGeneric extends simplePlugin
 {
   var $objectclasses = ['organizationalRole'];
 
-  static function plInfo()
+  static function plInfo ()
   {
     return [
       'plShortName'   => _('Role'),
@@ -113,7 +113,7 @@ class roleGeneric extends simplePlugin
     ];
   }
 
-  function ldap_save()
+  function ldap_save ()
   {
     global $ui;
 
