@@ -42,7 +42,7 @@ class Language
       $lang = static::detect();
     }
 
-    list ($language, $country, $char) = parse_gettext_lang($lang);
+    list($language, $country, $char) = parse_gettext_lang($lang);
     putenv('LANGUAGE=');
     putenv("LANG=$lang");
     $langset = setlocale(LC_ALL, $lang, $language.'.'.$char);
@@ -226,7 +226,7 @@ class Language
 
   public static function setHeaders ($language, $mime)
   {
-    list ($lang, $country, $char) = parse_gettext_lang($language);
+    list($lang, $country, $char) = parse_gettext_lang($language);
 
     if (!headers_sent()) {
       header("Content-Language: $lang".(empty($country) ? '' : "-$country"));

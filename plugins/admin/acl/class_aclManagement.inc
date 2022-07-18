@@ -207,7 +207,7 @@ class aclManagement extends simpleManagement
     if ($dn == $base) {
       $ou = ' . ';
     } else {
-      for ($i = 4;$i < func_num_args();$i++) {
+      for($i = 4;$i < func_num_args();$i++) {
         $val = func_get_arg($i);
         if (empty($val)) {
           continue;

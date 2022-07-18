@@ -503,7 +503,7 @@ class templateHandling
             );
             return [];
           }
-          $deps = static::flatDepends ($cache, $errors, $depends, $a, $forbidden);
+          $deps = static::flatDepends($cache, $errors, $depends, $a, $forbidden);
           if (($askmeKey = array_search('askme', $deps)) !== FALSE) {
             /* Do not flat special askme dependency */
             unset($deps[$askmeKey]);
@@ -527,7 +527,7 @@ class templateHandling
       if (!is_array($values))  {
         $values = [$values];
       }
-      unset ($values['count']);
+      unset($values['count']);
       foreach ($values as $value) {
         $offset = 0;
         while (preg_match('/%([^%\|]+\|)?([^%]+)%/', $value, $m, PREG_OFFSET_CAPTURE, $offset)) {

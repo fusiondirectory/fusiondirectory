@@ -490,7 +490,7 @@ class configInLdap extends simplePlugin
     foreach ($config->data['SECTIONS'] as $section => $section_infos) {
       foreach ($config->data['MENU'][$section] as $info) {
         if (isset($info['CLASS'])) {
-          list ($plHeadline, , , ) = $plist->get_infos($info['CLASS']);
+          list($plHeadline, , , ) = $plist->get_infos($info['CLASS']);
           $menuPlugins[$info['CLASS']] = $plHeadline;
         }
       }

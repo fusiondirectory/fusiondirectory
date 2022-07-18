@@ -61,7 +61,7 @@ class BooleanAttribute extends Attribute
     if ($this->isTemplate() && $this->isTemplatable() && ($value === '%askme%')) {
       return $value;
     }
-    return ($value == $this->trueValue);
+    return($value == $this->trueValue);
   }
 
   function loadPostValue ()
@@ -86,7 +86,7 @@ class BooleanAttribute extends Attribute
     if ($this->isTemplate() && $this->isTemplatable() && ($this->value === '%askme%')) {
       return $this->value;
     } else {
-      return ($this->value ? $this->trueValue : $this->falseValue);
+      return($this->value ? $this->trueValue : $this->falseValue);
     }
   }
 

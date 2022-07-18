@@ -332,7 +332,7 @@ class userinfo
   {
     $remove = (strpos($this->get_permissions($dn, $object.'/'.$class), 'd') !== FALSE);
     $read   = (strpos($this->get_complete_category_acls($dn, $object), 'r') !== FALSE);
-    return ($remove && $read);
+    return($remove && $read);
   }
 
 
@@ -835,7 +835,7 @@ class userinfo
           }
           $tmp = $this->get_permissions($dn, $category.'/'.$oc);
           $types = $acl;
-          for ($i = 0, $l = strlen($types); $i < $l; $i++) {
+          for($i = 0, $l = strlen($types); $i < $l; $i++) {
             if (strpos($tmp, $types[$i]) === FALSE) {
               $acl = str_replace($types[$i], '', $acl);
             }
@@ -994,7 +994,7 @@ class userinfo
     if (empty($this->ACLperPath)) {
       $this->loadACL();
     }
-    return ($this->get_permissions($config->current['BASE'], 'user/user') == 'rwcdm');
+    return($this->get_permissions($config->current['BASE'], 'user/user') == 'rwcdm');
   }
 
   /* \brief Test if a plugin is blacklisted for this user (does not show up in the menu)
@@ -1004,7 +1004,7 @@ class userinfo
     global $config;
     $blacklist = $config->get_cfg_value('PluginsMenuBlacklist', []);
     foreach ($blacklist as $item) {
-      list ($group, $p) = explode('|', $item, 2);
+      list($group, $p) = explode('|', $item, 2);
       if ($plugin == $p) {
         if (in_array($group, $this->groups) || in_array($group, $this->roles)) {
           return TRUE;

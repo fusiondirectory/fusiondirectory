@@ -271,7 +271,7 @@ class BytesSizeAttribute extends UnitIntAttribute
       pow(1024, 3)  => _('GiB'),
       pow(1024, 4)  => _('TiB'),
     ];
-    parent::__construct ($label, $description, $ldapName, $required, $units, $min, $max, $defaultValue, $acl);
+    parent::__construct($label, $description, $ldapName, $required, $units, $min, $max, $defaultValue, $acl);
   }
 }
 
@@ -288,7 +288,7 @@ class TimeAttribute extends UnitIntAttribute
       3600  => _('hours'),
       86400 => _('days'),
     ];
-    parent::__construct ($label, $description, $ldapName, $required, $units, $min, $max, $defaultValue, $acl);
+    parent::__construct($label, $description, $ldapName, $required, $units, $min, $max, $defaultValue, $acl);
   }
 }
 

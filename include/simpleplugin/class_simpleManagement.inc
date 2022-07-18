@@ -745,7 +745,7 @@ class simpleManagement
     }
 
     // Add locks
-    add_lock ($this->dns, $ui->dn);
+    add_lock($this->dns, $ui->dn);
 
     $this->dn           = array_shift($this->dns);
     $this->dialogObject = new templateDialog($this, $type, NULL, $this->dn);
@@ -889,7 +889,7 @@ class simpleManagement
       if ($locks = get_locks($this->dn, TRUE)) {
         return gen_locked_message($locks, $this->dn, TRUE);
       }
-      add_lock ($this->dn, $ui->dn);
+      add_lock($this->dn, $ui->dn);
 
       // Open object
       $this->openTabObject(objects::open($this->dn, $type), $this->dn);
@@ -1069,7 +1069,7 @@ class simpleManagement
           'type'  => $info['name']
         ];
       }
-      add_lock ($this->dns, $ui->dn);
+      add_lock($this->dns, $ui->dn);
 
       // Display confirmation dialog.
       $smarty = get_smarty();

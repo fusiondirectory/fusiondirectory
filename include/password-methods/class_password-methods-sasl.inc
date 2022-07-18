@@ -120,7 +120,7 @@ class passwordMethodsasl extends passwordMethod
   function need_password ()
   {
     global $config;
-    return ($config->get_cfg_value('forceSaslPasswordAsk', 'FALSE') == 'TRUE');
+    return($config->get_cfg_value('forceSaslPasswordAsk', 'FALSE') == 'TRUE');
   }
 }
 ?>

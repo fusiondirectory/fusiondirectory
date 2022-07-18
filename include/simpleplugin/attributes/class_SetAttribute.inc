@@ -453,7 +453,7 @@ class OrderedArrayAttribute extends SetAttribute
         continue;
       }
 
-      list ($img, $nbicons) = $this->genRowIcons($key, $value);
+      list($img, $nbicons) = $this->genRowIcons($key, $value);
 
       $fields[] = ["html" => $img, "attach" => 'style="border:0px;width:'.($nbicons * 20).'px;"'];
       $div->AddEntry($fields);

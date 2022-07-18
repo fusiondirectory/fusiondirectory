@@ -232,7 +232,7 @@ class config
 
       /* Load main parameters */
       case 'MAIN':
-        $this->data['MAIN'] = array_merge ($this->data['MAIN'], $attrs);
+        $this->data['MAIN'] = array_merge($this->data['MAIN'], $attrs);
         break;
 
       /* Ignore other tags */
@@ -539,8 +539,8 @@ class config
 
     /* Get list of department objects */
     $ldap = $this->get_ldap_link();
-    $ldap->cd ($this->current['BASE']);
-    $ldap->search ($filter, $ldap_values);
+    $ldap->cd($this->current['BASE']);
+    $ldap->search($filter, $ldap_values);
     while ($attrs = $ldap->fetch()) {
 
       /* Detect department type */
@@ -980,7 +980,7 @@ class config
           }
         }
       }
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, join (',', array_unique ($acl)), "Class $class categories");
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, join (',', array_unique($acl)), "Class $class categories");
       /* Feed menu */
       if (isset($plInfo['plSection'])) {
         $section = $plInfo['plSection'];

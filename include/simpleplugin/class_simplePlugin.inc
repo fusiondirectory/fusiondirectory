@@ -902,7 +902,7 @@ class simplePlugin
 
   protected function acl_skip_write ()
   {
-    return ($this->needEditMode && !session::is_set('edit'));
+    return($this->needEditMode && !session::is_set('edit'));
   }
 
   /*! \brief Can we write the attribute */
@@ -1095,7 +1095,7 @@ class simplePlugin
             $attr->loadPostValue();
           }
         }
-        unset ($attrs);
+        unset($attrs);
       }
       unset($sectionInfo);
       // A second one that applies them. That allow complex stuff such as attribute disabling
@@ -1106,7 +1106,7 @@ class simplePlugin
             $attr->applyPostValue();
           }
         }
-        unset ($attrs);
+        unset($attrs);
       }
       unset($sectionInfo);
     }
@@ -1163,7 +1163,7 @@ class simplePlugin
       if (is_array($this->attrs[$index]) &&
           (count($this->attrs[$index]) == 0) &&
           !isset($this->saved_attributes[$index])) {
-        unset ($this->attrs[$index]);
+        unset($this->attrs[$index]);
         continue;
       }
 
@@ -1172,7 +1172,7 @@ class simplePlugin
           isset($this->saved_attributes[$index]) &&
           !is_array($this->saved_attributes[$index]) &&
           ($this->attrs[$index] == $this->saved_attributes[$index])) {
-        unset ($this->attrs[$index]);
+        unset($this->attrs[$index]);
         continue;
       }
 
@@ -1181,7 +1181,7 @@ class simplePlugin
           isset($this->saved_attributes[$index]) &&
           is_array($this->saved_attributes[$index])) {
         if (!array_differs($this->attrs[$index], $this->saved_attributes[$index])) {
-          unset ($this->attrs[$index]);
+          unset($this->attrs[$index]);
           continue;
         }
       }
@@ -1837,7 +1837,7 @@ class simplePlugin
         $usableAttributes[] = (string)$attr;
       }
     }
-    for ($i = 1; $i < count($usableAttributes); $i++) {
+    for($i = 1; $i < count($usableAttributes); $i++) {
       foreach (new Combinations($usableAttributes, $i) as $attrs) {
         $dn = $attribute.'='.ldap_escape_dn($this->$attribute);
         foreach ($attrs as $attr) {

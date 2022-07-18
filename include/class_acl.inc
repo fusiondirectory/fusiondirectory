@@ -63,7 +63,7 @@ class acl
         if ($pa == $pb) {
           return 0;
         }
-        return ($pa < $pb ? -1 : 1);
+        return($pa < $pb ? -1 : 1);
       }
     );
 

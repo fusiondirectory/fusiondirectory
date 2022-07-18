@@ -301,7 +301,7 @@ class groupManagement extends simpleManagement
   {
     $types  = preg_replace('/[^a-z]/i', '', $gosaGroupObjects[0]);
     $result = '';
-    for ($i = 0; $i < strlen($types); $i++) {
+    for($i = 0; $i < strlen($types); $i++) {
       if ($types[$i] == 'I') {
         continue;
       }

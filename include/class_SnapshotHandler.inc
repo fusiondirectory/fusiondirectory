@@ -268,7 +268,7 @@ class SnapshotHandler
       $new_dn                           = 'gosaSnapshotTimestamp='.$target['gosaSnapshotTimestamp'].','.$new_base;
       $ldap->cat($new_dn);
       $usec++;
-    } while ($ldap->count());
+    } while($ldap->count());
 
     /* Insert this new snapshot */
     $ldap->cd($this->snapshotRDN);

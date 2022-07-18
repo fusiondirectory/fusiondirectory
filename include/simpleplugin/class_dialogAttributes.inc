@@ -548,7 +548,7 @@ class GroupsAttribute extends GenericDialogAttribute
 
   function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = [], $acl = '')
   {
-    parent::__construct ($label, $description, $ldapName, $required, $defaultValue, 'dn', 'cn', $acl);
+    parent::__construct($label, $description, $ldapName, $required, $defaultValue, 'dn', 'cn', $acl);
   }
 
   function addValue ($dn, $entry)

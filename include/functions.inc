@@ -415,7 +415,7 @@ function ldap_init ($server, $base, $binddn = '', $pass = '')
   }
 
   /* Preset connection base to $base and return to caller */
-  $ldap->cd ($base);
+  $ldap->cd($base);
   return $ldap;
 }
 
@@ -1017,7 +1017,7 @@ function strict_uid_mode ()
   global $config;
 
   if (isset($config)) {
-    return ($config->get_cfg_value('strictNamingRules') == 'TRUE');
+    return($config->get_cfg_value('strictNamingRules') == 'TRUE');
   }
   return TRUE;
 }
@@ -1381,7 +1381,7 @@ function gen_uids ($rule, $attributes)
   $stripped   = $rule;
   $variables  = [];
 
-  for ($pos = 0; preg_match('/%([^%]+)%/', $stripped, $m, PREG_OFFSET_CAPTURE, $pos); ) {
+  for($pos = 0; preg_match('/%([^%]+)%/', $stripped, $m, PREG_OFFSET_CAPTURE, $pos); ) {
     $variables[$pos]  = templateHandling::parseMask($m[1][0], $attributes);
     $replace          = '{'.$pos.'}';
     $stripped         = substr_replace($stripped, $replace, $m[0][1], strlen($m[0][0]));
@@ -1547,7 +1547,7 @@ function generate_alphabet ($count = 10)
   $c          = 0;
 
   /* Fill cells with charaters */
-  for ($i = 0, $l = mb_strlen($characters, 'UTF8'); $i < $l; $i++) {
+  for($i = 0, $l = mb_strlen($characters, 'UTF8'); $i < $l; $i++) {
     if ($c == 0) {
       $alphabet .= "<tr>";
     }
@@ -2336,13 +2336,13 @@ if (!function_exists ('ldap_escape')) {
         $charMaps[0][chr($i)] = sprintf('\\%02x', $i);
       }
 
-      for ($i = 0, $l = count($charMaps[LDAP_ESCAPE_FILTER]); $i < $l; $i++) {
+      for($i = 0, $l = count($charMaps[LDAP_ESCAPE_FILTER]); $i < $l; $i++) {
         $chr = $charMaps[LDAP_ESCAPE_FILTER][$i];
         unset($charMaps[LDAP_ESCAPE_FILTER][$i]);
         $charMaps[LDAP_ESCAPE_FILTER][$chr] = $charMaps[0][$chr];
       }
 
-      for ($i = 0, $l = count($charMaps[LDAP_ESCAPE_DN]); $i < $l; $i++) {
+      for($i = 0, $l = count($charMaps[LDAP_ESCAPE_DN]); $i < $l; $i++) {
         $chr = $charMaps[LDAP_ESCAPE_DN][$i];
         unset($charMaps[LDAP_ESCAPE_DN][$i]);
         $charMaps[LDAP_ESCAPE_DN][$chr] = $charMaps[0][$chr];
@@ -2364,7 +2364,7 @@ if (!function_exists ('ldap_escape')) {
 
     // Remove any chars to ignore from the list
     $ignore = (string)$ignore;
-    for ($i = 0, $l = strlen($ignore); $i < $l; $i++) {
+    for($i = 0, $l = strlen($ignore); $i < $l; $i++) {
       unset($charMap[$ignore[$i]]);
     }
 
@@ -2412,7 +2412,7 @@ if (!function_exists ('random_int')) {
       $rnd = hexdec(bin2hex($randomBytes));
       // discard irrelevant bits
       $rnd = $rnd & $filter;
-    } while ($rnd > $range);
+    } while($rnd > $range);
     return $min + $rnd;
   }
 }

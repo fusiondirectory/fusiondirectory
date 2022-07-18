@@ -167,7 +167,7 @@ class divSelectBox
       if ($this->headers !== FALSE) {
         $this->cols = count($this->headers);
         $str .= '<tr>';
-        for ($i = 0; $i < ($this->cols); $i++) {
+        for($i = 0; $i < ($this->cols); $i++) {
           if ($i >= ($this->cols - 1)) {
             $str .= '<td style="height:100%;border:0px;">&nbsp;</td>';
           } else {
@@ -220,7 +220,7 @@ class divSelectBox
       $s_return .= "\n</tr>";
     }
     $s_return .= "\n<tr>";
-    for ($i = 0; $i < ($this->cols); $i++) {
+    for($i = 0; $i < ($this->cols); $i++) {
       if ($i >= ($this->cols - 1)) {
         $s_return .= '<td style="height:100%;border:0px;"><div style="font-size:1px;">&nbsp;</div></td>';
       } else {

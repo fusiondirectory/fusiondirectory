@@ -325,7 +325,7 @@ class tests
 
       $ar2  = explode(".", $ip2);
       $var2 = $ar2[0] * (16777216) + $ar2[1] * (65536) + $ar2[2] * (256) + $ar2[3];
-      return ($var1 < $var2);
+      return($var1 < $var2);
     }
   }
 
@@ -356,7 +356,7 @@ class tests
     $curr   = $ad[0] * (16777216) + $ad[1] * (65536) + $ad[2] * (256) + $ad[3];
     $last   = $la[0] * (16777216) + $la[1] * (65536) + $la[2] * (256) + $la[3];
 
-    return ($first < $curr && $last > $curr);
+    return($first < $curr && $last > $curr);
   }
 
   /* \brief Check if the specified IP address $address is inside the given network */
@@ -371,7 +371,7 @@ class tests
     $to   = $to[0] * (16777216) + $to[1] * (65536) + $to[2] * (256) + $to[3];
     $ad   = $ad[0] * (16777216) + $ad[1] * (65536) + $ad[2] * (256) + $ad[3];
 
-    return ($ad >= $from && $ad <= $to);
+    return($ad >= $from && $ad <= $to);
   }
 }
 

@@ -83,7 +83,7 @@ class passwordMethodssha extends passwordMethod
       msg_dialog::display(_('Configuration error'), msgPool::missingext('mhash'), ERROR_DIALOG);
       return FALSE;
     }
-    return ($nhash == $hash);
+    return($nhash == $hash);
   }
 
   /*!

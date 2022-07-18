@@ -352,7 +352,7 @@ class pluglist {
           if (isset($info['CLASS']) && plugin_available($info['CLASS'])) {
             $index  = $this->get_index($info['CLASS']);
             $this->allowed_plugins[$index] = $index;
-            list ($plHeadline, $plDescription, $href, ) = $this->get_infos($info['CLASS']);
+            list($plHeadline, $plDescription, $href, ) = $this->get_infos($info['CLASS']);
             $id             = $info['CLASS'];
           } elseif (!isset($info['CLASS'])) {
             $plHeadline     = $info['TITLE'];
@@ -416,7 +416,7 @@ class pluglist {
           }
           if (isset($info['CLASS']) && plugin_available($info['CLASS'])) {
             /* Read information from class variable */
-            list ($plHeadline, $plDescription, $href, $plIcon) = $this->get_infos($info['CLASS']);
+            list($plHeadline, $plDescription, $href, $plIcon) = $this->get_infos($info['CLASS']);
             $id             = $info['CLASS'];
           } elseif (!isset($info['CLASS'])) {
             $plHeadline     = $info['TITLE'];

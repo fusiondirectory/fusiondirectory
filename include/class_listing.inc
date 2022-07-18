@@ -1117,7 +1117,7 @@ class listing
     $params = [func_get_arg(2)];
 
     // Collect sprintf params
-    for ($i = 3;$i < func_num_args();$i++) {
+    for($i = 3;$i < func_num_args();$i++) {
       $val = func_get_arg($i);
       if (empty($val)) {
         continue;

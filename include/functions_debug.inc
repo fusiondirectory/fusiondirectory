@@ -225,7 +225,7 @@ function print_a ($array, $return_mode = FALSE, $show_object_vars = FALSE, $expo
     $output = '<span style="color:red;font-size:small;">print_a( '.gettype( $array ).' )</span>';
   }
 
-  error_reporting ($e);
+  error_reporting($e);
   if ($return_mode) {
     return $output;
   } else {

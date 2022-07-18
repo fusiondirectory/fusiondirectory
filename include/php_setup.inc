@@ -70,7 +70,7 @@ function html_trace ($errstr = "")
                     '</td></tr>';
   $return_mailto  = rawurlencode('=== Trace ===');
   /* Generate trace history */
-  for ($index = 1, $c = count($trace); $index < $c; $index++) {
+  for($index = 1, $c = count($trace); $index < $c; $index++) {
     $ct   = $trace[$index];
     $loc  = '';
     $func = '';
@@ -207,7 +207,7 @@ function gosaRaiseError ($errno, $errstr, $errfile, $errline)
 
     /* Write to syslog */
     if (class_exists('logging') && !preg_match('/No such object/', $errstr)) {
-      logging::log('view', 'error', '', [], "PHP error: $errstr ($errfile, line $errline)");
+      logging::log('view', 'error', '', [], "PHP error: $errstr($errfile, line $errline)");
     }
 
     set_error_handler('gosaRaiseError', E_WARNING | E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT);
@@ -266,7 +266,7 @@ function gosaRaiseError ($errno, $errstr, $errfile, $errline)
 
   /* Create error header */
   $error_collector_mailto .= rawurlencode("=== Error === \n");
-  $error_collector_mailto .= rawurlencode("PHP error: $errstr ($errfile, line $errline)\n");
+  $error_collector_mailto .= rawurlencode("PHP error: $errstr($errfile, line $errline)\n");
   $error_collector_mailto .= rawurlencode("=== /Error === \n\n");
 
   list($html_trace, $mailto_trace) = html_trace($errstr);

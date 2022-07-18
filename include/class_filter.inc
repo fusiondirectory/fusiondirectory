@@ -333,7 +333,7 @@ class filter
     $c          = 0;
 
     /* Fill cells with charaters */
-    for ($i = 0, $l = mb_strlen($characters, 'UTF8'); $i < $l; $i++) {
+    for($i = 0, $l = mb_strlen($characters, 'UTF8'); $i < $l; $i++) {
       if ($c == 0) {
         $alphabet .= "<tr>";
       }

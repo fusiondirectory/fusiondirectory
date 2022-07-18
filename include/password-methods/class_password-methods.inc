@@ -261,7 +261,7 @@ class passwordMethod
    */
   function checkPassword ($pwd, $hash)
   {
-    return ($hash == $this->generate_hash($pwd));
+    return($hash == $this->generate_hash($pwd));
   }
 
 
@@ -380,7 +380,7 @@ class passwordMethod
     global $config;
     if ($config->get_cfg_value("strictPasswordRules") == "TRUE") {
       // Do we have UTF8 characters in the password?
-      return ($password == utf8_decode($password));
+      return($password == utf8_decode($password));
     }
 
     return TRUE;
