@@ -902,7 +902,7 @@ class simplePlugin
 
   protected function acl_skip_write ()
   {
-    return($this->needEditMode && !session::is_set('edit'));
+    return ($this->needEditMode && !session::is_set('edit'));
   }
 
   /*! \brief Can we write the attribute */

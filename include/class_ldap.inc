@@ -544,7 +544,7 @@ class LDAP
       }
       $r = @ldap_delete($this->cid, $deletedn);
       $this->error = @ldap_error($this->cid);
-      return($r ? $r : 0);
+      return ($r ? $r : 0);
     } else {
       $this->error = "Could not connect to LDAP server";
       return "";
@@ -640,7 +640,7 @@ class LDAP
         }
       }
       $this->error = @ldap_error($this->cid);
-      return($r ? $r : 0);
+      return ($r ? $r : 0);
     } else {
       $this->error = "Could not connect to LDAP server";
       return "";
@@ -693,7 +693,7 @@ class LDAP
       if (!$this->success()) {
         $this->error .= $this->makeReadableErrors($this->error, $attrs);
       }
-      return($r ? $r : 0);
+      return ($r ? $r : 0);
     } else {
       $this->error = "Could not connect to LDAP server";
       return "";
@@ -716,7 +716,7 @@ class LDAP
       if (!$this->success()) {
         $this->error .= $this->makeReadableErrors($this->error, $attrs);
       }
-      return($r ? $r : 0);
+      return ($r ? $r : 0);
     } else {
       $this->error = "Could not connect to LDAP server";
       return "";
@@ -924,7 +924,7 @@ class LDAP
   function hitSizeLimit ()
   {
     /* LDAP_SIZELIMIT_EXCEEDED 0x04 */
-    return($this->get_errno() == 0x04);
+    return ($this->get_errno() == 0x04);
   }
 
   function get_credentials ($url, $referrals = NULL)
@@ -1067,7 +1067,7 @@ class LDAP
             /* Ignore version number */
           } else {
             /* Line has ended */
-            list($key, $value) = explode(':', $line, 2);
+            list ($key, $value) = explode(':', $line, 2);
             $value = trim($value);
             if (preg_match('/^:/', $value)) {
               $value = base64_decode(trim(substr($value, 1)));
@@ -1235,7 +1235,7 @@ class LDAP
     /* Get list of objectclasses and fill array */
     $nb = $attr[0]['subschemasubentry'][0];
     $objectclasses = [];
-    $sr = ldap_read($this->cid, $nb, 'objectClass=*', ['objectclasses']);
+    $sr = ldap_read ($this->cid, $nb, 'objectClass=*', ['objectclasses']);
     $attrs = ldap_get_entries($this->cid, $sr);
     if (!isset($attrs[0])) {
       return [];
@@ -1359,15 +1359,15 @@ class LDAP
   function get_naming_contexts ($server, $admin = '', $password = '')
   {
     /* Build LDAP connection */
-    $ds = ldap_connect($server);
+    $ds = ldap_connect ($server);
     if (!$ds) {
       die ('Can\'t bind to LDAP. No check possible!');
     }
     ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
-    ldap_bind($ds, $admin, $password);
+    ldap_bind ($ds, $admin, $password);
 
     /* Get base to look for naming contexts */
-    $sr   = @ldap_read($ds, '', 'objectClass=*', ['namingContexts']);
+    $sr   = @ldap_read ($ds, '', 'objectClass=*', ['namingContexts']);
     $attr = @ldap_get_entries($ds, $sr);
 
     return $attr[0]['namingcontexts'];

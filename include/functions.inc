@@ -1017,7 +1017,7 @@ function strict_uid_mode ()
   global $config;
 
   if (isset($config)) {
-    return($config->get_cfg_value('strictNamingRules') == 'TRUE');
+    return ($config->get_cfg_value('strictNamingRules') == 'TRUE');
   }
   return TRUE;
 }

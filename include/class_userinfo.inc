@@ -332,7 +332,7 @@ class userinfo
   {
     $remove = (strpos($this->get_permissions($dn, $object.'/'.$class), 'd') !== FALSE);
     $read   = (strpos($this->get_complete_category_acls($dn, $object), 'r') !== FALSE);
-    return($remove && $read);
+    return ($remove && $read);
   }
 
 
@@ -994,7 +994,7 @@ class userinfo
     if (empty($this->ACLperPath)) {
       $this->loadACL();
     }
-    return($this->get_permissions($config->current['BASE'], 'user/user') == 'rwcdm');
+    return ($this->get_permissions($config->current['BASE'], 'user/user') == 'rwcdm');
   }
 
   /* \brief Test if a plugin is blacklisted for this user (does not show up in the menu)

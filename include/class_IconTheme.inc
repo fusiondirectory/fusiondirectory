@@ -70,7 +70,7 @@ class IconThemeDir
   {
     switch ($this->Type) {
       case 'Fixed':
-        return($this->Size == $size);
+        return ($this->Size == $size);
       default:
       case 'Threshold':
       case 'Scalable':

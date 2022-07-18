@@ -387,7 +387,7 @@ class passwordRecovery extends standAlonePage {
     $this->loginAttribute = $config->get_cfg_value('passwordRecoveryLoginAttribute', 'uid');
 
     @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $config->get_cfg_value ('passwordRecoveryActivated'), "passwordRecoveryActivated");
-    return($config->get_cfg_value('passwordRecoveryActivated') == "TRUE");
+    return ($config->get_cfg_value('passwordRecoveryActivated') == "TRUE");
   }
 
   function storeToken ($temp_password)

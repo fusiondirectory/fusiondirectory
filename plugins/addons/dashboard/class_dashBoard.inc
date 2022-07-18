@@ -109,7 +109,7 @@ class dashboard extends simplePlugin
     usort($stats,
       function ($a, $b)
       {
-        return($b['priority'] < $a['priority']);
+        return ($b['priority'] < $a['priority']);
       }
     );
 

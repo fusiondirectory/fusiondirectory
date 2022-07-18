@@ -67,7 +67,7 @@ class Combinations implements Iterator
 
   function valid ()
   {
-    return($this->pos >= 0);
+    return ($this->pos >= 0);
   }
 
   protected function _next ()

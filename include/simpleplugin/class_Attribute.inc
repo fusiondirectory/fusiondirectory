@@ -321,7 +321,7 @@ class Attribute
 
   function hasChanged ()
   {
-    return($this->getValue() !== $this->initialValue);
+    return ($this->getValue() !== $this->initialValue);
   }
 
   function displayValue ($value)
@@ -363,7 +363,7 @@ class Attribute
     if (isset($this->managedAttributesMultipleValues[$mavalue])) {
       return in_array($myvalue, $this->managedAttributesMultipleValues[$mavalue]);
     } else {
-      return($myvalue == $mavalue);
+      return ($myvalue == $mavalue);
     }
   }
 
@@ -520,7 +520,7 @@ class Attribute
         ),
         function ($ou)
         {
-          return($ou !== FALSE);
+          return ($ou !== FALSE);
         }
       );
       while ($attrs = $ldap->fetch()) {
@@ -725,7 +725,7 @@ class Attribute
 
   function foreignKeyCheck ($value, $source)
   {
-    return($this->getValue() == $value);
+    return ($this->getValue() == $value);
   }
 
   protected function renderInputField ($type, $name, $attributes = [])
