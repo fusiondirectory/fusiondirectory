@@ -567,7 +567,7 @@ class Attribute
    *
    *  \param bool $readOnly should we show text or input
    */
-  function renderAttribute(&$attributes, $readOnly)
+  function renderAttribute (&$attributes, $readOnly)
   {
     if ($this->visible) {
       if ($readOnly) {
@@ -602,7 +602,7 @@ class Attribute
    * \param array &$attributes the attributes array
    * \param boolean $form
    */
-  function serializeAttribute(&$attributes, $form = TRUE)
+  function serializeAttribute (&$attributes, $form = TRUE)
   {
     if (!$form || $this->visible) {
       $class = get_class($this);
@@ -635,7 +635,7 @@ class Attribute
    *
    *  \param mixed $value the value
    */
-  function deserializeValue($value)
+  function deserializeValue ($value)
   {
     if ($this->disabled) {
       return sprintf(_('Attribute %s is disabled, its value could not be set'), $this->getLdapName());
@@ -647,7 +647,7 @@ class Attribute
    *
    *  \param string $display the display information to pass through ACL
    */
-  function renderAcl($display)
+  function renderAcl ($display)
   {
     return '{render aclName="'.$this->getAcl().'" acl=$'.$this->getAcl()."ACL}\n$display\n{/render}";
   }
@@ -677,7 +677,7 @@ class Attribute
     ));
   }
 
-  public function htmlIds()
+  public function htmlIds ()
   {
     return [$this->getHtmlId()];
   }
@@ -708,7 +708,7 @@ class Attribute
     return $this->renderFormInput();
   }
 
-  function foreignKeyUpdate($oldvalue, $newvalue, $source)
+  function foreignKeyUpdate ($oldvalue, $newvalue, $source)
   {
     if ($source['MODE'] == 'move') {
       if ($source['FIELD'] == 'dn') {
@@ -723,12 +723,12 @@ class Attribute
     }
   }
 
-  function foreignKeyCheck($value, $source)
+  function foreignKeyCheck ($value, $source)
   {
     return ($this->getValue() == $value);
   }
 
-  protected function renderInputField($type, $name, $attributes = [])
+  protected function renderInputField ($type, $name, $attributes = [])
   {
     $input  = '<input type="'.$type.'" '.
               'name="'.$name.'" id="'.$name.'"'.
@@ -792,7 +792,7 @@ class FakeAttribute extends Attribute
     $this->setInLdap(FALSE);
   }
 
-  function renderAttribute(&$attributes, $readOnly)
+  function renderAttribute (&$attributes, $readOnly)
   {
     $attributes[$this->getLdapName()] = $this->getValue();
   }

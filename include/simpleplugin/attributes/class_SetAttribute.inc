@@ -159,7 +159,7 @@ class SetAttribute extends Attribute
     return $this->renderAcl($display).$attr_display.$this->renderAcl($buttons);
   }
 
-  function renderOnlyFormInput()
+  function renderOnlyFormInput ()
   {
     if (($this->size < 15) && ($this->size < count($this->value))) {
       $this->size = min(15, count($this->value));
@@ -182,7 +182,7 @@ class SetAttribute extends Attribute
     }
     $attribute = $this->attribute;
     return array_map(
-      function ($value) use($attribute)
+      function ($value) use ($attribute)
       {
         return $attribute->displayValue($value);
       },
@@ -190,7 +190,7 @@ class SetAttribute extends Attribute
     );
   }
 
-  function handleEditingValue()
+  function handleEditingValue ()
   {
     if ($this->editingValue === FALSE) {
       $this->attribute->resetToDefault();
@@ -212,7 +212,7 @@ class SetAttribute extends Attribute
     }
   }
 
-  function renderAttribute(&$attributes, $readOnly)
+  function renderAttribute (&$attributes, $readOnly)
   {
     if ($this->attribute === FALSE) {
       return parent::renderAttribute($attributes, $readOnly);
@@ -240,7 +240,7 @@ class SetAttribute extends Attribute
     }
   }
 
-  function serializeAttribute(&$attributes, $form = TRUE)
+  function serializeAttribute (&$attributes, $form = TRUE)
   {
     parent::serializeAttribute($attributes, $form);
     if ($this->attribute === FALSE) {
@@ -257,7 +257,7 @@ class SetAttribute extends Attribute
     }
   }
 
-  function getForHtmlId()
+  function getForHtmlId ()
   {
     // Label should point to the attribute
     if (is_object($this->attribute)) {
@@ -280,7 +280,7 @@ class SetAttribute extends Attribute
     return array_values($this->value);
   }
 
-  public function htmlIds()
+  public function htmlIds ()
   {
     $id = $this->getHtmlId();
     return array_merge(['add'.$id,'del'.$id,'row'.$id], $this->attribute->htmlIds());
@@ -298,7 +298,7 @@ class SetAttribute extends Attribute
     }
   }
 
-  function getArrayValues()
+  function getArrayValues ()
   {
     $result = [];
     foreach ($this->value as $value) {
@@ -312,7 +312,7 @@ class SetAttribute extends Attribute
     return $result;
   }
 
-  function foreignKeyUpdate($oldvalue, $newvalue, $source)
+  function foreignKeyUpdate ($oldvalue, $newvalue, $source)
   {
     foreach ($this->value as $key => &$value) {
       if (($source['FIELD'] == 'dn') && ($source['MODE'] == 'move')) {
@@ -336,17 +336,17 @@ class SetAttribute extends Attribute
     unset($value);
   }
 
-  function foreignKeyCheck($value, $source)
+  function foreignKeyCheck ($value, $source)
   {
     return in_array($value, $this->value);
   }
 
-  function setSize($size)
+  function setSize ($size)
   {
     $this->size = $size;
   }
 
-  function checkValue($value)
+  function checkValue ($value)
   {
     if (!is_array($value)) {
       throw new InvalidValueException(sprintf(_('SetAttribute "%s" was set to a non-compatible value'), $this->getLabel()));
@@ -378,17 +378,17 @@ class OrderedArrayAttribute extends SetAttribute
     $this->edit_enabled = $edit_enabled;
   }
 
-  function setHeight($h)
+  function setHeight ($h)
   {
     $this->height = $h;
   }
 
-  function setHeaders($h)
+  function setHeaders ($h)
   {
     $this->headers = $h;
   }
 
-  function readValue($value)
+  function readValue ($value)
   {
     if ($this->order) {
       return preg_split('/:/', $value, 2);
@@ -397,7 +397,7 @@ class OrderedArrayAttribute extends SetAttribute
     }
   }
 
-  function writeValue($key, $value)
+  function writeValue ($key, $value)
   {
     if ($this->order) {
       return $key.":".$value;
@@ -462,7 +462,7 @@ class OrderedArrayAttribute extends SetAttribute
     return '{$div_'.$id.'}'."\n";
   }
 
-  protected function genRowIcons($key, $value)
+  protected function genRowIcons ($key, $value)
   {
     $id = $this->getHtmlId();
 
@@ -523,7 +523,7 @@ class OrderedArrayAttribute extends SetAttribute
     return  [$img, $nbicons];
   }
 
-  protected function getAttributeArrayValue($key, $value)
+  protected function getAttributeArrayValue ($key, $value)
   {
     $this->attribute->setValue($value);
     return $this->attribute->getArrayValue();
@@ -549,7 +549,7 @@ class OrderedArrayAttribute extends SetAttribute
     }
   }
 
-  protected function handlePostValueActions($id, $postValue)
+  protected function handlePostValueActions ($id, $postValue)
   {
     if ($this->order) {
       if (preg_match('/^'.$id.'_up_/', $postValue)) {
@@ -588,7 +588,7 @@ class OrderedArrayAttribute extends SetAttribute
     return FALSE;
   }
 
-  protected function handleAddAndEditValue()
+  protected function handleAddAndEditValue ()
   {
     $id = $this->getHtmlId();
     if ($this->attribute === FALSE) {
@@ -609,7 +609,7 @@ class OrderedArrayAttribute extends SetAttribute
     }
   }
 
-  protected function handleEdit($key)
+  protected function handleEdit ($key)
   {
     $this->editingValue = $this->value[$key];
     $this->delPostValue($key);
@@ -624,7 +624,7 @@ class OrderedArrayAttribute extends SetAttribute
     }
   }
 
-  public function htmlIds()
+  public function htmlIds ()
   {
     $id   = $this->getHtmlId();
     $ids  = ['add'.$id];

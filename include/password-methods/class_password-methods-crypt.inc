@@ -35,7 +35,7 @@ class passwordMethodCrypt extends passwordMethod
   /*!
    * \brief passwordMethodCrypt Constructor
    */
-  function __construct()
+  function __construct ()
   {
   }
 
@@ -44,9 +44,9 @@ class passwordMethodCrypt extends passwordMethod
    *
    * \return TRUE if is avaibable, otherwise return false
    */
-  function is_available()
+  function is_available ()
   {
-    return function_exists('crypt');
+    return function_exists ('crypt');
   }
 
   /*!
@@ -54,7 +54,7 @@ class passwordMethodCrypt extends passwordMethod
    *
    * \param string $pwd Password
    */
-  function generate_hash($pwd)
+  function generate_hash ($pwd)
   {
     if ($this->hash == "crypt/standard-des") {
       $salt = "";
@@ -105,7 +105,7 @@ class passwordMethodCrypt extends passwordMethod
     return "{CRYPT}".crypt($pwd, $salt);
   }
 
-  function checkPassword($pwd, $hash)
+  function checkPassword ($pwd, $hash)
   {
     // Not implemented
     return FALSE;
@@ -114,7 +114,7 @@ class passwordMethodCrypt extends passwordMethod
   /*!
    * \brief Get the hash name
    */
-  static function get_hash_name()
+  static function get_hash_name ()
   {
     $hashes = [];
     if (CRYPT_STD_DES == 1) {
@@ -151,7 +151,7 @@ class passwordMethodCrypt extends passwordMethod
    *
    * \param string $password_hash
    */
-  static function _extract_method($classname, $password_hash)
+  static function _extract_method ($classname, $password_hash)
   {
     if (!preg_match('/^{crypt}/i', $password_hash)) {
       return "";

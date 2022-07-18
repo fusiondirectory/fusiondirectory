@@ -24,7 +24,7 @@ class domain extends department
   var $objectclasses  = ["top", "domain", "gosaDepartment"];
   var $structuralOC   = ["domain"];
 
-  static function plInfo()
+  static function plInfo ()
   {
     return [
       'plShortName'   => _('Domain'),

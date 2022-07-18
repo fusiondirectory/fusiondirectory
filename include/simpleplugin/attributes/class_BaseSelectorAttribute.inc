@@ -120,7 +120,7 @@ class BaseSelectorAttribute extends Attribute
     }
   }
 
-  function checkValue($value)
+  function checkValue ($value)
   {
     if (!is_string($value) && (!is_object($value) || !method_exists($value, '__toString' ))) {
       throw new InvalidValueException(_('Base field value should always be a string'));
@@ -165,7 +165,7 @@ class BaseSelectorAttribute extends Attribute
     return $this->renderAcl($display);
   }
 
-  function getHtmlId()
+  function getHtmlId ()
   {
     if (isset($this->baseSelector)) {
       return $this->baseSelector->getInputHtmlId();
@@ -174,7 +174,7 @@ class BaseSelectorAttribute extends Attribute
     }
   }
 
-  function serializeAttribute(&$attributes, $form = TRUE)
+  function serializeAttribute (&$attributes, $form = TRUE)
   {
     if (!$form || $this->visible) {
       parent::serializeAttribute($attributes, $form);

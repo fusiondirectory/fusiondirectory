@@ -42,7 +42,7 @@ function htmlunescape ($html)
   return html_entity_decode($html, ENT_QUOTES | ENT_HTML5, 'UTF-8');
 }
 
-function html_trace($errstr = "")
+function html_trace ($errstr = "")
 {
   static $hideArgs = [
     'ldap_init'         => [3],
@@ -51,7 +51,7 @@ function html_trace($errstr = "")
     'cred_decrypt'      => [0,1],
     'LDAP/__construct'  => [1],
   ];
-  if (!function_exists('debug_backtrace')) {
+  if (!function_exists ('debug_backtrace')) {
     return  ['', ''];
   }
   $trace = array_slice(debug_backtrace(), 1);
@@ -106,7 +106,7 @@ function html_trace($errstr = "")
       } else {
         $hideArgsIndexes = [];
       }
-      $f = function ($index, $arg) use(&$f, $hideArgsIndexes) {
+      $f = function ($index, $arg) use (&$f, $hideArgsIndexes) {
         static $i = 0;
         if (($i == 0) && in_array($index, $hideArgsIndexes)) {
           return '***';
@@ -175,7 +175,7 @@ function html_trace($errstr = "")
  *
  * \param string $errline The error line
  */
-function gosaRaiseError($errno, $errstr, $errfile, $errline)
+function gosaRaiseError ($errno, $errstr, $errfile, $errline)
 {
   global $error_collector,$config, $error_collector_mailto;
 
@@ -290,13 +290,13 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
 /*!
  * \brief Dummy error handler
  */
-function dummy_error_handler()
+function dummy_error_handler ()
 {
 }
 
 /*! \brief Returns TRUE if SSL was used to contact FD, whether directly or through a proxy
  */
-function sslOn()
+function sslOn ()
 {
   if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
     return (strcasecmp($_SERVER['HTTP_X_FORWARDED_PROTO'], 'https') == 0);
@@ -309,7 +309,7 @@ function sslOn()
 
 /*! \brief Returns SSL URL to redirect to
  */
-function sslUrl()
+function sslUrl ()
 {
   $ssl = 'https://';
   if (empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {

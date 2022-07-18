@@ -74,7 +74,7 @@ class config
    *
    * \param string $basedir base directory
    */
-  function __construct($filename, $basedir = '')
+  function __construct ($filename, $basedir = '')
   {
     $this->basedir  = $basedir;
 
@@ -91,7 +91,7 @@ class config
    * read the last time and reloads it. It uses the file mtime to check
    * weither the file changed or not.
    */
-  function check_and_reload($force = FALSE)
+  function check_and_reload ($force = FALSE)
   {
     /* Check if class_location.inc has changed, this is the case
         if we have installed or removed plugins. */
@@ -125,7 +125,7 @@ class config
    *
    * \param string $filename The filename of the configuration file.
    */
-  function parse($filename)
+  function parse ($filename)
   {
     $this->last_modified  = filemtime($filename);
     $this->filename       = $filename;
@@ -166,7 +166,7 @@ class config
    *
    * \param string $attrs
    */
-  function tag_open($parser, $tag, $attrs)
+  function tag_open ($parser, $tag, $attrs)
   {
     /* Save last and current tag for reference */
     $this->tags[$this->level] = $tag;
@@ -248,7 +248,7 @@ class config
    *
    * \param string $tag
    */
-  function tag_close($parser, $tag)
+  function tag_close ($parser, $tag)
   {
     /* Close config section */
     if ($tag == 'CONF') {
@@ -267,7 +267,7 @@ class config
    *
    * \return string the password corresponding to the keyword
    */
-  function get_credentials($creds)
+  function get_credentials ($creds)
   {
     if (isset($_SERVER['HTTP_FDKEY'])) {
       if (!session::is_set('HTTP_FDKEY_CACHE')) {
@@ -311,7 +311,7 @@ class config
    *
    * \return ldapMultiplexer object
    */
-  function get_ldap_link($sizelimit = FALSE)
+  function get_ldap_link ($sizelimit = FALSE)
   {
     global $ui;
 
@@ -348,7 +348,7 @@ class config
    *
    * \param string $name the name of the location
    */
-  function set_current($name)
+  function set_current ($name)
   {
     if (!isset($this->data['LOCATIONS'][$name])) {
       msg_dialog::display(_('Error'), sprintf(_('Location "%s" could not be found in the configuration file'), $name), FATAL_ERROR_DIALOG);
@@ -474,7 +474,7 @@ class config
     del_lock($dn);
   }
 
-  function load_inldap_config()
+  function load_inldap_config ()
   {
     $ldap = $this->get_ldap_link();
     $ldap->cat(CONFIGRDN.$this->current['BASE']);
@@ -512,7 +512,7 @@ class config
   /*!
    * \brief Store the departments from ldap in $this->departments
    */
-  function get_departments()
+  function get_departments ()
   {
     /* Initialize result hash */
     $result = [];
@@ -575,7 +575,7 @@ class config
     $this->departments = $result;
   }
 
-  function make_idepartments($max_size = 28)
+  function make_idepartments ($max_size = 28)
   {
     $base   = $this->current['BASE'];
     $qbase  = preg_quote($base, '/');
@@ -632,7 +632,7 @@ class config
    *
    * \param int $max_size initialized at 256
    */
-  function generateDepartmentArray($arr, $depth = -1, $max_size = 256)
+  function generateDepartmentArray ($arr, $depth = -1, $max_size = 256)
   {
     $ret = [];
     $depth++;
@@ -687,7 +687,7 @@ class config
    *
    *  \return array of hook commands or empty array
    */
-  function searchHooks($class, $value)
+  function searchHooks ($class, $value)
   {
     $class = strtoupper($class);
     $value = strtoupper($value);
@@ -711,7 +711,7 @@ class config
    *
    * \return string the configuration value if found or the default value
    */
-  function get_cfg_value($name, $default = '')
+  function get_cfg_value ($name, $default = '')
   {
     $name = strtoupper($name);
     $res  = $default;
@@ -744,7 +744,7 @@ class config
    *  or not. If SESSIONLIFETIME is not configured in FusionDirectory it always returns
    *  TRUE.
    */
-  function check_session_lifetime()
+  function check_session_lifetime ()
   {
     $cfg_lifetime = $this->get_cfg_value('SESSIONLIFETIME', 0);
     if ($cfg_lifetime > 0) {
@@ -761,7 +761,7 @@ class config
    *
    * \return boolean TRUE if snapshot are enabled, FALSE otherwise
    */
-  function snapshotEnabled()
+  function snapshotEnabled ()
   {
     if ($this->get_cfg_value('enableSnapshots') != 'TRUE') {
       return FALSE;
@@ -980,7 +980,7 @@ class config
           }
         }
       }
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, join(',', array_unique($acl)), "Class $class categories");
+      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, join (',', array_unique ($acl)), "Class $class categories");
       /* Feed menu */
       if (isset($plInfo['plSection'])) {
         $section = $plInfo['plSection'];

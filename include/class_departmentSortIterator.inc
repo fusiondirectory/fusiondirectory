@@ -35,7 +35,7 @@ class departmentSortIterator extends listingSortIterator {
    *
    * \param $direction Direction
    */
-  public function __construct($data, $direction)
+  public function __construct ($data, $direction)
   {
     parent::__construct($data, $direction, 'sort-attribute', 'department');
   }

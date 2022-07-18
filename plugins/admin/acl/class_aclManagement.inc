@@ -25,7 +25,7 @@ class aclAssignmentCreationDialog extends simplePlugin
   protected $post_cancel = 'add_cancel';
   protected $simpleManagement;
 
-  static function plInfo()
+  static function plInfo ()
   {
     return [
       'plShortName'   => _('ACL assignment creation'),
@@ -68,7 +68,7 @@ class aclAssignmentCreationDialog extends simplePlugin
     $this->attributesAccess['baseDn']->setInLdap(FALSE);
   }
 
-  function save_object()
+  function save_object ()
   {
     parent::save_object();
     if (isset($_POST[$this->post_cancel])) {
@@ -80,11 +80,11 @@ class aclAssignmentCreationDialog extends simplePlugin
     return TRUE;
   }
 
-  function save()
+  function save ()
   {
   }
 
-  function execute()
+  function execute ()
   {
     if ($this->save_object()) {
       $smarty = get_smarty();
@@ -134,7 +134,7 @@ class aclManagement extends simpleManagement
 
   public static $skipSnapshots = TRUE;
 
-  static function plInfo()
+  static function plInfo ()
   {
     return [
       'plShortName'   => _('ACL assignments'),
@@ -149,7 +149,7 @@ class aclManagement extends simpleManagement
     ];
   }
 
-  function configureFilter()
+  function configureFilter ()
   {
     parent::configureFilter();
     $this->filter->scope = 'sub';
@@ -176,12 +176,12 @@ class aclManagement extends simpleManagement
   /*!
    * \brief  This method intiates the object creation.
    */
-  function newEntry($action, array $target, array $all)
+  function newEntry ($action, array $target, array $all)
   {
     $this->dialogObject = new aclAssignmentCreationDialog($this);
   }
 
-  function newEntryConfirmed($dn)
+  function newEntryConfirmed ($dn)
   {
     $type = 'aclAssignment';
 
@@ -201,7 +201,7 @@ class aclManagement extends simpleManagement
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Creating new ACL assignment');
   }
 
-  static function filterLabel($row, $dn, $pid = 0, $base = '')
+  static function filterLabel ($row, $dn, $pid = 0, $base = '')
   {
     $ou = '';
     if ($dn == $base) {
@@ -228,7 +228,7 @@ class aclManagement extends simpleManagement
     return '<a href="?plug='.$_GET['plug'].'&amp;PID='.$pid.'&amp;act=listing_edit_'.$row.'" title="'.$dn.'">'.$ou.'</a>';
   }
 
-  protected function removeEntryRequested($action, array $target, array $all)
+  protected function removeEntryRequested ($action, array $target, array $all)
   {
     $result = parent::removeEntryRequested($action, $target, $all);
     if ($result != "") {

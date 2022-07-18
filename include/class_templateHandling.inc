@@ -28,7 +28,7 @@
 class templateHandling
 {
   /*! \brief Fetch a template from LDAP and returns its attributes and dependencies information */
-  public static function fetch($dn)
+  public static function fetch ($dn)
   {
     global $config;
 
@@ -116,7 +116,7 @@ class templateHandling
   }
 
   /*! \brief Parse a mask (without surrounding %) using $attrs attributes, apply modifiers and returns an array containing possible results */
-  public static function parseMask($mask, array $attrs)
+  public static function parseMask ($mask, array $attrs)
   {
     if ($mask == '|') {
       return ['%'];
@@ -164,7 +164,7 @@ class templateHandling
    *
    * \return array An array of attributes which are needed by the template
    */
-  public static function neededAttrs(array &$attrs, array $flatdepends)
+  public static function neededAttrs (array &$attrs, array $flatdepends)
   {
     $needed = [];
     foreach ($flatdepends as $attr => $depends) {
@@ -187,7 +187,7 @@ class templateHandling
    *
    * \return array An array with the final values of attributes
    */
-  public static function parseArray(array $attrs, array $specialAttrs)
+  public static function parseArray (array $attrs, array $specialAttrs)
   {
     foreach ($attrs as &$attr) {
       if (is_array($attr)) {
@@ -208,7 +208,7 @@ class templateHandling
    *
    * \return string the string with patterns replaced by their values
    */
-  public static function parseString($string, array $attrs, $escapeMethod = NULL)
+  public static function parseString ($string, array $attrs, $escapeMethod = NULL)
   {
     if (preg_match('/^%%/', $string)) {
       /* Special case: %% at beginning of string means do not touch it. Used by binary attributes. */
@@ -231,7 +231,7 @@ class templateHandling
    *
    * \return array An array with the names of the fields used in the string pattern
    */
-  public static function listFields($string)
+  public static function listFields ($string)
   {
     $fields = [];
     $offset = 0;
@@ -249,7 +249,7 @@ class templateHandling
     return $fields;
   }
 
-  private static function modifierRemoveAccents($str)
+  private static function modifierRemoveAccents ($str)
   {
     $str = htmlentities($str, ENT_NOQUOTES, 'UTF-8');
 
@@ -260,7 +260,7 @@ class templateHandling
     return [preg_replace('#&[^;]+;#', '', $str)];
   }
 
-  private static function modifierTranslit(array $args, $str)
+  private static function modifierTranslit (array $args, $str)
   {
     $localesaved = setlocale(LC_CTYPE, 0);
     $ret = [];
@@ -272,7 +272,7 @@ class templateHandling
     return array_unique($ret);
   }
 
-  private static function modifierPregReplace(array $args, $str)
+  private static function modifierPregReplace (array $args, $str)
   {
     $pattern = '/\s/';
     $replace = '';
@@ -286,7 +286,7 @@ class templateHandling
     return [preg_replace($pattern.'u', $replace, $str)];
   }
 
-  private static function modifierSubString(array $args, $str)
+  private static function modifierSubString (array $args, $str)
   {
     if (count($args) < 1) {
       trigger_error("Missing 's' substr modifier parameter");
@@ -305,7 +305,7 @@ class templateHandling
     }
   }
 
-  private static function modifierRandomString(array $args)
+  private static function modifierRandomString (array $args)
   {
     $length = 8;
     $chars  = 'b';
@@ -355,7 +355,7 @@ class templateHandling
     return $res;
   }
 
-  private static function modifierDate(array $args)
+  private static function modifierDate (array $args)
   {
     if (count($args) < 1) {
       $args[] = 'now';
@@ -379,7 +379,7 @@ class templateHandling
    *
    * \return array an array of possible values
    * */
-  protected static function applyModifier($m, array $args, $str)
+  protected static function applyModifier ($m, array $args, $str)
   {
     mb_internal_encoding('UTF-8');
     mb_regex_encoding('UTF-8');
@@ -518,7 +518,7 @@ class templateHandling
   }
 
   /*! \brief Computes dependencies between attributes: which attributes must be filled in order to compute each attribute value */
-  protected static function attributesDependencies(array $attrs)
+  protected static function attributesDependencies (array $attrs)
   {
     /* Compute dependencies of each attr */
     $depends = [];
@@ -551,7 +551,7 @@ class templateHandling
   }
 
   /*! \brief Sort attrs depending of dependencies */
-  protected static function sortAttributes(array $attrs, array $flatdepends)
+  protected static function sortAttributes (array $attrs, array $flatdepends)
   {
     uksort($attrs, function ($k1, $k2) use ($flatdepends) {
       if (in_array($k1, $flatdepends[$k2])) {

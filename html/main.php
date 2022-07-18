@@ -47,7 +47,7 @@ session::set('limit_exceeded', FALSE);
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   @DEBUG (DEBUG_POST, __LINE__, __FUNCTION__, __FILE__, $_POST, "_POST");
 }
-@DEBUG (DEBUG_SESSION, __LINE__, __FUNCTION__, __FILE__, session::get_all(), "_SESSION");
+@DEBUG (DEBUG_SESSION, __LINE__, __FUNCTION__, __FILE__, session::get_all (), "_SESSION");
 
 /* Logged in? Simple security check */
 if (!session::is_set('connected')) {
@@ -201,7 +201,7 @@ if ($old_plugin_dir != $plugin_dir && $old_plugin_dir != "") {
 $ui->getSizeLimitHandler()->update();
 
 /* Check for memory */
-if (function_exists("memory_get_usage")) {
+if (function_exists ("memory_get_usage")) {
   if (memory_get_usage() > (to_byte(ini_get('memory_limit')) - 2048000 )) {
     msg_dialog::display(_("Configuration error"), _("Running out of memory!"), WARNING_DIALOG);
   }

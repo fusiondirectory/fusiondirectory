@@ -18,7 +18,7 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
-function smarty_function_msgPool($params, &$smarty)
+function smarty_function_msgPool ($params, &$smarty)
 {
   if (class_available('msgPool') && isset($params['type'])) {
     $parameter = [];

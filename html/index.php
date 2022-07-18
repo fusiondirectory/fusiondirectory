@@ -32,7 +32,7 @@ header('X-Content-Type-Options: nosniff');
 header('X-Frame-Options: deny');
 
 /* Display the login page and exit() */
-function displayLogin()
+function displayLogin ()
 {
   global $smarty,$message,$config,$ssl,$error_collector,$error_collector_mailto;
   $lang = session::get('lang');
@@ -233,14 +233,14 @@ class Index {
   static protected $username;
   static protected $password;
 
-  static function init()
+  static function init ()
   {
     static::$username = NULL;
     static::$password = NULL;
   }
 
   /* Runs schemaCheck if activated in configuration */
-  static function runSchemaCheck()
+  static function runSchemaCheck ()
   {
     global $config;
     if ($config->get_cfg_value('schemaCheck') != 'TRUE') {
@@ -265,7 +265,7 @@ class Index {
   }
 
   /* Check locking LDAP branch is here or create it */
-  static function checkForLockingBranch()
+  static function checkForLockingBranch ()
   {
     global $config;
     $ldap = $config->get_ldap_link();
@@ -279,7 +279,7 @@ class Index {
 
   /* Check username for invalid characters and check password is not empty
    * Also trims username */
-  static function validateUserInput()
+  static function validateUserInput ()
   {
     global $message, $smarty;
     static::$username = trim(static::$username);
@@ -295,7 +295,7 @@ class Index {
   }
 
   /* Performs an LDAP bind with $username and $password */
-  static function ldapLoginUser()
+  static function ldapLoginUser ()
   {
     global $ui, $config, $message, $smarty;
     /* Login as user, initialize user ACL's */
@@ -314,7 +314,7 @@ class Index {
   }
 
   /* Called after successful login, return FALSE if account is expired */
-  static function loginAndCheckExpired()
+  static function loginAndCheckExpired ()
   {
     global $ui, $config, $plist, $message, $smarty;
     /* Remove all locks of this user */
@@ -350,7 +350,7 @@ class Index {
   }
 
   /* Final step of successful login: redirect to main.php */
-  static function redirect()
+  static function redirect ()
   {
     global $config;
     /* Not account expired or password forced change go to main page */
@@ -362,7 +362,7 @@ class Index {
   }
 
   /* Return HTTP authentication header */
-  static function authenticateHeader($message = 'Authentication required')
+  static function authenticateHeader ($message = 'Authentication required')
   {
     header('WWW-Authenticate: Basic realm="FusionDirectory"');
     header('HTTP/1.0 401 Unauthorized');
@@ -371,7 +371,7 @@ class Index {
   }
 
   /* Run each step in $steps, stop on errors */
-  static function runSteps($steps)
+  static function runSteps ($steps)
   {
     foreach ($steps as $step) {
       $status = static::$step();
@@ -386,7 +386,7 @@ class Index {
   }
 
   /* All login steps in the right order for standard POST login */
-  static function fullLoginProcess()
+  static function fullLoginProcess ()
   {
     global $config, $message;
 
@@ -417,7 +417,7 @@ class Index {
   }
 
   /* All login steps in the right order for HTTP auth login */
-  static function authLoginProcess()
+  static function authLoginProcess ()
   {
     global $config, $message;
 
@@ -447,7 +447,7 @@ class Index {
   }
 
   /* All login steps in the right order for HTTP Header login */
-  static function headerAuthLoginProcess()
+  static function headerAuthLoginProcess ()
   {
     global $config, $message, $ui;
 
@@ -512,7 +512,7 @@ class Index {
   }
 
   /* All login steps in the right order for CAS login */
-  static function casLoginProcess()
+  static function casLoginProcess ()
   {
     global $config, $message, $ui;
 

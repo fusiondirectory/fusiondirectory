@@ -20,7 +20,7 @@
 
 class aclAssignmentDialogWindow extends simplePlugin
 {
-  static function plInfo()
+  static function plInfo ()
   {
     return [
       'plShortName'   => _('ACL Assignment Dialog'),
@@ -31,7 +31,7 @@ class aclAssignmentDialogWindow extends simplePlugin
     ];
   }
 
-  static function getAttributesInfo()
+  static function getAttributesInfo ()
   {
     return [
       'properties' => [
@@ -92,7 +92,7 @@ class aclAssignmentDialogWindow extends simplePlugin
     }
   }
 
-  function execute()
+  function execute ()
   {
     $smarty = get_smarty();
     $display = parent::execute();
@@ -107,7 +107,7 @@ class aclAssignmentDialogWindow extends simplePlugin
     return $display;
   }
 
-  function getAclEntry()
+  function getAclEntry ()
   {
     $entry = [
       'scope'   => $this->aclMode,
@@ -128,7 +128,7 @@ class ACLsAssignmentDialog extends GenericDialog
   protected $post_finish = 'add_acl_finish';
   protected $dialogClass = 'aclAssignmentDialogWindow';
 
-  function __construct($simplePlugin, $attribute, $acl = NULL)
+  function __construct ($simplePlugin, $attribute, $acl = NULL)
   {
     $isContainer = FALSE;
     if (isset($simplePlugin->attrs['objectClass'])) {
@@ -180,7 +180,7 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
   protected $dialogClass  = 'ACLsAssignmentDialog';
   protected $height       = 300;
 
-  protected function getAttributeArrayValue($key, $value)
+  protected function getAttributeArrayValue ($key, $value)
   {
     /* Convert text value to displayable array value */
     sort($value['members']);
@@ -193,7 +193,7 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
     return $value;
   }
 
-  function readValue($value)
+  function readValue ($value)
   {
     $acl = explode(':', $value);
     return [$acl[0], [
@@ -203,12 +203,12 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
     ]];
   }
 
-  function writeValue($key, $value)
+  function writeValue ($key, $value)
   {
     return $key.':'.$value['scope'].':'.base64_encode($value['role']).':'.join(',', array_map('base64_encode', $value['members']));
   }
 
-  function foreignKeyUpdate($oldvalue, $newvalue, $source)
+  function foreignKeyUpdate ($oldvalue, $newvalue, $source)
   {
     foreach ($this->value as $key => &$value) {
       if ($source['FIELD'] == 'dn') {
@@ -243,7 +243,7 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
     unset($value);
   }
 
-  function foreignKeyCheck($oldvalue, $source)
+  function foreignKeyCheck ($oldvalue, $source)
   {
     foreach ($this->value as $value) {
       if (($source['CLASS'] == 'aclRole') && ($value['role'] == $oldvalue)) {
@@ -261,7 +261,7 @@ class aclAssignment extends simplePlugin
 {
   var $objectclasses  = ['gosaAcl'];
 
-  static function plInfo()
+  static function plInfo ()
   {
     global $config;
     $oc = [
@@ -297,7 +297,7 @@ class aclAssignment extends simplePlugin
     ];
   }
 
-  static function getAttributesInfo()
+  static function getAttributesInfo ()
   {
     return [
       'main' => [
@@ -319,12 +319,12 @@ class aclAssignment extends simplePlugin
     $this->attributesInfo['main']['name'] = sprintf(_('Assignments on object or subtree %s'), $this->dn);
   }
 
-  function compute_dn()
+  function compute_dn ()
   {
     return $this->dn;
   }
 
-  function save()
+  function save ()
   {
     $this->ignore_account = FALSE;
     $this->is_account = (count($this->gosaAclEntry) != 0);
@@ -335,7 +335,7 @@ class aclAssignment extends simplePlugin
     }
   }
 
-  function post_remove()
+  function post_remove ()
   {
     parent::post_remove();
 
@@ -345,7 +345,7 @@ class aclAssignment extends simplePlugin
     session::set('ui', $ui);
   }
 
-  function post_save()
+  function post_save ()
   {
     parent::post_save();
 

@@ -54,7 +54,7 @@ class simpleTabs
   /*!
    * \brief Tabs classes constructor
    * */
-  function __construct($type, $dn, $attrs_object = NULL)
+  function __construct ($type, $dn, $attrs_object = NULL)
   {
     global $config;
 
@@ -119,7 +119,7 @@ class simpleTabs
    *
    * This maybe usefull if for example the apply button was pressed.
    */
-  function re_init()
+  function re_init ()
   {
     $baseobject = NULL;
     foreach ($this->by_object as $name => $object) {
@@ -140,7 +140,7 @@ class simpleTabs
   /*!
    * \brief Sets the active tabs from this instance to an other one. Used by templates
    */
-  function setActiveTabs(&$tabObject)
+  function setActiveTabs (&$tabObject)
   {
     foreach ($this->by_object as $class => $plugin) {
       if ($plugin->is_account || $plugin->ignore_account) {
@@ -149,7 +149,7 @@ class simpleTabs
     }
   }
 
-  function resetCopyInfos()
+  function resetCopyInfos ()
   {
     $this->dn = 'new';
     foreach ($this->by_object as &$obj) {
@@ -158,7 +158,7 @@ class simpleTabs
     unset($obj);
   }
 
-  function resetBase()
+  function resetBase ()
   {
     $baseobject = $this->getBaseObject();
     if (isset($baseobject->base)) {
@@ -178,13 +178,13 @@ class simpleTabs
     }
   }
 
-  function getBaseObject()
+  function getBaseObject ()
   {
     return $this->by_object[$this->baseclass];
   }
 
   /*! \brief Indicates if this tab class is read-only (because of locks) */
-  function readOnly()
+  function readOnly ()
   {
     return $this->getBaseObject()->readOnly();
   }
@@ -192,7 +192,7 @@ class simpleTabs
   /*!
    * \brief Save the tab(s) contents
    */
-  function execute()
+  function execute ()
   {
     /* Look for pressed tab button first */
     foreach ($this->by_object as $class => &$obj) {
@@ -220,7 +220,7 @@ class simpleTabs
   /*!
    * \brief Save a tabs object
    */
-  function save_object()
+  function save_object ()
   {
     /* Ensure that the currently selected tab is valid. */
     if (!isset($this->by_name[$this->current])) {
@@ -243,7 +243,7 @@ class simpleTabs
    *
    * \param boolean $disabled false
    */
-  function gen_tabs($disabled = FALSE)
+  function gen_tabs ($disabled = FALSE)
   {
     $display = "";
     if (!$disabled) {
@@ -310,7 +310,7 @@ class simpleTabs
   /*!
    * \brief Remove object from LDAP
    */
-  function delete()
+  function delete ()
   {
     if (!$this->getBaseObject()->acl_is_removeable()) {
       msg_dialog::display(_('Permission'), msgPool::permDelete($this->getBaseObject()->dn), ERROR_DIALOG);
@@ -331,7 +331,7 @@ class simpleTabs
   /*!
    * \brief Check
    */
-  protected function check()
+  protected function check ()
   {
     global $config;
     $messages = [];
@@ -378,7 +378,7 @@ class simpleTabs
    *
    * \param boolean $ignore_account false
    */
-  function save()
+  function save ()
   {
     global $ui;
     $messages = $this->check();
@@ -467,7 +467,7 @@ class simpleTabs
    * \param array $attrs an LDAP-like values array
    * \param array $skip Attributes to skip
    */
-  function adapt_from_template($attrs, $skip = [])
+  function adapt_from_template ($attrs, $skip = [])
   {
     foreach ($this->by_object as $key => &$obj) {
       @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, "Adapting");
@@ -480,7 +480,7 @@ class simpleTabs
   /*!
    * \brief Add special Tabs
    */
-  function addSpecialTabs()
+  function addSpecialTabs ()
   {
     global $config;
     $baseobject = $this->getBaseObject();
@@ -501,7 +501,7 @@ class simpleTabs
    *
    * \param string $base The new acl base
    */
-  function set_acl_base($base = "")
+  function set_acl_base ($base = "")
   {
     /* Update reference, transfer variables */
     $first = ($base == "");
@@ -516,7 +516,7 @@ class simpleTabs
     unset($obj);
   }
 
-  function setTemplateMode($cn)
+  function setTemplateMode ($cn)
   {
     $this->getBaseObject()->_template_cn = $cn;
 
@@ -534,7 +534,7 @@ class simpleTabs
     unset($obj);
   }
 
-  public function setIgnoreAcls($bool)
+  public function setIgnoreAcls ($bool)
   {
     $this->ignoreAcls = $bool;
   }
@@ -544,7 +544,7 @@ class simpleTabs
     return $this->by_object[$this->current]->is_modal_dialog();
   }
 
-  function objectInfos()
+  function objectInfos ()
   {
     if ($this->objectType === FALSE) {
       return FALSE;
@@ -553,7 +553,7 @@ class simpleTabs
   }
 
   /* Return tab or service if activated, FALSE otherwise */
-  function getTabOrServiceObject($tab)
+  function getTabOrServiceObject ($tab)
   {
     if (isset($this->by_object[$tab]) && ($this->by_object[$tab]->is_account || $this->by_object[$tab]->ignore_account)) {
       return $this->by_object[$tab];

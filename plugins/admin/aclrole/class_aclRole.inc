@@ -24,7 +24,7 @@ class ACLsAttribute extends DialogOrderedArrayAttribute
   protected $order        = TRUE;
   protected $dialogClass  = 'ACLEditionDialog';
 
-  protected function getAttributeArrayValue($key, $value)
+  protected function getAttributeArrayValue ($key, $value)
   {
     /* Convert text value to displayable array value */
 
@@ -39,13 +39,13 @@ class ACLsAttribute extends DialogOrderedArrayAttribute
     return [$summary];
   }
 
-  function readValue($value)
+  function readValue ($value)
   {
     $acl = explode(':', $value, 2);
     return [$acl[0], acl::extractACL($acl[1])];
   }
 
-  function writeValue($key, $value)
+  function writeValue ($key, $value)
   {
     $acl = '';
     foreach ($value as $object => $contents) {
@@ -71,7 +71,7 @@ class aclRole extends simplePlugin
 {
   var $objectclasses  = ['top','gosaRole'];
 
-  static function plInfo()
+  static function plInfo ()
   {
     return [
       'plShortName'   => _('Role'),
@@ -88,7 +88,7 @@ class aclRole extends simplePlugin
     ];
   }
 
-  static function getAttributesInfo()
+  static function getAttributesInfo ()
   {
     return [
       'properties' => [

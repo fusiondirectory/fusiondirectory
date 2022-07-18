@@ -29,7 +29,7 @@ class groupManagement extends simpleManagement
 
   protected $siActive = FALSE;
 
-  static function plInfo()
+  static function plInfo ()
   {
     return [
       'plShortName'   => _('Groups and roles'),
@@ -44,7 +44,7 @@ class groupManagement extends simpleManagement
     ];
   }
 
-  function __construct()
+  function __construct ()
   {
     $this->filterXMLPath  = get_template_path('group-filter.xml', TRUE, dirname(__FILE__));
     $this->listXMLPath    = get_template_path('group-list.xml', TRUE, dirname(__FILE__));
@@ -120,7 +120,7 @@ class groupManagement extends simpleManagement
   /*! \brief    Handle Argonaut events
    *            All schedules and triggered events are handled here.
    */
-  function handleEvent($action, array $target)
+  function handleEvent ($action, array $target)
   {
     global $config;
 
@@ -211,7 +211,7 @@ class groupManagement extends simpleManagement
   /*! \brief  Save event dialogs.
    *          And append the new Argonaut event.
    */
-  function saveEventDialog()
+  function saveEventDialog ()
   {
     $this->dialogObject->save_object();
     $msgs = $this->dialogObject->check();
@@ -232,7 +232,7 @@ class groupManagement extends simpleManagement
   /*! \brief  Detects actions/events send by the ui
    *           and the corresponding targets.
    */
-  function detectPostActions()
+  function detectPostActions ()
   {
     $action = parent::detectPostActions();
     if (isset($_POST['save_event_dialog'])) {
@@ -243,7 +243,7 @@ class groupManagement extends simpleManagement
     return $action;
   }
 
-  static function filterProperties($row, $dn, $objectType, $attrs, $gosaGroupObjects = NULL)
+  static function filterProperties ($row, $dn, $objectType, $attrs, $gosaGroupObjects = NULL)
   {
     global $config;
     static $grouptabs = [];
@@ -297,7 +297,7 @@ class groupManagement extends simpleManagement
     return $result;
   }
 
-  static function filterGroupObjects($row, $gosaGroupObjects)
+  static function filterGroupObjects ($row, $gosaGroupObjects)
   {
     $types  = preg_replace('/[^a-z]/i', '', $gosaGroupObjects[0]);
     $result = '';
@@ -315,7 +315,7 @@ class groupManagement extends simpleManagement
     return $result;
   }
 
-  function renderList()
+  function renderList ()
   {
     $smarty = get_smarty();
     $filters = [

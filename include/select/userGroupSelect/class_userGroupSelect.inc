@@ -26,7 +26,7 @@ class userGroupSelect extends userSelect
   protected $objectTypes = ['user', 'group'];
   protected $autoFilterAttributes = ['dn', 'cn', 'uid', 'description', 'mail'];
 
-  function __construct()
+  function __construct ()
   {
     if (class_available('mixedGroup')) {
       $this->objectTypes = ['user', 'ogroup'];

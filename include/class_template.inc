@@ -37,7 +37,7 @@ class template
 
   static protected $uiSpecialAttributes = ['dn','cn','uid','sn','givenName'];
 
-  static function plInfo()
+  static function plInfo ()
   {
     return [
       'plShortName'   => _('Template'),
@@ -51,7 +51,7 @@ class template
     ];
   }
 
-  static function getTemplatedTypes()
+  static function getTemplatedTypes ()
   {
     $result = [];
     $types  = objects::types();
@@ -68,7 +68,7 @@ class template
     return $result;
   }
 
-  function __construct($type, $dn, $targetdn = NULL)
+  function __construct ($type, $dn, $targetdn = NULL)
   {
     $this->type = $type;
     $this->dn   = $dn;
@@ -101,7 +101,7 @@ class template
   }
 
   /*! \brief Used when you need to re-apply the same template with different values */
-  function reset()
+  function reset ()
   {
     list($this->attrs, $depends) = templateHandling::fetch($this->dn);
     // This is needed because it removes %askme% values from attrs
@@ -118,12 +118,12 @@ class template
     $this->applied = FALSE;
   }
 
-  function getDn()
+  function getDn ()
   {
     return $this->dn;
   }
 
-  function getBase()
+  function getBase ()
   {
     if (is_object($this->tabObject)) {
       return $this->tabObject->getBaseObject()->base;
@@ -133,12 +133,12 @@ class template
     }
   }
 
-  function getNeeded()
+  function getNeeded ()
   {
     return $this->attributes;
   }
 
-  function serialize()
+  function serialize ()
   {
     $attributes = [];
     foreach ($this->tabObject->by_object as $class => $plugin) {
@@ -155,7 +155,7 @@ class template
     return $attributes;
   }
 
-  function deserialize($values)
+  function deserialize ($values)
   {
     foreach ($values as $class => $class_values) {
       $result = $this->tabObject->by_object[$class]->deserializeValues($class_values);
@@ -166,7 +166,7 @@ class template
     return TRUE;
   }
 
-  function save_object()
+  function save_object ()
   {
     foreach ($this->tabObject->by_object as $plugin) {
       $plugin->save_object();
@@ -178,7 +178,7 @@ class template
     return $this->tabObject->dialogOpened();
   }
 
-  function execute()
+  function execute ()
   {
     $smarty   = get_smarty();
     $sections = [];
@@ -225,7 +225,7 @@ class template
 
   /* Apply template and current values to an object and returns it for saving or edition
    * Cannot be called twice! If you need to, call reset between calls */
-  function apply($targetdn = NULL)
+  function apply ($targetdn = NULL)
   {
     if ($this->applied) {
       trigger_error('Templates can’t be applied twice without calling reset before');

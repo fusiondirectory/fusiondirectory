@@ -24,7 +24,7 @@ class locality extends department
   var $objectclasses  = ["top", "gosaDepartment"];
   var $structuralOC   = ["locality"];
 
-  static function plInfo()
+  static function plInfo ()
   {
     return [
       'plShortName'   => _('Locality'),

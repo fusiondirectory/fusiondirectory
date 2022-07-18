@@ -45,7 +45,7 @@ class tests
    *
    * \param string $nr The phone number to check
    */
-  public static function is_phone_nr($nr)
+  public static function is_phone_nr ($nr)
   {
     if ($nr == "") {
       return TRUE;
@@ -60,7 +60,7 @@ class tests
    *
    * \param string $str The DNS to check
    */
-  public static function is_dns_name($str)
+  public static function is_dns_name ($str)
   {
     return preg_match("/^[a-z0-9\.\-_]*$/i", $str);
   }
@@ -71,7 +71,7 @@ class tests
    *
    * \param string $str The hostname to check
    */
-  public static function is_valid_hostname($str)
+  public static function is_valid_hostname ($str)
   {
     return preg_match("/^[a-z0-9\.\-]*$/i", $str);
   }
@@ -82,7 +82,7 @@ class tests
    *
    * \param string $url The URL to check
    */
-  public static function is_url($url)
+  public static function is_url ($url)
   {
     if ($url == "") {
       return TRUE;
@@ -98,7 +98,7 @@ class tests
    *
    * \param string $dn The DN to check
    */
-  public static function is_dn($dn)
+  public static function is_dn ($dn)
   {
     if ($dn == "") {
       return TRUE;
@@ -113,7 +113,7 @@ class tests
    *
    * \param string $uid The UID to check
    */
-  public static function is_uid($uid)
+  public static function is_uid ($uid)
   {
     if ($uid == "") {
       return TRUE;
@@ -133,7 +133,7 @@ class tests
    *
    * \param string $ip The IP to check
    */
-  public static function is_ip($ip)
+  public static function is_ip ($ip)
   {
     return filter_var($ip, FILTER_VALIDATE_IP);
   }
@@ -143,7 +143,7 @@ class tests
    *
    * \param string $ip The IPv4 to check
    */
-  public static function is_ipv4($ip)
+  public static function is_ipv4 ($ip)
   {
     return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
   }
@@ -153,7 +153,7 @@ class tests
    *
    * \param string $ip The IPv6 to check
    */
-  public static function is_ipv6($ip)
+  public static function is_ipv6 ($ip)
   {
     return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6);
   }
@@ -164,7 +164,7 @@ class tests
    *
    * \param string $mac The MAC address to check
    */
-  public static function is_mac($mac)
+  public static function is_mac ($mac)
   {
     return preg_match("/^[a-f0-9][a-f0-9]:[a-f0-9][a-f0-9]:[a-f0-9][a-f0-9]:[a-f0-9][a-f0-9]:[a-f0-9][a-f0-9]:[a-f0-9][a-f0-9]$/i", $mac);
   }
@@ -176,7 +176,7 @@ class tests
    *
    * \param string $ip The IP to check
    */
-  public static function is_ip_with_subnetmask($ip)
+  public static function is_ip_with_subnetmask ($ip)
   {
     /* Generate list of valid submasks */
     $res = [];
@@ -222,7 +222,7 @@ class tests
    *
    * \param string $str The domain to check
    */
-  public static function is_domain($str)
+  public static function is_domain ($str)
   {
     return preg_match("/^(([a-z0-9\-]{2,63})\.)*[a-z]{2,63}$/i", $str);
   }
@@ -233,7 +233,7 @@ class tests
    *
    * \param string $id The id to check
    */
-  public static function is_id($id)
+  public static function is_id ($id)
   {
     if ($id == "") {
       return FALSE;
@@ -248,7 +248,7 @@ class tests
    *
    * \param string $path The path to check
    */
-  public static function is_path($path)
+  public static function is_path ($path)
   {
     if ($path == "") {
       return TRUE;
@@ -266,7 +266,7 @@ class tests
    *
    * \param string $address The email address
    */
-  public static function is_email($address)
+  public static function is_email ($address)
   {
     if ($address == "") {
       return TRUE;
@@ -288,7 +288,7 @@ class tests
    *
    * \param string $base
    */
-  public static function is_department_name_reserved($name)
+  public static function is_department_name_reserved ($name)
   {
     global $config;
     $reservedNames = [];
@@ -315,7 +315,7 @@ class tests
    *
    * \return TRUE in case of a valid range, FALSE in case of an error.
    */
-  public static function is_ip_range($ip1, $ip2)
+  public static function is_ip_range ($ip1, $ip2)
   {
     if (!tests::is_ipv4($ip1) || !tests::is_ipv4($ip2)) {
       return FALSE;
@@ -339,7 +339,7 @@ class tests
    *
    * \param string $address The IP address
    */
-  public static function is_in_network($network, $netmask, $address)
+  public static function is_in_network ($network, $netmask, $address)
   {
     $nw = explode('.', $network);
     $nm = explode('.', $netmask);
@@ -360,7 +360,7 @@ class tests
   }
 
   /* \brief Check if the specified IP address $address is inside the given network */
-  public static function is_in_ip_range($from, $to, $address)
+  public static function is_in_ip_range ($from, $to, $address)
   {
     $from = explode('.', $from);
     $to   = explode('.', $to);

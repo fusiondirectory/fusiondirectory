@@ -23,7 +23,7 @@ class country extends department
   static $namingAttr  = "c";
   var $structuralOC   = ["country"];
 
-  static function plInfo()
+  static function plInfo ()
   {
     return [
       'plShortName'   => _('Country'),

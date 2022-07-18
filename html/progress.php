@@ -50,7 +50,7 @@ if ($y < 3 || $y > 700) {
   $y = 20;
 }
 
-if (!function_exists("imagecreate")) {
+if (!function_exists ("imagecreate")) {
   syslog(LOG_ERR, "FusionDirectory is missing the gd library, please install php5-gd to be able to see progress images.");
   echo "Please install the php5-gd library, FusionDirectory can't create images without it.";
   exit();

@@ -51,7 +51,7 @@ class pdfExporter
    *
    * \param array $columns
    */
-  function __construct($headline, $header, $entries, $columns = [])
+  function __construct ($headline, $header, $entries, $columns = [])
   {
     // Bail out if no FPDF available
     if (!class_exists('FPDF')) {
@@ -139,7 +139,7 @@ class pdfExporter
    *
    * \param array $columns
    */
-  function calcWidth($header, $entries, $columns)
+  function calcWidth ($header, $entries, $columns)
   {
     $width = [];
 
@@ -180,7 +180,7 @@ class pdfExporter
   /*!
    * \brief Get the result
    */
-  function query()
+  function query ()
   {
      return $this->result->Output("", "S");
   }
@@ -188,7 +188,7 @@ class pdfExporter
   /*!
    * \brief Get informations
    */
-  static function getInfo()
+  static function getInfo ()
   {
     // Check if class defined
     $classes = get_declared_classes();

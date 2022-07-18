@@ -38,13 +38,13 @@ class xml {
    *
    * \param string $priority Initialized at 'tag'
    */
-  static function xml2array($contents, $get_attributes = 1, $priority = 'tag')
+  static function xml2array ($contents, $get_attributes = 1, $priority = 'tag')
   {
     if (!$contents) {
       return [];
     }
 
-    if (!function_exists('xml_parser_create')) {
+    if (!function_exists ('xml_parser_create')) {
       trigger_error('xml_parser_create function does not exists');
       return [];
     }

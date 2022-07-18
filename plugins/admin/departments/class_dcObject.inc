@@ -24,7 +24,7 @@ class dcObject extends department
   var $objectclasses  = ["top", "dcObject", "gosaDepartment"];
   var $structuralOC   = ["locality"];
 
-  static function plInfo()
+  static function plInfo ()
   {
     return [
       'plShortName'   => _('Domain Component'),

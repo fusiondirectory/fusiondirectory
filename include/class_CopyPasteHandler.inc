@@ -53,7 +53,7 @@ class CopyPasteHandler
   /*!
    * \brief Create CP handler
    */
-  function __construct()
+  function __construct ()
   {
     $this->current  = NULL;
     $this->queue    = [];
@@ -73,7 +73,7 @@ class CopyPasteHandler
    *
    * \param String $type the type of the object
    */
-  function add_to_queue($dn, $action, $type)
+  function add_to_queue ($dn, $action, $type)
   {
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'add_to_queue');
 
@@ -108,7 +108,7 @@ class CopyPasteHandler
    *    Remove hdd dumps of current entries too.
    *    Remove entries older than 24 hours.
    */
-  function cleanup_queue()
+  function cleanup_queue ()
   {
     $this->current        = FALSE;
     $this->require_update = TRUE;
@@ -119,7 +119,7 @@ class CopyPasteHandler
   /*!
    * \brief This resets the queue to allow pasting again.
    */
-  function resetPaste()
+  function resetPaste ()
   {
     $this->current        = FALSE;
     $this->require_update = TRUE;
@@ -129,7 +129,7 @@ class CopyPasteHandler
   /*!
    * \brief Check if there are still entries the object queue
    */
-  function entries_queued()
+  function entries_queued ()
   {
     return ((count($this->queue) > 0) || ($this->current != FALSE));
   }
@@ -137,7 +137,7 @@ class CopyPasteHandler
   /*!
    * \brief Paste one entry from LDAP
    */
-  protected function load_entry_from_ldap($entry, $base)
+  protected function load_entry_from_ldap ($entry, $base)
   {
     @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $entry['dn'], 'load_entry_from_ldap');
     if (!isset($entry['tab_class']) && !isset($entry['type'])) {
@@ -164,7 +164,7 @@ class CopyPasteHandler
    * \brief Displays a dialog which allows the user to fix all dependencies of this object.
    *      Create unique names, ids, or what ever
    */
-  function execute($base)
+  function execute ($base)
   {
     $ui = get_userinfo();
 
@@ -272,7 +272,7 @@ class CopyPasteHandler
     return '';
   }
 
-  private function current_saved()
+  private function current_saved ()
   {
     $this->lastdn   = $this->current['object']->dn;
     $this->handleReferences();
@@ -284,7 +284,7 @@ class CopyPasteHandler
    *
    * \return the dn of the last edited entry
    */
-  function last_entry()
+  function last_entry ()
   {
     return $this->lastdn;
   }
@@ -293,7 +293,7 @@ class CopyPasteHandler
   /*!
    * \brief Save new values posted by copy & paste dialog
    */
-  function save_object()
+  function save_object ()
   {
     if (isset($_POST['abort_current_cut-copy_operation'])) {
       $this->current = FALSE;
@@ -305,7 +305,7 @@ class CopyPasteHandler
     }
   }
 
-  function handleReferences()
+  function handleReferences ()
   {
     $dst_dn = $this->current['object']->dn;
     $src_dn = $this->current['dn'];
@@ -322,7 +322,7 @@ class CopyPasteHandler
    *
    * \return the paste icon for headpages
    */
-  function generatePasteIcon()
+  function generatePasteIcon ()
   {
     $Copy_Paste = "&nbsp;<img class='center' src='images/lists/seperator.png' alt='' height='16' width='1'>&nbsp;";
     if ($this->entries_queued()) {

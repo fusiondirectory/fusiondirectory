@@ -191,7 +191,7 @@ class SelectAttribute extends Attribute
     return $this->renderAcl($display);
   }
 
-  function serializeAttribute(&$attributes, $form = TRUE)
+  function serializeAttribute (&$attributes, $form = TRUE)
   {
     if (!$form || $this->visible) {
       parent::serializeAttribute($attributes, $form);
@@ -206,7 +206,7 @@ class SelectAttribute extends Attribute
   }
 
   /*! \brief Set the size of the HTML input tag, useful to display several options on the screen instead of just one */
-  function setSize($size)
+  function setSize ($size)
   {
     $this->size = $size;
   }
@@ -248,7 +248,7 @@ class ObjectSelectAttribute extends SelectAttribute
     }
   }
 
-  function updateChoices()
+  function updateChoices ()
   {
     $objects = objects::ls($this->objectType, $this->objectAttrs, NULL, $this->objectFilter);
     $this->setChoices(array_keys($objects), array_values($objects));

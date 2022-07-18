@@ -28,7 +28,7 @@ class aclRoleManagement extends simpleManagement
   protected $baseMode               = TRUE;
 
   /* Return plugin informations for acl handling  */
-  public static function plInfo()
+  public static function plInfo ()
   {
     return [
       'plShortName'   => _('ACL roles'),

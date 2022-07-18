@@ -71,7 +71,7 @@ class DateAttribute extends Attribute
     }
   }
 
-  protected function ldapToDate($ldapValue)
+  protected function ldapToDate ($ldapValue)
   {
     $date = DateTime::createFromFormat($this->format, $ldapValue, new DateTimeZone('UTC'));
     if ($date !== FALSE) {
@@ -82,12 +82,12 @@ class DateAttribute extends Attribute
     }
   }
 
-  protected function dateToLdap($dateValue)
+  protected function dateToLdap ($dateValue)
   {
     return $dateValue->format($this->format);
   }
 
-  function getDateValue()
+  function getDateValue ()
   {
     $value = $this->value;
     if (!($value instanceof DateTime)) {
@@ -169,7 +169,7 @@ class GeneralizedTimeDateAttribute extends DateAttribute
     parent::__construct($label, $description, $ldapName, $required, '', $defaultValue, $acl);
   }
 
-  protected function ldapToDate($ldapValue)
+  protected function ldapToDate ($ldapValue)
   {
     try {
       return LdapGeneralizedTime::fromString($ldapValue);
@@ -179,7 +179,7 @@ class GeneralizedTimeDateAttribute extends DateAttribute
     }
   }
 
-  protected function dateToLdap($dateValue)
+  protected function dateToLdap ($dateValue)
   {
     return LdapGeneralizedTime::toString($dateValue);
   }
@@ -192,7 +192,7 @@ class TimeHisAttribute extends CompositeAttribute
 {
   protected $convert;
 
-  function __construct($label, $description, $ldapName, $required, $convert = TRUE, $acl = '')
+  function __construct ($label, $description, $ldapName, $required, $convert = TRUE, $acl = '')
   {
     $this->convert = $convert;
     $attributes = [
@@ -216,7 +216,7 @@ class TimeHisAttribute extends CompositeAttribute
     $this->setLinearRendering(TRUE);
   }
 
-  function readValues($value)
+  function readValues ($value)
   {
     $values = parent::readValues($value);
     if ($this->convert) {
@@ -232,7 +232,7 @@ class TimeHisAttribute extends CompositeAttribute
     return $values;
   }
 
-  function writeValues($values)
+  function writeValues ($values)
   {
     if ($this->convert) {
       $datetime = new DateTime('T'.implode(':', $values), timezone::getDefaultTimeZone());
@@ -246,7 +246,7 @@ class TimeHisAttribute extends CompositeAttribute
     return parent::writeValues($values);
   }
 
-  function displayValue($value)
+  function displayValue ($value)
   {
     $values = parent::readValues($value);
     $datetime = new DateTime('T'.implode(':', $values), timezone::utc());
@@ -266,7 +266,7 @@ class TimeHisAttribute extends CompositeAttribute
  */
 class TimeHiAttribute extends TimeHisAttribute
 {
-  function __construct($label, $description, $ldapName, $required, $convert = TRUE, $acl = '')
+  function __construct ($label, $description, $ldapName, $required, $convert = TRUE, $acl = '')
   {
     $this->convert = $convert;
     $attributes = [
@@ -291,7 +291,7 @@ class TimeHiAttribute extends TimeHisAttribute
  */
 class DateTimeAttribute extends CompositeAttribute
 {
-  function __construct($label, $description, $ldapName, $required, $acl = '')
+  function __construct ($label, $description, $ldapName, $required, $acl = '')
   {
     $attributes = [
       new DateAttribute(

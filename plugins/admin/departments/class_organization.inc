@@ -24,7 +24,7 @@ class organization extends department
   var $objectclasses  = ["top", "gosaDepartment"];
   var $structuralOC   = ["organization"];
 
-  static function plInfo()
+  static function plInfo ()
   {
     return [
       'plShortName'   => _('Organization'),

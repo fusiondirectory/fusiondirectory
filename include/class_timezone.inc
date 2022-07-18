@@ -36,7 +36,7 @@ class timezone
    *
    * \return TRUE upon success, FALSE otherwise
    */
-  static public function setDefaultTimezoneFromConfig()
+  static public function setDefaultTimezoneFromConfig ()
   {
     global $config;
 
@@ -63,7 +63,7 @@ class timezone
    * deprecated
    * \param $stamp is used to detect summer or winter time.
    */
-  static public function get_default_timezone($stamp = NULL)
+  static public function get_default_timezone ($stamp = NULL)
   {
     global $config;
 
@@ -88,19 +88,19 @@ class timezone
    *
    * \return Time zone informations
    */
-  static public function _get_tz_zones()
+  static public function _get_tz_zones ()
   {
     return DateTimeZone::listIdentifiers();
   }
 
   /* \brief Return default timezone as a DateTimeZone object */
-  static public function getDefaultTimeZone()
+  static public function getDefaultTimeZone ()
   {
     return new DateTimeZone(date_default_timezone_get());
   }
 
   /* \brief Return UTC timezone as a DateTimeZone object */
-  static public function utc()
+  static public function utc ()
   {
     static $utc;
     if (!isset($utc)) {

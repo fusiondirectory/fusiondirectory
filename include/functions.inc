@@ -127,7 +127,7 @@ spl_autoload_register('fusiondirectory_autoload');
  *
  * \return boolean Return TRUE if successfull FALSE otherwise
  */
-function class_available($name)
+function class_available ($name)
 {
   global $class_mapping;
   return isset($class_mapping[$name]);
@@ -143,7 +143,7 @@ function class_available($name)
  *
  * \return boolean Return TRUE if successfull FALSE otherwise
  */
-function plugin_available($plugin)
+function plugin_available ($plugin)
 {
   global $class_mapping, $BASE_DIR;
 
@@ -197,7 +197,7 @@ function load_plist ($ldap_available = TRUE)
  *
  * \param string $info Optional: Additional information
  */
-function DEBUG($level, $line, $function, $file, $data, $info = '')
+function DEBUG ($level, $line, $function, $file, $data, $info = '')
 {
   static $first = TRUE;
   if (($_SERVER['REQUEST_METHOD'] == 'POST') && preg_match('/index.php$/', $_SERVER['REQUEST_URI'])) {
@@ -208,7 +208,7 @@ function DEBUG($level, $line, $function, $file, $data, $info = '')
       echo '<div id="debug-handling" class="notice">'.
             '<img src="geticon.php?context=status&amp;icon=dialog-information&amp;size=22" alt="Information" style="vertical-align:middle;margin-right:.2em;"/>'.
             'There is some debug output '.
-            '<button onClick="javascript:$$(\'div.debug_div\').each(function (a) { a.toggle(); });">Toggle</button>'.
+            '<button onClick="javascript:$$(\'div.debug_div\').each(function (a) { a.toggle (); });">Toggle</button>'.
           '</div>';
       $first = FALSE;
     }
@@ -249,7 +249,7 @@ function DEBUG($level, $line, $function, $file, $data, $info = '')
  *
  * \return string Full path to the template file
  */
-function get_template_path($filename = '', $plugin = FALSE, $path = '')
+function get_template_path ($filename = '', $plugin = FALSE, $path = '')
 {
   global $config, $BASE_DIR;
   $default_theme = 'breezy';
@@ -312,7 +312,7 @@ function get_template_path($filename = '', $plugin = FALSE, $path = '')
  *
  * \param array $haystack original array to remove the entries from
  */
-function array_remove_entries(array $needles, array $haystack)
+function array_remove_entries (array $needles, array $haystack)
 {
   return array_values(array_diff($haystack, $needles));
 }
@@ -328,7 +328,7 @@ function array_remove_entries(array $needles, array $haystack)
  *
  * \param array $haystack original array to remove the entries from
  */
-function array_remove_entries_ics(array $needles, array $haystack)
+function array_remove_entries_ics (array $needles, array $haystack)
 {
   // strcasecmp will work, because we only compare ASCII values here
   return array_values(array_udiff($haystack, $needles, 'strcasecmp'));
@@ -346,7 +346,7 @@ function array_remove_entries_ics(array $needles, array $haystack)
  *
  * \return array
  */
-function array_merge_unique($ar1, $ar2)
+function array_merge_unique ($ar1, $ar2)
 {
   if (!is_array($ar1) || !is_array($ar2)) {
     trigger_error('Specified parameter(s) are not valid arrays.');
@@ -553,7 +553,7 @@ function ldap_login_user ($username, $password)
  *
  * \param string $user  The user who shall own the lock
  */
-function add_lock($object, $user)
+function add_lock ($object, $user)
 {
   global $config;
 
@@ -672,7 +672,7 @@ function del_lock ($object)
  *
  * \param string $userdn the subject whose locks shall be deleted
  */
-function del_user_locks($userdn)
+function del_user_locks ($userdn)
 {
   global $config;
 
@@ -698,7 +698,7 @@ function del_user_locks($userdn)
  * \return string Returns the dn of the user who owns the lock or '' if no lock is found
  * or FALSE if an error occured.
  */
-function get_lock($object)
+function get_lock ($object)
 {
   /* Sanity check */
   if ($object == '') {
@@ -735,7 +735,7 @@ function get_lock($object)
  * \return A numbered array containing all found locks as an array with key 'object'
  * and key 'user', or FALSE if an error occured.
  */
-function get_locks($objects, $allow_readonly = FALSE)
+function get_locks ($objects, $allow_readonly = FALSE)
 {
   global $config;
 
@@ -798,7 +798,7 @@ function get_locks($objects, $allow_readonly = FALSE)
  *
  * \return return the current userinfo object
  */
-function &get_userinfo()
+function &get_userinfo ()
 {
   global $ui;
 
@@ -810,7 +810,7 @@ function &get_userinfo()
  *
  * \return return the global smarty object
  */
-function &get_smarty()
+function &get_smarty ()
 {
   global $smarty;
 
@@ -835,7 +835,7 @@ function &get_smarty()
  *
  * \return a string in the form as described above
  */
-function convert_department_dn($dn, $base = NULL)
+function convert_department_dn ($dn, $base = NULL)
 {
   global $config;
 
@@ -877,7 +877,7 @@ function convert_department_dn($dn, $base = NULL)
  * \return the ou associated the the RDN or nothing
  *
  */
-function get_ou($name)
+function get_ou ($name)
 {
   global $config;
 
@@ -971,7 +971,7 @@ function get_ou($name)
  *
  * \return the ou of the userRDN
  */
-function get_people_ou()
+function get_people_ou ()
 {
   return get_ou('userRDN');
 }
@@ -987,7 +987,7 @@ function get_people_ou()
  *
  * \return the base from the dn
  */
-function get_base_from_people($dn)
+function get_base_from_people ($dn)
 {
   global $config;
 
@@ -1012,7 +1012,7 @@ function get_base_from_people($dn)
  * \return Returns TRUE if strictNamingRules is set to TRUE or if the
  * config object is not available, otherwise FALSE.
  */
-function strict_uid_mode()
+function strict_uid_mode ()
 {
   global $config;
 
@@ -1046,7 +1046,7 @@ function strict_uid_mode()
  *
  *
  */
-function gen_locked_message($locks, $dn, $allow_readonly = FALSE)
+function gen_locked_message ($locks, $dn, $allow_readonly = FALSE)
 {
   session::set('dn', $dn);
   $remove = FALSE;
@@ -1151,7 +1151,7 @@ function to_string ($value)
  *
  * \return string $s the result of the rewrite
  */
-function rewrite($s)
+function rewrite ($s)
 {
   global $REWRITE;
 
@@ -1171,7 +1171,7 @@ function rewrite($s)
  *
  * \return base of the given DN
  */
-function dn2base($dn, $ou = NULL)
+function dn2base ($dn, $ou = NULL)
 {
   if ($ou === NULL) {
     if (get_people_ou() != '') {
@@ -1197,7 +1197,7 @@ function dn2base($dn, $ou = NULL)
  *
  * \return TRUE if command exists and is executable, otherwise FALSE.
  */
-function check_command($cmdline)
+function check_command ($cmdline)
 {
   $cmd = preg_replace("/ .*$/", '', $cmdline);
 
@@ -1225,7 +1225,7 @@ function check_command($cmdline)
  *
  * \return the $display variable
  */
-function print_header($image, $headline, $info = '')
+function print_header ($image, $headline, $info = '')
 {
   $smarty = get_smarty();
   $smarty->assign('headline', $headline);
@@ -1246,7 +1246,7 @@ function print_header($image, $headline, $info = '')
  *
  * \return the back button html code
  */
-function back_to_main()
+function back_to_main ()
 {
   return '<br><p class="plugbottom"><input type=submit name="password_back" value="'.
     msgPool::backButton().'"></p><input type="hidden" name="ignore">';
@@ -1259,7 +1259,7 @@ function back_to_main()
  *
  * \return string Converted netmask
  */
-function normalize_netmask($netmask)
+function normalize_netmask ($netmask)
 {
   /* Check for notation of netmask */
   if (!preg_match('/^([0-9]+\.){3}[0-9]+$/', $netmask)) {
@@ -1309,7 +1309,7 @@ function normalize_netmask($netmask)
  *
  * \return the number of bits in the netmask
  */
-function netmask_to_bits($netmask)
+function netmask_to_bits ($netmask)
 {
   $nm = explode('.', $netmask, 4);
 
@@ -1333,7 +1333,7 @@ function netmask_to_bits($netmask)
 /*!
  * \brief Recursion helper for gen_uids()
  */
-function _recurse_gen_uids($rule, array $variables)
+function _recurse_gen_uids ($rule, array $variables)
 {
   $result = [];
 
@@ -1367,7 +1367,7 @@ function _recurse_gen_uids($rule, array $variables)
  *
  * \return array List of valid not used uids
  */
-function gen_uids($rule, $attributes)
+function gen_uids ($rule, $attributes)
 {
   global $config;
 
@@ -1466,7 +1466,7 @@ function gen_uids($rule, $attributes)
  * \return a byte value or the original value if specified string is simply
  * a numeric value
  */
-function to_byte($value)
+function to_byte ($value)
 {
   $value = strtolower(trim($value));
 
@@ -1533,14 +1533,14 @@ function humanReadableSize ($bytes, $precision = 2)
  *
  * \return Return TRUE is value is found, FALSE if not.
  */
-function in_array_ics($value, array $items)
+function in_array_ics ($value, array $items)
 {
   return preg_grep('/^'.preg_quote($value, '/').'$/i', $items);
 }
 
 
 /*! \brief Generate a clickable alphabet */
-function generate_alphabet($count = 10)
+function generate_alphabet ($count = 10)
 {
   $characters = _("*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
   $alphabet   = "";
@@ -1578,7 +1578,7 @@ function generate_alphabet($count = 10)
  *
  * \return string with caracters removed
  */
-function validate($string)
+function validate ($string)
 {
   return strip_tags(str_replace('\0', '', $string));
 }
@@ -1594,7 +1594,7 @@ function validate($string)
  * \param boolean $followLinks TRUE to follow links, FALSE (default)
  * for not following links
  */
-function rmdirRecursive($path, $followLinks = FALSE)
+function rmdirRecursive ($path, $followLinks = FALSE)
 {
   $dir = opendir($path);
   while ($entry = readdir($dir)) {
@@ -1621,7 +1621,7 @@ function rmdirRecursive($path, $followLinks = FALSE)
  *
  * \return array content of directory in ascending sorted manner.
  */
-function scan_directory($path, $sort_desc = FALSE)
+function scan_directory ($path, $sort_desc = FALSE)
 {
   $ret = FALSE;
 
@@ -1661,7 +1661,7 @@ function scan_directory($path, $sort_desc = FALSE)
  *
  * \param string $directory smarty compile dir
  */
-function clean_smarty_compile_dir($directory)
+function clean_smarty_compile_dir ($directory)
 {
   if (is_dir($directory) && is_readable($directory)) {
     // Set revision filename to REVISION
@@ -1707,7 +1707,7 @@ function clean_smarty_compile_dir($directory)
  *
  * \return TRUE if successfully created FALSE otherwise
  */
-function create_revision($revision_file, $revision)
+function create_revision ($revision_file, $revision)
 {
   $result = FALSE;
 
@@ -1735,7 +1735,7 @@ function create_revision($revision_file, $revision)
  *
  * \return TRUE if revision match FALSE otherwise
  */
-function compare_revision($revision_file, $revision)
+function compare_revision ($revision_file, $revision)
 {
   // FALSE means revision differs
   $result = FALSE;
@@ -1776,7 +1776,7 @@ function compare_revision($revision_file, $revision)
  *
  * \return return key or empty result
  */
-function array_key_ics($ikey, array $items)
+function array_key_ics ($ikey, array $items)
 {
   $tmp  = array_change_key_case($items, CASE_LOWER);
   $ikey = strtolower($ikey);
@@ -1797,7 +1797,7 @@ function array_key_ics($ikey, array $items)
  *
  * \return boolean TRUE or FALSE
  */
-function array_differs($src, $dst)
+function array_differs ($src, $dst)
 {
   /* If the count is differing, the arrays differ */
   if (count ($src) != count ($dst)) {
@@ -1816,7 +1816,7 @@ function array_differs($src, $dst)
  *
  * \return boolean TRUE or FALSE
  */
-function array_differs_recursive($src, $dst)
+function array_differs_recursive ($src, $dst)
 {
   if (is_array($src)) {
     if (!is_array($dst)) {
@@ -1844,7 +1844,7 @@ function array_differs_recursive($src, $dst)
  * \param string $input string where we should add \ before special caracters
  *
  */
-function normalizeLdap($input)
+function normalizeLdap ($input)
 {
   trigger_error('deprecated, use ldap_escape_f');
   return addcslashes($input, '*()\\/');
@@ -1855,7 +1855,7 @@ function normalizeLdap($input)
  *
  * \param string $cfg A config object
  */
-function check_schema($cfg)
+function check_schema ($cfg)
 {
   $checks = [];
 
@@ -1977,7 +1977,7 @@ function check_schema($cfg)
  *
  * \return string
  */
-function get_post($name)
+function get_post ($name)
 {
   if (!isset($_POST[$name])) {
     trigger_error("Requested POST value (".$name.") does not exists, you should add a check to prevent this message.");
@@ -1990,7 +1990,7 @@ function get_post($name)
 /*!
  * \brief Return class name in correct case
  */
-function get_correct_class_name($cls)
+function get_correct_class_name ($cls)
 {
   global $class_mapping;
   if (isset($class_mapping) && is_array($class_mapping)) {
@@ -2039,7 +2039,7 @@ function change_password ($dn, $password, $hash = "")
 }
 
 /* Lock or unlock samba account */
-function lock_samba_account($mode, array $attrs)
+function lock_samba_account ($mode, array $attrs)
 {
   global $config;
   if (!isset($attrs['sambaNTPassword'][0])) {
@@ -2070,7 +2070,7 @@ function lock_samba_account($mode, array $attrs)
 }
 
 /* Lock or unlock ssh account */
-function lock_ssh_account($mode, array $attrs, &$modify)
+function lock_ssh_account ($mode, array $attrs, &$modify)
 {
   if (!isset($attrs['sshPublicKey'])) {
     return;
@@ -2098,7 +2098,7 @@ function lock_ssh_account($mode, array $attrs, &$modify)
  *
  * \return either the result or "" in any other case
  */
-function getEntryCSN($dn)
+function getEntryCSN ($dn)
 {
   global $config;
   if (empty($dn) || !is_object($config)) {
@@ -2127,7 +2127,7 @@ function getEntryCSN($dn)
  *
  * \param  string $type The content identifier, default value is "application/octet-stream";
  */
-function send_binary_content($data, $name, $type = "application/octet-stream")
+function send_binary_content ($data, $name, $type = "application/octet-stream")
 {
   header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
   header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
@@ -2149,7 +2149,7 @@ function send_binary_content($data, $name, $type = "application/octet-stream")
 }
 
 
-function reverse_html_entities($str, $type = ENT_QUOTES, $charset = "UTF-8")
+function reverse_html_entities ($str, $type = ENT_QUOTES, $charset = "UTF-8")
 {
   if (is_string($str)) {
     return htmlentities($str, $type, $charset);
@@ -2172,7 +2172,7 @@ function reverse_html_entities($str, $type = ENT_QUOTES, $charset = "UTF-8")
  *
  * \return string The encoded String
  */
-function xmlentities($str)
+function xmlentities ($str)
 {
   if (is_string($str)) {
     return htmlspecialchars($str, ENT_QUOTES);
@@ -2209,7 +2209,7 @@ function get_random_char ()
  *
  * \param String $password The password used
  */
-function cred_decrypt($input, $password)
+function cred_decrypt ($input, $password)
 {
   /************************* Inspired by Crypt/CBC.pm *******************************/
   $input = pack('H*', $input);
@@ -2235,13 +2235,13 @@ function cred_decrypt($input, $password)
 }
 
 
-function get_object_info()
+function get_object_info ()
 {
   return session::get('objectinfo');
 }
 
 
-function set_object_info($str = "")
+function set_object_info ($str = "")
 {
   session::set('objectinfo', $str);
 }
@@ -2255,7 +2255,7 @@ function set_object_info($str = "")
  *
  * \param string $mask The netmask of the network
  */
-function isIpInNet($ip, $net, $mask)
+function isIpInNet ($ip, $net, $mask)
 {
    // Move to long ints
    $ip    = ip2long($ip);
@@ -2278,7 +2278,7 @@ function expandIPv6 ($ip)
 }
 
 /* Mark the occurance of a string with a span */
-function mark($needle, $haystack)
+function mark ($needle, $haystack)
 {
   $result = '';
 
@@ -2290,14 +2290,14 @@ function mark($needle, $haystack)
   return $result.$haystack;
 }
 
-function reset_errors()
+function reset_errors ()
 {
   session::set('errors', '');
   session::set('errorsAlreadyPosted', []);
   session::set('LastError', '');
 }
 
-function load_all_classes()
+function load_all_classes ()
 {
   global $BASE_DIR, $class_list, $class_mapping;
   /* Initially load all classes */
@@ -2316,13 +2316,13 @@ function load_all_classes()
   }
 }
 
-if (!function_exists('ldap_escape')) {
+if (!function_exists ('ldap_escape')) {
   /* This bloc is for PHP<5.6 */
   define('LDAP_ESCAPE_FILTER', 0x01);
   define('LDAP_ESCAPE_DN',     0x02);
 
   /* PHP version of ldap_escape for PHP<5.6 */
-  function ldap_escape($subject, $ignore = '', $flags = 0)
+  function ldap_escape ($subject, $ignore = '', $flags = 0)
   {
     static $charMaps = [
       LDAP_ESCAPE_FILTER => ['\\', '*', '(', ')', "\x00"],
@@ -2385,9 +2385,9 @@ if (!function_exists('ldap_escape')) {
   }
 }
 
-if (!function_exists('random_int')) {
+if (!function_exists ('random_int')) {
   // PHP<7, we fallback on openssl_random_pseudo_bytes
-  function random_int($min, $max)
+  function random_int ($min, $max)
   {
     $range = $max - $min;
     if ($range <= 0) {
@@ -2417,17 +2417,17 @@ if (!function_exists('random_int')) {
   }
 }
 
-function ldap_escape_f($str, $ignore = '')
+function ldap_escape_f ($str, $ignore = '')
 {
   return ldap_escape($str, $ignore, LDAP_ESCAPE_FILTER);
 }
 
-function ldap_escape_dn($str, $ignore = '')
+function ldap_escape_dn ($str, $ignore = '')
 {
   return ldap_escape($str, $ignore, LDAP_ESCAPE_DN);
 }
 
-function mail_utf8($to, $from_user, $from_email, $subject, $message, $replyto_user = NULL, $replyto_email = NULL, $type = 'plain')
+function mail_utf8 ($to, $from_user, $from_email, $subject, $message, $replyto_user = NULL, $replyto_email = NULL, $type = 'plain')
 {
   $subject = "=?UTF-8?B?".base64_encode($subject)."?=";
 
@@ -2464,7 +2464,7 @@ function mail_utf8($to, $from_user, $from_email, $subject, $message, $replyto_us
 }
 
 /* Calls fopen, gives errors as an array if any, file handle if successful */
-function fopenWithErrorHandling()
+function fopenWithErrorHandling ()
 {
   $args   = func_get_args();
   $errors = [];
