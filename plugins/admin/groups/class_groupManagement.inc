@@ -195,12 +195,12 @@ class groupManagement extends simpleManagement
           msg_dialog::display(_('Infrastructure service'), msgPool::siError($o_queue->get_error()), ERROR_DIALOG);
         } else {
           if (is_array($res) && count($res) > 1) {
-            msg_dialog::display(_('Action triggered'), sprintf(_('Action called without error (results were "%s")'), implode(', ', $res)), INFO_DIALOG);
+            msg_dialog::display(_('Action triggered'), sprintf(_('Action called without error(results were "%s")'), implode(', ', $res)), INFO_DIALOG);
           } else {
             if (is_array($res)) {
               $res = $res[0];
             }
-            msg_dialog::display(_('Action triggered'), sprintf(_('Action called without error (result was "%s")'), $res), INFO_DIALOG);
+            msg_dialog::display(_('Action triggered'), sprintf(_('Action called without error(result was "%s")'), $res), INFO_DIALOG);
           }
         }
         $this->closeDialogs();

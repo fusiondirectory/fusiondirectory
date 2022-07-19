@@ -278,7 +278,7 @@ class objects
 
     $tabObject = new $tabClass($type, $dn);
     $tabObject->set_acl_base();
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "Openned as $type object");
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "Openned as $type object");
 
     return $tabObject;
   }

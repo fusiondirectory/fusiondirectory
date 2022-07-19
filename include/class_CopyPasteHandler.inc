@@ -75,7 +75,7 @@ class CopyPasteHandler
    */
   function add_to_queue ($dn, $action, $type)
   {
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'add_to_queue');
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'add_to_queue');
 
     if (!in_array($action, ['cut','copy'])) {
       trigger_error(sprintf('Specified action "%s" does not exists for copy & paste.', $action));
@@ -139,7 +139,7 @@ class CopyPasteHandler
    */
   protected function load_entry_from_ldap ($entry, $base)
   {
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $entry['dn'], 'load_entry_from_ldap');
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $entry['dn'], 'load_entry_from_ldap');
     if (!isset($entry['tab_class']) && !isset($entry['type'])) {
       return [];
     }

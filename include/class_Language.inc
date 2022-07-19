@@ -60,7 +60,7 @@ class Language
     bindtextdomain($domain, LOCALE_DIR);
     textdomain($domain);
     if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $lang, 'Setting language to');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $lang, 'Setting language to');
     }
 
     $ret = FALSE;
@@ -70,7 +70,7 @@ class Language
       $ret = TRUE;
       if (session::is_set('plist')) {
         if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-          @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, session::get ('lang'), 'Plist already loaded with language');
+          @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, session::get('lang'), 'Plist already loaded with language');
         }
         session::un_set('plist');
         session::set('lang', $lang);

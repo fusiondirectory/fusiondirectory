@@ -106,7 +106,7 @@ class userManagement extends simpleManagement
       $this->filter->elements['FUNCTIONAL']['set']  = ' (objectClass=*)';
     } else {
       /* The FUNCTIONAL filter must not use inexisting classes */
-      $this->filter->elements['FUNCTIONAL']['set']  = ' (! (| (objectClass='.implode (') (objectClass=', $classes).')))';
+      $this->filter->elements['FUNCTIONAL']['set']  = ' (! (| (objectClass='.implode(') (objectClass=', $classes).')))';
     }
   }
 

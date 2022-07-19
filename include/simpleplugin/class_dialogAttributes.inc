@@ -251,7 +251,7 @@ class DialogAttribute extends SetAttribute
         'submit', 'add'.$id,
         ['value' => '{msgPool type=addButton}']
       );
-      $dialogButtonValue = _('Add (dialog)');
+      $dialogButtonValue = _('Add(dialog)');
     }
     $buttons  .= $this->renderInputField(
       'submit', 'add'.$id.'_dialog',

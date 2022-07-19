@@ -243,7 +243,7 @@ class simplePlugin
       /* Set the template flag according to the existence of objectClass fdTemplate */
       if (isset($this->attrs['objectClass'])) {
         if (in_array_ics ('fdTemplate', $this->attrs['objectClass'])) {
-          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, 'found', 'Template check');
+          @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, 'found', 'Template check');
           $this->setTemplate(TRUE);
           $this->templateLoadAttrs($this->attrs);
         }
@@ -252,7 +252,7 @@ class simplePlugin
       /* Is Account? */
       if ($this->is_this_account($this->attrs)) {
         $this->is_account = TRUE;
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, 'found', 'Object check');
+        @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, 'found', 'Object check');
       }
     }
 
@@ -655,7 +655,7 @@ class simplePlugin
    */
   function execute ()
   {
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "execute");
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "execute");
 
     /* Reset Lock message POST/GET check array, to prevent preg_match errors */
     session::set('LOCK_VARS_TO_USE', []);
@@ -1077,7 +1077,7 @@ class simplePlugin
    */
   function save_object ()
   {
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'save_object');
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'save_object');
     if ($this->displayHeader && isset($_POST[get_class($this).'_modify_state'])) {
       if ($this->is_account && $this->acl_is_removeable()) {
         $this->is_account = FALSE;
@@ -1200,7 +1200,7 @@ class simplePlugin
    */
   function save ()
   {
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "save");
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "save");
     $errors = $this->prepare_save();
     if (!empty($errors)) {
       return $errors;
@@ -1493,7 +1493,7 @@ class simplePlugin
    */
   function check ()
   {
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'check');
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'check');
     $messages = [];
 
     foreach ($this->attributesInfo as $sectionInfo) {

@@ -61,7 +61,7 @@ class recoveryConfig extends simplePlugin
             TRUE,
             0, FALSE, 10
           ),
-          new StringAttribute (
+          new StringAttribute(
             _('Salt for tokens'),
             _('Just a security measure, you can put anything in there, even random characters'),
             'fdPasswordRecoverySalt',

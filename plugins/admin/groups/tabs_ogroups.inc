@@ -108,7 +108,7 @@ class ogrouptabs extends simpleTabs_noSpecial
 
   function addTab ($class)
   {
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $class, 'Adding tab ');
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $class, 'Adding tab ');
     $plInfos = pluglist::pluginInfos($class);
     $this->by_name[$class]  = $plInfos['plShortName'];
     $this->plNotify[$class] = FALSE;
@@ -161,7 +161,7 @@ class ogrouptabs extends simpleTabs_noSpecial
       if (isset($this->by_object[$key])) {
         continue;
       }
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, 'Removing');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, 'Removing');
 
       $obj->dn = $this->dn;
       $tabErrors = $obj->remove(FALSE);

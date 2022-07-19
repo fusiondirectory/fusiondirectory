@@ -1235,7 +1235,7 @@ class LDAP
     /* Get list of objectclasses and fill array */
     $nb = $attr[0]['subschemasubentry'][0];
     $objectclasses = [];
-    $sr = ldap_read ($this->cid, $nb, 'objectClass=*', ['objectclasses']);
+    $sr = ldap_read($this->cid, $nb, 'objectClass=*', ['objectclasses']);
     $attrs = ldap_get_entries($this->cid, $sr);
     if (!isset($attrs[0])) {
       return [];

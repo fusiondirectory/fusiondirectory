@@ -31,7 +31,7 @@ class UserPasswordAttribute extends CompositeAttribute
     /* Create password methods array */
     $pwd_methods = [];
     $this->needPassword = [];
-    foreach($temp['name'] as $id => $name) {
+    foreach ($temp['name'] as $id => $name) {
       $this->needPassword[$name] = $temp[$id]['object']->need_password();
       $pwd_methods[$name] = $name;
       if (!empty($temp[$id]['desc'])) {
@@ -91,7 +91,7 @@ class UserPasswordAttribute extends CompositeAttribute
       if ($this->linearRendering) {
         parent::renderAttribute($attributes, $readOnly);
       } else {
-        foreach($this->attributes as $key => &$attribute) {
+        foreach ($this->attributes as $key => &$attribute) {
           if (is_object($this->plugin) && $this->plugin->is_template && ($key == 2)) {
             /* Do not display confirmation field in template mode */
             continue;
@@ -514,7 +514,7 @@ class user extends simplePlugin
   {
     $fields   = templateHandling::listFields($pattern);
     $attrs    = [];
-    foreach($fields as $field) {
+    foreach ($fields as $field) {
       if (in_array($field, $this->attributes)) {
         $attrs[$field] = $this->$field;
         continue;

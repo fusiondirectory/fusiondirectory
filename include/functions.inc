@@ -43,7 +43,7 @@ define ('DEBUG_CONFIG',   64); /*! Debug level for CONFIG information */
 define ('DEBUG_ACL',      128); /*! Debug level for ACL infos */
 define ('DEBUG_SI',       256); /*! Debug level for communication with Argonaut */
 define ('DEBUG_MAIL',     512); /*! Debug level for all about mail (mailAccounts, imap, sieve etc.) */
-define ('DEBUG_FAI',      1024); /* FAI(incomplete) */
+define('DEBUG_FAI',      1024); /* FAI(incomplete) */
 
 /* Define shadow states */
 define('POSIX_ACCOUNT_EXPIRED', 1);
@@ -106,7 +106,7 @@ function fusiondirectory_autoload ($class_name)
   if (isset($class_mapping["$class_name"])) {
     require_once($BASE_DIR.'/'.$class_mapping["$class_name"]);
   } else {
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $class_name, 'Could not load');
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $class_name, 'Could not load');
     if (isset($config) && is_object($config) &&
         $config->get_cfg_value('displayerrors') == 'TRUE') {
       list($trace,) = html_trace();

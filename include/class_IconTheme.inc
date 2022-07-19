@@ -68,7 +68,7 @@ class IconThemeDir
 
   public function MatchesSize ($size)
   {
-    switch ($this->Type) {
+    switch($this->Type) {
       case 'Fixed':
         return ($this->Size == $size);
       default:

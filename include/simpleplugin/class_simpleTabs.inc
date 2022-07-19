@@ -162,7 +162,7 @@ class simpleTabs
   {
     $baseobject = $this->getBaseObject();
     if (isset($baseobject->base)) {
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $baseobject->base, 'Fixing base');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $baseobject->base, 'Fixing base');
       if (session::is_set('CurrentMainBase')) {
         $baseobject->base = dn2base('cn=dummy,'.session::get('CurrentMainBase'));
       } else {
@@ -172,9 +172,9 @@ class simpleTabs
         /* For some plugins not yet migrated to simple plugin. */
         $baseobject->baseSelector->setBase($baseobject->base);
       }
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $baseobject->base, 'Fixed base');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $baseobject->base, 'Fixed base');
     } else {
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, '', 'no base');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, '', 'no base');
     }
   }
 
@@ -232,7 +232,7 @@ class simpleTabs
 
     /* Save last tab */
     if ($this->last != "") {
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->last, "Saving");
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->last, "Saving");
 
       $this->by_object[$this->last]->save_object();
     }
@@ -355,7 +355,7 @@ class simpleTabs
     foreach ($this->by_object as $key => $obj) {
       $this->plNotify[$key] = FALSE;
       if (($obj->is_account || $obj->ignore_account) && (!$obj->is_template)) {
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, "Checking");
+        @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, "Checking");
 
         $msg = $obj->check();
 
@@ -390,7 +390,7 @@ class simpleTabs
     $old_dn     = $this->dn;
     try {
       $new_dn     = $baseobject->compute_dn();
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $new_dn, 'Saving');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $new_dn, 'Saving');
     } catch (FusionDirectoryException $e) {
       return [
         sprintf(_('Failed to compute DN for object: %s'), $e->getMessage())
@@ -419,7 +419,7 @@ class simpleTabs
     /* Save all plugins */
     $first = TRUE;
     foreach ($this->by_object as $key => $obj) {
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, 'Saving');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, 'Saving');
 
       $obj->dn = $this->dn;
 
@@ -470,7 +470,7 @@ class simpleTabs
   function adapt_from_template ($attrs, $skip = [])
   {
     foreach ($this->by_object as $key => &$obj) {
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, "Adapting");
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, "Adapting");
       $obj->parent = &$this;
       $obj->adapt_from_template($attrs, $skip);
     }

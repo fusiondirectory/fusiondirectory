@@ -198,7 +198,7 @@ class aclManagement extends simpleManagement
     set_object_info($this->dn);
 
     $this->openTabObject($tabObject, $this->headpage->getBase());
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Creating new ACL assignment');
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Creating new ACL assignment');
   }
 
   static function filterLabel ($row, $dn, $pid = 0, $base = '')

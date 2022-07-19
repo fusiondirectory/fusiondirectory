@@ -218,7 +218,7 @@ class SnapshotHandler
   {
     global $config;
     if (!$this->enabled()) {
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot are disabled but tried to create snapshot');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot are disabled but tried to create snapshot');
       return;
     }
 
@@ -233,7 +233,7 @@ class SnapshotHandler
 
     /* check if the dn exists */
     if (!$ldap->dn_exists($dn)) {
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Tried to snapshot non-existing dn');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Tried to snapshot non-existing dn');
       return;
     }
 
@@ -241,7 +241,7 @@ class SnapshotHandler
     list($usec, $sec) = explode(" ", microtime());
 
     /* Collect some infos */
-    $base_of_object = preg_replace ('/^[^,]+,/i', '', $dn);
+    $base_of_object = preg_replace('/^[^,]+,/i', '', $dn);
     $new_base       = $this->snapshot_dn($base_of_object);
     /* Create object */
     $data = '';
@@ -393,7 +393,7 @@ class SnapshotHandler
   {
     global $config;
     if (!$this->enabled()) {
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot are disabled but tried to restore snapshot');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snaptshot are disabled but tried to restore snapshot');
       return [];
     }
 
