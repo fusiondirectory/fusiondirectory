@@ -81,21 +81,21 @@ class roleGeneric extends simplePlugin
       'main' => [
         'name'  => _('Information'),
         'attrs' => [
-          new BaseSelectorAttribute (get_ou('roleRDN')),
+          new BaseSelectorAttribute(get_ou('roleRDN')),
           new StringAttribute(
             _('Name'), _('Name of this group'),
             'cn', TRUE,
             '', '', (strict_uid_mode() ? '/^[a-z0-9_-]+$/i' : '/^[a-z0-9_.-]+$/i')
           ),
-          new StringAttribute (
+          new StringAttribute(
             _('Description'), _('Description of the role'),
             'description'
           ),
-          new StringAttribute (
+          new StringAttribute(
             _('Phone number'), _('Phone number'),
             'telephoneNumber'
           ),
-          new StringAttribute (
+          new StringAttribute(
             _('Fax number'), _('Fax number'),
             'facsimileTelephoneNumber'
           )
@@ -104,7 +104,7 @@ class roleGeneric extends simplePlugin
       'members' => [
         'name'  => _('Role members'),
         'attrs' => [
-          new RoleMembersAttribute (
+          new RoleMembersAttribute(
             '', _('Add users for the role'),
             'roleOccupant', FALSE
           )

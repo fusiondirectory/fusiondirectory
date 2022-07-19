@@ -45,7 +45,7 @@ class aclAssignmentCreationDialog extends simplePlugin
         'name'  => _('ACL assignment creation'),
         'class' => ['fullwidth'],
         'attrs' => [
-          new StringAttribute (
+          new StringAttribute(
             _('Dn'), _('DN you wish to add assignments for'),
             'baseDn', TRUE,
             $config->current['BASE'], 'aclMode',

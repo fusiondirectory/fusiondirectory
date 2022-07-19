@@ -41,7 +41,7 @@ class mainPluginsConfig extends simplePlugin
       'ogroups' => [
         'name'  => _('Object groups'),
         'attrs' => [
-          new StringAttribute (
+          new StringAttribute(
             _('Groups RDN'), _('Branch in which object groups will be stored'),
             'fdOGroupRDN', TRUE,
             'ou=groups'
@@ -51,7 +51,7 @@ class mainPluginsConfig extends simplePlugin
       'sasl' => [
         'name'  => _('SASL'),
         'attrs' => [
-          new BooleanAttribute (
+          new BooleanAttribute(
             _('Force to ask for password'), _('Useful if you add a hook using password value when SASL user passwords are edited'),
             'fdForceSaslPasswordAsk', TRUE,
             FALSE

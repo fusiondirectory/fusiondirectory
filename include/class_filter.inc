@@ -398,7 +398,7 @@ class filter
     // Load template and replace elementsHtml[]
     foreach ($this->elements as $tag => $element) {
       $htmlCode = "";
-      switch ($element['type']) {
+      switch($element['type']) {
         case "textfield":
           $htmlCode = $this->getTextfield($element);
           $smarty->assign($tag.'DESC', sprintf(_('Searches in %s'), implode(', ', $element['autocomplete']['attribute'])));

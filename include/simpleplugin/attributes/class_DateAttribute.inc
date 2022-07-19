@@ -196,17 +196,17 @@ class TimeHisAttribute extends CompositeAttribute
   {
     $this->convert = $convert;
     $attributes = [
-      new IntAttribute (
+      new IntAttribute(
         '',  _('Hours'),
         $ldapName.'_hours', TRUE,
         0, 23, 1
       ),
-      new IntAttribute (
+      new IntAttribute(
         ':', _('Minutes'),
         $ldapName.'_minutes', TRUE,
         0, 59, 0
       ),
-      new IntAttribute (
+      new IntAttribute(
         ':', _('Seconds'),
         $ldapName.'_seconds', TRUE,
         0, 59, 0
@@ -270,12 +270,12 @@ class TimeHiAttribute extends TimeHisAttribute
   {
     $this->convert = $convert;
     $attributes = [
-      new IntAttribute (
+      new IntAttribute(
         '',  _('Hours'),
         $ldapName.'_hours', TRUE,
         0, 23, 1
       ),
-      new IntAttribute (
+      new IntAttribute(
         ':', _('Minutes'),
         $ldapName.'_minutes', TRUE,
         0, 59, 0

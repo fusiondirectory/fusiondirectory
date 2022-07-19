@@ -319,7 +319,7 @@ class templateHandling
     }
     $res = '';
     for ($i = 0; $i < $length; ++$i) {
-      switch ($chars) {
+      switch($chars) {
         case 'd':
           /* digits */
           $res .= (string)random_int(0, 9);
@@ -388,7 +388,7 @@ class templateHandling
       $str = reset($str);
     }
     $result = [$str];
-    switch ($m) {
+    switch($m) {
       case 'F':
         // First
         $result = [reset($str)];

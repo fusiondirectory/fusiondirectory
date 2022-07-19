@@ -80,7 +80,7 @@ class IconThemeDir
 
   public function SizeDistance ($size)
   {
-    switch ($this->Type) {
+    switch($this->Type) {
       case 'Fixed':
         return abs($this->Size - $size);
       default:

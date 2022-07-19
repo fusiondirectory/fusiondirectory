@@ -128,7 +128,7 @@ class printAClass {
       $type = gettype($value);
 
       // change the color and format of the value
-      switch ($type) {
+      switch($type) {
         case 'array':
           break;
 

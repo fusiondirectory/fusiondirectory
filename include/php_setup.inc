@@ -24,7 +24,7 @@
  * \file php_setup.inc
  * Source code for php_setup
  */
-require_once ("variables.inc");
+require_once("variables.inc");
 
 /*!
  * \brief Escape string for HTML output
@@ -87,7 +87,7 @@ function html_trace ($errstr = "")
       $func .= $ct['function'];
     }
     if (isset($ct['type'])) {
-      switch ($ct['type']) {
+      switch($ct['type']) {
         case "::":
           $type = _("static");
           break;
@@ -337,7 +337,7 @@ date_default_timezone_set("GMT");
 /* Get base dir for reference */
 $BASE_DIR = dirname(dirname(__FILE__));
 $ROOT_DIR = $BASE_DIR."/html";
-error_reporting (E_ALL | E_STRICT);
+error_reporting(E_ALL | E_STRICT);
 
 /* Register error handler */
 $error_collector        = "";

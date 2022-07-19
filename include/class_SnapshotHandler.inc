@@ -313,7 +313,7 @@ class SnapshotHandler
     $ldap = $config->get_ldap_link();
 
     /* Prepare bases and some other infos */
-    $base_of_object = preg_replace ('/^[^,]+,/i', '', $dn);
+    $base_of_object = preg_replace('/^[^,]+,/i', '', $dn);
     $new_base       = $this->snapshot_dn($base_of_object);
     $tmp            = [];
 

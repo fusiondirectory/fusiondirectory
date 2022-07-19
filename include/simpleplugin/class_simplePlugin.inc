@@ -1008,7 +1008,7 @@ class simplePlugin
 
       /* Get current objectClasses in order to add the required ones */
       $ldap->cat($this->dn);
-      $tmp  = $ldap->fetch ();
+      $tmp  = $ldap->fetch();
       $oc   = [];
       if ($this->is_template) {
         if (isset($tmp['fdTemplateField'])) {
@@ -1369,7 +1369,7 @@ class simplePlugin
    */
   protected function handle_hooks ($when, $mode, array $addAttrs = [])
   {
-    switch ($mode) {
+    switch($mode) {
       case 'add':
         return $this->callHook($when.'CREATE', $addAttrs);
 

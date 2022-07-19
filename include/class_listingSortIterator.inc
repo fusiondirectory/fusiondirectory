@@ -75,7 +75,7 @@ class listingSortIterator implements Iterator {
           }
 
           // Take a look at the several types
-          switch ($type) {
+          switch($type) {
             // Sort for string by default
             default:
             case 'string':

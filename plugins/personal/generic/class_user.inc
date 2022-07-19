@@ -39,7 +39,7 @@ class UserPasswordAttribute extends CompositeAttribute
       }
     }
 
-    parent::__construct (
+    parent::__construct(
       $description, $ldapName,
       [
         new SelectAttribute(
@@ -313,21 +313,21 @@ class user extends simplePlugin
         'icon'  => 'geticon.php?context=types&icon=user&size=16',
         'attrs' => [
           new HiddenAttribute('cn'),
-          new StringAttribute (
+          new StringAttribute(
             _('Last name'), _('Last name of this user'),
             'sn', TRUE,
             '', '', '/[^,+"?()=<>;\\\\]/'
           ),
-          new StringAttribute (
+          new StringAttribute(
             _('First name'), _('First name of this user'),
             'givenName', TRUE,
             '', '', '/[^,+"?()=<>;\\\\]/'
           ),
-          new TextAreaAttribute (
+          new TextAreaAttribute(
             _('Description'), _('Short description of the user'),
             'description', FALSE
           ),
-          new ImageAttribute (
+          new ImageAttribute(
             _('Picture'), _('The avatar for this user'),
             'jpegPhoto', FALSE,
             150, 200, 'jpeg'
@@ -338,43 +338,43 @@ class user extends simplePlugin
         'name'  => _('Organizational contact information'),
         'icon'  => 'geticon.php?context=types&icon=contact&size=16',
         'attrs' => [
-          new StringAttribute (
+          new StringAttribute(
             _('Location'), _('Location'),
             'l', FALSE
           ),
-          new StringAttribute (
+          new StringAttribute(
             _('State'), _('State'),
             'st', FALSE
           ),
-          new PostalAddressAttribute (
+          new PostalAddressAttribute(
             _('Address'), _('Business postal address'),
             'postalAddress', FALSE
           ),
-          new StringAttribute (
+          new StringAttribute(
             _('Room No.'), _('Room number'),
             'roomNumber', FALSE
           ),
-          new PhoneNumberButtonAttribute (
+          new PhoneNumberButtonAttribute(
             _('Phone'), _('Business phone number'),
             'telephoneNumber', FALSE,
             '',
             'phone'
           ),
-          new PhoneNumberButtonAttribute (
+          new PhoneNumberButtonAttribute(
             _('Mobile'), _('Business mobile number'),
             'mobile', FALSE,
             '',
             'mobile'
           ),
-          new PhoneNumberAttribute (
+          new PhoneNumberAttribute(
             _('Pager'), _('Business pager number'),
             'pager', FALSE
           ),
-          new PhoneNumberAttribute (
+          new PhoneNumberAttribute(
             _('Fax'), _('Business fax number'),
             'facsimileTelephoneNumber', FALSE
           ),
-          new URLAttribute (
+          new URLAttribute(
             _('Homepage'), _('Personal homepage'),
             'labeledURI', FALSE
           ),
@@ -384,12 +384,12 @@ class user extends simplePlugin
         'name'  => _('Account information'),
         'icon'  => 'geticon.php?context=applications&icon=ldap&size=16',
         'attrs' => [
-          new BaseSelectorAttribute (get_ou("userRDN")),
-          new UidAttribute (
+          new BaseSelectorAttribute(get_ou("userRDN")),
+          new UidAttribute(
             _('Login'), _('Login of this user'),
             'uid', TRUE
           ),
-          new SelectAttribute (
+          new SelectAttribute(
             _('Preferred language'), _('Preferred language'),
             'preferredLanguage', FALSE,
             array_keys($languages), '', array_values($languages)
@@ -404,15 +404,15 @@ class user extends simplePlugin
         'name'  => _('Personal contact information'),
         'icon'  => 'geticon.php?context=types&icon=contact&size=16',
         'attrs' => [
-          new StringAttribute (
+          new StringAttribute(
             _('Display name'), _('Name this user should appear as. Used by Exchange.'),
             'displayName', FALSE
           ),
-          new PostalAddressAttribute (
+          new PostalAddressAttribute(
             _('Home address'), _('Home postal address'),
             'homePostalAddress', FALSE
           ),
-          new PhoneNumberAttribute (
+          new PhoneNumberAttribute(
             _('Private phone'), _('Home phone number'),
             'homePhone', FALSE
           ),
@@ -422,29 +422,29 @@ class user extends simplePlugin
         'name'  => _('Organizational information'),
         'icon'  => 'geticon.php?context=places&icon=folder&size=16',
         'attrs' => [
-          new SetAttribute (
-            new StringAttribute (
+          new SetAttribute(
+            new StringAttribute(
               _('Title'), _('Title of a person in their organizational context. Each title is one value of this multi-valued attribute'),
               'title', FALSE
             )
           ),
-          new StringAttribute (
+          new StringAttribute(
             _('Organization'), _('Organization'),
             'o', FALSE
           ),
-          new StringAttribute (
+          new StringAttribute(
             _('Unit'), _('Organizational unit this user belongs to'),
             'ou', FALSE
           ),
-          new StringAttribute (
+          new StringAttribute(
             _('Department No.'), _('Department number'),
             'departmentNumber', FALSE
           ),
-          new StringAttribute (
+          new StringAttribute(
             _('Employee No.'), _('Employee number'),
             'employeeNumber', FALSE
           ),
-          new StringAttribute (
+          new StringAttribute(
             _('Employee type'), _('Employee type'),
             'employeeType', FALSE
           ),
@@ -458,15 +458,15 @@ class user extends simplePlugin
     if ($config->get_cfg_value('SplitPostalAddress') == 'TRUE') {
       $attributesInfo['contact']['attrs'][2]->setVisible(FALSE);
       array_splice($attributesInfo['contact']['attrs'], 3, 0, [
-        new StringAttribute (
+        new StringAttribute(
           _('Street'), _('Street part of the address'),
           'street', FALSE
         ),
-        new StringAttribute (
+        new StringAttribute(
           _('Post office box'), _('Post office box'),
           'postOfficeBox', FALSE
         ),
-        new IntAttribute (
+        new IntAttribute(
           _('Postal code'), _('Postal code'),
           'postalCode', FALSE,
           0, FALSE

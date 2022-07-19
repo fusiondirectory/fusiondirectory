@@ -155,7 +155,7 @@ function al2gt ($gettextlangs)
     if (!($infos = parse_gettext_lang($gtlang))) {
       continue;
     }
-    list ($lang, $country, $char) = $infos;
+    list($lang, $country, $char) = $infos;
 
     $lang_score = max_scores($lang_scores, [$lang,$lang.'-'.$country,'*']);
     $char_score = max_scores($char_scores, [$char,'*']);

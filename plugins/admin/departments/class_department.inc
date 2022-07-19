@@ -102,7 +102,7 @@ class department extends simplePlugin
             _('Address'), sprintf(_('A postal address for this %s'), $name),
             'postalAddress', FALSE
           ),
-          new PhoneNumberButtonAttribute (
+          new PhoneNumberButtonAttribute(
             _('Phone'), _('Telephone number'),
             'telephoneNumber', FALSE,
             '',

@@ -192,7 +192,7 @@ class config
     }
 
     /* Look through attributes */
-    switch ($this->tags[$this->level - 1]) {
+    switch($this->tags[$this->level - 1]) {
       /* Handle location */
       case 'LOCATION':
         if ($this->tags[$this->level - 2] == 'MAIN') {
@@ -317,7 +317,7 @@ class config
 
     if ($this->ldap === NULL || !is_resource($this->ldap->cid)) {
       /* Build new connection */
-      $this->ldap = ldap_init ($this->current['SERVER'], $this->current['BASE'],
+      $this->ldap = ldap_init($this->current['SERVER'], $this->current['BASE'],
           $this->current['ADMINDN'], $this->get_credentials($this->current['ADMINPASSWORD']));
 
       /* Check for connection */

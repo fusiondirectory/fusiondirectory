@@ -254,7 +254,7 @@ class LDAP
 
       $start = microtime(TRUE);
       $this->clearResult($srp);
-      switch (strtolower($scope)) {
+      switch(strtolower($scope)) {
         case 'base':
           $this->sr[$srp] = @ldap_read($this->cid, $this->basedn, $filter, $attrs);
           break;
@@ -772,7 +772,7 @@ class LDAP
       $attrs = [$type => $param];
 
       /* Hardcoded classes */
-      switch ($type) {
+      switch($type) {
         case 'ou':
           $attrs['objectClass']  = ['organizationalUnit'];
           break;
@@ -1067,7 +1067,7 @@ class LDAP
             /* Ignore version number */
           } else {
             /* Line has ended */
-            list ($key, $value) = explode(':', $line, 2);
+            list($key, $value) = explode(':', $line, 2);
             $value = trim($value);
             if (preg_match('/^:/', $value)) {
               $value = base64_decode(trim(substr($value, 1)));
@@ -1250,7 +1250,7 @@ class LDAP
       $objectclasses[$ocname] = [];
 
       foreach ($pattern as $chunk) {
-        switch ($chunk) {
+        switch($chunk) {
 
           case '(':
             $value = '';
@@ -1331,7 +1331,7 @@ class LDAP
     if (session::is_set('config')) {
       $cfg = session::get('config');
       if (isset($cfg->current['LDAPSTATS']) && preg_match('/true/i', $cfg->current['LDAPSTATS'])) {
-        syslog (LOG_INFO, $string);
+        syslog(LOG_INFO, $string);
       }
     }
   }
@@ -1359,15 +1359,15 @@ class LDAP
   function get_naming_contexts ($server, $admin = '', $password = '')
   {
     /* Build LDAP connection */
-    $ds = ldap_connect ($server);
+    $ds = ldap_connect($server);
     if (!$ds) {
-      die ('Can\'t bind to LDAP. No check possible!');
+      die('Can\'t bind to LDAP. No check possible!');
     }
     ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
-    ldap_bind ($ds, $admin, $password);
+    ldap_bind($ds, $admin, $password);
 
     /* Get base to look for naming contexts */
-    $sr   = @ldap_read ($ds, '', 'objectClass=*', ['namingContexts']);
+    $sr   = @ldap_read($ds, '', 'objectClass=*', ['namingContexts']);
     $attr = @ldap_get_entries($ds, $sr);
 
     return $attr[0]['namingcontexts'];

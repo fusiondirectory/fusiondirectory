@@ -25,12 +25,12 @@
  * Source code for class msgPool
  */
 
-define ("LDAP_READ",   1);
-define ("LDAP_ADD",    2);
-define ("LDAP_MOD",    3);
-define ("LDAP_DEL",    4);
-define ("LDAP_SEARCH", 5);
-define ("LDAP_AUTH",   6);
+define("LDAP_READ",   1);
+define("LDAP_ADD",    2);
+define("LDAP_MOD",    3);
+define("LDAP_DEL",    4);
+define("LDAP_SEARCH", 5);
+define("LDAP_AUTH",   6);
 
 /*!
  * \brief This class contains all the messages for the various actions

@@ -25,12 +25,12 @@
  */
 
 /* Define common locations and variables */
-require_once ('variables.inc');
+require_once('variables.inc');
 
 /* Include required files */
-require_once (CACHE_DIR.'/'.CLASS_CACHE);
+require_once(CACHE_DIR.'/'.CLASS_CACHE);
 require_once ('functions_debug.inc');
-require_once ('accept-to-gettext.inc');
+require_once('accept-to-gettext.inc');
 
 /* Define constants for debugging */
 define ('DEBUG_TRACE',    1); /*! Debug level for tracing of common actions (save, check, etc.) */
@@ -43,13 +43,13 @@ define ('DEBUG_CONFIG',   64); /*! Debug level for CONFIG information */
 define ('DEBUG_ACL',      128); /*! Debug level for ACL infos */
 define ('DEBUG_SI',       256); /*! Debug level for communication with Argonaut */
 define ('DEBUG_MAIL',     512); /*! Debug level for all about mail (mailAccounts, imap, sieve etc.) */
-define ('DEBUG_FAI',      1024); /* FAI (incomplete) */
+define ('DEBUG_FAI',      1024); /* FAI(incomplete) */
 
 /* Define shadow states */
-define ('POSIX_ACCOUNT_EXPIRED', 1);
-define ('POSIX_WARN_ABOUT_EXPIRATION', 2);
-define ('POSIX_FORCE_PASSWORD_CHANGE', 4);
-define ('POSIX_DISALLOW_PASSWORD_CHANGE', 8);
+define('POSIX_ACCOUNT_EXPIRED', 1);
+define('POSIX_WARN_ABOUT_EXPIRATION', 2);
+define('POSIX_FORCE_PASSWORD_CHANGE', 4);
+define('POSIX_DISALLOW_PASSWORD_CHANGE', 8);
 
 /* Rewrite german 'umlauts' and spanish 'accents'
    to get better results */
@@ -402,7 +402,7 @@ function ldap_init ($server, $base, $binddn = '', $pass = '')
 {
   global $config;
 
-  $ldap = new LDAP ($binddn, $pass, $server,
+  $ldap = new LDAP($binddn, $pass, $server,
       isset($config->current['LDAPFOLLOWREFERRALS']) && $config->current['LDAPFOLLOWREFERRALS'] == 'TRUE',
       isset($config->current['LDAPTLS']) && $config->current['LDAPTLS'] == 'TRUE');
 
@@ -1472,7 +1472,7 @@ function to_byte ($value)
 
   if (!is_numeric(substr($value, -1))) {
 
-    switch (substr($value, -1)) {
+    switch(substr($value, -1)) {
       case 'g':
         $mult = 1073741824;
         break;
@@ -1765,7 +1765,7 @@ function compare_revision ($revision_file, $revision)
  * a certain key, regardless of the case.
  *
  * \code
- * $items = array ('FOO' => 'blub', 'bar' => 'blub');
+ * $items = array('FOO' => 'blub', 'bar' => 'blub');
  * array_key_ics('foo', $items); # Returns 'blub'
  * array_key_ics('BAR', $items); # Returns 'blub'
  * \endcode
@@ -2189,7 +2189,7 @@ function xmlentities ($str)
  */
 function get_random_char ()
 {
-  $randno = rand (0, 63);
+  $randno = rand(0, 63);
   if ($randno < 12) {
     // Digits, '/' and '.'
     return chr($randno + 46);

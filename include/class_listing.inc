@@ -693,7 +693,7 @@ class listing
         $classes  = "";
         $components = explode(';', $cfg);
         foreach ($components as $part) {
-          switch ($part) {
+          switch($part) {
             case 'r':
               $res .= 'text-align:right;';
               break;
@@ -801,10 +801,10 @@ class listing
     }
 
     foreach ($filters as $filterstring => $filter) {
-      list ($cl, $method, $parts, $offset) = $filter;
+      list($cl, $method, $parts, $offset) = $filter;
       $params = [];
       foreach ($parts as $param) {
-        switch ($param) {
+        switch($param) {
           case 'row':
             $params[] = $row;
             break;
@@ -1415,7 +1415,7 @@ class listing
       }
 
       // Check for special types
-      switch ($action['type']) {
+      switch($action['type']) {
         case 'copypaste':
           $cut    = !isset($action['cut']) || $action['cut'] != "false";
           $copy   = !isset($action['copy']) || $action['copy'] != "false";
@@ -1509,7 +1509,7 @@ class listing
       }
 
       foreach ($aclInfos as $aclInfo) {
-        list ($aclList, $modules) = $aclInfo;
+        list($aclList, $modules) = $aclInfo;
         // Walk thru prepared ACL by using $module
         foreach ($aclList as $sAcl) {
           $checkAcl = '';

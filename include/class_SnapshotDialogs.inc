@@ -39,15 +39,15 @@ class SnapshotCreateDialog extends simplePlugin
       'main' => [
         'name'  => _('Creating an object snapshot'),
         'attrs' => [
-          new DisplayAttribute (
+          new DisplayAttribute(
             _('Object'), _('DN of the object you are creating a snapshot of'),
             'object_dn', FALSE
           ),
-          new DisplayAttribute (
+          new DisplayAttribute(
             _('Timestamp'), _('Timestamp of this snapshot creation'),
             'timestamp', FALSE
           ),
-          new TextAreaAttribute (
+          new TextAreaAttribute(
             _('Reason'), _('Reason for creating this snapshot'),
             'description', TRUE,
             '',
@@ -257,11 +257,11 @@ class SnapshotRestoreDialog extends simplePlugin
         'name'  => _('Restoring snapshots'),
         'class' => ['fullwidth'],
         'attrs' => [
-          new DisplayAttribute (
+          new DisplayAttribute(
             _('Object'), _('DN of the object you are creating a snapshot of'),
             'object_dn', FALSE
           ),
-          new SnapshotsAttribute (
+          new SnapshotsAttribute(
             _('Snapshots'), _('Existing snapshots for this object'),
             'snapshots', FALSE,
             [],

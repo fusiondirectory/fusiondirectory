@@ -41,13 +41,13 @@ class dashboardConfig extends simplePlugin
       'systems' => [
         'name'  => _('Dashboard name schema'),
         'attrs' => [
-          new IntAttribute (
+          new IntAttribute(
             _('Number of digits'), _('Number of digits to use after prefix'),
             'fdDashboardNumberOfDigit', FALSE,
             1, 20, 3
           ),
-          new SetAttribute (
-            new StringAttribute (
+          new SetAttribute(
+            new StringAttribute(
               _('Prefixes'), _('Prefixes to be used for computer ids'),
               'fdDashboardPrefix', TRUE
             ),
@@ -58,7 +58,7 @@ class dashboardConfig extends simplePlugin
       'users' => [
         'name'  => _('Dashboard expired users'),
         'attrs' => [
-          new IntAttribute (
+          new IntAttribute(
             _('Number of days'), _('Number of days before expiration needed for an account to show in the dashboard next expired accounts list'),
             'fdDashboardExpiredAccountsDays', FALSE,
             1, FALSE, 15

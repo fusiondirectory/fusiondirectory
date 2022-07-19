@@ -50,7 +50,7 @@ class standAlonePage {
 
       /* If SSL is forced, just forward to the SSL enabled site */
       if (($config->get_cfg_value("forcessl") == "TRUE") && ($ssl != '')) {
-        header ("Location: $ssl");
+        header("Location: $ssl");
         exit;
       }
 
@@ -173,7 +173,7 @@ class standAlonePage {
         exit;
       } elseif ($config->get_cfg_value('warnssl') == 'TRUE') {
         /* Display SSL mode warning? */
-        $smarty->assign ('ssl', sprintf(_('Warning: <a href="%s">Session is not encrypted!</a>'), $ssl));
+        $smarty->assign('ssl', sprintf(_('Warning: <a href="%s">Session is not encrypted!</a>'), $ssl));
       }
     }
 
