@@ -29,30 +29,30 @@
   * \brief This class allows to parse and execute on a array an LDAP filter
   * Example:
   * $filter = ldapFilter::parse("(&(objectClass=testClass)(testField=value))");
-  * $array = array('objectClass' => array('testClass'), 'testField' => array ('value1', 'value'));
+  * $array = array('objectClass' => array('testClass'), 'testField' => array('value1', 'value'));
   * if ($filter($array)) {
   *   // do something
   * }
   */
 class ldapFilter
 {
-  static $operators = array('!', '&', '|');
+  static $operators = ['!', '&', '|'];
 
   protected $operator;
   protected $subparts;
 
-  function __construct($operator, $subparts)
+  function __construct ($operator, $subparts)
   {
     $this->operator = $operator;
     $this->subparts = $subparts;
   }
 
-  function __toString()
+  function __toString ()
   {
     return '('.$this->operator.join($this->subparts).')';
   }
 
-  function __invoke($array)
+  function __invoke ($array)
   {
     $stopValue = FALSE;
     switch ($this->operator) {
@@ -72,17 +72,17 @@ class ldapFilter
     }
   }
 
-  function getOperator()
+  function getOperator ()
   {
     return $this->operator;
   }
 
-  function getSubparts()
+  function getSubparts ()
   {
     return $this->subparts;
   }
 
-  function listUsedAttributes(&$result = array())
+  function listUsedAttributes (&$result = [])
   {
     foreach ($this->subparts as $subpart) {
       $subpart->listUsedAttributes($result);
@@ -90,13 +90,13 @@ class ldapFilter
     return $result;
   }
 
-  static function parse($filter)
+  static function parse ($filter)
   {
     // Remove starting and ending parenthesis
-    $filter = preg_replace(array('/^\\s*\\(/', '/\\)\\s*$/'), '', $filter);
+    $filter = preg_replace(['/^\\s*\\(/', '/\\)\\s*$/'], '', $filter);
 
     if (in_array($filter[0], ldapFilter::$operators)) {
-      $subfilters = array();
+      $subfilters = [];
       /* We need an ending parenthesis in order to catch last subpart correctly */
       $filter .= ')';
       $offset = 0;
@@ -116,7 +116,7 @@ class ldapFilter
           }
         }
       }
-      if (in_array($filter[0], array('&', '|')) && (count($subfilters) == 1)) {
+      if (in_array($filter[0], ['&', '|']) && (count($subfilters) == 1)) {
         /* Avoid empty levels */
         return $subfilters[0];
       } else {
@@ -135,18 +135,18 @@ class ldapFilter
  */
 class ldapFilterLeaf extends ldapFilter
 {
-  static $operators = array('=','~=','>=','<=');
+  static $operators = ['=','~=','>=','<='];
 
   protected $pattern;
   protected $dnFilter = FALSE;
 
-  function __construct($left, $operator, $right)
+  function __construct ($left, $operator, $right)
   {
     if (strrpos($left, ':dn:', -4) !== FALSE) {
       $this->dnFilter = TRUE;
       $left = substr($left, 0, -4);
     }
-    parent::__construct($operator, array($left, $right));
+    parent::__construct($operator, [$left, $right]);
     if (($this->operator == '=') || ($this->operator == '~=')) {
       $prefix = '';
       $suffix = '';
@@ -156,7 +156,7 @@ class ldapFilterLeaf extends ldapFilter
       if (preg_match('/\\*$/', $this->subparts[1])) {
         $suffix = '.*';
       }
-      $search = preg_replace(array('/^\\*/','/\\*$/'), '', $this->subparts[1]);
+      $search = preg_replace(['/^\\*/','/\\*$/'], '', $this->subparts[1]);
       if ($this->dnFilter) {
         $this->pattern = '/'.$left.'='.$prefix.preg_quote($search, '/').$suffix.',/';
       } elseif ($this->subparts[1] == '*') {
@@ -167,17 +167,17 @@ class ldapFilterLeaf extends ldapFilter
     }
   }
 
-  function isDnFilter()
+  function isDnFilter ()
   {
     return $this->dnFilter;
   }
 
-  function __toString()
+  function __toString ()
   {
     return '('.$this->subparts[0].($this->dnFilter ? ':dn:' : '').$this->operator.$this->subparts[1].')';
   }
 
-  function __invoke($array)
+  function __invoke ($array)
   {
     if ($this->dnFilter) {
       switch ($this->operator) {
@@ -192,7 +192,7 @@ class ldapFilterLeaf extends ldapFilter
     if (isset($array[$this->subparts[0]])) {
       $values = $array[$this->subparts[0]];
       if (!is_array($values)) {
-        $values = array($values);
+        $values = [$values];
       }
       foreach ($values as $value) {
         switch ($this->operator) {
@@ -221,7 +221,7 @@ class ldapFilterLeaf extends ldapFilter
     return FALSE;
   }
 
-  function listUsedAttributes(&$result = array())
+  function listUsedAttributes (&$result = [])
   {
     if ($this->dnFilter) {
       $result['dn'] = 'dn';
@@ -232,7 +232,7 @@ class ldapFilterLeaf extends ldapFilter
   }
 }
 
-function fdTemplateFilter($filter)
+function fdTemplateFilter ($filter)
 {
   if ($filter instanceof ldapFilterLeaf) {
     if ($filter->isDnFilter()) {

@@ -31,7 +31,7 @@ class standAlonePage {
   protected $interactive;
 
   /* Constructor */
-  function __construct($interactive = TRUE)
+  function __construct ($interactive = TRUE)
   {
     global $config, $ssl, $ui;
 
@@ -50,7 +50,7 @@ class standAlonePage {
 
       /* If SSL is forced, just forward to the SSL enabled site */
       if (($config->get_cfg_value("forcessl") == "TRUE") && ($ssl != '')) {
-        header ("Location: $ssl");
+        header("Location: $ssl");
         exit;
       }
 
@@ -59,7 +59,7 @@ class standAlonePage {
       $smarty = get_smarty();
 
       /* Generate server list */
-      $servers = array();
+      $servers = [];
       foreach ($config->data['LOCATIONS'] as $key => $ignored) {
         $servers[$key] = $key;
       }
@@ -109,7 +109,7 @@ class standAlonePage {
     }
   }
 
-  function loadConfig()
+  function loadConfig ()
   {
     global $BASE_DIR;
 
@@ -128,7 +128,7 @@ class standAlonePage {
     return $config;
   }
 
-  function setupSmarty()
+  function setupSmarty ()
   {
     global $config;
     $smarty = get_smarty();
@@ -156,7 +156,7 @@ class standAlonePage {
     $smarty->assign('year',     date('Y'));
   }
 
-  function checkForSSL()
+  function checkForSSL ()
   {
     global $config;
     $smarty = get_smarty();
@@ -173,14 +173,14 @@ class standAlonePage {
         exit;
       } elseif ($config->get_cfg_value('warnssl') == 'TRUE') {
         /* Display SSL mode warning? */
-        $smarty->assign ('ssl', sprintf(_('Warning: <a href="%s">Session is not encrypted!</a>'), $ssl));
+        $smarty->assign('ssl', sprintf(_('Warning: <a href="%s">Session is not encrypted!</a>'), $ssl));
       }
     }
 
     return $ssl;
   }
 
-  function getPageURL()
+  function getPageURL ()
   {
     $protocol = 'http';
     if (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) {
@@ -214,7 +214,7 @@ class standAlonePage {
     return $pageURL;
   }
 
-  function encodeParams($keys)
+  function encodeParams ($keys)
   {
     $params = '';
     foreach ($keys as $key) {
@@ -224,14 +224,14 @@ class standAlonePage {
     return $params;
   }
 
-  static function securityHeaders()
+  static function securityHeaders ()
   {
     header('X-XSS-Protection: 1; mode=block');
     header('X-Content-Type-Options: nosniff');
     header('X-Frame-Options: deny');
   }
 
-  static function generateRandomHash()
+  static function generateRandomHash ()
   {
     /* Generate a very long random value */
     $len        = 56;
@@ -248,7 +248,7 @@ class standAlonePage {
 class passwordRecovery extends standAlonePage {
   protected $loginAttribute;
   protected $login;
-  var $message = array();
+  var $message = [];
   var $email_address;
 
   var $step = 1;
@@ -272,7 +272,7 @@ class passwordRecovery extends standAlonePage {
   var $usealternates;
 
   /* Constructor */
-  function __construct($interactive = TRUE)
+  function __construct ($interactive = TRUE)
   {
     parent::__construct($interactive);
 
@@ -292,7 +292,7 @@ class passwordRecovery extends standAlonePage {
     }
   }
 
-  function execute()
+  function execute ()
   {
     if (!$this->activated) {
       return;
@@ -324,7 +324,7 @@ class passwordRecovery extends standAlonePage {
     }
   }
 
-  function displayPWchanger()
+  function displayPWchanger ()
   {
     global $error_collector, $error_collector_mailto;
     /* Do we need to show error messages? */
@@ -369,7 +369,7 @@ class passwordRecovery extends standAlonePage {
   /* Check that password recovery is activated, read config in ldap
    * Returns a boolean saying if password recovery is activated
    */
-  function readLdapConfig()
+  function readLdapConfig ()
   {
     global $config;
     $this->salt           = $config->get_cfg_value('passwordRecoverySalt');
@@ -390,7 +390,7 @@ class passwordRecovery extends standAlonePage {
     return ($config->get_cfg_value('passwordRecoveryActivated') == "TRUE");
   }
 
-  function storeToken($temp_password)
+  function storeToken ($temp_password)
   {
     global $config;
     /* Store it in ldap with the salt */
@@ -401,10 +401,10 @@ class passwordRecovery extends standAlonePage {
 
     // Check if token branch is here
     $token = get_ou('recoveryTokenRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'];
-    $ldap->cat($token, array('dn'));
+    $ldap->cat($token, ['dn']);
     if (!$ldap->count()) {
       /* It's not, let's create it */
-      $ldap->cd ($config->current['BASE']);
+      $ldap->cd($config->current['BASE']);
       $ldap->create_missing_trees($token);
       if (!$ldap->success()) {
         return msgPool::ldaperror($ldap->get_error(),
@@ -414,15 +414,15 @@ class passwordRecovery extends standAlonePage {
     }
 
     $dn = 'ou='.$this->login.','.$token;
-    $ldap->cat($dn, array('dn'));
+    $ldap->cat($dn, ['dn']);
     $add = ($ldap->count() == 0);
     /* We store the token and its validity due date */
-    $attrs = array(
-      'objectClass'   => array('organizationalUnit'),
+    $attrs = [
+      'objectClass'   => ['organizationalUnit'],
       'ou'            => $this->login,
       'userPassword'  => $sha1_temp_password,
       'description'   => time() + $this->delay_allowed * 60,
-    );
+    ];
     $ldap->cd($dn);
     if ($add) {
       $ldap->add($attrs);
@@ -438,7 +438,7 @@ class passwordRecovery extends standAlonePage {
     return ""; /* Everything went well */
   }
 
-  function checkToken($token)
+  function checkToken ($token)
   {
     global $config;
     $salt_token = $this->salt.$token.$this->salt;
@@ -460,13 +460,13 @@ class passwordRecovery extends standAlonePage {
            ($ldap_token == $sha1_token);
   }
 
-  function getUserDn()
+  function getUserDn ()
   {
     global $config;
     /* Retrieve dn from the ldap */
     $ldap = $config->get_ldap_link();
 
-    $objectClasses = array('gosaMailAccount');
+    $objectClasses = ['gosaMailAccount'];
     if (class_available('personalInfo') && ($config->get_cfg_value('privateEmailPasswordRecovery', 'FALSE') == 'TRUE')) {
       $objectClasses[] = 'fdPersonalInfo';
     }
@@ -475,7 +475,7 @@ class passwordRecovery extends standAlonePage {
     }
     $filter = '(&(|(objectClass='.join(')(objectClass=', $objectClasses).'))('.$this->loginAttribute.'='.ldap_escape_f($this->login).'))';
     $ldap->cd($config->current['BASE']);
-    $ldap->search($filter, array('dn'));
+    $ldap->search($filter, ['dn']);
 
     if ($ldap->count() < 1) {
       $this->message[] = sprintf(_('Did not find an account with login "%s"'), htmlentities($this->login, ENT_COMPAT, 'UTF-8'));
@@ -491,7 +491,7 @@ class passwordRecovery extends standAlonePage {
   }
 
   /* Find the login of for the given email address */
-  function step2()
+  function step2 ()
   {
     global $config;
 
@@ -510,7 +510,7 @@ class passwordRecovery extends standAlonePage {
     }
     $ldap = $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);
-    $ldap->search($filter, array('dn', 'userPassword', $this->loginAttribute));
+    $ldap->search($filter, ['dn', 'userPassword', $this->loginAttribute]);
 
     /* Only one ldap node should be found */
     if ($ldap->count() < 1) {
@@ -536,14 +536,14 @@ class passwordRecovery extends standAlonePage {
 
       $smarty->assign('login', $this->login);
       $smarty->assign('email_address', $this->email_address);
-      $params = $this->encodeParams(array('login', 'directory', 'email_address'));
+      $params = $this->encodeParams(['login', 'directory', 'email_address']);
       $smarty->assign('params', $params);
     }
 
     return $attrs['dn'];
   }
 
-  function generateAndStoreToken()
+  function generateAndStoreToken ()
   {
     $activatecode = static::generateRandomHash();
 
@@ -558,7 +558,7 @@ class passwordRecovery extends standAlonePage {
   }
 
   /* generate a token and send it by email */
-  function step3()
+  function step3 ()
   {
     /* Send a mail, save information in session and create a very random unique id */
     $token = $this->generateAndStoreToken();
@@ -588,7 +588,7 @@ class passwordRecovery extends standAlonePage {
   }
 
   /* check if the given token is the good one */
-  function step4()
+  function step4 ()
   {
     $uniq_id_from_mail = validate($_GET['uniq']);
 
@@ -603,7 +603,7 @@ class passwordRecovery extends standAlonePage {
     $this->uniq = $uniq_id_from_mail;
     $this->step = 4;
     $smarty->assign('login', $this->login);
-    $params = $this->encodeParams(array('login', 'directory', 'email_address', 'uniq'));
+    $params = $this->encodeParams(['login', 'directory', 'email_address', 'uniq']);
     $smarty->assign('params', $params);
 
     if (isset($_POST['change'])) {
@@ -611,7 +611,7 @@ class passwordRecovery extends standAlonePage {
     }
   }
 
-  function changeUserPassword($new_password, $new_password_repeated)
+  function changeUserPassword ($new_password, $new_password_repeated)
   {
     $dn = $this->getUserDn();
     if (!$dn) {
@@ -620,13 +620,13 @@ class passwordRecovery extends standAlonePage {
 
     $userTabs = objects::open($dn, 'user');
     $userTab  = $userTabs->getBaseObject();
-    $userTab->userPassword = array(
+    $userTab->userPassword = [
       '',
       $new_password,
       $new_password_repeated,
       $userTab->userPassword,
       $userTab->attributesAccess['userPassword']->isLocked()
-    );
+    ];
 
     /* Is there any problem with entered passwords? */
     $userTabs->save_object();
@@ -642,7 +642,7 @@ class passwordRecovery extends standAlonePage {
   }
 
   /* change the password and send confirmation email */
-  function step5()
+  function step5 ()
   {
     $success = $this->changeUserPassword($_POST['new_password'], $_POST['new_password_repeated']);
     if (!$success) {

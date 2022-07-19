@@ -20,33 +20,33 @@
 
 class aclAssignmentDialogWindow extends simplePlugin
 {
-  static function plInfo()
+  static function plInfo ()
   {
-    return array(
+    return [
       'plShortName'   => _('ACL Assignment Dialog'),
       'plDescription' => _('Access control roles assignment dialog'),
-      'plCategory'    => array('acl'),
+      'plCategory'    => ['acl'],
 
       'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())
-    );
+    ];
   }
 
-  static function getAttributesInfo()
+  static function getAttributesInfo ()
   {
-    return array(
-      'properties' => array(
+    return [
+      'properties' => [
         'name'  => _('Properties'),
-        'attrs' => array(
+        'attrs' => [
           new SelectAttribute(
             _('Mode'), _('Is this applying on complete subtree or only the base?'),
             'aclMode', TRUE,
-            array('subtree',    'base'), 'base',
-            array(_('Subtree'), _('Base only'))
+            ['subtree',    'base'], 'base',
+            [_('Subtree'), _('Base only')]
           ),
           new SelectAttribute(
             _('Role'), _('Role to apply'),
             'aclRole', TRUE,
-            array()
+            []
           ),
           new BooleanAttribute(
             _('For all users'), _('Apply this ACL for all LDAP users'),
@@ -56,9 +56,9 @@ class aclAssignmentDialogWindow extends simplePlugin
             _('Members'), _('Users or groups to assign this role to.'),
             'aclMembers', TRUE
           )
-        )
-      ),
-    );
+        ]
+      ],
+    ];
   }
 
   function __construct ($value, $isContainer = FALSE)
@@ -75,11 +75,11 @@ class aclAssignmentDialogWindow extends simplePlugin
     $this->attributesAccess['aclRole']->setChoices(array_keys($roles), array_values($roles));
     $this->attributesAccess['allUsers']->setInLdap(FALSE);
     $this->attributesAccess['allUsers']->setManagedAttributes(
-      array(
-        'disable' => array(
-          TRUE => array('aclMembers')
-        )
-      )
+      [
+        'disable' => [
+          TRUE => ['aclMembers']
+        ]
+      ]
     );
 
     if ($value !== NULL) {
@@ -92,7 +92,7 @@ class aclAssignmentDialogWindow extends simplePlugin
     }
   }
 
-  function execute()
+  function execute ()
   {
     $smarty = get_smarty();
     $display = parent::execute();
@@ -107,15 +107,15 @@ class aclAssignmentDialogWindow extends simplePlugin
     return $display;
   }
 
-  function getAclEntry()
+  function getAclEntry ()
   {
-    $entry = array(
+    $entry = [
       'scope'   => $this->aclMode,
       'role'    => $this->aclRole,
       'members' => $this->aclMembers,
-    );
+    ];
     if ($this->allUsers) {
-      $entry['members'] = array('*');
+      $entry['members'] = ['*'];
     }
     return $entry;
   }
@@ -128,13 +128,13 @@ class ACLsAssignmentDialog extends GenericDialog
   protected $post_finish = 'add_acl_finish';
   protected $dialogClass = 'aclAssignmentDialogWindow';
 
-  function __construct($simplePlugin, $attribute, $acl = NULL)
+  function __construct ($simplePlugin, $attribute, $acl = NULL)
   {
     $isContainer = FALSE;
     if (isset($simplePlugin->attrs['objectClass'])) {
       if (count(array_intersect(
                   $simplePlugin->attrs['objectClass'],
-                  array('organizationalUnit', 'organization', 'domain', 'country', 'locality'))
+                  ['organizationalUnit', 'organization', 'domain', 'country', 'locality'])
                 )) {
         $isContainer = TRUE;
       }
@@ -180,7 +180,7 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
   protected $dialogClass  = 'ACLsAssignmentDialog';
   protected $height       = 300;
 
-  protected function getAttributeArrayValue($key, $value)
+  protected function getAttributeArrayValue ($key, $value)
   {
     /* Convert text value to displayable array value */
     sort($value['members']);
@@ -193,22 +193,22 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
     return $value;
   }
 
-  function readValue($value)
+  function readValue ($value)
   {
     $acl = explode(':', $value);
-    return array($acl[0], array(
+    return [$acl[0], [
       'scope'   => $acl[1],
       'role'    => base64_decode($acl[2]),
       'members' => array_map('base64_decode', explode(',', $acl[3])),
-    ));
+    ]];
   }
 
-  function writeValue($key, $value)
+  function writeValue ($key, $value)
   {
     return $key.':'.$value['scope'].':'.base64_encode($value['role']).':'.join(',', array_map('base64_encode', $value['members']));
   }
 
-  function foreignKeyUpdate($oldvalue, $newvalue, $source)
+  function foreignKeyUpdate ($oldvalue, $newvalue, $source)
   {
     foreach ($this->value as $key => &$value) {
       if ($source['FIELD'] == 'dn') {
@@ -243,14 +243,14 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
     unset($value);
   }
 
-  function foreignKeyCheck($oldvalue, $source)
+  function foreignKeyCheck ($oldvalue, $source)
   {
     foreach ($this->value as $value) {
       if (($source['CLASS'] == 'aclRole') && ($value['role'] == $oldvalue)) {
         return TRUE;
-      } elseif (in_array($source['CLASS'], array('user','posixGroup','roleGeneric')) && in_array($oldvalue, $value['members'])) {
+      } elseif (in_array($source['CLASS'], ['user','posixGroup','roleGeneric']) && in_array($oldvalue, $value['members'])) {
         return TRUE;
-      } elseif (!in_array($source['CLASS'], array('aclRole','user','posixGroup','roleGeneric'))) {
+      } elseif (!in_array($source['CLASS'], ['aclRole','user','posixGroup','roleGeneric'])) {
         trigger_error('unknown source '.$source['CLASS']);
       }
     }
@@ -259,13 +259,13 @@ class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
 
 class aclAssignment extends simplePlugin
 {
-  var $objectclasses  = array('gosaAcl');
+  var $objectclasses  = ['gosaAcl'];
 
-  static function plInfo()
+  static function plInfo ()
   {
     global $config;
-    $oc = array(
-      'aclAssignment' => array(
+    $oc = [
+      'aclAssignment' => [
         'aclCategory' => 'acl',
         'name'        => _('ACL assignment'),
         'filter'      => 'objectClass=gosaAcl',
@@ -273,58 +273,58 @@ class aclAssignment extends simplePlugin
         'icon'        => 'geticon.php?context=categories&icon=acl&size=16',
         'tabClass'    => 'simpleTabs_noSpecial',
         'mainAttr'    => FALSE
-      ),
-    );
+      ],
+    ];
     if ($config->get_cfg_value('aclTabOnObjects') == 'TRUE') {
       $oc[] = 'special';
     } else {
       $oc = array_merge($oc, departmentManagement::getDepartmentTypes());
     }
-    return array(
+    return [
       'plShortName'   => _('ACL Assignment'),
       'plDescription' => _('Access control roles assignment'),
       'plObjectType'  => $oc,
-      'plForeignKeys'  => array(
-        'gosaAclEntry' => array(
-          array('aclRole',      'dn', 'gosaAclEntry=*:*:%b|oldvalue%:*',    'gosaAclEntry=*'),
-          array('user',         'dn', 'gosaAclEntry=*:*:*:*%b|oldvalue%*',  'gosaAclEntry=*'),
-          array('posixGroup',   'dn', 'gosaAclEntry=*:*:*:*%b|oldvalue%*',  'gosaAclEntry=*'),
-          array('roleGeneric',  'dn', 'gosaAclEntry=*:*:*:*%b|oldvalue%*',  'gosaAclEntry=*'),
-        )
-      ),
+      'plForeignKeys'  => [
+        'gosaAclEntry' => [
+          ['aclRole',      'dn', 'gosaAclEntry=*:*:%b|oldvalue%:*',    'gosaAclEntry=*'],
+          ['user',         'dn', 'gosaAclEntry=*:*:*:*%b|oldvalue%*',  'gosaAclEntry=*'],
+          ['posixGroup',   'dn', 'gosaAclEntry=*:*:*:*%b|oldvalue%*',  'gosaAclEntry=*'],
+          ['roleGeneric',  'dn', 'gosaAclEntry=*:*:*:*%b|oldvalue%*',  'gosaAclEntry=*'],
+        ]
+      ],
 
       'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())
-    );
+    ];
   }
 
-  static function getAttributesInfo()
+  static function getAttributesInfo ()
   {
-    return array(
-      'main' => array(
+    return [
+      'main' => [
         'name'  => _('Assignments'),
-        'class' => array('fullwidth'),
-        'attrs' => array(
+        'class' => ['fullwidth'],
+        'attrs' => [
           new ACLsAssignmentAttribute(
             '', _('ACL role assignments for this base'),
             'gosaAclEntry', FALSE
           )
-        )
-      )
-    );
+        ]
+      ]
+    ];
   }
 
   function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE)
   {
-    parent::__construct ($dn, $object, $parent, FALSE);
+    parent::__construct($dn, $object, $parent, FALSE);
     $this->attributesInfo['main']['name'] = sprintf(_('Assignments on object or subtree %s'), $this->dn);
   }
 
-  function compute_dn()
+  function compute_dn ()
   {
     return $this->dn;
   }
 
-  function save()
+  function save ()
   {
     $this->ignore_account = FALSE;
     $this->is_account = (count($this->gosaAclEntry) != 0);
@@ -335,7 +335,7 @@ class aclAssignment extends simplePlugin
     }
   }
 
-  function post_remove()
+  function post_remove ()
   {
     parent::post_remove();
 
@@ -345,7 +345,7 @@ class aclAssignment extends simplePlugin
     session::set('ui', $ui);
   }
 
-  function post_save()
+  function post_save ()
   {
     parent::post_save();
 

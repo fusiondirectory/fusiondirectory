@@ -38,15 +38,15 @@ class xml {
    *
    * \param string $priority Initialized at 'tag'
    */
-  static function xml2array($contents, $get_attributes = 1, $priority = 'tag')
+  static function xml2array ($contents, $get_attributes = 1, $priority = 'tag')
   {
     if (!$contents) {
-      return array();
+      return [];
     }
 
     if (!function_exists('xml_parser_create')) {
       trigger_error('xml_parser_create function does not exists');
-      return array();
+      return [];
     }
 
     //Get the XML parser of PHP - PHP must have this module for the parser to work
@@ -62,12 +62,12 @@ class xml {
     }
 
     //Initializations
-    $xml_array    = array();
+    $xml_array    = [];
 
     $current = &$xml_array; //Refference
 
     //Go through the tags.
-    $repeated_tag_index = array();//Multiple tags with same name will be turned into an array
+    $repeated_tag_index = [];//Multiple tags with same name will be turned into an array
     foreach ($xml_values as $data) {
       unset($attributes, $value);//Remove existing values, or there will be trouble
 
@@ -75,8 +75,8 @@ class xml {
       // tag(string), type(string), level(int), attributes(array).
       extract($data);//We could use the array by itself, but this cooler.
 
-      $result = array();
-      $attributes_data = array();
+      $result = [];
+      $attributes_data = [];
 
       if (isset($value)) {
         if ($priority == 'tag') {
@@ -117,7 +117,7 @@ class xml {
             $current[$tag][$repeated_tag_index[$tag.'_'.$level]] = $result;
             $repeated_tag_index[$tag.'_'.$level]++;
           } else {//This section will make the value an array if multiple tags with the same name appear together
-            $current[$tag] = array($current[$tag],$result);//This will combine the existing item and the new item together to make an array
+            $current[$tag] = [$current[$tag],$result];//This will combine the existing item and the new item together to make an array
             $repeated_tag_index[$tag.'_'.$level] = 2;
 
             if (isset($current[$tag.'_attr'])) { //The attribute of the last(0th) tag must be moved as well
@@ -148,7 +148,7 @@ class xml {
             $repeated_tag_index[$tag.'_'.$level]++;
 
           } else { //If it is not an array...
-            $current[$tag] = array($current[$tag],$result); //...Make it an array using using the existing value and the new value
+            $current[$tag] = [$current[$tag],$result]; //...Make it an array using using the existing value and the new value
             $repeated_tag_index[$tag.'_'.$level] = 1;
             if ($priority == 'tag' and $get_attributes) {
               if (isset($current[$tag.'_attr'])) { //The attribute of the last(0th) tag must be moved as well

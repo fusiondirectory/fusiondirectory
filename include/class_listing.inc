@@ -32,7 +32,7 @@ class listing
 {
   var $xmlData;
   var $entries;
-  var $departments            = array();
+  var $departments            = [];
   var $departmentBrowser      = FALSE;
   var $departmentRootVisible  = FALSE;
   var $multiSelect            = FALSE;
@@ -45,31 +45,31 @@ class listing
   var $sortType;
   var $numColumns;
   var $baseMode = FALSE;
-  var $bases    = array();
-  var $header   = array();
-  var $colprops = array();
-  var $filters  = array();
+  var $bases    = [];
+  var $header   = [];
+  var $colprops = [];
+  var $filters  = [];
   var $filter   = NULL;
   var $pid;
-  protected $departmentTypes  = array();
-  var $objectTypes      = array();
-  var $objectTypeCount  = array();
-  protected $objectDnMapping  = array();
+  protected $departmentTypes  = [];
+  var $objectTypes      = [];
+  var $objectTypeCount  = [];
+  protected $objectDnMapping  = [];
   protected $copyPasteHandler = NULL;
   protected $snapshotHandler  = NULL;
-  var $exporter       = array();
-  var $exportColumns  = array();
+  var $exporter       = [];
+  var $exportColumns  = [];
   var $height         = 0;
   var $scrollPosition = 0;
   var $baseSelector;
-  protected $filterCache = array();
+  protected $filterCache = [];
 
   /*!
    * \brief Create a listing
    *
    * \param string $data either a filename or an array representation of the XML
    */
-  function __construct($data)
+  function __construct ($data)
   {
     global $config;
     global $class_mapping;
@@ -110,7 +110,7 @@ class listing
     // Load exporters
     foreach (array_keys($class_mapping) as $class) {
       if (preg_match('/Exporter$/', $class)) {
-        $info = call_user_func(array($class, "getInfo"));
+        $info = call_user_func([$class, "getInfo"]);
         if ($info != NULL) {
           $this->exporter = array_merge($this->exporter, $info);
         }
@@ -128,7 +128,7 @@ class listing
    *
    * \see CopyPasteHandler
    */
-  function setCopyPasteHandler($handler)
+  function setCopyPasteHandler ($handler)
   {
     $this->copyPasteHandler = $handler;
   }
@@ -138,7 +138,7 @@ class listing
    *
    * \param integer $height
    */
-  function setHeight($height)
+  function setHeight ($height)
   {
     $this->height = $height;
   }
@@ -150,7 +150,7 @@ class listing
    *
    * \see  SnapshotHandler
    */
-  function setSnapshotHandler($handler)
+  function setSnapshotHandler ($handler)
   {
     if ($handler->enabled()) {
       $this->snapshotHandler = $handler;
@@ -166,7 +166,7 @@ class listing
    *
    * \see filter
    */
-  function setFilter($filter)
+  function setFilter ($filter)
   {
     $this->filter     = $filter;
     $filter->headpage = $this;
@@ -183,7 +183,7 @@ class listing
    *
    * \param string $call
    */
-  function registerElementFilter($name, $call)
+  function registerElementFilter ($name, $call)
   {
     if (!isset($this->filters[$name])) {
       $this->filters[$name] = $call;
@@ -198,7 +198,7 @@ class listing
    *
    * \param string $data either a filename or an array representation of the XML
    */
-  function load($data)
+  function load ($data)
   {
     if (is_array($data)) {
       $this->xmlData = $data;
@@ -207,7 +207,7 @@ class listing
       $this->xmlData = xml::xml2array($contents, 1);
     }
 
-    $this->filterCache = array();
+    $this->filterCache = [];
 
     if (!isset($this->xmlData['list'])) {
       return FALSE;
@@ -216,7 +216,7 @@ class listing
     $this->xmlData = $this->xmlData["list"];
 
     // Load some definition values
-    foreach (array("departmentBrowser", "departmentRootVisible", "multiSelect", "baseMode") as $token) {
+    foreach (["departmentBrowser", "departmentRootVisible", "multiSelect", "baseMode"] as $token) {
       if (isset($this->xmlData['definition'][$token]) &&
           $this->xmlData['definition'][$token] == "true") {
         $this->$token = TRUE;
@@ -227,19 +227,19 @@ class listing
     $types = departmentManagement::getDepartmentTypes();
     foreach ($types as $type) {
       $i = objects::infos($type);
-      $this->departmentTypes[strtoupper($type)] = array(
+      $this->departmentTypes[strtoupper($type)] = [
         'label'       => $i['name'],
         'image'       => $i['icon'],
         'category'    => $i['aclCategory'],
         'class'       => $i['mainTab'],
         'filter'      => objects::getFilterObject($type),
         'nameAttr'    => $i['nameAttr'],
-      );
+      ];
     }
-    $this->categories = array();
+    $this->categories = [];
     if (isset($this->xmlData['definition']['objectType'])) {
       if (isset($this->xmlData['definition']['objectType']['label'])) {
-        $this->xmlData['definition']['objectType'] = array($this->xmlData['definition']['objectType']);
+        $this->xmlData['definition']['objectType'] = [$this->xmlData['definition']['objectType']];
       }
       foreach ($this->xmlData['definition']['objectType'] as $index => $otype) {
         $this->objectTypes[$otype['objectClass']] = $otype;
@@ -259,7 +259,7 @@ class listing
     // Assign headline/Categories
     $this->headline = _($this->xmlData['definition']['label']);
     if (!is_array($this->categories)) {
-      $this->categories = array($this->categories);
+      $this->categories = [$this->categories];
     }
 
     // Evaluate columns to be exported
@@ -272,17 +272,17 @@ class listing
     }
 
     if (isset($this->xmlData['actiontriggers']['action']['type'])) {
-      $this->xmlData['actiontriggers']['action'] = array($this->xmlData['actiontriggers']['action']);
+      $this->xmlData['actiontriggers']['action'] = [$this->xmlData['actiontriggers']['action']];
     }
 
     return TRUE;
   }
 
 
-  function renderHeader()
+  function renderHeader ()
   {
-    $this->header = array();
-    $this->plainHeader = array();
+    $this->header = [];
+    $this->plainHeader = [];
 
     // Initialize sort?
     $sortInit = FALSE;
@@ -293,7 +293,7 @@ class listing
       } else {
         $this->sortAttribute = "";
       }
-      $this->sortDirection = array();
+      $this->sortDirection = [];
       $sortInit = TRUE;
     }
 
@@ -336,7 +336,7 @@ class listing
   /*!
    * \brief Render
    */
-  function render()
+  function render ()
   {
     global $ui;
 
@@ -478,7 +478,7 @@ class listing
     // Add scroll positioner
     $result .= '<script type="text/javascript">';
     $result .= '$("t_nscrollbody").scrollTop= '.$this->scrollPosition.';';
-    $result .= 'var box = $("t_nscrollbody").onscroll= function() {$("position_'.$this->pid.'").value= this.scrollTop;}';
+    $result .= 'var box = $("t_nscrollbody").onscroll= function() {$ ("position_'.$this->pid.'").value= this.scrollTop;}';
     $result .= '</script>';
 
     $smarty = get_smarty();
@@ -518,7 +518,7 @@ class listing
   /*!
    * \brief Update a listing
    */
-  function update()
+  function update ()
   {
     $ui = get_userinfo();
 
@@ -540,8 +540,8 @@ class listing
     }
 
     // Reset object counter / DN mapping
-    $this->objectTypeCount = array();
-    $this->objectDnMapping = array();
+    $this->objectTypeCount = [];
+    $this->objectDnMapping = [];
 
     // Do not do anything if this is not our PID
     if ($refresh || !(isset($_REQUEST['PID']) && $_REQUEST['PID'] != $this->pid)) {
@@ -566,12 +566,12 @@ class listing
           $exporter = $this->exporter[$_POST['act']];
           $userinfo = ", "._("created by")." ".$ui->cn." - ".strftime('%A, %d. %B %Y, %H:%M:%S');
           $entryIterator = new listingSortIterator($this->entries, $this->sortDirection[$this->sortColumn], "_sort".$this->sortColumn, $this->sortType);
-          $sortedEntries = array();
+          $sortedEntries = [];
           foreach ($entryIterator as $entry) {
             $sortedEntries[] = $entry;
           }
           $instance = new $exporter['class']($this->headline.$userinfo, $this->plainHeader, $sortedEntries, $this->exportColumns);
-          $type = call_user_func(array($exporter['class'], "getInfo"));
+          $type = call_user_func([$exporter['class'], "getInfo"]);
           $type = $type[$_POST['act']];
           send_binary_content($instance->query(), $type['filename'], $type = $type['mime']);
         }
@@ -628,10 +628,10 @@ class listing
 
     // Fix filter if querie returns NULL
     if ($this->entries == NULL) {
-      $this->entries = array();
+      $this->entries = [];
     }
 
-    $this->dnToRow = array();
+    $this->dnToRow = [];
     foreach ($this->entries as $row => $entry) {
       $this->dnToRow[$entry['dn']] = $row;
     }
@@ -647,7 +647,7 @@ class listing
    *
    * \param string $base
    */
-  function setBase($base)
+  function setBase ($base)
   {
     $this->base = $base;
     if ($this->baseMode) {
@@ -656,7 +656,7 @@ class listing
     }
   }
 
-  function tryAndSetBase($base)
+  function tryAndSetBase ($base)
   {
     $ui   = get_userinfo();
     $deps = $ui->get_module_departments($this->categories);
@@ -670,7 +670,7 @@ class listing
    *
    * \return the base
    */
-  function getBase()
+  function getBase ()
   {
     return $this->base;
   }
@@ -680,9 +680,9 @@ class listing
    *
    * \param string $layout
    */
-  function parseLayout($layout)
+  function parseLayout ($layout)
   {
-    $result = array();
+    $result = [];
     $layout = preg_replace("/^\|/", "", $layout);
     $layout = preg_replace("/\|$/", "", $layout);
     $cols   = explode("|", $layout);
@@ -736,7 +736,7 @@ class listing
   }
 
 
-  function renderCell($table, $index, $data, $cfg, $row)
+  function renderCell ($table, $index, $data, $cfg, $row)
   {
     // Replace flat attributes in data string
     $offset = 0;
@@ -761,7 +761,7 @@ class listing
   }
 
 
-  function renderBase()
+  function renderBase ()
   {
     if (!$this->baseMode) {
       return;
@@ -771,14 +771,14 @@ class listing
   }
 
 
-  function processElementFilter($type, $index, $data, $cfg, $row)
+  function processElementFilter ($type, $index, $data, $cfg, $row)
   {
     if (isset($this->filterCache[$type.$index])) {
       $filters = $this->filterCache[$type.$index];
     } else {
       preg_match_all('/%{filter:([^(]+)\((.*)\)}/', $data, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE);
 
-      $filters = array();
+      $filters = [];
       foreach ($matches as $match) {
         $cl     = '';
         $method = '';
@@ -794,15 +794,15 @@ class listing
         // Prepare params for function call
         preg_match_all('/"[^"]+"|[^,]+/', $match[2][0], $parts);
 
-        $filters[$match[0][0]] = array($cl, $method, $parts[0], $match[0][1]);
+        $filters[$match[0][0]] = [$cl, $method, $parts[0], $match[0][1]];
       }
 
       $this->filterCache[$type.$index] = $filters;
     }
 
     foreach ($filters as $filterstring => $filter) {
-      list ($cl, $method, $parts, $offset) = $filter;
-      $params = array();
+      list($cl, $method, $parts, $offset) = $filter;
+      $params = [];
       foreach ($parts as $param) {
         switch ($param) {
           case 'row':
@@ -844,10 +844,10 @@ class listing
       // Replace information
       if ($cl == 'listing') {
         // Non static call
-        $data = substr_replace($data, call_user_func_array(array($this, $method), $params), $offset, strlen($filterstring));
+        $data = substr_replace($data, call_user_func_array([$this, $method], $params), $offset, strlen($filterstring));
       } else {
         // Static call
-        $data = substr_replace($data, call_user_func_array(array($cl, $method), $params), $offset, strlen($filterstring));
+        $data = substr_replace($data, call_user_func_array([$cl, $method], $params), $offset, strlen($filterstring));
       }
     }
 
@@ -860,7 +860,7 @@ class listing
    * \param string $dn dn of the object
    * \param string $attrs LDAP attributes of the object
    */
-  function getObjectType($dn, $attrs)
+  function getObjectType ($dn, $attrs)
   {
     return $this->genericGetType($dn, $attrs, $this->objectTypes);
   }
@@ -871,7 +871,7 @@ class listing
    * \param string $dn dn of the object
    * \param string $attrs LDAP attributes of the object
    */
-  function getDepartmentType($dn, $attrs)
+  function getDepartmentType ($dn, $attrs)
   {
     return $this->genericGetType($dn, $attrs, $this->departmentTypes);
   }
@@ -879,7 +879,7 @@ class listing
   /*!
    * \brief Get the object or department type
    */
-  protected function genericGetType($dn, $attrs, $types)
+  protected function genericGetType ($dn, $attrs, $types)
   {
     if (isset($this->objectDnMapping[$dn])) {
       return $this->objectDnMapping[$dn];
@@ -897,7 +897,7 @@ class listing
       }
       $ocs = $objectType['objectClass'];
       if (!is_array($ocs)) {
-        $ocs = array($ocs);
+        $ocs = [$ocs];
       }
 
       $found = TRUE;
@@ -923,7 +923,7 @@ class listing
     return NULL;
   }
 
-  function getObjectTypeInfos($dn, $attrs)
+  function getObjectTypeInfos ($dn, $attrs)
   {
     $type = $this->getObjectType($dn, $attrs);
     if ($type === NULL) {
@@ -939,7 +939,7 @@ class listing
    *
    * \param string $dn The DN
    */
-  function filterObjectType($row, $dn)
+  function filterObjectType ($row, $dn)
   {
     return $this->filterGenericType($dn, $this->objectTypes, $this->getObjectType($dn, $this->entries[$row]));
   }
@@ -947,7 +947,7 @@ class listing
   /*!
    * \brief Generic method for department and objects once type is known
    */
-  protected function filterGenericType($dn, $types, $type)
+  protected function filterGenericType ($dn, $types, $type)
   {
     $result = "&nbsp;";
 
@@ -969,7 +969,7 @@ class listing
    *
    * \param string $dn The DN
    */
-  function filterDepartmentType($row, $dn)
+  function filterDepartmentType ($row, $dn)
   {
     return $this->filterGenericType($dn, $this->departmentTypes, $this->getDepartmentType($dn, $this->departments[$row]));
   }
@@ -983,7 +983,7 @@ class listing
    *
    * \param string $classes
    */
-  function filterActions($dn, $row, $classes)
+  function filterActions ($dn, $row, $classes)
   {
     // Do nothing if there's no menu defined
     if (!isset($this->xmlData['actiontriggers']['action'])) {
@@ -1082,7 +1082,7 @@ class listing
    *
    * \param array $description
    */
-  function filterDepartmentLink($row, $dn, $description)
+  function filterDepartmentLink ($row, $dn, $description)
   {
     $attr = $this->departments[$row]['sort-attribute'];
     $name = $this->departments[$row][$attr];
@@ -1096,7 +1096,7 @@ class listing
   /*!
    * \brief Filter link with object name
    */
-  function filterNameLink($row, $dn)
+  function filterNameLink ($row, $dn)
   {
     $infos  = $this->getObjectTypeInfos($dn, $this->entries[$row]);
     $value  = $this->entries[$row][$infos['nameAttr']];
@@ -1109,12 +1109,12 @@ class listing
   /*!
    * \brief Filter link
    */
-  function filterLink()
+  function filterLink ()
   {
     $row    = func_get_arg(0);
     $pid    = $this->pid;
     $dn     = func_get_arg(1);
-    $params = array(func_get_arg(2));
+    $params = [func_get_arg(2)];
 
     // Collect sprintf params
     for ($i = 3;$i < func_num_args();$i++) {
@@ -1123,7 +1123,7 @@ class listing
         continue;
       }
       if (!is_array($val)) {
-        $val = array($val);
+        $val = [$val];
       }
       $val = array_map(
         function ($v)
@@ -1147,9 +1147,9 @@ class listing
   }
 
 
-  function renderNavigation()
+  function renderNavigation ()
   {
-    $result = array();
+    $result = [];
     $enableBack = TRUE;
     $enableRoot = TRUE;
     $enableHome = TRUE;
@@ -1203,7 +1203,7 @@ class listing
   /*!
    * \brief Get action
    */
-  function getAction()
+  function getAction ()
   {
     global $config, $ui;
 
@@ -1217,7 +1217,7 @@ class listing
       $this->scrollPosition = $_POST['position_'.$this->pid];
     }
 
-    $result = array("targets" => array(), "action" => "");
+    $result = ["targets" => [], "action" => ""];
 
     // Filter GET with "act" attributes
     if (isset($_GET['act'])) {
@@ -1293,7 +1293,7 @@ class listing
         $target = preg_replace('/^listing_[a-zA-Z_]+_([0-9]+)(|_x)$/', '$1', $key);
         if (isset($this->entries[$target]['dn'])) {
           $result['action']   = preg_replace('/^listing_([a-zA-Z_]+)_[0-9]+(|_x)$/', '$1', $key);
-          $result['targets']  = array($this->entries[$target]['dn']);
+          $result['targets']  = [$this->entries[$target]['dn']];
         }
         break;
       }
@@ -1324,7 +1324,7 @@ class listing
   }
 
 
-  function renderActionMenu()
+  function renderActionMenu ()
   {
     // Don't send anything if the menu is not defined
     if (!isset($this->xmlData['actionmenu']['action'])) {
@@ -1333,7 +1333,7 @@ class listing
 
     // Make sure we got an array of actions
     if (isset($this->xmlData['actionmenu']['action']['type'])) {
-      $this->xmlData['actionmenu']['action'] = array($this->xmlData['actionmenu']['action']);
+      $this->xmlData['actionmenu']['action'] = [$this->xmlData['actionmenu']['action']];
     }
 
     // Load shortcut
@@ -1348,7 +1348,7 @@ class listing
     return '<div id="pulldown">'.$result.'</li></ul></div>';
   }
 
-  function renderActionMenuActionLink($separator, $action, $name, $icon)
+  function renderActionMenuActionLink ($separator, $action, $name, $icon)
   {
     return '<li'.$separator.' id="actionmenu_'.$action.'">'
                   .'<a href="#" onClick="'
@@ -1358,7 +1358,7 @@ class listing
                   .'</li>';
   }
 
-  function recurseActions(&$actions)
+  function recurseActions (&$actions)
   {
     global $class_mapping;
     static $level = 2;
@@ -1374,7 +1374,7 @@ class listing
 
       // Skip entry if there're missing dependencies
       if (isset($action['depends'])) {
-        $deps = is_array($action['depends']) ? $action['depends'] : array($action['depends']);
+        $deps = is_array($action['depends']) ? $action['depends'] : [$action['depends']];
         foreach ($deps as $clazz) {
           if (!isset($class_mapping[$clazz])) {
             continue 2;
@@ -1400,7 +1400,7 @@ class listing
 
         // Ensure we've an array of actions, this enables sub menus with only one action.
         if (isset($action['action']['type'])) {
-          $action['action'] = array($action['action']);
+          $action['action'] = [$action['action']];
         }
 
         $result .= $this->recurseActions($action['action'])."</li>";
@@ -1453,7 +1453,7 @@ class listing
    * \param string $row
    *
    */
-  function hasActionPermission(&$action, $dn, $row = NULL)
+  function hasActionPermission (&$action, $dn, $row = NULL)
   {
     global $ui;
 
@@ -1469,14 +1469,14 @@ class listing
         }
         $acls = $action['acl'];
         if (!is_array($acls)) {
-          $acls = array($acls);
+          $acls = [$acls];
         }
-        $aclInfos = array();
+        $aclInfos = [];
 
         // Every ACL has to pass
         foreach ($acls as $acl) {
           $module   = $this->categories;
-          $aclList  = array();
+          $aclList  = [];
 
           // Replace %acl if available
           if ($otype) {
@@ -1486,12 +1486,12 @@ class listing
           // Split for category and plugins if needed
           if (preg_match('/^\[([rwcdm]+)\]$/', $acl, $match)) {
             // match for "[rw]" style entries
-            $aclList = array($match[1]);
+            $aclList = [$match[1]];
           } elseif (preg_match('/^([a-zA-Z0-9]+\/?[a-zA-Z0-9]+)\[([rwcdm]+)\]$/', $acl, $match)) {
             // match for "user[rw]" style entries
             // match for "user/user[rw]" style entries
             $module   = $match[1];
-            $aclList  = array($match[2]);
+            $aclList  = [$match[2]];
           } elseif (preg_match('/^([a-zA-Z0-9]+\/[a-zA-Z0-9]+)\[([a-zA-Z0-9]+:[rwcdm]+(,[a-zA-Z0-9]+:[rwcdm]+)*)\]$/', $acl, $match)) {
             // match "user/user[userPassword:rw(,...)*]" style entries
             $module   = $match[1];
@@ -1500,16 +1500,16 @@ class listing
 
           $modules = $module;
           if (!is_array($modules)) {
-            $modules = array($modules);
+            $modules = [$modules];
           }
 
-          $aclInfos[] = array($aclList, $modules);
+          $aclInfos[] = [$aclList, $modules];
         }
         $action['aclInfos'] = $aclInfos;
       }
 
       foreach ($aclInfos as $aclInfo) {
-        list ($aclList, $modules) = $aclInfo;
+        list($aclList, $modules) = $aclInfo;
         // Walk thru prepared ACL by using $module
         foreach ($aclList as $sAcl) {
           $checkAcl = '';
@@ -1546,13 +1546,13 @@ class listing
   /*!
    * \brief Refresh the bases list
    */
-  function refreshBasesList()
+  function refreshBasesList ()
   {
     global $config;
     $ui = get_userinfo();
 
     // Fill internal bases list
-    $this->bases = array();
+    $this->bases = [];
     $deps = $ui->get_module_departments($this->categories);
     foreach ($config->idepartments as $key => $dep) {
       if (in_array_ics($key, $deps)) {
@@ -1573,9 +1573,9 @@ class listing
   }
 
   /*! \brief Get the departments */
-  function getDepartments()
+  function getDepartments ()
   {
-    $departments = array();
+    $departments = [];
     $ui = get_userinfo();
 
     // Get list of supported department types
@@ -1589,12 +1589,12 @@ class listing
       $i    = objects::infos($type);
       $deps = objects::ls(
         $type,
-        array(
+        [
           'dn'            => 'raw',
           'objectClass'   => 'raw',
           'description'   => 'raw',
           $i['mainAttr']  => 'raw'
-        ),
+        ],
         $this->base,
         '',
         FALSE,
@@ -1628,7 +1628,7 @@ class listing
   }
 
 
-  function renderCopyPasteMenu($separator, $copy = TRUE, $cut = TRUE)
+  function renderCopyPasteMenu ($separator, $copy = TRUE, $cut = TRUE)
   {
     // We can only provide information if we've got a copypaste handler
     // instance
@@ -1676,7 +1676,7 @@ class listing
   }
 
 
-  function renderCopyPasteActions($row, $dn, $category, $class, $copy = TRUE, $cut = TRUE)
+  function renderCopyPasteActions ($row, $dn, $category, $class, $copy = TRUE, $cut = TRUE)
   {
     // We can only provide information if we've got a copypaste handler
     // instance
@@ -1716,7 +1716,7 @@ class listing
   }
 
 
-  function renderSnapshotMenu($separator)
+  function renderSnapshotMenu ($separator)
   {
     // We can only provide information if we've got a snapshot handler instance
     if (!is_object($this->snapshotHandler)) {
@@ -1740,7 +1740,7 @@ class listing
   }
 
 
-  function renderExporterMenu($separator)
+  function renderExporterMenu ($separator)
   {
     // Presets
     $result = "";
@@ -1760,7 +1760,7 @@ class listing
   }
 
 
-  function renderSnapshotActions($row, $dn, $category)
+  function renderSnapshotActions ($row, $dn, $category)
   {
     /* We can only provide information if we've got a snapshot handler instance */
     if (!is_object($this->snapshotHandler)) {
@@ -1801,7 +1801,7 @@ class listing
   }
 
 
-  function renderDaemonMenu($separator)
+  function renderDaemonMenu ($separator)
   {
     $result = "";
 
@@ -1820,7 +1820,7 @@ class listing
   }
 
 
-  function getEntry($dn)
+  function getEntry ($dn)
   {
     if (isset($this->dnToRow[$dn])) {
       return $this->entries[$this->dnToRow[$dn]];
@@ -1831,7 +1831,7 @@ class listing
   /*!
    * \brief Get listing entries
    */
-  function getEntries()
+  function getEntries ()
   {
     return $this->entries;
   }
@@ -1841,7 +1841,7 @@ class listing
    *
    * \param string $dn The DN
    */
-  function getType($dn)
+  function getType ($dn)
   {
     if (isset($this->objectDnMapping[$dn])) {
       return $this->objectDnMapping[$dn];

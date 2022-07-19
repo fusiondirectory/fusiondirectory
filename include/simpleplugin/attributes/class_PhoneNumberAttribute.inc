@@ -24,23 +24,23 @@
 class phoneSelect extends simpleSelectManagement
 {
   protected $multiSelect          = FALSE;
-  protected $autoFilterAttributes = array('dn','cn','ipHostNumber','macAddress','telephoneNumber');
-  protected $objectTypes          = array('phone');
+  protected $autoFilterAttributes = ['dn','cn','ipHostNumber','macAddress','telephoneNumber'];
+  protected $objectTypes          = ['phone'];
 
   function parseXML ($file)
   {
     $data = parent::parseXML($file);
     /* Add column for phone number */
     $data['list']['table']['layout'] .= '|';
-    $columns = array (
-      array (
+    $columns = [
+       [
         'label'         => _('Number'),
         'sortAttribute' => 'telephoneNumber',
         'sortType'      => 'string',
         'value'         => '%{filter:selectLink(pid,row,dn,telephoneNumber)}',
         'export'        => 'true',
-      ),
-    );
+       ],
+    ];
     array_splice($data['list']['table']['column'], 2, 0, $columns);
     return $data;
   }
@@ -58,7 +58,7 @@ class phoneSelect extends simpleSelectManagement
  */
 class mobilePhoneSelect extends phoneSelect
 {
-  protected $objectTypes = array('mobilePhone');
+  protected $objectTypes = ['mobilePhone'];
 }
 
 /*!
@@ -66,7 +66,7 @@ class mobilePhoneSelect extends phoneSelect
  */
 class anyPhoneSelect extends phoneSelect
 {
-  protected $objectTypes = array('phone','mobilePhone');
+  protected $objectTypes = ['phone','mobilePhone'];
 }
 
 /*!
@@ -74,7 +74,7 @@ class anyPhoneSelect extends phoneSelect
  */
 class phoneSelectDialog extends GenericDialog
 {
-  function __construct($simplePlugin, $attribute, $type)
+  function __construct ($simplePlugin, $attribute, $type)
   {
     $this->attribute  = $attribute;
     switch ($type) {
@@ -138,18 +138,18 @@ class PhoneNumberButtonAttribute extends PhoneNumberAttribute
     if ($this->type !== FALSE) {
       $display .= $this->renderAcl($this->renderInputField(
         'image', $id.'_edit',
-        array(
+        [
           'class' => 'center',
           'src'   => 'geticon.php?context=actions&amp;icon=document-edit&amp;size=16',
           'title' => _('Edit'),
           'alt'   => _('Edit')
-        )
+        ]
       ));
     }
     return $display;
   }
 
-  public function htmlIds()
+  public function htmlIds ()
   {
     $ids = parent::htmlIds();
     if ($this->type !== FALSE) {

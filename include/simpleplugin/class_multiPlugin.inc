@@ -26,15 +26,15 @@
 class multiPlugin extends simplePlugin
 {
   /* attribute list for save action */
-  var $objectclasses  = array();
+  var $objectclasses  = [];
   var $ignore_account = TRUE;
-  var $plugin         = array();
+  var $plugin         = [];
 
   var $tabClass = '';
 
   static function getAttributesInfo ()
   {
-    return array();
+    return [];
   }
 
   function __construct ($dn = NULL, $object = NULL, $parent = NULL)
@@ -60,7 +60,7 @@ class multiPlugin extends simplePlugin
     }
   }
 
-  function execute()
+  function execute ()
   {
     $display = "";
 
@@ -103,7 +103,7 @@ class multiPlugin extends simplePlugin
 
 
   /* Save data to object */
-  function save_object()
+  function save_object ()
   {
     foreach ($this->plugin as &$plug) {
       $plug->save_object();
@@ -111,7 +111,7 @@ class multiPlugin extends simplePlugin
     unset($plug);
   }
 
-  function check()
+  function check ()
   {
     $message = parent::check();
 
@@ -126,7 +126,7 @@ class multiPlugin extends simplePlugin
     return $message;
   }
 
-  function set_acl_category($cat)
+  function set_acl_category ($cat)
   {
     parent::set_acl_category($cat);
     foreach ($this->plugin as &$plug) {
@@ -135,7 +135,7 @@ class multiPlugin extends simplePlugin
     unset($plug);
   }
 
-  function set_acl_base($base)
+  function set_acl_base ($base)
   {
     parent::set_acl_base($base);
     foreach ($this->plugin as &$plug) {
@@ -154,9 +154,9 @@ class multiPlugin extends simplePlugin
   }
 
   /* Save to LDAP */
-  function save()
+  function save ()
   {
-    $errors = array();
+    $errors = [];
     /* Save objects */
     foreach ($this->plugin as &$plug) {
       $plug->dn = $this->dn;
@@ -173,9 +173,9 @@ class multiPlugin extends simplePlugin
     return $errors;
   }
 
-  function remove($fulldelete = FALSE)
+  function remove ($fulldelete = FALSE)
   {
-    $errors = array();
+    $errors = [];
     /* Remove objects */
     foreach ($this->plugin as &$plug) {
       $plug->dn = $this->dn;
@@ -188,7 +188,7 @@ class multiPlugin extends simplePlugin
     return $errors;
   }
 
-  function adapt_from_template($attrs, $skip = array())
+  function adapt_from_template ($attrs, $skip = [])
   {
     /* Adapt objects */
     foreach ($this->plugin as &$plug) {
@@ -198,7 +198,7 @@ class multiPlugin extends simplePlugin
     unset($plug);
   }
 
-  function resetCopyInfos()
+  function resetCopyInfos ()
   {
     $this->dn = 'new';
     foreach ($this->plugin as &$plug) {

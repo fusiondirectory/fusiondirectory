@@ -31,63 +31,63 @@ class setupStep extends simplePlugin
 
   var $header_image = '';
 
-  static function getAttributesInfo()
+  static function getAttributesInfo ()
   {
-    return array();
+    return [];
   }
 
-  function __construct($parent)
+  function __construct ($parent)
   {
     parent::__construct(NULL, NULL, $parent);
     $this->update_strings();
   }
 
-  function update_strings()
+  function update_strings ()
   {
     die('abstract method');
   }
 
-  function get_short_name()
+  function get_short_name ()
   {
     return $this->s_short_name;
   }
 
-  function get_title()
+  function get_title ()
   {
     return $this->s_title;
   }
 
-  function get_description()
+  function get_description ()
   {
     return $this->s_description;
   }
 
-  function is_active()
+  function is_active ()
   {
     return $this->is_active;
   }
 
-  function is_enabled()
+  function is_enabled ()
   {
     return $this->is_enabled;
   }
 
-  function is_completed()
+  function is_completed ()
   {
     return $this->is_completed;
   }
 
-  function set_active($value = TRUE)
+  function set_active ($value = TRUE)
   {
     $this->is_active = ($value == TRUE);
   }
 
-  function set_enabled($value = TRUE)
+  function set_enabled ($value = TRUE)
   {
     $this->is_enabled = ($value == TRUE);
   }
 
-  function set_completed($value = TRUE)
+  function set_completed ($value = TRUE)
   {
     $this->is_completed = ($value == TRUE);
   }
@@ -95,7 +95,7 @@ class setupStep extends simplePlugin
   /* Return attributes handled by this setup step */
   public function get_attributes ()
   {
-    $tmp = array();
+    $tmp = [];
     foreach (array_keys($this->attributesAccess) as $attr) {
       $tmp[$attr] = $this->$attr;
     }
@@ -103,7 +103,7 @@ class setupStep extends simplePlugin
   }
 
   /* bypass LDAP loading */
-  protected function loadAttributes()
+  protected function loadAttributes ()
   {
     foreach ($this->attributesInfo as $sectionInfo) {
       foreach ($sectionInfo['attrs'] as $attr) {

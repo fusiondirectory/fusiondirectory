@@ -23,13 +23,13 @@
  */
 class userGroupSelect extends userSelect
 {
-  protected $objectTypes = array('user', 'group');
-  protected $autoFilterAttributes = array('dn', 'cn', 'uid', 'description', 'mail');
+  protected $objectTypes = ['user', 'group'];
+  protected $autoFilterAttributes = ['dn', 'cn', 'uid', 'description', 'mail'];
 
-  function __construct()
+  function __construct ()
   {
     if (class_available('mixedGroup')) {
-      $this->objectTypes = array('user', 'ogroup');
+      $this->objectTypes = ['user', 'ogroup'];
     }
     parent::__construct();
   }
@@ -40,6 +40,6 @@ class userGroupSelect extends userSelect
  */
 class userGroupRoleSelect extends userGroupSelect
 {
-  protected $objectTypes = array('user', 'group', 'role', 'ogroup');
+  protected $objectTypes = ['user', 'group', 'role', 'ogroup'];
 }
 ?>

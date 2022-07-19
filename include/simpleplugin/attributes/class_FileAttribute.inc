@@ -25,7 +25,7 @@ class FileAttribute extends Attribute
 {
   protected $binary = TRUE;
 
-  function loadPostValue()
+  function loadPostValue ()
   {
     $this->postValue = $this->value;
     if (!empty($_FILES[$this->getHtmlId()]['name']) && $this->isVisible()) {
@@ -52,7 +52,7 @@ class FileAttribute extends Attribute
    *
    *  \param filehandle $handle The handle on the opened uploaded file
    */
-  function readFile($handle)
+  function readFile ($handle)
   {
     $postValue = fread($handle, 1024);
     while (!feof($handle)) {
@@ -69,7 +69,7 @@ class FileAttribute extends Attribute
     return $this->renderAcl($display);
   }
 
-  function displayValue($value)
+  function displayValue ($value)
   {
     return sprintf(_('%s (%d bytes)'), $this->getLabel(), mb_strlen($value, '8bit'));
   }
@@ -79,7 +79,7 @@ class FileAttribute extends Attribute
    * \param array &$attributes the attributes array
    * \param boolean $form
    */
-  function serializeAttribute(&$attributes, $form = TRUE)
+  function serializeAttribute (&$attributes, $form = TRUE)
   {
     if (!$form || $this->visible) {
       parent::serializeAttribute($attributes, $form);
@@ -96,7 +96,7 @@ class FileAttribute extends Attribute
    *
    *  \param mixed $value the value
    */
-  function deserializeValue($value)
+  function deserializeValue ($value)
   {
     if ($this->disabled) {
       return sprintf(_('Attribute %s is disabled, its value could not be set'), $this->getLdapName());
@@ -130,7 +130,7 @@ class FileDownloadAttribute extends FileAttribute
     $this->binary     = ($extension != '.txt');
   }
 
-  function computeFilename()
+  function computeFilename ()
   {
     return $this->getLdapName().$this->extension;
   }
@@ -162,26 +162,26 @@ class FileDownloadAttribute extends FileAttribute
     $display = '';
     if ($this->upload) {
       $display  .= $this->renderInputField('file', $id);
-      $display  .= $this->renderInputField('submit', 'upload'.$id, array('value' => _('Upload')));
+      $display  .= $this->renderInputField('submit', 'upload'.$id, ['value' => _('Upload')]);
     }
     if ($this->download) {
       $display  .= $this->renderInputField(
         'image', 'download'.$id,
-        array(
+        [
           'title' => _('Download'),
           'alt'   => _('Download'),
           'class' => 'center',
           'src'   => 'geticon.php?context=actions&amp;icon=document-save&amp;size=16',
-        )
+        ]
       );
     }
     return $this->renderAcl($display);
   }
 
-  public function htmlIds()
+  public function htmlIds ()
   {
     $id   = $this->getHtmlId();
-    $ids  = array();
+    $ids  = [];
     if ($this->download) {
       $ids[] = 'download'.$id;
     }
@@ -192,7 +192,7 @@ class FileDownloadAttribute extends FileAttribute
     return $ids;
   }
 
-  function renderAttribute(&$attributes, $readOnly)
+  function renderAttribute (&$attributes, $readOnly)
   {
     if ($this->upload == FALSE) {
       parent::renderAttribute($attributes, FALSE);
@@ -250,7 +250,7 @@ class FileTextAreaAttribute extends FileDownloadAttribute
   function fixPostValue ($value)
   {
     /* Replace CRLF by LF, to avoid non-ASCII chars */
-    return str_replace(array("\r\n", "\r"), "\n", $value);
+    return str_replace(["\r\n", "\r"], "\n", $value);
   }
 
   function renderFormInput ()
@@ -262,7 +262,7 @@ class FileTextAreaAttribute extends FileDownloadAttribute
     return $this->renderAcl($display).parent::renderFormInput();
   }
 
-  public function htmlIds()
+  public function htmlIds ()
   {
     $id     = $this->getHtmlId();
     $ids    = parent::htmlIds();
@@ -293,7 +293,7 @@ class ImageAttribute extends FileAttribute
     $this->forceSize  = $forceSize;
   }
 
-  function setPlaceholder($placeholder)
+  function setPlaceholder ($placeholder)
   {
     $this->placeholder = $placeholder;
   }
@@ -412,22 +412,22 @@ class ImageAttribute extends FileAttribute
     $display  .= $this->renderInputField('file', $id);
     $display .= $this->renderInputField(
       'image', $id.'_upload',
-      array(
+      [
         'class' => 'center',
         'src'   => 'geticon.php?context=actions&amp;icon=upload&amp;size=16',
         'title' => _('Upload'),
         'alt'   => _('Upload')
-      )
+      ]
     );
     if (!$this->isRequired()) {
       $display .= $this->renderInputField(
         'image', $id.'_remove',
-        array(
+        [
           'class' => 'center',
           'src'   => 'geticon.php?context=actions&amp;icon=remove&amp;size=16',
           'title' => _('Remove'),
           'alt'   => _('Remove')
-        )
+        ]
       );
     }
     if (($this->getValue() == '') && ($this->placeholder != '')) {
@@ -439,10 +439,10 @@ class ImageAttribute extends FileAttribute
     return $this->renderAcl($display);
   }
 
-  public function htmlIds()
+  public function htmlIds ()
   {
     $id = $this->getHtmlId();
-    return array($id.'_img',$id,'upload'.$id);
+    return [$id.'_img',$id,'upload'.$id];
   }
 
   /*! \brief Fill LDAP value in the attrs array
@@ -458,7 +458,7 @@ class ImageAttribute extends FileAttribute
         }
         $attrs[$this->getLdapName()] = $value;
       } else {
-        $attrs[$this->getLdapName()] = array();
+        $attrs[$this->getLdapName()] = [];
       }
     }
   }

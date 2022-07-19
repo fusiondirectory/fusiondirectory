@@ -19,7 +19,7 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-function smarty_block_render($params, $text, &$smarty)
+function smarty_block_render ($params, $text, &$smarty)
 {
   /* Skip closing tag </render> */
   if (empty($text)) {
@@ -62,17 +62,17 @@ function smarty_block_render($params, $text, &$smarty)
   }
 
   /* Remove select options */
-  $from = array(
+  $from = [
     "#<option.*<\/option>#is",
     "/(<textarea.*>).*(<\/textarea>)/is",
     "/^(.*<input.*)checked(.*>.*)$/isD"
-  );
+  ];
 
-  $to = array(
+  $to = [
     " ",
     "\\1\\2",
     "\\1 \\2"
-  );
+  ];
 
   $text = preg_replace($from, $to, $text);
 

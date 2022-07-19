@@ -25,7 +25,7 @@ $start = microtime();
 /* Basic setup, remove eventually registered sessions */
 require_once ("../include/php_setup.inc");
 require_once ("functions.inc");
-require_once ("variables.inc");
+require_once("variables.inc");
 
 /* Set headers */
 header('Content-type: text/html; charset=UTF-8');
@@ -40,19 +40,19 @@ textdomain($domain);
 
 /* Remember everything we did after the last click */
 session::start();
-session::set('errorsAlreadyPosted', array());
-session::set('runtime_cache', array());
+session::set('errorsAlreadyPosted', []);
+session::set('runtime_cache', []);
 session::set('limit_exceeded', FALSE);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  @DEBUG (DEBUG_POST, __LINE__, __FUNCTION__, __FILE__, $_POST, "_POST");
+  @DEBUG(DEBUG_POST, __LINE__, __FUNCTION__, __FILE__, $_POST, "_POST");
 }
-@DEBUG (DEBUG_SESSION, __LINE__, __FUNCTION__, __FILE__, session::get_all(), "_SESSION");
+@DEBUG(DEBUG_SESSION, __LINE__, __FUNCTION__, __FILE__, session::get_all(), "_SESSION");
 
 /* Logged in? Simple security check */
 if (!session::is_set('connected')) {
-  logging::log('security', 'login', '', array(), 'main.php called without session - logging out');
-  header ('Location: index.php?message=nosession');
+  logging::log('security', 'login', '', [], 'main.php called without session - logging out');
+  header('Location: index.php?message=nosession');
   exit;
 }
 
@@ -63,7 +63,7 @@ $config = session::get('config');
 
 /* If SSL is forced, just forward to the SSL enabled site */
 if (($config->get_cfg_value('forcessl') == 'TRUE') && ($ssl != '')) {
-  header ("Location: $ssl");
+  header("Location: $ssl");
   exit;
 }
 
@@ -83,8 +83,8 @@ if (session::get('_LAST_PAGE_REQUEST') != '') {
      */
     if ($request_time > $max_life) {
       session::destroy();
-      logging::log('security', 'login', '', array(), 'main.php called with expired session - logging out');
-      header ('Location: index.php?signout=1&message=expired');
+      logging::log('security', 'login', '', [], 'main.php called with expired session - logging out');
+      header('Location: index.php?signout=1&message=expired');
       exit;
     }
   }
@@ -92,7 +92,7 @@ if (session::get('_LAST_PAGE_REQUEST') != '') {
 session::set('_LAST_PAGE_REQUEST', time());
 
 
-@DEBUG (DEBUG_CONFIG, __LINE__, __FUNCTION__, __FILE__, $config->data, "config");
+@DEBUG(DEBUG_CONFIG, __LINE__, __FUNCTION__, __FILE__, $config->data, "config");
 
 /* Set template compile directory */
 $smarty->compile_dir = $config->get_cfg_value("templateCompileDirectory", SPOOL_DIR);
@@ -114,8 +114,8 @@ if (isset($global_check) && $config->get_cfg_value("forceglobals") == "TRUE") {
             _("Fatal error: Register globals is on. FusionDirectory will refuse to login unless this is fixed by an administrator."),
             FATAL_ERROR_DIALOG);
 
-  logging::log('security', 'login', '', array(), 'Register globals is on. For security reasons, this should be turned off.');
-  session::destroy ();
+  logging::log('security', 'login', '', [], 'Register globals is on. For security reasons, this should be turned off.');
+  session::destroy();
   exit;
 }
 
@@ -133,14 +133,14 @@ $smarty->assign("hideMenus", FALSE);
 if ($config->get_cfg_value("handleExpiredAccounts") == "TRUE") {
   $expired = $ui->expired_status();
   if (($expired == POSIX_WARN_ABOUT_EXPIRATION) && !session::is_set('POSIX_WARN_ABOUT_EXPIRATION__DONE')) {
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $expired, 'This user account ('.$ui->uid.') is about to expire');
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $expired, 'This user account ('.$ui->uid.') is about to expire');
 
     // The users password is about to xpire soon, display a warning message.
-    logging::log('security', 'fusiondirectory', '', array(), 'password for user "'.$ui->uid.'" is about to expire');
+    logging::log('security', 'fusiondirectory', '', [], 'password for user "'.$ui->uid.'" is about to expire');
     msg_dialog::display(_('Password change'), _('Your password is about to expire, please change your password!'), INFO_DIALOG);
     session::set('POSIX_WARN_ABOUT_EXPIRATION__DONE', TRUE);
   } elseif ($expired == POSIX_FORCE_PASSWORD_CHANGE) {
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $expired, "This user account expired");
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $expired, "This user account expired");
 
     // The password is expired, we are now going to enforce a new one from the user.
 
@@ -166,8 +166,8 @@ if (isset($_GET['plug']) && $plist->plugin_access_allowed($_GET['plug'])) {
   $plugin_dir = $plist->get_path($plug);
   session::set('plugin_dir', $plugin_dir);
   if ($plugin_dir == '') {
-    logging::log('security', 'fusiondirectory', '', array(), "main.php called with invalid plug parameter \"$plug\"");
-    header ('Location: index.php?signout=1&message=invalidparameter&plug='.$plug);
+    logging::log('security', 'fusiondirectory', '', [], "main.php called with invalid plug parameter \"$plug\"");
+    header('Location: index.php?signout=1&message=invalidparameter&plug='.$plug);
     exit;
   }
 } else {
@@ -215,7 +215,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   foreach ($_POST as $key => $value) {
     if (preg_match("/^back[0-9]+$/", $key)) {
       $back = substr($key, 4);
-      header ("Location: main.php?plug=$back");
+      header("Location: main.php?plug=$back");
       exit;
     }
   }
@@ -223,7 +223,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 /* Redirect on password back event */
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['password_back'])) {
-  header ("Location: main.php");
+  header("Location: main.php");
   exit;
 }
 
@@ -234,11 +234,11 @@ if (isset($_GET['reset'])) {
 }
 
 /* show web frontend */
-$smarty->assign ("date", date("l, dS F Y H:i:s O"));
+$smarty->assign("date", date("l, dS F Y H:i:s O"));
 $lang = session::get('lang');
-$smarty->assign ('lang',  preg_replace('/_.*$/', '', $lang));
-$smarty->assign ('rtl',   Language::isRTL($lang));
-$smarty->assign ('must',  '<span class="must">*</span>');
+$smarty->assign('lang',  preg_replace('/_.*$/', '', $lang));
+$smarty->assign('rtl',   Language::isRTL($lang));
+$smarty->assign('must',  '<span class="must">*</span>');
 if (isset($plug)) {
   $plug = "?plug=$plug";
 } else {
@@ -246,12 +246,12 @@ if (isset($plug)) {
 }
 
 if ($ui->ignore_acl_for_current_user()) {
-  $smarty->assign ('username', '<div style="color:#FF0000;">'._('User ACL checks disabled').'</div>&nbsp;'.$ui->uid);
+  $smarty->assign('username', '<div style="color:#FF0000;">'._('User ACL checks disabled').'</div>&nbsp;'.$ui->uid);
 } else {
-  $smarty->assign ('username', $ui->uid);
+  $smarty->assign('username', $ui->uid);
 }
-$smarty->assign ("menu", $plist->menu);
-$smarty->assign ("plug", "$plug");
+$smarty->assign("menu", $plist->menu);
+$smarty->assign("plug", "$plug");
 
 $smarty->assign("usePrototype", "false");
 
@@ -346,4 +346,4 @@ echo $display;
 /* Save plist and config */
 session::set('plist', $plist);
 session::set('config', $config);
-session::set('errorsAlreadyPosted', array());
+session::set('errorsAlreadyPosted', []);

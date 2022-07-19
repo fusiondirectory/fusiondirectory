@@ -22,7 +22,7 @@
 
 class userManagement extends simpleManagement
 {
-  protected $objectTypes  = array('user');
+  protected $objectTypes  = ['user'];
 
   protected $departmentBrowser      = TRUE;
   protected $departmentRootVisible  = FALSE;
@@ -36,22 +36,22 @@ class userManagement extends simpleManagement
 
   public static $skipTemplates = FALSE;
 
-  static function plInfo()
+  static function plInfo ()
   {
-    return array(
+    return [
       'plShortName'   => _('Users'),
       'plTitle'       => _('Manage users'),
       'plDescription' => _('Manage user accounts and their properties'),
       'plIcon'        => 'geticon.php?context=types&icon=user&size=48',
       'plSection'     => 'accounts',
-      'plManages'     => array('user'),
+      'plManages'     => ['user'],
       'plPriority'    => 10,
 
-      'plProvidedAcls' => array()
-    );
+      'plProvidedAcls' => []
+    ];
   }
 
-  function __construct()
+  function __construct ()
   {
     $this->filterXMLPath  = get_template_path('user-filter.xml',  TRUE, dirname(__FILE__));
     $this->listXMLPath    = get_template_path('user-list.xml',    TRUE, dirname(__FILE__));
@@ -80,7 +80,7 @@ class userManagement extends simpleManagement
   {
     parent::configureFilter();
 
-    $classes = array();
+    $classes = [];
     if (class_available('posixAccount')) {
       $classes[] = 'posixAccount';
     } else {
@@ -103,10 +103,10 @@ class userManagement extends simpleManagement
       $this->filter->elements['SAMBA']['set']   = '';
     }
     if (empty($classes)) {
-      $this->filter->elements['FUNCTIONAL']['set']  = '(objectClass=*)';
+      $this->filter->elements['FUNCTIONAL']['set']  = ' (objectClass=*)';
     } else {
       /* The FUNCTIONAL filter must not use inexisting classes */
-      $this->filter->elements['FUNCTIONAL']['set']  = '(!(|(objectClass='.implode(')(objectClass=', $classes).')))';
+      $this->filter->elements['FUNCTIONAL']['set']  = ' (! (| (objectClass='.implode(') (objectClass=', $classes).')))';
     }
   }
 
@@ -121,7 +121,7 @@ class userManagement extends simpleManagement
 
   /* !\brief  Lock/unlock multiple users.
    */
-  function lockUsers($action, array $target, array $all)
+  function lockUsers ($action, array $target, array $all)
   {
     if (!count($target)) {
       return;
@@ -136,12 +136,12 @@ class userManagement extends simpleManagement
 
   /* !\brief  Locks/unlocks the given user(s).
    */
-  function lockEntry($action, $entry, $all, $type = 'toggle')
+  function lockEntry ($action, $entry, $all, $type = 'toggle')
   {
     global $config, $ui;
     // Filter out entries we are not allowed to modify
-    $disallowed = array();
-    $allowed    = array();
+    $disallowed = [];
+    $allowed    = [];
     foreach ($entry as $dn) {
       if (!preg_match('/w/', $ui->get_permissions($dn, 'user/user', 'userLock'))) {
         $disallowed[] = $dn;
@@ -156,7 +156,7 @@ class userManagement extends simpleManagement
     // Try to lock/unlock the rest of the entries.
     $ldap = $config->get_ldap_link();
     foreach ($allowed as $dn) {
-      $ldap->cat($dn, array('userPassword'));
+      $ldap->cat($dn, ['userPassword']);
       if ($ldap->count() == 1) {
 
         // We can't lock empty passwords.
@@ -207,7 +207,7 @@ class userManagement extends simpleManagement
     }
   }
 
-  static function filterLockImage($userPassword)
+  static function filterLockImage ($userPassword)
   {
     $image = 'images/empty.png';
     if (isset($userPassword[0]) && preg_match('/^\{[^\}]/', $userPassword[0])) {
@@ -220,7 +220,7 @@ class userManagement extends simpleManagement
     return $image;
   }
 
-  static function filterLockLabel($userPassword)
+  static function filterLockLabel ($userPassword)
   {
     $label = '';
     if (isset($userPassword[0]) && preg_match('/^\{[^\}]/', $userPassword[0])) {
@@ -233,10 +233,10 @@ class userManagement extends simpleManagement
     return $label;
   }
 
-  static function filterProperties($row, $dn, $attrs)
+  static function filterProperties ($row, $dn, $attrs)
   {
     global $config;
-    static $usertabs = array();
+    static $usertabs = [];
     if (empty($usertabs)) {
       foreach ($config->data['TABS']['USERTABS'] as $plug) {
         if ($plug['CLASS'] == 'user') {
@@ -255,7 +255,7 @@ class userManagement extends simpleManagement
                        'alt="'._('User account').'" title="'._('User account information').'" '.
                        'name="listing_edit_tab_user_'.$row.'"/>';
     if (!empty($attrs)) {
-      if (in_array_ics ('fdTemplate', $attrs['objectClass'])) {
+      if (in_array_ics('fdTemplate', $attrs['objectClass'])) {
         $attrs = templateHandling::fieldsFromLDAP($attrs);
       }
       foreach ($usertabs as $class => $usertab) {
@@ -266,7 +266,7 @@ class userManagement extends simpleManagement
                        'alt="'.$infos['plShortName'].'" title="'.$infos['plShortName'].'" '.
                        'name="listing_edit_tab_'.$class.'_'.$row.'"/>';
           } else {
-            @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $infos['plShortName']." ($class)", "No icon for");
+            @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $infos['plShortName']." ($class)", "No icon for");
           }
         } else {
           $result .= '<img src="images/empty.png" alt="" class="center optional '.$class.'"/>';

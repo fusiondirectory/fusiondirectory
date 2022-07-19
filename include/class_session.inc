@@ -33,7 +33,7 @@ class session {
    *
    * \param string $name The name of the session
    */
-  public static function is_set($name)
+  public static function is_set ($name)
   {
     return isset($_SESSION[$name]);
   }
@@ -41,7 +41,7 @@ class session {
   /*!
    * \brief Deprecated
    */
-  public static function global_is_set($name)
+  public static function global_is_set ($name)
   {
     return static::is_set($name);
   }
@@ -53,7 +53,7 @@ class session {
    *
    * \param $value The new value
    */
-  public static function set($name, $value)
+  public static function set ($name, $value)
   {
     $_SESSION[$name] = $value;
   }
@@ -61,7 +61,7 @@ class session {
   /*!
    * \brief Deprecated
    */
-  public static function global_set($name, $value)
+  public static function global_set ($name, $value)
   {
     static::set($name, $value);
   }
@@ -102,7 +102,7 @@ class session {
   /*!
    * \brief Deprecated
    */
-  public static function delete($name)
+  public static function delete ($name)
   {
     return static::un_set($name);
   }
@@ -110,7 +110,7 @@ class session {
   /*!
    * \brief Deprecated
    */
-  public static function global_delete($name)
+  public static function global_delete ($name)
   {
     return static::un_set($name);
   }
@@ -120,7 +120,7 @@ class session {
    *
    * \param string $name Name of the session to delete
    */
-  public static function un_set($name)
+  public static function un_set ($name)
   {
     if (isset($_SESSION[$name])) {
       unset($_SESSION[$name]);
@@ -130,7 +130,7 @@ class session {
   /*!
    * \brief Deprecated
    */
-  public static function global_un_set($name)
+  public static function global_un_set ($name)
   {
     return static::un_set($name);
   }
@@ -138,7 +138,7 @@ class session {
   /*!
    * \brief Start a session
    */
-  public static function start($id = NULL)
+  public static function start ($id = NULL)
   {
     session_name("FusionDirectory");
     /* Set cookie lifetime to one day (The parameter is in seconds ) */
@@ -184,7 +184,7 @@ class session {
   /*!
    * \brief Destroy a session
    */
-  public static function destroy()
+  public static function destroy ()
   {
     @session_destroy();
   }
@@ -192,7 +192,7 @@ class session {
   /*!
    * \brief Get all sessions
    */
-  public static function &get_all()
+  public static function &get_all ()
   {
     $ret = &$_SESSION;
     return $ret;

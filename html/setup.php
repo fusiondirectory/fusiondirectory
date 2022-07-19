@@ -22,7 +22,7 @@
 /* Get standard functions */
 require_once ("../include/php_setup.inc");
 require_once ("functions.inc");
-require_once ("variables.inc");
+require_once("variables.inc");
 
 require_once("../setup/class_setup.inc");
 require_once("../setup/class_setupStep.inc");
@@ -50,7 +50,7 @@ ini_set("session.gc_maxlifetime", 24 * 60 * 60);
 /* Start session */
 session::start();
 session::set('DEBUGLEVEL', 0);
-session::set('errorsAlreadyPosted', array());
+session::set('errorsAlreadyPosted', []);
 
 CSRFProtection::check();
 

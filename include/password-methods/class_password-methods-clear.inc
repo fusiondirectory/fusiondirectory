@@ -36,7 +36,7 @@ class passwordMethodClear extends passwordMethod
   /*!
    * \brief passwordMethodClear Constructor
    */
-  function __construct()
+  function __construct ()
   {
   }
 
@@ -45,7 +45,7 @@ class passwordMethodClear extends passwordMethod
    *
    * \return TRUE
    */
-  function is_available()
+  function is_available ()
   {
     return TRUE;
   }
@@ -55,7 +55,7 @@ class passwordMethodClear extends passwordMethod
    *
    * \param string $pwd Password
    */
-  function generate_hash($pwd)
+  function generate_hash ($pwd)
   {
     return $pwd;
   }
@@ -63,7 +63,7 @@ class passwordMethodClear extends passwordMethod
   /*!
    * \brief Get the hash name
    */
-  static function get_hash_name()
+  static function get_hash_name ()
   {
     return "clear";
   }

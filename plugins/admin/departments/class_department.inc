@@ -24,44 +24,44 @@ class department extends simplePlugin
   static $namingAttr = 'ou';
 
   /* Do not append the structural object classes here, they are added dynamically in the constructor */
-  var $objectclasses  = array("top", "gosaDepartment");
-  var $structuralOC   = array("organizationalUnit");
+  var $objectclasses  = ["top", "gosaDepartment"];
+  var $structuralOC   = ["organizationalUnit"];
 
-  static function plInfo()
+  static function plInfo ()
   {
-    return array(
+    return [
       'plShortName'   => _('Department'),
       'plDescription' => _('Departments'),
-      'plCategory'    => array('department' => array('objectClass' => 'gosaDepartment', 'description' => _('Departments'))),
+      'plCategory'    => ['department' => ['objectClass' => 'gosaDepartment', 'description' => _('Departments')]],
       'plObjectType'  =>
-        array(
-          'department' => array(
+        [
+          'department' => [
             'name'      => _('Department'),
             'filter'    => '(&(objectClass=organizationalUnit)(objectClass=gosaDepartment))',
             'ou'        => '',
             'icon'      => 'geticon.php?context=places&icon=folder&size=16',
             'tabClass'  => 'deptabs',
             'mainAttr'  => static::$namingAttr,
-          )
-        ),
-      'plForeignKeys'  => array(
-        'manager' => array('user','dn','manager=%oldvalue%','*')
-      ),
+          ]
+        ],
+      'plForeignKeys'  => [
+        'manager' => ['user','dn','manager=%oldvalue%','*']
+      ],
 
       'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())
-    );
+    ];
   }
 
-  static function getAttributesInfo()
+  static function getAttributesInfo ()
   {
     return static::getDepartmentAttributesInfo(_('department'));
   }
-  static function getDepartmentAttributesInfo($name)
+  static function getDepartmentAttributesInfo ($name)
   {
-    $attributesInfo = array(
-      'properties' => array(
+    $attributesInfo = [
+      'properties' => [
         'name'  => _('Properties'),
-        'attrs' => array(
+        'attrs' => [
           new BaseSelectorAttribute(''),
           new StringAttribute(
             sprintf(_('Name of %s'), $name), sprintf(_('A name for this %s'), $name),
@@ -84,11 +84,11 @@ class department extends simplePlugin
             _('Manager'), sprintf(_('Manager of this %s'), $name),
             'manager', FALSE
           )
-        )
-      ),
-      'location' => array(
+        ]
+      ],
+      'location' => [
         'name'  => _('Location'),
-        'attrs' => array(
+        'attrs' => [
           new StringAttribute(
             _('State'), _('State'), 'st', FALSE
           ),
@@ -102,7 +102,7 @@ class department extends simplePlugin
             _('Address'), sprintf(_('A postal address for this %s'), $name),
             'postalAddress', FALSE
           ),
-          new PhoneNumberButtonAttribute (
+          new PhoneNumberButtonAttribute(
             _('Phone'), _('Telephone number'),
             'telephoneNumber', FALSE,
             '',
@@ -112,9 +112,9 @@ class department extends simplePlugin
             _('Fax'), _('Facsimile telephone number'),
             'facsimileTelephoneNumber', FALSE
           ),
-        )
-      ),
-    );
+        ]
+      ],
+    ];
     if (static::$namingAttr != 'ou') {
       $attributesInfo['properties']['attrs'][] = new HiddenAttribute('ou');
     }
@@ -130,7 +130,7 @@ class department extends simplePlugin
     if ($dn == "" || $dn == "new" || !$ldap->dn_exists($dn)) {
       $this->objectclasses = array_merge($this->structuralOC, $this->objectclasses);
     } else {
-      $ldap->cat($dn, array("structuralObjectClass"));
+      $ldap->cat($dn, ["structuralObjectClass"]);
       $attrs = $ldap->fetch();
       if (isset($attrs['structuralObjectClass']['count'])) {
         for ($i = 0; $i < $attrs['structuralObjectClass']['count']; $i++) {
@@ -146,7 +146,7 @@ class department extends simplePlugin
 
     parent::__construct($dn, $object, $parent, $mainTab);
 
-    $categoriesList = $config->get_cfg_value('DepartmentCategories', array());
+    $categoriesList = $config->get_cfg_value('DepartmentCategories', []);
 
     /* Insert current value to possibilities */
     if (isset($this->attributesAccess['businessCategory'])) {
@@ -161,7 +161,7 @@ class department extends simplePlugin
   }
 
   /* Check values */
-  function check()
+  function check ()
   {
     /* Call common method to give check the hook */
     $message = parent::check();
@@ -177,7 +177,7 @@ class department extends simplePlugin
     return $message;
   }
 
-  function get_allowed_bases()
+  function get_allowed_bases ()
   {
     /* Hide all departments, that are subtrees of this department */
     $bases = parent::get_allowed_bases();
@@ -191,7 +191,7 @@ class department extends simplePlugin
     return $bases;
   }
 
-  function prepare_save()
+  function prepare_save ()
   {
     if (static::$namingAttr != 'ou') {
       $this->attributesAccess['ou']->setValue($this->attributesAccess[static::$namingAttr]->getValue());

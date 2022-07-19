@@ -42,7 +42,7 @@ class listingSortIterator implements Iterator {
    *
    * \param string $type
    */
-  public function __construct($data, $direction, $attribute, $type = 'string')
+  public function __construct ($data, $direction, $attribute, $type = 'string')
   {
     // Sort for attribute
     if ($attribute != '') {
@@ -127,7 +127,7 @@ class listingSortIterator implements Iterator {
    *
    * \return the first element of the array
    */
-  function rewind()
+  function rewind ()
   {
     return reset($this->data);
   }
@@ -137,7 +137,7 @@ class listingSortIterator implements Iterator {
    *
    * \return The current element pointed by array pointer
    */
-  function current()
+  function current ()
   {
     return current($this->data);
   }
@@ -147,7 +147,7 @@ class listingSortIterator implements Iterator {
    *
    * \return the key element of the array
    */
-  function key()
+  function key ()
   {
     return key($this->data);
   }
@@ -157,7 +157,7 @@ class listingSortIterator implements Iterator {
    *
    * \return The next element pointed by array pointer
    */
-  function next()
+  function next ()
   {
     return next($this->data);
   }
@@ -167,7 +167,7 @@ class listingSortIterator implements Iterator {
    *
    * \return TRUE if the array is valid, return FALSE otherwise
    */
-  function valid()
+  function valid ()
   {
     return (key($this->data) !== NULL);
   }

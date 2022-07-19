@@ -63,7 +63,7 @@ class printAClass {
   /*!
    * \brief printAClass constructor
    */
-  function __construct()
+  function __construct ()
   {
     $this->export_hash = uniqid('');
   }
@@ -91,7 +91,7 @@ class printAClass {
    *
    * \param boolean $key_bg_color false
    */
-  function print_a($array, $iteration = FALSE, $key_bg_color = FALSE)
+  function print_a ($array, $iteration = FALSE, $key_bg_color = FALSE)
   {
     if (!$key_bg_color) {
       $key_bg_color = $this->key_bg_color;
@@ -154,8 +154,8 @@ class printAClass {
 
         case 'string':
           if ($this->look_for_leading_tabs && preg_match('/^\t/m', $value)) {
-            $search       = array('/\t/', "/\n/");
-            $replace      = array('&nbsp;&nbsp;&nbsp;','<br />');
+            $search       = ['/\t/', "/\n/"];
+            $replace      = ['&nbsp;&nbsp;&nbsp;','<br />'];
             $value        = preg_replace( $search, $replace, htmlspecialchars($value));
             $value_style  = 'color:black;border:1px gray dotted;';
           } else {
@@ -196,7 +196,7 @@ class printAClass {
 }
 
 /*
- * \brief helper function.. calls print_a() inside the printAClass
+ * \brief helper function.. calls print_a () inside the printAClass
  *
  * \param array $array
  *
@@ -206,7 +206,7 @@ class printAClass {
  *
  * \param boolean $export_flag false
  */
-function print_a($array, $return_mode = FALSE, $show_object_vars = FALSE, $export_flag = FALSE )
+function print_a ($array, $return_mode = FALSE, $show_object_vars = FALSE, $export_flag = FALSE )
 {
   $e = error_reporting(0);
   if (is_array($array) || is_object($array)) {
@@ -225,7 +225,7 @@ function print_a($array, $return_mode = FALSE, $show_object_vars = FALSE, $expor
     $output = '<span style="color:red;font-size:small;">print_a( '.gettype( $array ).' )</span>';
   }
 
-  error_reporting ($e);
+  error_reporting($e);
   if ($return_mode) {
     return $output;
   } else {

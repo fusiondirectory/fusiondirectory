@@ -36,7 +36,7 @@ class PDF extends FPDF
    *
    * \param string $headline
    */
-  function setHeadline($headline)
+  function setHeadline ($headline)
   {
     $this->headline = $headline;
   }
@@ -44,7 +44,7 @@ class PDF extends FPDF
   /*!
    * \brief Set font and cell for the header page
    */
-  function Header()
+  function Header ()
   {
     $this->SetFont('Helvetica', 'B', 10);
     $this->Cell(0, 0, $this->headline, 0, 0, 'L');
@@ -54,7 +54,7 @@ class PDF extends FPDF
   /*!
    * \brief Set position from the bottom and the number of the page
    */
-  function Footer()
+  function Footer ()
   {
     $this->SetY(-15);
     $this->SetFont('Helvetica', 'I', 8);

@@ -22,13 +22,13 @@
 class ObjectsAttribute extends GenericDialogAttribute
 {
   protected $dialogClass  = 'ObjectSelectDialog';
-  protected $types        = array();
+  protected $types        = [];
 
   function getFilterBlackList ()
   {
-    return array(
-      'dn' => array_merge($this->getValue(), $this->plugin->used_workstations, array($this->plugin->dn))
-    );
+    return [
+      'dn' => array_merge($this->getValue(), $this->plugin->used_workstations, [$this->plugin->dn])
+    ];
   }
 
   protected function fillDisplayValueFrom ($i, $attrs)
@@ -52,7 +52,7 @@ class ObjectsAttribute extends GenericDialogAttribute
             break;
           }
         } catch (NonExistingObjectTypeException $e) {
-          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $e->getMessage(), "Objecttype");
+          @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $e->getMessage(), "Objecttype");
           unset(ogroup::$objectTypes[$code]);
         }
       }
@@ -72,7 +72,7 @@ class ObjectsAttribute extends GenericDialogAttribute
     }
   }
 
-  function renderOnlyFormInput()
+  function renderOnlyFormInput ()
   {
     if (($this->size < 15) && ($this->size < count($this->value))) {
       $this->size = min(15, count($this->value));
@@ -83,7 +83,7 @@ class ObjectsAttribute extends GenericDialogAttribute
                 ' >'."\n";
     foreach ($this->getDisplayValues() as $key => $value) {
       try {
-        $infos = array();
+        $infos = [];
         if ($this->types[$key] !== 'I') {
           $infos = objects::infos(ogroup::$objectTypes[$this->types[$key]]);
         }
@@ -103,9 +103,9 @@ class ObjectsAttribute extends GenericDialogAttribute
     return $display;
   }
 
-  function ldapAttributesToGet()
+  function ldapAttributesToGet ()
   {
-    return array(
+    return [
       'objectClass',
       'cn',
       'sn',
@@ -113,10 +113,10 @@ class ObjectsAttribute extends GenericDialogAttribute
       'uid',
       'givenName',
       'description',
-    );
+    ];
   }
 
-  function listObjectTypes()
+  function listObjectTypes ()
   {
     /* Refresh types and displays */
     $this->getDisplayValues();
@@ -126,10 +126,10 @@ class ObjectsAttribute extends GenericDialogAttribute
   function getTypedValues ()
   {
     $values = $this->getValue();
-    $ret    = array();
+    $ret    = [];
     foreach ($values as $i => $v) {
       if (!isset($ret[$this->types[$i]])) {
-        $ret[$this->types[$i]] = array();
+        $ret[$this->types[$i]] = [];
       }
       $ret[$this->types[$i]][] = $v;
     }
@@ -151,13 +151,13 @@ class ObjectSelectDialog extends GenericSelectDialog
 
 class ogroup extends simplePlugin
 {
-  var $objectclasses  = array('groupOfNames', 'gosaGroupOfNames');
+  var $objectclasses  = ['groupOfNames', 'gosaGroupOfNames'];
 
-  var $used_workstations = array();
+  var $used_workstations = [];
 
   protected $savedTypedMembers;
 
-  static $objectTypes = array(
+  static $objectTypes = [
     'U' => 'user',
     'G' => 'ogroup',
     'A' => 'application',
@@ -167,49 +167,49 @@ class ogroup extends simplePlugin
     'F' => 'phone',
     'P' => 'printer',
     'D' => 'simpleSecurityObject',
-  );
+  ];
 
-  static function plInfo()
+  static function plInfo ()
   {
-    return array(
+    return [
       'plShortName'   => _('Object group'),
       'plDescription' => _('Object group information'),
       'plSelfModify'  => FALSE,
       'plPriority'    => 1,
-      'plObjectType'  => array('ogroup' => array(
+      'plObjectType'  => ['ogroup' => [
         'name'        => _('Group'),
         'description' => _('Group'),
         'ou'          => get_ou('ogroupRDN'),
         'filter'      => 'objectClass=groupOfNames',
         'icon'        => 'geticon.php?context=types&icon=resource-group&size=16',
         'tabClass'    => 'ogrouptabs',
-      )),
-      'plForeignKeys'  => array(
-        'member' => array(
-          array('user',               'dn','member=%oldvalue%','*'),
-          array('ogroup',             'dn','member=%oldvalue%','*'),
-          array('application',        'dn','member=%oldvalue%','*'),
-          array('serverGeneric',      'dn','member=%oldvalue%','*'),
-          array('workstationGeneric', 'dn','member=%oldvalue%','*'),
-          array('terminalGeneric',    'dn','member=%oldvalue%','*'),
-          array('phoneGeneric',       'dn','member=%oldvalue%','*'),
-          array('printGeneric',       'dn','member=%oldvalue%','*'),
-        ),
-        'owner' => array(
-          array('user','dn','owner=%oldvalue%','*')
-        )
-      ),
+      ]],
+      'plForeignKeys'  => [
+        'member' => [
+          ['user',               'dn','member=%oldvalue%','*'],
+          ['ogroup',             'dn','member=%oldvalue%','*'],
+          ['application',        'dn','member=%oldvalue%','*'],
+          ['serverGeneric',      'dn','member=%oldvalue%','*'],
+          ['workstationGeneric', 'dn','member=%oldvalue%','*'],
+          ['terminalGeneric',    'dn','member=%oldvalue%','*'],
+          ['phoneGeneric',       'dn','member=%oldvalue%','*'],
+          ['printGeneric',       'dn','member=%oldvalue%','*'],
+        ],
+        'owner' => [
+          ['user','dn','owner=%oldvalue%','*']
+        ]
+      ],
 
       'plProvidedAcls'  => parent::generatePlProvidedAcls(static::getAttributesInfo())
-    );
+    ];
   }
 
   static function getAttributesInfo ()
   {
-    return array(
-      'main' => array(
+    return [
+      'main' => [
         'name'  => _('Properties'),
-        'attrs' => array(
+        'attrs' => [
           new BaseSelectorAttribute(get_ou('ogroupRDN')),
           new StringAttribute(
             _('Name'), _('Name of this group'),
@@ -225,36 +225,36 @@ class ogroup extends simplePlugin
             _('Owner'), _('Owner'),
             'owner', FALSE
           ),
-        )
-      ),
-      'members' => array(
+        ]
+      ],
+      'members' => [
         'name'  => _('Member objects'),
-        'attrs' => array(
+        'attrs' => [
           new ObjectsAttribute(
             '', _('Objects member of this group'),
             'member', TRUE,
-            array(), 'dn'
+            [], 'dn'
           )
-        )
-      ),
-      'system_trust' => array(
+        ]
+      ],
+      'system_trust' => [
         'name'  => _('System trust'),
         'icon'  => 'geticon.php?context=status&icon=locked&size=16',
-        'attrs' => array(
+        'attrs' => [
           new SelectAttribute(
             _('Trust mode'), _('Type of authorization for those hosts'),
             'trustMode', FALSE,
-            array('', 'fullaccess', 'byhost'),
+            ['', 'fullaccess', 'byhost'],
             '',
-            array(_('disabled'), _('full access'), _('allow access to these hosts'))
+            [_('disabled'), _('full access'), _('allow access to these hosts')]
           ),
           new SystemsAttribute(
             '', _('Only allow this group to connect to this list of hosts'),
             'host', FALSE
           )
-        )
-      )
-    );
+        ]
+      ]
+    ];
   }
 
   function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE)
@@ -263,12 +263,12 @@ class ogroup extends simplePlugin
 
     $this->attributesAccess['trustMode']->setInLdap(FALSE);
     $this->attributesAccess['trustMode']->setManagedAttributes(
-      array(
-        'multiplevalues' => array('notbyhost' => array('','fullaccess')),
-        'erase' => array(
-          'notbyhost' => array('host')
-        )
-      )
+      [
+        'multiplevalues' => ['notbyhost' => ['','fullaccess']],
+        'erase' => [
+          'notbyhost' => ['host']
+        ]
+      ]
     );
     if ((count($this->host) == 1) && ($this->host[0] == '*')) {
       $this->trustMode = 'fullaccess';
@@ -279,14 +279,14 @@ class ogroup extends simplePlugin
     /* Detect all workstations, which are already assigned to an object group
         - Those objects will be hidden in the add object dialog.
         - Check() will complain if such a system is assigned to this object group.*/
-    $this->used_workstations = array();
+    $this->used_workstations = [];
     try {
-      $ws_dns = array_keys(objects::ls(array('workstation','terminal')));
-      $res = objects::ls('ogroup', array('member' => '*'), NULL, '(&(member=*)(|(gosaGroupObjects=[W])(gosaGroupObjects=[T])))');
+      $ws_dns = array_keys(objects::ls(['workstation','terminal']));
+      $res = objects::ls('ogroup', ['member' => '*'], NULL, '(&(member=*)(|(gosaGroupObjects=[W])(gosaGroupObjects=[T])))');
     } catch (NonExistingObjectTypeException $e) {
       /* If workstation/terminal objectType is not existing, systems plugin is missing so there are no systems */
-      $ws_dns = array();
-      $res    = array();
+      $ws_dns = [];
+      $res    = [];
     }
     foreach ($res as $odn => $og) {
       if ($odn == $this->dn) {
@@ -306,21 +306,21 @@ class ogroup extends simplePlugin
     return '(objectClass=groupOfNames)';
   }
 
-  function is_this_account($attrs)
+  function is_this_account ($attrs)
   {
-    $this->objectclasses  = array('groupOfNames');
+    $this->objectclasses  = ['groupOfNames'];
     $found = parent::is_this_account($attrs);
-    $this->objectclasses  = array('groupOfNames', 'gosaGroupOfNames');
+    $this->objectclasses  = ['groupOfNames', 'gosaGroupOfNames'];
     return $found;
   }
 
-  function prepare_save()
+  function prepare_save ()
   {
     $this->reload();
     $errors = parent::prepare_save();
 
     if ($this->trustMode == 'fullaccess') {
-      $this->attrs['host'] = array('*');
+      $this->attrs['host'] = ['*'];
     }
 
     /* Trust accounts */
@@ -333,12 +333,12 @@ class ogroup extends simplePlugin
     return $errors;
   }
 
-  function reload()
+  function reload ()
   {
     $this->gosaGroupObjects = $this->attributesAccess['member']->listObjectTypes();
   }
 
-  function check()
+  function check ()
   {
     $message = parent::check();
     $this->reload();
@@ -349,15 +349,15 @@ class ogroup extends simplePlugin
     return $message;
   }
 
-  function ldap_save()
+  function ldap_save ()
   {
     global $ui;
 
-    $errors = array();
+    $errors = [];
 
     if (isset($this->attrs['member'])) {
-      $userMembers  = array();
-      $savedMembers = array();
+      $userMembers  = [];
+      $savedMembers = [];
       $members      = $this->attributesAccess['member']->getTypedValues();
       if (isset($members['U'])) {
         $userMembers = $members['U'];
@@ -386,7 +386,7 @@ class ogroup extends simplePlugin
     return parent::ldap_save();
   }
 
-  function getGroupObjectTypes()
+  function getGroupObjectTypes ()
   {
     $this->reload();
     return $this->gosaGroupObjects;

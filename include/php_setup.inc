@@ -24,7 +24,7 @@
  * \file php_setup.inc
  * Source code for php_setup
  */
-require_once ("variables.inc");
+require_once("variables.inc");
 
 /*!
  * \brief Escape string for HTML output
@@ -42,17 +42,17 @@ function htmlunescape ($html)
   return html_entity_decode($html, ENT_QUOTES | ENT_HTML5, 'UTF-8');
 }
 
-function html_trace($errstr = "")
+function html_trace ($errstr = "")
 {
-  static $hideArgs = array(
-    'ldap_init'         => array(3),
-    'ldap_login_user'   => array(1),
-    'change_password'   => array(1),
-    'cred_decrypt'      => array(0,1),
-    'LDAP/__construct'  => array(1),
-  );
+  static $hideArgs = [
+    'ldap_init'         => [3],
+    'ldap_login_user'   => [1],
+    'change_password'   => [1],
+    'cred_decrypt'      => [0,1],
+    'LDAP/__construct'  => [1],
+  ];
   if (!function_exists('debug_backtrace')) {
-    return array ('', '');
+    return  ['', ''];
   }
   $trace = array_slice(debug_backtrace(), 1);
 
@@ -104,9 +104,9 @@ function html_trace($errstr = "")
       if (isset($hideArgs[$func])) {
         $hideArgsIndexes = $hideArgs[$func];
       } else {
-        $hideArgsIndexes = array();
+        $hideArgsIndexes = [];
       }
-      $f = function ($index, $arg) use(&$f, $hideArgsIndexes) {
+      $f = function ($index, $arg) use (&$f, $hideArgsIndexes) {
         static $i = 0;
         if (($i == 0) && in_array($index, $hideArgsIndexes)) {
           return '***';
@@ -161,7 +161,7 @@ function html_trace($errstr = "")
   $return_html    .= "</table>";
   $return_mailto  .= rawurlencode("=== /Trace ===");
 
-  return array($return_html, $return_mailto);
+  return [$return_html, $return_mailto];
 }
 
 /*!
@@ -175,7 +175,7 @@ function html_trace($errstr = "")
  *
  * \param string $errline The error line
  */
-function gosaRaiseError($errno, $errstr, $errfile, $errline)
+function gosaRaiseError ($errno, $errstr, $errfile, $errline)
 {
   global $error_collector,$config, $error_collector_mailto;
 
@@ -207,7 +207,7 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
 
     /* Write to syslog */
     if (class_exists('logging') && !preg_match('/No such object/', $errstr)) {
-      logging::log('view', 'error', '', array(), "PHP error: $errstr ($errfile, line $errline)");
+      logging::log('view', 'error', '', [], "PHP error: $errstr($errfile, line $errline)");
     }
 
     set_error_handler('gosaRaiseError', E_WARNING | E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT);
@@ -216,7 +216,7 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
 
   /* Send all errors to logging class, except "Ldap : No such object" messages*/
   if (class_exists('logging') && !preg_match('/No such object/', $errstr)) {
-    logging::log('debug', 'all', $errfile, array(), 'Type:'.$errno.', Message:'.$errstr.', File:'.$errfile.', Line: '.$errline);
+    logging::log('debug', 'all', $errfile, [], 'Type:'.$errno.', Message:'.$errstr.', File:'.$errfile.', Line: '.$errline);
   }
 
   /* Create header as needed */
@@ -266,7 +266,7 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
 
   /* Create error header */
   $error_collector_mailto .= rawurlencode("=== Error === \n");
-  $error_collector_mailto .= rawurlencode("PHP error: $errstr ($errfile, line $errline)\n");
+  $error_collector_mailto .= rawurlencode("PHP error: $errstr($errfile, line $errline)\n");
   $error_collector_mailto .= rawurlencode("=== /Error === \n\n");
 
   list($html_trace, $mailto_trace) = html_trace($errstr);
@@ -290,13 +290,13 @@ function gosaRaiseError($errno, $errstr, $errfile, $errline)
 /*!
  * \brief Dummy error handler
  */
-function dummy_error_handler()
+function dummy_error_handler ()
 {
 }
 
 /*! \brief Returns TRUE if SSL was used to contact FD, whether directly or through a proxy
  */
-function sslOn()
+function sslOn ()
 {
   if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
     return (strcasecmp($_SERVER['HTTP_X_FORWARDED_PROTO'], 'https') == 0);
@@ -309,7 +309,7 @@ function sslOn()
 
 /*! \brief Returns SSL URL to redirect to
  */
-function sslUrl()
+function sslUrl ()
 {
   $ssl = 'https://';
   if (empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
@@ -337,7 +337,7 @@ date_default_timezone_set("GMT");
 /* Get base dir for reference */
 $BASE_DIR = dirname(dirname(__FILE__));
 $ROOT_DIR = $BASE_DIR."/html";
-error_reporting (E_ALL | E_STRICT);
+error_reporting(E_ALL | E_STRICT);
 
 /* Register error handler */
 $error_collector        = "";
@@ -358,8 +358,8 @@ $smarty = new Smarty;
 
 $smarty->template_dir = $BASE_DIR.'/ihtml/';
 $smarty->caching      = FALSE;
-$smarty->assign('css_files', array());
-$smarty->assign('js_files', array());
+$smarty->assign('css_files', []);
+$smarty->assign('js_files', []);
 
 $smarty->php_handling = Smarty::PHP_REMOVE;
 

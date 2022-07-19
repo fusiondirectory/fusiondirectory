@@ -21,15 +21,15 @@
 class locality extends department
 {
   static $namingAttr  = "l";
-  var $objectclasses  = array("top", "gosaDepartment");
-  var $structuralOC   = array("locality");
+  var $objectclasses  = ["top", "gosaDepartment"];
+  var $structuralOC   = ["locality"];
 
-  static function plInfo()
+  static function plInfo ()
   {
-    return array(
+    return [
       'plShortName'   => _('Locality'),
       'plDescription' => _('Locality'),
-      'plObjectType'  => array('locality' => array(
+      'plObjectType'  => ['locality' => [
         'aclCategory' => 'department',
         'name'        => _('Locality'),
         'filter'      => '(&(!(objectClass=dcObject))(objectClass=locality)(objectClass=gosaDepartment))',
@@ -37,13 +37,13 @@ class locality extends department
         'icon'        => 'geticon.php?context=types&icon=locality&size=16',
         'tabClass'    => 'deptabs',
         'mainAttr'    => static::$namingAttr,
-      )),
-      'plForeignKeys'  => array(
-        'manager' => array('user','dn','manager=%oldvalue%','*')
-      ),
+      ]],
+      'plForeignKeys'  => [
+        'manager' => ['user','dn','manager=%oldvalue%','*']
+      ],
 
       'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())
-    );
+    ];
   }
 
   static function getAttributesInfo ()

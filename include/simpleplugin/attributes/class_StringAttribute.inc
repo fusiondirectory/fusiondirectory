@@ -59,9 +59,9 @@ class StringAttribute extends Attribute
   function renderFormInput ()
   {
     $id = $this->getHtmlId();
-    $attributes = array(
+    $attributes = [
       'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}'
-    );
+    ];
     if (!empty($this->managedAttributes)) {
       $js       = $this->managedAttributesJS();
       $attributes['onChange'] = 'javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8');
@@ -76,7 +76,7 @@ class StringAttribute extends Attribute
   function fixPostValue ($value)
   {
     /* Replace CRLF by LF, to avoid non-ASCII chars in multiline values (mainly useful for textarea) */
-    return str_replace(array("\r\n", "\r"), "\n", $value);
+    return str_replace(["\r\n", "\r"], "\n", $value);
   }
 
   function check ()
@@ -108,7 +108,7 @@ class StringAttribute extends Attribute
     return $this->autocomplete;
   }
 
-  function checkValue($value)
+  function checkValue ($value)
   {
     if (!is_scalar($value) && (!is_object($value) || !method_exists($value, '__toString' ))) {
       throw new InvalidValueException(sprintf(_('StringAttribute "%s" was set to a non-compatible value'), $this->getLabel()));
@@ -160,10 +160,10 @@ class PasswordAttribute extends StringAttribute
     $id = $this->getHtmlId();
     $display  = $this->renderInputField(
       'password', $id,
-      array(
+      [
         'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}',
         'autocomplete' => ($this->autocomplete ? 'on' : 'off'),
-      )
+      ]
     );
     if ($this->autocomplete === FALSE) {
       $display = '{literal}<input autocomplete="off" value="foolautocompleteworkaround" type="text" style="display:none;"/>{/literal}'.$display;

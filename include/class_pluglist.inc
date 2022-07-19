@@ -40,28 +40,28 @@ class pluglist {
    * \brief The plInfo result for all plugin, using class as key.
    * Contains the plugin index in 'INDEX' and the path in 'PATH'
    */
-  var $info             = array();
+  var $info             = [];
 
   /*!
    * \brief Foreign references on DNs
    */
-  var $dnForeignRefs = array();
+  var $dnForeignRefs = [];
 
   /*!
    * \brief Using the plugin index as a key, the class of the plugin.
    */
-  var $dirlist          = array();
+  var $dirlist          = [];
 
   /*!
    * \brief List plugin indexes of all plugin that the user have acl for
    */
-  var $allowed_plugins  = array();
-  var $silly_cache      = array();
+  var $allowed_plugins  = [];
+  var $silly_cache      = [];
 
   /*!
    * \brief List the plugins
    */
-  function __construct()
+  function __construct ()
   {
     global $class_mapping;
 
@@ -71,13 +71,13 @@ class pluglist {
     sort($classes);
 
     $index = 0;
-    $depends_infos    = array();
-    $conflicts_infos  = array();
-    $foreign_refs     = array();
+    $depends_infos    = [];
+    $conflicts_infos  = [];
+    $foreign_refs     = [];
     foreach ($classes as $cname) {
       $cmethods = get_class_methods($cname);
       if (in_array_ics('plInfo', $cmethods)) {
-        $infos = call_user_func(array($cname, 'plInfo'));
+        $infos = call_user_func([$cname, 'plInfo']);
         if (empty($infos)) {
           continue;
         }
@@ -85,7 +85,7 @@ class pluglist {
           $infos['plSelfModify']  = FALSE;
           /* services are not part of any objectType */
           unset($infos['plObjectType']);
-          $infos['plCategory']    = array('server');
+          $infos['plCategory']    = ['server'];
         } else {
           if (!isset($infos['plSelfModify'])) {
             $infos['plSelfModify'] = FALSE;
@@ -103,10 +103,10 @@ class pluglist {
         if (isset($infos['plForeignKeys'])) {
           foreach ($infos['plForeignKeys'] as $ofield => &$pfks) {
             if (!is_array($pfks)) {
-              $pfks = array($pfks);
+              $pfks = [$pfks];
             }
             if (!is_array($pfks[0])) {
-              $pfks = array($pfks);
+              $pfks = [$pfks];
             }
             foreach ($pfks as &$pfk) {
               $class = $pfk[0];
@@ -125,32 +125,32 @@ class pluglist {
               }
               $pfk[2] = $filter;
               if (!isset($foreign_refs[$class])) {
-                $foreign_refs[$class] = array();
+                $foreign_refs[$class] = [];
               }
               if (!isset($foreign_refs[$class][$field])) {
-                $foreign_refs[$class][$field] = array();
+                $foreign_refs[$class][$field] = [];
               }
-              $foreign_refs[$class][$field][] = array($cname, $ofield, $filter);
+              $foreign_refs[$class][$field][] = [$cname, $ofield, $filter];
               if ($field == 'dn') {
-                $this->dnForeignRefs[] = array($cname, $ofield, $filter, (isset($pfk[3]) ? $pfk[3] : "$ofield=*%oldvalue%"));
+                $this->dnForeignRefs[] = [$cname, $ofield, $filter, (isset($pfk[3]) ? $pfk[3] : "$ofield=*%oldvalue%")];
               }
             }
             unset($pfk);
           }
           unset($pfks);
         } else {
-          $infos['plForeignKeys'] = array();
+          $infos['plForeignKeys'] = [];
         }
         if (!isset($infos['plProvidedAcls'])) {
-          $infos['plProvidedAcls'] = array();
+          $infos['plProvidedAcls'] = [];
         }
         if (!isset($infos['plCategory'])) {
-          $infos['plCategory'] = array();
+          $infos['plCategory'] = [];
         }
         if (!isset($infos['plTitle']) && isset($infos['plShortName'])) {
           $infos['plTitle'] = $infos['plShortName'];
         }
-        $infos['plForeignRefs']         = array();
+        $infos['plForeignRefs']         = [];
         $infos['INDEX']                 = $index;
         $this->info[$cname]             = $infos;
         $this->dirlist[$index++]        = $cname;
@@ -163,7 +163,7 @@ class pluglist {
           if (isset($this->info[$depend]['plDepending'])) {
             $this->info[$depend]['plDepending'][] = $cname;
           } else {
-            $this->info[$depend]['plDepending'] = array($cname);
+            $this->info[$depend]['plDepending'] = [$cname];
           }
         } else {
           trigger_error("$cname depends of the inexisting plugin $depend");
@@ -178,7 +178,7 @@ class pluglist {
               $this->info[$conflict]['plConflicts'][] = $cname;
             }
           } else {
-            $this->info[$conflict]['plConflicts'] = array($cname);
+            $this->info[$conflict]['plConflicts'] = [$cname];
           }
         }
       }
@@ -190,9 +190,9 @@ class pluglist {
     }
 
     /* Provide field for 'all' */
-    $this->info['all'] = array();
+    $this->info['all'] = [];
 
-    $this->info['all']['plProvidedAcls']  = array();
+    $this->info['all']['plProvidedAcls']  = [];
     $this->info['all']['plDescription']   = _("All objects in this category");
     $this->info['all']['plSelfModify']    = FALSE;
 
@@ -227,7 +227,7 @@ class pluglist {
    *
    * \return Boolean TRUE on success FALSE otherwise
    */
-  function check_access($infos)
+  function check_access ($infos)
   {
     global $ui;
 
@@ -248,11 +248,11 @@ class pluglist {
     /* Split given acl string into an array.
       e.g. "user,systems" => array("user","systems");
          */
-    $acls_to_check = array();
+    $acls_to_check = [];
     if (preg_match("/,/", $aclname)) {
       $acls_to_check = explode(",", $aclname);
     } else {
-      $acls_to_check = array($aclname);
+      $acls_to_check = [$aclname];
     }
 
     foreach ($acls_to_check as $acl_to_check) {
@@ -291,7 +291,7 @@ class pluglist {
   /*!
    * \brief Get headline, description and icon of a plugin
    */
-  function get_infos($cname)
+  function get_infos ($cname)
   {
     $plHeadline     = FALSE;
     $plIcon         = FALSE;
@@ -309,7 +309,7 @@ class pluglist {
         $plDescription = $this->info[$cname]['plDescription'];
       }
       if ($plHeadline && $plIcon && $plDescription) {
-        return array($plHeadline,$plDescription,$href,$plIcon);
+        return [$plHeadline,$plDescription,$href,$plIcon];
       }
     }
     $vars = get_class_vars($cname);
@@ -329,13 +329,13 @@ class pluglist {
     if (!$plIcon) {
       $plIcon = "icon.png";
     }
-    return array($plHeadline,$plDescription,$href,$plIcon);
+    return [$plHeadline,$plDescription,$href,$plIcon];
   }
 
   /*!
    * \brief Generate menu
    */
-  function gen_menu()
+  function gen_menu ()
   {
     global $config;
     if ($this->menu == "") {
@@ -352,7 +352,7 @@ class pluglist {
           if (isset($info['CLASS']) && plugin_available($info['CLASS'])) {
             $index  = $this->get_index($info['CLASS']);
             $this->allowed_plugins[$index] = $index;
-            list ($plHeadline, $plDescription, $href, ) = $this->get_infos($info['CLASS']);
+            list($plHeadline, $plDescription, $href, ) = $this->get_infos($info['CLASS']);
             $id             = $info['CLASS'];
           } elseif (!isset($info['CLASS'])) {
             $plHeadline     = $info['TITLE'];
@@ -398,7 +398,7 @@ class pluglist {
   /*!
    * \brief Show the menu icon
    */
-  function show_iconmenu()
+  function show_iconmenu ()
   {
     global $class_mapping, $config;
     if ($this->iconmenu == "") {
@@ -416,7 +416,7 @@ class pluglist {
           }
           if (isset($info['CLASS']) && plugin_available($info['CLASS'])) {
             /* Read information from class variable */
-            list ($plHeadline, $plDescription, $href, $plIcon) = $this->get_infos($info['CLASS']);
+            list($plHeadline, $plDescription, $href, $plIcon) = $this->get_infos($info['CLASS']);
             $id             = $info['CLASS'];
           } elseif (!isset($info['CLASS'])) {
             $plHeadline     = $info['TITLE'];
@@ -456,7 +456,7 @@ class pluglist {
    *
    * \param string $index The index which we want the path
    */
-  function get_path($index)
+  function get_path ($index)
   {
     if (!isset($this->dirlist[$index])) {
       return "";
@@ -469,7 +469,7 @@ class pluglist {
    *
    * \param string $class The name of the class
    */
-  function get_index($class)
+  function get_index ($class)
   {
     /* Search for plugin index (id), identify entry by class */
     if (isset($this->info[$class])) {
@@ -487,12 +487,12 @@ class pluglist {
    *
    * \return Boolean TRUE if we are allowed to view the plugin else FALSE
    */
-  function plugin_access_allowed($plug_id)
+  function plugin_access_allowed ($plug_id)
   {
     return isset($this->allowed_plugins[$plug_id]);
   }
 
-  static function pluginInfos($cname)
+  static function pluginInfos ($cname)
   {
     $plist = session::get('plist');
     if ($plist) {

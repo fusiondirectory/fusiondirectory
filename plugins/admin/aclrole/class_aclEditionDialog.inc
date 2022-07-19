@@ -25,17 +25,17 @@ class ACLEditionDialog extends GenericDialog
   protected $initialAclValue;
   protected $dialogState      = 'create';
   protected $aclObject        = '';
-  protected $aclContents      = array();
-  protected $savedAclContents = array();
+  protected $aclContents      = [];
+  protected $savedAclContents = [];
 
-  function __construct($simplePlugin, $attribute, $acl = NULL)
+  function __construct ($simplePlugin, $attribute, $acl = NULL)
   {
     $this->attribute        = $attribute;
     $this->initialAclValue  = $acl;
 
     /* New entry gets presets... */
     if ($acl === NULL) {
-      $this->aclContents  = array();
+      $this->aclContents  = [];
     } else {
       $this->aclContents  = $acl;
     }
@@ -55,11 +55,11 @@ class ACLEditionDialog extends GenericDialog
     return FALSE;
   }
 
-  function save_object()
+  function save_object ()
   {
     global $config;
 
-    $new_acl = array();
+    $new_acl = [];
 
     foreach ($_POST as $name => $post) {
       /* Actions... */
@@ -98,7 +98,7 @@ class ACLEditionDialog extends GenericDialog
 
         /* Ordinary ACL */
         if (!isset($new_acl[$object])) {
-          $new_acl[$object] = array();
+          $new_acl[$object] = [];
         }
         if (isset($new_acl[$object][$attribute])) {
           $new_acl[$object][$attribute] .= $value;
@@ -164,7 +164,7 @@ class ACLEditionDialog extends GenericDialog
           /* Hide empty categories */
           continue;
         }
-        $summary = array();
+        $summary = [];
         foreach ($infos['classes'] as $oc) {
           if (isset($this->aclContents[$oc]) && count($this->aclContents[$oc]) && isset($this->aclContents[$oc][0]) &&
               $this->aclContents[$oc][0] != '') {
@@ -193,17 +193,17 @@ class ACLEditionDialog extends GenericDialog
                   '<input class="center" type="image" src="geticon.php?context=actions&amp;icon=edit-delete&amp;size=16"
                     alt="'._('Delete').'" name="cat_del_'.$section.'" title="'._('Reset category ACL').'"/>';
 
-        $field1 = array('html' => $infos['description'], 'attach' => 'style="width:140px"');
-        $field2 = array('html' => $summary);
-        $field3 = array('html' => $action, 'attach' => 'style="border-right:0px;width:40px"');
-        $aclList->AddEntry(array($field1, $field2, $field3));
+        $field1 = ['html' => $infos['description'], 'attach' => 'style="width:140px"'];
+        $field2 = ['html' => $summary];
+        $field3 = ['html' => $action, 'attach' => 'style="border-right:0px;width:40px"'];
+        $aclList->AddEntry([$field1, $field2, $field3]);
       }
 
       $smarty->assign('headline', _('List of available ACL categories'));
       $smarty->assign('aclEdition', $aclList->DrawList());
     } elseif ($this->dialogState == 'edit') {
       /* Collect objects for selected category */
-      $aclObjects = array();
+      $aclObjects = [];
       foreach ($config->data['CATEGORIES'][$this->aclObject]['classes'] as $idx => $class) {
         if ($idx == 0) {
           continue;
@@ -233,7 +233,7 @@ class ACLEditionDialog extends GenericDialog
    *
    * \return String containing checkbox
    */
-  function mkchkbx($name, $text, $state = FALSE)
+  function mkchkbx ($name, $text, $state = FALSE)
   {
     $tname = preg_replace('/[^a-z0-9]/i', '_', $name);
     return  '<input id="acl_'.$tname.'" type="checkbox" name="acl_'.$name.'"'.($state ? ' checked="checked"' : '').'/>'."\n".
@@ -248,7 +248,7 @@ class ACLEditionDialog extends GenericDialog
    *
    * \return String containing checkbox
    */
-  function mkrwbx($name, $state = '')
+  function mkrwbx ($name, $state = '')
   {
     $rstate = (preg_match('/r/', $state) ? ' checked="checked"' : '');
     $wstate = (preg_match('/w/', $state) ? ' checked="checked"' : '');
@@ -267,7 +267,7 @@ class ACLEditionDialog extends GenericDialog
    *
    * \return the acl selector form
    */
-  function buildAclSelector($list)
+  function buildAclSelector ($list)
   {
     $display  = '<input type="hidden" name="acl_dummy_0_0_0" value="1"/>';
     $cols     = 3;
@@ -310,7 +310,7 @@ class ACLEditionDialog extends GenericDialog
     foreach ($list as $key => $name) {
       /* Create sub acl if it does not exist */
       if (!isset($this->aclContents[$key])) {
-        $this->aclContents[$key] = array();
+        $this->aclContents[$key] = [];
       }
       if (!isset($this->aclContents[$key][0])) {
         $this->aclContents[$key][0] = '';

@@ -71,7 +71,7 @@ class DateAttribute extends Attribute
     }
   }
 
-  protected function ldapToDate($ldapValue)
+  protected function ldapToDate ($ldapValue)
   {
     $date = DateTime::createFromFormat($this->format, $ldapValue, new DateTimeZone('UTC'));
     if ($date !== FALSE) {
@@ -82,12 +82,12 @@ class DateAttribute extends Attribute
     }
   }
 
-  protected function dateToLdap($dateValue)
+  protected function dateToLdap ($dateValue)
   {
     return $dateValue->format($this->format);
   }
 
-  function getDateValue()
+  function getDateValue ()
   {
     $value = $this->value;
     if (!($value instanceof DateTime)) {
@@ -143,10 +143,10 @@ class DateAttribute extends Attribute
     $id = $this->getHtmlId();
     $display = $this->renderInputField(
       'text', $id,
-      array(
+      [
         'value' => '{literal}'.$this->getValue().'{/literal}',
         'class' => 'date'
-      )
+      ]
     );
     $display  .= '{if $'.$this->getAcl().'ACL|regex_replace:"/[cdmr]/":"" == "w"}'.
         '<script type="text/javascript">
@@ -169,7 +169,7 @@ class GeneralizedTimeDateAttribute extends DateAttribute
     parent::__construct($label, $description, $ldapName, $required, '', $defaultValue, $acl);
   }
 
-  protected function ldapToDate($ldapValue)
+  protected function ldapToDate ($ldapValue)
   {
     try {
       return LdapGeneralizedTime::fromString($ldapValue);
@@ -179,7 +179,7 @@ class GeneralizedTimeDateAttribute extends DateAttribute
     }
   }
 
-  protected function dateToLdap($dateValue)
+  protected function dateToLdap ($dateValue)
   {
     return LdapGeneralizedTime::toString($dateValue);
   }
@@ -192,31 +192,31 @@ class TimeHisAttribute extends CompositeAttribute
 {
   protected $convert;
 
-  function __construct($label, $description, $ldapName, $required, $convert = TRUE, $acl = '')
+  function __construct ($label, $description, $ldapName, $required, $convert = TRUE, $acl = '')
   {
     $this->convert = $convert;
-    $attributes = array(
-      new IntAttribute (
+    $attributes = [
+      new IntAttribute(
         '',  _('Hours'),
         $ldapName.'_hours', TRUE,
         0, 23, 1
       ),
-      new IntAttribute (
+      new IntAttribute(
         ':', _('Minutes'),
         $ldapName.'_minutes', TRUE,
         0, 59, 0
       ),
-      new IntAttribute (
+      new IntAttribute(
         ':', _('Seconds'),
         $ldapName.'_seconds', TRUE,
         0, 59, 0
       )
-    );
+    ];
     parent::__construct($description, $ldapName, $attributes, '/^(\d\d)(\d\d)(\d\d)$/', '%02d%02d%02d', $acl, $label);
     $this->setLinearRendering(TRUE);
   }
 
-  function readValues($value)
+  function readValues ($value)
   {
     $values = parent::readValues($value);
     if ($this->convert) {
@@ -232,7 +232,7 @@ class TimeHisAttribute extends CompositeAttribute
     return $values;
   }
 
-  function writeValues($values)
+  function writeValues ($values)
   {
     if ($this->convert) {
       $datetime = new DateTime('T'.implode(':', $values), timezone::getDefaultTimeZone());
@@ -246,7 +246,7 @@ class TimeHisAttribute extends CompositeAttribute
     return parent::writeValues($values);
   }
 
-  function displayValue($value)
+  function displayValue ($value)
   {
     $values = parent::readValues($value);
     $datetime = new DateTime('T'.implode(':', $values), timezone::utc());
@@ -266,21 +266,21 @@ class TimeHisAttribute extends CompositeAttribute
  */
 class TimeHiAttribute extends TimeHisAttribute
 {
-  function __construct($label, $description, $ldapName, $required, $convert = TRUE, $acl = '')
+  function __construct ($label, $description, $ldapName, $required, $convert = TRUE, $acl = '')
   {
     $this->convert = $convert;
-    $attributes = array(
-      new IntAttribute (
+    $attributes = [
+      new IntAttribute(
         '',  _('Hours'),
         $ldapName.'_hours', TRUE,
         0, 23, 1
       ),
-      new IntAttribute (
+      new IntAttribute(
         ':', _('Minutes'),
         $ldapName.'_minutes', TRUE,
         0, 59, 0
       )
-    );
+    ];
     CompositeAttribute::__construct($description, $ldapName, $attributes, '/^(\d\d)(\d\d)$/', '%02d%02d', $acl, $label);
     $this->setLinearRendering(TRUE);
   }
@@ -291,9 +291,9 @@ class TimeHiAttribute extends TimeHisAttribute
  */
 class DateTimeAttribute extends CompositeAttribute
 {
-  function __construct($label, $description, $ldapName, $required, $acl = '')
+  function __construct ($label, $description, $ldapName, $required, $acl = '')
   {
-    $attributes = array(
+    $attributes = [
       new DateAttribute(
         _('Date'), '',
         $ldapName.'_date', $required,
@@ -305,7 +305,7 @@ class DateTimeAttribute extends CompositeAttribute
         $ldapName.'_time', $required,
         FALSE
       )
-    );
+    ];
     parent::__construct($description, $ldapName, $attributes, '/^(\d{8})(\d{6})$/', '%s%s', $acl, $label);
   }
 }

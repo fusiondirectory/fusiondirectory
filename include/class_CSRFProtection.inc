@@ -20,7 +20,7 @@
 
 class CSRFProtection
 {
-  public static function check()
+  public static function check ()
   {
     if (empty($_POST)) {
       return;
@@ -36,7 +36,7 @@ class CSRFProtection
     }
   }
 
-  public static function getToken()
+  public static function getToken ()
   {
     if (!session::is_set('CSRFtoken')) {
       session::set('CSRFtoken', standAlonePage::generateRandomHash());
@@ -44,7 +44,7 @@ class CSRFProtection
     return session::get('CSRFtoken');
   }
 
-  public static function checkHeaders()
+  public static function checkHeaders ()
   {
     $origin = FALSE;
     if (!empty($_SERVER['HTTP_ORIGIN'])) {

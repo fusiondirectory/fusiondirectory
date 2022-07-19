@@ -34,7 +34,7 @@ class Language
    *
    * \param string $lang Language locale to use, defaults to self::detect()
    */
-  public static function init($lang = NULL)
+  public static function init ($lang = NULL)
   {
     global $BASE_DIR;
 
@@ -42,7 +42,7 @@ class Language
       $lang = static::detect();
     }
 
-    list ($language, $country, $char) = parse_gettext_lang($lang);
+    list($language, $country, $char) = parse_gettext_lang($lang);
     putenv('LANGUAGE=');
     putenv("LANG=$lang");
     $langset = setlocale(LC_ALL, $lang, $language.'.'.$char);
@@ -60,7 +60,7 @@ class Language
     bindtextdomain($domain, LOCALE_DIR);
     textdomain($domain);
     if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $lang, 'Setting language to');
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $lang, 'Setting language to');
     }
 
     $ret = FALSE;
@@ -95,7 +95,7 @@ class Language
    *
    * \return string gettext locale string
    */
-  public static function detect()
+  public static function detect ()
   {
     global $config;
 
@@ -118,7 +118,7 @@ class Language
     $languages = static::getList();
 
     /* Move supported languages to flat list */
-    $langs = array();
+    $langs = [];
     foreach (array_keys($languages) as $lang) {
       $langs[] = $lang.'.UTF-8';
     }
@@ -132,10 +132,10 @@ class Language
    *
    * \param boolean $ownLanguage Should language names be stated in their own language as well
    */
-  public static function getList($ownLanguage = FALSE)
+  public static function getList ($ownLanguage = FALSE)
   {
     /* locales in english */
-    $tmp_english = array(
+    $tmp_english = [
       'en_US' => 'English',
       'af_ZA' => 'Afrikaans',
       'ar_EG' => 'Arabic',
@@ -166,12 +166,12 @@ class Language
       'vi_VN' => 'Vietnamese',
       'zh_TW' => 'Taiwanese',
       'zh_CN' => 'Chinese',
-    );
+    ];
 
-    $ret = array();
+    $ret = [];
     if ($ownLanguage) {
       /* locales in their own language */
-      $tmp_ownlang = array(
+      $tmp_ownlang = [
         'en_US' => 'English',
         'ar_EG' => 'عربية',
         'af_ZA' => 'Afrikaans',
@@ -202,7 +202,7 @@ class Language
         'vi_VN' => 'Tiếng Việt',
         'zh_TW' => 'Taiwanese',
         'zh_CN' => '中文, 汉语, 漢語',
-      );
+      ];
 
       foreach ($tmp_english as $key => $name) {
         $ret[$key] = _($name).' ('.$tmp_ownlang[$key].')';
@@ -224,9 +224,9 @@ class Language
     return preg_match('/^(fa_|ar_)/', $lang);
   }
 
-  public static function setHeaders($language, $mime)
+  public static function setHeaders ($language, $mime)
   {
-    list ($lang, $country, $char) = parse_gettext_lang($language);
+    list($lang, $country, $char) = parse_gettext_lang($language);
 
     if (!headers_sent()) {
       header("Content-Language: $lang".(empty($country) ? '' : "-$country"));
