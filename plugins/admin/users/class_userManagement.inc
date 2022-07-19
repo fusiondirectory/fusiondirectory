@@ -255,7 +255,7 @@ class userManagement extends simpleManagement
                        'alt="'._('User account').'" title="'._('User account information').'" '.
                        'name="listing_edit_tab_user_'.$row.'"/>';
     if (!empty($attrs)) {
-      if (in_array_ics ('fdTemplate', $attrs['objectClass'])) {
+      if (in_array_ics('fdTemplate', $attrs['objectClass'])) {
         $attrs = templateHandling::fieldsFromLDAP($attrs);
       }
       foreach ($usertabs as $class => $usertab) {
@@ -266,7 +266,7 @@ class userManagement extends simpleManagement
                        'alt="'.$infos['plShortName'].'" title="'.$infos['plShortName'].'" '.
                        'name="listing_edit_tab_'.$class.'_'.$row.'"/>';
           } else {
-            @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $infos['plShortName']." ($class)", "No icon for");
+            @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $infos['plShortName']." ($class)", "No icon for");
           }
         } else {
           $result .= '<img src="images/empty.png" alt="" class="center optional '.$class.'"/>';

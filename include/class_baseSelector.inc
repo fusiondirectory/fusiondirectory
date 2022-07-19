@@ -241,7 +241,7 @@ class baseSelector
         }
         $this->tree .= "<ul>\n";
       } elseif ($indent < $last_indent) {
-        for($i = 0; $i < ($last_indent - $indent); $i++) {
+        for ($i = 0; $i < ($last_indent - $indent); $i++) {
           $this->tree .= "</li></ul>\n";
         }
         $this->tree .= "</li>\n";

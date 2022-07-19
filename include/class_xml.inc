@@ -44,7 +44,7 @@ class xml {
       return [];
     }
 
-    if (!function_exists ('xml_parser_create')) {
+    if (!function_exists('xml_parser_create')) {
       trigger_error('xml_parser_create function does not exists');
       return [];
     }

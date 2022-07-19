@@ -55,7 +55,7 @@ class ldapFilter
   function __invoke ($array)
   {
     $stopValue = FALSE;
-    switch($this->operator) {
+    switch ($this->operator) {
       case '!':
         return !$this->subparts[0]($array);
       case '|':
@@ -180,7 +180,7 @@ class ldapFilterLeaf extends ldapFilter
   function __invoke ($array)
   {
     if ($this->dnFilter) {
-      switch($this->operator) {
+      switch ($this->operator) {
         case '~=':
           trigger_error('Filter apply might not work as expected');
         case '=':
@@ -195,7 +195,7 @@ class ldapFilterLeaf extends ldapFilter
         $values = [$values];
       }
       foreach ($values as $value) {
-        switch($this->operator) {
+        switch ($this->operator) {
           case '~=':
             trigger_error('Filter apply might not work as expected');
           case '=':

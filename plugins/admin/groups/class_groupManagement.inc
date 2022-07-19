@@ -286,7 +286,7 @@ class groupManagement extends simpleManagement
                        'alt="'.$infos['plTitle'].'" title="'.$infos['plTitle'].'" '.
                        'name="listing_edit_tab_'.$class.'_'.$row.'" style="padding:1px"/>';
           } else {
-            @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $infos['plShortName']." ($class)", 'No icon for');
+            @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $infos['plShortName']." ($class)", 'No icon for');
           }
         } else {
           $result .= '<img src="images/empty.png" alt=" " class="center optional '.$class.'" style="padding:1px"/>';
@@ -301,7 +301,7 @@ class groupManagement extends simpleManagement
   {
     $types  = preg_replace('/[^a-z]/i', '', $gosaGroupObjects[0]);
     $result = '';
-    for($i = 0; $i < strlen($types); $i++) {
+    for ($i = 0; $i < strlen($types); $i++) {
       if ($types[$i] == 'I') {
         continue;
       }

@@ -47,7 +47,7 @@ class ogrouptabs extends simpleTabs_noSpecial
         $dtabs  = [];
       }
       $tabs   = FALSE;
-      for($i = 0; $i < strlen($objects); $i++) {
+      for ($i = 0; $i < strlen($objects); $i++) {
         if (in_array($objects[$i], ['I','G'])) {
           /* Ignore unknown objects and groups */
           continue;

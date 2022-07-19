@@ -693,7 +693,7 @@ class listing
         $classes  = "";
         $components = explode(';', $cfg);
         foreach ($components as $part) {
-          switch($part) {
+          switch ($part) {
             case 'r':
               $res .= 'text-align:right;';
               break;
@@ -804,7 +804,7 @@ class listing
       list($cl, $method, $parts, $offset) = $filter;
       $params = [];
       foreach ($parts as $param) {
-        switch($param) {
+        switch ($param) {
           case 'row':
             $params[] = $row;
             break;
@@ -1117,7 +1117,7 @@ class listing
     $params = [func_get_arg(2)];
 
     // Collect sprintf params
-    for($i = 3;$i < func_num_args();$i++) {
+    for ($i = 3;$i < func_num_args();$i++) {
       $val = func_get_arg($i);
       if (empty($val)) {
         continue;
@@ -1415,7 +1415,7 @@ class listing
       }
 
       // Check for special types
-      switch($action['type']) {
+      switch ($action['type']) {
         case 'copypaste':
           $cut    = !isset($action['cut']) || $action['cut'] != "false";
           $copy   = !isset($action['copy']) || $action['copy'] != "false";

@@ -46,7 +46,7 @@ class passwordMethodCrypt extends passwordMethod
    */
   function is_available ()
   {
-    return function_exists ('crypt');
+    return function_exists('crypt');
   }
 
   /*!

@@ -443,7 +443,7 @@ class msgPool {
       $mismatch = "";
 
       mb_internal_encoding('UTF-8');
-      for($i = 0; $i <= mb_strlen($data); $i++) {
+      for ($i = 0; $i <= mb_strlen($data); $i++) {
         $currentChar = mb_substr($data, $i, 1);
         if (preg_match("$regex", $currentChar)) {
           $result .= $currentChar;

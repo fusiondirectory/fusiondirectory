@@ -45,7 +45,7 @@ class passwordMethodssha extends passwordMethod
    */
   function is_available ()
   {
-    return (function_exists ('sha1') || function_exists ('mhash'));
+    return (function_exists('sha1') || function_exists('mhash'));
   }
 
   /*!
@@ -55,12 +55,12 @@ class passwordMethodssha extends passwordMethod
    */
   function generate_hash ($pwd)
   {
-    if (function_exists ('sha1')) {
+    if (function_exists('sha1')) {
       $salt = substr(pack('h*', md5(random_int(0, PHP_INT_MAX))), 0, 8);
       $salt = substr(pack('H*', sha1($salt.$pwd)), 0, 4);
       $pwd  = '{SSHA}'.base64_encode(pack('H*', sha1($pwd.$salt)).$salt);
       return $pwd;
-    } elseif (function_exists ('mhash')) {
+    } elseif (function_exists('mhash')) {
       $salt = mhash_keygen_s2k(MHASH_SHA1, $pwd, substr(pack('h*', md5(random_int(0, PHP_INT_MAX))), 0, 8), 4);
       $pwd  = '{SSHA}'.base64_encode(mhash(MHASH_SHA1, $pwd.$salt).$salt);
     } else {
@@ -75,9 +75,9 @@ class passwordMethodssha extends passwordMethod
     $hash = base64_decode(substr($hash, 6));
     $salt = substr($hash, 20);
     $hash = substr($hash, 0, 20);
-    if (function_exists ('sha1')) {
+    if (function_exists('sha1')) {
       $nhash = pack('H*', sha1($pwd . $salt));
-    } elseif (function_exists ('mhash')) {
+    } elseif (function_exists('mhash')) {
       $nhash = mhash(MHASH_SHA1, $pwd.$salt);
     } else {
       msg_dialog::display(_('Configuration error'), msgPool::missingext('mhash'), ERROR_DIALOG);

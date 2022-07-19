@@ -192,7 +192,7 @@ class config
     }
 
     /* Look through attributes */
-    switch($this->tags[$this->level - 1]) {
+    switch ($this->tags[$this->level - 1]) {
       /* Handle location */
       case 'LOCATION':
         if ($this->tags[$this->level - 2] == 'MAIN') {
@@ -980,7 +980,7 @@ class config
           }
         }
       }
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, join(',', array_unique($acl)), "Class $class categories");
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, join(',', array_unique($acl)), "Class $class categories");
       /* Feed menu */
       if (isset($plInfo['plSection'])) {
         $section = $plInfo['plSection'];

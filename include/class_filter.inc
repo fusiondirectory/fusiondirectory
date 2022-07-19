@@ -333,7 +333,7 @@ class filter
     $c          = 0;
 
     /* Fill cells with charaters */
-    for($i = 0, $l = mb_strlen($characters, 'UTF8'); $i < $l; $i++) {
+    for ($i = 0, $l = mb_strlen($characters, 'UTF8'); $i < $l; $i++) {
       if ($c == 0) {
         $alphabet .= "<tr>";
       }
@@ -398,7 +398,7 @@ class filter
     // Load template and replace elementsHtml[]
     foreach ($this->elements as $tag => $element) {
       $htmlCode = "";
-      switch($element['type']) {
+      switch ($element['type']) {
         case "textfield":
           $htmlCode = $this->getTextfield($element);
           $smarty->assign($tag.'DESC', sprintf(_('Searches in %s'), implode(', ', $element['autocomplete']['attribute'])));
@@ -417,7 +417,7 @@ class filter
           break;
 
         default:
-          throw new Exception ('Unknown element type specified: '.$element['type'].'!');
+          throw new Exception('Unknown element type specified: '.$element['type'].'!');
       }
       $smarty->assign("$tag", $htmlCode);
     }

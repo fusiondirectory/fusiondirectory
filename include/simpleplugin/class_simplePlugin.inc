@@ -242,7 +242,7 @@ class simplePlugin
 
       /* Set the template flag according to the existence of objectClass fdTemplate */
       if (isset($this->attrs['objectClass'])) {
-        if (in_array_ics ('fdTemplate', $this->attrs['objectClass'])) {
+        if (in_array_ics('fdTemplate', $this->attrs['objectClass'])) {
           @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, 'found', 'Template check');
           $this->setTemplate(TRUE);
           $this->templateLoadAttrs($this->attrs);
@@ -325,7 +325,7 @@ class simplePlugin
       if (preg_match('/^top$/i', $obj)) {
         continue;
       }
-      if (!isset($attrs['objectClass']) || !in_array_ics ($obj, $attrs['objectClass'])) {
+      if (!isset($attrs['objectClass']) || !in_array_ics($obj, $attrs['objectClass'])) {
         $found = FALSE;
         break;
       }
@@ -1369,7 +1369,7 @@ class simplePlugin
    */
   protected function handle_hooks ($when, $mode, array $addAttrs = [])
   {
-    switch($mode) {
+    switch ($mode) {
       case 'add':
         return $this->callHook($when.'CREATE', $addAttrs);
 
@@ -1837,7 +1837,7 @@ class simplePlugin
         $usableAttributes[] = (string)$attr;
       }
     }
-    for($i = 1; $i < count($usableAttributes); $i++) {
+    for ($i = 1; $i < count($usableAttributes); $i++) {
       foreach (new Combinations($usableAttributes, $i) as $attrs) {
         $dn = $attribute.'='.ldap_escape_dn($this->$attribute);
         foreach ($attrs as $attr) {

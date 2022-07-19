@@ -45,7 +45,7 @@ class passwordMethodsmd5 extends passwordMethod
    */
   function is_available ()
   {
-    return function_exists ('md5');
+    return function_exists('md5');
   }
 
   /*!

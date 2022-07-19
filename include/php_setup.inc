@@ -51,7 +51,7 @@ function html_trace ($errstr = "")
     'cred_decrypt'      => [0,1],
     'LDAP/__construct'  => [1],
   ];
-  if (!function_exists ('debug_backtrace')) {
+  if (!function_exists('debug_backtrace')) {
     return  ['', ''];
   }
   $trace = array_slice(debug_backtrace(), 1);
@@ -70,7 +70,7 @@ function html_trace ($errstr = "")
                     '</td></tr>';
   $return_mailto  = rawurlencode('=== Trace ===');
   /* Generate trace history */
-  for($index = 1, $c = count($trace); $index < $c; $index++) {
+  for ($index = 1, $c = count($trace); $index < $c; $index++) {
     $ct   = $trace[$index];
     $loc  = '';
     $func = '';
@@ -87,7 +87,7 @@ function html_trace ($errstr = "")
       $func .= $ct['function'];
     }
     if (isset($ct['type'])) {
-      switch($ct['type']) {
+      switch ($ct['type']) {
         case "::":
           $type = _("static");
           break;

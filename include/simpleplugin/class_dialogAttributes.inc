@@ -556,7 +556,7 @@ class GroupsAttribute extends GenericDialogAttribute
     if (!in_array($dn, $this->value)) {
       $display = $entry['cn'][0];
       if (isset($entry['description'][0]) && !empty($entry['description'][0])) {
-        $display .= ' ['.preg_replace ('/^Group of user/', _('Group of user'), $entry['description'][0]).']';
+        $display .= ' ['.preg_replace('/^Group of user/', _('Group of user'), $entry['description'][0]).']';
       }
 
       $this->value[]    = $dn;

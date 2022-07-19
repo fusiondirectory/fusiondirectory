@@ -77,7 +77,7 @@ class phoneSelectDialog extends GenericDialog
   function __construct ($simplePlugin, $attribute, $type)
   {
     $this->attribute  = $attribute;
-    switch($type) {
+    switch ($type) {
       case 'phone':
         $this->dialog = new phoneSelect();
         break;

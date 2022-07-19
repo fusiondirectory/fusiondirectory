@@ -835,7 +835,7 @@ class userinfo
           }
           $tmp = $this->get_permissions($dn, $category.'/'.$oc);
           $types = $acl;
-          for($i = 0, $l = strlen($types); $i < $l; $i++) {
+          for ($i = 0, $l = strlen($types); $i < $l; $i++) {
             if (strpos($tmp, $types[$i]) === FALSE) {
               $acl = str_replace($types[$i], '', $acl);
             }

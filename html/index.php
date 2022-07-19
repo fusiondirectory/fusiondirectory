@@ -22,8 +22,8 @@
 /* Load required includes */
 require_once ("../include/php_setup.inc");
 require_once ("functions.inc");
-require_once ("variables.inc");
-require_once ("class_logging.inc");
+require_once("variables.inc");
+require_once("class_logging.inc");
 
 /* Set headers */
 header('Content-type: text/html; charset=UTF-8');
@@ -43,30 +43,30 @@ function displayLogin ()
   if (isset($_POST['username'])) {
     $username = trim($_POST['username']);
   }
-  $smarty->assign ('date',      gmdate('D, d M Y H:i:s'));
-  $smarty->assign ('username',  $username);
-  $smarty->assign ('revision',  FD_VERSION);
-  $smarty->assign ('year',      date('Y'));
-  $smarty->append ('css_files', get_template_path('login.css'));
+  $smarty->assign('date',      gmdate('D, d M Y H:i:s'));
+  $smarty->assign('username',  $username);
+  $smarty->assign('revision',  FD_VERSION);
+  $smarty->assign('year',      date('Y'));
+  $smarty->append('css_files', get_template_path('login.css'));
   $smarty->assign('title',      _('Sign in'));
 
   /* Some error to display? */
   if (!isset($message)) {
     $message = "";
   }
-  $smarty->assign ("message", $message);
+  $smarty->assign("message", $message);
 
   /* Display SSL mode warning? */
   if (($ssl != '') && ($config->get_cfg_value('warnSSL') == 'TRUE')) {
-    $smarty->assign ('ssl', sprintf(_('Warning: <a href="%s">Session is not encrypted!</a>'), $ssl));
+    $smarty->assign('ssl', sprintf(_('Warning: <a href="%s">Session is not encrypted!</a>'), $ssl));
   } else {
-    $smarty->assign ('ssl', '');
+    $smarty->assign('ssl', '');
   }
 
   if (!$config->check_session_lifetime()) {
-    $smarty->assign ('lifetime', _('Warning: The session lifetime configured in your fusiondirectory.conf will be overridden by php.ini settings.'));
+    $smarty->assign('lifetime', _('Warning: The session lifetime configured in your fusiondirectory.conf will be overridden by php.ini settings.'));
   } else {
-    $smarty->assign ('lifetime', '');
+    $smarty->assign('lifetime', '');
   }
 
   /* Generate server list */
@@ -79,11 +79,11 @@ function displayLogin ()
   foreach ($config->data['LOCATIONS'] as $key => $ignored) {
     $servers[$key] = $key;
   }
-  $smarty->assign ("server_options", $servers);
-  $smarty->assign ("server_id", $selected);
+  $smarty->assign("server_options", $servers);
+  $smarty->assign("server_id", $selected);
 
   /* show login screen */
-  $smarty->assign ("PHPSESSID", session_id());
+  $smarty->assign("PHPSESSID", session_id());
   if (session::is_set('errors')) {
     $smarty->assign("errors", session::get('errors'));
   }
@@ -98,7 +98,7 @@ function displayLogin ()
   $smarty->assign("lang", preg_replace('/_.*$/', '', $lang));
   $smarty->assign("rtl",  Language::isRTL($lang));
 
-  $smarty->display (get_template_path('headers.tpl'));
+  $smarty->display(get_template_path('headers.tpl'));
   $smarty->assign("version", FD_VERSION);
 
   $smarty->display(get_template_path('login.tpl'));
@@ -165,7 +165,7 @@ if (!is_readable(CONFIG_DIR.'/'.CONFIG_FILE)) {
 $config = new config(CONFIG_DIR.'/'.CONFIG_FILE, $BASE_DIR);
 session::set('config', $config);
 session::set('DEBUGLEVEL', $config->get_cfg_value('DEBUGLEVEL'));
-@DEBUG (DEBUG_CONFIG, __LINE__, __FUNCTION__, __FILE__, $config->data, 'config');
+@DEBUG(DEBUG_CONFIG, __LINE__, __FUNCTION__, __FILE__, $config->data, 'config');
 
 /* Set template compile directory */
 $smarty->compile_dir = $config->get_cfg_value('templateCompileDirectory', SPOOL_DIR);
@@ -188,7 +188,7 @@ clean_smarty_compile_dir($smarty->compile_dir);
 
 Language::init();
 
-$smarty->assign ('focusfield', 'username');
+$smarty->assign('focusfield', 'username');
 
 if (isset($_POST['server'])) {
   $server = $_POST['server'];
@@ -206,7 +206,7 @@ if (
 
 /* If SSL is forced, just forward to the SSL enabled site */
 if (($config->get_cfg_value('forcessl') == 'TRUE') && ($ssl != '')) {
-  header ("Location: $ssl");
+  header("Location: $ssl");
   exit;
 }
 
@@ -288,7 +288,7 @@ class Index {
       return FALSE;
     } elseif (mb_strlen(static::$password, 'UTF-8') == 0) {
       $message = _('Please specify your password!');
-      $smarty->assign ('focusfield', 'password');
+      $smarty->assign('focusfield', 'password');
       return FALSE;
     }
     return TRUE;
@@ -307,7 +307,7 @@ class Index {
         logging::log('security', 'login', '', [], 'Authentication failed for user "'.static::$username.'"');
       }
       $message = _('Please check the username/password combination.');
-      $smarty->assign ('focusfield', 'password');
+      $smarty->assign('focusfield', 'password');
       return FALSE;
     }
     return TRUE;
@@ -342,7 +342,7 @@ class Index {
       if ($expired == POSIX_ACCOUNT_EXPIRED) {
         logging::log('security', 'login', '', [], 'Account for user "'.static::$username.'" has expired');
         $message = _('Account locked. Please contact your system administrator!');
-        $smarty->assign ('focusfield', 'username');
+        $smarty->assign('focusfield', 'username');
         return FALSE;
       }
     }
@@ -357,7 +357,7 @@ class Index {
     logging::log('security', 'login', '', [], 'User "'.static::$username.'" logged in successfully.');
     session::set('connected', 1);
     session::set('DEBUGLEVEL', $config->get_cfg_value('DEBUGLEVEL'));
-    header ('Location: main.php?global_check=1');
+    header('Location: main.php?global_check=1');
     exit;
   }
 
@@ -521,8 +521,6 @@ class Index {
     /* Reset error messages */
     $message = '';
 
-    //~ phpCAS::setDebug();
-
     // Initialize phpCAS
     phpCAS::client(
       CAS_VERSION_2_0,
@@ -533,7 +531,6 @@ class Index {
 
     // Set the CA certificate that is the issuer of the cert
     phpCAS::setCasServerCACert($config->get_cfg_value('casServerCaCertPath'));
-    //~ phpCAS::setNoCasServerValidation();
 
     // force CAS authentication
     phpCAS::forceAuthentication();
@@ -595,7 +592,7 @@ if ($config->get_cfg_value('httpAuthActivated') == 'TRUE') {
 }
 
 /* Translation of cookie-warning. Whether to display it, is determined by JavaScript */
-$smarty->assign ('cookies', '<b>'._('Warning').':</b> '._('Your browser has cookies disabled. Please enable cookies and reload this page before logging in!'));
+$smarty->assign('cookies', '<b>'._('Warning').':</b> '._('Your browser has cookies disabled. Please enable cookies and reload this page before logging in!'));
 
 /* Set focus to the error button if we've an error message */
 $focus = '';

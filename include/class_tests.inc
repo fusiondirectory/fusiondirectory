@@ -51,7 +51,7 @@ class tests
       return TRUE;
     }
 
-    return preg_match ("/^[\/0-9 ()+*-]+$/", $nr);
+    return preg_match("/^[\/0-9 ()+*-]+$/", $nr);
   }
 
 
@@ -89,7 +89,7 @@ class tests
     }
 
     /* Using @stephenhay regexp from http://mathiasbynens.be/demo/url-regex (removed ftp through) */
-    return preg_match ("@^(https?)://[^\s/$.?#].[^\s]*$@i", $url);
+    return preg_match("@^(https?)://[^\s/$.?#].[^\s]*$@i", $url);
   }
 
 
@@ -104,7 +104,7 @@ class tests
       return TRUE;
     }
 
-    return preg_match ("/^[a-z0-9 _-]+$/i", $dn);
+    return preg_match("/^[a-z0-9 _-]+$/i", $dn);
   }
 
 
@@ -122,9 +122,9 @@ class tests
     /* STRICT adds spaces and case insenstivity to the uid check.
        This is dangerous and should not be used. */
     if (strict_uid_mode()) {
-      return preg_match ("/^[a-z0-9_-]+$/", $uid);
+      return preg_match("/^[a-z0-9_-]+$/", $uid);
     } else {
-      return preg_match ("/^[a-z0-9 _.-]+$/i", $uid);
+      return preg_match("/^[a-z0-9 _.-]+$/i", $uid);
     }
   }
 
@@ -239,7 +239,7 @@ class tests
       return FALSE;
     }
 
-    return preg_match ("/^[0-9]+$/", $id);
+    return preg_match("/^[0-9]+$/", $id);
   }
 
 
@@ -257,7 +257,7 @@ class tests
       return FALSE;
     }
 
-    return preg_match ("/\/.+$/", $path);
+    return preg_match("/\/.+$/", $path);
   }
 
 

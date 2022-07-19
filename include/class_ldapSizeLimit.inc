@@ -68,7 +68,7 @@ class ldapSizeLimit
   function update ()
   {
     if (isset($_POST['set_size_action']) && isset($_POST['action'])) {
-      switch($_POST['action']) {
+      switch ($_POST['action']) {
         case 'newlimit':
           if (isset($_POST['new_limit']) && tests::is_id($_POST['new_limit'])) {
             $this->sizeLimit  = intval($_POST['new_limit']);

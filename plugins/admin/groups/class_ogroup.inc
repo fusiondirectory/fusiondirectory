@@ -52,7 +52,7 @@ class ObjectsAttribute extends GenericDialogAttribute
             break;
           }
         } catch (NonExistingObjectTypeException $e) {
-          @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $e->getMessage(), "Objecttype");
+          @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $e->getMessage(), "Objecttype");
           unset(ogroup::$objectTypes[$code]);
         }
       }

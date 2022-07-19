@@ -169,7 +169,7 @@ class UserPasswordAttribute extends CompositeAttribute
     if ($this->plugin->is_template) {
       list($value, $password) = explode('|', $value, 2);
     }
-    if (preg_match ('/^{[^}]+}/', $value)) {
+    if (preg_match('/^{[^}]+}/', $value)) {
       $tmp = passwordMethod::get_method($value);
       if (is_object($tmp)) {
         $pw_storage = $tmp->get_hash();
@@ -616,7 +616,7 @@ class user extends simplePlugin
     parent::adapt_from_template($attrs, $skip);
     if (isset($this->attrs['userPassword']) && !in_array('userPassword', $skip)) {
       list($hash,$password) = explode('|', $this->attrs['userPassword'][0], 2);
-      if (preg_match ('/^{[^}]+}/', $hash)) {
+      if (preg_match('/^{[^}]+}/', $hash)) {
         $tmp = passwordMethod::get_method($hash);
         if (is_object($tmp)) {
           $hash = $tmp->generate_hash($password);

@@ -129,7 +129,7 @@ class objects
                 (strpos($ui->get_permissions($key, $attrsAcls[$attr][0], $attrsAcls[$attr][1]), 'r') === FALSE)) {
               continue;
             }
-            switch($mode) {
+            switch ($mode) {
               case '*':
                 unset($fetched_attrs[$attr]['count']);
               case 'raw':

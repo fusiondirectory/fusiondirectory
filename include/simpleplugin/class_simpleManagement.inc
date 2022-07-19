@@ -830,7 +830,7 @@ class simpleManagement
       if (count($msgs)) {
         msg_dialog::displayChecks($msgs);
       } else {
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, 'Modifications applied!');
+        @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dns, 'Modifications applied!');
         $this->tabObject->re_init();
       }
     }

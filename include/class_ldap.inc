@@ -132,11 +132,11 @@ class LDAP
     $this->reconnect  = FALSE;
     if ($this->cid = @ldap_connect($this->hostname)) {
       @ldap_set_option($this->cid, LDAP_OPT_PROTOCOL_VERSION, 3);
-      if (function_exists ("ldap_set_rebind_proc") && $this->follow_referral) {
+      if (function_exists("ldap_set_rebind_proc") && $this->follow_referral) {
         @ldap_set_option($this->cid, LDAP_OPT_REFERRALS, 1);
         @ldap_set_rebind_proc($this->cid, [&$this, "rebind"]);
       }
-      if (function_exists ("ldap_start_tls") && $this->tls) {
+      if (function_exists("ldap_start_tls") && $this->tls) {
         @ldap_start_tls($this->cid);
       }
 
@@ -254,7 +254,7 @@ class LDAP
 
       $start = microtime(TRUE);
       $this->clearResult($srp);
-      switch(strtolower($scope)) {
+      switch (strtolower($scope)) {
         case 'base':
           $this->sr[$srp] = @ldap_read($this->cid, $this->basedn, $filter, $attrs);
           break;
@@ -772,7 +772,7 @@ class LDAP
       $attrs = [$type => $param];
 
       /* Hardcoded classes */
-      switch($type) {
+      switch ($type) {
         case 'ou':
           $attrs['objectClass']  = ['organizationalUnit'];
           break;
@@ -851,7 +851,7 @@ class LDAP
       if (!$this->success()) {
         @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $cdn, 'dn');
         @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $attrs, 'Content');
-        @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->get_error (), 'LDAP error');
+        @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->get_error(), 'LDAP error');
 
         msg_dialog::display(_('LDAP error'), msgPool::ldaperror($this->get_error(), $cdn, LDAP_ADD, get_class()), LDAP_ERROR);
         return FALSE;
@@ -1250,7 +1250,7 @@ class LDAP
       $objectclasses[$ocname] = [];
 
       foreach ($pattern as $chunk) {
-        switch($chunk) {
+        switch ($chunk) {
 
           case '(':
             $value = '';

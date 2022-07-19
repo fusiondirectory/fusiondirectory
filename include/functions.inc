@@ -33,16 +33,16 @@ require_once ('functions_debug.inc');
 require_once('accept-to-gettext.inc');
 
 /* Define constants for debugging */
-define ('DEBUG_TRACE',    1); /*! Debug level for tracing of common actions (save, check, etc.) */
-define ('DEBUG_LDAP',     2); /*! Debug level for LDAP queries */
-define ('DEBUG_DB',       4); /*! Debug level for database operations */
-define ('DEBUG_SHELL',    8); /*! Debug level for shell commands */
-define ('DEBUG_POST',     16); /*! Debug level for POST content */
-define ('DEBUG_SESSION',  32); /*! Debug level for SESSION content */
-define ('DEBUG_CONFIG',   64); /*! Debug level for CONFIG information */
-define ('DEBUG_ACL',      128); /*! Debug level for ACL infos */
-define ('DEBUG_SI',       256); /*! Debug level for communication with Argonaut */
-define ('DEBUG_MAIL',     512); /*! Debug level for all about mail (mailAccounts, imap, sieve etc.) */
+define('DEBUG_TRACE',    1); /*! Debug level for tracing of common actions (save, check, etc.) */
+define('DEBUG_LDAP',     2); /*! Debug level for LDAP queries */
+define('DEBUG_DB',       4); /*! Debug level for database operations */
+define('DEBUG_SHELL',    8); /*! Debug level for shell commands */
+define('DEBUG_POST',     16); /*! Debug level for POST content */
+define('DEBUG_SESSION',  32); /*! Debug level for SESSION content */
+define('DEBUG_CONFIG',   64); /*! Debug level for CONFIG information */
+define('DEBUG_ACL',      128); /*! Debug level for ACL infos */
+define('DEBUG_SI',       256); /*! Debug level for communication with Argonaut */
+define('DEBUG_MAIL',     512); /*! Debug level for all about mail (mailAccounts, imap, sieve etc.) */
 define('DEBUG_FAI',      1024); /* FAI(incomplete) */
 
 /* Define shadow states */
@@ -1184,7 +1184,7 @@ function dn2base ($dn, $ou = NULL)
     $dn = preg_replace("/,$ou/i", ',', $dn);
   }
 
-  return preg_replace ('/^[^,]+,/i', '', $dn);
+  return preg_replace('/^[^,]+,/i', '', $dn);
 }
 
 /*!
@@ -1381,7 +1381,7 @@ function gen_uids ($rule, $attributes)
   $stripped   = $rule;
   $variables  = [];
 
-  for($pos = 0; preg_match('/%([^%]+)%/', $stripped, $m, PREG_OFFSET_CAPTURE, $pos); ) {
+  for ($pos = 0; preg_match('/%([^%]+)%/', $stripped, $m, PREG_OFFSET_CAPTURE, $pos); ) {
     $variables[$pos]  = templateHandling::parseMask($m[1][0], $attributes);
     $replace          = '{'.$pos.'}';
     $stripped         = substr_replace($stripped, $replace, $m[0][1], strlen($m[0][0]));
@@ -1472,7 +1472,7 @@ function to_byte ($value)
 
   if (!is_numeric(substr($value, -1))) {
 
-    switch(substr($value, -1)) {
+    switch (substr($value, -1)) {
       case 'g':
         $mult = 1073741824;
         break;
@@ -1547,7 +1547,7 @@ function generate_alphabet ($count = 10)
   $c          = 0;
 
   /* Fill cells with charaters */
-  for($i = 0, $l = mb_strlen($characters, 'UTF8'); $i < $l; $i++) {
+  for ($i = 0, $l = mb_strlen($characters, 'UTF8'); $i < $l; $i++) {
     if ($c == 0) {
       $alphabet .= "<tr>";
     }
@@ -1800,7 +1800,7 @@ function array_key_ics ($ikey, array $items)
 function array_differs ($src, $dst)
 {
   /* If the count is differing, the arrays differ */
-  if (count ($src) != count ($dst)) {
+  if (count($src) != count($dst)) {
     return TRUE;
   }
 
@@ -2137,7 +2137,7 @@ function send_binary_content ($data, $name, $type = "application/octet-stream")
   header("Content-type: ".$type);
 
   /* Strip name if it is a complete path */
-  if (preg_match ("/\//", $name)) {
+  if (preg_match("/\//", $name)) {
     $name = basename($name);
   }
 
@@ -2316,7 +2316,7 @@ function load_all_classes ()
   }
 }
 
-if (!function_exists ('ldap_escape')) {
+if (!function_exists('ldap_escape')) {
   /* This bloc is for PHP<5.6 */
   define('LDAP_ESCAPE_FILTER', 0x01);
   define('LDAP_ESCAPE_DN',     0x02);
@@ -2336,13 +2336,13 @@ if (!function_exists ('ldap_escape')) {
         $charMaps[0][chr($i)] = sprintf('\\%02x', $i);
       }
 
-      for($i = 0, $l = count($charMaps[LDAP_ESCAPE_FILTER]); $i < $l; $i++) {
+      for ($i = 0, $l = count($charMaps[LDAP_ESCAPE_FILTER]); $i < $l; $i++) {
         $chr = $charMaps[LDAP_ESCAPE_FILTER][$i];
         unset($charMaps[LDAP_ESCAPE_FILTER][$i]);
         $charMaps[LDAP_ESCAPE_FILTER][$chr] = $charMaps[0][$chr];
       }
 
-      for($i = 0, $l = count($charMaps[LDAP_ESCAPE_DN]); $i < $l; $i++) {
+      for ($i = 0, $l = count($charMaps[LDAP_ESCAPE_DN]); $i < $l; $i++) {
         $chr = $charMaps[LDAP_ESCAPE_DN][$i];
         unset($charMaps[LDAP_ESCAPE_DN][$i]);
         $charMaps[LDAP_ESCAPE_DN][$chr] = $charMaps[0][$chr];
@@ -2364,7 +2364,7 @@ if (!function_exists ('ldap_escape')) {
 
     // Remove any chars to ignore from the list
     $ignore = (string)$ignore;
-    for($i = 0, $l = strlen($ignore); $i < $l; $i++) {
+    for ($i = 0, $l = strlen($ignore); $i < $l; $i++) {
       unset($charMap[$ignore[$i]]);
     }
 
@@ -2385,7 +2385,7 @@ if (!function_exists ('ldap_escape')) {
   }
 }
 
-if (!function_exists ('random_int')) {
+if (!function_exists('random_int')) {
   // PHP<7, we fallback on openssl_random_pseudo_bytes
   function random_int ($min, $max)
   {
@@ -2412,7 +2412,7 @@ if (!function_exists ('random_int')) {
       $rnd = hexdec(bin2hex($randomBytes));
       // discard irrelevant bits
       $rnd = $rnd & $filter;
-    } while($rnd > $range);
+    } while ($rnd > $range);
     return $min + $rnd;
   }
 }

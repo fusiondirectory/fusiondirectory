@@ -24,7 +24,7 @@
 @require_once('functions.inc');
 @require_once('variables.inc');
 
-error_reporting (0);
+error_reporting(0);
 session_cache_limiter('private');
 session::start();
 session::set('errorsAlreadyPosted', []);
@@ -32,7 +32,7 @@ session::set('errorsAlreadyPosted', []);
 /* Logged in? Simple security check */
 if (!session::is_set('ui')) {
   logging::log('security', 'unknown', '', [], 'Error: getbin.php called without session');
-  header ('Location: index.php');
+  header('Location: index.php');
   exit;
 }
 
@@ -54,5 +54,5 @@ if (session::is_set($key.'file')) {
 }
 
 echo session::get($key);
-error_reporting (E_ALL | E_STRICT);
+error_reporting(E_ALL | E_STRICT);
 ?>
