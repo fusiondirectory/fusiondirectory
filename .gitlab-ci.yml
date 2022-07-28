@@ -16,9 +16,9 @@ create_perl_lint_rapport:
   script:
     - perl -cW contrib/bin/fusiondirectory-setup contrib/bin/fusiondirectory-insert-schema
 
-# PHP lint (stretch)
-create_php_lint_rapport_stretch:
-  image: registry.fusiondirectory.org/fusiondirectory/fd/phpcodesniffer-cli:stretch
+# PHP lint
+create_php_lint_rapport:
+  image: registry.fusiondirectory.org/fusiondirectory/fd/phpcodesniffer-cli:buster
   stage: lint
   only:
     - branches
