@@ -9,7 +9,7 @@ stages:
 
 # Perl lint
 create_perl_lint_rapport:
-  image: registry.fusiondirectory.org/fusiondirectory/fd/perlcodestyle:stretch
+  image: registry.fusiondirectory.org/fusiondirectory/fd/perlcodestyle:buster
   stage: lint
   only:
     - branches
@@ -27,7 +27,7 @@ create_php_lint_rapport_stretch:
 
 # generate man pages to test validity
 create_manpages_lint_report:
-  image: registry.fusiondirectory.org/fusiondirectory/fd/perlcodestyle:stretch
+  image: registry.fusiondirectory.org/fusiondirectory/fd/perlcodestyle:buster
   stage: lint
   only:
     - branches
@@ -43,7 +43,7 @@ create_manpages_lint_report:
 
 # Generate perlcritic rapport
 create_perlcritic_rapport:
-  image: registry.fusiondirectory.org/fusiondirectory/fd/perlcodestyle:stretch
+  image: registry.fusiondirectory.org/fusiondirectory/fd/perlcodestyle:buster
   stage: codestyle
   only:
     - branches
@@ -81,7 +81,7 @@ create_php_compatibility_rapport:
 
 # fusiondirectory-update-locale
 fusiondirectory-update-locale:
-  image: registry.fusiondirectory.org/fusiondirectory/fd/transifex-cli:stretch
+  image: registry.fusiondirectory.org/fusiondirectory/fd/transifex-cli:buster
   stage: transifex
   only:
     - branches
@@ -92,7 +92,7 @@ fusiondirectory-update-locale:
 
 # Update transifex
 update-transifex:
-  image: registry.fusiondirectory.org/fusiondirectory/fd/transifex-cli:stretch
+  image: registry.fusiondirectory.org/fusiondirectory/fd/transifex-cli:buster
   stage: transifex
   only:
     - /^1.*$/
