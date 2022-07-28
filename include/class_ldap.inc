@@ -297,7 +297,7 @@ class LDAP
    *
    * \param array $attrs
    */
-  function ls ($srp, $filter = " (objectclass=*)", $basedn = "", $attrs = ["*"])
+  function ls ($srp, $filter = "(objectclass=*)", $basedn = "", $attrs = ["*"])
   {
     trigger_error('deprecated');
     $this->cd($basedn);
@@ -315,7 +315,7 @@ class LDAP
    *
    * \param string $filter Initialized at "(objectclass=*)"
    */
-  function cat ($srp, $dn, $attrs = ["*"], $filter = " (objectclass=*)")
+  function cat ($srp, $dn, $attrs = ["*"], $filter = "(objectclass=*)")
   {
     if ($this->hascon) {
       if ($this->reconnect) {
@@ -959,7 +959,7 @@ class LDAP
    *
    * \param  $limit        Limits the result.
    */
-  function generateLdif ($dn, $filter = " (objectClass=*)", $scope = 'sub', $limit = 0)
+  function generateLdif ($dn, $filter = "(objectClass=*)", $scope = 'sub', $limit = 0)
   {
     // Ensure that limit is numeric if not skip here.
     if (!empty($limit) && !is_numeric($limit)) {
