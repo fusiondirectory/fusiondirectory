@@ -620,7 +620,7 @@ define ("CONFIG_TEMPLATE_DIR", "$template_dir/"); /* FusionDirectory template di
 /* Directory containing the fai logs */
 define ("FAI_LOG_DIR", "$fai_log_dir/"); /* FusionDirectory fai directory */
 
-/* Directory containing the supann files
+/* Directory containing the supann files */
 define ("SUPANN_DIR", "$vars{fd_config_dir}/supann/"); /* FusionDirectory supann template directory */
 
 /* name of the class.cache file */
