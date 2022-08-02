@@ -511,7 +511,7 @@ sub check_rights {
 
   # if the current dir exists
   if (-e $dir) {
-    print("$dir exists…\n");
+    print("$dir exists...\n");
     # retrieve dir's informations
     my @lstat = lstat ($dir);
 
@@ -534,7 +534,7 @@ sub check_rights {
     }
   } elsif ($create) {
 
-    if ( ask_yn_question("Directory $dir doesn't exists, do you want to create it ?: ") ) {
+    if ( ask_yn_question("Directory $dir doesn't exist, do you want to create it ?: ") ) {
       my $conf_dir = dir ($dir);
 
       # create the directory, and change the rights
@@ -574,7 +574,7 @@ sub check_config {
   my $apache_group = get_apache_group();
 
   # check config file
-  check_rights($fd_config,"root",$apache_group,oct(640),0) or die 'The config file does not exists!';
+  check_rights($fd_config,"root",$apache_group,oct(640),0) or die 'The config file does not exist!';
 }
 
 ############################################################# Change install directories #################################################################################
@@ -663,13 +663,13 @@ sub add_ldap_admin {
     if (($mesg->entries)[0]->exists('fdForcePasswordDefaultHash') && ($mesg->entries)[0]->exists('fdPasswordDefaultHash')) {
       if ((($mesg->entries)[0]->get_value('fdForcePasswordDefaultHash') eq 'TRUE') &&
           (($mesg->entries)[0]->get_value('fdPasswordDefaultHash') ne 'ssha')) {
-        warn "Warning: Administator password will be hashed with ssha instead of forced default ".($mesg->entries)[0]->get_value('fdPasswordDefaultHash')."\n";
+        warn "Warning: Administrator password will be hashed with ssha instead of forced default ".($mesg->entries)[0]->get_value('fdPasswordDefaultHash')."\n";
       }
     }
   }
 
   my $fd_admin_uid = ask_user_input ("Please enter a login for FusionDirectory's admin", "fd-admin");
-  # Does this user exists?
+  # Does this user exist?
   my $dn = "";
   foreach my $entry (@$people_entries) {
     my $mesg = $ldap->search(
@@ -981,7 +981,7 @@ sub check_admin {
     print ("! There is no admin ACL role\n");
   }
   foreach my $dn (@dns) {
-    print ("! $dn is supposed to be admin but does not exists\n");
+    print ("! $dn is supposed to be admin but does not exist\n");
   }
   if (ask_yn_question("No valid admin account found, do you want to create it ?")) {
     return add_ldap_admin($base, $ldap, \@dns, $people_entries, \@roles);
@@ -1036,7 +1036,7 @@ sub check_ldap {
   if ( branch_exists($ldap, "$userrdn,$base") ) {
     check_admin($base, $ldap, \@people_entries);
 
-  # if ou=people doesn't exists
+  # if ou=people doesn't exist
   } else {
     print ( "! $userrdn,$base not found in your LDAP directory\n" );
 
@@ -1169,7 +1169,7 @@ sub create_and_copy_plugin_dir {
 sub install_plugins {
   # ask for the plugins archive
   my $plugins_archive = ask_user_input ("Where is your plugins archive or folder?");
-  die ("! ".$plugins_archive." doesn't exists") if (!-e $plugins_archive);
+  die ("! ".$plugins_archive." doesn't exist") if (!-e $plugins_archive);
 
   my $dir;
   if (-d $plugins_archive) {
@@ -1177,7 +1177,7 @@ sub install_plugins {
   } else {
     # check the archive format
     $plugins_archive =~ /^.*\/(.*).tar.gz$/;
-    my $name = $1 or die ("! Unkwnow archive $plugins_archive");
+    my $name = $1 or die ("! Unknown archive $plugins_archive");
 
     # where the extract files will go
     my $tmp_plugins_dir = "/tmp";
@@ -2046,7 +2046,7 @@ sub show_version {
     }
     close($vars);
   } else {
-    print "File $variables_common_path does not exists, can’t find out FusionDirectory version\n";
+    print "File $variables_common_path does not exist, can’t find out FusionDirectory version\n";
   }
 }
 
@@ -2187,7 +2187,7 @@ This option perform a check on FusionDirectory's config file.
 
 =item --check-ldap
 
-This option check your LDAP tree. Looking for admin account, and groups or people branch. If one of those don't exists, the script will ask you what to do.
+This option check your LDAP tree. Looking for admin account, and groups or people branch. If one of those doesn't exist, the script will ask you what to do.
 
 =item --check-ids
 
