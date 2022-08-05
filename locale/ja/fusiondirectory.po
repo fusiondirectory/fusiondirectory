@@ -2682,7 +2682,7 @@ msgid "Activate password recovery"
 msgstr ""
 
 #: plugins/config/class_recoveryConfig.inc:47
-msgid "Whether to activate or not password recovery feature"
+msgid "Whether to activate the password recovery feature or not"
 msgstr ""
 
 #: plugins/config/class_recoveryConfig.inc:52

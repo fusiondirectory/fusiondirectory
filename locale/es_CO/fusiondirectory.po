@@ -2738,7 +2738,7 @@ msgid "Activate password recovery"
 msgstr "Habilitar recuperación de contraseña."
 
 #: plugins/config/class_recoveryConfig.inc:47
-msgid "Whether to activate or not password recovery feature"
+msgid "Whether to activate the password recovery feature or not"
 msgstr ""
 "Elegir cuando activar la característica de recuperación de contraseña."
 
