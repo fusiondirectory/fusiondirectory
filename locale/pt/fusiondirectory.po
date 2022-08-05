@@ -1605,7 +1605,7 @@ msgstr ""
 
 #: include/simpleplugin/attributes/class_FileAttribute.inc:380
 #, php-format
-msgid "Cannot set \"%s\" value, it contains invalid data: %s"
+msgid "Cannot set value \"%s\", it contains invalid data: %s"
 msgstr ""
 
 #: include/simpleplugin/attributes/class_FileAttribute.inc:390
