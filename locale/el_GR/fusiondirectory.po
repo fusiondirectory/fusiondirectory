@@ -842,7 +842,7 @@ msgstr ""
 
 #: include/functions.inc:354
 #, php-format
-msgid "FATAL: Error when connecting the LDAP. Server said '%s'."
+msgid "FATAL: Error when connecting to LDAP. Server said '%s'."
 msgstr ""
 "ΣΦΑΛΜΑ: Σφάλμα σύνδεσης στον διακομιστή LDAP. Ο διακομιστής αποκρίθηκε '%s'."
 

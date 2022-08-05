@@ -843,7 +843,7 @@ msgstr "치명적인 오류 : 클래스 '1%s'을 (를) 인스턴스화 할 수 �
 
 #: include/functions.inc:354
 #, php-format
-msgid "FATAL: Error when connecting the LDAP. Server said '%s'."
+msgid "FATAL: Error when connecting to LDAP. Server said '%s'."
 msgstr "치명적 : LDAP 연결시 오류가 발생했습니다. 서버 오류 '%s'."
 
 #: include/functions.inc:402 include/functions.inc:531

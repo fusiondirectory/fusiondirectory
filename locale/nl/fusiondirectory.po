@@ -870,7 +870,7 @@ msgstr ""
 
 #: include/functions.inc:354
 #, php-format
-msgid "FATAL: Error when connecting the LDAP. Server said '%s'."
+msgid "FATAL: Error when connecting to LDAP. Server said '%s'."
 msgstr ""
 "FATAAL: Fout bij het verbinden van de LDAP server. De server meldt: '%s'."
 
