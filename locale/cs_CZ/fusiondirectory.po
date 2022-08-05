@@ -643,7 +643,7 @@ msgstr "Ústřední ověřovací služba (CAS)"
 
 #: include/login/class_LoginCAS.inc:68
 #, php-format
-msgid "CAS user \"%s\" could not be found in the LDAP"
+msgid "CAS user \"%s\" could not be found in LDAP"
 msgstr "CAS uživatele z hlavičky „%s“ se nepodařilo v LDAP najít"
 
 #: include/login/class_LoginCAS.inc:78 include/login/class_LoginCAS.inc:104
@@ -737,7 +737,7 @@ msgstr "V HTTP hlavičce „%s“ nebyla nalezena žádná hodnota"
 
 #: include/login/class_LoginHTTPHeader.inc:64
 #, php-format
-msgid "Header user \"%s\" could not be found in the LDAP"
+msgid "Header user \"%s\" could not be found in LDAP"
 msgstr "Uživatel z hlavičky „%s“ se nepodařilo v LDAP najít"
 
 #: include/login/class_LoginHTTPAuth.inc:29
@@ -2511,7 +2511,7 @@ msgid "DN you wish to add assignments for"
 msgstr "Rozlišený název kterému chcete přiřadit"
 
 #: plugins/admin/acl/class_aclManagement.inc:110
-msgid "The dn you entered could not be found in the LDAP"
+msgid "The dn you entered could not be found in LDAP"
 msgstr "Zadaný rozlišený název nebyl v LDAP nalezen"
 
 #: plugins/admin/acl/class_aclManagement.inc:141
@@ -3911,7 +3911,7 @@ msgstr "Poštovní směrovací číslo (PSČ)"
 
 #: plugins/personal/generic/class_user.inc:430
 #, php-format
-msgid "Ppolicy \"%s\" could not be found in the LDAP!"
+msgid "Ppolicy \"%s\" could not be found in LDAP!"
 msgstr "Ppolicy %s nebyla nalezena v LDAP!"
 
 #: plugins/personal/generic/class_user.inc:460

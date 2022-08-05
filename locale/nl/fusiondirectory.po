@@ -645,7 +645,7 @@ msgstr "CAS"
 
 #: include/login/class_LoginCAS.inc:68
 #, php-format
-msgid "CAS user \"%s\" could not be found in the LDAP"
+msgid "CAS user \"%s\" could not be found in LDAP"
 msgstr "CAS gebruiker \"%s\" kon niet gevonden worden in de LDAP"
 
 #: include/login/class_LoginCAS.inc:78 include/login/class_LoginCAS.inc:104
@@ -739,7 +739,7 @@ msgstr "Geen waarde gevonden in HTTP header \"%s\""
 
 #: include/login/class_LoginHTTPHeader.inc:64
 #, php-format
-msgid "Header user \"%s\" could not be found in the LDAP"
+msgid "Header user \"%s\" could not be found in LDAP"
 msgstr "Header gebruiker \"%s\" kan niet gevonden worden in de LDAP"
 
 #: include/login/class_LoginHTTPAuth.inc:29
@@ -2519,7 +2519,7 @@ msgid "DN you wish to add assignments for"
 msgstr "DN waarvoor je toewijzingen wil bijvoegen"
 
 #: plugins/admin/acl/class_aclManagement.inc:110
-msgid "The dn you entered could not be found in the LDAP"
+msgid "The dn you entered could not be found in LDAP"
 msgstr "De ingegeven dn kon niet in de LDAP worden gevonden"
 
 #: plugins/admin/acl/class_aclManagement.inc:141
@@ -3924,7 +3924,7 @@ msgstr "Postcode"
 
 #: plugins/personal/generic/class_user.inc:430
 #, php-format
-msgid "Ppolicy \"%s\" could not be found in the LDAP!"
+msgid "Ppolicy \"%s\" could not be found in LDAP!"
 msgstr "Ppolicy \"%s\" kon niet gevonden worden in de LDAP!"
 
 #: plugins/personal/generic/class_user.inc:460

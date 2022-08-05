@@ -660,7 +660,7 @@ msgstr "CAS"
 
 #: include/login/class_LoginCAS.inc:68
 #, php-format
-msgid "CAS user \"%s\" could not be found in the LDAP"
+msgid "CAS user \"%s\" could not be found in LDAP"
 msgstr "L'utilisateur CAS «%s» n'existe pas dans l'annuaire LDAP"
 
 #: include/login/class_LoginCAS.inc:78 include/login/class_LoginCAS.inc:104
@@ -756,7 +756,7 @@ msgstr "Aucune valeur trouvée dans l’entête HTTP «%s»"
 
 #: include/login/class_LoginHTTPHeader.inc:64
 #, php-format
-msgid "Header user \"%s\" could not be found in the LDAP"
+msgid "Header user \"%s\" could not be found in LDAP"
 msgstr ""
 "L'utilisateur «%s» mentionné dans l’entête n'existe pas dans l'annuaire LDAP"
 
@@ -2577,7 +2577,7 @@ msgid "DN you wish to add assignments for"
 msgstr "DN pour lequel vous souhaitez ajouter des affectations"
 
 #: plugins/admin/acl/class_aclManagement.inc:110
-msgid "The dn you entered could not be found in the LDAP"
+msgid "The dn you entered could not be found in LDAP"
 msgstr "Impossible de trouver le dn demandé dans l'annuaire LDAP"
 
 #: plugins/admin/acl/class_aclManagement.inc:141
@@ -4020,7 +4020,7 @@ msgstr "Code postal"
 
 #: plugins/personal/generic/class_user.inc:430
 #, php-format
-msgid "Ppolicy \"%s\" could not be found in the LDAP!"
+msgid "Ppolicy \"%s\" could not be found in LDAP!"
 msgstr "La ppolicy \"%s\" n’a pas été trouvée dans le LDAP !"
 
 #: plugins/personal/generic/class_user.inc:460
