@@ -1788,7 +1788,7 @@ msgstr "Položka %s neexistuje"
 
 #: include/simpleplugin/class_simplePlugin.inc:1576
 msgid ""
-"The object has changed since opened in FusionDirectory. All changes that may"
+"The object has changed since being opened in FusionDirectory. All changes that may"
 " be done by others will get lost if you save this entry!"
 msgstr ""
 "Po jeho otevření ve FusionDirectory byl objekt změněn. Pokud tuto položku "
