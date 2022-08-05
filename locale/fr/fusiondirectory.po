@@ -603,7 +603,7 @@ msgid "Send bug report to the FusionDirectory Team"
 msgstr "Envoyer le rapport de bugs à l'équipe FusionDirectory"
 
 #: include/php_setup.inc:235
-msgid "Send bugreport"
+msgid "Send bug report"
 msgstr "Envoyer le rapport de bug"
 
 #: include/php_setup.inc:240

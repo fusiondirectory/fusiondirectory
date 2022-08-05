@@ -581,7 +581,7 @@ msgid "Send bug report to the FusionDirectory Team"
 msgstr "FusionDirectory 팀에 버그 보고서 보내기"
 
 #: include/php_setup.inc:235
-msgid "Send bugreport"
+msgid "Send bug report"
 msgstr "버그 리포트 보내기"
 
 #: include/php_setup.inc:240
