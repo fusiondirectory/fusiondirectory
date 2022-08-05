@@ -2626,7 +2626,7 @@ msgid "SASL"
 msgstr ""
 
 #: plugins/config/class_mainPluginsConfig.inc:54
-msgid "Force to ask for password"
+msgid "Force asking for a password"
 msgstr "Επιβολή εισαγωγής κωδικού"
 
 #: plugins/config/class_mainPluginsConfig.inc:54

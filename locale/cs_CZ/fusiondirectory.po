@@ -2696,7 +2696,7 @@ msgid "SASL"
 msgstr "SASL"
 
 #: plugins/config/class_mainPluginsConfig.inc:54
-msgid "Force to ask for password"
+msgid "Force asking for a password"
 msgstr "Vynutit dotázání se na heslo"
 
 #: plugins/config/class_mainPluginsConfig.inc:54
