@@ -2864,7 +2864,7 @@ msgstr "Consentire l'uso di indirizzi alternativi"
 
 #: plugins/config/class_recoveryConfig.inc:74
 msgid ""
-"Users will also be able to enter one of theirs alternate addresses to "
+"Users will also be able to enter one of their alternate addresses to "
 "recover their password"
 msgstr ""
 "Gli utenti possono usare uno dei loro indirizzi email alternativi per il "

@@ -2739,7 +2739,7 @@ msgstr "Να επιτρέπεται η χρήση εναλλακτικών δι�
 
 #: plugins/config/class_recoveryConfig.inc:74
 msgid ""
-"Users will also be able to enter one of theirs alternate addresses to "
+"Users will also be able to enter one of their alternate addresses to "
 "recover their password"
 msgstr ""
 "Οι χρήστες θα έχουν επίσης τη δυνατότητα να εισάγουν μία από τις "

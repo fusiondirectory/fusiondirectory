@@ -2776,7 +2776,7 @@ msgstr "Habilitar el uso de correos alternativos"
 
 #: plugins/config/class_recoveryConfig.inc:74
 msgid ""
-"Users will also be able to enter one of theirs alternate addresses to "
+"Users will also be able to enter one of their alternate addresses to "
 "recover their password"
 msgstr ""
 "Los usuarios también podrán una dirección alternativa para recuperar su "

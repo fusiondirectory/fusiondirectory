@@ -2763,7 +2763,7 @@ msgstr "Разрешить исользование альтернативных
 
 #: plugins/config/class_recoveryConfig.inc:74
 msgid ""
-"Users will also be able to enter one of theirs alternate addresses to "
+"Users will also be able to enter one of their alternate addresses to "
 "recover their password"
 msgstr ""
 "Пользователям также нужно ввести один из их дополнительных адресов для "

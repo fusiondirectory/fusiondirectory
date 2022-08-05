@@ -2732,7 +2732,7 @@ msgstr "Permitir o uso de endereços alternativos"
 
 #: plugins/config/class_recoveryConfig.inc:74
 msgid ""
-"Users will also be able to enter one of theirs alternate addresses to "
+"Users will also be able to enter one of their alternate addresses to "
 "recover their password"
 msgstr ""
 "Os usuário também serão capazes de entrar no endereço alternativo para "
