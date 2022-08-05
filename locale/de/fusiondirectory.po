@@ -3229,7 +3229,7 @@ msgid "People DN attribute"
 msgstr "DN-Attribut für Personen"
 
 #: plugins/config/class_configInLdap.inc:252
-msgid "Attribute to use at the beginning of users dn"
+msgid "Attribute to use at the beginning of the user's dn"
 msgstr "Zu verwendendes Attribut zu Beginn des Benutzers dn"
 
 #: plugins/config/class_configInLdap.inc:257
