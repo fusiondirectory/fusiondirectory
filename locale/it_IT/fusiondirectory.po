@@ -5086,7 +5086,7 @@ msgstr ""
 "filesystem locale. Questo può essere fatto eseguendo il comando seguente :"
 
 #: setup/setup_welcome.tpl.c:35
-msgid "Click the 'Next' button when you've finished."
+msgid "Click the 'Next' button when you are done."
 msgstr "Premi il bottone 'Continua' quando avrai finito."
 
 #: setup/setup_migrate.tpl.c:2

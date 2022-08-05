@@ -4991,7 +4991,7 @@ msgstr ""
 "van de servers. Dit kan gebeuren door de volgende instructie uit te voeren:"
 
 #: setup/setup_welcome.tpl.c:35
-msgid "Click the 'Next' button when you've finished."
+msgid "Click the 'Next' button when you are done."
 msgstr "Klik op de 'Next' knop wanneer je klaar bent."
 
 #: setup/setup_migrate.tpl.c:2

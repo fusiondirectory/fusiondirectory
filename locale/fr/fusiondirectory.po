@@ -5109,7 +5109,7 @@ msgstr ""
 "réalisé en exécutant la commande suivante :"
 
 #: setup/setup_welcome.tpl.c:35
-msgid "Click the 'Next' button when you've finished."
+msgid "Click the 'Next' button when you are done."
 msgstr "Cliquez sur 'Continuer' quand vous avez fini."
 
 #: setup/setup_migrate.tpl.c:2

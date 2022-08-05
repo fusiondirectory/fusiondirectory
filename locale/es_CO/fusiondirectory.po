@@ -4924,7 +4924,7 @@ msgstr ""
 "Esto se puede hacer ejecutando el siguiente comando:"
 
 #: setup/setup_welcome.tpl.c:35
-msgid "Click the 'Next' button when you've finished."
+msgid "Click the 'Next' button when you are done."
 msgstr "Cuando haya terminado haga clic en 'Siguiente'."
 
 #: setup/setup_migrate.tpl.c:2

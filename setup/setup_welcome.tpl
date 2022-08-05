@@ -32,6 +32,6 @@
     echo -n <b>{$auth_id}</b> &gt; {$path}
   </tt>
   <p>
-    {t}Click the 'Next' button when you've finished.{/t}
+    {t}Click the 'Next' button when you are done.{/t}
   </p>
 </div>

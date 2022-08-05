@@ -4744,7 +4744,7 @@ msgid ""
 msgstr ""
 
 #: setup/setup_welcome.tpl.c:35
-msgid "Click the 'Next' button when you've finished."
+msgid "Click the 'Next' button when you are done."
 msgstr ""
 
 #: setup/setup_migrate.tpl.c:2
