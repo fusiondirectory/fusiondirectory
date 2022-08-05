@@ -4342,12 +4342,12 @@ msgid "LDAP result parsing failed"
 msgstr ""
 
 #: setup/class_setupStepMigrate.inc:1076 setup/class_setupStepMigrate.inc:1327
-msgid "Sizelimit hit"
+msgid "Size limit hit"
 msgstr ""
 
 #: setup/class_setupStepMigrate.inc:1077 setup/class_setupStepMigrate.inc:1328
 #, php-format
-msgid "Sizelimit of %d hit. Please check this manually"
+msgid "Size limit of %d hit. Please check this manually"
 msgstr ""
 
 #: setup/class_setupStepMigrate.inc:1120 setup/class_setupStepMigrate.inc:1134

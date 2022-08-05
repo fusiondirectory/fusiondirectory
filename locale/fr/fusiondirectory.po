@@ -4679,12 +4679,12 @@ msgid "LDAP result parsing failed"
 msgstr "L'analyse du résultat LDAP a échoué"
 
 #: setup/class_setupStepMigrate.inc:1076 setup/class_setupStepMigrate.inc:1327
-msgid "Sizelimit hit"
+msgid "Size limit hit"
 msgstr "Taille limite atteinte"
 
 #: setup/class_setupStepMigrate.inc:1077 setup/class_setupStepMigrate.inc:1328
 #, php-format
-msgid "Sizelimit of %d hit. Please check this manually"
+msgid "Size limit of %d hit. Please check this manually"
 msgstr "Taille limite de %datteinte. Veuillez vérifier ceci manuellement"
 
 #: setup/class_setupStepMigrate.inc:1120 setup/class_setupStepMigrate.inc:1134

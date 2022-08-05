@@ -4660,13 +4660,13 @@ msgid "LDAP result parsing failed"
 msgstr "Analisi del risultato LDAP non riuscita "
 
 #: setup/class_setupStepMigrate.inc:1076 setup/class_setupStepMigrate.inc:1327
-msgid "Sizelimit hit"
-msgstr "Hit Sizelimit"
+msgid "Size limit hit"
+msgstr "Hit Size limit"
 
 #: setup/class_setupStepMigrate.inc:1077 setup/class_setupStepMigrate.inc:1328
 #, php-format
-msgid "Sizelimit of %d hit. Please check this manually"
-msgstr "Sizelimit di hit %d. Si prega di controllare manualmente"
+msgid "Size limit of %d hit. Please check this manually"
+msgstr "Size limit di hit %d. Si prega di controllare manualmente"
 
 #: setup/class_setupStepMigrate.inc:1120 setup/class_setupStepMigrate.inc:1134
 msgid "Move users into configured user tree"

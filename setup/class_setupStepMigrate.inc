@@ -1332,8 +1332,8 @@ class setupStepMigrate extends setupStep
     }
     if ($ldap->hitSizeLimit()) {
       throw new CheckFailedException(
-        _('Sizelimit hit'),
-        sprintf(_('Sizelimit of %d hit. Please check this manually'), static::$objectNumberLimit)
+        _('Size limit hit'),
+        sprintf(_('Size limit of %d hit. Please check this manually'), static::$objectNumberLimit)
       );
     }
     $sizeLimitHit = FALSE;
