@@ -1,6 +1,6 @@
 <div class="default">
   <p>
-    {t}This seems to be the first time you start FusionDirectory - we didn't find any configuration right now. This simple wizard intends to help you while setting it up.{/t}
+    {t}This seems to be the first time you start FusionDirectory - we cannot find any configuration right now. This simple wizard intends to help you while setting it up.{/t}
   </p>
 
   <hr/>

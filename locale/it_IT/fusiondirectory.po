@@ -5030,7 +5030,7 @@ msgstr "Fusiondirectory funzionerà anche senza aver corretto questo."
 
 #: setup/setup_welcome.tpl.c:2
 msgid ""
-"This seems to be the first time you start FusionDirectory - we didn't find "
+"This seems to be the first time you start FusionDirectory - we cannot find "
 "any configuration right now. This simple wizard intends to help you while "
 "setting it up."
 msgstr ""
