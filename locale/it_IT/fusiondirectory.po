@@ -1799,7 +1799,7 @@ msgstr "Non puo' calcolare il dn: nessuna scheda di classe parente per \"%s\""
 #: include/simpleplugin/class_simplePlugin.inc:492
 #, php-format
 msgid ""
-"Could not compute dn: could not find objectType infos from tab class \"%s\""
+"Could not compute dn: could not find objectType info from tab class \"%s\""
 msgstr ""
 "Impossibile calcolare il dn: impossibile trovare le informazioni di "
 "objectType in questa  classe scheda \"%s\""

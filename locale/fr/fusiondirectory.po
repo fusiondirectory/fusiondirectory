@@ -1811,7 +1811,7 @@ msgstr ""
 #: include/simpleplugin/class_simplePlugin.inc:492
 #, php-format
 msgid ""
-"Could not compute dn: could not find objectType infos from tab class \"%s\""
+"Could not compute dn: could not find objectType info from tab class \"%s\""
 msgstr ""
 "Impossible de générer le dn : pas d’infos sur le type d’objet pour la classe"
 " d’onglet «%s»"

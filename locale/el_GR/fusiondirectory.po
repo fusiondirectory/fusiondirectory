@@ -1718,7 +1718,7 @@ msgstr "Αδυναμία υπολογισμού dn: δεν υπάρχει γον
 #: include/simpleplugin/class_simplePlugin.inc:492
 #, php-format
 msgid ""
-"Could not compute dn: could not find objectType infos from tab class \"%s\""
+"Could not compute dn: could not find objectType info from tab class \"%s\""
 msgstr ""
 
 #: include/simpleplugin/class_simplePlugin.inc:1363

@@ -484,7 +484,7 @@ class simplePlugin implements SimpleTab
     if ($infos === FALSE) {
       throw new FatalError(
         htmlescape(sprintf(
-          _('Could not compute dn: could not find objectType infos from tab class "%s"'),
+          _('Could not compute dn: could not find objectType info from tab class "%s"'),
           get_class($this->parent)
         ))
       );
