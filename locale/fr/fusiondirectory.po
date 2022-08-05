@@ -1233,7 +1233,7 @@ msgstr "Il existe déjà une entrée avec l'attribut %s dans le système !"
 
 #: include/class_msgPool.inc:245
 #, php-format
-msgid "The entry \"%s\" already use this \"%s\" attribute!"
+msgid "The entry \"%s\" already uses this \"%s\" attribute!"
 msgstr "L’entrée '%s' utilise déjà l'attribut \"%s\" !"
 
 #: include/class_msgPool.inc:256

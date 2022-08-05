@@ -1177,7 +1177,7 @@ msgstr ""
 
 #: include/class_msgPool.inc:245
 #, php-format
-msgid "The entry \"%s\" already use this \"%s\" attribute!"
+msgid "The entry \"%s\" already uses this \"%s\" attribute!"
 msgstr ""
 
 #: include/class_msgPool.inc:256

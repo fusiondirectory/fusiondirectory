@@ -235,7 +235,7 @@ class msgPool
     if ($dn == NULL) {
       return htmlescape(sprintf(_('There is already an entry with this "%s" attribute in the system!'), $name));
     } else {
-      return htmlescape(sprintf(_('The entry "%s" already use this "%s" attribute!'), $dn, $name));
+      return htmlescape(sprintf(_('The entry "%s" already uses this "%s" attribute!'), $dn, $name));
     }
   }
 
