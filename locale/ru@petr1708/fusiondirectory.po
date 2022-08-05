@@ -4743,7 +4743,7 @@ msgstr ""
 #: setup/setup_welcome.tpl.c:32
 msgid ""
 "For security reasons you need to authenticate for the installation by "
-"creating the file '%1', containing the current session ID on the servers "
+"creating the file '%1', containing the current session ID on the server's "
 "local filesystem. This can be done by executing the following command:"
 msgstr ""
 

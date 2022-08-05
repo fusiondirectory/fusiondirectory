@@ -26,7 +26,7 @@
     <b>{t}To continue:{/t}</b>
   </p>
   <p>
-    {t 1=$path}For security reasons you need to authenticate for the installation by creating the file '%1', containing the current session ID on the servers local filesystem. This can be done by executing the following command:{/t}
+    {t 1=$path}For security reasons you need to authenticate for the installation by creating the file '%1', containing the current session ID on the server's local filesystem. This can be done by executing the following command:{/t}
   </p>
   <tt>
     echo -n <b>{$auth_id}</b> &gt; {$path}
