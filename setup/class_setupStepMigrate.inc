@@ -853,7 +853,7 @@ class setupStepMigrate extends setupStep
       } else {
         throw new CheckFailedException(
           _('Failed'),
-          _('There is no FusionDirectory administrator account inside your LDAP.').'&nbsp;'.
+          _('There is no FusionDirectory administrator account in your LDAP directory.').'&nbsp;'.
           $checkobj->submit(_('Create'), 'create')
         );
       }

@@ -4524,7 +4524,7 @@ msgid "Roles"
 msgstr "Role"
 
 #: setup/class_setupStepMigrate.inc:836
-msgid "There is no FusionDirectory administrator account inside your LDAP."
+msgid "There is no FusionDirectory administrator account in your LDAP directory."
 msgstr "Ve Vašem LDAPu neexistuje účet správce FusionDirectory/GOsa."
 
 #: setup/class_setupStepMigrate.inc:875
