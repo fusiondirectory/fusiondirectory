@@ -3371,7 +3371,7 @@ msgstr "Zobrazit chyby"
 #: plugins/config/class_configInLdap.inc:301
 msgid ""
 "Shows PHP errors in the upper part of the screen. This should be disabled in"
-" productive deployments, because there might be some passwords in it."
+" production deployments, because it may contain passwords."
 msgstr ""
 "V horní části obrazovky vypisuje chyby, ke kterým došlo v PHP. V produkčním "
 "nasazení by toto mělo být vypnuto, protože se zde mohou objevovat hesla."

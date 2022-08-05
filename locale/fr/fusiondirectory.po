@@ -3459,7 +3459,7 @@ msgstr "Afficher les erreurs"
 #: plugins/config/class_configInLdap.inc:301
 msgid ""
 "Shows PHP errors in the upper part of the screen. This should be disabled in"
-" productive deployments, because there might be some passwords in it."
+" production deployments, because it may contain passwords."
 msgstr ""
 "Afficher les erreurs PHP dans la partie haute de l'écran. Cela sera à "
 "désactiver en environnement de production, car des mots de passe peuvent "

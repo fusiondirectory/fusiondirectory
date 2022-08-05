@@ -3299,7 +3299,7 @@ msgstr "Visa fel"
 #: plugins/config/class_configInLdap.inc:301
 msgid ""
 "Shows PHP errors in the upper part of the screen. This should be disabled in"
-" productive deployments, because there might be some passwords in it."
+" production deployments, because it may contain passwords."
 msgstr ""
 "Visa PHP-fel i övre delen av skärmen. Detta bör avaktiveras i "
 "produktionsmiljöer, för det kan vara lösenord i felkoden."

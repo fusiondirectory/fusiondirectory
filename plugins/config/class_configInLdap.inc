@@ -309,7 +309,7 @@ class configInLdap extends simplePlugin
         'attrs' => [
           new BooleanAttribute(
             _('Display PHP errors'),
-            _('Shows PHP errors in the upper part of the screen. This should be disabled in productive deployments, because there might be some passwords in it.'),
+            _('Shows PHP errors in the upper part of the screen. This should be disabled in production deployments, because it may contain passwords.'),
             'fdDisplayErrors'
           ),
           new IntAttribute(
