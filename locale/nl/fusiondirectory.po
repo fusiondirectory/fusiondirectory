@@ -4842,8 +4842,8 @@ msgstr[0] "Er is %1 gebruiker:"
 msgstr[1] "Er zijn %1 gebruikers:"
 
 #: plugins/addons/dashboard/pwd_stats.tpl.c:5
-msgid "One of them use %1 method"
-msgid_plural "%2 of them use %1 method"
+msgid "One of them uses the %1 method"
+msgid_plural "%2 of them use the %1 method"
 msgstr[0] "%2 van hen gebruikt %1 methode"
 msgstr[1] "%2 van hen gebruiken %1 methode"
 

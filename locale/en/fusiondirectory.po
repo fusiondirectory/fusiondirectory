@@ -4807,8 +4807,8 @@ msgid "None of them have a %1 account"
 msgstr ""
 
 #: plugins/addons/dashboard/pwd_stats.tpl.c:5
-msgid "One of them use %1 method"
-msgid_plural "%2 of them use %1 method"
+msgid "One of them uses the %1 method"
+msgid_plural "%2 of them use the %1 method"
 msgstr[0] ""
 msgstr[1] ""
 

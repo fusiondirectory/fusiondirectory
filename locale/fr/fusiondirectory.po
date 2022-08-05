@@ -4959,8 +4959,8 @@ msgstr[0] "Il y a 1 utilisateur :"
 msgstr[1] "Il y a %1 utilisateurs :"
 
 #: plugins/addons/dashboard/pwd_stats.tpl.c:5
-msgid "One of them use %1 method"
-msgid_plural "%2 of them use %1 method"
+msgid "One of them uses the %1 method"
+msgid_plural "%2 of them use the %1 method"
 msgstr[0] "Un d'entre eux utilise la méthode %1"
 msgstr[1] "%2 d’entre eux utilisent la méthode %1"
 

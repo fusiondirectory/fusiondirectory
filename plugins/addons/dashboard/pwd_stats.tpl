@@ -17,7 +17,7 @@
           {else}
             <li>
           {/if}
-            {t count=$method.nb 1=$method.name 2=$method.nb plural="%2 of them use %1 method"}One of them use %1 method{/t}
+            {t count=$method.nb 1=$method.name 2=$method.nb plural="%2 of them use the %1 method"}One of them uses %1 method{/t}
           </li>
         {/if}
       {/foreach}
