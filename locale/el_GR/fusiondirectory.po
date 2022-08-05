@@ -3513,7 +3513,7 @@ msgstr "Επεξεργασία ομάδων και ρόλων του χρήστ�
 
 #: plugins/personal/roles/class_userRoles.inc:49
 #: plugins/personal/roles/class_userRoles.inc:53
-msgid "Groups membership"
+msgid "Group memberships"
 msgstr ""
 
 #: plugins/personal/roles/class_userRoles.inc:60

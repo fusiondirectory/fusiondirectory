@@ -3712,7 +3712,7 @@ msgstr "Modifica gruppi e ruoli degli utenti"
 
 #: plugins/personal/roles/class_userRoles.inc:49
 #: plugins/personal/roles/class_userRoles.inc:53
-msgid "Groups membership"
+msgid "Group memberships"
 msgstr "Gruppi di appartenenza"
 
 #: plugins/personal/roles/class_userRoles.inc:60

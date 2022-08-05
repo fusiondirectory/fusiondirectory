@@ -3642,7 +3642,7 @@ msgstr "Bewerk gebruikers groepen en rollen"
 
 #: plugins/personal/roles/class_userRoles.inc:49
 #: plugins/personal/roles/class_userRoles.inc:53
-msgid "Groups membership"
+msgid "Group memberships"
 msgstr "Groep lidmaatschap"
 
 #: plugins/personal/roles/class_userRoles.inc:60

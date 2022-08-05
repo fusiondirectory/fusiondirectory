@@ -3629,7 +3629,7 @@ msgstr "Upravit skupiny a role uživatele"
 
 #: plugins/personal/roles/class_userRoles.inc:49
 #: plugins/personal/roles/class_userRoles.inc:53
-msgid "Groups membership"
+msgid "Group memberships"
 msgstr "Členství ve skupinách"
 
 #: plugins/personal/roles/class_userRoles.inc:60

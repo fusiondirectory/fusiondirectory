@@ -46,11 +46,11 @@ class userRoles extends simplePlugin
   {
     return [
       'groups' => [
-        'name'  => _('Groups membership'),
+        'name'  => _('Group memberships'),
         'attrs' => [
           new SetAttribute(
             new SelectAttribute(
-              '', _('Groups membership'),
+              '', _('Group memberships'),
               'groupsMembership', FALSE
             )
           )

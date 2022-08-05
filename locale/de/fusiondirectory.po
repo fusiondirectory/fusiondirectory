@@ -3562,7 +3562,7 @@ msgstr "Gruppen und Rollen des Benutzers bearbeiten"
 
 #: plugins/personal/roles/class_userRoles.inc:49
 #: plugins/personal/roles/class_userRoles.inc:53
-msgid "Groups membership"
+msgid "Group memberships"
 msgstr "Gruppenmitgliedschaft"
 
 #: plugins/personal/roles/class_userRoles.inc:60
