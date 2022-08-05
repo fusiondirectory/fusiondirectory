@@ -4979,7 +4979,7 @@ msgid "There are no users"
 msgstr "Il n’y a aucun utilisateurs"
 
 #: plugins/addons/dashboard/users_stats.tpl.c:8
-msgid "One of them have a %1 account"
+msgid "One of them has a %1 account"
 msgid_plural "%2 of them have a %1 account"
 msgstr[0] "L'un d'entre eux a un compte %1"
 msgstr[1] "%2 d’entre eux ont un compte %1"

@@ -4862,7 +4862,7 @@ msgid "There are no users"
 msgstr "Er zijn geen gebruikers"
 
 #: plugins/addons/dashboard/users_stats.tpl.c:8
-msgid "One of them have a %1 account"
+msgid "One of them has a %1 account"
 msgid_plural "%2 of them have a %1 account"
 msgstr[0] "%2 van hen heeft een %1 account"
 msgstr[1] "%2 van hen hebben een %1 account"
