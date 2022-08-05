@@ -4548,7 +4548,7 @@ msgstr "Konfigurationen är just nu inte läsbar eller så finns den inte."
 #, php-format
 msgid ""
 "After downloading and placing the file under %s, please make sure that the "
-"user the webserver is running with is able to read %s, while other users "
+"user the web server is running with is able to read %s, while other users "
 "shouldn't."
 msgstr ""
 "Efter att ha laddat ner och placerat filen under %s, vänligen säkerställ att"

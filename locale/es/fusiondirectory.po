@@ -4509,7 +4509,7 @@ msgstr "En estos momentos la configuración no es accesible o no existe."
 #, php-format
 msgid ""
 "After downloading and placing the file under %s, please make sure that the "
-"user the webserver is running with is able to read %s, while other users "
+"user the web server is running with is able to read %s, while other users "
 "shouldn't."
 msgstr ""
 "Después de descargar y colocar el archivo en %s, por favor asegúrese de que "

@@ -4672,11 +4672,11 @@ msgstr "De configuratie is momenteel niet leesbaar of bestaat niet."
 #, php-format
 msgid ""
 "After downloading and placing the file under %s, please make sure that the "
-"user the webserver is running with is able to read %s, while other users "
+"user the web server is running with is able to read %s, while other users "
 "shouldn't."
 msgstr ""
 "Na het downloaden en plaatsen van het bestand onder %s, verifieer a.u.b. dat"
-" de gebruiker die de webserver draait de mogelijkheid heeft om %s te lezen, "
+" de gebruiker die de web server draait de mogelijkheid heeft om %s te lezen, "
 "terwijl andere gebruikers dit niet kunnen."
 
 #: setup/class_setupStepLanguage.inc:59 setup/class_setupStepLanguage.inc:60

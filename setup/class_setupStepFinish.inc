@@ -88,7 +88,7 @@ class setupStepFinish extends setupStep
 
     $smarty = get_smarty();
     $smarty->assign('err_msg',  $err_msg);
-    $smarty->assign('msg2',     sprintf(_('After downloading and placing the file under %s, please make sure that the user the webserver is running with is able to read %s, while other users shouldn\'t.'), CONFIG_DIR, CONFIG_FILE));
+    $smarty->assign('msg2',     sprintf(_('After downloading and placing the file under %s, please make sure that the user the web server is running with is able to read %s, while other users shouldn\'t.'), CONFIG_DIR, CONFIG_FILE));
 
     return parent::render();
   }

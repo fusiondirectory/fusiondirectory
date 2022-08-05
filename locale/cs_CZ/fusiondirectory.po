@@ -4665,7 +4665,7 @@ msgstr "Soubor s nastaveními není v tuto chvíli čitelný, nebo zcela chybí.
 #, php-format
 msgid ""
 "After downloading and placing the file under %s, please make sure that the "
-"user the webserver is running with is able to read %s, while other users "
+"user the web server is running with is able to read %s, while other users "
 "shouldn't."
 msgstr ""
 "Po stažení a umístění souboru do %s se prosím ujistěte, že %s je oprávněn "
