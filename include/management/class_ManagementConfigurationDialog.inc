@@ -68,7 +68,7 @@ class ManagementConfigurationDialog extends ManagementDialog
                   $types, 'LinkColumn'
                 ),
                 new StringAttribute(
-                  _('Attribute'), _('LDAP attributes to display, comma separated. Special values "nameAttr" and "mainAttr" also works.'),
+                  _('Attribute'), _('LDAP attributes to display, comma separated. Special values "nameAttr" and "mainAttr" also work.'),
                   'columnAttribute', FALSE
                 ),
                 new StringAttribute(

@@ -89,7 +89,7 @@ msgstr "Attributo"
 #: include/management/class_ManagementConfigurationDialog.inc:71
 msgid ""
 "LDAP attributes to display, comma separated. Special values \"nameAttr\" and"
-" \"mainAttr\" also works."
+" \"mainAttr\" also work."
 msgstr ""
 "Attributi LDAP da visualizzare, separati da virgola. Funzionano anche i "
 "valori speciali \"nameAttr\" e \"mainAttr\"."
