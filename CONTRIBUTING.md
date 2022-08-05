@@ -165,7 +165,7 @@ Where type can be :
 Examples:
 
 ```
-:sparkles: feat(supann): Make supannRefId multivaluated
+:sparkles: feat(supann): Make supannRefId multivalued
 
 supannRefId on Structure object is too small and mono valued
 

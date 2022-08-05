@@ -1643,7 +1643,7 @@ msgstr ""
 
 #: include/simpleplugin/attributes/class_SetAttribute.inc:150
 #, php-format
-msgid "The value for multivaluated field \"%s\" is not an array"
+msgid "The value for multivalued field \"%s\" is not an array"
 msgstr ""
 
 #: include/simpleplugin/attributes/class_SetAttribute.inc:250

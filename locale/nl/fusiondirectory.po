@@ -1715,7 +1715,7 @@ msgstr "Een float kleiner dan %f"
 
 #: include/simpleplugin/attributes/class_SetAttribute.inc:150
 #, php-format
-msgid "The value for multivaluated field \"%s\" is not an array"
+msgid "The value for multivalued field \"%s\" is not an array"
 msgstr "De waarde voor multi-waardevelden \"%s\" is geen array"
 
 #: include/simpleplugin/attributes/class_SetAttribute.inc:250

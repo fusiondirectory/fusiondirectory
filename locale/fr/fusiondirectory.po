@@ -1747,7 +1747,7 @@ msgstr "Un nombre à virgule flottante plus petit que %f"
 
 #: include/simpleplugin/attributes/class_SetAttribute.inc:150
 #, php-format
-msgid "The value for multivaluated field \"%s\" is not an array"
+msgid "The value for multivalued field \"%s\" is not an array"
 msgstr "La valeur du champ multivalué «%s» n'est pas un tableau"
 
 #: include/simpleplugin/attributes/class_SetAttribute.inc:250

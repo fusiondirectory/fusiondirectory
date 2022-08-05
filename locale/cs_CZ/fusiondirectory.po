@@ -1709,7 +1709,7 @@ msgstr "Desetinné číslo menší než %f"
 
 #: include/simpleplugin/attributes/class_SetAttribute.inc:150
 #, php-format
-msgid "The value for multivaluated field \"%s\" is not an array"
+msgid "The value for multivalued field \"%s\" is not an array"
 msgstr "Hodnota pro vícehodnotovou kolonku „%s“ není pole"
 
 #: include/simpleplugin/attributes/class_SetAttribute.inc:250

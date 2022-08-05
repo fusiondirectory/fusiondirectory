@@ -1736,7 +1736,7 @@ msgstr "Un numero con la virgola più piccolo di %f"
 
 #: include/simpleplugin/attributes/class_SetAttribute.inc:150
 #, php-format
-msgid "The value for multivaluated field \"%s\" is not an array"
+msgid "The value for multivalued field \"%s\" is not an array"
 msgstr "Il valore del campo \"%s\" multivalutato non é un array"
 
 #: include/simpleplugin/attributes/class_SetAttribute.inc:250
