@@ -4314,7 +4314,7 @@ msgstr "FusionDirectory a besoin de ce module pour l’intégration Samba."
 
 #: setup/class_setupStepChecks.inc:124
 msgid ""
-"FusionDirectory requires either 'mhash' or the 'sha1' module to make use of "
+"FusionDirectory requires either the 'mhash' or 'sha1' module to make use of "
 "SSHA encryption."
 msgstr ""
 "FusionDirectory a besoin du module 'mhash' ou 'sha1' pour l’utilisation du "

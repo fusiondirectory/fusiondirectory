@@ -4199,7 +4199,7 @@ msgstr "FusionDirectory potřebuje tento modul pro začlenění Samby."
 
 #: setup/class_setupStepChecks.inc:124
 msgid ""
-"FusionDirectory requires either 'mhash' or the 'sha1' module to make use of "
+"FusionDirectory requires either the 'mhash' or 'sha1' module to make use of "
 "SSHA encryption."
 msgstr ""
 "Aby bylo možné ve FusionDirectory využívat SSHA šifrování, musí být "
