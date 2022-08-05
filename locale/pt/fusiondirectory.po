@@ -5006,7 +5006,7 @@ msgstr ""
 #: ihtml/themes/breezy/islocked.tpl.c:11
 msgid ""
 "If this lock detection is false, the other person may have closed the "
-"webbrowser during the edit operation. You may want to take over the lock by "
+"web browser during the edit operation. You may want to take over the lock by "
 "pressing the \"%1\" button."
 msgstr ""
 

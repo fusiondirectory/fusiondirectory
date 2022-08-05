@@ -5290,11 +5290,11 @@ msgstr "\"%1\" is vergrendeld door \"%2\" sinds %3"
 #: ihtml/themes/breezy/islocked.tpl.c:11
 msgid ""
 "If this lock detection is false, the other person may have closed the "
-"webbrowser during the edit operation. You may want to take over the lock by "
+"web browser during the edit operation. You may want to take over the lock by "
 "pressing the \"%1\" button."
 msgstr ""
 "Als deze vergrendelingsdetectie fout is dan kan het zijn dat de andere "
-"persoon de webbrowser heeft gesloten tijdens de edit operatie. Je kan de "
+"persoon de web browser heeft gesloten tijdens de edit operatie. Je kan de "
 "lock overnemen door de \"%1\" knop te drukken."
 
 #: ihtml/themes/breezy/islocked.tpl.c:14
