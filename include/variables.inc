@@ -45,6 +45,11 @@ if (!defined("CONFIG_FILE")) {
 define("SMARTY", "/usr/share/php/smarty3/Smarty.class.php");
 
 /*!
+ * \brief Directories to add to Smarty plugins search path
+ */
+//define("SMARTY_PLUGINS_EXTRA", "/var/www/fusiondirectory/contrib/smarty/plugins/");
+
+/*!
  * \brief Smarty compile dir
  */
 define("SPOOL_DIR", "/var/spool/fusiondirectory/"); /* FusionDirectory spool directory */

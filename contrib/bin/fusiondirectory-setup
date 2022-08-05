@@ -602,6 +602,9 @@ if (!defined("CONFIG_FILE")) {
 /* Path for smarty3 libraries */
 define("SMARTY", "$vars{fd_smarty_path}");
 
+/* Directories to add to Smarty plugins search path */
+//define("SMARTY_PLUGINS_EXTRA", "$vars{fd_home}/contrib/smarty/plugins/");
+
 /* Smarty compile dir */
 define ("SPOOL_DIR", "$vars{fd_spool_dir}/"); /* FusionDirectory spool directory */
 
