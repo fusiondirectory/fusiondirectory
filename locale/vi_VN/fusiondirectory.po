@@ -4265,11 +4265,11 @@ msgid "Checking for POSIX groups outside the groups tree"
 msgstr ""
 
 #: setup/class_setupStepMigrate.inc:274
-msgid "Checking for duplicated UID numbers"
+msgid "Checking for duplicate UID numbers"
 msgstr "Kiểm tra các số ID cuả người dùng (UID) được nhân bản"
 
 #: setup/class_setupStepMigrate.inc:275
-msgid "Checking for duplicated GID numbers"
+msgid "Checking for duplicate GID numbers"
 msgstr ""
 
 #: setup/class_setupStepMigrate.inc:343 setup/class_setupStepMigrate.inc:502

@@ -4522,11 +4522,11 @@ msgid "Checking for POSIX groups outside the groups tree"
 msgstr "Verifica dei gruppi POSIX all'esterno dell'albero dei gruppi"
 
 #: setup/class_setupStepMigrate.inc:274
-msgid "Checking for duplicated UID numbers"
+msgid "Checking for duplicate UID numbers"
 msgstr "Verifica dei possibili doppioni UID"
 
 #: setup/class_setupStepMigrate.inc:275
-msgid "Checking for duplicated GID numbers"
+msgid "Checking for duplicate GID numbers"
 msgstr "Verifica dei possibili doppioni GID"
 
 #: setup/class_setupStepMigrate.inc:343 setup/class_setupStepMigrate.inc:502

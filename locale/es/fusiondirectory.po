@@ -4275,11 +4275,11 @@ msgid "Checking for POSIX groups outside the groups tree"
 msgstr ""
 
 #: setup/class_setupStepMigrate.inc:274
-msgid "Checking for duplicated UID numbers"
+msgid "Checking for duplicate UID numbers"
 msgstr "Comprobando números UID duplicados"
 
 #: setup/class_setupStepMigrate.inc:275
-msgid "Checking for duplicated GID numbers"
+msgid "Checking for duplicate GID numbers"
 msgstr ""
 
 #: setup/class_setupStepMigrate.inc:343 setup/class_setupStepMigrate.inc:502

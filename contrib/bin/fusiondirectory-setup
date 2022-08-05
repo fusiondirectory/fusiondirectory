@@ -1105,7 +1105,7 @@ sub check_ldap {
   $unbind->code && warn "! Unable to unbind from LDAP server: ", $unbind->error."\n";
 }
 
-# function that check for duplicated uid or gid numbers
+# function that checks for duplicate uid or gid numbers
 sub check_id_numbers {
   # initiate the LDAP connexion
   my %hash_ldap_param = get_ldap_connexion();
@@ -1151,7 +1151,7 @@ sub check_id_numbers_generic {
     }
   }
   if ($dups == 0) {
-    print "There are no duplicated ${attribute}s\n";
+    print "There are no duplicate ${attribute}s\n";
   }
 }
 
@@ -2088,7 +2088,7 @@ die ("! You have to run this script as root\n") if ($<!=0);
   $commands{"--check-directories"}    = ["Checking FusionDirectory's directories",        \&check_directories];
   $commands{"--check-config"}         = ["Checking FusionDirectory's config file",        \&check_config];
   $commands{"--check-ldap"}           = ["Checking your LDAP tree",                       \&check_ldap, 1];
-  $commands{"--check-ids"}            = ["Checking for duplicated uid or gid numbers",    \&check_id_numbers, 1];
+  $commands{"--check-ids"}            = ["Checking for duplicate uid or gid numbers",     \&check_id_numbers, 1];
   $commands{"--migrate-users"}        = ["Migrating your users",                          \&migrate_users, 1];
   $commands{"--migrate-phones"}       = ["Migrating your phones from FD < 1.1",           \&migrate_phones, 1];
   $commands{"--migrate-systems"}      = ["Migrating your systems from FD < 1.1",          \&migrate_systems, 1];
@@ -2191,7 +2191,7 @@ This option check your LDAP tree. Looking for admin account, and groups or peopl
 
 =item --check-ids
 
-This option check your LDAP tree for duplicated uidNumber or gidNumber among users and groups.
+This option check your LDAP tree for duplicate uidNumber or gidNumber among users and groups.
 
 =item --migrate-users
 

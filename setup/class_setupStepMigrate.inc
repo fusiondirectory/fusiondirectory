@@ -286,8 +286,8 @@ class setupStepMigrate extends setupStep
 
     if (class_available('posixAccount')) {
       $checks['outsidePosixGroups'] = new StepMigrateCheck($this, 'outsidePosixGroups', _('Checking for POSIX groups outside the groups tree'));
-      $checks['uidNumber']          = new StepMigrateCheck($this, 'uidNumber',          _('Checking for duplicated UID numbers'));
-      $checks['gidNumber']          = new StepMigrateCheck($this, 'gidNumber',          _('Checking for duplicated GID numbers'));
+      $checks['uidNumber']          = new StepMigrateCheck($this, 'uidNumber',          _('Checking for duplicate UID numbers'));
+      $checks['gidNumber']          = new StepMigrateCheck($this, 'gidNumber',          _('Checking for duplicate GID numbers'));
     }
 
     $this->checks = $checks;
