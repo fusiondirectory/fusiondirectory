@@ -4819,7 +4819,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: plugins/addons/dashboard/pwd_stats.tpl.c:11
-msgid "None of them is locked"
+msgid "None of them are locked"
 msgstr ""
 
 #: plugins/addons/dashboard/groups_stats.tpl.c:2

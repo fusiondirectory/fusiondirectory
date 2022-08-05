@@ -4971,7 +4971,7 @@ msgstr[0] "Un est verrouille"
 msgstr[1] "%1 d’entre eux sont verrouillés"
 
 #: plugins/addons/dashboard/pwd_stats.tpl.c:11
-msgid "None of them is locked"
+msgid "None of them are locked"
 msgstr "Aucun d'entre eux n’est verrouillé"
 
 #: plugins/addons/dashboard/users_stats.tpl.c:5

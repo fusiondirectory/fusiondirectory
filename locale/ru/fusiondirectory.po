@@ -4735,7 +4735,7 @@ msgstr[2] ""
 msgstr[3] ""
 
 #: plugins/addons/dashboard/pwd_stats.tpl.c:11
-msgid "None of them is locked"
+msgid "None of them are locked"
 msgstr "Ни один из них не заблокирован"
 
 #: plugins/addons/dashboard/users_stats.tpl.c:5

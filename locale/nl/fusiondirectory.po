@@ -4854,7 +4854,7 @@ msgstr[0] "%1 van hen is vergrendeld"
 msgstr[1] "%1 van hen zijn vergrendeld"
 
 #: plugins/addons/dashboard/pwd_stats.tpl.c:11
-msgid "None of them is locked"
+msgid "None of them are locked"
 msgstr "Geen van hen zijn geblokkeerd"
 
 #: plugins/addons/dashboard/users_stats.tpl.c:5

@@ -25,7 +25,7 @@
         {if $attributes.pwds_stats.locked_accounts.nb > 0}
           {t count=$attributes.pwds_stats.locked_accounts.nb 1=$attributes.pwds_stats.locked_accounts.nb plural="%1 of them are locked"}One of them is locked{/t}
         {else}
-          {t}None of them is locked{/t}
+          {t}None of them are locked{/t}
         {/if}
       </li>
     </ul>

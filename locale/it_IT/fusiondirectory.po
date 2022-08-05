@@ -4949,7 +4949,7 @@ msgstr[0] "Uno di essi é bloccato"
 msgstr[1] "%1 di essi sono bloccati"
 
 #: plugins/addons/dashboard/pwd_stats.tpl.c:11
-msgid "None of them is locked"
+msgid "None of them are locked"
 msgstr "Nessuno di loro è bloccato"
 
 #: plugins/addons/dashboard/users_stats.tpl.c:5
