@@ -4284,7 +4284,7 @@ msgstr "Consulta em LDAP falhou"
 #: setup/class_setupStepMigrate.inc:935 setup/class_setupStepMigrate.inc:1041
 #: setup/class_setupStepMigrate.inc:1071 setup/class_setupStepMigrate.inc:1322
 #: setup/class_setupStepMigrate.inc:1433
-msgid "Possibly the \"root object\" is missing."
+msgid "The \"root object\" is possibly missing."
 msgstr ""
 
 #: setup/class_setupStepMigrate.inc:360 setup/class_setupStepMigrate.inc:383

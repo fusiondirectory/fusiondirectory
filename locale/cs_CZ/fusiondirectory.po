@@ -4451,7 +4451,7 @@ msgstr "dotaz do LDAPu byl neúspěšný"
 #: setup/class_setupStepMigrate.inc:935 setup/class_setupStepMigrate.inc:1041
 #: setup/class_setupStepMigrate.inc:1071 setup/class_setupStepMigrate.inc:1322
 #: setup/class_setupStepMigrate.inc:1433
-msgid "Possibly the \"root object\" is missing."
+msgid "The \"root object\" is possibly missing."
 msgstr "Možná chybí kořenový objekt."
 
 #: setup/class_setupStepMigrate.inc:360 setup/class_setupStepMigrate.inc:383
