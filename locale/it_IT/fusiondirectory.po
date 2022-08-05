@@ -4887,7 +4887,7 @@ msgstr[0] "C'é un account scaduto"
 msgstr[1] "Ci sono %1 account scaduti"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:5
-msgid "There is no expired account"
+msgid "There are no expired accounts"
 msgstr "Non ci sono account scaduti"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:11

@@ -4549,7 +4549,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:5
-msgid "There is no expired account"
+msgid "There are no expired accounts"
 msgstr ""
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:11
