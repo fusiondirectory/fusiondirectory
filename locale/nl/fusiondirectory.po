@@ -785,7 +785,7 @@ msgstr ""
 " systeembeheerder."
 
 #: include/class_passwordRecovery.inc:352
-msgid "Contact your administrator, there was a problem with mail server"
+msgid "Contact your administrator, there was a problem with the mail server"
 msgstr "Contacteer je systeembeheerder, er was een probleem met de mailserver"
 
 #: include/class_passwordRecovery.inc:365
@@ -793,7 +793,7 @@ msgid "This token is invalid"
 msgstr "Deze token is ongeldig"
 
 #: include/class_passwordRecovery.inc:429
-msgid "There was a problem with mail server, confirmation email not sent"
+msgid "There was a problem with the mail server, confirmation email not sent"
 msgstr ""
 "Er was een probleem met de mail server, de bevestigingse-mail werd niet "
 "verstuurd"

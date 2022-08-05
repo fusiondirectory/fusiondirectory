@@ -803,7 +803,7 @@ msgstr ""
 "l'amministratore di sistema."
 
 #: include/class_passwordRecovery.inc:352
-msgid "Contact your administrator, there was a problem with mail server"
+msgid "Contact your administrator, there was a problem with the mail server"
 msgstr ""
 "Contattare l'amministratore, c'è stato un problema con il server di posta "
 "elettronica"
@@ -813,7 +813,7 @@ msgid "This token is invalid"
 msgstr "Questo token non è valido"
 
 #: include/class_passwordRecovery.inc:429
-msgid "There was a problem with mail server, confirmation email not sent"
+msgid "There was a problem with the mail server, confirmation email not sent"
 msgstr ""
 "Si è verificato un problema con il server mail, la email di conferma non è "
 "stata inviata"

@@ -782,7 +782,7 @@ msgstr ""
 "Uživatel používající e-mail „%s“ je uzamčen. Obraťte se na svého správce."
 
 #: include/class_passwordRecovery.inc:352
-msgid "Contact your administrator, there was a problem with mail server"
+msgid "Contact your administrator, there was a problem with the mail server"
 msgstr ""
 "Nastal problém s poštovním serverem – obraťte se prosím na svého správce "
 "systémů."
@@ -792,7 +792,7 @@ msgid "This token is invalid"
 msgstr "tato poukázka (token) je neplatná"
 
 #: include/class_passwordRecovery.inc:429
-msgid "There was a problem with mail server, confirmation email not sent"
+msgid "There was a problem with the mail server, confirmation email not sent"
 msgstr ""
 "Vyskytl se problém s poštovním serverem, potvrzovací e-mail proto nebyl "
 "odeslán"

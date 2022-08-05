@@ -770,7 +770,7 @@ msgid "The user using email \"%s\" is locked. Please contact your administrator.
 msgstr ""
 
 #: include/class_passwordRecovery.inc:352
-msgid "Contact your administrator, there was a problem with mail server"
+msgid "Contact your administrator, there was a problem with the mail server"
 msgstr "메일 서버에 문제가 발생핬습니다. 관리자에게 문의바랍니다."
 
 #: include/class_passwordRecovery.inc:365
@@ -778,7 +778,7 @@ msgid "This token is invalid"
 msgstr "토큰이 유효하지 않습니다."
 
 #: include/class_passwordRecovery.inc:429
-msgid "There was a problem with mail server, confirmation email not sent"
+msgid "There was a problem with the mail server, confirmation email not sent"
 msgstr ""
 
 #: include/password-methods/class_passwordMethodSasl.inc:66

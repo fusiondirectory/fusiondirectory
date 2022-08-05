@@ -803,7 +803,7 @@ msgstr ""
 "contacter votre administrateur système !"
 
 #: include/class_passwordRecovery.inc:352
-msgid "Contact your administrator, there was a problem with mail server"
+msgid "Contact your administrator, there was a problem with the mail server"
 msgstr ""
 "Contactez votre administrateur système, il y a eu un problème avec le "
 "serveur de courriel"
@@ -813,7 +813,7 @@ msgid "This token is invalid"
 msgstr "Le jeton n'est pas valide"
 
 #: include/class_passwordRecovery.inc:429
-msgid "There was a problem with mail server, confirmation email not sent"
+msgid "There was a problem with the mail server, confirmation email not sent"
 msgstr ""
 "Un problème est survenu avec le serveur de courriel, le courriel de "
 "confirmation n'a pas été envoyé"

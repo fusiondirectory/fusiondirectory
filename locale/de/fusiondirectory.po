@@ -773,7 +773,7 @@ msgid "The user using email \"%s\" is locked. Please contact your administrator.
 msgstr ""
 
 #: include/class_passwordRecovery.inc:352
-msgid "Contact your administrator, there was a problem with mail server"
+msgid "Contact your administrator, there was a problem with the mail server"
 msgstr ""
 "Kontaktieren Sie Ihren Administrator, es gab ein Problem mit dem Mailserver"
 
@@ -782,7 +782,7 @@ msgid "This token is invalid"
 msgstr "Das Token ist nicht gültig"
 
 #: include/class_passwordRecovery.inc:429
-msgid "There was a problem with mail server, confirmation email not sent"
+msgid "There was a problem with the mail server, confirmation email not sent"
 msgstr ""
 "Es gab ein Problem mit dem Mailserver, Bestätigungsmail wurde nicht "
 "verschickt"
