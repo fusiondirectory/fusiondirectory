@@ -3147,7 +3147,7 @@ msgid "Snapshot base"
 msgstr "Base des instantanés"
 
 #: plugins/config/class_configInLdap.inc:109
-msgid "The base where snapshots should be stored inside of the LDAP."
+msgid "The base where snapshots should be stored inside the LDAP directory."
 msgstr ""
 "Branche LDAP à l'intérieur de laquelle les instantanés d'objets seront "
 "stockés"

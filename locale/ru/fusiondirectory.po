@@ -3021,7 +3021,7 @@ msgid "Snapshot base"
 msgstr "Базовая запись снапшотов"
 
 #: plugins/config/class_configInLdap.inc:109
-msgid "The base where snapshots should be stored inside of the LDAP."
+msgid "The base where snapshots should be stored inside the LDAP directory."
 msgstr "Базовая запись, где снапшоты должны будут храниться внутри LDAP."
 
 #: plugins/config/class_configInLdap.inc:114

@@ -3076,7 +3076,7 @@ msgid "Snapshot base"
 msgstr "podstrom pro uložení snímků"
 
 #: plugins/config/class_configInLdap.inc:109
-msgid "The base where snapshots should be stored inside of the LDAP."
+msgid "The base where snapshots should be stored inside the LDAP directory."
 msgstr "Základ, ve kterém by měly být zachycené stavy ukládány v LDAP."
 
 #: plugins/config/class_configInLdap.inc:114

@@ -3013,7 +3013,7 @@ msgid "Snapshot base"
 msgstr "Bas för ögonblicksbilder"
 
 #: plugins/config/class_configInLdap.inc:109
-msgid "The base where snapshots should be stored inside of the LDAP."
+msgid "The base where snapshots should be stored inside the LDAP directory."
 msgstr "Basen där ögonblicksbilder ska lagras i LDAP-katalogen."
 
 #: plugins/config/class_configInLdap.inc:114
