@@ -100,7 +100,7 @@ msgid "Column title"
 msgstr "Nadpis sloupce"
 
 #: include/management/class_ManagementConfigurationDialog.inc:86
-msgid "Persitent"
+msgid "Persistent"
 msgstr "Trvalé"
 
 #: include/management/class_ManagementConfigurationDialog.inc:86

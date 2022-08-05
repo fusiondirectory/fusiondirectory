@@ -103,7 +103,7 @@ msgid "Column title"
 msgstr "Titolo della colonna"
 
 #: include/management/class_ManagementConfigurationDialog.inc:86
-msgid "Persitent"
+msgid "Persistent"
 msgstr "Persistente"
 
 #: include/management/class_ManagementConfigurationDialog.inc:86
