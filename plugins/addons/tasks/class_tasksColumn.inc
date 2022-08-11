@@ -24,8 +24,13 @@
  * Important that a "query method" must be defined in order to have the listing
  */
 class tasksColumn extends Column
-
 {
+
+  function __construct (managementListing $parent, array $attributes = NULL, string $label = NULL)
+  {
+    parent::__construct($parent, ['supannRessourceEtatDate', 'supannRessourceEtat'], $label);
+  }
+
   protected function renderSingleValue (ListingEntry $entry, string $value): string
   {
     if ($value == '') {
@@ -53,10 +58,13 @@ class tasksColumn extends Column
   static function filterSchedule (): string
   {
     //A method retrieving the time set by the task
+     return '';
   }
 
   static function filterStatus (): string
   {
     //A method retrieving the status of the task
+     return '';
   }
 }
+

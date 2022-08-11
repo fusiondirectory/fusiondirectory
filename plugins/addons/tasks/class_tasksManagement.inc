@@ -27,9 +27,11 @@ class tasksManagement extends management
   */
   public static $columns = [
     ['LinkColumn',  ['attributes' => 'cn', 'label' => 'Tasks']],
-    ['tasksColumn', ['attributes' => 'TYPE',   'label' => 'Types']],
-    ['tasksColumn', ['attributes' => 'TIMESTAMP', 'label' => 'Schedule']],
-    ['tasksColumn', ['attributes' => 'STATUS', 'label' => 'Status']],
+    //below fdTasksMailObject must be change to have a type defined within task creation (new ldap attributes ?hidden)
+    ['Column', ['attributes' => 'fdTasksMailObject',   'label' => 'Types']],
+    ['Column', ['attributes' => 'fdTasksSchedule', 'label' => 'Schedule']],
+    //below fdTasksStatus attribute needs to be calculated based on the type of the task.
+    ['Column', ['attributes' => 'fdTasksStatus', 'label' => 'Status']],
     ['ActionsColumn', ['label' => 'Actions']],
   ];
 

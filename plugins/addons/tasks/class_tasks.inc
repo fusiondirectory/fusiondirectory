@@ -56,6 +56,8 @@ class tasks extends simplePlugin
           'fdTasksSchedule', FALSE,
           ''
         ),
+        new HiddenAttribute('fdTasksStatus', TRUE, '1', '', 'Status', 'Status of the task'),
+        new HiddenAttribute('fdTasksCreationDate', TRUE, date("Y-m-d h:i:sa"), '', 'StartDate', 'Start Date And Time Of A Task'),
         ]
       ],
     ];

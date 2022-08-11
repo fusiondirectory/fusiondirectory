@@ -303,8 +303,22 @@ attributetype ( 1.3.6.1.4.1.38414.89.1.2 NAME 'fdTasksSchedule'
 attributetype ( 1.3.6.1.4.1.38414.89.1.3 NAME 'fdTasksMailUsers'
   DESC 'Fusion Directory - Tasks Mail Users Recipient'
   EQUALITY caseExactMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
-  SINGLE-VALUE )
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+
+attributetype ( 1.3.6.1.4.1.38414.89.1.4 NAME 'fdTasksStatus'
+  DESC 'Fusion Directory - Task Status'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+
+attributetype ( 1.3.6.1.4.1.38414.89.1.5 NAME 'fdTasksEndDate'
+  DESC 'Fusion Directory - Task End Date'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+
+attributetype ( 1.3.6.1.4.1.38414.89.1.6 NAME 'fdTasksCreationDate'
+  DESC 'Fusion Directory - Task Start Date'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
 
 ##### Classes #####
 
@@ -392,11 +406,11 @@ objectclass ( 1.3.6.1.4.1.38414.88.2.5 NAME 'fdMailTemplateInvitations'
 
 objectclass (1.3.6.1.4.1.38414.89.2.1 NAME 'fdTasks'
   DESC 'FusionDirectory - Tasks objects'
-  MUST ( cn )
-  MAY ( fdTasksSchedule ) )
+  MUST ( cn $ fdTasksStatus $ fdTasksCreationDate )
+  MAY ( fdTasksSchedule $ fdTasksEndDate) )
 
 objectclass (1.3.6.1.4.1.38414.89.2.2 NAME 'fdTasksMail'
   DESC 'FusionDirectory - Tasks objects Mail'
   SUP top AUXILIARY
-  MUST ( fdTasksMailObject )
-  MAY ( fdTasksMailUsers) )
+  MUST ( fdTasksMailObject ) 
+  MAY ( fdTasksMailUsers ) )
