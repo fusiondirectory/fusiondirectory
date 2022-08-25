@@ -32,6 +32,7 @@ class tasksManagement extends management
     ['Column', ['attributes' => 'fdTasksSchedule', 'label' => 'Schedule']],
     //below fdTasksStatus attribute needs to be calculated based on the type of the task.
     ['Column', ['attributes' => 'fdTasksStatus', 'label' => 'Status']],
+    ['Column', ['attributes' => 'fdTasksCreationDate', 'label' => 'Creation Date']],
     ['ActionsColumn', ['label' => 'Actions']],
   ];
 
