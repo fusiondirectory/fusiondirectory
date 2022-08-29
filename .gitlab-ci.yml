@@ -143,3 +143,4 @@ trigger-plugins:
   trigger:
     project: fusiondirectory/fd-plugins
     branch: $CI_COMMIT_REF_NAME
+
