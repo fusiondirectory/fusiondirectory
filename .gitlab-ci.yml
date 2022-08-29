@@ -74,6 +74,7 @@ create_phpstan_rapport:
   script:
     - test -d ../dev-tools/ && rm -Rf ../dev-tools/
     - git clone --depth 1 https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
+    - composer global require phpstan/phpstan=0.12.94
     - cp ../dev-tools/phpstan/fusiondirectory/1.4-dev/*.neon .
     - /root/.composer/vendor/bin/phpstan analyse -c phpstan.neon
 
