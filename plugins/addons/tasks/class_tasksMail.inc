@@ -35,7 +35,12 @@ class tasksMail extends simplePlugin
       'plFilter'      => '(objectClass=fdTasksMail)',
       'plObjectType'  => ['tasks'],
       'plConflicts'   => [''],
-      'plProvidedAcls'  => parent::generatePlProvidedAcls(static::getAttributesInfo())
+      'plProvidedAcls'  => parent::generatePlProvidedAcls(static::getAttributesInfo()),
+      'plForeignKeys'  => [
+        'fdTasksMailUsers' => [
+          ['user','dn','fdTasksMailUsers=%oldvalue%','*']
+        ]
+      ],
     ];
   }
 
@@ -58,7 +63,7 @@ class tasksMail extends simplePlugin
           new GroupMembersAttribute(
             '', _('Select Users/Groups'),
             'fdTasksMailUsers', TRUE,
-            [], 'cn'
+            [], 'dn'
           )
         ]
         ],
