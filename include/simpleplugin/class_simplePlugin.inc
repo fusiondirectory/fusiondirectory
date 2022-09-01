@@ -2063,6 +2063,11 @@ class simplePlugin implements SimpleTab
    */
   function foreignKeyCheck (string $field, $value, array $source)
   {
+    // In case of SetAttribute, value is an array needing to be changed to string.
+    if (is_array($value)) {
+
+      $value = $value[0];
+    }
     return $this->attributesAccess[$field]->foreignKeyCheck($value, $source);
   }
 
