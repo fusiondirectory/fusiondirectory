@@ -2048,6 +2048,17 @@ class simplePlugin implements SimpleTab
     if (!isset($source['MODE'])) {
       $source['MODE'] = 'move';
     }
+
+    // In case of SetAttribute, value is an array needing to be changed to string.
+    if (is_array($oldvalue) && isset($oldvalue[0])) {
+
+      $oldvalue = $oldvalue[0];
+    }
+    if (is_array($newvalue) && isset($newvalue[0])) {
+
+      $newvalue = $newvalue[0];
+    }
+
     $this->attributesAccess[$field]->foreignKeyUpdate($oldvalue, $newvalue, $source);
   }
 
@@ -2064,7 +2075,7 @@ class simplePlugin implements SimpleTab
   function foreignKeyCheck (string $field, $value, array $source)
   {
     // In case of SetAttribute, value is an array needing to be changed to string.
-    if (is_array($value)) {
+    if (is_array($value) && isset($value[0])) {
 
       $value = $value[0];
     }
