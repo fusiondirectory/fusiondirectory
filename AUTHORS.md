@@ -221,3 +221,17 @@ documentation and additional help.
 
 * Renato Ramonda
   Support for SSH ed25519 keys
+
+* Judicael Courant <judicael.courant@orange.com>
+  Weak random generator use in fusiondirectory-setup
+
+* Sinan Sekerci - Dreamlab
+  Security Audit of FusionDirectory
+  Full Path Disclosure
+  Cross-Site Scripting (XSS)
+  Arbitrary File Access (PNG files only)
+
+* Manuel Pellegrinet <manuel.pellegrinet@yoroi.company>
+  Security Audit of FusionDirectory
+  Cross-Site Scripting (XSS)
+  Improper session handling
