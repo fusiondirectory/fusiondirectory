@@ -6,22 +6,22 @@
 # Translators:
 # MCMic, 2018
 # fusiondirectory <contact@fusiondirectory.org>, 2021
-# Benoit Mortier <benoit.mortier@fusiondirectory.org>, 2021
+# Benoit Mortier <benoit.mortier@fusiondirectory.org>, 2022
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2021-03-18 15:28+0000\n"
+"POT-Creation-Date: 2022-07-28 16:55+0000\n"
 "PO-Revision-Date: 2016-08-29 14:52+0000\n"
-"Last-Translator: Benoit Mortier <benoit.mortier@fusiondirectory.org>, 2021\n"
+"Last-Translator: Benoit Mortier <benoit.mortier@fusiondirectory.org>, 2022\n"
 "Language-Team: French (https://www.transifex.com/fusiondirectory/teams/12202/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fr\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 #: include/class_msg_dialog.inc:136 include/class_msg_dialog.inc:172
 #: include/class_config.inc:354 include/class_listing.inc:530
@@ -41,8 +41,8 @@ msgstr ""
 #: include/simpleplugin/class_simplePlugin.inc:697
 #: include/simpleplugin/class_simpleTabs.inc:73
 #: include/simpleplugin/class_multiPlugin.inc:78
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:192 html/index.php:461
-#: html/index.php:475 html/index.php:485 html/index.php:542 html/index.php:552
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:192 html/index.php:465
+#: html/index.php:479 html/index.php:489 html/index.php:543 html/index.php:553
 #: setup/setup_checks.tpl.c:8 ihtml/themes/breezy/msg_dialog.tpl.c:2
 msgid "Error"
 msgstr "Erreur"
@@ -151,61 +151,61 @@ msgstr "PDF"
 msgid "CSV"
 msgstr "CSV"
 
-#: include/php_setup.inc:45 include/php_setup.inc:132
+#: include/php_setup.inc:61 include/php_setup.inc:148
 msgid "File"
 msgstr "Fichier"
 
-#: include/php_setup.inc:47 include/php_setup.inc:132
+#: include/php_setup.inc:63 include/php_setup.inc:148
 msgid "Line"
 msgstr "Ligne"
 
-#: include/php_setup.inc:53
+#: include/php_setup.inc:69
 msgid "PHP error"
 msgstr "Erreur PHP"
 
-#: include/php_setup.inc:62
+#: include/php_setup.inc:78
 msgid "class"
 msgstr "classe"
 
-#: include/php_setup.inc:70
+#: include/php_setup.inc:86
 msgid "function"
 msgstr "fonction"
 
-#: include/php_setup.inc:76
+#: include/php_setup.inc:92
 msgid "static"
 msgstr "statique"
 
-#: include/php_setup.inc:80
+#: include/php_setup.inc:96
 msgid "method"
 msgstr "méthode"
 
-#: include/php_setup.inc:131 ihtml/themes/breezy/msg_dialog.tpl.c:11
+#: include/php_setup.inc:147 ihtml/themes/breezy/msg_dialog.tpl.c:11
 msgid "Trace"
 msgstr "Trace"
 
-#: include/php_setup.inc:132
-#: plugins/addons/subscription/class_subscriptionInfo.inc:76
+#: include/php_setup.inc:148
+#: plugins/addons/subscription/class_subscriptionInfo.inc:81
 msgid "Type"
 msgstr "Type"
 
-#: include/php_setup.inc:133
+#: include/php_setup.inc:149
 msgid "Arguments"
 msgstr "Arguments"
 
-#: include/php_setup.inc:231
+#: include/php_setup.inc:247
 msgid "Generating this page caused the PHP interpreter to raise some errors!"
 msgstr ""
 "La génération de cette page a causé des erreurs dans l'interpréteur PHP !"
 
-#: include/php_setup.inc:236
+#: include/php_setup.inc:252
 msgid "Send bug report to the FusionDirectory Team"
 msgstr "Envoyer le rapport de bugs à l'équipe FusionDirectory"
 
-#: include/php_setup.inc:237
+#: include/php_setup.inc:253
 msgid "Send bugreport"
 msgstr "Envoyer le rapport de bug"
 
-#: include/php_setup.inc:242
+#: include/php_setup.inc:258
 msgid "Toggle information"
 msgstr "Afficher/Cacher l'information"
 
@@ -510,7 +510,7 @@ msgstr "Le serveur LDAP a retourné : %s"
 #: setup/class_setupStepMigrate.inc:580 setup/class_setupStepMigrate.inc:1028
 #: setup/class_setupStepMigrate.inc:1147 setup/class_setupStepMigrate.inc:1258
 #: setup/class_setupStepMigrate.inc:1333 setup/class_setupStepMigrate.inc:1377
-#: html/main.php:156 html/index.php:594 setup/setup_checks.tpl.c:11
+#: html/main.php:156 html/index.php:595 setup/setup_checks.tpl.c:11
 #: ihtml/themes/breezy/msg_dialog.tpl.c:5 ihtml/themes/breezy/islocked.tpl.c:5
 msgid "Warning"
 msgstr "Avertissement"
@@ -1345,7 +1345,7 @@ msgstr "Veuillez sélectionner les entrées désirées"
 #: plugins/admin/aclrole/class_aclRole.inc:99
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:64
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:69
-#: plugins/addons/subscription/class_subscriptionInfo.inc:68
+#: plugins/addons/subscription/class_subscriptionInfo.inc:73
 #: setup/setup_migrate_adminAccount.tpl.c:8
 msgid "Name"
 msgstr "Nom"
@@ -1715,7 +1715,7 @@ msgid "days"
 msgstr "jours"
 
 #: include/simpleplugin/class_dialogAttributes.inc:254
-msgid "Add (dialog)"
+msgid "Add(dialog)"
 msgstr "Ajouter (dialogue)"
 
 #: include/simpleplugin/class_dialogAttributes.inc:517
@@ -2191,12 +2191,12 @@ msgstr "Action déclenchée"
 
 #: plugins/admin/groups/class_groupManagement.inc:198
 #, php-format
-msgid "Action called without error (results were \"%s\")"
-msgstr "Action lancée sans erreur (Le résultat était « %s »)"
+msgid "Action called without error(results were \"%s\")"
+msgstr "Action appelée sans erreur (résultat : \"%s\")"
 
 #: plugins/admin/groups/class_groupManagement.inc:203
 #, php-format
-msgid "Action called without error (result was \"%s\")"
+msgid "Action called without error(result was \"%s\")"
 msgstr "Action appelée sans erreur (résultat : \"%s\")"
 
 #: plugins/admin/groups/class_groupManagement.inc:263
@@ -3642,81 +3642,81 @@ msgstr ""
 "Les statistiques pour le type «%s» n'ont pas pu être calculées en raison de "
 "l'erreur suivante : %s"
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:36
+#: plugins/addons/subscription/class_subscriptionInfo.inc:40
 msgid "Subscription"
 msgstr "Abonnement"
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:37
-#: plugins/addons/subscription/class_subscriptionInfo.inc:43
-#: plugins/addons/subscription/class_subscriptionInfo.inc:58
+#: plugins/addons/subscription/class_subscriptionInfo.inc:41
+#: plugins/addons/subscription/class_subscriptionInfo.inc:47
+#: plugins/addons/subscription/class_subscriptionInfo.inc:63
 msgid "Subscription information"
 msgstr "Information d'abonnement"
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:38
+#: plugins/addons/subscription/class_subscriptionInfo.inc:42
 msgid "Information about your FusionDirectory subscription"
 msgstr "Informations sur votre abonnement FusionDirectory"
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:64
+#: plugins/addons/subscription/class_subscriptionInfo.inc:69
 msgid "Information text for subscription"
 msgstr "Texte d'information pour l'abonnement"
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:68
+#: plugins/addons/subscription/class_subscriptionInfo.inc:73
 msgid "Subscription name"
 msgstr "Nom de l'abonnement"
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:72
+#: plugins/addons/subscription/class_subscriptionInfo.inc:77
 msgid "Id"
 msgstr "Id"
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:72
+#: plugins/addons/subscription/class_subscriptionInfo.inc:77
 msgid "Subscription id"
 msgstr "Identifiant d'abonnement"
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:76
+#: plugins/addons/subscription/class_subscriptionInfo.inc:81
 msgid "Subscription type"
 msgstr "Type d'inscription"
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:80
+#: plugins/addons/subscription/class_subscriptionInfo.inc:85
 msgid "Contract"
 msgstr "Contrat"
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:80
+#: plugins/addons/subscription/class_subscriptionInfo.inc:85
 msgid "Contract reference"
 msgstr "Référence du contrat"
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:84
+#: plugins/addons/subscription/class_subscriptionInfo.inc:89
 msgid "Start date"
 msgstr "Date de début"
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:84
+#: plugins/addons/subscription/class_subscriptionInfo.inc:89
 msgid "Start date of this subscription"
 msgstr "Date de début de cet abonnement"
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:89
+#: plugins/addons/subscription/class_subscriptionInfo.inc:94
 msgid "End date"
 msgstr "Date de fin"
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:89
+#: plugins/addons/subscription/class_subscriptionInfo.inc:94
 msgid "End date of this subscription"
 msgstr "Date de fin de cet abonnement"
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:96
+#: plugins/addons/subscription/class_subscriptionInfo.inc:101
 msgid "Import your subscription"
 msgstr "Importez votre abonnement"
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:99
+#: plugins/addons/subscription/class_subscriptionInfo.inc:104
 msgid "Information text for expired subscription"
 msgstr "Texte d'information pour l'abonnement expiré"
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:103
+#: plugins/addons/subscription/class_subscriptionInfo.inc:108
 msgid "Import subscription"
 msgstr "Importer l'abonnement"
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:109
+#: plugins/addons/subscription/class_subscriptionInfo.inc:114
 msgid "Import"
 msgstr "Importer"
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:126
+#: plugins/addons/subscription/class_subscriptionInfo.inc:131
 #, php-format
 msgid ""
 "You do not have a valid subscription for this instance of FusionDirectory.\n"
@@ -3726,7 +3726,7 @@ msgstr ""
 "FusionDirectory. Veuillez visiter %s pour une liste des options disponibles."
 " "
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:131
+#: plugins/addons/subscription/class_subscriptionInfo.inc:136
 #, php-format
 msgid ""
 "Your subscription is expired for this instance of FusionDirectory.\n"
@@ -3735,13 +3735,29 @@ msgstr ""
 "Votre abonnement a expiré pour cette instance de FusionDirectory.\n"
 "Veuillez visiter %s pour le renouveler."
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:175
+#: plugins/addons/subscription/class_subscriptionInfo.inc:177
+#: plugins/addons/subscription/class_subscriptionInfo.inc:184
+#: plugins/addons/subscription/class_subscriptionInfo.inc:204
+msgid "Import error"
+msgstr "Erreur d'importation"
+
+#: plugins/addons/subscription/class_subscriptionInfo.inc:178
 msgid "No data. Did you forgot to upload a file?"
 msgstr "Pas de données. Avez-vous oublié de télécharger un fichier ?"
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:182
+#: plugins/addons/subscription/class_subscriptionInfo.inc:185
 msgid "Failed to parse imported file"
 msgstr "Échec de l'analyse du fichier importé"
+
+#: plugins/addons/subscription/class_subscriptionInfo.inc:192
+#, php-format
+msgid "Missing section \"%s\" in imported file"
+msgstr "Section \"%s\" manquante dans le fichier importé"
+
+#: plugins/addons/subscription/class_subscriptionInfo.inc:197
+#, php-format
+msgid "Missing attribute \"%s\" in imported file"
+msgstr "Attribut \"%s\" manquant dans le fichier importé"
 
 #: plugins/personal/roles/class_userRoles.inc:34
 msgid "Edit user's groups and roles"
@@ -4324,26 +4340,10 @@ msgid "FusionDirectory requires this extension to handle snapshots."
 msgstr "FusionDirectory a besoin de ce module pour gérer les instantanés."
 
 #: setup/class_setupStepChecks.inc:172
-msgid ""
-"register_globals is a PHP mechanism to register all global variables to be "
-"accessible from scripts without changing the scope. This may be a security "
-"risk."
-msgstr ""
-"register_globals est un mécanisme PHP pour enregistrer toutes les variables "
-"globales afin que les scripts puissent y accéder sans changer la porté des "
-"variables. Cela peut constituer un risque de sécurité."
-
-#: setup/class_setupStepChecks.inc:173
-msgid "Search for 'register_globals' in your php.ini and switch it to 'Off'."
-msgstr ""
-"Cherchez l'option 'register_globals' dans votre php.ini et mettez la à "
-"'Off'."
-
-#: setup/class_setupStepChecks.inc:180
 msgid "PHP uses this value for the garbage collector to delete old sessions."
 msgstr "PHP utilise cette variable pour effacer des anciennes sessions."
 
-#: setup/class_setupStepChecks.inc:181
+#: setup/class_setupStepChecks.inc:173
 msgid ""
 "Setting this value to one day will prevent loosing session and cookies "
 "before they really timeout."
@@ -4351,7 +4351,7 @@ msgstr ""
 "Mettre cette valeur à 1 jour permet d'éviter de perde les cookies et les "
 "sessions avant qu'elles ne soient réellement expirées."
 
-#: setup/class_setupStepChecks.inc:182
+#: setup/class_setupStepChecks.inc:174
 msgid ""
 "Search for 'session.gc_maxlifetime' in your php.ini and set it to 86400 or "
 "higher."
@@ -4359,12 +4359,12 @@ msgstr ""
 "Cherchez 'session.gc_maxlifetime' dans votre php.ini et mettez le à 86400 ou"
 " plus."
 
-#: setup/class_setupStepChecks.inc:189 setup/class_setupStepChecks.inc:205
-#: setup/class_setupStepChecks.inc:221 setup/class_setupStepChecks.inc:229
+#: setup/class_setupStepChecks.inc:181 setup/class_setupStepChecks.inc:197
+#: setup/class_setupStepChecks.inc:213
 msgid "Off"
 msgstr "Éteint"
 
-#: setup/class_setupStepChecks.inc:190
+#: setup/class_setupStepChecks.inc:182
 msgid ""
 "In Order to use FusionDirectory without any trouble, the session.auto_start "
 "option in your php.ini should be set to 'Off'."
@@ -4372,13 +4372,13 @@ msgstr ""
 "Pour pouvoir utiliser FusionDirectory sans problèmes, la variable "
 "session.auto_start doit être à 'Off' dans votre php.ini."
 
-#: setup/class_setupStepChecks.inc:191
+#: setup/class_setupStepChecks.inc:183
 msgid "Search for 'session.auto_start' in your php.ini and set it to 'Off'."
 msgstr ""
 "Cherchez la variable 'session.auto_start' dans votre php.ini et mettez la à "
 "'Off'."
 
-#: setup/class_setupStepChecks.inc:198
+#: setup/class_setupStepChecks.inc:190
 msgid ""
 "FusionDirectory needs at least 128MB of memory. Setting it below this limit "
 "may cause errors that are not reproducable! Increase it for larger setups."
@@ -4387,14 +4387,14 @@ msgstr ""
 "causera des erreurs imprévisibles, qui ne seront pas reproductibles ! "
 "Augmentez la mémoire pour les installations plus complexes."
 
-#: setup/class_setupStepChecks.inc:199
+#: setup/class_setupStepChecks.inc:191
 msgid ""
 "Search for 'memory_limit' in your php.ini and set it to '128M' or higher."
 msgstr ""
 "Cherchez 'memory_limit' dans votre fichier php.ini votre et mettez le à "
 "'128M' ou plus."
 
-#: setup/class_setupStepChecks.inc:206
+#: setup/class_setupStepChecks.inc:198
 msgid ""
 "This option influences the PHP output handling. Turn this Option off, to "
 "increase performance."
@@ -4402,15 +4402,15 @@ msgstr ""
 "Cette option défini la gestion des sorties, mettez cette option à 'Off' pour"
 " améliorer les performances."
 
-#: setup/class_setupStepChecks.inc:207
+#: setup/class_setupStepChecks.inc:199
 msgid "Search for 'implicit_flush' in your php.ini and set it to 'Off'."
 msgstr "Cherchez 'implicit_flush' dans votre php.ini et mettez le à 'Off'."
 
-#: setup/class_setupStepChecks.inc:214
+#: setup/class_setupStepChecks.inc:206
 msgid "The Execution time should be at least 30 seconds."
 msgstr "Le temps d'exécution doit être au moins de 30 secondes."
 
-#: setup/class_setupStepChecks.inc:215
+#: setup/class_setupStepChecks.inc:207
 msgid ""
 "Search for 'max_execution_time' in your php.ini and set it to '30' or "
 "higher."
@@ -4418,7 +4418,7 @@ msgstr ""
 "Chercher l'option 'max_execution_time' dans votre php.ini et mettez la à "
 "'30' ou plus."
 
-#: setup/class_setupStepChecks.inc:222
+#: setup/class_setupStepChecks.inc:214
 msgid ""
 "Increase the server security by setting expose_php to 'off'. PHP won't send "
 "any information about the server you are running in this case."
@@ -4426,23 +4426,9 @@ msgstr ""
 "Augmentez la sécurité de votre serveur en mettant l'option expose_php à "
 "'Off'. PHP n'enverra pas d'information à propos du serveur."
 
-#: setup/class_setupStepChecks.inc:223
+#: setup/class_setupStepChecks.inc:215
 msgid "Search for 'expose_php' in your php.ini and set if to 'Off'."
 msgstr "Cherchez 'expose_php' dans votre php.ini et mettez le à 'Off'."
-
-#: setup/class_setupStepChecks.inc:230
-msgid "Increase your server performance by setting magic_quotes_gpc to 'off'."
-msgstr ""
-"Améliorez la performance de votre serveur en mettant magic_quotes_gpc à "
-"'off'."
-
-#: setup/class_setupStepChecks.inc:231
-msgid ""
-"Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to "
-"'Off'."
-msgstr ""
-"Cherchez l'option 'zend.ze1_compatibility_mode' dans votre hp.ini et mettez "
-"la à 'Off'."
 
 #: setup/class_setupStepMigrate.inc:162 setup/setup_migrate_baseOC.tpl.c:11
 msgid "Migrate"
@@ -4736,8 +4722,8 @@ msgstr "Smarty"
 #, php-format
 msgid "Directory '%s' specified as compile directory is not accessible!"
 msgstr ""
-"Le répertoire '%s' spécifié comme répertoire de compilation est inaccessible"
-" !"
+"Le répertoire '%s' spécifié comme répertoire de compilation est "
+"inaccessible !"
 
 #: html/class_passwordRecovery.inc:119
 #, php-format
@@ -4891,8 +4877,8 @@ msgstr "Erreur Smarty"
 #, php-format
 msgid "Directory \"%s\" specified as compile directory is not accessible!"
 msgstr ""
-"Le répertoire «%s» spécifié comme répertoire de compilation est inaccessible"
-" !"
+"Le répertoire «%s» spécifié comme répertoire de compilation est "
+"inaccessible !"
 
 #: html/index.php:216
 msgid "Your FusionDirectory session has expired!"
@@ -4931,28 +4917,28 @@ msgstr "Veuillez vérifier le nom d'utilisateur et le mot de passe."
 msgid "Account locked. Please contact your system administrator!"
 msgstr "Compte verrouillé. Veuillez contacter votre administrateur système !"
 
-#: html/index.php:463
+#: html/index.php:467
 #, php-format
 msgid "No value found in HTTP header \"%s\""
 msgstr "Aucune valeur trouvée dans l’entête HTTP «%s»"
 
-#: html/index.php:477
+#: html/index.php:481
 #, php-format
 msgid "Header user \"%s\" could not be found in the LDAP"
 msgstr ""
 "L'utilisateur «%s» mentionné dans l’entête n'existe pas dans l'annuaire LDAP"
 
-#: html/index.php:487 html/index.php:554
+#: html/index.php:491 html/index.php:555
 #, php-format
 msgid "Login with user \"%s\" triggered error: %s"
 msgstr "La connexion avec l'utilisateur «%s» a provoqué l'erreur : %s"
 
-#: html/index.php:544
+#: html/index.php:545
 #, php-format
 msgid "CAS user \"%s\" could not be found in the LDAP"
 msgstr "L'utilisateur CAS «%s» n'existe pas dans l'annuaire LDAP"
 
-#: html/index.php:594
+#: html/index.php:595
 msgid ""
 "Your browser has cookies disabled. Please enable cookies and reload this "
 "page before logging in!"
@@ -5012,6 +4998,7 @@ msgid "There is one expired account"
 msgid_plural "There are %1 expired accounts"
 msgstr[0] "Il y a un compte expiré"
 msgstr[1] "Il y a %1 comptes expirés"
+msgstr[2] "Il y a %1 comptes expirés"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:5
 msgid "There is no expired account"
@@ -5027,6 +5014,7 @@ msgid "There is one account expiring in the next %1 days"
 msgid_plural "There are %2 accounts expiring in the next %1 days"
 msgstr[0] "Il y a un compte qui expire dans les %1 prochain jours"
 msgstr[1] "Il y a %2 comptes qui expirent dans les %1 prochains jours"
+msgstr[2] "Il y a %2 comptes qui expirent dans les %1 prochains jours"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:17
 msgid "There is no account expiring in the next %1 days"
@@ -5041,6 +5029,7 @@ msgid "There is 1 group:"
 msgid_plural "There are %1 groups:"
 msgstr[0] "Il y a 1 groupe :"
 msgstr[1] "Il y a %1 groupes :"
+msgstr[2] "Il y a %1 groupes :"
 
 #: plugins/addons/dashboard/groups_stats.tpl.c:5
 msgid "There are no groups"
@@ -5051,6 +5040,7 @@ msgid "One of them is a %1 group"
 msgid_plural "%2 are %1 groups"
 msgstr[0] "L'un deux est un groupe %1"
 msgstr[1] "%2 sont des groupes %1"
+msgstr[2] "%2 sont des groupes %1"
 
 #: plugins/addons/dashboard/groups_stats.tpl.c:11
 msgid "There is no %1 group"
@@ -5062,18 +5052,21 @@ msgid "There is 1 user:"
 msgid_plural "There are %1 users:"
 msgstr[0] "Il y a 1 utilisateur :"
 msgstr[1] "Il y a %1 utilisateurs :"
+msgstr[2] "Il y a %1 utilisateurs :"
 
 #: plugins/addons/dashboard/pwd_stats.tpl.c:5
 msgid "One of them use %1 method"
 msgid_plural "%2 of them use %1 method"
 msgstr[0] "Un d'entre eux utilise la méthode %1"
 msgstr[1] "%2 d’entre eux utilisent la méthode %1"
+msgstr[2] "%2 d’entre eux utilisent la méthode %1"
 
 #: plugins/addons/dashboard/pwd_stats.tpl.c:8
 msgid "One of them is locked"
 msgid_plural "%1 of them are locked"
 msgstr[0] "Un est verrouille"
 msgstr[1] "%1 d’entre eux sont verrouillés"
+msgstr[2] "%1 d’entre eux sont verrouillés"
 
 #: plugins/addons/dashboard/pwd_stats.tpl.c:11
 msgid "None of them is locked"
@@ -5088,6 +5081,7 @@ msgid "One of them have a %1 account"
 msgid_plural "%2 of them have a %1 account"
 msgstr[0] "L'un d'entre eux a un compte %1"
 msgstr[1] "%2 d’entre eux ont un compte %1"
+msgstr[2] "%2 d’entre eux ont un compte %1"
 
 #: plugins/addons/dashboard/users_stats.tpl.c:11
 msgid "None of them have a %1 account"
