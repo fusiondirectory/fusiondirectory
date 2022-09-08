@@ -4,16 +4,16 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# abc Def <hdogan1974@gmail.com>, 2020
+# abc Def <hdogan1974@gmail.com>, 2021
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2021-03-18 15:28+0000\n"
+"POT-Creation-Date: 2022-07-28 16:55+0000\n"
 "PO-Revision-Date: 2016-08-29 14:52+0000\n"
-"Last-Translator: abc Def <hdogan1974@gmail.com>, 2020\n"
+"Last-Translator: abc Def <hdogan1974@gmail.com>, 2021\n"
 "Language-Team: Turkish (Turkey) (https://www.transifex.com/fusiondirectory/teams/12202/tr_TR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -39,8 +39,8 @@ msgstr ""
 #: include/simpleplugin/class_simplePlugin.inc:697
 #: include/simpleplugin/class_simpleTabs.inc:73
 #: include/simpleplugin/class_multiPlugin.inc:78
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:192 html/index.php:461
-#: html/index.php:475 html/index.php:485 html/index.php:542 html/index.php:552
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:192 html/index.php:465
+#: html/index.php:479 html/index.php:489 html/index.php:543 html/index.php:553
 #: setup/setup_checks.tpl.c:8 ihtml/themes/breezy/msg_dialog.tpl.c:2
 msgid "Error"
 msgstr "Hata"
@@ -139,60 +139,60 @@ msgstr ""
 msgid "CSV"
 msgstr ""
 
-#: include/php_setup.inc:45 include/php_setup.inc:132
+#: include/php_setup.inc:61 include/php_setup.inc:148
 msgid "File"
-msgstr ""
+msgstr "Dosya"
 
-#: include/php_setup.inc:47 include/php_setup.inc:132
+#: include/php_setup.inc:63 include/php_setup.inc:148
 msgid "Line"
 msgstr ""
 
-#: include/php_setup.inc:53
+#: include/php_setup.inc:69
 msgid "PHP error"
 msgstr ""
 
-#: include/php_setup.inc:62
+#: include/php_setup.inc:78
 msgid "class"
 msgstr ""
 
-#: include/php_setup.inc:70
+#: include/php_setup.inc:86
 msgid "function"
 msgstr ""
 
-#: include/php_setup.inc:76
+#: include/php_setup.inc:92
 msgid "static"
 msgstr ""
 
-#: include/php_setup.inc:80
+#: include/php_setup.inc:96
 msgid "method"
 msgstr ""
 
-#: include/php_setup.inc:131 ihtml/themes/breezy/msg_dialog.tpl.c:11
+#: include/php_setup.inc:147 ihtml/themes/breezy/msg_dialog.tpl.c:11
 msgid "Trace"
 msgstr ""
 
-#: include/php_setup.inc:132
-#: plugins/addons/subscription/class_subscriptionInfo.inc:76
+#: include/php_setup.inc:148
+#: plugins/addons/subscription/class_subscriptionInfo.inc:81
 msgid "Type"
-msgstr ""
+msgstr "Tür"
 
-#: include/php_setup.inc:133
+#: include/php_setup.inc:149
 msgid "Arguments"
 msgstr ""
 
-#: include/php_setup.inc:231
+#: include/php_setup.inc:247
 msgid "Generating this page caused the PHP interpreter to raise some errors!"
 msgstr ""
 
-#: include/php_setup.inc:236
+#: include/php_setup.inc:252
 msgid "Send bug report to the FusionDirectory Team"
 msgstr ""
 
-#: include/php_setup.inc:237
+#: include/php_setup.inc:253
 msgid "Send bugreport"
 msgstr ""
 
-#: include/php_setup.inc:242
+#: include/php_setup.inc:258
 msgid "Toggle information"
 msgstr ""
 
@@ -219,7 +219,7 @@ msgstr ""
 
 #: include/class_listing.inc:364 setup/setup_migrate_accounts.tpl.c:23
 msgid "Select all"
-msgstr ""
+msgstr "Hepsini seç"
 
 #: include/class_listing.inc:567
 msgid "created by"
@@ -258,16 +258,16 @@ msgstr ""
 
 #: include/class_listing.inc:1655 include/class_listing.inc:1708
 msgid "Copy"
-msgstr ""
+msgstr "Kopyala"
 
 #: include/class_listing.inc:1661 include/class_listing.inc:1696
 msgid "Cut"
-msgstr ""
+msgstr "Kes"
 
 #: include/class_listing.inc:1669 include/class_listing.inc:1671
 #: include/class_CopyPasteHandler.inc:330
 msgid "Paste"
-msgstr ""
+msgstr "Yapıştır"
 
 #: include/class_listing.inc:1696
 msgid "Cut this entry"
@@ -413,7 +413,7 @@ msgstr ""
 
 #: include/class_ldapSizeLimit.inc:131
 msgid "Configure"
-msgstr ""
+msgstr "Yapılandır"
 
 #: include/class_ldapSizeLimit.inc:136
 msgid "incomplete"
@@ -479,10 +479,10 @@ msgstr ""
 #: setup/class_setupStepMigrate.inc:580 setup/class_setupStepMigrate.inc:1028
 #: setup/class_setupStepMigrate.inc:1147 setup/class_setupStepMigrate.inc:1258
 #: setup/class_setupStepMigrate.inc:1333 setup/class_setupStepMigrate.inc:1377
-#: html/main.php:156 html/index.php:594 setup/setup_checks.tpl.c:11
+#: html/main.php:156 html/index.php:595 setup/setup_checks.tpl.c:11
 #: ihtml/themes/breezy/msg_dialog.tpl.c:5 ihtml/themes/breezy/islocked.tpl.c:5
 msgid "Warning"
-msgstr ""
+msgstr "İkaz"
 
 #: include/functions.inc:783
 msgid ""
@@ -932,7 +932,7 @@ msgstr ""
 #: ihtml/themes/breezy/msg_dialog.tpl.c:17
 #: ihtml/themes/breezy/islocked.tpl.c:17
 msgid "Cancel"
-msgstr ""
+msgstr "İptal et"
 
 #: include/class_msgPool.inc:487 setup/class_setupStepMigrate.inc:138
 #: setup/setup_checks.tpl.c:5 ihtml/themes/breezy/msg_dialog.tpl.c:14
@@ -946,12 +946,12 @@ msgstr ""
 
 #: include/class_msgPool.inc:503
 msgid "Save"
-msgstr ""
+msgstr "Kaydet"
 
 #: include/class_msgPool.inc:513
 #, php-format
 msgid "Add"
-msgstr ""
+msgstr "Ekle"
 
 #: include/class_msgPool.inc:513
 #, php-format
@@ -964,7 +964,7 @@ msgstr ""
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:194
 #, php-format
 msgid "Delete"
-msgstr ""
+msgstr "Sil"
 
 #: include/class_msgPool.inc:523
 #, php-format
@@ -974,7 +974,7 @@ msgstr ""
 #: include/class_msgPool.inc:533
 #, php-format
 msgid "Edit..."
-msgstr ""
+msgstr "Düzenle..."
 
 #: include/class_msgPool.inc:533
 #, php-format
@@ -1273,7 +1273,7 @@ msgstr ""
 #: plugins/admin/aclrole/class_aclRole.inc:99
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:64
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:69
-#: plugins/addons/subscription/class_subscriptionInfo.inc:68
+#: plugins/addons/subscription/class_subscriptionInfo.inc:73
 #: setup/setup_migrate_adminAccount.tpl.c:8
 msgid "Name"
 msgstr ""
@@ -1329,16 +1329,16 @@ msgstr ""
 #: include/simpleplugin/attributes/class_DateAttribute.inc:200
 #: include/simpleplugin/attributes/class_DateAttribute.inc:274
 msgid "Hours"
-msgstr ""
+msgstr "Saatler"
 
 #: include/simpleplugin/attributes/class_DateAttribute.inc:205
 #: include/simpleplugin/attributes/class_DateAttribute.inc:279
 msgid "Minutes"
-msgstr ""
+msgstr "Dakikalar"
 
 #: include/simpleplugin/attributes/class_DateAttribute.inc:210
 msgid "Seconds"
-msgstr ""
+msgstr "Saniyeler"
 
 #: include/simpleplugin/attributes/class_DateAttribute.inc:298
 #: include/class_SnapshotDialogs.inc:143 include/class_SnapshotDialogs.inc:149
@@ -1347,7 +1347,7 @@ msgstr ""
 
 #: include/simpleplugin/attributes/class_DateAttribute.inc:304
 msgid "Time"
-msgstr ""
+msgstr "Zaman"
 
 #: include/simpleplugin/attributes/class_FileAttribute.inc:33
 #: include/simpleplugin/attributes/class_FileAttribute.inc:36
@@ -1388,12 +1388,12 @@ msgstr ""
 #: include/simpleplugin/attributes/class_FileAttribute.inc:418
 #: include/simpleplugin/attributes/class_FileAttribute.inc:419
 msgid "Upload"
-msgstr ""
+msgstr "Yükleme"
 
 #: include/simpleplugin/attributes/class_FileAttribute.inc:171
 #: include/simpleplugin/attributes/class_FileAttribute.inc:172
 msgid "Download"
-msgstr ""
+msgstr "İndir"
 
 #: include/simpleplugin/attributes/class_FileAttribute.inc:368
 #, php-format
@@ -1423,7 +1423,7 @@ msgstr ""
 #: plugins/admin/groups/group-list.xml:150
 #: plugins/admin/users/user-list.xml:115
 msgid "Remove"
-msgstr ""
+msgstr "Kaldır"
 
 #: include/simpleplugin/attributes/class_PhoneNumberAttribute.inc:37
 msgid "Number"
@@ -1443,7 +1443,7 @@ msgstr ""
 #: plugins/admin/users/user-list.xml:108
 #: plugins/admin/aclrole/class_aclEditionDialog.inc:192
 msgid "Edit"
-msgstr ""
+msgstr "Düzenle"
 
 #: include/simpleplugin/attributes/class_IntAttribute.inc:50
 #, php-format
@@ -1594,42 +1594,42 @@ msgstr ""
 
 #: include/simpleplugin/class_helpersAttribute.inc:268
 msgid "B"
-msgstr ""
+msgstr "B"
 
 #: include/simpleplugin/class_helpersAttribute.inc:269
 msgid "KiB"
-msgstr ""
+msgstr "KiB"
 
 #: include/simpleplugin/class_helpersAttribute.inc:270
 msgid "MiB"
-msgstr ""
+msgstr "MiB"
 
 #: include/simpleplugin/class_helpersAttribute.inc:271
 msgid "GiB"
-msgstr ""
+msgstr "GiB"
 
 #: include/simpleplugin/class_helpersAttribute.inc:272
 msgid "TiB"
-msgstr ""
+msgstr "TiB"
 
 #: include/simpleplugin/class_helpersAttribute.inc:286
 msgid "seconds"
-msgstr ""
+msgstr "seconds"
 
 #: include/simpleplugin/class_helpersAttribute.inc:287
 msgid "minutes"
-msgstr ""
+msgstr "dakikalar"
 
 #: include/simpleplugin/class_helpersAttribute.inc:288
 msgid "hours"
-msgstr ""
+msgstr "saatler"
 
 #: include/simpleplugin/class_helpersAttribute.inc:289
 msgid "days"
-msgstr ""
+msgstr "günler"
 
 #: include/simpleplugin/class_dialogAttributes.inc:254
-msgid "Add (dialog)"
+msgid "Add(dialog)"
 msgstr ""
 
 #: include/simpleplugin/class_dialogAttributes.inc:517
@@ -1712,7 +1712,7 @@ msgstr ""
 #: plugins/admin/groups/group-list.xml:66 plugins/admin/users/user-list.xml:73
 #: setup/class_setupStepMigrate.inc:829
 msgid "Create"
-msgstr ""
+msgstr "Oluştur"
 
 #: include/class_acl.inc:35 include/class_acl.inc:39
 msgid "ACL"
@@ -1742,7 +1742,7 @@ msgstr ""
 #: include/class_acl.inc:173
 #, php-format
 msgid "All users"
-msgstr ""
+msgstr "Tüm kullanıcılar"
 
 #: include/class_ldap.inc:277
 msgid "Performance warning"
@@ -2087,12 +2087,12 @@ msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:198
 #, php-format
-msgid "Action called without error (results were \"%s\")"
+msgid "Action called without error(results were \"%s\")"
 msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:203
 #, php-format
-msgid "Action called without error (result was \"%s\")"
+msgid "Action called without error(result was \"%s\")"
 msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:263
@@ -2944,7 +2944,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:153
 msgid "Password settings"
-msgstr ""
+msgstr "Parola ayarları"
 
 #: plugins/config/class_configInLdap.inc:156
 msgid "Password default hash"
@@ -2964,7 +2964,7 @@ msgstr ""
 
 #: plugins/config/class_configInLdap.inc:165
 msgid "Password minimum length"
-msgstr ""
+msgstr "Parola asgari uzunluğu"
 
 #: plugins/config/class_configInLdap.inc:165
 msgid "Minimum length of user passwords"
@@ -3395,7 +3395,7 @@ msgstr ""
 
 #: plugins/addons/dashboard/class_dashBoardPasswords.inc:26
 msgid "Passwords"
-msgstr ""
+msgstr "Parolalar"
 
 #: plugins/addons/dashboard/class_dashBoardPasswords.inc:27
 msgid "Statistics about passwords"
@@ -3442,100 +3442,116 @@ msgid ""
 "error: %s"
 msgstr ""
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:36
+#: plugins/addons/subscription/class_subscriptionInfo.inc:40
 msgid "Subscription"
 msgstr ""
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:37
-#: plugins/addons/subscription/class_subscriptionInfo.inc:43
-#: plugins/addons/subscription/class_subscriptionInfo.inc:58
+#: plugins/addons/subscription/class_subscriptionInfo.inc:41
+#: plugins/addons/subscription/class_subscriptionInfo.inc:47
+#: plugins/addons/subscription/class_subscriptionInfo.inc:63
 msgid "Subscription information"
 msgstr ""
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:38
+#: plugins/addons/subscription/class_subscriptionInfo.inc:42
 msgid "Information about your FusionDirectory subscription"
 msgstr ""
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:64
+#: plugins/addons/subscription/class_subscriptionInfo.inc:69
 msgid "Information text for subscription"
 msgstr ""
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:68
+#: plugins/addons/subscription/class_subscriptionInfo.inc:73
 msgid "Subscription name"
 msgstr ""
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:72
+#: plugins/addons/subscription/class_subscriptionInfo.inc:77
 msgid "Id"
 msgstr ""
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:72
+#: plugins/addons/subscription/class_subscriptionInfo.inc:77
 msgid "Subscription id"
 msgstr ""
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:76
+#: plugins/addons/subscription/class_subscriptionInfo.inc:81
 msgid "Subscription type"
 msgstr ""
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:80
+#: plugins/addons/subscription/class_subscriptionInfo.inc:85
 msgid "Contract"
 msgstr ""
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:80
+#: plugins/addons/subscription/class_subscriptionInfo.inc:85
 msgid "Contract reference"
 msgstr ""
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:84
+#: plugins/addons/subscription/class_subscriptionInfo.inc:89
 msgid "Start date"
 msgstr ""
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:84
+#: plugins/addons/subscription/class_subscriptionInfo.inc:89
 msgid "Start date of this subscription"
 msgstr ""
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:89
+#: plugins/addons/subscription/class_subscriptionInfo.inc:94
 msgid "End date"
 msgstr ""
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:89
+#: plugins/addons/subscription/class_subscriptionInfo.inc:94
 msgid "End date of this subscription"
 msgstr ""
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:96
+#: plugins/addons/subscription/class_subscriptionInfo.inc:101
 msgid "Import your subscription"
 msgstr ""
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:99
+#: plugins/addons/subscription/class_subscriptionInfo.inc:104
 msgid "Information text for expired subscription"
 msgstr ""
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:103
+#: plugins/addons/subscription/class_subscriptionInfo.inc:108
 msgid "Import subscription"
 msgstr ""
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:109
+#: plugins/addons/subscription/class_subscriptionInfo.inc:114
 msgid "Import"
 msgstr ""
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:126
+#: plugins/addons/subscription/class_subscriptionInfo.inc:131
 #, php-format
 msgid ""
 "You do not have a valid subscription for this instance of FusionDirectory.\n"
 "Please visit %s for a list of available options."
 msgstr ""
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:131
+#: plugins/addons/subscription/class_subscriptionInfo.inc:136
 #, php-format
 msgid ""
 "Your subscription is expired for this instance of FusionDirectory.\n"
 "Please visit %s to renew it."
 msgstr ""
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:175
+#: plugins/addons/subscription/class_subscriptionInfo.inc:177
+#: plugins/addons/subscription/class_subscriptionInfo.inc:184
+#: plugins/addons/subscription/class_subscriptionInfo.inc:204
+msgid "Import error"
+msgstr ""
+
+#: plugins/addons/subscription/class_subscriptionInfo.inc:178
 msgid "No data. Did you forgot to upload a file?"
 msgstr ""
 
-#: plugins/addons/subscription/class_subscriptionInfo.inc:182
+#: plugins/addons/subscription/class_subscriptionInfo.inc:185
 msgid "Failed to parse imported file"
+msgstr ""
+
+#: plugins/addons/subscription/class_subscriptionInfo.inc:192
+#, php-format
+msgid "Missing section \"%s\" in imported file"
+msgstr ""
+
+#: plugins/addons/subscription/class_subscriptionInfo.inc:197
+#, php-format
+msgid "Missing attribute \"%s\" in imported file"
 msgstr ""
 
 #: plugins/personal/roles/class_userRoles.inc:34
@@ -3567,7 +3583,7 @@ msgstr ""
 #: ihtml/themes/legacy/login.tpl.c:23 ihtml/themes/breezy/login.tpl.c:17
 #: ihtml/themes/breezy/login.tpl.c:20 ihtml/themes/breezy/login.tpl.c:23
 msgid "Password"
-msgstr ""
+msgstr "Parola"
 
 #: plugins/personal/generic/class_user.inc:51
 msgid "Password (Leave empty if you do not wish to change it)"
@@ -3806,7 +3822,7 @@ msgstr ""
 #: ihtml/themes/legacy/recovery.tpl.c:29 ihtml/themes/breezy/recovery.tpl.c:23
 #: ihtml/themes/breezy/recovery.tpl.c:26 ihtml/themes/breezy/recovery.tpl.c:29
 msgid "New password"
-msgstr ""
+msgstr "Yeni parola"
 
 #: plugins/personal/generic/class_user.inc:724
 msgid "The password used as new and current are too similar."
@@ -3901,7 +3917,7 @@ msgstr ""
 
 #: setup/class_setupStepLdap.inc:80
 msgid "Admin password"
-msgstr ""
+msgstr "Yönetici parolası"
 
 #: setup/class_setupStepLdap.inc:80
 msgid "Password for the admin account to use for binding to the LDAP"
@@ -4080,96 +4096,75 @@ msgid "FusionDirectory requires this extension to handle snapshots."
 msgstr ""
 
 #: setup/class_setupStepChecks.inc:172
-msgid ""
-"register_globals is a PHP mechanism to register all global variables to be "
-"accessible from scripts without changing the scope. This may be a security "
-"risk."
-msgstr ""
-
-#: setup/class_setupStepChecks.inc:173
-msgid "Search for 'register_globals' in your php.ini and switch it to 'Off'."
-msgstr ""
-
-#: setup/class_setupStepChecks.inc:180
 msgid "PHP uses this value for the garbage collector to delete old sessions."
 msgstr ""
 
-#: setup/class_setupStepChecks.inc:181
+#: setup/class_setupStepChecks.inc:173
 msgid ""
 "Setting this value to one day will prevent loosing session and cookies "
 "before they really timeout."
 msgstr ""
 
-#: setup/class_setupStepChecks.inc:182
+#: setup/class_setupStepChecks.inc:174
 msgid ""
 "Search for 'session.gc_maxlifetime' in your php.ini and set it to 86400 or "
 "higher."
 msgstr ""
 
-#: setup/class_setupStepChecks.inc:189 setup/class_setupStepChecks.inc:205
-#: setup/class_setupStepChecks.inc:221 setup/class_setupStepChecks.inc:229
+#: setup/class_setupStepChecks.inc:181 setup/class_setupStepChecks.inc:197
+#: setup/class_setupStepChecks.inc:213
 msgid "Off"
 msgstr ""
 
-#: setup/class_setupStepChecks.inc:190
+#: setup/class_setupStepChecks.inc:182
 msgid ""
 "In Order to use FusionDirectory without any trouble, the session.auto_start "
 "option in your php.ini should be set to 'Off'."
 msgstr ""
 
-#: setup/class_setupStepChecks.inc:191
+#: setup/class_setupStepChecks.inc:183
 msgid "Search for 'session.auto_start' in your php.ini and set it to 'Off'."
 msgstr ""
 
-#: setup/class_setupStepChecks.inc:198
+#: setup/class_setupStepChecks.inc:190
 msgid ""
 "FusionDirectory needs at least 128MB of memory. Setting it below this limit "
 "may cause errors that are not reproducable! Increase it for larger setups."
 msgstr ""
 
-#: setup/class_setupStepChecks.inc:199
+#: setup/class_setupStepChecks.inc:191
 msgid ""
 "Search for 'memory_limit' in your php.ini and set it to '128M' or higher."
 msgstr ""
 
-#: setup/class_setupStepChecks.inc:206
+#: setup/class_setupStepChecks.inc:198
 msgid ""
 "This option influences the PHP output handling. Turn this Option off, to "
 "increase performance."
 msgstr ""
 
-#: setup/class_setupStepChecks.inc:207
+#: setup/class_setupStepChecks.inc:199
 msgid "Search for 'implicit_flush' in your php.ini and set it to 'Off'."
 msgstr ""
 
-#: setup/class_setupStepChecks.inc:214
+#: setup/class_setupStepChecks.inc:206
 msgid "The Execution time should be at least 30 seconds."
 msgstr ""
 
-#: setup/class_setupStepChecks.inc:215
+#: setup/class_setupStepChecks.inc:207
 msgid ""
 "Search for 'max_execution_time' in your php.ini and set it to '30' or "
 "higher."
 msgstr ""
 
-#: setup/class_setupStepChecks.inc:222
+#: setup/class_setupStepChecks.inc:214
 msgid ""
 "Increase the server security by setting expose_php to 'off'. PHP won't send "
 "any information about the server you are running in this case."
 msgstr ""
 
-#: setup/class_setupStepChecks.inc:223
+#: setup/class_setupStepChecks.inc:215
 msgid "Search for 'expose_php' in your php.ini and set if to 'Off'."
-msgstr ""
-
-#: setup/class_setupStepChecks.inc:230
-msgid "Increase your server performance by setting magic_quotes_gpc to 'off'."
-msgstr ""
-
-#: setup/class_setupStepChecks.inc:231
-msgid ""
-"Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to "
-"'Off'."
 msgstr ""
 
 #: setup/class_setupStepMigrate.inc:162 setup/setup_migrate_baseOC.tpl.c:11
@@ -4511,7 +4506,7 @@ msgstr ""
 
 #: html/main.php:140
 msgid "Password change"
-msgstr ""
+msgstr "Parola değiştir"
 
 #: html/main.php:140
 msgid "Your password is about to expire, please change your password!"
@@ -4616,27 +4611,27 @@ msgstr ""
 msgid "Account locked. Please contact your system administrator!"
 msgstr ""
 
-#: html/index.php:463
+#: html/index.php:467
 #, php-format
 msgid "No value found in HTTP header \"%s\""
 msgstr ""
 
-#: html/index.php:477
+#: html/index.php:481
 #, php-format
 msgid "Header user \"%s\" could not be found in the LDAP"
 msgstr ""
 
-#: html/index.php:487 html/index.php:554
+#: html/index.php:491 html/index.php:555
 #, php-format
 msgid "Login with user \"%s\" triggered error: %s"
 msgstr ""
 
-#: html/index.php:544
+#: html/index.php:545
 #, php-format
 msgid "CAS user \"%s\" could not be found in the LDAP"
 msgstr ""
 
-#: html/index.php:594
+#: html/index.php:595
 msgid ""
 "Your browser has cookies disabled. Please enable cookies and reload this "
 "page before logging in!"
@@ -4905,11 +4900,11 @@ msgstr ""
 
 #: setup/setup_finish.tpl.c:8
 msgid "Download configuration"
-msgstr ""
+msgstr "İndirme yapılandırması"
 
 #: setup/setup_finish.tpl.c:11
 msgid "Status: "
-msgstr ""
+msgstr "Durum:"
 
 #: setup/setup_migrate_accounts.tpl.c:2
 msgid ""
@@ -4980,7 +4975,7 @@ msgstr ""
 
 #: ihtml/themes/legacy/recovery.tpl.c:41 ihtml/themes/breezy/recovery.tpl.c:41
 msgid "Password strength"
-msgstr ""
+msgstr "Parola kuvvetliliği"
 
 #: ihtml/themes/legacy/recovery.tpl.c:44 ihtml/themes/legacy/recovery.tpl.c:47
 #: ihtml/themes/legacy/recovery.tpl.c:50 ihtml/themes/legacy/recovery.tpl.c:86
@@ -5047,7 +5042,7 @@ msgstr ""
 
 #: ihtml/themes/legacy/login.tpl.c:26 ihtml/themes/breezy/login.tpl.c:26
 msgid "I forgot my password"
-msgstr ""
+msgstr "Ben şifremi unuttum"
 
 #: ihtml/themes/legacy/login.tpl.c:41 ihtml/themes/breezy/login.tpl.c:41
 msgid "Click here to log in"
