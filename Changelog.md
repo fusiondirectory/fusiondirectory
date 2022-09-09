@@ -1,40 +1,67 @@
-## %"FusionDirectory 1.3.1" - 2019-07-04
+## %"FusionDirectory 1.3.1" - 2022-09-09
 
 ### Added
 
 #### fusiondirectory
 - fd#5985 We don't have LDAP tab on FusionDirectory configuration
+- fd#6152 Add subscription screen
 
 #### fusiondirectory-plugins
 - fd-plugins#5911 supannRefId field is missing for "etablissement"
 - fd-plugins#5938 Make %passwordClear% available to sambaAccount hooks
 - fd-plugins#5939 create icons for ipmi and weblink
 - fd-plugins#5940 We don't have LDAP tab on FusionDirectory configuration
+- fd-plugins#5956 add mapping sinaps to Fd mapping for diffusion
 - fd-plugins#5957 creating icons for the sinaps plugin
 
 ### Changed
 
+#### fusiondirectory
+- fd#6024 Cleanup session handling
+- fd#6038 Move the "Click the 'Edit' button" message to the left
+- fd#6220 [CodeStyle] - 1.3.1 Requires adaptation to align code style with 1.4
+- fd#6221 [Enhancement] - Change CI 1.3.1 - CodeStyle to refelect 1.4 rules
+
 #### fusiondirectory-plugins
+- fd-plugins#5897 When a user is removed from Sinaps, we need to send back a deletion acquisition
 - fd-plugins#5913 Avoid mass acquistion when editing group gidNumber
 - fd-plugins#5948 description of a user should'nt be updated from SINAPS
+- fd-plugins#5993 _getTabFooter has been renamed getTabFooter
+- fd-plugins#6103 Adapt 1.3-fixes code to subscription core merge
+- fd-plugins#6180 [CodeStyle] 1.3.1 Plugin - Requires adaptation to align code style with 1.4
 
 ### Removed
 
 #### fusiondirectory-plugins
 - fd-plugins#5901 Remove Google+ from personal social accounts tab
+- fd-plugins#5992 Email icon should be moved to core
 
 ### Fixed
 
 #### fusiondirectory
+- fd#5862 filtering and "Unknown element type specified: !"
 - fd#5942 PHP >= 7.2 triggering error when count() is called with invalid countable
 - fd#5967 Systems dashboard crashes
+- fd#5974 Workflow problem when applying a template to an object triggers errors
 - fd#5978 when renaming branch aka department roles are not updated correctly
 - fd#5983 Write ACL on user/userRoles/groupsMembership not working when not having full user/user read right
 - fd#5987 ImagickException are not catched when showing an ImageAttribute
+- fd#5995 Audit events DN are too long
 - fd#5997 Incorrect error message when the mail cannot be sent by recovery
+- fd#6005 Problem with gidNumber in posix group template
 - fd#6006 expiration date in dashboard is 02.01.1970
+- fd#6017 IntAttribute badly handle empty value when minimum is set
+- fd#6023 Email icon missing from core
+- fd#6030 correct the get help section in the readme.md
+- fd#6097 Smarty path is not set correctly by fusiondirectory-setup --write-vars
+- fd#6122 Problems with FD web setup
+- fd#6142 The filter for configuration is wrong in fusiondirectory-setup
+- fd#6173 PHP error: Array to string conversion in class_fiInventory.inc:199
+- fd#6222 [1.3.1] - Fixing LDAP Search filter code style
 
 #### fusiondirectory-plugins
+- fd-plugins#5825 LDAP error in audit plugin
+- fd-plugins#5912 Unable to spread a user to FD from sinaps if the user is affected to an etablissement
 - fd-plugins#5917 flag_ownmailbox cannot be used with partage mail method
 - fd-plugins#5918 SINAPS : acquisition couldn't be sent because primary affectation isn't set
 - fd-plugins#5923 cname record appear on another domain when they contain the machine cn
@@ -44,6 +71,28 @@
 - fd-plugins#5944 add addvalues/delvalues documentation
 - fd-plugins#5945 unable to add SINAPS Structure
 - fd-plugins#5949 Systems dashboard crashes
+- fd-plugins#5963 error in SINAPS workflow
+- fd-plugins#5966 dovecot connection error
+- fd-plugins#5976 Problem with gidNumber in posix group template
+- fd-plugins#5970 Compatibility error between sudo and mixedgroup plugins
+- fd-plugins#5978 GPG key addition crash
+- fd-plugins#5991 ORCID last character may be 'X' and not a number
+- fd-plugins#6000 correct the get help section in the readme.md
+- fd-plugins#6063 Argument 4 passed to DhcpHostsAttribute::postLdapSave() must be of the type array, string given
+- fd-plugins#6079 reload dns map from dns interface didn't work , but from server it works
+- fd-plugins#6125 PHP error: Array to string conversion in class_fiInventory.inc:199
+
+### Security
+
+#### fusiondirectory
+- fd#6021 Failed LDAP operations may appear as Success
+- fd#6135 Security problems uncovered by audit
+- fd#6086 XSS in login screen
+- fd#6136 Weak random generator use in fusiondirectory-setup
+- fd#6137 XSS in management filters
+- fd#6217 [Security] - Set Cookie settings to TRUE for option "HttpOnly"
+- fd#6219 [security] - Cookie session is not renewed or set after authentification
+
 
 ## %"FusionDirectory 1.3" - 2019-03-04
 
