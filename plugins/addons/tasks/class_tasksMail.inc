@@ -64,9 +64,15 @@ class tasksMail extends simplePlugin
             '', _('Select Users/Groups'),
             'fdTasksMailUsers', TRUE,
             [], 'dn'
-          )
+          ),
+         // new HiddenAttribute('fdTasksEmailsFromdDN', TRUE, '', '', 'E-Mails', 'Emails from DN'),
+          new StringAttribute(
+            _('Emails'), _('Name for this task'),
+            'fdTasksEmailsFromdDN', TRUE
+          ),
         ]
-        ],
+      ],
+      
     ];
   }
 
@@ -85,6 +91,40 @@ class tasksMail extends simplePlugin
     }
     asort($tmpSearch);
     $this->attributesAccess['fdTasksMailObject']->setChoices(array_keys($tmpSearch), array_values($tmpSearch));
+    $this->attributesAccess['fdTasksEmailsFromdDN']->setVisible(FALSE); 
+
+
+  }
+
+  /*
+   * Populate the fdTasksEmailsFromDN attribute with related mails addresses. 
+   */
+  protected function shouldSave (): bool
+  {
+    global $config;
+
+    $ldap = $config->get_ldap_link();
+
+    if ($this->attributesAccess['fdTasksMailUsers']->getValue() == TRUE ) {
+      foreach ($this->attributesAccess['fdTasksMailUsers']->getValue() as $dn) {
+        
+        $ldap->cd($dn);
+        $filter = "(objectClass=gosaMailAccount)";
+        $attrs = ["mail"];     
+        
+        $ldap->search($filter, $attrs);
+        $info = $ldap->fetch();
+        // To be developped properly to take Supann and other Mail attributes into consideration.
+        if (!empty($info["mail"][0]) && isset($info["mail"][0])) {
+          
+          // For some obscur reasons this attributes won't save in LDAP.
+          $this->attributesAccess['fdTasksEmailsFromdDN']->setValue($info["mail"][0]);
+          print_r($this->attributesAccess['fdTasksEmailsFromdDN']->getValue());
+        }  
+      }
+    }
+    
+    return parent::shouldSave();
   }
 
 }

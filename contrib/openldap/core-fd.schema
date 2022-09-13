@@ -320,6 +320,11 @@ attributetype ( 1.3.6.1.4.1.38414.89.1.6 NAME 'fdTasksCreationDate'
   EQUALITY caseExactMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
 
+attributetype ( 1.3.6.1.4.1.38414.89.1.7 NAME 'fdTasksEmailsFromdDN'
+  DESC 'Fusion Directory - Emails derived from DN' 
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+
 ##### Classes #####
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.4 NAME 'gosaDepartment' SUP top AUXILIARY
@@ -413,4 +418,4 @@ objectclass (1.3.6.1.4.1.38414.89.2.2 NAME 'fdTasksMail'
   DESC 'FusionDirectory - Tasks objects Mail'
   SUP top AUXILIARY
   MUST ( fdTasksMailObject ) 
-  MAY ( fdTasksMailUsers ) )
+  MAY ( fdTasksMailUsers $ fdTasksEmailsFromdDN ) )
