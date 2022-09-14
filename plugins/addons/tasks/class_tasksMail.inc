@@ -51,11 +51,12 @@ class tasksMail extends simplePlugin
       'taskMail' => [
         'name'  => _('Task Mail Object'),
         'attrs' => [
-        new SelectAttribute(
-          _('Mail Template'), _('Mail Template Object Selection'),
-          'fdTasksMailObject', FALSE
-        ),
-        ]
+          new SelectAttribute(
+            _('Mail Template'), _('Mail Template Object Selection'),
+            'fdTasksMailObject', FALSE
+          ),
+          new HiddenArrayAttribute('fdTasksEmailsFromdDN', FALSE, ''),
+          ]
       ],
       'UserGroupSelection' => [
         'name'  => _('Users and/or Groups'),
@@ -65,14 +66,8 @@ class tasksMail extends simplePlugin
             'fdTasksMailUsers', TRUE,
             [], 'dn'
           ),
-         // new HiddenAttribute('fdTasksEmailsFromdDN', TRUE, '', '', 'E-Mails', 'Emails from DN'),
-          new StringAttribute(
-            _('Emails'), _('Name for this task'),
-            'fdTasksEmailsFromdDN', TRUE
-          ),
-        ]
-      ],
-      
+        ],
+      ]
     ];
   }
 
@@ -91,40 +86,52 @@ class tasksMail extends simplePlugin
     }
     asort($tmpSearch);
     $this->attributesAccess['fdTasksMailObject']->setChoices(array_keys($tmpSearch), array_values($tmpSearch));
-    $this->attributesAccess['fdTasksEmailsFromdDN']->setVisible(FALSE); 
-
 
   }
 
   /*
-   * Populate the fdTasksEmailsFromDN attribute with related mails addresses. 
+   * Must return bool to be compliant with the interface
+   * Allows attributes values based on others to be updated before save.
    */
-  protected function shouldSave (): bool
+  public function update (): bool
+  {
+    parent::update();
+    $this->setEmailsFromSelectedDN();
+
+    return TRUE;
+  }
+
+   /*
+   * Populate the fdTasksEmailsFromDN attribute with related mails addresses.
+   */
+  public function setEmailsFromSelectedDN () : void
   {
     global $config;
 
     $ldap = $config->get_ldap_link();
+    $attributeValue = $this->attributesAccess['fdTasksMailUsers']->getValue();
 
-    if ($this->attributesAccess['fdTasksMailUsers']->getValue() == TRUE ) {
+    if ($attributeValue && !empty($attributeValue)) {
+
+      $mailList = [];
+
       foreach ($this->attributesAccess['fdTasksMailUsers']->getValue() as $dn) {
-        
+
         $ldap->cd($dn);
         $filter = "(objectClass=gosaMailAccount)";
-        $attrs = ["mail"];     
-        
+        $attrs = ["mail"];
+
         $ldap->search($filter, $attrs);
         $info = $ldap->fetch();
+
         // To be developped properly to take Supann and other Mail attributes into consideration.
         if (!empty($info["mail"][0]) && isset($info["mail"][0])) {
-          
-          // For some obscur reasons this attributes won't save in LDAP.
-          $this->attributesAccess['fdTasksEmailsFromdDN']->setValue($info["mail"][0]);
-          print_r($this->attributesAccess['fdTasksEmailsFromdDN']->getValue());
-        }  
+          $mailList[] = $info["mail"][0];
+        }
       }
+      $this->attributesAccess['fdTasksEmailsFromdDN']->setValue(array_values($mailList));
+      print_r($mailList);
     }
-    
-    return parent::shouldSave();
   }
 
 }
