@@ -55,11 +55,19 @@ class tasksMail extends simplePlugin
             _('Mail Template'), _('Mail Template Object Selection'),
             'fdTasksMailObject', FALSE
           ),
-          new HiddenArrayAttribute('fdTasksEmailsFromdDN', FALSE, ''),
+          new HiddenArrayAttribute('fdTasksEmailsFromDN', FALSE, ''),
           ]
       ],
+      'From Component' => [
+        'name'  => _('Sender Address'),
+        'attrs' => [
+           new MailAttribute(
+             _('Sender email address'),
+             _('Email address from which mails will be sent'), 'fdTasksEmailSender', TRUE, 'to.be@chang.ed'),
+        ]
+      ],
       'UserGroupSelection' => [
-        'name'  => _('Users and/or Groups'),
+        'name'  => _('Recipients Users and/or Groups'),
         'attrs' => [
           new GroupMembersAttribute(
             '', _('Select Users/Groups'),
@@ -129,7 +137,7 @@ class tasksMail extends simplePlugin
           $mailList[] = $info["mail"][0];
         }
       }
-      $this->attributesAccess['fdTasksEmailsFromdDN']->setValue(array_values($mailList));
+      $this->attributesAccess['fdTasksEmailsFromDN']->setValue(array_values($mailList));
       print_r($mailList);
     }
   }
