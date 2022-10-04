@@ -69,10 +69,9 @@ class tasksMail extends simplePlugin
       'UserGroupSelection' => [
         'name'  => _('Recipients Users and/or Groups'),
         'attrs' => [
-          new GroupMembersAttribute(
-            '', _('Select Users/Groups'),
-            'fdTasksMailUsers', TRUE,
-            [], 'dn'
+          new UsersGroupsRolesAttribute(
+            _('Members'), _('Users or groups to assign to this task.'),
+            'fdTasksMailUsers', TRUE
           ),
         ],
       ]
