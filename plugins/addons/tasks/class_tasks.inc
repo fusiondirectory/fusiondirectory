@@ -51,11 +51,10 @@ class tasks extends simplePlugin
           _('Task Name'), _('Name for this task'),
           'cn', TRUE
         ),
-        new GeneralizedTimeDateAttribute(
-          _('Task Schedule'), _('Date when this task is required to be processed'),
-          'fdTasksSchedule', FALSE,
-          ''
-        ),
+         new DateTimeAttribute(
+           _('Schedule'), '',
+           'fdTasksScheduleDate', FALSE
+           ),
         new HiddenAttribute('fdTasksStatus', TRUE, '1', '', 'Status', 'Status of the task'),
         new HiddenAttribute('fdTasksCreationDate', TRUE, date("Y-m-d h:i:sa"), '', 'StartDate', 'Start Date And Time Of A Task'),
         ]
