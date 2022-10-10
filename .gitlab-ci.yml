@@ -3,7 +3,6 @@ image: debian:stretch
 
 stages:
   - tarballs
-  - trigger
 
 build-release:
   stage: tarballs
