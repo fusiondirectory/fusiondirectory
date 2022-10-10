@@ -3,34 +3,16 @@ image: debian:stretch
 
 stages:
   - tarballs
-  - trigger
 
 build-release:
   stage: tarballs
   only:
-#    - tags
-    - master
+    - tags
   script:
-    - release="$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')"
-    - mkdir ../fusiondirectory-$release/
-    - mv ./* ../fusiondirectory-$release/
-    - mv  ../fusiondirectory-$release/ ./
-    - tar -cvzf fusiondirectory-$release.tar.gz *
+    - mkdir ../fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')/
+    - mv ./* ../fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')/
+    - mv  ../fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')/ ./
+    - tar -cvzf fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"').tar.gz *
   artifacts:
     paths:
-    - fusiondirectory-*.tar.gz
-
-trigger-plugins:
-  variables:
-    GROUP: $GROUP
-    BRANCH_CORE: $CI_COMMIT_REF_NAME
-    BRANCH_PLUGIN: $CI_COMMIT_REF_NAME
-    BRANCH_BUILD_DEBIAN_STRETCH: $BRANCH_BUILD_DEBIAN_STRETCH
-    BRANCH_BUILD_DEBIAN_BUSTER: $BRANCH_BUILD_DEBIAN_BUSTER
-    BRANCH_BUILD_CENTOS_7: $BRANCH_BUILD_CENTOS_7
-  stage: trigger
-  only:
-    - master
-  trigger:
-    project: fusiondirectory/fd-plugins
-    branch: $CI_COMMIT_REF_NAME
+      - fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"').tar.gz
