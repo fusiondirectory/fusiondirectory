@@ -117,19 +117,6 @@ build-tarballs:
       - fusiondirectory-1.4.tar.gz
     expire_in: 30d
 
-build-release:
-  stage: tarballs
-  only:
-    - tags
-  script:
-    - mkdir ../fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')/
-    - mv ./* ../fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')/
-    - mv  ../fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')/ ./
-    - tar -cvzf fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"').tar.gz *
-  artifacts:
-    paths:
-      - fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"').tar.gz
-
 trigger-plugins:
   variables:
     GROUP: $GROUP
