@@ -62,7 +62,7 @@ create_php_code_sniffer_rapport:
     - test -d ../dev-tools/ && rm -Rf ../dev-tools/
     - git clone --depth 1 https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
     - find . -type f -name '*.php' -o -name '*.inc' > ./filelist
-    - phpcs --standard=../dev-tools/php-codesniffer-rules/FDStandard/ruleset.xml --file-list=./filelist
+    - /root/.composer/vendor/bin/phpcs --standard=../dev-tools/php-codesniffer-rules/FDStandard/ruleset.xml --file-list=./filelist
 
 create_php_compatibility_rapport:
   image: registry.fusiondirectory.org/fusiondirectory/fd/phpcodesniffer-cli:buster
@@ -75,9 +75,9 @@ create_php_compatibility_rapport:
     - find . -type f -name '*.php' -o -name '*.inc' > ./filelist
     - git clone --depth 1 https://github.com/PHPCompatibility/PHPCompatibility.git ../PHPCompatibility
     - git clone --depth 1 https://github.com/PHPCSStandards/PHPCSUtils.git ../PHPCSUtils
-    - phpcs --config-set installed_paths /builds/fusiondirectory/PHPCompatibility,/builds/fusiondirectory/PHPCSUtils
+    - /root/.composer/vendor/bin/phpcs --config-set installed_paths /builds/fusiondirectory/PHPCompatibility,/builds/fusiondirectory/PHPCSUtils
     - PHP_MIN_VERSION=$(grep PHP_MIN_VERSION include/variables_common.inc| cut -d\' -f4| cut -d"." -f 1-2)
-    - phpcs --standard=../dev-tools/php-codesniffer-rules/PHPCompatibility-fd1.3/ruleset.xml --runtime-set testVersion $PHP_MIN_VERSION-7.4 --file-list=./filelist
+    - /root/.composer/vendor/bin/phpcs --standard=../dev-tools/php-codesniffer-rules/PHPCompatibility-fd1.3/ruleset.xml --runtime-set testVersion $PHP_MIN_VERSION-7.4 --file-list=./filelist
 
 # fusiondirectory-update-locale
 fusiondirectory-update-locale:
