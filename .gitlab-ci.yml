@@ -59,11 +59,11 @@ create_php_code_sniffer_rapport:
     - test -d ../dev-tools/ && rm -Rf ../dev-tools/
     - git clone --depth 1 https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
     - find . -type f -name '*.php' -o -name '*.inc' > ./filelist
-    - phpcs --standard=../dev-tools/php-codesniffer-rules/FDStandard/ruleset.xml --file-list=./filelist
+    - /root/.composer/vendor/bin/phpcs --standard=../dev-tools/php-codesniffer-rules/FDStandard/ruleset.xml --file-list=./filelist
     - git clone --depth 1 https://github.com/PHPCompatibility/PHPCompatibility.git ../PHPCompatibility
     - git clone --depth 1 https://github.com/PHPCSStandards/PHPCSUtils.git ../PHPCSUtils
-    - phpcs --config-set installed_paths /builds/fusiondirectory/PHPCompatibility,/builds/fusiondirectory/PHPCSUtils
-    - phpcs --standard=PHPCompatibility --runtime-set testVersion 7.3-7.4 --file-list=./filelist
+    - /root/.composer/vendor/bin/phpcs --config-set installed_paths /builds/fusiondirectory/PHPCompatibility,/builds/fusiondirectory/PHPCSUtils
+    - /root/.composer/vendor/bin/phpcs --standard=PHPCompatibility --runtime-set testVersion 7.3-7.4 --file-list=./filelist
 
 # phpstan
 create_phpstan_rapport:
