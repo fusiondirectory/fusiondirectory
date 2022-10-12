@@ -9,10 +9,11 @@ build-release:
   only:
     - tags
   script:
-    - mkdir ../fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')/
-    - mv ./* ../fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')/
-    - mv  ../fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')/ ./
-    - tar -cvzf fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"').tar.gz *
+    - VERSION=$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"')
+    - mkdir ../fusiondirectory-$VERSION/
+    - mv ./* ../fusiondirectory-$VERSION/
+    - mv  ../fusiondirectory-$VERSION/ ./
+    - tar -cvzf fusiondirectory-$VERSION.tar.gz *
   artifacts:
     paths:
-      - fusiondirectory-$(grep '%' Changelog.md | head -n1 | cut -d ' ' -f3 | tr -d '"').tar.gz
+      - ./*.tar.gz
