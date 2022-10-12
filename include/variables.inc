@@ -28,7 +28,7 @@
 require_once('variables_common.inc');
 
 if (!defined("CONFIG_DIR")) {
-  define ("CONFIG_DIR", "/etc/fusiondirectory/"); /* FusionDirectory etc path */
+  define("CONFIG_DIR", "/etc/fusiondirectory/"); /* FusionDirectory etc path */
 }
 
 /*!
@@ -36,7 +36,7 @@ if (!defined("CONFIG_DIR")) {
  *   e.g.  SetEnv CONFIG_FILE fusiondirectory.conf 1.0
  */
 if (!defined("CONFIG_FILE")) {
-  define ("CONFIG_FILE", "fusiondirectory.conf"); /* FusionDirectory filename */
+  define("CONFIG_FILE", "fusiondirectory.conf"); /* FusionDirectory filename */
 }
 
 /*!
@@ -47,37 +47,37 @@ define("SMARTY", "/usr/share/php/smarty3/Smarty.class.php");
 /*!
  * \brief Smarty compile dir
  */
-define ("SPOOL_DIR", "/var/spool/fusiondirectory/"); /* FusionDirectory spool directory */
+define("SPOOL_DIR", "/var/spool/fusiondirectory/"); /* FusionDirectory spool directory */
 
 /*!
  * \brief Global cache dir
  */
-define ("CACHE_DIR", "/var/cache/fusiondirectory/"); /* FusionDirectory var directory */
+define("CACHE_DIR", "/var/cache/fusiondirectory/"); /* FusionDirectory var directory */
 
 /*!
  * \brief Global locale cache dir
  */
-define ("LOCALE_DIR", "/var/cache/fusiondirectory/locale/"); /* FusionDirectory locale directory */
+define("LOCALE_DIR", "/var/cache/fusiondirectory/locale/"); /* FusionDirectory locale directory */
 
 /*!
  * \brief Global tmp dir
  */
-define ("TEMP_DIR", "/var/cache/fusiondirectory/tmp/"); /* FusionDirectory tmp directory */
+define("TEMP_DIR", "/var/cache/fusiondirectory/tmp/"); /* FusionDirectory tmp directory */
 
 /*!
  * \brief Directory containing the configuration template
  */
-define ("CONFIG_TEMPLATE_DIR", "/var/cache/fusiondirectory/template/"); /* FusionDirectory template directory */
+define("CONFIG_TEMPLATE_DIR", "/var/cache/fusiondirectory/template/"); /* FusionDirectory template directory */
 
 /*!
  * \brief Directory containing the fai logs
  */
-define ("FAI_LOG_DIR", "/var/cache/fusiondirectory/fai/"); /* FusionDirectory fai directory */
+define("FAI_LOG_DIR", "/var/cache/fusiondirectory/fai/"); /* FusionDirectory fai directory */
 
 /*!
  * \brief Directory containing the vacation files
  */
-define ("SUPANN_DIR", "/etc/fusiondirectory/supann/"); /* FusionDirectory supann template directory */
+define("SUPANN_DIR", "/etc/fusiondirectory/supann/"); /* FusionDirectory supann template directory */
 
 /*!
  * \brief name of the class.cache file

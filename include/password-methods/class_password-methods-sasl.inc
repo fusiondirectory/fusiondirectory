@@ -40,7 +40,7 @@ class passwordMethodsasl extends passwordMethod
    * \param string $dn The DN
    * \param object $userTab The user main tab object
    */
-  function __construct($dn = '', $userTab = NULL)
+  function __construct ($dn = '', $userTab = NULL)
   {
     global $config;
     $this->realm  = trim($config->get_cfg_value('saslRealm', ''));
@@ -57,7 +57,7 @@ class passwordMethodsasl extends passwordMethod
     } else {
       $ldap = $config->get_ldap_link();
       $ldap->cd($config->current['BASE']);
-      $ldap->cat($dn, array($attr));
+      $ldap->cat($dn, [$attr]);
       if ($ldap->count() == 1) {
         $attrs = $ldap->fetch();
         $this->uid = $attrs[$attr][0];
@@ -72,7 +72,7 @@ class passwordMethodsasl extends passwordMethod
    *
    * \return TRUE if is avaibable
    */
-  function is_available()
+  function is_available ()
   {
     if (empty($this->realm) && empty($this->exop)) {
       return FALSE;
@@ -85,7 +85,7 @@ class passwordMethodsasl extends passwordMethod
    *
    * \param string $pwd Password
    */
-  function generate_hash($pwd)
+  function generate_hash ($pwd)
   {
     if (empty($this->exop)) {
       if (empty($this->realm)) {
@@ -98,7 +98,7 @@ class passwordMethodsasl extends passwordMethod
     }
   }
 
-  function checkPassword($pwd, $hash)
+  function checkPassword ($pwd, $hash)
   {
     // We do not store passwords, can’t know if they’re the same
     return FALSE;
@@ -107,7 +107,7 @@ class passwordMethodsasl extends passwordMethod
   /*!
    * \brief Get the hash name
    */
-  static function get_hash_name()
+  static function get_hash_name ()
   {
     return 'sasl';
   }
@@ -117,7 +117,7 @@ class passwordMethodsasl extends passwordMethod
    *
    * \return boolean FALSE
    */
-  function need_password()
+  function need_password ()
   {
     global $config;
     return ($config->get_cfg_value('forceSaslPasswordAsk', 'FALSE') == 'TRUE');

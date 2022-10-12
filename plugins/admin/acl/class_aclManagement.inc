@@ -25,36 +25,36 @@ class aclAssignmentCreationDialog extends simplePlugin
   protected $post_cancel = 'add_cancel';
   protected $simpleManagement;
 
-  static function plInfo()
+  static function plInfo ()
   {
-    return array(
+    return [
       'plShortName'   => _('ACL assignment creation'),
       'plShortName'   => _('ACL assignment creation'),
       'plDescription' => _('Create an ACL assignment on an arbitrary dn'),
-      'plCategory'    => array('acl'),
+      'plCategory'    => ['acl'],
 
-      'plProvidedAcls' => array()
-    );
+      'plProvidedAcls' => []
+    ];
   }
 
   static function getAttributesInfo ()
   {
     global $config;
-    return array(
-      'main' => array(
+    return [
+      'main' => [
         'name'  => _('ACL assignment creation'),
-        'class' => array('fullwidth'),
-        'attrs' => array(
-          new StringAttribute (
+        'class' => ['fullwidth'],
+        'attrs' => [
+          new StringAttribute(
             _('Dn'), _('DN you wish to add assignments for'),
             'baseDn', TRUE,
             $config->current['BASE'], 'aclMode',
             '/^([^=,]+=[^=,]+,)+'.preg_quote($config->current['BASE'], '/').'$/',
             'ou=people,'.$config->current['BASE']
           ),
-        )
-      ),
-    );
+        ]
+      ],
+    ];
   }
 
   function __construct ($parent)
@@ -68,7 +68,7 @@ class aclAssignmentCreationDialog extends simplePlugin
     $this->attributesAccess['baseDn']->setInLdap(FALSE);
   }
 
-  function save_object()
+  function save_object ()
   {
     parent::save_object();
     if (isset($_POST[$this->post_cancel])) {
@@ -80,11 +80,11 @@ class aclAssignmentCreationDialog extends simplePlugin
     return TRUE;
   }
 
-  function save()
+  function save ()
   {
   }
 
-  function execute()
+  function execute ()
   {
     if ($this->save_object()) {
       $smarty = get_smarty();
@@ -107,7 +107,7 @@ class aclAssignmentCreationDialog extends simplePlugin
     try {
       $this->simpleManagement->newEntryConfirmed($this->baseDn);
     } catch (NonExistingLdapNodeException $e) {
-      msg_dialog::displayChecks(array(_('The dn you entered could not be found in the LDAP')));
+      msg_dialog::displayChecks([_('The dn you entered could not be found in the LDAP')]);
       return TRUE;
     }
     return FALSE;
@@ -122,9 +122,9 @@ class aclAssignmentCreationDialog extends simplePlugin
 
 class aclManagement extends simpleManagement
 {
-  protected $objectTypes  = array('aclAssignment');
+  protected $objectTypes  = ['aclAssignment'];
 
-  protected $autoFilterAttributes = array('dn', 'cn', 'description', 'ou', 'dc');
+  protected $autoFilterAttributes = ['dn', 'cn', 'description', 'ou', 'dc'];
 
   protected $departmentBrowser      = FALSE;
   protected $departmentRootVisible  = FALSE;
@@ -134,22 +134,22 @@ class aclManagement extends simpleManagement
 
   public static $skipSnapshots = TRUE;
 
-  static function plInfo()
+  static function plInfo ()
   {
-    return array(
+    return [
       'plShortName'   => _('ACL assignments'),
       'plTitle'       => _('ACL assignments management'),
       'plDescription' => _('Manage ACL roles assignments to users'),
       'plIcon'        => 'geticon.php?context=categories&icon=acl&size=48',
       'plSection'     => 'accounts',
       'plPriority'    => 28,
-      'plManages'     => array('aclAssignment'),
+      'plManages'     => ['aclAssignment'],
 
-      'plProvidedAcls' => array()
-    );
+      'plProvidedAcls' => []
+    ];
   }
 
-  function configureFilter()
+  function configureFilter ()
   {
     parent::configureFilter();
     $this->filter->scope = 'sub';
@@ -168,7 +168,7 @@ class aclManagement extends simpleManagement
   function configureHeadpage ()
   {
     /* Remove department types so that we don't mistake assignments with them */
-    $this->headpage->objectTypes = array();
+    $this->headpage->objectTypes = [];
     $this->headpage->registerElementFilter('filterLabel', 'aclManagement::filterLabel');
     parent::configureHeadpage();
   }
@@ -176,12 +176,12 @@ class aclManagement extends simpleManagement
   /*!
    * \brief  This method intiates the object creation.
    */
-  function newEntry($action, array $target, array $all)
+  function newEntry ($action, array $target, array $all)
   {
     $this->dialogObject = new aclAssignmentCreationDialog($this);
   }
 
-  function newEntryConfirmed($dn)
+  function newEntryConfirmed ($dn)
   {
     $type = 'aclAssignment';
 
@@ -198,10 +198,10 @@ class aclManagement extends simpleManagement
     set_object_info($this->dn);
 
     $this->openTabObject($tabObject, $this->headpage->getBase());
-    @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Creating new ACL assignment');
+    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'Creating new ACL assignment');
   }
 
-  static function filterLabel($row, $dn, $pid = 0, $base = '')
+  static function filterLabel ($row, $dn, $pid = 0, $base = '')
   {
     $ou = '';
     if ($dn == $base) {
@@ -213,7 +213,7 @@ class aclManagement extends simpleManagement
           continue;
         }
         if (!is_array($val)) {
-          $val = array($val);
+          $val = [$val];
         }
         $ou = htmlentities(reset($val), ENT_COMPAT, 'UTF-8');
       }
@@ -228,7 +228,7 @@ class aclManagement extends simpleManagement
     return '<a href="?plug='.$_GET['plug'].'&amp;PID='.$pid.'&amp;act=listing_edit_'.$row.'" title="'.$dn.'">'.$ou.'</a>';
   }
 
-  protected function removeEntryRequested($action, array $target, array $all)
+  protected function removeEntryRequested ($action, array $target, array $all)
   {
     $result = parent::removeEntryRequested($action, $target, $all);
     if ($result != "") {

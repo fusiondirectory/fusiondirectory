@@ -78,8 +78,8 @@ class IntAttribute extends Attribute
     $error = parent::check();
     if (!empty($error)) {
       return $error;
-    } else {
-      if (!is_numeric($this->value) && (!empty($this->value) || $this->isRequired())) {
+    } elseif ($this->value !== '') {
+      if (!is_numeric($this->value)) {
         return msgPool::invalid($this->getLabel(), $this->value, "/./", $this->example);
       }
       if ((($this->min !== FALSE) && ($this->value < $this->min))
@@ -92,9 +92,9 @@ class IntAttribute extends Attribute
   function renderFormInput ()
   {
     $id = $this->getHtmlId();
-    $attributes = array(
+    $attributes = [
       'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}'
-    );
+    ];
     if ($this->min !== FALSE) {
       $attributes['min'] = $this->min;
     }
@@ -117,9 +117,9 @@ class IntAttribute extends Attribute
     $id = $this->getHtmlId();
     $display = $this->renderInputField(
       'text', $id,
-      array(
+      [
         'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}'
-      )
+      ]
     );
     return $this->renderAcl($display);
   }

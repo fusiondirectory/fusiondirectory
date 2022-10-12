@@ -143,18 +143,18 @@ class CharSeparatedCompositeAttribute extends CompositeAttribute
 {
   private $sep;
 
-  function __construct($description, $ldapName, $attributes, $sep, $acl = "", $label = "Composite attribute")
+  function __construct ($description, $ldapName, $attributes, $sep, $acl = "", $label = "Composite attribute")
   {
     parent::__construct($description, $ldapName, $attributes, '', '', $acl, $label);
     $this->sep = $sep;
   }
 
-  function readValues($value)
+  function readValues ($value)
   {
     return explode($this->sep, $value);
   }
 
-  function writeValues($values)
+  function writeValues ($values)
   {
     return join($this->sep, $values);
   }
@@ -165,7 +165,7 @@ class CharSeparatedCompositeAttribute extends CompositeAttribute
  */
 class PipeSeparatedCompositeAttribute extends CharSeparatedCompositeAttribute
 {
-  function __construct($description, $ldapName, $attributes, $acl = "", $label = "Composite attribute")
+  function __construct ($description, $ldapName, $attributes, $acl = "", $label = "Composite attribute")
   {
     parent::__construct($description, $ldapName, $attributes, '|', $acl, $label);
   }
@@ -178,27 +178,27 @@ class CommaListAttribute extends CompositeAttribute
 {
   private $sep = ',';
 
-  function __construct($ldapName, $attribute, $sep = ',')
+  function __construct ($ldapName, $attribute, $sep = ',')
   {
     parent::__construct(
       $attribute->getDescription(), $ldapName,
-      array(
+      [
         $attribute
-      ), '', ''
+      ], '', ''
     );
     $this->sep = $sep;
   }
 
-  function readValues($value)
+  function readValues ($value)
   {
     if ($value == '') {
-      return array(array());
+      return [[]];
     } else {
-      return array(explode($this->sep, $value));
+      return [explode($this->sep, $value)];
     }
   }
 
-  function writeValues($values)
+  function writeValues ($values)
   {
     return join($this->sep, $values[0]);
   }
@@ -213,25 +213,25 @@ class UnitIntAttribute extends CompositeAttribute
   function __construct ($label, $description, $ldapName, $required, $units, $min = FALSE, $max = FALSE, $defaultValue = "", $acl = "")
   {
     parent::__construct($description, $ldapName,
-      array(
+      [
         new IntAttribute('', '', $ldapName.'_int', $required, $min, $max, $defaultValue),
         new SelectAttribute('', '', $ldapName.'_select', TRUE, array_keys($units), '', array_values($units)),
-      ), '', '',
+      ], '', '',
       $acl, $label
     );
     $this->setLinearRendering(TRUE);
     $this->setRequired($required); /* As we use linear rendering we want the asterisk in the label if required */
   }
 
-  function readValues($value)
+  function readValues ($value)
   {
     if ($value === '') {
-      return array('', 0);
+      return ['', 0];
     }
     $choices = $this->attributes[1]->getChoices();
     sort($choices);
     if ($value == 0) {
-      return array($value, $choices[0]);
+      return [$value, $choices[0]];
     }
     /* Find the appropriate unit */
     for (
@@ -239,10 +239,10 @@ class UnitIntAttribute extends CompositeAttribute
       ($value % $choices[$i] != 0) && ($i > 0);
       $i--
     );
-    return array($value / $choices[$i], $choices[$i]);
+    return [$value / $choices[$i], $choices[$i]];
   }
 
-  function writeValues($values)
+  function writeValues ($values)
   {
     if ($values[0] === '') {
       return '';
@@ -250,7 +250,7 @@ class UnitIntAttribute extends CompositeAttribute
     return $values[0] * $values[1];
   }
 
-  function displayValue($value)
+  function displayValue ($value)
   {
     $values = $this->readValues($value);
     return $values[0].$this->attributes[1]->displayValue($values[1]);
@@ -264,14 +264,14 @@ class BytesSizeAttribute extends UnitIntAttribute
 {
   function __construct ($label, $description, $ldapName, $required, $min = FALSE, $max = FALSE, $defaultValue = "", $acl = "")
   {
-    $units = array(
+    $units = [
       1             => _('B'),
       pow(1024, 1)  => _('KiB'),
       pow(1024, 2)  => _('MiB'),
       pow(1024, 3)  => _('GiB'),
       pow(1024, 4)  => _('TiB'),
-    );
-    parent::__construct ($label, $description, $ldapName, $required, $units, $min, $max, $defaultValue, $acl);
+    ];
+    parent::__construct($label, $description, $ldapName, $required, $units, $min, $max, $defaultValue, $acl);
   }
 }
 
@@ -282,13 +282,13 @@ class TimeAttribute extends UnitIntAttribute
 {
   function __construct ($label, $description, $ldapName, $required, $min = FALSE, $max = FALSE, $defaultValue = "", $acl = "")
   {
-    $units = array(
+    $units = [
       1     => _('seconds'),
       60    => _('minutes'),
       3600  => _('hours'),
       86400 => _('days'),
-    );
-    parent::__construct ($label, $description, $ldapName, $required, $units, $min, $max, $defaultValue, $acl);
+    ];
+    parent::__construct($label, $description, $ldapName, $required, $units, $min, $max, $defaultValue, $acl);
   }
 }
 

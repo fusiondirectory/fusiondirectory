@@ -44,9 +44,6 @@
             <div class="plugin-window">
               {$contents}
             </div>
-            {if $channel != ""}
-                <input type="hidden" name="_channel_" value="{$channel}"/>
-            {/if}
           </td>
         </tr>
       </tbody>

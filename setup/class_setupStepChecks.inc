@@ -23,27 +23,27 @@ class setupStepChecks extends setupStep
 {
   var $header_image = 'geticon.php?context=categories&icon=checks&size=48';
 
-  static function getAttributesInfo()
+  static function getAttributesInfo ()
   {
-    return array(
-      'modules' => array(
+    return [
+      'modules' => [
         'name'      => _('PHP module and extension checks'),
         'template'  => get_template_path("setup_checks.tpl", TRUE, dirname(__FILE__)),
-        'attrs'     => array(
+        'attrs'     => [
           new FakeAttribute('basic_checks')
-        )
-      ),
-      'setup' => array(
-        'name'      => _('PHP setup configuration (<a href="?info" target="_blank">show information</a>)'),
+        ]
+      ],
+      'setup' => [
+        'name'      => _('PHP setup configuration'),
         'template'  => get_template_path("setup_checks.tpl", TRUE, dirname(__FILE__)),
-        'attrs'     => array(
+        'attrs'     => [
           new FakeAttribute('config_checks')
-        )
-      )
-    );
+        ]
+      ]
+    ];
   }
 
-  function update_strings()
+  function update_strings ()
   {
     $this->s_short_name   = _('Installation check');
     $this->s_title        = _('Installation check');
@@ -51,17 +51,17 @@ class setupStepChecks extends setupStep
   }
 
   /* Execute and display template */
-  function execute()
+  function execute ()
   {
     $this->run_checks();
     return parent::execute();
   }
 
   /* Execute all checks */
-  function run_checks()
+  function run_checks ()
   {
-    $basic_checks   = array();
-    $config_checks  = array();
+    $basic_checks   = [];
+    $config_checks  = [];
 
     /* PHP version check */
     $N = _('Checking PHP version');
@@ -69,7 +69,7 @@ class setupStepChecks extends setupStep
     $S = _('Please upgrade to a supported version.');
     $R = version_compare(phpversion(), PHP_MIN_VERSION, '>=');
     $M = TRUE;
-    $basic_checks[] = array('NAME' => $N , 'DESC' => $D , 'RESULT' => $R , 'SOLUTION' => $S , 'MUST' => $M );
+    $basic_checks[] = ['NAME' => $N , 'DESC' => $D , 'RESULT' => $R , 'SOLUTION' => $S , 'MUST' => $M ];
 
     /* Check for LDAP extension */
     $N = msgPool::checkingFor("LDAP");
@@ -77,7 +77,7 @@ class setupStepChecks extends setupStep
     $S = msgPool::installPhpModule("LDAP");
     $R = is_callable("ldap_bind");
     $M = TRUE;
-    $basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $basic_checks[] = ["NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M ];
 
     /* Check for gettext support */
     $N = msgPool::checkingFor("gettext");
@@ -85,7 +85,7 @@ class setupStepChecks extends setupStep
     $S = msgPool::installPhpModule("gettext");
     $R = is_callable("bindtextdomain");
     $M = TRUE;
-    $basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $basic_checks[] = ["NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M ];
 
     /* Check for curl support */
     $N = msgPool::checkingFor('curl');
@@ -93,7 +93,7 @@ class setupStepChecks extends setupStep
     $S = msgPool::installPhpModule('curl');
     $R = is_callable('curl_init');
     $M = TRUE;
-    $basic_checks[] = array('NAME' => $N , 'DESC' => $D , 'RESULT' => $R , 'SOLUTION' => $S , 'MUST' => $M );
+    $basic_checks[] = ['NAME' => $N , 'DESC' => $D , 'RESULT' => $R , 'SOLUTION' => $S , 'MUST' => $M ];
 
     /* Pseudo-random check */
     $N = _('Checking cryptographically secure pseudo-random integers');
@@ -101,7 +101,7 @@ class setupStepChecks extends setupStep
     $S = _('Please upgrade to PHP7 or activate openssl module.');
     $R = (is_callable('random_int') || is_callable('openssl_random_pseudo_bytes'));
     $M = TRUE;
-    $basic_checks[] = array('NAME' => $N , 'DESC' => $D , 'RESULT' => $R , 'SOLUTION' => $S , 'MUST' => $M );
+    $basic_checks[] = ['NAME' => $N , 'DESC' => $D , 'RESULT' => $R , 'SOLUTION' => $S , 'MUST' => $M ];
 
     /* Check for json support */
     $N = msgPool::checkingFor('json');
@@ -109,7 +109,7 @@ class setupStepChecks extends setupStep
     $S = msgPool::installPhpModule('json');
     $R = is_callable('json_encode');
     $M = TRUE;
-    $basic_checks[] = array('NAME' => $N , 'DESC' => $D , 'RESULT' => $R , 'SOLUTION' => $S , 'MUST' => $M );
+    $basic_checks[] = ['NAME' => $N , 'DESC' => $D , 'RESULT' => $R , 'SOLUTION' => $S , 'MUST' => $M ];
 
     /* Check for filter support */
     $N = msgPool::checkingFor('filter');
@@ -117,7 +117,7 @@ class setupStepChecks extends setupStep
     $S = msgPool::installPhpModule('filter');
     $R = is_callable('filter_var');
     $M = TRUE;
-    $basic_checks[] = array('NAME' => $N , 'DESC' => $D , 'RESULT' => $R , 'SOLUTION' => $S , 'MUST' => $M );
+    $basic_checks[] = ['NAME' => $N , 'DESC' => $D , 'RESULT' => $R , 'SOLUTION' => $S , 'MUST' => $M ];
 
     /* Check for iconv */
     $N = msgPool::checkingFor("iconv");
@@ -125,7 +125,7 @@ class setupStepChecks extends setupStep
     $S = msgPool::installPhpModule("iconv");
     $R = is_callable("iconv");
     $M = TRUE;
-    $basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $basic_checks[] = ["NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M ];
 
     /* Check for installed mhash module */
     $N = msgPool::checkingFor("hash method");
@@ -133,7 +133,7 @@ class setupStepChecks extends setupStep
     $S = msgPool::installPhpModule("mhash/sha1");
     $R = is_callable('mhash') || is_callable('sha1');
     $M = FALSE;
-    $basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $basic_checks[] = ["NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M ];
 
     /* Check if imap module is available */
     $N = msgPool::checkingFor("IMAP");
@@ -141,7 +141,7 @@ class setupStepChecks extends setupStep
     $S = msgPool::installPhpModule("IMAP");
     $R = is_callable("imap_open");
     $M = TRUE;
-    $basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $basic_checks[] = ["NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M ];
 
     /* Check if mbstring module is available */
     $N = msgPool::checkingFor(_("mbstring"));
@@ -149,31 +149,23 @@ class setupStepChecks extends setupStep
     $S = msgPool::installPhpModule("mbstring");
     $R = is_callable("mb_strlen");
     $M = TRUE;
-    $basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $basic_checks[] = ["NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M ];
 
     $N = msgPool::checkingFor(_('imagick'));
     $D = _('FusionDirectory requires this extension to handle images.');
     $S = msgPool::installPhpModule('imagick');
     $R = class_exists('Imagick', FALSE);
     $M = TRUE;
-    $basic_checks[] = array('NAME' => $N , 'DESC' => $D , 'RESULT' => $R , 'SOLUTION' => $S , 'MUST' => $M );
+    $basic_checks[] = ['NAME' => $N , 'DESC' => $D , 'RESULT' => $R , 'SOLUTION' => $S , 'MUST' => $M ];
 
     $N = msgPool::checkingFor(_("compression module"));
     $D = _("FusionDirectory requires this extension to handle snapshots.");
     $S = msgPool::installPhpModule("compile with --with-zlib");
     $R = is_callable("gzcompress");
     $M = FALSE;
-    $basic_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $basic_checks[] = ["NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M ];
 
     /* PHP Configuration checks */
-
-    /* Register_globals off */
-    $N = "register_globals = <b>off</b>";
-    $D = _("register_globals is a PHP mechanism to register all global variables to be accessible from scripts without changing the scope. This may be a security risk.");
-    $S = _("Search for 'register_globals' in your php.ini and switch it to 'Off'.");
-    $R = ini_get("register_globals") == 0;
-    $M = FALSE;
-    $config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
 
     /* session lifetime set to >=86400 seconds ? */
     $N = "session.gc_maxlifetime &gt;= <b>86400</b>";
@@ -182,7 +174,7 @@ class setupStepChecks extends setupStep
     $S = _("Search for 'session.gc_maxlifetime' in your php.ini and set it to 86400 or higher.");
     $R = ini_get("session.gc_maxlifetime") >= 86400;
     $M = FALSE;
-    $config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $config_checks[] = ["NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M ];
 
     /* Session auto start must be turned off */
     $session_auto_start = ini_get('session.auto_start');
@@ -191,7 +183,7 @@ class setupStepChecks extends setupStep
     $S = _("Search for 'session.auto_start' in your php.ini and set it to 'Off'.");
     $R = !$session_auto_start;
     $M = TRUE;
-    $config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $config_checks[] = ["NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M ];
 
     /* Check if memory limit is set to 128 or > */
     $N = "memory_limit &gt;= <b>128</b>";
@@ -199,7 +191,7 @@ class setupStepChecks extends setupStep
     $S = _("Search for 'memory_limit' in your php.ini and set it to '128M' or higher.");
     $R = ini_get('memory_limit') >= 128;
     $M = TRUE;
-    $config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $config_checks[] = ["NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M ];
 
     /* Implicit Flush disabled can increase performance */
     $N = "implicit_flush = <b>"._("Off")."</b>";
@@ -207,7 +199,7 @@ class setupStepChecks extends setupStep
     $S = _("Search for 'implicit_flush' in your php.ini and set it to 'Off'.");
     $R = !ini_get('implicit_flush');
     $M = FALSE;
-    $config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $config_checks[] = ["NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M ];
 
     /* Check if execution time is set to 30 */
     $N = "max_execution_time &gt;= <b>30</b>";
@@ -215,7 +207,7 @@ class setupStepChecks extends setupStep
     $S = _("Search for 'max_execution_time' in your php.ini and set it to '30' or higher.");
     $R = ini_get("max_execution_time") >= 30;
     $M = TRUE;
-    $config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $config_checks[] = ["NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M ];
 
     /* Expose php should be set to off */
     $N = "expose_php = <b>"._("Off")."</b>";
@@ -223,27 +215,19 @@ class setupStepChecks extends setupStep
     $S = _("Search for 'expose_php' in your php.ini and set if to 'Off'.");
     $R = !ini_get("expose_php");
     $M = FALSE;
-    $config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
-
-    /* Emulating old stuff? */
-    $N = "zend.ze1_compatibility_mode = <b>"._("Off")."</b>";
-    $D = _("Increase your server performance by setting magic_quotes_gpc to 'off'.");
-    $S = _("Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to 'Off'.");
-    $R = !ini_get('zend.ze1_compatibility_mode');
-    $M = FALSE;
-    $config_checks[] = array("NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M );
+    $config_checks[] = ["NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M ];
 
     $this->basic_checks   = $basic_checks;
     $this->config_checks  = $config_checks;
   }
 
-  function save_object()
+  function save_object ()
   {
     parent::save_object();
      /* If everything is fine, set this step to completed
      *  and allow switching to next setup step */
     $failed = FALSE;
-    foreach (array('basic_checks','config_checks') as $type) {
+    foreach (['basic_checks','config_checks'] as $type) {
       foreach ($this->$type as $obj) {
         if ($obj['MUST'] && !$obj['RESULT']) {
           $failed = TRUE;

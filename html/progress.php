@@ -24,10 +24,10 @@ session_cache_limiter("private");
 
 /* Check for parameter completenes */
 if (!isset($_GET['x']) || !isset($_GET['y']) || !isset($_GET['p'])) {
-  die ("Missing parameters!");
+  die("Missing parameters!");
 }
 if (!is_numeric($_GET['x']) || !is_numeric($_GET['y'])) {
-  die ("Parameters must be numeric!");
+  die("Parameters must be numeric!");
 }
 
 $p = (int)($_GET['p']);
@@ -40,7 +40,7 @@ if ($p < 0) {
 } elseif ($p > 100) {
   $p = 100;
 }
-$p = intval ($p);
+$p = intval($p);
 
 /* Check dimensions */
 if ($x < 3 || $x > 1000) {
@@ -58,7 +58,7 @@ if (!function_exists("imagecreate")) {
 
   $x_matches = FALSE;
   $y_matches = FALSE;
-  foreach (array(7,6,5,4,3,2,1,0) as $font) {
+  foreach ([7,6,5,4,3,2,1,0] as $font) {
     $fx = ImageFontWidth($font) * strlen("$p%");
     $fy = ImageFontHeight($font);
 
@@ -75,9 +75,9 @@ if (!function_exists("imagecreate")) {
   }
 
   /* Draw image in GD image stream */
-  $im = imagecreate ($x, $y);
+  $im = imagecreat($x, $y);
   if (!$im) {
-    die ('Cannot Initialize new GD image stream');
+    die('Cannot Initialize new GD image stream');
   }
 
   /* Set colors */
@@ -87,18 +87,18 @@ if (!function_exists("imagecreate")) {
   $tx_color = imagecolorallocate($im, 240,  10,   90);
 
   /* Draw progress bar */
-  imagerectangle ($im, 0, 0, $x - 1, $y - 1, $br_color);
-  imagefilledrectangle ($im, 1, 1, (($x - 2) * $p / 100),
+  imagerectangle($im, 0, 0, $x - 1, $y - 1, $br_color);
+  imagefilledrectangle($im, 1, 1, (($x - 2) * $p / 100),
       $y - 2, $fi_color);
 
   /* Is font to big for progress bar? */
   if ($font != 0) {
-    imagestring ($im, $font, ($x - $fx) / 2, ($y - $fy) / 2, "$p%", $tx_color);
+    imagestring($im, $font, ($x - $fx) / 2, ($y - $fy) / 2, "$p%", $tx_color);
   }
 
   /* Finally draw the image and remove context */
-  header ("Content-type: image/png");
-  imagepng ($im);
-  imagedestroy ($im);
+  header("Content-type: image/png");
+  imagepng($im);
+  imagedestroy($im);
 }
 ?>

@@ -20,45 +20,45 @@
 
 class mainPluginsConfig extends simplePlugin
 {
-  var $objectclasses  = array("fusionDirectoryPluginsConf");
+  var $objectclasses  = ["fusionDirectoryPluginsConf"];
 
-  static function plInfo()
+  static function plInfo ()
   {
-    return array(
+    return [
       "plShortName"     => _("Plugins configuration"),
       "plDescription"   => _("FusionDirectory plugins configuration"),
       "plSelfModify"    => FALSE,
-      "plCategory"      => array("configuration"),
-      "plObjectType"    => array("smallConfig"),
+      "plCategory"      => ["configuration"],
+      "plObjectType"    => ["smallConfig"],
 
       "plProvidedAcls"  => parent::generatePlProvidedAcls(static::getAttributesInfo())
-    );
+    ];
   }
 
   static function getAttributesInfo ()
   {
-    return array(
-      'ogroups' => array(
+    return [
+      'ogroups' => [
         'name'  => _('Object groups'),
-        'attrs' => array(
-          new StringAttribute (
+        'attrs' => [
+          new StringAttribute(
             _('Groups RDN'), _('Branch in which object groups will be stored'),
             'fdOGroupRDN', TRUE,
             'ou=groups'
           ),
-        )
-      ),
-      'sasl' => array(
+        ]
+      ],
+      'sasl' => [
         'name'  => _('SASL'),
-        'attrs' => array(
-          new BooleanAttribute (
+        'attrs' => [
+          new BooleanAttribute(
             _('Force to ask for password'), _('Useful if you add a hook using password value when SASL user passwords are edited'),
             'fdForceSaslPasswordAsk', TRUE,
             FALSE
           ),
-        )
-      ),
-    );
+        ]
+      ],
+    ];
   }
 }
 ?>

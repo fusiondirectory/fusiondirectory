@@ -20,52 +20,52 @@
 
 class dashboardConfig extends simplePlugin
 {
-  var $objectclasses  = array('fdDashboardPluginConf');
+  var $objectclasses  = ['fdDashboardPluginConf'];
 
-  static function plInfo()
+  static function plInfo ()
   {
-    return array(
+    return [
       'plShortName'     => _('Dashboard configuration'),
       'plDescription'   => _('FusionDirectory dashboard plugin configuration'),
       'plSelfModify'    => FALSE,
-      'plCategory'      => array('configuration'),
-      'plObjectType'    => array('smallConfig'),
+      'plCategory'      => ['configuration'],
+      'plObjectType'    => ['smallConfig'],
 
       'plProvidedAcls'  => parent::generatePlProvidedAcls(static::getAttributesInfo())
-    );
+    ];
   }
 
   static function getAttributesInfo ()
   {
-    return array(
-      'systems' => array(
+    return [
+      'systems' => [
         'name'  => _('Dashboard name schema'),
-        'attrs' => array(
-          new IntAttribute (
+        'attrs' => [
+          new IntAttribute(
             _('Number of digits'), _('Number of digits to use after prefix'),
             'fdDashboardNumberOfDigit', FALSE,
             1, 20, 3
           ),
-          new SetAttribute (
-            new StringAttribute (
+          new SetAttribute(
+            new StringAttribute(
               _('Prefixes'), _('Prefixes to be used for computer ids'),
               'fdDashboardPrefix', TRUE
             ),
-            array("PC")
+            ["PC"]
           )
-        )
-      ),
-      'users' => array(
+        ]
+      ],
+      'users' => [
         'name'  => _('Dashboard expired users'),
-        'attrs' => array(
-          new IntAttribute (
+        'attrs' => [
+          new IntAttribute(
             _('Number of days'), _('Number of days before expiration needed for an account to show in the dashboard next expired accounts list'),
             'fdDashboardExpiredAccountsDays', FALSE,
             1, FALSE, 15
           ),
-        )
-      ),
-    );
+        ]
+      ],
+    ];
   }
 }
 ?>

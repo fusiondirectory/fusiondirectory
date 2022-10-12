@@ -22,16 +22,16 @@
 /* Basic setup, remove eventually registered sessions */
 @require_once ("../include/php_setup.inc");
 @require_once ("functions.inc");
-@require_once ("variables.inc");
+@require_once("variables.inc");
 
 session_cache_limiter("private");
 session::start();
-session::global_set('errorsAlreadyPosted', array());
+session::set('errorsAlreadyPosted', []);
 
 /* Logged in? Simple security check */
-if (!session::global_is_set('ui')) {
-  logging::log('security', 'unknown', '', array(), 'Error: autocomplete.php called without session');
-  header ('Location: index.php');
+if (!session::is_set('ui')) {
+  logging::log('security', 'unknown', '', [], 'Error: autocomplete.php called without session');
+  header('Location: index.php');
   exit;
 }
 
@@ -44,7 +44,7 @@ if (isset($_GET['type']) && $_GET['type'] == "base") {
     $pathMapping  = session::get("pathMapping");
     $search       = preg_replace('/&quot;/', '"', current($_POST));
 
-    $config = session::global_get('config');
+    $config = session::get('config');
     foreach ($config->department_info as $dn => $info) {
       if (!isset($pathMapping[$dn])) {
         continue;
@@ -71,8 +71,8 @@ if (isset($_GET['type']) && $_GET['type'] == "base") {
 
 } else {
 
-  $ui = session::global_get('ui');
-  $config = session::global_get('config');
+  $ui = session::get('ui');
+  $config = session::get('config');
 
   /* Is there a filter object arround? */
   if (session::is_set('autocomplete')) {
@@ -80,5 +80,3 @@ if (isset($_GET['type']) && $_GET['type'] == "base") {
     $filter->processAutocomplete();
   }
 }
-
-?>

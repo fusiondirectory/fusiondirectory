@@ -41,7 +41,7 @@ class ldapMultiplexer {
    *
    * \param $object Object LDAP
    */
-  public function __construct(&$object)
+  public function __construct (&$object)
   {
     /* Store object */
     $this->object = $object;
@@ -57,14 +57,14 @@ class ldapMultiplexer {
    *
    * \param $parameters Parameters for the method
    */
-  public function __call($methodName, $parameters)
+  public function __call ($methodName, $parameters)
   {
     /* Add resource pointer if the mentioned methods are used */
-    if (in_array($methodName, array('search','ls','cat','fetch','clearResult','resetResult','count','getDN','rmdir_recursive','create_missing_trees','import_single_entry','import_complete_ldif'))) {
+    if (in_array($methodName, ['search','ls','cat','fetch','clearResult','resetResult','count','getDN','rmdir_recursive','create_missing_trees','import_single_entry','import_complete_ldif'])) {
       array_unshift($parameters, $this->sr);
     }
 
-    return call_user_func_array(array($this->object, $methodName), $parameters);
+    return call_user_func_array([$this->object, $methodName], $parameters);
   }
 
   /*
@@ -72,7 +72,7 @@ class ldapMultiplexer {
    *
    * \param string $memberName
    */
-  public function __get($memberName)
+  public function __get ($memberName)
   {
     return $this->object->$memberName;
   }

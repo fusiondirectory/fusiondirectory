@@ -41,7 +41,7 @@ class msg_dialog
   private $s_Message  = 'Undefined';
   private $i_Type     = INFO_DIALOG;
   private $i_ID       = 0;
-  private $a_Trace    = array();
+  private $a_Trace    = [];
 
   /*!
    * \brief Message dialog constructor
@@ -52,9 +52,9 @@ class msg_dialog
    *
    * \param string $i_type The type of the message dialog, by default = INFO_DIALOG
    */
-  public function __construct($s_title, $s_message, $i_type)
+  public function __construct ($s_title, $s_message, $i_type)
   {
-    if (!in_array($i_type, array(INFO_DIALOG,WARNING_DIALOG,ERROR_DIALOG,CONFIRM_DIALOG,FATAL_ERROR_DIALOG))) {
+    if (!in_array($i_type, [INFO_DIALOG,WARNING_DIALOG,ERROR_DIALOG,CONFIRM_DIALOG,FATAL_ERROR_DIALOG])) {
       trigger_error('Invalid msg_dialog type.');
       $i_type = INFO_DIALOG;
     }
@@ -65,7 +65,7 @@ class msg_dialog
     $this->i_Type     = $i_type;
   }
 
-  protected function show()
+  protected function show ()
   {
     global $config;
 
@@ -74,7 +74,7 @@ class msg_dialog
     }
 
     if ((!session::is_set('errorsAlreadyPosted')) || !is_array(session::get('errorsAlreadyPosted'))) {
-      session::set('errorsAlreadyPosted', array());
+      session::set('errorsAlreadyPosted', []);
     }
 
     $errorsAlreadyPosted = session::get('errorsAlreadyPosted');
@@ -103,7 +103,7 @@ class msg_dialog
       if (session::is_set('msg_dialogs')) {
         $msg_dialogs = session::get('msg_dialogs');
       } else {
-        $msg_dialogs = array();
+        $msg_dialogs = [];
       }
       $msg_dialogs[] = $this;
       session::set('msg_dialogs', $msg_dialogs);
@@ -119,7 +119,7 @@ class msg_dialog
    *
    * \param string $i_type The type of the message dialog, by default = INFO_DIALOG
    */
-  public static function display($s_title, $s_message, $i_type = INFO_DIALOG)
+  public static function display ($s_title, $s_message, $i_type = INFO_DIALOG)
   {
     $dialog = new msg_dialog($s_title, $s_message, $i_type);
     $dialog->show();
@@ -130,7 +130,7 @@ class msg_dialog
    *
    * \param array $messages Contains messages
    */
-  public static function displayChecks($messages)
+  public static function displayChecks ($messages)
   {
     foreach ($messages as $error) {
       static::display(_('Error'), $error, ERROR_DIALOG);
@@ -142,7 +142,7 @@ class msg_dialog
    *
    * \return The identifier of the message dialog
    */
-  public function get_ID()
+  public function get_ID ()
   {
     return $this->i_ID;
   }
@@ -150,7 +150,7 @@ class msg_dialog
   /*!
    * \brief Run the message dialog
    */
-  public function execute()
+  public function execute ()
   {
     global $config;
     if ($this->i_Type == FATAL_ERROR_DIALOG) {
@@ -169,12 +169,12 @@ class msg_dialog
         '<table style="width:100%; border:2px solid red;">
           <tr>
             <td style="vertical-align:top;padding:10px">
-              <img src="geticon.php?context=status&amp;icon=dialog-error&amp;size=32" alt="'._('Error').'"/>
+              <img src="geticon.php?context=status&amp;icon=dialog-error&amp;size=32" alt="'.htmlentities(_('Error'), ENT_COMPAT, 'UTF-8').'"/>
             </td>
             <td style="width:100%">
-              <b>'.$this->s_Title.'</b><br/>
-              '.$this->s_Message.'<br><br/>
-              '._('Please fix the above error and reload the page.').'
+              <b>'.htmlentities($this->s_Title, ENT_COMPAT, 'UTF-8').'</b><br/>
+              '.htmlentities($this->s_Message, ENT_COMPAT, 'UTF-8').'<br><br/>
+              '.htmlentities(_('Please fix the above error and reload the page.'), ENT_COMPAT, 'UTF-8').'
             </td>
           </tr>
         </table></body></html>';
@@ -199,7 +199,7 @@ class msg_dialog
    *
    * \return True if is confirmed, else return false
    */
-  public function is_confirmed()
+  public function is_confirmed ()
   {
     return isset($_POST['MSG_OK'.$this->i_ID]);
   }
@@ -207,7 +207,7 @@ class msg_dialog
   /*!
    * \brief Accessor of the message dialog
    */
-  public static function get_dialogs()
+  public static function get_dialogs ()
   {
     $return     = "";
     $dialog_ids = "";

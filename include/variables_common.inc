@@ -29,7 +29,7 @@
  * e.g. SetEnv CONFIG_DIR /etc/fusiondirectory
 */
 if (isset($_SERVER['CONFIG_DIR'])) {
-  define ("CONFIG_DIR", $_SERVER['CONFIG_DIR']);
+  define("CONFIG_DIR", $_SERVER['CONFIG_DIR']);
 }
 
 /*
@@ -37,18 +37,18 @@ if (isset($_SERVER['CONFIG_DIR'])) {
  *  e.g.  SetEnv CONFIG_FILE fusiondirectory.conf 1.0
  */
 if (isset($_SERVER['CONFIG_FILE'])) {
-  define ("CONFIG_FILE", $_SERVER['CONFIG_FILE']);
+  define("CONFIG_FILE", $_SERVER['CONFIG_FILE']);
 }
 
 /*!
  * \brief php library path
  */
-define ("PHP_DIR", "/usr/share/php"); /*! Define php directory */
+define("PHP_DIR", "/usr/share/php"); /*! Define php directory */
 
 /*!
  * \brief php pear path
  */
-define ("PEAR_DIR", "/usr/share/php"); /*! Define PEAR directory */
+define("PEAR_DIR", "/usr/share/php"); /*! Define PEAR directory */
 
 /*!
  * \brief fpdf library path
@@ -63,21 +63,21 @@ define("FPDF_FONTPATH", "/usr/share/php/fpdf/font/"); /*! Define fpdf font path 
 /*!
  * \brief FusionDirectory Version
  */
-define ("FD_VERSION", "1.3.1"); /*! Define FusionDirectory version */
+define("FD_VERSION", "1.3.1"); /*! Define FusionDirectory version */
 
 /*!
  * \brief FusionDirectory config object RDN
  */
-define ("CONFIGRDN", "cn=config,ou=fusiondirectory,"); /*! Define FusionDirectory config object */
+define("CONFIGRDN", "cn=config,ou=fusiondirectory,"); /*! Define FusionDirectory config object */
 
 /*!
  * \brief Minimum PHP version
  */
-define ('PHP_MIN_VERSION', '5.6.0');
+define('PHP_MIN_VERSION', '7.3.0');
 
 /*!
  * \brief Toggle crashing on PHP error, used for test suites
  */
-define ('PHP_ERROR_FATAL', 'FALSE');
+define('PHP_ERROR_FATAL', 'FALSE');
 
 ?>

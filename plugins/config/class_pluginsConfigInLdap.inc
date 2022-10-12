@@ -22,16 +22,16 @@ class pluginsConfigInLdap extends multiPlugin
 {
   var $tabClass = 'SMALLCONFIGTABS';
 
-  static function plInfo()
+  static function plInfo ()
   {
-    return array(
+    return [
       'plShortName'   => _('Plugins'),
       'plDescription' => _('Configuration for plugins'),
       'plPriority'    => 20,
-      'plObjectType'  => array('configuration'),
+      'plObjectType'  => ['configuration'],
       'plSubTabs'     => 'SMALLCONFIGTABS',
 
-      'plProvidedAcls'  => array()
-    );
+      'plProvidedAcls'  => []
+    ];
   }
 }

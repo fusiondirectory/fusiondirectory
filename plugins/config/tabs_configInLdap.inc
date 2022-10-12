@@ -28,7 +28,7 @@ class tabs_configInLdap extends simpleTabs
     /* check_and_reload */
     $config->check_and_reload(TRUE);
     /* reload plist as well as some plInfo might use $config or get_ou */
-    session::global_un_set('plist');
+    session::un_set('plist');
     load_plist();
     session::un_set('passwordMethod::get_available_methods');
 

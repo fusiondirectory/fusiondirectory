@@ -489,7 +489,7 @@ Modify your LDIF like below:
   * Before
 
 ```ldif
-cn=namePhone,ou=phones,ou=systems,dc=labo,dc=opensides,dc=be
+cn=namePhone,ou=phones,ou=systems,dc=fusiondirectory,dc=org
 cn: namePhone
 goFonType: friend
 goFonDmtfMode: inband
@@ -3265,7 +3265,7 @@ Fonctionality removed
 
 [php-cas]: http://packages.ubuntu.com/trusty/all/php-cas/download
 
-[repo-urls]: https://fusiondirectory-user-manual.readthedocs.io/en/1.3/install/index.html
+[repo-urls]: https://fusiondirectory-user-manual.readthedocs.io/en/1.3/fusiondirectory/install/index.html
 
 ---
 * Further information
@@ -3275,7 +3275,7 @@ on https://gitlab.fusiondirectory.org
 
 Documentation: https://fusiondirectory-user-manual.readthedocs.io/en/1.3/index.html
 Mailinglist:   https://lists.fusiondirectory.org/
-Irc:           #fusiondirectory on freenode
+Irc:           #fusiondirectory on libera.chat
 
 ---
 The FusionDirectory project https://www.fusiondirectory.org/

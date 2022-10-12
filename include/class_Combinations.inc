@@ -28,7 +28,7 @@ class Combinations implements Iterator
   protected $size     = 0;
   protected $pos      = 0;
 
-  function __construct(array $input, $size)
+  function __construct (array $input, $size)
   {
     $this->input = array_values($input);
     $this->n = count($this->input);
@@ -36,21 +36,21 @@ class Combinations implements Iterator
     $this->rewind();
   }
 
-  function key()
+  function key ()
   {
     return $this->pos;
   }
 
-  function current()
+  function current ()
   {
-    $r = array();
+    $r = [];
     for ($i = 0; $i < $this->size; $i++) {
       $r[] = $this->input[$this->current[$i]];
     }
     return $r;
   }
 
-  function next()
+  function next ()
   {
     if ($this->_next()) {
       $this->pos++;
@@ -59,18 +59,18 @@ class Combinations implements Iterator
     }
   }
 
-  function rewind()
+  function rewind ()
   {
     $this->current  = range(0, $this->size);
     $this->pos      = 0;
   }
 
-  function valid()
+  function valid ()
   {
     return ($this->pos >= 0);
   }
 
-  protected function _next()
+  protected function _next ()
   {
     $i = $this->size - 1;
     while (($i >= 0) && ($this->current[$i] == $this->n - $this->size + $i)) {

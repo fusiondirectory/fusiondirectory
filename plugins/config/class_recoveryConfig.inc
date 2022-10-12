@@ -20,106 +20,106 @@
 
 class recoveryConfig extends simplePlugin
 {
-  var $objectclasses  = array('fdPasswordRecoveryConf');
+  var $objectclasses  = ['fdPasswordRecoveryConf'];
 
-  static function plInfo()
+  static function plInfo ()
   {
-    return array(
+    return [
       'plShortName'     => _('Password recovery'),
       'plDescription'   => _('Settings for the password recovery feature'),
-      'plObjectType'    => array('configuration'),
+      'plObjectType'    => ['configuration'],
 
       'plProvidedAcls'  => parent::generatePlProvidedAcls(static::getAttributesInfo())
-    );
+    ];
   }
 
   static function getAttributesInfo ()
   {
-    return array (
-      'settings' => array (
+    return  [
+      'settings' => [
         'name'      => _('Password recovery settings'),
-        'class'     => array ('alone'),
+        'class'     => ['alone'],
         'template'  => get_template_path('simpleplugin_section_alone.tpl'),
-        'attrs'     => array (
-          new BooleanAttribute (
+        'attrs'     => [
+          new BooleanAttribute(
             _('Activate password recovery'),
             _('Whether to activate or not password recovery feature'),
             'fdPasswordRecoveryActivated',
             FALSE
           ),
-          new MailAttribute (
+          new MailAttribute(
             _('Sender email address'),
             _('Email address from which mails will be sent'),
             'fdPasswordRecoveryEmail',
             TRUE,
             'to.be@chang.ed'
           ),
-          new IntAttribute (
+          new IntAttribute(
             _('Link validity (minutes)'),
             _('Number of minutes before a recovery link expires'),
             'fdPasswordRecoveryValidity',
             TRUE,
             0, FALSE, 10
           ),
-          new StringAttribute (
+          new StringAttribute(
             _('Salt for tokens'),
             _('Just a security measure, you can put anything in there, even random characters'),
             'fdPasswordRecoverySalt',
             TRUE,
             "SomethingSecretAndVeryLong"
           ),
-          new BooleanAttribute (
+          new BooleanAttribute(
             _('Allow the use of alternate addresses'),
             _('Users will also be able to enter one of theirs alternate addresses to recover their password'),
             'fdPasswordRecoveryUseAlternate',
             FALSE
           ),
-          new StringAttribute (
+          new StringAttribute(
             _('Login attribute'), _('Usually uid, but you can use something else for instance in case of SSO'),
             'fdPasswordRecoveryLoginAttribute', TRUE,
             'uid'
           ),
-        )
-      ),
-      'first_email' => array (
+        ]
+      ],
+      'first_email' => [
         'name' => _('First email'),
-        'attrs' => array (
-          new StringAttribute (
+        'attrs' => [
+          new StringAttribute(
             _('Subject'),
             _('Subject of the first email'),
             'fdPasswordRecoveryMailSubject',
             TRUE,
             _("[FusionDirectory] Password recovery link")
           ),
-          new TextAreaAttribute (
+          new TextAreaAttribute(
             _('Body (first %s is login, second is link)'),
             _('Body of the first email, sent when the user ask for a new password. Use %s for the login and the recovery link.'),
             'fdPasswordRecoveryMailBody',
             TRUE,
             _("Hello,\n\nHere is your information: \n - Login : %s\n - Link : %s\n\nThis link is only valid for 10 minutes.")
           )
-        )
-      ),
-      'second_email' => array (
+        ]
+      ],
+      'second_email' => [
         'name' => _('Second email'),
-        'attrs' => array (
-          new StringAttribute (
+        'attrs' => [
+          new StringAttribute(
             _('Subject'),
             _('Subject of the second email'),
             'fdPasswordRecoveryMail2Subject',
             TRUE,
             _("[FusionDirectory] Password recovery successful")
           ),
-          new TextAreaAttribute (
+          new TextAreaAttribute(
             _('Body (%s is login)'),
             _('Body of the second email, sent to confirm the password has been changed. Use %s for the user login.'),
             'fdPasswordRecoveryMail2Body',
             TRUE,
            _("Hello,\n\nYour password has been changed.\nYour login is still %s.")
           )
-        )
-      )
-    );
+        ]
+      ]
+    ];
   }
 
   function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE)
@@ -128,7 +128,7 @@ class recoveryConfig extends simplePlugin
     // Check if token branch is here
     $ldap = $config->get_ldap_link();
     $tokenBranch = get_ou('recoveryTokenRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'];
-    $ldap->cat($tokenBranch, array('dn'));
+    $ldap->cat($tokenBranch, ['dn']);
     if (!$ldap->count()) {
       $ldap->cd($config->current['BASE']);
       $ldap->create_missing_trees($tokenBranch);
@@ -145,15 +145,15 @@ class recoveryConfig extends simplePlugin
     parent::__construct($dn, $object, $parent, $mainTab);
 
     $this->attributesAccess['fdPasswordRecoveryActivated']->setManagedAttributes(
-      array(
-        'disable' => array(
-          FALSE => array(
+      [
+        'disable' => [
+          FALSE => [
             'fdPasswordRecoveryEmail','fdPasswordRecoveryValidity','fdPasswordRecoverySalt',
             'fdPasswordRecoveryMailSubject','fdPasswordRecoveryMailBody',
             'fdPasswordRecoveryMail2Subject','fdPasswordRecoveryMail2Body'
-          )
-        )
-      )
+          ]
+        ]
+      ]
     );
   }
 }

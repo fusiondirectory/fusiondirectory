@@ -44,6 +44,7 @@ use MIME::Base64;
 # used to generate {SSHA} password (for LDAP)
 use Digest::SHA;
 use Crypt::CBC;
+use Bytes::Random::Secure qw(random_string_from);
 
 # used to uncompress tar.gz
 use Archive::Extract;
@@ -64,7 +65,7 @@ my %vars = (
  fd_home          => "/var/www/fusiondirectory",
  fd_cache         => "/var/cache/fusiondirectory",
  fd_config_dir    => "/etc/fusiondirectory",
- fd_smarty_dir    => "/usr/share/php/smarty3",
+ fd_smarty_path   => "/usr/share/php/smarty3/Smarty.class.php",
  fd_spool_dir     => "/var/spool/fusiondirectory",
  ldap_conf        => "/etc/ldap/ldap.conf",
  config_file      => "fusiondirectory.conf",
@@ -229,9 +230,7 @@ sub get_random_string {
   my ($size) = @_;
   $size = 32 if !$size;
   my @chars = ("A".."Z", "a".."z", '.', '/', 0..9);
-  my $string;
-  $string .= $chars[rand @chars] for 1..$size;
-  return $string;
+  return random_string_from(join('', @chars), $size);
 }
 
 sub encrypt_passwords {
@@ -552,7 +551,7 @@ if (!defined("CONFIG_FILE")) {
 }
 
 /* Path for smarty3 libraries */
-define("SMARTY", "$vars{fd_smarty_dir}");
+define("SMARTY", "$vars{fd_smarty_path}");
 
 /* Smarty compile dir */
 define ("SPOOL_DIR", "$vars{fd_spool_dir}/"); /* FusionDirectory spool directory */
@@ -596,8 +595,9 @@ sub add_ldap_admin {
 
   # Get the configuration to know which attribute must be used in the dn
   my $mesg = $ldap->search(
-    base => "$base",
-    filter => "(&(objectClass=fusionDirectoryConf)(cn=fusiondirectory))",
+    base => "$configrdn,$base",
+    filter => '(objectClass=fusionDirectoryConf)',
+    scope => 'base',
     attrs => ['fdAccountPrimaryAttribute', 'fdForcePasswordDefaultHash', 'fdPasswordDefaultHash']
   );
   $mesg->code && die $mesg->error;
@@ -2074,16 +2074,16 @@ This flag will answer "yes" to every yes/no question asked by the script
 locale_cache_dir	[locale]
 config_file     	[fusiondirectory.conf]
 fd_cache        	[/var/cache/fusiondirectory]
-fd_smarty_dir   	[/usr/share/php/smarty3]
+fd_smarty_path  	[/usr/share/php/smarty3/Smarty.class.php]
 fd_spool_dir    	[/var/spool/fusiondirectory]
 fai_log_dir     	[fai]
-tmp_dir		        [tmp]
+tmp_dir         	[tmp]
 secrets_file    	[fusiondirectory.secrets]
 template_dir    	[template]
 locale_dir      	[locale]
 class_cache     	[class.cache]
 fd_config_dir   	[/etc/fusiondirectory]
-fd_home [/var/www/fusiondirectory]
+fd_home         	[/var/www/fusiondirectory]
 
 
  benoit@catbert$ fusiondirectory-setup --set-class_cache=class.cache --write-vars

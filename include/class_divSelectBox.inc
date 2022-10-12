@@ -44,10 +44,10 @@ class divSelectBox
   /*!
    * \brief Default divSelectBox constructor
    */
-  function __construct($id)
+  function __construct ($id)
   {
     $this->s_summary  = '';
-    $this->a_entries  = array();
+    $this->a_entries  = [];
     $this->cols       = 0;
     $this->id         = $id;
   }
@@ -57,7 +57,7 @@ class divSelectBox
    *
    * \param integer $h Height
    */
-  function setHeight($h)
+  function setHeight ($h)
   {
     if (is_numeric($h)) {
       $this->height = $h.'px';
@@ -71,7 +71,7 @@ class divSelectBox
    *
    * \param array $a_entriedata
    */
-  function AddEntry($a_entriedata)
+  function AddEntry ($a_entriedata)
   {
     $this->a_entries[] = $a_entriedata;
   }
@@ -81,7 +81,7 @@ class divSelectBox
    *
    * \param array $headers
    */
-  function SetHeaders($headers)
+  function SetHeaders ($headers)
   {
     $this->headers = $headers;
   }
@@ -89,7 +89,7 @@ class divSelectBox
   /*!
    * \brief Draw the list
    */
-  function DrawList()
+  function DrawList ()
   {
     $s_return = '';
     $s_return .= '<div style="border:1px solid rgb(170,170,170);padding-right:1px;height:'.$this->height.';width:100%">'."\n";
@@ -117,7 +117,7 @@ class divSelectBox
   /*!
    * \brief Get the number of entries
    */
-  function _numentries()
+  function _numentries ()
   {
     $cnt = count($this->a_entries);
     return $cnt;
@@ -128,7 +128,7 @@ class divSelectBox
    *
    * \param string $msg
    */
-  function SetSummary($msg)
+  function SetSummary ($msg)
   {
     $this->s_summary = $msg;
   }
@@ -136,7 +136,7 @@ class divSelectBox
   /*!
    * \brief Generate the page
    */
-  function _generatePage()
+  function _generatePage ()
   {
     $display = '';
     if ($this->headers !== FALSE) {
@@ -155,7 +155,7 @@ class divSelectBox
   /*!
    * \brief Generate the body
    */
-  function _generateBody()
+  function _generateBody ()
   {
     $s_value  = '';
     $s_key    = '';

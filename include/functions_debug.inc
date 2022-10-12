@@ -17,16 +17,6 @@
 *   if mode is defined the function returns the output instead of
 *   printing it to the browser
 *
-* show_vars([int mode])
-*   use this function on the bottom of your script to see all
-*   superglobals and global variables in your script in a nice
-*   formated way
-*
-*   show_vars() without parameter shows $_GET, $_POST, $_SESSION,
-*   $_FILES and all global variables you've defined in your script
-*
-*   show_vars(1) shows $_SERVER and $_ENV in addition
-*
 * Happy debugging and feel free to email me your comments.
 *
 * History: (starting with version 0.5.3 at 2003-02-24)
@@ -35,15 +25,6 @@
 * 2003-07-16
 *   - pre() function now trims trailing tabs
 ----------------------------------------------------------------------*/
-
-
-// This file must be the first include on your page.
-
-/* used for tracking of generation-time */
-{
-  $MICROTIME_START = microtime();
-  @$GLOBALS_initial_count = count($GLOBALS);
-}
 
 /*!
  * \file functions_debug.inc
@@ -82,7 +63,7 @@ class printAClass {
   /*!
    * \brief printAClass constructor
    */
-  function __construct()
+  function __construct ()
   {
     $this->export_hash = uniqid('');
   }
@@ -110,7 +91,7 @@ class printAClass {
    *
    * \param boolean $key_bg_color false
    */
-  function print_a($array, $iteration = FALSE, $key_bg_color = FALSE)
+  function print_a ($array, $iteration = FALSE, $key_bg_color = FALSE)
   {
     if (!$key_bg_color) {
       $key_bg_color = $this->key_bg_color;
@@ -173,8 +154,8 @@ class printAClass {
 
         case 'string':
           if ($this->look_for_leading_tabs && preg_match('/^\t/m', $value)) {
-            $search       = array('/\t/', "/\n/");
-            $replace      = array('&nbsp;&nbsp;&nbsp;','<br />');
+            $search       = ['/\t/', "/\n/"];
+            $replace      = ['&nbsp;&nbsp;&nbsp;','<br />'];
             $value        = preg_replace( $search, $replace, htmlspecialchars($value));
             $value_style  = 'color:black;border:1px gray dotted;';
           } else {
@@ -215,7 +196,7 @@ class printAClass {
 }
 
 /*
- * \brief helper function.. calls print_a() inside the printAClass
+ * \brief helper function.. calls print_a () inside the printAClass
  *
  * \param array $array
  *
@@ -225,7 +206,7 @@ class printAClass {
  *
  * \param boolean $export_flag false
  */
-function print_a($array, $return_mode = FALSE, $show_object_vars = FALSE, $export_flag = FALSE )
+function print_a ($array, $return_mode = FALSE, $show_object_vars = FALSE, $export_flag = FALSE )
 {
   $e = error_reporting(0);
   if (is_array($array) || is_object($array)) {
@@ -244,7 +225,7 @@ function print_a($array, $return_mode = FALSE, $show_object_vars = FALSE, $expor
     $output = '<span style="color:red;font-size:small;">print_a( '.gettype( $array ).' )</span>';
   }
 
-  error_reporting ($e);
+  error_reporting($e);
   if ($return_mode) {
     return $output;
   } else {
@@ -252,96 +233,3 @@ function print_a($array, $return_mode = FALSE, $show_object_vars = FALSE, $expor
     return TRUE;
   }
 }
-
-function _script_globals()
-{
-  global $GLOBALS_initial_count;
-
-  $varcount = 0;
-
-  foreach ($GLOBALS as $GLOBALS_current_key => $GLOBALS_current_value) {
-    if (++$varcount > $GLOBALS_initial_count) {
-      /* die wollen wir nicht! */
-      if ($GLOBALS_current_key != 'HTTP_SESSION_VARS' && $GLOBALS_current_key != '_SESSION') {
-        $script_GLOBALS[$GLOBALS_current_key] = $GLOBALS_current_value;
-      }
-    }
-  }
-
-  unset($script_GLOBALS['GLOBALS_initial_count']);
-  return $script_GLOBALS;
-}
-
-/*!
- * \brief Show the runtime
- */
-function show_runtime()
-{
-  $MICROTIME_END    = microtime();
-  $MICROTIME_START  = explode(' ', $GLOBALS['MICROTIME_START']);
-  $MICROTIME_END    = explode(' ', $MICROTIME_END);
-  $GENERATIONSEC    = $MICROTIME_END[1] - $MICROTIME_START[1];
-  $GENERATIONMSEC   = $MICROTIME_END[0] - $MICROTIME_START[0];
-  $GENERATIONTIME   = substr($GENERATIONSEC + $GENERATIONMSEC, 0, 8);
-
-  return '<span style="color:red;font-weight:normal;font-size:9px;">(runtime: '.$GENERATIONTIME.' sec)</span>';
-}
-
-
-/*!
- * \brief function shows all superglobals and script defined global variables
- * show_vars() without the first parameter shows all superglobals except $_ENV and $_SERVER
- * show_vars(1) shows all
- * show_vars(,1) shows object properties in addition
- */
-function show_vars($show_all_vars = FALSE, $show_object_vars = FALSE)
-{
-  if (isset($GLOBALS['no_vars'])) {
-    return;
-  }
-
-  $script_globals = _script_globals();
-  print '
-    <style type="text/css">
-    .vars-container {
-      font-family: Verdana, Arial, Helvetica, Geneva, Swiss, SunSans-Regular, sans-serif;
-      font-size: 8pt;
-      padding:5px;
-    }
-    .varsname {
-      font-weight:bold;
-    }
-    </style>
-  ';
-
-  print '<br />
-    <div style="border-style:dotted;border-width:1px;padding:2px;font-family:Verdana;font-size:10pt;font-weight:bold;">
-    DEBUG '.show_runtime().'
-  ';
-
-  $vars_arr['script_globals'] = array('global script variables', '#7ACCC8');
-
-  $vars_arr['_GET']     = array('$_GET', '#7DA7D9');
-  $vars_arr['_POST']    = array('$_POST', '#F49AC1');
-  $vars_arr['_FILES']   = array('$_POST FILES', '#82CA9C');
-  $vars_arr['_SESSION'] = array('$_SESSION', '#FCDB26');
-  $vars_arr['_COOKIE']  = array('$_COOKIE', '#A67C52');
-
-  if ($show_all_vars) {
-    $vars_arr['_SERVER']  = array('SERVER', '#A186BE');
-    $vars_arr['_ENV']     = array('ENV', '#7ACCC8');
-  }
-
-  foreach ($vars_arr as $vars_name => $vars_data) {
-    if ($vars_name != 'script_globals') {
-      global $$vars_name;
-    }
-    if ($$vars_name) {
-      print '<div class="vars-container" style="background-color:'.$vars_data[1].';"><span class="varsname">'.$vars_data[0].'</span><br />';
-      print_a($$vars_name, FALSE, $show_object_vars, FALSE );
-      print '</div>';
-    }
-  }
-  print '</div>';
-}
-?>

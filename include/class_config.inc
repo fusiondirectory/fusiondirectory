@@ -33,7 +33,7 @@ class config
   /* XML parser */
   var $parser;
   var $config_found     = FALSE;
-  var $tags             = array();
+  var $tags             = [];
   var $level            = 0;
   var $gpc              = 0;
   var $section          = '';
@@ -42,28 +42,28 @@ class config
   /*!
    * \brief Store configuration for current location
    */
-  var $current = array();
+  var $current = [];
 
   /* Link to LDAP-server */
   var $ldap       = NULL;
-  var $referrals  = array();
+  var $referrals  = [];
 
   /*
    * \brief Configuration data
    *
    * - $data['SERVERS'] contains server informations.
    */
-  var $data = array(
-    'LOCATIONS' => array(),
-    'SERVERS'   => array(),
-    'MAIN'      => array(),
-  );
+  var $data = [
+    'LOCATIONS' => [],
+    'SERVERS'   => [],
+    'MAIN'      => [],
+  ];
   var $basedir        = '';
 
   /* Keep a copy of the current department list */
-  var $departments      = array();
-  var $idepartments     = array();
-  var $department_info  = array();
+  var $departments      = [];
+  var $idepartments     = [];
+  var $department_info  = [];
   var $filename         = '';
   var $last_modified    = 0;
 
@@ -74,7 +74,7 @@ class config
    *
    * \param string $basedir base directory
    */
-  function __construct($filename, $basedir = '')
+  function __construct ($filename, $basedir = '')
   {
     $this->basedir  = $basedir;
 
@@ -91,22 +91,22 @@ class config
    * read the last time and reloads it. It uses the file mtime to check
    * weither the file changed or not.
    */
-  function check_and_reload($force = FALSE)
+  function check_and_reload ($force = FALSE)
   {
     /* Check if class_location.inc has changed, this is the case
         if we have installed or removed plugins. */
     $tmp = stat(CACHE_DIR.'/'.CLASS_CACHE);
-    if (session::global_is_set('class_location.inc:timestamp')) {
-      if ($tmp['mtime'] != session::global_get('class_location.inc:timestamp')) {
-        session::global_un_set('plist');
+    if (session::is_set('class_location.inc:timestamp')) {
+      if ($tmp['mtime'] != session::get('class_location.inc:timestamp')) {
+        session::un_set('plist');
       }
     }
-    session::global_set('class_location.inc:timestamp', $tmp['mtime']);
+    session::set('class_location.inc:timestamp', $tmp['mtime']);
 
     if (($this->filename != '') && ((filemtime($this->filename) != $this->last_modified) || $force)) {
 
       $this->config_found     = FALSE;
-      $this->tags             = array();
+      $this->tags             = [];
       $this->level            = 0;
       $this->gpc              = 0;
       $this->section          = '';
@@ -125,7 +125,7 @@ class config
    *
    * \param string $filename The filename of the configuration file.
    */
-  function parse($filename)
+  function parse ($filename)
   {
     $this->last_modified  = filemtime($filename);
     $this->filename       = $filename;
@@ -137,11 +137,11 @@ class config
 
   function parse_data ($xmldata)
   {
-    $this->data = array(
-      'LOCATIONS' => array(),
-      'SERVERS'   => array(),
-      'MAIN'      => array(),
-    );
+    $this->data = [
+      'LOCATIONS' => [],
+      'SERVERS'   => [],
+      'MAIN'      => [],
+    ];
 
     $this->parser = xml_parser_create();
     xml_set_object($this->parser, $this);
@@ -166,7 +166,7 @@ class config
    *
    * \param string $attrs
    */
-  function tag_open($parser, $tag, $attrs)
+  function tag_open ($parser, $tag, $attrs)
   {
     /* Save last and current tag for reference */
     $this->tags[$this->level] = $tag;
@@ -223,7 +223,7 @@ class config
 
           /* Add location elements */
           if (!isset($this->data['LOCATIONS'][$this->currentLocation]['REFERRAL'])) {
-            $this->data['LOCATIONS'][$this->currentLocation]['REFERRAL'] = array();
+            $this->data['LOCATIONS'][$this->currentLocation]['REFERRAL'] = [];
           }
 
           $this->data['LOCATIONS'][$this->currentLocation]['REFERRAL'][$server] = $attrs;
@@ -232,7 +232,7 @@ class config
 
       /* Load main parameters */
       case 'MAIN':
-        $this->data['MAIN'] = array_merge ($this->data['MAIN'], $attrs);
+        $this->data['MAIN'] = array_merge($this->data['MAIN'], $attrs);
         break;
 
       /* Ignore other tags */
@@ -248,7 +248,7 @@ class config
    *
    * \param string $tag
    */
-  function tag_close($parser, $tag)
+  function tag_close ($parser, $tag)
   {
     /* Close config section */
     if ($tag == 'CONF') {
@@ -267,17 +267,17 @@ class config
    *
    * \return string the password corresponding to the keyword
    */
-  function get_credentials($creds)
+  function get_credentials ($creds)
   {
     if (isset($_SERVER['HTTP_FDKEY'])) {
-      if (!session::global_is_set('HTTP_FDKEY_CACHE')) {
-        session::global_set('HTTP_FDKEY_CACHE', array());
+      if (!session::is_set('HTTP_FDKEY_CACHE')) {
+        session::set('HTTP_FDKEY_CACHE', []);
       }
-      $cache = session::global_get('HTTP_FDKEY_CACHE');
+      $cache = session::get('HTTP_FDKEY_CACHE');
       if (!isset($cache[$creds])) {
         try {
           $cache[$creds] = cred_decrypt($creds, $_SERVER['HTTP_FDKEY']);
-          session::global_set('HTTP_FDKEY_CACHE', $cache);
+          session::set('HTTP_FDKEY_CACHE', $cache);
         } catch (FusionDirectoryException $e) {
           $msg = sprintf(
             _('It seems you are trying to decode something which is not encoded : %s<br/>'."\n".
@@ -311,13 +311,13 @@ class config
    *
    * \return ldapMultiplexer object
    */
-  function get_ldap_link($sizelimit = FALSE)
+  function get_ldap_link ($sizelimit = FALSE)
   {
     global $ui;
 
     if ($this->ldap === NULL || !is_resource($this->ldap->cid)) {
       /* Build new connection */
-      $this->ldap = ldap_init ($this->current['SERVER'], $this->current['BASE'],
+      $this->ldap = ldap_init($this->current['SERVER'], $this->current['BASE'],
           $this->current['ADMINDN'], $this->get_credentials($this->current['ADMINPASSWORD']));
 
       /* Check for connection */
@@ -328,7 +328,7 @@ class config
 
       /* Move referrals */
       if (!isset($this->current['REFERRAL'])) {
-        $this->ldap->referrals = array();
+        $this->ldap->referrals = [];
       } else {
         $this->ldap->referrals = $this->current['REFERRAL'];
       }
@@ -348,7 +348,7 @@ class config
    *
    * \param string $name the name of the location
    */
-  function set_current($name)
+  function set_current ($name)
   {
     if (!isset($this->data['LOCATIONS'][$name])) {
       msg_dialog::display(_('Error'), sprintf(_('Location "%s" could not be found in the configuration file'), $name), FATAL_ERROR_DIALOG);
@@ -357,12 +357,12 @@ class config
     $this->current = $this->data['LOCATIONS'][$name];
 
     if (isset($this->current['INITIAL_BASE'])) {
-      session::global_set('CurrentMainBase', $this->current['INITIAL_BASE']);
+      session::set('CurrentMainBase', $this->current['INITIAL_BASE']);
     }
 
     /* Sort referrals, if present */
     if (isset($this->current['REFERRAL'])) {
-      $servers  = array();
+      $servers  = [];
       foreach ($this->current['REFERRAL'] as $server => $ref) {
         $servers[$server] = strlen($ref['BASE']);
       }
@@ -398,7 +398,7 @@ class config
     if (isset($this->data['MAIN']['DEBUGLEVEL'])) {
       $debugLevel |= $this->data['MAIN']['DEBUGLEVEL'];
     }
-    session::global_set('DEBUGLEVEL', $debugLevel);
+    session::set('DEBUGLEVEL', $debugLevel);
 
     IconTheme::loadThemes('themes');
 
@@ -424,12 +424,12 @@ class config
     $ldap = $this->get_ldap_link();
 
     /* Get samba servers from LDAP */
-    $this->data['SERVERS']['SAMBA'] = array();
+    $this->data['SERVERS']['SAMBA'] = [];
     if (class_available('sambaAccount')) {
       $ldap->cd($this->current['BASE']);
       $ldap->search('(objectClass=sambaDomain)');
       while ($attrs = $ldap->fetch()) {
-        $this->data['SERVERS']['SAMBA'][$attrs['sambaDomainName'][0]] = array( 'SID' => '','RIDBASE' => '');
+        $this->data['SERVERS']['SAMBA'][$attrs['sambaDomainName'][0]] = [ 'SID' => '','RIDBASE' => ''];
         if (isset($attrs['sambaSID'][0])) {
           $this->data['SERVERS']['SAMBA'][$attrs['sambaDomainName'][0]]['SID'] = $attrs['sambaSID'][0];
         }
@@ -441,10 +441,10 @@ class config
       /* If no samba servers are found, look for configured sid/ridbase */
       if (count($this->data['SERVERS']['SAMBA']) == 0) {
         if (isset($this->current['SAMBASID']) && isset($this->current['SAMBARIDBASE'])) {
-          $this->data['SERVERS']['SAMBA']['DEFAULT'] = array(
+          $this->data['SERVERS']['SAMBA']['DEFAULT'] = [
             'SID'     => $this->get_cfg_value('SAMBASID'),
             'RIDBASE' => $this->get_cfg_value('SAMBARIDBASE')
-          );
+          ];
         }
       }
     }
@@ -459,7 +459,7 @@ class config
 
     if (!$forceReload) {
       $ldap = $this->get_ldap_link();
-      $ldap->cat($dn, array('fusionConfigMd5'));
+      $ldap->cat($dn, ['fusionConfigMd5']);
       if ($attrs = $ldap->fetch()) {
         if (isset($attrs['fusionConfigMd5'][0]) && ($attrs['fusionConfigMd5'][0] == md5_file(CACHE_DIR.'/'.CLASS_CACHE))) {
           return;
@@ -474,7 +474,7 @@ class config
     del_lock($dn);
   }
 
-  function load_inldap_config()
+  function load_inldap_config ()
   {
     $ldap = $this->get_ldap_link();
     $ldap->cat(CONFIGRDN.$this->current['BASE']);
@@ -488,10 +488,10 @@ class config
             $mode   = strtoupper($parts[1]);
             $cmd    = $parts[2];
             if (!isset($this->data['HOOKS'][$class])) {
-              $this->data['HOOKS'][$class] = array('CLASS' => $parts[0]);
+              $this->data['HOOKS'][$class] = ['CLASS' => $parts[0]];
             }
             if (!isset($this->data['HOOKS'][$class][$mode])) {
-              $this->data['HOOKS'][$class][$mode] = array();
+              $this->data['HOOKS'][$class][$mode] = [];
             }
             $this->data['HOOKS'][$class][$mode][] = $cmd;
           }
@@ -512,10 +512,10 @@ class config
   /*!
    * \brief Store the departments from ldap in $this->departments
    */
-  function get_departments()
+  function get_departments ()
   {
     /* Initialize result hash */
-    $result = array();
+    $result = [];
 
     $result['/'] = $this->current['BASE'];
 
@@ -528,7 +528,7 @@ class config
 
     /* Create a list of attributes to fetch */
     $filter       = '';
-    $ldap_values  = array('objectClass', 'description');
+    $ldap_values  = ['objectClass', 'description'];
     foreach ($types as $type) {
       $i = objects::infos($type);
       $filter         .= $i['filter'];
@@ -539,8 +539,8 @@ class config
 
     /* Get list of department objects */
     $ldap = $this->get_ldap_link();
-    $ldap->cd ($this->current['BASE']);
-    $ldap->search ($filter, $ldap_values);
+    $ldap->cd($this->current['BASE']);
+    $ldap->search($filter, $ldap_values);
     while ($attrs = $ldap->fetch()) {
 
       /* Detect department type */
@@ -559,11 +559,11 @@ class config
 
       $dn   = $attrs['dn'];
       $data = objects::infos($oc);
-      $this->department_info[$dn] = array(
+      $this->department_info[$dn] = [
         'img'         => $data['icon'],
         'description' => (isset($attrs['description'][0]) ? $attrs['description'][0] : ''),
         'name'        => $attrs[$data['mainAttr']][0]
-      );
+      ];
 
       /* Only assign non-root departments */
       if ($dn != $result['/']) {
@@ -575,14 +575,14 @@ class config
     $this->departments = $result;
   }
 
-  function make_idepartments($max_size = 28)
+  function make_idepartments ($max_size = 28)
   {
     $base   = $this->current['BASE'];
     $qbase  = preg_quote($base, '/');
 
-    $arr  = array();
+    $arr  = [];
 
-    $this->idepartments = array();
+    $this->idepartments = [];
 
     /* Create multidimensional array, with all departments. */
     foreach ($this->departments as $key => $val) {
@@ -632,9 +632,9 @@ class config
    *
    * \param int $max_size initialized at 256
    */
-  function generateDepartmentArray($arr, $depth = -1, $max_size = 256)
+  function generateDepartmentArray ($arr, $depth = -1, $max_size = 256)
   {
-    $ret = array();
+    $ret = [];
     $depth++;
 
     /* Walk through array */
@@ -687,11 +687,11 @@ class config
    *
    *  \return array of hook commands or empty array
    */
-  function searchHooks($class, $value)
+  function searchHooks ($class, $value)
   {
     $class = strtoupper($class);
     $value = strtoupper($value);
-    return (isset($this->data['HOOKS'][$class][$value]) ? $this->data['HOOKS'][$class][$value] : array());
+    return (isset($this->data['HOOKS'][$class][$value]) ? $this->data['HOOKS'][$class][$value] : []);
   }
 
   /*!
@@ -711,7 +711,7 @@ class config
    *
    * \return string the configuration value if found or the default value
    */
-  function get_cfg_value($name, $default = '')
+  function get_cfg_value ($name, $default = '')
   {
     $name = strtoupper($name);
     $res  = $default;
@@ -725,7 +725,7 @@ class config
     }
 
     if (is_array($default) && !is_array($res)) {
-      $res = array($res);
+      $res = [$res];
     }
 
     return $res;
@@ -744,7 +744,7 @@ class config
    *  or not. If SESSIONLIFETIME is not configured in FusionDirectory it always returns
    *  TRUE.
    */
-  function check_session_lifetime()
+  function check_session_lifetime ()
   {
     $cfg_lifetime = $this->get_cfg_value('SESSIONLIFETIME', 0);
     if ($cfg_lifetime > 0) {
@@ -761,7 +761,7 @@ class config
    *
    * \return boolean TRUE if snapshot are enabled, FALSE otherwise
    */
-  function snapshotEnabled()
+  function snapshotEnabled ()
   {
     if ($this->get_cfg_value('enableSnapshots') != 'TRUE') {
       return FALSE;
@@ -794,14 +794,14 @@ class config
 
   function loadPlist (pluglist $plist)
   {
-    $this->data['OBJECTS']    = array();
-    $this->data['SECTIONS']   = array();
-    $this->data['CATEGORIES'] = array();
-    $this->data['MENU']       = array();
-    $this->data['TABS']       = array();
+    $this->data['OBJECTS']    = [];
+    $this->data['SECTIONS']   = [];
+    $this->data['CATEGORIES'] = [];
+    $this->data['MENU']       = [];
+    $this->data['TABS']       = [];
     foreach ($plist->info as $class => &$plInfo) {
       if (isset($plInfo['plObjectType'])) {
-        $entry = array('CLASS' => $class,'NAME' => $plInfo['plShortName']);
+        $entry = ['CLASS' => $class,'NAME' => $plInfo['plShortName']];
         if (isset($plInfo['plSubTabs'])) {
           $entry['SUBTABS'] = strtoupper($plInfo['plSubTabs']);
         }
@@ -812,9 +812,9 @@ class config
             if (($tabclass == 'GROUPTABS') && class_available('mixedGroup')) {
               $tabclass = 'OGROUP-USERTABS';
             }
-            @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $tabclass, "Adding $class to tab list");
+            @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $tabclass, "Adding $class to tab list");
             if (!isset($this->data['TABS'][$tabclass])) {
-              $this->data['TABS'][$tabclass] = array();
+              $this->data['TABS'][$tabclass] = [];
             }
             $this->data['TABS'][$tabclass][] = $entry;
           } else {
@@ -827,7 +827,7 @@ class config
             $value['mainTab']         = $class;
             $value['templateActive']  = FALSE;
             $value['snapshotActive']  = FALSE;
-            foreach (array('ou', 'tabClass') as $i) {
+            foreach (['ou', 'tabClass'] as $i) {
               if (!isset($value[$i])) {
                 $value[$i] = NULL;
               }
@@ -852,32 +852,32 @@ class config
               $value['tabClass'] = 'simpleTabs';
             }
             $this->data['OBJECTS'][strtoupper($key)] = $value;
-            @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $tabclass, "Adding $class as main tab of");
+            @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $tabclass, "Adding $class as main tab of");
             if (!isset($this->data['TABS'][$tabclass])) {
-              $this->data['TABS'][$tabclass] = array();
+              $this->data['TABS'][$tabclass] = [];
             }
             array_unshift($this->data['TABS'][$tabclass], $entry);
           }
         }
       } elseif (class_available($class) && is_subclass_of($class, 'simpleService')) {
-        @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $class, "Adding service");
+        @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $class, "Adding service");
         if (!isset($this->data['TABS']['SERVERSERVICE'])) {
-          $this->data['TABS']['SERVERSERVICE'] = array();
+          $this->data['TABS']['SERVERSERVICE'] = [];
         }
-        $this->data['TABS']['SERVERSERVICE'][] = array(
+        $this->data['TABS']['SERVERSERVICE'][] = [
           'CLASS' => $class,
           'NAME' => $plInfo['plShortName']
-        );
+        ];
       }
       /* Feed categories */
       if (isset($plInfo['plCategory'])) {
         /* Walk through supplied list and feed only translated categories */
-        $cats = array();
+        $cats = [];
         foreach ($plInfo['plCategory'] as $idx => $data) {
           $cat    = (is_numeric($idx) ? $data : $idx);
           $cats[] = $cat;
           if (!isset($this->data['CATEGORIES'][$cat])) {
-            $this->data['CATEGORIES'][$cat] = array( 'classes' => array('0') );
+            $this->data['CATEGORIES'][$cat] = [ 'classes' => ['0'] ];
           }
           if (!empty($plInfo['plProvidedAcls'])) {
             $this->data['CATEGORIES'][$cat]['classes'][] = $class;
@@ -886,7 +886,7 @@ class config
             /* Non numeric index means -> base object containing more informations */
             $this->data['CATEGORIES'][$cat]['description'] = $data['description'];
             if (!is_array($data['objectClass'])) {
-              $data['objectClass'] = array($data['objectClass']);
+              $data['objectClass'] = [$data['objectClass']];
             }
             $this->data['CATEGORIES'][$cat]['objectClass'] = $data['objectClass'];
           }
@@ -895,18 +895,18 @@ class config
       }
     }
     unset($plInfo);
-    $this->data['CATEGORIES']['all'] = array(
-      'classes'     => array('all'),
+    $this->data['CATEGORIES']['all'] = [
+      'classes'     => ['all'],
       'description' => '*&nbsp;'._('All categories'),
-      'objectClass' => array(),
-    );
+      'objectClass' => [],
+    ];
     /* Extract categories definitions from object types */
     foreach ($this->data['OBJECTS'] as $key => $infos) {
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $infos['aclCategory'], "ObjectType $key category");
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $infos['aclCategory'], "ObjectType $key category");
       if (strtoupper($infos['aclCategory']) == $key) {
         $cat = $infos['aclCategory'];
         if (!isset($this->data['CATEGORIES'][$cat])) {
-          $this->data['CATEGORIES'][$cat] = array('classes' => array('0'));
+          $this->data['CATEGORIES'][$cat] = ['classes' => ['0']];
         }
         if (!isset($this->data['CATEGORIES'][$cat]['description'])) {
           $this->data['CATEGORIES'][$cat]['description'] = $infos['name'];
@@ -917,11 +917,11 @@ class config
     }
     /* Now that OBJECTS are filled, place tabs in categories */
     foreach ($plist->info as $class => &$plInfo) {
-      $acl = array();
+      $acl = [];
       if (isset($plInfo['plCategory'])) {
         $acl = $plInfo['plCategory'];
         if (!is_array($acl)) {
-          $acl = array($acl);
+          $acl = [$acl];
         }
       }
       if (isset($plInfo['plObjectType'])) {
@@ -980,12 +980,12 @@ class config
           }
         }
       }
-      @DEBUG (DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, join(',', array_unique($acl)), "Class $class categories");
+      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, join(',', array_unique($acl)), "Class $class categories");
       /* Feed menu */
       if (isset($plInfo['plSection'])) {
         $section = $plInfo['plSection'];
         if (!is_array($acl)) {
-          $acl = array($acl);
+          $acl = [$acl];
         }
         if (!is_numeric(key($acl))) {
           $acl = array_keys($acl);
@@ -1004,9 +1004,9 @@ class config
           $this->data['SECTIONS'][$section] = array_change_key_case($plInfo['plSection'][$section], CASE_UPPER);
         }
         if (!isset($this->data['MENU'][$section])) {
-          $this->data['MENU'][$section] = array();
+          $this->data['MENU'][$section] = [];
         }
-        $attrs = array('CLASS' => $class);
+        $attrs = ['CLASS' => $class];
         if (!empty($acl)) {
           $attrs['ACL'] = $acl;
         }
@@ -1019,7 +1019,7 @@ class config
             $this->data['SECTIONS'][$section] = array_change_key_case($infos, CASE_UPPER);
           }
           if (!isset($this->data['MENU'][$section])) {
-            $this->data['MENU'][$section] = array();
+            $this->data['MENU'][$section] = [];
           }
         }
         foreach ($entries as $section => $section_entries) {
@@ -1035,15 +1035,15 @@ class config
       $infos['classes'] = array_unique($infos['classes']);
       if (!isset($infos['description'])) {
         $infos['description'] = $name;
-        $infos['objectClass'] = array();
+        $infos['objectClass'] = [];
       }
     }
     unset($infos);
-    $this->data['SECTIONS']['personal'] = array('NAME' => _('My account'), 'PRIORITY' => 40);
-    $personal = array();
+    $this->data['SECTIONS']['personal'] = ['NAME' => _('My account'), 'PRIORITY' => 40];
+    $personal = [];
     foreach ($this->data['TABS']['USERTABS'] as $tab) {
       if ($plist->info[$tab['CLASS']]['plSelfModify']) {
-        $personal[] = array('CLASS' => $tab['CLASS'], 'ACL' => 'user/'.$tab['CLASS'].':self');
+        $personal[] = ['CLASS' => $tab['CLASS'], 'ACL' => 'user/'.$tab['CLASS'].':self'];
       }
     }
     if (!isset($this->data['MENU']['personal'])) {

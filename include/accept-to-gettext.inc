@@ -74,7 +74,7 @@
  */
 function parse_scores ($str)
 {
-  $scores = array();
+  $scores = [];
   $parts = preg_split('/,/', $str);
   foreach ($parts as $part) {
     $part = trim(strtolower($part));
@@ -109,13 +109,13 @@ function max_scores ($scores, $testvals)
 function parse_gettext_lang ($str)
 {
   if (preg_match("/^([^_]*)(_([^_]*))?\.(.*)$/", $str, $m)) {
-    return array(strtolower($m[1]), strtolower($m[3]), strtolower($m[4]));
+    return [strtolower($m[1]), strtolower($m[3]), strtolower($m[4])];
   } else {
     return FALSE;
   }
 }
 
-function al2gt($gettextlangs)
+function al2gt ($gettextlangs)
 {
   /* Check if ACCEPT_LANGUAGE isset */
   if (empty($_SERVER["HTTP_ACCEPT_LANGUAGE"])) {
@@ -155,10 +155,10 @@ function al2gt($gettextlangs)
     if (!($infos = parse_gettext_lang($gtlang))) {
       continue;
     }
-    list ($lang, $country, $char) = $infos;
+    list($lang, $country, $char) = $infos;
 
-    $lang_score = max_scores($lang_scores, array($lang,$lang.'-'.$country,'*'));
-    $char_score = max_scores($char_scores, array($char,'*'));
+    $lang_score = max_scores($lang_scores, [$lang,$lang.'-'.$country,'*']);
+    $char_score = max_scores($char_scores, [$char,'*']);
     if ($char_score == 0) {
       // exclude charsets the user refuses
       continue;

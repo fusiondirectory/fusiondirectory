@@ -27,22 +27,22 @@ class departmentManagement extends simpleManagement
   protected $baseMode               = TRUE;
 
   /* Return plugin information for acl handling */
-  static function plInfo()
+  static function plInfo ()
   {
-    return array(
+    return [
       'plShortName'   => _('Departments'),
       'plTitle'       => _('Manage departments'),
       'plDescription' => _('Manage departments, countries, domain components, domains, localities and organization nodes,'),
       'plIcon'        => 'geticon.php?context=places&icon=folder&size=48',
-      'plSection'     => array('accounts' => array('name' => _('Users and groups'), 'priority' => 0)),
+      'plSection'     => ['accounts' => ['name' => _('Users and groups'), 'priority' => 0]],
       'plPriority'    => 0,
       'plManages'     => static::getDepartmentTypes(),
 
-      'plProvidedAcls' => array()
-    );
+      'plProvidedAcls' => []
+    ];
   }
 
-  function __construct()
+  function __construct ()
   {
     $this->objectTypes  = static::getDepartmentTypes();
     $this->listXMLPath  = get_template_path('dep-list.xml', TRUE, dirname(__FILE__));
@@ -52,7 +52,7 @@ class departmentManagement extends simpleManagement
   }
 
   // Overriden save handler - We've to take care about the department tagging here.
-  protected function saveChanges()
+  protected function saveChanges ()
   {
     $str = parent::saveChanges();
     if (!empty($str)) {
@@ -62,7 +62,7 @@ class departmentManagement extends simpleManagement
     $this->refreshDeps();
   }
 
-  function refreshDeps()
+  function refreshDeps ()
   {
     global $config, $ui;
     $config->get_departments();
@@ -73,22 +73,22 @@ class departmentManagement extends simpleManagement
   }
 
   // An action handler which enables to switch into deparmtment by clicking the names.
-  function openEntry($action, $entry)
+  function openEntry ($action, $entry)
   {
     $headpage = $this->getHeadpage();
     $headpage->setBase(array_pop($entry));
   }
 
   // Overridden remove request method - Avoid removal of the ldap base.
-  protected function removeEntryRequested($action, array $target, array $all)
+  protected function removeEntryRequested ($action, array $target, array $all)
   {
     global $config;
-    $target = array_remove_entries(array($config->current['BASE']), $target);
+    $target = array_remove_entries([$config->current['BASE']], $target);
     return parent::removeEntryRequested($action, $target, $all);
   }
 
   // A filter which allows to open a department by clicking on the departments name.
-  static function filterDepLabel($row, $dn, $params, $ou, $pid, $base)
+  static function filterDepLabel ($row, $dn, $params, $ou, $pid, $base)
   {
     $ou = $ou[0];
     if ($dn == $base) {
@@ -98,15 +98,15 @@ class departmentManagement extends simpleManagement
   }
 
   // Finally remove departments and update departmnet browsers
-  function removeEntryConfirmed($action, array $target, array $all)
+  function removeEntryConfirmed ($action, array $target, array $all)
   {
     parent::removeEntryConfirmed($action, $target, $all);
     $this->refreshDeps();
   }
 
-  static function getDepartmentTypes()
+  static function getDepartmentTypes ()
   {
-    return array('DEPARTMENT','COUNTRY','DCOBJECT','DOMAIN','LOCALITY','ORGANIZATION');
+    return ['DEPARTMENT','COUNTRY','DCOBJECT','DOMAIN','LOCALITY','ORGANIZATION'];
   }
 }
 ?>

@@ -1,40 +1,67 @@
-## %"FusionDirectory 1.3.1" - 2019-07-04
+## %"FusionDirectory 1.3.1" - 2022-09-09
 
 ### Added
 
 #### fusiondirectory
 - fd#5985 We don't have LDAP tab on FusionDirectory configuration
+- fd#6152 Add subscription screen
 
 #### fusiondirectory-plugins
 - fd-plugins#5911 supannRefId field is missing for "etablissement"
 - fd-plugins#5938 Make %passwordClear% available to sambaAccount hooks
 - fd-plugins#5939 create icons for ipmi and weblink
 - fd-plugins#5940 We don't have LDAP tab on FusionDirectory configuration
+- fd-plugins#5956 add mapping sinaps to Fd mapping for diffusion
 - fd-plugins#5957 creating icons for the sinaps plugin
 
 ### Changed
 
+#### fusiondirectory
+- fd#6024 Cleanup session handling
+- fd#6038 Move the "Click the 'Edit' button" message to the left
+- fd#6220 [CodeStyle] - 1.3.1 Requires adaptation to align code style with 1.4
+- fd#6221 [Enhancement] - Change CI 1.3.1 - CodeStyle to refelect 1.4 rules
+
 #### fusiondirectory-plugins
+- fd-plugins#5897 When a user is removed from Sinaps, we need to send back a deletion acquisition
 - fd-plugins#5913 Avoid mass acquistion when editing group gidNumber
 - fd-plugins#5948 description of a user should'nt be updated from SINAPS
+- fd-plugins#5993 _getTabFooter has been renamed getTabFooter
+- fd-plugins#6103 Adapt 1.3-fixes code to subscription core merge
+- fd-plugins#6180 [CodeStyle] 1.3.1 Plugin - Requires adaptation to align code style with 1.4
 
 ### Removed
 
 #### fusiondirectory-plugins
 - fd-plugins#5901 Remove Google+ from personal social accounts tab
+- fd-plugins#5992 Email icon should be moved to core
 
 ### Fixed
 
 #### fusiondirectory
+- fd#5862 filtering and "Unknown element type specified: !"
 - fd#5942 PHP >= 7.2 triggering error when count() is called with invalid countable
 - fd#5967 Systems dashboard crashes
+- fd#5974 Workflow problem when applying a template to an object triggers errors
 - fd#5978 when renaming branch aka department roles are not updated correctly
 - fd#5983 Write ACL on user/userRoles/groupsMembership not working when not having full user/user read right
 - fd#5987 ImagickException are not catched when showing an ImageAttribute
+- fd#5995 Audit events DN are too long
 - fd#5997 Incorrect error message when the mail cannot be sent by recovery
+- fd#6005 Problem with gidNumber in posix group template
 - fd#6006 expiration date in dashboard is 02.01.1970
+- fd#6017 IntAttribute badly handle empty value when minimum is set
+- fd#6023 Email icon missing from core
+- fd#6030 correct the get help section in the readme.md
+- fd#6097 Smarty path is not set correctly by fusiondirectory-setup --write-vars
+- fd#6122 Problems with FD web setup
+- fd#6142 The filter for configuration is wrong in fusiondirectory-setup
+- fd#6173 PHP error: Array to string conversion in class_fiInventory.inc:199
+- fd#6222 [1.3.1] - Fixing LDAP Search filter code style
 
 #### fusiondirectory-plugins
+- fd-plugins#5825 LDAP error in audit plugin
+- fd-plugins#5912 Unable to spread a user to FD from sinaps if the user is affected to an etablissement
 - fd-plugins#5917 flag_ownmailbox cannot be used with partage mail method
 - fd-plugins#5918 SINAPS : acquisition couldn't be sent because primary affectation isn't set
 - fd-plugins#5923 cname record appear on another domain when they contain the machine cn
@@ -44,6 +71,28 @@
 - fd-plugins#5944 add addvalues/delvalues documentation
 - fd-plugins#5945 unable to add SINAPS Structure
 - fd-plugins#5949 Systems dashboard crashes
+- fd-plugins#5963 error in SINAPS workflow
+- fd-plugins#5966 dovecot connection error
+- fd-plugins#5976 Problem with gidNumber in posix group template
+- fd-plugins#5970 Compatibility error between sudo and mixedgroup plugins
+- fd-plugins#5978 GPG key addition crash
+- fd-plugins#5991 ORCID last character may be 'X' and not a number
+- fd-plugins#6000 correct the get help section in the readme.md
+- fd-plugins#6063 Argument 4 passed to DhcpHostsAttribute::postLdapSave() must be of the type array, string given
+- fd-plugins#6079 reload dns map from dns interface didn't work , but from server it works
+- fd-plugins#6125 PHP error: Array to string conversion in class_fiInventory.inc:199
+
+### Security
+
+#### fusiondirectory
+- fd#6021 Failed LDAP operations may appear as Success
+- fd#6135 Security problems uncovered by audit
+- fd#6086 XSS in login screen
+- fd#6136 Weak random generator use in fusiondirectory-setup
+- fd#6137 XSS in management filters
+- fd#6217 [Security] - Set Cookie settings to TRUE for option "HttpOnly"
+- fd#6219 [security] - Cookie session is not renewed or set after authentification
+
 
 ## %"FusionDirectory 1.3" - 2019-03-04
 
@@ -3270,3 +3319,505 @@
 
 #### fusiondirectory-plugins
 - fd-plugins#2140 the template don't escape the html inside itself
+
+## %"FusionDirectory 1.0.4" - 2012-06-30
+
+### Added
+
+#### fusiondirectory
+- fd#913 There should be a password recovery link on the login page
+- fd#1018 supportDaemon should allow to call modules method easily
+- fd#1038 Handle schema changes
+- fd#1041 we need to add a new parameter to fusiondirectory.conf manpage asteriskParameterDelimiter
+- fd#1118 Adresse email alternative pour Password recovery
+- fd#1173 javascript should contain an inArray function
+- fd#1204 add spanish venezuela into the setup
+- fd#1205 we need to add the locale dir and the config for transifex es_ve
+- fd#1209 add 2 more attributes in network printer
+- fd#1220 Automatic return to login page after password change
+- fd#1246 ambiguous error message in installation check
+- fd#1280 provide ldif update files for recovery.ldif and goto.ldif
+- fd#1308 add one more attribute in network printer
+- fd#1328 add the entries in fusiondirectory.conf for board plugin
+- fd#1402 merge simple-plugin 1.0 into core
+
+#### fusiondirectory-plugins
+- fd-plugins#1032 asterisk application parameter delimiter changed from | to , (gosa bug 1177)
+- fd-plugins#1207 add 2 more attributes in network printer
+- fd-plugins#1260 we want to provision Windows pc from the interface
+- fd-plugins#1266 having the mac address next to the ip address in filter system list
+- fd-plugins#1356 integrating board into fusiondirectory-plugins
+- fd-plugins#1374 Handle schema changes
+
+### Changed
+
+#### fusiondirectory
+- fd#674 cleaning code for php 5.4
+- fd#984 accept-to-gettext should be re-wrote
+- fd#1069 Check for group conflicts case-insensitively
+- fd#1096 FusionDirectory menu should use plInfo
+- fd#1100 Plugin header system should allow to have multiple plugins on the same page
+- fd#1134 dn2base should handle a sesond parameter
+- fd#1211 style.css should be adapted to have some css about simplePlugin
+- fd#1243 Rewrite password recovery plugin with simplePlugin framework
+- fd#1270 remove the artificial limit to two different objects in objects group
+- fd#1277 rework the README.cnconfig
+- fd#1278 all the manpages from fusiondirectory should be updated
+- fd#1358 in the setup it still show we need more than 64MB it should be 128
+- fd#1359 the wording is not just in setup for windows pc we said "workstations" but that should be Windows pc
+- fd#1438 board plugin must go in addons
+
+#### fusiondirectory-plugins
+- fd-plugins#675 cleaning code for php 5.4
+- fd-plugins#1238 standardazing the argonaut menu service entries
+- fd-plugins#1239 standardazing the spam and antivirus menu service entries
+- fd-plugins#1240 standardizing log service entries
+- fd-plugins#1241 standardizing fax service entries
+- fd-plugins#1276 the ip should be mandatory on server, terminal and printer objects
+- fd-plugins#1309 Board should use simplePlugin
+- fd-plugins#1414 getFAIstatus.php should not be packaged in main
+- fd-plugins#1421 move the include/jsonRPCClient.php to the argonaut pacakge
+
+### Removed
+
+#### fusiondirectory
+- fd#1216 remove the check for the library as fusiondirectory-makentpassword use it internaly
+- fd#1224 we should remove the code activation ob_start as it not recommended way of compression
+- fd#1257 moving the update-locales script to management tools
+- fd#1271 remove the code showing the type of object in object group title member objects
+- fd#1302 Step 2 of password recovery should be removed
+- fd#1327 remove repositoryBranchHook from manpage
+- fd#1382 the supportDaemon.inc class should be moved the argonaut plugin
+- fd#1415 Argonaut does not support message sending, the feature should be removed
+- fd#1416 getFAIstatus.php should not be packaged in main
+- fd#1420 move the include/jsonRPCClient.php to the argonaut pacakge
+- fd#1448 remove dead code from the source
+
+#### fusiondirectory-plugins
+- fd-plugins#1037 update_entries function should be remove from supportDaemon
+- fd-plugins#1254 remove old code saving goSyslogServer
+- fd-plugins#1261 removing all obsolete opsi code from various plugins
+- fd-plugins#1273 this code is not correct now that the fusiondirectory.conf contains all the entries
+
+### Fixed
+
+#### fusiondirectory
+- fd#508 pre/post script not working properly with mail command
+- fd#586 FSF address incorrect in source code and documentation files
+- fd#999 Problem of auto inclusion of the class_pdf.inc
+- fd#1011 smarty3 with gettext generate funky errors :/
+- fd#1021 recovery.schema should follow LDAP naming rules
+- fd#1031 Web interface silently fails with passwords > 40 characters in length (gosa bug 1168)
+- fd#1039 wrong my $path in fusiondirectory-insert-schema
+- fd#1084 password Hook is called in different manner in password and userManagement.
+- fd#1106 setup.php must use an absolute path for the template
+- fd#1120 In style.css, line-height line 1528 seems wrong
+- fd#1121 The date picker is not working anymore
+- fd#1163 fusiondirectory-setup is wrong in connection to ldap
+- fd#1180 Pop-up error when locking/unlocking user
+- fd#1181 Line 310 of class_msgPool.inc is wrong
+- fd#1183 class_filterLDAP.inc don't check correctly the base and objectStorage
+- fd#1214 Wizard goes into an infinite loop if the popen function is not available
+- fd#1221 French accents in password recovery mailbody
+- fd#1225 when i click on the link for password recovery on the main page, it say not activated but as you can see in debug text its not
+- fd#1226 option -i not in fusiondirectory-insert-schema manual
+- fd#1230 Type:8, Message:Trying to get property of non-object $date in headers.tpl
+- fd#1242 Password recovery doesn't use the configured set address
+- fd#1245 installation doesn't continue after installing "missing" driver
+- fd#1248 [wizard] Add non blocking test for MDB2 drivers on wizard checks step.
+- fd#1256 error in rsyslog view
+- fd#1264 Debian 6 - commande : fusiondirectory-insert-schema
+- fd#1275 this code is not correct now that the fusiondirectory.conf contains all the entries
+- fd#1281 change the name of the reponsible person inside all the schema and ldif
+- fd#1299 fusiondirectory-insert-schema dont work correctly
+- fd#1333 supportDaemon can cause some PHP errors
+- fd#1334 the passwordRecoveryUseAlternate fonction is no longer in the code
+- fd#1346 when restarting a service trought argonaut some LDAP error appear
+- fd#1347 in 1.0.4 with patch to support Service.manage like action it doesn't work
+- fd#1360 complete the INSTALL to mention how to work with or without mdb2.php from tar.gz
+- fd#1410 password recovery translation
+- fd#1424 wrong copyright
+- fd#1464 error in update-goserver.ldif and update-goto.ldif
+
+#### fusiondirectory-plugins
+- fd-plugins#848 save_object is called twice on services
+- fd-plugins#1019 Some systems plugins call for deprecated ldap2zone action
+- fd-plugins#1022 fdQuota.schema and argonaut.schema should follow LDAP naming rules
+- fd-plugins#1036 Incorrect directory for the supann schema.
+- fd-plugins#1104 Some plugins have bad names in plInfo
+- fd-plugins#1160 Failed to add packages in "Package list" dialog
+- fd-plugins#1215 check if popen is allowed before using it
+- fd-plugins#1228 the code for adding icons into applications is broken
+- fd-plugins#1229 the code for reading image is broken in getfax.php
+- fd-plugins#1232 popup not working with smarty3 :/
+- fd-plugins#1252 error in rsyslog view
+- fd-plugins#1258 FSF address incorrect in source code and documentation files
+- fd-plugins#1267 the refresh dns is not correct from the system generic page
+- fd-plugins#1269 Input of already existing IP
+- fd-plugins#1274 filter for windows workstations come into conflict with the network device one
+- fd-plugins#1283 the check for existing winstations is not working
+- fd-plugins#1284 copy paste is not working for winstations
+- fd-plugins#1285 in copy paste for terminal, server, printer, workstations mac an ip are not mandatory
+- fd-plugins#1286 in phone we cannot change ip and mac when doing copy/paste
+- fd-plugins#1306 List DHCP not displayed in full
+- fd-plugins#1321 When updating a winstation cn the uid is not updated
+- fd-plugins#1332 fd crash when mailmethod is in config file and the entry contains a mail addresss
+- fd-plugins#1349 in 1.0.4 with patch to support Service.manage like action it doesn't work
+- fd-plugins#1350 error smarty with addressbook plugins
+- fd-plugins#1380 switch off action does not do anything on servGeneric
+- fd-plugins#1399 [board-plugin] Missing counters for some elements
+- fd-plugins#1400 [board-plugin] Missing uppercases.
+- fd-plugins#1401 [board-plugin] Missing icon for systems counter
+- fd-plugins#1890 gotoGroupAdminPrinter attribute is missing in system-fd.schema
+
+## %"FusionDirectory 1.0.3" - 2012-04-30
+
+### Added
+
+#### fusiondirectory
+- fd#43 Lost password feature in Gosa
+- fd#119 add cn generation parameter on install screen
+- fd#273 add sasl support for password
+- fd#454 Features from GOsa 2.7 that should be in FusionDirectory
+- fd#471 fusiondirectory-setup parameters must be settable in command-line
+- fd#483 adding --check-config to fusiondirectory-setup
+- fd#506 FAQ: scripts for Pre and Post events
+- fd#528 Possibility to use the pam_check_host_attr feature when using the trust model
+- fd#554 catalan support in fusiondirectory
+- fd#598 in object group we cannot select windows pc
+- fd#632 an abstraction layer so be used to allow different databases to be used
+- fd#665 modify fusiondirectory-insert-schema to install ldapns.schema
+- fd#668 add the missing passwordMethod::is_harmless in class_password.inc
+- fd#716 migrate-repositories option of fusiondirectory-setup will migrate network repos
+- fd#736 making a client argonaut service
+- fd#773 we must test for mdb2 in the setup
+- fd#805 fusiondirectory-setup must generate the SUPANN_DIR also
+- fd#806 all the templates should be read from /var/cache/fusiondirectory/mail
+- fd#807 all the templates should be read from /var/cache/fusiondirectory/system
+- fd#808 all the templates should be read from /var/cache/fusiondirectory/asterisk
+- fd#810 fusiondirectory-setup must generate the ASTERISK_DIR also
+- fd#811 fusiondirectory-setup must generate the SYSTEMS_DIR also
+- fd#812 fusiondirectory-setup must generate the MAIL_DIR also
+- fd#822 fusiondirectory-setup should create the mail, systems, asterisk and supann dir in the fusiondirectory cache
+- fd#824 the fusiondirectory.conf should contains all the service definition and other needed entries for all the plugins
+- fd#829 adding a default ou for netgroupRDN
+- fd#831 we need to modify fusiondirectory insert-schema to insert the recovery schema by default
+- fd#883 Architectures should be in FAIrepository value
+- fd#909 Add custom repositorories
+- fd#914 creating a new favicon for fusiondirectory
+- fd#916 No picture for the Openstack compute plugin
+- fd#917 password recovery doesnt have an icon for the main menu
+- fd#922 when suppan is installed but mapping in fd conf is not we got this error, we should provide a default branch in class_config.inc
+- fd#936 add (Czech Republic) to the locale
+- fd#941 DNS record : SRV type is properly useable in dns plugin
+- fd#942 fusiondirectory-insert-schema installation of others schema
+- fd#944 add the missing option to the fusiondirectory-setup manpages
+- fd#977 the sasl password method should have an option for exop operations
+- fd#978 the saslRealm and saslExop should be put in the fusiondirectory manpage
+
+#### fusiondirectory-plugins
+- fd-plugins#357 button to launch ladp2bind from the DNS configuration page
+- fd-plugins#490 cleaning goto / systems plugins
+- fd-plugins#585 i18n nb.po for NIS netgroups plugin
+- fd-plugins#625 in getxls.php the path should be in variables.inc
+- fd-plugins#634 add new AUTHORS
+- fd-plugins#679 integrate the nova user ldap plugin into FusionDirectory
+- fd-plugins#729 making a client argonaut service
+- fd-plugins#735 putting suppan plugin into core plugins
+- fd-plugins#739 we must create a service to store the config of all the argonaut tools
+- fd-plugins#742 fai branc not created when adding a repository
+- fd-plugins#863 ext4 is missing in the fai plugin
+- fd-plugins#884 Architectures should be in FAIrepository value
+- fd-plugins#889 an icon in the system list showing that there is an argonaut service presnt on this system
+- fd-plugins#896 Add custom repositorories
+- fd-plugins#918 we added the support of the custom release to system deployment plugin but the fai.schema miss an attribute for this
+- fd-plugins#937 add (Czech Republic) to the locale
+- fd-plugins#953 the netgroup plugin doesnt have an icon in the list wiew
+- fd-plugins#959 putting quoat into official plugins
+
+### Changed
+
+#### fusiondirectory
+- fd#502 Remove the smarty plugins file from the include directory
+- fd#520 removing fixed path from setup
+- fd#541 the version number is not visible enough
+- fd#588 the branch for computers should be ou=computers no ou=winstations by default
+- fd#592 cleaning goto / systems plugins
+- fd#620 rewrite the mail collector
+- fd#621 the plinfo fonction should always be the latest function in the .inc files
+- fd#628 gosamba.pl should be rewrote and put in fusiondirectory-setup
+- fd#633 change the HTTP_GOSA_KEY to HTTP_FD_KEY
+- fd#637 move all xsd files into contrib and see if there is an issue
+- fd#655 move class from include/utils to include to be more consistant
+- fd#670 windows workstations are now in ou=computers
+- fd#672 this function from class_posixAccount.inc should be in function.inc
+- fd#673 this function should be in functions.inc
+- fd#718 install-directories needs to be rewrote
+- fd#721 Indentation consistency and useless ldap attributes in supportDaemon
+- fd#724 useless ldap attributes in supportDaemon
+- fd#725 changing the sentence at the end of setup of fusiondirectory
+- fd#768 session should time out after 10 min
+- fd#800 all the templates should be read from /var/cache/fusiondirectory/supann
+- fd#823 the posix plugin should read is template from SYSTEMS_DIR
+- fd#859 put all the docs togheter inside contrib/docs
+- fd#861 Not enough memory for the PHP module
+- fd#866 change color banner and go_logo
+- fd#931 the message explaining to use fusiondirectory-setup to fix classes loading is wrong
+- fd#945 remove the debian centrics path into fusiondirectory-setup
+- fd#949 we should remove the debian centric dir in contrib/fusiondirectory-apache.conf
+- fd#954 rewrite the INSTALL document on how to install fusiondirectory from tar.gz
+- fd#969 change explication in "Restoring object snapshots"
+- fd#976 the keyword should be renamed as saslRealm to be more in sync with other keywords
+
+#### fusiondirectory-plugins
+- fd-plugins#597 in applications remove the restriction for c:\
+- fd-plugins#619 show opsi based clients should be removed ?
+- fd-plugins#626 fix_munged.php to be converted to perl
+- fd-plugins#631 update the datbase schema in gophon
+- fd-plugins#651 the plinfo fonction should always be the latest function in the .inc files
+- fd-plugins#728 replacing the code that loo into the config file for argonautServer
+- fd-plugins#814 all the templates should be read from /var/cache/fusiondirectory/asterisk
+- fd-plugins#815 all the templates should be read from /var/cache/fusiondirectory/system
+- fd-plugins#816 all the templates should be read from /var/cache/fusiondirectory/mail
+- fd-plugins#817 moving /etc contents to contrib to be more correct for the mail plugin
+- fd-plugins#819 removing the encoding file from /etc and putting it in contrib in the system plugin
+- fd-plugins#843 file from the gofon etc/asterisk plugin should go to contrib/asterisk
+- fd-plugins#865 in the fai partion disk plugin the setup storage checkbox should be checked by default
+- fd-plugins#894 split the argonautconfig service
+- fd-plugins#924 Service names should go into the LDAP
+- fd-plugins#930 renaming the netatalk plugin to netatalkAccount to be more in sync with other plugins
+- fd-plugins#961 gofon plugin is not structured correclty relating to directories
+- fd-plugins#962 gofax plugins dir are wrong
+
+### Removed
+
+#### fusiondirectory
+- fd#171 second mandatory field in department / country is not checked for empty
+- fd#485 removing samba rid and sid from setup
+- fd#495 removing all old GOsaSupportdaemon code
+- fd#496 the mailqueue plugin use goto si for his functions
+- fd#501 i propose to remove the click trough gpl for fusiondirectory setup
+- fd#591 remove leftover of old mysql logging system
+- fd#594 remove the internet explorer 6 suppor for png
+- fd#622 remove the goto-si code in function.inc
+- fd#623 get_gosa_version() should be removed and replace by a static var in variables.inc
+- fd#641 svn_version can be removed in functions.inc
+- fd#647 remove non used function in functions.inc
+- fd#648 remove non used function function obj_is_readable($dn, $object, $attribute) in functions.inc
+- fd#649 remove non used function function saveFilter($a_filter, $values) in functions.inc
+- fd#650 remove obsolete function function set_acl($acl) from class_tabs.inc
+- fd#683 remove the opsi stuff from the fusiondirectory.conf
+- fd#687 now that fusiondirectory is only for kolab22 we should remove kolab from config
+- fd#694 removing the obsoleted and non maintened plugin for phpgw
+- fd#818 removing the encoding file from /etc and putting it in contrib in the system plugin
+- fd#948 remove the fusiondirectory-migrate-users program its has been merge into fusiondirectory-setup
+
+#### fusiondirectory-plugins
+- fd-plugins#618 mail addons should be removed
+- fd-plugins#627 remove goto-si code from class_termDns.inc
+- fd-plugins#630 removing the code for kolab1
+- fd-plugins#638 look if this can really be removed from class_servApacheEditVhost.inc
+- fd-plugins#653 the export xls should be removed from ldapmanager plugin
+- fd-plugins#693 removing the obsoleted and non maintened plugin for phpgw
+- fd-plugins#825 Remove all non needed readme in the plugins
+- fd-plugins#878 the cleanup option should be removed from the argonaut config service because its mandatory
+- fd-plugins#964 remove show opsi based client from the code
+
+### Fixed
+
+#### fusiondirectory
+- fd#330 FSF address incorrect in source code and documentation files
+- fd#409 shadowLastChange Not set if POSIX extensions added latter
+- fd#431 ACL to allow enabling / disabling of user accounts
+- fd#473 fusiondirectory-setup -  Bad tests on directories rights
+- fd#475 fusiondirectory setup --install-plugins should launch the update of FD locales / cache
+- fd#476 problem in fd setup when migrating from gosa2.6
+- fd#477 LDAP query failed : 'root object' is missing
+- fd#484 bug when generating config with the wizard when snapshot not selected
+- fd#488 configuration file path not settable in variables.inc
+- fd#489 error : argonautServer not defined in config - suite
+- fd#491 Hardcoded dir name in install_plugins function
+- fd#492 No tests on directory path entered by user for plugin installation
+- fd#500 the glp licence use for the setup is an old version we sould put there the new version
+- fd#504 Cache subdirectories creation missing step in INSTALL file
+- fd#514 Classes and Locales not correctly upgraded
+- fd#518 skip space in login
+- fd#519 fusiondirectory-setup not operational with perl version < 5.10
+- fd#521 the vacation dir should be a in variables.inc also
+- fd#522 fixed path in setup for php
+- fd#523 searching for fixed path in fusiondirectory
+- fd#556 Incorrect description of posixGroup created
+- fd#565 jpegPhoto automatically changed/altered when updating user information
+- fd#567 FD allows DNS entries with '_' (underscores) in hostnames
+- fd#577 Package descriptions don't work if "+" in name
+- fd#589 Erreur PHP "Undefined variable: _SERVERREMOTE_ADDR"
+- fd#639 when there is no argonaut server we got an error in the log
+- fd#640 when there is no dir with data from fai for the system we got errors in the logs
+- fd#642 in functions.inc the  sambaMachineAccountRDN should be ou=computers
+- fd#646 remove leftover var from copypastehandler.inc
+- fd#654 the export xls should be removed from ldapmanager plugin
+- fd#662 when just typing the fusiondirectory-schem2ldif i got an error
+- fd#663 when running fusiondirectory-schema2ldif i got this error
+- fd#664 fusiondirectory-schema2ldif doesnt insert the return carriage correctly
+- fd#666 fusiondirectory-insert-schema doesnt install goto-mime.schema
+- fd#667 The selection filter for the samba plugins workstations in the user tab don't show windows pc
+- fd#669 in the objectgroup the filter for applications is missing in the select box
+- fd#671 uid=pcwin005$,ou=computers,dc=labo,dc=opensides,dc=be is not a user and should not be show to be migrated in the user section
+- fd#709 the cn of the system admin is not right in fusiondirectory setup
+- fd#714 Duplicated code in index.php
+- fd#715 migrate-repositories option of fusiondirectory-setup should check FAIclass
+- fd#727 replacing the code that loo into the config file for argonautServer
+- fd#730 PHP errors in class_supportDaemon.inc
+- fd#732 error when gosaunittag not defined in ldap in class_supportDaemon.inc
+- fd#741 PHP errors in support Daemon
+- fd#757 PHP_DIR is wrongly put in the include PHP path
+- fd#761 Inconsistency in coding guidelines
+- fd#777 PHP error in password.tpl
+- fd#778 tokens is treated like it needs to be migrated
+- fd#779 Weird french translation in migrate step
+- fd#795 Erreur documentation
+- fd#839 The name of the password generator for nt changed names, so we need to change in the setup
+- fd#844 PHP errors when asking logs on a new server
+- fd#860 Incorrect include path in php_setup.inc file
+- fd#886 the protocol of json rpc (http or https) should not be encoded in the code and be saved into the ldap
+- fd#891 Unable to load the User Nova tab
+- fd#901 check the copyright is correct on all files
+- fd#928 The icon path for password recovery is wrong
+- fd#950 fusiondirectory-setup should not go into the contrib dir
+- fd#952 fusiondirectory-setup doesnt install the plugin correctly from tar.gz
+- fd#960 restoring snapshot isn't working anymore
+- fd#963 spaces into response to prompt break the fusiondirectory setup command
+- fd#973 when switching a user to sasl it doesnt remove the samba hases from the user entry in ldap
+- fd#974 when switching a user to sasl and going to password change it accept to change and generate an error
+- fd#975 when creating a new user and selecting sasl as password method it still write samba entries
+- fd#982 FD-core: setup wizard starts in English regardless of language requested by browser
+- fd#983 FD-core: language list in setup wizard is always (partly) translated into Czech, even in case when wizard started in English
+- fd#990 when the keyword is missing we get php errors in salspassword method
+- fd#992 In setup, automatic option for language should be the first one
+- fd#1005 when there is more than one argonaut server configured it doesnt work at all it just say nothing is there
+
+#### fusiondirectory-plugins
+- fd-plugins#284 provided fusiondirectory dhcp schema modified without changing openldap OID
+- fd-plugins#287 invalid structural object class chain (account/person)
+- fd-plugins#312 dhcp/Parent node on Winstation object not changeable
+- fd-plugins#505 Software Deployment - Debug message visible in production mode
+- fd-plugins#553 dhcpHost not removed if system is removed
+- fd-plugins#562 Error message when I click on the tab "Deployment summary" of a workstation
+- fd-plugins#572 The required field 'NTP server' is empty!
+- fd-plugins#695 Wrong icon for "Systems" option on main FD interface
+- fd-plugins#710 in the nova plugin we don't have the remove button
+- fd-plugins#726 we missed the start/stop/restart button on the argonaut service
+- fd-plugins#731 PHP errors in class_workstationService.inc
+- fd-plugins#733 showing the log interface without log on a unsaved workstation
+- fd-plugins#734 there is a problem when there is not an ntp server added to the workstations, the saving fails
+- fd-plugins#737 PHP errors in goto plugin
+- fd-plugins#748 PHP error caused by servDHCP
+- fd-plugins#766 Address book should follow code guidelines
+- fd-plugins#776 LDAP Manager: incomplete change of field ("," -> ";") separator for CSV files
+- fd-plugins#836 when creating a terminal it yell at me that wake event doesnt exist
+- fd-plugins#841 [openstack-compute] - Mismatch in directory naming
+- fd-plugins#842 [mail-plugin] missing mailMethodKolab class
+- fd-plugins#867 the argonaut-fuse config service display an error vhen saving to ldap
+- fd-plugins#885 the protocol of json rpc (http or https) should not be encoded in the code and be saved into the ldap
+- fd-plugins#890 now we have all the release on the mirror evne non installable one on the filer list in  List of deployment classes and products
+- fd-plugins#897 the serverrepository service should not create ou=xxx,ou=fai if its not an install release
+- fd-plugins#902 check the copyright is correct on all files
+- fd-plugins#920 the package class creation in system deployement has to store the custom release if used into the package class
+- fd-plugins#929 renaming the novauser to novaaccount to be in sync with other plugins
+- fd-plugins#940 DNS record : SRV type is properly useable in dns plugin
+- fd-plugins#958 ACLs should be used in templates
+- fd-plugins#970 Quota interface
+- fd-plugins#972 in the rsyslog plugin we got an error when we try to use the system log plugin
+- fd-plugins#985 when clicking on the rsyslog addons i got ton of error about static methods
+- fd-plugins#986 error when clicking into the nova icon in the my account
+- fd-plugins#988 error when saving a dns service after editing it
+- fd-plugins#989 Problem on Copy & paste wizard for a server or workstation
+- fd-plugins#1000 the dhcp service misses the stop/start/restart button in the service view
+
+## %"FusionDirectory 1.0.2" - 2011-09-26
+
+### Added
+
+#### fusiondirectory
+- fd#138 script for .schema to .ldif conversion
+- fd#371 Please allow a way to do the LDAP integrity checks after FD is installed
+- fd#406 update ldif files to be used in cn=config directly
+- fd#417 Plugins Installation - Lack of documentation
+
+#### fusiondirectory-plugins
+- fd-plugins#379 Add tls management in update_vacation script
+
+### Changed
+
+#### fusiondirectory
+- fd#388 Spool directory hardcoded
+- fd#389 Temporary dir hardcoded in copyPasteHandler class
+- fd#390 fusiondirectory.conf file hardcoded
+- fd#391 Embedeed smarty removal
+- fd#399 the fusion-setup command should be rewritten in perl
+- fd#401 mkntpasswd should be written in perl and check the availability of the library
+- fd#405 repace the actual README.cnconfig by the content from the website
+
+### Removed
+
+#### fusiondirectory
+- fd#274 Same contrib files available in two plugins (krb5 and heimdal)
+
+#### fusiondirectory-plugins
+- fd-plugins#362 removing the syslog part from the log plugin and create a syslog plugin
+- fd-plugins#366 removing the opsi plugin from the official plugins
+
+### Fixed
+
+#### fusiondirectory
+- fd#272 PHP error on client IP detection
+- fd#275 Generic user information: Incorrect Warning
+- fd#281 Last rows of page overlapping with a lot of objects
+- fd#328 [Wizard] Bad temporary file name in Step 1
+- fd#332 fixing the scrolling height in firefox 5
+- fd#334 mkntpasswd creation page
+- fd#349 timezone Berlin is missing
+- fd#365 include check in update-fusiondirectory for cache problems
+- fd#368 FD can end up creating an invalid configuration file
+- fd#370 FD complains about "Missing GOsa extensions" in the generic attributes
+- fd#372 Setup wizard won't fix users in all cases
+- fd#373 updated the loading of the cache file
+- fd#376 Hardened error_handler
+- fd#377 fixed Smarty handling for GOsa 2.6
+- fd#385 modify schema2lidf to not add by default a x-origin tag to the schema file
+- fd#387 changing update-fusiondirectory into fusiondirectory-setup
+- fd#393 "Gérer" instead of "Gèrer"
+- fd#403 test php safe mode
+- fd#404 rewrite the INSTALL doc
+- fd#410 dateofBirth not taken while importing with CSV
+- fd#418 replace update-fusiondirectory by fusiondirectory-setup in all files
+- fd#439 Rpm/Centos/Imagemagick
+- fd#450 Wrong data import for Samba Idmap
+- fd#457 the fusiondirectory-insert-schema should look if the samba.schema is in the ldap tree
+- fd#460 Shell environment variables different in Mageia
+- fd#466 it seems that adding the -y broke the multi parameter in fusiondirectory-setup
+- fd#467 using fusiondirectory-setup to install from tar.gz
+- fd#472 fusiondirectory-setup - Apache_user variable is not defined
+
+#### fusiondirectory-plugins
+- fd-plugins#232 askignfor goto-si even when nothing is in the fusiondirectory.conf
+- fd-plugins#420 the example in queue management for the cvs entry to be put is wrong
+- fd-plugins#464 php error while clic on "apply" after FAI plugin's installation
+- fd-plugins#465 debug screen in FD after FAI plugin installation
+
+## %"FusionDirectory 1.0.1" - 2011-05-02
+
+ - Removed advanced options from setup
+ - Corrected online help
+ - Corrected wording on plugins
+ - Removed the need for magic_quotes_gpc
+ - Removed the fusiondirectory-desktop package
+ - Removed program version checking from svn
+ - Added the apache plugin
+ - Put final logo
+ - Full italian language
+
+## %"FusionDirectory 1.0" - 2011-03-20
+
+- First stable release
+

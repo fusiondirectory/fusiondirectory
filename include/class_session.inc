@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2018  FusionDirectory
+  Copyright (C) 2011-2019  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -33,63 +33,17 @@ class session {
    *
    * \param string $name The name of the session
    */
-  public static function is_set($name)
-  {
-    $channel = "";
-    if (isset($_POST['_channel_'])) {
-      $channel = $_POST['_channel_'];
-    }
-
-    /* Global fallback if not set */
-    if ($channel == "") {
-      return isset($_SESSION[$name]);
-    }
-
-    /* Sanity check */
-    if (!session::channel_exists($channel)) {
-      msg_dialog::display(_("Internal error"), _("Requested channel does not exist! Please contact your Administrator."), FATAL_ERROR_DIALOG);
-      exit;
-    }
-
-    $channel = "gch_".$channel;
-    return isset($_SESSION[$channel][$name]);
-  }
-
-  /*!
-   * \brief Check if a session is defined
-   *
-   * \param string $name Name of the session
-   */
-  public static function global_is_set($name)
+  public static function is_set ($name)
   {
     return isset($_SESSION[$name]);
   }
 
   /*!
-   * \brief Set a value in a session
-   *
-   * \param string $name Name of the session
-   *
-   * \param $value The new value
+   * \brief Deprecated
    */
-  public static function set($name, $value)
+  public static function global_is_set ($name)
   {
-    $channel = "";
-    if (isset($_POST['_channel_'])) {
-      $channel = $_POST['_channel_'];
-    }
-
-    /* Global fallback if not set */
-    if ($channel == "") {
-      $_SESSION[$name] = $value;
-    } else {
-      /* Sanity check */
-      if (!session::channel_exists($channel)) {
-        msg_dialog::display(_("Internal error"), _("Requested channel does not exist! Please contact your Administrator."), FATAL_ERROR_DIALOG);
-        exit;
-      }
-      $_SESSION[$channel][$name] = $value;
-    }
+    return static::is_set($name);
   }
 
   /*!
@@ -99,38 +53,17 @@ class session {
    *
    * \param $value The new value
    */
-  public static function global_set($name, $value)
+  public static function set ($name, $value)
   {
     $_SESSION[$name] = $value;
   }
 
   /*!
-   * \brief Accessor of a session
-   *
-   * \param string $name Name of the session
+   * \brief Deprecated
    */
-  public static function &get($name)
+  public static function global_set ($name, $value)
   {
-    $channel = "";
-    if (isset($_POST['_channel_'])) {
-      $channel = $_POST['_channel_'];
-    }
-
-    /* Global fallback if not set */
-    if ($channel == "") {
-      $ret = &$_SESSION[$name];
-      return $ret;
-    }
-
-    /* Sanity check */
-    if (!session::channel_exists($channel)) {
-      msg_dialog::display(_("Internal error"), _("Requested channel does not exist! Please contact your Administrator."), FATAL_ERROR_DIALOG);
-      exit;
-    }
-
-    $channel  = "gch_".$channel;
-    $ret      = &$_SESSION[$channel][$name];
-    return $ret;
+    static::set($name, $value);
   }
 
   /*!
@@ -138,7 +71,7 @@ class session {
    *
    * \param string $name Name of the session var
    */
-  public static function global_get($name)
+  public static function get ($name)
   {
     if (isset($_SESSION[$name])) {
       return $_SESSION[$name];
@@ -148,46 +81,46 @@ class session {
   }
 
   /*!
+   * \brief Deprecated
+   */
+  public static function global_get ($name)
+  {
+    return static::get($name);
+  }
+
+  /*!
    * \brief Accessor of a session var by reference
    *
    * \param string $name Name of the session var
    */
-  public static function &global_get_ref($name)
+  public static function &get_ref ($name)
   {
     $ret = &$_SESSION[$name];
     return $ret;
   }
 
   /*!
-   * \brief Delete a session
-   *
-   * \param string $name Name of the session to delete
+   * \brief Deprecated
    */
-  public static function delete($name)
+  public static function delete ($name)
   {
-    $channel = "";
-    if (isset($_POST['_channel_'])) {
-      $channel = $_POST['_channel_'];
-    }
-
-    /* Global fallback if not set */
-    if ($channel == "") {
-      if (isset($_SESSION[$name])) {
-        unset($_SESSION[$name]);
-      }
-    } else {
-      if (isset($_SESSION[$channel][$name])) {
-        unset($_SESSION[$channel][$name]);
-      }
-    }
+    return static::un_set($name);
   }
 
   /*!
-   * \brief Delete a session
+   * \brief Deprecated
+   */
+  public static function global_delete ($name)
+  {
+    return static::un_set($name);
+  }
+
+  /*!
+   * \brief Unset a session
    *
    * \param string $name Name of the session to delete
    */
-  public static function global_delete($name)
+  public static function un_set ($name)
   {
     if (isset($_SESSION[$name])) {
       unset($_SESSION[$name]);
@@ -195,29 +128,17 @@ class session {
   }
 
   /*!
-   * \brief Unset a session
-   *
-   * \param string $name Name of the session to delete
+   * \brief Deprecated
    */
-  public static function un_set($name)
+  public static function global_un_set ($name)
   {
-    return session::delete($name);
-  }
-
-  /*!
-   * \brief Unset a session
-   *
-   * \param string $name Name of the session to delete
-   */
-  public static function global_un_set($name)
-  {
-    return session::global_delete($name);
+    return static::un_set($name);
   }
 
   /*!
    * \brief Start a session
    */
-  public static function start($id = NULL)
+  public static function start ($id = NULL)
   {
     session_name("FusionDirectory");
     /* Set cookie lifetime to one day (The parameter is in seconds ) */
@@ -230,6 +151,13 @@ class session {
        !! The garbage collector is a cron job on debian systems, the cronjob will fetch the timeout from
        the php.ini, so if you use debian, you must hardcode session.gc_maxlifetime in your php.ini */
     ini_set("session.gc_maxlifetime", 24 * 60 * 60);
+
+    /*
+     *  Set HttpOnly in order to enhance security by disabling execution of javascript on cookies,
+     *  allowing possible XSS attacks
+     */
+    ini_set("session.cookie_httponly", "1");
+
     if ($id !== NULL) {
       session_id($id);
     }
@@ -256,7 +184,7 @@ class session {
   /*!
    * \brief Destroy a session
    */
-  public static function destroy()
+  public static function destroy ()
   {
     @session_destroy();
   }
@@ -264,7 +192,7 @@ class session {
   /*!
    * \brief Get all sessions
    */
-  public static function &get_all()
+  public static function &get_all ()
   {
     $ret = &$_SESSION;
     return $ret;

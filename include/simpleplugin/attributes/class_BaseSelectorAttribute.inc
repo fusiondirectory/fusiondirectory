@@ -61,7 +61,7 @@ class BaseSelectorAttribute extends Attribute
       }
       if ($this->plugin->dn == "new") {
         $ui = get_userinfo();
-        $this->setValue(dn2base(session::global_is_set("CurrentMainBase") ? "cn=dummy,".session::global_get("CurrentMainBase") : $ui->dn));
+        $this->setValue(dn2base(session::is_set("CurrentMainBase") ? "cn=dummy,".session::get("CurrentMainBase") : $ui->dn));
       } else {
         $this->setValue(dn2base($this->plugin->dn, $this->ou));
       }
@@ -120,7 +120,7 @@ class BaseSelectorAttribute extends Attribute
     }
   }
 
-  function checkValue($value)
+  function checkValue ($value)
   {
     if (!is_string($value) && (!is_object($value) || !method_exists($value, '__toString' ))) {
       throw new InvalidValueException(_('Base field value should always be a string'));
@@ -155,9 +155,9 @@ class BaseSelectorAttribute extends Attribute
     if ($this->disabled) {
       $display = $this->renderInputField(
         'text', '',
-        array(
+        [
           'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}'
-        )
+        ]
       );
     } else {
       $display = '{literal}'.$this->baseSelector->render().'{/literal}';
@@ -165,7 +165,7 @@ class BaseSelectorAttribute extends Attribute
     return $this->renderAcl($display);
   }
 
-  function getHtmlId()
+  function getHtmlId ()
   {
     if (isset($this->baseSelector)) {
       return $this->baseSelector->getInputHtmlId();
@@ -174,7 +174,7 @@ class BaseSelectorAttribute extends Attribute
     }
   }
 
-  function serializeAttribute(&$attributes, $form = TRUE)
+  function serializeAttribute (&$attributes, $form = TRUE)
   {
     if (!$form || $this->visible) {
       parent::serializeAttribute($attributes, $form);

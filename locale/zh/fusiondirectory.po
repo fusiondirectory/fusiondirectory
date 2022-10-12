@@ -4,16 +4,16 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# fusiondirectory <contact@fusiondirectory.org>, 2018
+# fusiondirectory <contact@fusiondirectory.org>, 2021
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2019-06-27 14:00+0000\n"
+"POT-Creation-Date: 2022-07-28 16:55+0000\n"
 "PO-Revision-Date: 2016-08-29 14:52+0000\n"
-"Last-Translator: fusiondirectory <contact@fusiondirectory.org>, 2018\n"
+"Last-Translator: fusiondirectory <contact@fusiondirectory.org>, 2021\n"
 "Language-Team: Chinese (https://www.transifex.com/fusiondirectory/teams/12202/zh/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -39,9 +39,9 @@ msgstr ""
 #: include/simpleplugin/class_simplePlugin.inc:697
 #: include/simpleplugin/class_simpleTabs.inc:73
 #: include/simpleplugin/class_multiPlugin.inc:78
-#: plugins/addons/dashboard/class_dashBoardUsers.inc:192 html/index.php:461
-#: html/index.php:475 html/index.php:485 html/index.php:542 html/index.php:552
-#: setup/setup_checks.tpl.c:5 ihtml/themes/breezy/msg_dialog.tpl.c:2
+#: plugins/addons/dashboard/class_dashBoardUsers.inc:192 html/index.php:465
+#: html/index.php:479 html/index.php:489 html/index.php:543 html/index.php:553
+#: setup/setup_checks.tpl.c:8 ihtml/themes/breezy/msg_dialog.tpl.c:2
 msgid "Error"
 msgstr "错误"
 
@@ -87,8 +87,8 @@ msgstr ""
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:185
 #: plugins/addons/dashboard/class_dashBoardPasswords.inc:63
 #: plugins/addons/dashboard/class_dashBoard.inc:78
-#: setup/class_setupStepConfig.inc:108 setup/class_setupStepMigrate.inc:452
-#: setup/class_setupStepMigrate.inc:1068 html/index.php:379
+#: setup/class_setupStepConfig.inc:108 setup/class_setupStepMigrate.inc:459
+#: setup/class_setupStepMigrate.inc:1075 html/index.php:379
 msgid "LDAP error"
 msgstr "LDAP 错误"
 
@@ -139,59 +139,60 @@ msgstr ""
 msgid "CSV"
 msgstr ""
 
-#: include/php_setup.inc:45 include/php_setup.inc:132
+#: include/php_setup.inc:61 include/php_setup.inc:148
 msgid "File"
 msgstr "文件"
 
-#: include/php_setup.inc:47 include/php_setup.inc:132
+#: include/php_setup.inc:63 include/php_setup.inc:148
 msgid "Line"
 msgstr "行"
 
-#: include/php_setup.inc:53
+#: include/php_setup.inc:69
 msgid "PHP error"
 msgstr "PHP 错误"
 
-#: include/php_setup.inc:62
+#: include/php_setup.inc:78
 msgid "class"
 msgstr "类"
 
-#: include/php_setup.inc:70
+#: include/php_setup.inc:86
 msgid "function"
 msgstr "功能"
 
-#: include/php_setup.inc:76
+#: include/php_setup.inc:92
 msgid "static"
 msgstr "静态"
 
-#: include/php_setup.inc:80
+#: include/php_setup.inc:96
 msgid "method"
 msgstr "方法"
 
-#: include/php_setup.inc:131 ihtml/themes/breezy/msg_dialog.tpl.c:11
+#: include/php_setup.inc:147 ihtml/themes/breezy/msg_dialog.tpl.c:11
 msgid "Trace"
 msgstr "跟踪"
 
-#: include/php_setup.inc:132
+#: include/php_setup.inc:148
+#: plugins/addons/subscription/class_subscriptionInfo.inc:81
 msgid "Type"
 msgstr "类型"
 
-#: include/php_setup.inc:133
+#: include/php_setup.inc:149
 msgid "Arguments"
 msgstr "参数"
 
-#: include/php_setup.inc:231
+#: include/php_setup.inc:247
 msgid "Generating this page caused the PHP interpreter to raise some errors!"
 msgstr "生成这个页面导致 PHP 解析器发生一些错误！"
 
-#: include/php_setup.inc:236
+#: include/php_setup.inc:252
 msgid "Send bug report to the FusionDirectory Team"
 msgstr ""
 
-#: include/php_setup.inc:237
+#: include/php_setup.inc:253
 msgid "Send bugreport"
 msgstr ""
 
-#: include/php_setup.inc:242
+#: include/php_setup.inc:258
 msgid "Toggle information"
 msgstr "切换信息"
 
@@ -347,9 +348,7 @@ msgstr "模板名称"
 #: include/functions.inc:584 include/functions.inc:705
 #: include/functions.inc:1683 include/functions.inc:1722
 #: include/functions.inc:1753 include/class_acl.inc:118
-#: include/class_session.inc:50 include/class_session.inc:88
-#: include/class_session.inc:127 include/class_ldap.inc:797
-#: include/class_ldap.inc:822
+#: include/class_ldap.inc:797 include/class_ldap.inc:822
 msgid "Internal error"
 msgstr ""
 
@@ -476,11 +475,11 @@ msgstr ""
 msgid "LDAP server returned: %s"
 msgstr ""
 
-#: include/functions.inc:783 setup/class_setupStepLdap.inc:212
-#: setup/class_setupStepMigrate.inc:573 setup/class_setupStepMigrate.inc:1021
-#: setup/class_setupStepMigrate.inc:1140 setup/class_setupStepMigrate.inc:1251
-#: setup/class_setupStepMigrate.inc:1326 setup/class_setupStepMigrate.inc:1370
-#: html/main.php:156 html/index.php:594 setup/setup_checks.tpl.c:8
+#: include/functions.inc:783 setup/class_setupStepLdap.inc:216
+#: setup/class_setupStepMigrate.inc:580 setup/class_setupStepMigrate.inc:1028
+#: setup/class_setupStepMigrate.inc:1147 setup/class_setupStepMigrate.inc:1258
+#: setup/class_setupStepMigrate.inc:1333 setup/class_setupStepMigrate.inc:1377
+#: html/main.php:156 html/index.php:595 setup/setup_checks.tpl.c:11
 #: ihtml/themes/breezy/msg_dialog.tpl.c:5 ihtml/themes/breezy/islocked.tpl.c:5
 msgid "Warning"
 msgstr "警告"
@@ -647,12 +646,12 @@ msgstr "登录名"
 
 #: include/class_CopyPasteHandler.inc:206
 #: include/simpleplugin/class_simpleTabs.inc:316
-#: include/simpleplugin/class_simpleManagement.inc:1041
-#: include/simpleplugin/class_simpleManagement.inc:1138
-#: include/simpleplugin/class_simpleManagement.inc:1187
-#: include/simpleplugin/class_simpleManagement.inc:1267
-#: include/simpleplugin/class_simpleManagement.inc:1285
-#: include/simpleplugin/class_simpleManagement.inc:1329
+#: include/simpleplugin/class_simpleManagement.inc:1042
+#: include/simpleplugin/class_simpleManagement.inc:1139
+#: include/simpleplugin/class_simpleManagement.inc:1188
+#: include/simpleplugin/class_simpleManagement.inc:1268
+#: include/simpleplugin/class_simpleManagement.inc:1286
+#: include/simpleplugin/class_simpleManagement.inc:1330
 #: plugins/admin/users/class_userManagement.inc:153
 msgid "Permission"
 msgstr "允许"
@@ -935,8 +934,8 @@ msgstr ""
 msgid "Cancel"
 msgstr "取消"
 
-#: include/class_msgPool.inc:487 setup/class_setupStepMigrate.inc:133
-#: setup/setup_checks.tpl.c:2 ihtml/themes/breezy/msg_dialog.tpl.c:14
+#: include/class_msgPool.inc:487 setup/class_setupStepMigrate.inc:138
+#: setup/setup_checks.tpl.c:5 ihtml/themes/breezy/msg_dialog.tpl.c:14
 msgid "Ok"
 msgstr "好"
 
@@ -1037,7 +1036,9 @@ msgid "Remove %s settings"
 msgstr ""
 
 #: include/class_msgPool.inc:638
-msgid "Click the 'Edit' button below to change information in this dialog"
+msgid ""
+"Click the \"Edit\" button on the bottom right corner of the page to edit the"
+" fields"
 msgstr ""
 
 #: include/class_msgPool.inc:646
@@ -1272,6 +1273,7 @@ msgstr ""
 #: plugins/admin/aclrole/class_aclRole.inc:99
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:64
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:69
+#: plugins/addons/subscription/class_subscriptionInfo.inc:73
 #: setup/setup_migrate_adminAccount.tpl.c:8
 msgid "Name"
 msgstr "名称"
@@ -1306,8 +1308,8 @@ msgid "Restart service"
 msgstr ""
 
 #: include/simpleplugin/attributes/class_BaseSelectorAttribute.inc:39
-#: setup/class_setupStepLdap.inc:50 setup/class_setupStepLdap.inc:119
-#: setup/class_setupStepLdap.inc:127 ihtml/themes/breezy/simple-list.tpl.c:2
+#: setup/class_setupStepLdap.inc:53 setup/class_setupStepLdap.inc:122
+#: setup/class_setupStepLdap.inc:130 ihtml/themes/breezy/simple-list.tpl.c:2
 msgid "Base"
 msgstr "位置"
 
@@ -1319,31 +1321,31 @@ msgstr ""
 msgid "Base field value should always be a string"
 msgstr ""
 
-#: include/simpleplugin/attributes/class_DateAttribute.inc:131
+#: include/simpleplugin/attributes/class_DateAttribute.inc:132
 #, php-format
 msgid "Error, incorrect date: %s"
 msgstr ""
 
-#: include/simpleplugin/attributes/class_DateAttribute.inc:199
-#: include/simpleplugin/attributes/class_DateAttribute.inc:273
+#: include/simpleplugin/attributes/class_DateAttribute.inc:200
+#: include/simpleplugin/attributes/class_DateAttribute.inc:274
 msgid "Hours"
 msgstr ""
 
-#: include/simpleplugin/attributes/class_DateAttribute.inc:204
-#: include/simpleplugin/attributes/class_DateAttribute.inc:278
+#: include/simpleplugin/attributes/class_DateAttribute.inc:205
+#: include/simpleplugin/attributes/class_DateAttribute.inc:279
 msgid "Minutes"
 msgstr ""
 
-#: include/simpleplugin/attributes/class_DateAttribute.inc:209
+#: include/simpleplugin/attributes/class_DateAttribute.inc:210
 msgid "Seconds"
 msgstr ""
 
-#: include/simpleplugin/attributes/class_DateAttribute.inc:297
+#: include/simpleplugin/attributes/class_DateAttribute.inc:298
 #: include/class_SnapshotDialogs.inc:143 include/class_SnapshotDialogs.inc:149
 msgid "Date"
 msgstr "日期"
 
-#: include/simpleplugin/attributes/class_DateAttribute.inc:303
+#: include/simpleplugin/attributes/class_DateAttribute.inc:304
 msgid "Time"
 msgstr ""
 
@@ -1627,7 +1629,7 @@ msgid "days"
 msgstr "天"
 
 #: include/simpleplugin/class_dialogAttributes.inc:254
-msgid "Add (dialog)"
+msgid "Add(dialog)"
 msgstr ""
 
 #: include/simpleplugin/class_dialogAttributes.inc:517
@@ -1680,23 +1682,23 @@ msgstr ""
 msgid "The filter is incomplete!"
 msgstr ""
 
-#: include/simpleplugin/class_simpleManagement.inc:1106
+#: include/simpleplugin/class_simpleManagement.inc:1107
 msgid "Permission error"
 msgstr ""
 
-#: include/simpleplugin/class_simpleManagement.inc:1138
+#: include/simpleplugin/class_simpleManagement.inc:1139
 #, php-format
 msgid "You are not allowed to create a snapshot for %s."
 msgstr ""
 
-#: include/simpleplugin/class_simpleManagement.inc:1187
-#: include/simpleplugin/class_simpleManagement.inc:1267
-#: include/simpleplugin/class_simpleManagement.inc:1285
+#: include/simpleplugin/class_simpleManagement.inc:1188
+#: include/simpleplugin/class_simpleManagement.inc:1268
+#: include/simpleplugin/class_simpleManagement.inc:1286
 #, php-format
 msgid "You are not allowed to restore a snapshot for %s."
 msgstr ""
 
-#: include/simpleplugin/class_simpleManagement.inc:1329
+#: include/simpleplugin/class_simpleManagement.inc:1330
 #, php-format
 msgid "You are not allowed to delete a snapshot for %s."
 msgstr ""
@@ -1708,7 +1710,7 @@ msgstr ""
 #: include/simpleplugin/simple-list.xml:59
 #: plugins/admin/departments/dep-list.xml:48
 #: plugins/admin/groups/group-list.xml:66 plugins/admin/users/user-list.xml:73
-#: setup/class_setupStepMigrate.inc:822
+#: setup/class_setupStepMigrate.inc:829
 msgid "Create"
 msgstr "创建"
 
@@ -1740,11 +1742,6 @@ msgstr ""
 #: include/class_acl.inc:173
 #, php-format
 msgid "All users"
-msgstr ""
-
-#: include/class_session.inc:50 include/class_session.inc:88
-#: include/class_session.inc:127
-msgid "Requested channel does not exist! Please contact your Administrator."
 msgstr ""
 
 #: include/class_ldap.inc:277
@@ -2090,12 +2087,12 @@ msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:198
 #, php-format
-msgid "Action called without error (results were \"%s\")"
+msgid "Action called without error(results were \"%s\")"
 msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:203
 #, php-format
-msgid "Action called without error (result was \"%s\")"
+msgid "Action called without error(result was \"%s\")"
 msgstr ""
 
 #: plugins/admin/groups/class_groupManagement.inc:263
@@ -2459,7 +2456,7 @@ msgstr ""
 
 #: plugins/admin/users/class_userManagement.inc:42
 #: plugins/addons/dashboard/class_dashBoardUsers.inc:27
-#: setup/class_setupStepMigrate.inc:809
+#: setup/class_setupStepMigrate.inc:816
 msgid "Users"
 msgstr "用户"
 
@@ -3445,6 +3442,118 @@ msgid ""
 "error: %s"
 msgstr ""
 
+#: plugins/addons/subscription/class_subscriptionInfo.inc:40
+msgid "Subscription"
+msgstr ""
+
+#: plugins/addons/subscription/class_subscriptionInfo.inc:41
+#: plugins/addons/subscription/class_subscriptionInfo.inc:47
+#: plugins/addons/subscription/class_subscriptionInfo.inc:63
+msgid "Subscription information"
+msgstr ""
+
+#: plugins/addons/subscription/class_subscriptionInfo.inc:42
+msgid "Information about your FusionDirectory subscription"
+msgstr ""
+
+#: plugins/addons/subscription/class_subscriptionInfo.inc:69
+msgid "Information text for subscription"
+msgstr ""
+
+#: plugins/addons/subscription/class_subscriptionInfo.inc:73
+msgid "Subscription name"
+msgstr ""
+
+#: plugins/addons/subscription/class_subscriptionInfo.inc:77
+msgid "Id"
+msgstr ""
+
+#: plugins/addons/subscription/class_subscriptionInfo.inc:77
+msgid "Subscription id"
+msgstr ""
+
+#: plugins/addons/subscription/class_subscriptionInfo.inc:81
+msgid "Subscription type"
+msgstr ""
+
+#: plugins/addons/subscription/class_subscriptionInfo.inc:85
+msgid "Contract"
+msgstr ""
+
+#: plugins/addons/subscription/class_subscriptionInfo.inc:85
+msgid "Contract reference"
+msgstr ""
+
+#: plugins/addons/subscription/class_subscriptionInfo.inc:89
+msgid "Start date"
+msgstr ""
+
+#: plugins/addons/subscription/class_subscriptionInfo.inc:89
+msgid "Start date of this subscription"
+msgstr ""
+
+#: plugins/addons/subscription/class_subscriptionInfo.inc:94
+msgid "End date"
+msgstr ""
+
+#: plugins/addons/subscription/class_subscriptionInfo.inc:94
+msgid "End date of this subscription"
+msgstr ""
+
+#: plugins/addons/subscription/class_subscriptionInfo.inc:101
+msgid "Import your subscription"
+msgstr ""
+
+#: plugins/addons/subscription/class_subscriptionInfo.inc:104
+msgid "Information text for expired subscription"
+msgstr ""
+
+#: plugins/addons/subscription/class_subscriptionInfo.inc:108
+msgid "Import subscription"
+msgstr ""
+
+#: plugins/addons/subscription/class_subscriptionInfo.inc:114
+msgid "Import"
+msgstr "导入"
+
+#: plugins/addons/subscription/class_subscriptionInfo.inc:131
+#, php-format
+msgid ""
+"You do not have a valid subscription for this instance of FusionDirectory.\n"
+"Please visit %s for a list of available options."
+msgstr ""
+
+#: plugins/addons/subscription/class_subscriptionInfo.inc:136
+#, php-format
+msgid ""
+"Your subscription is expired for this instance of FusionDirectory.\n"
+"Please visit %s to renew it."
+msgstr ""
+
+#: plugins/addons/subscription/class_subscriptionInfo.inc:177
+#: plugins/addons/subscription/class_subscriptionInfo.inc:184
+#: plugins/addons/subscription/class_subscriptionInfo.inc:204
+msgid "Import error"
+msgstr ""
+
+#: plugins/addons/subscription/class_subscriptionInfo.inc:178
+msgid "No data. Did you forgot to upload a file?"
+msgstr ""
+
+#: plugins/addons/subscription/class_subscriptionInfo.inc:185
+msgid "Failed to parse imported file"
+msgstr ""
+
+#: plugins/addons/subscription/class_subscriptionInfo.inc:192
+#, php-format
+msgid "Missing section \"%s\" in imported file"
+msgstr ""
+
+#: plugins/addons/subscription/class_subscriptionInfo.inc:197
+#, php-format
+msgid "Missing attribute \"%s\" in imported file"
+msgstr ""
+
 #: plugins/personal/roles/class_userRoles.inc:34
 msgid "Edit user's groups and roles"
 msgstr ""
@@ -3759,134 +3868,132 @@ msgstr ""
 msgid "The welcome message"
 msgstr ""
 
-#: setup/class_setupStepLdap.inc:33
+#: setup/class_setupStepLdap.inc:36
 msgid "LDAP connection"
 msgstr ""
 
-#: setup/class_setupStepLdap.inc:36
+#: setup/class_setupStepLdap.inc:39
 msgid "Location name"
 msgstr "位置名称"
 
-#: setup/class_setupStepLdap.inc:36
+#: setup/class_setupStepLdap.inc:39
 msgid "Name of this connexion to show in the LDAP server list"
 msgstr ""
 
-#: setup/class_setupStepLdap.inc:41
+#: setup/class_setupStepLdap.inc:44
 msgid "Connection URI"
 msgstr ""
 
-#: setup/class_setupStepLdap.inc:41
+#: setup/class_setupStepLdap.inc:44
 msgid "URI to contact the LDAP server. Usually starts with ldap://"
 msgstr ""
 
-#: setup/class_setupStepLdap.inc:46
+#: setup/class_setupStepLdap.inc:49
 msgid "TLS connection"
 msgstr ""
 
-#: setup/class_setupStepLdap.inc:46
+#: setup/class_setupStepLdap.inc:49
 msgid "Should TLS be used to connect to this LDAP server?"
 msgstr ""
 
-#: setup/class_setupStepLdap.inc:50 setup/class_setupStepLdap.inc:119
-#: setup/class_setupStepLdap.inc:127
+#: setup/class_setupStepLdap.inc:53 setup/class_setupStepLdap.inc:122
+#: setup/class_setupStepLdap.inc:130
 msgid "The LDAP directory base"
 msgstr ""
 
-#: setup/class_setupStepLdap.inc:56
+#: setup/class_setupStepLdap.inc:59
 msgid "Authentication"
 msgstr ""
 
-#: setup/class_setupStepLdap.inc:59
+#: setup/class_setupStepLdap.inc:62
 msgid ""
 "DN of the admin account to use for binding to the LDAP. Base is "
 "automatically appended."
 msgstr ""
 
-#: setup/class_setupStepLdap.inc:74
+#: setup/class_setupStepLdap.inc:77
 msgid "Admin DN"
 msgstr "管理员 DN"
 
-#: setup/class_setupStepLdap.inc:77
+#: setup/class_setupStepLdap.inc:80
 msgid "Admin password"
 msgstr "管理员口令"
 
-#: setup/class_setupStepLdap.inc:77
+#: setup/class_setupStepLdap.inc:80
 msgid "Password for the admin account to use for binding to the LDAP"
 msgstr ""
 
-#: setup/class_setupStepLdap.inc:83
+#: setup/class_setupStepLdap.inc:86
 msgid "Status"
 msgstr "状态"
 
-#: setup/class_setupStepLdap.inc:86
+#: setup/class_setupStepLdap.inc:89
 msgid "Current status"
 msgstr ""
 
-#: setup/class_setupStepLdap.inc:86
+#: setup/class_setupStepLdap.inc:89
 msgid "Result of last attempt at checking LDAP binding and basic schemas"
 msgstr ""
 
-#: setup/class_setupStepLdap.inc:107
+#: setup/class_setupStepLdap.inc:110
 msgid "LDAP setup"
 msgstr ""
 
-#: setup/class_setupStepLdap.inc:108
+#: setup/class_setupStepLdap.inc:111
 msgid "LDAP connection setup"
 msgstr ""
 
-#: setup/class_setupStepLdap.inc:109
+#: setup/class_setupStepLdap.inc:112
 msgid ""
 "This dialog performs the basic configuration of the LDAP connectivity for "
 "FusionDirectory."
 msgstr ""
 
-#: setup/class_setupStepLdap.inc:179
+#: setup/class_setupStepLdap.inc:183
 #, php-format
 msgid "Anonymous bind to server '%s' failed!"
 msgstr ""
 
-#: setup/class_setupStepLdap.inc:181
+#: setup/class_setupStepLdap.inc:185
 #, php-format
 msgid "Bind as user '%s' failed!"
 msgstr ""
 
-#: setup/class_setupStepLdap.inc:183
+#: setup/class_setupStepLdap.inc:187
 msgid "Retry"
 msgstr "重试"
 
-#: setup/class_setupStepLdap.inc:187
+#: setup/class_setupStepLdap.inc:191
 #, php-format
 msgid "Anonymous bind to server '%s' succeeded."
 msgstr ""
 
-#: setup/class_setupStepLdap.inc:188 setup/class_setupStepLdap.inc:192
+#: setup/class_setupStepLdap.inc:192 setup/class_setupStepLdap.inc:196
 msgid "Refresh"
 msgstr "刷新"
 
-#: setup/class_setupStepLdap.inc:189
+#: setup/class_setupStepLdap.inc:193
 msgid "Please specify user and password!"
 msgstr ""
 
-#: setup/class_setupStepLdap.inc:191
+#: setup/class_setupStepLdap.inc:195
 #, php-format
 msgid "Bind as user '%s' to server '%s' succeeded!"
 msgstr ""
 
-#: setup/class_setupStepLdap.inc:210 setup/class_setupStepLdap.inc:212
+#: setup/class_setupStepLdap.inc:214 setup/class_setupStepLdap.inc:216
 #, php-format
 msgid ""
 "%s\n"
 "Schema \"%s\": %s"
 msgstr ""
 
-#: setup/class_setupStepChecks.inc:30 setup/class_setupStepMigrate.inc:206
+#: setup/class_setupStepChecks.inc:30 setup/class_setupStepMigrate.inc:211
 msgid "PHP module and extension checks"
 msgstr ""
 
 #: setup/class_setupStepChecks.inc:37
-msgid ""
-"PHP setup configuration (<a href=\"?info\" target=\"_blank\">show "
-"information</a>)"
+msgid "PHP setup configuration"
 msgstr ""
 
 #: setup/class_setupStepChecks.inc:48 setup/class_setupStepChecks.inc:49
@@ -3989,314 +4096,293 @@ msgid "FusionDirectory requires this extension to handle snapshots."
 msgstr ""
 
 #: setup/class_setupStepChecks.inc:172
-msgid ""
-"register_globals is a PHP mechanism to register all global variables to be "
-"accessible from scripts without changing the scope. This may be a security "
-"risk."
-msgstr ""
-
-#: setup/class_setupStepChecks.inc:173
-msgid "Search for 'register_globals' in your php.ini and switch it to 'Off'."
-msgstr ""
-
-#: setup/class_setupStepChecks.inc:180
 msgid "PHP uses this value for the garbage collector to delete old sessions."
 msgstr ""
 
-#: setup/class_setupStepChecks.inc:181
+#: setup/class_setupStepChecks.inc:173
 msgid ""
 "Setting this value to one day will prevent loosing session and cookies "
 "before they really timeout."
 msgstr ""
 
-#: setup/class_setupStepChecks.inc:182
+#: setup/class_setupStepChecks.inc:174
 msgid ""
 "Search for 'session.gc_maxlifetime' in your php.ini and set it to 86400 or "
 "higher."
 msgstr ""
 
-#: setup/class_setupStepChecks.inc:189 setup/class_setupStepChecks.inc:205
-#: setup/class_setupStepChecks.inc:221 setup/class_setupStepChecks.inc:229
+#: setup/class_setupStepChecks.inc:181 setup/class_setupStepChecks.inc:197
+#: setup/class_setupStepChecks.inc:213
 msgid "Off"
 msgstr ""
 
-#: setup/class_setupStepChecks.inc:190
+#: setup/class_setupStepChecks.inc:182
 msgid ""
 "In Order to use FusionDirectory without any trouble, the session.auto_start "
 "option in your php.ini should be set to 'Off'."
 msgstr ""
 
-#: setup/class_setupStepChecks.inc:191
+#: setup/class_setupStepChecks.inc:183
 msgid "Search for 'session.auto_start' in your php.ini and set it to 'Off'."
 msgstr ""
 
-#: setup/class_setupStepChecks.inc:198
+#: setup/class_setupStepChecks.inc:190
 msgid ""
 "FusionDirectory needs at least 128MB of memory. Setting it below this limit "
 "may cause errors that are not reproducable! Increase it for larger setups."
 msgstr ""
 
-#: setup/class_setupStepChecks.inc:199
+#: setup/class_setupStepChecks.inc:191
 msgid ""
 "Search for 'memory_limit' in your php.ini and set it to '128M' or higher."
 msgstr ""
 
-#: setup/class_setupStepChecks.inc:206
+#: setup/class_setupStepChecks.inc:198
 msgid ""
 "This option influences the PHP output handling. Turn this Option off, to "
 "increase performance."
 msgstr ""
 
-#: setup/class_setupStepChecks.inc:207
+#: setup/class_setupStepChecks.inc:199
 msgid "Search for 'implicit_flush' in your php.ini and set it to 'Off'."
 msgstr ""
 
-#: setup/class_setupStepChecks.inc:214
+#: setup/class_setupStepChecks.inc:206
 msgid "The Execution time should be at least 30 seconds."
 msgstr ""
 
-#: setup/class_setupStepChecks.inc:215
+#: setup/class_setupStepChecks.inc:207
 msgid ""
 "Search for 'max_execution_time' in your php.ini and set it to '30' or "
 "higher."
 msgstr ""
 
-#: setup/class_setupStepChecks.inc:222
+#: setup/class_setupStepChecks.inc:214
 msgid ""
 "Increase the server security by setting expose_php to 'off'. PHP won't send "
 "any information about the server you are running in this case."
 msgstr ""
 
-#: setup/class_setupStepChecks.inc:223
+#: setup/class_setupStepChecks.inc:215
 msgid "Search for 'expose_php' in your php.ini and set if to 'Off'."
 msgstr ""
 
-#: setup/class_setupStepChecks.inc:230
-msgid "Increase your server performance by setting magic_quotes_gpc to 'off'."
-msgstr ""
-
-#: setup/class_setupStepChecks.inc:231
-msgid ""
-"Search for 'zend.ze1_compatibility_mode' in your php.ini and set it to "
-"'Off'."
-msgstr ""
-
-#: setup/class_setupStepMigrate.inc:157 setup/setup_migrate_baseOC.tpl.c:11
+#: setup/class_setupStepMigrate.inc:162 setup/setup_migrate_baseOC.tpl.c:11
 msgid "Migrate"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:223 setup/class_setupStepMigrate.inc:224
+#: setup/class_setupStepMigrate.inc:228 setup/class_setupStepMigrate.inc:229
 msgid "LDAP inspection"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:225
+#: setup/class_setupStepMigrate.inc:230
 msgid "Analyze your current LDAP for FusionDirectory compatibility"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:233
+#: setup/class_setupStepMigrate.inc:238
 msgid "Give all rights on users in the given branch"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:239
+#: setup/class_setupStepMigrate.inc:244
 msgid ""
 "Allow users to edit their own information (main tab and posix use only on "
 "base)"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:245
+#: setup/class_setupStepMigrate.inc:250
 msgid "Allow users to edit their own password (use only on base)"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:258
+#: setup/class_setupStepMigrate.inc:263
 msgid "Inspecting object classes in root object"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:259
+#: setup/class_setupStepMigrate.inc:264
 msgid "Checking permission for LDAP database"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:260
+#: setup/class_setupStepMigrate.inc:265
 msgid "Checking for invisible users"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:261
+#: setup/class_setupStepMigrate.inc:266
 msgid "Checking for super administrator"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:262
+#: setup/class_setupStepMigrate.inc:267
 msgid "Checking for default ACL roles and groups"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:263
+#: setup/class_setupStepMigrate.inc:268
 msgid "Checking for users outside the people tree"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:264
+#: setup/class_setupStepMigrate.inc:269
 msgid "Checking for groups outside the groups tree"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:265
+#: setup/class_setupStepMigrate.inc:270
 msgid "Checking for invisible departments"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:266
+#: setup/class_setupStepMigrate.inc:271
 msgid "Checking for duplicated UID numbers"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:267
+#: setup/class_setupStepMigrate.inc:272
 msgid "Checking for duplicated GID numbers"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:329 setup/class_setupStepMigrate.inc:488
-#: setup/class_setupStepMigrate.inc:565 setup/class_setupStepMigrate.inc:713
-#: setup/class_setupStepMigrate.inc:918 setup/class_setupStepMigrate.inc:994
-#: setup/class_setupStepMigrate.inc:1117 setup/class_setupStepMigrate.inc:1210
-#: setup/class_setupStepMigrate.inc:1300 setup/class_setupStepMigrate.inc:1344
+#: setup/class_setupStepMigrate.inc:334 setup/class_setupStepMigrate.inc:495
+#: setup/class_setupStepMigrate.inc:572 setup/class_setupStepMigrate.inc:720
+#: setup/class_setupStepMigrate.inc:925 setup/class_setupStepMigrate.inc:1001
+#: setup/class_setupStepMigrate.inc:1124 setup/class_setupStepMigrate.inc:1217
+#: setup/class_setupStepMigrate.inc:1307 setup/class_setupStepMigrate.inc:1351
 msgid "LDAP query failed"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:330 setup/class_setupStepMigrate.inc:489
-#: setup/class_setupStepMigrate.inc:566 setup/class_setupStepMigrate.inc:714
-#: setup/class_setupStepMigrate.inc:919 setup/class_setupStepMigrate.inc:995
-#: setup/class_setupStepMigrate.inc:1118 setup/class_setupStepMigrate.inc:1211
-#: setup/class_setupStepMigrate.inc:1301 setup/class_setupStepMigrate.inc:1345
+#: setup/class_setupStepMigrate.inc:335 setup/class_setupStepMigrate.inc:496
+#: setup/class_setupStepMigrate.inc:573 setup/class_setupStepMigrate.inc:721
+#: setup/class_setupStepMigrate.inc:926 setup/class_setupStepMigrate.inc:1002
+#: setup/class_setupStepMigrate.inc:1125 setup/class_setupStepMigrate.inc:1218
+#: setup/class_setupStepMigrate.inc:1308 setup/class_setupStepMigrate.inc:1352
 msgid "Possibly the \"root object\" is missing."
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:346 setup/class_setupStepMigrate.inc:369
-#: setup/class_setupStepMigrate.inc:420 setup/class_setupStepMigrate.inc:500
-#: setup/class_setupStepMigrate.inc:511 setup/class_setupStepMigrate.inc:820
+#: setup/class_setupStepMigrate.inc:351 setup/class_setupStepMigrate.inc:374
+#: setup/class_setupStepMigrate.inc:425 setup/class_setupStepMigrate.inc:507
+#: setup/class_setupStepMigrate.inc:518 setup/class_setupStepMigrate.inc:827
 msgid "Failed"
 msgstr "失败"
 
-#: setup/class_setupStepMigrate.inc:347
+#: setup/class_setupStepMigrate.inc:352
 #, php-format
 msgid "Missing FusionDirectory object class '%s'!"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:348
+#: setup/class_setupStepMigrate.inc:353
 msgid "Please check your installation."
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:370
+#: setup/class_setupStepMigrate.inc:375
 #, php-format
 msgid ""
 "Cannot handle the structural object type of your root object. Please try to "
 "add the object class '%s' manually."
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:501
+#: setup/class_setupStepMigrate.inc:508
 #, php-format
 msgid "The specified user \"%s\" does not have full access to your LDAP database."
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:512
+#: setup/class_setupStepMigrate.inc:519
 #, php-format
 msgid "The specified user \"%s\" does not have full access to your ldap database."
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:575
+#: setup/class_setupStepMigrate.inc:582
 #, php-format
 msgid ""
 "Found %s user(s) that will not be visible in FusionDirectory or which are "
 "incomplete."
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:587 setup/class_setupStepMigrate.inc:598
+#: setup/class_setupStepMigrate.inc:594 setup/class_setupStepMigrate.inc:605
 msgid "User migration"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:685 setup/class_setupStepMigrate.inc:965
+#: setup/class_setupStepMigrate.inc:692 setup/class_setupStepMigrate.inc:972
 msgid "Migration error"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:687
+#: setup/class_setupStepMigrate.inc:694
 #, php-format
 msgid "Cannot migrate entry \"%s\":"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:812
+#: setup/class_setupStepMigrate.inc:819
 msgid "Groups"
 msgstr "用户组"
 
-#: setup/class_setupStepMigrate.inc:815
+#: setup/class_setupStepMigrate.inc:822
 msgid "Roles"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:821
+#: setup/class_setupStepMigrate.inc:828
 msgid "There is no FusionDirectory administrator account inside your LDAP."
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:859
+#: setup/class_setupStepMigrate.inc:866
 msgid "Gives all rights on all objects"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:933
+#: setup/class_setupStepMigrate.inc:940
 msgid "Default ACL roles have not been inserted"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:935
+#: setup/class_setupStepMigrate.inc:942
 msgid "Some default ACL roles are missing"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:937
+#: setup/class_setupStepMigrate.inc:944
 msgid "Default ACL roles have been inserted"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:967
+#: setup/class_setupStepMigrate.inc:974
 #, php-format
 msgid "Cannot add ACL role \"%s\":"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:1022
+#: setup/class_setupStepMigrate.inc:1029
 #, php-format
 msgid "Found %s user(s) outside the configured tree \"%s\"."
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:1036 setup/class_setupStepMigrate.inc:1050
+#: setup/class_setupStepMigrate.inc:1043 setup/class_setupStepMigrate.inc:1057
 msgid "Move users into configured user tree"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:1068
+#: setup/class_setupStepMigrate.inc:1075
 msgid "Cannot move entries to the requested department!"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:1080
+#: setup/class_setupStepMigrate.inc:1087
 msgid "Entry will be moved from"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:1080
+#: setup/class_setupStepMigrate.inc:1087
 msgid "to"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:1090
+#: setup/class_setupStepMigrate.inc:1097
 msgid "The following references will be updated"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:1141
+#: setup/class_setupStepMigrate.inc:1148
 #, php-format
 msgid "Found %s groups outside the configured tree '%s'."
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:1155 setup/class_setupStepMigrate.inc:1169
+#: setup/class_setupStepMigrate.inc:1162 setup/class_setupStepMigrate.inc:1176
 msgid "Move groups into configured groups tree"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:1252
+#: setup/class_setupStepMigrate.inc:1259
 #, php-format
 msgid "Found %s department(s) that will not be visible in FusionDirectory."
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:1263 setup/class_setupStepMigrate.inc:1274
+#: setup/class_setupStepMigrate.inc:1270 setup/class_setupStepMigrate.inc:1281
 msgid "Department migration"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:1327
+#: setup/class_setupStepMigrate.inc:1334
 #, php-format
 msgid "Found %s duplicate values for attribute \"uidNumber\":%s"
 msgstr ""
 
-#: setup/class_setupStepMigrate.inc:1371
+#: setup/class_setupStepMigrate.inc:1378
 #, php-format
 msgid "Found %s duplicate values for attribute \"gidNumber\":%s"
 msgstr ""
@@ -4525,27 +4611,27 @@ msgstr "请检查用户名/口令。"
 msgid "Account locked. Please contact your system administrator!"
 msgstr ""
 
-#: html/index.php:463
+#: html/index.php:467
 #, php-format
 msgid "No value found in HTTP header \"%s\""
 msgstr ""
 
-#: html/index.php:477
+#: html/index.php:481
 #, php-format
 msgid "Header user \"%s\" could not be found in the LDAP"
 msgstr ""
 
-#: html/index.php:487 html/index.php:554
+#: html/index.php:491 html/index.php:555
 #, php-format
 msgid "Login with user \"%s\" triggered error: %s"
 msgstr ""
 
-#: html/index.php:544
+#: html/index.php:545
 #, php-format
 msgid "CAS user \"%s\" could not be found in the LDAP"
 msgstr ""
 
-#: html/index.php:594
+#: html/index.php:595
 msgid ""
 "Your browser has cookies disabled. Please enable cookies and reload this "
 "page before logging in!"
@@ -4719,11 +4805,15 @@ msgstr ""
 msgid "Close"
 msgstr "关闭"
 
-#: setup/setup_checks.tpl.c:11
-msgid "FusionDirectory will NOT run without fixing this."
+#: setup/setup_checks.tpl.c:2
+msgid "show information"
 msgstr ""
 
 #: setup/setup_checks.tpl.c:14
+msgid "FusionDirectory will NOT run without fixing this."
+msgstr ""
+
+#: setup/setup_checks.tpl.c:17
 msgid "FusionDirectory will run without fixing this."
 msgstr ""
 

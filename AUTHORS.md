@@ -39,7 +39,7 @@ documentation and additional help.
 * Steve Moitozo <god at zilla dot us>
   Password checker
 
-* Benoit Mortier <benoit.mortier@opensides.be>
+* Benoit Mortier <benoit.mortier@fusiondirectory.org>
   Butracking, QA, French translation
 
 * Igor Muratov <migor@altlinux.org>
@@ -187,7 +187,7 @@ documentation and additional help.
 * Martin Hamant <mh@ow2.org>
   Coded the LockUser fonction for the webservice
   
-* Jonathan Swaelens <jonathan@opensides.be>
+* Jonathan Swaelens <jonathan.swaelens@fusiondirectory.org>
   QA on FusionDirectory
   RPM packaging maintener and ArchLinux Packager
   
@@ -201,7 +201,7 @@ documentation and additional help.
 * Thomas Niercke <thomas@niercke.de>
   Code and ideas for making Argonaut Events Extensible
   
-* Paola Penati <paolapenati@hotmail.com>
+* Paola Penati <paola.penati@fusiondirectory.org>
   Italian translation of FusionDirectory and the website
 
 * Martin Hamant <mh@ow2.org>
@@ -221,3 +221,17 @@ documentation and additional help.
 
 * Renato Ramonda
   Support for SSH ed25519 keys
+
+* Judicael Courant <judicael.courant@orange.com>
+  Weak random generator use in fusiondirectory-setup
+
+* Sinan Sekerci - Dreamlab
+  Security Audit of FusionDirectory
+  Full Path Disclosure
+  Cross-Site Scripting (XSS)
+  Arbitrary File Access (PNG files only)
+
+* Manuel Pellegrinet <manuel.pellegrinet@yoroi.company>
+  Security Audit of FusionDirectory
+  Cross-Site Scripting (XSS)
+  Improper session handling
