@@ -3273,7 +3273,7 @@ Fonctionality removed
 To improve this piece of software, please report all kind of errors using the bug tracker
 on https://gitlab.fusiondirectory.org
 
-Documentation: https://fusiondirectory-user-manual.readthedocs.io/en/1.3/index.html
+Documentation: https://fusiondirectory-user-manual.readthedocs.io/en/1.4/index.html
 Mailinglist:   https://lists.fusiondirectory.org/
 Irc:           #fusiondirectory on libera.chat
 
