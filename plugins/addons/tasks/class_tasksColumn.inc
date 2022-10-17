@@ -32,8 +32,8 @@ class TasksColumn extends Column
     } else {
       switch ($this->attributes[0]) {
         case 'fdTasksStatus':
-          return static::filterStatus($value);
-        
+          return static::filterStatus(intval($value));
+
         case 'fdTasksMailObject':
           return "Mail Object";
 
@@ -45,7 +45,6 @@ class TasksColumn extends Column
 
   static function filterStatus (int $status = NULL): string
   {
-
     // A call towards a status map would be interesting here.
     switch ($status) {
       case 1 :
@@ -58,19 +57,6 @@ class TasksColumn extends Column
         return "Error Encountered";
 
     }
-  }
-
-  // Not used for now
-  // Find a key value in multi dimensionnal array (multi unknown levels).
-  static function in_array_r($needle, $haystack, $strict = FALSE) 
-  {
-    foreach ($haystack as $item) {
-      if (($strict ? $item === $needle : $item == $needle) || (is_array($item) && in_array_r($needle, $item, $strict))) {
-        return true;
-      }
-    }
-
-    return false;
   }
 
 }
