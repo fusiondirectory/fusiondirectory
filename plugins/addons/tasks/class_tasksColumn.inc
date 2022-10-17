@@ -37,6 +37,12 @@ class TasksColumn extends Column
         case 'fdTasksMailObject':
           return "Mail Object";
 
+        case 'fdTasksScheduleDate':
+          // Z is added to value to match ldap generaliseztime
+          $datetime = (new LdapGeneralizedTime)->fromString($value.'Z');
+          $result = $datetime->format('Y-m-d H:i:s');
+          return $result;
+
         default:
           return parent::renderSingleValue($entry, $value);
       }
