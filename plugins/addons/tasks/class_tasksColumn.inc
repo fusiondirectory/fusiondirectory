@@ -24,39 +24,45 @@
  */
 class TasksColumn extends Column
 {
+  // Keep in mind this method is being called for each value.
   protected function renderSingleValue (ListingEntry $entry, string $value): string
   {
     if ($value == '') {
       return '&nbsp;';
     } else {
-      print_r($this->attributes);
       switch ($this->attributes[0]) {
         case 'fdTasksStatus':
-          return static::filterStatus();
+          return static::filterStatus($value);
         
         case 'fdTasksMailObject':
-          return static::filterType();
-        
+          return "Mail Object";
+
         default:
           return parent::renderSingleValue($entry, $value);
       }
     }
   }
 
-  static function filterStatus (): string
+  static function filterStatus (int $status = NULL): string
   {
 
-    $status = "test_status";
-    return $status;
+    // A call towards a status map would be interesting here.
+    switch ($status) {
+      case 1 :
+        return "Created";
+
+      case 2 :
+        return "Processed";
+
+      default :
+        return "Error Encountered";
+
+    }
   }
 
-  static function filtertype (): string
-  {
-    $type ="test_type";
-    return $type;
-  }
-
-  static function in_array_r($needle, $haystack, $strict = false) 
+  // Not used for now
+  // Find a key value in multi dimensionnal array (multi unknown levels).
+  static function in_array_r($needle, $haystack, $strict = FALSE) 
   {
     foreach ($haystack as $item) {
       if (($strict ? $item === $needle : $item == $needle) || (is_array($item) && in_array_r($needle, $item, $strict))) {
