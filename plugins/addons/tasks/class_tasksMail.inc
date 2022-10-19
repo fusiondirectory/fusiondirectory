@@ -137,7 +137,6 @@ class tasksMail extends simplePlugin
         }
       }
       $this->attributesAccess['fdTasksEmailsFromDN']->setValue(array_values($mailList));
-      print_r($mailList);
     }
   }
 
