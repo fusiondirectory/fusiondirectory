@@ -76,6 +76,7 @@ create_phpstan_rapport:
     - git clone --depth 1 https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
     - composer global require phpstan/phpstan=0.12.94
     - cp ../dev-tools/phpstan/fusiondirectory/1.4-dev/*.neon .
+    - composer global require phpstan/phpstan=0.12.94
     - /root/.composer/vendor/bin/phpstan analyse -c phpstan.neon
 
 # fusiondirectory-update-locale
@@ -131,3 +132,4 @@ trigger-plugins:
   trigger:
     project: fusiondirectory/fd-plugins
     branch: $CI_COMMIT_REF_NAME
+
