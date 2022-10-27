@@ -19,7 +19,7 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class tasksGranular extends tasks
+class tasksGranular extends simplePlugin
 {
 
   static function plInfo (): array
@@ -27,11 +27,11 @@ class tasksGranular extends tasks
     return [
       'plShortName'   => _('Tasks Granular'),
       'plDescription' => _('Granular tasks mangement allowing details reports'),
-      'plObjectClass' => ['fdTasks'],
-      'plFilter'      => '(objectClass=fdTasks)',
+      'plObjectClass' => ['fdTasksGranular'],
+      'plFilter'      => '(objectClass=fdTasksGranular)',
       'plPriority'    => 41,
       'plObjectType'  => ['tasksGranular' => [
-        'name'        => _('Tasks'),
+        'name'        => _('TasksGranular'),
         'ou'          => get_ou('tasksRDN'),
         'icon'        => 'geticon.php?context=applications&icon=dsa&size=16',
       ]],
@@ -43,41 +43,23 @@ class tasksGranular extends tasks
   {
     return [
       // Attributes are grouped by section
-      'tasks' => [
-        'name'  => _('List of sub tasks'),
+      'tasksGranular' => [
+        'name'  => _('Tasks Granular'),
         'attrs' => [
-        new StringAttribute(
-          _('Task Name'), _('Name for this task'),
-          'cn', TRUE
-        ),
-         new DateTimeAttribute(
+          new StringAttribute(
+            _('Task Granular Name'), _('Name for this task'),
+            'cn', TRUE
+          ),
+          new HiddenAttribute('fdTasksGranularStatus', TRUE, '1', '', 'Status', 'Status of the task'),
+          new HiddenAttribute('fdTasksGranularMaster', TRUE, '', '', 'Master CN', 'Name of the Master task'),
+          new HiddenAttribute('fdTasksGranularType', TRUE, '', '', 'Type', 'Type of the task'),
+          new HiddenAttribute('fdTasksGranularMail', TRUE, '', '', 'Mail', 'Mail of the task'),
+          new DateTimeAttribute(
            _('Schedule'), '',
-           'fdTasksScheduleDate', FALSE
-           ),
-        new HiddenAttribute('fdTasksStatus', TRUE, '1', '', 'Status', 'Status of the task'),
-        new HiddenAttribute('fdTasksCreationDate', TRUE, date("Y-m-d h:i:sa"), '', 'StartDate', 'Start Date And Time Of A Task'),
-        new SetAttribute(
-          new CompositeAttribute(
-            _('Macro definitions'),
-            'fdSubTasks',
-            [
-              new SelectAttribute(
-                '', _('Macro type'),
-                'fdSubTasks', TRUE
-              ),
-             new StringAttribute(
-                _('Macros User Definition'), _('Macro that will be used'),
-                'fdSubTasks', TRUE, ''
-              ),
-            ],
-            '/^{(.+)}(.*)$/',
-            '{%s}%s',
-            '',
-            _('To be defined properly')
+           'fdTasksGranularSchedule', FALSE
           )
-        ),
         ]
-      ],
+      ]
     ];
   }
 
@@ -86,13 +68,9 @@ class tasksGranular extends tasks
     global $config;
     parent::__construct($dn, $object, $parent, $mainTab);
 
-    // As this class inherit from tasks, attributes must not be seen or be modifiable
-    $this->attributesAccess['cn']->setVisible(FALSE);
-    $this->attributesAccess['fdTasksScheduleDate']->setVisible(FALSE);
-    $this->read_only = TRUE;
-
+    $this->attributesAccess['fdTasksGranularMaster']->setValue('testMaster');
+    $this->attributesAccess['fdTasksGranularType']->setValue('testType');
+    $this->attributesAccess['fdTasksGranularMail']->setValue('testMail');
   }
-
-
 
 }

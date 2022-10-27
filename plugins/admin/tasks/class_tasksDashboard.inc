@@ -18,18 +18,17 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class tasksDashboard extends tasksManagement
+class tasksDashboard extends management
 {
 
   // Actions collumn are removed compared to parent
   public static $columns = [
     ['LinkColumn',  ['attributes' => 'cn', 'label' => 'Tasks']],
-    //below fdTasksMailObject must be change to have a type defined within task creation (new ldap attributes ?hidden)
-    ['TasksColumn', ['attributes' => 'fdTasksMailObject', 'label' => 'Types']],
-    ['TasksColumn', ['attributes' => 'fdTasksScheduleDate', 'label' => 'Schedule']],
-    //below fdTasksStatus attribute needs to be calculated based on the type of the task.
-    ['TasksColumn', ['attributes' => 'fdTasksStatus', 'label' => 'Status']],
-    ['Column', ['attributes' => 'fdTasksCreationDate', 'label' => 'Creation Date']]
+    ['Column', ['attributes' => 'fdTasksGranularMaster', 'label' => 'Master Task']],
+    ['Column', ['attributes' => 'fdTasksGranularType', 'label' => 'Types']],
+    ['Column', ['attributes' => 'fdTasksGranularMail', 'label' => 'Email']],
+    ['Column', ['attributes' => 'fdTasksGranularSchedule', 'label' => 'Schedule']],
+    ['Column', ['attributes' => 'fdTasksGranularStatus', 'label' => 'Status']],
   ];
 
   // No modification tools are required

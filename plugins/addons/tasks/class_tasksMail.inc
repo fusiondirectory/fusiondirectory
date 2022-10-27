@@ -56,7 +56,7 @@ class tasksMail extends simplePlugin
             'fdTasksMailObject', FALSE
           ),
           new HiddenArrayAttribute('fdTasksEmailsFromDN', FALSE, ''),
-          ]
+        ]
       ],
       'From Component' => [
         'name'  => _('Sender Address'),
@@ -93,7 +93,6 @@ class tasksMail extends simplePlugin
     }
     asort($tmpSearch);
     $this->attributesAccess['fdTasksMailObject']->setChoices(array_keys($tmpSearch), array_values($tmpSearch));
-
   }
 
   /*
@@ -140,4 +139,49 @@ class tasksMail extends simplePlugin
     }
   }
 
+  function save (): array
+  {
+    $this->generateSlaveTasks();
+
+    $errors = parent::save();
+    return $errors;
+  }
+
+  public function generateSlaveTasks () : void
+  {
+    $tabobject = objects::create('TasksGranular');
+    $infos = objects::infos('TasksGranular');
+    $emails = $this->attributesAccess['fdTasksEmailsFromDN']->getValue();
+
+    // Testing purposes
+    $id = 1;
+
+    if (isset($emails) && !empty($emails)) {
+      foreach ($emails as $email) {
+        $id += $id;
+        $values['tasksGranular'] = [
+          "cn" => "testCN-.$id",
+          "fdTasksGranularType" => 'Mail Object',
+        ];
+
+        foreach ($values as $tab => $tabvalues) {
+          if (!isset($tabobject->by_object[$tab])) {
+              echo "Error tabObject by object tab is not set";
+          }
+            $error = $tabobject->by_object[$tab]->deserializeValues($tabvalues);
+          if ($error !== TRUE) {
+            echo $error;
+          }
+
+            $tabobject->current = $tab;
+            $tabobject->update();
+            $tabobject->loadTabs();
+        }
+        $errors = $tabobject->save();
+        if (!empty($errors)) {
+            print_r($errors);
+        }
+      }
+    }
+  }
 }
