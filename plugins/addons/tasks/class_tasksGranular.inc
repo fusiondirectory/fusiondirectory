@@ -53,7 +53,9 @@ class tasksGranular extends simplePlugin
           new HiddenAttribute('fdTasksGranularStatus', TRUE, '1', '', 'Status', 'Status of the task'),
           new HiddenAttribute('fdTasksGranularMaster', TRUE, '', '', 'Master CN', 'Name of the Master task'),
           new HiddenAttribute('fdTasksGranularType', TRUE, '', '', 'Type', 'Type of the task'),
-          new HiddenAttribute('fdTasksGranularMail', TRUE, '', '', 'Mail', 'Mail of the task'),
+          new MailAttribute(
+             _('Email'),
+             _('Email address which will be sent to'), 'fdTasksGranularMail', TRUE),
           new DateTimeAttribute(
            _('Schedule'), '',
            'fdTasksGranularSchedule', FALSE
@@ -67,10 +69,6 @@ class tasksGranular extends simplePlugin
   {
     global $config;
     parent::__construct($dn, $object, $parent, $mainTab);
-
-    $this->attributesAccess['fdTasksGranularMaster']->setValue('testMaster');
-    $this->attributesAccess['fdTasksGranularType']->setValue('testType');
-    $this->attributesAccess['fdTasksGranularMail']->setValue('testMail');
   }
 
 }

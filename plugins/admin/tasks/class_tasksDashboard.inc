@@ -21,9 +21,9 @@
 class tasksDashboard extends management
 {
 
-  // Actions collumn are removed compared to parent
+  // Actions collumn are removed compared to parent.
   public static $columns = [
-    ['LinkColumn',  ['attributes' => 'cn', 'label' => 'Tasks']],
+    ['Column', ['attributes' => 'cn', 'label' => 'Tasks']],
     ['Column', ['attributes' => 'fdTasksGranularMaster', 'label' => 'Master Task']],
     ['Column', ['attributes' => 'fdTasksGranularType', 'label' => 'Types']],
     ['Column', ['attributes' => 'fdTasksGranularMail', 'label' => 'Email']],
@@ -31,7 +31,7 @@ class tasksDashboard extends management
     ['Column', ['attributes' => 'fdTasksGranularStatus', 'label' => 'Status']],
   ];
 
-  // No modification tools are required
+  // No modification tools are required.
   protected $skipCpHandler        = TRUE;
   public static $skipSnapshots    = TRUE;
   public static $skipTemplates    = TRUE;
@@ -56,15 +56,10 @@ class tasksDashboard extends management
     $this->filter   = new tasksDashboardFilter($this, NULL, $filterElementDefinitions);
   }
 
-  // Allowing us to add additional actions and remove unrequired ones
+  // Allowing us to add additional actions and remove unrequired ones.
   protected function configureActions ()
   {
-    $this->registerAction(
-      new Action(
-        'edit', _('See Details'), 'geticon.php?context=actions&icon=document-edit&size=16',
-        '+', 'editEntry'
-      )
-    );
+        // Leaving empty as no default action allowed.
   }
   // End of Class
 }
@@ -72,9 +67,5 @@ class tasksDashboard extends management
 // extending the class allows us to remove the rendering of filter.
 class tasksDashboardFilter extends managementFilter
 {
-  function render () : string
-  {
-    // must respect the string return from parent
-    return '';
-  }
+    // Filter will be
 }

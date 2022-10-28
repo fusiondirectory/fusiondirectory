@@ -147,39 +147,62 @@ class tasksMail extends simplePlugin
     return $errors;
   }
 
-  public function generateSlaveTasks () : void
+  /*
+   * Generate slave tasks, carefull that main task cannot be changed cause subtasks are not updated (for now).
+   */
+  public function generateSlaveTasks ()
   {
-    $tabobject = objects::create('TasksGranular');
-    $infos = objects::infos('TasksGranular');
     $emails = $this->attributesAccess['fdTasksEmailsFromDN']->getValue();
+    // Incremental id allowing creation of different CN for sub tasks
+    $id = 0;
 
-    // Testing purposes
-    $id = 1;
+    // Verification of set attributes required for granular tasks.
+    if ( isset($this->attrs['fdTasksScheduleDate'][0]) && !empty($this->attrs['fdTasksScheduleDate'][0]) ) {
+      $schedule = $this->attrs['fdTasksScheduleDate'][0];
+    } else {
+            // testing purposes.
+            $schedule = '20222222222200';
+    }
 
     if (isset($emails) && !empty($emails)) {
       foreach ($emails as $email) {
-        $id += $id;
+        // Here we create the object taskGranular
+        $tabobject = objects::create('TasksGranular');
+
+                // remove 'dn' keeping only 'cn'
+        $rmDn = preg_replace('/(?=,).*/', '', $this->dn);
+                // only take the cn without dc
+        preg_match('/cn=(.*)/', $rmDn, $matches);
+                $subTaskName = $matches[1].'-SubTask-'.$id;
+        $id ++;
+
         $values['tasksGranular'] = [
-          "cn" => "testCN-.$id",
-          "fdTasksGranularType" => 'Mail Object',
+          "cn"                      => $subTaskName,
+          "fdTasksGranularType"     => 'Mail Object',
+          "fdTasksGranularMaster"   => $this->dn,
+          "fdTasksGranularMail"     => $email,
+          "fdTasksGranularSchedule" => $schedule,
         ];
 
         foreach ($values as $tab => $tabvalues) {
           if (!isset($tabobject->by_object[$tab])) {
-              echo "Error tabObject by object tab is not set";
+            echo "Error tab does not contains attributes values" .PHP_EOL;
           }
-            $error = $tabobject->by_object[$tab]->deserializeValues($tabvalues);
+          $error = $tabobject->by_object[$tab]->deserializeValues($tabvalues);
           if ($error !== TRUE) {
-            echo $error;
+            echo 'Error deserailizing' .PHP_EOL;
           }
 
-            $tabobject->current = $tab;
-            $tabobject->update();
-            $tabobject->loadTabs();
+          $tabobject->current = $tab;
+          $tabobject->update();
+          $tabobject->loadTabs();
         }
+
         $errors = $tabobject->save();
         if (!empty($errors)) {
-            print_r($errors);
+            Throw new FusionDirectoryError(
+                        htmlescape(sprintf( _('SubTasks DN already exist ! You cannot modify a saved task !')))
+                    );
         }
       }
     }
