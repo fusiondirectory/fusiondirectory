@@ -34,14 +34,21 @@ class TasksColumn extends Column
         case 'fdTasksStatus':
           return static::filterStatus(intval($value));
 
+        case 'fdTasksGranularStatus':
+          return static::filterStatus(intval($value));
+
+        // This case needs optimization
         case 'fdTasksMailObject':
           return "Mail Object";
 
         case 'fdTasksScheduleDate':
-          // Z is added to value to match ldap generaliseztime
-          $datetime = (new LdapGeneralizedTime)->fromString($value.'Z');
-          $result = $datetime->format('Y-m-d H:i:s');
-          return $result;
+          return static::generateDateFormat($value);
+
+        case 'fdTasksGranularSchedule':
+          return static::generateDateFormat($value);
+
+        case 'fdTasksGranularMaster':
+          return static::generateMasterTaskName($value);
 
         default:
           return parent::renderSingleValue($entry, $value);
@@ -61,8 +68,25 @@ class TasksColumn extends Column
 
       default :
         return "Error Encountered";
-
     }
+  }
+
+  static function generateDateFormat ($value) : string
+  {
+    // Z is added to value to match ldap generaliseztime
+    $datetime = (new LdapGeneralizedTime)->fromString($value.'Z');
+    $result = $datetime->format('Y-m-d H:i:s');
+    return $result;
+  }
+
+  static function generateMasterTaskName ($value) : string
+  {
+    // remove 'dn' keeping only 'cn'
+    $rmDn = preg_replace('/(?=,).*/', '', $value);
+    // only take the cn without dc
+    preg_match('/cn=(.*)/', $rmDn, $matches);
+
+    return $matches[1];
   }
 
 }

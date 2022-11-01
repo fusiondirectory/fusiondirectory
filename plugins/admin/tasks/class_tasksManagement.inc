@@ -21,7 +21,9 @@
 class tasksManagement extends management
 {
 
-  /*
+  protected $skipCpHandler    = TRUE;
+
+    /*
   *  LinkColumn exists by class collumn
   *  TasksColumn is a new class for Tasks bassed on argonaut column definition
   */
@@ -54,7 +56,6 @@ class tasksManagement extends management
   {
     /* Set baseMode to FALSE */
     $this->listing  = new managementListing($this, FALSE);
-
   }
 
 }

@@ -39,6 +39,12 @@ class tasksGranular extends simplePlugin
     ];
   }
 
+  /*
+   * Info : getAttributesInfo return is important for the management class.
+   * It is the return of that method which render the columns and data properly.
+   * Although not used by the interface directly, it is created by simpleTab during
+   * the save of mailTasks.
+   */
   static function getAttributesInfo (): array
   {
     return [

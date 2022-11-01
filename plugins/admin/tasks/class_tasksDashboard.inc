@@ -24,18 +24,17 @@ class tasksDashboard extends management
   // Actions collumn are removed compared to parent.
   public static $columns = [
     ['Column', ['attributes' => 'cn', 'label' => 'Tasks']],
-    ['Column', ['attributes' => 'fdTasksGranularMaster', 'label' => 'Master Task']],
+    ['TasksColumn', ['attributes' => 'fdTasksGranularMaster', 'label' => 'Master Task']],
     ['Column', ['attributes' => 'fdTasksGranularType', 'label' => 'Types']],
     ['Column', ['attributes' => 'fdTasksGranularMail', 'label' => 'Email']],
-    ['Column', ['attributes' => 'fdTasksGranularSchedule', 'label' => 'Schedule']],
-    ['Column', ['attributes' => 'fdTasksGranularStatus', 'label' => 'Status']],
+    ['TasksColumn', ['attributes' => 'fdTasksGranularSchedule', 'label' => 'Schedule']],
+    ['TasksColumn', ['attributes' => 'fdTasksGranularStatus', 'label' => 'Status']],
   ];
 
   // No modification tools are required.
   protected $skipCpHandler        = TRUE;
   public static $skipSnapshots    = TRUE;
   public static $skipTemplates    = TRUE;
-  protected $skipConfiguration    = TRUE;
 
   static function plInfo ()
   {
@@ -59,7 +58,7 @@ class tasksDashboard extends management
   // Allowing us to add additional actions and remove unrequired ones.
   protected function configureActions ()
   {
-        // Leaving empty as no default action allowed.
+    // Leaving empty as no default action allowed.
   }
   // End of Class
 }
@@ -67,5 +66,5 @@ class tasksDashboard extends management
 // extending the class allows us to remove the rendering of filter.
 class tasksDashboardFilter extends managementFilter
 {
-    // Filter will be
+    // Filter will be set soon
 }

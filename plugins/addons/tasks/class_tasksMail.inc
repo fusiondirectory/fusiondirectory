@@ -148,7 +148,8 @@ class tasksMail extends simplePlugin
   }
 
   /*
-   * Generate slave tasks, carefull that main task cannot be changed cause subtasks are not updated (for now).
+   * Generate slave tasks, carefull that main task cannot be changed cause subtasks are not updated.
+   * It would be dangerous to edit subs tasks if some are under processed already.
    */
   public function generateSlaveTasks ()
   {
@@ -156,25 +157,23 @@ class tasksMail extends simplePlugin
     // Incremental id allowing creation of different CN for sub tasks
     $id = 0;
 
-    // Verification of set attributes required for granular tasks.
-    if ( isset($this->attrs['fdTasksScheduleDate'][0]) && !empty($this->attrs['fdTasksScheduleDate'][0]) ) {
-      $schedule = $this->attrs['fdTasksScheduleDate'][0];
-    } else {
-            // testing purposes.
-            $schedule = '20222222222200';
-    }
+    // Take the attribute from the other tabs - attribute cannot be null or unset by default
+    $schedule = $this->parent->getBaseObject()->fdTasksScheduleDate ?? NULL;
 
     if (isset($emails) && !empty($emails)) {
       foreach ($emails as $email) {
+        $id ++;
+
         // Here we create the object taskGranular
         $tabobject = objects::create('TasksGranular');
 
-                // remove 'dn' keeping only 'cn'
+        // remove 'dn' keeping only 'cn'
         $rmDn = preg_replace('/(?=,).*/', '', $this->dn);
-                // only take the cn without dc
+
+        // only take the cn without dc
         preg_match('/cn=(.*)/', $rmDn, $matches);
-                $subTaskName = $matches[1].'-SubTask-'.$id;
-        $id ++;
+
+        $subTaskName = $matches[1].'-SubTask-'.$id;
 
         $values['tasksGranular'] = [
           "cn"                      => $subTaskName,
@@ -190,7 +189,7 @@ class tasksMail extends simplePlugin
           }
           $error = $tabobject->by_object[$tab]->deserializeValues($tabvalues);
           if ($error !== TRUE) {
-            echo 'Error deserailizing' .PHP_EOL;
+            echo 'Error during deserializing' .$error .PHP_EOL;
           }
 
           $tabobject->current = $tab;
@@ -200,9 +199,8 @@ class tasksMail extends simplePlugin
 
         $errors = $tabobject->save();
         if (!empty($errors)) {
-            Throw new FusionDirectoryError(
-                        htmlescape(sprintf( _('SubTasks DN already exist ! You cannot modify a saved task !')))
-                    );
+          $show_error = new SimplePluginError($this, htmlescape(sprintf(_('Error : "%s", already exist ! Editing existing tasks is forbidden.'), $subTaskName)));
+          $show_error->display();
         }
       }
     }

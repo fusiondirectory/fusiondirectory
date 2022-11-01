@@ -45,7 +45,7 @@ class tasks extends simplePlugin
     return [
       // Attributes are grouped by section
       'tasks' => [
-        'name'  => _('Tasks Generic'),
+        'name'  => _('Tasks Generic | Saving will create un-modifiable subtasks'),
         'attrs' => [
         new StringAttribute(
           _('Task Name'), _('Name for this task'),
