@@ -78,7 +78,7 @@ class tasksDashboard extends management
   function tasksRenew (array $action)
   {
     foreach ((array)$action['targets'] as $dn) {
-      $this->tasksUpdate($dn, 1);
+      $this->tasksUpdate($dn);
     }
   }
 
