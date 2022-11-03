@@ -165,7 +165,7 @@ class tasksMail extends simplePlugin
         $id ++;
 
         // Here we create the object taskGranular
-        $tabobject = objects::create('TasksGranular');
+        $tabObject = objects::create('TasksGranular');
 
         // remove 'dn' keeping only 'cn'
         $rmDn = preg_replace('/(?=,).*/', '', $this->dn);
@@ -184,20 +184,20 @@ class tasksMail extends simplePlugin
         ];
 
         foreach ($values as $tab => $tabvalues) {
-          if (!isset($tabobject->by_object[$tab])) {
+          if (!isset($tabObject->by_object[$tab])) {
             echo "Error tab does not contains attributes values" .PHP_EOL;
           }
-          $error = $tabobject->by_object[$tab]->deserializeValues($tabvalues);
+          $error = $tabObject->by_object[$tab]->deserializeValues($tabvalues);
           if ($error !== TRUE) {
             echo 'Error during deserializing' .$error .PHP_EOL;
           }
 
-          $tabobject->current = $tab;
-          $tabobject->update();
-          $tabobject->loadTabs();
+          $tabObject->current = $tab;
+          $tabObject->update();
+          $tabObject->loadTabs();
         }
 
-        $errors = $tabobject->save();
+        $errors = $tabObject->save();
         if (!empty($errors)) {
           $show_error = new SimplePluginError($this, htmlescape(sprintf(_('Error : "%s", already exist ! Editing existing tasks is forbidden.'), $subTaskName)));
           $show_error->display();

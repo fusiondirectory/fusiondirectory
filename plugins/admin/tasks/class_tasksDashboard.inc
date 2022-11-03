@@ -29,6 +29,7 @@ class tasksDashboard extends management
     ['Column', ['attributes' => 'fdTasksGranularMail', 'label' => 'Email']],
     ['TasksColumn', ['attributes' => 'fdTasksGranularSchedule', 'label' => 'Schedule']],
     ['TasksColumn', ['attributes' => 'fdTasksGranularStatus', 'label' => 'Status']],
+    ['ActionsColumn',          ['label' => 'Actions']],
   ];
 
   // No modification tools are required.
@@ -52,14 +53,54 @@ class tasksDashboard extends management
 
   protected function setUpFilter (array $filterElementDefinitions)
   {
-    $this->filter   = new tasksDashboardFilter($this, NULL, $filterElementDefinitions);
+    $this->filter = new tasksDashboardFilter($this, NULL, $filterElementDefinitions);
   }
 
   // Allowing us to add additional actions and remove unrequired ones.
   protected function configureActions ()
   {
-    // Leaving empty as no default action allowed.
+    $this->registerAction(
+    new Action(
+        'tasksRenew',
+        _('Renew the selected task'),
+        'geticon.php?context=actions&icon=view-refresh&size=16',
+        '+',
+        'tasksRenew'
+        )
+    );
+
+    $this->actions['tasksRenew']->setSeparator(TRUE);
+    $this->actions['tasksRenew']->setEnableFunction([$this, 'setTasksActionStatus']);
+
   }
+
+  // This method is triggered by the user action click on tasksRenew
+  function tasksRenew (array $action)
+  {
+    foreach ((array)$action['targets'] as $dn) {
+      $this->tasksUpdate($dn, 1);
+    }
+  }
+
+  function tasksUpdate ($dn)
+  {
+    $tabObject    = objects::open($dn, 'tasksGranular');
+    $tabObject->by_object['tasksGranular']->attributesAccess['fdTasksGranularStatus']->setValue(1);
+    $errors = $tabObject->save();
+
+    if (!empty($errors)) {
+      $show_error = new SimplePluginError($this, htmlescape(sprintf(_('Error updating: "%s" !.'), $dn)));
+      $show_error->display();
+    }
+  }
+
+  // This method is triggered during initiation of the dashboard, allowing proper icons status
+  function setTasksActionStatus () : BOOL
+  {
+    echo "setTasksActionStatus" .PHP_EOL;
+    return  TRUE;
+  }
+
   // End of Class
 }
 
