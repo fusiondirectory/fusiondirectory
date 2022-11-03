@@ -97,7 +97,6 @@ class tasksDashboard extends management
   // This method is triggered during initiation of the dashboard, allowing proper icons status
   function setTasksActionStatus () : BOOL
   {
-    echo "setTasksActionStatus" .PHP_EOL;
     return  TRUE;
   }
 

@@ -141,7 +141,11 @@ class tasksMail extends simplePlugin
 
   function save (): array
   {
-    $this->generateSlaveTasks();
+    $execTasks = $this->parent->getBaseObject()->fdSubTasksActivation ?? NULL;
+
+    if ($execTasks) {
+      $this->generateSlaveTasks();
+    }
 
     $errors = parent::save();
     return $errors;

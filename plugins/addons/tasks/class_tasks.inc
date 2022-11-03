@@ -60,6 +60,15 @@ class tasks extends simplePlugin
         new HiddenAttribute('fdTasksCreationDate', TRUE, date("Y-m-d h:i:sa"), '', 'StartDate', 'Start Date And Time Of A Task'),
         ]
       ],
+      'subTasks' => [
+        'name' => _('Creation of Sub Tasks - Starting this task'),
+        'attrs' => [
+          new BooleanAttribute(
+            _('Activate SubTasks'), _('Trigger the creation of this task and related subtasks'),
+            'fdSubTasksActivation', FALSE
+          ),
+        ]
+            ],
     ];
   }
 
@@ -69,6 +78,7 @@ class tasks extends simplePlugin
     global $config;
     parent::__construct($dn, $object, $parent, $mainTab);
 
+    $this->attributesAccess['fdSubTasksActivation']->setInLdap(FALSE);
   }
 
 }
