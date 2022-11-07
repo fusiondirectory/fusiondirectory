@@ -21,6 +21,14 @@
 class tasksDashboard extends management
 {
 
+  function __construct ($objectTypes = FALSE, array $filterElementDefinitions = [['TabFilterElement',    []],])
+  {
+    parent::__construct($objectTypes, $filterElementDefinitions);
+
+    // Alllow the creation of custom filtering
+    $this->setupFilters();
+  }
+
   // Actions collumn are removed compared to parent.
   public static $columns = [
     ['Column', ['attributes' => 'cn', 'label' => 'Tasks']],
@@ -49,11 +57,6 @@ class tasksDashboard extends management
       'plManages'     => ['tasksGranular'],
       'plProvidedAcls' => [],
     ];
-  }
-
-  protected function setUpFilter (array $filterElementDefinitions)
-  {
-    $this->filter = new tasksDashboardFilter($this, NULL, $filterElementDefinitions);
   }
 
   // Allowing us to add additional actions and remove unrequired ones.
@@ -100,11 +103,33 @@ class tasksDashboard extends management
     return  TRUE;
   }
 
+  function setupFilters ()
+  {
+    // array of states allowing proper filtering
+    $status    = [
+      'Completed'    => [
+        'name'        => 'Completed tasks',
+        'filter'      => '(fdTasksGranularStatus=2)',
+        'icon'        => 'geticon.php?context=actions&icon=add&size=16',
+      ],
+      'Scheduled'    => [
+        'name'        => 'Scheduled tasks',
+        'filter'      => '(fdTasksGranularStatus=1)',
+        'icon'        => 'geticon.php?context=actions&icon=system-update&size=16',
+      ],
+      'Failed'    => [
+        'name'      => 'Failed tasks',
+        // filter status must be updated if the status strategy changes
+        'filter'    => '(!(|(fdTasksGranularStatus=1)(fdTasksGranularStatus=2)))',
+        'icon'      => 'geticon.php?context=actions&icon=remove&size=16',
+      ],
+    ];
+
+    $this->filter->addElement(new CheckBoxesFilterElement($this->filter, _('Status'), $status, '|'));
+  }
+
   // End of Class
 }
 
-// extending the class allows us to remove the rendering of filter.
-class tasksDashboardFilter extends managementFilter
-{
-    // Filter will be set soon
-}
+
+
