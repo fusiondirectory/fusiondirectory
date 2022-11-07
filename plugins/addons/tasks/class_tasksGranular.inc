@@ -59,9 +59,13 @@ class tasksGranular extends simplePlugin
           new HiddenAttribute('fdTasksGranularStatus', TRUE, '1', '', 'Status', 'Status of the task'),
           new HiddenAttribute('fdTasksGranularMaster', TRUE, '', '', 'Master CN', 'Name of the Master task'),
           new HiddenAttribute('fdTasksGranularType', TRUE, '', '', 'Type', 'Type of the task'),
+          new HiddenAttribute('fdTasksGranularRef', TRUE, '', '', 'Type', 'Reference towards a required CN (mail template E.g'),
           new MailAttribute(
              _('Email'),
              _('Email address which will be sent to'), 'fdTasksGranularMail', TRUE),
+          new MailAttribute(
+             _('Email'),
+             _('Email address which will be sent from'), 'fdTasksGranularMailFrom', TRUE),
           new DateTimeAttribute(
            _('Schedule'), '',
            'fdTasksGranularSchedule', FALSE

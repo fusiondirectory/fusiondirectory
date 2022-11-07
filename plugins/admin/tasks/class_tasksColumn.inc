@@ -32,10 +32,10 @@ class TasksColumn extends Column
     } else {
       switch ($this->attributes[0]) {
         case 'fdTasksStatus':
-          return static::filterStatus(intval($value));
+          return static::filterStatus($value);
 
         case 'fdTasksGranularStatus':
-          return static::filterStatus(intval($value));
+          return static::filterStatus($value);
 
         // This case needs optimization
         case 'fdTasksMailObject':
@@ -56,18 +56,18 @@ class TasksColumn extends Column
     }
   }
 
-  static function filterStatus (int $status = NULL): string
+  static function filterStatus (string $status = NULL): string
   {
     // A call towards a status map would be interesting here.
     switch ($status) {
-      case 1 :
+      case "1" :
         return "Created";
 
-      case 2 :
+      case "2" :
         return "Processed";
 
       default :
-        return "Error Encountered";
+        return $status;
     }
   }
 

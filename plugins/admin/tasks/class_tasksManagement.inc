@@ -31,10 +31,8 @@ class tasksManagement extends management
     ['LinkColumn',  ['attributes' => 'cn', 'label' => 'Tasks']],
     //below fdTasksMailObject must be change to have a type defined within task creation (new ldap attributes ?hidden)
     ['TasksColumn', ['attributes' => 'fdTasksMailObject', 'label' => 'Types']],
-    ['TasksColumn', ['attributes' => 'fdTasksScheduleDate', 'label' => 'Schedule']],
-    //below fdTasksStatus attribute needs to be calculated based on the type of the task.
-    ['TasksColumn', ['attributes' => 'fdTasksStatus', 'label' => 'Status']],
     ['Column', ['attributes' => 'fdTasksCreationDate', 'label' => 'Creation Date']],
+    ['TasksColumn', ['attributes' => 'fdTasksScheduleDate', 'label' => 'Scheduled']],
     ['ActionsColumn', ['label' => 'Actions']],
   ];
 

@@ -158,6 +158,9 @@ class tasksMail extends simplePlugin
   public function generateSlaveTasks ()
   {
     $emails = $this->attributesAccess['fdTasksEmailsFromDN']->getValue();
+    // Ref is supposed to be the mail object CN in this class
+    $ref  = $this->attributesAccess['fdTasksMailObject']->getValue();
+    $from = $this->attributesAccess['fdTasksEmailSender']->getValue();
     // Incremental id allowing creation of different CN for sub tasks
     $id = 0;
 
@@ -185,6 +188,8 @@ class tasksMail extends simplePlugin
           "fdTasksGranularMaster"   => $this->dn,
           "fdTasksGranularMail"     => $email,
           "fdTasksGranularSchedule" => $schedule,
+          "fdTasksGranularRef"      => $ref,
+          "fdTasksGranularMailFrom" => $from
         ];
 
         foreach ($values as $tab => $tabvalues) {
@@ -202,8 +207,9 @@ class tasksMail extends simplePlugin
         }
 
         $errors = $tabObject->save();
+
         if (!empty($errors)) {
-          $show_error = new SimplePluginError($this, htmlescape(sprintf(_('Error : "%s", already exist ! Editing existing tasks is forbidden.'), $subTaskName)));
+          $show_error = new SimplePluginError($this, htmlescape(sprintf(_('Error : "%s", already exist ! Editing existing tasks is forbidden.'), $subTaskName.$errors)));
           $show_error->display();
         }
       }
