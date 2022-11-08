@@ -68,7 +68,7 @@ class tasks extends simplePlugin
             'fdSubTasksActivation', FALSE
           ),
         ]
-            ],
+      ],
     ];
   }
 

@@ -208,8 +208,9 @@ class tasksMail extends simplePlugin
 
         $errors = $tabObject->save();
 
+        // Showing errors should be better, enhancement here required.
         if (!empty($errors)) {
-          $show_error = new SimplePluginError($this, htmlescape(sprintf(_('Error : "%s", already exist ! Editing existing tasks is forbidden.'), $subTaskName.$errors)));
+          $show_error = new SimplePluginError($this, htmlescape(sprintf(_('Error : "%s", already exist ! Editing existing tasks is forbidden.'), $subTaskName)));
           $show_error->display();
         }
       }
