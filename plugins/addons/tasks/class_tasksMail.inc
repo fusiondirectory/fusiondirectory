@@ -74,6 +74,15 @@ class tasksMail extends simplePlugin
             'fdTasksMailUsers', TRUE
           ),
         ],
+      ],
+      'tasksMailType' => [
+        'name'  => _('Type of e-mail address desired'),
+        'attrs' => [
+          new SelectAttribute(
+            _('Mail Type - If not found, priority will apply'), _('Mail Type Object Selection'),
+            'fdTasksMailType', FALSE
+          ),
+        ],
       ]
     ];
   }
@@ -93,6 +102,18 @@ class tasksMail extends simplePlugin
     }
     asort($tmpSearch);
     $this->attributesAccess['fdTasksMailObject']->setChoices(array_keys($tmpSearch), array_values($tmpSearch));
+
+    $mailAttrTypes = [
+      'mail'                      => 'mail - [gosaMailAccount primary]',
+      'gosaMailAlternateAddress'  => 'gosaMailAlternateAddress',
+      'gosaMailForwardingAddress' => 'gosaMailForwardingAddress',
+      'supannAutreMail'           => 'supannAutreMail',
+      'supannMailPerso'           => 'supannMailPerso',
+      'supannMailPrive'           => 'supannMailPrive'
+    ];
+
+    $this->attributesAccess['fdTasksMailType']->setChoices(array_keys($mailAttrTypes), array_values($mailAttrTypes));
+
   }
 
   /*
@@ -102,15 +123,47 @@ class tasksMail extends simplePlugin
   public function update (): bool
   {
     parent::update();
-    $this->setEmailsFromSelectedDN();
+
+    // get the value of type mail desired and if null set default
+    $mailAttr  = $this->attributesAccess['fdTasksMailType']->getValue();
+    if (empty($mailAttr)) {
+      $mailAttr = 'mail';
+    }
+
+    // create a method which return the objectype and attribute names required
+    $mailObject = $this->getMailObject($mailAttr);
+
+    // send the objectype and attrs name to the below method
+    $this->setEmailsFromSelectedDN($mailObject, $mailAttr);
 
     return TRUE;
+  }
+
+  /*
+   * Return the objectype searched for by setEmailFromSelectedDN
+   */
+  public function getMailObject (string $mailAttr) : string
+  {
+    switch ($mailAttr) {
+      case 'mail' :
+      case 'gosaMailAlternateAddress' :
+      case 'gosaMailForwardingAddress':
+        return 'gosaMailAccount';
+
+      case 'supannAutreMail' :
+      case 'supannMailPerso' :
+      case 'supannMailPrive' :
+        return 'supannPerson';
+
+      default :
+        return 'gosaMailAccount';
+    }
   }
 
    /*
    * Populate the fdTasksEmailsFromDN attribute with related mails addresses.
    */
-  public function setEmailsFromSelectedDN () : void
+  public function setEmailsFromSelectedDN ($mailObject, $mailAttr) : void
   {
     global $config;
 
@@ -124,15 +177,19 @@ class tasksMail extends simplePlugin
       foreach ($this->attributesAccess['fdTasksMailUsers']->getValue() as $dn) {
 
         $ldap->cd($dn);
-        $filter = "(objectClass=gosaMailAccount)";
-        $attrs = ["mail"];
+
+        // filter and attributes should be equals to the arguments passed to this method
+        $filter = "(objectClass=$mailObject)";
+        $attrs = [$mailAttr];
 
         $ldap->search($filter, $attrs);
         $info = $ldap->fetch();
 
-        // To be developped properly to take Supann and other Mail attributes into consideration.
-        if (!empty($info["mail"][0]) && isset($info["mail"][0])) {
-          $mailList[] = $info["mail"][0];
+        if (!empty($info[$mailAttr][0]) && isset($info[$mailAttr][0])) {
+          // In case of private supann mail, remove the prefix
+          $mailList[] = preg_replace('/.+?(?=supann)/', '', $info[$mailAttr][0]);
+
+          // A possible enhancement is to recall itself with another mailObject / attr
         }
       }
       $this->attributesAccess['fdTasksEmailsFromDN']->setValue(array_values($mailList));
