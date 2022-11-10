@@ -37,7 +37,7 @@ class tasksDashboard extends management
     ['Column', ['attributes' => 'fdTasksGranularMail', 'label' => 'Email']],
     ['TasksColumn', ['attributes' => 'fdTasksGranularSchedule', 'label' => 'Schedule']],
     ['TasksColumn', ['attributes' => 'fdTasksGranularStatus', 'label' => 'Status']],
-    ['ActionsColumn',          ['label' => 'Actions']],
+    ['ActionsColumn', ['label' => 'Actions']],
   ];
 
   // No modification tools are required.

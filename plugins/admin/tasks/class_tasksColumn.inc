@@ -85,7 +85,6 @@ class TasksColumn extends Column
     $rmDn = preg_replace('/(?=,).*/', '', $value);
     // only take the cn without dc
     preg_match('/cn=(.*)/', $rmDn, $matches);
-
     return $matches[1];
   }
 

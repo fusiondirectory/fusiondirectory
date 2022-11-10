@@ -374,6 +374,28 @@ attributetype ( 1.3.6.1.4.1.38414.89.1.16 NAME 'fdTasksGranularRef'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
   SINGLE-VALUE )
 
+##### Tasks Conf #####
+
+attributetype ( 1.3.6.1.4.1.38414.89.1.17 NAME 'fdTasksRDN'
+  DESC 'FusionDirectory - Tasks RDN'
+  EQUALITY caseExactIA5Match
+  SUBSTR caseExactIA5SubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE)
+
+attributetype ( 1.3.6.1.4.1.38414.89.1.18 NAME 'fdTasksConfLastExecTime'
+	DESC 'Store time of last mail tasks success - secure spam interval'
+  EQUALITY caseExactIA5Match
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+
+attributetype ( 1.3.6.1.4.1.38414.89.1.19 NAME 'fdTasksConfMaxEmails'
+	DESC 'FusionDirectory maximum emails to be processed by Orchestrator - secure spam'
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.27 )
+
+attributetype ( 1.3.6.1.4.1.38414.89.1.20 NAME 'fdTasksConfIntervalEmails'
+	DESC 'FusionDirectory maximum emails to be processed by Orchestrator - secure spam'
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.27 )
+
 ##### Classes #####
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.4 NAME 'gosaDepartment' SUP top AUXILIARY
@@ -473,3 +495,9 @@ objectclass (1.3.6.1.4.1.38414.89.2.3 NAME 'fdTasksGranular'
   DESC 'FusionDirectory - Tasks granular objects'
   MUST ( fdTasksGranularMaster $ cn $ fdTasksGranularMail $ fdTasksGranularMailFrom $ 
   fdTasksGranularRef $ fdTasksGranularType $ fdTasksGranularSchedule $ fdTasksGranularStatus ))
+
+objectclass (1.3.6.1.4.1.38414.89.2.4 NAME 'fdTasksConf'
+  DESC 'FusionDirectory - Tasks objects Configuration'
+  SUP top AUXILIARY
+  MUST ( cn )
+  MAY ( fdTasksRDN $ fdTasksConfLastExecTime $ fdTasksConfMaxEmails $ fdTasksConfIntervalEmails))
