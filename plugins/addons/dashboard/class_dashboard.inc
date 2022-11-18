@@ -35,8 +35,8 @@ class dashboard extends simplePlugin
           'mainAttr'  => FALSE
         ]
       ],
-      'plSection'     => ['reporting' => ['name' => _('Reporting'), 'priority' => 30]],
-      'plPriority'    => 0,
+      'plSection'     => ['reporting' => ['name' => _('Reporting'), 'priority' => 40]],
+      'plPriority'    => 10,
 
       'plProvidedAcls'  => [
         'dashboard' => _('See dashboard')

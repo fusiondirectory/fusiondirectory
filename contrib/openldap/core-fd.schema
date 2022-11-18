@@ -92,8 +92,311 @@ attributetype ( 1.3.6.1.4.1.38414.62.11.4 NAME 'fdSubscriptionContractId'
 attributetype ( 1.3.6.1.4.1.38414.62.11.5 NAME 'fdSubscriptionName'
   DESC 'FusionDirectory - Subscription client name'
   SUP name )
+  
+#Macro Attributes
 
-# Classes
+attributetype ( 1.3.6.1.4.1.38414.90.1.1 NAME 'fdMacroRDN'
+  DESC 'FusionDirectory - Macro RDN'
+  EQUALITY caseExactIA5Match
+  SUBSTR caseExactIA5SubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE)
+
+attributetype ( 1.3.6.1.4.1.38414.90.1.2 NAME 'fdMacroMail'
+  DESC 'FusionDirectory - Macro RDN'
+  EQUALITY octetStringMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.40)
+  SINGLE-VALUE)
+
+attributetype ( 1.3.6.1.4.1.38414.90.1.3 NAME 'fdMacroInvitations'
+  DESC 'FusionDirectory - template mail field'
+  EQUALITY octetStringMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.40)
+
+attributetype ( 1.3.6.1.4.1.38414.90.1.4 NAME 'fdMacroUserRecovery'
+  DESC 'FusionDirectory - template mail field'
+  EQUALITY octetStringMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.40)
+
+attributetype ( 1.3.6.1.4.1.38414.90.1.5 NAME 'fdMacroUserReminder'
+  DESC 'FusionDirectory - template mail field'
+  EQUALITY octetStringMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.40)
+
+### Mail Template Related Attributes ###
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.1 NAME 'fdMailTemplateBody'
+  DESC 'FusionDirectory - template mail field'
+  EQUALITY octetStringMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.40)
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.2 NAME 'fdMailTemplateRDN'
+  DESC 'FusionDirectory - template Mail RDN'
+  EQUALITY caseExactIA5Match
+  SUBSTR caseExactIA5SubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE)
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.3 NAME 'fdMTPasswordRecoveryMailSubject'
+  DESC 'FusionDirectory - template mail field'
+  EQUALITY octetStringMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.40)
+  
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.4 NAME 'fdMTPasswordRecoveryMailBody'
+  DESC 'FusionDirectory - template mail field'
+  EQUALITY octetStringMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.40)
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.5 NAME 'fdMTPasswordRecoveryMail2Subject'
+  DESC 'FusionDirectory - template mail field'
+  EQUALITY octetStringMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.40)
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.6 NAME 'fdMTPasswordRecoveryMail2Body'
+  DESC 'FusionDirectory - template mail field'
+  EQUALITY octetStringMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.40)
+
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.8 NAME 'fdMailTemplateSignature'
+  DESC 'FusionDirectory - template mail field'
+  EQUALITY octetStringMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.40)
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.9 NAME 'fdMailTemplateAttachment'
+  DESC 'FusionDirectory - template mail field'
+  EQUALITY octetStringMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.40)
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.10 NAME 'fdMailTemplateReadReceipt'
+  DESC 'FusionDirectory - template mail field'
+  EQUALITY octetStringMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.40)
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.11 NAME 'fdMailTemplateSubject'
+  DESC 'FusionDirectory - template mail field'
+  EQUALITY octetStringMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.40)
+
+# Attributes for mail template user reminder
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.12 NAME 'fdMTUserReminderForwardAlert'
+  DESC 'FusionDirectory - Forward alerts to manager'
+  EQUALITY booleanMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.13 NAME 'fdMTUserReminderForwardConfirmation'
+  DESC 'FusionDirectory - Forward postpone confirmations to manager'
+  EQUALITY booleanMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.14 NAME 'fdMTUserReminderAlertSubject'
+  DESC 'Fusion Directory - User reminder alert email subject'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.15 NAME 'fdMTUserReminderAlertBody'
+  DESC 'Fusion Directory - User reminder alert email body'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.16 NAME 'fdMTUserReminderConfirmationSubject'
+  DESC 'Fusion Directory - User reminder confirmation email subject'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.17 NAME 'fdMTUserReminderConfirmationBody'
+  DESC 'Fusion Directory - User reminder confirmation email body'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.18 NAME 'fdMTUserReminderForwardPpolicyAlert'
+  DESC 'FusionDirectory - Forward ppolicy alerts to manager'
+  EQUALITY booleanMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.19 NAME 'fdMTUserReminderPpolicyAlertSubject'
+  DESC 'Fusion Directory - User reminder ppolicy alert email subject'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.20 NAME 'fdMTUserReminderPpolicyAlertBody'
+  DESC 'Fusion Directory - User reminder ppolicy alert email body'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.21 NAME 'fdMTUserReminderExpirationSubject'
+  DESC 'Fusion Directory - User reminder expired email subject'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.22 NAME 'fdMTUserReminderExpirationBody'
+  DESC 'Fusion Directory - User reminder expired email body'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.23 NAME 'fdMTUserReminderForwardExpiration'
+  DESC 'FusionDirectory - User reminder, forward expiration emails to manager'
+  EQUALITY booleanMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+  SINGLE-VALUE )
+
+# Attributes for mail template invitations
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.24 NAME 'fdMTInvitationEmailSubject'
+  DESC 'FusionDirectory - Email Subject - Invitations'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.25 NAME 'fdMTInvitationEmailContent'
+  DESC 'FusionDirectory - Email Content - Invitation'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.88.1.26 NAME 'fdMTInvitationReplyTo'
+  DESC 'FusionDirectory - Email Address - Whom to Reply to invitations'
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
+
+##### Tasks Attributes #####
+
+attributetype ( 1.3.6.1.4.1.38414.89.1.1 NAME 'fdTasksMailObject'
+  DESC 'Fusion Directory - Tasks for mail template objects'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.89.1.2 NAME 'fdTasksScheduleDate'
+	DESC 'Scheduling of the Task - required processed date'
+  EQUALITY caseExactIA5Match
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+
+attributetype ( 1.3.6.1.4.1.38414.89.1.3 NAME 'fdTasksMailUsers'
+  DESC 'Fusion Directory - Tasks Mail Users Recipient'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+
+attributetype ( 1.3.6.1.4.1.38414.89.1.4 NAME 'fdTasksStatus'
+  DESC 'Fusion Directory - Task Status'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+
+attributetype ( 1.3.6.1.4.1.38414.89.1.5 NAME 'fdTasksEndDate'
+  DESC 'Fusion Directory - Task End Date'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+
+attributetype ( 1.3.6.1.4.1.38414.89.1.6 NAME 'fdTasksCreationDate'
+  DESC 'Fusion Directory - Task Start Date'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+
+attributetype ( 1.3.6.1.4.1.38414.89.1.7 NAME 'fdTasksEmailsFromDN'
+  DESC 'Fusion Directory - Emails derived from DN' 
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+
+attributetype ( 1.3.6.1.4.1.38414.89.1.8 NAME 'fdTasksEmailSender'
+  DESC 'Fusion Directory - Emails derived from DN' 
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+
+attributetype ( 1.3.6.1.4.1.38414.89.1.9 NAME 'fdTasksMailType'
+  DESC 'Fusion Directory - Type of Mail attribute required'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
+
+##### Tasks Granular #####
+
+attributetype ( 1.3.6.1.4.1.38414.89.1.10 NAME 'fdTasksGranularStatus'
+  DESC 'Fusion Directory - Task Status'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+
+attributetype ( 1.3.6.1.4.1.38414.89.1.11 NAME 'fdTasksGranularSchedule'
+	DESC 'Scheduling of the Task - required processed date'
+  EQUALITY caseExactIA5Match
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+
+attributetype ( 1.3.6.1.4.1.38414.89.1.12 NAME 'fdTasksGranularMaster'
+  DESC 'Fusion Directory - Tasks Master objects'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.89.1.13 NAME 'fdTasksGranularType'
+  DESC 'Fusion Directory - Tasks Type'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.89.1.14 NAME 'fdTasksGranularMail'
+  DESC 'Fusion Directory - Emails recipients if object mail'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+
+attributetype ( 1.3.6.1.4.1.38414.89.1.15 NAME 'fdTasksGranularMailFrom'
+  DESC 'Fusion Directory - Emails sender if object mail'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+
+attributetype ( 1.3.6.1.4.1.38414.89.1.16 NAME 'fdTasksGranularRef'
+  DESC 'Fusion Directory - Reference towards a CN (E.g Mail Template)'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
+
+##### Tasks Conf #####
+
+attributetype ( 1.3.6.1.4.1.38414.89.1.17 NAME 'fdTasksRDN'
+  DESC 'FusionDirectory - Tasks RDN'
+  EQUALITY caseExactIA5Match
+  SUBSTR caseExactIA5SubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE)
+
+attributetype ( 1.3.6.1.4.1.38414.89.1.18 NAME 'fdTasksConfLastExecTime'
+	DESC 'Store time of last mail tasks success - secure spam interval'
+  EQUALITY caseExactIA5Match
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+
+attributetype ( 1.3.6.1.4.1.38414.89.1.19 NAME 'fdTasksConfMaxEmails'
+	DESC 'FusionDirectory maximum emails to be processed by Orchestrator - secure spam'
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.27 )
+
+attributetype ( 1.3.6.1.4.1.38414.89.1.20 NAME 'fdTasksConfIntervalEmails'
+	DESC 'FusionDirectory maximum emails to be processed by Orchestrator - secure spam'
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.27 )
+
+##### Classes #####
 
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.4 NAME 'gosaDepartment' SUP top AUXILIARY
   DESC 'GOsa - Class to mark Departments for GOsa'
@@ -130,3 +433,71 @@ objectclass ( 1.3.6.1.4.1.38414.62.2.2 NAME 'fdSubscriptionInformation' SUP top 
   DESC 'FusionDirectory - Information about current subscription'
   MUST ( cn )
   MAY ( uid $ fdSubscriptionStartDate $ fdSubscriptionEndDate $ fdSubscriptionType $ fdSubscriptionContractId $ fdSubscriptionName ))
+  
+# Classes Macros Related
+
+objectclass ( 1.3.6.1.4.1.38414.90.2.1 NAME 'fdMacroConf'
+  DESC 'FusionDirectory Macro Configuration'
+  SUP top AUXILIARY
+  MUST ( cn )
+  MAY ( fdMacroRDN $ fdMacroMail $ fdMacroInvitations $ fdMacroUserRecovery $ fdMacroUserReminder ) )
+
+### Mail Template Related Object Class ###
+
+objectclass (1.3.6.1.4.1.38414.88.2.1 NAME 'fdMailTemplate'
+  DESC 'FusionDirectory - template mail object'
+  MUST ( cn $ fdMailTemplateBody $ fdMailTemplateSubject )
+  MAY ( fdMailTemplateSignature $ fdMailTemplateReadReceipt $ fdMailTemplateAttachment  ) )
+
+objectclass (1.3.6.1.4.1.38414.88.2.2 NAME 'fdMailTemplateUserRecovery'
+  DESC 'FusionDirectory - template mail object Recovery'
+  SUP top AUXILIARY
+  MUST ( cn )
+  MAY ( fdMTPasswordRecoveryMailSubject $ fdMTPasswordRecoveryMailBody $ fdMTPasswordRecoveryMail2Subject $ fdMTPasswordRecoveryMail2Body) )
+
+objectclass ( 1.3.6.1.4.1.38414.88.2.3 NAME 'fdMailTemplateConf'
+  DESC 'FusionDirectory Mail Template Configuration'
+  SUP top AUXILIARY
+  MUST ( cn )
+  MAY ( fdMailTemplateRDN ) )
+
+objectclass ( 1.3.6.1.4.1.38414.88.2.4 NAME 'fdMailTemplateUserReminder'
+  DESC 'FusionDirectory mail template user-reminder'
+  SUP top AUXILIARY
+  MUST ( cn $ fdMTUserReminderForwardConfirmation $ fdMTUserReminderForwardAlert)
+  MAY (
+  fdMTUserReminderConfirmationSubject $ fdMTUserReminderConfirmationBody $
+  fdMTUserReminderAlertSubject        $ fdMTUserReminderAlertBody $
+  fdMTUserReminderPpolicyAlertSubject $ fdMTUserReminderPpolicyAlertBody $
+  fdMTUserReminderForwardPpolicyAlert $ fdMTUserReminderExpirationSubject $ 
+  fdMTUserReminderExpirationBody $ fdMTUserReminderForwardExpiration) )
+
+objectclass ( 1.3.6.1.4.1.38414.88.2.5 NAME 'fdMailTemplateInvitations'
+  DESC 'FusionDirectory mail template Invitations'
+  SUP top AUXILIARY
+  MUST ( cn $ fdMTInvitationEmailSubject $ fdMTInvitationEmailContent)
+  MAY ( fdMTInvitationReplyTo ) )
+
+### Tasks Related Object Class ###
+
+objectclass (1.3.6.1.4.1.38414.89.2.1 NAME 'fdTasks'
+  DESC 'FusionDirectory - Tasks objects'
+  MUST ( cn $ fdTasksStatus $ fdTasksCreationDate )
+  MAY ( fdTasksScheduleDate $ fdTasksEndDate) )
+
+objectclass (1.3.6.1.4.1.38414.89.2.2 NAME 'fdTasksMail'
+  DESC 'FusionDirectory - Tasks objects Mail'
+  SUP top AUXILIARY
+  MUST ( fdTasksMailObject $ fdTasksEmailSender ) 
+  MAY ( fdTasksMailUsers $ fdTasksEmailsFromDN $ fdTasksMailType ) )
+
+objectclass (1.3.6.1.4.1.38414.89.2.3 NAME 'fdTasksGranular'
+  DESC 'FusionDirectory - Tasks granular objects'
+  MUST ( fdTasksGranularMaster $ cn $ fdTasksGranularMail $ fdTasksGranularMailFrom $ 
+  fdTasksGranularRef $ fdTasksGranularType $ fdTasksGranularSchedule $ fdTasksGranularStatus ))
+
+objectclass (1.3.6.1.4.1.38414.89.2.4 NAME 'fdTasksConf'
+  DESC 'FusionDirectory - Tasks objects Configuration'
+  SUP top AUXILIARY
+  MUST ( cn )
+  MAY ( fdTasksRDN $ fdTasksConfLastExecTime $ fdTasksConfMaxEmails $ fdTasksConfIntervalEmails))
