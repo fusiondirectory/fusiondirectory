@@ -28,8 +28,7 @@ class tasksMail extends simplePlugin
     return [
       'plShortName'   => _('Tasks Mail'),
       'plDescription' => _('Tasks Mail Object'),
-      'plIcon'        => 'geticon.php?context=applications&icon=supann&size=48',
-      'plSmallIcon'   => 'geticon.php?context=applications&icon=supann-status&size=16',
+      'plIcon'        => 'geticon.php?context=applications&icon=tasks&size=48',
       'plPriority'    => 42,
       'plObjectClass' => ['fdTasksMail'],
       'plFilter'      => '(objectClass=fdTasksMail)',
