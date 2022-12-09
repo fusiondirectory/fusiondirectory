@@ -33,7 +33,7 @@ class mailTemplate extends simplePlugin
       'plObjectType'  => ['mailTemplate' => [
         'name'        => _('Mail Template'),
         'ou'          => get_ou('mailTemplateRDN'),
-        'icon'        => 'geticon.php?context=applications&icon=dsa&size=16',
+        'icon'        => 'geticon.php?context=applications&icon=mail-template&size=48',
       ]],
       'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())
     ];

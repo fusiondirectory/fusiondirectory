@@ -42,7 +42,7 @@ class tasksManagement extends management
       'plShortName'   => _('Tasks'),
       'plDescription' => _('Provide a mechanism to create and manage tasks'),
       'plTitle'       => _('Tasks'),
-      'plIcon'        => 'geticon.php?context=applications&icon=argonaut&size=48',
+      'plIcon'        => 'geticon.php?context=applications&icon=tasks&size=48',
       'plSection'     => 'conf',
       'plPriority'    => 40,
       'plManages'     => ['tasks'],

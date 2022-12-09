@@ -34,7 +34,7 @@ class tasks extends simplePlugin
       'plObjectType'  => ['tasks' => [
         'name'        => _('Tasks'),
         'ou'          => get_ou('tasksRDN'),
-        'icon'        => 'geticon.php?context=applications&icon=dsa&size=16',
+        'icon'        => 'geticon.php?context=applications&icon=tasks&size=48',
       ]],
       'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())
     ];
