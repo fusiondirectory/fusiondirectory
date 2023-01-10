@@ -254,7 +254,7 @@ class configInLdap extends simplePlugin
         'class' => ['critical'],
         'attrs' => [
           new SelectAttribute(
-            _('People DN attribute'), _('Attribute to use at the beginning of the user's dn'),
+            _('People DN attribute'), _('Attribute to use at the beginning of the user dn'),
             'fdAccountPrimaryAttribute', TRUE,
             ['uid', 'cn']
           ),
