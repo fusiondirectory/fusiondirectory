@@ -355,6 +355,10 @@ $smarty->caching      = Smarty::CACHING_OFF;
 $smarty->assign('css_files', []);
 $smarty->assign('js_files', []);
 
+if (defined("SMARTY_PLUGINS_EXTRA")) {
+  $smarty->addPluginsDir((array)SMARTY_PLUGINS_EXTRA);
+}
+
 $smarty->registerPlugin('modifier', 'base64_encode', 'base64_encode');
 
 $smarty->php_handling = Smarty::PHP_REMOVE;
