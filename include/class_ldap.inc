@@ -134,7 +134,7 @@ class LDAP
 
     /* Sadly we've no proper return values here. Use the error message instead. */
     if (!$ldap->success()) {
-      throw new FatalError(htmlescape(sprintf(_('FATAL: Error when connecting the LDAP. Server said "%s".'), $ldap->get_error())));
+      throw new FatalError(htmlescape(sprintf(_('FATAL: Error when connecting to LDAP. Server said "%s".'), $ldap->get_error())));
     }
 
     /* Preset connection base to $base and return to caller */

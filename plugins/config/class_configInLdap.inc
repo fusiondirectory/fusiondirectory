@@ -107,7 +107,7 @@ class configInLdap extends simplePlugin
             TRUE
           ),
           new StringAttribute(
-            _('Snapshot base'), _('The base where snapshots should be stored inside of the LDAP.'),
+            _('Snapshot base'), _('The base where snapshots should be stored inside the LDAP directory.'),
             'fdSnapshotBase', FALSE,
             'ou=snapshots,'.$config->current['BASE']
           ),
@@ -254,7 +254,7 @@ class configInLdap extends simplePlugin
         'class' => ['critical'],
         'attrs' => [
           new SelectAttribute(
-            _('People DN attribute'), _('Attribute to use at the beginning of users dn'),
+            _('People DN attribute'), _('Attribute to use at the beginning of the user dn'),
             'fdAccountPrimaryAttribute', TRUE,
             ['uid', 'cn']
           ),
@@ -309,7 +309,7 @@ class configInLdap extends simplePlugin
         'attrs' => [
           new BooleanAttribute(
             _('Display PHP errors'),
-            _('Shows PHP errors in the upper part of the screen. This should be disabled in productive deployments, because there might be some passwords in it.'),
+            _('Shows PHP errors in the upper part of the screen. This should be disabled in production deployments, because it may contain passwords.'),
             'fdDisplayErrors'
           ),
           new IntAttribute(

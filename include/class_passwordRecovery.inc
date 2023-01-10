@@ -357,7 +357,7 @@ class passwordRecovery extends standAlonePage
     if (mail_utf8($this->email_address, FALSE, $this->from_mail, $this->mail_subject, $body)) {
       $this->step = 3;
     } else {
-      $this->message[] = new FusionDirectoryError(htmlescape(_('Contact your administrator, there was a problem with mail server')));
+      $this->message[] = new FusionDirectoryError(htmlescape(_('Contact your administrator, there was a problem with the mail server')));
     }
     $smarty = get_smarty();
 
@@ -434,7 +434,7 @@ class passwordRecovery extends standAlonePage
       $this->step = 5;
       $smarty->assign('changed', TRUE);
     } else {
-      $this->message[] = new FusionDirectoryError(htmlescape(_('There was a problem with mail server, confirmation email not sent')));
+      $this->message[] = new FusionDirectoryError(htmlescape(_('There was a problem with the mail server, confirmation email not sent')));
     }
   }
 

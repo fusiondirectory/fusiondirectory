@@ -427,7 +427,7 @@ class user extends simplePlugin
       $ldap->cat($ppolicydn, ['pwdAllowUserChange', 'pwdMinLength', 'pwdMinAge', 'pwdSafeModify', 'pwdExpireWarning', 'pwdMaxAge']);
       $policy = $ldap->fetch(TRUE);
       if (!$policy) {
-        throw new NonExistingLdapNodeException($ppolicydn, sprintf(_('Ppolicy "%s" could not be found in the LDAP!'), $ppolicydn));
+        throw new NonExistingLdapNodeException($ppolicydn, sprintf(_('Ppolicy "%s" could not be found in LDAP!'), $ppolicydn));
       }
     }
 

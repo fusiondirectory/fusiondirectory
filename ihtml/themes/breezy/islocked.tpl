@@ -14,7 +14,7 @@
       </ul>
     </p>
     <p>
-      {t 1=$action}If this lock detection is false, the other person may have closed the webbrowser during the edit operation. You may want to take over the lock by pressing the "%1" button.{/t}
+      {t 1=$action}If this lock detection is false, the other person may have closed the web browser during the edit operation. You may want to take over the lock by pressing the "%1" button.{/t}
     </p>
 
     <p class="plugbottom">

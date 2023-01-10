@@ -44,7 +44,7 @@ class recoveryConfig extends simplePlugin
         'attrs'     => [
           new BooleanAttribute(
             _('Activate password recovery'),
-            _('Whether to activate or not password recovery feature'),
+            _('Whether to activate the password recovery feature or not'),
             'fdPasswordRecoveryActivated',
             FALSE
           ),
@@ -71,7 +71,7 @@ class recoveryConfig extends simplePlugin
           ),
           new BooleanAttribute(
             _('Allow the use of alternate addresses'),
-            _('Users will also be able to enter one of theirs alternate addresses to recover their password'),
+            _('Users will also be able to enter one of their alternate addresses to recover their password'),
             'fdPasswordRecoveryUseAlternate',
             FALSE
           ),

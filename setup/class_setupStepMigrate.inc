@@ -286,8 +286,8 @@ class setupStepMigrate extends setupStep
 
     if (class_available('posixAccount')) {
       $checks['outsidePosixGroups'] = new StepMigrateCheck($this, 'outsidePosixGroups', _('Checking for POSIX groups outside the groups tree'));
-      $checks['uidNumber']          = new StepMigrateCheck($this, 'uidNumber',          _('Checking for duplicated UID numbers'));
-      $checks['gidNumber']          = new StepMigrateCheck($this, 'gidNumber',          _('Checking for duplicated GID numbers'));
+      $checks['uidNumber']          = new StepMigrateCheck($this, 'uidNumber',          _('Checking for duplicate UID numbers'));
+      $checks['gidNumber']          = new StepMigrateCheck($this, 'gidNumber',          _('Checking for duplicate GID numbers'));
     }
 
     $this->checks = $checks;
@@ -853,7 +853,7 @@ class setupStepMigrate extends setupStep
       } else {
         throw new CheckFailedException(
           _('Failed'),
-          _('There is no FusionDirectory administrator account inside your LDAP.').'&nbsp;'.
+          _('There is no FusionDirectory administrator account in your LDAP directory.').'&nbsp;'.
           $checkobj->submit(_('Create'), 'create')
         );
       }
@@ -1332,8 +1332,8 @@ class setupStepMigrate extends setupStep
     }
     if ($ldap->hitSizeLimit()) {
       throw new CheckFailedException(
-        _('Sizelimit hit'),
-        sprintf(_('Sizelimit of %d hit. Please check this manually'), static::$objectNumberLimit)
+        _('Size limit hit'),
+        sprintf(_('Size limit of %d hit. Please check this manually'), static::$objectNumberLimit)
       );
     }
     $sizeLimitHit = FALSE;

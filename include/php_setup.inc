@@ -246,7 +246,7 @@ function gosaRaiseError ($errno, $errstr, $errfile, $errline)
             <td align=right>
               <a href="mailto:bugs@fusiondirectory.org?subject=FusionDirectory%20bugreport&amp;body=%BUGBODY%">
                 <img src="geticon.php?context=applications&amp;icon=internet-mail&amp;size=16" title="'.htmlescape(_('Send bug report to the FusionDirectory Team')).
-                '" class="center" alt="'.htmlescape(_('Mail icon')).'">&nbsp;'.htmlescape(_('Send bugreport')).'
+                '" class="center" alt="'.htmlescape(_('Mail icon')).'">&nbsp;'.htmlescape(_('Send bug report')).'
               </a>
             </td>
             <td align="right">

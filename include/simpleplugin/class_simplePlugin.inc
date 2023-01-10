@@ -484,7 +484,7 @@ class simplePlugin implements SimpleTab
     if ($infos === FALSE) {
       throw new FatalError(
         htmlescape(sprintf(
-          _('Could not compute dn: could not find objectType infos from tab class "%s"'),
+          _('Could not compute dn: could not find objectType info from tab class "%s"'),
           get_class($this->parent)
         ))
       );
@@ -1652,7 +1652,7 @@ class simplePlugin implements SimpleTab
       $current_csn = getEntryCSN($this->dn);
       if (($current_csn != $this->entryCSN) && !empty($current_csn)) {
         $this->entryCSN = $current_csn;
-        $messages[] = _('The object has changed since opened in FusionDirectory. All changes that may be done by others will get lost if you save this entry!');
+        $messages[] = _('The object has changed since being opened in FusionDirectory. All changes that may be done by others will get lost if you save this entry!');
       }
     }
 

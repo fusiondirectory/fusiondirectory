@@ -627,7 +627,7 @@
 - fd#5367 We should remove from setup migration step obsolete stuff
 - fd#5371 PHP error: Only variables should be passed by reference (/usr/share/fusiondirectory/include/functions.inc, line 2538)
 - fd#5372 Small error in breezy/style.css
-- fd#5380 Bad display of multivaluated attributes in listing columns
+- fd#5380 Bad display of multivalued attributes in listing columns
 - fd#5381 s modifier have problems with multibyte strings
 - fd#5385 Several foreignKeys for the same attribute should work
 - fd#5398 Cannot remove a role in groups and roles tabs for a template
@@ -1659,7 +1659,7 @@
 
 #### fusiondirectory-plugins
 - fd-plugins#3960 fusiondirectory-shell cannot cat a user
-- fd-plugins#3962 fusiondirectory-shell should handle multivaluated attributes properly
+- fd-plugins#3962 fusiondirectory-shell should handle multivalued attributes properly
 
 ## %"FusionDirectory 1.0.8.8" - 2015-07-01
 

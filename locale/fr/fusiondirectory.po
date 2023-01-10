@@ -89,7 +89,7 @@ msgstr "Attribut"
 #: include/management/class_ManagementConfigurationDialog.inc:71
 msgid ""
 "LDAP attributes to display, comma separated. Special values \"nameAttr\" and"
-" \"mainAttr\" also works."
+" \"mainAttr\" also work."
 msgstr ""
 "Attributs LDAP à afficher, séparés par des virgules. Les valeurs spéciales "
 "\"nameAttr\" et \"mainAttr\" fonctionnent également."
@@ -103,7 +103,7 @@ msgid "Column title"
 msgstr "Titre de la colonnes"
 
 #: include/management/class_ManagementConfigurationDialog.inc:86
-msgid "Persitent"
+msgid "Persistent"
 msgstr "Persistant"
 
 #: include/management/class_ManagementConfigurationDialog.inc:86
@@ -603,7 +603,7 @@ msgid "Send bug report to the FusionDirectory Team"
 msgstr "Envoyer le rapport de bugs à l'équipe FusionDirectory"
 
 #: include/php_setup.inc:235
-msgid "Send bugreport"
+msgid "Send bug report"
 msgstr "Envoyer le rapport de bug"
 
 #: include/php_setup.inc:240
@@ -660,7 +660,7 @@ msgstr "CAS"
 
 #: include/login/class_LoginCAS.inc:68
 #, php-format
-msgid "CAS user \"%s\" could not be found in the LDAP"
+msgid "CAS user \"%s\" could not be found in LDAP"
 msgstr "L'utilisateur CAS «%s» n'existe pas dans l'annuaire LDAP"
 
 #: include/login/class_LoginCAS.inc:78 include/login/class_LoginCAS.inc:104
@@ -756,7 +756,7 @@ msgstr "Aucune valeur trouvée dans l’entête HTTP «%s»"
 
 #: include/login/class_LoginHTTPHeader.inc:64
 #, php-format
-msgid "Header user \"%s\" could not be found in the LDAP"
+msgid "Header user \"%s\" could not be found in LDAP"
 msgstr ""
 "L'utilisateur «%s» mentionné dans l’entête n'existe pas dans l'annuaire LDAP"
 
@@ -803,7 +803,7 @@ msgstr ""
 "contacter votre administrateur système !"
 
 #: include/class_passwordRecovery.inc:352
-msgid "Contact your administrator, there was a problem with mail server"
+msgid "Contact your administrator, there was a problem with the mail server"
 msgstr ""
 "Contactez votre administrateur système, il y a eu un problème avec le "
 "serveur de courriel"
@@ -813,7 +813,7 @@ msgid "This token is invalid"
 msgstr "Le jeton n'est pas valide"
 
 #: include/class_passwordRecovery.inc:429
-msgid "There was a problem with mail server, confirmation email not sent"
+msgid "There was a problem with the mail server, confirmation email not sent"
 msgstr ""
 "Un problème est survenu avec le serveur de courriel, le courriel de "
 "confirmation n'a pas été envoyé"
@@ -892,7 +892,7 @@ msgstr ""
 
 #: include/functions.inc:354
 #, php-format
-msgid "FATAL: Error when connecting the LDAP. Server said '%s'."
+msgid "FATAL: Error when connecting to LDAP. Server said '%s'."
 msgstr ""
 "FATAL : Erreur lors de la connexion au serveur LDAP. Le serveur a répondu "
 "'%s'."
@@ -1233,7 +1233,7 @@ msgstr "Il existe déjà une entrée avec l'attribut %s dans le système !"
 
 #: include/class_msgPool.inc:245
 #, php-format
-msgid "The entry \"%s\" already use this \"%s\" attribute!"
+msgid "The entry \"%s\" already uses this \"%s\" attribute!"
 msgstr "L’entrée '%s' utilise déjà l'attribut \"%s\" !"
 
 #: include/class_msgPool.inc:256
@@ -1697,7 +1697,7 @@ msgstr "Télécharger"
 
 #: include/simpleplugin/attributes/class_FileAttribute.inc:380
 #, php-format
-msgid "Cannot set \"%s\" value, it contains invalid data: %s"
+msgid "Cannot set value \"%s\", it contains invalid data: %s"
 msgstr ""
 "Impossible de définir la valeur \"%s\", elle contient des données non "
 "valides: %s"
@@ -1747,7 +1747,7 @@ msgstr "Un nombre à virgule flottante plus petit que %f"
 
 #: include/simpleplugin/attributes/class_SetAttribute.inc:150
 #, php-format
-msgid "The value for multivaluated field \"%s\" is not an array"
+msgid "The value for multivalued field \"%s\" is not an array"
 msgstr "La valeur du champ multivalué «%s» n'est pas un tableau"
 
 #: include/simpleplugin/attributes/class_SetAttribute.inc:250
@@ -1811,7 +1811,7 @@ msgstr ""
 #: include/simpleplugin/class_simplePlugin.inc:492
 #, php-format
 msgid ""
-"Could not compute dn: could not find objectType infos from tab class \"%s\""
+"Could not compute dn: could not find objectType info from tab class \"%s\""
 msgstr ""
 "Impossible de générer le dn : pas d’infos sur le type d’objet pour la classe"
 " d’onglet «%s»"
@@ -1828,7 +1828,7 @@ msgstr "L'entrée %s n'existe pas"
 
 #: include/simpleplugin/class_simplePlugin.inc:1576
 msgid ""
-"The object has changed since opened in FusionDirectory. All changes that may"
+"The object has changed since being opened in FusionDirectory. All changes that may"
 " be done by others will get lost if you save this entry!"
 msgstr ""
 "L'objet a changé depuis son ouverture dans FusionDirectory. Toutes les "
@@ -2577,7 +2577,7 @@ msgid "DN you wish to add assignments for"
 msgstr "DN pour lequel vous souhaitez ajouter des affectations"
 
 #: plugins/admin/acl/class_aclManagement.inc:110
-msgid "The dn you entered could not be found in the LDAP"
+msgid "The dn you entered could not be found in LDAP"
 msgstr "Impossible de trouver le dn demandé dans l'annuaire LDAP"
 
 #: plugins/admin/acl/class_aclManagement.inc:141
@@ -2763,7 +2763,7 @@ msgid "SASL"
 msgstr "SASL"
 
 #: plugins/config/class_mainPluginsConfig.inc:54
-msgid "Force to ask for password"
+msgid "Force asking for a password"
 msgstr "Forcer la demande de mot de passe"
 
 #: plugins/config/class_mainPluginsConfig.inc:54
@@ -2843,7 +2843,7 @@ msgid "Activate password recovery"
 msgstr "Activer la récupération de mot de passe"
 
 #: plugins/config/class_recoveryConfig.inc:47
-msgid "Whether to activate or not password recovery feature"
+msgid "Whether to activate the password recovery feature or not"
 msgstr "Activer ou non la fonctionnalité de récupération de mot de passe"
 
 #: plugins/config/class_recoveryConfig.inc:52
@@ -2880,7 +2880,7 @@ msgstr "Autoriser l’utilisation des adresses de courriel alternatives"
 
 #: plugins/config/class_recoveryConfig.inc:74
 msgid ""
-"Users will also be able to enter one of theirs alternate addresses to "
+"Users will also be able to enter one of their alternate addresses to "
 "recover their password"
 msgstr ""
 "Les utilisateurs pourront entrer une de leurs adresses de courriel "
@@ -3147,7 +3147,7 @@ msgid "Snapshot base"
 msgstr "Base des instantanés"
 
 #: plugins/config/class_configInLdap.inc:109
-msgid "The base where snapshots should be stored inside of the LDAP."
+msgid "The base where snapshots should be stored inside the LDAP directory."
 msgstr ""
 "Branche LDAP à l'intérieur de laquelle les instantanés d'objets seront "
 "stockés"
@@ -3366,7 +3366,7 @@ msgid "People DN attribute"
 msgstr "Attribut pour le DN utilisateur"
 
 #: plugins/config/class_configInLdap.inc:252
-msgid "Attribute to use at the beginning of users dn"
+msgid "Attribute to use at the beginning of the user's dn"
 msgstr "Attribut à utiliser pour le début du DN des utilisateurs"
 
 #: plugins/config/class_configInLdap.inc:257
@@ -3459,7 +3459,7 @@ msgstr "Afficher les erreurs"
 #: plugins/config/class_configInLdap.inc:301
 msgid ""
 "Shows PHP errors in the upper part of the screen. This should be disabled in"
-" productive deployments, because there might be some passwords in it."
+" production deployments, because it may contain passwords."
 msgstr ""
 "Afficher les erreurs PHP dans la partie haute de l'écran. Cela sera à "
 "désactiver en environnement de production, car des mots de passe peuvent "
@@ -3727,7 +3727,7 @@ msgstr "Éditer les groupes et rôles de l’utilisateur"
 
 #: plugins/personal/roles/class_userRoles.inc:49
 #: plugins/personal/roles/class_userRoles.inc:53
-msgid "Groups membership"
+msgid "Group memberships"
 msgstr "Appartenance aux groupes"
 
 #: plugins/personal/roles/class_userRoles.inc:60
@@ -4020,7 +4020,7 @@ msgstr "Code postal"
 
 #: plugins/personal/generic/class_user.inc:430
 #, php-format
-msgid "Ppolicy \"%s\" could not be found in the LDAP!"
+msgid "Ppolicy \"%s\" could not be found in LDAP!"
 msgstr "La ppolicy \"%s\" n’a pas été trouvée dans le LDAP !"
 
 #: plugins/personal/generic/class_user.inc:460
@@ -4314,7 +4314,7 @@ msgstr "FusionDirectory a besoin de ce module pour l’intégration Samba."
 
 #: setup/class_setupStepChecks.inc:124
 msgid ""
-"FusionDirectory requires either 'mhash' or the 'sha1' module to make use of "
+"FusionDirectory requires either the 'mhash' or 'sha1' module to make use of "
 "SSHA encryption."
 msgstr ""
 "FusionDirectory a besoin du module 'mhash' ou 'sha1' pour l’utilisation du "
@@ -4540,11 +4540,11 @@ msgid "Checking for POSIX groups outside the groups tree"
 msgstr "Recherche de groupes posix en dehors de la branche des groupes"
 
 #: setup/class_setupStepMigrate.inc:274
-msgid "Checking for duplicated UID numbers"
+msgid "Checking for duplicate UID numbers"
 msgstr "Recherche d’UID en double"
 
 #: setup/class_setupStepMigrate.inc:275
-msgid "Checking for duplicated GID numbers"
+msgid "Checking for duplicate GID numbers"
 msgstr "Recherche de GID en double"
 
 #: setup/class_setupStepMigrate.inc:343 setup/class_setupStepMigrate.inc:502
@@ -4560,7 +4560,7 @@ msgstr "La requête LDAP a échoué"
 #: setup/class_setupStepMigrate.inc:935 setup/class_setupStepMigrate.inc:1041
 #: setup/class_setupStepMigrate.inc:1071 setup/class_setupStepMigrate.inc:1322
 #: setup/class_setupStepMigrate.inc:1433
-msgid "Possibly the \"root object\" is missing."
+msgid "The \"root object\" is possibly missing."
 msgstr "L'objet racine est peut-être manquant."
 
 #: setup/class_setupStepMigrate.inc:360 setup/class_setupStepMigrate.inc:383
@@ -4637,7 +4637,7 @@ msgid "Roles"
 msgstr "Rôles"
 
 #: setup/class_setupStepMigrate.inc:836
-msgid "There is no FusionDirectory administrator account inside your LDAP."
+msgid "There is no FusionDirectory administrator account in your LDAP directory."
 msgstr ""
 "Il n'y a pas d'administrateur FusionDirectory dans votre annuaire LDAP."
 
@@ -4679,12 +4679,12 @@ msgid "LDAP result parsing failed"
 msgstr "L'analyse du résultat LDAP a échoué"
 
 #: setup/class_setupStepMigrate.inc:1076 setup/class_setupStepMigrate.inc:1327
-msgid "Sizelimit hit"
+msgid "Size limit hit"
 msgstr "Taille limite atteinte"
 
 #: setup/class_setupStepMigrate.inc:1077 setup/class_setupStepMigrate.inc:1328
 #, php-format
-msgid "Sizelimit of %d hit. Please check this manually"
+msgid "Size limit of %d hit. Please check this manually"
 msgstr "Taille limite de %datteinte. Veuillez vérifier ceci manuellement"
 
 #: setup/class_setupStepMigrate.inc:1120 setup/class_setupStepMigrate.inc:1134
@@ -4786,7 +4786,7 @@ msgstr "Le fichier de configuration ne peut être lu ou n'existe pas."
 #, php-format
 msgid ""
 "After downloading and placing the file under %s, please make sure that the "
-"user the webserver is running with is able to read %s, while other users "
+"user the web server is running with is able to read %s, while other users "
 "shouldn't."
 msgstr ""
 "Après avoir placé le fichier dans le répertoire %s, assurez vous que seul le"
@@ -4909,7 +4909,7 @@ msgstr[0] "Il y a un compte expiré"
 msgstr[1] "Il y a %1 comptes expirés"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:5
-msgid "There is no expired account"
+msgid "There are no expired accounts"
 msgstr "Il n'y a pas de compte expiré"
 
 #: plugins/addons/dashboard/users_accounts.tpl.c:11
@@ -4959,8 +4959,8 @@ msgstr[0] "Il y a 1 utilisateur :"
 msgstr[1] "Il y a %1 utilisateurs :"
 
 #: plugins/addons/dashboard/pwd_stats.tpl.c:5
-msgid "One of them use %1 method"
-msgid_plural "%2 of them use %1 method"
+msgid "One of them uses the %1 method"
+msgid_plural "%2 of them use the %1 method"
 msgstr[0] "Un d'entre eux utilise la méthode %1"
 msgstr[1] "%2 d’entre eux utilisent la méthode %1"
 
@@ -4971,7 +4971,7 @@ msgstr[0] "Un est verrouille"
 msgstr[1] "%1 d’entre eux sont verrouillés"
 
 #: plugins/addons/dashboard/pwd_stats.tpl.c:11
-msgid "None of them is locked"
+msgid "None of them are locked"
 msgstr "Aucun d'entre eux n’est verrouillé"
 
 #: plugins/addons/dashboard/users_stats.tpl.c:5
@@ -4979,7 +4979,7 @@ msgid "There are no users"
 msgstr "Il n’y a aucun utilisateurs"
 
 #: plugins/addons/dashboard/users_stats.tpl.c:8
-msgid "One of them have a %1 account"
+msgid "One of them has a %1 account"
 msgid_plural "%2 of them have a %1 account"
 msgstr[0] "L'un d'entre eux a un compte %1"
 msgstr[1] "%2 d’entre eux ont un compte %1"
@@ -5052,7 +5052,7 @@ msgstr "FusionDirectory fonctionnera même si vous ne corrigez pas cela."
 
 #: setup/setup_welcome.tpl.c:2
 msgid ""
-"This seems to be the first time you start FusionDirectory - we didn't find "
+"This seems to be the first time you start FusionDirectory - we cannot find "
 "any configuration right now. This simple wizard intends to help you while "
 "setting it up."
 msgstr ""
@@ -5101,7 +5101,7 @@ msgstr "Pour continuer :"
 #: setup/setup_welcome.tpl.c:32
 msgid ""
 "For security reasons you need to authenticate for the installation by "
-"creating the file '%1', containing the current session ID on the servers "
+"creating the file '%1', containing the current session ID on the server's "
 "local filesystem. This can be done by executing the following command:"
 msgstr ""
 "Pour des raisons de sécurité vous devez vous authentifier en créant le "
@@ -5109,7 +5109,7 @@ msgstr ""
 "réalisé en exécutant la commande suivante :"
 
 #: setup/setup_welcome.tpl.c:35
-msgid "Click the 'Next' button when you've finished."
+msgid "Click the 'Next' button when you are done."
 msgstr "Cliquez sur 'Continuer' quand vous avez fini."
 
 #: setup/setup_migrate.tpl.c:2
@@ -5408,7 +5408,7 @@ msgstr "\"%1\" a été verrouillé par \"%2\" depuis %3"
 #: ihtml/themes/breezy/islocked.tpl.c:11
 msgid ""
 "If this lock detection is false, the other person may have closed the "
-"webbrowser during the edit operation. You may want to take over the lock by "
+"web browser during the edit operation. You may want to take over the lock by "
 "pressing the \"%1\" button."
 msgstr ""
 "Si la détection de ce verrou est fausse, une autre personne a manifestement "

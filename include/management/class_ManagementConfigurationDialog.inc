@@ -68,7 +68,7 @@ class ManagementConfigurationDialog extends ManagementDialog
                   $types, 'LinkColumn'
                 ),
                 new StringAttribute(
-                  _('Attribute'), _('LDAP attributes to display, comma separated. Special values "nameAttr" and "mainAttr" also works.'),
+                  _('Attribute'), _('LDAP attributes to display, comma separated. Special values "nameAttr" and "mainAttr" also work.'),
                   'columnAttribute', FALSE
                 ),
                 new StringAttribute(
@@ -83,7 +83,7 @@ class ManagementConfigurationDialog extends ManagementDialog
             TRUE // edition
           ),
           new BooleanAttribute(
-            _('Persitent'), _('Should this configuration be saved in the LDAP as your default configuration for this management page'),
+            _('Persistent'), _('Should this configuration be saved in the LDAP as your default configuration for this management page'),
             'saveInLdapUser', FALSE,
             FALSE,
             'ManagementConfiguration'
