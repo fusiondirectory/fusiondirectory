@@ -368,7 +368,7 @@ class Attribute
 
   /*! \brief Return the ldap value in the correct intern format value
    *
-   *  \param $ldapValue The value as found in the LDAP
+   *  \param $ldapValue The value as found in LDAP
    */
   function inputValue ($ldapValue)
   {

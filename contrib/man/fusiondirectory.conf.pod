@@ -67,7 +67,7 @@ FusionDirectory will not log anything, if the logging value is empty or set to f
 =item B<templateCompileDirectory> I<path>
 
 The templateCompileDirectory statements defines the path, where the PHP templating engins smarty should store its compiled FusionDirectory templates for improved speed.
-This path needs to be writeable by the user your webserver is running with.
+This path needs to be writeable by the user your web server is running with.
 
 =item B<ignoreAcl> I<dn>
 

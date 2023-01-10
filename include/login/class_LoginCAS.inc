@@ -79,7 +79,7 @@ class LoginCAS extends LoginMethod
     if ($ui === FALSE) {
       throw new FatalError(
         htmlescape(sprintf(
-          _('CAS user "%s" could not be found in the LDAP'),
+          _('CAS user "%s" could not be found in LDAP'),
           static::$username
         ))
       );

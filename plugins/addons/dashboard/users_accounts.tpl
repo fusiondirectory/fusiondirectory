@@ -7,7 +7,7 @@
     {if $attributes.expired.accounts|@count > 0}
       {t count=$attributes.expired.accounts|@count 1=$attributes.expired.accounts|@count plural="There are %1 expired accounts"}There is one expired account{/t}
     {else}
-      {t}There is no expired account{/t}
+      {t}There are no expired accounts{/t}
     {/if}
     </h1>
     {if $attributes.expired.accounts|@count > 0}

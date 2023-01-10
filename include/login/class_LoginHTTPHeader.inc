@@ -57,7 +57,7 @@ class LoginHTTPHeader extends LoginMethod
     if ($ui === FALSE) {
       throw new FatalError(
         htmlescape(sprintf(
-          _('Header user "%s" could not be found in the LDAP'),
+          _('Header user "%s" could not be found in LDAP'),
           static::$username
         ))
       );

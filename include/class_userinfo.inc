@@ -830,7 +830,7 @@ class userinfo
           }
         }
       } catch (NonExistingLdapNodeException $e) {
-        /* ppolicy not found in the LDAP */
+        /* ppolicy not found in LDAP */
       }
     }
 
