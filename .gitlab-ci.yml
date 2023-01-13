@@ -60,8 +60,8 @@ create_php_code_sniffer_rapport:
     - git clone --depth 1 https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
     - find . -type f -name '*.php' -o -name '*.inc' > ./filelist
     - /root/.composer/vendor/bin/phpcs --standard=../dev-tools/php-codesniffer-rules/FDStandard/ruleset.xml --file-list=./filelist
-    - git clone --depth 1 https://gitlab-ci:$GITLAB_CI_TOKEN@gitlab.fusiondirectory.org/php-tools/PHPCompatibility.git ../PHPCompatibility
-    - git clone --depth 1 https://gitlab-ci:$GITLAB_CI_TOKEN@gitlab.fusiondirectory.org/php-tools/PHPCSUtils.git ../PHPCSUtils
+    - git clone --depth 1 https://gitlab.fusiondirectory.org/php-tools/PHPCompatibility.git ../PHPCompatibility
+    - git clone --depth 1 https://gitlab.fusiondirectory.org/php-tools/PHPCSUtils.git ../PHPCSUtils
     - /root/.composer/vendor/bin/phpcs --config-set installed_paths /builds/fusiondirectory/PHPCompatibility,/builds/fusiondirectory/PHPCSUtils
     - /root/.composer/vendor/bin/phpcs --standard=PHPCompatibility --runtime-set testVersion 7.3-7.4 --file-list=./filelist
 
