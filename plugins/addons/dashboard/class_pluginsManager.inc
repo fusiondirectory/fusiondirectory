@@ -35,7 +35,6 @@ class pluginsManager extends simplePlugin
   {
     return [
       'plugins' => [
-        //'class' => ['fullwidth'],
         'name'  => _('Plugins'),
         'attrs' => [new FakeAttribute('pluginsList')],
         'template' => get_template_path('plugins_list.tpl', TRUE, dirname(__FILE__)),
