@@ -36,7 +36,7 @@ create_php_code_sniffer_rapport:
 
 # phpstan
 create_phpstan_rapport:
-  image: registry.fusiondirectory.org/fusiondirectory/fd/phpstan:buster
+  image: registry.fusiondirectory.org/fusiondirectory/fd/phpstan-cli:buster
   stage: codestyle
   only:
     - branches
