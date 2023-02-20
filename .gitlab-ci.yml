@@ -73,7 +73,7 @@ update-transifex:
 build-tarballs:
   stage: tarballs
   only:
-    - 1.4-dev
+    - $TARBALLS_TRIGGER_VERSION
   script:
     - mkdir ../fusiondirectory-$VERSION/
     - mv ./* ../fusiondirectory-$VERSION/
@@ -94,7 +94,7 @@ trigger-plugins:
     BRANCH_BUILD_CENTOS_7: $BRANCH_BUILD_CENTOS_7
   stage: trigger
   only:
-    - 1.4-dev
+    - $TARBALLS_TRIGGER_VERSION
   trigger:
     project: fusiondirectory/fd-plugins
     branch: $CI_COMMIT_REF_NAME
