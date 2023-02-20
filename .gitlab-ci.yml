@@ -30,7 +30,7 @@ create_php_code_sniffer_rapport:
     - find . -type f -name '*.php' -o -name '*.inc' > ./filelist
     - /root/.composer/vendor/bin/phpcs --standard=../dev-tools/php-codesniffer-rules/FDStandard/ruleset.xml --file-list=./filelist
     - /root/.composer/vendor/bin/phpcs --config-set installed_paths /PHPCompatibility,/PHPCSUtils
-    - /root/.composer/vendor/bin/phpcs --standard=PHPCompatibility --runtime-set testVersion 7.3-7.4 --file-list=./filelist
+    - /root/.composer/vendor/bin/phpcs --standard=PHPCompatibility --runtime-set testVersion $PHP_COMPATIBILITY --file-list=./filelist
 
 # phpstan
 create_phpstan_rapport:
