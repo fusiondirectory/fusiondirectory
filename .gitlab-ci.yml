@@ -73,6 +73,7 @@ update-transifex:
 build-tarballs:
   stage: tarballs
   only:
+    variables:
     - $TARBALLS_TRIGGER_VERSION
   script:
     - mkdir ../fusiondirectory-$VERSION/
