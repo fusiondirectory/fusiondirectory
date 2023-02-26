@@ -3,7 +3,7 @@
 ##
 
 
-# Attributes
+# Attributes from gosa
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.30 NAME 'gosaGroupObjects'
   DESC 'GOsa - List of all object types that are in a gosaGroupOfNames'
@@ -39,6 +39,8 @@ attributetype ( 1.3.6.1.4.1.10098.1.1.12.39 NAME 'gosaSnapshotData'
   DESC 'GOsa - Original data of saved object in snapshot'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.5 SINGLE-VALUE)
 
+# Attributes from FusionDirectory
+
 attributetype ( 1.3.6.1.4.1.38414.62.1.1 NAME 'fdUserDn'
   DESC 'FusionDirectory - DN of a user'
   EQUALITY caseIgnoreMatch
@@ -63,7 +65,7 @@ attributetype ( 1.3.6.1.4.1.38414.62.1.4 NAME 'fdSnapshotObjectType'
   SUBSTR caseIgnoreSubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE )
 
-# Subscriptions
+# Subscriptions attributes
 
 attributetype ( 1.3.6.1.4.1.38414.62.11.1 NAME 'fdSubscriptionStartDate'
   DESC 'FusionDirectory - Subscription Starting Date'
@@ -92,6 +94,140 @@ attributetype ( 1.3.6.1.4.1.38414.62.11.4 NAME 'fdSubscriptionContractId'
 attributetype ( 1.3.6.1.4.1.38414.62.11.5 NAME 'fdSubscriptionName'
   DESC 'FusionDirectory - Subscription client name'
   SUP name )
+  
+# plugin manager attributes
+
+attributetype ( 1.3.6.1.4.1.38414.62.12.1 NAME 'fdPluginInfoAuthors'
+  DESC 'FusionDirectory - Plugin authors attribute'
+  EQUALITY caseIgnoreIA5Match
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+
+attributetype ( 1.3.6.1.4.1.38414.62.12.2 NAME 'fdPluginInfoVersion'
+  DESC 'FusionDirectory - Plugin Version attribute'
+  EQUALITY caseIgnoreIA5Match
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+
+attributetype ( 1.3.6.1.4.1.38414.62.12.3 NAME 'fdPluginSupportHomeUrl'
+  DESC 'FusionDirectory - Plugin Support page url attribute'
+  EQUALITY caseIgnoreIA5Match
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+
+attributetype ( 1.3.6.1.4.1.38414.62.12.4 NAME 'fdPluginSupportTicketUrl'
+  DESC 'FusionDirectory - Plugin Suuport ticket url attribute'
+  EQUALITY caseIgnoreIA5Match
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+
+attributetype ( 1.3.6.1.4.1.38414.62.12.5 NAME 'fdPluginSupportDiscussionUrl'
+  DESC 'FusionDirectory - Pluging discussion url attribute'
+  EQUALITY caseIgnoreIA5Match
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+
+attributetype ( 1.3.6.1.4.1.38414.62.12.6 NAME 'fdPluginSupportSchemaUrl'
+  DESC 'FusionDirectory - Plugin schema url attribute needed if necessary'
+  EQUALITY caseIgnoreIA5Match
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+
+attributetype ( 1.3.6.1.4.1.38414.62.12.7 NAME 'fdPluginReqFdVersion'
+  DESC 'FusionDirectory - Plugin Fusiondirectory Version requirement attribute'
+  EQUALITY caseIgnoreIA5Match
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+
+attributetype ( 1.3.6.1.4.1.38414.62.12.8 NAME 'fdPluginReqPhpVersion'
+  DESC 'FusionDirectory - Plugin PHP Version requirement attribute'
+  EQUALITY caseIgnoreIA5Match
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+
+attributetype ( 1.3.6.1.4.1.38414.62.12.9 NAME 'fdPluginReqPlugin'
+  DESC 'FusionDirectory - Plugin Home Plugin list dependancy Attribute'
+  EQUALITY caseIgnoreIA5Match
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+
+attributetype ( 1.3.6.1.4.1.38414.62.12.10 NAME 'fdPluginContentPhpClass'
+  DESC 'FusionDirectory - Plugin Manager : list on php class provided'
+  EQUALITY caseIgnoreIA5Match
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+
+attributetype ( 1.3.6.1.4.1.38414.62.12.11 NAME 'fdPluginContentLdapObject'
+  DESC 'FusionDirectory - Plugin Manager : list on Ldap Object needed'
+  EQUALITY caseIgnoreIA5Match
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+
+attributetype ( 1.3.6.1.4.1.38414.62.12.12 NAME 'fdPluginContentLdapAttributes'
+  DESC 'FusionDirectory - Plugin Manager : list on Ldap attributes needed'
+  EQUALITY caseIgnoreIA5Match
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+
+attributetype ( 1.3.6.1.4.1.38414.62.12.13 NAME 'fdPluginContentFileList'
+  DESC 'FusionDirectory - Plugin Manager : list of file provided'
+  EQUALITY caseIgnoreIA5Match
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+
+attributetype ( 1.3.6.1.4.1.38414.62.12.14 NAME 'fdPluginInfoStatus'
+  DESC 'FusionDirectory - Plugin Manager : status of plugin : Dev / stable / dontuse '
+  EQUALITY caseIgnoreIA5Match
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+
+attributetype ( 1.3.6.1.4.1.38414.62.12.15 NAME 'fdPluginSupportDownloadUrl'
+  DESC 'FusionDirectory - Plugin direct download url '
+  EQUALITY caseIgnoreIA5Match
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+
+attributetype ( 1.3.6.1.4.1.38414.62.12.16 NAME 'fdPluginInfoTags'
+  DESC 'FusionDirectory - Plugin Tag for identiy plugins goals'
+  EQUALITY caseIgnoreIA5Match
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+
+attributetype ( 1.3.6.1.4.1.38414.62.12.17 NAME 'fdPluginInfoLogoUrl'
+  DESC 'FusionDirectory - Plugin Logo url '
+  EQUALITY caseIgnoreIA5Match
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+
+attributetype ( 1.3.6.1.4.1.38414.62.12.18 NAME 'fdPluginInfoScreenshotUrl'
+  DESC 'FusionDirectory - Plugin Screenshot Url '
+  EQUALITY caseIgnoreIA5Match
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+
+attributetype ( 1.3.6.1.4.1.38414.62.12.19 NAME 'fdPluginInfoLicence'
+  DESC 'FusionDirectory - Plugin Licence'
+  EQUALITY caseIgnoreIA5Match
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+
+attributetype ( 1.3.6.1.4.1.38414.62.12.20 NAME 'fdPluginInfoOrigin'
+  DESC 'FusionDirectory - Plugin Origin'
+  EQUALITY caseIgnoreIA5Match
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+
+attributetype ( 1.3.6.1.4.1.38414.62.12.21 NAME 'fdPluginSupportProvider'
+  DESC 'FusionDirectory - Plugin Support Provider'
+  EQUALITY caseIgnoreIA5Match
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+
+attributetype ( 1.3.6.1.4.1.38414.62.12.22 NAME 'fdPluginSupportContractUrl'
+  DESC 'FusionDirectory - Plugin Support Contract url'
+  EQUALITY caseIgnoreIA5Match
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
   
 #Macro Attributes
 
@@ -398,6 +534,8 @@ attributetype ( 1.3.6.1.4.1.38414.89.1.20 NAME 'fdTasksConfIntervalEmails'
 
 ##### Classes #####
 
+### old gosa ObjectClass ###
+
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.4 NAME 'gosaDepartment' SUP top AUXILIARY
   DESC 'GOsa - Class to mark Departments for GOsa'
   MUST  ( ou $ description )
@@ -425,6 +563,8 @@ objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.19 NAME 'gosaSnapshotObject'
   MUST ( gosaSnapshotTimestamp $ gosaSnapshotDN $ gosaSnapshotData )
   MAY  ( fdSnapshotObjectType $ description ) )
 
+### New FusionDirectory Objectclass ###
+
 objectclass ( 1.3.6.1.4.1.38414.62.2.1 NAME 'fdLockEntry' SUP top STRUCTURAL
   DESC 'FusionDirectory - Class for FD locking'
   MUST ( fdUserDn $ fdObjectDn $ cn $ fdLockTimestamp ))
@@ -433,8 +573,17 @@ objectclass ( 1.3.6.1.4.1.38414.62.2.2 NAME 'fdSubscriptionInformation' SUP top 
   DESC 'FusionDirectory - Information about current subscription'
   MUST ( cn )
   MAY ( uid $ fdSubscriptionStartDate $ fdSubscriptionEndDate $ fdSubscriptionType $ fdSubscriptionContractId $ fdSubscriptionName ))
-  
-# Classes Macros Related
+
+### Plugin manager Related Object Class ###
+
+objectclass (1.3.6.1.4.1.38414.62.2.2 NAME 'fdPlugin'
+        DESC 'FusionDirectory - Plugins Manager ObjectClass'
+        MUST ( cn $ description $ fdPluginInfoAuthors $ fdPluginInfoVersion $ fdPluginInfoStatus $ fdPluginInfoLicence $ fdPluginInfoOrigin $ fdPluginSupportDownloadUrl $ 
+        fdPluginSupportHomeUrl $ fdPluginReqFdVersion $ fdPluginReqPhpVersion $ fdPluginSupportProvider )
+        MAY ( fdPluginInfoScreenshotUrl $ fdPluginInfoLogoUrl $ fdPluginInfoTags $ fdPluginSupportTicketUrl $ fdPluginSupportDiscussionUrl $ fdPluginSupportSchemaUrl $ 
+        fdPluginReqPlugin $ fdPluginContentPhpClass $ fdPluginContentLdapObject $ fdPluginContentLdapAttributes $ fdPluginContentFileList $ fdPluginSupportContractUrl ))
+
+### Macro related objectclass ### 
 
 objectclass ( 1.3.6.1.4.1.38414.90.2.1 NAME 'fdMacroConf'
   DESC 'FusionDirectory Macro Configuration'
