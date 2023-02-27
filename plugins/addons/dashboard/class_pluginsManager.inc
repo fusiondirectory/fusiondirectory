@@ -57,7 +57,7 @@ class pluginsManager extends simplePlugin
 
     $ldap = $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);
-    $ldap->search('(objectClass=fdPlugin)', ['cn','description','fdPluginInfoVersion','fdPluginInfoAuthors','fdPluginInfoStatus','fdPluginInfoOrigin','fdPluginSupportProvider','fdPluginSupportHomeUrl','fdPluginReqPlugin']);
+    $ldap->search('(objectClass=fdPluginManager)', ['cn','description','fdPluginManagerInfoVersion','fdPluginManagerInfoAuthors','fdPluginManagerInfoStatus','fdPluginManagerInfoOrigin','fdPluginManagerSupportProvider','fdPluginManagerSupportHomeUrl']);
 
     $id   = 'pluginsStats';
     $div  = new divSelectBox('rows'.$id);
@@ -69,14 +69,12 @@ class pluginsManager extends simplePlugin
       $fields = [
         ['string' => $plugin['cn'][0]],
         ['string' => $plugin['description'][0]],
-        ['string' => $plugin['fdPluginInfoVersion'][0]],
-        ['string' => $plugin['fdPluginInfoAuthors'][0]],
-        ['string' => $plugin['fdPluginInfoStatus'][0]],
-        ['string' => $plugin['fdPluginInfoOrigin'][0]],
-        ['string' => $plugin['fdPluginSupportProvider'][0]],
-        ['string' => $plugin['fdPluginReqPlugin'][0]],
-        ['string' => $plugin['fdPluginSupportHomeUrl'][0]],
-
+        ['string' => $plugin['fdPluginManagerInfoVersion'][0]],
+        ['string' => $plugin['fdPluginManagerInfoAuthors'][0]],
+        ['string' => $plugin['fdPluginManagerInfoStatus'][0]],
+        ['string' => $plugin['fdPluginManagerInfoOrigin'][0]],
+        ['string' => $plugin['fdPluginManagerSupportProvider'][0]],
+        ['string' => $plugin['fdPluginManagerSupportHomeUrl'][0]],
       ];
 
       $div->addEntry($fields);
