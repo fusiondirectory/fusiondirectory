@@ -566,9 +566,8 @@ objectclass ( 1.3.6.1.4.1.38414.62.2.2 NAME 'fdSubscriptionInformation' SUP top 
 
 objectclass (1.3.6.1.4.1.38414.62.2.3 NAME 'fdPluginManager'
   DESC 'FusionDirectory - Plugins Manager ObjectClass'
-  MUST ( cn $ description $ fdPluginManagerInfoAuthors $ fdPluginManagerInfoVersion $ fdPluginManagerInfoStatus $ fdPluginManagerInfoLicence $ fdPluginManagerInfoOrigin $ fdPluginManagerSupportDownloadUrl $ 
-  fdPluginManagerSupportHomeUrl $ fdPluginManagerReqFdVersion $ fdPluginManagerReqPhpVersion $ fdPluginManagerSupportProvider )
-  MAY ( fdPluginManagerInfoScreenshotUrl $ fdPluginManagerInfoLogoUrl $ fdPluginManagerInfoTags $ fdPluginManagerSupportTicketUrl $ fdPluginManagerSupportDiscussionUrl $ fdPluginManagerSupportSchemaUrl $ fdPluginManagerContentPhpClass $ fdPluginManagerContentLdapObject $ fdPluginManagerContentLdapAttributes $ fdPluginManagerSupportContractUrl ))
+  MUST ( cn $ description $ fdPluginManagerInfoAuthors $ fdPluginManagerInfoVersion $ fdPluginManagerInfoStatus $ fdPluginManagerInfoLicence $ fdPluginManagerInfoOrigin $ fdPluginManagerSupportHomeUrl $ fdPluginManagerReqFdVersion $ fdPluginManagerReqPhpVersion $ fdPluginManagerSupportProvider )
+  MAY ( fdPluginManagerInfoScreenshotUrl $ fdPluginManagerInfoLogoUrl $ fdPluginManagerInfoTags $ fdPluginManagerSupportTicketUrl $ fdPluginManagerSupportDiscussionUrl $ fdPluginManagerSupportSchemaUrl $ fdPluginManagerSupportDownloadUrl $ fdPluginManagerContentPhpClass $ fdPluginManagerContentLdapObject $ fdPluginManagerContentLdapAttributes $ fdPluginManagerSupportContractUrl ))
 
 ### Macro related objectclass ### 
 

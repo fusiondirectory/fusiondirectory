@@ -63,7 +63,7 @@ class pluginsManager extends simplePlugin
     $div  = new divSelectBox('rows'.$id);
     $smarty = get_smarty();
     $div->setHeight(300);
-    $div->setHeaders([_('Nom'), _('Description'), _('Version'),_('Authors'),_('Status'),_('Origin'),_('Provider'),_('Dependencies'),_('Link')]);
+    $div->setHeaders([_('Nom'), _('Description'), _('Version'),_('Authors'),_('Status'),_('Origin'),_('Provider'),_('Support URL')]);
 
     while ($plugin = $ldap->fetch()) {
       $fields = [
