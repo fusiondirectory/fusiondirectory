@@ -33,7 +33,7 @@ class tasksGranular extends simplePlugin
       'plObjectType'  => ['tasksGranular' => [
         'name'        => _('TasksGranular'),
         'ou'          => get_ou('tasksRDN'),
-        'icon'        => 'geticon.php?context=applications&icon=tasks&size=48',
+        'icon'        => 'geticon.php?context=applications&icon=tasks&size=16',
       ]],
       'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())
     ];
