@@ -68,7 +68,7 @@ update-transifex:
     - echo $'[https://www.transifex.com]\nrest_hostname = '"$TRANSIFEX_REST_HOSTNAME"$'\nusername = '"$TRANSIFEX_USER"$'\ntoken = '"$TRANSIFEX_TOKEN"$'\n' > ~/.transifexrc
     - tx pull -a -f
     - ../dev-tools/locale-scripts/fusiondirectory-update-locale -g
-    - tx push -s -t --skip --no-interactive
+    - tx push -s -t --skip
 
 build-tarballs:
   stage: tarballs
