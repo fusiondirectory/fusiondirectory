@@ -65,7 +65,7 @@ update-transifex:
   script:
     - test -d ../dev-tools/ && rm -Rf ../dev-tools/
     - git clone --depth 1 https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
-    - echo $'[https://www.transifex.com]\nhostname = https://www.transifex.com\nusername = '"$TRANSIFEX_USER"$'\npassword = '"$TRANSIFEX_PASSWORD"$'\ntoken = '"$TRANSIFEX_API_TOKEN"$'\n' > ~/.transifexrc
+    - echo $'[https://www.transifex.com]\nrest_hostname = '"$TRANSIFEX_REST_HOSTNAME"$'\nusername = '"$TRANSIFEX_USER"$'\ntoken = '"$TRANSIFEX_TOKEN"$'\n' > ~/.transifexrc
     - tx pull -a -f
     - ../dev-tools/locale-scripts/fusiondirectory-update-locale -g
     - tx push -s -t --skip --no-interactive
