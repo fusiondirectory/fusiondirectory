@@ -38,7 +38,7 @@ class tasksConfig extends simplePlugin
         'name'  => _('Tasks Configuration'),
         'attrs' => [
           new StringAttribute(
-            _('Tasks RDN'), _('Branch in which Directory Base, Tasks will be stored'),
+            _('Tasks RDN'), _('Branch in which Tasks will be stored'),
             'fdTasksRDN', TRUE,
             'ou=tasks'
           ),
@@ -52,7 +52,7 @@ class tasksConfig extends simplePlugin
            'fdTasksConfLastExecTime', FALSE, '', FALSE, ''
            ),
           new IntAttribute(
-            _('Maximum number of e-mails processed per time'), _('Select max e-mails to be proccesse'),
+            _('Maximum number of e-mails processed per time'), _('Select max emails to be proccessed'),
             'fdTasksConfMaxEmails', FALSE, '', FALSE, ''
           ),
           new IntAttribute(

@@ -62,10 +62,10 @@ class tasksGranular extends simplePlugin
           new HiddenAttribute('fdTasksGranularRef', TRUE, '', '', 'Type', 'Reference towards a required CN (mail template E.g'),
           new MailAttribute(
              _('Email'),
-             _('Email address which will be sent to'), 'fdTasksGranularMail', TRUE),
+             _('Email address to which messages will be sent'), 'fdTasksGranularMail', TRUE),
           new MailAttribute(
              _('Email'),
-             _('Email address which will be sent from'), 'fdTasksGranularMailFrom', TRUE),
+             _('Email address from which emails will be sent'), 'fdTasksGranularMailFrom', TRUE),
           new DateTimeAttribute(
            _('Schedule'), '',
            'fdTasksGranularSchedule', FALSE

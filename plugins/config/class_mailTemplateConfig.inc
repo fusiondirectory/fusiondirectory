@@ -40,7 +40,7 @@ class mailTemplateConfig extends multiPluginSection
         'name'  => _('Mail Template'),
         'attrs' => [
           new StringAttribute(
-            _('Mail Template RDN'), _('Branch in which Directory Base, mails templates will be stored'),
+            _('Mail Template RDN'), _('Branch in which mails templates will be stored'),
             'fdMailTemplateRDN', TRUE,
             'ou=mailTemplate'
           ),
