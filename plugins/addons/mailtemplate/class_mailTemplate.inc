@@ -27,7 +27,7 @@ class mailTemplate extends simplePlugin
   {
     return [
       'plShortName'   => _('Mail Template'),
-      'plDescription' => _('Mail Tempmlate'),
+      'plDescription' => _('Mail Template'),
       'plObjectClass' => ['fdMailTemplate'],
       'plFilter'      => '(objectClass=fdMailTemplate)',
       'plObjectType'  => ['mailTemplate' => [

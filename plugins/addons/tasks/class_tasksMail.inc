@@ -58,7 +58,7 @@ class tasksMail extends simplePlugin
         ]
       ],
       'From Component' => [
-        'name'  => _('Sender Address'),
+        'name'  => _('Sender email address'),
         'attrs' => [
            new MailAttribute(
              _('Sender email address'),
