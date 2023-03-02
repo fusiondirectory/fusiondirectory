@@ -2,7 +2,7 @@
 ## core-fd.schema - Needed by FusionDirectory for its basic fonctionnalities
 ##
 
-# Attributes from gosa
+##### Attributes from gosa ######
 
 attributetype ( 1.3.6.1.4.1.10098.1.1.12.30 NAME 'gosaGroupObjects'
   DESC 'GOsa - List of all object types that are in a gosaGroupOfNames'
@@ -38,7 +38,7 @@ attributetype ( 1.3.6.1.4.1.10098.1.1.12.39 NAME 'gosaSnapshotData'
   DESC 'GOsa - Original data of saved object in snapshot'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.5 SINGLE-VALUE)
 
-# Attributes from FusionDirectory
+##### Attributes from FusionDirectory #####
 
 attributetype ( 1.3.6.1.4.1.38414.62.1.1 NAME 'fdUserDn'
   DESC 'FusionDirectory - DN of a user'
@@ -64,7 +64,7 @@ attributetype ( 1.3.6.1.4.1.38414.62.1.4 NAME 'fdSnapshotObjectType'
   SUBSTR caseIgnoreSubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE )
 
-# Subscriptions attributes
+##### Subscriptions Attributes ######
 
 attributetype ( 1.3.6.1.4.1.38414.62.11.1 NAME 'fdSubscriptionStartDate'
   DESC 'FusionDirectory - Subscription Starting Date'
@@ -94,7 +94,7 @@ attributetype ( 1.3.6.1.4.1.38414.62.11.5 NAME 'fdSubscriptionName'
   DESC 'FusionDirectory - Subscription client name'
   SUP name )
   
-### Mail Template Related Attributes ###
+### Mail Template Attributes ###
 
 attributetype ( 1.3.6.1.4.1.38414.62.1.5 NAME 'fdMailTemplateBody'
   DESC 'FusionDirectory - template mail field'
@@ -244,7 +244,7 @@ attributetype ( 1.3.6.1.4.1.38414.62.1.30 NAME 'fdTasksConfIntervalEmails'
 	DESC 'FusionDirectory maximum emails to be processed by Orchestrator - secure spam'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.27 )
 
-# plugin manager attributes
+##### Plugin Manager #####
 
 attributetype ( 1.3.6.1.4.1.38414.62.1.31 NAME 'fdPluginManagerInfoAuthors'
   DESC 'FusionDirectory - Plugin authors attribute'
@@ -402,6 +402,8 @@ objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.19 NAME 'gosaSnapshotObject'
 objectclass ( 1.3.6.1.4.1.38414.62.2.1 NAME 'fdLockEntry' SUP top STRUCTURAL
   DESC 'FusionDirectory - Class for FD locking'
   MUST ( fdUserDn $ fdObjectDn $ cn $ fdLockTimestamp ))
+
+### Subscription Related Object Class ###
 
 objectclass ( 1.3.6.1.4.1.38414.62.2.2 NAME 'fdSubscriptionInformation' SUP top STRUCTURAL
   DESC 'FusionDirectory - Information about current subscription'
