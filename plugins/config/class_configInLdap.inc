@@ -247,6 +247,14 @@ class configInLdap extends simplePlugin
             _('Verbose error'), _('Activate verbose errors in phpCAS. Avoid in production.'),
             'fdCasVerbose', FALSE
           ),
+          new BooleanAttribute(
+            _('Library CAS 1.6'), _('Activate if library CAS >= 1.6 is being used.'),
+            'fdCasLibraryBool', FALSE
+          ),
+          new StringAttribute(
+            _('Client service'), _('The client service name'),
+            'fdCasClientServiceName', FALSE
+          ),
         ]
       ],
       'people_and_group' => [
@@ -495,6 +503,18 @@ class configInLdap extends simplePlugin
         ]
       ]
     );
+
+    // CAS boolean case to allow the use of CAS library >= 1.6
+    $this->attributesAccess['fdCasLibraryBool']->setManagedAttributes(
+      [
+        'disable' => [
+          FALSE => [
+            'fdCasClientServiceName',
+          ]
+        ]
+      ]
+    );
+
     $this->attributesAccess['fdLoginMethod']->setManagedAttributes(
       [
         'multiplevalues' => [
@@ -516,6 +536,8 @@ class configInLdap extends simplePlugin
             'fdCasPort',
             'fdCasContext',
             'fdCasVerbose',
+            'fdCasClientServiceName',
+            'fdCasLibraryBool'
           ],
           'nonheader' => [
             'fdHttpHeaderAuthHeaderName',

@@ -39,20 +39,30 @@ class LoginCAS extends LoginMethod
     spl_autoload_unregister('fusiondirectory_autoload');
     spl_autoload_register('fusiondirectory_autoload');
 
-    if ($config->get_cfg_value('casVerbose') == 'TRUE') {
+    if ($config->get_cfg_value('CasVerbose') == 'TRUE') {
       phpCAS::setVerbose(TRUE);
     }
 
-    // Initialize phpCAS
-    phpCAS::client(
-      CAS_VERSION_2_0,
-      $config->get_cfg_value('casHost', 'localhost'),
-      (int) ($config->get_cfg_value('casPort', 443)),
-      $config->get_cfg_value('casContext', '')
-    );
+    // Initialize CAS with proper library and call.
+    if ($config->get_cfg_value('CasLibraryBool')) {
+      phpCAS::client(
+        CAS_VERSION_2_0,
+        $config->get_cfg_value('CasHost', 'localhost'),
+        (int) ($config->get_cfg_value('CasPort', 443)),
+        $config->get_cfg_value('CasContext'),
+        $config->get_cfg_value('CasClientServiceName')
+      );
+    } else {
+      phpCAS::client(
+        CAS_VERSION_2_0,
+        $config->get_cfg_value('CasHost', 'localhost'),
+        (int) ($config->get_cfg_value('CasPort', 443)),
+        $config->get_cfg_value('CasContext')
+      );
+    }
 
     // Set the CA certificate that is the issuer of the cert
-    phpCAS::setCasServerCACert($config->get_cfg_value('casServerCaCertPath'));
+    phpCAS::setCasServerCACert($config->get_cfg_value('CasServerCaCertPath'));
   }
 
   /*! \brief All login steps in the right order for CAS login */
