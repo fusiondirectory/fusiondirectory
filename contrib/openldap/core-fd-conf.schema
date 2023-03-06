@@ -518,6 +518,19 @@ attributetype ( 1.3.6.1.4.1.38414.8.21.6 NAME 'fdCasVerbose'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
   SINGLE-VALUE )
 
+attributetype ( 1.3.6.1.4.1.38414.8.21.7 NAME 'fdCasLibraryBool'
+  DESC 'FusionDirectory - CAS boolean to activate CAS library >= 1.6'
+  EQUALITY booleanMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.8.21.8 NAME 'fdCasClientServiceName'
+  DESC 'FusionDirectory - CAS client service name'
+  EQUALITY caseExactIA5Match
+  SUBSTR caseExactIA5SubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE)
+
 # merged from dashboard-fd.schema - Needed by Fusion Directory for dashboard options
 
 attributetype ( 1.3.6.1.4.1.38414.27.1.1 NAME 'fdDashboardPrefix'
@@ -632,7 +645,7 @@ objectclass ( 1.3.6.1.4.1.38414.8.2.1 NAME 'fusionDirectoryConf'
     fdIncrementalModifierStates $
     fdSslCaCertPath $ fdSslKeyPath $ fdSslCertPath $
     fdCasActivated $ fdCasServerCaCertPath $ fdCasHost $ fdCasPort $ fdCasContext $ fdCasVerbose $
-    fdLoginMethod
+    fdLoginMethod $ fdCasLibraryBool $ fdCasClientServiceName
   ) )
 
 objectclass ( 1.3.6.1.4.1.38414.8.2.2 NAME 'fusionDirectoryPluginsConf'
