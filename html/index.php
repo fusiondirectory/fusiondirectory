@@ -89,7 +89,7 @@ if (!file_exists(CONFIG_DIR.'/'.CONFIG_FILE)) {
 if (!is_readable(CONFIG_DIR.'/'.CONFIG_FILE)) {
   throw new FatalError(
     htmlescape(sprintf(
-      _('FusionDirectory configuration %s/%s is not readable. Please run fusiondirectory-setup --check-config to fix this.'),
+      _('FusionDirectory configuration %s/%s is not readable. Please run fusiondirectory-configuration-manager --check-config to fix this.'),
       CONFIG_DIR,
       CONFIG_FILE
     ))

@@ -102,7 +102,7 @@ class acl
     if (!in_array($type, ['subtree', 'base'])) {
       $error = new FusionDirectoryError(
         nl2br(htmlescape(sprintf(
-          _("Unkown ACL type \"%s\"!\nYou might need to run \"fusiondirectory-setup --migrate-acls\" to migrate your acls to the new format."),
+          _("Unkown ACL type \"%s\"!\nYou might need to run \"fusiondirectory-configuration-manager --migrate-acls\" to migrate your acls to the new format."),
           $type
         )))
       );
