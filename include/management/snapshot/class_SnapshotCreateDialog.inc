@@ -56,12 +56,24 @@ class SnapshotCreateDialog extends ManagementDialog
           ),
         ]
       ],
+      'dataSource' => [
+        'name'  => _('dataSource'),
+        'attrs' => [
+          new SetAttribute(
+            new SelectAttribute(
+              'Data source', _('Origin / Source of the data'),
+              'SnapshotSource', FALSE,
+            ),
+          ),
+        ]
+      ],
     ];
   }
 
   function __construct (string $dn, management $parent, string $aclCategory)
   {
     parent::__construct(NULL, NULL, $parent);
+    // The attribut will be passed to parent for later saving, dataSource might require same logic.
     $this->attributesAccess['description']->setInLdap(FALSE);
     $this->object_dn    = $dn;
     $this->aclCategory  = $aclCategory;
@@ -116,6 +128,7 @@ class SnapshotCreateDialog extends ManagementDialog
 
   function save (): array
   {
+    // We have to modify the createSnapshot to integrate the source Data
     $this->parent->createSnapshot($this->object_dn, $this->description);
     return [];
   }
