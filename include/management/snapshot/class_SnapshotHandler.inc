@@ -197,8 +197,10 @@ class SnapshotHandler
    * \param string $description Snapshot description
    *
    * \param string $objectType Type of snapshotted object
+   *
+   * \param string $snapshotSource source of the data.
    */
-  function createSnapshot ($dn, string $description, string $objectType)
+  function createSnapshot ($dn, string $description, string $objectType, string $snapshotSource = 'FD')
   {
     global $config;
     if (!$this->enabled()) {
@@ -251,6 +253,7 @@ class SnapshotHandler
     $target['gosaSnapshotDN']       = $dn;
     $target['description']          = $description;
     $target['fdSnapshotObjectType'] = $objectType;
+    $target['fdSnapshotDataSource'] = $snapshotSource;
 
     /* Insert the new snapshot
        But we have to check first, if the given gosaSnapshotTimestamp
