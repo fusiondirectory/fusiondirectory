@@ -375,7 +375,7 @@ class user extends simplePlugin
 
   function post_save ()
   {
-    global $ui;
+    global $ui, $config;
 
     /* Update current locale settings, if we have edited ourselves */
     if (isset($this->attrs['preferredLanguage']) && ($this->dn == $ui->dn)) {
@@ -383,9 +383,80 @@ class user extends simplePlugin
       session::set('ui', $ui);
       session::set('Last_init_lang', 'update');
     }
-
+    // Verification is snapshot is enabled and automatic.
+    // Note : string values are stored in that array.
+    if (isset($config->current['ENABLEAUTOMATICSNAPSHOTS']) && isset($config->current['ENABLESNAPSHOTS'])) {
+      if (strtolower($config->current['ENABLEAUTOMATICSNAPSHOTS']) === 'true' && strtolower($config->current['ENABLESNAPSHOTS']) === 'true' ) {
+      }
+    }
     return parent::post_save();
   }
+
+  /*
+   * Create the snapshot object in case of automated snapshot.
+   */
+  public function generateSlaveTasks ()
+  {
+    $emails = $this->attributesAccess['fdTasksEmailsFromDN']->getValue();
+    // Ref is supposed to be the mail object CN in this class
+    $ref  = $this->attributesAccess['fdTasksMailObject']->getValue();
+    $from = $this->attributesAccess['fdTasksEmailSender']->getValue();
+    // Incremental id allowing creation of different CN for sub tasks
+    $id = 0;
+
+    // Take the attribute from the other tabs - attribute cannot be null or unset by default
+    $schedule = $this->parent->getBaseObject()->fdTasksScheduleDate ?? NULL;
+
+    if (isset($emails) && !empty($emails)) {
+      foreach ($emails as $email) {
+        $id ++;
+
+        // Here we create the object taskGranular
+        $tabObject = objects::create('TasksGranular');
+
+        // remove 'dn' keeping only 'cn'
+        $rmDn = preg_replace('/(?=,).*/', '', $this->dn);
+
+        // only take the cn without dc
+        preg_match('/cn=(.*)/', $rmDn, $matches);
+
+        $subTaskName = $matches[1].'-SubTask-'.$id;
+
+        $values['tasksGranular'] = [
+          "cn"                      => $subTaskName,
+          "fdTasksGranularType"     => 'Mail Object',
+          "fdTasksGranularMaster"   => $this->dn,
+          "fdTasksGranularMail"     => $email,
+          "fdTasksGranularSchedule" => $schedule,
+          "fdTasksGranularRef"      => $ref,
+          "fdTasksGranularMailFrom" => $from
+        ];
+
+        foreach ($values as $tab => $tabvalues) {
+          if (!isset($tabObject->by_object[$tab])) {
+            echo "Error tab does not contains attributes values" .PHP_EOL;
+          }
+          $error = $tabObject->by_object[$tab]->deserializeValues($tabvalues);
+          if ($error !== TRUE) {
+            echo 'Error during deserializing' .$error .PHP_EOL;
+          }
+
+          $tabObject->current = $tab;
+          $tabObject->update();
+          $tabObject->loadTabs();
+        }
+
+        $errors = $tabObject->save();
+
+        // Showing errors should be better, enhancement here required.
+        if (!empty($errors)) {
+          $show_error = new SimplePluginError($this, htmlescape(sprintf(_('Error : "%s", already exist ! Editing existing tasks is forbidden.'), $subTaskName)));
+          $show_error->display();
+        }
+      }
+    }
+  }
+
 
   function adapt_from_template (array $attrs, array $skip = [])
   {

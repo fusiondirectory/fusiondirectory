@@ -149,7 +149,6 @@ class SnapshotCreateDialog extends ManagementDialog
     if (empty($this->snapshotSource)) {
       $this->snapshotSource = 'FD';
     }
-    error_log($this->snapshotSource);
     $this->parent->createSnapshot($this->object_dn, $this->description, $this->snapshotSource);
     return [];
   }
