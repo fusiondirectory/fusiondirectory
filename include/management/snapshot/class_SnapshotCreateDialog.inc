@@ -95,7 +95,6 @@ class SnapshotCreateDialog extends ManagementDialog
     return $recordedDataSources;
   }
 
-
   /*!
    * \brief Get LDAP base to use for ACL checks
    */
