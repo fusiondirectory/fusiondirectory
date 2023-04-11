@@ -398,7 +398,7 @@ class user extends simplePlugin
    */
   public function generateAutomaticSnapshot ()
   {
-    $snapshotHandler = new snapshotHandler();
+    $snapshotHandler = new SnapshotHandler();
     $snapshotHandler->createSnapshot($this->dn, 'automatic snapshot', 'USER', 'FD');
   }
 
