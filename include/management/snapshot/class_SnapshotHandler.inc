@@ -333,7 +333,6 @@ class SnapshotHandler
    */
   function removeSnapshot ($dn)
   {
-    error_log($dn);
     global $config;
     $ldap = $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);
