@@ -1318,17 +1318,19 @@ class management implements FusionDirectoryDialog
 
   /*!
    * \brief  Creates a new snapshot entry
+   * If source arg is not set, default to 'FD'.
    */
-  function createSnapshot (string $dn, string $description)
+  function createSnapshot (string $dn, string $description, string $snapshotSource = 'FD')
   {
     global $ui;
+
     if (empty($dn) || ($this->currentDn !== $dn)) {
       trigger_error('There was a problem with the snapshot workflow');
       return;
     }
     $entry = $this->listing->getEntry($dn);
     if ($entry->snapshotCreationAllowed()) {
-      $this->snapHandler->createSnapshot($dn, $description, $entry->type);
+      $this->snapHandler->createSnapshot($dn, $description, $entry->type, $snapshotSource);
       logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'Snapshot created!');
     } else {
       $error = new FusionDirectoryPermissionError(htmlescape(sprintf(_('You are not allowed to restore a snapshot for %s.'), $dn)));

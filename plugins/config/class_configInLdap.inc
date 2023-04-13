@@ -102,16 +102,6 @@ class configInLdap extends simplePlugin
             TRUE
           ),
           new BooleanAttribute(
-            _('Enable snapshots'), _('This enables you to save certain states of entries and restore them later on.'),
-            'fdEnableSnapshots', FALSE,
-            TRUE
-          ),
-          new StringAttribute(
-            _('Snapshot base'), _('The base where snapshots should be stored inside the LDAP directory.'),
-            'fdSnapshotBase', FALSE,
-            'ou=snapshots,'.$config->current['BASE']
-          ),
-          new BooleanAttribute(
             _('Wildcard foreign keys'), _('Enables wildcard searches like member=* when moving a whole department. This will open all existing groups and roles to make sure foreign keys are respected. Slow on big trees.'),
             'fdWildcardForeignKeys', FALSE,
             TRUE
@@ -474,16 +464,6 @@ class configInLdap extends simplePlugin
     }
 
     $this->fusionConfigMd5 = md5_file(CACHE_DIR."/".CLASS_CACHE);
-
-    $this->attributesAccess['fdEnableSnapshots']->setManagedAttributes(
-      [
-        'disable' => [
-          FALSE => [
-            'fdSnapshotBase',
-          ]
-        ]
-      ]
-    );
 
     $this->attributesAccess['fdForceSSL']->setManagedAttributes(
       [

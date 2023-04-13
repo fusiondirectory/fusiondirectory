@@ -56,15 +56,44 @@ class SnapshotCreateDialog extends ManagementDialog
           ),
         ]
       ],
+      'dataSource' => [
+        'name'  => _('dataSource - only available via web-service.'),
+        'attrs' => [
+            new SelectAttribute(
+              'Data source', _('Origin / Source of the data'),
+              'snapshotSource', FALSE,
+            ),
+        ]
+      ],
     ];
   }
 
   function __construct (string $dn, management $parent, string $aclCategory)
   {
     parent::__construct(NULL, NULL, $parent);
+    // The attribut will be passed to parent for later saving, dataSource might require same logic.
     $this->attributesAccess['description']->setInLdap(FALSE);
+    $this->attributesAccess['snapshotSource']->setInLdap(FALSE);
+    $this->attributesAccess['snapshotSource']->setVisible(FALSE);
+
+    $recordedDataSources = $this->getLdapRecordedDataSources();
+    if (!empty($recordedDataSources)) {
+      $this->attributesAccess['snapshotSource']->setChoices($recordedDataSources);
+    }
+
     $this->object_dn    = $dn;
     $this->aclCategory  = $aclCategory;
+  }
+
+  /*
+   * Retrieve the data sources from configuration.
+   */
+  public function getLdapRecordedDataSources () : array
+  {
+    global $config;
+    $recordedDataSources = $config->current['SNAPSHOTSOURCEDATA'];
+
+    return $recordedDataSources;
   }
 
   /*!
@@ -116,7 +145,11 @@ class SnapshotCreateDialog extends ManagementDialog
 
   function save (): array
   {
-    $this->parent->createSnapshot($this->object_dn, $this->description);
+    // snapshotSource is always set but can be empty and must be defaulted.
+    if (empty($this->snapshotSource)) {
+      $this->snapshotSource = 'FD';
+    }
+    $this->parent->createSnapshot($this->object_dn, $this->description, $this->snapshotSource);
     return [];
   }
 

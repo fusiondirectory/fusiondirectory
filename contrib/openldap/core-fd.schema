@@ -64,6 +64,12 @@ attributetype ( 1.3.6.1.4.1.38414.62.1.4 NAME 'fdSnapshotObjectType'
   SUBSTR caseIgnoreSubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE )
 
+attributetype ( 1.3.6.1.4.1.38414.62.1.51 NAME 'fdSnapshotDataSource'
+  DESC 'FusionDirectory - snapshot data origin / source'
+  EQUALITY caseIgnoreMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE )
+
 ##### Subscriptions Attributes ######
 
 attributetype ( 1.3.6.1.4.1.38414.62.11.1 NAME 'fdSubscriptionStartDate'
@@ -394,7 +400,7 @@ objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.18 NAME 'gosaAcl'
 objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.19 NAME 'gosaSnapshotObject'
   DESC 'GOsa - Container object for undo and snapshot data'
   SUP top STRUCTURAL
-  MUST ( gosaSnapshotTimestamp $ gosaSnapshotDN $ gosaSnapshotData )
+  MUST ( gosaSnapshotTimestamp $ gosaSnapshotDN $ gosaSnapshotData $ fdSnapshotDataSource )
   MAY  ( fdSnapshotObjectType $ description ) )
 
 ### New FusionDirectory Objectclass ###

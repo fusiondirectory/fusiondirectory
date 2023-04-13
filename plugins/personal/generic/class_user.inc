@@ -375,7 +375,7 @@ class user extends simplePlugin
 
   function post_save ()
   {
-    global $ui;
+    global $ui, $config;
 
     /* Update current locale settings, if we have edited ourselves */
     if (isset($this->attrs['preferredLanguage']) && ($this->dn == $ui->dn)) {
@@ -383,8 +383,24 @@ class user extends simplePlugin
       session::set('ui', $ui);
       session::set('Last_init_lang', 'update');
     }
-
+    // Verification is snapshot is enabled and automatic.
+    // Note : string values are stored in that array.
+    if (isset($config->current['ENABLEAUTOMATICSNAPSHOTS']) && isset($config->current['ENABLESNAPSHOTS'])) {
+      if (strtolower($config->current['ENABLEAUTOMATICSNAPSHOTS']) === 'true' && strtolower($config->current['ENABLESNAPSHOTS']) === 'true' ) {
+        $this->generateAutomaticSnapshot();
+      }
+    }
     return parent::post_save();
+  }
+
+  /*
+   * Create the snapshot object in case of automated snapshot.
+   */
+  public function generateAutomaticSnapshot ()
+  {
+    $snapshotHandler = new SnapshotHandler();
+    $snapshotHandler->createSnapshot($this->dn, 'automatic snapshot', 'USER', 'FD');
+    $snapshotHandler->verifySnapshotRetention($this->dn);
   }
 
   function adapt_from_template (array $attrs, array $skip = [])
