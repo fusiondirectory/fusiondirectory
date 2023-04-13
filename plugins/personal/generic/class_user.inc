@@ -400,8 +400,8 @@ class user extends simplePlugin
   {
     $snapshotHandler = new SnapshotHandler();
     $snapshotHandler->createSnapshot($this->dn, 'automatic snapshot', 'USER', 'FD');
+    $snapshotHandler->verifySnapshotRetention($this->dn);
   }
-
 
   function adapt_from_template (array $attrs, array $skip = [])
   {

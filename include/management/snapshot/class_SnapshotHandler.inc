@@ -284,6 +284,48 @@ class SnapshotHandler
     logging::log('snapshot', 'create', $new_dn, array_keys($target), $ldap->get_error());
   }
 
+  // function verifing the configuration retention for snapshots.
+  // Remove snapshots from the user if retention rules approves.
+  public function verifySnapshotRetention (string $dn) : void
+  {
+    global $config;
+
+    $snapMinRetention  = $config->current['SNAPSHOTMINRETENTION'];
+    $snapRetentionDays = $config->current['SNAPSHOTRETENTIONDAYS'];
+
+    // calculate the epoch date on which snaps can be delete.
+    $todayMinusRetention = time() - ($snapRetentionDays * 24 * 60 * 60);
+    $snapDateToDelete = strtotime(date('Y-m-d H:i:s', $todayMinusRetention));
+
+    $dnSnapshotsList = $this->getSnapshots($dn, TRUE);
+    $snapToDelete = [];
+    $snapCount = 0;
+
+    if (isset($dnSnapshotsList) && !empty($dnSnapshotsList)) {
+      foreach ($dnSnapshotsList as $snap) {
+        $snapCount += 1;
+        // let's keep seconds instead of nanosecs
+        $snapEpoch = preg_split('/-/', $snap['gosaSnapshotTimestamp'][0]);
+        if ($snapEpoch[0] < $snapDateToDelete) {
+          $snapToDelete[] = $snap['dn'];
+        }
+      }
+    }
+
+    // The not empty is not mandatory but is more ressource friendly
+    if (!empty($snapToDelete) && ($snapCount > $snapMinRetention)) {
+      $snapToKeep = $snapCount - $snapMinRetention;
+      // Sort snapToDelete by old first DN timestamp is the only thing different.
+      sort($snapToDelete);
+      for ($i = 0; $i < $snapToKeep; $i++) {
+        // not empty required because array keeps on being iterated even if NULL object.
+        if (!empty($snapToDelete[$i])) {
+          $this->removeSnapshot($snapToDelete[$i]);
+        }
+      }
+    }
+  }
+
   /*!
    * \brief Remove a snapshot
    *
@@ -291,6 +333,7 @@ class SnapshotHandler
    */
   function removeSnapshot ($dn)
   {
+    error_log($dn);
     global $config;
     $ldap = $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);
