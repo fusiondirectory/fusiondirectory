@@ -57,7 +57,7 @@ class SnapshotCreateDialog extends ManagementDialog
         ]
       ],
       'dataSource' => [
-        'name'  => _('dataSource'),
+        'name'  => _('dataSource - only available via web-service.'),
         'attrs' => [
             new SelectAttribute(
               'Data source', _('Origin / Source of the data'),
@@ -74,6 +74,7 @@ class SnapshotCreateDialog extends ManagementDialog
     // The attribut will be passed to parent for later saving, dataSource might require same logic.
     $this->attributesAccess['description']->setInLdap(FALSE);
     $this->attributesAccess['snapshotSource']->setInLdap(FALSE);
+    $this->attributesAccess['snapshotSource']->setVisible(FALSE);
 
     $recordedDataSources = $this->getLdapRecordedDataSources();
     if (!empty($recordedDataSources)) {
