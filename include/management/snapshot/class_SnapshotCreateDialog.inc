@@ -91,7 +91,11 @@ class SnapshotCreateDialog extends ManagementDialog
   public function getLdapRecordedDataSources () : array
   {
     global $config;
-    $recordedDataSources = $config->current['SNAPSHOTSOURCEDATA'];
+
+    $recordedDataSources = [];
+    if (isset($config->current['SNAPSHOTSOURCEDATA']) && !empty($config->current['SNAPSHOTSOURCEDATA'])) {
+      $recordedDataSources = $config->current['SNAPSHOTSOURCEDATA'];
+    }
 
     return $recordedDataSources;
   }
