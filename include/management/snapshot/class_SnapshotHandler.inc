@@ -290,37 +290,50 @@ class SnapshotHandler
   {
     global $config;
 
-    $snapMinRetention  = $config->current['SNAPSHOTMINRETENTION'];
-    $snapRetentionDays = $config->current['SNAPSHOTRETENTIONDAYS'];
-
-    // calculate the epoch date on which snaps can be delete.
-    $todayMinusRetention = time() - ($snapRetentionDays * 24 * 60 * 60);
-    $snapDateToDelete = strtotime(date('Y-m-d H:i:s', $todayMinusRetention));
-
-    $dnSnapshotsList = $this->getSnapshots($dn, TRUE);
-    $snapToDelete = [];
-    $snapCount = 0;
-
-    if (isset($dnSnapshotsList) && !empty($dnSnapshotsList)) {
-      foreach ($dnSnapshotsList as $snap) {
-        $snapCount += 1;
-        // let's keep seconds instead of nanosecs
-        $snapEpoch = preg_split('/-/', $snap['gosaSnapshotTimestamp'][0]);
-        if ($snapEpoch[0] < $snapDateToDelete) {
-          $snapToDelete[] = $snap['dn'];
-        }
-      }
+    // In case the snap configuration has not set any numbers
+    if (isset($config->current['SNAPSHOTMINRETENTION']) && !empty($config->current['SNAPSHOTMINRETENTION'])) {
+      $snapMinRetention  = $config->current['SNAPSHOTMINRETENTION'];
+    } else {
+      $snapMinRetention  = 0;
     }
 
-    // The not empty is not mandatory but is more ressource friendly
-    if (!empty($snapToDelete) && ($snapCount > $snapMinRetention)) {
-      $snapToKeep = $snapCount - $snapMinRetention;
-      // Sort snapToDelete by old first DN timestamp is the only thing different.
-      sort($snapToDelete);
-      for ($i = 0; $i < $snapToKeep; $i++) {
-        // not empty required because array keeps on being iterated even if NULL object.
-        if (!empty($snapToDelete[$i])) {
-          $this->removeSnapshot($snapToDelete[$i]);
+    if (isset($config->current['SNAPSHOTRETENTIONDAYS']) && !empty($config->current['SNAPSHOTRETENTIONDAYS'])) {
+      $snapRetentionDays = $config->current['SNAPSHOTRETENTIONDAYS'];
+    } else {
+      $snapRetentionDays = -1;
+    }
+
+    // calculate the epoch date on which snaps can be delete.
+    if ($snapRetentionDays !== 1) {
+      $todayMinusRetention = time() - ($snapRetentionDays * 24 * 60 * 60);
+      $snapDateToDelete = strtotime(date('Y-m-d H:i:s', $todayMinusRetention));
+
+      $dnSnapshotsList = $this->getSnapshots($dn, TRUE);
+      $snapToDelete = [];
+      $snapCount = 0;
+
+      // Generate an arrays with snapshot to delete due to overdate.
+      if (isset($dnSnapshotsList) && !empty($dnSnapshotsList)) {
+        foreach ($dnSnapshotsList as $snap) {
+          $snapCount += 1;
+          // let's keep seconds instead of nanosecs
+          $snapEpoch = preg_split('/-/', $snap['gosaSnapshotTimestamp'][0]);
+          if ($snapEpoch[0] < $snapDateToDelete) {
+            $snapToDelete[] = $snap['dn'];
+          }
+        }
+      }
+
+      // The not empty is not mandatory but is more ressource friendly
+      if (!empty($snapToDelete) && ($snapCount > $snapMinRetention)) {
+        $snapToKeep = $snapCount - $snapMinRetention;
+        // Sort snapToDelete by old first DN timestamp is the only thing different.
+        sort($snapToDelete);
+        for ($i = 0; $i < $snapToKeep; $i++) {
+          // not empty required because array keeps on being iterated even if NULL object.
+          if (!empty($snapToDelete[$i])) {
+            $this->removeSnapshot($snapToDelete[$i]);
+          }
         }
       }
     }
