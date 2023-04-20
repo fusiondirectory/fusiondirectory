@@ -304,7 +304,7 @@ class SnapshotHandler
     }
 
     // calculate the epoch date on which snaps can be delete.
-    if ($snapRetentionDays !== 1) {
+    if ($snapRetentionDays !== -1) {
       $todayMinusRetention = time() - ($snapRetentionDays * 24 * 60 * 60);
       $snapDateToDelete = strtotime(date('Y-m-d H:i:s', $todayMinusRetention));
 
