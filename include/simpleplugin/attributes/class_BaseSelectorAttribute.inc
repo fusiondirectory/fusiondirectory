@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2018  FusionDirectory
+  Copyright (C) 2012-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 /*! \brief This class allow to handle easily an Base selector attribute
  *
  */
-class BaseSelectorAttribute extends Attribute
+class BaseSelectorAttribute extends \FusionDirectory\Core\SimplePlugin\Attribute
 {
   private $baseSelector = NULL;
   private $orig_dn      = NULL;
@@ -46,7 +46,7 @@ class BaseSelectorAttribute extends Attribute
     $this->ou = $ou;
   }
 
-  function setManagedAttributes ($dontcare)
+  function setManagedAttributes (array $dontcare)
   {
     trigger_error('method setManagedAttributes is not supported for BaseSelectorAttribute');
   }
@@ -59,9 +59,9 @@ class BaseSelectorAttribute extends Attribute
       if ($this->plugin->is_template) {
         $this->ou = 'ou=templates,'.$this->ou;
       }
-      if ($this->plugin->dn == "new") {
+      if ($this->plugin->dn == 'new') {
         $ui = get_userinfo();
-        $this->setValue(dn2base(session::is_set("CurrentMainBase") ? "cn=dummy,".session::get("CurrentMainBase") : $ui->dn));
+        $this->setValue($ui->getCurrentBase());
       } else {
         $this->setValue(dn2base($this->plugin->dn, $this->ou));
       }
@@ -81,19 +81,19 @@ class BaseSelectorAttribute extends Attribute
 
   function applyPostValue ()
   {
-    if (!$this->disabled && $this->isVisible()) {
+    if (!$this->disabled && $this->isVisible()
+      && ($this->plugin->acl_is_moveable($this->value) || ($this->plugin->dn == 'new'))) {
       /* Refresh base */
-      if  ($this->plugin->acl_is_moveable($this->value) || ($this->plugin->dn == 'new')) {
-        if (!$this->baseSelector->update()) {
-          if ($this->plugin->dn == 'new') {
-            msg_dialog::display(_('Error'), msgPool::permCreate(), ERROR_DIALOG);
-          } else {
-            msg_dialog::display(_('Error'), msgPool::permMove($this->plugin->dn), ERROR_DIALOG);
-          }
+      if (!$this->baseSelector->update()) {
+        if ($this->plugin->dn == 'new') {
+          $error = new SimplePluginPermissionError($this, msgPool::permCreate());
+        } else {
+          $error = new SimplePluginPermissionError($this, msgPool::permMove($this->plugin->dn));
         }
-        if ($this->value != $this->baseSelector->getBase()) {
-          $this->setValue($this->baseSelector->getBase());
-        }
+        $error->display();
+      }
+      if ($this->value != $this->baseSelector->getBase()) {
+        $this->setValue($this->baseSelector->getBase());
       }
     }
   }
@@ -106,23 +106,23 @@ class BaseSelectorAttribute extends Attribute
     } else {
       /* Check if we are allowed to create/move this user */
       if (($this->orig_dn == 'new') && !$this->plugin->acl_is_createable($this->value)) {
-        return msgPool::permCreate();
+        return new SimplePluginPermissionError($this, msgPool::permCreate());
       } elseif (
         ($this->orig_dn != 'new') &&
         ($this->plugin->dn != $this->orig_dn) &&
         !$this->plugin->acl_is_moveable($this->value)) {
-        return msgPool::permMove($this->plugin->dn);
+        return new SimplePluginPermissionError($this, msgPool::permMove($this->plugin->dn));
       }
       // Check if a wrong base was supplied
       if (!$this->baseSelector->checkLastBaseUpdate()) {
-        return msgPool::check_base();
+        return new SimplePluginCheckError($this, msgPool::check_base());
       }
     }
   }
 
   function checkValue ($value)
   {
-    if (!is_string($value) && (!is_object($value) || !method_exists($value, '__toString' ))) {
+    if (!is_string($value) && (!is_object($value) || !method_exists($value, '__toString'))) {
       throw new InvalidValueException(_('Base field value should always be a string'));
     }
   }
@@ -130,16 +130,11 @@ class BaseSelectorAttribute extends Attribute
   function setValue ($value)
   {
     parent::setValue($value);
-    if (is_object($this->plugin)) {
-      /* Set the new acl base */
-      if ($this->plugin->dn == 'new') {
-        $this->plugin->set_acl_base($this->value);
-        $this->plugin->parent->set_acl_base();
-      }
-
-      if (($this->baseSelector !== NULL) && ($this->baseSelector->getBase() !== $this->value)) {
-        $this->baseSelector->setBase($this->value);
-      }
+    if (is_object($this->plugin) &&
+        ($this->baseSelector !== NULL) &&
+        ($this->baseSelector->getBase() !== $this->value)
+      ) {
+      $this->baseSelector->setBase($this->value);
     }
   }
 
@@ -148,7 +143,7 @@ class BaseSelectorAttribute extends Attribute
     return $this->value;
   }
 
-  function renderFormInput ()
+  function renderFormInput (): string
   {
     $smarty = get_smarty();
     $smarty->assign('usePrototype', 'true');
@@ -156,7 +151,7 @@ class BaseSelectorAttribute extends Attribute
       $display = $this->renderInputField(
         'text', '',
         [
-          'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}'
+          'value' => $this->getValue()
         ]
       );
     } else {
@@ -165,7 +160,7 @@ class BaseSelectorAttribute extends Attribute
     return $this->renderAcl($display);
   }
 
-  function getHtmlId ()
+  function getHtmlId (): string
   {
     if (isset($this->baseSelector)) {
       return $this->baseSelector->getInputHtmlId();
@@ -174,7 +169,7 @@ class BaseSelectorAttribute extends Attribute
     }
   }
 
-  function serializeAttribute (&$attributes, $form = TRUE)
+  function serializeAttribute (array &$attributes, bool $form = TRUE)
   {
     if (!$form || $this->visible) {
       parent::serializeAttribute($attributes, $form);

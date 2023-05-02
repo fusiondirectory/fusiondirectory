@@ -155,6 +155,18 @@ attributetype ( 1.3.6.1.4.1.38414.8.12.21 NAME 'fdPostalAddressPattern'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
   SINGLE-VALUE)
 
+attributetype ( 1.3.6.1.4.1.38414.8.12.22 NAME 'fdMaxAvatarSize'
+  DESC 'FusionDirectory - Maximum user picture width and height in pixels'
+  EQUALITY integerMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
+  SINGLE-VALUE)
+
+attributetype ( 1.3.6.1.4.1.38414.8.12.23 NAME 'fdGivenNameRequired'
+  DESC 'FusionDirectory - Whether givenName field is required on users'
+  EQUALITY booleanMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+  SINGLE-VALUE )
+
 # Password
 
 attributetype ( 1.3.6.1.4.1.38414.8.13.1 NAME 'fdPasswordDefaultHash'
@@ -201,6 +213,12 @@ attributetype ( 1.3.6.1.4.1.38414.8.13.8 NAME 'fdForcePasswordDefaultHash'
   EQUALITY booleanMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
   SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.8.13.9 NAME 'fdPasswordAllowedHashes'
+  DESC 'FusionDirectory - Allowed password hashes'
+  EQUALITY caseExactIA5Match
+  SUBSTR caseExactIA5SubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
 
 # Core settings
 
@@ -270,18 +288,27 @@ attributetype ( 1.3.6.1.4.1.38414.8.15.5 NAME 'fdSessionLifeTime'
 
 attributetype ( 1.3.6.1.4.1.38414.8.15.6 NAME 'fdHttpAuthActivated'
   DESC 'FusionDirectory - HTTP Basic Auth activation'
+  OBSOLETE
   EQUALITY booleanMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
   SINGLE-VALUE )
 
 attributetype ( 1.3.6.1.4.1.38414.8.15.7 NAME 'fdHttpHeaderAuthActivated'
   DESC 'FusionDirectory - HTTP Header Auth activation'
+  OBSOLETE
   EQUALITY booleanMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
   SINGLE-VALUE )
 
 attributetype ( 1.3.6.1.4.1.38414.8.15.8 NAME 'fdHttpHeaderAuthHeaderName'
   DESC 'FusionDirectory - HTTP Header Auth - Header name'
+  EQUALITY caseExactIA5Match
+  SUBSTR caseExactIA5SubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.8.15.9 NAME 'fdLoginMethod'
+  DESC 'FusionDirectory - Active login method'
   EQUALITY caseExactIA5Match
   SUBSTR caseExactIA5SubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
@@ -313,6 +340,12 @@ attributetype ( 1.3.6.1.4.1.38414.8.16.4 NAME 'fdDebugLevel'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
   SINGLE-VALUE)
 
+attributetype ( 1.3.6.1.4.1.38414.8.16.5 NAME 'fdDebugLogging'
+  DESC 'FusionDirectory - Debug logging'
+  EQUALITY booleanMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+  SINGLE-VALUE )
+
 # Snapshots
 
 attributetype ( 1.3.6.1.4.1.38414.8.17.1 NAME 'fdEnableSnapshots'
@@ -326,6 +359,31 @@ attributetype ( 1.3.6.1.4.1.38414.8.17.2 NAME 'fdSnapshotBase'
   EQUALITY caseExactIA5Match
   SUBSTR caseExactIA5SubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE)
+
+attributetype ( 1.3.6.1.4.1.38414.8.17.3 NAME 'fdEnableAutomaticSnapshots'
+  DESC 'FusionDirectory - Weither or not to enable snapshots'
+  EQUALITY booleanMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.8.17.4 NAME 'fdSnapshotMinRetention'
+    DESC 'Minimum number of snapshots to be kept in store'
+    EQUALITY integerMatch
+    SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
+    SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.8.17.5 NAME 'fdSnapshotRetentionDays'
+    DESC 'Number of days a snapshot should be kept'
+    EQUALITY integerMatch
+    SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
+    SINGLE-VALUE )
+
+attributetype (  1.3.6.1.4.1.38414.8.17.6 NAME 'fdSnapshotSourceData'
+  DESC 'Possible Origin / Source of data received '
+  EQUALITY octetStringMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.40)
   SINGLE-VALUE)
 
 # Miscellaneous
@@ -362,9 +420,9 @@ attributetype ( 1.3.6.1.4.1.38414.8.18.6 NAME 'fdAclTabOnObjects'
 
 attributetype ( 1.3.6.1.4.1.38414.8.18.7 NAME 'fdDepartmentCategories'
   DESC 'FusionDirectory - available categories for departments'
-  EQUALITY caseExactIA5Match
-  SUBSTR caseExactIA5SubstringsMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+  EQUALITY caseExactMatch
+  SUBSTR caseExactSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
 
 attributetype ( 1.3.6.1.4.1.38414.8.18.8 NAME 'fdDefaultShell'
   DESC 'FusionDirectory - default shell'
@@ -378,6 +436,32 @@ attributetype ( 1.3.6.1.4.1.38414.8.18.9 NAME 'fdPluginsMenuBlacklist'
   EQUALITY caseIgnoreMatch
   SUBSTR caseIgnoreSubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
+
+attributetype ( 1.3.6.1.4.1.38414.8.18.10 NAME 'fdManagementConfig'
+  DESC 'FusionDirectory - Configuration for management classes'
+  EQUALITY caseIgnoreMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
+
+attributetype ( 1.3.6.1.4.1.38414.8.18.11 NAME 'fdManagementUserConfig'
+  DESC 'FusionDirectory - Per user configuration for management classes'
+  EQUALITY caseIgnoreMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
+
+attributetype ( 1.3.6.1.4.1.38414.8.18.12 NAME 'fdAclTargetFilterLimit'
+  DESC 'Fusion Directory - Size limit for LDAP filter on ACL targets'
+  EQUALITY integerMatch
+  ORDERING integerOrderingMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.8.18.13 NAME 'fdIncrementalModifierStates'
+  DESC 'FusionDirectory - States of the incremental modifier intances, with keys value and date, encoded as JSON'
+  EQUALITY caseExactMatch
+  SUBSTR caseExactSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE )
 
 # Plugins
 
@@ -421,6 +505,7 @@ attributetype ( 1.3.6.1.4.1.38414.8.20.3 NAME 'fdSslCertPath'
 
 attributetype ( 1.3.6.1.4.1.38414.8.21.1 NAME 'fdCasActivated'
   DESC 'FusionDirectory - CAS activation'
+  OBSOLETE
   EQUALITY booleanMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
   SINGLE-VALUE )
@@ -447,6 +532,25 @@ attributetype ( 1.3.6.1.4.1.38414.8.21.4 NAME 'fdCasPort'
 
 attributetype ( 1.3.6.1.4.1.38414.8.21.5 NAME 'fdCasContext'
   DESC 'FusionDirectory - CAS context'
+  EQUALITY caseExactIA5Match
+  SUBSTR caseExactIA5SubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE)
+
+attributetype ( 1.3.6.1.4.1.38414.8.21.6 NAME 'fdCasVerbose'
+  DESC 'FusionDirectory - CAS verbose flag'
+  EQUALITY booleanMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.8.21.7 NAME 'fdCasLibraryBool'
+  DESC 'FusionDirectory - CAS boolean to activate CAS library >= 1.6'
+  EQUALITY booleanMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+  SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.8.21.8 NAME 'fdCasClientServiceName'
+  DESC 'FusionDirectory - CAS client service name'
   EQUALITY caseExactIA5Match
   SUBSTR caseExactIA5SubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
@@ -549,21 +653,24 @@ objectclass ( 1.3.6.1.4.1.38414.8.2.1 NAME 'fusionDirectoryConf'
     fdStrictNamingRules $ fdMinId $ fdUidNumberBase $
     fdGidNumberBase $ fdUserRDN $ fdGroupRDN $ fdIdAllocationMethod $
     fdGidNumberPoolMin $ fdUidNumberPoolMin $ fdGidNumberPoolMax $ fdUidNumberPoolMax $
-    fdAclRoleRDN $ fdCnPattern $ fdRestrictRoleMembers $ fdSplitPostalAddress $ fdPostalAddressPattern $
+    fdAclRoleRDN $ fdCnPattern $ fdRestrictRoleMembers $
+    fdSplitPostalAddress $ fdPostalAddressPattern $ fdMaxAvatarSize $ fdGivenNameRequired $
     fdPasswordDefaultHash $ fdPasswordMinLength $ fdPasswordMinDiffer $
     fdHandleExpiredAccounts $ fdSaslRealm $ fdSaslExop $
-    fdForcePasswordDefaultHash $
+    fdForcePasswordDefaultHash $ fdPasswordAllowedHashes $
     fdListSummary $
     fdModificationDetectionAttribute $ fdLogging $ fdLdapSizeLimit $ fdWildcardForeignKeys $
     fdLoginAttribute $ fdForceSSL $ fdWarnSSL $ fdStoreFilterSettings $ fdSessionLifeTime $
     fdHttpAuthActivated $ fdHttpHeaderAuthActivated $ fdHttpHeaderAuthHeaderName $
-    fdDisplayErrors $ fdLdapMaxQueryTime $ fdLdapStats $ fdDebugLevel $
+    fdDisplayErrors $ fdLdapMaxQueryTime $ fdLdapStats $ fdDebugLevel $ fdDebugLogging $
     fdEnableSnapshots $ fdSnapshotBase $
     fdTabHook $ fdShells $ fdDefaultShell $ fdDisplayHookOutput $
-    fdPluginsMenuBlacklist $
-    fdAclTabOnObjects $ fdDepartmentCategories $
-    fdSslCaCertPath $ fdSslKeyPath $ fdSslCertPath $
-    fdCasActivated $ fdCasServerCaCertPath $ fdCasHost $ fdCasPort $ fdCasContext
+    fdPluginsMenuBlacklist $ fdManagementConfig $ fdManagementUserConfig $
+    fdAclTabOnObjects $ fdDepartmentCategories $ fdAclTargetFilterLimit $
+    fdIncrementalModifierStates $
+    fdSslCaCertPath $ fdSslKeyPath $ fdSslCertPath $ fdSnapshotRetentionDays $ fdSnapshotSourceData $
+    fdCasActivated $ fdCasServerCaCertPath $ fdCasHost $ fdCasPort $ fdCasContext $ fdCasVerbose $
+    fdLoginMethod $ fdCasLibraryBool $ fdCasClientServiceName $ fdEnableAutomaticSnapshots $ fdSnapshotMinRetention
   ) )
 
 objectclass ( 1.3.6.1.4.1.38414.8.2.2 NAME 'fusionDirectoryPluginsConf'

@@ -40,7 +40,8 @@
  * based on the print_a() function from
  * Stephan Pirson (Saibot)
  */
-class printAClass {
+class printAClass
+{
 
   // this can be changed to FALSE if you don't like the fancy string formatting
   var $look_for_leading_tabs = TRUE;
@@ -98,30 +99,27 @@ class printAClass {
     }
 
     if (!$iteration && isset($this->export_flag)) {
-      $this->output .= '<form id="pa_form_'.$this->export_hash.'" action="'.$this->export_dumper_path.'?mode='.$this->export_flag.'" method="post" target="_blank"><input name="array" type="hidden" value="'.htmlspecialchars( serialize( $array ) ).'"></form>';
+      $this->output .= '<form id="pa_form_'.$this->export_hash.'" action="'.$this->export_dumper_path.'?mode='.$this->export_flag.'" method="post" target="_blank"><input name="array" type="hidden" value="'.htmlspecialchars(serialize($array)).'"></form>';
     }
 
     // lighten up the background color for the key td's =)
     if ($iteration) {
+      $tmp_key_bg_color = '';
       for ($i = 0; $i < 6; $i += 2) {
-        $c = substr( $key_bg_color, $i, 2 );
-        $c = hexdec( $c );
+        $c = substr($key_bg_color, $i, 2);
+        $c = hexdec($c);
         $c += 15;
         if ($c > 255) {
           $c = 255;
         }
-        if (!isset($tmp_key_bg_color)) {
-          $tmp_key_bg_color = '';
-        }
-        $tmp_key_bg_color .= sprintf( "%02X", $c );
+        $tmp_key_bg_color .= sprintf("%02X", $c);
       }
       $key_bg_color = $tmp_key_bg_color;
     }
 
     // build a single table ... may be nested
-    $this->output .= '<table style="border:none;" '.( !$iteration && $this->export_flag ? 'onClick="document.getElementById(\'pa_form_'.$this->export_hash.'\').submit();" )' : '' ).'>';
+    $this->output .= '<table style="border:none;" '.(!$iteration && $this->export_flag ? 'onClick="document.getElementById(\'pa_form_'.$this->export_hash.'\').submit();" )' : '').'>';
     foreach ($array as $key => $value) {
-
       $value_style  = 'color:black;';
       $key_style    = 'color:white;';
 
@@ -130,10 +128,6 @@ class printAClass {
       // change the color and format of the value
       switch ($type) {
         case 'array':
-          break;
-
-        case 'object':
-          $key_style = 'color:#FF9B2F;';
           break;
 
         case 'integer':
@@ -156,17 +150,22 @@ class printAClass {
           if ($this->look_for_leading_tabs && preg_match('/^\t/m', $value)) {
             $search       = ['/\t/', "/\n/"];
             $replace      = ['&nbsp;&nbsp;&nbsp;','<br />'];
-            $value        = preg_replace( $search, $replace, htmlspecialchars($value));
+            $value        = preg_replace($search, $replace, htmlspecialchars($value));
             $value_style  = 'color:black;border:1px gray dotted;';
           } else {
             $value_style  = 'color:black;';
             $value        = nl2br(htmlspecialchars($value));
           }
           break;
+
+        case 'object':
+        default:
+          $key_style = 'color:#FF9B2F;';
+          break;
       }
 
       $this->output .= '<tr>';
-      $this->output .= '<td nowrap align="'.$this->keyalign.'" style="background-color:#'.$key_bg_color.';'.$key_style.';font:bold '.$this->fontsize.' '.$this->fontfamily.';" title="'.gettype( $key ).'['.$type.']">';
+      $this->output .= '<td nowrap align="'.$this->keyalign.'" style="background-color:#'.$key_bg_color.';'.$key_style.';font:bold '.$this->fontsize.' '.$this->fontfamily.';" title="'.gettype($key).'['.$type.']">';
       $this->output .= $key;
       $this->output .= '</td>';
       $this->output .= '<td nowrap="nowrap" style="background-color:#'.$this->value_bg_color.';font: '.$this->fontsize.' '.$this->fontfamily.'; color:black;">';
@@ -174,13 +173,13 @@ class printAClass {
       // value output
       if ($type == 'array') {
         if (count($value)) {
-          $this->print_a( $value, TRUE, $key_bg_color );
+          $this->print_a($value, TRUE, $key_bg_color);
         } else {
           $this->output .= '<div style="color:blue;">Array (empty)</div>';
         }
       } elseif ($type == 'object') {
         if ($this->show_object_vars) {
-          $this->print_a( get_object_vars( $value ), TRUE, $key_bg_color );
+          $this->print_a(get_object_vars($value), TRUE, $key_bg_color);
         } else {
           $this->output .= '<div style="'.$value_style.'">OBJECT - '.get_class($value).'</div>';
         }
@@ -196,7 +195,7 @@ class printAClass {
 }
 
 /*
- * \brief helper function.. calls print_a () inside the printAClass
+ * \brief helper function.. calls print_a() inside the printAClass
  *
  * \param array $array
  *
@@ -206,7 +205,7 @@ class printAClass {
  *
  * \param boolean $export_flag false
  */
-function print_a ($array, $return_mode = FALSE, $show_object_vars = FALSE, $export_flag = FALSE )
+function print_a ($array, $return_mode = FALSE, $show_object_vars = FALSE, $export_flag = FALSE)
 {
   $e = error_reporting(0);
   if (is_array($array) || is_object($array)) {
@@ -222,7 +221,7 @@ function print_a ($array, $return_mode = FALSE, $show_object_vars = FALSE, $expo
 
     $output = &$pa->output;
   } else {
-    $output = '<span style="color:red;font-size:small;">print_a( '.gettype( $array ).' )</span>';
+    $output = '<span style="color:red;font-size:small;">print_a( '.gettype($array).' )</span>';
   }
 
   error_reporting($e);

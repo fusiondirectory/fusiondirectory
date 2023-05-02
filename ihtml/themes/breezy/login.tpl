@@ -21,7 +21,7 @@
     <div class="optional">
       {t}Please use your username and your password to log into the site administration system.{/t}<br />
       {if $ssl}<span class="warning">{$ssl}</span>{/if}
-      {if $lifetime}<span class="warning">{$lifetime}</span>{/if}
+      {if $lifetime}<span class="warning">{$lifetime|escape}</span>{/if}
     </div>
 
     <div>
@@ -47,13 +47,13 @@
 
       <!-- check, if cookies are enabled -->
       <p class="fusiondirectoryLoginWarning">
-       <script type="text/javascript">
+       <script>
         <!--
         document.cookie = "fdtest=empty;path=/";
         if (document.cookie.indexOf( "fdtest=") > -1 )
           document.cookie = "fdtest=empty;path=/;expires=Thu, 01-Jan-1970 00:00:01 GMT";
         else
-          document.write("{$cookies}");
+          document.write("<b>{t}Warning{/t}</b> {t}Your browser has cookies disabled. Please enable cookies and reload this page before logging in!{/t}");
         -->
        </script>
       </p>
@@ -72,16 +72,14 @@
 </form>
 </div>
 
-{$errors}
-
 </div>
 
 {include file={filePath file="copynotice.tpl"}}
 
-<script type="text/javascript">
+<script>
 <!--
   enable_keyPress = false;
-  focus_field("{$focusfield}");
+  focus_field("{$focusfield|escape}");
   next_msg_dialog();
 -->
 </script>

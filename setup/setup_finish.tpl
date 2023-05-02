@@ -6,7 +6,7 @@
     {$msg2}
   </p>
   <p>
-    {t escape=no 1="<strong>fusiondirectory-setup --check-config</strong>"}Run %1 to put the correct right on fusiondirectory.conf{/t}
+    {t escape=no 1="<strong>fusiondirectory-configuration-manager --check-config</strong>"}Run %1 to put the correct right on fusiondirectory.conf{/t}
   </p>
   <p>
     <input type="submit" name="getconf" value="{t}Download configuration{/t}"/>

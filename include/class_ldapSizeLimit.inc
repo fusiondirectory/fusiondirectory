@@ -71,8 +71,12 @@ class ldapSizeLimit
       switch ($_POST['action']) {
         case 'newlimit':
           if (isset($_POST['new_limit']) && tests::is_id($_POST['new_limit'])) {
-            $this->sizeLimit  = intval($_POST['new_limit']);
-            $this->ignore     = FALSE;
+            if (($error = static::checkMaxInputVars($_POST['new_limit'])) !== FALSE) {
+              $error->display();
+            } else {
+              $this->sizeLimit  = intval($_POST['new_limit']);
+              $this->ignore     = FALSE;
+            }
           }
           break;
         case 'ignore':
@@ -111,8 +115,7 @@ class ldapSizeLimit
     /* Eventually show dialog */
     if ($this->limitExceeded) {
       $smarty = get_smarty();
-      $smarty->assign('warning', sprintf(_('The size limit of %d entries is exceed!'), $this->sizeLimit));
-      $smarty->assign('limit_message', sprintf(_('Set the new size limit to %s and show me this message if the limit still exceeds'), '<input type="text" name="new_limit" maxlength="10" size="5" value="'.($this->sizeLimit + 100).'"/>'));
+      $smarty->assign('sizelimit', $this->sizeLimit);
       return $smarty->fetch(get_template_path('sizelimit.tpl'));
     }
 
@@ -127,14 +130,32 @@ class ldapSizeLimit
    */
   function renderWarning ()
   {
-    if (($this->sizeLimit >= 10000000) || $this->limitExceeded) {
-      $config = '<input type="submit" name="edit_sizelimit" value="'._('Configure').'"/>';
-    } else {
-      $config = '';
-    }
     if ($this->limitExceeded) {
-      return '('._('incomplete').") $config";
+      $config = '<input type="submit" name="edit_sizelimit" value="'.htmlescape(_('Configure')).'" formnovalidate="formnovalidate"/>';
+      return '('.htmlescape(_('incomplete')).') '.$config;
     }
     return '';
+  }
+
+  /**
+   * Checks if a new limit or a number of entries is too high regarding to max_input_vars.
+   *
+   * If there are more items in $_POST than max_input_vars, PHP will discard some of them and will cause a CSRF error.
+   */
+  static public function checkMaxInputVars (int $newLimit, string $messageTemplate = NULL)
+  {
+    $maxInputVars = ini_get('max_input_vars');
+
+    if (($maxInputVars != '') && (($newLimit + 10) >= intval($maxInputVars))) {
+      return new FusionDirectoryError(
+        htmlescape(sprintf(
+          $messageTemplate ?? _('Limit %d is greater than or too close to configured max_input_vars PHP ini setting of %d. Please change max_input_vars ini setting to a higher value if you wish to set the limit higher.'),
+          $newLimit,
+          $maxInputVars
+        ))
+      );
+    }
+
+    return FALSE;
   }
 }

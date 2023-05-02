@@ -1,8 +1,9 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
+
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011-2018  FusionDirectory
+  Copyright (C) 2011-2020  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,140 +20,8 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class ObjectsAttribute extends GenericDialogAttribute
-{
-  protected $dialogClass  = 'ObjectSelectDialog';
-  protected $types        = [];
-
-  function getFilterBlackList ()
-  {
-    return [
-      'dn' => array_merge($this->getValue(), $this->plugin->used_workstations, [$this->plugin->dn])
-    ];
-  }
-
-  protected function fillDisplayValueFrom ($i, $attrs)
-  {
-    if ($attrs) {
-      foreach (ogroup::$objectTypes as $code => $objectType) {
-        try {
-          if (objects::isOfType($attrs, $objectType)) {
-            $infos = objects::infos($objectType);
-            $this->types[$i]    = $code;
-            $this->displays[$i] = $attrs[$infos['nameAttr']][0];
-            if (strtolower($objectType) == 'user') {
-              if (isset($attrs['description'][0])) {
-                $this->displays[$i] .= ' ['.$attrs['uid'][0].' - '.$attrs['description'][0].']';
-              } else {
-                $this->displays[$i] .= ' ['.$attrs['uid'][0].']';
-              }
-            } elseif (isset($attrs['description'][0])) {
-              $this->displays[$i] .= ' ['.$attrs['description'][0].']';
-            }
-            break;
-          }
-        } catch (NonExistingObjectTypeException $e) {
-          @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $e->getMessage(), "Objecttype");
-          unset(ogroup::$objectTypes[$code]);
-        }
-      }
-      if (!isset($this->displays[$i])) {
-        trigger_error('Unkown type for "'.$this->value[$i].'"');
-        $this->displays[$i] = sprintf(_('Unknown type : %s'), $this->value[$i]);
-        $this->types[$i]    = 'I';
-      }
-    } else {
-      if (($attrs === NULL) && $this->isTemplate()) {
-        $this->displays[$i] = $this->value[$i];
-        $this->types[$i]    = 'I';
-      } else {
-        $this->displays[$i] = sprintf(_('Non existing dn: %s'), $this->value[$i]);
-        $this->types[$i]    = 'I';
-      }
-    }
-  }
-
-  function renderOnlyFormInput ()
-  {
-    if (($this->size < 15) && ($this->size < count($this->value))) {
-      $this->size = min(15, count($this->value));
-    }
-    $id       = $this->getHtmlId();
-    $display  = '<select multiple="multiple"  name="row'.$id.'[]" id="row'.$id.'" size="'.$this->size.'"'.
-                ($this->disabled ? ' disabled="disabled"' : '').
-                ' >'."\n";
-    foreach ($this->getDisplayValues() as $key => $value) {
-      try {
-        $infos = [];
-        if ($this->types[$key] !== 'I') {
-          $infos = objects::infos(ogroup::$objectTypes[$this->types[$key]]);
-        }
-      } catch (NonExistingObjectTypeException $e) {
-        die('No type for '.$key.' '.$value);
-      }
-      if (isset($infos['icon'])) {
-        $img = $infos['icon'];
-      } else {
-        $img = 'images/empty.png';
-      }
-      $display .= '<option value="'.$key.'" class="select"'.
-                  ' style="background-image:url(\''.get_template_path($img).'\');"'.
-                  '>'.$value."</option>\n";
-    }
-    $display .= '</select><br/>'."\n";
-    return $display;
-  }
-
-  function ldapAttributesToGet ()
-  {
-    return [
-      'objectClass',
-      'cn',
-      'sn',
-      'ou',
-      'uid',
-      'givenName',
-      'description',
-    ];
-  }
-
-  function listObjectTypes ()
-  {
-    /* Refresh types and displays */
-    $this->getDisplayValues();
-    return '['.join(array_unique($this->types)).']';
-  }
-
-  function getTypedValues ()
-  {
-    $values = $this->getValue();
-    $ret    = [];
-    foreach ($values as $i => $v) {
-      if (!isset($ret[$this->types[$i]])) {
-        $ret[$this->types[$i]] = [];
-      }
-      $ret[$this->types[$i]][] = $v;
-    }
-
-    return $ret;
-  }
-
-  protected function removeValue ($row)
-  {
-    parent::removeValue($row);
-    unset($this->types[$row]);
-  }
-}
-
-class ObjectSelectDialog extends GenericSelectDialog
-{
-  protected $dialogClass = 'objectSelect';
-}
-
 class ogroup extends simplePlugin
 {
-  var $objectclasses  = ['groupOfNames', 'gosaGroupOfNames'];
-
   var $used_workstations = [];
 
   protected $savedTypedMembers;
@@ -169,18 +38,18 @@ class ogroup extends simplePlugin
     'D' => 'simpleSecurityObject',
   ];
 
-  static function plInfo ()
+  static function plInfo (): array
   {
     return [
       'plShortName'   => _('Object group'),
       'plDescription' => _('Object group information'),
-      'plSelfModify'  => FALSE,
       'plPriority'    => 1,
+      'plObjectClass' => ['groupOfNames', 'gosaGroupOfNames'],
+      'plFilter'      => '(objectClass=groupOfNames)',
       'plObjectType'  => ['ogroup' => [
         'name'        => _('Group'),
         'description' => _('Group'),
         'ou'          => get_ou('ogroupRDN'),
-        'filter'      => 'objectClass=groupOfNames',
         'icon'        => 'geticon.php?context=types&icon=resource-group&size=16',
         'tabClass'    => 'ogrouptabs',
       ]],
@@ -199,12 +68,13 @@ class ogroup extends simplePlugin
           ['user','dn','owner=%oldvalue%','*']
         ]
       ],
+      'plSearchAttrs' => ['description'],
 
       'plProvidedAcls'  => parent::generatePlProvidedAcls(static::getAttributesInfo())
     ];
   }
 
-  static function getAttributesInfo ()
+  static function getAttributesInfo (): array
   {
     return [
       'main' => [
@@ -230,7 +100,7 @@ class ogroup extends simplePlugin
       'members' => [
         'name'  => _('Member objects'),
         'attrs' => [
-          new ObjectsAttribute(
+          new GroupMembersAttribute(
             '', _('Objects member of this group'),
             'member', TRUE,
             [], 'dn'
@@ -299,22 +169,7 @@ class ogroup extends simplePlugin
     $this->savedTypedMembers = $this->attributesAccess['member']->getTypedValues();
   }
 
-  /*! \brief This function returns an LDAP filter for this plugin object classes
-   */
-  function getObjectClassFilter ()
-  {
-    return '(objectClass=groupOfNames)';
-  }
-
-  function is_this_account ($attrs)
-  {
-    $this->objectclasses  = ['groupOfNames'];
-    $found = parent::is_this_account($attrs);
-    $this->objectclasses  = ['groupOfNames', 'gosaGroupOfNames'];
-    return $found;
-  }
-
-  function prepare_save ()
+  function prepare_save (): array
   {
     $this->reload();
     $errors = parent::prepare_save();
@@ -338,18 +193,21 @@ class ogroup extends simplePlugin
     $this->gosaGroupObjects = $this->attributesAccess['member']->listObjectTypes();
   }
 
-  function check ()
+  function check (): array
   {
-    $message = parent::check();
+    $errors = parent::check();
     $this->reload();
     if (preg_match('/W/', $this->gosaGroupObjects) && preg_match('/T/', $this->gosaGroupObjects)) {
-      $message[] = _('Putting both workstations and terminals in the same group is not allowed');
+      $errors[] = new SimplePluginCheckError(
+        $this,
+        htmlescape(_('Putting both workstations and terminals in the same group is not allowed'))
+      );
     }
 
-    return $message;
+    return $errors;
   }
 
-  function ldap_save ()
+  function ldap_save (): array
   {
     global $ui;
 
@@ -369,12 +227,12 @@ class ogroup extends simplePlugin
       $removingMembers  = array_diff($savedMembers, $userMembers);
       foreach ($addingMembers as $dn) {
         if (strpos($ui->get_permissions($dn, 'user/userRoles', 'groupsMembership', $this->acl_skip_write()), 'w') === FALSE) {
-          $errors[] = msgPool::permModify($dn, 'groupsMembership');
+          $errors[] = new SimplePluginPermissionError($this, msgPool::permModify($dn, 'groupsMembership'));
         }
       }
       foreach ($removingMembers as $dn) {
         if (strpos($ui->get_permissions($dn, 'user/userRoles', 'groupsMembership', $this->acl_skip_write()), 'w') === FALSE) {
-          $errors[] = msgPool::permModify($dn, 'groupsMembership');
+          $errors[] = new SimplePluginPermissionError($this, msgPool::permModify($dn, 'groupsMembership'));
         }
       }
     }
@@ -386,10 +244,29 @@ class ogroup extends simplePlugin
     return parent::ldap_save();
   }
 
+  function handleForeignKeys (string $olddn = NULL, string $newdn = NULL, string $mode = 'move')
+  {
+    if (($olddn !== NULL) && ($olddn == $newdn)) {
+      return;
+    }
+    if ($this->is_template) {
+      return;
+    }
+    parent::handleForeignKeys($olddn, $newdn, $mode);
+    if ($this->attributeHaveChanged('gosaGroupObjects')) {
+      /* Propagate member type changes to parent groups */
+      $parents = objects::ls('ogroup', ['dn' => 'raw'], NULL, '(member='.ldap_escape_f($this->dn).')');
+      foreach (array_keys($parents) as $dn) {
+        $tabobject = objects::open($dn, 'ogroup');
+        $errors = $tabobject->save();
+        msg_dialog::displayChecks($errors);
+      }
+    }
+  }
+
   function getGroupObjectTypes ()
   {
     $this->reload();
     return $this->gosaGroupObjects;
   }
 }
-?>

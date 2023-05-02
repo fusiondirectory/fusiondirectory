@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2013-2018  FusionDirectory
+  Copyright (C) 2013-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -20,19 +20,19 @@
 
 class locality extends department
 {
-  static $namingAttr  = "l";
-  var $objectclasses  = ["top", "gosaDepartment"];
-  var $structuralOC   = ["locality"];
+  static protected $namingAttr  = 'l';
+  protected $structuralOC       = ['locality'];
 
-  static function plInfo ()
+  static function plInfo (): array
   {
     return [
       'plShortName'   => _('Locality'),
       'plDescription' => _('Locality'),
+      'plObjectClass' => ['gosaDepartment'],
+      'plFilter'      => '(&(!(objectClass=dcObject))(objectClass=locality)(objectClass=gosaDepartment))',
       'plObjectType'  => ['locality' => [
         'aclCategory' => 'department',
         'name'        => _('Locality'),
-        'filter'      => '(&(!(objectClass=dcObject))(objectClass=locality)(objectClass=gosaDepartment))',
         'ou'          => '',
         'icon'        => 'geticon.php?context=types&icon=locality&size=16',
         'tabClass'    => 'deptabs',
@@ -41,12 +41,13 @@ class locality extends department
       'plForeignKeys'  => [
         'manager' => ['user','dn','manager=%oldvalue%','*']
       ],
+      'plSearchAttrs' => ['description'],
 
       'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())
     ];
   }
 
-  static function getAttributesInfo ()
+  static function getAttributesInfo (): array
   {
     $attributesInfo = parent::getDepartmentAttributesInfo(_('locality'));
     unset($attributesInfo['location']);
@@ -54,4 +55,3 @@ class locality extends department
     return $attributesInfo;
   }
 }
-?>

@@ -1,7 +1,8 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2011-2018  FusionDirectory
+
+  Copyright (C) 2011-2019  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -33,40 +34,44 @@ class simpleService extends simplePlugin
   /*! \brief constructor
    *
    *  \param string $dn The dn of this instance
-   *  \param Object $parent The serverService instance
+   *  \param Object $parent The servicesManagement instance
    *  \param array $attributesInfo An attributesInfo array, if NULL, getAttributesInfo will be used.
    *
    */
   function __construct ($dn = NULL, $parent = NULL, $attributesInfo = NULL)
   {
-    /* $parent is the instance of serverService in this case, we set it as parent */
+    /* $parent is the instance of servicesManagement in this case, we set it as parent */
     parent::__construct($dn, $parent, $parent, FALSE, $attributesInfo);
+
+    /* Services do not have the activation header, but can still be disabled */
+    $this->ignore_account = FALSE;
+
     $plInfos = pluglist::pluginInfos(get_class($this));
     $this->DisplayName  = $plInfos['plShortName'];
   }
 
   /*! \brief This function display the service and return the html code
    */
-  function execute ()
+  public function render (): string
   {
-    $str = parent::execute();
+    $str = parent::render();
 
     if (!$this->dialog) {
-      $str .= '<div class="plugbottom servicebottom">'.
+      $str .= '<p class="plugbottom servicebottom">'.
              '  <input type="submit" name="SaveService" value="'.msgPool::saveButton().'"/>&nbsp;'.
-             '  <input type="submit" name="CancelService" value="'.msgPool::cancelButton().'"/>'.
+             '  <input type="submit" formnovalidate="formnovalidate" name="CancelService" value="'.msgPool::cancelButton().'"/>'.
              '</div>';
     }
 
     return $str;
   }
 
-  protected function acl_skip_write ()
+  protected function acl_skip_write (): bool
   {
     return FALSE;
   }
 
-  /*! \brief Get service information for serverService plugin */
+  /*! \brief Get service information for servicesManagement plugin */
   function getListEntry ()
   {
     /* Assign status flag */
@@ -106,7 +111,7 @@ class simpleService extends simplePlugin
     $this->status = $value;
   }
 
-  static function generatePlProvidedAcls ($attributesInfo)
+  static function generatePlProvidedAcls (array $attributesInfo, bool $operationalAttributes = NULL): array
   {
     $acls = parent::generatePlProvidedAcls($attributesInfo);
     if (static::$showActions) {
@@ -119,4 +124,3 @@ class simpleService extends simplePlugin
     return $acls;
   }
 }
-?>

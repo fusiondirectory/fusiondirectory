@@ -1,7 +1,8 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2018  FusionDirectory
+
+  Copyright (C) 2012-2019  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -26,7 +27,7 @@
 /*! \brief This class is made for easy plugin creation for editing LDAP attributes
  *
  */
-class simplePlugin
+class simplePlugin implements SimpleTab
 {
   /*! \brief This attribute store all information about attributes */
   public $attributesInfo;
@@ -50,9 +51,8 @@ class simplePlugin
    */
   public $is_account            = FALSE;
   public $initially_was_account = FALSE;
-  public $ignore_account        = FALSE;
+  protected $ignore_account     = FALSE;
 
-  public $acl_base      = '';
   public $acl_category  = '';
 
   /*! \brief dn of the opened object */
@@ -147,13 +147,24 @@ class simplePlugin
    *  \param array $attributesInfo An attributesInfo array, if NULL, getAttributesInfo will be used.
    *
    */
-  function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE, $attributesInfo = NULL)
+  function __construct (string $dn = NULL, $object = NULL, $parent = NULL, bool $mainTab = FALSE, array $attributesInfo = NULL)
   {
     global $config;
 
     $this->dn       = $dn;
     $this->parent   = $parent;
     $this->mainTab  = $mainTab;
+
+    try {
+      $plInfo = pluglist::pluginInfos(get_class($this));
+    } catch (UnknownClassException $e) {
+      /* May happen in special cases like setup */
+      $plInfo = [];
+    }
+
+    if (empty($this->objectclasses) && isset($plInfo['plObjectClass'])) {
+      $this->objectclasses = $plInfo['plObjectClass'];
+    }
 
     if ($attributesInfo === NULL) {
       $attributesInfo = $this->getAttributesInfo();
@@ -189,31 +200,23 @@ class simplePlugin
     }
 
     /* Ensure that we've a valid acl_category set */
-    if (empty($this->acl_category)) {
-      $tmp = pluglist::pluginInfos(get_class($this));
-      if (isset($tmp['plCategory'])) {
-        $c = key($tmp['plCategory']);
-        if (is_numeric($c)) {
-          $c = $tmp['plCategory'][0];
-        }
-        $this->acl_category = $c.'/';
+    if (empty($this->acl_category) && isset($plInfo['plCategory'])) {
+      $c = key($plInfo['plCategory']);
+      if (is_numeric($c)) {
+        $c = $plInfo['plCategory'][$c];
       }
+      $this->acl_category = $c.'/';
     }
 
-    /* Handle read only */
-    if ($this->dn != 'new') {
-      /* Check if this entry was opened in read only mode */
-      if (isset($_POST['open_readonly'])) {
-        if (session::is_set('LOCK_CACHE')) {
-          $cache = session::get('LOCK_CACHE');
-          if (isset($cache['READ_ONLY'][$this->dn])) {
-            $this->read_only = TRUE;
-          }
-        }
+    /* Check if this entry was opened in read only mode */
+    if (($this->dn != 'new') &&
+        isset($_POST['open_readonly']) &&
+        session::is_set('LOCK_CACHE')
+      ) {
+      $cache = session::get('LOCK_CACHE');
+      if (isset($cache['READ_ONLY'][$this->dn])) {
+        $this->read_only = TRUE;
       }
-
-      /* Save current dn as acl_base */
-      $this->acl_base = $this->dn;
     }
 
     /* Load LDAP data */
@@ -229,11 +232,12 @@ class simplePlugin
         /* From LDAP */
         $ldap = $config->get_ldap_link();
         $ldap->cat($this->dn);
-        $this->attrs = $ldap->fetch();
+        $this->attrs = $ldap->fetch(TRUE);
         if (empty($this->attrs)) {
-          throw new NonExistingLdapNodeException('Could not open dn '.$this->dn);
+          throw new NonExistingLdapNodeException($this->dn);
         }
         if ($this->mainTab) {
+          $this->entryCSN = getEntryCSN($this->dn);
           /* Make sure that initially_was_account is TRUE if we loaded an LDAP node,
            *  even if it’s missing an objectClass */
           $this->is_account = TRUE;
@@ -241,18 +245,16 @@ class simplePlugin
       }
 
       /* Set the template flag according to the existence of objectClass fdTemplate */
-      if (isset($this->attrs['objectClass'])) {
-        if (in_array_ics('fdTemplate', $this->attrs['objectClass'])) {
-          @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, 'found', 'Template check');
-          $this->setTemplate(TRUE);
-          $this->templateLoadAttrs($this->attrs);
-        }
+      if (isset($this->attrs['objectClass']) && in_array_ics('fdTemplate', $this->attrs['objectClass'])) {
+        logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, 'found', 'Template check');
+        $this->setTemplate(TRUE);
+        $this->templateLoadAttrs($this->attrs);
       }
 
       /* Is Account? */
       if ($this->is_this_account($this->attrs)) {
         $this->is_account = TRUE;
-        @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, 'found', 'Object check');
+        logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, get_class($this), 'Tab active');
       }
     }
 
@@ -264,7 +266,7 @@ class simplePlugin
         if ($this->mainTab) {
           $filter = '(&(objectClass='.$oc.')('.$at.'='.ldap_escape_f($this->dn).'))';
         } else {
-          $filter = '(&(objectClass='.$oc.')'.$this->getObjectClassFilter().'('.$at.'='.ldap_escape_f($this->dn).'))';
+          $filter = '(&(objectClass='.$oc.')'.static::getLdapFilter().'('.$at.'='.ldap_escape_f($this->dn).'))';
         }
         $ldap->search($filter, $this->attributes);
         if ($ldap->count() == 1) {
@@ -287,7 +289,6 @@ class simplePlugin
 
     if ($this->mainTab) {
       $this->is_account = TRUE;
-      $this->entryCSN = getEntryCSN($this->dn);
     }
 
     if (!isset($this->templatePath)) {
@@ -320,20 +321,27 @@ class simplePlugin
 
   function is_this_account ($attrs)
   {
-    $found = TRUE;
-    foreach ($this->objectclasses as $obj) {
-      if (preg_match('/^top$/i', $obj)) {
-        continue;
+    $result = static::isAccount($attrs);
+    if ($result === NULL) {
+      if (!empty($this->objectclasses)) {
+        trigger_error('Deprecated fallback was used for '.get_called_class().'::is_this_account');
       }
-      if (!isset($attrs['objectClass']) || !in_array_ics($obj, $attrs['objectClass'])) {
-        $found = FALSE;
-        break;
+      $found = TRUE;
+      foreach ($this->objectclasses as $obj) {
+        if (preg_match('/^top$/i', $obj)) {
+          continue;
+        }
+        if (!isset($attrs['objectClass']) || !in_array_ics($obj, $attrs['objectClass'])) {
+          $found = FALSE;
+          break;
+        }
       }
+      return $found;
     }
-    return $found;
+    return $result;
   }
 
-  function setTemplate ($bool)
+  function setTemplate (bool $bool)
   {
     $this->is_template = $bool;
     if ($this->is_template && $this->mainTab) {
@@ -380,7 +388,7 @@ class simplePlugin
     global $config;
     $ldap = $config->get_ldap_link();
     $ldap->cat($this->dn);
-    $template_attrs = $ldap->fetch();
+    $template_attrs = $ldap->fetch(TRUE);
     if (!$template_attrs) {
       if (!$this->mainTab) {
         trigger_error('It seems main tab has not been saved.');
@@ -401,11 +409,8 @@ class simplePlugin
    */
   function getObjectClassFilter ()
   {
-    if (!empty($this->objectclasses)) {
-      return '(&(objectClass='.implode(')(objectClass=', $this->objectclasses).'))';
-    } else {
-      return '';
-    }
+    trigger_error('Deprecated');
+    return static::getLdapFilter();
   }
 
   /*! \brief This function allows to use the syntax $plugin->attributeName to get attributes values
@@ -447,7 +452,7 @@ class simplePlugin
     }
   }
 
-  /*! \brief This function allows to use the syntax isset ($plugin->attributeName)
+  /*! \brief This function allows to use the syntax isset($plugin->attributeName)
 
     It returns FALSE if the attribute has an empty value.
    */
@@ -461,35 +466,28 @@ class simplePlugin
 
   /*! \brief This function returns the dn this object should have
    */
-  public function compute_dn ()
+  public function compute_dn (): string
   {
     global $config;
     if (!$this->mainTab) {
-      msg_dialog::display(_('Fatal error'), _('Only main tab can compute dn'), FATAL_ERROR_DIALOG);
-      exit;
+      throw new FatalError(htmlescape(_('Only main tab can compute dn')));
     }
     if (!isset($this->parent) || !($this->parent instanceof simpleTabs)) {
-      msg_dialog::display(
-        _('Fatal error'),
-        sprintf(
+      throw new FatalError(
+        htmlescape(sprintf(
           _('Could not compute dn: no parent tab class for "%s"'),
           get_class($this)
-        ),
-        FATAL_ERROR_DIALOG
+        ))
       );
-      exit;
     }
     $infos = $this->parent->objectInfos();
     if ($infos === FALSE) {
-      msg_dialog::display(
-        _('Fatal error'),
-        sprintf(
-          _('Could not compute dn: could not find objectType infos from tab class "%s"'),
+      throw new FatalError(
+        htmlescape(sprintf(
+          _('Could not compute dn: could not find objectType info from tab class "%s"'),
           get_class($this->parent)
-        ),
-        FATAL_ERROR_DIALOG
+        ))
       );
-      exit;
     }
     $attr = $infos['mainAttr'];
     $ou   = $infos['ou'];
@@ -499,13 +497,12 @@ class simplePlugin
       $base = $config->current['BASE'];
     }
     if ($this->is_template) {
-      $dn = 'cn='.ldap_escape_dn($this->_template_cn).',ou=templates,'.$ou.$base;
-      return $dn;
+      return 'cn='.ldap_escape_dn($this->_template_cn).',ou=templates,'.$ou.$base;
     }
     return $attr.'='.ldap_escape_dn($this->attributesAccess[$attr]->computeLdapValue()).','.$ou.$base;
   }
 
-  protected function addAttribute ($section, $attr)
+  protected function addAttribute (string $section, \FusionDirectory\Core\SimplePlugin\Attribute $attr)
   {
     $name = $attr->getLdapName();
     $this->attributesInfo[$section]['attrs'][$name] = $attr;
@@ -514,7 +511,7 @@ class simplePlugin
     unset($this->$name);
   }
 
-  protected function removeAttribute ($section, $id)
+  protected function removeAttribute (string $section, string $id)
   {
     unset($this->attributesInfo[$section]['attrs'][$id]);
     unset($this->attributesAccess[$id]);
@@ -529,23 +526,25 @@ class simplePlugin
    *
    * \return array [dn] => "..name"  // All deps. we are allowed to act on.
   */
-  function get_allowed_bases ()
+  function get_allowed_bases (): array
   {
     global $config;
     $deps = [];
 
     /* Is this a new object ? Or just an edited existing object */
-    foreach ($config->idepartments as $dn => $name) {
-      if (!$this->initially_was_account && $this->acl_is_createable($dn)) {
-        $deps[$dn] = $name;
-      } elseif ($this->initially_was_account && $this->acl_is_moveable($dn)) {
+    $departmentTree = $config->getDepartmentTree();
+    foreach ($departmentTree as $dn => $name) {
+      if (
+          (!$this->initially_was_account && $this->acl_is_createable($dn)) ||
+          ($this->initially_was_account && $this->acl_is_moveable($dn))
+        ) {
         $deps[$dn] = $name;
       }
     }
 
     /* Add current base */
-    if (isset($this->base) && isset($config->idepartments[$this->base])) {
-      $deps[$this->base] = $config->idepartments[$this->base];
+    if (isset($this->base) && isset($departmentTree[$this->base])) {
+      $deps[$this->base] = $departmentTree[$this->base];
     } elseif (strtolower($this->dn) != strtolower($config->current['BASE'])) {
       trigger_error('Cannot return list of departments, no default base found in class '.get_class($this).'. (base is "'.$this->base.'")');
     }
@@ -553,21 +552,11 @@ class simplePlugin
   }
 
   /*!
-   * \brief Set acl base
-   *
-   * \param string $base
-   */
-  function set_acl_base ($base)
-  {
-    $this->acl_base = $base;
-  }
-
-  /*!
    * \brief Set acl category
    *
    * \param string $category
    */
-  function set_acl_category ($category)
+  function set_acl_category (string $category)
   {
     $this->acl_category = "$category/";
   }
@@ -581,7 +570,7 @@ class simplePlugin
     *
     * \return TRUE on success, error string on failure
     */
-  function move ($src_dn, $dst_dn)
+  function move (string $src_dn, string $dst_dn)
   {
     global $config, $ui;
 
@@ -593,28 +582,28 @@ class simplePlugin
     /* Try to move with ldap routines */
     $ldap = $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);
-    $ldap->create_missing_trees(preg_replace('/^[^,]+,/', '', $dst_dn));
+    try {
+      $ldap->create_missing_trees(preg_replace('/^[^,]+,/', '', $dst_dn));
+    } catch (FusionDirectoryError $error) {
+      $error->display();
+    }
     if (!$ldap->rename_dn($src_dn, $dst_dn)) {
-      logging::log('debug', 'Ldap Protocol v3 implementation error, ldap_rename failed.',
-        "FROM: $src_dn  -- TO: $dst_dn", [], $ldap->get_error());
-      @DEBUG(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, "Rename failed FROM: $src_dn  -- TO:  $dst_dn",
+      logging::log('error', 'ldap', "FROM: $src_dn -- TO: $dst_dn", [], 'Ldap Protocol v3 implementation error, ldap_rename failed: '.$ldap->get_error());
+      logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, "Rename failed FROM: $src_dn  -- TO:  $dst_dn",
         'Ldap Protocol v3 implementation error. Error:'.$ldap->get_error());
       return $ldap->get_error();
     }
 
     /* Update userinfo if necessary */
     if (preg_match('/'.preg_quote($src_dn, '/').'$/i', $ui->dn)) {
-      $ui_dn = preg_replace('/'.preg_quote($src_dn, '/').'$/i', $dst_dn, $ui->dn);
-      logging::log('view', 'acl/'.get_class($this), $this->dn, [], 'Updated userinfo dn from "'.$ui->dn.'" to "'.$ui_dn.'"');
-      $ui->dn = $ui_dn;
+      $ui->dn = preg_replace('/'.preg_quote($src_dn, '/').'$/i', $dst_dn, $ui->dn);
     }
 
-    /* Check if departments were moved. If so, force the reload of config->departments */
+    /* Check if departments were moved. If so, force the reload of $config departments cache */
     $ldap->cd($dst_dn);
     $ldap->search('(objectClass=gosaDepartment)', ['dn']);
     if ($ldap->count()) {
-      $config->get_departments();
-      $config->make_idepartments();
+      $config->resetDepartmentCache();
       $ui->reset_acl_cache();
     }
 
@@ -622,7 +611,7 @@ class simplePlugin
     return TRUE;
   }
 
-  function getRequiredAttributes ()
+  function getRequiredAttributes (): array
   {
     $tmp = [];
     foreach ($this->attributesAccess as $attr) {
@@ -651,11 +640,30 @@ class simplePlugin
     return $this->read_only;
   }
 
+  function execute (): string
+  {
+    trigger_error('obsolete');
+    $this->update();
+    return $this->render();
+  }
+
+  public function update (): bool
+  {
+    if (is_object($this->dialog)) {
+      $dialogState = $this->dialog->update();
+      if ($dialogState === FALSE) {
+        $this->closeDialog();
+      }
+    }
+
+    return TRUE;
+  }
+
   /*! \brief This function display the plugin and return the html code
    */
-  function execute ()
+  public function render (): string
   {
-    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "execute");
+    logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'render');
 
     /* Reset Lock message POST/GET check array, to prevent preg_match errors */
     session::set('LOCK_VARS_TO_USE', []);
@@ -664,26 +672,21 @@ class simplePlugin
     session::set('LOCK_VARS_USED_REQUEST', []);
 
     $this->displayPlugin  = TRUE;
-    $this->header         = "";
+    $this->header         = '';
 
     if (is_object($this->dialog)) {
-      $dialogResult = $this->dialog->execute();
-      if ($dialogResult === FALSE) {
-        $this->closeDialog();
-      } else {
-        $this->header         = $dialogResult;
-        $this->displayPlugin  = FALSE;
-        return $this->header;
-      }
+      $this->header         = $this->dialog->render();
+      $this->displayPlugin  = FALSE;
+      return $this->header;
     }
 
     if ($this->displayHeader) {
       /* Show tab dialog headers */
       if ($this->parent !== NULL) {
-        list($disabled, $buttonText, $text) = $this->getDisplayHeaderInfos();
+        list($disabled, $buttonHtmlText, $htmlText) = $this->getDisplayHeaderInfos();
         $this->header = $this->show_header(
-          $buttonText,
-          $text,
+          $buttonHtmlText,
+          $htmlText,
           $this->is_account,
           $disabled,
           get_class($this).'_modify_state'
@@ -694,9 +697,8 @@ class simplePlugin
         }
       } elseif (!$this->is_account) {
         $plInfo = pluglist::pluginInfos(get_class($this));
-        $this->header = '<img alt="'._('Error').'" src="geticon.php?context=status&amp;icon=dialog-error&amp;size=16" align="middle"/>&nbsp;<b>'.
+        $this->header = '<img alt="'.htmlescape(_('Error')).'" src="geticon.php?context=status&amp;icon=dialog-error&amp;size=16" align="middle"/>&nbsp;<b>'.
                         msgPool::noValidExtension($plInfo['plShortName'])."</b>";
-        $this->header .= back_to_main();
         $this->displayPlugin = FALSE;
         return $this->header.$this->inheritanceDisplay();
       }
@@ -716,7 +718,7 @@ class simplePlugin
     return $this->header.$smarty->fetch($this->templatePath);
   }
 
-  public function getDisplayHeaderInfos ()
+  public function getDisplayHeaderInfos (): array
   {
     $plInfo   = pluglist::pluginInfos(get_class($this));
     $disabled = $this->acl_skip_write();
@@ -732,8 +734,8 @@ class simplePlugin
           }
         }
       }
-      $buttonText = msgPool::removeFeaturesButton($plInfo['plShortName']);
-      $text       = msgPool::featuresEnabled($plInfo['plShortName'], $depends);
+      $buttonHtmlText = msgPool::removeFeaturesButton($plInfo['plShortName']);
+      $htmlText       = msgPool::featuresEnabled($plInfo['plShortName'], $depends);
     } else {
       $depends    = [];
       $conflicts  = [];
@@ -757,18 +759,18 @@ class simplePlugin
           }
         }
       }
-      $buttonText = msgPool::addFeaturesButton($plInfo['plShortName']);
-      $text       = msgPool::featuresDisabled($plInfo['plShortName'], $depends, $conflicts);
+      $buttonHtmlText = msgPool::addFeaturesButton($plInfo['plShortName']);
+      $htmlText       = msgPool::featuresDisabled($plInfo['plShortName'], $depends, $conflicts);
     }
-    return [$disabled,$buttonText,$text];
+    return [$disabled,$buttonHtmlText,$htmlText];
   }
 
   /*!
    * \brief Show header message for tab dialogs
    *
-   * \param string $button_text The button text
+   * \param string $buttonHtmlText The button text, escaped for HTML output
    *
-   * \param string $text The text
+   * \param string $htmlText The text to show, as HTML code
    *
    * \param boolean $plugin_enabled Is the plugin/tab activated
    *
@@ -776,45 +778,101 @@ class simplePlugin
    *
    * \param string $name The html name of the input, defaults to modify_state
    */
-  function show_header ($button_text, $text, $plugin_enabled, $button_disabled = FALSE, $name = 'modify_state')
+  function show_header (string $buttonHtmlText, string $htmlText, bool $plugin_enabled, bool $button_disabled = FALSE, string $name = 'modify_state'): string
   {
     if ($button_disabled || ((!$this->acl_is_createable() && !$plugin_enabled) || (!$this->acl_is_removeable() && $plugin_enabled))) {
-        $state = 'disabled="disabled"';
+      $state = 'disabled="disabled"';
     } else {
-        $state = '';
+      $state = '';
     }
-    $display = '<div width="100%"><p><b>'.$text.'</b><br/>'."\n";
-    $display .= '<input type="submit" value="'.$button_text.'" name="'.$name.'" '.$state.'></p></div><hr class="separator"/>';
+    $display = '<div width="100%"><p><b>'.$htmlText.'</b><br/>'."\n";
+    $display .= '<input type="submit" formnovalidate="formnovalidate" value="'.$buttonHtmlText.'" name="'.$name.'" '.$state.'></p></div><hr class="separator"/>';
 
     return $display;
+  }
+
+  /*!
+   * \brief Test whether a tab is active
+   */
+  public function isActive (): bool
+  {
+    return ($this->is_account || $this->ignore_account);
+  }
+
+  /*!
+   * \brief Test whether a tab can be deactivated
+   */
+  public function isActivatable (): bool
+  {
+    return $this->displayHeader;
+  }
+
+  /*! \brief Check if logged in user have enough right to read this attribute value
+   *
+   * \param mixed $attr Attribute object or name (in this case it will be fetched from attributesAccess)
+   */
+  function attrIsReadable ($attr): bool
+  {
+    if (!is_object($attr)) {
+      $attr = $this->attributesAccess[$attr];
+    }
+    if ($attr->getLdapName() == 'base') {
+      return TRUE;
+    }
+    if ($attr->getAcl() == 'noacl') {
+      return TRUE;
+    }
+    return $this->acl_is_readable($attr->getAcl());
   }
 
   /*! \brief Check if logged in user have enough right to write this attribute value
    *
    * \param mixed $attr Attribute object or name (in this case it will be fetched from attributesAccess)
    */
-  function attrIsWriteable ($attr)
+  function attrIsWriteable ($attr): bool
   {
     if (!is_object($attr)) {
       $attr = $this->attributesAccess[$attr];
     }
     if ($attr->getLdapName() == 'base') {
-      if (!$this->acl_skip_write() && (!$this->initially_was_account || $this->acl_is_moveable() || $this->acl_is_removeable())) {
-        return TRUE;
-      } else {
-        return FALSE;
-      }
+      return (
+        !$this->acl_skip_write() &&
+        (!$this->initially_was_account || $this->acl_is_moveable() || $this->acl_is_removeable())
+      );
+    }
+    if ($attr->getAcl() == 'noacl') {
+      return FALSE;
     }
     return $this->acl_is_writeable($attr->getAcl(), $this->acl_skip_write());
   }
 
-  function renderAttributes ($readOnly = FALSE)
+  /*!
+   * \brief Get LDAP base to use for ACL checks
+   */
+  function getAclBase (bool $callParent = TRUE): string
+  {
+    global $config;
+
+    if (($this->parent instanceof simpleTabs) && $callParent) {
+      return $this->parent->getAclBase();
+    }
+    if (isset($this->dn) && ($this->dn != 'new')) {
+      return $this->dn;
+    }
+    if (isset($this->base)) {
+      return 'new,'.$this->base;
+    }
+
+    return $config->current['BASE'];
+  }
+
+  function renderAttributes (bool $readOnly = FALSE)
   {
     global $ui;
     $smarty = get_smarty();
 
     if ($this->is_template) {
-      $smarty->assign('template_cnACL', $ui->get_permissions($this->acl_base, $this->acl_category.'template', 'template_cn', $this->acl_skip_write()));
+      $smarty->assign('template_cnACL', $ui->get_permissions($this->getAclBase(), $this->acl_category.'template', 'template_cn', $this->acl_skip_write()));
     }
 
     /* Handle rights to modify the base */
@@ -828,29 +886,32 @@ class simplePlugin
 
     $sections = [];
     foreach ($this->attributesInfo as $section => $sectionInfo) {
-      $legend = $sectionInfo['name'];
-      if (isset($sectionInfo['icon'])) {
-        $legend = '<img '.
-                  'src="'.htmlentities($sectionInfo['icon'], ENT_COMPAT, 'UTF-8').'" '.
-                  'alt="" '.
-                  '/>'.$legend;
-      }
-      $smarty->assign("section", $legend);
-      $smarty->assign("sectionId", $section);
+      $smarty->assign('section',      $sectionInfo['name']);
+      $smarty->assign('sectionIcon',  ($sectionInfo['icon'] ?? NULL));
+      $smarty->assign('sectionId',    $section);
+      $sectionClasses = '';
       if (isset($sectionInfo['class'])) {
-        $smarty->assign("sectionClasses", ' '.join(' ', $sectionInfo['class']));
-      } else {
-        $smarty->assign("sectionClasses", '');
+        $sectionClasses .= ' '.join(' ', $sectionInfo['class']);
       }
-      $attributes = [];
+      $attributes       = [];
+      $readableSection  = FALSE;
       foreach ($sectionInfo['attrs'] as $attr) {
         if ($attr->getAclInfo() !== FALSE) {
           // We assign ACLs so that attributes can use them in their template code
-          $smarty->assign($attr->getAcl()."ACL", $this->aclGetPermissions($attr->getAcl(), NULL, $this->acl_skip_write()));
+          $smarty->assign($attr->getAcl().'ACL', $this->aclGetPermissions($attr->getAcl(), NULL, $this->acl_skip_write()));
         }
-        $attr->renderAttribute($attributes, $readOnly);
+        $readable = $this->attrIsReadable($attr);
+        $writable = $this->attrIsWriteable($attr);
+        if (!$readableSection && ($readable || $writable)) {
+          $readableSection = TRUE;
+        }
+        $attr->renderAttribute($attributes, $readOnly, $readable, $writable);
       }
-      $smarty->assign("attributes", $attributes);
+      $smarty->assign('attributes', $attributes);
+      if (!$readableSection) {
+        $sectionClasses .= ' nonreadable';
+      }
+      $smarty->assign('sectionClasses', $sectionClasses);
       // We fetch each section with the section template
       if (isset($sectionInfo['template'])) {
         $displaySection = $smarty->fetch($sectionInfo['template']);
@@ -862,7 +923,7 @@ class simplePlugin
     $smarty->assign("sections", $sections);
   }
 
-  function inheritanceDisplay ()
+  function inheritanceDisplay (): string
   {
     if (!$this->member_of_group) {
       return "";
@@ -881,9 +942,9 @@ class simplePlugin
 
   /*! \brief This function allows you to open a dialog
    *
-   *  \param mixed $dialog The dialog object
+   *  \param FusionDirectoryDialog $dialog The dialog object
    */
-  function openDialog ($dialog)
+  function openDialog (FusionDirectoryDialog $dialog)
   {
     $this->dialog = $dialog;
   }
@@ -895,20 +956,20 @@ class simplePlugin
     $this->dialog = NULL;
   }
 
-  public function setNeedEditMode ($bool)
+  public function setNeedEditMode (bool $bool)
   {
     $this->needEditMode = $bool;
   }
 
-  protected function acl_skip_write ()
+  protected function acl_skip_write (): bool
   {
     return ($this->needEditMode && !session::is_set('edit'));
   }
 
   /*! \brief Can we write the attribute */
-  function acl_is_writeable ($attribute, $skipWrite = FALSE)
+  function acl_is_writeable ($attribute, bool $skipWrite = FALSE): bool
   {
-    return preg_match('/w/', $this->aclGetPermissions($attribute, NULL, $skipWrite));
+    return (strpos($this->aclGetPermissions($attribute, NULL, $skipWrite), 'w') !== FALSE);
   }
 
   /*!
@@ -916,9 +977,9 @@ class simplePlugin
    *
    * \param string $attribute
    */
-  function acl_is_readable ($attribute)
+  function acl_is_readable ($attribute): bool
   {
-    return preg_match('/r/', $this->aclGetPermissions($attribute));
+    return (strpos($this->aclGetPermissions($attribute), 'r') !== FALSE);
   }
 
   /*!
@@ -926,9 +987,9 @@ class simplePlugin
    *
    * \param string $base Empty string
    */
-  function acl_is_createable ($base = NULL)
+  function acl_is_createable (string $base = NULL): bool
   {
-    return preg_match('/c/', $this->aclGetPermissions('0', $base));
+    return (strpos($this->aclGetPermissions('0', $base), 'c') !== FALSE);
   }
 
   /*!
@@ -936,9 +997,9 @@ class simplePlugin
    *
    * \param string $base Empty string
    */
-  function acl_is_removeable ($base = NULL)
+  function acl_is_removeable (string $base = NULL): bool
   {
-    return preg_match('/d/', $this->aclGetPermissions('0', $base));
+    return (strpos($this->aclGetPermissions('0', $base), 'd') !== FALSE);
   }
 
   /*!
@@ -946,13 +1007,21 @@ class simplePlugin
    *
    * \param string $base Empty string
    */
-  function acl_is_moveable ($base = NULL)
+  function acl_is_moveable (string $base = NULL): bool
   {
-    return preg_match('/m/', $this->aclGetPermissions('0', $base));
+    return (strpos($this->aclGetPermissions('0', $base), 'm') !== FALSE);
+  }
+
+  /*! \brief Test if there are ACLs for this plugin */
+  function aclHasPermissions (): bool
+  {
+    global $config;
+
+    return in_array(get_class($this), $config->data['CATEGORIES'][rtrim($this->acl_category, '/')]['classes']);
   }
 
   /*! \brief Get the acl permissions for an attribute or the plugin itself */
-  function aclGetPermissions ($attribute = '0', $base = NULL, $skipWrite = FALSE)
+  function aclGetPermissions ($attribute = '0', string $base = NULL, bool $skipWrite = FALSE): string
   {
     if (isset($this->parent) && isset($this->parent->ignoreAcls) && $this->parent->ignoreAcls) {
       return 'cdmr'.($skipWrite ? '' : 'w');
@@ -960,14 +1029,14 @@ class simplePlugin
     $ui         = get_userinfo();
     $skipWrite  |= $this->readOnly();
     if ($base === NULL) {
-      $base = $this->acl_base;
+      $base = $this->getAclBase();
     }
     return $ui->get_permissions($base, $this->acl_category.get_class($this), $attribute, $skipWrite);
   }
 
   /*! \brief This function removes the object from LDAP
    */
-  function remove ($fulldelete = FALSE)
+  function remove (bool $fulldelete = FALSE): array
   {
     if (!$this->initially_was_account) {
       return [];
@@ -979,7 +1048,7 @@ class simplePlugin
     }
 
     $this->prepare_remove();
-    if ($this->is_template && (!defined('_OLD_TEMPLATES_') || !_OLD_TEMPLATES_)) {
+    if ($this->is_template) {
       $this->attrs = $this->templateSaveAttrs();
       $this->saved_attributes = [];
     }
@@ -1007,7 +1076,7 @@ class simplePlugin
       $ldap = $config->get_ldap_link();
 
       /* Get current objectClasses in order to add the required ones */
-      $ldap->cat($this->dn);
+      $ldap->cat($this->dn, ['fdTemplateField','objectClass']);
       $tmp  = $ldap->fetch();
       $oc   = [];
       if ($this->is_template) {
@@ -1038,11 +1107,11 @@ class simplePlugin
   protected function pre_remove ()
   {
     if ($this->initially_was_account) {
-      return $this->handle_pre_events('remove');
+      return $this->handle_pre_events('remove', ['modifiedLdapAttrs' => array_keys($this->attrs)]);
     }
   }
 
-  protected function ldap_remove ()
+  protected function ldap_remove (): array
   {
     global $config;
     $ldap = $config->get_ldap_link();
@@ -1058,7 +1127,15 @@ class simplePlugin
     if ($ldap->success()) {
       return [];
     } else {
-      return [msgPool::ldaperror($this->ldap_error, $this->dn, LDAP_MOD, get_class())];
+      return [
+        new SimplePluginLdapError(
+          $this,
+          $this->dn,
+          ($this->mainTab ? LDAP_DEL : LDAP_MOD),
+          $ldap->get_error(),
+          $ldap->get_errno()
+        )
+      ];
     }
   }
 
@@ -1067,7 +1144,7 @@ class simplePlugin
     logging::log('remove', 'plugin/'.get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
 
     /* Optionally execute a command after we're done */
-    $errors = $this->handle_post_events('remove');
+    $errors = $this->handle_post_events('remove', ['modifiedLdapAttrs' => array_keys($this->attrs)]);
     if (!empty($errors)) {
       msg_dialog::displayChecks($errors);
     }
@@ -1077,7 +1154,16 @@ class simplePlugin
    */
   function save_object ()
   {
-    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'save_object');
+    trigger_error('obsolete');
+    $this->readPost();
+  }
+
+  /*! \brief This function handle $_POST informations
+   */
+  function readPost ()
+  {
+    logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'readPost');
+
     if ($this->displayHeader && isset($_POST[get_class($this).'_modify_state'])) {
       if ($this->is_account && $this->acl_is_removeable()) {
         $this->is_account = FALSE;
@@ -1085,30 +1171,29 @@ class simplePlugin
         $this->is_account = TRUE;
       }
     }
+    if (is_object($this->dialog)) {
+      $this->dialog->readPost();
+    }
     if (isset($_POST[get_class($this).'_posted'])) {
       // If our form has been posted
       // A first pass that loads the post values
-      foreach ($this->attributesInfo as $section => &$sectionInfo) {
-        foreach ($sectionInfo['attrs'] as &$attr) {
+      foreach ($this->attributesInfo as $sectionInfo) {
+        foreach ($sectionInfo['attrs'] as $attr) {
           if ($this->attrIsWriteable($attr)) {
             // Each attribute know how to read its value from POST
             $attr->loadPostValue();
           }
         }
-        unset($attrs);
       }
-      unset($sectionInfo);
       // A second one that applies them. That allow complex stuff such as attribute disabling
-      foreach ($this->attributesInfo as $section => &$sectionInfo) {
-        foreach ($sectionInfo['attrs'] as &$attr) {
+      foreach ($this->attributesInfo as $sectionInfo) {
+        foreach ($sectionInfo['attrs'] as $attr) {
           if ($this->attrIsWriteable($attr)) {
             // Each attribute know how to read its value from POST
             $attr->applyPostValue();
           }
         }
-        unset($attrs);
       }
-      unset($sectionInfo);
     }
   }
 
@@ -1122,7 +1207,8 @@ class simplePlugin
         continue;
       }
 
-      if (!in_array_ics($index, $this->attributes) && strcasecmp('objectClass', $index)) {
+      list($attribute, ) = explode(';', $index, 2);
+      if (!in_array_ics($index, $this->attributes) && !in_array_ics($attribute, $this->attributes) && strcasecmp('objectClass', $attribute)) {
         unset($this->saved_attributes[$index]);
         continue;
       }
@@ -1149,7 +1235,6 @@ class simplePlugin
   function cleanup ()
   {
     foreach ($this->attrs as $index => $value) {
-
       /* Convert arrays with one element to non arrays, if the saved
          attributes are no array, too */
       if (is_array($this->attrs[$index]) &&
@@ -1179,11 +1264,10 @@ class simplePlugin
       /* Remove arrays that do not differ */
       if (is_array($this->attrs[$index]) &&
           isset($this->saved_attributes[$index]) &&
-          is_array($this->saved_attributes[$index])) {
-        if (!array_differs($this->attrs[$index], $this->saved_attributes[$index])) {
-          unset($this->attrs[$index]);
-          continue;
-        }
+          is_array($this->saved_attributes[$index]) &&
+          !array_differs($this->attrs[$index], $this->saved_attributes[$index])) {
+        unset($this->attrs[$index]);
+        continue;
       }
     }
   }
@@ -1198,14 +1282,14 @@ class simplePlugin
 
   /*! \brief This function saves the object in the LDAP
    */
-  function save ()
+  function save (): array
   {
-    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "save");
+    logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, "save");
     $errors = $this->prepare_save();
     if (!empty($errors)) {
       return $errors;
     }
-    if ($this->is_template && (!defined('_OLD_TEMPLATES_') || !_OLD_TEMPLATES_)) {
+    if ($this->is_template) {
       $errors = templateHandling::checkFields($this->attrs);
       if (!empty($errors)) {
         return $errors;
@@ -1233,7 +1317,7 @@ class simplePlugin
     return [];
   }
 
-  protected function shouldSave ()
+  protected function shouldSave (): bool
   {
     if ($this->mainTab && !$this->initially_was_account) {
       return TRUE;
@@ -1242,53 +1326,55 @@ class simplePlugin
   }
 
   /* Used by prepare_save and template::apply */
-  public function mergeObjectClasses (array $oc)
+  public function mergeObjectClasses (array $oc): array
   {
     return array_merge_unique($oc, $this->objectclasses);
   }
 
-  protected function prepare_save ()
+  /* \!brief Prepare $this->attrs */
+  protected function prepare_save (): array
   {
     global $config;
-    /* prepare $this->attrs */
-    $ldap = $config->get_ldap_link();
 
     $this->entryCSN = '';
 
     /* Start with empty array */
-    $this->attrs = [];
+    $this->attrs  = [];
+    $oc           = [];
 
-    /* Get current objectClasses in order to add the required ones */
-    $ldap->cat($this->dn, ['fdTemplateField', 'objectClass']);
+    if (!$this->mainTab || $this->initially_was_account) {
+      /* Get current objectClasses in order to add the required ones */
+      $ldap = $config->get_ldap_link();
+      $ldap->cat($this->dn, ['fdTemplateField', 'objectClass']);
 
-    $tmp  = $ldap->fetch();
-    $oc   = [];
+      $tmp  = $ldap->fetch();
 
-    if ($this->is_template) {
-      if (isset($tmp['fdTemplateField'])) {
-        foreach ($tmp['fdTemplateField'] as $tpl_field) {
-          if (preg_match('/^objectClass:(.+)$/', $tpl_field, $m)) {
-            $oc[] = $m[1];
+      if ($this->is_template) {
+        if (isset($tmp['fdTemplateField'])) {
+          foreach ($tmp['fdTemplateField'] as $tpl_field) {
+            if (preg_match('/^objectClass:(.+)$/', $tpl_field, $m)) {
+              $oc[] = $m[1];
+            }
           }
         }
-      }
-    } else {
-      if (isset($tmp['objectClass'])) {
-        $oc = $tmp['objectClass'];
-        unset($oc['count']);
+      } else {
+        if (isset($tmp['objectClass'])) {
+          $oc = $tmp['objectClass'];
+          unset($oc['count']);
+        }
       }
     }
 
     $this->attrs['objectClass'] = $this->mergeObjectClasses($oc);
 
     /* Fill attributes LDAP values into the attrs array */
-    foreach ($this->attributesInfo as $section => $sectionInfo) {
+    foreach ($this->attributesInfo as $sectionInfo) {
       foreach ($sectionInfo['attrs'] as $attr) {
         $attr->fillLdapValue($this->attrs);
       }
     }
     /* Some of them have post-filling hook */
-    foreach ($this->attributesInfo as $section => $sectionInfo) {
+    foreach ($this->attributesInfo as $sectionInfo) {
       foreach ($sectionInfo['attrs'] as $attr) {
         $attr->fillLdapValueHook($this->attrs);
       }
@@ -1297,35 +1383,48 @@ class simplePlugin
     return [];
   }
 
-  protected function pre_save ()
+  protected function pre_save (): array
   {
     if ($this->initially_was_account) {
-      return $this->handle_pre_events('modify');
+      return $this->handle_pre_events('modify', ['modifiedLdapAttrs' => array_keys($this->attrs)]);
     } else {
-      return $this->handle_pre_events('add');
+      return $this->handle_pre_events('add', ['modifiedLdapAttrs' => array_keys($this->attrs)]);
     }
   }
 
   /* Returns an array with the errors or an empty array */
-  protected function ldap_save ()
+  protected function ldap_save (): array
   {
     global $config;
 
     /* Check if this is a new entry ... add/modify */
     $ldap = $config->get_ldap_link();
-    $ldap->cat($this->dn, ["objectClass"]);
     if ($this->mainTab && !$this->initially_was_account) {
-      if ($ldap->count()) {
-        return [sprintf(_('There is already an entry with the same dn : %s'), $this->dn)];
+      if ($ldap->dn_exists($this->dn)) {
+        return [
+          new SimplePluginError(
+            $this,
+            htmlescape(sprintf(_('There is already an entry with the same dn: %s'), $this->dn))
+          )
+        ];
       }
       $ldap->cd($config->current['BASE']);
-      $ldap->create_missing_trees(preg_replace('/^[^,]+,/', '', $this->dn));
-      $action = "add";
-    } else {
-      if (!$ldap->count()) {
-        return [sprintf(_('The entry %s is not existing'), $this->dn)];
+      try {
+        $ldap->create_missing_trees(preg_replace('/^[^,]+,/', '', $this->dn));
+      } catch (FusionDirectoryError $error) {
+        return [$error];
       }
-      $action = "modify";
+      $action = 'add';
+    } else {
+      if (!$ldap->dn_exists($this->dn)) {
+        return [
+          new SimplePluginError(
+            $this,
+            htmlescape(sprintf(_('The entry %s is not existing'), $this->dn))
+          )
+        ];
+      }
+      $action = 'modify';
     }
 
     $ldap->cd($this->dn);
@@ -1334,7 +1433,15 @@ class simplePlugin
 
     /* Check for errors */
     if (!$ldap->success()) {
-      return [msgPool::ldaperror($this->ldap_error, $this->dn, 0, get_class())];
+      return [
+        new SimplePluginLdapError(
+          $this,
+          $this->dn,
+          ($action == 'modify' ? LDAP_MOD : LDAP_ADD),
+          $ldap->get_error(),
+          $ldap->get_errno()
+        )
+      ];
     }
     return [];
   }
@@ -1347,10 +1454,10 @@ class simplePlugin
   {
     /* Propagate and log the event */
     if ($this->initially_was_account) {
-      $errors = $this->handle_post_events('modify');
+      $errors = $this->handle_post_events('modify', ['modifiedLdapAttrs' => array_keys($this->attrs)]);
       logging::log('modify', 'plugin/'.get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
     } else {
-      $errors = $this->handle_post_events('add');
+      $errors = $this->handle_post_events('add', ['modifiedLdapAttrs' => array_keys($this->attrs)]);
       logging::log('create', 'plugin/'.get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
     }
     if (!empty($errors)) {
@@ -1367,7 +1474,7 @@ class simplePlugin
    *
    * \param  array  $addAttrs
    */
-  protected function handle_hooks ($when, $mode, array $addAttrs = [])
+  protected function handle_hooks (string $when, string $mode, array $addAttrs = []): array
   {
     switch ($mode) {
       case 'add':
@@ -1381,14 +1488,14 @@ class simplePlugin
 
       default:
         trigger_error(sprintf('Invalid %s event type given: "%s"! Valid types are: add, modify, remove.', strtolower($when), $mode));
-        break;
+        return [];
     }
   }
 
   /*! \brief Forward command execution requests
    *         to the post hook execution method.
    */
-  function handle_post_events ($mode, array $addAttrs = [])
+  function handle_post_events (string $mode, array $addAttrs = [])
   {
     /* Update foreign keys */
     if ($mode == 'remove') {
@@ -1403,7 +1510,7 @@ class simplePlugin
    *  \brief Forward command execution requests
    *         to the pre hook execution method.
    */
-  function handle_pre_events ($mode, array $addAttrs = [])
+  function handle_pre_events (string $mode, array $addAttrs = []): array
   {
     global $config;
 
@@ -1418,12 +1525,22 @@ class simplePlugin
     return $this->handle_hooks('PRE', $mode, $addAttrs);
   }
 
+  function fillHookAttrs (array &$addAttrs)
+  {
+    // Walk trough attributes list and add the plugins attributes.
+    foreach ($this->attributes as $attr) {
+      if (!isset($addAttrs[$attr])) {
+        $addAttrs[$attr] = $this->$attr;
+      }
+    }
+  }
+
   /*!
    * \brief    Calls external hooks which are defined for this plugin (fusiondirectory.conf)
    *           Replaces placeholder by class values of this plugin instance.
    *       Allows to a add special replacements.
    */
-  function callHook ($cmd, array $addAttrs = [], &$returnOutput = [], &$returnCode = NULL)
+  function callHook ($cmd, array $addAttrs = [], &$returnOutput = [], &$returnCode = NULL): array
   {
     if ($this->is_template) {
       return [];
@@ -1434,10 +1551,7 @@ class simplePlugin
     $messages = [];
 
     foreach ($commands as $command) {
-      // Walk trough attributes list and add the plugins attributes.
-      foreach ($this->attributes as $attr) {
-        $addAttrs[$attr] = $this->$attr;
-      }
+      $this->fillHookAttrs($addAttrs);
 
       $ui = get_userinfo();
 
@@ -1451,11 +1565,9 @@ class simplePlugin
       $addAttrs['location']   = $config->current['NAME'];
 
       if (isset($this->parent->by_object)) {
-        foreach ($this->parent->by_object as $object) {
-          foreach ($object->attributes as $attr) {
-            if (!isset($addAttrs[$attr])) {
-              $addAttrs[$attr] = $object->$attr;
-            }
+        foreach ($this->parent->by_object as $class => $object) {
+          if ($class != get_class($this)) {
+            $object->fillHookAttrs($addAttrs);
           }
         }
       }
@@ -1465,35 +1577,54 @@ class simplePlugin
       }
 
       $command = templateHandling::parseString($command, $addAttrs, 'escapeshellarg');
-
-      @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execute");
+      logging::debug(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, 'Execute');
       exec($command, $arr, $returnCode);
+
+      $command = static::passwordProtect($command);
+
       $returnOutput = $arr;
 
       if ($returnCode != 0) {
         $str = implode("\n", $arr);
-        @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Execution failed code: ".$returnCode);
-        $message = msgPool::cmdexecfailed($cmd, $command, get_class($this));
-        if (!empty($str)) {
-          $message .= "Result: ".$str;
-        }
-        $messages[] = $message;
+        $str = static::passwordProtect($str);
+        logging::debug(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, 'Execution failed code: '.$returnCode);
+        logging::debug(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, 'Output: '.$str);
+        $messages[] = new SimplePluginHookError(
+          $this,
+          $cmd,
+          $str,
+          $returnCode
+        );
       } elseif (is_array($arr)) {
         $str = implode("\n", $arr);
-        @DEBUG(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, "Result: ".$str);
-        if (!empty($str) && $config->get_cfg_value("displayHookOutput", "FALSE") == "TRUE") {
-          msg_dialog::display('['.get_class($this).' '.strtolower($cmd)."hook] $command", $str, INFO_DIALOG);
+        $str = static::passwordProtect($str);
+        logging::debug(DEBUG_SHELL, __LINE__, __FUNCTION__, __FILE__, $command, 'Output: '.$str);
+        if (!empty($str) && $config->get_cfg_value('displayHookOutput', 'FALSE') == 'TRUE') {
+          msg_dialog::display('['.get_class($this).' '.strtolower($cmd).'trigger] '.$command, htmlescape($str), INFO_DIALOG);
         }
       }
+      unset($arr, $command, $returnCode);
     }
     return $messages;
   }
 
+  /*! \brief This function protect the clear string password by replacing char.
+   */
+  protected static function passwordProtect (string $hookCommand = NULL): string
+  {
+    if (isset($_POST["userPassword_password"]) && !empty($_POST["userPassword_password"])) {
+      if (strpos($hookCommand, $_POST["userPassword_password"]) !== FALSE) {
+        $hookCommand = str_replace($_POST["userPassword_password"], '*******', $hookCommand);
+      }
+    }
+      return $hookCommand;
+  }
+
   /*! \brief This function checks the attributes values and yell if something is wrong
    */
-  function check ()
+  function check (): array
   {
-    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'check');
+    logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->dn, 'check');
     $messages = [];
 
     foreach ($this->attributesInfo as $sectionInfo) {
@@ -1512,8 +1643,7 @@ class simplePlugin
     $error = $this->callHook('CHECK', ['nbCheckErrors' => count($messages)], $returnOutput);
     if (!empty($error)) {
       $messages = array_merge($messages, $error);
-    }
-    if (!empty($returnOutput)) {
+    } elseif (!empty($returnOutput)) {
       $messages[] = join("\n", $returnOutput);
     }
 
@@ -1522,14 +1652,14 @@ class simplePlugin
       $current_csn = getEntryCSN($this->dn);
       if (($current_csn != $this->entryCSN) && !empty($current_csn)) {
         $this->entryCSN = $current_csn;
-        $messages[] = _('The object has changed since opened in FusionDirectory. All changes that may be done by others will get lost if you save this entry!');
+        $messages[] = _('The object has changed since being opened in FusionDirectory. All changes that may be done by others will get lost if you save this entry!');
       }
     }
 
     return $messages;
   }
 
-  function handleForeignKeys ($olddn = NULL, $newdn = NULL, $mode = 'move')
+  function handleForeignKeys (string $olddn = NULL, string $newdn = NULL, string $mode = 'move')
   {
     if (($olddn !== NULL) && ($olddn == $newdn)) {
       return;
@@ -1544,7 +1674,7 @@ class simplePlugin
     );
   }
 
-  function browseForeignKeys ($mode, $param1 = NULL, $param2 = NULL)
+  function browseForeignKeys (string $mode, $param1 = NULL, $param2 = NULL)
   {
     global $config, $plist;
 
@@ -1623,79 +1753,85 @@ class simplePlugin
       }
     }
     foreach ($classes as $tabclass) {
-      $infos = pluglist::pluginInfos($tabclass);
-      foreach ($infos['plForeignRefs'] as $field => $refs) {
-        if (preg_match('/^handle_/', $mode)) {
-          if (($newdn !== NULL) && ($field != 'dn') && ($mode == 'handle_move')) {
-            // Move action, ignore other fields than dn
-            continue;
-          } elseif (($newdn === NULL) && ($olddn === NULL) && (($field == 'dn') || (!$this->attributeHaveChanged($field)))) {
-            // Edit action, ignore dn changes or attributes which did not change
-            continue;
-          }
-          // else = delete action, all fields are concerned, nothing to do here
-        }
-        foreach ($refs as $ref) {
-          $class  = $ref[0];
-          $ofield = $ref[1];
-          $filter = $ref[2];
-          $cinfos = pluglist::pluginInfos($class);
-          if ($class == 'aclAssignment') {
-            /* Special case: aclAssignment foreignKey is ignored on department types as it’s handled by the aclAssignment objectType */
-            $objectTypes = ['ACLASSIGNMENT'];
-          } elseif (is_subclass_of($class, 'simpleService')) {
-            $objectTypes = ['SERVER'];
-          } else {
-            $objectTypes = [];
-            foreach ($cinfos['plObjectType'] as $key => $objectType) {
-              if (!is_numeric($key)) {
-                $objectType = $key;
-              }
-              if (preg_match('/^ogroup-/i', $objectType)) {
-                $objectType = 'OGROUP';
-              }
-              $objectTypes[] = $objectType;
+      try {
+        $infos = pluglist::pluginInfos($tabclass);
+        foreach ($infos['plForeignRefs'] as $field => $refs) {
+          if (preg_match('/^handle_/', $mode)) {
+            if (
+                (($newdn !== NULL) && ($field != 'dn') && ($mode == 'handle_move')) ||
+                (($newdn === NULL) && ($olddn === NULL) && (($field == 'dn') || (!$this->attributeHaveChanged($field))))
+              ) {
+              // Move action, ignore other fields than dn
+              // Edit action, ignore dn changes or attributes which did not change
+              continue;
             }
-            $objectTypes = array_unique($objectTypes);
+            // else = delete action, all fields are concerned, nothing to do here
           }
-          foreach ($objectTypes as $objectType) {
-            if (preg_match('/^handle_/', $mode)) {
-              if ($field == 'dn') {
-                $oldvalue = $olddn;
-                $newvalue = $newdn;
-              } elseif (($olddn !== NULL) && ($newdn === NULL)) {
-                $oldvalue = $this->attributeInitialValue($field);
-                $newvalue = NULL;
-              } else {
-                $oldvalue = $this->attributeInitialValue($field);
-                $newvalue = $this->attributeValue($field);
+          foreach ($refs as $ref) {
+            $class  = $ref[0];
+            $ofield = $ref[1];
+            $filter = $ref[2];
+            $cinfos = pluglist::pluginInfos($class);
+            if ($class == 'aclAssignment') {
+              /* Special case: aclAssignment foreignKey is ignored on department types as it’s handled by the aclAssignment objectType */
+              $objectTypes = ['ACLASSIGNMENT'];
+            } elseif (is_subclass_of($class, 'simpleService')) {
+              $objectTypes = ['SERVER'];
+            } else {
+              $objectTypes = [];
+              foreach ($cinfos['plObjectType'] as $key => $objectType) {
+                if (!is_numeric($key)) {
+                  $objectType = $key;
+                }
+                if (preg_match('/^ogroup-/i', $objectType)) {
+                  $objectType = 'OGROUP';
+                }
+                $objectTypes[] = $objectType;
               }
-              $foreignRefs[$objectType]['refs'][$class][$ofield][$field] =
-                [
-                  'tab'       => $tabclass,
-                  'field'     => $field,
-                  'oldvalue'  => $oldvalue,
-                  'newvalue'  => $newvalue,
-                ];
-              $filter = templateHandling::parseString($filter, ['oldvalue' => $oldvalue, 'newvalue' => $newvalue], 'ldap_escape_f');
-            } elseif ($mode == 'references') {
-              $foreignRefs[$objectType]['refs'][$class]['name'] = $cinfos['plShortName'];
+              $objectTypes = array_unique($objectTypes);
+            }
+            foreach ($objectTypes as $objectType) {
+              if (preg_match('/^handle_/', $mode)) {
+                if ($field == 'dn') {
+                  $oldvalue = $olddn;
+                  $newvalue = $newdn;
+                } elseif (($olddn !== NULL) && ($newdn === NULL)) {
+                  $oldvalue = $this->attributeInitialValue($field);
+                  $newvalue = NULL;
+                } else {
+                  $oldvalue = $this->attributeInitialValue($field);
+                  $newvalue = $this->attributeValue($field);
+                }
+                $foreignRefs[$objectType]['refs'][$class][$ofield][$field] =
+                  [
+                    'tab'       => $tabclass,
+                    'field'     => $field,
+                    'oldvalue'  => $oldvalue,
+                    'newvalue'  => $newvalue,
+                  ];
+                $filter = templateHandling::parseString($filter, ['oldvalue' => $oldvalue, 'newvalue' => $newvalue], 'ldap_escape_f');
+              } elseif ($mode == 'references') {
+                $foreignRefs[$objectType]['refs'][$class]['name'] = $cinfos['plShortName'];
 
-              $foreignRefs[$objectType]['refs'][$class]['fields'][$ofield][$field] =
-                [
-                  'tab'     => $tabclass,
-                  'field'   => $field,
-                  'tabname' => $this->parent->by_name[$tabclass],
-                  'value'   => $this->parent->by_object[$tabclass]->$field,
-                ];
-              $filter = templateHandling::parseString($filter, ['oldvalue' => $this->parent->by_object[$tabclass]->$field], 'ldap_escape_f');
+                $foreignRefs[$objectType]['refs'][$class]['fields'][$ofield][$field] =
+                  [
+                    'tab'     => $tabclass,
+                    'field'   => $field,
+                    'tabname' => $this->parent->by_name[$tabclass],
+                    'value'   => $this->parent->by_object[$tabclass]->$field,
+                  ];
+                $filter = templateHandling::parseString($filter, ['oldvalue' => $this->parent->by_object[$tabclass]->$field], 'ldap_escape_f');
+              }
+              if (!preg_match('/^\(.*\)$/', $filter)) {
+                $filter = '('.$filter.')';
+              }
+              $foreignRefs[$objectType]['filters'][$filter] = $filter;
             }
-            if (!preg_match('/^\(.*\)$/', $filter)) {
-              $filter = '('.$filter.')';
-            }
-            $foreignRefs[$objectType]['filters'][$filter] = $filter;
           }
         }
+      } catch (UnknownClassException $e) {
+        /* May happen in special cases like setup */
+        continue;
       }
     }
 
@@ -1717,8 +1853,6 @@ class simplePlugin
       }
       // For each object of this type
       foreach (array_keys($objects) as $dn) {
-        /* Avoid sending POST to opened objects */
-        $_POST = [];
         // Build the object
         $tabobject = objects::open($dn, $objectType);
         if (preg_match('/^handle_/', $mode)) {
@@ -1744,7 +1878,7 @@ class simplePlugin
                   );
                 }
               }
-              $pluginobject->save_object();
+              $pluginobject->update();
             }
           }
           $errors = $tabobject->save();
@@ -1818,7 +1952,7 @@ class simplePlugin
    *
    * \param string $base
    */
-  function create_unique_dn ($attribute, $base)
+  function create_unique_dn (string $attribute, string $base): string
   {
     global $config;
     $ldap = $config->get_ldap_link();
@@ -1854,16 +1988,18 @@ class simplePlugin
     throw new FusionDirectoryException(_('Failed to create a unique DN'));
   }
 
-  /*
-   * \brief Adapt from template, using 'dn'
+  /*!
+   * \brief Adapt from template
    *
-   * \param string $dn The DN
+   * Adapts fields to the values from a template.
+   * Should not empty any fields, only take values for the ones provided by the caller.
    *
-   * \param array $skip A new array
+   * \param array $attrs LDAP attributes values for template-modified attributes
+   * \param array $skip attributes to leave untouched
    */
-  function adapt_from_template ($attrs, $skip = [])
+  function adapt_from_template (array $attrs, array $skip = [])
   {
-    $this->attrs = $attrs;
+    $this->attrs = array_merge($this->attrs, $attrs);
 
     /* Walk through attributes */
     foreach ($this->attributesAccess as $ldapName => &$attr) {
@@ -1872,7 +2008,7 @@ class simplePlugin
         continue;
       }
       /* Load values */
-      $attr->loadValue($this->attrs);
+      $attr->loadValue($attrs);
     }
     unset($attr);
 
@@ -1892,26 +2028,37 @@ class simplePlugin
     $this->initially_was_account  = FALSE;
   }
 
-  protected function attributeHaveChanged ($field)
+  protected function attributeHaveChanged (string $field): bool
   {
     return $this->attributesAccess[$field]->hasChanged();
   }
 
-  protected function attributeValue ($field)
+  protected function attributeValue (string $field)
   {
     return $this->attributesAccess[$field]->getValue();
   }
 
-  protected function attributeInitialValue ($field)
+  protected function attributeInitialValue (string $field)
   {
     return $this->attributesAccess[$field]->getInitialValue();
   }
 
-  function foreignKeyUpdate ($field, $oldvalue, $newvalue, $source)
+  function foreignKeyUpdate (string $field, $oldvalue, $newvalue, array $source)
   {
     if (!isset($source['MODE'])) {
       $source['MODE'] = 'move';
     }
+
+    // In case of SetAttribute, value is an array needing to be changed to string.
+    if (is_array($oldvalue) && isset($oldvalue[0])) {
+
+      $oldvalue = $oldvalue[0];
+    }
+    if (is_array($newvalue) && isset($newvalue[0])) {
+
+      $newvalue = $newvalue[0];
+    }
+
     $this->attributesAccess[$field]->foreignKeyUpdate($oldvalue, $newvalue, $source);
   }
 
@@ -1925,12 +2072,17 @@ class simplePlugin
    * )
    * mode being either 'copy' or 'move', defaults to 'move'
    */
-  function foreignKeyCheck ($field, $value, $source)
+  function foreignKeyCheck (string $field, $value, array $source)
   {
+    // In case of SetAttribute, value is an array needing to be changed to string.
+    if (is_array($value) && isset($value[0])) {
+
+      $value = $value[0];
+    }
     return $this->attributesAccess[$field]->foreignKeyCheck($value, $source);
   }
 
-  function deserializeValues ($values, $checkAcl = TRUE)
+  function deserializeValues (array $values, bool $checkAcl = TRUE)
   {
     foreach ($values as $name => $value) {
       if (isset($this->attributesAccess[$name])) {
@@ -1940,17 +2092,23 @@ class simplePlugin
             return $error;
           }
         } else {
-          return msgPool::permModify($this->dn, $name);
+          return new SimplePluginPermissionError($this, msgPool::permModify($this->dn, $name));
         }
       } else {
-        return sprintf(_('Unknown field "%s"'), $name);
+        return new SimplePluginError(
+          $this,
+          htmlescape(sprintf(_('Unknown field "%s"'), $name))
+        );
       }
     }
     return TRUE;
   }
 
-  /* Returns TRUE if this attribute should be asked in the creation by template dialog */
-  function showInTemplate ($attr, $templateAttrs)
+  /*! \brief Returns TRUE if this attribute should be asked in the creation by template dialog
+   *
+   * \return bool whether this attribute should be asked
+   */
+  function showInTemplate (string $attr, array $templateAttrs): bool
   {
     if (isset($templateAttrs[$attr])) {
       return FALSE;
@@ -1958,9 +2116,49 @@ class simplePlugin
     return TRUE;
   }
 
-  function is_modal_dialog ()
+  function is_modal_dialog (): bool
   {
     return (isset($this->dialog) && $this->dialog);
+  }
+
+  static function fillAccountAttrsNeeded (&$needed)
+  {
+    $infos = pluglist::pluginInfos(get_called_class());
+    if (isset($infos['plFilterObject'])) {
+      $attrs = $infos['plFilterObject']->listUsedAttributes();
+      foreach ($attrs as $attr) {
+        if (!isset($needed[$attr])) {
+          $needed[$attr] = '*';
+        }
+      }
+    }
+  }
+
+  static function isAccount ($attrs)
+  {
+    $infos = pluglist::pluginInfos(get_called_class());
+    if (isset($infos['plFilterObject'])) {
+      return $infos['plFilterObject']($attrs);
+    }
+    return NULL;
+  }
+
+  static function getLdapFilter ()
+  {
+    $infos = pluglist::pluginInfos(get_called_class());
+    if (isset($infos['plFilter'])) {
+      return $infos['plFilter'];
+    }
+    return NULL;
+  }
+
+  static function getLdapFilterObject ()
+  {
+    $infos = pluglist::pluginInfos(get_called_class());
+    if (isset($infos['plFilterObject'])) {
+      return $infos['plFilterObject'];
+    }
+    return NULL;
   }
 
   /*!
@@ -1968,7 +2166,7 @@ class simplePlugin
    *
    * \return an array
    */
-  static function plInfo ()
+  static function plInfo (): array
   {
     return [];
   }
@@ -1976,17 +2174,27 @@ class simplePlugin
   /*! \brief This function generate the needed ACLs for a given attribtues array
    *
    *  \param array $attributesInfo the attribute array
+   *
+   *  \param bool? $operationalAttributes Whether to add ACLs for operational attributes. Use NULL for autodetection (default)
    */
-  static function generatePlProvidedAcls ($attributesInfo)
+  static function generatePlProvidedAcls (array $attributesInfo, bool $operationalAttributes = NULL): array
   {
     $plProvidedAcls = [];
     foreach ($attributesInfo as $sectionInfo) {
       foreach ($sectionInfo['attrs'] as $attr) {
+        if (($attr->getLdapName() === 'base') && ($operationalAttributes === NULL)) {
+          /* If we handle base, we also handle LDAP operational attributes */
+          $operationalAttributes = TRUE;
+        }
         $aclInfo = $attr->getAclInfo();
         if ($aclInfo !== FALSE) {
           $plProvidedAcls[$aclInfo['name']] = $aclInfo['desc'];
         }
       }
+    }
+    if ($operationalAttributes) {
+      $plProvidedAcls['createTimestamp'] = _('The time the entry was added');
+      $plProvidedAcls['modifyTimestamp'] = _('The time the entry was last modified');
     }
 
     return $plProvidedAcls;
@@ -1994,7 +2202,7 @@ class simplePlugin
 
   /*! \brief This function is the needed main.inc for plugins that are not used inside a management class
    *
-   *  \param array $classname the class name to read plInfo from. (plIcon, plShortname and plCategory are gonna be used)
+   *  \param array $classname the class name to read plInfo from. (plIcon, plTitle, plShortname and plObjectType may be used)
    *
    *  \param string $entry_dn the dn of the object to show/edit
    *
@@ -2005,9 +2213,17 @@ class simplePlugin
    *  \param string $objectType The objectType to use (will be taken in the plInfo if FALSE)
    *
    */
-  static function mainInc ($classname, $entry_dn, $tabs = FALSE, $edit_mode = TRUE, $objectType = FALSE)
+  static function mainInc ($classname = NULL, $entry_dn = NULL, $tabs = FALSE, $edit_mode = TRUE, $objectType = FALSE)
   {
-    global $remove_lock, $cleanup, $display, $config, $plug, $ui;
+    global $remove_lock, $cleanup, $display, $config, $plug, $ui, $smarty;
+
+    if ($classname === NULL) {
+      $classname = get_called_class();
+    }
+
+    if ($entry_dn === NULL) {
+      $entry_dn = $ui->dn;
+    }
 
     $plInfo     = pluglist::pluginInfos($classname);
     $plIcon     = (isset($plInfo['plIcon']) ? $plInfo['plIcon'] : 'plugin.png');
@@ -2019,22 +2235,13 @@ class simplePlugin
       }
       $objectType = $key;
     }
-    $plCategory = (isset($plInfo['plCategory']) ? $plInfo['plCategory'] : ['user']);
-    $key = key($plCategory);
-    if (is_numeric($key)) {
-      $plCategory = $plCategory[$key];
-    } else {
-      $plCategory = $key;
-    }
 
     $lock_msg = "";
-    if ($edit_mode) {
+    if ($edit_mode
+      && ($remove_lock || (isset($_POST['edit_cancel']) && session::is_set('edit')))
+      && session::is_set($classname)) {
       /* Remove locks created by this plugin */
-      if ($remove_lock || (isset($_POST['edit_cancel']) && session::is_set('edit'))) {
-        if (session::is_set($classname)) {
-          del_lock($entry_dn);
-        }
-      }
+      Lock::deleteByObject($entry_dn);
     }
 
     /* Remove this plugin from session */
@@ -2061,55 +2268,50 @@ class simplePlugin
         if (!$tabs) {
           $tabObject->current = $classname;
         }
-        if (($entry_dn != '') && ($entry_dn != 'new')) {
-          $tabObject->set_acl_base($entry_dn);
-        } else {
-          $tabObject->set_acl_base($config->current['BASE']);
-        }
         session::set($classname, $tabObject);
       }
       $tabObject = session::get($classname);
 
-      /* save changes back to object */
       if (!$edit_mode || session::is_set('edit')) {
-        $tabObject->save_object();
+        /* Save changes back to object */
+        $tabObject->readPost();
+        $tabObject->update();
+      } else {
+        /* Allow changing tab before going into edit mode */
+        $tabObject->readPostTabChange();
       }
 
       if ($edit_mode) {
         /* Enter edit mode? */
         if ((isset($_POST['edit'])) && (!session::is_set('edit'))) {
           /* Check locking */
-          if ($locks = get_locks($entry_dn)) {
-            session::set('back_plugin', $plug);
-            session::set('LOCK_VARS_TO_USE', ["/^edit$/", "/^plug$/"]);
-            $lock_msg = gen_locked_message($locks, $entry_dn);
+          if ($locks = Lock::get($entry_dn)) {
+            session::set('LOCK_VARS_TO_USE', ['/^edit$/', '/^plug$/']);
+            $lock_msg = Lock::genLockedMessage($locks);
           } else {
             /* Lock the current entry */
-            add_lock($entry_dn, $ui->dn);
+            Lock::add($entry_dn);
             session::set('edit', TRUE);
           }
         }
 
         /* save changes to LDAP and disable edit mode */
-        $info = "";
         if (isset($_POST['edit_finish'])) {
           /* Perform checks */
-          $message = $tabObject->save();
+          $errors = $tabObject->save();
 
           /* No errors, save object */
-          if (count($message) == 0) {
-            del_lock($entry_dn);
+          if (count($errors) == 0) {
+            Lock::deleteByObject($entry_dn);
             session::un_set('edit');
 
             /* Remove from session */
             session::un_set($classname);
           } else {
-            /* Errors found, show message */
-            msg_dialog::displayChecks($message);
+            /* Errors found, show errors */
+            msg_dialog::displayChecks($errors);
           }
         }
-      } else {
-        $info = "";
       }
 
       /* Execute formular */
@@ -2117,9 +2319,9 @@ class simplePlugin
         $display = $lock_msg;
       } else {
         if ($tabs) {
-          $display .= $tabObject->execute();
+          $display .= $tabObject->render();
         } else {
-          $display .= $tabObject->by_object[$classname]->execute();
+          $display .= $tabObject->by_object[$classname]->render();
         }
       }
 
@@ -2131,33 +2333,31 @@ class simplePlugin
       /* Show page footer depending on the mode */
       $info = $entry_dn.'&nbsp;';
       if ($edit_mode && (!$tabObject->dialogOpened()) && empty($lock_msg)) {
-        $display .= '<p class="plugbottom">';
-
         /* Are we in edit mode? */
         if (session::is_set('edit')) {
+          $display .= '<p class="plugbottom">'."\n";
           $display .= '<input type="submit" name="edit_finish" style="width:80px" value="'.msgPool::okButton().'"/>'."\n";
           $display .= '&nbsp;';
-          $display .= '<input type="submit" name="edit_cancel" value="'.msgPool::cancelButton().'"/>'."\n";
-        } else {
-          /* Only display edit button if there is at least one attribute editable */
-          if (preg_match('/r/', $ui->get_permissions($entry_dn, $plCategory.'/'.$tabObject->current))) {
-            $info .= '<div style="float:left;" class="optional"><img class="center" alt="information" '.
-                      'src="geticon.php?context=status&amp;icon=dialog-information&amp;size=16"> '.
-                      msgPool::clickEditToChange().'</div>';
-
-            $display .= '<input type="submit" name="edit" value="'.msgPool::editButton().'"/>'."\n";
-          }
-          $display .= '<input type="hidden" name="ignore"/>'."\n";
+          $display .= '<input type="submit" formnovalidate="formnovalidate" name="edit_cancel" value="'.msgPool::cancelButton().'"/>'."\n";
+          $display .= "</p>\n";
+        } elseif (strpos($tabObject->by_object[$tabObject->current]->aclGetPermissions(''), 'w') !== FALSE) {
+          /* Only display edit button if there is at least one attribute writable */
+          $display  .= '<p class="plugbottom">'."\n";
+          $info     .= '<div style="float:left;" class="optional"><img class="center" alt="information" '.
+                    'src="geticon.php?context=status&amp;icon=dialog-information&amp;size=16"> '.
+                    msgPool::clickEditToChange().'</div>';
+          $display  .= '<input type="submit" name="edit" value="'.msgPool::editButton().'"/>'."\n";
+          $display  .= "</p>\n";
         }
-        $display .= "</p>\n";
       }
 
       /* Page header */
       if (!preg_match('/^geticon/', $plIcon)) {
         $plIcon = get_template_path($plIcon);
       }
-      $display = print_header($plIcon, $plHeadline, $info).$display;
+      $smarty->assign('headline', $plHeadline);
+      $smarty->assign('headline_image', $plIcon);
+      $display = '<div class="pluginfo">'.$info."</div>\n".$display;
     }
   }
 }
-?>

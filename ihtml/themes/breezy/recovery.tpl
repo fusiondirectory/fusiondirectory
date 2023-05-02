@@ -8,6 +8,7 @@
 <div id="window-div">
 
   <form action='recovery.php{$params}' method='post' name='mainform' onSubmit='js_check(this);return true;'>
+    <input type="hidden" name="CSRFtoken" value="{$CSRFtoken}"/>
 
   <div id="window-titlebar">
     <img id="fd-logo" src="geticon.php?context=applications&amp;icon=fusiondirectory&amp;size=48" alt="FusionDirectory logo"/>
@@ -22,7 +23,7 @@
       <span class="warning"> {$ssl} </span>
 
       <!-- Display error message on demand -->
-      <span class="warning"> {$message} </span>
+      <span class="warning"> {$message|escape} </span>
 
 {if $step==3}
     <p class="infotext">
@@ -51,7 +52,7 @@
       <label for="new_password_repeated">
         <img class="center" src="geticon.php?context=status&amp;icon=dialog-password&amp;size=48" alt="{t}New password repeated{/t}" title="{t}New password repeated{/t}"/>&nbsp;
       </label>
-      <input type="password" name="new_password_repeated" id="new_password_repeated" maxlength="40" value="" title="{t}New password repeated{/t}" />
+      <input type="password" name="new_password_repeated" id="new_password_repeated" value="" title="{t}New password repeated{/t}" />
       <br>
       <div style="width: 190px; display: inline-block; margin-left: 54px;" title="{t}Password strength{/t}">
         <span id="meterEmpty" style="padding:0;margin:0;width:100%;background-color:#DC143C;display:block;height:5px;">
@@ -92,7 +93,7 @@
       <label for="email_address">
          <img class="center" src="geticon.php?context=applications&amp;icon=internet-mail&amp;size=48" alt="{t}Email address{/t}" title="{t}Email address{/t}" />&nbsp;
       </label>
-      <input type="text" name="email_address" id="email_address" value="{$email_address}" title="{t}Email{/t}" onFocus=""/>
+      <input type="text" name="email_address" id="email_address" value="{$email_address|escape}" title="{t}Email{/t}" onFocus=""/>
     </div>
     {if $show_directory_chooser}
     <div>
@@ -116,7 +117,7 @@
 {/if}
 {else}
     <!-- Display error message on demand -->
-    <p class="warning"> {$message} </p>
+    <p class="warning"> {$message|escape} </p>
     <p>{t}Password recovery is not activated. If you have lost your password, please contact your administrator{/t}</p>
   </div>
   </div>
@@ -127,7 +128,7 @@
 {include file={filePath file="copynotice.tpl"}}
 
   <!-- Place cursor in email field -->
-  <script type="text/javascript">
+  <script>
     <!-- // First input field on page
     focus_field('error_accept','login','directory','username','current_password','email_address');
     next_msg_dialog();

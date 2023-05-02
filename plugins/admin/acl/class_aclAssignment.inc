@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2013-2018  FusionDirectory
+  Copyright (C) 2013-2019  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -18,257 +18,15 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class aclAssignmentDialogWindow extends simplePlugin
-{
-  static function plInfo ()
-  {
-    return [
-      'plShortName'   => _('ACL Assignment Dialog'),
-      'plDescription' => _('Access control roles assignment dialog'),
-      'plCategory'    => ['acl'],
-
-      'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())
-    ];
-  }
-
-  static function getAttributesInfo ()
-  {
-    return [
-      'properties' => [
-        'name'  => _('Properties'),
-        'attrs' => [
-          new SelectAttribute(
-            _('Mode'), _('Is this applying on complete subtree or only the base?'),
-            'aclMode', TRUE,
-            ['subtree',    'base'], 'base',
-            [_('Subtree'), _('Base only')]
-          ),
-          new SelectAttribute(
-            _('Role'), _('Role to apply'),
-            'aclRole', TRUE,
-            []
-          ),
-          new BooleanAttribute(
-            _('For all users'), _('Apply this ACL for all LDAP users'),
-            'allUsers', FALSE
-          ),
-          new UsersGroupsRolesAttribute(
-            _('Members'), _('Users or groups to assign this role to.'),
-            'aclMembers', TRUE
-          )
-        ]
-      ],
-    ];
-  }
-
-  function __construct ($value, $isContainer = FALSE)
-  {
-    parent::__construct(NULL, NULL, NULL, TRUE);
-    if ($isContainer) {
-      $this->attributesAccess['aclMode']->setDefaultValue('subtree');
-    } else {
-      $this->attributesAccess['aclMode']->setDefaultValue('base');
-    }
-    $this->attributesAccess['aclMode']->resetToDefault();
-
-    $roles = objects::ls('aclRole', 'cn');
-    $this->attributesAccess['aclRole']->setChoices(array_keys($roles), array_values($roles));
-    $this->attributesAccess['allUsers']->setInLdap(FALSE);
-    $this->attributesAccess['allUsers']->setManagedAttributes(
-      [
-        'disable' => [
-          TRUE => ['aclMembers']
-        ]
-      ]
-    );
-
-    if ($value !== NULL) {
-      $this->aclMode    = $value['scope'];
-      $this->aclRole    = $value['role'];
-      $this->aclMembers = $value['members'];
-      if ($value['members'][0] == '*') {
-        $this->allUsers = TRUE;
-      }
-    }
-  }
-
-  function execute ()
-  {
-    $smarty = get_smarty();
-    $display = parent::execute();
-    if (!is_object($this->dialog)) {
-      $display .= $smarty->fetch('string:'.
-        '<p class="plugbottom">'.
-        '  <input type="submit" name="add_acl_finish" value="{msgPool type=addButton}"/>'.
-        '  &nbsp;'.
-        '  <input type="submit" name="add_acl_cancel" value="{msgPool type=cancelButton}"/>'.
-        '</p>');
-    }
-    return $display;
-  }
-
-  function getAclEntry ()
-  {
-    $entry = [
-      'scope'   => $this->aclMode,
-      'role'    => $this->aclRole,
-      'members' => $this->aclMembers,
-    ];
-    if ($this->allUsers) {
-      $entry['members'] = ['*'];
-    }
-    return $entry;
-  }
-}
-
-class ACLsAssignmentDialog extends GenericDialog
-{
-  protected $initialAclValue;
-  protected $post_cancel = 'add_acl_cancel';
-  protected $post_finish = 'add_acl_finish';
-  protected $dialogClass = 'aclAssignmentDialogWindow';
-
-  function __construct ($simplePlugin, $attribute, $acl = NULL)
-  {
-    $isContainer = FALSE;
-    if (isset($simplePlugin->attrs['objectClass'])) {
-      if (count(array_intersect(
-                  $simplePlugin->attrs['objectClass'],
-                  ['organizationalUnit', 'organization', 'domain', 'country', 'locality'])
-                )) {
-        $isContainer = TRUE;
-      }
-    } else {
-      $isContainer = TRUE;
-    }
-    $this->attribute        = $attribute;
-    $this->dialog           = new $this->dialogClass($acl, $isContainer);
-    $this->dialog->set_acl_base($simplePlugin->acl_base);
-    $this->initialAclValue  = $acl;
-  }
-
-  function dialog_execute ()
-  {
-    $this->dialog->save_object();
-    return $this->dialog->execute();
-  }
-
-  function handle_finish ()
-  {
-    $this->dialog->save_object();
-    $messages = $this->dialog->check();
-    if (!empty($messages)) {
-      msg_dialog::displayChecks($messages);
-      return $this->dialog->execute();
-    }
-    $this->attribute->addValue($this->dialog->getAclEntry());
-    return FALSE;
-  }
-
-  function handle_cancel ()
-  {
-    if ($this->initialAclValue !== NULL) {
-      $this->attribute->addValue($this->initialAclValue);
-    }
-    return FALSE;
-  }
-}
-
-class ACLsAssignmentAttribute extends DialogOrderedArrayAttribute
-{
-  protected $order        = TRUE;
-  protected $dialogClass  = 'ACLsAssignmentDialog';
-  protected $height       = 300;
-
-  protected function getAttributeArrayValue ($key, $value)
-  {
-    /* Convert text value to displayable array value */
-    sort($value['members']);
-    static $nbShown = 4;
-    $members = join(', ', array_slice($value['members'], 0, $nbShown));
-    if (count($value['members']) > $nbShown) {
-      $members .= sprintf(_(', and %d others'), (count($value['members']) - $nbShown));
-    }
-    $value['members'] = $members;
-    return $value;
-  }
-
-  function readValue ($value)
-  {
-    $acl = explode(':', $value);
-    return [$acl[0], [
-      'scope'   => $acl[1],
-      'role'    => base64_decode($acl[2]),
-      'members' => array_map('base64_decode', explode(',', $acl[3])),
-    ]];
-  }
-
-  function writeValue ($key, $value)
-  {
-    return $key.':'.$value['scope'].':'.base64_encode($value['role']).':'.join(',', array_map('base64_encode', $value['members']));
-  }
-
-  function foreignKeyUpdate ($oldvalue, $newvalue, $source)
-  {
-    foreach ($this->value as $key => &$value) {
-      if ($source['FIELD'] == 'dn') {
-        if ($newvalue === NULL) {
-          if (preg_match('/'.preg_quote($oldvalue, '/').'$/', $value['role'])) {
-            unset($this->value[$key]);
-          }
-          foreach ($value['members'] as $member_key => $member) {
-            if (preg_match('/'.preg_quote($oldvalue, '/').'$/', $member)) {
-              unset($value['members'][$member_key]);
-            }
-          }
-          unset($member);
-        } elseif ($source['MODE'] == 'move') {
-          $value['role'] = preg_replace('/'.preg_quote($oldvalue, '/').'$/', $newvalue, $value['role']);
-          foreach ($value['members'] as &$member) {
-            $member = preg_replace('/'.preg_quote($oldvalue, '/').'$/', $newvalue, $member);
-          }
-          unset($member);
-        } elseif ($source['MODE'] == 'copy') {
-          /* Copied members are added */
-          foreach ($value['members'] as $member) {
-            if (preg_match('/'.preg_quote($oldvalue, '/').'$/', $member)) {
-              $value['members'][] = preg_replace('/'.preg_quote($oldvalue, '/').'$/', $newvalue, $member);
-            }
-          }
-        }
-      } else {
-        trigger_error('unknown source "'.$source['CLASS'].'" with field "'.$source['FIELD'].'"');
-      }
-    }
-    unset($value);
-  }
-
-  function foreignKeyCheck ($oldvalue, $source)
-  {
-    foreach ($this->value as $value) {
-      if (($source['CLASS'] == 'aclRole') && ($value['role'] == $oldvalue)) {
-        return TRUE;
-      } elseif (in_array($source['CLASS'], ['user','posixGroup','roleGeneric']) && in_array($oldvalue, $value['members'])) {
-        return TRUE;
-      } elseif (!in_array($source['CLASS'], ['aclRole','user','posixGroup','roleGeneric'])) {
-        trigger_error('unknown source '.$source['CLASS']);
-      }
-    }
-  }
-}
-
 class aclAssignment extends simplePlugin
 {
-  var $objectclasses  = ['gosaAcl'];
-
-  static function plInfo ()
+  static function plInfo (): array
   {
     global $config;
     $oc = [
       'aclAssignment' => [
         'aclCategory' => 'acl',
         'name'        => _('ACL assignment'),
-        'filter'      => 'objectClass=gosaAcl',
         'ou'          => '',
         'icon'        => 'geticon.php?context=categories&icon=acl&size=16',
         'tabClass'    => 'simpleTabs_noSpecial',
@@ -283,6 +41,8 @@ class aclAssignment extends simplePlugin
     return [
       'plShortName'   => _('ACL Assignment'),
       'plDescription' => _('Access control roles assignment'),
+      'plSmallIcon'   => 'geticon.php?context=categories&icon=acl&size=16',
+      'plObjectClass' => ['gosaAcl'],
       'plObjectType'  => $oc,
       'plForeignKeys'  => [
         'gosaAclEntry' => [
@@ -297,7 +57,7 @@ class aclAssignment extends simplePlugin
     ];
   }
 
-  static function getAttributesInfo ()
+  static function getAttributesInfo (): array
   {
     return [
       'main' => [
@@ -319,12 +79,12 @@ class aclAssignment extends simplePlugin
     $this->attributesInfo['main']['name'] = sprintf(_('Assignments on object or subtree %s'), $this->dn);
   }
 
-  function compute_dn ()
+  function compute_dn (): string
   {
     return $this->dn;
   }
 
-  function save ()
+  function save (): array
   {
     $this->ignore_account = FALSE;
     $this->is_account = (count($this->gosaAclEntry) != 0);
@@ -355,7 +115,7 @@ class aclAssignment extends simplePlugin
     session::set('ui', $ui);
   }
 
-  function foreignKeyUpdate ($field, $oldvalue, $newvalue, $source)
+  function foreignKeyUpdate (string $field, $oldvalue, $newvalue, array $source)
   {
     /* Handle foreign keys only as the main tab so that they are not handled twice */
     if ($this->parent->getBaseObject() !== $this) {

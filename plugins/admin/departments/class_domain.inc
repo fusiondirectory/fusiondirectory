@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2013-2018  FusionDirectory
+  Copyright (C) 2013-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -20,19 +20,18 @@
 
 class domain extends department
 {
-  static $namingAttr  = "dc";
-  var $objectclasses  = ["top", "domain", "gosaDepartment"];
-  var $structuralOC   = ["domain"];
+  static protected $namingAttr  = 'dc';
+  protected $structuralOC       = ['domain'];
 
-  static function plInfo ()
+  static function plInfo (): array
   {
     return [
       'plShortName'   => _('Domain'),
       'plDescription' => _('Domain'),
+      'plObjectClass' => ['domain', 'gosaDepartment'],
       'plObjectType'  => ['domain' => [
         'aclCategory' => 'department',
         'name'        => _('Domain'),
-        'filter'      => '(&(objectClass=domain)(objectClass=gosaDepartment))',
         'ou'          => '',
         'icon'        => 'geticon.php?context=types&icon=domain&size=16',
         'tabClass'    => 'deptabs',
@@ -41,12 +40,13 @@ class domain extends department
       'plForeignKeys'  => [
         'manager' => ['user','dn','manager=%oldvalue%','*']
       ],
+      'plSearchAttrs' => ['description'],
 
       'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())
     ];
   }
 
-  static function getAttributesInfo ()
+  static function getAttributesInfo (): array
   {
     $attributesInfo = parent::getDepartmentAttributesInfo(_('domain'));
     unset($attributesInfo['location']);
@@ -54,4 +54,3 @@ class domain extends department
     return $attributesInfo;
   }
 }
-?>

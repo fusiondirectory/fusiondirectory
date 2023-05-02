@@ -6,7 +6,7 @@
       <div id="header-left">
         <img id="fd-logo" class="optional" src="geticon.php?context=applications&amp;icon=fusiondirectory&amp;size=48" alt="FusionDirectory logo"/>
         <a class="plugtop">
-          <img src="{$headline_image|escape}" alt=""/>{t}{$headline}{/t}
+          <img src="{$headline_image|escape}" alt=""/>{$headline|escape}
         </a>
       </div>
       <div id="header-right">
@@ -36,7 +36,6 @@
       </tbody>
     </table>
 
-    {$errors}
     {$focus}
     <input type="hidden" name="setup_goto_step" value=""/>
     <input type="hidden" name="CSRFtoken" value="{$CSRFtoken}"/>

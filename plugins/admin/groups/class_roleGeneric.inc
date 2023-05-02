@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2011-2018  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ class RoleMembersAttribute extends UsersAttribute
         if (empty($groups)) {
           $this->whitelistDns = [];
         } else {
-          $this->whitelistDns = call_user_func_array('array_merge_recursive', $groups)['member'];
+          $this->whitelistDns = array_merge_recursive(...array_values($groups))['member'];
         }
       }
       return [
@@ -47,19 +47,18 @@ class RoleMembersAttribute extends UsersAttribute
 
 class roleGeneric extends simplePlugin
 {
-  var $objectclasses = ['organizationalRole'];
-
-  static function plInfo ()
+  static function plInfo (): array
   {
     return [
       'plShortName'   => _('Role'),
       'plDescription' => _('Role information'),
+      'plObjectClass' => ['organizationalRole'],
+      'plFilter'      => '(&(objectClass=organizationalRole)(!(objectClass=simpleSecurityObject)))',
       'plObjectType'  => ['role' =>
         [
           'name'        => _('Role'),
           'description' => _('Organizational role'),
           'ou'          => get_ou('roleRDN'),
-          'filter'      => '(&(objectClass=organizationalRole)(!(objectClass=simpleSecurityObject)))',
           'icon'        => 'geticon.php?context=types&icon=role&size=16',
           'mainAttr'    => 'cn',
         ]
@@ -67,15 +66,16 @@ class roleGeneric extends simplePlugin
       'plForeignKeys'  => [
         'roleOccupant' => ['user','dn','roleOccupant=%oldvalue%','*']
       ],
+      'plSearchAttrs' => ['description'],
 
       'plProvidedAcls'  => parent::generatePlProvidedAcls(static::getAttributesInfo())
     ];
   }
 
-   /*!
-   *  \brief The main function : information about attributes
-   */
-  static function getAttributesInfo ()
+  /*!
+  *  \brief The main function : information about attributes
+  */
+  static function getAttributesInfo (): array
   {
     return [
       'main' => [
@@ -113,7 +113,7 @@ class roleGeneric extends simplePlugin
     ];
   }
 
-  function ldap_save ()
+  function ldap_save (): array
   {
     global $ui;
 
@@ -125,12 +125,12 @@ class roleGeneric extends simplePlugin
       $removingOccupants  = array_diff($savedOccupants, $this->roleOccupant);
       foreach ($addingOccupants as $dn) {
         if (strpos($ui->get_permissions($dn, 'user/userRoles', 'rolesMembership', $this->acl_skip_write()), 'w') === FALSE) {
-          $errors[] = msgPool::permModify($dn, 'rolesMembership');
+          $errors[] = new SimplePluginPermissionError($this, msgPool::permModify($dn, 'rolesMembership'));
         }
       }
       foreach ($removingOccupants as $dn) {
         if (strpos($ui->get_permissions($dn, 'user/userRoles', 'rolesMembership', $this->acl_skip_write()), 'w') === FALSE) {
-          $errors[] = msgPool::permModify($dn, 'rolesMembership');
+          $errors[] = new SimplePluginPermissionError($this, msgPool::permModify($dn, 'rolesMembership'));
         }
       }
     }
@@ -142,4 +142,3 @@ class roleGeneric extends simplePlugin
     return parent::ldap_save();
   }
 }
-?>

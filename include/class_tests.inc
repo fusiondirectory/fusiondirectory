@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2018  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -166,7 +166,7 @@ class tests
    */
   public static function is_mac ($mac)
   {
-    return preg_match("/^[a-f0-9][a-f0-9]:[a-f0-9][a-f0-9]:[a-f0-9][a-f0-9]:[a-f0-9][a-f0-9]:[a-f0-9][a-f0-9]:[a-f0-9][a-f0-9]$/i", $mac);
+    return preg_match('/^([a-fA-F0-9]{2}:){5}[a-fA-F0-9]{2}$/', $mac);
   }
 
 
@@ -268,16 +268,10 @@ class tests
    */
   public static function is_email ($address)
   {
-    if ($address == "") {
-      return TRUE;
-    }
-    if (filter_var($address, FILTER_VALIDATE_EMAIL) !== FALSE) {
-      return TRUE;
-    } elseif (filter_var($address.'.com', FILTER_VALIDATE_EMAIL) !== FALSE) {
-      /* this is to allow addresses like example@localhost, which are refused by some PHP version */
-      return TRUE;
-    }
-    return FALSE;
+    /* last test is to allow addresses like example@localhost, which are refused by some PHP version */
+    return (($address == '')
+      || (filter_var($address, FILTER_VALIDATE_EMAIL) !== FALSE)
+      || (filter_var($address.'.com', FILTER_VALIDATE_EMAIL) !== FALSE));
   }
 
 
@@ -293,12 +287,8 @@ class tests
     global $config;
     $reservedNames = [];
     foreach ($config->data['OBJECTS'] as $infos) {
-      if (isset($infos['ou'])) {
-        if ($infos['ou'] != '') {
-          if (preg_match('/ou=([^,]+),$/', $infos['ou'], $m)) {
-            $reservedNames[] = $m[1];
-          }
-        }
+      if (isset($infos['ou']) && preg_match('/ou=([^,]+),$/', $infos['ou'], $m)) {
+        $reservedNames[] = $m[1];
       }
     }
 
@@ -320,10 +310,10 @@ class tests
     if (!tests::is_ipv4($ip1) || !tests::is_ipv4($ip2)) {
       return FALSE;
     } else {
-      $ar1  = explode(".", $ip1);
+      $ar1  = array_map('intval', explode('.', $ip1));
       $var1 = $ar1[0] * (16777216) + $ar1[1] * (65536) + $ar1[2] * (256) + $ar1[3];
 
-      $ar2  = explode(".", $ip2);
+      $ar2  = array_map('intval', explode('.', $ip2));
       $var2 = $ar2[0] * (16777216) + $ar2[1] * (65536) + $ar2[2] * (256) + $ar2[3];
       return ($var1 < $var2);
     }
@@ -335,17 +325,19 @@ class tests
    *
    * \param string $network Name of the network
    *
-   * \param string $netmask The netmask of the IP address
+   * \param string $netmask The netmask of the IPv4 address
    *
-   * \param string $address The IP address
+   * \param string $address The IPv4 address
    */
   public static function is_in_network ($network, $netmask, $address)
   {
-    $nw = explode('.', $network);
-    $nm = explode('.', $netmask);
-    $ad = explode('.', $address);
+    $nw = array_map('intval', explode('.', $network));
+    $nm = array_map('intval', explode('.', $netmask));
+    $ad = array_map('intval', explode('.', $address));
 
     /* Generate inverted netmask */
+    $ni = [];
+    $la = [];
     for ($i = 0; $i < 4; $i++) {
       $ni[$i] = 255 - $nm[$i];
       $la[$i] = $nw[$i] | $ni[$i];
@@ -359,12 +351,12 @@ class tests
     return ($first < $curr && $last > $curr);
   }
 
-  /* \brief Check if the specified IP address $address is inside the given network */
+  /* \brief Check if the specified IPv4 address $address is inside the given network */
   public static function is_in_ip_range ($from, $to, $address)
   {
-    $from = explode('.', $from);
-    $to   = explode('.', $to);
-    $ad   = explode('.', $address);
+    $from = array_map('intval', explode('.', $from));
+    $to   = array_map('intval', explode('.', $to));
+    $ad   = array_map('intval', explode('.', $address));
 
     /* Transform to integer */
     $from = $from[0] * (16777216) + $from[1] * (65536) + $from[2] * (256) + $from[3];
@@ -374,5 +366,3 @@ class tests
     return ($ad >= $from && $ad <= $to);
   }
 }
-
-?>

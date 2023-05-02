@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011-2018  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ class setupStepChecks extends setupStep
 {
   var $header_image = 'geticon.php?context=categories&icon=checks&size=48';
 
-  static function getAttributesInfo ()
+  static function getAttributesInfo (): array
   {
     return [
       'modules' => [
@@ -48,13 +48,6 @@ class setupStepChecks extends setupStep
     $this->s_short_name   = _('Installation check');
     $this->s_title        = _('Installation check');
     $this->s_description  = _('Basic checks for PHP compatibility and extensions');
-  }
-
-  /* Execute and display template */
-  function execute ()
-  {
-    $this->run_checks();
-    return parent::execute();
   }
 
   /* Execute all checks */
@@ -95,14 +88,6 @@ class setupStepChecks extends setupStep
     $M = TRUE;
     $basic_checks[] = ['NAME' => $N , 'DESC' => $D , 'RESULT' => $R , 'SOLUTION' => $S , 'MUST' => $M ];
 
-    /* Pseudo-random check */
-    $N = _('Checking cryptographically secure pseudo-random integers');
-    $D = _('You must use PHP>=7 or have openssl module activated so that FusionDirectory can generate cryptographically secure pseudo-random integers.');
-    $S = _('Please upgrade to PHP7 or activate openssl module.');
-    $R = (is_callable('random_int') || is_callable('openssl_random_pseudo_bytes'));
-    $M = TRUE;
-    $basic_checks[] = ['NAME' => $N , 'DESC' => $D , 'RESULT' => $R , 'SOLUTION' => $S , 'MUST' => $M ];
-
     /* Check for json support */
     $N = msgPool::checkingFor('json');
     $D = _('FusionDirectory requires this module to encode variables for javascript use.');
@@ -125,14 +110,6 @@ class setupStepChecks extends setupStep
     $S = msgPool::installPhpModule("iconv");
     $R = is_callable("iconv");
     $M = TRUE;
-    $basic_checks[] = ["NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M ];
-
-    /* Check for installed mhash module */
-    $N = msgPool::checkingFor("hash method");
-    $D = _("FusionDirectory requires either 'mhash' or the 'sha1' module to make use of SSHA encryption.");
-    $S = msgPool::installPhpModule("mhash/sha1");
-    $R = is_callable('mhash') || is_callable('sha1');
-    $M = FALSE;
     $basic_checks[] = ["NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M ];
 
     /* Check if imap module is available */
@@ -221,11 +198,14 @@ class setupStepChecks extends setupStep
     $this->config_checks  = $config_checks;
   }
 
-  function save_object ()
+  public function update (): bool
   {
-    parent::save_object();
-     /* If everything is fine, set this step to completed
-     *  and allow switching to next setup step */
+    parent::update();
+
+    $this->run_checks();
+
+    /* If everything is fine, set this step to completed
+    *  and allow switching to next setup step */
     $failed = FALSE;
     foreach (['basic_checks','config_checks'] as $type) {
       foreach ($this->$type as $obj) {
@@ -236,7 +216,7 @@ class setupStepChecks extends setupStep
       }
     }
     $this->is_completed = !$failed;
+
+    return TRUE;
   }
 }
-
-?>

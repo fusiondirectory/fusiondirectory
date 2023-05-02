@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2007  Fabian Hickert
-  Copyright (C) 2011-2018  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ class setupStepFinish extends setupStep
 {
   var $header_image = 'geticon.php?context=devices&icon=server&size=48';
 
-  static function getAttributesInfo ()
+  static function getAttributesInfo (): array
   {
     return [
       'welcome' => [
@@ -52,34 +52,29 @@ class setupStepFinish extends setupStep
     return $smarty->fetch(CONFIG_TEMPLATE_DIR.CONFIG_FILE);
   }
 
-  function insertConfigDefaults ()
+  public function readPost ()
   {
-    /* Insert default config values, even for installed plugin */
-    global $config, $ui, $plist, $BASE_DIR;
-    $cv = $this->parent->captured_values;
+    parent::readPost();
 
-    /* Create config object */
+    $exists = file_exists(CONFIG_DIR.'/'.CONFIG_FILE);
 
-    $config = new config(CONFIG_DIR."/".CONFIG_FILE, $BASE_DIR);
-    $config->set_current($config->data['MAIN']['DEFAULT']);
+    /* Redirect to FusionDirectory login, if :
+     *   - fusiondirectory.conf exists
+     *   - Permisssion are set correctly
+     */
+    if (isset($_POST['next']) && $exists && !$this->is_world_readable(CONFIG_DIR.'/'.CONFIG_FILE)) {
+      session::destroy();
+      header('Location: index.php');
+      exit();
+    }
 
-    /* Create ui object */
-
-    /* got user dn, fill acl's */
-    $ui = new userinfo($cv['valid_admin']);
-    /* Username is set, load subtreeACL's now */
-    $ui->loadACL();
-
-    /* We need the pluglist object */
-    load_all_classes();
-    $plist = new pluglist();
-
-    /* Now we can save LDAP config */
-    $config->loadPlist($plist);
-    $config->checkLdapConfig(TRUE);
+    /* Download config */
+    if (isset($_POST['getconf'])) {
+      send_binary_content($this->get_conf_data(), CONFIG_FILE, 'text/plain');
+    }
   }
 
-  function execute ()
+  public function render (): string
   {
     /* Check if there is currently an active fusiondirectory.conf */
     $exists   = file_exists(CONFIG_DIR."/".CONFIG_FILE);
@@ -93,31 +88,9 @@ class setupStepFinish extends setupStep
 
     $smarty = get_smarty();
     $smarty->assign('err_msg',  $err_msg);
-    $smarty->assign('msg2',     sprintf(_('After downloading and placing the file under %s, please make sure that the user the webserver is running with is able to read %s, while other users shouldn\'t.'), CONFIG_DIR, CONFIG_FILE));
+    $smarty->assign('msg2',     sprintf(_('After downloading and placing the file under %s, please make sure that the user the web server is running with is able to read %s, while other users shouldn\'t.'), CONFIG_DIR, CONFIG_FILE));
 
-    return parent::execute();
-  }
-
-  function save_object ()
-  {
-    parent::save_object();
-    $exists = file_exists(CONFIG_DIR.'/'.CONFIG_FILE);
-
-    /* Redirect to FusionDirectory login, if :
-     *   - fusiondirectory.conf exists
-     *   - Permisssion are set correctly
-     */
-    if (isset($_POST['next']) && $exists && !$this->is_world_readable(CONFIG_DIR.'/'.CONFIG_FILE)) {
-      $this->insertConfigDefaults();
-      session::destroy();
-      header('Location: index.php');
-      exit();
-    }
-
-    /* Download config */
-    if (isset($_POST['getconf'])) {
-      send_binary_content($this->get_conf_data(), CONFIG_FILE, 'text/plain');
-    }
+    return parent::render();
   }
 
   /* check if given file is world readable */
@@ -125,7 +98,6 @@ class setupStepFinish extends setupStep
   {
     clearstatcache();
     $p = fileperms($file);
-    return (decbin($p & 4) == TRUE);
+    return (bool) decbin($p & 4);
   }
 }
-?>

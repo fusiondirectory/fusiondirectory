@@ -3,7 +3,7 @@
  * accept-to-gettext.inc -- convert information in 'Accept-*' headers to
  * gettext language identifiers.
  * Copyright (c) 2003, Wouter Verhelst <wouter@debian.org>
- * Copyright (c) 2012-2018  FusionDirectory
+ * Copyright (c) 2012-2018, FusionDirectory
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -155,7 +155,7 @@ function al2gt ($gettextlangs)
     if (!($infos = parse_gettext_lang($gtlang))) {
       continue;
     }
-    list($lang, $country, $char) = $infos;
+    list ($lang, $country, $char) = $infos;
 
     $lang_score = max_scores($lang_scores, [$lang,$lang.'-'.$country,'*']);
     $char_score = max_scores($char_scores, [$char,'*']);
@@ -165,7 +165,7 @@ function al2gt ($gettextlangs)
     }
 
     // if lang scores are equals we compare char scores
-    if   (($lang_score > $max_l_score)
+    if (($lang_score > $max_l_score)
       || (($lang_score == $max_l_score) && ($char_score > $max_c_score))) {
       $max_l_score  = $lang_score;
       $max_c_score  = $char_score;
@@ -179,4 +179,3 @@ function al2gt ($gettextlangs)
 
   return $max_lang;
 }
-?>

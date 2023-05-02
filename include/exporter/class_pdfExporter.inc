@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2018  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -106,7 +106,6 @@ class pdfExporter
       }
 
       foreach ($columns as $order => $index) {
-
         if (isset($row["_sort$index"])) {
           $this->result->Cell($width[$order], 6, utf8_decode($row["_sort$index"]), 'LR', 0, 'L', $fill);
         } else {
@@ -178,11 +177,137 @@ class pdfExporter
   }
 
   /*!
+   * \brief Calculate the width page
+   */
+  static function calcColumnsWidth ($result, $columns, $iterator)
+  {
+    $width = [];
+
+    // Locate longest value for each column
+    foreach ($columns as $index => $column) {
+      if (!$column->isExportable()) {
+        continue;
+      }
+      $max = 0;
+
+      $len = $result->GetStringWidth($column->getLabel());
+      if ($len > $max) {
+        $max = $len;
+      }
+
+      foreach ($iterator as $entry) {
+        $len = $result->GetStringWidth(implode(',', $column->getRawExportValues($entry)));
+        if ($len > $max) {
+          $max = $len;
+        }
+      }
+
+      $width[$index] = $max;
+    }
+
+    // Scale to page width
+    $printWidth = 280;
+    $scale      = $printWidth / array_sum($width);
+    foreach ($width as &$w) {
+      $w *= $scale;
+    }
+    unset($w);
+
+    return $width;
+  }
+
+  /*!
    * \brief Get the result
    */
   function query ()
   {
-     return $this->result->Output("", "S");
+    return $this->result->Output("", "S");
+  }
+
+  static function export (managementListing $listing)
+  {
+    global $ui;
+
+    // Bail out if no FPDF available
+    if (!class_exists('FPDF')) {
+      die(_('No PDF export possible: there is no FPDF library installed.'));
+    }
+
+    $columns  = $listing->getColumns();
+    $iterator = $listing->getIterator();
+
+    // Create new PDF
+    $result = new PDF('L', 'mm', 'A4');
+    $result->AliasNbPages();
+    $result->SetFont('Helvetica', '', 10);
+    $headline = $listing->parent->headline;
+    $headline .= ', '._('created by').' '.$ui->cn.' - '.strftime('%A, %d. %B %Y, %H:%M:%S');
+    $result->setHeadline(utf8_decode($headline));
+    $result->AddPage();
+
+    // Analyze for width
+    $width = static::calcColumnsWidth($result, $columns, $iterator);
+
+    // Render head
+    $result->SetTextColor(0);
+    $result->SetDrawColor(0, 0, 0);
+    $result->SetLineWidth(.3);
+
+    // Render header
+    $result->SetFillColor(230, 230, 230);
+    $result->SetFont('', 'B');
+
+    foreach ($columns as $index => $column) {
+      if ($column->isExportable()) {
+        $result->Cell($width[$index], 7, utf8_decode($column->getLabel()), 1, 0, 'C', 1);
+      }
+    }
+    $result->Ln();
+    $height = 7;
+
+    // Set entry colors
+    $result->SetFillColor(240, 240, 240);
+    $result->SetFont('');
+
+    $fill = TRUE;
+    foreach ($iterator as $entry) {
+      if ($height > 220) {
+        $height = 0;
+        $result->Cell(array_sum($width), 0, '', 'T');
+        $result->AddPage();
+        $fill = FALSE;
+      } else {
+        $fill = !$fill;
+      }
+
+      foreach ($columns as $index => $column) {
+        if ($column->isExportable()) {
+          $result->Cell(
+            $width[$index],
+            6,
+            implode(
+              ',',
+              array_map(
+                'utf8_decode',
+                $column->getRawExportValues($entry)
+              )
+            ),
+            'LR',
+            0,
+            'L',
+            $fill
+          );
+        }
+      }
+
+      $result->Ln();
+
+      // Increase height to eventually create new page
+      $height += 8;
+    }
+    $result->Cell(array_sum($width), 0, '', 'T');
+
+    return $result->Output('', 'S');
   }
 
   /*!
@@ -198,7 +323,4 @@ class pdfExporter
       return NULL;
     }
   }
-
 }
-
-?>

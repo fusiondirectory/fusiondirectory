@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
 
-  Copyright (C) 2013-2018  FusionDirectory
+  Copyright (C) 2013-2020  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,7 +19,6 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-
 /*!
  * \file class_ldapFilter.inc
  * Source code for class ldapFilter and ldapFilterLeaf
@@ -29,7 +28,7 @@
   * \brief This class allows to parse and execute on a array an LDAP filter
   * Example:
   * $filter = ldapFilter::parse("(&(objectClass=testClass)(testField=value))");
-  * $array = array('objectClass' => array('testClass'), 'testField' => array('value1', 'value'));
+  * $array = array('objectClass' => array('testClass'), 'testField' => array ('value1', 'value'));
   * if ($filter($array)) {
   *   // do something
   * }
@@ -101,7 +100,7 @@ class ldapFilter
       $filter .= ')';
       $offset = 0;
       $level  = 0;
-      $open;
+      $open   = 0;
       while (preg_match('/[^\\\\](\\(|\\))/', $filter, $m, PREG_OFFSET_CAPTURE, $offset)) {
         $offset = $m[0][1] + 1;
         if ($m[1][0] == '(') {
@@ -122,7 +121,7 @@ class ldapFilter
       } else {
         return new ldapFilter($filter[0], $subfilters);
       }
-    } elseif (preg_match('/^([^\\(\\)\\=\\>\\<]+)('.join('|', ldapFilterLeaf::$operators).')([^\\(\\)]+)$/', $filter, $m)) {
+    } elseif (preg_match('/^([^\\(\\)\\=\\>\\<]+)('.join('|', ldapFilterLeaf::$operators).')([^\\(\\)]*)$/', $filter, $m)) {
       return new ldapFilterLeaf($m[1], $m[2], $m[3]);
     } else {
       throw new FusionDirectoryException('Failed to parse '.$filter);
@@ -142,7 +141,7 @@ class ldapFilterLeaf extends ldapFilter
 
   function __construct ($left, $operator, $right)
   {
-    if (strrpos($left, ':dn:', -4) !== FALSE) {
+    if (@strrpos($left, ':dn:', -4) !== FALSE) {
       $this->dnFilter = TRUE;
       $left = substr($left, 0, -4);
     }
@@ -232,14 +231,19 @@ class ldapFilterLeaf extends ldapFilter
   }
 }
 
-function fdTemplateFilter ($filter)
+/* Converts a filter object to search for templates */
+function fdTemplateFilter (ldapFilter $filter)
 {
   if ($filter instanceof ldapFilterLeaf) {
     if ($filter->isDnFilter()) {
       return $filter;
     } elseif ($filter->getOperator() == '=') {
       $subparts = $filter->getSubparts();
-      return new ldapFilterLeaf('fdTemplateField', '=', $subparts[0].':'.$subparts[1]);
+      if ($subparts[0] == '_template_cn') {
+        return new ldapFilterLeaf('cn', '=', $subparts[1]);
+      } else {
+        return new ldapFilterLeaf('fdTemplateField', '=', $subparts[0].':'.$subparts[1]);
+      }
     } else {
       trigger_error('Not able to adapt this filter for templates');
     }
@@ -250,6 +254,27 @@ function fdTemplateFilter ($filter)
     }
     unset($subpart);
     return new ldapFilter($filter->getOperator(), $subparts);
+  }
+  return $filter;
+}
+
+/* Removes parts specific to templates from a search filter */
+function fdNoTemplateFilter (ldapFilter $filter)
+{
+  if ($filter instanceof ldapFilterLeaf) {
+    if (!$filter->isDnFilter()) {
+      $subparts = $filter->getSubparts();
+      if ($subparts[0] == '_template_cn') {
+        return FALSE;
+      }
+    }
+  } else {
+    $subparts = $filter->getSubparts();
+    foreach ($subparts as &$subpart) {
+      $subpart = fdNoTemplateFilter($subpart);
+    }
+    unset($subpart);
+    return new ldapFilter($filter->getOperator(), array_filter($subparts));
   }
   return $filter;
 }

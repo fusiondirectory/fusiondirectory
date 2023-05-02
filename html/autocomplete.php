@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2018  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -20,13 +20,13 @@
 */
 
 /* Basic setup, remove eventually registered sessions */
-@require_once ("../include/php_setup.inc");
-@require_once ("functions.inc");
+@require_once("../include/php_setup.inc");
+@require_once("functions.inc");
 @require_once("variables.inc");
 
 session_cache_limiter("private");
 session::start();
-session::set('errorsAlreadyPosted', []);
+reset_errors();
 
 /* Logged in? Simple security check */
 if (!session::is_set('ui')) {
@@ -44,8 +44,9 @@ if (isset($_GET['type']) && $_GET['type'] == "base") {
     $pathMapping  = session::get("pathMapping");
     $search       = preg_replace('/&quot;/', '"', current($_POST));
 
-    $config = session::get('config');
-    foreach ($config->department_info as $dn => $info) {
+    $config         = session::get('config');
+    $departmentInfo = $config->getDepartmentInfo();
+    foreach ($departmentInfo as $dn => $info) {
       if (!isset($pathMapping[$dn])) {
         continue;
       }
@@ -68,9 +69,7 @@ if (isset($_GET['type']) && $_GET['type'] == "base") {
       echo "<ul>$res</ul>";
     }
   }
-
 } else {
-
   $ui = session::get('ui');
   $config = session::get('config');
 

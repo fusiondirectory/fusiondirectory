@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2014-2018  FusionDirectory
+  Copyright (C) 2014-2020  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
  */
 
 /*! \brief Class for applying a template */
-class template
+class template implements FusionDirectoryDialog
 {
   protected $type;
   protected $dn;
@@ -68,24 +68,20 @@ class template
     return $result;
   }
 
-  function __construct ($type, $dn, $targetdn = NULL)
+  function __construct ($type, $dn)
   {
     $this->type = $type;
     $this->dn   = $dn;
     list($this->attrs, $depends) = templateHandling::fetch($this->dn);
     $this->needed     = templateHandling::neededAttrs($this->attrs, $depends);
     $this->needed[]   = 'base';
-    if ($targetdn === NULL) {
-      $this->tabObject  = objects::create($this->type);
-    } else {
-      trigger_error("This should not be used for now");
-      $this->tabObject  = objects::open($this->dn, $this->type);
-    }
-    $tempTabObject    = objects::open($this->dn, $this->type); /* Used to know which tab is activated */
-    $this->attributes = [];
+    $this->tabObject  = objects::create($this->type);
+    /* Used to know which tab is activated */
+    $tempTabObject    = objects::open($this->dn, $this->type);
     $tempTabObject->setActiveTabs($this->tabObject);
+    $this->attributes = [];
     foreach ($this->tabObject->by_object as $class => $tab) {
-      if ($tab->is_account || $tab->ignore_account) {
+      if ($tab->isActive()) {
         $this->attributes[$class] = [];
         $attrs = array_unique(array_merge($tab->getRequiredAttributes(), $this->needed));
         foreach (array_keys($tab->attributesAccess) as $attr) {
@@ -95,6 +91,10 @@ class template
           if (in_array($attr, $attrs)) {
             $this->attributes[$class][] = $attr;
           }
+        }
+        if (empty($this->attributes[$class])) {
+          /* Do not show empty sections */
+          unset($this->attributes[$class]);
         }
       }
     }
@@ -110,11 +110,7 @@ class template
     $this->tabObject  = objects::create($this->type);
     /* Used to know which tab is activated */
     $tempTabObject    = objects::open($this->dn, $this->type);
-    foreach ($tempTabObject->by_object as $class => $plugin) {
-      if ($plugin->is_account || $plugin->ignore_account) {
-        $this->tabObject->by_object[$class]->is_account = $plugin->is_account;
-      }
-    }
+    $tempTabObject->setActiveTabs($this->tabObject);
     $this->applied = FALSE;
   }
 
@@ -133,28 +129,75 @@ class template
     }
   }
 
-  function getNeeded ()
+  function getNeeded (): array
   {
     return $this->attributes;
   }
 
+  function alterAttributes ($mandatories, $readonly, $hidden)
+  {
+    foreach ($mandatories as $class => $attrs) {
+      foreach ($attrs as $attr) {
+        if (!in_array($attr, $this->attributes[$class])) {
+          $this->attributes[$class][] = $attr;
+        }
+        $this->tabObject->by_object[$class]->attributesAccess[$attr]->setRequired(TRUE);
+      }
+    }
+    foreach ($readonly as $class => $attrs) {
+      foreach ($attrs as $attr) {
+        if (!in_array($attr, $this->attributes[$class])) {
+          $this->attributes[$class][] = $attr;
+        }
+        $this->tabObject->by_object[$class]->attributesAccess[$attr]->setDisabled(TRUE);
+      }
+    }
+    foreach ($hidden as $class => $attrs) {
+      foreach ($attrs as $attr) {
+        if (!in_array($attr, $this->attributes[$class])) {
+          $this->attributes[$class][] = $attr;
+        }
+        $this->tabObject->by_object[$class]->attributesAccess[$attr]->setDisabled(TRUE);
+        $this->tabObject->by_object[$class]->attributesAccess[$attr]->setVisible(FALSE);
+      }
+    }
+  }
+
+  function getAttribute ($tab, $attr)
+  {
+    return $this->tabObject->by_object[$tab]->attributesAccess[$attr];
+  }
+
+  function getAttributeTab ($attr)
+  {
+    foreach ($this->tabObject->by_object as $tab => $tabObject) {
+      if (isset($tabObject->attributesAccess[$attr])) {
+        return $tab;
+      }
+    }
+  }
+
+  /*! \brief Serialize this template for webservice
+   */
   function serialize ()
   {
-    $attributes = [];
+    $ret = [];
     foreach ($this->tabObject->by_object as $class => $plugin) {
       if (!isset($this->attributes[$class])) {
         continue;
       }
-      $attributes[$class] = ['name' => $this->tabObject->by_name[$class], 'attrs' => []];
+      $ret[$class] = ['name' => $this->tabObject->by_name[$class], 'attrs' => []];
       foreach ($this->attributes[$class] as $attr) {
-        $plugin->attributesAccess[$attr]->serializeAttribute($attributes[$class]['attrs'], FALSE);
+        $plugin->attributesAccess[$attr]->serializeAttribute($ret[$class]['attrs'], FALSE);
       }
-      $attributes[$class]['attrs_order'] = array_keys($attributes[$class]['attrs']);
+      $ret[$class]['attrs_order'] = array_keys($ret[$class]['attrs']);
     }
 
-    return $attributes;
+    return $ret;
   }
 
+  /*! \brief Deserialize values into the template
+   */
   function deserialize ($values)
   {
     foreach ($values as $class => $class_values) {
@@ -166,11 +209,50 @@ class template
     return TRUE;
   }
 
-  function save_object ()
+  /*! \brief Get all attribute values
+   *
+   *  this produces a format that you can send to setValues later (after a reset for instance)
+   */
+  function getValues ()
+  {
+    $ret = [];
+    foreach ($this->tabObject->by_object as $class => $plugin) {
+      $ret[$class] = [];
+      foreach ($plugin->attributesAccess as $name => $attr) {
+        $ret[$class][$name] = $attr->getValue();
+      }
+    }
+
+    return $ret;
+  }
+
+  /*! \brief Set values
+   */
+  function setValues ($values, $ldapFormat = FALSE)
+  {
+    foreach ($values as $class => $class_values) {
+      foreach ($class_values as $name => $value) {
+        if ($ldapFormat) {
+          $value = $this->tabObject->by_object[$class]->attributesAccess[$name]->inputValue($value);
+        }
+        $this->tabObject->by_object[$class]->attributesAccess[$name]->setValue($value);
+      }
+    }
+  }
+
+  public function readPost ()
   {
     foreach ($this->tabObject->by_object as $plugin) {
-      $plugin->save_object();
+      $plugin->readPost();
     }
+  }
+
+  public function update (): bool
+  {
+    foreach ($this->tabObject->by_object as $plugin) {
+      $plugin->update();
+    }
+    return TRUE;
   }
 
   public function dialogOpened ()
@@ -178,7 +260,7 @@ class template
     return $this->tabObject->dialogOpened();
   }
 
-  function execute ()
+  public function render (): string
   {
     $smarty   = get_smarty();
     $sections = [];
@@ -189,27 +271,24 @@ class template
         continue;
       }
       if ($plugin->is_modal_dialog()) {
-        $dialogResult = $plugin->dialog->execute();
-        if ($dialogResult === FALSE) {
-          $plugin->closeDialog();
-        } else {
-          $this->tabObject->current = $class;
-          return $dialogResult;
-        }
+        $this->tabObject->current = $class;
+        return $plugin->render();
       }
-      $attributes = [];
+      $attributesRendered = [];
       foreach ($this->attributes[$class] as $attr) {
         if ($plugin->attributesAccess[$attr]->getAclInfo() !== FALSE) {
           // We assign ACLs so that attributes can use them in their template code
           $smarty->assign($plugin->attributesAccess[$attr]->getAcl().'ACL', $plugin->aclGetPermissions($plugin->attributesAccess[$attr]->getAcl()));
         }
-        $plugin->attributesAccess[$attr]->renderAttribute($attributes, FALSE);
+        $readable = $plugin->attrIsReadable($attr);
+        $writable = $plugin->attrIsWriteable($attr);
+        $plugin->attributesAccess[$attr]->renderAttribute($attributesRendered, FALSE, $readable, $writable);
       }
 
-      $smarty->assign('section', $class);
+      $smarty->assign('section', $this->tabObject->by_name[$class]);
       $smarty->assign('sectionId', $class);
       $smarty->assign('sectionClasses', ' fullwidth');
-      $smarty->assign('attributes', $attributes);
+      $smarty->assign('attributes', $attributesRendered);
 
       $posted[]   = $class.'_posted';
       $sections[] = $smarty->fetch(get_template_path('simpleplugin_section.tpl'));
@@ -236,7 +315,7 @@ class template
       $this->tabObject = objects::open($targetdn, $this->type);
       unset($this->attrs['objectClass']['count']);
       foreach ($this->tabObject->by_object as $class => $plugin) {
-        if ($plugin->is_account || $plugin->ignore_account) {
+        if ($plugin->isActive()) {
           $this->attrs['objectClass'] = $plugin->mergeObjectClasses($this->attrs['objectClass']);
         }
       }
@@ -275,8 +354,8 @@ class template
     foreach (static::$uiSpecialAttributes as $attr) {
       $specialAttrs['caller'.strtoupper($attr)] = $ui->$attr;
     }
-    $this->attrs = templateHandling::parseArray($this->attrs, $specialAttrs);
-    $this->tabObject->adapt_from_template($this->attrs, call_user_func_array('array_merge', $this->attributes));
+    $this->attrs = templateHandling::parseArray($this->attrs, $specialAttrs, $targetdn);
+    $this->tabObject->adapt_from_template($this->attrs, array_merge([], ...array_values($this->attributes)));
 
     $this->applied = TRUE;
     return $this->tabObject;

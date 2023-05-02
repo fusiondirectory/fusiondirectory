@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011-2018  FusionDirectory
+  Copyright (C) 2011-2019  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -21,24 +21,7 @@
 
 require_once("class_setupStep.inc");
 
-class fake_userinfo extends userinfo
-{
-  function __construct ()
-  {
-    $this->cn   = 'fake_cn';
-    $this->dn   = 'fake_dn';
-    $this->uid  = 'fake_uid';
-    $this->ip   = $_SERVER['REMOTE_ADDR'];
-
-    /* This fake user have all rights */
-    $this->ignoreACL = TRUE;
-
-    /* Initialize ACL_CACHE */
-    $this->reset_acl_cache();
-  }
-}
-
-class setup
+class setup implements FusionDirectoryDialog
 {
   /* Number of setup steps */
   var $i_steps;
@@ -60,7 +43,7 @@ class setup
       new setupStepLanguage($this),
       new setupStepChecks($this),
       new setupStepLdap($this),
-      new setupStepConfig_before_init($this),
+      new setupStepConfigBeforeInit($this),
       new setupStepMigrate($this),
       new setupStepFinish($this),
     ];
@@ -68,20 +51,20 @@ class setup
     $this->i_steps = count($this->o_steps);
 
     /* Ensure that setup is not reachable if fusiondirectory.conf exist (CONFIG_FILE) */
-    if (file_exists(CONFIG_DIR."/".CONFIG_FILE)) {
-      session::destroy();
-      header("Location: index.php");
+    if (file_exists(CONFIG_DIR.'/'.CONFIG_FILE)) {
+      session::destroy('Invalid setup.php call');
+      header('Location: index.php');
       exit();
     }
   }
 
-  function execute ()
+  public function render (): string
   {
     /* Display phpinfo() dialog when $_GET['info'] is set,
      *  but only do this, if user is allowed to use the setup.
      * If setupsetupStepWelcome is_completed, we are allowed to view those infos-
      */
-    if (isset($_GET['info']) && preg_match("/setupStepWelcome/i", get_class($this->o_steps[1])) && $this->o_steps[1]->is_completed()) {
+    if (isset($_GET['info']) && preg_match('/setupStepWelcome/i', get_class($this->o_steps[0])) && $this->o_steps[0]->is_completed()) {
       phpinfo();
       exit();
     }
@@ -90,55 +73,27 @@ class setup
     $smarty->assign('usePrototype', 'true');
     $this->o_steps[$this->i_previous]->set_active(FALSE);
     $this->o_steps[$this->i_current]->set_active();
-    $content = $this->o_steps[$this->i_current]->execute();
-    return $content;
+    return $this->o_steps[$this->i_current]->render();
   }
 
 
   /* Save posted attributes  */
-  function save_object ()
+  public function readPost ()
   {
-    /* Call save_object for current setup step */
-    $this->o_steps[$this->i_current]->save_object();
-
-    /* Get attributes from setup step */
-    $tmp = $this->o_steps[$this->i_current]->get_attributes();
-    foreach ($tmp as $name => $value) {
-      $this->captured_values[$name] = $value;
-    }
-
-    /* Set parent */
-    foreach ($this->o_steps as $key => $value) {
-      $this->o_steps[$key]->parent = $this;
-    }
+    /* Call readPost for current setup step */
+    $this->o_steps[$this->i_current]->readPost();
 
     /* Check if image button requests next page */
     foreach ($_POST as $name => $value) {
-      if (preg_match("/^next_(x|y)/", $name)) {
+      if (preg_match('/^next_(x|y)/', $name)) {
         $_POST['next'] = TRUE;
       }
-      if (preg_match("/^last_(x|y)/", $name)) {
+      if (preg_match('/^last_(x|y)/', $name)) {
         $_POST['last'] = TRUE;
       }
     }
 
-    /* Display step error messages */
-    $msgs = $this->o_steps[$this->i_current]->check();
-    msg_dialog::displayChecks($msgs);
-
-    for ($i = 0; $i < $this->i_steps; $i++) {
-      if ($this->o_steps[$i]->is_completed()) {
-        /* If step is completed, activate the next step if possible */
-        if (isset($this->o_steps[($i + 1)])) {
-          $this->o_steps[($i + 1)]->set_enabled();
-        }
-      } else {
-        /* Disable all following steps, if one step isn't completed right now */
-        $this->disable_steps_from($i + 1);
-        break;
-      }
-    }
-
+    /* Detect target step */
     $step = -1;
 
     if (isset($_POST['setup_goto_step'])) {
@@ -160,10 +115,51 @@ class setup
       }
     }
 
-    if ($this->selectable_step($step)) {
-      $this->i_previous = $this->i_current;
-      $this->i_current  = $step;
+    $this->i_previous = $this->i_current;
+    $this->i_current  = $step;
+  }
+
+  public function update (): bool
+  {
+    $this->o_steps[$this->i_previous]->update();
+
+    /* Get attributes from setup step */
+    $tmp = $this->o_steps[$this->i_previous]->get_attributes();
+    foreach ($tmp as $name => $value) {
+      $this->captured_values[$name] = $value;
     }
+
+    /* Set parent */
+    foreach ($this->o_steps as $key => $value) {
+      $this->o_steps[$key]->parent = $this;
+    }
+
+    /* Display step error messages */
+    $msgs = $this->o_steps[$this->i_previous]->check();
+    msg_dialog::displayChecks($msgs);
+
+    for ($i = 0; $i < $this->i_steps; $i++) {
+      if ($this->o_steps[$i]->is_completed()) {
+        /* If step is completed, activate the next step if possible */
+        if (isset($this->o_steps[($i + 1)])) {
+          $this->o_steps[($i + 1)]->set_enabled();
+        }
+      } else {
+        /* Disable all following steps, if one step isn't completed right now */
+        $this->disable_steps_from($i + 1);
+        break;
+      }
+    }
+
+    if (!$this->selectable_step($this->i_current)) {
+      $this->i_current = $this->i_previous;
+    }
+
+    if ($this->i_current != $this->i_previous) {
+      $this->o_steps[$this->i_current]->update();
+    }
+
+    return TRUE;
   }
 
 
@@ -181,7 +177,6 @@ class setup
   {
     $str = '<ul class="menu"><li><a>FusionDirectory Setup</a><ul>';
     foreach ($this->o_steps as $key => $step) {
-
       $step->update_strings();
 
       $s_short_name   = $step->get_short_name();
@@ -254,7 +249,7 @@ class setup
 
 
   /* Check if the given step id is valid and selectable */
-  function selectable_step ($id)
+  protected function selectable_step ($id): bool
   {
     if (isset($this->o_steps[$id]) && $this->o_steps[$id]->is_enabled()) {
       return TRUE;
@@ -273,12 +268,11 @@ class setup
   }
 
   /* Called when LDAP is configured */
-  function read_ldap_config ()
+  public function read_ldap_config (array $captured_values)
   {
     global $config;
-    /* Get attributes from current ldap step */
-    $tmp = $this->o_steps[$this->i_current]->get_attributes();
-    foreach ($tmp as $name => $value) {
+    /* Get attributes from ldap step */
+    foreach ($captured_values as $name => $value) {
       $this->captured_values[$name] = $value;
     }
     $smarty = get_smarty();
@@ -294,7 +288,7 @@ class setup
     $config->parse_data($xml);
     $config->set_current($config->data['MAIN']['DEFAULT']);
     session::un_set('plist');
-    load_plist();
+    pluglist::load();
     $this->reBuildConfigStep();
   }
 
@@ -309,5 +303,26 @@ class setup
     if ($completed !== NULL) {
       $this->o_steps[$this->i_config]->is_completed = $completed;
     }
+  }
+
+  static function mainInc ()
+  {
+    global $setup, $display;
+
+    $display = '';
+
+    /* Create a new setup class if necessary  */
+    if (!session::is_set('setup') || (isset($_GET['reset']) && ($_GET['reset'] == 1))) {
+      session::set('setup', new setup());
+    }
+    $setup = session::get('setup');
+
+    /* Execute formular */
+    $setup->readPost();
+    $setup->update();
+    $display = $setup->render();
+
+    /* Store changes  in session */
+    session::set('setup', $setup);
   }
 }

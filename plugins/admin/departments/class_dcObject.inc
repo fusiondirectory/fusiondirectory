@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2013-2018  FusionDirectory
+  Copyright (C) 2013-2106 FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -20,19 +20,18 @@
 
 class dcObject extends department
 {
-  static $namingAttr  = "dc";
-  var $objectclasses  = ["top", "dcObject", "gosaDepartment"];
-  var $structuralOC   = ["locality"];
+  static protected $namingAttr  = 'dc';
+  protected $structuralOC       = ['locality'];
 
-  static function plInfo ()
+  static function plInfo (): array
   {
     return [
       'plShortName'   => _('Domain Component'),
       'plDescription' => _('Domain Component'),
+      'plObjectClass' => ['dcObject', 'gosaDepartment'],
       'plObjectType'  => ['dcObject' => [
         'aclCategory' => 'department',
         'name'        => _('Domain Component'),
-        'filter'      => '(&(objectClass=dcObject)(objectClass=gosaDepartment))',
         'ou'          => '',
         'icon'        => 'geticon.php?context=types&icon=dc&size=16',
         'tabClass'    => 'deptabs',
@@ -41,12 +40,13 @@ class dcObject extends department
       'plForeignKeys'  => [
         'manager' => ['user','dn','manager=%oldvalue%','*']
       ],
+      'plSearchAttrs' => ['description'],
 
       'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())
     ];
   }
 
-  static function getAttributesInfo ()
+  static function getAttributesInfo (): array
   {
     $attributesInfo = parent::getDepartmentAttributesInfo(_('domain component'));
     unset($attributesInfo['location']);
@@ -54,4 +54,3 @@ class dcObject extends department
     return $attributesInfo;
   }
 }
-?>

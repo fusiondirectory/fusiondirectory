@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2007  Fabian Hickert
-  Copyright (C) 2011-2018  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ class setupStepLanguage extends setupStep
 {
   var $header_image = 'geticon.php?context=applications&icon=config-language&size=48';
 
-  static function getAttributesInfo ()
+  static function getAttributesInfo (): array
   {
     return [
       'lang' => [
@@ -62,26 +62,25 @@ class setupStepLanguage extends setupStep
     $this->msg            = _('At this point, you can select the site wide default language. Choosing "automatic" will use the language requested by the browser. This setting can be overriden per user.');
   }
 
-  function execute ()
+  public function update (): bool
+  {
+    parent::update();
+    $this->is_completed   = TRUE;
+
+    if ($this->lang_selected != '') {
+      session::set('lang', $this->lang_selected);
+    } else {
+      session::set('lang', $this->lang);
+    }
+    return TRUE;
+  }
+
+  public function render (): string
   {
     $languages = Language::getList(TRUE);
     asort($languages);
     $languages = array_merge(["" => _("Automatic")], $languages);
     $this->attributesAccess['lang_selected']->setChoices(array_keys($languages), array_values($languages));
-    return parent::execute();
-  }
-
-  function save_object ()
-  {
-    parent::save_object();
-    $this->is_completed   = TRUE;
-
-    if ($this->lang_selected != "") {
-      session::set('lang', $this->lang_selected);
-    } else {
-      session::set('lang', $this->lang);
-    }
+    return parent::render();
   }
 }
-
-?>

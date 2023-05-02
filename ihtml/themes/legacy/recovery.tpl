@@ -9,6 +9,7 @@
 <div id="window-div">
 
   <form action='recovery.php{$params}' method='post' name='mainform' onSubmit='js_check(this);return true;'>
+    <input type="hidden" name="CSRFtoken" value="{$CSRFtoken}"/>
 
   <div id="window-titlebar">
     <p>
@@ -52,7 +53,7 @@
       <label for="new_password_repeated">
         <img class="center" src="geticon.php?context=status&amp;icon=dialog-password&amp;size=48" alt="{t}New password repeated{/t}" title="{t}New password repeated{/t}"/>&nbsp;
       </label>
-      <input type="password" name="new_password_repeated" id="new_password_repeated" maxlength="40" value="" title="{t}New password repeated{/t}" />
+      <input type="password" name="new_password_repeated" id="new_password_repeated" value="" title="{t}New password repeated{/t}" />
       <br>
       <div style="width: 190px; display: inline-block; margin-left: 54px;" title="{t}Password strength{/t}">
         <span id="meterEmpty" style="padding:0;margin:0;width:100%;background-color:#DC143C;display:block;height:5px;">
@@ -128,7 +129,7 @@
 {include file={filePath file="copynotice.tpl"}}
 
   <!-- Place cursor in email field -->
-  <script type="text/javascript">
+  <script>
     <!-- // First input field on page
     focus_field('error_accept','login','directory','username','current_password','email_address');
     next_msg_dialog();

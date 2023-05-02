@@ -1,7 +1,8 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2011-2018  FusionDirectory
+  Copyright (C) 2003  Cajus Pollmeier
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -27,12 +28,17 @@ class ogrouptabs extends simpleTabs_noSpecial
   {
     parent::__construct($type, $dn, $copied_object);
 
-    $this->loadtabs($this->getBaseObject()->gosaGroupObjects);
+    $this->loadTabs($this->getBaseObject()->gosaGroupObjects);
   }
 
-  function loadtabs ($gosaGroupObjects)
+  public function loadTabs (string $gosaGroupObjects = NULL)
   {
     global $config;
+
+    if ($gosaGroupObjects === NULL) {
+      $gosaGroupObjects = $this->getBaseObject()->getGroupObjectTypes();
+    }
+
     if ($this->groupObjects == $gosaGroupObjects) {
       return;
     }
@@ -108,7 +114,7 @@ class ogrouptabs extends simpleTabs_noSpecial
 
   function addTab ($class)
   {
-    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $class, 'Adding tab ');
+    logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $class, 'Adding tab ');
     $plInfos = pluglist::pluginInfos($class);
     $this->by_name[$class]  = $plInfos['plShortName'];
     $this->plNotify[$class] = FALSE;
@@ -129,28 +135,41 @@ class ogrouptabs extends simpleTabs_noSpecial
     unset($this->plNotify["$class"]);
   }
 
-  function gen_tabs ($disabled = FALSE)
+  protected function renderTabList (bool $disabled = FALSE): string
   {
-    $this->loadtabs($this->getBaseObject()->getGroupObjectTypes());
-    return parent::gen_tabs($disabled);
+    $this->loadtabs();
+    return parent::renderTabList($disabled);
+  }
+
+  /*!
+   * \brief Returns the list of tabs which may appear for a given object type
+   */
+  public static function getPotentialTabList (string $type, array $infos): array
+  {
+    global $config;
+
+    /* prefix will be OGROUP- for ogroup */
+    $tabList  = parent::getPotentialTabList($type, $infos);
+    $prefix   = strtoupper($type).'-';
+    foreach ($config->data['TABS'] as $tabgroup => $tabs) {
+      if (strpos($tabgroup, $prefix) === 0) {
+        $tabList = array_merge($tabList, $tabs);
+      }
+    }
+    return $tabList;
   }
 
   /*!
    * \brief Sets the active tabs from this instance to an other one. Used by templates
    */
-  function setActiveTabs (&$tabObject)
+  public function setActiveTabs (&$tabObject)
   {
-    $tabObject->loadtabs($this->groupObjects);
+    $tabObject->loadTabs($this->groupObjects);
     foreach ($this->by_object as $class => $plugin) {
-      if ($plugin->is_account || $plugin->ignore_account) {
+      if ($plugin->isActive()) {
         $tabObject->by_object[$class]->is_account = $plugin->is_account;
       }
     }
-  }
-
-  function check ($ignore_account = FALSE)
-  {
-    return parent::check(FALSE);
   }
 
   function save ()
@@ -161,7 +180,7 @@ class ogrouptabs extends simpleTabs_noSpecial
       if (isset($this->by_object[$key])) {
         continue;
       }
-      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, 'Removing');
+      logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $key, 'Removing');
 
       $obj->dn = $this->dn;
       $tabErrors = $obj->remove(FALSE);
@@ -174,9 +193,9 @@ class ogrouptabs extends simpleTabs_noSpecial
     return $errors;
   }
 
-  function save_object ($save_current = FALSE)
+  public function update (): bool
   {
-    parent::save_object($save_current);
+    parent::update();
 
     /* Update reference, transfer variables */
     $baseobject = $this->getBaseObject();
@@ -192,6 +211,7 @@ class ogrouptabs extends simpleTabs_noSpecial
         $this->by_object[$name] = $obj;
       }
     }
+
+    return TRUE;
   }
 }
-?>

@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2011-2018  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -20,20 +20,21 @@
 
 class recoveryConfig extends simplePlugin
 {
-  var $objectclasses  = ['fdPasswordRecoveryConf'];
-
-  static function plInfo ()
+  static function plInfo (): array
   {
     return [
-      'plShortName'     => _('Password recovery'),
+      'plShortName'     => _('Recovery'),
+      'plTitle'         => _('Password recovery'),
       'plDescription'   => _('Settings for the password recovery feature'),
+      'plObjectClass'   => ['fdPasswordRecoveryConf'],
+      'plPriority'      => 14,
       'plObjectType'    => ['configuration'],
 
       'plProvidedAcls'  => parent::generatePlProvidedAcls(static::getAttributesInfo())
     ];
   }
 
-  static function getAttributesInfo ()
+  static function getAttributesInfo (): array
   {
     return  [
       'settings' => [
@@ -43,7 +44,7 @@ class recoveryConfig extends simplePlugin
         'attrs'     => [
           new BooleanAttribute(
             _('Activate password recovery'),
-            _('Whether to activate or not password recovery feature'),
+            _('Whether to activate the password recovery feature or not'),
             'fdPasswordRecoveryActivated',
             FALSE
           ),
@@ -70,7 +71,7 @@ class recoveryConfig extends simplePlugin
           ),
           new BooleanAttribute(
             _('Allow the use of alternate addresses'),
-            _('Users will also be able to enter one of theirs alternate addresses to recover their password'),
+            _('Users will also be able to enter one of their alternate addresses to recover their password'),
             'fdPasswordRecoveryUseAlternate',
             FALSE
           ),
@@ -131,13 +132,10 @@ class recoveryConfig extends simplePlugin
     $ldap->cat($tokenBranch, ['dn']);
     if (!$ldap->count()) {
       $ldap->cd($config->current['BASE']);
-      $ldap->create_missing_trees($tokenBranch);
-      if (!$ldap->success()) {
-        msg_dialog::display(
-          _('LDAP error'),
-          msgPool::ldaperror($ldap->get_error(), $tokenBranch, LDAP_MOD, get_class()),
-          LDAP_ERROR
-        );
+      try {
+        $ldap->create_missing_trees($tokenBranch);
+      } catch (FusionDirectoryError $error) {
+        $error->display();
       }
       fusiondirectory_log('Created token branch '.$tokenBranch);
     }
@@ -157,4 +155,3 @@ class recoveryConfig extends simplePlugin
     );
   }
 }
-?>

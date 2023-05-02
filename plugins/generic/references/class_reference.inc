@@ -1,7 +1,8 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2013-2018  FusionDirectory
+
+  Copyright (C) 2013-2019  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -20,7 +21,7 @@
 
 class reference extends simplePlugin
 {
-  static function plInfo ()
+  static function plInfo (): array
   {
     return [
       'plShortName'   => _('References'),
@@ -37,7 +38,7 @@ class reference extends simplePlugin
     ];
   }
 
-  static function getAttributesInfo ()
+  static function getAttributesInfo (): array
   {
     return [
       'main' => [
@@ -58,14 +59,20 @@ class reference extends simplePlugin
     $this->refs = NULL;
   }
 
-  function execute ()
+  function aclGetPermissions ($attribute = '0', string $base = NULL, bool $skipWrite = FALSE): string
+  {
+    /* Everyone can see this tab and its attribute */
+    return 'r';
+  }
+
+  public function render (): string
   {
     if ($this->refs === NULL) {
       $this->fillRefs();
     }
     $smarty = get_smarty();
     $smarty->assign('usePrototype', 'true');
-    return parent::execute();
+    return parent::render();
   }
 
   function fillRefs ()
@@ -77,19 +84,18 @@ class reference extends simplePlugin
     $this->refs = $this->browseForeignKeys('references');
   }
 
-  function check ()
-  {
-  }
-
-  function save ()
+  function check (): array
   {
     return [];
   }
 
-  function remove ($fulldelete = FALSE)
+  function save (): array
+  {
+    return [];
+  }
+
+  function remove (bool $fulldelete = FALSE): array
   {
     return [];
   }
 }
-
-?>

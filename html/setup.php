@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2018  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -20,8 +20,8 @@
 */
 
 /* Get standard functions */
-require_once ("../include/php_setup.inc");
-require_once ("functions.inc");
+require_once("../include/php_setup.inc");
+require_once("functions.inc");
 require_once("variables.inc");
 
 require_once("../setup/class_setup.inc");
@@ -41,6 +41,14 @@ header('X-XSS-Protection: 1; mode=block');
 header('X-Content-Type-Options: nosniff');
 header('X-Frame-Options: deny');
 
+/**
+ * @var Smarty $smarty                  Defined in php_setup.inc
+ * @var string $BASE_DIR                Defined in php_setup.inc
+ * @var string $ssl                     Defined in php_setup.inc
+ * @var string $error_collector         Defined in php_setup.inc
+ * @var string $error_collector_mailto  Defined in php_setup.inc
+ */
+
 /* Set cookie lifetime to one day (The parameter is in seconds ) */
 session_set_cookie_params(24 * 60 * 60);
 // default cache_expire is 180
@@ -50,7 +58,6 @@ ini_set("session.gc_maxlifetime", 24 * 60 * 60);
 /* Start session */
 session::start();
 session::set('DEBUGLEVEL', 0);
-session::set('errorsAlreadyPosted', []);
 
 CSRFProtection::check();
 
@@ -58,13 +65,16 @@ CSRFProtection::check();
 reset_errors();
 
 /* Set template compile directory */
-$smarty->compile_dir = SPOOL_DIR;
+$smarty->setCompileDir(SPOOL_DIR);
 
 /* Check for compile directory */
-if (!(is_dir($smarty->compile_dir) && is_writable($smarty->compile_dir))) {
-  msg_dialog::display(_("Smarty"), sprintf(_("Directory '%s' specified as compile directory is not accessible!"),
-    $smarty->compile_dir), FATAL_ERROR_DIALOG);
-  exit();
+if (!(is_dir($smarty->getCompileDir()) && is_writable($smarty->getCompileDir()))) {
+  throw new FatalError(
+    htmlescape(sprintf(
+      _('Directory "%s" specified as compile directory is not accessible!'),
+      $smarty->getCompileDir()
+    ))
+  );
 }
 
 /* Get posted language */
@@ -88,8 +98,8 @@ if (isset($_POST['lang_selected']) && $_POST['lang_selected'] != '') {
 
 Language::init($lang);
 
-$smarty->assign("rtl",  Language::isRTL($lang));
-$smarty->assign("must", '<span class="must">*</span>');
+$smarty->assign('lang', preg_replace('/_.*$/', '', $lang));
+$smarty->assign('rtl',  Language::isRTL($lang));
 
 /* Minimal config */
 if (!session::is_set('config')) {
@@ -99,12 +109,14 @@ if (!session::is_set('config')) {
 $config = session::get('config');
 IconTheme::loadThemes('themes');
 /* Fake user bypassing acl system */
-$ui = new fake_userinfo();
+$ui = new userinfoNoAuth('setup');
 /* Call setup */
-$display = "";
-require_once("../setup/main.inc");
+setup::mainInc();
+/**
+ * @var string $display filled by setup::mainInc
+ */
 
-$focus = '<script type="text/javascript">';
+$focus = '<script>';
 $focus .= 'next_msg_dialog();';
 $focus .= '</script>';
 
@@ -131,5 +143,3 @@ if ($error_collector != "") {
 $smarty->assign("version", FD_VERSION);
 
 echo $header.$smarty->fetch("$BASE_DIR/setup/setup_frame.tpl");
-
-?>

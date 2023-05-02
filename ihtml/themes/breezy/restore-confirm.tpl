@@ -8,8 +8,8 @@
     <p>
       <ul>
         {foreach from=$objects item=object}
-          <li style="list-style-image:url('{$object.icon}');" title="{$object.type}">
-            {$object.name}&nbsp;(<i>{$object.dn}</i>)
+          <li style="list-style-image:url('{$object.icon|escape}');" title="{$object.type|escape}">
+            {$object.name|escape}&nbsp;(<i>{$object.dn|escape}</i>)
           </li>
         {/foreach}
       </ul>
@@ -23,7 +23,7 @@
 
     <p class="plugbottom">
       <input type="submit" name="restore_confirmed" value="{t}Continue{/t}"/>
-      <input type="submit" name="restore_cancel" value="{msgPool type=cancelButton}"/>
+      <input type="submit" formnovalidate="formnovalidate" name="restore_cancel" value="{msgPool type=cancelButton}"/>
     </p>
   </div>
 </div>

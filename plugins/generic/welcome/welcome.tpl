@@ -1,5 +1,3 @@
-{$header}
-
 {$iconmenu}
 
 <br/>

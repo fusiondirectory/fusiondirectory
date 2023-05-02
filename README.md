@@ -114,7 +114,7 @@ If you like us and want to send us a small contribution you can use the followin
 
 [FusionDirectory]: https://www.fusiondirectory.org/
 
-[fusiondirectory-install]: https://fusiondirectory-user-manual.readthedocs.io/en/1.3/fusiondirectory/install/index.html
+[fusiondirectory-install]: https://fusiondirectory-user-manual.readthedocs.io/en/1.4/fusiondirectory/install/index.html
 
 [get help]: https://www.fusiondirectory.org/en/communaute/
 

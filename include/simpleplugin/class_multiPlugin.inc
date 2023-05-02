@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2018  FusionDirectory
+  Copyright (C) 2011-2021  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -19,193 +19,50 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/*! \brief   multiPlugin
-    This class provides the functionality to have multiple plugins in a single tab
+/**
+ * This class allows to have a simplePlugin instance which sections are dynamically loaded from other classes
+ *
+ * It is used for configuration plugins tab
  */
-
 class multiPlugin extends simplePlugin
 {
-  /* attribute list for save action */
-  var $objectclasses  = [];
-  var $ignore_account = TRUE;
-  var $plugin         = [];
+  protected $ignore_account = TRUE;
 
-  var $tabClass = '';
+  protected static $tabClass = '';
 
-  static function getAttributesInfo ()
+  static function getAttributesInfo (): array
   {
     return [];
   }
 
-  function __construct ($dn = NULL, $object = NULL, $parent = NULL)
+  function __construct (string $dn = NULL, $object = NULL, $parent = NULL, bool $mainTab = FALSE)
   {
     global $config;
-    parent::__construct($dn, $object, $parent, FALSE);
 
-    $plInfos = pluglist::pluginInfos(get_class($this));
+    $attributesInfo = [];
 
-    /* Load accounts */
-    foreach ($config->data['TABS'][$this->tabClass] as $plug) {
+    /* Load sections */
+    foreach ($config->data['TABS'][static::$tabClass] as $plug) {
       if (!plugin_available($plug['CLASS'])) {
         continue;
       }
-      $name = $plug['CLASS'];
-      $this->plugin[$name] = new $name($dn, $object, $parent);
+      $plInfos = pluglist::pluginInfos($plug['CLASS']);
 
-      /* Acl base && category configuration,
-          these settings will be overloaded in main.inc,
-          if we are editing ourself */
-      $this->plugin[$name]->set_acl_category($plInfos['plCategory'][0]);
-      $this->plugin[$name]->set_acl_base($this->dn);
-    }
-  }
-
-  function execute ()
-  {
-    $display = "";
-
-    /* Do we represent a valid account? */
-    if ($this->parent === NULL) {
-      $enabled = FALSE;
-      foreach ($this->plugin as &$plug) {
-        if ($plug->is_account) {
-          $enabled = TRUE;
-          break;
-        }
+      if (isset($plInfos['plObjectClass'])) {
+        $this->objectclasses = array_merge_unique($this->objectclasses, $plInfos['plObjectClass']);
       }
-      unset($plug);
-      if (!$enabled) {
-        $display = '<img alt="'._('Error').'" src="geticon.php?context=status&amp;icon=dialog-error&amp;size=16" align="middle"/>&nbsp;<b>'.
-                    msgPool::noValidExtension()."</b>";
-        $display .= back_to_main();
-        return $display;
+
+      $attributesInfo = array_merge($attributesInfo, $plug['CLASS']::getAttributesInfo());
+    }
+
+    parent::__construct($dn, $object, $parent, $mainTab, $attributesInfo);
+
+    /* Load sections */
+    foreach ($config->data['TABS'][static::$tabClass] as $plug) {
+      if (!plugin_available($plug['CLASS'])) {
+        continue;
       }
+      $plug['CLASS']::fixAttributesOnLoad($this);
     }
-
-    /* Execude  objects */
-    $is_first = TRUE;
-
-    $readOnly = $this->readOnly();
-
-    foreach ($this->plugin as &$plug) {
-      $plug->read_only = $readOnly;
-      if (!$is_first) {
-        $display .= '<p class="seperator plugbottom">&nbsp;</p>';
-      } else {
-        $is_first = FALSE;
-      }
-      $display .= $plug->execute();
-    }
-    unset($plug);
-
-    return $display;
-  }
-
-
-  /* Save data to object */
-  function save_object ()
-  {
-    foreach ($this->plugin as &$plug) {
-      $plug->save_object();
-    }
-    unset($plug);
-  }
-
-  function check ()
-  {
-    $message = parent::check();
-
-    foreach ($this->plugin as &$plug) {
-      if ($plug->is_account || $plug->ignore_account) {
-        $tmp      = $plug->check();
-        $message  = array_merge($message, $tmp);
-      }
-    }
-    unset($plug);
-
-    return $message;
-  }
-
-  function set_acl_category ($cat)
-  {
-    parent::set_acl_category($cat);
-    foreach ($this->plugin as &$plug) {
-      $plug->set_acl_category($cat);
-    }
-    unset($plug);
-  }
-
-  function set_acl_base ($base)
-  {
-    parent::set_acl_base($base);
-    foreach ($this->plugin as &$plug) {
-      $plug->set_acl_base($base);
-    }
-    unset($plug);
-  }
-
-  public function setNeedEditMode ($bool)
-  {
-    parent::setNeedEditMode($bool);
-    foreach ($this->plugin as &$plug) {
-      $plug->setNeedEditMode($bool);
-    }
-    unset($plug);
-  }
-
-  /* Save to LDAP */
-  function save ()
-  {
-    $errors = [];
-    /* Save objects */
-    foreach ($this->plugin as &$plug) {
-      $plug->dn = $this->dn;
-      if ($plug->is_account || $plug->ignore_account) {
-        $result = $plug->save();
-      } else {
-        $result = $plug->remove(FALSE);
-      }
-      if (!empty($result)) {
-        $errors = array_merge($errors, $result);
-      }
-    }
-    unset($plug);
-    return $errors;
-  }
-
-  function remove ($fulldelete = FALSE)
-  {
-    $errors = [];
-    /* Remove objects */
-    foreach ($this->plugin as &$plug) {
-      $plug->dn = $this->dn;
-      $result = $plug->remove($fulldelete);
-      if (!empty($result)) {
-        $errors = array_merge($errors, $result);
-      }
-    }
-    unset($plug);
-    return $errors;
-  }
-
-  function adapt_from_template ($attrs, $skip = [])
-  {
-    /* Adapt objects */
-    foreach ($this->plugin as &$plug) {
-      $plug->dn = $this->dn;
-      $plug->adapt_from_template($attrs, $skip);
-    }
-    unset($plug);
-  }
-
-  function resetCopyInfos ()
-  {
-    $this->dn = 'new';
-    foreach ($this->plugin as &$plug) {
-      $plug->resetCopyInfos();
-    }
-    unset($plug);
   }
 }
-
-?>

@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2018  FusionDirectory
+  Copyright (C) 2012-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@
  * you should inherit this class and write your own readValues and writeValues method
  *
  */
-class CompositeAttribute extends Attribute
+class CompositeAttribute extends \FusionDirectory\Core\SimplePlugin\Attribute
 {
   public $attributes;
   protected $readFormat;
@@ -40,29 +40,39 @@ class CompositeAttribute extends Attribute
    *  \param string $readFormat the preg_match format that's gonna be used in order to read values from LDAP
    *  \param string $writeFormat the printf format that's gonna be used in order to write values into LDAP
    *  \param string $acl The name of the acl for this attribute if he does not use its own. (Leave empty if he should use its own like most attributes do)
-   *  \param string $label The label to show for this attribute. Only useful if you put this attribute inside a SetAttribute, or if you use a specific template that needs it.
+   *  \param ?string $label The label to show for this attribute. Only useful if you put this attribute inside a SetAttribute, or if you use a specific template that needs it.
    */
-  function __construct ($description, $ldapName, $attributes, $readFormat, $writeFormat, $acl = "", $label = NULL)
+  function __construct (string $description, string $ldapName, array $attributes, $readFormat, $writeFormat, string $acl = '', string $label = NULL)
   {
     if ($label === NULL) {
       $label = $ldapName;
     }
-    parent::__construct($label, $description, $ldapName, FALSE, "", $acl);
+    parent::__construct($label, $description, $ldapName, FALSE, '', $acl);
     $this->readFormat   = $readFormat;
     $this->writeFormat  = $writeFormat;
     $this->setAttributes($attributes);
   }
 
-  function setAttributes ($attributes)
+  function setAttributes (array $attributes)
   {
     $this->attributes   = $attributes;
     foreach ($this->attributes as &$attribute) {
       $attribute->setAcl($this->getAcl());
+      $attribute->setParent($this->plugin);
     }
     unset($attribute);
   }
 
-  function setAcl ($acl)
+  function setIsSubAttribute (bool $bool)
+  {
+    parent::setIsSubAttribute($bool);
+    foreach ($this->attributes as &$attribute) {
+      $attribute->setIsSubAttribute($this->isSubAttribute);
+    }
+    unset($attribute);
+  }
+
+  function setAcl (string $acl)
   {
     parent::setAcl($acl);
     foreach ($this->attributes as &$attribute) {
@@ -80,17 +90,25 @@ class CompositeAttribute extends Attribute
     unset($attribute);
   }
 
-  function setManagedAttributes ($dontcare)
+  function setManagedAttributes (array $dontcare)
   {
     trigger_error('method setManagedAttributes is not supported for CompositeAttribute');
   }
 
-  function setLinearRendering ($bool)
+  function setLinearRendering (bool $bool)
   {
     $this->linearRendering = $bool;
   }
 
-  function readValues ($value)
+  function loadValue (array $attrs)
+  {
+    parent::loadValue($attrs);
+    foreach ($this->attributes as $attribute) {
+      $attribute->setInitialValue($attribute->getValue());
+    }
+  }
+
+  function readValues (string $value): array
   {
     $res = preg_match($this->readFormat, $value, $m);
     if ($res === 1) {
@@ -112,7 +130,7 @@ class CompositeAttribute extends Attribute
     return array_fill(0, count($this->attributes), '');
   }
 
-  function writeValues ($values)
+  function writeValues (array $values)
   {
     if ($this->writeFormat === FALSE) {
       return $values;
@@ -186,16 +204,15 @@ class CompositeAttribute extends Attribute
     return $this->writeValues($values);
   }
 
-  function getArrayValue ()
+  function getArrayValue (): array
   {
-    $values = array_map(
+    return array_map(
       function ($a)
       {
         return $a->displayValue($a->getValue());
       },
       $this->attributes
     );
-    return $values;
   }
 
   function check ()
@@ -213,22 +230,22 @@ class CompositeAttribute extends Attribute
     unset($attribute);
   }
 
-  function renderAttribute (&$attributes, $readOnly)
+  function renderAttribute (array &$attributes, bool $readOnly, bool $readable, bool $writable)
   {
     if ($this->visible) {
       if ($this->linearRendering) {
-        parent::renderAttribute($attributes, $readOnly);
+        parent::renderAttribute($attributes, $readOnly, $readable, $writable);
       } else {
         foreach ($this->attributes as &$attribute) {
           $attribute->setDisabled($this->disabled);
-          $attribute->renderAttribute($attributes, $readOnly);
+          $attribute->renderAttribute($attributes, $readOnly, $readable, $writable);
         }
         unset($attribute);
       }
     }
   }
 
-  function getForHtmlId ()
+  function getForHtmlId (): string
   {
     // Label (if any) should point to the first attribute
     if (isset($this->attributes[0])) {
@@ -238,7 +255,7 @@ class CompositeAttribute extends Attribute
     }
   }
 
-  function serializeAttribute (&$attributes, $form = TRUE)
+  function serializeAttribute (array &$attributes, bool $form = TRUE)
   {
     if ($form) {
       if ($this->visible) {
@@ -261,20 +278,20 @@ class CompositeAttribute extends Attribute
     }
   }
 
-  function renderFormInput ()
+  function renderFormInput (): string
   {
     $display = "";
     foreach ($this->attributes as &$attribute) {
       $attribute->setDisabled($this->disabled);
       if ($attribute->isVisible()) {
-        $display .= '<label for="'.$attribute->getForHtmlId().'">'.$attribute->getLabel().'</label>'." ".$attribute->renderFormInput()." ";
+        $display .= '<label for="'.$attribute->getForHtmlId().'" class="subattribute">'.$attribute->getLabel().'</label>'." ".$attribute->renderFormInput()." ";
       }
     }
     unset($attribute);
     return $display;
   }
 
-  public function htmlIds ()
+  public function htmlIds (): array
   {
     $ret = [];
     foreach ($this->attributes as &$attribute) {

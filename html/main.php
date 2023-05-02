@@ -19,12 +19,17 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/* Save start time */
-$start = microtime();
+/**
+ * @var Smarty $smarty                  Defined in php_setup.inc
+ * @var string $BASE_DIR                Defined in php_setup.inc
+ * @var string $ssl                     Defined in php_setup.inc
+ * @var string $error_collector         Defined in php_setup.inc
+ * @var string $error_collector_mailto  Defined in php_setup.inc
+ */
 
 /* Basic setup, remove eventually registered sessions */
-require_once ("../include/php_setup.inc");
-require_once ("functions.inc");
+require_once("../include/php_setup.inc");
+require_once("functions.inc");
 require_once("variables.inc");
 
 /* Set headers */
@@ -40,18 +45,16 @@ textdomain($domain);
 
 /* Remember everything we did after the last click */
 session::start();
-session::set('errorsAlreadyPosted', []);
-session::set('runtime_cache', []);
-session::set('limit_exceeded', FALSE);
+reset_errors();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  @DEBUG(DEBUG_POST, __LINE__, __FUNCTION__, __FILE__, $_POST, "_POST");
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+  logging::debug(DEBUG_POST, __LINE__, __FUNCTION__, __FILE__, $_POST, '_POST');
 }
-@DEBUG(DEBUG_SESSION, __LINE__, __FUNCTION__, __FILE__, session::get_all(), "_SESSION");
+logging::debug(DEBUG_SESSION, __LINE__, __FUNCTION__, __FILE__, $_SESSION, '_SESSION');
 
 /* Logged in? Simple security check */
 if (!session::is_set('connected')) {
-  logging::log('security', 'login', '', [], 'main.php called without session - logging out');
+  session::destroy('main.php called without session');
   header('Location: index.php?message=nosession');
   exit;
 }
@@ -82,8 +85,7 @@ if (session::get('_LAST_PAGE_REQUEST') != '') {
      * kill session
      */
     if ($request_time > $max_life) {
-      session::destroy();
-      logging::log('security', 'login', '', [], 'main.php called with expired session - logging out');
+      session::destroy('main.php called with expired session');
       header('Location: index.php?signout=1&message=expired');
       exit;
     }
@@ -92,89 +94,67 @@ if (session::get('_LAST_PAGE_REQUEST') != '') {
 session::set('_LAST_PAGE_REQUEST', time());
 
 
-@DEBUG(DEBUG_CONFIG, __LINE__, __FUNCTION__, __FILE__, $config->data, "config");
+logging::debug(DEBUG_CONFIG, __LINE__, __FUNCTION__, __FILE__, $config->data, "config");
 
 /* Set template compile directory */
-$smarty->compile_dir = $config->get_cfg_value("templateCompileDirectory", SPOOL_DIR);
-
-/* Preset current main base */
-if (!session::is_set('CurrentMainBase')) {
-  session::set('CurrentMainBase', get_base_from_people($ui->dn));
-}
+$smarty->setCompileDir($config->get_cfg_value('templateCompileDirectory', SPOOL_DIR));
 
 Language::init();
 
 /* Prepare plugin list */
-$plist = load_plist();
+pluglist::load();
+/**
+ * @var pluglist $plist built by pluglist::load
+ */
 
-/* Check for register globals */
-if (isset($global_check) && $config->get_cfg_value("forceglobals") == "TRUE") {
-  msg_dialog::display(
-            _("PHP configuration"),
-            _("Fatal error: Register globals is on. FusionDirectory will refuse to login unless this is fixed by an administrator."),
-            FATAL_ERROR_DIALOG);
-
-  logging::log('security', 'login', '', [], 'Register globals is on. For security reasons, this should be turned off.');
-  session::destroy();
-  exit;
-}
-
-/* Check Plugin variable */
-if (session::is_set('plugin_dir')) {
-  $old_plugin_dir = session::get('plugin_dir');
+/* Check previous plugin index */
+if (session::is_set('plugin_index')) {
+  $old_plugin_index = session::get('plugin_index');
 } else {
-  $old_plugin_dir = "";
+  $old_plugin_index = '';
 }
 
 $plist->gen_menu();
 
-/* check if we are using account expiration */
-$smarty->assign("hideMenus", FALSE);
-if ($config->get_cfg_value("handleExpiredAccounts") == "TRUE") {
-  $expired = $ui->expired_status();
-  if (($expired == POSIX_WARN_ABOUT_EXPIRATION) && !session::is_set('POSIX_WARN_ABOUT_EXPIRATION__DONE')) {
-    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $expired, 'This user account ('.$ui->uid.') is about to expire');
+$smarty->assign('hideMenus', FALSE);
+/* check user expiration status */
+$expired = $ui->expired_status();
+if (($expired == POSIX_WARN_ABOUT_EXPIRATION) && !session::is_set('POSIX_WARN_ABOUT_EXPIRATION__DONE')) {
+  logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $expired, 'This user account ('.$ui->uid.') is about to expire');
 
-    // The users password is about to xpire soon, display a warning message.
-    logging::log('security', 'fusiondirectory', '', [], 'password for user "'.$ui->uid.'" is about to expire');
-    msg_dialog::display(_('Password change'), _('Your password is about to expire, please change your password!'), INFO_DIALOG);
-    session::set('POSIX_WARN_ABOUT_EXPIRATION__DONE', TRUE);
-  } elseif ($expired == POSIX_FORCE_PASSWORD_CHANGE) {
-    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $expired, "This user account expired");
+  // The users password is about to expire soon, display a warning message.
+  logging::log('security', 'fusiondirectory', '', [], 'password for user "'.$ui->uid.'" is about to expire');
+  msg_dialog::display(_('Password change'), htmlescape(_('Your password is about to expire, please change your password!')), INFO_DIALOG);
+  session::set('POSIX_WARN_ABOUT_EXPIRATION__DONE', TRUE);
+} elseif ($expired == POSIX_FORCE_PASSWORD_CHANGE) {
+  logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $expired, 'This user account expired');
 
-    // The password is expired, we are now going to enforce a new one from the user.
+  // The password is expired, we are now going to enforce a new one from the user.
 
-    // Hide the FusionDirectory menus to avoid leaving the enforced password change dialog.
-    $smarty->assign("hideMenus", TRUE);
-    $plug = (isset($_GET['plug'])) ? $_GET['plug'] : NULL;
+  // Hide the FusionDirectory menus to avoid leaving the enforced password change dialog.
+  $smarty->assign('hideMenus', TRUE);
+  $plug = (isset($_GET['plug'])) ? $_GET['plug'] : NULL;
 
-    // Search for the 'user' class and set its id as active plug.
-    foreach ($plist->dirlist as $key => $value) {
-      if ($value == 'user') {
-        if (!isset($_GET['plug']) || ($_GET['plug'] != $key)) {
-          $_GET['plug'] = $key;
-          msg_dialog::display(_('Warning'), _('Your password has expired, please set a new one.'), WARNING_DIALOG);
-        }
-        break;
+  // Search for the 'user' class and set its id as active plug.
+  foreach ($plist->dirlist as $key => $value) {
+    if ($value == 'user') {
+      if (!isset($_GET['plug']) || ($_GET['plug'] != $key)) {
+        $_GET['plug'] = $key;
+        $warning = new FusionDirectoryWarning(htmlescape(_('Your password has expired, please set a new one.')));
+        $warning->display();
       }
+      break;
     }
   }
 }
 
 if (isset($_GET['plug']) && $plist->plugin_access_allowed($_GET['plug'])) {
-  $plug       = validate($_GET['plug']);
-  $plugin_dir = $plist->get_path($plug);
-  session::set('plugin_dir', $plugin_dir);
-  if ($plugin_dir == '') {
-    logging::log('security', 'fusiondirectory', '', [], "main.php called with invalid plug parameter \"$plug\"");
-    header('Location: index.php?signout=1&message=invalidparameter&plug='.$plug);
-    exit;
-  }
+  $plugin_index = validate($_GET['plug']);
 } else {
   /* set to welcome page as default plugin */
-  session::set('plugin_dir', 'welcome');
-  $plugin_dir = "$BASE_DIR/plugins/generic/welcome";
+  $plugin_index = 'welcome';
 }
+session::set('plugin_index', $plugin_index);
 
 /* Handle plugin locks.
     - Remove the plugin from session if we switched to another. (cleanup)
@@ -184,14 +164,9 @@ if (isset($_GET['plug']) && $plist->plugin_access_allowed($_GET['plug'])) {
 $cleanup      = FALSE;
 $remove_lock  = FALSE;
 
-/* Check if we have changed the selected plugin
-*/
-if ($old_plugin_dir != $plugin_dir && $old_plugin_dir != "") {
-  if (is_file("$old_plugin_dir/main.inc")) {
-    $cleanup = $remove_lock = TRUE;
-    require ("$old_plugin_dir/main.inc");
-    $cleanup = $remove_lock = FALSE;
-  }
+/* Check if we have changed the selected plugin */
+if (!empty($old_plugin_index) && ($old_plugin_index != $plugin_index)) {
+  pluglist::runMainInc($old_plugin_index, TRUE);
 } elseif ((isset($_GET['reset']) && $_GET['reset'] == 1) || isset($_POST['delete_lock'])) {
   /* Reset was posted, remove all created locks for the current plugin */
   $remove_lock = TRUE;
@@ -201,36 +176,9 @@ if ($old_plugin_dir != $plugin_dir && $old_plugin_dir != "") {
 $ui->getSizeLimitHandler()->update();
 
 /* Check for memory */
-if (function_exists("memory_get_usage")) {
-  if (memory_get_usage() > (to_byte(ini_get('memory_limit')) - 2048000 )) {
-    msg_dialog::display(_("Configuration error"), _("Running out of memory!"), WARNING_DIALOG);
-  }
-}
-
-/* Redirect on back event */
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-  /* Look for button events that match /^back[0-9]+$/,
-     extract the number and step the correct plugin. */
-  foreach ($_POST as $key => $value) {
-    if (preg_match("/^back[0-9]+$/", $key)) {
-      $back = substr($key, 4);
-      header("Location: main.php?plug=$back");
-      exit;
-    }
-  }
-}
-
-/* Redirect on password back event */
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['password_back'])) {
-  header("Location: main.php");
-  exit;
-}
-
-/* Load department list when plugin has changed. That is some kind of
-   compromise between speed and beeing up to date */
-if (isset($_GET['reset'])) {
-  set_object_info();
+if (memory_get_usage() > (to_byte(ini_get('memory_limit')) - 2048000)) {
+  $warning = new FusionDirectoryWarning(htmlescape(_('Running out of memory!')));
+  $warning->display();
 }
 
 /* show web frontend */
@@ -238,9 +186,8 @@ $smarty->assign("date", date("l, dS F Y H:i:s O"));
 $lang = session::get('lang');
 $smarty->assign('lang',  preg_replace('/_.*$/', '', $lang));
 $smarty->assign('rtl',   Language::isRTL($lang));
-$smarty->assign('must',  '<span class="must">*</span>');
-if (isset($plug)) {
-  $plug = "?plug=$plug";
+if (isset($plugin_index)) {
+  $plug = "?plug=$plugin_index";
 } else {
   $plug = "";
 }
@@ -256,40 +203,32 @@ $smarty->assign("plug", "$plug");
 $smarty->assign("usePrototype", "false");
 
 /* React on clicks */
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  if (isset($_POST['delete_lock']) || isset($_POST['open_readonly'])) {
+if (($_SERVER['REQUEST_METHOD'] == 'POST')
+  && (isset($_POST['delete_lock']) || isset($_POST['open_readonly']))) {
 
-    /* Set old Post data */
-    if (session::is_set('LOCK_VARS_USED_GET')) {
-      foreach (session::get('LOCK_VARS_USED_GET') as $name => $value) {
-        $_GET[$name]  = $value;
-      }
+  /* Set old Post data */
+  if (session::is_set('LOCK_VARS_USED_GET')) {
+    foreach (session::get('LOCK_VARS_USED_GET') as $name => $value) {
+      $_GET[$name]  = $value;
     }
-    if (session::is_set('LOCK_VARS_USED_POST')) {
-      foreach (session::get('LOCK_VARS_USED_POST') as $name => $value) {
-        $_POST[$name] = $value;
-      }
+  }
+  if (session::is_set('LOCK_VARS_USED_POST')) {
+    foreach (session::get('LOCK_VARS_USED_POST') as $name => $value) {
+      $_POST[$name] = $value;
     }
-    if (session::is_set('LOCK_VARS_USED_REQUEST')) {
-      foreach (session::get('LOCK_VARS_USED_REQUEST') as $name => $value) {
-        $_REQUEST[$name] = $value;
-      }
+  }
+  if (session::is_set('LOCK_VARS_USED_REQUEST')) {
+    foreach (session::get('LOCK_VARS_USED_REQUEST') as $name => $value) {
+      $_REQUEST[$name] = $value;
     }
   }
 }
 
 /* Load plugin */
-if (is_file("$plugin_dir/main.inc")) {
-  $display = "";
-  require ("$plugin_dir/main.inc");
-} else {
-  msg_dialog::display(
-      _("Plugin"),
-      sprintf(_("Fatal error: Cannot find any plugin definitions for plugin '%s' ('%s' is not a file)!"), $plug, "$plugin_dir/main.inc"),
-      FATAL_ERROR_DIALOG);
-  exit();
-}
-
+pluglist::runMainInc($plugin_index);
+/**
+ * @var string $display Filled by pluglist::runMainInc
+ */
 
 /* Print_out last ErrorMessage repeated string. */
 $smarty->assign("msg_dialogs", msg_dialog::get_dialogs());
@@ -297,35 +236,20 @@ $smarty->assign("contents", $display);
 $smarty->assign("sessionLifetime", $config->get_cfg_value("sessionLifetime", 60 * 60 * 2));
 
 /* If there's some post, take a look if everything is there... */
-if (isset($_POST) && count($_POST)) {
-  if (!isset($_POST['php_c_check'])) {
-    msg_dialog::display(
-            _("Configuration Error"),
-            sprintf(_("Fatal error: not all POST variables have been transfered by PHP - please inform your administrator!")),
-            FATAL_ERROR_DIALOG);
-    exit();
-  }
+if (count($_POST) && !isset($_POST['php_c_check'])) {
+  throw new FatalError(
+    htmlescape(_('Fatal error: not all POST variables have been transfered by PHP - please inform your administrator!'))
+  );
 }
 
 /* Assign errors to smarty */
-if (session::is_set('errors')) {
-  $smarty->assign("errors", session::get('errors'));
-}
 if ($error_collector != "") {
   $smarty->assign("php_errors", preg_replace("/%BUGBODY%/", $error_collector_mailto, $error_collector)."</div>");
 } else {
   $smarty->assign("php_errors", "");
 }
 
-/* Set focus to the error button if we've an error message */
-$focus = "";
-if (session::is_set('errors') && session::get('errors') != "") {
-  $focus = '<script type="text/javascript">';
-  $focus .= 'document.forms[0].error_accept.focus();';
-  $focus .= '</script>';
-}
-
-$focus = '<script type="text/javascript">';
+$focus = '<script>';
 $focus .= 'next_msg_dialog();';
 $focus .= '</script>';
 $smarty->assign('focus',      $focus);
@@ -346,4 +270,4 @@ echo $display;
 /* Save plist and config */
 session::set('plist', $plist);
 session::set('config', $config);
-session::set('errorsAlreadyPosted', []);
+reset_errors();

@@ -1,7 +1,8 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2011-2018  FusionDirectory
+  Copyright (C) 2003  Cajus Pollmeier
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -26,10 +27,8 @@ class deptabs extends simpleTabs
 
     /* Update department cache */
     global $config;
-    $config->get_departments();
-    $config->make_idepartments();
+    $config->resetDepartmentCache();
 
     return $errors;
   }
 }
-?>

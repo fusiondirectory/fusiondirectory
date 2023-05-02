@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2013-2018  FusionDirectory
+  Copyright (C) 2013-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -20,18 +20,19 @@
 
 class country extends department
 {
-  static $namingAttr  = "c";
-  var $structuralOC   = ["country"];
+  static protected $namingAttr  = 'c';
+  protected $structuralOC       = ['country'];
 
-  static function plInfo ()
+  static function plInfo (): array
   {
     return [
       'plShortName'   => _('Country'),
       'plDescription' => _('Country'),
+      'plObjectClass' => ['gosaDepartment'],
+      'plFilter'      => '(&(objectClass=country)(objectClass=gosaDepartment))',
       'plObjectType'  => ['country' => [
         'aclCategory' => 'department',
         'name'        => _('Country'),
-        'filter'      => '(&(objectClass=country)(objectClass=gosaDepartment))',
         'ou'          => '',
         'icon'        => 'geticon.php?context=types&icon=country&size=16',
         'tabClass'    => 'deptabs',
@@ -40,12 +41,13 @@ class country extends department
       'plForeignKeys'  => [
         'manager' => ['user','dn','manager=%oldvalue%','*']
       ],
+      'plSearchAttrs' => ['description'],
 
       'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())
     ];
   }
 
-  static function getAttributesInfo ()
+  static function getAttributesInfo (): array
   {
     $attributesInfo = parent::getDepartmentAttributesInfo(_('country'));
     unset($attributesInfo['location']);
@@ -61,4 +63,3 @@ class country extends department
     return $attributesInfo;
   }
 }
-?>

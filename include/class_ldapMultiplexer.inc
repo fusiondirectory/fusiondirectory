@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2018  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -25,10 +25,24 @@
  * Source code for class ldapMultiplexer
  */
 
- /*!
-  * \brief This class contains all function to manage ldap multiplexer
+ /**
+  * This class contains all function to manage ldap multiplexer
+  * @method void set_size_limit ($size)
+  * @method void cd ($dir)
+  * @method boolean|resource modify_batch (array $changes)
+  * @method string get_error ($details = TRUE)
+  * @method array get_objectclasses ($force_reload = FALSE)
+  * @method string|array fetch (bool $cleanUpNumericIndices = FALSE)
+  * @method string|resource search ($filter, $attrs = [], $scope = 'subtree', array $controls = NULL)
+  * @method string|resource cat ($dn, $attrs = ["*"], $filter = "(objectclass=*)")
+  * @method int count ()
+  * @method bool success ()
+  * @method true|0|"" rmdir_recursive (string $deletedn)
+  * @method void create_missing_trees (string $target, bool $ignoreReferralBases = TRUE)
+  * @method mixed add ($attrs)
   */
-class ldapMultiplexer {
+class ldapMultiplexer
+{
 
   /* Internal stuff */
   protected $object;
@@ -60,7 +74,7 @@ class ldapMultiplexer {
   public function __call ($methodName, $parameters)
   {
     /* Add resource pointer if the mentioned methods are used */
-    if (in_array($methodName, ['search','ls','cat','fetch','clearResult','resetResult','count','getDN','rmdir_recursive','create_missing_trees','import_single_entry','import_complete_ldif'])) {
+    if (in_array($methodName, ['search','ls','cat','fetch','clearResult','resetResult','count','getDN','rmdir_recursive','create_missing_trees','import_single_entry','import_complete_ldif','parse_result'])) {
       array_unshift($parameters, $this->sr);
     }
 
@@ -76,7 +90,4 @@ class ldapMultiplexer {
   {
     return $this->object->$memberName;
   }
-
 }
-
-?>

@@ -1,35 +1,142 @@
+div.msgbackground {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  z-index: 100;
+  overflow: hidden;
+  background-image: url(../../images/opacity_black.png);
+}
+div.msgtrace {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  overflow-y: auto;
+}
 div.msgtitle {
-width: auto;
-background-color: #f0f0f0;
-border: solid 1px #bbbbbb;
-margin-bottom: 7px;
+  width: auto;
+  text-align: center;
+  border-bottom: 1px solid #c0c2c3;
+  padding: 8px;
+  background-color: #eff0f1;
+  min-height: 30px;
 }
-div.msgtitle h2 {
-margin: 10px;
+div.msgtitle > img {
+  float: left;
+  height: 30px;
 }
-
+div.msgtitle > p {
+  margin: 0;
+  padding: 0;
+  font-size: 18px;
+}
 div.msgdialog {
-width: 60%;
-z-index: 150;
-position: relative;
-display: none;
-margin: auto;
-top: 200px;
+  width: 60%;
+  z-index: 150;
+  position: relative;
+  display: none;
+  margin: auto;
+  padding: 0;
+  top: 200px;
+  border: 1px solid #c0c2c3;
+  background-color: #f3f4f4;
+}
+div.msgdialog div.msgcontent {
+  width: 100%;
+  z-index: 250;
+}
+div.msgdialog div.msgcontent p {
+  font-size: 14px;
+  padding: 10px;
+}
+div.msgdialog .description {
+  font-style: italic;
 }
 @media (max-height: 600px) {
   div.msgdialog {
     top: auto;
   }
 }
-
-div.msgdialog .description {
-font-style: italic;
-}
-
-/* Small screens (i.e. phones) */
 @media (max-width: 640px) {
   div.msgdialog {
+    /* Small screens (i.e. phones) */
     top: auto;
     width: auto;
   }
+}
+div.msgfooter {
+  width: auto;
+  padding: 1%;
+}
+@media (max-width: 640px) {
+  div.msgfooter {
+    padding: 5px;
+    text-align: center !important;
+  }
+  div.msgfooter.plugbottom > input[type=submit] {
+    width: 100% !important;
+  }
+}
+.error,
+.notice,
+.success,
+.info {
+  border: 2px solid #c0c2c3;
+  margin: .2em;
+  padding: .3em;
+}
+.error {
+  background: #fbe3e4;
+  color: #8a1f11;
+  border-color: #fbc2c4;
+}
+.error h1,
+.error h2,
+.error h3,
+.error h4,
+.error h5,
+.error h6 {
+  color: #8a3700;
+}
+.notice {
+  background: #fff6bf;
+  color: #514721;
+  border-color: #ffd324;
+}
+.notice h1,
+.notice h2,
+.notice h3,
+.notice h4,
+.notice h5,
+.notice h6 {
+  color: #412701;
+}
+.success {
+  background: #f3f4f4;
+  color: #264409;
+  border-color: #f3f4f4;
+}
+.success h1,
+.success h2,
+.success h3,
+.success h4,
+.success h5,
+.success h6 {
+  color: #378a00;
+}
+.info {
+  background: #d5edf8;
+  color: #205791;
+  border-color: #92cae4;
+}
+.info h1,
+.info h2,
+.info h3,
+.info h4,
+.info h5,
+.info h6 {
+  color: #31363b;
 }

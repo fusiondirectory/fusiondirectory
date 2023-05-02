@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2013-2018  FusionDirectory
+  Copyright (C) 2013-2020  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@
 
 session_cache_limiter("private");
 session::start();
-session::set('errorsAlreadyPosted', []);
+reset_errors();
 
 $theme = '';
 if (session::is_set('config')) {
@@ -39,7 +39,11 @@ if (!isset($_GET['context']) || !isset($_GET['icon']) || !isset($_GET['size'])) 
   trigger_error('Missing information in query string: '.$_SERVER['QUERY_STRING']);
   exit;
 }
-$src    = IconTheme::findThemeIcon($theme, $_GET['context'], $_GET['icon'], $_GET['size']);
+$src  = IconTheme::findThemeIcon($theme, $_GET['context'], $_GET['icon'], $_GET['size']);
+if ($src === NULL) {
+  trigger_error('Could not find icon for '.$_SERVER['QUERY_STRING']);
+  exit;
+}
 
 header("Content-Type: image/png");
 if (isset($_GET['disabled']) && $_GET['disabled']) {
@@ -50,4 +54,3 @@ if (isset($_GET['disabled']) && $_GET['disabled']) {
 } else {
   readfile($src);
 }
-?>

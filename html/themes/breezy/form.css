@@ -1,31 +1,46 @@
-input, input:focus, select, textarea, textarea:focus {
-font-size: 12px;
+input,
+input:focus,
+select,
+textarea,
+textarea:focus {
+  font-size: 12px;
 }
-
-input[type=text], input[type=password], select {
-padding: 2px;
+input[type=color],
+input[type=date],
+input[type=datetime-local],
+input[type=email],
+input[type=number],
+input[type=password],
+input[type=search],
+input[type=tel],
+input[type=text],
+input[type=time],
+input[type=url],
+select {
+  padding: 2px;
 }
-
 input[type=number] {
-width: 80px;
+  width: 80px;
 }
-
-input[disabled] {
-color: #888;
-background-color: #ddd;
-}
-
-textarea[disabled], select[disabled] {
-color: #31363b;
-background-color: #ddd;
-}
-
 /* On small screens */
 @media (max-width: 640px) {
-  input[type=text], input[type=password], input[type=file], textarea, select {
-  max-width: 100%;
+  input[type=color],
+  input[type=date],
+  input[type=datetime-local],
+  input[type=email],
+  input[type=number],
+  input[type=password],
+  input[type=search],
+  input[type=tel],
+  input[type=text],
+  input[type=time],
+  input[type=url],
+  input[type=file],
+  textarea,
+  select {
+    max-width: 100%;
   }
   input.base-selector {
-  max-width: 100px;
+    max-width: 100px;
   }
 }

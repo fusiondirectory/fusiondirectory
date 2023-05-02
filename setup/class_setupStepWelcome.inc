@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2007  Fabian Hickert
-  Copyright (C) 2011-2018  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ class setupStepWelcome extends setupStep
 {
   var $header_image = 'geticon.php?context=applications&icon=config-welcome&size=48';
 
-  static function getAttributesInfo ()
+  static function getAttributesInfo (): array
   {
     return [
       'welcome' => [
@@ -52,19 +52,11 @@ class setupStepWelcome extends setupStep
     $this->s_description  = _('The welcome message');
   }
 
-  function execute ()
+  public function update (): bool
   {
-    $smarty = get_smarty();
-    $smarty->assign('auth_id', session_id());
+    parent::update();
 
-    $smarty->assign('path', $this->authPath);
-    return parent::execute();
-  }
-
-  function save_object ()
-  {
-    parent::save_object();
-    $id = "";
+    $id = '';
 
     /* Get auth ID from file */
     if (file_exists($this->authPath) && is_readable($this->authPath)) {
@@ -78,7 +70,16 @@ class setupStepWelcome extends setupStep
     } else {
       $this->is_completed = FALSE;
     }
+
+    return TRUE;
+  }
+
+  public function render (): string
+  {
+    $smarty = get_smarty();
+    $smarty->assign('auth_id', session_id());
+
+    $smarty->assign('path', $this->authPath);
+    return parent::render();
   }
 }
-
-?>

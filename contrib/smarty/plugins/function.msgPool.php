@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2018  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
-function smarty_function_msgPool ($params, &$smarty)
+function smarty_function_msgPool ($params)
 {
   if (class_available('msgPool') && isset($params['type'])) {
     $parameter = [];
@@ -36,4 +36,3 @@ function smarty_function_msgPool ($params, &$smarty)
     trigger_error('Unknown class msgPool.');
   }
 }
-?>

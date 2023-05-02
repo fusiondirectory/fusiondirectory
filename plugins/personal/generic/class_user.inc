@@ -18,229 +18,6 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/* Handle a password and its hash method */
-class UserPasswordAttribute extends CompositeAttribute
-{
-  protected $needPassword;
-  protected $previousMethod;
-
-  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = "", $acl = "")
-  {
-    $temp = passwordMethod::get_available_methods();
-
-    /* Create password methods array */
-    $pwd_methods = [];
-    $this->needPassword = [];
-    foreach ($temp['name'] as $id => $name) {
-      $this->needPassword[$name] = $temp[$id]['object']->need_password();
-      $pwd_methods[$name] = $name;
-      if (!empty($temp[$id]['desc'])) {
-        $pwd_methods[$name] .= " (".$temp[$id]['desc'].")";
-      }
-    }
-
-    parent::__construct(
-      $description, $ldapName,
-      [
-        new SelectAttribute(
-          _('Password method'), _('Password hash method to use'),
-          $ldapName.'_pwstorage', TRUE,
-          array_keys($pwd_methods), '', array_values($pwd_methods)
-        ),
-        new PasswordAttribute(
-          _('Password'), _('Password (Leave empty if you do not wish to change it)'),
-          $ldapName.'_password', $required
-        ),
-        new PasswordAttribute(
-          _('Password again'), _('Same password as above, to avoid errors'),
-          $ldapName.'_password2', $required
-        ),
-        new HiddenAttribute(
-          $ldapName.'_hash'
-        ),
-        new HiddenAttribute(
-          $ldapName.'_locked', FALSE,
-          FALSE
-        )
-      ],
-      '', '', $acl, $label
-    );
-    $this->attributes[0]->setSubmitForm(TRUE);
-  }
-
-  public function setParent (&$plugin)
-  {
-    global $config;
-    parent::setParent($plugin);
-    if (is_object($this->plugin)) {
-      $hash = $config->get_cfg_value('passwordDefaultHash', 'ssha');
-      $this->attributes[0]->setDefaultValue($hash);
-      if ($config->get_cfg_value('forcePasswordDefaultHash', 'FALSE') == 'TRUE') {
-        $this->attributes[0]->setValue($hash);
-        $this->attributes[0]->setDisabled(TRUE);
-      }
-      $this->checkIfMethodNeedsPassword();
-    }
-  }
-
-  /* We need to handle method select disabling manually */
-  function renderAttribute (&$attributes, $readOnly)
-  {
-    global $config;
-    if ($this->visible) {
-      if ($this->linearRendering) {
-        parent::renderAttribute($attributes, $readOnly);
-      } else {
-        foreach ($this->attributes as $key => &$attribute) {
-          if (is_object($this->plugin) && $this->plugin->is_template && ($key == 2)) {
-            /* Do not display confirmation field in template mode */
-            continue;
-          }
-          if (($key == 0) && ($config->get_cfg_value('forcePasswordDefaultHash', 'FALSE') == 'TRUE')) {
-            $attribute->setDisabled(TRUE);
-          } else {
-            $attribute->setDisabled($this->disabled);
-          }
-          $attribute->renderAttribute($attributes, $readOnly);
-        }
-        unset($attribute);
-      }
-    }
-  }
-
-  /*! \brief Loads this attribute value from the attrs array
-   */
-  protected function loadAttrValue ($attrs)
-  {
-    if (isset($attrs[$this->getLdapName()])) {
-      $this->setValue($this->inputValue($attrs[$this->getLdapName()][0]));
-      $this->setRequired(FALSE);
-      $this->attributes[1]->setRequired(FALSE);
-      $this->attributes[2]->setRequired(FALSE);
-    } else {
-      $this->setRequired(TRUE);
-      $this->attributes[0]->resetToDefault();
-      $this->attributes[1]->setRequired(TRUE);
-      $this->attributes[2]->setRequired(TRUE);
-      $this->checkIfMethodNeedsPassword();
-    }
-  }
-
-  function setValue ($value)
-  {
-    reset($value);
-    $key = key($value);
-    if ($this->attributes[0]->isDisabled() || ($value[$key] == '')) {
-      $value[$key] = $this->attributes[0]->getValue();
-    }
-    parent::setValue($value);
-    $this->checkIfMethodNeedsPassword();
-  }
-
-  function applyPostValue ()
-  {
-    parent::applyPostValue();
-    $this->checkIfMethodNeedsPassword();
-  }
-
-  function checkIfMethodNeedsPassword ()
-  {
-    $method = $this->attributes[0]->getValue();
-    if ($method != $this->previousMethod) {
-      if ($this->needPassword[$method]) {
-        $this->attributes[1]->setVisible(TRUE);
-        $this->attributes[2]->setVisible(TRUE);
-      } else {
-        $this->attributes[1]->setVisible(FALSE);
-        $this->attributes[1]->setValue('');
-        $this->attributes[2]->setVisible(FALSE);
-        $this->attributes[2]->setValue('');
-      }
-    }
-    $this->previousMethod = $method;
-  }
-
-  function readValues ($value)
-  {
-    global $config;
-    $pw_storage = $config->get_cfg_value('passwordDefaultHash', 'ssha');
-    $locked     = FALSE;
-    $password   = '';
-    if ($this->plugin->is_template) {
-      list($value, $password) = explode('|', $value, 2);
-    }
-    if (preg_match('/^{[^}]+}/', $value)) {
-      $tmp = passwordMethod::get_method($value);
-      if (is_object($tmp)) {
-        $pw_storage = $tmp->get_hash();
-        $locked     = $tmp->is_locked($this->plugin->dn);
-        if ($this->plugin->is_template) {
-          $value = $tmp->generate_hash($password);
-        }
-      }
-    } else {
-      if ($value != '') {
-        $pw_storage = 'clear';
-      }
-    }
-    return [$pw_storage, $password, $password, $value, $locked];
-  }
-
-  function writeValues ($values)
-  {
-    if ($this->needPassword[$values[0]] && ($values[1] == '')) {
-      if ($this->plugin->is_template) {
-        return '';
-      } else {
-        return $values[3];
-      }
-    }
-    $temp = passwordMethod::get_available_methods();
-    if (!isset($temp[$values[0]])) {
-      trigger_error('Unknown password method '.$values[0]);
-      return $values[3];
-    }
-    $test = new $temp[$values[0]]($this->plugin->dn, $this->plugin);
-    $test->set_hash($values[0]);
-    if ($this->plugin->is_template) {
-      return $test->generate_hash($values[1]).'|'.$values[1];
-    } else {
-      return $test->generate_hash($values[1]);
-    }
-  }
-
-  function check ()
-  {
-    $method = $this->attributes[0]->getValue();
-    if (!$this->needPassword[$method]) {
-      $this->attributes[1]->setRequired(FALSE);
-      $this->attributes[2]->setRequired(FALSE);
-    }
-    $error = parent::check();
-    if (!empty($error)) {
-      return $error;
-    }
-    if (($this->attributes[1]->getValue() != '') || ($this->attributes[2]->getValue() != '')) {
-      return user::reportPasswordProblems($this->plugin->dn, $this->attributes[1]->getValue(), $this->attributes[2]->getValue());
-    }
-  }
-
-  function getMethod ()
-  {
-    return $this->attributes[0]->getValue();
-  }
-
-  function getClear ()
-  {
-    return $this->attributes[1]->getValue();
-  }
-
-  function isLocked ()
-  {
-    return $this->attributes[4]->getValue();
-  }
-}
-
 class PostalAddressAttribute extends TextAreaAttribute
 {
   function inputValue ($ldapValue)
@@ -268,11 +45,9 @@ class PostalAddressAttribute extends TextAreaAttribute
 
 class user extends simplePlugin
 {
-  var $objectclasses  = ['inetOrgPerson','organizationalPerson','person'];
-
   private $was_locked;
 
-  static function plInfo ()
+  static function plInfo (): array
   {
     return [
       'plShortName'   => _('User'),
@@ -280,10 +55,11 @@ class user extends simplePlugin
       'plIcon'        => 'geticon.php?context=applications&icon=user-info&size=48',
       'plSmallIcon'   => 'geticon.php?context=applications&icon=user-info&size=16',
       'plSelfModify'  => TRUE,
+      'plObjectClass' => ['inetOrgPerson','organizationalPerson','person'],
+      'plFilter'      => '(objectClass=inetOrgPerson)',
       'plObjectType'  => ['user' => [
         'name'        => _('User'),
         'description' => _('User account'),
-        'filter'      => '(objectClass=inetOrgPerson)',
         'mainAttr'    => 'uid',
         'nameAttr'    => 'cn',
         'icon'        => 'geticon.php?context=types&icon=user&size=16',
@@ -292,6 +68,7 @@ class user extends simplePlugin
       'plForeignKeys'  => [
         'manager' => ['user','dn','manager=%oldvalue%','*']
       ],
+      'plSearchAttrs' => ['uid','description'],
 
       'plProvidedAcls' => array_merge(
         parent::generatePlProvidedAcls(static::getAttributesInfo()),
@@ -300,8 +77,7 @@ class user extends simplePlugin
     ];
   }
 
-  // The main function : information about attributes
-  static function getAttributesInfo ()
+  static function getAttributesInfo (): array
   {
     global $config;
     $languages = Language::getList(TRUE);
@@ -316,12 +92,17 @@ class user extends simplePlugin
           new StringAttribute(
             _('Last name'), _('Last name of this user'),
             'sn', TRUE,
-            '', '', '/[^,+"?()=<>;\\\\]/'
+            '', '', '/^[^,+"?()=<>;\\\\]+$/'
           ),
           new StringAttribute(
             _('First name'), _('First name of this user'),
-            'givenName', TRUE,
-            '', '', '/[^,+"?()=<>;\\\\]/'
+            'givenName', ($config->get_cfg_value('GivenNameRequired', 'TRUE') === 'TRUE'),
+            '', '', '/^[^,+"?()=<>;\\\\]+$/'
+          ),
+          new StringAttribute(
+            _('Initials'), _('The initials of some or all of the individual\'s names, but not the surname(s)'),
+            'initials', FALSE,
+            '', '', '/^[^,+"?()=<>;\\\\]+$/'
           ),
           new TextAreaAttribute(
             _('Description'), _('Short description of the user'),
@@ -330,7 +111,7 @@ class user extends simplePlugin
           new ImageAttribute(
             _('Picture'), _('The avatar for this user'),
             'jpegPhoto', FALSE,
-            150, 200, 'jpeg'
+            $config->get_cfg_value('MaxAvatarSize', 200), $config->get_cfg_value('MaxAvatarSize', 200), 'jpeg'
           ),
         ]
       ],
@@ -480,6 +261,10 @@ class user extends simplePlugin
   {
     parent::__construct($dn, $object, $parent, $mainTab);
 
+    if ($this->is_template && !$this->initially_was_account) {
+      $this->attributesAccess['userPassword']->setValue('%askme%');
+    }
+
     $this->attributesAccess['uid']->setUnique('whole');
     $this->attributesAccess['uid']->setAutocomplete(FALSE);
     $this->attributesAccess['uid']->setDisabled($this->initially_was_account && !$this->is_template);
@@ -489,12 +274,6 @@ class user extends simplePlugin
     $this->attributesAccess['jpegPhoto']->setPlaceholder(fread($fd, filesize($filename)));
 
     $this->was_locked = $this->attributesAccess['userPassword']->isLocked();
-  }
-
-  function is_this_account ($attrs)
-  {
-    /* Only inetOrgPerson is needed, it has the two others as SUP classes */
-    return (isset($attrs['objectClass']) && in_array_ics('inetOrgPerson', $attrs['objectClass']));
   }
 
   function resetCopyInfos ()
@@ -534,12 +313,12 @@ class user extends simplePlugin
     return templateHandling::parseString($pattern, $attrs);
   }
 
-  function compute_dn ()
+  function compute_dn (): string
   {
     global $config;
+
     if ($this->is_template) {
-      $dn = 'cn='.ldap_escape_dn($this->_template_cn).',ou=templates,'.get_ou('userRDN').$this->base;
-      return $dn;
+      return 'cn='.ldap_escape_dn($this->_template_cn).',ou=templates,'.get_ou('userRDN').$this->base;
     }
 
     $this->update_cn();
@@ -548,14 +327,14 @@ class user extends simplePlugin
     return $this->create_unique_dn($attribute, get_ou('userRDN').$this->base);
   }
 
-  function execute ()
+  public function render (): string
   {
     $smarty = get_smarty();
     $smarty->append('css_files', 'plugins/users/style/user_tab.css');
-    return parent::execute();
+    return parent::render();
   }
 
-  protected function shouldSave ()
+  protected function shouldSave (): bool
   {
     if ($this->attributesAccess['userPassword']->getClear() != '') {
       /* There may be hooks using this even if LDAP object is not modified */
@@ -564,7 +343,7 @@ class user extends simplePlugin
     return parent::shouldSave();
   }
 
-  protected function prepare_save ()
+  protected function prepare_save (): array
   {
     global $config;
     if ($config->get_cfg_value('SplitPostalAddress') == 'TRUE') {
@@ -577,7 +356,7 @@ class user extends simplePlugin
     return parent::prepare_save();
   }
 
-  function ldap_save ()
+  function ldap_save (): array
   {
     $errors = parent::ldap_save();
 
@@ -596,7 +375,7 @@ class user extends simplePlugin
 
   function post_save ()
   {
-    global $ui;
+    global $ui, $config;
 
     /* Update current locale settings, if we have edited ourselves */
     if (isset($this->attrs['preferredLanguage']) && ($this->dn == $ui->dn)) {
@@ -604,40 +383,71 @@ class user extends simplePlugin
       session::set('ui', $ui);
       session::set('Last_init_lang', 'update');
     }
-
+    // Verification is snapshot is enabled and automatic.
+    // Note : string values are stored in that array.
+    if (isset($config->current['ENABLEAUTOMATICSNAPSHOTS']) && isset($config->current['ENABLESNAPSHOTS'])) {
+      if (strtolower($config->current['ENABLEAUTOMATICSNAPSHOTS']) === 'true' && strtolower($config->current['ENABLESNAPSHOTS']) === 'true' ) {
+        $this->generateAutomaticSnapshot();
+      }
+    }
     return parent::post_save();
   }
 
-  function adapt_from_template ($attrs, $skip = [])
+  /*
+   * Create the snapshot object in case of automated snapshot.
+   */
+  public function generateAutomaticSnapshot ()
+  {
+    $snapshotHandler = new SnapshotHandler();
+    $snapshotHandler->createSnapshot($this->dn, 'automatic snapshot', 'USER', 'FD');
+    $snapshotHandler->verifySnapshotRetention($this->dn);
+  }
+
+  function adapt_from_template (array $attrs, array $skip = [])
   {
     if ($this->uid != '') {
       $skip[] = 'uid';
     }
-    parent::adapt_from_template($attrs, $skip);
-    if (isset($this->attrs['userPassword']) && !in_array('userPassword', $skip)) {
-      list($hash,$password) = explode('|', $this->attrs['userPassword'][0], 2);
-      if (preg_match('/^{[^}]+}/', $hash)) {
-        $tmp = passwordMethod::get_method($hash);
-        if (is_object($tmp)) {
-          $hash = $tmp->generate_hash($password);
-        }
-      }
-      $this->userPassword = [
-        '',
-        $password,
-        $password,
-        $hash,
-        $this->attributesAccess['userPassword']->isLocked()
-      ];
+
+    parent::adapt_from_template($attrs, array_merge($skip, ['userPassword']));
+
+    if (isset($attrs['userPassword']) && !in_array('userPassword', $skip)) {
+      $this->userPassword = $this->attributesAccess['userPassword']->readUserPasswordValues($attrs['userPassword'][0], TRUE);
     }
   }
 
-  function callHook ($cmd, array $addAttrs = [], &$returnOutput = [], &$returnCode = NULL)
+  function fillHookAttrs (array &$addAttrs)
   {
+    parent::fillHookAttrs($addAttrs);
     $addAttrs['passwordMethod'] = $this->attributesAccess['userPassword']->getMethod();
-    $addAttrs['userLocked']     = $this->attributesAccess['userPassword']->isLocked();
+    $addAttrs['userLocked']     = (int)($this->attributesAccess['userPassword']->isLocked());
     $addAttrs['passwordClear']  = $this->attributesAccess['userPassword']->getClear();
-    return parent::callHook($cmd, $addAttrs, $returnOutput, $returnCode);
+  }
+
+  static function fetchPpolicy (string $userdn): array
+  {
+    global $config;
+
+    $ldap = $config->get_ldap_link();
+    $ldap->cat($userdn, ['pwdPolicySubentry', 'pwdHistory', 'pwdChangedTime', 'userPassword']);
+    $attrs = $ldap->fetch(TRUE);
+    $ppolicydn = '';
+    if (isset($attrs['pwdPolicySubentry'][0])) {
+      $ppolicydn = $attrs['pwdPolicySubentry'][0];
+    } else {
+      $ppolicydn = $config->get_cfg_value('ppolicyDefaultDn', '');
+    }
+
+    $policy = NULL;
+    if (!empty($ppolicydn)) {
+      $ldap->cat($ppolicydn, ['pwdAllowUserChange', 'pwdMinLength', 'pwdMinAge', 'pwdSafeModify', 'pwdExpireWarning', 'pwdMaxAge']);
+      $policy = $ldap->fetch(TRUE);
+      if (!$policy) {
+        throw new NonExistingLdapNodeException($ppolicydn, sprintf(_('Ppolicy "%s" could not be found in LDAP!'), $ppolicydn));
+      }
+    }
+
+    return [$policy, $attrs];
   }
 
   static function reportPasswordProblems ($user, $new_password, $repeated_password, $current_password = NULL)
@@ -655,24 +465,13 @@ class user extends simplePlugin
     $check_length = ($config->get_cfg_value('passwordMinLength') != '');
     $length       = $config->get_cfg_value('passwordMinLength', 0);
 
-    $ldap = $config->get_ldap_link();
-    $ldap->cat($user, ['pwdPolicySubentry', 'pwdHistory', 'pwdChangedTime', 'userPassword']);
-    $attrs = $ldap->fetch();
-    $ppolicydn = '';
-    if (isset($attrs['pwdPolicySubentry'][0])) {
-      $ppolicydn = $attrs['pwdPolicySubentry'][0];
-    } else {
-      $ppolicydn = $config->get_cfg_value('ppolicyDefaultCn', '');
-      if (!empty($ppolicydn)) {
-        $ppolicydn = 'cn='.$ppolicydn.','.get_ou('ppolicyRDN').$config->current['BASE'];
-      }
+    try {
+      list($policy, $attrs) = static::fetchPpolicy($user);
+    } catch (NonExistingLdapNodeException $e) {
+      return $e->getMessage();
     }
-    if (!empty($ppolicydn)) {
-      $ldap->cat($ppolicydn, ['pwdAllowUserChange', 'pwdMinLength', 'pwdMinAge', 'pwdSafeModify']);
-      $policy = $ldap->fetch();
-      if (!$policy) {
-        return sprintf(_('Ppolicy "%s" could not be found in the LDAP!'), $ppolicydn);
-      }
+
+    if (isset($policy)) {
       if (isset($policy['pwdAllowUserChange'][0]) && ($policy['pwdAllowUserChange'][0] == 'FALSE') && ($ui->dn == $user)) {
         return _('You are not allowed to change your own password');
       }
@@ -688,10 +487,8 @@ class user extends simplePlugin
           return sprintf(_('You must wait %d seconds before changing your password again'), $policy['pwdMinAge'][0] - ($now->getTimeStamp() - $date->getTimeStamp()));
         }
       }
-      if (isset($policy['pwdSafeModify'][0]) && ($policy['pwdSafeModify'][0] == 'FALSE')) {
-        if (empty($current_password)) {
-          $current_password = NULL;
-        }
+      if (isset($policy['pwdSafeModify'][0]) && ($policy['pwdSafeModify'][0] == 'FALSE') && empty($current_password)) {
+        $current_password = NULL;
       }
       if (isset($attrs['pwdHistory'][0])) {
         unset($attrs['pwdHistory']['count']);
@@ -731,4 +528,3 @@ class user extends simplePlugin
     return FALSE;
   }
 }
-?>

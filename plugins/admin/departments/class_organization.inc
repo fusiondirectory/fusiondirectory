@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2013-2018  FusionDirectory
+  Copyright (C) 2013-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -20,19 +20,19 @@
 
 class organization extends department
 {
-  static $namingAttr  = "o";
-  var $objectclasses  = ["top", "gosaDepartment"];
-  var $structuralOC   = ["organization"];
+  static protected $namingAttr  = 'o';
+  protected $structuralOC       = ['organization'];
 
-  static function plInfo ()
+  static function plInfo (): array
   {
     return [
       'plShortName'   => _('Organization'),
       'plDescription' => _('Organization'),
+      'plObjectClass' => ['gosaDepartment'],
+      'plFilter'      => '(&(objectClass=organization)(objectClass=gosaDepartment))',
       'plObjectType'  => ['organization' => [
         'aclCategory' => 'department',
         'name'        => _('Organization'),
-        'filter'      => '(&(objectClass=organization)(objectClass=gosaDepartment))',
         'ou'          => '',
         'icon'        => 'geticon.php?context=types&icon=organization&size=16',
         'tabClass'    => 'deptabs',
@@ -41,14 +41,14 @@ class organization extends department
       'plForeignKeys'  => [
         'manager' => ['user','dn','manager=%oldvalue%','*']
       ],
+      'plSearchAttrs' => ['description'],
 
       'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())
     ];
   }
 
-  static function getAttributesInfo ()
+  static function getAttributesInfo (): array
   {
     return parent::getDepartmentAttributesInfo(_('organization'));
   }
 }
-?>

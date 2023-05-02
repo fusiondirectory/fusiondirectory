@@ -18,17 +18,9 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class aclRoleManagement extends simpleManagement
+class aclRoleManagement extends management
 {
-  // Tab definition
-  protected $objectTypes  = ['aclRole'];
-
-  protected $departmentBrowser      = TRUE;
-  protected $departmentRootVisible  = TRUE;
-  protected $baseMode               = TRUE;
-
-  /* Return plugin informations for acl handling  */
-  public static function plInfo ()
+  public static function plInfo (): array
   {
     return [
       'plShortName'   => _('ACL roles'),
@@ -44,4 +36,3 @@ class aclRoleManagement extends simpleManagement
     ];
   }
 }
-?>

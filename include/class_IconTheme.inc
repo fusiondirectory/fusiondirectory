@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2011-2018  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -49,7 +49,7 @@ class IconThemeDir
    * Defaults to 2 if not present. */
   private $Threshold = 2;
 
-  public function __construct ($infos)
+  function __construct ($infos)
   {
     $this->Size     = $infos['Size'];
     $this->MinSize  = $infos['Size'];
@@ -66,26 +66,26 @@ class IconThemeDir
     }
   }
 
-  public function MatchesSize ($size)
+  function MatchesSize ($size)
   {
     switch ($this->Type) {
       case 'Fixed':
         return ($this->Size == $size);
-      default:
       case 'Threshold':
       case 'Scalable':
+      default:
         return (($this->MinSize <= $size) && ($size <= $this->MaxSize));
     }
   }
 
-  public function SizeDistance ($size)
+  function SizeDistance ($size)
   {
     switch ($this->Type) {
       case 'Fixed':
         return abs($this->Size - $size);
-      default:
       case 'Threshold':
       case 'Scalable':
+      default:
         if ($size < $this->MinSize) {
           return $this->MinSize - $size;
         }
@@ -106,7 +106,7 @@ class IconTheme
   private $path;
   private $parent;
 
-  public function __construct ($folder, $default_parent)
+  function __construct ($folder, $default_parent)
   {
     $this->path = $folder;
     $datas  = @parse_ini_file($folder.'/index.theme', TRUE, INI_SCANNER_RAW);
@@ -116,7 +116,9 @@ class IconTheme
     if (isset($datas['Icon Theme']['Directories']) && !empty($datas['Icon Theme']['Directories'])) {
       $dirs   = preg_split('/,/', $datas['Icon Theme']['Directories']);
       foreach ($dirs as $name) {
-        $this->subdirs[strtolower($datas[$name]['Context'])][$name] = new IconThemeDir($datas[$name]);
+        if (isset($datas[$name])) {
+          $this->subdirs[strtolower($datas[$name]['Context'])][$name] = new IconThemeDir($datas[$name]);
+        }
       }
     }
 
@@ -127,16 +129,13 @@ class IconTheme
     }
   }
 
-  public function FindIcon ($context, $icon, $size)
+  function FindIcon ($context, $icon, $size)
   {
     $context = strtolower($context);
-    if (strpos($icon, '/') !== FALSE) {
-      return NULL;
-    }
     return $this->FindIconHelper($context, $icon, $size);
   }
 
-  protected function FindIconHelper ($context, $icon, $size)
+  function FindIconHelper ($context, $icon, $size)
   {
     $filename = $this->LookupIcon($context, $icon, $size);
     if ($filename != NULL) {
@@ -152,17 +151,17 @@ class IconTheme
     }
 
     if ($this->parent !== NULL) {
-      $parent = $this->findTheme($this->parent);
-      if ($parent === NULL) {
-        $parent = $this->findTheme(static::$default_theme);
+      $parentTheme = $this->findTheme($this->parent);
+      if ($parentTheme === NULL) {
+        $parentTheme = $this->findTheme(static::$default_theme);
       }
-      return $parent->FindIconHelper($context, $icon, $size);
+      return $parentTheme->FindIconHelper($context, $icon, $size);
     }
 
     return NULL;
   }
 
-  protected function LookupIcon ($context, $iconname, $size)
+  function LookupIcon ($context, $iconname, $size)
   {
     if (!isset($this->subdirs[$context])) {
       return NULL;
@@ -205,6 +204,7 @@ class IconTheme
 
   /* We store themes in the session. To do otherwise, override these methods. */
   static public $session_var    = 'IconThemes';
+
   static public function loadThemes ($path)
   {
     $themes = [];
@@ -229,6 +229,7 @@ class IconTheme
   static public function findThemeIcon ($theme, $context, $icon, $size)
   {
     if (!isset($_SESSION[static::$session_var])) {
+      trigger_error('Error: no theme found in session');
       die('Error: no theme found in session');
     }
     if (isset($_SESSION[static::$session_var][$theme])) {
@@ -236,11 +237,11 @@ class IconTheme
     }
     return $_SESSION[static::$session_var][static::$default_theme]->FindIcon($context, $icon, $size);
   }
+
   public function findTheme ($theme)
   {
     if (isset($_SESSION[static::$session_var][$theme])) {
-      $ret = &$_SESSION[static::$session_var][$theme];
-      return $ret;
+      return $_SESSION[static::$session_var][$theme];
     }
     return NULL;
   }
@@ -299,6 +300,9 @@ class IconTheme
     ],
     'actions/application-exit'      => [
       ['actions','system-log-out'],
+    ],
+    'actions/archive'      => [
+      ['mimetypes','application-x-archive'],
     ],
     'actions/document-export'       => [
       ['actions','document-send'],
@@ -403,5 +407,3 @@ class IconTheme
     ],
   ];
 }
-
-?>

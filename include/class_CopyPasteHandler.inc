@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2018  FusionDirectory
+  Copyright (C) 2011-2017  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -27,9 +27,9 @@
 /*!
  * \brief This class contains all function to copy and paste
  */
-class CopyPasteHandler
+class CopyPasteHandler implements FusionDirectoryDialog
 {
-  var $current;
+  var $current = FALSE;
 
   /*!
    * \brief This array contains all dns of the currently copied objects
@@ -43,22 +43,19 @@ class CopyPasteHandler
   /*!
    *  \brief The dn of the last edited object
    */
-  var $lastdn = "";
+  protected $lastdn = '';
 
-  var $disallowed_objects = [];
-  var $objects_to_fix     = [];
-  var $clean_objects      = [];
-  var $require_update     = FALSE;
+  protected $disallowed_objects = [];
+  protected $objects_to_fix     = [];
+  protected $clean_objects      = [];
+  protected $require_update     = FALSE;
 
   /*!
    * \brief Create CP handler
    */
   function __construct ()
   {
-    $this->current  = NULL;
-    $this->queue    = [];
   }
-
 
   /*!
    * \brief Entry entry to Copy & Paste queue.
@@ -75,7 +72,7 @@ class CopyPasteHandler
    */
   function add_to_queue ($dn, $action, $type)
   {
-    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'add_to_queue');
+    logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, 'add_to_queue');
 
     if (!in_array($action, ['cut','copy'])) {
       trigger_error(sprintf('Specified action "%s" does not exists for copy & paste.', $action));
@@ -131,22 +128,21 @@ class CopyPasteHandler
    */
   function entries_queued ()
   {
-    return ((count($this->queue) > 0) || ($this->current != FALSE));
+    return ((count($this->queue) > 0) || ($this->current !== FALSE));
   }
 
   /*!
    * \brief Paste one entry from LDAP
    */
-  protected function load_entry_from_ldap ($entry, $base)
+  protected function load_entry_from_ldap ($entry)
   {
-    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $entry['dn'], 'load_entry_from_ldap');
+    logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $entry['dn'], 'load_entry_from_ldap');
     if (!isset($entry['tab_class']) && !isset($entry['type'])) {
       return [];
     }
 
     $entry['object'] = objects::open($entry['dn'], $entry['type']);
 
-    $entry['object']->set_acl_base($base);
     if ($entry['parent'] !== NULL) {
       $entry['object']->parent = $entry['parent'];
     }
@@ -155,16 +151,14 @@ class CopyPasteHandler
       $entry['object']->resetCopyInfos();
     }
 
+    logging::log('copy', $entry['method'], $entry['dn'], [], '');
+
     $entry['object']->resetBase();
 
     return $entry;
   }
 
-  /*!
-   * \brief Displays a dialog which allows the user to fix all dependencies of this object.
-   *      Create unique names, ids, or what ever
-   */
-  function execute ($base)
+  public function update (): bool
   {
     $ui = get_userinfo();
 
@@ -181,7 +175,7 @@ class CopyPasteHandler
 
         /* Update entries on demand */
         if (!isset($entry['object'])) {
-          $entry = $this->load_entry_from_ldap($entry, $base);
+          $entry = $this->load_entry_from_ldap($entry);
           $this->queue[$key] = $entry;
         }
 
@@ -190,9 +184,8 @@ class CopyPasteHandler
         $cut_acl  = $ui->is_cutable($entry['dn'], $entry['aclCategory'], $entry['mainTab']);
 
         /* Check permissions */
-        if (($entry['method'] == 'copy') && !$copy_acl) {
-          $this->disallowed_objects[$key] = $entry;
-        } elseif (($entry['method'] == 'cut') && !$cut_acl) {
+        if ((($entry['method'] == 'copy') && !$copy_acl)
+          || (($entry['method'] == 'cut') && !$cut_acl)) {
           $this->disallowed_objects[$key] = $entry;
         } else {
           $this->clean_objects[$key] = $entry;
@@ -203,14 +196,14 @@ class CopyPasteHandler
         foreach ($this->disallowed_objects as $entry) {
           $dns[] = $entry['dn'];
         }
-        msg_dialog::display(_('Permission'), msgPool::permCreate($dns), INFO_DIALOG);
+        $error = new FusionDirectoryPermissionError(msgPool::permCreate($dns));
+        $error->display();
       }
       $this->require_update = FALSE;
     }
 
     /* Save objects that can be pasted directly */
     if (count($this->clean_objects)) {
-      $this->save_object();
       foreach ($this->clean_objects as $key => $entry) {
         $this->current = $entry;
         $errors = $this->current['object']->save();
@@ -229,9 +222,11 @@ class CopyPasteHandler
 
     /* Save edited entry and force loading new one */
     if (isset($this->current['object'])) {
-      $this->current['object']->save_object();
+      $dialogWasOpened = $this->current['object']->dialogOpened();
+      $this->current['object']->readPost();
+      $this->current['object']->update();
       /* Save current object if edition is finished */
-      if (isset($_POST['edit_finish'])) {
+      if (!$dialogWasOpened && !$this->current['object']->dialogOpened() && isset($_POST['edit_finish'])) {
         $errors = $this->current['object']->save();
 
         if (empty($errors)) {
@@ -242,9 +237,17 @@ class CopyPasteHandler
       }
     }
 
+    return TRUE;
+  }
+
+  /*!
+   * \brief Displays a dialog which allows the user to fix all dependencies of this object.
+   *      Create unique names, ids, or what ever
+   */
+  public function render (): string
+  {
     /* Display a list of all pastable entries */
     if ($this->current || count($this->objects_to_fix)) {
-      $this->save_object();
       if (!$this->current) {
         $key = key($this->objects_to_fix);
         if ($key !== NULL) {
@@ -254,19 +257,17 @@ class CopyPasteHandler
         }
       }
       if ($this->current) {
-        $display = $this->current['object']->execute();
-        if ($this->current['object']->dialogOpened()) {
-          return $display;
-        } else {
+        $display = $this->current['object']->render();
+        if (!$this->current['object']->dialogOpened()) {
           // Display ok, (apply) and cancel buttons
           $display .= '<p class="plugbottom">'."\n";
           $display .= '<input type="submit" name="edit_finish" style="width:80px" value="'.msgPool::okButton().'"/>'."\n";
           $display .= "&nbsp;\n";
-          $display .= '<input type="submit" name="abort_current_cut-copy_operation" value="'.msgPool::cancelButton().'"/>'."\n";
-          $display .= '<input type="submit" name="abort_all_cut-copy_operations" value="'._('Cancel all').'"/>'."\n";
+          $display .= '<input type="submit" formnovalidate="formnovalidate" name="abort_current_cut-copy_operation" value="'.msgPool::cancelButton().'"/>'."\n";
+          $display .= '<input type="submit" formnovalidate="formnovalidate" name="abort_all_cut-copy_operations" value="'._('Cancel all').'"/>'."\n";
           $display .= '</p>';
-          return $display;
         }
+        return $display;
       }
     }
     return '';
@@ -275,6 +276,7 @@ class CopyPasteHandler
   private function current_saved ()
   {
     $this->lastdn   = $this->current['object']->dn;
+    logging::log('copy', 'paste', $this->lastdn);
     $this->handleReferences();
     $this->current  = FALSE;
   }
@@ -289,11 +291,10 @@ class CopyPasteHandler
     return $this->lastdn;
   }
 
-
   /*!
    * \brief Save new values posted by copy & paste dialog
    */
-  function save_object ()
+  public function readPost ()
   {
     if (isset($_POST['abort_current_cut-copy_operation'])) {
       $this->current = FALSE;
@@ -334,4 +335,3 @@ class CopyPasteHandler
     return $Copy_Paste;
   }
 }
-?>

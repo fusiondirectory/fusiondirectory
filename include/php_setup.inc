@@ -1,9 +1,8 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2018  FusionDirectory
+  Copyright (C) 2011-2020  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -24,12 +23,13 @@
  * \file php_setup.inc
  * Source code for php_setup
  */
-require_once("variables.inc");
+require_once('variables.inc');
+require_once('class_URL.inc');
 
 /*!
  * \brief Escape string for HTML output
  */
-function htmlescape ($str)
+function htmlescape (string $str): string
 {
   return htmlspecialchars($str, ENT_QUOTES | ENT_HTML5, 'UTF-8');
 }
@@ -37,7 +37,7 @@ function htmlescape ($str)
 /*!
  * \brief Unescape string for HTML output, reverse of htmlescape
  */
-function htmlunescape ($html)
+function htmlunescape (string $html): string
 {
   return html_entity_decode($html, ENT_QUOTES | ENT_HTML5, 'UTF-8');
 }
@@ -45,14 +45,14 @@ function htmlunescape ($html)
 function html_trace ($errstr = "")
 {
   static $hideArgs = [
-    'ldap_init'         => [3],
-    'ldap_login_user'   => [1],
-    'change_password'   => [1],
-    'cred_decrypt'      => [0,1],
-    'LDAP/__construct'  => [1],
+    'LDAP/init'           => [3],
+    'userinfo/loginUser'  => [1],
+    'change_password'     => [1],
+    'cred_decrypt'        => [0,1],
+    'LDAP/__construct'    => [1],
   ];
   if (!function_exists('debug_backtrace')) {
-    return  ['', ''];
+    return ['', ''];
   }
   $trace = array_slice(debug_backtrace(), 1);
 
@@ -66,7 +66,7 @@ function html_trace ($errstr = "")
 
   $return_html    = '<table width="100%" style="background-color:#402005;color:white;border:2px solid red;border-spacing:0;border-collapse:collapse;">'.
                     '<tr><td colspan="3">'.
-                    '<h1 style="color:white">'._('PHP error').' "'.$errstr.'"'.$loc.'</h1>'.
+                    '<h1 style="color:white">'.htmlescape(_('PHP error').' "'.$errstr.'"'.$loc).'</h1>'.
                     '</td></tr>';
   $return_mailto  = rawurlencode('=== Trace ===');
   /* Generate trace history */
@@ -75,7 +75,7 @@ function html_trace ($errstr = "")
     $loc  = '';
     $func = '';
     if (isset($ct['class'])) {
-      $loc .= _("class")." ".$ct['class'];
+      $loc .= _('class').' '.$ct['class'];
       $func .= $ct['class'];
       if (isset($ct['function'])) {
         $loc  .= ' / ';
@@ -83,30 +83,35 @@ function html_trace ($errstr = "")
       }
     }
     if (isset($ct['function'])) {
-      $loc .= _("function")." ".$ct['function'];
+      $loc .= _('function').' '.$ct['function'];
       $func .= $ct['function'];
     }
     if (isset($ct['type'])) {
       switch ($ct['type']) {
-        case "::":
-          $type = _("static");
+        case '::':
+          $type = _('static');
           break;
 
-        case "->":
-          $type = _("method");
+        case '->':
+          $type = _('method');
+          break;
+
+        default:
+          $type = 'unknown';
           break;
       }
     } else {
-      $type = "-";
+      $type = '-';
     }
-    $args = "";
+    $args = '';
     if (isset($ct['args'])) {
       if (isset($hideArgs[$func])) {
         $hideArgsIndexes = $hideArgs[$func];
       } else {
         $hideArgsIndexes = [];
       }
-      $f = function ($index, $arg) use (&$f, $hideArgsIndexes) {
+      $f = function ($index, $arg) use (&$f, $hideArgsIndexes)
+      {
         static $i = 0;
         if (($i == 0) && in_array($index, $hideArgsIndexes)) {
           return '***';
@@ -115,38 +120,38 @@ function html_trace ($errstr = "")
           return '…';
         }
         if (is_object($arg)) {
-          return "CLASS:&nbsp;".get_class($arg);
+          return 'CLASS:&nbsp;'.get_class($arg);
         } elseif (is_array($arg)) { /* Avoid converting array to string errors */
           $i++;
-          $ret = "array(".implode(',', array_map($f, array_keys($arg), $arg)).")";
+          $ret = 'array('.implode(',', array_map($f, array_keys($arg), $arg)).')';
           $i--;
           return $ret;
         } else {
           if (strlen("$arg") > 512) {
             $arg = substr("$arg", 0, 512)."…";
           }
-          return '"'.htmlentities("$arg", ENT_COMPAT, 'UTF-8').'"';
+          return '"'.htmlescape("$arg").'"';
         }
       };
       $args = implode(',', array_map($f, array_keys($ct['args']), $ct['args']));
     }
     if (empty($args)) {
-      $args = "-";
+      $args = '-';
     }
     if (isset($ct['file'])) {
       $file = $ct['file'];
     } else {
-      $file = "";
+      $file = '';
     }
     if (isset($ct['line'])) {
       $line = $ct['line'];
     } else {
-      $line = "";
+      $line = '';
     }
     $color = ($index & 1) ? '#404040' : '606060';
-    $return_html .= "<tr style='background-color:$color'><td style='padding-left:20px' width=\"30%\">"._("Trace")."[$index]: $loc</td>";
-    $return_html .= "<td>"._("File").": $file ("._('Line')." $line)</td><td width=\"10%\">"._("Type").": $type</td></tr>";
-    $return_html .= "<tr style='background-color:$color'><td colspan=3 style='padding-left:20px;'>"._("Arguments").": $args</td></tr>";
+    $return_html .= "<tr style='background-color:$color'><td style='padding-left:20px' width=\"30%\">".htmlescape(_("Trace")."[$index]: $loc").'</td>';
+    $return_html .= "<td>".htmlescape(_("File").": $file ("._('Line')." $line)").'</td><td width="10%">'.htmlescape(_("Type").": $type").'</td></tr>';
+    $return_html .= "<tr style='background-color:$color'><td colspan=3 style='padding-left:20px;'>".htmlescape(_("Arguments").": $args").'</td></tr>';
 
     /* Add trace part to mailto body */
     $return_mailto .= rawurlencode(
@@ -195,28 +200,20 @@ function gosaRaiseError ($errno, $errstr, $errfile, $errline)
   }
 
   /* Hide ldap size limit messages */
-  if (preg_match('/ldap_error/', $errstr)) {
-    if (preg_match('/sizelimit/', $errstr)) {
-      set_error_handler('gosaRaiseError', E_WARNING | E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT);
-      return;
-    }
-  }
-
-  /* Error messages are hidden in FusionDirectory, so we only send them to the logging class and abort here */
-  if (isset($config->data) && $config->get_cfg_value('displayerrors') != 'TRUE') {
-
-    /* Write to syslog */
-    if (class_exists('logging') && !preg_match('/No such object/', $errstr)) {
-      logging::log('view', 'error', '', [], "PHP error: $errstr($errfile, line $errline)");
-    }
-
+  if (preg_match('/ldap_error/', $errstr) && preg_match('/sizelimit/', $errstr)) {
     set_error_handler('gosaRaiseError', E_WARNING | E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT);
     return;
   }
 
   /* Send all errors to logging class, except "Ldap : No such object" messages*/
   if (class_exists('logging') && !preg_match('/No such object/', $errstr)) {
-    logging::log('debug', 'all', $errfile, [], 'Type:'.$errno.', Message:'.$errstr.', File:'.$errfile.', Line: '.$errline);
+    logging::log('error', 'php', $errfile, [], 'Type:'.$errno.', Message:'.$errstr.', File:'.$errfile.', Line: '.$errline);
+  }
+
+  /* Error messages are hidden in FusionDirectory, so we only send them to the logging class and abort here */
+  if (isset($config->data) && $config->get_cfg_value('displayerrors') != 'TRUE') {
+    set_error_handler('gosaRaiseError', E_WARNING | E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT);
+    return;
   }
 
   /* Create header as needed */
@@ -232,8 +229,7 @@ function gosaRaiseError ($errno, $errstr, $errfile, $errline)
                               "*** FusionDirectory bug report ***".
                               "\nFusionDirectory Version: $version".
                               "\n\n".
-                              "Please describe what you did to produce this error as detailed as possible. Can you ".
-                              "reproduce this bug using the demo on http://demo.FusionDirectory.org ?".
+                              "Please describe what you did to produce this error as detailed as possible.".
                               "\n\n".
                               "*** PHP error information ***\n\n");
 
@@ -244,18 +240,18 @@ function gosaRaiseError ($errno, $errstr, $errfile, $errline)
             <td>
               <img src="geticon.php?context=status&amp;icon=dialog-warning&amp;size=16" alt="" class="center"/>&nbsp;
               <strong style="font-size:14px">'.
-                _("Generating this page caused the PHP interpreter to raise some errors!").'
+                htmlescape(_('Generating this page caused the PHP interpreter to raise some errors!')).'
               </strong>
             </td>
             <td align=right>
               <a href="mailto:bugs@fusiondirectory.org?subject=FusionDirectory%20bugreport&amp;body=%BUGBODY%">
-                <img src="geticon.php?context=applications&amp;icon=internet-mail&amp;size=16" title="'._("Send bug report to the FusionDirectory Team").
-                '" class="center" alt="'.("Mail icon").'">&nbsp;'._("Send bugreport").'
+                <img src="geticon.php?context=applications&amp;icon=internet-mail&amp;size=16" title="'.htmlescape(_('Send bug report to the FusionDirectory Team')).
+                '" class="center" alt="'.htmlescape(_('Mail icon')).'">&nbsp;'.htmlescape(_('Send bug report')).'
               </a>
             </td>
             <td align="right">
               <button onClick="$(\'errorbox\').toggle();">'.
-                _("Toggle information").'
+                htmlescape(_('Toggle information')).'
               </button>
             </td>
           </tr>
@@ -266,7 +262,7 @@ function gosaRaiseError ($errno, $errstr, $errfile, $errline)
 
   /* Create error header */
   $error_collector_mailto .= rawurlencode("=== Error === \n");
-  $error_collector_mailto .= rawurlencode("PHP error: $errstr($errfile, line $errline)\n");
+  $error_collector_mailto .= rawurlencode("PHP error: $errstr ($errfile, line $errline)\n");
   $error_collector_mailto .= rawurlencode("=== /Error === \n\n");
 
   list($html_trace, $mailto_trace) = html_trace($errstr);
@@ -275,7 +271,7 @@ function gosaRaiseError ($errno, $errstr, $errfile, $errline)
 
   /* Flush in case of fatal errors */
   if (preg_match('/^fatal/i', $errstr) || (PHP_ERROR_FATAL == 'TRUE')) {
-    session::destroy();
+    session::destroy('Fatal error');
     if (PHP_ERROR_FATAL == 'TRUE') {
       $error_collector = str_replace('display: none;', '', $error_collector);
     }
@@ -288,41 +284,38 @@ function gosaRaiseError ($errno, $errstr, $errfile, $errline)
 }
 
 /*!
+ * \brief Catches throwables that no one catched
+ *
+ * \param Throwable $throwable
+ */
+function fusiondirectoryExceptionHandler (Throwable $throwable)
+{
+  try {
+    logging::log('error', 'fatal', '', [], 'Uncaught '.get_class($throwable).': '.$throwable->getMessage());
+  } catch (Throwable $t) {
+    /* Ignore exceptions/errors here */
+  }
+
+  try {
+    if ($throwable instanceof FatalError) {
+      $throwable->display();
+    } else {
+      $error = new FatalError(htmlescape(sprintf(_('Uncaught %s: %s'), get_class($throwable), $throwable->getMessage())), 0, $throwable);
+      $error->display();
+    }
+  } catch (Throwable $t) {
+    /* Minimal display if exceptions happens when building the pretty one */
+    echo 'Uncaught '.get_class($throwable).': '.$throwable->getMessage();
+  }
+
+  exit(255);
+}
+
+/*!
  * \brief Dummy error handler
  */
 function dummy_error_handler ()
 {
-}
-
-/*! \brief Returns TRUE if SSL was used to contact FD, whether directly or through a proxy
- */
-function sslOn ()
-{
-  if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
-    return (strcasecmp($_SERVER['HTTP_X_FORWARDED_PROTO'], 'https') == 0);
-  }
-  if (isset($_SERVER['HTTPS'])) {
-    return (strcasecmp($_SERVER['HTTPS'], 'on') == 0);
-  }
-  return FALSE;
-}
-
-/*! \brief Returns SSL URL to redirect to
- */
-function sslUrl ()
-{
-  $ssl = 'https://';
-  if (empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
-    $ssl .= $_SERVER['HTTP_HOST'];
-  } else {
-    $ssl .= $_SERVER['HTTP_X_FORWARDED_HOST'];
-  }
-  if (empty($_SERVER['REQUEST_URI'])) {
-    $ssl .= $_SERVER['PATH_INFO'];
-  } else {
-    $ssl .= $_SERVER['REQUEST_URI'];
-  }
-  return $ssl;
 }
 
 /* Bail out for incompatible/old PHP versions */
@@ -344,28 +337,30 @@ $error_collector        = "";
 $error_collector_mailto = "";
 
 set_error_handler('gosaRaiseError', E_WARNING | E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT);
+set_exception_handler('fusiondirectoryExceptionHandler');
 
-$variables_order = "ES";
-ini_set("track_vars", 1);
-ini_set("display_errors", 1);
-ini_set("report_memleaks", 1);
-ini_set("include_path", ".:$BASE_DIR/include:".PHP_DIR.":".PEAR_DIR);
+$variables_order = 'ES';
+ini_set('track_vars',       '1');
+ini_set('display_errors',   '1');
+ini_set('report_memleaks',  '1');
+ini_set('include_path',     ".:$BASE_DIR/include:".PHP_DIR.':'.PEAR_DIR);
 
 /* Do smarty setup */
 require(SMARTY);
 
 $smarty = new Smarty;
 
-$smarty->template_dir = $BASE_DIR.'/ihtml/';
-$smarty->caching      = FALSE;
+$smarty->setTemplateDir($BASE_DIR.'/ihtml/');
+$smarty->caching      = Smarty::CACHING_OFF;
 $smarty->assign('css_files', []);
 $smarty->assign('js_files', []);
+
+$smarty->registerPlugin('modifier', 'base64_encode', 'base64_encode');
 
 $smarty->php_handling = Smarty::PHP_REMOVE;
 
 /* Check for SSL connection */
 $ssl = '';
-if (!sslOn()) {
-  $ssl = sslUrl();
+if (!URL::sslOn()) {
+  $ssl = URL::getSslUrl();
 }
-?>

@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2018  FusionDirectory
+  Copyright (C) 2011-2020  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -47,30 +47,6 @@ class acl
   }
 
   /*!
-   *  \brief Function sort an array by elements priority
-   *
-   *  \param Array $list Array to be sorted
-   */
-  static function sort_by_priority ($list)
-  {
-    uksort($list,
-      function ($a, $b)
-      {
-        $infos_a = pluglist::pluginInfos(preg_replace('|^[^/]*/|', '', $a));
-        $infos_b = pluglist::pluginInfos(preg_replace('|^[^/]*/|', '', $b));
-        $pa = (isset($infos_a['plPriority']) ? $infos_a['plPriority'] : 0);
-        $pb = (isset($infos_b['plPriority']) ? $infos_b['plPriority'] : 0);
-        if ($pa == $pb) {
-          return 0;
-        }
-        return ($pa < $pb ? -1 : 1);
-      }
-    );
-
-    return $list;
-  }
-
-  /*!
    * \brief Explode a role
    *
    * \param string $role ACL role to be exploded
@@ -98,24 +74,39 @@ class acl
   static function explodeACL ($acl)
   {
     $list = explode(':', $acl);
-    if (count($list) == 5) {
-      list($index, $type,$role,$members,$filter) = $list;
-      $filter = base64_decode($filter);
+    if (count($list) == 6) {
+      list($index, $type, $role, $members, $userfilter, $targetfilter) = $list;
+      $userfilter   = base64_decode($userfilter);
+      $targetfilter = base64_decode($targetfilter);
+    } elseif (count($list) == 5) {
+      list($index, $type, $role, $members, $userfilter) = $list;
+      $userfilter   = base64_decode($userfilter);
+      $targetfilter = '';
     } else {
-      $filter = "";
-      list($index, $type,$role,$members) = $list;
+      list($index, $type, $role, $members) = $list;
+      $userfilter   = '';
+      $targetfilter = '';
     }
 
-    $a = [ $index => [
-      'type'    => $type,
-      'filter'  => $filter,
-      'members' => acl::extractMembers($members),
-      'acl'     => base64_decode($role),
-    ]];
+    $a = [
+      $index => [
+        'type'          => $type,
+        'userfilter'    => $userfilter,
+        'targetfilter'  => $targetfilter,
+        'members'       => acl::extractMembers($members),
+        'acl'           => base64_decode($role),
+      ]
+    ];
 
     /* Handle unknown types */
     if (!in_array($type, ['subtree', 'base'])) {
-      msg_dialog::display(_("Internal error"), sprintf(_("Unkown ACL type '%s'!\nYou might need to run \"fusiondirectory-setup --migrate-acls\" to migrate your acls to the new format."), $type), ERROR_DIALOG);
+      $error = new FusionDirectoryError(
+        nl2br(htmlescape(sprintf(
+          _("Unkown ACL type \"%s\"!\nYou might need to run \"fusiondirectory-configuration-manager --migrate-acls\" to migrate your acls to the new format."),
+          $type
+        )))
+      );
+      $error->display();
       $a = [];
     }
     return $a;
@@ -128,7 +119,7 @@ class acl
    *
    * \return an array with members
    */
-  static function extractMembers ($ms)
+  static function extractMembers (string $ms)
   {
     global $config;
     $a = [];
@@ -182,7 +173,7 @@ class acl
    *
    * \param string $acl The acl to be extracted
    */
-  static function extractACL ($acl)
+  static function extractACL (string $acl)
   {
     /* Rip acl off the string, seperate by ',' and place it in an array */
     $as = preg_replace('/^[^:]+:[^:]+:[^:]*:([^:]*).*$/', '\1', $acl);
@@ -207,18 +198,16 @@ class acl
 
           /* Append ACL if set */
           if ($gacl != "") {
-            $a[$gobject] = [$gacl];
+            $a[$gobject] = [new ACLPermissions($gacl)];
           }
         } else {
           /* All other entries get appended... */
           list($field, $facl)   = explode(';', $ssacl);
-          $a[$gobject][$field]  = $facl;
+          $a[$gobject][$field]  = new ACLPermissions($facl);
         }
-
       }
     }
 
     return $a;
   }
 }
-?>

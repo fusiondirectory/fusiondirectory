@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2018  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -47,11 +47,13 @@ class timezone
       if (@date_default_timezone_set($tz)) {
         return TRUE;
       } else {
-        msg_dialog::display(
-          _('Configuration error'),
-          sprintf(_('The timezone setting "%s" in your configuration is not valid.'), $tz),
-          ERROR_DIALOG
+        $error = new FusionDirectoryError(
+          htmlescape(sprintf(
+            _('The timezone setting "%s" in your configuration is not valid.'),
+            $tz
+          ))
         );
+        $error->display();
       }
     }
     return FALSE;
@@ -109,4 +111,3 @@ class timezone
     return $utc;
   }
 }
-?>

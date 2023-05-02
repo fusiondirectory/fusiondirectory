@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2007  Fabian Hickert
-  Copyright (C) 2011-2018  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -33,30 +33,26 @@
  * \version 2.6
  * \date    11.04.2007
  */
-class logging {
-  static $validActions = ['modify','create','remove','copy','snapshot','view','security','debug'];
+class logging
+{
+  static $validActions = ['modify','create','remove','copy','snapshot','security','error'];
 
   /*!
    * \brief logging method
    *
-   * \param $action         One of these values (modify|create|remove|snapshot|copy|view|security|debug)
+   * \param string $action      One of these values (modify|create|remove|copy|snapshot|security|error)
    *
-   * \param $objecttype     represents the current edited objecttype, like user/user
+   * \param string $objecttype  represents the current edited objecttype, like user/user, or the event, like logout
    *
-   * \param $object         represents the current edited object dn
+   * \param string $object      represents the current edited object dn, or the target of the operation
    *
-   * \param $changes_array  An array containing names of all touched attributes
+   * \param array $changes      An array containing names of all touched attributes
    *
-   * \param $result         A status message, containing errors or success messages
+   * \param string $result      A status message, containing errors or success messages
    */
-  static function log ($action, $objecttype, $object, array $changes_array = [], $result = '')
+  static function log (string $action, string $objecttype, string $object, array $changes = [], string $result = '')
   {
     global $config, $ui;
-
-    if ($result === NULL) {
-      trigger_error('"Result" parameter should not be NULL');
-      $result = '';
-    }
 
     /* Create data object */
     $entry = [
@@ -64,11 +60,13 @@ class logging {
       'action'      => $action,
       'objecttype'  => $objecttype,
       'object'      => $object,
-      'changes'     => $changes_array,
+      'changes'     => $changes,
       'result'      => $result
     ];
     if (isset($ui->dn) && !empty($ui->dn)) {
       $entry['user']  = $ui->dn;
+    } elseif (isset($_SERVER['REMOTE_ADDR'])) {
+      $entry['user'] = $_SERVER['REMOTE_ADDR'];
     } else {
       $entry['user'] = 'unknown';
     }
@@ -78,7 +76,8 @@ class logging {
     if (count($msgs)) {
       foreach ($msgs as $msg) {
         trigger_error('Logging failed, reason was: '.$msg);
-        msg_dialog::display(_('Internal error'), sprintf(_('Logging failed: %s'), $msg), ERROR_DIALOG);
+        $error = new FusionDirectoryError(htmlescape(sprintf(_('Logging failed: %s'), $msg)));
+        $error->display();
       }
     } else {
       if (is_object($config) && preg_match('/true/i', $config->get_cfg_value('logging', ''))) {
@@ -87,6 +86,69 @@ class logging {
           static::log_into_ldap($entry);
         }
       }
+    }
+  }
+
+  /*!
+   * \brief Debug output method
+   *
+   * Print a DEBUG level if specified debug level of the level matches the
+   * the configured debug level.
+   *
+   * \param int $level        The log level of the message (one of the DEBUG_* constants)
+   *
+   * \param int $line         Line of origin (using __LINE__ is common)
+   *
+   * \param string $function  Function of origin (using __FUNCTION__ is common)
+   *
+   * \param string $file      File of origin (using __FILE__ is common)
+   *
+   * \param mixed $data       Operation result. Can be a message or an array, which is printed with print_a.
+   *
+   * \param string $info      Operation description
+   */
+  static function debug (int $level, int $line, string $function, string $file, $data, string $info = '')
+  {
+    global $config;
+
+    static $first = TRUE;
+
+    if (session::get('DEBUGLEVEL') & $level) {
+      $output = '';
+      if ($first) {
+        $output .= '<div id="debug-handling" class="notice">'.
+              '<img src="geticon.php?context=status&amp;icon=dialog-information&amp;size=22" alt="Information" style="vertical-align:middle;margin-right:.2em;"/>'.
+              'There is some debug output '.
+              '<button onClick="javascript:$$(\'div.debug_div\').each(function (a) { a.toggle(); });">Toggle</button>'.
+            '</div>';
+        $first = FALSE;
+      }
+      $logline = "DEBUG[$level] ";
+      if ($function != '') {
+        $logline .= "($file:$function():$line) - $info: ";
+      } else {
+        $logline .= "($file:$line) - $info: ";
+      }
+      $output .= '<div class="debug_div">';
+      $output .= $logline;
+      if (is_array($data)) {
+        $output .= print_a($data, TRUE);
+        $logline .= print_r($data, TRUE);
+      } else {
+        $output   .= "'$data'";
+        $logline  .= "'$data'";
+      }
+      $output .= "</div>\n";
+
+      if (is_object($config) && preg_match('/true/i', $config->get_cfg_value('debugLogging', ''))) {
+        fusiondirectory_log($logline);
+      }
+
+      if (($_SERVER['REQUEST_METHOD'] == 'POST') && preg_match('/index.php$/', $_SERVER['REQUEST_URI'])) {
+        return;
+      }
+
+      echo $output;
     }
   }
 
@@ -141,20 +203,33 @@ class logging {
     if (empty($entry['object'])) {
       $entry['object'] = 'none';
     }
-    $tabObject = objects::create('auditEvent');
-    $baseObject = $tabObject->getBaseObject();
-    $baseObject->fdAuditDateTime    = DateTime::createFromFormat('U.u', number_format($entry['timestamp'], 6, '.', ''));
-    $baseObject->fdAuditAction      = $entry['action'];
-    $baseObject->fdAuditAuthorDN    = $entry['user'];
-    $baseObject->fdAuditObjectType  = $entry['objecttype'];
-    $baseObject->fdAuditObject      = $entry['object'];
-    $baseObject->fdAuditAttributes  = $entry['changes'];
-    $baseObject->fdAuditResult      = $entry['result'];
-    $baseObject->base               = $config->current['BASE'];
-    $message = $tabObject->save();
-    if (!empty($message)) {
-      msg_dialog::displayChecks($message);
+    try {
+      $tabObject = objects::create('auditEvent');
+      $baseObject = $tabObject->getBaseObject();
+      $baseObject->fdAuditDateTime    = DateTime::createFromFormat('U.u', number_format($entry['timestamp'], 6, '.', ''));
+      $baseObject->fdAuditAction      = $entry['action'];
+      $baseObject->fdAuditAuthorDN    = $entry['user'];
+      $baseObject->fdAuditObjectType  = $entry['objecttype'];
+      $baseObject->fdAuditObject      = $entry['object'];
+      $baseObject->fdAuditAttributes  = $entry['changes'];
+      $baseObject->fdAuditResult      = $entry['result'];
+      $baseObject->base               = $config->current['BASE'];
+      $errors = $tabObject->save();
+      if (!empty($errors)) {
+        msg_dialog::displayChecks($errors);
+      }
+    } catch (FusionDirectoryException $e) {
+      $error = new FusionDirectoryError(
+        htmlescape(sprintf(
+          _('Failed to log event (%s - %s): %s'),
+          $entry['action'],
+          $entry['objecttype'],
+          $e->getMessage()
+        )),
+        0,
+        $e
+      );
+      $error->display();
     }
   }
 }
-?>

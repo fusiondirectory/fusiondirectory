@@ -83,6 +83,7 @@ documentation and additional help.
   First version of the quota plugin
   First version of the supann plugin
   First version of the board plugin
+  Plugin Manager
 
 * Leonid Bogdanov <leonid_bogdanov@mail.ru>
   patch for the manager fonctionnality in the General user tab
@@ -235,3 +236,12 @@ documentation and additional help.
   Security Audit of FusionDirectory
   Cross-Site Scripting (XSS)
   Improper session handling
+
+* Froger Soisik <soisik.froger@gmail.com>
+  Dynamic group tab support
+
+* Clement Oudot <clement.oudot@worteks.com>
+  Plugin NextCloud
+
+* Matthew Newton <matthew.newton@networkradius.com>
+  EpochDays attributes as human readable    

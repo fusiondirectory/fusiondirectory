@@ -1,0 +1,122 @@
+@import "colors";
+
+div.msgbackground {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  z-index: 100;
+  overflow: hidden;
+  background-image: url(../../images/opacity_black.png);
+}
+
+div.msgtrace {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  overflow-y: auto;
+}
+
+div.msgtitle {
+  width: auto;
+  text-align: center;
+  border-bottom: 1px solid @border-color-1;
+  padding: 8px;
+  background-color: @background-color;
+  min-height: 30px;
+  > img {
+    float: left;
+    height: 30px;
+  }
+  > p {
+    margin: 0;
+    padding: 0;
+    font-size: @header-title-font-size;
+  }
+}
+
+div.msgdialog {
+  div.msgcontent {
+    width: 100%;
+    z-index: 250;
+    p {
+      font-size: @big-text-font-size;
+      padding: 10px;
+    }
+  }
+  width: 60%;
+  z-index: 150;
+  position: relative;
+  display: none;
+  margin: auto;
+  padding: 0;
+  top: 200px;
+  border: 1px solid @border-color-1;
+  background-color: @background-second-color;
+  .description {
+    font-style: italic;
+  }
+
+  @media (max-height: 600px) {
+    top: auto;
+  }
+
+  @media (max-width: 640px) {
+    /* Small screens (i.e. phones) */
+    top: auto;
+    width: auto;
+  }
+}
+
+div.msgfooter {
+  width: auto;
+  padding: 1%;
+  @media (max-width: 640px) {
+    padding: 5px;
+    text-align: center !important;
+    &.plugbottom > input[type=submit] {
+      width: 100% !important;
+    }
+  }
+}
+
+.error, .notice, .success, .info {
+  border: 2px solid @border-color-1;
+  margin: .2em;
+  padding: .3em;
+}
+.error {
+  background: @error-background-color;
+  color: @error-text-color;
+  border-color: @error-border-color;
+  h1,h2,h3,h4,h5,h6 {
+    color: @error-title-color;
+  }
+}
+.notice {
+  background: @notice-background-color;
+  color: @notice-text-color;
+  border-color: @notice-border-color;
+  h1,h2,h3,h4,h5,h6 {
+    color: @notice-title-color;
+  }
+}
+.success {
+  background: @success-background-color;
+  color: @success-text-color;
+  border-color: @success-border-color;
+  h1,h2,h3,h4,h5,h6 {
+    color: @success-title-color;
+  }
+}
+.info {
+  background: @info-background-color;
+  color: @info-text-color;
+  border-color: @info-border-color;
+  h1,h2,h3,h4,h5,h6 {
+    color: @info-title-color;
+  }
+}

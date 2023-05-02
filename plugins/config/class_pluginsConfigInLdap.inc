@@ -20,16 +20,19 @@
 
 class pluginsConfigInLdap extends multiPlugin
 {
-  var $tabClass = 'SMALLCONFIGTABS';
+  protected static $tabClass = 'SMALLCONFIGTABS';
 
-  static function plInfo ()
+  static function plInfo (): array
   {
     return [
       'plShortName'   => _('Plugins'),
       'plDescription' => _('Configuration for plugins'),
-      'plPriority'    => 20,
+      'plPriority'    => 2,
       'plObjectType'  => ['configuration'],
       'plSubTabs'     => 'SMALLCONFIGTABS',
+
+      /* This is incomplete because of dynamic loading, but is enough to generate a filter for this tab */
+      'plObjectClass'   => ['fusionDirectoryPluginsConf'],
 
       'plProvidedAcls'  => []
     ];

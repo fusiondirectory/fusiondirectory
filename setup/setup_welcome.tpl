@@ -1,6 +1,6 @@
 <div class="default">
   <p>
-    {t}This seems to be the first time you start FusionDirectory - we didn't find any configuration right now. This simple wizard intends to help you while setting it up.{/t}
+    {t}This seems to be the first time you start FusionDirectory - we cannot find any configuration right now. This simple wizard intends to help you while setting it up.{/t}
   </p>
 
   <hr/>
@@ -26,12 +26,12 @@
     <b>{t}To continue:{/t}</b>
   </p>
   <p>
-    {t 1=$path}For security reasons you need to authenticate for the installation by creating the file '%1', containing the current session ID on the servers local filesystem. This can be done by executing the following command:{/t}
+    {t 1=$path}For security reasons you need to authenticate for the installation by creating the file '%1', containing the current session ID on the server's local filesystem. This can be done by executing the following command:{/t}
   </p>
   <tt>
     echo -n <b>{$auth_id}</b> &gt; {$path}
   </tt>
   <p>
-    {t}Click the 'Next' button when you've finished.{/t}
+    {t}Click the 'Next' button when you are done.{/t}
   </p>
 </div>

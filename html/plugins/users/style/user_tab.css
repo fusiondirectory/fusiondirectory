@@ -6,6 +6,7 @@
   top: 32px;
   box-sizing: border-box;
   max-height: 80%;
+  max-width: 155px;
   }
 
   .plugin-section#perso > div > table {

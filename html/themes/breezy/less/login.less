@@ -1,0 +1,113 @@
+@import "colors";
+
+/* Login screen */
+p.fusiondirectoryLoginWarning {
+  text-align: center;
+  color: @warning-red-color;
+  font-weight: bold;
+  font-size: @text-font-size;
+  @media (max-width: 640px) {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+html, body {
+  min-height: 100%;
+}
+
+div#window-container {
+  text-align: center;
+  width: 100%;
+  bottom: 0;
+  top: 52px;
+  position: absolute;
+}
+
+div#window-div {
+  min-width: 50%;
+  margin-top: 100px;
+  margin-bottom: 30px;
+  border: 1px solid @border-color-1;
+  background-color: @background-second-color;
+  display: inline-block;
+  > form {
+    margin:0;
+  }
+  @media (max-width: 640px) {
+    min-width: 70%;
+    margin-top: 10px;
+  }
+}
+
+div#window-titlebar {
+  text-align: center;
+  border-bottom: 1px solid @border-color-1;
+  padding: 8px;
+  background-color: @background-color;
+  min-height: 30px;
+  > img {
+    float: left;
+    height: 30px;
+  }
+  > p {
+    margin: 0;
+    padding: 0;
+    font-size: @titlebar-font-size;
+    font-weight: bold;
+  }
+}
+
+div#window-content > div {
+  padding: 10px;
+}
+
+a:link ,
+a:visited {
+  text-decoration: none;
+  color: @link-color;
+}
+
+div#window-footer {
+  padding: 0;
+  > div {
+    display: inline-block;
+    width: 47%;
+    padding: 1%;
+    &:nth-child(1) {
+      color: @warning-red-color;
+      font-weight: bold;
+      html.ltr & {
+        text-align: left;
+      }
+      html.rtl & {
+        text-align: right;
+      }
+    }
+    @media (max-width: 640px) {
+      display: block;
+      width: auto;
+      padding: 5px;
+      text-align: center !important;
+    }
+  }
+  @media (max-width: 640px) {
+    &.plugbottom > div:nth-child(2) > input[type=submit] {
+      width: 100% !important;
+    }
+  }
+}
+
+span.warning, p.warning {
+  color: @warning-red-color;
+}
+
+div.copynotice {
+  position: fixed;
+  bottom: 0;
+  right: 5px;
+  border: none;
+  a {
+    color: @text-color;
+  }
+}

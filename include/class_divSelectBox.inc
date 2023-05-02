@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
@@ -31,15 +30,14 @@
  */
 class divSelectBox
 {
-  var $headers = FALSE;
-  var $a_entries;
-  var $summary;
-  var $cols;
+  protected $headers = FALSE;
+  protected $a_entries;
+  protected $s_summary;
+  protected $cols;
 
-  private $id;
+  protected $id;
 
-  // Members for page managment
-  var $height = '200px';
+  protected $height = '200px';
 
   /*!
    * \brief Default divSelectBox constructor
@@ -71,7 +69,7 @@ class divSelectBox
    *
    * \param array $a_entriedata
    */
-  function AddEntry ($a_entriedata)
+  function addEntry ($a_entriedata)
   {
     $this->a_entries[] = $a_entriedata;
   }
@@ -81,7 +79,7 @@ class divSelectBox
    *
    * \param array $headers
    */
-  function SetHeaders ($headers)
+  function setHeaders ($headers)
   {
     $this->headers = $headers;
   }
@@ -89,7 +87,7 @@ class divSelectBox
   /*!
    * \brief Draw the list
    */
-  function DrawList ()
+  function drawList ()
   {
     $s_return = '';
     $s_return .= '<div style="border:1px solid rgb(170,170,170);padding-right:1px;height:'.$this->height.';width:100%">'."\n";
@@ -103,11 +101,11 @@ class divSelectBox
                       'border:none; '.
                     '"'.
                   ">\n";
-    $s_return .= $this->_generatePage();
+    $s_return .= $this->generatePage();
     $s_return .= '</table></div></div>';
     if ($this->headers !== FALSE) {
       $s_return .=
-        '<script type="text/javascript">
+        '<script>
           var sorter'.$this->id.' = tsorter.create(\''.$this->id.'\');
         </script>';
     }
@@ -115,20 +113,11 @@ class divSelectBox
   }
 
   /*!
-   * \brief Get the number of entries
-   */
-  function _numentries ()
-  {
-    $cnt = count($this->a_entries);
-    return $cnt;
-  }
-
-  /*!
    * \brief Set summary
    *
    * \param string $msg
    */
-  function SetSummary ($msg)
+  function setSummary ($msg)
   {
     $this->s_summary = $msg;
   }
@@ -136,7 +125,7 @@ class divSelectBox
   /*!
    * \brief Generate the page
    */
-  function _generatePage ()
+  protected function generatePage ()
   {
     $display = '';
     if ($this->headers !== FALSE) {
@@ -149,21 +138,17 @@ class divSelectBox
       }
       $display .= '</tr></thead>'."\n";
     }
-    return $display.'<tbody>'.$this->_generateBody().'</tbody>';
+    return $display.'<tbody>'.$this->generateBody().'</tbody>';
   }
 
   /*!
    * \brief Generate the body
    */
-  function _generateBody ()
+  protected function generateBody ()
   {
-    $s_value  = '';
-    $s_key    = '';
-    $s_return = '';
-    $str      = '';
-
     /* If divselectbox is empty, append a single white entry */
     if (count($this->a_entries) == 0) {
+      $str = '';
       if ($this->headers !== FALSE) {
         $this->cols = count($this->headers);
         $str .= '<tr>';
@@ -181,8 +166,9 @@ class divSelectBox
       return $str;
     }
 
-    $i = $this->_numEntries();
-    foreach ($this->a_entries as $s_key => $s_value) {
+    $s_return = '';
+    $i        = count($this->a_entries);
+    foreach ($this->a_entries as $s_value) {
       $i--;
 
       $s_return .= "\n<tr>";
@@ -210,7 +196,7 @@ class divSelectBox
           if ($s_value2['string'] === '') {
             $s_return .= '&nbsp;';
           } else {
-            $s_return .= htmlentities($s_value2['string'], ENT_COMPAT, 'UTF-8');
+            $s_return .= htmlescape($s_value2['string']);
           }
         } else {
           $s_return .= $s_value2['html'];
@@ -231,4 +217,3 @@ class divSelectBox
     return $s_return;
   }
 }
-?>

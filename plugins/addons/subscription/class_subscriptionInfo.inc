@@ -20,21 +20,19 @@
 
 class subscriptionInfo extends simplePlugin
 {
-  public $objectclasses = ['fdSubscriptionInformation'];
-
   /* ldap attribute => ini variable */
   public static $subscriptionAttributes = [
-    'fdSubscriptionName'                => 'Name',
-    'uid'                               => 'Id',
-    'fdSubscriptionType'                => 'Type',
-    'fdSubscriptionContractId'          => 'Contract',
-    'fdSubscriptionStartDate'           => 'StartDate',
-    'fdSubscriptionEndDate'             => 'EndDate',
+    'fdSubscriptionName'        => 'Name',
+    'uid'                       => 'Id',
+    'fdSubscriptionType'        => 'Type',
+    'fdSubscriptionContractId'  => 'Contract',
+    'fdSubscriptionStartDate'   => 'StartDate',
+    'fdSubscriptionEndDate'     => 'EndDate',
   ];
 
   public static $sectionName = 'FusionDirectory Subscription';
 
-  public static function plInfo ()
+  public static function plInfo (): array
   {
     return [
       'plShortName'   => _('Subscription'),
@@ -46,7 +44,6 @@ class subscriptionInfo extends simplePlugin
         'subscriptionInfo' => [
           'name'      => _('Subscription information'),
           'ou'        => get_ou('fusiondirectoryRDN'),
-          'filter'    => 'objectClass=fdSubscriptionInformation',
         ]
       ],
       'plSection'     => 'conf',
@@ -56,7 +53,7 @@ class subscriptionInfo extends simplePlugin
     ];
   }
 
-  public static function getAttributesInfo ()
+  public static function getAttributesInfo (): array
   {
     return [
       'info' => [
@@ -139,8 +136,10 @@ class subscriptionInfo extends simplePlugin
     $this->attributesAccess['fdSubscriptionTextExpired']->setAllowHTML(TRUE);
   }
 
-  function execute ()
+  public function update (): bool
   {
+    parent::update();
+
     if ($this->uid !== '') {
       $this->attributesAccess['fdSubscriptionText']->setVisible(FALSE);
       $this->attributesAccess['fdSubscriptionName']->setVisible(TRUE);
@@ -165,7 +164,7 @@ class subscriptionInfo extends simplePlugin
       $this->attributesAccess['fdSubscriptionTextExpired']->setVisible(FALSE);
     }
 
-    return parent::execute();
+    return TRUE;
   }
 
   public function handle_import ()
@@ -173,18 +172,18 @@ class subscriptionInfo extends simplePlugin
     $data = $this->import_file;
     if (empty($data)) {
       /* No file or empty file */
-      msg_dialog::display(
-        _('Import error'),
-        htmlescape(_('No data. Did you forgot to upload a file?')),
-        ERROR_DIALOG
+      $error = new SimplePluginError(
+        $this->attributesAccess['import_file'],
+        htmlescape(_('No data. Did you forgot to upload a file?'))
       );
+      $error->display();
     } elseif (($data = parse_ini_string($data, TRUE)) === FALSE) {
       /* Import of INI failed */
-      msg_dialog::display(
-        _('Import error'),
-        htmlescape(_('Failed to parse imported file')),
-        ERROR_DIALOG
+      $error = new SimplePluginError(
+        $this->attributesAccess['import_file'],
+        htmlescape(_('Failed to parse imported file'))
       );
+      $error->display();
     } else {
       /* Check content of ini file */
       $errorText = NULL;
@@ -200,27 +199,27 @@ class subscriptionInfo extends simplePlugin
         }
       }
       if ($errorText !== NULL) {
-        msg_dialog::display(
-          _('Import error'),
-          htmlescape($errorText),
-          ERROR_DIALOG
+        $error = new SimplePluginError(
+          $this->attributesAccess['import_file'],
+          htmlescape($errorText)
         );
+        $error->display();
       } else {
         /* Import data and save it to the LDAP */
         foreach (static::$subscriptionAttributes as $attr => $iniVar) {
-          $this->attributesAccess[$attr]->setValue(isset($data[$iniVar]) ? $data[$iniVar] : '');
+          $this->attributesAccess[$attr]->setValue($data[$iniVar] ?? '');
         }
         $errors = $this->parent->save();
-        if (empty($errors)) {
-          /* The object will stay open so it needs to appear as loaded from LDAP */
-          $this->is_account             = TRUE;
-          $this->initially_was_account  = TRUE;
-        } else {
+        if (count($errors) > 0) {
           msg_dialog::displayChecks($errors);
           /* Reset fields to LDAP value */
           foreach (array_keys(static::$subscriptionAttributes) as $attr) {
             $this->attributesAccess[$attr]->setValue($this->attributesAccess[$attr]->getInitialValue());
           }
+        } else {
+          /* The object will stay open so it needs to appear as loaded from LDAP */
+          $this->is_account             = TRUE;
+          $this->initially_was_account  = TRUE;
         }
       }
     }
@@ -231,10 +230,6 @@ class subscriptionInfo extends simplePlugin
   public static function mainInc ($classname = NULL, $entry_dn = NULL, $tabs = FALSE, $edit_mode = FALSE, $objectType = FALSE)
   {
     global $config;
-
-    if ($classname === NULL) {
-      $classname = get_called_class();
-    }
 
     if ($entry_dn === NULL) {
       $entry_dn = 'cn=subscription,'.get_ou('fusiondirectoryRDN').$config->current['BASE'];

@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2011-2018  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -69,26 +69,25 @@ class ACLsAttribute extends DialogOrderedArrayAttribute
 
 class aclRole extends simplePlugin
 {
-  var $objectclasses  = ['top','gosaRole'];
-
-  static function plInfo ()
+  static function plInfo (): array
   {
     return [
       'plShortName'   => _('Role'),
       'plDescription' => _('Access control roles'),
+      'plObjectClass' => ['gosaRole'],
       'plObjectType'  => ['aclRole' => [
         'aclCategory' => 'acl',
         'name'        => _('ACL role'),
-        'filter'      => 'objectClass=gosaRole',
         'ou'          => get_ou('aclRoleRDN'),
         'icon'        => 'geticon.php?context=categories&icon=acl&size=16',
       ]],
+      'plSearchAttrs' => ['description'],
 
       'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())
     ];
   }
 
-  static function getAttributesInfo ()
+  static function getAttributesInfo (): array
   {
     return [
       'properties' => [
@@ -118,4 +117,3 @@ class aclRole extends simplePlugin
     ];
   }
 }
-?>

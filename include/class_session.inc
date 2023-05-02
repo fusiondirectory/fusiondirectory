@@ -27,7 +27,8 @@
 /*!
  * \brief This class contains all the function needed to manage sessions
  */
-class session {
+class session
+{
   /*!
    * \brief Check if the name of the session is set
    *
@@ -95,8 +96,7 @@ class session {
    */
   public static function &get_ref ($name)
   {
-    $ret = &$_SESSION[$name];
-    return $ret;
+    return $_SESSION[$name];
   }
 
   /*!
@@ -184,18 +184,35 @@ class session {
   /*!
    * \brief Destroy a session
    */
-  public static function destroy ()
+  public static function destroy (string $reason = '')
   {
+    global $ui;
+
+    if (!isset($ui)) {
+      $ui = static::get('ui');
+    }
+
+    try {
+      if (isset($ui)) {
+        logging::log(
+          'security',
+          'logout',
+          $ui->uid,
+          [],
+          sprintf('Logged out (%s)', $reason)
+        );
+      } elseif (!empty($reason)) {
+        logging::log(
+          'security',
+          'session',
+          '',
+          [],
+          sprintf('Session destroyed (%s)', $reason)
+        );
+      }
+    } catch (Exception $e) {
+      /* Ignore exceptions here */
+    }
     @session_destroy();
   }
-
-  /*!
-   * \brief Get all sessions
-   */
-  public static function &get_all ()
-  {
-    $ret = &$_SESSION;
-    return $ret;
-  }
 }
-?>

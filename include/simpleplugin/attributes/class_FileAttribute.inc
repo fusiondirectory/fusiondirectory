@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2018  FusionDirectory
+  Copyright (C) 2012-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 /*! \brief This class allow to handle easily an File LDAP attribute
  *
  */
-class FileAttribute extends Attribute
+class FileAttribute extends \FusionDirectory\Core\SimplePlugin\Attribute
 {
   protected $binary = TRUE;
 
@@ -30,13 +30,34 @@ class FileAttribute extends Attribute
     $this->postValue = $this->value;
     if (!empty($_FILES[$this->getHtmlId()]['name']) && $this->isVisible()) {
       if ($_FILES[$this->getHtmlId()]['size'] <= 0) {
-        msg_dialog::display(_("Error"), sprintf(_("Cannot read uploaded file: %s"), _("file is empty")), ERROR_DIALOG);
+        $error = new SimplePluginError(
+          $this,
+          htmlescape(sprintf(
+            _('Cannot read uploaded file: %s'),
+            _('file is empty')
+          ))
+        );
+        $error->display();
       } elseif (!file_exists($_FILES[$this->getHtmlId()]['tmp_name'])) {
         // Is there a tmp file, which we can use ?
-        msg_dialog::display(_("Error"), sprintf(_("Cannot read uploaded file: %s"), _("file not found")), ERROR_DIALOG);
-      } elseif (!$handle = @fopen($_FILES[$this->getHtmlId()]['tmp_name'], "r")) {
+        $error = new SimplePluginError(
+          $this,
+          htmlescape(sprintf(
+            _('Cannot read uploaded file: %s'),
+            _('file not found')
+          ))
+        );
+        $error->display();
+      } elseif (!$handle = @fopen($_FILES[$this->getHtmlId()]['tmp_name'], 'r')) {
         // Can we open the tmp file, for reading
-        msg_dialog::display(_("Error"), sprintf(_("Cannot read uploaded file: %s"), _("file not readable")), ERROR_DIALOG);
+        $error = new SimplePluginError(
+          $this,
+          htmlescape(sprintf(
+            _('Cannot read uploaded file: %s'),
+            _('file not readable')
+          ))
+        );
+        $error->display();
       } else {
         // Everything just fine :)
 
@@ -62,14 +83,14 @@ class FileAttribute extends Attribute
     @fclose($handle);
   }
 
-  function renderFormInput ()
+  function renderFormInput (): string
   {
     $id = $this->getHtmlId();
     $display = $this->renderInputField('file', $id);
     return $this->renderAcl($display);
   }
 
-  function displayValue ($value)
+  function displayValue ($value): string
   {
     return sprintf(_('%s (%d bytes)'), $this->getLabel(), mb_strlen($value, '8bit'));
   }
@@ -79,16 +100,30 @@ class FileAttribute extends Attribute
    * \param array &$attributes the attributes array
    * \param boolean $form
    */
-  function serializeAttribute (&$attributes, $form = TRUE)
+  function serializeAttribute (array &$attributes, bool $form = TRUE)
   {
     if (!$form || $this->visible) {
       parent::serializeAttribute($attributes, $form);
 
       if ($this->binary) {
-        $attributes[$this->getLdapName()]['value']    = base64_encode($attributes[$this->getLdapName()]['value']);
-        $attributes[$this->getLdapName()]['default']  = base64_encode($attributes[$this->getLdapName()]['default']);
         $attributes[$this->getLdapName()]['binary']   = TRUE;
       }
+    }
+  }
+
+  /*! \brief Serialize value for RPC requests
+   *
+   *  \param mixed $value the value
+   */
+  function serializeValue ($value = NULL)
+  {
+    if ($value === NULL) {
+      $value = $this->getValue();
+    }
+    if ($this->binary) {
+      return base64_encode($value);
+    } else {
+      return $value;
     }
   }
 
@@ -99,12 +134,18 @@ class FileAttribute extends Attribute
   function deserializeValue ($value)
   {
     if ($this->disabled) {
-      return sprintf(_('Attribute %s is disabled, its value could not be set'), $this->getLdapName());
+      return new SimplePluginError(
+        $this,
+        htmlescape(sprintf(_('Attribute %s is disabled, its value could not be set'), $this->getLdapName()))
+      );
     }
     if ($this->binary) {
-      $data = base64_decode($value);
+      $data = base64_decode($value, TRUE);
       if ($data === FALSE) {
-        return sprintf(_('Invalid base64 data for attribute %s'), $this->getLdapName());
+        return new SimplePluginError(
+          $this,
+          htmlescape(_('Invalid base64 data'))
+        );
       }
       $this->setValue($data);
     } else {
@@ -156,13 +197,13 @@ class FileDownloadAttribute extends FileAttribute
     }
   }
 
-  function renderFormInput ()
+  function renderFormInput (): string
   {
     $id = $this->getHtmlId();
     $display = '';
     if ($this->upload) {
       $display  .= $this->renderInputField('file', $id);
-      $display  .= $this->renderInputField('submit', 'upload'.$id, ['value' => _('Upload')]);
+      $display  .= $this->renderInputField('submit', 'upload'.$id, ['value' => _('Upload'), 'formnovalidate' => 'formnovalidate']);
     }
     if ($this->download) {
       $display  .= $this->renderInputField(
@@ -171,14 +212,14 @@ class FileDownloadAttribute extends FileAttribute
           'title' => _('Download'),
           'alt'   => _('Download'),
           'class' => 'center',
-          'src'   => 'geticon.php?context=actions&amp;icon=document-save&amp;size=16',
+          'src'   => 'geticon.php?context=actions&icon=document-save&size=16',
         ]
       );
     }
     return $this->renderAcl($display);
   }
 
-  public function htmlIds ()
+  public function htmlIds (): array
   {
     $id   = $this->getHtmlId();
     $ids  = [];
@@ -192,12 +233,12 @@ class FileDownloadAttribute extends FileAttribute
     return $ids;
   }
 
-  function renderAttribute (&$attributes, $readOnly)
+  function renderAttribute (array &$attributes, bool $readOnly, bool $readable, bool $writable)
   {
-    if ($this->upload == FALSE) {
-      parent::renderAttribute($attributes, FALSE);
+    if ($this->upload === FALSE) {
+      parent::renderAttribute($attributes, FALSE, $readable, $writable);
     } else {
-      parent::renderAttribute($attributes, $readOnly);
+      parent::renderAttribute($attributes, $readOnly, $readable, $writable);
     }
   }
 }
@@ -253,16 +294,16 @@ class FileTextAreaAttribute extends FileDownloadAttribute
     return str_replace(["\r\n", "\r"], "\n", $value);
   }
 
-  function renderFormInput ()
+  function renderFormInput (): string
   {
     $id = $this->getHtmlId();
     $display  = '<textarea name="'.$id.'_text" id="'.$id.'_text"'.
                 ($this->disabled ? 'disabled="disabled"' : '').'>'.
-                '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}</textarea><br/>';
+                '{literal}'.htmlescape($this->getValue()).'{/literal}</textarea><br/>';
     return $this->renderAcl($display).parent::renderFormInput();
   }
 
-  public function htmlIds ()
+  public function htmlIds (): array
   {
     $id     = $this->getHtmlId();
     $ids    = parent::htmlIds();
@@ -306,11 +347,9 @@ class ImageAttribute extends FileAttribute
     $id = $this->getHtmlId();
     if (!$this->disabled && $this->isVisible()) {
       foreach (array_keys($_POST) as $name) {
-        if (!$this->isRequired()) {
-          if (preg_match('/^'.$id.'_remove_/', $name)) {
-            $this->setPostValue('');
-            break;
-          }
+        if (!$this->isRequired() && preg_match('/^'.$id.'_remove_/', $name)) {
+          $this->setPostValue('');
+          break;
         }
         if (preg_match('/^'.$id.'_upload_/', $name)) {
           parent::loadPostValue();
@@ -361,23 +400,20 @@ class ImageAttribute extends FileAttribute
         }
       } catch (ImagickException $e) {
         /* Store the exception to return it in deserializeValue() */
-        $this->imagickException = $e;
-        msg_dialog::display(
-          _('Error'),
-          sprintf(
-            _('Cannot set "%s" value, it contains invalid data: %s'),
-            ($this->getLabel() != '' ? $this->getLabel() : $this->getLdapName()),
-            $e->getMessage()
-          ),
-          ERROR_DIALOG
+        $this->imagickException = new SimplePluginError(
+          $this,
+          SimplePluginCheckError::invalidValue($e->getMessage()),
+          0,
+          $e
         );
+        $this->imagickException->display();
       }
     } else {
-      msg_dialog::display(
-        _('Error'),
-        _('Cannot save user picture, FusionDirectory requires the PHP module "imagick" to be installed!'),
-        ERROR_DIALOG
+      $error = new SimplePluginError(
+        $this,
+        htmlescape(_('Cannot save user picture, FusionDirectory requires the PHP module "imagick" to be installed!'))
       );
+      $error->display();
     }
   }
 
@@ -392,11 +428,11 @@ class ImageAttribute extends FileAttribute
       return $error;
     }
     if ($this->imagickException !== NULL) {
-      return sprintf(_('Invalid data, Imagick error: "%s"'), $this->imagickException->getMessage());
+      return $this->imagickException;
     }
   }
 
-  function renderFormInput ()
+  function renderFormInput (): string
   {
     $this->setValue($this->inputValue($this->getValue()));
     $id = $this->getHtmlId();
@@ -406,15 +442,15 @@ class ImageAttribute extends FileAttribute
                 ($this->disabled ? 'disabled="disabled"' : '').
                 ' src="getbin.php?key='.$key.'"'.
                 ' style="border:1px solid black;"'.
-                ' alt="'.$this->getDescription().'"'.
-                ' title="'.$this->getDescription().'"'.
+                ' alt="'.htmlescape($this->getDescription()).'"'.
+                ' title="'.htmlescape($this->getDescription()).'"'.
                 ' /><br/>';
     $display  .= $this->renderInputField('file', $id);
     $display .= $this->renderInputField(
       'image', $id.'_upload',
       [
         'class' => 'center',
-        'src'   => 'geticon.php?context=actions&amp;icon=upload&amp;size=16',
+        'src'   => 'geticon.php?context=actions&icon=upload&size=16',
         'title' => _('Upload'),
         'alt'   => _('Upload')
       ]
@@ -424,7 +460,7 @@ class ImageAttribute extends FileAttribute
         'image', $id.'_remove',
         [
           'class' => 'center',
-          'src'   => 'geticon.php?context=actions&amp;icon=remove&amp;size=16',
+          'src'   => 'geticon.php?context=actions&icon=remove&size=16',
           'title' => _('Remove'),
           'alt'   => _('Remove')
         ]
@@ -439,7 +475,7 @@ class ImageAttribute extends FileAttribute
     return $this->renderAcl($display);
   }
 
-  public function htmlIds ()
+  public function htmlIds (): array
   {
     $id = $this->getHtmlId();
     return [$id.'_img',$id,'upload'.$id];
@@ -447,7 +483,7 @@ class ImageAttribute extends FileAttribute
 
   /*! \brief Fill LDAP value in the attrs array
    */
-  function fillLdapValue (&$attrs)
+  function fillLdapValue (array &$attrs)
   {
     if ($this->isInLdap()) {
       $value = $this->computeLdapValue();

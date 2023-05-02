@@ -1,7 +1,8 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2016-2018  FusionDirectory
+
+  Copyright (C) 2016-2019  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -21,97 +22,35 @@
 /*!
  * \brief Phone number selection
  */
-class phoneSelect extends simpleSelectManagement
+class phoneSelect extends selectManagement
 {
-  protected $multiSelect          = FALSE;
-  protected $autoFilterAttributes = ['dn','cn','ipHostNumber','macAddress','telephoneNumber'];
-  protected $objectTypes          = ['phone'];
-
-  function parseXML ($file)
-  {
-    $data = parent::parseXML($file);
-    /* Add column for phone number */
-    $data['list']['table']['layout'] .= '|';
-    $columns = [
-       [
-        'label'         => _('Number'),
-        'sortAttribute' => 'telephoneNumber',
-        'sortType'      => 'string',
-        'value'         => '%{filter:selectLink(pid,row,dn,telephoneNumber)}',
-        'export'        => 'true',
-       ],
-    ];
-    array_splice($data['list']['table']['column'], 2, 0, $columns);
-    return $data;
-  }
-
-  function configureFilter ()
-  {
-    parent::configureFilter();
-    /* Only display entries with a phone number */
-    $this->filter->query[0]['filter'] = '(&(telephoneNumber=*)'.$this->filter->query[0]['filter'].')';
-  }
-}
-
-/*!
- * \brief Mobile phone number selection
- */
-class mobilePhoneSelect extends phoneSelect
-{
-  protected $objectTypes = ['mobilePhone'];
-}
-
-/*!
- * \brief Phone number selection allowing both Phone and Mobile phone objects
- */
-class anyPhoneSelect extends phoneSelect
-{
-  protected $objectTypes = ['phone','mobilePhone'];
+  /* Default columns */
+  public static $columns = [
+    ['ObjectTypeColumn', []],
+    ['LinkColumn',       ['attributes' => 'nameAttr',         'label' => 'Name']],
+    ['LinkColumn',       ['attributes' => 'telephoneNumber',  'label' => 'Number']],
+  ];
 }
 
 /*!
  * \brief Phone number selection dialog
  */
-class phoneSelectDialog extends GenericDialog
+class phoneSelectDialog extends GenericSingleSelectManagementDialog
 {
-  function __construct ($simplePlugin, $attribute, $type)
-  {
-    $this->attribute  = $attribute;
-    switch ($type) {
-      case 'phone':
-        $this->dialog = new phoneSelect();
-        break;
-      case 'mobile':
-        $this->dialog = new mobilePhoneSelect();
-        break;
-      case 'any':
-        $this->dialog = new anyPhoneSelect();
-        break;
-      default:
-        trigger_error('Unknown phone select type '.$type);
-        break;
-    }
-  }
-
-  function handle_finish ()
-  {
-    $result = $this->dialog->detectPostActions();
-    if (isset($result['targets']) && count($result['targets'])) {
-      $headpage = $this->dialog->getHeadpage();
-      $dn       = $result['targets'][0];
-      $attrs    = $headpage->getEntry($dn);
-      $this->attribute->handleDialogResult($dn, $attrs);
-    }
-    return FALSE;
-  }
+  protected $dialogClass = 'phoneSelect';
 }
 
 /*! \brief This class allow to handle easily an LDAP attribute that contains a phone number
  */
-class PhoneNumberAttribute extends TestValidateAttribute
+class PhoneNumberAttribute extends StringAttribute
 {
-  protected $trim     = TRUE;
-  protected $testFunc = 'is_phone_nr';
+  protected $trim       = TRUE;
+  protected $inputType  = 'tel';
+
+  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = '', $acl = '', $regexp = '/^[\/0-9 ()+*-]+$/', $example = NULL)
+  {
+    parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl, $regexp, $example);
+  }
 }
 
 /*! \brief Displays a text field and a button to select the phone from object list
@@ -119,11 +58,12 @@ class PhoneNumberAttribute extends TestValidateAttribute
 class PhoneNumberButtonAttribute extends PhoneNumberAttribute
 {
   protected $type;
+  protected $dialogClass = 'phoneSelectDialog';
 
   function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = '', $type = 'phone', $acl = '')
   {
     parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
-    $this->dialogClass = 'phoneSelectDialog';
+
     if (class_available('phoneGeneric')) {
       $this->type = $type;
     } else {
@@ -131,7 +71,43 @@ class PhoneNumberButtonAttribute extends PhoneNumberAttribute
     }
   }
 
-  function renderFormInput ()
+  public function getSelectManagementParameters (): array
+  {
+    switch ($this->type) {
+      case 'phone':
+        $objectTypes = ['phone'];
+        break;
+      case 'mobile':
+        $objectTypes = ['mobilePhone'];
+        break;
+      case 'any':
+        $objectTypes = ['phone','mobilePhone'];
+        break;
+      default:
+        throw new FusionDirectoryException('Invalid type "'.$this->type.'" for PhoneNumberButtonAttribute');
+    }
+
+    return [
+      $objectTypes,
+      FALSE,
+      [
+        'objectClass'     => '*',
+        'dn'              => 'raw',
+        'cn'              => '*',
+        'ipHostNumber'    => '*',
+        'macAddress'      => '*',
+        'telephoneNumber' => '*',
+      ],
+      [],
+      [],
+      [
+        ['TabFilterElement',    []],
+        ['FixedFilterElement',  ['(telephoneNumber=*)']],
+      ]
+    ];
+  }
+
+  function renderFormInput (): string
   {
     $id = $this->getHtmlId();
     $display = parent::renderFormInput();
@@ -139,8 +115,8 @@ class PhoneNumberButtonAttribute extends PhoneNumberAttribute
       $display .= $this->renderAcl($this->renderInputField(
         'image', $id.'_edit',
         [
-          'class' => 'center',
-          'src'   => 'geticon.php?context=actions&amp;icon=document-edit&amp;size=16',
+          'class' => 'center dialog',
+          'src'   => 'geticon.php?context=actions&icon=document-edit&size=16',
           'title' => _('Edit'),
           'alt'   => _('Edit')
         ]
@@ -149,7 +125,7 @@ class PhoneNumberButtonAttribute extends PhoneNumberAttribute
     return $display;
   }
 
-  public function htmlIds ()
+  public function htmlIds (): array
   {
     $ids = parent::htmlIds();
     if ($this->type !== FALSE) {
@@ -166,7 +142,7 @@ class PhoneNumberButtonAttribute extends PhoneNumberAttribute
       if (!$this->disabled && $this->isVisible()) {
         foreach (array_keys($_POST) as $name) {
           if (preg_match('/^'.$id.'_edit_/', $name)) {
-            $this->plugin->openDialog(new $this->dialogClass($this->plugin, $this, $this->type));
+            $this->plugin->openDialog(new $this->dialogClass($this->plugin, $this));
             break;
           }
         }
@@ -174,10 +150,12 @@ class PhoneNumberButtonAttribute extends PhoneNumberAttribute
     }
   }
 
-  function handleDialogResult ($dn, $attrs)
+  function handleDialogResult ($dn, $entry)
   {
-    if (isset($attrs['telephoneNumber'][0])) {
-      $this->setValue($attrs['telephoneNumber'][0]);
+    if (isset($entry['telephoneNumber'][0])) {
+      $this->setValue($entry['telephoneNumber'][0]);
+    } elseif (isset($entry['telephoneNumber'])) {
+      $this->setValue($entry['telephoneNumber']);
     } else {
       $this->setValue('');
     }

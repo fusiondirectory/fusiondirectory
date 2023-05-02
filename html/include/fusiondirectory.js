@@ -124,7 +124,7 @@ function focus_field()
     i++;
   }
 
-  if (element && found) {
+  if (element) {
     element.blur();
     element.focus();
   }

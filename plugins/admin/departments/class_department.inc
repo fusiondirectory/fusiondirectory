@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
-  Copyright (C) 2011-2018  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -21,38 +21,37 @@
 
 class department extends simplePlugin
 {
-  static $namingAttr = 'ou';
+  static protected $namingAttr  = 'ou';
+  protected $structuralOC       = ['organizationalUnit'];
 
-  /* Do not append the structural object classes here, they are added dynamically in the constructor */
-  var $objectclasses  = ["top", "gosaDepartment"];
-  var $structuralOC   = ["organizationalUnit"];
-
-  static function plInfo ()
+  static function plInfo (): array
   {
     return [
       'plShortName'   => _('Department'),
       'plDescription' => _('Departments'),
+      /* Do not append the structural object classes here, they are added dynamically in the constructor */
+      'plObjectClass' => ['gosaDepartment'],
+      'plFilter'      => '(&(objectClass=organizationalUnit)(objectClass=gosaDepartment))',
       'plCategory'    => ['department' => ['objectClass' => 'gosaDepartment', 'description' => _('Departments')]],
-      'plObjectType'  =>
-        [
-          'department' => [
-            'name'      => _('Department'),
-            'filter'    => '(&(objectClass=organizationalUnit)(objectClass=gosaDepartment))',
-            'ou'        => '',
-            'icon'      => 'geticon.php?context=places&icon=folder&size=16',
-            'tabClass'  => 'deptabs',
-            'mainAttr'  => static::$namingAttr,
-          ]
-        ],
-      'plForeignKeys'  => [
+      'plObjectType'  => [
+        'department' => [
+          'name'      => _('Department'),
+          'ou'        => '',
+          'icon'      => 'geticon.php?context=places&icon=folder&size=16',
+          'tabClass'  => 'deptabs',
+          'mainAttr'  => static::$namingAttr,
+        ]
+      ],
+      'plForeignKeys' => [
         'manager' => ['user','dn','manager=%oldvalue%','*']
       ],
+      'plSearchAttrs' => ['description'],
 
       'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())
     ];
   }
 
-  static function getAttributesInfo ()
+  static function getAttributesInfo (): array
   {
     return static::getDepartmentAttributesInfo(_('department'));
   }
@@ -124,27 +123,27 @@ class department extends simplePlugin
   function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE)
   {
     global $config;
+
+    parent::__construct($dn, $object, $parent, $mainTab);
+
     /* Add the default structural object class if this is a new entry */
     $ldap = $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);
-    if ($dn == "" || $dn == "new" || !$ldap->dn_exists($dn)) {
+    if (($dn == '') || ($dn == 'new') || !$ldap->dn_exists($dn)) {
       $this->objectclasses = array_merge($this->structuralOC, $this->objectclasses);
     } else {
-      $ldap->cat($dn, ["structuralObjectClass"]);
+      $ldap->cat($dn, ['structuralObjectClass']);
       $attrs = $ldap->fetch();
       if (isset($attrs['structuralObjectClass']['count'])) {
         for ($i = 0; $i < $attrs['structuralObjectClass']['count']; $i++) {
           $this->objectclasses[] = $attrs['structuralObjectClass'][$i];
         }
       } else {
-        /* Could not detect structural object class for this object, fall back to the default
-         */
+        /* Could not detect structural object class for this object, fall back to the default */
         $this->objectclasses = array_merge($this->structuralOC, $this->objectclasses);
       }
     }
     $this->objectclasses = array_unique($this->objectclasses);
-
-    parent::__construct($dn, $object, $parent, $mainTab);
 
     $categoriesList = $config->get_cfg_value('DepartmentCategories', []);
 
@@ -157,27 +156,27 @@ class department extends simplePlugin
       $this->attributesAccess['businessCategory']->setChoices($categoriesList);
     }
 
-    $this->attributesAccess[static::$namingAttr]->setUnique(TRUE);
+    $this->attributesAccess[static::$namingAttr]->setUnique('one');
   }
 
   /* Check values */
-  function check ()
+  function check (): array
   {
-    /* Call common method to give check the hook */
-    $message = parent::check();
+    $errors = parent::check();
 
     $namingAttr = static::$namingAttr;
 
-    if ($namingAttr == 'ou') {
-      if (tests::is_department_name_reserved($this->$namingAttr)) {
-        $message[] = msgPool::reserved(_('Name'));
-      }
+    if (($namingAttr == 'ou') && tests::is_department_name_reserved($this->$namingAttr)) {
+      $errors[] = new SimplePluginCheckError(
+        $this,
+        msgPool::reserved(_('Name'))
+      );
     }
 
-    return $message;
+    return $errors;
   }
 
-  function get_allowed_bases ()
+  function get_allowed_bases (): array
   {
     /* Hide all departments, that are subtrees of this department */
     $bases = parent::get_allowed_bases();
@@ -191,7 +190,7 @@ class department extends simplePlugin
     return $bases;
   }
 
-  function prepare_save ()
+  function prepare_save (): array
   {
     if (static::$namingAttr != 'ou') {
       $this->attributesAccess['ou']->setValue($this->attributesAccess[static::$namingAttr]->getValue());
@@ -199,4 +198,3 @@ class department extends simplePlugin
     return parent::prepare_save();
   }
 }
-?>

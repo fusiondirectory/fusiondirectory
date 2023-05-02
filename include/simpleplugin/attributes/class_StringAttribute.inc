@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2018  FusionDirectory
+  Copyright (C) 2012-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -21,12 +21,14 @@
 /*! \brief This class allow to handle easily a String LDAP attribute
  *
  */
-class StringAttribute extends Attribute
+class StringAttribute extends \FusionDirectory\Core\SimplePlugin\Attribute
 {
   protected $pattern;
   protected $example;
   protected $autocomplete = NULL;
   protected $trim         = FALSE;
+  protected $inputType    = 'text';
+  protected $html5pattern = NULL;
 
   /*! \brief The constructor of StringAttribute
    *
@@ -42,7 +44,7 @@ class StringAttribute extends Attribute
   function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = "", $acl = "", $regexp = "", $example = NULL)
   {
     parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
-    $this->pattern = $regexp;
+    $this->setPattern($regexp);
     $this->example = ($example === NULL ? $defaultValue : $example);
   }
 
@@ -51,23 +53,60 @@ class StringAttribute extends Attribute
     $this->example = $example;
   }
 
+  public function getExample ()
+  {
+    return $this->example;
+  }
+
   function setPattern ($pattern)
   {
     $this->pattern = $pattern;
+    if (preg_match('/^(.)\^(.*)\$\1$/', $pattern, $m)) {
+      /* Only convert anchored patterns
+       * First and last characters are the same means no modifiers are in use
+       */
+      $this->html5pattern = $m[2];
+    } else {
+      $this->html5pattern = NULL;
+    }
   }
 
-  function renderFormInput ()
+  function renderFormInput (): string
   {
     $id = $this->getHtmlId();
     $attributes = [
-      'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}'
+      'value' => $this->getValue()
     ];
     if (!empty($this->managedAttributes)) {
       $js       = $this->managedAttributesJS();
-      $attributes['onChange'] = 'javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8');
+      $attributes['onChange'] = 'javascript:'.$js;
     }
     if ($this->autocomplete !== NULL) {
-      $attributes['autocomplete'] = ($this->autocomplete ? 'on' : 'off' );
+      $attributes['autocomplete'] = $this->autocomplete;
+    }
+    if ($this->html5pattern !== NULL) {
+      $attributes['pattern'] = $this->html5pattern;
+    }
+    if ($this->isSubAttribute) {
+      $attributes['class'] = 'subattribute';
+    } elseif ($this->isRequired()) {
+      $attributes['required'] = 'required';
+    }
+    $display  = $this->renderInputField($this->inputType, $id, $attributes);
+    return $this->renderAcl($display);
+  }
+
+  function renderTemplateInput (): string
+  {
+    $id = $this->getHtmlId();
+    $attributes = [
+      'value' => $this->getValue()
+    ];
+    if ($this->autocomplete !== NULL) {
+      $attributes['autocomplete'] = $this->autocomplete;
+    }
+    if ($this->isSubAttribute) {
+      $attributes['class'] = 'subattribute';
     }
     $display  = $this->renderInputField('text', $id, $attributes);
     return $this->renderAcl($display);
@@ -93,14 +132,21 @@ class StringAttribute extends Attribute
 
   function validate ()
   {
-    if (($this->pattern !== "") && !preg_match($this->pattern, $this->value)) {
-      return msgPool::invalid($this->getLabel(), $this->value, $this->pattern, htmlentities($this->example));
+    if (($this->pattern !== '') && !preg_match($this->pattern, $this->value)) {
+      return new SimplePluginCheckError(
+        $this,
+        SimplePluginCheckError::invalidValue(sprintf('"%s"', $this->getValue()))
+      );
     }
   }
 
-  function setAutocomplete ($bool)
+  function setAutocomplete ($autocomplete)
   {
-    $this->autocomplete = $bool;
+    if (is_bool($autocomplete)) {
+      $this->autocomplete = ($autocomplete ? 'on' : 'off');
+    } else {
+      $this->autocomplete = $autocomplete;
+    }
   }
 
   function getAutocomplete ()
@@ -110,7 +156,7 @@ class StringAttribute extends Attribute
 
   function checkValue ($value)
   {
-    if (!is_scalar($value) && (!is_object($value) || !method_exists($value, '__toString' ))) {
+    if (!is_scalar($value) && (!is_object($value) || !method_exists($value, '__toString'))) {
       throw new InvalidValueException(sprintf(_('StringAttribute "%s" was set to a non-compatible value'), $this->getLabel()));
     }
   }
@@ -138,12 +184,25 @@ class TrimmedStringAttribute extends StringAttribute
  */
 class TextAreaAttribute extends StringAttribute
 {
-  function renderFormInput ()
+  function renderFormInput (): string
   {
     $id = $this->getHtmlId();
     $display  = '<textarea name="'.$id.'" id="'.$id.'"'.
-                ($this->disabled ? ' disabled="disabled"' : '').'>'.
-                '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}</textarea>';
+                ($this->disabled ? ' disabled="disabled"' : '').
+                ($this->isSubAttribute ? ' class="subattribute"' : ($this->isRequired() ? ' required="required"' : '')).
+                '>'.
+                '{literal}'.htmlescape($this->getValue()).'{/literal}</textarea>';
+    return $this->renderAcl($display);
+  }
+
+  function renderTemplateInput (): string
+  {
+    $id = $this->getHtmlId();
+    $display  = '<textarea name="'.$id.'" id="'.$id.'"'.
+                ($this->disabled ? ' disabled="disabled"' : '').
+                ($this->isSubAttribute ? ' class="subattribute"' : '').
+                '>'.
+                '{literal}'.htmlescape($this->getValue()).'{/literal}</textarea>';
     return $this->renderAcl($display);
   }
 }
@@ -153,26 +212,6 @@ class TextAreaAttribute extends StringAttribute
  */
 class PasswordAttribute extends StringAttribute
 {
-  protected $autocomplete = FALSE;
-
-  function renderFormInput ()
-  {
-    $id = $this->getHtmlId();
-    $display  = $this->renderInputField(
-      'password', $id,
-      [
-        'value' => '{literal}'.htmlentities($this->getValue(), ENT_COMPAT, 'UTF-8').'{/literal}',
-        'autocomplete' => ($this->autocomplete ? 'on' : 'off'),
-      ]
-    );
-    if ($this->autocomplete === FALSE) {
-      $display = '{literal}<input autocomplete="off" value="foolautocompleteworkaround" type="text" style="display:none;"/>{/literal}'.$display;
-    }
-    return $this->renderAcl($display);
-  }
-
-  function renderTemplateInput ()
-  {
-    return parent::renderFormInput();
-  }
+  protected $autocomplete = 'new-password';
+  protected $inputType    = 'password';
 }

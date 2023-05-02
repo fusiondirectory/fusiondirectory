@@ -1,8 +1,9 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
+
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2018  FusionDirectory
+  Copyright (C) 2011-2020  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -24,6 +25,12 @@
  * Source code for the class userinfo
  */
 
+/* Define shadow states */
+define('POSIX_ACCOUNT_EXPIRED',           1);
+define('POSIX_WARN_ABOUT_EXPIRATION',     2);
+define('POSIX_FORCE_PASSWORD_CHANGE',     4);
+define('POSIX_DISALLOW_PASSWORD_CHANGE',  8);
+
 /*!
  * \brief Class userinfo
  * This class contains all informations and functions
@@ -39,21 +46,26 @@ class userinfo
   var $givenName    = '';
   var $gidNumber    = -1;
   var $language     = "";
-  var $subtreeACL   = [];
-  var $ACL          = [];
   var $groups       = [];
   var $roles        = [];
-  var $result_cache = [];
-  var $ignoreACL    = FALSE;
 
-  var $ACLperPath             = [];
-  var $ACLperPath_usesFilter  = [];
+  /*! \brief LDAP attributes of this user at login */
+  protected $cachedAttrs  = [];
+
+  protected $result_cache = [];
+  protected $ignoreACL    = FALSE;
+  protected $ACL          = [];
+  protected $ACLperPath   = [];
 
   /*! \brief LDAP size limit handler */
   protected $sizeLimitHandler;
 
-  /* get acl's an put them into the userinfo object
-     attr subtreeACL (userdn:components, userdn:component1#sub1#sub2,component2,...) */
+  /*! \brief Current management base */
+  protected $currentBase;
+
+  /*! \brief Password change should be forced */
+  protected $forcePasswordChange = FALSE;
+
   function __construct ($userdn)
   {
     global $config;
@@ -73,8 +85,11 @@ class userinfo
   {
     global $config;
     $ldap = $config->get_ldap_link();
-    $ldap->cat($this->dn, ['cn', 'sn', 'givenName', 'uid', 'gidNumber', 'preferredLanguage']);
-    $attrs = $ldap->fetch();
+    $ldap->cat($this->dn, ['*']);
+    $attrs = $ldap->fetch(TRUE);
+    if (!$ldap->success()) {
+      throw new FusionDirectoryLdapError($this->dn, LDAP_SEARCH, $ldap->get_error(), $ldap->get_errno());
+    }
 
     $this->uid = $attrs['uid'][0];
 
@@ -99,6 +114,8 @@ class userinfo
     if (isset($attrs['preferredLanguage'][0])) {
       $this->language = $attrs['preferredLanguage'][0];
     }
+
+    $this->cachedAttrs = $attrs;
   }
 
   /*!
@@ -115,7 +132,8 @@ class userinfo
    */
   function loadACL ()
   {
-    global $config;
+    global $config, $plist;
+
     $this->ACL          = [];
     $this->groups       = [];
     $this->roles        = [];
@@ -123,6 +141,7 @@ class userinfo
     $this->reset_acl_cache();
     $ldap = $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);
+    $targetFilterLimit  = $config->get_cfg_value('AclTargetFilterLimit', 100);
 
     /* Get member groups... */
     $ldap->search('(&(objectClass=groupOfNames)(member='.ldap_escape_f($this->dn).'))', ['dn']);
@@ -143,86 +162,126 @@ class userinfo
     }
 
     /* Crawl through ACLs and move relevant to the tree */
-    $ldap->search("(objectClass=gosaACL)", ['dn', 'gosaAclEntry']);
-    $aclp = [];
-    $aclc = [];
+    $ldap->search('(objectClass=gosaACL)', ['dn', 'gosaAclEntry']);
+    $ACLsContent = [];
     while ($attrs = $ldap->fetch()) {
 
       /* Insert links in ACL array */
-      $aclp[$attrs['dn']] = substr_count($attrs['dn'], ',');
-      $aclc[$attrs['dn']] = [];
-      $ol = [];
+      $mergedAcls = [];
       for ($i = 0; $i < $attrs['gosaAclEntry']['count']; $i++) {
-        $ol = array_merge($ol, acl::explodeAcl($attrs['gosaAclEntry'][$i]));
+        $mergedAcls = array_merge($mergedAcls, acl::explodeACL($attrs['gosaAclEntry'][$i]));
       }
-      $aclc[$attrs['dn']] = $ol;
+      $ACLsContent[$attrs['dn']] = $mergedAcls;
     }
 
-    /* Resolve roles here */
-    foreach ($aclc as $dn => $data) {
-      foreach ($data as $prio => $aclc_value) {
-        unset($aclc[$dn][$prio]);
+    $ACLsContentResolved = [];
 
-        $ldap->cat($aclc_value['acl'], ["gosaAclTemplate"]);
+    /* Resolve roles here */
+    foreach ($ACLsContent as $dn => $ACLRules) {
+      foreach ($ACLRules as $ACLRule) {
+        $ldap->cat($ACLRule['acl'], ['gosaAclTemplate']);
         $attrs = $ldap->fetch();
 
-        if (isset($attrs['gosaAclTemplate'])) {
-          $roleAcls = acl::explodeRole($attrs['gosaAclTemplate']);
-          foreach ($roleAcls as $roleAcl) {
-            $aclc[$dn][]  = [
-              'acl'     => $roleAcl,
-              'type'    => $aclc_value['type'],
-              'members' => $aclc_value['members'],
-              'filter'  => $aclc_value['filter']
+        if (!isset($attrs['gosaAclTemplate'])) {
+          continue;
+        }
+
+        $interesting = FALSE;
+
+        /* Inspect members... */
+        foreach (array_keys($ACLRule['members']) as $member) {
+          /* Wildcard? */
+          if ($member === 'G:*') {
+            $interesting = TRUE;
+            break;
+          }
+
+          list($memberType, $memberDn) = explode(':', $member, 2);
+          switch ($memberType) {
+            case 'G':
+              if (in_array_ics($memberDn, $this->groups)) {
+                $interesting = TRUE;
+                break 2;
+              }
+              break;
+            case 'R':
+              if (in_array_ics($memberDn, $this->roles)) {
+                $interesting = TRUE;
+                break 2;
+              }
+              break;
+            case 'U':
+              if (mb_strtolower($memberDn) === mb_strtolower($this->dn)) {
+                $interesting = TRUE;
+                break 2;
+              }
+              break;
+            default:
+              throw new FusionDirectoryException('Unknown ACL member type '.$memberType);
+          }
+        }
+
+        if (!$interesting) {
+          continue;
+        }
+
+        if (!empty($ACLRule['userfilter']) && !$ldap->object_match_filter($this->dn, $ACLRule['userfilter'])) {
+          /* We do not match the user filter */
+          continue;
+        }
+
+        if (!empty($ACLRule['targetfilter'])) {
+          $ldap->cd($dn);
+          $ldap->set_size_limit($targetFilterLimit);
+          $targetFilter = templateHandling::parseString($ACLRule['targetfilter'], $this->cachedAttrs, 'ldap_escape_f');
+          $ldap->search($targetFilter, ['dn']);
+          if ($ldap->hitSizeLimit()) {
+            $error = new FusionDirectoryError(
+              htmlescape(sprintf(
+                _('An ACL assignment for the connected user matched more than than the %d objects limit. This user will not have the ACL rights he should.'),
+                $targetFilterLimit
+              ))
+            );
+            $error->display();
+          }
+          $targetDns = [];
+          while ($targetAttrs = $ldap->fetch()) {
+            $targetDns[] = $targetAttrs['dn'];
+          }
+          $ldap->set_size_limit(0);
+        } else {
+          $targetDns = [$dn];
+        }
+
+        $roleAcls = acl::explodeRole($attrs['gosaAclTemplate']);
+        foreach ($roleAcls as $roleAcl) {
+          foreach ($targetDns as $targetDn) {
+            $ACLsContentResolved[$targetDn][]  = [
+              'acl'           => $roleAcl,
+              'type'          => $ACLRule['type'],
+              'members'       => $ACLRule['members'],
             ];
           }
         }
       }
     }
 
-    /* ACL's read, sort for tree depth */
-    asort($aclp);
+    /* Sort by tree depth */
+    uksort(
+      $ACLsContentResolved,
+      function ($dn1, $dn2)
+      {
+        return substr_count($dn1, ',') <=> substr_count($dn2, ',');
+      }
+    );
 
-    /* Sort in tree order */
-    foreach ($aclp as $dn => $acl) {
-      /* Check if we need to keep this ACL */
-      foreach ($aclc[$dn] as $idx => $type) {
-        $interresting = FALSE;
-
-        /* No members? This ACL rule is deactivated ... */
-        if (!count($type['members'])) {
-          $interresting = FALSE;
-        } else {
-          /* Inspect members... */
-          foreach (array_keys($type['members']) as $grp) {
-            /* Some group inside the members that is relevant for us? */
-            if (in_array_ics(preg_replace('/^G:/', '', $grp), $this->groups)) {
-              $interresting = TRUE;
-            }
-
-            /* Some role inside the members that is relevant for us? */
-            if (in_array_ics(preg_replace('/^R:/', '', $grp), $this->roles)) {
-              $interresting = TRUE;
-            }
-
-            /* User inside the members? */
-            if (mb_strtoupper(preg_replace('/^U:/', '', $grp)) == mb_strtoupper($this->dn)) {
-              $interresting = TRUE;
-            }
-
-            /* Wildcard? */
-            if (preg_match('/^G:\*/',  $grp)) {
-              $interresting = TRUE;
-            }
-          }
+    /* Insert in $this->ACL */
+    foreach ($ACLsContentResolved as $dn => $ACLRules) {
+      foreach ($ACLRules as $idx => $ACLRule) {
+        if (!isset($this->ACL[$dn])) {
+          $this->ACL[$dn] = [];
         }
-
-        if ($interresting) {
-          if (!isset($this->ACL[$dn])) {
-            $this->ACL[$dn] = [];
-          }
-          $this->ACL[$dn][$idx] = $type;
-        }
+        $this->ACL[$dn][$idx] = $ACLRule;
       }
     }
 
@@ -237,43 +296,49 @@ class userinfo
       .                        ['ou=base']          = array(ACLs);
 
 
-      For object located in 'ou=dep1,ou=base' we have to both ACLs,
-       for objects in 'ou=base' we only have to apply on ACL.
+      For objects located in 'ou=dep1,ou=base' we have to apply both ACLs,
+       for objects in 'ou=base' we only have to apply one ACL.
      */
-    $without_self_acl = $all_acl = [];
+    $all_acl = [];
     foreach ($this->ACL as $dn => $acl) {
+      $all_acl[$dn][$dn] = $acl;
       $sdn = $dn;
-      do {
+      while (strpos($dn, ',') !== FALSE) {
+        $dn = preg_replace('/^[^,]*+,/', '', $dn);
         if (isset($this->ACL[$dn])) {
-          $all_acl[$sdn][$dn]           = $this->ACL[$dn];
-          $without_self_acl[$sdn][$dn]  = $this->ACL[$dn];
-          foreach ($without_self_acl[$sdn][$dn] as $acl_id => $acl_set) {
-
-            /* Remember which ACL set has speicial user filter */
-            if (isset($acl_set['filter'][1])) {
-              $this->ACLperPath_usesFilter[$sdn] = TRUE;
+          $all_acl[$sdn][$dn] = array_filter(
+            $this->ACL[$dn],
+            function ($ACLInfos)
+            {
+              return ($ACLInfos['type'] === 'subtree');
             }
-
-            /* Remove all acl entries which are especially for the current user (self acl) */
-            foreach ($acl_set['acl'] as $object => $object_acls) {
-              if (isset($object_acls[0]) && (strpos($object_acls[0], "s") !== FALSE)) {
-                unset($without_self_acl[$sdn][$dn][$acl_id]['acl'][$object]);
-              }
-            }
-          }
+          );
         }
-        $dn = preg_replace("/^[^,]*+,/", "", $dn);
-      } while (strpos($dn, ',') !== FALSE);
+      }
     }
-    $this->ACLperPath = $without_self_acl;
+    $this->ACLperPath = $all_acl;
 
     /* Append Self entry */
     $dn = $this->dn;
-    while (strpos($dn, ",") && !isset($all_acl[$dn])) {
-      $dn = preg_replace("/^[^,]*+,/", "", $dn);
+    while (strpos($dn, ',') && !isset($all_acl[$dn])) {
+      $dn = preg_replace('/^[^,]*+,/', '', $dn);
     }
     if (isset($all_acl[$dn])) {
       $this->ACLperPath[$this->dn] = $all_acl[$dn];
+      if ($dn !== $this->dn) {
+        $this->ACLperPath[$this->dn][$dn] = array_filter(
+          $this->ACLperPath[$this->dn][$dn],
+          function ($ACLInfos)
+          {
+            return ($ACLInfos['type'] === 'subtree');
+          }
+        );
+      }
+    }
+
+    /* Reset plist menu and ACL cache if needed */
+    if (is_object($plist)) {
+      $plist->resetCache();
     }
   }
 
@@ -298,7 +363,7 @@ class userinfo
    */
   function get_category_permissions ($dn, $category)
   {
-    return @$this->get_permissions($dn, $category.'/0', '');
+    return $this->get_permissions($dn, $category.'/0', '');
   }
 
 
@@ -311,7 +376,7 @@ class userinfo
    *
    * \return boolean TRUE if the given object is copyable else FALSE
   */
-  function is_copyable ($dn, $object)
+  function is_copyable ($dn, $object): bool
   {
     return (strpos($this->get_complete_category_acls($dn, $object), 'r') !== FALSE);
   }
@@ -328,7 +393,7 @@ class userinfo
    *
    * \return boolean TRUE if the given object is cutable else FALSE
    */
-  function is_cutable ($dn, $object, $class)
+  function is_cutable ($dn, $object, $class): bool
   {
     $remove = (strpos($this->get_permissions($dn, $object.'/'.$class), 'd') !== FALSE);
     $read   = (strpos($this->get_complete_category_acls($dn, $object), 'r') !== FALSE);
@@ -345,7 +410,7 @@ class userinfo
    *
    * \return Boolean TRUE if we are allowed to paste an object.
    */
-  function is_pasteable ($dn, $object)
+  function is_pasteable ($dn, $object): bool
   {
     return (strpos($this->get_complete_category_acls($dn, $object), 'w') !== FALSE);
   }
@@ -362,7 +427,7 @@ class userinfo
    *
    * \return boolean TRUE if we are allowed to restore a snapshot.
    */
-  function allow_snapshot_restore ($dn, $categories, $deleted)
+  function allow_snapshot_restore ($dn, $categories, $deleted): bool
   {
     $permissions = $this->get_snapshot_permissions($dn, $categories);
     return in_array(($deleted ? 'restore_deleted' : 'restore_over'), $permissions);
@@ -378,7 +443,7 @@ class userinfo
    *
    * \return boolean TRUE if we are allowed to create a snapshot.
    */
-  function allow_snapshot_create ($dn, $categories)
+  function allow_snapshot_create ($dn, $categories): bool
   {
     $permissions = $this->get_snapshot_permissions($dn, $categories);
     return in_array('c', $permissions);
@@ -394,7 +459,7 @@ class userinfo
    *
    * \return boolean TRUE if we are allowed to delete a snapshot.
    */
-  function allow_snapshot_delete ($dn, $categories)
+  function allow_snapshot_delete ($dn, $categories): bool
   {
     $permissions = $this->get_snapshot_permissions($dn, $categories);
     return in_array('d', $permissions);
@@ -432,12 +497,12 @@ class userinfo
    *
    * \param string $object     The acl category (e.g. user)
    *
-   * \param string $attribute  The acl class (e.g. user)
+   * \param string $attribute
    *
    * \param bool $skip_write   Remove the write acl for this dn
    *
    */
-  function get_permissions ($dn, $object, $attribute = "", $skip_write = FALSE)
+  function get_permissions ($dn, $object, $attribute = '', $skip_write = FALSE)
   {
     global $config;
     /* If we are forced to skip ACLs checks for the current user
@@ -450,6 +515,8 @@ class userinfo
       return 'rwcdm';
     }
 
+    $attribute = static::sanitizeAttributeName($attribute);
+
     /* Push cache answer? */
     $ACL_CACHE = &session::get_ref('ACL_CACHE');
     if (isset($ACL_CACHE["$dn+$object+$attribute"])) {
@@ -460,85 +527,65 @@ class userinfo
       return $ret;
     }
 
-    /* Detect the set of ACLs we have to check for this object
-     */
-    $adn = $dn;
-    while (!isset($this->ACLperPath[$adn]) && (strpos($adn, ',') !== FALSE)) {
-      $adn = preg_replace("/^[^,]*+,/", "", $adn);
+    /* Detect the set of ACLs we have to check for this object */
+    $parentACLdn = $dn;
+    while (!isset($this->ACLperPath[$parentACLdn]) && (strpos($parentACLdn, ',') !== FALSE)) {
+      $parentACLdn = preg_replace('/^[^,]*+,/', '', $parentACLdn);
     }
-    if (isset($this->ACLperPath[$adn])) {
-      $ACL = $this->ACLperPath[$adn];
-    } else {
+    if (!isset($this->ACLperPath[$parentACLdn])) {
       $ACL_CACHE["$dn+$object+$attribute"] = '';
       return '';
     }
 
-    /* If we do not need to respect any user-filter settings
-        we can skip the per object ACL checks.
-     */
-    $orig_dn = $dn;
-    if (!isset($this->ACLperPath_usesFilter[$adn])) {
-      $dn = $adn;
-      if (isset($ACL_CACHE["$dn+$object+$attribute"])) {
-        $ret = $ACL_CACHE["$dn+$object+$attribute"];
-        if (!isset($ACL_CACHE["$orig_dn+$object+$attribute"])) {
-          $ACL_CACHE["$orig_dn+$object+$attribute"] = $ret;
-        }
-        if ($skip_write) {
-          $ret = str_replace(['w','c','d','m'], '', $ret);
-        }
-        return $ret;
-      }
-    }
+    if (($parentACLdn !== $dn) && isset($ACL_CACHE["sub:$parentACLdn+$object+$attribute"])) {
+      /* Load parent subtree ACLs from cache */
+      $permissions = $ACL_CACHE["sub:$parentACLdn+$object+$attribute"];
+    } else {
+      $permissions = new ACLPermissions();
 
-    /* Get ldap object, for later filter checks */
-    $ldap = $config->get_ldap_link();
+      /* Merge relevent permissions from parent ACLs */
+      foreach ($this->ACLperPath[$parentACLdn] as $parentdn => $ACLs) {
+        /* Inspect this ACL, place the result into permissions */
+        foreach ($ACLs as $subacl) {
+          if ($permissions->isFull()) {
+            /* Stop merging if we have all rights already */
+            break 2;
+          }
 
-    $acl = ['r' => '', 'w' => '', 'c' => '', 'd' => '', 'm' => '', 'a' => ''];
-
-    /* Build dn array */
-    $path = explode(',', $dn);
-    $path = array_reverse($path);
-
-    /* Walk along the path to evaluate the acl */
-    $cpath = '';
-    foreach ($path as $element) {
-
-      /* Clean potential ACLs for each level */
-      if (isset($config->idepartments[$cpath])) {
-        $acl = $this->cleanACL($acl);
-      }
-
-      if ($cpath == "") {
-        $cpath = $element;
-      } else {
-        $cpath = $element.','.$cpath;
-      }
-
-      if (isset($ACL[$cpath])) {
-
-        /* Inspect this ACL, place the result into ACL */
-        foreach ($ACL[$cpath] as $subacl) {
-
-          /* Reset? Just clean the ACL and turn over to the next one... */
-          if ($subacl['type'] == 'reset') {
-            $acl = $this->cleanACL($acl, TRUE);
+          if (($dn != $this->dn) && isset($subacl['acl'][$object][0]) && ($subacl['acl'][$object][0]->isSelf())) {
+            /* Self ACL */
             continue;
           }
 
-          /* With user filter */
-          if (isset($subacl['filter']) && !empty($subacl['filter'])) {
-            $id = $dn."-".$subacl['filter'];
-            if (!isset($ACL_CACHE['FILTER'][$id])) {
-              $ACL_CACHE['FILTER'][$id] = $ldap->object_match_filter($dn, $subacl['filter']);
-            }
-            if (!$ACL_CACHE['FILTER'][$id]) {
-              continue;
-            }
+          if (($subacl['type'] === 'base') && ($parentdn !== $dn)) {
+            /* Base assignment on another dn */
+            continue;
           }
 
-          /* Self ACLs? */
-          if (($dn != $this->dn) && isset($subacl['acl'][$object][0]) && (strpos($subacl['acl'][$object][0], "s") !== FALSE)) {
+          /* Special global ACL */
+          if (isset($subacl['acl']['all'][0])) {
+            $permissions->merge($subacl['acl']['all'][0]);
+          }
+
+          /* Category ACLs (e.g. $object = "user/0") */
+          if (strstr($object, '/0')) {
+            $ocs = preg_replace("/\/0$/", '', $object);
+            if (isset($config->data['CATEGORIES'][$ocs]) && ($attribute == '')) {
+              foreach ($config->data['CATEGORIES'][$ocs]['classes'] as $oc) {
+                if (isset($subacl['acl'][$ocs.'/'.$oc])) {
+                  if (($dn != $this->dn) &&
+                      isset($subacl['acl'][$ocs.'/'.$oc][0]) &&
+                      ($subacl['acl'][$ocs.'/'.$oc][0]->isSelf())) {
+                    /* Skip self ACL */
+                    continue;
+                  }
+
+                  foreach ($subacl['acl'][$ocs.'/'.$oc] as $anyPermissions) {
+                    $permissions->merge($anyPermissions);
+                  }
+                }
+              }
+            }
             continue;
           }
 
@@ -546,93 +593,32 @@ class userinfo
               Merge global class ACLs [0] with attributes specific ACLs [attribute].
            */
           if (($attribute == '') && isset($subacl['acl'][$object])) {
-            foreach ($subacl['acl'][$object] as $attr => $dummy) {
-              $acl = $this->mergeACL($acl, $subacl['type'], $subacl['acl'][$object][$attr]);
+            foreach ($subacl['acl'][$object] as $anyPermissions) {
+              $permissions->merge($anyPermissions);
             }
             continue;
           }
 
           /* Per attribute ACL? */
           if (isset($subacl['acl'][$object][$attribute])) {
-            $acl = $this->mergeACL($acl, $subacl['type'], $subacl['acl'][$object][$attribute]);
-            continue;
+            $permissions->merge($subacl['acl'][$object][$attribute]);
           }
 
           /* Per object ACL? */
           if (isset($subacl['acl'][$object][0])) {
-            $acl = $this->mergeACL($acl, $subacl['type'], $subacl['acl'][$object][0]);
-            continue;
-          }
-
-          /* Global ACL? */
-          if (isset($subacl['acl']['all'][0])) {
-            $acl = $this->mergeACL($acl, $subacl['type'], $subacl['acl']['all'][0]);
-            continue;
-          }
-
-          /* Category ACLs    (e.g. $object = "user/0")
-           */
-          if (strstr($object, '/0')) {
-            $ocs = preg_replace("/\/0$/", "", $object);
-            if (isset($config->data['CATEGORIES'][$ocs])) {
-
-              /* if $attribute is "", then check every single attribute for this object.
-                 if it is 0, then just check the object category ACL.
-               */
-              if ($attribute == "") {
-                foreach ($config->data['CATEGORIES'][$ocs]['classes'] as $oc) {
-                  if (isset($subacl['acl'][$ocs.'/'.$oc])) {
-                    // Skip ACLs wich are defined for ourselfs only - if not checking against ($ui->dn)
-                    if (isset($subacl['acl'][$ocs.'/'.$oc][0]) &&
-                        ($dn != $this->dn) &&
-                        (strpos($subacl['acl'][$ocs.'/'.$oc][0], "s") !== FALSE)) {
-                      continue;
-                    }
-
-                    foreach ($subacl['acl'][$ocs.'/'.$oc] as $attr => $dummy) {
-                      $acl = $this->mergeACL($acl, $subacl['type'], $subacl['acl'][$ocs.'/'.$oc][$attr]);
-                    }
-                    continue;
-                  }
-                }
-              } else {
-                if (isset($subacl['acl'][$ocs.'/'.$oc][0])) {
-                  if (($dn != $this->dn) && (strpos($subacl['acl'][$ocs.'/'.$oc][0], "s") !== FALSE)) {
-                    continue;
-                  }
-                  $acl = $this->mergeACL($acl, $subacl['type'], $subacl['acl'][$ocs.'/'.$oc][0]);
-                }
-              }
-            }
-            continue;
+            $permissions->merge($subacl['acl'][$object][0]);
           }
         }
       }
     }
 
-    /* If the requested ACL is for a container object, then alter
-        ACLs by applying cleanACL a last time.
-     */
-    if (isset($config->idepartments[$dn])) {
-      $acl = $this->cleanACL($acl);
+    if ($parentACLdn !== $dn) {
+      $ACL_CACHE["sub:$parentACLdn+$object+$attribute"] = $permissions;
     }
-
-    /* Assemble string */
-    $ret = "";
-    foreach ($acl as $key => $value) {
-      if ($value !== "") {
-        $ret .= $key;
-      }
-    }
-
-    $ACL_CACHE["$dn+$object+$attribute"]      = $ret;
-    $ACL_CACHE["$orig_dn+$object+$attribute"] = $ret;
+    $ACL_CACHE["$dn+$object+$attribute"] = $permissions;
 
     /* Remove write if needed */
-    if ($skip_write) {
-      $ret = str_replace(['w','c','d','m'], '', $ret);
-    }
-    return $ret;
+    return $permissions->toString($skip_write);
   }
 
   /*!
@@ -641,20 +627,20 @@ class userinfo
    * Extract all departments that are accessible (direct or 'on the way' to an
    * accessible department)
    *
-   * \param string $module The module
+   * \param string|array $module The module
    *
    * \param bool $skip_self_acls FALSE
    *
    * \return array Return all accessible departments
    */
-  function get_module_departments ($module, $skip_self_acls = FALSE )
+  function get_module_departments ($module, bool $skip_self_acls = FALSE): array
   {
     global $config;
     /* If we are forced to skip ACLs checks for the current user
         then return all departments as valid.
      */
     if ($this->ignore_acl_for_current_user()) {
-      return array_keys($config->idepartments);
+      return array_values($config->getDepartmentList());
     }
 
     /* Use cached results if possilbe */
@@ -663,6 +649,8 @@ class userinfo
     if (!is_array($module)) {
       $module = [$module];
     }
+
+    $departmentInfo = $config->getDepartmentInfo();
 
     $res = [];
     foreach ($module as $mod) {
@@ -679,28 +667,30 @@ class userinfo
           $found = FALSE;
           foreach ($info['acl'] as $cat => $data) {
             /* Skip self acls? */
-            if ($skip_self_acls && isset($data['0']) && (strpos($data['0'], "s") !== FALSE)) {
+            if ($skip_self_acls && isset($data[0]) && $data[0]->isSelf()) {
               continue;
             }
-            if (preg_match("/^".preg_quote($mod, '/')."/", $cat)) {
+            if (preg_match('/^'.preg_quote($mod, '/').'/', $cat) || ($cat === 'all')) {
+              /* $cat starts with $mod (example: cat=user/user and mod=user) or cat is 'all' */
               $found = TRUE;
               break;
             }
           }
 
-          if ($found && !isset($config->idepartments[$dn])) {
-            while (!isset($config->idepartments[$dn]) && strpos($dn, ",")) {
+          if ($found && !isset($departmentInfo[$dn])) {
+            while (!isset($departmentInfo[$dn]) && strpos($dn, ',')) {
               $dn = preg_replace("/^[^,]+,/", "", $dn);
             }
-            if (isset($config->idepartments[$dn])) {
+            if (isset($departmentInfo[$dn])) {
               $deps[$dn] = $dn;
             }
           }
         }
       }
 
-      /* For all gosaDepartments */
-      foreach ($config->departments as $dn) {
+      /* For all departments */
+      $departments = $config->getDepartmentList();
+      foreach ($departments as $dn) {
         if (isset($deps[$dn])) {
           continue;
         }
@@ -720,83 +710,6 @@ class userinfo
     }
 
     return array_values($res);
-  }
-
-  /*!
-   * \brief Merge acls
-   *
-   * \param $acl The ACL
-   *
-   * \param $type The type
-   *
-   * \param $newACL The new ACL
-   */
-  function mergeACL ($acl, $type, $newACL)
-  {
-    $at = ["subtree" => "s", "one" => "1"];
-
-    if ((strpos($newACL, 'w') !== FALSE) && (strpos($newACL, 'r') === FALSE)) {
-      $newACL .= "r";
-    }
-
-    /* Ignore invalid characters */
-    $newACL = preg_replace('/[^rwcdm]/', '', $newACL);
-
-    foreach (str_split($newACL) as $char) {
-      /* Skip "self" ACLs without combination of rwcdm, they have no effect.
-         -self flag without read/write/create/...
-       */
-      if (empty($char)) {
-        continue;
-      }
-
-      /* Skip subtree entries */
-      if ($acl[$char] == 's') {
-        continue;
-      }
-
-      if ($type == "base" && $acl[$char] != 1) {
-        $acl[$char] = 0;
-      } else {
-        $acl[$char] = $at[$type];
-      }
-    }
-
-    return $acl;
-  }
-
-  /*!
-   * \brief Clean acls
-   *
-   * \param $acl ACL to be cleaned
-   *
-   * \param boolean $reset FALSE
-   */
-  function cleanACL ($acl, $reset = FALSE)
-  {
-    foreach ($acl as $key => $value) {
-      /* Continue, if value is empty or subtree */
-      if (($value == "") || ($value == "s")) {
-        continue;
-      }
-
-      /* Reset removes everything but 'p' */
-      if ($reset && $value != 'p') {
-        $acl[$key] = "";
-        continue;
-      }
-
-      /* Decrease tree level */
-      if (is_int($value)) {
-        if ($value) {
-          $acl[$key]--;
-        } else {
-          $acl[$key] = "";
-        }
-      }
-    }
-
-    return $acl;
   }
 
   /*!
@@ -885,12 +798,46 @@ class userinfo
   function expired_status ()
   {
     global $config;
+
+    if ($this->forcePasswordChange) {
+      return POSIX_FORCE_PASSWORD_CHANGE;
+    }
+
     // Skip this for the admin account, we do not want to lock him out.
     if ($this->is_user_admin()) {
       return 0;
     }
 
     $ldap = $config->get_ldap_link();
+
+    if (class_available('ppolicyAccount')) {
+      try {
+        list($policy, $attrs) = user::fetchPpolicy($this->dn);
+        if (
+          isset($policy['pwdExpireWarning'][0]) &&
+          isset($policy['pwdMaxAge'][0]) &&
+          isset($attrs['pwdChangedTime'][0])
+        ) {
+          $now                      = new DateTime('now', timezone::utc());
+          $pwdExpireWarningSeconds  = intval($policy['pwdExpireWarning'][0]);
+          $maxAge                   = $policy['pwdMaxAge'][0];
+          /* Build expiration date from pwdChangedTime and max age */
+          $expDate = LdapGeneralizedTime::fromString($attrs['pwdChangedTime'][0]);
+          $expDate->setTimezone(timezone::utc());
+          $expDate->add(new DateInterval('PT'.$maxAge.'S'));
+          if ($expDate->getTimeStamp() < ($now->getTimeStamp() + $pwdExpireWarningSeconds)) {
+            return POSIX_WARN_ABOUT_EXPIRATION;
+          }
+        }
+      } catch (NonExistingLdapNodeException $e) {
+        /* ppolicy not found in LDAP */
+      }
+    }
+
+    if ($config->get_cfg_value('handleExpiredAccounts') != 'TRUE') {
+      return 0;
+    }
+
     $ldap->cd($config->current['BASE']);
     $ldap->cat($this->dn);
     $attrs    = $ldap->fetch();
@@ -905,27 +852,20 @@ class userinfo
     // Check if the account has reached its kick off limitations.
     // ----------------------------------------------------------
     // Once the accout reaches the kick off limit it has expired.
-    if ($sambaKickoffTime !== NULL) {
-      if (time() >= $sambaKickoffTime) {
-        return POSIX_ACCOUNT_EXPIRED;
-      }
+    if (($sambaKickoffTime !== NULL) && (time() >= $sambaKickoffTime)) {
+      return POSIX_ACCOUNT_EXPIRED;
     }
 
     // Check if the account has expired.
     // ---------------------------------
-    // An account is locked/expired once its expiration date has reached (shadowExpire).
+    // An account is locked/expired once its expiration date was reached (shadowExpire).
     // If the optional attribute (shadowInactive) is set, we've to postpone
     //  the account expiration by the amount of days specified in (shadowInactive).
-    if (($shadowExpire != NULL) && ($shadowExpire <= $current)) {
-
-      // The account seems to be expired, but we've to check 'shadowInactive' additionally.
-      // ShadowInactive specifies an amount of days we've to reprieve the user.
-      // It some kind of x days' grace.
-      if (($shadowInactive == NULL) || $current > $shadowExpire + $shadowInactive) {
-
-        // Finally we've detect that the account is deactivated.
-        return POSIX_ACCOUNT_EXPIRED;
-      }
+    // ShadowInactive specifies an amount of days we've to reprieve the user.
+    // It some kind of x days' grace.
+    if (($shadowExpire != NULL) && ($shadowExpire <= $current)
+      && (($shadowInactive == NULL) || ($current > $shadowExpire + $shadowInactive))) {
+      return POSIX_ACCOUNT_EXPIRED;
     }
 
     // The users password is going to expire.
@@ -935,18 +875,12 @@ class userinfo
     // The user has to be warned, if the days left till expiration, match the
     //  configured warning period (shadowWarning)
     // --> shadowWarning: Warn x days before account expiration.
-    if (($shadowExpire != NULL) && ($shadowWarning != NULL)) {
-
-      // Check if the account is still active and not already expired.
-      if ($shadowExpire >= $current) {
-
-        // Check if we've to warn the user by comparing the remaining
-        //  number of days till expiration with the configured amount
-        //  of days in shadowWarning.
-        if (($shadowExpire - $current) <= $shadowWarning) {
-          return POSIX_WARN_ABOUT_EXPIRATION;
-        }
-      }
+    // Check if the account is still active and not already expired.
+    // Check if we've to warn the user by comparing the remaining
+    //  number of days till expiration with the configured amount of days in shadowWarning.
+    if (($shadowExpire != NULL) && ($shadowWarning != NULL)
+      && ($shadowExpire >= $current) && ($shadowExpire <= $current + $shadowWarning)) {
+      return POSIX_WARN_ABOUT_EXPIRATION;
     }
 
     // -- I guess this is the correct detection, isn't it?
@@ -964,11 +898,10 @@ class userinfo
     // The age of the current password (shadowLastChange) plus the maximum
     //  amount amount of days (shadowMax) has to be smaller than the
     //  current timestamp.
-    if (($shadowLastChange != NULL) && ($shadowMax != NULL)) {
-      // Check if we've an outdated password.
-      if ($current >= ($shadowLastChange + $shadowMax)) {
-        return POSIX_FORCE_PASSWORD_CHANGE;
-      }
+    // Check if we've an outdated password.
+    if (($shadowLastChange != NULL) && ($shadowMax != NULL)
+      && ($current >= $shadowLastChange + $shadowMax)) {
+      return POSIX_FORCE_PASSWORD_CHANGE;
     }
 
     // Check if we've to freeze the users password.
@@ -976,11 +909,10 @@ class userinfo
     // Once a user has changed his password, he cannot change it again
     //  for a given amount of days (shadowMin).
     // We should not allow to change the password within FusionDirectory too.
-    if (($shadowLastChange != NULL) && ($shadowMin != NULL)) {
-      // Check if we've an outdated password.
-      if (($shadowLastChange + $shadowMin) >= $current) {
-        return POSIX_DISALLOW_PASSWORD_CHANGE;
-      }
+    // Check if we've an outdated password.
+    if (($shadowLastChange != NULL) && ($shadowMin != NULL)
+      && ($shadowLastChange + $shadowMin >= $current)) {
+      return POSIX_DISALLOW_PASSWORD_CHANGE;
     }
 
     return 0;
@@ -1004,11 +936,9 @@ class userinfo
     global $config;
     $blacklist = $config->get_cfg_value('PluginsMenuBlacklist', []);
     foreach ($blacklist as $item) {
-      list($group, $p) = explode('|', $item, 2);
-      if ($plugin == $p) {
-        if (in_array($group, $this->groups) || in_array($group, $this->roles)) {
-          return TRUE;
-        }
+      list ($group, $p) = explode('|', $item, 2);
+      if (($plugin == $p) && (in_array($group, $this->groups) || in_array($group, $this->roles))) {
+        return TRUE;
       }
     }
 
@@ -1027,6 +957,8 @@ class userinfo
       return TRUE;
     }
 
+    $attribute = static::sanitizeAttributeName($attribute);
+
     if (is_array($type)) {
       /* Used for recursion through subtabs */
       $prefix = '';
@@ -1035,7 +967,7 @@ class userinfo
       /* Usual workflow */
       $infos  = objects::infos($type);
       $prefix = $infos['aclCategory'].'/';
-      $tabs   = $config->data['TABS'][$infos['tabGroup']];
+      $tabs   = $infos['tabClass']::getPotentialTabList($type, $infos);
     }
     foreach ($tabs as $tab) {
       $acls = pluglist::pluginInfos($tab['CLASS'])['plProvidedAcls'];
@@ -1056,5 +988,146 @@ class userinfo
   {
     return $this->sizeLimitHandler;
   }
+
+  /* \brief Returns the base this user is stored in
+   */
+  function getBase ()
+  {
+    return get_base_from_people($this->dn);
+  }
+
+  /* \brief Returns the current base the user went to in management classes
+   */
+  function getCurrentBase ()
+  {
+    if (!empty($this->currentBase)) {
+      return $this->currentBase;
+    } else {
+      return $this->getBase();
+    }
+  }
+
+  /* \brief Sets the current base the user went to in management classes
+   */
+  function setCurrentBase ($base)
+  {
+    $this->currentBase = $base;
+  }
+
+  /* \brief Get ACL name or HTML id from attribute name
+   */
+  public static function sanitizeAttributeName ($name)
+  {
+    return preg_replace('/[\/\-,.#:;]/', '_', $name);
+  }
+
+  /*!
+   * \brief Get user from LDAP directory
+   *
+   * Search the user by login or other fields authorized by the configuration
+   *
+   * \param string $username The username or email to check
+   *
+   * \return userinfo instance on SUCCESS, FALSE if not found, string error on error
+   */
+  public static function getLdapUser (string $username)
+  {
+    global $config;
+
+    /* look through the entire ldap */
+    $ldap = $config->get_ldap_link();
+    if (!$ldap->success()) {
+      throw new FatalError(msgPool::ldaperror($ldap->get_error(FALSE), '', LDAP_AUTH));
+    }
+
+    $allowed_attributes = ['uid','mail'];
+    $verify_attr = [];
+    $tmp = explode(',', $config->get_cfg_value('loginAttribute'));
+    foreach ($tmp as $attr) {
+      if (in_array($attr, $allowed_attributes)) {
+        $verify_attr[] = $attr;
+      }
+    }
+
+    if (count($verify_attr) == 0) {
+      $verify_attr = ['uid'];
+    }
+    $tmp    = $verify_attr;
+    $tmp[]  = 'uid';
+    $filter = '';
+    foreach ($verify_attr as $attr) {
+      $filter .= '('.$attr.'='.$username.')';
+    }
+    $filter = '(&(|'.$filter.')(objectClass=inetOrgPerson))';
+    $ldap->cd($config->current['BASE']);
+    $ldap->search($filter, $tmp);
+
+    /* get results, only a count of 1 is valid */
+    if ($ldap->count() == 0) {
+      /* user not found */
+      return FALSE;
+    } elseif ($ldap->count() != 1) {
+      /* found more than one matching id */
+      return _('Login (uid) is not unique inside the LDAP tree. Please contact your administrator.');
+    }
+
+    /* LDAP schema is not case sensitive. Perform additional check. */
+    $attrs = $ldap->fetch();
+    $success = FALSE;
+    foreach ($verify_attr as $attr) {
+      if (isset($attrs[$attr][0]) && $attrs[$attr][0] == $username) {
+        $success = TRUE;
+      }
+    }
+    $ldap->disconnect();
+    if (!$success) {
+      return FALSE;
+    }
+
+    return new userinfo($attrs['dn']);
+  }
+
+  /*!
+   * \brief Verify user login against LDAP directory
+   *
+   * Checks if the specified username is in the LDAP and verifies if the
+   * password is correct by binding to the LDAP with the given credentials.
+   *
+   * \param string $username The username to check
+   *
+   * \param string $password The password to check
+   *
+   * \return TRUE on SUCCESS, NULL or FALSE on error
+   */
+  public static function loginUser (string $username, string $password): userinfo
+  {
+    global $config;
+
+    $ui = static::getLdapUser($username);
+
+    if ($ui === FALSE) {
+      throw new LoginFailureException(LDAP::invalidCredentialsError());
+    } elseif (is_string($ui)) {
+      throw new LoginFailureException($ui);
+    }
+
+    /* password check, bind as user with supplied password  */
+    $ldapObj = new LDAP($ui->dn, $password, $config->current['SERVER'],
+      isset($config->current['LDAPFOLLOWREFERRALS']) && ($config->current['LDAPFOLLOWREFERRALS'] == 'TRUE'),
+      isset($config->current['LDAPTLS']) && ($config->current['LDAPTLS'] == 'TRUE')
+    );
+    $ldap = new ldapMultiplexer($ldapObj);
+    if (!$ldap->success()) {
+      if ($ldap->get_error(FALSE) == 'changeAfterReset') {
+        $ui->forcePasswordChange = TRUE;
+      } else {
+        throw new LoginFailureException($ldap->get_error(FALSE));
+      }
+    }
+
+    /* Username is set, load ACLs now */
+    $ui->loadACL();
+
+    return $ui;
+  }
 }
-?>

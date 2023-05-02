@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2007  Fabian Hickert
-  Copyright (C) 2011-2018  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ class setupStepLdap extends setupStep
   private $lastBase       = '';
   private $lastConnection = '';
 
-  static function getAttributesInfo ()
+  static function getAttributesInfo (): array
   {
     return [
       'connection' => [
@@ -135,9 +135,9 @@ class setupStepLdap extends setupStep
     $this->lastBase       = $this->base;
   }
 
-  function save_object ()
+  public function update (): bool
   {
-    parent::save_object();
+    parent::update();
     $this->connection = preg_replace('/\/$/', '', $this->connection);
     if (($this->base != $this->lastBase) || ($this->connection != $this->lastConnection)) {
       $this->parent->disable_steps_from(($this->parent->step_name_to_id(get_class($this))) + 1);
@@ -152,10 +152,12 @@ class setupStepLdap extends setupStep
     $this->status = $this->get_connection_status();
     if ($this->bind_id && !empty($this->admin) && !empty($this->base)) {
       $this->is_completed = TRUE;
-      $this->parent->read_ldap_config();
+      $this->parent->read_ldap_config($this->get_attributes());
     } else {
       $this->is_completed = FALSE;
     }
+
+    return TRUE;
   }
 
   function get_connection_status ()
@@ -167,10 +169,11 @@ class setupStepLdap extends setupStep
     $this->connect_id = ldap_connect($this->connection);
 
     if ($this->tls) {
-      if (@ldap_set_option($this->connect_id, LDAP_OPT_REFERRALS, 0)) {
-        if (@ldap_start_tls($this->connect_id)) {
-          $this->bind_id = @ldap_bind($this->connect_id, $this->admin, $this->password);
-        }
+      if (
+        @ldap_set_option($this->connect_id, LDAP_OPT_REFERRALS, 0) &&
+        @ldap_start_tls($this->connect_id)
+        ) {
+        $this->bind_id = @ldap_bind($this->connect_id, $this->admin, $this->password);
       }
       @ldap_set_option($this->connect_id, LDAP_OPT_PROTOCOL_VERSION, 3);
     } else {
@@ -199,29 +202,35 @@ class setupStepLdap extends setupStep
     }
   }
 
-  function check ()
+  function check (): array
   {
-    $error = parent::check();
-    if (!empty($error)) {
+    $errors = parent::check();
+    if (!empty($errors)) {
       $this->update_base_choices();
-      return $error;
     } elseif ($this->is_completed) {
       $checked  = check_schema($this->parent->captured_values);
-      $error    = [];
+      $errors   = [];
       foreach ($checked as $check) {
         if (!$check['STATUS']) {
           if ($check['IS_MUST_HAVE']) {
-            $error[] = sprintf(_("%s\nSchema \"%s\": %s"), $check['MSG'], $check['SCHEMA_FILE'], $check['INFO']);
+            $errors[] = sprintf(_("%s\nSchema \"%s\": %s"), $check['MSG'], $check['SCHEMA_FILE'], $check['INFO']);
           } else {
-            msg_dialog::display(_('Warning'), sprintf(_("%s\nSchema \"%s\": %s"), $check['MSG'], $check['SCHEMA_FILE'], $check['INFO']), WARNING_DIALOG);
+            $warning = new FusionDirectoryWarning(
+              nl2br(htmlescape(sprintf(
+                _("%s\nSchema \"%s\": %s"),
+                $check['MSG'],
+                $check['SCHEMA_FILE'],
+                $check['INFO']
+              )))
+            );
+            $warning->display();
           }
         }
       }
-      if (!empty($error)) {
+      if (!empty($errors)) {
         $this->is_completed = FALSE;
       }
-      return $error;
     }
+    return $errors;
   }
 }
-?>

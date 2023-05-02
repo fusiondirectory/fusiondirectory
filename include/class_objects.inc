@@ -2,7 +2,7 @@
 
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2013-2018  FusionDirectory
+  Copyright (C) 2013-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -32,17 +32,18 @@ class objects
    * \param array   $types the objectTypes to list
    * \param mixed   $attrs The attributes to fetch.
    * If this is a single value, the resulting associative array will have for each dn the value of this attribute.
-   * If this is an array, the keys must be the wanted attributes, and the values can be either 1, '*' or 'raw'
+   * If this is an array, the keys must be the wanted attributes, and the values can be either 1, '*', 'b64' or 'raw'
    *  depending if you want a single value or an array of values. 'raw' means untouched LDAP value and is only useful for dns.
-   *  Other values are considered to be 1.
+   *  Other values are considered to be 1. 'b64' means an array of base64 encoded values and is mainly useful through webservice for binary attributes.
    * \param string  $ou the LDAP branch to search in, base will be used if it is NULL
-   * \param string  $filter an additional filter to use in the LDAP search.
+   * \param string  $filter an additional filter to use in the LDAP search. (Might use special _template_cn field to search in template cn).
    * \param boolean $checkAcl should ACL be ignored or checked? Defaults to FALSE.
    * \param string  $scope scope, defaults to subtree. When using one, be careful what you put in $ou.
+   * \param boolean $templateSearch Whether to search for templates or normal objects.
    *
    * \return The list of objects as an associative array (keys are dns)
    */
-  static function ls ($types, $attrs = NULL, $ou = NULL, $filter = '', $checkAcl = FALSE, $scope = 'subtree')
+  static function ls ($types, $attrs = NULL, string $ou = NULL, string $filter = '', bool $checkAcl = FALSE, string $scope = 'subtree', bool $templateSearch = FALSE, bool $sizeLimit = FALSE): array
   {
     global $ui, $config;
 
@@ -58,24 +59,29 @@ class objects
       if (count($types) > 1) {
         throw new FusionDirectoryException('Cannot evaluate ACL for several types');
       }
-      $infos = static::infos(reset($types));
-      $acl = $infos['aclCategory'].'/'.$infos['mainTab'];
+      $infos  = static::infos(reset($types));
+      $acl    = $infos['aclCategory'].'/'.$infos['mainTab'];
+      $tplAcl = $infos['aclCategory'].'/template';
     }
 
     $attrsAcls = [];
     if ($attrs === NULL) {
-      $attrs = [];
-      foreach ($types as $type) {
-        $infos = static::infos($type);
-        if ($infos['mainAttr']) {
-          $attrs[] = $infos['mainAttr'];
+      if ($templateSearch) {
+        $attrs = 'cn';
+      } else {
+        $attrs = [];
+        foreach ($types as $type) {
+          $infos = static::infos($type);
+          if ($infos['mainAttr']) {
+            $attrs[] = $infos['mainAttr'];
+          }
         }
-      }
-      $attrs = array_unique($attrs);
-      if (count($attrs) == 1) {
-        $attrs = $attrs[0];
-      } elseif (count($attrs) == 0) {
-        $attrs = ['dn' => 'raw'];
+        $attrs = array_unique($attrs);
+        if (count($attrs) == 1) {
+          $attrs = $attrs[0];
+        } elseif (count($attrs) == 0) {
+          $attrs = ['dn' => 'raw'];
+        }
       }
     } elseif ($checkAcl) {
       if (is_array($attrs)) {
@@ -84,9 +90,11 @@ class objects
         $search_attrs = [$attrs];
       }
       foreach ($search_attrs as $search_attr) {
+        //Below str_replace allows us to remove the options, resulting in proper ACL inspection. (ACLs do not take options).
+        $search_attr = preg_replace('/;x-.*/', '', $search_attr);
         $category = $ui->getAttributeCategory($types[0], $search_attr);
         if ($category === FALSE) {
-          throw new FusionDirectoryException('Could not find ACL for attribute "'.$search_attr.'"');
+          throw new FusionDirectoryException('Could not find ACL for attribute "'.$search_attr.'" for type "'.$types[0].'"');
         }
         if ($category === TRUE) {
           continue;
@@ -102,9 +110,13 @@ class objects
     } else {
       $search_attrs = [$attrs];
     }
+    if ($templateSearch) {
+      $search_attrs[] = 'fdTemplateField';
+      $search_attrs[] = 'cn';
+    }
 
     try {
-      $ldap = static::search($types, $search_attrs, $ou, $filter, $checkAcl, $scope, FALSE, $partialFilterAcls);
+      $ldap = static::search($types, $search_attrs, $ou, $filter, $checkAcl, $scope, $templateSearch, $partialFilterAcls, $sizeLimit);
     } catch (NonExistingBranchException $e) {
       return [];
     }
@@ -135,14 +147,61 @@ class objects
               case 'raw':
                 $result[$key][$attr] = $fetched_attrs[$attr];
                 break;
+              case 'b64':
+                unset($fetched_attrs[$attr]['count']);
+                $result[$key][$attr] = array_map('base64_encode', $fetched_attrs[$attr]);
+                break;
               case 1:
               default:
                 $result[$key][$attr] = $fetched_attrs[$attr][0];
             }
           }
         }
+        if ($templateSearch) {
+          if (
+              isset($fetched_attrs['cn']) &&
+              (!$checkAcl || (strpos($ui->get_permissions($key, $tplAcl, 'template_cn'), 'r') !== FALSE))
+            ) {
+            $result[$key]['cn'] = $fetched_attrs['cn'][0];
+          }
+          $result[$key]['fdTemplateField'] = [];
+          foreach ($fetched_attrs['fdTemplateField'] as $templateField) {
+            $attr = explode(':', $templateField, 2)[0];
+            if (isset($attrs[$attr])) {
+              if (isset($attrsAcls[$attr]) &&
+                  (strpos($ui->get_permissions($key, $attrsAcls[$attr][0], $attrsAcls[$attr][1]), 'r') === FALSE)) {
+                continue;
+              }
+              $result[$key]['fdTemplateField'][] = $templateField;
+            }
+          }
+          if (empty($result[$key]['fdTemplateField'])) {
+            unset($result[$key]['fdTemplateField']);
+          }
+        }
         if (count($result[$key]) === 0) {
           unset($result[$key]);
+        }
+      } elseif ($templateSearch) {
+        if ($attrs == 'cn') {
+          if (
+              isset($fetched_attrs['cn']) &&
+              (!$checkAcl || (strpos($ui->get_permissions($key, $tplAcl, 'template_cn'), 'r') !== FALSE))
+            ) {
+            $result[$key] = $fetched_attrs['cn'][0];
+          }
+        } else {
+          if (isset($attrsAcls[$attrs]) &&
+              (strpos($ui->get_permissions($key, $attrsAcls[$attrs][0], $attrsAcls[$attrs][1]), 'r') === FALSE)) {
+            continue;
+          }
+          foreach ($fetched_attrs['fdTemplateField'] as $templateField) {
+            list($attr, $value) = explode(':', $templateField, 2);
+            if ($attrs == $attr) {
+              $result[$key] = $value;
+              break;
+            }
+          }
         }
       } elseif (isset($fetched_attrs[$attrs])) {
         if (isset($attrsAcls[$attrs]) &&
@@ -165,10 +224,10 @@ class objects
    *
    * \return The number of objects of type $type in $ou
    */
-  static function count ($types, $ou = NULL, $filter = '', $checkAcl = FALSE)
+  static function count ($types, string $ou = NULL, string $filter = '', bool $checkAcl = FALSE, bool $templateSearch = FALSE): int
   {
     try {
-      $ldap = static::search($types, ['dn'], $ou, $filter, $checkAcl, 'subtree', FALSE, $partialFilterAcls);
+      $ldap = static::search($types, ['dn'], $ou, $filter, $checkAcl, 'subtree', $templateSearch, $partialFilterAcls);
       if (!empty($partialFilterAcls)) {
         throw new FusionDirectoryException('Not enough rights to use "'.$partialFilterAcls[0][1].'" in filter');
       }
@@ -180,7 +239,7 @@ class objects
     return $ldap->count();
   }
 
-  private static function search ($types, $search_attrs, $ou = NULL, $filter = '', $checkAcl = FALSE, $scope = 'subtree', $templateSearch = FALSE, &$partialFilterAcls = [])
+  private static function search ($types, $search_attrs, string $ou = NULL, string $filter = '', bool $checkAcl = FALSE, string $scope = 'subtree', bool $templateSearch = FALSE, &$partialFilterAcls = [], bool $sizeLimit = FALSE): ldapMultiplexer
   {
     global $config, $ui;
 
@@ -214,9 +273,9 @@ class objects
       throw new EmptyFilterException();
     }
 
-    $ldap = $config->get_ldap_link();
+    $ldap = $config->get_ldap_link($sizeLimit);
     if (!$ldap->dn_exists($ou)) {
-      throw new NonExistingBranchException();
+      throw new NonExistingBranchException($ou);
     }
     if (empty($filter)) {
       $filter = '(|'.implode($typeFilters).')';
@@ -227,10 +286,11 @@ class objects
         }
         $filterObject     = ldapFilter::parse($filter);
         $filterAttributes = $filterObject->listUsedAttributes();
+        unset($filterAttributes['_template_cn']);
         foreach ($filterAttributes as $acl) {
           $category = $ui->getAttributeCategory($types[0], $acl);
           if ($category === FALSE) {
-            throw new FusionDirectoryException('Could not find ACL for attribute "'.$acl.'"');
+            throw new FusionDirectoryException('Could not find ACL for attribute "'.$acl.'" for type "'.$types[0].'"');
           }
           if ($category === TRUE) {
             continue;
@@ -254,11 +314,19 @@ class objects
         ]
       );
       $filter = "$templateFilterObject";
+    } else {
+      $filterObject = fdNoTemplateFilter(ldapFilter::parse($filter));
+      $filter       = "$filterObject";
     }
     $ldap->cd($ou);
     $ldap->search($filter, $search_attrs, $scope);
     if (!$ldap->success()) {
-      throw new LDAPFailureException($ldap->get_error());
+      if ($sizeLimit && $ldap->hitSizeLimit()) {
+        // Check for size limit exceeded messages for GUI feedback
+        $ui->getSizeLimitHandler()->setLimitExceeded();
+      } else {
+        throw new LDAPFailureException($ldap->get_error());
+      }
     }
     return $ldap;
   }
@@ -271,33 +339,37 @@ class objects
    *
    * \return The created tab object
    */
-  static function open ($dn, $type)
+  static function open (string $dn, string $type): simpleTabs
   {
     $infos    = static::infos($type);
     $tabClass = $infos['tabClass'];
 
     $tabObject = new $tabClass($type, $dn);
-    $tabObject->set_acl_base();
-    @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "Openned as $type object");
+    logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $dn, "Openned as $type object");
 
     return $tabObject;
   }
 
-  static function link ($dn, $type, $subaction = '', $text = NULL, $icon = TRUE)
+  /**
+   * @param string|array|null $text
+   */
+  static function link (string $dn, string $type, string $subaction = '', $text = NULL, bool $icon = TRUE, bool $link = TRUE): string
   {
     global $config;
 
     $infos = static::infos($type);
-    if (!isset($infos['management'])) {
-      throw new NoManagementClassException('Asked for link for type "'.$type.'" but it does not have a management class');
+    if ($link) {
+      if (!isset($infos['management'])) {
+        throw new NoManagementClassException('Asked for link for type "'.$type.'" but it does not have a management class');
+      }
+      $pInfos = pluglist::pluginInfos($infos['management']);
+      $index  = $pInfos['INDEX'];
+      $action = 'edit';
+      if ($subaction != '') {
+        $action .= '_'.$subaction;
+      }
+      $href = "main.php?plug=$index&amp;reset=1&amp;act=listing_$action&amp;dn=".urlencode($dn);
     }
-    $pInfos = pluglist::pluginInfos($infos['management']);
-    $index  = $pInfos['INDEX'];
-    $action = 'edit';
-    if ($subaction != '') {
-      $action .= '_'.$subaction;
-    }
-    $href   = "main.php?plug=$index&amp;reset=1&amp;act=listing_$action&amp;dn=".urlencode($dn);
 
     if ($text === NULL) {
       $ldap = $config->get_ldap_link();
@@ -309,30 +381,58 @@ class objects
           $text = $dn;
         }
       } else {
-        throw new NonExistingLdapNodeException('Dn '.$dn.' not found in LDAP');
+        throw new NonExistingLdapNodeException($dn);
       }
     } elseif (is_array($text)) {
       $text = $text[$infos['nameAttr']][0];
     }
 
+    $text = htmlescape($text);
+
     if ($icon && isset($infos['icon'])) {
-      $text = '<img alt="'.$infos['name'].'" title="'.$dn.'" src="'.htmlentities($infos['icon'], ENT_COMPAT, 'UTF-8').'" class="center"/>&nbsp;'.$text;
+      $text = '<img alt="'.htmlescape($infos['name']).'" title="'.htmlescape($dn).'" src="'.htmlescape($infos['icon']).'" class="center"/>&nbsp;'.$text;
     }
 
-    return '<a href="'.$href.'">'.$text.'</a>';
+    if ($link) {
+      $text = '<a href="'.$href.'">'.$text.'</a>';
+    }
+
+    return $text;
   }
 
-  static function create ($type)
+  static function create (string $type): simpleTabs
   {
     return static::open('new', $type);
   }
 
-  static function infos ($type)
+  static function delete (string $dn, string $type, bool $checkAcl = TRUE): array
+  {
+    $tabObject = static::open($dn, $type);
+    return $tabObject->delete($checkAcl);
+  }
+
+  static function createTemplate (string $type): simpleTabs
+  {
+    $infos    = static::infos($type);
+    $tabClass = $infos['tabClass'];
+
+    /* Pass fake attrs object to force template mode */
+    $attrsObject  = new stdClass();
+    $attrsObject->attrs = [];
+    $attrsObject->is_template = TRUE;
+
+    $tabObject = new $tabClass($type, 'new', $attrsObject);
+    logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $type, 'Create template of type');
+
+    return $tabObject;
+  }
+
+  static function &infos (string $type): array
   {
     global $config;
 
     if (!isset($config->data['OBJECTS'][strtoupper($type)])) {
-      throw new NonExistingObjectTypeException('Non-existing type "'.$type.'"');
+      throw new NonExistingObjectTypeException($type);
     }
 
     $infos =& $config->data['OBJECTS'][strtoupper($type)];
@@ -342,16 +442,18 @@ class objects
         $infos['filterRDN'] = '';
       } else {
         $parts = ldap_explode_dn(preg_replace('/,$/', '', $infos['ou']), 0);
-        unset($parts['count']);
-        $dnFilter = [];
-        foreach ($parts as $part) {
-          preg_match('/([^=]+)=(.*)$/', $part, $m);
-          $dnFilter[] = '('.$m[1].':dn:='.$m[2].')';
-        }
-        if (count($dnFilter) > 1) {
-          $infos['filterRDN'] = '(&'.implode('', $dnFilter).')';
-        } else {
-          $infos['filterRDN'] = $dnFilter[0];
+        if ($parts !== FALSE) {
+          unset($parts['count']);
+          $dnFilter = [];
+          foreach ($parts as $part) {
+            preg_match('/([^=]+)=(.*)$/', $part, $m);
+            $dnFilter[] = '('.$m[1].':dn:='.$m[2].')';
+          }
+          if (count($dnFilter) > 1) {
+            $infos['filterRDN'] = '(&'.implode('', $dnFilter).')';
+          } else {
+            $infos['filterRDN'] = $dnFilter[0];
+          }
         }
       }
     }
@@ -359,22 +461,18 @@ class objects
     return $infos;
   }
 
-  static function isOfType ($attrs, $type)
+  static function isOfType ($attrs, string $type): bool
   {
     $filter = static::getFilterObject($type);
     return $filter($attrs);
   }
 
   /* This method allows to cache parsed filter in filterObject key in objectTypes */
-  static function getFilterObject ($type)
+  static function getFilterObject (string $type): ldapFilter
   {
     global $config;
 
-    if (!isset($config->data['OBJECTS'][strtoupper($type)])) {
-      throw new NonExistingObjectTypeException('Non-existing type "'.$type.'"');
-    }
-
-    $infos =& $config->data['OBJECTS'][strtoupper($type)];
+    $infos =& static::infos($type);
 
     if (!isset($infos['filterObject'])) {
       $infos['filterObject'] = ldapFilter::parse($infos['filter']);
@@ -382,7 +480,39 @@ class objects
     return $infos['filterObject'];
   }
 
-  static function types ()
+  /* This method allows to cache searched attributes list in objectTypes */
+  static function getSearchedAttributes (string $type): array
+  {
+    global $config;
+
+    $infos =& static::infos($type);
+
+    if (!isset($infos['searchAttributes'])) {
+      $searchAttrs = [];
+      if (!empty($infos['mainAttr'])) {
+        $searchAttrs[$infos['mainAttr']] = $infos['aclCategory'].'/'.$infos['mainTab'];
+      }
+      if (!empty($infos['nameAttr'])) {
+        $searchAttrs[$infos['nameAttr']] = $infos['aclCategory'].'/'.$infos['mainTab'];
+      }
+      foreach ($config->data['TABS'][$infos['tabGroup']] as $tab) {
+        if (!plugin_available($tab['CLASS'])) {
+          continue;
+        }
+        $plInfos = pluglist::pluginInfos($tab['CLASS']);
+        if (isset($plInfos['plSearchAttrs'])) {
+          foreach ($plInfos['plSearchAttrs'] as $attr) {
+            $searchAttrs[$attr] = $infos['aclCategory'].'/'.$tab['CLASS'];
+          }
+        }
+      }
+      $infos['searchAttributes'] = $searchAttrs;
+    }
+
+    return $infos['searchAttributes'];
+  }
+
+  static function types (): array
   {
     global $config;
     return array_keys($config->data['OBJECTS']);
@@ -390,14 +520,15 @@ class objects
 
   /* !\brief  This method returns a list of all available templates for the given type
    */
-  static function getTemplates ($type, $requiredPermissions = 'r', $filter = '')
+  static function getTemplates (string $type, string $requiredPermissions = 'r', string $filter = ''): array
   {
     global $config, $ui;
 
     $infos = static::infos($type);
 
-    $templates = [];
-    foreach ($config->departments as $key => $value) {
+    $templates    = [];
+    $departments  = $config->getDepartmentList();
+    foreach ($departments as $key => $value) {
       // Search all templates from the current dn.
       try {
         $ldap = static::search($type, ['cn'], $infos['ou'].$value, $filter, FALSE, 'subtree', TRUE);
@@ -407,10 +538,9 @@ class objects
       if ($ldap->count() != 0) {
         while ($attrs = $ldap->fetch()) {
           $dn = $attrs['dn'];
-          if ($requiredPermissions != '') {
-            if (!preg_match('/'.$requiredPermissions.'/', $ui->get_permissions($dn, $infos['aclCategory'].'/'.'template'))) {
-              continue;
-            }
+          if (($requiredPermissions != '')
+            && !preg_match('/'.$requiredPermissions.'/', $ui->get_permissions($dn, $infos['aclCategory'].'/'.'template'))) {
+            continue;
           }
           $templates[$dn] = $attrs['cn'][0].' - '.$key;
         }
@@ -421,5 +551,3 @@ class objects
     return $templates;
   }
 }
-
-?>

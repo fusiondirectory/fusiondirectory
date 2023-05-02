@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2018  FusionDirectory
+  Copyright (C) 2012-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -18,21 +18,6 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/*! \brief This class allow to handle easily a String LDAP attribute that contains a mail address
- *
- */
-class MailAttribute extends StringAttribute
-{
-  protected $trim = TRUE;
-
-  function validate ()
-  {
-    if (!tests::is_email($this->value)) {
-      return msgPool::invalid($this->getLabel(), $this->value);
-    }
-  }
-}
-
 
 /*! \brief This class allow to handle easily a String LDAP attribute that needs to be validated by a test from class tests
  *
@@ -43,11 +28,24 @@ class TestValidateAttribute extends StringAttribute
 
   function validate ()
   {
-    $testFunc = $this->testFunc;
-    if (!tests::$testFunc($this->value)) {
-      return msgPool::invalid($this->getLabel(), $this->value);
+    $func = $this->testFunc;
+    if (!tests::$func($this->value)) {
+      return new SimplePluginCheckError(
+        $this,
+        SimplePluginCheckError::invalidValue(sprintf('"%s"', $this->value))
+      );
     }
   }
+}
+
+/*! \brief This class allow to handle easily a String LDAP attribute that contains a mail address
+ *
+ */
+class MailAttribute extends TestValidateAttribute
+{
+  protected $trim       = TRUE;
+  protected $testFunc   = 'is_email';
+  protected $inputType  = 'email';
 }
 
 /*! \brief This class allow to handle easily a String LDAP attribute that contains a host name
@@ -81,9 +79,9 @@ class PathAttribute extends TestValidateAttribute
  */
 class URLAttribute extends TestValidateAttribute
 {
-  protected $trim = TRUE;
-
-  protected $testFunc = 'is_url';
+  protected $trim       = TRUE;
+  protected $testFunc   = 'is_url';
+  protected $inputType  = 'url';
 }
 
 /*! \brief This class allow to handle easily a String LDAP attribute that contains an IP (v4 or v6)
@@ -123,16 +121,14 @@ class MacAddressAttribute extends StringAttribute
 {
   protected $trim = TRUE;
 
+  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = '', $acl = '')
+  {
+    parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl, '/^([a-fA-F0-9]{2}:){5}[a-fA-F0-9]{2}$/', '5E:FF:56:A2:AF:15');
+  }
+
   function setValue ($value)
   {
     return parent::setValue(strtolower($value));
-  }
-
-  function validate ()
-  {
-    if (!tests::is_mac($this->value)) {
-      return msgPool::invalid($this->getLabel(), $this->value);
-    }
   }
 }
 
@@ -149,12 +145,12 @@ class CharSeparatedCompositeAttribute extends CompositeAttribute
     $this->sep = $sep;
   }
 
-  function readValues ($value)
+  function readValues (string $value): array
   {
     return explode($this->sep, $value);
   }
 
-  function writeValues ($values)
+  function writeValues (array $values)
   {
     return join($this->sep, $values);
   }
@@ -189,7 +185,7 @@ class CommaListAttribute extends CompositeAttribute
     $this->sep = $sep;
   }
 
-  function readValues ($value)
+  function readValues (string $value): array
   {
     if ($value == '') {
       return [[]];
@@ -198,7 +194,7 @@ class CommaListAttribute extends CompositeAttribute
     }
   }
 
-  function writeValues ($values)
+  function writeValues (array $values)
   {
     return join($this->sep, $values[0]);
   }
@@ -223,14 +219,11 @@ class UnitIntAttribute extends CompositeAttribute
     $this->setRequired($required); /* As we use linear rendering we want the asterisk in the label if required */
   }
 
-  function readValues ($value)
+  function readValues (string $value): array
   {
-    if ($value === '') {
-      return ['', 0];
-    }
     $choices = $this->attributes[1]->getChoices();
     sort($choices);
-    if ($value == 0) {
+    if (($value === '') || ($value == 0)) {
       return [$value, $choices[0]];
     }
     /* Find the appropriate unit */
@@ -242,7 +235,7 @@ class UnitIntAttribute extends CompositeAttribute
     return [$value / $choices[$i], $choices[$i]];
   }
 
-  function writeValues ($values)
+  function writeValues (array $values)
   {
     if ($values[0] === '') {
       return '';
@@ -250,7 +243,7 @@ class UnitIntAttribute extends CompositeAttribute
     return $values[0] * $values[1];
   }
 
-  function displayValue ($value)
+  function displayValue ($value): string
   {
     $values = $this->readValues($value);
     return $values[0].$this->attributes[1]->displayValue($values[1]);
@@ -265,11 +258,11 @@ class BytesSizeAttribute extends UnitIntAttribute
   function __construct ($label, $description, $ldapName, $required, $min = FALSE, $max = FALSE, $defaultValue = "", $acl = "")
   {
     $units = [
-      1             => _('B'),
-      pow(1024, 1)  => _('KiB'),
-      pow(1024, 2)  => _('MiB'),
-      pow(1024, 3)  => _('GiB'),
-      pow(1024, 4)  => _('TiB'),
+      1         => _('B'),
+      1024 ** 1 => _('KiB'),
+      1024 ** 2 => _('MiB'),
+      1024 ** 3 => _('GiB'),
+      1024 ** 4 => _('TiB'),
     ];
     parent::__construct($label, $description, $ldapName, $required, $units, $min, $max, $defaultValue, $acl);
   }
@@ -291,5 +284,3 @@ class TimeAttribute extends UnitIntAttribute
     parent::__construct($label, $description, $ldapName, $required, $units, $min, $max, $defaultValue, $acl);
   }
 }
-
-?>

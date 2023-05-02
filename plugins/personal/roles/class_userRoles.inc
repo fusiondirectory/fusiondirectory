@@ -27,7 +27,7 @@ class userRoles extends simplePlugin
   protected $templateGroups         = [];
   protected $templateRoles          = [];
 
-  static function plInfo ()
+  static function plInfo (): array
   {
     return [
       'plShortName'     => _('Groups and roles'),
@@ -42,15 +42,15 @@ class userRoles extends simplePlugin
     ];
   }
 
-  static function getAttributesInfo ()
+  static function getAttributesInfo (): array
   {
     return [
       'groups' => [
-        'name'  => _('Groups membership'),
+        'name'  => _('Group memberships'),
         'attrs' => [
           new SetAttribute(
             new SelectAttribute(
-              '', _('Groups membership'),
+              '', _('Group memberships'),
               'groupsMembership', FALSE
             )
           )
@@ -109,6 +109,8 @@ class userRoles extends simplePlugin
     }
     /* We might be in some groups we have no read ACL on, so merge them in the choices */
     $groups = array_merge($myGroups, $groups);
+    asort($groups);
+    asort($myGroups);
     $this->attributesAccess['groupsMembership']->attribute->setChoices(array_keys($groups), array_values($groups));
     $this->attributesAccess['groupsMembership']->setValue(array_keys($myGroups));
 
@@ -146,6 +148,8 @@ class userRoles extends simplePlugin
     }
     /* We might be in some roles we have no read ACL on, so merge them in the choices */
     $roles = array_merge($myRoles, $roles);
+    asort($roles);
+    asort($myRoles);
     $this->attributesAccess['rolesMembership']->attribute->setChoices(array_keys($roles), array_values($roles));
     $this->attributesAccess['rolesMembership']->setValue(array_keys($myRoles));
 
@@ -167,40 +171,94 @@ class userRoles extends simplePlugin
     return FALSE;
   }
 
-  protected function ldap_remove ()
+  /*! \brief This function removes the object from LDAP
+   */
+  function remove (bool $fulldelete = FALSE): array
+  {
+    if (!$fulldelete) {
+      /* We are not deleting the object it's just that there are no groups left
+       * Make sure memberships are empty to avoid surprises and call save. */
+      $this->rolesMembership  = [];
+      $this->groupsMembership = [];
+      return $this->save();
+    } else {
+      return parent::remove($fulldelete);
+    }
+  }
+
+  protected function ldap_remove (): array
   {
     if ($this->is_template) {
       return parent::ldap_remove();
     } elseif (($this->dn != '') && ($this->dn != 'new')) {
       /* Remove all groups */
-      foreach ($this->savedGroupsMembership as $ogroupdn) {
+      foreach ($this->savedGroupsMembership as $key => $ogroupdn) {
         try {
           $g = objects::open($ogroupdn, 'ogroup');
           $g->getBaseObject()->attributesAccess['member']->searchAndRemove($this->dn);
-          $g->save();
+          $msg = $g->save();
+          if (empty($msg)) {
+            unset($this->savedGroupsMembership[$key]);
+          } else {
+            /* We do not prevent user deletion on error, but still warn the user */
+            foreach ($msg as $error) {
+              $warning = new FusionDirectoryWarning(
+                htmlescape(sprintf(
+                  _('Could not remove membership to group %s: %s'),
+                  $ogroupdn,
+                  $error
+                )),
+                0,
+                ($error instanceof Throwable ? $error : NULL)
+              );
+              $warning->display();
+            }
+          }
         } catch (NonExistingLdapNodeException $e) {
+          /* Ignore deleted groups */
         }
       }
       /* Remove all roles */
-      foreach ($this->savedRolesMembership as $roledn) {
+      foreach ($this->savedRolesMembership as $key => $roledn) {
         try {
           $r = objects::open($roledn, 'role');
           $r->getBaseObject()->attributesAccess['roleOccupant']->searchAndRemove($this->dn);
-          $r->save();
+          $msg = $r->save();
+          if (empty($msg)) {
+            unset($this->savedRolesMembership[$key]);
+          } else {
+            /* We do not prevent user deletion on error, but still warn the user */
+            foreach ($msg as $error) {
+              $warning = new FusionDirectoryWarning(
+                htmlescape(sprintf(
+                  _('Could not remove membership to role %s: %s'),
+                  $roledn,
+                  $error
+                )),
+                0,
+                ($error instanceof Throwable ? $error : NULL)
+              );
+              $warning->display();
+            }
+          }
         } catch (NonExistingLdapNodeException $e) {
+          /* Ignore deleted roles */
         }
       }
     }
     return [];
   }
 
-  function save_object ()
+  public function update (): bool
   {
-    parent::save_object();
+    $res = parent::update();
+
     $this->is_account = ((count($this->rolesMembership) > 0) || (count($this->groupsMembership) > 0));
+
+    return $res;
   }
 
-  protected function shouldSave ()
+  protected function shouldSave (): bool
   {
     if (parent::shouldSave()) {
       return TRUE;
@@ -214,7 +272,7 @@ class userRoles extends simplePlugin
     return FALSE;
   }
 
-  function prepare_save ()
+  function prepare_save (): array
   {
     $errors = parent::prepare_save();
     if ($this->is_template) {
@@ -233,7 +291,7 @@ class userRoles extends simplePlugin
     }
   }
 
-  function ldap_save ()
+  function ldap_save (): array
   {
     $errors = parent::ldap_save();
 
@@ -257,7 +315,7 @@ class userRoles extends simplePlugin
           try {
             $g = objects::open($ogroupdn, 'ogroup');
             if (!in_array($ogroupdn, $this->templateGroups) && !$g->getBaseObject()->attrIsWriteable('member')) {
-              $errors[] = msgPool::permModify($ogroupdn, 'member');
+              $errors[] = new SimplePluginPermissionError($this, msgPool::permModify($ogroupdn, 'member'));
               continue;
             }
             $g->getBaseObject()->attributesAccess['member']->addValue($this->dn, $fake_attrs);
@@ -265,10 +323,12 @@ class userRoles extends simplePlugin
             if (empty($msg)) {
               $this->savedGroupsMembership[] = $ogroupdn;
             } else {
-              $errors = array_merge($errors, $msg);
+              foreach ($msg as $error) {
+                $errors[] = new SimplePluginError($this, htmlescape(sprintf(_('Could not add membership to group %s: %s'), $ogroupdn, $error)));
+              }
             }
           } catch (NonExistingLdapNodeException $e) {
-            $errors[] = $e->getMessage();
+            $errors[] = new SimplePluginError($this, htmlescape($e->getMessage()), 0, $e);
           }
         }
       }
@@ -279,7 +339,7 @@ class userRoles extends simplePlugin
           try {
             $g = objects::open($ogroupdn, 'ogroup');
             if (!$g->getBaseObject()->attrIsWriteable('member')) {
-              $errors[] = msgPool::permModify($ogroupdn, 'member');
+              $errors[] = new SimplePluginPermissionError($this, msgPool::permModify($ogroupdn, 'member'));
               continue;
             }
             $g->getBaseObject()->attributesAccess['member']->searchAndRemove($this->dn);
@@ -287,10 +347,12 @@ class userRoles extends simplePlugin
             if (empty($msg)) {
               unset($this->savedGroupsMembership[$key]);
             } else {
-              $errors = array_merge($errors, $msg);
+              foreach ($msg as $error) {
+                $errors[] = new SimplePluginError($this, htmlescape(sprintf(_('Could not remove membership to group %s: %s'), $ogroupdn, $error)));
+              }
             }
           } catch (NonExistingLdapNodeException $e) {
-            $errors[] = $e->getMessage();
+            $errors[] = new SimplePluginError($this, htmlescape($e->getMessage()), 0, $e);
           }
         }
       }
@@ -302,7 +364,7 @@ class userRoles extends simplePlugin
           try {
             $r = objects::open($roledn, 'role');
             if (!in_array($roledn, $this->templateRoles) && !$r->getBaseObject()->attrIsWriteable('roleOccupant')) {
-              $errors[] = msgPool::permModify($roledn, 'roleOccupant');
+              $errors[] = new SimplePluginPermissionError($this, msgPool::permModify($roledn, 'roleOccupant'));
               continue;
             }
             $r->getBaseObject()->attributesAccess['roleOccupant']->addValue($this->dn, $fake_attrs);
@@ -310,10 +372,12 @@ class userRoles extends simplePlugin
             if (empty($msg)) {
               $this->savedRolesMembership[] = $roledn;
             } else {
-              $errors = array_merge($errors, $msg);
+              foreach ($msg as $error) {
+                $errors[] = new SimplePluginError($this, htmlescape(sprintf(_('Could not add membership to role %s: %s'), $roledn, $error)));
+              }
             }
           } catch (NonExistingLdapNodeException $e) {
-            $errors[] = $e->getMessage();
+            $errors[] = new SimplePluginError($this, htmlescape($e->getMessage()), 0, $e);
           }
         }
       }
@@ -324,7 +388,7 @@ class userRoles extends simplePlugin
           try {
             $r = objects::open($roledn, 'role');
             if (!$r->getBaseObject()->attrIsWriteable('roleOccupant')) {
-              $errors[] = msgPool::permModify($roledn, 'roleOccupant');
+              $errors[] = new SimplePluginPermissionError($this, msgPool::permModify($roledn, 'roleOccupant'));
               continue;
             }
             $r->getBaseObject()->attributesAccess['roleOccupant']->searchAndRemove($this->dn);
@@ -332,10 +396,12 @@ class userRoles extends simplePlugin
             if (empty($msg)) {
               unset($this->savedRolesMembership[$key]);
             } else {
-              $errors = array_merge($errors, $msg);
+              foreach ($msg as $error) {
+                $errors[] = new SimplePluginError($this, htmlescape(sprintf(_('Could not remove membership to role %s: %s'), $roledn, $error)));
+              }
             }
           } catch (NonExistingLdapNodeException $e) {
-            $errors[] = $e->getMessage();
+            $errors[] = new SimplePluginError($this, htmlescape($e->getMessage()), 0, $e);
           }
         }
       }
@@ -344,7 +410,7 @@ class userRoles extends simplePlugin
     return $errors;
   }
 
-  function adapt_from_template ($attrs, $skip = [])
+  function adapt_from_template (array $attrs, array $skip = [])
   {
     parent::adapt_from_template($attrs, $skip);
 
@@ -354,6 +420,8 @@ class userRoles extends simplePlugin
       $myGroups = array_combine($this->attrs['userGroups'], $this->attrs['userGroups']);
       $groups   = $this->attributesAccess['groupsMembership']->attribute->getDisplayChoices();
       $groups   = array_merge($myGroups, $groups);
+      asort($groups);
+      asort($myGroups);
       $this->attributesAccess['groupsMembership']->attribute->setChoices(array_keys($groups), array_values($groups));
       $this->attributesAccess['groupsMembership']->setValue(array_keys($myGroups));
       $this->templateGroups = array_keys($myGroups);
@@ -367,6 +435,8 @@ class userRoles extends simplePlugin
       $myRoles = array_combine($this->attrs['userRoles'], $this->attrs['userRoles']);
       $roles   = $this->attributesAccess['rolesMembership']->attribute->getDisplayChoices();
       $roles   = array_merge($myRoles, $roles);
+      asort($roles);
+      asort($myRoles);
       $this->attributesAccess['rolesMembership']->attribute->setChoices(array_keys($roles), array_values($roles));
       $this->attributesAccess['rolesMembership']->setValue(array_keys($myRoles));
       $this->templateRoles = array_keys($myRoles);

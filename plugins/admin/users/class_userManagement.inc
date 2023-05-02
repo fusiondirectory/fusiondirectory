@@ -1,5 +1,4 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003  Cajus Pollmeier
@@ -20,23 +19,22 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class userManagement extends simpleManagement
+class userManagement extends management
 {
-  protected $objectTypes  = ['user'];
-
-  protected $departmentBrowser      = TRUE;
-  protected $departmentRootVisible  = FALSE;
-  protected $baseMode               = TRUE;
-  protected $multiSelect            = TRUE;
-
-  protected $filterXMLPath    = NULL;
-  protected $listXMLPath      = NULL;
-  protected $autoFilter       = FALSE;
-  protected $autoActions      = FALSE;
+  public $neededAttrs = ['userPassword' => '*'];
 
   public static $skipTemplates = FALSE;
 
-  static function plInfo ()
+  public static $columns = [
+    ['ObjectTypeColumn', []],
+    ['LinkColumn',       ['attributes' => 'sn',        'label' => 'Last name']],
+    ['LinkColumn',       ['attributes' => 'givenName', 'label' => 'First name']],
+    ['Column',           ['attributes' => 'uid',       'label' => 'Login']],
+    ['PropertiesColumn', ['label' => 'Properties']],
+    ['ActionsColumn',    ['label' => 'Actions']],
+  ];
+
+  static function plInfo (): array
   {
     return [
       'plShortName'   => _('Users'),
@@ -51,230 +49,101 @@ class userManagement extends simpleManagement
     ];
   }
 
-  function __construct ()
+
+  protected function configureActions ()
   {
-    $this->filterXMLPath  = get_template_path('user-filter.xml',  TRUE, dirname(__FILE__));
-    $this->listXMLPath    = get_template_path('user-list.xml',    TRUE, dirname(__FILE__));
+    parent::configureActions();
 
-    parent::__construct();
-  }
-
-  function configureHeadpage ()
-  {
-    parent::configureHeadpage();
-    $this->registerAction('new_user',               'newEntry');
-    $this->registerAction('new_template_user',      'newEntryTemplate');
-    $this->registerAction('template_apply_to_user', 'applyTemplateToEntry');
-    $this->registerAction('template_apply_user',    'newEntryFromTemplate');
-
-    $this->registerAction('lock',         'lockEntry');
-    $this->registerAction('lockUsers',    'lockUsers');
-    $this->registerAction('unlockUsers',  'lockUsers');
-
-    $this->headpage->registerElementFilter('lockLabel',         'userManagement::filterLockLabel');
-    $this->headpage->registerElementFilter('lockImage',         'userManagement::filterLockImage');
-    $this->headpage->registerElementFilter('filterProperties',  'userManagement::filterProperties');
-  }
-
-  function configureFilter ()
-  {
-    parent::configureFilter();
-
-    $classes = [];
-    if (class_available('posixAccount')) {
-      $classes[] = 'posixAccount';
-    } else {
-      /* If posix plugin is not installed, ignore posix filter */
-      $this->filter->elements['POSIX']['unset']  = '';
-      $this->filter->elements['POSIX']['set']    = '';
-    }
-    if (class_available('mailAccount')) {
-      $classes[] = 'gosaMailAccount';
-    } else {
-      /* If mail plugin is not installed, ignore mail filter */
-      $this->filter->elements['MAIL']['unset']  = '';
-      $this->filter->elements['MAIL']['set']    = '';
-    }
-    if (class_available('sambaAccount')) {
-      $classes[] = 'sambaSamAccount';
-    } else {
-      /* If samba plugin is not installed, ignore samba filter */
-      $this->filter->elements['SAMBA']['unset'] = '';
-      $this->filter->elements['SAMBA']['set']   = '';
-    }
-    if (empty($classes)) {
-      $this->filter->elements['FUNCTIONAL']['set']  = ' (objectClass=*)';
-    } else {
-      /* The FUNCTIONAL filter must not use inexisting classes */
-      $this->filter->elements['FUNCTIONAL']['set']  = ' (! (| (objectClass='.implode(') (objectClass=', $classes).')))';
-    }
-  }
-
-  function renderList ()
-  {
-    $smarty = get_smarty();
-    $smarty->assign('USE_POSIX',  class_available('posixAccount'));
-    $smarty->assign('USE_MAIL',   class_available('mailAccount'));
-    $smarty->assign('USE_SAMBA',  class_available('sambaAccount'));
-    return parent::renderList();
+    $this->registerAction(
+      new LockAction(
+        'lockUsers',
+        '+', 'lockUsers',
+        ['userPassword:rw'], TRUE, TRUE
+      )
+    );
+    $this->actions['lockUsers']->setSeparator(TRUE);
   }
 
   /* !\brief  Lock/unlock multiple users.
    */
-  function lockUsers ($action, array $target, array $all)
-  {
-    if (!count($target)) {
-      return;
-    }
-    if ($action == 'lockUsers') {
-      $this->lockEntry($action, $target, $all, 'lock');
-    } else {
-      $this->lockEntry($action, $target, $all, 'unlock');
-    }
-  }
-
-
-  /* !\brief  Locks/unlocks the given user(s).
-   */
-  function lockEntry ($action, $entry, $all, $type = 'toggle')
+  function lockUsers (array $action)
   {
     global $config, $ui;
+    logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $action, 'Lock');
+
     // Filter out entries we are not allowed to modify
     $disallowed = [];
     $allowed    = [];
-    foreach ($entry as $dn) {
-      if (!preg_match('/w/', $ui->get_permissions($dn, 'user/user', 'userLock'))) {
+    foreach ($action['targets'] as $dn) {
+      if (strpos($ui->get_permissions($dn, 'user/user', 'userLock'), 'w') === FALSE) {
         $disallowed[] = $dn;
       } else {
         $allowed[] = $dn;
       }
     }
     if (count($disallowed)) {
-      msg_dialog::display(_('Permission'), msgPool::permModify($disallowed), INFO_DIALOG);
+      $error = new FusionDirectoryPermissionError(msgPool::permModify($disallowed));
+      $error->display();
     }
 
     // Try to lock/unlock the rest of the entries.
-    $ldap = $config->get_ldap_link();
     foreach ($allowed as $dn) {
-      $ldap->cat($dn, ['userPassword']);
-      if ($ldap->count() == 1) {
+      // We can't lock empty passwords.
+      $entry = $this->listing->getEntry($dn);
 
-        // We can't lock empty passwords.
-        $val = $ldap->fetch();
-        if (!isset($val['userPassword'])) {
-          continue;
-        }
-
-        // Detect the password method and try to lock/unlock.
-        $pwd      = $val['userPassword'][0];
-        $method   = passwordMethod::get_method($pwd, $val['dn']);
-        $success  = TRUE;
-        if ($method instanceOf passwordMethod) {
-          if (!$method->is_lockable()) {
-            $hn = $method->get_hash_name();
-            if (is_array($hn)) {
-              $hn = $hn[0];
-            }
-            msg_dialog::display(_('Account locking'),
-                sprintf(_('Password method "%s" does not support locking. Account "%s" has not been locked!'),
-                  $hn, $dn), ERROR_DIALOG);
-            return;
-          }
-          if ($type == 'toggle') {
-            if ($method->is_locked($val['dn'])) {
-              $success = $method->unlock_account($val['dn']);
-            } else {
-              $success = $method->lock_account($val['dn']);
-            }
-          } elseif ($type == 'lock' && !$method->is_locked($val['dn'])) {
-            $success = $method->lock_account($val['dn']);
-          } elseif ($type == 'unlock' && $method->is_locked($val['dn'])) {
-            $success = $method->unlock_account($val['dn']);
-          }
-
-          // Check if everything went fine.
-          if (!$success) {
-            $hn = $method->get_hash_name();
-            if (is_array($hn)) {
-              $hn = $hn[0];
-            }
-            msg_dialog::display(_('Account locking'),
-                sprintf(_('Locking failed using password method "%s". Account "%s" has not been locked!'),
-                  $hn, $dn), ERROR_DIALOG);
-          }
-        }
-      }
+      // Detect the password method and try to lock/unlock.
+      static::lockUser($action['subaction'], ($entry['userPassword'][0] ?? ''), $dn);
     }
   }
 
-  static function filterLockImage ($userPassword)
+  /* !\brief  Lock/unlock a user
+   *
+   * \param string $action  'lock' or 'unlock'
+   * \param string $pwd     userPassword value
+   * \param string $dn      dn of the LDAP node
+   */
+  static function lockUser (string $action, string $pwd, string $dn)
   {
-    $image = 'images/empty.png';
-    if (isset($userPassword[0]) && preg_match('/^\{[^\}]/', $userPassword[0])) {
-      if (preg_match('/^[^\}]*+\}!/', $userPassword[0])) {
-        $image = 'geticon.php?context=status&icon=object-locked&size=16';
-      } else {
-        $image = 'geticon.php?context=status&icon=object-unlocked&size=16';
-      }
-    }
-    return $image;
-  }
-
-  static function filterLockLabel ($userPassword)
-  {
-    $label = '';
-    if (isset($userPassword[0]) && preg_match('/^\{[^\}]/', $userPassword[0])) {
-      if (preg_match('/^[^\}]*+\}!/', $userPassword[0])) {
-        $label = _('Unlock account').'<rowClass:entry-locked/>';
-      } else {
-        $label = _('Lock account');
-      }
-    }
-    return $label;
-  }
-
-  static function filterProperties ($row, $dn, $attrs)
-  {
-    global $config;
-    static $usertabs = [];
-    if (empty($usertabs)) {
-      foreach ($config->data['TABS']['USERTABS'] as $plug) {
-        if ($plug['CLASS'] == 'user') {
-          continue;
+    $method = passwordMethod::get_method($pwd, $dn);
+    if ($method instanceOf passwordMethod) {
+      if (!$method->is_lockable()) {
+        $hn = $method->get_hash_name();
+        if (is_array($hn)) {
+          $hn = $hn[0];
         }
-        if (class_available($plug['CLASS'])) {
-          $name = $plug['CLASS'];
+        $error = new FusionDirectoryError(
+          htmlescape(sprintf(
+            _('Password method "%s" does not support locking. Account "%s" has not been locked!'),
+            $hn,
+            $dn
+          ))
+        );
+        $error->display();
+        return;
+      }
 
-          $usertabs[$name] = new $name('new');
+      $success = TRUE;
+      if (($action == 'lock') && !$method->is_locked($dn)) {
+        $success = $method->lock_account($dn);
+      } elseif (($action == 'unlock') && $method->is_locked($dn)) {
+        $success = $method->unlock_account($dn);
+      }
+
+      // Check if everything went fine.
+      if (!$success) {
+        $hn = $method->get_hash_name();
+        if (is_array($hn)) {
+          $hn = $hn[0];
         }
+        $error = new FusionDirectoryError(
+          htmlescape(sprintf(
+            _('Locking failed using password method "%s". Account "%s" has not been locked!'),
+            $hn,
+            $dn
+          ))
+        );
+        $error->display();
       }
     }
-
-    // Load information if needed
-    $result = '<input class="center" type="image" src="geticon.php?context=applications&amp;icon=user-info&amp;size=16" '.
-                       'alt="'._('User account').'" title="'._('User account information').'" '.
-                       'name="listing_edit_tab_user_'.$row.'"/>';
-    if (!empty($attrs)) {
-      if (in_array_ics('fdTemplate', $attrs['objectClass'])) {
-        $attrs = templateHandling::fieldsFromLDAP($attrs);
-      }
-      foreach ($usertabs as $class => $usertab) {
-        if ($usertab->is_this_account($attrs)) {
-          $infos = pluglist::pluginInfos($class);
-          if (isset($infos['plSmallIcon'])) {
-            $result .= '<input class="center" type="image" src="'.htmlentities($infos['plSmallIcon'], ENT_COMPAT, 'UTF-8').'" '.
-                       'alt="'.$infos['plShortName'].'" title="'.$infos['plShortName'].'" '.
-                       'name="listing_edit_tab_'.$class.'_'.$row.'"/>';
-          } else {
-            @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $infos['plShortName']." ($class)", "No icon for");
-          }
-        } else {
-          $result .= '<img src="images/empty.png" alt="" class="center optional '.$class.'"/>';
-        }
-      }
-    }
-
-    return $result;
   }
 }
-?>

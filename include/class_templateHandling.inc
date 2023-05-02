@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2011-2018  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ class templateHandling
 
     $ldap = $config->get_ldap_link();
     $ldap->cat($dn);
-    $attrs    = $ldap->fetch();
+    $attrs    = $ldap->fetch(TRUE);
     $attrs    = static::fieldsFromLDAP($attrs);
     list($depends, $errors) = static::attributesDependencies($attrs);
     msg_dialog::displayChecks($errors);
@@ -45,17 +45,21 @@ class templateHandling
   /*! \brief Translate template attrs into $attrs as if taken from LDAP */
   public static function fieldsFromLDAP (array $template_attrs)
   {
-    unset($template_attrs['fdTemplateField']['count']);
-    sort($template_attrs['fdTemplateField']);
     $attrs = [];
-    foreach ($template_attrs['fdTemplateField'] as $field) {
-      preg_match('/^([^:]+):(.*)$/s', $field, $m);
-      if (isset($attrs[$m[1]])) {
-        $attrs[$m[1]][] = $m[2];
-        $attrs[$m[1]]['count']++;
-      } else {
-        $attrs[$m[1]]           = [$m[2]];
-        $attrs[$m[1]]['count']  = 1;
+    if (isset($template_attrs['fdTemplateField'])) {
+      unset($template_attrs['fdTemplateField']['count']);
+      sort($template_attrs['fdTemplateField']);
+      foreach ($template_attrs['fdTemplateField'] as $field) {
+        if (!preg_match('/^([^:]+):(.*)$/s', $field, $m)) {
+          throw new FusionDirectoryException('Template field does not match format');
+        }
+        if (isset($attrs[$m[1]])) {
+          $attrs[$m[1]][] = $m[2];
+          $attrs[$m[1]]['count']++;
+        } else {
+          $attrs[$m[1]]           = [$m[2]];
+          $attrs[$m[1]]['count']  = 1;
+        }
       }
     }
     return $attrs;
@@ -115,8 +119,11 @@ class templateHandling
     return $errors;
   }
 
-  /*! \brief Parse a mask (without surrounding %) using $attrs attributes, apply modifiers and returns an array containing possible results */
-  public static function parseMask ($mask, array $attrs)
+  /*! \brief Parse a mask (without surrounding %) using $attrs attributes and apply modifiers
+   *
+   * \return iterable an array or iterable object of possible results
+   */
+  public static function parseMask (string $mask, array $attrs)
   {
     if ($mask == '|') {
       return ['%'];
@@ -126,14 +133,20 @@ class templateHandling
       $modifiers = $m[1];
       $mask = substr($mask, strlen($m[0]));
     }
-    $result = [''];
+    $result = [];
     if (isset($attrs[$mask])) {
-      $result = [$attrs[$mask]];
-      if (is_array($result[0])) {
-        unset($result[0]['count']);
+      $result = $attrs[$mask];
+      if (is_array($result)) {
+        unset($result['count']);
+        if (empty($result)) {
+          /* No value and empty value is the same in LDAP so we have to treat them the same */
+          $result = [''];
+        }
+      } else {
+        $result = [$result];
       }
     } elseif (($mask != '') && !preg_match('/c/', $modifiers)) {
-      trigger_error("'$mask' was not found in attributes");
+      throw new FusionDirectoryException(sprintf(_('"%s" was not found in attributes'), $mask));
     }
     $len    = strlen($modifiers);
     for ($i = 0; $i < $len; ++$i) {
@@ -144,19 +157,8 @@ class templateHandling
         $args = explode(',', $m[1]);
         $i += strlen($m[1]) + 2;
       }
-      $result_tmp = [];
-      foreach ($result as $r) {
-        $result_tmp = array_merge($result_tmp, static::applyModifier($modifier, $args, $r));
-      }
-      $result = $result_tmp;
+      $result = static::applyModifier($modifier, $args, $result);
     }
-    foreach ($result as &$r) {
-      /* Array that were not converted by a modifier into a string are now converted to strings */
-      if (is_array($r)) {
-        $r = reset($r);
-      }
-    }
-    unset($r);
     return $result;
   }
 
@@ -174,7 +176,7 @@ class templateHandling
         unset($attrs[$attr]);
       }
     }
-    $dependencies = array_unique(call_user_func_array('array_merge', $flatdepends));
+    $dependencies = array_unique(array_merge(...array_values($flatdepends)));
     foreach ($dependencies as $attr) {
       if (empty($flatdepends[$attr])) {
         $needed[] = $attr;
@@ -185,17 +187,21 @@ class templateHandling
 
   /*! \brief Parse template masks in an array
    *
+   * \param array $attrs        The attributes in LDAP format
+   * \param array $specialAttrs Some additional fake attributes which can be used in masks
+   * \param string $target      Dn of an object to ignore in the unicity check
+   *
    * \return array An array with the final values of attributes
    */
-  public static function parseArray (array $attrs, array $specialAttrs)
+  public static function parseArray (array $attrs, array $specialAttrs, $target = NULL)
   {
-    foreach ($attrs as &$attr) {
+    foreach ($attrs as $name => &$attr) {
       if (is_array($attr)) {
         foreach ($attr as $key => &$string) {
           if (!is_numeric($key)) {
             continue;
           }
-          $string = static::parseString($string, array_merge($attrs, $specialAttrs));
+          $string = static::parseString($string, array_merge($attrs, $specialAttrs), NULL, $name, $target);
         }
         unset($string);
       }
@@ -206,25 +212,91 @@ class templateHandling
 
   /*! \brief Parse template masks in a single string
    *
+   * \param string $string          The mask
+   * \param array $attrs            The attributes in LDAP format
+   * \param callable $escapeMethod  Method to call to escape mask result
+   * \param string $unique          Name of the LDAP attribute to check unicity on, if any
+   * \param string $target          Dn of an object to ignore in the unicity check
+   *
    * \return string the string with patterns replaced by their values
    */
-  public static function parseString ($string, array $attrs, $escapeMethod = NULL)
+  public static function parseString (string $string, array $attrs, $escapeMethod = NULL, string $unique = NULL, string $target = NULL): string
   {
+    global $config;
+
     if (preg_match('/^%%/', $string)) {
       /* Special case: %% at beginning of string means do not touch it. Used by binary attributes. */
       return preg_replace('/^%%/', '', $string);
     }
+
     $offset = 0;
+    $vars   = [];
     while (preg_match('/%([^%]+)%/', $string, $m, PREG_OFFSET_CAPTURE, $offset)) {
       $replace  = static::parseMask($m[1][0], $attrs);
-      $replace  = $replace[0];
-      if ($escapeMethod !== NULL) {
-        $replace = $escapeMethod($replace);
-      }
-      $string   = substr_replace($string, $replace, $m[0][1], strlen($m[0][0]));
-      $offset   = $m[0][1] + strlen($replace);
+      $vars[]   = [$m[0][1], strlen($m[0][0]), $replace];
+      $offset   = $m[0][1] + strlen($m[0][0]);
     }
+
+    $generator = static::iteratePossibleValues($string, $vars, $escapeMethod);
+
+    $string = $generator->current();
+
+    if (($unique !== NULL) && !empty($vars)) {
+      $ldap = $config->get_ldap_link();
+      $ldap->cd($config->current['BASE']);
+      /* Return the first found unique value */
+      foreach ($generator as $value) {
+        if (class_available('archivedObject')) {
+          $filter = archivedObject::buildUniqueSearchFilter($unique, $value);
+          $ldap->search($filter, ['dn']);
+          if ($ldap->count() > 0) {
+            continue;
+          }
+        }
+        $filter = '('.ldap_escape_f($unique).'='.ldap_escape_f($value).')';
+        $ldap->search($filter, ['dn']);
+        if ($ldap->count() == 0) {
+          return $value;
+        }
+        if (($target !== NULL) && ($ldap->count() == 1)) {
+          $attrs = $ldap->fetch();
+          if ($attrs['dn'] == $target) {
+            return $value;
+          }
+        }
+      }
+    }
+
     return $string;
+  }
+
+
+  /*! \brief Generator that yields possible template mask values
+   *
+   * \param string $rule            The mask
+   * \param array $variables        The possible values for each mask with its position and length
+   * \param callable $escapeMethod  Method to call to escape mask result
+   */
+  protected static function iteratePossibleValues (string $rule, array $variables, $escapeMethod = NULL)
+  {
+    if (!count($variables)) {
+      yield $rule;
+      return;
+    }
+
+    /* Start from the end to avoid messing the positions, and to avoid ids at the end if not needed (common usecase) */
+    list($pos, $length, $val) = array_pop($variables);
+
+    /* $val may be an iterator or an array */
+    foreach ($val as $possibility) {
+      if ($escapeMethod !== NULL) {
+        $possibility = $escapeMethod($possibility);
+      }
+      $nrule = mb_substr_replace($rule, $possibility, $pos, $length);
+      foreach (static::iteratePossibleValues($nrule, $variables, $escapeMethod) as $result) {
+        yield $result;
+      }
+    }
   }
 
   /*! \brief Parse template masks in a single string and list the fields it needs
@@ -249,15 +321,33 @@ class templateHandling
     return $fields;
   }
 
-  private static function modifierRemoveAccents ($str)
+  private static function modifierRemoveAccents (array $args, $str)
   {
+    $mode = 'ascii';
+    if (count($args) >= 1) {
+      $mode = $args[0];
+    }
+
     $str = htmlentities($str, ENT_NOQUOTES, 'UTF-8');
 
     $str = preg_replace('#&([A-za-z])(?:acute|cedil|circ|grave|orn|ring|slash|th|tilde|uml);#', '\1', $str);
     // handle ligatures
     $str = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $str);
     // delete unhandled characters
-    return [preg_replace('#&[^;]+;#', '', $str)];
+    $str = preg_replace('#&[^;]+;#', '', $str);
+
+    if ($mode === 'ascii') {
+      return [$str];
+    } elseif ($mode === 'uid') {
+      if (strict_uid_mode()) {
+        $str = preg_replace('/[^a-z0-9_-]/', '', mb_strtolower($str, 'UTF-8'));
+      } else {
+        $str = preg_replace('/[^a-zA-Z0-9 _.-]/', '', $str);
+      }
+      return [$str];
+    } else {
+      throw new FusionDirectoryException(_('Invalid mode for "a" modifier, supported modes are "uid" and "ascii"'));
+    }
   }
 
   private static function modifierTranslit (array $args, $str)
@@ -296,7 +386,7 @@ class templateHandling
     }
     if (preg_match('/^(\d+)-(\d+)$/', $args[1], $m)) {
       $res = [];
-      for ($i = $m[1];$i < $m[2]; ++$i) {
+      for ($i = $m[1];$i <= $m[2]; ++$i) {
         $res[] = mb_substr($str, $args[0], $i);
       }
       return array_unique($res);
@@ -352,7 +442,7 @@ class templateHandling
       }
     }
 
-    return $res;
+    return [$res];
   }
 
   private static function modifierDate (array $args)
@@ -361,7 +451,7 @@ class templateHandling
       $args[] = 'now';
     }
     if (count($args) < 2) {
-      $args[] = 'd.m.Y';
+      $args[] = 'Y-m-d';
     }
     $dateObject = new DateTime($args[0], new DateTimeZone('UTC'));
     if ($args[1] == 'epoch') {
@@ -371,23 +461,109 @@ class templateHandling
     return [$dateObject->format($args[1])];
   }
 
+  /*
+    First parameter is whether the number should always be there or only in case of duplicates (1 or 0, defaults to 0).
+    Second parameter is starting number, defaults to 1.
+    Third parameter is step, defaults to 1.
+  */
+  private static function modifierNumber (array $args)
+  {
+    if (count($args) < 1) {
+      $args[] = FALSE;
+    }
+    if (count($args) < 2) {
+      $args[] = 1;
+    }
+    if (count($args) < 3) {
+      $args[] = 1;
+    }
+    $numberGenerator = function ($mandatory, $start, $step)
+    {
+      if (!$mandatory) {
+        yield '';
+      }
+      $i = $start;
+      while (TRUE) {
+        yield $i;
+        $i += $step;
+      }
+    };
+
+    return $numberGenerator($args[0], $args[1], $args[2]);
+  }
+
+  /*
+    Modifier parameters:
+    * id
+    * starting number, defaults to 1.
+    * step, defaults to 1.
+  */
+  private static function modifierIncremental (array $args): array
+  {
+    global $config;
+
+    if (count($args) < 1) {
+      throw new FusionDirectoryException(_('Missing id parameter for incremental modifier'));
+    }
+    if (count($args) < 2) {
+      $args[] = 1;
+    }
+    if (count($args) < 3) {
+      $args[] = 1;
+    }
+    $configDn = CONFIGRDN.$config->current['BASE'];
+    Lock::addOrFail($configDn);
+    $tabObject = objects::open($configDn, 'configuration');
+    $json = $tabObject->getBaseObject()->fdIncrementalModifierStates;
+    if (empty($json)) {
+      $modifierStates = [];
+    } else {
+      $modifierStates = json_decode($json, TRUE);
+    }
+    if (isset($modifierStates[$args[0]])) {
+      $value = $modifierStates[$args[0]]['value'] + $args[2];
+    } else {
+      $value = $args[1];
+    }
+    $modifierStates[$args[0]] = [
+      'value' => $value,
+      'date'  => date('Y-m-d'),
+    ];
+    $tabObject->getBaseObject()->fdIncrementalModifierStates = json_encode($modifierStates);
+    $errors = $tabObject->save();
+    Lock::deleteByObject($configDn);
+    if (!empty($errors)) {
+      throw $errors[0];
+    }
+
+    return [$value];
+  }
+
+  private static function modifierTitleCase ($str)
+  {
+    return [mb_convert_case($str, MB_CASE_TITLE, 'UTF-8')];
+  }
+
   /*! \brief Apply a modifier
    *
    * \param string $m the modifier
    * \param array $args the parameters
    * \param mixed $str the string or array to apply the modifier on
    *
-   * \return array an array of possible values
+   * \return iterable an array or iterable object of possible values
    * */
-  protected static function applyModifier ($m, array $args, $str)
+  protected static function applyModifier (string $m, array $args, $str)
   {
     mb_internal_encoding('UTF-8');
     mb_regex_encoding('UTF-8');
     if (is_array($str) && (!is_numeric($m)) && (strtolower($m) == $m)) {
       /* $str is an array and $m is lowercase, so it's a string modifier */
-      $str = reset($str);
+      if (count($str) == 0) {
+        $str = '';
+      } else {
+        $str = reset($str);
+      }
     }
-    $result = [$str];
     switch ($m) {
       case 'F':
         // First
@@ -415,21 +591,21 @@ class templateHandling
           trigger_error('Missing "M" match modifier parameter');
           $args[] = '/.*/';
         }
-        $result = [array_filter(
+        $result = array_filter(
           $str,
           function ($s) use ($args)
           {
             return preg_match($args[0], $s);
           }
-        )];
+        );
         break;
       case '4':
         // IPv4
-        $result = [array_filter($str, 'tests::is_ipv4')];
+        $result = array_filter($str, 'tests::is_ipv4');
         break;
       case '6':
         // IPv6
-        $result = [array_filter($str, 'tests::is_ipv6')];
+        $result = array_filter($str, 'tests::is_ipv6');
         break;
       case 'c':
         // comment
@@ -452,7 +628,7 @@ class templateHandling
         break;
       case 'a':
         // remove accent
-        $result = static::modifierRemoveAccents($str);
+        $result = static::modifierRemoveAccents($args, $str);
         break;
       case 't':
         // translit
@@ -468,11 +644,23 @@ class templateHandling
         break;
       case 'r':
         // random string
-        $result = [static::modifierRandomString($args)];
+        $result = static::modifierRandomString($args);
         break;
       case 'd':
         // date
-        $result = [static::modifierDate($args)];
+        $result = static::modifierDate($args);
+        break;
+      case 'n':
+        // number
+        $result = static::modifierNumber($args);
+        break;
+      case 'i':
+        // title case
+        $result = static::modifierTitleCase($str);
+        break;
+      case 'e':
+        // incremental number
+        $result = static::modifierIncremental($args);
         break;
       default:
         trigger_error("Unkown modifier '$m'");
@@ -513,7 +701,7 @@ class templateHandling
         $depends[$key]
       );
     $array[]      = $depends[$key];
-    $cache[$key]  = array_unique(call_user_func_array('array_merge_recursive', $array));
+    $cache[$key]  = array_unique(array_merge_recursive(...$array));
     return $cache[$key];
   }
 
@@ -524,7 +712,7 @@ class templateHandling
     $depends = [];
     foreach ($attrs as $key => $values) {
       $depends[$key] = [];
-      if (!is_array($values))  {
+      if (!is_array($values)) {
         $values = [$values];
       }
       unset($values['count']);
@@ -553,7 +741,8 @@ class templateHandling
   /*! \brief Sort attrs depending of dependencies */
   protected static function sortAttributes (array $attrs, array $flatdepends)
   {
-    uksort($attrs, function ($k1, $k2) use ($flatdepends) {
+    uksort($attrs, function ($k1, $k2) use ($flatdepends)
+    {
       if (in_array($k1, $flatdepends[$k2])) {
         return -1;
       } elseif (in_array($k2, $flatdepends[$k1])) {
@@ -563,7 +752,7 @@ class templateHandling
         $c1 = count($flatdepends[$k1]);
         $c2 = count($flatdepends[$k2]);
         if ($c1 == $c2) {
-            return 0;
+          return 0;
         }
         return (($c1 < $c2) ? -1 : 1);
       }

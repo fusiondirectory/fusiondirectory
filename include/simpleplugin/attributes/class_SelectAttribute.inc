@@ -1,7 +1,8 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2018  FusionDirectory
+
+  Copyright (C) 2012-2020  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -20,17 +21,22 @@
 
 /*!
  * \file class_SelectAttribute.inc
- * Source code for the Select attributes
+ * Source code for SelectAttribute
  */
 
 /*! \brief This class allow to handle easily a Select LDAP attribute with a set of choices
  *
  */
-class SelectAttribute extends Attribute
+class SelectAttribute extends \FusionDirectory\Core\SimplePlugin\Attribute
 {
   protected $choices;
   protected $outputs  = NULL;
   protected $size     = 1;
+
+  /*! \brief Valid values which should be hidden from rendered input
+   *
+   * Used by SetAttribute to hide used values */
+  protected $hiddenChoices = [];
 
   /*! \brief The constructor of SelectAttribute
    *
@@ -45,9 +51,6 @@ class SelectAttribute extends Attribute
    */
   function __construct ($label, $description, $ldapName, $required = FALSE, $choices = [], $defaultValue = "", $outputs = NULL, $acl = "")
   {
-    if (!in_array($defaultValue, $choices, TRUE) && isset($choices[0])) {
-      $defaultValue = $choices[0];
-    }
     parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
     $this->setChoices($choices, $outputs);
   }
@@ -57,7 +60,7 @@ class SelectAttribute extends Attribute
    *  \param array $choices The choices this select should offer
    *  \param array $outputs The labels corresponding to the choices, leave to NULL if you want to display the choices themselves
    */
-  function setChoices ($choices, $outputs = NULL)
+  function setChoices (array $choices, array $outputs = NULL)
   {
     $this->outputs = NULL;
     if (!$this->isRequired() && !in_array('', $choices, TRUE)) {
@@ -73,8 +76,12 @@ class SelectAttribute extends Attribute
       }
     }
     $this->choices = $choices;
-    if (!in_array($this->defaultValue, $this->choices, TRUE) && isset($this->choices[0])) {
-      $this->defaultValue = $this->choices[0];
+    if (!in_array($this->defaultValue, $this->choices, TRUE)) {
+      if (isset($this->choices[0])) {
+        $this->defaultValue = $this->choices[0];
+      } else {
+        $this->defaultValue = '';
+      }
     }
     if (is_array($outputs)) {
       $this->setDisplayChoices($outputs);
@@ -82,13 +89,17 @@ class SelectAttribute extends Attribute
     if (!in_array($this->value, $this->choices)) {
       $this->resetToDefault();
     }
+    if (!in_array($this->postValue, $this->choices)) {
+      /* We may be called between readPostValue and applyPostValue */
+      $this->postValue = $this->defaultValue;
+    }
   }
 
   /*! \brief Set the display options of the select attribute
    *
    *  \param array $values The labels corresponding to the choices, in the same order as the choices
    */
-  function setDisplayChoices ($values)
+  function setDisplayChoices (array $values)
   {
     $this->outputs = [];
     $values = array_values($values);
@@ -112,7 +123,12 @@ class SelectAttribute extends Attribute
     return $this->outputs;
   }
 
-  function setRequired ($bool)
+  function setHiddenChoices (array $choices)
+  {
+    $this->hiddenChoices = $choices;
+  }
+
+  function setRequired (bool $bool)
   {
     parent::setRequired($bool);
     $key = array_search("", $this->choices, TRUE);
@@ -121,15 +137,15 @@ class SelectAttribute extends Attribute
       if ($this->outputs !== NULL) {
         unset($this->outputs['']);
       }
-    } elseif (!$this->isRequired() && !in_array("", $this->choices, TRUE)) {
-      $this->choices[] = "";
-      if (($this->outputs !== NULL) && !isset($this->output[''])) {
-        $this->output[''] = _('None');
+    } elseif (!$this->isRequired() && !in_array('', $this->choices, TRUE)) {
+      $this->choices[] = '';
+      if (($this->outputs !== NULL) && !isset($this->outputs[''])) {
+        $this->outputs[''] = _('None');
       }
     }
   }
 
-  function displayValue ($value)
+  function displayValue ($value): string
   {
     if ($this->outputs !== NULL) {
       if (isset($this->outputs[$value])) {
@@ -150,27 +166,45 @@ class SelectAttribute extends Attribute
       return $error;
     } else {
       if (!$this->disabled && !in_array($this->value, $this->choices)) {
-        return sprintf(_('The value "%s" for field "%s" is not in the list of possible choices'), $this->value, $this->getLabel());
+        return new SimplePluginCheckError(
+          $this,
+          SimplePluginCheckError::invalidValue(sprintf(_('"%s" is not in the list of possible choices'), $this->value))
+        );
       }
     }
   }
 
-  function renderFormInput ()
+  function renderFormInput (): string
   {
-    $smarty = get_smarty();
-    $id = $this->getHtmlId();
-    $smarty->assign($id."_choices", $this->choices);
+    $smarty         = get_smarty();
+    $id             = $this->getHtmlId();
+    $smartyChoices  = array_values(array_diff($this->choices, $this->hiddenChoices));
+    $currentValue   = $this->getValue();
+    if (in_array($currentValue, $this->hiddenChoices)) {
+      $currentValue = '';
+    }
     if ($this->outputs !== NULL) {
-      $outputs = array_values($this->outputs);
+      /* Make sure choices and outputs are in the same order */
+      $smartyOutputs = [];
+      foreach ($smartyChoices as $choice) {
+        $smartyOutputs[] = $this->outputs[$choice];
+      }
     } else {
-      $outputs = $this->choices;
+      $smartyOutputs = $smartyChoices;
     }
-    $key = array_search('', $outputs, TRUE);
+
+    if (!empty($currentValue) && !in_array($currentValue, $smartyChoices)) {
+      $smartyChoices[] = $currentValue;
+      $smartyOutputs[] = $currentValue;
+    }
+
+    $key = array_search('', $smartyOutputs, TRUE);
     if ($key !== FALSE) {
-      $outputs[$key] = '&nbsp;';
+      $smartyOutputs[$key] = '&nbsp;';
     }
-    $smarty->assign($id."_outputs", $outputs);
-    $smarty->assign($id."_selected", $this->getValue());
+    $smarty->assign($id.'_choices',   $smartyChoices);
+    $smarty->assign($id.'_outputs',   $smartyOutputs);
+    $smarty->assign($id.'_selected',  $currentValue);
     $display  = '<select name="'.$id.'" id="'.$id.'" ';
     if ($this->disabled || (count($this->choices) == 0)) {
       $display .= 'disabled="disabled" ';
@@ -180,10 +214,13 @@ class SelectAttribute extends Attribute
     }
     if ($this->submitForm) {
       $js       = 'document.mainform.submit();';
-      $display  .= 'onChange="javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8').'"';
+      $display  .= 'onChange="javascript:'.htmlescape($js).'"';
     } elseif (!empty($this->managedAttributes)) {
       $js       = $this->managedAttributesJS();
-      $display  .= 'onChange="javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8').'"';
+      $display  .= 'onChange="javascript:'.htmlescape($js).'"';
+    }
+    if ($this->isSubAttribute) {
+      $display .= 'class="subattribute" ';
     }
     $display .= '>';
     $display .= '{html_options values=$'.$id.'_choices output=$'.$id.'_outputs selected=$'.$id.'_selected}';
@@ -191,17 +228,17 @@ class SelectAttribute extends Attribute
     return $this->renderAcl($display);
   }
 
-  function serializeAttribute (&$attributes, $form = TRUE)
+  function serializeAttribute (array &$attributes, bool $form = TRUE)
   {
     if (!$form || $this->visible) {
       parent::serializeAttribute($attributes, $form);
 
       if ($this->outputs !== NULL) {
-        $outputs = array_values($this->outputs);
+        $tmpOutputs = array_values($this->outputs);
       } else {
-        $outputs = $this->choices;
+        $tmpOutputs = $this->choices;
       }
-      $attributes[$this->getLdapName()]['choices'] = array_combine($this->choices, $outputs);
+      $attributes[$this->getLdapName()]['choices'] = array_combine($this->choices, $tmpOutputs);
     }
   }
 
@@ -220,37 +257,5 @@ class SelectAttribute extends Attribute
         $this->outputs['%askme%'] = '%askme%';
       }
     }
-  }
-}
-
-/*! \brief This class allows to handle a select attribute which allow to choose an object
- *
- */
-class ObjectSelectAttribute extends SelectAttribute
-{
-  protected $objectType;
-  protected $objectAttrs  = NULL;
-  protected $objectFilter = '';
-
-  function __construct ($label, $description, $ldapName, $required, $objectType, $objectAttrs = NULL, $objectFilter = '', $acl = "")
-  {
-    parent::__construct($label, $description, $ldapName, $required, [], "", NULL, $acl);
-    $this->objectType   = $objectType;
-    $this->objectAttrs  = $objectAttrs;
-    $this->objectFilter = $objectFilter;
-  }
-
-  function setParent (&$plugin)
-  {
-    parent::setParent($plugin);
-    if (is_object($this->plugin)) {
-      $this->updateChoices();
-    }
-  }
-
-  function updateChoices ()
-  {
-    $objects = objects::ls($this->objectType, $this->objectAttrs, NULL, $this->objectFilter);
-    $this->setChoices(array_keys($objects), array_values($objects));
   }
 }

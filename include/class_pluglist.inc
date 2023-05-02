@@ -1,9 +1,8 @@
 <?php
-
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2018  FusionDirectory
+  Copyright (C) 2011-2019  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -31,10 +30,10 @@
  *
  * \see class_plugin
  */
-class pluglist {
-  var $menu             = "";
-  var $iconmenu         = "";
-  var $current          = "";
+class pluglist
+{
+  var $menu           = '';
+  protected $iconmenu = '';
 
   /*!
    * \brief The plInfo result for all plugin, using class as key.
@@ -55,8 +54,8 @@ class pluglist {
   /*!
    * \brief List plugin indexes of all plugin that the user have acl for
    */
-  var $allowed_plugins  = [];
-  var $silly_cache      = [];
+  protected $allowed_plugins  = [];
+  protected $silly_cache      = [];
 
   /*!
    * \brief List the plugins
@@ -149,6 +148,20 @@ class pluglist {
         }
         if (!isset($infos['plTitle']) && isset($infos['plShortName'])) {
           $infos['plTitle'] = $infos['plShortName'];
+        }
+        if (!empty($infos['plObjectClass']) && !isset($infos['plFilter'])) {
+          if (count($infos['plObjectClass']) == 1) {
+            $infos['plFilter'] = '(objectClass='.$infos['plObjectClass'][0].')';
+          } else {
+            $infos['plFilter'] = '(&(objectClass='.implode(')(objectClass=', $infos['plObjectClass']).'))';
+          }
+        }
+        if (isset($infos['plFilter'])) {
+          $infos['plFilterObject'] = ldapFilter::parse($infos['plFilter']);
+        }
+        if (isset($infos['plObjectType']) && !isset($infos['plPriority']) && !is_numeric(key($infos['plObjectType']))) {
+          /* Set main tab priority to 0 */
+          $infos['plPriority'] = 0;
         }
         $infos['plForeignRefs']         = [];
         $infos['INDEX']                 = $index;
@@ -352,7 +365,7 @@ class pluglist {
           if (isset($info['CLASS']) && plugin_available($info['CLASS'])) {
             $index  = $this->get_index($info['CLASS']);
             $this->allowed_plugins[$index] = $index;
-            list($plHeadline, $plDescription, $href, ) = $this->get_infos($info['CLASS']);
+            list ($plHeadline, $plDescription, $href, ) = $this->get_infos($info['CLASS']);
             $id             = $info['CLASS'];
           } elseif (!isset($info['CLASS'])) {
             $plHeadline     = $info['TITLE'];
@@ -364,12 +377,12 @@ class pluglist {
           }
 
           $entries .= '<li class="menuitem" id="menuitem_'.$id.'">';
-          $entries .= '<a href="'.$href.'" title="'.$plDescription.'">'.$plHeadline.'</a></li>'."\n";
+          $entries .= '<a href="'.$href.'" title="'.htmlescape($plDescription).'">'.htmlescape($plHeadline).'</a></li>'."\n";
         }
 
         /* Append to menu */
         if ($entries != "") {
-          $this->menu .= '<li><a>'.$section_infos['NAME']."</a>\n<ul>\n".$entries."\n</ul></li>\n";
+          $this->menu .= '<li><a>'.htmlescape($section_infos['NAME'])."</a>\n<ul>\n".$entries."\n</ul></li>\n";
         }
       }
       $this->menu .= '</ul>'."\n";
@@ -405,10 +418,9 @@ class pluglist {
 
       /* Parse headlines */
       foreach ($config->data['SECTIONS'] as $section => $section_infos) {
-        $entries  = '';
-        $menu     = '';
-        $menu     = '<div class="iconmenu-section"><h1 class="menuheader">';
-        $menu     .= $section_infos['NAME']."</h1>\n";
+        $entries      = '';
+        $sectionMenu  = '<div class="iconmenu-section"><h1 class="menuheader">';
+        $sectionMenu  .= htmlescape($section_infos['NAME'])."</h1>\n";
 
         foreach ($config->data['MENU'][$section] as $info) {
           if (!$this->check_access($info)) {
@@ -416,7 +428,7 @@ class pluglist {
           }
           if (isset($info['CLASS']) && plugin_available($info['CLASS'])) {
             /* Read information from class variable */
-            list($plHeadline, $plDescription, $href, $plIcon) = $this->get_infos($info['CLASS']);
+            list ($plHeadline, $plDescription, $href, $plIcon) = $this->get_infos($info['CLASS']);
             $id             = $info['CLASS'];
           } elseif (!isset($info['CLASS'])) {
             $plHeadline     = $info['TITLE'];
@@ -430,19 +442,19 @@ class pluglist {
 
           /* Load icon */
           if (isset($info['CLASS']) && !preg_match("/\//", $plIcon) && !preg_match("/^geticon/", $plIcon)) {
-            $image = get_template_path("plugins/".preg_replace('%^.*/([^/]+)/[^/]+$%', '\1', $class_mapping[$info['CLASS']])."/images/$plIcon");
+            $image = get_template_path('plugins/'.preg_replace('%^.*/([^/]+)/[^/]+$%', '\1', $class_mapping[$info['CLASS']]).'/images/'.$plIcon);
           } else {
-            $image = htmlentities($plIcon, ENT_COMPAT, 'UTF-8');
+            $image = $plIcon;
           }
 
-          $entries  .= '<div class="iconmenu" id="menuitem_icon_'.$id.'" onClick=\'location.href="'.$href.'"\' title="'.$plDescription.'">';
-          $item     = '<div class="imgcontainer"><img src="'.$image.'" alt=""/></div><span>&nbsp;'.$plHeadline.'</span>';
+          $entries  .= '<div class="iconmenu" id="menuitem_icon_'.$id.'" onClick=\'location.href="'.$href.'"\' title="'.htmlescape($plDescription).'">';
+          $item     = '<div class="imgcontainer"><img src="'.htmlescape($image).'" alt=""/></div><span>&nbsp;'.htmlescape($plHeadline).'</span>';
           $entries  .= $item."</div>\n";
         }
 
         /* Append to menu */
         if ($entries != "") {
-          $this->iconmenu .= $menu.$entries."</div>\n";
+          $this->iconmenu .= $sectionMenu.$entries."</div>\n";
         }
       }
     }
@@ -492,13 +504,98 @@ class pluglist {
     return isset($this->allowed_plugins[$plug_id]);
   }
 
+  /*!
+   * \brief Resets menu and ACL cache
+   *
+   * Called when user ACL rights may have changed
+   */
+  public function resetCache ()
+  {
+    $this->menu             = '';
+    $this->iconmenu         = '';
+    $this->silly_cache      = [];
+    $this->allowed_plugins  = [];
+  }
+
   static function pluginInfos ($cname)
   {
     $plist = session::get('plist');
     if ($plist) {
+      if (!isset($plist->info[$cname])) {
+        throw new UnknownClassException($cname);
+      }
       return $plist->info[$cname];
     } else {
       trigger_error('plist not loaded yet');
+    }
+  }
+
+  /*!
+   * \brief Loads plist and load it in config object
+   */
+  static function load ()
+  {
+    global $config, $plist;
+    if (!session::is_set('plist')) {
+      /* Initially load all classes */
+      load_all_classes();
+
+      $plist = new pluglist();
+      session::set('plist', $plist);
+      $config->loadPlist($plist);
+      $config->resetDepartmentCache();
+    } else {
+      $plist = session::get('plist');
+    }
+
+    return $plist;
+  }
+
+  static function runMainInc ($index, $forceCleanup = FALSE)
+  {
+    global $BASE_DIR, $config, $plist, $ui, $smarty, $display, $remove_lock, $cleanup, $plug;
+
+    if ($index == 'welcome') {
+      $plugin_dir = "$BASE_DIR/plugins/generic/welcome";
+      $plugin     = $index;
+    } else {
+      $plugin_dir = $plist->get_path($index);
+      $plugin     = $plist->dirlist[$index];
+    }
+    /* Used by get_template_path */
+    session::set('plugin_dir', $plugin_dir);
+
+    try {
+      if ($forceCleanup) {
+        $cleanup = $remove_lock = TRUE;
+      }
+      if (is_file("$plugin_dir/main.inc")) {
+        $display = '';
+        require("$plugin_dir/main.inc");
+      } elseif (is_callable([$plugin, 'mainInc'])) {
+        $plugin::mainInc();
+      } else {
+        throw new FatalError(
+          htmlescape(sprintf(
+            _('Fatal error: Cannot find any plugin definitions for plugin "%s" ("%s" is not a file)!'),
+            $plugin,
+            "$plugin_dir/main.inc"
+          ))
+        );
+      }
+      if ($forceCleanup) {
+        $cleanup = $remove_lock = FALSE;
+      }
+    } catch (Exception $e) {
+      $smarty->assign('headline',       _('Fatal error!'));
+      $smarty->assign('headline_image', 'geticon.php?context=status&icon=dialog-error&size=32');
+      $display = '<h1>'.htmlescape(_('An unrecoverable error occurred. Please contact your administator.')).'</h1><p>';
+      if (ini_get('display_errors') == 1) {
+        $display .= nl2br(htmlescape((string)$e));
+      } else {
+        $display .= 'Error detail display is turned off.';
+      }
+      $display .= '</p>'."\n";
     }
   }
 }

@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2018  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@
 error_reporting(0);
 session_cache_limiter('private');
 session::start();
-session::set('errorsAlreadyPosted', []);
+reset_errors();
 
 /* Logged in? Simple security check */
 if (!session::is_set('ui')) {
@@ -43,7 +43,7 @@ header('Pragma: no-cache');
 header('Cache-Control: post-check=0, pre-check=0');
 
 $key = 'binary';
-if (isset ($_GET['key'])) {
+if (isset($_GET['key'])) {
   $key .= $_GET['key'];
 }
 
@@ -55,4 +55,3 @@ if (session::is_set($key.'file')) {
 
 echo session::get($key);
 error_reporting(E_ALL | E_STRICT);
-?>

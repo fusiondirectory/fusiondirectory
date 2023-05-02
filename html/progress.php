@@ -3,7 +3,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2018  FusionDirectory
+  Copyright (C) 2011-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -55,7 +55,6 @@ if (!function_exists("imagecreate")) {
   echo "Please install the php5-gd library, FusionDirectory can't create images without it.";
   exit();
 } else {
-
   $x_matches = FALSE;
   $y_matches = FALSE;
   foreach ([7,6,5,4,3,2,1,0] as $font) {
@@ -75,7 +74,7 @@ if (!function_exists("imagecreate")) {
   }
 
   /* Draw image in GD image stream */
-  $im = imagecreat($x, $y);
+  $im = imagecreate($x, $y);
   if (!$im) {
     die('Cannot Initialize new GD image stream');
   }
@@ -88,8 +87,7 @@ if (!function_exists("imagecreate")) {
 
   /* Draw progress bar */
   imagerectangle($im, 0, 0, $x - 1, $y - 1, $br_color);
-  imagefilledrectangle($im, 1, 1, (($x - 2) * $p / 100),
-      $y - 2, $fi_color);
+  imagefilledrectangle($im, 1, 1, (($x - 2) * $p / 100), $y - 2, $fi_color);
 
   /* Is font to big for progress bar? */
   if ($font != 0) {
@@ -101,4 +99,3 @@ if (!function_exists("imagecreate")) {
   imagepng($im);
   imagedestroy($im);
 }
-?>

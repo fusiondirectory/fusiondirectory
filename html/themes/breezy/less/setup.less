@@ -1,0 +1,174 @@
+@import "colors";
+
+/*********
+ * Setup
+ *********/
+body.setup {
+  div#header-left .plugtop {
+    html.ltr & {
+    margin-left: 80px;
+    }
+    html.rtl & {
+    margin-right: 80px;
+    }
+  }
+  .plugin-window {
+    border-radius: 5px;
+  }
+}
+
+/* default.*/
+div.default {
+  padding: 2px 10px;
+  vertical-align: middle;
+}
+
+#menucell.setup-navigation {
+  width: 200px;
+  li.menuitem {
+    /* The box used for each setup step */
+    text-decoration: none;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    > a {
+      margin: 0;
+    }
+    &.menucurrent a.navigation-title {
+      /* An enabled setup step will use this style in navigation */
+      cursor: default;
+    }
+    &.disabled a.navigation-title {
+      /* Disabled setup steps */
+      cursor: default;
+      color: @title-color-disabled;
+    }
+    a.navigation-title {
+      /* Setup steps */
+      color: @title-color;
+      font-size: @big-title-font-size;
+      font-weight: bold;
+      text-decoration: none;
+      cursor: pointer;
+      padding-top: 3px;
+      padding-bottom: 3px;
+    }
+    a.navigation-info {
+      /* The style for the info of an active setup */
+      font-size: @text-font-size;
+      color: @text-color;
+      margin: 0;
+      cursor: default;
+      html.ltr & {
+        padding: 4px 4px 3px 15px;
+      }
+      html.rtl & {
+        padding: 4px 15px 3px 4px;
+      }
+    }
+  }
+}
+
+.setup-language select#lang_selected {
+  width: 100%;
+}
+
+/*
+  Setup step 2 styles
+*/
+/* used to hide display info div */
+div.solution-visible {
+  display: block;
+  width: 100%;
+  html.ltr & {
+    text-align: left;
+  }
+  html.rtl & {
+    text-align: right;
+  }
+}
+
+/* Container for name and status */
+div.step2-entry-container {
+  padding: 3px;
+  width: 99%;
+  cursor: default;
+}
+
+/* Container for name and status, when status is failed */
+div.step2-entry-container-info {
+  padding: 3px;
+  border: 1px solid @border-color-1;
+  width: 99%;
+  cursor: default;
+}
+
+/* Text shown for each entry */
+div.step2-entry-name {
+  padding-bottom: 4px;
+  vertical-align: middle;
+  html.ltr & {
+    float: left;
+  }
+  html.rtl & {
+    float: right;
+  }
+}
+
+/* Status container */
+div.step2-entry-status {
+  float: none;
+  padding-bottom: 4px;
+  vertical-align: middle;
+  html.ltr & {
+    text-align: right;
+  }
+  html.rtl & {
+    text-align: left;
+  }
+}
+
+/* Status failed */
+div.step2-failed {
+  color: @warning-red-color;
+  padding-bottom: 4px;
+}
+
+/* Status failed but not necessary for setup */
+div.step2-warning {
+  color: orange;
+  padding-bottom: 4px;
+}
+
+/* Status successful */
+div.step2-successful {
+  color: @success-title-color;
+}
+
+/* Text used in info div. */
+div.step2-failed-text,
+div.step2-warning-text {
+  background-repeat: no-repeat;
+  html.ltr & {
+    padding-left: 25px;
+  }
+  html.rtl & {
+    padding-right: 25px;
+  }
+}
+
+/* On small screens */
+@media (max-width: 640px) {
+  body.setup a.plugtop img {
+    height: 32px;
+  }
+  body.setup div#header-left .plugtop {
+    html.ltr & {
+      margin-left: 0;
+    }
+    html.rtl & {
+      margin-right: 0;
+    }
+  }
+}

@@ -42,7 +42,7 @@ class Language
       $lang = static::detect();
     }
 
-    list($language, $country, $char) = parse_gettext_lang($lang);
+    list ($language, , $char) = parse_gettext_lang($lang);
     putenv('LANGUAGE=');
     putenv("LANG=$lang");
     $langset = setlocale(LC_ALL, $lang, $language.'.'.$char);
@@ -60,7 +60,7 @@ class Language
     bindtextdomain($domain, LOCALE_DIR);
     textdomain($domain);
     if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-      @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $lang, 'Setting language to');
+      logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $lang, 'Setting language to');
     }
 
     $ret = FALSE;
@@ -70,11 +70,11 @@ class Language
       $ret = TRUE;
       if (session::is_set('plist')) {
         if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-          @DEBUG(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, session::get('lang'), 'Plist already loaded with language');
+          logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, session::get('lang'), 'Plist already loaded with language');
         }
         session::un_set('plist');
         session::set('lang', $lang);
-        load_plist();
+        pluglist::load();
       }
     }
 
@@ -125,6 +125,30 @@ class Language
 
     /* Return gettext based string */
     return al2gt($langs);
+  }
+
+  /*!
+   * \brief Checks if a locale is available
+   *
+   * \param string $lang Language locale to use
+   */
+  public static function isAvailable (string $lang): bool
+  {
+    if (strpos($lang, '.') === FALSE) {
+      $lang = $lang.'.UTF-8';
+    }
+
+    /* Store current locale */
+    $locale = setlocale(LC_ALL, 0);
+
+    /* Try to switch */
+    list ($language, , $char) = parse_gettext_lang($lang);
+    $langset = setlocale(LC_ALL, $lang, $language.'.'.$char);
+
+    /* Set current locale back */
+    setlocale(LC_ALL, $locale);
+
+    return ($langset !== FALSE);
   }
 
   /*!
@@ -226,12 +250,14 @@ class Language
 
   public static function setHeaders ($language, $mime)
   {
-    list($lang, $country, $char) = parse_gettext_lang($language);
+    list ($lang, $country, $char) = parse_gettext_lang($language);
 
     if (!headers_sent()) {
       header("Content-Language: $lang".(empty($country) ? '' : "-$country"));
-      if (!empty($char)) {
+      if (!empty($char) && preg_match('|^text/|', $mime)) {
         header("Content-Type: $mime; charset=$char");
+      } else {
+        header("Content-Type: $mime");
       }
     } else {
       trigger_error('Could not set language '.$lang.' header, headers already sent');

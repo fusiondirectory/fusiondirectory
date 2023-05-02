@@ -1,7 +1,8 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2018 FusionDirectory
+
+  Copyright (C) 2012-2019 FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -18,50 +19,21 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-/* Debug level is an OR combination of several values */
-class DebugLevelAttribute extends SetAttribute
-{
-  protected function loadAttrValue ($attrs)
-  {
-    if (isset($attrs[$this->getLdapName()])) {
-      $value = $attrs[$this->getLdapName()][0];
-      $this->value = [];
-      foreach ($this->attribute->getChoices() as $choice) {
-        if ($value & $choice) {
-          $this->value[] = $choice;
-        }
-      }
-    } else {
-      $this->resetToDefault();
-    }
-  }
-
-  function computeLdapValue ()
-  {
-    $value = 0;
-    foreach ($this->value as $v) {
-      $value |= $v;
-    }
-    return $value;
-  }
-}
-
 class configInLdap extends simplePlugin
 {
-  var $objectclasses  = ["fusionDirectoryConf"];
-
-  static function plInfo ()
+  static function plInfo (): array
   {
     return [
       'plShortName'     => _('Configuration'),
       'plTitle'         => _('FusionDirectory configuration'),
       'plDescription'   => _('Configuration screen of FusionDirectory'),
       'plIcon'          => 'geticon.php?context=categories&icon=settings&size=48',
+      'plObjectClass'   => ['fusionDirectoryConf'],
       'plObjectType'    => [
         'configuration' => [
           'name'      => _('FusionDirectory configuration'),
           'filter'    => 'objectClass=fusionDirectoryConf',
-          'tabClass'  => 'tabs_configInLdap',
+          'tabClass'  => 'configInLdapTabs',
           'icon'      => 'geticon.php?context=categories&icon=settings&size=16',
           'mainAttr'  => FALSE,
           'ou'        => preg_replace('/^[^,]+,/', '', CONFIGRDN)
@@ -75,14 +47,10 @@ class configInLdap extends simplePlugin
     ];
   }
 
-  static function getAttributesInfo ()
+  static function getAttributesInfo (): array
   {
     global $config;
-    $plugins = [];
-    if (session::is_set('plist')) {
-      $plugins = array_keys(session::get('plist')->info);
-    }
-    sort($plugins);
+
     return [
       'look_n_feel' => [
         'name'  => _('Look and feel'),
@@ -104,6 +72,7 @@ class configInLdap extends simplePlugin
             ['America/New_York']
           ),
           new HiddenAttribute('fusionConfigMd5'),
+          new HiddenAttribute('fdIncrementalModifierStates'),
         ]
       ],
       'core_settings' => [
@@ -133,17 +102,7 @@ class configInLdap extends simplePlugin
             TRUE
           ),
           new BooleanAttribute(
-            _('Enable snapshots'), _('This enables you to save certain states of entries and restore them later on.'),
-            'fdEnableSnapshots', FALSE,
-            TRUE
-          ),
-          new StringAttribute(
-            _('Snapshot base'), _('The base where snapshots should be stored inside of the LDAP.'),
-            'fdSnapshotBase', FALSE,
-            'ou=snapshots,'.$config->current['BASE']
-          ),
-          new BooleanAttribute(
-            _('Wildcard foreign keys'), _('Enables wildcard searches like member=* when moving a whole departement. This will open all existing groups and roles to make sure foreign keys are respected. Slow on big trees.'),
+            _('Wildcard foreign keys'), _('Enables wildcard searches like member=* when moving a whole department. This will open all existing groups and roles to make sure foreign keys are respected. Slow on big trees.'),
             'fdWildcardForeignKeys', FALSE,
             TRUE
           ),
@@ -152,6 +111,13 @@ class configInLdap extends simplePlugin
       'password' => [
         'name'  => _('Password settings'),
         'attrs' => [
+          new SetAttribute(
+            new SelectAttribute(
+              _('Allowed password hashes'), _('Password hashes which may be used for user passwords'),
+              'fdPasswordAllowedHashes', TRUE,
+              ['ssha']
+            )
+          ),
           new SelectAttribute(
             _('Password default hash'), _('Default hash to be used'),
             'fdPasswordDefaultHash', TRUE,
@@ -212,15 +178,10 @@ class configInLdap extends simplePlugin
             'fdSessionLifeTime', TRUE,
             0 /*min*/, FALSE /*no max*/, 1800
           ),
-          new BooleanAttribute(
-            _('HTTP Basic authentication'), _('Use HTTP Basic authentication protocol instead of the login form.'),
-            'fdHttpAuthActivated', FALSE,
-            FALSE
-          ),
-          new BooleanAttribute(
-            _('HTTP Header authentication'), _('Use HTTP Header authentication instead of the login form.'),
-            'fdHttpHeaderAuthActivated', FALSE,
-            FALSE
+          new SelectAttribute(
+            _('Login method'),
+            _('Which login method should be used for connecting to FusionDirectory'),
+            'fdLoginMethod', TRUE
           ),
           new StringAttribute(
             _('Header name'), _('Name of the header containing user identifier.'),
@@ -252,11 +213,6 @@ class configInLdap extends simplePlugin
       'cas' => [
         'name'  => _('CAS'),
         'attrs' => [
-          new BooleanAttribute(
-            _('Enable CAS'), _('CAS login will be used instead of LDAP bind'),
-            'fdCasActivated', FALSE,
-            FALSE
-          ),
           new TrimmedStringAttribute(
             _('CA certificate path'), _('Path to the CA certificate of the CAS server'),
             'fdCasServerCaCertPath', FALSE,
@@ -277,6 +233,18 @@ class configInLdap extends simplePlugin
             'fdCasContext', FALSE,
             '/cas'
           ),
+          new BooleanAttribute(
+            _('Verbose error'), _('Activate verbose errors in phpCAS. Avoid in production.'),
+            'fdCasVerbose', FALSE
+          ),
+          new BooleanAttribute(
+            _('Library CAS 1.6'), _('Activate if library CAS >= 1.6 is being used.'),
+            'fdCasLibraryBool', FALSE
+          ),
+          new StringAttribute(
+            _('Client service'), _('The client service name'),
+            'fdCasClientServiceName', FALSE
+          ),
         ]
       ],
       'people_and_group' => [
@@ -284,7 +252,7 @@ class configInLdap extends simplePlugin
         'class' => ['critical'],
         'attrs' => [
           new SelectAttribute(
-            _('People DN attribute'), _('Attribute to use at the beginning of users dn'),
+            _('People DN attribute'), _('Attribute to use at the beginning of the user dn'),
             'fdAccountPrimaryAttribute', TRUE,
             ['uid', 'cn']
           ),
@@ -292,6 +260,12 @@ class configInLdap extends simplePlugin
             _('CN pattern'), _('The pattern to use to build the common name field'),
             'fdCnPattern', TRUE,
             '%givenName% %sn%'
+          ),
+          new BooleanAttribute(
+            _('Mandatory first name'),
+            _('Whether first name (givenName) should be a mandatory field on users'),
+            'fdGivenNameRequired', FALSE,
+            TRUE
           ),
           new BooleanAttribute(
             _('Strict naming policy'),
@@ -321,14 +295,19 @@ class configInLdap extends simplePlugin
             _('Postal address pattern'), _('When using separate address fields, you can use a pattern to fill postalAddress field.'),
             'fdPostalAddressPattern'
           ),
+          new IntAttribute(
+            _('Avatar max size'), _('Maximum user picture width and height in pixels. Bigger uploaded pictures will be resized.'),
+            'fdMaxAvatarSize', FALSE,
+            1, FALSE, 200
+          ),
         ]
       ],
       'debug' => [
         'name'  => _('Debugging'),
         'attrs' => [
           new BooleanAttribute(
-            _('Display errors'),
-            _('Shows PHP errors in the upper part of the screen. This should be disabled in productive deployments, because there might be some passwords in it.'),
+            _('Display PHP errors'),
+            _('Shows PHP errors in the upper part of the screen. This should be disabled in production deployments, because it may contain passwords.'),
             'fdDisplayErrors'
           ),
           new IntAttribute(
@@ -352,6 +331,11 @@ class configInLdap extends simplePlugin
               ['Trace',      'LDAP',     'Database', 'Shell',      'POST',
                     'SESSION',      'ACL',      'SI',     'Mail']
             )
+          ),
+          new BooleanAttribute(
+            _('Log debug messages'),
+            _('Sends debug output to syslog as well'),
+            'fdDebugLogging'
           ),
         ]
       ],
@@ -398,48 +382,13 @@ class configInLdap extends simplePlugin
             // no order
             FALSE,
             []
-          )
-        ]
-      ],
-      'hooks' => [
-        'name'  => _('Hooks'),
-        'class' => ['fullwidth'],
-        'attrs' => [
-          new OrderedArrayAttribute(
-            new CompositeAttribute(
-              _('Hooks that are called when specific actions happens'),
-              'fdTabHook',
-              [
-                new SelectAttribute(
-                  _('Tab'), _('The tab that this hook concerns'),
-                  'hookTab', TRUE,
-                  $plugins
-                ),
-                new SelectAttribute(
-                  _('Mode'), _('When to call this command'),
-                  'hookMode', TRUE,
-                  ['postcreate', 'postremove', 'postmodify',
-                        'precreate', 'preremove', 'premodify', 'check',
-                        'prelock', 'postlock', 'preunlock', 'postunlock']
-                ),
-                new TextAreaAttribute(
-                  _('Command'), _('The command that will be called'),
-                  'hookCmd', TRUE
-                )
-              ],
-              '/^([^\\|]+)\\|([^\\|]+)\\|(.*)$/',
-              '%s|%s|%s',
-              '', // acl
-              _('Hooks')
-            ),
-            FALSE, // non-ordered
-            [],
-            TRUE // edition
           ),
-          new BooleanAttribute(
-            _('Display hook output'),
-            _('When enabled successful hook execution output is displayed to the user using a dialog.'),
-            'fdDisplayHookOutput'
+          // Needed here for ACLs
+          new HiddenAttribute('fdManagementConfig'),
+          new IntAttribute(
+            _('ACL target filter limit'), _('Defines the maximum number of entries an ACL target filter is allowed to return'),
+            'fdAclTargetFilterLimit', FALSE,
+            0 /*min*/, FALSE /*no max*/, 100
           ),
         ]
       ],
@@ -463,7 +412,13 @@ class configInLdap extends simplePlugin
     if (!in_array('sasl', $methods)) {
       $methods[] = 'sasl';
     }
-    $attributesInfo['password']['attrs'][0]->setChoices($methods);
+    $attributesInfo['password']['attrs'][0]->attribute->setChoices($methods);
+    $attributesInfo['password']['attrs'][0]->setDefaultValue($methods);
+    $attributesInfo['password']['attrs'][0]->resetToDefault();
+    $attributesInfo['password']['attrs'][1]->setChoices($methods);
+    /* Login methods */
+    $methods = LoginMethod::getMethods();
+    $attributesInfo['login']['attrs'][4]->setChoices(array_keys($methods), array_values($methods));
 
     $groupsAndRoles = array_merge(
       array_map(
@@ -490,7 +445,7 @@ class configInLdap extends simplePlugin
     foreach ($config->data['SECTIONS'] as $section => $section_infos) {
       foreach ($config->data['MENU'][$section] as $info) {
         if (isset($info['CLASS'])) {
-          list($plHeadline, , , ) = $plist->get_infos($info['CLASS']);
+          list ($plHeadline, , , ) = $plist->get_infos($info['CLASS']);
           $menuPlugins[$info['CLASS']] = $plHeadline;
         }
       }
@@ -510,53 +465,11 @@ class configInLdap extends simplePlugin
 
     $this->fusionConfigMd5 = md5_file(CACHE_DIR."/".CLASS_CACHE);
 
-    $this->attributesAccess['fdHttpAuthActivated']->setManagedAttributes(
-      [
-        'erase' => [
-          TRUE => [
-            'fdCasActivated',
-          ]
-        ]
-      ]
-    );
-    $this->attributesAccess['fdEnableSnapshots']->setManagedAttributes(
-      [
-        'disable' => [
-          FALSE => [
-            'fdSnapshotBase',
-          ]
-        ]
-      ]
-    );
-
-    $this->attributesAccess['fdTabHook']->setLinearRendering(FALSE);
-
     $this->attributesAccess['fdForceSSL']->setManagedAttributes(
       [
         'disable' => [
           TRUE => [
             'fdWarnSSL',
-          ]
-        ]
-      ]
-    );
-    $this->attributesAccess['fdCasActivated']->setManagedAttributes(
-      [
-        'disable' => [
-          FALSE => [
-            'fdCasServerCaCertPath',
-            'fdCasHost',
-            'fdCasPort',
-            'fdCasContext',
-          ]
-        ]
-      ]
-    );
-    $this->attributesAccess['fdHttpHeaderAuthActivated']->setManagedAttributes(
-      [
-        'disable' => [
-          FALSE => [
-            'fdHttpHeaderAuthHeaderName',
           ]
         ]
       ]
@@ -570,20 +483,109 @@ class configInLdap extends simplePlugin
         ]
       ]
     );
+
+    // CAS boolean case to allow the use of CAS library >= 1.6
+    $this->attributesAccess['fdCasLibraryBool']->setManagedAttributes(
+      [
+        'disable' => [
+          FALSE => [
+            'fdCasClientServiceName',
+          ]
+        ]
+      ]
+    );
+
+    $this->attributesAccess['fdLoginMethod']->setManagedAttributes(
+      [
+        'multiplevalues' => [
+          'noncas'    => [
+            'LoginPost',
+            'LoginHTTPAuth',
+            'LoginHTTPHeader',
+          ],
+          'nonheader' => [
+            'LoginPost',
+            'LoginCAS',
+            'LoginHTTPAuth'
+          ],
+        ],
+        'disable' => [
+          'noncas' => [
+            'fdCasServerCaCertPath',
+            'fdCasHost',
+            'fdCasPort',
+            'fdCasContext',
+            'fdCasVerbose',
+            'fdCasClientServiceName',
+            'fdCasLibraryBool'
+          ],
+          'nonheader' => [
+            'fdHttpHeaderAuthHeaderName',
+          ]
+        ]
+      ]
+    );
+    if (empty($this->attrs['fdLoginMethod'][0])) {
+      // Reading OBSOLETE attributes from FD<1.4 to ease migration
+      if (isset($this->attrs['fdHttpAuthActivated'][0]) && ($this->attrs['fdHttpAuthActivated'][0] == 'TRUE')) {
+        $this->fdLoginMethod = 'LoginHTTPAuth';
+      } elseif (isset($this->attrs['fdCasActivated'][0]) && ($this->attrs['fdCasActivated'][0] == 'TRUE')) {
+        $this->fdLoginMethod = 'LoginCAS';
+      } elseif (isset($this->attrs['fdHttpHeaderAuthActivated'][0]) && ($this->attrs['fdHttpHeaderAuthActivated'][0] == 'TRUE')) {
+        $this->fdLoginMethod = 'LoginHTTPHeader';
+      }
+    }
+
+    $this->attributesAccess['fdPasswordDefaultHash']->setChoices(
+      $this->attributesAccess['fdPasswordAllowedHashes']->getValue()
+    );
   }
 
-  function compute_dn ()
+  function compute_dn (): string
   {
     return $this->dn;
   }
 
-  function check ()
+  function check (): array
   {
     $messages = parent::check();
     if (($this->fdPasswordDefaultHash == 'sasl') && ($this->fdSaslRealm == '') && ($this->fdSaslExop == '')) {
-      $messages[] = _('You need to fill saslRealm or saslExop in the configuration screen in order to use SASL');
+      $messages[] = new SimplePluginCheckError(
+        $this,
+        htmlescape(_('You need to fill saslRealm or saslExop in the configuration screen in order to use SASL'))
+      );
     }
+    if ($this->attributesAccess['fdLanguage']->hasChanged() && ($this->fdLanguage != '') && !Language::isAvailable($this->fdLanguage)) {
+      $messages[] = new SimplePluginCheckError(
+        $this->attributesAccess['fdLanguage'],
+        htmlescape(sprintf(_('It seems the selected language "%s" is not installed on the system. Please install it or select an other one.'), $this->fdLanguage))
+      );
+    }
+
+    if (($this->fdLdapSizeLimit !== '') && ($this->fdLdapSizeLimit > 0)) {
+      $error = ldapSizeLimit::checkMaxInputVars($this->fdLdapSizeLimit);
+      if ($error !== FALSE) {
+        $messages[] = new SimplePluginCheckError(
+          $this->attributesAccess['fdLdapSizeLimit'],
+          $error->getHtmlMessage(),
+          $error->getCode(),
+          $error
+        );
+      }
+    }
+
     return $messages;
+  }
+
+  public function update (): bool
+  {
+    $res = parent::update();
+
+    $this->attributesAccess['fdPasswordDefaultHash']->setChoices(
+      $this->attributesAccess['fdPasswordAllowedHashes']->getValue()
+    );
+
+    return $res;
   }
 
   static function get_themes ()
@@ -599,5 +601,19 @@ class configInLdap extends simplePlugin
     }
     return array_unique($themes);
   }
+
+  static function mainInc ($classname = NULL, $entry_dn = NULL, $tabs = TRUE, $edit_mode = TRUE, $objectType = FALSE)
+  {
+    global $config;
+
+    if ($classname === NULL) {
+      $classname = get_called_class();
+    }
+
+    if ($entry_dn === NULL) {
+      $entry_dn = CONFIGRDN.$config->current['BASE'];
+    }
+
+    parent::mainInc($classname, $entry_dn, $tabs, $edit_mode, $objectType);
+  }
 }
-?>

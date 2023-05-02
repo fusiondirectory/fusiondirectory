@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2019  FusionDirectory
+  Copyright (C) 2012-2016  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 /*! \brief This class allow to handle easily a Boolean LDAP attribute
  *
  */
-class BooleanAttribute extends Attribute
+class BooleanAttribute extends \FusionDirectory\Core\SimplePlugin\Attribute
 {
   public $trueValue;
   public $falseValue;
@@ -90,22 +90,31 @@ class BooleanAttribute extends Attribute
     }
   }
 
-  function renderFormInput ()
+  function displayValue ($value): string
+  {
+    if ($this->isTemplate() && $this->isTemplatable() && ($value === '%askme%')) {
+      return $value;
+    } else {
+      return ($value ? _('yes') : _('no'));
+    }
+  }
+
+  function renderFormInput (): string
   {
     $id = $this->getHtmlId();
     $attributes = ($this->value ? ['checked' => 'checked'] : []);
     if ($this->submitForm) {
-      $js       = 'document.mainform.submit();';
-      $attributes['onChange'] = 'javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8');
+      $js                     = 'document.mainform.submit();';
+      $attributes['onChange'] = 'javascript:'.$js;
     } elseif (!empty($this->managedAttributes)) {
       $js       = $this->managedAttributesJS();
-      $attributes['onChange'] = 'javascript:'.htmlentities($js, ENT_COMPAT, 'UTF-8');
+      $attributes['onChange'] = 'javascript:'.$js;
     }
     $display  = $this->renderInputField('checkbox', $id, $attributes);
     return $this->renderAcl($display);
   }
 
-  function renderTemplateInput ()
+  function renderTemplateInput (): string
   {
     if ($this->isTemplatable()) {
       $id = $this->getHtmlId();
@@ -129,7 +138,7 @@ class BooleanAttribute extends Attribute
     }
   }
 
-  protected function managedAttributesJS ()
+  protected function managedAttributesJS (): string
   {
     $js = '';
     $id = $this->getHtmlId();
@@ -148,6 +157,50 @@ class BooleanAttribute extends Attribute
       }
     }
     return $js;
+  }
+
+  /*! \brief Apply value from RPC requests
+   *
+   *  \param mixed $value the value
+   */
+  function deserializeValue ($value)
+  {
+    if ($this->disabled) {
+      return new SimplePluginError(
+        $this,
+        htmlescape(sprintf(_('Attribute %s is disabled, its value could not be set'), $this->getLdapName()))
+      );
+    }
+    if ($value === $this->trueValue) {
+      $this->setValue(TRUE);
+    } elseif ($value === $this->falseValue) {
+      $this->setValue(FALSE);
+    } elseif (is_bool($value)) {
+      $this->setValue($value);
+    } elseif ($value === 1) {
+      $this->setValue(TRUE);
+    } elseif ($value === 0) {
+      $this->setValue(FALSE);
+    } else {
+      return new SimplePluginError(
+        $this,
+        htmlescape(sprintf(_('"%s" is not a valid value, should be "%s" or "%s"'), $value, $this->getLdapName(), $this->trueValue, $this->falseValue))
+      );
+    }
+
+    /* No error */
+    return '';
+  }
+
+  function serializeAttribute (array &$attributes, bool $form = TRUE)
+  {
+    if (!$form || $this->visible) {
+      parent::serializeAttribute($attributes, $form);
+      $attributes[$this->getLdapName()]['choices'] = [
+        $this->trueValue  => 'True',
+        $this->falseValue => 'False',
+      ];
+    }
   }
 }
 
@@ -180,7 +233,7 @@ class ObjectClassBooleanAttribute extends BooleanAttribute
     $this->setInLdap(FALSE);
   }
 
-  function loadValue ($attrs)
+  function loadValue (array $attrs)
   {
     if (isset($attrs['objectClass'])) {
       $missing_oc = array_udiff($this->objectclasses, $attrs['objectClass'], 'strcasecmp');
@@ -191,7 +244,7 @@ class ObjectClassBooleanAttribute extends BooleanAttribute
     $this->initialValue = $this->value;
   }
 
-  function fillLdapValue (&$attrs)
+  function fillLdapValue (array &$attrs)
   {
     if ($this->getValue()) {
       $attrs['objectClass'] = array_merge_unique($this->objectclasses, $attrs['objectClass']);
@@ -200,4 +253,3 @@ class ObjectClassBooleanAttribute extends BooleanAttribute
     }
   }
 }
-

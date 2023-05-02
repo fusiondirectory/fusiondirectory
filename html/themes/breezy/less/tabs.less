@@ -1,0 +1,102 @@
+@import "colors";
+
+table.tabs-header {
+  width: 100%;
+  border: none;
+  border-spacing: 0;
+  text-decoration: none;
+  color: @link-color;
+  font-size: @title-font-size;
+  font-weight: bold;
+  > tbody > tr > td {
+    padding: 0;
+    vertical-align: bottom;
+    white-space: nowrap;
+    width: 1px;
+    &:last-child {
+      width: auto;
+    }
+    &.nonreadable {
+      display: none;
+    }
+    > div > a {
+      display: inline-block;
+      border-radius: 5px 5px 0 0;
+      text-align: center;
+      background-color: @tab-background-color;
+      border: 1px solid @tab-border-color;
+      margin-top: 5px;
+      padding-top: 1px;
+      padding-left: 8px;
+      padding-right: 8px;
+      padding-bottom: 5px;
+      transition: margin .4s ease, padding .4s ease;
+      &:hover {
+        margin-top: 0;
+        padding-top: 2px;
+        padding-bottom: 7px;
+      }
+    }
+    > div.tab-active > a {
+      background-color: @tab-active-background-color;
+      border-bottom: 0;
+      margin-top: 2px;
+      padding-top: 2px;
+      padding-bottom: 8px;
+    }
+    > div.tab-inactive > a {
+      color: @tab-title-color-disabled;
+      font-weight: normal;
+    }
+    > div.tab-disabled > a {
+      color: @tab-title-color-disabled;
+      &:hover {
+        margin-top: 5px;
+        padding-top: 1px;
+        padding-bottom: 5px;
+      }
+    }
+    > div.tab-notify > a {
+      background-image: url(../../geticon.php?context=status&icon=dialog-information&size=16);
+      background-repeat: no-repeat;
+      background-position: 1px 1px;
+      html.ltr & {
+        padding-left: 18px;
+      }
+      html.rtl & {
+        padding-right: 18px;
+      }
+    }
+    > div.tab-left > a {
+      html.ltr & {
+        border-right-width: 0;
+      }
+      html.rtl & {
+        border-left-width: 0;
+      }
+    }
+    > div.tab-right > a {
+      html.ltr & {
+        border-left-width: 0;
+      }
+      html.rtl & {
+        border-right-width: 0;
+      }
+    }
+    > div.tab-border {
+      border-bottom: 1px solid @tab-border-color;
+    }
+  }
+}
+
+div.tab-content {
+  padding: 4px;
+  width: auto;
+  background-color: @tab-active-background-color;
+  border-style: solid;
+  border-color: @border-color-1;
+  border-top-width: 0;
+  border-bottom-width: 1px;
+  border-left-width: 1px;
+  border-right-width: 1px;
+}

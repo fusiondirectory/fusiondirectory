@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2018  FusionDirectory
+  Copyright (C) 2011-2020  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -37,32 +37,35 @@ define('FATAL_ERROR_DIALOG',  10006);
  */
 class msg_dialog
 {
-  private $s_Title    = 'Undefined';
-  private $s_Message  = 'Undefined';
-  private $i_Type     = INFO_DIALOG;
-  private $i_ID       = 0;
-  private $a_Trace    = [];
+  private $s_Title;
+  private $s_Message;
+  private $i_Type;
+  private $i_ID;
+  private $a_Trace;
 
   /*!
    * \brief Message dialog constructor
    *
-   * \param string $s_title The title of the message dialog
+   * \param string $title The title of the message dialog (plain string)
    *
-   * \param string $s_message The message of the message dialog
+   * \param string $message The message of the message dialog (HTML)
    *
-   * \param string $i_type The type of the message dialog, by default = INFO_DIALOG
+   * \param int $type The type of the message dialog, by default = INFO_DIALOG
+   *
+   * \param array $trace The trace from where the message was built
    */
-  public function __construct ($s_title, $s_message, $i_type)
+  public function __construct (string $title, string $message, int $type = INFO_DIALOG, array $trace = [])
   {
-    if (!in_array($i_type, [INFO_DIALOG,WARNING_DIALOG,ERROR_DIALOG,CONFIRM_DIALOG,FATAL_ERROR_DIALOG])) {
+    if (!in_array($type, [INFO_DIALOG,WARNING_DIALOG,ERROR_DIALOG,CONFIRM_DIALOG,FATAL_ERROR_DIALOG])) {
       trigger_error('Invalid msg_dialog type.');
-      $i_type = INFO_DIALOG;
+      $type = INFO_DIALOG;
     }
 
-    $this->i_ID       = preg_replace('/[^0-9]*/', '', microtime());
-    $this->s_Title    = $s_title;
-    $this->s_Message  = $s_message;
-    $this->i_Type     = $i_type;
+    $this->i_ID       = (int)preg_replace('/[^0-9]*/', '', microtime());
+    $this->s_Title    = $title;
+    $this->s_Message  = $message;
+    $this->i_Type     = $type;
+    $this->a_Trace    = $trace;
   }
 
   protected function show ()
@@ -93,35 +96,43 @@ class msg_dialog
     /* Append trace information, only if error messages are enabled */
     if (isset($config) && is_object($config) &&
       $config->get_cfg_value('displayerrors') == 'TRUE') {
-      $this->a_Trace = debug_backtrace();
-    }
-    if ($this->i_Type == FATAL_ERROR_DIALOG) {
-      restore_error_handler();
-      error_reporting(E_ALL);
-      echo $this->execute();
-    } else {
-      if (session::is_set('msg_dialogs')) {
-        $msg_dialogs = session::get('msg_dialogs');
-      } else {
-        $msg_dialogs = [];
+      if (empty($this->a_Trace)) {
+        $this->a_Trace = debug_backtrace();
       }
-      $msg_dialogs[] = $this;
-      session::set('msg_dialogs', $msg_dialogs);
+    } else {
+      $this->a_Trace = [];
     }
+    if (session::is_set('msg_dialogs')) {
+      $msg_dialogs = session::get('msg_dialogs');
+    } else {
+      $msg_dialogs = [];
+    }
+    $msg_dialogs[] = $this;
+    session::set('msg_dialogs', $msg_dialogs);
   }
 
   /*!
    * \brief Display a message dialog
    *
-   * \param string $s_title The title of the message dialog
+   * \param string|object $title The title of the message dialog, or the error object
    *
-   * \param string $s_message The message of the message dialog
+   * \param string $message The message of the message dialog (HTML)
    *
-   * \param string $i_type The type of the message dialog, by default = INFO_DIALOG
+   * \param int $type The type of the message dialog, by default = INFO_DIALOG
+   *
+   * \param array $trace The trace from where the message was built
    */
-  public static function display ($s_title, $s_message, $i_type = INFO_DIALOG)
+  public static function display ($title, string $message, int $type = INFO_DIALOG, array $trace = [])
   {
-    $dialog = new msg_dialog($s_title, $s_message, $i_type);
+    if ($type === FATAL_ERROR_DIALOG) {
+      /* Deprecated */
+      throw new FatalError($message);
+    }
+    if ($title instanceof FusionDirectoryError) {
+      static::display(...$title->computeMsgDialogParameters());
+      return;
+    }
+    $dialog = new msg_dialog($title, $message, $type, $trace);
     $dialog->show();
   }
 
@@ -133,7 +144,11 @@ class msg_dialog
   public static function displayChecks ($messages)
   {
     foreach ($messages as $error) {
-      static::display(_('Error'), $error, ERROR_DIALOG);
+      if ($error instanceof FusionDirectoryError) {
+        static::display(...$error->computeMsgDialogParameters());
+      } else {
+        static::display(_('Error'), $error, ERROR_DIALOG);
+      }
     }
   }
 
@@ -142,56 +157,9 @@ class msg_dialog
    *
    * \return The identifier of the message dialog
    */
-  public function get_ID ()
+  public function getId (): int
   {
     return $this->i_ID;
-  }
-
-  /*!
-   * \brief Run the message dialog
-   */
-  public function execute ()
-  {
-    global $config;
-    if ($this->i_Type == FATAL_ERROR_DIALOG) {
-      $display =
-        '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-        "http://www.w3.org/TR/html4/transitional.dtd">
-        <html><head>
-        <title>FusionDirectory startup failed</title>
-        </head><body>';
-      if (isset($config) && is_object($config) &&
-        $config->get_cfg_value('displayerrors') == 'TRUE') {
-        list($trace,) = html_trace();
-        $display .= $trace;
-      }
-      $display .=
-        '<table style="width:100%; border:2px solid red;">
-          <tr>
-            <td style="vertical-align:top;padding:10px">
-              <img src="geticon.php?context=status&amp;icon=dialog-error&amp;size=32" alt="'.htmlentities(_('Error'), ENT_COMPAT, 'UTF-8').'"/>
-            </td>
-            <td style="width:100%">
-              <b>'.htmlentities($this->s_Title, ENT_COMPAT, 'UTF-8').'</b><br/>
-              '.htmlentities($this->s_Message, ENT_COMPAT, 'UTF-8').'<br><br/>
-              '.htmlentities(_('Please fix the above error and reload the page.'), ENT_COMPAT, 'UTF-8').'
-            </td>
-          </tr>
-        </table></body></html>';
-      return $display;
-    } else {
-
-      $smarty = get_smarty();
-      $smarty->assign('s_Trace',    print_a($this->a_Trace, TRUE));
-      $smarty->assign('i_TraceCnt', count($this->a_Trace));
-      $smarty->assign('i_Type',     $this->i_Type);
-      $smarty->assign('s_Message',  $this->s_Message);
-      $smarty->assign('s_Title',    $this->s_Title);
-      $smarty->assign('i_ID',       $this->i_ID);
-      $smarty->assign('frame',      FALSE);
-      $smarty->assign('JS',         TRUE);
-      return $smarty->fetch(get_template_path('msg_dialog.tpl'));
-    }
   }
 
   /*!
@@ -199,45 +167,50 @@ class msg_dialog
    *
    * \return True if is confirmed, else return false
    */
-  public function is_confirmed ()
+  public function is_confirmed (): bool
   {
     return isset($_POST['MSG_OK'.$this->i_ID]);
   }
 
   /*!
-   * \brief Accessor of the message dialog
+   * \brief Return an array with infos for the template
    */
-  public static function get_dialogs ()
+  protected function getDialogInfos (): array
   {
-    $return     = "";
-    $dialog_ids = "";
+    return [
+      'id'          => $this->i_ID,
+      'type'        => $this->i_Type,
+      'title'       => $this->s_Title,
+      'message'     => $this->s_Message,
+      'trace'       => ((count($this->a_Trace) > 0) ? print_a($this->a_Trace, TRUE) : ''),
+    ];
+  }
 
+  /*!
+   * \brief Accessor of the message dialog rendered HTML
+   */
+  public static function get_dialogs (): string
+  {
     if (session::is_set('msg_dialogs') &&
         is_array(session::get('msg_dialogs')) &&
         count(session::get('msg_dialogs'))) {
-      /* Get frame one */
       $smarty = get_smarty();
-      $smarty->assign('frame', TRUE);
-      $return = $smarty->fetch(get_template_path('msg_dialog.tpl'));
 
-      $msg_dialogs = session::get('msg_dialogs');
-      foreach ($msg_dialogs as $key => $dialog) {
-        if (!preg_match('/'.$dialog->get_ID().'/', '')) {
-          $return     .= $dialog->execute();
-          $dialog_ids = $dialog->get_ID().','.$dialog_ids;
-        }
-        unset($msg_dialogs[$key]);
+      $msg_dialogs  = session::get('msg_dialogs');
+      $dialogInfos  = [];
+      $dialogIds    = [];
+      foreach ($msg_dialogs as $dialog) {
+        $dialogInfos[]  = $dialog->getDialogInfos();
+        $dialogIds[]    = $dialog->getId();
       }
-      session::set('msg_dialogs', $msg_dialogs);
-      $dialog_ids = preg_replace('/,$/', '', $dialog_ids);
+      session::set('msg_dialogs', []);
 
-      $return .= '</div>'."\n";
-      $return .= '<input type="hidden" style="width:400px;" name="pending_msg_dialogs"  id="pending_msg_dialogs" value="'.$dialog_ids.'"/>'."\n";
-      $return .= '<input type="hidden" style="width:400px;" name="closed_msg_dialogs"   id="closed_msg_dialogs" value=""/>'."\n";
-      $return .= '<input type="hidden" style="width:400px;" name="current_msg_dialogs"  id="current_msg_dialogs" value=""/>'."\n";
-      $return .= '<input type="hidden" style="width:700px;" name="js_debug"             id="js_debug">'."\n";
+      $smarty->assign('dialogInfos',  $dialogInfos);
+      $smarty->assign('dialogIds',    $dialogIds);
+
+      return $smarty->fetch(get_template_path('msg_dialog.tpl'));
+    } else {
+      return '';
     }
-    return $return;
   }
 }
-?>

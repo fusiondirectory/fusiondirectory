@@ -3,6 +3,7 @@
   {$game_screen}
   {$php_errors}
   <form action="main.php{$plug}" name="mainform" id="mainform" method="post" enctype="multipart/form-data">
+    <div style="width: 0; height: 0; overflow: hidden;"><input type="submit" name="default_submit_hidden_button"/></div>
     <div class="setup-header">
       <div id="header-left">
         <img id="fd-logo" class="optional" src="geticon.php?context=applications&amp;icon=fusiondirectory&amp;size=48" alt="FusionDirectory logo"/>
@@ -14,7 +15,7 @@
           <img src="geticon.php?context=actions&amp;icon=application-exit&amp;size=22" alt=""/>&nbsp;{t}Sign out{/t}
         </a>
         <a class="plugtop">
-          <img src="{$headline_image|escape}" alt=""/>{t}{$headline|escape}{/t}
+          <img src="{$headline_image|escape}" alt=""/>{$headline|escape}
         </a>
       </div>
       <div id="header-right">
@@ -49,7 +50,6 @@
       </tbody>
     </table>
 
-    {$errors}
     {$focus}
     <input type="hidden" name="php_c_check" value="1"/>
     <input type="hidden" name="CSRFtoken" value="{$CSRFtoken}"/>
@@ -57,7 +57,7 @@
 
 
   <!-- Automatic logout when session is expired -->
-  <script type="text/javascript">
+  <script>
   {literal}
    function logout()
    {

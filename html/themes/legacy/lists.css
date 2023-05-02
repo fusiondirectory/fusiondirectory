@@ -114,6 +114,9 @@ border-bottom: 1px solid silver;
 padding: 3px;
 width: auto;
 }
+div.nlistFooter img {
+vertical-align:middle;
+}
 
 /* Tree List (used in baseSelector) */
 ul.treeList,ul.treeList ul {
@@ -212,6 +215,27 @@ vertical-align: top;
 
 table.listing-container > tbody >  tr > td.filter .contentboxb {
 min-width: 230px;
+}
+
+/* Management */
+table.listingTable.management {
+width:100%;
+}
+
+table.listingTable.management > thead > tr > th.checkbox {
+text-align:center;
+padding:0;
+width:24px;
+}
+
+table.listingTable.management > tbody > tr > td.filler {
+height:100%;
+width:100%;
+}
+
+table.listingTable > thead > tr > th > img, table.listingTable > thead > tr > th > input[type=image],
+table.listingTable > tbody > tr > td > img, table.listingTable > tbody > tr > td > input[type=image] {
+vertical-align: middle;
 }
 
 /* On small screens */

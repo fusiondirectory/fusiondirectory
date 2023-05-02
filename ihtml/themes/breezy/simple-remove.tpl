@@ -8,8 +8,8 @@
     <p>
       <ul>
         {foreach from=$objects item=object}
-          <li style="list-style-image:url('{$object.icon}');" title="{$object.type}">
-            {$object.name}&nbsp;(<i>{$object.dn}</i>)
+          <li style="list-style-image:url('{$object.icon|escape}');" title="{$object.type|escape}">
+            {$object.name|escape}&nbsp;(<i>{$object.dn|escape}</i>)
           </li>
         {/foreach}
       </ul>
@@ -22,7 +22,7 @@
 
     <p class="plugbottom">
       <input type="submit" name="delete_confirmed" value="{msgPool type=delButton}"/>
-      <input type="submit" name="delete_cancel" value="{msgPool type=cancelButton}"/>
+      <input type="submit" formnovalidate="formnovalidate" name="delete_cancel" value="{msgPool type=cancelButton}"/>
     </p>
   </div>
 </div>

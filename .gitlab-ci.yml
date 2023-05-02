@@ -1,8 +1,89 @@
-# Specify docker image
-image: debian:stretch
-
 stages:
+  - lint
+  - codestyle
+  - transifex
   - tarballs
+  - trigger
+
+## Stage lint
+
+# PHP lint (stretch)
+create_php_lint_rapport:
+  image: registry.fusiondirectory.org/fusiondirectory/fd/phpcodesniffer-cli:buster
+  stage: lint
+  only:
+    - branches
+  script:
+    - find . -type f -name '*.php' -o -name '*.inc' -print0 | xargs -0 -n1 php -l
+
+## Stage codestyle
+
+# PHP codesniffer
+create_php_code_sniffer_rapport:
+  image: registry.fusiondirectory.org/fusiondirectory/fd/phpcodesniffer-cli:buster
+  stage: codestyle
+  only:
+    - branches
+  script:
+    - test -d ../dev-tools/ && rm -Rf ../dev-tools/
+    - git clone --depth 1 https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
+    - find . -type f -name '*.php' -o -name '*.inc' > ./filelist
+    - /root/.composer/vendor/bin/phpcs --standard=../dev-tools/php-codesniffer-rules/FDStandard/ruleset.xml --file-list=./filelist
+    - /root/.composer/vendor/bin/phpcs --config-set installed_paths /PHPCompatibility,/PHPCSUtils
+    - /root/.composer/vendor/bin/phpcs --standard=PHPCompatibility --runtime-set testVersion $PHP_COMPATIBILITY --file-list=./filelist
+
+# phpstan
+create_phpstan_rapport:
+  image: registry.fusiondirectory.org/fusiondirectory/fd/phpstan-cli:buster
+  stage: codestyle
+  only:
+    - branches
+  script:
+    - test -d ../dev-tools/ && rm -Rf ../dev-tools/
+    - git clone --depth 1 https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
+    - composer global require phpstan/phpstan=0.12.94
+    - cp ../dev-tools/phpstan/fusiondirectory/1.4-dev/*.neon .
+    - /root/.composer/vendor/bin/phpstan analyse -c phpstan.neon
+
+# fusiondirectory-update-locale
+fusiondirectory-update-locale:
+  image: registry.fusiondirectory.org/fusiondirectory/fd/transifex-cli:buster
+  stage: transifex
+  only:
+    - /^1.*$/
+  script:
+    - test -d ../dev-tools/ && rm -Rf ../dev-tools/
+    - git clone --depth 1 https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
+    - ../dev-tools/locale-scripts/fusiondirectory-update-locale -g
+
+# Update transifex
+update-transifex:
+  image: registry.fusiondirectory.org/fusiondirectory/fd/transifex-cli:buster
+  stage: transifex
+  only:
+    - /^1.*$/
+  script:
+    - test -d ../dev-tools/ && rm -Rf ../dev-tools/
+    - git clone --depth 1 https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
+    - echo $'[https://www.transifex.com]\nrest_hostname = '"$TRANSIFEX_REST_HOSTNAME"$'\nusername = '"$TRANSIFEX_USER"$'\ntoken = '"$TRANSIFEX_TOKEN"$'\n' > ~/.transifexrc
+    - tx pull -a -f
+    - ../dev-tools/locale-scripts/fusiondirectory-update-locale -g
+    - tx push -s -t --skip
+
+build-tarballs:
+  stage: tarballs
+  only:
+    variables:
+    - $TARBALLS_TRIGGER_VERSION
+  script:
+    - mkdir ../fusiondirectory-$VERSION/
+    - mv ./* ../fusiondirectory-$VERSION/
+    - mv  ../fusiondirectory-$VERSION/ ./
+    - tar -cvzf fusiondirectory-$VERSION.tar.gz *
+  artifacts:
+    paths:
+      - fusiondirectory-$VERSION.tar.gz
+    expire_in: 30d
 
 build-release:
   stage: tarballs
@@ -17,3 +98,18 @@ build-release:
   artifacts:
     paths:
       - ./*.tar.gz
+
+trigger-plugins:
+  variables:
+    GROUP: $GROUP
+    BRANCH_CORE: $CI_COMMIT_REF_NAME
+    BRANCH_PLUGIN: $CI_COMMIT_REF_NAME
+    BRANCH_BUILD_DEBIAN_BUSTER: $BRANCH_BUILD_DEBIAN_BUSTER
+    BRANCH_BUILD_CENTOS_7: $BRANCH_BUILD_CENTOS_7
+  stage: trigger
+  only:
+    - 1.4-dev
+  trigger:
+    project: fusiondirectory/fd-plugins
+    branch: $CI_COMMIT_REF_NAME
+
