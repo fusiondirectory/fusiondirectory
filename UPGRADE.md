@@ -3261,6 +3261,209 @@ Fonctionality removed
 -   The google+ account storage has been removed from personal social
     accounts tab
 
+# Migrate FusionDirectory from 1.3.1 to 1.4
+
+## New Depot Configuration
+
+Since 1.3.1 the repositories have been cleaned and reorganized please
+update your configuration accordingly
+
+The gpg keys for FusionDirectory and Argonaut have been renewed so you
+need to install the new keys for the packages to install correctly
+
+## Upgrade FusionDirectory first
+
+Upgrade FusionDirectory core package before other ones to avoid
+dependencies errors:
+
+``` shell
+apt-get install fusiondirectory
+```
+
+Upgrade FusionDirectory schema package too.
+
+``` shell
+apt-get install fusiondirectory-schema
+```
+
+## Upgrade of LDAP directory
+
+Then update the core-fd-conf schema.
+
+``` shell
+fusiondirectory-schema-manager --replace-schema /etc/ldap/schema/fusiondirectory/core-fd-conf.schema
+```
+
+Then update the core-fd schema.
+
+``` shell
+fusiondirectory-schema-manager --replace-schema /etc/ldap/schema/fusiondirectory/core-fd.schema
+```
+
+Then update the template-fd schema.
+
+``` shell
+fusiondirectory-schema-manager --replace-schema /etc/ldap/schema/fusiondirectory/template-fd.schema
+```
+
+if you are using the supann-ext plugin you have to update is schema
+
+``` shell
+fusiondirectory-schema-manager --replace-schema /etc/ldap/schema/fusiondirectory/supann-ext-fd.schema
+```
+
+if you are using the systems plugin you have to update is schema
+
+``` shell
+fusiondirectory-schema-manager --replace-schema /etc/ldap/schema/fusiondirectory/systems-fd.schema
+```
+
+if you are using the supann plugin you have to update is schema
+
+``` shell
+fusiondirectory-schema-manager --replace-schema /etc/ldap/schema/fusiondirectory/internet2.schema
+fusiondirectory-schema-manager --replace-schema /etc/ldap/schema/fusiondirectory/supann-fd-conf.schema
+```
+
+if you are using the ppolicy plugin you have to update is schema
+
+``` shell
+fusiondirectory-schema-manager --replace-schema /etc/ldap/schema/fusiondirectory/ppolicy-fd-conf.schema
+```
+
+if you are using the audit plugin you have to update is schema
+
+``` shell
+fusiondirectory-schema-manager --replace-schema /etc/ldap/schema/fusiondirectory/audit-fd.schema
+```
+
+if you are using the dns plugin you have to update is schema
+
+``` shell
+fusiondirectory-schema-manager --replace-schema /etc/ldap/schema/fusiondirectory/dnszone.schema
+```
+
+if you are using the samba plugin you have to update is schema
+
+``` shell
+fusiondirectory-schema-manager --replace-schema /etc/ldap/schema/fusiondirectory/samba-fd-conf.schema
+```
+
+if you are using the user-reminder plugin you have to update is schema
+
+``` shell
+fusiondirectory-schema-manager --replace-schema /etc/ldap/schema/fusiondirectory/user-reminder-fd-conf.schema
+```
+
+if you are using the fusioninventory plugin you have to update is schema
+
+``` shell
+fusiondirectory-schema-manager --replace-schema /etc/ldap/schema/fusiondirectory/inventory-fd.schema
+```
+
+if you are using the mail plugin you have to update is schema
+
+``` shell
+fusiondirectory-schema-manager --replace-schema /etc/ldap/schema/fusiondirectory/mail-fd.schema
+```
+
+if you are using the cyrus plugin you have to update is schema
+
+``` shell
+fusiondirectory-schema-manager --replace-schema /etc/ldap/schema/fusiondirectory/cyrus-fd.schema
+```
+
+if you are using the renater-partage plugin you have to update is schema
+
+``` shell
+fusiondirectory-schema-manager --replace-schema /etc/ldap/schema/fusiondirectory/renater-partage-fd.schema
+```
+
+if you are using the personal plugin you have to update is schema
+
+``` shell
+fusiondirectory-schema-manager --replace-schema /etc/ldap/schema/fusiondirectory/personal-fd.schema 
+```
+
+## Check for deprecated attributes and objectClasses in your LDAP
+
+-   **fusiondirectory-configuration-manager \--list-deprecated** to list
+    deprecated attributes and objectclasses
+
+Deprecated attributes:
+
+``` shell
+fusiondirectory-migration-manager --list-deprecated List deprecated attributes and objectclasses Deprecated attributes:
+
+ argonautLdap2zoneAllowNotify   (Fusion Directory - Argonaut, allow notify.)                    - 1.3.6.1.4.1.38414.2.13.2
+ fdHttpAuthActivated            (FusionDirectory - HTTP Basic Auth activation)                  - 1.3.6.1.4.1.38414.8.15.6
+ fdHttpHeaderAuthActivated      (FusionDirectory - HTTP Header Auth activation)                 - 1.3.6.1.4.1.38414.8.15.7
+ fdCasActivated                 (FusionDirectory - CAS activation)                              - 1.3.6.1.4.1.38414.8.21.1
+ gotoLogonScript                (GOto - specifies a LogonScript)                                - 1.3.6.1.4.1.10098.1.1.11.10
+ gosaDefaultPrinter             (Defines a default printer a user owns)                         - 1.3.6.1.4.1.10098.1.1.12.13
+ gotoHotplugDevice              (GOto - keeps hotplug devices)                                  - 1.3.6.1.4.1.10098.1.1.11.14
+ gotoHotplugDeviceDN            (GOto - points to hotplug devices)                              - 1.3.6.1.4.1.10098.1.1.11.18
+ gotoLogoffScript               (GOto - specifies a LogoffScript)                               - 1.3.6.1.4.1.10098.1.1.11.19
+ gotoSyslogServer               (GOto - Gonicus Terminal Concept, value syslogServer.)          - 1.3.6.1.4.1.10098.1.1.1.1
+ gotoMode                       (GOto - Gonicus Terminal Concept, Terminal is active.)          - 1.3.6.1.4.1.10098.1.1.1.24
+ gotoLdapServer                 (LDAP server to use)                                            - 1.3.6.1.4.1.10098.1.1.1.38
+ gosaMailMaxSize                (Block mails bigger than this value)                            - 1.3.6.1.4.1.10098.1.1.12.8
+ gosaSpamSortLevel              (Spamassassins hits)                                            - 1.3.6.1.4.1.10098.1.1.12.9
+ gosaSpamMailbox                (Where to put spam)                                             - 1.3.6.1.4.1.10098.1.1.12.10
+```
+
+Deprecated objectClasses:
+
+``` shell
+goServer                       (Server description)                                            - 1.3.6.1.4.1.10098.1.2.1.27
+fdAsteriskPluginConf           (FusionDirectory asterisk plugin configuration)                 - 1.3.6.1.4.1.38414.19.2.1
+gotoTerminal                   (GOto - Gonicus Terminal Concept, objectclass)                  - 1.3.6.1.4.1.10098.1.2.1.1
+gotoWorkstation                (GOto - Gonicus Terminal Concept, objectclass)                  - 1.3.6.1.4.1.10098.1.2.1.30
+gotoPrinter                    (GOto - Gonicus Terminal Concept, objectclass)                  - 1.3.6.1.4.1.10098.1.2.1.31
+gotoEnvironment                (GOto - contains environment settings)                          - 1.3.6.1.4.1.10098.1.2.1.32
+gotoWorkstationTemplate        (GOto - Gonicus Terminal Concept, objectclass)                  - 1.3.6.1.4.1.10098.1.2.1.34
+gotoTerminalTemplate           (GOto - Gonicus Terminal Concept, objectclass)                  - 1.3.6.1.4.1.10098.1.2.1.35
+gotoDevice                     (GOto - contains environment settings)                          - 1.3.6.1.4.1.10098.1.2.1.42
+GOhard                         (Gonicus Hardware definitions, objectclass)                     - 1.3.6.1.4.1.10098.1.2.1.3
+```
+
+-   **fusiondirectory-migration-manager \--check-deprecated** will
+    output a list of dn using old attributes and objectClasses
+
+``` shell
+fusiondirectory-migration-manager --check-deprecated
+ List LDAP entries using deprecated attributes or objectclasses
+ cn=config,ou=fusiondirectory,dc=nodomain contains an obsolete attribute
+```
+
+-   **fusiondirectory-migration-manager \--ldif-deprecated** will output
+    an ldif file on the console that you can use with ldapmodify to
+    clean you ldap server from old attributes.
+
+    If they are old objectClasses it will warn you and you will have to
+    remove it by hand, they have been specified at the
+    **fusiondirectory-migration-manager \--check-deprecated** step.
+
+Please read it carefully before applying !!
+
+## Remove supann root entry
+
+if you where using the a root establishement, you need to remove it, run
+the **fusiondirectory-migration-manager \--remove-supann-root** for this
+
+``` shell
+fusiondirectory-migration-manager --remove-supann-root
+```
+
+## Migrate your interfaces
+
+if you where using the systems plugin, you need to migrate your
+interfaces for this, run the **fusiondirectory-migration-manager
+\--migrate-interfaces** for this
+
+``` shell
+fusiondirectory-migration-manager --migrate-interfaces
+```
 
 
 [php-cas]: http://packages.ubuntu.com/trusty/all/php-cas/download
