@@ -1,3 +1,415 @@
+## %"FusionDirectory 1.4" - 2023-05-02
+
+### Added
+
+#### fusiondirectory
+- fd#1208 Columns selection
+- fd#2895 Add support for paginating ldap result in setup
+- fd#3710 Support users with no password
+- fd#4736 Ability to use custom LDAP filter in objects lists
+- fd#5531 Give ACL based on an LDAP filter
+- fd#5533 Columns modification should be saved in LDAP
+- fd#5778 Create a security library for fusiondirectory
+- fd#5779 Add support for U2F fido standard
+- fd#5785 Alphabetically list user groups on the user edit page.
+- fd#5804 add users to Posix group : ability to filter posix users in users list
+- fd#5859 Exceptions and Errors should be displayed in a better way
+- fd#5867 Fields searched for by text filter should be provided by tabs
+- fd#5886 Support disabling specific password methods
+- fd#5900 Add a class for dialog buttons
+- fd#5903 Ease template fields filling from LDAP values
+- fd#5905 add a placeholder to have the first letter in upper case and the others in minor case
+- fd#5908 Date field should have a start date parameter
+- fd#5910 Use more HTML5 input types
+- fd#5925 Add option for hooks to know which attributes were modified
+- fd#5966 Management configuration system
+- fd#5970 Allow plugins to easily take part in the user locking process
+- fd#5976 icons missing in filter selections in core
+- fd#5979 Samba and FD
+- fd#5980 Management should be a bit more flexible
+- fd#5986 Add a reinitialisation button for the management configuration
+- fd#5999 Allow ObjectsAttribute instances to specify filter elements
+- fd#6001 Show a warning when password is about to expire through ppolicy
+- fd#6025 Handling of booleans in CSV import
+- fd#6036 hooks page not showing the field when we are not clicking on edit
+- fd#6039 %askme% is not available in SelectAttribute at template creation
+- fd#6042 LDAP trace level should add DEBUG messages for all LDAP operations
+- fd#6046 Add a security tab on users
+- fd#6049 Add a configuration option for jpegPhoto resizing
+- fd#6051 Check locale availability upon configuration save
+- fd#6053 Add support for initials LDAP field on users
+- fd#6057 Methods for getting current URL and host would be useful
+- fd#6059 Enable TOTP second factor
+- fd#6060 Add b64 option to objects::ls
+- fd#6062 Add an option in fusiondirectory-setup to remove old SupAnn root information
+- fd#6065 Possibility to see debug in server logs instead of the interface
+- fd#6074 add an option to pause trigger aka keep the configuration but not run it
+- fd#6081 HiddenArrayAttribute cause problems when indexes are not contiguous
+- fd#6084 Extend the listing possibility
+- fd#6089 add an option to migrate the ip and mac adress to the new interface format into fusiondirectory-setup
+- fd#6093 Read fdPpolicyDefaultDn option instead of fdPpolicyDefaultCn
+- fd#6102 Add a modifier for incremental number
+- fd#6105 Add option ldif-wrap=no in class_ldap.inc
+- fd#6119 Add core features for Archive plugin
+- fd#6124 Rewrite fusiondirectory-setup cli tool in PHP
+- fd#6125 add an option to output clear password when we use --encrypt-passwords
+- fd#6128 Rewrite fusiondirectory-insert-schema based on ldap-config-manager
+- fd#6145 We need a modifier to generate valid uids
+- fd#6150 Add a configuration option to enable CAS verbose mode
+- fd#6169 Issue a warning if sizelimit or number of entries is higher than max_input_vars PHP ini setting
+- fd#6181 GivenName mandatory in FusionDirectory for the user but not mandatory in openldap schema
+- fd#6196 Improve contribution by adding a simple way to add / delete plugin
+- fd#6202 Creation of new Class - Mail Template Object - Standard
+- fd#6207 Creation of new Class - Tasks Object - standard
+- fd#6231 [Tasks-Dashboard] - Develop a new dashboard for tasks to allow granular status report on sub-tasks
+- fd#6241 [Icons] Proper icons for tasks - task dashboard - mail template
+
+#### fusiondirectory-plugins
+- fd-plugins#2912 the autofs plugin should be updated to support autofs5
+- fd-plugins#3632 DHCP sorting hosts by name or IP or HWaddr
+- fd-plugins#5809 Add an option to send a text to the user and manager when the account is effectively locked
+- fd-plugins#5838 Create a form plugin
+- fd-plugins#5850 Create an invitations plugin
+- fd-plugins#5867 Set title in public-forms and invitations external pages
+- fd-plugins#5878 Create icons for the new plugins invitations and public forms
+- fd-plugins#5879 Add a TOS checkbox feature in forms
+- fd-plugins#5880 Templates are needed on Supann structures
+- fd-plugins#5906 Support Supann 2018
+- fd-plugins#5907 SupAnn 2018 account life cycle
+- fd-plugins#5924 Add a REST-like API to webservice
+- fd-plugins#5931 create an icon for supann status in the user list
+- fd-plugins#5934 Add support for supannRessourceEtatDate in user-reminder
+- fd-plugins#5936 icons missing in filter selections
+- fd-plugins#5954 Add a helper for user locking handling through REST API
+- fd-plugins#5955 Add recovery features to REST API
+- fd-plugins#5964 Webservice should check account expiration
+- fd-plugins#5998 Create a plugin to store the Intranet Mail Routing
+- fd-plugins#6001 Add a captcha system to our public form system
+- fd-plugins#6002 Add support for the supannGroupe objectClass and its attributes
+- fd-plugins#6010 Improve security audit
+- fd-plugins#6013 Add plugin for WebAuthn
+- fd-plugins#6014 Server error when requestion jpegPhoto attribute in REST search request
+- fd-plugins#6015 Add support for SupAnn CMS (Carte Multi Service)
+- fd-plugins#6019 Add recovery code when we add a yubikey
+- fd-plugins#6020 Adding OTP codes to the 2FA methods
+- fd-plugins#6021 Show the form URL in edit mode
+- fd-plugins#6024 SupAnn 2018 second revision new schema, lists and fields
+- fd-plugins#6025 Add support for supannConsentement
+- fd-plugins#6040 make an ipam plugin
+- fd-plugins#6042 move cyrus mail option to a cyrus config tab
+- fd-plugins#6043 add supannParrainDN attribute in the supann plugin
+- fd-plugins#6049 Add CAA record support in DNS plugin
+- fd-plugins#6050 Review interface for SupAnn affectation, role and subscription
+- fd-plugins#6052 add rfc2307bis.schema into mixed groups plugin
+- fd-plugins#6053 Cloud plugin (OwnCloud/NextCloud)
+- fd-plugins#6062 Plugin for groupOfURLs support
+- fd-plugins#6069 Add an option to disable wrapping of LDIF export
+- fd-plugins#6075 Add an archival plugin to fusiondirectory
+- fd-plugins#6083 add template support to the alias plugin
+- fd-plugins#6085 Add several social handlers (Personal plugin)
+- fd-plugins#6088 Archive action is not available through webservice
+- fd-plugins#6089 make a zimbra mail plugin
+- fd-plugins#6093 we need a basic plugin for schac attributes
+- fd-plugins#6099 Add subscription plugin
+- fd-plugins#6109 Allow custom tags for supannMailPrive, supannTelephonePrive, supannAdressePostalePrivee
+- fd-plugins#6111 Add support for FranceConnect SupAnn attributes
+- fd-plugins#6112 Allow hiding supann tabs
+- fd-plugins#6115 Create a plugin to store status of mail protection in mailinblack
+- fd-plugins#6150 Create a ldapmanager tab on objects that let export the object easily in LDIF (one and subtree)
+- fd-plugins#6174 [supannEx] - Add new field eduPersonUniqueId within supannEx
+- fd-plugins#6175 [supannEx] - Add new field supannCodePopulation within supannEx
+- fd-plugins#6187 [Enhancement] - User Reference - Add mailAliasDistribution & mailAliasRedirection within reference tab
+- fd-plugins#6196 [Partage-Renater] - getAccount method - Proper account updates
+- fd-plugins#6197 [Partage-Renater] - Configuration tab for partage - mailbox deletion options
+- fd-plugins#6199 [Renater-Partage] - Management of access token received by the API
+- fd-plugins#6206 [Plugins] - A tool is required in order to generate a yaml properly with related plugin information.
+- fd-plugins#6214 [Subscriptions] - Adds proper icons to the icons folder.
+- fd-plugins#6220 [Webauthn] - Create one file named variables_webauthn allowing the load all requirements - helping patching for supported distributions
+- fd-plugins#6226 [Public-form] - Updates plugin in order to be fully compatible with securimage library
+
+### Changed
+
+#### fusiondirectory
+- fd#4866 Could the list displayed by fusiondirectory be sorted
+- fd#5039 acl_base management should be refactored
+- fd#5135 Management refactor (and filter enhancement)
+- fd#5721 Support Unicode in FD fields
+- fd#5827 Use the new features from PHP 5.6
+- fd#5833 Management tab footer should be in a smarty template
+- fd#5852 Convert breezy CSS to LESS code
+- fd#5854 Improve stand-alone page support
+- fd#5858 Review FD UI for disabled fields
+- fd#5866 Template filter should work as any type filter
+- fd#5924 Add a parameter in objects::link to return text without link
+- fd#5931 Use date HTML5 input type for DateAttribute
+- fd#5937 Hooks should be moved to a config tab
+- fd#5951 main.inc files should not be needed.
+- fd#5954 Unicity should be set explicitely
+- fd#5955 Use PHP7 array syntax
+- fd#5956 Use strict typing
+- fd#5965 Use only selectManagement for selection dialogs
+- fd#5971 Reorder tabs in the configuration to be more logical
+- fd#5973 Clean attributes var in columns
+- fd#5977 Special hook attrs are not available to other tabs
+- fd#5989 Do not set charset when content-type is not text/* in HTTP headers
+- fd#5996 Recovery system needs to give some access to webservice
+- fd#6002 Bump PHP_MIN_VERSION to PHP 7
+- fd#6052 Manage password with the webservice
+- fd#6018 Use autocomplete="new-password" for PasswordAttribute
+- fd#6037 rename hooks into triggers
+- fd#6040 Make the --install-plugins more friendly
+- fd#6047 Improve invalid value messages
+- fd#6068 Triggers should not show the command on script error
+- fd#6069 Change the css of the alert box to be more in line with the breezy theme
+- fd#6071 Rework the error system
+- fd#6072 Review dialog classes
+- fd#6077 Split tab list load and render
+- fd#6083 Improve ObjectsAttribute
+- fd#6106 Adapt core code to ease systems interfaces
+- fd#6120 Cleanup lock system
+- fd#6166 Refactor multiPlugin
+- fd#6170 When showing an internal exception not enough detail is shown
+- fd#6172 Improve SI error render
+- fd#6191 Bump minimum version to PHP 7.3 for 1.4
+- fd#6266 CAS library 1.6 need a new parameter
+- fd#6267 [Core] - Update the reference from our old tools naming convention to the new ones.
+- fd#6268 change the path in the apache configuration to point to /usr/share/fusiondirectory directly
+
+#### fusiondirectory-plugins
+- fd-plugins#3360 update class_sieve.inc to the latest version 0.1.0
+- fd-plugins#5776 Openldap Project update ppolicy schema
+- fd-plugins#5795 Using the TXT record for SPF and DKIM is not easy
+- fd-plugins#5820 Use the new features from PHP 5.6
+- fd-plugins#5826 Adapt the code to core changes
+- fd-plugins#5860 DHCP there is no sorting in dropdown about DHCP subnets.
+- fd-plugins#5865 Set server optional in mail plugin for groups
+- fd-plugins#5871 Adapt code to DateAttribute changes
+- fd-plugins#5877 Altered and provided attributes should be editable
+- fd-plugins#5914 Migrate plugins to new management class
+- fd-plugins#5921 Use strict typing
+- fd-plugins#5925 Use PHP array short hand syntax
+- fd-plugins#5927 Adapt plugins code to DateAttribute modifications
+- fd-plugins#5930 Move complex plugins configurations to their own tab
+- fd-plugins#5933 Reorder configuration tabs
+- fd-plugins#5937 Move away from simpleSelectManagement and associated attributes
+- fd-plugins#5989 Remove dependency on POSIX when using Samba4
+- fd-plugins#5946 Show description instead of supannCodeEntite in the entities dropdowns
+- fd-plugins#5952 Audit minimum date filter should default to current day
+- fd-plugins#5967 Support unicode in fdNickName
+- fd-plugins#5975 Adapt plugins code to department cache refactor
+- fd-plugins#5977 Adapt plugins code to acl_base refactor
+- fd-plugins#5987 Review FD UI for disabled fields
+- fd-plugins#5990 supannEtablissement field should be multivaluated
+- fd-plugins#6007 Migrate FAI plugin to selectManagement
+- fd-plugins#6026 Root establishment is not handled correctly
+- fd-plugins#6032 SupAnn diploma SISE select has too many options
+- fd-plugins#6036 Webservice does not allow search on own dn with self ACLs
+- fd-plugins#6039 update the system plugin
+- fd-plugins#6041 sort alphabeticaly the type of object in the developper plugin
+- fd-plugins#6044 Error when creating entry if default password policy is not directly in ou=ppolicies,dc=domain,dc=tld
+- fd-plugins#6059 $displayHeader should be protected
+- fd-plugins#6071 Adapt plugins code to dialog classes refactor
+- fd-plugins#6077 Adapt plugins code to Lock refactor
+- fd-plugins#6096 SupAnn Status tab should appear as «edit own info»
+- fd-plugins#6117 Latest FAI test showed that default "aptitude" install method didn't work
+- fd-plugins#6154 Cannot select date before today in supannRessourceEtatDate
+- fd-plugins#6217 [Plugins] - Update the reference from our old tools naming convention to the new ones.
+
+### Removed
+
+#### fusiondirectory
+- fd#6045 Remove simpleSelectManagement and simpleManagement
+- fd#6094 Moving rfc2307bis.schema in mixedgroup
+- fd#6101 Remove _OLD_TEMPLATES_ macro and related code
+- fd#6153 Remove samba domain caching from core
+- fd#6254 [Core] - Remove fusiondirectory-insert-schema written in Perl from the branch.
+- fd#6255 [Manpages] - Removes Perl manpages from Core
+
+#### fusiondirectory-plugins
+- fd-plugins#5980 removing puppert plugin from 1.4-dev
+- fd-plugins#5981 remove nagios plugin from 1.4-dev
+- fd-plugins#5982 remove pop3 service from basic service in mail plugin
+- fd-plugins#5983 remove the fusiondirectory-shell
+- fd-plugins#5984 Remove the squid plugin from 1.4-dev
+- fd-plugins#6003 some attributes are no longer used in plugin mail and should be marqued obsolete in the mail-fd.schema
+- fd-plugins#6005 Remove set_object_info call
+- fd-plugins#6060 remove the freeradius schema from our sources
+
+### Fixed
+
+#### fusiondirectory
+- fd#5177 dans groupes et role, rajouter une icon de propriétée du groupe
+- fd#5349 In select management classes the link should not end selection for multi-selection
+- fd#5536 When a SelectAttribute is in a SetAttribute it should hide existing values
+- fd#5563 Filter for mail groups only filter with posixGroup
+- fd#5715 Snapshots are not typed, and no check is done when restoring
+- fd#5751 Add the action to use a template in group and roles section
+- fd#5754 No defined variables in hook SnapshotCreateDialog
+- fd#5818 Groups of groups dynamic tab support
+- fd#5831 Fix sonar problems
+- fd#5856 Cannot create departements
+- fd#5880 Error after config step in setup
+- fd#5881 Apply template action is missing
+- fd#5882 Unique value generation in templates is broken
+- fd#5899 Hide empty sections from template creation
+- fd#5907 Error dialogs do not escape HTML from fields
+- fd#5912 simpleManagement filters are not displayed correctly
+- fd#5919 PHP errors in setup
+- fd#5927 When misusing an action, a fatal error is shown
+- fd#5934 Using Apply sends the POST to save_object after reopening
+- fd#5949 Using base scope in ACL does not work as expected
+- fd#5975 Sonar errors in class_dialogAttributes.inc
+- fd#5982 Error if the admin DN is not correct when the setup
+- fd#5984 fusiondirectory-setup --update-cache does not support abstract class
+- fd#5990 We cannot untick the lock in template
+- fd#5992 Support default dates for DateFilterElement
+- fd#5993 objects::ls does not handle correctly template searches with no attributes specified
+- fd#5994 DateAttribute max dates are buggy
+- fd#5998 Error when we configure view to contain only 1 column
+- fd#6000 CRSF token error in setup when migrating departements
+- fd#6008 Crash when locking a user with no password
+- fd#6015 Crash at index.php when we already have a session
+- fd#6019 PHP error when we apply a template
+- fd#6026 PHP error: count(): Parameter must be an array or an object that implements Countable
+- fd#6027 Impossible to use createTimestamp as a column in manager interface
+- fd#6028 Order of classes is wrong in ACL role edition dialog
+- fd#6032 Typos in template masks should be better handled
+- fd#6033 Using enter to submit search filter resets base
+- fd#6034 Applying a template to a user removes the mail tab
+- fd#6035 Template workflow allow an empty SSHA password
+- fd#6043 GenericDialogAttribute::addValue($dn, $entry) should be compatible with DialogOrderedArrayAttribute::addValue($value)
+- fd#6044 OrderedArrayAttribute action images should have formnovalidate attribute
+- fd#6050 SimplePlugin attempts to read CSN from LDAP on dn "new"
+- fd#6054 Sonar code smells
+- fd#6055 The calendar must be replaced by classic fields in template so we can use macros
+- fd#6056 Supann tab in group templates does not accept text values
+- fd#6058 Uncaught Error: Class 'URL' not found
+- fd#6064 Using %d macro returns "Array"
+- fd#6070 Fix quote situation in class_msgPool.inc
+- fd#6073 Error about wrong filename using geticon
+- fd#6076 Fatal error when applying template with no asked fields
+- fd#6075 ACL detection fails for attributes in dynamic tabs
+- fd#6078 Attribute option are not handled correctly by simplePlugin
+- fd#6079 SelectAttribute takes the wrong default value when optional
+- fd#6080 Template fields do not exactly match php-ldap format
+- fd#6085 Exception when an attribute used in a template mask is left empty
+- fd#6087 check function in simpleTabs should be public
+- fd#6088 Logout in cas mode make a redirection error
+- fd#6099 $displayHeader is protected but accessed from outside
+- fd#6100 Group removal workflow from usertab is inconsistent
+- fd#6104 CopyPaste handler does not respect management tabs
+- fd#6107 Search does not work on template
+- fd#6108 the link in the public form is wrong
+- fd#6115 Warning "Array and string offset access syntax with curly braces is deprecated"
+- fd#6116 Warning "Cannot use "parent" when current class scope has no parent"
+- fd#6121 CompositeAttribute attributes have no parent
+- fd#6138 SelectAttribute should also reset postValue in setChoices
+- fd#6141 Error from  BytesSizeAttribute when the field is empty
+- fd#6143 Locks are kept forever
+- fd#6144 Uncaught TypeError: Argument 1 passed to htmlescape() must be of the type string, null given
+- fd#6146 PHP errors on failed login
+- fd#6147 ACL checks for archive and snapshots are wrong
+- fd#6148 labels of subattributes are shown in read-only mode for multivalued CompositeAttributes
+- fd#6149 ACL on search field are not working as expected
+- fd#6151 Management configuration screen is broken for non-admin users
+- fd#6154 Size limit configure screen escapes the new limit field
+- fd#6155 Icon themes can trigger PHP errors
+- fd#6156 After exporting to CSV, button actions export again
+- fd#6157 fix reference to the documentation after moving around fusiondirectory documentationin UPGRADE.md and README.md
+- fd#6159 Tab update is only called on current tab
+- fd#6162 DateAttribute classes should accept LDAP format when set through webservice
+- fd#6163 UserPasswordAttribute does not handle correctly clear method in templates
+- fd#6165 Attempting to remove array values from a multivaluated attribute through the webservice removes all values
+- fd#6171 Class Attribute conflicts with PHP 8 Attribute class
+- fd#6174 The bug report generated email references old demo URL
+- fd#6180 Action names with numbers breaks management
+- fd#6186 Missing html in encrypt-password informations
+- fd#6187 HTML validation errors on user edition page
+- fd#6188 Invalid value in 'ou' for an object type creates PHP errors in unexpected places
+- fd#6210 Updates of Simple Plugin - Call_Hook - variables are not emptied between call.
+- fd#6213 [Objects] - ACL do not take LDAP options into consideration
+- fd#6226 [Bug] - SimplePlugin - Foreign Key attribute value is never found within a SetAttribute definition.
+- fd#6228 [Bug] - SimplePlugin - Foreign Key attribute values are not (always) being updated or deleted.
+- fd#6229 [Core] - ACL cache increases delays upon multiple actions on multiple users.
+- fd#6243 [Tasks] - When updating time-interval spam protection, the attribute lastExecTime is reset
+- fd#6244 SUPANN_DIR not correctly generated
+- fd#6245 Some English language updates and corrections [gitlab #75]
+- fd#6263 [Core] - Adapts core-fd schema to use the same OID for tasks, mailTemplate
+- fd#6264 [Core] - Removes un-required modules from Mail Template and Tasks, such as the Macro plugin.
+- fd#6265 [Core] - Fixes some transifex issues
+
+#### fusiondirectory-plugins
+- fd-plugins#4013 Ppolicy functions that not work
+- fd-plugins#5346 DNS postLdapSave should lock the object modified
+- fd-plugins#5797 Cyrus autocreate folders does not work correctly with virtdomains = on
+- fd-plugins#5985 Using padlock does not set pwdAccountLockedTime and setting pwdAccountLockedTime removes padlock
+- fd-plugins#5875 Submit inputs need formnovalidate attribute
+- fd-plugins#5887 Multivalue support in CSV import is broken
+- fd-plugins#5919 Unicity missing on some SupAnn attributes
+- fd-plugins#5920 Attribute::setUnique should not be called with TRUE
+- fd-plugins#5950 Return value of SocialAccountAttribute::check() must be of the type array
+- fd-plugins#5951 Fix entite_SUPANN labels
+- fd-plugins#5953 Add template handling to REST API
+- fd-plugins#5958 We should be able to select today as start date in SupAnn status
+- fd-plugins#5959 Dropdown for parent entities is always empty in establishments
+- fd-plugins#5960 Adapt servicesManagement to changes in SimpleTab interface
+- fd-plugins#5961 Trying to postpone user give an error
+- fd-plugins#5965 REST API returns empty array instead of empty object
+- fd-plugins#5974 PHP error in invitations plugin
+- fd-plugins#5995 Fatal error: Declaration of argonautQueue::getTabFooter() must be compatible with management::getTabFooter()
+- fd-plugins#5996 CSV import don't see POSIX GROUP templates so we cannot use the CSV to create groups
+- fd-plugins#5999 Activate createTimestamp ACL for SupAnn structures
+- fd-plugins#6004 fai code needs to be adapted to core changes
+- fd-plugins#6008 Removing dns zone not remove the zone for "slave dns"
+- fd-plugins#6011 Find a better way to pass array parameter in REST calls
+- fd-plugins#6016 Sinaps have continue calls targetting switches
+- fd-plugins#6022 Error when we install FD with GPG plugin installed
+- fd-plugins#6030 Copy/pasting FAI partitions with lvm fails
+- fd-plugins#6031 Deleting a zone should remove DNS tab on systems which have only this zone
+- fd-plugins#6033 supannCodeEntite should allow slashes
+- fd-plugins#6034 Handle special values for regimeinsc and sectdisc in supannEtuInscription
+- fd-plugins#6037 Cannot fill dynamic tabs at ogroup creation
+- fd-plugins#6038 Editing SupAnn Status does not work as expected.
+- fd-plugins#6046 SupAnn composite attributes do not remove values when last value is removed
+- fd-plugins#6048 Deprecated fallback was used for supannStructureExt::is_this_account
+- fd-plugins#6054 Crash in FAI plugin
+- fd-plugins#6057 Use  BytesSizeAttribute for mail quota
+- fd-plugins#6061 Adapt plugins code to changes on error system
+- fd-plugins#6067 Some plugins build search filters with empty values
+- fd-plugins#6082 Webservice does not seem to check lock on objects
+- fd-plugins#6084 CodeSniffer 3 is complaining
+- fd-plugins#6090 Error while searching DNS Zone 'ARRAY(0x2e3efa0).' :Bad filter at /usr/share/perl5/Argonaut/Libraries/Ldap2zone.pm line 202
+- fd-plugins#6091 Webservice should not return invalid JSON even when hitting a fatal error
+- fd-plugins#6092 Uncaught TypeError: Argument 1 passed to htmlescape() must be of the type string, null given
+- fd-plugins#6094 PHP error "A non-numeric value encountered" in samba tab on templates
+- fd-plugins#6095 Archive ACL is wrong on management action
+- fd-plugins#6097 SupAnn subscription section smarty template is outdated
+- fd-plugins#6105 fix reference to the documentation after moving around fusiondirectory documentationin UPGRADE.md and README.md
+- fd-plugins#6106 import OPSI workstation didn't create the new fdNetwork Object
+- fd-plugins#6107 an existing hash for sambaNTPassword is removed and replaced by a default hash when th samba tab is added to an existong account with posix enabled
+- fd-plugins#6108 PHP error when using askme in SupannCursusAnneeAttribute
+- fd-plugins#6110 Webservice behavior is dependent of tab order in JSON
+- fd-plugins#6114 Getting fields through webservice on configuration plugins tab returns no fields
+- fd-plugins#6118 Editing a FaiTemplate that contains an entry make errors
+- fd-plugins#6121 Adapt code to Attribute class renaming
+- fd-plugins#6123 the error message is filled with &nbsp in argonaut error message
+- fd-plugins#6124 Cannot refresh DNS zone if argonaut client tab is inherited
+- fd-plugins#6126 Some webservice actions only works on simplePlugin classes
+- fd-plugins#6127 change the wording of "CN of the certificate" in the argonaut plugin because it confuse people
+- fd-plugins#6130 Call to undefined method MacsAttribute::getSelectManagementParameters()
+- fd-plugins#6131 Argonaut task can be launched without ACL rights
+- fd-plugins#6132 the ping send from the action menu said that the systems are always off
+- fd-plugins#6138 uidNumber/gidNumber doesn't work when we use the webservice and a template
+- fd-plugins#6140 PHP errors in DHCP plugin
+- fd-plugins#6143 Setting interfaces through webservice is misbehaving
+- fd-plugins#6155 Force gidNumber in posixgroup doesn't work when create from a template
+- fd-plugins#6156 Not possible to set host trustmode to another value of disabled in a template
+- fd-plugins#6157 Start & End date - verification required - supannRessourceEtatDate
+- fd-plugins#6159 Uniformization required for attributes managed by ldap fdTemplate within Posix Classes
+- fd-plugins#6202 the behaviour of the samba plugin is not consistent
+- fd-plugins#6218 [Webauthn] - Missing icons for this webauthn plugin
+- fd-plugins#6221 [Audit] - It seems the audit plugin does not load the icons properly
+
 ## %"FusionDirectory 1.3.1" - 2022-09-09
 
 ### Added
