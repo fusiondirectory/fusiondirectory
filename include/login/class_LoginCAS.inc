@@ -44,7 +44,7 @@ class LoginCAS extends LoginMethod
     }
 
     // Initialize CAS with proper library and call.
-    if ($config->get_cfg_value('CasLibraryBool')) {
+    if ($config->get_cfg_value('CasLibraryBool') === 'TRUE') {
       phpCAS::client(
         CAS_VERSION_2_0,
         $config->get_cfg_value('CasHost', 'localhost'),
