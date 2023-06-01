@@ -24,9 +24,12 @@ class pluginsManager extends simplePlugin
   {
     return [
       'plShortName'   => _('Plugins'),
-      'plDescription' => _('Plugins List'),
-      'plObjectType'  => ['dashboard'],
-
+      'plObjectType'  => ['tasks'],
+      'plTitle'       => _('Plugins Manager'),
+      'plIcon'        => 'geticon.php?context=applications&icon=tasks-dashboard&size=48',
+      'plSection'     => ['reporting' => ['name' => _('Reporting'), 'priority' => 30]],
+      'plPriority'    => 10,
+      'plDescription' => _('Provide a reporting mechanism of installed plugins'),
       'plProvidedAcls'  => []
     ];
   }
@@ -35,7 +38,8 @@ class pluginsManager extends simplePlugin
   {
     return [
       'plugins' => [
-        'name'  => _('Plugins'),
+        'name'  => _('Plugins Manager'),
+        'plShortName'   => _('Plugins Manager'),
         'attrs' => [new FakeAttribute('pluginsList')],
         'template' => get_template_path('plugins_list.tpl', TRUE, dirname(__FILE__)),
       ],
