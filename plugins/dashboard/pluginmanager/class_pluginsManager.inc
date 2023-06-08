@@ -27,7 +27,7 @@ class pluginsManager extends simplePlugin
       'plObjectType'  => ['tasks'],
       'plTitle'       => _('Plugins Manager'),
       'plIcon'        => 'geticon.php?context=applications&icon=tasks-dashboard&size=48',
-      'plSection'     => ['reporting' => ['name' => _('Reporting'), 'priority' => 30]],
+      'plSection'       => ['Dashboard' => ['name' => _('Dashboard'), 'priority' => 50]],
       'plPriority'    => 10,
       'plDescription' => _('Provide a reporting mechanism of installed plugins'),
       'plProvidedAcls'  => []
