@@ -1,4 +1,4 @@
-## %"FusionDirectory 1.4" - 2023-05-02
+## %"FusionDirectory 1.4" - 2023-06-13
 
 ### Added
 
@@ -63,6 +63,8 @@
 - fd#6207 Creation of new Class - Tasks Object - standard
 - fd#6231 [Tasks-Dashboard] - Develop a new dashboard for tasks to allow granular status report on sub-tasks
 - fd#6241 [Icons] Proper icons for tasks - task dashboard - mail template
+- fd#6281 [PluginManager] - move the plugin tab from dasboard to the left menu under dashboard section
+- fd#6282 [Core] - Re-structuration of sections and related menu entries
 
 #### fusiondirectory-plugins
 - fd-plugins#2912 the autofs plugin should be updated to support autofs5
@@ -126,6 +128,10 @@
 - fd-plugins#6214 [Subscriptions] - Adds proper icons to the icons folder.
 - fd-plugins#6220 [Webauthn] - Create one file named variables_webauthn allowing the load all requirements - helping patching for supported distributions
 - fd-plugins#6226 [Public-form] - Updates plugin in order to be fully compatible with securimage library
+- fd-plugins#6233 [Supann] - FranceConnect object class to be changed.
+- fd-plugins#6234 [Supann] - Class entity - OU name is set to be unique but this is not mandatory
+- fd-plugins#6236 [Plugins] - Re-structuration of sections and related menu entries
+- fd-plugins#6238 [Plugins] - Add icons to subcritpions plugin
 
 ### Changed
 
@@ -174,6 +180,8 @@
 - fd#6266 CAS library 1.6 need a new parameter
 - fd#6267 [Core] - Update the reference from our old tools naming convention to the new ones.
 - fd#6268 change the path in the apache configuration to point to /usr/share/fusiondirectory directly
+- fd#6283 [PluginManager] objectType is of tasks and should be changed to its own type
+- fd#6286 [Core] - Tasks management class should be set outside dashboard
 
 #### fusiondirectory-plugins
 - fd-plugins#3360 update class_sieve.inc to the latest version 0.1.0
@@ -224,6 +232,7 @@
 - fd#6153 Remove samba domain caching from core
 - fd#6254 [Core] - Remove fusiondirectory-insert-schema written in Perl from the branch.
 - fd#6255 [Manpages] - Removes Perl manpages from Core
+- fd#6280 Remove dashboard completely from FusionDirectory
 
 #### fusiondirectory-plugins
 - fd-plugins#5980 removing puppert plugin from 1.4-dev
@@ -337,6 +346,7 @@
 - fd#6263 [Core] - Adapts core-fd schema to use the same OID for tasks, mailTemplate
 - fd#6264 [Core] - Removes un-required modules from Mail Template and Tasks, such as the Macro plugin.
 - fd#6265 [Core] - Fixes some transifex issues
+- fd#6276 Error CAS after saving configuration
 
 #### fusiondirectory-plugins
 - fd-plugins#4013 Ppolicy functions that not work
