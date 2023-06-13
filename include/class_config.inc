@@ -1155,7 +1155,7 @@ class config
       }
     }
     unset($infos);
-    $this->data['SECTIONS']['personal'] = ['NAME' => _('My account'), 'PRIORITY' => 40];
+    $this->data['SECTIONS']['personal'] = ['NAME' => _('My account'), 'PRIORITY' => 60];
     $personal = [];
     foreach ($this->data['TABS']['USERTABS'] as $tab) {
       if ($plist->info[$tab['CLASS']]['plSelfModify']) {

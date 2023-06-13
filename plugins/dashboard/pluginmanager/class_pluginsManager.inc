@@ -16,7 +16,7 @@
   You should have received a copy of the GNU General Public License
   along with this program; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
-*/
+ */
 
 class pluginsManager extends simplePlugin
 {
@@ -24,10 +24,20 @@ class pluginsManager extends simplePlugin
   {
     return [
       'plShortName'   => _('Plugins'),
-      'plDescription' => _('Plugins List'),
-      'plObjectType'  => ['dashboard'],
-
-      'plProvidedAcls'  => []
+      'plObjectType'  => [
+        'pluginManager' => [
+          'name'      => _('PluginManager'),
+          'mainAttr'  => FALSE
+        ]
+      ],
+      'plTitle'       => _('Plugins Manager'),
+      'plIcon'        => 'geticon.php?context=applications&icon=pluginManager&size=48',
+      'plSection'       => ['Dashboard' => ['name' => _('Dashboard'), 'priority' => 30]],
+      'plPriority'    => 10,
+      'plDescription' => _('Provide a reporting mechanism of installed plugins'),
+      'plProvidedAcls'  => [
+        'pluginManager' => _('See pluginManager')
+      ]
     ];
   }
 
@@ -35,7 +45,8 @@ class pluginsManager extends simplePlugin
   {
     return [
       'plugins' => [
-        'name'  => _('Plugins'),
+        'name'  => _('Plugins Manager'),
+        'plShortName'   => _('Plugins Manager'),
         'attrs' => [new FakeAttribute('pluginsList')],
         'template' => get_template_path('plugins_list.tpl', TRUE, dirname(__FILE__)),
       ],
@@ -82,4 +93,20 @@ class pluginsManager extends simplePlugin
 
     return $div->drawList();
   }
+
+  static function mainInc ($classname = NULL, $entry_dn = NULL, $tabs = FALSE, $edit_mode = FALSE, $objectType = FALSE)
+  {
+    global $config;
+
+    if ($classname === NULL) {
+      $classname = get_called_class();
+    }
+
+    if ($entry_dn === NULL) {
+      $entry_dn = $config->current['BASE'];
+    }
+
+    parent::mainInc($classname, $entry_dn, $tabs, $edit_mode, $objectType);
+  }
+
 }

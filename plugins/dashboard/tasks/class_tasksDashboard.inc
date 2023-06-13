@@ -52,7 +52,7 @@ class tasksDashboard extends management
       'plDescription' => _('Provide a reporting mechanism for tasks'),
       'plTitle'       => _('Tasks Dashboard'),
       'plIcon'        => 'geticon.php?context=applications&icon=tasks-dashboard&size=48',
-      'plSection'     => ['reporting' => ['name' => _('Reporting'), 'priority' => 40]],
+      'plSection'       => ['Dashboard' => ['name' => _('Dashboard'), 'priority' => 30]],
       'plPriority'    => 10,
       'plManages'     => ['tasksGranular'],
       'plProvidedAcls' => [],
