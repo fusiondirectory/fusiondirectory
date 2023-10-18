@@ -178,7 +178,7 @@ class tasksMail extends simplePlugin
 
       // Verify if  the values received is a member or a group and collect the members DN
       foreach ($attributeValue as $group) {
-        if (strpos($group, "ou=groups") !== false) {
+        if (strpos($group, "ou=groups") !== FALSE) {
 
           // Position ldap to the dn required (limit search).
           $ldap->cd($group);
