@@ -7,7 +7,7 @@ stages:
 
 ## Stage lint
 
-# PHP lint (stretch)
+# PHP lint
 create_php_lint_rapport:
   image: registry.fusiondirectory.org/fusiondirectory/fd/phpcodesniffer-cli:buster
   stage: lint
@@ -50,7 +50,7 @@ fusiondirectory-update-locale:
   image: registry.fusiondirectory.org/fusiondirectory/fd/transifex-cli:buster
   stage: transifex
   only:
-    - /^1.*$/
+    - dev
   script:
     - test -d ../dev-tools/ && rm -Rf ../dev-tools/
     - git clone --depth 1 https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
@@ -61,7 +61,7 @@ update-transifex:
   image: registry.fusiondirectory.org/fusiondirectory/fd/transifex-cli:buster
   stage: transifex
   only:
-    - /^1.*$/
+    - dev
   script:
     - test -d ../dev-tools/ && rm -Rf ../dev-tools/
     - git clone --depth 1 https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
@@ -73,7 +73,7 @@ update-transifex:
 build-tarballs:
   stage: tarballs
   only:
-    - 1.5-dev
+    - dev
   script:
     - mkdir ../fusiondirectory-$VERSION/
     - mv ./* ../fusiondirectory-$VERSION/
@@ -107,7 +107,7 @@ trigger-plugins:
     BRANCH_BUILD_CENTOS_7: $BRANCH_BUILD_CENTOS_7
   stage: trigger
   only:
-    - 1.5-dev
+    - dev
   trigger:
     project: fusiondirectory/fd-plugins
     branch: $CI_COMMIT_REF_NAME
