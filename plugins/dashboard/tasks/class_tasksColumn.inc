@@ -61,10 +61,10 @@ class TasksColumn extends Column
     // A call towards a status map would be interesting here.
     switch ($status) {
       case "1" :
-        return "Created";
+        return "Scheduled";
 
       case "2" :
-        return "Processed";
+        return "Completed";
 
       default :
         return $status;

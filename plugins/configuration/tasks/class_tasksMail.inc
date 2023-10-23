@@ -236,7 +236,7 @@ class tasksMail extends simplePlugin
   }
 
   /*
-   * Generate slave tasks, carefull that main task cannot be changed cause subtasks are not updated.
+   * Generate slave tasks, careful that main task cannot be changed cause subtasks are not updated.
    * It would be dangerous to edit subs tasks if some are under processed already.
    */
   public function generateSlaveTasks ()
