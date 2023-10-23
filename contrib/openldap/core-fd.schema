@@ -372,6 +372,26 @@ attributetype ( 1.3.6.1.4.1.38414.62.1.50 NAME 'fdPluginManagerSupportContractUr
   SUBSTR caseIgnoreSubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
 
+##### Tasks Granular Part 2 #####
+
+attributetype ( 1.3.6.1.4.1.38414.62.1.52 NAME 'fdTasksRepeatable'
+		DESC 'Allow a given task to be repeatable'
+		EQUALITY booleanMatch
+		SUBSTR caseIgnoreSubstringsMatch
+		SYNTAX '1.3.6.1.4.1.1466.115.121.1.7')
+
+attributetype ( 1.3.6.1.4.1.38414.62.1.53 NAME 'fdTasksUpdatable'
+		DESC 'Allow a given task to be updatable'
+		EQUALITY booleanMatch
+		SUBSTR caseIgnoreSubstringsMatch
+		SYNTAX '1.3.6.1.4.1.1466.115.121.1.7')
+
+attributetype ( 1.3.6.1.4.1.38414.62.1.54 NAME 'fdTasksRepeatableSchedule'
+		DESC 'Set the repetition of the tasks via a set attribute'
+		EQUALITY caseIgnoreMatch
+		SUBSTR caseIgnoreSubstringsMatch
+		SYNTAX '1.3.6.1.4.1.1466.115.121.1.15')
+
 ##### Classes #####
 
 ### old gosa ObjectClass ###
@@ -441,7 +461,7 @@ objectclass ( 1.3.6.1.4.1.38414.62.2.5 NAME 'fdMailTemplateConf'
 objectclass (1.3.6.1.4.1.38414.62.2.6 NAME 'fdTasks'
   DESC 'FusionDirectory - Tasks objects'
   MUST ( cn $ fdTasksStatus $ fdTasksCreationDate )
-  MAY ( fdTasksScheduleDate $ fdTasksEndDate) )
+  MAY ( fdTasksScheduleDate $ fdTasksEndDate $ fdTasksRepeatableSchedule $ fdTasksUpdatable $ fdTasksRepeatable ) )
 
 objectclass (1.3.6.1.4.1.38414.62.2.7 NAME 'fdTasksMail'
   DESC 'FusionDirectory - Tasks objects Mail'

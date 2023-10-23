@@ -45,7 +45,7 @@ class tasks extends simplePlugin
     return [
       // Attributes are grouped by section
       'tasks' => [
-        'name'  => _('Tasks Generic | Saving will create un-modifiable subtasks'),
+        'name'  => _('Tasks Generic'),
         'attrs' => [
         new StringAttribute(
           _('Task Name'), _('Name for this task'),
@@ -69,6 +69,23 @@ class tasks extends simplePlugin
           ),
         ]
       ],
+      'taskSetting' => [
+        'name' => _('Advanced settings'),
+        'attrs' => [
+          new BooleanAttribute(
+            _('Only with new members'), _('Allows creation of sub-tasks for "NEW MEMBERS" only. (Case of Dynamic Group)'),
+            'fdTasksUpdatable', FALSE, TRUE
+          ),
+          new BooleanAttribute(
+            _('Repeatable Task'), _('Set the task to be repeatable.'),
+            'fdTasksRepeatable', FALSE
+          ),
+          new SelectAttribute(
+            _('Repeatable Schedule'), _('Select the desired schedule.'),
+            'fdTasksRepeatableSchedule', FALSE, ['Yearly', 'Monthly', 'Daily', 'Hourly'], 'Daily'
+          ),
+        ]
+      ],
     ];
   }
 
@@ -77,6 +94,16 @@ class tasks extends simplePlugin
   {
     global $config;
     parent::__construct($dn, $object, $parent, $mainTab);
+
+    $this->attributesAccess['fdTasksRepeatable']->setManagedAttributes(
+      [
+        'disable' => [
+          FALSE => [
+            'fdTasksRepeatableSchedule',
+          ]
+        ]
+      ]
+    );
 
     $this->attributesAccess['fdSubTasksActivation']->setInLdap(FALSE);
   }
