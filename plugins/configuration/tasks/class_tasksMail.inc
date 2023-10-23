@@ -167,14 +167,41 @@ class tasksMail extends simplePlugin
     global $config;
 
     $ldap = $config->get_ldap_link();
+
+    // Get the members or groups selected
     $attributeValue = $this->attributesAccess['fdTasksMailUsers']->getValue();
 
-    if ($attributeValue && !empty($attributeValue)) {
+    if (!empty($attributeValue)) {
+
+      // listOfDN will contain only DN of members after below methods condition
+      $listOfDN = $attributeValue;
+
+      // Verify if  the values received is a member or a group and collect the members DN
+      foreach ($attributeValue as $group) {
+        if (strpos($group, "ou=groups") !== FALSE) {
+
+          // Position ldap to the dn required (limit search).
+          $ldap->cd($group);
+
+          $filter = '(|(objectClass=groupOfUrls)(objectClass=groupOfNames))';
+          $attrs = ['member'];
+          $ldap->search($filter, $attrs);
+          $info = $ldap->fetch();
+
+          // Remove the DN of the group from the list of DN
+          unset($listOfDN[$group]);
+
+          // Add the member DN to the list of DN
+          foreach ($info['member'] as $memberDN) {
+            $listOfDN[] = $memberDN;
+          }
+        }
+      }
 
       $mailList = [];
+      foreach ($listOfDN as $dn) {
 
-      foreach ($this->attributesAccess['fdTasksMailUsers']->getValue() as $dn) {
-
+        // Position ldap to the dn required (limit search).
         $ldap->cd($dn);
 
         // filter and attributes should be equals to the arguments passed to this method
@@ -184,10 +211,12 @@ class tasksMail extends simplePlugin
         $ldap->search($filter, $attrs);
         $info = $ldap->fetch();
 
-        if (!empty($info[$mailAttr][0]) && isset($info[$mailAttr][0])) {
+        if (!empty($info[$mailAttr][0])) {
           // In case of private supann mail, remove the prefix
           $mailList[] = preg_replace('/.+?(?=supann)/', '', $info[$mailAttr][0]);
 
+          // Render the mailing list unique, somewhat mandatory when updating the members lists with dynGroups and members.
+          $mailList = array_unique($mailList);
           // A possible enhancement is to recall itself with another mailObject / attr
         }
       }
@@ -203,12 +232,11 @@ class tasksMail extends simplePlugin
       $this->generateSlaveTasks();
     }
 
-    $errors = parent::save();
-    return $errors;
+    return parent::save();
   }
 
   /*
-   * Generate slave tasks, carefull that main task cannot be changed cause subtasks are not updated.
+   * Generate slave tasks, careful that main task cannot be changed cause subtasks are not updated.
    * It would be dangerous to edit subs tasks if some are under processed already.
    */
   public function generateSlaveTasks ()
@@ -217,14 +245,16 @@ class tasksMail extends simplePlugin
     // Ref is supposed to be the mail object CN in this class
     $ref  = $this->attributesAccess['fdTasksMailObject']->getValue();
     $from = $this->attributesAccess['fdTasksEmailSender']->getValue();
-    // Incremental id allowing creation of different CN for sub tasks
+    // Incremental id allowing creation of different CN for sub-tasks
     $id = 0;
 
     // Take the attribute from the other tabs - attribute cannot be null or unset by default
     $schedule = $this->parent->getBaseObject()->fdTasksScheduleDate ?? NULL;
 
-    if (isset($emails) && !empty($emails)) {
+    if (!empty($emails)) {
       foreach ($emails as $email) {
+        // Using ID incrementation in order to have sub-tasks CN with different name.
+        // Enhancement possible is to use dateTime instead.
         $id ++;
 
         // Here we create the object taskGranular
