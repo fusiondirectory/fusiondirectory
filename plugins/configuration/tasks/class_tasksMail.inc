@@ -265,20 +265,30 @@ class tasksMail extends simplePlugin
       if ($newMemberOnly === TRUE) {
         $ldap->cd($config->current['BASE']);
         $filter = '(&(objectClass=fdTasksGranular)(fdTasksGranularMaster='.$this->dn.'))';
+
         $attrs = ['fdTasksGranularMail'];
         $ldap->search($filter, $attrs);
+
+        // The while loop is important to get all info from ldap into the array.
         while ($info = $ldap->fetch()) {
           $subTasks[] = $info;
         }
-        foreach ($subTasks as $subTask) {
-          $membersEmailslist[] = $subTask['fdTasksGranularMail'][0];
+
+        if (!empty($subTasks)) {
+          // Recuperate members email from the ldap search.
+          foreach ($subTasks as $subTask) {
+            $membersEmailsList[] = $subTask['fdTasksGranularMail'][0];
+          }
+          // Verify the emails differences and only keep those.
+          if (!empty($membersEmailsList)) {
+            $emails = array_diff($emails, $membersEmailsList);
+          }
+          // Simple re-index the array.
+          $emails = array_values($emails);
         }
-        // Correct list of emails in below variable.
-        print_r($membersEmailslist);
       }
 
       foreach ($emails as $email) {
-
         // Here we create the object taskGranular
         $tabObject = objects::create('TasksGranular');
 
