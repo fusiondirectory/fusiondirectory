@@ -24,11 +24,10 @@ class tasksManagement extends management
   protected $skipCpHandler    = TRUE;
 
   /*
-  *  LinkColumn exists by class collumn
-  *  TasksColumn is a new class for Tasks bassed on argonaut column definition
+  *  LinkColumn exists by class column
+  *  TasksColumn is a new class for Tasks based on argonaut column definition
   */
   public static $columns = [
-    ['LinkColumn',  ['attributes' => 'cn', 'label' => 'Tasks']],
     //below fdTasksMailObject must be change to have a type defined within task creation (new ldap attributes ?hidden)
     ['TasksColumn', ['attributes' => 'fdTasksMailObject', 'label' => 'Types']],
     ['Column', ['attributes' => 'fdTasksCreationDate', 'label' => 'Creation Date']],

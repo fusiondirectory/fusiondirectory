@@ -26,18 +26,18 @@ class tasksMail extends simplePlugin
   static function plInfo (): array
   {
     return [
-      'plShortName'   => _('Tasks Mail'),
+      'plShortName' => _('Tasks Mail'),
       'plDescription' => _('Tasks Mail Object'),
-      'plIcon'        => 'geticon.php?context=applications&icon=tasks&size=16',
-      'plPriority'    => 42,
+      'plIcon' => 'geticon.php?context=applications&icon=tasks&size=16',
+      'plPriority' => 42,
       'plObjectClass' => ['fdTasksMail'],
-      'plFilter'      => '(objectClass=fdTasksMail)',
-      'plObjectType'  => ['tasks'],
-      'plConflicts'   => [''],
-      'plProvidedAcls'  => parent::generatePlProvidedAcls(static::getAttributesInfo()),
-      'plForeignKeys'  => [
+      'plFilter' => '(objectClass=fdTasksMail)',
+      'plObjectType' => ['tasks'],
+      'plConflicts' => [''],
+      'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo()),
+      'plForeignKeys' => [
         'fdTasksMailUsers' => [
-          ['user','dn','fdTasksMailUsers=%oldvalue%','*']
+          ['user', 'dn', 'fdTasksMailUsers=%oldvalue%', '*']
         ]
       ],
     ];
@@ -48,7 +48,7 @@ class tasksMail extends simplePlugin
     return [
       // Attributes are grouped by section
       'taskMail' => [
-        'name'  => _('Task Mail Object'),
+        'name' => _('Task Mail Object'),
         'attrs' => [
           new SelectAttribute(
             _('Mail Template'), _('Mail Template Object Selection'),
@@ -58,15 +58,15 @@ class tasksMail extends simplePlugin
         ]
       ],
       'From Component' => [
-        'name'  => _('Sender email address'),
+        'name' => _('Sender email address'),
         'attrs' => [
-           new MailAttribute(
-             _('Sender email address'),
-             _('Email address from which mails will be sent'), 'fdTasksEmailSender', TRUE, 'to.be@chang.ed'),
+          new MailAttribute(
+            _('Sender email address'),
+            _('Email address from which mails will be sent'), 'fdTasksEmailSender', TRUE, 'to.be@chang.ed'),
         ]
       ],
       'UserGroupSelection' => [
-        'name'  => _('Recipients Users and/or Groups'),
+        'name' => _('Recipients Users and/or Groups'),
         'attrs' => [
           new UsersGroupsRolesAttribute(
             _('Members'), _('Users or groups to assign to this task.'),
@@ -75,7 +75,7 @@ class tasksMail extends simplePlugin
         ],
       ],
       'tasksMailType' => [
-        'name'  => _('Type of e-mail address desired'),
+        'name' => _('Type of e-mail address desired'),
         'attrs' => [
           new SelectAttribute(
             _('Mail Type - If not found, priority will apply'), _('Mail Type Object Selection'),
@@ -103,12 +103,12 @@ class tasksMail extends simplePlugin
     $this->attributesAccess['fdTasksMailObject']->setChoices(array_keys($tmpSearch), array_values($tmpSearch));
 
     $mailAttrTypes = [
-      'mail'                      => 'mail - [gosaMailAccount primary]',
-      'gosaMailAlternateAddress'  => 'gosaMailAlternateAddress',
+      'mail' => 'mail - [gosaMailAccount primary]',
+      'gosaMailAlternateAddress' => 'gosaMailAlternateAddress',
       'gosaMailForwardingAddress' => 'gosaMailForwardingAddress',
-      'supannAutreMail'           => 'supannAutreMail',
-      'supannMailPerso'           => 'supannMailPerso',
-      'supannMailPrive'           => 'supannMailPrive'
+      'supannAutreMail' => 'supannAutreMail',
+      'supannMailPerso' => 'supannMailPerso',
+      'supannMailPrive' => 'supannMailPrive'
     ];
 
     $this->attributesAccess['fdTasksMailType']->setChoices(array_keys($mailAttrTypes), array_values($mailAttrTypes));
@@ -124,7 +124,7 @@ class tasksMail extends simplePlugin
     parent::update();
 
     // get the value of type mail desired and if null set default
-    $mailAttr  = $this->attributesAccess['fdTasksMailType']->getValue();
+    $mailAttr = $this->attributesAccess['fdTasksMailType']->getValue();
     if (empty($mailAttr)) {
       $mailAttr = 'mail';
     }
@@ -141,7 +141,7 @@ class tasksMail extends simplePlugin
   /*
    * Return the objectype searched for by setEmailFromSelectedDN
    */
-  public function getMailObject (string $mailAttr) : string
+  public function getMailObject (string $mailAttr): string
   {
     switch ($mailAttr) {
       case 'mail' :
@@ -159,10 +159,10 @@ class tasksMail extends simplePlugin
     }
   }
 
-   /*
-   * Populate the fdTasksEmailsFromDN attribute with related mails addresses.
-   */
-  public function setEmailsFromSelectedDN ($mailObject, $mailAttr) : void
+  /*
+  * Populate the fdTasksEmailsFromDN attribute with related mails addresses.
+  */
+  public function setEmailsFromSelectedDN ($mailObject, $mailAttr): void
   {
     global $config;
 
@@ -241,50 +241,82 @@ class tasksMail extends simplePlugin
    */
   public function generateSlaveTasks ()
   {
+    global $config;
+    $ldap = $config->get_ldap_link();
+
     $emails = $this->attributesAccess['fdTasksEmailsFromDN']->getValue();
     // Ref is supposed to be the mail object CN in this class
-    $ref  = $this->attributesAccess['fdTasksMailObject']->getValue();
+    $ref = $this->attributesAccess['fdTasksMailObject']->getValue();
     $from = $this->attributesAccess['fdTasksEmailSender']->getValue();
-    // Incremental id allowing creation of different CN for sub-tasks
-    $id = 0;
 
     // Take the attribute from the other tabs - attribute cannot be null or unset by default
     $schedule = $this->parent->getBaseObject()->fdTasksScheduleDate ?? NULL;
 
-    if (!empty($emails)) {
-      foreach ($emails as $email) {
-        // Using ID incrementation in order to have sub-tasks CN with different name.
-        // Enhancement possible is to use dateTime instead.
-        $id ++;
+    // Verify if members can have multiple sub-tasks for that main task.
+    $newMemberOnly = $this->parent->getBaseObject()->fdTasksUpdatable;
 
+    // remove 'dn' keeping only 'cn'
+    $rmDn = preg_replace('/(?=,).*/', '', $this->dn);
+    // only take the cn without dc
+    preg_match('/cn=(.*)/', $rmDn, $matches);
+
+    if (!empty($emails)) {
+      // Condition allowing the creation of subtasks for existing members
+      if ($newMemberOnly === TRUE) {
+        $ldap->cd($config->current['BASE']);
+        $filter = '(&(objectClass=fdTasksGranular)(fdTasksGranularMaster='.$this->dn.'))';
+
+        $attrs = ['fdTasksGranularMail'];
+        $ldap->search($filter, $attrs);
+
+        // The while loop is important to get all info from ldap into the array.
+        while ($info = $ldap->fetch()) {
+          $subTasks[] = $info;
+        }
+
+        if (!empty($subTasks)) {
+          // Recuperate members email from the ldap search.
+          foreach ($subTasks as $subTask) {
+            $membersEmailsList[] = $subTask['fdTasksGranularMail'][0];
+          }
+          // Verify the emails differences and only keep those.
+          if (!empty($membersEmailsList)) {
+            $emails = array_diff($emails, $membersEmailsList);
+          }
+          // Simple re-index the array.
+          $emails = array_values($emails);
+        }
+      }
+
+      foreach ($emails as $email) {
         // Here we create the object taskGranular
         $tabObject = objects::create('TasksGranular');
 
-        // remove 'dn' keeping only 'cn'
-        $rmDn = preg_replace('/(?=,).*/', '', $this->dn);
+        // Create a unique ID based on timestamp (Allowing duplicate subtasks for same members in case of repeat).
+        $timestamp = microtime(TRUE);  // Get the current timestamp with microseconds
+        $timestamp = (string)$timestamp; // Convert the float to a string, str_replace expect array or string.
+        $uniqueID = str_replace(".", "_", $timestamp); // Remove . with _ for correct CN
 
-        // only take the cn without dc
-        preg_match('/cn=(.*)/', $rmDn, $matches);
-
-        $subTaskName = $matches[1].'-SubTask-'.$id;
+        // Array matches come from preg_match function above with rmDn
+        $subTaskName = $matches[1] . '-SubTask-' . $uniqueID;
 
         $values['tasksGranular'] = [
-          "cn"                      => $subTaskName,
-          "fdTasksGranularType"     => 'Mail Object',
-          "fdTasksGranularMaster"   => $this->dn,
-          "fdTasksGranularMail"     => $email,
+          "cn" => $subTaskName,
+          "fdTasksGranularType" => 'Mail Object',
+          "fdTasksGranularMaster" => $this->dn,
+          "fdTasksGranularMail" => $email,
           "fdTasksGranularSchedule" => $schedule,
-          "fdTasksGranularRef"      => $ref,
+          "fdTasksGranularRef" => $ref,
           "fdTasksGranularMailFrom" => $from
         ];
 
         foreach ($values as $tab => $tabvalues) {
           if (!isset($tabObject->by_object[$tab])) {
-            echo "Error tab does not contains attributes values" .PHP_EOL;
+            echo "Error tab does not contains attributes values" . PHP_EOL;
           }
           $error = $tabObject->by_object[$tab]->deserializeValues($tabvalues);
           if ($error !== TRUE) {
-            echo 'Error during deserializing' .$error .PHP_EOL;
+            echo 'Error during deserializing' . $error . PHP_EOL;
           }
 
           $tabObject->current = $tab;
