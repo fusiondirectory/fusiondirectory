@@ -293,7 +293,8 @@ class tasksMail extends simplePlugin
         $tabObject = objects::create('TasksGranular');
 
         // Create a unique ID based on timestamp (Allowing duplicate subtasks for same members in case of repeat).
-        $timestamp = microtime(true);  // Get the current timestamp with microseconds
+        $timestamp = microtime(TRUE);  // Get the current timestamp with microseconds
+        $timestamp = (string)$timestamp; // Convert the float to a string, str_replace expect array or string.
         $uniqueID = str_replace(".", "_", $timestamp); // Remove . with _ for correct CN
 
         // Array matches come from preg_match function above with rmDn
