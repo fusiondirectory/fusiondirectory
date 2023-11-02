@@ -29,9 +29,8 @@ class tasksDashboard extends management
     $this->setupFilters();
   }
 
-  // Actions collumn are removed compared to parent.
+  // Actions column are removed compared to parent.
   public static $columns = [
-    ['Column', ['attributes' => 'cn', 'label' => 'Tasks']],
     ['TasksColumn', ['attributes' => 'fdTasksGranularMaster', 'label' => 'Master Task']],
     ['Column', ['attributes' => 'fdTasksGranularType', 'label' => 'Types']],
     ['Column', ['attributes' => 'fdTasksGranularMail', 'label' => 'Email']],
