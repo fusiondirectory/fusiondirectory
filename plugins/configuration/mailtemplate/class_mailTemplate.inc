@@ -68,6 +68,7 @@ class mailTemplate extends simplePlugin
             _('Read Receipt'),
             'fdMailTemplateReadReceipt', FALSE
           ),
+          // Management of attachments files in a sub-node ldap format.
           new SubNodesAttribute(
             '', _('Attachments'),
             'attachments', ['fdMailAttachments'],
@@ -97,6 +98,13 @@ class mailTemplate extends simplePlugin
     parent::__construct($dn, $object, $parent, $mainTab);
 
   }
+
+  protected function shouldSave (): bool
+  {
+    // Trigger a save method required due to sub nodes not being triggered by default. (Modification and suppression).
+    return TRUE;
+  }
+
 
   function ldap_save (): array
   {
