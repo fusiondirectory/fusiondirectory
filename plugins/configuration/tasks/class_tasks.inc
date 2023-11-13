@@ -82,7 +82,7 @@ class tasks extends simplePlugin
           ),
           new SelectAttribute(
             _('Repeatable Schedule'), _('Select the desired schedule.'),
-            'fdTasksRepeatableSchedule', FALSE, ['Yearly', 'Monthly', 'Daily', 'Hourly'], 'Daily'
+            'fdTasksRepeatableSchedule', FALSE, ['Yearly', 'Monthly', 'Weekly', 'Daily', 'Hourly'], 'Daily'
           ),
         ]
       ],
