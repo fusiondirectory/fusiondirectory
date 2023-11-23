@@ -66,6 +66,9 @@ class tasksGranular extends simplePlugin
           new MailAttribute(
              _('Email'),
              _('Email address from which emails will be sent'), 'fdTasksGranularMailFrom', TRUE),
+          new MailAttribute(
+            _('Email'),
+            _('BCC Email address'), 'fdTasksGranularMailBCC', FALSE),
           new DateTimeAttribute(
            _('Schedule'), '',
            'fdTasksGranularSchedule', FALSE

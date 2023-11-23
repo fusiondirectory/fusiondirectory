@@ -182,6 +182,11 @@ attributetype ( 1.3.6.1.4.1.38414.62.1.18 NAME 'fdTasksEmailSender'
   EQUALITY caseExactMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
 
+attributetype ( 1.3.6.1.4.1.38414.62.1.55 NAME 'fdTasksEmailBCC'
+  DESC 'Fusion Directory - Emails derived from DN'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+
 attributetype ( 1.3.6.1.4.1.38414.62.1.19 NAME 'fdTasksMailType'
   DESC 'Fusion Directory - Type of Mail attribute required'
   EQUALITY caseExactMatch
@@ -218,6 +223,11 @@ attributetype ( 1.3.6.1.4.1.38414.62.1.24 NAME 'fdTasksGranularMail'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
 
 attributetype ( 1.3.6.1.4.1.38414.62.1.25 NAME 'fdTasksGranularMailFrom'
+  DESC 'Fusion Directory - Emails sender if object mail'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+
+attributetype ( 1.3.6.1.4.1.38414.62.1.56 NAME 'fdTasksGranularMailBCC'
   DESC 'Fusion Directory - Emails sender if object mail'
   EQUALITY caseExactMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
@@ -471,13 +481,14 @@ objectclass (1.3.6.1.4.1.38414.62.2.6 NAME 'fdTasks'
 objectclass (1.3.6.1.4.1.38414.62.2.7 NAME 'fdTasksMail'
   DESC 'FusionDirectory - Tasks objects Mail'
   SUP top AUXILIARY
-  MUST ( fdTasksMailObject $ fdTasksEmailSender ) 
-  MAY ( fdTasksMailUsers $ fdTasksEmailsFromDN $ fdTasksMailType ) )
+  MUST ( fdTasksMailObject $ fdTasksEmailSender )
+  MAY ( fdTasksMailUsers $ fdTasksEmailsFromDN $ fdTasksMailType $ fdTasksEmailBCC ) )
 
 objectclass (1.3.6.1.4.1.38414.62.2.8 NAME 'fdTasksGranular'
   DESC 'FusionDirectory - Tasks granular objects'
   MUST ( fdTasksGranularMaster $ cn $ fdTasksGranularMail $ fdTasksGranularMailFrom $ 
-  fdTasksGranularRef $ fdTasksGranularType $ fdTasksGranularSchedule $ fdTasksGranularStatus ))
+  fdTasksGranularRef $ fdTasksGranularType $ fdTasksGranularSchedule $ fdTasksGranularStatus )
+  MAY (fdTasksGranularMailBCC))
 
 objectclass (1.3.6.1.4.1.38414.62.2.9 NAME 'fdTasksConf'
   DESC 'FusionDirectory - Tasks objects Configuration'
