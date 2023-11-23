@@ -58,11 +58,14 @@ class tasksMail extends simplePlugin
         ]
       ],
       'From Component' => [
-        'name' => _('Sender email address'),
+        'name' => _('Sender and BCC email address'),
         'attrs' => [
           new MailAttribute(
             _('Sender email address'),
             _('Email address from which mails will be sent'), 'fdTasksEmailSender', TRUE, 'to.be@chang.ed'),
+          new MailAttribute(
+            _('BCC email address'),
+            _('Email address to put in BCC'), 'fdTasksEmailBCC', FALSE, ''),
         ]
       ],
       'UserGroupSelection' => [
@@ -248,6 +251,7 @@ class tasksMail extends simplePlugin
     // Ref is supposed to be the mail object CN in this class
     $ref = $this->attributesAccess['fdTasksMailObject']->getValue();
     $from = $this->attributesAccess['fdTasksEmailSender']->getValue();
+    $bcc = $this->attributesAccess['fdTasksEmailBCC']->getValue();
 
     // Take the attribute from the other tabs - attribute cannot be null or unset by default
     $schedule = $this->parent->getBaseObject()->fdTasksScheduleDate ?? NULL;
@@ -307,7 +311,8 @@ class tasksMail extends simplePlugin
           "fdTasksGranularMail" => $email,
           "fdTasksGranularSchedule" => $schedule,
           "fdTasksGranularRef" => $ref,
-          "fdTasksGranularMailFrom" => $from
+          "fdTasksGranularMailFrom" => $from,
+          "fdTasksGranularMailBCC" => $bcc
         ];
 
         foreach ($values as $tab => $tabvalues) {
