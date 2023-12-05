@@ -27,11 +27,11 @@ class userManagement extends management
 
   public static $columns = [
     ['ObjectTypeColumn', []],
-    ['LinkColumn',       ['attributes' => 'sn',        'label' => 'Last name']],
-    ['LinkColumn',       ['attributes' => 'givenName', 'label' => 'First name']],
-    ['Column',           ['attributes' => 'uid',       'label' => 'Login']],
+    ['LinkColumn', ['attributes' => 'sn', 'label' => 'Last name']],
+    ['LinkColumn', ['attributes' => 'givenName', 'label' => 'First name']],
+    ['Column', ['attributes' => 'uid', 'label' => 'Login']],
     ['PropertiesColumn', ['label' => 'Properties']],
-    ['ActionsColumn',    ['label' => 'Actions']],
+    ['ActionsColumn', ['label' => 'Actions']],
   ];
 
   static function plInfo (): array
@@ -93,6 +93,10 @@ class userManagement extends management
 
       // Detect the password method and try to lock/unlock.
       static::lockUser($action['subaction'], ($entry['userPassword'][0] ?? ''), $dn);
+
+      // Small procedure in order to re-open the user in order to trigger plugins to update accordingly.
+      $userObject = objects::open($dn, 'user');
+      $userObject->save();
     }
   }
 
@@ -105,7 +109,7 @@ class userManagement extends management
   static function lockUser (string $action, string $pwd, string $dn)
   {
     $method = passwordMethod::get_method($pwd, $dn);
-    if ($method instanceOf passwordMethod) {
+    if ($method instanceof passwordMethod) {
       if (!$method->is_lockable()) {
         $hn = $method->get_hash_name();
         if (is_array($hn)) {
