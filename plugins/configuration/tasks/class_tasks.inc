@@ -57,6 +57,7 @@ class tasks extends simplePlugin
            ),
 
         new HiddenAttribute('fdTasksStatus', TRUE, '1', '', 'Status', 'Status of the task'),
+        new HiddenAttribute('fdTasksLastExec', FALSE, '', '', 'LastExec', 'Last exec date'),
         new HiddenAttribute('fdTasksCreationDate', TRUE, date("Y-m-d h:i:sa"), '', 'StartDate', 'Start Date And Time Of A Task'),
         ]
       ],
@@ -108,4 +109,13 @@ class tasks extends simplePlugin
     $this->attributesAccess['fdSubTasksActivation']->setInLdap(FALSE);
   }
 
+  function save (): array
+  {
+    // Verification if the bool of activation is ticked and activate the last exec accordingly.
+    if ($this->fdSubTasksActivation == TRUE) {
+      $currentDateTime = date("Y-m-d h:i:sa", time());
+      $this->fdTasksLastExec = $currentDateTime;
+    }
+    return parent::save();
+  }
 }
