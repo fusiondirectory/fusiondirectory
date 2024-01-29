@@ -33,7 +33,7 @@ class tasksMail extends simplePlugin
       'plObjectClass' => ['fdTasksMail'],
       'plFilter' => '(objectClass=fdTasksMail)',
       'plObjectType' => ['tasks'],
-      'plConflicts' => [''],
+      'plConflicts' => ['tasksLifeCycle'],
       'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo()),
       'plForeignKeys' => [
         'fdTasksMailUsers' => [

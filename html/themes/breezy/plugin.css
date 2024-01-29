@@ -231,12 +231,23 @@ fieldset.plugin-section.critical legend span,
   font-weight: bold;
   background-color: #bbccff;
 }
+
+fieldset.plugin-section.information legend span,
+.plugin-section.information > span.legend {
+  font-weight: bold;
+  background-color: #bbccff;
+}
+
 fieldset.plugin-section.critical legend span:after,
 .plugin-section.critical > span.legend:after {
   content: "   (editing this can break your LDAP)";
   color: #dd0000;
 }
 .plugin-section.critical > div {
+  background-color: #dfefff;
+}
+
+.plugin-section.information > div {
   background-color: #dfefff;
 }
 /* On small screens */
