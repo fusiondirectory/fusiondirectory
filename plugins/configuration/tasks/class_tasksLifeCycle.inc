@@ -22,6 +22,10 @@
 class tasksLifeCycle extends simplePlugin
 {
   protected $displayHeader = TRUE;
+  /**
+   * @var array|array[]
+   */
+  private array $subStates;
 
   static function plInfo (): array
   {
@@ -48,8 +52,7 @@ class tasksLifeCycle extends simplePlugin
         'attrs' => [
           // This hiddenAttribute is only present to show the information label on the section.
           new HiddenAttribute(
-            _('Information'), _('Information'),
-            'fdShowInformation', FALSE
+            'fdShowInformation', FALSE,
           ),
         ]
       ],
@@ -62,7 +65,7 @@ class tasksLifeCycle extends simplePlugin
           ),
           new SelectAttribute(
             _('State'), _('Resource state'),
-            'fdTasksLifeCyclePosState', TRUE
+            'fdTasksLifeCyclePostState', TRUE
           ),
           new SelectAttribute(
             _('Sub state'), _('Resource sub state'),
@@ -101,31 +104,49 @@ class tasksLifeCycle extends simplePlugin
   function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE)
   {
     parent::__construct($dn, $object, $parent, $mainTab);
+    $this->attributesAccess['fdShowInformation']->setInLdap(FALSE);
     $this->setSupannStates();
   }
 
   /*
- * Return table of existing Population Codes containing main's and local's
+ *  Set attributes values with defined supann states from configuration
  */
   protected function setSupannStates () : void
   {
     global $config;
 
+    // Define the mandatory ones and get the remaining from configuration.
     $resources = ['COMPTE' => _('Account'),'MAIL' => _('Mail')];
+
     foreach ($config->get_cfg_value('SupannRessourceLabels', []) as $line) {
       list($resource,$label) = explode(':', $line, 2);
       $resources[$resource] = $label;
     }
 
-    $this->attributesAccess['fdTasksLifeCyclePreResource']->setChoices(array_keys($resources),array_keys($resources));
+    $this->attributesAccess['fdTasksLifeCyclePreResource']->setChoices(array_keys($resources), array_values($resources));
+    $this->attributesAccess['fdTasksLifeCyclePostResource']->setChoices(array_keys($resources), array_values($resources));
 
+    $this->subStates = supannAccountStatus::getConfiguredSubstates(); //Keys are states and Values are subStates
+    $this->attributesAccess['fdTasksLifeCyclePreState']->setChoices(array_keys($this->subStates));
+    $this->attributesAccess['fdTasksLifeCyclePostState']->setChoices(array_keys($this->subStates));
 
-//    $this->attributesAccess['fdTasksLifeCyclePostResource']->setValue(array_keys($resources));
+    // Allows the sub states to be listed when state is modified.
+    $this->attributesAccess['fdTasksLifeCyclePreState']->setSubmitForm('updateFieldsChoices');
+    $this->attributesAccess['fdTasksLifeCyclePostState']->setSubmitForm('updateFieldsChoices');
+    // This initial fill the list choices based on registered states.
+    $this->updateFieldsChoices();
 
+  }
 
-//    $this->attributesAccess['fdTasksLifeCyclePreState']->setChoice(array_values($resources));
-//    $this->attributesAccess['fdTasksLifeCyclePostState']->setChoice(array_values($resources));
-
+  /* Update list of subStates which depends on the state selected */
+  function updateFieldsChoices ()
+  {
+    // Update pre sub states
+    $preSubStatesList = $this->subStates[$this->attributesAccess['fdTasksLifeCyclePreState']->getValue()] ?? [];
+    $this->attributesAccess['fdTasksLifeCyclePreSubState']->setChoices(array_keys($preSubStatesList), array_values($preSubStatesList));
+    // Update post sub states
+    $postSubStatesList = $this->subStates[$this->attributesAccess['fdTasksLifeCyclePostState']->getValue()] ?? [];
+    $this->attributesAccess['fdTasksLifeCyclePostSubState']->setChoices(array_keys($postSubStatesList), array_values($postSubStatesList));
   }
 
   public function update (): bool
