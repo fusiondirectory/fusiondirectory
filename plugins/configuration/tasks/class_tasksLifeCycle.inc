@@ -117,7 +117,14 @@ class tasksLifeCycle extends simplePlugin
   {
     parent::__construct($dn, $object, $parent, $mainTab);
     $this->attributesAccess['fdShowInformation']->setInLdap(FALSE);
-    $this->setSupannStates();
+
+    if (class_available('supannAccountStatus')) {
+      $this->setSupannStates();
+    } else {
+      $warning = new FusionDirectoryWarning(htmlescape(_('The plugin Supann does not seem to be installed !')));
+      $warning->display();
+    }
+
   }
 
   /*

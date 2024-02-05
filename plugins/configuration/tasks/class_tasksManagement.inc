@@ -28,7 +28,7 @@ class tasksManagement extends management
   *  TasksColumn is a new class for Tasks based on argonaut column definition
   */
   public static $columns = [
-    //below fdTasksMailObject must be change to have a type defined within task creation (new ldap attributes ?hidden)
+    //below fdTasksMailObject must be changed to have a type defined within task creation (new ldap attributes ?hidden)
     ['LinkColumn',  ['attributes' => 'cn', 'label' => 'Tasks']],
     ['TasksColumn', ['attributes' => 'fdTasksMailObject', 'label' => 'Types']],
     ['Column', ['attributes' => 'fdTasksCreationDate', 'label' => 'Creation Date']],
