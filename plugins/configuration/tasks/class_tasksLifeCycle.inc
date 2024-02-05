@@ -46,7 +46,7 @@ class tasksLifeCycle extends simplePlugin
   static function getAttributesInfo (): array
   {
     return [
-      'section1' => [
+      'section1'           => [
         'class' => ['fullwidth', 'information'],
         'name'  => _('We recommend the task redundancy to be set to daily, and the case “new members only” to be unpicked'),
         'attrs' => [
@@ -58,7 +58,7 @@ class tasksLifeCycle extends simplePlugin
           new HiddenArrayAttribute('fdTasksLifeCycleListOfDN', FALSE, ''),
         ]
       ],
-      'section3' => [
+      'section3'           => [
         'name'  => _('Post resources details'),
         'attrs' => [
           new SelectAttribute(
@@ -80,7 +80,7 @@ class tasksLifeCycle extends simplePlugin
         ]
       ],
       // Attributes are grouped by section
-      'section2' => [
+      'section2'           => [
         'name'  => _('Pre / existing resources details'),
         'attrs' => [
           new SelectAttribute(
@@ -98,7 +98,7 @@ class tasksLifeCycle extends simplePlugin
         ]
       ],
       'UserGroupSelection' => [
-        'name' => _('Recipients Users and/or Groups'),
+        'name'  => _('Recipients Users and/or Groups'),
         'class' => ['fullwidth'],
         'attrs' => [
           new UsersGroupsRolesAttribute(
@@ -123,15 +123,15 @@ class tasksLifeCycle extends simplePlugin
   /*
  *  Set attributes values with defined supann states from configuration
  */
-  protected function setSupannStates () : void
+  protected function setSupannStates (): void
   {
     global $config;
 
     // Define the mandatory ones and get the remaining from configuration.
-    $resources = ['COMPTE' => _('Account'),'MAIL' => _('Mail')];
+    $resources = ['COMPTE' => _('Account'), 'MAIL' => _('Mail')];
 
     foreach ($config->get_cfg_value('SupannRessourceLabels', []) as $line) {
-      list($resource,$label) = explode(':', $line, 2);
+      list($resource, $label) = explode(':', $line, 2);
       $resources[$resource] = $label;
     }
 
@@ -164,7 +164,7 @@ class tasksLifeCycle extends simplePlugin
   /*
 * Retrieve all the DNs from groups or members
 */
-  public function getListOfDN () : void
+  public function getListOfDN (): void
   {
     global $config;
     $ldap = $config->get_ldap_link();
@@ -181,7 +181,7 @@ class tasksLifeCycle extends simplePlugin
           // Position ldap to the dn required (limit search).
           $ldap->cd($group);
           $filter = '(|(objectClass=groupOfUrls)(objectClass=groupOfNames))';
-          $attrs = ['member'];
+          $attrs  = ['member'];
           $ldap->search($filter, $attrs);
           $info = $ldap->fetch();
 
@@ -225,7 +225,7 @@ class tasksLifeCycle extends simplePlugin
       // Condition allowing the creation of subtasks for existing members
       if ($newMemberOnly === TRUE) {
         $ldap->cd($config->current['BASE']);
-        $filter = '(&(objectClass=fdTasksGranular)(fdTasksGranularMaster='.$this->dn.'))';
+        $filter = '(&(objectClass=fdTasksGranular)(fdTasksGranularMaster=' . $this->dn . '))';
 
         $attrs = ['fdTasksLifeCycle'];
         $ldap->search($filter, $attrs);
@@ -256,16 +256,16 @@ class tasksLifeCycle extends simplePlugin
         // Create a unique ID based on timestamp (Allowing duplicate subtasks for same members in case of repeat).
         $timestamp = microtime(TRUE);  // Get the current timestamp with microseconds
         $timestamp = (string)$timestamp; // Convert the float to a string, str_replace expect array or string.
-        $uniqueID = str_replace(".", "_", $timestamp); // Remove . with _ for correct CN
+        $uniqueID  = str_replace(".", "_", $timestamp); // Remove . with _ for correct CN
 
         // Array matches come from preg_match function above with rmDn
         $subTaskName = $matches[1] . '-SubTask-' . $uniqueID;
 
         $values['tasksGranular'] = [
-          "cn" => $subTaskName,
-          "fdTasksGranularType" => 'Life Cycle',
-          "fdTasksGranularMaster" => $this->dn,
-          "fdTasksGranularDN" => $dn,
+          "cn"                      => $subTaskName,
+          "fdTasksGranularType"     => 'Life Cycle',
+          "fdTasksGranularMaster"   => $this->dn,
+          "fdTasksGranularDN"       => $dn,
           "fdTasksGranularSchedule" => $schedule,
         ];
 
