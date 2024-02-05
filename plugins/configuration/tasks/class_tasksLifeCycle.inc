@@ -127,9 +127,9 @@ class tasksLifeCycle extends simplePlugin
 
   }
 
-  /*
- *  Set attributes values with defined supann states from configuration
- */
+  /**
+   *  Set attributes values with defined supann states from configuration
+   */
   protected function setSupannStates (): void
   {
     global $config;
@@ -168,9 +168,9 @@ class tasksLifeCycle extends simplePlugin
     $this->attributesAccess['fdTasksLifeCyclePostSubState']->setChoices(array_keys($postSubStatesList), array_values($postSubStatesList));
   }
 
-  /*
-* Retrieve all the DNs from groups or members
-*/
+  /**
+   * Retrieve all the DNs from groups or members
+   */
   public function getListOfDN (): void
   {
     global $config;
@@ -206,10 +206,10 @@ class tasksLifeCycle extends simplePlugin
     }
   }
 
-  /*
- * Generate slave tasks, careful that main task cannot be changed cause subtasks are not updated.
- * It would be dangerous to edit subs tasks if some are under processed already.
- */
+  /**
+   * Generate slave tasks, careful that main task cannot be changed cause subtasks are not updated.
+   * It would be dangerous to edit subs tasks if some are under processed already.
+   */
   public function generateSlaveTasks ()
   {
     global $config;
