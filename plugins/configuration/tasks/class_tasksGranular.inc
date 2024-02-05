@@ -26,7 +26,7 @@ class tasksGranular extends simplePlugin
   {
     return [
       'plShortName'   => _('Tasks Granular'),
-      'plDescription' => _('Granular tasks mangement allowing details reports'),
+      'plDescription' => _('Granular tasks management allowing details reports'),
       'plObjectClass' => ['fdTasksGranular'],
       'plFilter'      => '(objectClass=fdTasksGranular)',
       'plPriority'    => 41,
@@ -86,7 +86,6 @@ class tasksGranular extends simplePlugin
 
   function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE)
   {
-    global $config;
     parent::__construct($dn, $object, $parent, $mainTab);
   }
 

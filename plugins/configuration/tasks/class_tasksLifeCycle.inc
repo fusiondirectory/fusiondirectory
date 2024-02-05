@@ -195,7 +195,7 @@ class tasksLifeCycle extends simplePlugin
         }
       }
 
-      $this->attributesAccess['fdTasksEmailsFromDN']->setValue(array_values($membersAndGroups));
+      $this->attributesAccess['fdTasksLifeCycleListOfDN']->setValue(array_values($membersAndGroups));
     }
   }
 
@@ -236,7 +236,7 @@ class tasksLifeCycle extends simplePlugin
         }
 
         if (!empty($subTasks)) {
-          // Recuperate members email from the ldap search.
+          // Recuperate members DN from the ldap search.
           foreach ($subTasks as $subTask) {
             $membersDN[] = $subTask['fdTasksGranularDN'][0];
           }
@@ -263,7 +263,7 @@ class tasksLifeCycle extends simplePlugin
 
         $values['tasksGranular'] = [
           "cn" => $subTaskName,
-          "fdTasksGranularType" => 'Mail Object',
+          "fdTasksGranularType" => 'Life Cycle',
           "fdTasksGranularMaster" => $this->dn,
           "fdTasksGranularDN" => $dn,
           "fdTasksGranularSchedule" => $schedule,
@@ -297,6 +297,10 @@ class tasksLifeCycle extends simplePlugin
   public function update (): bool
   {
     parent::update();
+
+    // Take the list of DN based on the groups or members list selected and filled the related attributes
+    $this->getListOfDN();
+
     return TRUE;
   }
 
