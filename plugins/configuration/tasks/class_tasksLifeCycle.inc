@@ -54,6 +54,8 @@ class tasksLifeCycle extends simplePlugin
           new HiddenAttribute(
             'fdShowInformation', FALSE,
           ),
+          // Following attributes will contain all the DNs required to be verified by Orchestrator.
+          new HiddenArrayAttribute('fdTasksLifeCycleListOfDN', FALSE, ''),
         ]
       ],
       'section3' => [
@@ -94,6 +96,16 @@ class tasksLifeCycle extends simplePlugin
             'fdTasksLifeCyclePreSubState', FALSE
           ),
         ]
+      ],
+      'UserGroupSelection' => [
+        'name' => _('Recipients Users and/or Groups'),
+        'class' => ['fullwidth'],
+        'attrs' => [
+          new UsersGroupsRolesAttribute(
+            _('Members'), _('Users or groups to assign to this task.'),
+            'fdTasksLifeCycleMembers', TRUE
+          ),
+        ],
       ],
     ];
   }
@@ -149,6 +161,139 @@ class tasksLifeCycle extends simplePlugin
     $this->attributesAccess['fdTasksLifeCyclePostSubState']->setChoices(array_keys($postSubStatesList), array_values($postSubStatesList));
   }
 
+  /*
+* Retrieve all the DNs from groups or members
+*/
+  public function getListOfDN () : void
+  {
+    global $config;
+    $ldap = $config->get_ldap_link();
+
+    // Get the members or groups selected
+    $membersAndGroups = $this->attributesAccess['fdTasksLifeCycleMembers']->getValue();
+
+    if (!empty($membersAndGroups)) {
+
+      // Verify if  the values received is a member or a group and collect the members DN
+      foreach ($membersAndGroups as $group) {
+        if (strpos($group, "ou=groups") !== FALSE) {
+
+          // Position ldap to the dn required (limit search).
+          $ldap->cd($group);
+          $filter = '(|(objectClass=groupOfUrls)(objectClass=groupOfNames))';
+          $attrs = ['member'];
+          $ldap->search($filter, $attrs);
+          $info = $ldap->fetch();
+
+          // Remove the DN of the group from the list of DN
+          unset($membersAndGroups[$group]);
+
+          // Add the member DN to the list of DN
+          foreach ($info['member'] as $memberDN) {
+            $membersAndGroups[] = $memberDN;
+          }
+        }
+      }
+
+      $this->attributesAccess['fdTasksEmailsFromDN']->setValue(array_values($membersAndGroups));
+    }
+  }
+
+  /*
+ * Generate slave tasks, careful that main task cannot be changed cause subtasks are not updated.
+ * It would be dangerous to edit subs tasks if some are under processed already.
+ */
+  public function generateSlaveTasks ()
+  {
+    global $config;
+    $ldap = $config->get_ldap_link();
+
+    $listOfDN = $this->attributesAccess['fdTasksLifeCycleListOfDN']->getValue();
+
+    // Take the attribute from the other tabs - attribute cannot be null or unset by default
+    $schedule = $this->parent->getBaseObject()->fdTasksScheduleDate ?? NULL;
+
+    // Verify if members can have multiple sub-tasks for that main task.
+    $newMemberOnly = $this->parent->getBaseObject()->fdTasksUpdatable;
+
+    // remove 'dn' keeping only 'cn'
+    $rmDn = preg_replace('/(?=,).*/', '', $this->dn);
+    // only take the cn without dc
+    preg_match('/cn=(.*)/', $rmDn, $matches);
+
+    if (!empty($listOfDN)) {
+      // Condition allowing the creation of subtasks for existing members
+      if ($newMemberOnly === TRUE) {
+        $ldap->cd($config->current['BASE']);
+        $filter = '(&(objectClass=fdTasksGranular)(fdTasksGranularMaster='.$this->dn.'))';
+
+        $attrs = ['fdTasksLifeCycle'];
+        $ldap->search($filter, $attrs);
+
+        // The while loop is important to get all info from ldap into the array.
+        while ($info = $ldap->fetch()) {
+          $subTasks[] = $info;
+        }
+
+        if (!empty($subTasks)) {
+          // Recuperate members email from the ldap search.
+          foreach ($subTasks as $subTask) {
+            $membersDN[] = $subTask['fdTasksGranularDN'][0];
+          }
+          // Verify the DN differences and only keep those.
+          if (!empty($membersDN)) {
+            $listOfDN = array_diff($listOfDN, $membersDN);
+          }
+          // Simple re-index the array.
+          $listOfDN = array_values($listOfDN);
+        }
+      }
+
+      foreach ($listOfDN as $dn) {
+        // Here we create the object taskGranular
+        $tabObject = objects::create('TasksGranular');
+
+        // Create a unique ID based on timestamp (Allowing duplicate subtasks for same members in case of repeat).
+        $timestamp = microtime(TRUE);  // Get the current timestamp with microseconds
+        $timestamp = (string)$timestamp; // Convert the float to a string, str_replace expect array or string.
+        $uniqueID = str_replace(".", "_", $timestamp); // Remove . with _ for correct CN
+
+        // Array matches come from preg_match function above with rmDn
+        $subTaskName = $matches[1] . '-SubTask-' . $uniqueID;
+
+        $values['tasksGranular'] = [
+          "cn" => $subTaskName,
+          "fdTasksGranularType" => 'Mail Object',
+          "fdTasksGranularMaster" => $this->dn,
+          "fdTasksGranularDN" => $dn,
+          "fdTasksGranularSchedule" => $schedule,
+        ];
+
+        foreach ($values as $tab => $tabvalues) {
+          if (!isset($tabObject->by_object[$tab])) {
+            echo "Error tab does not contains attributes values" . PHP_EOL;
+          }
+          $error = $tabObject->by_object[$tab]->deserializeValues($tabvalues);
+          if ($error !== TRUE) {
+            echo 'Error during deserializing' . $error . PHP_EOL;
+          }
+
+          $tabObject->current = $tab;
+          $tabObject->update();
+          $tabObject->loadTabs();
+        }
+
+        $errors = $tabObject->save();
+
+        // Showing errors should be better, enhancement here required.
+        if (!empty($errors)) {
+          $show_error = new SimplePluginError($this, htmlescape(sprintf(_('Error : "%s", already exist ! Editing existing tasks is forbidden.'), $subTaskName)));
+          $show_error->display();
+        }
+      }
+    }
+  }
+
   public function update (): bool
   {
     parent::update();
@@ -158,11 +303,11 @@ class tasksLifeCycle extends simplePlugin
   function save (): array
   {
     // Verify if this tasks has to be executed upon saving.
-//    $execTasks = $this->parent->getBaseObject()->fdSubTasksActivation ?? NULL;
+    $execTasks = $this->parent->getBaseObject()->fdSubTasksActivation ?? NULL;
 
-//    if ($execTasks) {
-//      $this->generateSlaveTasks();
-//    }
+    if ($execTasks) {
+      $this->generateSlaveTasks();
+    }
 
     return parent::save();
   }

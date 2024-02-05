@@ -59,20 +59,26 @@ class tasksGranular extends simplePlugin
           new HiddenAttribute('fdTasksGranularStatus', TRUE, '1', '', 'Status', 'Status of the task'),
           new HiddenAttribute('fdTasksGranularMaster', TRUE, '', '', 'Master CN', 'Name of the Master task'),
           new HiddenAttribute('fdTasksGranularType', TRUE, '', '', 'Type', 'Type of the task'),
-          new HiddenAttribute('fdTasksGranularRef', TRUE, '', '', 'Type', 'Reference towards a required CN (mail template E.g'),
+          new HiddenAttribute('fdTasksGranularRef', FALSE, '', '', 'Type', 'Reference towards a required CN (mail template E.g'),
+          new DateTimeAttribute(
+            _('Schedule'), '',
+            'fdTasksGranularSchedule', FALSE
+          ),
+          // Below attribute are for tasks of type lifeCycle
+          new StringAttribute(
+            _('lifeCycleDN'), _('DN list filled by tasks lifeCycle'),
+            'fdTasksGranularDN', FALSE
+          ),
+          // Below attributes are for tasks of type Mail
           new MailAttribute(
              _('Email'),
-             _('Email address to which messages will be sent'), 'fdTasksGranularMail', TRUE),
+             _('Email address to which messages will be sent'), 'fdTasksGranularMail', FALSE),
           new MailAttribute(
              _('Email'),
-             _('Email address from which emails will be sent'), 'fdTasksGranularMailFrom', TRUE),
+             _('Email address from which emails will be sent'), 'fdTasksGranularMailFrom', FALSE),
           new MailAttribute(
             _('Email'),
             _('BCC Email address'), 'fdTasksGranularMailBCC', FALSE),
-          new DateTimeAttribute(
-           _('Schedule'), '',
-           'fdTasksGranularSchedule', FALSE
-          )
         ]
       ]
     ];
