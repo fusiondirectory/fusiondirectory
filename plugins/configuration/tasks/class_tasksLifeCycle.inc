@@ -196,8 +196,11 @@ class tasksLifeCycle extends simplePlugin
           unset($membersAndGroups[$group]);
 
           // Add the member DN to the list of DN
-          foreach ($info['member'] as $memberDN) {
-            $membersAndGroups[] = $memberDN;
+          // Verify if the group is not empty of members
+          if (!empty($info['member'])) {
+            foreach ($info['member'] as $memberDN) {
+              $membersAndGroups[] = $memberDN;
+            }
           }
         }
       }

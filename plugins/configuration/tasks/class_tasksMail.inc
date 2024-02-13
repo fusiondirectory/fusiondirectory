@@ -26,16 +26,16 @@ class tasksMail extends simplePlugin
   static function plInfo (): array
   {
     return [
-      'plShortName' => _('Tasks Mail'),
-      'plDescription' => _('Tasks Mail Object'),
-      'plIcon' => 'geticon.php?context=applications&icon=tasks&size=16',
-      'plPriority' => 42,
-      'plObjectClass' => ['fdTasksMail'],
-      'plFilter' => '(objectClass=fdTasksMail)',
-      'plObjectType' => ['tasks'],
-      'plConflicts' => ['tasksLifeCycle'],
+      'plShortName'    => _('Tasks Mail'),
+      'plDescription'  => _('Tasks Mail Object'),
+      'plIcon'         => 'geticon.php?context=applications&icon=tasks&size=16',
+      'plPriority'     => 42,
+      'plObjectClass'  => ['fdTasksMail'],
+      'plFilter'       => '(objectClass=fdTasksMail)',
+      'plObjectType'   => ['tasks'],
+      'plConflicts'    => ['tasksLifeCycle'],
       'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo()),
-      'plForeignKeys' => [
+      'plForeignKeys'  => [
         'fdTasksMailUsers' => [
           ['user', 'dn', 'fdTasksMailUsers=%oldvalue%', '*']
         ]
@@ -47,8 +47,8 @@ class tasksMail extends simplePlugin
   {
     return [
       // Attributes are grouped by section
-      'taskMail' => [
-        'name' => _('Task Mail Object'),
+      'taskMail'           => [
+        'name'  => _('Task Mail Object'),
         'attrs' => [
           new SelectAttribute(
             _('Mail Template'), _('Mail Template Object Selection'),
@@ -57,8 +57,8 @@ class tasksMail extends simplePlugin
           new HiddenArrayAttribute('fdTasksEmailsFromDN', FALSE, ''),
         ]
       ],
-      'From Component' => [
-        'name' => _('Sender and BCC email address'),
+      'From Component'     => [
+        'name'  => _('Sender and BCC email address'),
         'attrs' => [
           new MailAttribute(
             _('Sender email address'),
@@ -69,7 +69,7 @@ class tasksMail extends simplePlugin
         ]
       ],
       'UserGroupSelection' => [
-        'name' => _('Recipients Users and/or Groups'),
+        'name'  => _('Recipients Users and/or Groups'),
         'attrs' => [
           new UsersGroupsRolesAttribute(
             _('Members'), _('Users or groups to assign to this task.'),
@@ -77,8 +77,8 @@ class tasksMail extends simplePlugin
           ),
         ],
       ],
-      'tasksMailType' => [
-        'name' => _('Type of e-mail address desired'),
+      'tasksMailType'      => [
+        'name'  => _('Type of e-mail address desired'),
         'attrs' => [
           new SelectAttribute(
             _('Mail Type - If not found, priority will apply'), _('Mail Type Object Selection'),
@@ -106,12 +106,12 @@ class tasksMail extends simplePlugin
     $this->attributesAccess['fdTasksMailObject']->setChoices(array_keys($tmpSearch), array_values($tmpSearch));
 
     $mailAttrTypes = [
-      'mail' => 'mail - [gosaMailAccount primary]',
-      'gosaMailAlternateAddress' => 'gosaMailAlternateAddress',
+      'mail'                      => 'mail - [gosaMailAccount primary]',
+      'gosaMailAlternateAddress'  => 'gosaMailAlternateAddress',
       'gosaMailForwardingAddress' => 'gosaMailForwardingAddress',
-      'supannAutreMail' => 'supannAutreMail',
-      'supannMailPerso' => 'supannMailPerso',
-      'supannMailPrive' => 'supannMailPrive'
+      'supannAutreMail'           => 'supannAutreMail',
+      'supannMailPerso'           => 'supannMailPerso',
+      'supannMailPrive'           => 'supannMailPrive'
     ];
 
     $this->attributesAccess['fdTasksMailType']->setChoices(array_keys($mailAttrTypes), array_values($mailAttrTypes));
@@ -187,16 +187,19 @@ class tasksMail extends simplePlugin
           $ldap->cd($group);
 
           $filter = '(|(objectClass=groupOfUrls)(objectClass=groupOfNames))';
-          $attrs = ['member'];
+          $attrs  = ['member'];
           $ldap->search($filter, $attrs);
           $info = $ldap->fetch();
 
           // Remove the DN of the group from the list of DN
           unset($listOfDN[$group]);
 
-          // Add the member DN to the list of DN
-          foreach ($info['member'] as $memberDN) {
-            $listOfDN[] = $memberDN;
+          // Verify if the group is not empty of members
+          if (!empty($info['member'])) {
+            // Add the member DN to the list of DN
+            foreach ($info['member'] as $memberDN) {
+              $listOfDN[] = $memberDN;
+            }
           }
         }
       }
@@ -209,7 +212,7 @@ class tasksMail extends simplePlugin
 
         // filter and attributes should be equals to the arguments passed to this method
         $filter = "(objectClass=$mailObject)";
-        $attrs = [$mailAttr];
+        $attrs  = [$mailAttr];
 
         $ldap->search($filter, $attrs);
         $info = $ldap->fetch();
@@ -249,9 +252,9 @@ class tasksMail extends simplePlugin
 
     $emails = $this->attributesAccess['fdTasksEmailsFromDN']->getValue();
     // Ref is supposed to be the mail object CN in this class
-    $ref = $this->attributesAccess['fdTasksMailObject']->getValue();
+    $ref  = $this->attributesAccess['fdTasksMailObject']->getValue();
     $from = $this->attributesAccess['fdTasksEmailSender']->getValue();
-    $bcc = $this->attributesAccess['fdTasksEmailBCC']->getValue();
+    $bcc  = $this->attributesAccess['fdTasksEmailBCC']->getValue();
 
     // Take the attribute from the other tabs - attribute cannot be null or unset by default
     $schedule = $this->parent->getBaseObject()->fdTasksScheduleDate ?? NULL;
@@ -268,7 +271,7 @@ class tasksMail extends simplePlugin
       // Condition allowing the creation of subtasks for existing members
       if ($newMemberOnly === TRUE) {
         $ldap->cd($config->current['BASE']);
-        $filter = '(&(objectClass=fdTasksGranular)(fdTasksGranularMaster='.$this->dn.'))';
+        $filter = '(&(objectClass=fdTasksGranular)(fdTasksGranularMaster=' . $this->dn . '))';
 
         $attrs = ['fdTasksGranularMail'];
         $ldap->search($filter, $attrs);
@@ -299,20 +302,20 @@ class tasksMail extends simplePlugin
         // Create a unique ID based on timestamp (Allowing duplicate subtasks for same members in case of repeat).
         $timestamp = microtime(TRUE);  // Get the current timestamp with microseconds
         $timestamp = (string)$timestamp; // Convert the float to a string, str_replace expect array or string.
-        $uniqueID = str_replace(".", "_", $timestamp); // Remove . with _ for correct CN
+        $uniqueID  = str_replace(".", "_", $timestamp); // Remove . with _ for correct CN
 
         // Array matches come from preg_match function above with rmDn
         $subTaskName = $matches[1] . '-SubTask-' . $uniqueID;
 
         $values['tasksGranular'] = [
-          "cn" => $subTaskName,
-          "fdTasksGranularType" => 'Mail Object',
-          "fdTasksGranularMaster" => $this->dn,
-          "fdTasksGranularMail" => $email,
+          "cn"                      => $subTaskName,
+          "fdTasksGranularType"     => 'Mail Object',
+          "fdTasksGranularMaster"   => $this->dn,
+          "fdTasksGranularMail"     => $email,
           "fdTasksGranularSchedule" => $schedule,
-          "fdTasksGranularRef" => $ref,
+          "fdTasksGranularRef"      => $ref,
           "fdTasksGranularMailFrom" => $from,
-          "fdTasksGranularMailBCC" => $bcc
+          "fdTasksGranularMailBCC"  => $bcc
         ];
 
         foreach ($values as $tab => $tabvalues) {
