@@ -201,6 +201,7 @@ class tasksLifeCycle extends simplePlugin
             foreach ($info['member'] as $memberDN) {
               $membersAndGroups[] = $memberDN;
             }
+            $membersAndGroups = array_unique($membersAndGroups);
           }
         }
       }

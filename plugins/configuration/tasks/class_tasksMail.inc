@@ -200,6 +200,7 @@ class tasksMail extends simplePlugin
             foreach ($info['member'] as $memberDN) {
               $listOfDN[] = $memberDN;
             }
+            $listOfDN = array_unique($listOfDN);
           }
         }
       }
