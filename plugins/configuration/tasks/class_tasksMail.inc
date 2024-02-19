@@ -168,67 +168,35 @@ class tasksMail extends simplePlugin
   public function setEmailsFromSelectedDN ($mailObject, $mailAttr): void
   {
     global $config;
-
-    $ldap = $config->get_ldap_link();
+    $ldap     = $config->get_ldap_link();
+    $mailList = [];
 
     // Get the members or groups selected
     $attributeValue = $this->attributesAccess['fdTasksMailUsers']->getValue();
+    // Extract members from potential groups and dyn-groups.
+    $listOfDN = tasks::extractMembersFromGroups($attributeValue);
 
-    if (!empty($attributeValue)) {
+    foreach ($listOfDN as $dn) {
+      // Position ldap to the dn required (limit search).
+      $ldap->cd($dn);
 
-      // listOfDN will contain only DN of members after below methods condition
-      $listOfDN = $attributeValue;
+      // filter and attributes should be equals to the arguments passed to this method
+      $filter = "(objectClass=$mailObject)";
+      $attrs  = [$mailAttr];
 
-      // Verify if  the values received is a member or a group and collect the members DN
-      foreach ($attributeValue as $group) {
-        if (strpos($group, "ou=groups") !== FALSE) {
+      $ldap->search($filter, $attrs);
+      $info = $ldap->fetch();
 
-          // Position ldap to the dn required (limit search).
-          $ldap->cd($group);
+      if (!empty($info[$mailAttr][0])) {
+        // In case of private supann mail, remove the prefix
+        $mailList[] = preg_replace('/.+?(?=supann)/', '', $info[$mailAttr][0]);
 
-          $filter = '(|(objectClass=groupOfUrls)(objectClass=groupOfNames))';
-          $attrs  = ['member'];
-          $ldap->search($filter, $attrs);
-          $info = $ldap->fetch();
-
-          // Remove the DN of the group from the list of DN
-          unset($listOfDN[$group]);
-
-          // Verify if the group is not empty of members
-          if (!empty($info['member'])) {
-            // Add the member DN to the list of DN
-            foreach ($info['member'] as $memberDN) {
-              $listOfDN[] = $memberDN;
-            }
-            $listOfDN = array_unique($listOfDN);
-          }
-        }
+        // Render the mailing list unique, somewhat mandatory when updating the members lists with dynGroups and members.
+        $mailList = array_unique($mailList);
+        // A possible enhancement is to recall itself with another mailObject / attr
       }
-
-      $mailList = [];
-      foreach ($listOfDN as $dn) {
-
-        // Position ldap to the dn required (limit search).
-        $ldap->cd($dn);
-
-        // filter and attributes should be equals to the arguments passed to this method
-        $filter = "(objectClass=$mailObject)";
-        $attrs  = [$mailAttr];
-
-        $ldap->search($filter, $attrs);
-        $info = $ldap->fetch();
-
-        if (!empty($info[$mailAttr][0])) {
-          // In case of private supann mail, remove the prefix
-          $mailList[] = preg_replace('/.+?(?=supann)/', '', $info[$mailAttr][0]);
-
-          // Render the mailing list unique, somewhat mandatory when updating the members lists with dynGroups and members.
-          $mailList = array_unique($mailList);
-          // A possible enhancement is to recall itself with another mailObject / attr
-        }
-      }
-      $this->attributesAccess['fdTasksEmailsFromDN']->setValue(array_values($mailList));
     }
+    $this->attributesAccess['fdTasksEmailsFromDN']->setValue(array_values($mailList));
   }
 
   function save (): array

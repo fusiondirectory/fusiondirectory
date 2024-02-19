@@ -26,15 +26,15 @@ class tasks extends simplePlugin
   static function plInfo (): array
   {
     return [
-      'plShortName'   => _('Tasks'),
-      'plDescription' => _('Tasks'),
-      'plObjectClass' => ['fdTasks'],
-      'plFilter'      => '(objectClass=fdTasks)',
-      'plPriority'    => 41,
-      'plObjectType'  => ['tasks' => [
-        'name'        => _('Tasks'),
-        'ou'          => get_ou('tasksRDN'),
-        'icon'        => 'geticon.php?context=applications&icon=tasks&size=16',
+      'plShortName'    => _('Tasks'),
+      'plDescription'  => _('Tasks'),
+      'plObjectClass'  => ['fdTasks'],
+      'plFilter'       => '(objectClass=fdTasks)',
+      'plPriority'     => 41,
+      'plObjectType'   => ['tasks' => [
+        'name' => _('Tasks'),
+        'ou'   => get_ou('tasksRDN'),
+        'icon' => 'geticon.php?context=applications&icon=tasks&size=16',
       ]],
       'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())
     ];
@@ -44,25 +44,25 @@ class tasks extends simplePlugin
   {
     return [
       // Attributes are grouped by section
-      'tasks' => [
+      'tasks'       => [
         'name'  => _('Tasks Generic'),
         'attrs' => [
-        new StringAttribute(
-          _('Task Name'), _('Name for this task'),
-          'cn', TRUE
-        ),
-         new DateTimeAttribute(
-           _('Schedule'), '',
-           'fdTasksScheduleDate', FALSE
-           ),
+          new StringAttribute(
+            _('Task Name'), _('Name for this task'),
+            'cn', TRUE
+          ),
+          new DateTimeAttribute(
+            _('Schedule'), '',
+            'fdTasksScheduleDate', FALSE
+          ),
 
-        new HiddenAttribute('fdTasksStatus', TRUE, '1', '', 'Status', 'Status of the task'),
-        new HiddenAttribute('fdTasksLastExec', FALSE, '', '', 'LastExec', 'Last exec date'),
-        new HiddenAttribute('fdTasksCreationDate', TRUE, date("Y-m-d h:i:sa"), '', 'StartDate', 'Start Date And Time Of A Task'),
+          new HiddenAttribute('fdTasksStatus', TRUE, '1', '', 'Status', 'Status of the task'),
+          new HiddenAttribute('fdTasksLastExec', FALSE, '', '', 'LastExec', 'Last exec date'),
+          new HiddenAttribute('fdTasksCreationDate', TRUE, date("Y-m-d h:i:sa"), '', 'StartDate', 'Start Date And Time Of A Task'),
         ]
       ],
-      'subTasks' => [
-        'name' => _('Creation of Sub Tasks - Starting this task'),
+      'subTasks'    => [
+        'name'  => _('Creation of Sub Tasks - Starting this task'),
         'attrs' => [
           new BooleanAttribute(
             _('Activate SubTasks'), _('Trigger the creation of this task and related subtasks'),
@@ -71,7 +71,7 @@ class tasks extends simplePlugin
         ]
       ],
       'taskSetting' => [
-        'name' => _('Advanced settings'),
+        'name'  => _('Advanced settings'),
         'attrs' => [
           new BooleanAttribute(
             _('Only with new members'), _('Allows creation of sub-tasks for "NEW MEMBERS" only. (Case of Dynamic Group)'),
@@ -113,9 +113,58 @@ class tasks extends simplePlugin
   {
     // Verification if the bool of activation is ticked and activate the last exec accordingly.
     if ($this->fdSubTasksActivation == TRUE) {
-      $currentDateTime = date("Y-m-d h:i:sa", time());
+      $currentDateTime       = date("Y-m-d h:i:sa", time());
       $this->fdTasksLastExec = $currentDateTime;
     }
     return parent::save();
   }
+
+  /**
+   * @param array $groups
+   * @return array
+   */
+  public static function extractMembersFromGroups (array $groups): array
+  {
+    global $config;
+
+    $ldap = $config->get_ldap_link();
+    $listMemberDN = [];
+
+    if (!empty($groups)) {
+      // Verify if  the values received is a member or a group and collect the members DN
+      foreach ($groups as $group) {
+        if (strpos($group, "ou=groups") !== FALSE) {
+
+          // Position ldap to the dn required (limit search).
+          $ldap->cd($group);
+          $filter = '(|(objectClass=groupOfUrls)(objectClass=groupOfNames))';
+          $attrs  = ['member'];
+
+          $ldap->search($filter, $attrs);
+          $info = $ldap->fetch();
+
+          // Verify if the group is not empty of members
+          if (!empty($info['member'])) {
+            //unset the count from the array
+            unset($info['member']['count']);
+            foreach ($info['member'] as $memberDN) {
+              $listMemberDN[] = $memberDN;
+            }
+
+            // Add the member DN to the list of DN
+            $listMemberDN = array_unique($listMemberDN);
+          }
+        }
+      }
+
+      // Iterate on the DN list to remove any members representing a group (members of that potential groups were extracted).
+      foreach ($listMemberDN as $key => $value) {
+        if (strpos($value, 'ou=groups') !== FALSE) {
+          unset($listMemberDN[$key]);
+        }
+      }
+    }
+    return $listMemberDN;
+  }
+
 }

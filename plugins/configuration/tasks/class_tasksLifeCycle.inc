@@ -173,42 +173,12 @@ class tasksLifeCycle extends simplePlugin
    */
   public function getListOfDN (): void
   {
-    global $config;
-    $ldap = $config->get_ldap_link();
-
     // Get the members or groups selected
     $membersAndGroups = $this->attributesAccess['fdTasksLifeCycleMembers']->getValue();
-
-    if (!empty($membersAndGroups)) {
-
-      // Verify if  the values received is a member or a group and collect the members DN
-      foreach ($membersAndGroups as $group) {
-        if (strpos($group, "ou=groups") !== FALSE) {
-
-          // Position ldap to the dn required (limit search).
-          $ldap->cd($group);
-          $filter = '(|(objectClass=groupOfUrls)(objectClass=groupOfNames))';
-          $attrs  = ['member'];
-          $ldap->search($filter, $attrs);
-          $info = $ldap->fetch();
-
-          // Remove the DN of the group from the list of DN
-          unset($membersAndGroups[$group]);
-
-          // Add the member DN to the list of DN
-          // Verify if the group is not empty of members
-          if (!empty($info['member'])) {
-            foreach ($info['member'] as $memberDN) {
-              $membersAndGroups[] = $memberDN;
-            }
-            $membersAndGroups = array_unique($membersAndGroups);
-          }
-        }
-      }
-
-      $this->attributesAccess['fdTasksLifeCycleListOfDN']->setValue(array_values($membersAndGroups));
-    }
+    // Call static function from tasks object, always return an array.
+    $this->attributesAccess['fdTasksLifeCycleListOfDN']->setValue(array_values(tasks::extractMembersFromGroups($membersAndGroups)));
   }
+
 
   /**
    * Generate slave tasks, careful that main task cannot be changed cause subtasks are not updated.
