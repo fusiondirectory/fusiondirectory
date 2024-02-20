@@ -25,7 +25,7 @@ class tasksLifeCycle extends simplePlugin
   /**
    * @var array|array[]
    */
-  private array $subStates;
+  private $subStates;
 
   static function plInfo (): array
   {
