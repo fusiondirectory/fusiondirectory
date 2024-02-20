@@ -25,7 +25,7 @@ class tasksLifeCycle extends simplePlugin
   /**
    * @var array|array[]
    */
-  private $subStates;
+  private array $subStates;
 
   static function plInfo (): array
   {
@@ -186,93 +186,11 @@ class tasksLifeCycle extends simplePlugin
    */
   public function generateSlaveTasks ()
   {
-    global $config;
-    $ldap = $config->get_ldap_link();
+    $listOfDN      = $this->attributesAccess['fdTasksLifeCycleListOfDN']->getValue();
+    $attributeType = 'fdTasksLifeCycle';
 
-    $listOfDN = $this->attributesAccess['fdTasksLifeCycleListOfDN']->getValue();
-
-    // Take the attribute from the other tabs - attribute cannot be null or unset by default
-    $schedule = $this->parent->getBaseObject()->fdTasksScheduleDate ?? NULL;
-
-    // Verify if members can have multiple sub-tasks for that main task.
-    $newMemberOnly = $this->parent->getBaseObject()->fdTasksUpdatable;
-
-    // remove 'dn' keeping only 'cn'
-    $rmDn = preg_replace('/(?=,).*/', '', $this->dn);
-    // only take the cn without dc
-    preg_match('/cn=(.*)/', $rmDn, $matches);
-
-    if (!empty($listOfDN)) {
-      // Condition allowing the creation of subtasks for existing members
-      if ($newMemberOnly === TRUE) {
-        $ldap->cd($config->current['BASE']);
-        $filter = '(&(objectClass=fdTasksGranular)(fdTasksGranularMaster=' . $this->dn . '))';
-
-        $attrs = ['fdTasksLifeCycle'];
-        $ldap->search($filter, $attrs);
-
-        // The while loop is important to get all info from ldap into the array.
-        while ($info = $ldap->fetch()) {
-          $subTasks[] = $info;
-        }
-
-        if (!empty($subTasks)) {
-          // Recuperate members DN from the ldap search.
-          foreach ($subTasks as $subTask) {
-            $membersDN[] = $subTask['fdTasksGranularDN'][0];
-          }
-          // Verify the DN differences and only keep those.
-          if (!empty($membersDN)) {
-            $listOfDN = array_diff($listOfDN, $membersDN);
-          }
-          // Simple re-index the array.
-          $listOfDN = array_values($listOfDN);
-        }
-      }
-
-      foreach ($listOfDN as $dn) {
-        // Here we create the object taskGranular
-        $tabObject = objects::create('TasksGranular');
-
-        // Create a unique ID based on timestamp (Allowing duplicate subtasks for same members in case of repeat).
-        $timestamp = microtime(TRUE);  // Get the current timestamp with microseconds
-        $timestamp = (string)$timestamp; // Convert the float to a string, str_replace expect array or string.
-        $uniqueID  = str_replace(".", "_", $timestamp); // Remove . with _ for correct CN
-
-        // Array matches come from preg_match function above with rmDn
-        $subTaskName = $matches[1] . '-SubTask-' . $uniqueID;
-
-        $values['tasksGranular'] = [
-          "cn"                      => $subTaskName,
-          "fdTasksGranularType"     => 'Life Cycle',
-          "fdTasksGranularMaster"   => $this->dn,
-          "fdTasksGranularDN"       => $dn,
-          "fdTasksGranularSchedule" => $schedule,
-        ];
-
-        foreach ($values as $tab => $tabvalues) {
-          if (!isset($tabObject->by_object[$tab])) {
-            echo "Error tab does not contains attributes values" . PHP_EOL;
-          }
-          $error = $tabObject->by_object[$tab]->deserializeValues($tabvalues);
-          if ($error !== TRUE) {
-            echo 'Error during deserializing' . $error . PHP_EOL;
-          }
-
-          $tabObject->current = $tab;
-          $tabObject->update();
-          $tabObject->loadTabs();
-        }
-
-        $errors = $tabObject->save();
-
-        // Showing errors should be better, enhancement here required.
-        if (!empty($errors)) {
-          $show_error = new SimplePluginError($this, htmlescape(sprintf(_('Error : "%s", already exist ! Editing existing tasks is forbidden.'), $subTaskName)));
-          $show_error->display();
-        }
-      }
-    }
+    // Call the method from parent tasks object (first tab) to create sub-tasks.
+    $this->parent->getBaseObject()->createSlaveTasks($listOfDN, $attributeType);
   }
 
   public function update (): bool

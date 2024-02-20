@@ -216,99 +216,15 @@ class tasksMail extends simplePlugin
    */
   public function generateSlaveTasks ()
   {
-    global $config;
-    $ldap = $config->get_ldap_link();
+    $listOfDN      = $this->attributesAccess['fdTasksEmailsFromDN']->getValue();
+    $attributeType = 'fdTasksGranularMail';
 
-    $emails = $this->attributesAccess['fdTasksEmailsFromDN']->getValue();
     // Ref is supposed to be the mail object CN in this class
-    $ref  = $this->attributesAccess['fdTasksMailObject']->getValue();
-    $from = $this->attributesAccess['fdTasksEmailSender']->getValue();
-    $bcc  = $this->attributesAccess['fdTasksEmailBCC']->getValue();
+    $attrs['ref']  = $this->attributesAccess['fdTasksMailObject']->getValue();
+    $attrs['from'] = $this->attributesAccess['fdTasksEmailSender']->getValue();
+    $attrs['bcc']  = $this->attributesAccess['fdTasksEmailBCC']->getValue();
 
-    // Take the attribute from the other tabs - attribute cannot be null or unset by default
-    $schedule = $this->parent->getBaseObject()->fdTasksScheduleDate ?? NULL;
-
-    // Verify if members can have multiple sub-tasks for that main task.
-    $newMemberOnly = $this->parent->getBaseObject()->fdTasksUpdatable;
-
-    // remove 'dn' keeping only 'cn'
-    $rmDn = preg_replace('/(?=,).*/', '', $this->dn);
-    // only take the cn without dc
-    preg_match('/cn=(.*)/', $rmDn, $matches);
-
-    if (!empty($emails)) {
-      // Condition allowing the creation of subtasks for existing members
-      if ($newMemberOnly === TRUE) {
-        $ldap->cd($config->current['BASE']);
-        $filter = '(&(objectClass=fdTasksGranular)(fdTasksGranularMaster=' . $this->dn . '))';
-
-        $attrs = ['fdTasksGranularMail'];
-        $ldap->search($filter, $attrs);
-
-        // The while loop is important to get all info from ldap into the array.
-        while ($info = $ldap->fetch()) {
-          $subTasks[] = $info;
-        }
-
-        if (!empty($subTasks)) {
-          // Recuperate members email from the ldap search.
-          foreach ($subTasks as $subTask) {
-            $membersEmailsList[] = $subTask['fdTasksGranularMail'][0];
-          }
-          // Verify the emails differences and only keep those.
-          if (!empty($membersEmailsList)) {
-            $emails = array_diff($emails, $membersEmailsList);
-          }
-          // Simple re-index the array.
-          $emails = array_values($emails);
-        }
-      }
-
-      foreach ($emails as $email) {
-        // Here we create the object taskGranular
-        $tabObject = objects::create('TasksGranular');
-
-        // Create a unique ID based on timestamp (Allowing duplicate subtasks for same members in case of repeat).
-        $timestamp = microtime(TRUE);  // Get the current timestamp with microseconds
-        $timestamp = (string)$timestamp; // Convert the float to a string, str_replace expect array or string.
-        $uniqueID  = str_replace(".", "_", $timestamp); // Remove . with _ for correct CN
-
-        // Array matches come from preg_match function above with rmDn
-        $subTaskName = $matches[1] . '-SubTask-' . $uniqueID;
-
-        $values['tasksGranular'] = [
-          "cn"                      => $subTaskName,
-          "fdTasksGranularType"     => 'Mail Object',
-          "fdTasksGranularMaster"   => $this->dn,
-          "fdTasksGranularMail"     => $email,
-          "fdTasksGranularSchedule" => $schedule,
-          "fdTasksGranularRef"      => $ref,
-          "fdTasksGranularMailFrom" => $from,
-          "fdTasksGranularMailBCC"  => $bcc
-        ];
-
-        foreach ($values as $tab => $tabvalues) {
-          if (!isset($tabObject->by_object[$tab])) {
-            echo "Error tab does not contains attributes values" . PHP_EOL;
-          }
-          $error = $tabObject->by_object[$tab]->deserializeValues($tabvalues);
-          if ($error !== TRUE) {
-            echo 'Error during deserializing' . $error . PHP_EOL;
-          }
-
-          $tabObject->current = $tab;
-          $tabObject->update();
-          $tabObject->loadTabs();
-        }
-
-        $errors = $tabObject->save();
-
-        // Showing errors should be better, enhancement here required.
-        if (!empty($errors)) {
-          $show_error = new SimplePluginError($this, htmlescape(sprintf(_('Error : "%s", already exist ! Editing existing tasks is forbidden.'), $subTaskName)));
-          $show_error->display();
-        }
-      }
-    }
+    // Call the method from parent tasks object (first tab) to create sub-tasks.
+    $this->parent->getBaseObject()->createSlaveTasks($listOfDN, $attributeType, $attrs);
   }
 }
