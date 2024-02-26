@@ -144,7 +144,7 @@ class tasksLifeCycle extends simplePlugin
 
     $this->attributesAccess['fdTasksLifeCyclePreResource']->setChoices(array_keys($resources), array_values($resources));
     $this->attributesAccess['fdTasksLifeCyclePostResource']->setChoices(array_keys($resources), array_values($resources));
-
+    // @phpstan-ignore-next-line - Class verification is performed prior but class is only available in plugin not CORE.
     $this->subStates = supannAccountStatus::getConfiguredSubstates(); //Keys are states and Values are subStates
     $this->attributesAccess['fdTasksLifeCyclePreState']->setChoices(array_keys($this->subStates));
     $this->attributesAccess['fdTasksLifeCyclePostState']->setChoices(array_keys($this->subStates));
