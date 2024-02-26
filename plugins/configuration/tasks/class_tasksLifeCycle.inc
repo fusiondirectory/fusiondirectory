@@ -48,7 +48,7 @@ class tasksLifeCycle extends simplePlugin
     return [
       'section1'           => [
         'class' => ['fullwidth', 'information'],
-        'name'  => _('We recommend the task redundancy to be set to daily, and the case “new members only” to be unpicked'),
+        'name'  => _('We recommend the task redundancy to be set to daily, and the case New Members Only to be unpicked'),
         'attrs' => [
           // This hiddenAttribute is only present to show the information label on the section.
           new HiddenAttribute(
