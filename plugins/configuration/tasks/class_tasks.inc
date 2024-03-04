@@ -148,7 +148,10 @@ class tasks extends simplePlugin
         if (!empty($subTasks)) {
           // Recuperate members DN from the ldap search.
           foreach ($subTasks as $subTask) {
-            $membersDN[] = $subTask['fdTasksGranularDN'][0];
+            // Case of a DN passed but being locked.
+            if (!empty($subTask['fdTasksGranularDN'][0])) {
+              $membersDN[] = $subTask['fdTasksGranularDN'][0];
+            }
           }
           // Verify the DN differences and only keep those.
           if (!empty($membersDN)) {
@@ -198,7 +201,7 @@ class tasks extends simplePlugin
           "fdTasksGranularSchedule" => $schedule,
         ];
         // Simply merged the common values and the custom ones depending on the attribute type passed.
-        $values['tasksGranular']      = array_merge($prepData['tasksGranular'], $defaultData['tasksGranular']);
+        $values['tasksGranular'] = array_merge($prepData['tasksGranular'], $defaultData['tasksGranular']);
 
         foreach ($values as $tab => $tabvalues) {
           if (!isset($tabObject->by_object[$tab])) {
@@ -253,10 +256,12 @@ class tasks extends simplePlugin
             foreach ($info['member'] as $memberDN) {
               $listMemberDN[] = $memberDN;
             }
-
-            // Add the member DN to the list of DN
-            $listMemberDN = array_unique($listMemberDN);
+            // case of member not within a group or dyngroup
+          } else {
+            $listMemberDN[] = $group; //Here group is indeed a sole user
           }
+          // Make sure no duplicate can happens, case of same member in an existing group.
+          $listMemberDN = array_unique($listMemberDN);
         }
       }
 
