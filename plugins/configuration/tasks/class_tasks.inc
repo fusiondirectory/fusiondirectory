@@ -257,12 +257,12 @@ class tasks extends simplePlugin
               $listMemberDN[] = $memberDN;
             }
             // case of member not within a group or dyngroup
-          } else {
-            $listMemberDN[] = $group; //Here group is indeed a sole user
           }
-          // Make sure no duplicate can happens, case of same member in an existing group.
-          $listMemberDN = array_unique($listMemberDN);
+        } else {
+          $listMemberDN[] = $group; //Here group is indeed a sole user
         }
+        // Make sure no duplicate can happens, case of same member in an existing group.
+        $listMemberDN = array_unique($listMemberDN);
       }
 
       // Iterate on the DN list to remove any members representing a group (members of that potential groups were extracted).
