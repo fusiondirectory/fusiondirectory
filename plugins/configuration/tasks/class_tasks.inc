@@ -148,9 +148,15 @@ class tasks extends simplePlugin
         if (!empty($subTasks)) {
           // Recuperate members DN from the ldap search.
           foreach ($subTasks as $subTask) {
-            // Case of a DN passed but being locked.
-            if (!empty($subTask['fdTasksGranularDN'][0])) {
-              $membersDN[] = $subTask['fdTasksGranularDN'][0];
+
+            // For lifeCycle we check DN and for mailObject we check mail
+            switch ($attributeType) {
+              case 'fdTasksGranularDN':
+                $membersDN[] = $subTask['fdTasksGranularDN'][0];
+                break;
+              case 'fdTasksGranularMail':
+                $membersDN[] = $subTask['fdTasksGranularMail'][0];
+                break;
             }
           }
           // Verify the DN differences and only keep those.
@@ -186,7 +192,7 @@ class tasks extends simplePlugin
               "fdTasksGranularMailBCC"  => $attrs['bcc']
             ];
             break;
-          case 'fdTasksLifeCycle' :
+          case 'fdTasksGranularDN' :
             $prepData['tasksGranular'] = [
               "fdTasksGranularDN"   => $dn,
               "fdTasksGranularType" => 'Life Cycle',
@@ -257,12 +263,12 @@ class tasks extends simplePlugin
               $listMemberDN[] = $memberDN;
             }
             // case of member not within a group or dyngroup
-          } else {
-            $listMemberDN[] = $group; //Here group is indeed a sole user
           }
-          // Make sure no duplicate can happens, case of same member in an existing group.
-          $listMemberDN = array_unique($listMemberDN);
+        } else {
+          $listMemberDN[] = $group; //Here group is indeed a sole user
         }
+        // Make sure no duplicate can happens, case of same member in an existing group.
+        $listMemberDN = array_unique($listMemberDN);
       }
 
       // Iterate on the DN list to remove any members representing a group (members of that potential groups were extracted).
