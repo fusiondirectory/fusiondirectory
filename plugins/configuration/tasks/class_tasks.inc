@@ -148,9 +148,15 @@ class tasks extends simplePlugin
         if (!empty($subTasks)) {
           // Recuperate members DN from the ldap search.
           foreach ($subTasks as $subTask) {
-            // Case of a DN passed but being locked.
-            if (!empty($subTask['fdTasksGranularDN'][0])) {
-              $membersDN[] = $subTask['fdTasksGranularDN'][0];
+
+            // For lifeCycle we check DN and for mailObject we check mail
+            switch ($attributeType) {
+              case 'fdTasksGranularDN':
+                $membersDN[] = $subTask['fdTasksGranularDN'][0];
+                break;
+              case 'fdTasksGranularMail':
+                $membersDN[] = $subTask['fdTasksGranularMail'][0];
+                break;
             }
           }
           // Verify the DN differences and only keep those.
@@ -186,7 +192,7 @@ class tasks extends simplePlugin
               "fdTasksGranularMailBCC"  => $attrs['bcc']
             ];
             break;
-          case 'fdTasksLifeCycle' :
+          case 'fdTasksGranularDN' :
             $prepData['tasksGranular'] = [
               "fdTasksGranularDN"   => $dn,
               "fdTasksGranularType" => 'Life Cycle',
