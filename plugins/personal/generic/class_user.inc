@@ -273,14 +273,15 @@ class user extends simplePlugin
     $filename = './plugins/users/images/default.jpg';
     $fd       = fopen($filename, 'rb');
     $this->attributesAccess['jpegPhoto']->setPlaceholder(fread($fd, filesize($filename)));
-
     $this->was_locked = $this->attributesAccess['userPassword']->isLocked();
 
-    // Verification is snapshot is enabled and automatic.
-    // Note : string values are stored in that array.
-    if (isset($config->current['ENABLEAUTOMATICSNAPSHOTS']) && isset($config->current['ENABLESNAPSHOTS'])) {
-      if (strtolower($config->current['ENABLEAUTOMATICSNAPSHOTS']) === 'true' && strtolower($config->current['ENABLESNAPSHOTS']) === 'true') {
-        $this->generateAutomaticSnapshot();
+    // Do not apply automatic snap on templates nor if the DN is not yet processed (new creation from template)
+    if ($this->is_template !== TRUE && $this->dn !== 'new') {
+      // Verification is snapshot is enabled and automatic.
+      if (isset($config->current['ENABLEAUTOMATICSNAPSHOTS']) && isset($config->current['ENABLESNAPSHOTS'])) {
+        if (strtolower($config->current['ENABLEAUTOMATICSNAPSHOTS']) === 'true' && strtolower($config->current['ENABLESNAPSHOTS']) === 'true') {
+          $this->generateAutomaticSnapshot();
+        }
       }
     }
   }
@@ -394,12 +395,6 @@ class user extends simplePlugin
     }
     return parent::post_save();
   }
-
-
-//  public function verifyLastSnapshotMD5 () : BOOL
-//  {
-//
-//  }
 
   /**
    * @return void
