@@ -254,6 +254,7 @@ class SnapshotHandler
     $target['description']          = $description;
     $target['fdSnapshotObjectType'] = $objectType;
     $target['fdSnapshotDataSource'] = $snapshotSource;
+    $target['fdSnapshotHash'] = md5($data);
 
     /* Insert the new snapshot
        But we have to check first, if the given gosaSnapshotTimestamp
@@ -380,7 +381,7 @@ class SnapshotHandler
     $ldap->cd($new_base);
     $ldap->search(
       '(&(objectClass=gosaSnapshotObject)(gosaSnapshotDN='.ldap_escape_f($dn).'))',
-      ['gosaSnapshotTimestamp','gosaSnapshotDN','description','fdSnapshotObjectType'],
+      ['gosaSnapshotTimestamp','gosaSnapshotDN','description','fdSnapshotObjectType','fdSnapshotHash'],
       'one'
     );
 
@@ -416,7 +417,7 @@ class SnapshotHandler
     $ldap->cd($new_base);
     $ldap->search(
       '(objectClass=gosaSnapshotObject)',
-      ['gosaSnapshotTimestamp','gosaSnapshotDN','description','fdSnapshotObjectType'],
+      ['gosaSnapshotTimestamp','gosaSnapshotDN','description','fdSnapshotObjectType', 'fdSnapshotHash'],
       'one'
     );
     while ($entry = $ldap->fetch(TRUE)) {

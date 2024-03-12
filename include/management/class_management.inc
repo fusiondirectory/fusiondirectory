@@ -21,6 +21,7 @@
 /*!
  * \brief Management base class
  */
+
 class management implements FusionDirectoryDialog
 {
   /* Object types we are currently managing */
@@ -38,16 +39,16 @@ class management implements FusionDirectoryDialog
   protected $skipCpHandler    = FALSE;
 
   /* Snapshots */
-  protected $snapHandler        = NULL;
-  public static $skipSnapshots  = FALSE;
+  protected $snapHandler       = NULL;
+  public static $skipSnapshots = FALSE;
 
   // The currently used object(s) (e.g. in edit, removal)
-  protected $currentDn  = '';
+  protected $currentDn = '';
   protected $currentDns = [];
 
   // The last used object(s).
-  protected $previousDn   = '';
-  protected $previousDns  = [];
+  protected $previousDn = '';
+  protected $previousDns = [];
 
   // The opened object.
   /**
@@ -57,8 +58,8 @@ class management implements FusionDirectoryDialog
   protected $dialogObject = NULL;
 
   // The last opened object.
-  protected $last_tabObject     = NULL;
-  protected $last_dialogObject  = NULL;
+  protected $last_tabObject    = NULL;
+  protected $last_dialogObject = NULL;
 
   protected $renderCache;
 
@@ -66,7 +67,7 @@ class management implements FusionDirectoryDialog
   public $title;
   public $icon;
 
-  protected $actions        = [];
+  protected $actions = [];
   protected $actionHandlers = [];
 
   protected $exporters = [];
@@ -83,23 +84,23 @@ class management implements FusionDirectoryDialog
   /* Default columns */
   public static $columns = [
     ['ObjectTypeColumn', []],
-    ['LinkColumn',       ['attributes' => 'nameAttr',    'label' => 'Name']],
-    ['LinkColumn',       ['attributes' => 'description', 'label' => 'Description']],
-    ['ActionsColumn',    ['label' => 'Actions']],
+    ['LinkColumn', ['attributes' => 'nameAttr', 'label' => 'Name']],
+    ['LinkColumn', ['attributes' => 'description', 'label' => 'Description']],
+    ['ActionsColumn', ['label' => 'Actions']],
   ];
 
   function __construct (
     $objectTypes = FALSE,
     array $filterElementDefinitions = [
-      ['TabFilterElement',  []],
+      ['TabFilterElement', []],
     ]
   )
   {
     global $config, $class_mapping;
 
     if ($objectTypes === FALSE) {
-      $plInfos = pluglist::pluginInfos(get_class($this));
-      $objectTypes  = $plInfos['plManages'];
+      $plInfos     = pluglist::pluginInfos(get_class($this));
+      $objectTypes = $plInfos['plManages'];
     }
 
     if (!preg_match('/^geticon/', $this->icon)) {
@@ -145,12 +146,12 @@ class management implements FusionDirectoryDialog
 
   protected function setUpListing ()
   {
-    $this->listing  = new managementListing($this);
+    $this->listing = new managementListing($this);
   }
 
   protected function setUpFilter (array $filterElementDefinitions)
   {
-    $this->filter   = new managementFilter($this, NULL, $filterElementDefinitions);
+    $this->filter = new managementFilter($this, NULL, $filterElementDefinitions);
   }
 
   protected function setUpHeadline ()
@@ -175,26 +176,26 @@ class management implements FusionDirectoryDialog
     }
 
     foreach ($this->objectTypes as $type) {
-      $infos  = objects::infos($type);
-      $img    = 'geticon.php?context=actions&icon=document-new&size=16';
+      $infos = objects::infos($type);
+      $img   = 'geticon.php?context=actions&icon=document-new&size=16';
       if (isset($infos['icon'])) {
         $img = $infos['icon'];
       }
       $createMenu[] = new Action(
-        'new_'.$type, $infos['name'], $img,
+        'new_' . $type, $infos['name'], $img,
         '0', 'newEntry',
-        [$infos['aclCategory'].'/'.$infos['mainTab'].'/c']
+        [$infos['aclCategory'] . '/' . $infos['mainTab'] . '/c']
       );
       if (!static::$skipTemplates) {
-        $templateMenu[] = new Action(
-          'new_template_'.$type, $infos['name'], $img,
+        $templateMenu[]     = new Action(
+          'new_template_' . $type, $infos['name'], $img,
           '0', 'newEntryTemplate',
-          [$infos['aclCategory'].'/template/c']
+          [$infos['aclCategory'] . '/template/c']
         );
         $fromTemplateMenu[] = new Action(
-          'template_apply_'.$type, $infos['name'], $img,
+          'template_apply_' . $type, $infos['name'], $img,
           '0', 'newEntryFromTemplate',
-          [$infos['aclCategory'].'/template/r', $infos['aclCategory'].'/'.$infos['mainTab'].'/c']
+          [$infos['aclCategory'] . '/template/r', $infos['aclCategory'] . '/' . $infos['mainTab'] . '/c']
         );
       }
     }
@@ -287,8 +288,8 @@ class management implements FusionDirectoryDialog
       $action = archivedObject::getManagementAction($this->objectTypes, 'archiveRequested');
       if ($action !== NULL) {
         $this->registerAction($action);
-        $this->registerAction(new HiddenAction('archiveConfirmed',  'archiveConfirmed'));
-        $this->registerAction(new HiddenAction('archiveCancel',     'cancelEdit'));
+        $this->registerAction(new HiddenAction('archiveConfirmed', 'archiveConfirmed'));
+        $this->registerAction(new HiddenAction('archiveCancel', 'cancelEdit'));
       }
     }
 
@@ -333,13 +334,13 @@ class management implements FusionDirectoryDialog
     }
 
     /* Actions from footer are not in any menus and do not need a label */
-    $this->registerAction(new HiddenAction('apply',           'applyChanges'));
-    $this->registerAction(new HiddenAction('save',            'saveChanges'));
-    $this->registerAction(new HiddenAction('cancel',          'cancelEdit'));
-    $this->registerAction(new HiddenAction('cancelDelete',    'cancelEdit'));
+    $this->registerAction(new HiddenAction('apply', 'applyChanges'));
+    $this->registerAction(new HiddenAction('save', 'saveChanges'));
+    $this->registerAction(new HiddenAction('cancel', 'cancelEdit'));
+    $this->registerAction(new HiddenAction('cancelDelete', 'cancelEdit'));
     $this->registerAction(new HiddenAction('removeConfirmed', 'removeConfirmed'));
     if (!$this->skipConfiguration) {
-      $this->registerAction(new HiddenAction('configure',       'configureDialog'));
+      $this->registerAction(new HiddenAction('configure', 'configureDialog'));
     }
   }
 
@@ -420,8 +421,8 @@ class management implements FusionDirectoryDialog
   function handleAction (array $action)
   {
     // Start action
-    if (isset($action['subaction']) && isset($this->actionHandlers[$action['action'].'_'.$action['subaction']])) {
-      return $this->actionHandlers[$action['action'].'_'.$action['subaction']]->execute($this, $action);
+    if (isset($action['subaction']) && isset($this->actionHandlers[$action['action'] . '_' . $action['subaction']])) {
+      return $this->actionHandlers[$action['action'] . '_' . $action['subaction']]->execute($this, $action);
     } elseif (isset($this->actionHandlers[$action['action']])) {
       return $this->actionHandlers[$action['action']]->execute($this, $action);
     }
@@ -434,7 +435,7 @@ class management implements FusionDirectoryDialog
       if (isset($this->tabObject->by_object[$tab])) {
         $this->tabObject->current = $tab;
       } else {
-        trigger_error('Unknown tab: '.$tab);
+        trigger_error('Unknown tab: ' . $tab);
       }
       return TRUE;
     }
@@ -466,16 +467,16 @@ class management implements FusionDirectoryDialog
   public function render (): string
   {
     if ($this->renderCache === NULL) {
-      if ($this->tabObject instanceOf simpleTabs) {
+      if ($this->tabObject instanceof simpleTabs) {
         /* Display tab object */
-        $display = $this->tabObject->render();
-        $display .= $this->getTabFooter();
-        $this->renderCache = $this->getHeader().$display;
+        $display           = $this->tabObject->render();
+        $display           .= $this->getTabFooter();
+        $this->renderCache = $this->getHeader() . $display;
       } elseif (is_object($this->dialogObject)) {
         /* Display dialog object */
-        $display = $this->dialogObject->render();
-        $display .= $this->getTabFooter();
-        $this->renderCache = $this->getHeader().$display;
+        $display           = $this->dialogObject->render();
+        $display           .= $this->getTabFooter();
+        $this->renderCache = $this->getHeader() . $display;
       } else {
         /* Display list */
         $this->renderCache = $this->renderList();
@@ -491,12 +492,12 @@ class management implements FusionDirectoryDialog
   protected function execute ()
   {
     // Ensure that html posts and gets are kept even if we see a 'Entry islocked' dialog.
-    session::set('LOCK_VARS_TO_USE', ['/^act$/','/^listing/','/^PID$/']);
+    session::set('LOCK_VARS_TO_USE', ['/^act$/', '/^listing/', '/^PID$/']);
 
     /* Display the copy & paste dialog, if it is currently open */
     $ret = $this->copyPasteHandler();
     if ($ret) {
-      return $this->getHeader().$ret;
+      return $this->getHeader() . $ret;
     }
 
     // Handle actions (POSTs and GETs)
@@ -506,7 +507,7 @@ class management implements FusionDirectoryDialog
       try {
         $str = $this->handleAction($action);
         if (!empty($str)) {
-          return $this->getHeader().$str;
+          return $this->getHeader() . $str;
         }
       } catch (FusionDirectoryException $e) {
         $error = new FusionDirectoryError(htmlescape($e->getMessage()), 0, $e);
@@ -515,7 +516,7 @@ class management implements FusionDirectoryDialog
     }
 
     /* Save tab or dialog object */
-    if ($this->tabObject instanceOf simpleTabs) {
+    if ($this->tabObject instanceof simpleTabs) {
       $this->tabObject->readPost();
       $this->tabObject->update();
     } elseif (is_object($this->dialogObject)) {
@@ -548,15 +549,15 @@ class management implements FusionDirectoryDialog
 
     $smarty = get_smarty();
     $smarty->assign('usePrototype', 'true');
-    $smarty->assign('LIST',         $listRender);
-    $smarty->assign('FILTER',       $filterRender);
-    $smarty->assign('ACTIONS',      $actionMenu);
-    $smarty->assign('SIZELIMIT',    $ui->getSizeLimitHandler()->renderWarning());
-    $smarty->assign('NAVIGATION',   $this->listing->renderNavigation($this->skipConfiguration));
-    $smarty->assign('BASE',         $this->listing->renderBase());
-    $smarty->assign('HEADLINE',     $this->headline);
+    $smarty->assign('LIST', $listRender);
+    $smarty->assign('FILTER', $filterRender);
+    $smarty->assign('ACTIONS', $actionMenu);
+    $smarty->assign('SIZELIMIT', $ui->getSizeLimitHandler()->renderWarning());
+    $smarty->assign('NAVIGATION', $this->listing->renderNavigation($this->skipConfiguration));
+    $smarty->assign('BASE', $this->listing->renderBase());
+    $smarty->assign('HEADLINE', $this->headline);
 
-    return $this->getHeader().$smarty->fetch(get_template_path('management/management.tpl'));
+    return $this->getHeader() . $smarty->fetch(get_template_path('management/management.tpl'));
   }
 
   protected function renderFilter (): string
@@ -631,15 +632,15 @@ class management implements FusionDirectoryDialog
     $smarty->assign('headline_image', $this->icon);
 
     if (is_object($this->tabObject) && ($this->currentDn != '')) {
-      return '<div class="pluginfo">'.$this->currentDn."</div>\n";
+      return '<div class="pluginfo">' . $this->currentDn . "</div>\n";
     }
     return '';
   }
 
   function openTabObject ($object)
   {
-    $this->tabObject          = $object;
-    $this->tabObject->parent  = &$this;
+    $this->tabObject         = $object;
+    $this->tabObject->parent = &$this;
   }
 
   /*!
@@ -648,23 +649,23 @@ class management implements FusionDirectoryDialog
    */
   public function closeDialogs ()
   {
-    $this->previousDn   = $this->currentDn;
-    $this->currentDn    = '';
-    $this->previousDns  = $this->currentDns;
-    $this->currentDns   = [];
+    $this->previousDn  = $this->currentDn;
+    $this->currentDn   = '';
+    $this->previousDns = $this->currentDns;
+    $this->currentDns  = [];
 
-    $this->last_tabObject     = $this->tabObject;
-    $this->tabObject          = NULL;
-    $this->last_dialogObject  = $this->dialogObject;
-    $this->dialogObject       = NULL;
+    $this->last_tabObject    = $this->tabObject;
+    $this->tabObject         = NULL;
+    $this->last_dialogObject = $this->dialogObject;
+    $this->dialogObject      = NULL;
   }
 
   protected function listAclCategories (): array
   {
     $cat = [];
     foreach ($this->objectTypes as $type) {
-      $infos  = objects::infos($type);
-      $cat[]  = $infos['aclCategory'];
+      $infos = objects::infos($type);
+      $cat[] = $infos['aclCategory'];
     }
     return array_unique($cat);
   }
@@ -675,7 +676,7 @@ class management implements FusionDirectoryDialog
   protected function showTabFooter (): bool
   {
     // Do not display tab footer for non tab objects
-    if (!($this->tabObject instanceOf simpleTabs)) {
+    if (!($this->tabObject instanceof simpleTabs)) {
       return FALSE;
     }
 
@@ -822,7 +823,7 @@ class management implements FusionDirectoryDialog
     foreach ($this->currentDns as $dn) {
       $entry = $this->listing->getEntry($dn);
       if ($entry === NULL) {
-        trigger_error('Could not find '.$dn.', action canceled');
+        trigger_error('Could not find ' . $dn . ', action canceled');
         $this->currentDns = [];
         return;
       }
@@ -873,7 +874,7 @@ class management implements FusionDirectoryDialog
 
     $objects = [];
     foreach ($this->currentDns as $dn) {
-      $entry  = $this->listing->getEntry($dn);
+      $entry = $this->listing->getEntry($dn);
       if ($entry->isTemplate()) {
         $error = new FusionDirectoryError(htmlescape(_('Archiving a template is not possible')));
         $error->display();
@@ -881,12 +882,12 @@ class management implements FusionDirectoryDialog
         $this->currentDns = [];
         return;
       }
-      $infos  = objects::infos($entry->getTemplatedType());
+      $infos     = objects::infos($entry->getTemplatedType());
       $objects[] = [
-        'name'  => $entry[$infos['nameAttr']][0],
-        'dn'    => $dn,
-        'icon'  => $infos['icon'],
-        'type'  => $infos['name']
+        'name' => $entry[$infos['nameAttr']][0],
+        'dn'   => $dn,
+        'icon' => $infos['icon'],
+        'type' => $infos['name']
       ];
     }
 
@@ -944,7 +945,7 @@ class management implements FusionDirectoryDialog
 
     $entry = $this->listing->getEntry($target);
     if ($entry === NULL) {
-      trigger_error('Could not find '.$target.', open canceled');
+      trigger_error('Could not find ' . $target . ', open canceled');
       return;
     }
 
@@ -960,7 +961,7 @@ class management implements FusionDirectoryDialog
     logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDn, 'Edit entry initiated');
     if (isset($action['subaction'])
       && ($this->handleSubAction($action) === FALSE)) {
-      trigger_error('Was not able to handle subaction: '.$action['subaction']);
+      trigger_error('Was not able to handle subaction: ' . $action['subaction']);
     }
   }
 
@@ -970,7 +971,7 @@ class management implements FusionDirectoryDialog
    */
   function cancelEdit ()
   {
-    if (($this->tabObject instanceOf simpleTabs) && ($this->dialogObject instanceOf templateDialog)) {
+    if (($this->tabObject instanceof simpleTabs) && ($this->dialogObject instanceof templateDialog)) {
       $this->handleTemplateApply(TRUE);
       return;
     }
@@ -985,10 +986,10 @@ class management implements FusionDirectoryDialog
    */
   function saveChanges ()
   {
-    if ($this->tabObject instanceOf simpleTabs) {
+    if ($this->tabObject instanceof simpleTabs) {
       $this->tabObject->readPost();
       $this->tabObject->update();
-      if ($this->dialogObject instanceOf templateDialog) {
+      if ($this->dialogObject instanceof templateDialog) {
         $this->handleTemplateApply();
       } else {
         $msgs = $this->tabObject->save();
@@ -1008,7 +1009,7 @@ class management implements FusionDirectoryDialog
    */
   function applyChanges ()
   {
-    if ($this->tabObject instanceOf simpleTabs) {
+    if ($this->tabObject instanceof simpleTabs) {
       $this->tabObject->readPost();
       $this->tabObject->update();
       $msgs = $this->tabObject->save();
@@ -1044,7 +1045,7 @@ class management implements FusionDirectoryDialog
           $disallowed[] = $dn;
         }
       } catch (NonExistingObjectTypeException $e) {
-        trigger_error('Unknown object type received :'.$e->getMessage());
+        trigger_error('Unknown object type received :' . $e->getMessage());
       }
     }
     if (count($disallowed)) {
@@ -1064,16 +1065,16 @@ class management implements FusionDirectoryDialog
 
       $objects = [];
       foreach ($this->currentDns as $dn) {
-        $entry  = $this->listing->getEntry($dn);
-        $infos  = objects::infos($entry->getTemplatedType());
+        $entry = $this->listing->getEntry($dn);
+        $infos = objects::infos($entry->getTemplatedType());
         if ($entry->isTemplate()) {
           $infos['nameAttr'] = 'cn';
         }
         $objects[] = [
-          'name'  => $entry[$infos['nameAttr']][0],
-          'dn'    => $dn,
-          'icon'  => $infos['icon'],
-          'type'  => $infos['name']
+          'name' => $entry[$infos['nameAttr']][0],
+          'dn'   => $dn,
+          'icon' => $infos['icon'],
+          'type' => $infos['name']
         ];
       }
 
@@ -1099,6 +1100,7 @@ class management implements FusionDirectoryDialog
     global $ui;
     logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $this->currentDns, 'Entry deletion confirmed');
 
+    $snapshotHandler = new SnapshotHandler();
     foreach ($this->currentDns as $dn) {
       $entry = $this->listing->getEntry($dn);
       if (empty($entry)) {
@@ -1113,10 +1115,16 @@ class management implements FusionDirectoryDialog
 
         // Remove the lock for the current object.
         Lock::deleteByObject($this->currentDn);
+
+        // Remove related snapshots
+        $dnSnapshotsList = $snapshotHandler->getSnapshots($this->currentDn, TRUE);
+        foreach ($dnSnapshotsList as $snap) {
+          $snapshotHandler->removeSnapshot($snap['dn']);
+        }
       } else {
         $error = new FusionDirectoryPermissionError(msgPool::permDelete($dn));
         $error->display();
-        logging::log('security', 'management/'.get_class($this), $dn, [], 'Tried to trick deletion.');
+        logging::log('security', 'management/' . get_class($this), $dn, [], 'Tried to trick deletion.');
       }
     }
 
@@ -1222,8 +1230,8 @@ class management implements FusionDirectoryDialog
 
     if (empty($action['targets'])) {
       // No target, open the restore removed object dialog.
-      $this->currentDn  = $this->listing->getBase();
-      $aclCategories    = $this->listAclCategories();
+      $this->currentDn = $this->listing->getBase();
+      $aclCategories   = $this->listAclCategories();
     } else {
       // Display the restore points for a given object.
       $this->currentDn = $action['targets'][0];
@@ -1251,7 +1259,7 @@ class management implements FusionDirectoryDialog
   function export (array $action)
   {
     if (!isset($this->exporters[$action['action']])) {
-      trigger_error('Unknown exporter '.$action['action']);
+      trigger_error('Unknown exporter ' . $action['action']);
       return;
     }
     $exporter = $this->exporters[$action['action']];
@@ -1267,8 +1275,8 @@ class management implements FusionDirectoryDialog
   {
     $bases = [];
     foreach ($this->objectTypes as $type) {
-      $infos  = objects::infos($type);
-      $bases[] = $infos['ou'].$this->listing->getBase();
+      $infos   = objects::infos($type);
+      $bases[] = $infos['ou'] . $this->listing->getBase();
     }
 
     // No bases specified? Try base
@@ -1285,7 +1293,7 @@ class management implements FusionDirectoryDialog
   function getAllDeletedSnapshots (): array
   {
     $bases = $this->getSnapshotBases();
-    $tmp = [];
+    $tmp   = [];
     foreach ($bases as $base) {
       $tmp = array_merge($tmp, $this->snapHandler->getAllDeletedSnapshots($base));
     }
@@ -1352,7 +1360,7 @@ class management implements FusionDirectoryDialog
       $this->closeDialogs();
       if ($dn !== FALSE) {
         $this->listing->focusDn($dn);
-        $entry = $this->listing->getEntry($dn);
+        $entry           = $this->listing->getEntry($dn);
         $this->currentDn = $dn;
         Lock::add($this->currentDn);
 
