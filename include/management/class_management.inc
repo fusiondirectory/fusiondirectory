@@ -34,12 +34,12 @@ class management implements FusionDirectoryDialog
   public $filter;
 
   /* Copy&Paste */
-  protected $cpHandler = NULL;
+  protected $cpHandler        = NULL;
   protected $cpPastingStarted = FALSE;
-  protected $skipCpHandler = FALSE;
+  protected $skipCpHandler    = FALSE;
 
   /* Snapshots */
-  protected $snapHandler = NULL;
+  protected $snapHandler       = NULL;
   public static $skipSnapshots = FALSE;
 
   // The currently used object(s) (e.g. in edit, removal)
@@ -54,11 +54,11 @@ class management implements FusionDirectoryDialog
   /**
    * @var ?simpleTabs
    */
-  protected $tabObject = NULL;
+  protected $tabObject    = NULL;
   protected $dialogObject = NULL;
 
   // The last opened object.
-  protected $last_tabObject = NULL;
+  protected $last_tabObject    = NULL;
   protected $last_dialogObject = NULL;
 
   protected $renderCache;
