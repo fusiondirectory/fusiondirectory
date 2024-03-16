@@ -38,6 +38,8 @@ class ObjectsAttribute extends GenericDialogAttribute
     $attributes = [
       'objectClass' => '*',
       'dn'          => 'raw',
+      'description' => 'raw',
+      'uid' => 'raw',
     ];
     if (!in_array($store_attr, ['dn','nameAttr','mainAttr'])) {
       $attributes[$store_attr] = '*';
@@ -130,6 +132,12 @@ class ObjectsAttribute extends GenericDialogAttribute
           $display = $attrs[$infos[$this->display_attr]][0];
         } else {
           $display = $attrs[$this->display_attr][0];
+        }
+        if (isset($attrs['uid'][0])) {
+          $display .= ' ('. $attrs['uid'][0] .')';
+        }
+        if (isset($attrs['description'][0])) {
+          $display .= ' "'. $attrs['description'][0] .'"';
         }
         $this->displays[$i] = trim($display);
         $this->types[$i]    = $objectType;
