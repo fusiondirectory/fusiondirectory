@@ -59,7 +59,7 @@ class passwordMethodSsha512 extends passwordMethod
   public function generate_hash (string $pwd, bool $locked = FALSE): string
   {
     if (function_exists('hash')) {
-      $salt = substr(pack('h*', md5(random_int(0, PHP_INT_MAX))), 0, 8);
+      $salt = substr(pack('h*', md5("".random_int(0, PHP_INT_MAX))), 0, 8);
       $salt = substr(pack('H*', sha1($salt.$pwd)), 0, 4);
       $pwd  = '{SSHA512}'.($locked ? '!' : '').base64_encode(hash('sha512', $pwd.$salt, TRUE).$salt);
     } else {
