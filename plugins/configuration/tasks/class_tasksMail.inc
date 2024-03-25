@@ -134,9 +134,15 @@ class tasksMail extends simplePlugin
 
     // create a method which return the objectype and attribute names required
     $mailObject = $this->getMailObject($mailAttr);
+    // Get the members or groups selected
+    $attributeValue = $this->attributesAccess['fdTasksMailUsers']->getValue();
 
+    // Extract members from potential groups and dyn-groups.
+    $listOfDN = tasks::extractMembersFromGroups($attributeValue);
     // send the objectype and attrs name to the below method
-    $this->setEmailsFromSelectedDN($mailObject, $mailAttr);
+    $this->attributesAccess['fdTasksEmailsFromDN']->setValue(
+      array_values(static::getEmailsFromSelectedDN($mailObject, $mailAttr, $listOfDN))
+    );
 
     return TRUE;
   }
@@ -163,18 +169,13 @@ class tasksMail extends simplePlugin
   }
 
   /*
-  * Populate the fdTasksEmailsFromDN attribute with related mails addresses.
+  * Retrieve registered emails for each DN passed.
   */
-  public function setEmailsFromSelectedDN ($mailObject, $mailAttr): void
+  public static function getEmailsFromSelectedDN ($mailObject, $mailAttr, $listOfDN): array
   {
     global $config;
     $ldap     = $config->get_ldap_link();
     $mailList = [];
-
-    // Get the members or groups selected
-    $attributeValue = $this->attributesAccess['fdTasksMailUsers']->getValue();
-    // Extract members from potential groups and dyn-groups.
-    $listOfDN = tasks::extractMembersFromGroups($attributeValue);
 
     foreach ($listOfDN as $dn) {
       // Position ldap to the dn required (limit search).
@@ -196,7 +197,7 @@ class tasksMail extends simplePlugin
         // A possible enhancement is to recall itself with another mailObject / attr
       }
     }
-    $this->attributesAccess['fdTasksEmailsFromDN']->setValue(array_values($mailList));
+    return $mailList;
   }
 
   function save (): array
