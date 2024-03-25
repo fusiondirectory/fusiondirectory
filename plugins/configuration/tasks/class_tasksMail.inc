@@ -141,7 +141,7 @@ class tasksMail extends simplePlugin
     $listOfDN = tasks::extractMembersFromGroups($attributeValue);
     // send the objectype and attrs name to the below method
     $this->attributesAccess['fdTasksEmailsFromDN']->setValue(
-      array_values($this->getEmailsFromSelectedDN($mailObject, $mailAttr, $listOfDN))
+      array_values(static::getEmailsFromSelectedDN($mailObject, $mailAttr, $listOfDN))
     );
 
     return TRUE;
