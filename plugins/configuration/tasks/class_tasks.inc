@@ -122,7 +122,7 @@ class tasks extends simplePlugin
    * @param array $listOfDN
    * @param string $attributeType
    * @param array|NULL $attrs
-   * @param $taskType
+   * @param string $taskType
    * @return void
    * Note : $taskType is present to define the object name related to life cycle (core) and any new plugins added to tasks.
    */
