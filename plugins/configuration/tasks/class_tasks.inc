@@ -204,6 +204,8 @@ class tasks extends simplePlugin
             $prepData['tasksGranular'] = [
               "fdTasksGranularDN"   => $dn,
               "fdTasksGranularType" => $taskType,
+              // Verification as 'ref' could potentially not be present depending on the logic of the main task.
+              "fdTasksGranularRef"  => !empty($attrs['ref']) ? $attrs['ref'] : null,
             ];
             break;
         }
