@@ -205,7 +205,7 @@ class tasks extends simplePlugin
               "fdTasksGranularDN"   => $dn,
               "fdTasksGranularType" => $taskType,
               // Verification as 'ref' could potentially not be present depending on the logic of the main task.
-              "fdTasksGranularRef"  => !empty($attrs['ref']) ? $attrs['ref'] : null,
+              "fdTasksGranularRef"  => !empty($attrs['ref'][$dn]) ? array_values($attrs['ref'][$dn]) : [],
             ];
             break;
         }
@@ -218,7 +218,7 @@ class tasks extends simplePlugin
         ];
         // Simply merged the common values and the custom ones depending on the attribute type passed.
         $values['tasksGranular'] = array_merge($prepData['tasksGranular'], $defaultData['tasksGranular']);
-
+        print_r($values);
         foreach ($values as $tab => $tabvalues) {
           if (!isset($tabObject->by_object[$tab])) {
             echo "Error tab does not contains attributes values" . PHP_EOL;

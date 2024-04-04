@@ -25,15 +25,15 @@ class tasksGranular extends simplePlugin
   static function plInfo (): array
   {
     return [
-      'plShortName'   => _('Tasks Granular'),
-      'plDescription' => _('Granular tasks management allowing details reports'),
-      'plObjectClass' => ['fdTasksGranular'],
-      'plFilter'      => '(objectClass=fdTasksGranular)',
-      'plPriority'    => 41,
-      'plObjectType'  => ['tasksGranular' => [
-        'name'        => _('TasksGranular'),
-        'ou'          => get_ou('tasksRDN'),
-        'icon'        => 'geticon.php?context=applications&icon=tasks&size=16',
+      'plShortName'    => _('Tasks Granular'),
+      'plDescription'  => _('Granular tasks management allowing details reports'),
+      'plObjectClass'  => ['fdTasksGranular'],
+      'plFilter'       => '(objectClass=fdTasksGranular)',
+      'plPriority'     => 41,
+      'plObjectType'   => ['tasksGranular' => [
+        'name' => _('TasksGranular'),
+        'ou'   => get_ou('tasksRDN'),
+        'icon' => 'geticon.php?context=applications&icon=tasks&size=16',
       ]],
       'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())
     ];
@@ -59,7 +59,7 @@ class tasksGranular extends simplePlugin
           new HiddenAttribute('fdTasksGranularStatus', TRUE, '1', '', 'Status', 'Status of the task'),
           new HiddenAttribute('fdTasksGranularMaster', TRUE, '', '', 'Master CN', 'Name of the Master task'),
           new HiddenAttribute('fdTasksGranularType', TRUE, '', '', 'Type', 'Type of the task'),
-          new HiddenAttribute('fdTasksGranularRef', FALSE, '', '', 'Type', 'Reference towards a required CN (mail template E.g'),
+          new HiddenArrayAttribute('fdTasksGranularRef', FALSE, '', '', 'Type', 'Reference towards a required CN (mail template E.g'),
           new DateTimeAttribute(
             _('Schedule'), '',
             'fdTasksGranularSchedule', FALSE
@@ -71,11 +71,11 @@ class tasksGranular extends simplePlugin
           ),
           // Below attributes are for tasks of type Mail
           new MailAttribute(
-             _('Email'),
-             _('Email address to which messages will be sent'), 'fdTasksGranularMail', FALSE),
+            _('Email'),
+            _('Email address to which messages will be sent'), 'fdTasksGranularMail', FALSE),
           new MailAttribute(
-             _('Email'),
-             _('Email address from which emails will be sent'), 'fdTasksGranularMailFrom', FALSE),
+            _('Email'),
+            _('Email address from which emails will be sent'), 'fdTasksGranularMailFrom', FALSE),
           new MailAttribute(
             _('Email'),
             _('BCC Email address'), 'fdTasksGranularMailBCC', FALSE),
