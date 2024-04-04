@@ -218,7 +218,7 @@ class tasks extends simplePlugin
         ];
         // Simply merged the common values and the custom ones depending on the attribute type passed.
         $values['tasksGranular'] = array_merge($prepData['tasksGranular'], $defaultData['tasksGranular']);
-        print_r($values);
+
         foreach ($values as $tab => $tabvalues) {
           if (!isset($tabObject->by_object[$tab])) {
             echo "Error tab does not contains attributes values" . PHP_EOL;
