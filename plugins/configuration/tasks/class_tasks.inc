@@ -112,7 +112,7 @@ class tasks extends simplePlugin
   {
     // Verification if the bool of activation is ticked and activate the last exec accordingly.
     if ($this->fdSubTasksActivation === TRUE) {
-      $currentDateTime       = date("Y-m-d h:i:sa", time());
+      $currentDateTime       = date("Y-m-d H:i:s");
       $this->fdTasksLastExec = $currentDateTime;
     }
     return parent::save();
