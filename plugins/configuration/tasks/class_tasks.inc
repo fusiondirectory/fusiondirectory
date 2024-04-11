@@ -112,7 +112,7 @@ class tasks extends simplePlugin
   {
     // Verification if the bool of activation is ticked and activate the last exec accordingly.
     if ($this->fdSubTasksActivation === TRUE) {
-      $currentDateTime       = gmdate("Y-m-d h:i:sa", time());
+      $currentDateTime       = date("Y-m-d H:i:s");
       $this->fdTasksLastExec = $currentDateTime;
     }
     return parent::save();
@@ -204,6 +204,8 @@ class tasks extends simplePlugin
             $prepData['tasksGranular'] = [
               "fdTasksGranularDN"   => $dn,
               "fdTasksGranularType" => $taskType,
+              // Verification as 'ref' could potentially not be present depending on the logic of the main task.
+              "fdTasksGranularRef"  => !empty($attrs['ref'][$dn]) ? array_values($attrs['ref'][$dn]) : [],
             ];
             break;
         }
