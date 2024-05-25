@@ -117,7 +117,7 @@ class user extends simplePlugin
       ],
       'contact'      => [
         'name'  => _('Organizational contact information'),
-        'icon'  => 'geticon.php?context=types&icon=contact&size=16',
+        'icon'  => 'geticon.php?context=types&icon=user&size=16',
         'attrs' => [
           new StringAttribute(
             _('Location'), _('Location'),
@@ -183,7 +183,7 @@ class user extends simplePlugin
       ],
       'homecontact'  => [
         'name'  => _('Personal contact information'),
-        'icon'  => 'geticon.php?context=types&icon=contact&size=16',
+        'icon'  => 'geticon.php?context=types&icon=user&size=16',
         'attrs' => [
           new StringAttribute(
             _('Display name'), _('Name this user should appear as. Used by Exchange.'),
