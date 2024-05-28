@@ -12,9 +12,6 @@
 {$msg_dialogs}
   <div id="window-titlebar">
     <img id="fd-logo" src="geticon.php?context=applications&amp;icon=fusiondirectory&amp;size=48" alt="FusionDirectory logo"/>
-    <p>
-      {t}Sign in{/t}
-    </p>
   </div>
   <div id="window-content">
 
