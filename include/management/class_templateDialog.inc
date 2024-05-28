@@ -122,11 +122,23 @@ class templateDialog implements FusionDirectoryDialog
     return $display;
   }
 
-  protected function handleFinish ()
-  {
-    $this->management->closeDialogs();
-    $this->management->openTabObject($this->template->apply());
-  }
+    /**
+     * @return void
+     * Note : The idea is to handle the save directly at the end of the validation of the template data.
+     * Allowing direct saving in case of no error and opening the UI at the exact tab in case of error.
+     */
+    protected function handleFinish ()
+    {
+        $this->management->closeDialogs();
+        $tab = $this->template->apply();
+        $errors = $tab->save();
+
+        if (!empty($errors)) {
+            $this->management->openTabObject($tab);
+            msg_dialog::displayChecks($errors);
+        }
+    }
+
 
   protected function handleCancel ()
   {
