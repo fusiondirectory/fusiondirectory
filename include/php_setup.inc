@@ -244,7 +244,7 @@ function gosaRaiseError ($errno, $errstr, $errfile, $errline)
 
   /* Flush in case of fatal errors */
   if (preg_match('/^fatal/i', $errstr) || (PHP_ERROR_FATAL == 'TRUE')) {
-    trigger_error($errstr);
+    trigger_error("Source error: " . $errstr . " in " . $errfile . " on line " . $errline);
     session::destroy('Fatal error');
     if (PHP_ERROR_FATAL == 'TRUE') {
       $error_collector = str_replace('display: none;', '', $error_collector);
