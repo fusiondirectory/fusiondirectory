@@ -48,6 +48,7 @@ class userinfo
   var $language     = "";
   var $groups       = [];
   var $roles        = [];
+  var $mail         = '';
 
   /*! \brief LDAP attributes of this user at login */
   protected $cachedAttrs  = [];
