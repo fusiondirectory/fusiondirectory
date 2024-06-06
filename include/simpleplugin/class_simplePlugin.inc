@@ -1560,6 +1560,7 @@ class simplePlugin implements SimpleTab
       $addAttrs['callerUID']        = $ui->uid;
       $addAttrs['callerSN']         = $ui->sn;
       $addAttrs['callerGIVENNAME']  = $ui->givenName;
+      $addAttrs['callerMAIL']       = $ui->mail;
 
       $addAttrs['dn']         = $this->dn;
       $addAttrs['location']   = $config->current['NAME'];
