@@ -18,7 +18,7 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 */
 
-class subscriptionInfo extends simplePlugin
+class licenceInfo extends simplePlugin
 {
   /* ldap attribute => ini variable */
   public static $subscriptionAttributes = [

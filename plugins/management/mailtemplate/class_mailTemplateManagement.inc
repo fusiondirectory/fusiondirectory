@@ -36,8 +36,8 @@ class mailTemplateManagement extends management
       'plDescription' => _('Manages mails templates'),
       'plIcon'        => 'geticon.php?context=applications&icon=mail-template&size=48',
       'plManages'     => ['mailTemplate'],
-      'plSection'     => 'conf',
-      'plPriority'    => 30,
+      'plSection'       => ['workflow' => ['name' => _('Workflow'), 'priority' => 29]],
+      'plPriority'    => 1,
       'plProvidedAcls' => [],
     ];
   }
