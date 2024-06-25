@@ -147,8 +147,8 @@ class aclManagement extends management
       'plTitle'       => _('ACL assignments management'),
       'plDescription' => _('Manage ACL roles assignments to users'),
       'plIcon'        => 'geticon.php?context=categories&icon=acl&size=48',
-      'plSection'     => 'accounts',
-      'plPriority'    => 28,
+      'plSection'     => 'accessControl',
+      'plPriority'    => 2,
       'plManages'     => ['aclAssignment'],
 
       'plProvidedAcls' => []
