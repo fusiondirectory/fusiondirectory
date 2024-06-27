@@ -44,7 +44,7 @@ class tasksManagement extends management
       'plTitle'       => _('Tasks'),
       'plIcon'        => 'geticon.php?context=applications&icon=tasks&size=48',
       'plSection'     => 'workflow',
-      'plPriority'    => 2,
+      'plPriority'    => 1,
       'plManages'     => ['tasks'],
       'plProvidedAcls' => [],
     ];

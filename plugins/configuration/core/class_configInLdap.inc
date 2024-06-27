@@ -39,7 +39,7 @@ class configInLdap extends simplePlugin
           'ou'        => preg_replace('/^[^,]+,/', '', CONFIGRDN)
         ]
       ],
-      'plSection'       => ['conf' => ['name' => _('Configuration'), 'priority' => 20]],
+      'plSection'       => ['conf' => ['name' => _('Configuration'), 'priority' => 7]],
       'plManages'       => ['configuration'],
       'plPriority'      => 0,
 
