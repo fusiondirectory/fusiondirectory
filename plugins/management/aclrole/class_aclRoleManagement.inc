@@ -27,8 +27,8 @@ class aclRoleManagement extends management
       'plTitle'       => _('ACL roles management'),
       'plDescription' => _('Manage ACL roles'),
       'plIcon'        => 'geticon.php?context=categories&icon=acl&size=48',
-      'plSection'     => ['accessControl' => ['name' => _('Access Control'), 'priority' => 11]],
-      'plPriority'    => 1,
+      'plSection'     => ['accessControl' => ['name' => _('Access Control'), 'priority' => 1]],
+      'plPriority'    => 0,
       'plCategory'    => ['acl'],
       'plManages'     => ['aclRole'],
 
