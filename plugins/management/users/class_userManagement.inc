@@ -129,8 +129,16 @@ class userManagement extends management
       $success = TRUE;
       if (($action == 'lock') && !$method->is_locked($dn)) {
         $success = $method->lock_account($dn);
+        // Requiring logging mechanism for audit.
+        if($success) {
+          logging::log('security', 'account', $dn, [], 'DN : '.$dn.' is locked.' );
+        }
       } elseif (($action == 'unlock') && $method->is_locked($dn)) {
         $success = $method->unlock_account($dn);
+        // Requiring logging mechanism for audit.
+        if($success) {
+          logging::log('security', 'account', $dn, [], 'DN : '.$dn.' is unlocked.' );
+        }
       }
 
       // Check if everything went fine.
