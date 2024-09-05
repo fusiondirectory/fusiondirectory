@@ -25,14 +25,15 @@ class userManagement extends management
 
   public static $skipTemplates = FALSE;
 
-  public static $columns = [
-    ['ObjectTypeColumn', []],
-    ['LinkColumn', ['attributes' => 'sn', 'label' => 'Last name']],
-    ['LinkColumn', ['attributes' => 'givenName', 'label' => 'First name']],
-    ['Column', ['attributes' => 'uid', 'label' => 'Login']],
-    ['PropertiesColumn', ['label' => 'Properties']],
-    ['ActionsColumn', ['label' => 'Actions']],
-  ];
+  public static $columns
+    = [
+      ['ObjectTypeColumn', []],
+      ['LinkColumn', ['attributes' => 'sn', 'label' => 'Last name']],
+      ['LinkColumn', ['attributes' => 'givenName', 'label' => 'First name']],
+      ['Column', ['attributes' => 'uid', 'label' => 'Login']],
+      ['PropertiesColumn', ['label' => 'Properties']],
+      ['ActionsColumn', ['label' => 'Actions']],
+    ];
 
   static function plInfo (): array
   {
@@ -117,10 +118,10 @@ class userManagement extends management
         }
         $error = new FusionDirectoryError(
           htmlescape(sprintf(
-            _('Password method "%s" does not support locking. Account "%s" has not been locked!'),
-            $hn,
-            $dn
-          ))
+                       _('Password method "%s" does not support locking. Account "%s" has not been locked!'),
+                       $hn,
+                       $dn
+                     ))
         );
         $error->display();
         return;
@@ -129,8 +130,16 @@ class userManagement extends management
       $success = TRUE;
       if (($action == 'lock') && !$method->is_locked($dn)) {
         $success = $method->lock_account($dn);
+        // Requiring logging mechanism for audit.
+        if ($success) {
+          logging::log('security', 'account', $dn, [], 'DN : ' . $dn . ' is locked.');
+        }
       } elseif (($action == 'unlock') && $method->is_locked($dn)) {
         $success = $method->unlock_account($dn);
+        // Requiring logging mechanism for audit.
+        if ($success) {
+          logging::log('security', 'account', $dn, [], 'DN : ' . $dn . ' is unlocked.');
+        }
       }
 
       // Check if everything went fine.
@@ -141,10 +150,10 @@ class userManagement extends management
         }
         $error = new FusionDirectoryError(
           htmlescape(sprintf(
-            _('Locking failed using password method "%s". Account "%s" has not been locked!'),
-            $hn,
-            $dn
-          ))
+                       _('Locking failed using password method "%s". Account "%s" has not been locked!'),
+                       $hn,
+                       $dn
+                     ))
         );
         $error->display();
       }
