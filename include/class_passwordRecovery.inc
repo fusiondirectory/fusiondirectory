@@ -283,7 +283,7 @@ class passwordRecovery extends standAlonePage
       $filter = '(|' . $filter . '(&(objectClass=fdPersonalInfo)(fdPrivateMail=' . $address_escaped . ')))';
     }
     if (class_available('supannAccount') && ($config->get_cfg_value('supannPasswordRecovery', 'TRUE') == 'TRUE')) {
-      $filter = '(|' . $filter . '(&(objectClass=supannPerson)(|(supannMailPerso=' . $address_escaped . ')(supannMailPrive={*}' . $address_escaped . '))))';
+      $filter = '(|' . $filter . '(&(objectClass=supannPerson)(|(supannMailPerso=' . $address_escaped . ')(supannMailPrive={SECOURS}' . $address_escaped . '))))';
     }
     $ldap = $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);
