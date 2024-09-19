@@ -1455,7 +1455,7 @@ class simplePlugin implements SimpleTab
     $auditAttributesValuesToBeHidden = $this->getAuditAttributesListFromConf();
 
     if (!empty($auditAttributesValuesToBeHidden)) {
-      foreach($auditAttributesValuesToBeHidden as $key) {
+      foreach ($auditAttributesValuesToBeHidden as $key) {
         if (key_exists($key, $this->attrs)) {
           $this->attrs[$key] = 'Value not stored by policy';
         }
@@ -1481,20 +1481,19 @@ class simplePlugin implements SimpleTab
    * Note: This method is required because setAttribute can contain one value STRING or multiple ARRAY but,
    * selectAttribute only accepts arrays. Its usage is to get audit attributes listed in backend, allowing to hide values from set attributes.
    */
-  protected
-  function getAuditAttributesListFromConf (): array
+  protected function getAuditAttributesListFromConf (): array
   {
 
     global $config;
     $result = [];
 
     // If audit plugin is installed only.
-    if (class_available('auditEvent')) {
-      if (!empty($config->current['FDAUDITCONFHIDDENATTRVALUES'])) {
-        if (is_string($config->current['FDAUDITCONFHIDDENATTRVALUES'])) {
-          $result[] = $config->current['FDAUDITCONFHIDDENATTRVALUES'];
+    if (class_available('auditConfig')) {
+      if (!empty($config->current['AUDITCONFHIDDENATTRVALUES'])) {
+        if (is_string($config->current['AUDITCONFHIDDENATTRVALUES'])) {
+          $result[] = $config->current['AUDITCONFHIDDENATTRVALUES'];
         } else {
-          $result = $config->current['FDAUDITCONFHIDDENATTRVALUES'];
+          $result = $config->current['AUDITCONFHIDDENATTRVALUES'];
         }
       }
     }
