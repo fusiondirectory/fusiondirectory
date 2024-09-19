@@ -50,9 +50,9 @@ class simplePlugin implements SimpleTab
 
     \sa simplePlugin::is_this_account()
    */
-  public    $is_account            = FALSE;
-  public    $initially_was_account = FALSE;
-  protected $ignore_account        = FALSE;
+  public $is_account            = FALSE;
+  public $initially_was_account = FALSE;
+  protected $ignore_account     = FALSE;
 
   public $acl_category = '';
 
@@ -1465,7 +1465,8 @@ class simplePlugin implements SimpleTab
     /* Propagate and log the event */
     if ($this->initially_was_account) {
       $errors = $this->handle_post_events('modify', ['modifiedLdapAttrs' => array_keys($this->attrs)]);
-      //logging::log('modify', 'plugin/'.get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
+
+      // We log values of attributes as well if modification occur in order for notification to be aware of the change. (Json allows array to string conversion).
       logging::log('modify', 'plugin/' . get_class($this), $this->dn, [json_encode($this->attrs)], $this->ldap_error);
     } else {
       $errors = $this->handle_post_events('add', ['modifiedLdapAttrs' => array_keys($this->attrs)]);
@@ -1483,7 +1484,6 @@ class simplePlugin implements SimpleTab
    */
   protected function getAuditAttributesListFromConf (): array
   {
-
     global $config;
     $result = [];
 
@@ -1510,8 +1510,7 @@ class simplePlugin implements SimpleTab
    *
    * \param  array  $addAttrs
    */
-  protected
-  function handle_hooks (string $when, string $mode, array $addAttrs = []): array
+  protected function handle_hooks (string $when, string $mode, array $addAttrs = []): array
   {
     switch ($mode) {
       case 'add':
@@ -1648,8 +1647,7 @@ class simplePlugin implements SimpleTab
 
   /*! \brief This function protect the clear string password by replacing char.
    */
-  protected
-  static function passwordProtect (string $hookCommand = NULL): string
+  protected static function passwordProtect (string $hookCommand = NULL): string
   {
     if (isset($_POST["userPassword_password"]) && !empty($_POST["userPassword_password"])) {
       if (strpos($hookCommand, $_POST["userPassword_password"]) !== FALSE) {
@@ -2067,20 +2065,17 @@ class simplePlugin implements SimpleTab
     $this->initially_was_account = FALSE;
   }
 
-  protected
-  function attributeHaveChanged (string $field): bool
+  protected function attributeHaveChanged (string $field): bool
   {
     return $this->attributesAccess[$field]->hasChanged();
   }
 
-  protected
-  function attributeValue (string $field)
+  protected function attributeValue (string $field)
   {
     return $this->attributesAccess[$field]->getValue();
   }
 
-  protected
-  function attributeInitialValue (string $field)
+  protected function attributeInitialValue (string $field)
   {
     return $this->attributesAccess[$field]->getInitialValue();
   }
