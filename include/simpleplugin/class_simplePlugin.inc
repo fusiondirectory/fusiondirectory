@@ -1583,10 +1583,7 @@ class simplePlugin implements SimpleTab
       }
     }
 
-    print_r($result);
-
     return $result;
-
   }
 
   /*! \brief Forward command execution requests
