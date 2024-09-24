@@ -50,9 +50,9 @@ class simplePlugin implements SimpleTab
 
     \sa simplePlugin::is_this_account()
    */
-  public $is_account            = FALSE;
-  public $initially_was_account = FALSE;
-  protected $ignore_account     = FALSE;
+  public    $is_account            = FALSE;
+  public    $initially_was_account = FALSE;
+  protected $ignore_account        = FALSE;
 
   public $acl_category = '';
 
@@ -94,7 +94,9 @@ class simplePlugin implements SimpleTab
   protected $objectclasses = [];
 
   /*! \brief The state of the attributes when we opened the object */
-  protected $saved_attributes = [];
+  protected $saved_attributes = []; // Note : This is overwritten during post_save logic
+  // Requiring therefore a save to threat this during logging mechanism.
+  protected $beforeLdapChangeAttributes = [];
 
   /*! \brief Do we want a header allowing to able/disable this plugin */
   protected $displayHeader = FALSE;
@@ -1201,6 +1203,9 @@ class simplePlugin implements SimpleTab
   {
     /* Prepare saved attributes */
     $this->saved_attributes = $this->attrs;
+    // Fill for differenciation in the post save as saved_attributes will be modified.
+    $this->beforeLdapChangeAttributes = $this->saved_attributes;
+
     foreach (array_keys($this->saved_attributes) as $index) {
       if (is_numeric($index)) {
         unset($this->saved_attributes[$index]);
@@ -1466,12 +1471,15 @@ class simplePlugin implements SimpleTab
     if ($this->initially_was_account) {
       $errors = $this->handle_post_events('modify', ['modifiedLdapAttrs' => array_keys($this->attrs)]);
 
+      $modifiedAttrs = $this->getModifiedAttributesValues();
       // We log values of attributes as well if modification occur in order for notification to be aware of the change. (Json allows array to string conversion).
-      logging::log('modify', 'plugin/' . get_class($this), $this->dn, [json_encode($this->attrs)], $this->ldap_error);
+      logging::log('modify', 'plugin/' . get_class($this), $this->dn, [json_encode($modifiedAttrs)], $this->ldap_error);
+
     } else {
       $errors = $this->handle_post_events('add', ['modifiedLdapAttrs' => array_keys($this->attrs)]);
       logging::log('create', 'plugin/' . get_class($this), $this->dn, array_keys($this->attrs), $this->ldap_error);
     }
+
     if (!empty($errors)) {
       msg_dialog::displayChecks($errors);
     }
@@ -1499,6 +1507,86 @@ class simplePlugin implements SimpleTab
     }
 
     return $result;
+  }
+
+  private function getModifiedAttributesValues (): array
+  {
+    //    // Initialize variables
+    //    $result = [];
+    //    $differentValues = [];
+    //
+    //    // Grab the common attributes name between before and after modification, resulting in only modified attributes.
+    //    $commonKeys = array_intersect_key($this->attrs, $this->beforeLdapChangeAttributes);
+    //
+    //    // Create for each common key a separation between old and new value
+    //    foreach ($commonKeys as $key => $value) {
+    //      if ($this->attrs[$key] !== $this->beforeLdapChangeAttributes[$key]) {
+    //        $differentValues[$key] = [
+    //          'new' => $this->attrs[$key],
+    //          'old' => $this->beforeLdapChangeAttributes[$key]
+    //        ];
+    //      }
+    //    }
+    //
+    //    // Iterate through each main key (e.g., 'supannRessourceEtat', 'anotherKey')
+    //    foreach ($differentValues as $key => $values) {
+    //      // Ensure both 'new' and 'old' arrays are present under the current key
+    //      if (isset($values['new']) && isset($values['old'])) {
+    //
+    //        // Get the 'new' and 'old' values
+    //        $newValues = $values['new'];
+    //        $oldValues = $values['old'];
+    //
+    //        // Create an associative array for old values for easier lookup
+    //        $oldValuesAssoc = array_flip($oldValues);
+    //        // Initialize an empty array for this specific key's differences (key being values now).
+    //        $result[$key] = [];
+    //
+    //        // Iterate through new values and check for differences
+    //        foreach ($newValues as $newValue) {
+    //          if (!isset($oldValuesAssoc[$newValue])) {
+    //            $result[$key][] = $newValue; // Add differing values to result
+    //          }
+    //        }
+    //      }
+    //    }
+    //
+    //    return $result;
+
+
+    // Initialize result array
+    $result = [];
+
+    // Find common keys between current attributes and before-change attributes
+    $commonKeys = array_intersect_key($this->attrs, $this->beforeLdapChangeAttributes);
+
+    // Iterate over each common key
+    foreach ($commonKeys as $key => $value) {
+      // Check if the new value differs from the old value
+      if ($this->attrs[$key] !== $this->beforeLdapChangeAttributes[$key]) {
+        $newValues = $this->attrs[$key];
+        $oldValues = $this->beforeLdapChangeAttributes[$key];
+
+        // Ensure both new and old values are arrays for comparison
+        if (is_array($newValues) && is_array($oldValues)) {
+          // Find the new values that are not present in the old values
+          $diffValues = array_diff($newValues, $oldValues);
+
+          // Store only the new values that are different
+          if (!empty($diffValues)) {
+            $result[$key] = $diffValues;
+          }
+        } else {
+          // If values are scalar (non-array), store the new value directly if it differs
+          $result[$key] = $newValues;
+        }
+      }
+    }
+
+    print_r($result);
+
+    return $result;
+
   }
 
   /*! \brief Forward command execution requests
