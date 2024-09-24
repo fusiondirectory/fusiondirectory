@@ -50,9 +50,9 @@ class simplePlugin implements SimpleTab
 
     \sa simplePlugin::is_this_account()
    */
-  public    $is_account            = FALSE;
-  public    $initially_was_account = FALSE;
-  protected $ignore_account        = FALSE;
+  public $is_account            = FALSE;
+  public $initially_was_account = FALSE;
+  protected $ignore_account     = FALSE;
 
   public $acl_category = '';
 
@@ -1511,53 +1511,10 @@ class simplePlugin implements SimpleTab
 
   private function getModifiedAttributesValues (): array
   {
-    //    // Initialize variables
-    //    $result = [];
-    //    $differentValues = [];
-    //
-    //    // Grab the common attributes name between before and after modification, resulting in only modified attributes.
-    //    $commonKeys = array_intersect_key($this->attrs, $this->beforeLdapChangeAttributes);
-    //
-    //    // Create for each common key a separation between old and new value
-    //    foreach ($commonKeys as $key => $value) {
-    //      if ($this->attrs[$key] !== $this->beforeLdapChangeAttributes[$key]) {
-    //        $differentValues[$key] = [
-    //          'new' => $this->attrs[$key],
-    //          'old' => $this->beforeLdapChangeAttributes[$key]
-    //        ];
-    //      }
-    //    }
-    //
-    //    // Iterate through each main key (e.g., 'supannRessourceEtat', 'anotherKey')
-    //    foreach ($differentValues as $key => $values) {
-    //      // Ensure both 'new' and 'old' arrays are present under the current key
-    //      if (isset($values['new']) && isset($values['old'])) {
-    //
-    //        // Get the 'new' and 'old' values
-    //        $newValues = $values['new'];
-    //        $oldValues = $values['old'];
-    //
-    //        // Create an associative array for old values for easier lookup
-    //        $oldValuesAssoc = array_flip($oldValues);
-    //        // Initialize an empty array for this specific key's differences (key being values now).
-    //        $result[$key] = [];
-    //
-    //        // Iterate through new values and check for differences
-    //        foreach ($newValues as $newValue) {
-    //          if (!isset($oldValuesAssoc[$newValue])) {
-    //            $result[$key][] = $newValue; // Add differing values to result
-    //          }
-    //        }
-    //      }
-    //    }
-    //
-    //    return $result;
-
-
-    // Initialize result array
+     // Initialize result array
     $result = [];
 
-    // Find common keys between current attributes and before-change attributes
+    // Find common keys between old attributes and modified attributes.
     $commonKeys = array_intersect_key($this->attrs, $this->beforeLdapChangeAttributes);
 
     // Iterate over each common key
