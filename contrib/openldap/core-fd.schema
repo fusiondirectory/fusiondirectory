@@ -2,7 +2,7 @@
 ## core-fd.schema - Needed by FusionDirectory for its basic functionalities
 ##
 
-# Last OID used for attributes  : 1.3.6.1.4.1.38414.62.1.68 12/03/24 #
+# Last OID used for attributes  : 1.3.6.1.4.1.38414.62.1.69 01/10/24 #
 # Last OID used for objectClass : 1.3.6.1.4.1.38414.62.2.11 29/01/24 #
 
 ##### Attributes from gosa ######
@@ -250,6 +250,13 @@ attributetype ( 1.3.6.1.4.1.38414.62.1.26 NAME 'fdTasksGranularRef'
   DESC 'Fusion Directory - Reference towards a CN (E.g Mail Template)'
   EQUALITY caseExactMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+
+attributetype ( 1.3.6.1.4.1.38414.62.1.69 NAME 'fdTasksGranularHelper'
+  DESC 'Fusion Directory - Reference towards a potential helper value from main task (case of reminder)'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+
+
 
 ## Any tasks requiring to store DN (Such as lifeCycle). ##
 
@@ -508,7 +515,7 @@ objectclass (1.3.6.1.4.1.38414.62.2.7 NAME 'fdTasksMail'
 objectclass (1.3.6.1.4.1.38414.62.2.8 NAME 'fdTasksGranular'
   DESC 'FusionDirectory - Tasks granular objects'
   MUST ( fdTasksGranularMaster $ cn $ fdTasksGranularType $ fdTasksGranularSchedule $ fdTasksGranularStatus )
-  MAY (fdTasksGranularMailBCC $ fdTasksGranularDN $ fdTasksGranularRef $ fdTasksGranularMail $ fdTasksGranularMailFrom))
+  MAY (fdTasksGranularMailBCC $ fdTasksGranularDN $ fdTasksGranularRef $ fdTasksGranularMail $ fdTasksGranularMailFrom $ fdTasksGranularHelper))
 
 objectclass (1.3.6.1.4.1.38414.62.2.9 NAME 'fdTasksConf'
   DESC 'FusionDirectory - Tasks objects Configuration'

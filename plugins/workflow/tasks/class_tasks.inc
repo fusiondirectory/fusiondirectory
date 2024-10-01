@@ -206,6 +206,8 @@ class tasks extends simplePlugin
               "fdTasksGranularType" => $taskType,
               // Verification as 'ref' could potentially not be present depending on the logic of the main task.
               "fdTasksGranularRef"  => !empty($attrs['ref'][$dn]) ? array_values($attrs['ref'][$dn]) : [],
+              // Verification if any helper reference must be added to help further backend processing.
+              "fdTasksGranularHelper"  => !empty($attrs['helper']) ? array_values($attrs['helper']) : [],
             ];
             break;
         }
