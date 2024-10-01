@@ -60,6 +60,7 @@ class tasksGranular extends simplePlugin
           new HiddenAttribute('fdTasksGranularMaster', TRUE, '', '', 'Master CN', 'Name of the Master task'),
           new HiddenAttribute('fdTasksGranularType', TRUE, '', '', 'Type', 'Type of the task'),
           new HiddenArrayAttribute('fdTasksGranularRef', FALSE, '', '', 'Type', 'Reference towards a required CN (mail template E.g'),
+          new HiddenArrayAttribute('fdTasksGranularHelper', FALSE, '', '', 'Type', 'Reference towards important info from main tasks (user reminder two different call E.g'),
           new DateTimeAttribute(
             _('Schedule'), '',
             'fdTasksGranularSchedule', FALSE
