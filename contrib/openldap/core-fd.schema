@@ -552,6 +552,6 @@ objectclass (1.3.6.1.4.1.38414.62.2.9 NAME 'fdTasksConf'
 ### token objectclass ###
 
 objectclass ( 1.3.6.1.4.1.38414.62.2.11 NAME 'fdTokenEntry'
-  SUP top AUXILIARY
+  SUP top STRUCTURAL
   DESC 'FusionDirectory - Class for token storage'
-  MUST ( fdTokenUserDN $ fdTokenType $ fdToken $ fdTokenTimestamp ))
+  MUST ( cn $ fdTokenUserDN $ fdTokenType $ fdToken $ fdTokenTimestamp ))
