@@ -189,8 +189,12 @@ class tasksMail extends simplePlugin
       $info = $ldap->fetch();
 
       if (!empty($info[$mailAttr][0])) {
-        // In case of private supann mail, remove the prefix
-        $mailList[] = preg_replace('/.+?(?=supann)/', '', $info[$mailAttr][0]);
+
+        // Remove anything between curly braces (e.g., {PERSO}, {PRO} as well as supann labels)
+        $cleanMail = preg_replace('/.+?(?=supann)/', '', $info[$mailAttr][0]);
+        $finalMail = preg_replace('/\{.*?\}/', '', $cleanMail);
+
+        $mailList[] = $finalMail;
 
         // Render the mailing list unique, somewhat mandatory when updating the members lists with dynGroups and members.
         $mailList = array_unique($mailList);
