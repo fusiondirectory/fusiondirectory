@@ -230,7 +230,6 @@ class IconTheme
 
   static public function findThemeIcon ($theme, $context, $icon, $size)
   {
-
     // We have to sanitize the $icon received from $_GET['icon']. Fixing vulnerability : CWE-35
     if (!preg_match('/^[a-zA-Z0-9_\-]+$/', $icon)) {
       trigger_error('Error: Wrong icon name received');
