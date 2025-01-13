@@ -25,6 +25,7 @@ class ThemeFileParsingException extends Exception
 /*!
  * \brief Icon theme directory
  */
+
 class IconThemeDir
 {
   /* Nominal (unscaled) size of the icons in this directory.
@@ -43,17 +44,17 @@ class IconThemeDir
    * Valid types are Fixed, Scalable and Threshold.
    * The type decides what other keys in the section are used.
    * If not specified, the default is Threshold. */
-  private $Type      = 'Threshold';
+  private $Type = 'Threshold';
 
   /* The icons in this directory can be used if the size differ at most this much from the desired (unscaled) size.
    * Defaults to 2 if not present. */
   private $Threshold = 2;
 
-  function __construct ($infos)
+  function __construct($infos)
   {
-    $this->Size     = $infos['Size'];
-    $this->MinSize  = $infos['Size'];
-    $this->MaxSize  = $infos['Size'];
+    $this->Size = $infos['Size'];
+    $this->MinSize = $infos['Size'];
+    $this->MaxSize = $infos['Size'];
     foreach (['Type', 'MaxSize', 'MinSize', 'Threshold'] as $key) {
       if (isset($infos[$key])) {
         $this->$key = $infos[$key];
@@ -66,7 +67,7 @@ class IconThemeDir
     }
   }
 
-  function MatchesSize ($size)
+  function MatchesSize($size)
   {
     switch ($this->Type) {
       case 'Fixed':
@@ -78,7 +79,7 @@ class IconThemeDir
     }
   }
 
-  function SizeDistance ($size)
+  function SizeDistance($size)
   {
     switch ($this->Type) {
       case 'Fixed':
@@ -100,6 +101,7 @@ class IconThemeDir
 /*!
  * \brief Icon theme
  */
+
 class IconTheme
 {
   private $subdirs = [];
@@ -244,7 +246,7 @@ class IconTheme
     return $_SESSION[static::$session_var][static::$default_theme]->FindIcon($context, $icon, $size);
   }
 
-  public function findTheme ($theme)
+  public function findTheme($theme)
   {
     if (isset($_SESSION[static::$session_var][$theme])) {
       return $_SESSION[static::$session_var][$theme];
@@ -254,162 +256,162 @@ class IconTheme
 
   /* Fallback system */
   static public $fallbacks = [
-    'types/user-group'              => [
-      ['applications','system-users']
+    'types/user-group' => [
+      ['applications', 'system-users']
     ],
-    'types/resource-group'          => [
-      ['actions','resource-group']
+    'types/resource-group' => [
+      ['actions', 'resource-group']
     ],
-    'types/user'                    => [
-      ['places','user-identity'],
-      ['status','avatar-default'],
+    'types/user' => [
+      ['places', 'user-identity'],
+      ['status', 'avatar-default'],
     ],
-    'types/contact'                 => [
-      ['mimetypes','x-office-contact'],
+    'types/contact' => [
+      ['mimetypes', 'x-office-contact'],
     ],
-    'types/certificate'             => [
-      ['mimetypes','stock_certificate'],
-      ['mimetypes','application-certificate'],
-      ['actions','view-certificate'],
+    'types/certificate' => [
+      ['mimetypes', 'stock_certificate'],
+      ['mimetypes', 'application-certificate'],
+      ['actions', 'view-certificate'],
     ],
-    'applications/user-info'        => [
-      ['actions','user-properties'],
-      ['types','contact'],
-      ['mimetypes','x-office-contact'],
-      ['types','user'],
-      ['places','user-identity'],
-      ['status','avatar-default'],
+    'applications/user-info' => [
+      ['actions', 'user-properties'],
+      ['types', 'contact'],
+      ['mimetypes', 'x-office-contact'],
+      ['types', 'user'],
+      ['places', 'user-identity'],
+      ['status', 'avatar-default'],
     ],
-    'applications/office-calendar'  => [
-      ['mimetypes','x-office-calendar'],
+    'applications/office-calendar' => [
+      ['mimetypes', 'x-office-calendar'],
     ],
-    'applications/os-linux'         => [
-      ['applications','linux'],
+    'applications/os-linux' => [
+      ['applications', 'linux'],
     ],
-    'applications/os-windows'       => [
-      ['applications','windows'],
+    'applications/os-windows' => [
+      ['applications', 'windows'],
     ],
-    'applications/samba'            => [
-      ['applications','os-windows'],
-      ['applications','windows'],
+    'applications/samba' => [
+      ['applications', 'os-windows'],
+      ['applications', 'windows'],
     ],
-    'applications/config-language'  => [
-      ['applications','locale'],
-      ['applications','preferences-desktop-locale'],
+    'applications/config-language' => [
+      ['applications', 'locale'],
+      ['applications', 'preferences-desktop-locale'],
     ],
-    'mimetypes/text-csv'            => [
-      ['mimetypes','x-office-spreadsheet'],
-      ['mimetypes','text-x-generic'],
+    'mimetypes/text-csv' => [
+      ['mimetypes', 'x-office-spreadsheet'],
+      ['mimetypes', 'text-x-generic'],
     ],
-    'mimetypes/application-pdf'     => [
-      ['mimetypes','x-office-document'],
+    'mimetypes/application-pdf' => [
+      ['mimetypes', 'x-office-document'],
     ],
-    'actions/application-exit'      => [
-      ['actions','system-log-out'],
+    'actions/application-exit' => [
+      ['actions', 'system-log-out'],
     ],
-    'actions/archive'      => [
-      ['mimetypes','application-x-archive'],
+    'actions/archive' => [
+      ['mimetypes', 'application-x-archive'],
     ],
-    'actions/document-export'       => [
-      ['actions','document-send'],
+    'actions/document-export' => [
+      ['actions', 'document-send'],
     ],
-    'actions/download'              => [
-      ['actions','document-save'],
+    'actions/download' => [
+      ['actions', 'document-save'],
     ],
-    'actions/document-restore'      => [
-      ['actions','document-import'],
-      ['actions','document-open'],
+    'actions/document-restore' => [
+      ['actions', 'document-import'],
+      ['actions', 'document-open'],
     ],
-    'actions/document-edit'         => [
-      ['actions','edit'],
-      ['applications','text-editor'],
-      ['applications','accessories-text-editor'],
-      ['actions','document-open'],
+    'actions/document-edit' => [
+      ['actions', 'edit'],
+      ['applications', 'text-editor'],
+      ['applications', 'accessories-text-editor'],
+      ['actions', 'document-open'],
     ],
-    'actions/snapshot'              => [
-      ['actions','document-save'],
+    'actions/snapshot' => [
+      ['actions', 'document-save'],
     ],
-    'actions/system-reboot'         => [
-      ['actions','view-refresh'],
+    'actions/system-reboot' => [
+      ['actions', 'view-refresh'],
     ],
-    'actions/system-update'         => [
-      ['applications','system-software-update'],
+    'actions/system-update' => [
+      ['applications', 'system-software-update'],
     ],
-    'actions/system-reinstall'      => [
-      ['applications','system-installer'],
+    'actions/system-reinstall' => [
+      ['applications', 'system-installer'],
     ],
-    'actions/task-start'            => [
-      ['actions','media-playback-start'],
+    'actions/task-start' => [
+      ['actions', 'media-playback-start'],
     ],
-    'actions/task-stop'             => [
-      ['actions','media-playback-stop'],
+    'actions/task-stop' => [
+      ['actions', 'media-playback-stop'],
     ],
-    'actions/task-schedule'         => [
-      ['actions','chronometer'],
-      ['actions','smallclock'],
+    'actions/task-schedule' => [
+      ['actions', 'chronometer'],
+      ['actions', 'smallclock'],
     ],
-    'actions/up'                    => [
-      ['actions','go-up'],
-      ['actions','arrow-up'],
+    'actions/up' => [
+      ['actions', 'go-up'],
+      ['actions', 'arrow-up'],
     ],
-    'actions/upload'                => [
-      ['actions','document-import'],
-      ['actions','up'],
+    'actions/upload' => [
+      ['actions', 'document-import'],
+      ['actions', 'up'],
     ],
-    'actions/down'                  => [
-      ['actions','go-down'],
-      ['actions','arrow-down'],
+    'actions/down' => [
+      ['actions', 'go-down'],
+      ['actions', 'arrow-down'],
     ],
-    'actions/previous'              => [
-      ['actions','go-previous'],
-      ['actions','arrow-left'],
+    'actions/previous' => [
+      ['actions', 'go-previous'],
+      ['actions', 'arrow-left'],
     ],
-    'actions/next'                  => [
-      ['actions','go-next'],
-      ['actions','arrow-right'],
+    'actions/next' => [
+      ['actions', 'go-next'],
+      ['actions', 'arrow-right'],
     ],
-    'actions/submit'                => [
-      ['actions','go-jump'],
+    'actions/submit' => [
+      ['actions', 'go-jump'],
     ],
-    'categories/settings'           => [
-      ['categories','gnome-settings'],
-      ['categories','preferences-other'],
-      ['categories','preferences-system'],
+    'categories/settings' => [
+      ['categories', 'gnome-settings'],
+      ['categories', 'preferences-other'],
+      ['categories', 'preferences-system'],
     ],
-    'categories/checks'             => [
-      ['actions','view-task'],
-      ['actions','view-calendar-tasks'],
-      ['actions','checkbox'],
-      ['status','task-complete'],
+    'categories/checks' => [
+      ['actions', 'view-task'],
+      ['actions', 'view-calendar-tasks'],
+      ['actions', 'checkbox'],
+      ['status', 'task-complete'],
     ],
-    'devices/server'                => [
-      ['places','server'],
-      ['places','network-server'],
+    'devices/server' => [
+      ['places', 'server'],
+      ['places', 'network-server'],
     ],
-    'devices/media-cdrom'           => [
-      ['devices','media-optical'],
+    'devices/media-cdrom' => [
+      ['devices', 'media-optical'],
     ],
-    'devices/terminal'              => [
-      ['applications','utilities-terminal'],
+    'devices/terminal' => [
+      ['applications', 'utilities-terminal'],
     ],
-    'devices/computer-windows'      => [
-      ['applications','os-windows'],
-      ['applications','windows'],
+    'devices/computer-windows' => [
+      ['applications', 'os-windows'],
+      ['applications', 'windows'],
     ],
-    'devices/template'              => [
-      ['actions','document-new'],
+    'devices/template' => [
+      ['actions', 'document-new'],
     ],
-    'status/object-locked'          => [
-      ['status','changes-prevent'],
+    'status/object-locked' => [
+      ['status', 'changes-prevent'],
     ],
-    'status/object-unlocked'        => [
-      ['status','changes-allow'],
+    'status/object-unlocked' => [
+      ['status', 'changes-allow'],
     ],
-    'status/task-waiting'        => [
-      ['actions','task-schedule'],
+    'status/task-waiting' => [
+      ['actions', 'task-schedule'],
     ],
-    'places/folder-network'        => [
-      ['places','folder-remote'],
+    'places/folder-network' => [
+      ['places', 'folder-remote'],
     ],
   ];
 }
