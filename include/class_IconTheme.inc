@@ -106,15 +106,15 @@ class IconTheme
   private $path;
   private $parent;
 
-  function __construct ($folder, $default_parent)
+  function __construct($folder, $default_parent)
   {
     $this->path = $folder;
-    $datas  = @parse_ini_file($folder.'/index.theme', TRUE, INI_SCANNER_RAW);
+    $datas = @parse_ini_file($folder . '/index.theme', TRUE, INI_SCANNER_RAW);
     if ($datas === FALSE) {
       throw new ThemeFileParsingException('Error while parsing theme file');
     }
     if (isset($datas['Icon Theme']['Directories']) && !empty($datas['Icon Theme']['Directories'])) {
-      $dirs   = preg_split('/,/', $datas['Icon Theme']['Directories']);
+      $dirs = preg_split('/,/', $datas['Icon Theme']['Directories']);
       foreach ($dirs as $name) {
         if (isset($datas[$name])) {
           $this->subdirs[strtolower($datas[$name]['Context'])][$name] = new IconThemeDir($datas[$name]);
@@ -129,20 +129,20 @@ class IconTheme
     }
   }
 
-  function FindIcon ($context, $icon, $size)
+  function FindIcon($context, $icon, $size)
   {
     $context = strtolower($context);
     return $this->FindIconHelper($context, $icon, $size);
   }
 
-  function FindIconHelper ($context, $icon, $size)
+  function FindIconHelper($context, $icon, $size)
   {
     $filename = $this->LookupIcon($context, $icon, $size);
     if ($filename != NULL) {
       return $filename;
     }
-    if (isset(static::$fallbacks[$context.'/'.$icon])) {
-      foreach (static::$fallbacks[$context.'/'.$icon] as $fallback) {
+    if (isset(static::$fallbacks[$context . '/' . $icon])) {
+      foreach (static::$fallbacks[$context . '/' . $icon] as $fallback) {
         $filename = $this->LookupIcon($fallback[0], $fallback[1], $size);
         if ($filename != NULL) {
           return $filename;
@@ -161,7 +161,7 @@ class IconTheme
     return NULL;
   }
 
-  function LookupIcon ($context, $iconname, $size)
+  function LookupIcon($context, $iconname, $size)
   {
     if (!isset($this->subdirs[$context])) {
       return NULL;
@@ -169,7 +169,7 @@ class IconTheme
     foreach ($this->subdirs[$context] as $path => &$subdir) {
       if ($subdir->MatchesSize($size)) {
         foreach (static::$extensions as $extension) {
-          $filename = $this->path.'/'.$path.'/'.$iconname.'.'.$extension;
+          $filename = $this->path . '/' . $path . '/' . $iconname . '.' . $extension;
           if (file_exists($filename)) {
             return $filename;
           }
@@ -182,10 +182,10 @@ class IconTheme
       foreach ($this->subdirs[$context] as $path => &$subdir) {
         if (($sizedistance = $subdir->SizeDistance($size)) < $minimal_size) {
           foreach (static::$extensions as $extension) {
-            $filename = $this->path.'/'.$path.'/'.$iconname.'.'.$extension;
+            $filename = $this->path . '/' . $path . '/' . $iconname . '.' . $extension;
             if (file_exists($filename)) {
               $closest_filename = $filename;
-              $minimal_size     = $sizedistance;
+              $minimal_size = $sizedistance;
             }
           }
         }
@@ -198,14 +198,14 @@ class IconTheme
     return NULL;
   }
 
-  static public $default_theme  = 'breezy';
-  static public $extensions     = ['png', 'xpm', 'svg'];
-  static public $find_closest   = FALSE;
+  static public $default_theme = 'breezy';
+  static public $extensions = ['png', 'xpm', 'svg'];
+  static public $find_closest = FALSE;
 
   /* We store themes in the session. To do otherwise, override these methods. */
-  static public $session_var    = 'IconThemes';
+  static public $session_var = 'IconThemes';
 
-  static public function loadThemes ($path)
+  static public function loadThemes($path)
   {
     $themes = [];
     if ($dir = opendir("$path")) {
@@ -226,8 +226,14 @@ class IconTheme
     $_SESSION[static::$session_var] = $themes;
   }
 
-  static public function findThemeIcon ($theme, $context, $icon, $size)
+  static public function findThemeIcon($theme, $context, $icon, $size)
   {
+
+    // We have to sanitize the $icon received from $_GET['icon']. Fixing vulnerability : CWE-35
+    if (!preg_match('/^[a-zA-Z0-9_\-]+$/', $icon)) {
+      trigger_error('Error: Wrong icon name received');
+      die('Error: wrong icon name received');
+    }
     if (!isset($_SESSION[static::$session_var])) {
       trigger_error('Error: no theme found in session');
       die('Error: no theme found in session');
