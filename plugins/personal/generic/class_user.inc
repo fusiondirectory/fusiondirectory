@@ -45,25 +45,26 @@ class PostalAddressAttribute extends TextAreaAttribute
 
 class user extends simplePlugin
 {
+  // This is used to see if the password is locked. The "was" is better interpreted as "is" - it is historical here.
   private $was_locked;
 
   static function plInfo (): array
   {
     return [
-      'plShortName'   => _('User'),
+      'plShortName' => _('User'),
       'plDescription' => _('User account information'),
-      'plIcon'        => 'geticon.php?context=applications&icon=user-info&size=48',
-      'plSmallIcon'   => 'geticon.php?context=applications&icon=user-info&size=16',
-      'plSelfModify'  => TRUE,
+      'plIcon' => 'geticon.php?context=applications&icon=user-info&size=48',
+      'plSmallIcon' => 'geticon.php?context=applications&icon=user-info&size=16',
+      'plSelfModify' => TRUE,
       'plObjectClass' => ['inetOrgPerson', 'organizationalPerson', 'person'],
-      'plFilter'      => '(objectClass=inetOrgPerson)',
-      'plObjectType'  => ['user' => [
-        'name'        => _('User'),
+      'plFilter' => '(objectClass=inetOrgPerson)',
+      'plObjectType' => ['user' => [
+        'name' => _('User'),
         'description' => _('User account'),
-        'mainAttr'    => 'uid',
-        'nameAttr'    => 'cn',
-        'icon'        => 'geticon.php?context=types&icon=user&size=16',
-        'ou'          => get_ou('userRDN'),
+        'mainAttr' => 'uid',
+        'nameAttr' => 'cn',
+        'icon' => 'geticon.php?context=types&icon=user&size=16',
+        'ou' => get_ou('userRDN'),
       ]],
       'plForeignKeys' => [
         'manager' => ['user', 'dn', 'manager=%oldvalue%', '*']
@@ -84,9 +85,9 @@ class user extends simplePlugin
     asort($languages);
     $languages      = array_merge(['' => ''], $languages);
     $attributesInfo = [
-      'perso'        => [
-        'name'  => _('Personal information'),
-        'icon'  => 'geticon.php?context=types&icon=user&size=16',
+      'perso' => [
+        'name' => _('Personal information'),
+        'icon' => 'geticon.php?context=types&icon=user&size=16',
         'attrs' => [
           new HiddenAttribute('cn'),
           new StringAttribute(
@@ -115,9 +116,9 @@ class user extends simplePlugin
           ),
         ]
       ],
-      'contact'      => [
-        'name'  => _('Organizational contact information'),
-        'icon'  => 'geticon.php?context=types&icon=user&size=16',
+      'contact' => [
+        'name' => _('Organizational contact information'),
+        'icon' => 'geticon.php?context=types&icon=user&size=16',
         'attrs' => [
           new StringAttribute(
             _('Location'), _('Location'),
@@ -161,9 +162,9 @@ class user extends simplePlugin
           ),
         ]
       ],
-      'account'      => [
-        'name'  => _('Account information'),
-        'icon'  => 'geticon.php?context=applications&icon=ldap&size=16',
+      'account' => [
+        'name' => _('Account information'),
+        'icon' => 'geticon.php?context=applications&icon=ldap&size=16',
         'attrs' => [
           new BaseSelectorAttribute(get_ou("userRDN")),
           new UidAttribute(
@@ -181,9 +182,9 @@ class user extends simplePlugin
           ),
         ]
       ],
-      'homecontact'  => [
-        'name'  => _('Personal contact information'),
-        'icon'  => 'geticon.php?context=types&icon=user&size=16',
+      'homecontact' => [
+        'name' => _('Personal contact information'),
+        'icon' => 'geticon.php?context=types&icon=user&size=16',
         'attrs' => [
           new StringAttribute(
             _('Display name'), _('Name this user should appear as. Used by Exchange.'),
@@ -200,8 +201,8 @@ class user extends simplePlugin
         ]
       ],
       'organization' => [
-        'name'  => _('Organizational information'),
-        'icon'  => 'geticon.php?context=places&icon=folder&size=16',
+        'name' => _('Organizational information'),
+        'icon' => 'geticon.php?context=places&icon=folder&size=16',
         'attrs' => [
           new SetAttribute(
             new StringAttribute(
@@ -262,6 +263,15 @@ class user extends simplePlugin
     global $config;
     parent::__construct($dn, $object, $parent, $mainTab);
 
+    // verify if the attribute password is locked
+    $this->was_locked = $this->attributesAccess['userPassword']->isLocked();
+
+    if ($this->was_locked) {
+      $this->read_only = TRUE;
+      // This will update the parent class (simplePlugin) via class-level state allowing children to get read only state.
+      self::setUserLocked(TRUE);
+    }
+
     if ($this->is_template && !$this->initially_was_account) {
       $this->attributesAccess['userPassword']->setValue('%askme%');
     }
@@ -273,7 +283,7 @@ class user extends simplePlugin
     $filename = './plugins/users/images/default.jpg';
     $fd       = fopen($filename, 'rb');
     $this->attributesAccess['jpegPhoto']->setPlaceholder(fread($fd, filesize($filename)));
-    $this->was_locked = $this->attributesAccess['userPassword']->isLocked();
+
 
     // Do not apply automatic snap on templates nor if the DN is not yet processed (new creation from template)
     if ($this->is_template !== TRUE && $this->dn !== 'new') {

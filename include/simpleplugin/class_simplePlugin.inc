@@ -38,6 +38,8 @@ class simplePlugin implements SimpleTab
    * associative array that stores attributeLdapName => reference on object
    */
   public $attributesAccess = [];
+  // Thisb bolean allows children class to get readOnly automatically via static state or class-level state.
+  private static $user_locked = FALSE;
 
   /*!
     \brief Mark plugin as account
@@ -157,6 +159,11 @@ class simplePlugin implements SimpleTab
     $this->dn      = $dn;
     $this->parent  = $parent;
     $this->mainTab = $mainTab;
+
+    // This class-level state allows children to get readOnly automatically.
+    if (self::$user_locked) {
+      $this->read_only = TRUE;
+    }
 
     try {
       $plInfo = pluglist::pluginInfos(get_class($this));
@@ -297,6 +304,12 @@ class simplePlugin implements SimpleTab
     if (!isset($this->templatePath)) {
       $this->templatePath = get_template_path('simpleplugin.tpl');
     }
+  }
+
+
+  public static function setUserLocked (bool $locked): void
+  {
+    self::$user_locked = $locked;
   }
 
   protected function loadAttributes ()
