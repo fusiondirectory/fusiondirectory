@@ -45,6 +45,7 @@ class PostalAddressAttribute extends TextAreaAttribute
 
 class user extends simplePlugin
 {
+  // This is used to see if the password is locked. The "was" is better interpreted as "is" - it is historical here.
   private $was_locked;
 
   static function plInfo (): array
@@ -262,6 +263,14 @@ class user extends simplePlugin
     global $config;
     parent::__construct($dn, $object, $parent, $mainTab);
 
+    // verify if the attribute password is locked
+    $this->was_locked = $this->attributesAccess['userPassword']->isLocked();
+
+    if ($this->was_locked){
+      $this->read_only = TRUE;
+      // This will update the parent class (simplePlugin) via class-level state allowing children to get read only state.
+      self::setUserLocked(true);
+    }
 
     if ($this->is_template && !$this->initially_was_account) {
       $this->attributesAccess['userPassword']->setValue('%askme%');
@@ -274,13 +283,7 @@ class user extends simplePlugin
     $filename = './plugins/users/images/default.jpg';
     $fd       = fopen($filename, 'rb');
     $this->attributesAccess['jpegPhoto']->setPlaceholder(fread($fd, filesize($filename)));
-    $this->was_locked = $this->attributesAccess['userPassword']->isLocked();
 
-    if ($this->was_locked){
-      $this->read_only = TRUE;
-      $warning = new FusionDirectoryWarning(nl2br(htmlescape(sprintf(_("This user account is locked ! Unlock to edit first.")))));
-      $warning->display();
-    }
 
     // Do not apply automatic snap on templates nor if the DN is not yet processed (new creation from template)
     if ($this->is_template !== TRUE && $this->dn !== 'new') {
