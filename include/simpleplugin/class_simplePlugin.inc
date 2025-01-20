@@ -38,8 +38,8 @@ class simplePlugin implements SimpleTab
    * associative array that stores attributeLdapName => reference on object
    */
   public $attributesAccess = [];
-  // This allows children class to get readOnly automatically via static state or class-level state
-  private static bool $user_locked = FALSE;
+  // Thisb bolean allows children class to get readOnly automatically via static state or class-level state.
+  private static $user_locked = FALSE;
 
   /*!
     \brief Mark plugin as account
