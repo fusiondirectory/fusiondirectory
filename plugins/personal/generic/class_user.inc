@@ -296,17 +296,6 @@ class user extends simplePlugin
     }
   }
 
-//  private function isUserLocked () : bool
-//  {
-//    $result = FALSE;
-//
-//    if (isset($this->attributesAccess['userPassword']) && preg_match('/^\{[^\}]/', $this->attributesAccess['userPassword']->getValue())) {
-//      $result = preg_match('/^[^\}]*+\}!/', $this->attributesAccess['userPassword']->getValue()) === 1;
-//    }
-//
-//    return $result;
-//  }
-
   function resetCopyInfos ()
   {
     parent::resetCopyInfos();
