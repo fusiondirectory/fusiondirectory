@@ -162,7 +162,7 @@ class simplePlugin implements SimpleTab
 
     // This class-level state allows children to get readOnly automatically.
     if (self::$user_locked) {
-      $this->read_only = true;
+      $this->read_only = TRUE;
     }
 
     try {
@@ -307,7 +307,7 @@ class simplePlugin implements SimpleTab
   }
 
 
-  public static function setUserLocked(bool $locked): void
+  public static function setUserLocked (bool $locked): void
   {
     self::$user_locked = $locked;
   }
