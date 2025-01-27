@@ -37,7 +37,7 @@ class Lock
   /*!
    *  \brief Add a lock for object(s)
    *
-   * Adds a lock by the specified user for one ore multiple objects.
+   * Adds a lock by the specified user for one or multiple objects.
    * If a lock for that object already exists from another user, an error is triggered.
    *
    * \param array $object The object or array of objects to lock

@@ -107,7 +107,7 @@ class userManagement extends management
    * \param string $pwd     userPassword value
    * \param string $dn      dn of the LDAP node
    */
-  static function lockUser (string $action, string $pwd, string $dn)
+  static function lockUser (string $action, string $pwd, string $dn, bool $lockEverything = TRUE)
   {
     $method = passwordMethod::get_method($pwd, $dn);
     if ($method instanceof passwordMethod) {
@@ -129,7 +129,7 @@ class userManagement extends management
 
       $success = TRUE;
       if (($action == 'lock') && !$method->is_locked($dn)) {
-        $success = $method->lock_account($dn);
+        $success = $method->lock_account($dn, $lockEverything);
         // Requiring logging mechanism for audit.
         if ($success) {
           logging::log('security', 'account', $dn, [], 'DN : ' . $dn . ' is locked.');

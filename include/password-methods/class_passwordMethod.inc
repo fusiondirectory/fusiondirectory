@@ -123,9 +123,9 @@ abstract class passwordMethod
    *
    * \param string $dn
    */
-  function lock_account ($dn = '')
+  function lock_account ($dn = '', bool $lockEverything = TRUE)
   {
-    return $this->generic_modify_account($dn, 'LOCK');
+    return $this->generic_modify_account($dn, 'LOCK', $lockEverything);
   }
 
   /*!
@@ -141,7 +141,7 @@ abstract class passwordMethod
    * \brief Unlocks an account which was locked by 'lock_account()'.
    *        For details about the locking mechanism see 'lock_account()'.
    */
-  private function generic_modify_account ($dn, string $mode)
+  private function generic_modify_account ($dn, string $mode, bool $lockEverything = TRUE)
   {
     global $config;
     if (!$this->lockable) {
@@ -163,14 +163,20 @@ abstract class passwordMethod
     } elseif ($mode == 'UNLOCK') {
       return TRUE;
     }
-
     /* Fill modification array */
     $modify = [];
-    foreach ($userObject->by_object as $tab) {
-      if ($tab instanceof UserTabLockingAction) {
-        $tab->fillLockingLDAPAttrs($mode, $modify);
+
+    // Only trigger if general lock is set
+    if ($lockEverything) {
+      foreach ($userObject->by_object as $tab) {
+        if ($tab instanceof UserTabLockingAction) {
+          // Execute below function if available in each plugin tab to lock what is required to be locked. (webservice etc).
+          $tab->fillLockingLDAPAttrs($mode, $modify);
+        }
       }
     }
+
+
 
     // Call pre hooks
     $errors = $userMainTab->callHook('PRE'.$mode, [], $ret);
