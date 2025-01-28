@@ -91,6 +91,14 @@ class ObjectsAttribute extends GenericDialogAttribute
   protected function fillDisplayValue ($i)
   {
     $value = $this->value[$i];
+
+    // Fixing potentially visual for wildcard string
+    if ($value === '*') {
+      $this->displays[$i] = 'Any';
+      $this->types[$i]    = FALSE;
+      return;
+    }
+
     try {
       if ($this->store_attr == 'dn') {
         $objects = objects::ls($this->selectManagementParameters[0], $this->selectManagementParameters[2], $value, '', FALSE, 'base');
