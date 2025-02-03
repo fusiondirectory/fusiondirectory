@@ -31,17 +31,17 @@ class SupannEtatDateColumn extends LinkColumn
    * @return string
    * Note : Allows to receive an attribute value and return it to readable format.
    */
-  protected function renderSingleValue(ListingEntry $entry, string $value): string
+  protected function renderSingleValue (ListingEntry $entry, string $value): string
   {
     if (!empty($value)) {
-      $parts = explode(':', $value);
+      $parts        = explode(':', $value);
       $startDateStr = $parts[2] ?? '';
-      $endDateStr = $parts[3] ?? '';
+      $endDateStr   = $parts[3] ?? '';
 
       $startDate = $this->parseDate($startDateStr);
-      $endDate = $this->parseDate($endDateStr);
+      $endDate   = $this->parseDate($endDateStr);
 
-      $text = $parts[0]. ' : ' .$this->buildDateText($startDate, $endDate);
+      $text = $parts[0] . ' : ' . $this->buildDateText($startDate, $endDate);
 
       return $this->renderLink($entry, $text);
     }
@@ -53,20 +53,20 @@ class SupannEtatDateColumn extends LinkColumn
    * @return DateTimeImmutable|null
    * Note :
    */
-  private function parseDate(string $dateStr): ?DateTimeImmutable
+  private function parseDate (string $dateStr): ?DateTimeImmutable
   {
     // Veirfy if the date received is of proper stored format.
     if (strlen($dateStr) === 8) {
-      $year = (int) substr($dateStr, 0, 4);
-      $month = (int) substr($dateStr, 4, 2);
-      $day = (int) substr($dateStr, 6, 2);
+      $year  = (int)substr($dateStr, 0, 4);
+      $month = (int)substr($dateStr, 4, 2);
+      $day   = (int)substr($dateStr, 6, 2);
 
       try {
         return (new DateTimeImmutable())->setDate($year, $month, $day);
       } catch (\Exception $e) {
       }
     }
-    return null;
+    return NULL;
   }
 
   /**
@@ -75,15 +75,15 @@ class SupannEtatDateColumn extends LinkColumn
    * @return string
    * Note : Once date have been formated, we simply add small 'from' and to 'text' string before returning.
    */
-  private function buildDateText(?DateTimeImmutable $startDate, ?DateTimeImmutable $endDate): string
+  private function buildDateText (?DateTimeImmutable $startDate, ?DateTimeImmutable $endDate): string
   {
-    if ($startDate !== null && $endDate !== null) {
+    if ($startDate !== NULL && $endDate !== NULL) {
       return 'From ' . $startDate->format('d/m/Y') . ' to ' . $endDate->format('d/m/Y');
     }
-    if ($startDate !== null) {
+    if ($startDate !== NULL) {
       return 'From ' . $startDate->format('d/m/Y');
     }
-    if ($endDate !== null) {
+    if ($endDate !== NULL) {
       return 'Until ' . $endDate->format('d/m/Y');
     }
     return 'No start or end dates set';
