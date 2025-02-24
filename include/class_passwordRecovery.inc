@@ -52,8 +52,8 @@ class passwordRecovery extends standAlonePage
   {
     parent::init();
 
-    $this->step     = 1;
-    $this->message  = [];
+    $this->step    = 1;
+    $this->message = [];
 
     if (isset($_GET['email_address']) && ($_GET['email_address'] != '')) {
       $this->email_address = validate($_GET['email_address']);
@@ -119,15 +119,15 @@ class passwordRecovery extends standAlonePage
 
     $this->assignSmartyVars();
 
-    $smarty->append('js_files',     'include/pwdStrength.js');
-    $smarty->append('css_files',    get_template_path('login.css'));
-    $smarty->assign('title',        _('Password recovery'));
+    $smarty->append('js_files', 'include/pwdStrength.js');
+    $smarty->append('css_files', get_template_path('login.css'));
+    $smarty->assign('title', _('Password recovery'));
     $smarty->display(get_template_path('headers.tpl'));
 
-    $smarty->assign('step',           $this->step);
-    $smarty->assign('delay_allowed',  $this->delay_allowed);
-    $smarty->assign('activated',      $this->activated);
-    $smarty->assign('email_address',  $this->email_address);
+    $smarty->assign('step', $this->step);
+    $smarty->assign('delay_allowed', $this->delay_allowed);
+    $smarty->assign('activated', $this->activated);
+    $smarty->assign('email_address', $this->email_address);
     $smarty->display(get_template_path('recovery.tpl'));
     exit();
   }
@@ -138,17 +138,17 @@ class passwordRecovery extends standAlonePage
   protected function readLdapConfig (): bool
   {
     global $config;
-    $this->salt           = $config->get_cfg_value('passwordRecoverySalt');
-    $this->delay_allowed  = $config->get_cfg_value('passwordRecoveryValidity');
+    $this->salt          = $config->get_cfg_value('passwordRecoverySalt');
+    $this->delay_allowed = $config->get_cfg_value('passwordRecoveryValidity');
 
-    $this->mail_subject   = $config->get_cfg_value('passwordRecoveryMailSubject');
-    $this->mail_body      = $config->get_cfg_value('passwordRecoveryMailBody');
-    $this->mail2_subject  = $config->get_cfg_value('passwordRecoveryMail2Subject');
-    $this->mail2_body     = $config->get_cfg_value('passwordRecoveryMail2Body');
+    $this->mail_subject  = $config->get_cfg_value('passwordRecoveryMailSubject');
+    $this->mail_body     = $config->get_cfg_value('passwordRecoveryMailBody');
+    $this->mail2_subject = $config->get_cfg_value('passwordRecoveryMail2Subject');
+    $this->mail2_body    = $config->get_cfg_value('passwordRecoveryMail2Body');
 
-    $this->from_mail      = $config->get_cfg_value('passwordRecoveryEmail');
+    $this->from_mail = $config->get_cfg_value('passwordRecoveryEmail');
 
-    $this->usealternates  = $config->get_cfg_value('passwordRecoveryUseAlternate');
+    $this->usealternates = $config->get_cfg_value('passwordRecoveryUseAlternate');
 
     $this->loginAttribute = $config->get_cfg_value('passwordRecoveryLoginAttribute', 'uid');
 
@@ -160,13 +160,13 @@ class passwordRecovery extends standAlonePage
   {
     global $config;
     /* Store it in ldap with the salt */
-    $salt_temp_password = $this->salt.$temp_password.$this->salt;
-    $sha1_temp_password = "{SHA}".base64_encode(pack("H*", sha1($salt_temp_password)));
+    $salt_temp_password = $this->salt . $temp_password . $this->salt;
+    $sha1_temp_password = "{SHA}" . base64_encode(pack("H*", sha1($salt_temp_password)));
 
     $ldap = $config->get_ldap_link();
 
     // Check if token branch is here
-    $token = get_ou('recoveryTokenRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'];
+    $token = get_ou('recoveryTokenRDN') . get_ou('fusiondirectoryRDN') . $config->current['BASE'];
     $ldap->cat($token, ['dn']);
     if (!$ldap->count()) {
       /* It's not, let's create it */
@@ -176,18 +176,18 @@ class passwordRecovery extends standAlonePage
       } catch (FusionDirectoryError $error) {
         return $error;
       }
-      fusiondirectory_log("Created token branch ".$token);
+      fusiondirectory_log("Created token branch " . $token);
     }
 
-    $dn = 'ou='.$this->login.','.$token;
+    $dn = 'ou=' . $this->login . ',' . $token;
     $ldap->cat($dn, ['dn']);
     $add = ($ldap->count() == 0);
     /* We store the token and its validity due date */
     $attrs = [
-      'objectClass'   => ['organizationalUnit'],
-      'ou'            => $this->login,
-      'userPassword'  => $sha1_temp_password,
-      'description'   => time() + $this->delay_allowed * 60,
+      'objectClass'  => ['organizationalUnit'],
+      'ou'           => $this->login,
+      'userPassword' => $sha1_temp_password,
+      'description'  => time() + $this->delay_allowed * 60,
     ];
     $ldap->cd($dn);
     if ($add) {
@@ -213,14 +213,14 @@ class passwordRecovery extends standAlonePage
   function checkToken ($token)
   {
     global $config;
-    $salt_token = $this->salt.$token.$this->salt;
-    $sha1_token = "{SHA}".base64_encode(pack("H*", sha1($salt_token)));
+    $salt_token = $this->salt . $token . $this->salt;
+    $sha1_token = "{SHA}" . base64_encode(pack("H*", sha1($salt_token)));
 
     /* Retrieve hash from the ldap */
     $ldap = $config->get_ldap_link();
 
-    $token  = get_ou('recoveryTokenRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'];
-    $dn     = 'ou='.$this->login.','.$token;
+    $token = get_ou('recoveryTokenRDN') . get_ou('fusiondirectoryRDN') . $config->current['BASE'];
+    $dn    = 'ou=' . $this->login . ',' . $token;
     $ldap->cat($dn);
     $attrs = $ldap->fetch();
 
@@ -229,7 +229,7 @@ class passwordRecovery extends standAlonePage
 
     /* Return TRUE if the token match and is still valid */
     return ($last_time_recovery >= time()) &&
-           ($ldap_token == $sha1_token);
+      ($ldap_token == $sha1_token);
   }
 
   function getUserDn ()
@@ -245,7 +245,7 @@ class passwordRecovery extends standAlonePage
     if (class_available('supannAccount') && ($config->get_cfg_value('supannPasswordRecovery', 'TRUE') == 'TRUE')) {
       $objectClasses[] = 'supannPerson';
     }
-    $filter = '(&(|(objectClass='.join(')(objectClass=', $objectClasses).'))('.$this->loginAttribute.'='.ldap_escape_f($this->login).'))';
+    $filter = '(&(|(objectClass=' . join(')(objectClass=', $objectClasses) . '))(' . $this->loginAttribute . '=' . ldap_escape_f($this->login) . '))';
     $ldap->cd($config->current['BASE']);
     $ldap->search($filter, ['dn']);
 
@@ -275,15 +275,15 @@ class passwordRecovery extends standAlonePage
     /* Search login corresponding to the mail */
     $address_escaped = ldap_escape_f($this->email_address);
     if ($this->usealternates) {
-      $filter = '(&(objectClass=gosaMailAccount)(|(mail='.$address_escaped.')(gosaMailAlternateAddress='.$address_escaped.')))';
+      $filter = '(&(objectClass=gosaMailAccount)(|(mail=' . $address_escaped . ')(gosaMailAlternateAddress=' . $address_escaped . ')))';
     } else {
-      $filter = '(&(objectClass=gosaMailAccount)(mail='.$address_escaped.'))';
+      $filter = '(&(objectClass=gosaMailAccount)(mail=' . $address_escaped . '))';
     }
     if (class_available('personalInfo') && ($config->get_cfg_value('privateEmailPasswordRecovery', 'FALSE') == 'TRUE')) {
-      $filter = '(|'.$filter.'(&(objectClass=fdPersonalInfo)(fdPrivateMail='.$address_escaped.')))';
+      $filter = '(|' . $filter . '(&(objectClass=fdPersonalInfo)(fdPrivateMail=' . $address_escaped . ')))';
     }
     if (class_available('supannAccount') && ($config->get_cfg_value('supannPasswordRecovery', 'TRUE') == 'TRUE')) {
-      $filter = '(|'.$filter.'(&(objectClass=supannPerson)(supannMailPerso='.$address_escaped.')))';
+      $filter = '(|' . $filter . '(&(objectClass=supannPerson)(|(supannMailPerso=' . $address_escaped . ')(supannMailPrive={SECOURS}' . $address_escaped . '))))';
     }
     $ldap = $config->get_ldap_link();
     $ldap->cd($config->current['BASE']);
@@ -305,8 +305,8 @@ class passwordRecovery extends standAlonePage
       $this->message[] = new FusionDirectoryError(htmlescape(sprintf(_('The user using email "%s" is locked. Please contact your administrator.'), $this->email_address)));
       return FALSE;
     }
-    $this->login  = $attrs[$this->loginAttribute][0];
-    $this->step   = 2;
+    $this->login = $attrs[$this->loginAttribute][0];
+    $this->step  = 2;
 
     if ($this->interactive) {
       $smarty = get_smarty();
@@ -345,9 +345,9 @@ class passwordRecovery extends standAlonePage
     }
 
     $reinit_link = URL::getPageURL();
-    $reinit_link .= '?uniq='.urlencode($token);
-    $reinit_link .= '&login='.urlencode($this->login);
-    $reinit_link .= '&email_address='.urlencode($this->email_address);
+    $reinit_link .= '?uniq=' . urlencode($token);
+    $reinit_link .= '&login=' . urlencode($this->login);
+    $reinit_link .= '&email_address=' . urlencode($this->email_address);
 
     logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $reinit_link, 'Setting link to');
 
@@ -395,8 +395,8 @@ class passwordRecovery extends standAlonePage
       return FALSE;
     }
 
-    $userTabs = objects::open($dn, 'user');
-    $userTab  = $userTabs->getBaseObject();
+    $userTabs              = objects::open($dn, 'user');
+    $userTab               = $userTabs->getBaseObject();
     $userTab->userPassword = [
       '',
       $new_password,
@@ -413,7 +413,7 @@ class passwordRecovery extends standAlonePage
       return;
     }
 
-    fusiondirectory_log('User '.$this->login.' password has been changed');
+    fusiondirectory_log('User ' . $this->login . ' password has been changed');
 
     return TRUE;
   }
@@ -430,7 +430,7 @@ class passwordRecovery extends standAlonePage
     $body = sprintf($this->mail2_body, $this->login);
 
     if (mail_utf8($this->email_address, FALSE, $this->from_mail, $this->mail2_subject, $body)) {
-      $smarty = get_smarty();
+      $smarty     = get_smarty();
       $this->step = 5;
       $smarty->assign('changed', TRUE);
     } else {

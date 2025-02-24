@@ -25,6 +25,7 @@ class ThemeFileParsingException extends Exception
 /*!
  * \brief Icon theme directory
  */
+
 class IconThemeDir
 {
   /* Nominal (unscaled) size of the icons in this directory.
@@ -43,7 +44,7 @@ class IconThemeDir
    * Valid types are Fixed, Scalable and Threshold.
    * The type decides what other keys in the section are used.
    * If not specified, the default is Threshold. */
-  private $Type      = 'Threshold';
+  private $Type = 'Threshold';
 
   /* The icons in this directory can be used if the size differ at most this much from the desired (unscaled) size.
    * Defaults to 2 if not present. */
@@ -51,9 +52,9 @@ class IconThemeDir
 
   function __construct ($infos)
   {
-    $this->Size     = $infos['Size'];
-    $this->MinSize  = $infos['Size'];
-    $this->MaxSize  = $infos['Size'];
+    $this->Size    = $infos['Size'];
+    $this->MinSize = $infos['Size'];
+    $this->MaxSize = $infos['Size'];
     foreach (['Type', 'MaxSize', 'MinSize', 'Threshold'] as $key) {
       if (isset($infos[$key])) {
         $this->$key = $infos[$key];
@@ -100,6 +101,7 @@ class IconThemeDir
 /*!
  * \brief Icon theme
  */
+
 class IconTheme
 {
   private $subdirs = [];
@@ -109,12 +111,12 @@ class IconTheme
   function __construct ($folder, $default_parent)
   {
     $this->path = $folder;
-    $datas  = @parse_ini_file($folder.'/index.theme', TRUE, INI_SCANNER_RAW);
+    $datas      = @parse_ini_file($folder . '/index.theme', TRUE, INI_SCANNER_RAW);
     if ($datas === FALSE) {
       throw new ThemeFileParsingException('Error while parsing theme file');
     }
     if (isset($datas['Icon Theme']['Directories']) && !empty($datas['Icon Theme']['Directories'])) {
-      $dirs   = preg_split('/,/', $datas['Icon Theme']['Directories']);
+      $dirs = preg_split('/,/', $datas['Icon Theme']['Directories']);
       foreach ($dirs as $name) {
         if (isset($datas[$name])) {
           $this->subdirs[strtolower($datas[$name]['Context'])][$name] = new IconThemeDir($datas[$name]);
@@ -141,8 +143,8 @@ class IconTheme
     if ($filename != NULL) {
       return $filename;
     }
-    if (isset(static::$fallbacks[$context.'/'.$icon])) {
-      foreach (static::$fallbacks[$context.'/'.$icon] as $fallback) {
+    if (isset(static::$fallbacks[$context . '/' . $icon])) {
+      foreach (static::$fallbacks[$context . '/' . $icon] as $fallback) {
         $filename = $this->LookupIcon($fallback[0], $fallback[1], $size);
         if ($filename != NULL) {
           return $filename;
@@ -169,7 +171,7 @@ class IconTheme
     foreach ($this->subdirs[$context] as $path => &$subdir) {
       if ($subdir->MatchesSize($size)) {
         foreach (static::$extensions as $extension) {
-          $filename = $this->path.'/'.$path.'/'.$iconname.'.'.$extension;
+          $filename = $this->path . '/' . $path . '/' . $iconname . '.' . $extension;
           if (file_exists($filename)) {
             return $filename;
           }
@@ -182,7 +184,7 @@ class IconTheme
       foreach ($this->subdirs[$context] as $path => &$subdir) {
         if (($sizedistance = $subdir->SizeDistance($size)) < $minimal_size) {
           foreach (static::$extensions as $extension) {
-            $filename = $this->path.'/'.$path.'/'.$iconname.'.'.$extension;
+            $filename = $this->path . '/' . $path . '/' . $iconname . '.' . $extension;
             if (file_exists($filename)) {
               $closest_filename = $filename;
               $minimal_size     = $sizedistance;
@@ -198,12 +200,12 @@ class IconTheme
     return NULL;
   }
 
-  static public $default_theme  = 'breezy';
-  static public $extensions     = ['png', 'xpm', 'svg'];
-  static public $find_closest   = FALSE;
+  static public $default_theme = 'breezy';
+  static public $extensions = ['png', 'xpm', 'svg'];
+  static public $find_closest = FALSE;
 
   /* We store themes in the session. To do otherwise, override these methods. */
-  static public $session_var    = 'IconThemes';
+  static public $session_var = 'IconThemes';
 
   static public function loadThemes ($path)
   {
@@ -228,6 +230,11 @@ class IconTheme
 
   static public function findThemeIcon ($theme, $context, $icon, $size)
   {
+    // We have to sanitize the $icon received from $_GET['icon']. Fixing vulnerability : CWE-35
+    if (!preg_match('/^[a-zA-Z0-9_\-]+$/', $icon)) {
+      trigger_error('Error: Wrong icon name received');
+      die('Error: wrong icon name received');
+    }
     if (!isset($_SESSION[static::$session_var])) {
       trigger_error('Error: no theme found in session');
       die('Error: no theme found in session');
@@ -248,162 +255,162 @@ class IconTheme
 
   /* Fallback system */
   static public $fallbacks = [
-    'types/user-group'              => [
-      ['applications','system-users']
+    'types/user-group' => [
+      ['applications', 'system-users']
     ],
-    'types/resource-group'          => [
-      ['actions','resource-group']
+    'types/resource-group' => [
+      ['actions', 'resource-group']
     ],
-    'types/user'                    => [
-      ['places','user-identity'],
-      ['status','avatar-default'],
+    'types/user' => [
+      ['places', 'user-identity'],
+      ['status', 'avatar-default'],
     ],
-    'types/contact'                 => [
-      ['mimetypes','x-office-contact'],
+    'types/contact' => [
+      ['mimetypes', 'x-office-contact'],
     ],
-    'types/certificate'             => [
-      ['mimetypes','stock_certificate'],
-      ['mimetypes','application-certificate'],
-      ['actions','view-certificate'],
+    'types/certificate' => [
+      ['mimetypes', 'stock_certificate'],
+      ['mimetypes', 'application-certificate'],
+      ['actions', 'view-certificate'],
     ],
-    'applications/user-info'        => [
-      ['actions','user-properties'],
-      ['types','contact'],
-      ['mimetypes','x-office-contact'],
-      ['types','user'],
-      ['places','user-identity'],
-      ['status','avatar-default'],
+    'applications/user-info' => [
+      ['actions', 'user-properties'],
+      ['types', 'contact'],
+      ['mimetypes', 'x-office-contact'],
+      ['types', 'user'],
+      ['places', 'user-identity'],
+      ['status', 'avatar-default'],
     ],
-    'applications/office-calendar'  => [
-      ['mimetypes','x-office-calendar'],
+    'applications/office-calendar' => [
+      ['mimetypes', 'x-office-calendar'],
     ],
-    'applications/os-linux'         => [
-      ['applications','linux'],
+    'applications/os-linux' => [
+      ['applications', 'linux'],
     ],
-    'applications/os-windows'       => [
-      ['applications','windows'],
+    'applications/os-windows' => [
+      ['applications', 'windows'],
     ],
-    'applications/samba'            => [
-      ['applications','os-windows'],
-      ['applications','windows'],
+    'applications/samba' => [
+      ['applications', 'os-windows'],
+      ['applications', 'windows'],
     ],
-    'applications/config-language'  => [
-      ['applications','locale'],
-      ['applications','preferences-desktop-locale'],
+    'applications/config-language' => [
+      ['applications', 'locale'],
+      ['applications', 'preferences-desktop-locale'],
     ],
-    'mimetypes/text-csv'            => [
-      ['mimetypes','x-office-spreadsheet'],
-      ['mimetypes','text-x-generic'],
+    'mimetypes/text-csv' => [
+      ['mimetypes', 'x-office-spreadsheet'],
+      ['mimetypes', 'text-x-generic'],
     ],
-    'mimetypes/application-pdf'     => [
-      ['mimetypes','x-office-document'],
+    'mimetypes/application-pdf' => [
+      ['mimetypes', 'x-office-document'],
     ],
-    'actions/application-exit'      => [
-      ['actions','system-log-out'],
+    'actions/application-exit' => [
+      ['actions', 'system-log-out'],
     ],
-    'actions/archive'      => [
-      ['mimetypes','application-x-archive'],
+    'actions/archive' => [
+      ['mimetypes', 'application-x-archive'],
     ],
-    'actions/document-export'       => [
-      ['actions','document-send'],
+    'actions/document-export' => [
+      ['actions', 'document-send'],
     ],
-    'actions/download'              => [
-      ['actions','document-save'],
+    'actions/download' => [
+      ['actions', 'document-save'],
     ],
-    'actions/document-restore'      => [
-      ['actions','document-import'],
-      ['actions','document-open'],
+    'actions/document-restore' => [
+      ['actions', 'document-import'],
+      ['actions', 'document-open'],
     ],
-    'actions/document-edit'         => [
-      ['actions','edit'],
-      ['applications','text-editor'],
-      ['applications','accessories-text-editor'],
-      ['actions','document-open'],
+    'actions/document-edit' => [
+      ['actions', 'edit'],
+      ['applications', 'text-editor'],
+      ['applications', 'accessories-text-editor'],
+      ['actions', 'document-open'],
     ],
-    'actions/snapshot'              => [
-      ['actions','document-save'],
+    'actions/snapshot' => [
+      ['actions', 'document-save'],
     ],
-    'actions/system-reboot'         => [
-      ['actions','view-refresh'],
+    'actions/system-reboot' => [
+      ['actions', 'view-refresh'],
     ],
-    'actions/system-update'         => [
-      ['applications','system-software-update'],
+    'actions/system-update' => [
+      ['applications', 'system-software-update'],
     ],
-    'actions/system-reinstall'      => [
-      ['applications','system-installer'],
+    'actions/system-reinstall' => [
+      ['applications', 'system-installer'],
     ],
-    'actions/task-start'            => [
-      ['actions','media-playback-start'],
+    'actions/task-start' => [
+      ['actions', 'media-playback-start'],
     ],
-    'actions/task-stop'             => [
-      ['actions','media-playback-stop'],
+    'actions/task-stop' => [
+      ['actions', 'media-playback-stop'],
     ],
-    'actions/task-schedule'         => [
-      ['actions','chronometer'],
-      ['actions','smallclock'],
+    'actions/task-schedule' => [
+      ['actions', 'chronometer'],
+      ['actions', 'smallclock'],
     ],
-    'actions/up'                    => [
-      ['actions','go-up'],
-      ['actions','arrow-up'],
+    'actions/up' => [
+      ['actions', 'go-up'],
+      ['actions', 'arrow-up'],
     ],
-    'actions/upload'                => [
-      ['actions','document-import'],
-      ['actions','up'],
+    'actions/upload' => [
+      ['actions', 'document-import'],
+      ['actions', 'up'],
     ],
-    'actions/down'                  => [
-      ['actions','go-down'],
-      ['actions','arrow-down'],
+    'actions/down' => [
+      ['actions', 'go-down'],
+      ['actions', 'arrow-down'],
     ],
-    'actions/previous'              => [
-      ['actions','go-previous'],
-      ['actions','arrow-left'],
+    'actions/previous' => [
+      ['actions', 'go-previous'],
+      ['actions', 'arrow-left'],
     ],
-    'actions/next'                  => [
-      ['actions','go-next'],
-      ['actions','arrow-right'],
+    'actions/next' => [
+      ['actions', 'go-next'],
+      ['actions', 'arrow-right'],
     ],
-    'actions/submit'                => [
-      ['actions','go-jump'],
+    'actions/submit' => [
+      ['actions', 'go-jump'],
     ],
-    'categories/settings'           => [
-      ['categories','gnome-settings'],
-      ['categories','preferences-other'],
-      ['categories','preferences-system'],
+    'categories/settings' => [
+      ['categories', 'gnome-settings'],
+      ['categories', 'preferences-other'],
+      ['categories', 'preferences-system'],
     ],
-    'categories/checks'             => [
-      ['actions','view-task'],
-      ['actions','view-calendar-tasks'],
-      ['actions','checkbox'],
-      ['status','task-complete'],
+    'categories/checks' => [
+      ['actions', 'view-task'],
+      ['actions', 'view-calendar-tasks'],
+      ['actions', 'checkbox'],
+      ['status', 'task-complete'],
     ],
-    'devices/server'                => [
-      ['places','server'],
-      ['places','network-server'],
+    'devices/server' => [
+      ['places', 'server'],
+      ['places', 'network-server'],
     ],
-    'devices/media-cdrom'           => [
-      ['devices','media-optical'],
+    'devices/media-cdrom' => [
+      ['devices', 'media-optical'],
     ],
-    'devices/terminal'              => [
-      ['applications','utilities-terminal'],
+    'devices/terminal' => [
+      ['applications', 'utilities-terminal'],
     ],
-    'devices/computer-windows'      => [
-      ['applications','os-windows'],
-      ['applications','windows'],
+    'devices/computer-windows' => [
+      ['applications', 'os-windows'],
+      ['applications', 'windows'],
     ],
-    'devices/template'              => [
-      ['actions','document-new'],
+    'devices/template' => [
+      ['actions', 'document-new'],
     ],
-    'status/object-locked'          => [
-      ['status','changes-prevent'],
+    'status/object-locked' => [
+      ['status', 'changes-prevent'],
     ],
-    'status/object-unlocked'        => [
-      ['status','changes-allow'],
+    'status/object-unlocked' => [
+      ['status', 'changes-allow'],
     ],
-    'status/task-waiting'        => [
-      ['actions','task-schedule'],
+    'status/task-waiting' => [
+      ['actions', 'task-schedule'],
     ],
-    'places/folder-network'        => [
-      ['places','folder-remote'],
+    'places/folder-network' => [
+      ['places', 'folder-remote'],
     ],
   ];
 }

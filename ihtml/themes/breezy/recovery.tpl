@@ -91,7 +91,7 @@
 
     <div>
       <label for="email_address">
-         <img class="center" src="geticon.php?context=applications&amp;icon=internet-mail&amp;size=48" alt="{t}Email address{/t}" title="{t}Email address{/t}" />&nbsp;
+         <img class="center" src="geticon.php?context=applications&amp;icon=recovery-mail&amp;size=48" alt="{t}Email address{/t}" title="{t}Email address{/t}" />&nbsp;
       </label>
       <input type="text" name="email_address" id="email_address" value="{$email_address|escape}" title="{t}Email{/t}" onFocus=""/>
     </div>

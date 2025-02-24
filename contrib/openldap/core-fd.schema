@@ -1,6 +1,9 @@
 ##
-## core-fd.schema - Needed by FusionDirectory for its basic fonctionnalities
+## core-fd.schema - Needed by FusionDirectory for its basic functionalities
 ##
+
+# Last OID used for attributes  : 1.3.6.1.4.1.38414.62.1.73 01/10/24 #
+# Last OID used for objectClass : 1.3.6.1.4.1.38414.62.2.11 29/01/24 #
 
 ##### Attributes from gosa ######
 
@@ -70,6 +73,12 @@ attributetype ( 1.3.6.1.4.1.38414.62.1.51 NAME 'fdSnapshotDataSource'
   SUBSTR caseIgnoreSubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE )
 
+attributetype ( 1.3.6.1.4.1.38414.62.1.68 NAME 'fdSnapshotHash'
+  DESC 'FusionDirectory - hash of the current snapShot allowing diff verification with MD5'
+  EQUALITY caseIgnoreMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE )
+
 ##### Subscriptions Attributes ######
 
 attributetype ( 1.3.6.1.4.1.38414.62.11.1 NAME 'fdSubscriptionStartDate'
@@ -121,8 +130,8 @@ attributetype ( 1.3.6.1.4.1.38414.62.1.7 NAME 'fdMailTemplateSignature'
   SUBSTR caseIgnoreSubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.40)
 
-attributetype ( 1.3.6.1.4.1.38414.62.1.8 NAME 'fdMailTemplateAttachment'
-  DESC 'FusionDirectory - template mail field'
+attributetype ( 1.3.6.1.4.1.38414.62.1.8 NAME 'fdMailAttachmentsContent'
+  DESC 'FusionDirectory - attachment data in bin format'
   EQUALITY octetStringMatch
   SUBSTR caseIgnoreSubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.40)
@@ -148,7 +157,7 @@ attributetype ( 1.3.6.1.4.1.38414.62.1.11 NAME 'fdTasksMailObject'
   SINGLE-VALUE )
 
 attributetype ( 1.3.6.1.4.1.38414.62.1.12 NAME 'fdTasksScheduleDate'
-	DESC 'Scheduling of the Task - required processed date'
+  DESC 'Scheduling of the Task - required processed date'
   EQUALITY caseExactIA5Match
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
 
@@ -167,6 +176,11 @@ attributetype ( 1.3.6.1.4.1.38414.62.1.15 NAME 'fdTasksEndDate'
   EQUALITY caseExactMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
 
+attributetype ( 1.3.6.1.4.1.38414.62.1.57 NAME 'fdTasksLastExec'
+  DESC 'Fusion Directory - Time when tasks was last executed'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+
 attributetype ( 1.3.6.1.4.1.38414.62.1.16 NAME 'fdTasksCreationDate'
   DESC 'Fusion Directory - Task Start Date'
   EQUALITY caseExactMatch
@@ -179,6 +193,11 @@ attributetype ( 1.3.6.1.4.1.38414.62.1.17 NAME 'fdTasksEmailsFromDN'
 
 attributetype ( 1.3.6.1.4.1.38414.62.1.18 NAME 'fdTasksEmailSender'
   DESC 'Fusion Directory - Emails derived from DN' 
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+
+attributetype ( 1.3.6.1.4.1.38414.62.1.55 NAME 'fdTasksEmailBCC'
+  DESC 'Fusion Directory - Emails derived from DN'
   EQUALITY caseExactMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
 
@@ -196,7 +215,7 @@ attributetype ( 1.3.6.1.4.1.38414.62.1.20 NAME 'fdTasksGranularStatus'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
 
 attributetype ( 1.3.6.1.4.1.38414.62.1.21 NAME 'fdTasksGranularSchedule'
-	DESC 'Scheduling of the Task - required processed date'
+  DESC 'Scheduling of the Task - required processed date'
   EQUALITY caseExactIA5Match
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
 
@@ -222,11 +241,29 @@ attributetype ( 1.3.6.1.4.1.38414.62.1.25 NAME 'fdTasksGranularMailFrom'
   EQUALITY caseExactMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
 
+attributetype ( 1.3.6.1.4.1.38414.62.1.56 NAME 'fdTasksGranularMailBCC'
+  DESC 'Fusion Directory - Emails sender if object mail'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+
 attributetype ( 1.3.6.1.4.1.38414.62.1.26 NAME 'fdTasksGranularRef'
   DESC 'Fusion Directory - Reference towards a CN (E.g Mail Template)'
   EQUALITY caseExactMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
-  SINGLE-VALUE )
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+
+attributetype ( 1.3.6.1.4.1.38414.62.1.69 NAME 'fdTasksGranularHelper'
+  DESC 'Fusion Directory - Reference towards a potential helper value from main task (case of reminder)'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+
+
+
+## Any tasks requiring to store DN (Such as lifeCycle). ##
+
+attributetype ( 1.3.6.1.4.1.38414.62.1.67 NAME 'fdTasksGranularDN'
+  DESC 'Fusion Directory - DN of the targeted user'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
 
 ##### Tasks Conf #####
 
@@ -331,7 +368,7 @@ attributetype ( 1.3.6.1.4.1.38414.62.1.43 NAME 'fdPluginManagerSupportDownloadUr
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
 
 attributetype ( 1.3.6.1.4.1.38414.62.1.44 NAME 'fdPluginManagerInfoTags'
-  DESC 'FusionDirectory - Plugin Tag for identiy plugins goals'
+  DESC 'FusionDirectory - Plugin Tag for identity plugins goals'
   EQUALITY caseIgnoreIA5Match
   SUBSTR caseIgnoreSubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
@@ -372,6 +409,52 @@ attributetype ( 1.3.6.1.4.1.38414.62.1.50 NAME 'fdPluginManagerSupportContractUr
   SUBSTR caseIgnoreSubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
 
+##### Tasks Granular Part 2 #####
+
+attributetype ( 1.3.6.1.4.1.38414.62.1.52 NAME 'fdTasksRepeatable'
+		DESC 'Allow a given task to be repeatable'
+		EQUALITY booleanMatch
+		SUBSTR caseIgnoreSubstringsMatch
+		SYNTAX '1.3.6.1.4.1.1466.115.121.1.7')
+
+attributetype ( 1.3.6.1.4.1.38414.62.1.53 NAME 'fdTasksUpdatable'
+		DESC 'Allow a given task to be updatable'
+		EQUALITY booleanMatch
+		SUBSTR caseIgnoreSubstringsMatch
+		SYNTAX '1.3.6.1.4.1.1466.115.121.1.7')
+
+attributetype ( 1.3.6.1.4.1.38414.62.1.54 NAME 'fdTasksRepeatableSchedule'
+		DESC 'Set the repetition of the tasks via a set attribute'
+		EQUALITY caseIgnoreMatch
+		SUBSTR caseIgnoreSubstringsMatch
+		SYNTAX '1.3.6.1.4.1.1466.115.121.1.15')
+
+##### Token management attributes #####
+
+attributetype ( 1.3.6.1.4.1.38414.62.1.70 NAME 'fdTokenUserDN'
+  DESC 'The DN user linked to the token'
+  EQUALITY caseIgnoreMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
+
+attributetype ( 1.3.6.1.4.1.38414.62.1.71 NAME 'fdTokenType'
+    DESC 'The token type eg reminder, recovery'
+    EQUALITY caseIgnoreMatch
+    SUBSTR caseIgnoreSubstringsMatch
+    SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
+
+attributetype ( 1.3.6.1.4.1.38414.62.1.72 NAME 'fdToken'
+  DESC 'The token'
+  EQUALITY caseIgnoreMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
+
+attributetype ( 1.3.6.1.4.1.38414.62.1.73 NAME 'fdTokenTimestamp'
+  DESC 'Timestamp for the validation of the token'
+  EQUALITY caseIgnoreMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
+
 ##### Classes #####
 
 ### old gosa ObjectClass ###
@@ -401,7 +484,7 @@ objectclass ( 1.3.6.1.4.1.10098.1.2.1.19.19 NAME 'gosaSnapshotObject'
   DESC 'GOsa - Container object for undo and snapshot data'
   SUP top STRUCTURAL
   MUST ( gosaSnapshotTimestamp $ gosaSnapshotDN $ gosaSnapshotData $ fdSnapshotDataSource )
-  MAY  ( fdSnapshotObjectType $ description ) )
+  MAY  ( fdSnapshotObjectType $ description $ fdSnapshotHash) )
 
 ### New FusionDirectory Objectclass ###
 
@@ -427,8 +510,13 @@ objectclass (1.3.6.1.4.1.38414.62.2.3 NAME 'fdPluginManager'
 
 objectclass (1.3.6.1.4.1.38414.62.2.4 NAME 'fdMailTemplate'
   DESC 'FusionDirectory - template mail object'
+  SUP top STRUCTURAL
   MUST ( cn $ fdMailTemplateBody $ fdMailTemplateSubject )
-  MAY ( fdMailTemplateSignature $ fdMailTemplateReadReceipt $ fdMailTemplateAttachment  ) )
+  MAY ( fdMailTemplateSignature $ fdMailTemplateReadReceipt))
+
+objectclass (1.3.6.1.4.1.38414.62.2.10 NAME 'fdMailAttachments'
+  DESC 'FusionDirectory - mail template attachments'
+  MUST ( cn $ fdMailAttachmentsContent ))
 
 objectclass ( 1.3.6.1.4.1.38414.62.2.5 NAME 'fdMailTemplateConf'
   DESC 'FusionDirectory Mail Template Configuration'
@@ -441,21 +529,29 @@ objectclass ( 1.3.6.1.4.1.38414.62.2.5 NAME 'fdMailTemplateConf'
 objectclass (1.3.6.1.4.1.38414.62.2.6 NAME 'fdTasks'
   DESC 'FusionDirectory - Tasks objects'
   MUST ( cn $ fdTasksStatus $ fdTasksCreationDate )
-  MAY ( fdTasksScheduleDate $ fdTasksEndDate) )
+  MAY ( fdTasksScheduleDate $ fdTasksEndDate $ fdTasksRepeatableSchedule $ fdTasksUpdatable $ fdTasksRepeatable
+  $ fdTasksLastExec))
 
 objectclass (1.3.6.1.4.1.38414.62.2.7 NAME 'fdTasksMail'
   DESC 'FusionDirectory - Tasks objects Mail'
   SUP top AUXILIARY
-  MUST ( fdTasksMailObject $ fdTasksEmailSender ) 
-  MAY ( fdTasksMailUsers $ fdTasksEmailsFromDN $ fdTasksMailType ) )
+  MUST ( fdTasksMailObject $ fdTasksEmailSender )
+  MAY ( fdTasksMailUsers $ fdTasksEmailsFromDN $ fdTasksMailType $ fdTasksEmailBCC ) )
 
 objectclass (1.3.6.1.4.1.38414.62.2.8 NAME 'fdTasksGranular'
   DESC 'FusionDirectory - Tasks granular objects'
-  MUST ( fdTasksGranularMaster $ cn $ fdTasksGranularMail $ fdTasksGranularMailFrom $ 
-  fdTasksGranularRef $ fdTasksGranularType $ fdTasksGranularSchedule $ fdTasksGranularStatus ))
+  MUST ( fdTasksGranularMaster $ cn $ fdTasksGranularType $ fdTasksGranularSchedule $ fdTasksGranularStatus )
+  MAY (fdTasksGranularMailBCC $ fdTasksGranularDN $ fdTasksGranularRef $ fdTasksGranularMail $ fdTasksGranularMailFrom $ fdTasksGranularHelper))
 
 objectclass (1.3.6.1.4.1.38414.62.2.9 NAME 'fdTasksConf'
   DESC 'FusionDirectory - Tasks objects Configuration'
   SUP top AUXILIARY
   MUST ( cn )
   MAY ( fdTasksRDN $ fdTasksConfLastExecTime $ fdTasksConfMaxEmails $ fdTasksConfIntervalEmails))
+
+### token objectclass ###
+
+objectclass ( 1.3.6.1.4.1.38414.62.2.11 NAME 'fdTokenEntry'
+  SUP top STRUCTURAL
+  DESC 'FusionDirectory - Class for token storage'
+  MUST ( cn $ fdTokenUserDN $ fdTokenType $ fdToken $ fdTokenTimestamp ))

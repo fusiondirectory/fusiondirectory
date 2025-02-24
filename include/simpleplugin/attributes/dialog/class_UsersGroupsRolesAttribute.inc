@@ -27,6 +27,6 @@ class UsersGroupsRolesAttribute extends ObjectsAttribute
 {
   function __construct (string $label, string $description, string $ldapName, bool $required = FALSE, array $defaultValue = [], string $store_attr = 'dn', string $display_attr = 'nameAttr', array $filterElementDefinitions = NULL, string $acl = '')
   {
-    parent::__construct($label, $description, $ldapName, $required, ['user', 'group', 'role', 'ogroup'], $defaultValue, $store_attr, $display_attr, $filterElementDefinitions, $acl);
+    parent::__construct($label, $description, $ldapName, $required, ['user', 'group', 'role', 'ogroup', 'dyngroup'], $defaultValue, $store_attr, $display_attr, $filterElementDefinitions, $acl);
   }
 }

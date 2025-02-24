@@ -191,7 +191,7 @@ class logging
   /*
    * \brief This function is used to into the ldap for audit plugin
    *
-   * \param Array $entry Entry to be loged
+   * \param Array $entry Entry to be logged
    */
   static protected function log_into_ldap ($entry)
   {

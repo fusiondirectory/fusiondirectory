@@ -23,8 +23,8 @@ class PostalAddressAttribute extends TextAreaAttribute
   function inputValue ($ldapValue)
   {
     return str_replace(
-      ['$',  '\24','\5C'],
-      ["\n", '$',  '\\'],
+      ['$', '\24', '\5C'],
+      ["\n", '$', '\\'],
       $ldapValue
     );
   }
@@ -36,7 +36,7 @@ class PostalAddressAttribute extends TextAreaAttribute
       '$',
       str_replace(
         ['\\', '$'],
-        ['\5C','\24'],
+        ['\5C', '\24'],
         $this->getValue()
       )
     );
@@ -45,30 +45,31 @@ class PostalAddressAttribute extends TextAreaAttribute
 
 class user extends simplePlugin
 {
+  // This is used to see if the password is locked. The "was" is better interpreted as "is" - it is historical here.
   private $was_locked;
 
   static function plInfo (): array
   {
     return [
-      'plShortName'   => _('User'),
+      'plShortName' => _('User'),
       'plDescription' => _('User account information'),
-      'plIcon'        => 'geticon.php?context=applications&icon=user-info&size=48',
-      'plSmallIcon'   => 'geticon.php?context=applications&icon=user-info&size=16',
-      'plSelfModify'  => TRUE,
-      'plObjectClass' => ['inetOrgPerson','organizationalPerson','person'],
-      'plFilter'      => '(objectClass=inetOrgPerson)',
-      'plObjectType'  => ['user' => [
-        'name'        => _('User'),
+      'plIcon' => 'geticon.php?context=applications&icon=user-info&size=48',
+      'plSmallIcon' => 'geticon.php?context=applications&icon=user-info&size=16',
+      'plSelfModify' => TRUE,
+      'plObjectClass' => ['inetOrgPerson', 'organizationalPerson', 'person'],
+      'plFilter' => '(objectClass=inetOrgPerson)',
+      'plObjectType' => ['user' => [
+        'name' => _('User'),
         'description' => _('User account'),
-        'mainAttr'    => 'uid',
-        'nameAttr'    => 'cn',
-        'icon'        => 'geticon.php?context=types&icon=user&size=16',
-        'ou'          => get_ou('userRDN'),
+        'mainAttr' => 'uid',
+        'nameAttr' => 'cn',
+        'icon' => 'geticon.php?context=types&icon=user&size=16',
+        'ou' => get_ou('userRDN'),
       ]],
-      'plForeignKeys'  => [
-        'manager' => ['user','dn','manager=%oldvalue%','*']
+      'plForeignKeys' => [
+        'manager' => ['user', 'dn', 'manager=%oldvalue%', '*']
       ],
-      'plSearchAttrs' => ['uid','description'],
+      'plSearchAttrs' => ['uid', 'description'],
 
       'plProvidedAcls' => array_merge(
         parent::generatePlProvidedAcls(static::getAttributesInfo()),
@@ -82,11 +83,11 @@ class user extends simplePlugin
     global $config;
     $languages = Language::getList(TRUE);
     asort($languages);
-    $languages = array_merge(['' => ''], $languages);
+    $languages      = array_merge(['' => ''], $languages);
     $attributesInfo = [
       'perso' => [
-        'name'  => _('Personal information'),
-        'icon'  => 'geticon.php?context=types&icon=user&size=16',
+        'name' => _('Personal information'),
+        'icon' => 'geticon.php?context=types&icon=user&size=16',
         'attrs' => [
           new HiddenAttribute('cn'),
           new StringAttribute(
@@ -116,8 +117,8 @@ class user extends simplePlugin
         ]
       ],
       'contact' => [
-        'name'  => _('Organizational contact information'),
-        'icon'  => 'geticon.php?context=types&icon=contact&size=16',
+        'name' => _('Organizational contact information'),
+        'icon' => 'geticon.php?context=types&icon=user&size=16',
         'attrs' => [
           new StringAttribute(
             _('Location'), _('Location'),
@@ -162,8 +163,8 @@ class user extends simplePlugin
         ]
       ],
       'account' => [
-        'name'  => _('Account information'),
-        'icon'  => 'geticon.php?context=applications&icon=ldap&size=16',
+        'name' => _('Account information'),
+        'icon' => 'geticon.php?context=applications&icon=ldap&size=16',
         'attrs' => [
           new BaseSelectorAttribute(get_ou("userRDN")),
           new UidAttribute(
@@ -182,8 +183,8 @@ class user extends simplePlugin
         ]
       ],
       'homecontact' => [
-        'name'  => _('Personal contact information'),
-        'icon'  => 'geticon.php?context=types&icon=contact&size=16',
+        'name' => _('Personal contact information'),
+        'icon' => 'geticon.php?context=types&icon=user&size=16',
         'attrs' => [
           new StringAttribute(
             _('Display name'), _('Name this user should appear as. Used by Exchange.'),
@@ -200,8 +201,8 @@ class user extends simplePlugin
         ]
       ],
       'organization' => [
-        'name'  => _('Organizational information'),
-        'icon'  => 'geticon.php?context=places&icon=folder&size=16',
+        'name' => _('Organizational information'),
+        'icon' => 'geticon.php?context=places&icon=folder&size=16',
         'attrs' => [
           new SetAttribute(
             new StringAttribute(
@@ -259,7 +260,17 @@ class user extends simplePlugin
 
   function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE)
   {
+    global $config;
     parent::__construct($dn, $object, $parent, $mainTab);
+
+    // verify if the attribute password is locked
+    $this->was_locked = $this->attributesAccess['userPassword']->isLocked();
+
+    if ($this->was_locked) {
+      $this->read_only = TRUE;
+      // This will update the parent class (simplePlugin) via class-level state allowing children to get read only state.
+      self::setUserLocked(TRUE);
+    }
 
     if ($this->is_template && !$this->initially_was_account) {
       $this->attributesAccess['userPassword']->setValue('%askme%');
@@ -273,7 +284,16 @@ class user extends simplePlugin
     $fd       = fopen($filename, 'rb');
     $this->attributesAccess['jpegPhoto']->setPlaceholder(fread($fd, filesize($filename)));
 
-    $this->was_locked = $this->attributesAccess['userPassword']->isLocked();
+
+    // Do not apply automatic snap on templates nor if the DN is not yet processed (new creation from template)
+    if ($this->is_template !== TRUE && $this->dn !== 'new') {
+      // Verification is snapshot is enabled and automatic.
+      if (isset($config->current['ENABLEAUTOMATICSNAPSHOTS']) && isset($config->current['ENABLESNAPSHOTS'])) {
+        if (strtolower($config->current['ENABLEAUTOMATICSNAPSHOTS']) === 'true' && strtolower($config->current['ENABLESNAPSHOTS']) === 'true') {
+          $this->generateAutomaticSnapshot();
+        }
+      }
+    }
   }
 
   function resetCopyInfos ()
@@ -285,14 +305,14 @@ class user extends simplePlugin
   private function update_cn ()
   {
     global $config;
-    $pattern  = $config->get_cfg_value('CnPattern', '%givenName% %sn%');
+    $pattern = $config->get_cfg_value('CnPattern', '%givenName% %sn%');
     $this->attributesAccess['cn']->setValue($this->applyPattern($pattern));
   }
 
   private function applyPattern ($pattern)
   {
-    $fields   = templateHandling::listFields($pattern);
-    $attrs    = [];
+    $fields = templateHandling::listFields($pattern);
+    $attrs  = [];
     foreach ($fields as $field) {
       if (in_array($field, $this->attributes)) {
         $attrs[$field] = $this->$field;
@@ -307,7 +327,7 @@ class user extends simplePlugin
           }
         }
       }
-      trigger_error('Could not find field '.$field.' in any tab!');
+      trigger_error('Could not find field ' . $field . ' in any tab!');
     }
 
     return templateHandling::parseString($pattern, $attrs);
@@ -318,13 +338,13 @@ class user extends simplePlugin
     global $config;
 
     if ($this->is_template) {
-      return 'cn='.ldap_escape_dn($this->_template_cn).',ou=templates,'.get_ou('userRDN').$this->base;
+      return 'cn=' . ldap_escape_dn($this->_template_cn) . ',ou=templates,' . get_ou('userRDN') . $this->base;
     }
 
     $this->update_cn();
     $attribute = $config->get_cfg_value('accountPrimaryAttribute', 'uid');
 
-    return $this->create_unique_dn($attribute, get_ou('userRDN').$this->base);
+    return $this->create_unique_dn($attribute, get_ou('userRDN') . $this->base);
   }
 
   public function render (): string
@@ -365,8 +385,8 @@ class user extends simplePlugin
     }
 
     if (!$this->is_template && $this->was_locked && $this->attributesAccess['userPassword']->hasChanged()) {
-      $methods  = passwordMethod::get_available_methods();
-      $pmethod  = new $methods[$this->attributesAccess['userPassword']->getMethod()]($this->dn);
+      $methods = passwordMethod::get_available_methods();
+      $pmethod = new $methods[$this->attributesAccess['userPassword']->getMethod()]($this->dn);
       $pmethod->lock_account($this->dn);
     }
 
@@ -383,24 +403,34 @@ class user extends simplePlugin
       session::set('ui', $ui);
       session::set('Last_init_lang', 'update');
     }
-    // Verification is snapshot is enabled and automatic.
-    // Note : string values are stored in that array.
-    if (isset($config->current['ENABLEAUTOMATICSNAPSHOTS']) && isset($config->current['ENABLESNAPSHOTS'])) {
-      if (strtolower($config->current['ENABLEAUTOMATICSNAPSHOTS']) === 'true' && strtolower($config->current['ENABLESNAPSHOTS']) === 'true' ) {
-        $this->generateAutomaticSnapshot();
-      }
-    }
     return parent::post_save();
   }
 
-  /*
-   * Create the snapshot object in case of automated snapshot.
+  /**
+   * @return void
+   * Note : Create a snapshot of current data before save, verifying if data have changed before taking a snap.
    */
   public function generateAutomaticSnapshot ()
   {
-    $snapshotHandler = new SnapshotHandler();
-    $snapshotHandler->createSnapshot($this->dn, 'automatic snapshot', 'USER', 'FD');
-    $snapshotHandler->verifySnapshotRetention($this->dn);
+    // Get the hash of current data before modifications.
+    global $config;
+    $ldap            = $config->get_ldap_link();
+    $currentSnapHash = md5($ldap->generateLdif($this->dn, '(!(objectClass=gosaDepartment))', 'sub'));
+
+    // Verify if current snap hash already exist in the list of existing snapshots - not taking a snap if it exists.
+    $snapshotHandler   = new SnapshotHandler();
+    $existingSnapshots = $snapshotHandler->getAvailableSnapsShots($this->dn);
+    $sameHashExist     = FALSE;
+    foreach ($existingSnapshots as $snap) {
+      if (!empty($snap['fdSnapshotHash'][0]) && $snap['fdSnapshotHash'][0] === $currentSnapHash) {
+        $sameHashExist = TRUE;
+      }
+    }
+    // Create the snapshot
+    if ($sameHashExist === FALSE) {
+      $snapshotHandler->createSnapshot($this->dn, 'automatic snapshot', 'USER', 'FD');
+      $snapshotHandler->verifySnapshotRetention($this->dn);
+    }
   }
 
   function adapt_from_template (array $attrs, array $skip = [])
@@ -430,7 +460,7 @@ class user extends simplePlugin
 
     $ldap = $config->get_ldap_link();
     $ldap->cat($userdn, ['pwdPolicySubentry', 'pwdHistory', 'pwdChangedTime', 'userPassword']);
-    $attrs = $ldap->fetch(TRUE);
+    $attrs     = $ldap->fetch(TRUE);
     $ppolicydn = '';
     if (isset($attrs['pwdPolicySubentry'][0])) {
       $ppolicydn = $attrs['pwdPolicySubentry'][0];
@@ -482,7 +512,7 @@ class user extends simplePlugin
       if (isset($policy['pwdMinAge'][0]) && isset($attrs['pwdChangedTime'][0])) {
         $date = LdapGeneralizedTime::fromString($attrs['pwdChangedTime'][0]);
         $date->setTimezone(timezone::utc());
-        $now  = new DateTime('now', timezone::utc());
+        $now = new DateTime('now', timezone::utc());
         if ($now->getTimeStamp() < $date->getTimeStamp() + $policy['pwdMinAge'][0]) {
           return sprintf(_('You must wait %d seconds before changing your password again'), $policy['pwdMinAge'][0] - ($now->getTimeStamp() - $date->getTimeStamp()));
         }
@@ -494,7 +524,7 @@ class user extends simplePlugin
         unset($attrs['pwdHistory']['count']);
         foreach ($attrs['pwdHistory'] as $pwdHistory) {
           $pwdHistory = explode('#', $pwdHistory, 4);
-          $method = passwordMethod::get_method($pwdHistory[3], $user);
+          $method     = passwordMethod::get_method($pwdHistory[3], $user);
           if (($method !== NULL) && $method->checkPassword($new_password, $pwdHistory[3])) {
             return _('Password is in history of old passwords');
           }

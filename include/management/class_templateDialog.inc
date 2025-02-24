@@ -21,14 +21,15 @@
 /*!
  * \brief Template dialog handling
  */
+
 class templateDialog implements FusionDirectoryDialog
 {
   protected $management;
   protected $type;
   protected $template = NULL;
   protected $templates;
-  protected $target = NULL;
-  protected $closed = FALSE;
+  protected $target   = NULL;
+  protected $closed   = FALSE;
 
   protected $tabObject;
 
@@ -37,14 +38,14 @@ class templateDialog implements FusionDirectoryDialog
 
   function __construct ($management, $type, $dn = NULL, $target = NULL)
   {
-    $this->management       = $management;
-    $this->type             = $type;
-    $this->templates        = objects::getTemplates($this->type);
+    $this->management = $management;
+    $this->type       = $type;
+    $this->templates  = objects::getTemplates($this->type);
     if ($dn !== NULL) {
       if (isset($this->templates[$dn])) {
         $this->template = new template($this->type, $dn);
       } else {
-        trigger_error('Unknown template "'.$dn.'"');
+        trigger_error('Unknown template "' . $dn . '"');
       }
     }
     $this->target = $target;
@@ -58,9 +59,9 @@ class templateDialog implements FusionDirectoryDialog
     }
 
     if (($this->target === NULL) &&
-        is_object($this->template) &&
-        (isset($_POST[$this->post_finish]) || isset($_GET[$this->post_finish]))
-        ) {
+      is_object($this->template) &&
+      (isset($_POST[$this->post_finish]) || isset($_GET[$this->post_finish]))
+    ) {
       $this->template->readPost();
       $this->template->update();
       $this->handleFinish();
@@ -70,7 +71,7 @@ class templateDialog implements FusionDirectoryDialog
     if (
       isset($_POST['template']) &&
       isset($this->templates[$_POST['template']])
-      ) {
+    ) {
       if (is_object($this->template)) {
         trigger_error('redefining template object');
       }
@@ -122,11 +123,23 @@ class templateDialog implements FusionDirectoryDialog
     return $display;
   }
 
+  /**
+   * @return void
+   * Note : The idea is to handle the save directly at the end of the validation of the template data.
+   * Allowing direct saving in case of no error and opening the UI at the exact tab in case of error.
+   */
   protected function handleFinish ()
   {
     $this->management->closeDialogs();
-    $this->management->openTabObject($this->template->apply());
+    $tab    = $this->template->apply();
+    $errors = $tab->save();
+
+    if (!empty($errors)) {
+      $this->management->openTabObject($tab);
+      msg_dialog::displayChecks($errors);
+    }
   }
+
 
   protected function handleCancel ()
   {

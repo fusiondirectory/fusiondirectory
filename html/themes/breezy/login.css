@@ -47,7 +47,7 @@ div#window-titlebar {
   min-height: 30px;
 }
 div#window-titlebar > img {
-  float: left;
+  float: center;
   height: 30px;
 }
 div#window-titlebar > p {

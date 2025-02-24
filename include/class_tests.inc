@@ -365,4 +365,20 @@ class tests
 
     return ($ad >= $from && $ad <= $to);
   }
+
+  /* \brief Check if the value is a valid orcid id */
+  public static function is_orcid ($orcid)
+  {
+    /* Remove hyphens, remove last digit, convert to array */
+    $baseDigits = str_split(str_replace('-', '', substr($orcid, 0, -1)));
+    $sum = 0;
+    foreach ($baseDigits as $baseDigit) {
+      $sum = ($sum + (int)$baseDigit) * 2;
+    }
+    $remainder  = $sum % 11;
+    $result     = (12 - $remainder) % 11;
+    $orcidCheckSum = (($result == 10) ? "X" : (string)$result);
+
+    return ($orcidCheckSum != substr($orcid, -1));
+  }
 }

@@ -48,6 +48,7 @@ class userinfo
   var $language     = "";
   var $groups       = [];
   var $roles        = [];
+  var $mail         = '';
 
   /*! \brief LDAP attributes of this user at login */
   protected $cachedAttrs  = [];
@@ -108,6 +109,9 @@ class userinfo
     }
     if (isset($attrs['givenName'][0])) {
       $this->givenName = $attrs['givenName'][0];
+    }
+    if (isset($attrs['mail'][0])) {
+      $this->mail = $attrs['mail'][0];
     }
 
     /* Assign user language */
