@@ -245,3 +245,6 @@ documentation and additional help.
 
 * Matthew Newton <matthew.newton@networkradius.com>
   EpochDays attributes as human readable    
+
+* Cass Rebbelin <Rebbelin@hisolutions.com>
+  PNG traversal path vulnerability

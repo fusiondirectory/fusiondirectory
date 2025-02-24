@@ -1,3 +1,116 @@
+## %"FusionDirectory 1.5" - 2025-02-24
+
+### Added
+
+#### fusiondirectory
+- fd#6270 [Snapshot] - Enhancement in order to provide a first concept of revision and source reference
+- fd#6301 [CORE] - Tasks Mail must take into account dynGroups
+- fd#6302 [CORE][TASKS] - Tasks must be set as repeatable and updatable
+- fd#6303 [CORE][MAIL] – Attachments for emails must be created as sub nodes
+- fd#6305 [CORE][Task] - type mail should include a BCC field
+- fd#6306 [CORE] - Issues of services not triggered by account deactivation via lock icon on user list
+- fd#6307 [CORE] - Supann life cycle - automation via Orchestrator
+- fd#6309 Support SSHA512 password if overlay pw-sha2 is installed
+- fd#6314 [CORE] - Snapshots - review of the current automatic creation logic
+- fd#6320 [Tasks] - Mail class can have one method static to be reused outside object call by others
+- fd#6323 [Tasks] - LastExec is performed on localTime and should be set in UTC - always
+- fd#6340 Add callerMAIL as macro in simplePlugin
+- fd#6343 [CORE] - New directory structure numbering
+- fd#6350 [Audit] - Account locked is not logged within audit upon clicking on the lock icon
+- fd#6346 [Recovery] - Usage of supannMailPrivee within password recovery
+- fd#6351 [core] - audit logging - allowing to see attributes => values within audit record. With hiding of values if required.
+- fd#6352 [Core] - SimplePlugin - audit section (logging-modify) - must have a way to detect specific changes within a multi evaluated attributes
+- fd#6354 [CORE] - Tasks - Allow subtasks to received helper information as form of references
+- fd#6357 [core] - new token branch with new objectClass allowing management of specific tokens
+- fd#6359 [Core] - Task - main menu allows periodicity of a cyclic setting - one element is empty
+- fd#6361 Creat a column for showing a supanEtatDate
+- fd#6365 [Core] - Reviewing how the locking mechanism logic work - general lock - supann lock.
+
+#### fusiondirectory-plugins
+- fd-plugins#6055 Add a basic kerberos plugin
+- fd-plugins#6203 [Supann-Ex] - Verification of uniqueness, generation of hash based on login ID and time.
+- fd-plugins#6241 Private form must not be related to the plugin invitations
+- fd-plugins#6258 [NewPlugin] - Notifications, based on automatic snapshots, send email to required personal about attributes changes
+- fd-plugins#6259 Proper way to manage supannCivilite
+- fd-plugins#6260 Update yaml with the new screenshot and tags
+- fd-plugins#6267 [webservice] - Force the usage of the timezone configured within FusionDirectory in order to avoid the default GMT
+- fd-plugins#6277 [Mail] - Render mail unique all the time, not only if allowed to be used as authentication
+- fd-plugins#6278 [LifeCycle] - Move lifeCycle from Core to Plugins
+- fd-plugins#6285 [Audit] - A new task allowing a specific retention date of audit logs with automatic deletion
+- fd-plugins#6290 [Notifications] - Allowing awareness on different supann states values
+- fd-plugins#6298 [Audit] - Migration - obsolete attribute in backend config must be set - fdAuditRotationDelay
+- fd-plugins#6299 [Supann] - supannMailPrivee should contains the following tag : {secours}
+- fd-plugins#6300 [UserReminder] - New task allowing to send notification email when supannStatus "sursis" is at 30 and 15 days  of ending the account
+- fd-plugins#6301 [audit] - New backend allowing to hide certain attributes value recorded in audit logs
+- fd-plugins#6305 [Plugins] - fdRPCwebserive - posix force_ids is not taken into consideration correctly
+- fd-plugins#6306 [Notifications] - The Attributes list should not be mandatory - only supann resource.
+- fd-plugins#6307 [Reminder] - Remove manager boolean as forward-to renders this redundant
+- fd-plugins#6318 [Plugins] - supann -  Reviewing how the locking mechanism logic work - general lock - supann lock.
+- fd-plugins#6319 [Plugins] - Reviewing how the locking mechanism logic work - mail resource lock - zimbraAccountStatus update
+
+### Changed
+
+#### fusiondirectory
+- fd#6300 [CORE] - UsersGroupsRolesAttribute attribute must include dyngroup as well
+- fd#6321 [Tasks] - Make the generic tasks even more generic, allowing the object type string to be custom in case of added plugins
+- fd#6324 [Tasks] - Main tasks create slave objects related to a DN - current definition of attributeAccess is string with lifeCycle description
+- fd#6326 [Core] - Add orcid test method
+- fd#6330 [new section] - Workflow to integrate sub menu such as mail template and tasks
+- fd#6334 [CORE] - New behavior for template, automatic saving if no errors
+- fd#6335 [Core] - A new branding and therefore new logo is now available for FusionDirectory
+- fd#6364 [Core] - When lock mechanism is trigger - the user should not be editable if not unlock"
+
+#### fusiondirectory-plugins
+- fd-plugins#6249 Import eduPerson schema for orcid
+- fd-plugins#6272 rename the certificate icon
+- fd-plugins#6280 [Plugins] - update plugins to take into consideration the new directory of CORE structure
+- fd-plugins#6302 [Plugins] - Sinaps - deactivate sinaps in backend when installed - allowing remaining system unblocked
+- fd-plugins#6311 put the version 1.5 in all yaml for FusionDirectory 1.5 and change php version to 7.4
+- fd-plugins#6321 [Plugins] - Unix - trust all report a dn unknown when * is set
+
+### Removed
+
+#### fusiondirectory
+- fd#6333 [Core] - PhpSetup removal of the error collector mail to - considered not useful anymore
+- fd#6337 [Core] - remove the legacy theme
+- fd#6339 [Core] - remove leftover of dashboard in the core
+- fd#6341 [LifeCycle] - Removal of lifeCycle within CORE
+
+#### fusiondirectory-plugins
+- fd-plugins#6271 remove the legacy theme
+- fd-plugins#6275 remove leftover of dashboard in the core
+- fd-plugins#6281 remove ldif from ppolicy plugin
+
+### Fixed
+
+#### fusiondirectory
+- fd#6313 [CORE] - Snapshots - review of the current automatic creation logic
+- fd#6331 Use replacement icons for the one now in the plugins
+- fd#6332 Add an error log when the session is destroyed
+- fd#6360 [Mail] - When supann is available - the supannMailPrivee and potentially other are detected with label
+
+#### fusiondirectory-plugins
+- fd-plugins#6081 Do not record empty memberUid within mixedgroups
+- fd-plugins#6178 [Posix] - Template - TrustMode %askme% set as a service disables the entire table.
+- fd-plugins#6205 [Zimbra] - Lifecycle of Zimbra account - Errors of re-activation and auto-activation not working.
+- fd-plugins#6274 there is error in the variables_webauthn.inc are not correct for our packaged version
+- fd-plugins#6246 Plugin dyngroups missing icons
+- fd-plugins#6255 [Samba] - Samba tab cannot be removed when samba ID mapping is activated
+- fd-plugins#6270 [Kerberos] - Issue declaring class invisible without attrs
+- fd-plugins#6276 [GID - posix group] - issue with template not allowing to set GID.
+- fd-plugins#6322 [Template] - Issue when creating a template with empty password, error message should not be seen
+- fd-plugins#6309 there is a oid used twice in user-reminder
+- fd-plugins#6312 [Plugins] - Reminder attributes fdTasksReminderRecipientsMembers should not be mandatory within ldap
+- fd-plugins#6313 [fd-plugins] - User-reminder issue when supann is subStatus is set to none.
+- fd-plugins#6314 [Plugins] - user-reminder force the nextSubState to be checked
+- fd-plugins#6316 posix group not apply from user template
+- fd-plugins#6323 [Supann] - Supann Civilites is marked as "values" and therefore is badly translated.
+
+### Security
+
+#### fusiondirectory
+- fd#6363 [Security] - path traversal vulnerability - limited to png files
+
 ## %"FusionDirectory 1.4" - 2023-06-13
 
 ### Added
@@ -25,7 +138,7 @@
 - fd#5966 Management configuration system
 - fd#5970 Allow plugins to easily take part in the user locking process
 - fd#5976 icons missing in filter selections in core
-- fd#5979 Samba and FD
+- fd#5979 Samba and Fusiondirectory
 - fd#5980 Management should be a bit more flexible
 - fd#5986 Add a reinitialisation button for the management configuration
 - fd#5999 Allow ObjectsAttribute instances to specify filter elements

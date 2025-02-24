@@ -3465,6 +3465,144 @@ interfaces for this, run the **fusiondirectory-migration-manager
 fusiondirectory-migration-manager --migrate-interfaces
 ```
 
+Migrate FusionDirectory from 1.4 to 1.5
+=======================================
+
+Upgrade FusionDirectory first
+-----------------------------
+
+Upgrade FusionDirectory core package before other ones to avoid
+dependencies errors:
+
+``` {.shell}
+apt-get install fusiondirectory
+```
+
+Upgrade FusionDirectory schema package too.
+
+``` {.shell}
+apt-get install fusiondirectory-schema
+```
+
+Upgrade of LDAP directory
+-------------------------
+
+Then update the core-fd-conf schema.
+
+``` {.shell}
+fusiondirectory-schema-manager --replace-schema /etc/ldap/schema/fusiondirectory/core-fd-conf.schema
+```
+
+Then update the core-fd schema.
+
+``` {.shell}
+fusiondirectory-schema-manager --replace-schema /etc/ldap/schema/fusiondirectory/core-fd.schema
+```
+
+if you are using the audit plugin plugin you have to update is schema
+
+``` {.shell}
+fusiondirectory-schema-manager --replace-schema /etc/ldap/schema/fusiondirectory/audit-fd-conf.schema
+```
+
+``` {.shell}
+fusiondirectory-schema-manager --replace-schema /etc/ldap/schema/fusiondirectory/audit-fd.schema
+```
+
+if you are using the public-forms plugin you have to update is schema
+
+``` {.shell}
+fusiondirectory-schema-manager --replace-schema /etc/ldap/schema/fusiondirectory/public-forms-fd-conf.schema
+```
+
+if you are using the supann plugin you have to update is schema and
+install a new one
+
+``` {.shell}
+fusiondirectory-schema-manager --replace-schema /etc/ldap/schema/fusiondirectory/internet2.schema
+```
+
+``` {.shell}
+fusiondirectory-schema-manager --insert-schema /etc/ldap/schema/fusiondirectory/eduperson.schema
+```
+
+``` {.shell}
+fusiondirectory-schema-manager --replace-schema /etc/ldap/schema/fusiondirectory/supann-fd-conf.schema
+```
+
+Check for deprecated attributes and objectClasses in your LDAP
+--------------------------------------------------------------
+
+-   **fusiondirectory-migration-manager \-\--list-deprecated** to list
+    deprecated attributes and objectclasses
+
+Deprecated attributes:
+
+``` {.shell}
+fusiondirectory-migration-manager --list-deprecated List deprecated attributes and objectclasses Deprecated attributes:
+
+Deprecated attributes:
+ gotoLogonScript                (GOto - specifies a LogonScript)                                - 1.3.6.1.4.1.10098.1.1.11.10
+ gosaDefaultPrinter             (Defines a default printer a user owns)                         - 1.3.6.1.4.1.10098.1.1.12.13
+ gotoHotplugDevice              (GOto - keeps hotplug devices)                                  - 1.3.6.1.4.1.10098.1.1.11.14
+ gotoHotplugDeviceDN            (GOto - points to hotplug devices)                              - 1.3.6.1.4.1.10098.1.1.11.18
+ gotoLogoffScript               (GOto - specifies a LogoffScript)                               - 1.3.6.1.4.1.10098.1.1.11.19
+ gotoSyslogServer               (GOto - Gonicus Terminal Concept, value syslogServer.)          - 1.3.6.1.4.1.10098.1.1.1.1
+ gotoMode                       (GOto - Gonicus Terminal Concept, Terminal is active.)          - 1.3.6.1.4.1.10098.1.1.1.24
+ gotoLdapServer                 (LDAP server to use)                                            - 1.3.6.1.4.1.10098.1.1.1.38
+ gosaMailMaxSize                (Block mails bigger than this value)                            - 1.3.6.1.4.1.10098.1.1.12.8
+ gosaSpamSortLevel              (Spamassassins hits)                                            - 1.3.6.1.4.1.10098.1.1.12.9
+ gosaSpamMailbox                (Where to put spam)                                             - 1.3.6.1.4.1.10098.1.1.12.10
+ argonautLdap2zoneAllowNotify   (Fusion Directory - Argonaut, allow notify.)                    - 1.3.6.1.4.1.38414.2.13.2
+ fdPpolicyDefaultCn             (FusionDirectory - cn of the default ppolicy)                   - 1.3.6.1.4.1.38414.45.1.2
+ fdHttpAuthActivated            (FusionDirectory - HTTP Basic Auth activation)                  - 1.3.6.1.4.1.38414.8.15.6
+ fdHttpHeaderAuthActivated      (FusionDirectory - HTTP Header Auth activation)                 - 1.3.6.1.4.1.38414.8.15.7
+ fdCasActivated                 (FusionDirectory - CAS activation)                              - 1.3.6.1.4.1.38414.8.21.1
+ fdAuditRotationDelay           (FusionDirectory - Actions to be stored by audit plugin)        - 1.3.6.1.4.1.38414.61.1.3
+```
+
+Deprecated objectClasses:
+
+``` {.shell}
+Deprecated objectClasses:
+ gotoTerminal                   (GOto - Gonicus Terminal Concept, objectclass)                  - 1.3.6.1.4.1.10098.1.2.1.1
+ gotoWorkstation                (GOto - Gonicus Terminal Concept, objectclass)                  - 1.3.6.1.4.1.10098.1.2.1.30
+ gotoPrinter                    (GOto - Gonicus Terminal Concept, objectclass)                  - 1.3.6.1.4.1.10098.1.2.1.31
+ gotoEnvironment                (GOto - contains environment settings)                          - 1.3.6.1.4.1.10098.1.2.1.32
+ gotoWorkstationTemplate        (GOto - Gonicus Terminal Concept, objectclass)                  - 1.3.6.1.4.1.10098.1.2.1.34
+ gotoTerminalTemplate           (GOto - Gonicus Terminal Concept, objectclass)                  - 1.3.6.1.4.1.10098.1.2.1.35
+ gotoDevice                     (GOto - contains environment settings)                          - 1.3.6.1.4.1.10098.1.2.1.42
+ GOhard                         (Gonicus Hardware definitions, objectclass)                     - 1.3.6.1.4.1.10098.1.2.1.3
+ goServer                       (Server description)                                            - 1.3.6.1.4.1.10098.1.2.1.27
+ fdAsteriskPluginConf           (FusionDirectory asterisk plugin configuration)                 - 1.3.6.1.4.1.38414.19.2.1
+```
+
+-   **fusiondirectory-migration-manager \-\--check-deprecated** will
+    output a list of dn using old attributes and objectClasses
+
+``` {.shell}
+fusiondirectory-migration-manager --check-deprecated
+ cn=config,ou=fusiondirectory,dc=formation-fusiondirectory,dc=org contains an obsolete attribute
+ There are no entries in the LDAP using obsolete classes
+```
+
+-   **fusiondirectory-migration-manager \-\--ldif-deprecated** will
+    output an ldif file on the console that you can use with ldapmodify
+    to clean you ldap server from old attributes.
+
+``` {.shell}
+fusiondirectory-migration-manager --ldif-deprecated
+dn:cn=config,ou=fusiondirectory,dc=formation-fusiondirectory,dc=org
+changetype:modify
+delete:fdAuditRotationDelay
+-
+
+# There are no entries in the LDAP using obsolete classes
+```
+
+If they are old objectClasses it will warn you and you will have to remove it by hand,
+they have been specified at the **fusiondirectory-migration-manager ---check-deprecated** step.
+
 
 [php-cas]: http://packages.ubuntu.com/trusty/all/php-cas/download
 
@@ -3476,14 +3614,11 @@ fusiondirectory-migration-manager --migrate-interfaces
 To improve this piece of software, please report all kind of errors using the bug tracker
 on https://gitlab.fusiondirectory.org
 
-Documentation: https://fusiondirectory-user-manual.readthedocs.io/en/1.4/index.html
+Documentation: https://fusiondirectory-user-manual.readthedocs.io/en/latest/index.html
 Mailinglist:   https://lists.fusiondirectory.org/
-Irc:           #fusiondirectory on libera.chat
 
 ---
 The FusionDirectory project https://www.fusiondirectory.org/
-
-
 
 Enjoy :)
 
