@@ -248,3 +248,6 @@ documentation and additional help.
 
 * Cass Rebbelin <Rebbelin@hisolutions.com>
   PNG traversal path vulnerability
+
+*  Milan Stute <mstute@seemoo.tu-darmstadt.de>
+   Contributed Social Handlers for google scholar, Github, Matrix
