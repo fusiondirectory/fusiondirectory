@@ -370,7 +370,7 @@ class tests
   public static function is_orcid ($orcid)
   {
     /* Remove hyphens, remove last digit, convert to array */
-    $baseDigits = str_split(str_replace('-', '', substr($orcid, 0, -1)));
+    $baseDigits = str_split(str_replace('-', '', $orcid));
     $sum = 0;
     foreach ($baseDigits as $baseDigit) {
       $sum = ($sum + (int)$baseDigit) * 2;
