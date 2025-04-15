@@ -478,6 +478,12 @@ attributetype ( 1.3.6.1.4.1.38414.8.19.2 NAME 'fdForceSaslPasswordAsk'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
   SINGLE-VALUE )
 
+attributetype ( 1.3.6.1.4.1.38414.8.19.3 NAME 'fdOGroupDefaultUser'
+  DESC 'FusionDirectory - Create a default user in ou=restricted for object groups'
+  EQUALITY booleanMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+  SINGLE-VALUE )
+
 # SSL
 
 attributetype ( 1.3.6.1.4.1.38414.8.20.1 NAME 'fdSslCaCertPath'
@@ -677,7 +683,7 @@ objectclass ( 1.3.6.1.4.1.38414.8.2.2 NAME 'fusionDirectoryPluginsConf'
   DESC 'FusionDirectory plugins configuration'
   SUP top AUXILIARY
   MUST ( cn )
-  MAY ( fdOGroupRDN $ fdForceSaslPasswordAsk ) )
+  MAY ( fdOGroupRDN $ fdForceSaslPasswordAsk $ fdOGroupDefaultUser ) )
 
 objectclass ( 1.3.6.1.4.1.38414.8.2.3 NAME 'fdPasswordRecoveryConf'
   DESC 'FusionDirectory password recovery configuration'
