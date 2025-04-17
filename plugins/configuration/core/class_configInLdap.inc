@@ -596,7 +596,7 @@ class configInLdap extends simplePlugin
   /**
    * Creates the ou=restricted and a basic default user if it doesn't exist yet
    */
-  private function createDefaultUserIfNeeded(): void
+  private function createDefaultUserIfNeeded (): void
   {
     global $config;
     $ldap = $config->get_ldap_link();
