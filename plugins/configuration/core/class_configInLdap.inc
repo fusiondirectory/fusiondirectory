@@ -585,7 +585,68 @@ class configInLdap extends simplePlugin
       $this->attributesAccess['fdPasswordAllowedHashes']->getValue()
     );
 
+    // Check if we need to create the default user for object groups
+    if ($res && isset($this->attrs['fdOGroupDefaultUser'][0]) && ($this->attrs['fdOGroupDefaultUser'][0] == 'TRUE')) {
+      $this->createDefaultUserIfNeeded();
+    }
+
     return $res;
+  }
+
+  /**
+   * Creates the ou=restricted and a basic default user if it doesn't exist yet
+   */
+  private function createDefaultUserIfNeeded (): void
+  {
+    global $config;
+    $ldap = $config->get_ldap_link();
+
+    // First check if ou=restricted exists
+    $restrictedOu = 'ou=restricted,' . $config->current['BASE'];
+    $ldap->cat($restrictedOu, ['ou']);
+
+    // Create ou=restricted if it doesn't exist
+    if (!$ldap->count()) {
+      $attrs = [
+        'ou'           => ['restricted'],
+        'objectClass'  => ['organizationalUnit']
+      ];
+
+      try {
+        $ldap->cd($config->current['BASE']);
+        $ldap->add($restrictedOu, $attrs);
+        logging::log('create', 'organizationalUnit', $restrictedOu, [], 'Successfully created');
+      } catch (Exception $e) {
+        msg_dialog::display(_('Error'),
+          sprintf(_('Failed to create organizational unit %s: %s'), $restrictedOu, $e->getMessage()),
+          ERROR_DIALOG);
+        return;
+      }
+    }
+
+    // Check if default user exists
+    $defaultUserDn = 'uid=default,' . $restrictedOu;
+    $ldap->cat($defaultUserDn, ['uid']);
+
+    // Create default user if it doesn't exist
+    if (!$ldap->count()) {
+      $attrs = [
+        'uid'          => ['default'],
+        'cn'           => ['Default User'],
+        'sn'           => ['User'],
+        'objectClass'  => ['inetOrgPerson', 'person', 'organizationalPerson']
+      ];
+
+      try {
+        $ldap->cd($restrictedOu);
+        $ldap->add($defaultUserDn, $attrs);
+        logging::log('create', 'inetOrgPerson', $defaultUserDn, [], 'Successfully created');
+      } catch (Exception $e) {
+        msg_dialog::display(_('Error'),
+          sprintf(_('Failed to create default user %s: %s'), $defaultUserDn, $e->getMessage()),
+          ERROR_DIALOG);
+      }
+    }
   }
 
   static function get_themes ()

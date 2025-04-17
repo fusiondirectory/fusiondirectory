@@ -12,8 +12,7 @@
 
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
   along with this program; if not, write to the Free Software
@@ -167,6 +166,47 @@ class ogroup extends simplePlugin
 
     $this->reload();
     $this->savedTypedMembers = $this->attributesAccess['member']->getTypedValues();
+
+    // Check if we need to create the default user
+    $this->checkCreateDefaultUser();
+  }
+
+  /**
+   * Check if we need to create a restricted department with a default user
+   * This is controlled by the fdOGroupDefaultUser configuration setting
+   */
+  private function checkCreateDefaultUser ()
+  {
+    global $config;
+
+    try {
+      $ldap = $config->get_ldap_link();
+      $ldap->cat(CONFIGRDN.$config->current['BASE'], ['fdOGroupDefaultUser']);
+      $attrs = $ldap->fetch();
+
+      // If not enabled, return early
+      if (is_array($attrs) && isset($attrs['fdOGroupDefaultUser']) && $attrs['fdOGroupDefaultUser'][0] === 'TRUE') {
+        // Ensure at least one member: "uid=default,ou=nonexistent,<base>"
+        $defaultDn = 'uid=default,ou=nonexistent,' . $config->current['BASE'];
+
+        // Make sure member is always an array
+        if (!isset($this->attrs['member']) || !is_array($this->attrs['member'])) {
+          $this->attrs['member'] = [];
+        }
+
+        if (!in_array($defaultDn, $this->attrs['member'])) {
+          $this->attrs['member'][] = $defaultDn;
+          // Remove duplicates just in case
+          $this->attrs['member'] = array_unique($this->attrs['member']);
+          // Also update the attribute access if needed
+          if (isset($this->attributesAccess['member'])) {
+            $this->attributesAccess['member']->setValue($this->attrs['member']);
+          }
+        }
+      }
+    } catch (Exception $e) {
+      error_log("checkCreateDefaultUser exception: " . $e->getMessage());
+    }
   }
 
   function prepare_save (): array

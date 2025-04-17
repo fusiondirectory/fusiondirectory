@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2017 FusionDirectory
+  Copyright (C) 2012-2025 FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -44,6 +44,11 @@ class mainPluginsConfig extends multiPluginSection
             _('Groups RDN'), _('Branch in which object groups will be stored'),
             'fdOGroupRDN', TRUE,
             'ou=groups'
+          ),
+          new BooleanAttribute(
+            _('Create default user'), _('If enabled, creates an ou=restricted with a basic user named default'),
+            'fdOGroupDefaultUser', FALSE,
+            FALSE
           ),
         ]
       ],

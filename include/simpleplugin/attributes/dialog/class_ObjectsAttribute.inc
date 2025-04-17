@@ -117,8 +117,12 @@ class ObjectsAttribute extends GenericDialogAttribute
 
   protected function fillDisplayValueFrom ($i, $attrs)
   {
+    global $config;
+    $defaultDn = 'uid=default,ou=nonexistent,' . $config->current['BASE'];
+
+    $objectType = NULL; // <-- Add this line
+
     if ($attrs) {
-      $objectType = NULL;
       if (is_array($attrs)) {
         foreach ($this->selectManagementParameters[0] as $type) {
           try {
@@ -151,8 +155,14 @@ class ObjectsAttribute extends GenericDialogAttribute
       $this->displays[$i] = $this->value[$i];
       $this->types[$i]    = FALSE;
     } else {
-      $this->displays[$i] = sprintf(_('Non existing dn: %s'), $this->value[$i]);
-      $this->types[$i]    = FALSE;
+      // Special handling for the default user DN
+      if ($this->value[$i] === $defaultDn) {
+        $this->displays[$i] = '<span class="default-user-dn">' . _('Default user placeholder') . '</span>';
+        $this->types[$i]    = FALSE;
+      } else {
+        $this->displays[$i] = sprintf(_('Non existing dn: %s'), $this->value[$i]);
+        $this->types[$i]    = FALSE;
+      }
     }
   }
 
