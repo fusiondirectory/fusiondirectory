@@ -175,7 +175,7 @@ class ogroup extends simplePlugin
    * Check if we need to create a restricted department with a default user
    * This is controlled by the fdOGroupDefaultUser configuration setting
    */
-  private function checkCreateDefaultUser()
+  private function checkCreateDefaultUser ()
   {
     global $config;
 

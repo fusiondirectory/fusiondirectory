@@ -117,9 +117,10 @@ class ObjectsAttribute extends GenericDialogAttribute
 
   protected function fillDisplayValueFrom ($i, $attrs)
   {
-    // Define your default user DN pattern (adjust <base> as needed)
     global $config;
     $defaultDn = 'uid=default,ou=nonexistent,' . $config->current['BASE'];
+
+    $objectType = NULL; // <-- Add this line
 
     if ($attrs) {
       if (is_array($attrs)) {
