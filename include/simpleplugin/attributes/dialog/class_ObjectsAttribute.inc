@@ -158,10 +158,12 @@ class ObjectsAttribute extends GenericDialogAttribute
       // Special handling for the default user DN
       if ($this->value[$i] === $defaultDn) {
         $this->displays[$i] = '<span class="default-user-dn">' . _('Default user placeholder') . '</span>';
-        $this->types[$i]    = FALSE;
+        $this->types[$i]    = FALSE; // Mark type as FALSE for placeholder
       } else {
-        $this->displays[$i] = sprintf(_('Non existing dn: %s'), $this->value[$i]);
-        $this->types[$i]    = FALSE;
+        // Handle other non-existing DNs by setting display and type to FALSE
+        // This prevents errors in later code expecting these keys to be set.
+        $this->displays[$i] = sprintf(_('[Non-existent DN: %s]'), $this->value[$i]); // Indicate non-existence clearly
+        $this->types[$i]    = FALSE; // Mark type as FALSE
       }
     }
   }
@@ -199,13 +201,54 @@ class ObjectsAttribute extends GenericDialogAttribute
 
   function setValue ($value)
   {
+    global $config; // Needed for defaultDn comparison
+
+    // Reset types and let parent handle initial population and display filling
     $this->types = [];
     parent::setValue($value);
+
+    // Now, filter out entries that are marked as non-existent (type === FALSE)
+    // unless it's the special default user placeholder.
+    $defaultDn = 'uid=default,ou=nonexistent,' . $config->current['BASE'];
+    $filteredValue = [];
+    $filteredDisplays = [];
+    $filteredTypes = [];
+
+    foreach ($this->value as $key => $dn) {
+      if (isset($this->types[$key])) {
+        if ($this->types[$key] !== FALSE) {
+          // Valid object
+          $filteredValue[$key]     = $this->value[$key];
+          $filteredDisplays[$key]  = $this->displays[$key];
+          $filteredTypes[$key]     = $this->types[$key];
+        } elseif ($dn === $defaultDn) {
+          // Special case: default DN, keep even if type is FALSE
+          $filteredValue[$key]    = $this->value[$key];
+          $filteredDisplays[$key] = $this->displays[$key];
+          $filteredTypes[$key]    = $this->types[$key];
+        }
+      }
+    }
+
+    // Replace the internal arrays with the filtered versions
+    $this->value     = $filteredValue;
+    $this->displays  = $filteredDisplays;
+    $this->types     = $filteredTypes;
+
+    // Re-index arrays to ensure sequential keys if necessary for rendering or other logic
+    // Although using keys directly might be fine depending on renderOnlyFormInput logic
+    $this->value = array_values($this->value);
+    $this->displays = array_values($this->displays);
+    $this->types = array_values($this->types);
   }
 
   protected function removeValue ($row)
   {
+    // Ensure keys are sequential after removal if using array_values in setValue
     parent::removeValue($row);
-    unset($this->types[$row]);
+    // Re-index after removal
+    $this->value = array_values($this->value);
+    $this->displays = array_values($this->displays);
+    $this->types = array_values($this->types);
   }
 }
