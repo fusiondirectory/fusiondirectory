@@ -184,26 +184,41 @@ class ogroup extends simplePlugin
       $ldap->cat(CONFIGRDN.$config->current['BASE'], ['fdOGroupDefaultUser']);
       $attrs = $ldap->fetch();
 
-      // If not enabled, return early
+      // Default user DN
+      $defaultDn = 'uid=default,ou=nonexistent,' . $config->current['BASE'];
+
+      // Ensure member is always an array
+      if (!isset($this->attrs['member']) || !is_array($this->attrs['member'])) {
+        $this->attrs['member'] = [];
+      }
+
+      $memberChanged = false;
+
+      // Check if the feature is enabled
       if (is_array($attrs) && isset($attrs['fdOGroupDefaultUser']) && $attrs['fdOGroupDefaultUser'][0] === 'TRUE') {
-        // Ensure at least one member: "uid=default,ou=nonexistent,<base>"
-        $defaultDn = 'uid=default,ou=nonexistent,' . $config->current['BASE'];
-
-        // Make sure member is always an array
-        if (!isset($this->attrs['member']) || !is_array($this->attrs['member'])) {
-          $this->attrs['member'] = [];
-        }
-
+        // Feature is enabled: Ensure default user is present
         if (!in_array($defaultDn, $this->attrs['member'])) {
           $this->attrs['member'][] = $defaultDn;
-          // Remove duplicates just in case
+          // Remove duplicates just in case (though adding only if not present should prevent this)
           $this->attrs['member'] = array_unique($this->attrs['member']);
-          // Also update the attribute access if needed
-          if (isset($this->attributesAccess['member'])) {
-            $this->attributesAccess['member']->setValue($this->attrs['member']);
-          }
+          $memberChanged = true;
+        }
+      } else {
+        // Feature is disabled: Ensure default user is removed
+        $key = array_search($defaultDn, $this->attrs['member']);
+        if ($key !== false) {
+          unset($this->attrs['member'][$key]);
+          // Re-index array if needed, though usually not necessary for LDAP multi-valued attributes
+          // $this->attrs['member'] = array_values($this->attrs['member']);
+          $memberChanged = true;
         }
       }
+
+      // If members were changed, update the attribute access object
+      if ($memberChanged && isset($this->attributesAccess['member'])) {
+        $this->attributesAccess['member']->setValue($this->attrs['member']);
+      }
+
     } catch (Exception $e) {
       error_log("checkCreateDefaultUser exception: " . $e->getMessage());
     }
