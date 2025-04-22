@@ -231,9 +231,9 @@ class ObjectsAttribute extends GenericDialogAttribute
     }
 
     // Replace the internal arrays with the filtered versions
-    $this->value = $filteredValue;
-    $this->displays = $filteredDisplays;
-    $this->types = $filteredTypes;
+    $this->value     = $filteredValue;
+    $this->displays  = $filteredDisplays;
+    $this->types     = $filteredTypes;
 
     // Re-index arrays to ensure sequential keys if necessary for rendering or other logic
     // Although using keys directly might be fine depending on renderOnlyFormInput logic
