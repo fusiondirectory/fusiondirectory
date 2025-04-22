@@ -29,7 +29,7 @@ class passwordMethodArgon2 extends passwordMethod
   /*!
    * \brief passwordMethodArgon2 Constructor
    */
-  function __construct()
+  function __construct ()
   {
   }
 
@@ -38,7 +38,7 @@ class passwordMethodArgon2 extends passwordMethod
    *
    * \return TRUE if is available, otherwise return false
    */
-  public function is_available(): bool
+  public function is_available (): bool
   {
     return defined('PASSWORD_ARGON2ID') && function_exists('password_hash') && function_exists('password_verify');
   }
@@ -51,7 +51,7 @@ class passwordMethodArgon2 extends passwordMethod
    *
    * \return string the password hash
    */
-  public function generate_hash(string $pwd, bool $locked = FALSE): string
+  public function generate_hash (string $pwd, bool $locked = FALSE): string
   {
     $hash = password_hash($pwd, PASSWORD_ARGON2ID);
     return '{ARGON2}'.($locked ? '!' : '').$hash;
@@ -62,16 +62,16 @@ class passwordMethodArgon2 extends passwordMethod
    *
    * \param string $pwd The password to check
    * \param string $hash The hash to check against
-   * 
+   *
    * \return bool True if the password matches the hash
    */
-  function checkPassword($pwd, $hash): bool
+  function checkPassword ($pwd, $hash): bool
   {
     // Remove the {ARGON2} prefix and any lock indicator
     $hash = preg_replace('/^\{ARGON2\}!?/', '', $hash);
-    
+
     if (strlen($hash) === 0) {
-      return false;
+      return FALSE;
     }
     return password_verify($pwd, $hash);
   }
@@ -83,7 +83,7 @@ class passwordMethodArgon2 extends passwordMethod
    *
    * \return bool True if the hash needs to be rehashed
    */
-  public function needsRehash(string $hash): bool
+  public function needsRehash (string $hash): bool
   {
     // Remove the {ARGON2} prefix and any lock indicator
     $hash = preg_replace('/^\{ARGON2\}!?/', '', $hash);
@@ -93,7 +93,7 @@ class passwordMethodArgon2 extends passwordMethod
   /*!
    * \brief Get the hash name
    */
-  static function get_hash_name()
+  static function get_hash_name ()
   {
     return 'argon2';
   }
@@ -103,12 +103,12 @@ class passwordMethodArgon2 extends passwordMethod
    *
    * \param string $password_hash
    */
-  static function _extract_method($password_hash): string
+  static function _extract_method ($password_hash): string
   {
     if (preg_match('/^\{ARGON2\}/i', $password_hash)) {
       return static::get_hash_name();
     }
-    
+
     return '';
   }
 }
