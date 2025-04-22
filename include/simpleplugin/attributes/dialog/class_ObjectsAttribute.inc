@@ -215,13 +215,19 @@ class ObjectsAttribute extends GenericDialogAttribute
     $filteredTypes = [];
 
     foreach ($this->value as $key => $dn) {
-      // Keep if type is not FALSE (valid object) OR if it's the default user DN
-      if (isset($this->types[$key]) && ($this->types[$key] !== FALSE || $dn === $defaultDn)) {
-        $filteredValue[$key] = $this->value[$key];
-        $filteredDisplays[$key] = $this->displays[$key];
-        $filteredTypes[$key] = $this->types[$key];
+      if (isset($this->types[$key])) {
+        if ($this->types[$key] !== FALSE) {
+          // Valid object
+          $filteredValue[$key]     = $this->value[$key];
+          $filteredDisplays[$key]  = $this->displays[$key];
+          $filteredTypes[$key]     = $this->types[$key];
+        } elseif ($dn === $defaultDn) {
+          // Special case: default DN, keep even if type is FALSE
+          $filteredValue[$key]    = $this->value[$key];
+          $filteredDisplays[$key] = $this->displays[$key];
+          $filteredTypes[$key]    = $this->types[$key];
+        }
       }
-      // Entries where $this->types[$key] is FALSE (and not the defaultDn) are skipped
     }
 
     // Replace the internal arrays with the filtered versions

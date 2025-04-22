@@ -192,7 +192,7 @@ class ogroup extends simplePlugin
         $this->attrs['member'] = [];
       }
 
-      $memberChanged = false;
+      $memberChanged = FALSE;
 
       // Check if the feature is enabled
       if (is_array($attrs) && isset($attrs['fdOGroupDefaultUser']) && $attrs['fdOGroupDefaultUser'][0] === 'TRUE') {
@@ -201,16 +201,16 @@ class ogroup extends simplePlugin
           $this->attrs['member'][] = $defaultDn;
           // Remove duplicates just in case (though adding only if not present should prevent this)
           $this->attrs['member'] = array_unique($this->attrs['member']);
-          $memberChanged = true;
+          $memberChanged = TRUE;
         }
       } else {
         // Feature is disabled: Ensure default user is removed
         $key = array_search($defaultDn, $this->attrs['member']);
-        if ($key !== false) {
+        if ($key !== FALSE) {
           unset($this->attrs['member'][$key]);
           // Re-index array if needed, though usually not necessary for LDAP multi-valued attributes
           // $this->attrs['member'] = array_values($this->attrs['member']);
-          $memberChanged = true;
+          $memberChanged = TRUE;
         }
       }
 
