@@ -68,21 +68,6 @@ class mailTemplateManagement extends management
      )
     );
 
-    // Add export actions
-    $exportMenu = [];
-    foreach ($this->exporters as $action => $exporter) {
-      $exportMenu[] = new Action(
-        $action, $exporter['label'], $exporter['image'],
-        '0', 'export'
-      );
-    }
-    $this->registerAction(
-     new SubMenuAction(
-       'export', _('Export list'), 'geticon.php?context=actions&icon=document-export&size=16',
-       $exportMenu
-     )
-    );
-
     $this->registerAction(
      new Action(
        'edit', _('Edit'), 'geticon.php?context=actions&icon=document-edit&size=16',
