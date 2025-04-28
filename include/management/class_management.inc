@@ -70,8 +70,6 @@ class management implements FusionDirectoryDialog
   protected $actions = [];
   protected $actionHandlers = [];
 
-  protected $exporters = [];
-
   public $neededAttrs = [];
 
   public static $skipTemplates = TRUE;
@@ -129,16 +127,6 @@ class management implements FusionDirectoryDialog
     }
     if (!static::$skipSnapshots && ($config->get_cfg_value('enableSnapshots') == 'TRUE')) {
       $this->snapHandler = new SnapshotHandler();
-    }
-
-    // Load exporters
-    foreach (array_keys($class_mapping) as $class) {
-      if (preg_match('/Exporter$/', $class)) {
-        $info = call_user_func([$class, 'getInfo']);
-        if ($info != NULL) {
-          $this->exporters = array_merge($this->exporters, $info);
-        }
-      }
     }
 
     $this->configureActions();
@@ -221,21 +209,6 @@ class management implements FusionDirectoryDialog
       new SubMenuAction(
         'new', _('Create'), 'geticon.php?context=actions&icon=document-new&size=16',
         $createMenu
-      )
-    );
-
-    // Add export actions
-    $exportMenu = [];
-    foreach ($this->exporters as $action => $exporter) {
-      $exportMenu[] = new Action(
-        $action, $exporter['label'], $exporter['image'],
-        '0', 'export'
-      );
-    }
-    $this->registerAction(
-      new SubMenuAction(
-        'export', _('Export list'), 'geticon.php?context=actions&icon=document-export&size=16',
-        $exportMenu
       )
     );
 
@@ -1253,18 +1226,6 @@ class management implements FusionDirectoryDialog
       );
       $error->display();
     }
-  }
-
-
-  function export (array $action)
-  {
-    if (!isset($this->exporters[$action['action']])) {
-      trigger_error('Unknown exporter ' . $action['action']);
-      return;
-    }
-    $exporter = $this->exporters[$action['action']];
-    $file     = $exporter['class']::export($this->listing);
-    send_binary_content($file, $exporter['filename'], $exporter['mime']);
   }
 
   /* End of action handlers */
