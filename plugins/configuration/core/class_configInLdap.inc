@@ -392,6 +392,27 @@ class configInLdap extends simplePlugin
           ),
         ]
       ],
+
+      'tokens' => [
+        'name'  => _('Tokens'),
+        'attrs' => [
+          new StringAttribute(
+            _('FusionDirectory'), _('top branch where tokens are stored.'),
+            'fdTokenRDN', TRUE,
+            'ou=tokens'
+          ),
+          new StringAttribute(
+            _('FusionDirectory Orchestrator'), _('The branch where FusionDirectory Orchestrator tokens are stored'),
+            'fdOrchestratorTokenRDN', TRUE,
+            'ou=orchestrator'
+          ),
+          new StringAttribute(
+            _('FusionDirectory Recovery'), _('The branch where FusionDirectory Recovery tokens are stored'),
+            'fdrecoveryTokenRDN', TRUE,
+            'ou=recovery'
+          ),
+        ]
+      ],
     ];
   }
 
