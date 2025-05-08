@@ -562,6 +562,29 @@ attributetype ( 1.3.6.1.4.1.38414.8.21.8 NAME 'fdCasClientServiceName'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
   SINGLE-VALUE)
 
+# FusionDirectory Tokens
+
+attributetype ( 1.3.6.1.4.1.38414.8.22.1 NAME 'fdTokenRDN'
+  DESC 'FusionDirectory - Branch where FusionDirectory Tokens are stored'
+  EQUALITY caseExactIA5Match
+  SUBSTR caseExactIA5SubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE)
+
+attributetype ( 1.3.6.1.4.1.38414.8.22.2 NAME 'fdOrchestratorTokenRDN'
+  DESC 'FusionDirectory - Branch where FusionDirectory Orchestrator Tokens are stored'
+  EQUALITY caseExactIA5Match
+  SUBSTR caseExactIA5SubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE)
+
+attributetype ( 1.3.6.1.4.1.38414.8.22.3 NAME 'fdrecoveryTokenRDN'
+  DESC 'FusionDirectory - Branch where FusionDirectory Recovery Tokens are stored'
+  EQUALITY caseExactIA5Match
+  SUBSTR caseExactIA5SubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE)
+
 # merged from dashboard-fd.schema - Needed by Fusion Directory for dashboard options
 
 attributetype ( 1.3.6.1.4.1.38414.27.1.1 NAME 'fdDashboardPrefix'
@@ -676,7 +699,8 @@ objectclass ( 1.3.6.1.4.1.38414.8.2.1 NAME 'fusionDirectoryConf'
     fdIncrementalModifierStates $
     fdSslCaCertPath $ fdSslKeyPath $ fdSslCertPath $ fdSnapshotRetentionDays $ fdSnapshotSourceData $
     fdCasActivated $ fdCasServerCaCertPath $ fdCasHost $ fdCasPort $ fdCasContext $ fdCasVerbose $
-    fdLoginMethod $ fdCasLibraryBool $ fdCasClientServiceName $ fdEnableAutomaticSnapshots $ fdSnapshotMinRetention
+    fdLoginMethod $ fdCasLibraryBool $ fdCasClientServiceName $ fdEnableAutomaticSnapshots $ fdSnapshotMinRetention $
+    fdTokenRDN $ fdOrchestratorTokenRDN $ fdrecoveryTokenRDN
   ) )
 
 objectclass ( 1.3.6.1.4.1.38414.8.2.2 NAME 'fusionDirectoryPluginsConf'

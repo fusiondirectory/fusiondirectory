@@ -395,6 +395,8 @@ function get_ou ($name)
   $map = [
     'fusiondirectoryRDN'      => 'ou=fusiondirectory,',
     'lockRDN'                 => 'ou=locks,',
+    'tokenRDN'                => 'ou=tokens,',
+    'orchestratorTokenRDN'    => 'ou=orchestrator,',
     'recoveryTokenRDN'        => 'ou=recovery,',
     'reminderTokenRDN'        => 'ou=reminder,',
     'roleRDN'                 => 'ou=roles,',
