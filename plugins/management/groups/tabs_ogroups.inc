@@ -90,26 +90,28 @@ class ogrouptabs extends simpleTabs_noSpecial
         }
       }
     }
-    $tabs = array_merge($config->data['TABS']['OGROUPTABS'], (array)$tabs);
-    $tabs = array_map(
-      function ($a)
-      {
-        return $a['CLASS'];
-      },
-      $tabs
-    );
+    if (is_array($tabs)) {
+      $tabs = array_merge($config->data['TABS']['OGROUPTABS'], (array)$tabs);
+      $tabs = array_map(
+        function ($a)
+        {
+          return $a['CLASS'];
+        },
+        $tabs
+      );
 
-    foreach ($this->by_object as $tab => $object) {
-      if (!in_array($tab, $tabs)) {
-        $this->delTab($tab);
+      foreach ($this->by_object as $tab => $object) {
+        if (!in_array($tab, $tabs)) {
+          $this->delTab($tab);
+        }
       }
-    }
-    foreach ($tabs as $class) {
-      if (class_available($class) && !isset($this->by_object["$class"])) {
-        $this->addTab($class);
+      foreach ($tabs as $class) {
+        if (class_available($class) && !isset($this->by_object["$class"])) {
+          $this->addTab($class);
+        }
       }
+      $this->addSpecialTabs();
     }
-    $this->addSpecialTabs();
   }
 
   function addTab ($class)
