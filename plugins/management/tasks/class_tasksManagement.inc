@@ -30,6 +30,7 @@ class tasksManagement extends management
   public static $columns = [
     //below fdTasksMailObject must be changed to have a type defined within task creation (new ldap attributes ?hidden)
     ['LinkColumn',  ['attributes' => 'cn', 'label' => 'Tasks']],
+    ['LinkColumn',  ['attributes' => 'description',  'label' => 'Description']],
     ['TasksColumn', ['attributes' => 'fdTasksMailObject', 'label' => 'Types']],
     ['Column', ['attributes' => 'fdTasksCreationDate', 'label' => 'Creation Date']],
     ['TasksColumn', ['attributes' => 'fdTasksScheduleDate', 'label' => 'Scheduled']],

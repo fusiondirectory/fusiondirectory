@@ -51,6 +51,10 @@ class tasks extends simplePlugin
             _('Task Name'), _('Name for this task'),
             'cn', TRUE
           ),
+          new StringAttribute(
+            _('Description'), _('What is this task doing'),
+            'description', FALSE
+          ),
           new DateTimeAttribute(
             _('Schedule'), '',
             'fdTasksScheduleDate', FALSE
