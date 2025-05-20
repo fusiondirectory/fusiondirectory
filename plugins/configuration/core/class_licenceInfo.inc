@@ -126,12 +126,12 @@ class licenceInfo extends simplePlugin
 
     $this->fdSubscriptionText = '<p>'.nl2br(sprintf(
       htmlescape(_("You do not have a valid subscription for this instance of FusionDirectory.\nPlease visit %s for a list of available options.")),
-      '<a href="https://www.fusiondirectory.org/support/" target="_blank"><strong>https://www.fusiondirectory.org/support/</strong></a>'
+      '<a href="https://www.fusiondirectory.org/en/iam-tool-service-subscriptions/" target="_blank"><strong>https://www.fusiondirectory.org/en/iam-tool-service-subscriptions/</strong></a>'
     )).'</p>';
     $this->attributesAccess['fdSubscriptionText']->setAllowHTML(TRUE);
     $this->fdSubscriptionTextExpired = '<p>'.nl2br(sprintf(
       htmlescape(_("Your subscription is expired for this instance of FusionDirectory.\nPlease visit %s to renew it.")),
-      '<a href="https://www.fusiondirectory.org/support/" target="_blank"><strong>https://www.fusiondirectory.org/support/</strong></a>'
+      '<a href="https://www.fusiondirectory.org/en/iam-tool-service-subscriptions/" target="_blank"><strong>https://www.fusiondirectory.org/en/iam-tool-service-subscriptions/</strong></a>'
     )).'</p>';
     $this->attributesAccess['fdSubscriptionTextExpired']->setAllowHTML(TRUE);
   }
