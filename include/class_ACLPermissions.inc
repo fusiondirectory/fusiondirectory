@@ -26,6 +26,7 @@ class ACLPermissions
     'c' => 'create',
     'd' => 'delete',
     'm' => 'move',
+    't' => 'template_creation_only',
   ];
 
   protected $read;
@@ -42,6 +43,7 @@ class ACLPermissions
     foreach (static::$letters as $letter => $var) {
       $this->$var = (strpos($rights, $letter) !== FALSE);
     }
+
     $this->self = (strpos($rights, 's') !== FALSE);
   }
 

@@ -153,7 +153,8 @@ class management implements FusionDirectoryDialog
 
   protected function configureActions ()
   {
-    global $config;
+
+    global $config, $ui;
 
     // Register default actions
     $createMenu = [];
@@ -169,11 +170,14 @@ class management implements FusionDirectoryDialog
       if (isset($infos['icon'])) {
         $img = $infos['icon'];
       }
+
+if (!preg_match('/t/', $ui->get_permissions($ui->dn, $infos['aclCategory'] . '/' . $infos['mainTab']))) {
       $createMenu[] = new Action(
         'new_' . $type, $infos['name'], $img,
         '0', 'newEntry',
         [$infos['aclCategory'] . '/' . $infos['mainTab'] . '/c']
       );
+}
       if (!static::$skipTemplates) {
         $templateMenu[]     = new Action(
           'new_template_' . $type, $infos['name'], $img,

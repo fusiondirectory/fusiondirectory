@@ -67,6 +67,9 @@
               {if $infos.rights.self}
                 {makeCheckbox key=$key infos=$infos attr=0 acl=s label=_("Grant permission to owner") rights=$infos.globalAcl}&nbsp;&nbsp;
               {/if}
+              {if $infos.rights.template_creation_only}
+                {makeCheckbox key=$key infos=$infos attr=0 acl=t label=_("Template hide main object creation button") rights=$infos.globalAcl}&nbsp;&nbsp;
+              {/if}
             </td>
             <td>
               {if ($infos.rights.read||$infos.rights.write)}
