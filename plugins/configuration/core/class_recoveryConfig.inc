@@ -42,6 +42,11 @@ class recoveryConfig extends simplePlugin
         'class'     => ['alone'],
         'template'  => get_template_path('simpleplugin_section_alone.tpl'),
         'attrs'     => [
+          new StringAttribute(
+            _('Recovery RDN'), _('The branch where recovery tokens are stored'),
+            'fdRecoveryTokenRDN', TRUE,
+            'ou=recovery,ou=tokens'
+          ),
           new BooleanAttribute(
             _('Activate password recovery'),
             _('Whether to activate the password recovery feature or not'),
@@ -128,7 +133,7 @@ class recoveryConfig extends simplePlugin
     global $config;
     // Check if token branch is here
     $ldap = $config->get_ldap_link();
-    $tokenBranch = get_ou('RecoveryTokenRDN').get_ou('tokenRDN').$config->current['BASE'];
+    $tokenBranch = get_ou('RecoveryTokenRDN').$config->current['BASE'];
     $ldap->cat($tokenBranch, ['dn']);
     if (!$ldap->count()) {
       $ldap->cd($config->current['BASE']);

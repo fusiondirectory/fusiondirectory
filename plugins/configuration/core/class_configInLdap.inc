@@ -401,16 +401,6 @@ class configInLdap extends simplePlugin
             'fdTokenRDN', TRUE,
             'ou=tokens'
           ),
-          new StringAttribute(
-            _('FusionDirectory Orchestrator'), _('The branch where FusionDirectory Orchestrator tokens are stored'),
-            'fdOrchestratorTokenRDN', TRUE,
-            'ou=orchestrator'
-          ),
-          new StringAttribute(
-            _('FusionDirectory Recovery'), _('The branch where FusionDirectory Recovery tokens are stored'),
-            'fdRecoveryTokenRDN', TRUE,
-            'ou=recovery'
-          ),
         ]
       ],
     ];
@@ -419,6 +409,21 @@ class configInLdap extends simplePlugin
   function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE, $attributesInfo = NULL)
   {
     global $config;
+
+    // Check if token branch is here
+    $ldap = $config->get_ldap_link();
+    $tokenBranch = get_ou('TokenRDN').$config->current['BASE'];
+    $ldap->cat($tokenBranch, ['dn']);
+    if (!$ldap->count()) {
+      $ldap->cd($config->current['BASE']);
+      try {
+        $ldap->create_missing_trees($tokenBranch);
+      } catch (FusionDirectoryError $error) {
+        $error->display();
+      }
+      fusiondirectory_log('Created token branch '.$tokenBranch);
+    }
+
     $attributesInfo = static::getAttributesInfo();
     /* Languages */
     $languages = Language::getList(TRUE);
@@ -697,35 +702,5 @@ class configInLdap extends simplePlugin
     }
 
     parent::mainInc($classname, $entry_dn, $tabs, $edit_mode, $objectType);
-  }
-
-  protected function post_save ()
-  {
-    global $config;
-    $ldap = $config->get_ldap_link();
-    $ldap->cd($config->current['BASE']);
-
-    try {
-      $ldap->create_missing_trees(get_ou('TokenRDN'). $config->current['BASE']);
-      logging::log('create', 'organizationalUnit', get_ou('TokenRDN'). $config->current['BASE'], [], 'Successfully created');
-    } catch (FusionDirectoryError $error) {
-      $error->display();
-    }
-
-    try {
-      $ldap->create_missing_trees(get_ou('RecoveryTokenRDN').get_ou('TokenRDN'). $config->current['BASE']);
-      logging::log('create', 'organizationalUnit', get_ou('RecoveryTokenRDN').get_ou('TokenRDN'). $config->current['BASE'], [], 'Successfully created');
-    } catch (FusionDirectoryError $error) {
-      $error->display();
-    }
-
-    try {
-      $ldap->create_missing_trees(get_ou('OrchestratorTokenRDN').get_ou('TokenRDN'). $config->current['BASE']);
-      logging::log('create', 'organizationalUnit', get_ou('OrchestratorTokenRDN').get_ou('TokenRDN'). $config->current['BASE'], [], 'Successfully created');
-    } catch (FusionDirectoryError $error) {
-      $error->display();
-    }
-
-    parent::post_save();
   }
 }
