@@ -153,7 +153,7 @@ class management implements FusionDirectoryDialog
 
   protected function configureActions ()
   {
-    global $config, $ui;
+    global $config, $ui, $positionDN;
 
     // Register default actions
     $createMenu = [];
@@ -170,7 +170,11 @@ class management implements FusionDirectoryDialog
         $img = $infos['icon'];
       }
 
-      if (!preg_match('/t/', $ui->get_permissions($ui->dn, $infos['aclCategory'] . '/' . $infos['mainTab']))) {
+      if (!isset($positionDN)) {
+        $positionDN = $ui->dn;
+      }
+
+      if (!preg_match('/t/', $ui->get_permissions($positionDN, $infos['aclCategory'] . '/' . $infos['mainTab']))) {
         $createMenu[] = new Action(
         'new_' . $type, $infos['name'], $img,
         '0', 'newEntry',
@@ -430,6 +434,11 @@ class management implements FusionDirectoryDialog
       if (!$this->dialogOpened()) {
         // Update list
         $this->listing->update();
+
+        // Special from jonathan to set the positionDN
+        global $positionDN;
+        $positionDN = $this->listing->getBase();
+        $this->configureActions();
 
         // Init snapshot list for renderSnapshotActions
         if (is_object($this->snapHandler)) {
