@@ -48,10 +48,12 @@ class SelectAttribute extends \FusionDirectory\Core\SimplePlugin\Attribute
    *  \param mixed $defaultValue The default value for this attribute
    *  \param array $outputs The labels corresponding to the choices, leave to NULL if you want to display the choices themselves
    *  \param string $acl The name of the acl for this attribute if he does not use its own. (Leave empty if he should use its own like most attributes do)
+   *  \param boolean $error_on_displayValue Trigger a PHP and FD error for missing labels
    */
-  function __construct ($label, $description, $ldapName, $required = FALSE, $choices = [], $defaultValue = "", $outputs = NULL, $acl = "")
+  function __construct ($label, $description, $ldapName, $required = FALSE, $choices = [], $defaultValue = "", $outputs = NULL, $acl = "", $error_on_displayValue = TRUE)
   {
     parent::__construct($label, $description, $ldapName, $required, $defaultValue, $acl);
+    $this->error_on_displayValue = $error_on_displayValue;
     $this->setChoices($choices, $outputs);
   }
 
@@ -151,7 +153,10 @@ class SelectAttribute extends \FusionDirectory\Core\SimplePlugin\Attribute
       if (isset($this->outputs[$value])) {
         return $this->outputs[$value];
       } else {
-        trigger_error("No display value set for '$value' in ".$this->getLabel());
+        
+        if ($this->error_on_displayValue === 'TRUE') {
+          trigger_error("No display value set for '$value' in ".$this->getLabel());
+        }
         return $value;
       }
     } else {
@@ -165,11 +170,13 @@ class SelectAttribute extends \FusionDirectory\Core\SimplePlugin\Attribute
     if (!empty($error)) {
       return $error;
     } else {
-      if (!$this->disabled && !in_array($this->value, $this->choices)) {
-        return new SimplePluginCheckError(
-          $this,
-          SimplePluginCheckError::invalidValue(sprintf(_('"%s" is not in the list of possible choices'), $this->value))
-        );
+      if ($this->error_on_displayValue === 'TRUE') {
+        if (!$this->disabled && !in_array($this->value, $this->choices)) {
+          return new SimplePluginCheckError(
+            $this,
+            SimplePluginCheckError::invalidValue(sprintf(_('"%s" is not in the list of possible choices'), $this->value))
+          );
+        }
       }
     }
   }
