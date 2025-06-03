@@ -1086,6 +1086,13 @@ class management implements FusionDirectoryDialog
         // Delete the object
         $this->currentDn = $dn;
         $this->openTabObject(objects::open($this->currentDn, $entry->getTemplatedType()));
+        
+        // Temporarily disable read_only flag for user tab if it exists
+        // This ensures deletion works regardless of lock status
+        if (isset($this->tabObject->by_object['user'])) {
+          $this->tabObject->by_object['user']->read_only = FALSE;
+        }
+        
         $errors = $this->tabObject->delete();
         msg_dialog::displayChecks($errors);
 
