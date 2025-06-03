@@ -32,6 +32,7 @@ class SelectAttribute extends \FusionDirectory\Core\SimplePlugin\Attribute
   protected $choices;
   protected $outputs  = NULL;
   protected $size     = 1;
+  protected $error_on_displayValue;
 
   /*! \brief Valid values which should be hidden from rendered input
    *
@@ -153,7 +154,6 @@ class SelectAttribute extends \FusionDirectory\Core\SimplePlugin\Attribute
       if (isset($this->outputs[$value])) {
         return $this->outputs[$value];
       } else {
-        
         if ($this->error_on_displayValue === 'TRUE') {
           trigger_error("No display value set for '$value' in ".$this->getLabel());
         }
