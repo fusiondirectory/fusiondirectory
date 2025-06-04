@@ -244,16 +244,29 @@ class ACLEditionDialog implements FusionDirectoryDialog
             'self'    => FALSE,
           ];
         } else {
-          $attrs = $pInfos['plProvidedAcls'];
-          $rights = [
-            'create'   => TRUE,
-            'move'     => TRUE,
-            'remove'   => TRUE,
-            'read'     => TRUE,
-            'write'    => TRUE,
-            'self'     => $pInfos['plSelfModify'],
-            'template_creation_only' => TRUE,
-          ];
+          /* $idx == 1 mean that we are on the mainTab */
+          if ($idx == 1) {
+            $attrs = $pInfos['plProvidedAcls'];
+            $rights = [
+              'create'   => TRUE,
+              'move'     => TRUE,
+              'remove'   => TRUE,
+              'read'     => TRUE,
+              'write'    => TRUE,
+              'self'     => $pInfos['plSelfModify'],
+              'template_creation_only' => TRUE,
+            ];
+          } else {
+            $attrs = $pInfos['plProvidedAcls'];
+            $rights = [
+              'create'   => TRUE,
+              'move'     => TRUE,
+              'remove'   => TRUE,
+              'read'     => TRUE,
+              'write'    => TRUE,
+              'self'     => $pInfos['plSelfModify'],
+            ];
+          }
         }
         $aclObjects[$key] = [
           'name'      => $pInfos['plShortName'],
