@@ -46,7 +46,8 @@ class LoginHTTPHeader extends LoginMethod
       if (isset($config->data['LOCATIONS'][$requestedLocation])) {
         // Valid location found - switch to it
         $config->set_current($requestedLocation);
-        logging::debug(DEBUG_LOGIN, __LINE__, __FUNCTION__, __FILE__, 
+        // Fixed debug call - using DEBUG_TRACE instead of undefined DEBUG_LOGIN
+        logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, 
           $requestedLocation, 'Switched to location via HTTP header');
       } else {
         // Invalid location in header - log but continue with default
