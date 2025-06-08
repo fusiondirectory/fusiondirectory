@@ -23,6 +23,8 @@ class departmentManagement extends management
 {
   public static $skipSnapshots  = TRUE;
 
+  public static $skipTemplates = FALSE;
+
   public static function plInfo (): array
   {
     return [
