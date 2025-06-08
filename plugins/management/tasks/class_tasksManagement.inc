@@ -21,8 +21,6 @@
 class tasksManagement extends management
 {
 
-  protected $skipCpHandler    = TRUE;
-
   /*
   *  LinkColumn exists by class column
   *  TasksColumn is a new class for Tasks based on argonaut column definition
