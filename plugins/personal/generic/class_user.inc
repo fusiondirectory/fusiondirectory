@@ -248,7 +248,7 @@ class user extends simplePlugin
           _('Post office box'), _('Post office box'),
           'postOfficeBox', FALSE
         ),
-        new IntAttribute(
+        new StringAttribute(
           _('Postal code'), _('Postal code'),
           'postalCode', FALSE,
           0, FALSE
