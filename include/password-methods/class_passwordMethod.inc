@@ -181,6 +181,7 @@ abstract class passwordMethod
     // Call pre hooks
     $errors = $userMainTab->callHook('PRE'.$mode, [], $ret);
     if (!empty($errors)) {
+      logging::log('error', strtolower($mode), $dn, [], 'error while '.strtolower($mode).'ing: prehook failed');
       msg_dialog::displayChecks($errors);
       return FALSE;
     }
@@ -212,12 +213,15 @@ abstract class passwordMethod
 
     // Call the password post-lock hook, if defined.
     if ($ldap->success()) {
+      logging::log('security', strtolower($mode), $dn, [], 'successfully '.strtolower($mode).'ed');
       $userClass = new user($dn);
       $errors = $userClass->callHook('POST'.$mode, [], $ret);
       if (!empty($errors)) {
+        logging::log('error', strtolower($mode), $dn, [], 'error while '.strtolower($mode).'ing: posthook failed');
         msg_dialog::displayChecks($errors);
       }
     } else {
+      logging::log('error', strtolower($mode), $dn, [], 'error while '.strtolower($mode).'ing: '.$ldap->get_error());
       $error = new FusionDirectoryLdapError($dn, LDAP_MOD, $ldap->get_error(), $ldap->get_errno());
       $error->display();
     }
