@@ -58,6 +58,12 @@ class tasksDashboard extends management
     ];
   }
 
+  protected function setUpListing ()
+  {
+    /* Set baseMode to FALSE */
+    $this->listing  = new managementListing($this, FALSE);
+  }
+
   // Allowing us to add additional actions and remove unrequired ones.
   protected function configureActions ()
   {
