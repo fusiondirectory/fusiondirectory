@@ -39,15 +39,56 @@ class LoginHTTPHeader extends LoginMethod
     /* Reset error messages */
     $message = '';
 
+    // Check for location header before proceeding with authentication
+    if (isset($_SERVER['HTTP_X_FUSIONDIRECTORY_LOCATION'])) {
+      $requestedLocation = trim($_SERVER['HTTP_X_FUSIONDIRECTORY_LOCATION']);
+      if (isset($config->data['LOCATIONS'][$requestedLocation])) {
+        // Valid location found - switch to it
+        // @phpstan-ignore-next-line
+        $config->set_current($requestedLocation);
+        logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,
+          $requestedLocation, 'Switched to location via HTTP header');
+      } else {
+        // Invalid location in header - log but continue with default
+        logging::log(
+          'security',
+          'login warning',
+          'N/A',
+          [],
+          sprintf(
+            'Invalid location "%s" specified in HTTP header. Using location: %s',
+            $requestedLocation,
+            $config->current['NAME']
+          )
+        );
+      }
+    }
+
+    // Get username header configuration
     $header = $config->get_cfg_value('httpHeaderAuthHeaderName', 'AUTH_USER');
+    // History - be aware to set the header to AUTH-USER without X and score, not underscore.
+    $headerKey = 'HTTP_'.strtoupper(str_replace('-', '_', $header));
 
-    static::$username = $_SERVER['HTTP_'.$header];
-
-    if (!static::$username) {
+    // Safely retrieve username from header
+    if (isset($_SERVER[$headerKey])) {
+      static::$username = $_SERVER[$headerKey];
+    } else {
+      // Header doesn't exist
       throw new FatalError(
         htmlescape(sprintf(
-          _('No value found in HTTP header "%s"'),
-          $header
+          _('No value found in HTTP header "%s" (Location: %s)'),
+          $header,
+          $config->current['NAME']
+        ))
+      );
+    }
+
+    if (empty(static::$username)) {
+      throw new FatalError(
+        htmlescape(sprintf(
+          _('Empty value in HTTP header "%s" (Location: %s)'),
+          $header,
+          $config->current['NAME']
         ))
       );
     }
@@ -57,16 +98,18 @@ class LoginHTTPHeader extends LoginMethod
     if ($ui === FALSE) {
       throw new FatalError(
         htmlescape(sprintf(
-          _('Header user "%s" could not be found in LDAP'),
-          static::$username
+          _('Header user "%s" could not be found in LDAP (Location: %s)'),
+          static::$username,
+          $config->current['NAME']
         ))
       );
     } elseif (is_string($ui)) {
       throw new FatalError(
         htmlescape(sprintf(
-          _('Login with user "%s" triggered error: %s'),
+          _('Login with user "%s" triggered error: %s (Location: %s)'),
           static::$username,
-          $ui
+          $ui,
+          $config->current['NAME']
         ))
       );
     }
@@ -87,9 +130,10 @@ class LoginHTTPHeader extends LoginMethod
       if (!empty($message)) {
         throw new FatalError(
           htmlescape(sprintf(
-            _('Login with user "%s" triggered error: %s'),
+            _('Login with user "%s" triggered error: %s (Location: %s)'),
             static::$username,
-            $message
+            $message,
+            $config->current['NAME']
           ))
         );
       }
