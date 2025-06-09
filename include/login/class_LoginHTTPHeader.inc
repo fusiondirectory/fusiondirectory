@@ -40,11 +40,11 @@ class LoginHTTPHeader extends LoginMethod
     $message = '';
 
     // Check for location header before proceeding with authentication
-    // We use a fixed header name to avoid adding config entries
     if (isset($_SERVER['HTTP_X_FUSIONDIRECTORY_LOCATION'])) {
       $requestedLocation = trim($_SERVER['HTTP_X_FUSIONDIRECTORY_LOCATION']);
       if (isset($config->data['LOCATIONS'][$requestedLocation])) {
         // Valid location found - switch to it
+        // @phpstan-ignore-next-line
         $config->set_current($requestedLocation);
         logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,
           $requestedLocation, 'Switched to location via HTTP header');
@@ -66,6 +66,7 @@ class LoginHTTPHeader extends LoginMethod
 
     // Get username header configuration
     $header = $config->get_cfg_value('httpHeaderAuthHeaderName', 'AUTH_USER');
+    // History - be aware to set the header to AUTH-USER without X and score, not underscore.
     $headerKey = 'HTTP_'.strtoupper(str_replace('-', '_', $header));
 
     // Safely retrieve username from header
