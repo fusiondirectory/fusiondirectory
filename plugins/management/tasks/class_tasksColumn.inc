@@ -50,6 +50,9 @@ class TasksColumn extends Column
         case 'fdTasksGranularMaster':
           return static::generateMasterTaskName($value);
 
+        case 'fdTasksGranularCreationDate':
+          return static::generateDateFormat($value);
+
         default:
           return parent::renderSingleValue($entry, $value);
       }

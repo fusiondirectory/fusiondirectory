@@ -65,6 +65,10 @@ class tasksGranular extends simplePlugin
             _('Schedule'), '',
             'fdTasksGranularSchedule', FALSE
           ),
+          new DateTimeAttribute(
+            _('Creation'), '',
+            'fdTasksGranularCreationDate', FALSE
+          ),
           // Below attribute are for tasks of type lifeCycle and other tasks added as plugin
           new StringAttribute( // Attribute is mostly used to store important DN requiring processing by Orchestrator.
             _('Related DN'), _('DN list filled by main tasks'),
