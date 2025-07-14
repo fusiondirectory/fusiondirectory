@@ -179,7 +179,6 @@ attributetype ( 1.3.6.1.4.1.38414.62.1.15 NAME 'fdTasksEndDate'
 attributetype ( 1.3.6.1.4.1.38414.62.1.57 NAME 'fdTasksLastExec'
   DESC 'Fusion Directory - Time when tasks was last activated'
   EQUALITY caseExactMatch
-  OBSOLETE
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
 
 attributetype ( 1.3.6.1.4.1.38414.62.1.58 NAME 'fdTasksLastActivation'
