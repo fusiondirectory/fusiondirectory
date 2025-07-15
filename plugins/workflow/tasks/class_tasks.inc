@@ -61,7 +61,10 @@ class tasks extends simplePlugin
           ),
 
           new HiddenAttribute('fdTasksStatus', TRUE, '1', '', 'Status', 'Status of the task'),
-          new HiddenAttribute('fdTasksLastExec', FALSE, '', '', 'LastExec', 'Last exec date'),
+          // This attribute is used to define the last activation date of the tasks - when subtasks are created.
+          new HiddenAttribute('fdTasksLastActivation', FALSE, '', '', 'LastActivation', 'Last activation date'),
+          // This attribute is used to define the last execution date of the tasks - when subtasks have been processed.
+          new HiddenAttribute('fdTasksLastExec', FALSE, '', '', 'LastExecution', 'Last Executed - processed date'),
           new HiddenAttribute('fdTasksCreationDate', TRUE, date("Y-m-d h:i:sa"), '', 'StartDate', 'Start Date And Time Of A Task'),
         ]
       ],
@@ -115,10 +118,10 @@ class tasks extends simplePlugin
 
   function save (): array
   {
-    // Verification if the bool of activation is ticked and activate the last exec accordingly.
+    // Verification if the bool of activation is ticked and activate the last activation accordingly.
     if ($this->fdSubTasksActivation === TRUE) {
-      $currentDateTime       = date("Y-m-d H:i:s");
-      $this->fdTasksLastExec = $currentDateTime;
+      $currentDateTime             = date("Y-m-d H:i:s");
+      $this->fdTasksLastActivation = $currentDateTime;
     }
     return parent::save();
   }

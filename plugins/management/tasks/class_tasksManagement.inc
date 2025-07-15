@@ -31,7 +31,9 @@ class tasksManagement extends management
     ['LinkColumn',  ['attributes' => 'description',  'label' => 'Description']],
     ['TasksColumn', ['attributes' => 'fdTasksMailObject', 'label' => 'Types']],
     ['Column', ['attributes' => 'fdTasksCreationDate', 'label' => 'Creation Date']],
-    ['TasksColumn', ['attributes' => 'fdTasksScheduleDate', 'label' => 'Scheduled']],
+    ['Column', ['attributes' => 'fdTasksLastActivation', 'label' => 'Activation']],
+    ['Column', ['attributes' => 'fdTasksGranularLastExec', 'label' => 'Last Execution']],
+    ['Column', ['attributes' => 'fdTasksGranularNextExec', 'label' => 'Next Execution']],
     ['ActionsColumn', ['label' => 'Actions']],
   ];
 

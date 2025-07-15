@@ -41,12 +41,6 @@ class TasksColumn extends Column
         case 'fdTasksMailObject':
           return "Mail Object";
 
-        case 'fdTasksScheduleDate':
-          return static::generateDateFormat($value);
-
-        case 'fdTasksGranularSchedule':
-          return static::generateDateFormat($value);
-
         case 'fdTasksGranularMaster':
           return static::generateMasterTaskName($value);
 
