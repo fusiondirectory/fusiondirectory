@@ -63,6 +63,9 @@ class TasksColumn extends Column
       case "2" :
         return "Completed";
 
+      case "3" :
+        return "Nothing to Process";
+
       default :
         return $status;
     }

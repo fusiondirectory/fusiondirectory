@@ -142,6 +142,7 @@ class tasks extends simplePlugin
     // Take the attribute from the other tabs - attribute cannot be null or unset by default
     $schedule = $this->fdTasksScheduleDate ?? NULL;
     // Verify if members can have multiple sub-tasks for that main task.
+    // When TRUE, only new members get subtasks, or members with subtasks in state 3 (nothing to process)
     $newMemberOnly = $this->fdTasksUpdatable;
 
     // remove 'dn' keeping only 'cn'
@@ -154,7 +155,7 @@ class tasks extends simplePlugin
       if ($newMemberOnly === TRUE) {
         $ldap->cd($config->current['BASE']);
         $filter = '(&(objectClass=fdTasksGranular)(fdTasksGranularMaster=' . $this->dn . '))';
-        $ldap->search($filter, [$attributeType]);
+        $ldap->search($filter, ['fdTasksGranularStatus', $attributeType]);
 
         // The while loop is important to get all info from ldap into the array.
         while ($info = $ldap->fetch()) {
@@ -162,23 +163,41 @@ class tasks extends simplePlugin
         }
 
         if (!empty($subTasks)) {
+          $membersDN = [];
+          $completedMembers = [];
+
           // Recuperate members DN from the ldap search.
           foreach ($subTasks as $subTask) {
+            $status = isset($subTask['fdTasksGranularStatus'][0]) ? $subTask['fdTasksGranularStatus'][0] : '1';
 
             // For lifeCycle we check DN and for mailObject we check mail
             switch ($attributeType) {
               case 'fdTasksGranularDN':
-                $membersDN[] = $subTask['fdTasksGranularDN'][0];
+                // If status is 3 (nothing to process), allow creating a new subtask
+                // For all other statuses, add to membersDN to prevent duplicate subtask creation
+                if ($status !== '3') {
+                  $membersDN[] = $subTask['fdTasksGranularDN'][0];
+                } else {
+                  $completedMembers[] = $subTask['fdTasksGranularDN'][0];
+                }
                 break;
               case 'fdTasksGranularMail':
-                $membersDN[] = $subTask['fdTasksGranularMail'][0];
+                // If status is 3 (nothing to process), allow creating a new subtask
+                // For all other statuses, add to membersDN to prevent duplicate subtask creation
+                if ($status !== '3') {
+                  $membersDN[] = $subTask['fdTasksGranularMail'][0];
+                } else {
+                  $completedMembers[] = $subTask['fdTasksGranularMail'][0];
+                }
                 break;
             }
           }
-          // Verify the DN differences and only keep those.
+
+          // Verify the DN differences and only keep those without tasks or with "nothing to process" (status 3) tasks
           if (!empty($membersDN)) {
             $listOfDN = array_diff($listOfDN, $membersDN);
           }
+
           // Simple re-index the array.
           $listOfDN = array_values($listOfDN);
         }
