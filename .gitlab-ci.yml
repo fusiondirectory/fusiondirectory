@@ -9,7 +9,7 @@ stages:
 
 # PHP lint
 create_php_lint_rapport:
-  image: registry.fusiondirectory.org/fusiondirectory/fd/phpcodesniffer-cli:buster
+  image: registry.fusiondirectory.org/fusiondirectory/fd/phpcodesniffer-cli:fd
   stage: lint
   only:
     - branches
@@ -20,7 +20,7 @@ create_php_lint_rapport:
 
 # PHP codesniffer
 create_php_code_sniffer_rapport:
-  image: registry.fusiondirectory.org/fusiondirectory/fd/phpcodesniffer-cli:buster
+  image: registry.fusiondirectory.org/fusiondirectory/fd/phpcodesniffer-cli:fd
   stage: codestyle
   only:
     - branches
@@ -34,7 +34,7 @@ create_php_code_sniffer_rapport:
 
 # phpstan
 create_phpstan_rapport:
-  image: registry.fusiondirectory.org/fusiondirectory/fd/phpstan-cli:buster
+  image: registry.fusiondirectory.org/fusiondirectory/fd/phpstan-cli:fd
   stage: codestyle
   only:
     - branches
@@ -47,7 +47,7 @@ create_phpstan_rapport:
 
 # fusiondirectory-update-locale
 fusiondirectory-update-locale:
-  image: registry.fusiondirectory.org/fusiondirectory/fd/transifex-cli:buster
+  image: registry.fusiondirectory.org/fusiondirectory/fd/transifex-cli:fd
   stage: transifex
   only:
     - dev
@@ -58,7 +58,7 @@ fusiondirectory-update-locale:
 
 # Update transifex
 update-transifex:
-  image: registry.fusiondirectory.org/fusiondirectory/fd/transifex-cli:buster
+  image: registry.fusiondirectory.org/fusiondirectory/fd/transifex-cli:fd
   stage: transifex
   only:
     - dev
