@@ -56,7 +56,7 @@ class tasksGranular extends simplePlugin
             _('Task Granular Name'), _('Name for this task'),
             'cn', TRUE
           ),
-          new HiddenAttribute('fdTasksGranularStatus', TRUE, '1', '', 'Status', 'Status of the task'),
+          new HiddenAttribute('fdTasksGranularStatus', TRUE, '1', '', 'Status', 'Status of the task (1=scheduled, 2=completed, 3=nothing to process)'),
           new HiddenAttribute('fdTasksGranularLastExec', FALSE, 'Not Executed Yet', '', 'Last Execution', 'Last execution of the subtask - last time of reported status'),
           new HiddenAttribute('fdTasksGranularNextExec', FALSE, '', '', 'Future Execution', 'Future potential execution of the subtask'),
           new HiddenAttribute('fdTasksGranularMaster', TRUE, '', '', 'Master CN', 'Name of the Master task'),

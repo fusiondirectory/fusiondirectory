@@ -124,10 +124,15 @@ class tasksDashboard extends management
         'filter'      => '(fdTasksGranularStatus=1)',
         'icon'        => 'geticon.php?context=actions&icon=system-update&size=16',
       ],
+      'Nothing'    => [
+        'name'        => 'Nothing to process',
+        'filter'      => '(fdTasksGranularStatus=3)',
+        'icon'        => 'geticon.php?context=actions&icon=nothing-to-process&size=16',
+      ],
       'Failed'    => [
         'name'      => 'Failed tasks',
         // filter status must be updated if the status strategy changes
-        'filter'    => '(!(|(fdTasksGranularStatus=1)(fdTasksGranularStatus=2)))',
+        'filter'    => '(!(|(fdTasksGranularStatus=1)(fdTasksGranularStatus=2)(fdTasksGranularStatus=3)))',
         'icon'      => 'geticon.php?context=actions&icon=remove&size=16',
       ],
     ];
