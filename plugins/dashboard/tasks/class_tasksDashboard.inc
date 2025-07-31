@@ -127,7 +127,7 @@ class tasksDashboard extends management
       'Nothing'    => [
         'name'        => 'Nothing to process',
         'filter'      => '(fdTasksGranularStatus=3)',
-        'icon'        => 'geticon.php?context=actions&icon=edit-clear&size=16',
+        'icon'        => 'geticon.php?context=actions&icon=nothing-to-process&size=16',
       ],
       'Failed'    => [
         'name'      => 'Failed tasks',
