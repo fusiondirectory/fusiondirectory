@@ -2,7 +2,7 @@
 ## core-fd.schema - Needed by FusionDirectory for its basic functionalities
 ##
 
-# Last OID used for attributes  : 1.3.6.1.4.1.38414.62.1.76 14/07/25 #
+# Last OID used for attributes  : 1.3.6.1.4.1.38414.62.1.77 04/08/25 #
 # Last OID used for objectClass : 1.3.6.1.4.1.38414.62.2.11 29/01/24 #
 
 ##### Attributes from gosa ######
@@ -178,6 +178,11 @@ attributetype ( 1.3.6.1.4.1.38414.62.1.15 NAME 'fdTasksEndDate'
 
 attributetype ( 1.3.6.1.4.1.38414.62.1.57 NAME 'fdTasksLastExec'
   DESC 'Fusion Directory - Time when tasks was last activated'
+  EQUALITY caseExactMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+
+attributetype ( 1.3.6.1.4.1.38414.62.1.77 NAME 'fdTasksNextExec'
+  DESC 'Fusion Directory - Time when tasks will be executed next'
   EQUALITY caseExactMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
 
@@ -548,7 +553,7 @@ objectclass (1.3.6.1.4.1.38414.62.2.6 NAME 'fdTasks'
   DESC 'FusionDirectory - Tasks objects'
   MUST ( cn $ fdTasksStatus $ fdTasksCreationDate )
   MAY ( fdTasksScheduleDate $ fdTasksEndDate $ fdTasksRepeatableSchedule $ fdTasksUpdatable $ fdTasksRepeatable
-  $ fdTasksLastActivation $ fdTasksLastExec $ description))
+  $ fdTasksLastActivation $ fdTasksLastExec $ fdTasksNextExec $ description))
 
 objectclass (1.3.6.1.4.1.38414.62.2.7 NAME 'fdTasksMail'
   DESC 'FusionDirectory - Tasks objects Mail'
