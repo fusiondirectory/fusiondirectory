@@ -65,6 +65,8 @@ class tasks extends simplePlugin
           new HiddenAttribute('fdTasksLastActivation', FALSE, '', '', 'LastActivation', 'Last activation date'),
           // This attribute is used to define the last execution date of the tasks - when subtasks have been processed.
           new HiddenAttribute('fdTasksLastExec', FALSE, '', '', 'LastExecution', 'Last Executed - processed date'),
+          // This attribute is used to define the next execution date of the tasks - when subtasks have been processed.
+          new HiddenAttribute('fdTasksNextExec', FALSE, '', '', 'NextExecution', 'Next Executed - processed date'),
           new HiddenAttribute('fdTasksCreationDate', TRUE, date("Y-m-d h:i:sa"), '', 'StartDate', 'Start Date And Time Of A Task'),
         ]
       ],
