@@ -42,6 +42,11 @@ class tasks extends simplePlugin
 
   static function getAttributesInfo (): array
   {
+    // Build selectable minute options Minutes:00 .. Minutes:59
+    $minuteOptions = array_map(function ($m) {
+      return sprintf('Minutes:%02d', $m);
+    }, range(0, 59));
+
     return [
       // Attributes are grouped by section
       'tasks'       => [
@@ -92,8 +97,10 @@ class tasks extends simplePlugin
           ),
           new SelectAttribute(
             _('Repeatable Schedule'), _('Select the desired schedule.'),
-            'fdTasksRepeatableSchedule', TRUE, ['Yearly', 'Monthly', 'Weekly', 'Daily', 'Hourly'], 'Daily',
-            ['Yearly', 'Monthly', 'Weekly', 'Daily', 'Hourly']
+            'fdTasksRepeatableSchedule', TRUE,
+            array_merge(['Yearly', 'Monthly', 'Weekly', 'Daily', 'Hourly'], $minuteOptions),
+            'Daily',
+            array_merge(['Yearly', 'Monthly', 'Weekly', 'Daily', 'Hourly'], $minuteOptions)
           ),
         ]
       ],
