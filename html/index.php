@@ -123,7 +123,29 @@ clean_smarty_compile_dir($smarty->getCompileDir());
 
 Language::init();
 
-if (isset($_POST['server'])) {
+// Check for location header before proceeding with authentication
+if (isset($_SERVER['HTTP_X_FUSIONDIRECTORY_LOCATION'])) {
+  $server = trim($_SERVER['HTTP_X_FUSIONDIRECTORY_LOCATION']);
+  if (isset($config->data['LOCATIONS'][$server])) {
+    // Valid location found - switch to it
+    $config->set_current($server);
+    logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,
+      $server, 'Switched to location via HTTP header');
+  } else {
+    // Invalid location in header - log but continue with default
+    logging::log(
+      'security',
+      'login warning',
+      'N/A',
+      [],
+      sprintf(
+        'Invalid location "%s" specified in HTTP header. Using location: %s',
+        $server,
+        $config->current['NAME']
+      )
+    );
+  }
+} else if (isset($_POST['server'])) {
   $server = $_POST['server'];
 } else {
   $server = $config->data['MAIN']['DEFAULT'];
