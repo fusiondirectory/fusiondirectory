@@ -64,7 +64,16 @@ abstract class standAlonePage
 
     $olddirectory = $this->directory;
 
-    if (isset($_POST['server']) && isset($this->directories[$_POST['server']])) {
+    // Check for location header before proceeding with authentication
+    if (isset($_SERVER['HTTP_X_FUSIONDIRECTORY_LOCATION'])) {
+      $server = trim($_SERVER['HTTP_X_FUSIONDIRECTORY_LOCATION']);
+      if (isset($config->data['LOCATIONS'][$server])) {
+        // Valid location found - switch to it
+        $this->directory = validate($server);
+        logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,
+          $server, 'Switched to location via HTTP header');
+      }
+    } elseif (isset($_POST['server']) && isset($this->directories[$_POST['server']])) {
       $this->directory = validate($_POST['server']);
     } elseif (isset($_GET['directory']) && isset($this->directories[$_GET['directory']])) {
       $this->directory = validate($_GET['directory']);
