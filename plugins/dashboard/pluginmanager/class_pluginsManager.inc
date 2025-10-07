@@ -32,7 +32,7 @@ class pluginsManager extends simplePlugin
       ],
       'plTitle'       => _('Plugins Manager'),
       'plIcon'        => 'geticon.php?context=applications&icon=pluginManager&size=48',
-      'plSection'       => 'Dashboard',
+      'plSection'     => ['Dashboard' => ['name' => _('Dashboard'), 'priority' => 3]],
       'plPriority'    => 1,
       'plDescription' => _('Provide a reporting mechanism of installed plugins'),
       'plProvidedAcls'  => [

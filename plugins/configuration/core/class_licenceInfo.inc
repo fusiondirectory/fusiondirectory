@@ -46,7 +46,7 @@ class licenceInfo extends simplePlugin
           'ou'        => get_ou('fusiondirectoryRDN'),
         ]
       ],
-      'plSection'     => 'conf',
+      'plSection'     => ['conf' => ['name' => _('Configuration'), 'priority' => 9]],
       'plPriority'    => 1,
 
       'plProvidedAcls'  => parent::generatePlProvidedAcls(static::getAttributesInfo()),
