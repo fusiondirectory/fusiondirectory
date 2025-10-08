@@ -49,7 +49,7 @@ class tasksDashboard extends management
   static function plInfo ()
   {
     return [
-      'plShortName'   => _('Tasks Dashboard'),
+      'plShortName'   => _('Tasks'),
       'plDescription' => _('Provide a reporting mechanism for tasks'),
       'plTitle'       => _('Tasks Dashboard'),
       'plIcon'        => 'geticon.php?context=applications&icon=tasks-dashboard&size=48',
