@@ -39,9 +39,9 @@ class tasksManagement extends management
   static function plInfo ()
   {
     return [
-      'plShortName'   => _('Tasks'),
+      'plShortName'   => _('Tasks Creation'),
       'plDescription' => _('Provide a mechanism to create and manage tasks'),
-      'plTitle'       => _('Tasks'),
+      'plTitle'       => _('Tasks Creation'),
       'plIcon'        => 'geticon.php?context=applications&icon=tasks&size=48',
       'plSection'     => ['workflow' => ['name' => _('Workflow'), 'priority' => 2]],
       'plPriority'    => 1,
