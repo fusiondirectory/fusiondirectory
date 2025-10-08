@@ -32,8 +32,12 @@ class BaseSelectorAttribute extends \FusionDirectory\Core\SimplePlugin\Attribute
    *  \param string $ou The ou your objects are into. It will be used in order to detect the base they are in.
    *  \param string $label The label to show for this attribute, defaults to "Base"
    *  \param string $desc Description, defaults to "Object base"
+   *  \param string $ldapName The name of the attribute in the LDAP (If it's not in the ldap, still provide a unique name)
+   *  \param boolean $required Is this attribute mandatory or not
+   *  \param mixed $defaultValue The default value for this attribute
+   *  \param string $acl The name of the acl for this attribute if he does not use its own. (Leave empty if he should use its own like most a>
    */
-  function __construct ($ou, $label = NULL, $desc = NULL)
+  function __construct ($ou, $label = NULL, $desc = NULL, $ldapName = 'base', $required = FALSE, $defaultValue = '', $acl = 'base')
   {
     if ($label === NULL) {
       $label = _('Base');
@@ -41,8 +45,12 @@ class BaseSelectorAttribute extends \FusionDirectory\Core\SimplePlugin\Attribute
     if ($desc === NULL) {
       $desc = _('Object base');
     }
-    parent::__construct($label, $desc, 'base', FALSE, '', 'base');
-    $this->setInLdap(FALSE);
+    parent::__construct($label, $desc, $ldapName, $required, $defaultValue, $acl);
+    if ($ldapName == 'base') {
+      $this->setInLdap(FALSE);
+    } else {
+      $this->setInLdap(TRUE);
+    }
     $this->ou = $ou;
   }
 
