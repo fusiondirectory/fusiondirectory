@@ -40,8 +40,7 @@ class tasksManagement extends management
   {
     return [
       'plShortName'   => _('Tasks Creation'),
-      'plDescription' => _('Provide a mechanism to create and manage tasks'),
-      'plTitle'       => _('Tasks Creation'),
+      'plDescription' => _('Manage the creation of tasks'),
       'plIcon'        => 'geticon.php?context=applications&icon=tasks&size=48',
       'plSection'     => ['workflow' => ['name' => _('Workflow'), 'priority' => 2]],
       'plPriority'    => 1,

@@ -29,7 +29,6 @@ class departmentManagement extends management
   {
     return [
       'plShortName'   => _('Departments'),
-      'plTitle'       => _('Manage departments'),
       'plDescription' => _('Manage departments, countries, domain components, domains, localities and organization nodes,'),
       'plIcon'        => 'geticon.php?context=places&icon=folder&size=48',
       'plSection'     => ['accounts' => ['name' => _('Users and groups'), 'priority' => 0]],

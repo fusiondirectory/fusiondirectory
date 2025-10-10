@@ -38,9 +38,8 @@ class groupManagement extends management
   static function plInfo (): array
   {
     return [
-      'plShortName'   => _('Groups and roles'),
-      'plTitle'       => _('Manage groups and roles'),
-      'plDescription' => _('Allows you to manage object groups, POSIX groups and roles'),
+      'plShortName'   => _('Groups and Roles'),
+      'plDescription' => _('Manage object groups, posix groups and roles'),
       'plIcon'        => 'geticon.php?context=types&icon=resource-group&size=48',
       'plSection'     => ['accounts' => ['name' => _('Users and groups'), 'priority' => 0]],
       'plManages'     => ['ogroup', 'group', 'role', 'dyngroup'],
