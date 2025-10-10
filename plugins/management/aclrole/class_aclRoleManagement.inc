@@ -23,9 +23,8 @@ class aclRoleManagement extends management
   public static function plInfo (): array
   {
     return [
-      'plShortName'   => _('ACL roles'),
-      'plTitle'       => _('ACL roles management'),
-      'plDescription' => _('Manage ACL roles'),
+      'plShortName'   => _('Acl Roles'),
+      'plDescription' => _('Manage Acl roles'),
       'plIcon'        => 'geticon.php?context=categories&icon=acl&size=48',
       'plSection'     => ['accessControl' => ['name' => _('Access Control'), 'priority' => 5]],
       'plPriority'    => 0,
