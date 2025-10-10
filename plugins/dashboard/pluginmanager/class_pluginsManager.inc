@@ -26,11 +26,10 @@ class pluginsManager extends simplePlugin
       'plShortName'   => _('Plugins'),
       'plObjectType'  => [
         'pluginManager' => [
-          'name'      => _('PluginManager'),
+          'name'      => _('Plugin List'),
           'mainAttr'  => FALSE
         ]
       ],
-      'plTitle'       => _('Plugins Manager'),
       'plIcon'        => 'geticon.php?context=applications&icon=pluginManager&size=48',
       'plSection'     => ['Dashboard' => ['name' => _('Dashboard'), 'priority' => 3]],
       'plPriority'    => 1,
@@ -45,8 +44,8 @@ class pluginsManager extends simplePlugin
   {
     return [
       'plugins' => [
-        'name'  => _('Plugins Manager'),
-        'plShortName'   => _('Plugins Manager'),
+        'name'  => _('Plugins List'),
+        'plShortName'   => _('Plugins List'),
         'attrs' => [new FakeAttribute('pluginsList')],
         'template' => get_template_path('plugins_list.tpl', TRUE, dirname(__FILE__)),
       ],
