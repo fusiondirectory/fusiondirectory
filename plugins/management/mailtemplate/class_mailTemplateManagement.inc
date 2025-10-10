@@ -32,7 +32,6 @@ class mailTemplateManagement extends management
   {
     return [
       'plShortName'   => _('Mail Template'),
-      'plTitle'       => _('Mail Template'),
       'plDescription' => _('Manages mails templates'),
       'plIcon'        => 'geticon.php?context=applications&icon=mail-template&size=48',
       'plManages'     => ['mailTemplate'],

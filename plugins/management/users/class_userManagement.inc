@@ -39,7 +39,6 @@ class userManagement extends management
   {
     return [
       'plShortName'   => _('Users'),
-      'plTitle'       => _('Manage users'),
       'plDescription' => _('Manage user accounts and their properties'),
       'plIcon'        => 'geticon.php?context=types&icon=user&size=48',
       'plSection'     => ['accounts' => ['name' => _('Users and groups'), 'priority' => 0]],
