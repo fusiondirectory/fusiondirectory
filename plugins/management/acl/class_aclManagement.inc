@@ -30,8 +30,8 @@ class aclAssignmentCreationDialog extends simplePlugin
   static function plInfo (): array
   {
     return [
-      'plShortName'   => _('ACL assignment creation'),
-      'plDescription' => _('Create an ACL assignment on an arbitrary dn'),
+      'plShortName'   => _('Acl assignment creation'),
+      'plDescription' => _('Manage acl roles assignment on an arbitrary dn'),
       'plCategory'    => ['acl'],
 
       'plProvidedAcls' => []
@@ -43,7 +43,7 @@ class aclAssignmentCreationDialog extends simplePlugin
     global $config;
     return [
       'main' => [
-        'name'  => _('ACL assignment creation'),
+        'name'  => _('Acl assignment creation'),
         'class' => ['fullwidth'],
         'attrs' => [
           new StringAttribute(
@@ -142,8 +142,8 @@ class aclManagement extends management
   static function plInfo (): array
   {
     return [
-      'plShortName'   => _('ACL Assignments'),
-      'plDescription' => _('Manage ACL roles assignments to users'),
+      'plShortName'   => _('Acl Assignments'),
+      'plDescription' => _('Manage acl roles assignment to users'),
       'plIcon'        => 'geticon.php?context=categories&icon=acl&size=48',
       'plSection'     => ['accessControl' => ['name' => _('Access Control'), 'priority' => 5]],
       'plPriority'    => 1,

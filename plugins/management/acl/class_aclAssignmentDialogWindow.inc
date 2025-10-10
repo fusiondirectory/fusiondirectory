@@ -23,8 +23,8 @@ class aclAssignmentDialogWindow extends simplePlugin
   static function plInfo (): array
   {
     return [
-      'plShortName'   => _('ACL Assignment Dialog'),
-      'plDescription' => _('Access control roles assignment dialog'),
+      'plShortName'   => _('Acl Assignment Dialog'),
+      'plDescription' => _('Manage acl roles assignment dialog'),
       'plCategory'    => ['acl'],
 
       'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())

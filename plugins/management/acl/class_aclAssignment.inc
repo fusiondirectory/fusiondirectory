@@ -26,7 +26,7 @@ class aclAssignment extends simplePlugin
     $oc = [
       'aclAssignment' => [
         'aclCategory' => 'acl',
-        'name'        => _('ACL assignment'),
+        'name'        => _('Acl assignment'),
         'ou'          => '',
         'icon'        => 'geticon.php?context=categories&icon=acl&size=16',
         'tabClass'    => 'simpleTabs_noSpecial',
@@ -39,8 +39,8 @@ class aclAssignment extends simplePlugin
       $oc = array_merge($oc, departmentManagement::getDepartmentTypes());
     }
     return [
-      'plShortName'   => _('ACL Assignment'),
-      'plDescription' => _('Access control roles assignment'),
+      'plShortName'   => _('Acl Assignment'),
+      'plDescription' => _('Manage acl roles assignment'),
       'plSmallIcon'   => 'geticon.php?context=categories&icon=acl&size=16',
       'plObjectClass' => ['gosaAcl'],
       'plObjectType'  => $oc,

@@ -72,8 +72,8 @@ class aclRole extends simplePlugin
   static function plInfo (): array
   {
     return [
-      'plShortName'   => _('Role'),
-      'plDescription' => _('Access control roles'),
+      'plShortName'   => _('Acl Roles'),
+      'plDescription' => _('Manage acl roles'),
       'plObjectClass' => ['gosaRole'],
       'plObjectType'  => ['aclRole' => [
         'aclCategory' => 'acl',
