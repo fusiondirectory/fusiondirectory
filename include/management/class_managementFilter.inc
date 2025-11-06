@@ -208,7 +208,7 @@ class managementFilter
           if ($this->showTemplates) {
             $searchAttributesTmp[]  = '_template_cn';
           }
-          $elementFilters[] = '(|('.implode('=*'.ldap_escape_f($this->search).'*)(', $searchAttributesTmp).'=*'.ldap_escape_f($this->search).'*))';
+          $elementFilters[] = '(|('.implode('='.ldap_escape_f($this->search, '*').')(', $searchAttributesTmp).'='.ldap_escape_f($this->search, '*').'))';
         }
       }
 

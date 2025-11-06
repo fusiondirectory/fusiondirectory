@@ -69,7 +69,7 @@ class user extends simplePlugin
       'plForeignKeys' => [
         'manager' => ['user', 'dn', 'manager=%oldvalue%', '*']
       ],
-      'plSearchAttrs' => ['uid', 'description'],
+      'plSearchAttrs' => ['uid'],
 
       'plProvidedAcls' => array_merge(
         parent::generatePlProvidedAcls(static::getAttributesInfo()),
