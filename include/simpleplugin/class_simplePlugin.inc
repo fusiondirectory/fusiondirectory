@@ -1590,7 +1590,7 @@ class simplePlugin implements SimpleTab
   {
     /* Update foreign keys */
     if ($mode == 'remove') {
-      $this->handleForeignKeys($this->dn, NULL);
+      $this->handleForeignKeys($this->dn, NULL, $mode);
     } elseif ($mode == 'modify') {
       $this->handleForeignKeys();
     }
