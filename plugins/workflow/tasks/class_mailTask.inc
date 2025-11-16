@@ -19,7 +19,7 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 */
 
-class tasksMail extends simplePlugin
+class mailTask extends simplePlugin
 {
   protected $displayHeader = TRUE;
 
@@ -33,7 +33,7 @@ class tasksMail extends simplePlugin
       'plObjectClass'  => ['fdTasksMail'],
       'plFilter'       => '(objectClass=fdTasksMail)',
       'plObjectType'   => ['tasks'],
-      'plConflicts'    => ['tasksLifeCycle'],
+      'plConflicts'    => ['lifeCycleTask'],
       'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo()),
       'plForeignKeys'  => [
         'fdTasksMailUsers' => [
