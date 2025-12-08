@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FusionDirectory VERSION\n"
 "Report-Msgid-Bugs-To: bugs@fusiondirectory.org\n"
-"POT-Creation-Date: 2025-02-03 17:40+0000\n"
+"POT-Creation-Date: 2025-11-23 14:51+0000\n"
 "PO-Revision-Date: 2018-08-13 19:47+0000\n"
 "Last-Translator: fusiondirectory <contact@fusiondirectory.org>, 2023\n"
 "Language-Team: Portuguese (Brazil) (https://app.transifex.com/fusiondirectory/teams/12202/pt_BR/)\n"
@@ -26,8 +26,10 @@ msgstr ""
 #: include/errors/class_FusionDirectoryError.inc:56
 #: include/errors/class_SimplePluginError.inc:140
 #: include/errors/class_SimplePluginHookError.inc:78
-#: include/errors/class_FatalError.inc:74 setup/setup_checks.tpl.c:8
-#: ihtml/themes/breezy/msg_dialog.tpl.c:2
+#: include/errors/class_FatalError.inc:74
+#: plugins/configuration/core/class_configInLdap.inc:646
+#: plugins/configuration/core/class_configInLdap.inc:671
+#: setup/setup_checks.tpl.c:8 ihtml/themes/breezy/msg_dialog.tpl.c:2
 msgid "Error"
 msgstr "Erro"
 
@@ -143,11 +145,12 @@ msgstr "Data"
 
 #: include/management/snapshot/class_SnapshotAttribute.inc:45
 #: include/management/snapshot/class_SnapshotAttribute.inc:51
-#: plugins/dashboard/pluginmanager/class_pluginsManager.inc:77
+#: plugins/dashboard/pluginmanager/class_pluginsManager.inc:76
 #: plugins/management/departments/class_department.inc:71
-#: plugins/management/groups/class_ogroup.inc:90
+#: plugins/management/groups/class_ogroup.inc:89
 #: plugins/management/groups/class_roleGeneric.inc:91
 #: plugins/management/aclrole/class_aclRole.inc:102
+#: plugins/workflow/tasks/class_tasks.inc:60
 #: plugins/personal/generic/class_user.inc:109
 msgid "Description"
 msgstr "Descrição"
@@ -281,130 +284,125 @@ msgstr ""
 msgid "Tabs"
 msgstr ""
 
-#: include/management/class_management.inc:208 include/class_template.inc:43
+#: include/management/class_management.inc:203 include/class_template.inc:43
 #: ihtml/themes/breezy/management/filter.tpl.c:8
 #: ihtml/themes/breezy/template.tpl.c:5
 msgid "Template"
 msgstr "Modelo"
 
-#: include/management/class_management.inc:212
+#: include/management/class_management.inc:207
 msgid "From template"
 msgstr ""
 
-#: include/management/class_management.inc:222
-#: plugins/management/mailtemplate/class_mailTemplateManagement.inc:66
+#: include/management/class_management.inc:217
+#: plugins/management/mailtemplate/class_mailTemplateManagement.inc:65
 #: setup/class_setupStepMigrate.inc:857
 msgid "Create"
 msgstr "Criar"
 
-#: include/management/class_management.inc:237
-#: plugins/management/mailtemplate/class_mailTemplateManagement.inc:81
-msgid "Export list"
-msgstr ""
-
-#: include/management/class_management.inc:244
+#: include/management/class_management.inc:224
 #: include/simpleplugin/attributes/dialog/class_ObjectAttribute.inc:109
 #: include/simpleplugin/attributes/dialog/class_ObjectAttribute.inc:110
 #: include/simpleplugin/attributes/class_PhoneNumberAttribute.inc:120
 #: include/simpleplugin/attributes/class_PhoneNumberAttribute.inc:121
 #: include/simpleplugin/attributes/class_SetAttribute.inc:583
 #: include/simpleplugin/attributes/class_SetAttribute.inc:584
-#: plugins/management/mailtemplate/class_mailTemplateManagement.inc:88
+#: plugins/management/mailtemplate/class_mailTemplateManagement.inc:72
 #: plugins/management/aclrole/class_aclEditionDialog.inc:208
 msgid "Edit"
 msgstr "Editar"
 
-#: include/management/class_management.inc:253
-#: plugins/management/mailtemplate/class_mailTemplateManagement.inc:97
+#: include/management/class_management.inc:233
+#: plugins/management/mailtemplate/class_mailTemplateManagement.inc:81
 msgid "Cut"
 msgstr "Recortar"
 
-#: include/management/class_management.inc:260
-#: plugins/management/mailtemplate/class_mailTemplateManagement.inc:104
+#: include/management/class_management.inc:240
+#: plugins/management/mailtemplate/class_mailTemplateManagement.inc:88
 msgid "Copy"
 msgstr "Copiar"
 
-#: include/management/class_management.inc:267
+#: include/management/class_management.inc:247
 #: include/class_CopyPasteHandler.inc:331
-#: plugins/management/mailtemplate/class_mailTemplateManagement.inc:111
+#: plugins/management/mailtemplate/class_mailTemplateManagement.inc:95
 msgid "Paste"
 msgstr "Colar"
 
-#: include/management/class_management.inc:278
+#: include/management/class_management.inc:258
 msgid "Apply template"
 msgstr "Aplicar modelo"
 
-#: include/management/class_management.inc:298
+#: include/management/class_management.inc:278
 #: include/simpleplugin/attributes/dialog/class_ObjectAttribute.inc:119
 #: include/simpleplugin/attributes/dialog/class_ObjectAttribute.inc:120
 #: include/simpleplugin/attributes/class_FileAttribute.inc:464
 #: include/simpleplugin/attributes/class_FileAttribute.inc:465
-#: plugins/management/mailtemplate/class_mailTemplateManagement.inc:121
+#: plugins/management/mailtemplate/class_mailTemplateManagement.inc:105
 msgid "Remove"
 msgstr "Remover"
 
-#: include/management/class_management.inc:307
-#: plugins/management/mailtemplate/class_mailTemplateManagement.inc:130
+#: include/management/class_management.inc:287
+#: plugins/management/mailtemplate/class_mailTemplateManagement.inc:114
 msgid "Create snapshot"
 msgstr "Criar snapshot"
 
-#: include/management/class_management.inc:314
-#: plugins/management/mailtemplate/class_mailTemplateManagement.inc:137
+#: include/management/class_management.inc:294
+#: plugins/management/mailtemplate/class_mailTemplateManagement.inc:121
 msgid "Restore snapshot"
 msgstr "Restaurar snapshot"
 
-#: include/management/class_management.inc:326
+#: include/management/class_management.inc:306
 msgid "Create an object from this template"
 msgstr ""
 
-#: include/management/class_management.inc:814
+#: include/management/class_management.inc:799
 msgid "Apply anyway"
 msgstr ""
 
-#: include/management/class_management.inc:832
+#: include/management/class_management.inc:817
 msgid "Applying a template to a template is not possible"
 msgstr ""
 
-#: include/management/class_management.inc:841
+#: include/management/class_management.inc:826
 msgid ""
 "All selected entries need to share the same type to be able to apply a "
 "template to them"
 msgstr ""
 
-#: include/management/class_management.inc:869
+#: include/management/class_management.inc:854
 msgid "Archive anyway"
 msgstr ""
 
-#: include/management/class_management.inc:879
+#: include/management/class_management.inc:864
 msgid "Archiving a template is not possible"
 msgstr ""
 
-#: include/management/class_management.inc:918
+#: include/management/class_management.inc:903
 msgid "Archive success"
 msgstr ""
 
-#: include/management/class_management.inc:919
+#: include/management/class_management.inc:904
 #, php-format
 msgid "%d entries were successfully archived"
 msgstr ""
 
-#: include/management/class_management.inc:1060
+#: include/management/class_management.inc:1045
 msgid "Delete anyway"
 msgstr ""
 
-#: include/management/class_management.inc:1215
+#: include/management/class_management.inc:1207
 #, php-format
 msgid "You are not allowed to create a snapshot for %s."
 msgstr "Você não tem permissões para criar um snapshot para %s."
 
-#: include/management/class_management.inc:1250
-#: include/management/class_management.inc:1344
-#: include/management/class_management.inc:1372
+#: include/management/class_management.inc:1242
+#: include/management/class_management.inc:1324
+#: include/management/class_management.inc:1352
 #, php-format
 msgid "You are not allowed to restore a snapshot for %s."
 msgstr "Você não tem permissões para restaurar um snapshot para %s."
 
-#: include/management/class_management.inc:1389
+#: include/management/class_management.inc:1369
 #, php-format
 msgid "You are not allowed to delete a snapshot for %s."
 msgstr ""
@@ -529,27 +527,6 @@ msgstr ""
 msgid "Unknown class \"%s\"!"
 msgstr ""
 
-#: include/exporter/class_PDF.php:61
-msgid "Page"
-msgstr ""
-
-#: include/exporter/class_pdfExporter.inc:58
-#: include/exporter/class_pdfExporter.inc:233
-msgid "No PDF export possible: there is no FPDF library installed."
-msgstr ""
-
-#: include/exporter/class_pdfExporter.inc:244
-msgid "created by"
-msgstr ""
-
-#: include/exporter/class_pdfExporter.inc:321
-msgid "PDF"
-msgstr "PDF"
-
-#: include/exporter/class_csvExporter.inc:118
-msgid "CSV"
-msgstr ""
-
 #: include/php_setup.inc:61 include/php_setup.inc:152
 msgid "File"
 msgstr "Arquivo"
@@ -643,8 +620,6 @@ msgid "CAS user \"%s\" could not be found in LDAP"
 msgstr ""
 
 #: include/login/class_LoginCAS.inc:99 include/login/class_LoginCAS.inc:122
-#: include/login/class_LoginHTTPHeader.inc:67
-#: include/login/class_LoginHTTPHeader.inc:90
 #, php-format
 msgid "Login with user \"%s\" triggered error: %s"
 msgstr ""
@@ -658,7 +633,7 @@ msgstr ""
 msgid "Sign in"
 msgstr "Acessar"
 
-#: include/login/class_LoginPost.inc:126 include/class_standAlonePage.inc:216
+#: include/login/class_LoginPost.inc:126 include/class_standAlonePage.inc:225
 #, php-format
 msgid "Warning: %sSession is not encrypted!%s"
 msgstr ""
@@ -714,14 +689,25 @@ msgstr ""
 msgid "HTTP Header"
 msgstr ""
 
-#: include/login/class_LoginHTTPHeader.inc:49
+#: include/login/class_LoginHTTPHeader.inc:54
 #, php-format
-msgid "No value found in HTTP header \"%s\""
+msgid "No value found in HTTP header \"%s\" (Location: %s)"
 msgstr ""
 
-#: include/login/class_LoginHTTPHeader.inc:60
+#: include/login/class_LoginHTTPHeader.inc:64
 #, php-format
-msgid "Header user \"%s\" could not be found in LDAP"
+msgid "Empty value in HTTP header \"%s\" (Location: %s)"
+msgstr ""
+
+#: include/login/class_LoginHTTPHeader.inc:76
+#, php-format
+msgid "Header user \"%s\" could not be found in LDAP (Location: %s)"
+msgstr ""
+
+#: include/login/class_LoginHTTPHeader.inc:84
+#: include/login/class_LoginHTTPHeader.inc:108
+#, php-format
+msgid "Login with user \"%s\" triggered error: %s (Location: %s)"
 msgstr ""
 
 #: include/login/class_LoginHTTPAuth.inc:29
@@ -781,18 +767,18 @@ msgid "Cannot change password, unknown user \"%s\""
 msgstr ""
 
 #: include/password-methods/class_passwordMethodSasl.inc:97
-#: plugins/configuration/core/class_configInLdap.inc:555
+#: plugins/configuration/core/class_configInLdap.inc:581
 msgid ""
 "You need to fill saslRealm or saslExop in the configuration screen in order "
 "to use SASL"
 msgstr ""
 
-#: include/class_standAlonePage.inc:127
+#: include/class_standAlonePage.inc:136
 #, php-format
 msgid "FusionDirectory configuration %s/%s is not readable. Aborted."
 msgstr "Abortado. Configuração %s/%s do FusionDirectory não pôde ser lida."
 
-#: include/class_standAlonePage.inc:154 html/setup.php:74 html/index.php:115
+#: include/class_standAlonePage.inc:163 html/setup.php:74 html/index.php:115
 #, php-format
 msgid "Directory \"%s\" specified as compile directory is not accessible!"
 msgstr ""
@@ -825,132 +811,132 @@ msgstr ""
 msgid "%s 2002-%d %sThe FusionDirectory team, %s%s"
 msgstr ""
 
-#: include/functions.inc:783
+#: include/functions.inc:785
 #, php-format
 msgid "%sB"
 msgstr ""
 
-#: include/functions.inc:784
+#: include/functions.inc:786
 #, php-format
 msgid "%sKiB"
 msgstr ""
 
-#: include/functions.inc:785
+#: include/functions.inc:787
 #, php-format
 msgid "%sMiB"
 msgstr ""
 
-#: include/functions.inc:786
+#: include/functions.inc:788
 #, php-format
 msgid "%sGiB"
 msgstr ""
 
-#: include/functions.inc:787
+#: include/functions.inc:789
 #, php-format
 msgid "%sTiB"
 msgstr ""
 
-#: include/functions.inc:788
+#: include/functions.inc:790
 #, php-format
 msgid "%sPiB"
 msgstr ""
 
-#: include/functions.inc:789
+#: include/functions.inc:791
 #, php-format
 msgid "%sEiB"
 msgstr ""
 
-#: include/functions.inc:790
+#: include/functions.inc:792
 #, php-format
 msgid "%sZiB"
 msgstr ""
 
-#: include/functions.inc:791
+#: include/functions.inc:793
 #, php-format
 msgid "%sYiB"
 msgstr ""
 
-#: include/functions.inc:924
+#: include/functions.inc:926
 #, php-format
 msgid ""
 "File \"%s\" could not be deleted. Try \"fusiondirectory-configuration-"
 "manager --check-directories\" to fix permissions."
 msgstr ""
 
-#: include/functions.inc:962
+#: include/functions.inc:964
 msgid "Cannot write to revision file:"
 msgstr ""
 
-#: include/functions.inc:979
+#: include/functions.inc:981
 msgid "Cannot write to revision file!"
 msgstr ""
 
-#: include/functions.inc:1006
+#: include/functions.inc:1008
 msgid "Cannot read revision file:"
 msgstr ""
 
-#: include/functions.inc:1147
+#: include/functions.inc:1149
 msgid "Cannot get schema information from server. No schema check possible!"
 msgstr ""
 
-#: include/functions.inc:1172
+#: include/functions.inc:1174
 msgid "Main FusionDirectory schema"
 msgstr ""
 
-#: include/functions.inc:1180
+#: include/functions.inc:1182
 msgid "Schema used to store FusionDirectory configuration"
 msgstr ""
 
-#: include/functions.inc:1188
+#: include/functions.inc:1190
 msgid "Used to store trust mode information in users or groups."
 msgstr ""
 
-#: include/functions.inc:1196
+#: include/functions.inc:1198
 msgid "Used to store templates."
 msgstr ""
 
-#: include/functions.inc:1205
+#: include/functions.inc:1207
 msgid "Used to store POSIX information."
-msgstr ""
-
-#: include/functions.inc:1213
-#, php-format
-msgid "Missing required object class \"%s\"!"
 msgstr ""
 
 #: include/functions.inc:1215
 #, php-format
+msgid "Missing required object class \"%s\"!"
+msgstr ""
+
+#: include/functions.inc:1217
+#, php-format
 msgid "Missing optional object class \"%s\"!"
 msgstr ""
 
-#: include/functions.inc:1219
+#: include/functions.inc:1221
 #, php-format
 msgid "Class(es) available"
 msgstr ""
 
-#: include/functions.inc:1238
+#: include/functions.inc:1240
 msgid ""
 "You have installed the mixed groups plugin, but your schema configuration "
 "does not support this."
 msgstr ""
 
-#: include/functions.inc:1239
+#: include/functions.inc:1241
 msgid ""
 "In order to use mixed groups the objectClass \"posixGroup\" must be "
 "AUXILIARY"
 msgstr ""
 
-#: include/functions.inc:1242
+#: include/functions.inc:1244
 msgid ""
 "Your schema is configured to support mixed groups, but this plugin is not "
 "present."
 msgstr ""
 
-#: include/functions.inc:1243
+#: include/functions.inc:1245
 msgid "The objectClass \"posixGroup\" must be STRUCTURAL"
 msgstr ""
 
-#: include/functions.inc:1515
+#: include/functions.inc:1517
 #, php-format
 msgid "Cannot locate file \"%s\" - please run \"%s\" to fix this"
 msgstr ""
@@ -1410,18 +1396,18 @@ msgstr "Parar serviço"
 msgid "Restart service"
 msgstr "Reiniciar serviço"
 
-#: include/simpleplugin/attributes/class_BaseSelectorAttribute.inc:39
+#: include/simpleplugin/attributes/class_BaseSelectorAttribute.inc:43
 #: setup/class_setupStepLdap.inc:53 setup/class_setupStepLdap.inc:122
 #: setup/class_setupStepLdap.inc:130
 #: ihtml/themes/breezy/management/management.tpl.c:2
 msgid "Base"
 msgstr "Base"
 
-#: include/simpleplugin/attributes/class_BaseSelectorAttribute.inc:42
+#: include/simpleplugin/attributes/class_BaseSelectorAttribute.inc:46
 msgid "Object base"
 msgstr "Base de objeto"
 
-#: include/simpleplugin/attributes/class_BaseSelectorAttribute.inc:126
+#: include/simpleplugin/attributes/class_BaseSelectorAttribute.inc:134
 msgid "Base field value should always be a string"
 msgstr ""
 
@@ -1445,19 +1431,23 @@ msgstr ""
 msgid "\"%s\" is not a valid value, should be \"%s\" or \"%s\""
 msgstr ""
 
-#: include/simpleplugin/attributes/dialog/class_ObjectsAttribute.inc:147
+#: include/simpleplugin/attributes/dialog/class_ObjectsAttribute.inc:151
 #, php-format
 msgid "Unknown type : %s"
 msgstr ""
 
-#: include/simpleplugin/attributes/dialog/class_ObjectsAttribute.inc:154
+#: include/simpleplugin/attributes/dialog/class_ObjectsAttribute.inc:160
+msgid "Default user placeholder"
+msgstr ""
+
+#: include/simpleplugin/attributes/dialog/class_ObjectsAttribute.inc:165
 #, php-format
-msgid "Non existing dn: %s"
+msgid "[Non-existent DN: %s]"
 msgstr ""
 
 #: include/simpleplugin/attributes/dialog/class_ObjectAttribute.inc:97
-#: include/simpleplugin/attributes/class_SelectAttribute.inc:69
-#: include/simpleplugin/attributes/class_SelectAttribute.inc:143
+#: include/simpleplugin/attributes/class_SelectAttribute.inc:72
+#: include/simpleplugin/attributes/class_SelectAttribute.inc:146
 msgid "None"
 msgstr "Nenhum"
 
@@ -1629,7 +1619,7 @@ msgstr ""
 msgid "Sort down"
 msgstr ""
 
-#: include/simpleplugin/attributes/class_SelectAttribute.inc:171
+#: include/simpleplugin/attributes/class_SelectAttribute.inc:177
 #, php-format
 msgid "\"%s\" is not in the list of possible choices"
 msgstr ""
@@ -1766,7 +1756,6 @@ msgid "Manage access control lists"
 msgstr "Gerenciar Listas de Controle de Acesso (ACLs)"
 
 #: include/class_acl.inc:39
-#: plugins/management/aclrole/class_aclRoleManagement.inc:26
 msgid "ACL roles"
 msgstr "Papéis de ACL"
 
@@ -1958,26 +1947,30 @@ msgid "Plugins"
 msgstr "Plugins"
 
 #: plugins/dashboard/pluginmanager/class_pluginsManager.inc:29
-msgid "PluginManager"
+msgid "Plugin List"
 msgstr ""
 
-#: plugins/dashboard/pluginmanager/class_pluginsManager.inc:33
-#: plugins/dashboard/pluginmanager/class_pluginsManager.inc:48
-#: plugins/dashboard/pluginmanager/class_pluginsManager.inc:49
-msgid "Plugins Manager"
+#: plugins/dashboard/pluginmanager/class_pluginsManager.inc:34
+#: plugins/dashboard/tasks/class_tasksDashboard.inc:56
+msgid "Dashboard"
 msgstr ""
 
-#: plugins/dashboard/pluginmanager/class_pluginsManager.inc:37
+#: plugins/dashboard/pluginmanager/class_pluginsManager.inc:36
 msgid "Provide a reporting mechanism of installed plugins"
 msgstr ""
 
-#: plugins/dashboard/pluginmanager/class_pluginsManager.inc:39
+#: plugins/dashboard/pluginmanager/class_pluginsManager.inc:38
 msgid "See pluginManager"
 msgstr ""
 
-#: plugins/dashboard/pluginmanager/class_pluginsManager.inc:77
+#: plugins/dashboard/pluginmanager/class_pluginsManager.inc:47
+#: plugins/dashboard/pluginmanager/class_pluginsManager.inc:48
+msgid "Plugins List"
+msgstr ""
+
+#: plugins/dashboard/pluginmanager/class_pluginsManager.inc:76
 #: plugins/management/departments/class_department.inc:172
-#: plugins/management/groups/class_ogroup.inc:85
+#: plugins/management/groups/class_ogroup.inc:84
 #: plugins/management/groups/class_roleGeneric.inc:86
 #: plugins/management/aclrole/class_aclRole.inc:98
 #: plugins/workflow/mailtemplate/class_mailTemplate.inc:77
@@ -1986,50 +1979,53 @@ msgstr ""
 msgid "Name"
 msgstr "Nome"
 
-#: plugins/dashboard/pluginmanager/class_pluginsManager.inc:77
+#: plugins/dashboard/pluginmanager/class_pluginsManager.inc:76
 msgid "Version"
 msgstr ""
 
-#: plugins/dashboard/pluginmanager/class_pluginsManager.inc:77
+#: plugins/dashboard/pluginmanager/class_pluginsManager.inc:76
 msgid "Authors"
 msgstr ""
 
-#: plugins/dashboard/pluginmanager/class_pluginsManager.inc:77
-#: plugins/dashboard/tasks/class_tasksDashboard.inc:127
+#: plugins/dashboard/pluginmanager/class_pluginsManager.inc:76
+#: plugins/dashboard/tasks/class_tasksDashboard.inc:140
 #: setup/class_setupStepLdap.inc:86
 msgid "Status"
 msgstr "Estado"
 
-#: plugins/dashboard/pluginmanager/class_pluginsManager.inc:77
+#: plugins/dashboard/pluginmanager/class_pluginsManager.inc:76
 msgid "Origin"
 msgstr ""
 
-#: plugins/dashboard/pluginmanager/class_pluginsManager.inc:77
+#: plugins/dashboard/pluginmanager/class_pluginsManager.inc:76
 msgid "Provider"
 msgstr ""
 
-#: plugins/dashboard/pluginmanager/class_pluginsManager.inc:77
+#: plugins/dashboard/pluginmanager/class_pluginsManager.inc:76
 msgid "Support URL"
 msgstr ""
 
-#: plugins/dashboard/tasks/class_tasksDashboard.inc:50
 #: plugins/dashboard/tasks/class_tasksDashboard.inc:52
-msgid "Tasks Dashboard"
-msgstr ""
+#: plugins/workflow/tasks/class_tasks.inc:29
+#: plugins/workflow/tasks/class_tasks.inc:30
+#: plugins/workflow/tasks/class_tasks.inc:35
+#: plugins/configuration/core/class_tasksConfig.inc:26
+msgid "Tasks"
+msgstr "Tarefas"
 
-#: plugins/dashboard/tasks/class_tasksDashboard.inc:51
+#: plugins/dashboard/tasks/class_tasksDashboard.inc:53
 msgid "Provide a reporting mechanism for tasks"
 msgstr ""
 
 #: plugins/dashboard/tasks/class_tasksDashboard.inc:54
-msgid "Dashboard"
+msgid "Tasks Dashboard"
 msgstr ""
 
-#: plugins/dashboard/tasks/class_tasksDashboard.inc:67
+#: plugins/dashboard/tasks/class_tasksDashboard.inc:75
 msgid "Renew the selected task"
 msgstr ""
 
-#: plugins/dashboard/tasks/class_tasksDashboard.inc:94
+#: plugins/dashboard/tasks/class_tasksDashboard.inc:102
 #, php-format
 msgid "Error updating: \"%s\" !."
 msgstr ""
@@ -2062,7 +2058,7 @@ msgstr "Departamento"
 
 #: plugins/management/departments/class_department.inc:31
 #: plugins/management/departments/class_department.inc:35
-#: plugins/management/departments/class_departmentManagement.inc:29
+#: plugins/management/departments/class_departmentManagement.inc:31
 msgid "Departments"
 msgstr "Departamentos"
 
@@ -2071,7 +2067,7 @@ msgid "department"
 msgstr "departamento"
 
 #: plugins/management/departments/class_department.inc:62
-#: plugins/management/groups/class_ogroup.inc:81
+#: plugins/management/groups/class_ogroup.inc:80
 #: plugins/management/acl/class_aclAssignmentDialogWindow.inc:38
 #: plugins/management/aclrole/class_aclRole.inc:94
 msgid "Properties"
@@ -2198,36 +2194,33 @@ msgstr "Localização"
 msgid "locality"
 msgstr ""
 
-#: plugins/management/departments/class_departmentManagement.inc:30
-msgid "Manage departments"
-msgstr "Gerenciar departamentos"
-
-#: plugins/management/departments/class_departmentManagement.inc:31
+#: plugins/management/departments/class_departmentManagement.inc:32
 msgid ""
 "Manage departments, countries, domain components, domains, localities and "
 "organization nodes,"
 msgstr ""
 
-#: plugins/management/departments/class_departmentManagement.inc:33
+#: plugins/management/departments/class_departmentManagement.inc:34
+#: plugins/management/groups/class_groupManagement.inc:44
+#: plugins/management/users/class_userManagement.inc:44
 msgid "Users and groups"
 msgstr "Usuários e grupos"
 
 #: plugins/management/tasks/class_tasksManagement.inc:42
-#: plugins/management/tasks/class_tasksManagement.inc:44
-#: plugins/workflow/tasks/class_tasks.inc:29
-#: plugins/workflow/tasks/class_tasks.inc:30
-#: plugins/workflow/tasks/class_tasks.inc:35
-#: plugins/configuration/core/class_tasksConfig.inc:26
-msgid "Tasks"
-msgstr "Tarefas"
+msgid "Tasks Creation"
+msgstr ""
 
 #: plugins/management/tasks/class_tasksManagement.inc:43
-msgid "Provide a mechanism to create and manage tasks"
+msgid "Manage the creation of tasks"
+msgstr ""
+
+#: plugins/management/tasks/class_tasksManagement.inc:45
+#: plugins/management/mailtemplate/class_mailTemplateManagement.inc:38
+msgid "Workflow"
 msgstr ""
 
 #: plugins/management/mailtemplate/class_mailTemplateManagement.inc:34
-#: plugins/management/mailtemplate/class_mailTemplateManagement.inc:35
-#: plugins/workflow/tasks/class_tasksMail.inc:54
+#: plugins/workflow/tasks/class_mailTask.inc:54
 #: plugins/workflow/mailtemplate/class_mailTemplate.inc:29
 #: plugins/workflow/mailtemplate/class_mailTemplate.inc:30
 #: plugins/workflow/mailtemplate/class_mailTemplate.inc:34
@@ -2235,142 +2228,132 @@ msgstr ""
 msgid "Mail Template"
 msgstr ""
 
-#: plugins/management/mailtemplate/class_mailTemplateManagement.inc:36
+#: plugins/management/mailtemplate/class_mailTemplateManagement.inc:35
 msgid "Manages mails templates"
 msgstr ""
 
-#: plugins/management/mailtemplate/class_mailTemplateManagement.inc:39
-msgid "Workflow"
-msgstr ""
-
 #: plugins/management/groups/class_groupManagement.inc:41
-#: plugins/personal/roles/class_userRoles.inc:33
-msgid "Groups and roles"
+msgid "Groups and Roles"
 msgstr ""
 
 #: plugins/management/groups/class_groupManagement.inc:42
-msgid "Manage groups and roles"
+msgid "Manage object groups, posix groups and roles"
 msgstr ""
 
-#: plugins/management/groups/class_groupManagement.inc:43
-msgid "Allows you to manage object groups, POSIX groups and roles"
-msgstr ""
-
-#: plugins/management/groups/class_groupManagement.inc:90
+#: plugins/management/groups/class_groupManagement.inc:89
 msgid "Trigger action"
 msgstr "Ação do gatilho"
 
-#: plugins/management/groups/class_groupManagement.inc:96
+#: plugins/management/groups/class_groupManagement.inc:95
 msgid "Schedule action"
 msgstr "Programar ação"
 
-#: plugins/management/groups/class_groupManagement.inc:136
+#: plugins/management/groups/class_groupManagement.inc:135
 #, php-format
 msgid "System %s has no mac address defined, cannot trigger action"
 msgstr ""
 
-#: plugins/management/groups/class_groupManagement.inc:145
+#: plugins/management/groups/class_groupManagement.inc:144
 #, php-format
 msgid "Could not find system %s, cannot trigger action"
 msgstr ""
 
-#: plugins/management/groups/class_groupManagement.inc:169
+#: plugins/management/groups/class_groupManagement.inc:168
 #, php-format
 msgid "System %s is currently installing, cannot trigger action"
 msgstr ""
 
-#: plugins/management/groups/class_groupManagement.inc:195
-#: plugins/management/groups/class_groupManagement.inc:200
+#: plugins/management/groups/class_groupManagement.inc:194
+#: plugins/management/groups/class_groupManagement.inc:199
 msgid "Action triggered"
 msgstr ""
 
-#: plugins/management/groups/class_groupManagement.inc:195
+#: plugins/management/groups/class_groupManagement.inc:194
 #, php-format
 msgid "Action called without error (results were \"%s\")"
 msgstr ""
 
-#: plugins/management/groups/class_groupManagement.inc:200
+#: plugins/management/groups/class_groupManagement.inc:199
 #, php-format
 msgid "Action called without error (result was \"%s\")"
 msgstr ""
 
-#: plugins/management/groups/class_ogroup.inc:44
+#: plugins/management/groups/class_ogroup.inc:43
 msgid "Object group"
 msgstr "Grupo de objeto"
 
-#: plugins/management/groups/class_ogroup.inc:45
+#: plugins/management/groups/class_ogroup.inc:44
 msgid "Object group information"
 msgstr ""
 
+#: plugins/management/groups/class_ogroup.inc:49
 #: plugins/management/groups/class_ogroup.inc:50
-#: plugins/management/groups/class_ogroup.inc:51
 msgid "Group"
 msgstr "Grupo"
 
-#: plugins/management/groups/class_ogroup.inc:85
+#: plugins/management/groups/class_ogroup.inc:84
 #: plugins/management/groups/class_roleGeneric.inc:86
 msgid "Name of this group"
 msgstr ""
 
-#: plugins/management/groups/class_ogroup.inc:90
+#: plugins/management/groups/class_ogroup.inc:89
 msgid "Short description of this group"
 msgstr ""
 
-#: plugins/management/groups/class_ogroup.inc:95
+#: plugins/management/groups/class_ogroup.inc:94
 msgid "Owner"
 msgstr "Proprietário"
 
-#: plugins/management/groups/class_ogroup.inc:101
+#: plugins/management/groups/class_ogroup.inc:100
 msgid "Member objects"
 msgstr ""
 
-#: plugins/management/groups/class_ogroup.inc:104
+#: plugins/management/groups/class_ogroup.inc:103
 msgid "Objects member of this group"
 msgstr ""
 
-#: plugins/management/groups/class_ogroup.inc:111
+#: plugins/management/groups/class_ogroup.inc:110
 msgid "System trust"
 msgstr "Sistema de confiança"
 
-#: plugins/management/groups/class_ogroup.inc:115
+#: plugins/management/groups/class_ogroup.inc:114
 msgid "Trust mode"
 msgstr "Modo de confiança"
 
-#: plugins/management/groups/class_ogroup.inc:115
+#: plugins/management/groups/class_ogroup.inc:114
 msgid "Type of authorization for those hosts"
 msgstr ""
 
-#: plugins/management/groups/class_ogroup.inc:119
+#: plugins/management/groups/class_ogroup.inc:118
 msgid "disabled"
 msgstr "desabilitado"
 
-#: plugins/management/groups/class_ogroup.inc:119
+#: plugins/management/groups/class_ogroup.inc:118
 msgid "full access"
 msgstr "Acesso total"
 
-#: plugins/management/groups/class_ogroup.inc:119
+#: plugins/management/groups/class_ogroup.inc:118
 msgid "allow access to these hosts"
 msgstr "Permitir acesso a esses servidores"
 
-#: plugins/management/groups/class_ogroup.inc:122
+#: plugins/management/groups/class_ogroup.inc:121
 msgid "Only allow this group to connect to this list of hosts"
 msgstr ""
 
-#: plugins/management/groups/class_ogroup.inc:203
+#: plugins/management/groups/class_ogroup.inc:258
 msgid ""
 "Putting both workstations and terminals in the same group is not allowed"
 msgstr ""
 
 #: plugins/management/groups/class_GroupContentFilterElement.inc:69
 #: plugins/management/acl/class_aclAssignmentDialogWindow.inc:56
-#: plugins/workflow/tasks/class_tasksMail.inc:75
+#: plugins/workflow/tasks/class_mailTask.inc:75
 msgid "Members"
 msgstr "Membros"
 
 #: plugins/management/groups/class_roleGeneric.inc:53
 #: plugins/management/groups/class_roleGeneric.inc:59
 #: plugins/management/acl/class_aclAssignmentDialogWindow.inc:47
-#: plugins/management/aclrole/class_aclRole.inc:75
 msgid "Role"
 msgstr "Atribuição"
 
@@ -2408,15 +2391,15 @@ msgid "Add users for the role"
 msgstr "Adicionar usuários para a atribuição"
 
 #: plugins/management/acl/class_aclAssignment.inc:29
-msgid "ACL assignment"
+msgid "Acl assignment"
 msgstr ""
 
 #: plugins/management/acl/class_aclAssignment.inc:42
-msgid "ACL Assignment"
-msgstr "Atribuições de ACL"
+msgid "Acl Assignment"
+msgstr ""
 
 #: plugins/management/acl/class_aclAssignment.inc:43
-msgid "Access control roles assignment"
+msgid "Manage acl roles assignment"
 msgstr ""
 
 #: plugins/management/acl/class_aclAssignment.inc:64
@@ -2438,11 +2421,11 @@ msgid ", and %d others"
 msgstr ""
 
 #: plugins/management/acl/class_aclAssignmentDialogWindow.inc:26
-msgid "ACL Assignment Dialog"
+msgid "Acl Assignment Dialog"
 msgstr ""
 
 #: plugins/management/acl/class_aclAssignmentDialogWindow.inc:27
-msgid "Access control roles assignment dialog"
+msgid "Manage acl roles assignment dialog"
 msgstr ""
 
 #: plugins/management/acl/class_aclAssignmentDialogWindow.inc:41
@@ -2515,37 +2498,37 @@ msgid ""
 msgstr ""
 
 #: plugins/management/acl/class_aclManagement.inc:33
+#: plugins/management/acl/class_aclManagement.inc:46
+msgid "Acl assignment creation"
+msgstr ""
+
 #: plugins/management/acl/class_aclManagement.inc:34
-#: plugins/management/acl/class_aclManagement.inc:47
-msgid "ACL assignment creation"
+msgid "Manage acl roles assignment on an arbitrary dn"
 msgstr ""
 
-#: plugins/management/acl/class_aclManagement.inc:35
-msgid "Create an ACL assignment on an arbitrary dn"
-msgstr ""
-
-#: plugins/management/acl/class_aclManagement.inc:51
+#: plugins/management/acl/class_aclManagement.inc:50
 msgid "Dn"
 msgstr ""
 
-#: plugins/management/acl/class_aclManagement.inc:51
+#: plugins/management/acl/class_aclManagement.inc:50
 msgid "DN you wish to add assignments for"
 msgstr ""
 
-#: plugins/management/acl/class_aclManagement.inc:110
+#: plugins/management/acl/class_aclManagement.inc:109
 msgid "The dn you entered could not be found in LDAP"
 msgstr ""
 
-#: plugins/management/acl/class_aclManagement.inc:146
-msgid "ACL assignments"
+#: plugins/management/acl/class_aclManagement.inc:145
+msgid "Acl Assignments"
 msgstr ""
 
-#: plugins/management/acl/class_aclManagement.inc:147
-msgid "ACL assignments management"
+#: plugins/management/acl/class_aclManagement.inc:146
+msgid "Manage acl roles assignment to users"
 msgstr ""
 
 #: plugins/management/acl/class_aclManagement.inc:148
-msgid "Manage ACL roles assignments to users"
+#: plugins/management/aclrole/class_aclRoleManagement.inc:29
+msgid "Access Control"
 msgstr ""
 
 #: plugins/management/users/class_LockAction.inc:27
@@ -2562,21 +2545,17 @@ msgid "Users"
 msgstr "Usuários"
 
 #: plugins/management/users/class_userManagement.inc:42
-msgid "Manage users"
-msgstr "Gerenciar usuários"
-
-#: plugins/management/users/class_userManagement.inc:43
 msgid "Manage user accounts and their properties"
 msgstr ""
 
-#: plugins/management/users/class_userManagement.inc:121
+#: plugins/management/users/class_userManagement.inc:120
 #, php-format
 msgid ""
 "Password method \"%s\" does not support locking. Account \"%s\" has not been"
 " locked!"
 msgstr ""
 
-#: plugins/management/users/class_userManagement.inc:153
+#: plugins/management/users/class_userManagement.inc:152
 #, php-format
 msgid ""
 "Locking failed using password method \"%s\". Account \"%s\" has not been "
@@ -2588,9 +2567,14 @@ msgstr ""
 msgid "Contains settings for these objects: %s"
 msgstr "Contém configurações para estes objetos: %s"
 
+#: plugins/management/aclrole/class_aclRole.inc:75
+#: plugins/management/aclrole/class_aclRoleManagement.inc:26
+msgid "Acl Roles"
+msgstr ""
+
 #: plugins/management/aclrole/class_aclRole.inc:76
-msgid "Access control roles"
-msgstr "Cargos de controle de acesso"
+msgid "Manage acl roles"
+msgstr ""
 
 #: plugins/management/aclrole/class_aclRole.inc:80
 msgid "ACL role"
@@ -2633,25 +2617,17 @@ msgstr "Reiniciar categoria de ACL"
 msgid "List of available ACL categories"
 msgstr "Lista de categorias de ACL"
 
-#: plugins/management/aclrole/class_aclEditionDialog.inc:277
+#: plugins/management/aclrole/class_aclEditionDialog.inc:291
 msgid "All objects in current subtree"
 msgstr "Todos objetos na atual sub-árvore"
 
-#: plugins/management/aclrole/class_aclEditionDialog.inc:305
+#: plugins/management/aclrole/class_aclEditionDialog.inc:319
 #, php-format
 msgid "Edit ACL for \"%s\""
 msgstr ""
 
 #: plugins/management/aclrole/class_aclRoleManagement.inc:27
-msgid "ACL roles management"
-msgstr ""
-
-#: plugins/management/aclrole/class_aclRoleManagement.inc:28
-msgid "Manage ACL roles"
-msgstr ""
-
-#: plugins/management/aclrole/class_aclRoleManagement.inc:30
-msgid "Access Control"
+msgid "Manage Acl roles"
 msgstr ""
 
 #: plugins/workflow/tasks/class_tasksGranular.inc:28
@@ -2672,147 +2648,155 @@ msgid "Task Granular Name"
 msgstr ""
 
 #: plugins/workflow/tasks/class_tasksGranular.inc:56
-#: plugins/workflow/tasks/class_tasks.inc:51
+#: plugins/workflow/tasks/class_tasks.inc:56
 msgid "Name for this task"
 msgstr ""
 
-#: plugins/workflow/tasks/class_tasksGranular.inc:65
-#: plugins/workflow/tasks/class_tasks.inc:55
+#: plugins/workflow/tasks/class_tasksGranular.inc:67
+#: plugins/workflow/tasks/class_tasks.inc:64
 msgid "Schedule"
 msgstr "Programação"
 
-#: plugins/workflow/tasks/class_tasksGranular.inc:70
+#: plugins/workflow/tasks/class_tasksGranular.inc:71
+msgid "Creation"
+msgstr ""
+
+#: plugins/workflow/tasks/class_tasksGranular.inc:76
 msgid "Related DN"
 msgstr ""
 
-#: plugins/workflow/tasks/class_tasksGranular.inc:70
+#: plugins/workflow/tasks/class_tasksGranular.inc:76
 msgid "DN list filled by main tasks"
 msgstr ""
 
-#: plugins/workflow/tasks/class_tasksGranular.inc:75
-#: plugins/workflow/tasks/class_tasksGranular.inc:78
 #: plugins/workflow/tasks/class_tasksGranular.inc:81
+#: plugins/workflow/tasks/class_tasksGranular.inc:84
+#: plugins/workflow/tasks/class_tasksGranular.inc:87
 #: ihtml/themes/breezy/recovery.tpl.c:83
 msgid "Email"
 msgstr "Email"
 
-#: plugins/workflow/tasks/class_tasksGranular.inc:76
+#: plugins/workflow/tasks/class_tasksGranular.inc:82
 msgid "Email address to which messages will be sent"
 msgstr ""
 
-#: plugins/workflow/tasks/class_tasksGranular.inc:79
+#: plugins/workflow/tasks/class_tasksGranular.inc:85
 msgid "Email address from which emails will be sent"
 msgstr ""
 
-#: plugins/workflow/tasks/class_tasksGranular.inc:82
+#: plugins/workflow/tasks/class_tasksGranular.inc:88
 msgid "BCC Email address"
 msgstr ""
 
-#: plugins/workflow/tasks/class_tasks.inc:48
+#: plugins/workflow/tasks/class_tasks.inc:53
 msgid "Tasks Generic"
 msgstr ""
 
-#: plugins/workflow/tasks/class_tasks.inc:51
+#: plugins/workflow/tasks/class_tasks.inc:56
 msgid "Task Name"
 msgstr ""
 
-#: plugins/workflow/tasks/class_tasks.inc:65
+#: plugins/workflow/tasks/class_tasks.inc:60
+msgid "What is this task doing"
+msgstr ""
+
+#: plugins/workflow/tasks/class_tasks.inc:79
 msgid "Creation of Sub Tasks - Starting this task"
 msgstr ""
 
-#: plugins/workflow/tasks/class_tasks.inc:68
+#: plugins/workflow/tasks/class_tasks.inc:82
 msgid "Activate SubTasks"
 msgstr ""
 
-#: plugins/workflow/tasks/class_tasks.inc:68
+#: plugins/workflow/tasks/class_tasks.inc:82
 msgid "Trigger the creation of this task and related subtasks"
 msgstr ""
 
-#: plugins/workflow/tasks/class_tasks.inc:74
+#: plugins/workflow/tasks/class_tasks.inc:88
 msgid "Advanced settings"
 msgstr ""
 
-#: plugins/workflow/tasks/class_tasks.inc:77
+#: plugins/workflow/tasks/class_tasks.inc:91
 msgid "Only with new members"
 msgstr ""
 
-#: plugins/workflow/tasks/class_tasks.inc:77
+#: plugins/workflow/tasks/class_tasks.inc:91
 msgid ""
 "Allows creation of sub-tasks for \"NEW MEMBERS\" only. (Case of Dynamic "
 "Group)"
 msgstr ""
 
-#: plugins/workflow/tasks/class_tasks.inc:81
+#: plugins/workflow/tasks/class_tasks.inc:95
 msgid "Repeatable Task"
 msgstr ""
 
-#: plugins/workflow/tasks/class_tasks.inc:81
+#: plugins/workflow/tasks/class_tasks.inc:95
 msgid "Set the task to be repeatable."
 msgstr ""
 
-#: plugins/workflow/tasks/class_tasks.inc:85
+#: plugins/workflow/tasks/class_tasks.inc:99
 msgid "Repeatable Schedule"
 msgstr ""
 
-#: plugins/workflow/tasks/class_tasks.inc:85
+#: plugins/workflow/tasks/class_tasks.inc:99
 msgid "Select the desired schedule."
 msgstr ""
 
-#: plugins/workflow/tasks/class_tasksMail.inc:29
+#: plugins/workflow/tasks/class_mailTask.inc:29
 msgid "Tasks Mail"
 msgstr ""
 
-#: plugins/workflow/tasks/class_tasksMail.inc:30
+#: plugins/workflow/tasks/class_mailTask.inc:30
 msgid "Tasks Mail Object"
 msgstr ""
 
-#: plugins/workflow/tasks/class_tasksMail.inc:51
+#: plugins/workflow/tasks/class_mailTask.inc:51
 msgid "Task Mail Object"
 msgstr ""
 
-#: plugins/workflow/tasks/class_tasksMail.inc:54
+#: plugins/workflow/tasks/class_mailTask.inc:54
 msgid "Mail Template Object Selection"
 msgstr ""
 
-#: plugins/workflow/tasks/class_tasksMail.inc:61
+#: plugins/workflow/tasks/class_mailTask.inc:61
 msgid "Sender and BCC email address"
 msgstr ""
 
-#: plugins/workflow/tasks/class_tasksMail.inc:64
-#: plugins/configuration/core/class_recoveryConfig.inc:52
+#: plugins/workflow/tasks/class_mailTask.inc:64
+#: plugins/configuration/core/class_recoveryConfig.inc:57
 msgid "Sender email address"
 msgstr "Endereço de e-mail do remetente"
 
-#: plugins/workflow/tasks/class_tasksMail.inc:65
-#: plugins/configuration/core/class_recoveryConfig.inc:53
+#: plugins/workflow/tasks/class_mailTask.inc:65
+#: plugins/configuration/core/class_recoveryConfig.inc:58
 msgid "Email address from which mails will be sent"
 msgstr "E-mail a partir dos e-mail que serão enviados"
 
-#: plugins/workflow/tasks/class_tasksMail.inc:67
+#: plugins/workflow/tasks/class_mailTask.inc:67
 msgid "BCC email address"
 msgstr ""
 
-#: plugins/workflow/tasks/class_tasksMail.inc:68
+#: plugins/workflow/tasks/class_mailTask.inc:68
 msgid "Email address to put in BCC"
 msgstr ""
 
-#: plugins/workflow/tasks/class_tasksMail.inc:72
+#: plugins/workflow/tasks/class_mailTask.inc:72
 msgid "Recipients Users and/or Groups"
 msgstr ""
 
-#: plugins/workflow/tasks/class_tasksMail.inc:75
+#: plugins/workflow/tasks/class_mailTask.inc:75
 msgid "Users or groups to assign to this task."
 msgstr ""
 
-#: plugins/workflow/tasks/class_tasksMail.inc:81
+#: plugins/workflow/tasks/class_mailTask.inc:81
 msgid "Type of e-mail address desired"
 msgstr ""
 
-#: plugins/workflow/tasks/class_tasksMail.inc:84
+#: plugins/workflow/tasks/class_mailTask.inc:84
 msgid "Mail Type - If not found, priority will apply"
 msgstr ""
 
-#: plugins/workflow/tasks/class_tasksMail.inc:84
+#: plugins/workflow/tasks/class_mailTask.inc:84
 msgid "Mail Type Object Selection"
 msgstr ""
 
@@ -2859,6 +2843,10 @@ msgstr ""
 
 #: plugins/workflow/mailtemplate/class_mailTemplate.inc:81
 msgid "Import a file for this e-mail"
+msgstr ""
+
+#: plugins/personal/roles/class_userRoles.inc:33
+msgid "Groups and roles"
 msgstr ""
 
 #: plugins/personal/roles/class_userRoles.inc:34
@@ -3230,6 +3218,12 @@ msgstr ""
 msgid "Information about your FusionDirectory subscription"
 msgstr ""
 
+#: plugins/configuration/core/class_licenceInfo.inc:49
+#: plugins/configuration/core/class_configInLdap.inc:27
+#: plugins/configuration/core/class_configInLdap.inc:42
+msgid "Configuration"
+msgstr "Configuração"
+
 #: plugins/configuration/core/class_licenceInfo.inc:66
 msgid "Information text for subscription"
 msgstr ""
@@ -3338,27 +3332,35 @@ msgstr ""
 msgid "Branch in which Tasks will be stored"
 msgstr ""
 
-#: plugins/configuration/core/class_tasksConfig.inc:48
+#: plugins/configuration/core/class_tasksConfig.inc:46
+msgid "FusionDirectory Orchestrator Tokens RDN"
+msgstr ""
+
+#: plugins/configuration/core/class_tasksConfig.inc:46
+msgid "The branch where FusionDirectory Orchestrator tokens are stored"
+msgstr ""
+
+#: plugins/configuration/core/class_tasksConfig.inc:53
 msgid "Mail Anti-Spam Configuration"
 msgstr ""
 
-#: plugins/configuration/core/class_tasksConfig.inc:51
+#: plugins/configuration/core/class_tasksConfig.inc:56
 msgid "Last Sent Mail"
 msgstr ""
 
-#: plugins/configuration/core/class_tasksConfig.inc:55
+#: plugins/configuration/core/class_tasksConfig.inc:60
 msgid "Maximum number of e-mails processed per time"
 msgstr ""
 
-#: plugins/configuration/core/class_tasksConfig.inc:55
+#: plugins/configuration/core/class_tasksConfig.inc:60
 msgid "Select max emails to be proccessed"
 msgstr ""
 
-#: plugins/configuration/core/class_tasksConfig.inc:59
+#: plugins/configuration/core/class_tasksConfig.inc:64
 msgid "Time interval between e-mails processing (Minutes) "
 msgstr ""
 
-#: plugins/configuration/core/class_tasksConfig.inc:59
+#: plugins/configuration/core/class_tasksConfig.inc:64
 msgid "Select min interval time between emails processing"
 msgstr ""
 
@@ -3466,15 +3468,23 @@ msgstr ""
 msgid "Branch in which object groups will be stored"
 msgstr ""
 
-#: plugins/configuration/core/class_mainPluginsConfig.inc:51
+#: plugins/configuration/core/class_mainPluginsConfig.inc:49
+msgid "Create default user"
+msgstr ""
+
+#: plugins/configuration/core/class_mainPluginsConfig.inc:49
+msgid "If enabled, creates an ou=restricted with a basic user named default"
+msgstr ""
+
+#: plugins/configuration/core/class_mainPluginsConfig.inc:56
 msgid "SASL"
 msgstr ""
 
-#: plugins/configuration/core/class_mainPluginsConfig.inc:54
+#: plugins/configuration/core/class_mainPluginsConfig.inc:59
 msgid "Force asking for a password"
 msgstr ""
 
-#: plugins/configuration/core/class_mainPluginsConfig.inc:54
+#: plugins/configuration/core/class_mainPluginsConfig.inc:59
 msgid ""
 "Useful if you add a trigger using password value when SASL user passwords "
 "are edited"
@@ -3497,26 +3507,34 @@ msgid "Password recovery settings"
 msgstr "Configurações de recuperação de senha"
 
 #: plugins/configuration/core/class_recoveryConfig.inc:46
+msgid "Recovery RDN"
+msgstr ""
+
+#: plugins/configuration/core/class_recoveryConfig.inc:46
+msgid "The branch where recovery tokens are stored"
+msgstr ""
+
+#: plugins/configuration/core/class_recoveryConfig.inc:51
 msgid "Activate password recovery"
 msgstr "Ativar recuperador de senha"
 
-#: plugins/configuration/core/class_recoveryConfig.inc:47
+#: plugins/configuration/core/class_recoveryConfig.inc:52
 msgid "Whether to activate the password recovery feature or not"
 msgstr ""
 
-#: plugins/configuration/core/class_recoveryConfig.inc:59
+#: plugins/configuration/core/class_recoveryConfig.inc:64
 msgid "Link validity (minutes)"
 msgstr "Validade do link (minutos)"
 
-#: plugins/configuration/core/class_recoveryConfig.inc:60
+#: plugins/configuration/core/class_recoveryConfig.inc:65
 msgid "Number of minutes before a recovery link expires"
 msgstr "Número de minutos antes do link de recuperação expirar"
 
-#: plugins/configuration/core/class_recoveryConfig.inc:66
+#: plugins/configuration/core/class_recoveryConfig.inc:71
 msgid "Salt for tokens"
 msgstr "graça para simbolos "
 
-#: plugins/configuration/core/class_recoveryConfig.inc:67
+#: plugins/configuration/core/class_recoveryConfig.inc:72
 msgid ""
 "Just a security measure, you can put anything in there, even random "
 "characters"
@@ -3524,49 +3542,49 @@ msgstr ""
 "Apenas uma medida de segurança, você pode botar qualquer coisa lá, até "
 "caracteres aleatórios"
 
-#: plugins/configuration/core/class_recoveryConfig.inc:73
+#: plugins/configuration/core/class_recoveryConfig.inc:78
 msgid "Allow the use of alternate addresses"
 msgstr "Permitir o uso de endereços alternativos"
 
-#: plugins/configuration/core/class_recoveryConfig.inc:74
+#: plugins/configuration/core/class_recoveryConfig.inc:79
 msgid ""
 "Users will also be able to enter one of their alternate addresses to recover"
 " their password"
 msgstr ""
 
-#: plugins/configuration/core/class_recoveryConfig.inc:79
+#: plugins/configuration/core/class_recoveryConfig.inc:84
 #: plugins/configuration/core/class_configInLdap.inc:159
 msgid "Login attribute"
 msgstr ""
 
-#: plugins/configuration/core/class_recoveryConfig.inc:79
+#: plugins/configuration/core/class_recoveryConfig.inc:84
 msgid ""
 "Usually uid, but you can use something else for instance in case of SSO"
 msgstr ""
 
-#: plugins/configuration/core/class_recoveryConfig.inc:86
+#: plugins/configuration/core/class_recoveryConfig.inc:91
 msgid "First email"
 msgstr "Primeiro e-mail"
 
-#: plugins/configuration/core/class_recoveryConfig.inc:89
-#: plugins/configuration/core/class_recoveryConfig.inc:108
+#: plugins/configuration/core/class_recoveryConfig.inc:94
+#: plugins/configuration/core/class_recoveryConfig.inc:113
 msgid "Subject"
 msgstr "Assunto"
 
-#: plugins/configuration/core/class_recoveryConfig.inc:90
+#: plugins/configuration/core/class_recoveryConfig.inc:95
 msgid "Subject of the first email"
 msgstr "Assunto do primeiro e-mail"
 
-#: plugins/configuration/core/class_recoveryConfig.inc:93
+#: plugins/configuration/core/class_recoveryConfig.inc:98
 msgid "[FusionDirectory] Password recovery link"
 msgstr "[FusionDirectory] Link de recuperação de senha"
 
-#: plugins/configuration/core/class_recoveryConfig.inc:96
+#: plugins/configuration/core/class_recoveryConfig.inc:101
 #, php-format
 msgid "Body (first %s is login, second is link)"
 msgstr "Corpo(primeiro %s é o login, segundo é o link)"
 
-#: plugins/configuration/core/class_recoveryConfig.inc:97
+#: plugins/configuration/core/class_recoveryConfig.inc:102
 #, php-format
 msgid ""
 "Body of the first email, sent when the user ask for a new password. Use %s "
@@ -3575,7 +3593,7 @@ msgstr ""
 "Corpo do primeiro e-mail, envie quando o usuário perguntar pela nova senha. "
 "Use %s para o login e o link de recuperação."
 
-#: plugins/configuration/core/class_recoveryConfig.inc:100
+#: plugins/configuration/core/class_recoveryConfig.inc:105
 #, php-format
 msgid ""
 "Hello,\n"
@@ -3587,24 +3605,24 @@ msgid ""
 "This link is only valid for 10 minutes."
 msgstr ""
 
-#: plugins/configuration/core/class_recoveryConfig.inc:105
+#: plugins/configuration/core/class_recoveryConfig.inc:110
 msgid "Second email"
 msgstr "Segundo e-mail"
 
-#: plugins/configuration/core/class_recoveryConfig.inc:109
+#: plugins/configuration/core/class_recoveryConfig.inc:114
 msgid "Subject of the second email"
 msgstr "Assunto do segundo e-mail"
 
-#: plugins/configuration/core/class_recoveryConfig.inc:112
+#: plugins/configuration/core/class_recoveryConfig.inc:117
 msgid "[FusionDirectory] Password recovery successful"
 msgstr "[FusionDirectory] Senha recuperada com sucesso"
 
-#: plugins/configuration/core/class_recoveryConfig.inc:115
+#: plugins/configuration/core/class_recoveryConfig.inc:120
 #, php-format
 msgid "Body (%s is login)"
 msgstr "Corpo (%s é o login)"
 
-#: plugins/configuration/core/class_recoveryConfig.inc:116
+#: plugins/configuration/core/class_recoveryConfig.inc:121
 #, php-format
 msgid ""
 "Body of the second email, sent to confirm the password has been changed. Use"
@@ -3613,7 +3631,7 @@ msgstr ""
 "Corpo do segundo e-mail, enviado para confirmar senha alterada. Use %s para "
 "Login de usuário. "
 
-#: plugins/configuration/core/class_recoveryConfig.inc:119
+#: plugins/configuration/core/class_recoveryConfig.inc:124
 #, php-format
 msgid ""
 "Hello,\n"
@@ -3680,11 +3698,6 @@ msgstr ""
 #: plugins/configuration/core/class_hooksConfig.inc:80
 msgid "The command that will be called"
 msgstr ""
-
-#: plugins/configuration/core/class_configInLdap.inc:27
-#: plugins/configuration/core/class_configInLdap.inc:42
-msgid "Configuration"
-msgstr "Configuração"
 
 #: plugins/configuration/core/class_configInLdap.inc:28
 #: plugins/configuration/core/class_configInLdap.inc:34
@@ -4172,26 +4185,48 @@ msgid ""
 "return"
 msgstr ""
 
-#: plugins/configuration/core/class_configInLdap.inc:405
+#: plugins/configuration/core/class_configInLdap.inc:397
+msgid "Tokens"
+msgstr ""
+
+#: plugins/configuration/core/class_configInLdap.inc:400
+msgid "FusionDirectory"
+msgstr ""
+
+#: plugins/configuration/core/class_configInLdap.inc:400
+msgid "top branch where tokens are stored."
+msgstr ""
+
+#: plugins/configuration/core/class_configInLdap.inc:431
 #: setup/class_setupStepLanguage.inc:82
 msgid "Automatic"
 msgstr "Automático"
 
-#: plugins/configuration/core/class_configInLdap.inc:427
+#: plugins/configuration/core/class_configInLdap.inc:453
 #, php-format
 msgid "Group %s"
 msgstr ""
 
-#: plugins/configuration/core/class_configInLdap.inc:434
+#: plugins/configuration/core/class_configInLdap.inc:460
 #, php-format
 msgid "Role %s"
 msgstr ""
 
-#: plugins/configuration/core/class_configInLdap.inc:561
+#: plugins/configuration/core/class_configInLdap.inc:587
 #, php-format
 msgid ""
 "It seems the selected language \"%s\" is not installed on the system. Please"
 " install it or select an other one."
+msgstr ""
+
+#: plugins/configuration/core/class_configInLdap.inc:647
+#, php-format
+msgid "Failed to create organizational unit %s: %s"
+msgstr ""
+
+#: plugins/configuration/core/class_configInLdap.inc:672
+#, php-format
+msgid "Failed to create default user %s: %s"
 msgstr ""
 
 #: plugins/generic/references/class_reference.inc:27
@@ -4872,16 +4907,16 @@ msgid ""
 "fusiondirectory-configuration-manager --check-config to fix this."
 msgstr ""
 
-#: html/index.php:150
+#: html/index.php:172
 msgid "Your FusionDirectory session has expired!"
 msgstr "Sua sessão foi encerrada!"
 
-#: html/index.php:153
+#: html/index.php:175
 #, php-format
 msgid "Invalid plugin parameter \"%s\"!"
 msgstr ""
 
-#: html/index.php:156
+#: html/index.php:178
 msgid "No session found!"
 msgstr ""
 
