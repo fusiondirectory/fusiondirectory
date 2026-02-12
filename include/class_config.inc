@@ -139,8 +139,7 @@ class config
     ];
 
     $this->parser = xml_parser_create();
-    xml_set_object($this->parser, $this);
-    xml_set_element_handler($this->parser, "tag_open", "tag_close");
+    xml_set_element_handler($this->parser, [$this, "tag_open"], [$this, "tag_close"]);
 
     if (!xml_parse($this->parser, chop($xmldata))) {
       $msg = sprintf(_('XML error in fusiondirectory.conf: %s at line %d'),
