@@ -37,8 +37,8 @@ create_phpstan_rapport:
     - branches
   script:
     - test -d ../dev-tools/ && rm -Rf ../dev-tools/
-    - git clone --depth 1 https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
+    - git clone --depth 1 https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools -b php8-clean
     - composer global require phpstan/phpstan
-    - cp ../dev-tools/phpstan/fusiondirectory/1.5/*.neon .
+    - cp ../dev-tools/phpstan/fusiondirectory/1.6/*.neon .
     - /root/.composer/vendor/bin/phpstan analyse -c phpstan.neon
 
