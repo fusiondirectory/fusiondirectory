@@ -45,7 +45,7 @@ class passwordMethodSsha extends passwordMethod
    */
   public function is_available (): bool
   {
-    return (function_exists('sha1') || function_exists('mhash'));
+    return function_exists('sha1');
   }
 
   /*!
@@ -62,11 +62,8 @@ class passwordMethodSsha extends passwordMethod
       $salt = substr(pack('h*', md5(random_int(0, PHP_INT_MAX))), 0, 8);
       $salt = substr(pack('H*', sha1($salt.$pwd)), 0, 4);
       $pwd  = '{SSHA}'.($locked ? '!' : '').base64_encode(pack('H*', sha1($pwd.$salt)).$salt);
-    } elseif (function_exists('mhash')) {
-      $salt = mhash_keygen_s2k(MHASH_SHA1, $pwd, substr(pack('h*', md5(random_int(0, PHP_INT_MAX))), 0, 8), 4);
-      $pwd  = '{SSHA}'.($locked ? '!' : '').base64_encode(mhash(MHASH_SHA1, $pwd.$salt).$salt);
     } else {
-      throw new FusionDirectoryException(msgPool::missingext('mhash'));
+      throw new FusionDirectoryException(msgPool::missingext('sha1'));
     }
     return $pwd;
   }
@@ -78,10 +75,8 @@ class passwordMethodSsha extends passwordMethod
     $hash = substr($hash, 0, 20);
     if (function_exists('sha1')) {
       $nhash = pack('H*', sha1($pwd . $salt));
-    } elseif (function_exists('mhash')) {
-      $nhash = mhash(MHASH_SHA1, $pwd.$salt);
     } else {
-      $error = new FusionDirectoryError(msgPool::missingext('mhash'));
+      $error = new FusionDirectoryError(msgPool::missingext('sha1'));
       $error->display();
       return FALSE;
     }

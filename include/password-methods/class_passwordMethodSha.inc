@@ -45,7 +45,7 @@ class passwordMethodSha extends passwordMethod
    */
   public function is_available (): bool
   {
-    return (function_exists('sha1') || function_exists('mhash'));
+    return function_exists('sha1');
   }
 
   /*!
@@ -60,10 +60,8 @@ class passwordMethodSha extends passwordMethod
   {
     if (function_exists('sha1')) {
       $hash = '{SHA}'.($locked ? '!' : '').base64_encode(pack('H*', sha1($pwd)));
-    } elseif (function_exists('mhash')) {
-      $hash = '{SHA}'.($locked ? '!' : '').base64_encode(mHash(MHASH_SHA1, $pwd));
     } else {
-      throw new FusionDirectoryException(msgPool::missingext('mhash'));
+      throw new FusionDirectoryException(msgPool::missingext('sha1'));
     }
 
     return $hash;
