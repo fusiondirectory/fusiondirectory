@@ -401,7 +401,7 @@ abstract class passwordMethod
     global $config;
     if ($config->get_cfg_value('strictPasswordRules') == 'TRUE') {
       // Do we have UTF8 characters in the password?
-      return ($password == utf8_decode($password));
+      return ($password == mb_convert_encoding($password, 'ISO-8859-1', 'UTF-8'));
     }
 
     return TRUE;
