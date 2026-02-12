@@ -1,15 +1,15 @@
 stages:
   - lint
   - codestyle
-  - transifex
-  - tarballs
-  - trigger
+  #- transifex
+  #- tarballs
+  #- trigger
 
 ## Stage lint
 
 # PHP lint
 create_php_lint_rapport:
-  image: registry.fusiondirectory.org/fusiondirectory/fd/phpcodesniffer-cli:fd
+  image: registry.fusiondirectory.org/fusiondirectory/fd/phpcodesniffer-cli:fd-php8
   stage: lint
   only:
     - branches
@@ -20,7 +20,7 @@ create_php_lint_rapport:
 
 # PHP codesniffer
 create_php_code_sniffer_rapport:
-  image: registry.fusiondirectory.org/fusiondirectory/fd/phpcodesniffer-cli:fd
+  image: registry.fusiondirectory.org/fusiondirectory/fd/phpcodesniffer-cli:fd-php8
   stage: codestyle
   only:
     - branches
@@ -41,7 +41,7 @@ create_phpstan_rapport:
   script:
     - test -d ../dev-tools/ && rm -Rf ../dev-tools/
     - git clone --depth 1 https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools
-    - composer global require phpstan/phpstan=0.12.94
+    - composer global require phpstan/phpstan
     - cp ../dev-tools/phpstan/fusiondirectory/1.5/*.neon .
     - /root/.composer/vendor/bin/phpstan analyse -c phpstan.neon
 
