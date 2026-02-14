@@ -102,17 +102,14 @@ class LoginHTTPHeader extends LoginMethod
       static::redirect();
     } else {
       echo msg_dialog::get_dialogs();
-      if (!empty($message)) {
-        throw new FatalError(
-          htmlescape(sprintf(
-            _('Login with user "%s" triggered error: %s (Location: %s)'),
-            static::$username,
-            $message,
-            $config->current['NAME']
-          ))
-        );
-      }
-      exit();
+      throw new FatalError(
+        htmlescape(sprintf(
+          _('Login with user "%s" triggered error: %s (Location: %s)'),
+          static::$username,
+          $message,
+          $config->current['NAME']
+        ))
+      );
     }
   }
 }

@@ -116,16 +116,13 @@ class LoginCAS extends LoginMethod
       static::redirect();
     } else {
       echo msg_dialog::get_dialogs();
-      if (!empty($message)) {
-        throw new FatalError(
-          htmlescape(sprintf(
-            _('Login with user "%s" triggered error: %s'),
-            static::$username,
-            $message
-          ))
-        );
-      }
-      exit();
+      throw new FatalError(
+        htmlescape(sprintf(
+          _('Login with user "%s" triggered error: %s'),
+          static::$username,
+          $message
+        ))
+      );
     }
   }
 }
