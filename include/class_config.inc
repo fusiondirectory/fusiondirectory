@@ -313,7 +313,7 @@ class config
           $this->current['ADMINDN'], $this->get_credentials($this->current['ADMINPASSWORD']));
 
       /* Check for connection */
-      if (is_null($this->ldapLink) || (is_int($this->ldapLink) && $this->ldapLink == 0)) {
+      if (is_null($this->ldapLink) {
         throw new FatalError(htmlescape(_('Cannot bind to LDAP. Please contact the system administrator.')));
       }
 
@@ -1099,9 +1099,6 @@ class config
       /* Feed menu */
       if (isset($plInfo['plSection'])) {
         $section = $plInfo['plSection'];
-        if (!is_array($acl)) {
-          $acl = [$acl];
-        }
         if (!is_numeric(key($acl))) {
           $acl = array_keys($acl);
         }
