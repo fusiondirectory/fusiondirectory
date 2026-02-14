@@ -138,7 +138,7 @@ class setupStepChecks extends setupStep
     $N = msgPool::checkingFor(_("compression module"));
     $D = _("FusionDirectory requires this extension to handle snapshots.");
     $S = msgPool::installPhpModule("compile with --with-zlib");
-    $R = is_callable("gzcompress");
+    $R = function_exists("gzcompress");
     $M = FALSE;
     $basic_checks[] = ["NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M ];
 

@@ -890,7 +890,7 @@ class config
     }
 
     /* Check if gzcompress is available */
-    if (!is_callable('gzcompress')) {
+    if (!function_exists('gzcompress')) {
       /* Send message if not done already */
       if (!session::is_set('snapshotFailMessageSend')) {
         session::set('snapshotFailMessageSend', TRUE);
