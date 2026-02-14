@@ -525,7 +525,7 @@ class user extends simplePlugin
         foreach ($attrs['pwdHistory'] as $pwdHistory) {
           $pwdHistory = explode('#', $pwdHistory, 4);
           $method     = passwordMethod::get_method($pwdHistory[3], $user);
-          if (($method !== NULL) && $method->checkPassword($new_password, $pwdHistory[3])) {
+          if (isset($method) && $method->checkPassword($new_password, $pwdHistory[3])) {
             return _('Password is in history of old passwords');
           }
         }
@@ -534,7 +534,7 @@ class user extends simplePlugin
         return _('Password is not being changed from existing value');
       } elseif (isset($attrs['userPassword'][0])) {
         $method = passwordMethod::get_method($attrs['userPassword'][0], $user);
-        if (($method !== NULL) && $method->checkPassword($new_password, $attrs['userPassword'][0])) {
+        if (isset($method) && $method->checkPassword($new_password, $attrs['userPassword'][0])) {
           return _('Password is not being changed from existing value');
         }
       }

@@ -101,7 +101,7 @@ class Language
 
     /* Try to use users primary language */
     $ui = get_userinfo();
-    if (isset($ui) && ($ui !== NULL) && ($ui->language != '')) {
+    if (isset($ui) && ($ui->language != '')) {
       return $ui->language.'.UTF-8';
     }
 
