@@ -100,7 +100,7 @@ if (!is_readable(CONFIG_DIR.'/'.CONFIG_FILE)) {
 $config = new config(CONFIG_DIR.'/'.CONFIG_FILE, $BASE_DIR);
 session::set('config', $config);
 session::set('DEBUGLEVEL', $config->get_cfg_value('DEBUGLEVEL'));
-logging::debug(DEBUG_CONFIG, __LINE__, __FUNCTION__, __FILE__, $config->data, 'config');
+logging::debug(DEBUG_CONFIG, __LINE__, '', __FILE__, $config->data, 'config');
 /* Configuration was reloaded, so plist needs to be as well */
 session::un_set('plist');
 unset($plist);
@@ -129,7 +129,7 @@ if (isset($_SERVER['HTTP_X_FUSIONDIRECTORY_LOCATION'])) {
   if (isset($config->data['LOCATIONS'][$server])) {
     // Valid location found - switch to it
     $config->set_current($server);
-    logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__,
+    logging::debug(DEBUG_TRACE, __LINE__, '', __FILE__,
       $server, 'Switched to location via HTTP header');
   } else {
     // Invalid location in header - log but continue with default
