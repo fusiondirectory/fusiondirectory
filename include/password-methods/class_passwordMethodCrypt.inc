@@ -112,27 +112,27 @@ class passwordMethodCrypt extends passwordMethod
   static function get_hash_name ()
   {
     $hashes = [];
-    if (CRYPT_STD_DES == 1) {
+    if (CRYPT_STD_DES === 1) {
       $hashes[] = "crypt/standard-des";
     }
 
-    if (CRYPT_EXT_DES == 1) {
+    if (CRYPT_EXT_DES === 1) {
       $hashes[] = "crypt/enhanced-des";
     }
 
-    if (CRYPT_MD5 == 1) {
+    if (CRYPT_MD5 === 1) {
       $hashes[] = "crypt/md5";
     }
 
-    if (CRYPT_BLOWFISH == 1) {
+    if (CRYPT_BLOWFISH === 1) {
       $hashes[] = "crypt/blowfish";
     }
 
-    if (CRYPT_SHA256 == 1) {
+    if (CRYPT_SHA256 === 1) {
       $hashes[] = "crypt/sha-256";
     }
 
-    if (CRYPT_SHA512 == 1) {
+    if (CRYPT_SHA512 === 1) {
       $hashes[] = "crypt/sha-512";
     }
 
