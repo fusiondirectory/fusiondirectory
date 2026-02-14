@@ -301,7 +301,7 @@ class passwordRecovery extends standAlonePage
     $attrs = $ldap->fetch();
 
     $method = passwordMethod::get_method($attrs['userPassword'][0], $attrs['dn']);
-    if (is_object($method) && $method->is_locked($attrs['dn'])) {
+    if ($method->is_locked($attrs['dn']) {
       $this->message[] = new FusionDirectoryError(htmlescape(sprintf(_('The user using email "%s" is locked. Please contact your administrator.'), $this->email_address)));
       return FALSE;
     }
