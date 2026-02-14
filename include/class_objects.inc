@@ -239,7 +239,7 @@ class objects
     return $ldap->count();
   }
 
-  private static function search ($types, $search_attrs, string $ou = NULL, string $filter = '', bool $checkAcl = FALSE, string $scope = 'subtree', bool $templateSearch = FALSE, &$partialFilterAcls = [], bool $sizeLimit = FALSE): ldapMultiplexer
+  static function search ($types, $search_attrs, string $ou = NULL, string $filter = '', bool $checkAcl = FALSE, string $scope = 'subtree', bool $templateSearch = FALSE, &$partialFilterAcls = [], bool $sizeLimit = FALSE): ldapMultiplexer
   {
     global $config, $ui;
 
