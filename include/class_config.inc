@@ -313,7 +313,7 @@ class config
           $this->current['ADMINDN'], $this->get_credentials($this->current['ADMINPASSWORD']));
 
       /* Check for connection */
-      if (is_null($this->ldapLink) {
+      if (is_null($this->ldapLink)) {
         throw new FatalError(htmlescape(_('Cannot bind to LDAP. Please contact the system administrator.')));
       }
 
