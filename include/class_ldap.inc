@@ -1096,7 +1096,7 @@ class LDAP
     if ($this->error == 'Success') {
       return 0;
     } else {
-      return @ldap_errno($this->cid) ?? -1;
+      return @ldap_errno($this->cid);
     }
   }
 
