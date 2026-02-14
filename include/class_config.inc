@@ -312,11 +312,6 @@ class config
       $this->ldapLink = LDAP::init($this->current['SERVER'], $this->current['BASE'],
           $this->current['ADMINDN'], $this->get_credentials($this->current['ADMINPASSWORD']));
 
-      /* Check for connection */
-      if (is_null($this->ldapLink)) {
-        throw new FatalError(htmlescape(_('Cannot bind to LDAP. Please contact the system administrator.')));
-      }
-
       /* Move referrals */
       if (!isset($this->current['REFERRAL'])) {
         $this->ldapLink->referrals = [];
