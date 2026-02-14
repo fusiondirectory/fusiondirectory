@@ -68,7 +68,7 @@ class setupStepChecks extends setupStep
     $N = msgPool::checkingFor("LDAP");
     $D = _("FusionDirectory requires this module to talk with your LDAP server.");
     $S = msgPool::installPhpModule("LDAP");
-    $R = is_callable("ldap_bind");
+    $R = function_exists("ldap_bind");
     $M = TRUE;
     $basic_checks[] = ["NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M ];
 
@@ -76,7 +76,7 @@ class setupStepChecks extends setupStep
     $N = msgPool::checkingFor("gettext");
     $D = _("FusionDirectory requires this module for an internationalized interface.");
     $S = msgPool::installPhpModule("gettext");
-    $R = is_callable("bindtextdomain");
+    $R = function_exists("bindtextdomain");
     $M = TRUE;
     $basic_checks[] = ["NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M ];
 
@@ -84,7 +84,7 @@ class setupStepChecks extends setupStep
     $N = msgPool::checkingFor('curl');
     $D = _('FusionDirectory requires this module to communicate with different types of servers and protocols.');
     $S = msgPool::installPhpModule('curl');
-    $R = is_callable('curl_init');
+    $R = function_exists('curl_init');
     $M = TRUE;
     $basic_checks[] = ['NAME' => $N , 'DESC' => $D , 'RESULT' => $R , 'SOLUTION' => $S , 'MUST' => $M ];
 
@@ -92,7 +92,7 @@ class setupStepChecks extends setupStep
     $N = msgPool::checkingFor('json');
     $D = _('FusionDirectory requires this module to encode variables for javascript use.');
     $S = msgPool::installPhpModule('json');
-    $R = is_callable('json_encode');
+    $R = function_exists('json_encode');
     $M = TRUE;
     $basic_checks[] = ['NAME' => $N , 'DESC' => $D , 'RESULT' => $R , 'SOLUTION' => $S , 'MUST' => $M ];
 
@@ -100,7 +100,7 @@ class setupStepChecks extends setupStep
     $N = msgPool::checkingFor('filter');
     $D = _('FusionDirectory requires this module to filters a variable with a specified filter.');
     $S = msgPool::installPhpModule('filter');
-    $R = is_callable('filter_var');
+    $R = function_exists('filter_var');
     $M = TRUE;
     $basic_checks[] = ['NAME' => $N , 'DESC' => $D , 'RESULT' => $R , 'SOLUTION' => $S , 'MUST' => $M ];
 
@@ -108,7 +108,7 @@ class setupStepChecks extends setupStep
     $N = msgPool::checkingFor("iconv");
     $D = _("FusionDirectory requires this module for the samba integration.");
     $S = msgPool::installPhpModule("iconv");
-    $R = is_callable("iconv");
+    $R = function_exists("iconv");
     $M = TRUE;
     $basic_checks[] = ["NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M ];
 
@@ -116,7 +116,7 @@ class setupStepChecks extends setupStep
     $N = msgPool::checkingFor("IMAP");
     $D = _("FusionDirectory requires this module to talk to an IMAP server.");
     $S = msgPool::installPhpModule("IMAP");
-    $R = is_callable("imap_open");
+    $R = function_exists("imap_open");
     $M = TRUE;
     $basic_checks[] = ["NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M ];
 
@@ -124,7 +124,7 @@ class setupStepChecks extends setupStep
     $N = msgPool::checkingFor(_("mbstring"));
     $D = _("FusionDirectory requires this module to handle unicode strings.");
     $S = msgPool::installPhpModule("mbstring");
-    $R = is_callable("mb_strlen");
+    $R = function_exists("mb_strlen");
     $M = TRUE;
     $basic_checks[] = ["NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M ];
 
