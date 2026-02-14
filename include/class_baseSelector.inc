@@ -49,7 +49,7 @@ class baseSelector
   function __construct (array $bases, string $base = '')
   {
     // Initialize pid
-    $this->pid = preg_replace("/[^0-9]/", "", microtime(TRUE));
+    $this->pid = preg_replace("/[^0-9]/", "", strval(microtime(TRUE)));
 
     // Transfer data
     $this->setBases($bases);

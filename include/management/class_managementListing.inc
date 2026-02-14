@@ -66,7 +66,7 @@ class managementListing
     $this->multiSelect  = $multiSelect;
 
     // Initialize pid
-    $this->pid = preg_replace('/[^0-9]/', '', microtime(TRUE));
+    $this->pid = preg_replace('/[^0-9]/', '', strval(microtime(TRUE)));
 
     $this->setUpBaseSelector();
 
