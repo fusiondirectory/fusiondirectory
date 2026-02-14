@@ -628,39 +628,39 @@ class templateHandling
         break;
       case 'a':
         // remove accent
-        $result = static::modifierRemoveAccents($args, $str);
+        $result = self::modifierRemoveAccents($args, $str);
         break;
       case 't':
         // translit
-        $result = static::modifierTranslit($args, $str);
+        $result = self::modifierTranslit($args, $str);
         break;
       case 'p':
         // spaces
-        $result = static::modifierPregReplace($args, $str);
+        $result = self::modifierPregReplace($args, $str);
         break;
       case 's':
         // substring
-        $result = static::modifierSubString($args, $str);
+        $result = self::modifierSubString($args, $str);
         break;
       case 'r':
         // random string
-        $result = static::modifierRandomString($args);
+        $result = self::modifierRandomString($args);
         break;
       case 'd':
         // date
-        $result = static::modifierDate($args);
+        $result = self::modifierDate($args);
         break;
       case 'n':
         // number
-        $result = static::modifierNumber($args);
+        $result = self::modifierNumber($args);
         break;
       case 'i':
         // title case
-        $result = static::modifierTitleCase($str);
+        $result = self::modifierTitleCase($str);
         break;
       case 'e':
         // incremental number
-        $result = static::modifierIncremental($args);
+        $result = self::modifierIncremental($args);
         break;
       default:
         trigger_error("Unkown modifier '$m'");
