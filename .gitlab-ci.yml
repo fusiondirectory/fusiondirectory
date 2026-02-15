@@ -1,6 +1,7 @@
 stages:
   - lint
   - codestyle
+  - tarballs
 
 ## Stage lint
 
@@ -43,3 +44,16 @@ create_phpstan_rapport:
     - cp ../dev-tools/phpstan/fusiondirectory/1.6/*.neon .
     - /root/.composer/vendor/bin/phpstan analyse -c phpstan.neon
 
+build-tarballs:
+  stage: tarballs
+  only:
+    - php8
+  script:
+    - mkdir ../fusiondirectory-$VERSION/
+    - mv ./* ../fusiondirectory-$VERSION/
+    - mv  ../fusiondirectory-$VERSION/ ./
+    - tar -cvzf fusiondirectory-$VERSION.tar.gz *
+  artifacts:
+    paths:
+      - fusiondirectory-$VERSION.tar.gz
+    expire_in: 30d
