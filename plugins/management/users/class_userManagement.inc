@@ -109,53 +109,51 @@ class userManagement extends management
   static function lockUser (string $action, string $pwd, string $dn, bool $lockEverything = TRUE)
   {
     $method = passwordMethod::get_method($pwd, $dn);
-    if ($method instanceof passwordMethod) {
-      if (!$method->is_lockable()) {
-        $hn = $method->get_hash_name();
-        if (is_array($hn)) {
-          $hn = $hn[0];
-        }
-        $error = new FusionDirectoryError(
-          htmlescape(sprintf(
-                       _('Password method "%s" does not support locking. Account "%s" has not been locked!'),
-                       $hn,
-                       $dn
-                     ))
-        );
-        $error->display();
-        return;
+    if (!$method->is_lockable()) {
+      $hn = $method->get_hash_name();
+      if (is_array($hn)) {
+        $hn = $hn[0];
       }
+      $error = new FusionDirectoryError(
+        htmlescape(sprintf(
+                      _('Password method "%s" does not support locking. Account "%s" has not been locked!'),
+                      $hn,
+                      $dn
+                    ))
+      );
+      $error->display();
+      return;
+    }
 
-      $success = TRUE;
-      if (($action == 'lock') && !$method->is_locked($dn)) {
-        $success = $method->lock_account($dn, $lockEverything);
-        // Requiring logging mechanism for audit.
-        if ($success) {
-          logging::log('security', 'account', $dn, [], 'DN : ' . $dn . ' is locked.');
-        }
-      } elseif (($action == 'unlock') && $method->is_locked($dn)) {
-        $success = $method->unlock_account($dn);
-        // Requiring logging mechanism for audit.
-        if ($success) {
-          logging::log('security', 'account', $dn, [], 'DN : ' . $dn . ' is unlocked.');
-        }
+    $success = TRUE;
+    if (($action == 'lock') && !$method->is_locked($dn)) {
+      $success = $method->lock_account($dn, $lockEverything);
+      // Requiring logging mechanism for audit.
+      if ($success) {
+        logging::log('security', 'account', $dn, [], 'DN : ' . $dn . ' is locked.');
       }
+    } elseif (($action == 'unlock') && $method->is_locked($dn)) {
+      $success = $method->unlock_account($dn);
+      // Requiring logging mechanism for audit.
+      if ($success) {
+        logging::log('security', 'account', $dn, [], 'DN : ' . $dn . ' is unlocked.');
+      }
+    }
 
-      // Check if everything went fine.
-      if (!$success) {
-        $hn = $method->get_hash_name();
-        if (is_array($hn)) {
-          $hn = $hn[0];
-        }
-        $error = new FusionDirectoryError(
-          htmlescape(sprintf(
-                       _('Locking failed using password method "%s". Account "%s" has not been locked!'),
-                       $hn,
-                       $dn
-                     ))
-        );
-        $error->display();
+    // Check if everything went fine.
+    if (!$success) {
+      $hn = $method->get_hash_name();
+      if (is_array($hn)) {
+        $hn = $hn[0];
       }
+      $error = new FusionDirectoryError(
+        htmlescape(sprintf(
+                      _('Locking failed using password method "%s". Account "%s" has not been locked!'),
+                      $hn,
+                      $dn
+                    ))
+      );
+      $error->display();
     }
   }
 }
