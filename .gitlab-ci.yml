@@ -36,6 +36,7 @@ create_phpstan_rapport:
   only:
     - branches
   script:
+    - test "$SKIP_PHPSTAN" -eq 1 && exit 0
     - test -d ../dev-tools/ && rm -Rf ../dev-tools/
     - git clone --depth 1 https://gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools -b php8
     - composer global require phpstan/phpstan
