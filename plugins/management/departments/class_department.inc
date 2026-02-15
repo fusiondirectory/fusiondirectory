@@ -182,7 +182,7 @@ class department extends simplePlugin
     $bases = parent::get_allowed_bases();
     if (($this->dn != "new") && ($this->dn != "")) {
       foreach (array_keys($bases) as $dn) {
-        if (preg_match("/".preg_quote($this->dn, NULL)."/", $dn)) {
+        if (preg_match("/".preg_quote($this->dn)."/", $dn)) {
           unset($bases[$dn]);
         }
       }

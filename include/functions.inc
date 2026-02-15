@@ -1489,7 +1489,7 @@ function mark ($needle, $haystack)
 {
   $result = '';
 
-  while (preg_match('/^(.*)('.preg_quote($needle, NULL).')(.*)$/i', $haystack, $matches)) {
+  while (preg_match('/^(.*)('.preg_quote($needle).')(.*)$/i', $haystack, $matches)) {
     $result   .= $matches[1].'<span class="mark">'.$matches[2].'</span>';
     $haystack = $matches[3];
   }
