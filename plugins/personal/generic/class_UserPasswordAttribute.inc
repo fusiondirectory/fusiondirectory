@@ -202,10 +202,8 @@ class UserPasswordAttribute extends CompositeAttribute
         }
       }
       $tmp = passwordMethod::get_method($value);
-      if (is_object($tmp)) {
-        $pw_storage = $tmp->get_hash();
-        $locked     = $tmp->is_locked('', $value);
-      }
+      $pw_storage = $tmp->get_hash();
+      $locked     = $tmp->is_locked('', $value);
       if ($istemplate && empty($password)) {
         /* Do not store hash for templates,
          * we have the password anyway, and this avoids problems with empty passwords */
