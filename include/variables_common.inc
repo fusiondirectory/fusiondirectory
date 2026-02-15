@@ -73,7 +73,7 @@ define("CONFIGRDN", "cn=config,ou=fusiondirectory,"); /*! Define FusionDirectory
 /*!
  * \brief Minimum PHP version
  */
-define('PHP_MIN_VERSION', '7.3.0');
+define('PHP_MIN_VERSION', '8.4');
 
 /*!
  * \brief Toggle crashing on PHP error, used for test suites
