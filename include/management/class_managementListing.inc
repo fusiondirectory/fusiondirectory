@@ -272,7 +272,7 @@ class managementListing
       if (isset($_GET['act'])) {
         $key = validate($_GET['act']);
         if (preg_match('/^SORT_([0-9]+)$/', $key, $match)) {
-          $this->setSortColumn($match[1]);
+          $this->setSortColumn(intval($match[1]));
 
           // Allow header to update itself according to the new sort settings
           $this->renderHeader();

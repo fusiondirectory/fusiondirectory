@@ -58,7 +58,7 @@ class passwordMethodSmd5 extends passwordMethod
    */
   public function generate_hash (string $pwd, bool $locked = FALSE): string
   {
-    $salt0  = substr(pack('h*', md5(random_int(0, PHP_INT_MAX))), 0, 8);
+    $salt0  = substr(pack('h*', md5(strval(random_int(0, PHP_INT_MAX)))), 0, 8);
     $salt   = substr(pack('H*', md5($salt0 . $pwd)), 0, 4);
     return '{SMD5}'.($locked ? '!' : '').base64_encode(pack('H*', md5($pwd . $salt)) . $salt);
   }

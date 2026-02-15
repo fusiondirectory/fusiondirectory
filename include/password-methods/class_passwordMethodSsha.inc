@@ -59,7 +59,7 @@ class passwordMethodSsha extends passwordMethod
   public function generate_hash (string $pwd, bool $locked = FALSE): string
   {
     if (function_exists('sha1')) {
-      $salt = substr(pack('h*', md5(random_int(0, PHP_INT_MAX))), 0, 8);
+      $salt = substr(pack('h*', md5(strval(random_int(0, PHP_INT_MAX)))), 0, 8);
       $salt = substr(pack('H*', sha1($salt.$pwd)), 0, 4);
       $pwd  = '{SSHA}'.($locked ? '!' : '').base64_encode(pack('H*', sha1($pwd.$salt)).$salt);
     } else {

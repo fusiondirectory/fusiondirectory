@@ -87,7 +87,7 @@ class SnapshotsAttribute extends OrderedArrayAttribute
   protected function getAttributeArrayValue ($key, $value)
   {
     $values = [
-      date(_('Y-m-d, H:i:s'), preg_replace('/\-.*$/', '', $value['gosaSnapshotTimestamp'][0])),
+      date(_('Y-m-d, H:i:s'), preg_replace('/\-.*$/', '', intval($value['gosaSnapshotTimestamp'][0]))),
       $value['description'][0]
     ];
     if ($this->plugin->global) {
