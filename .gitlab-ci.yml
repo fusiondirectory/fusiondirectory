@@ -32,7 +32,7 @@ create_php_code_sniffer_rapport:
 
 # phpstan
 create_phpstan_rapport:
-  image: registry.fusiondirectory.org/fusiondirectory/fd/phpstan-cli:fd
+  image: registry.fusiondirectory.org/fusiondirectory/fd/phpstan-cli:fd-php8
   stage: codestyle
   only:
     - branches
