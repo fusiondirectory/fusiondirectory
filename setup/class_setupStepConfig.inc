@@ -169,19 +169,19 @@ class setupStepConfig extends configInLdap
   {
     return TRUE;
   }
-  function acl_is_createable (string $base = NULL): bool
+  function acl_is_createable (?string $base = NULL): bool
   {
     return TRUE;
   }
-  function acl_is_removeable (string $base = NULL): bool
+  function acl_is_removeable (?string $base = NULL): bool
   {
     return TRUE;
   }
-  function acl_is_moveable (string $base = NULL): bool
+  function acl_is_moveable (?string $base = NULL): bool
   {
     return TRUE;
   }
-  function aclGetPermissions ($attribute = '0', string $base = NULL, bool $skipWrite = FALSE): string
+  function aclGetPermissions ($attribute = '0', ?string $base = NULL, bool $skipWrite = FALSE): string
   {
     return 'cmdrw';
   }

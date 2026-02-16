@@ -142,7 +142,7 @@ class ldapSizeLimit
    *
    * If there are more items in $_POST than max_input_vars, PHP will discard some of them and will cause a CSRF error.
    */
-  static public function checkMaxInputVars (int $newLimit, string $messageTemplate = NULL)
+  static public function checkMaxInputVars (int $newLimit, ?string $messageTemplate = NULL)
   {
     $maxInputVars = ini_get('max_input_vars');
 

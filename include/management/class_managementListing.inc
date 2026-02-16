@@ -306,7 +306,7 @@ class managementListing
   /*!
    * \brief Update a listing
    */
-  function update (string $dn = NULL)
+  function update (?string $dn = NULL)
   {
     if ($dn === NULL) {
       $this->updateBase();
@@ -595,7 +595,7 @@ class managementListing
    * \param int $column Index of column to sort by
    * \param bool $direction Whether to sort up or down
    */
-  public function setSortColumn (int $column, bool $direction = NULL)
+  public function setSortColumn (int $column, ?bool $direction = NULL)
   {
     if ($direction === NULL) {
       // Switch to new column or invert search order?

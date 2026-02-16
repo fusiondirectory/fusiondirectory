@@ -59,7 +59,7 @@ class reference extends simplePlugin
     $this->refs = NULL;
   }
 
-  function aclGetPermissions ($attribute = '0', string $base = NULL, bool $skipWrite = FALSE): string
+  function aclGetPermissions ($attribute = '0', ?string $base = NULL, bool $skipWrite = FALSE): string
   {
     /* Everyone can see this tab and its attribute */
     return 'r';

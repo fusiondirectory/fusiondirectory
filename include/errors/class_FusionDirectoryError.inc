@@ -25,7 +25,7 @@ class FusionDirectoryError extends Error
 {
   protected $htmlMessage;
 
-  public function __construct (string $htmlMessage = '', int $code = 0, Throwable $previous = NULL)
+  public function __construct (string $htmlMessage = '', int $code = 0, ?Throwable $previous = NULL)
   {
     $this->htmlMessage = $htmlMessage;
     parent::__construct(htmlunescape(strip_tags($htmlMessage)), $code, $previous);

@@ -23,7 +23,7 @@
 */
 class FusionDirectoryPermissionError extends SimplePluginPermissionError
 {
-  public function __construct (string $htmlMessage, int $code = 0, Throwable $previous = NULL)
+  public function __construct (string $htmlMessage, int $code = 0, ?Throwable $previous = NULL)
   {
     parent::__construct(NULL, $htmlMessage, $code, $previous);
   }

@@ -220,7 +220,7 @@ class templateHandling
    *
    * \return string the string with patterns replaced by their values
    */
-  public static function parseString (string $string, array $attrs, $escapeMethod = NULL, string $unique = NULL, string $target = NULL): string
+  public static function parseString (string $string, array $attrs, $escapeMethod = NULL, ?string $unique = NULL, ?string $target = NULL): string
   {
     global $config;
 

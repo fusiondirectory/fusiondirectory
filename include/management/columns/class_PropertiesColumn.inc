@@ -25,7 +25,7 @@ class PropertiesColumn extends Column
 {
   protected $tabs;
 
-  function __construct (managementListing $parent, array $attributes = NULL, string $label = NULL)
+  function __construct (managementListing $parent, ?array $attributes = NULL, ?string $label = NULL)
   {
     global $config;
 

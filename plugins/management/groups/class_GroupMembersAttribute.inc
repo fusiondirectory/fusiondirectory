@@ -25,7 +25,7 @@ class GroupMembersAttribute extends ObjectsAttribute
   protected $typeToCodeMap;
   protected $childTypes = [];
 
-  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = [], $store_attr = 'dn', $display_attr = 'cn', array $filterElementDefinitions = NULL, $acl = '')
+  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = [], $store_attr = 'dn', $display_attr = 'cn', ?array $filterElementDefinitions = NULL, $acl = '')
   {
     parent::__construct($label, $description, $ldapName, $required, array_values(ogroup::$objectTypes), $defaultValue, $store_attr, $display_attr, $filterElementDefinitions, $acl);
     $this->typeToCodeMap = array_flip(array_map('strtolower', ogroup::$objectTypes));

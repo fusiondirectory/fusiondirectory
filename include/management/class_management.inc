@@ -719,7 +719,7 @@ class management implements FusionDirectoryDialog
     }
   }
 
-  function enablePaste ($action, ListingEntry $entry = NULL): bool
+  function enablePaste ($action, ?ListingEntry $entry = NULL): bool
   {
     if ($entry === NULL) {
       return $this->cpHandler->entries_queued();
@@ -1293,7 +1293,7 @@ class management implements FusionDirectoryDialog
   /*
    * \brief Whether snapshot restore action should be enabled for an entry
    */
-  function enableSnapshotRestore ($action, ListingEntry $entry = NULL): bool
+  function enableSnapshotRestore ($action, ?ListingEntry $entry = NULL): bool
   {
     if ($entry !== NULL) {
       /* For entries */

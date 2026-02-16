@@ -71,7 +71,7 @@ class NonExistingObjectTypeException extends FusionDirectoryException
 {
   protected $type;
 
-  public function __construct (string $type, int $code = 0, Throwable $previous = NULL)
+  public function __construct (string $type, int $code = 0, ?Throwable $previous = NULL)
   {
     $this->type = $type;
 
@@ -113,7 +113,7 @@ class NonExistingLdapNodeException extends FusionDirectoryException
 {
   protected $dn;
 
-  public function __construct (string $dn, string $message = NULL, int $code = 0, Throwable $previous = NULL)
+  public function __construct (string $dn, string $message = NULL, int $code = 0, ?Throwable $previous = NULL)
   {
     $this->dn = $dn;
     if ($message === NULL) {
@@ -135,7 +135,7 @@ class NonExistingLdapNodeException extends FusionDirectoryException
 
 class EmptyFilterException extends FusionDirectoryException
 {
-  public function __construct (string $message = "", int $code = 0, Throwable $previous = NULL)
+  public function __construct (string $message = "", int $code = 0, ?Throwable $previous = NULL)
   {
     if ($message === '') {
       $message = _('Filter is empty');

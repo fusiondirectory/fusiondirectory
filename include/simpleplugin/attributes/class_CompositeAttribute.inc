@@ -42,7 +42,7 @@ class CompositeAttribute extends \FusionDirectory\Core\SimplePlugin\Attribute
    *  \param string $acl The name of the acl for this attribute if he does not use its own. (Leave empty if he should use its own like most attributes do)
    *  \param ?string $label The label to show for this attribute. Only useful if you put this attribute inside a SetAttribute, or if you use a specific template that needs it.
    */
-  function __construct (string $description, string $ldapName, array $attributes, $readFormat, $writeFormat, string $acl = '', string $label = NULL)
+  function __construct (string $description, string $ldapName, array $attributes, $readFormat, $writeFormat, string $acl = '', ?string $label = NULL)
   {
     if ($label === NULL) {
       $label = $ldapName;

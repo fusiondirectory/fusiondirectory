@@ -26,7 +26,7 @@
  */
 class UsersAttribute extends ObjectsAttribute
 {
-  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = [], $store_attr = 'dn', $display_attr = 'cn', array $filterElementDefinitions = NULL, $acl = '')
+  function __construct ($label, $description, $ldapName, $required = FALSE, $defaultValue = [], $store_attr = 'dn', $display_attr = 'cn', ?array $filterElementDefinitions = NULL, $acl = '')
   {
     parent::__construct($label, $description, $ldapName, $required, ['user'], $defaultValue, $store_attr, $display_attr, $filterElementDefinitions, $acl);
   }

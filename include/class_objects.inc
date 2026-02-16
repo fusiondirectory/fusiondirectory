@@ -43,7 +43,7 @@ class objects
    *
    * \return The list of objects as an associative array (keys are dns)
    */
-  static function ls ($types, $attrs = NULL, string $ou = NULL, string $filter = '', bool $checkAcl = FALSE, string $scope = 'subtree', bool $templateSearch = FALSE, bool $sizeLimit = FALSE): array
+  static function ls ($types, ?$attrs = NULL, ?string $ou = NULL, string $filter = '', bool $checkAcl = FALSE, string $scope = 'subtree', bool $templateSearch = FALSE, bool $sizeLimit = FALSE): array
   {
     global $ui, $config;
 
@@ -224,7 +224,7 @@ class objects
    *
    * \return The number of objects of type $type in $ou
    */
-  static function count ($types, string $ou = NULL, string $filter = '', bool $checkAcl = FALSE, bool $templateSearch = FALSE): int
+  static function count ($types, ?string $ou = NULL, string $filter = '', bool $checkAcl = FALSE, bool $templateSearch = FALSE): int
   {
     try {
       $ldap = static::search($types, ['dn'], $ou, $filter, $checkAcl, 'subtree', $templateSearch, $partialFilterAcls);
@@ -239,7 +239,7 @@ class objects
     return $ldap->count();
   }
 
-  static function search ($types, $search_attrs, string $ou = NULL, string $filter = '', bool $checkAcl = FALSE, string $scope = 'subtree', bool $templateSearch = FALSE, &$partialFilterAcls = [], bool $sizeLimit = FALSE): ldapMultiplexer
+  static function search ($types, $search_attrs, ?string $ou = NULL, string $filter = '', bool $checkAcl = FALSE, string $scope = 'subtree', bool $templateSearch = FALSE, &$partialFilterAcls = [], bool $sizeLimit = FALSE): ldapMultiplexer
   {
     global $config, $ui;
 

@@ -63,7 +63,7 @@ class SelectAttribute extends \FusionDirectory\Core\SimplePlugin\Attribute
    *  \param array $choices The choices this select should offer
    *  \param array $outputs The labels corresponding to the choices, leave to NULL if you want to display the choices themselves
    */
-  function setChoices (array $choices, array $outputs = NULL)
+  function setChoices (array $choices, ?array $outputs = NULL)
   {
     $this->outputs = NULL;
     if (!$this->isRequired() && !in_array('', $choices, TRUE)) {

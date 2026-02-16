@@ -53,7 +53,7 @@ class TasksColumn extends Column
     }
   }
 
-  static function filterStatus (string $status = NULL): string
+  static function filterStatus (?string $status = NULL): string
   {
     // A call towards a status map would be interesting here.
     switch ($status) {

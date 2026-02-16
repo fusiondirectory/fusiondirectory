@@ -157,7 +157,7 @@ class Attribute
     return (is_object($this->plugin) && $this->plugin->is_template);
   }
 
-  function setUnique ($unique, string $filter = NULL)
+  function setUnique ($unique, ?string $filter = NULL)
   {
     if ($unique === TRUE) {
       trigger_error('Deprecated fallback');

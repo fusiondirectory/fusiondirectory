@@ -35,7 +35,7 @@ class multiPlugin extends simplePlugin
     return [];
   }
 
-  function __construct (string $dn = NULL, $object = NULL, $parent = NULL, bool $mainTab = FALSE)
+  function __construct (?string $dn = NULL, $object = NULL, $parent = NULL, bool $mainTab = FALSE)
   {
     global $config;
 

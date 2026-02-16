@@ -30,7 +30,7 @@ abstract class multiPluginSection
 
   static abstract function getAttributesInfo (): array;
 
-  static function generatePlProvidedAcls (array $attributesInfo, bool $operationalAttributes = NULL): array
+  static function generatePlProvidedAcls (array $attributesInfo, ?bool $operationalAttributes = NULL): array
   {
     return simplePlugin::generatePlProvidedAcls($attributesInfo, $operationalAttributes);
   }

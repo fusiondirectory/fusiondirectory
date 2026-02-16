@@ -60,19 +60,19 @@ class Column
     return new $type($parent, $attributes, $label);
   }
 
-  function __construct (managementListing $parent, array $attributes = NULL, string $label = NULL)
+  function __construct (managementListing $parent, ?array $attributes = NULL, ?string $label = NULL)
   {
     $this->parent = $parent;
     $this->label  = $label;
     $this->setAttributesVar('attributes', $attributes);
   }
 
-  protected function setAttributesVar (string $var, array $attributes = NULL)
+  protected function setAttributesVar (string $var, ?array $attributes = NULL)
   {
     $this->$var = $attributes;
   }
 
-  function setTemplateAttributes (array $attributes = NULL)
+  function setTemplateAttributes (?array $attributes = NULL)
   {
     $this->setAttributesVar('templateAttributes', $attributes);
   }

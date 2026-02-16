@@ -299,7 +299,7 @@ class ogroup extends simplePlugin
     return parent::ldap_save();
   }
 
-  function handleForeignKeys (string $olddn = NULL, string $newdn = NULL, string $mode = 'move')
+  function handleForeignKeys (?string $olddn = NULL, ?string $newdn = NULL, string $mode = 'move')
   {
     if (($olddn !== NULL) && ($olddn == $newdn)) {
       return;

@@ -44,7 +44,7 @@ class Lock
    *
    * \param string $user  The user who shall own the lock
    */
-  public static function add ($object, string $user = NULL)
+  public static function add ($object, ?string $user = NULL)
   {
     global $config, $ui;
 
@@ -291,7 +291,7 @@ class Lock
    *
    * \param int $retries  how many times we can retry (waiting a second each time)
    */
-  public static function addOrFail ($object, string $user = NULL, int $retries = 10)
+  public static function addOrFail ($object, ?string $user = NULL, int $retries = 10)
   {
     $wait = $retries;
     while (!empty($locks = Lock::get($object))) {
@@ -328,7 +328,7 @@ class Lock
    * \param string $action Label of the action button, "Edit anyway" by default. Will be escaped.
    *
    */
-  public static function genLockedMessage (array $locks, bool $allowReadonly = FALSE, string $action = NULL): string
+  public static function genLockedMessage (array $locks, bool $allowReadonly = FALSE, ?string $action = NULL): string
   {
     /* Save variables from LOCK_VARS_TO_USE in session - for further editing */
     if (session::is_set('LOCK_VARS_TO_USE') && count(session::get('LOCK_VARS_TO_USE'))) {

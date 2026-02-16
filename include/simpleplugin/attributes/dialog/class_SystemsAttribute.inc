@@ -25,7 +25,7 @@ class SystemsAttribute extends ObjectsAttribute
 {
   protected $dialogClass  = 'SystemSelectDialog';
 
-  function __construct (string $label, string $description, string $ldapName, bool $required, array $objectTypes = ['terminal', 'workstation', 'server'], array $defaultValue = [], string $store_attr = 'cn', string $display_attr = 'cn', array $filterElementDefinitions = NULL, string $acl = '')
+  function __construct (string $label, string $description, string $ldapName, bool $required, array $objectTypes = ['terminal', 'workstation', 'server'], ?array $defaultValue = [], string $store_attr = 'cn', string $display_attr = 'cn', array $filterElementDefinitions = NULL, string $acl = '')
   {
     parent::__construct($label, $description, $ldapName, $required, $objectTypes, $defaultValue, $store_attr, $display_attr, $filterElementDefinitions, $acl);
   }

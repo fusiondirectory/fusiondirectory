@@ -347,7 +347,7 @@ class LDAP
    *
    * \param string $scope Scope of the search: subtree/base/one
    */
-  function search ($srp, $filter, $attrs = [], $scope = 'subtree', array $controls = NULL)
+  function search ($srp, $filter, $attrs = [], $scope = 'subtree', ?array $controls = NULL)
   {
     if ($this->hascon) {
       if ($this->reconnect) {
@@ -1145,7 +1145,7 @@ class LDAP
    *
    * \param  ?int $wrap       Wraps line around this length (0 to disable).
    */
-  function generateLdif (string $dn, string $filter = '(objectClass=*)', string $scope = 'sub', int $limit = 0, int $wrap = NULL): string
+  function generateLdif (string $dn, string $filter = '(objectClass=*)', string $scope = 'sub', int $limit = 0, ?int $wrap = NULL): string
   {
     $limit  = (($limit == 0) ? '' : ' -z '.$limit);
     if ($wrap === NULL) {

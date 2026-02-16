@@ -25,7 +25,7 @@ class SimplePluginHookError extends SimplePluginError
 {
   protected $hookType;
 
-  public function __construct ($origin, string $type, string $output = '', int $code = 0, Throwable $previous = NULL)
+  public function __construct ($origin, string $type, string $output = '', int $code = 0, ?Throwable $previous = NULL)
   {
     $this->hookType = $type;
 

@@ -223,7 +223,7 @@ class Action
             ' title="'.htmlescape($this->label).'" alt="'.htmlescape($this->label).'" name="listing_'.$this->name.'_'.$entry->row.'"/>';
   }
 
-  function isEnabledFor (ListingEntry $entry = NULL): bool
+  function isEnabledFor (?ListingEntry $entry = NULL): bool
   {
     if (isset($this->enabledCallable)) {
       return call_user_func($this->enabledCallable, $this->name, $entry);
@@ -231,7 +231,7 @@ class Action
     return TRUE;
   }
 
-  function hasPermission (ListingEntry $entry = NULL): bool
+  function hasPermission (?ListingEntry $entry = NULL): bool
   {
     global $ui;
 

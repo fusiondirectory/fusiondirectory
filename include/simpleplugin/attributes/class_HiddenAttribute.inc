@@ -33,7 +33,7 @@ class HiddenAttribute extends \FusionDirectory\Core\SimplePlugin\Attribute
    *  \param string $label The label to show for this attribute
    *  \param string $description A more detailed description for the attribute
    */
-  function __construct (string $ldapName, bool $required = FALSE, $defaultValue = '', string $acl = '', string $label = NULL, string $description = 'hidden')
+  function __construct (string $ldapName, bool $required = FALSE, $defaultValue = '', string $acl = '', ?string $label = NULL, string $description = 'hidden')
   {
     if ($label === NULL) {
       $label = $ldapName;

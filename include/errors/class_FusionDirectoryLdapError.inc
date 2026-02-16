@@ -24,7 +24,7 @@
 */
 class FusionDirectoryLdapError extends SimplePluginLdapError
 {
-  public function __construct (string $dn = NULL, int $operation = NULL, string $ldapError = '', int $code = 0, Throwable $previous = NULL)
+  public function __construct (?string $dn = NULL, ?int $operation = NULL, string $ldapError = '', int $code = 0, ?Throwable $previous = NULL)
   {
     parent::__construct(NULL, $dn, $operation, $ldapError, $code, $previous);
   }

@@ -31,7 +31,7 @@ class ogrouptabs extends simpleTabs_noSpecial
     $this->loadTabs($this->getBaseObject()->gosaGroupObjects);
   }
 
-  public function loadTabs (string $gosaGroupObjects = NULL)
+  public function loadTabs (?string $gosaGroupObjects = NULL)
   {
     global $config;
 

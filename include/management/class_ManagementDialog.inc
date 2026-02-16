@@ -27,7 +27,7 @@ class ManagementDialog extends simplePlugin
   protected $post_cancel = 'edit_cancel';
   protected $post_finish = 'edit_finish';
 
-  function __construct (string $dn = NULL, $object = NULL, management $parent = NULL, bool $mainTab = FALSE, array $attributesInfo = NULL)
+  function __construct (?string $dn = NULL, $object = NULL, ?management $parent = NULL, bool $mainTab = FALSE, ?array $attributesInfo = NULL)
   {
     parent::__construct($dn, $object, $parent, $mainTab, $attributesInfo);
   }

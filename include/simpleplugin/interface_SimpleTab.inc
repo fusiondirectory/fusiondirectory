@@ -73,7 +73,7 @@ interface SimpleTab extends FusionDirectoryDialog
    *
    * \param string $base
    */
-  public function acl_is_removeable (string $base = NULL): bool;
+  public function acl_is_removeable (?string $base = NULL): bool;
 
   /*!
    * \brief Sets whether the opened objet is a template
@@ -140,7 +140,7 @@ interface SimpleTab extends FusionDirectoryDialog
   /*!
    * \brief Get the acl permissions for an attribute or the plugin itself
    */
-  public function aclGetPermissions ($attribute = '0', string $base = NULL, bool $skipWrite = FALSE): string;
+  public function aclGetPermissions ($attribute = '0', ?string $base = NULL, bool $skipWrite = FALSE): string;
 
   /*!
    * \brief Merge in objectClasses needed by this tab

@@ -26,7 +26,7 @@ class SimplePluginLdapError extends SimplePluginError
   protected $dn;
   protected $operation;
 
-  public function __construct ($origin, string $dn = NULL, int $operation = NULL, string $ldapError = '', int $code = 0, Throwable $previous = NULL)
+  public function __construct ($origin, ?string $dn = NULL, ?int $operation = NULL, string $ldapError = '', int $code = 0, ?Throwable $previous = NULL)
   {
     $this->dn         = $dn;
     $this->operation  = $operation;

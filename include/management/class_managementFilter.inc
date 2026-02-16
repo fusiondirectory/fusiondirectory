@@ -46,7 +46,7 @@ class managementFilter
    *
    * \param string $parent management instance
    */
-  function __construct (management $parent, bool $fixedScope = NULL, array $filterElementDefinitions = [])
+  function __construct (management $parent, ?bool $fixedScope = NULL, array $filterElementDefinitions = [])
   {
     global $config;
 

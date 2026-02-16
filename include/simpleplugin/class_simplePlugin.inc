@@ -152,7 +152,7 @@ class simplePlugin implements SimpleTab
    *  \param array $attributesInfo An attributesInfo array, if NULL, getAttributesInfo will be used.
    *
    */
-  function __construct (string $dn = NULL, $object = NULL, $parent = NULL, bool $mainTab = FALSE, array $attributesInfo = NULL)
+  function __construct (?string $dn = NULL, $object = NULL, $parent = NULL, bool $mainTab = FALSE, ?array $attributesInfo = NULL)
   {
     global $config;
 
@@ -1002,7 +1002,7 @@ class simplePlugin implements SimpleTab
    *
    * \param string $base Empty string
    */
-  function acl_is_createable (string $base = NULL): bool
+  function acl_is_createable (?string $base = NULL): bool
   {
     return (strpos($this->aclGetPermissions('0', $base), 'c') !== FALSE);
   }
@@ -1012,7 +1012,7 @@ class simplePlugin implements SimpleTab
    *
    * \param string $base Empty string
    */
-  function acl_is_removeable (string $base = NULL): bool
+  function acl_is_removeable (?string $base = NULL): bool
   {
     return (strpos($this->aclGetPermissions('0', $base), 'd') !== FALSE);
   }
@@ -1022,7 +1022,7 @@ class simplePlugin implements SimpleTab
    *
    * \param string $base Empty string
    */
-  function acl_is_moveable (string $base = NULL): bool
+  function acl_is_moveable (?string $base = NULL): bool
   {
     return (strpos($this->aclGetPermissions('0', $base), 'm') !== FALSE);
   }
@@ -1036,7 +1036,7 @@ class simplePlugin implements SimpleTab
   }
 
   /*! \brief Get the acl permissions for an attribute or the plugin itself */
-  function aclGetPermissions ($attribute = '0', string $base = NULL, bool $skipWrite = FALSE): string
+  function aclGetPermissions ($attribute = '0', ?string $base = NULL, bool $skipWrite = FALSE): string
   {
     if (isset($this->parent) && isset($this->parent->ignoreAcls) && $this->parent->ignoreAcls) {
       return 'cdmr' . ($skipWrite ? '' : 'w');
@@ -1702,7 +1702,7 @@ class simplePlugin implements SimpleTab
 
   /*! \brief This function protect the clear string password by replacing char.
    */
-  protected static function passwordProtect (string $hookCommand = NULL): string
+  protected static function passwordProtect (?string $hookCommand = NULL): string
   {
     if (isset($_POST["userPassword_password"]) && !empty($_POST["userPassword_password"])) {
       if (strpos($hookCommand, $_POST["userPassword_password"]) !== FALSE) {
@@ -1751,7 +1751,7 @@ class simplePlugin implements SimpleTab
     return $messages;
   }
 
-  function handleForeignKeys (string $olddn = NULL, string $newdn = NULL, string $mode = 'move')
+  function handleForeignKeys (?string $olddn = NULL, ?string $newdn = NULL, string $mode = 'move')
   {
     if (($olddn !== NULL) && ($olddn == $newdn)) {
       return;
@@ -2269,7 +2269,7 @@ class simplePlugin implements SimpleTab
    *
    *  \param bool? $operationalAttributes Whether to add ACLs for operational attributes. Use NULL for autodetection (default)
    */
-  static function generatePlProvidedAcls (array $attributesInfo, bool $operationalAttributes = NULL): array
+  static function generatePlProvidedAcls (array $attributesInfo, ?bool $operationalAttributes = NULL): array
   {
     $plProvidedAcls = [];
     foreach ($attributesInfo as $sectionInfo) {
