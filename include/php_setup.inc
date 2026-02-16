@@ -331,8 +331,6 @@ $smarty->assign('js_files', []);
 
 $smarty->registerPlugin('modifier', 'base64_encode', 'base64_encode');
 
-$smarty->php_handling = Smarty::PHP_REMOVE;
-
 /* Check for SSL connection */
 $ssl = '';
 if (!URL::sslOn()) {
