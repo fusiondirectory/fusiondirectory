@@ -43,7 +43,7 @@ class objects
    *
    * \return The list of objects as an associative array (keys are dns)
    */
-  static function ls ($types, ?$attrs = NULL, ?string $ou = NULL, string $filter = '', bool $checkAcl = FALSE, string $scope = 'subtree', bool $templateSearch = FALSE, bool $sizeLimit = FALSE): array
+  static function ls ($types, $attrs = NULL, ?string $ou = NULL, string $filter = '', bool $checkAcl = FALSE, string $scope = 'subtree', bool $templateSearch = FALSE, bool $sizeLimit = FALSE): array
   {
     global $ui, $config;
 
