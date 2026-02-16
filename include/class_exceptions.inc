@@ -92,7 +92,7 @@ class NonExistingBranchException extends FusionDirectoryException
 {
   protected $branch;
 
-  public function __construct (string $branch, int $code = 0, Throwable $previous = NULL)
+  public function __construct (string $branch, int $code = 0, ?Throwable $previous = NULL)
   {
     $this->branch = $branch;
 
@@ -113,7 +113,7 @@ class NonExistingLdapNodeException extends FusionDirectoryException
 {
   protected $dn;
 
-  public function __construct (string $dn, string $message = NULL, int $code = 0, ?Throwable $previous = NULL)
+  public function __construct (string $dn, ?string $message = NULL, int $code = 0, ?Throwable $previous = NULL)
   {
     $this->dn = $dn;
     if ($message === NULL) {
@@ -152,7 +152,7 @@ class UnknownClassException extends FusionDirectoryException
 {
   protected $class;
 
-  public function __construct (string $class, int $code = 0, Throwable $previous = NULL)
+  public function __construct (string $class, int $code = 0, ?Throwable $previous = NULL)
   {
     $this->class = $class;
 

@@ -47,7 +47,7 @@ class ListingEntry implements ArrayAccess
   /* Cache where columns may store stuff */
   public $cache = [];
 
-  public function __construct (managementListing $listing, string $type, string $dn, array $attrs, int $row = NULL)
+  public function __construct (managementListing $listing, string $type, string $dn, array $attrs, ?int $row = NULL)
   {
     $this->listing  = $listing;
     $this->type     = $type;
