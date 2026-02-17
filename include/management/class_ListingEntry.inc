@@ -57,22 +57,22 @@ class ListingEntry implements ArrayAccess
     $this->row      = $row;
   }
 
-  public function offsetSet ($offset, $value)
+  public function offsetSet ($offset, $value) : void
   {
     $this->attrs[$offset] = $value;
   }
 
-  public function offsetExists ($offset)
+  public function offsetExists ($offset) : bool
   {
     return isset($this->attrs[$offset]);
   }
 
-  public function offsetUnset ($offset)
+  public function offsetUnset ($offset) : void
   {
     unset($this->attrs[$offset]);
   }
 
-  public function offsetGet ($offset)
+  public function offsetGet ($offset) : bool|null
   {
     return (isset($this->attrs[$offset]) ? $this->attrs[$offset] : NULL);
   }
