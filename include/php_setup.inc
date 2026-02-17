@@ -188,19 +188,19 @@ function gosaRaiseError ($errno, $errstr, $errfile, $errline)
 
   /* Return if error reporting is set to zero */
   if (error_reporting() == 0) {
-    set_error_handler('gosaRaiseError', E_WARNING | E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT);
+    set_error_handler('gosaRaiseError', E_WARNING | E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE);
     return FALSE;
   }
 
   /* Workaround for buggy imap_open error outputs */
   if (preg_match('/imap_open/', $errstr)) {
-    set_error_handler('gosaRaiseError', E_WARNING | E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT);
+    set_error_handler('gosaRaiseError', E_WARNING | E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE);
     return;
   }
 
   /* Hide ldap size limit messages */
   if (preg_match('/ldap_error/', $errstr) && preg_match('/sizelimit/', $errstr)) {
-    set_error_handler('gosaRaiseError', E_WARNING | E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT);
+    set_error_handler('gosaRaiseError', E_WARNING | E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE);
     return;
   }
 
@@ -211,7 +211,7 @@ function gosaRaiseError ($errno, $errstr, $errfile, $errline)
 
   /* Error messages are hidden in FusionDirectory, so we only send them to the logging class and abort here */
   if (isset($config->data) && $config->get_cfg_value('displayerrors') != 'TRUE') {
-    set_error_handler('gosaRaiseError', E_WARNING | E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT);
+    set_error_handler('gosaRaiseError', E_WARNING | E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE);
     return;
   }
 
@@ -254,7 +254,7 @@ function gosaRaiseError ($errno, $errstr, $errfile, $errline)
     exit;
   }
 
-  set_error_handler('gosaRaiseError', E_WARNING | E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT);
+  set_error_handler('gosaRaiseError', E_WARNING | E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE);
 }
 
 /*!
@@ -304,13 +304,13 @@ date_default_timezone_set("GMT");
 /* Get base dir for reference */
 $BASE_DIR = dirname(dirname(__FILE__));
 $ROOT_DIR = $BASE_DIR . "/html";
-error_reporting(E_ALL | E_STRICT);
+error_reporting(E_ALL);
 
 /* Register error handler */
 $error_collector        = "";
 $error_collector_mailto = "";
 
-set_error_handler('gosaRaiseError', E_WARNING | E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE | E_STRICT);
+set_error_handler('gosaRaiseError', E_WARNING | E_NOTICE | E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE);
 set_exception_handler('fusiondirectoryExceptionHandler');
 
 $variables_order = 'ES';

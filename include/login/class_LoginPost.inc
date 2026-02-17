@@ -102,7 +102,7 @@ class LoginPost extends LoginMethod
 
     $lang = session::get('lang');
 
-    error_reporting(E_ALL | E_STRICT);
+    error_reporting(E_ALL | E_NOTICE);
 
     /* Fill template with required values */
     $username = '';
@@ -174,7 +174,7 @@ class LoginPost extends LoginMethod
 
     $lang = session::get('lang');
 
-    error_reporting(E_ALL | E_STRICT);
+    error_reporting(E_ALL | E_NOTICE);
 
     /* Fill template with required values */
     $username = '';
