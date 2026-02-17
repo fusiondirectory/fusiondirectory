@@ -34,6 +34,7 @@ class ACLPermissions
   protected $create;
   protected $delete;
   protected $move;
+  protected $template_creation_only;
 
   /* Rights on self only */
   protected $self;
