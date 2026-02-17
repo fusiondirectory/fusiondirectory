@@ -60,7 +60,7 @@ class EntrySortIterator implements Iterator
   /*!
    * \brief Put the array pointer to the first element
    */
-  function rewind () : mixed
+  function rewind () : void
   {
     reset($this->data);
   }
@@ -80,7 +80,7 @@ class EntrySortIterator implements Iterator
    *
    * \return the key element of the array
    */
-  function key () : int|string|null
+  function key () : mixed
   {
     return key($this->data);
   }
@@ -88,7 +88,7 @@ class EntrySortIterator implements Iterator
   /*!
    * \brief Get the next data element
    */
-  function next () : mixed
+  function next () : void
   {
     next($this->data);
   }

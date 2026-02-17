@@ -36,12 +36,12 @@ class Combinations implements Iterator
     $this->rewind();
   }
 
-  function key ()
+  function key () : mixed
   {
     return $this->pos;
   }
 
-  function current ()
+  function current () : mixed
   {
     $r = [];
     for ($i = 0; $i < $this->size; $i++) {
@@ -50,7 +50,7 @@ class Combinations implements Iterator
     return $r;
   }
 
-  function next ()
+  function next () : void
   {
     if ($this->_next()) {
       $this->pos++;
@@ -59,13 +59,13 @@ class Combinations implements Iterator
     }
   }
 
-  function rewind ()
+  function rewind () : void
   {
     $this->current  = range(0, $this->size);
     $this->pos      = 0;
   }
 
-  function valid ()
+  function valid () : bool
   {
     return ($this->pos >= 0);
   }
