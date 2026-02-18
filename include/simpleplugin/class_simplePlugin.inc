@@ -41,6 +41,8 @@ class simplePlugin implements SimpleTab
   // Thisb bolean allows children class to get readOnly automatically via static state or class-level state.
   private static $user_locked = FALSE;
 
+  private $displayPlugin;
+
   /*!
     \brief Mark plugin as account
 
