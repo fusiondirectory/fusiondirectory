@@ -106,7 +106,7 @@ class config
    *
    * This function is used to unserialize the config object
    */
-  function __unserialize(array $data) : void
+  function __unserialize (array $data) : void
   {
     $this->config_found    = $data['config_found'];
     $this->tags            = $data['tags'];
