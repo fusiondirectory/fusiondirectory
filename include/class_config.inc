@@ -84,6 +84,43 @@ class config
   }
 
   /*!
+   * \brief Serialize config object
+   *
+   * This function is used to serialize the config object without ressource properties
+   */
+  function __serialize () : array
+  {
+    return [
+      'config_found' => $this->config_found,
+      'tags' => $this->tags,
+      'level' => $this->level,
+      'currentLocation' => $this->currentLocation,
+      'current' => $this->current,
+      'referrals' => $this->referrals,
+      'data' => $this->data,
+    ];
+  }
+
+  /*!
+   * \brief Serialize config object
+   *
+   * This function is used to unserialize the config object
+   */
+  function __unserialize(array $data) : void
+  {
+    $this->config_found = $data['config_found'];
+    $this->tags = $data['tags'];
+    $this->level = $data['level'];
+    $this->currentLocation = $data['currentLocation'];
+    $this->current = $data['current'];
+    $this->referrals = $data['referrals'];
+    $this->data = $data['data'];
+
+    /* Recreate the XML parser */
+    $this->parser = xml_parser_create();
+  }
+
+  /*!
    * \brief Check and reload the configuration
    *
    * This function checks if the configuration has changed, since it was
