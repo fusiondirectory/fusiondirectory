@@ -91,13 +91,13 @@ class config
   function __serialize () : array
   {
     return [
-      'config_found' => $this->config_found,
-      'tags' => $this->tags,
-      'level' => $this->level,
+      'config_found'    => $this->config_found,
+      'tags'            => $this->tags,
+      'level'           => $this->level,
       'currentLocation' => $this->currentLocation,
-      'current' => $this->current,
-      'referrals' => $this->referrals,
-      'data' => $this->data,
+      'current'         => $this->current,
+      'referrals'       => $this->referrals,
+      'data'            => $this->data,
     ];
   }
 
@@ -108,13 +108,13 @@ class config
    */
   function __unserialize(array $data) : void
   {
-    $this->config_found = $data['config_found'];
-    $this->tags = $data['tags'];
-    $this->level = $data['level'];
+    $this->config_found    = $data['config_found'];
+    $this->tags            = $data['tags'];
+    $this->level           = $data['level'];
     $this->currentLocation = $data['currentLocation'];
-    $this->current = $data['current'];
-    $this->referrals = $data['referrals'];
-    $this->data = $data['data'];
+    $this->current         = $data['current'];
+    $this->referrals       = $data['referrals'];
+    $this->data            = $data['data'];
 
     /* Recreate the XML parser */
     $this->parser = xml_parser_create();
