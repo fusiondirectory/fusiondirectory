@@ -72,7 +72,7 @@ class ListingEntry implements ArrayAccess
     unset($this->attrs[$offset]);
   }
 
-  public function offsetGet ($offset) : array|null
+  public function offsetGet ($offset) : string|null
   {
     return (isset($this->attrs[$offset]) ? $this->attrs[$offset] : NULL);
   }
