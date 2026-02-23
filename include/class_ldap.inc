@@ -483,8 +483,12 @@ class LDAP
         $this->connect();
       }
       $res  = @ldap_read($this->cid, $dn, $filter, ["objectClass"]);
-      logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'object_match_filter(dn="'.$dn.'",filter="'.$filter.'")');
-      return @ldap_count_entries($this->cid, $res);
+      if ($ress !== FALSE) {
+        logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'object_match_filter(dn="'.$dn.'",filter="'.$filter.'")');
+        return @ldap_count_entries($this->cid, $res);
+      } else {
+        return FALSE;
+      }
     } else {
       $this->error = "Could not connect to LDAP server";
       logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'object_match_filter(dn="'.$dn.'",filter="'.$filter.'")');
