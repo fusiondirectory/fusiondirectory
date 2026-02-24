@@ -483,7 +483,7 @@ class LDAP
         $this->connect();
       }
       $res  = @ldap_read($this->cid, $dn, $filter, ["objectClass"]);
-      if ($ress !== FALSE) {
+      if ($res !== FALSE) {
         logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'object_match_filter(dn="'.$dn.'",filter="'.$filter.'")');
         return @ldap_count_entries($this->cid, $res);
       } else {
