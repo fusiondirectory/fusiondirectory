@@ -101,8 +101,12 @@ class management implements FusionDirectoryDialog
       $objectTypes = $plInfos['plManages'];
     }
 
-    if (!preg_match('/^geticon/', $this->icon)) {
-      $this->icon = get_template_path($this->icon);
+    if (isset($this->icon)) {
+      if (!preg_match('/^geticon/', $this->icon)) {
+        $this->icon = get_template_path($this->icon);
+      }
+    } else {
+      trigger_error("$this->icon is not set for class: " . get_class($this));
     }
 
     /* Ignore non existing objectTypes. This happens when an optional plugin is missing. */
