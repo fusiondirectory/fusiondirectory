@@ -21,6 +21,11 @@
 
 class reference extends simplePlugin
 {
+  public $uid;
+  public $cn;
+  public $sn;
+  public $givenName;
+
   static function plInfo (): array
   {
     return [
