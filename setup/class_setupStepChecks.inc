@@ -112,14 +112,6 @@ class setupStepChecks extends setupStep
     $M = TRUE;
     $basic_checks[] = ["NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M ];
 
-    /* Check if imap module is available */
-    $N = msgPool::checkingFor("IMAP");
-    $D = _("FusionDirectory requires this module to talk to an IMAP server.");
-    $S = msgPool::installPhpModule("IMAP");
-    $R = function_exists("imap_open");
-    $M = TRUE;
-    $basic_checks[] = ["NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M ];
-
     /* Check if mbstring module is available */
     $N = msgPool::checkingFor(_("mbstring"));
     $D = _("FusionDirectory requires this module to handle unicode strings.");
