@@ -640,7 +640,8 @@ class configInLdap extends simplePlugin
 
       try {
         $ldap->cd($config->current['BASE']);
-        $ldap->add($restrictedOu, $attrs);
+        $ldap->cd($restrictedOu);
+        $ldap->add($attrs);
         logging::log('create', 'organizationalUnit', $restrictedOu, [], 'Successfully created');
       } catch (Exception $e) {
         msg_dialog::display(_('Error'),
@@ -665,7 +666,8 @@ class configInLdap extends simplePlugin
 
       try {
         $ldap->cd($restrictedOu);
-        $ldap->add($defaultUserDn, $attrs);
+        $ldap->cd($defaultUserDn);
+        $ldap->add($attrs);
         logging::log('create', 'inetOrgPerson', $defaultUserDn, [], 'Successfully created');
       } catch (Exception $e) {
         msg_dialog::display(_('Error'),
