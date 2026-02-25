@@ -382,7 +382,13 @@ class LDAP
       }
       $this->error = @ldap_error($this->cid);
       $this->resetResult($srp);
-      $this->hasres[$srp] = TRUE;
+
+      /* Set hasres to TRUE if we got a result or FALSE if $this->sr[$srp] is FALSE */
+      if ($this->sr[$srp] === FALSE) {
+        $this->hasres[$srp] = FALSE;
+      } else {
+        $this->hasres[$srp] = TRUE;
+      }
 
       /* Check if query took longer as specified in max_ldap_query_time */
       $diff = microtime(TRUE) - $startTime;
@@ -459,7 +465,14 @@ class LDAP
       $this->sr[$srp] = @ldap_read($this->cid, $dn, $filter, $attrs);
       $this->error    = @ldap_error($this->cid);
       $this->resetResult($srp);
-      $this->hasres[$srp] = TRUE;
+
+      /* Set hasres to TRUE if we got a result or FALSE if $this->sr[$srp] is FALSE */
+      if ($this->sr[$srp] === FALSE) {
+        $this->hasres[$srp] = FALSE;
+      } else {
+        $this->hasres[$srp] = TRUE;
+      }
+
       logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $this->error, 'cat(dn="'.$dn.'",filter="'.$filter.'")');
       return $this->sr[$srp];
     } else {
