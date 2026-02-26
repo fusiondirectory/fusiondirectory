@@ -330,6 +330,12 @@ class simplePlugin implements SimpleTab
           continue;
         }
         $attr->setParent($this);
+
+        // TOCHECK Convert non array value to an array (fix needed for setup)
+        if(!is_array($this->attrs)) {
+          $this->attrs = [$this->attrs];
+        }
+
         $attr->loadValue($this->attrs);
       }
       unset($attr);

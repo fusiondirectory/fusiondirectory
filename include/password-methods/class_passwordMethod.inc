@@ -235,7 +235,7 @@ abstract class passwordMethod
   static function get_available_methods (): array
   {
     global $class_mapping;
-    $ret  = FALSE;
+    $ret  = [];
     $i    = 0;
 
     if (!session::is_set('passwordMethod::get_available_methods')) {

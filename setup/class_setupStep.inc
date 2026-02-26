@@ -42,6 +42,32 @@ class setupStep extends simplePlugin
     $this->update_strings();
   }
 
+  public function __serialize (): array
+  {
+    $data = [];
+
+    foreach (get_object_vars($this) as $key => $value) {
+      if (is_resource($value)) {
+        continue;
+      }
+
+      if ($value instanceof LDAP\Connection) {
+        continue;
+      }
+
+      $data[$key] = $value;
+    }
+
+    return $data;
+  }
+
+  public function __unserialize (array $data): void
+  {
+    foreach ($data as $key => $value) {
+      $this->$key = $value;
+    }
+  }
+
   function update_strings ()
   {
     die('abstract method');

@@ -924,9 +924,11 @@ class setupStepMigrate extends setupStep
     array_unshift(
       $assignments,
       [
-        'scope'   => 'subtree',
-        'role'    => $roledn,
-        'members' => [$admindn],
+        'scope'        => 'subtree',
+        'role'         => $roledn,
+        'members'      => [$admindn],
+        'userfilter'   => '',
+        'targetfilter' => '',
       ]
     );
     $baseObject->gosaAclEntry = $assignments;
@@ -1001,18 +1003,18 @@ class setupStepMigrate extends setupStep
         } catch (FusionDirectoryError $error) {
           $error->display();
         }
-        $ldap->cd($dn);
-        $ldap->add($role);
-        if (!$ldap->success()) {
-          $error = new FusionDirectoryError(
-            nl2br(sprintf(
-              htmlescape(_("Cannot add ACL role \"%s\":\n\n%s")),
-              htmlescape($dn), '<i>'.htmlescape($ldap->get_error()).'</i>'
-            ))
-          );
-          $error->display();
-          return FALSE;
-        }
+      }
+      $ldap->cd($dn);
+      $ldap->add($role);
+      if (!$ldap->success()) {
+        $error = new FusionDirectoryError(
+          nl2br(sprintf(
+            htmlescape(_("Cannot add ACL role \"%s\":\n\n%s")),
+            htmlescape($dn), '<i>'.htmlescape($ldap->get_error()).'</i>'
+          ))
+        );
+        $error->display();
+        return FALSE;
       }
     }
     $checkobj->run();
@@ -1312,7 +1314,8 @@ class setupStepMigrate extends setupStep
     $skip_dns = [
       '/ou=fusiondirectory,'.preg_quote($config->current['BASE']).'$/',
       '/^ou=systems,/',
-      '/ou=snapshots,/'
+      '/ou=snapshots,/',
+      '/ou=tokens,/'
     ];
     foreach (objects::types() as $type) {
       $infos = objects::infos($type);
