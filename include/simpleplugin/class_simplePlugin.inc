@@ -332,7 +332,7 @@ class simplePlugin implements SimpleTab
         $attr->setParent($this);
 
         // TOCHECK Convert non array value to an array (fix needed for setup)
-        if(!is_array($this->attrs)) {
+        if (!is_array($this->attrs)) {
           $this->attrs = [$this->attrs];
         }
 
