@@ -1315,7 +1315,8 @@ class setupStepMigrate extends setupStep
       '/ou=fusiondirectory,'.preg_quote($config->current['BASE']).'$/',
       '/^ou=systems,/',
       '/ou=snapshots,/',
-      '/ou=tokens,/'
+      '/ou=tokens,/',
+      '/ou=supannobjects,/'
     ];
     foreach (objects::types() as $type) {
       $infos = objects::infos($type);
