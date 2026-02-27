@@ -32,6 +32,9 @@ class configInLdapTabs extends simpleTabs
     pluglist::load();
     session::un_set('passwordMethod::get_available_methods');
 
+    /* reload inldap configuration for hooks and config changes */
+    $config->load_inldap_config();
+
     return $errors;
   }
 }
