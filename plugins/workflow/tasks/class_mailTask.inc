@@ -33,7 +33,16 @@ class mailTask extends simplePlugin
       'plObjectClass'  => ['fdTasksMail'],
       'plFilter'       => '(objectClass=fdTasksMail)',
       'plObjectType'   => ['tasks'],
-      'plConflicts'    => ['lifeCycleTask'],
+      'plConflicts'    => [ // The name of the class is required, not the object class.
+        'archiveTask',
+        'auditTask',
+        'automaticGroupsTask',
+        'dnsTask',
+        'extractorTask',
+        'lifeCycleTask',
+        'notificationsTask',
+        'reminderTask',
+      ],
       'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo()),
       'plForeignKeys'  => [
         'fdTasksMailUsers' => [
