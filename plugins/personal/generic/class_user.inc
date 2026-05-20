@@ -267,9 +267,11 @@ class user extends simplePlugin
     $this->was_locked = $this->attributesAccess['userPassword']->isLocked();
 
     if ($this->was_locked) {
-      $this->read_only = TRUE;
-      // This will update the parent class (simplePlugin) via class-level state allowing children to get read only state.
-      self::setUserLocked(TRUE);
+      if (! $this->is_template) {
+        $this->read_only = TRUE;
+        // This will update the parent class (simplePlugin) via class-level state allowing children to get read only state.
+        self::setUserLocked(TRUE);
+      }
     }
 
     if ($this->is_template && !$this->initially_was_account) {
