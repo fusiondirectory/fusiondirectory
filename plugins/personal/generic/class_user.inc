@@ -446,7 +446,7 @@ class user extends simplePlugin
     if (isset($attrs['userPassword']) && !in_array('userPassword', $skip)) {
       $this->userPassword = $this->attributesAccess['userPassword']->readUserPasswordValues($attrs['userPassword'][0], TRUE);
     }
-  
+
     // Set $this->was_locked to TRUE if after explode the second element of $attrs['userPassword'] is TRUE
     // $attrs['userPassword'][0] is the value of userPassword in the template
     if (explode("|", $attrs['userPassword'][0])[1] == TRUE) {
