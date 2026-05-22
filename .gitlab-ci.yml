@@ -43,6 +43,7 @@ create_phpstan_rapport:
     - test -d ../dev-tools/ && rm -Rf ../dev-tools/
     - git clone --depth 1 https://gitlab-ci-token:$GITLAB_CI_TOKEN@gitlab.fusiondirectory.org/fusiondirectory/dev-tools.git ../dev-tools -b php8
     - composer global require phpstan/phpstan
+    - composer global require phpstan/phpstan-deprecation-rules
     - cp ../dev-tools/phpstan/fusiondirectory/1.6/*.neon .
     - /root/.composer/vendor/bin/phpstan analyse -c phpstan.neon
 
