@@ -60,19 +60,27 @@ class tasks extends simplePlugin
             _('Description'), _('What is this task doing'),
             'description', FALSE
           ),
-          new DateTimeAttribute(
+          new GeneralizedTimeDateAttribute(
             _('Schedule'), '',
             'fdTasksScheduleDate', FALSE
           ),
-
+          new GeneralizedTimeDateAttribute(
+            _('StartDate'), _('Start Date And Time Of A Task'),
+            'fdTasksCreationDate', TRUE
+          ),
+          new GeneralizedTimeDateAttribute(
+            _('LastActivation'), _('Last activation date'),
+            'fdTasksLastActivation', FALSE, ''
+          ),
+          new GeneralizedTimeDateAttribute(
+            _('LastExecution'), _('Last Executed - processed date'),
+            'fdTasksLastExec', FALSE, ''
+          ),
+          new GeneralizedTimeDateAttribute(
+            _('NextExecution'), _('Next Executed - processed date'),
+            'fdTasksNextExec', FALSE, ''
+          ),
           new HiddenAttribute('fdTasksStatus', TRUE, '1', '', 'Status', 'Status of the task'),
-          // This attribute is used to define the last activation date of the tasks - when subtasks are created.
-          new HiddenAttribute('fdTasksLastActivation', FALSE, '', '', 'LastActivation', 'Last activation date'),
-          // This attribute is used to define the last execution date of the tasks - when subtasks have been processed.
-          new HiddenAttribute('fdTasksLastExec', FALSE, '', '', 'LastExecution', 'Last Executed - processed date'),
-          // This attribute is used to define the next execution date of the tasks - when subtasks have been processed.
-          new HiddenAttribute('fdTasksNextExec', FALSE, '', '', 'NextExecution', 'Next Executed - processed date'),
-          new HiddenAttribute('fdTasksCreationDate', TRUE, date("Y-m-d h:i:sa"), '', 'StartDate', 'Start Date And Time Of A Task'),
         ]
       ],
       'subTasks'    => [
@@ -123,6 +131,11 @@ class tasks extends simplePlugin
     );
 
     $this->attributesAccess['fdSubTasksActivation']->setInLdap(FALSE);
+
+    $this->attributesAccess['fdTasksCreationDate']->setVisible(FALSE);
+    $this->attributesAccess['fdTasksLastActivation']->setVisible(FALSE);
+    $this->attributesAccess['fdTasksLastExec']->setVisible(FALSE);
+    $this->attributesAccess['fdTasksNextExec']->setVisible(FALSE);
   }
 
   function save (): array
@@ -130,7 +143,7 @@ class tasks extends simplePlugin
     // Verification if the bool of activation is ticked and activate the last activation accordingly.
     if ($this->fdSubTasksActivation === TRUE) {
       $currentDateTime             = date("Y-m-d H:i:s");
-      $this->fdTasksLastActivation = $currentDateTime;
+      $this->fdTasksLastActivation = LdapGeneralizedTime::toString(new DateTime($currentDateTime, new DateTimeZone('UTC')));
     }
     return parent::save();
   }
