@@ -56,19 +56,25 @@ class tasksGranular extends simplePlugin
             _('Task Granular Name'), _('Name for this task'),
             'cn', TRUE
           ),
+          new GeneralizedTimeDateAttribute(
+            _('Last Execution'), _('Last execution of the subtask - last time of reported status'),
+            'fdTasksGranularLastExec', FALSE, ''
+          ),
+          new GeneralizedTimeDateAttribute(
+            _('Future Execution'), _('Future potential execution of the subtask'),
+            'fdTasksGranularNextExec', FALSE, ''
+          ),
           new HiddenAttribute('fdTasksGranularStatus', TRUE, '1', '', 'Status', 'Status of the task (1=scheduled, 2=completed, 3=nothing to process)'),
-          new HiddenAttribute('fdTasksGranularLastExec', FALSE, 'Not Executed Yet', '', 'Last Execution', 'Last execution of the subtask - last time of reported status'),
-          new HiddenAttribute('fdTasksGranularNextExec', FALSE, '', '', 'Future Execution', 'Future potential execution of the subtask'),
           new HiddenAttribute('fdTasksGranularMaster', TRUE, '', '', 'Master CN', 'Name of the Master task'),
           new HiddenAttribute('fdTasksGranularType', TRUE, '', '', 'Type', 'Type of the task'),
           new HiddenArrayAttribute('fdTasksGranularRef', FALSE, '', '', 'Type', 'Reference towards a required CN (mail template E.g'),
           new HiddenArrayAttribute('fdTasksGranularHelper', FALSE, '', '', 'Type', 'Reference towards important info from main tasks (user reminder two different call E.g'),
-          new DateTimeAttribute(
-            _('Schedule'), '',
-            'fdTasksGranularSchedule', FALSE
+          new GeneralizedTimeDateAttribute(
+            _('Schedule'), _('Schedule time for subtask'),
+            'fdTasksGranularSchedule', FALSE, ''
           ),
-          new DateTimeAttribute(
-            _('Creation'), '',
+          new GeneralizedTimeDateAttribute(
+            _('Creation'), _('Creation time for subtask'),
             'fdTasksGranularCreationDate', FALSE
           ),
           // Below attribute are for tasks of type lifeCycle and other tasks added as plugin

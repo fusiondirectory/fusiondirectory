@@ -29,10 +29,10 @@ class tasksManagement extends management
     //below fdTasksMailObject must be changed to have a type defined within task creation (new ldap attributes ?hidden)
     ['LinkColumn',  ['attributes' => 'cn', 'label' => 'Tasks']],
     ['LinkColumn',  ['attributes' => 'description',  'label' => 'Description']],
-    ['Column', ['attributes' => 'fdTasksCreationDate', 'label' => 'Creation Date']],
-    ['Column', ['attributes' => 'fdTasksLastActivation', 'label' => 'Activation']],
-    ['Column', ['attributes' => 'fdTasksLastExec', 'label' => 'Last Execution']],
-    ['Column', ['attributes' => 'fdTasksNextExec', 'label' => 'Next Execution']],
+    ['LdapGeneralizedTimeColumn', ['attributes' => 'fdTasksCreationDate', 'label' => 'Creation Date']],
+    ['LdapGeneralizedTimeColumn', ['attributes' => 'fdTasksLastActivation', 'label' => 'Activation']],
+    ['LdapGeneralizedTimeColumn', ['attributes' => 'fdTasksLastExec', 'label' => 'Last Execution']],
+    ['LdapGeneralizedTimeColumn', ['attributes' => 'fdTasksNextExec', 'label' => 'Next Execution']],
     ['ActionsColumn', ['label' => 'Actions']],
   ];
 
