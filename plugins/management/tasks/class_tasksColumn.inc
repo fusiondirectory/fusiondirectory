@@ -44,9 +44,6 @@ class TasksColumn extends Column
         case 'fdTasksGranularMaster':
           return static::generateMasterTaskName($value);
 
-        case 'fdTasksGranularCreationDate':
-          return static::generateDateFormat($value);
-
         default:
           return parent::renderSingleValue($entry, $value);
       }
@@ -69,14 +66,6 @@ class TasksColumn extends Column
       default :
         return $status;
     }
-  }
-
-  static function generateDateFormat ($value) : string
-  {
-    // Z is added to value to match ldap generaliseztime
-    $datetime = (new LdapGeneralizedTime)->fromString($value.'Z');
-    $result = $datetime->format('Y-m-d H:i:s');
-    return $result;
   }
 
   static function generateMasterTaskName ($value) : string

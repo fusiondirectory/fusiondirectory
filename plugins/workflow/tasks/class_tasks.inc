@@ -266,7 +266,6 @@ class tasks extends simplePlugin
           "cn"                        => $subTaskName,
           "fdTasksGranularMaster"     => $this->dn,
           "fdTasksGranularSchedule"   => $schedule,
-          "fdTasksGranularCreationDate" => date("YmdHis"),
         ];
         // Simply merged the common values and the custom ones depending on the attribute type passed.
         $values['tasksGranular'] = array_merge($prepData['tasksGranular'], $defaultData['tasksGranular']);

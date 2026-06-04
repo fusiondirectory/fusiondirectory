@@ -34,9 +34,9 @@ class tasksDashboard extends management
     ['TasksColumn', ['attributes' => 'fdTasksGranularMaster', 'label' => 'Master Task']],
     ['Column', ['attributes' => 'fdTasksGranularType', 'label' => 'Types']],
     ['Column', ['attributes' => 'fdTasksGranularMail', 'label' => 'Email']],
-    ['TasksColumn', ['attributes' => 'fdTasksGranularCreationDate', 'label' => 'Created']],
-    ['Column', ['attributes' => 'fdTasksGranularLastExec', 'label' => 'Last Execution']],
-    ['Column', ['attributes' => 'fdTasksGranularNextExec', 'label' => 'Next Planned Execution']],
+    ['LdapGeneralizedTimeColumn', ['attributes' => 'fdTasksGranularCreationDate', 'label' => 'Created']],
+    ['LdapGeneralizedTimeColumn', ['attributes' => 'fdTasksGranularLastExec', 'label' => 'Last Execution']],
+    ['LdapGeneralizedTimeColumn', ['attributes' => 'fdTasksGranularNextExec', 'label' => 'Next Planned Execution']],
     ['TasksColumn', ['attributes' => 'fdTasksGranularStatus', 'label' => 'Status']],
     ['ActionsColumn', ['label' => 'Actions']],
   ];
