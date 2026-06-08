@@ -42,6 +42,16 @@ class tasksConfig extends simplePlugin
             'fdTasksRDN', TRUE,
             'ou=tasks'
           ),
+           new StringAttribute(
+            _('Subtasks RDN'), _('Branch in which Subtasks will be stored'),
+            'fdMainTasksRDN', TRUE,
+            'ou=maintasks,ou=tasks'
+          ),
+           new StringAttribute(
+            _('Subtasks RDN'), _('Branch in which Subtasks will be stored'),
+            'fdSubTasksRDN', TRUE,
+            'ou=subtasks,ou=tasks'
+          ),
           new StringAttribute(
             _('FusionDirectory Orchestrator Tokens RDN'), _('The branch where FusionDirectory Orchestrator tokens are stored'),
             'fdOrchestratorTokenRDN', TRUE,

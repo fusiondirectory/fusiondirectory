@@ -33,7 +33,7 @@ class tasks extends simplePlugin
       'plPriority'     => 41,
       'plObjectType'   => ['tasks' => [
         'name' => _('Tasks'),
-        'ou'   => get_ou('tasksRDN'),
+        'ou'   => get_ou('MainTasksRDN'),
         'icon' => 'geticon.php?context=applications&icon=tasks&size=16',
       ]],
       'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())
