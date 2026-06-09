@@ -229,13 +229,12 @@ class tasks extends simplePlugin
         // Here we create the object taskGranular
         $tabObject = objects::create('TasksGranular');
 
-        // Create a unique ID based on timestamp (Allowing duplicate subtasks for same members in case of repeat).
-        $timestamp = microtime(TRUE);  // Get the current timestamp with microseconds
-        $timestamp = (string)$timestamp; // Convert the float to a string, str_replace expect array or string.
-        $uniqueID  = str_replace(".", "_", $timestamp); // Remove . with _ for correct CN
+        // creation of a unique id based on ldapgeneralizedtime
+        $currentDateTime = new DateTime('now', new DateTimeZone('UTC')); // Get current datetime
+        $uniqueID = LdapGeneralizedTime::toString($currentDateTime);
 
         // Array matches come from preg_match function above with rmDn
-        $subTaskName = $matches[1] . '-SubTask-' . $uniqueID;
+        $subTaskName = $matches[1] . "-" . $uniqueID;
 
         // Define the type of the granular task based on the attribute type passed to this method.
         $prepData = NULL;
