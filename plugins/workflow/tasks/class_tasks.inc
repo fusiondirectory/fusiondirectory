@@ -156,7 +156,7 @@ class tasks extends simplePlugin
    * @return void
    * Note : $taskType is present to define the object name related to life cycle (core) and any new plugins added to tasks.
    */
-  public function createSlaveTasks (array $listOfDN, string $attributeType, ?array $attrs = NULL, string $taskType = ''): void
+  public function createSubTasks (array $listOfDN, string $attributeType, ?array $attrs = NULL, string $taskType = ''): void
   {
     global $config;
     $ldap = $config->get_ldap_link();
