@@ -242,7 +242,7 @@ class tasks extends simplePlugin
           case 'fdTasksGranularMail':
             $prepData['tasksGranular'] = [
               "fdTasksGranularMail"     => $dn,
-              "fdTasksGranularType"     => 'Mail Object',
+              "fdTasksGranularType"     => 'mail',
               "fdTasksGranularRef"      => $attrs['ref'],
               "fdTasksGranularMailFrom" => $attrs['from'],
               "fdTasksGranularMailBCC"  => $attrs['bcc']
