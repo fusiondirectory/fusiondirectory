@@ -21,6 +21,7 @@
 
 class tasksGranular extends simplePlugin
 {
+  protected $read_only    = TRUE;
 
   static function plInfo (): array
   {
@@ -100,6 +101,19 @@ class tasksGranular extends simplePlugin
   function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE)
   {
     parent::__construct($dn, $object, $parent, $mainTab);
+
+    // Set read_only when not creation a taskGranular
+    if ($this->dn == "new") {
+      $this->read_only = FALSE;
+    }
   }
 
+  function acl_is_removeable (?string $base = NULL): bool
+  {
+    // Disable read_only for removing
+    $this->read_only = FALSE;
+
+    // Call the parent method for removing
+    return parent::acl_is_removeable($base = NULL);
+  }
 }

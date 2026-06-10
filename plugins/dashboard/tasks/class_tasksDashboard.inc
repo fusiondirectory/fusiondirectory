@@ -20,17 +20,13 @@
 
 class tasksDashboard extends management
 {
-
-  function __construct ($objectTypes = FALSE, array $filterElementDefinitions = [['TabFilterElement',    []],])
-  {
-    parent::__construct($objectTypes, $filterElementDefinitions);
-
-    // Alllow the creation of custom filtering
-    $this->setupFilters();
-  }
+  protected $skipCpHandler        = TRUE;
+  public static $skipSnapshots    = TRUE;
+  public static $skipTemplates    = TRUE;
 
   // Actions column are removed compared to parent.
   public static $columns = [
+    ['LinkColumn', ['attributes' => 'cn', 'label' => 'Label']],
     ['TasksColumn', ['attributes' => 'fdTasksGranularMaster', 'label' => 'Master Task']],
     ['Column', ['attributes' => 'fdTasksGranularType', 'label' => 'Types']],
     ['Column', ['attributes' => 'fdTasksGranularMail', 'label' => 'Email']],
@@ -40,11 +36,6 @@ class tasksDashboard extends management
     ['TasksColumn', ['attributes' => 'fdTasksGranularStatus', 'label' => 'Status']],
     ['ActionsColumn', ['label' => 'Actions']],
   ];
-
-  // No modification tools are required.
-  protected $skipCpHandler        = TRUE;
-  public static $skipSnapshots    = TRUE;
-  public static $skipTemplates    = TRUE;
 
   static function plInfo ()
   {
@@ -60,63 +51,15 @@ class tasksDashboard extends management
     ];
   }
 
-  protected function setUpListing ()
+  function __construct ()
   {
-    /* Set baseMode to FALSE */
-    $this->listing  = new managementListing($this, FALSE);
-  }
+    parent::__construct();
 
-  // Allowing us to add additional actions and remove unrequired ones.
-  protected function configureActions ()
-  {
-    $this->registerAction(
-    new Action(
-        'tasksRenew',
-        _('Renew the selected task'),
-        'geticon.php?context=actions&icon=view-refresh&size=16',
-        '+',
-        'tasksRenew'
-        )
-    );
-
-    $this->actions['tasksRenew']->setSeparator(TRUE);
-    $this->actions['tasksRenew']->setEnableFunction([$this, 'setTasksActionStatus']);
-
-  }
-
-  // This method is triggered by the user action click on tasksRenew
-  function tasksRenew (array $action)
-  {
-    foreach ((array)$action['targets'] as $dn) {
-      $this->tasksUpdate($dn);
-    }
-  }
-
-  function tasksUpdate ($dn)
-  {
-    $tabObject    = objects::open($dn, 'tasksGranular');
-    $tabObject->by_object['tasksGranular']->attributesAccess['fdTasksGranularStatus']->setValue(1);
-    $errors = $tabObject->save();
-
-    if (!empty($errors)) {
-      $show_error = new SimplePluginError($this, htmlescape(sprintf(_('Error updating: "%s" !.'), $dn)));
-      $show_error->display();
-    }
-  }
-
-  // This method is triggered during initiation of the dashboard, allowing proper icons status
-  function setTasksActionStatus () : BOOL
-  {
-    return  TRUE;
-  }
-
-  function setupFilters ()
-  {
     // array of states allowing proper filtering
     $status    = [
       'Completed'    => [
         'name'        => 'Completed tasks',
-        'filter'      => '(fdTasksGranularStatus=2)',
+       'filter'      => '(fdTasksGranularStatus=2)',
         'icon'        => 'geticon.php?context=actions&icon=add&size=16',
       ],
       'Scheduled'    => [
@@ -140,7 +83,20 @@ class tasksDashboard extends management
     $this->filter->addElement(new CheckBoxesFilterElement($this->filter, _('Status'), $status, '|'));
   }
 
-  // End of Class
+  protected function configureActions ()
+  {
+    parent::configureActions();
+
+    /* Remove create */
+    $removeActions = ['new'];
+    foreach ($removeActions as $action) {
+      foreach ($this->actions[$action]->listActions() as $actionName) {
+        unset($this->actionHandlers[$actionName]);
+      }
+      unset($this->actions[$action]);
+    }
+  }
+
 }
 
 
