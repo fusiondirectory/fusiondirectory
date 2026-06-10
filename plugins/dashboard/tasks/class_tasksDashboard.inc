@@ -26,6 +26,7 @@ class tasksDashboard extends management
 
   // Actions column are removed compared to parent.
   public static $columns = [
+    ['ObjectTypeColumn', []],
     ['LinkColumn', ['attributes' => 'cn', 'label' => 'Label']],
     ['TasksColumn', ['attributes' => 'fdTasksGranularMaster', 'label' => 'Master Task']],
     ['Column', ['attributes' => 'fdTasksGranularType', 'label' => 'Types']],
@@ -55,7 +56,59 @@ class tasksDashboard extends management
   {
     parent::__construct();
 
-    // array of states allowing proper filtering
+    $tasks    = [
+      'Archive'     => [
+        'name'      => 'Archive',
+        'filter'    => '(fdTasksGranularType=archive)',
+        'icon'      => 'geticon.php?context=mimetypes&icon=application-x-archive&size=16',
+      ],
+      'Audit'       => [
+        'name'      => 'Audit',
+        'filter'    => '(fdTasksGranularType=audit)',
+        'icon'      => 'geticon.php?context=applications&icon=audit&size=16',
+      ],
+      'AuditSylog'  => [
+        'name'      => 'Audit Syslog',
+        'filter'    => '(fdTasksGranularType=auditSyslog)',
+        'icon'      => 'geticon.php?context=applications&icon=audit&size=16',
+      ],
+      'AutomaticGroups'       => [
+        'name'      => 'Automatic Groups',
+        'filter'    => '(fdTasksGranularType=automaticGroups)',
+        'icon'      => 'geticon.php?context=types&icon=resource-group&size=16',
+      ],
+      'AutomaticGroupsDynamic'     => [
+        'name'      => 'Automatic DynamicGroups',
+        'filter'    => '(fdTasksGranularType=archive)',
+        'icon'      => 'geticon.php?context=types&icon=dyngroup&size=16',
+      ],
+      'Exporter'    => [
+        'name'      => 'Exporter',
+        'filter'    => '(fdTasksGranularType=extract)',
+        'icon'      => 'geticon.php?context=applications&icon=csv&size=16',
+      ],
+      'LifeCycle'  => [
+        'name'      => 'LifeCycle',
+        'filter'    => '(fdTasksGranularType=lifeCycle)',
+        'icon'      => 'geticon.php?context=applications&icon=lifecycle&size=16',
+      ],
+      'Email'        => [
+        'name'      => 'Email',
+        'filter'    => '(fdTasksGranularType=email)',
+        'icon'      => 'geticon.php?context=applications&icon=internet-mail&size=16',
+      ],
+      'Notifications'    => [
+        'name'      => 'Notifications',
+        'filter'    => '(fdTasksGranularType=notifications)',
+        'icon'      => 'geticon.php?context=applications&icon=notifications&size=16',
+      ],
+      'Reminder'  => [
+        'name'      => 'Reminder',
+        'filter'    => '(fdTasksGranularType=reminder)',
+        'icon'      => 'geticon.php?context=applications&icon=user-info&size=16',
+      ],
+    ];
+
     $status    = [
       'Completed'    => [
         'name'        => 'Completed tasks',
@@ -74,12 +127,12 @@ class tasksDashboard extends management
       ],
       'Failed'    => [
         'name'      => 'Failed tasks',
-        // filter status must be updated if the status strategy changes
         'filter'    => '(!(|(fdTasksGranularStatus=1)(fdTasksGranularStatus=2)(fdTasksGranularStatus=3)))',
         'icon'      => 'geticon.php?context=actions&icon=remove&size=16',
       ],
     ];
 
+    $this->filter->addElement(new CheckBoxesFilterElement($this->filter, _('Tasks'), $tasks, '|'));
     $this->filter->addElement(new CheckBoxesFilterElement($this->filter, _('Status'), $status, '|'));
   }
 
