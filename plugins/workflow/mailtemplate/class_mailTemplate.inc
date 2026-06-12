@@ -45,7 +45,7 @@ class mailTemplate extends simplePlugin
     return [
       // Attributes are grouped by section
       'mailTemplate' => [
-        'name' => _('Mail Object'),
+        'name' => _('Mail Template'),
         'attrs' => [
           new StringAttribute(
             _('Mail Template Name'), _('Mail Template Name'),
