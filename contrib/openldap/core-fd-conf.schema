@@ -671,8 +671,51 @@ attributetype ( 1.3.6.1.4.1.38414.8.110.10 NAME 'fdPasswordRecoveryLoginAttribut
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
   SINGLE-VALUE )
 
+##### Tasks Conf #####
 
-# Object Class
+attributetype ( 1.3.6.1.4.1.38414.62.1.27 NAME 'fdTasksRDN'
+  DESC 'FusionDirectory - Tasks RDN'
+  EQUALITY caseExactIA5Match
+  SUBSTR caseExactIA5SubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE)
+
+attributetype ( 1.3.6.1.4.1.38414.62.1.28 NAME ( 'fdTasksConfLastExecTime' 'fdTasksLastExecTime' )
+  DESC 'FusionDirectory - Time of the last batch of email send by FusionDirectory Orchestrator'
+  EQUALITY caseExactIA5Match
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
+
+attributetype ( 1.3.6.1.4.1.38414.62.1.29 NAME ( 'fdTasksConfMaxEmails' 'fdTasksMaxEmails' )
+  DESC 'FusionDirectory - Maximum emails in a batch to be send by FusionDirectory Orchestrator'
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.27 )
+
+attributetype ( 1.3.6.1.4.1.38414.62.1.30 NAME ( 'fdTasksConfIntervalEmails' 'fdTasksIntervalEmails' )
+  DESC 'FusionDirectory - Interval between to batch of email send by FusionDirectory Orchestrator'
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.27 )
+
+attributetype ( 1.3.6.1.4.1.38414.62.1.79  NAME 'fdMainTasksRDN'
+  DESC 'FusionDirectory - Maintasks RDN'
+  EQUALITY caseExactIA5Match
+  SUBSTR caseExactIA5SubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE)
+
+attributetype ( 1.3.6.1.4.1.38414.62.1.80  NAME 'fdSubTasksRDN'
+  DESC 'FusionDirectory - Subtasks RDN'
+  EQUALITY caseExactIA5Match
+  SUBSTR caseExactIA5SubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE)
+
+attributetype ( 1.3.6.1.4.1.38414.62.1.6 NAME 'fdMailTemplateRDN'
+  DESC 'FusionDirectory - template Mail RDN'
+  EQUALITY caseExactIA5Match
+  SUBSTR caseExactIA5SubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+  SINGLE-VALUE)
+
+###### ObjectClass ######
+
 objectclass ( 1.3.6.1.4.1.38414.8.2.1 NAME 'fusionDirectoryConf'
   DESC 'FusionDirectory configuration'
   SUP top STRUCTURAL
@@ -703,8 +746,22 @@ objectclass ( 1.3.6.1.4.1.38414.8.2.1 NAME 'fusionDirectoryConf'
     fdSslCaCertPath $ fdSslKeyPath $ fdSslCertPath $ fdSnapshotRetentionDays $ fdSnapshotSourceData $
     fdCasActivated $ fdCasServerCaCertPath $ fdCasHost $ fdCasPort $ fdCasContext $ fdCasVerbose $
     fdLoginMethod $ fdCasLibraryBool $ fdCasClientServiceName $ fdEnableAutomaticSnapshots $ fdSnapshotMinRetention $
-    fdTokenRDN $ fdOrchestratorTokenRDN $ fdRecoveryTokenRDN
+    fdTokenRDN $ fdOrchestratorTokenRDN $ fdRecoveryTokenRDN $ fdTasksRDN $ fdMainTasksRDN $ fdSubTasksRDN
   ) )
+
+objectclass (1.3.6.1.4.1.38414.62.2.9 NAME 'fdTasksConf'
+  DESC 'FusionDirectory - Tasks Configuration'
+  SUP top AUXILIARY
+  MUST ( cn )
+  MAY ( fdTasksRDN $ fdMainTasksRDN $ fdSubTasksRDN $
+        fdTasksConfLastExecTime $ fdTasksConfMaxEmails $ fdTasksConfIntervalEmails $
+        fdTasksLastExecTime $ fdTasksMaxEmails $ fdTasksIntervalEmails ) )
+
+objectclass ( 1.3.6.1.4.1.38414.62.2.5 NAME 'fdMailTemplateConf'
+  DESC 'FusionDirectory - Mail Template Configuration'
+  SUP top AUXILIARY
+  MUST ( cn )
+  MAY ( fdMailTemplateRDN ) )
 
 objectclass ( 1.3.6.1.4.1.38414.8.2.2 NAME 'fusionDirectoryPluginsConf'
   DESC 'FusionDirectory plugins configuration'
@@ -723,6 +780,8 @@ objectclass ( 1.3.6.1.4.1.38414.8.2.3 NAME 'fdPasswordRecoveryConf'
     fdPasswordRecoveryValidity      $ fdPasswordRecoverySalt      $
     fdPasswordRecoveryUseAlternate  $ fdPasswordRecoveryLoginAttribute
   ) )
+
+### obsolete
 
 # Dashboard Object Class
 objectclass ( 1.3.6.1.4.1.38414.27.2.1 NAME 'fdDashboardPluginConf'
