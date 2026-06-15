@@ -232,12 +232,10 @@ class IconTheme
   {
     // We have to sanitize the $icon received from $_GET['icon']. Fixing vulnerability : CWE-35
     if (!preg_match('/^[a-zA-Z0-9_\-]+$/', $icon)) {
-      trigger_error('Error: Wrong icon name received');
-      die('Error: wrong icon name received');
+      throw new \InvalidArgumentException('Invalid icon name received');
     }
     if (!isset($_SESSION[static::$session_var])) {
-      trigger_error('Error: no theme found in session');
-      die('Error: no theme found in session');
+      throw new \RuntimeException('No theme found in session');
     }
     if (isset($_SESSION[static::$session_var][$theme])) {
       return $_SESSION[static::$session_var][$theme]->FindIcon($context, $icon, $size);

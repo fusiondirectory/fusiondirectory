@@ -90,6 +90,6 @@ abstract class DialogOrderedArrayAttribute extends OrderedArrayAttribute
   protected function getAttributeArrayValue ($key, $value)
   {
     /* Convert text value to displayable array value */
-    die('Pure virtual method');
+    throw new \LogicException('getAttributeArrayValue() is abstract and must be overridden');
   }
 }

@@ -337,7 +337,7 @@ class pluglist
         $plIcon = $vars['plIcon'];
       }
     } else {
-      die('Unknown class '.$cname);
+      throw new \RuntimeException('Unknown class: ' . $cname);
     }
     if (!$plIcon) {
       $plIcon = "icon.png";
