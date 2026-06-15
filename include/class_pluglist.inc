@@ -32,24 +32,24 @@
  */
 class pluglist
 {
-  var $menu           = '';
+  public $menu        = '';
   protected $iconmenu = '';
 
   /*!
    * \brief The plInfo result for all plugin, using class as key.
    * Contains the plugin index in 'INDEX' and the path in 'PATH'
    */
-  var $info             = [];
+  public $info             = [];
 
   /*!
    * \brief Foreign references on DNs
    */
-  var $dnForeignRefs = [];
+  public $dnForeignRefs = [];
 
   /*!
    * \brief Using the plugin index as a key, the class of the plugin.
    */
-  var $dirlist          = [];
+  public $dirlist          = [];
 
   /*!
    * \brief List plugin indexes of all plugin that the user have acl for

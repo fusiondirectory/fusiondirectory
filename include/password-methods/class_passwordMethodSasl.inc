@@ -31,9 +31,9 @@
 class passwordMethodSasl extends passwordMethod
 {
   // uid, or exop specified field value
-  var $uid    = '';
-  var $realm  = '';
-  var $exop   = '';
+  public $uid    = '';
+  public $realm  = '';
+  public $exop   = '';
 
   /*!
    * \brief passwordMethodSasl Constructor

@@ -30,8 +30,8 @@
  */
 abstract class passwordMethod
 {
-  var $display  = FALSE;
-  var $hash     = '';
+  public $display  = FALSE;
+  public $hash     = '';
 
   protected $lockable = TRUE;
 

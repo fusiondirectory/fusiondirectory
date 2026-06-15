@@ -29,7 +29,7 @@
  */
 class CopyPasteHandler implements FusionDirectoryDialog
 {
-  var $current = FALSE;
+  public $current = FALSE;
 
   /*!
    * \brief This array contains all dns of the currently copied objects

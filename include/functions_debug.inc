@@ -44,22 +44,22 @@ class printAClass
 {
 
   // this can be changed to FALSE if you don't like the fancy string formatting
-  var $look_for_leading_tabs = TRUE;
+  public $look_for_leading_tabs = TRUE;
 
-  var $output;
-  var $iterations;
-  var $key_bg_color   = '1E32C8';
-  var $value_bg_color = 'DDDDEE';
-  var $fontsize       = '8pt';
-  var $keyalign       = 'center';
-  var $fontfamily     = 'Verdana';
-  var $export_flag;
-  var $show_object_vars;
-  var $export_dumper_path = 'http://tools.www.mdc.xmc.de/print_a_dumper/print_a_dumper.php';
+  public $output;
+  public $iterations;
+  public $key_bg_color   = '1E32C8';
+  public $value_bg_color = 'DDDDEE';
+  public $fontsize       = '8pt';
+  public $keyalign       = 'center';
+  public $fontfamily     = 'Verdana';
+  public $export_flag;
+  public $show_object_vars;
+  public $export_dumper_path = 'http://tools.www.mdc.xmc.de/print_a_dumper/print_a_dumper.php';
   /* i'm still working on the dumper! don't use it now
   * put the next line into the print_a_dumper.php file (optional)
   * print htmlspecialchars( stripslashes ( $_POST['array'] ) ); */
-  var $export_hash;
+  public $export_hash;
 
   /*!
    * \brief printAClass constructor
