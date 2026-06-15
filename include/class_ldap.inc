@@ -160,11 +160,7 @@ class LDAP
    *
    * \param string $dn The DN
    */
-  static function prepare4filter ($dn)
-  {
-    trigger_error('deprecated, use ldap_escape_f instead');
-    return ldap_escape_f($dn);
-  }
+
 
   /*!
    *  \brief Error text that must be returned for invalid user or password
@@ -436,12 +432,7 @@ class LDAP
    *
    * \param array $attrs
    */
-  function ls ($srp, $filter = "(objectclass=*)", $basedn = "", $attrs = ["*"])
-  {
-    trigger_error('deprecated');
-    $this->cd($basedn);
-    return $this->search($srp, $filter, $attrs, 'one');
-  }
+
 
   /*
    * \brief Concatenate

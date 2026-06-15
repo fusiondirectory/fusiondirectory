@@ -1121,18 +1121,6 @@ function array_cmp_recursive ($src, $dst): int
 }
 
 /*!
- * \brief Escape all LDAP filter relevant characters
- *
- * \param string $input string where we should add \ before special caracters
- *
- */
-function normalizeLdap ($input)
-{
-  trigger_error('deprecated, use ldap_escape_f');
-  return addcslashes($input, '*()\\/');
-}
-
-/*!
  * \brief Check if LDAP schema matches the requirements
  *
  * \param string $cfg A config object
