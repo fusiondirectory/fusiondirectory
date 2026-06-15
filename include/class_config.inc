@@ -31,40 +31,40 @@
 class config
 {
   /* XML parser */
-  var $parser;
-  var $config_found     = FALSE;
-  var $tags             = [];
-  var $level            = 0;
-  var $currentLocation  = '';
+  public $parser;
+  public $config_found     = FALSE;
+  public $tags             = [];
+  public $level            = 0;
+  public $currentLocation  = '';
 
   /*!
    * \brief Store configuration for current location
    */
-  var $current = [];
+  public $current = [];
 
   /* Link to LDAP-server */
   protected $ldapLink = NULL;
-  var $referrals      = [];
+  public $referrals      = [];
 
   /*
    * \brief Configuration data
    *
    * - $data['SERVERS'] contains server informations.
    */
-  var $data = [
+  public $data = [
     'LOCATIONS' => [],
     'SERVERS'   => [],
     'MAIN'      => [],
   ];
-  var $basedir        = '';
+  public $basedir        = '';
 
   /* Keep a copy of the current department list */
   protected $departmentList;
   protected $departmentTree;
   protected $departmentInfo;
 
-  var $filename         = '';
-  var $last_modified    = 0;
+  public $filename         = '';
+  public $last_modified    = 0;
 
   /*!
    * \brief Class constructor of the config class

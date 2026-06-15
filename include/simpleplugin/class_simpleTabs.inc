@@ -29,28 +29,28 @@
  */
 class simpleTabs implements FusionDirectoryDialog
 {
-  var $dn;
-  var $acl;
-  var $is_template;
+  public $dn;
+  public $acl;
+  public $is_template;
 
   public $objectType      = FALSE;
   protected $specialTabs  = TRUE;
   protected $plNotify     = [];
 
-  var $last       = "";
-  var $current    = "";
-  var $disabled   = "";
-  var $by_name    = [];
+  public $last       = "";
+  public $current    = "";
+  public $disabled   = "";
+  public $by_name    = [];
   /**
    * @var array<string,SimpleTab>
    */
-  var $by_object  = [];
-  var $acl_category;
+  public $by_object  = [];
+  public $acl_category;
 
   /* A parent object if available, e.g. a management class. */
-  var $parent = NULL;
+  public $parent = NULL;
 
-  var $baseclass = "";
+  public $baseclass = "";
 
   public $ignoreAcls = FALSE;
 

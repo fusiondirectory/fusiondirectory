@@ -39,16 +39,16 @@ define('POSIX_DISALLOW_PASSWORD_CHANGE',  8);
 
 class userinfo
 {
-  var $dn;
-  var $cn;
-  var $uid;
-  var $sn           = '';
-  var $givenName    = '';
-  var $gidNumber    = -1;
-  var $language     = "";
-  var $groups       = [];
-  var $roles        = [];
-  var $mail         = '';
+  public $dn;
+  public $cn;
+  public $uid;
+  public $sn           = '';
+  public $givenName    = '';
+  public $gidNumber    = -1;
+  public $language     = "";
+  public $groups       = [];
+  public $roles        = [];
+  public $mail         = '';
 
   /*! \brief LDAP attributes of this user at login */
   protected $cachedAttrs  = [];
