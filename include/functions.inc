@@ -45,39 +45,49 @@ function fusiondirectory_autoload ($class_name)
 {
   global $class_mapping, $BASE_DIR, $config;
 
-  if ($class_mapping === NULL) {
-    if (isset($config) && is_object($config) &&
-        $config->get_cfg_value('displayerrors') == 'TRUE') {
-      list($trace, ) = html_trace();
-      echo $trace;
-      echo "<br/>\n";
-    }
-    echo sprintf(_("Fatal error: no class locations defined - please run '%s' to fix this"), "<b>fusiondirectory-configuration-manager --update-cache</b>");
-    exit;
-  }
-
   /* Do not try to autoload smarty classes */
   if (strpos($class_name, 'Smarty_') === 0) {
     return;
   }
 
-  if (strpos($class_name, 'FusionDirectory\\') === 0) {
-    $class_name = preg_replace('/^.+\\\\([^\\\\]+)$/', '\\1', "$class_name");
+  if ($class_mapping === NULL) {
+    @trigger_error(
+      sprintf(_('No class locations defined - please run %s to fix this'), 'fusiondirectory-configuration-manager --update-cache'),
+      E_USER_ERROR
+    );
   }
 
-  if (isset($class_mapping["$class_name"])) {
-    require_once($BASE_DIR.'/'.$class_mapping["$class_name"]);
-  } else {
-    logging::debug(DEBUG_TRACE, __LINE__, __FUNCTION__, __FILE__, $class_name, 'Could not load');
-    if (isset($config) && is_object($config) &&
-        $config->get_cfg_value('displayerrors') == 'TRUE') {
-      list($trace, ) = html_trace();
-      echo $trace;
-      echo "<br/>\n";
-    }
-    echo sprintf(_("Fatal error: cannot instantiate class '%s' - try running '%s' to fix this"), $class_name, "<b>fusiondirectory-configuration-manager --update-cache</b>");
-    exit;
+  /* Strip namespace prefix for legacy class_mapping lookup */
+  $legacy_name = $class_name;
+  if (strpos($class_name, 'FusionDirectory\\') === 0) {
+    $legacy_name = preg_replace('/^.+\\\\([^\\\\]+)$/', '\\1', $class_name);
   }
+
+  /* Primary: lookup in class_mapping */
+  if (isset($class_mapping[$legacy_name])) {
+    require_once($BASE_DIR.'/'.$class_mapping[$legacy_name]);
+    return;
+  }
+
+  /* Fallback: PSR-4 convention for namespaced classes */
+  if (strpos($class_name, 'FusionDirectory\\') === 0) {
+    $relative = str_replace('\\', '/', substr($class_name, strlen('FusionDirectory\\')));
+    $candidates = [
+      $BASE_DIR.'/include/'.$relative.'.php',
+    ];
+    foreach ($candidates as $file) {
+      if (is_file($file)) {
+        require_once($file);
+        return;
+      }
+    }
+  }
+
+  /* Class not found — log and let other autoloaders try */
+  @trigger_error(
+    sprintf(_('Cannot load class %s - try running %s to fix this'), $class_name, 'fusiondirectory-configuration-manager --update-cache'),
+    E_USER_WARNING
+  );
 }
 spl_autoload_register('fusiondirectory_autoload');
 
