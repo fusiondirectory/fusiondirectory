@@ -967,7 +967,7 @@ class config
           } else {
             /* This is the main tab */
             if (isset($this->data['OBJECTS'][strtoupper($key)])) {
-              die("duplicated object type ".strtoupper($key)." in ".$this->data['OBJECTS'][strtoupper($key)]['mainTab']." and $class");
+              throw new \LogicException("Duplicated object type " . strtoupper($key) . " in " . $this->data['OBJECTS'][strtoupper($key)]['mainTab'] . " and $class");
             }
             $tabclass = strtoupper($key)."TABS";
             $value['tabGroup']        = $tabclass;

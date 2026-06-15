@@ -67,7 +67,7 @@ class ldapFilter
         }
         return !$stopValue;
       default:
-        die('Unknown operator');
+        throw new \InvalidArgumentException('Unknown operator: ' . $this->operator);
     }
   }
 
@@ -187,7 +187,7 @@ class ldapFilterLeaf extends ldapFilter
         case '=':
           return (isset($array['dn']) && preg_match($this->pattern, $array['dn']));
         default:
-          die('Unsupported dn operator: '.$this->operator);
+          throw new \InvalidArgumentException('Unsupported dn operator: ' . $this->operator);
       }
     }
     if (isset($array[$this->subparts[0]])) {
@@ -215,7 +215,7 @@ class ldapFilterLeaf extends ldapFilter
             }
             break;
           default:
-            die('Unknown operator: '.$this->operator);
+            throw new \InvalidArgumentException('Unknown operator: ' . $this->operator);
         }
       }
     }
