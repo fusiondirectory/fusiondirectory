@@ -32,7 +32,7 @@ class tasksDashboard extends management
     ['Column', ['attributes' => 'fdTasksGranularMail', 'label' => 'Email']],
     ['LdapGeneralizedTimeColumn', ['attributes' => 'fdTasksGranularCreationDate', 'label' => 'Created']],
     ['LdapGeneralizedTimeColumn', ['attributes' => 'fdTasksGranularLastExec', 'label' => 'Last Execution']],
-    ['LdapGeneralizedTimeColumn', ['attributes' => 'fdTasksGranularNextExec', 'label' => 'Next Planned Execution']],
+    ['LdapGeneralizedTimeColumn', ['attributes' => 'fdTasksGranularNextExec', 'label' => 'Next Execution']],
     ['TasksColumn', ['attributes' => 'fdTasksGranularStatus', 'label' => 'Status']],
     ['ActionsColumn', ['label' => 'Actions']],
   ];
@@ -95,9 +95,39 @@ class tasksDashboard extends management
       }
       unset($this->actions[$action]);
     }
+
+    $this->registerAction(
+    new Action(
+        'tasksRenew',
+        _('Renew the selected task'),
+        'geticon.php?context=actions&icon=view-refresh&size=16',
+        '+',
+        'tasksRenew'
+        )
+    );
+
+    $this->actions['tasksRenew']->setSeparator(TRUE);
+    $this->actions['tasksRenew']->setEnableFunction([$this, 'setTasksActionStatus']);
   }
 
+  // This method is triggered by the user action click on tasksRenew
+  function tasksRenew (array $action)
+  {
+    foreach ((array)$action['targets'] as $dn) {
+      $tabObject = objects::open($dn, 'tasksGranular');
+      $tabObject->by_object['tasksGranular']->attributesAccess['fdTasksGranularStatus']->setValue(1);
+      $errors = $tabObject->save();
+
+      if (!empty($errors)) {
+        $show_error = new SimplePluginError($this, htmlescape(sprintf(_('Error updating: "%s" !.'), $dn)));
+        $show_error->display();
+      }
+    }
+  }
+
+  // This method is triggered during initiation of the dashboard, allowing proper icons status
+  function setTasksActionStatus () : bool
+  {
+    return TRUE;
+  }
 }
-
-
-
