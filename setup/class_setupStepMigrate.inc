@@ -995,15 +995,6 @@ class setupStepMigrate extends setupStep
 
     foreach ($this->defaultRoles as $role) {
       $dn = 'cn='.$role['cn'].','.get_ou('aclRoleRDN').$config->current['BASE'];
-      $ldap->cat($dn);
-      if ($ldap->count() == 0) {
-        $ldap->cd($config->current['BASE']);
-        try {
-          $ldap->create_missing_trees(get_ou('aclRoleRDN').$config->current['BASE']);
-        } catch (FusionDirectoryError $error) {
-          $error->display();
-        }
-      }
       $ldap->cd($dn);
       $ldap->add($role);
       if (!$ldap->success()) {

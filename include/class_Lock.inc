@@ -83,18 +83,6 @@ class Lock
     $ldap->cd(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
     $ldap->search('(&(objectClass=fdLockEntry)(fdUserDn='.ldap_escape_f($user).')(fdObjectDn='.base64_encode($object).'))',
         ['fdUserDn']);
-    if ($ldap->get_errno() == 32) {
-      /* No such object, means the locking branch is missing, create it */
-      $ldap->cd($config->current['BASE']);
-      try {
-        $ldap->create_missing_trees(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
-      } catch (FusionDirectoryError $error) {
-        $error->display();
-      }
-      $ldap->cd(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
-      $ldap->search('(&(objectClass=fdLockEntry)(fdUserDn='.ldap_escape_f($user).')(fdObjectDn='.base64_encode($object).'))',
-        ['fdUserDn']);
-    }
     if (!$ldap->success()) {
       throw new FusionDirectoryError(
         sprintf(
@@ -106,7 +94,8 @@ class Lock
     }
 
     /* Add lock if none present */
-    if ($ldap->count() == 0) {
+    if ($ldap->get_errno() == 32) {
+      /* No such object, means the object is missing, create it */
       $attrs  = [];
       $name   = md5($object);
       $dn     = 'cn='.$name.','.get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'];
