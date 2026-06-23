@@ -173,6 +173,8 @@ class passwordRecovery extends standAlonePage
     if ($ldap->get_errno() == 32) {
       /* No such object, means the object is missing, create it */
       $add = TRUE;
+    } else {
+      $add = FALSE;
     }
 
     /* We store the token and its validity due date */
