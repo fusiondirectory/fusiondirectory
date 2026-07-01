@@ -62,9 +62,9 @@ class tasksConfig extends simplePlugin
       'Mail' => [
         'name'  => _('Mail Anti-Spam Configuration'),
         'attrs' => [
-          new IntAttribute(
-           _('Last Sent Mail'), '_(Last timestamp in Unix format when last email was sent succesfully)',
-           'fdTasksConfLastExecTime', FALSE, '', FALSE, ''
+          new GeneralizedTimeDateAttribute(
+           _('Last Sent Mail'), '_(Last GeneralizedTimeDate when last email was sent succesfully)',
+           'fdTasksConfLastExecTime', FALSE, ''
            ),
           new IntAttribute(
             _('Maximum number of e-mails processed per time'), _('Select max emails to be proccessed'),
