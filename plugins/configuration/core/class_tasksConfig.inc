@@ -68,11 +68,11 @@ class tasksConfig extends simplePlugin
            ),
           new IntAttribute(
             _('Maximum number of e-mails processed per time'), _('Select max emails to be proccessed'),
-            'fdTasksConfMaxEmails', FALSE, '', FALSE, ''
+            'fdTasksConfMaxEmails', TRUE, '50', FALSE, ''
           ),
           new IntAttribute(
             _('Time interval between e-mails processing (Minutes) '), _('Select min interval time between emails processing'),
-            'fdTasksConfIntervalEmails', FALSE, '', FALSE, ''
+            'fdTasksConfIntervalEmails', TRUE, '2', FALSE, ''
           ),
         ]
       ],
