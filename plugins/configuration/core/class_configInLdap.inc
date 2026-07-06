@@ -127,16 +127,6 @@ class configInLdap extends simplePlugin
             _('Force default hash'), _('Force the use of the default password hash'),
             'fdForcePasswordDefaultHash'
           ),
-          new IntAttribute(
-            _('Password minimum length'), _('Minimum length of user passwords'),
-            'fdPasswordMinLength', FALSE,
-            0 /*min*/, FALSE /*no max*/
-          ),
-          new IntAttribute(
-            _('Password minimum differs'), _('Minimum number of different characters from last password'),
-            'fdPasswordMinDiffer', FALSE,
-            0 /*min*/, FALSE /*no max*/
-          ),
           new BooleanAttribute(
             _('Use account expiration'),
             _('Enables shadow attribute tests during the login to FusionDirectory and forces password renewal or account locking'),
