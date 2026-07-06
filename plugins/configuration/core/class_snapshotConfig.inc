@@ -61,11 +61,11 @@ class snapshotsConfig extends simplePlugin
         'attrs' => [
           new IntAttribute(
             _('Minimum number of snapshots to be kept'), _('Set the minimum number of snapshots to be kept'),
-            'fdSnapshotMinRetention', FALSE, '', FALSE, ''
+            'fdSnapshotMinRetention', TRUE, '5', '500', '5'
           ),
           new IntAttribute(
             _('Retention time in days'), _('Set the retention time in days for a snapshots to be kept'),
-            'fdSnapshotRetentionDays', FALSE, '', FALSE, ''
+           'fdSnapshotRetentionDays', TRUE, '3', '30', '3'
           ),
         ]
       ],
