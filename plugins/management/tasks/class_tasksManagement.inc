@@ -41,6 +41,7 @@ class tasksManagement extends management
       'plShortName'   => _('Tasks Creation'),
       'plDescription' => _('Manage the creation of tasks'),
       'plIcon'        => 'geticon.php?context=applications&icon=tasks&size=48',
+      'plSmallIcon'   => 'geticon.php?context=applications&icon=tasks&size=16',
       'plSection'     => ['workflow' => ['name' => _('Workflow'), 'priority' => 2]],
       'plPriority'    => 1,
       'plManages'     => ['tasks'],
