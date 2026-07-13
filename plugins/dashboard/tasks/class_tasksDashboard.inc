@@ -75,7 +75,7 @@ class tasksDashboard extends management
       'AutomaticGroups'       => [
         'name'      => 'Automatic Groups',
         'filter'    => '(fdTasksGranularType=automaticGroups)',
-        'icon'      => 'geticon.php?context=types&icon=resource-group&size=16',
+        'icon'      => 'geticon.php?context=applications&icon=automatic-groups&size=16',
       ],
       'AutomaticGroupsDynamic'     => [
         'name'      => 'Automatic DynamicGroups',
@@ -85,7 +85,7 @@ class tasksDashboard extends management
       'Exporter'    => [
         'name'      => 'Exporter',
         'filter'    => '(fdTasksGranularType=extract)',
-        'icon'      => 'geticon.php?context=applications&icon=csv&size=16',
+        'icon'      => 'geticon.php?context=applications&icon=extractor-task&size=16',
       ],
       'LifeCycle'  => [
         'name'      => 'LifeCycle',
@@ -105,7 +105,7 @@ class tasksDashboard extends management
       'Reminder'  => [
         'name'      => 'Reminder',
         'filter'    => '(fdTasksGranularType=reminder)',
-        'icon'      => 'geticon.php?context=applications&icon=user-info&size=16',
+        'icon'      => 'geticon.php?context=applications&icon=user-reminder&size=16',
       ],
     ];
 
