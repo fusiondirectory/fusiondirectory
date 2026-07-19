@@ -46,8 +46,8 @@ class mailTask extends simplePlugin
       ],
       'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo()),
       'plForeignKeys'  => [
-        'fdTasksMailUsers' => [
-          ['user', 'dn', 'fdTasksMailUsers=%oldvalue%', '*']
+        'fdTasksMembers' => [
+          ['user', 'dn', 'fdTasksMembers=%oldvalue%', '*']
         ]
       ],
     ];
@@ -64,7 +64,6 @@ class mailTask extends simplePlugin
             _('Mail Template'), _('Mail Template Object Selection'),
             'fdTasksMailObject', FALSE
           ),
-          new HiddenArrayAttribute('fdTasksEmailsFromDN', FALSE, ''),
         ]
       ],
       'From Component'     => [
@@ -83,7 +82,7 @@ class mailTask extends simplePlugin
         'attrs' => [
           new UsersGroupsRolesAttribute(
             _('Members'), _('Users or groups to assign to this task.'),
-            'fdTasksMailUsers', TRUE
+            'fdTasksMembers', TRUE
           ),
         ],
       ],
@@ -92,7 +91,7 @@ class mailTask extends simplePlugin
         'attrs' => [
           new SelectAttribute(
             _('Mail Type - If not found, priority will apply'), _('Mail Type Object Selection'),
-            'fdTasksMailType', FALSE
+            'fdTasksEmailAttribute', FALSE
           ),
         ],
       ]
@@ -124,7 +123,7 @@ class mailTask extends simplePlugin
       'supannMailPrive'           => 'supannMailPrive'
     ];
 
-    $this->attributesAccess['fdTasksMailType']->setChoices(array_keys($mailAttrTypes), array_values($mailAttrTypes));
+    $this->attributesAccess['fdTasksEmailAttribute']->setChoices(array_keys($mailAttrTypes), array_values($mailAttrTypes));
 
   }
 
@@ -135,83 +134,7 @@ class mailTask extends simplePlugin
   public function update (): bool
   {
     parent::update();
-
-    // get the value of type mail desired and if null set default
-    $mailAttr = $this->attributesAccess['fdTasksMailType']->getValue();
-    if (empty($mailAttr)) {
-      $mailAttr = 'mail';
-    }
-
-    // create a method which return the objectype and attribute names required
-    $mailObject = $this->getMailObject($mailAttr);
-    // Get the members or groups selected
-    $attributeValue = $this->attributesAccess['fdTasksMailUsers']->getValue();
-
-    // Extract members from potential groups and dyn-groups.
-    $listOfDN = tasks::extractMembersFromGroups($attributeValue);
-    // send the objectype and attrs name to the below method
-    $this->attributesAccess['fdTasksEmailsFromDN']->setValue(
-      array_values(static::getEmailsFromSelectedDN($mailObject, $mailAttr, $listOfDN))
-    );
-
     return TRUE;
-  }
-
-  /*
-   * Return the objectype searched for by setEmailFromSelectedDN
-   */
-  public function getMailObject (string $mailAttr): string
-  {
-    switch ($mailAttr) {
-      case 'mail' :
-      case 'gosaMailAlternateAddress' :
-      case 'gosaMailForwardingAddress':
-        return 'gosaMailAccount';
-
-      case 'supannAutreMail' :
-      case 'supannMailPerso' :
-      case 'supannMailPrive' :
-        return 'supannPerson';
-
-      default :
-        return 'gosaMailAccount';
-    }
-  }
-
-  /*
-  * Retrieve registered emails for each DN passed.
-  */
-  public static function getEmailsFromSelectedDN ($mailObject, $mailAttr, $listOfDN): array
-  {
-    global $config;
-    $ldap     = $config->get_ldap_link();
-    $mailList = [];
-
-    foreach ($listOfDN as $dn) {
-      // Position ldap to the dn required (limit search).
-      $ldap->cd($dn);
-
-      // filter and attributes should be equals to the arguments passed to this method
-      $filter = "(objectClass=$mailObject)";
-      $attrs  = [$mailAttr];
-
-      $ldap->search($filter, $attrs);
-      $info = $ldap->fetch();
-
-      if (!empty($info[$mailAttr][0])) {
-
-        // Remove anything between curly braces (e.g., {PERSO}, {PRO} as well as supann labels)
-        $cleanMail = preg_replace('/.+?(?=supann)/', '', $info[$mailAttr][0]);
-        $finalMail = preg_replace('/\{.*?\}/', '', $cleanMail);
-
-        $mailList[] = $finalMail;
-
-        // Render the mailing list unique, somewhat mandatory when updating the members lists with dynGroups and members.
-        $mailList = array_unique($mailList);
-        // A possible enhancement is to recall itself with another mailObject / attr
-      }
-    }
-    return $mailList;
   }
 
   function save (): array
@@ -231,10 +154,12 @@ class mailTask extends simplePlugin
    */
   public function generateSubTasks ()
   {
-    $listOfDN      = $this->attributesAccess['fdTasksEmailsFromDN']->getValue();
+    // Extract DNs from fdTasksMembers
+    $attributeValue = $this->attributesAccess['fdTasksMembers']->getValue();
+    $listOfDN = tasks::extractMembersFromGroups($attributeValue);
     $attributeType = 'fdTasksGranularMail';
 
-    // Ref is supposed to be the mail object CN in this class
+    // Mailtemplate object
     $attrs['ref']  = $this->attributesAccess['fdTasksMailObject']->getValue();
     $attrs['from'] = $this->attributesAccess['fdTasksEmailSender']->getValue();
     $attrs['bcc']  = $this->attributesAccess['fdTasksEmailBCC']->getValue();

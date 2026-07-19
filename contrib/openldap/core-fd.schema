@@ -151,8 +151,8 @@ attributetype ( 1.3.6.1.4.1.38414.62.1.12 NAME 'fdTasksScheduleDate'
   EQUALITY caseExactIA5Match
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 )
 
-attributetype ( 1.3.6.1.4.1.38414.62.1.13 NAME 'fdTasksMailUsers'
-  DESC 'Fusion Directory - Tasks Mail Users Recipient'
+attributetype ( 1.3.6.1.4.1.38414.62.1.13 NAME 'fdTasksMembers'
+  DESC 'Tasks Members DN'
   EQUALITY caseExactMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
 
@@ -186,11 +186,6 @@ attributetype ( 1.3.6.1.4.1.38414.62.1.16 NAME 'fdTasksCreationDate'
   EQUALITY caseExactMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
 
-attributetype ( 1.3.6.1.4.1.38414.62.1.17 NAME 'fdTasksEmailsFromDN'
-  DESC 'Fusion Directory - Emails derived from DN'
-  EQUALITY caseExactMatch
-  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
-
 attributetype ( 1.3.6.1.4.1.38414.62.1.18 NAME 'fdTasksEmailSender'
   DESC 'Fusion Directory - Emails derived from DN'
   EQUALITY caseExactMatch
@@ -201,11 +196,16 @@ attributetype ( 1.3.6.1.4.1.38414.62.1.55 NAME 'fdTasksEmailBCC'
   EQUALITY caseExactMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
 
-attributetype ( 1.3.6.1.4.1.38414.62.1.19 NAME 'fdTasksMailType'
-  DESC 'Fusion Directory - Type of Mail attribute required'
+attributetype ( 1.3.6.1.4.1.38414.62.1.19 NAME 'fdTasksEmailAttribute'
+  DESC 'Type of Mail attribute required'
   EQUALITY caseExactMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
   SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.38414.62.1.59 NAME 'fdTasksExecutedDNs'
+  DESC 'DNs of executed tasks on a object'
+  EQUALITY distinguishedNameMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.12 )
 
 ##### Tasks Granular #####
 
@@ -232,7 +232,7 @@ attributetype ( 1.3.6.1.4.1.38414.62.1.23 NAME 'fdTasksGranularType'
   SINGLE-VALUE )
 
 attributetype ( 1.3.6.1.4.1.38414.62.1.24 NAME 'fdTasksGranularMail'
-  DESC 'Fusion Directory - Emails recipients if object mail'
+  DESC 'Recipient DN if mail task related'
   EQUALITY caseExactMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
 
@@ -498,12 +498,18 @@ objectclass (1.3.6.1.4.1.38414.62.2.7 NAME 'fdTasksMail'
   DESC 'FusionDirectory - FusionDirectory Orchestrator email Tasks'
   SUP top AUXILIARY
   MUST ( fdTasksMailObject $ fdTasksEmailSender )
-  MAY ( fdTasksMailUsers $ fdTasksEmailsFromDN $ fdTasksMailType $ fdTasksEmailBCC ) )
+  MAY ( fdTasksMembers $ fdTasksEmailAttribute $ fdTasksEmailBCC ) )
 
 objectclass (1.3.6.1.4.1.38414.62.2.8 NAME 'fdTasksGranular'
   DESC 'FusionDirectory - FusionDirectory Orchestrator granular Tasks'
   MUST ( fdTasksGranularMaster $ cn $ fdTasksGranularType $ fdTasksGranularSchedule $ fdTasksGranularStatus $ fdTasksGranularCreationDate )
   MAY (fdTasksGranularMailBCC $ fdTasksGranularDN $ fdTasksGranularRef $ fdTasksGranularMail $ fdTasksGranularMailFrom $ fdTasksGranularHelper $ fdTasksGranularLastExec $ fdTasksGranularNextExec))
+
+objectclass (1.3.6.1.4.1.38414.62.2.13 NAME 'fdTasksInfos'
+  DESC 'Objectclass linking all the informations related to tasks'
+  SUP top AUXILIARY
+  MUST ( )
+  MAY ( fdTasksExecutedDNs ))
 
 ### token objectclass ###
 
