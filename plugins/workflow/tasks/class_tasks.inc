@@ -173,56 +173,20 @@ class tasks extends simplePlugin
     preg_match('/cn=(.*)/', $rmDn, $matches);
 
     if (!empty($listOfDN)) {
-      // Condition allowing the creation of subtasks for existing members
-      if ($newMemberOnly === TRUE) {
-        $ldap->cd($config->current['BASE']);
-        $filter = '(&(objectClass=fdTasksGranular)(fdTasksGranularMaster=' . $this->dn . '))';
-        $ldap->search($filter, ['fdTasksGranularStatus', $attributeType]);
-
-        // The while loop is important to get all info from ldap into the array.
-        while ($info = $ldap->fetch()) {
-          $subTasks[] = $info;
-        }
-
-        if (!empty($subTasks)) {
-          $membersDN = [];
-          $completedMembers = [];
-
-          // Recuperate members DN from the ldap search.
-          foreach ($subTasks as $subTask) {
-            $status = isset($subTask['fdTasksGranularStatus'][0]) ? $subTask['fdTasksGranularStatus'][0] : '1';
-
-            // For lifeCycle we check DN and for mailObject we check mail
-            switch ($attributeType) {
-              case 'fdTasksGranularDN':
-                // If status is 3 (nothing to process), allow creating a new subtask
-                // For all other statuses, add to membersDN to prevent duplicate subtask creation
-                if ($status !== '3') {
-                  $membersDN[] = $subTask['fdTasksGranularDN'][0];
-                } else {
-                  $completedMembers[] = $subTask['fdTasksGranularDN'][0];
-                }
-                break;
-              case 'fdTasksGranularMail':
-                // If status is 3 (nothing to process), allow creating a new subtask
-                // For all other statuses, add to membersDN to prevent duplicate subtask creation
-                if ($status !== '3') {
-                  $membersDN[] = $subTask['fdTasksGranularMail'][0];
-                } else {
-                  $completedMembers[] = $subTask['fdTasksGranularMail'][0];
-                }
-                break;
-            }
+      $alreadyExecuted = [];
+      foreach ($listOfDN as $dn) {
+        $ldap->cd($dn);
+        $ldap->search('(objectClass=fdTasksInfos)', ['fdTasksExecutedDNs']);
+        $userInfo = $ldap->fetch();
+        if (!empty($userInfo['fdTasksExecutedDNs'])) {
+          unset($userInfo['fdTasksExecutedDNs']['count']);
+          if (in_array($this->dn, $userInfo['fdTasksExecutedDNs'])) {
+            $alreadyExecuted[] = $dn;
           }
-
-          // Verify the DN differences and only keep those without tasks or with "nothing to process" (status 3) tasks
-          if (!empty($membersDN)) {
-            $listOfDN = array_diff($listOfDN, $membersDN);
-          }
-
-          // Simple re-index the array.
-          $listOfDN = array_values($listOfDN);
         }
+      }
+      if (!empty($alreadyExecuted)) {
+        $listOfDN = array_values(array_diff($listOfDN, $alreadyExecuted));
       }
 
       foreach ($listOfDN as $dn) {
@@ -239,9 +203,9 @@ class tasks extends simplePlugin
         // Define the type of the granular task based on the attribute type passed to this method.
         $prepData = NULL;
         switch ($attributeType) {
-          case 'fdTasksGranularMail':
+          case 'fdSubtaskMemberDN':
             $prepData['tasksGranular'] = [
-              "fdTasksGranularMail"     => $dn,
+              "fdSubtaskMemberDN"     => $dn,
               "fdTasksGranularType"     => 'mail',
               "fdTasksGranularRef"      => $attrs['ref'],
               "fdTasksGranularMailFrom" => $attrs['from'],
