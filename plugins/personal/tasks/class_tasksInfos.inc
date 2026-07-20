@@ -28,9 +28,8 @@ class TasksInfos extends simplePlugin
     return [
       'plShortName'    => _('Tasks Infos'),
       'plDescription'  => _('Tasks informations'),
-// ICON TODO
-      'plIcon'         => 'geticon.php?context=applications&icon=TODO&size=48',
-      'plSmallIcon'    => 'geticon.php?context=applications&icon=TODO&size=16',
+      'plIcon'         => 'geticon.php?context=applications&icon=task&size=48',
+      'plSmallIcon'    => 'geticon.php?context=applications&icon=task&size=16',
       'plObjectClass'  => ['fdTasksInfos'],
       'plObjectType'   => ['user'],
       'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo()),
