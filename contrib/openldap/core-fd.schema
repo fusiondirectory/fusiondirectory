@@ -231,7 +231,7 @@ attributetype ( 1.3.6.1.4.1.38414.62.1.23 NAME 'fdTasksGranularType'
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
   SINGLE-VALUE )
 
-attributetype ( 1.3.6.1.4.1.38414.62.1.24 NAME 'fdTasksGranularMail'
+attributetype ( 1.3.6.1.4.1.38414.62.1.24 NAME 'fdSubtaskMemberDN'
   DESC 'FusionDirectory - Recipient DN if mail task related'
   EQUALITY caseExactMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
@@ -503,7 +503,7 @@ objectclass (1.3.6.1.4.1.38414.62.2.7 NAME 'fdTasksMail'
 objectclass (1.3.6.1.4.1.38414.62.2.8 NAME 'fdTasksGranular'
   DESC 'FusionDirectory - FusionDirectory Orchestrator granular Tasks'
   MUST ( fdTasksGranularMaster $ cn $ fdTasksGranularType $ fdTasksGranularSchedule $ fdTasksGranularStatus $ fdTasksGranularCreationDate )
-  MAY (fdTasksGranularMailBCC $ fdTasksGranularDN $ fdTasksGranularRef $ fdTasksGranularMail $ fdTasksGranularMailFrom $ fdTasksGranularHelper $ fdTasksGranularLastExec $ fdTasksGranularNextExec))
+  MAY (fdTasksGranularMailBCC $ fdTasksGranularDN $ fdTasksGranularRef $ fdSubtaskMemberDN $ fdTasksGranularMailFrom $ fdTasksGranularHelper $ fdTasksGranularLastExec $ fdTasksGranularNextExec))
 
 objectclass (1.3.6.1.4.1.38414.62.2.13 NAME 'fdTasksInfos'
   DESC 'FusionDirectory - Contains all the informations related to tasks'

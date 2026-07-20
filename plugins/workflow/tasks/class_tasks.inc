@@ -203,9 +203,9 @@ class tasks extends simplePlugin
         // Define the type of the granular task based on the attribute type passed to this method.
         $prepData = NULL;
         switch ($attributeType) {
-          case 'fdTasksGranularMail':
+          case 'fdSubtaskMemberDN':
             $prepData['tasksGranular'] = [
-              "fdTasksGranularMail"     => $dn,
+              "fdSubtaskMemberDN"     => $dn,
               "fdTasksGranularType"     => 'mail',
               "fdTasksGranularRef"      => $attrs['ref'],
               "fdTasksGranularMailFrom" => $attrs['from'],
