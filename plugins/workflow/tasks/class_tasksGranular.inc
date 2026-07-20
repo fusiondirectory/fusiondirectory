@@ -84,9 +84,9 @@ class tasksGranular extends simplePlugin
             'fdTasksGranularDN', FALSE
           ),
           // Below attributes are for tasks of type Mail
-          new MailAttribute(
-            _('Email'),
-            _('Email address to which messages will be sent'), 'fdTasksGranularMail', FALSE),
+          new StringAttribute(
+            _('Recipient DN'),
+            _('DN of the recipient user'), 'fdSubtaskMemberDN', FALSE),
           new MailAttribute(
             _('Email'),
             _('Email address from which emails will be sent'), 'fdTasksGranularMailFrom', FALSE),

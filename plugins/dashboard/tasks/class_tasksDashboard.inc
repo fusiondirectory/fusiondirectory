@@ -30,7 +30,7 @@ class tasksDashboard extends management
     ['LinkColumn', ['attributes' => 'cn', 'label' => 'Label']],
     ['TasksColumn', ['attributes' => 'fdTasksGranularMaster', 'label' => 'Master Task']],
     ['Column', ['attributes' => 'fdTasksGranularType', 'label' => 'Types']],
-    ['Column', ['attributes' => 'fdTasksGranularMail', 'label' => 'Email']],
+    ['Column', ['attributes' => 'fdSubtaskMemberDN', 'label' => 'Email']],
     ['LdapGeneralizedTimeColumn', ['attributes' => 'fdTasksGranularCreationDate', 'label' => 'Created']],
     ['LdapGeneralizedTimeColumn', ['attributes' => 'fdTasksGranularLastExec', 'label' => 'Last Execution']],
     ['LdapGeneralizedTimeColumn', ['attributes' => 'fdTasksGranularNextExec', 'label' => 'Next Execution']],
