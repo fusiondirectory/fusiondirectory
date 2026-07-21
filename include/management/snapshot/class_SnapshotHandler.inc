@@ -58,8 +58,15 @@ class SnapshotHandler
     global $config;
     $this->enabled = $config->snapshotEnabled();
     if ($this->enabled) {
-      /* Prepare base */
-      $this->snapshotRDN = $config->get_cfg_value('snapshotBase');
+      /* Prepare base — build full DN from config value */
+      $snapshotBase = $config->get_cfg_value('snapshotBase');
+      if (strpos($snapshotBase, $config->current['BASE']) === false) {
+        /* New format: relative OU (e.g. "ou=snapshots") — append BASE */
+        $this->snapshotRDN = $snapshotBase.','.$config->current['BASE'];
+      } else {
+        /* Old format: full DN (e.g. "ou=snapshots,dc=...") — keep as-is for backward compat */
+        $this->snapshotRDN = $snapshotBase;
+      }
       $ldap = $config->get_ldap_link();
       $ldap->cd($config->current['BASE']);
       try {

@@ -52,7 +52,7 @@ class snapshotsConfig extends simplePlugin
           new StringAttribute(
             _('Snapshot base'), _('The base where snapshots should be stored inside the LDAP directory.'),
             'fdSnapshotBase', FALSE,
-            'ou=snapshots,'.$config->current['BASE']
+            'ou=snapshots'
           ),
         ]
       ],
