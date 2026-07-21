@@ -145,6 +145,8 @@ class simplePlugin implements SimpleTab
 
   private $hadSubobjects = FALSE;
 
+  protected $focusedField;
+
   /*! \brief constructor
    *
    *  \param string $dn The dn of this instance
@@ -483,6 +485,9 @@ class simplePlugin implements SimpleTab
   {
     if ($name == 'attributes') {
       return TRUE;
+    }
+    if ($name === 'focusedField') {
+      return ($this->focusedField !== NULL);
     }
     return isset($this->attributesAccess[$name]);
   }
