@@ -173,15 +173,17 @@ class tasks extends simplePlugin
     preg_match('/cn=(.*)/', $rmDn, $matches);
 
     if (!empty($listOfDN)) {
-      $alreadyExecuted = [];
-      foreach ($listOfDN as $dn) {
-        $ldap->cd($dn);
-        $ldap->search('(objectClass=fdTasksInfos)', ['fdTasksExecutedDNs']);
-        $userInfo = $ldap->fetch();
-        if (!empty($userInfo['fdTasksExecutedDNs'])) {
-          unset($userInfo['fdTasksExecutedDNs']['count']);
-          if (in_array($this->dn, $userInfo['fdTasksExecutedDNs'])) {
-            $alreadyExecuted[] = $dn;
+      if ($newMemberOnly) {
+        $alreadyExecuted = [];
+        foreach ($listOfDN as $dn) {
+          $ldap->cd($dn);
+          $ldap->search('(objectClass=fdTasksInfos)', ['fdTasksExecutedDNs']);
+          $userInfo = $ldap->fetch();
+          if (!empty($userInfo['fdTasksExecutedDNs'])) {
+            unset($userInfo['fdTasksExecutedDNs']['count']);
+            if (in_array($this->dn, $userInfo['fdTasksExecutedDNs'])) {
+              $alreadyExecuted[] = $dn;
+            }
           }
         }
       }
