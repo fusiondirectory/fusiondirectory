@@ -1967,6 +1967,12 @@ class simplePlugin implements SimpleTab
       foreach (array_keys($objects) as $dn) {
         // Build the object
         $tabobject = objects::open($dn, $objectType);
+        /* Prevent compute_dn() from falling back to LDAP base when base is unset.
+         * Extract parent DN from current DN so save() does not move the object. */
+        $baseobject = $tabobject->getBaseObject();
+        if (property_exists($baseobject, 'base') && empty($baseobject->base)) {
+          $baseobject->base = preg_replace('/^[^,]+,/', '', $dn);
+        }
         if (preg_match('/^handle_/', $mode)) {
           // For each tab concerned
           foreach ($tabRefs['refs'] as $tab => $fieldRefs) {
