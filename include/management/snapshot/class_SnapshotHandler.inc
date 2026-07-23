@@ -58,19 +58,12 @@ class SnapshotHandler
     global $config;
     $this->enabled = $config->snapshotEnabled();
     if ($this->enabled) {
-      /* Prepare base — build full DN from config value */
-      $snapshotBase = $config->get_cfg_value('snapshotBase');
-      if (strpos($snapshotBase, $config->current['BASE']) === false) {
-        /* New format: relative OU (e.g. "ou=snapshots") — append BASE */
-        $this->snapshotRDN = $snapshotBase.','.$config->current['BASE'];
-      } else {
-        /* Old format: full DN (e.g. "ou=snapshots,dc=...") — keep as-is for backward compat */
-        $this->snapshotRDN = $snapshotBase;
-      }
+      /* Prepare base — always a relative OU */
+      $this->snapshotRDN = $config->get_cfg_value('snapshotBase');
       $ldap = $config->get_ldap_link();
       $ldap->cd($config->current['BASE']);
       try {
-        $ldap->create_missing_trees($this->snapshotRDN);
+        $ldap->create_missing_trees($this->snapshotRDN.','.$config->current['BASE']);
       } catch (FusionDirectoryError $error) {
         $error->display();
       }
@@ -93,7 +86,7 @@ class SnapshotHandler
   {
     global $config;
     return preg_replace("/".preg_quote($config->current['BASE'], '/')."$/", "", $dn)
-            .$this->snapshotRDN;
+            .$this->snapshotRDN.','.$config->current['BASE'];
   }
 
   /*!
@@ -275,7 +268,7 @@ class SnapshotHandler
     } while ($ldap->count());
 
     /* Insert this new snapshot */
-    $ldap->cd($this->snapshotRDN);
+    $ldap->cd($this->snapshotRDN.','.$config->current['BASE']);
     try {
       $ldap->create_missing_trees($new_base);
     } catch (FusionDirectoryError $error) {
