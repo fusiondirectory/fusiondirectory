@@ -84,20 +84,6 @@ class tasksConfig extends simplePlugin
     global $config;
     parent::__construct($dn, $object, $parent, $mainTab);
 
-    // Check if token branch is here
-    $ldap = $config->get_ldap_link();
-    $tokenBranch = get_ou('OrchestratorTokenRDN').$config->current['BASE'];
-    $ldap->cat($tokenBranch, ['dn']);
-    if (!$ldap->count()) {
-      $ldap->cd($config->current['BASE']);
-      try {
-        $ldap->create_missing_trees($tokenBranch);
-      } catch (FusionDirectoryError $error) {
-        $error->display();
-      }
-      fusiondirectory_log('Created token branch '.$tokenBranch);
-    }
-
     // This attribute will be updated and verified by Orchestrator
     $this->attributesAccess['fdTasksConfLastExecTime']->setVisible(FALSE);
 

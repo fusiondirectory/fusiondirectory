@@ -64,19 +64,6 @@ class LoginMethod
   /*! \brief Check if locking LDAP branch is here or create it */
   static function checkForLockingBranch (): bool
   {
-    global $config;
-    $ldap = $config->get_ldap_link();
-    $ldap->cat(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE'], ['dn']);
-    $attrs = $ldap->fetch();
-    if (!is_countable($attrs)) {
-      $ldap->cd($config->current['BASE']);
-      try {
-        $ldap->create_missing_trees(get_ou('lockRDN').get_ou('fusiondirectoryRDN').$config->current['BASE']);
-      } catch (FusionDirectoryError $error) {
-        $error->display();
-      }
-    }
-
     return TRUE;
   }
 
