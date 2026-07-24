@@ -157,7 +157,7 @@ class mailTask extends simplePlugin
     // Extract DNs from fdTasksMembers
     $attributeValue = $this->attributesAccess['fdTasksMembers']->getValue();
     $listOfDN = tasks::extractMembersFromGroups($attributeValue);
-    $attributeType = 'fdTasksGranularMail';
+    $attributeType = 'fdSubtaskMemberDN';
 
     // Mailtemplate object
     $attrs['ref']  = $this->attributesAccess['fdTasksMailObject']->getValue();
