@@ -20,7 +20,7 @@
 
 class tasksManagement extends management
 {
-  protected $skipCpHandler        = TRUE;
+  protected $skipCpHandler        = FALSE;
   public static $skipSnapshots    = TRUE;
   public static $skipTemplates    = TRUE;
 
