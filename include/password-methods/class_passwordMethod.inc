@@ -327,15 +327,15 @@ abstract class passwordMethod
 
     foreach ($methods['class'] as $class) {
       $method = $class::_extract_method($password_hash);
-      if ($method != '') {
-        $test = new $class($dn);
-        $test->set_hash($method);
-        return $test;
-      } else if ($method === 'passthrough') {
+      if ($method === 'passthrough') {
         // Similar as clear but can be locked
         $method = new passwordMethodPassthrough();
         return $method;
-      }
+      } else if ($method != '') {
+        $test = new $class($dn);
+        $test->set_hash($method);
+        return $test;
+      } 
     }
 
     $method = new passwordMethodClear();
