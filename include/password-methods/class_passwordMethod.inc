@@ -335,7 +335,7 @@ abstract class passwordMethod
         $test = new $class($dn);
         $test->set_hash($method);
         return $test;
-      } 
+      }
     }
 
     $method = new passwordMethodClear();
