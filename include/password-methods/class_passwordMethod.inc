@@ -331,7 +331,7 @@ abstract class passwordMethod
         $test = new $class($dn);
         $test->set_hash($method);
         return $test;
-      } else if ($method == 'passthrough') {
+      } else if ($method === 'passthrough') {
         // Similar as clear but can be locked
         $method = new passwordMethodPassthrough();
         return $method;
