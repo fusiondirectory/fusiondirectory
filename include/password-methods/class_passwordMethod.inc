@@ -3,7 +3,7 @@
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
 
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2019  FusionDirectory
+  Copyright (C) 2011-2026  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -331,6 +331,10 @@ abstract class passwordMethod
         $test = new $class($dn);
         $test->set_hash($method);
         return $test;
+      } else if ($method == 'passthrough') {
+        // Similar as clear but can be locked
+        $method = new passwordMethodPassthrough();
+        return $method;
       }
     }
 

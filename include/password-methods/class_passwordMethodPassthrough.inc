@@ -61,4 +61,9 @@ class passwordMethodPassthrough extends passwordMethod
   {
     return 'passthrough';
   }
+
+  static function _extract_method ($password_hash): string
+  {
+    return static::get_hash_name();
+  }
 }
