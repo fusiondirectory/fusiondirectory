@@ -168,7 +168,7 @@ class passwordRecovery extends standAlonePage
     // Check if token branch is here
     $token = get_ou('recoveryTokenRDN') . get_ou('fusiondirectoryRDN') . $config->current['BASE'];
     $ldap->cat($token, ['dn']);
-    if (!$ldap->count()) {
+    if ($ldap->get_errno() !== 0) {
       /* It's not, let's create it */
       $ldap->cd($config->current['BASE']);
       try {
@@ -181,7 +181,7 @@ class passwordRecovery extends standAlonePage
 
     $dn = 'cn=' . $this->login . ',' . $token;
     $ldap->cat($dn, ['dn']);
-    $add = ($ldap->count() == 0);
+    $add = ($ldap->get_errno() !== 0);
     /* We store the token and its validity due date */
     $attrs = [
       'objectClass'      => ['fdTokenEntry'],
