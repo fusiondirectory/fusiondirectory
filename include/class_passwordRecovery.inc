@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
   Copyright (C) 2003-2010  Cajus Pollmeier
-  Copyright (C) 2011-2018  FusionDirectory
+  Copyright (C) 2011-2026  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -166,23 +166,30 @@ class passwordRecovery extends standAlonePage
     $ldap = $config->get_ldap_link();
 
     // Check if token branch is here
-    $token = get_ou('RecoveryTokenRDN') . $config->current['BASE'];
-    $dn = 'ou=' . $this->login . ',' . $token;
-    $ldap->cat($dn, ['dn']);
-
-    if ($ldap->get_errno() == 32) {
-      /* No such object, means the object is missing, create it */
-      $add = TRUE;
-    } else {
-      $add = FALSE;
+    $token = get_ou('recoveryTokenRDN') . get_ou('fusiondirectoryRDN') . $config->current['BASE'];
+    $ldap->cat($token, ['dn']);
+    if (!$ldap->count()) {
+      /* It's not, let's create it */
+      $ldap->cd($config->current['BASE']);
+      try {
+        $ldap->create_missing_trees($token);
+      } catch (FusionDirectoryError $error) {
+        return $error;
+      }
+      fusiondirectory_log("Created token branch " . $token);
     }
 
+    $dn = 'cn=' . $this->login . ',' . $token;
+    $ldap->cat($dn, ['dn']);
+    $add = ($ldap->count() == 0);
     /* We store the token and its validity due date */
     $attrs = [
-      'objectClass'  => ['organizationalUnit'],
-      'ou'           => $this->login,
-      'userPassword' => $sha1_temp_password,
-      'description'  => time() + $this->delay_allowed * 60,
+      'objectClass'      => ['fdTokenEntry'],
+      'cn'               => $this->login,
+      'fdTokenUserDN'    => $this->login,
+      'fdTokenType'      => 'recovery',
+      'fdToken'          => $sha1_temp_password,
+      'fdTokenTimestamp' => time() + $this->delay_allowed * 60,
     ];
     $ldap->cd($dn);
     if ($add) {
@@ -214,13 +221,13 @@ class passwordRecovery extends standAlonePage
     /* Retrieve hash from the ldap */
     $ldap = $config->get_ldap_link();
 
-    $token = get_ou('RecoveryTokenRDN') . $config->current['BASE'];
-    $dn    = 'ou=' . $this->login . ',' . $token;
+    $token = get_ou('recoveryTokenRDN') . get_ou('fusiondirectoryRDN') . $config->current['BASE'];
+    $dn    = 'cn=' . $this->login . ',' . $token;
     $ldap->cat($dn);
     $attrs = $ldap->fetch();
 
-    $ldap_token         = $attrs['userPassword'][0];
-    $last_time_recovery = $attrs['description'][0];
+    $ldap_token         = $attrs['fdToken'][0];
+    $last_time_recovery = $attrs['fdTokenTimestamp'][0];
 
     /* Return TRUE if the token match and is still valid */
     return ($last_time_recovery >= time()) &&
@@ -296,7 +303,7 @@ class passwordRecovery extends standAlonePage
     $attrs = $ldap->fetch();
 
     $method = passwordMethod::get_method($attrs['userPassword'][0], $attrs['dn']);
-    if ($method->is_locked($attrs['dn'])) {
+    if (is_object($method) && $method->is_locked($attrs['dn'])) {
       $this->message[] = new FusionDirectoryError(htmlescape(sprintf(_('The user using email "%s" is locked. Please contact your administrator.'), $this->email_address)));
       return FALSE;
     }
