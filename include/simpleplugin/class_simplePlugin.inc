@@ -145,7 +145,7 @@ class simplePlugin implements SimpleTab
 
   private $hadSubobjects = FALSE;
 
-  protected $focusedField;
+  protected final $focusedField;
 
   /*! \brief constructor
    *
