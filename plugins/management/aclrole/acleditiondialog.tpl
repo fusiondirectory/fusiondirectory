@@ -8,7 +8,7 @@
   </p>
 {elseif $dialogState eq 'edit'}
   {function makeCheckbox key='' infos='' attr='' acl='' rights=''}
-    {$checked = (strpos($rights, $acl) !== FALSE)}
+    {$checked = ($rights|strpos:$acl !== FALSE)}
     <input id="acl_{$infos.tname}_{$attr}_{$acl}" type="checkbox" name="acl_{$key}_{$attr}_{$acl}"{if $checked} checked="checked"{/if}/>
     <label for="acl_{$infos.tname}_{$attr}_{$acl}">{$label}</label>
   {/function}
@@ -56,29 +56,29 @@
           <tr>
             <td colspan="2">
               {if $infos.rights.create}
-                {makeCheckbox key=$key infos=$infos attr=0 acl=c label=_("Create objects") rights=$infos.globalAcl}&nbsp;&nbsp;
+                {makeCheckbox key=$key infos=$infos attr=0 acl=c label="Create objects"|_ rights=$infos.globalAcl}&nbsp;&nbsp;
               {/if}
               {if $infos.rights.move}
-                {makeCheckbox key=$key infos=$infos attr=0 acl=m label=_("Move objects") rights=$infos.globalAcl}&nbsp;&nbsp;
+                {makeCheckbox key=$key infos=$infos attr=0 acl=m label="Move objects"|_ rights=$infos.globalAcl}&nbsp;&nbsp;
               {/if}
               {if $infos.rights.remove}
-                {makeCheckbox key=$key infos=$infos attr=0 acl=d label=_("Remove objects") rights=$infos.globalAcl}&nbsp;&nbsp;
+                {makeCheckbox key=$key infos=$infos attr=0 acl=d label="Remove objects"|_ rights=$infos.globalAcl}&nbsp;&nbsp;
               {/if}
               {if $infos.rights.self}
-                {makeCheckbox key=$key infos=$infos attr=0 acl=s label=_("Grant permission to owner") rights=$infos.globalAcl}&nbsp;&nbsp;
+                {makeCheckbox key=$key infos=$infos attr=0 acl=s label="Grant permission to owner"|_ rights=$infos.globalAcl}&nbsp;&nbsp;
               {/if}
               {if isset($infos.rights.template_creation_only)}
-                {makeCheckbox key=$key infos=$infos attr=0 acl=t label=_("Template hide main object creation button") rights=$infos.globalAcl}&nbsp;&nbsp;
+                {makeCheckbox key=$key infos=$infos attr=0 acl=t label="Template hide main object creation button"|_ rights=$infos.globalAcl}&nbsp;&nbsp;
               {/if}
             </td>
             <td align="right" style="padding-right:1%;">
               {if ($infos.rights.read||$infos.rights.write)}
                 &nbsp;{t}Complete object{/t}:
                 {if $infos.rights.read}
-                  {makeCheckbox key=$key infos=$infos attr=0 acl=r label=_("read") rights=$infos.globalAcl}&nbsp;&nbsp;
+                  {makeCheckbox key=$key infos=$infos attr=0 acl=r label="read"|_ rights=$infos.globalAcl}&nbsp;&nbsp;
                 {/if}
                 {if $infos.rights.write}
-                  {makeCheckbox key=$key infos=$infos attr=0 acl=w label=_("write") rights=$infos.globalAcl}
+                  {makeCheckbox key=$key infos=$infos attr=0 acl=w label="write"|_ rights=$infos.globalAcl}
                 {/if}
               {/if}
             </td>
@@ -92,8 +92,8 @@
                     {$cnt    = 1}
                     {foreach from=$infos.attrs key=$attr item=$dsc}
                       {* Skip pl* attributes, they are internal... *}
-                      {if preg_match('/^pl[A-Z]+.*$/', $attr)}
-                        continue;
+                      {if $attr|matches:'/^pl[A-Z]+.*$/'}
+                        {continue}
                       {/if}
 
                       {* Open table row *}
@@ -108,8 +108,8 @@
                       {/if}
                       <td>
                         <b>{$dsc}</b> ({$attr})<br/>
-                        {makeCheckbox key=$key infos=$infos attr=$attr acl=r label=_("read") rights=$state}
-                        {makeCheckbox key=$key infos=$infos attr=$attr acl=w label=_("write") rights=$state}
+                        {makeCheckbox key=$key infos=$infos attr=$attr acl=r label="read"|_ rights=$state}
+                        {makeCheckbox key=$key infos=$infos attr=$attr acl=w label="write"|_ rights=$state}
                       </td>
 
                       {* Close table row *}

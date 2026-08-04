@@ -329,6 +329,11 @@ $smarty->assign('css_files', []);
 $smarty->assign('js_files', []);
 
 $smarty->registerPlugin('modifier', 'base64_encode', 'base64_encode');
+$smarty->registerPlugin('modifier', 'strpos', 'strpos');
+$smarty->registerPlugin('modifier', '_', '_');
+$smarty->registerPlugin('modifier', 'matches', function ($subject, $pattern) {
+    return preg_match($pattern, $subject);
+});
 
 /* Check for SSL connection */
 $ssl = '';
