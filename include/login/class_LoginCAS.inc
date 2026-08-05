@@ -106,7 +106,6 @@ class LoginCAS extends LoginMethod
     $ui->loadACL();
 
     $success = static::runSteps([
-      'checkForLockingBranch',
       'loginAndCheckExpired',
       'runSchemaCheck',
     ]);

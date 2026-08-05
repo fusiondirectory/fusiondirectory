@@ -61,12 +61,6 @@ class LoginMethod
     return TRUE;
   }
 
-  /*! \brief Check if locking LDAP branch is here or create it */
-  static function checkForLockingBranch (): bool
-  {
-    return TRUE;
-  }
-
   /*! \brief Check username for invalid characters and check password is not empty
    * Also trims username */
   static function validateUserInput (): bool
