@@ -270,7 +270,6 @@ class SnapshotHandler
     /* Insert this new snapshot */
     $ldap->cd($this->snapshotRDN);
     try {
-      $ldap->create_missing_trees($this->snapshotRDN);
       $ldap->create_missing_trees($new_base);
     } catch (FusionDirectoryError $error) {
       $error->display();

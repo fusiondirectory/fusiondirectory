@@ -131,19 +131,6 @@ class recoveryConfig extends simplePlugin
   function __construct ($dn = NULL, $object = NULL, $parent = NULL, $mainTab = FALSE)
   {
     global $config;
-    // Check if token branch is here
-    $ldap = $config->get_ldap_link();
-    $tokenBranch = get_ou('RecoveryTokenRDN').$config->current['BASE'];
-    $ldap->cat($tokenBranch, ['dn']);
-    if (!$ldap->count()) {
-      $ldap->cd($config->current['BASE']);
-      try {
-        $ldap->create_missing_trees($tokenBranch);
-      } catch (FusionDirectoryError $error) {
-        $error->display();
-      }
-      fusiondirectory_log('Created token branch '.$tokenBranch);
-    }
 
     parent::__construct($dn, $object, $parent, $mainTab);
 
