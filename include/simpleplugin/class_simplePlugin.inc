@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
 
-  Copyright (C) 2012-2019  FusionDirectory
+  Copyright (C) 2012-2026 FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -1422,8 +1422,18 @@ class simplePlugin implements SimpleTab
   {
     global $config;
 
-    /* Check if this is a new entry ... add/modify */
     $ldap = $config->get_ldap_link();
+
+    /* Try to create the template branch if we are saving a template */
+    if ($this->is_template) {
+      try {
+        $ldap->create_missing_trees(preg_replace('/^[^,]+,/', '', $this->dn));
+      } catch (FusionDirectoryError $error) {
+        $error->display();
+      }
+    }
+
+    /* Check if this is a new entry ... add/modify */
     if ($this->mainTab && !$this->initially_was_account) {
       if ($ldap->dn_exists($this->dn)) {
         return [

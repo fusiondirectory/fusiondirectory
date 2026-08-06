@@ -56,7 +56,6 @@ class setupStepConfig extends configInLdap
     parent::__construct(CONFIGRDN.$config->current['BASE'], NULL, $parent, TRUE);
 
     $this->attributesInfo['miscellaneous']['class'] = ['invisible'];
-    $this->attributesInfo['debug']['class'] = ['invisible'];
 
     $this->fdLanguage     = $cv['lang_selected'];
   }
