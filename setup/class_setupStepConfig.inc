@@ -3,7 +3,7 @@
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
 
   Copyright (C) 2007 Fabian Hickert
-  Copyright (C) 2011-2019  FusionDirectory
+  Copyright (C) 2011-2026 FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -103,6 +103,7 @@ class setupStepConfig extends configInLdap
     if (count($tmp) == 0) {
       /* Create root object if missing */
       $ldap = $config->get_ldap_link();
+
       $ldap->cd($config->current['BASE']);
       try {
         $ldap->create_missing_trees($config->current['BASE'], FALSE);
@@ -110,6 +111,47 @@ class setupStepConfig extends configInLdap
         $error->display();
         return TRUE;
       }
+
+      $ldap->cd($config->current['BASE']);
+      try {
+        $ldap->create_missing_trees(get_ou('fusiondirectoryRDN') . $config->current['BASE'], FALSE);
+      } catch (FusionDirectoryError $error) {
+        $error->display();
+        return TRUE;
+      }
+
+      $ldap->cd($config->current['BASE']);
+      try {
+        $ldap->create_missing_trees(get_ou('peopleRDN') . $config->current['BASE'], FALSE);
+      } catch (FusionDirectoryError $error) {
+        $error->display();
+        return TRUE;
+      }
+
+      $ldap->cd($config->current['BASE']);
+      try {
+        $ldap->create_missing_trees(get_ou('aclRoleRDN') . $config->current['BASE'], FALSE);
+      } catch (FusionDirectoryError $error) {
+        $error->display();
+        return TRUE;
+      }
+
+      $ldap->cd($config->current['BASE']);
+      try {
+        $ldap->create_missing_trees(get_ou('auditRDN') . $config->current['BASE'], FALSE);
+      } catch (FusionDirectoryError $error) {
+        $error->display();
+        return TRUE;
+      }
+
+      $ldap->cd(get_ou('fusiondirectoryRDN') . $config->current['BASE']);
+      try {
+        $ldap->create_missing_trees(get_ou('lockRDN') . get_ou('fusiondirectoryRDN') . $config->current['BASE'], FALSE);
+      } catch (FusionDirectoryError $error) {
+        $error->display();
+        return TRUE;
+      }
+
       /* Save in LDAP */
       $errors = $this->save();
       if (!empty($errors)) {
