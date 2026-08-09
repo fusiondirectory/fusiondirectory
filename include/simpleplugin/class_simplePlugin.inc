@@ -609,6 +609,15 @@ class simplePlugin implements SimpleTab
 
     /* Try to move with ldap routines */
     $ldap = $config->get_ldap_link();
+
+    /* Needed when the branch of the object that we move doesn't exist */
+    $ldap->cd($config->current['BASE']);
+    try {
+      $ldap->create_missing_trees(preg_replace('/^[^,]+,/', '', $dst_dn));
+    } catch (FusionDirectoryError $error) {
+      $error->display();
+    }
+
     if (!$ldap->rename_dn($src_dn, $dst_dn)) {
       logging::log('error', 'ldap', "FROM: $src_dn -- TO: $dst_dn", [], 'Ldap Protocol v3 implementation error, ldap_rename failed: ' . $ldap->get_error());
       logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, "Rename failed FROM: $src_dn  -- TO:  $dst_dn",
