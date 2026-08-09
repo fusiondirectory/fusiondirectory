@@ -137,6 +137,14 @@ class setupStepConfig extends configInLdap
 
       $ldap->cd($config->current['BASE']);
       try {
+        $ldap->create_missing_trees(get_ou('roleRDN') . $config->current['BASE'], FALSE);
+      } catch (FusionDirectoryError $error) {
+        $error->display();
+        return TRUE;
+      }
+
+      $ldap->cd($config->current['BASE']);
+      try {
         $ldap->create_missing_trees(get_ou('auditRDN') . $config->current['BASE'], FALSE);
       } catch (FusionDirectoryError $error) {
         $error->display();
