@@ -84,8 +84,12 @@ class pluginsManager extends simplePlugin
         ['string' => $plugin['fdPluginManagerInfoStatus'][0]],
         ['string' => $plugin['fdPluginManagerInfoOrigin'][0]],
         ['string' => $plugin['fdPluginManagerSupportProvider'][0]],
-        ['string' => $plugin['fdPluginManagerSupportHomeUrl'][0]],
       ];
+
+      $url = $plugin['fdPluginManagerSupportHomeUrl'][0];
+      $fields[] = ($url !== '' && preg_match('#^https?://#i', $url))
+        ? ['html' => '<a href="'.htmlescape($url).'" target="_blank">'.htmlescape($url).'</a>']
+        : ['string' => $url];
 
       $div->addEntry($fields);
     }
