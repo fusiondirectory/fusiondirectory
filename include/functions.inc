@@ -411,7 +411,7 @@ function get_ou ($name)
     'reminderTokenRDN'        => 'ou=reminder,',
     'roleRDN'                 => 'ou=roles,',
     'ogroupRDN'               => 'ou=groups,',
-    'applicationRDN'          => 'ou=apps,',
+    'applicationRDN'          => 'ou=applications,',
     'systemRDN'               => 'ou=systems,',
     'serverRDN'               => 'ou=servers,ou=systems,',
     'terminalRDN'             => 'ou=terminals,ou=systems,',
