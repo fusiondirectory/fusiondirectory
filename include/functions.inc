@@ -1535,6 +1535,16 @@ function ldap_escape_dn ($str, $ignore = '')
   return ldap_escape($str, $ignore, LDAP_ESCAPE_DN);
 }
 
+
+function IniToInteger ($string)
+{
+  sscanf($string, '%u%c', $number, $suffix);
+  if (isset ($suffix)) {
+     $number = $number * pow(1024, strpos(' KMG', strtoupper($suffix)));
+  }
+  return $number;
+}
+
 function mail_utf8 ($to, $from_user, $from_email, $subject, $message, $replyto_user = NULL, $replyto_email = NULL, $type = 'plain')
 {
   $subject = "=?UTF-8?B?".base64_encode($subject)."?=";
