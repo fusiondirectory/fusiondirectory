@@ -154,11 +154,12 @@ class setupStepChecks extends setupStep
     $M = TRUE;
     $config_checks[] = ["NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M ];
 
-    /* Check if memory limit is set to 128 or > */
-    $N = "memory_limit &gt;= <b>128</b>";
-    $D = _("FusionDirectory needs at least 128MB of memory. Setting it below this limit may cause errors that are not reproducable! Increase it for larger setups.");
-    $S = _("Search for 'memory_limit' in your php.ini and set it to '128M' or higher.");
-    $R = ini_get('memory_limit') >= 128;
+    /* Check if memory limit is set to 1024 */
+    $memory_test = ini_get("memory_limit");
+    $N = "memory_limit &gt;= <b>1024</b>";
+    $D = _("FusionDirectory needs at least 1024MB of memory. Setting it below this limit may cause errors with some plugins that consume a lot of memory ! Increase it for larger setups.");
+    $S = _("Search for 'memory_limit' in your php.ini and set it to '1024M' or higher.");
+    $R = IniToInteger($memory_test) >= 1073741824;
     $M = TRUE;
     $config_checks[] = ["NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M ];
 
