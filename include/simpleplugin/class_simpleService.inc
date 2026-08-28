@@ -80,20 +80,6 @@ class simpleService extends simplePlugin
     /* Name displayed in service overview */
     $fields['Message']      = $this->DisplayName;
 
-    if (static::$showActions && is_object($this->parent->parent) && isset($this->parent->parent->by_object['argonautClient']) && $this->parent->parent->by_object['argonautClient']->is_account) {
-      /* Allow/disallow some functions */
-      $fields['AllowStatus']  = ($this->status == '') && $this->acl_is_writeable('simpleServiceStatus');
-      $fields['AllowStart']   = ($this->status == 'stopped') && $this->acl_is_writeable('simpleServiceStart');
-      $fields['AllowStop']    = ($this->status == 'running') && $this->acl_is_writeable('simpleServiceStop');
-      $fields['AllowRestart'] = ($this->status == 'running') && $this->acl_is_writeable('simpleServiceRestart');
-    } else {
-      /* Disable some functions */
-      $fields['AllowStatus']  = FALSE;
-      $fields['AllowStart']   = FALSE;
-      $fields['AllowStop']    = FALSE;
-      $fields['AllowRestart'] = FALSE;
-    }
-
     $fields['AllowRemove']  = $this->acl_is_removeable();
     $fields['AllowEdit']    = $this->acl_is_readable('');
 
@@ -114,12 +100,6 @@ class simpleService extends simplePlugin
   static function generatePlProvidedAcls (array $attributesInfo, ?bool $operationalAttributes = NULL): array
   {
     $acls = parent::generatePlProvidedAcls($attributesInfo);
-    if (static::$showActions) {
-      $acls ['simpleServiceStatus']   = _('Get service status');
-      $acls ['simpleServiceStart']    = _('Start service');
-      $acls ['simpleServiceStop']     = _('Stop service');
-      $acls ['simpleServiceRestart']  = _('Restart service');
-    }
 
     return $acls;
   }
