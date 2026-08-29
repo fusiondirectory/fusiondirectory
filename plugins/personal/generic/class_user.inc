@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2013-2018  FusionDirectory
+  Copyright (C) 2013-2026  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -510,35 +510,7 @@ class user extends simplePlugin
       return $e->getMessage();
     }
 
-    if (isset($policy)) {
-      if (isset($policy['pwdAllowUserChange'][0]) && ($policy['pwdAllowUserChange'][0] == 'FALSE') && ($ui->dn == $user)) {
-        return _('You are not allowed to change your own password');
-      }
-      if (isset($policy['pwdMinLength'][0])) {
-        $check_length = TRUE;
-        $length       = $policy['pwdMinLength'][0];
-      }
-      if (isset($policy['pwdMinAge'][0]) && isset($attrs['pwdChangedTime'][0])) {
-        $date = LdapGeneralizedTime::fromString($attrs['pwdChangedTime'][0]);
-        $date->setTimezone(timezone::utc());
-        $now = new DateTime('now', timezone::utc());
-        if ($now->getTimeStamp() < $date->getTimeStamp() + $policy['pwdMinAge'][0]) {
-          return sprintf(_('You must wait %d seconds before changing your password again'), $policy['pwdMinAge'][0] - ($now->getTimeStamp() - $date->getTimeStamp()));
-        }
-      }
-      if (isset($policy['pwdSafeModify'][0]) && ($policy['pwdSafeModify'][0] == 'FALSE') && empty($current_password)) {
-        $current_password = NULL;
-      }
-      if (isset($attrs['pwdHistory'][0])) {
-        unset($attrs['pwdHistory']['count']);
-        foreach ($attrs['pwdHistory'] as $pwdHistory) {
-          $pwdHistory = explode('#', $pwdHistory, 4);
-          $method     = passwordMethod::get_method($pwdHistory[3], $user);
-          if ($method->checkPassword($new_password, $pwdHistory[3])) {
-            return _('Password is in history of old passwords');
-          }
-        }
-      }
+        if (isset($policy)) {
       if (($current_password !== NULL) && ($current_password == $new_password)) {
         return _('Password is not being changed from existing value');
       } elseif (isset($attrs['userPassword'][0])) {
