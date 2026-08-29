@@ -510,7 +510,7 @@ class user extends simplePlugin
       return $e->getMessage();
     }
 
-        if (isset($policy)) {
+    if (isset($policy)) {
       if (($current_password !== NULL) && ($current_password == $new_password)) {
         return _('Password is not being changed from existing value');
       } elseif (isset($attrs['userPassword'][0])) {
