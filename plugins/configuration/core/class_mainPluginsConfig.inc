@@ -52,6 +52,16 @@ class mainPluginsConfig extends multiPluginSection
           ),
         ]
       ],
+      'roles' => [
+        'name'  => _('Roles'),
+        'attrs' => [
+          new StringAttribute(
+            _('Roles RDN'), _('Branch in which roles will be stored'),
+            'fdroleRDN', TRUE,
+            'ou=roles'
+          ),
+        ]
+      ],
       'sasl' => [
         'name'  => _('SASL'),
         'attrs' => [
