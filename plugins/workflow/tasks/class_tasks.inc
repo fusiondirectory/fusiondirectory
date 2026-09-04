@@ -97,7 +97,7 @@ class tasks extends simplePlugin
         'attrs' => [
           new BooleanAttribute(
             _('Only with new members'), _('Allows creation of sub-tasks for "NEW MEMBERS" only. (Case of Dynamic Group)'),
-            'fdTasksUpdatable', FALSE, TRUE
+            'fdTasksUpdatable', FALSE
           ),
           new BooleanAttribute(
             _('Repeatable Task'), _('Set the task to be repeatable.'),

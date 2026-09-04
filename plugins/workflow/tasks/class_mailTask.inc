@@ -56,8 +56,17 @@ class mailTask extends simplePlugin
   static function getAttributesInfo (): array
   {
     return [
-      // Attributes are grouped by section
-      'taskMail'           => [
+      'warning' => [
+        'class' => ['fullwidth', 'information'],
+        'name'  => _('We recommend the task redundancy to be set to daily, and the case New Members Only to be checked'),
+        'attrs' => [
+          // This hiddenAttribute is only present to show the information label on the section.
+          new HiddenAttribute(
+            'fdShowInformation', FALSE,
+          ),
+        ]
+      ],
+      'taskMail' => [
         'name'  => _('Task Mail Object'),
         'attrs' => [
           new SelectAttribute(
