@@ -1,7 +1,7 @@
 <?php
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2012-2022 FusionDirectory
+  Copyright (C) 2012-2026 FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -72,7 +72,7 @@ class tasksConfig extends simplePlugin
           ),
           new IntAttribute(
             _('Time interval between e-mails processing (Minutes) '), _('Select min interval time between emails processing'),
-            'fdTasksConfIntervalEmails', TRUE, '2', FALSE, '2'
+            'fdTasksConfIntervalEmails', TRUE, '0', FALSE, '2'
           ),
         ]
       ],
