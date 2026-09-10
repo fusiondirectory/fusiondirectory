@@ -2,7 +2,7 @@
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org)
 
-  Copyright (C) 2018-2022 FusionDirectory
+  Copyright (C) 2018-2026 FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -163,9 +163,7 @@ class mailTask extends simplePlugin
    */
   public function generateSubTasks ()
   {
-    // Extract DNs from fdTasksMembers
-    $attributeValue = $this->attributesAccess['fdTasksMembers']->getValue();
-    $listOfDN = tasks::extractMembersFromGroups($attributeValue);
+    $listOfDN      = $this->attributesAccess['fdTasksMembers']->getValue();
     $attributeType = 'fdSubtaskMemberDN';
 
     // Mailtemplate object
