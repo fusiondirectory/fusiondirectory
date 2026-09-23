@@ -84,8 +84,8 @@ class tasksDashboard extends management
       ],
       'Exporter'    => [
         'name'      => 'Exporter',
-        'filter'    => '(fdTasksGranularType=extract)',
-        'icon'      => 'geticon.php?context=applications&icon=extractor-task&size=16',
+        'filter'    => '(fdTasksGranularType=export)',
+        'icon'      => 'geticon.php?context=applications&icon=export-task&size=16',
       ],
       'LifeCycle'  => [
         'name'      => 'LifeCycle',
