@@ -144,7 +144,7 @@ class LoginMethod
     session_regenerate_id();
 
     /* Not account expired or password forced change go to main page */
-    logging::log('security', 'login', $ui->uid, [], 'Logged in successfully');
+    logging::log('security', 'login', $ui->dn, [], 'Logged in successfully');
     session::set('connected', 1);
     session::set('DEBUGLEVEL', $config->get_cfg_value('DEBUGLEVEL'));
   }
