@@ -197,7 +197,7 @@ class session
         logging::log(
           'security',
           'logout',
-          $ui->uid,
+          $ui->dn,
           [],
           sprintf('Logged out (%s)', $reason)
         );
