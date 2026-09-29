@@ -39,7 +39,7 @@ class mailTask extends simplePlugin
         'auditTask',
         'automaticGroupsTask',
         'dnsTask',
-        'extractorTask',
+        'exportTask',
         'lifeCycleTask',
         'notificationsTask',
         'reminderTask',
