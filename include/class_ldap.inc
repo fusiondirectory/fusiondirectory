@@ -4,7 +4,7 @@
   Copyright (C) 2003-2010  Cajus Pollmeier
   Copyright (C) 2003 Alejandro Escanero Blanco <aescanero@chaosdimension.org>
   Copyright (C) 1998  Eric Kilfoil <eric@ipass.net>
-  Copyright (C) 2011-2016  FusionDirectory
+  Copyright (C) 2011-2026  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -1578,5 +1578,23 @@ class LDAP
 
     logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $attrs[0]['namingcontexts'], 'get_naming_contexts');
     return $attrs[0]['namingcontexts'];
+  }
+
+  /**
+   * \brief Simple take an array as referenced and loop to remove all key having count
+   *
+   * \param array $array
+   * \return void
+   */
+  public static function unsetCountKeys (array &$array) : void
+  {
+    foreach ($array as $key => &$value) {
+      if (is_array($value)) {
+        self::unsetCountKeys($value);
+      } elseif ($key === 'count') {
+        unset($array[$key]);
+      }
+    }
+    unset($value); //unset the reference after the loop for security best practise.
   }
 }
