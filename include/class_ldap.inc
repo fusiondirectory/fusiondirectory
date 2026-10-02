@@ -1570,14 +1570,17 @@ class LDAP
       die('Can\'t bind to LDAP. No check possible!');
     }
     ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
-    ldap_bind($ds, $admin, $password);
 
-    /* Get base to look for naming contexts */
-    $res    = @ldap_read($ds, '', 'objectClass=*', ['namingContexts']);
-    $attrs  = @ldap_get_entries($ds, $res);
+    if (ldap_bind($ds, $admin, $password)) {
+      /* Get base to look for naming contexts */
+      $res    = @ldap_read($ds, '', 'objectClass=*', ['namingContexts']);
+      $attrs  = @ldap_get_entries($ds, $res);
 
-    logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $attrs[0]['namingcontexts'], 'get_naming_contexts');
-    return $attrs[0]['namingcontexts'];
+      logging::debug(DEBUG_LDAP, __LINE__, __FUNCTION__, __FILE__, $attrs[0]['namingcontexts'], 'get_naming_contexts');
+      return $attrs[0]['namingcontexts'];
+    } else {
+      return [];
+    }
   }
 
   /**
