@@ -1182,14 +1182,6 @@ function check_schema (array $cfg)
   $checks['core-fd-conf']['IS_MUST_HAVE']     = TRUE;
   $checks['core-fd-conf']['INFO']             = _('Schema used to store FusionDirectory configuration');
 
-  /* ldapns */
-  $checks['ldapns'] = $def_check;
-
-  $checks['ldapns']['SCHEMA_FILE']      = 'ldapns.schema';
-  $checks['ldapns']['CLASSES_REQUIRED'] = ['hostObject'];
-  $checks['ldapns']['IS_MUST_HAVE']     = FALSE;
-  $checks['ldapns']['INFO']             = _('Used to store trust mode information in users or groups.');
-
   /* template-fd */
   $checks['template-fd'] = $def_check;
 
@@ -1206,6 +1198,14 @@ function check_schema (array $cfg)
     $checks['nis']['CLASSES_REQUIRED']  = ['posixAccount'];
     $checks['nis']['IS_MUST_HAVE']      = FALSE;
     $checks['nis']['INFO']              = _('Used to store POSIX information.');
+
+    /* ldapns */
+    $checks['ldapns'] = $def_check;
+
+    $checks['ldapns']['SCHEMA_FILE']      = 'ldapns.schema';
+    $checks['ldapns']['CLASSES_REQUIRED'] = ['hostObject'];
+    $checks['ldapns']['IS_MUST_HAVE']     = FALSE;
+    $checks['ldapns']['INFO']             = _('Used to store trust mode information in users or groups.');
   }
 
   foreach ($checks as $name => $value) {
