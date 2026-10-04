@@ -127,6 +127,14 @@ class setupStepChecks extends setupStep
     $M = TRUE;
     $basic_checks[] = ['NAME' => $N , 'DESC' => $D , 'RESULT' => $R , 'SOLUTION' => $S , 'MUST' => $M ];
 
+    /* Check if xml module is available */
+    $N = msgPool::checkingFor(_("xml"));
+    $D = _("FusionDirectory requires this module to handle xml configuration.");
+    $S = msgPool::installPhpModule("mxl");
+    $R = function_exists("xml_parser_create");
+    $M = TRUE;
+    $basic_checks[] = ["NAME" => $N , "DESC" => $D , "RESULT" => $R , "SOLUTION" => $S , "MUST" => $M ];
+
     $N = msgPool::checkingFor(_("compression module"));
     $D = _("FusionDirectory requires this extension to handle snapshots.");
     $S = msgPool::installPhpModule("compile with --with-zlib");
