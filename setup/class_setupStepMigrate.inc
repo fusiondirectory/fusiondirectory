@@ -28,8 +28,6 @@ initialize_checks           - Initialize migration steps.
 check_ldap_permissions      - Check if the used admin account has full access to the ldap database.
 check_accounts              - Check if there are users without the required objectClasses.
 migrate_accounts            - Migrate selected users to FusionDirectory user accounts.
-check_orgUnits              - Check if there are departments, that are not visible for FusionDirectory
-migrate_orgUnits            - Migrate selected departments
 check_adminAccount          - Check if there is at least one acl entry available
 checkBase                   - Check if there is a root object available
 
@@ -281,7 +279,6 @@ class setupStepMigrate extends setupStep
       'defaultACLs'     => new StepMigrateCheck($this, 'defaultACLs',     _('Checking for default ACL roles and groups')),
       'outsideUsers'    => new StepMigrateCheck($this, 'outsideUsers',    _('Checking for users outside the people tree')),
       'outsideOGroups'  => new StepMigrateCheck($this, 'outsideOGroups',  _('Checking for groups outside the groups tree')),
-      'orgUnits'        => new StepMigrateCheck($this, 'orgUnits',        _('Checking for invisible departments')),
     ];
 
     if (class_available('posixAccount')) {
@@ -1289,122 +1286,6 @@ class setupStepMigrate extends setupStep
   function check_outsidePosixGroups_migrate_confirm (&$checkobj, $only_ldif = FALSE)
   {
     return $this->check_outsideUsers_migrate_confirm($checkobj, $only_ldif, 'groupRDN');
-  }
-
-  /* Check if there are invisible organizational Units */
-  function check_orgUnits (&$checkobj)
-  {
-    global $config;
-    $ldap = $config->get_ldap_link();
-    $ldap->set_size_limit(static::$objectNumberLimit);
-
-    $old                      = $this->orgUnits_toMigrate;
-    $this->orgUnits_toMigrate = [];
-
-    /* Skip FusionDirectory internal departments */
-    $skip_dns = [
-      '/ou=fusiondirectory,'.preg_quote($config->current['BASE']).'$/',
-      '/^ou=systems,/',
-      '/ou=snapshots,/',
-      '/ou=tokens,/',
-      '/ou=supannobjects,/'
-    ];
-    foreach (objects::types() as $type) {
-      $infos = objects::infos($type);
-      if (isset($infos['ou']) && ($infos['ou'] != '')) {
-        $skip_dns[] = '/^'.preg_quote($infos['ou'], '/').'/';
-      }
-    }
-
-    /* Get all invisible departments */
-    $ldap->cd($config->current['BASE']);
-    $res = $ldap->search('(&(objectClass=organizationalUnit)(!(objectClass=gosaDepartment)))', ['ou','description','dn']);
-    if (!$res) {
-      throw new CheckFailedException(
-        _('LDAP query failed'),
-        _('Possibly the "root object" is missing.')
-      );
-    }
-    if ($ldap->hitSizeLimit()) {
-      throw new CheckFailedException(
-        _('Size limit hit'),
-        sprintf(_('Size limit of %d hit. Please check this manually'), static::$objectNumberLimit)
-      );
-    }
-    $sizeLimitHit = FALSE;
-
-    while ($attrs = $ldap->fetch(TRUE)) {
-      foreach ($skip_dns as $skip_dn) {
-        /* Filter out FusionDirectory internal departments */
-        if (preg_match($skip_dn, $attrs['dn'])) {
-          continue 2;
-        }
-      }
-
-      $attrs['checked'] = FALSE;
-      $attrs['before']  = '';
-      $attrs['after']   = '';
-
-      /* Set objects to selected, that were selected before reload */
-      if (isset($old[base64_encode($attrs['dn'])])) {
-        $attrs['checked'] = $old[base64_encode($attrs['dn'])]['checked'];
-      }
-      $this->orgUnits_toMigrate[base64_encode($attrs['dn'])] = $attrs;
-      if (count($this->orgUnits_toMigrate) >= static::$objectNumberLimit) {
-        $sizeLimitHit = TRUE;
-        break;
-      }
-    }
-
-    /* If we have no invisible departments found
-     *  tell the user that everything is ok
-     */
-    if (count($this->orgUnits_toMigrate) == 0) {
-      return '';
-    } else {
-      if ($sizeLimitHit) {
-        $message = sprintf(_('Found more than %d department(s) that will not be visible in FusionDirectory.'), static::$objectNumberLimit);
-      } else {
-        $message = sprintf(_('Found %d department(s) that will not be visible in FusionDirectory.'), count($this->orgUnits_toMigrate));
-      }
-      throw new CheckFailedException(
-        '<font style="color:#FFA500">'._('Warning').'</font>',
-        $message.
-        $checkobj->submit()
-      );
-    }
-  }
-
-  function check_orgUnits_migrate (&$checkobj)
-  {
-    $this->check_multipleGeneric_migrate(
-      $checkobj,
-      [
-        'title'   => _('Department migration'),
-        'outside' => FALSE,
-      ]
-    );
-  }
-
-  function check_orgUnits_migrate_refresh (&$checkobj)
-  {
-    return $this->check_multipleGeneric_migrate_refresh(
-      $checkobj,
-      [
-        'title'   => _('Department migration'),
-        'outside' => FALSE,
-      ]
-    );
-  }
-
-  function check_orgUnits_migrate_confirm (&$checkobj, $only_ldif = FALSE)
-  {
-    return $this->check_multipleGeneric_migrate_confirm(
-      $checkobj,
-      ['gosaDepartment'],
-      ['description' => 'FusionDirectory department'],
-      $only_ldif
-    );
   }
 
   /* Check if there are uidNumbers which are used more than once */
