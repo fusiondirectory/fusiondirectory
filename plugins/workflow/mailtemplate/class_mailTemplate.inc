@@ -26,12 +26,12 @@ class mailTemplate extends simplePlugin
   public static function plInfo (): array
   {
     return [
-      'plShortName' => _('Mail Template'),
-      'plDescription' => _('Mail Template'),
+      'plShortName' => _('Template'),
+      'plDescription' => _('Template'),
       'plObjectClass' => ['fdMailTemplate'],
       'plFilter' => '(objectClass=fdMailTemplate)',
       'plObjectType' => ['mailTemplate' => [
-        'name' => _('Mail Template'),
+        'name' => _('Template'),
         'ou' => get_ou('mailTemplateRDN'),
         'icon' => 'geticon.php?context=applications&icon=mail-template&size=16',
       ]],
@@ -49,11 +49,11 @@ class mailTemplate extends simplePlugin
         'class' => ['fullwidth'],
         'attrs' => [
           new StringAttribute(
-            _('Mail Template Name'), _('Mail Template Name'),
+            _('Name'), _('Name'),
             'cn', TRUE
           ),
           new StringAttribute(
-            _('Mail Subject'), _('Mail Subject'),
+            _('Subject'), _('Subject'),
             'fdMailTemplateSubject', TRUE
           ),
           new BooleanAttribute(

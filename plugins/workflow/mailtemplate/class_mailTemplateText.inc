@@ -26,14 +26,12 @@ class mailTemplateText extends simplePlugin
   public static function plInfo (): array
   {
     return [
-      'plShortName'   => _('Mail Text'),
-      'plDescription' => _('Mail Text'),
-      'plObjectClass' => ['fdMailText'],
-      'plFilter'      => '(objectClass=fdMailText)',
-      'plObjectType'  => ['mailTemplate'],
-      'plConflicts'   => [
-        'mailTemplateHtml',
-      ],
+      'plShortName' => _('Text'),
+      'plDescription' => _('Text'),
+      'plObjectClass' => ['fdMailTemplateText'],
+      'plFilter' => '(objectClass=fdMailTemplateText)',
+      'plObjectType' => ['mailTemplate'],
+      'plConflicts' => [ 'mailTemplateHtml' ],
       'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())
     ];
   }
@@ -42,20 +40,20 @@ class mailTemplateText extends simplePlugin
   {
     global $config;
     return [
+      // Attributes are grouped by section
       'text' => [
-        'name'  => _('Mail Text'),
-        'class' => ['fullwidth'],
+        'name' => _('Text'),
         'attrs' => [
           new TextAreaAttribute(
-            _('Mail Template Body'), _('Text to be sent to recipient'),
+            _('Body'), _('Text to be sent to recipient'),
             'fdMailTemplateBody', TRUE
           ),
           new TextAreaAttribute(
-            _('Mail Signature'), _('Mail Signature'),
+            _('Signature'), _('Signature'),
             'fdMailTemplateSignature', FALSE
-          ),
+          )
         ]
-      ]
+      ],
     ];
   }
 }

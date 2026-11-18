@@ -26,14 +26,17 @@ class mailTemplateHtml extends simplePlugin
   public static function plInfo (): array
   {
     return [
-      'plShortName'   => _('Mail HTML'),
-      'plDescription' => _('Mail HTML'),
-      'plObjectClass' => ['fdMailHtml'],
-      'plFilter'      => '(objectClass=fdMailHtml)',
-      'plObjectType'  => ['mailTemplate'],
-      'plConflicts'   => [
-        'mailTemplateText',
+      'plShortName' => _('HTML'),
+      'plDescription' => _('HTML'),
+      'plObjectClass' => ['fdMailTemplateHtml'],
+      'plFilter' => '(objectClass=fdMailTemplateHtml)',
+      'plObjectType' => ['mailTemplate'],
+      'plForeignKeys' => [
+        'fdMailTemplateHtmlDn' => [
+          ['mailHtmlSettings']
+        ]
       ],
+      'plConflicts' => [ 'fdMailTemplateText' ],
       'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())
     ];
   }
@@ -42,21 +45,14 @@ class mailTemplateHtml extends simplePlugin
   {
     global $config;
     return [
-      'textHTML' => [
-        'name'  => _('Mail HTML'),
-        'class' => ['fullwidth'],
+      // Attributes are grouped by section
+      'html' => [
+        'name' => _('HTML'),
         'attrs' => [
-          new SelectAttribute(
-            _('Header HTML'), _('Header HTML file'),
-            'fdMailTemplateHtmlHeader', FALSE, ["headerArriveEtudiant"]
-          ),
-          new SelectAttribute(
-            _('Body HTML'), _('Body HTML file'),
-            'fdMailTemplateHtmlBody', FALSE, ["bodyArriveEtudiant"]
-          ),
-          new SelectAttribute(
-            _('Footer HTML'), _('Footer HTML file'),
-            'fdMailTemplateHtmlFooter', FALSE, ["footerArriveEtudiant"]
+          new ObjectAttribute(
+            _('HTML settings'), _('HTML settings used for the HTML template'),
+            'fdMailTemplateHtmlDn', TRUE,
+            'mailHtmlSettings'
           ),
         ]
       ]
