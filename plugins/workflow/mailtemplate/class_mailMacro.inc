@@ -26,8 +26,8 @@ class mailMacro extends simplePlugin
   public static function plInfo (): array
   {
     return [
-      'plShortName'    => _('Mail Macro'),
-      'plDescription'  => _('Mail Macro'),
+      'plShortName'    => _('Macro'),
+      'plDescription'  => _('Macro'),
       'plObjectClass'  => ['fdMailTemplateMacroObject'],
       'plFilter'       => '(objectClass=fdMailTemplateMacroObject)',
       'plObjectType'   => ['mailTemplate'],
@@ -41,7 +41,7 @@ class mailMacro extends simplePlugin
     return [
       // Attributes are grouped by section
       'mailMacro' => [
-        'name'  => _('Mail Macro'),
+        'name'  => _('Macro'),
         'class' => ['fullwidth'],
         'attrs' => [
           new OrderedArrayAttribute(
@@ -50,20 +50,20 @@ class mailMacro extends simplePlugin
               'fdMailTemplateMacro',
               [
                 new StringAttribute(
-                  _('Mailtemplate macro name'),
+                  _('Name'),
                   _('Name of the macro that will be between percent in the Mailtemplate'),
                   'fdMailTemplateMacroName',
                   TRUE,
                 ),
                 new StringAttribute(
-                  _('Mailtemplate macro value'),
+                  _('Attribute'),
                   _('Attribute that will be taken from the LDAP information of the user'),
                   'fdMailtemplateMacroValue',
                   TRUE,
                 ),
               ],
               '',
-              'List of Mailtemplate macros',
+              'List of macros',
             ),
             $order = FALSE,
             $values = [],

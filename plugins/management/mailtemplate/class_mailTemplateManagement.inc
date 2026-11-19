@@ -2,7 +2,7 @@
 
 /*
   This code is part of FusionDirectory (http://www.fusiondirectory.org/)
-  Copyright (C) 2011-2022  FusionDirectory
+  Copyright (C) 2011-2026  FusionDirectory
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@ class mailTemplateManagement extends management
 
   public static $columns = [
     ['ObjectTypeColumn', []],
-    ['LinkColumn',       ['attributes' => 'cn', 'label' => 'Template Name']],
+    ['LinkColumn',       ['attributes' => 'cn', 'label' => 'Name']],
     ['ActionsColumn',    ['label' => 'Actions']],
   ];
 
@@ -34,7 +34,10 @@ class mailTemplateManagement extends management
       'plShortName'   => _('Mail Template'),
       'plDescription' => _('Manages mails templates'),
       'plIcon'        => 'geticon.php?context=applications&icon=mail-template&size=48',
-      'plManages'     => ['mailTemplate'],
+      'plManages'     => [
+        'mailTemplate',
+        'mailHtmlSettings'
+      ],
       'plSection'       => ['workflow' => ['name' => _('Workflow'), 'priority' => 2]],
       'plPriority'    => 0,
       'plProvidedAcls' => [],

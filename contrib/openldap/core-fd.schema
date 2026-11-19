@@ -452,6 +452,30 @@ attributetype ( 1.3.6.1.4.1.38414.62.1.78 NAME 'fdMailTemplateMacro'
   SUBSTR caseIgnoreSubstringsMatch
   SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
 
+attributetype ( 1.3.6.1.4.1.38414.62.1.81 NAME 'fdMailTemplateHtmlHeaderPath'
+  DESC 'Mailtemplate html header path'
+  EQUALITY caseIgnoreMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
+
+attributetype ( 1.3.6.1.4.1.38414.62.1.82 NAME 'fdMailTemplateHtmlBodyPath'
+  DESC 'Mailtemplate html body path'
+  EQUALITY caseIgnoreMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
+
+attributetype ( 1.3.6.1.4.1.38414.62.1.83 NAME 'fdMailTemplateHtmlFooterPath'
+  DESC 'Mailtemplate html footer path'
+  EQUALITY caseIgnoreMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15)
+
+attributetype ( 1.3.6.1.4.1.38414.62.1.84 NAME 'fdMailTemplateHtmlDn'
+  DESC 'Mailtemplate html DN'
+  EQUALITY caseIgnoreMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE)
+
 ##### Objectclass #####
 
 ### New FusionDirectory Objectclass ###
@@ -479,12 +503,28 @@ objectclass (1.3.6.1.4.1.38414.62.2.3 NAME 'fdPluginManager'
 objectclass (1.3.6.1.4.1.38414.62.2.4 NAME 'fdMailTemplate'
   DESC 'FusionDirectory - template mail object'
   SUP top STRUCTURAL
-  MUST ( cn $ fdMailTemplateBody $ fdMailTemplateSubject )
-  MAY ( fdMailTemplateSignature $ fdMailTemplateReadReceipt))
+  MUST ( cn $ fdMailTemplateSubject )
+  MAY ( fdMailTemplateReadReceipt))
 
 objectclass (1.3.6.1.4.1.38414.62.2.10 NAME 'fdMailAttachments'
   DESC 'FusionDirectory - mail template attachments'
   MUST ( cn $ fdMailAttachmentsContent ))
+
+objectclass (1.3.6.1.4.1.38414.62.2.14 NAME 'fdMailTemplateText'
+  DESC 'FusionDirectory - template mail text object'
+  SUP top AUXILIARY
+  MUST ( fdMailTemplateBody )
+  MAY ( fdMailTemplateSignature ))
+
+objectclass (1.3.6.1.4.1.38414.62.2.15 NAME 'fdMailTemplateHtml'
+  DESC 'FusionDirectory - template mail html object'
+  SUP top AUXILIARY
+  MUST ( fdMailTemplateHtmlDn ))
+
+objectclass (1.3.6.1.4.1.38414.62.2.16 NAME 'fdMailTemplateHtmlSettings'
+  DESC 'FusionDirectory - html settings for html template object'
+  SUP top STRUCTURAL
+  MUST ( cn $ description $ fdMailTemplateHtmlHeaderPath $ fdMailTemplateHtmlBodyPath $ fdMailTemplateHtmlFooterPath ))
 
 ### Tasks Related Object Class ###
 
