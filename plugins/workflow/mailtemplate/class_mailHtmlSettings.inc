@@ -33,7 +33,7 @@ class mailHtmlSettings extends simplePlugin
       'plObjectType' => ['mailHtmlSettings' => [
         'name' => _('Html Settings'),
         'ou' => get_ou('mailTemplateRDN'),
-        'icon' => 'geticon.php?context=applications&icon=mail-html-settings&size=16',
+        'icon' => 'geticon.php?context=applications&icon=html&size=16',
       ]],
       'plProvidedAcls' => parent::generatePlProvidedAcls(static::getAttributesInfo())
     ];
