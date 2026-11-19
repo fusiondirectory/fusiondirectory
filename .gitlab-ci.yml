@@ -2,6 +2,7 @@ stages:
   - lint
   - codestyle
   - tarballs
+  - trigger
 
 ## Stage lint
 
@@ -61,3 +62,11 @@ build-tarballs:
     paths:
       - fusiondirectory-$VERSION.tar.gz
     expire_in: 30d
+
+trigger-plugins:
+  stage: trigger
+  only:
+    - php8
+  trigger:
+    project: fusiondirectory/fd-plugins
+    branch: "php8"
