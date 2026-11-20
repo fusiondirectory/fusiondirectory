@@ -179,7 +179,7 @@ class passwordRecovery extends standAlonePage
       fusiondirectory_log("Created token branch " . $token);
     }
 
-    $dn = 'cn=' . $this->login . ',' . $token;
+    $dn = 'cn=' . ldap_escape($this->login, '', LDAP_ESCAPE_DN) . ',' . $token;
     $ldap->cat($dn, ['dn']);
     $add = ($ldap->get_errno() !== 0);
     /* We store the token and its validity due date */
@@ -222,7 +222,7 @@ class passwordRecovery extends standAlonePage
     $ldap = $config->get_ldap_link();
 
     $token = get_ou('recoveryTokenRDN') . get_ou('fusiondirectoryRDN') . $config->current['BASE'];
-    $dn    = 'cn=' . $this->login . ',' . $token;
+    $dn    = 'cn=' . ldap_escape($this->login, '', LDAP_ESCAPE_DN) . ',' . $token;
     $ldap->cat($dn);
     $attrs = $ldap->fetch();
 
