@@ -63,7 +63,7 @@ if (isset($_REQUEST['signout']) && $_REQUEST['signout']) {
           $reason = 'Session expired';
           break;
         case 'invalidparameter':
-          $reason = sprintf('Invalid plugin parameter "%s"!', $_REQUEST['plug']);
+          $reason = sprintf('Invalid plugin parameter "%s"!', htmlescape($_REQUEST['plug']));
           break;
         case 'nosession':
           $reason = 'No session found';
@@ -172,13 +172,13 @@ if (isset($_REQUEST['message'])) {
       $message = _('Your FusionDirectory session has expired!');
       break;
     case 'invalidparameter':
-      $message = sprintf(_('Invalid plugin parameter "%s"!'), $_REQUEST['plug']);
+      $message = sprintf('Invalid plugin parameter "%s"!', htmlescape($_REQUEST['plug']));
       break;
     case 'nosession':
       $message = _('No session found!');
       break;
     default:
-      $message = $_REQUEST['message'];
+      $message = htmlescape($_REQUEST['message']);
   }
 }
 
