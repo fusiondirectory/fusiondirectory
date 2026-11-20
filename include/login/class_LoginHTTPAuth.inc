@@ -63,7 +63,7 @@ class LoginHTTPAuth extends LoginMethod
   {
     header('WWW-Authenticate: Basic realm="FusionDirectory"');
     header('HTTP/1.0 401 Unauthorized');
-    echo "$message\n";
+    echo htmlescape("$message") . "\n";
     exit;
   }
 }
