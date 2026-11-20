@@ -22,7 +22,7 @@ class CSRFProtection
 {
   public static function check ()
   {
-    if (empty($_POST)) {
+    if (empty($_POST) && empty($_GET)) {
       return;
     }
     if (empty($_POST['CSRFtoken'])) {
@@ -68,6 +68,8 @@ class CSRFProtection
       if ($target && !hash_equals($origin, $target)) {
         throw new FusionDirectoryException('CSRF detected: origin and target are not matching ('.$origin.' != '.$target.')');
       }
+    } else {
+      throw new FusionDirectoryException('CSRF detected: no Origin or Referer header');
     }
   }
 }
