@@ -1491,7 +1491,7 @@ function mark ($needle, $haystack)
   $result = '';
 
   while (preg_match('/^(.*)('.preg_quote($needle).')(.*)$/i', $haystack, $matches)) {
-    $result   .= $matches[1].'<span class="mark">'.$matches[2].'</span>';
+    $result   .= htmlescape($matches[1]).'<span class="mark">'.htmlescape($matches[2]).'</span>';
     $haystack = $matches[3];
   }
 

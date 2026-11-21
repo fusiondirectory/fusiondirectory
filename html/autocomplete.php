@@ -51,15 +51,15 @@ if (isset($_GET['type']) && $_GET['type'] == "base") {
         continue;
       }
       if (mb_stristr($info['name'], $search) !== FALSE) {
-        $res .= "<li>".mark($search, $pathMapping[$dn]).($info['description'] == '' ? "" : "<span class='informal'> [".mark($search, $info['description'])."]</span>")."</li>";
+        $res .= "<li>".mark($search, htmlescape($pathMapping[$dn])).(htmlescape($info['description']) == '' ? "" : "<span class='informal'> [".mark($search, htmlescape($info['description']))."]</span>")."</li>";
         continue;
       }
       if (mb_stristr($info['description'], $search) !== FALSE) {
-        $res .= "<li>".mark($search, $pathMapping[$dn]).($info['description'] == '' ? "" : "<span class='informal'> [".mark($search, $info['description'])."]</span>")."</li>";
+        $res .= "<li>".mark($search, htmlescape($pathMapping[$dn])).(htmlescape($info['description']) == '' ? "" : "<span class='informal'> [".mark($search, htmlescape($info['description']))."]</span>")."</li>";
         continue;
       }
       if (mb_stristr($pathMapping[$dn], $search) !== FALSE) {
-        $res .= "<li>".mark($search, $pathMapping[$dn]).($info['description'] == '' ? "" : "<span class='informal'> [".mark($search, $info['description'])."]</span>")."</li>";
+        $res .= "<li>".mark($search, htmlescape($pathMapping[$dn])).(htmlescape($info['description']) == '' ? "" : "<span class='informal'> [".mark($search, htmlescape($info['description']))."]</span>")."</li>";
         continue;
       }
     }
