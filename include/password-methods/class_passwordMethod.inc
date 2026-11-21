@@ -277,7 +277,7 @@ abstract class passwordMethod
    */
   function checkPassword ($pwd, $hash): bool
   {
-    return ($hash == $this->generate_hash($pwd));
+    return hash_equals($hash, $this->generate_hash($pwd));
   }
 
 

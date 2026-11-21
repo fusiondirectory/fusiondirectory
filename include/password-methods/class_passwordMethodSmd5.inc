@@ -69,7 +69,7 @@ class passwordMethodSmd5 extends passwordMethod
     $salt = substr($hash, 16);
     $hash = substr($hash, 0, 16);
     $nhash = pack('H*', md5($pwd . $salt));
-    return ($nhash == $hash);
+    return hash_equals($nhash, $hash);
   }
 
   /*!
