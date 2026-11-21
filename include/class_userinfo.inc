@@ -1060,7 +1060,7 @@ class userinfo
     $tmp[]  = 'uid';
     $filter = '';
     foreach ($verify_attr as $attr) {
-      $filter .= '('.$attr.'='.$username.')';
+      $filter .= '('.$attr.'='.ldap_escape_f($username).')';
     }
     $filter = '(&(|'.$filter.')(objectClass=inetOrgPerson))';
     $ldap->cd($config->current['BASE']);
