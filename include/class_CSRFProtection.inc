@@ -22,7 +22,7 @@ class CSRFProtection
 {
   public static function check ()
   {
-    if (empty($_POST) && empty($_GET)) {
+    if (empty($_POST)) {
       return;
     }
     if (empty($_POST['CSRFtoken'])) {
