@@ -230,8 +230,7 @@ class passwordRecovery extends standAlonePage
     $last_time_recovery = $attrs['fdTokenTimestamp'][0];
 
     /* Return TRUE if the token match and is still valid */
-    return ($last_time_recovery >= time()) &&
-      ($ldap_token == $sha1_token);
+    return ($last_time_recovery >= time()) && hash_equals($sha1_token, $ldap_token);
   }
 
   function getUserDn ()

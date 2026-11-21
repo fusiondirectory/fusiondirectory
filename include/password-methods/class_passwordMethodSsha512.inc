@@ -80,7 +80,7 @@ class passwordMethodSsha512 extends passwordMethod
       $error->display();
       return FALSE;
     }
-    return ($nhash == $hash);
+    return hash_equals($nhash, $hash);
   }
 
   /*!
