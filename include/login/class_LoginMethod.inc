@@ -105,6 +105,9 @@ class LoginMethod
     /* Remove all locks of this user */
     Lock::deleteByUser($ui->dn);
 
+    //Create new session ID to avoir session_fixation security issues after sucess login
+    session_regenerate_id();
+
     /* Save userinfo and plugin structure */
     session::set('ui', $ui);
 
@@ -139,9 +142,6 @@ class LoginMethod
     global $config, $ui;
 
     $ui = session::get('ui');
-
-    //Create new session ID to avoir session_fixation security issues after sucess login
-    session_regenerate_id();
 
     /* Not account expired or password forced change go to main page */
     logging::log('security', 'login', $ui->dn, [], 'Logged in successfully');
