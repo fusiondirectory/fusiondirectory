@@ -182,4 +182,9 @@ if (isset($_REQUEST['message'])) {
   }
 }
 
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
+  CSRFProtection::check();
+}
+
+
 LoginMethod::loginProcess();

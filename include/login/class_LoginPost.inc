@@ -158,6 +158,7 @@ class LoginPost extends LoginMethod
     $smarty->assign('date',         date('l, dS F Y H:i:s O'));
     $smarty->assign('lang',         preg_replace('/_.*$/', '', $lang));
     $smarty->assign('rtl',          Language::isRTL($lang));
+    $smarty->assign('CSRFtoken',    CSRFProtection::getToken());
 
     $smarty->display(get_template_path('headers.tpl'));
     $smarty->assign('version', FD_VERSION);

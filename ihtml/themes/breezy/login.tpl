@@ -63,6 +63,7 @@
     <div>
       <input type="submit" name="login" value="{t}Sign in{/t}" title="{t}Click here to log in{/t}"/>
       <input type="hidden" name="javascript" value="false" />
+      <input type="hidden" name="CSRFtoken" value="{$CSRFtoken}"/>
     </div>
   </div>
 
