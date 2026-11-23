@@ -152,6 +152,17 @@ class configInLdap extends simplePlugin
             ['uid', 'mail', 'uid,mail'], 'uid',
             ['uid', 'mail', 'both']
           ),
+          new BooleanAttribute(
+            _('Enforce encrypted connections'),
+            _('Enables PHP security checks to force encrypted access (https) to the web interface.'),
+            'fdForceSSL'
+          ),
+          new BooleanAttribute(
+            _('Warn if session is not encrypted'),
+            _('will display a warning to the user when http is used instead of https.'),
+            'fdWarnSSL', FALSE,
+            TRUE
+          ),
           new IntAttribute(
             _('Session lifetime'), _('Defines when a session will expire in seconds (0 to disable).'),
             'fdSessionLifeTime', TRUE,
@@ -456,6 +467,9 @@ class configInLdap extends simplePlugin
     }
 
     $this->fusionConfigMd5 = md5_file(CACHE_DIR."/".CLASS_CACHE);
+
+    $this->attributesAccess['fdForceSSL']->setVisible(FALSE);
+    $this->attributesAccess['fdWarnSSL']->setVisible(FALSE);
 
     $this->attributesAccess['fdSplitPostalAddress']->setManagedAttributes(
       [
