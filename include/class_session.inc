@@ -142,14 +142,24 @@ class session
   {
     session_name("FusionDirectory");
 
-    /* Set cookie lifetime to one day (The parameter is in seconds ) */
-    $cookieParams = [
-      'lifetime' => 24 * 60 * 60,
-      'path'     => '/',
-      'secure'   => TRUE,
-      'httponly' => TRUE,
-      'samesite' => 'Lax',
-    ];
+    if (URL::sslOn()) {
+      /* Set cookie lifetime to one day (The parameter is in seconds ) */
+      $cookieParams = [
+        'lifetime' => 24 * 60 * 60,
+        'path'     => '/',
+        'secure'   => TRUE,
+        'httponly' => TRUE,
+        'samesite' => 'Lax',
+      ];
+    } else {
+      /* Set cookie lifetime to one day (The parameter is in seconds ) */
+      $cookieParams = [
+        'lifetime' => 24 * 60 * 60,
+        'path'     => '/',
+        'httponly' => TRUE,
+        'samesite' => 'Lax',
+      ];
+    }
 
     session_set_cookie_params($cookieParams);
 
