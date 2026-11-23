@@ -19,8 +19,6 @@
   <div id="window-content">
     <div>
 {if $activated}
-      <!-- Display SSL warning message on demand -->
-      <span class="warning"> {$ssl} </span>
 
       <!-- Display error message on demand -->
       <span class="warning"> {$message|escape} </span>

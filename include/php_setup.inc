@@ -335,8 +335,4 @@ $smarty->registerPlugin('modifier', 'matches', function ($subject, $pattern) {
     return preg_match($pattern, $subject);
 });
 
-/* Check for SSL connection */
-$ssl = '';
-if (!URL::sslOn()) {
-  $ssl = URL::getSslUrl();
-}
+
