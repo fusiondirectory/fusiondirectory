@@ -457,15 +457,6 @@ class configInLdap extends simplePlugin
 
     $this->fusionConfigMd5 = md5_file(CACHE_DIR."/".CLASS_CACHE);
 
-    $this->attributesAccess['fdForceSSL']->setManagedAttributes(
-      [
-        'disable' => [
-          TRUE => [
-            'fdWarnSSL',
-          ]
-        ]
-      ]
-    );
     $this->attributesAccess['fdSplitPostalAddress']->setManagedAttributes(
       [
         'disable' => [
