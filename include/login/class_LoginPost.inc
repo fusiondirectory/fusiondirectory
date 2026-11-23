@@ -97,7 +97,7 @@ class LoginPost extends LoginMethod
   /*! \brief Display the login page and exit() */
   static protected function displayLogin ()
   {
-    global $smarty,$message,$config,$ssl,$error_collector,$error_collector_mailto;
+    global $smarty,$message,$config,$error_collector,$error_collector_mailto;
 
     $lang = session::get('lang');
 
@@ -119,13 +119,6 @@ class LoginPost extends LoginMethod
       $message = '';
     }
     $smarty->assign('message', $message);
-
-    /* Display SSL mode warning? */
-    if (($ssl != '') && ($config->get_cfg_value('warnSSL') == 'TRUE')) {
-      $smarty->assign('ssl', sprintf(htmlescape(_('Warning: %sSession is not encrypted!%s')), '<a href="'.$ssl.'">', '</a>'));
-    } else {
-      $smarty->assign('ssl', '');
-    }
 
     if (!$config->check_session_lifetime()) {
       $smarty->assign('lifetime', _('Warning: The session lifetime configured in your fusiondirectory.conf will be overridden by php.ini settings.'));

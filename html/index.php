@@ -160,12 +160,6 @@ if (
   session::set('DEBUGLEVEL', 0);
 }
 
-/* If SSL is forced, just forward to the SSL enabled site */
-if (($config->get_cfg_value('forcessl') == 'TRUE') && ($ssl != '')) {
-  header("Location: $ssl");
-  exit;
-}
-
 if (isset($_REQUEST['message'])) {
   switch ($_REQUEST['message']) {
     case 'expired':

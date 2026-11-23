@@ -68,23 +68,6 @@ class URL
     return [$protocol, $host, $port];
   }
 
-  /*! \brief Returns SSL URL to redirect to
-   */
-  public static function getSslUrl (): string
-  {
-    list(, $host, $port) = static::gatherInfos();
-    $ssl = 'https://'.$host;
-
-    if (!empty($_SERVER['REQUEST_URI'])) {
-      $ssl .= $_SERVER['REQUEST_URI'];
-    } elseif (!empty($_SERVER['PATH_INFO'])) {
-      $ssl .= $_SERVER['PATH_INFO'];
-    } else {
-      $ssl .= $_SERVER['PHP_SELF'];
-    }
-    return $ssl;
-  }
-
   /*! \brief Returns current page URL
    */
   public static function getPageURL ($queryString = FALSE): string

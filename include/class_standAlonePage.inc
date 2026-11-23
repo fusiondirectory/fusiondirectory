@@ -30,7 +30,7 @@ abstract class standAlonePage
   /* Constructor */
   function __construct ($interactive = TRUE)
   {
-    global $config, $ssl, $ui;
+    global $config, $ui;
 
     $this->interactive = $interactive;
 
@@ -119,8 +119,6 @@ abstract class standAlonePage
 
     $this->setupSmarty();
 
-    $ssl = $this->checkForSSL();
-
     /* Prepare plugin list */
     pluglist::load();
   }
@@ -203,30 +201,6 @@ abstract class standAlonePage
     }
 
     $smarty->assign('msg_dialogs',  msg_dialog::get_dialogs());
-  }
-
-  function checkForSSL ()
-  {
-    global $config;
-    $smarty = get_smarty();
-
-    /* Check for SSL connection */
-    $ssl = '';
-    $smarty->assign('ssl', '');
-    if (!URL::sslOn()) {
-      $ssl = URL::getSslUrl();
-
-      /* If SSL is forced, just forward to the SSL enabled site */
-      if ($config->get_cfg_value('forcessl') == 'TRUE') {
-        header("Location: $ssl");
-        exit;
-      } elseif ($config->get_cfg_value('warnssl') == 'TRUE') {
-        /* Display SSL mode warning? */
-        $smarty->assign('ssl', sprintf(htmlescape(_('Warning: %sSession is not encrypted!%s')), '<a href="'.$ssl.'">', '</a>'));
-      }
-    }
-
-    return $ssl;
   }
 
   function encodeParams ($keys)

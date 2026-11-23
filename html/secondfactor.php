@@ -48,12 +48,6 @@ session::start();
 session::set('DEBUGLEVEL', 0);
 reset_errors();
 
-/* Force SSL for second factor */
-if ($ssl != '') {
-  header("Location: $ssl");
-  exit;
-}
-
 CSRFProtection::check();
 
 /* Logged in? Redirect to FD */
